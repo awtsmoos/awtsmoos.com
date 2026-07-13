@@ -1,0 +1,28 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos gives the phone a deliberate world, never a crushed desktop. */
+@media (max-width: 720px) {
+	:root { --ohr-topbar-height: 58px; --ohr-dock-height: 58px; }
+	body { padding: 0; }
+	#game-shell { width: 100vw; height: 100dvh; min-height: 0; border: 0; border-radius: 0; }
+	.revelation-topbar { grid-template-columns: minmax(130px, 1fr) auto; gap: 6px; padding: 7px 9px; }
+	.revelation-brand { gap: 7px; }
+	.revelation-brand-mark { width: 36px; height: 36px; font-size: 21px; }
+	.revelation-brand strong { font-size: 17px; }
+	.revelation-resources { gap: 4px; }
+	.revelation-resources span { min-width: 48px; padding: 4px 5px; border-radius: 8px; }
+	.revelation-resources i { font-size: 7px; }
+	.revelation-resources b { font-size: 11px; }
+	.revelation-quest-card { left: 8px; top: calc(var(--ohr-topbar-height) + 8px); width: min(238px, 68vw); padding: 10px 11px; }
+	.revelation-quest-card h1 { font-size: 16px; }
+	.revelation-quest-card p { display: -webkit-box; overflow: hidden; font-size: 11px; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+	.revelation-progress-track { margin: 8px 0 6px; }
+	.revelation-pardes, .revelation-companions { display: none; }
+	.revelation-dock { grid-template-columns: repeat(6, 1fr); gap: 3px; padding: 5px 6px; }
+	.revelation-nav-button { display: grid; grid-template-columns: 1fr; place-items: center; gap: 0; padding: 4px 2px; border-radius: 9px; }
+	.revelation-nav-button span { font-size: 16px; }
+	.revelation-nav-button b { font-size: 8px; text-align: center; }
+	.revelation-collapse { bottom: calc(var(--ohr-dock-height) + 4px); width: 30px; height: 20px; }
+}

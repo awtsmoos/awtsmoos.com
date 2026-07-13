@@ -1,14 +1,16 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { bossText } from '../director/boss.js';
 import { statsText } from '../engine/stats.js';
 import { bonusProgress } from '../game/progression.js';
-import { drawMap } from './minimap.js';
 import { renderLeaderboard } from './leaderboard.js';
+import { drawMap } from './minimap.js';
 import { renderOverlay } from './overlay.js';
 import { renderToggles } from './toggles.js';
 
-/** Render mission, rules, event, boss, rival, records, overlay, and minimap. */
-export function renderUI(world, dom) {
+/** Awtsmoos.com reveals one world through measured, readable interface vessels. */
+export function renderUI(world, dom, options = {}) {
 	const progress = bonusProgress(world);
 	document.body.dataset.mode = world.mode;
 	dom.progress.value = Math.min(1, world.player.mass / world.level.targetMass);
@@ -17,7 +19,8 @@ export function renderUI(world, dom) {
 	dom.rank.textContent = `${world.rank}/${world.rivals.length + 1}`;
 	dom.combo.textContent = `x${world.player.combo.toFixed(1)}`;
 	dom.best.textContent = Math.round(world.save.bestMass || 0);
-	dom.level.textContent = `Level ${world.level.index + 1}: ${world.level.name}`;
+	dom.sparkHud.textContent = world.save.sparks || 0;
+	dom.level.textContent = `District ${world.level.index + 1}: ${world.level.name}`;
 	dom.sefirah.textContent = world.level.sefirah;
 	dom.objective.textContent = world.level.objective;
 	dom.progressText.textContent = `${Math.round(world.player.mass)} / ${world.level.targetMass}`;
@@ -30,12 +33,12 @@ export function renderUI(world, dom) {
 	renderLeaderboard(world, dom.leaderboard);
 	renderOverlay(world, dom);
 	renderToggles(world, dom);
-	if (world.performance.frame % world.performance.mapEvery === 0) drawMap(dom.map, world);
+	if (options.drawMinimap) drawMap(dom.map, world);
 }
 
 function renderDirector(world, dom) {
 	const activeEvent = world.director.event;
-	const strongest = [...world.rivals].sort((left, right) => right.mass - left.mass)[0];
+	const strongest = strongestRival(world.rivals);
 	dom.mode.textContent = world.gameMode.name;
 	dom.event.textContent = activeEvent ? `${activeEvent.name} · ${Math.ceil(world.director.eventTime)}s` : 'CITY QUIET';
 	dom.event.classList.toggle('active', Boolean(activeEvent));
@@ -46,6 +49,14 @@ function renderDirector(world, dom) {
 	dom.achievement.textContent = `${count} ACHIEVEMENT${count === 1 ? '' : 'S'}`;
 }
 
+function strongestRival(rivals) {
+	let strongest = null;
+	for (const rival of rivals) {
+		if (!strongest || rival.mass > strongest.mass) strongest = rival;
+	}
+	return strongest;
+}
+
 function powerText(world) {
 	const powers = [];
 	if (world.powerups.magnet > 0) powers.push(`MAGNET ${Math.ceil(world.powerups.magnet)}s`);
@@ -54,5 +65,7 @@ function powerText(world) {
 }
 
 function districtText(world) {
-	return world.districtChain > 1 ? `${world.lastDistrict} CHAIN ×${world.districtChain}` : 'BUILD A DISTRICT CHAIN';
+	return world.districtChain > 1
+		? `${world.lastDistrict} CHAIN ×${world.districtChain}`
+		: 'BUILD A DISTRICT CHAIN';
 }

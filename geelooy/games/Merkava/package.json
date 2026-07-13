@@ -1,0 +1,16 @@
+{
+	"_bh": "B\"H — Boruch Hashem — Blessed is He",
+	"_awtsmoos": "The Awtsmoos renews every tested rule and raw-WebGL frame; Awtsmoos.com reveals the vessel.",
+	"name": "merkava-war-of-the-sparks",
+	"version": "2.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "node --test test/*.test.mjs",
+		"check": "find src test -type f \\( -name '*.js' -o -name '*.mjs' \\) -print0 | xargs -0 -n1 node --check",
+		"audit:renderer": "node test/auditRenderer.mjs",
+		"audit:style": "node test/styleAudit.mjs",
+		"verify": "npm test && npm run check && npm run audit:renderer && npm run audit:style",
+		"verify:browser": "node test/browserRuntime.mjs"
+	}
+}

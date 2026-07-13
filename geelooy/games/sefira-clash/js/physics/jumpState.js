@@ -1,49 +1,110 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * B"H
- * Edge-triggered jump state interpreter.
- *
- * Chapter 221: holding upward is not infinite pleading. One upward motion gives
- * one jump. The thumb must return from the sky and rise again before the second
- * jump is allowed, exactly like the soul drawing a new breath.
+ * The Awtsmoos renews the jump state vessel in this instant, revealing
+ * its focused js physics service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-export function updateJumpState(f, input) {
-  f.jumpMemory ||= { wasJumping: false, hold: 0 };
-  const freshPress = !!input.jump && !f.jumpMemory.wasJumping;
-  f.jumpMemory.hold = input.jump ? f.jumpMemory.hold + 1 : 0;
-  f.jumpBuffer = freshPress ? 7 : Math.max(0, (f.jumpBuffer || 0) - 1);
-  f.coyote = f.grounded ? 8 : Math.max(0, (f.coyote || 0) - 1);
+/**
+ * Interprets buffered jump intention, coyote mercy, and variable jump height.
+ *
+ * A jump is not the continued existence of a held key. It is a new act, renewed
+ * like every instant by the Awtsmoos. Quick release creates a short hop; a held
+ * breath rises fully; a buffered prayer survives the edge of a platform.
+ */
+export function updateJumpState(fighter, input) {
+	fighter.jumpMemory ||= {
+		wasJumping: false,
+		hold: 0,
+		cutApplied: false
+	};
+
+	const freshPress = input.pressed?.jump ?? (input.jump && !fighter.jumpMemory.wasJumping);
+	if (freshPress) {
+		fighter.jumpBuffer = 7;
+		fighter.jumpMemory.cutApplied = false;
+	} else {
+		fighter.jumpBuffer = Math.max(0, (fighter.jumpBuffer || 0) - 1);
+	}
+
+	fighter.jumpMemory.hold = input.jump ? fighter.jumpMemory.hold + 1 : 0;
+	fighter.coyote = fighter.grounded ? 8 : Math.max(0, (fighter.coyote || 0) - 1);
+	applyShortHopCut(fighter, input);
 }
 
-export function wantsJumpPress(f, input) {
-  return !!input.jump && !f.jumpMemory?.wasJumping;
+/**
+ * Reveals the wants jump press behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} fighter The fighter value entering this behavior.
+ * @param {*} input The input value entering this behavior.
+ */
+export function wantsJumpPress(fighter, input) {
+	return Boolean(input.pressed?.jump || fighter.jumpBuffer > 0);
 }
 
-export function consumeJump(f, input) {
-  if (f.grounded || f.coyote > 0) return groundJump(f, input);
-  return airJump(f);
+/**
+ * Reveals the consume jump behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} fighter The fighter value entering this behavior.
+ * @param {*} input The input value entering this behavior.
+ */
+export function consumeJump(fighter, input) {
+	const jumped = fighter.grounded || fighter.coyote > 0 ? groundJump(fighter) : airJump(fighter);
+
+	if (jumped) {
+		input.consume?.('jump');
+	}
+	return jumped;
 }
 
-export function rememberJump(f, input) {
-  f.jumpMemory ||= { wasJumping: false, hold: 0 };
-  f.jumpMemory.wasJumping = !!input.jump;
+/**
+ * Reveals the remember jump behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} fighter The fighter value entering this behavior.
+ * @param {*} input The input value entering this behavior.
+ */
+export function rememberJump(fighter, input) {
+	fighter.jumpMemory ||= { wasJumping: false, hold: 0, cutApplied: false };
+	fighter.jumpMemory.wasJumping = Boolean(input.jump);
 }
 
-function groundJump(f, input) {
-  const shortHop = input.down;
-  f.vy = -f.stats.jump * (shortHop ? 0.72 : 1.08);
-  f.grounded = false;
-  f.jumpsUsed = 1;
-  f.jumpBuffer = 0;
-  f.coyote = 0;
-  return true;
+function groundJump(fighter) {
+	fighter.vy = -fighter.stats.jump * 1.04;
+	fighter.grounded = false;
+	fighter.jumpsUsed = 1;
+	fighter.jumpBuffer = 0;
+	fighter.coyote = 0;
+	fighter.fastFalling = false;
+	return true;
 }
 
-function airJump(f) {
-  const maxJumps = 2 + (f.buffs?.doubleJump ? 1 : 0) + (f.hatStats?.extraJump ? 1 : 0);
-  if ((f.jumpsUsed || 1) >= maxJumps) return false;
-  f.jumpsUsed = (f.jumpsUsed || 1) + 1;
-  f.vy = -f.stats.jump * 1.16;
-  f.jumpBuffer = 0;
-  f.fastFalling = false;
-  return true;
+function airJump(fighter) {
+	const maximum = 2 + (fighter.buffs?.doubleJump ? 1 : 0) + (fighter.hatStats?.extraJump ? 1 : 0);
+	if ((fighter.jumpsUsed || 1) >= maximum) {
+		return false;
+	}
+
+	fighter.jumpsUsed = (fighter.jumpsUsed || 1) + 1;
+	fighter.vy = -fighter.stats.jump * 1.1;
+	fighter.jumpBuffer = 0;
+	fighter.fastFalling = false;
+	return true;
+}
+
+function applyShortHopCut(fighter, input) {
+	const released = input.released?.jump ?? (fighter.jumpMemory.wasJumping && !input.jump);
+	if (!released || fighter.jumpMemory.cutApplied || fighter.vy >= -4) {
+		return;
+	}
+
+	fighter.vy *= 0.56;
+	fighter.jumpMemory.cutApplied = true;
 }

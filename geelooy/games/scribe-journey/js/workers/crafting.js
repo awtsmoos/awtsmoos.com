@@ -1,57 +1,72 @@
-
 // B"H
-// js/workers/crafting.js
+// Boruch Hashem
+// Blessed is He
+
 import { recipes } from '../data/items/crafting.js';
 import * as Quests from './quests.js';
 
-export function getCraftingPayload(state) {
-    return {
-        recipes: recipes.map(recipe => {
-            const resultItem = state.db.items[recipe.result];
-            const canCraft = recipe.ingredients.every(ing => {
-                const has = state.player.inventory.filter(i => i.id === ing.itemId).length;
-                return has >= ing.count;
-            });
-            
-            return {
-                id: recipe.id,
-                name: resultItem.name,
-                description: resultItem.desc,
-                ingredients: recipe.ingredients.map(ing => {
-                    const ingItem = state.db.items[ing.itemId];
-                    const count = state.player.inventory.filter(i => i.id === ing.itemId).length;
-                    return { name: ingItem.name, needed: ing.count, has: count };
-                }),
-                canCraft: canCraft
-            };
-        })
-    };
+function inventoryCount(state, itemId) {
+	return state.player.inventory.filter(item => item.id === itemId).length;
 }
 
+function canCraftRecipe(state, recipe) {
+	return recipe.ingredients.every(ingredient => inventoryCount(state, ingredient.itemId) >= ingredient.count);
+}
+
+function ingredientPayload(state, ingredient) {
+	const definition = state.db.items[ingredient.itemId];
+	return {
+		name: definition?.name || ingredient.itemId,
+		needed: ingredient.count,
+		has: inventoryCount(state, ingredient.itemId)
+	};
+}
+
+/** Shows material truth before the player spends a single spark. */
+export function getCraftingPayload(state) {
+	return {
+		recipes: recipes.map(recipe => {
+			const result = state.db.items[recipe.result];
+			return {
+				id: recipe.id,
+				name: result?.name || recipe.result,
+				description: result?.desc || '',
+				ingredients: recipe.ingredients.map(ingredient => ingredientPayload(state, ingredient)),
+				canCraft: canCraftRecipe(state, recipe)
+			};
+		})
+	};
+}
+
+function consumeIngredients(state, recipe) {
+	for (const ingredient of recipe.ingredients) {
+		for (let count = 0; count < ingredient.count; count += 1) {
+			const index = state.player.inventory.findIndex(item => item.id === ingredient.itemId);
+			if (index >= 0) state.player.inventory.splice(index, 1);
+		}
+	}
+}
+
+/** Consumes exact ingredients, grants the result, and emits one craft fact. */
 export function craftItem(state, recipeId, sendToast) {
-    const recipe = recipes.find(r => r.id === recipeId);
-    if(!recipe) return;
-
-    // Verify ingredients again
-    const canCraft = recipe.ingredients.every(ing => {
-        const has = state.player.inventory.filter(i => i.id === ing.itemId).length;
-        return has >= ing.count;
-    });
-
-    if(!canCraft) {
-        sendToast("Not enough sparks (ingredients) to perform Tikkun!", "error");
-        return;
-    }
-
-    // Consume ingredients
-    recipe.ingredients.forEach(ing => {
-        for(let i=0; i<ing.count; i++) {
-            const idx = state.player.inventory.findIndex(item => item.id === ing.itemId);
-            if(idx > -1) state.player.inventory.splice(idx, 1);
-        }
-    });
-
-    // Give Result
-    Quests.giveItem(state, recipe.result);
-    sendToast(`Crafted ${state.db.items[recipe.result].name}!`, "success");
+	const recipe = recipes.find(entry => entry.id === recipeId);
+	if (!recipe) {
+		sendToast('That recipe is not written in the Chronicle.', 'error');
+		return false;
+	}
+	if (!canCraftRecipe(state, recipe)) {
+		sendToast('Not enough sparks to perform this Tikkun.', 'error');
+		return false;
+	}
+	consumeIngredients(state, recipe);
+	Quests.giveItem(state, recipe.result, 1, null);
+	Quests.emit(state, {
+		type: 'craft_item',
+		targetId: recipe.result,
+		recipeId: recipe.id,
+		quantity: 1,
+		mapId: state.currentMapId
+	}, sendToast);
+	sendToast(`Crafted ${state.db.items[recipe.result]?.name || recipe.result}!`, 'success');
+	return true;
 }

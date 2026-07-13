@@ -1,91 +1,93 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @class Microphone
- * @description Captures microphone audio into a Blob while failing safely when
- * device APIs or permissions are unavailable.
+ * The microphone gathers a human breath without pretending that permission,
+ * codecs, or hardware are guaranteed. In the studio of Awtsmoos.com, honest
+ * failure is a clearer vessel than silent guessing.
  */
 export class Microphone {
-  constructor() {
-    this.mediaRecorder = null;
-    this.audioChunks = [];
-    this.stream = null;
-    this.error = '';
-  }
+	constructor() {
+		this.mediaRecorder = null;
+		this.audioChunks = [];
+		this.stream = null;
+		this.error = '';
+		this.startedAt = 0;
+	}
 
-  /**
-   * Requests permission to open the channel of hearing.
-   *
-   * @returns {Promise<boolean>} True when access is granted.
-   */
-  async requestAccess() {
-    if (!navigator?.mediaDevices?.getUserMedia) {
-      this.error = 'Microphone capture is unavailable on this device.';
-      return false;
-    }
+	async requestAccess() {
+		if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+			this.error = 'Microphone capture is unavailable on this device.';
+			return false;
+		}
 
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.error = '';
-      return true;
-    } catch (error) {
-      this.error = error?.message || 'Microphone permission was denied.';
-      return false;
-    }
-  }
+		try {
+			this.stream = await navigator.mediaDevices.getUserMedia({
+				audio: {
+					echoCancellation: true,
+					noiseSuppression: true,
+					autoGainControl: true
+				}
+			});
+			this.error = '';
+			return true;
+		} catch (error) {
+			this.error = error?.message || 'Microphone permission was denied.';
+			return false;
+		}
+	}
 
-  /**
-   * Begins gathering auditory sparks.
-   *
-   * @returns {{ok:boolean,error?:string}} Start result.
-   */
-  startRecording() {
-    if (!this.stream) return { ok: false, error: 'Microphone stream is not initialized.' };
-    if (typeof MediaRecorder === 'undefined') return { ok: false, error: 'MediaRecorder is unavailable in this browser.' };
+	startRecording() {
+		if (!this.stream) return { ok: false, error: 'Microphone stream is not initialized.' };
+		if (typeof MediaRecorder === 'undefined') return { ok: false, error: 'MediaRecorder is unavailable.' };
+		this.audioChunks = [];
+		const mimeType = this.preferredMimeType();
 
-    this.audioChunks = [];
+		try {
+			this.mediaRecorder = new MediaRecorder(this.stream, mimeType ? { mimeType } : undefined);
+		} catch (error) {
+			return { ok: false, error: `Recording could not start: ${error?.message || error}` };
+		}
 
-    try {
-      this.mediaRecorder = new MediaRecorder(this.stream);
-    } catch (error) {
-      return { ok: false, error: `Microphone recording could not start: ${error?.message || error}` };
-    }
+		this.mediaRecorder.ondataavailable = event => {
+			if (event.data?.size > 0) this.audioChunks.push(event.data);
+		};
+		this.startedAt = Date.now();
+		this.mediaRecorder.start(200);
+		return { ok: true, mimeType: this.mediaRecorder.mimeType };
+	}
 
-    this.mediaRecorder.ondataavailable = event => {
-      if (event.data.size > 0) this.audioChunks.push(event.data);
-    };
+	stopRecording() {
+		return new Promise(resolve => {
+			if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') return resolve(null);
+			this.mediaRecorder.onstop = () => {
+				const mimeType = this.mediaRecorder.mimeType || this.audioChunks[0]?.type || 'audio/webm';
+				const blob = new Blob(this.audioChunks, { type: mimeType });
+				resolve({
+					blob,
+					url: URL.createObjectURL(blob),
+					mimeType,
+					elapsedMs: Math.max(0, Date.now() - this.startedAt)
+				});
+			};
+			this.mediaRecorder.stop();
+		});
+	}
 
-    this.mediaRecorder.start();
-    return { ok: true };
-  }
+	preferredMimeType() {
+		if (typeof MediaRecorder === 'undefined' || !MediaRecorder.isTypeSupported) return '';
+		return [
+			'audio/webm;codecs=opus',
+			'audio/ogg;codecs=opus',
+			'audio/mp4',
+			'audio/webm'
+		].find(type => MediaRecorder.isTypeSupported(type)) || '';
+	}
 
-  /**
-   * Seals the gathering and returns the unified auditory vessel.
-   *
-   * @returns {Promise<{blob: Blob, url: string} | null>} Recorded audio.
-   */
-  stopRecording() {
-    return new Promise(resolve => {
-      if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') return resolve(null);
-
-      this.mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        resolve({ blob: audioBlob, url: audioUrl });
-      };
-
-      this.mediaRecorder.stop();
-    });
-  }
-
-  /**
-   * Releases hardware tracks.
-   *
-   * @returns {void}
-   */
-  release() {
-    if (!this.stream) return;
-    this.stream.getTracks().forEach(track => track.stop());
-    this.stream = null;
-  }
+	release() {
+		this.stream?.getTracks().forEach(track => track.stop());
+		this.stream = null;
+		this.mediaRecorder = null;
+	}
 }

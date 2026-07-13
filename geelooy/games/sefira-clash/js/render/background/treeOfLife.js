@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the tree of life vessel in this instant, revealing
+ * its focused js render background service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { treeNodes, TREE_PATHS } from '../geometry/sefirotTree.js';
 
 /**
@@ -6,40 +15,40 @@ import { treeNodes, TREE_PATHS } from '../geometry/sefirotTree.js';
  * the chamber feels ancient, intentional, and Kabbalah-rooted.
  */
 export function drawTreeOfLife(ctx, w, h, palette) {
-  const nodes = treeNodes(w * 0.5, h * 0.49, Math.min(w, h) * 0.105);
-  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
-  ctx.save();
-  ctx.globalAlpha = 0.23;
-  ctx.strokeStyle = palette.line;
-  ctx.fillStyle = palette.line;
-  ctx.lineWidth = 2;
-  drawOuterRings(ctx, w, h, palette);
-  for (const [a, b] of TREE_PATHS) drawPath(ctx, byId[a], byId[b]);
-  for (const node of nodes) drawNode(ctx, node);
-  ctx.restore();
+	const nodes = treeNodes(w * 0.5, h * 0.49, Math.min(w, h) * 0.105);
+	const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+	ctx.save();
+	ctx.globalAlpha = 0.23;
+	ctx.strokeStyle = palette.line;
+	ctx.fillStyle = palette.line;
+	ctx.lineWidth = 2;
+	drawOuterRings(ctx, w, h, palette);
+	for (const [a, b] of TREE_PATHS) drawPath(ctx, byId[a], byId[b]);
+	for (const node of nodes) drawNode(ctx, node);
+	ctx.restore();
 }
 
 function drawOuterRings(ctx, w, h, palette) {
-  ctx.strokeStyle = palette.line;
-  for (let i = 0; i < 5; i++) {
-    ctx.beginPath();
-    ctx.arc(w / 2, h * .49, 115 + i * 42, 0, Math.PI * 2);
-    ctx.stroke();
-  }
+	ctx.strokeStyle = palette.line;
+	for (let i = 0; i < 5; i++) {
+		ctx.beginPath();
+		ctx.arc(w / 2, h * 0.49, 115 + i * 42, 0, Math.PI * 2);
+		ctx.stroke();
+	}
 }
 
 function drawPath(ctx, a, b) {
-  ctx.beginPath();
-  ctx.moveTo(a.x, a.y);
-  ctx.lineTo(b.x, b.y);
-  ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(a.x, a.y);
+	ctx.lineTo(b.x, b.y);
+	ctx.stroke();
 }
 
 function drawNode(ctx, n) {
-  ctx.beginPath();
-  ctx.arc(n.x, n.y, 19, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.font = '9px system-ui';
-  ctx.textAlign = 'center';
-  ctx.fillText(n.id, n.x, n.y + 3);
+	ctx.beginPath();
+	ctx.arc(n.x, n.y, 19, 0, Math.PI * 2);
+	ctx.stroke();
+	ctx.font = '9px system-ui';
+	ctx.textAlign = 'center';
+	ctx.fillText(n.id, n.x, n.y + 3);
 }

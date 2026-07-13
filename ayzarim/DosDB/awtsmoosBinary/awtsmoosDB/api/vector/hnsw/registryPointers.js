@@ -2,10 +2,8 @@
 
 /**
  * @file api/vector/hnsw/registryPointers.js
- * @chapter The Registry Writes Direct Seals And Never Hides Them In Buffers
- * @description
- * Reads raw sequence item pointers, preserves legacy wrapped seals, writes direct
- * pointers through the sequence engine, and retires old node bodies once.
+ * @chapter Superseded Bodies Return Through The Strict Ownership Gate
+ * @description Reads direct node seals, persists replacements, and strictly frees former bodies after linkage.
  */
 
 const constants = require('../../../constants.js');
@@ -70,9 +68,4 @@ function normalize(value) {
 	return null;
 }
 
-module.exports = {
-	persist,
-	read,
-	release,
-	replace
-};
+module.exports = { persist, read, release, replace };

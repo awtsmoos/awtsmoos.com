@@ -1,40 +1,91 @@
-// B"H
-import { parentExplorerPath } from './path.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
+import { detectWorkspaceArtifact } from "../../../../shared/workspace/artifactContent.js";
+import {
+	WORKSPACE_FILE_KINDS,
+	classifyWorkspaceFile
+} from "../../../../shared/workspace/fileKinds.js";
+import { createWorkspaceLaunchDescriptor } from "../../../../shared/workspace/launchDescriptor.js";
+import { openApplicationBundle } from "./appBundle.js";
+import { extractExplorerContent } from "./content.js";
+import { parentExplorerPath } from "./path.js";
+
+/**
+ * Opening is discernment rather than suffix dispatch. The Awtsmoos creates name,
+ * bytes, and destination together; Awtsmoos.com measures binary identity before
+ * sending source to Code, applications to loaders, or mystery to inspection.
+ */
+
+/** Opens a folder, application bundle, remote preview, or workspace file. */
 export async function openExplorerItem({ os, state, navigate, item }) {
-  if (!item) return null;
-  if (item.kind === 'folder') return await navigate(item.path);
-  if (item.raw?.action === 'openPreview' && item.raw.url) return window.open(item.raw.url, '_blank', 'noopener');
-  return await openFile({ os, state, item });
+	if (!item) {
+		return null;
+	}
+	const kind = classifyWorkspaceFile(item);
+	if (kind === WORKSPACE_FILE_KINDS.APPLICATION_BUNDLE) {
+		return await openApplicationBundle({ os, item });
+	}
+	if (kind === WORKSPACE_FILE_KINDS.DIRECTORY) {
+		return await navigate(item.path);
+	}
+	if (item.raw?.action === "openPreview" && item.raw.url) {
+		return window.open(item.raw.url, "_blank", "noopener");
+	}
+	return await openFile({ os, state, item });
 }
 
-export async function openFile({ os, state, item, programName }) {
-  const got = await os.vfs.read(item.path);
-  const content = extractContent(got);
-  const title = item.name || item.path.split('/').pop() || 'file';
-  os.addWindow({ title, content, path:parentExplorerPath(item.path), os, programName:programName || programFor(item), extension:extensionFor(title) });
-  return { item, content };
+/** Reads one VFS item, detects binary identity, and opens its selected program. */
+export async function openFile({ os, item, programName }) {
+	const response = await os.vfs.read(item.path);
+	const content = extractExplorerContent(response);
+	const artifactIdentity = await detectWorkspaceArtifact(item, content);
+	const descriptor = createWorkspaceLaunchDescriptor(item, {
+		basePath: parentExplorerPath(item.path),
+		programName,
+		artifactIdentity
+	});
+	os.addWindow(createWindowOptions({
+		os,
+		item,
+		content,
+		descriptor,
+		artifactIdentity
+	}));
+	return Object.freeze({ item, content, descriptor, artifactIdentity });
 }
 
+/** Explicitly opens any item in Apps Code instead of its default program. */
 export function openInCode({ os, item }) {
-  return openFile({ os, item, programName:'advancedCodeEditor' });
+	return openFile({ os, item, programName: "advancedCodeEditor" });
 }
 
-export function extractContent(got = {}) {
-  if (typeof got === 'string') return got;
-  return got.content ?? got.body ?? got.text ?? got.raw ?? JSON.stringify(got, null, 2);
+/** Explicitly opens C or C++ source in the dedicated compiler application. */
+export function openInCompiler({ os, item }) {
+	return openFile({ os, item, programName: "awtsmoosCompiler" });
 }
 
-function programFor(item) {
-  if (isTextLike(item)) return 'advancedCodeEditor';
-  return undefined;
-}
-function isTextLike(item) {
-  return /^(js|mjs|cjs|css|html|htm|json|txt|md|xml|svg|log|sh|c|cpp|h|py|rb|go|rs|ts|tsx|jsx)$/i.test(item.extension || '');
-}
-function extensionFor(name = '') {
-  const dot = String(name).lastIndexOf('.');
-  return dot > -1 ? String(name).slice(dot).toLowerCase() : '';
-}
+/** Backward-compatible content extraction export for existing callers. */
+export const extractContent = extractExplorerContent;
 
-/** B"H: opening is now one gate; folders navigate, text enters Code, previews become portals. */
+function createWindowOptions(options) {
+	const identity = options.artifactIdentity;
+	return {
+		title: options.descriptor.title,
+		content: options.content,
+		path: options.descriptor.basePath,
+		filePath: options.item.path,
+		os: options.os,
+		programName: options.descriptor.programName,
+		extension: options.descriptor.extension,
+		artifactIdentity: identity,
+		detectedFormat: identity?.format || null,
+		detectedArchitecture: identity?.architecture || null,
+		executionMode: identity?.executionMode || null,
+		inspectOnly: options.descriptor.intent === "inspect",
+		launcherPath: options.descriptor.kind === WORKSPACE_FILE_KINDS.UNIX_LAUNCHER
+			? options.item.path
+			: null
+	};
+}

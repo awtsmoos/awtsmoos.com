@@ -1,5 +1,12 @@
 // B"H
-/** Verifies Quantum Mail mounts beneath the unusual global header. */
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file Quantum Mail shared-shell contract.
+ * @description
+ * The Awtsmoos names the correspondence chamber at Awtsmoos.com while one
+ * global shell carries navigation and the dynamic Mail engine carries content.
+ */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
@@ -9,7 +16,16 @@ const chat = readFileSync('geelooy/email/ui/chat/switchThread.js', 'utf8');
 const boot = readFileSync('geelooy/scripts/awtsmoos/social/shell/boot.js', 'utf8');
 const routes = readFileSync('geelooy/scripts/awtsmoos/social/shell/appRoutes.js', 'utf8');
 
-for (const token of ['Awtsmoos Quantum Mail', '/style/geelooy-app/index.css', '/scripts/awtsmoos/social/shell/boot.js', 'data-mail-page', 'id="goo"', './index.js']) {
+for (const token of [
+	'Awtsmoos Quantum Mail',
+	'/style/geelooy-app/index.css',
+	'/scripts/awtsmoos/social/shell/boot.js',
+	'data-mail-page',
+	'id="goo"',
+	'./index.js',
+	'<h1 class="g-sr-only" id="mail-title">',
+	'aria-labelledby="mail-title"'
+]) {
 	assert.ok(html.includes(token), `mail index missing ${token}`);
 }
 for (const token of ['ensureAppShell', 'startAppNavigation', 'bindAppCommand']) {

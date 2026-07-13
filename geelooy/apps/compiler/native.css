@@ -1,0 +1,108 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every pane, control, byte, and limitation anew. Awtsmoos.com
+clothes compiler truth in a luminous forge without borrowing any external asset.
+*/
+
+.app-body {
+	background-color: #05080d;
+	background-image: radial-gradient(circle at 12% 8%, rgba(49, 205, 255, 0.14), transparent 28%), radial-gradient(circle at 88% 90%, rgba(126, 87, 255, 0.13), transparent 32%), linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+	background-size: auto, auto, 32px 32px, 32px 32px;
+}
+
+.native-compiler-card {
+	width: min(76rem, calc(100% - 2rem));
+	margin: 1rem auto;
+	border: 1px solid rgba(115, 220, 255, 0.22);
+	border-radius: 1.4rem;
+	background: linear-gradient(145deg, rgba(15, 23, 35, 0.97), rgba(7, 11, 19, 0.98));
+	box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.55), inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.card-header {
+	position: relative;
+	padding: 1.5rem 1.75rem;
+	background: linear-gradient(90deg, rgba(34, 194, 255, 0.09), rgba(130, 92, 255, 0.08));
+}
+
+.card-header::after {
+	content: "SCRATCH COMPILER • VERIFIED TARGETS • EXACT BYTES";
+	display: block;
+	margin-top: 0.85rem;
+	color: #75dfff;
+	font-size: 0.68rem;
+	letter-spacing: 0.16em;
+}
+
+.app-title {
+	font-size: clamp(1.55rem, 4vw, 2.25rem);
+	letter-spacing: -0.045em;
+}
+
+.card-content {
+	padding: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.input-group {
+	padding: 0.85rem;
+	border: 1px solid rgba(255, 255, 255, 0.075);
+	border-radius: 0.95rem;
+	background: rgba(2, 8, 15, 0.58);
+}
+
+.input-label {
+	color: #d8f5ff;
+	font-size: 0.74rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.input-field,
+.source-editor {
+	border-color: rgba(111, 216, 255, 0.2);
+	background: rgba(1, 5, 11, 0.88);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.input-field:hover,
+.source-editor:hover {
+	border-color: rgba(111, 216, 255, 0.42);
+}
+
+.input-field:focus-visible,
+.source-editor:focus-visible,
+button:focus-visible,
+.radio-label input:focus-visible + span {
+	outline: 3px solid rgba(92, 218, 255, 0.32);
+	outline-offset: 2px;
+}
+
+.mode-selector {
+	gap: 0.55rem;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
+.radio-label span {
+	display: block;
+	min-height: 2.5rem;
+	padding: 0.68rem 0.9rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.radio-label input:checked + span {
+	color: #061018;
+	border-color: #73e2ff;
+	background: linear-gradient(135deg, #76e6ff, #9b8cff);
+	box-shadow: 0 0 1.5rem rgba(74, 211, 255, 0.22);
+}
+
+.backend-state,
+.card-footer {
+	color: #8faaba;
+}

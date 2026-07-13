@@ -1,0 +1,104 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	Menus and choice chambers pause velocity so strategy can become visible.
+	The Awtsmoos is beyond choice while Awtsmoos.com reveals every finite option.
+*/
+.overlay {
+	position: fixed;
+	inset: 0;
+	display: none;
+	place-items: center;
+	z-index: 10;
+	padding: 1rem;
+	background: rgba(3, 2, 14, 0.76);
+	backdrop-filter: blur(12px);
+}
+
+.overlay.visible {
+	display: grid;
+}
+
+.panel {
+	width: min(46rem, 100%);
+	max-height: min(90vh, 54rem);
+	overflow: auto;
+	padding: clamp(1.1rem, 3vw, 2.2rem);
+	border: 1px solid rgba(255, 226, 132, 0.35);
+	border-radius: 1.4rem;
+	background: linear-gradient(155deg, rgba(28, 14, 58, 0.97), rgba(7, 6, 25, 0.98));
+	box-shadow: 0 2rem 7rem rgba(0, 0, 0, 0.65), inset 0 0 4rem rgba(125, 84, 255, 0.08);
+	text-align: center;
+}
+
+.hero-panel h1 {
+	margin: 0.2rem 0 0.7rem;
+	font-size: clamp(2rem, 8vw, 4.8rem);
+	line-height: 0.9;
+	background: linear-gradient(180deg, #fff5bd, #e8a523);
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+.eyebrow {
+	color: #74dcff;
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0.28em;
+}
+
+.bank {
+	margin: 1rem 0;
+	font-size: 0.82rem;
+	color: #ffd566;
+}
+
+.hero-panel button,
+.compact-panel button {
+	display: block;
+	width: min(22rem, 100%);
+	margin: 0.6rem auto;
+}
+
+.controls {
+	font-size: 0.72rem;
+	color: #a5b9dc;
+}
+
+.choice-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.7rem;
+	margin: 1rem 0;
+}
+
+.choice-card {
+	min-height: 10rem;
+	text-align: left;
+}
+
+.choice-card strong,
+.choice-card span,
+.choice-card footer {
+	display: block;
+}
+
+.choice-card span {
+	margin: 0.55rem 0;
+	font-size: 0.78rem;
+	color: #b8ccef;
+}
+
+.choice-card footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.4rem;
+	font-size: 0.68rem;
+	color: #ffd566;
+}
+
+.compact-panel label {
+	display: block;
+	margin: 1rem auto;
+}

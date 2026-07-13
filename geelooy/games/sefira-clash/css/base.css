@@ -1,16 +1,16 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
 /**
- * B"H
- * The shell stops fighting the hand. The Awtsmoos opens the screen like a wide gate.
+ * The Awtsmoos renews the base vessel in this instant, revealing
+ * its focused css service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-html,body{margin:0;height:100%;height:100dvh;overflow:hidden;background:#050409;color:#fff0c6;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-button,canvas,.touchControls,.touchControls *{touch-action:none!important;-webkit-user-drag:none!important}
-.shell{height:100%;background:radial-gradient(circle at 50% -10%,#25133a,#050409 58%);position:relative}
-#olam{width:100vw;height:100dvh;display:block}.topbar{display:none!important}h1,p,label{margin:0}
-.menuOverlay{position:fixed;z-index:80;inset:0;overflow-y:auto;overflow-x:hidden;background:linear-gradient(180deg,#07040df8,#12091ef2 72%,#050409f8);color:#fff0c6;pointer-events:auto;padding:max(18px,env(safe-area-inset-top)) 16px calc(132px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
-.menuOverlay.hidden{display:none}.menuPanel,.countdownPanel,.victoryPanel{width:min(1040px,100%);margin:0 auto}
-.menuPanel{display:grid;gap:16px;min-height:100%;align-content:start}.menuPanel h2{margin:0;color:#ffe68b;font-size:clamp(30px,8vw,64px);line-height:.96;letter-spacing:-.05em}
-.menuPanel h3{margin:6px 0 0;color:#84f7ff;font-size:13px;text-transform:uppercase;letter-spacing:.14em}.menuPoem{max-width:720px;color:#ddc992;font-size:clamp(15px,3.6vw,19px);line-height:1.45}
-.instructionBox{border:1px solid #e9c67555;background:#0009;border-radius:18px;padding:12px 14px;color:#fff4c0;font-weight:800}.countdownPanel{display:grid;place-items:center;height:100%;text-align:center}
-.countdownNumber{font-size:clamp(72px,24vw,180px);font-weight:1000;color:#ffe68b;text-shadow:0 0 30px #ffe68b}.countdownPanel p{font-size:20px;color:#fff2be}
-@media(max-width:760px){.menuOverlay{padding:16px 12px calc(126px + env(safe-area-inset-bottom))}.instructionBox{font-size:14px}}
+/**
+ * The outer CSS vessel joins foundation, shell, menu frame, and motion mercy.
+ * The Awtsmoos renews one visual world through smaller laws that remain readable,
+ * focused, and easy to tune without compressing the whole battlefield together.
+ */
+@import url('./foundation.css');
+@import url('./shell.css');

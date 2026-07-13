@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos gives the playable world a clear, durable frame. */
+body {
+	display: grid;
+	place-items: center;
+	padding: var(--ohr-safe-top) var(--ohr-safe-right) var(--ohr-safe-bottom) var(--ohr-safe-left);
+	background: radial-gradient(circle at 50% 0%, rgba(70, 47, 116, 0.28), transparent 44%), linear-gradient(180deg, #070a11, #020307);
+}
+
+#game-shell {
+	position: relative;
+	width: calc(var(--ohr-shell-width) - var(--ohr-safe-left) - var(--ohr-safe-right));
+	height: calc(var(--ohr-shell-height) - var(--ohr-safe-top) - var(--ohr-safe-bottom));
+	min-height: 520px;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-lg);
+	background: #060912;
+	box-shadow: var(--ohr-shadow), var(--ohr-glow), inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+	contain: layout paint style;
+}
+
+.vessel-layer {
+	position: absolute;
+	inset: var(--ohr-topbar-height) 0 var(--ohr-dock-height);
+	width: 100%;
+	height: calc(100% - var(--ohr-topbar-height) - var(--ohr-dock-height));
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
+#layer-bg { z-index: 10; pointer-events: none; }
+#layer-obj { z-index: 20; pointer-events: auto; }
+#layer-over { z-index: 30; pointer-events: none; }
+
+#revelation-shell {
+	position: absolute;
+	inset: 0;
+	z-index: 42;
+	pointer-events: none;
+}

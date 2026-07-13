@@ -1,7 +1,14 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module MobileControls
- * @description Phone-first composition for world, battle, scenes, party, shops, and crafting.
+ * @file MobileControls.js
+ * @description Phone-first controls with immediate input and change-aware rendering.
+ *
+ * The hand must answer now while the panel may wait a breath. The Awtsmoos renews
+ * touch and image together; this vessel keeps movement immediate and avoids empty
+ * DOM labor so the adventure remains gentle on phones at Awtsmoos.com.
  */
 import { State } from '../../binah/State.js';
 import { missionProgressLine } from '../../missions/MissionRuntime.js';
@@ -22,9 +29,15 @@ const controlsHtml = () => `${worldCard()}
 	<section class="ohr-panel-shell" data-ohr-panel></section>
 	<section class="ohr-dialogue-shell" data-ohr-dialogue></section>`;
 
+const assignDataset = (root, key, value) => {
+	if (root.dataset[key] !== value) root.dataset[key] = value;
+};
+
 export class MobileControls {
 	static root = null;
 	static bound = false;
+	static lastRender = 0;
+	static renderIntervalMs = 50;
 
 	static mount() {
 		this.root = document.getElementById('ohr-ui-root');
@@ -35,18 +48,36 @@ export class MobileControls {
 		MobileControlEvents.bind(this.root);
 	}
 
-	static update() {
+	static update(time = performance.now()) {
 		if (!this.root) return;
-		this.root.dataset.realm = State.ActiveRealm === 'DEBATE' ? 'battle' : 'world';
-		this.root.dataset.blocking = State.isUiBlocking() ? 'true' : 'false';
 		MobileControlEvents.tickPulses();
-		const message = this.root.querySelector('[data-ohr-message]');
-		if (message) message.textContent = missionProgressLine();
+		if (time - this.lastRender < this.renderIntervalMs) return;
+		this.lastRender = time;
+		assignDataset(this.root, 'realm', State.ActiveRealm === 'DEBATE' ? 'battle' : 'world');
+		assignDataset(this.root, 'blocking', State.isUiBlocking() ? 'true' : 'false');
+		this.renderMessage();
 		renderMobilePanel(this.root.querySelector('[data-ohr-panel]'));
-		const dialogue = this.root.querySelector('[data-ohr-dialogue]');
-		if (dialogue) {
-			dialogue.innerHTML = dialogueHtml();
-			dialogue.dataset.open = State.Dialogue.open ? 'true' : 'false';
+		this.renderDialogue();
+	}
+
+	static renderMessage() {
+		const message = this.root.querySelector('[data-ohr-message]');
+		const text = missionProgressLine();
+		if (message && message.textContent !== text) message.textContent = text;
+	}
+
+	static renderDialogue() {
+		const shell = this.root.querySelector('[data-ohr-dialogue]');
+		if (!shell) return;
+		const html = dialogueHtml();
+		if (shell.__ohrDialogueHtml !== html) {
+			shell.innerHTML = html;
+			shell.__ohrDialogueHtml = html;
 		}
+		assignDataset(shell, 'open', State.Dialogue.open ? 'true' : 'false');
+	}
+
+	static releaseAll() {
+		MobileControlEvents.releaseAll();
 	}
 }

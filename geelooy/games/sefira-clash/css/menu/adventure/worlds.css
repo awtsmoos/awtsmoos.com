@@ -1,0 +1,94 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the worlds vessel in this instant, revealing
+ * its focused css menu adventure service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/** Ten luminous world chapters reveal one continuous road from Malchus to Keser. */
+.adventurePanel {
+	padding-bottom: 24px;
+}
+
+.adventureRoad {
+	background: linear-gradient(90deg, #84f7ff1f, #ffe0821f), #050409aa;
+	border: 1px solid #84f7ff66;
+	border-radius: 18px;
+	color: #fff4c0;
+	font-size: clamp(11px, 2vw, 14px);
+	font-weight: 1000;
+	letter-spacing: 0.04em;
+	overflow-x: auto;
+	padding: 12px 14px;
+	white-space: nowrap;
+}
+
+.adventureWorld {
+	background: linear-gradient(145deg, hsl(var(--world-hue) 55% 18% / 0.7), #09050fdd);
+	border: 1px solid hsl(var(--world-hue) 75% 65% / 0.45);
+	border-radius: 26px;
+	box-shadow: 0 22px 60px #0007;
+	display: grid;
+	gap: 14px;
+	overflow: hidden;
+	padding: 18px;
+	position: relative;
+}
+
+.adventureWorld::before {
+	background: radial-gradient(circle, hsl(var(--world-hue) 90% 65% / 0.2), transparent 65%);
+	content: '';
+	height: 220px;
+	pointer-events: none;
+	position: absolute;
+	right: -70px;
+	top: -100px;
+	width: 220px;
+}
+
+.worldHeader {
+	align-items: baseline;
+	display: grid;
+	gap: 5px 14px;
+	grid-template-columns: 1fr auto;
+	position: relative;
+	z-index: 1;
+}
+
+.worldHeader strong {
+	color: hsl(var(--world-hue) 90% 78%);
+	font-size: clamp(19px, 4vw, 28px);
+}
+
+.worldHeader span {
+	background: #0008;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	color: hsl(var(--world-hue) 90% 78%);
+	font-size: 12px;
+	font-weight: 900;
+	padding: 5px 9px;
+}
+
+.worldHeader small {
+	color: #d6c79e;
+	grid-column: 1 / -1;
+	line-height: 1.4;
+}
+
+@media (max-width: 620px) {
+	.adventureWorld {
+		border-radius: 20px;
+		padding: 12px;
+	}
+
+	.worldHeader {
+		grid-template-columns: 1fr;
+	}
+
+	.worldHeader span {
+		justify-self: start;
+	}
+}

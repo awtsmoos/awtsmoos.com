@@ -1,36 +1,85 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-const { dispatchOsFs } = require("../osFs/index.js");
-const { VIRTUAL_OS_TUNNEL_NAME } = require("./virtualNames.js");
+const { hostedVirtualOsStore } = require("./virtualOsStore.js");
 
 /**
  * B"H
- * Chapter 3: The hosted root received the user's name without receiving the
- * user's mask. This internal marker is not a public credential; it lets the
- * Virtual OS look up account-scoped AI config that was explicitly saved for
- * remote use.
+ * The hosted fallback keeps its historic route alias while exposing its actual
+ * vessel type. The Awtsmoos creates alias and essence together; Awtsmoos.com
+ * preserves callers without mistaking stored server state for a connected OS.
  *
- * @param {object} $i Awtsmoos route context.
- * @param {string} userId Current authenticated user id.
- * @param {object} payload Action payload.
- * @returns {Promise<object>} Virtual OS action result.
+ * @returns {object} Hosted virtual OS vessel identity and capabilities.
  */
-async function sendVirtualOs($i, userId, payload) {
-  const result = await dispatchOsFs($i, userId, {
-    ...payload,
-    __awtsmoosUserId: userId,
-    tunnelName: VIRTUAL_OS_TUNNEL_NAME,
-    targetVessel: "virtual-os"
-  });
-
-  return {
-    ...result,
-    vessel: "virtual-os",
-    tunnelName: VIRTUAL_OS_TUNNEL_NAME,
-    root: result.root || "Awtsmoos OS",
-    syntheticTunnel: true,
-    canSwitchBackToLocalTunnel: true
-  };
+function virtualClient() {
+	return {
+		isTunnel: true,
+		tunnelName: "virtual-os",
+		deviceName: "Hosted Virtual OS",
+		agentVersion: "hosted-virtual-os-1.0.0",
+		tunnelRegisteredAt: "persistent",
+		allowWrite: true,
+		allowSecrets: false,
+		allowCommands: false,
+		protocolVersion: "awtsmoos-tunnel-v3",
+		vesselType: "hosted-virtual-os",
+		targetVessel: "hosted-virtual-os",
+		browserAgent: false,
+		virtualOs: false,
+		hostedVirtualOs: true,
+		capabilityProfile: hostedCapabilityProfile(),
+		capabilities: {
+			fsRead: true,
+			fsWrite: true,
+			commandRun: false,
+			chrome: false,
+			virtualOs: false
+		},
+		runtime: { kind: "hosted-virtual-os" },
+		root: "awtsmoos://hosted-virtual-os",
+		store: hostedVirtualOsStore
+	};
 }
 
-module.exports = { sendVirtualOs };
+/**
+ * B"H
+ * A resolved virtual vessel sends through one persistent store rather than a
+ * hidden mock. The Awtsmoos renews request and response; Awtsmoos.com preserves
+ * authenticated identity while the canonical OS dispatcher performs the deed.
+ *
+ * @param {object} $i Server request context.
+ * @param {string} userId Authenticated user identity.
+ * @param {object} payload Normalized filesystem request.
+ * @returns {Promise<object>} Hosted filesystem response.
+ */
+async function sendVirtualOs($i, userId, payload = {}) {
+	return await hostedVirtualOsStore.dispatch($i, userId, payload);
+}
+
+function hostedCapabilityProfile() {
+	return {
+		schemaVersion: 1,
+		vesselType: "hosted-virtual-os",
+		implementation: "hosted-virtual-os",
+		capabilities: {
+			"fs.read": capability("virtualized", "hosted-vfs"),
+			"fs.write": capability("virtualized", "hosted-vfs"),
+			"command.run": capability("unsupported"),
+			"process.manage": capability("simulated", "hosted-process-store"),
+			"desktop.control": capability("unsupported"),
+			"browser.control": capability("unsupported"),
+			"native.access": capability("unsupported")
+		}
+	};
+}
+
+function capability(state, mode = "") {
+	return { state, mode, reason: "", actions: [] };
+}
+
+module.exports = {
+	hostedCapabilityProfile,
+	sendVirtualOs,
+	virtualClient
+};

@@ -1,10 +1,19 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module NotificationRender
- * @description Builds signal cards with DOM text, never trusting notification
- * strings as markup. The letter receives a safe garment before it is revealed.
+ * @description
+ * The Awtsmoos gives every signal a safe garment at Awtsmoos.com. Real API
+ * strings become DOM text, absent prose remains explicitly absent, and no
+ * invented movement or timestamp may impersonate social activity.
  */
-const ICONS = Object.freeze({ comment: '💬', mention: '@', submission_created: '✍', system: '⚙' });
+const ICONS = Object.freeze({
+	comment: '💬',
+	mention: '@',
+	submission_created: '✍',
+	system: '⚙'
+});
 
 /** Replaces or appends a notification page. */
 export function renderNotificationPage(root, page, { append = false, search = '' } = {}) {
@@ -12,7 +21,10 @@ export function renderNotificationPage(root, page, { append = false, search = ''
 	const cards = items.map(createNotificationCard);
 	if (append) root.append(...cards);
 	else root.replaceChildren(...cards);
-	if (!items.length && !append) renderNotificationState(root, 'No signals found', search ? 'No notifications matched this search.' : 'This alias has no visible notifications yet.');
+	if (!items.length && !append) {
+		const message = search ? 'No notifications matched this search.' : 'This alias has no visible notifications yet.';
+		renderNotificationState(root, 'No signals found', message);
+	}
 }
 
 /** Renders a simple status card into the notification list. */
@@ -43,7 +55,7 @@ function createNotificationCard(notification) {
 	const title = document.createElement('h2');
 	title.textContent = notification?.title || notification?.type || 'Notification';
 	const body = document.createElement('p');
-	body.textContent = notification?.body || notification?.message || 'A new movement was recorded.';
+	body.textContent = notification?.body || notification?.message || 'No additional message was provided.';
 	const meta = document.createElement('small');
 	meta.textContent = `${notification?.type || 'signal'} · ${formatTime(notification?.createdAt)}`;
 	const actions = document.createElement('div');
@@ -80,6 +92,7 @@ function safeActionLink(value) {
 }
 
 function formatTime(value) {
-	const date = new Date(value || Date.now());
+	if (!value) return 'Unknown time';
+	const date = new Date(value);
 	return Number.isNaN(date.getTime()) ? 'Unknown time' : date.toLocaleString();
 }

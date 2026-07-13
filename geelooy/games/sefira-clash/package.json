@@ -1,1 +1,21 @@
-{"type":"module"}
+{
+	"BH": "B\"H",
+	"type": "module",
+	"scripts": {
+		"audit:structure": "node tools/source-structure-audit.mjs",
+		"audit:syntax": "node tools/source-syntax-audit.mjs",
+		"audit:adventure": "node tools/adventure-catalog-audit.mjs",
+		"audit:feel": "node tools/core-feel-audit.mjs",
+		"audit:modules": "node tools/module-smoke-audit.mjs",
+		"audit:winners": "node tools/winner-rules-audit.mjs",
+		"audit:multiplayer": "node tools/local-multiplayer-audit.mjs",
+		"audit:quality:self": "node tools/source-quality-self-test.mjs",
+		"audit:quality": "node tools/source-quality-audit.mjs",
+		"format:source": "prettier --write \"js/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
+		"format:check": "prettier --check \"js/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
+		"test": "npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules"
+	},
+	"devDependencies": {
+		"prettier": "3.9.5"
+	}
+}

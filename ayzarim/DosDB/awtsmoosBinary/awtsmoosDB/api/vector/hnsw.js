@@ -26,10 +26,10 @@ class HNSW {
 		this.metric = VectorMath[metadata.metric] || VectorMath.cosine;
 		this.entryNodeID = metadata.entryNodeID ?? -1;
 		this.maxLevel = Number(metadata.maxLevel || 0);
-		this.M = 12;
-		this.M0 = 24;
-		this.efConstruction = 100;
-		this.efSearch = 50;
+		this.M = 16;
+		this.M0 = 32;
+		this.efConstruction = 200;
+		this.efSearch = 256;
 		this.ml = 1 / Math.log(this.M);
 		this.ops = new HNSWOps(this);
 		this.onEntryPointChanged = null;

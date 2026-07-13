@@ -1,19 +1,52 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-/** Cache every desktop, mobile, mode, and director interface vessel once. */
+/** Awtsmoos.com caches every desktop, mobile, campaign, and director vessel once. */
 export function cacheDom() {
 	const byId = id => document.getElementById(id);
 	return {
-		progress: byId('sparkMeter'), mass: byId('massText'), time: byId('timeText'), rank: byId('rankText'),
-		combo: byId('comboText'), best: byId('bestText'), level: byId('levelText'), sefirah: byId('sefText'),
-		objective: byId('objectiveText'), progressText: byId('progressText'), bonus: byId('bonusText'),
-		bonusProgress: byId('bonusProgressText'), power: byId('powerText'), district: byId('districtText'),
-		mode: byId('modeText'), event: byId('eventText'), boss: byId('bossText'), rival: byId('rivalText'),
-		achievement: byId('achievementText'), message: byId('message'), leaderboard: byId('leaderboard'),
-		overlay: byId('overlay'), title: byId('overlayTitle'), text: byId('overlayText'), stars: byId('overlayStars'),
-		start: byId('startBtn'), restart: byId('restartBtn'), pause: byId('pauseBtn'),
-		levelSelect: byId('levelSelect'), modeSelect: byId('modeSelect'), modeCycle: byId('modeCycleBtn'),
-		modeDescription: byId('modeDescription'), haptic: byId('hapticBtn'), postfx: byId('postfxBtn'),
-		map: byId('map'), perf: [...document.querySelectorAll('[data-perf]')]
+		progress: byId('sparkMeter'),
+		mass: byId('massText'),
+		time: byId('timeText'),
+		rank: byId('rankText'),
+		combo: byId('comboText'),
+		best: byId('bestText'),
+		level: byId('levelText'),
+		sefirah: byId('sefText'),
+		objective: byId('objectiveText'),
+		progressText: byId('progressText'),
+		bonus: byId('bonusText'),
+		bonusProgress: byId('bonusProgressText'),
+		power: byId('powerText'),
+		district: byId('districtText'),
+		mode: byId('modeText'),
+		event: byId('eventText'),
+		boss: byId('bossText'),
+		rival: byId('rivalText'),
+		achievement: byId('achievementText'),
+		sparkHud: byId('sparkHudText'),
+		message: byId('message'),
+		leaderboard: byId('leaderboard'),
+		overlay: byId('overlay'),
+		title: byId('overlayTitle'),
+		text: byId('overlayText'),
+		stars: byId('overlayStars'),
+		start: byId('startBtn'),
+		restart: byId('restartBtn'),
+		pause: byId('pauseBtn'),
+		campaignSummary: byId('campaignSummary'),
+		campaignSpark: byId('campaignSpark'),
+		chapterSelect: byId('chapterSelect'),
+		levelSelect: byId('levelSelect'),
+		shopGrid: byId('shopGrid'),
+		questList: byId('questList'),
+		modeSelect: byId('modeSelect'),
+		modeCycle: byId('modeCycleBtn'),
+		modeDescription: byId('modeDescription'),
+		haptic: byId('hapticBtn'),
+		postfx: byId('postfxBtn'),
+		map: byId('map'),
+		perf: [...document.querySelectorAll('[data-perf]')]
 	};
 }

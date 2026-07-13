@@ -1,8 +1,12 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { radiusForMass } from '../game/scoring.js';
+import { campaignEffects } from '../progression/effects.js';
 import { modeAt } from './catalog.js';
 import { dailyVariant } from './daily.js';
 
+/** Awtsmoos.com resolves one explicit rule vessel for the chosen arena mode. */
 export function resolveGameMode(id = 'classic') {
 	const selected = modeAt(id);
 	if (!selected.daily) return selected;
@@ -10,10 +14,12 @@ export function resolveGameMode(id = 'classic') {
 	return Object.freeze({ ...selected, ...variant, name: `${selected.name}: ${variant.name}` });
 }
 
-/** Apply a selected mode once to a freshly generated round. */
+/** Apply mode rules and purchased campaign effects to one freshly generated round. */
 export function applyMode(world) {
 	const gameMode = resolveGameMode(world.save.selectedMode);
+	const effects = campaignEffects(world.save);
 	world.gameMode = gameMode;
+	world.campaignEffects = effects;
 	world.level.baseTargetMass ||= world.level.targetMass;
 	world.level.targetMass = Math.round(world.level.baseTargetMass * gameMode.targetScale);
 	world.level.target = world.level.targetMass;
@@ -21,12 +27,14 @@ export function applyMode(world) {
 	world.player.mass *= gameMode.startMassScale;
 	world.player.r = radiusForMass(world.player.mass);
 	if (Number.isFinite(gameMode.rivalLimit)) world.rivals = world.rivals.slice(0, gameMode.rivalLimit);
-	world.timeLeft = gameMode.untimed ? Infinity : world.level.time * gameMode.timeScale;
-	world.rules = composeRules(gameMode);
+	world.timeLeft = gameMode.untimed
+		? Infinity
+		: world.level.time * gameMode.timeScale + effects.graceSeconds;
+	world.rules = composeRules(gameMode, {}, effects);
 	return gameMode;
 }
 
-export function composeRules(gameMode, eventRules = {}) {
+export function composeRules(gameMode, eventRules = {}, effects = {}) {
 	return {
 		trafficSpeed: gameMode.trafficSpeed * (eventRules.trafficSpeed || 1),
 		rivalSpeed: gameMode.rivalSpeed * (eventRules.rivalSpeed || 1),
@@ -34,7 +42,7 @@ export function composeRules(gameMode, eventRules = {}) {
 		playerSpeed: gameMode.playerSpeed * (eventRules.playerSpeed || 1),
 		scoreScale: gameMode.scoreScale * (eventRules.scoreScale || 1),
 		captureMass: gameMode.captureMass * (eventRules.captureMass || 1),
-		attractionScale: eventRules.attractionScale || 1,
+		attractionScale: (eventRules.attractionScale || 1) * (effects.attractionScale || 1),
 		fragile: Boolean(gameMode.fragile || eventRules.fragile)
 	};
 }

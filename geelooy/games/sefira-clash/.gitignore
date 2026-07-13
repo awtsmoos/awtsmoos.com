@@ -1,0 +1,9 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+#
+# The Awtsmoos renews every development vessel while generated dependencies
+# remain local scaffolding. Awtsmoos.com tracks the exact lockfile and source,
+# but never commits the expanded node_modules tree created on one machine.
+
+node_modules/

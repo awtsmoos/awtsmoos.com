@@ -1,38 +1,47 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the customize vessel in this instant, revealing
+ * its focused css menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /** B"H — Customization is one calm mirror before the gates open. */
 .customizePanel {
-  display: grid;
-  gap: 14px;
+	display: grid;
+	gap: 14px;
 }
 
 .fighterPreview {
-  --chosen: 182;
-  background: #0008;
-  border: 1px solid #ffe08255;
-  border-radius: 24px;
-  display: grid;
-  gap: 6px;
-  padding: 20px;
-  place-items: center;
+	--chosen: 182;
+	background: #0008;
+	border: 1px solid #ffe08255;
+	border-radius: 24px;
+	display: grid;
+	gap: 6px;
+	padding: 20px;
+	place-items: center;
 }
 
 .fighterPreview strong {
-  color: #ffe68b;
-  font-size: 20px;
+	color: #ffe68b;
+	font-size: 20px;
 }
 
 .fighterPreview small {
-  color: #ddc992;
+	color: #ddc992;
 }
 
 .previewHead {
-  background: #080609;
-  border: 4px solid hsl(var(--chosen) 95% 65%);
-  border-radius: 50%;
-  color: hsl(var(--chosen) 95% 65%);
-  display: grid;
-  font-size: 42px;
-  height: 86px;
-  place-items: center;
-  text-shadow: 0 0 18px hsl(var(--chosen) 95% 65%);
-  width: 86px;
+	background: #080609;
+	border: 4px solid hsl(var(--chosen) 95% 65%);
+	border-radius: 50%;
+	color: hsl(var(--chosen) 95% 65%);
+	display: grid;
+	font-size: 42px;
+	height: 86px;
+	place-items: center;
+	text-shadow: 0 0 18px hsl(var(--chosen) 95% 65%);
+	width: 86px;
 }

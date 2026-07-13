@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the approach vessel in this instant, revealing
+ * its focused js ai actions service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Approach action.
@@ -6,7 +15,19 @@
  * the enemy's exact body. The bot seeks a combat pocket and faces the target.
  */
 export function approach(bot, goal) {
-  const combat = goal.sense.combat;
-  const side = combat.facing || 1;
-  return { x: combat.dist > 145 ? side : combat.dist < 80 ? -side * 0.35 : 0, aimX: side, aimY: 0, y: 0, down: false, jump: false, punch: false, kick: false, grab: false, shield: false, special: false };
+	const combat = goal.sense.combat;
+	const side = combat.facing || 1;
+	return {
+		x: combat.dist > 145 ? side : combat.dist < 80 ? -side * 0.35 : 0,
+		aimX: side,
+		aimY: 0,
+		y: 0,
+		down: false,
+		jump: false,
+		punch: false,
+		kick: false,
+		grab: false,
+		shield: false,
+		special: false
+	};
 }

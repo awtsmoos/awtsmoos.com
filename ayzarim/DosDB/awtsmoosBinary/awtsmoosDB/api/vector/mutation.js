@@ -2,10 +2,8 @@
 
 /**
  * @file api/vector/mutation.js
- * @chapter One Mutation Produces One Registry Seal And One Metadata Crown
- * @description
- * Wraps dynamic HNSW insertion and deletion in a registry transaction. Parent
- * maps observe one registry-root change instead of every intermediate node save.
+ * @chapter Replacement Crosses One Registry Generation
+ * @description Wraps insertion, deletion, and same-key replacement in one registry transaction.
  */
 
 function insert(manager, path, index, key, vector, payload) {
@@ -18,6 +16,15 @@ function insert(manager, path, index, key, vector, payload) {
 
 function remove(manager, index, key) {
 	return manager.db.batch(() => withRegistry(index, () => index.delete(key)));
+}
+
+function replace(manager, path, index, key, vector, payload) {
+	return manager.db.batch(() => withRegistry(index, () => {
+		index.delete(key);
+		const id = index.insert(key, vector, payload);
+		manager.persistIndex(path, index);
+		return id;
+	}));
 }
 
 function withRegistry(index, operation) {
@@ -35,5 +42,6 @@ function withRegistry(index, operation) {
 module.exports = {
 	insert,
 	remove,
+	replace,
 	withRegistry
 };

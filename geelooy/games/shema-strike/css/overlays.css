@@ -1,0 +1,30 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/* Menus are thresholds of choice; Awtsmoos.com renews every available path, including paths of access and return. */
+.overlay { position: absolute; inset: 0; display: none; place-items: center; padding: 1.25rem; background: radial-gradient(circle at 50% 35%, rgba(49, 43, 112, 0.78), rgba(3, 3, 10, 0.96)); z-index: 20; overflow: auto; }
+.overlay.visible { display: grid; }
+.panel { width: min(92%, 760px); padding: 1.5rem; background: var(--panel); border: 1px solid rgba(255,255,255,0.24); border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.68); text-align: center; }
+.start-panel { width: min(94%, 850px); }
+.compact-panel { width: min(90%, 480px); }
+.market-panel { width: min(96%, 880px); }
+.eyebrow { margin: 0 0 0.5rem; color: var(--cyan); font-size: 0.78rem; font-weight: 900; letter-spacing: 0.18em; }
+h1, h2 { margin: 0.25rem 0 0.75rem; font-family: Georgia, serif; }
+h1 { font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.9; }
+h1 span { color: var(--gold); text-shadow: 0 0 25px rgba(255,211,106,0.45); }
+.lead { max-width: 650px; margin: 0 auto 1rem; color: #d7dcff; }
+.choice-grid, .start-actions, .settings-grid { display: grid; gap: 0.65rem; }
+.choice-grid { grid-template-columns: repeat(3, 1fr); }
+.choice-grid button small { display: block; margin-top: 0.35rem; font-weight: 500; opacity: 0.72; letter-spacing: 0; }
+.choice-grid button.active { border-color: var(--gold); box-shadow: 0 0 18px rgba(255,211,106,0.25); }
+.settings-grid { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); margin: 0.85rem 0; text-align: start; }
+.settings-grid label, .stage-choice { display: grid; gap: 0.35rem; align-items: center; padding: 0.55rem; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; }
+.settings-grid label:has(input) { grid-template-columns: auto 1fr; }
+.settings-grid select, .stage-choice select { min-height: 42px; color: white; background: #11142e; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 0.4rem; }
+.stage-choice { max-width: 320px; margin: 0 auto 0.85rem; text-align: start; }
+.start-actions { grid-template-columns: 1fr 1fr; margin-top: 0.75rem; }
+.controls-copy { margin: 0.85rem 0 0; font-size: 0.82rem; color: #bbc2e5; }
+.market-header, .market-tabs, .market-panel footer { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.market-tabs { justify-content: center; margin: 0.8rem 0; }
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.7rem; max-height: 48vh; overflow: auto; text-align: start; }
+@media (max-width: 650px) { .choice-grid, .start-actions { grid-template-columns: 1fr; } .panel { padding: 1rem; } }

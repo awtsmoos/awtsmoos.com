@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the info view vessel in this instant, revealing
+ * its focused js menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { reveal } from './domForge.js';
 
 /**
@@ -11,11 +20,19 @@ import { reveal } from './domForge.js';
  * @param {{title: string, body: string, detail: string}} config - Copy to show.
  */
 export function showInfoPanel(host, config) {
-  reveal(host, { tag: 'section', attrs: { class: 'menuPanel infoPanel' }, children: [
-    { tag: 'button', attrs: { class: 'backMenuButton', type: 'button', 'data-menu-back': 'mode' }, children: ['← Gates'] },
-    { tag: 'p', attrs: { class: 'menuEyebrow' }, children: ['info'] },
-    { tag: 'h2', children: [config.title] },
-    { tag: 'p', attrs: { class: 'menuPoem' }, children: [config.body] },
-    { tag: 'div', attrs: { class: 'instructionBox' }, children: [config.detail] }
-  ] });
+	reveal(host, {
+		tag: 'section',
+		attrs: { class: 'menuPanel infoPanel' },
+		children: [
+			{
+				tag: 'button',
+				attrs: { class: 'backMenuButton', type: 'button', 'data-menu-back': 'mode' },
+				children: ['← Gates']
+			},
+			{ tag: 'p', attrs: { class: 'menuEyebrow' }, children: ['info'] },
+			{ tag: 'h2', children: [config.title] },
+			{ tag: 'p', attrs: { class: 'menuPoem' }, children: [config.body] },
+			{ tag: 'div', attrs: { class: 'instructionBox' }, children: [config.detail] }
+		]
+	});
 }

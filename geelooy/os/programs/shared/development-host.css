@@ -1,0 +1,107 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/*
+ * The Awtsmoos gives every development vessel room to breathe. Awtsmoos.com
+ * lets the same window become a desktop workshop or a touch-sized full sheet.
+ */
+
+.awtsmoos-program-host {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	background: #07111f;
+	color: #eaf6ff;
+}
+
+.awtsmoos-program-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 2.75rem;
+	padding: 0.5rem 0.75rem;
+	overflow-x: auto;
+	background: linear-gradient(135deg, #102944, #122038);
+	border-bottom: 1px solid rgba(129, 207, 255, 0.24);
+}
+
+.awtsmoos-program-toolbar strong {
+	white-space: nowrap;
+}
+
+.awtsmoos-target-chip {
+	flex: 0 0 auto;
+	padding: 0.25rem 0.5rem;
+	border-radius: 999px;
+	background: rgba(125, 211, 252, 0.12);
+	border: 1px solid rgba(125, 211, 252, 0.28);
+	font-size: 0.75rem;
+}
+
+.awtsmoos-target-chip[data-available="false"] {
+	opacity: 0.58;
+}
+
+.awtsmoos-program-frame {
+	flex: 1;
+	width: 100%;
+	min-width: 0;
+	min-height: 0;
+	border: 0;
+	background: #07111f;
+}
+
+.awtsmoos-executable-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(17rem, 1fr);
+	flex: 1;
+	min-height: 0;
+}
+
+.awtsmoos-executable-desktop {
+	position: relative;
+	overflow: auto;
+	padding: 1rem;
+	background: radial-gradient(circle at 20% 10%, #16446d, #07111f 65%);
+}
+
+.awtsmoos-executable-console {
+	margin: 0;
+	padding: 1rem;
+	overflow: auto;
+	white-space: pre-wrap;
+	background: #02070d;
+	color: #b9f6ca;
+	font: 0.8rem/1.5 ui-monospace, monospace;
+}
+
+.awtsmoos-program-report {
+	max-width: 45%;
+	margin-left: auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font: 0.75rem ui-monospace, monospace;
+}
+
+@media (max-width: 720px) {
+	.awtsmoos-program-toolbar {
+		min-height: 3.25rem;
+		padding-inline: 0.625rem;
+		scrollbar-width: thin;
+	}
+
+	.awtsmoos-executable-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(55%, 1fr) minmax(10rem, 40%);
+	}
+
+	.awtsmoos-program-report {
+		display: none;
+	}
+}

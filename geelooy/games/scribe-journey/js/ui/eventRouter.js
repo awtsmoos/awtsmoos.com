@@ -1,84 +1,114 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-function numericValue(value) {
-	if (value === undefined || value === '') return value;
-	const number = Number(value);
-	return Number.isFinite(number) ? number : value;
+/**
+ * @file Binds player input without making optional panels a startup dependency.
+ * @description The Awtsmoos renews every visible control and every absent vessel
+ * in one instant. This router lets Awtsmoos.com remain playable when dialogue,
+ * battle, or touch surfaces are intentionally omitted, while preserving every
+ * action for the surfaces that are actually present.
+ */
+
+function bindClickRouting(sendToWorker) {
+	document.addEventListener('click', (event) => {
+		const element = event.target.closest?.('[data-action]');
+		if (!element) {
+			return;
+		}
+		const action = element.dataset.action;
+		const params = { ...element.dataset };
+		if (action === 'choose_scribe_name') {
+			params.playerName = window.prompt(
+				'What name should the Chronicle remember?',
+				'Young Scribe'
+			) || '';
+		}
+		sendToWorker('ui_action', { action, params });
+	});
 }
 
-function datasetPayload(button) {
-	const payload = {};
-	for (const [key, value] of Object.entries(button.dataset)) payload[key] = numericValue(value);
-	if (payload.action === 'swapOtzar') {
-		payload.action = 'swap_otzar';
-		payload.to = payload.from === 'team' ? 'storage' : 'team';
-	}
-	if (payload.action === 'toggleGate' && !payload.gateId) payload.gateId = payload.value;
-	return payload;
+function bindDialogueAndBattle(sendToWorker) {
+	const dialogueBox = document.getElementById('dialogue-box');
+	const battleMenu = document.getElementById('battle-menu');
+
+	dialogueBox?.addEventListener('click', (event) => {
+		const choice = event.target.dataset.choice;
+		if (choice !== undefined) {
+			sendToWorker('dialogue_choice', { index: Number(choice) });
+		} else {
+			sendToWorker('advance_dialogue');
+		}
+	});
+
+	battleMenu?.addEventListener('click', (event) => {
+		const button = event.target.closest?.('button');
+		if (button && !button.disabled) {
+			sendToWorker('battle_action', {
+				action: button.dataset.action,
+				value: button.dataset.value
+			});
+		}
+	});
 }
 
-function questPayload() {
-	return {
-		type: document.getElementById('quest-type-select')?.value || 'fetch',
-		targetId: document.getElementById('quest-target-input')?.value || 'wheat_bundle',
-		rewardId: document.getElementById('quest-reward-select')?.value || 'money',
-		rewardAmount: Number(document.getElementById('quest-reward-amount')?.value) || 1
+function bindKeyboard(sendToWorker) {
+	const directions = {
+		ArrowUp: 'up', w: 'up', W: 'up',
+		ArrowDown: 'down', s: 'down', S: 'down',
+		ArrowLeft: 'left', a: 'left', A: 'left',
+		ArrowRight: 'right', d: 'right', D: 'right'
 	};
+
+	window.addEventListener('keydown', (event) => {
+		if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
+			event.preventDefault();
+		}
+		if (directions[event.key]) {
+			sendToWorker('key_down', { key: directions[event.key] });
+		}
+		if ([' ', 'Enter', 'e', 'E'].includes(event.key)) {
+			sendToWorker('interact');
+		}
+		if (event.key === 'Escape') {
+			sendToWorker('escape');
+		}
+	});
+
+	window.addEventListener('keyup', (event) => {
+		if (directions[event.key]) {
+			sendToWorker('key_up', { key: directions[event.key] });
+		}
+	});
 }
 
-async function routeImport(input, sendToWorker) {
-	const file = input.files?.[0];
-	if (!file) return;
-	try {
-		const text = await file.text();
-		sendToWorker('importGame', { text, fileName: file.name });
-	} catch {
-		sendToWorker('importGame', { text: '', fileName: file.name });
-	} finally {
-		input.value = '';
+function bindPointerControls(sendToWorker) {
+	document.addEventListener('pointerdown', (event) => {
+		const directionButton = event.target.closest?.('[data-dir]');
+		if (directionButton) {
+			directionButton.setPointerCapture?.(event.pointerId);
+			sendToWorker('key_down', { key: directionButton.dataset.dir });
+		}
+		if (event.target.closest?.('#action-button')) {
+			sendToWorker('interact');
+		}
+	});
+
+	const stopDirection = (event) => {
+		const directionButton = event.target.closest?.('[data-dir]');
+		if (directionButton) {
+			sendToWorker('key_up', { key: directionButton.dataset.dir });
+		}
+	};
+
+	for (const eventName of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+		document.addEventListener(eventName, stopDirection);
 	}
 }
 
-/** Delegates every screen, setting, battle, and import action through one gate. */
 export function bindUIEvents(sendToWorker) {
-	document.body.addEventListener('click', event => {
-		const battleButton = event.target.closest('.battle-button');
-		if (battleButton) {
-			event.preventDefault();
-			sendToWorker('battleAction', { combatAction: battleButton.dataset.action, value: battleButton.dataset.value });
-			return;
-		}
-
-		const choice = event.target.closest('.dialogue-choice');
-		if (choice) {
-			event.preventDefault();
-			sendToWorker('dialogueChoice', { index: Number(choice.dataset.choiceIndex) });
-			return;
-		}
-
-		const button = event.target.closest('button[data-action]');
-		if (!button || button.disabled) return;
-		event.preventDefault();
-		const action = button.dataset.action;
-		if (action === 'create_quest') sendToWorker('create_quest', questPayload());
-		else sendToWorker('uiAction', datasetPayload(button));
-	});
-
-	document.body.addEventListener('change', event => {
-		const input = event.target;
-		if (input.matches('[data-setting]')) {
-			const value = input.type === 'checkbox' ? input.checked : numericValue(input.value);
-			sendToWorker('updateSetting', { setting: input.dataset.setting, value });
-			return;
-		}
-		if (input.id === 'chronicle-import-input') routeImport(input, sendToWorker);
-	});
-
-	const chatHeader = document.getElementById('chat-header');
-	chatHeader?.addEventListener('click', () => {
-		const chat = document.getElementById('global-chat-box');
-		chat?.classList.toggle('minimized');
-		const toggle = document.getElementById('chat-toggle');
-		if (toggle) toggle.textContent = chat?.classList.contains('minimized') ? '[+]' : '[-]';
-	});
+	bindClickRouting(sendToWorker);
+	bindDialogueAndBattle(sendToWorker);
+	bindKeyboard(sendToWorker);
+	bindPointerControls(sendToWorker);
 }

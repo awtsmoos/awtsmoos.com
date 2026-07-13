@@ -1,4 +1,13 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file WorldTextureManifest.js
+ * @description Maps every historic world texture URL into an auditable optional
+ * preload role. The Awtsmoos sustains geometry even when a remote image is absent;
+ * Awtsmoos.com records degraded pigment without declaring the whole world unreal.
+ */
 import {
 	TEXTURE_URLS,
 	halfTextureUrl
@@ -51,10 +60,7 @@ const FULL_RESOLUTION_PRIMARY_NAMES = new Set([
 	'yellow brick 1'
 ]);
 
-/**
- * Every catalog URL becomes a preload role before synchronous mesh construction.
- * Seven empirically slow half-resolution endpoints use their verified full assets directly.
- */
+/** Every catalog URL becomes an optional preload role before mesh construction. */
 export const WORLD_TEXTURE_MATERIALS = Object.freeze(
 	uniqueTextureUrls(TEXTURE_URLS).map(createWorldTextureRole)
 );
@@ -70,7 +76,7 @@ function createWorldTextureRole(sourceUrl) {
 		label: name,
 		primaryUrl: prefersHalf ? halfTextureUrl(name) : sourceUrl,
 		fallbackUrls: Object.freeze(prefersHalf ? [sourceUrl] : []),
-		critical: true,
+		critical: false,
 		repeat: Object.freeze([1, 1])
 	});
 }
@@ -79,10 +85,14 @@ function uniqueTextureUrls(value) {
 	const urls = [];
 	const visit = (item) => {
 		if (typeof item === 'string') {
-			if (!urls.includes(item)) urls.push(item);
+			if (!urls.includes(item)) {
+				urls.push(item);
+			}
 			return;
 		}
-		for (const child of Object.values(item || {})) visit(child);
+		for (const child of Object.values(item || {})) {
+			visit(child);
+		}
 	};
 	visit(value);
 	return urls;

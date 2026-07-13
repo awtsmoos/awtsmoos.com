@@ -1,97 +1,54 @@
-import { driveBots } from '../ai/botBrain.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The fixed simulation breath now honors every local player seat independently.
+ * The Awtsmoos renews intention, motion, impact, and consequence in Awtsmoos.com
+ * while keeping the proven combat and Adventure order unchanged.
+ */
 import { stepAdventureRun } from '../adventure/adventureRun.js';
+import { driveBots } from '../ai/botBrain.js';
 import { resolveAttacks } from '../combat/attackResolver.js';
 import { updateGrabs } from '../combat/grabResolver.js';
-import { maybeStartAttack } from '../combat/startAttack.js';
-import { updateShield } from '../combat/shields.js';
-import { resolveWinner } from './winner.js';
-import { applyMovement } from '../physics/movement.js';
-import { integrate } from '../physics/integrate.js';
-import { updateLedgeGrab } from '../physics/ledgeGrab.js';
-import { resolvePlatforms } from '../physics/platforms.js';
-import { resolveWalls } from '../physics/walls.js';
-import { resolveLipRescue } from '../physics/lipRescue.js';
-import { attachBlastEvents, resolveBlast } from '../physics/blastZones.js';
+import { attachBlastEvents } from '../physics/blastZones.js';
 import { stepRespawns } from '../physics/respawn.js';
-import { resolveStomps } from '../physics/special/stomp.js';
 import { resolveLandingShockwaves } from '../physics/special/landingShockwave.js';
-import { solveSkeleton } from '../skeleton/solveSkeleton.js';
-import { resolveWeaponPickups, syncHeldWeapons } from '../weapons/weaponPickup.js';
+import { resolveStomps } from '../physics/special/stomp.js';
 import { stepPowerups } from '../powerups/powerupSystem.js';
-import { stepStageDirector } from '../stage/events/stageDirector.js';
-import { stepNarrative } from '../narrative/narrativeSystem.js';
-import { addEventParticles, stepParticles } from '../particles/particles.js';
-import { addWeaponTrails } from '../particles/emitters/weaponTrails.js';
-import { addAmbientDust } from '../particles/emitters/ambientDust.js';
-import { playEvents } from '../feedback/feedback.js';
 import { stepSpectacleFromEvents } from '../spectacle/spectacleEvents.js';
 import { stepSpectacleState } from '../spectacle/spectacleState.js';
+import { stepStageDirector } from '../stage/events/stageDirector.js';
+import { resolveWeaponPickups, syncHeldWeapons } from '../weapons/weaponPickup.js';
+import { inputForFighter } from './fighterInput.js';
+import { stepAftermath } from './stepAftermath.js';
+import { stepFighter } from './stepFighter.js';
+import { stepHitstop } from './stepHitstop.js';
+import { resolveWinner } from './winner.js';
 
-/** B"H — Full battle tick: combat, Adventure ledger, spectacle, victory. */
-export function stepState(state, input) {
-  state.frame++;
-  attachBlastEvents(state.map, state.events);
-  stepRespawns(state);
-  if (stepHitstop(state)) return;
-  driveBots(state);
-  for (const f of state.fighters) stepFighter(state, f, f.human ? input : f.input);
-  updateGrabs(state.fighters);
-  resolveLandingShockwaves(state);
-  resolveStomps(state);
-  resolveAttacks(state);
-  resolveWeaponPickups(state);
-  stepPowerups(state);
-  syncHeldWeapons(state);
-  stepStageDirector(state);
-  stepAdventureRun(state);
-  stepSpectacleFromEvents(state);
-  stepAftermath(state);
-  stepSpectacleState(state);
-  resolveWinner(state);
-}
-
-function stepHitstop(state) {
-  if (!state.hitstop) return false;
-  stepStageDirector(state);
-  stepAdventureRun(state);
-  stepSpectacleFromEvents(state);
-  stepAftermath(state);
-  stepSpectacleState(state);
-  resolveWinner(state);
-  state.hitstop--;
-  return true;
-}
-
-function stepAftermath(state) {
-  if (state.fastSim) return clearInvisibleEvents(state);
-  playEvents(state.events, state);
-  stepNarrative(state);
-  addWeaponTrails(state);
-  addAmbientDust(state);
-  addEventParticles(state);
-  stepParticles(state);
-}
-
-function clearInvisibleEvents(state) {
-  state.events.length = 0;
-  if (state.particles?.length) state.particles.length = 0;
-}
-
-function stepFighter(state, f, input) {
-  if (f.dead || f.hidden || f.respawnTimer) return;
-  f.wasGrounded = !!f.grounded;
-  f.lastInput = input;
-  f.stun = Math.max(0, f.stun - 1);
-  f.respawnGrace = Math.max(0, (f.respawnGrace || 0) - 1);
-  updateShield(f, input);
-  maybeStartAttack(f, input, state);
-  applyMovement(f, input);
-  integrate(f);
-  resolveWalls(f, state);
-  updateLedgeGrab(f, state.map, input);
-  f.preLandingVy = f.vy;
-  resolvePlatforms(f, state.map);
-  resolveLipRescue(f, state.map);
-  solveSkeleton(f);
-  resolveBlast(f, state.map);
+/** Advances one exact simulation breath through combat, world, and consequence. */
+export function stepState(state, frameInput) {
+	state.frame += 1;
+	attachBlastEvents(state.map, state.events);
+	stepRespawns(state);
+	if (stepHitstop(state)) {
+		return;
+	}
+	driveBots(state);
+	for (const fighter of state.fighters) {
+		stepFighter(state, fighter, inputForFighter(frameInput, fighter));
+	}
+	updateGrabs(state.fighters);
+	resolveLandingShockwaves(state);
+	resolveStomps(state);
+	resolveAttacks(state);
+	resolveWeaponPickups(state);
+	stepPowerups(state);
+	syncHeldWeapons(state);
+	stepStageDirector(state);
+	stepAdventureRun(state);
+	stepSpectacleFromEvents(state);
+	stepAftermath(state);
+	stepSpectacleState(state);
+	resolveWinner(state);
 }

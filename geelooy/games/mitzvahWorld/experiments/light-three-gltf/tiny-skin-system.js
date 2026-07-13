@@ -4,70 +4,76 @@
 
 /**
  * @file tiny-skin-system.js
- * @description Owns imported skin palettes and reuses them only within one
- * renderer frame and one exact mesh transform, preserving truth before Awtsmoos.
+ * @description Owns imported skin palettes and measured frame-local reuse. Every
+ * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
+ * when frame identity and mesh transform agree exactly.
  */
-import {
-	identity,
-	inverse,
-	multiply
-} from './tiny-math.js';
+import { identity, inverse, multiply } from './tiny-math.js';
 import { SkinPaletteCache } from './tiny-skin-cache.js';
+import { skeletonLinePositions } from './tiny-skin-lines.js';
+import { readSkinMatrix } from './tiny-skin-matrix.js';
+import {
+	bindSceneSkeletons,
+	collectWorldMatrices,
+	setMeshKindVisibility,
+	updateTinySkeletons
+} from './tiny-skin-scene.js';
+
+export const MAX_TINY_JOINTS = 96;
 
 export {
-	bindTinySkeletons,
 	collectWorldMatrices,
 	setMeshKindVisibility,
 	skeletonLinePositions,
 	updateTinySkeletons
-} from './tiny-skin-scene.js';
+};
 
+/** Stores one GLTF skin and computes its mesh-relative joint palette. */
 export class TinySkeleton {
 	constructor({
 		skinIndex = 0,
 		skinDef = {},
-		nodeMap,
-		inverseBindAccessor
+		nodeMap = new Map(),
+		inverseBindAccessor = null
 	} = {}) {
 		this.skinIndex = skinIndex;
 		this.name = skinDef.name || `Skin_${skinIndex}`;
-		this.joints = (skinDef.joints || [])
-			.map((index) => nodeMap.get(index))
-			.filter(Boolean);
-		this.inverseBindMatrices = this.joints.map((_, jointIndex) => (
-			inverseBindAccessor
-				? readMat4At(inverseBindAccessor, jointIndex)
-				: identity()
+		this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
+		this.inverseBindMatrices = this.joints.map((_, index) => (
+			readSkinMatrix(inverseBindAccessor, index)
 		));
-		this.jointMatrices = new Float32Array(
-			Math.max(1, this.joints.length) * 16
-		);
 		this.jointCount = this.joints.length;
+		this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
 		this.paletteCache = new SkinPaletteCache();
 		this.paletteRevision = 0;
 		this.lastPaletteRecomputed = false;
+		this.resetPalette();
 	}
 
-	/** Recomputes the complete palette and invalidates same-frame reuse. */
+	resetPalette() {
+		for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
+			this.jointMatrices.set(identity(), index * 16);
+		}
+	}
+
 	update(meshWorld = identity()) {
 		this.computePalette(meshWorld);
 		this.paletteRevision += 1;
 		this.paletteCache.invalidate();
 		this.lastPaletteRecomputed = true;
-		return this.jointCount;
+		return Math.min(this.jointCount, MAX_TINY_JOINTS);
 	}
 
-	/** Reuses the palette only for one frame token and identical mesh matrix. */
 	updateCached(meshWorld = identity(), frameToken) {
 		if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
 			this.lastPaletteRecomputed = false;
-			return this.jointCount;
+			return Math.min(this.jointCount, MAX_TINY_JOINTS);
 		}
 		this.computePalette(meshWorld);
 		this.paletteCache.markUpdated(frameToken, meshWorld);
 		this.paletteRevision += 1;
 		this.lastPaletteRecomputed = true;
-		return this.jointCount;
+		return Math.min(this.jointCount, MAX_TINY_JOINTS);
 	}
 
 	invalidatePaletteCache() {
@@ -76,9 +82,12 @@ export class TinySkeleton {
 
 	computePalette(meshWorld) {
 		const inverseMesh = inverse(meshWorld);
-		for (let index = 0; index < this.joints.length; index += 1) {
+		const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
+		for (let index = 0; index < count; index += 1) {
 			const joint = this.joints[index];
-			const jointWorld = joint?.userData?.worldMatrix || identity();
+			const jointWorld = joint?.userData?.worldMatrix
+				|| joint?.matrixWorld
+				|| identity();
 			const skinMatrix = multiply(
 				inverseMesh,
 				multiply(jointWorld, this.inverseBindMatrices[index])
@@ -88,12 +97,12 @@ export class TinySkeleton {
 	}
 }
 
-function readMat4At(array, index) {
-	const matrix = new Float32Array(16);
-	for (let component = 0; component < 16; component += 1) {
-		matrix[component] = array[index * 16 + component] ?? (
-			component % 5 === 0 ? 1 : 0
-		);
-	}
-	return matrix;
+/** Builds and binds every GLTF skin using the canonical TinySkeleton class. */
+export function bindTinySkeletons(root, doc, accessors) {
+	return bindSceneSkeletons(
+		root,
+		doc,
+		accessors,
+		(configuration) => new TinySkeleton(configuration)
+	);
 }

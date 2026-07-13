@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the attack traits vessel in this instant, revealing
+ * its focused js combat service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Attack trait ledger: punches and kicks finally stop sharing one blurry soul.
@@ -8,28 +17,42 @@
  * one tiny table so every combat module can agree.
  */
 const TRAITS = {
-  jab1: trait('punch', 1.04, 0.92, 6, 1, 0, 'jab'),
-  jab2: trait('punch', 1.08, 0.98, 7, 1, 0, 'jab'),
-  jab3: trait('punch', 1.18, 1.12, 9, 2, 1, 'finisher'),
-  dashPunch: trait('punch', 1.2, 1.16, 16, 1, 1, 'dash'),
-  chargePunch: trait('punch', 1.42, 1.32, 20, 2, 2, 'charge'),
-  uppercut: trait('punch', 1.28, 1.22, 13, 2, 1, 'launcher'),
-  roundhouse: trait('kick', 1.16, 1.35, 28, 3, 2, 'launcher'),
-  sweep: trait('kick', 0.98, 1.05, 30, 3, 0, 'trip'),
-  aerialKick: trait('kick', 1.12, 1.24, 22, 3, 1, 'air'),
-  meteorKick: trait('kick', 1.3, 1.45, 18, 2, 2, 'meteor'),
-  grab: trait('grab', 1, 1, 0, 0, 0, 'grab'),
-  special: trait('special', 1.2, 1.24, 18, 2, 1, 'special')
+	jab1: trait('punch', 1.04, 0.92, 6, 1, 0, 'jab'),
+	jab2: trait('punch', 1.08, 0.98, 7, 1, 0, 'jab'),
+	jab3: trait('punch', 1.18, 1.12, 9, 2, 1, 'finisher'),
+	dashPunch: trait('punch', 1.2, 1.16, 16, 1, 1, 'dash'),
+	chargePunch: trait('punch', 1.42, 1.32, 20, 2, 2, 'charge'),
+	uppercut: trait('punch', 1.28, 1.22, 13, 2, 1, 'launcher'),
+	roundhouse: trait('kick', 1.16, 1.35, 28, 3, 2, 'launcher'),
+	sweep: trait('kick', 0.98, 1.05, 30, 3, 0, 'trip'),
+	aerialKick: trait('kick', 1.12, 1.24, 22, 3, 1, 'air'),
+	meteorKick: trait('kick', 1.3, 1.45, 18, 2, 2, 'meteor'),
+	grab: trait('grab', 1, 1, 0, 0, 0, 'grab'),
+	special: trait('special', 1.2, 1.24, 18, 2, 1, 'special')
 };
 
+/**
+ * Reveals the attack trait behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} id The id value entering this behavior.
+ */
 export function attackTrait(id) {
-  return TRAITS[id] || trait('punch', 1, 1, 0, 0, 0, 'plain');
+	return TRAITS[id] || trait('punch', 1, 1, 0, 0, 0, 'plain');
 }
 
+/**
+ * Reveals the is kick attack behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} id The id value entering this behavior.
+ */
 export function isKickAttack(id) {
-  return attackTrait(id).family === 'kick';
+	return attackTrait(id).family === 'kick';
 }
 
 function trait(family, damage, knock, reach, active, recovery, feel) {
-  return { family, damage, knock, reach, active, recovery, feel };
+	return { family, damage, knock, reach, active, recovery, feel };
 }

@@ -1,49 +1,75 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * B"H
- * Respawn covenant.
- *
- * Chapter 19: exile receives a visible pause. The fighter does not instantly
- * reappear as if nothing happened. First the blast speaks, then the countdown
- * burns, then the soul returns with mercy frames.
+ * The Awtsmoos renews the respawn vessel in this instant, revealing
+ * its focused js physics service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-export function beginRespawnDelay(f, map) {
-  const p = respawnPoint(f, map);
-  f.respawnTimer = f.human ? 88 : 62;
-  f.respawnPoint = { x: p.x, y: p.y - 160 };
-  f.hidden = true;
-  f.grounded = false;
-  f.ledgeHang = null;
-  f.attack = null;
-  f.attackFrame = 0;
+/**
+ * Delays defeat, then returns fighters at safe spawns or kindled checkpoints.
+ * Exile is real, yet mercy is real: the Awtsmoos renews the fighter with a fresh
+ * position, cleared velocity, and brief invulnerability rather than confusion.
+ */
+export function beginRespawnDelay(fighter, map) {
+	const point = respawnPoint(fighter, map);
+	fighter.respawnTimer = fighter.human ? 88 : 62;
+	fighter.respawnPoint = { x: point.x, y: point.y - 160 };
+	fighter.hidden = true;
+	fighter.grounded = false;
+	fighter.ledgeHang = null;
+	fighter.attack = null;
+	fighter.attackFrame = 0;
 }
 
+/**
+ * Reveals the step respawns behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} state The state value entering this behavior.
+ */
 export function stepRespawns(state) {
-  for (const f of state.fighters) {
-    if (!f.respawnTimer || f.dead) continue;
-    f.respawnTimer--;
-    if (f.respawnTimer > 0) continue;
-    const p = f.respawnPoint || respawnPoint(f, state.map);
-    f.x = p.x;
-    f.y = p.y;
-    f.vx = 0;
-    f.vy = 0;
-    f.hidden = false;
-    f.respawnGrace = 105;
-    f.jumpsUsed = 0;
-    f.dropTimer = 0;
-    f.noLedgeTimer = 18;
-  }
+	for (const fighter of state.fighters) {
+		if (!fighter.respawnTimer || fighter.dead) {
+			continue;
+		}
+		fighter.respawnTimer -= 1;
+		if (fighter.respawnTimer > 0) {
+			continue;
+		}
+
+		const point =
+			fighter.adventureCheckpoint || fighter.respawnPoint || respawnPoint(fighter, state.map);
+		fighter.x = point.x;
+		fighter.y = point.y;
+		fighter.vx = 0;
+		fighter.vy = 0;
+		fighter.hidden = false;
+		fighter.respawnGrace = 105;
+		fighter.jumpsUsed = 0;
+		fighter.dropTimer = 0;
+		fighter.noLedgeTimer = 18;
+		fighter.airDodgeAvailable = true;
+	}
 }
 
-function respawnPoint(f, map) {
-  const spawns = map.spawns?.length ? map.spawns : [{ x: 0, y: 0 }];
-  const hash = hashId(f.id || f.name || 'fighter');
-  const index = Math.abs(hash + (3 - (f.stocks || 0)) * 3) % spawns.length;
-  return spawns[index];
+function respawnPoint(fighter, map) {
+	if (fighter.adventureCheckpoint) {
+		return fighter.adventureCheckpoint;
+	}
+	const spawns = map.spawns?.length ? map.spawns : [{ x: 0, y: 0 }];
+	const hash = hashId(fighter.id || fighter.name || 'fighter');
+	const stockOffset = (3 - (fighter.stocks || 0)) * 3;
+	const index = Math.abs(hash + stockOffset) % spawns.length;
+	return spawns[index];
 }
 
 function hashId(text) {
-  let h = 0;
-  for (let i = 0; i < text.length; i++) h = ((h << 5) - h + text.charCodeAt(i)) | 0;
-  return h;
+	let hash = 0;
+	for (let index = 0; index < text.length; index += 1) {
+		hash = ((hash << 5) - hash + text.charCodeAt(index)) | 0;
+	}
+	return hash;
 }

@@ -1,38 +1,52 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { buildRenderList } from '../engine/renderList.js';
 import { updateStats } from '../engine/stats.js';
-import { hsl } from '../math.js';
+import { environmentPreset } from '../environment/presets.js';
 import { updatePerformance } from '../performance.js';
 import { drawCommand } from './draw.js';
 import { viewProjection } from './matrix.js';
 
-/** Render one bright material-aware, fogged, persistent procedural arena frame. */
+/**
+ * The Awtsmoos renews one complete visible world per frame. Chapter atmosphere now
+ * enters through explicit light, fog, and haze uniforms rather than a fixed tint.
+ */
 export function renderFrame(renderer, effects, screen, world, canvas) {
 	const gl = renderer.gl;
 	const time = performance.now() * 0.001;
+	const preset = environmentPreset(world.level);
 	const commands = buildRenderList(world, time);
 	const useEffects = Boolean(world.save.postfx && world.performance?.postfx);
 	effects.begin();
 	gl.viewport(0, 0, canvas.width, canvas.height);
-	gl.clearColor(0.024, 0.022, 0.065, 1);
+	gl.clearColor(preset.clear[0], preset.clear[1], preset.clear[2], 1);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.useProgram(renderer.program);
-	setSceneUniforms(renderer, world, canvas, time);
-	for (const command of commands) drawCommand(renderer, command);
+	setSceneUniforms(renderer, world, canvas, time, preset);
+	for (const command of commands) {
+		drawCommand(renderer, command);
+	}
 	const texture = effects.end();
-	if (effects.enabled && useEffects) screen.draw(gl, texture);
+	if (effects.enabled && useEffects) {
+		screen.draw(gl, texture);
+	}
 	updatePerformance(world.performance, world.lastDt || 1 / 60, commands.length);
 	updateStats(world, commands.length, useEffects ? 'postfx' : 'direct');
 }
 
-function setSceneUniforms(renderer, world, canvas, time) {
+function setSceneUniforms(renderer, world, canvas, time, preset) {
 	const { gl, loc } = renderer;
 	const camera = world.camera;
-	const fog = hsl(world.level.hue, 38, 12);
 	gl.uniformMatrix4fv(loc.uVP, false, new Float32Array(viewProjection(canvas, camera, world.player)));
 	gl.uniform3fv(loc.uCamera, [camera.x, camera.z, camera.y]);
-	gl.uniform3fv(loc.uFogColor, fog);
-	gl.uniform1f(loc.uFogNear, 980);
-	gl.uniform1f(loc.uFogFar, Math.max(2800, world.level.bounds * 1.3));
+	gl.uniform3fv(loc.uFogColor, preset.fog);
+	gl.uniform3fv(loc.uSunDirection, preset.sunDirection);
+	gl.uniform3fv(loc.uSunColor, preset.sunColor);
+	gl.uniform3fv(loc.uAmbientColor, preset.ambientColor);
+	gl.uniform1f(loc.uFogNear, preset.fogNear);
+	gl.uniform1f(loc.uFogFar, Math.max(3000, world.level.bounds * preset.fogFarScale));
+	gl.uniform1f(loc.uHazeHeight, preset.hazeHeight);
+	gl.uniform1f(loc.uHazeStrength, preset.hazeStrength);
 	gl.uniform1f(loc.uTime, time);
 }

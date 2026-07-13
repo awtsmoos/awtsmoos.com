@@ -1,8 +1,33 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { MouthPhonemeModel } from './MouthPhonemeModel.js';
+
+/**
+ * Speech descends from intention into visible articulation. This class keeps
+ * the old `fromSpeech` gate while revealing richer mouth controls so every
+ * silent or audible line in Awtsmoos.com can visibly live.
+ */
 export class MouthPerformance {
-  static fromSpeech({ progress = 0, energy = 1, speech = '' } = {}) {
-    const syllables = Math.max(5, Math.min(15, String(speech).length / 5));
-    const pulse = Math.abs(Math.sin(progress * Math.PI * syllables));
-    return { open: Math.min(1, 0.12 + pulse * 0.72 * energy), jaw: pulse * 0.45 * energy, smile: speech.includes('!') ? 0.18 : 0 };
-  }
+	static fromSpeech(input = {}) {
+		const pose = MouthPhonemeModel.from({
+			...input,
+			talking: input.talking ?? true,
+			style: input.style ?? input.speechStyle
+		});
+
+		return {
+			open: pose.open,
+			jaw: pose.jaw,
+			smile: pose.smile,
+			width: pose.width,
+			round: pose.round,
+			press: pose.press,
+			teeth: pose.teeth,
+			shape: pose.shape,
+			symbol: pose.symbol,
+			isPause: pose.isPause
+		};
+	}
 }

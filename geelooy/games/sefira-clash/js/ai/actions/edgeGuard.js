@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the edge guard vessel in this instant, revealing
+ * its focused js ai actions service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Edge-guard action.
@@ -7,10 +16,25 @@
  * vulnerable.
  */
 export function edgeGuard(bot, goal) {
-  const edge = goal.sense.edge;
-  const combat = goal.sense.combat;
-  const side = combat.facing || bot.face || 1;
-  const safeX = bot.x < edge.center ? Math.max(edge.left, edge.center - 160) : Math.min(edge.right, edge.center + 160);
-  const walk = Math.abs(bot.x - safeX) > 24 ? Math.sign(safeX - bot.x) : 0;
-  return { x: walk, aimX: side, aimY: 0, y: 0, down: false, jump: false, punch: combat.dist < 190, kick: false, grab: false, shield: combat.dist > 190, special: false };
+	const edge = goal.sense.edge;
+	const combat = goal.sense.combat;
+	const side = combat.facing || bot.face || 1;
+	const safeX =
+		bot.x < edge.center
+			? Math.max(edge.left, edge.center - 160)
+			: Math.min(edge.right, edge.center + 160);
+	const walk = Math.abs(bot.x - safeX) > 24 ? Math.sign(safeX - bot.x) : 0;
+	return {
+		x: walk,
+		aimX: side,
+		aimY: 0,
+		y: 0,
+		down: false,
+		jump: false,
+		punch: combat.dist < 190,
+		kick: false,
+		grab: false,
+		shield: combat.dist > 190,
+		special: false
+	};
 }

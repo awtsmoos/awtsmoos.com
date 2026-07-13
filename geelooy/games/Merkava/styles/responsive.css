@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	Small screens receive the same strategic truth through narrower vessels.
+	The Awtsmoos is beyond size while Awtsmoos.com reveals responsive order.
+*/
+@media (max-width: 650px) {
+	.hud {
+		inset-inline: 0.35rem;
+	}
+
+	.campaign-strip {
+		grid-template-columns: 1fr auto;
+	}
+
+	.campaign-strip .progress {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+
+	.stat-grid {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.choice-list {
+		grid-template-columns: 1fr;
+	}
+
+	.choice-card {
+		min-height: 0;
+	}
+
+	.panel {
+		padding: 1rem;
+	}
+
+	.gate-label {
+		min-width: 2.7rem;
+		padding: 0.3rem 0.42rem;
+	}
+}
+
+@media (max-height: 560px) {
+	.hud {
+		font-size: 0.85rem;
+	}
+
+	.meter-row {
+		margin-block: 0.12rem;
+	}
+
+	.panel {
+		max-height: 96vh;
+	}
+}

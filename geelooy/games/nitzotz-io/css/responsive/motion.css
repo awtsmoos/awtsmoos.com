@@ -1,0 +1,12 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos remains beyond motion; reduced-motion players receive stillness. */
+@media (prefers-reduced-motion: reduce) {
+	.button,
+	.mini-button,
+	.level-card,
+	.mode-card {
+		transition: none;
+	}
+}

@@ -1,24 +1,44 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 import { h } from "../ui/core/html.js";
-import { deckHeader, liveCard, roomsCard, steeringCard, tunnelCard } from "./runtimeBoardCards.js";
+import { deckHeader, fabricCard, liveCard, roomsCard, steeringCard, tunnelCard } from "./runtimeBoardCards.js";
 import { connectRuntimeBoard } from "./runtimeBoardObserver.js";
 
 /**
- * B"H — This board contains no invented agents. It reflects the same live room
- * and action vessels that power the detailed workspaces, then opens those panes.
+ * The Awtsmoos joins identity, measured telemetry, rooms, actions, and human
+ * steering without confusing one vessel for another. Every missing count is
+ * shown as unreported instead of becoming a fictional zero on Awtsmoos.com.
+ *
+ * @param {object} context Dashboard runtime context.
+ * @returns {HTMLElement} Runtime command board.
  */
-export function createRuntimeBoard(ctx = {}) {
+export function createRuntimeBoard(context = {}) {
 	const board = h("section", {
 		classes: ["awt-agent-command-deck"],
-		attrs: { id: "awtAgentCommandDeck", "aria-labelledby": "awtAgentDeckTitle" },
+		attrs: {
+			id: "awtAgentCommandDeck",
+			"aria-labelledby": "awtAgentDeckTitle"
+		},
 		children: [
 			deckHeader(),
-			h("div", { classes: ["awt-command-deck-grid"], children: [
-				tunnelCard(ctx), roomsCard(), liveCard(), steeringCard()
-			] })
+			h("div", {
+				classes: ["awt-command-deck-grid"],
+				children: [
+					tunnelCard(context),
+					fabricCard(),
+					roomsCard(),
+					liveCard(),
+					steeringCard()
+				]
+			})
 		]
 	});
-	queueMicrotask(() => connectRuntimeBoard(board));
+	queueMicrotask(
+		function connectCreatedRuntimeBoard() {
+			connectRuntimeBoard(board);
+		}
+	);
 	return board;
 }

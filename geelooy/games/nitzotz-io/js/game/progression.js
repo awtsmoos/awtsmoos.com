@@ -1,13 +1,20 @@
 // B"H
-import { evaluateAchievements } from '../progression/achievements.js';
-import { recordRound } from '../progression/records.js';
+// Boruch Hashem
+// Blessed is He
+import { selectSafeChapter } from '../campaign/navigation.js';
 import { WORLDS } from '../level.js';
 import { nextModeId } from '../modes/catalog.js';
 import { objectiveMet } from '../modes/rules.js';
+import { evaluateAchievements } from '../progression/achievements.js';
+import { applyCampaignResult } from '../progression/campaign.js';
+import { purchaseUpgrade } from '../progression/economy.js';
+import { claimQuest } from '../progression/quests.js';
+import { recordRound } from '../progression/records.js';
 import { saveGame } from '../save.js';
 import { resetToLevel } from './reset.js';
 import { playerRank } from './scoring.js';
 
+/** Awtsmoos.com opens the chosen district only after every lock agrees. */
 export function start(world) {
 	if (world.mode === 'playing') return;
 	world.mode = 'playing';
@@ -31,8 +38,14 @@ export function nextWorld(world) {
 export function selectWorld(world, index) {
 	const selected = Math.max(0, Math.min(world.save.unlocked, index));
 	world.save.currentLevel = selected;
+	world.save.selectedChapter = Math.floor(selected / 20);
 	saveGame(world.save);
 	resetToLevel(world, selected, 'ready', `Selected ${WORLDS[selected][0]}.`);
+}
+
+export function selectChapter(world, index) {
+	world.save.selectedChapter = selectSafeChapter(world.save, index);
+	saveGame(world.save);
 }
 
 export function selectMode(world, id) {
@@ -43,6 +56,23 @@ export function selectMode(world, id) {
 
 export function cycleMode(world) {
 	selectMode(world, nextModeId(world.save.selectedMode));
+}
+
+export function buyUpgrade(world, id) {
+	const result = purchaseUpgrade(world.save, id);
+	world.message = result.message;
+	if (result.ok) {
+		saveGame(world.save);
+		resetToLevel(world, world.level.index, 'ready', result.message);
+	}
+	return result;
+}
+
+export function claimCampaignQuest(world, id) {
+	const result = claimQuest(world.save, id);
+	world.message = result.message;
+	if (result.ok) saveGame(world.save);
+	return result;
 }
 
 export function upgrades(world) {
@@ -62,8 +92,10 @@ export function finishRound(world) {
 	world.stars = 1 + Number(world.rank <= 2) + Number(world.bonusMet);
 	world.won = true;
 	world.mode = 'won';
-	persistResult(world, true);
-	world.message = `${world.level.name}: rank ${world.rank}, bonus ${world.bonusMet ? 'complete' : 'missed'}, ${world.stars} stars.`;
+	const result = persistResult(world, true);
+	const reward = result.sparks ? ` · +${result.sparks} sparks` : '';
+	const mastery = result.mastered ? ' · mastery' : '';
+	world.message = `${world.level.name}: rank ${world.rank}, ${world.stars} stars${reward}${mastery}.`;
 	world.events.push(['win']);
 }
 
@@ -80,9 +112,9 @@ function persistResult(world, won) {
 	world.save.bestMass = Math.max(world.save.bestMass || 0, world.player.mass);
 	recordRound(world, won);
 	evaluateAchievements(world);
-	if (won) {
-		world.save.stars[world.level.key] = Math.max(world.save.stars[world.level.key] || 0, world.stars);
-		world.save.unlocked = Math.min(WORLDS.length - 1, Math.max(world.save.unlocked, world.level.index + 1));
-	}
+	if (won) world.save.stars[world.level.key] = Math.max(world.save.stars[world.level.key] || 0, world.stars);
+	const result = applyCampaignResult(world, won);
+	world.lastReward = result;
 	saveGame(world.save);
+	return result;
 }

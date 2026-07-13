@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the spectacle camera vessel in this instant, revealing
+ * its focused js spectacle service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Spectacle camera offset.
@@ -8,13 +17,13 @@
  * module contributes only temporary quake and zoom breath.
  */
 export function spectacleCameraOffset(state) {
-  const s = state.spectacle;
-  if (!s) return { x: 0, y: 0, zoom: 0 };
-  const t = state.frame || 0;
-  const shake = s.shake || 0;
-  return {
-    x: Math.sin(t * 2.83) * shake * 1.15 + Math.sin(t * 0.71) * shake * 0.35,
-    y: Math.cos(t * 3.17) * shake * 0.72,
-    zoom: s.zoomKick || 0
-  };
+	const s = state.spectacle;
+	if (!s) return { x: 0, y: 0, zoom: 0 };
+	const t = state.frame || 0;
+	const shake = s.shake || 0;
+	return {
+		x: Math.sin(t * 2.83) * shake * 1.15 + Math.sin(t * 0.71) * shake * 0.35,
+		y: Math.cos(t * 3.17) * shake * 0.72,
+		zoom: s.zoomKick || 0
+	};
 }

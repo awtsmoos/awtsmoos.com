@@ -1,15 +1,29 @@
-<!--B"H-->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every voice remain attached to its real place; Awtsmoos.com opens this tree only around a named Heichel and post.
+-->
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Awtsmoos Comment Tree</title>
-<link rel="stylesheet" href="/style/social-system/tokens.css">
-<link rel="stylesheet" href="/style/social-system/comments.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Read a Geelooy comment tree and reply only through explicit alias context.">
+	<meta name="theme-color" content="#050914">
+	<title>Comment Thread — Geelooy</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-002">
+	<link rel="stylesheet" href="/style/social-system/comments.css?v=comments-003">
 </head>
-<body>
-<div id="comment-thread-root" class="geelooy-page"></div>
-<script type="module" src="/comment-thread/app.js"></script>
+<body data-comment-thread-page>
+	<a class="g-sr-only" href="#comment-thread-root">Skip to comment thread</a>
+	<main id="comment-thread-root" class="comment-shell geelooy-content-region g-page g-page-stack" tabindex="-1">
+		<section class="g-panel g-page-hero">
+			<p class="g-kicker">Conversation</p>
+			<h1 id="comment-thread-title">Comment thread</h1>
+			<p>Reading route context without inventing a post or author.</p>
+		</section>
+	</main>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-002"></script>
+	<script type="module" src="/comment-thread/app.js?v=comments-004"></script>
 </body>
 </html>

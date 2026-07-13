@@ -1,45 +1,71 @@
-// B"H
-import assert from 'assert';
-import { CODE_BROWSER_TUNNEL_VERSION, codeBrowserRegistrationPacket, codeBrowserTunnelTools } from '../browser-agent-packets.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-const fsActions = ['list', 'read', 'write', 'tree'];
-const commandActions = ['commandRun', 'shellCommand'];
-const previewActions = ['open', 'reload'];
+import assert from "assert";
+import {
+	CODE_BROWSER_TUNNEL_VERSION,
+	codeBrowserRegistrationPacket,
+	codeBrowserTunnelTools
+} from "../browser-agent-packets.js";
 
-const tools = codeBrowserTunnelTools({ fsActions, commandActions, previewActions });
-assert.strictEqual(tools.command, 'merkava-virtual-or-remote');
-assert.strictEqual(tools.chrome, false);
-assert.strictEqual(tools.receiptStore, true);
-assert.deepStrictEqual(tools.fsAdvanced, fsActions);
-assert.deepStrictEqual(tools.commandActions, commandActions);
-assert.deepStrictEqual(tools.previewControl, previewActions);
+/**
+ * B"H
+ * Apps Code must register one browser identity whose modern profile and legacy
+ * fields agree. The Awtsmoos creates server and editor together; Awtsmoos.com
+ * proves that compatibility never overrides the canonical capability testimony.
+ */
 
-const packet = codeBrowserRegistrationPacket({ tunnelName: 'awt-browser-code-test', fsActions, commandActions, previewActions, userAgent: 'test-agent' });
-assert.strictEqual(packet.type, 'TUNNEL_REGISTER');
-assert.strictEqual(packet.protocolVersion, 'awtsmoos-tunnel-v2');
-assert.strictEqual(packet.kind, 'browser-code-vessel');
-assert.strictEqual(packet.tunnelName, 'awt-browser-code-test');
-assert.strictEqual(packet.vessel, 'awtsmoos-code');
-assert.strictEqual(packet.vesselType, 'awtsmoos-code');
-assert.strictEqual(packet.deviceName, 'Awtsmoos Code');
-assert.strictEqual(packet.root, 'awtsmoos://code');
-assert.strictEqual(packet.workspaceId, 'browser-workspace');
-assert.strictEqual(packet.browserAgent, true);
-assert.strictEqual(packet.allowWrite, true);
-assert.strictEqual(packet.allowSecrets, false);
-assert.strictEqual(packet.allowCommands, 'limited');
-assert.strictEqual(packet.agentVersion, CODE_BROWSER_TUNNEL_VERSION);
-assert.strictEqual(packet.capabilities.commandRun, 'merkava-virtual-or-remote');
-assert.strictEqual(packet.capabilities.nodeScript, 'merkava-simulated');
-assert.strictEqual(packet.capabilities.missionAware, true);
-assert.strictEqual(packet.capabilities.receiptStore, true);
-assert.strictEqual(packet.capabilities.correlationSafe, true);
-assert.deepStrictEqual(packet.capabilities.commandModes, ['merkava-virtual', 'native-delegated', 'unsupported']);
-assert.deepStrictEqual(packet.capabilities.fsActions, fsActions);
-assert.deepStrictEqual(packet.capabilities.previewControl, previewActions);
-assert.strictEqual(packet.command.mode, 'merkava-virtual-or-remote');
-assert.strictEqual(packet.safety.preserveIdentity, true);
-assert.strictEqual(packet.safety.missionSideChannel, true);
-assert.throws(() => codeBrowserRegistrationPacket({}), /code_browser_tunnel_name_required/);
-
-console.log('BHY code browser tunnel packet tests passed');
+const options = {
+	tunnelName: "browser-one",
+	workspaceId: "workspace-one",
+	userAgent: "test-agent",
+	fsActions: ["list", "read", "write"],
+	commandActions: ["commandRun", "commandCancel"],
+	previewActions: ["previewStart", "previewStop"]
+};
+const packet = codeBrowserRegistrationPacket(options);
+assert.equal(packet.type, "TUNNEL_REGISTER");
+assert.equal(packet.protocolVersion, "awtsmoos-tunnel-v3");
+assert.equal(packet.tunnelName, "browser-one");
+assert.equal(packet.vessel, "awtsmoos-code");
+assert.equal(packet.kind, "browser-code-vessel");
+assert.equal(packet.vesselType, "browser-tunnel");
+assert.equal(packet.targetVessel, "browser-tunnel");
+assert.equal(packet.browserAgent, true);
+assert.equal(packet.virtualOs, false);
+assert.equal(packet.agentVersion, CODE_BROWSER_TUNNEL_VERSION);
+assert.equal(packet.workspaceId, "workspace-one");
+assert.equal(packet.runtime.workspaceId, "workspace-one");
+assert.equal(packet.allowWrite, true);
+assert.equal(packet.allowSecrets, false);
+assert.equal(packet.allowCommands, "limited");
+assert.equal(packet.capabilityProfile.schemaVersion, 1);
+assert.equal(
+	packet.capabilityProfile.capabilities["command.run"].state,
+	"simulated"
+);
+assert.equal(
+	packet.capabilityProfile.capabilities["native.access"].state,
+	"delegated"
+);
+assert.equal(packet.capabilities.fsRead, true);
+assert.equal(packet.capabilities.fsWrite, true);
+assert.equal(packet.capabilities.commandRun, "merkava-virtual-or-remote");
+assert.deepEqual(packet.capabilities.fsActions, options.fsActions);
+assert.deepEqual(packet.capabilities.previewControl, options.previewActions);
+assert.deepEqual(packet.command.actions, options.commandActions);
+assert.equal(packet.safety.denyUnsupportedNative, true);
+assert.deepEqual(codeBrowserTunnelTools(options), {
+	command: "merkava-virtual-or-remote",
+	chrome: false,
+	receiptStore: true,
+	fsAdvanced: options.fsActions,
+	commandActions: options.commandActions,
+	previewControl: options.previewActions
+});
+assert.throws(
+	() => codeBrowserRegistrationPacket({}),
+	/code_browser_tunnel_name_required/
+);
+console.log("BHY browser agent registration packet tests passed");

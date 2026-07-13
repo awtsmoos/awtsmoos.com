@@ -1,42 +1,72 @@
 // B"H
-const fsp = require('node:fs/promises');
-const path = require('node:path');
-const Http = require('./self-update-http.js');
-const Process = require('./self-update-process.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Bundles install into one root and temporary files always disappear. */
-async function installBundles(root, origin, options = {}) {
+const Http = require("./self-update-http.js");
+
+/**
+ * B"H
+ *
+ * Reads signed-shape release metadata without touching the live runtime. The
+ * bundle is an ohr still outside the vessel; only the transactional installer
+ * may verify, probe, activate, and roll it back on Awtsmoos.com.
+ */
+async function readDescriptor(origin, options = {}) {
 	const manifestText = await Http.fetchText(
 		`${origin}/api/tunnel/install/bundle-manifest`,
 		options
 	);
-	const response = JSON.parse(manifestText);
-	if (!Array.isArray(response.bundles) || !response.bundles.length) {
-		throw new Error('no_update_bundles');
+	const descriptor = JSON.parse(manifestText);
+	const bundle = descriptor.bundles?.find(item => item.name === "agent");
+
+	if (!descriptor.ok || !descriptor.version || !descriptor.manifestSha256 ||
+		!bundle?.url || !bundle.sha256 || !bundle.bytes) {
+		throw new Error("invalid_update_bundle_descriptor");
 	}
-	const temporaryRoot = path.join(root, `.self-update-${process.pid}-${Date.now()}`);
-	await fsp.rm(temporaryRoot, { recursive: true, force: true });
-	await fsp.mkdir(temporaryRoot, { recursive: true });
-	try {
-		for (const bundle of response.bundles) {
-			await installBundle(root, temporaryRoot, origin, bundle, options);
+
+	return {
+		version: descriptor.version,
+		manifestSha256: descriptor.manifestSha256,
+		bundle: {
+			name: "agent",
+			url: bundle.url,
+			sha256: bundle.sha256,
+			bytes: Number(bundle.bytes)
 		}
-	} finally {
-		await fsp.rm(temporaryRoot, { recursive: true, force: true }).catch(() => {});
+	};
+}
+
+function installerCommand(origin) {
+	if (process.platform === "win32") {
+		return `irm ${origin}/api/tunnel/install/windows | iex`;
 	}
-	return { ok: true, bundles: response.bundles.length };
+
+	return `curl -fsSL ${origin}/api/tunnel/install/unix | bash`;
 }
 
-async function installBundle(root, temporaryRoot, origin, bundle, options) {
-	const rawUrl = String(bundle.url || '');
-	const url = rawUrl.startsWith('http') ? rawUrl : `${origin}${rawUrl}`;
-	const zipPath = path.join(
+async function installBundles(root, origin, options = {}) {
+	const descriptor = await readDescriptor(origin, options);
+	return {
+		ok: true,
+		installed: false,
+		reason: "transactional_installer_required",
+		root,
+		descriptor,
+		command: installerCommand(origin)
+	};
+}
+
+async function installBundle(root, temporaryRoot, origin, bundle, options = {}) {
+	return installBundles(root, origin, {
+		...options,
 		temporaryRoot,
-		`${Process.safeName(bundle.name || 'agent')}.zip`
-	);
-	await Http.fetchFile(url, zipPath, options);
-	Process.assertZip(zipPath);
-	await Process.extractZip(zipPath, root);
+		bundle
+	});
 }
 
-module.exports = { installBundle, installBundles };
+module.exports = {
+	installBundle,
+	installBundles,
+	installerCommand,
+	readDescriptor
+};

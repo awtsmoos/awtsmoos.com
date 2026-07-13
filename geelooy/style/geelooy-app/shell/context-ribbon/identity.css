@@ -1,0 +1,54 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals name, type, detail, and state without inventing identity at Awtsmoos.com.
+*/
+.g-context-separator,
+.g-context-details,
+.g-context-type {
+	color: var(--g-muted);
+}
+
+.g-context-identity {
+	display: grid;
+	min-width: 0;
+	grid-template-columns: auto minmax(0, auto) minmax(0, 1fr);
+	align-items: baseline;
+	gap: 0.45rem;
+}
+
+.g-context-type {
+	font-size: 0.66rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+.g-context-title,
+.g-context-details {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.g-context-state-label {
+	display: inline-flex;
+	min-height: 2rem;
+	align-items: center;
+	padding: 0.32rem 0.62rem;
+	border-radius: var(--g-radius-pill);
+	background: var(--g-surface-soft);
+	color: var(--g-cyan);
+	font-size: 0.72rem;
+	font-weight: 820;
+}
+
+.g-context-ribbon[data-state="blocked"] .g-context-state-label,
+.g-context-ribbon[data-state="error"] .g-context-state-label {
+	color: var(--g-danger);
+}
+
+body[data-g-context-visible] .geelooy-content-region,
+body[data-g-context-visible] .g-page {
+	padding-top: calc(var(--g-header-h) + 6.6rem);
+}

@@ -1,16 +1,21 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module BattleMoveCards
- * @description Four direct move cards with power, affinity, and source text.
+ * @file BattleMoveCards.js
+ * @description Draws four direct commands with role, path, cost, and expected effect.
  *
- * The Awtsmoos is beyond every form, yet a player's choice must be visible.
- * Each card is now an action, not another hallway before the action.
+ * A deep system need not hide behind a deep menu. The Awtsmoos creates every
+ * layer while the hand still meets one clear choice; these cards show enough
+ * truth to act without flooding the road with noise. Awtsmoos.com.
  */
-import { MOVE_SKINS, BATTLE_THEME as T } from './BattleTheme.js';
 import { roundRect } from './BattleCards.js';
+import { BATTLE_THEME as T, MOVE_SKINS } from './BattleTheme.js';
 
 const fit = (value = '', max = 28) => value.length > max ? `${value.slice(0, max - 1)}…` : value;
 const pulse = (index = 0) => Math.sin(performance.now() * 0.004 + index) * 0.5 + 0.5;
+
 const write = (ctx, value, x, y, size, weight, color, align = 'left') => {
 	ctx.fillStyle = color;
 	ctx.font = `${weight} ${size}px ${T.fonts.ui}`;
@@ -41,8 +46,15 @@ const drawIcon = (ctx, rect, skin, move, chosen) => {
 	ctx.strokeStyle = skin.color;
 	ctx.lineWidth = chosen ? 3 : 2;
 	roundRect(ctx, x, y, size, size, 13);
-	write(ctx, move?.category?.[0] || skin.icon, x + size / 2, y + size * 0.66, 24, 950, skin.color, 'center');
+	write(ctx, move?.role?.[0]?.toUpperCase() || skin.icon, x + size / 2, y + size * 0.66, 24, 950, skin.color, 'center');
 	return size;
+};
+
+const effectLine = move => {
+	if (move.role === 'guard') return `Guard ${Math.round((move.guardStrength || 0.5) * 100)}%`;
+	if (move.role === 'study') return `Reveal intent · Power ${move.power || 0}`;
+	if (move.role === 'companion') return `Assist ${move.power || 0}${move.heal ? ` · Heal ${move.heal}` : ''}`;
+	return `Damage ${move.power || 0}${move.statusEffect ? ` · ${move.statusEffect}` : ''}`;
 };
 
 export const drawMoveCard = (ctx, move, rect, chosen) => {
@@ -50,9 +62,9 @@ export const drawMoveCard = (ctx, move, rect, chosen) => {
 	drawShell(ctx, rect, skin, chosen);
 	const iconSize = drawIcon(ctx, rect, skin, move, chosen);
 	const x = rect.x + iconSize + 31;
-	write(ctx, fit(move?.name || 'Unknown Move', 24), x, rect.y + rect.h * 0.3, 18, 950, T.colors.text);
-	write(ctx, `${move?.category || 'Torah'} • Power ${move?.power || 0}${move?.heal ? ` • Heal ${move.heal}` : ''}`, x, rect.y + rect.h * 0.56, 12, 850, skin.color);
-	write(ctx, fit(move?.routeQuote || move?.text || 'A revealed path of action.', 48), x, rect.y + rect.h * 0.8, 11, 700, T.colors.muted);
+	write(ctx, fit(move?.name || 'Unknown Command', 24), x, rect.y + rect.h * 0.29, 18, 950, T.colors.text);
+	write(ctx, `${move?.role?.toUpperCase() || 'ATTACK'} · ${move?.path || 'Pshat'} · Focus ${move?.focusCost || 0}`, x, rect.y + rect.h * 0.53, 11, 850, skin.color);
+	write(ctx, fit(`${effectLine(move)} · ${move?.targetArea || 'single'}`, 45), x, rect.y + rect.h * 0.75, 11, 760, T.colors.muted);
 	write(ctx, String(rect.i + 1), rect.x + rect.w - 21, rect.y + rect.h * 0.58, 24, 950, chosen ? '#fff176' : T.colors.text, 'right');
 };
 
@@ -63,6 +75,6 @@ export const drawMovePrompt = (ctx, rect) => {
 	ctx.lineWidth = 1.5;
 	roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 16);
 	ctx.restore();
-	write(ctx, 'Choose one Torah move', rect.x + rect.w / 2, rect.y + rect.h * 0.42, 18, 950, T.colors.text, 'center');
-	write(ctx, 'One press performs one complete action.', rect.x + rect.w / 2, rect.y + rect.h * 0.73, 11, 750, T.colors.muted, 'center');
+	write(ctx, 'Attack · Study · Guard · Companion', rect.x + rect.w / 2, rect.y + rect.h * 0.42, 17, 950, T.colors.text, 'center');
+	write(ctx, 'Read the intent, then choose one complete action.', rect.x + rect.w / 2, rect.y + rect.h * 0.73, 11, 750, T.colors.muted, 'center');
 };

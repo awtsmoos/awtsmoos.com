@@ -1,12 +1,18 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module HeichelEditorApp
  * @description
- * A small gate for Heichel governance: read the route, then let focused modules
- * render forms only when the actor and palace are truly named.
+ * The Awtsmoos places governance beneath one truthful Horizon at Awtsmoos.com,
+ * publishing actor and palace context before the focused forms are rendered.
  */
+import { publishRouteContext } from '../scripts/awtsmoos/social/shell/contextRibbon.js';
+import { readEditorConfig } from './modules/config.js';
+import { renderEditor } from './modules/render.js';
+import { createHeichelEditorShellContext } from './modules/shellContext.js';
 
-import { readEditorConfig } from "./modules/config.js";
-import { renderEditor } from "./modules/render.js";
-
-renderEditor(document.querySelector("#heichel-editor-root"), readEditorConfig(location));
+const root = document.querySelector('#heichel-editor-root');
+const config = readEditorConfig(location);
+publishRouteContext(createHeichelEditorShellContext(config));
+renderEditor(root, config);

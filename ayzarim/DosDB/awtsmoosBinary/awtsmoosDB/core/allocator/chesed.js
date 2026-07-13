@@ -2,16 +2,14 @@
 
 /**
  * @file core/allocator/chesed.js
- * @chapter The Allocator Reveals Proven Space Through Small Dedicated Vessels
- * @description
- * Public allocator facade. Cursor state, verified free-space operations, and
- * durable free-list scheduling live in focused modules so each invariant can be
- * tested without hiding a second policy inside one oversized class.
+ * @chapter One Strict Ledger Governs Every Allocation And Free Claim
+ * @description Public allocator facade for cursor, reuse, persistence, and verified complement refresh.
  */
 
 const cursorState = require('./cursorState.js');
 const freeSpaceOps = require('./freeSpaceOps.js');
 const persistence = require('./freeListPersistence.js');
+const refreshVerifiedComplement = require('./reachableComplement.js');
 
 class AllocatorChesed {
 	constructor(pager) {
@@ -22,6 +20,7 @@ class AllocatorChesed {
 		this.legacySuperblockless = false;
 		this._savingFreeList = false;
 		this._freeListDirty = false;
+		this._needsComplementRefresh = false;
 		this._trustedFreeListSignature = null;
 		this.reuseVerification = { state: 'not-checked', ok: null };
 		this.rejectedFreeList = [];
@@ -38,6 +37,7 @@ class AllocatorChesed {
 	persistFreeListSoon() { return persistence.schedule(this); }
 	flushPendingFreeList() { return persistence.flush(this); }
 	clearPendingFreeList() { return persistence.clear(this); }
+	refreshVerifiedFreeList() { return refreshVerifiedComplement(this); }
 	mergeFreeList() { return cursorState.merge(this); }
 	absorbTrailingGaps() { return cursorState.absorbTrailingGaps(this); }
 	_mergeFreeList() { return this.mergeFreeList(); }
@@ -45,9 +45,7 @@ class AllocatorChesed {
 	flushCursor() { return cursorState.flush(this); }
 
 	save(value) {
-		if (!this.db.primitiveSaver) {
-			throw new Error('B"H Fatal: Primitive Scribe not manifested.');
-		}
+		if (!this.db.primitiveSaver) throw new Error('B"H Fatal: Primitive Scribe not manifested.');
 		return this.db.primitiveSaver.save(value);
 	}
 }

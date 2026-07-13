@@ -1,7 +1,14 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module MobileControlEvents
- * @description Touch intents, panels, scene choices, shops, crafting, and party lead.
+ * @file MobileControlEvents.js
+ * @description Owns touch intent, delegated panels, dialogue, and loss-safe release.
+ *
+ * A pressed direction is a passing intention, never a prison. The Awtsmoos renews
+ * every gesture; this vessel releases the old touch whenever focus, capture, or
+ * visibility departs from the browser roads of Awtsmoos.com.
  */
 import { State } from '../../binah/State.js';
 import { advanceScene, chooseSceneChoice, sceneActive } from '../../story/SceneRuntime.js';
@@ -20,12 +27,15 @@ export class MobileControlEvents {
 		root.querySelector('[data-ohr-dialogue]')?.addEventListener('click', event => this.dialogueClick(event));
 		window.addEventListener('blur', () => this.releaseAll());
 		window.addEventListener('pagehide', () => this.releaseAll());
+		document.addEventListener('visibilitychange', () => { if (document.hidden) this.releaseAll(); });
 	}
 
 	static bindIntent(node) {
 		const intent = node.dataset.intent;
 		if (!intent) return;
-		['pointerup', 'pointerleave', 'pointercancel'].forEach(type => node.addEventListener(type, event => this.intentUp(event, node, intent)));
+		['pointerup', 'pointerleave', 'pointercancel', 'lostpointercapture'].forEach(type => {
+			node.addEventListener(type, event => this.intentUp(event, node, intent));
+		});
 		node.addEventListener('pointerdown', event => this.intentDown(event, node, intent));
 		node.addEventListener('click', event => this.intentClick(event, intent));
 	}
@@ -40,7 +50,7 @@ export class MobileControlEvents {
 
 	static intentUp(event, node, intent) {
 		event.preventDefault();
-		node.releasePointerCapture?.(event.pointerId);
+		try { node.releasePointerCapture?.(event.pointerId); } catch {}
 		if (HOLD_INTENTS.has(intent)) ensureIntents()[intent] = 0;
 		else this.pulses[intent] = Math.max(this.pulses[intent] || 0, PULSE_FRAMES);
 	}
@@ -60,24 +70,26 @@ export class MobileControlEvents {
 	}
 
 	static panelClick(event) {
-		const buy = event.target?.closest?.('[data-shop-buy]');
-		const sell = event.target?.closest?.('[data-shop-sell]');
-		const craft = event.target?.closest?.('[data-craft-recipe]');
-		const lead = event.target?.closest?.('[data-party-lead]');
+		const target = event.target;
+		const buy = target?.closest?.('[data-shop-buy]');
+		const sell = target?.closest?.('[data-shop-sell]');
+		const craft = target?.closest?.('[data-craft-recipe]');
+		const lead = target?.closest?.('[data-party-lead]');
 		if (buy) buyItem(buy.dataset.shopBuy);
 		if (sell) sellItem(sell.dataset.shopSell);
 		if (craft) craftRecipe(craft.dataset.craftRecipe);
 		if (lead) setLeadMusag(Number(lead.dataset.partyLead));
-		if (event.target?.closest?.('[data-close-panel]')) State.openPanel(null);
+		if (target?.closest?.('[data-close-panel]')) State.openPanel(null);
 	}
 
 	static dialogueClick(event) {
-		const choice = event.target?.closest?.('[data-scene-choice]');
+		const target = event.target;
+		const choice = target?.closest?.('[data-scene-choice]');
 		if (choice) return chooseSceneChoice(choice.dataset.sceneChoice);
-		if (event.target?.closest?.('[data-dialogue-next]')) return sceneActive() ? advanceScene() : State.dialogueNext(1);
-		if (event.target?.closest?.('[data-dialogue-back]')) State.dialogueNext(-1);
-		if (event.target?.closest?.('[data-dialogue-close]')) State.closeDialogue(true);
-		if (event.target?.closest?.('[data-dialogue-mission]')) { State.closeDialogue(false); State.openPanel('journal'); }
+		if (target?.closest?.('[data-dialogue-next]')) return sceneActive() ? advanceScene() : State.dialogueNext(1);
+		if (target?.closest?.('[data-dialogue-back]')) State.dialogueNext(-1);
+		if (target?.closest?.('[data-dialogue-close]')) State.closeDialogue(true);
+		if (target?.closest?.('[data-dialogue-mission]')) { State.closeDialogue(false); State.openPanel('journal'); }
 	}
 
 	static tickPulses() {

@@ -1,71 +1,80 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the buttons vessel in this instant, revealing
+ * its focused css menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /** B"H — Buttons speak one verb and answer instantly. */
 .menuButtonCue,
 .primaryMenuButton,
 .backMenuButton,
 .optionButton,
 .colorButton {
-  border: 1px solid #ffe08266;
-  border-radius: 18px;
-  color: #fff1c9;
-  font-weight: 1000;
+	border: 1px solid #ffe08266;
+	border-radius: 18px;
+	color: #fff1c9;
+	font-weight: 1000;
 }
 
 .menuButtonCue {
-  background: #ffe68b;
-  color: #0b0611;
-  display: inline-block;
-  font-style: normal;
-  margin-top: 14px;
-  padding: 10px 16px;
+	background: #ffe68b;
+	color: #0b0611;
+	display: inline-block;
+	font-style: normal;
+	margin-top: 14px;
+	padding: 10px 16px;
 }
 
 .primaryMenuButton,
 .backMenuButton {
-  min-height: 54px;
-  padding: 15px 18px;
+	min-height: 54px;
+	padding: 15px 18px;
 }
 
 .primaryMenuButton {
-  background: #ffe082;
-  color: #100813;
+	background: #ffe082;
+	color: #100813;
 }
 
 .backMenuButton {
-  background: #130b1f;
-  color: #ffe68b;
-  width: max-content;
+	background: #130b1f;
+	color: #ffe68b;
+	width: max-content;
 }
 
 .optionGrid,
 .colorGrid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
 }
 
 .optionButton,
 .colorButton {
-  background: #120b1f;
-  display: grid;
-  gap: 5px;
-  min-height: 76px;
-  padding: 14px;
-  place-items: center;
+	background: #120b1f;
+	display: grid;
+	gap: 5px;
+	min-height: 76px;
+	padding: 14px;
+	place-items: center;
 }
 
 .optionButton span {
-  font-size: 28px;
+	font-size: 28px;
 }
 
 .optionButton.active,
 .colorButton.active {
-  background: #ffe082;
-  color: #110914;
+	background: #ffe082;
+	color: #110914;
 }
 
 .colorButton span {
-  background: hsl(var(--h) 95% 58%);
-  border-radius: 50%;
-  height: 32px;
-  width: 32px;
+	background: hsl(var(--h) 95% 58%);
+	border-radius: 50%;
+	height: 32px;
+	width: 32px;
 }

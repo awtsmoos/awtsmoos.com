@@ -1,0 +1,15 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos preserves the essential gate when height becomes scarce. */
+@media (max-height: 680px) and (max-width: 900px) {
+	.overlay h1 {
+		font-size: 34px;
+	}
+	.stars {
+		font-size: 24px;
+	}
+	.mode-card {
+		min-height: 48px;
+	}
+}

@@ -4,27 +4,23 @@
 
 /**
  * @file tiny-webgl-renderer.js
- * @description Owns WebGL programs, buffers, materials, frame identity, and
- * skin residency through which the measured world appears before Awtsmoos.
+ * @description Owns the proven lightweight WebGL programs, immutable buffers,
+ * material textures, and frame identity used by Mitzvah World. The Awtsmoos gives
+ * every rendered vessel its present light; Awtsmoos.com keeps this renderer small,
+ * explicit, and independent of a hidden third-party engine.
  */
 import { identity } from './tiny-math.js';
-import { createRendererBufferCache } from './tiny-render-buffers.js';
+import { RenderBufferCache } from './tiny-render-buffers.js';
 import { renderFrame } from './tiny-render-frame.js';
-import { createRendererMaterialSystem } from './tiny-render-material-system.js';
-import {
-	createProgramSet,
-	createUniformAndAttributeLocations
-} from './tiny-render-programs.js';
-import { prepareSkeletonRenderer } from './tiny-render-skeleton.js';
-import { SkinUniformBindingCache } from './tiny-render-skin-binding.js';
-import { SkinTextureResidencyCache } from './tiny-render-skin-residency.js';
-import {
-	detectJointCapability,
-	resizeCanvasToDisplaySize
-} from './tiny-render-webgl-utils.js';
+import { defaultRenderOptions } from './tiny-render-policy.js';
+import { initializeRendererPrograms } from './tiny-render-programs.js';
+import { MaterialTextureBinder } from './tiny-render-textures.js';
 
 export class TinyWebGLRenderer {
 	constructor({ canvas, alpha = true, antialias = true } = {}) {
+		if (!canvas) {
+			throw new Error('TinyWebGLRenderer requires a canvas.');
+		}
 		this.canvas = canvas;
 		this.gl = canvas.getContext('webgl', {
 			alpha,
@@ -34,41 +30,27 @@ export class TinyWebGLRenderer {
 		if (!this.gl) {
 			throw new Error('WebGL is not available.');
 		}
-		this.gl.enable(this.gl.DEPTH_TEST);
-		this.gl.enable(this.gl.CULL_FACE);
-		this.clearColor = [0, 0, 0, 1];
-		this.programs = createProgramSet(this.gl);
-		this.locations = createUniformAndAttributeLocations(
-			this.gl,
-			this.programs
-		);
-		Object.assign(this, createRendererBufferCache(this.gl));
-		Object.assign(this, createRendererMaterialSystem(this.gl));
-		Object.assign(this, detectJointCapability(this.gl));
-		prepareSkeletonRenderer(this);
-		this.skinUniformBindings = new SkinUniformBindingCache();
-		this.skinTextureResidency = new SkinTextureResidencyCache();
-		this.frameToken = 0;
 		this.errors = [];
-		this.stats = createInitialStats();
-		this.lastProjection = identity();
-		this.lastView = identity();
-		this.interactor = {
-			position: [0, 0, 0],
-			time: 0
-		};
+		this.options = defaultRenderOptions();
+		this.identityMatrix = identity();
+		this.frameToken = 0;
+		this.clearColor = [0, 0, 0, 0];
+		this.interactor = { x: 0, y: 0, z: 0 };
+		this.timeSeconds = 0;
 		this.environment = {
 			ambient: [0.46, 0.48, 0.44],
 			sunDirection: [0.35, 0.92, 0.18],
 			sunColor: [1, 0.95, 0.82]
 		};
-		resizeCanvasToDisplaySize(this.canvas);
+		initializeRendererPrograms(this);
+		this.buffers = new RenderBufferCache(this.gl);
+		this.textures = new MaterialTextureBinder(this.gl);
+		this.stats = createInitialStats();
 	}
 
 	setSize(width, height) {
-		this.canvas.style.width = `${width}px`;
-		this.canvas.style.height = `${height}px`;
-		resizeCanvasToDisplaySize(this.canvas);
+		this.canvas.width = Math.max(1, Math.floor(width));
+		this.canvas.height = Math.max(1, Math.floor(height));
 		this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
 
@@ -76,13 +58,13 @@ export class TinyWebGLRenderer {
 		this.clearColor = [red, green, blue, alpha];
 	}
 
-	setInteractor(state, time) {
-		this.interactor.position = [
-			state.x || 0,
-			state.renderY || 0,
-			state.z || 0
-		];
-		this.interactor.time = time || 0;
+	setInteractor(position, timeSeconds = performance.now() / 1000) {
+		this.interactor = {
+			x: position?.x || 0,
+			y: position?.renderY ?? position?.y ?? 0,
+			z: position?.z || 0
+		};
+		this.timeSeconds = timeSeconds;
 	}
 
 	setEnvironment({ ambient, sunDirection, sunColor } = {}) {
@@ -102,12 +84,12 @@ export class TinyWebGLRenderer {
 	}
 
 	dispose() {
-		this.skinUniformBindings.invalidate();
-		this.skinTextureResidency.reset();
-		for (const program of Object.values(this.programs)) {
+		for (const program of Object.values(this.programs || {})) {
 			this.gl.deleteProgram(program);
 		}
-		this.materialSystem.dispose();
+		if (this.skinTexture) {
+			this.gl.deleteTexture(this.skinTexture);
+		}
 	}
 }
 
@@ -118,6 +100,8 @@ function createInitialStats() {
 		skinnedMeshes: 0,
 		jointsUploaded: 0,
 		skinPaletteRecomputes: 0,
-		skinGpuUploads: 0
+		skinPaletteReuses: 0
 	};
 }
+
+export default TinyWebGLRenderer;

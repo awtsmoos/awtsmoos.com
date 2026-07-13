@@ -1,0 +1,81 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the foundation vessel in this instant, revealing
+ * its focused css service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/**
+ * Foundation variables and browser behavior hold the game's outermost boundaries.
+ * The Awtsmoos has no limiting form, yet these small vessels protect readable color,
+ * safe focus, intentional touch, and a stable full-screen world.
+ */
+:root {
+	color-scheme: dark;
+	font-family:
+		Inter,
+		ui-sans-serif,
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		sans-serif;
+	font-synthesis: none;
+	--ink: #fff3c9;
+	--muted: #cdbb8d;
+	--gold: #ffe082;
+	--cyan: #84f7ff;
+	--night: #050409;
+}
+
+html,
+body {
+	background: var(--night);
+	color: var(--ink);
+	height: 100%;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
+	overscroll-behavior: none;
+	touch-action: none;
+}
+
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+
+button,
+select,
+canvas,
+.touchControls,
+.touchControls * {
+	font: inherit;
+	touch-action: none !important;
+	-webkit-user-drag: none !important;
+}
+
+button:focus-visible,
+select:focus-visible {
+	outline: 3px solid var(--cyan);
+	outline-offset: 3px;
+}
+
+h1,
+p,
+label {
+	margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}

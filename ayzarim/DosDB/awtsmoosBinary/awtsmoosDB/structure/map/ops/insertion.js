@@ -1,66 +1,66 @@
-
 // B"H
+
 /**
  * @file structure/map/ops/insertion.js
- * @description
- * Chapter 52: The Inscription of Keys.
- * Gevurah (Severity) establishes boundaries. Insertion carves names 
- * into those boundaries. This module descends the tree, balancing and 
- * splitting as it goes.
+ * @chapter Every Rewritten Branch Names The Former Vessel It Replaces
+ * @description Inserts recursively, returns split metadata, and records retired node seals.
  */
 
 const Search = require('./search.js');
 const SplitOps = require('./split.js');
-const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 class MapInsertion {
-    constructor(nodeIO) {
-        this.nodeIO = nodeIO;
-        this.splitLogic = new SplitOps(nodeIO);
-    }
+	constructor(nodeIO) {
+		this.nodeIO = nodeIO;
+		this.splitLogic = new SplitOps(nodeIO);
+	}
 
-    /**
-     * @method perform
-     * @description Recursively descends and inserts.
-     */
-    perform(node, keyBuf, valPtr) {
-        const s = Search.findKey(node, keyBuf);
-        const idx = s.index;
+	perform(node, keyBuffer, valuePointer, currentSeal) {
+		const search = Search.findKey(node, keyBuffer);
+		if (node.isLeaf) {
+			this.writeLeaf(node, search, keyBuffer, valuePointer);
+			return this.saveChangedNode(node, currentSeal);
+		}
+		return this.writeBranch(node, search, keyBuffer, valuePointer, currentSeal);
+	}
 
-        if (node.isLeaf) {
-            if (s.found) {
-                node.values[idx] = valPtr;
-            } else {
-                node.keys.splice(idx, 0, keyBuf);
-                node.values.splice(idx, 0, valPtr);
-            }
-            
-            const split = this.splitLogic.check(node);
-            return split ? { split, newSeal: split.nodeSeal } : { newSeal: this.nodeIO.save(node) };
-        } else {
-            // Internal Node descent
-            let childIdx = s.found ? idx + 1 : idx;
-            if (childIdx >= node.children.length) childIdx = node.children.length - 1;
-            
-            const childPtr = SmartPointer.decode(node.children[childIdx]);
-            const childNode = this.nodeIO.load(childPtr);
-            const res = this.perform(childNode, keyBuf, valPtr);
-            
-            node.children[childIdx] = res.newSeal;
+	writeLeaf(node, search, keyBuffer, valuePointer) {
+		if (search.found) {
+			node.values[search.index] = valuePointer;
+			return;
+		}
+		node.keys.splice(search.index, 0, keyBuffer);
+		node.values.splice(search.index, 0, valuePointer);
+	}
 
-            if (res.split) {
-                const sRes = res.split;
-                node.keys.splice(childIdx, 0, sRes.key);
-                node.children.splice(childIdx + 1, 0, sRes.siblingSeal);
-                
-                const mySplit = this.splitLogic.check(node);
-                return mySplit ? { split: mySplit, newSeal: mySplit.nodeSeal } : { newSeal: this.nodeIO.save(node) };
-            }
+	writeBranch(node, search, keyBuffer, valuePointer, currentSeal) {
+		let childIndex = search.found ? search.index + 1 : search.index;
+		if (childIndex >= node.children.length) childIndex = node.children.length - 1;
+		const childSeal = node.children[childIndex];
+		const childNode = this.nodeIO.load(SmartPointer.decode(childSeal));
+		if (!childNode) throw new Error('B"H map insertion could not load a child node');
+		const childResult = this.perform(childNode, keyBuffer, valuePointer, childSeal);
+		node.children[childIndex] = childResult.newSeal;
+		if (childResult.split) this.absorbSplit(node, childIndex, childResult.split);
+		const result = this.saveChangedNode(node, currentSeal);
+		result.retiredSeals.push(...childResult.retiredSeals);
+		return result;
+	}
 
-            return { newSeal: this.nodeIO.save(node) };
-        }
-    }
+	absorbSplit(node, childIndex, split) {
+		node.keys.splice(childIndex, 0, split.key);
+		node.children.splice(childIndex + 1, 0, split.siblingSeal);
+	}
+
+	saveChangedNode(node, currentSeal) {
+		const split = this.splitLogic.check(node);
+		return {
+			split,
+			newSeal: split ? split.nodeSeal : this.nodeIO.save(node),
+			retiredSeals: currentSeal ? [Buffer.from(currentSeal)] : []
+		};
+	}
 }
 
 module.exports = MapInsertion;

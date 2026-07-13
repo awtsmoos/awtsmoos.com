@@ -1,191 +1,89 @@
- 
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
 <!--
-    
-ב"ה 
-B"H
-    Merkava: Gmar Tikkun (The Final Rectification) v10.0 - The Foundational Stone
-    Architect: Gemini, under the directive of Modular Rectification
-    Date: 2025-09-06
-
-    This document is the foundational stone of the new, modular architecture. It contains the complete HTML
-    structure, all CSS, and embedded shaders. The JavaScript herein is a minimal bootstrap, designed to import
-    the Four Worlds (Atzilut, Beriah, Yetzirah, Assiah) from their respective files, initiating the Gmar Tikkun.
-    There are no placeholders. This file is the complete and perfect vessel for the creation to come.
+	The page is a vessel for urgent lanes, precious Prutahs, and worlds of Tikkun.
+	The Awtsmoos recreates player, canvas, mode, and choice as Awtsmoos.com reveals.
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Merkava: Gmar Tikkun</title>
-    <style>
-        /* The CSS is the garment of Malchut, the physical world. It clothes the forms generated from the higher realms. */
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
-        :root {
-            --glow-color: #00ddff; --shefa-color: #ffd700; --klipot-color: #ff2d2d;
-            --mitzvot-color: #ffffff; --nefesh-color: #c0c0c0; --outline-color: #000000;
-            --tikkun-color: #aaffaa; --boss-color: #d8a8ff;
-        }
-        body { margin: 0; overflow: hidden; font-family: 'Orbitron', 'Arial', sans-serif; color: white; background-color: #030005; user-select: none; touch-action: none; }
-        canvas { display: block; }
-        #ui-root { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 5, 0.92); backdrop-filter: blur(12px); opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; overflow-y: auto; pointer-events: none; }
-        .overlay.visible { opacity: 1; visibility: visible; pointer-events: auto; }
-        .menu-button-group { display: flex; flex-direction: column; gap: 20px; width: 90%; max-width: 450px; padding: 20px 0; }
-        .game-title { font-size: 3.5em; margin-bottom: 20px; text-align: center; color: var(--glow-color); text-transform: uppercase; text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color); }
-        .game-subtitle { font-size: 1.4em; color: var(--mitzvot-color); margin-bottom: 30px; text-align: center; }
-        .menu-button { padding: 15px; font-size: 1.6em; background: linear-gradient(145deg, #0077ff, #0033aa); color: white; border: 2px solid var(--glow-color); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3), inset 0 0 5px rgba(255,255,255,0.3); text-transform: uppercase; font-family: 'Orbitron', 'Arial', sans-serif; }
-        .menu-button:hover { background: linear-gradient(145deg, #0088ff, #0044bb); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0, 120, 255, 0.5), inset 0 0 8px rgba(255,255,255,0.4); }
-        .menu-button:active { transform: translateY(1px) scale(1.02); }
-        .hud-element { position: absolute; font-size: 1.3em; background-color: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px; text-shadow: 0 0 8px currentColor, 0 0 2px black; transition: transform 0.1s ease-out; pointer-events: auto; }
-        #mitzvotDisplay { top: 10px; left: 10px; color: var(--mitzvot-color); }
-        #nefeshDisplay { top: 10px; right: 10px; color: var(--nefesh-color); }
-        #bhText { top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: var(--glow-color); }
-        #shefaContainer { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 15px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--shefa-color); border-radius: 10px; overflow: hidden; }
-        #shefaBar { width: 0%; height: 100%; background: var(--shefa-color); box-shadow: 0 0 10px var(--shefa-color), 0 0 5px var(--shefa-color) inset; transition: width 0.3s ease-out; }
-        .notifier { position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.7s ease; text-transform: uppercase; text-align: center; }
-        .notifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        #ascensionNotifier { top: 30%; font-size: 1.7em; color: var(--boss-color); text-shadow: 0 0 8px var(--boss-color); }
-        #comboNotifier { top: 40%; font-size: 1.5em; color: var(--shefa-color); text-shadow: 0 0 6px var(--shefa-color); }
-        #perfectWaveNotifier { top: 50%; font-size: 1.9em; color: var(--glow-color); text-shadow: 0 0 8px var(--glow-color), 0 0 15px var(--glow-color); }
-        #surpriseNotifier { top: 60%; font-size: 1.8em; color: var(--tikkun-color); text-shadow: 0 0 8px var(--tikkun-color); }
-        #bossNotifier { top: 45%; font-size: 2.2em; color: var(--klipot-color); text-shadow: 0 0 10px var(--klipot-color), 0 0 20px var(--klipot-color); letter-spacing: 2px; }
-        #flashOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 1001; opacity: 0; pointer-events: none; }
-        #prayerDisplayContainer { position: absolute; top: 55px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; background-color: rgba(0,0,0,0.6); border-radius: 10px; padding: 10px; display: none; justify-content: space-between; align-items: center; transition: opacity 0.5s, visibility 0.5s; }
-        #prayerDisplayContainer.visible { display: flex; }
-        #prayerTextContainer { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; }
-        #prayerDropdownBtn { position: absolute; top: -15px; font-size: 1.5em; background: none; border: none; color: white; cursor: pointer; opacity: 0.3; transition: opacity 0.2s; pointer-events: auto; }
-        #prayerDropdownBtn:hover { opacity: 1; }
-        #prayerText { flex-grow: 1; text-align: center; font-size: 1.2em; color: white; text-shadow: 2px 2px 4px #000000; white-space: normal; word-wrap: break-word; padding: 10px 0; min-height: 50px; }
-        .prayer-nav-button { background: none; border: 2px solid white; color: white; font-size: 2em; cursor: pointer; padding: 0 15px; border-radius: 5px; transition: background-color 0.2s, transform 0.1s; pointer-events: auto; }
-        .prayer-nav-button:hover { background-color: rgba(255,255,255,0.2); }
-        .prayer-nav-button:active { transform: scale(0.95); }
-        .setting-item { display: flex; flex-direction: column; align-items: flex-start; width: 100%; margin-bottom: 20px; }
-        .setting-item.checkbox { flex-direction: row; align-items: center; }
-        .setting-item.checkbox label { margin-bottom: 0; margin-left: 10px; }
-        .setting-item.checkbox input { width: auto; }
-        .setting-item h3 { width: 100%; text-align: center; color: var(--shefa-color); margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid var(--shefa-color); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .setting-item label { font-size: 1.2em; margin-bottom: 8px; color: var(--glow-color); }
-        .setting-item input, .setting-item textarea, .setting-item select { width: 100%; font-size: 1em; color: white; background-color: rgba(0,0,0,0.7); border: 2px solid var(--glow-color); border-radius: 8px; padding: 10px; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        .setting-item select { -moz-appearance: none; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300DDFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20127.9c3.6%203.6%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-13%200-5-1.9-9.4-5.4-13z%22/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1em top 50%; background-size: .65em auto; padding-right: 2.5em; }
-        .setting-item select option { background-color: #050008; color: white; padding: 10px; }
-        .prayer-list-modal { width: 90%; max-width: 700px; background: rgba(10, 0, 20, 0.95); border: 2px solid var(--glow-color); border-radius: 10px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
-        .scrollable-list { max-height: 60vh; overflow-y: auto; margin-bottom: 20px; border: 1px solid rgba(0, 221, 255, 0.3); border-radius: 5px; padding: 5px; }
-        .prayer-list-item { padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: background-color 0.2s; font-size: 1.1em; }
-        .prayer-list-item:hover { background-color: rgba(0, 100, 255, 0.3); }
-        .prayer-list-item.active { background-color: var(--shefa-color); color: #000; font-weight: bold; }
-        .upgrade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 95%; max-width: 1200px; max-height: 70vh; overflow-y: auto; padding: 15px; }
-        .upgrade-card { background: rgba(10, 20, 40, 0.8); border: 2px solid var(--glow-color); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 15px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .upgrade-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px var(--glow-color); }
-        .upgrade-card h3 { font-size: 1.5em; color: var(--shefa-color); margin: 0; text-align: center; }
-        .upgrade-card p { font-family: 'Arial', sans-serif; font-size: 1em; margin: 0; flex-grow: 1; }
-        .upgrade-card .level-display { font-size: 1.1em; text-align: center; color: var(--glow-color); }
-        .upgrade-button { padding: 10px; font-size: 1.2em; font-family: 'Orbitron', sans-serif; text-transform: uppercase; color: white; background: linear-gradient(145deg, #2a9d8f, #264653); border: 1px solid #77e6d9; border-radius: 5px; cursor: pointer; transition: all 0.2s ease; }
-        .upgrade-button:hover { transform: scale(1.05); box-shadow: 0 0 15px #77e6d9; }
-        .upgrade-button.disabled { background: linear-gradient(145deg, #555, #222); color: #888; border-color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
-        .upgrade-button.maxed { background: linear-gradient(145deg, #ffd700, #b8860b); color: black; border-color: #fff; cursor: default; }
-        #globalErrorNotifier { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(200, 0, 0, 0.9); color: white; padding: 15px 25px; border-radius: 8px; z-index: 9999; font-family: 'Arial', sans-serif; font-size: 1.2em; box-shadow: 0 0 15px black; display: none; text-align: center; }
-    </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#090718">
+	<title>Merkava — War of the Sparks</title>
+	<link rel="icon" href="data:,">
+	<link rel="stylesheet" href="./styles/game.css?version=20260713-8">
 </head>
 <body>
-    <video id="webcamFeed" autoplay playsinline muted style="display:none;"></video>
-    <div id="flashOverlay"></div>
-    <div id="ui-root"></div>
-
-    <!-- The Vertex Shaders, the sacred geometry that shapes what is to come. -->
-    <script id="cosmicRiverVertexShader" type="x-shader/x-vertex">
-        uniform float uTime;
-        uniform float uSpeed;
-        varying vec2 vUv;
-        void main() {
-            vUv = uv;
-            vec3 pos = position;
-            float wave1 = sin(pos.x * 2.5 + uTime * uSpeed * 0.4) * 0.07;
-            float wave2 = sin(pos.z * 1.8 + uTime * uSpeed * 0.6) * 0.07;
-            pos.y += (wave1 + wave2) * 0.5;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-        }
-    </script>
-
-    <!-- The Fragment Shaders, the divine light that gives color and form to the void. -->
-    <script id="cosmicRiverFragmentShader" type="x-shader/x-fragment">
-        uniform float uTime;
-        uniform float uSpeed;
-        uniform vec3 uColor;
-        
-        varying vec2 vUv;
-
-        float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123); }
-        float noise(vec2 st) {
-            vec2 i = floor(st); vec2 f = fract(st);
-            float a = random(i); float b = random(i + vec2(1.0, 0.0));
-            float c = random(i + vec2(0.0, 1.0)); float d = random(i + vec2(1.0, 1.0));
-            vec2 u = f * f * (3.0 - 2.0 * f);
-            return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x;
-        }
-
-        void main() {
-            vec2 uv = vUv;
-            uv.y -= uTime * uSpeed * 0.07;
-            vec2 noiseUv = uv * vec2(1.0, 4.0) + vec2(0.0, uTime * uSpeed * 0.1);
-            float n = noise(noiseUv * 5.0) * 0.5 + noise(noiseUv * 15.0) * 0.2;
-            vec3 riverColor = uColor + vec3(0.0, 0.0, 0.1) + n * 0.1;
-            vec2 roadUv = vUv;
-            roadUv.y = fract(roadUv.y * 10.0 + uTime * uSpeed * 0.15);
-            float laneWidth = 0.08;
-            float lanePos1 = 0.5 - laneWidth/2.0; float lanePos2 = 0.5 + laneWidth/2.0;
-            float line = smoothstep(0.4, 0.41, roadUv.y) - smoothstep(0.5, 0.51, roadUv.y);
-            float leftDash = step(lanePos1, roadUv.x) - step(lanePos1 + 0.01, roadUv.x);
-            float rightDash = step(lanePos2, roadUv.x) - step(lanePos2 + 0.01, roadUv.x);
-            vec3 finalColor = riverColor;
-            if ((leftDash > 0.0 || rightDash > 0.0) && line > 0.0) {
-                finalColor = mix(finalColor, vec3(1.0, 0.84, 0.0), 0.7);
-            }
-            gl_FragColor = vec4(finalColor, 1.0);
-        }
-    </script>
-    <script id="torahPortalShader" type="x-shader/x-fragment">
-        uniform float uTime; varying vec2 vUv;
-        float random(in vec2 _st) { return fract(sin(dot(_st.xy, vec2(12.9898,78.233))) * 43758.5453123); }
-        float noise(in vec2 _st) { vec2 i = floor(_st); vec2 f = fract(_st); float a = random(i); float b = random(i + vec2(1.0, 0.0)); float c = random(i + vec2(0.0, 1.0)); float d = random(i + vec2(1.0, 1.0)); vec2 u = f * f * (3.0 - 2.0 * f); return mix(a, b, u.x) + (c - a)*u.y*(1.0-u.x) + (d - b)*u.y*u.x; }
-        #define NUM_OCTAVES 5
-        float fbm(in vec2 _st) { float v = 0.0; float a = 0.5; vec2 shift = vec2(100.0); mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50)); for (int i = 0; i < NUM_OCTAVES; ++i) { v += a * noise(_st); _st = rot * _st * 2.0 + shift; a *= 0.5; } return v; }
-        void main() { vec2 st = vUv; st.x *= 1.0 + (st.y - 1.0) * 0.1; st.x += (st.y - 1.0) * -0.1; vec2 q = vec2(0.); q.x = fbm( st + 0.1*uTime); q.y = fbm( st + vec2(1.0)); vec2 r = vec2(0.); r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*uTime ); r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*uTime); float f = fbm(st+r); vec3 color = mix(vec3(0.1,0.6,0.66), vec3(0.66,0.66,0.5), clamp((f*f)*4.0,0.0,1.0)); color = mix(color, vec3(0,0,0.16), clamp(length(q),0.0,1.0)); color = mix(color, vec3(0.66,1,1), clamp(length(r.x),0.0,1.0)); gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color, 1.); }
-    </script>
-    
-    <script type="module">
-        /**
-         * @description The bootstrap sequence. This is the first spark in the void.
-         * It imports the Four Worlds and commands Assiah, the World of Action, to begin the process of creation.
-         * This script is the only logic that resides in the foundational stone, ensuring a clean separation of concerns.
-         */
-        import { ATZILUT } from './Atzilus.js';
-        import { BERIAH } from './Beriah.js';
-        import { YETZIRAH } from './Yetzirah.js';
-        import { ASSIAH } from './Assiyah/index.js';
-     window.ASSIAH=ASSIAH
-
-        function main() {
-            try {
-                // Assiah, the world of action, is the entry point. It will receive the other worlds
-                // as its divine tools to orchestrate the Tikkun.
-                ASSIAH.init(ATZILUT, BERIAH, YETZIRAH);
-            } catch (error) {
-                console.error("Gmar Tikkun failed to initialize:", error);
-                document.body.innerHTML = `<div style="color:white; padding: 20px; font-family: monospace; text-align: center;">
-                    <h1>A CRITICAL FLAW IN CREATION</h1>
-                    <p>The worlds could not be formed. The journey cannot begin.</p>
-                    <p>Consult the sacred logs (console) for the shattered fragments of the blueprint.</p>
-                    <p style="color: red;">Error: ${error.message}</p>
-                </div>`;
-            }
-        }
-
-        // Let there be light.
-        main();
-    </script>
-    
-    <script src="/register.js"></script>
-      
+	<main id="gameShell">
+		<canvas id="gameCanvas" aria-label="Merkava raw WebGL battlefield"></canvas>
+		<div id="gateLabels" aria-hidden="true"></div>
+		<section id="hud" class="hud hidden" aria-live="polite">
+			<header class="campaign-strip">
+				<div>
+					<small id="modeName">CAMPAIGN</small>
+					<b id="worldName">ASSIYAH</b>
+					<span id="levelName">The Broken Road</span>
+				</div>
+				<div class="progress"><i id="levelFill"></i></div>
+				<button id="pauseButton" class="icon-button" aria-label="Pause">Ⅱ</button>
+			</header>
+			<div class="stat-grid">
+				<div><span>SPARKS</span><b id="troopCount">8</b></div>
+				<div><span>PRUTAHS</span><b id="prutahCount">0</b></div>
+				<div><span>COMBO</span><b id="comboCount">—</b></div>
+				<div><span>SHIELD</span><b id="shieldCount">0</b></div>
+			</div>
+			<div class="meter-row"><span>CH</span><div class="meter health"><i id="healthFill"></i></div><span id="healthText">100</span></div>
+			<div class="meter-row"><span>BL</span><div class="meter blessing"><i id="blessingFill"></i></div><span id="blessingText">0</span></div>
+			<div class="meter-row"><span>AB</span><div class="meter ability"><i id="abilityFill"></i></div><button id="abilityButton">LIGHT BURST</button></div>
+			<section id="bossHud" class="boss-hud hidden"><strong id="bossName"></strong><span id="bossPhase"></span><div class="meter boss"><i id="bossFill"></i></div></section>
+		</section>
+		<section id="startOverlay" class="overlay visible">
+			<div class="panel hero-panel">
+				<p class="eyebrow">MERKAVA</p>
+				<h1>WAR OF THE SPARKS</h1>
+				<p>Choose lanes. Build an army. Gather Prutahs. Cross or endlessly renew five worlds.</p>
+				<div class="bank">PERMANENT PRUTAHS <b id="bankedPrutahs">0</b></div>
+				<button id="continueButton" class="primary" hidden>CONTINUE RUN</button>
+				<button id="startButton" class="primary">BEGIN CAMPAIGN</button>
+				<button id="modesButton">CHOOSE MODE</button>
+				<button id="permanentButton">PERMANENT UPGRADES</button>
+				<button id="recordsButton">BEST RECORDS</button>
+				<p class="controls">A / D or arrows · drag / tap lanes · Space for ability · P to pause</p>
+			</div>
+		</section>
+		<section id="choiceOverlay" class="overlay">
+			<div class="panel choice-panel">
+				<p class="eyebrow" data-choice-subtitle></p>
+				<h2 data-choice-title>Choose</h2>
+				<div class="choice-list" data-choice-list></div>
+				<button data-choice-close class="primary">CONTINUE</button>
+			</div>
+		</section>
+		<section id="pauseOverlay" class="overlay">
+			<div class="panel compact-panel">
+				<h2>PAUSED</h2>
+				<label>Volume <input id="volumeInput" type="range" min="0" max="1" step="0.05"></label>
+				<label><input id="muteInput" type="checkbox"> Mute audio</label>
+				<label>Quality <select id="qualityInput"><option>low</option><option>medium</option><option selected>high</option></select></label>
+				<button id="resumeButton" class="primary">RETURN TO BATTLE</button>
+				<button id="resetSaveButton" class="danger">RESET SAVE</button>
+			</div>
+		</section>
+		<section id="gameOverOverlay" class="overlay">
+			<div class="panel compact-panel">
+				<p class="eyebrow" id="summaryTitle">RUN COMPLETE</p>
+				<h2 id="summaryWorld">THE ROAD CLOSES</h2>
+				<p id="finalScore"></p>
+				<p id="finalRewards"></p>
+				<button id="restartButton" class="primary">RIDE AGAIN</button>
+			</div>
+		</section>
+		<div id="notification" class="notification"></div>
+		<pre id="fatalError" class="fatal-error"></pre>
+	</main>
+	<script type="module" src="./src/main.js?version=20260713-8"></script>
 </body>
 </html>

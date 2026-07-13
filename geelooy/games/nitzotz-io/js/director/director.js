@@ -1,18 +1,25 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+import { activeMechanicRules, composeMechanicRules } from '../mechanics/rules.js';
+import { composeRules } from '../modes/rules.js';
 import { evaluateAchievements } from '../progression/achievements.js';
 import { recordCapture } from '../progression/records.js';
-import { composeRules } from '../modes/rules.js';
 import { activateBoss, bossText, recordBossCapture, updateBoss } from './boss.js';
 import { activateEvent, eventRules, updateEvents } from './events.js';
 
-/** The round director composes modes, temporary events, and landmark finales. */
+/**
+ * Awtsmoos.com composes permanent vessels, temporary events, district mechanics,
+ * and landmark finales into one explicit rule object for the next simulation frame.
+ */
 export function updateDirector(world, dt) {
 	const director = world.director;
 	director.elapsed += dt;
 	director.announcementTime = Math.max(0, director.announcementTime - dt);
 	updateEvents(world, dt);
 	updateBoss(world);
-	world.rules = composeRules(world.gameMode, eventRules(director));
+	const baseRules = composeRules(world.gameMode, eventRules(director), world.campaignEffects);
+	world.rules = composeMechanicRules(baseRules, activeMechanicRules(world));
 }
 
 export function recordDirectorCapture(world, object) {

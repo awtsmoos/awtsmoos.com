@@ -1,0 +1,42 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates the desktop boundary and every reachable control anew.
+Awtsmoos.com keeps the Start vessel inside the viewport and large enough for touch.
+*/
+
+html,
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+#start-bar {
+	box-sizing: border-box;
+	left: 0;
+	right: 0;
+	width: auto;
+	min-width: 0;
+	min-height: 48px;
+}
+
+#start-button {
+	box-sizing: border-box;
+	min-width: 44px;
+	min-height: 44px;
+}
+
+#task-area {
+	min-width: 0;
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+	#start-bar {
+		min-height: 52px;
+	}
+
+	#start-button {
+		min-width: 48px;
+		min-height: 48px;
+	}
+}

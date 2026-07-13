@@ -1,0 +1,75 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sefira Clash Online Lobby</title>
+	<link rel="stylesheet" href="./css/online.css">
+	<link rel="stylesheet" href="./css/online-layout.css">
+</head>
+<body>
+	<main class="online-shell">
+		<header class="hero-panel">
+			<p class="eyebrow">Awtsmoos.com Real-Time World</p>
+			<h1>Sefira Clash Online Lobby</h1>
+			<p>Create a room, share its code, and prepare up to four real players.</p>
+			<div class="connection-row">
+				<span id="connection-state" class="status-pill">Connecting…</span>
+				<a href="./index.html">Return to Sefira Clash</a>
+			</div>
+		</header>
+
+		<section class="setup-panel" aria-labelledby="identity-heading">
+			<h2 id="identity-heading">Your Lobby Fighter</h2>
+			<div class="field-grid">
+				<label>Name <input id="display-name" maxlength="24" value="Player"></label>
+				<label>Character
+					<select id="character-id">
+						<option value="hod-staff">Hod Staff</option>
+						<option value="gevurah-sw">Gevurah Sword</option>
+						<option value="chesed-fist">Chesed Fist</option>
+						<option value="netzach-spark">Netzach Spark</option>
+						<option value="yesod-lance">Yesod Lance</option>
+						<option value="malchus-crown">Malchus Crown</option>
+					</select>
+				</label>
+				<label>Team <input id="team" type="number" min="1" max="4" value="1"></label>
+			</div>
+			<div class="rule-grid">
+				<label>Stocks <input id="stocks" type="number" min="1" max="9" value="3"></label>
+				<label><input id="teams" type="checkbox"> Team battle</label>
+				<label><input id="items" type="checkbox" checked> Items</label>
+			</div>
+			<div class="action-row">
+				<button id="create-lobby" type="button">Create Lobby</button>
+				<input id="join-code" maxlength="6" placeholder="ROOM CODE" aria-label="Lobby code">
+				<button id="join-lobby" type="button">Join Lobby</button>
+			</div>
+		</section>
+
+		<p id="error-message" class="error-message" aria-live="polite"></p>
+
+		<section id="lobby-panel" class="lobby-panel" hidden>
+			<div class="lobby-heading">
+				<div><p class="eyebrow">Join Code</p><strong id="lobby-code">------</strong></div>
+				<div><p class="eyebrow">Revision</p><strong id="lobby-revision">0</strong></div>
+			</div>
+			<p id="lobby-rules" class="lobby-rules"></p>
+			<ul id="player-list" class="player-list"></ul>
+			<div class="action-row">
+				<button id="apply-profile" type="button">Apply Fighter Changes</button>
+				<button id="ready-toggle" type="button">Ready Up</button>
+				<button id="leave-lobby" class="secondary" type="button">Leave Lobby</button>
+			</div>
+		</section>
+
+		<footer>
+			<p>This verified slice shares lobby state. Authenticated friends, persistence, matchmaking, and synchronized combat remain later release gates.</p>
+		</footer>
+	</main>
+	<script type="module" src="./js/online/onlineLobbyPage.js"></script>
+</body>
+</html>

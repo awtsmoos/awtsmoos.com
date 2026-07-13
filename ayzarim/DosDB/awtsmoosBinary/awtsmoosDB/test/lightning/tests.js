@@ -3,8 +3,7 @@
 /**
  * @file test/lightning/tests.js
  * @chapter The Gates Of Verification
- * @description
- * One ordered data list. Every named vessel is executed by the strict runner.
+ * @description One ordered data list. Every named vessel is executed by the strict runner.
  */
 
 module.exports = [
@@ -35,6 +34,7 @@ module.exports = [
 	'pager_sparse_test.js',
 	'gc_verify_test.js',
 	'verified_free_list_test.js',
+	'verified_complement_reuse_test.js',
 	'verify_blob_tokens_test.js',
 	'strict_read_only_test.js',
 	'strict_read_only_virtual_fs_test.js',
@@ -45,7 +45,11 @@ module.exports = [
 	'vacuum_virtual_fs_test.js',
 	'vacuum_search_index_test.js',
 	'vector_bulk_load_test.js',
+	'vector_verified_complement_test.js',
 	'vacuum_vector_index_test.js',
+	'indexed_restart_mutation_test.js',
+	'map_root_split_test.js',
+	'search_bulk_reindex_test.js',
 	'wal_recovery_test.js',
 	'blob_fs_test.js',
 	'concurrent_text_test.js',

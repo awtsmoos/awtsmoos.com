@@ -1,17 +1,24 @@
-/*
-B"H
-Boruch Hashem
-Biezrash Hashem
-*/
-import { compileC } from './c/compiler.js';
-import { createCustomAsmApp } from './compiler_asm.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
+import { compileCProgram } from "./c/compiler.js";
+import { createCustomAsmApp } from "./compiler_asm.js";
+
+/**
+ * Reveals one PE artifact description from scratch-generated C assembly. The
+ * Awtsmoos creates compiler and linker as distinct vessels; Awtsmoos.com keeps
+ * this backend labeled as a browser-generated Windows x64 subset, not a host C.
+ */
 export function createCApp(source) {
-    const asmSource = compileC(source);
-    // Console log the generated ASM for debugging/transparency
-    console.log("--- GENERATED ASM FROM C ---");
-    console.log(asmSource);
-    
-    // Pass to ASM Compiler
-    return createCustomAsmApp(asmSource);
+	const result = compileCProgram(source);
+	const artifact = createCustomAsmApp(result.assembly);
+	return {
+		...artifact,
+		compilerEvidence: Object.freeze({
+			backend: result.backend,
+			evidenceClass: result.evidenceClass,
+			language: result.language
+		})
+	};
 }

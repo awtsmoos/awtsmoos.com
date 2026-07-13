@@ -1,4 +1,7 @@
 /* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos clothes each Awtsmoos.com command card in a readable vessel. */
 @layer awt.views {
 	.awt-command-deck-card {
 		position: relative;
@@ -10,9 +13,17 @@
 		padding: clamp(15px, 1.8vw, 20px);
 		border: 1px solid rgba(168, 202, 242, .14);
 		border-radius: 22px;
-		background: linear-gradient(155deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
+		background: linear-gradient(
+			155deg,
+			rgba(255, 255, 255, .07),
+			rgba(255, 255, 255, .025)
+		);
 		overflow: hidden;
 		transition: transform var(--awt-fast), border-color var(--awt-fast), background var(--awt-fast);
+	}
+
+	.awt-command-deck-card.is-wide {
+		grid-column: span 6;
 	}
 
 	.awt-command-deck-card::before {
@@ -25,14 +36,22 @@
 	}
 
 	.awt-command-deck-card.is-connected::before,
-	.awt-command-deck-card.is-live::before { background: var(--awt-green); }
-	.awt-command-deck-card.is-warning::before { background: var(--awt-gold); }
-	.awt-command-deck-card.is-steering::before { background: var(--awt-violet); }
+	.awt-command-deck-card.is-live::before {
+		background: var(--awt-green);
+	}
+
+	.awt-command-deck-card.is-warning::before {
+		background: var(--awt-gold);
+	}
+
+	.awt-command-deck-card.is-steering::before {
+		background: var(--awt-violet);
+	}
 
 	.awt-command-deck-card:hover {
 		transform: translateY(-3px);
 		border-color: rgba(94, 220, 255, .34);
-		background: linear-gradient(155deg, rgba(255, 255, 255, .095), rgba(255, 255, 255, .035));
+		background-color: rgba(255, 255, 255, .045);
 	}
 
 	.awt-deck-card-head,
@@ -41,10 +60,24 @@
 		display: grid;
 	}
 
-	.awt-deck-card-head { gap: 4px; }
-	.awt-deck-values { gap: 10px; align-content: start; }
-	.awt-deck-value { gap: 3px; min-width: 0; }
-	.awt-deck-card-head h4 { margin: 0; font-size: 1.15rem; }
+	.awt-deck-card-head {
+		gap: 4px;
+	}
+
+	.awt-deck-values {
+		gap: 10px;
+		align-content: start;
+	}
+
+	.awt-deck-value {
+		gap: 3px;
+		min-width: 0;
+	}
+
+	.awt-deck-card-head h4 {
+		margin: 0;
+		font-size: 1.15rem;
+	}
 
 	.awt-deck-card-head span,
 	.awt-deck-value span {
@@ -65,6 +98,18 @@
 		white-space: nowrap;
 	}
 
-	.awt-deck-values p { margin: 0; }
-	.awt-deck-open { min-height: 44px; border-radius: 14px; font-weight: 900; }
+	.awt-deck-values p {
+		margin: 0;
+	}
+
+	.awt-deck-open {
+		min-height: 44px;
+		border-radius: 14px;
+		font-weight: 900;
+	}
+
+	.awt-deck-open:focus-visible {
+		outline: 3px solid var(--awt-cyan);
+		outline-offset: 3px;
+	}
 }

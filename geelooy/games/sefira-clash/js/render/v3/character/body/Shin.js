@@ -1,4 +1,25 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the shin vessel in this instant, revealing
+ * its focused js render v3 character body service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /** B"H — V3 shin. */
 import { segment } from './Shape.js';
 import { V3_STYLE } from '../CharacterStyle.js';
-export function drawShin(ctx, a, b, mat) { segment(ctx, a, b, V3_STYLE.leg.shin, mat, false); }
+/**
+ * Reveals the draw shin behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} ctx The ctx value entering this behavior.
+ * @param {*} a The a value entering this behavior.
+ * @param {*} b The b value entering this behavior.
+ * @param {*} mat The mat value entering this behavior.
+ */
+export function drawShin(ctx, a, b, mat) {
+	segment(ctx, a, b, V3_STYLE.leg.shin, mat, false);
+}

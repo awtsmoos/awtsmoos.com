@@ -1,3 +1,13 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the adventure levels vessel in this instant, revealing
+ * its focused js data adventure service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+import { ADVENTURE_WORLDS, worldForGate } from './adventureWorlds.js';
 import { level01 } from './levels/level01.js';
 import { level02 } from './levels/level02.js';
 import { level03 } from './levels/level03.js';
@@ -48,12 +58,96 @@ import { level47 } from './levels/level47.js';
 import { level48 } from './levels/level48.js';
 import { level49 } from './levels/level49.js';
 import { level50 } from './levels/level50.js';
+import { level51 } from './levels/level51.js';
+import { level52 } from './levels/level52.js';
+import { level53 } from './levels/level53.js';
+import { level54 } from './levels/level54.js';
+import { level55 } from './levels/level55.js';
+import { level56 } from './levels/level56.js';
+import { level57 } from './levels/level57.js';
+import { level58 } from './levels/level58.js';
+import { level59 } from './levels/level59.js';
+import { level60 } from './levels/level60.js';
 
-/** B"H — Adventure registry: fifty hand-authored level files, no loop-forged rows. */
-export const ADVENTURE_MAPS = [
-  level01, level02, level03, level04, level05, level06, level07, level08, level09, level10,
-  level11, level12, level13, level14, level15, level16, level17, level18, level19, level20,
-  level21, level22, level23, level24, level25, level26, level27, level28, level29, level30,
-  level31, level32, level33, level34, level35, level36, level37, level38, level39, level40,
-  level41, level42, level43, level44, level45, level46, level47, level48, level49, level50
+/**
+ * Sixty explicit campaign gates grouped into ten worlds of six.
+ * No level geometry is fabricated here: the Awtsmoos reveals each authored file
+ * through this registry, then world metadata gives the long road readable shape.
+ */
+const LEVELS = [
+	level01,
+	level02,
+	level03,
+	level04,
+	level05,
+	level06,
+	level07,
+	level08,
+	level09,
+	level10,
+	level11,
+	level12,
+	level13,
+	level14,
+	level15,
+	level16,
+	level17,
+	level18,
+	level19,
+	level20,
+	level21,
+	level22,
+	level23,
+	level24,
+	level25,
+	level26,
+	level27,
+	level28,
+	level29,
+	level30,
+	level31,
+	level32,
+	level33,
+	level34,
+	level35,
+	level36,
+	level37,
+	level38,
+	level39,
+	level40,
+	level41,
+	level42,
+	level43,
+	level44,
+	level45,
+	level46,
+	level47,
+	level48,
+	level49,
+	level50,
+	level51,
+	level52,
+	level53,
+	level54,
+	level55,
+	level56,
+	level57,
+	level58,
+	level59,
+	level60
 ];
+
+export const ADVENTURE_MAPS = LEVELS.map(level => {
+	const world = worldForGate(level.adventure?.no || 1);
+	return {
+		...level,
+		world,
+		adventure: {
+			...level.adventure,
+			worldNo: world?.no || 1,
+			worldName: world?.name || 'Malchus Meadow'
+		}
+	};
+});
+
+export { ADVENTURE_WORLDS };

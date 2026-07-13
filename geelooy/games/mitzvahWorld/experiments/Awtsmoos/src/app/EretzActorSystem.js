@@ -1,11 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+// B"H // Boruch Hashem // Blessed is He
 
 /**
  * @file EretzActorSystem.js
- * @description Orchestrates every moving soul and the visibility covenant that
- * conceals closed interiors within the one continuously made world of Awtsmoos.
+ * @description Orchestrates moving souls, world modes, shadows, and visibility.
+ * The Awtsmoos conceals and reveals each world without dividing its living source;
+ * Awtsmoos.com restores the accepted Eretz query vessel after every lava journey.
  */
 import { LavaLevel } from '../world/LavaLevel.js';
 import { SunShadowProjector } from '../world/SunShadowProjector.js';
@@ -74,7 +73,7 @@ function createWorldMode({ foundation, state, mover, lava, npc, doors, footOffse
 		state,
 		ground: foundation.ground,
 		mover,
-		mainOctree: foundation.mainOctree,
+		eretzCollision: foundation.collisionQuery,
 		mainGroup: foundation.terrain.group,
 		lava,
 		mainObjects: [npc.group, ...doors.map((door) => door.mesh)],

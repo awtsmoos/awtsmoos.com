@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-05-26T17:32:00.792Z",
+  "generatedAt": "2026-07-13T16:07:35.516Z",
   "nativeTimeoutMs": 2400,
+  "hardSuiteTimeoutMs": 25000,
+  "maxNativeLaunches": 8,
+  "maxCases": 8,
   "results": [
     {
       "name": "standard-console",
       "mode": "console",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\standard-console.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-console.exe",
       "bytes": 1024,
       "emulated": {
         "ok": true,
@@ -30,21 +33,21 @@
           "B\"H generated console test",
           "Sleep(1500) skipped in virtual time."
         ],
-        "windows": []
+        "windows": [],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": 0,
-        "signal": null,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-console.exe EACCES",
         "killedByHarness": false,
-        "stdout": "B\"H generated console test\r\n",
+        "stdout": "",
         "stderr": ""
       }
     },
     {
       "name": "standard-gui",
       "mode": "gui",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\standard-gui.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-gui.exe",
       "bytes": 1024,
       "emulated": {
         "ok": true,
@@ -70,13 +73,13 @@
             "title": "Awtsmoos GUI",
             "body": "B\"H generated GUI test"
           }
-        ]
+        ],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": null,
-        "signal": "SIGTERM",
-        "killedByHarness": true,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-gui.exe EACCES",
+        "killedByHarness": false,
         "stdout": "",
         "stderr": ""
       }
@@ -84,7 +87,7 @@
     {
       "name": "asm-hello",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-hello.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-hello.exe",
       "bytes": 1024,
       "emulated": {
         "ok": true,
@@ -110,13 +113,13 @@
             "title": "B\"H",
             "body": "Welcome to Awtsmoos ASM!"
           }
-        ]
+        ],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": null,
-        "signal": "SIGTERM",
-        "killedByHarness": true,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-hello.exe EACCES",
+        "killedByHarness": false,
         "stdout": "",
         "stderr": ""
       }
@@ -124,7 +127,7 @@
     {
       "name": "asm-loop",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-loop.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-loop.exe",
       "bytes": 1024,
       "emulated": {
         "ok": true,
@@ -157,21 +160,21 @@
           ".",
           "Sleep(200) skipped in virtual time."
         ],
-        "windows": []
+        "windows": [],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": 0,
-        "signal": null,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-loop.exe EACCES",
         "killedByHarness": false,
-        "stdout": ".....",
+        "stdout": "",
         "stderr": ""
       }
     },
     {
       "name": "asm-file",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-file.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-file.exe",
       "bytes": 1024,
       "emulated": {
         "ok": true,
@@ -197,12 +200,12 @@
           "WriteFile RAM created_by_asm.txt: B\"H - Existence generated from nothingness.",
           "CloseHandle RAM created_by_asm.txt (43 chars)"
         ],
-        "windows": []
+        "windows": [],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": 0,
-        "signal": null,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-file.exe EACCES",
         "killedByHarness": false,
         "stdout": "",
         "stderr": ""
@@ -211,16 +214,16 @@
     {
       "name": "asm-window",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-window.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-window.exe",
       "bytes": 1536,
       "emulated": {
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Used compiler window fallback.",
+          "message": "Executed compiler x64 subset.",
           "runtime": {
-            "fallback": true,
-            "reason": "Unsupported opcode 0xd1 at 0x10ec"
+            "steps": 164,
+            "halted": true
           }
         },
         "lines": [
@@ -242,25 +245,20 @@
           "IAT 0x11f0 -> USER32.dll!PostQuitMessage",
           "RegisterClassA -> 101",
           "ShowWindow(102, 5)",
-          "DispatchMessageA(8388456)",
-          "Fallback reason: Unsupported opcode 0xd1 at 0x10ec"
+          "DispatchMessageA(8388456)"
         ],
         "windows": [
           {
             "title": "B\"H - Native Window",
             "body": "CreateWindowExA mapped this native window into JS."
-          },
-          {
-            "title": "B\"H - Native Window",
-            "body": "Compiler-generated Win32 window mapped semantically."
           }
-        ]
+        ],
+        "draws": []
       },
       "native": {
-        "ok": true,
-        "code": null,
-        "signal": "SIGTERM",
-        "killedByHarness": true,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-window.exe EACCES",
+        "killedByHarness": false,
         "stdout": "",
         "stderr": ""
       }
@@ -268,16 +266,16 @@
     {
       "name": "asm-draw",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-draw.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-draw.exe",
       "bytes": 2048,
       "emulated": {
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Used compiler window fallback.",
+          "message": "Executed compiler x64 subset.",
           "runtime": {
-            "fallback": true,
-            "reason": "Unsupported opcode 0x0 at 0x10ee"
+            "steps": 164,
+            "halted": true
           }
         },
         "lines": [
@@ -308,26 +306,32 @@
           "RegisterClassA -> 101",
           "ShowWindow(102, 5)",
           "DispatchMessageA(8388456)",
+          "FillRect(hdc=8388456)",
           "GDI TextOutA: B\"H - Awtsmoos Generated This!",
-          "GDI SetPixel: diagonal pixel ritual rendered symbolically.",
-          "Fallback reason: Unsupported opcode 0x0 at 0x10ee"
+          "GDI SetPixel: diagonal pixel ritual rendered symbolically."
         ],
         "windows": [
           {
             "title": "B\"H - Drawing",
             "body": "CreateWindowExA mapped this native window into JS."
+          }
+        ],
+        "draws": [
+          {
+            "type": "text",
+            "text": "B\"H - Awtsmoos Generated This!",
+            "x": 50,
+            "y": 50
           },
           {
-            "title": "B\"H - Drawing",
-            "body": "B\"H - Awtsmoos Generated This!"
+            "type": "pixel-line"
           }
         ]
       },
       "native": {
-        "ok": true,
-        "code": null,
-        "signal": "SIGTERM",
-        "killedByHarness": true,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-draw.exe EACCES",
+        "killedByHarness": false,
         "stdout": "",
         "stderr": ""
       }
@@ -335,16 +339,16 @@
     {
       "name": "asm-triangle",
       "mode": "asm",
-      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-triangle.exe",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-triangle.exe",
       "bytes": 3072,
       "emulated": {
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Used compiler window fallback.",
+          "message": "Executed compiler x64 subset.",
           "runtime": {
-            "fallback": true,
-            "reason": "Unsupported opcode 0xa at 0x10fb"
+            "steps": 241,
+            "halted": true
           }
         },
         "lines": [
@@ -376,25 +380,30 @@
           "IAT 0x16d8 -> GDI32.dll!DeleteDC",
           "RegisterClassA -> 102",
           "GetDC(103) -> 104",
-          "GDI triangle/DIB pipeline rendered symbolically.",
-          "Fallback reason: Unsupported opcode 0xa at 0x10fb"
+          "CreateCompatibleDC(104) -> 105",
+          "CreateDIBSection -> bitmap 106, pixels 107",
+          "SelectObject(dc=105, obj=106)",
+          "ShowWindow(103, 5)",
+          "SetTimer(hwnd=103, id=1, ms=16)",
+          "DispatchMessageA(8388456)",
+          "GDI triangle/DIB pipeline rendered symbolically."
         ],
         "windows": [
           {
             "title": "B\"H - Rotating Triangle",
             "body": "CreateWindowExA mapped this native window into JS."
-          },
+          }
+        ],
+        "draws": [
           {
-            "title": "B\"H - Rotating Triangle",
-            "body": "Compiler-generated Win32 window mapped semantically."
+            "type": "triangle"
           }
         ]
       },
       "native": {
-        "ok": true,
-        "code": null,
-        "signal": "SIGTERM",
-        "killedByHarness": true,
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-triangle.exe EACCES",
+        "killedByHarness": false,
         "stdout": "",
         "stderr": ""
       }

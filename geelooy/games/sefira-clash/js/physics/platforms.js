@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the platforms vessel in this instant, revealing
+ * its focused js physics service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { platformLanding } from '../core/collision.js';
 
 /**
@@ -14,24 +23,25 @@ import { platformLanding } from '../core/collision.js';
  * @returns {void}
  */
 export function resolvePlatforms(f, map) {
-  f.grounded = false;
-  f.dropTimer = Math.max(0, (f.dropTimer || 0) - 1);
-  for (const p of map.platforms) {
-    if (!platformLanding(f, p)) continue;
-    landOnPlatform(f, p);
-  }
+	f.grounded = false;
+	f.dropTimer = Math.max(0, (f.dropTimer || 0) - 1);
+	for (const p of map.platforms) {
+		if (!platformLanding(f, p)) continue;
+		landOnPlatform(f, p);
+	}
 }
 
 function landOnPlatform(f, p) {
-  const wasFast = f.fastFalling;
-  f.y = p.y;
-  f.vy = 0;
-  f.grounded = true;
-  f.fastFalling = false;
-  f.jumpsUsed = 0;
-  f.coyote = 7;
-  f.dropPlatformY = null;
-  f.currentPlatform = p;
-  f.platformWidth = p.w;
-  if (f.attack && !f.attack.landedSafe && wasFast) f.landingLag = Math.max(f.landingLag || 0, f.attack.landingLag || 8);
+	const wasFast = f.fastFalling;
+	f.y = p.y;
+	f.vy = 0;
+	f.grounded = true;
+	f.fastFalling = false;
+	f.jumpsUsed = 0;
+	f.coyote = 7;
+	f.dropPlatformY = null;
+	f.currentPlatform = p;
+	f.platformWidth = p.w;
+	if (f.attack && !f.attack.landedSafe && wasFast)
+		f.landingLag = Math.max(f.landingLag || 0, f.attack.landingLag || 8);
 }

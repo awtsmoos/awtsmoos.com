@@ -1,10 +1,29 @@
-/* B"H — System accessibility preferences remain sovereign. */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos honors the reader's chosen vessel; Awtsmoos.com yields motion and color to system accessibility truth.
+*/
 @media (forced-colors: active) {
 	.g-panel,
 	.g-card,
 	.g-rail,
 	.g-topbar,
-	.g-dock {
+	.g-dock,
+	.g-context-ribbon,
+	.g-context-parent,
+	.g-context-action {
 		border: 1px solid CanvasText;
+	}
+
+	.g-context-state-label {
+		color: CanvasText;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-context-ribbon,
+	.g-context-ribbon * {
+		scroll-behavior: auto;
+		transition: none;
 	}
 }

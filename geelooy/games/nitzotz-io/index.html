@@ -1,4 +1,6 @@
 <!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,15 +9,14 @@
 	<meta name="theme-color" content="#050719">
 	<title>Nitzotz.io — Procedural Kabbalah Metropolis</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23050719' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="./style.css?v=20260713_visual_rebuild_2">
 </head>
 <body>
 	<canvas id="game" aria-label="Nitzotz.io procedural city arena"></canvas>
-
 	<header class="hud" aria-live="polite">
 		<div class="brand-row">
 			<div class="brand"><b>Nitzotz.io</b><span id="levelText">Level 1</span></div>
-			<button id="pauseBtn" class="mini-button">PAUSE</button>
+			<button id="pauseBtn" class="mini-button" type="button">PAUSE</button>
 		</div>
 		<div class="primary-stats">
 			<div class="stat timer"><small>TIME</small><strong id="timeText">100</strong></div>
@@ -23,66 +24,72 @@
 			<div class="stat"><small>MASS</small><strong id="massText">25</strong></div>
 		</div>
 		<section class="mission">
-			<div class="mission-main">
-				<small id="sefText">Malchus</small>
-				<strong id="objectiveText">Reach the target mass</strong>
-			</div>
+			<div class="mission-main"><small id="sefText">Malchus</small><strong id="objectiveText">Reach the target mass</strong></div>
 			<span id="progressText">25 / 390</span>
 			<meter id="sparkMeter" min="0" max="1" value="0"></meter>
 			<div class="bonus-line"><b id="bonusText">Clear the district</b><span id="bonusProgressText">0 / 16</span></div>
 		</section>
 		<div class="director-strip">
-			<span id="modeText">CLASSIC REVELATION</span>
-			<span id="eventText">CITY QUIET</span>
-			<span id="bossText">LANDMARK DORMANT</span>
-			<span id="rivalText">RIVALS SCANNING</span>
-			<span id="achievementText">0 ACHIEVEMENTS</span>
+			<span id="modeText">CLASSIC REVELATION</span><span id="eventText">CITY QUIET</span>
+			<span id="bossText">LANDMARK DORMANT</span><span id="rivalText">RIVALS SCANNING</span>
+			<span id="achievementText">0 ACHIEVEMENTS</span><span id="sparkHudText">0 SPARKS</span>
 		</div>
 		<div class="status-strip">
-			<span>Combo <b id="comboText">x1.0</b></span>
-			<span>Best <b id="bestText">0</b></span>
-			<span id="powerText">NO ACTIVE POWER</span>
-			<span id="districtText">BUILD A DISTRICT CHAIN</span>
+			<span>Combo <b id="comboText">x1.0</b></span><span>Best <b id="bestText">0</b></span>
+			<span id="powerText">NO ACTIVE POWER</span><span id="districtText">BUILD A DISTRICT CHAIN</span>
 		</div>
 		<p id="message">B'H · enter the generated metropolis.</p>
 	</header>
-
 	<aside class="right-rail">
 		<section class="leaderboard-card"><h2>City Ranking</h2><div id="leaderboard"></div></section>
 		<canvas id="map" aria-label="complete arena minimap"></canvas>
 		<div class="desktop-help"><b>WASD</b> MOVE · <b>SPACE</b> SURGE · <b>M</b> MODE · <b>P</b> PAUSE</div>
 	</aside>
-
 	<section id="overlay" class="overlay">
 		<div class="overlay-panel">
 			<p class="eyebrow">B'H · persistent city · living rivals · procedural revelation</p>
 			<h1 id="overlayTitle">Malchus Courtyard</h1>
 			<div id="overlayStars" class="stars">☆☆☆</div>
-			<p id="overlayText">Consume generated street objects, traffic, buildings, and landmarks.</p>
+			<p id="overlayText">Consume generated plants, streets, traffic, buildings, and landmarks.</p>
+			<div class="campaign-ledger"><span id="campaignSummary">0 / 200 DISTRICTS</span><span id="campaignSpark">0 SPARKS</span></div>
 			<section class="mode-gate" aria-label="arena mode">
 				<div class="mode-heading">
 					<div><small>ARENA MODE</small><strong id="modeDescription">Classic Revelation</strong></div>
-					<button id="modeCycleBtn" class="button ghost">CYCLE MODE · M</button>
+					<button id="modeCycleBtn" class="button ghost" type="button">CYCLE MODE · M</button>
 				</div>
 				<div id="modeSelect" class="mode-select"></div>
 			</section>
-			<div id="levelSelect" class="level-select"></div>
+			<section class="campaign-section">
+				<div class="campaign-section-heading"><h2>Campaign Chapters</h2><p>Twenty deterministic districts per chapter</p></div>
+				<div id="chapterSelect" class="chapter-select"></div>
+			</section>
+			<section class="campaign-section">
+				<div class="campaign-section-heading"><h2>Districts</h2><p>Choose any unlocked arena</p></div>
+				<div id="levelSelect" class="level-select"></div>
+			</section>
+			<section class="campaign-section">
+				<div class="campaign-section-heading"><h2>Permanent Upgrades</h2><p>Spend sparks across saved runs</p></div>
+				<div id="shopGrid" class="shop-grid"></div>
+			</section>
+			<section class="campaign-section">
+				<div class="campaign-section-heading"><h2>City Quests</h2><p>Optional persistent objectives</p></div>
+				<div id="questList" class="quest-list"></div>
+			</section>
 			<div class="hero-actions">
-				<button id="startBtn" class="button primary">ENTER DISTRICT</button>
-				<button id="restartBtn" class="button ghost">REGENERATE</button>
+				<button id="startBtn" class="button primary" type="button">ENTER DISTRICT</button>
+				<button id="restartBtn" class="button ghost" type="button">REGENERATE</button>
 			</div>
 			<div class="settings" aria-label="quality">
-				<button data-perf="low" class="button chip"><b>Smooth</b><span>fewer models</span></button>
-				<button data-perf="medium" class="button chip"><b>Balanced</b><span>dense city</span></button>
-				<button data-perf="high" class="button chip"><b>Extreme</b><span>full metropolis</span></button>
-				<button id="hapticBtn" class="button chip"><b>Haptics</b><span>impact</span></button>
-				<button id="postfxBtn" class="button chip"><b>PostFX</b><span>cinematic</span></button>
+				<button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>fewer models</span></button>
+				<button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>dense city</span></button>
+				<button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>full metropolis</span></button>
+				<button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>impact</span></button>
+				<button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button>
 			</div>
 		</div>
 	</section>
-
 	<div id="stick"><span>MOVE</span><i></i></div>
-	<button id="pulse"><b>SURGE</b><span>OHR</span></button>
-	<script type="module" src="./js/main.js?v=20260712_arena_director"></script>
+	<button id="pulse" type="button"><b>SURGE</b><span>OHR</span></button>
+	<script type="module" src="./js/main.js?v=20260713_visual_rebuild_2"></script>
 </body>
 </html>

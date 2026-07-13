@@ -2,10 +2,10 @@
 
 /**
  * @file api/vector/hnsw/registry.js
- * @chapter Detached Builds Reuse Intermediate Bodies While Linked Mutations Wait
+ * @chapter One Generation Writes Every Final Node Exactly Once
  * @description
- * Supports two safe registry transactions: detached construction may retire each
- * superseded body immediately, while linked mutation retires only after commit.
+ * Keeps dirty graph nodes authoritative in memory, seals each final body once,
+ * links one registry generation, and only then retires original persisted bodies.
  */
 
 const pointerOps = require('./registryPointers.js');
@@ -15,12 +15,11 @@ class HNSWRegistry {
 		this.hnsw = hnsw;
 		this.handle = handle;
 		this.cache = new Map();
+		this.dirtyNodes = new Map();
 		this._ptrs = [];
 		this.initialized = false;
 		this.bulk = false;
-		this.detached = false;
 		this.bulkOriginal = null;
-		this.bulkRetired = [];
 	}
 
 	init() {
@@ -29,48 +28,49 @@ class HNSWRegistry {
 		this.initialized = true;
 	}
 
-	beginBulk(options = {}) {
+	beginBulk() {
 		this.init();
 		if (this.bulk) return;
 		this.bulk = true;
-		this.detached = options.detached === true;
 		this.bulkOriginal = this._ptrs.slice();
-		this.bulkRetired = [];
+		this.dirtyNodes.clear();
 	}
 
 	commitBulk() {
 		if (!this.bulk) return;
-		pointerOps.replace(this.hnsw, this.handle, this._ptrs);
-		if (!this.detached) {
-			for (const pair of this.bulkRetired) {
-				pointerOps.release(this.hnsw, pair.previous, pair.current);
+		const written = [];
+		try {
+			for (const [id, node] of this.sortedDirtyNodes()) {
+				const pointer = this.hnsw.storage.saveNode(node);
+				node.ptr = pointer;
+				this._ptrs[id] = pointer;
+				written.push(pointer);
 			}
+			pointerOps.replace(this.hnsw, this.handle, this._ptrs);
+		} catch (error) {
+			this.releaseUnlinked(written);
+			this.restoreOriginalState();
+			throw error;
 		}
+		this.retireOriginalBodies();
 		this.clearBulkState();
 	}
 
 	abortBulk() {
-		if (this.detached) this.releaseDetachedCurrentBodies();
-		if (this.bulkOriginal) this._ptrs = this.bulkOriginal;
+		this.restoreOriginalState();
+	}
+
+	restoreOriginalState() {
+		if (this.bulkOriginal) this._ptrs = this.bulkOriginal.slice();
+		this.dirtyNodes.clear();
 		this.cache.clear();
 		this.clearBulkState();
 	}
 
 	clearBulkState() {
 		this.bulk = false;
-		this.detached = false;
 		this.bulkOriginal = null;
-		this.bulkRetired = [];
-	}
-
-	releaseDetachedCurrentBodies() {
-		for (let id = 0; id < this._ptrs.length; id++) {
-			const current = this._ptrs[id];
-			const original = this.bulkOriginal?.[id];
-			if (current && (!original || !current.equals(original))) {
-				pointerOps.release(this.hnsw, current, original);
-			}
-		}
+		this.dirtyNodes.clear();
 	}
 
 	count() {
@@ -81,6 +81,7 @@ class HNSWRegistry {
 	getNode(id) {
 		this.init();
 		if (!Number.isInteger(id) || id < 0 || id >= this._ptrs.length) return null;
+		if (this.dirtyNodes.has(id)) return this.dirtyNodes.get(id);
 		if (this.cache.has(id)) return this.cache.get(id);
 		const pointer = this._ptrs[id];
 		if (!Buffer.isBuffer(pointer)) return null;
@@ -96,22 +97,36 @@ class HNSWRegistry {
 
 	saveNode(node) {
 		this.init();
+		if (this.bulk) {
+			if (node.id >= this._ptrs.length) this._ptrs.length = node.id + 1;
+			this.dirtyNodes.set(node.id, node);
+			this.cacheNode(node.id, node);
+			return node.ptr || this._ptrs[node.id] || null;
+		}
 		const previous = this._ptrs[node.id];
 		const pointer = this.hnsw.storage.saveNode(node);
 		node.ptr = pointer;
 		this._ptrs[node.id] = pointer;
 		this.cacheNode(node.id, node);
-		if (!this.bulk) pointerOps.persist(this.hnsw, this.handle, node.id, pointer);
-		if (previous) this.retirePrevious(previous, pointer);
+		pointerOps.persist(this.hnsw, this.handle, node.id, pointer);
+		if (previous) pointerOps.release(this.hnsw, previous, pointer);
 		return pointer;
 	}
 
-	retirePrevious(previous, current) {
-		if (this.bulk && !this.detached) {
-			this.bulkRetired.push({ previous, current });
-			return;
+	sortedDirtyNodes() {
+		return Array.from(this.dirtyNodes.entries()).sort((left, right) => left[0] - right[0]);
+	}
+
+	retireOriginalBodies() {
+		for (const [id] of this.sortedDirtyNodes()) {
+			const previous = this.bulkOriginal?.[id];
+			const current = this._ptrs[id];
+			if (previous) pointerOps.release(this.hnsw, previous, current);
 		}
-		pointerOps.release(this.hnsw, previous, current);
+	}
+
+	releaseUnlinked(pointers) {
+		for (const pointer of pointers) pointerOps.release(this.hnsw, pointer, null);
 	}
 }
 

@@ -1,44 +1,57 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-function tabId() {
-  const key = "awtsmoos.code.tabTunnelId";
-  let id = sessionStorage.getItem(key);
-  if (!id) {
-    id = "code-tab-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
-    sessionStorage.setItem(key, id);
-  }
-  return id;
-}
+import { State } from "../state.js";
+import { readCodeTunnelPresence } from "../status/tunnelPresence.js";
+import { BrowserTunnelAgent } from "./browser-agent.js";
 
 /**
- * B"H
- * Chapter 1: Every editor tab opened its eye and became a small tunnel-flame.
- * This does not grant filesystem power by itself; it announces a workspace
- * vessel that a higher tunnel-control mesh can bind to real permissions.
- *
- * @param {object} context Optional workspace context.
- * @returns {{id:string,kind:string,startedAt:number}} Registration record.
+ * The Awtsmoos keeps the legacy Apps Code doorway attached to the one real
+ * browser-tunnel singleton. Awtsmoos.com gains compatibility without a duplicate socket.
  */
-export function registerCodeTabTunnel(context = {}) {
-  const record = {
-    id: tabId(),
-    kind: "code-tab",
-    app: "geelooy/apps/code",
-    url: location.href,
-    title: document.title || "Awtsmoos Code",
-    workspace: context.workspace || localStorage.getItem("awtsmoos.activeWorkspace") || "",
-    startedAt: Date.now(),
-    capabilities: ["workspace.read", "workspace.write", "plainText.write", "tab.focus"]
-  };
 
-  localStorage.setItem("awtsmoos.code.lastTabTunnel", JSON.stringify(record));
-  window.dispatchEvent(new CustomEvent("awtsmoos:code-tab-tunnel", { detail: record }));
+/**
+ * Initializes the real Apps Code browser tunnel for legacy callers.
+ *
+ * @param {object} context Optional injected agent and browser window.
+ * @returns {Promise<object>} Agent status after initialization.
+ */
+export async function registerCodeTabTunnel(context = {}) {
+	const agent = context.agent || BrowserTunnelAgent;
+	if (typeof agent.init !== "function") {
+		throw new Error("browser_tunnel_agent_init_required");
+	}
+	await agent.init({
+		settingsManager: context.settingsManager,
+		ui: context.ui
+	});
+	const status = readAgentStatus(agent);
+	announceCompatibilityStatus(
+		status,
+		context.windowObject || globalThis.window
+	);
+	return status;
+}
 
-  if ("BroadcastChannel" in window) {
-    const channel = new BroadcastChannel("awtsmoos:code-tabs");
-    channel.postMessage({ type: "code-tab-online", record });
-    window.addEventListener("beforeunload", () => channel.postMessage({ type: "code-tab-offline", record }));
-  }
+function readAgentStatus(agent) {
+	if (typeof agent.getStatus === "function") {
+		return agent.getStatus();
+	}
+	return {
+		...State.browserTunnel,
+		presence: readCodeTunnelPresence(State.browserTunnel),
+		vesselType: "browser-tunnel"
+	};
+}
 
-  return record;
+function announceCompatibilityStatus(status, windowObject) {
+	if (!windowObject?.dispatchEvent || !globalThis.CustomEvent) {
+		return;
+	}
+	windowObject.dispatchEvent(
+		new CustomEvent("awtsmoos:code-tab-tunnel", {
+			detail: status
+		})
+	);
 }

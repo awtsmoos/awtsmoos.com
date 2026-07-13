@@ -1,7 +1,14 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module BattleRenderer
- * @description Composes direct turn battles with animated health and effects.
+ * @file BattleRenderer.js
+ * @description Composes direct turn battles with health, intent, and restrained effects.
+ *
+ * The arena holds many truths without becoming noise: player, companion, enemy,
+ * intention, and consequence. The Awtsmoos creates every visible layer without
+ * division, while this renderer keeps each vessel legible at Awtsmoos.com.
  */
 import { State } from '../../binah/State.js';
 import { isBattleBusy } from '../../yesod/battle/BattlePhases.js';
@@ -11,13 +18,14 @@ import { battleMoveLayout } from './BattleMoveLayout.js';
 import { drawStatCard } from './battle/BattleCards.js';
 import { drawCombatantShowcase } from './battle/BattleCombatants.js';
 import { animatedBattleHealth } from './battle/BattleHealthAnimation.js';
+import { drawBattleIntentCard } from './battle/BattleIntentCard.js';
 import { drawMoveCard, drawMovePrompt } from './battle/BattleMoveCards.js';
 import { drawBattleHints, drawBattleLog, drawBusyPrompt, drawPhaseBanner } from './battle/BattleOverlay.js';
 import { drawBattleStage } from './battle/BattleStage.js';
 import { BATTLE_THEME as T } from './battle/BattleTheme.js';
 
 const canvasSize = ctx => ({ w: ctx.canvas?.width || 390, h: ctx.canvas?.height || 844 });
-const enemyName = () => State.Debate.enemy?.name || 'Wild Musag';
+const enemyName = () => State.Debate.enemy?.name || 'Wandering Spark';
 
 const playerCard = (layout, stats, animated) => ({
 	rect: layout.playerCard,
@@ -36,7 +44,7 @@ const enemyCard = (layout, animated) => ({
 	light: animated.enemyLight,
 	maxLight: State.Debate.enemyMaxLight,
 	fill: T.colors.red,
-	sub: State.Debate.enemy?.kind || 'Wild Musag'
+	sub: State.Debate.enemy?.kind || 'Living Encounter'
 });
 
 const drawCommands = (ctx, layout, busy) => {
@@ -61,6 +69,7 @@ export const renderBattle = ctx => {
 	drawStatCard(ctx, playerCard(layout, stats, animated));
 	drawStatCard(ctx, enemyCard(layout, animated));
 	drawCombatantShowcase(ctx, layout, stats, State.Debate.enemy);
+	drawBattleIntentCard(ctx, layout);
 	drawBattleEffects(ctx, 'front');
 	drawBattleLog(ctx, layout);
 	drawPhaseBanner(ctx, layout, busy);

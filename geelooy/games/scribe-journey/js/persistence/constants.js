@@ -1,7 +1,9 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 export const GAME_ID = 'scribe-journey';
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 export const MAX_IMPORT_BYTES = 2_000_000;
 
 export const SAVE_KEYS = Object.freeze({

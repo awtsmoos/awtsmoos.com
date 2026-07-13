@@ -1,0 +1,9 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+root=/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/tunnel
+tunnelName=awt-awtsmoos-16364
+allowWrite=true
+allowCommands=true
+chromeEnabled=true

@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the draw skeleton layer vessel in this instant, revealing
+ * its focused js render fighter limbs service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Layered skeleton renderer.
@@ -8,24 +17,37 @@
 import { drawBoneLine } from './drawBoneLine.js';
 
 function drawableBones(f) {
-  return Object.values(f.bones || {}).filter(bone => bone && bone.id !== 'root' && bone.id !== 'head');
+	return Object.values(f.bones || {}).filter(
+		bone => bone && bone.id !== 'root' && bone.id !== 'head'
+	);
 }
 
 function drawJoint(ctx, point, radius) {
-  if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
-  ctx.beginPath();
-  ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
-  ctx.fill();
+	if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
+	ctx.beginPath();
+	ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	ctx.fill();
 }
 
+/**
+ * Reveals the draw skeleton layer behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} ctx The ctx value entering this behavior.
+ * @param {*} f The f value entering this behavior.
+ * @param {*} stroke The stroke value entering this behavior.
+ * @param {*} width The width value entering this behavior.
+ */
 export function drawSkeletonLayer(ctx, f, stroke, width) {
-  ctx.save();
-  ctx.strokeStyle = stroke;
-  ctx.lineWidth = Math.max(2, width || 5);
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  for (const bone of drawableBones(f)) drawBoneLine(ctx, bone);
-  ctx.fillStyle = stroke;
-  for (const bone of drawableBones(f)) drawJoint(ctx, bone.root, Math.max(1.5, ctx.lineWidth * 0.22));
-  ctx.restore();
+	ctx.save();
+	ctx.strokeStyle = stroke;
+	ctx.lineWidth = Math.max(2, width || 5);
+	ctx.lineJoin = 'round';
+	ctx.lineCap = 'round';
+	for (const bone of drawableBones(f)) drawBoneLine(ctx, bone);
+	ctx.fillStyle = stroke;
+	for (const bone of drawableBones(f))
+		drawJoint(ctx, bone.root, Math.max(1.5, ctx.lineWidth * 0.22));
+	ctx.restore();
 }

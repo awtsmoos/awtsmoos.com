@@ -1,6 +1,11 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-/** Gather shader locations once so no frame searches shader strings. */
+/**
+ * The Awtsmoos names each finite shader doorway once. Frames then pass light and
+ * haze through stable locations without repeating string searches.
+ */
 export function locations(gl, program) {
 	return {
 		aPos: gl.getAttribLocation(program, 'aPos'),
@@ -18,6 +23,11 @@ export function locations(gl, program) {
 		uFogColor: gl.getUniformLocation(program, 'uFogColor'),
 		uFogNear: gl.getUniformLocation(program, 'uFogNear'),
 		uFogFar: gl.getUniformLocation(program, 'uFogFar'),
+		uSunDirection: gl.getUniformLocation(program, 'uSunDirection'),
+		uSunColor: gl.getUniformLocation(program, 'uSunColor'),
+		uAmbientColor: gl.getUniformLocation(program, 'uAmbientColor'),
+		uHazeHeight: gl.getUniformLocation(program, 'uHazeHeight'),
+		uHazeStrength: gl.getUniformLocation(program, 'uHazeStrength'),
 		uTime: gl.getUniformLocation(program, 'uTime')
 	};
 }

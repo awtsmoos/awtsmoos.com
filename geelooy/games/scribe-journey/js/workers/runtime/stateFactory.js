@@ -1,7 +1,10 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 import { createDefaultGameState } from '../../data/database.js';
 import * as TimeSystem from '../systems/time.js';
+import { ensureQuestState } from '../systems/quests/questState.js';
 
 const EMPTY_STATS = Object.freeze({
 	battlesWon: 0,
@@ -15,17 +18,17 @@ const EMPTY_STATS = Object.freeze({
 	foodEaten: 0
 });
 
-/** Creates the mutable vessel while all immutable registries remain source-owned. */
+/** Creates the mutable vessel while immutable registries stay source-owned. */
 export function createFreshGameState() {
 	const state = createDefaultGameState();
 	state.time = TimeSystem.initTime();
 	state.lightLevel = 1000;
 	state.stats = { ...EMPTY_STATS };
 	state.activeGates = {};
-	state.player.storage = [];
 	state.weather = 'clear';
 	state.player.wisdomPoints = 0;
 	state.player.unlockedGates37 = [];
+	ensureQuestState(state.player);
 	return state;
 }
 

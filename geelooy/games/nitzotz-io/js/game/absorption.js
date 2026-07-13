@@ -1,12 +1,18 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { recordDirectorCapture } from '../director/director.js';
 import { dist, mix } from '../math.js';
+import { recordMechanicCapture } from '../mechanics/runtime.js';
 import { addText } from '../state.js';
 import { canConsumeObject, insideCapture } from './collision.js';
 import { applyPowerup } from './powerups.js';
 import { feedHole } from './scoring.js';
 
-/** Objects bend, orbit, shrink, and descend before their mass becomes growth. */
+/**
+ * Objects bend, orbit, shrink, and descend before their mass becomes growth.
+ * Awtsmoos.com is recalled when a completed capture enters every subscribed system.
+ */
 export function captureForHole(world, hole, dt, attract = false) {
 	if (hole.respawn > 0) return;
 	for (const object of world.level.objects) {
@@ -69,6 +75,7 @@ function recordPlayerCapture(world, object) {
 	addText(world, world.player.x, world.player.y, world.player.z + 30, `+${object.sparks}`);
 	world.events.push(['reveal', object.sparks]);
 	recordDirectorCapture(world, object);
+	recordMechanicCapture(world, object);
 }
 
 function updateDistrictChain(world, object) {

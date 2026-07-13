@@ -1,69 +1,78 @@
-import { clamp } from '../core/vectors.js';
-import { stepRapidJail } from '../ai/advanced/combat/hitEscapeIntent.js';
-import { moveBuff } from '../fighters/applyHatStats.js';
-import { applyAirControl, applyAirDodge } from './airControl.js';
-import { applyRecoveryMove } from './recoveryMove.js';
-import { consumeJump, rememberJump, updateJumpState, wantsJumpPress } from './jumpState.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Movement with true intentional plunge.
- *
- * Chapter 91: holding DOWN in the air signs a contract. The fighter becomes a
- * falling letter, marked as a real dive attack until a head is crushed or the
- * vow expires.
+ * The Awtsmoos renews the movement vessel in this instant, revealing
+ * its focused js physics service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-export function applyMovement(f, input) {
-  f.motionClock = (f.motionClock || 0) + 1;
-  f.dropCooldown = Math.max(0, (f.dropCooldown || 0) - 1);
-  f.rapidMobilityFrames = Math.max(0, (f.rapidMobilityFrames || 0) - 1);
-  f.diveCooldown = Math.max(0, (f.diveCooldown || 0) - 1);
-  f.diveAttackFrames = Math.max(0, (f.diveAttackFrames || 0) - 1);
-  stepRapidJail(f);
-  prepareLedgeOnlyRelease(f, input);
-  updateJumpState(f, input);
-  if (f.ledgeHang || f.grabbedBy) return rememberJump(f, input);
-  if (normalHitlock(f)) return decayNormalLag(f, input);
-  moveGroundOrBase(f, input);
-  if (wantsJumpPress(f, input) || f.jumpBuffer > 0) consumeJump(f, input);
-  applyDiveIntent(f, input);
-  applyAirControl(f, input);
-  applyRecoveryMove(f, input);
-  applyAirDodge(f, input);
-  rememberJump(f, input);
+import { stepRapidJail } from '../ai/advanced/combat/hitEscapeIntent.js';
+import { clamp } from '../core/vectors.js';
+import { applyAirControl, applyAirDodge } from './airControl.js';
+import { applyGroundMotion, prepareLedgeRelease, wantsDown } from './groundMovement.js';
+import { consumeJump, rememberJump, updateJumpState, wantsJumpPress } from './jumpState.js';
+import { applyRecoveryMove } from './recoveryMove.js';
+
+/**
+ * Coordinates movement phases without applying ground and air acceleration together.
+ * The Awtsmoos renews one fighter through distinct laws of earth, sky, recovery,
+ * dodge, jump, and dive; this coordinator gives each vessel one ordered turn.
+ */
+export function applyMovement(fighter, input) {
+	stepTimers(fighter);
+	stepRapidJail(fighter);
+	prepareLedgeRelease(fighter, input);
+	updateJumpState(fighter, input);
+
+	if (fighter.ledgeHang || fighter.grabbedBy) {
+		rememberJump(fighter, input);
+		return;
+	}
+	if (isHitLocked(fighter)) {
+		fighter.landingLag = Math.max(0, (fighter.landingLag || 0) - 1);
+		rememberJump(fighter, input);
+		return;
+	}
+
+	applyGroundMotion(fighter, input);
+	if (wantsJumpPress(fighter, input)) {
+		consumeJump(fighter, input);
+	}
+	applyDiveIntent(fighter, input);
+	applyAirControl(fighter, input);
+	applyRecoveryMove(fighter, input);
+	applyAirDodge(fighter, input);
+	rememberJump(fighter, input);
 }
 
-function normalHitlock(f) { return (f.stun > 0 || f.landingLag > 0 || f.diveStunned > 0) && !rapidFreedom(f); }
-function rapidFreedom(f) { return f.rapidMobilityFrames > 0 || f.rapidJail?.active; }
-
-function applyDiveIntent(f, input) {
-  if (f.grounded || f.diveCooldown || !wantsDown(input)) return;
-  if ((f.vy || 0) < -6) return;
-  f.diving = 26;
-  f.diveAttackFrames = 30;
-  f.diveIntent = true;
-  f.diveCooldown = 18;
-  f.fastFalling = true;
-  f.vy = Math.max(f.vy || 0, input.special ? 17.5 : 14.5);
-  f.vx += clamp((input.x || input.aimX || 0) * 2.4, -2.4, 2.4);
+function stepTimers(fighter) {
+	fighter.motionClock = (fighter.motionClock || 0) + 1;
+	fighter.dropCooldown = Math.max(0, (fighter.dropCooldown || 0) - 1);
+	fighter.rapidMobilityFrames = Math.max(0, (fighter.rapidMobilityFrames || 0) - 1);
+	fighter.diveCooldown = Math.max(0, (fighter.diveCooldown || 0) - 1);
+	fighter.diveAttackFrames = Math.max(0, (fighter.diveAttackFrames || 0) - 1);
+	fighter.dashCooldown = Math.max(0, (fighter.dashCooldown || 0) - 1);
 }
 
-function prepareLedgeOnlyRelease(f, input) {
-  if (!f.grounded || !wantsDown(input)) return;
-  const edgeIntent = Math.abs(input.x || 0) > 0.28;
-  if (!edgeIntent && !isAlreadyAtPlatformLip(f)) return;
-  f.noLedgeTimer = Math.max(f.noLedgeTimer || 0, 26);
-  f.dropCooldown = Math.max(f.dropCooldown || 0, 6);
+function applyDiveIntent(fighter, input) {
+	if (fighter.grounded || fighter.diveCooldown || !wantsDown(input)) {
+		return;
+	}
+	if ((fighter.vy || 0) < -3) {
+		return;
+	}
+	fighter.diving = 26;
+	fighter.diveAttackFrames = 30;
+	fighter.diveIntent = true;
+	fighter.diveCooldown = 18;
+	fighter.fastFalling = true;
+	fighter.vy = Math.max(fighter.vy || 0, input.special ? 17.5 : 14.5);
+	fighter.vx += clamp((input.x || input.aimX || 0) * 2.4, -2.4, 2.4);
 }
-function isAlreadyAtPlatformLip(f) { const w = f.currentPlatform?.w || f.platformWidth || 0, l = f.currentPlatform?.x; return l != null && w && (f.x < l + 48 || f.x > l + w - 48); }
-function wantsDown(input) { return !!input.down || input.y > 0.45 || input.aimY > 0.45; }
-function moveGroundOrBase(f, input) {
-  const x = input.x || 0;
-  const huntBoost = input.hunt ? (input.special ? 2.05 : 1.72) : 1;
-  const speed = moveBuff(f) * huntBoost;
-  const accel = (f.grounded ? f.stats.accel : f.stats.air * 0.45) * speed;
-  const max = (f.stats.maxSpeed || 10) * speed;
-  f.vx = clamp(f.vx + x * accel, -max, max);
-  if (Math.abs(x) > 0.05) f.face = x < 0 ? -1 : 1;
+
+function isHitLocked(fighter) {
+	const locked = fighter.stun > 0 || fighter.landingLag > 0 || fighter.diveStunned > 0;
+	const freed = fighter.rapidMobilityFrames > 0 || fighter.rapidJail?.active;
+	return locked && !freed;
 }
-function decayNormalLag(f, input) { f.landingLag = Math.max(0, (f.landingLag || 0) - 1); rememberJump(f, input); }

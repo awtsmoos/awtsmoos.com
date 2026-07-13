@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the item mood weights vessel in this instant, revealing
+ * its focused js stage items spawn service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { allItems } from '../definitions/itemCatalog.js';
 
 /**
@@ -9,23 +18,36 @@ import { allItems } from '../definitions/itemCatalog.js';
  * charge and magnetism, and Yesod favors wings.
  */
 export function weightedStageItems(mood = {}, supply = {}) {
-  return allItems().map(item => ({ ...item, weight: Math.max(1, item.weight + moodBonus(item, mood) + supplyBonus(item, supply)) }));
+	return allItems().map(item => ({
+		...item,
+		weight: Math.max(1, item.weight + moodBonus(item, mood) + supplyBonus(item, supply))
+	}));
 }
 
 function moodBonus(item, mood) {
-  const p = mood.personality;
-  if (p === 'gevurah' && ['heavyGloves', 'gevurahFragment', 'shofar'].includes(item.id)) return 22;
-  if (p === 'chesed' && ['shieldCrystal', 'chesedFragment'].includes(item.id)) return 22;
-  if (p === 'netzach' && ['speedBoots', 'netzachFragment'].includes(item.id)) return 22;
-  if (p === 'hod' && ['rageScroll', 'hodScroll', 'magneticOrb'].includes(item.id)) return 18;
-  if (p === 'yesod' && ['wingRelic', 'crown'].includes(item.id)) return 20;
-  if (mood.restless > 50 && item.role === 'burst') return 10;
-  return 0;
+	const p = mood.personality;
+	if (p === 'gevurah' && ['heavyGloves', 'gevurahFragment', 'shofar'].includes(item.id))
+		return 22;
+	if (p === 'chesed' && ['shieldCrystal', 'chesedFragment'].includes(item.id)) return 22;
+	if (p === 'netzach' && ['speedBoots', 'netzachFragment'].includes(item.id)) return 22;
+	if (p === 'hod' && ['rageScroll', 'hodScroll', 'magneticOrb'].includes(item.id)) return 18;
+	if (p === 'yesod' && ['wingRelic', 'crown'].includes(item.id)) return 20;
+	if (mood.restless > 50 && item.role === 'burst') return 10;
+	return 0;
 }
 
 function supplyBonus(item, supply) {
-  if (supply.need === 'comeback' && ['shieldCrystal', 'wingRelic', 'chesedFragment'].includes(item.id)) return 28;
-  if (supply.need === 'violence' && ['heavyGloves', 'rageScroll', 'shofar'].includes(item.id)) return 24;
-  if (supply.need === 'chase' && ['speedBoots', 'magneticOrb', 'netzachFragment'].includes(item.id)) return 22;
-  return 0;
+	if (
+		supply.need === 'comeback' &&
+		['shieldCrystal', 'wingRelic', 'chesedFragment'].includes(item.id)
+	)
+		return 28;
+	if (supply.need === 'violence' && ['heavyGloves', 'rageScroll', 'shofar'].includes(item.id))
+		return 24;
+	if (
+		supply.need === 'chase' &&
+		['speedBoots', 'magneticOrb', 'netzachFragment'].includes(item.id)
+	)
+		return 22;
+	return 0;
 }

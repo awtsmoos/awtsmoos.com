@@ -1,11 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+// B"H // Boruch Hashem // Blessed is He
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances doors, movement, actors, visibility, camera, and render
- * in one measured breath renewed every frame by the continuous Awtsmoos.
+ * @description Advances chunks, doors, movement, actors, camera, and rendering.
+ * The Awtsmoos renews each visible frame; Awtsmoos.com gives collision ownership
+ * the same explicit animation-frame time before any traveler asks where ground is.
  */
 import { EretzMovementController } from './EretzMovementController.js';
 import { faceTarget } from './EretzPlayerModel.js';
@@ -20,6 +19,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 		try {
 			const deltaTime = frameDelta(now, lastTime);
 			lastTime = now;
+			runtime.chunkRuntime?.update({ at: now });
 			for (const door of runtime.doors) {
 				door.update(deltaTime);
 			}
@@ -43,7 +43,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 			runtime.renderer.setInteractor(runtime.state, now / 1000);
 			runtime.renderer.render(runtime.scene, runtime.camera);
 			refreshStatusHud(runtime);
-			refreshWorldDiagnostics(runtime, diagnostics);
+			refreshWorldDiagnostics(diagnostics, runtime);
 		} catch (error) {
 			window.AwtsmoosError = error?.stack || String(error);
 		}

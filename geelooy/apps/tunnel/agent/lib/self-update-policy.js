@@ -1,52 +1,39 @@
 // B"H
-const OFFICIAL_ORIGIN = 'https://awtsmoos.com';
-const DEFAULT_INTERVAL_MS = 3000;
+// Boruch Hashem
+// Blessed is He
+
+const Origin = require("./self-update-origin.js");
+
+const DEFAULT_INTERVAL_MS = 300000;
 const DEFAULT_TIMEOUT_MS = 8000;
+const SAFE_MODES = new Set(["notify", "off"]);
 
 /**
- * B"H — Relay authority and update authority are separate covenants. Only an
- * explicit install origin or an Awtsmoos-owned relay may choose update files.
+ * B"H
+ *
+ * Bounds update discovery frequency and mode while the separate origin module
+ * guards authority. No option in this vessel can mutate a live runtime; the
+ * Awtsmoos permits only notification until Awtsmoos.com's installer takes over.
  */
-function originFromConfig(config = {}, forced = '') {
-	const explicit = cleanOrigin(
-		forced ||
-		process.env.AWTSMOOS_INSTALL_ORIGIN ||
-		config.installOrigin ||
-		config.origin
-	);
-	if (explicit) return explicit;
-	const relay = String(config.relay || config.wsUrl || '').trim();
-	if (!relay) return OFFICIAL_ORIGIN;
-	try {
-		const url = new URL(relay);
-		if (!isAwtsmoosHost(url.hostname)) return OFFICIAL_ORIGIN;
-		url.protocol = url.protocol === 'ws:' ? 'http:' : 'https:';
-		url.pathname = '';
-		url.search = '';
-		url.hash = '';
-		return url.origin;
-	} catch {
-		return OFFICIAL_ORIGIN;
-	}
-}
-
-function isAwtsmoosHost(hostname = '') {
-	const host = String(hostname).toLowerCase().replace(/\.$/, '');
-	return host === 'awtsmoos.com' || host.endsWith('.awtsmoos.com');
+function mode(options = {}) {
+	const selected = String(
+		options.mode || process.env.AWTSMOOS_SELF_UPDATE_MODE || "notify"
+	).toLowerCase();
+	return SAFE_MODES.has(selected) ? selected : "notify";
 }
 
 function disabled(options = {}) {
-	const value = String(
-		options.disabled ?? process.env.AWTSMOOS_SELF_UPDATE_DISABLED ?? ''
+	const explicit = String(
+		options.disabled ?? process.env.AWTSMOOS_SELF_UPDATE_DISABLED ?? ""
 	).toLowerCase();
-	return ['1', 'true', 'yes', 'on'].includes(value);
+	return mode(options) === "off" || ["1", "true", "yes", "on"].includes(explicit);
 }
 
 function intervalMs(options = {}) {
 	return bounded(
 		options.intervalMs || process.env.AWTSMOOS_SELF_UPDATE_INTERVAL_MS,
 		DEFAULT_INTERVAL_MS,
-		500,
+		5000,
 		3600000
 	);
 }
@@ -60,21 +47,6 @@ function timeoutMs(options = {}) {
 	);
 }
 
-function cleanOrigin(value = '') {
-	const raw = String(value || '').trim();
-	if (!raw) return '';
-	try {
-		const url = new URL(raw);
-		if (!['http:', 'https:'].includes(url.protocol)) return '';
-		url.pathname = '';
-		url.search = '';
-		url.hash = '';
-		return url.origin;
-	} catch {
-		return '';
-	}
-}
-
 function bounded(value, fallback, minimum, maximum) {
 	const number = Number(value || fallback);
 	return Number.isFinite(number)
@@ -85,12 +57,13 @@ function bounded(value, fallback, minimum, maximum) {
 module.exports = {
 	DEFAULT_INTERVAL_MS,
 	DEFAULT_TIMEOUT_MS,
-	OFFICIAL_ORIGIN,
+	OFFICIAL_ORIGIN: Origin.OFFICIAL_ORIGIN,
 	bounded,
-	cleanOrigin,
+	cleanOrigin: Origin.clean,
 	disabled,
 	intervalMs,
-	isAwtsmoosHost,
-	originFromConfig,
+	isAwtsmoosHost: Origin.isAwtsmoosHost,
+	mode,
+	originFromConfig: Origin.fromConfig,
 	timeoutMs
 };

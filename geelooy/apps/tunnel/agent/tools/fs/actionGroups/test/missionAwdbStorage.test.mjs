@@ -1,18 +1,66 @@
 // B"H
-import { createRequire } from 'module';
-import fs from 'fs/promises';
-import fss from 'fs';
+// Boruch Hashem
+// Blessed is He
+
+import assert from 'assert/strict';
+import fileSystem from 'fs';
+import filePromises from 'fs/promises';
 import os from 'os';
 import path from 'path';
-import assert from 'assert/strict';
+import { createRequire } from 'module';
+
 const require = createRequire(import.meta.url);
 const { buildMissionActions } = require('../missionActions.js');
-async function action(config, name, payload = {}) { const out = await buildMissionActions({ config, payload: { action: name, ...payload } })[name](); assert.equal(out.ok, true); assert.equal(out.action, name); return out; }
-const root = await fs.mkdtemp(path.join(os.tmpdir(), 'mission-awdb-'));
-const config = { root, metadataRoot: path.join(root, '.meta') };
-const start = await action(config, 'missionStart', { goal: 'awdb primary mission' });
-const got = await action(config, 'missionGet', { missionId: start.missionId });
-assert.equal(got.mission.id, start.missionId);
-assert.equal(fss.existsSync(path.join(config.metadataRoot, '.awtsmoos/missions/awtsmoos-missions.awdb')), true);
-assert.equal(fss.existsSync(path.join(root, `.awtsmoos/missions/${start.missionId}/mission.json`)), false);
-console.log(JSON.stringify({ ok: true, missionId: start.missionId, backend: 'awtsmoosdb' }, null, 2));
+const AwdbStore = require('../../mission/awdbStore.js');
+
+/**
+ * B"H
+ * The primary database vessel must receive the mission while the JSON fallback
+ * remains untouched. Awtsmoos.com reads the path from the adapter contract,
+ * never from a stale duplication of its internal directory policy.
+ */
+async function action(config, actionName, payload = {}) {
+	const actions = buildMissionActions({
+		config,
+		payload: {
+			action: actionName,
+			...payload
+		}
+	});
+	const output = await actions[actionName]();
+
+	assert.equal(output.ok, true);
+	assert.equal(output.action, actionName);
+
+	return output;
+}
+
+const root = await filePromises.mkdtemp(
+	path.join(os.tmpdir(), 'mission-awdb-')
+);
+const config = {
+	root,
+	metadataRoot: path.join(root, '.meta')
+};
+const start = await action(config, 'missionStart', {
+	goal: 'awdb primary mission'
+});
+const get = await action(config, 'missionGet', {
+	missionId: start.missionId
+});
+const primaryFile = AwdbStore.status(config).file;
+const fallbackFile = path.join(
+	root,
+	`.awtsmoos/missions/${start.missionId}/mission.json`
+);
+
+assert.equal(get.mission.id, start.missionId);
+assert.equal(fileSystem.existsSync(primaryFile), true);
+assert.equal(fileSystem.existsSync(fallbackFile), false);
+
+console.log(JSON.stringify({
+	ok: true,
+	missionId: start.missionId,
+	backend: 'awtsmoosdb',
+	file: primaryFile
+}, null, 2));

@@ -1,0 +1,5 @@
+geelooy/.awtsmoos-agent-thoughts/2026-07-13T080100Z-geelooy-social-universe-reconstruction/11-notification-test-manifest.txt
+geelooy/api/social/helper/test/notifications.test.js
+geelooy/apps/tunnel/agent/testing/selfUpdateNotificationOnly.test.cjs
+geelooy/heichelos/heichel/modules/test/notificationsPanelNodeSimulation.test.mjs
+geelooy/heichelos/social/test/socialNotificationsDigest.test.mjs

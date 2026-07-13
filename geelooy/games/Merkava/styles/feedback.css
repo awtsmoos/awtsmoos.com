@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	Arithmetic, warnings, notifications, and fatal truth receive visible garments.
+	The Awtsmoos is beyond feedback while Awtsmoos.com reveals each finite sign.
+*/
+#gateLabels {
+	position: fixed;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.gate-label {
+	position: absolute;
+	min-width: 3.2rem;
+	padding: 0.38rem 0.5rem;
+	border: 1px solid currentColor;
+	border-radius: 0.65rem;
+	background: rgba(4, 5, 22, 0.82);
+	box-shadow: 0 0 1.4rem currentColor;
+	font-size: clamp(1rem, 2.7vw, 1.9rem);
+	font-weight: 950;
+	line-height: 1;
+	text-align: center;
+	text-shadow: 0 0 0.75rem currentColor;
+	will-change: transform, opacity, left, top;
+}
+
+.gate-label.positive {
+	color: #42f2ea;
+}
+
+.gate-label.negative {
+	color: #ff4966;
+}
+
+.notification {
+	position: fixed;
+	left: 50%;
+	bottom: max(7rem, env(safe-area-inset-bottom));
+	z-index: 12;
+	padding: 0.65rem 1rem;
+	border-radius: 999px;
+	background: rgba(11, 7, 31, 0.9);
+	border: 1px solid rgba(255, 222, 112, 0.45);
+	font-weight: 900;
+	transform: translate(-50%, 2rem);
+	opacity: 0;
+	transition: 180ms ease;
+	pointer-events: none;
+}
+
+.notification.visible {
+	transform: translate(-50%, 0);
+	opacity: 1;
+}
+
+.fatal-error {
+	position: fixed;
+	inset: auto 1rem 1rem;
+	z-index: 30;
+	display: none;
+	padding: 1rem;
+	white-space: pre-wrap;
+	background: #310812;
+	color: #ffd6dc;
+}

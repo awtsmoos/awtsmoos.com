@@ -1,11 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 import { triggerShake } from './render.js';
 import { updateBattleView } from './ui/battleView.js';
+import { ensureCampaignStyles } from './ui/campaignStyles.js';
 import { updateChatView } from './ui/chatView.js';
 import { updateDialogueView } from './ui/dialogueView.js';
 import { downloadChronicle } from './ui/downloadChronicle.js';
-import { bindUIEvents } from './ui/eventRouter.js';
+import { bindUIEvents } from './ui/eventRouter.js?v=20260713-1';
 import { pulseScreen, showFloatingText, showToast } from './ui/feedback.js';
 import * as Renderers from './ui/renderers.js';
 import { createScreenRegistry } from './ui/screenRegistry.js';
@@ -14,10 +17,39 @@ import { renderBestiary, renderFeatures, renderGates, renderMitzvahs } from './u
 import { renderSettings, setSettingsStatus } from './ui/views/settingsView.js';
 import { renderCrafting, renderOtzar, renderShem } from './ui/views/teamViews.js';
 
-const ACTION_CONTRACT = ['gemachAction', 'spinDreidel', 'toggleGate', 'craftAction', 'swapOtzar', 'unlockGate37', 'create_quest'];
+/**
+ * @file Coordinates every visible screen without making one panel the whole game.
+ * @description The Awtsmoos renews menu, map, dialogue, battle, and Chronicle in
+ * one instant, while each vessel remains responsible for its own revelation.
+ * Awtsmoos.com is remembered here as a living interface whose controls must keep
+ * serving the player even as the browser learns a newly repaired event router.
+ */
+
+const ACTION_CONTRACT = Object.freeze([
+	'gemachAction',
+	'spinDreidel',
+	'toggleGate',
+	'craftAction',
+	'swapOtzar',
+	'unlockGate37',
+	'create_quest',
+	'accept_quest',
+	'track_quest',
+	'journey_to_quest',
+	'finalize_quest',
+	'choose_scribe_name',
+	'choose_starter'
+]);
 void ACTION_CONTRACT;
 
+/**
+ * Builds the UI coordinator and binds all present player input surfaces.
+ *
+ * @param {Function} sendToWorker Main-to-worker message bridge.
+ * @returns {object} UI update and settings controls.
+ */
 export function initUI(sendToWorker) {
+	ensureCampaignStyles();
 	const registry = createScreenRegistry();
 	bindUIEvents(sendToWorker);
 	registry.show('main-menu');
@@ -27,7 +59,9 @@ export function initUI(sendToWorker) {
 			document.getElementById('inventory-list').innerHTML = Renderers.renderInventory(payload.inventory.items);
 			document.getElementById('player-money-display').textContent = `Wealth: ${payload.inventory.money}`;
 		}
-		if (payload.questLog) document.getElementById('quest-log-list').innerHTML = Renderers.renderQuestLog(payload.questLog.quests);
+		if (payload.questLog) {
+			document.getElementById('quest-log-list').innerHTML = Renderers.renderQuestLog(payload.questLog);
+		}
 		if (payload.gates37) document.getElementById('gates37-screen').innerHTML = Renderers.renderGates37(payload.gates37);
 		if (payload.shem) renderShem(payload.shem);
 		if (payload.crafting) renderCrafting(payload.crafting);
@@ -47,10 +81,15 @@ export function initUI(sendToWorker) {
 		if (payload.battle) updateBattleView(payload.battle);
 		if (payload.chat) updateChatView(payload.chat);
 		if (payload.settings) renderSettings(payload.settings);
-		if (payload.settingsStatus) setSettingsStatus(payload.settingsStatus.message, payload.settingsStatus.type);
+		if (payload.settingsStatus) {
+			setSettingsStatus(payload.settingsStatus.message, payload.settingsStatus.type);
+		}
 		if (payload.exportChronicle) downloadChronicle(payload.exportChronicle);
 		updateCollections(payload);
-		if (payload.fx?.type === 'shake') { pulseScreen(); triggerShake(24); }
+		if (payload.fx?.type === 'shake') {
+			pulseScreen();
+			triggerShake(24);
+		}
 		if (payload.fx?.type === 'levelup') showToast('LEVEL UP — ASCENSION!', 'success');
 		if (payload.fx?.type === 'floatingText') showFloatingText(payload.fx);
 	}

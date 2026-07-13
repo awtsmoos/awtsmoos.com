@@ -1,105 +1,91 @@
 <!--B"H-->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The canvas is a vessel: at Awtsmoos.com each frame is renewed, and language opens more than one faithful road into play. -->
 <!DOCTYPE html>
-<!-- The `lang` attribute helps screen readers and search engines understand the page's language. -->
 <html lang="en">
 <head>
-    <!-- Specifies the character encoding for the document. UTF-8 is the standard. -->
-    <meta charset="UTF-8">
-
-    <!--
-      The viewport meta tag is crucial for responsive design and mobile devices.
-      - `width=device-width`: Sets the width of the page to follow the screen-width of the device.
-      - `initial-scale=1.0`: Sets the initial zoom level when the page is first loaded.
-      - `user-scalable=no`: Prevents the user from zooming in/out, which is desirable for a fullscreen game experience.
-    -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-    <!-- The title that appears in the browser tab. -->
-    <title>Shema's Edge</title>
-
-    <!-- Links the external CSS file to style the HTML elements. -->
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+	<meta name="theme-color" content="#070713">
+	<title>Shema Strike: Gates of Light</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!--
-      This is the main container for the entire game.
-      It's used to establish a positioning context (`position: relative` in CSS)
-      so that all child elements (canvas, UI screens, controls) can be absolutely
-      positioned within it. It also controls the game's aspect ratio.
-    -->
-    <div id="game-container">
-
-        <!--
-          The Canvas element is the drawing board for the game.
-          Initially, it lives on the main DOM, but its rendering control
-          will be transferred to a Web Worker via OffscreenCanvas to
-          ensure smooth, non-blocking graphics.
-        -->
-        <canvas id="gameCanvas"></canvas>
-
-        <!--
-          This container holds all on-screen controls for mobile/touch devices.
-          It is hidden by default (`display: none` in CSS) and will be made visible
-          by JavaScript (`controls.js`) only if a touch device is detected.
-        -->
-        <div id="mobile-controls">
-            <!-- The left area for the virtual joystick. -->
-            <div id="joystick-area">
-                <div id="joystick-thumb"></div>
-            </div>
-            <!-- The right area for the primary action (strike) button. -->
-            <div id="action-button-area">
-                <div id="action-button">⚔️</div>
-            </div>
-        </div>
-
-        <!--
-          The Start Screen overlay. This is a simple div that sits on top of the
-          canvas until the player starts the game. It uses absolute positioning
-          and a high z-index to appear in front.
-        -->
-        <div id="start-screen">
-            <h1>Shema's Edge</h1>
-            <p>The forces of chaos gather. Wield the blade of Unity.</p>
-            <p><b>Desktop:</b> Arrow Keys/WASD to Move & Jump. SPACE to Strike.</p>
-            <p><b>Mobile:</b> Use Joystick and Strike Button.</p>
-            <button id="start-button">BEGIN THE FIGHT</button>
-        </div>
-
-        <!--
-          The Game Over screen overlay. It is hidden by default and will be
-          made visible by `main.js` when it receives a 'gameOver' message
-          from the game worker.
-        -->
-        <div id="game-over-screen">
-            <h1>GAME OVER</h1>
-            <p>The darkness has prevailed... for now.</p>
-            <button id="restart-button">FIGHT AGAIN</button>
-        </div>
-    </div>
-
-    <!-- ================================== -->
-    <!--          SCRIPT LOADING            -->
-    <!-- ================================== -->
-    <!--
-      IMPORTANT: The script loading strategy has changed for the Web Worker architecture.
-      We only load the scripts that are absolutely necessary for the main UI thread to function.
-      All other game logic scripts (player, enemy, world, etc.) are now loaded *inside*
-      the `game-worker.js` file using the `importScripts()` function.
-    -->
-
-    <!--
-      1. `controls.js`: This must be loaded first because `main.js` creates an instance
-         of the `Controls` class to listen for user input.
-    -->
-    <script src="js/controls.js"></script>
-
-    <!--
-      2. `main.js`: This is the main entry point for the UI thread. It sets up the worker,
-         handles UI overlays, and passes control events to the worker. It must be loaded last.
-    -->
-    <script src="js/main.js"></script>
-
+	<main id="game-shell" aria-label="Shema Strike game">
+		<canvas id="game-canvas" width="960" height="540"></canvas>
+		<section id="hud" class="hud hidden" aria-live="polite">
+			<div class="hud-block hud-life">
+				<span>KOACH</span>
+				<div class="meter"><i id="health-fill"></i></div>
+				<small id="health-label">100 / 100</small>
+			</div>
+			<div class="hud-center">
+				<strong id="stage-label">Gate 1</strong>
+				<span id="objective-label">Awaken the gate</span>
+			</div>
+			<div class="hud-block hud-riches">
+				<span>פרוטות</span>
+				<strong id="coin-label">0</strong>
+				<small id="combo-label">Unity ×1</small>
+			</div>
+		</section>
+		<section id="start-overlay" class="overlay visible">
+			<div class="panel start-panel">
+				<p class="eyebrow">A 27-GATE CAMPAIGN</p>
+				<h1><span>שמע</span> STRIKE</h1>
+				<p class="lead" data-copy="lead"></p>
+				<div id="difficulty-grid" class="choice-grid"></div>
+				<div class="settings-grid" aria-label="Accessibility settings">
+					<label><span data-copy="language"></span><select id="language-select"><option value="en">English</option><option value="he">עברית</option></select></label>
+					<label><span data-copy="text"></span><select id="text-scale"><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+					<label><input id="reducedMotion" type="checkbox"><span data-copy="reducedMotion"></span></label>
+					<label><input id="reducedFlash" type="checkbox"><span data-copy="reducedFlash"></span></label>
+					<label><input id="reducedParticles" type="checkbox"><span data-copy="reducedParticles"></span></label>
+					<label><input id="highContrast" type="checkbox"><span data-copy="highContrast"></span></label>
+					<label><input id="timingAssist" type="checkbox"><span data-copy="timingAssist"></span></label>
+				</div>
+				<label class="stage-choice"><span data-copy="revisit"></span><select id="stage-select"></select></label>
+				<div class="start-actions">
+					<button id="continue-button" class="primary" data-copy="continue"></button>
+					<button id="new-button" data-copy="newGame"></button>
+				</div>
+				<p class="controls-copy" data-copy="controls"></p>
+			</div>
+		</section>
+		<section id="pause-overlay" class="overlay">
+			<div class="panel compact-panel">
+				<p class="eyebrow">TIME FOLDS, THE WILL REMAINS</p>
+				<h2 data-copy="paused"></h2>
+				<button id="resume-button" class="primary" data-copy="resume"></button>
+				<button id="pause-shop-button" data-copy="market"></button>
+				<button id="menu-button" data-copy="menu"></button>
+			</div>
+		</section>
+		<section id="shop-overlay" class="overlay">
+			<div class="panel market-panel">
+				<header class="market-header">
+					<div><p class="eyebrow">THE NIGHT MARKET</p><h2>Forge the Vessel</h2></div>
+					<strong id="shop-coins">0 פרוטות</strong>
+				</header>
+				<nav class="market-tabs"><button data-shop-tab="weapons">Weapons</button><button data-shop-tab="armor">Armor</button></nav>
+				<div id="shop-grid" class="shop-grid"></div>
+				<footer><button id="heal-button">RESTORE KOACH</button><button id="leave-shop-button" class="primary">ENTER NEXT GATE</button></footer>
+			</div>
+		</section>
+		<section id="message-overlay" class="overlay">
+			<div class="panel compact-panel">
+				<p id="message-eyebrow" class="eyebrow">GATE COMPLETE</p>
+				<h2 id="message-title">Light Revealed</h2>
+				<p id="message-copy"></p>
+				<button id="message-button" class="primary">CONTINUE</button>
+			</div>
+		</section>
+		<div id="touch-controls" class="touch-controls" aria-label="Touch controls">
+			<div class="touch-cluster"><button data-action="left" aria-label="Move left">◀</button><button data-action="right" aria-label="Move right">▶</button></div>
+			<div class="touch-cluster action-cluster"><button data-action="jump" aria-label="Jump">↑</button><button data-action="dash" aria-label="Dash">✦</button><button data-action="interact" aria-label="Interact">E</button><button data-action="attack" class="attack-touch" aria-label="Strike">ש</button></div>
+		</div>
+	</main>
+	<script type="module" src="js/main.js"></script>
 </body>
 </html>

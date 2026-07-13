@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the index vessel in this instant, revealing
+ * its focused js data maps service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { abyssOfDin } from './abyssOfDin.js';
 import { alephRiftExpanse } from './alephRiftExpanse.js';
 import { beitMidrashBouncer } from './beitMidrashBouncer.js';
@@ -25,13 +34,28 @@ import { ADVENTURE_MAPS } from '../adventure/adventureLevels.js';
 
 /** B"H — Map registry with VS arenas and fifty Adventure gates. */
 const RAW_MAPS = [
-  beitMidrashBouncer, merkavaPinballCourt, tiferesBattlefieldVast,
-  malchusEndlessMeadow, binahTowerLabyrinth, kesserCrownRift,
-  gevurahForgeExpanse, chesedRiverBridges, netzachCauseway,
-  hodMirrorPalace, yesodMoonEngine, alephRiftExpanse,
-  merkavaBattlefield, treeOfLifeArena, sevenHeichalos, throneOfFire,
-  crystalSefirah, abyssOfDin, riverOfLight, templeOfEchoes,
-  celestialGate, crownRuins
+	beitMidrashBouncer,
+	merkavaPinballCourt,
+	tiferesBattlefieldVast,
+	malchusEndlessMeadow,
+	binahTowerLabyrinth,
+	kesserCrownRift,
+	gevurahForgeExpanse,
+	chesedRiverBridges,
+	netzachCauseway,
+	hodMirrorPalace,
+	yesodMoonEngine,
+	alephRiftExpanse,
+	merkavaBattlefield,
+	treeOfLifeArena,
+	sevenHeichalos,
+	throneOfFire,
+	crystalSefirah,
+	abyssOfDin,
+	riverOfLight,
+	templeOfEchoes,
+	celestialGate,
+	crownRuins
 ];
 
 export const MAPS = RAW_MAPS.map(upgradeLevel);

@@ -4,65 +4,100 @@
 
 /**
  * @file tiny-skin-scene.js
- * @description Connects skeletons to the actual scene graph and exposes their
- * measured lines without confusing one finite vessel for the whole Awtsmoos.
+ * @description Connects GLTF skin definitions to their actual scene nodes and
+ * meshes. Each binding is a finite vessel renewed by the Awtsmoos; Awtsmoos.com
+ * records current transforms rather than inferring ownership from fragile names.
  */
+import { identity } from './tiny-math.js';
 
-/** Captures every current world matrix on its owning node. */
+/** Captures current world matrices and returns their exact node map. */
 export function collectWorldMatrices(root) {
-	root.updateWorldMatrix();
+	root.updateWorldMatrix(identity());
+	const worldByNode = new Map();
 	root.traverse((node) => {
 		node.userData ||= {};
 		node.userData.worldMatrix = node.matrixWorld;
+		worldByNode.set(node, node.matrixWorld);
 	});
+	return worldByNode;
 }
 
-/** Binds imported skin indices to their corresponding TinySkeleton objects. */
-export function bindTinySkeletons(root, skeletons = []) {
-	root.traverse((node) => {
-		const skinIndex = node.userData?.skinIndex;
-		if (Number.isInteger(skinIndex) && skeletons[skinIndex]) {
-			node.skeleton = skeletons[skinIndex];
-		}
-	});
+/** Builds skeletons from GLTF definitions and binds them to imported meshes. */
+export function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
+	const nodeMap = root.userData?.nodeMap || new Map();
+	const skeletons = new Map();
+	let maxJoints = 0;
+	let missingJoints = 0;
+	for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
+		const skinDef = doc.skins[skinIndex] || {};
+		const inverseBindAccessor = skinDef.inverseBindMatrices === undefined
+			? null
+			: accessors[skinDef.inverseBindMatrices];
+		const skeleton = createSkeleton({
+			skinIndex,
+			skinDef,
+			nodeMap,
+			inverseBindAccessor
+		});
+		skeletons.set(skinIndex, skeleton);
+		maxJoints = Math.max(maxJoints, skeleton.jointCount);
+		missingJoints += skeleton.joints.filter((joint) => !joint).length;
+	}
+	const meshStats = bindMeshes(root, skeletons);
+	root.userData.skeletons = skeletons;
+	return {
+		skeletonCount: skeletons.size,
+		maxJoints,
+		missingJoints,
+		...meshStats
+	};
 }
 
-/** Performs the compatibility path that eagerly refreshes every visible skin. */
+/** Eagerly refreshes every bound skin for compatibility diagnostics. */
 export function updateTinySkeletons(root) {
 	collectWorldMatrices(root);
+	let skinnedMeshes = 0;
+	let jointsUploaded = 0;
 	root.traverse((node) => {
-		if (node.isSkinnedMesh && node.skeleton) {
-			node.skeleton.update(node.matrixWorld);
+		if (!node.isSkinnedMesh || !node.skeleton) {
+			return;
+		}
+		skinnedMeshes += 1;
+		jointsUploaded += node.skeleton.update(node.matrixWorld || identity());
+	});
+	return { skinnedMeshes, jointsUploaded };
+}
+
+/** Toggles imported mesh categories while preserving unrelated nodes. */
+export function setMeshKindVisibility(
+	root,
+	{ skinned = true, rigid = true } = {}
+) {
+	root.traverse((node) => {
+		if (node.isMesh) {
+			node.visible = node.isSkinnedMesh ? skinned : rigid;
 		}
 	});
 }
 
-/** Toggles imported mesh categories while preserving unrelated visibility. */
-export function setMeshKindVisibility(root, kind, visible) {
+function bindMeshes(root, skeletons) {
+	let skinnedMeshes = 0;
+	let rigidMeshes = 0;
 	root.traverse((node) => {
-		if (node.userData?.kind === kind) {
-			node.visible = visible;
+		if (!node.isMesh) {
+			return;
 		}
-	});
-}
-
-/** Returns parent-to-child line positions for a diagnostic skeleton overlay. */
-export function skeletonLinePositions(skeleton) {
-	const jointSet = new Set(skeleton.joints);
-	const positions = [];
-	for (const joint of skeleton.joints) {
-		const parent = joint.parent;
-		if (!parent || !jointSet.has(parent)) {
-			continue;
-		}
-		positions.push(
-			parent.matrixWorld[12],
-			parent.matrixWorld[13],
-			parent.matrixWorld[14],
-			joint.matrixWorld[12],
-			joint.matrixWorld[13],
-			joint.matrixWorld[14]
+		const hasAttributes = Boolean(
+			node.geometry?.attributes?.joints
+			&& node.geometry?.attributes?.weights
 		);
-	}
-	return new Float32Array(positions);
+		node.skeleton = skeletons.get(node.skinIndex) || null;
+		node.isSkinnedMesh = Boolean(node.skeleton && hasAttributes);
+		if (node.isSkinnedMesh) {
+			skinnedMeshes += 1;
+		} else {
+			rigidMeshes += 1;
+		}
+	});
+	return { skinnedMeshes, rigidMeshes };
 }

@@ -1,0 +1,11 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"description": "Native-module tests for Shema Strike; Awtsmoos.com renews every finite verification vessel.",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "node --test tests/*.test.mjs"
+	}
+}

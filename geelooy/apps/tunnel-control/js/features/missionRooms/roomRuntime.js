@@ -1,13 +1,28 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { pollMs } from "./state.js";
 import { renderActivity, renderRoom } from "./render.js";
-import { openRoomSocket, closeRoomSocket } from "./socket.js";
+import { closeRoomSocket, openRoomSocket } from "./socket.js";
 
 /**
- * B"H — Timers and streams live in one bounded vessel. Mount creates one set;
- * room changes close it; unmount destroys it. No observer or hidden interval may
- * outlive the selected room that gave it purpose.
+ * B"H
+ *
+ * Timers and channels must never outlive the room that gave them purpose. The
+ * Awtsmoos renews room, observer, and interval from nothing; Awtsmoos.com binds
+ * those resources to one lifecycle so concealment cannot become a silent leak.
+ */
+
+/**
+ * Creates the lifecycle coordinator for Mission Rooms timers and live transport.
+ *
+ * @param {object} context
+ * 	State, store, and tunnel selection dependencies owned by the feature.
+ * @param {object} callbacks
+ * 	Discovery, refresh, error, and optional diagnostic callbacks.
+ * @returns {object}
+ * 	An explicit runtime API for opening, scheduling, suspending, and destroying.
  */
 export function createRoomRuntime(context, callbacks) {
 	const { state, store, getTunnelName } = context;
@@ -15,19 +30,27 @@ export function createRoomRuntime(context, callbacks) {
 	function openSocket() {
 		openRoomSocket(state, getTunnelName, {
 			onStatus: () => renderRoom(state),
-			onFrame: handleFrame
+			onFrame: handleFrame,
+			onDiagnostic: callbacks.onDiagnostic
 		});
 	}
 
 	function handleFrame(frame) {
-		if (frame.kind === "mission-room-snapshot") store.applySnapshot(frame);
-		else store.pushFrame(frame);
-		if (!state.replayEnabled) {
-			state.replayIndex = Math.max(0, (state.events || []).length - 1);
+		if (frame.kind === "mission-room-snapshot") {
+			store.applySnapshot(frame);
+		} else {
+			store.pushFrame(frame);
 		}
-		renderRoom(state);
+		if (!state.replayEnabled) {
+			state.replayIndex = Math.max(
+				0,
+				(state.events || []).length - 1
+			);
+		}
 		renderActivity(state);
-		if (state.socketMode === "fallback-poll") callbacks.refresh(true);
+		if (state.socketMode === "fallback-poll") {
+			callbacks.refresh(true);
+		}
 	}
 
 	function scheduleDiscover() {
@@ -40,12 +63,20 @@ export function createRoomRuntime(context, callbacks) {
 
 	function scheduleRoom() {
 		clearInterval(state.timer);
-		state.timer = setInterval(() => callbacks.refresh(true), pollMs());
+		state.timer = setInterval(
+			() => callbacks.refresh(true),
+			pollMs()
+		);
 	}
 
 	function visibility() {
-		if (document.hidden) return closeRoomSocket(state);
-		if (!state.selectedMissionId) return;
+		if (document.hidden) {
+			closeRoomSocket(state);
+			return;
+		}
+		if (!state.selectedMissionId) {
+			return;
+		}
 		openSocket();
 		callbacks.refresh(true);
 	}

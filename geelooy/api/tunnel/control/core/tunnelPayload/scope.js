@@ -1,11 +1,53 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+const { RECOVERY_WRITE_ACTION_SET } = require(
+	"../../routes/fsVessel/hostedVirtualOs/actionNames.js"
+);
+
+const FILESYSTEM_WRITE_ACTIONS = Object.freeze([
+	"applyPatch",
+	"bulkWrite",
+	"bulkWriteIfHashes",
+	"configSet",
+	"copyFile",
+	"copyTree",
+	"delete",
+	"deleteFile",
+	"deleteTree",
+	"ensureFile",
+	"findReplace",
+	"insertAfterFunction",
+	"insertAfterScope",
+	"insertBeforeFunction",
+	"insertBeforeScope",
+	"makeFolder",
+	"mkdir",
+	"mkdirp",
+	"moveFile",
+	"moveTree",
+	"replaceFunction",
+	"replaceFunctionBody",
+	"replaceMethod",
+	"replaceRange",
+	"replaceScope",
+	"replaceScopeBody",
+	"replaceSymbol",
+	"rootSelect",
+	"touch",
+	"write",
+	"writeIfHash"
+]);
 
 /**
  * B"H
  * Scope follows the deed, never the adapter accident. The Awtsmoos gives
- * Awtsmoos.com the narrowest authority that can perform the named action.
+ * Awtsmoos.com the narrowest authority that can perform the named action, and
+ * destructive recovery can no longer disguise itself as a read.
+ *
+ * @param {string} action Declared tunnel action.
+ * @returns {string} Required authorization scope.
  */
 function requiredScope(action) {
 	const text = String(action || "");
@@ -31,19 +73,13 @@ function requiredScope(action) {
 
 function writeActions() {
 	return new Set([
-		"write",
-		"bulkWrite",
-		"bulkWriteIfHashes",
-		"writeIfHash",
-		"findReplace",
-		"replaceRange",
-		"applyPatch",
-		"configSet",
-		"rootSelect"
+		...FILESYSTEM_WRITE_ACTIONS,
+		...RECOVERY_WRITE_ACTION_SET
 	]);
 }
 
 module.exports = {
+	FILESYSTEM_WRITE_ACTIONS,
 	requiredScope,
 	writeActions
 };

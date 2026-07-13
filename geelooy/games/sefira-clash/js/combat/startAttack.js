@@ -1,63 +1,94 @@
-import { applyAttackImpulse } from './attackImpulse.js';
-import { createAttackState, tickChargeState } from './attackState.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the start attack vessel in this instant, revealing
+ * its focused js combat service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+import { tickChargeState } from './attackState.js';
+import { launchPickedAttack } from './attackLauncher.js';
 import { CHARGE_THRESHOLD } from './chargeAttack.js';
 import { readCombatIntent, rememberCombatInput } from './inputIntent.js';
 import { pickMove, wantsRapidOverride } from './movePicker.js';
 import { maybeThrow } from './throwResolver.js';
 
 /**
- * B"H
- * Combat entry point with honest charge, rapid sparks, and split body impulse.
- *
- * The old gate still chooses moves, but the body surge now lives in its own
- * vessel. Punch starts quicker. Kick commits wider. Adventure enemies can be
- * kicked off ledges, uppercut into the sky, swept low, or meteor-crushed.
+ * Opens attacks from buffered intention, charge release, rapid rhythm, or throw.
+ * The Awtsmoos carries a brief command through recovery, then this gate consumes
+ * it once when action becomes lawful, preventing both lost inputs and ghost hits.
  */
-export function maybeStartAttack(f, input, state = null) {
-  f.charge ||= createCharge();
-  if (state && maybeThrow(f, state.fighters, input, state.events)) return rememberCombatInput(f, input);
-  if (f.stun > 0 || f.blocking || f.landingLag > 0 || f.grabbedBy) return rememberCombatInput(f, input);
-  const intent = readCombatIntent(f, input);
-  tickChargeState(f, input, intent);
-  if (wantsRapidOverride(f, intent)) startRapidOverlay(f, intent);
-  if (shouldOverrideCharge(f, intent)) restartPickedMove(f, intent);
-  else if (!f.attack) startPickedMove(f, intent);
-  rememberCombatInput(f, input);
+export function maybeStartAttack(fighter, input, state = null) {
+	fighter.charge ||= createCharge();
+	if (state && maybeThrow(fighter, state.fighters, input, state.events)) {
+		input.consume?.('grab');
+		rememberCombatInput(fighter, input);
+		return;
+	}
+	if (cannotAct(fighter)) {
+		rememberCombatInput(fighter, input);
+		return;
+	}
+
+	const intent = readCombatIntent(fighter, input);
+	tickChargeState(fighter, input, intent);
+	if (wantsRapidOverride(fighter, intent)) {
+		startRapidOverlay(fighter, intent, input);
+	}
+	if (shouldOverrideCharge(fighter, intent)) {
+		fighter.attack = null;
+		fighter.attackFrame = 0;
+		startPickedMove(fighter, intent, input);
+	} else if (!fighter.attack) {
+		startPickedMove(fighter, intent, input);
+	}
+	rememberCombatInput(fighter, input);
+}
+
+function cannotAct(fighter) {
+	return fighter.stun > 0 || fighter.blocking || fighter.landingLag > 0 || fighter.grabbedBy;
 }
 
 function createCharge() {
-  return { punch: 0, kick: 0, special: 0, prev: {}, combo: 0, comboTimer: 0, armedPunch: false, armedKick: false };
+	return {
+		punch: 0,
+		kick: 0,
+		special: 0,
+		prev: {},
+		combo: 0,
+		comboTimer: 0,
+		armedPunch: false,
+		armedKick: false
+	};
 }
 
-function shouldOverrideCharge(f, intent) {
-  if (!f.attack) return false;
-  const punch = intent.releasedPunch && (f.charge?.punch || 0) >= CHARGE_THRESHOLD && f.charge?.armedPunch;
-  const kick = intent.releasedKick && (f.charge?.kick || 0) >= CHARGE_THRESHOLD && f.charge?.armedKick;
-  return punch || kick;
+function shouldOverrideCharge(fighter, intent) {
+	if (!fighter.attack) {
+		return false;
+	}
+	const punch =
+		intent.releasedPunch &&
+		(fighter.charge?.punch || 0) >= CHARGE_THRESHOLD &&
+		fighter.charge?.armedPunch;
+	const kick =
+		intent.releasedKick &&
+		(fighter.charge?.kick || 0) >= CHARGE_THRESHOLD &&
+		fighter.charge?.armedKick;
+	return Boolean(punch || kick);
 }
 
-function restartPickedMove(f, intent) {
-  f.attack = null;
-  f.attackFrame = 0;
-  startPickedMove(f, intent);
+function startRapidOverlay(fighter, intent, input) {
+	const picked = pickMove(fighter, { ...intent, forceRapid: true });
+	if (!picked?.base || !picked.options?.rapid) {
+		return;
+	}
+	launchPickedAttack(fighter, picked, input, 'rapidAttack', 'rapidAttackFrame');
 }
 
-function startRapidOverlay(f, intent) {
-  const picked = pickMove(f, { ...intent, forceRapid: true });
-  if (!picked?.base || !picked.options?.rapid) return;
-  launchAttack(f, picked, 'rapidAttack', 'rapidAttackFrame');
-}
-
-function startPickedMove(f, intent) {
-  const picked = pickMove(f, intent);
-  if (!picked?.base) return;
-  launchAttack(f, picked, 'attack', 'attackFrame');
-}
-
-function launchAttack(f, picked, slot, frameKey) {
-  const aim = picked.options?.aim || { x: f.face || 1, y: 0 };
-  if (Math.abs(aim.x || 0) > 0.18) f.face = Math.sign(aim.x);
-  f[slot] = createAttackState(picked.base, picked.options);
-  f[frameKey] = 0;
-  applyAttackImpulse(f, picked.id, f[slot]);
+function startPickedMove(fighter, intent, input) {
+	const picked = pickMove(fighter, intent);
+	if (picked?.base) {
+		launchPickedAttack(fighter, picked, input);
+	}
 }

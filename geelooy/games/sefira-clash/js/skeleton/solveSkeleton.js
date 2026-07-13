@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the solve skeleton vessel in this instant, revealing
+ * its focused js skeleton service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Full hyper-real humanoid animation solver.
@@ -50,50 +59,74 @@ import { secondaryPose } from './secondary/secondaryPose.js';
 import { ikLite } from './ik/ikLite.js';
 import { stepClothState } from '../cloth/clothState.js';
 
+/**
+ * Reveals the solve skeleton behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} f The f value entering this behavior.
+ */
 export function solveSkeleton(f) {
-  updateMotionMemory(f);
-  const anim = animationState(f);
-  const metrics = motionMetrics(f, anim);
-  const intent = poseIntent(f, anim, metrics);
-  const body = bodyArchetype(f);
-  const style = movementSignature(f);
-  const clothing = clothingArchetype(f);
-  const rhythm = rhythmSignature(f);
-  const damage = damageSignature(f);
-  const emotion = emotionSignature(f, intent);
-  const mass = bodyMass(f, body, metrics);
-  const forces = forcePropagation(f, metrics, intent);
-  const torque = torqueModel(f, metrics, intent);
-  const recoil = recoilModel(f, metrics);
-  const balance = balanceModel(f, metrics, intent);
-  let pose = basePose(f, metrics, body, balance, anim, intent);
-  f.poseSnapshot = poseReadback(pose);
-  applyInfluences(pose, collectInfluences(contactInfluences(f, metrics, body), forceInfluences(f, metrics, intent, forces, body)));
-  massPose(pose, f, metrics, body);
-  contactPose(pose, f, metrics, body);
-  feetPose(pose, f, metrics, body);
-  personalityPose(pose, f, metrics, body);
-  intentPose(pose, f, metrics, body, intent);
-  gaitPose(pose, f, metrics, body, intent, damage);
-  locomotionPose(pose, f, metrics, { ...style, rhythm, forces, torque }, body);
-  airPose(pose, f, metrics, { ...style, rhythm, forces }, body, intent);
-  landingPose(pose, f, metrics, body);
-  combatPose(pose, f, metrics, body, { ...intent, forces, recoil, torque });
-  impactPose(pose, f, metrics, body);
-  damagePose(pose, f, body, damage);
-  emotionPose(pose, f, { ...intent, damage, emotion }, style, body);
-  recoveryPose(pose, f, metrics, body, intent);
-  breathingPose(pose, f, body, intent, damage, rhythm);
-  microPose(pose, f, metrics, body);
-  secondaryPose(pose, f, metrics, { ...style, rhythm, forces, mass }, body);
-  jointInertia(pose, f, body);
-  ikLite(pose, f, metrics);
-  bindAll(f, pose);
-  updateLimbMemory(f, pose);
-  f.anim = anim;
-  f.poseIntent = intent;
-  f.poseReadback = poseReadback(pose);
-  f.visualStyle = { body, style, clothing, rhythm, damage, emotion, mass, forces, torque, recoil };
-  f.poseClothAnchors = pose.clothAnchors;
-  stepClothState(f, clothing, pose.clothAnchors);
+	updateMotionMemory(f);
+	const anim = animationState(f);
+	const metrics = motionMetrics(f, anim);
+	const intent = poseIntent(f, anim, metrics);
+	const body = bodyArchetype(f);
+	const style = movementSignature(f);
+	const clothing = clothingArchetype(f);
+	const rhythm = rhythmSignature(f);
+	const damage = damageSignature(f);
+	const emotion = emotionSignature(f, intent);
+	const mass = bodyMass(f, body, metrics);
+	const forces = forcePropagation(f, metrics, intent);
+	const torque = torqueModel(f, metrics, intent);
+	const recoil = recoilModel(f, metrics);
+	const balance = balanceModel(f, metrics, intent);
+	let pose = basePose(f, metrics, body, balance, anim, intent);
+	f.poseSnapshot = poseReadback(pose);
+	applyInfluences(
+		pose,
+		collectInfluences(
+			contactInfluences(f, metrics, body),
+			forceInfluences(f, metrics, intent, forces, body)
+		)
+	);
+	massPose(pose, f, metrics, body);
+	contactPose(pose, f, metrics, body);
+	feetPose(pose, f, metrics, body);
+	personalityPose(pose, f, metrics, body);
+	intentPose(pose, f, metrics, body, intent);
+	gaitPose(pose, f, metrics, body, intent, damage);
+	locomotionPose(pose, f, metrics, { ...style, rhythm, forces, torque }, body);
+	airPose(pose, f, metrics, { ...style, rhythm, forces }, body, intent);
+	landingPose(pose, f, metrics, body);
+	combatPose(pose, f, metrics, body, { ...intent, forces, recoil, torque });
+	impactPose(pose, f, metrics, body);
+	damagePose(pose, f, body, damage);
+	emotionPose(pose, f, { ...intent, damage, emotion }, style, body);
+	recoveryPose(pose, f, metrics, body, intent);
+	breathingPose(pose, f, body, intent, damage, rhythm);
+	microPose(pose, f, metrics, body);
+	secondaryPose(pose, f, metrics, { ...style, rhythm, forces, mass }, body);
+	jointInertia(pose, f, body);
+	ikLite(pose, f, metrics);
+	bindAll(f, pose);
+	updateLimbMemory(f, pose);
+	f.anim = anim;
+	f.poseIntent = intent;
+	f.poseReadback = poseReadback(pose);
+	f.visualStyle = {
+		body,
+		style,
+		clothing,
+		rhythm,
+		damage,
+		emotion,
+		mass,
+		forces,
+		torque,
+		recoil
+	};
+	f.poseClothAnchors = pose.clothAnchors;
+	stepClothState(f, clothing, pose.clothAnchors);
 }

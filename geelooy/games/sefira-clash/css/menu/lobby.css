@@ -1,0 +1,117 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the local lobby as four readable vessels in Awtsmoos.com.
+ * Color, spacing, state, ownership, and honest rules appear before combat begins.
+ */
+.localLobby {
+	display: grid;
+	gap: 18px;
+	width: min(1180px, calc(100vw - 32px));
+}
+
+.lobbyGrid {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: repeat(4, minmax(190px, 1fr));
+}
+
+.lobbySlot {
+	background: #0e0918e8;
+	border: 2px solid var(--player-color);
+	border-radius: 22px;
+	display: grid;
+	gap: 12px;
+	min-height: 310px;
+	padding: 16px;
+}
+
+.lobbySlot-closed {
+	filter: saturate(0.25);
+	opacity: 0.68;
+}
+
+.lobbySlotHeader,
+.lobbyFooter,
+.lobbyRule {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.lobbySlotHeader strong {
+	color: var(--player-color);
+	font-size: 22px;
+}
+
+.lobbySlotHeader span,
+.lobbyReadyLabel {
+	text-transform: capitalize;
+}
+
+.lobbyField,
+.lobbyIdentity {
+	display: grid;
+	gap: 6px;
+}
+
+.lobbyField > span,
+.lobbyRule > span {
+	color: #ddc992;
+	font-size: 12px;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.lobbySelect,
+.lobbyRule input {
+	background: #160f23;
+	border: 1px solid #ffe08266;
+	border-radius: 10px;
+	color: #fff1c9;
+	min-height: 38px;
+	padding: 7px 9px;
+}
+
+.lobbyIdentity span,
+.lobbyIdentity small {
+	color: #d7c9ea;
+}
+
+.lobbyRules {
+	background: #0e0918d9;
+	border: 1px solid #ffe08244;
+	border-radius: 18px;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(3, minmax(150px, 1fr));
+	padding: 14px;
+}
+
+.lobbyRules h3 {
+	grid-column: 1 / -1;
+}
+
+.lobbyFooter {
+	gap: 14px;
+}
+
+@media (max-width: 900px) {
+	.lobbyGrid {
+		grid-template-columns: repeat(2, minmax(180px, 1fr));
+	}
+
+	.lobbyRules {
+		grid-template-columns: repeat(2, minmax(130px, 1fr));
+	}
+}
+
+@media (max-width: 520px) {
+	.lobbyGrid,
+	.lobbyRules {
+		grid-template-columns: 1fr;
+	}
+}

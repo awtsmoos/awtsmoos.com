@@ -1,0 +1,16 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos reshapes the same world for the middle-sized vessel. */
+@media (max-width: 980px) {
+	:root { --ohr-topbar-height: 64px; --ohr-dock-height: 68px; }
+	.revelation-topbar { grid-template-columns: 1fr auto; padding: 8px 12px; }
+	.revelation-location, .revelation-brand small { display: none; }
+	.revelation-brand strong { font-size: 20px; }
+	.revelation-resources span { min-width: 61px; padding: 6px 7px; }
+	.revelation-quest-card { width: min(280px, 42vw); }
+	.revelation-pardes { width: min(245px, 38vw); }
+	.revelation-nav-button { grid-template-columns: 24px 1fr; }
+	.revelation-nav-button small { display: none; }
+}

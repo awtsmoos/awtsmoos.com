@@ -1,42 +1,90 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import { registrationPacket } from "../../../../shared/tunnel/protocol.js";
+import { browserRegistrationProfile } from "../../../../shared/tunnel/registrationProfile.js";
+
 /**
- * Chapter 112: The Code tab registered as a vessel, not a frightened tab.
+ * B"H
+ *
+ * Apps Code is a browser vessel with real browser powers and explicit native
+ * boundaries. The Awtsmoos creates workspace, runtime, and server together;
+ * Awtsmoos.com registers one truthful identity without discarding legacy readers.
  */
-export const CODE_BROWSER_TUNNEL_VERSION = 'awtsmoos-code-vessel-1.0.0';
 
-export function codeBrowserTunnelTools({ fsActions = [], commandActions = [], previewActions = [] } = {}) {
-  return {
-    fsList: true, fsTree: true, fsRead: true, fsWrite: true, fsBulk: true,
-    fsAdvanced: [...fsActions], command: 'merkava-virtual-or-remote',
-    commandActions: [...commandActions], httpProxy: false,
-    nodeScript: 'merkava-simulated', chrome: false, browser: true,
-    browserTab: true, browserAnalysis: true, receiptStore: true,
-    previewControl: [...previewActions]
-  };
+export const CODE_BROWSER_TUNNEL_VERSION = "browser-agent-3.1.0";
+
+/** Creates the compatibility tool projection for the browser tunnel. */
+export function codeBrowserTunnelTools(options = {}) {
+	return {
+		command: "merkava-virtual-or-remote",
+		chrome: false,
+		receiptStore: true,
+		fsAdvanced: bounded(options.fsActions),
+		commandActions: bounded(options.commandActions),
+		previewControl: bounded(options.previewActions)
+	};
 }
 
-export function codeBrowserRegistrationPacket({ tunnelName, fsActions = [], commandActions = [], previewActions = [], userAgent = '', url = '' } = {}) {
-  if (!tunnelName) throw new Error('code_browser_tunnel_name_required');
-  return {
-    type: 'TUNNEL_REGISTER', protocolVersion: 'awtsmoos-tunnel-v2',
-    kind: 'browser-code-vessel', name: tunnelName, tunnelName,
-    vessel: 'awtsmoos-code', vesselType: 'awtsmoos-code',
-    deviceName: 'Awtsmoos Code', root: 'awtsmoos://code',
-    allowWrite: true, allowSecrets: false, allowCommands: 'limited',
-    agentVersion: CODE_BROWSER_TUNNEL_VERSION, browserAgent: true,
-    workspaceId: 'browser-workspace', userAgent, url,
-    capabilities: capabilities(fsActions, commandActions, previewActions),
-    tools: codeBrowserTunnelTools({ fsActions, commandActions, previewActions }),
-    chrome: { enabled: false }, command: { enabled: false, mode: 'merkava-virtual-or-remote' },
-    safety: { preserveIdentity: true, missionSideChannel: true }
-  };
+/** Builds one canonical Apps Code registration packet with legacy fields. */
+export function codeBrowserRegistrationPacket(options = {}) {
+	if (!options.tunnelName) {
+		throw new Error("code_browser_tunnel_name_required");
+	}
+	const fsActions = bounded(options.fsActions);
+	const commandActions = bounded(options.commandActions);
+	const previewActions = bounded(options.previewActions);
+	const profile = browserRegistrationProfile({
+		workspaceId: options.workspaceId || "browser-workspace"
+	});
+	return registrationPacket({
+		...profile,
+		kind: "browser-code-vessel",
+		tunnelName: options.tunnelName,
+		vessel: "awtsmoos-code",
+		deviceName: "Awtsmoos Code",
+		root: "awtsmoos://code",
+		workspaceId: profile.runtime.workspaceId,
+		allowWrite: true,
+		allowSecrets: false,
+		allowCommands: "limited",
+		agentVersion: CODE_BROWSER_TUNNEL_VERSION,
+		userAgent: String(options.userAgent || ""),
+		capabilities: {
+			...profile.capabilities,
+			commandRun: "merkava-virtual-or-remote",
+			nodeScript: "merkava-simulated",
+			missionAware: true,
+			receiptStore: true,
+			correlationSafe: true,
+			commandModes: [
+				"merkava-virtual",
+				"native-delegated",
+				"unsupported"
+			],
+			fsActions,
+			previewControl: previewActions
+		},
+		tools: codeBrowserTunnelTools({
+			fsActions,
+			commandActions,
+			previewActions
+		}),
+		command: {
+			mode: "merkava-virtual-or-remote",
+			actions: commandActions
+		},
+		safety: {
+			preserveIdentity: true,
+			missionSideChannel: true,
+			denyUnsupportedNative: true
+		}
+	});
 }
 
-function capabilities(fsActions, commandActions, previewActions) {
-  return { fsRead: true, fsWrite: true, workspaceTree: true, preview: true,
-    commandRun: 'merkava-virtual-or-remote', nodeScript: 'merkava-simulated',
-    missionAware: true, receiptStore: true, correlationSafe: true,
-    commandModes: ['merkava-virtual', 'native-delegated', 'unsupported'],
-    fsActions: [...fsActions], commandActions: [...commandActions], previewControl: [...previewActions],
-    chrome: false, httpProxy: false, allowSecrets: false };
+function bounded(values) {
+	return Array.isArray(values)
+		? values.slice(0, 512).map(value => String(value))
+		: [];
 }

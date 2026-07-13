@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // B"H
 // Boruch Hashem
 // Blessed is He
@@ -9,48 +10,14 @@ const State = require("../recovery/stateStore.js");
 
 /**
  * B"H
- * The command line is the narrow mouth of the recovery vessel. The Awtsmoos
- * lets Awtsmoos.com supervise, inspect, seal, downgrade, and restore without a
- * human editing hidden state during the moment of failure.
+ *
+ * Exposes one narrow Medaber mouth for recovery state. The command interprets
+ * intent while focused modules own health, state, and policy. Awtsmoos.com may
+ * therefore supervise failure without editing hidden files by hand.
  */
 const [action = "status", rawRoot = process.cwd(), ...args] = process.argv.slice(2);
 const root = path.resolve(rawRoot);
-let result;
-
-switch (action) {
-	case "seal":
-		result = Integrity.seal(root);
-		break;
-	case "check":
-		result = Integrity.check(root);
-		break;
-	case "before-start":
-		result = Controller.beforeStart(root);
-		break;
-	case "after-exit":
-		result = Controller.afterExit(root, args[0], args[1]);
-		break;
-	case "report-failure":
-		result = Controller.reportFailure(root, args[0] || "reported_failure", args[1] === "restore");
-		break;
-	case "set-tier":
-		result = Controller.setTier(root, args[0]);
-		break;
-	case "status":
-		result = {
-			ok: true,
-			state: State.read(root),
-			health: Integrity.check(root)
-		};
-		break;
-	default:
-		result = {
-			ok: false,
-			error: "unknown_recovery_action",
-			action
-		};
-		process.exitCode = 2;
-}
+const result = execute(action, root, args);
 
 if (args.includes("--shell") || process.argv.includes("--shell")) {
 	printShell(result);
@@ -58,13 +25,58 @@ if (args.includes("--shell") || process.argv.includes("--shell")) {
 	console.log(JSON.stringify(result, null, 2));
 }
 
+if (result.ok === false && action !== "before-start" && action !== "status") {
+	process.exitCode = 1;
+}
+
+function execute(selectedAction, runtimeRoot, selectedArgs) {
+	switch (selectedAction) {
+		case "seal":
+			return Integrity.seal(runtimeRoot);
+		case "check":
+			return Integrity.check(runtimeRoot);
+		case "before-start":
+			return Controller.beforeStart(runtimeRoot);
+		case "after-exit":
+			return Controller.afterExit(runtimeRoot, selectedArgs[0], selectedArgs[1]);
+		case "report-failure":
+			return Controller.reportFailure(
+				runtimeRoot,
+				selectedArgs[0] || "reported_failure",
+				selectedArgs[1] === "restore"
+			);
+		case "set-tier":
+			return Controller.setTier(runtimeRoot, selectedArgs[0]);
+		case "mark-restored":
+			return Controller.markRestored(runtimeRoot, {
+				version: selectedArgs[0] || "",
+				candidate: selectedArgs[1] || ""
+			});
+		case "status":
+			return {
+				ok: true,
+				state: State.read(runtimeRoot),
+				health: Integrity.check(runtimeRoot)
+			};
+		default:
+			return {
+				ok: false,
+				error: "unknown_recovery_action",
+				action: selectedAction
+			};
+	}
+}
+
 function printShell(value = {}) {
 	const environment = value.environment || {};
+
 	for (const [key, entry] of Object.entries(environment)) {
 		console.log(`${key}=${quote(entry)}`);
 	}
+
 	console.log(`AWTSMOOS_RECOVERY_TIER=${quote(value.tier ?? value.state?.tier ?? 5)}`);
 	console.log(`AWTSMOOS_RECOVERY_RESTORE=${quote(value.restoreRequired ? 1 : 0)}`);
+	console.log(`AWTSMOOS_RECOVERY_REASON=${quote(value.restoreReason || "")}`);
 }
 
 function quote(value) {

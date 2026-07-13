@@ -1,20 +1,29 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module BattleRewards
- * @description Grants victory once to player, party, missions, collection, and bag.
+ * @file BattleRewards.js
+ * @description Grants verified progression, authored encounter consequence, and release once.
+ *
+ * Reward, growth, and world change follow the revealed deed without pretending
+ * victory owns another life. The Awtsmoos renews each consequence; this conductor
+ * gathers only earned progression beneath the roads of Awtsmoos.com.
  */
 import { State } from '../../binah/State.js';
-import { recordQuestEvent } from '../OhrQuest.js';
-import { addGarment, garmentRewardForDebateMilestone, syncLightCapacity } from '../equipment/EquipmentRuntime.js';
-import { learnRouteFromMove } from '../abilities/AbilityRuntime.js';
-import { grantBattleSkills } from '../skills/SkillRuntime.js';
-import { isMusag, recordMusag } from '../musag/MusagDex.js';
-import { addItem, addJournalNote, addMoney, rewardLine } from '../bag/BagRuntime.js';
-import { addMusagFromEncounter, grantPartyExp } from '../party/PartyRuntime.js';
 import { recordMissionEvent } from '../../missions/MissionRuntime.js';
-import { battleReward } from './BattleRank.js';
 import { pushBattleEffect, pushRewardEffect } from '../../tiferet/render/BattleEffects.js';
+import { recordQuestEvent } from '../OhrQuest.js';
+import { learnRouteFromMove } from '../abilities/AbilityRuntime.js';
+import { addItem, addJournalNote, addMoney, rewardLine } from '../bag/BagRuntime.js';
+import { addGarment, garmentRewardForDebateMilestone, syncLightCapacity } from '../equipment/EquipmentRuntime.js';
+import { isMusag, recordMusag } from '../musag/MusagDex.js';
+import { grantPartyExp } from '../party/PartyRuntime.js';
+import { grantBattleSkills } from '../skills/SkillRuntime.js';
+import { grantCollectionReward } from './BattleCollectionRewards.js';
+import { applyBattleEncounterConsequences } from './BattleEncounterConsequences.js';
 import { BATTLE_PHASE, setBattlePhase } from './BattlePhases.js';
+import { battleReward } from './BattleRank.js';
 
 const grantPlayerLevels = message => {
 	while (State.Stats.exp >= State.Stats.nextExp) {
@@ -30,17 +39,21 @@ const grantPlayerLevels = message => {
 
 const grantMilestoneGarment = message => {
 	const garment = garmentRewardForDebateMilestone(State.Stats.debatesWon);
-	return garment && addGarment(garment) ? `${message} New garment: ${garment}.` : message;
+	return garment && addGarment(garment)
+		? `${message} New garment: ${garment}.`
+		: message;
 };
 
-const grantCollection = (defeated, message) => {
-	if (!defeated.speciesId) return message;
-	const collected = addMusagFromEncounter(defeated);
-	if (!collected.ok) return message;
-	return `${message} ${collected.member.name} joined the ${collected.destination} party.`;
+const recordLivingConcept = (defeated, message) => {
+	if (!isMusag(defeated)) return message;
+	recordQuestEvent('wildWon', 1);
+	const entry = recordMusag(defeated, true);
+	return entry?.sweetened >= 3
+		? `${message} ${entry.name} deepened in the records.`
+		: message;
 };
 
-const grantRewards = (defeated, move, message) => {
+const grantRewards = (defeated, move, openingMessage) => {
 	grantBattleSkills(move, defeated, true);
 	const reward = battleReward(defeated);
 	State.Debate.pendingReward = reward;
@@ -51,16 +64,15 @@ const grantRewards = (defeated, move, message) => {
 	Object.entries(reward.items || {}).forEach(([id, amount]) => addItem(id, amount));
 	recordQuestEvent('debateWon', 1);
 	recordMissionEvent('BATTLE', defeated.id || defeated.speciesId || defeated.name);
+	let message = openingMessage;
 	const partyLevels = grantPartyExp(reward.exp);
-	if (partyLevels.length) message += ` Lead Musag reached level ${partyLevels.at(-1)}.`;
-	if (isMusag(defeated)) {
-		recordQuestEvent('wildWon', 1);
-		const entry = recordMusag(defeated, true);
-		if (entry?.sweetened >= 3) message += ` ${entry.name} evolved in the Dex.`;
-	}
-	message = grantCollection(defeated, message);
+	if (partyLevels.length) message += ` Lead Nitzotz reached level ${partyLevels.at(-1)}.`;
+	message = recordLivingConcept(defeated, message);
+	message = grantCollectionReward(defeated, message);
 	const learned = learnRouteFromMove(move, true);
 	if (learned) message += ` ${learned}.`;
+	const consequence = applyBattleEncounterConsequences(defeated);
+	if (consequence?.message) message += consequence.message;
 	message = grantPlayerLevels(grantMilestoneGarment(message));
 	State.Debate.rewardText = rewardLine(reward);
 	addJournalNote(`${defeated.name}: ${State.Debate.rewardText}`);
@@ -71,9 +83,8 @@ const grantRewards = (defeated, move, message) => {
 export const beginVictory = (message = 'The distortion is sweetened.') => {
 	if (State.Debate.outcome) return false;
 	State.Debate.outcome = 'victory';
-	const defeated = State.Debate.enemy;
 	pushBattleEffect('heal', 'player', 'victory');
-	const finalMessage = grantRewards(defeated, State.Debate.lastMove, message);
+	const finalMessage = grantRewards(State.Debate.enemy, State.Debate.lastMove, message);
 	syncLightCapacity();
 	State.say(finalMessage, 720);
 	setBattlePhase(BATTLE_PHASE.REWARD, 'Rewards collected');

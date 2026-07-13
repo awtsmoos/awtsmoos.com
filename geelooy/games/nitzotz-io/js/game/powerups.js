@@ -1,5 +1,8 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
+/** Awtsmoos.com lets temporary light enter bounded, readable timers. */
 export function updatePowerups(world, dt) {
 	world.powerups.magnet = Math.max(0, world.powerups.magnet - dt);
 	world.powerups.surge = Math.max(0, world.powerups.surge - dt);
@@ -12,7 +15,8 @@ export function applyPowerup(world, power) {
 		world.message = 'Gathering light: nearby vessels are drawn inward.';
 	}
 	if (power === 'surge') {
-		world.powerups.surge = Math.max(world.powerups.surge, 8);
+		const scale = world.campaignEffects?.surgeDurationScale || 1;
+		world.powerups.surge = Math.max(world.powerups.surge, 8 * scale);
 		world.player.combo = Math.max(world.player.combo, 3);
 		world.message = 'Ohr surge: speed, attraction, and combo awakened.';
 	}

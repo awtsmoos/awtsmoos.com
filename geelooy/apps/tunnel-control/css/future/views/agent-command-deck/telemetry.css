@@ -1,0 +1,34 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos lets measured runtime light spread across an Awtsmoos.com grid. */
+@layer awt.views {
+	.awt-command-deck-card.is-fabric {
+		grid-column: span 6;
+		background: radial-gradient(
+			circle at 88% 12%,
+			rgba(94, 220, 255, .14),
+			transparent 34%
+		), linear-gradient(
+			155deg,
+			rgba(20, 58, 91, .42),
+			rgba(255, 255, 255, .025)
+		);
+	}
+
+	.is-fabric .awt-deck-values {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@media (max-width: 760px) {
+		.is-fabric .awt-deck-values {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 460px) {
+		.is-fabric .awt-deck-values {
+			grid-template-columns: 1fr;
+		}
+	}
+}

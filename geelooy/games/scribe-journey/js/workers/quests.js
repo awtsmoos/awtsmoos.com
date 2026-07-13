@@ -1,152 +1,83 @@
-
 // B"H
-// js/workers/quests.js
+// Boruch Hashem
+// Blessed is He
+
 import { formatMoney } from '../data/database.js';
+import { emitQuestEvent, invalidateQuestEventIndex } from './systems/quests/questEvents.js';
+import { buildQuestLogPayload } from './systems/quests/questPresentation.js';
+import { grantQuestRewards } from './systems/quests/questRewards.js';
+import {
+	acceptQuest, availableQuestIds, completeQuestState, ensureQuestState,
+	findActiveQuest, getQuestStatus, trackQuest as selectTrackedQuest
+} from './systems/quests/questState.js';
 
-export function accept(state, questId, sendToast) {
-    if (state.player.activeQuests.some(q => q.id === questId)) return;
-    const questDef = state.db.quests[questId];
-    if (!questDef) return;
-
-    const newQuest = JSON.parse(JSON.stringify(questDef));
-    state.player.activeQuests.push(newQuest);
-    
-    const giver = findEntity(state, newQuest.questGiverId);
-    if(giver) giver.questState = 'in_progress';
-
-    sendToast(`New Task: ${newQuest.name}`, 'info');
+function toast(sendToast, message, type) {
+	if (typeof sendToast === 'function') sendToast(message, type);
 }
 
-export function updateObjective(state, event, sendToast) {
-    let updated = false;
-    state.player.activeQuests.forEach(quest => {
-        quest.objectives.forEach(obj => {
-            if (obj.completed) return;
-            let objectiveMatched = false;
-            
-            // Check matching types
-            if (obj.target.type === event.type) {
-                if(event.type === 'defeat' && obj.target.musagId === event.musagId) objectiveMatched = true;
-                else if((event.type === 'acquire' || event.type === 'collect') && obj.target.itemId === event.itemId) objectiveMatched = true;
-                else if(event.type === 'dialogue' && obj.target.flag === event.flag) {
-                    obj.completed = true;
-                    checkCompletion(state, quest, sendToast);
-                    return;
-                }
-            }
-            
-            if (objectiveMatched) {
-                obj.current = (obj.current || 0) + (event.count || 1);
-                if (obj.current >= (obj.target.count || 1)) {
-                    obj.completed = true;
-                    if(sendToast) sendToast(`Objective Complete: ${obj.text.split('(')[0]}`, 'success');
-                    checkCompletion(state, quest, sendToast);
-                }
-                updated = true;
-            }
-        });
-    });
-    return updated;
+export function accept(state, questId, sendToast = null) {
+	const quest = acceptQuest(state, questId);
+	if (!quest) return false;
+	invalidateQuestEventIndex(state);
+	toast(sendToast, `New Task: ${quest.title}`, 'info');
+	return true;
 }
 
-function checkCompletion(state, quest, sendToast) {
-    if (quest.objectives.every(obj => obj.completed)) {
-        quest.status = 'completed';
-        const giver = findEntity(state, quest.questGiverId);
-        if(giver) giver.questState = 'completed';
-        if(sendToast) sendToast(`Task Ready to Turn In: ${quest.name}`, 'info');
-    }
+export function updateObjective(state, event, sendToast = null) {
+	ensureQuestState(state.player);
+	return emitQuestEvent(state, event, sendToast).length > 0;
 }
 
-export function finalize(state, questId, sendToast) {
-    const questIndex = state.player.activeQuests.findIndex(q => q.id === questId);
-    if (questIndex === -1) return;
-    const quest = state.player.activeQuests[questIndex];
-    if (quest.status !== 'completed') return;
+export const emit = updateObjective;
 
-    // Grant Rewards
-    if (quest.rewards.money) {
-        for (const unit in quest.rewards.money) {
-            state.player.money[unit] = (state.player.money[unit] || 0) + quest.rewards.money[unit];
-        }
-    }
-    if (quest.rewards.items) {
-        quest.rewards.items.forEach(itemId => giveItem(state, itemId, 1, sendToast));
-    }
-    if (quest.rewards.xp) {
-        // Simple XP grant to lead Musag
-        if(state.player.team[0]) {
-             // Logic handled in gameWorker usually, but we can emit event or just add property?
-             // For simplicity, we just add it to stats here if we have access to team structure
-             // But team is IDs. We need instances. 
-             // We'll skip complex XP here and assume it's handled by main loop or ignored for now.
-        }
-    }
-
-    sendToast(`Task Complete: ${quest.name}!`, 'success');
-    state.player.activeQuests.splice(questIndex, 1);
-    state.player.completedQuests = state.player.completedQuests || [];
-    state.player.completedQuests.push(questId);
-    
-    const giver = findEntity(state, quest.questGiverId);
-    if(giver) giver.questState = 'none';
+/** Turns in one ready thread, rewards it once, and tells dependent quests. */
+export function finalize(state, questId, sendToast = null) {
+	const quest = findActiveQuest(state, questId);
+	if (!quest || !['ready', 'completed'].includes(quest.status)) return false;
+	const rewardResult = grantQuestRewards(state, quest);
+	completeQuestState(state, questId);
+	invalidateQuestEventIndex(state);
+	emitQuestEvent(state, { type: 'complete_other_quest', targetId: questId, quantity: 1 }, sendToast);
+	for (const event of rewardResult.itemEvents) emitQuestEvent(state, event, sendToast);
+	toast(sendToast, `Task Complete: ${quest.title}!`, 'success');
+	return true;
 }
 
 export function giveItem(state, itemId, quantity = 1, sendToast = null) {
-    const itemDef = state.db.items[itemId];
-    if (!itemDef) {
-        console.warn(`Item ${itemId} not found in DB.`);
-        return;
-    }
-    
-    for(let i=0; i<quantity; i++) {
-        state.player.inventory.push({ ...itemDef });
-    }
-    
-    if(sendToast) sendToast(`Acquired: ${itemDef.name} ${quantity > 1 ? `x${quantity}` : ''}`, 'success');
-
-    // Trigger Quest Updates automatically
-    updateObjective(state, { type: 'collect', itemId, count: quantity }, sendToast);
-    updateObjective(state, { type: 'acquire', itemId, count: quantity }, sendToast); // Support both keywords
+	const definition = state.db.items[itemId];
+	if (!definition) {
+		console.warn(`Item ${itemId} not found in DB.`);
+		return false;
+	}
+	const count = Math.max(1, Number(quantity) || 1);
+	for (let index = 0; index < count; index += 1) state.player.inventory.push({ ...definition });
+	toast(sendToast, `Acquired: ${definition.name}${count > 1 ? ` x${count}` : ''}`, 'success');
+	emitQuestEvent(state, { type: 'collect_item', targetId: itemId, quantity: count, mapId: state.currentMapId }, sendToast);
+	return true;
 }
 
 export function getStatus(state, questId) {
-    if (state.player.completedQuests && state.player.completedQuests.includes(questId)) return 'finished';
-    const quest = state.player.activeQuests.find(q => q.id === questId);
-    return quest ? quest.status : 'available';
+	return getQuestStatus(state, questId);
 }
 
 export function getObjectiveStatus(state, questId, objectiveId) {
-    const quest = state.player.activeQuests.find(q => q.id === questId);
-    if (!quest) return false;
-    const objective = quest.objectives.find(obj => obj.id === objectiveId);
-    return objective ? objective.completed : false;
+	const objective = findActiveQuest(state, questId)?.objectives.find(entry => entry.id === objectiveId);
+	return Boolean(objective?.completed);
 }
 
-function findEntity(state, entityId) {
-    for (const map of Object.values(state.maps)) {
-        for (const entity of Object.values(map.interactables)) {
-            if (entity.id === entityId) return entity;
-        }
-    }
-    return null;
+export function getAvailableQuestIds(state) {
+	return availableQuestIds(state);
+}
+
+export function trackQuest(state, questId) {
+	return selectTrackedQuest(state, questId);
 }
 
 export function getInventoryPayload(state) {
-    return {
-        items: state.player.inventory,
-        money: formatMoney(state.player.money)
-    };
+	return { items: state.player.inventory, money: formatMoney(state.player.money) };
 }
 
 export function getQuestLogPayload(state) {
-    return {
-        quests: state.player.activeQuests.map(q => ({
-            ...q,
-            objectives: q.objectives.map(obj => ({
-                text: `${obj.text} (${obj.current || 0}/${obj.target.count || 1})`,
-                completed: obj.completed
-            }))
-        }))
-    };
+	ensureQuestState(state.player);
+	return buildQuestLogPayload(state);
 }

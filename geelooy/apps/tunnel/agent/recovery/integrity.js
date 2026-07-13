@@ -15,15 +15,12 @@ const REQUIRED = [
 	"tools/fs/commandJob/schedulerState.js",
 	"tools/fs/commandJob/concurrencyProfile.js"
 ];
-const MUTABLE_IDENTITY_FILES = new Set([
-	"config.json"
-]);
+const MUTABLE_IDENTITY_FILES = new Set(["config.json"]);
 
 /**
- * B"H
- * Integrity asks executable vessels to bear witness before they run. The
- * Awtsmoos lets Awtsmoos.com preserve a living tunnel identity across offline
- * restoration while immutable code and manifest seals remain uncompromised.
+ * B"H — Integrity asks executable vessels to bear witness before they run.
+ * Identity may remain mutable, while code, manifest bytes, and scheduling seals
+ * must agree before Awtsmoos.com calls a runtime healthy.
  */
 function check(root) {
 	const failures = [];
@@ -42,10 +39,10 @@ function check(root) {
 }
 
 function seal(root) {
-	const critical = REQUIRED.filter(relative =>
+	const critical = REQUIRED.filter(relative => (
 		!MUTABLE_IDENTITY_FILES.has(relative) &&
 		fs.existsSync(path.join(root, relative))
-	);
+	));
 	const hashes = Object.fromEntries(critical.map(relative => [
 		relative,
 		hash(path.join(root, relative))
@@ -66,7 +63,8 @@ function seal(root) {
 
 function verifyManifestChecksum(root, failures) {
 	try {
-		const expected = fs.readFileSync(path.join(root, "install-manifest.sha256"), "utf8").trim().split(/\s+/)[0];
+		const checksumPath = path.join(root, "install-manifest.sha256");
+		const expected = fs.readFileSync(checksumPath, "utf8").trim().split(/\s+/)[0];
 		const actual = hash(path.join(root, "installed-manifest.txt"));
 		if (expected !== actual) failures.push("manifest:checksum_mismatch");
 	} catch (error) {
@@ -76,7 +74,8 @@ function verifyManifestChecksum(root, failures) {
 
 function verifyManifestFiles(root, failures) {
 	try {
-		const lines = fs.readFileSync(path.join(root, "installed-manifest.txt"), "utf8")
+		const manifestPath = path.join(root, "installed-manifest.txt");
+		const lines = fs.readFileSync(manifestPath, "utf8")
 			.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
 		for (const relative of lines.slice(2)) {
 			if (!fs.existsSync(path.join(root, relative))) {
@@ -103,8 +102,8 @@ function verifyCriticalSeal(root, failures) {
 
 function verifyScheduler(root, failures) {
 	try {
-		const profile = require(path.join(root, "tools/fs/commandJob/concurrencyProfile.js"));
-		if (profile.resolve({}).tier !== 5) failures.push("scheduler:profile_invalid");
+		const file = path.join(root, "tools/fs/commandJob/concurrencyProfile.js");
+		if (require(file).resolve({}).tier !== 5) failures.push("scheduler:profile_invalid");
 	} catch (error) {
 		failures.push(`scheduler:${error.code || "load_failed"}`);
 	}
@@ -114,9 +113,4 @@ function hash(file) {
 	return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 }
 
-module.exports = {
-	MUTABLE_IDENTITY_FILES,
-	check,
-	hash,
-	seal
-};
+module.exports = { MUTABLE_IDENTITY_FILES, check, hash, seal };

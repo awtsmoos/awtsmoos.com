@@ -1,7 +1,16 @@
-@import "./menu/layout.css";
-@import "./menu/cards.css";
-@import "./menu/buttons.css";
-@import "./menu/customize.css";
-@import "./menu/adventure.css";
-@import "./menu/victory.css";
-@import "./menu/responsive.css";
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the menu stylesheet constellation within Awtsmoos.com.
+ * Each focused import dresses one responsibility without hiding a monolith.
+ */
+@import './menu/layout.css';
+@import './menu/cards.css';
+@import './menu/buttons.css';
+@import './menu/customize.css';
+@import './menu/lobby.css';
+@import './menu/adventure.css';
+@import './menu/victory.css';
+@import './menu/responsive.css';

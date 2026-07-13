@@ -1,0 +1,23 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* Awtsmoos.com keeps the campaign gate usable when the physical vessel narrows. */
+@media (max-width: 760px) {
+	.overlay { padding: 8px; }
+	.overlay-panel { width: 100%; max-height: 97vh; padding: 18px 12px 12px; border-radius: 24px; }
+	.overlay h1 { font-size: clamp(31px, 11vw, 48px); }
+	.chapter-select { grid-template-columns: repeat(2, 1fr); }
+	.level-select { grid-template-columns: repeat(2, minmax(118px, 1fr)); max-height: 260px; }
+	.shop-grid, .quest-list { grid-template-columns: 1fr; }
+	.shop-card, .quest-card { align-items: stretch; }
+	.campaign-section-heading { align-items: start; flex-direction: column; }
+	.mode-select { max-height: 190px; overflow: auto; }
+	.settings { display: none; }
+}
+@media (max-height: 700px) {
+	.overlay-panel { padding-top: 14px; }
+	.eyebrow, #overlayText, .stars { display: none; }
+	.campaign-section { margin: 11px 0; }
+	.level-select { max-height: 190px; }
+	.hero-actions { margin-bottom: 4px; padding: 7px; }
+}

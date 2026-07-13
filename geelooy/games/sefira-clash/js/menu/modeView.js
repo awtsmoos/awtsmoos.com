@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the mode view vessel in this instant, revealing
+ * its focused js menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { reveal } from './domForge.js';
 import { modeCard } from './menuCards.js';
 import { modeOptions } from './menuOptions.js';
@@ -15,16 +24,51 @@ import { modeOptions } from './menuOptions.js';
  * @param {{onPick: Function}} config - Menu callbacks.
  */
 export function showModeMenu(host, config) {
-  reveal(host, { tag: 'section', attrs: { class: 'menuPanel modePanel' }, children: [
-    { tag: 'div', attrs: { class: 'menuHero' }, children: [
-      { tag: 'p', attrs: { class: 'menuEyebrow' }, children: ['B"H · main menu'] },
-      { tag: 'h2', children: ['Choose Your Gate'] },
-      { tag: 'p', attrs: { class: 'menuPoem' }, children: ['Adventure is the main climb now: one platform stage after another. Quick VS is still instant combat.'] }
-    ] },
-    { tag: 'div', attrs: { class: 'modeGrid' }, children: modeOptions().map(option => modeCard(option, config.onPick)) },
-    { tag: 'div', attrs: { class: 'quickNav' }, children: [
-      { tag: 'button', attrs: { class: 'backMenuButton', type: 'button', 'data-customize-action': 'back' }, children: ['Change Fighter'] },
-      { tag: 'span', children: ['Tip: hold punch or kick, aim with the stick, release into the launch.'] }
-    ] }
-  ] });
+	reveal(host, {
+		tag: 'section',
+		attrs: { class: 'menuPanel modePanel' },
+		children: [
+			{
+				tag: 'div',
+				attrs: { class: 'menuHero' },
+				children: [
+					{ tag: 'p', attrs: { class: 'menuEyebrow' }, children: ['B"H · main menu'] },
+					{ tag: 'h2', children: ['Choose Your Gate'] },
+					{
+						tag: 'p',
+						attrs: { class: 'menuPoem' },
+						children: [
+							'Adventure is the main climb now: one platform stage after another. Quick VS is still instant combat.'
+						]
+					}
+				]
+			},
+			{
+				tag: 'div',
+				attrs: { class: 'modeGrid' },
+				children: modeOptions().map(option => modeCard(option, config.onPick))
+			},
+			{
+				tag: 'div',
+				attrs: { class: 'quickNav' },
+				children: [
+					{
+						tag: 'button',
+						attrs: {
+							class: 'backMenuButton',
+							type: 'button',
+							'data-customize-action': 'back'
+						},
+						children: ['Change Fighter']
+					},
+					{
+						tag: 'span',
+						children: [
+							'Tip: hold punch or kick, aim with the stick, release into the launch.'
+						]
+					}
+				]
+			}
+		]
+	});
 }

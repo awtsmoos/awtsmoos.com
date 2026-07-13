@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the character renderer vessel in this instant, revealing
+ * its focused js render v3 character service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * V3 character renderer. Sculpted body first, spectacle layered after, so the
@@ -22,14 +31,48 @@ import { drawVisor } from './body/Visor.js';
 import { drawChargeGlow } from '../effects/ChargeGlow.js';
 import { drawHitSpark } from '../effects/HitSpark.js';
 import { drawImpactFX } from '../effects/ImpactFX.js';
+/**
+ * Reveals the draw character behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} ctx The ctx value entering this behavior.
+ * @param {*} f The f value entering this behavior.
+ * @param {*} color The color value entering this behavior.
+ */
 export function drawCharacter(ctx, f, color) {
-  const p = resolvePose(f), mat = material(color), shake = Math.min(5, (f.hitstop || 0) * 0.35 + (p.anim?.combo || 0) * 2);
-  ctx.save(); if (shake) ctx.translate(Math.sin((f.motionClock || 0) * 1.7) * shake, Math.cos((f.motionClock || 0) * 1.3) * shake * 0.5);
-  drawChargeGlow(ctx, f, p, color); drawImpactFX(ctx, f, p, color); drawGroundRing(ctx, p, color, f.human);
-  leg(ctx, p, mat, 'left', -1); leg(ctx, p, mat, 'right', 1); arm(ctx, p, mat, backArm(p.face));
-  drawNeck(ctx, p, mat); drawChest(ctx, p, mat); drawShoulders(ctx, p, mat); drawWaist(ctx, p, mat);
-  arm(ctx, p, mat, frontArm(p.face)); drawHelmet(ctx, p, mat); drawVisor(ctx, p, mat); drawHitSpark(ctx, f, p, color);
-  ctx.restore();
+	const p = resolvePose(f),
+		mat = material(color),
+		shake = Math.min(5, (f.hitstop || 0) * 0.35 + (p.anim?.combo || 0) * 2);
+	ctx.save();
+	if (shake)
+		ctx.translate(
+			Math.sin((f.motionClock || 0) * 1.7) * shake,
+			Math.cos((f.motionClock || 0) * 1.3) * shake * 0.5
+		);
+	drawChargeGlow(ctx, f, p, color);
+	drawImpactFX(ctx, f, p, color);
+	drawGroundRing(ctx, p, color, f.human);
+	leg(ctx, p, mat, 'left', -1);
+	leg(ctx, p, mat, 'right', 1);
+	arm(ctx, p, mat, backArm(p.face));
+	drawNeck(ctx, p, mat);
+	drawChest(ctx, p, mat);
+	drawShoulders(ctx, p, mat);
+	drawWaist(ctx, p, mat);
+	arm(ctx, p, mat, frontArm(p.face));
+	drawHelmet(ctx, p, mat);
+	drawVisor(ctx, p, mat);
+	drawHitSpark(ctx, f, p, color);
+	ctx.restore();
 }
-function arm(ctx, p, mat, side) { drawUpperArm(ctx, p[side+'Shoulder'], p[side+'Elbow'], mat); drawForearm(ctx, p[side+'Elbow'], p[side+'Hand'], mat); drawGlove(ctx, p[side+'Hand'], mat); }
-function leg(ctx, p, mat, side, sign) { drawThigh(ctx, p[side+'Hip'], p[side+'Knee'], mat); drawShin(ctx, p[side+'Knee'], p[side+'Foot'], mat); drawBoot(ctx, p[side+'Foot'], sign, mat); }
+function arm(ctx, p, mat, side) {
+	drawUpperArm(ctx, p[side + 'Shoulder'], p[side + 'Elbow'], mat);
+	drawForearm(ctx, p[side + 'Elbow'], p[side + 'Hand'], mat);
+	drawGlove(ctx, p[side + 'Hand'], mat);
+}
+function leg(ctx, p, mat, side, sign) {
+	drawThigh(ctx, p[side + 'Hip'], p[side + 'Knee'], mat);
+	drawShin(ctx, p[side + 'Knee'], p[side + 'Foot'], mat);
+	drawBoot(ctx, p[side + 'Foot'], sign, mat);
+}

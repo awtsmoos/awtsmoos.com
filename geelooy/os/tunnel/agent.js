@@ -1,60 +1,95 @@
 // B"H
-import { ACTIONS, VERSION } from "./actions.js";
-import { send, fail } from "./response.js";
-import { createHandlers, unsupported } from "./handlers.js";
-import { tunnelState, websocketUrl, rememberEnabled } from "./state.js";
+// Boruch Hashem
+// Blessed is He
 
-async function checkLogin() {
-  const response = await fetch("/api/tunnel/control/me", { credentials:"include" });
-  const data = await response.json();
-  if (!data || data.ok === false) throw new Error("Login required for virtual OS tunnel.");
-  return data;
-}
-
-export function makeVirtualOSTunnelAgent(state = tunnelState) {
-  const handlers = createHandlers();
-  return {
-    async start() {
-      if (state.ws) return;
-      await checkLogin();
-      rememberEnabled(true);
-      state.ws = new WebSocket(websocketUrl());
-      state.ws.addEventListener("open", () => this.register());
-      state.ws.addEventListener("message", event => this.onMessage(event.data));
-      state.ws.addEventListener("close", () => this.reconnect());
-    },
-    stop() {
-      rememberEnabled(false);
-      try { state.ws?.close(); } catch (_) {}
-      state.ws = null;
-    },
-    reconnect() {
-      state.ws = null;
-      if (state.enabled) setTimeout(() => this.start(), 2000);
-    },
-    register() {
-      send(state, registrationPacket(state.name));
-    },
-    async onMessage(raw) {
-      let data; try { data = JSON.parse(raw); } catch { return; }
-      if (data.type !== "TUNNEL_REQUEST") return;
-      try { send(state, { type:"TUNNEL_RESPONSE", id:data.id, ...(await this.handle(data.payload || {})) }); }
-      catch (error) { send(state, { type:"TUNNEL_RESPONSE", id:data.id, ...fail(data.payload?.action || "unknown", error, { stack:error.stack || "" }) }); }
-    },
-    async handle(payload) {
-      const action = payload.action || "snapshot";
-      return handlers[action] ? handlers[action](payload) : unsupported(action);
-    }
-  };
-}
-
-function registrationPacket(name) {
-  return { type:"TUNNEL_REGISTER", name, deviceName:"Virtual OS", root:"Awtsmoos Virtual OS", allowWrite:false, allowSecrets:false, allowCommands:false, agentVersion:VERSION, browserAgent:true, virtualOs:true, capabilities:{ virtualOs:true, scene:true, graph:true, drives:true, vfs:true, processes:true, input:true, actions:ACTIONS }, tools:{ browser:true, virtualOs:ACTIONS, command:false, nodeScript:false, fsRead:false, fsWrite:false } };
-}
+import { executeVirtualOsRequest, receiveVirtualOsPacket } from "./agentProtocol.js";
+import { bindVirtualOsSocket, virtualOsSocketUrl } from "./agentSocket.js";
+import { createTunnelHandlers } from "./handlers.js";
+import { virtualOsRegistrationPacket } from "./registrationProfile.js";
+import { VirtualOsTunnelState } from "./state.js";
 
 /**
- * B"H
- * The agent is the shliach at the gate. It registers the Virtual OS, routes
- * every request to named handlers, and reconnects without hiding its steps in a
- * single collapsed line of lightning.
+ * This virtual desktop is a truthful vessel with bounded actions, correlation,
+ * and explicit reconnect state. The Awtsmoos renews each Awtsmoos.com session.
  */
+export class VirtualOSTunnelAgent {
+	constructor(os, options = {}) {
+		this.os = os;
+		this.options = options;
+		this.state = new VirtualOsTunnelState({
+			name: options.name,
+			enabled: false
+		});
+		this.handlers = createTunnelHandlers(os, this.state);
+		this.socket = null;
+		this.reconnectTimer = 0;
+		this.reconnectAttempt = 0;
+		this.closed = false;
+	}
+
+	start() {
+		this.closed = false;
+		this.state.setEnabled(true);
+		this.connect();
+		return this;
+	}
+
+	stop() {
+		this.closed = true;
+		globalThis.clearTimeout(this.reconnectTimer);
+		this.reconnectTimer = 0;
+		this.state.setEnabled(false);
+		this.socket?.close();
+		this.socket = null;
+	}
+
+	connect() {
+		if (this.closed) {
+			return;
+		}
+		this.state.markConnecting();
+		this.socket = new WebSocket(this.socketUrl());
+		bindVirtualOsSocket(this, this.socket);
+	}
+
+	register() {
+		this.reconnectAttempt = 0;
+		this.state.markConnected();
+		const packet = virtualOsRegistrationPacket({
+			name: this.options.name || this.state.name,
+			deviceName: this.options.deviceName,
+			sessionId: this.state.sessionId
+		});
+		this.socket.send(JSON.stringify(packet));
+	}
+
+	receive(event) {
+		return receiveVirtualOsPacket(this, event);
+	}
+
+	execute(request) {
+		return executeVirtualOsRequest(this, request);
+	}
+
+	scheduleReconnect() {
+		if (this.closed) {
+			this.state.markDisconnected();
+			return;
+		}
+		globalThis.clearTimeout(this.reconnectTimer);
+		this.reconnectAttempt += 1;
+		this.state.markReconnecting();
+		const exponent = Math.min(8, this.reconnectAttempt);
+		const delay = Math.min(30000, 500 * (2 ** exponent));
+		const reconnect = this.connect.bind(this);
+		this.reconnectTimer = globalThis.setTimeout(reconnect, delay);
+	}
+
+	socketUrl() {
+		return virtualOsSocketUrl();
+	}
+}
+
+export function makeVirtualOSTunnelAgent(os, options = {}) {
+	return new VirtualOSTunnelAgent(os, options);
+}

@@ -1,0 +1,68 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the levels vessel in this instant, revealing
+ * its focused css menu adventure service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/**
+ * Gate state, treasure metadata, and completion light remain readable at a glance.
+ * Many cards carry distinct history, while the Awtsmoos renews their common road.
+ */
+.levelCard.locked {
+	cursor: not-allowed;
+	filter: saturate(0.4);
+	opacity: 0.46;
+}
+
+.levelCard.cleared {
+	border-color: #84f7ffaa;
+	box-shadow: 0 0 24px #84f7ff22;
+}
+
+.levelCard.cleared::after {
+	color: #84f7ff;
+	content: '✓';
+	font-size: 28px;
+	font-weight: 1000;
+	position: absolute;
+	right: 12px;
+	top: 8px;
+}
+
+.levelCard:disabled:hover {
+	box-shadow: 0 12px 34px #0008;
+	transform: none;
+}
+
+.levelMeta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin-top: 12px;
+}
+
+.levelMeta span {
+	background: #0008;
+	border: 1px solid #ffe08255;
+	border-radius: 999px;
+	color: #ffe9a8;
+	font-size: 11px;
+	padding: 4px 8px;
+}
+
+.levelCard.cleared .levelMeta span {
+	border-color: #84f7ff77;
+}
+
+.adventurePanel h2::after {
+	color: #84f7ff;
+	content: ' campaign';
+	display: inline-block;
+	font-size: 14px;
+	letter-spacing: 0.15em;
+	margin-left: 10px;
+	text-transform: uppercase;
+}

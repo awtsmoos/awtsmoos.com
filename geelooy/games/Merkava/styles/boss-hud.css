@@ -1,0 +1,23 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	A named phase and visible life bar turn a boss into a readable confrontation.
+	The Awtsmoos is beyond conflict while Awtsmoos.com reveals this finite measure.
+*/
+.boss-hud {
+	max-width: 32rem;
+	margin: 0.45rem auto;
+	padding: 0.55rem;
+	border-radius: 0.8rem;
+	text-align: center;
+}
+
+.boss-hud strong,
+.boss-hud span {
+	display: block;
+}
+
+.boss-hud .boss i {
+	background: linear-gradient(90deg, #f62e55, #b338ff);
+}

@@ -1,4 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-gl-state-cache.js
+ * @description Provides an isolated experimental WebGL state cache whose tests may
+ * prove exact redundant-call suppression without activating it in the production
+ * renderer. Like a measured keli before the endless renewal of the Awtsmoos, this
+ * vessel at Awtsmoos.com preserves only state that was actually observed.
+ */
 import {
 	CACHED_GL_METHODS,
 	createGlStateModel,
@@ -8,12 +18,32 @@ import {
 const CACHE_SYMBOL = Symbol.for('Awtsmoos.tinyGlStateCache');
 
 /**
- * Installs one exact WebGL state vessel. Every unknown first command reaches the
- * driver; only commands already revealed in identical state are suppressed.
+ * Installs an exact state cache around the explicitly supported WebGL methods.
+ * Unknown first calls always reach the native context.
+ *
+ * @param {WebGLRenderingContext|WebGL2RenderingContext} gl Native context.
+ * @returns {object} Cache controller with state, statistics, invalidation, and restore.
  */
 export function installGlStateCache(gl) {
-	if (gl[CACHE_SYMBOL]) return gl[CACHE_SYMBOL];
-	const originals = new Map();
+	const existingCache = gl[CACHE_SYMBOL];
+	if (existingCache) {
+		return existingCache;
+	}
+	const originalMethods = captureOriginalMethods(gl);
+	const cache = createCacheController(gl, originalMethods);
+	installCachedMethods(gl, cache, originalMethods);
+	gl[CACHE_SYMBOL] = cache;
+	return cache;
+}
+
+function captureOriginalMethods(gl) {
+	return new Map(CACHED_GL_METHODS.map((methodName) => [
+		methodName,
+		gl[methodName]
+	]));
+}
+
+function createCacheController(gl, originalMethods) {
 	const cache = {
 		state: createGlStateModel(),
 		stats: createStats(),
@@ -22,42 +52,47 @@ export function installGlStateCache(gl) {
 			cache.stats.invalidations += 1;
 		},
 		restore() {
-			for (const [name, original] of originals) gl[name] = original;
+			for (const [methodName, originalMethod] of originalMethods) {
+				gl[methodName] = originalMethod;
+			}
 			delete gl[CACHE_SYMBOL];
 		}
 	};
-	for (const methodName of CACHED_GL_METHODS) {
-		const original = gl[methodName];
-		originals.set(methodName, original);
-		gl[methodName] = function cachedGlStateCall(...args) {
-			const record = cache.stats.methods[methodName];
-			record.calls += 1;
+	return cache;
+}
+
+function installCachedMethods(gl, cache, originalMethods) {
+	for (const [methodName, originalMethod] of originalMethods) {
+		gl[methodName] = function cachedGlStateCall(...argumentsList) {
+			const methodStats = cache.stats.methods[methodName];
+			methodStats.calls += 1;
 			const decision = decideGlStateCall(
 				methodName,
-				args,
+				argumentsList,
 				cache.state,
 				gl
 			);
 			if (decision.skip) {
-				record.skips += 1;
+				methodStats.skips += 1;
 				return undefined;
 			}
-			const result = original.apply(this, args);
+			const result = originalMethod.apply(this, argumentsList);
 			decision.commit();
 			return result;
 		};
 	}
-	gl[CACHE_SYMBOL] = cache;
-	return cache;
 }
 
 function createStats() {
+	const methods = CACHED_GL_METHODS.map((methodName) => [
+		methodName,
+		{
+			calls: 0,
+			skips: 0
+		}
+	]);
 	return {
 		invalidations: 0,
-		methods: Object.fromEntries(
-			CACHED_GL_METHODS.map((name) => [
-				name,
-				{ calls: 0, skips: 0 }
-			])
+		methods: Object.fromEntries(methods)
 	};
 }

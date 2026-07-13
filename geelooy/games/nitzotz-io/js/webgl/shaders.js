@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 export const VS = `
 attribute vec3 aPos;
@@ -8,11 +10,15 @@ uniform mat4 uVP;
 uniform vec3 uPos;
 uniform vec3 uScale;
 uniform vec3 uCamera;
+uniform vec3 uSunDirection;
+uniform vec3 uSunColor;
+uniform vec3 uAmbientColor;
 uniform float uRot;
 uniform float uTilt;
-varying float vLight;
-varying float vDistance;
-varying vec4 vMaterial;
+varying vec3 vColor;
+varying float vFog;
+varying float vHeight;
+varying float vAlpha;
 
 void main() {
 	float c = cos(uRot);
@@ -24,9 +30,12 @@ void main() {
 	p = vec3(p.x, p.y * tc - p.z * ts, p.y * ts + p.z * tc) + uPos;
 	vec3 n = normalize(vec3(aNormal.x * c - aNormal.z * s, aNormal.y, aNormal.x * s + aNormal.z * c));
 	n = normalize(vec3(n.x, n.y * tc - n.z * ts, n.y * ts + n.z * tc));
-	vLight = 0.72 + max(dot(n, normalize(vec3(-0.35, 0.82, 0.45))), 0.0) * 0.78;
-	vDistance = distance(p, uCamera);
-	vMaterial = aColor;
+	float facing = max(dot(n, normalize(uSunDirection)), 0.0);
+	float wrapped = max(facing * 0.78 + 0.22, 0.0);
+	vColor = aColor.rgb * (uAmbientColor + uSunColor * wrapped);
+	vFog = distance(p, uCamera);
+	vHeight = p.y;
+	vAlpha = aColor.a;
 	gl_Position = uVP * vec4(p, 1.0);
 }
 `;
@@ -37,19 +46,20 @@ uniform vec3 uColor;
 uniform vec3 uFogColor;
 uniform float uFogNear;
 uniform float uFogFar;
+uniform float uHazeHeight;
+uniform float uHazeStrength;
 uniform float uAlpha;
 uniform float uGlow;
-uniform float uTime;
-varying float vLight;
-varying float vDistance;
-varying vec4 vMaterial;
+varying vec3 vColor;
+varying float vFog;
+varying float vHeight;
+varying float vAlpha;
 
 void main() {
-	vec3 color = vMaterial.rgb * uColor * (vLight + uGlow * 0.58);
-	color = pow(color, vec3(0.9));
-	color += color * max(0.0, sin(uTime * 2.0)) * uGlow * 0.05;
-	float fog = smoothstep(uFogNear, uFogFar, vDistance);
-	color = mix(color, uFogColor, fog * 0.6);
-	gl_FragColor = vec4(color, uAlpha * vMaterial.a);
+	vec3 color = vColor * uColor + vec3(uGlow * 0.18);
+	float distanceFog = clamp((vFog - uFogNear) / max(1.0, uFogFar - uFogNear), 0.0, 1.0);
+	float lowAltitude = clamp((uHazeHeight - vHeight) / max(1.0, uHazeHeight + 24.0), 0.0, 1.0);
+	float haze = min(0.86, distanceFog * (0.56 + lowAltitude * uHazeStrength));
+	gl_FragColor = vec4(mix(color, uFogColor, haze), uAlpha * vAlpha);
 }
 `;

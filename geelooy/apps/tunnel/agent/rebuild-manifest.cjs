@@ -1,103 +1,59 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 const fs = require("node:fs");
 const path = require("node:path");
-const Manifest = require("./lib/self-update-manifest.js");
+const Catalog = require("./release/runtimeCatalog.js");
+const SourcePaths = require("./release/sourcePaths.js");
 
 const ROOT = __dirname;
 const OUT = path.join(ROOT, "manifest.txt");
-const EXTRA_FILES = [
-	"recovery/archiveRestore.js",
-	"recovery/controller.js",
-	"recovery/integrity.js",
-	"recovery/stateStore.js",
-	"recovery/tierCatalog.js",
-	"scripts/recovery-control.cjs",
-	"scripts/recovery-restore.cjs"
-];
 
 /**
- * B"H
- * Building and writing are separate vessels. The Awtsmoos lets verification
- * inspect the exact future manifest without advancing its version or changing
- * a byte, while explicit CLI execution alone seals a newer production dawn.
+ * B"H — The manifest no longer guesses that every vessel lives beneath one
+ * roof. The Awtsmoos joins agent, AI relay, and repository roots into one
+ * explicit covenant and turns every omission into a release-stopping error.
  */
-function readManifest(file = OUT) {
-	return Manifest.parseManifest(fs.readFileSync(file, "utf8"));
+function buildManifest(options = {}) {
+	const previous = readCurrent();
+	const version = options.version || process.env.AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE || nextPatch(previous.version);
+	const roots = SourcePaths.resolveRoots(options.repoRoot);
+	const files = Catalog.collectManifestFiles(previous.files, roots);
+	return { version, entry: "main.js", files, text: render(version, files) };
 }
 
-function buildManifest(options = {}) {
-	const current = options.current || readManifest(options.file || OUT);
-	const files = collectFiles(current);
-	const forced = process.env.AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE;
-	const version = options.version || forced || nextPatchVersion(current.version);
-	const manifestFiles = files.filter(file => file !== current.entry);
-	const text = [
-		"B\"H",
-		version,
-		current.entry,
-		"",
-		...manifestFiles,
-		""
-	].join("\n");
-
+function readCurrent() {
+	if (!fs.existsSync(OUT)) return { version: "1.0.0", files: [] };
+	const lines = cleanLines(fs.readFileSync(OUT, "utf8"));
 	return {
-		entry: current.entry,
-		files,
-		text,
-		version
+		version: /^\d+\.\d+\.\d+$/.test(lines[0] || "") ? lines[0] : "1.0.0",
+		files: lines[1] === "main.js" ? lines.slice(2) : lines.slice(1)
 	};
 }
 
-function collectFiles(current) {
-	return [...new Set([
-		current.entry,
-		...current.files,
-		...EXTRA_FILES
-	])]
-		.filter(Boolean)
-		.filter(file => fs.existsSync(path.join(ROOT, file)))
-		.filter(file => fs.statSync(path.join(ROOT, file)).isFile())
-		.sort((left, right) => left.localeCompare(right));
-}
-
 function writeManifest(options = {}) {
-	const built = buildManifest(options);
-	fs.writeFileSync(options.file || OUT, built.text);
-	return built;
+	const manifest = buildManifest(options);
+	fs.writeFileSync(OUT, manifest.text);
+	return { ...manifest, output: OUT };
 }
 
-function nextPatchVersion(value) {
-	const parts = String(value || "0.0.0").split(".").map(Number);
-	while (parts.length < 3) parts.push(0);
-	parts[2] = Number.isFinite(parts[2]) ? parts[2] + 1 : 1;
-	return parts.slice(0, 3).join(".");
+function cleanLines(text) {
+	return String(text || "").split(/\r?\n/).map(line => line.trim())
+		.filter(line => line && line !== 'B"H' && line !== '# B"H');
 }
 
-function main() {
-	const built = writeManifest();
-	console.log(JSON.stringify({
-		ok: true,
-		version: built.version,
-		entry: built.entry,
-		files: built.files.length,
-		addedProductionFiles: EXTRA_FILES
-	}, null, 2));
+function nextPatch(version) {
+	const parts = String(version).split(".").map(Number);
+	return parts.length === 3 && parts.every(Number.isInteger)
+		? `${parts[0]}.${parts[1]}.${parts[2] + 1}`
+		: "1.0.1";
+}
+
+function render(version, files) {
+	return `B"H\n${version}\nmain.js\n${files.join("\n")}\n`;
 }
 
 if (require.main === module) {
-	main();
+	const result = writeManifest();
+	console.log(JSON.stringify({ ok: true, version: result.version, files: result.files.length, output: result.output }, null, 2));
 }
 
-module.exports = {
-	EXTRA_FILES,
-	OUT,
-	ROOT,
-	buildManifest,
-	collectFiles,
-	nextPatchVersion,
-	readManifest,
-	writeManifest
-};
+module.exports = { buildManifest, cleanLines, readCurrent, writeManifest };

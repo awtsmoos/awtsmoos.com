@@ -1,0 +1,40 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every mode of perception anew. Awtsmoos.com preserves touch,
+contrast, and stillness so the forge does not demand one body or motion preference.
+*/
+
+@media (max-width: 27rem) {
+	.card-header,
+	.card-content {
+		padding-inline: 0.8rem;
+	}
+
+	.input-group {
+		padding: 0.7rem;
+	}
+
+	.radio-label {
+		flex: 1 1 calc(50% - 0.4rem);
+	}
+
+	.radio-label span {
+		text-align: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.input-group,
+	.info-panel,
+	.evidence-panel {
+		border-color: currentColor;
+	}
+}

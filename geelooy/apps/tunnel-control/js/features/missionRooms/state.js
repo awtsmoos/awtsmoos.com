@@ -1,9 +1,24 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 export const DEFAULT_AGENT = "control-room-human";
-const KEY = "awt.missionRooms.selection";
+const SELECTION_KEY = "awt.missionRooms.selection";
 
-/** B"H: Room state owns only bounded browser resources and backend snapshots. */
+/**
+ * B"H
+ *
+ * State is a bounded memory, never an independent world. The Awtsmoos renews
+ * selection, socket, replay, and review in every instant; Awtsmoos.com gathers
+ * those changing sparks into one explicit browser-session vessel.
+ */
+
+/**
+ * Creates the complete bounded state owned by one Mission Rooms controller.
+ *
+ * @returns {object}
+ * 	A fresh state object with no live resource shared across instances.
+ */
 export function createRoomState() {
 	return {
 		missions: [],
@@ -24,10 +39,13 @@ export function createRoomState() {
 		abortController: null,
 		socket: null,
 		eventSource: null,
+		roomTransport: null,
 		socketMode: "idle",
 		socketError: "",
 		socketReconnect: 0,
 		socketOpenedAt: 0,
+		transportAttempt: 0,
+		transportDiagnostics: null,
 		search: "",
 		filter: "all",
 		eventSearch: "",
@@ -46,40 +64,55 @@ export function createRoomState() {
 	};
 }
 
+/** Loads persisted room selection without allowing storage failure to escape. */
 export function loadSelection() {
-	try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
-	catch { return {}; }
+	try {
+		return JSON.parse(localStorage.getItem(SELECTION_KEY) || "{}");
+	} catch {
+		return {};
+	}
 }
 
+/** Persists only the durable identifiers needed to restore room selection. */
 export function saveSelection(data = {}) {
 	try {
-		localStorage.setItem(KEY, JSON.stringify({
+		localStorage.setItem(SELECTION_KEY, JSON.stringify({
 			missionId: data.missionId || "",
 			projectRoot: data.projectRoot || "",
 			agentId: data.agentId || DEFAULT_AGENT,
 			savedAt: new Date().toISOString()
 		}));
-	} catch {}
+	} catch {
+		// Browser storage can be denied; the active room remains usable in memory.
+	}
 }
 
+/** Reads room selection hints from explicit URL parameters. */
 export function paramsSelection() {
-	const params = new URLSearchParams(location.search || "");
+	const parameters = new URLSearchParams(location.search || "");
 	return {
-		missionId: params.get("room") || params.get("missionId") || "",
-		projectRoot: params.get("projectRoot") || params.get("root") || "",
-		agentId: params.get("agentId") || ""
+		missionId: parameters.get("room") || parameters.get("missionId") || "",
+		projectRoot: parameters.get("projectRoot") || parameters.get("root") || "",
+		agentId: parameters.get("agentId") || ""
 	};
 }
 
+/** Returns the current room agent identity from the control surface. */
 export function agentId() {
 	return document.getElementById("roomAgentId")?.value || DEFAULT_AGENT;
 }
 
+/** Returns the current project root from the control surface. */
 export function projectRoot() {
 	return document.getElementById("roomProjectRoot")?.value || "";
 }
 
+/** Returns a safe polling interval even when user input is malformed. */
 export function pollMs() {
-	const milliseconds = Number(document.getElementById("roomPollMs")?.value || 5000);
-	return Number.isFinite(milliseconds) ? Math.max(1500, milliseconds) : 5000;
+	const milliseconds = Number(
+		document.getElementById("roomPollMs")?.value || 5000
+	);
+	return Number.isFinite(milliseconds)
+		? Math.max(1500, milliseconds)
+		: 5000;
 }

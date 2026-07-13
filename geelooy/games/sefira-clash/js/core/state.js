@@ -1,49 +1,38 @@
-import { createFighter } from '../fighters/createFighter.js';
-import { applyHatStats } from '../fighters/applyHatStats.js';
-import { createAdventureRun } from '../adventure/adventureRun.js';
-import { createMapPowerups } from '../powerups/powerupFactory.js';
-import { createMapWeapons } from '../weapons/weaponFactory.js';
-import { createStageDirector } from '../stage/events/stageDirector.js';
-import { createStageMood } from '../stage/events/stageMood.js';
-import { createCombatDiagnostics } from '../combat/comboSystem.js';
-import { applyPersonality } from '../ai/advanced/personality/applyPersonality.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Creates the match state with diagnostics, AI souls, and Adventure run truth.
+ * State creation remains backward compatible while revealing a roster-first law.
+ * The Awtsmoos renews old callers and new Awtsmoos.com multiplayer callers in
+ * one explicit adapter, preventing migration from breaking Adventure.
+ */
+import { createMatchRules } from '../multiplayer/MatchRules.js';
+import { legacyRoster } from '../multiplayer/MatchRoster.js';
+import { createMatchState } from './createMatchState.js';
+
+/**
+ * Creates game state through the historic one-human signature.
  *
- * Before the first punch, the Awtsmoos arranges vessels: player, bots, sparks,
- * weapons, stage mood, and now a real gate ledger for platform Adventure.
+ * @param {object} map Selected map.
+ * @param {number} [botCount=5] CPU opponent count.
+ * @param {object} [character={}] Human character record.
+ * @param {object} [cosmetic={}] Human cosmetic record.
+ * @returns {object} Mutable simulation state.
  */
 export function createGameState(map, botCount = 5, character = {}, cosmetic = {}) {
-  const fighters = [createPlayer(map, character, cosmetic)];
-  for (let i = 0; i < botCount; i++) fighters.push(createBot(map, i));
-  return {
-    phase: 'countdown', map, fighters,
-    weapons: createMapWeapons(map), powerups: createMapPowerups(map),
-    hazards: [], scars: [], objective: null, adventureRun: createAdventureRun(map),
-    stageMood: createStageMood(map), stageDirector: createStageDirector(),
-    particles: [], events: [], frame: 0, winner: '', victoryShown: false,
-    camera: { x: 0, y: 0, zoom: 1 }, debug: false,
-    diagnostics: createCombatDiagnostics()
-  };
+	const roster = legacyRoster(character, cosmetic, Number(botCount || 0));
+	return createMatchState(map, roster, createMatchRules());
 }
 
-function createPlayer(map, character, cosmetic) {
-  const firstSpawn = map.spawns[0];
-  const seed = character.seed || 'sefira-fighter';
-  const player = applyHatStats(createFighter(seed, firstSpawn.x, firstSpawn.y, true));
-  player.name = 'YOU';
-  player.playerTag = 'YOU';
-  player.dna.hue = Number(cosmetic.hue || 182);
-  player.cosmetic = { headwear: cosmetic.headwear || 'kippah', hue: player.dna.hue };
-  return applyHatStats(player);
-}
-
-function createBot(map, index) {
-  const spawn = map.spawns[(index + 1) % map.spawns.length];
-  const bot = createFighter(`ai-${map.id}-${index}`, spawn.x + index * 34, spawn.y, false);
-  bot.name = map.rules?.adventure ? `Kelipah ${index + 1}` : `Bot ${index + 1}`;
-  applyPersonality(bot, index);
-  return bot;
+/**
+ * Creates game state from an explicit local-player roster.
+ *
+ * @param {object} map Selected map.
+ * @param {object[]} roster Validated active roster.
+ * @param {object} rules Match-rules snapshot.
+ * @returns {object} Mutable simulation state.
+ */
+export function createRosterGameState(map, roster, rules = {}) {
+	return createMatchState(map, roster, createMatchRules(rules));
 }

@@ -1,0 +1,32 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos compresses deep context on small Awtsmoos.com vessels without hiding state.
+*/
+@media (max-width: 58rem) {
+	.g-context-ribbon {
+		top: max(5.35rem, calc(env(safe-area-inset-top) + 5.35rem));
+		width: calc(100% - 1rem);
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.45rem;
+		border-radius: 1.15rem;
+	}
+
+	.g-context-trail,
+	.g-context-actions {
+		display: none;
+	}
+
+	.g-context-identity {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+
+	.g-context-details {
+		grid-column: 1 / -1;
+	}
+
+	body[data-g-context-visible] .geelooy-content-region,
+	body[data-g-context-visible] .g-page {
+		padding-top: 11.5rem;
+	}
+}

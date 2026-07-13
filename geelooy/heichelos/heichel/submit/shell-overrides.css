@@ -1,0 +1,10 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps the final human action above the canonical Awtsmoos.com dock, so creation remains reachable without multiplying navigation.
+*/
+@media (max-width: 58rem) {
+	body[data-geelooy-create-page][data-g-context-visible] #submitPost {
+		bottom: calc(var(--g-dock-h) + max(1rem, env(safe-area-inset-bottom)) + 1.25rem);
+	}
+}

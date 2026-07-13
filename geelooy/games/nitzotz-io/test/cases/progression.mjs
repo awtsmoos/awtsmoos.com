@@ -1,15 +1,19 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import assert from 'node:assert/strict';
 import { evaluateAchievements } from '../../js/progression/achievements.js';
 import { finishRound, selectMode, upgrades } from '../../js/game/progression.js';
 import { loadSave } from '../../js/save.js';
 import { createWorld } from '../../js/state.js';
 
+/** Awtsmoos.com tests that old history enters new progression without duplication. */
 export function runProgressionCases() {
 	return [
 		checkSaveMigration(),
 		checkAchievementUnlock(),
 		checkModeRecord(),
+		checkRewardIdempotency(),
 		checkReverseObjective()
 	];
 }
@@ -17,17 +21,18 @@ export function runProgressionCases() {
 function checkSaveMigration() {
 	const original = globalThis.localStorage;
 	globalThis.localStorage = {
-		getItem: () => JSON.stringify({ best: 99, stars: { malchus: 2 }, perf: 'low' })
+		getItem: () => JSON.stringify({ best: 99, stars: { malchus: 2 }, currentLevel: 1, unlocked: 5, perf: 'low' })
 	};
 	const save = loadSave();
 	if (original === undefined) delete globalThis.localStorage;
 	else globalThis.localStorage = original;
-	assert.equal(save.best, 99);
-	assert.equal(save.stars.malchus, 2);
+	assert.equal(save.schemaVersion, 3);
+	assert.equal(save.stars['malchus-01'], 2);
+	assert.equal(save.stars.malchus, undefined);
+	assert.equal(save.currentLevel, 20);
+	assert.equal(save.unlocked, 160);
 	assert.equal(save.selectedMode, 'classic');
-	assert.deepEqual(save.modeRecords, {});
-	assert.deepEqual(save.achievements, {});
-	return { test: 'save-migration', selectedMode: save.selectedMode, perf: save.perf };
+	return { test: 'save-migration', currentLevel: save.currentLevel, unlocked: save.unlocked };
 }
 
 function checkAchievementUnlock() {
@@ -49,7 +54,22 @@ function checkModeRecord() {
 	assert.equal(record.plays, 1);
 	assert.equal(record.wins, 1);
 	assert.ok(record.bestMass >= world.level.targetMass);
-	return { test: 'mode-record', plays: record.plays, wins: record.wins, bestMass: record.bestMass };
+	assert.ok(world.save.sparks > 0);
+	return { test: 'mode-record', plays: record.plays, sparks: world.save.sparks };
+}
+
+function checkRewardIdempotency() {
+	const world = createWorld();
+	world.mode = 'playing';
+	world.player.mass = world.level.targetMass * 2;
+	world.consumed[world.level.bonus.category] = world.level.bonus.target;
+	finishRound(world);
+	const firstReward = world.save.sparks;
+	world.mode = 'playing';
+	finishRound(world);
+	assert.equal(world.save.sparks, firstReward);
+	assert.equal(world.save.campaignStats.wins, 1);
+	return { test: 'reward-idempotency', sparks: firstReward };
 }
 
 function checkReverseObjective() {

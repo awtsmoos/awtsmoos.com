@@ -1,56 +1,61 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-import { roomSocketUrl, roomStreamUrl } from "./api.js";
+import { RoomTransportController } from "./transport/controller.js";
 
-/** B"H: WebSocket first, EventSource second, selected-room polling third. */
-export function openRoomSocket(state, getTunnelName, handlers = {}) {
-  closeRoomSocket(state);
-  if (!state.selectedMissionId) return fallback(state, "no-room", handlers);
-  state.socketMode = "connecting";
-  if (typeof WebSocket === "undefined") return openEventSource(state, getTunnelName, handlers, "no-websocket");
-  try {
-    const socket = new WebSocket(roomSocketUrl(getTunnelName, state.selectedMissionId));
-    state.socket = socket;
-    socket.onopen = () => { state.socketMode = "websocket"; state.socketError = ""; state.socketOpenedAt = Date.now(); handlers.onStatus?.(); };
-    socket.onmessage = event => handleFrame(state, event.data, handlers);
-    socket.onerror = () => openEventSource(state, getTunnelName, handlers, "websocket-error");
-    socket.onclose = () => { if (state.socket === socket) openEventSource(state, getTunnelName, handlers, "websocket-closed"); };
-  } catch (error) { openEventSource(state, getTunnelName, handlers, error.message); }
-  handlers.onStatus?.();
+/**
+ * B"H
+ *
+ * This facade preserves the old public doorway while a stronger transport
+ * architecture lives behind it. The Awtsmoos creates doorway and chamber in
+ * one instant; Awtsmoos.com may evolve the chamber without breaking callers.
+ */
+
+/**
+ * Opens a generation-guarded Mission Rooms transport controller.
+ *
+ * @param {object} state
+ * 	The mutable Mission Rooms browser state.
+ * @param {Function} getTunnelName
+ * 	A function returning the selected native tunnel identity.
+ * @param {object} [handlers]
+ * 	Callbacks for accepted frames, statuses, and structured diagnostics.
+ * @param {object} [dependencies]
+ * 	Optional browser and timer dependencies used by isolated tests.
+ * @returns {RoomTransportController}
+ * 	The controller now owned by the supplied room state.
+ */
+export function openRoomSocket(
+	state,
+	getTunnelName,
+	handlers = {},
+	dependencies = {}
+) {
+	closeRoomSocket(state);
+	const controller = new RoomTransportController(
+		state,
+		getTunnelName,
+		handlers,
+		dependencies
+	);
+	state.roomTransport = controller;
+	controller.open();
+	return controller;
 }
 
+/**
+ * Closes and forgets the transport controller owned by the room state.
+ *
+ * @param {object} state
+ * 	The Mission Rooms state whose live resources must be released.
+ * @returns {void}
+ * 	The cleanup operation intentionally returns no value.
+ */
 export function closeRoomSocket(state) {
-  clearTimeout(state.socketReconnect); state.socketReconnect = 0;
-  if (state.socket) try { state.socket.close(); } catch {}
-  if (state.eventSource) try { state.eventSource.close(); } catch {}
-  state.socket = null; state.eventSource = null; state.socketMode = "idle";
+	state.roomTransport?.close();
+	state.roomTransport = null;
+	state.socket = null;
+	state.eventSource = null;
+	state.socketMode = "idle";
 }
-
-function openEventSource(state, getTunnelName, handlers, reason) {
-  if (state.socket) try { state.socket.close(); } catch {}
-  state.socket = null;
-  if (typeof EventSource === "undefined") return fallback(state, reason || "no-eventsource", handlers);
-  try {
-    const stream = new EventSource(roomStreamUrl(getTunnelName, state.selectedMissionId));
-    state.eventSource = stream; state.socketMode = "eventsource"; state.socketError = reason || "websocket-fallback";
-    stream.onopen = () => { state.socketMode = "eventsource"; handlers.onStatus?.(); };
-    stream.addEventListener("snapshot", event => handleFrame(state, event.data, handlers));
-    stream.onerror = () => fallback(state, "eventsource-error", handlers);
-  } catch (error) { fallback(state, error.message, handlers); }
-  handlers.onStatus?.();
-}
-
-function handleFrame(state, raw, handlers) {
-  const got = json(raw);
-  if (!got) return;
-  const missionId = got.missionId || got.room || got.event?.missionId || got.snapshot?.missionId || "";
-  if (missionId && missionId !== state.selectedMissionId) return;
-  handlers.onFrame?.(got);
-}
-
-function fallback(state, reason, handlers = {}) {
-  if (state.socket) try { state.socket.close(); } catch {}
-  if (state.eventSource) try { state.eventSource.close(); } catch {}
-  state.socket = null; state.eventSource = null; state.socketMode = "fallback-poll"; state.socketError = reason || "fallback"; handlers.onStatus?.();
-}
-function json(text) { try { return JSON.parse(text); } catch { return null; } }

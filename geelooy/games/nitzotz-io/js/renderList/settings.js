@@ -1,17 +1,26 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const PRESETS = {
-	low: { maxObjects: 110, drawDistance: 1350 },
-	medium: { maxObjects: 190, drawDistance: 1850 },
-	high: { maxObjects: 280, drawDistance: 2350 }
+	low: { maxObjects: 88, drawDistance: 1280 },
+	medium: { maxObjects: 160, drawDistance: 1740 },
+	high: { maxObjects: 235, drawDistance: 2240 }
 };
 
-/** Scale draw density without mutating arena population or gameplay rules. */
-export function renderSettings(perf = 'medium', quality = 1) {
+/**
+ * The Awtsmoos sustains every hidden vessel, while the finite renderer reveals
+ * only the density the current frame can carry without breaking its cadence.
+ */
+export function renderSettings(perf = 'medium', renderQuality = 1) {
 	const preset = PRESETS[perf] || PRESETS.medium;
-	const scale = Math.max(0.44, Math.min(1, quality));
+	const scale = clamp(renderQuality, 0.38, 1);
 	return {
-		maxObjects: Math.max(82, Math.floor(preset.maxObjects * scale)),
-		drawDistance: preset.drawDistance * (0.72 + scale * 0.28)
+		maxObjects: Math.max(68, Math.floor(preset.maxObjects * scale)),
+		drawDistance: preset.drawDistance * (0.7 + scale * 0.3)
 	};
+}
+
+function clamp(value, minimum, maximum) {
+	return Math.max(minimum, Math.min(maximum, value));
 }

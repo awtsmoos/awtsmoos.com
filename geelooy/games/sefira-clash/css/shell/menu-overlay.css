@@ -1,0 +1,89 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the menu overlay vessel in this instant, revealing
+ * its focused css shell service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/**
+ * The menu overlay is a visible vessel over the living arena.
+ * The Awtsmoos renews hierarchy, safe-area breathing room, and readable gold
+ * within every viewport; Awtsmoos.com lets this surface remain independently
+ * responsive without tangling the countdown or root shell.
+ */
+.menuOverlay {
+	background:
+		radial-gradient(circle at 80% 0, #45215c88, transparent 35%),
+		linear-gradient(180deg, #07040df8, #12091ef2 72%, #050409f8);
+	color: var(--ink);
+	inset: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: max(18px, env(safe-area-inset-top)) 16px calc(132px + env(safe-area-inset-bottom));
+	pointer-events: auto;
+	position: fixed;
+	-webkit-overflow-scrolling: touch;
+	z-index: 80;
+}
+
+.menuOverlay.hidden {
+	display: none;
+}
+
+.menuPanel,
+.countdownPanel,
+.victoryPanel {
+	margin: 0 auto;
+	width: min(1120px, 100%);
+}
+
+.menuPanel {
+	align-content: start;
+	display: grid;
+	gap: 16px;
+	min-height: 100%;
+}
+
+.menuPanel h2 {
+	color: var(--gold);
+	font-size: clamp(30px, 8vw, 66px);
+	letter-spacing: -0.05em;
+	line-height: 0.96;
+	margin: 0;
+}
+
+.menuPanel h3 {
+	color: var(--cyan);
+	font-size: 13px;
+	letter-spacing: 0.14em;
+	margin: 6px 0 0;
+	text-transform: uppercase;
+}
+
+.menuPoem {
+	color: #ddc992;
+	font-size: clamp(15px, 3.6vw, 19px);
+	line-height: 1.45;
+	max-width: 760px;
+}
+
+.instructionBox {
+	background: #0009;
+	border: 1px solid #e9c67555;
+	border-radius: 18px;
+	color: #fff4c0;
+	font-weight: 800;
+	padding: 12px 14px;
+}
+
+@media (max-width: 760px) {
+	.menuOverlay {
+		padding: 16px 12px calc(132px + env(safe-area-inset-bottom));
+	}
+
+	.instructionBox {
+		font-size: 14px;
+	}
+}

@@ -1,106 +1,106 @@
-import { ADVENTURE_MAPS, MAPS } from './data/maps.js';
-import { CHARACTERS } from './data/characters.js';
-import { adventureStatusLine } from './adventure/adventureRun.js';
-import { createInput } from './controls/input.js';
-import { createGameState } from './core/state.js';
-import { stepState } from './core/loop.js';
-import { mobileProfile, applyMobileProfile } from './platform/mobileProfile.js';
-import { draw } from './render/renderer.js';
-import { createRenderSurface, presentRenderSurface, resizeRenderSurface } from './render/offscreenSurface.js';
-import { readAudioMode, writeAudioMode } from './settings/audioSettings.js';
-import { showAdventureGrid, showCardGrid, showCountdown, showInfoPanel, showModeMenu, showSingleStart, showVictory } from './menu/menuViews.js';
-import { decorateAdventureMaps, loadAdventureProgress, loadProfile, nextStage, recordAdventureClear, saveProfile, winnerFor } from './session/sessionHelpers.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Main vessel: one clean gate, real Adventure, sharper combat status.
- *
- * Adventure no longer pretends to be a VS list. The match now carries a gate
- * ledger for Sparks, hidden Sparks, Kelipos, exit opening, and saved records.
+ * Browser bootstrap joins menu, devices, simulation, and rendering in Awtsmoos.com.
+ * The Awtsmoos renews every local controller as its own vessel while Adventure
+ * retains the proven single-human path through the same focused runtime.
  */
-const canvas = document.getElementById('olam'), overlay = document.getElementById('menuOverlay');
-const botSelect = document.getElementById('botSelect'), soundSelect = document.getElementById('soundSelect');
-const restart = document.getElementById('restart'), debug = document.getElementById('debugToggle'), statusText = document.getElementById('statusText');
-const profile = mobileProfile(window); applyMobileProfile(document, profile);
-const surface = createRenderSurface(canvas, profile), saved = loadProfile();
-const choice = { mode: 'vs', character: CHARACTERS[0], map: MAPS[0], cosmetic: { headwear: saved.headwear || 'kippah', hue: Number(saved.hue || 182), ready: !!saved.ready } };
-let state = createMenuState(), countdownTimer = null, runStartedAt = 0;
-let adventureProgress = loadAdventureProgress(ADVENTURE_MAPS);
-const input = createInput(document, { canvas, getState: () => state });
+import { createInput } from './controls/input.js';
+import { BrowserRuntime } from './core/BrowserRuntime.js';
+import { MenuFlow } from './menu/MenuFlow.js';
+import { DeviceRegistry } from './multiplayer/DeviceRegistry.js';
+import { applyMobileProfile, mobileProfile } from './platform/mobileProfile.js';
+import { createRenderSurface } from './render/offscreenSurface.js';
+import { readAudioMode, writeAudioMode } from './settings/audioSettings.js';
+import { GameModel } from './session/GameModel.js';
+import { MatchFlow } from './session/MatchFlow.js';
+
+const canvas = document.getElementById('olam');
+const overlay = document.getElementById('menuOverlay');
+const botSelect = document.getElementById('botSelect');
+const soundSelect = document.getElementById('soundSelect');
+const restart = document.getElementById('restart');
+const debug = document.getElementById('debugToggle');
+const status = document.getElementById('statusText');
+const profile = mobileProfile(window);
+applyMobileProfile(document, profile);
+
+const model = new GameModel();
+const registry = new DeviceRegistry(navigator);
+registry.assign('keyboard', model.lobby.slot(0).id);
+model.lobby.syncConnections(registry);
+const surface = createRenderSurface(canvas, profile);
+const input = createInput(document, {
+	canvas,
+	getState: () => model.state,
+	getSlots: () => model.inputSlots(),
+	navigatorObject: navigator
+});
+let menuFlow;
+let runtime;
+
+const matchFlow = new MatchFlow({
+	model,
+	host: overlay,
+	status,
+	botSelect,
+	profile,
+	onReturnMenu: () => menuFlow.showMode(),
+	onSceneChange: () => runtime?.resetClock()
+});
+
+menuFlow = new MenuFlow({
+	model,
+	host: overlay,
+	status,
+	profile,
+	soundSelect,
+	botSelect,
+	registry,
+	onBeginMatch: (map, mode) => matchFlow.beginCountdown(map, mode)
+});
+
+runtime = new BrowserRuntime({
+	model,
+	input,
+	canvas,
+	surface,
+	profile,
+	onStep: () => matchFlow.update()
+});
 
 soundSelect.value = readAudioMode();
 soundSelect.onchange = () => writeAudioMode(soundSelect.value);
 overlay.addEventListener('click', event => {
-  const victory = event.target.closest('[data-victory-action]'); if (victory) return handleVictoryAction(victory.dataset.victoryAction);
-  const customize = event.target.closest('[data-customize-action]'); if (customize) return customize.dataset.customizeAction === 'back' ? showCustomizeMenu() : finishCustomize();
-  if (event.target.closest('[data-menu-back]')) return showMode();
+	if (!matchFlow.handleClick(event)) {
+		menuFlow.handleClick(event);
+	}
 });
+restart.onclick = () => menuFlow.showMode();
+botSelect.onchange = () => restartAdventureIfActive(model, matchFlow);
+debug.onclick = () => {
+	model.state.debug = !model.state.debug;
+};
+addEventListener('resize', () => runtime.resize());
+addEventListener('orientationchange', () => setTimeout(() => runtime.resize(), 140));
+addEventListener('gamepadconnected', refreshDevices);
+addEventListener('gamepaddisconnected', refreshDevices);
 
-function resize() { resizeRenderSurface(surface, innerWidth, innerHeight, Math.min(devicePixelRatio || 1, profile.dprCap)); }
-function createMenuState() { const s = createGameState(MAPS[0], 0, choice.character, choice.cosmetic); s.phase = 'menu'; return s; }
-function showCustomizeMenu() {
-  clearCountdown(); state = createMenuState(); overlay.classList.remove('hidden'); statusText.textContent = `${profile.label}: customize fighter.`;
-  showSingleStart(overlay, { cosmetic: choice.cosmetic, onHue: hue => { choice.cosmetic.hue = hue; saveProfile(choice.cosmetic, false); showCustomizeMenu(); }, onHeadwear: headwear => { choice.cosmetic.headwear = headwear; saveProfile(choice.cosmetic, false); showCustomizeMenu(); } });
+function refreshDevices() {
+	registry.refresh();
+	model.lobby.syncConnections(registry);
+	menuFlow.refreshVsLobby();
 }
-function finishCustomize() { choice.cosmetic.ready = true; saveProfile(choice.cosmetic, true); showMode(); }
-function showMode() { clearCountdown(); state = createMenuState(); overlay.classList.remove('hidden'); statusText.textContent = 'Choose Adventure, Quick VS, Settings, or Credits.'; showModeMenu(overlay, { onPick: handleModePick }); }
-function handleModePick(mode) { if (mode === 'adventure') return showAdventureMenu(); if (mode === 'settings') return showSettings(); if (mode === 'credits') return showCredits(); return showVsMenu(); }
-function showVsMenu() {
-  choice.mode = 'vs'; clearCountdown(); overlay.classList.remove('hidden'); statusText.textContent = 'VS Mode: choose arena.';
-  showCardGrid(overlay, { title: 'VS Mode', subtitle: profile.mobile ? 'Pick any arena and fight now.' : 'Pick any arena for a brawler match.', items: MAPS, onPick: item => beginCountdown(item, 'vs') });
+
+function restartAdventureIfActive(gameModel, flow) {
+	const active = ['playing', 'victory'].includes(gameModel.state.phase);
+	if (gameModel.choice.mode === 'adventure' && active) {
+		flow.beginCountdown(gameModel.choice.map, 'adventure');
+	}
 }
-function showSettings() {
-  clearCountdown(); overlay.classList.remove('hidden'); statusText.textContent = 'Settings: use the lower control bar.';
-  showInfoPanel(overlay, { title: 'Settings', body: 'Sound, bot count, restart, debug, and Adventure progress are all simple now.', detail: `Sound: ${soundSelect.value}. VS bots: ${botSelect.value}. Adventure saves gates, best times, stars, and hidden Sparks locally.` });
-}
-function showCredits() {
-  clearCountdown(); overlay.classList.remove('hidden'); statusText.textContent = 'Credits.';
-  showInfoPanel(overlay, { title: 'Credits', body: 'Sefira Clash keeps VS intact while Adventure becomes a platform campaign path.', detail: 'B"H — Sparks, Kelipos, handmade gates, and every frame renewed from nothing by the Awtsmoos.' });
-}
-function showAdventureMenu() {
-  choice.mode = 'adventure'; clearCountdown(); overlay.classList.remove('hidden'); statusText.textContent = 'Adventure Mode: clear gates to unlock more.';
-  showAdventureGrid(overlay, { items: decorateAdventureMaps(ADVENTURE_MAPS, adventureProgress), onPick: item => beginCountdown(item, 'adventure') });
-}
-function beginCountdown(map = choice.map, mode = choice.mode) {
-  clearCountdown(); choice.map = map; choice.mode = mode;
-  const bots = mode === 'adventure' ? (map.adventure?.bots || 1) : Number(botSelect.value || 5);
-  state = createGameState(choice.map, bots, choice.character, choice.cosmetic); state.phase = 'countdown'; state.mode = mode; overlay.classList.remove('hidden');
-  let count = 3; showCountdown(overlay, count); statusText.textContent = `${choice.map.name}. ${profile.label} ready.`;
-  countdownTimer = setInterval(() => { count--; count > 0 ? showCountdown(overlay, count) : launchGo(); }, 600);
-}
-function launchGo() { clearCountdown(); showCountdown(overlay, 'GO'); setTimeout(startMatch, 280); }
-function startMatch() {
-  overlay.classList.add('hidden'); state.phase = 'playing'; state.victoryShown = false; runStartedAt = performance.now();
-  statusText.textContent = choice.mode === 'adventure' ? adventureStatusLine(state) : 'Fight: aim, charge, slam, launch, recover.';
-}
-function frame() {
-  if (state.phase === 'playing') { stepState(state, input.read()); updateStatusLine(); const winner = winnerFor(state); if (winner && !state.victoryShown) enterVictory(winner); }
-  draw(surface.ctx, state, canvas.clientWidth || innerWidth, canvas.clientHeight || innerHeight); presentRenderSurface(surface); requestAnimationFrame(frame);
-}
-function updateStatusLine() { if (choice.mode === 'adventure' && state.frame % 18 === 0) statusText.textContent = adventureStatusLine(state); }
-function enterVictory(winner) {
-  const list = choice.mode === 'adventure' ? ADVENTURE_MAPS : MAPS;
-  let victoryRecord = null;
-  if (choice.mode === 'adventure' && winner.human) victoryRecord = recordAdventureWin();
-  const nextMapValue = nextStage(list, choice.map);
-  state.phase = 'victory'; state.victoryShown = true; state.winner = winner.name; overlay.classList.remove('hidden'); overlay.classList.add('victoryOverlay'); statusText.textContent = `${winner.name} wins.`;
-  showVictory(overlay, { winner, map: choice.map, nextMap: nextMapValue, mode: choice.mode === 'adventure' ? 'Adventure' : 'VS', best: victoryRecord?.best, stars: victoryRecord?.stars });
-}
-function recordAdventureWin() {
-  const elapsed = Math.max(1000, performance.now() - runStartedAt), hidden = state.adventureRun?.hiddenFound || 0;
-  adventureProgress = recordAdventureClear(adventureProgress, ADVENTURE_MAPS, choice.map, elapsed, hidden);
-  const record = adventureProgress.records[choice.map.id];
-  return { best: record?.bestMs ? formatRecordTime(record.bestMs) : '—', stars: record?.stars || 0 };
-}
-function handleVictoryAction(action) {
-  if (state.phase !== 'victory') return;
-  if (action === 'next') { const list = choice.mode === 'adventure' ? ADVENTURE_MAPS : MAPS, map = nextStage(list, choice.map); if (map) beginCountdown(map, choice.mode); }
-  else if (action === 'rematch') beginCountdown(choice.map, choice.mode); else if (action === 'menu') showMode();
-}
-function formatRecordTime(ms) { const total = Math.round(ms / 1000), minutes = Math.floor(total / 60), seconds = String(total % 60).padStart(2, '0'); return `${minutes}:${seconds}`; }
-function clearCountdown() { if (countdownTimer) clearInterval(countdownTimer); countdownTimer = null; overlay.classList.remove('victoryOverlay'); }
-restart.onclick = showMode;
-botSelect.onchange = () => { if (choice.mode === 'vs' && (state.phase === 'playing' || state.phase === 'victory')) beginCountdown(choice.map, 'vs'); };
-debug.onclick = () => { if (state) state.debug = !state.debug; };
-addEventListener('resize', resize); addEventListener('orientationchange', () => setTimeout(resize, 140));
-resize(); choice.cosmetic.ready ? showMode() : showCustomizeMenu(); requestAnimationFrame(frame);
+
+runtime.resize();
+model.choice.cosmetic.ready ? menuFlow.showMode() : menuFlow.showCustomize();
+runtime.start();

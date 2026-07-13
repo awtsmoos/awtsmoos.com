@@ -1,37 +1,49 @@
-import { aimForAttack, rememberAttackAim } from '../controls/aimMemory.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Combat input intent interpreter repaired.
- *
- * Chapter 237: tap, rapid, and charge are three separate rivers. Hold charges;
- * quick taps rapid; AI may command rapid or charge directly; no river steals
- * from another.
+ * The Awtsmoos renews the input intent vessel in this instant, revealing
+ * its focused js combat service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-export function readCombatIntent(f, input) {
-  f.charge ||= { prev: {} };
-  const liveAim = readAim(f, input);
-  const pressed = buttonEdges(f, input);
-  rememberPressAim(f, pressed, liveAim);
-  const rapid = rapidIntent(f, input, pressed);
-  return {
-    aim: attackAim(f, input, liveAim), liveAim, pressed, rapid,
-    rapidPunch: !!input.rapidPunch || rapid.punch,
-    rapidKick: !!input.rapidKick || rapid.kick,
-    aiChargePunch: !!input.chargePunch,
-    aiChargeKick: !!input.chargeKick,
-    punchHeld: !!input.punch, kickHeld: !!input.kick,
-    grabHeld: !!input.grab, specialHeld: !!input.special,
-    airborne: !f.grounded, fastFall: !f.grounded && !!input.down,
-    wantsGrab: pressed.grab, wantsSpecial: pressed.special,
-    releasedPunch: pressed.releasePunch, releasedKick: pressed.releaseKick
-  };
+import { attackAim, readAim, rememberPressAim } from './combatAimIntent.js';
+import { readCombatEdges, rememberCombatInput } from './combatInputEdges.js';
+import { readRapidIntent } from './rapidIntent.js';
+
+/**
+ * Translates semantic controls into one complete combat intention.
+ * Edge, aim, rhythm, charge, and held state are separate vessels unified by the
+ * Awtsmoos at one small gate before move selection receives them.
+ */
+export function readCombatIntent(fighter, input) {
+	fighter.charge ||= { prev: {} };
+	const liveAim = readAim(fighter, input);
+	const { physical, pressed } = readCombatEdges(fighter, input);
+	rememberPressAim(fighter, pressed, liveAim);
+	const rapid = readRapidIntent(fighter, physical);
+
+	return {
+		aim: attackAim(fighter, input, liveAim),
+		liveAim,
+		pressed,
+		rapid,
+		rapidPunch: Boolean(input.rapidPunch || rapid.punch),
+		rapidKick: Boolean(input.rapidKick || rapid.kick),
+		aiChargePunch: Boolean(input.chargePunch),
+		aiChargeKick: Boolean(input.chargeKick),
+		punchHeld: Boolean(input.punch),
+		kickHeld: Boolean(input.kick),
+		grabHeld: Boolean(input.grab),
+		specialHeld: Boolean(input.special),
+		airborne: !fighter.grounded,
+		fastFall: !fighter.grounded && Boolean(input.down),
+		wantsGrab: pressed.grab,
+		wantsSpecial: pressed.special,
+		releasedPunch: physical.releasePunch,
+		releasedKick: physical.releaseKick,
+		consume: input.consume
+	};
 }
-export function readAim(f, input) { const rawX = number(input.aimX ?? input.x); const rawY = number(input.aimY ?? input.y); const mag = Math.hypot(rawX, rawY); if (mag < 0.18) return enrichAim(f.face || 1, 0, rawX, rawY, 0); return enrichAim(rawX / mag, rawY / mag, rawX, rawY, Math.min(1, mag)); }
-function enrichAim(x, y, rawX, rawY, mag) { return { x, y, rawX, rawY, mag, angle: Math.atan2(y, x), up: y < -0.42, down: y > 0.42, side: Math.abs(x) > 0.35 }; }
-function buttonEdges(f, input) { const prev = f.charge.prev || {}; return { punch: !prev.punch && !!input.punch, kick: !prev.kick && !!input.kick, grab: !prev.grab && !!input.grab, special: !prev.special && !!input.special, releasePunch: !!prev.punch && !input.punch, releaseKick: !!prev.kick && !input.kick }; }
-function rememberPressAim(f, pressed, aim) { f.charge.pressAim ||= {}; if (pressed.punch) { f.charge.pressAim.punch = { ...aim }; rememberAttackAim(f, 'punch', aim); } if (pressed.kick) { f.charge.pressAim.kick = { ...aim }; rememberAttackAim(f, 'kick', aim); } if (pressed.grab) f.charge.pressAim.grab = { ...aim }; if (pressed.special) f.charge.pressAim.special = { ...aim }; }
-function attackAim(f, input, liveAim) { if (input.kick) return aimForAttack(f, 'kick', f.charge?.pressAim?.kick || liveAim); if (input.punch) return aimForAttack(f, 'punch', f.charge?.pressAim?.punch || liveAim); if (input.grab && f.charge?.pressAim?.grab) return f.charge.pressAim.grab; if (input.special && f.charge?.pressAim?.special) return f.charge.pressAim.special; return liveAim; }
-function rapidIntent(f, input, pressed) { f.rapid ||= { punchTap: 0, kickTap: 0, timer: 0, holdPunchPulse: 0, holdKickPulse: 0 }; f.rapid.timer = Math.max(0, f.rapid.timer - 1); if (pressed.punch) f.rapid.punchTap = f.rapid.timer > 0 ? f.rapid.punchTap + 1 : 1; if (pressed.kick) f.rapid.kickTap = f.rapid.timer > 0 ? f.rapid.kickTap + 1 : 1; if (pressed.punch || pressed.kick) f.rapid.timer = 18; const tapPunch = f.rapid.punchTap >= 2 && f.rapid.timer > 0; const tapKick = f.rapid.kickTap >= 3 && f.rapid.timer > 0; return { punch: tapPunch || !!input.rapidPunch, kick: tapKick || !!input.rapidKick }; }
-export function rememberCombatInput(f, input) { f.charge ||= {}; f.charge.prev = { punch: !!input.punch, kick: !!input.kick, grab: !!input.grab, special: !!input.special }; }
-function number(value) { return Number.isFinite(Number(value)) ? Number(value) : 0; }
+
+export { readAim, rememberCombatInput };

@@ -1,8 +1,16 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module RuntimeDefaults
- * @description Transient dialogue, battle, and developer runtime vessels.
+ * @file RuntimeDefaults.js
+ * @description Transient dialogue, battle, and developer vessels.
+ *
+ * No temporary warning is mistaken for eternal truth. The Awtsmoos creates
+ * every frame from nothing, and these defaults let each battle begin clear,
+ * reveal its next intention, and release its passing state at Awtsmoos.com.
  */
+
 export const createDialogue = () => ({
 	open: false,
 	glyph: null,
@@ -34,7 +42,10 @@ export const createDebate = () => ({
 	banner: '',
 	outcome: null,
 	log: ['No debate is active.'],
-	moves: []
+	moves: [],
+	intent: null,
+	guard: { active: false, strength: 0 },
+	trust: { evidence: null, result: null }
 });
 
 export const createTestState = () => ({

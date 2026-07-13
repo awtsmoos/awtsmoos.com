@@ -1,16 +1,81 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * B"H
- * Character sparks for the brawl gate.
- *
- * Each option is a seed for the generated skeleton warrior. The Awtsmoos
- * reveals one playable vessel through a tiny data stone: name, role, hue,
- * and seed. The menu reads this data and does not hardcode the palace.
+ * The Awtsmoos renews six authored roster vessels within Awtsmoos.com.
+ * Each record now binds story identity to a real weapon and combat profile,
+ * allowing menu choice to descend into measurable runtime consequence.
  */
 export const CHARACTERS = [
-  { id: 'hod-staff', name: 'Hod Staff', seed: 'hod-staff', role: 'Balanced staff mystic', hue: 158 },
-  { id: 'gevurah-sw', name: 'Gevurah Sword', seed: 'gevurah-sw', role: 'Fast blade pressure', hue: 264 },
-  { id: 'chesed-fist', name: 'Chesed Fist', seed: 'chesed-fist', role: 'Heavy brawler mercy', hue: 205 },
-  { id: 'netzach-spark', name: 'Netzach Spark', seed: 'netzach-spark', role: 'Air control runner', hue: 46 },
-  { id: 'yesod-lance', name: 'Yesod Lance', seed: 'yesod-lance', role: 'Long reach guardian', hue: 318 },
-  { id: 'malchus-crown', name: 'Malchus Crown', seed: 'malchus-crown', role: 'Grounded royal bruiser', hue: 18 }
+	character('hod-staff', 'Hod Staff', 'Hod', 'Balanced staff mystic', 'staff', 158, 'Echo Step'),
+	character(
+		'gevurah-sw',
+		'Gevurah Sword',
+		'Gevurah',
+		'Fast blade pressure',
+		'sword',
+		264,
+		'Judgment Rush'
+	),
+	character(
+		'chesed-fist',
+		'Chesed Fist',
+		'Chesed',
+		'Guarding mercy bruiser',
+		'shield',
+		205,
+		'Sheltering Palm'
+	),
+	character(
+		'netzach-spark',
+		'Netzach Spark',
+		'Netzach',
+		'Air control runner',
+		'staff',
+		46,
+		'Victory Current'
+	),
+	character(
+		'yesod-lance',
+		'Yesod Lance',
+		'Yesod',
+		'Long reach guardian',
+		'staff',
+		318,
+		'Foundation Line'
+	),
+	character(
+		'malchus-crown',
+		'Malchus Crown',
+		'Malchus',
+		'Grounded royal bruiser',
+		'axe',
+		18,
+		'Sovereign Weight'
+	)
 ];
+
+/**
+ * Resolves a roster record by id with a stable first-character fallback.
+ *
+ * @param {string} characterId Stable character identifier.
+ * @returns {object} Authored roster record.
+ */
+export function characterById(characterId) {
+	return CHARACTERS.find(character => character.id === characterId) || CHARACTERS[0];
+}
+
+function character(id, name, sefira, role, weaponId, hue, ability) {
+	return {
+		id,
+		name,
+		seed: id,
+		sefira,
+		role,
+		weaponId,
+		profileId: id,
+		hue,
+		ability
+	};
+}

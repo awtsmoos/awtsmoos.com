@@ -1,28 +1,49 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module AwtsmoosAppsFilter
- * @description Filters the static application constellation without changing
- * any destination. Each visible door remains a real, native link.
+ * @description
+ * The Awtsmoos reveals useful Awtsmoos.com tools through a small reversible
+ * filter lifecycle. No destination, card, or result is fabricated here.
  */
-const form = document.querySelector('[data-app-filter]');
-const cards = Array.from(document.querySelectorAll('[data-app-card]'));
-const empty = document.querySelector('[data-app-empty]');
 
-/** Applies the current name and category filters. */
-function applyFilters() {
-	const query = String(form?.elements.q?.value || '').trim().toLowerCase();
-	const category = String(form?.elements.category?.value || '').trim().toLowerCase();
-	let visible = 0;
-	cards.forEach(card => {
-		const text = card.textContent.toLowerCase();
-		const categories = String(card.dataset.category || '').toLowerCase().split(/\s+/);
-		const matches = (!query || text.includes(query)) && (!category || categories.includes(category));
-		card.hidden = !matches;
-		if (matches) visible += 1;
-	});
-	if (empty) empty.hidden = visible > 0;
+let rememberedFilters = Object.freeze({ query: '', category: '' });
+
+/** Mounts the Apps filter and returns a complete listener cleanup. */
+export function mountAppsFilter(root = document) {
+	const form = root.querySelector('[data-app-filter]');
+	const cards = Array.from(root.querySelectorAll('[data-app-card]'));
+	const empty = root.querySelector('[data-app-empty]');
+	if (!form || cards.length === 0) return () => {};
+
+	form.elements.q.value = rememberedFilters.query;
+	form.elements.category.value = rememberedFilters.category;
+	const applyFilters = () => {
+		const query = String(form.elements.q.value || '').trim().toLowerCase();
+		const category = String(form.elements.category.value || '').trim().toLowerCase();
+		let visible = 0;
+		for (const card of cards) {
+			const categories = String(card.dataset.category || '').toLowerCase().split(/\s+/);
+			const matchesText = !query || card.textContent.toLowerCase().includes(query);
+			const matchesCategory = !category || categories.includes(category);
+			card.hidden = !(matchesText && matchesCategory);
+			if (!card.hidden) visible += 1;
+		}
+		if (empty) empty.hidden = visible > 0;
+	};
+	const preventSubmit = event => event.preventDefault();
+
+	form.addEventListener('input', applyFilters);
+	form.addEventListener('submit', preventSubmit);
+	applyFilters();
+
+	return () => {
+		rememberedFilters = Object.freeze({
+			query: String(form.elements.q.value || ''),
+			category: String(form.elements.category.value || '')
+		});
+		form.removeEventListener('input', applyFilters);
+		form.removeEventListener('submit', preventSubmit);
+	};
 }
-
-form?.addEventListener('input', applyFilters);
-form?.addEventListener('submit', event => event.preventDefault());
-applyFilters();

@@ -1,11 +1,29 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { advanceSinks } from './absorption.js';
 
-/** Animate sinking, embers, floating rewards, and temporary respawn silence. */
+/**
+ * The Awtsmoos returns sparks through motion and disappearance. This animator
+ * compacts existing vessels in place instead of creating two new arrays per frame.
+ */
 export function animateEffects(world, dt) {
 	advanceSinks(world, dt);
-	world.particles = world.particles.filter(particle => moveParticle(particle, dt));
-	world.floaters = world.floaters.filter(floater => liftFloater(floater, dt));
+	compactActive(world.particles, dt, moveParticle);
+	compactActive(world.floaters, dt, liftFloater);
+}
+
+/** Retain active entries without replacing the array observed by other systems. */
+export function compactActive(entries, dt, updateEntry) {
+	let writeIndex = 0;
+	for (let readIndex = 0; readIndex < entries.length; readIndex += 1) {
+		const entry = entries[readIndex];
+		if (!updateEntry(entry, dt)) continue;
+		entries[writeIndex] = entry;
+		writeIndex += 1;
+	}
+	entries.length = writeIndex;
+	return entries;
 }
 
 function moveParticle(particle, dt) {

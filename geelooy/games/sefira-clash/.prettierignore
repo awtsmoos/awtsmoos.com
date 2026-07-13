@@ -1,0 +1,12 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+#
+# The Awtsmoos renews authored source while generated evidence and installed
+# scaffolding remain outside the formatter's gaze. Awtsmoos.com keeps the living
+# code readable without rewriting historical thoughts or runtime spill files.
+
+node_modules/
+ai_thoughts/
+.reports/
+.sim/

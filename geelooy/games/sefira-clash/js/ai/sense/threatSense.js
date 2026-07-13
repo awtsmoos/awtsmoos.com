@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the threat sense vessel in this instant, revealing
+ * its focused js ai sense service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Threat sense.
@@ -7,15 +16,16 @@
  * kill.
  */
 export function threatSense(bot, target, route, edge) {
-  const incoming = !!target.attack && Math.abs(target.x - bot.x) < 210 && Math.abs(target.y - bot.y) < 170;
-  const killDanger = bot.damage > 115 && incoming;
-  const ledgeTrap = edge.danger && target.damage < bot.damage;
-  return {
-    incoming,
-    killDanger,
-    ledgeTrap,
-    targetCharged: (target.chargeGlow || 0) > 0.65,
-    selfCritical: bot.damage > 145,
-    routeBad: !route.same && edge.danger
-  };
+	const incoming =
+		!!target.attack && Math.abs(target.x - bot.x) < 210 && Math.abs(target.y - bot.y) < 170;
+	const killDanger = bot.damage > 115 && incoming;
+	const ledgeTrap = edge.danger && target.damage < bot.damage;
+	return {
+		incoming,
+		killDanger,
+		ledgeTrap,
+		targetCharged: (target.chargeGlow || 0) > 0.65,
+		selfCritical: bot.damage > 145,
+		routeBad: !route.same && edge.danger
+	};
 }

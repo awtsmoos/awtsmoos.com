@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos fills inventory, map, skills, and journal with ordered attention. */
+.ohr-panel-shell, .ohr-dialogue-shell {
+	position: absolute;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 28px 18px;
+	background: rgba(2, 4, 9, 0.58);
+	pointer-events: none;
+	backdrop-filter: blur(5px);
+}
+
+.ohr-panel-shell[data-open="true"], .ohr-dialogue-shell[data-open="true"] { display: flex; pointer-events: auto; }
+.ohr-panel, .ohr-dialogue {
+	position: relative;
+	width: min(720px, 88vw);
+	max-height: min(680px, 76vh);
+	overflow: auto;
+	padding: 22px;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-lg);
+	background: linear-gradient(145deg, rgba(21, 28, 47, 0.98), rgba(8, 12, 23, 0.99)), var(--ohr-panel-solid);
+	box-shadow: var(--ohr-shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+	scrollbar-color: var(--ohr-gold) rgba(255, 255, 255, 0.05);
+}
+
+.ohr-panel::before, .ohr-dialogue::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(244, 201, 107, 0.1); border-radius: calc(var(--ohr-radius-lg) - 6px); pointer-events: none; }
+.ohr-panel h2, .ohr-dialogue h2 { position: relative; margin: 0 46px 8px 0; color: var(--ohr-gold-bright); font: 800 27px/1.1 Georgia, serif; }
+.ohr-panel > div, .ohr-dialogue-count { position: relative; margin-bottom: 15px; color: var(--ohr-muted); font-size: 12px; line-height: 1.45; }
+.ohr-panel section { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.ohr-panel p { display: flex; justify-content: space-between; gap: 14px; margin: 0; padding: 12px 13px; border: 1px solid var(--ohr-line-soft); border-radius: 12px; background: rgba(255, 255, 255, 0.035); }
+.ohr-panel p b { color: var(--ohr-gold-bright); }
+.ohr-panel p span { max-width: 60%; color: #e8eef9; text-align: right; overflow-wrap: anywhere; }
+.ohr-panel [data-close-panel], .ohr-dialogue [data-dialogue-close] { position: absolute; right: 14px; top: 14px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; background: rgba(3, 5, 11, 0.92); font-size: 20px; }

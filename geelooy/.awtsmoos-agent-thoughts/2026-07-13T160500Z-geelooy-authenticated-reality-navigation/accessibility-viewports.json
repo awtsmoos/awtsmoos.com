@@ -1,0 +1,527 @@
+{
+	"viewportResults": [
+		{
+			"route": "/about/",
+			"width": 320,
+			"result": {
+				"href": "http://127.0.0.1:8080/about/?probe=a11y-320-20260713",
+				"title": "Awtsmoos | עצמות",
+				"viewport": {
+					"width": 320,
+					"height": 900
+				},
+				"documentWidth": 320,
+				"horizontalOverflow": true,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [
+					"awtsmoosDrop",
+					"dropdownBackdrop",
+					"notLoggedIn",
+					"signinButton",
+					"signinDropdown",
+					"loginForm",
+					"loginUsername",
+					"loginPassword",
+					"loginSubmit",
+					"toggleRegister",
+					"registerForm",
+					"registerUsername",
+					"registerPassword",
+					"registerSubmit",
+					"toggleLogin",
+					"authMessage",
+					"loggedIn",
+					"dropdownProfile",
+					"awtsmoosProfileDropContent",
+					"modeBadge",
+					"usernameDisplay",
+					"aliasSection",
+					"localModeNote",
+					"switchAlias",
+					"aliasInfo",
+					"logoutSection"
+				],
+				"focusableCount": 70,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/about"
+				]
+			}
+		},
+		{
+			"route": "/about/",
+			"width": 390,
+			"result": {
+				"href": "http://127.0.0.1:8080/about/?probe=a11y-390-20260713",
+				"title": "Awtsmoos | עצמות",
+				"viewport": {
+					"width": 390,
+					"height": 900
+				},
+				"documentWidth": 375,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [
+					"awtsmoosDrop",
+					"dropdownBackdrop",
+					"notLoggedIn",
+					"signinButton",
+					"signinDropdown",
+					"loginForm",
+					"loginUsername",
+					"loginPassword",
+					"loginSubmit",
+					"toggleRegister",
+					"registerForm",
+					"registerUsername",
+					"registerPassword",
+					"registerSubmit",
+					"toggleLogin",
+					"authMessage",
+					"loggedIn",
+					"dropdownProfile",
+					"awtsmoosProfileDropContent",
+					"modeBadge",
+					"usernameDisplay",
+					"aliasSection",
+					"localModeNote",
+					"switchAlias",
+					"aliasInfo",
+					"logoutSection"
+				],
+				"focusableCount": 70,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/about"
+				]
+			}
+		},
+		{
+			"route": "/about/",
+			"width": 768,
+			"result": {
+				"href": "http://127.0.0.1:8080/about/?probe=a11y-768-20260713",
+				"title": "Awtsmoos | עצמות",
+				"viewport": {
+					"width": 768,
+					"height": 900
+				},
+				"documentWidth": 753,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [
+					"awtsmoosDrop",
+					"dropdownBackdrop",
+					"notLoggedIn",
+					"signinButton",
+					"signinDropdown",
+					"loginForm",
+					"loginUsername",
+					"loginPassword",
+					"loginSubmit",
+					"toggleRegister",
+					"registerForm",
+					"registerUsername",
+					"registerPassword",
+					"registerSubmit",
+					"toggleLogin",
+					"authMessage",
+					"loggedIn",
+					"dropdownProfile",
+					"awtsmoosProfileDropContent",
+					"modeBadge",
+					"usernameDisplay",
+					"aliasSection",
+					"localModeNote",
+					"switchAlias",
+					"aliasInfo",
+					"logoutSection"
+				],
+				"focusableCount": 70,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/about"
+				]
+			}
+		},
+		{
+			"route": "/about/",
+			"width": 1024,
+			"result": {
+				"href": "http://127.0.0.1:8080/about/?probe=a11y-1024-20260713",
+				"title": "Awtsmoos | עצמות",
+				"viewport": {
+					"width": 1024,
+					"height": 900
+				},
+				"documentWidth": 1009,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [
+					"awtsmoosDrop",
+					"dropdownBackdrop",
+					"notLoggedIn",
+					"signinButton",
+					"signinDropdown",
+					"loginForm",
+					"loginUsername",
+					"loginPassword",
+					"loginSubmit",
+					"toggleRegister",
+					"registerForm",
+					"registerUsername",
+					"registerPassword",
+					"registerSubmit",
+					"toggleLogin",
+					"authMessage",
+					"loggedIn",
+					"dropdownProfile",
+					"awtsmoosProfileDropContent",
+					"modeBadge",
+					"usernameDisplay",
+					"aliasSection",
+					"localModeNote",
+					"switchAlias",
+					"aliasInfo",
+					"logoutSection"
+				],
+				"focusableCount": 70,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/about"
+				]
+			}
+		},
+		{
+			"route": "/about/",
+			"width": 1440,
+			"result": {
+				"href": "http://127.0.0.1:8080/about/?probe=a11y-1440-20260713",
+				"title": "Awtsmoos | עצמות",
+				"viewport": {
+					"width": 1440,
+					"height": 900
+				},
+				"documentWidth": 1425,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [
+					"awtsmoosDrop",
+					"dropdownBackdrop",
+					"notLoggedIn",
+					"signinButton",
+					"signinDropdown",
+					"loginForm",
+					"loginUsername",
+					"loginPassword",
+					"loginSubmit",
+					"toggleRegister",
+					"registerForm",
+					"registerUsername",
+					"registerPassword",
+					"registerSubmit",
+					"toggleLogin",
+					"authMessage",
+					"loggedIn",
+					"dropdownProfile",
+					"awtsmoosProfileDropContent",
+					"modeBadge",
+					"usernameDisplay",
+					"aliasSection",
+					"localModeNote",
+					"switchAlias",
+					"aliasInfo",
+					"logoutSection"
+				],
+				"focusableCount": 70,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/about"
+				]
+			}
+		},
+		{
+			"route": "/apps/",
+			"width": 320,
+			"result": {
+				"href": "http://127.0.0.1:8080/apps/?probe=a11y-320-20260713",
+				"title": "Apps — Geelooy",
+				"viewport": {
+					"width": 320,
+					"height": 900
+				},
+				"documentWidth": 320,
+				"horizontalOverflow": true,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [],
+				"focusableCount": 56,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/apps",
+					"./nesher-studio",
+					"./code",
+					"./rebbe",
+					"./audio-editor",
+					"./video-editor",
+					"./piano",
+					"./captions/video",
+					"./csv",
+					"./pdf-to-img",
+					"./transcribe",
+					"./wallet",
+					"./tunnel-control"
+				]
+			}
+		},
+		{
+			"route": "/apps/",
+			"width": 390,
+			"result": {
+				"href": "http://127.0.0.1:8080/apps/?probe=a11y-390-20260713",
+				"title": "Apps — Geelooy",
+				"viewport": {
+					"width": 390,
+					"height": 900
+				},
+				"documentWidth": 375,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [],
+				"focusableCount": 56,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/apps",
+					"./nesher-studio",
+					"./code",
+					"./rebbe",
+					"./audio-editor",
+					"./video-editor",
+					"./piano",
+					"./captions/video",
+					"./csv",
+					"./pdf-to-img",
+					"./transcribe",
+					"./wallet",
+					"./tunnel-control"
+				]
+			}
+		},
+		{
+			"route": "/apps/",
+			"width": 768,
+			"result": {
+				"href": "http://127.0.0.1:8080/apps/?probe=a11y-768-20260713",
+				"title": "Apps — Geelooy",
+				"viewport": {
+					"width": 768,
+					"height": 900
+				},
+				"documentWidth": 753,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [],
+				"focusableCount": 57,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/apps",
+					"./nesher-studio",
+					"./code",
+					"./rebbe",
+					"./audio-editor",
+					"./video-editor",
+					"./piano",
+					"./captions/video",
+					"./csv",
+					"./pdf-to-img",
+					"./transcribe",
+					"./wallet",
+					"./tunnel-control"
+				]
+			}
+		},
+		{
+			"route": "/apps/",
+			"width": 1024,
+			"result": {
+				"href": "http://127.0.0.1:8080/apps/?probe=a11y-1024-20260713",
+				"title": "Apps — Geelooy",
+				"viewport": {
+					"width": 1024,
+					"height": 900
+				},
+				"documentWidth": 1009,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [],
+				"focusableCount": 57,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/apps",
+					"./nesher-studio",
+					"./code",
+					"./rebbe",
+					"./audio-editor",
+					"./video-editor",
+					"./piano",
+					"./captions/video",
+					"./csv",
+					"./pdf-to-img",
+					"./transcribe",
+					"./wallet",
+					"./tunnel-control"
+				]
+			}
+		},
+		{
+			"route": "/apps/",
+			"width": 1440,
+			"result": {
+				"href": "http://127.0.0.1:8080/apps/?probe=a11y-1440-20260713",
+				"title": "Apps — Geelooy",
+				"viewport": {
+					"width": 1440,
+					"height": 900
+				},
+				"documentWidth": 1425,
+				"horizontalOverflow": false,
+				"shells": 1,
+				"docks": 1,
+				"outlets": 1,
+				"mains": 1,
+				"h1s": 1,
+				"duplicateIds": [],
+				"focusableCount": 57,
+				"unnamedButtons": 0,
+				"unnamedLinks": 0,
+				"activeLinks": [
+					"/apps",
+					"./nesher-studio",
+					"./code",
+					"./rebbe",
+					"./audio-editor",
+					"./video-editor",
+					"./piano",
+					"./captions/video",
+					"./csv",
+					"./pdf-to-img",
+					"./transcribe",
+					"./wallet",
+					"./tunnel-control"
+				]
+			}
+		}
+	],
+	"media": {
+		"reducedMotion": true,
+		"forcedColors": true,
+		"colorScheme": "dark"
+	},
+	"keyboardSequence": [
+		{
+			"tag": "A",
+			"id": null,
+			"className": "g-header-brand home icon",
+			"name": "Geelooy home"
+		},
+		{
+			"tag": "BUTTON",
+			"id": null,
+			"className": "g-header-action g-mobile-search-button",
+			"name": "Open search portal"
+		},
+		{
+			"tag": "A",
+			"id": null,
+			"className": "g-header-action g-mail-portal",
+			"name": "Open Mail"
+		},
+		{
+			"tag": "BUTTON",
+			"id": "dropdownBackdrop",
+			"className": "awtsmoos-dropdown-backdrop hidden",
+			"name": "Close profile menu"
+		},
+		{
+			"tag": "BUTTON",
+			"id": "signinButton",
+			"className": "profile-trigger",
+			"name": "👤 Sign in ⌄"
+		},
+		{
+			"tag": "BUTTON",
+			"id": null,
+			"className": "g-header-action menuBtn g-menu-button",
+			"name": "Open route constellation"
+		},
+		{
+			"tag": "A",
+			"id": null,
+			"className": "",
+			"name": "⌂Home"
+		},
+		{
+			"tag": "A",
+			"id": null,
+			"className": "",
+			"name": "◈Spaces"
+		},
+		{
+			"tag": "A",
+			"id": null,
+			"className": "",
+			"name": "+Create"
+		},
+		{
+			"tag": "A",
+			"id": null,
+			"className": "",
+			"name": "✉Mail"
+		}
+	],
+	"diagnostics": []
+}

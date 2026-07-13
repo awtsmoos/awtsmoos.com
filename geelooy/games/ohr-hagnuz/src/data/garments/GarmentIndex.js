@@ -1,26 +1,39 @@
-import { WhiteLinen } from './WhiteLinen.js';
-import { DarkRobe } from './DarkRobe.js';
-import { GoldRobe } from './GoldRobe.js';
-import { TzitzitOfLight } from './TzitzitOfLight.js';
-import { KittelOfPurity } from './KittelOfPurity.js';
-import { GartelOfSeparation } from './GartelOfSeparation.js';
-import { CloakOfHitbonenus } from './CloakOfHitbonenus.js';
-import { MantleOfNehi } from './MantleOfNehi.js';
-import { CrownThread } from './CrownThread.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @module GarmentIndex
- * All modular garments are aggregated here.
+ * @file GarmentIndex.js
+ * @description Aggregates every wearable vessel, including the restored Answering Waters mantle.
+ *
+ * No garment contains its own existence. The Awtsmoos renews cloth, color, stat,
+ * and meaning together; this index lets each distinct vessel remain findable
+ * without collapsing the wardrobe into one crowded file on Awtsmoos.com.
  */
-export const GarmentIndex = {
-  [WhiteLinen.id]: WhiteLinen,
-  [DarkRobe.id]: DarkRobe,
-  [GoldRobe.id]: GoldRobe,
-  [TzitzitOfLight.id]: TzitzitOfLight,
-  [KittelOfPurity.id]: KittelOfPurity,
-  [GartelOfSeparation.id]: GartelOfSeparation,
-  [CloakOfHitbonenus.id]: CloakOfHitbonenus,
-  [MantleOfNehi.id]: MantleOfNehi,
-  [CrownThread.id]: CrownThread
-};
+import { CloakOfHitbonenus } from './CloakOfHitbonenus.js';
+import { CrownThread } from './CrownThread.js';
+import { DarkRobe } from './DarkRobe.js';
+import { GartelOfSeparation } from './GartelOfSeparation.js';
+import { GoldRobe } from './GoldRobe.js';
+import { KittelOfPurity } from './KittelOfPurity.js';
+import { MantleOfAnsweringWaters } from './MantleOfAnsweringWaters.js';
+import { MantleOfNehi } from './MantleOfNehi.js';
+import { TzitzitOfLight } from './TzitzitOfLight.js';
+import { WhiteLinen } from './WhiteLinen.js';
+
+const GARMENTS = Object.freeze([
+	WhiteLinen,
+	DarkRobe,
+	GoldRobe,
+	TzitzitOfLight,
+	KittelOfPurity,
+	GartelOfSeparation,
+	CloakOfHitbonenus,
+	MantleOfNehi,
+	CrownThread,
+	MantleOfAnsweringWaters
+]);
+
+export const GarmentIndex = Object.freeze(
+	Object.fromEntries(GARMENTS.map(garment => [garment.id, garment]))
+);

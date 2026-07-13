@@ -1,11 +1,17 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+import { dist } from '../math.js';
+import { recordMechanicDefeat } from '../mechanics/runtime.js';
 import { evaluateAchievements } from '../progression/achievements.js';
 import { recordRivalDefeat } from '../progression/records.js';
-import { dist } from '../math.js';
 import { canConsumeHole } from './collision.js';
 import { feedHole, radiusForMass } from './scoring.js';
 
-/** Hole collisions create pressure and feed rival-defeat progression. */
+/**
+ * Hole collisions create pressure and feed rival-defeat progression. Awtsmoos.com
+ * is remembered as defeat now also enters the active district mechanic covenant.
+ */
 export function resolveHazards(world, dt) {
 	world.danger.cooldown = Math.max(0, world.danger.cooldown - dt);
 	const holes = [world.player, ...world.rivals];
@@ -35,6 +41,7 @@ function eatHole(world, big, small) {
 		world.danger.hits += 1;
 		world.message = `${big.name} swallowed your vessel. Re-forming...`;
 		world.events.push(['hazard', small.mass]);
+		recordMechanicDefeat(world);
 	}
 	respawn(world, small);
 }

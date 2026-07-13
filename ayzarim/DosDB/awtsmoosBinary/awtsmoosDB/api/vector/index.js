@@ -2,8 +2,8 @@
 
 /**
  * @file api/vector/index.js
- * @chapter One Graph Mutation Produces One Reachable Registry
- * @description Coordinates vector metadata, queries, mutations, reconciliation, audits, and bulk loading.
+ * @chapter One Logical Replacement Produces One Reachable Graph Generation
+ * @description Coordinates metadata, strict queries, atomic mutations, reconciliation, audits, and bulk loading.
  */
 
 const HNSW = require('./hnsw.js');
@@ -65,6 +65,12 @@ class VectorManager {
 		return index ? mutation.remove(this, index, key) : false;
 	}
 
+	replace(path, key, vector, payload) {
+		const index = this.getIndex(path);
+		const normalized = vectorOf(vector);
+		return index && normalized ? mutation.replace(this, path, index, key, normalized, payload) : null;
+	}
+
 	nearest(handle, queryVector, count = 5) {
 		const query = vectorOf(queryVector);
 		if (!query) return [];
@@ -98,23 +104,18 @@ class VectorManager {
 		return report;
 	}
 
-	reconcile(value) {
-		return reconcileVectorIndex(this, value);
-	}
-
+	reconcile(value) { return reconcileVectorIndex(this, value); }
 	persistIndex(path, index) {
 		index.meta.entryNodeID = index.entryNodeID;
 		index.meta.maxLevel = index.maxLevel;
 		this.metadata.write(path, index.meta);
 	}
-
 	indexStatus(value) {
 		const path = String(pathOf(value));
 		const index = this.getIndex(path);
 		const count = index ? index.registry.count() : 0;
 		return { path, index, configured: Boolean(this.metadata.read(path)), registryCount: count, entryNodeID: index?.entryNodeID ?? -1, maxLevel: Number(index?.maxLevel || 0), usable: count > 0 && index?.entryNodeID >= 0 };
 	}
-
 	bulkLoad(handle, records, options = {}) { return this.bulkLoader.load(handle, records, options); }
 	configurations() { return this.metadata.configurations(); }
 	lastReindexReport(value) { return this.reindexReports.get(String(pathOf(value))) || null; }

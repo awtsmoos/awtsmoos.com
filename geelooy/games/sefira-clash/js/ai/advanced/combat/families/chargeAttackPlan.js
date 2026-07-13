@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the charge attack plan vessel in this instant, revealing
+ * its focused js ai advanced combat families service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Charge attack plan.
@@ -7,16 +16,17 @@
  * lane long enough for thunder to ripen.
  */
 export function chargeAttackScore(world) {
-  if (!world.combat?.sameFightingLane) return 0;
-  const damage = world.target.damage || 0;
-  const predictionClose = Math.abs((world.prediction?.x || world.target.x) - world.target.x) < 170;
-  let score = 0;
-  if (damage > 95) score += 34;
-  if (damage > 135) score += 26;
-  if (world.edgePressure?.active) score += 22;
-  if (world.landing?.active && world.landing.frames < 38) score += 20;
-  if (predictionClose) score += 14;
-  if (world.target.stun > 10) score += 18;
-  if (world.combat?.reachableClose && damage < 70) score -= 24;
-  return Math.max(0, score);
+	if (!world.combat?.sameFightingLane) return 0;
+	const damage = world.target.damage || 0;
+	const predictionClose =
+		Math.abs((world.prediction?.x || world.target.x) - world.target.x) < 170;
+	let score = 0;
+	if (damage > 95) score += 34;
+	if (damage > 135) score += 26;
+	if (world.edgePressure?.active) score += 22;
+	if (world.landing?.active && world.landing.frames < 38) score += 20;
+	if (predictionClose) score += 14;
+	if (world.target.stun > 10) score += 18;
+	if (world.combat?.reachableClose && damage < 70) score -= 24;
+	return Math.max(0, score);
 }

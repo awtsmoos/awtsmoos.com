@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos binds name, place, and resources into one readable crown. */
+.revelation-topbar {
+	position: absolute;
+	inset: 0 0 auto;
+	height: var(--ohr-topbar-height);
+	display: grid;
+	grid-template-columns: minmax(210px, 1fr) minmax(220px, 1.2fr) minmax(260px, 1fr);
+	align-items: center;
+	gap: var(--ohr-gap-3);
+	padding: 10px 18px;
+	border-bottom: 1px solid var(--ohr-line);
+	background: linear-gradient(180deg, rgba(12, 17, 30, 0.98), rgba(8, 12, 22, 0.92));
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+}
+
+.revelation-brand, .revelation-location, .revelation-resources { display: flex; align-items: center; }
+.revelation-brand { gap: 11px; }
+.revelation-brand-mark {
+	display: grid;
+	place-items: center;
+	width: 43px;
+	height: 43px;
+	border: 1px solid var(--ohr-line);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(244, 201, 107, 0.22), rgba(244, 201, 107, 0.03));
+	color: var(--ohr-gold-bright);
+	font: 700 25px/1 Georgia, serif;
+	box-shadow: 0 0 24px rgba(244, 201, 107, 0.18);
+}
+
+.revelation-brand small, .revelation-location small, .revelation-card-kicker {
+	display: block;
+	color: var(--ohr-gold);
+	font-size: 10px;
+	font-weight: 850;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.revelation-brand strong { display: block; font: 800 23px/1.05 Georgia, serif; letter-spacing: 0.02em; }
+.revelation-location { justify-content: center; flex-direction: column; text-align: center; }
+.revelation-location strong { margin-top: 3px; font: 700 18px/1.2 Georgia, serif; }
+.revelation-resources { justify-content: flex-end; gap: 8px; }
+.revelation-resources span { min-width: 72px; padding: 7px 10px; border: 1px solid var(--ohr-line-soft); border-radius: var(--ohr-radius-sm); background: rgba(255, 255, 255, 0.035); text-align: center; }
+.revelation-resources i, .revelation-resources b { display: block; }
+.revelation-resources i { color: var(--ohr-muted); font-size: 9px; font-style: normal; font-weight: 800; letter-spacing: 0.12em; }
+.revelation-resources b { margin-top: 2px; color: var(--ohr-gold-bright); font-size: 14px; }

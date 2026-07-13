@@ -1,0 +1,48 @@
+{
+	"targetId": "3297486E926AB5D73BE7818B0D258F76",
+	"initial": {
+		"href": "http://127.0.0.1:8080/about/?probe=continuity-cdp-20260713",
+		"title": "Awtsmoos | עצמות",
+		"shells": 1,
+		"docks": 1,
+		"outlets": 1,
+		"moduleScripts": [
+			"http://127.0.0.1:8080/scripts/awtsmoos/social/shell/boot.js?v=hybrid-001"
+		],
+		"appsLink": "http://127.0.0.1:8080/apps",
+		"activeLinks": [
+			"/about"
+		]
+	},
+	"clickResult": {
+		"clicked": true,
+		"href": "http://127.0.0.1:8080/apps"
+	},
+	"reachedApps": true,
+	"apps": {
+		"href": "http://127.0.0.1:8080/apps",
+		"title": "Apps — Geelooy",
+		"shellMarker": "preserved",
+		"shells": 1,
+		"docks": 1,
+		"outlets": 1,
+		"activeLinks": [
+			"/apps",
+			"/apps"
+		],
+		"outletText": "Creative constellation\n\t\t\t\tApps\n\t\t\t\tChoose a focused tool without leaving the wider Geelooy experience behind.\n\t\t\t\n\t\t\tOpen Awtsmoos OS\n\t\t\n\n\t\t\n\t\t\tFilter apps\n\t\t\t"
+	},
+	"returnedAbout": true,
+	"back": {
+		"href": "http://127.0.0.1:8080/about/?probe=continuity-cdp-20260713",
+		"title": "About — Geelooy",
+		"shellMarker": "preserved",
+		"shells": 1,
+		"docks": 1,
+		"outlets": 1,
+		"activeLinks": [
+			"/about"
+		]
+	},
+	"diagnostics": []
+}

@@ -1,55 +1,16 @@
-/** B"H — Adventure reads like a road, not a random grid. */
-.adventureRoad {
-  background: linear-gradient(90deg, #84f7ff22, #ffe08222);
-  border: 1px solid #84f7ff66;
-  border-radius: 18px;
-  color: #fff4c0;
-  font-weight: 1000;
-  padding: 12px 14px;
-}
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
 
-.levelCard.locked {
-  cursor: not-allowed;
-  filter: saturate(.55);
-  opacity: .48;
-}
-
-.levelCard.cleared {
-  border-color: #84f7ffaa;
-  box-shadow: 0 0 24px #84f7ff22;
-}
-
-.levelCard:disabled:hover {
-  box-shadow: 0 12px 34px #0008;
-  transform: none;
-}
-
-.levelMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 12px;
-}
-
-.levelMeta span {
-  background: #0007;
-  border: 1px solid #ffe08255;
-  border-radius: 999px;
-  color: #ffe9a8;
-  font-size: 12px;
-  padding: 4px 8px;
-}
-
-.levelCard.cleared .levelMeta span {
-  border-color: #84f7ff77;
-}
-
-.adventurePanel h2::after {
-  color: #84f7ff;
-  content: ' campaign';
-  display: inline-block;
-  font-size: 16px;
-  letter-spacing: .15em;
-  margin-left: 10px;
-  text-transform: uppercase;
-}
+/**
+ * The Awtsmoos renews the adventure vessel in this instant, revealing
+ * its focused css menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/**
+ * The Adventure style gate joins world chapters and level-state presentation.
+ * The Awtsmoos unifies sixty authored roads while smaller CSS vessels preserve
+ * readable responsibilities and prevent one campaign stylesheet from swelling.
+ */
+@import url('./adventure/worlds.css');
+@import url('./adventure/levels.css');

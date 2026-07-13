@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos recreates every color, measure, and boundary each instant.
+ * These tokens give the Ohr HaGnuz interface one coherent visual language
+ * while the world beneath continues to live through its existing engine.
+ */
+
+:root {
+	--ohr-ink: #05070d;
+	--ohr-night: #090d18;
+	--ohr-panel: rgba(12, 17, 31, 0.94);
+	--ohr-panel-solid: #0f1627;
+	--ohr-parchment: #fff7dc;
+	--ohr-muted: #b7bfd0;
+	--ohr-gold: #f4c96b;
+	--ohr-gold-bright: #ffe9a8;
+	--ohr-line: rgba(244, 201, 107, 0.34);
+	--ohr-line-soft: rgba(255, 255, 255, 0.12);
+	--ohr-dust: #cfa96b;
+	--ohr-water: #65c8e8;
+	--ohr-fire: #ff785f;
+	--ohr-air: #c2a7ff;
+	--ohr-success: #7fe3a1;
+	--ohr-danger: #ff7c86;
+	--ohr-shadow: 0 22px 70px rgba(0, 0, 0, 0.58);
+	--ohr-glow: 0 0 32px rgba(244, 201, 107, 0.16);
+	--ohr-radius-sm: 10px;
+	--ohr-radius-md: 16px;
+	--ohr-radius-lg: 24px;
+	--ohr-gap-1: 6px;
+	--ohr-gap-2: 10px;
+	--ohr-gap-3: 14px;
+	--ohr-gap-4: 20px;
+	--ohr-safe-top: max(8px, env(safe-area-inset-top));
+	--ohr-safe-right: max(8px, env(safe-area-inset-right));
+	--ohr-safe-bottom: max(8px, env(safe-area-inset-bottom));
+	--ohr-safe-left: max(8px, env(safe-area-inset-left));
+	--ohr-shell-width: min(100vw, 1600px);
+	--ohr-shell-height: min(100dvh, 1000px);
+	--ohr-topbar-height: 72px;
+	--ohr-dock-height: 78px;
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+	margin: 0;
+	width: 100%;
+	min-height: 100%;
+	background: var(--ohr-ink);
+}
+
+body {
+	min-height: 100dvh;
+	overflow: hidden;
+	color: var(--ohr-parchment);
+	overscroll-behavior: none;
+	touch-action: none;
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+button:focus-visible {
+	outline: 2px solid var(--ohr-gold-bright);
+	outline-offset: 3px;
+}
+
+canvas {
+	display: block;
+	touch-action: none;
+}

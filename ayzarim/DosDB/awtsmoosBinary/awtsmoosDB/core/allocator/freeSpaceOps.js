@@ -2,10 +2,10 @@
 
 /**
  * @file core/allocator/freeSpaceOps.js
- * @chapter Proven Hollows Serve Again Without Confusing Living Ownership
+ * @chapter Former Chambers Wait Until The Outer Generation Is Fully Linked
  * @description
- * Owns allocation, local free insertion, pointer retirement, verified reuse,
- * best-fit splitting, tail contraction, and deferred ledger persistence.
+ * Reuses only preexisting verified gaps. Ranges retired during a pager batch are
+ * quarantined until outer idle recomputes the complete reachable complement.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
@@ -20,7 +20,6 @@ function allocate(allocator, size) {
 		allocator.cursor = cursorState.getPhysicalSize(allocator);
 	}
 	if (size <= 0) return { offset: 0, length: 0 };
-
 	if (canReuse(allocator)) {
 		allocator.freeList = coalesceFreeRanges(allocator.freeList, allocator.cursor);
 		const selected = chooseFreeRange(
@@ -31,21 +30,25 @@ function allocate(allocator, size) {
 		if (selected) {
 			allocator.freeList = selected.ranges.sort((left, right) => left.offset - right.offset);
 			trustLocalChange(allocator, 'verified-after-allocation');
+			markComplementRefresh(allocator);
 			persistence.schedule(allocator);
 			return selected.location;
 		}
 	}
-
 	const location = { offset: allocator.cursor, length: size };
 	allocator.cursor += size;
+	markComplementRefresh(allocator);
 	return location;
 }
 
 function free(allocator, offset, length) {
 	if (allocator.cursor === 0) cursorState.initialize(allocator);
 	if (!validLocalRange(allocator, offset, length)) return false;
-	if (allocator.db.options?.reuseFreedSpace === 'verified') ensureVerified(allocator);
-
+	if (allocator.db.options?.reuseFreedSpace === 'verified' && !ensureVerified(allocator)) return false;
+	if (allocator.db.pager?.isBatching === true) {
+		allocator._needsComplementRefresh = true;
+		return true;
+	}
 	if (offset + length === allocator.cursor) {
 		allocator.cursor = offset;
 		cursorState.absorbTrailingGaps(allocator);
@@ -57,6 +60,7 @@ function free(allocator, offset, length) {
 		);
 	}
 	trustLocalChange(allocator, 'verified-local-free');
+	markComplementRefresh(allocator);
 	persistence.schedule(allocator);
 	return true;
 }
@@ -93,10 +97,8 @@ function trustLocalChange(allocator, state) {
 	if (allocator.db.options?.reuseFreedSpace === 'verified') markTrusted(allocator, state);
 }
 
-module.exports = {
-	allocate,
-	canReuse,
-	free,
-	isReuseEnabled,
-	releasePointer
-};
+function markComplementRefresh(allocator) {
+	if (!allocator._savingFreeList) allocator._needsComplementRefresh = true;
+}
+
+module.exports = { allocate, canReuse, free, isReuseEnabled, releasePointer };

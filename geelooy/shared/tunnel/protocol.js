@@ -1,26 +1,47 @@
-// B"H
-import { VESSEL_TYPES, normalizeVesselType } from "./vesselTypes.js";
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * B"H
- * Chapter 2: The packet became a covenant.
  *
- * ESM browser/shared copy. Server-side CommonJS helpers live near fsVessel.
+ * Protocol names are the letters through which separate vessels coordinate.
+ * The Awtsmoos creates every sender and receiver in one instant; Awtsmoos.com
+ * versions the letters so old and new agents can meet without silent confusion.
  */
 
-export const PROTOCOL_VERSION = "awtsmoos-tunnel-v2";
+export const PROTOCOL_VERSION = "awtsmoos-tunnel-v3";
+export const LEGACY_PROTOCOL_VERSION = "awtsmoos-tunnel-v2";
 
-export function normalizeRegistration(packet = {}) {
-  const tunnelName = packet.tunnelName || packet.name || "";
-  const vesselType = normalizeVesselType(packet.vesselType || packet.kind || packet.type) || inferVesselType(packet);
-  return { type: "TUNNEL_REGISTER", protocolVersion: packet.protocolVersion || PROTOCOL_VERSION, tunnelName, name: tunnelName, vesselType, deviceName: packet.deviceName || null, root: packet.root || null, allowWrite: !!packet.allowWrite, allowSecrets: !!packet.allowSecrets, allowCommands: packet.allowCommands === true, agentVersion: packet.agentVersion || null, capabilities: packet.capabilities || {}, tools: packet.tools || {}, registeredAt: packet.registeredAt || Date.now() };
+export const TUNNEL_MESSAGE_TYPES = Object.freeze({
+	REGISTER: "TUNNEL_REGISTER",
+	ACK: "TUNNEL_ACK",
+	REQUEST: "FS_REQUEST",
+	RESPONSE: "FS_RESPONSE",
+	PING: "PING",
+	PONG: "PONG",
+	REPLACED: "TUNNEL_REPLACED"
+});
+
+/** Returns whether a registration version can be interpreted by this runtime. */
+export function isSupportedTunnelProtocol(value = "") {
+	return [PROTOCOL_VERSION, LEGACY_PROTOCOL_VERSION].includes(String(value));
 }
 
-export function inferVesselType(packet = {}) {
-  if (packet.virtualOs || packet.capabilities?.virtualOs) return VESSEL_TYPES.VIRTUAL_OS;
-  if (packet.browserAgent || packet.capabilities?.browserTab || packet.tools?.browserTab) return VESSEL_TYPES.BROWSER;
-  return VESSEL_TYPES.NATIVE;
+/** Creates a versioned registration packet without overriding product fields. */
+export function registrationPacket(fields = {}) {
+	return {
+		type: TUNNEL_MESSAGE_TYPES.REGISTER,
+		protocolVersion: PROTOCOL_VERSION,
+		...fields
+	};
 }
 
-export function makeRequest(id, payload = {}) { return { type: "TUNNEL_REQUEST", id, protocolVersion: PROTOCOL_VERSION, payload }; }
-export function makeResponse(id, result = {}) { return { type: "TUNNEL_RESPONSE", id, protocolVersion: PROTOCOL_VERSION, ...result }; }
+/** Creates a correlated action response packet. */
+export function responsePacket(id, response = {}) {
+	return {
+		type: TUNNEL_MESSAGE_TYPES.RESPONSE,
+		id,
+		response
+	};
+}

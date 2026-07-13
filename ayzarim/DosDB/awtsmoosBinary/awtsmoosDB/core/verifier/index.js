@@ -3,9 +3,8 @@
 /**
  * @file core/verifier/index.js
  * @chapter The Reachable World Is Counted Before The Void Is Named
- * @description
- * Coordinates structure traversal, special-token ownership, overlap detection,
- * VirtualFs bodies, and complement construction without hydrating the database.
+ * @description Coordinates structure traversal, token ownership, custom bodies,
+ * overlap detection, VirtualFs bodies, and complement construction.
  */
 
 const constants = require('../../constants.js');
@@ -15,6 +14,7 @@ const { visitBlob, visitText } = require('./tokenVisitors.js');
 const { visitAnchor, visitDictionary } = require('./anchorDictionaryVisitors.js');
 const visitMap = require('./mapVisitor.js');
 const { visitSequence, visitFlatArray } = require('./sequenceVisitors.js');
+const visitCustomPointer = require('./customPointerVisitor.js');
 
 const TYPE = constants.VAL_TYPE;
 
@@ -83,6 +83,7 @@ class DbVerifier {
 		if (pointer.type === TYPE.BLOB) return visitBlob(this, pointer, tag);
 		if (pointer.type === TYPE.TEXT) return visitText(this, pointer, tag);
 		if (pointer.type === TYPE.ANCHOR) return visitAnchor(this, pointer, tag);
+		if (pointer.type === TYPE.CUSTOM_INSTANCE) return visitCustomPointer(this, pointer, tag);
 		if ([TYPE.DICTIONARY, TYPE.OBJECT, TYPE.SMART_OBJECT].includes(pointer.type)) return visitDictionary(this, pointer, tag);
 		if ([TYPE.MAP, TYPE.JS_MAP].includes(pointer.type)) return visitMap(this, pointer, tag);
 		if ([TYPE.SEQUENCE, TYPE.SET, TYPE.ARRAY, TYPE.JS_SET].includes(pointer.type)) return visitSequence(this, pointer, tag);

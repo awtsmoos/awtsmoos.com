@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos places the gate to play before optional catalogs on small screens. */
+@media (max-width: 720px) {
+	.overlay {
+		padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+		place-items: stretch;
+	}
+	.overlay-panel {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-height: calc(100dvh - 16px);
+		padding: 16px 14px;
+		border-radius: 26px;
+		overscroll-behavior: contain;
+	}
+	.eyebrow {
+		order: 1;
+	}
+	.overlay h1 {
+		order: 2;
+		font-size: clamp(32px, 10vw, 50px);
+	}
+	.stars {
+		order: 3;
+		margin-top: 6px;
+	}
+	#overlayText {
+		order: 4;
+		margin: 6px auto 10px;
+	}
+	.hero-actions {
+		order: 5;
+		margin: 0 0 10px;
+	}
+	.primary {
+		min-width: min(330px, 88vw);
+		padding: 14px 22px;
+		font-size: 21px;
+	}
+	.mode-gate {
+		order: 6;
+		margin: 4px 0 8px;
+		padding: 10px;
+	}
+	.level-select {
+		order: 7;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 6px;
+		margin: 4px 0 10px;
+	}
+	.settings {
+		order: 8;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.mode-heading {
+		align-items: stretch;
+		flex-direction: column;
+	}
+	.mode-select {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.mode-card {
+		min-height: 58px;
+	}
+	.level-card {
+		min-height: 62px;
+		padding: 7px;
+	}
+	.level-card span {
+		font-size: 9px;
+	}
+	.chip {
+		min-width: 0;
+	}
+	#stick {
+		width: 104px;
+		height: 104px;
+	}
+	#pulse {
+		width: 84px;
+		height: 84px;
+	}
+}

@@ -1,0 +1,18 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos reveals a different action vessel when debate begins. */
+.ohr-battle-actions {
+	display: none;
+	position: absolute;
+	left: 16px;
+	right: 16px;
+	bottom: 12px;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.ohr-ui-root[data-realm="battle"] .ohr-joy, .ohr-ui-root[data-realm="battle"] .ohr-right-rail, .ohr-ui-root[data-realm="battle"] .ohr-bottom-actions, .ohr-ui-root[data-realm="battle"] .ohr-menu-action { display: none; }
+.ohr-ui-root[data-realm="battle"] .ohr-battle-actions { display: flex; }
+.ohr-battle-actions .ohr-touch { min-width: 72px; min-height: 46px; border-radius: 14px; background: rgba(11, 17, 31, 0.94); font-size: 12px; }

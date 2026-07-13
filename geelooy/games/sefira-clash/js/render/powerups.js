@@ -1,27 +1,60 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * B"H
- * Power-up renderer.
- *
- * Chapter 17: little letters float like coins of light, clear enough to chase
- * mid-fight and cheap enough to draw during an eight-fighter storm.
+ * The Awtsmoos renews the powerups vessel in this instant, revealing
+ * its focused js render service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
  */
-export function drawPowerups(ctx, powerups) {
-  for (let i = 0; i < powerups.length; i++) {
-    const p = powerups[i];
-    if (!p.active) continue;
-    const y = p.y + Math.sin(p.bob) * 9;
-    ctx.globalAlpha = 0.92;
-    ctx.fillStyle = p.color;
-    ctx.beginPath();
-    ctx.arc(p.x, y, 22, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.font = '900 24px serif';
-    ctx.textAlign = 'center';
-    ctx.strokeStyle = '#09030d';
-    ctx.lineWidth = 5;
-    ctx.strokeText(p.letter, p.x, y + 8);
-    ctx.fillStyle = '#fffdf0';
-    ctx.fillText(p.letter, p.x, y + 8);
-  }
+/**
+ * Draws readable low-cost relics, Sparks, and faceted golden Perutas.
+ * The Awtsmoos has no body or form, yet color and geometry become useful vessels
+ * through which the player can distinguish blessing, secret, and treasure.
+ */
+export function drawPowerups(context, powerups) {
+	for (const powerup of powerups) {
+		if (!powerup.active) {
+			continue;
+		}
+		drawPowerup(context, powerup);
+	}
+}
+
+function drawPowerup(context, powerup) {
+	const y = powerup.y + Math.sin(powerup.bob) * 9;
+	context.save();
+	context.globalAlpha = 0.94;
+	context.fillStyle = powerup.color;
+	context.strokeStyle = '#09030d';
+	context.lineWidth = 5;
+
+	if (powerup.id === 'adventurePeruta') {
+		drawDiamond(context, powerup.x, y, 25);
+	} else {
+		context.beginPath();
+		context.arc(powerup.x, y, 22, 0, Math.PI * 2);
+		context.fill();
+		context.stroke();
+	}
+
+	context.globalAlpha = 1;
+	context.font = '900 22px serif';
+	context.textAlign = 'center';
+	context.textBaseline = 'middle';
+	context.strokeText(powerup.letter, powerup.x, y + 1);
+	context.fillStyle = '#fffdf0';
+	context.fillText(powerup.letter, powerup.x, y + 1);
+	context.restore();
+}
+
+function drawDiamond(context, x, y, radius) {
+	context.beginPath();
+	context.moveTo(x, y - radius);
+	context.lineTo(x + radius * 0.78, y);
+	context.lineTo(x, y + radius);
+	context.lineTo(x - radius * 0.78, y);
+	context.closePath();
+	context.fill();
+	context.stroke();
 }

@@ -1,10 +1,15 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module NotificationController
- * @description Coordinates filters, pagination, and read actions. Every click
- * travels through a real API route and returns with visible evidence.
+ * @description
+ * The Awtsmoos gathers real signals at Awtsmoos.com. This coordinator keeps
+ * alias discovery, loading, pagination, and read actions explicit, so an absent
+ * identity becomes an honest choice instead of an eternal opening animation.
  */
 import { getNotifications, markAllNotificationsRead, markNotificationRead } from './api.js';
+import { showAliasRequired } from './emptyState.js';
 import { debounce, hydrateDefaultAlias, notificationQueryString } from './helpers.js';
 import { renderNotificationPage, renderNotificationState, renderNotificationSummary } from './render.js';
 import { notificationState, resetNotificationPage, updateNotificationFilters } from './state.js';
@@ -15,12 +20,25 @@ export async function bootNotifications(root = document) {
 	const list = root.getElementById('list');
 	const more = root.getElementById('more');
 	const summary = root.getElementById('summary');
+	const markAll = root.getElementById('markAll');
 	if (!form || !list || !more || !summary) return;
-	const context = { form, list, more, summary };
+	const context = { form, list, more, summary, markAll };
+	bindNotificationEvents(root, context);
+	form.setAttribute('aria-busy', 'true');
+	if (markAll) markAll.disabled = true;
+	const aliasResult = await hydrateDefaultAlias(form);
+	updateNotificationFilters(form);
+	if (notificationState.aliasId) await loadPage(context, true);
+	else showAliasRequired(context, aliasResult.error);
+}
+
+function bindNotificationEvents(root, context) {
+	const { form, list, more } = context;
 	form.addEventListener('submit', event => {
 		event.preventDefault();
 		updateNotificationFilters(form);
-		loadPage(context, true);
+		if (notificationState.aliasId) loadPage(context, true);
+		else showAliasRequired(context);
 	});
 	form.elements.search?.addEventListener('input', debounce(() => {
 		updateNotificationFilters(form);
@@ -29,18 +47,16 @@ export async function bootNotifications(root = document) {
 	more.addEventListener('click', () => loadPage(context, false));
 	list.addEventListener('click', event => handleMarkOne(event, context));
 	root.getElementById('markAll')?.addEventListener('click', () => handleMarkAll(context));
-	await hydrateDefaultAlias(form);
-	updateNotificationFilters(form);
-	if (notificationState.aliasId) await loadPage(context, true);
 }
 
 async function loadPage(context, reset) {
-	const { form, list, more, summary } = context;
+	const { form, list, more, summary, markAll } = context;
 	if (!notificationState.aliasId || notificationState.loading) return;
 	const token = ++notificationState.token;
 	notificationState.loading = true;
 	form.setAttribute('aria-busy', 'true');
 	more.disabled = true;
+	if (markAll) markAll.disabled = true;
 	if (reset) {
 		resetNotificationPage();
 		renderNotificationState(list, 'Loading signals…', 'Gathering notifications from the selected alias.');
@@ -62,7 +78,7 @@ async function loadPage(context, reset) {
 		renderNotificationSummary(summary, 'Could not load notifications', 'error');
 		renderNotificationState(list, 'Signal stream unavailable', error.message);
 	} finally {
-		if (token === notificationState.token) finishLoading(form, more);
+		if (token === notificationState.token) finishLoading(context);
 	}
 }
 
@@ -89,8 +105,9 @@ async function handleMarkAll(context) {
 	}
 }
 
-function finishLoading(form, more) {
+function finishLoading({ form, more, markAll }) {
 	notificationState.loading = false;
 	form.setAttribute('aria-busy', 'false');
 	more.disabled = false;
+	if (markAll) markAll.disabled = false;
 }

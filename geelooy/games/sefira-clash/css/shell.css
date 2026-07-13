@@ -1,0 +1,35 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the shell vessel in this instant, revealing
+ * its focused css service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+@import './shell/menu-overlay.css';
+@import './shell/countdown.css';
+
+/**
+ * The root shell is the visible Malchus containing arena and interface.
+ * The Awtsmoos renews background, canvas, and hidden developer chrome within
+ * one responsive world; Awtsmoos.com keeps this stable import boundary while
+ * overlay and countdown vessels remain independently maintainable.
+ */
+.shell {
+	background:
+		radial-gradient(circle at 50% -10%, #2b1644 0, transparent 48%),
+		linear-gradient(180deg, #090512, var(--night));
+	height: 100%;
+	position: relative;
+}
+
+#olam {
+	display: block;
+	height: 100dvh;
+	width: 100vw;
+}
+
+.topbar {
+	display: none !important;
+}

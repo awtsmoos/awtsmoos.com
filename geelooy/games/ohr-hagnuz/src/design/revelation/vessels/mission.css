@@ -1,0 +1,31 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos gives the long road one visible next act. */
+.revelation-quest-card, .revelation-pardes, .revelation-companions {
+	position: absolute;
+	z-index: 45;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-md);
+	background: var(--ohr-panel);
+	box-shadow: var(--ohr-glow);
+	backdrop-filter: blur(12px);
+	pointer-events: none;
+}
+
+.revelation-quest-card { left: 16px; top: calc(var(--ohr-topbar-height) + 16px); width: min(310px, 30vw); padding: 14px 15px; }
+.revelation-quest-card h1 { margin: 6px 0; font: 800 21px/1.1 Georgia, serif; color: var(--ohr-gold-bright); }
+.revelation-quest-card p { margin: 0; color: #eef1f7; font-size: 13px; line-height: 1.42; }
+.revelation-progress-track { height: 5px; margin: 12px 0 9px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.09); }
+.revelation-progress-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--ohr-dust), var(--ohr-gold-bright)); transition: width 260ms ease; }
+.revelation-quest-card footer { display: flex; justify-content: space-between; gap: 12px; color: var(--ohr-muted); font-size: 10px; }
+.revelation-quest-card footer b { color: var(--ohr-gold); }
+
+.revelation-companions { right: 16px; bottom: calc(var(--ohr-dock-height) + 16px); }
+.revelation-companions button { display: grid; grid-template-columns: 34px 1fr; column-gap: 8px; padding: 10px 12px; border: 0; background: transparent; text-align: left; pointer-events: auto; cursor: pointer; }
+.revelation-companions span { grid-row: 1 / 3; font-size: 25px; color: var(--ohr-air); }
+.revelation-companions b, .revelation-companions small { display: block; }
+.revelation-companions small { color: var(--ohr-muted); font-size: 9px; }
+
+body[data-hud-collapsed="true"] .revelation-quest-card, body[data-hud-collapsed="true"] .revelation-pardes, body[data-hud-collapsed="true"] .revelation-companions { opacity: 0; visibility: hidden; }

@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the landing trap vessel in this instant, revealing
+ * its focused js ai advanced strategy service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Landing trap planner.
@@ -6,16 +15,28 @@
  * fall. A landing read becomes a pocket, a counter, and a small prophecy.
  */
 export function landingTrap(bot, world) {
-  const landing = world.landing;
-  if (!landing?.active || landing.frames < 8 || landing.frames > 70) return inactive('notLanding');
-  const dx = Math.abs(landing.x - bot.x);
-  const reachable = dx < 720 || world.huntClock?.active;
-  const valuable = world.attackReputation?.counter === 'landingTrap' || world.combatHeat?.killMode || world.huntClock?.active;
-  if (!reachable || !valuable) return inactive('lowValue');
-  const side = Math.sign(world.target.x - landing.x || bot.face || 1) || 1;
-  return { active: true, x: landing.x - side * 82, y: landing.y, aimX: side, aimY: -0.2, frames: landing.frames, reason: world.attackReputation?.counter || 'landing' };
+	const landing = world.landing;
+	if (!landing?.active || landing.frames < 8 || landing.frames > 70)
+		return inactive('notLanding');
+	const dx = Math.abs(landing.x - bot.x);
+	const reachable = dx < 720 || world.huntClock?.active;
+	const valuable =
+		world.attackReputation?.counter === 'landingTrap' ||
+		world.combatHeat?.killMode ||
+		world.huntClock?.active;
+	if (!reachable || !valuable) return inactive('lowValue');
+	const side = Math.sign(world.target.x - landing.x || bot.face || 1) || 1;
+	return {
+		active: true,
+		x: landing.x - side * 82,
+		y: landing.y,
+		aimX: side,
+		aimY: -0.2,
+		frames: landing.frames,
+		reason: world.attackReputation?.counter || 'landing'
+	};
 }
 
 function inactive(reason) {
-  return { active: false, reason };
+	return { active: false, reason };
 }

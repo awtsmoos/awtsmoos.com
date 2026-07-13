@@ -1,70 +1,44 @@
 #!/usr/bin/env node
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 const fs = require("node:fs");
 const path = require("node:path");
-const ManifestBuilder = require("../rebuild-manifest.cjs");
+const Builder = require("../rebuild-manifest.cjs");
+const Catalog = require("../release/runtimeCatalog.js");
+const Probe = require("../release/runtimeProbe.js");
+const SourcePaths = require("../release/sourcePaths.js");
 
 /**
- * B"H
- * Verification freezes the current version and builds only in memory. The
- * Awtsmoos lets Awtsmoos.com prove the manifest fresh without creating a
- * phantom release merely because a test looked upon it.
+ * B"H — Freshness now means more than matching text. Every external dependency
+ * must be named, exist at its true source root, and load through startup imports.
  */
-function verify() {
-	const current = ManifestBuilder.readManifest(ManifestBuilder.OUT);
-	const built = withForcedVersion(
-		current.version,
-		() => ManifestBuilder.buildManifest({ current })
-	);
-	const actual = fs.existsSync(ManifestBuilder.OUT)
-		? fs.readFileSync(ManifestBuilder.OUT, "utf8")
-		: "";
-	const ok = actual === built.text;
-
-	return {
-		BH: "B\"H",
-		ok,
-		action: "verify-manifest",
-		manifest: path.relative(process.cwd(), ManifestBuilder.OUT),
-		version: current.version,
-		expectedVersion: built.version,
-		files: built.files.length,
-		message: ok
-			? "manifest_fresh"
-			: "manifest_stale_run_rebuild_manifest"
+function verify(options = {}) {
+	const manifestPath = path.resolve(options.manifestPath || path.join(__dirname, "..", "manifest.txt"));
+	const currentText = fs.readFileSync(manifestPath, "utf8");
+	const lines = Builder.cleanLines(currentText);
+	const version = lines[0];
+	const expected = Builder.buildManifest({ version, repoRoot: options.repoRoot });
+	if (currentText !== expected.text) return {
+		ok: false,
+		message: "manifest_stale",
+		version,
+		expectedFiles: expected.files.length
 	};
-}
-
-function withForcedVersion(version, callback) {
-	const key = "AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE";
-	const previous = process.env[key];
-	process.env[key] = version;
-
-	try {
-		return callback();
-	} finally {
-		if (previous === undefined) {
-			delete process.env[key];
-		} else {
-			process.env[key] = previous;
-		}
-	}
-}
-
-function main() {
-	const result = verify();
-	console.log(JSON.stringify(result, null, 2));
-	if (!result.ok) process.exitCode = 2;
+	const roots = SourcePaths.resolveRoots(options.repoRoot);
+	Catalog.assertManifestCoverage(expected.files, roots);
+	const probe = Probe.probeRuntime(path.join(__dirname, ".."), {
+		manifestPath,
+		roots,
+		sourceLayout: true
+	});
+	return probe.ok
+		? { ok: true, message: "manifest_fresh", version, files: expected.files.length, probe }
+		: { ok: false, message: probe.error, version, probe };
 }
 
 if (require.main === module) {
-	main();
+	const result = verify();
+	console.log(JSON.stringify(result, null, 2));
+	if (!result.ok) process.exitCode = 1;
 }
 
-module.exports = {
-	verify,
-	withForcedVersion
-};
+module.exports = { verify };

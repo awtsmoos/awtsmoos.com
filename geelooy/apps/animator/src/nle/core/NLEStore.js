@@ -1,126 +1,84 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @file NLEStore.js
- * @description
- * ============================================================================
- * CHAPTER: THE TIMELINE WHERE MOMENTS ACCEPTED ORDER
- * ============================================================================
- *
- * Time is a creation, refreshed from nothing every instant. The editor needs
- * a small vessel for created time: tracks, clips, playhead, zoom, selected
- * entities, and keyframes. This store is that vessel.
- *
- * @module NLEStore
- */
-
-/**
- * @class NLEStore
- * @description
- * Data-first NLE state container.
+ * Time is created, not assumed. This store gives the two-minute edit a clear
+ * vessel for tracks, clips, selection, zoom, snapping, and recorded dialogue.
  */
 export class NLEStore {
-  /**
-   * Creates a store.
-   *
-   * @param {Object} initial - Initial data.
-   */
-  constructor(initial = {}) {
-    this.state = {
-      playhead: 0,
-      duration: 12000,
-      zoom: 1,
-      snap: 100,
-      selectedClipId: null,
-      selectedEntityId: null,
-      tracks: [],
-      clips: [],
-      keyframes: [],
-      mode: this.defaultMode(),
-      ...initial
-    };
-    this.listeners = new Set();
-  }
+	constructor(initial = {}) {
+		this.state = {
+			playhead: 0,
+			duration: 120000,
+			zoom: 0.12,
+			snap: 100,
+			selectedClipId: null,
+			selectedEntityId: null,
+			tracks: [],
+			clips: [],
+			keyframes: [],
+			mode: this.defaultMode(),
+			...initial
+		};
+		this.listeners = new Set();
+	}
 
-  /**
-   * Resolves default editor mode for the current vessel.
-   *
-   * @returns {string} Initial NLE mode.
-   */
-  defaultMode() {
-    const narrow = typeof window !== 'undefined' && window.innerWidth <= 780;
-    return narrow ? 'collapsed' : 'compact';
-  }
+	defaultMode() {
+		const narrow = typeof window !== 'undefined' && window.innerWidth <= 780;
+		return narrow ? 'collapsed' : 'compact';
+	}
 
-  /**
-   * Resolves default editor mode for the current vessel.
-   *
-   * @returns {string} Initial NLE mode.
-   */
-  defaultMode() {
-    const narrow = typeof window !== 'undefined' && window.innerWidth <= 780;
-    return narrow ? 'collapsed' : 'compact';
-  }
+	get() {
+		return this.state;
+	}
 
-  /**
-   * Gets current state.
-   *
-   * @returns {Object} State snapshot.
-   */
-  get() {
-    return this.state;
-  }
+	set(patch) {
+		const next = typeof patch === 'function' ? patch(this.state) : patch;
+		this.state = { ...this.state, ...next };
+		this.emit();
+		return this.state;
+	}
 
-  /**
-   * Updates state.
-   *
-   * @param {Object|Function} patch - Patch object or updater.
-   * @returns {Object} Updated state.
-   */
-  set(patch) {
-    const next = typeof patch === 'function' ? patch(this.state) : patch;
-    this.state = { ...this.state, ...next };
-    this.emit();
-    return this.state;
-  }
+	subscribe(listener) {
+		if (typeof listener !== 'function') return () => {};
+		this.listeners.add(listener);
+		listener(this.state);
+		return () => this.listeners.delete(listener);
+	}
 
-  /**
-   * Subscribes to changes.
-   *
-   * @param {Function} fn - Listener.
-   * @returns {Function} Cleanup function.
-   */
-  subscribe(fn) {
-    if (typeof fn !== 'function') return () => {};
-    this.listeners.add(fn);
-    fn(this.state);
-    return () => this.listeners.delete(fn);
-  }
+	emit() {
+		for (const listener of this.listeners) listener(this.state);
+	}
 
-  /**
-   * Emits current state.
-   *
-   * @returns {void}
-   */
-  emit() {
-    for (const fn of this.listeners) fn(this.state);
-  }
+	findClip(clipId) {
+		return this.state.clips.find(clip => clip.id === clipId) || null;
+	}
 
-  /**
-   * Creates default tracks for a full animation editor.
-   *
-   * @returns {Array<Object>} Tracks.
-   */
-  static defaultTracks() {
-    return [
-      { id: 'track_camera', name: 'Camera', type: 'camera', locked: false, muted: false },
-      { id: 'track_dialogue', name: 'Dialogue', type: 'dialogue', locked: false, muted: false },
-      { id: 'track_action', name: 'Character Action', type: 'action', locked: false, muted: false },
-      { id: 'track_emotion', name: 'Emotion', type: 'emotion', locked: false, muted: false },
-      { id: 'track_gesture', name: 'Gestures', type: 'gesture', locked: false, muted: false },
-      { id: 'track_props', name: 'Props', type: 'prop', locked: false, muted: false },
-      { id: 'track_effects', name: 'Effects', type: 'effect', locked: false, muted: false }
-    ];
-  }
+	selectedClip() {
+		return this.findClip(this.state.selectedClipId);
+	}
+
+	static defaultTracks() {
+		return [
+			['track_composition', 'Nested Sequences', 'composition'],
+			['track_camera', 'Camera', 'camera'],
+			['track_video', 'Real Video', 'video'],
+			['track_titles', 'Titles + Bubbles', 'title'],
+			['track_dialogue', 'Dialogue', 'dialogue'],
+			['track_voice', 'Recorded Voice', 'audio'],
+			['track_action', 'Character Action', 'action'],
+			['track_emotion', 'Emotion', 'emotion'],
+			['track_gesture', 'Gestures', 'gesture'],
+			['track_props', 'Props', 'prop'],
+			['track_effects', 'Effects', 'effect'],
+			['track_music', 'Music + Foley', 'audio']
+		].map(([id, name, type]) => ({
+			id,
+			name,
+			type,
+			locked: false,
+			muted: false
+		}));
+	}
 }

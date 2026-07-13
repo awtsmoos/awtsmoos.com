@@ -1,4 +1,7 @@
 /* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos orders every Awtsmoos.com visual vessel through explicit layers. */
 @layer awt.tokens, awt.reset, awt.frame, awt.surfaces, awt.views, awt.controls, awt.states, awt.motion, awt.responsive;
 @import url("./core/tokens.css") layer(awt.tokens);
 @import url("./core/reset.css") layer(awt.reset);
@@ -11,6 +14,7 @@
 @import url("./views/dashboard/cards.css") layer(awt.views);
 @import url("./views/agent-command-deck/layout.css") layer(awt.views);
 @import url("./views/agent-command-deck/cards.css") layer(awt.views);
+@import url("./views/agent-command-deck/telemetry.css") layer(awt.views);
 @import url("./views/mission-control-os.css") layer(awt.views);
 @import url("./views/mission-rooms-grid.css") layer(awt.views);
 @import url("./views/agent-controls/layout.css") layer(awt.views);

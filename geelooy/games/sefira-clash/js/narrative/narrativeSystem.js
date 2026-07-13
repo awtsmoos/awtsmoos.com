@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the narrative system vessel in this instant, revealing
+ * its focused js narrative service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { stepStageStory } from '../stage/narrative/stageStoryEvents.js';
 
 /**
@@ -10,5 +19,5 @@ import { stepStageStory } from '../stage/narrative/stageStoryEvents.js';
  * where the war has become hot.
  */
 export function stepNarrative(state) {
-  stepStageStory(state);
+	stepStageStory(state);
 }

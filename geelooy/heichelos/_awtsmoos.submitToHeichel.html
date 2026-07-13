@@ -1,67 +1,94 @@
-<!-- B"H — Geelooy create: write first, depth only when needed. -->
-<!DOCTYPE html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com keeps this composer deep without multiplying global navigation.
+-->
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Create Post | Geelooy</title>
-  <link rel="stylesheet" href="/style/geelooy-system/index.css?v=system-004" />
-  <link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=create-002" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Create a real Geelooy post in an existing or newly named Heichel.">
+	<meta name="theme-color" content="#f5f7fa">
+	<title>Create Post — Geelooy</title>
+	<link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=create-004">
+	<link rel="stylesheet" href="/heichelos/heichel/submit/shell-overrides.css?v=create-005">
 </head>
 <body class="submit-shell" data-geelooy-create-page>
-  <?Awtsmoos return await getT("nav/header.html") ?>
-  <main class="submit-page geelooy-content-region" aria-labelledby="createTitle">
-    <section class="submit-hero compact-card">
-      <p class="eyebrow g-kicker">Composer</p>
-      <h1 id="createTitle">What do you want to share?</h1>
-      <p>Post quickly to your default Heichel, or choose a destination when the thought belongs somewhere specific.</p>
-      <div id="targetSummary" class="target-summary" role="status">Finding your posting home...</div>
-      <a id="backBtn" class="text-link" href="/heichelos">Back to browsing</a>
-    </section>
-    <section class="composer-card compact-card geelooy-composer" aria-label="Post composer">
-      <input type="hidden" id="postId" />
-      <input type="hidden" id="contentType" value="post" />
-      <label class="field-label" for="aliasId">Posting as</label>
-      <input id="aliasId" class="text-input" autocomplete="username" placeholder="Your alias loads automatically when available" />
-      <label class="field-label" for="title">Headline</label>
-      <input id="title" class="text-input" autocomplete="off" placeholder="Give it a clear title" />
-      <div class="kind-pills" role="group" aria-label="Content type">
-        <button class="kind-pill active" data-kind="post" type="button">Post</button>
-        <button class="kind-pill" data-kind="question" type="button">Question</button>
-      </div>
-      <div class="editor-wrapper main-editor-wrapper">
-        <div id="mainContentEditor" class="content-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Write it here. Add media or sections only if the post needs them."></div>
-        <div id="mainContentToolbarContainer" class="toolbar-slot"></div>
-      </div>
-      <div class="composer-actions" aria-label="Composer tools">
-        <button id="toggleMainContentToolbarBtn" type="button" class="soft-btn">Format</button>
-        <button id="uploadImageMainBtn" type="button" class="soft-btn">Attach</button>
-        <button id="toggleMainContentHtmlViewBtn" type="button" class="soft-btn">HTML</button>
-      </div>
-    </section>
-    <details class="simple-advanced-drawer compact-card">
-      <summary>Advanced: destination, series, verses</summary>
-      <label class="field-label" for="targetHeichelId">Specific Heichel ID</label>
-      <input id="targetHeichelId" class="text-input" placeholder="Optional destination" />
-      <label class="field-label" for="newHeichelName">Create a new Heichel while posting</label>
-      <input id="newHeichelName" class="text-input" placeholder="Optional new space name" />
-      <label class="field-label" for="targetSeriesId">Series ID</label>
-      <input id="targetSeriesId" class="text-input" placeholder="root" />
-      <textarea id="bulkText" class="bulk-text" placeholder="Optional: paste long text and generate verses"></textarea>
-      <input id="mainSectionDelimiters" class="text-input" placeholder="Custom delimiters, comma separated" />
-      <div class="composer-actions"><button id="generateSectionsFromBulk" type="button" class="soft-btn">Split paste</button><button id="generateSectionsFromMainEditor" type="button" class="soft-btn">Split body</button><button id="addSection" type="button" class="soft-btn">Add verse</button></div>
-      <div id="sectionsArea" class="sections-area"></div>
-    </details>
-    <section class="status-card compact-card"><p id="submitStatusMessage">Ready.</p></section>
-  </main>
-  <nav class="mobile-create-nav" aria-label="Primary routes"><a href="/">Home</a><a href="/heichelos">Spaces</a><a class="active" href="/heichelos/submit">Create</a><a href="/email">Mail</a><a href="/profile">Me</a></nav>
-  <button id="submitPost" class="publish-button" type="button">Post now</button>
-  <div id="imageUploadModal" class="modal" role="dialog" aria-modal="true"><div class="modal-card"><button id="closeModalBtn" type="button" class="modal-close">×</button><h2>Attach media or file</h2><div id="dropZone" class="drop-zone">Drop a file here or tap to choose</div><input id="fileInput" type="file" accept="image/*,audio/*,.pdf,.txt,.md,.doc,.docx,.zip" /><button id="uploadImageBtn" type="button" class="soft-btn">Attach file</button></div></div>
-  <template id="toolbarTemplate"><div class="editor-toolbar"><button type="button" data-command="bold">Bold</button><button type="button" data-command="italic">Italic</button><button type="button" data-command="createLink">Link</button></div></template>
-  <template id="sectionTemplate"><article class="section"><h3 class="section-title-dynamic">Verse</h3><input class="section-id-input text-input" placeholder="id" /><input class="section-label-input text-input" placeholder="label" /><input class="section-verse-input text-input" placeholder="verse" /><input class="section-order-input text-input" placeholder="order" /><select class="section-type-select"><option value="verse">Verse</option></select><div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button><div class="subsection-manager"><textarea class="subsection-bulk-text"></textarea><input class="subsection-delimiters text-input" /><button class="generate-subsections-btn soft-btn" type="button">Split segments</button><button class="add-subsection-btn soft-btn" type="button">Add segment</button></div><div class="sub-sections-area"></div></article></template>
-  <template id="subSectionTemplate"><article class="sub-section"><h4 class="section-title-dynamic">Segment</h4><input class="section-id-input text-input" /><input class="section-label-input text-input" /><input class="section-verse-input text-input" /><input class="section-order-input text-input" /><select class="section-type-select"><option value="segment">Segment</option></select><div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></article></template>
-  <script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=system-004"></script>
-  <script type="module" src="/scripts/awtsmoos/social/navigation/appNavigation.js?v=create-002"></script>
-  <script type="module" src="/heichelos/heichel/submit/script.js?v=create-002"></script>
+	<a class="g-sr-only" href="#createTitle">Skip to composer</a>
+	<main class="submit-page geelooy-content-region" aria-labelledby="createTitle">
+		<section class="submit-hero compact-card">
+			<p class="eyebrow g-kicker">Composer</p>
+			<h1 id="createTitle">What do you want to share?</h1>
+			<p>Post quickly to your default Heichel, or choose a destination when the thought belongs somewhere specific.</p>
+			<div id="targetSummary" class="target-summary" role="status">Finding your posting home…</div>
+			<a id="backBtn" class="text-link" href="/heichelos">Back to browsing</a>
+		</section>
+		<section class="composer-card compact-card geelooy-composer" aria-label="Post composer">
+			<input id="postId" type="hidden">
+			<input id="contentType" type="hidden" value="post">
+			<label class="field-label" for="aliasId">Posting as</label>
+			<input id="aliasId" class="text-input" autocomplete="username" placeholder="Your alias loads automatically when available">
+			<label class="field-label" for="title">Headline</label>
+			<input id="title" class="text-input" autocomplete="off" placeholder="Give it a clear title">
+			<div class="kind-pills" role="group" aria-label="Content type">
+				<button class="kind-pill active" data-kind="post" type="button">Post</button>
+				<button class="kind-pill" data-kind="question" type="button">Question</button>
+			</div>
+			<div class="editor-wrapper main-editor-wrapper">
+				<div id="mainContentEditor" class="content-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Write it here. Add media or sections only if the post needs them."></div>
+				<div id="mainContentToolbarContainer" class="toolbar-slot"></div>
+			</div>
+			<div class="composer-actions" aria-label="Composer tools">
+				<button id="toggleMainContentToolbarBtn" class="soft-btn" type="button">Format</button>
+				<button id="uploadImageMainBtn" class="soft-btn" type="button">Attach</button>
+				<button id="toggleMainContentHtmlViewBtn" class="soft-btn" type="button">HTML</button>
+			</div>
+		</section>
+		<details class="simple-advanced-drawer compact-card">
+			<summary>Advanced: destination, series, verses</summary>
+			<label class="field-label" for="targetHeichelId">Specific Heichel ID</label>
+			<input id="targetHeichelId" class="text-input" placeholder="Optional destination">
+			<label class="field-label" for="newHeichelName">Create a new Heichel while posting</label>
+			<input id="newHeichelName" class="text-input" placeholder="Optional new space name">
+			<label class="field-label" for="targetSeriesId">Series ID</label>
+			<input id="targetSeriesId" class="text-input" placeholder="root">
+			<textarea id="bulkText" class="bulk-text" placeholder="Optional: paste long text and generate verses"></textarea>
+			<input id="mainSectionDelimiters" class="text-input" placeholder="Custom delimiters, comma separated">
+			<div class="composer-actions">
+				<button id="generateSectionsFromBulk" class="soft-btn" type="button">Split paste</button>
+				<button id="generateSectionsFromMainEditor" class="soft-btn" type="button">Split body</button>
+				<button id="addSection" class="soft-btn" type="button">Add verse</button>
+			</div>
+			<div id="sectionsArea" class="sections-area"></div>
+		</details>
+		<section class="status-card compact-card" aria-live="polite"><p id="submitStatusMessage">Ready.</p></section>
+	</main>
+	<button id="submitPost" class="publish-button" type="button">Post now</button>
+	<div id="imageUploadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+		<div class="modal-card">
+			<button id="closeModalBtn" class="modal-close" type="button" aria-label="Close upload dialog">×</button>
+			<h2 id="uploadTitle">Attach media or file</h2>
+			<div id="dropZone" class="drop-zone">Drop a file here or tap to choose</div>
+			<input id="fileInput" type="file" accept="image/*,audio/*,.pdf,.txt,.md,.doc,.docx,.zip">
+			<button id="uploadImageBtn" class="soft-btn" type="button">Attach file</button>
+		</div>
+	</div>
+	<template id="toolbarTemplate"><div class="editor-toolbar"><button type="button" data-command="bold">Bold</button><button type="button" data-command="italic">Italic</button><button type="button" data-command="createLink">Link</button></div></template>
+	<template id="sectionTemplate">
+		<article class="section"><h3 class="section-title-dynamic">Verse</h3><input class="section-id-input text-input" placeholder="id"><input class="section-label-input text-input" placeholder="label"><input class="section-verse-input text-input" placeholder="verse"><input class="section-order-input text-input" placeholder="order"><select class="section-type-select"><option value="verse">Verse</option></select>
+			<div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div>
+			<div class="composer-actions"><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></div>
+			<div class="subsection-manager"><textarea class="subsection-bulk-text"></textarea><input class="subsection-delimiters text-input"><button class="generate-subsections-btn soft-btn" type="button">Split segments</button><button class="add-subsection-btn soft-btn" type="button">Add segment</button></div><div class="sub-sections-area"></div>
+		</article>
+	</template>
+	<template id="subSectionTemplate">
+		<article class="sub-section"><h4 class="section-title-dynamic">Segment</h4><input class="section-id-input text-input"><input class="section-label-input text-input"><input class="section-verse-input text-input"><input class="section-order-input text-input"><select class="section-type-select"><option value="segment">Segment</option></select>
+			<div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div>
+			<div class="composer-actions"><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></div>
+		</article>
+	</template>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-002"></script>
+	<script type="module" src="/heichelos/heichel/submit/script.js?v=create-004"></script>
 </body>
 </html>

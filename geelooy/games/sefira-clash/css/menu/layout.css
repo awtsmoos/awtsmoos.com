@@ -1,51 +1,60 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the layout vessel in this instant, revealing
+ * its focused css menu service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /** B"H — Menu layout: one visible palace, no maze. */
 .menuPanel {
-  max-height: calc(100vh - 40px);
-  overflow: auto;
-  scrollbar-width: thin;
+	max-height: calc(100vh - 40px);
+	overflow: auto;
+	scrollbar-width: thin;
 }
 
 .menuHero {
-  display: grid;
-  gap: 10px;
+	display: grid;
+	gap: 10px;
 }
 
 .menuEyebrow {
-  color: #84f7ff;
-  font-size: 12px;
-  font-weight: 1000;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+	color: #84f7ff;
+	font-size: 12px;
+	font-weight: 1000;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
 }
 
 .modeGrid,
 .cardGrid,
 .levelGrid {
-  display: grid;
-  gap: 16px;
+	display: grid;
+	gap: 16px;
 }
 
 .modeGrid {
-  grid-template-columns: minmax(260px, 1.35fr) repeat(3, minmax(190px, .9fr));
+	grid-template-columns: minmax(260px, 1.35fr) repeat(3, minmax(190px, 0.9fr));
 }
 
 .cardGrid {
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
 .levelGrid {
-  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
-  align-items: stretch;
+	grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+	align-items: stretch;
 }
 
 .quickNav {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .quickNav span {
-  color: #ddc992;
-  font-weight: 800;
+	color: #ddc992;
+	font-weight: 800;
 }

@@ -1,0 +1,81 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/* The HUD counts sparks without claiming their source; Awtsmoos.com renews the score and the scorer. */
+.hud {
+	position: absolute;
+	inset: 0 0 auto;
+	z-index: 20;
+	display: grid;
+	grid-template-columns: minmax(210px, 1fr) auto minmax(160px, 1fr);
+	gap: 1rem;
+	align-items: start;
+	padding: 1rem;
+	pointer-events: none;
+	text-shadow: 0 2px 6px #000;
+}
+.hud-block, .hud-center {
+	background: linear-gradient(180deg, rgba(8, 9, 24, 0.84), rgba(8, 9, 24, 0.45));
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 14px;
+	padding: 0.65rem 0.8rem;
+	backdrop-filter: blur(8px);
+}
+.hud-block {
+	display: grid;
+	gap: 0.25rem;
+}
+.hud-block span, .hud-center span {
+	font-size: 0.68rem;
+	letter-spacing: 0.16em;
+	color: rgba(255, 255, 255, 0.7);
+}
+.hud-center {
+	text-align: center;
+	min-width: 220px;
+}
+.hud-center strong {
+	display: block;
+	color: var(--gold);
+	font-size: 1.05rem;
+}
+.hud-riches {
+	justify-self: end;
+	text-align: right;
+}
+.hud-riches strong {
+	font-size: 1.35rem;
+	color: var(--gold);
+}
+.meter {
+	height: 12px;
+	border-radius: 999px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.12);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.meter i {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, #ff5c7a, #ffd45e, #7fffd4);
+	box-shadow: 0 0 14px rgba(127, 255, 212, 0.55);
+	transition: width 120ms linear;
+}
+@media (max-width: 720px) {
+	.hud {
+		grid-template-columns: 1fr auto;
+		padding: 0.45rem;
+		gap: 0.4rem;
+	}
+	.hud-center {
+		position: absolute;
+		top: 3.8rem;
+		left: 50%;
+		transform: translateX(-50%);
+		min-width: 190px;
+	}
+	.hud-block {
+		padding: 0.45rem 0.55rem;
+	}
+}

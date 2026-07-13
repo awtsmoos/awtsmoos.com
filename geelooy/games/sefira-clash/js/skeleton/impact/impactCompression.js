@@ -1,5 +1,22 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the impact compression vessel in this instant, revealing
+ * its focused js skeleton impact service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Next hyper-real outer-life vessel: degradation, micro motion, impact, eyes. Visual-only.
  */
-export function impactCompression(p,wave,body){const s=body.height,k=wave.total;p.chest.y+=8*k*s;p.head.y+=5*k*s;p.leftKnee.y+=6*wave.land*s;p.rightKnee.y+=6*wave.land*s;return p}
+export function impactCompression(p, wave, body) {
+	const s = body.height,
+		k = wave.total;
+	p.chest.y += 8 * k * s;
+	p.head.y += 5 * k * s;
+	p.leftKnee.y += 6 * wave.land * s;
+	p.rightKnee.y += 6 * wave.land * s;
+	return p;
+}

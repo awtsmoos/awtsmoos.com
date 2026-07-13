@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the definitions vessel in this instant, revealing
+ * its focused js data powerups service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 /**
  * B"H
  * Power-up definitions.
@@ -7,11 +16,35 @@
  * move faster, heal, shield, or strike harder.
  */
 export const POWERUP_DEFINITIONS = {
-  doubleJump: { id: 'doubleJump', name: 'Double Jump Orb', letter: 'ק', color: '#8af7ff', duration: 900 },
-  gevurahFist: { id: 'gevurahFist', name: 'Gevurah Fist', letter: 'ג', color: '#ff776a', duration: 540 },
-  chesedHeal: { id: 'chesedHeal', name: 'Chesed Heal', letter: 'ח', color: '#9dffb1', duration: 1 },
-  netzachBoots: { id: 'netzachBoots', name: 'Netzach Boots', letter: 'נ', color: '#d6ff75', duration: 600 },
-  ohrShield: { id: 'ohrShield', name: 'Ohr Shield', letter: 'א', color: '#fff1a6', duration: 720 }
+	doubleJump: {
+		id: 'doubleJump',
+		name: 'Double Jump Orb',
+		letter: 'ק',
+		color: '#8af7ff',
+		duration: 900
+	},
+	gevurahFist: {
+		id: 'gevurahFist',
+		name: 'Gevurah Fist',
+		letter: 'ג',
+		color: '#ff776a',
+		duration: 540
+	},
+	chesedHeal: {
+		id: 'chesedHeal',
+		name: 'Chesed Heal',
+		letter: 'ח',
+		color: '#9dffb1',
+		duration: 1
+	},
+	netzachBoots: {
+		id: 'netzachBoots',
+		name: 'Netzach Boots',
+		letter: 'נ',
+		color: '#d6ff75',
+		duration: 600
+	},
+	ohrShield: { id: 'ohrShield', name: 'Ohr Shield', letter: 'א', color: '#fff1a6', duration: 720 }
 };
 
 export const POWERUP_IDS = Object.keys(POWERUP_DEFINITIONS);

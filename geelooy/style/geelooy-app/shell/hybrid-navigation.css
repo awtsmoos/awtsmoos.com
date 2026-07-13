@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets a validated Awtsmoos.com route arrive softly while the
+ * current page remains readable throughout network work.
+ */
+[data-geelooy-route-outlet] {
+	view-transition-name: geelooy-route-outlet;
+}
+
+.geelooy-route-loading [data-geelooy-route-outlet] {
+	cursor: progress;
+}
+
+.geelooy-is-navigating [data-geelooy-route-outlet] {
+	opacity: 0.88;
+	transform: translateY(2px);
+	transition: opacity 120ms ease, transform 120ms ease;
+}
+
+::view-transition-old(geelooy-route-outlet),
+::view-transition-new(geelooy-route-outlet) {
+	animation-duration: 160ms;
+	animation-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-is-navigating [data-geelooy-route-outlet] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	::view-transition-old(geelooy-route-outlet),
+	::view-transition-new(geelooy-route-outlet) {
+		animation-duration: 0.01ms;
+	}
+}

@@ -1,62 +1,71 @@
-// B"H
-const { livenessSnapshot } = require("../../../../../../ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js");
-const { VESSEL_TYPES, isBrowserVesselDescriptor, normalizeVesselType } = require("./vesselTypes.js");
-const { nativeCapabilities } = require("./capabilities.js");
-const { verifyTunnelResponse } = require("./responseContract.js");
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-/** B"H — Native tunnel evidence is public enough to prevent false burial. */
-function publicNativeTunnel(client = {}) {
-  const live = livenessSnapshot(client);
-  return {
-    connected: true,
-    tunnelName: client.tunnelName,
-    deviceName: client.deviceName || null,
-    root: client.root || null,
-    allowWrite: !!client.allowWrite,
-    allowSecrets: !!client.allowSecrets,
-    allowCommands: !!client.allowCommands,
-    isAlive: live.isAlive,
-    rawIsAlive: live.rawIsAlive,
-    lastSeenAt: live.lastSeenAt,
-    heartbeatAt: live.heartbeatAt,
-    missedHeartbeats: live.missedHeartbeats,
-    livenessState: live.livenessState,
-    registeredAt: live.registeredAt,
-    newestEvidenceAt: live.newestEvidenceAt,
-    agentVersion: client.agentVersion || null,
-    tools: client.tools || null,
-    chrome: client.chrome || null,
-    command: client.command || null,
-    capabilities: nativeCapabilities(client),
-    kind: VESSEL_TYPES.NATIVE,
-    vesselType: VESSEL_TYPES.NATIVE
-  };
+const { capabilityFor } = require("./capabilities.js");
+const NativeRegistry = require("./nativeTunnelRegistry.js");
+const { VESSEL_TYPES, vesselTypeFor } = require("./vesselTypes.js");
+
+/**
+ * B"H
+ * Public tunnel testimony reveals capability without exposing a live socket. The
+ * Awtsmoos creates observer and vessel together; Awtsmoos.com projects only the
+ * bounded fields needed for routing, diagnosis, and user choice.
+ */
+function publicTunnelClient(client = {}) {
+	const vesselType = vesselTypeFor(client);
+
+	return {
+		actions: Array.isArray(client.actions) ? [...client.actions] : [],
+		agentVersion: client.agentVersion || "unknown",
+		allowCommands: client.allowCommands === true,
+		allowSecrets: client.allowSecrets === true,
+		allowWrite: client.allowWrite === true,
+		browserAgent: client.browserAgent === true,
+		capabilities: capabilityFor(vesselType, client),
+		capabilityProfile: client.capabilityProfile || null,
+		declaredCapabilities: client.capabilities || {},
+		deviceName: client.deviceName || "Tunnel Device",
+		hostedVirtualOs: client.hostedVirtualOs === true,
+		limits: client.limits || {},
+		protocolVersion: client.protocolVersion || "",
+		registeredAt: client.tunnelRegisteredAt || client.registeredAt || "",
+		root: client.root || "",
+		runtime: client.runtime || {},
+		targetVessel: client.targetVessel || vesselType,
+		tools: client.tools || {},
+		tunnelName: client.tunnelName || "",
+		vesselType,
+		virtualOs: client.virtualOs === true,
+		workspaceId: client.workspaceId || ""
+	};
 }
 
-function newestStamp(client = {}) {
-  return Math.max(Number(client.lastSeenAt || 0), Number(client.heartbeatAt || 0), Number(client.registeredAt || 0));
+function publicTunnelClients(server) {
+	return NativeRegistry.allTunnelClients(server)
+		.filter(client => client?.isTunnel)
+		.map(publicTunnelClient)
+		.sort((first, second) => first.tunnelName.localeCompare(second.tunnelName));
 }
 
-function isNativeTunnelClient(client = {}) {
-  if (!client.isTunnel || !client.tunnelName) return false;
-  if (isBrowserVesselDescriptor(client)) return false;
-  const type = normalizeVesselType(client.vesselType || client.kind || client.type);
-  return !type || type === VESSEL_TYPES.NATIVE;
+function publicNativeTunnel(client) {
+	return {
+		...publicTunnelClient(client),
+		connected: true,
+		isAlive: client.isAlive !== false,
+		kind: VESSEL_TYPES.NATIVE,
+		vesselType: VESSEL_TYPES.NATIVE
+	};
 }
 
-function listNativeTunnelClients($i) {
-  const latest = new Map();
-  if (!$i.ws?.clients) return [];
-  for (const client of $i.ws.clients) {
-    if (!isNativeTunnelClient(client)) continue;
-    const old = latest.get(client.tunnelName);
-    if (!old || newestStamp(client) >= newestStamp(old)) latest.set(client.tunnelName, client);
-  }
-  return [...latest.values()];
+function listNativeTunnels($i) {
+	return NativeRegistry.listNativeTunnelClients($i).map(publicNativeTunnel);
 }
 
-function listNativeTunnels($i) { return listNativeTunnelClients($i).map(publicNativeTunnel); }
-function findNativeTunnelClient($i, tunnelName) { return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
-async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) { return verifyTunnelResponse(await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs), payload, tunnelName); }
-
-module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, newestStamp, publicNativeTunnel, sendNativeTunnel };
+module.exports = {
+	...NativeRegistry,
+	listNativeTunnels,
+	publicNativeTunnel,
+	publicTunnelClient,
+	publicTunnelClients
+};

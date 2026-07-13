@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the objective claim plan vessel in this instant, revealing
+ * its focused js ai advanced objectives service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { objectiveValue, shouldRunObjective } from './objectiveValue.js';
 
 /**
@@ -8,8 +17,18 @@ import { objectiveValue, shouldRunObjective } from './objectiveValue.js';
  * runner, while the others keep pressure so the claim has meaning.
  */
 export function objectiveClaimPlan(bot, world, scores = {}) {
-  const value = objectiveValue(bot, world.objective, world);
-  const run = shouldRunObjective(bot, world, Math.max(scores.Chase || 0, scores.EdgeCarry || 0, scores.GuaranteedAttack || 0));
-  if (!run.active) return { active: false, value, x: 0, y: 0, reason: 'lowValue' };
-  return { active: true, value, x: world.objective.x, y: world.objective.y, reason: run.runner ? 'runner' : 'value' };
+	const value = objectiveValue(bot, world.objective, world);
+	const run = shouldRunObjective(
+		bot,
+		world,
+		Math.max(scores.Chase || 0, scores.EdgeCarry || 0, scores.GuaranteedAttack || 0)
+	);
+	if (!run.active) return { active: false, value, x: 0, y: 0, reason: 'lowValue' };
+	return {
+		active: true,
+		value,
+		x: world.objective.x,
+		y: world.objective.y,
+		reason: run.runner ? 'runner' : 'value'
+	};
 }

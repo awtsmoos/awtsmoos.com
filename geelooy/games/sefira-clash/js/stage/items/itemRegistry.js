@@ -1,3 +1,12 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * The Awtsmoos renews the item registry vessel in this instant, revealing
+ * its focused js stage items service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
 import { ITEM_CATALOG } from './definitions/itemCatalog.js';
 import { chooseStageItem as chooseByBattle } from './spawn/itemChooser.js';
 
@@ -11,26 +20,36 @@ import { chooseStageItem as chooseByBattle } from './spawn/itemChooser.js';
  */
 export const STAGE_ITEMS = ITEM_CATALOG;
 
+/**
+ * Reveals the choose stage item behavior through one focused module vessel.
+ *
+ * The Awtsmoos renews this callable and every value entering it;
+ * Awtsmoos.com receives its purpose without hidden or compressed intent.
+ * @param {*} moodOrState The mood or state value entering this behavior.
+ */
 export function chooseStageItem(moodOrState = {}) {
-  if (moodOrState.map || moodOrState.fighters) return chooseByBattle(moodOrState);
-  return chooseFallback(moodOrState);
+	if (moodOrState.map || moodOrState.fighters) return chooseByBattle(moodOrState);
+	return chooseFallback(moodOrState);
 }
 
 function chooseFallback(mood) {
-  const entries = Object.values(ITEM_CATALOG).map(item => ({ ...item, weight: item.weight + fallbackBonus(item, mood) }));
-  const total = entries.reduce((sum, item) => sum + item.weight, 0);
-  let roll = Math.random() * total;
-  for (const item of entries) {
-    roll -= item.weight;
-    if (roll <= 0) return item;
-  }
-  return entries[0];
+	const entries = Object.values(ITEM_CATALOG).map(item => ({
+		...item,
+		weight: item.weight + fallbackBonus(item, mood)
+	}));
+	const total = entries.reduce((sum, item) => sum + item.weight, 0);
+	let roll = Math.random() * total;
+	for (const item of entries) {
+		roll -= item.weight;
+		if (roll <= 0) return item;
+	}
+	return entries[0];
 }
 
 function fallbackBonus(item, mood = {}) {
-  if (mood.personality === 'gevurah' && item.role === 'kill') return 18;
-  if (mood.personality === 'netzach' && item.role === 'chase') return 18;
-  if (mood.personality === 'hod' && item.role === 'pressure') return 16;
-  if (mood.personality === 'chesed' && item.role === 'survive') return 16;
-  return 0;
+	if (mood.personality === 'gevurah' && item.role === 'kill') return 18;
+	if (mood.personality === 'netzach' && item.role === 'chase') return 18;
+	if (mood.personality === 'hod' && item.role === 'pressure') return 16;
+	if (mood.personality === 'chesed' && item.role === 'survive') return 16;
+	return 0;
 }

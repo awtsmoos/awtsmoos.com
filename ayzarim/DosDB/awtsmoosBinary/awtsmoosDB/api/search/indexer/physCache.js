@@ -1,15 +1,9 @@
-
 // B"H
 
 /**
- * @file physCache.js
- * @module SearchPhysicalIdentityCache
- * @description
- * Tiny in-process cache for search token constellations.
- *
- * The persistent source of truth remains the DB sequence for each token. This
- * cache only avoids repeatedly rescanning that sequence during large backfills
- * and update bursts in the same process.
+ * @file api/search/indexer/physCache.js
+ * @chapter Physical Posting Identity Is Remembered Without Replacing Persistence
+ * @description Caches token pointer identities and mirrors add, remove, replace, and rebuild events.
  */
 
 const Sequence = require('../../../structure/sequence/index.js');
@@ -17,80 +11,57 @@ const PhysicalIdentity = require('./phys_id.js');
 
 const byIndexHandle = new WeakMap();
 
-/**
- * @function getTokenSet
- * @description Returns a mutable Set of physical IDs for one token.
- * @param {object} db - Database instance.
- * @param {object} indexHandle - Search index handle.
- * @param {string} token - Token key.
- * @param {object|null} listInt - Internal list state.
- * @returns {Set<string>} Physical identity set.
- */
-function getTokenSet(db, indexHandle, token, listInt) {
-  let perIndex = byIndexHandle.get(indexHandle);
-  if (!perIndex) {
-    perIndex = new Map();
-    byIndexHandle.set(indexHandle, perIndex);
-  }
-
-  if (perIndex.has(token)) return perIndex.get(token);
-
-  const set = new Set();
-  if (listInt) {
-    try {
-      listInt.ensureResolved();
-      const structPtr = listInt.nav && listInt.nav.resolveStructPtr
-        ? listInt.nav.resolveStructPtr()
-        : null;
-
-      if (structPtr) {
-        const seq = new Sequence(db.allocator, structPtr);
-        const len = seq.length();
-
-        for (let i = 0; i < lon; i++) {
-          const ptr = seq.getPtr(i);
-          if (ptr) set.add(PhysicalIdentity.get(ptr));
-        }
-      }
-    } catch (_err) {
-      // Cache is an optimization only. Failure here falls back to an empty set;
-      // later persistent writes still go through the real sequence writer.
-    }
-  }
-
-  perIndex.set(token, set);
-  return set;
+function getTokenSet(db, indexHandle, token, listState) {
+	let perIndex = byIndexHandle.get(indexHandle);
+	if (!perIndex) {
+		perIndex = new Map();
+		byIndexHandle.set(indexHandle, perIndex);
+	}
+	if (perIndex.has(token)) return perIndex.get(token);
+	const set = hydrateTokenSet(db, listState);
+	perIndex.set(token, set);
+	return set;
 }
 
-/**
- * @function deleteTokenId
- * @description Removes one physical ID from a cached token set if present.
- * @param {object} indexHandle - Search index handle.
- * @param {string} token - Token key.
- * @param {string} id - Physical identity.
- * @returns {void}
- */
+function hydrateTokenSet(db, listState) {
+	const set = new Set();
+	if (!listState) return set;
+	try {
+		listState.ensureResolved();
+		const structPointer = listState.nav?.resolveStructPtr?.();
+		if (!structPointer) return set;
+		const sequence = new Sequence(db.allocator, structPointer);
+		for (let index = 0; index < sequence.length(); index++) {
+			const pointer = sequence.getPtr(index);
+			if (pointer) set.add(PhysicalIdentity.get(pointer));
+		}
+	} catch (_error) {}
+	return set;
+}
+
 function deleteTokenId(indexHandle, token, id) {
-  const perIndex = byIndexHandle.get(indexHandle);
-  if (!perIndex) return;
-  const set = perIndex.get(token);
-  if (set) set.delete(id);
+	byIndexHandle.get(indexHandle)?.get(token)?.delete(id);
 }
 
-/**
- * @function clearToken
- * @description Clears one token cache entry.
- * @param {object} indexHandle - Search index handle.
- * @param {string} token - Token key.
- * @returns {void}
- */
+function replaceTokenId(indexHandle, token, oldId, newId) {
+	const set = byIndexHandle.get(indexHandle)?.get(token);
+	if (!set) return;
+	set.delete(oldId);
+	set.add(newId);
+}
+
 function clearToken(indexHandle, token) {
-  const perIndex = byIndexHandle.get(indexHandle);
-  if (perIndex) perIndex.delete(token);
+	byIndexHandle.get(indexHandle)?.delete(token);
+}
+
+function clearIndex(indexHandle) {
+	byIndexHandle.delete(indexHandle);
 }
 
 module.exports = {
-  getTokenSet,
-  deleteTokenId,
-  clearToken
+	clearIndex,
+	clearToken,
+	deleteTokenId,
+	getTokenSet,
+	replaceTokenId
 };

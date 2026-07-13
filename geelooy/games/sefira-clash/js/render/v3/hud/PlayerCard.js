@@ -1,19 +1,78 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * B"H
- * V3 strong player card.
- *
- * Chapter 235: percentages return as the crown of the screen.
+ * Every HUD card names its owning seat within Awtsmoos.com.
+ * The Awtsmoos renews player color, team, fighter identity, damage, and stocks
+ * so four local humans never dissolve into four identical labels reading YOU.
  */
 import { drawStockDots } from './StockDots.js';
-function hue(f){return 'hsl('+f.dna.hue+' 92% 62%)';}
-export function drawPlayerCard(ctx, f, x, y, w) {
-  const c=hue(f), pct=Math.round(f.damage);
-  ctx.save();
-  ctx.fillStyle='rgba(3,4,8,.86)'; ctx.strokeStyle=f.human?'#69ffff':c; ctx.lineWidth=f.human?2.5:1.8;
-  round(ctx,x,y,w,54,12); ctx.fill(); ctx.stroke();
-  ctx.font='950 12px system-ui'; ctx.fillStyle=f.human?'#69ffff':c; ctx.fillText(f.human?'YOU':f.name.replace('Bot ','B'),x+8,y+16);
-  ctx.font='950 28px system-ui'; ctx.fillStyle=pct>=120?'#ff6f5c':pct>=70?'#ffe36e':'#ffffff'; ctx.strokeStyle='#000'; ctx.lineWidth=4;
-  const text=f.dead?'OUT':pct+'%'; ctx.strokeText(text,x+8,y+43); ctx.fillText(text,x+8,y+43);
-  drawStockDots(ctx,f,x+w-35,y+42,c); ctx.restore();
+
+/** Draws one ownership-aware fighter card. */
+export function drawPlayerCard(ctx, fighter, x, y, width) {
+	const color = fighterColor(fighter);
+	const damage = Math.round(fighter.damage);
+	ctx.save();
+	ctx.fillStyle = 'rgba(3,4,8,.86)';
+	ctx.strokeStyle = color;
+	ctx.lineWidth = fighter.human ? 2.5 : 1.8;
+	round(ctx, x, y, width, 54, 12);
+	ctx.fill();
+	ctx.stroke();
+	drawIdentity(ctx, fighter, x, y, color);
+	drawDamage(ctx, fighter, damage, x, y);
+	drawStockDots(ctx, fighter, x + width - 35, y + 42, color);
+	ctx.restore();
 }
-function round(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+
+function drawIdentity(ctx, fighter, x, y, color) {
+	ctx.font = '950 11px system-ui';
+	ctx.fillStyle = color;
+	ctx.fillText(identityLabel(fighter), x + 8, y + 15);
+}
+
+function drawDamage(ctx, fighter, damage, x, y) {
+	ctx.font = '950 28px system-ui';
+	ctx.fillStyle = damageColor(damage);
+	ctx.strokeStyle = '#000';
+	ctx.lineWidth = 4;
+	const text = fighter.dead ? 'OUT' : `${damage}%`;
+	ctx.strokeText(text, x + 8, y + 43);
+	ctx.fillText(text, x + 8, y + 43);
+}
+
+function identityLabel(fighter) {
+	const owner = fighter.playerTag || (fighter.human ? 'PLAYER' : 'CPU');
+	const team = fighter.team ? `T${fighter.team}` : '';
+	const name = String(fighter.name || '').replace('Bot ', 'B');
+	return `${owner} ${team} · ${name}`.trim().slice(0, 22);
+}
+
+function fighterColor(fighter) {
+	return fighter.playerColor || `hsl(${fighter.dna.hue} 92% 62%)`;
+}
+
+function damageColor(damage) {
+	if (damage >= 120) {
+		return '#ff6f5c';
+	}
+	if (damage >= 70) {
+		return '#ffe36e';
+	}
+	return '#ffffff';
+}
+
+function round(ctx, x, y, width, height, radius) {
+	ctx.beginPath();
+	ctx.moveTo(x + radius, y);
+	ctx.lineTo(x + width - radius, y);
+	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+	ctx.lineTo(x + width, y + height - radius);
+	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+	ctx.lineTo(x + radius, y + height);
+	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+	ctx.lineTo(x, y + radius);
+	ctx.quadraticCurveTo(x, y, x + radius, y);
+	ctx.closePath();
+}

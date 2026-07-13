@@ -1,80 +1,57 @@
 #!/usr/bin/env bash
 # B"H
-# One supervisor and one agent own the installed tunnel name.
+# Boruch Hashem
+# Blessed is He
+
+# B"H
+# Supervisor installation and stability waiting remain small public operations;
+# lower process discovery and termination live in unix-process-runtime.sh.
+write_supervisor_to() {
+	local destination="$1"
+	cp -p "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor.sh" \
+		"$destination/awtsmoos-supervisor.sh"
+	cp -p "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor-runtime.sh" \
+		"$destination/awtsmoos-supervisor-runtime.sh"
+	chmod +x \
+		"$destination/awtsmoos-supervisor.sh" \
+		"$destination/awtsmoos-supervisor-runtime.sh"
+}
 
 write_supervisor() {
-	cp "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor.sh" "$SUPERVISOR"
-	chmod +x "$SUPERVISOR"
-}
-
-is_alive() {
-	[ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null
-}
-
-process_table() {
-	LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null || true
-}
-
-find_agent_pids() {
-	process_table | awk -v self="$$" -v needle="$ROOT/$ENTRY" '$1!=self&&index($0,"node " needle)>0{print $1}'
-}
-
-find_agent_pid() {
-	find_agent_pids | head -1 || true
-}
-
-find_supervisor_pids() {
-	process_table | awk -v self="$$" -v supervisor="$SUPERVISOR" '$1!=self&&index($0,supervisor)>0{print $1}'
-}
-
-find_supervisor_pid() {
-	find_supervisor_pids | head -1 || true
-}
-
-wait_for_pids_to_exit() {
-	label="$1"
-	shift
-	pids="$*"
-	for _ in 1 2 3 4 5; do
-		alive=""
-		for pid in $pids; do
-			is_alive "$pid" && alive="$alive $pid"
-		done
-		[ -z "$alive" ] && return 0
-		sleep 0.1
-	done
-	for pid in $pids; do
-		is_alive "$pid" && {
-			echo "Force killing stale Awtsmoos $label PID: $pid"
-			kill -9 "$pid" 2>/dev/null || true
-		}
-	done
-}
-
-stop_existing_runtime() {
-	write_supervisor
-	agent_pids="$(find_agent_pids | tr '\n' ' ')"
-	supervisor_pids="$(find_supervisor_pids | tr '\n' ' ')"
-	if [ -n "$supervisor_pids" ]; then
-		touch "$STOP_FILE"
-		for pid in $supervisor_pids; do kill "$pid" 2>/dev/null || true; done
-		wait_for_pids_to_exit supervisor $supervisor_pids
-	fi
-	if [ -n "$agent_pids" ]; then
-		for pid in $agent_pids; do kill "$pid" 2>/dev/null || true; done
-		wait_for_pids_to_exit agent $agent_pids
-	fi
-	rm -f "$STOP_FILE" "$PID_FILE" "$SUP_PID_FILE"
+	write_supervisor_to "$ROOT"
 }
 
 start_supervisor() {
+	local recorded
 	write_supervisor
-	rm -f "$STOP_FILE"
-	supervisor_pid="$(find_supervisor_pid)"
-	if is_alive "$supervisor_pid"; then
-		echo "$supervisor_pid" > "$SUP_PID_FILE"
+	rm -f "$ROOT/stop-supervisor"
+	recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
+
+	if command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh"; then
 		return 0
 	fi
-	nohup "$SUPERVISOR" > "$ROOT/supervisor-stdout.log" 2>&1 &
-	echo $! > "$SUP_PID_FILE"
+
+	nohup "$ROOT/awtsmoos-supervisor.sh" "$ROOT" \
+		>> "$ROOT/supervisor-stdout.log" 2>&1 </dev/null &
+}
+
+wait_for_runtime() {
+	local timeout_seconds="${1:-15}"
+	local stable_seconds=0
+	local elapsed=0
+	local agent_pid
+
+	while [ "$elapsed" -lt "$timeout_seconds" ]; do
+		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+		if command_contains "$agent_pid" "$ROOT/main.js"; then
+			stable_seconds=$(( stable_seconds + 1 ))
+			[ "$stable_seconds" -ge 8 ] && return 0
+		else
+			stable_seconds=0
+		fi
+		sleep 1
+		elapsed=$(( elapsed + 1 ))
+	done
+
+	return 1
 }

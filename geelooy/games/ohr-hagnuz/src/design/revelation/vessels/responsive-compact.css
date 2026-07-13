@@ -1,0 +1,19 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos preserves the road even in the shortest landscape vessel. */
+@media (max-height: 620px) and (orientation: landscape) {
+	:root { --ohr-topbar-height: 48px; --ohr-dock-height: 52px; }
+	.revelation-brand-mark { width: 32px; height: 32px; }
+	.revelation-quest-card { top: 56px; }
+	.revelation-pardes { display: none; }
+	.ohr-joy { width: 98px; height: 98px; }
+	.ohr-joy .ohr-touch { width: 32px; height: 32px; }
+	.ohr-joy .up, .ohr-joy .down { left: 33px; }
+	.ohr-joy .left, .ohr-joy .right { top: 33px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

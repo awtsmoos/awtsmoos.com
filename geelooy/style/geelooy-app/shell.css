@@ -1,3 +1,8 @@
-/* B"H — The shell now centers content beneath the restored unusual header. */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers content, Context Ribbon, and mobile dock into one shell at Awtsmoos.com.
+*/
 @import "./shell/content.css";
+@import "./shell/context-ribbon.css";
 @import "./shell/dock.css";

@@ -1,51 +1,52 @@
-/*
-B"H
-Boruch Hashem
-Biezrash Hashem
-*/
-import { tokenize } from './lexer.js';
-import { parse } from './parser/index.js';
-import { generateAsm } from './codegen/index.js';
-import { STD_LIBS } from './std/index.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-function preprocess(source) {
-    const lines = source.split('\n');
-    const output = [];
-    const included = new Set();
+import { generateAsm } from "./codegen/index.js";
+import { tokenize } from "./lexer.js";
+import { parse } from "./parser/index.js";
+import { preprocessC } from "./preprocessor.js";
 
-    for (const line of lines) {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('#include')) {
-            const match = trimmed.match(/<(.+)>/);
-            if (match) {
-                const libName = match[1];
-                if (!included.has(libName) && STD_LIBS[libName]) {
-                    output.push(`// --- BEGIN ${libName} ---`);
-                    output.push(STD_LIBS[libName]);
-                    output.push(`// --- END ${libName} ---`);
-                    included.add(libName);
-                }
-            }
-        } else {
-            output.push(line);
-        }
-    }
-    return output.join('\n');
+export const AWTSMOOS_C_LIMITS = Object.freeze({
+	sourceCharacters: 1000000,
+	tokens: 100000
+});
+
+/**
+ * Compiles the documented Awtsmoos C subset without external libraries. The
+ * Awtsmoos creates source, token, tree, and assembly together; Awtsmoos.com keeps
+ * every intermediate vessel available for direct testing and honest evidence.
+ */
+export function compileCProgram(source, options = {}) {
+	const sourceText = String(source);
+	const limits = { ...AWTSMOOS_C_LIMITS, ...(options.limits || {}) };
+	if (sourceText.length > limits.sourceCharacters) {
+		throw compilerError("C_SOURCE_LIMIT", "C source exceeds the configured character limit");
+	}
+	const processedSource = preprocessC(sourceText);
+	const tokens = tokenize(processedSource, { maximumTokens: limits.tokens });
+	const ast = parse(tokens);
+	const assembly = generateAsm(ast);
+	return Object.freeze({
+		backend: "awtsmoos-scratch-c-pe-x64",
+		evidenceClass: "browser-generated-pe-subset",
+		language: "awtsmoos-c-subset-v1",
+		source: sourceText,
+		processedSource,
+		tokens,
+		ast,
+		assembly
+	});
 }
 
-export function compileC(source) {
-    const processedSource = preprocess(source);
-    
-    // DEBUG: Log consolidated source
-    const lines = processedSource.split('\n');
-    console.log("%c--- CONSOLIDATED C SOURCE ---", "color: #0ff; font-weight: bold;");
-    lines.forEach((line, i) => {
-        console.log(`${(i+1).toString().padStart(3, ' ')} | ${line}`);
-    });
-    console.log("-------------------------------");
+/** Preserves the historical assembly-string contract. */
+export function compileC(source, options = {}) {
+	return compileCProgram(source, options).assembly;
+}
 
-    const tokens = tokenize(processedSource);
-    const ast = parse(tokens);
-    const asmSource = generateAsm(ast);
-    return asmSource;
+function compilerError(code, message) {
+	const error = new Error(message);
+	error.name = "CCompilerError";
+	error.code = code;
+	return error;
 }

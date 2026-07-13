@@ -1,4 +1,7 @@
-<!-- B"H — Curated Awtsmoos application directory. -->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos opens each Awtsmoos.com tool as a real independent doorway. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,10 +11,11 @@
 	<meta name="theme-color" content="#050914">
 	<title>Apps — Geelooy</title>
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-001">
+	<link rel="stylesheet" href="/style/geelooy-app/shell/hybrid-navigation.css?v=hybrid-001">
 	<link rel="stylesheet" href="./style.css?v=app-001">
 </head>
-<body data-apps-page>
-	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title">
+<body data-geelooy-route="apps">
+	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title" data-geelooy-route-outlet data-route-id="apps">
 		<section class="g-panel g-page-hero">
 			<div>
 				<p class="g-kicker">Creative constellation</p>
@@ -25,26 +29,67 @@
 			<label class="g-sr-only" for="app-search">Filter apps</label>
 			<input id="app-search" name="q" type="search" placeholder="Filter tools by name or purpose…" autocomplete="off">
 			<label class="g-sr-only" for="app-category">App category</label>
-			<select id="app-category" name="category"><option value="">All categories</option><option value="studio">Studios</option><option value="editor">Editors</option><option value="system">System</option><option value="media">Media</option></select>
+			<select id="app-category" name="category">
+				<option value="">All categories</option>
+				<option value="studio">Studios</option>
+				<option value="editor">Editors</option>
+				<option value="system">System</option>
+				<option value="media">Media</option>
+			</select>
 		</form>
 
 		<section class="g-grid" data-app-grid aria-live="polite">
-			<a class="g-card g-app-card" href="./nesher-studio" data-app-card data-category="studio media"><span class="g-app-icon">🦅</span><h2>Nesher Studio</h2><p>Live streaming and video production in one focused studio.</p><span class="g-chip">Studio</span></a>
-			<a class="g-card g-app-card" href="./code" data-app-card data-category="editor system"><span class="g-app-icon">⌘</span><h2>Awtsmoos Code</h2><p>Edit projects and work directly inside the virtual environment.</p><span class="g-chip">Developer</span></a>
-			<a class="g-card g-app-card" href="./rebbe" data-app-card data-category="media"><span class="g-app-icon">♫</span><h2>Rebbe Audio</h2><p>Search, play, and explore the Rebbe audio library.</p><span class="g-chip">Audio</span></a>
-			<a class="g-card g-app-card" href="./audio-editor" data-app-card data-category="editor media"><span class="g-app-icon">≋</span><h2>Audio Editor</h2><p>Cut, arrange, and process sound in the browser.</p><span class="g-chip">Editor</span></a>
-			<a class="g-card g-app-card" href="./video-editor" data-app-card data-category="editor media"><span class="g-app-icon">▶</span><h2>Video Editor</h2><p>Assemble clips and prepare visual media.</p><span class="g-chip">Editor</span></a>
-			<a class="g-card g-app-card" href="./piano" data-app-card data-category="studio media"><span class="g-app-icon">♬</span><h2>Piano & Synth</h2><p>Play, compose, and render music from a responsive instrument.</p><span class="g-chip">Music</span></a>
-			<a class="g-card g-app-card" href="./captions/video" data-app-card data-category="editor media"><span class="g-app-icon">CC</span><h2>Caption Maker</h2><p>Create timed captions for video and spoken media.</p><span class="g-chip">Accessibility</span></a>
-			<a class="g-card g-app-card" href="./csv" data-app-card data-category="editor system"><span class="g-app-icon">▤</span><h2>CSV Editor</h2><p>Inspect and update structured tabular data.</p><span class="g-chip">Data</span></a>
-			<a class="g-card g-app-card" href="./pdf-to-img" data-app-card data-category="media system"><span class="g-app-icon">▧</span><h2>PDF to Images</h2><p>Turn PDF pages into reusable image files.</p><span class="g-chip">Utility</span></a>
-			<a class="g-card g-app-card" href="./transcribe" data-app-card data-category="media"><span class="g-app-icon">✦</span><h2>Transcribe</h2><p>Convert recorded speech into editable text.</p><span class="g-chip">Speech</span></a>
-			<a class="g-card g-app-card" href="./wallet" data-app-card data-category="system"><span class="g-app-icon">◇</span><h2>Wallet</h2><p>Open the Awtsmoos wallet interface.</p><span class="g-chip">System</span></a>
-			<a class="g-card g-app-card" href="./tunnel-control" data-app-card data-category="system"><span class="g-app-icon">↔</span><h2>Tunnel Control</h2><p>Connect a local machine and supervise agent access.</p><span class="g-chip">System</span></a>
+			<a class="g-card g-app-card" href="./nesher-studio" data-app-card data-category="studio media">
+				<span class="g-app-icon">🦅</span><h2>Nesher Studio</h2>
+				<p>Live streaming and video production in one focused studio.</p><span class="g-chip">Studio</span>
+			</a>
+			<a class="g-card g-app-card" href="./code" data-app-card data-category="editor system">
+				<span class="g-app-icon">⌘</span><h2>Awtsmoos Code</h2>
+				<p>Edit projects and work directly inside the virtual environment.</p><span class="g-chip">Developer</span>
+			</a>
+			<a class="g-card g-app-card" href="./rebbe" data-app-card data-category="media">
+				<span class="g-app-icon">♫</span><h2>Rebbe Audio</h2>
+				<p>Search, play, and explore the Rebbe audio library.</p><span class="g-chip">Audio</span>
+			</a>
+			<a class="g-card g-app-card" href="./audio-editor" data-app-card data-category="editor media">
+				<span class="g-app-icon">≋</span><h2>Audio Editor</h2>
+				<p>Cut, arrange, and process sound in the browser.</p><span class="g-chip">Editor</span>
+			</a>
+			<a class="g-card g-app-card" href="./video-editor" data-app-card data-category="editor media">
+				<span class="g-app-icon">▶</span><h2>Video Editor</h2>
+				<p>Assemble clips and prepare visual media.</p><span class="g-chip">Editor</span>
+			</a>
+			<a class="g-card g-app-card" href="./piano" data-app-card data-category="studio media">
+				<span class="g-app-icon">♬</span><h2>Piano &amp; Synth</h2>
+				<p>Play, compose, and render music from a responsive instrument.</p><span class="g-chip">Music</span>
+			</a>
+			<a class="g-card g-app-card" href="./captions/video" data-app-card data-category="editor media">
+				<span class="g-app-icon">CC</span><h2>Caption Maker</h2>
+				<p>Create timed captions for video and spoken media.</p><span class="g-chip">Accessibility</span>
+			</a>
+			<a class="g-card g-app-card" href="./csv" data-app-card data-category="editor system">
+				<span class="g-app-icon">▤</span><h2>CSV Editor</h2>
+				<p>Inspect and update structured tabular data.</p><span class="g-chip">Data</span>
+			</a>
+			<a class="g-card g-app-card" href="./pdf-to-img" data-app-card data-category="media system">
+				<span class="g-app-icon">▧</span><h2>PDF to Images</h2>
+				<p>Turn PDF pages into reusable image files.</p><span class="g-chip">Utility</span>
+			</a>
+			<a class="g-card g-app-card" href="./transcribe" data-app-card data-category="media">
+				<span class="g-app-icon">✦</span><h2>Transcribe</h2>
+				<p>Convert recorded speech into editable text.</p><span class="g-chip">Speech</span>
+			</a>
+			<a class="g-card g-app-card" href="./wallet" data-app-card data-category="system">
+				<span class="g-app-icon">◇</span><h2>Wallet</h2>
+				<p>Open the Awtsmoos wallet interface.</p><span class="g-chip">System</span>
+			</a>
+			<a class="g-card g-app-card" href="./tunnel-control" data-app-card data-category="system">
+				<span class="g-app-icon">↔</span><h2>Tunnel Control</h2>
+				<p>Connect a local machine and supervise agent access.</p><span class="g-chip">System</span>
+			</a>
 		</section>
 		<p class="g-state" data-app-empty hidden>No apps match this filter.</p>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-001"></script>
-	<script type="module" src="./app.js?v=app-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=hybrid-001"></script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos lets wide vessels carry denser information without crowding. */
+@media (min-width: 1500px) {
+	.hud {
+		top: 24px;
+		left: 26px;
+		width: 930px;
+	}
+	.right-rail {
+		top: 24px;
+		right: 26px;
+		width: 250px;
+	}
+	#map {
+		width: 250px;
+		height: 250px;
+	}
+	.stat {
+		min-width: 110px;
+	}
+}

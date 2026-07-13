@@ -1,52 +1,70 @@
-// B"H
-import { mapPeImage } from './peImage.js';
-import { runCompilerX64 } from './x64Lite.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import { mapPeImage } from "./peImage.js";
+import { runCompilerX64 } from "./x64Lite.js";
+import {
+	canSimulateCompilerWindow,
+	simulateCompilerWindow
+} from "./semanticWindowSimulation.js";
 
 /**
- * Emulates compiler-generated PE files through x64-lite, with a window fallback.
- * @param {ArrayBuffer} buffer executable bytes
- * @param {{print:Function, openWindow:Function}} win virtual Windows host
- * @returns {{mode:string, message:string, runtime:object}}
+ * PE execution is limited to the tested compiler-generated x64 subset. The
+ * Awtsmoos creates instruction, import, and visible result as separate truths;
+ * Awtsmoos.com labels the subset and semantic fallback without claiming a full
+ * x86_64, x86, or ARM64 CPU emulator.
  */
-export function emulatePortableExecutable(buffer, win) {
-  const image = mapPeImage(buffer);
-  const { pe } = image;
-  win.print('Awtsmoos loader: MZ became PE, PE became mapped memory.');
-  win.print(`Subsystem: ${pe.subsystem}`);
-  win.print(`ImageBase: 0x${pe.imageBase.toString(16)}`);
-  win.print(`EntryRVA: 0x${pe.entryRva.toString(16)}`);
-  pe.sections.forEach(sec => win.print(sectionLine(sec)));
-  image.imports.forEach((name, rva) => win.print(`IAT 0x${rva.toString(16)} -> ${name}`));
-  try {
-    const runtime = runCompilerX64(image, win);
-    return { mode: pe.subsystem, message: 'Executed compiler x64 subset.', runtime };
-  } catch (error) {
-    const runtime = fallbackCompilerWindow(image, win, error);
-    return { mode: pe.subsystem, message: 'Used compiler window fallback.', runtime };
-  }
+
+export function emulatePortableExecutable(buffer, host) {
+	const image = mapPeImage(buffer);
+	reportImage(image, host);
+	try {
+		const runtime = runCompilerX64(image, host);
+		return Object.freeze({
+			mode: image.pe.subsystem,
+			message: "Executed the guarded compiler-generated x64 instruction subset.",
+			executionClass: "instruction-subset-emulation",
+			completeCpuEmulation: false,
+			runtime
+		});
+	} catch (error) {
+		if (!canSimulateCompilerWindow(image)) {
+			throw unsupportedExecutionError(image, error);
+		}
+		return Object.freeze({
+			mode: image.pe.subsystem,
+			message: "Rendered recognized Win32 display behavior semantically.",
+			executionClass: "semantic-simulation",
+			completeCpuEmulation: false,
+			runtime: simulateCompilerWindow(image, host, error)
+		});
+	}
 }
 
-function fallbackCompilerWindow(image, win, error) {
-  const imports = [...image.imports.values()].join('\n');
-  if (!/CreateWindowExA|TextOutA|SetPixel/.test(imports)) throw error;
-  const strings = extractStrings(image).filter(s => s.length > 2);
-  const title = strings.find(s => /B\\?"H|Window|Drawing|Native/i.test(s)) || 'Virtual Native Window';
-  const body = strings.find(s => /Awtsmoos|Generated|Native/i.test(s) && s !== title) || 'Compiler-generated Win32 window mapped semantically.';
-  win.openWindow(title, body);
-  if (/TextOutA/.test(imports)) { win.print(`GDI TextOutA: ${body}`); win.draw?.({ type: 'text', text: body, x: 50, y: 50 }); }
-  if (/SetPixel/.test(imports)) { win.print('GDI SetPixel: diagonal pixel ritual rendered symbolically.'); win.draw?.({ type: 'pixel-line' }); }
-  if (/BitBlt|CreateDIBSection/.test(imports)) { win.print('GDI triangle/DIB pipeline rendered symbolically.'); win.draw?.({ type: 'triangle' }); }
-  win.print(`Fallback reason: ${error.message}`);
-  return { fallback: true, reason: error.message };
+function reportImage(image, host) {
+	const pe = image.pe;
+	host.print("Awtsmoos PE loader: validated headers and mapped sections.");
+	host.print(`Subsystem: ${pe.subsystem}`);
+	host.print(`ImageBase: 0x${pe.imageBase.toString(16)}`);
+	host.print(`EntryRVA: 0x${pe.entryRva.toString(16)}`);
+	for (const section of pe.sections) {
+		host.print(sectionLine(section));
+	}
+	for (const [relativeAddress, name] of image.imports) {
+		host.print(`IAT 0x${relativeAddress.toString(16)} -> ${name}`);
+	}
 }
 
-function extractStrings(image) {
-  const sec = image.pe.sections.find(s => s.name === '.text') || image.pe.sections[0];
-  const bytes = image.bytes.slice(sec.rawPointer, sec.rawPointer + sec.rawSize);
-  const text = new TextDecoder().decode(bytes.map(b => (b >= 32 && b < 127) ? b : 0x0A));
-  return text.split(/\n+/).map(s => s.trim()).filter(Boolean);
+function unsupportedExecutionError(image, cause) {
+	const error = new Error(`unsupported_pe_execution:${cause.message}`);
+	error.code = "UNSUPPORTED_PE_EXECUTION";
+	error.format = "pe";
+	error.architecture = image.pe.is64 ? "x86_64" : "x86";
+	error.cause = cause;
+	return error;
 }
 
-function sectionLine(sec) {
-  return `${sec.name || '.section'} RVA=0x${sec.virtualAddress.toString(16)} RAW=${sec.rawSize}`;
+function sectionLine(section) {
+	return `${section.name || ".section"} RVA=0x${section.virtualAddress.toString(16)} RAW=${section.rawSize}`;
 }

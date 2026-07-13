@@ -1,0 +1,33 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the countdown vessel in this instant, revealing
+ * its focused css shell service within Awtsmoos.com while every
+ * import, rule, and value receives existence anew without confused purpose.
+ */
+/**
+ * The countdown reveals measured time before combat begins.
+ * The Awtsmoos creates every number and every instant it names; Awtsmoos.com
+ * keeps this centered ceremonial surface separate from menu scrolling and the
+ * root shell while preserving the original scale and glow.
+ */
+.countdownPanel {
+	display: grid;
+	height: 100%;
+	place-items: center;
+	text-align: center;
+}
+
+.countdownNumber {
+	color: var(--gold);
+	font-size: clamp(72px, 24vw, 180px);
+	font-weight: 1000;
+	text-shadow: 0 0 30px #ffe68b;
+}
+
+.countdownPanel p {
+	color: #fff2be;
+	font-size: 20px;
+}

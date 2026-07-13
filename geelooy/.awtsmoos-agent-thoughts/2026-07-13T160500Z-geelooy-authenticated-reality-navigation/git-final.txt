@@ -1,0 +1,167 @@
+=== FOCUSED STATUS ===
+ M geelooy/about/index.html
+ M geelooy/apps/animator/package.json
+ M geelooy/apps/animator/src/character/face/FaceRig.js
+ M geelooy/apps/animator/src/nle/NLESystem.js
+ M geelooy/apps/animator/src/nle/audio/Microphone.js
+ M geelooy/apps/animator/src/nle/core/NLEStore.js
+ M geelooy/apps/animator/src/nle/ui/NLEMount.js
+ M geelooy/apps/animator/src/nle/ui/NLETemplate.js
+ M geelooy/apps/app.js
+ M geelooy/apps/code/js/app/index.js
+ M geelooy/apps/code/js/command-palette/commands.js
+ M geelooy/apps/code/js/fs/os-folder.js
+ M geelooy/apps/code/js/fs/post-message.js
+ M geelooy/apps/code/js/os-embed-bridge.js
+ M geelooy/apps/code/js/tunnel/browser-agent-packets.js
+ M geelooy/apps/code/js/tunnel/tabTunnelRegistrar.js
+ M geelooy/apps/code/js/tunnel/test/browserAgentPackets.test.mjs
+ M geelooy/apps/compiler/index.html
+ M geelooy/apps/compiler/script.js
+ M geelooy/apps/exe-emulator/tests/generated/regression-report.json
+ M geelooy/apps/index.html
+ M geelooy/apps/tunnel-control/css/future/index.css
+ M geelooy/apps/tunnel-control/css/future/views/agent-command-deck/cards.css
+ M geelooy/apps/tunnel-control/js/api/http.js
+ M geelooy/apps/tunnel-control/js/dashboard/runtimeBoard.js
+ M geelooy/apps/tunnel-control/js/dashboard/runtimeBoardCards.js
+ M geelooy/apps/tunnel-control/js/dashboard/runtimeBoardObserver.js
+ M geelooy/apps/tunnel-control/js/dashboard/test/dashboardHealth.test.mjs
+ M geelooy/apps/tunnel-control/js/features/missionRooms/api.js
+ M geelooy/apps/tunnel-control/js/features/missionRooms/roomRuntime.js
+ M geelooy/apps/tunnel-control/js/features/missionRooms/socket.js
+ M geelooy/apps/tunnel-control/js/features/missionRooms/state.js
+ M geelooy/apps/tunnel-control/js/features/test/missionRoomsSocket.test.mjs
+ M geelooy/apps/tunnel/agent/lib/runtime/background-update.js
+ M geelooy/apps/tunnel/agent/lib/self-update-bundles.js
+ M geelooy/apps/tunnel/agent/lib/self-update-manifest.js
+ M geelooy/apps/tunnel/agent/lib/self-update-policy.js
+ M geelooy/apps/tunnel/agent/lib/self-update.js
+ M geelooy/apps/tunnel/agent/manifest.txt
+ M geelooy/apps/tunnel/agent/rebuild-manifest.cjs
+ M geelooy/apps/tunnel/agent/recovery/archiveRestore.js
+ M geelooy/apps/tunnel/agent/recovery/controller.js
+ M geelooy/apps/tunnel/agent/recovery/integrity.js
+ M geelooy/apps/tunnel/agent/scripts/recovery-control.cjs
+ M geelooy/apps/tunnel/agent/scripts/recovery-restore.cjs
+ M geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs
+ M geelooy/apps/tunnel/agent/testing/installerManifestChecksumContract.test.cjs
+ M geelooy/apps/tunnel/downloads/unix-install-core.sh
+ M geelooy/apps/tunnel/downloads/unix-process-control.sh
+ M geelooy/apps/tunnel/downloads/unix-supervisor.sh
+ M geelooy/apps/tunnel/downloads/unix.sh
+?? geelooy/.awtsmoos-agent-thoughts/2026-07-13T160500Z-geelooy-authenticated-reality-navigation/
+?? geelooy/apps/animator/src/character/face/EmotionBlendShape.js
+?? geelooy/apps/animator/src/character/face/VisemeLibrary.js
+?? geelooy/apps/animator/src/character/generator/
+?? geelooy/apps/animator/src/generator/compiler/MovieClipFactory.js
+?? geelooy/apps/animator/src/generator/compiler/MoviePlanCompiler.js
+?? geelooy/apps/animator/src/generator/schema/CinematicMovieSchema.js
+?? geelooy/apps/animator/src/nle/NLEMediaAssembly.js
+?? geelooy/apps/animator/src/nle/audio/AudioDurationProbe.js
+?? geelooy/apps/animator/src/nle/audio/DialogueCapturePersistence.js
+?? geelooy/apps/animator/src/nle/audio/DialogueRecordingBinder.js
+?? geelooy/apps/animator/src/nle/audio/DialogueRecordingSession.js
+?? geelooy/apps/animator/src/nle/logic/DialogueRippleRetimer.js
+?? geelooy/apps/animator/src/nle/media/
+?? geelooy/apps/animator/src/nle/persistence/
+?? geelooy/apps/animator/src/nle/project/
+?? geelooy/apps/animator/src/nle/ui/DialogueRecorderPanel.js
+?? geelooy/apps/animator/src/nle/ui/MediaImportPanel.js
+?? geelooy/apps/animator/src/nle/ui/NLEEditingActions.js
+?? geelooy/apps/animator/src/nle/ui/NLEInspector.js
+?? geelooy/apps/animator/src/nle/ui/NLEMediaActions.js
+?? geelooy/apps/animator/src/nle/ui/NLEProjectActions.js
+?? geelooy/apps/animator/src/nle/ui/NLETimelineView.js
+?? geelooy/apps/animator/src/nle/ui/NLEToolbar.js
+?? geelooy/apps/animator/src/nle/ui/NLEVoiceActions.js
+?? geelooy/apps/animator/src/scenes/TwoMinuteStrategyMovie.js
+?? geelooy/apps/animator/tools/fixtures/
+?? geelooy/apps/animator/tools/render/BitmapFont.js
+?? geelooy/apps/animator/tools/render/CartoonCharacterPainter.js
+?? geelooy/apps/animator/tools/render/CartoonFacePainter.js
+?? geelooy/apps/animator/tools/render/CinematicFrameRenderer.js
+?? geelooy/apps/animator/tools/render/CinematicSetPainter.js
+?? geelooy/apps/animator/tools/render/PixelCanvas.js
+?? geelooy/apps/animator/tools/render/exportFullPackagedProof.js
+?? geelooy/apps/animator/tools/render/exportPackagedProject.js
+?? geelooy/apps/animator/tools/render/exportTwoMinuteMovie.js
+?? geelooy/apps/animator/tools/render/package/
+?? geelooy/apps/animator/tools/verify/PackagedMediaProofProbe.js
+?? geelooy/apps/animator/tools/verify/cinematicFamilyGeneratorSmoke.js
+?? geelooy/apps/animator/tools/verify/dialogueRecordingPersistenceSmoke.js
+?? geelooy/apps/animator/tools/verify/dialogueRecordingRetimingSmoke.js
+?? geelooy/apps/animator/tools/verify/fixtures/
+?? geelooy/apps/animator/tools/verify/packagedBlendModesSmoke.js
+?? geelooy/apps/animator/tools/verify/packagedMediaExportSmoke.js
+?? geelooy/apps/animator/tools/verify/projectPackageAssemblerSmoke.js
+?? geelooy/apps/animator/tools/verify/projectPackageBundleSmoke.js
+?? geelooy/apps/animator/tools/verify/projectPackageValidationSmoke.js
+?? geelooy/apps/animator/tools/verify/realVideoImportSmoke.js
+?? geelooy/apps/animator/tools/verify/twoMinuteMovieMetadataSmoke.js
+?? geelooy/apps/animator/tools/verify/twoMinuteMoviePlanSmoke.js
+?? geelooy/apps/code/js/actions/commands/compile-in-os.js
+?? geelooy/apps/code/js/embed/
+?? geelooy/apps/code/js/tunnel/test/tabTunnelRegistrar.test.mjs
+?? geelooy/apps/compiler/embed/
+?? geelooy/apps/compiler/responsive.css
+?? geelooy/apps/compiler/ui/
+?? geelooy/apps/tunnel-control/css/future/views/agent-command-deck/telemetry.css
+?? geelooy/apps/tunnel-control/js/api/test/httpTelemetry.test.mjs
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeBoardCollaborationCards.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeBoardDom.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeBoardHeader.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeBoardIdentityCards.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeBoardPrimitives.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeFabricPresenter.js
+?? geelooy/apps/tunnel-control/js/dashboard/runtimeLegacyPanePresenter.js
+?? geelooy/apps/tunnel-control/js/dashboard/test/fakeDom.js
+?? geelooy/apps/tunnel-control/js/dashboard/test/runtimeFabricPresenter.test.mjs
+?? geelooy/apps/tunnel-control/js/features/missionRooms/payloads.js
+?? geelooy/apps/tunnel-control/js/features/missionRooms/transport/
+?? geelooy/apps/tunnel-control/js/features/test/missionRoomsSocketFixtures.mjs
+?? geelooy/apps/tunnel-control/js/features/test/missionRoomsSocketTicketFailure.test.mjs
+?? geelooy/apps/tunnel-control/js/features/test/missionRoomsTransportFakes.mjs
+?? geelooy/apps/tunnel-control/js/features/test/missionRoomsTransportProtocol.test.mjs
+?? geelooy/apps/tunnel-control/js/runtime/runtimeTelemetry.js
+?? geelooy/apps/tunnel-control/js/runtime/telemetryCounts.js
+?? geelooy/apps/tunnel-control/js/runtime/telemetryPaths.js
+?? geelooy/apps/tunnel-control/js/runtime/telemetryValueReader.js
+?? geelooy/apps/tunnel-control/js/runtime/test/
+?? geelooy/apps/tunnel/agent/lib/self-update-origin.js
+?? geelooy/apps/tunnel/agent/recovery/archiveSafety.js
+?? geelooy/apps/tunnel/agent/recovery/archiveStore.js
+?? geelooy/apps/tunnel/agent/recovery/candidateSelector.js
+?? geelooy/apps/tunnel/agent/recovery/crashPolicy.js
+?? geelooy/apps/tunnel/agent/recovery/recoveryDecision.js
+?? geelooy/apps/tunnel/agent/recovery/recoveryLog.js
+?? geelooy/apps/tunnel/agent/recovery/stateTransitions.js
+?? geelooy/apps/tunnel/agent/recovery/versionCatalog.js
+?? geelooy/apps/tunnel/agent/release/
+?? geelooy/apps/tunnel/agent/scripts/install-probe.cjs
+?? geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/
+?? geelooy/apps/tunnel/agent/testing/recoveryArchiveSafety.test.cjs
+?? geelooy/apps/tunnel/agent/testing/recoveryCrashLoopRestore.test.cjs
+?? geelooy/apps/tunnel/agent/testing/releaseBundleClosure.test.cjs
+?? geelooy/apps/tunnel/agent/testing/selfUpdateNotificationOnly.test.cjs
+?? geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs
+?? geelooy/apps/tunnel/agent/testing/versionRecoveryFallback.test.cjs
+?? geelooy/apps/tunnel/downloads/mitzvah-world-scope-report.txt
+?? geelooy/apps/tunnel/downloads/unix-activation-fresh.sh
+?? geelooy/apps/tunnel/downloads/unix-activation-rollback.sh
+?? geelooy/apps/tunnel/downloads/unix-activation-state.sh
+?? geelooy/apps/tunnel/downloads/unix-activation.sh
+?? geelooy/apps/tunnel/downloads/unix-install-log.sh
+?? geelooy/apps/tunnel/downloads/unix-package-config.sh
+?? geelooy/apps/tunnel/downloads/unix-package-io.sh
+?? geelooy/apps/tunnel/downloads/unix-package-stage.sh
+?? geelooy/apps/tunnel/downloads/unix-process-runtime.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-archive-list.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-candidates.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-rescue.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-retention.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-store.sh
+?? geelooy/apps/tunnel/downloads/unix-recovery-validation.sh
+?? geelooy/apps/tunnel/downloads/unix-supervisor-runtime.sh
+=== DIFF CHECK ===
+__DIFF_CHECK_EXIT__=0

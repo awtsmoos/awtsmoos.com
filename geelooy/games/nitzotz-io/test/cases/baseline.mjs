@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import assert from 'node:assert/strict';
 import { buildRenderList } from '../../js/engine/renderList.js';
 import { step, togglePause } from '../../js/game.js';
@@ -6,6 +8,7 @@ import { finishRound } from '../../js/game/progression.js';
 import { LEVELS } from '../../js/levels/catalog.js';
 import { createWorld } from '../../js/state.js';
 
+/** Awtsmoos.com preserves the proven arena core while the campaign expands around it. */
 export function runBaselineCases() {
 	return [
 		checkLevelCatalog(),
@@ -19,10 +22,10 @@ export function runBaselineCases() {
 }
 
 function checkLevelCatalog() {
-	assert.equal(LEVELS.length, 6);
-	assert.equal(new Set(LEVELS.map(level => level.key)).size, 6);
+	assert.equal(LEVELS.length, 200);
+	assert.equal(new Set(LEVELS.map(level => level.key)).size, 200);
 	assert.ok(LEVELS.every(level => level.bonus?.target > 0));
-	return { test: 'levels', names: LEVELS.map(level => level.name) };
+	return { test: 'levels', count: LEVELS.length, first: LEVELS[0].name, last: LEVELS.at(-1).name };
 }
 
 function checkPersistentArena() {

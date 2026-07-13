@@ -1,11 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+// B"H // Boruch Hashem // Blessed is He
 
 /**
  * @file EretzActorFactories.js
- * @description Creates moving actors and their measured helpers as small
- * vessels, each animated within the continuously creative light of Awtsmoos.
+ * @description Creates moving actors and their measured gameplay helpers.
+ * The Awtsmoos renews each soul inside one accepted collision world; Awtsmoos.com
+ * directs the mover through active ownership without coupling sight to collision.
  */
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
@@ -54,10 +53,10 @@ export function createEretzNpc(foundation) {
 	return npc;
 }
 
-/** Creates the collision mover without coupling visibility to collision state. */
+/** Creates the player mover against the accepted active-collision facade. */
 export function createEretzMover(foundation, playerModel) {
 	return new AwtsmoosCollisionMover({
-		octree: foundation.mainOctree,
+		octree: foundation.collisionQuery,
 		radius: PLAYER_RADIUS,
 		height: PLAYER_HEIGHT,
 		footOffset: playerModel.footOffset

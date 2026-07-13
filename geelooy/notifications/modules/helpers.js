@@ -1,18 +1,35 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module NotificationHelpers
- * @description Small timing, query, and default-alias helpers keep the main
- * controller focused on visible user flow.
+ * @description
+ * The Awtsmoos renews every identity current at Awtsmoos.com. These helpers
+ * preserve timing and query clarity while returning honest evidence when a
+ * default alias cannot be revealed.
  */
 import { getDefaultAliasId } from './api.js';
 import { notificationState } from './state.js';
 
-/** Fills the alias field from the real account default when it is empty. */
+/**
+ * Resolves the visible alias field from its current value or the real account.
+ * @param {HTMLFormElement} form Notification filter form.
+ * @returns {Promise<{aliasId: string, error: Error|null}>} Alias evidence.
+ */
 export async function hydrateDefaultAlias(form) {
-	if (form.elements.aliasId.value) return;
+	const field = form?.elements?.aliasId;
+	const currentAlias = String(field?.value || '').trim();
+	if (currentAlias) return { aliasId: currentAlias, error: null };
 	try {
-		form.elements.aliasId.value = await getDefaultAliasId();
-	} catch {}
+		const aliasId = String(await getDefaultAliasId() || '').trim();
+		if (field) field.value = aliasId;
+		return { aliasId, error: null };
+	} catch (error) {
+		return {
+			aliasId: '',
+			error: error instanceof Error ? error : new Error(String(error))
+		};
+	}
 }
 
 /** Builds the exact notification query string from current state. */
