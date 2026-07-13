@@ -2,28 +2,25 @@
 //Boruch Hashem
 //Blessed is He
 
-const assert = require("assert");
-const {
-	handleTunnelRegister
-} = require("../register");
+const assert = require("node:assert/strict");
+const { handleTunnelRegister } = require("../register.js");
 
 /**
  * B"H
  *
- * The relay must preserve bounded capability testimony while replacing stale
- * sockets cleanly. The Awtsmoos renews connection and identity each instant;
- * Awtsmoos.com proves that the new vessel inherits truth, not guessed powers.
+ * A registration test must inhabit the same state names as the living server.
+ * The Awtsmoos renews old and new clients; Awtsmoos.com proves compatibility
+ * aliases, bounded capability testimony, replacement, and invalid-name refusal.
  */
 
 const server = {
-	tunnelClients: new Map(),
-	tunnelRegistrations: new Map(),
-	clients: new Set()
+	clients: new Set(),
+	tunnels: new Map()
 };
 const previous = fakeSocket();
 previous.isTunnel = true;
 previous.tunnelName = "browser-one";
-server.tunnelClients.set("browser-one", previous);
+server.tunnels.set("browser-one", previous);
 
 const socket = fakeSocket();
 const profile = {
@@ -53,24 +50,34 @@ const registered = handleTunnelRegister(server, socket, {
 	workspaceId: "workspace-one",
 	root: "awtsmoos://code"
 });
+
 assert.equal(registered, true);
 assert.equal(previous.closed.code, 4001);
-assert.equal(server.tunnelClients.get("browser-one"), socket);
+assert.equal(server.tunnels.get("browser-one"), socket);
+assert.equal(server.tunnelClients, server.tunnels);
 assert.equal(server.clients.has(socket), true);
 assert.equal(socket.vesselType, "browser-tunnel");
 assert.equal(socket.protocolVersion, "awtsmoos-tunnel-v3");
 assert.equal(socket.allowCommands, true);
-assert.equal(socket.capabilityProfile.implementation,
-	"apps-code-browser-agent");
+assert.equal(
+	socket.capabilityProfile.implementation,
+	"apps-code-browser-agent"
+);
 assert.deepEqual(socket.runtime, {
 	kind: "browser",
 	workspaceId: "workspace-one"
 });
-assert.equal(server.tunnelRegistrations.get("browser-one").root,
-	"awtsmoos://code");
+assert.equal(
+	server.tunnelRegistrations.get("browser-one").root,
+	"awtsmoos://code"
+);
+
 const acknowledgement = socket.messages.map(JSON.parse).at(-1);
 assert.equal(acknowledgement.type, "TUNNEL_ACK");
 assert.equal(acknowledgement.ok, true);
+assert.equal(acknowledgement.name, "browser-one");
+assert.equal(acknowledgement.tunnelName, "browser-one");
+assert.equal(acknowledgement.replacedOlderConnection, true);
 assert.equal(acknowledgement.vesselType, "browser-tunnel");
 assert.equal(acknowledgement.protocolVersion, "awtsmoos-tunnel-v3");
 
@@ -78,14 +85,14 @@ const invalid = fakeSocket();
 assert.equal(handleTunnelRegister(server, invalid, {
 	tunnelName: "!!!"
 }), false);
-assert.equal(JSON.parse(invalid.messages.at(-1)).error,
-	"invalid_tunnel_name");
+assert.equal(
+	JSON.parse(invalid.messages.at(-1)).error,
+	"invalid_tunnel_name"
+);
 console.log("BHY relay registration descriptor tests passed");
 
 function fakeSocket() {
 	return {
-		OPEN: 1,
-		readyState: 1,
 		messages: [],
 		send(message) {
 			this.messages.push(message);
@@ -97,5 +104,10 @@ function fakeSocket() {
 }
 
 function capability(state, mode) {
-	return { state, mode, reason: "", actions: [] };
+	return {
+		actions: [],
+		mode,
+		reason: "",
+		state
+	};
 }

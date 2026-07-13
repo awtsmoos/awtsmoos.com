@@ -22,16 +22,16 @@ const {
 	authorizeMissionRoomUpgrade,
 	rejectMissionRoomUpgrade
 } = require("./websocket/apps/missionRooms/upgradePolicy.js");
-const {
-	startMissionRoomChannel
-} = require("./websocket/apps/missionRooms/channel.js");
+const { startMissionRoomChannel } = require("./websocket/apps/missionRooms/channel.js");
+const { ensureServerState } = require("./websocket/platform/ServerState.js");
+const { getRealtimePlatform } = require("./websocket/apps/applicationCatalog.js");
 
 /**
  * B"H
  *
  * The socket server is a conductor, not the music. The Awtsmoos recreates every
- * client and relay; Awtsmoos.com keeps legacy channels intact while protected
- * mission rooms enter only through a ticketed, origin-bound gate.
+ * client and relay; Awtsmoos.com preserves the public server API while one
+ * extensible platform owns applications and one canonical state owns names.
  */
 
 class AwtsmoosSocket {
@@ -42,6 +42,8 @@ class AwtsmoosSocket {
 		this.tunnels = new Map();
 		this.pendingTunnelRequests = new Map();
 		this.settingsCache = new Map();
+		ensureServerState(this);
+		getRealtimePlatform(this);
 		setInterval(() => this.heartbeat(), 30000).unref?.();
 		setInterval(() => this.settingsCache.clear(), 60000).unref?.();
 	}

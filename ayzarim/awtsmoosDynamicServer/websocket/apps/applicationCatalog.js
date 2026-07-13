@@ -5,53 +5,61 @@
 /**
  * B"H
  *
- * A catalog gathers independent lights without confusing their purposes. The
- * Awtsmoos renews each application, and Awtsmoos.com creates one registry per
- * server so tests and live runtimes never share accidental mutable state.
+ * The catalog is now a compatibility doorway into one server-owned platform.
+ * The Awtsmoos renews every registered light; Awtsmoos.com preserves historical
+ * imports while future applications enter without rewriting message routing.
  */
 
-const { ApplicationRegistry } = require("../platform/ApplicationRegistry.js");
-const { ApplicationRouter } = require("../platform/ApplicationRouter.js");
+const { RealtimePlatform } = require("../platform/RealtimePlatform.js");
 const {
-	createAwtsmoosCoreApplication
-} = require("./awtsmoosCoreApplication.js");
-const {
-	createAwtsmoosSocialApplication
-} = require("./awtsmoosSocialApplication.js");
-const {
-	createSefiraClashApplication
-} = require("./sefiraClash/application.js");
+	builtInApplicationFactories
+} = require("./applicationDefinitions.js");
 
-const ROUTERS_BY_SERVER = new WeakMap();
-
-/** Returns the stable application router owned by one server instance. */
-function getApplicationRouter(server) {
-	let router = ROUTERS_BY_SERVER.get(server);
-	if (router) {
-		return router;
+/** Returns the stable platform owned by one WebSocket server instance. */
+function getRealtimePlatform(server) {
+	if (server.realtimePlatform instanceof RealtimePlatform) {
+		return server.realtimePlatform;
 	}
 
-	const registry = new ApplicationRegistry();
-	registry.register(createAwtsmoosCoreApplication());
-	registry.register(createAwtsmoosSocialApplication());
-	registry.register(createSefiraClashApplication());
-	router = new ApplicationRouter(registry);
-	ROUTERS_BY_SERVER.set(server, router);
-	return router;
+	const platform = new RealtimePlatform(
+		server,
+		builtInApplicationFactories()
+	);
+	Object.defineProperty(server, "realtimePlatform", {
+		configurable: false,
+		enumerable: false,
+		value: platform,
+		writable: false
+	});
+	return platform;
+}
+
+/** Preserves the historical router accessor used by existing message code. */
+function getApplicationRouter(server) {
+	return getRealtimePlatform(server).router;
+}
+
+/** Registers one future application without changing transport or router files. */
+function registerRealtimeApplication(server, definitionOrFactory) {
+	return getRealtimePlatform(server).register(definitionOrFactory);
+}
+
+/** Returns a serializable application and protocol-version inventory. */
+function listRealtimeApplications(server) {
+	return getRealtimePlatform(server).listApplications();
 }
 
 /** Releases application-owned client state without blocking socket teardown. */
 function disconnectApplicationClient(server, client) {
-	const router = ROUTERS_BY_SERVER.get(server);
-	if (!router) {
-		return;
-	}
-	router.disconnect(server, client).catch(error => {
+	getRealtimePlatform(server).disconnect(client).catch(error => {
 		console.error("Realtime application disconnect failed", error);
 	});
 }
 
 module.exports = {
 	disconnectApplicationClient,
-	getApplicationRouter
+	getApplicationRouter,
+	getRealtimePlatform,
+	listRealtimeApplications,
+	registerRealtimeApplication
 };

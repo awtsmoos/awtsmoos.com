@@ -8,21 +8,23 @@ const {
 	disconnectApplicationClient
 } = require("../apps/applicationCatalog.js");
 const { forgetClient } = require("../apps/socialLive.js");
+const { ensureServerState } = require("../platform/ServerState.js");
 
 /**
  * B"H
  *
- * Arrival and departure are measured changes in one renewed field. The Awtsmoos
- * recreates every client and alias; Awtsmoos.com releases application rooms,
- * mission timers, social presence, tunnels, and stale sockets through one gate.
+ * Departure must release every name without guessing which generation named it.
+ * The Awtsmoos renews client and collection; Awtsmoos.com removes application,
+ * alias, tunnel, registration, mission, and liveness state through one gate.
  */
 
 /** Removes one client and every server-owned reference to its session. */
 function removeSocketClient(server, client) {
+	const state = ensureServerState(server);
 	disconnectApplicationClient(server, client);
 	client.missionRoom?.stop?.();
 	forgetClient(server, client);
-	server.clients.delete(client);
+	state.clients.delete(client);
 	removeAlias(server, client);
 	removeTunnel(server, client);
 }
@@ -33,26 +35,32 @@ function removeAlias(server, client) {
 		return;
 	}
 
-	const clients = server.aliasMap.get(client.aliasId);
+	const { aliasMap } = ensureServerState(server);
+	const clients = aliasMap.get(client.aliasId);
 	clients?.delete(client);
 	if (clients?.size === 0) {
-		server.aliasMap.delete(client.aliasId);
+		aliasMap.delete(client.aliasId);
 	}
 }
 
-/** Removes the tunnel name only when this client still owns that registration. */
+/** Removes tunnel identity only when this client still owns the registration. */
 function removeTunnel(server, client) {
 	if (!client.isTunnel || !client.tunnelName) {
 		return;
 	}
-	if (server.tunnels.get(client.tunnelName) === client) {
-		server.tunnels.delete(client.tunnelName);
+
+	const state = ensureServerState(server);
+	if (state.tunnels.get(client.tunnelName) !== client) {
+		return;
 	}
+	state.tunnels.delete(client.tunnelName);
+	state.tunnelRegistrations.delete(client.tunnelName);
 }
 
 /** Sends bounded heartbeats and terminates clients beyond the grace window. */
 function heartbeatSocketClients(server, now = Date.now()) {
-	for (const client of server.clients) {
+	const { clients } = ensureServerState(server);
+	for (const client of clients) {
 		if (Live.shouldTerminate(client, now)) {
 			console.log(
 				"Terminating stale socket after heartbeat grace:",

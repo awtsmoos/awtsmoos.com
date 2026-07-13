@@ -11,9 +11,19 @@ const { routeMessage } = require("../apps/messageRouter.js");
  * B"H
  *
  * Control and content travel through distinct gates. The Awtsmoos recreates
- * ping, close, fragment, and message; Awtsmoos.com dispatches each according to
- * its true opcode rather than mixing transport mechanics with application law.
+ * ping, close, fragment, and message; Awtsmoos.com keeps transport synchronous
+ * while application promises are contained by one visible failure boundary.
  */
+
+/** Logs an application failure without creating an unhandled rejection. */
+function routeApplicationMessage(server, client, message) {
+	routeMessage(server, client, message).catch(error => {
+		console.error("Realtime message routing failed", {
+			clientId: client.id,
+			error
+		});
+	});
+}
 
 /** Handles control frames and routes complete text messages. */
 function dispatchClientFrame(server, client, frame) {
@@ -32,10 +42,11 @@ function dispatchClientFrame(server, client, frame) {
 
 	const message = collectTextMessage(client, frame);
 	if (message !== null) {
-		routeMessage(server, client, message);
+		routeApplicationMessage(server, client, message);
 	}
 }
 
 module.exports = {
-	dispatchClientFrame
+	dispatchClientFrame,
+	routeApplicationMessage
 };
