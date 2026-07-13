@@ -4,7 +4,8 @@
 # Blessed is He
 
 # The supervisor owns one child and one truth receipt. The Awtsmoos renews each
-# launch; Awtsmoos.com refuses duplicate guardians and stale process identities.
+# launch; Awtsmoos.com refuses duplicate guardians, stale identities, and any
+# historical fallback process that would compete with the modern child.
 
 supervisor_log() {
 	local event="$1"
@@ -25,8 +26,7 @@ supervisor_command_contains() {
 }
 
 find_existing_agent() {
-	local candidate
-	candidate="$(cat "$PID_FILE" 2>/dev/null || true)"
+	local candidate="$(cat "$PID_FILE" 2>/dev/null || true)"
 	if supervisor_agent_command "$candidate"; then
 		printf '%s\n' "$candidate"
 		return 0
@@ -45,8 +45,7 @@ supervisor_agent_command() {
 }
 
 acquire_supervisor_guard() {
-	local existing
-	existing="$(cat "$SUPERVISOR_PID_FILE" 2>/dev/null || true)"
+	local existing="$(cat "$SUPERVISOR_PID_FILE" 2>/dev/null || true)"
 	if [ "$existing" != "$$" ] && \
 		supervisor_command_contains "$existing" "$ROOT/awtsmoos-supervisor.sh"; then
 		supervisor_log "duplicate_refused" "existingPid=$existing"
@@ -91,6 +90,7 @@ start_new_agent() {
 	else
 		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
 	fi
+	stop_supervisor_legacy_processes
 	clear_child_receipt
 	node "$ROOT/awtsmoos-agent-launcher.cjs" "$ROOT" >> "$ROOT/agent.log" 2>&1 &
 	CHILD_PID=$!

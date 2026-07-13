@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Process identity is measured by PID and command path. The Awtsmoos does not
-# permit stale receipts or broad process names to authorize an unrelated kill.
+# Process identity is PID plus an exact executable/script argument shape. The
+# Awtsmoos does not authorize broad kills; Awtsmoos.com rechecks identity before
+# TERM and KILL, while read-only compatibility probes may inspect a fixed path.
 
 is_alive() {
 	[ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null
@@ -20,49 +21,78 @@ command_contains() {
 	is_alive "$pid" && process_command "$pid" | grep -Fq "$expected"
 }
 
+command_matches_script() {
+	local command="$1"
+	local executable_name="$2"
+	local expected_script="$3"
+	local executable=""
+	local script=""
+	local remainder=""
+	read -r executable script remainder <<< "$command"
+	[ "${executable##*/}" = "$executable_name" ] && \
+		[ "$script" = "$expected_script" ]
+}
+
+agent_process_matches() {
+	local command="$(process_command "$1")"
+	command_matches_script "$command" "node" "$ROOT/main.js" || \
+		command_matches_script "$command" "node" \
+			"$ROOT/awtsmoos-agent-launcher.cjs"
+}
+
+supervisor_process_matches() {
+	local command="$(process_command "$1")"
+	command_matches_script "$command" "bash" \
+		"$ROOT/awtsmoos-supervisor.sh" || \
+		command_matches_script "$command" "sh" \
+			"$ROOT/awtsmoos-supervisor.sh"
+}
+
 process_table() {
 	LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null || true
 }
 
-find_agent_pids() {
-	local launcher="$ROOT/awtsmoos-agent-launcher.cjs"
-	process_table | awk -v self="$$" -v main="$ROOT/main.js" -v launcher="$launcher" '
-		$1 != self && index($0, "node") > 0 &&
-		(index($0, main) > 0 || index($0, launcher) > 0) { print $1 }
-	'
-}
-
-find_supervisor_pids() {
-	process_table | awk -v self="$$" -v needle="$ROOT/awtsmoos-supervisor.sh" '
+find_path_candidate_pids() {
+	local expected="$1"
+	process_table | awk -v self="$$" -v needle="$expected" '
 		$1 != self && index($0, needle) > 0 { print $1 }
 	'
 }
 
+find_agent_pids() {
+	{
+		find_path_candidate_pids "$ROOT/main.js"
+		find_path_candidate_pids "$ROOT/awtsmoos-agent-launcher.cjs"
+	} | sort -n -u
+}
+
+find_supervisor_pids() {
+	find_path_candidate_pids "$ROOT/awtsmoos-supervisor.sh"
+}
+
 find_legacy_runtime_pids() {
-	local needle="$RECOVERY_ROOT/bin/awtsmoos-legacy-tunnel-client.js"
-	process_table | awk -v self="$$" -v needle="$needle" '
-		$1 != self && index($0, needle) > 0 && index($0, "node") > 0 { print $1 }
-	'
+	legacy_process_pids "$$"
 }
 
 stop_pid_set() {
 	local label="$1"
-	shift
+	local matcher="$2"
+	shift 2
 	local pids="$*"
 	local alive
 	for pid in $pids; do
-		kill "$pid" 2>/dev/null || true
+		"$matcher" "$pid" && kill "$pid" 2>/dev/null || true
 	done
 	for _ in 1 2 3 4 5 6 7 8 9 10; do
 		alive=""
 		for pid in $pids; do
-			is_alive "$pid" && alive="$alive $pid"
+			"$matcher" "$pid" && alive="$alive $pid"
 		done
 		[ -z "$alive" ] && return 0
 		sleep 0.2
 	done
 	for pid in $pids; do
-		if is_alive "$pid"; then
+		if "$matcher" "$pid"; then
 			install_event "process" "warning" \
 				"Force stopping stale $label process." "pid=$pid"
 			kill -9 "$pid" 2>/dev/null || true
@@ -71,22 +101,17 @@ stop_pid_set() {
 }
 
 stop_existing_runtime() {
-	local supervisor_pids
-	local agent_pids
-	local legacy_pids
-	supervisor_pids="$(find_supervisor_pids | tr '\n' ' ')"
-	agent_pids="$(find_agent_pids | tr '\n' ' ')"
-	legacy_pids="$(find_legacy_runtime_pids | tr '\n' ' ')"
-	if [ -n "$supervisor_pids" ]; then
+	local supervisors="$(find_supervisor_pids | tr '\n' ' ')"
+	local agents="$(find_agent_pids | tr '\n' ' ')"
+	local legacy="$(find_legacy_runtime_pids | tr '\n' ' ')"
+	if [ -n "$supervisors" ]; then
 		touch "$ROOT/stop-supervisor"
-		stop_pid_set "supervisor" $supervisor_pids
+		stop_pid_set "supervisor" supervisor_process_matches $supervisors
 	fi
-	[ -n "$agent_pids" ] && stop_pid_set "agent" $agent_pids
-	[ -n "$legacy_pids" ] && stop_pid_set "legacy tunnel" $legacy_pids
-	rm -f \
-		"$ROOT/stop-supervisor" \
-		"$ROOT/agent.pid" \
-		"$ROOT/supervisor.pid" \
-		"$RECOVERY_ROOT/legacy-agent.pid"
+	[ -n "$agents" ] && stop_pid_set "agent" agent_process_matches $agents
+	[ -n "$legacy" ] && stop_pid_set "legacy tunnel" legacy_process_matches $legacy
+	rm -f "$ROOT/stop-supervisor" "$ROOT/agent.pid" \
+		"$ROOT/supervisor.pid" "$RECOVERY_ROOT/legacy-agent.pid" \
+		"$(legacy_mode_receipt_path)"
 	clear_connection_receipt 2>/dev/null || rm -f "$ROOT/connection-state.json"
 }

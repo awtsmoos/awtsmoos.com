@@ -13,8 +13,8 @@ const FixtureSource = require("./runtimeFixtureSource.cjs");
  * B"H
  *
  * The fixture installer assembles one complete registered predecessor. The
- * Awtsmoos renews source, supervisor, and seal; Awtsmoos.com tests rollback
- * against a truthful isolated runtime without touching the user's installation.
+ * Awtsmoos renews source, supervisor, health memory, and legacy catalog so
+ * rollback tests inhabit the same recovery vessel as production.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
@@ -51,8 +51,10 @@ function copySupervisorFiles(fixture) {
 		"geelooy/apps/tunnel/downloads"
 	);
 	const pairs = {
+		"unix-legacy-catalog.sh": "awtsmoos-legacy-catalog.sh",
 		"unix-supervisor.sh": "awtsmoos-supervisor.sh",
 		"unix-supervisor-runtime.sh": "awtsmoos-supervisor-runtime.sh",
+		"unix-supervisor-health-memory.sh": "awtsmoos-supervisor-health-memory.sh",
 		"unix-supervisor-health.sh": "awtsmoos-supervisor-health.sh",
 		"unix-supervisor-recovery.sh": "awtsmoos-supervisor-recovery.sh",
 		"unix-supervisor-legacy.sh": "awtsmoos-supervisor-legacy.sh",

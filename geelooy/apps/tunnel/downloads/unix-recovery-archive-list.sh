@@ -5,7 +5,7 @@
 
 # The archive follows the runtime manifest and preserves every supervisor module
 # needed after restoration. The Awtsmoos renews the code tree; Awtsmoos.com will
-# not restore a world whose guardian was only half archived.
+# not restore a world whose guardian forgot health memory or legacy identities.
 
 write_archive_file_list() {
 	local output="$1"
@@ -33,8 +33,10 @@ const controlFiles = [
 	"installed-manifest.txt",
 	"manifest.txt",
 	"recovery-seal.json",
+	"awtsmoos-legacy-catalog.sh",
 	"awtsmoos-supervisor.sh",
 	"awtsmoos-supervisor-runtime.sh",
+	"awtsmoos-supervisor-health-memory.sh",
 	"awtsmoos-supervisor-health.sh",
 	"awtsmoos-supervisor-recovery.sh",
 	"awtsmoos-supervisor-legacy.sh",

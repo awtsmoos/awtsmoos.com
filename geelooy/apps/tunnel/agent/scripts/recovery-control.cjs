@@ -11,9 +11,9 @@ const State = require("../recovery/stateStore.js");
 /**
  * B"H
  *
- * Exposes one narrow Medaber mouth for recovery state. The command interprets
- * intent while focused modules own health, state, and policy. Awtsmoos.com may
- * therefore supervise failure without editing hidden files by hand.
+ * One narrow Medaber mouth records startup, failure, restoration, and sustained
+ * health. The Awtsmoos renews intent and receipt; Awtsmoos.com supervises the
+ * tunnel without hand-editing recovery memory or duplicating policy in shell.
  */
 const [action = "status", rawRoot = process.cwd(), ...args] = process.argv.slice(2);
 const root = path.resolve(rawRoot);
@@ -52,6 +52,11 @@ function execute(selectedAction, runtimeRoot, selectedArgs) {
 				version: selectedArgs[0] || "",
 				candidate: selectedArgs[1] || ""
 			});
+		case "mark-healthy":
+			return Controller.markHealthy(runtimeRoot, {
+				version: selectedArgs[0] || "",
+				pid: selectedArgs[1] || ""
+			});
 		case "status":
 			return {
 				ok: true,
@@ -69,11 +74,9 @@ function execute(selectedAction, runtimeRoot, selectedArgs) {
 
 function printShell(value = {}) {
 	const environment = value.environment || {};
-
 	for (const [key, entry] of Object.entries(environment)) {
 		console.log(`${key}=${quote(entry)}`);
 	}
-
 	console.log(`AWTSMOOS_RECOVERY_TIER=${quote(value.tier ?? value.state?.tier ?? 5)}`);
 	console.log(`AWTSMOOS_RECOVERY_RESTORE=${quote(value.restoreRequired ? 1 : 0)}`);
 	console.log(`AWTSMOOS_RECOVERY_REASON=${quote(value.restoreReason || "")}`);

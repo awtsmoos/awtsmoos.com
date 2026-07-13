@@ -5,7 +5,7 @@
 
 # The external recovery store survives replacement of the live runtime. The
 # Awtsmoos renews rescue tools outside the failing tree; Awtsmoos.com preserves
-# verified archives, identity config, and a final legacy bridge.
+# verified archives and writes identical bytes under every historical fallback.
 
 runtime_probe_compatible() {
 	local runtime_root="$1"
@@ -28,13 +28,18 @@ install_rescue_runtime() {
 		"unix-recovery-rescue.sh:awtsmoos-recovery-rescue.sh" \
 		"unix-recovery-validation.sh:awtsmoos-recovery-validation.sh" \
 		"unix-recovery-candidates.sh:awtsmoos-recovery-candidates.sh" \
-		"awtsmoos-tunnel-client.js:awtsmoos-legacy-tunnel-client.js"; do
+		"awtsmoos-tunnel-client.js:awtsmoos-legacy-tunnel-client.js" \
+		"awtsmoos-tunnel-client.js:legacy-tunnel-client.js"; do
 		local source_name="${pair%%:*}"
 		local target_name="${pair##*:}"
 		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" \
 			"$recovery_bin/$target_name"
 		chmod +x "$recovery_bin/$target_name"
 	done
+	local canonical="$recovery_bin/awtsmoos-legacy-tunnel-client.js"
+	local compatibility="$recovery_bin/legacy-tunnel-client.js"
+	[ "$(recovery_sha256_file "$canonical")" = \
+		"$(recovery_sha256_file "$compatibility")" ] || return 1
 }
 
 archive_known_good_runtime() {

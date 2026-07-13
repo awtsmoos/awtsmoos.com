@@ -3,16 +3,18 @@
 # Boruch Hashem
 # Blessed is He
 
-# The supervisor is installed as a complete modular vessel. The Awtsmoos renews
-# one guardian and one child; Awtsmoos.com requires a sustained TUNNEL_ACK state,
-# never one transient receipt or a merely living PID.
+# The supervisor is installed as one modular vessel. The Awtsmoos renews
+# guardian, health memory, and legacy catalog together; Awtsmoos.com never
+# restores a supervisor that cannot recognize its own historical fallbacks.
 
 write_supervisor_to() {
 	local destination="$1"
 	mkdir -p "$destination"
 	for pair in \
+		"unix-legacy-catalog.sh:awtsmoos-legacy-catalog.sh" \
 		"unix-supervisor.sh:awtsmoos-supervisor.sh" \
 		"unix-supervisor-runtime.sh:awtsmoos-supervisor-runtime.sh" \
+		"unix-supervisor-health-memory.sh:awtsmoos-supervisor-health-memory.sh" \
 		"unix-supervisor-health.sh:awtsmoos-supervisor-health.sh" \
 		"unix-supervisor-recovery.sh:awtsmoos-supervisor-recovery.sh" \
 		"unix-supervisor-legacy.sh:awtsmoos-supervisor-legacy.sh" \

@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The legacy bridge is a final emergency road, never a competing permanent
-# tunnel. The Awtsmoos renews modern recovery first; Awtsmoos.com isolates the
-# legacy HOME and periodically returns to verified modern archives.
+# The legacy bridge is one emergency road, never a rival dynasty. The Awtsmoos
+# renews every historical path; Awtsmoos.com stops all obsolete bridges before
+# modern launch or before lighting one canonical, time-bounded fallback.
 
 prepare_legacy_supervisor_home() {
 	local home="$RECOVERY_ROOT/legacy-home"
@@ -14,13 +14,35 @@ prepare_legacy_supervisor_home() {
 	printf '%s\n' "$home"
 }
 
+stop_supervisor_legacy_processes() {
+	local pids="$(legacy_process_pids "$$" | tr '\n' ' ')"
+	local alive
+	for pid in $pids; do
+		legacy_process_matches "$pid" && kill "$pid" 2>/dev/null || true
+	done
+	for _ in 1 2 3 4 5; do
+		alive=""
+		for pid in $pids; do
+			legacy_process_matches "$pid" && alive="$alive $pid"
+		done
+		[ -z "$alive" ] && break
+		sleep 1
+	done
+	for pid in $pids; do
+		legacy_process_matches "$pid" && kill -9 "$pid" 2>/dev/null || true
+	done
+	clear_legacy_mode_receipt
+}
+
 start_legacy_bridge() {
-	local client="$RECOVERY_ROOT/bin/awtsmoos-legacy-tunnel-client.js"
+	local client
 	local timeout_seconds="${AWTSMOOS_LEGACY_TIMEOUT_SECONDS:-30}"
+	local retry_seconds="${AWTSMOOS_LEGACY_RETRY_SECONDS:-300}"
 	local elapsed=0
 	local legacy_home
-	[ -f "$client" ] || return 1
+	client="$(legacy_client_path)" || return 1
 	[ -f "$ROOT/config.json" ] || return 1
+	stop_supervisor_legacy_processes
 	legacy_home="$(prepare_legacy_supervisor_home)"
 	: > "$ROOT/legacy-agent.log"
 	HOME="$legacy_home" node "$client" >> "$ROOT/legacy-agent.log" 2>&1 &
@@ -28,15 +50,19 @@ start_legacy_bridge() {
 	CHILD_OWNED=1
 	CHILD_KIND="legacy"
 	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
+	write_legacy_mode_receipt \
+		"$CHILD_PID" "$client" "supervisor_fallback" "$retry_seconds"
 	while [ "$elapsed" -lt "$timeout_seconds" ]; do
 		supervisor_alive "$CHILD_PID" || return 1
 		if grep -q 'Awtsmoos tunnel connected\.' "$ROOT/legacy-agent.log" 2>/dev/null; then
-			supervisor_log "legacy_registered" "pid=$CHILD_PID"
+			supervisor_log "legacy_registered" \
+				"pid=$CHILD_PID client=$client retrySeconds=$retry_seconds"
 			return 0
 		fi
 		sleep 1
 		elapsed=$(( elapsed + 1 ))
 	done
+	clear_legacy_mode_receipt
 	return 1
 }
 
@@ -51,5 +77,6 @@ monitor_legacy_bridge() {
 		fi
 		sleep 2
 	done
+	clear_legacy_mode_receipt
 	return 1
 }

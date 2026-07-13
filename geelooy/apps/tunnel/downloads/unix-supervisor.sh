@@ -19,7 +19,9 @@ CHILD_OWNED=0
 CHILD_KIND="modern"
 
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
+source "$ROOT/awtsmoos-legacy-catalog.sh"
 source "$ROOT/awtsmoos-supervisor-runtime.sh"
+source "$ROOT/awtsmoos-supervisor-health-memory.sh"
 source "$ROOT/awtsmoos-supervisor-health.sh"
 source "$ROOT/awtsmoos-supervisor-recovery.sh"
 source "$ROOT/awtsmoos-supervisor-legacy.sh"

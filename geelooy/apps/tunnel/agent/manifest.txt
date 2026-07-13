@@ -1,5 +1,5 @@
 B"H
-1.0.297
+1.0.299
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -241,6 +241,7 @@ recovery/archiveStore.js
 recovery/candidateSelector.js
 recovery/controller.js
 recovery/crashPolicy.js
+recovery/healthyTransition.js
 recovery/integrity.js
 recovery/recoveryDecision.js
 recovery/recoveryLog.js

@@ -30,6 +30,7 @@ helpers=(
 	unix-package-io.sh
 	unix-package-config.sh
 	unix-package-stage.sh
+	unix-legacy-catalog.sh
 	unix-process-runtime.sh
 	unix-process-control.sh
 	unix-connection-health.sh
@@ -47,6 +48,7 @@ helpers=(
 	unix-activation.sh
 	unix-cleanup.sh
 	unix-supervisor-runtime.sh
+	unix-supervisor-health-memory.sh
 	unix-supervisor-health.sh
 	unix-supervisor-recovery.sh
 	unix-supervisor-legacy.sh

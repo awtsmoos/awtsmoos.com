@@ -11,7 +11,7 @@ const EXTERNAL_DIRECTORIES = Object.freeze([
  *
  * Required startup paths are explicit roots of the release graph. The Awtsmoos
  * renews every imported chamber; Awtsmoos.com refuses a manifest that remembers
- * yesterday while omitting a new connection, scheduler, or recovery dependency.
+ * yesterday while omitting connection, scheduler, or recovery dependencies.
  */
 const REQUIRED_STARTUP_FILES = Object.freeze([
 	"main.js",
@@ -44,6 +44,7 @@ const REQUIRED_STARTUP_FILES = Object.freeze([
 	"recovery/candidateSelector.js",
 	"recovery/controller.js",
 	"recovery/crashPolicy.js",
+	"recovery/healthyTransition.js",
 	"recovery/integrity.js",
 	"recovery/recoveryDecision.js",
 	"recovery/recoveryLog.js",
