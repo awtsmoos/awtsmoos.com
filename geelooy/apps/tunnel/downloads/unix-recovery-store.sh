@@ -5,7 +5,7 @@
 
 # The external recovery store survives replacement of the live runtime. The
 # Awtsmoos renews rescue tools outside the failing tree; Awtsmoos.com preserves
-# verified archives and writes identical bytes under every historical fallback.
+# verified archives and mirrors one checked fallback under every historic name.
 
 runtime_probe_compatible() {
 	local runtime_root="$1"
@@ -23,6 +23,10 @@ NODE
 
 install_rescue_runtime() {
 	local recovery_bin="$RECOVERY_ROOT/bin"
+	local canonical
+	local compatibility
+	local canonical_hash
+	local compatibility_hash
 	mkdir -p "$recovery_bin"
 	for pair in \
 		"unix-recovery-rescue.sh:awtsmoos-recovery-rescue.sh" \
@@ -36,10 +40,19 @@ install_rescue_runtime() {
 			"$recovery_bin/$target_name"
 		chmod +x "$recovery_bin/$target_name"
 	done
-	local canonical="$recovery_bin/awtsmoos-legacy-tunnel-client.js"
-	local compatibility="$recovery_bin/legacy-tunnel-client.js"
-	[ "$(recovery_sha256_file "$canonical")" = \
-		"$(recovery_sha256_file "$compatibility")" ] || return 1
+	canonical="$recovery_bin/awtsmoos-legacy-tunnel-client.js"
+	compatibility="$recovery_bin/legacy-tunnel-client.js"
+	canonical_hash="$(sha256_file "$canonical")"
+	compatibility_hash="$(sha256_file "$compatibility")"
+	if [ -z "$canonical_hash" ] || [ "$canonical_hash" != "$compatibility_hash" ]; then
+		install_event "recovery" "failed" \
+			"Mirrored fallback clients do not have identical verified bytes." \
+			"canonical=$canonical_hash compatibility=$compatibility_hash"
+		return 1
+	fi
+	install_event "recovery" "passed" \
+		"Mirrored fallback clients were installed with identical verified bytes." \
+		"sha256=$canonical_hash"
 }
 
 archive_known_good_runtime() {
