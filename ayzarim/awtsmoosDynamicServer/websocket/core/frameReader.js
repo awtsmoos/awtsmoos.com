@@ -1,55 +1,88 @@
-
 // B"H
-function readFrame(buffer) {
-  if (!buffer || buffer.length < 2) return null;
+// Boruch Hashem
+// Blessed is He
 
-  const byte0 = buffer[0];
-  const byte1 = buffer[1];
-  const fin = (byte0 & 0x80) === 0x80;
-  const opcode = byte0 & 0x0f;
-  const masked = (byte1 & 0x80) === 0x80;
+const Limits = require("./frameLimits.js");
 
-  let payloadLen = byte1 & 0x7f;
-  let offset = 2;
+/**
+ * B"H
+ *
+ * Frame metadata is judged before payload allocation. The Awtsmoos renews
+ * header and length; Awtsmoos.com accepts the established tunnel contract while
+ * refusing any frame whose declared body exceeds the configured physical bound.
+ */
+function readFrame(buffer, options = {}) {
+	if (!buffer || buffer.length < 2) {
+		return null;
+	}
 
-  if (payloadLen === 126) {
-    if (buffer.length < offset + 2) return null;
-    payloadLen = buffer.readUInt16BE(offset);
-    offset += 2;
-  } else if (payloadLen === 127) {
-    if (buffer.length < offset + 8) return null;
-    const big = buffer.readBigUInt64BE(offset);
-    offset += 8;
+	const byte0 = buffer[0];
+	const byte1 = buffer[1];
+	const fin = (byte0 & 0x80) === 0x80;
+	const opcode = byte0 & 0x0f;
+	const masked = (byte1 & 0x80) === 0x80;
+	let payloadLength = byte1 & 0x7f;
+	let offset = 2;
 
-    if (big > BigInt(Number.MAX_SAFE_INTEGER)) {
-      throw new Error("WebSocket payload too large for this Node process.");
-    }
+	if (payloadLength === 126) {
+		if (buffer.length < offset + 2) {
+			return null;
+		}
+		payloadLength = buffer.readUInt16BE(offset);
+		offset += 2;
+	} else if (payloadLength === 127) {
+		if (buffer.length < offset + 8) {
+			return null;
+		}
+		const declared = buffer.readBigUInt64BE(offset);
+		offset += 8;
+		if (declared > BigInt(Number.MAX_SAFE_INTEGER)) {
+			throw new Error("websocket_payload_exceeds_numeric_range");
+		}
+		payloadLength = Number(declared);
+	}
 
-    payloadLen = Number(big);
-  }
+	const maximumPayloadBytes = Number(
+		options.maximumPayloadBytes ?? Limits.maximumPayloadBytes()
+	);
+	if (payloadLength > maximumPayloadBytes) {
+		throw new Error(
+			`websocket_payload_exceeds_limit:${payloadLength}:${maximumPayloadBytes}`
+		);
+	}
 
-  let mask = null;
+	let mask = null;
+	if (masked) {
+		if (buffer.length < offset + 4) {
+			return null;
+		}
+		mask = buffer.subarray(offset, offset + 4);
+		offset += 4;
+	}
+	if (buffer.length < offset + payloadLength) {
+		return null;
+	}
 
-  if (masked) {
-    if (buffer.length < offset + 4) return null;
-    mask = buffer.slice(offset, offset + 4);
-    offset += 4;
-  }
+	const payload = Buffer.from(
+		buffer.subarray(offset, offset + payloadLength)
+	);
+	if (masked && mask) {
+		for (let index = 0; index < payload.length; index += 1) {
+			payload[index] ^= mask[index % 4];
+		}
+	}
 
-  if (buffer.length < offset + payloadLen) return null;
-
-  const payload = Buffer.from(buffer.slice(offset, offset + payloadLen));
-
-  if (masked && mask) {
-    for (let i = 0; i < payload.length; i++) {
-      payload[i] ^= mask[i % 4];
-    }
-  }
-
-  return {
-    consumed: offset + payloadLen,
-    frame: { fin, opcode, masked, payload }
-  };
+	return {
+		consumed: offset + payloadLength,
+		frame: {
+			fin,
+			opcode,
+			masked,
+			payload
+		}
+	};
 }
 
-module.exports = { readFrame };
+module.exports = {
+	readFrame
+};

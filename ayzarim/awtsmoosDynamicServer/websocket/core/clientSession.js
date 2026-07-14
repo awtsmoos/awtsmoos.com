@@ -1,9 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+const crypto = require("node:crypto");
 const { readFrame } = require("./frameReader.js");
 const { sendFrame } = require("./frameWriter.js");
+const Limits = require("./frameLimits.js");
 const Live = require("./clientLiveness.js");
 const { dispatchClientFrame } = require("./frameDispatch.js");
 const { collectTextMessage } = require("./textFragments.js");
@@ -11,23 +13,24 @@ const { collectTextMessage } = require("./textFragments.js");
 /**
  * B"H
  *
- * A client session is a bounded vessel for raw bytes. The Awtsmoos recreates
- * listener, buffer, and frame each instant; Awtsmoos.com extracts complete
- * frames here while dispatch and fragment meaning remain in focused modules.
+ * A session is a bounded vessel whose ceiling agrees with the native tunnel.
+ * The Awtsmoos renews chunk and frame; Awtsmoos.com rejects declared excess
+ * before concatenation while preserving established eight-megabyte responses.
  */
 
-const MAXIMUM_BUFFER_BYTES = 2 * 1024 * 1024;
+const MAXIMUM_BUFFER_BYTES = Limits.maximumBufferBytes();
+const MAXIMUM_PAYLOAD_BYTES = Limits.maximumPayloadBytes();
 
-/** Creates one legacy-compatible socket client record. */
 function createSocketClient(socket) {
 	const client = {
-		id: `${Date.now()}_${Math.random().toString(36).slice(2)}`,
+		id: `${Date.now()}_${crypto.randomBytes(8).toString("hex")}`,
 		socket,
 		aliasId: null,
 		isAlive: true,
 		buffer: Buffer.alloc(0),
 		fragments: [],
 		fragmentOpcode: null,
+		lastTransportError: "",
 		send(message) {
 			const payload = typeof message === "string"
 				? message
@@ -35,62 +38,75 @@ function createSocketClient(socket) {
 			sendFrame(socket, payload);
 		}
 	};
-
 	Live.markSeen(client);
 	return client;
 }
 
-/** Attaches raw socket listeners and optional upgrade head bytes. */
 function attachSocketClient(server, client, head) {
 	if (head?.length) {
 		processClientBuffer(server, client, head);
 	}
-
 	client.socket.on("data", chunk => {
 		processClientBuffer(server, client, chunk);
 	});
 	client.socket.on("close", () => {
 		server.removeClient(client);
 	});
-	client.socket.on("error", () => {
+	client.socket.on("error", error => {
+		client.lastTransportError = `socket_error:${error.message}`;
 		server.removeClient(client);
 	});
 }
 
-/** Reads every complete frame while preserving any incomplete remainder. */
 function processClientBuffer(server, client, chunk) {
 	Live.markSeen(client);
+	const currentLength = client.buffer?.length || 0;
+	if (currentLength + chunk.length > MAXIMUM_BUFFER_BYTES) {
+		closeForTransportError(
+			client,
+			`websocket_buffer_exceeds_limit:${currentLength + chunk.length}:${MAXIMUM_BUFFER_BYTES}`
+		);
+		return;
+	}
 	client.buffer = Buffer.concat([
 		client.buffer || Buffer.alloc(0),
 		chunk
 	]);
 
-	if (client.buffer.length > MAXIMUM_BUFFER_BYTES) {
-		client.socket.end();
-		return;
-	}
-
 	while (client.buffer.length) {
 		let parsed;
 		try {
-			parsed = readFrame(client.buffer);
+			parsed = readFrame(client.buffer, {
+				maximumPayloadBytes: MAXIMUM_PAYLOAD_BYTES
+			});
 		} catch (error) {
-			console.log("B\"H WS FRAME ERROR", error.message);
-			client.socket.end();
+			closeForTransportError(client, error.message);
 			return;
 		}
 		if (!parsed) {
 			return;
 		}
-
-		client.buffer = client.buffer.slice(parsed.consumed);
+		client.buffer = client.buffer.subarray(parsed.consumed);
 		dispatchClientFrame(server, client, parsed.frame);
 	}
 }
 
+function closeForTransportError(client, reason) {
+	client.lastTransportError = String(reason || "websocket_transport_error");
+	console.error("B\"H WS TRANSPORT CLOSE", {
+		clientId: client.id,
+		reason: client.lastTransportError
+	});
+	try {
+		client.socket.end();
+	} catch {}
+}
+
 module.exports = {
 	MAXIMUM_BUFFER_BYTES,
+	MAXIMUM_PAYLOAD_BYTES,
 	attachSocketClient,
+	closeForTransportError,
 	collectClientMessage: collectTextMessage,
 	createSocketClient,
 	handleClientFrame: dispatchClientFrame,
