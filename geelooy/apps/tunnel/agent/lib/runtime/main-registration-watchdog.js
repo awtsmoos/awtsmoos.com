@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const { boundedNumber } = require("./runtime-number.js");
+
 const DEFAULT_RETRY_MS = 3000;
 const DEFAULT_MAXIMUM_ATTEMPTS = 6;
 
@@ -9,8 +11,8 @@ const DEFAULT_MAXIMUM_ATTEMPTS = 6;
  * B"H
  *
  * An opened doorway is not yet a registered home. The Awtsmoos renews each
- * acknowledgement attempt; Awtsmoos.com retries the exact living generation
- * and replaces only its socket when silence persists, never the whole process.
+ * acknowledgement attempt; Awtsmoos.com reports terminal silence to the owning
+ * connection runtime, which replaces the socket without terminating the process.
  */
 function startRegistrationWatchdog(options = {}) {
 	const {
@@ -19,7 +21,8 @@ function startRegistrationWatchdog(options = {}) {
 		config,
 		generation,
 		owns,
-		registerReady
+		registerReady,
+		onTimeout
 	} = options;
 	const retryMs = boundedNumber(
 		options.retryMs ?? dependencies.registrationRetryMs,
@@ -41,10 +44,11 @@ function startRegistrationWatchdog(options = {}) {
 
 	function stop() {
 		stopped = true;
-		if (timer) {
-			clearTimer(timer);
-			timer = null;
+		if (!timer) {
+			return;
 		}
+		clearTimer(timer);
+		timer = null;
 	}
 
 	function eligible() {
@@ -90,9 +94,13 @@ function startRegistrationWatchdog(options = {}) {
 		});
 		dependencies.log?.(
 			"warn",
-			`Registration ACK timed out after ${attempts} attempts; reconnecting socket.`
+			`Registration ACK timed out after ${attempts} attempts; replacing socket.`
 		);
 		stop();
+		if (typeof onTimeout === "function") {
+			onTimeout({ attempts, generation, ws });
+			return;
+		}
 		try {
 			ws.close(true);
 		} catch {}
@@ -103,13 +111,6 @@ function startRegistrationWatchdog(options = {}) {
 		attempts: () => attempts,
 		stop
 	};
-}
-
-function boundedNumber(value, minimum, maximum, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number)
-		? Math.max(minimum, Math.min(maximum, Math.floor(number)))
-		: fallback;
 }
 
 module.exports = {

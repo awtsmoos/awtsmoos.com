@@ -1,5 +1,5 @@
 B"H
-1.0.305
+1.0.306
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -104,6 +104,7 @@ lib/runtime/main-config.js
 lib/runtime/main-connection-activity.js
 lib/runtime/main-connection-messages.js
 lib/runtime/main-connection-socket.js
+lib/runtime/main-connection-terminal.js
 lib/runtime/main-connection.js
 lib/runtime/main-dependencies.js
 lib/runtime/main-dispatch.js
@@ -149,6 +150,7 @@ lib/runtime/response-surface-definitions.js
 lib/runtime/response-surface-helpers.js
 lib/runtime/response-surface.js
 lib/runtime/response-v8.js
+lib/runtime/runtime-number.js
 lib/runtime/safe-send.js
 lib/runtime/watchdog.js
 lib/runtime/worker-process-control.js

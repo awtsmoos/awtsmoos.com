@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Activity = require("./main-connection-activity.js");
+const Terminal = require("./main-connection-terminal.js");
 const Registration = require("./main-registration-watchdog.js");
 const ResponseSocket = require("./main-response-socket.js");
 
@@ -10,8 +11,8 @@ const ResponseSocket = require("./main-response-socket.js");
  * B"H
  *
  * One socket generation is a complete vessel. The Awtsmoos renews transport,
- * registration, close, and error; Awtsmoos.com retries acknowledgement locally
- * and releases completed work when the registered doorway returns.
+ * registration, message, and ending; Awtsmoos.com routes every terminal signal
+ * through one idempotent replacement gate that never exits the living process.
  */
 function wireConnectionSocket(options) {
 	const {
@@ -26,12 +27,22 @@ function wireConnectionSocket(options) {
 	let releaseTransportActivity = () => {};
 	let stopRegistrationWatchdog = () => {};
 
-	function releaseConnectionObservers() {
+	function releaseObservers() {
 		releaseTransportActivity();
 		stopRegistrationWatchdog();
 		releaseTransportActivity = () => {};
 		stopRegistrationWatchdog = () => {};
 	}
+
+	const terminal = Terminal.createConnectionTerminator({
+		dependencies,
+		ws,
+		config,
+		generation,
+		owns,
+		releaseObservers,
+		scheduleReconnect
+	});
 
 	ws.on("open", () => {
 		if (!owns(ws, generation)) {
@@ -57,14 +68,19 @@ function wireConnectionSocket(options) {
 			config,
 			generation,
 			owns,
-			registerReady: dependencies.registerReady
+			registerReady: dependencies.registerReady,
+			onTimeout: () => terminal.terminate(
+				"registration_ack_timeout",
+				null,
+				true
+			)
 		});
 		stopRegistrationWatchdog = registration.stop;
 		dependencies.log("info", "B\"H websocket open");
 	});
 
 	ws.on("message", raw => {
-		if (!owns(ws, generation)) {
+		if (!owns(ws, generation) || terminal.isTerminal()) {
 			return;
 		}
 		messages.handle(raw, ws);
@@ -74,44 +90,27 @@ function wireConnectionSocket(options) {
 	});
 
 	ws.on("close", () => {
-		releaseConnectionObservers();
-		if (!owns(ws, generation)) {
-			return;
-		}
-		dependencies.state.activeWs = null;
-		if (dependencies.state.replacementRequested) {
-			return;
-		}
-		dependencies.state.registrationConfirmed = false;
 		const rejected = dependencies.state.registrationRejected === true;
-		dependencies.Receipt?.write(
+		terminal.terminate(
+			rejected
+				? dependencies.state.registrationFailureReason
+				: "socket_closed",
 			rejected ? "registration_rejected" : "closed",
-			{
-				tunnelName: config.tunnelName,
-				generation,
-				reason: rejected
-					? dependencies.state.registrationFailureReason
-					: "socket_closed"
-			}
-		);
-		dependencies.log("warn", "WS closed; reconnecting...");
-		scheduleReconnect(
-			rejected ? "registration_rejected" : "socket_closed"
+			false
 		);
 	});
 
 	ws.on("error", error => {
-		releaseConnectionObservers();
-		if (!owns(ws, generation)) {
-			return;
-		}
-		dependencies.Receipt?.write("error", {
-			tunnelName: config.tunnelName,
-			generation,
-			reason: error.message
-		});
-		dependencies.log("warn", `WS error: ${error.message}`);
+		terminal.terminate(
+			error?.message || "socket_error",
+			"error",
+			true
+		);
 	});
+
+	return {
+		terminate: terminal.terminate
+	};
 }
 
 module.exports = {
