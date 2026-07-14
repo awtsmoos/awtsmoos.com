@@ -18,12 +18,14 @@ import { NLESystem } from './nle/NLESystem.js';
 import { CanvasSizeGuardian } from './rectification/CanvasSizeGuardian.js';
 import { MobileViewportGuardian } from './rectification/MobileViewportGuardian.js';
 import { CartoonStudioPanel } from './studio/CartoonStudioPanel.js';
+import { StudioWorkspaceController } from './studio/StudioWorkspaceController.js';
 import { TooltipManager } from './ui/components/tooltip/TooltipManager.js';
 
 /**
- * Core reality awakens before optional editing palaces. The Awtsmoos renews the
- * app, publishes its living state immediately, starts the canvas heartbeat, and
- * then reveals each extension through an isolated gate so no panel hides another.
+ * Core reality awakens before the editing palace. The Awtsmoos renews the
+ * canvas, timeline, and every optional vessel, while Awtsmoos.com publishes a
+ * single shared NLE truth for the professional studio to extend rather than
+ * imitate.
  */
 async function boot() {
 	MobileViewportGuardian.bind();
@@ -45,14 +47,9 @@ async function boot() {
 }
 
 function prepareStorage(legacy) {
-	if (legacy) {
-		return;
-	}
+	if (legacy) return;
 	localStorage.removeItem('aw_preserve_scene');
-	localStorage.setItem(
-		'aw_real_character_scene',
-		'real-characters-restored-v2'
-	);
+	localStorage.setItem('aw_real_character_scene', 'real-characters-restored-v2');
 }
 
 function installCore(app, legacy) {
@@ -69,7 +66,7 @@ function installCore(app, legacy) {
 	});
 	app.director.play(sequence, 0);
 	AutoPlayCovenant.resume(app);
-	NLESystem.install(app);
+	app.nle = NLESystem.install(app);
 	bindRuach(app);
 }
 
@@ -87,8 +84,12 @@ function bindRuach(app) {
 function installExtensions(app) {
 	safeInstall('characterLab', () => CharacterCustomizerPanel.install(app));
 	safeInstall('cartoonStudio', () => CartoonStudioPanel.install(app));
+	safeInstall('professionalStudio', () => {
+		if (!app.nle?.store) throw new Error('The shared NLE store is unavailable.');
+		new StudioWorkspaceController(app, app.nle).install();
+	});
 	console.log(
-		'B"H - [main] Optional studio extension pass complete.',
+		'B"H - [main] Professional studio extension pass complete.',
 		window.__AWTSMOOS_EXTENSION_STATUS__
 	);
 }
@@ -96,9 +97,7 @@ function installExtensions(app) {
 function safeInstall(name, install) {
 	try {
 		install();
-		window.__AWTSMOOS_EXTENSION_STATUS__[name] = {
-			ok: true
-		};
+		window.__AWTSMOOS_EXTENSION_STATUS__[name] = { ok: true };
 	} catch (error) {
 		window.__AWTSMOOS_EXTENSION_STATUS__[name] = {
 			ok: false,

@@ -1,36 +1,36 @@
-<!-- B"H — Living-library search inside the unified Geelooy shell. -->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The living library reveals stored Torah source text through one stable search vessel.
+-->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Search exact embedded Torah text ranges and their source-comment windows.">
-	<meta name="theme-color" content="#050914">
+	<meta name="description" content="Search indexed Torah text and open its precise source-comment window.">
+	<meta name="theme-color" content="#080c13">
 	<title>Search the Living Library — Geelooy</title>
-	<link rel="stylesheet" href="./styles.css?v=app-001">
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
+	<link rel="stylesheet" href="./styles.css?v=library-fix-002">
 </head>
 <body data-sefarim-search-page>
-	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="search-title">
-		<section class="g-panel g-page-hero">
+	<main class="library-page" aria-labelledby="search-title">
+		<section class="library-hero">
 			<div>
-				<p class="g-kicker">Living library</p>
-				<h1 id="search-title">Find the exact spark.</h1>
-				<p>Search embedded Torah text, then open the precise source-comment window behind every result.</p>
+				<p class="library-kicker">Living library</p>
+				<h1 id="search-title">Find the exact source.</h1>
+				<p>Ask in ordinary language. Geelooy returns readable stored text, its source identity, and any linked comment window.</p>
 			</div>
-			<a class="g-button" href="/heichelos/ikar?view=series">Browse all Sefarim</a>
+			<a class="p-button" href="/heichelos/ikar?view=series" data-icon="📚">Browse Sefarim</a>
 		</section>
-
-		<form id="searchForm" class="g-search-form" role="search" action="/mawgawl/sefarim" method="get">
-			<label><span>What are you looking for?</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the Rebbe say about…?"></label>
-			<label><span>Search lane</span><select id="series" name="lane"><option value="">Best available series</option><option value="likkuteiSichos">Likkutei Sichos</option><option value="seferHaSichos">Sefer HaSichos</option></select></label>
-			<button class="g-button g-button-primary" type="submit">Search sources</button>
+		<form id="searchForm" class="library-search-form" role="search" action="/mawgawl/sefarim" method="get">
+			<label for="query"><span>Question or source phrase</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the Rebbe say about…?"></label>
+			<label for="series"><span>Search lane</span><select id="series" name="lane"><option value="">Best available library</option></select></label>
+			<button class="p-button p-button-primary" type="submit" data-icon="⌕">Search sources</button>
 		</form>
-
-		<p id="status" class="g-search-status" role="status" aria-live="polite">Enter a question to search the indexed library.</p>
-		<section id="results" class="g-search-results" aria-live="polite" aria-label="Search results"></section>
+		<p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
+		<section id="results" class="library-results" aria-live="polite" aria-label="Search results"></section>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>
-	<script type="module" src="./script.js?v=app-001"></script>
+	<script type="module" src="./script.js?v=library-fix-002"></script>
 </body>
 </html>

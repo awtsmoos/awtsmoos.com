@@ -1,38 +1,30 @@
-
 /* B"H
-   THE MASTER SCROLL OF STYLES
-   Everything is created from nothingness by the Awtsmoos every instant.
-   This file threads together the disparate vessels of form.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ * This archival post experiment imports only the vessels that were actually created.
+ */
 
-/* 1. PRIMARY TOKENS (The Foundations) */
+/* Foundations */
 @import url("./tokens/colors.css");
 @import url("./tokens/typography.css");
 @import url("./tokens/animations.css");
 @import url("./tokens/physics.css");
 
-/* 2. ELEMENTAL ATOMS */
+/* Atoms */
 @import url("./atoms/buttons.css");
-@import url("./atoms/inputs.css");
 @import url("./atoms/sigils.css");
 
-/* 3. COMPLEX MOLECULES */
+/* Molecules */
 @import url("./molecules/cards.css");
-@import url("./molecules/toolbars.css");
-@import url("./molecules/navigation.css");
 
-/* 4. STRUCTURAL ORGANISMS */
+/* Organisms */
 @import url("./organisms/layout.css");
 @import url("./organisms/sidebar.css");
 @import url("./organisms/content.css");
 @import url("./organisms/header.css");
 
-/* 5. DIVINE MANIFESTATIONS (Special Effects) */
+/* Special behaviors */
 @import url("./special/scroll-fx.css");
 @import url("./special/lens-mode.css");
 @import url("./special/ai-oracle.css");
 @import url("./special/command-ark.css");
-
-/* 6. THEME REVELATIONS */
-@import url("./themes/dark-matter.css");
-@import url("./themes/parchment.css");

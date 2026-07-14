@@ -1,0 +1,78 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Feedback moves briefly and then becomes still. Awtsmoos.com rewards attention
+	without trapping the processor in spectacle, while the Awtsmoos grants each
+	flash its measured moment and then returns the vessel to quiet.
+*/
+.answerButton {
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.answerButton:hover:not(:disabled) {
+	transform: translateY(-3px);
+	border-color: rgba(241, 199, 109, 0.72);
+}
+
+.answerButton.isCorrect {
+	border-color: #74d7ae;
+	background: #123b32;
+}
+
+.answerButton.isWrong {
+	border-color: #e48576;
+	background: #3b2224;
+}
+
+.answerButton:disabled {
+	cursor: default;
+}
+
+.timeTrack span.isRunning {
+	animation: answerWindow 7s linear forwards;
+}
+
+.flashCorrect {
+	animation: correctPulse 360ms ease;
+}
+
+.flashWrong {
+	animation: wrongNudge 300ms ease;
+}
+
+@keyframes answerWindow {
+	from {
+		transform: scaleX(1);
+	}
+
+	to {
+		transform: scaleX(0);
+	}
+}
+
+@keyframes correctPulse {
+	50% {
+		box-shadow: inset 0 0 0 2px rgba(116, 215, 174, 0.48);
+	}
+}
+
+@keyframes wrongNudge {
+	33% {
+		transform: translateX(-4px);
+	}
+
+	66% {
+		transform: translateX(4px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.answerButton,
+	.timeTrack span,
+	.flashCorrect,
+	.flashWrong {
+		animation: none;
+		transition: none;
+	}
+}

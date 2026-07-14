@@ -1,64 +1,109 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
+
 import System from "./system.js";
 import ResizableWindow from "./windows.js";
-import { programs, defaultPrograms, getDefaultProgram } from "./basicPrograms.js";
-
-export default class WindowHandler {
-  constructor() { this.windows = []; this.taskArea = document.getElementById('task-area'); this.minimizedGroups = new Map(); }
-  getExtension(title) { const i = String(title || '').lastIndexOf('.'); return i > -1 ? title.substring(i).toLowerCase() : '.js'; }
-
-  addWindow(options) {
-    const { title, content, path, os, programName = null, extension = null } = options;
-    const ext = extension || this.getExtension(title || "");
-    const launcher = programName && programs[programName] ? programs[programName].launch : getDefaultProgram(ext);
-    let finalContent = content, programInstance = null;
-    if (launcher) {
-      const system = new System({ path, os });
-      programInstance = launcher({ os:system.os, path, title, fileName:title, content, system, extension:ext });
-      finalContent = programInstance?.div || content;
-    }
-    const wind = new ResizableWindow({
-      title, content:finalContent, handler:this,
-      programId:programName || defaultPrograms[ext] || 'advancedCodeEditor',
-      hideTitleBar:options.hideTitleBar, isFullscreen:options.isFullscreen
-    });
-    wind.programInstance = programInstance;
-    wind.onresize = event => programInstance?.onresize?.(event);
-    applyWindowIdentity(wind, options, this.windows.length);
-    programInstance?.init?.();
-    this.windows.push(wind);
-    return wind;
-  }
-
-  onminimize(window) { const id = window.programId; if (!this.minimizedGroups.has(id)) this.createMinimizedGroup(id, window); else this.addToMinimizedGroup(id, window); }
-  createMinimizedGroup(id, window) { const taskItem = document.createElement('div'); taskItem.className = 'task-item'; taskItem.textContent = window.title.replace('.folder', ''); const group = { element:taskItem, windows:[window] }; taskItem.onclick = e => this.handleTaskClick(e, id); this.minimizedGroups.set(id, group); this.taskArea?.appendChild(taskItem); }
-  addToMinimizedGroup(id, window) { const group = this.minimizedGroups.get(id); if (!group.windows.includes(window)) group.windows.push(window); group.element.classList.add('stacked'); group.element.dataset.count = group.windows.length; }
-  onrestore(window) { const group = this.minimizedGroups.get(window.programId); if (!group) return; group.windows = group.windows.filter(w => w !== window); if (!group.windows.length) { group.element.remove(); this.minimizedGroups.delete(window.programId); } else group.element.dataset.count = group.windows.length; }
-  onactive(w) { this.windows.forEach(wn => { if (w !== wn) wn?.makeInactive?.(); }); }
-  onclose(w) { this.onrestore(w); const i = this.windows.indexOf(w); if (i > -1) this.windows.splice(i, 1); }
-  handleTaskClick(event, programId) { event.stopPropagation(); const group = this.minimizedGroups.get(programId); if (!group) return; document.querySelector('.task-group-popup')?.remove(); if (group.windows.length === 1) return group.windows[0].restore(); this.showTaskPopup(group); }
-  showTaskPopup(group) { const popup = document.createElement('div'); popup.className = 'task-group-popup'; group.windows.forEach(win => { const item = document.createElement('div'); item.className = 'task-group-popup-item'; item.textContent = win.title; item.onclick = () => { win.restore(); popup.remove(); }; popup.appendChild(item); }); document.body.appendChild(popup); }
-}
-
-function applyWindowIdentity(windowRecord, options = {}, index = 0) {
-  const id = windowRecord.id || windowRecord.ID || `win-${Date.now()}-${index}`;
-  windowRecord.id = id;
-  windowRecord.processId = options.processId || windowRecord.processId || '';
-  const element = windowRecord.win;
-  if (!element) return;
-  element.classList?.add('window');
-  element.setAttribute?.('data-id', id);
-  element.setAttribute?.('data-window-id', id);
-  if (element.dataset) {
-    element.dataset.id = id;
-    element.dataset.windowId = id;
-    if (windowRecord.processId) element.dataset.processId = windowRecord.processId;
-  }
-  if (windowRecord.processId) element.setAttribute?.('data-process-id', windowRecord.processId);
-}
+import { defaultPrograms, getDefaultProgram, programs } from "./basicPrograms.js";
+import { applyWindowIdentity } from "./windowIdentity.js";
+import { WindowTaskGroups } from "./windowTaskGroups.js";
 
 /**
- * B"H
- * The handler stamps every surface with stable object identity: window id,
- * process id, and the `.window` contract the tunnel can safely mirror.
+ * Launches program vessels and binds every visible surface to its supervised PID.
+ * The Awtsmoos creates program, window, and process identity anew; Awtsmoos.com
+ * passes that identity into launchers so runtime telemetry reaches Task Manager.
  */
+export default class WindowHandler {
+	constructor() {
+		this.windows = [];
+		this.taskArea = document.getElementById("task-area");
+		this.taskGroups = new WindowTaskGroups(this.taskArea);
+		this.minimizedGroups = this.taskGroups.groups;
+	}
+
+	getExtension(title) {
+		const value = String(title || "");
+		const index = value.lastIndexOf(".");
+		return index > -1 ? value.substring(index).toLowerCase() : ".js";
+	}
+
+	addWindow(options = {}) {
+		const extension = options.extension || this.getExtension(options.title || "");
+		const launcher = this.launcher(options.programName, extension);
+		const system = new System({ path: options.path, os: options.os });
+		const programInstance = launcher?.({
+			content: options.content,
+			extension,
+			fileName: options.title,
+			os: system.os,
+			path: options.path,
+			processId: options.processId || null,
+			system,
+			title: options.title
+		});
+		const windowRecord = new ResizableWindow({
+			content: programInstance?.div || options.content,
+			handler: this,
+			hideTitleBar: options.hideTitleBar,
+			isFullscreen: options.isFullscreen,
+			programId: options.programName || defaultPrograms[extension] || "advancedCodeEditor",
+			title: options.title
+		});
+		windowRecord.programInstance = programInstance;
+		windowRecord.onresize = event => programInstance?.onresize?.(event);
+		applyWindowIdentity(windowRecord, options, this.windows.length);
+		programInstance?.init?.();
+		this.windows.push(windowRecord);
+		return windowRecord;
+	}
+
+	launcher(programName, extension) {
+		if (programName && programs[programName]) {
+			return programs[programName].launch;
+		}
+		return getDefaultProgram(extension);
+	}
+
+	onminimize(windowRecord) {
+		this.taskGroups.minimize(windowRecord);
+	}
+
+	onrestore(windowRecord) {
+		this.taskGroups.restore(windowRecord);
+	}
+
+	onactive(windowRecord) {
+		for (const candidate of this.windows) {
+			if (candidate !== windowRecord) {
+				candidate?.makeInactive?.();
+			}
+		}
+	}
+
+	onclose(windowRecord) {
+		this.onrestore(windowRecord);
+		const index = this.windows.indexOf(windowRecord);
+		if (index > -1) {
+			this.windows.splice(index, 1);
+		}
+	}
+
+	handleTaskClick(event, programId) {
+		this.taskGroups.open(event, programId);
+	}
+
+	createMinimizedGroup(programId, windowRecord) {
+		this.taskGroups.create(programId, windowRecord);
+	}
+
+	addToMinimizedGroup(programId, windowRecord) {
+		const group = this.minimizedGroups.get(programId);
+		if (group) {
+			this.taskGroups.add(group, windowRecord);
+		}
+	}
+
+	showTaskPopup(group) {
+		this.taskGroups.showPopup(group);
+	}
+}

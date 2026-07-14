@@ -1,0 +1,95 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The inner board holds one question and three choices without visual excess.
+	Awtsmoos.com makes response immediate, while the Awtsmoos gives the decision
+	its seriousness beyond every finite button and score.
+*/
+.gameBoard {
+	position: relative;
+	min-height: 390px;
+	padding: clamp(1.25rem, 4vw, 3rem);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 1.6rem;
+	background: #091b25;
+	overflow: hidden;
+}
+
+.timeTrack {
+	position: absolute;
+	inset: 0 0 auto;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.timeTrack span {
+	display: block;
+	height: 100%;
+	background: var(--gold);
+	transform-origin: left;
+}
+
+.gamePrompt {
+	max-width: 900px;
+	margin: 1rem auto 2rem;
+	font-family: var(--serif);
+	font-size: clamp(1.55rem, 3.5vw, 2.7rem);
+	line-height: 1.18;
+	text-align: center;
+}
+
+.answerGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.75rem;
+}
+
+.answerButton {
+	display: grid;
+	grid-template-columns: 2rem 1fr;
+	align-items: center;
+	gap: 0.7rem;
+	min-height: 5.5rem;
+	padding: 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	color: var(--ink);
+	text-align: left;
+	background: #102c38;
+	cursor: pointer;
+}
+
+.answerButton span {
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	color: #102018;
+	font-weight: 900;
+	background: var(--gold);
+}
+
+.gameFeedback {
+	min-height: 1.8rem;
+	margin: 1.2rem 0 0;
+	color: var(--muted);
+	font-weight: 700;
+	text-align: center;
+}
+
+.isSummary {
+	display: grid;
+	align-content: center;
+}
+
+@media (max-width: 760px) {
+	.gameBoard {
+		min-height: 500px;
+	}
+
+	.answerGrid {
+		grid-template-columns: 1fr;
+	}
+}

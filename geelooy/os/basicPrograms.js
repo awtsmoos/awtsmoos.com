@@ -10,6 +10,7 @@ import awtsmoosCompiler from "./programs/awtsmoos-compiler/index.js";
 import awtsmoosDiagnostics from "./programs/awtsmoos-diagnostics/index.js";
 import awtsmoosExecutable from "./programs/awtsmoos-executable/index.js";
 import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
+import awtsmoosTaskManager from "./programs/awtsmoos-task-manager/index.js";
 import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
 import openWithSelector from "./programs/open-with-selector/index.js";
 import workspacePreview from "./programs/workspace-preview/index.js";
@@ -17,7 +18,7 @@ import workspacePreview from "./programs/workspace-preview/index.js";
 /**
  * The registry is the crown where extensions meet their appointed vessels. The
  * Awtsmoos creates each file and fitting service anew; Awtsmoos.com keeps browser,
- * preview, editing, compiling, and execution distinct yet available together.
+ * supervision, editing, compiling, preview, and execution available together.
  */
 export const programs = Object.freeze({
 	advancedCodeEditor: program("Advanced Code Editor", advancedCodeEditor),
@@ -28,6 +29,7 @@ export const programs = Object.freeze({
 	awtsmoosDiagnostics: program("Developer Diagnostics", awtsmoosDiagnostics),
 	awtsmoosExecutable: program("Executable Host", awtsmoosExecutable),
 	awtsmoosFileExplorer: program("File Explorer", awtsmoosFileExplorer),
+	awtsmoosTaskManager: program("Task Manager", awtsmoosTaskManager),
 	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
 	openWithSelector: program("Open With…", openWithSelector),
 	workspacePreview: program("Workspace Preview", workspacePreview)
@@ -106,8 +108,8 @@ function programIcon(name) {
 		awtsmoosBrowser: "🌎", awtsmoosCommand: "⌨️",
 		awtsmoosCompiler: "🧬", awtsmoosDiagnostics: "🩺",
 		awtsmoosExecutable: "⚙️", awtsmoosFileExplorer: "🗂️",
-		awtsmoosTextEdit: "📝", openWithSelector: "🚪",
-		workspacePreview: "🌐"
+		awtsmoosTaskManager: "📊", awtsmoosTextEdit: "📝",
+		openWithSelector: "🚪", workspacePreview: "🌐"
 	};
 	return icons[name] || "✨";
 }

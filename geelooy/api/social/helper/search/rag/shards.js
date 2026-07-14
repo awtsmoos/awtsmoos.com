@@ -1,60 +1,70 @@
 // B"H
-const fs = require('fs');
-const path = require('path');
-const AwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
-const { ragRoot, existingJson, stat } = require('./paths.js');
+// Boruch Hashem
+// Blessed is He
 
-function slug(name) {
-	return path.basename(name, '.awtsdb').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
-}
-function label(value) {
-	return value.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
-}
-function aliases(id) {
-	const values = [id];
-	if (id.includes('meluket')) values.push('meluket', 'maamar-meluket');
-	if (id.includes('hasichos')) values.push('sefer-hasichos', 'dvar-hasichos', 'dr-hasichos');
-	if (id.includes('likkutei')) values.push('likkutei-sichos', 'likutei-sichos', 'ls');
-	if (id.includes('sichos-kodesh')) values.push('sichos-kodesh', 'sichos-kodesh-english', 'sk');
-	return [...new Set(values)];
-}
+/**
+ * @module RagShardDiscovery
+ * @description
+ * Public discovery reads manifests only. A database opens only after one exact lane
+ * is selected, so listing cannot awaken the whole library.
+ */
+
+const { catalog } = require('./shardCatalog.js');
+const { openShardSession } = require('./shardStore.js');
+
 function rowsOf(list) {
 	const plain = list?.__resolve__?.();
-	return Array.isArray(plain) ? plain : Array.from({ length: Number(list?.length || 0) }, (_, index) => list[index]);
+	return Array.isArray(plain)
+		? plain
+		: Array.from(
+			{ length: Number(list?.length || 0) },
+			(_, index) => list[index]
+		);
 }
-async function inspectShard(file) {
-	const db = new AwtsmoosDB(file, { debug: false, wal: false, readOnly: true, processLockMode: 'shared', lockMode: 'shared' });
-	await db.open();
-	try {
-		const names = Object.keys(db.root).filter(key => !key.startsWith('__'));
-		const listName = names.find(key => db.root[key] && typeof db.root[key].length === 'number');
-		const row = listName ? db.root[listName][0] : null;
-		return { listName, count: listName ? Number(db.root[listName].length || 0) : 0, sampleKeys: row ? Object.keys(row) : [] };
-	} finally {
-		await db.close?.();
-	}
-}
+
 async function availableShards({ $i }) {
-	const root = ragRoot($i);
-	const files = fs.existsSync(root) ? fs.readdirSync(root) : [];
-	const shards = files.filter(file => file.endsWith('.awtsdb') && !file.includes('smoke')).map(file => path.join(root, file));
-	const output = [];
-	for (const file of shards) {
-		try {
-			const id = slug(file);
-			const manifest = existingJson(file.replace(/\.awtsdb$/, '.fast-manifest.json')) || existingJson(file.replace(/\.awtsdb$/, '.BENTO.summary.json'));
-			const info = await inspectShard(file);
-			if (!info.listName) continue;
-			output.push({ id, aliases: aliases(id), title: manifest?.title || label(id), file, ...info, bytes: stat(file)?.size || 0 });
-		} catch (error) {
-			output.push({ id: slug(file), file, error: error.message });
-		}
-	}
-	return output.sort((left, right) => (right.count || 0) - (left.count || 0));
+	return catalog($i);
 }
+
 async function resolveShard({ $i, lane }) {
-	const all = await availableShards({ $i });
-	const id = String(lane || '').toLowerCase();
-	return all.find(shard => shard.id === id || shard.aliases?.includes(id) || shard.id.includes(id)) || all[0] || null;
+	const shards = catalog($i);
+	const requested = String(lane || '').trim().toLowerCase();
+	const selected = requested
+		? shards.find(shard => matches(shard, requested))
+		: defaultShard(shards);
+	if (!selected) return null;
+	if (selected.listName) return selected;
+	return inspectSelected(selected);
 }
-module.exports = { rowsOf, availableShards, resolveShard };
+
+function defaultShard(shards) {
+	return [...shards].sort((left, right) => {
+		const textDifference = Number(Boolean(right.textFile))
+			- Number(Boolean(left.textFile));
+		return textDifference || right.count - left.count;
+	})[0] || null;
+}
+
+function matches(shard, requested) {
+	return shard.id === requested
+		|| shard.aliases.includes(requested)
+		|| shard.id.includes(requested);
+}
+
+function inspectSelected(shard) {
+	const session = openShardSession(shard);
+	const sample = session.list.length ? session.list[0] : null;
+	return {
+		...shard,
+		listName: session.listName,
+		count: Number(session.list.length || 0),
+		sampleKeys: sample ? Object.keys(sample) : [],
+		vectorEnabled: session.status.usable
+	};
+}
+
+module.exports = {
+	availableShards,
+	resolveShard,
+	rowsOf
+};

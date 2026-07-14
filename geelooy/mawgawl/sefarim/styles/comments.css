@@ -1,0 +1,71 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Source comments open as readable rows without sticky blur or black-on-black text.
+ */
+.commentMenu {
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, .11);
+	border-radius: var(--radius-m);
+	background: #0c121c;
+}
+.commentMenu summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-height: 46px;
+	padding: .75rem .85rem;
+	background: #17202d;
+	color: #eef2f8;
+	font-weight: 800;
+	cursor: pointer;
+}
+.commentMenu summary::marker {
+	color: #7ed7e5;
+}
+.commentMenu .closeLabel {
+	display: none;
+	color: #9ce6f1;
+}
+.commentMenu[open] .openLabel {
+	display: none;
+}
+.commentMenu[open] .closeLabel {
+	display: inline;
+}
+.commentList {
+	display: grid;
+	gap: 1px;
+	background: rgba(255, 255, 255, .07);
+}
+.rangeComment {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: .7rem;
+	align-items: start;
+	padding: .8rem;
+	background: #0f1621;
+	color: #e9eef6;
+	text-decoration: none;
+}
+.rangeComment:is(:hover, :focus-visible) {
+	background: #182230;
+}
+.commentCoord {
+	color: #8ed9e6;
+	font-weight: 850;
+	white-space: nowrap;
+}
+.commentText {
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+.commentArrow {
+	color: #8ed9e6;
+}
+.rangePreview :where(sup, sub),
+.commentText :where(sup, sub) {
+	color: #9ce6f1;
+	font-size: .7em;
+}

@@ -1,4 +1,9 @@
-/* B"H - Awtsmoos Park Engine style gateway. Every imported vessel is live. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Every imported stylesheet is a vessel. The Awtsmoos renews their order, and
+ * Awtsmoos.com reveals the complete editor only when the cascade remains clear.
+ */
 @import './styles/base/tokens.css';
 @import './styles/base/reset.css';
 @import './styles/layout/shell.css';
@@ -15,4 +20,8 @@
 @import './styles/components/perf.css';
 @import './styles/components/revelation-modal.css';
 @import './styles/components/workspace.css';
+@import './styles/components/studio-workspace.css';
+@import './styles/components/studio-panels.css';
+@import './styles/components/studio-nle.css';
 @import './styles/mobile/responsive.css';
+@import './styles/mobile/studio-mobile.css';

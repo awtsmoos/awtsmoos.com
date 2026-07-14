@@ -43,8 +43,8 @@ const packet = codeBrowserRegistrationPacket({
 assert.equal(packet.capabilities.multiAgentSessions, true);
 assert.equal(packet.capabilities.customBrowser, true);
 assert.equal(packet.capabilities.chrome, true);
-assert.equal(packet.capabilities.commandMode, "browser-simulated");
-assert.deepEqual(packet.tools.chrome, ["chromeNavigate", "chromeClick"]);
+assert.equal(packet.command.mode, "merkava-virtual-or-remote");
+assert.deepEqual(packet.tools.chromeActions, ["chromeNavigate", "chromeClick"]);
 
 console.log(JSON.stringify({
 	ok: true,

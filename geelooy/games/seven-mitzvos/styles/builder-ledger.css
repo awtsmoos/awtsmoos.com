@@ -1,0 +1,58 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The mitzvah ledger refuses to hide the Seven Mitzvos behind game symbols.
+	Awtsmoos.com states every law and meaning plainly while the Awtsmoos unites
+	all seven as one architecture of human responsibility.
+*/
+#foundationLedger {
+	display: grid;
+	gap: 0.45rem;
+	max-height: 640px;
+	overflow: auto;
+	padding-right: 0.2rem;
+}
+
+.foundationLine {
+	display: grid;
+	grid-template-columns: 2rem 1fr auto;
+	gap: 0.55rem;
+	align-items: start;
+	padding: 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	background: #0b242d;
+}
+
+.foundationLine.isEstablished {
+	border-color: hsl(var(--foundation-hue) 65% 68% / 0.7);
+	background: hsl(var(--foundation-hue) 32% 20% / 0.85);
+}
+
+.foundationIcon {
+	font-size: 1.35rem;
+}
+
+.foundationLine strong {
+	display: block;
+	font-size: 0.77rem;
+	line-height: 1.25;
+}
+
+.foundationLine p,
+.foundationLine small {
+	margin: 0.18rem 0 0;
+	color: var(--muted);
+	font-size: 0.68rem;
+	line-height: 1.3;
+}
+
+.foundationLine small {
+	color: #efd597;
+}
+
+.foundationLine b {
+	white-space: nowrap;
+	font-size: 0.68rem;
+}

@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The building palette keeps cost and purpose clear on Awtsmoos.com. The
+	Awtsmoos gives every resource its proper boundary, so each structure shows
+	what it costs, what tier reveals it, and which duty it helps protect.
+*/
+#builderPalette {
+	display: grid;
+	gap: 0.45rem;
+	max-height: 640px;
+	overflow: auto;
+	padding-right: 0.2rem;
+}
+
+.buildChoice {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.2rem 1fr auto;
+	align-items: center;
+	gap: 0.55rem;
+	width: 100%;
+	padding: 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	color: var(--ink);
+	text-align: left;
+	background: #0d2a34;
+	cursor: pointer;
+}
+
+.buildChoice.isSelected {
+	border-color: var(--gold);
+	background: #193942;
+}
+
+.buildChoice.isLocked {
+	opacity: 0.48;
+}
+
+.buildChoice.cannotAfford:not(.isLocked) {
+	border-color: rgba(222, 128, 105, 0.34);
+}
+
+.buildIcon {
+	font-size: 1.45rem;
+}
+
+.buildCopy {
+	display: grid;
+	min-width: 0;
+}
+
+.buildCopy strong,
+.buildCopy small,
+.buildCopy em {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.buildCopy small {
+	color: #f0d79b;
+	font-size: 0.67rem;
+	white-space: normal;
+}
+
+.buildCopy em {
+	color: var(--muted);
+	font-size: 0.65rem;
+	font-style: normal;
+}
+
+.tierBadge {
+	font-size: 0.62rem;
+	font-weight: 900;
+}

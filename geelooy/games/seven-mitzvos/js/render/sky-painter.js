@@ -5,33 +5,21 @@
 /**
  * @module SkyPainter
  * @description
- * Gradients and clouds disclose a changing atmosphere on Awtsmoos.com. Their
- * motion is a parable: the Awtsmoos remains the source while every color is
- * granted a fresh instant in which to shine.
+ * One carefully painted atmosphere replaces thousands of repeated operations.
+ * Awtsmoos.com keeps its horizon, while the Awtsmoos reminds us that beauty
+ * can be revealed through order rather than computational excess.
  */
 export class RakiaSkyPainter {
-	/**
-	 * Paints atmosphere, sun, and drifting cloud banks.
-	 *
-	 * @param {CanvasRenderingContext2D} context Drawing context.
-	 * @param {Object} frame Current render measurements.
-	 * @returns {void}
-	 */
+	/** @param {CanvasRenderingContext2D} context @param {Object} frame */
 	paint(context, frame) {
 		this.paintGradient(context, frame);
 		this.paintSun(context, frame);
-		this.paintCloudBank(context, frame, 0.18, 0.22, 0.82);
-		this.paintCloudBank(context, frame, 0.42, 0.31, 0.46);
-		this.paintCloudBank(context, frame, 0.68, 0.16, 0.24);
+		this.paintCloudBank(context, frame, 0.22, 0.82);
+		this.paintCloudBank(context, frame, 0.31, 0.46);
+		this.paintCloudBank(context, frame, 0.16, 0.24);
 	}
 
-	/**
-	 * Fills the entire viewport with dawn-to-water color.
-	 *
-	 * @param {CanvasRenderingContext2D} context Drawing context.
-	 * @param {Object} frame Current render measurements.
-	 * @returns {void}
-	 */
+	/** @param {CanvasRenderingContext2D} context @param {Object} frame */
 	paintGradient(context, frame) {
 		const gradient = context.createLinearGradient(0, 0, 0, frame.height);
 		gradient.addColorStop(0, '#07182d');
@@ -42,16 +30,10 @@ export class RakiaSkyPainter {
 		context.fillRect(0, 0, frame.width, frame.height);
 	}
 
-	/**
-	 * Gives the horizon a diffused golden source rather than a flat disc.
-	 *
-	 * @param {CanvasRenderingContext2D} context Drawing context.
-	 * @param {Object} frame Current render measurements.
-	 * @returns {void}
-	 */
+	/** @param {CanvasRenderingContext2D} context @param {Object} frame */
 	paintSun(context, frame) {
-		const x = frame.width * (0.72 + frame.pointer.x * 0.012);
-		const y = frame.height * (0.19 + frame.pointer.y * 0.008);
+		const x = frame.width * 0.72;
+		const y = frame.height * 0.19;
 		const radius = Math.max(120, frame.width * 0.13);
 		const glow = context.createRadialGradient(x, y, 2, x, y, radius);
 		glow.addColorStop(0, 'rgba(255, 244, 201, 0.96)');
@@ -62,32 +44,24 @@ export class RakiaSkyPainter {
 	}
 
 	/**
-	 * Paints one soft cloud group with time-based horizontal drift.
+	 * Paints one translucent cloud bank without an expensive canvas blur.
 	 *
-	 * @param {CanvasRenderingContext2D} context Drawing context.
-	 * @param {Object} frame Current render measurements.
-	 * @param {number} speed Drift multiplier.
+	 * @param {CanvasRenderingContext2D} context
+	 * @param {Object} frame
 	 * @param {number} height Vertical ratio.
-	 * @param {number} phase Starting phase.
-	 * @returns {void}
+	 * @param {number} phase Horizontal ratio.
 	 */
-	paintCloudBank(context, frame, speed, height, phase) {
-		const drift = frame.reducedMotion ? 0 : frame.time * speed * 18;
-		const span = frame.width + 420;
-		const center = ((frame.width * phase + drift) % span) - 210;
-		context.save();
-		context.filter = 'blur(18px)';
-		context.fillStyle = 'rgba(235, 238, 225, 0.12)';
+	paintCloudBank(context, frame, height, phase) {
+		const center = frame.width * phase;
+		context.fillStyle = 'rgba(235, 238, 225, 0.1)';
 
 		for (let index = -1; index < 3; index += 1) {
-			const x = center + index * 310 + frame.pointer.x * 14;
+			const x = center + index * 310;
 			const y = frame.height * height;
 			context.beginPath();
 			context.ellipse(x, y, 150, 34, 0, 0, Math.PI * 2);
 			context.ellipse(x + 82, y - 18, 105, 43, 0, 0, Math.PI * 2);
 			context.fill();
 		}
-
-		context.restore();
 	}
 }

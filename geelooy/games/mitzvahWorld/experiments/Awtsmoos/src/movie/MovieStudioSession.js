@@ -4,24 +4,29 @@
 
 /**
  * @file MovieStudioSession.js
- * @description Owns project compilation, timeline edits, transform edits, preview, and render.
+ * @description Owns project compilation, timeline edits, transform edits, and preview state.
  * The Awtsmoos renews every cut beyond editor state; Awtsmoos.com recompiles one source
  * document so JSON, timeline, transform inspector, preview, and final capture cannot drift.
  */
 
 import { MovieDirector } from './MovieDirector.js';
 import {
-	encodeMovieProject,
 	normalizeMovieProject,
 	validateMovieProject
 } from './MovieProject.js';
 import { MovieRecorder } from './MovieRecorder.js';
+import {
+	copyMovieStudioUrl,
+	publishMovieStudioSession,
+	renderMovieStudioSession
+} from './MovieStudioSessionActions.js';
 import { MovieTimelineView } from './MovieTimelineView.js';
 import { MovieTransformInspector } from './MovieTransformInspector.js';
 
 export class MovieStudioSession {
-	constructor(runtime, view, source) {
+	constructor(runtime, diagnostics, view, source) {
 		this.runtime = runtime;
+		this.diagnostics = diagnostics;
 		this.view = view;
 		this.time = 0;
 		this.inspector = new MovieTransformInspector(
@@ -51,7 +56,7 @@ export class MovieStudioSession {
 			}
 		);
 		this.seek(Math.min(previousTime, this.project.duration));
-		this.publish();
+		publishMovieStudioSession(this);
 		return this.project;
 	}
 
@@ -63,10 +68,15 @@ export class MovieStudioSession {
 	}
 
 	seek(time) {
-		this.time = Math.max(0, Math.min(this.project.duration, Number(time) || 0));
+		this.time = Math.max(
+			0,
+			Math.min(this.project.duration, Number(time) || 0)
+		);
 		const frame = this.director.seek(this.time);
 		this.timeline?.setTime(frame.time);
-		this.view.status.textContent = `${frame.time.toFixed(2)} / ${this.project.duration.toFixed(2)}s · ${frame.shot}`;
+		this.view.status.textContent = `${frame.time.toFixed(2)} / ${
+			this.project.duration.toFixed(2)
+		}s · ${frame.shot}`;
 		return frame;
 	}
 
@@ -78,68 +88,24 @@ export class MovieStudioSession {
 			onFrame: frame => {
 				this.time = frame.time;
 				this.timeline.setTime(frame.time);
-				this.view.status.textContent = `Preview ${frame.time.toFixed(2)} / ${this.project.duration.toFixed(2)}s`;
+				this.view.status.textContent = `Preview ${
+					frame.time.toFixed(2)
+				} / ${this.project.duration.toFixed(2)}s`;
 			}
 		});
 	}
 
-	async render() {
-		this.view.render.disabled = true;
-		this.view.status.textContent = 'Arming browser-native movie capture…';
-		try {
-			const result = await this.recorder.render({
-				download: true,
-				onProgress: progress => this.onRenderProgress(progress)
-			});
-			this.view.status.textContent = `Downloaded ${result.fileName} · ${(result.bytes / 1048576).toFixed(2)} MiB`;
-			window.AwtsmoosMovieRenderComplete = result;
-			return result;
-		} catch (error) {
-			this.view.status.textContent = `Render failed: ${error.message}`;
-			window.AwtsmoosMovieRenderError = error?.stack || String(error);
-			throw error;
-		} finally {
-			this.view.render.disabled = false;
-		}
-	}
-
-	onRenderProgress({ time, percent }) {
-		this.time = time;
-		this.timeline.setTime(time);
-		this.view.status.textContent = `Rendering ${percent.toFixed(1)}% · ${time.toFixed(2)}s`;
+	render() {
+		return renderMovieStudioSession(this);
 	}
 
 	copyUrl() {
-		const url = new URL(location.href);
-		url.search = '';
-		url.searchParams.set('mode', 'movie');
-		url.searchParams.set('movie', encodeMovieProject(this.project));
-		navigator.clipboard?.writeText(url.href);
-		this.view.status.textContent = `GET URL ready · ${url.href.length} characters`;
-		return url.href;
-	}
-
-	publish() {
-		window.AwtsmoosMovie = {
-			applyJson: text => this.installProject(JSON.parse(text)),
-			copyUrl: () => this.copyUrl(),
-			diagnostics: this.runtime.diagnostics,
-			director: this.director,
-			play: () => this.play(),
-			project: this.project,
-			ready: true,
-			recorder: this.recorder,
-			render: () => this.render(),
-			runtime: this.runtime,
-			seek: time => this.seek(time),
-			view: this.view
-		};
+		return copyMovieStudioUrl(this);
 	}
 }
 
 function validProject(source) {
 	const project = normalizeMovieProject(source);
-	const validation = validateMovieProject(project);
-	if (!validation.ok) throw new Error(validation.issues.join('\n'));
+	validateMovieProject(project);
 	return project;
 }

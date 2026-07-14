@@ -1,0 +1,96 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The city shell holds economy, map, and commandments in one strategy frame.
+	Awtsmoos.com keeps every system visible while the Awtsmoos unites material
+	growth with the moral purpose that alone makes a society worth defending.
+*/
+.builderSection {
+	margin-block: 3rem 8rem;
+	padding: clamp(1.1rem, 3vw, 2.4rem);
+	background: linear-gradient(145deg, #081d25, #061219);
+}
+
+.builderHeader {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 2rem;
+	margin-bottom: 1rem;
+}
+
+.builderHeader h2 {
+	margin-bottom: 0.35rem;
+}
+
+.builderHeader > p {
+	max-width: 610px;
+	margin-bottom: 0.5rem;
+	color: var(--muted);
+}
+
+.builderMain {
+	display: grid;
+	grid-template-columns: minmax(190px, 0.7fr) minmax(430px, 1.8fr) minmax(260px, 1fr);
+	gap: 0.8rem;
+	align-items: start;
+}
+
+.builderPanel,
+.cityColumn {
+	border: 1px solid var(--line);
+	border-radius: 1.2rem;
+	background: #081b24;
+}
+
+.builderPanel {
+	padding: 1rem;
+}
+
+.builderPanel h3,
+.builderPanel p {
+	margin-bottom: 0.55rem;
+}
+
+.builderPanel > p {
+	color: var(--muted);
+	font-size: 0.82rem;
+}
+
+.cityColumn {
+	padding: 0.75rem;
+}
+
+.builderActions {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.7rem;
+	margin-top: 0.7rem;
+}
+
+.hasVictory {
+	box-shadow: 0 0 0 2px rgba(241, 199, 109, 0.62), 0 30px 90px rgba(241, 199, 109, 0.15);
+}
+
+@media (max-width: 1080px) {
+	.builderMain {
+		grid-template-columns: 1fr 2fr;
+	}
+
+	.foundationPanel {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 760px) {
+	.builderHeader,
+	.builderActions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.builderMain {
+		grid-template-columns: 1fr;
+	}
+}

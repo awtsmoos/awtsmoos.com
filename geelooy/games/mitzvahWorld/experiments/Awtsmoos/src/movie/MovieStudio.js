@@ -4,12 +4,13 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath a responsive structured NLE and recorder.
- * The Awtsmoos renews world and edit session together; Awtsmoos.com hides gameplay
- * chrome, preserves the renderer, and binds one project source to every studio surface.
+ * @description Boots the real world beneath a responsive structured NLE and exports.
+ * The Awtsmoos renews world and edit session together; Awtsmoos.com keeps live and
+ * exact render controls bound to the same real project, camera, actors, and timeline.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
+import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
 import {
 	createMovieStudioView,
@@ -26,11 +27,19 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 	hideWorldChrome(hosts, runtime.renderer.canvas);
 	loading.set('B"H arranging timeline tracks, transforms, and cameras…');
 	const view = createMovieStudioView(initialProject);
-	const session = new MovieStudioSession(runtime, view, initialProject);
+	const session = new MovieStudioSession(
+		runtime,
+		diagnostics,
+		view,
+		initialProject
+	);
 	bindControls(session, view);
 	loading.remove();
 	if (options.autoRender) setTimeout(() => session.render(), 250);
-	return window.AwtsmoosMovie;
+	if (options.autoRenderExact) {
+		setTimeout(() => renderExactMovieStudioSession(session), 250);
+	}
+	return globalThis.AwtsmoosMovie;
 }
 
 function bindControls(session, view) {
@@ -41,6 +50,9 @@ function bindControls(session, view) {
 	});
 	view.copy.addEventListener('click', () => session.copyUrl());
 	view.render.addEventListener('click', () => session.render());
+	view.renderExact.addEventListener('click', () => {
+		renderExactMovieStudioSession(session);
+	});
 }
 
 function hideWorldChrome(hosts, canvas) {

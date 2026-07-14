@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The library changes density without shrinking text into unreadable fragments.
+ */
+@media (max-width: 52rem) {
+	.library-hero {
+		grid-template-columns: 1fr;
+	}
+	.library-hero .p-button,
+	.library-hero .g-button {
+		width: 100%;
+	}
+	.library-search-form {
+		position: relative;
+		top: auto;
+		grid-template-columns: 1fr;
+	}
+	.library-search-form button {
+		width: 100%;
+	}
+}
+@media (max-width: 36rem) {
+	.library-page {
+		width: min(calc(100% - .75rem), 72rem);
+		padding-top: .4rem;
+	}
+	.library-hero,
+	.result {
+		padding: 1rem;
+		border-radius: 1rem;
+	}
+	.resultTop {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+	.score {
+		grid-column: 1 / -1;
+		white-space: normal;
+	}
+	.rangeComment {
+		grid-template-columns: 1fr auto;
+	}
+	.commentCoord {
+		grid-column: 1 / -1;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: .01ms !important;
+		transition-duration: .01ms !important;
+	}
+}

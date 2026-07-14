@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals one fast Geelooy threshold through the existing Home system.
+The Awtsmoos reveals one fast Geelooy threshold through one sovereign Home system.
 -->
 <!doctype html>
 <html lang="en">
@@ -11,9 +11,7 @@ The Awtsmoos reveals one fast Geelooy threshold through the existing Home system
 	<meta name="description" content="Geelooy is a social graph for Torah, posts, Heichelos, identity, and mail.">
 	<meta name="theme-color" content="#07090f">
 	<title>Geelooy — Reveal, create, connect</title>
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=unified-ui-001">
-	<link rel="stylesheet" href="/style/social/home/index.css?v=unified-ui-001">
-	<link rel="stylesheet" href="/style/social/home/accessibility.css?v=unified-ui-001">
+	<link rel="stylesheet" href="/style/social/home/index.css?v=home-fix-004">
 </head>
 <body class="geelooy-home-document geelooy-home-shell" data-home-dashboard-page data-home-dashboard data-home-reduced-motion-safe data-geelooy-route="home">
 	<a class="home-skip-link" href="#home-live-region">Skip to the live feed</a>
@@ -30,10 +28,10 @@ The Awtsmoos reveals one fast Geelooy threshold through the existing Home system
 					<p id="home-introduction">Enter living Heichelos, publish real objects, search exact Torah sources, and keep every conversation connected to its birthplace.</p>
 					<div class="home-proof-row" aria-label="System qualities"><span class="p-chip">Network live</span><span class="p-chip">Source linked</span><span class="p-chip">Keyboard ready</span></div>
 				</div>
-				<form class="g-home-portal-search geelooy-search home-command-galaxy" role="search" action="/heichelos" method="get" data-home-search>
+				<form class="g-home-portal-search geelooy-search home-command-galaxy" role="search" action="/mawgawl/sefarim" method="get" data-home-search>
 					<label class="home-command-label" for="home-global-search">Search the living graph</label>
-					<input id="home-global-search" name="q" type="search" placeholder="Heichelos, posts, people, sources" autocomplete="off" aria-describedby="home-search-hint">
-					<span id="home-search-hint" class="g-sr-only">Search opens matching Heichelos and social objects.</span>
+					<input id="home-global-search" name="q" type="search" placeholder="Ask about a teaching or source" autocomplete="off" aria-describedby="home-search-hint">
+					<span id="home-search-hint" class="g-sr-only">Search opens the living Torah library and returns source text.</span>
 					<button class="p-button p-button-primary" type="submit" aria-label="Search Geelooy" data-icon="⌕">Search</button>
 				</form>
 				<nav class="g-home-actions home-action-grid" aria-label="Primary Geelooy routes">
@@ -58,8 +56,7 @@ The Awtsmoos reveals one fast Geelooy threshold through the existing Home system
 			<section class="g-panel g-side-card"><p class="field-label">One next action</p><h2>Do not only scroll.</h2><p>Turn the river into a real object.</p><a class="p-button p-button-primary" href="/heichelos/submit" data-icon="✍️">Create a post</a></section>
 		</aside>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=unified-ui-001"></script>
-	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=unified-ui-001"></script>
-	<script src="/register.js?v=unified-ui-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-fix-004"></script>
+	<script src="/register.js?v=home-fix-004"></script>
 </body>
 </html>

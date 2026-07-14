@@ -7,17 +7,19 @@ import { ensureProgramStyles } from "../shared/programStyles.js";
 import { executableBytes } from "./content.js";
 import { executionLabel, executionReport } from "./executionReport.js";
 import { runExecutable } from "./runtime.js";
+import { createExecutableTelemetry } from "./telemetryHost.js";
 
 /**
  * The executable window displays measured capability rather than one simulated
- * label for every format. The Awtsmoos creates execution, bundle inspection, and
+ * label for every format. The Awtsmoos creates execution, debugger testimony, and
  * simulation distinctly; Awtsmoos.com preserves the selected application contract.
  */
 export default function createAwtsmoosExecutable(options = {}) {
 	ensureProgramStyles();
 	const surface = createSurface(options.title || options.fileName || "Executable");
 	const host = createVirtualWindows(surface.desktop, surface.consoleElement);
-	const execute = createExecutor({ options, surface, host });
+	const telemetry = createExecutableTelemetry(options);
+	const execute = createExecutor({ options, surface, host, telemetry });
 	surface.runButton.addEventListener("click", execute);
 	queueMicrotask(execute);
 	return {
@@ -28,7 +30,7 @@ export default function createAwtsmoosExecutable(options = {}) {
 	};
 }
 
-function createExecutor({ options, surface, host }) {
+function createExecutor({ options, surface, host, telemetry }) {
 	return async function executeArtifact() {
 		host.clear();
 		surface.report.textContent = options.bundle
@@ -36,6 +38,7 @@ function createExecutor({ options, surface, host }) {
 			: "Detecting artifact bytes…";
 		try {
 			const bytes = await executableBytes(options.content);
+			telemetry.begin(bytes);
 			const outcome = await runExecutable({
 				arguments: options.arguments,
 				artifactIdentity: options.artifactIdentity,
@@ -51,9 +54,11 @@ function createExecutor({ options, surface, host }) {
 				maximumStackBytes: options.maximumStackBytes,
 				stackSize: options.stackSize
 			});
+			telemetry.complete(outcome, host);
 			surface.heading.textContent = executionLabel(outcome, options.artifactIdentity);
 			surface.report.textContent = executionReport(outcome);
 		} catch (error) {
+			telemetry.fail(error, host);
 			surface.heading.textContent = "Artifact rejected";
 			surface.report.textContent = executionReport({
 				architecture: options.detectedArchitecture || null,

@@ -1,8 +1,7 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Home recovery states remain calm, readable, and keyboard-visible. The Awtsmoos
- * creates every state anew while Awtsmoos.com makes loading and failure reversible.
+ * Loading, empty, and failure states remain readable on the canonical dark surface.
  */
 .home-feed-loading,
 .home-state-card,
@@ -12,10 +11,13 @@
 	position: relative;
 	overflow: hidden;
 	padding: 1rem;
-	border: 1px solid rgba(255, 255, 255, .1);
+	border: 1px solid var(--home-line);
 	border-radius: 1rem;
-	background: rgba(255, 255, 255, .035);
-	color: var(--premium-ink, #0f172a);
+	background: var(--home-panel-soft);
+	color: var(--home-text);
+}
+.home-state-row :where(h2, h3, p) {
+	color: inherit;
 }
 .home-feed-loading::after {
 	position: absolute;
@@ -23,34 +25,21 @@
 	background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .08), transparent);
 	content: "";
 	transform: translateX(-100%);
-	animation: home-state-shimmer 1.7s ease-in-out infinite;
+	animation: home-state-shimmer 1.4s ease-in-out infinite;
 }
 .home-error-state,
 [data-home-error-state] {
-	border-color: rgba(236, 156, 167, .42);
-	color: var(--premium-danger, #991b1b);
+	border-color: rgba(255, 127, 145, .5);
+	color: #ffd9de;
 }
 .home-empty-state,
 [data-home-empty-state] {
-	border-color: rgba(135, 217, 233, .3);
-}
-.home-state-card:focus-visible,
-.home-state-row:focus-visible,
-[data-home-error-state]:focus-visible,
-[data-home-empty-state]:focus-visible {
-	outline: .18rem solid var(--premium-cyan, #38bdf8);
-	outline-offset: .18rem;
+	border-color: rgba(88, 199, 216, .42);
+	color: var(--home-text);
 }
 @keyframes home-state-shimmer {
-	to {
-		transform: translateX(100%);
-	}
+	to { transform: translateX(100%); }
 }
 @media (prefers-reduced-motion: reduce) {
-	.home-feed-loading::after,
-	.home-state-card,
-	.home-state-row {
-		animation: none !important;
-		transition: none !important;
-	}
+	.home-feed-loading::after { animation: none; }
 }

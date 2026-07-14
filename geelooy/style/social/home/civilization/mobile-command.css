@@ -1,43 +1,35 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The mobile command bar stays inside the hand without collisions. The Awtsmoos
- * joins every route while Awtsmoos.com keeps safe-area actions calm and reachable.
+ * Mobile navigation is solid, readable, and free of blur or inherited dark text.
  */
 .home-mobile-command {
 	display: flex;
 	align-items: center;
 	gap: .35rem;
 	padding: .4rem;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: 999px;
-	background: rgba(4, 6, 11, .9);
-	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .35);
-	color: var(--premium-ink, #0f172a);
-	backdrop-filter: blur(1rem) saturate(1.15);
+	border: 1px solid var(--home-line-strong);
+	border-radius: 1rem;
+	background: var(--home-panel);
+	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .3);
+	color: var(--home-text);
 }
-.home-mobile-command a,
-.home-mobile-command button {
-	min-height: 2.8rem;
+.home-mobile-command :where(a, button) {
 	min-width: 2.8rem;
+	min-height: 2.8rem;
 	padding: .55rem .7rem;
 	border: 0;
-	border-radius: 999px;
+	border-radius: .7rem;
 	background: transparent;
 	color: inherit;
 	font-weight: 750;
 	text-decoration: none;
 }
-.home-mobile-command a:hover,
-.home-mobile-command button:hover,
+.home-mobile-command :where(a, button):is(:hover, :focus-visible),
 .home-mobile-command a[aria-current="page"] {
-	background: rgba(255, 255, 255, .07);
+	background: var(--home-panel-soft);
 }
-.home-mobile-command :focus-visible {
-	outline: .18rem solid var(--premium-cyan, #38bdf8);
-	outline-offset: .12rem;
-}
-@media (max-width: 760px) {
+@media (max-width: 47.5rem) {
 	.home-mobile-command {
 		position: fixed;
 		z-index: 30;
@@ -45,11 +37,5 @@
 		bottom: max(.55rem, env(safe-area-inset-bottom));
 		left: .55rem;
 		justify-content: space-around;
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	.home-mobile-command,
-	.home-mobile-command * {
-		transition: none !important;
 	}
 }

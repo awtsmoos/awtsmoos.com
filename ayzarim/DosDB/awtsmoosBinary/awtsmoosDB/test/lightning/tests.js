@@ -8,7 +8,7 @@
  * @description
  * Declares every strict test in deterministic order. The Awtsmoos renews each
  * gate independently, so a later success can never conceal an earlier failure.
- * The court guards compact payloads, packed key-ledger density, topology cloning,
+ * The court guards compact payloads, packed key-ledger density, living HNSW roads,
  * vacuum rebinding, storage, recovery, leases, search, and bounded growth.
  */
 
@@ -58,6 +58,7 @@ module.exports = [
 	'vector_detached_bulk_load_test.js',
 	'vector_detached_graph_clone_test.js',
 	'vector_bulk_key_map_density_test.js',
+	'vector_reciprocal_connectivity_test.js',
 	'vector_compact_corpus_test.js',
 	'vector_compact_vacuum_test.js',
 	'vector_verified_complement_test.js',

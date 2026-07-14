@@ -1,0 +1,60 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The city responds with brief motion and then becomes still. Awtsmoos.com
+	rewards each action without consuming attention forever, while the Awtsmoos
+	gives every flash a boundary and every quiet state its dignity.
+*/
+.cityTile,
+.buildChoice {
+	transition: transform 130ms ease, border-color 130ms ease, background 130ms ease;
+}
+
+.cityTile.isBuilt .tileBuilding {
+	animation: buildingRise 260ms ease both;
+}
+
+.cityStatus strong.isFresh {
+	animation: eventReveal 340ms ease;
+}
+
+.hasVictory .builderGrid {
+	animation: victoryGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes buildingRise {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.72);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes eventReveal {
+	from {
+		opacity: 0.35;
+		transform: translateY(3px);
+	}
+}
+
+@keyframes victoryGlow {
+	to {
+		box-shadow: inset 0 0 0 2px rgba(241, 199, 109, 0.35), 0 0 34px rgba(241, 199, 109, 0.2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cityTile,
+	.buildChoice,
+	.cityTile.isBuilt .tileBuilding,
+	.cityStatus strong.isFresh,
+	.hasVictory .builderGrid {
+		animation: none;
+		transition: none;
+	}
+}

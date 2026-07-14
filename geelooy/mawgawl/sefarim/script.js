@@ -1,10 +1,24 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @module LivingLibrarySearch
- * @description Ranks embedded Torah segments and reveals their exact source
- * windows. Each query enters a real API river and returns with visible evidence.
+ * @module LivingLibrarySearchController
+ * @description
+ * The controller binds URL state, library lanes, search transport, and explicit
+ * rendering while each responsibility remains in its own small vessel.
  */
-import { rangeCard } from './rangeResults.js';
+
+import {
+	fetchLibraryLanes,
+	searchLibrary
+} from './searchApi.js';
+import {
+	addLane,
+	renderFailure,
+	renderSearch,
+	setSearching
+} from './searchView.js';
 
 const form = document.getElementById('searchForm');
 const input = document.getElementById('query');
@@ -12,62 +26,49 @@ const series = document.getElementById('series');
 const status = document.getElementById('status');
 const results = document.getElementById('results');
 
-/** Loads dynamic search lanes from the social RAG API. */
 async function loadSeries() {
 	try {
-		const response = await fetch('/api/social/search/rag/shards', { credentials: 'same-origin' });
-		const payload = await response.json();
-		if (!response.ok || payload?.error) throw new Error(payload?.error?.message || 'Search lanes unavailable.');
-		for (const lane of payload?.success || []) addLane(lane);
+		const lanes = await fetchLibraryLanes();
+		lanes.forEach(lane => addLane(series, lane));
 	} catch (error) {
-		console.warn('B"H search lane discovery failed', error.message);
+		status.textContent = `Library list unavailable: ${error.message}`;
 	}
 }
 
 async function runSearch(query, lane = '') {
-	const q = String(query || '').trim();
-	if (!q) return;
-	form.classList.add('searching');
-	form.setAttribute('aria-busy', 'true');
-	status.textContent = 'Ranking embedded text segments…';
+	const normalizedQuery = String(query || '').trim();
+	if (!normalizedQuery) return;
+	setSearching(form, true);
+	status.textContent = 'Searching stored source text…';
 	results.replaceChildren();
-	const params = new URLSearchParams({ q, limit: '20', comments: 'true', maxCommentRows: '35' });
-	if (lane) params.set('lane', lane);
-	history.replaceState(null, '', `${location.pathname}?${new URLSearchParams({ q, ...(lane ? { lane } : {}) })}`);
+	updateLocation(normalizedQuery, lane);
 	try {
-		const response = await fetch(`/api/social/search/rag/query?${params}`, { credentials: 'same-origin' });
-		const payload = await response.json();
-		if (!response.ok || payload?.error) throw new Error(payload?.error?.message || payload?.message || 'Search failed.');
-		const hits = rangeHits(payload);
-		results.append(...hits.map((hit, index) => rangeCard(hit, index)));
-		status.textContent = hits.length ? `${hits.length} embedded text segments, ordered by relevance.` : 'No matching segments found.';
+		const search = await searchLibrary({
+			query: normalizedQuery,
+			lane
+		});
+		renderSearch({ search, results, status });
 	} catch (error) {
-		status.textContent = error.message;
-		const empty = document.createElement('article');
-		empty.className = 'g-card';
-		empty.textContent = 'The embedded-text search lane could not open.';
-		results.replaceChildren(empty);
+		renderFailure({
+			message: error.message,
+			results,
+			status
+		});
 	} finally {
-		form.classList.remove('searching');
-		form.setAttribute('aria-busy', 'false');
+		setSearching(form, false);
 	}
 }
 
-function addLane(lane) {
-	const value = String(lane?.id || lane?.lane || lane?.shard || lane?.name || '');
-	if (!value || Array.from(series.options).some(option => option.value === value)) return;
-	series.add(new Option(String(lane?.label || lane?.title || value), value));
-}
-
-function rangeHits(payload) {
-	const value = payload?.success ?? payload;
-	return Array.isArray(value?.hits) ? value.hits : [];
+function updateLocation(query, lane) {
+	const values = new URLSearchParams({ q: query });
+	if (lane) values.set('lane', lane);
+	history.replaceState(null, '', `${location.pathname}?${values}`);
 }
 
 function hydrateFromUrl() {
-	const params = new URLSearchParams(location.search);
-	const query = params.get('q') || '';
-	const lane = params.get('lane') || '';
+	const values = new URLSearchParams(location.search);
+	const query = values.get('q') || '';
+	const lane = values.get('lane') || '';
 	input.value = query;
 	if (lane) series.value = lane;
 	if (query) runSearch(query, lane);

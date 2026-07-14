@@ -1,26 +1,11 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Home retains compatible generations, then the existing civilization layer resolves them.
+ * Home has one active ownership chain: foundation, product controls, civilization.
  */
-@import "/style/social-system/index.css?v=unified-ui-001";
-@import "/style/social-system/product/index.css?v=unified-ui-001";
-@import "/style/social-system/motion/index.css?v=unified-ui-001";
-@import "./dashboard/index.css";
-@import "./top-shell/index.css";
-@import "./search/index.css";
-@import "./actions/index.css";
-@import "./feed/index.css";
-@import "./states/index.css";
-@import "./dock/index.css";
-@import "./mobile/index.css";
-@import "./desktop/index.css";
-@import "./legacy-shield/index.css";
-@import "./future/index.css";
-@import "./fit/index.css";
-@import "./lux/index.css";
-@import "./finish/index.css";
-@import "./sovereign/index.css";
-@import "./awake/index.css?v=awake-001";
-@import "./recovery/mobile-layout.css?v=recovery-001";
-@import "./civilization/index.css?v=unified-ui-001";
+@import "/style/foundation/tokens/index.css?v=home-fix-004";
+@import "/style/foundation/reset/index.css?v=home-fix-004";
+@import "/style/social-system/product/index.css?v=home-fix-004";
+@import "./civilization/index.css?v=home-fix-004";
+@import "./accessibility.css?v=home-fix-004";
+@import "/style/geelooy-app/performance.css?v=home-fix-004";

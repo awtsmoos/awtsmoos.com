@@ -2,9 +2,9 @@
 /*Boruch Hashem*/
 /*Blessed is He*/
 /*
-	Seven cards are seven lamps on one road. Awtsmoos.com lets each lamp carry
-	its own color, while the Awtsmoos is the indivisible source that gives every
-	finite distinction the possibility of serving one human world.
+	Seven learning cards remain rich without multiplying blur across the page.
+	Awtsmoos.com keeps each lamp distinct, while the Awtsmoos joins speed and
+	beauty inside a single responsible design.
 */
 .mitzvahGrid {
 	display: grid;
@@ -15,20 +15,20 @@
 .mitzvahCard {
 	grid-column: span 4;
 	position: relative;
-	min-height: 280px;
+	min-height: 260px;
 	padding: 1.35rem;
 	border: 1px solid rgba(255, 255, 255, 0.18);
 	border-radius: 1.55rem;
 	color: var(--ink);
 	text-align: left;
 	background:
-		radial-gradient(circle at 90% 8%, hsl(var(--hue) 82% 65% / 0.28), transparent 37%),
-		linear-gradient(145deg, rgba(12, 31, 41, 0.88), rgba(5, 14, 22, 0.78));
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(22px) saturate(125%);
+		radial-gradient(circle at 90% 8%, hsl(var(--hue) 82% 65% / 0.25), transparent 36%),
+		linear-gradient(145deg, #0d2530, #07141d);
+	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
 	cursor: pointer;
 	overflow: hidden;
-	transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+	contain: content;
+	transition: transform 180ms ease, border-color 180ms ease;
 }
 
 .mitzvahCard::after {
@@ -36,15 +36,13 @@
 	position: absolute;
 	inset: auto -15% -45% 30%;
 	height: 70%;
-	background: hsl(var(--hue) 90% 68% / 0.22);
-	filter: blur(36px);
+	background: hsl(var(--hue) 90% 68% / 0.18);
 	transform: rotate(-12deg);
 }
 
 .mitzvahCard:hover {
-	transform: translateY(-8px);
+	transform: translateY(-5px);
 	border-color: hsl(var(--hue) 80% 78% / 0.7);
-	box-shadow: 0 34px 90px rgba(0, 0, 0, 0.46);
 }
 
 .cardNumber,
@@ -64,7 +62,7 @@
 }
 
 .cardSymbol {
-	margin: 2.2rem 0 1.2rem;
+	margin: 2rem 0 1rem;
 	font-size: 2.5rem;
 }
 
@@ -88,7 +86,7 @@
 @media (max-width: 640px) {
 	.mitzvahCard {
 		grid-column: 1 / -1;
-		min-height: 250px;
+		min-height: 235px;
 	}
 }
 

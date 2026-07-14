@@ -1,0 +1,107 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The outer game chamber organizes information without blur or heavy layers.
+	Awtsmoos.com keeps score and progress instantly visible, while the Awtsmoos
+	gives each measured sign its limited but useful purpose.
+*/
+.gameSection {
+	margin-block: 3rem 8rem;
+	padding: clamp(1.2rem, 4vw, 3rem);
+	background: linear-gradient(145deg, rgba(8, 26, 35, 0.97), rgba(5, 15, 23, 0.98));
+}
+
+.gameHeader {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 2rem;
+	margin-bottom: 1.5rem;
+}
+
+.gameHeader h2 {
+	margin-bottom: 0.4rem;
+	font-size: clamp(2.3rem, 5vw, 4.5rem);
+}
+
+.gameHeader p:last-child {
+	max-width: 580px;
+	margin-bottom: 0;
+	color: var(--muted);
+}
+
+.gameStats {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.7rem;
+	margin-bottom: 0.8rem;
+}
+
+.gameStat {
+	padding: 0.8rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: #0b202b;
+}
+
+.gameStat span {
+	display: block;
+	color: var(--muted);
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.gameStat strong {
+	font-family: var(--serif);
+	font-size: 1.55rem;
+}
+
+.meterRow {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.7rem;
+	margin-bottom: 1rem;
+}
+
+.meter {
+	height: 0.55rem;
+	border-radius: 999px;
+	background: #041016;
+	overflow: hidden;
+}
+
+.meter > span {
+	display: block;
+	height: 100%;
+	width: 0;
+	background: linear-gradient(90deg, #6bc7a7, #f1c76d);
+	transition: width 240ms ease;
+}
+
+.gameFooter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.gameFooter p {
+	margin: 0;
+	color: var(--muted);
+}
+
+@media (max-width: 760px) {
+	.gameHeader,
+	.gameFooter {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.gameStats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}

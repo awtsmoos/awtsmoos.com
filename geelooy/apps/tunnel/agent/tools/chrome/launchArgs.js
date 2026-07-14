@@ -1,60 +1,71 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const path = require("path");
+const path = require("node:path");
 const { ROOT } = require("../../lib/config.js");
 
-/**
- * B"H
- * Turns truthy/falsy traveler words into one clear boolean.
- *
- * @param {*} value Incoming payload/config value.
- * @param {boolean} fallback Fallback if value is absent.
- * @returns {boolean} Normalized boolean.
- */
-function boolish(value, fallback = false) {
-  if (value === undefined || value === null || value === "") return fallback;
-  if (value === true || value === "true" || value === "1" || value === 1) return true;
-  if (value === false || value === "false" || value === "0" || value === 0) return false;
-  return fallback;
-}
+const SAFE_START_URL = "data:text/html,%3Ctitle%3EAwtsmoos%20Browser%20Ready%3C%2Ftitle%3E%3Ch1%3EB%26quot%3BH%20Awtsmoos%20Browser%20Ready%3C%2Fh1%3E";
 
 /**
  * B"H
- * Builds Chrome launch arguments from data instead of scattered spell shards.
  *
- * Headless mode is a garment: the browser still breathes, loads, shouts errors,
- * and reveals logs, but it does not demand a visible throne on the screen.
- *
- * @param {object} input Launch inputs.
- * @param {number} input.port DevTools port.
- * @param {string} input.userDataDir Profile directory.
- * @param {boolean} input.headless Whether to launch in headless mode.
- * @param {string} [input.url] Initial URL.
- * @returns {string[]} Chrome argv.
+ * Chrome launches into a named nonblank witness instead of the about:blank void.
+ * The Awtsmoos renews profile, port, and first target together; Awtsmoos.com keeps
+ * the launch argument builder pure so duplicate ownership can be tested separately.
  */
 function chromeLaunchArgs(input = {}) {
-  const port = Number(input.port || 9222);
-  const userDataDir = input.userDataDir || path.join(ROOT, "chrome-profile");
-  const url = input.url || "about:blank";
+	const port = boundedPort(input.port);
+	const userDataDir = input.userDataDir || path.join(ROOT, "chrome-profile");
+	const url = safeLaunchUrl(input.url);
+	const args = [
+		`--remote-debugging-port=${port}`,
+		`--user-data-dir=${userDataDir}`,
+		"--no-first-run",
+		"--no-default-browser-check",
+		"--disable-background-networking"
+	];
+	if (input.headless) {
+		args.push(
+			"--headless=new",
+			"--disable-gpu",
+			"--window-size=1440,1000"
+		);
+		if (process.platform !== "win32") {
+			args.push("--no-sandbox");
+		}
+	}
+	args.push(url);
+	return args;
+}
 
-  const args = [
-    "--remote-debugging-port=" + port,
-    "--user-data-dir=" + userDataDir,
-    "--no-first-run",
-    "--no-default-browser-check",
-    "--disable-background-networking"
-  ];
+function safeLaunchUrl(value) {
+	const text = String(value || "").trim();
+	if (!text || /^about:blank(?:[#?].*)?$/i.test(text)) {
+		return SAFE_START_URL;
+	}
+	return text;
+}
 
-  if (input.headless) {
-    args.push("--headless=new", "--disable-gpu", "--window-size=1440,1000");
-    if (process.platform !== "win32") args.push("--no-sandbox");
-  }
+function boolish(value, fallback = false) {
+	if (value === undefined || value === null || value === "") return fallback;
+	if ([true, "true", "1", 1].includes(value)) return true;
+	if ([false, "false", "0", 0].includes(value)) return false;
+	return fallback;
+}
 
-  args.push(url);
-  return args;
+function boundedPort(value) {
+	const port = Number(value || 9222);
+	if (!Number.isInteger(port) || port < 1 || port > 65535) {
+		throw new Error("chrome_port_invalid");
+	}
+	return port;
 }
 
 module.exports = {
-  boolish,
-  chromeLaunchArgs
+	SAFE_START_URL,
+	boolish,
+	boundedPort,
+	chromeLaunchArgs,
+	safeLaunchUrl
 };

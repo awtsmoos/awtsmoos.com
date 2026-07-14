@@ -1,0 +1,25 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The event banner tells the city what just happened and what must happen next.
+	Awtsmoos.com gives consequence a clear voice while the Awtsmoos gives every
+	day, crisis, victory, and repair its true present moment.
+*/
+.cityStatus {
+	display: grid;
+	gap: 0.2rem;
+	min-height: 4.5rem;
+	padding: 0.65rem 0.8rem;
+	border-radius: 0.9rem;
+	background: #0d2b35;
+}
+
+.cityStatus strong {
+	color: var(--gold);
+}
+
+.cityStatus span {
+	color: var(--muted);
+	font-size: 0.78rem;
+}

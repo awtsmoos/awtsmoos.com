@@ -2,9 +2,9 @@
 <!--Boruch Hashem-->
 <!--Blessed is He-->
 <!--
-	Seven paths stand beneath one sky. On Awtsmoos.com the landscape breathes,
-	yet the teaching remains clear: every created moment can become a dwelling
-	for justice, dignity, compassion, and awareness of the Awtsmoos.
+	Three paths now share one world on Awtsmoos.com: learn the exact Seven
+	Mitzvos, recognize them under pressure, and build a society they can defend.
+	The Awtsmoos gives every path its present possibility and purpose.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,13 +12,23 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#071321">
-	<meta name="description" content="An immersive guide to the Seven Mitzvos of Bnei Noach.">
-	<title>Seven Mitzvos · A World Built on Justice</title>
+	<meta name="description" content="Fast scenario play and a top-down society builder about the Seven Mitzvos of Bnei Noach.">
+	<title>Seven Mitzvos · Guard and Build the World</title>
 	<link rel="stylesheet" href="./styles/tokens.css">
 	<link rel="stylesheet" href="./styles/foundation.css">
 	<link rel="stylesheet" href="./styles/typography.css">
 	<link rel="stylesheet" href="./styles/landscape.css">
 	<link rel="stylesheet" href="./styles/components.css">
+	<link rel="stylesheet" href="./styles/game.css">
+	<link rel="stylesheet" href="./styles/game-board.css">
+	<link rel="stylesheet" href="./styles/game-motion.css">
+	<link rel="stylesheet" href="./styles/builder-shell.css">
+	<link rel="stylesheet" href="./styles/builder-hud.css">
+	<link rel="stylesheet" href="./styles/builder-status.css">
+	<link rel="stylesheet" href="./styles/builder-grid.css">
+	<link rel="stylesheet" href="./styles/builder-controls.css">
+	<link rel="stylesheet" href="./styles/builder-ledger.css">
+	<link rel="stylesheet" href="./styles/builder-motion.css">
 	<link rel="stylesheet" href="./styles/cards.css">
 	<link rel="stylesheet" href="./styles/dialog.css">
 </head>
@@ -35,55 +45,59 @@
 			<a class="backLink" href="../">← Awtsmoos Games</a>
 			<span class="worldMark">B"H · One humanity, seven foundations</span>
 		</nav>
-
 		<div class="heroContent">
-			<p class="eyebrow">The Seven Mitzvos of Bnei Noach</p>
-			<h1>A world can become<br><em>a dwelling for goodness.</em></h1>
+			<p class="eyebrow">Learn · recognize · build · defend</p>
+			<h1>Guard the world.<br><em>Then build it stronger.</em></h1>
 			<p class="heroLead">
-				Seven universal commandments form a practical covenant of reverence,
-				human dignity, moral restraint, compassion, property, and justice.
+				Master the exact Seven Mitzvos in rapid scenarios, then grow a top-down
+				settlement where farms sustain life and all seven foundations defend society.
 			</p>
 			<div class="heroActions">
-				<button id="beginJourney" class="primaryAction" type="button">Enter the seven paths</button>
-				<a class="quietAction" href="#meaning">Why these seven?</a>
+				<button id="beginGame" class="primaryAction" type="button">Play Guard the World</button>
+				<button id="beginBuilder" class="primaryAction builderLaunch" type="button">Build the Covenant</button>
+				<a class="quietAction" href="#mitzvos">Study all seven clearly</a>
 			</div>
 		</div>
-
-		<div class="scrollSignal" aria-hidden="true">
-			<span></span>
-			<small>Scroll into the world</small>
-		</div>
+		<div class="scrollSignal" aria-hidden="true"><span></span><small>Two games. Seven unmistakable foundations.</small></div>
 	</header>
 
 	<main>
-		<section id="meaning" class="meaningSection contentPanel">
-			<p class="sectionNumber">01 · The covenant</p>
-			<div>
-				<h2>Not merely seven rules.<br>A complete moral architecture.</h2>
-				<p>
-					The mitzvos teach that freedom is strongest when it protects life,
-					honors the Creator, guards trust, limits harm, and builds courts
-					capable of turning principle into lived justice.
-				</p>
+		<section id="gameSection" class="gameSection contentPanel" aria-labelledby="gameTitle">
+			<header class="gameHeader">
+				<div><p class="sectionNumber">01 · Recognize</p><h2 id="gameTitle">Guard the World</h2></div>
+				<p>Choose with touch, mouse, or keys 1–3. Fast correct answers build larger combos.</p>
+			</header>
+			<div class="gameStats" aria-label="Game status">
+				<div class="gameStat"><span>Score</span><strong id="gameScore">0</strong></div>
+				<div class="gameStat"><span>Combo</span><strong id="gameStreak">×1</strong></div>
+				<div class="gameStat"><span>Round</span><strong id="gameRound">1 / 12</strong></div>
+				<div class="gameStat"><span>Best</span><strong id="gameBest">0</strong></div>
+			</div>
+			<div class="meterRow" aria-hidden="true">
+				<div class="meter"><span id="lightFill" style="width: 50%"></span></div>
+				<div class="meter"><span id="roundFill"></span></div>
+			</div>
+			<div id="gameBoard" class="gameBoard">
+				<div class="timeTrack" aria-hidden="true"><span id="timeFill"></span></div>
+				<p id="gamePrompt" class="gamePrompt">Press start. Twelve moments are waiting for protection.</p>
+				<div id="answerGrid" class="answerGrid"></div>
+				<p id="gameFeedback" class="gameFeedback" aria-live="polite">Every round includes all seven foundations.</p>
+			</div>
+			<div class="gameFooter">
+				<button id="startGame" class="primaryAction" type="button">Start round</button>
+				<p>No lives, no waiting—just recognition, streaks, and replay.</p>
 			</div>
 		</section>
 
+		<div id="builderMount"></div>
+
 		<section id="mitzvos" class="mitzvosSection">
 			<header class="sectionHeader">
-				<p class="sectionNumber">02 · The seven paths</p>
-				<h2>Choose a foundation</h2>
-				<p>Open each path to see its meaning and its positive work in daily life.</p>
+				<p class="sectionNumber">03 · Learn clearly</p>
+				<h2>The Seven Mitzvos of Bnei Noach</h2>
+				<p>Every card states the commandment, its meaning, and its positive work in daily life.</p>
 			</header>
 			<div id="mitzvahGrid" class="mitzvahGrid" aria-live="polite"></div>
-		</section>
-
-		<section class="closingSection contentPanel">
-			<p class="sectionNumber">03 · The living world</p>
-			<blockquote>
-				“When human beings protect what is sacred in one another, the whole
-				world becomes more capable of revealing the light within creation.”
-			</blockquote>
-			<p class="closingNote">Learn carefully. Practice concretely. Build peace through justice.</p>
 		</section>
 	</main>
 
@@ -98,11 +112,7 @@
 		<p id="dialogPractice"></p>
 	</dialog>
 
-	<footer>
-		<span>B"H</span>
-		<p>Created as an educational doorway on Awtsmoos.com.</p>
-	</footer>
-
+	<footer><span>B"H</span><p>Two fast educational games on Awtsmoos.com.</p></footer>
 	<script type="module" src="./js/main.js"></script>
 	<script src="/register.js"></script>
 </body>

@@ -4,15 +4,15 @@
 
 import { PreviewControlRegistry } from "../html-preview/control/registry.js";
 import { renderMerkavaPreview } from "../html-preview/merkava-preview.js";
-import { HTMLPreviewProcessor } from "../html-preview/processor.js";
 import { DOM, State } from "../state.js";
+import { renderIframePreview, wrapPreviewPane } from "./iframe-preview-renderer.js";
 
 /**
  * B"H
  *
- * Preview vessels now register their living iframe target as soon as it mounts.
- * The Awtsmoos renews real iframe and Merkava vision together; Awtsmoos.com lets
- * agents choose the active preview without guessing a stale tab identifier.
+ * PreviewManager coordinates engines but never creates an iframe itself. The
+ * Awtsmoos renews orchestration and physical portal separately; Awtsmoos.com
+ * registers only living iframe targets returned by the dedicated renderer.
  */
 export const PreviewManager = {
 	_visions: new Map(),
@@ -33,24 +33,18 @@ export const PreviewManager = {
 		vessel.dataset.previewEngine = State.previewEngine || "merkava";
 		PreviewControlRegistry.unregister(id);
 		vessel.replaceChildren();
-		if (usesIframe()) await this.renderIframe(vessel, id, item, content);
-		if (usesMerkava()) await this.renderMerkava(vessel, id, item, content);
-	},
-
-	async renderIframe(vessel, id, item, content) {
-		const iframe = document.createElement("iframe");
-		iframe.className = "html-preview-iframe";
-		iframe.dataset.tabId = id;
-		iframe.title = "HTML iframe preview";
-		vessel.appendChild(wrap("Iframe Preview", iframe));
-		PreviewControlRegistry.register(id, iframe);
-		await HTMLPreviewProcessor.orchestrate(item, iframe, content, id);
+		if (usesIframe()) {
+			await renderIframePreview(vessel, id, item, content);
+		}
+		if (usesMerkava()) {
+			await this.renderMerkava(vessel, id, item, content);
+		}
 	},
 
 	async renderMerkava(vessel, id, item, content) {
 		const merkava = document.createElement("section");
 		merkava.className = "merkava-preview-vessel-inner";
-		vessel.appendChild(wrap("Merkava Virtual DOM", merkava));
+		vessel.appendChild(wrapPreviewPane("Merkava Virtual DOM", merkava));
 		await renderMerkavaPreview(merkava, item, content, id);
 	},
 
@@ -77,28 +71,30 @@ export const PreviewManager = {
 		const id = String(tabId);
 		let vessel = this._visions.get(id);
 		if (!vessel) {
-			vessel = document.querySelector(`.preview-engine-vessel[data-tab-id="${id}"], .merkava-preview-vessel[data-tab-id="${id}"]`);
+			vessel = document.querySelector(
+				`.preview-engine-vessel[data-tab-id="${id}"], .merkava-preview-vessel[data-tab-id="${id}"]`
+			);
 			if (vessel) this.registerPreview(id, vessel);
 		}
 		return vessel || null;
 	},
 
 	getIframe(tabId) {
-		const vessel = this.getPreview(tabId);
-		return vessel?.querySelector?.("iframe") || null;
+		return this.getPreview(tabId)?.querySelector?.("iframe") || null;
 	},
 
 	hideAll() {
-		document.querySelectorAll(".preview-engine-vessel, .merkava-preview-vessel, iframe.browser-iframe").forEach(vessel => {
+		document.querySelectorAll(
+			".preview-engine-vessel, .merkava-preview-vessel, iframe.browser-iframe"
+		).forEach(vessel => {
 			vessel.style.display = "none";
 		});
 	},
 
 	remove(tabId) {
 		const id = String(tabId);
-		const vessel = this.getPreview(id);
 		PreviewControlRegistry.unregister(id);
-		vessel?.remove();
+		this.getPreview(id)?.remove();
 		this._visions.delete(id);
 	}
 };
@@ -109,12 +105,4 @@ function usesIframe() {
 
 function usesMerkava() {
 	return ["merkava", "both"].includes(State.previewEngine || "merkava");
-}
-
-function wrap(title, child) {
-	const shell = document.createElement("article");
-	shell.className = "preview-engine-pane";
-	shell.innerHTML = `<header>${title}</header>`;
-	shell.appendChild(child);
-	return shell;
 }

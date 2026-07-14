@@ -3,14 +3,15 @@
 // Blessed is He
 
 /**
- * Raw pixels become a canvas without external packages. Each primitive is a
- * humble vessel through which the Awtsmoos reveals an original cartoon frame.
+ * Raw pixels become a canvas without Node-only memory or external packages.
+ * Each primitive is a humble vessel through which the Awtsmoos reveals an
+ * original cartoon frame for both browsers and Awtsmoos.com render tools.
  */
 export class PixelCanvas {
 	constructor(width, height) {
 		this.width = width;
 		this.height = height;
-		this.buffer = Buffer.alloc(width * height * 3);
+		this.buffer = new Uint8Array(width * height * 3);
 	}
 
 	clear(color) {
@@ -18,10 +19,10 @@ export class PixelCanvas {
 	}
 
 	pixel(x, y, color) {
-		const px = Math.round(x);
-		const py = Math.round(y);
-		if (px < 0 || py < 0 || px >= this.width || py >= this.height) return;
-		const index = (py * this.width + px) * 3;
+		const pixelX = Math.round(x);
+		const pixelY = Math.round(y);
+		if (pixelX < 0 || pixelY < 0 || pixelX >= this.width || pixelY >= this.height) return;
+		const index = (pixelY * this.width + pixelX) * 3;
 		const [red, green, blue] = this.rgb(color);
 		this.buffer[index] = red;
 		this.buffer[index + 1] = green;
@@ -34,9 +35,9 @@ export class PixelCanvas {
 		const endX = Math.min(this.width, Math.ceil(x + width));
 		const endY = Math.min(this.height, Math.ceil(y + height));
 		const [red, green, blue] = this.rgb(color);
-		for (let py = startY; py < endY; py += 1) {
-			for (let px = startX; px < endX; px += 1) {
-				const index = (py * this.width + px) * 3;
+		for (let pixelY = startY; pixelY < endY; pixelY += 1) {
+			for (let pixelX = startX; pixelX < endX; pixelX += 1) {
+				const index = (pixelY * this.width + pixelX) * 3;
 				this.buffer[index] = red;
 				this.buffer[index + 1] = green;
 				this.buffer[index + 2] = blue;

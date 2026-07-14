@@ -1,1 +1,16 @@
-@import "/css/theme.css";#app{display:grid;gap:8px;padding:12px}#chat{color:blue}
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The mode-two fixture uses its own local theme and readable source formatting.
+ */
+@import "./theme.css";
+
+#app {
+	display: grid;
+	gap: 8px;
+	padding: 12px;
+}
+
+#chat {
+	color: blue;
+}

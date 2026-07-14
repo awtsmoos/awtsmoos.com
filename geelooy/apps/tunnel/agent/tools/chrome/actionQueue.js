@@ -1,51 +1,84 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-let tail = Promise.resolve();
-let queued = 0;
-let active = 0;
-let completed = 0;
-let failed = 0;
-let maximumQueued = 0;
+const cdp = require("./cdp.js");
+
+const DEFAULT_ACTION_TIMEOUT_MS = 60000;
 
 /**
- * B"H — The current CDP vessel owns one page socket, so browser mutations pass
- * through one honest doorway. No agent may replace another agent's target between
- * ensurePage and Runtime.evaluate while the client remains single-socket.
+ * B"H
+ *
+ * Chrome mutations remain serialized but never immortal. The Awtsmoos renews
+ * operation and deadline together; Awtsmoos.com releases the queue, closes a stale
+ * CDP socket, and lets the next agent proceed when one browser action stops answering.
  */
-async function run(operation) {
-	const previous = tail;
-	let release;
-	const gate = new Promise(resolve => { release = resolve; });
-	tail = previous.catch(() => {}).then(() => gate);
-	queued += 1;
-	maximumQueued = Math.max(maximumQueued, queued + active);
-	await previous.catch(() => {});
-	queued -= 1;
-	active += 1;
+let tail = Promise.resolve();
+let sequence = 0;
+let active = 0;
+
+function run(operation, options = {}) {
+	const id = ++sequence;
+	const timeoutMs = boundedTimeout(options.timeoutMs);
+	const scheduled = tail
+		.catch(() => {})
+		.then(async () => {
+			active += 1;
+			try {
+				return await settleWithin(operation, timeoutMs, id, options);
+			} finally {
+				active = Math.max(0, active - 1);
+			}
+		});
+	tail = scheduled.catch(() => {});
+	return scheduled;
+}
+
+async function settleWithin(operation, timeoutMs, id, options) {
+	let timer = null;
+	const work = Promise.resolve().then(operation);
+	const timeout = new Promise((resolve, reject) => {
+		timer = setTimeout(() => {
+			try {
+				options.onTimeout?.({ id, timeoutMs });
+			} catch {}
+			try {
+				cdp.closeCurrent();
+			} catch {}
+			const error = new Error(`chrome_action_timeout:${timeoutMs}`);
+			error.code = "CHROME_ACTION_TIMEOUT";
+			reject(error);
+		}, timeoutMs);
+	});
 	try {
-		const result = await operation();
-		completed += 1;
-		return result;
-	} catch (error) {
-		failed += 1;
-		throw error;
+		return await Promise.race([work, timeout]);
 	} finally {
-		active -= 1;
-		release();
+		if (timer) clearTimeout(timer);
 	}
 }
 
-function snapshot() {
-	return { queued, active, completed, failed, maximumQueued };
+function status() {
+	return {
+		sequence,
+		active,
+		queued: Math.max(0, sequence - active)
+	};
 }
 
-function resetForTests() {
+function resetForTest() {
 	tail = Promise.resolve();
-	queued = 0;
+	sequence = 0;
 	active = 0;
-	completed = 0;
-	failed = 0;
-	maximumQueued = 0;
 }
 
-module.exports = { resetForTests, run, snapshot };
+function boundedTimeout(value) {
+	const number = Number(value || DEFAULT_ACTION_TIMEOUT_MS);
+	return Math.max(100, Math.min(Number.isFinite(number) ? number : DEFAULT_ACTION_TIMEOUT_MS, 300000));
+}
+
+module.exports = {
+	DEFAULT_ACTION_TIMEOUT_MS,
+	resetForTest,
+	run,
+	status
+};

@@ -1,0 +1,95 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Every result reveals readable source text, rank, and provenance on a solid surface.
+ */
+.result {
+	display: grid;
+	gap: .9rem;
+	padding: 1.15rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: var(--radius-l);
+	background: #111722;
+	box-shadow: 0 .45rem 1.4rem rgba(0, 0, 0, .2);
+	color: #f5f7fb;
+	contain: layout paint style;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 18rem;
+}
+.resultTop {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .8rem;
+}
+.rank {
+	display: grid;
+	width: 2.7rem;
+	height: 2.7rem;
+	place-items: center;
+	border: 1px solid rgba(126, 215, 229, .35);
+	border-radius: .75rem;
+	background: #172433;
+	color: #9ce6f1;
+	font-weight: 900;
+}
+.result .eyebrow {
+	margin: 0;
+	color: #8ed9e6;
+	font-size: .73rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.result h2 {
+	margin: .15rem 0 0;
+	color: #f5f7fb;
+	font-size: clamp(1.1rem, 2vw, 1.45rem);
+	line-height: 1.2;
+	overflow-wrap: anywhere;
+}
+.score {
+	color: #c5cfdd;
+	font-size: .82rem;
+	white-space: nowrap;
+}
+.meter {
+	overflow: hidden;
+	height: .35rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .08);
+}
+.meter i {
+	display: block;
+	width: var(--relevance);
+	height: 100%;
+	border-radius: inherit;
+	background: #58c7d8;
+}
+.rangePreview {
+	margin: 0;
+	color: #eef2f8;
+	font-size: clamp(1rem, 2vw, 1.12rem);
+	line-height: 1.72;
+	white-space: pre-wrap;
+}
+.rangeMeta {
+	padding: .75rem;
+	border-radius: .75rem;
+	background: #0c121c;
+	color: #aeb9c9;
+	font-size: .8rem;
+	line-height: 1.5;
+}
+.library-empty,
+.library-error {
+	padding: 1.25rem;
+	border: 1px dashed rgba(255, 255, 255, .2);
+	border-radius: var(--radius-l);
+	background: #111722;
+	color: #dce3ed;
+}
+.library-error {
+	border-color: rgba(255, 127, 145, .45);
+	color: #ffd9de;
+}

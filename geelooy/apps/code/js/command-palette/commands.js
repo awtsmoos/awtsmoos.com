@@ -1,14 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * B"H
  * The command palette is a constellation of doors into the living workspace.
- * The Awtsmoos creates command and consequence together; Awtsmoos.com now lets
- * C and C++ source pass directly from Code into the shared Geelooy OS compiler.
+ * The Awtsmoos creates command and consequence together; Awtsmoos.com keeps the
+ * public GPT, welcome covenant, and live tunnel console permanently discoverable.
  */
-
 const treasuryCommands = [
 	{ id: "treasury-home", label: "Treasury: Open Treasury OS", action: "open-url:/api/tunnel/control/treasury/home", icon: "brain-circuit" },
 	{ id: "treasury-budgets", label: "Treasury: Budgets", action: "open-url:/api/tunnel/control/treasury/budgets", icon: "brain-circuit" },
@@ -21,17 +20,20 @@ const treasuryCommands = [
 	{ id: "treasury-reputation", label: "Treasury: Reputation", action: "open-url:/api/tunnel/control/treasury/reputation", icon: "brain-circuit" },
 	{ id: "treasury-bank", label: "Treasury: Bank", action: "open-url:/api/tunnel/control/bank", icon: "brain-circuit" },
 	{ id: "treasury-compute", label: "Treasury: Compute", action: "open-url:/api/tunnel/control/compute", icon: "brain-circuit" },
-	{ id: "tunnel-control", label: "Awtsmoos: Tunnel Control", action: "open-url:/apps/tunnel-control/", icon: "globe" },
+	{ id: "tunnel-control", label: "Awtsmoos: Full Tunnel Control", action: "open-url:/apps/tunnel-control/", icon: "globe" },
 	{ id: "virtual-os", label: "Awtsmoos: Virtual OS", action: "open-url:/os", icon: "globe" }
 ];
 
 export const PALETTE_COMMANDS = [
 	...treasuryCommands,
+	{ id: "awtsmoos-gpt", label: "Awtsmoos: Open Shliach GPT", action: "open-url:https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent", icon: "brain-circuit" },
+	{ id: "code-welcome", label: "Awtsmoos: Show Code Welcome", action: "show-code-welcome", icon: "brain" },
+	{ id: "tunnel-console", label: "Awtsmoos: Live Tunnel Agents & Missions", action: "show-tunnel-console", icon: "laptop" },
 	{ id: "docs", label: "Help: Documentation", action: "show-docs", icon: "brain" },
 	{ id: "save", label: "File: Save", action: "save", icon: "save" },
 	{ id: "new-file", label: "File: New File", action: "new-temp-file", icon: "file" },
 	{ id: "open-file", label: "File: Open Local File", action: "open-file", icon: "folder" },
-	{ id: "open-browser", label: "View: Open Local Browser", action: "open-browser-tab", icon: "globe" },
+	{ id: "open-browser", label: "View: Open Code Browser", action: "open-browser-tab", icon: "globe" },
 	{ id: "compile-in-os", label: "Code: Compile Current C/C++ File in Geelooy OS", action: "compile-in-os", icon: "play" },
 	{ id: "code-chat-file", label: "Tool: Code Chat for This File", action: "open-code-chat-file", icon: "brain-circuit" },
 	{ id: "code-chat-global", label: "Tool: Code Chat for All Workspaces", action: "open-code-chat-global", icon: "brain-circuit" },

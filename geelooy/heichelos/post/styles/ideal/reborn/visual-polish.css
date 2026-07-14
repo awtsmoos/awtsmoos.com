@@ -1,8 +1,12 @@
-/* B"H compatibility: visual polish moved to small reader modules. */
-@import url("../../../reader-foundation/index.css");
-@import url("../../../reader-content/index.css");
-@import url("../../../reader-controls/index.css");
-@import url("../../../reader-settings/index.css");
-@import url("../../../reader-sidebar/index.css");
-@import url("../../../reader-overlays/index.css");
-@import url("../../../reader-responsive/index.css");
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Compatibility wrapper for the existing modular post reader styles.
+ */
+@import url("../../reader-foundation/index.css");
+@import url("../../reader-content/index.css");
+@import url("../../reader-controls/index.css");
+@import url("../../reader-settings/index.css");
+@import url("../../reader-sidebar/index.css");
+@import url("../../reader-overlays/index.css");
+@import url("../../reader-responsive/index.css");

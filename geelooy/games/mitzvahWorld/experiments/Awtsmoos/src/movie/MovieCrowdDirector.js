@@ -4,95 +4,95 @@
 
 /**
  * @file MovieCrowdDirector.js
- * @description Creates, animates, snapshots, and removes procedural cinematic people.
+ * @description Directs borrowed shared chossid actors and explicit lightweight extras.
  * The Awtsmoos renews each villager through path, gesture, garment, and pause;
- * Awtsmoos.com keeps crowd motion deterministic and editor reinstalls leak-free.
+ * Awtsmoos.com keeps cinematic motion deterministic and editor reinstalls leak-free.
  */
 
+import {
+	createMovieCrowdActor,
+	destroyMovieCrowdActor,
+	placeMovieCrowdActor
+} from './MovieCrowdActorSource.js';
+import { applyMovieCrowdAnimation } from './MovieCrowdAnimation.js';
 import { lerpPoint } from './MovieEasing.js';
-import { createMovieCrowdFigure } from './MovieCrowdFigure.js';
-import { movieFloorAt } from './MovieFloor.js';
+import {
+	movieObjectYaw,
+	setMovieObjectYaw
+} from './MovieQuaternionRotation.js';
 
 export class MovieCrowdDirector {
 	constructor(runtime, characters = []) {
 		this.runtime = runtime;
-		this.figures = new Map();
-		for (const character of characters) this.addCharacter(character);
+		this.records = new Map();
+		characters.forEach((character, index) => {
+			this.addCharacter(character, index);
+		});
 	}
 
-	addCharacter(character) {
-		const figure = createMovieCrowdFigure(character);
-		const position = character.position || { x: 0, z: 0 };
-		figure.position.set(
-			Number(position.x || 0),
-			movieFloorAt(this.runtime, position),
-			Number(position.z || 0)
+	addCharacter(character, index) {
+		const record = createMovieCrowdActor(
+			this.runtime,
+			character,
+			index
 		);
-		figure.rotation.y = Number(character.facing || 0);
-		figure.visible = character.visible !== false;
-		this.runtime.scene.add(figure);
-		this.figures.set(character.id, figure);
+		this.records.set(character.id, record);
 	}
 
 	apply(crowdStates = []) {
 		for (const state of crowdStates) {
-			const figure = this.figures.get(state.track.target);
-			if (figure) applyCrowdState(this.runtime, figure, state);
+			const record = this.records.get(state.track.target);
+			if (record) applyCrowdState(this.runtime, record, state);
 		}
 	}
 
 	destroy() {
-		for (const figure of this.figures.values()) {
-			figure.parent?.remove(figure);
+		for (const record of this.records.values()) {
+			destroyMovieCrowdActor(record);
 		}
-		this.figures.clear();
+		this.records.clear();
 	}
 
 	snapshot() {
-		return [...this.figures.values()].map(figure => ({
-			action: figure.userData.AwtsmoosMovieCharacter.action,
-			id: figure.userData.AwtsmoosMovieCharacter.id,
-			position: point(figure.position),
-			visible: figure.visible
+		return [...this.records.entries()].map(([id, record]) => ({
+			action: record.figure.userData.AwtsmoosMovieCharacter.action,
+			borrowedSharedChossid: record.borrowed,
+			id,
+			position: point(record.figure.position),
+			visible: record.figure.visible,
+			yaw: movieObjectYaw(record.figure)
 		}));
 	}
 }
 
-function applyCrowdState(runtime, figure, state) {
+function applyCrowdState(runtime, record, state) {
 	const clip = state.clip;
 	const from = clip.from || clip.at || clip.to || {};
 	const to = clip.to || clip.at || clip.from || {};
 	const position = lerpPoint(from, to, state.eased);
-	figure.position.set(
-		position.x,
-		movieFloorAt(runtime, position) + actionLift(clip.action, state.progress),
-		position.z
+	placeMovieCrowdActor(
+		runtime,
+		record,
+		position,
+		actionLift(clip.action, state.progress)
 	);
-	figure.rotation.y = clip.facing ?? facing(from, to, figure.rotation.y);
-	figure.visible = clip.visible !== false;
-	figure.userData.AwtsmoosMovieCharacter.action = clip.action || 'stand';
-	animateLimbs(figure, clip.action, state.progress);
-}
-
-function animateLimbs(figure, action = 'stand', progress = 0) {
-	const swing = Math.sin(progress * Math.PI * 8) * 0.45;
-	const wave = Math.sin(progress * Math.PI * 4) * 0.7;
-	const leftArm = part(figure, 'left-arm');
-	const rightArm = part(figure, 'right-arm');
-	const leftLeg = part(figure, 'left-leg');
-	const rightLeg = part(figure, 'right-leg');
-	if (leftArm) leftArm.rotation.x = action === 'walk' ? swing : action === 'pray' ? -0.65 : 0;
-	if (rightArm) rightArm.rotation.x = action === 'wave' ? -1.2 + wave : action === 'walk' ? -swing : action === 'pray' ? -0.65 : 0;
-	if (leftLeg) leftLeg.rotation.x = action === 'walk' ? -swing : 0;
-	if (rightLeg) rightLeg.rotation.x = action === 'walk' ? swing : 0;
-}
-
-function part(figure, name) {
-	return figure.children.find(child => child.name.endsWith(name));
+	setMovieObjectYaw(
+		record.figure,
+		clip.facing ?? facing(from, to, movieObjectYaw(record.figure))
+	);
+	record.figure.visible = clip.visible !== false;
+	applyMovieCrowdAnimation(
+		record,
+		clip.action || 'stand',
+		state.progress,
+		clip.duration
+	);
 }
 
 function actionLift(action, progress) {
-	return action === 'jump' ? Math.sin(progress * Math.PI) * 1.2 : 0;
+	return action === 'jump'
+		? Math.sin(progress * Math.PI) * 1.2
+		: 0;
 }
 
 function facing(from, to, fallback) {
@@ -102,7 +102,11 @@ function facing(from, to, fallback) {
 }
 
 function point(position) {
-	return { x: position.x, y: position.y, z: position.z };
+	return {
+		x: position.x,
+		y: position.y,
+		z: position.z
+	};
 }
 
 export default MovieCrowdDirector;

@@ -1,0 +1,44 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The city ledger turns stewardship into visible numbers on Awtsmoos.com. The
+	Awtsmoos is beyond measure, yet honest measures help finite players care for
+	food, people, peace, materials, tier, and legacy.
+*/
+.builderHud {
+	display: grid;
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+	gap: 0.45rem;
+	margin-bottom: 0.8rem;
+}
+
+.builderStat {
+	min-width: 0;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	background: #0c2832;
+}
+
+.builderStat span {
+	display: block;
+	color: var(--muted);
+	font-size: 0.62rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.builderStat strong {
+	display: block;
+	font-family: var(--serif);
+	font-size: 1.2rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@media (max-width: 760px) {
+	.builderHud {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}

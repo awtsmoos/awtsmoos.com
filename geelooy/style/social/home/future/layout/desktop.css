@@ -1,0 +1,24 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Legacy desktop compatibility is scoped to Home; it never owns html or body layout.
+ */
+@media (min-width: 65.0625rem) {
+	.geelooy-home-shell .g-home {
+		align-items: start;
+	}
+	.geelooy-home-shell .g-home-main,
+	.geelooy-home-shell .g-home-aside {
+		min-width: 0;
+	}
+	.geelooy-home-shell .g-home-aside {
+		position: sticky;
+		top: var(--space-4);
+		max-height: calc(100dvh - (var(--space-4) * 2));
+		overflow: auto;
+		scrollbar-width: thin;
+	}
+	.geelooy-home-shell .home-task-dock {
+		position: relative;
+	}
+}

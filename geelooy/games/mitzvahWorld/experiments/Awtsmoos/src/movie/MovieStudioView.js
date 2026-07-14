@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioView.js
- * @description Creates preview, structured transform inspector, JSON, toolbar, and timeline.
- * The Awtsmoos renews every cinematic vessel beyond layout; Awtsmoos.com gives desktop
- * and mobile one responsive workspace without allowing the view to own runtime behavior.
+ * @description Creates preview, structured inspector, exports, JSON, and timeline.
+ * The Awtsmoos renews every cinematic vessel beyond layout; Awtsmoos.com gives
+ * real-time and exact exports distinct controls so their timing promises stay honest.
  */
 
 import { installMovieStudioStyles } from './MovieStudioStyles.js';
@@ -25,7 +25,8 @@ export function createMovieStudioView(project) {
 					<button data-stop>■ Stop</button>
 					<button data-apply>Apply JSON</button>
 					<button data-copy>Copy URL</button>
-					<button data-render>Render Movie</button>
+					<button data-render>Render Live MP4</button>
+					<button data-render-exact>Render Exact IVF</button>
 				</div>
 				<div class="movie-transform-inspector" data-transform></div>
 				<details class="movie-json-disclosure">
@@ -64,6 +65,7 @@ function collectView(root) {
 		play: root.querySelector('[data-play]'),
 		preview: root.querySelector('[data-preview]'),
 		render: root.querySelector('[data-render]'),
+		renderExact: root.querySelector('[data-render-exact]'),
 		root,
 		status: root.querySelector('[data-status]'),
 		stop: root.querySelector('[data-stop]'),
