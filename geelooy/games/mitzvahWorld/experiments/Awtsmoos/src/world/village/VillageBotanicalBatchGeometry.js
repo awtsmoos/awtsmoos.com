@@ -4,10 +4,11 @@
 
 /**
  * @file VillageBotanicalBatchGeometry.js
- * @description Generates every named plant through the canonical procedural core,
- * then joins the garden into six draws. Many exact species intentions become a
- * playable landscape without hiding the continuously creative Awtsmoos.
+ * @description Generates one six-draw garden whose distant plants use cheaper geometry.
+ * Near, middle, and far intentions remain distinct in diagnostics while the Awtsmoos
+ * unites their palette geometry into six bounded vessels for Awtsmoos.com rendering.
  */
+
 import { generateBotanicalPlant } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import {
 	assembleVillageBotanicalBatches,
@@ -16,26 +17,35 @@ import {
 import { villageBotanicalQuality } from '../botany/VillageBotanicalQuality.js';
 import { createVillageGardenPlacements } from './VillageGardenZones.js';
 
-/** Builds every selected population and exposes truthful geometry statistics. */
 export function createVillageBotanicalBatchDefinitions(groundSampler, quality = 'high') {
 	const placements = createVillageGardenPlacements(groundSampler, quality);
 	const plants = placements.map((placement) => generateBotanicalPlant({
 		...placement,
-		quality: placement.geometryQuality || quality
+		quality: placement.geometryQuality
 	}));
-	const definitions = assembleVillageBotanicalBatches(plants);
+	const definitions = assembleVillageBotanicalBatches(plants).map((definition) => ({
+		...definition,
+		userData: {
+			...definition.userData,
+			AwtsmoosLod: {
+				className: 'vegetation',
+				fadeStart: 180,
+				geometryTiers: placements.stats.lod
+			}
+		}
+	}));
 	const stats = botanicalBatchStats(definitions);
 	const policy = villageBotanicalQuality(quality);
 	definitions.stats = {
 		...stats,
-		placements: placements.length,
-		catalogSpecies: new Set(placements.map((item) => item.species)).size,
-		quality,
-		composition: placements.stats,
 		budget: {
 			maxPlacements: policy.maxPlacements,
 			maxTriangles: policy.maxTriangles
-		}
+		},
+		catalogSpecies: new Set(placements.map((item) => item.species)).size,
+		composition: placements.stats,
+		placements: placements.length,
+		quality
 	};
 	return definitions;
 }

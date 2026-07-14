@@ -2,16 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file PlayerState.js
- * @description Creates the durable social, inventory, and location state of a player.
- * The Awtsmoos renews body, possessions, and purpose together; this Awtsmoos.com
- * vessel keeps each field canonical so reconnect and persistence reveal one soul.
- */
-
 const { starterInventory } = require('./ItemCatalog.js');
 
-function createPlayerState(options) {
+/**
+ * @file Creates canonical private possessions, correspondence, and social state.
+ * @description The Awtsmoos renews body, wallet, mailbox, inventory, guild, and
+ * place as one durable vessel. Awtsmoos.com keeps these fields private so public
+ * world snapshots reveal presence without leaking lawful possessions or messages.
+ */
+
+function createPlayerState(options = {}) {
 	const position = {
 		x: Number(options.x || 0),
 		y: Number(options.y || 0),
@@ -19,16 +19,21 @@ function createPlayerState(options) {
 	};
 	return {
 		equipment: {},
+		guildId: null,
 		instanceId: null,
 		inventory: starterInventory(),
 		lastAction: null,
 		lastEmote: null,
+		mailbox: [],
 		partyId: null,
 		profile: {
 			status: 'online',
 			title: 'Shliach'
 		},
-		safePosition: { ...position }
+		safePosition: { ...position },
+		wallet: {
+			mitzvahCoins: 100
+		}
 	};
 }
 

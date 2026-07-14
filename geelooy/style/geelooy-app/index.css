@@ -1,23 +1,24 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers every Awtsmoos.com interaction vessel through one
- * versioned manifest so nested visual repairs cannot remain trapped in cache.
+ * The Awtsmoos gathers every Awtsmoos.com vessel through one versioned fast
+ * manifest so repaired hierarchy and performance cannot remain trapped in cache.
  */
-@import "./tokens.css?v=magic-001";
-@import "./base.css?v=magic-001";
-@import "./motion/ambient.css?v=magic-001";
-@import "./motion/page-transitions.css?v=magic-001";
-@import "./motion/page-transition-keyframes.css?v=magic-001";
-@import "./header/index.css?v=magic-001";
-@import "./shell.css?v=magic-001";
-@import "./surfaces.css?v=magic-001";
-@import "./navigation/pathways.css?v=magic-001";
-@import "./navigation/pathway-motion.css?v=magic-001";
-@import "./states/semantic.css?v=magic-001";
-@import "./home.css?v=magic-001";
-@import "./home/instrumentation.css?v=magic-001";
-@import "./home/instrument-motion.css?v=magic-001";
-@import "./pages.css?v=magic-001";
-@import "./responsive.css?v=magic-001";
-@import "../social-system/app-clean.css?v=magic-001";
+@import "./tokens.css?v=speed-001";
+@import "./base.css?v=speed-001";
+@import "./motion/ambient.css?v=speed-001";
+@import "./motion/page-transitions.css?v=speed-001";
+@import "./motion/page-transition-keyframes.css?v=speed-001";
+@import "./header/index.css?v=speed-001";
+@import "./shell.css?v=speed-001";
+@import "./surfaces.css?v=speed-001";
+@import "./navigation/pathways.css?v=speed-001";
+@import "./navigation/pathway-motion.css?v=speed-001";
+@import "./states/semantic.css?v=speed-001";
+@import "./home.css?v=speed-001";
+@import "./home/instrumentation.css?v=speed-001";
+@import "./home/instrument-motion.css?v=speed-001";
+@import "./pages.css?v=speed-001";
+@import "./responsive.css?v=speed-001";
+@import "../social-system/app-clean.css?v=speed-001";
+@import "./performance.css?v=speed-001";

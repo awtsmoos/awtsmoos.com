@@ -1,62 +1,73 @@
-/* B"H — Each route card reveals its destination before the click. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Each constellation card speaks through loud emoji and separated plain text.
+ */
 .g-constellation-route {
 	position: relative;
 	display: grid;
-	grid-template-columns: 2.7rem minmax(0, 1fr);
+	grid-template-columns: 3rem minmax(0, 1fr);
 	align-items: center;
-	gap: 0.7rem;
-	min-height: 4.6rem;
-	padding: 0.72rem;
-	overflow: hidden;
-	border: 1px solid rgba(255, 255, 255, 0.09);
+	gap: 0.75rem;
+	min-height: 4.75rem;
+	padding: 0.75rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
 	border-radius: 1rem;
-	background: rgba(255, 255, 255, 0.045);
-	transition: 180ms var(--g-ease);
-}
-
-.g-constellation-route::after {
-	position: absolute;
-	inset: auto -20% -70% 35%;
-	height: 5rem;
-	border-radius: 50%;
-	background: var(--g-gradient);
-	content: "";
-	filter: blur(28px);
-	opacity: 0;
-	transition: 180ms var(--g-ease);
+	background: #10182a;
+	transition: transform 150ms var(--g-ease), border-color 150ms var(--g-ease), background 150ms var(--g-ease);
 }
 
 .g-constellation-route:hover,
 .g-constellation-route[aria-current="page"] {
-	border-color: rgba(60, 236, 255, 0.4);
-	background: rgba(79, 125, 255, 0.1);
-	transform: translateY(-2px) scale(1.01);
+	border-color: rgba(60, 236, 255, 0.46);
+	background: #16284a;
+	transform: translateY(-2px);
 }
 
-.g-constellation-route:hover::after,
-.g-constellation-route[aria-current="page"]::after {
-	opacity: 0.22;
+.g-constellation-route[data-main-route="true"] {
+	grid-column: 1 / -1;
+	min-height: 5.75rem;
+	border-color: rgba(95, 232, 255, 0.62);
+	background: linear-gradient(115deg, #0d4055, #392a84 56%, #6f1e61);
 }
 
 .g-constellation-icon {
 	display: grid;
-	width: 2.7rem;
-	height: 2.7rem;
+	width: 3rem;
+	height: 3rem;
 	place-items: center;
-	border-radius: 0.9rem;
-	background: linear-gradient(145deg, rgba(60, 236, 255, 0.18), rgba(139, 92, 255, 0.24));
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
-	font-size: 1.18rem;
+	border-radius: 0.95rem;
+	background: linear-gradient(145deg, #183f58, #3b2c76 58%, #601d55);
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+	font-size: 1.45rem;
 }
 
+.g-constellation-route[data-main-route="true"] .g-constellation-icon {
+	width: 3.6rem;
+	height: 3.6rem;
+	background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
+	font-size: 1.8rem;
+}
+
+.g-constellation-copy,
 .g-constellation-route strong,
 .g-constellation-route small {
 	display: block;
 }
 
+.g-constellation-copy {
+	min-width: 0;
+}
+
+.g-constellation-route strong {
+	font-size: 1rem;
+	line-height: 1.2;
+}
+
 .g-constellation-route small {
-	margin-top: 0.18rem;
+	margin-top: 0.22rem;
 	color: var(--g-muted);
-	font-size: 0.72rem;
-	line-height: 1.25;
+	font-size: 0.76rem;
+	line-height: 1.35;
 }

@@ -4,8 +4,9 @@
 /**
  * @module GeelooyUnifiedShellBoot
  * @description
- * The Awtsmoos reveals one living Horizon around eligible Awtsmoos.com routes.
- * Post readers remain outside the shell while sovereign pages gain smooth travel.
+ * The Awtsmoos reveals one fast Horizon around eligible Awtsmoos.com routes.
+ * Performance is classified before decorative systems awaken, while sovereign
+ * pages retain their real content and native fallback.
  */
 import { startNativePageTransitions } from '../navigation/nativePageTransitions.js';
 import { bindAmbientField } from './ambientField.js';
@@ -13,20 +14,20 @@ import { bindAppCommand } from './appCommand.js';
 import { currentAppRoute } from './appRoutes.js';
 import { ensureAppShell } from './appShell.js';
 import { ensureToastRegion } from './notifications.js';
+import { applyPerformanceProfile } from './performanceProfile.js';
 import { isShellEligible } from './routeEligibility.js';
 import { bindScrollMemory } from './scrollMemory.js';
 
-const STYLE_HREF = '/style/geelooy-app/index.css?v=extreme-005';
+const STYLE_HREF = '/style/geelooy-app/index.css?v=speed-001';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 const ROUTE_OUTLET_SELECTOR = '[data-geelooy-route-outlet]';
 
-/**
- * Boots shared identity without replacing sovereign route content.
- * @param {Document} root Active route document.
- * @returns {HTMLElement|null} Mounted shell, or null for an excluded route.
- */
+/** Boots shared identity without replacing sovereign route content. */
 export function bootGeelooyShell(root = document) {
-	if (!root.documentElement || !root.body || !isShellEligible(root.location?.pathname)) return null;
+	if (!root.documentElement || !root.body || !isShellEligible(root.location?.pathname)) {
+		return null;
+	}
+	applyPerformanceProfile(root);
 	ensureStylesheet(root);
 	applyRouteIdentity(root);
 	root.documentElement.classList.add('geelooy-route-ready');
@@ -43,7 +44,9 @@ export function bootGeelooyShell(root = document) {
 
 /** Loads proven hybrid navigation without making it a shell prerequisite. */
 async function startOptionalNavigation(root) {
-	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) return null;
+	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) {
+		return null;
+	}
 	try {
 		const { startAppNavigation } = await import('../navigation/appNavigation.js');
 		return startAppNavigation(root);
@@ -54,15 +57,23 @@ async function startOptionalNavigation(root) {
 }
 
 function applyRouteIdentity(root) {
-	if (root.body.dataset.geelooyRoute) return;
+	if (root.body.dataset.geelooyRoute) {
+		return;
+	}
 	const route = currentAppRoute(root.location?.pathname);
 	root.body.dataset.geelooyRoute = routeThemeName(route);
 }
 
 function routeThemeName(route) {
-	if (route.href === '/') return 'home';
-	if (route.href === '/mawgawl/sefarim') return 'search';
-	if (route.create) return 'create';
+	if (route.href === '/') {
+		return 'home';
+	}
+	if (route.href === '/mawgawl/sefarim') {
+		return 'search';
+	}
+	if (route.create) {
+		return 'create';
+	}
 	return route.href.split('/').filter(Boolean).at(-1) || 'home';
 }
 
@@ -70,7 +81,9 @@ function ensureStylesheet(root) {
 	const existing = root.querySelector(STYLE_SELECTOR);
 	const expectedHref = new URL(STYLE_HREF, root.baseURI).href;
 	if (existing) {
-		if (existing.href !== expectedHref) existing.href = STYLE_HREF;
+		if (existing.href !== expectedHref) {
+			existing.href = STYLE_HREF;
+		}
 		existing.dataset.geelooyAppStyle = 'true';
 		return;
 	}

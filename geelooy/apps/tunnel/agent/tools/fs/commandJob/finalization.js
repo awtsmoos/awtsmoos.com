@@ -3,18 +3,22 @@
 // Blessed is He
 
 const Context = require("./context.js");
+const Force = require("./forceFinalization.js");
 const GarbageCadence = require("./gcCadence.js");
 const Idempotency = require("./idempotency.js");
 const Scheduler = require("./scheduler.js");
 
 /**
  * B"H
- * Every terminal cause enters one promise before it changes the process. The
- * Awtsmoos lets cleanup breathe through one shared cadence, so a thousand
- * completed workers do not summon a thousand recursive filesystem scans.
+ *
+ * Normal endings preserve complete output; emergency endings release ownership
+ * first and persist behind deadlines. The Awtsmoos renews both roads while
+ * Awtsmoos.com ensures one wedged finalizer cannot retain a physical lane.
  */
 function reserve(config, jobId, live, producer) {
-	if (live.finalizing) return live.finalizing;
+	if (live.finalizing) {
+		return live.finalizing;
+	}
 	live.finalizing = Promise.resolve()
 		.then(producer)
 		.catch(error => ({
@@ -26,7 +30,9 @@ function reserve(config, jobId, live, producer) {
 }
 
 async function finalizeLive(config, jobId, live, patch = {}) {
-	if (live.timer) clearTimeout(live.timer);
+	if (live.timer) {
+		clearTimeout(live.timer);
+	}
 	Context.Heartbeat.stop(live);
 	await Promise.resolve(live.identityPromise).catch(() => null);
 	await Context.IO.waitForWrites(jobId, Context.activeJobs);
@@ -51,6 +57,18 @@ async function finalizeLive(config, jobId, live, patch = {}) {
 	completeOwnership(saved);
 	void GarbageCadence.collect(config).catch(() => {});
 	return saved;
+}
+
+function forceFinalizeLive(config, jobId, live, patch = {}) {
+	return Force.forceFinalizeLive({
+		config,
+		jobId,
+		live,
+		patch,
+		Context,
+		completeOwnership,
+		GarbageCadence
+	});
 }
 
 async function finalizeDetached(config, jobId, meta, patch = {}) {
@@ -94,5 +112,6 @@ module.exports = {
 	completeOwnership,
 	finalizeDetached,
 	finalizeLive,
+	forceFinalizeLive,
 	reserve
 };

@@ -9,6 +9,7 @@
 
 import { ArenaCreationModel } from "./ArenaCreationModel.js";
 import { ArenaDiscoveryView } from "./ArenaDiscoveryView.js";
+import { ArenaRosterView } from "./ArenaRosterView.js";
 import { captureMultiplayerElements } from "./MultiplayerElements.js";
 import { ONLINE_OVERLAY_MARKUP, ONLINE_TOOLBAR_MARKUP } from "./MultiplayerMarkup.js";
 import { installMultiplayerStyles } from "./MultiplayerStyles.js";
@@ -21,6 +22,7 @@ export class MultiplayerView {
 		this.elements = captureMultiplayerElements(root);
 		this.creation = new ArenaCreationModel(this.elements);
 		this.discovery = new ArenaDiscoveryView(root, this.elements.discovery);
+		this.roster = new ArenaRosterView(root, this.elements);
 	}
 
 	mount() {
@@ -46,8 +48,8 @@ export class MultiplayerView {
 		this.root.getElementById("online-resume").onclick = actions.resume;
 		this.root.getElementById("online-toolbar-menu").onclick = actions.open;
 		this.discovery.bind({
-			join: (joinCode) => actions.join(this.name(), joinCode),
-			spectate: (joinCode) => actions.spectate(this.name(), joinCode)
+			join: (code) => actions.join(this.name(), code),
+			spectate: (code) => actions.spectate(this.name(), code)
 		});
 	}
 
@@ -97,31 +99,10 @@ export class MultiplayerView {
 	}
 
 	renderArena(arena, participantId, role = "offline") {
-		const joinCode = arena?.joinCode ?? "------";
-		this.elements.currentCode.textContent = joinCode;
-		this.elements.toolbarCode.textContent = joinCode;
-		this.elements.role.textContent = role;
-		this.elements.toolbarRole.textContent = role;
-		this.elements.players.replaceChildren();
-		for (const participant of participants(arena)) {
-			const item = this.root.createElement("li");
-			const local = participant.id === participantId ? " · YOU" : "";
-			const combat = participant.role === "fighter"
-				? ` · ${participant.health} health · ${participant.stocks} stocks`
-				: "";
-			item.textContent = `${participant.name}${local} · ${participant.role}${participant.isBot ? " · BOT" : ""}${combat}`;
-			this.elements.players.append(item);
-		}
+		this.roster.render(arena, participantId, role);
 	}
 
 	setStatus(message) {
 		this.elements.status.textContent = message;
 	}
-}
-
-function participants(arena) {
-	return [
-		...(arena?.state?.fighters ?? []),
-		...(arena?.spectators ?? [])
-	];
 }

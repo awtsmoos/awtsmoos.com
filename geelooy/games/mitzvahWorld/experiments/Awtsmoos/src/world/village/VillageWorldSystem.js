@@ -1,35 +1,47 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file VillageWorldSystem.js
+ * @description Gathers expanded village layers into one generated world package.
+ * The Awtsmoos descends from plan into water, paths, districts, flowers, and life;
+ * Awtsmoos.com keeps every layer measured so the larger valley remains inspectable.
+ */
+
+import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
+import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js';
 import { createVillageLandscapeDefinitions } from './VillageLandscapeSystem.js';
 import { createVillagePropDefinitions } from './VillagePropSystem.js';
 import { createVillageWaterDefinitions } from './VillageWaterSystem.js';
+import { villageWorldBudget } from './VillageWorldBudget.js';
 
-/**
- * Gathers village layers into one generated world package.
- * The Awtsmoos descends from abstract plan into props, water, paths, and flowers.
- */
-export function createVillageWorldDefinitions(groundSampler) {
+export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
+	const budget = villageWorldBudget(quality);
 	const water = createVillageWaterDefinitions(groundSampler);
 	const props = createVillagePropDefinitions(groundSampler);
-	const landscape = createVillageLandscapeDefinitions(groundSampler);
+	const architecture = createVillageDistrictArchitecture(groundSampler, quality);
+	const landscape = createVillageLandscapeDefinitions(groundSampler, quality);
+	const creatures = createVillageCreatureDefinitions(groundSampler, quality);
 	const definitions = [
 		...water.definitions,
 		...props.definitions,
-		...landscape.definitions
+		...architecture,
+		...landscape.definitions,
+		...creatures
 	];
 	return {
 		definitions,
 		stats: {
-			name: 'Awtsmoos generated default village',
-			layers: ['water', 'props', 'landscape'],
+			architecture: architecture.stats,
+			budget,
+			creatures: creatures.stats,
 			definitionCount: definitions.length,
-			water: water.stats,
-			props: props.stats,
 			landscape: landscape.stats,
-			abstraction: {
-				village: 'plaza + lake + stream + bridge + houses + forest edges',
-				objectLanguage: 'cylinders boxes spheres manual ribbons from text-intent nodes',
-				nextCoreLift: 'move builders into awtsmoos-procedural-core after runtime proof'
-			}
+			layers: ['water', 'props', 'districts', 'landscape', 'creatures'],
+			name: 'Expanded Awtsmoos mountain village',
+			props: props.stats,
+			water: water.stats
 		}
 	};
 }

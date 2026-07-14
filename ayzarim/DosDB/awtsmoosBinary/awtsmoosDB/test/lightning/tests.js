@@ -9,7 +9,7 @@
  * Declares every strict test in deterministic order. The Awtsmoos renews each
  * gate independently, so a later success can never conceal an earlier failure.
  * Awtsmoos.com carries the full court through storage, vacuum, recovery, leases,
- * search, vectors, isolation, and production behavior.
+ * search, vectors, isolation, bounded growth, and production behavior.
  */
 
 module.exports = [
@@ -31,6 +31,7 @@ module.exports = [
 	'compact_json_test.js',
 	'compact_cli_refusal_test.js',
 	'storage_reuse_test.js',
+	'default_verified_reuse_test.js',
 	'packed_object_test.js',
 	'packed_density_test.js',
 	'packed_array_test.js',

@@ -1,15 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file core/allocator/freeSpaceOps.js
- * @chapter Former Chambers Wait Until The Outer Generation Is Fully Linked
- * @description
- * Reuses verified or locally trusted gaps while quarantining every range retired
- * during an active pager generation. Verified mode adopts the complete reachable
- * complement; legacy reuse promotes only ranges independently confirmed free at
- * outer idle. The Awtsmoos never lets a writer reuse its own unfinished shadow.
+ * @chapter Verified Hollows Are Reused Without Rejudging Pure Growth Forever
+ * @description Reuses trusted gaps and requests a whole-graph court only when
+ * discovery is still needed or ownership has actually been retired.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
@@ -25,6 +21,7 @@ function allocate(allocator, size) {
 		allocator.cursor = cursorState.getPhysicalSize(allocator);
 	}
 	if (size <= 0) return { offset: 0, length: 0 };
+	const completeBefore = hasCompleteComplement(allocator);
 	if (canReuse(allocator)) {
 		allocator.freeList = coalesceFreeRanges(allocator.freeList, allocator.cursor);
 		const selected = chooseFreeRange(
@@ -34,15 +31,15 @@ function allocate(allocator, size) {
 		);
 		if (selected) {
 			allocator.freeList = selected.ranges.sort((left, right) => left.offset - right.offset);
-			trustLocalChange(allocator, 'verified-after-allocation');
-			markComplementRefresh(allocator);
+			trustAllocation(allocator, completeBefore);
+			requestInitialComplement(allocator, completeBefore);
 			persistence.schedule(allocator);
 			return selected.location;
 		}
 	}
 	const location = { offset: allocator.cursor, length: size };
 	allocator.cursor += size;
-	markComplementRefresh(allocator);
+	requestInitialComplement(allocator, completeBefore);
 	return location;
 }
 
@@ -73,8 +70,10 @@ function adoptRange(allocator, offset, length) {
 			allocator.cursor
 		);
 	}
-	trustLocalChange(allocator, 'verified-local-free');
-	markComplementRefresh(allocator);
+	if (allocator.db.options?.reuseFreedSpace === 'verified') {
+		markTrusted(allocator, 'verified-local-free');
+	}
+	allocator._needsComplementRefresh = true;
 	persistence.schedule(allocator);
 }
 
@@ -98,6 +97,20 @@ function canReuse(allocator) {
 	return mode === 'verified' ? ensureVerified(allocator) : false;
 }
 
+function hasCompleteComplement(allocator) {
+	return allocator.reuseVerification?.state === 'verified-complete-complement';
+}
+
+function trustAllocation(allocator, completeBefore) {
+	if (allocator.db.options?.reuseFreedSpace !== 'verified') return;
+	markTrusted(allocator, completeBefore ? 'verified-complete-complement' : 'verified-after-allocation');
+}
+
+function requestInitialComplement(allocator, completeBefore) {
+	if (allocator._savingFreeList || completeBefore) return;
+	if (allocator.db.options?.reuseFreedSpace === 'verified') allocator._needsComplementRefresh = true;
+}
+
 function validLocalRange(allocator, offset, length) {
 	return Number.isSafeInteger(offset)
 		&& Number.isSafeInteger(length)
@@ -105,19 +118,4 @@ function validLocalRange(allocator, offset, length) {
 		&& offset >= 64
 		&& offset + length <= allocator.cursor;
 }
-
-function trustLocalChange(allocator, state) {
-	if (allocator.db.options?.reuseFreedSpace === 'verified') markTrusted(allocator, state);
-}
-
-function markComplementRefresh(allocator) {
-	if (!allocator._savingFreeList) allocator._needsComplementRefresh = true;
-}
-
-module.exports = {
-	allocate,
-	canReuse,
-	free,
-	isReuseEnabled,
-	releasePointer
-};
+module.exports = { allocate, canReuse, free, isReuseEnabled, releasePointer };

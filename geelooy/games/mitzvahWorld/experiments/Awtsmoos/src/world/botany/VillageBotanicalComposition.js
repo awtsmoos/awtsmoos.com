@@ -4,18 +4,21 @@
 
 /**
  * @file VillageBotanicalComposition.js
- * @description Converts the complete species catalog into deterministic garden
- * populations. Every named plant receives a place, while the Awtsmoos repeats
- * selected colors into the rich masses visible in the mountain-village reference.
+ * @description Distributes the complete botanical catalog across expanded districts.
+ * Every species receives a deterministic place while the Awtsmoos repeats selected
+ * colors into near, middle, and far masses that remain bounded for Awtsmoos.com play.
  */
-import { getBotanicalSpecies, listBotanicalSpecies } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+
+import {
+	getBotanicalSpecies,
+	listBotanicalSpecies
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import { referenceDistrictsForHabitat } from '../village/VillageReferenceComposition.js';
 import { summarizeVillageBotanicalPlacements } from './VillageBotanicalDiagnostics.js';
 import { createReferenceBotanicalPlacement } from './VillageBotanicalPlacement.js';
 import { villageBotanicalQuality } from './VillageBotanicalQuality.js';
 import { referenceRepeatSpecies } from './VillageBotanicalSpeciesProfiles.js';
 
-/** Creates a quality-bounded village garden with full high-tier catalog coverage. */
 export function createVillageBotanicalComposition(groundSampler, quality = 'high') {
 	const policy = villageBotanicalQuality(quality);
 	const allSpecies = listBotanicalSpecies();
@@ -23,24 +26,28 @@ export function createVillageBotanicalComposition(groundSampler, quality = 'high
 	const repeatIds = referenceRepeatSpecies(allSpecies, policy.repeatBudget);
 	const placements = [];
 	appendPlacements(placements, primaryIds, groundSampler, quality, false);
-	appendPlacements(placements, repeatIds, groundSampler, policy.repeatQuality, true);
+	appendPlacements(placements, repeatIds, groundSampler, quality, true);
 	placements.length = Math.min(placements.length, policy.maxPlacements);
-	placements.stats = summarizeVillageBotanicalPlacements(placements, primaryIds.length, quality);
+	placements.stats = {
+		...summarizeVillageBotanicalPlacements(placements, primaryIds.length, quality),
+		districts: new Set(placements.map((item) => item.districtId)).size,
+		lod: countBy(placements, 'lodClass')
+	};
 	return placements;
 }
 
-function appendPlacements(output, speciesIds, groundSampler, geometryQuality, repeated) {
+function appendPlacements(output, speciesIds, groundSampler, quality, repeated) {
 	for (let index = 0; index < speciesIds.length; index += 1) {
 		const species = getBotanicalSpecies(speciesIds[index]);
 		const districts = referenceDistrictsForHabitat(species.habitat);
 		const districtIndex = stableIndex(species.id, districts.length, index, repeated);
 		output.push(createReferenceBotanicalPlacement({
-			species,
 			district: districts[districtIndex],
-			ordinal: index + (repeated ? 401 : 0),
 			groundSampler,
-			geometryQuality,
-			repeated
+			ordinal: index + (repeated ? 613 : 0),
+			repeated,
+			requestedQuality: quality,
+			species
 		}));
 	}
 }
@@ -57,15 +64,19 @@ function ensureArchetypeCoverage(selected, allSpecies) {
 	const output = [...selected];
 	for (const id of allSpecies) {
 		const archetype = getBotanicalSpecies(id).archetype;
-		if (!present.has(archetype)) {
-			present.add(archetype);
-			output.push(id);
-		}
+		if (present.has(archetype)) continue;
+		present.add(archetype);
+		output.push(id);
 	}
 	return output;
 }
 
 function stableIndex(speciesId, length, ordinal, repeated) {
 	const sum = [...speciesId].reduce((total, character) => total + character.charCodeAt(0), 0);
-	return (sum + ordinal + (repeated ? 1 : 0)) % Math.max(1, length);
+	return (sum + ordinal * 7 + (repeated ? 3 : 0)) % Math.max(1, length);
+}
+
+function countBy(values, field) {
+	return Object.fromEntries([...new Set(values.map((value) => value[field]))]
+		.map((key) => [key, values.filter((value) => value[field] === key).length]));
 }

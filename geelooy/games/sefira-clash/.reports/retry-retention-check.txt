@@ -1,0 +1,27 @@
+=== HEAD ===
+105c2b45a (HEAD -> main, origin/main, origin/HEAD) B_H automatic update
+a76d6da3a B_H make socket opening transactionally recoverable
+ea8330cc0 B_H guarantee socket terminal reconnects
+887f50e5c B_H make tunnel frames and reconnects resilient
+f2d0ad121 B_H align tunnel WebSocket frame limits
+=== KEY PROTOCOL ===
+15:	CAPABILITIES: 'session.capabilities',
+23:	REPLAY: 'match.replay',
+24:	RESUME: 'session.resume',
+28:	WATCH: 'lobby.watch'
+32:	CAPABILITIES: 'session.capabilities',
+40:	REPLAY: 'match.replay',
+41:	RESUMED: 'session.resumed',
+45:	WATCHING: 'lobby.watching'
+=== KEY CLIENT ===
+geelooy/games/sefira-clash/js/online/OnlineConnectionCoordinator.js
+geelooy/games/sefira-clash/js/online/OnlineReplayExporter.js
+geelooy/games/sefira-clash/js/online/OnlineTouchController.js
+=== TRACKING ===
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SessionToken.js
+ayzarim/awtsmoosDynamicServer/websocket/core/closeHandshake.js
+geelooy/games/sefira-clash/js/online/OnlineConnectionCoordinator.js
+=== LAST COMMITS FOR KEY FILES ===
+105c2b45a B_H automatic update
+105c2b45a B_H automatic update
+105c2b45a B_H automatic update

@@ -70,51 +70,46 @@ class Directory {
 
 	disconnect(client) {
 		const session = this.sessions.disconnect(client);
-		if (session) {
-			this.detachActor(session.actor.actorId);
-		}
+		if (session) this.detachActor(session.actor.actorId);
 	}
 
 	remove(client) {
 		const session = this.sessions.remove(client);
-		if (session) {
-			this.detachActor(session.actor.actorId);
-			this.parties.leave(session.actor.actorId);
-		}
+		if (!session) return;
+		this.detachActor(session.actor.actorId);
+		this.parties.leave(session.actor.actorId);
 	}
 
 	roomFor(client) {
 		const session = this.sessions.require(client);
 		if (!session.actor.mapId) {
-			throw new RealtimeError('WORLD_JOIN_REQUIRED', 'Join a map room first.');
+			throw new RealtimeError(
+				'WORLD_JOIN_REQUIRED',
+				'Join a map room first.'
+			);
 		}
 		return this.room(session.actor.mapId);
 	}
 
 	actor(actorId) {
 		for (const room of this.rooms.values()) {
-			if (room.actors.has(actorId)) {
-				return room.actors.get(actorId);
-			}
+			if (room.actors.has(actorId)) return room.actors.get(actorId);
 		}
 		return null;
 	}
 
 	detachActor(actorId) {
 		for (const room of this.rooms.values()) {
-			if (room.actors.has(actorId)) {
-				room.remove(actorId);
-				return room;
-			}
+			if (!room.actors.has(actorId)) continue;
+			room.remove(actorId);
+			return room;
 		}
 		return null;
 	}
 
 	tickBots() {
 		for (const room of this.rooms.values()) {
-			if (room.clients.size) {
-				this.bots.tick(room);
-			}
+			if (room.clients.size) this.bots.tick(room);
 		}
 	}
 }

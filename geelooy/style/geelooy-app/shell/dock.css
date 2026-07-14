@@ -1,4 +1,9 @@
-/* B"H — Mobile receives one compact dock with safe-area respect. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Mobile receives one fast emoji dock with Ikar at its radiant center.
+ */
 .g-dock {
 	display: none;
 }
@@ -10,41 +15,47 @@
 		z-index: 90;
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		padding: 0.55rem max(0.55rem, env(safe-area-inset-right)) calc(0.55rem + env(safe-area-inset-bottom)) max(0.55rem, env(safe-area-inset-left));
+		padding: 0.45rem max(0.45rem, env(safe-area-inset-right)) calc(0.45rem + env(safe-area-inset-bottom)) max(0.45rem, env(safe-area-inset-left));
 		border-top: 1px solid var(--g-line);
-		background: rgba(5, 9, 20, 0.93);
-		backdrop-filter: blur(24px) saturate(140%);
+		background: #050914;
 	}
 
 	.g-dock a {
 		display: grid;
-		min-height: 3.2rem;
+		min-height: 3.45rem;
 		place-items: center;
 		gap: 0.08rem;
-		border-radius: var(--g-radius-sm);
+		border-radius: 0.85rem;
 		color: var(--g-muted);
-		font-size: 0.68rem;
-		font-weight: 750;
+		font-size: 0.7rem;
+		font-weight: 800;
 	}
 
-	.g-dock a span {
-		font-size: 1.1rem;
+	.g-dock .g-route-icon {
+		font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+		font-size: 1.25rem;
+		line-height: 1;
 	}
 
 	.g-dock a[aria-current="page"] {
-		background: var(--g-gradient-soft);
+		background: linear-gradient(135deg, #112b43, #2d205b);
 		color: var(--g-text);
 	}
 
-	.g-dock a[data-create-route="true"] span {
+	.g-dock a[data-main-route="true"] {
+		color: white;
+		transform: translateY(-0.28rem);
+	}
+
+	.g-dock a[data-main-route="true"] .g-route-icon {
 		display: grid;
-		width: 2rem;
-		height: 2rem;
+		width: 2.75rem;
+		height: 2.75rem;
 		place-items: center;
-		border-radius: 0.72rem;
-		background: var(--g-gradient);
-		color: #050914;
-		font-size: 1.35rem;
-		box-shadow: var(--g-glow);
+		border: 2px solid rgba(255, 255, 255, 0.38);
+		border-radius: 0.9rem;
+		background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
+		font-size: 1.45rem;
+		box-shadow: 0 8px 18px rgba(99, 76, 255, 0.32);
 	}
 }

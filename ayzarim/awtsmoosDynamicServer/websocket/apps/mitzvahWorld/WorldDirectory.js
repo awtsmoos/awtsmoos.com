@@ -13,10 +13,10 @@ const { WorldRoom } = require('./WorldRoom.js');
 const { WorldSessionDirectory } = require('./WorldSessionDirectory.js');
 
 /**
- * @file Coordinates Mitzvah World joins, identity, sessions, rooms, and persistence.
+ * @file Coordinates Mitzvah World identity, sessions, rooms, and persistence.
  * @description The Awtsmoos renews socket and verified person without multiplying
- * either. Awtsmoos.com keeps trusted account binding private while public room
- * snapshots preserve the historical player contract unchanged.
+ * either. Awtsmoos.com carries injected time into every room so mail, leases, and
+ * deterministic witnesses obey one authoritative clock while public state stays safe.
  */
 
 class WorldDirectory {
@@ -25,6 +25,10 @@ class WorldDirectory {
 		this.identities = options.identities || new WorldIdentityProvider(
 			options.identityResolver
 		);
+		this.roomOptions = {
+			clock: options.clock || Date.now,
+			eventLimit: options.eventLimit
+		};
 		this.rooms = new Map();
 		this.sessions = options.sessions || new WorldSessionDirectory(options);
 		this.sessionCredentials = new SessionCredentialService(this.sessions);
@@ -102,7 +106,9 @@ class WorldDirectory {
 	}
 
 	room(id) {
-		if (!this.rooms.has(id)) this.rooms.set(id, new WorldRoom(id));
+		if (!this.rooms.has(id)) {
+			this.rooms.set(id, new WorldRoom(id, this.roomOptions));
+		}
 		return this.rooms.get(id);
 	}
 }

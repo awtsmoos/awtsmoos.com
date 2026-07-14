@@ -2,17 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-const { RealtimeError } = require('../../platform/RealtimeError.js');
-const { createSessionRecord } = require('./SessionRecordFactory.js');
 const { SessionJoinKeyIndex } = require('./SessionJoinKeyIndex.js');
-const { SessionRequestLedger } = require('./SessionRequestLedger.js');
 const { SessionTokenService } = require('./SessionTokenService.js');
+const { WorldSessionLifecycle } = require('./WorldSessionLifecycle.js');
+const { WorldSessionRequestState } = require('./WorldSessionRequestState.js');
 
 /**
- * @file Owns reconnect identity, join idempotency, expiry, replay, and credentials.
- * @description The Awtsmoos renews sockets while one private session preserves the
- * verified account relationship. Awtsmoos.com keeps identity out of public world
- * snapshots while reconnect and persistence retain it server-side.
+ * @file Coordinates Mitzvah World session lifecycle, replay, expiry, and credentials.
+ * @description The Awtsmoos renews socket, identity, request, and acknowledgement
+ * through separate inspectable vessels. Awtsmoos.com keeps private reconnect truth
+ * durable while every public projection remains free of account credentials.
  */
 
 const DEFAULT_GRACE_PERIOD_MS = 30_000;
@@ -25,36 +24,22 @@ class WorldSessionDirectory {
 		this.joinKeys = new SessionJoinKeyIndex();
 		this.sessions = new Map();
 		this.clientTokens = new Map();
+		this.lifecycle = new WorldSessionLifecycle(this);
+		this.requests = new WorldSessionRequestState(this);
 	}
 
 	create(client, roomId, playerId, joinKey = null, identity = null) {
-		const resolvedIdentity = identity || {
-			accountId: `guest:${String(client?.id || 'anonymous')}`,
-			assurance: 'guest'
-		};
-		const session = createSessionRecord({
+		return this.lifecycle.create(
 			client,
-			credentials: this.tokens.createCredentials(this.sessions),
-			identity: resolvedIdentity,
-			joinKey,
+			roomId,
 			playerId,
-			roomId
-		});
-		this.sessions.set(session.resumeToken, session);
-		this.clientTokens.set(client, session.resumeToken);
-		this.joinKeys.bind(session);
-		return session;
+			joinKey,
+			identity
+		);
 	}
 
 	requireToken(resumeToken) {
-		const session = this.sessions.get(resumeToken);
-		if (!session || this.isExpired(session)) {
-			throw new RealtimeError(
-				'SESSION_EXPIRED',
-				'The reconnect session is unavailable.'
-			);
-		}
-		return session;
+		return this.lifecycle.requireToken(resumeToken);
 	}
 
 	sessionForJoinKey(joinKey) {
@@ -63,67 +48,40 @@ class WorldSessionDirectory {
 	}
 
 	resume(client, resumeToken) {
-		const session = this.requireToken(resumeToken);
-		if (session.client && session.client !== client) {
-			throw new RealtimeError(
-				'SESSION_ACTIVE',
-				'The player session is already connected.'
-			);
-		}
-		session.client = client;
-		session.expiresAt = null;
-		this.clientTokens.set(client, resumeToken);
-		return session;
+		return this.lifecycle.resume(client, resumeToken);
 	}
 
 	disconnect(client) {
-		const session = this.forClient(client);
-		this.clientTokens.delete(client);
-		session.client = null;
-		session.expiresAt = this.clock() + this.gracePeriodMs;
-		return session;
+		return this.lifecycle.disconnect(client);
 	}
 
 	close(client) {
-		const session = this.forClient(client);
-		this.clientTokens.delete(client);
-		this.sessions.delete(session.resumeToken);
-		this.joinKeys.release(session);
-		return session;
+		return this.lifecycle.close(client);
 	}
 
 	forClient(client) {
-		const session = this.sessions.get(this.clientTokens.get(client));
-		if (!session) {
-			throw new RealtimeError(
-				'NOT_IN_WORLD',
-				'Join a world before issuing this command.'
-			);
-		}
-		return session;
+		return this.lifecycle.forClient(client);
 	}
 
 	acknowledge(client, revision, maximumRevision) {
-		const session = this.forClient(client);
-		if (!Number.isSafeInteger(revision) || revision < 0 || revision > maximumRevision) {
-			throw new RealtimeError(
-				'INVALID_REVISION',
-				'Acknowledged revision is outside the world history.'
-			);
-		}
-		session.lastAcknowledgedRevision = Math.max(
-			session.lastAcknowledgedRevision,
-			revision
+		return this.requests.acknowledge(
+			client,
+			revision,
+			maximumRevision
 		);
-		return session.lastAcknowledgedRevision;
 	}
 
 	beginRequest(client, request) {
-		return this.forClient(client).ledger.begin(request);
+		return this.requests.begin(client, request);
 	}
 
 	rememberResponse(client, requestId, fingerprint, result) {
-		this.forClient(client).ledger.remember(requestId, fingerprint, result);
+		this.requests.remember(
+			client,
+			requestId,
+			fingerprint,
+			result
+		);
 	}
 
 	credentials(session) {
@@ -144,7 +102,8 @@ class WorldSessionDirectory {
 	}
 
 	isExpired(session) {
-		return session.expiresAt !== null && session.expiresAt <= this.clock();
+		return session.expiresAt !== null &&
+			session.expiresAt <= this.clock();
 	}
 }
 

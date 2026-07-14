@@ -1,0 +1,96 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The quiet river speaks in separated plain text and points first to Ikar.
+ */
+.home-empty-card {
+	gap: 1rem;
+	border-color: rgba(60, 236, 255, 0.34);
+	background: linear-gradient(145deg, #0b2035, #140d32 58%, #251029);
+}
+
+.home-empty-heading {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: 0.85rem;
+}
+
+.home-empty-emoji {
+	display: grid;
+	width: 3.25rem;
+	height: 3.25rem;
+	place-items: center;
+	border-radius: 1rem 0.4rem 1rem 0.4rem;
+	background: linear-gradient(135deg, #32d9ff, #805fff 55%, #ff4ec7);
+	font-size: 1.55rem;
+}
+
+.home-empty-copy {
+	display: grid;
+	gap: 0.2rem;
+}
+
+.home-empty-badge,
+.home-empty-title,
+.home-empty-message {
+	display: block;
+	margin: 0;
+}
+
+.home-empty-badge {
+	color: #72f4ff;
+	font-size: 0.78rem;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.home-empty-title {
+	font-size: clamp(1.25rem, 5vw, 1.75rem);
+	line-height: 1.12;
+}
+
+.home-empty-message {
+	color: var(--g-muted);
+	font-size: 1rem;
+	line-height: 1.55;
+}
+
+.home-empty-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.65rem;
+}
+
+.home-empty-actions :is(a, button) {
+	display: flex;
+	min-height: 3rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0.7rem 0.8rem;
+	border: 1px solid rgba(96, 228, 255, 0.26);
+	border-radius: 0.8rem;
+	background: #111a30;
+	color: var(--g-text);
+	font-weight: 850;
+	text-align: center;
+}
+
+.home-empty-ikar {
+	grid-column: 1 / -1;
+	background: linear-gradient(110deg, #12bfe8, #7a4cff 55%, #ff3bad) !important;
+	color: white !important;
+	font-size: 1.05rem;
+}
+
+@media (max-width: 520px) {
+	.home-empty-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.home-empty-ikar {
+		grid-column: auto;
+	}
+}

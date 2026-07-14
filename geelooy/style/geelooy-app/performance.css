@@ -1,0 +1,120 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps Geelooy visually loud without asking every GPU to paint
+ * moving fog. Color, typography, emoji, and borders remain; expensive air leaves.
+ */
+body.geelooy-app-shell::after,
+.g-home-orbit,
+.g-signal-core span,
+.home-pointer-light,
+.home-awake-sky,
+.home-awake-orb {
+	animation: none !important;
+}
+
+body.geelooy-app-shell::after,
+.g-panel::before,
+.geelooy-home-composer::before,
+.g-constellation-route::after,
+.home-pointer-light {
+	filter: none !important;
+}
+
+.g-unusual-header,
+.g-dock,
+.g-constellation-menu,
+.g-context-ribbon,
+.g-panel,
+.g-header-search,
+.g-search-suggestions,
+.awtsmoosDrop .dropdown-content {
+	backdrop-filter: none !important;
+}
+
+.g-unusual-header,
+.g-dock,
+.g-context-ribbon,
+.g-panel,
+.g-constellation-menu {
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24) !important;
+}
+
+.g-home-main > section,
+.g-home-aside > section,
+.g-route-list > a,
+.g-constellation-route,
+.geelooy-feed-card {
+	content-visibility: auto;
+	contain: layout paint style;
+	contain-intrinsic-size: 20rem;
+}
+
+.g-unusual-header,
+.g-dock,
+.g-context-ribbon,
+.awtsmoosDrop,
+.g-header-search {
+	content-visibility: visible;
+	contain: none;
+}
+
+html[data-g-performance="lean"] body.geelooy-app-shell::before,
+html[data-g-performance="lean"] body.geelooy-app-shell::after,
+html[data-g-performance="lean"] .g-home-orbit,
+html[data-g-performance="lean"] .home-pointer-light,
+html[data-g-performance="lean"] .home-awake-sky,
+html[data-g-performance="lean"] .home-awake-orb {
+	display: none !important;
+}
+
+html[data-g-performance="lean"] *,
+html[data-g-performance="lean"] *::before,
+html[data-g-performance="lean"] *::after {
+	animation-duration: 0.01ms !important;
+	animation-iteration-count: 1 !important;
+	scroll-behavior: auto !important;
+}
+
+html[data-g-performance="lean"] :is(
+	.g-unusual-header,
+	.g-dock,
+	.g-context-ribbon,
+	.g-constellation-menu,
+	.g-panel,
+	.geelooy-feed-card,
+	.geelooy-home-composer
+) {
+	filter: none !important;
+	backdrop-filter: none !important;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+@media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
+	body.geelooy-app-shell::before,
+	body.geelooy-app-shell::after,
+	.g-home-orbit,
+	.home-pointer-light {
+		display: none !important;
+	}
+
+	:is(
+		.g-unusual-header,
+		.g-dock,
+		.g-context-ribbon,
+		.g-constellation-menu,
+		.g-panel,
+		.g-header-search,
+		.awtsmoosDrop .dropdown-content
+	) {
+		backdrop-filter: none !important;
+	}
+
+	.g-search-orb,
+	.g-signal-core span,
+	.g-primary-action,
+	.g-button-primary {
+		animation: none !important;
+	}
+}

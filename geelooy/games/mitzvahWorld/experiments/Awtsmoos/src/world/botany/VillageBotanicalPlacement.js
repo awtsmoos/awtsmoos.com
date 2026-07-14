@@ -4,56 +4,60 @@
 
 /**
  * @file VillageBotanicalPlacement.js
- * @description Places one deterministic plant in a reference district while
- * guarding bridges, paths, and gathering spaces. The Awtsmoos reveals abundance
- * as measured relationship, not random clutter.
+ * @description Places deterministic plants with clearing, wind, cluster, and LOD data.
+ * The Awtsmoos renews abundance as measured relationship rather than clutter;
+ * Awtsmoos.com keeps every bloom aligned with ground, district, path, and frame budget.
  */
+
 import { villageGroundHeight } from '../village/VillageGroundSampling.js';
 import { VILLAGE_REFERENCE_CLEARINGS } from '../village/VillageReferenceComposition.js';
-import { referenceSpeciesRole, referenceSpeciesScale } from './VillageBotanicalSpeciesProfiles.js';
+import { districtGeometryQuality } from '../village/VillageWorldBudget.js';
+import {
+	referenceSpeciesRole,
+	referenceSpeciesScale
+} from './VillageBotanicalSpeciesProfiles.js';
 
 const GOLDEN_ANGLE = 2.399963229728653;
 
-/** Builds a renderer-ready placement from species and district intent. */
 export function createReferenceBotanicalPlacement(options) {
 	const { species, district, ordinal, groundSampler } = options;
 	const point = openPoint(district, ordinal, species.id);
+	const seed = stableSeed(`${district.id}:${species.id}:${ordinal}`);
 	return {
-		species: species.id,
-		seed: stableSeed(`${district.id}:${species.id}:${ordinal}`),
-		scale: referenceSpeciesScale(species, ordinal, options.repeated),
+		clusterRadius: district.detail === 'far' ? 1.8 : district.detail === 'medium' ? 1.0 : 0.45,
+		districtId: district.id,
+		geometryQuality: districtGeometryQuality(district.detail, options.requestedQuality),
+		lodClass: district.detail,
+		populationIndex: ordinal,
 		position: {
 			x: point.x,
 			y: villageGroundHeight(groundSampler, point.x, point.z),
 			z: point.z
 		},
-		zone: species.habitat,
-		districtId: district.id,
-		populationIndex: ordinal,
 		referenceRole: referenceSpeciesRole(species),
-		geometryQuality: options.geometryQuality
+		scale: referenceSpeciesScale(species, ordinal, options.repeated),
+		seed,
+		species: species.id,
+		windPhase: seed / 4294967295 * Math.PI * 2,
+		zone: species.habitat
 	};
 }
 
 function openPoint(district, ordinal, speciesId) {
-	for (let attempt = 0; attempt < 6; attempt += 1) {
-		const point = districtPoint(district, ordinal + attempt * 11, speciesId);
+	for (let attempt = 0; attempt < 8; attempt += 1) {
+		const point = districtPoint(district, ordinal + attempt * 13, speciesId);
 		if (VILLAGE_REFERENCE_CLEARINGS.every((space) => outsideClearing(point, space))) {
 			return point;
 		}
 	}
-	return districtPoint(district, ordinal + 71, speciesId);
+	return districtPoint(district, ordinal + 97, speciesId);
 }
 
 function districtPoint(district, ordinal, speciesId) {
 	const wobble = stableUnit(`${speciesId}:${ordinal}`) * 0.34 - 0.17;
 	const angle = district.phase + ordinal * GOLDEN_ANGLE + wobble;
-	const progression = Math.sqrt((ordinal % 19 + 1) / 19);
-	const radiusFactor = district.pattern === 'border'
-		? 0.72 + progression * 0.25
-		: district.pattern === 'shoreline'
-			? 0.96 + progression * 0.08
-			: 0.28 + progression * 0.68;
+	const progression = Math.sqrt((ordinal % 29 + 1) / 29);
+	const radiusFactor = 0.24 + progression * 0.72;
 	return {
 		x: district.center[0] + Math.cos(angle) * district.radius[0] * radiusFactor,
 		z: district.center[1] + Math.sin(angle) * district.radius[1] * radiusFactor

@@ -1,12 +1,17 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file index.js
- * @chapter The Ancient Door Reopens With Every Persisted Watchtower Remembered
- * @description Compatibility facade for index caches, strict search, batched drains, reports, and vacuum.
+ * @chapter The Public Door Opens With Verified Memory Of Every Reclaimable Chamber
+ * @description
+ * Compatibility facade for strict search, reports, vacuum, and safe defaults.
+ * Writable callers that omit a reuse policy now receive verified reuse; explicit
+ * opt-out and read-only choices remain unchanged beneath the Awtsmoos.
  */
 
-const AwtsmoosDB = require('./database.js');
+const BaseAwtsmoosDB = require('./database.js');
 const SearchManager = require('./api/search/index.js');
 const StorageReport = require('./api/admin/storageReport.js');
 const hydrateIndexCaches = require('./api/indexCacheHydrator.js');
@@ -15,6 +20,13 @@ const reindexSearch = require('./api/search/reindex/index.js');
 const flushSearchPath = require('./api/search/batchedFlush.js');
 const vacuumFile = require('./core/vacuum/index.js');
 const semanticDigest = require('./core/vacuum/semanticDigest.js');
+const withDefaultVerifiedReuse = require('./core/allocator/defaultReuseOptions.js');
+
+class AwtsmoosDB extends BaseAwtsmoosDB {
+	constructor(filePath, options = {}) {
+		super(filePath, withDefaultVerifiedReuse(options));
+	}
+}
 
 const originalOpen = AwtsmoosDB.prototype.open;
 AwtsmoosDB.prototype.open = function openWithIndexCaches(...argumentsList) {

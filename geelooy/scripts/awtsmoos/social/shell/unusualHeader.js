@@ -4,8 +4,8 @@
 /**
  * @module GeelooyUnusualHeader
  * @description
- * The floating B"H jewel, search lens, profile doorway, Mail portal, and route
- * constellation reveal one coherent horizon across Awtsmoos.com.
+ * The floating B"H jewel, emoji portals, profile doorway, and constellation
+ * reveal one fast, plain-text horizon across Awtsmoos.com.
  */
 import createProfileDropdown from '../profileDropdown.js';
 import { appRoutes, currentAppRoute } from './appRoutes.js';
@@ -18,24 +18,24 @@ export function createUnusualHeader(root = document) {
 	header.dataset.unusualHeader = 'true';
 	header.setAttribute('aria-label', 'Awtsmoos global navigation');
 	const actions = element(root, 'div', 'g-header-actions header-buttons');
-	const mobileSearch = action(root, 'button', '⌕', 'Open search portal');
-	mobileSearch.classList.add('g-mobile-search-button');
-	mobileSearch.type = 'button';
-	mobileSearch.addEventListener('click', focusHeaderSearch);
-	const mail = action(root, 'a', '✉', 'Open Mail');
+	const search = action(root, 'button', '🔍', 'Open search portal');
+	search.classList.add('g-mobile-search-button');
+	search.type = 'button';
+	search.addEventListener('click', focusHeaderSearch);
+	const mail = action(root, 'a', '📬', 'Open Mail');
 	mail.href = '/email';
 	mail.classList.add('g-mail-portal');
 	const profile = element(root, 'div', 'g-header-profile');
 	profile.id = 'awtsmoosDrop';
 	createProfileDropdown(profile);
-	const menuButton = action(root, 'button', '☰', 'Open route constellation');
+	const menuButton = action(root, 'button', '🧭', 'Open route constellation');
 	menuButton.type = 'button';
 	menuButton.classList.add('menuBtn', 'g-menu-button');
 	menuButton.setAttribute('aria-expanded', 'false');
 	const menu = createConstellation(root);
 	menuButton.setAttribute('aria-controls', menu.id);
 	bindConstellationMenu(menuButton, menu, root);
-	actions.append(mobileSearch, mail, profile, menuButton);
+	actions.append(search, mail, profile, menuButton);
 	header.append(createBrand(root), createHeaderSearch(root), actions, menu);
 	return header;
 }
@@ -44,14 +44,9 @@ function createBrand(root) {
 	const brand = element(root, 'a', 'g-header-brand home icon');
 	brand.href = '/';
 	brand.setAttribute('aria-label', 'Geelooy home');
-	const jewel = element(root, 'span', 'g-bh-jewel');
-	jewel.textContent = 'B"H';
+	const jewel = element(root, 'span', 'g-bh-jewel', 'B"H');
 	const copy = element(root, 'span', 'g-header-brand-copy');
-	const title = element(root, 'strong');
-	title.textContent = 'Geelooy';
-	const route = element(root, 'small');
-	route.textContent = currentAppRoute().label;
-	copy.append(title, route);
+	copy.append(element(root, 'strong', '', 'Geelooy'), element(root, 'small', '', currentAppRoute().label));
 	brand.append(jewel, copy);
 	return brand;
 }
@@ -62,7 +57,10 @@ function createConstellation(root) {
 	menu.hidden = true;
 	menu.setAttribute('aria-label', 'Geelooy route constellation');
 	const heading = element(root, 'header', 'g-constellation-heading');
-	heading.innerHTML = '<span>✦</span><div><strong>Route constellation</strong><small>Every chamber, one jump away</small></div>';
+	const symbol = element(root, 'span', '', '🧭');
+	const copy = element(root, 'div');
+	copy.append(element(root, 'strong', '', 'Route constellation'), element(root, 'small', '', 'Every chamber, one jump away'));
+	heading.append(symbol, copy);
 	const grid = element(root, 'div', 'g-constellation-grid');
 	for (const route of appRoutes.filter(item => !['/login', '/register'].includes(item.href))) {
 		grid.append(routeCard(root, route));
@@ -79,14 +77,13 @@ function routeCard(root, route) {
 	const link = element(root, 'a', 'g-constellation-route');
 	link.href = route.href;
 	link.dataset.gRouteLink = 'true';
-	const icon = element(root, 'span', 'g-constellation-icon');
-	icon.textContent = route.icon;
-	const copy = element(root, 'span');
-	const title = element(root, 'strong');
-	title.textContent = route.label;
-	const description = element(root, 'small');
-	description.textContent = route.description;
-	copy.append(title, description);
+	if (route.main) {
+		link.dataset.mainRoute = 'true';
+	}
+	const icon = element(root, 'span', 'g-constellation-icon', route.icon);
+	icon.setAttribute('aria-hidden', 'true');
+	const copy = element(root, 'span', 'g-constellation-copy');
+	copy.append(element(root, 'strong', '', route.label), element(root, 'small', '', route.description));
 	link.append(icon, copy);
 	return link;
 }
@@ -98,8 +95,11 @@ function action(root, tag, text, label) {
 	return item;
 }
 
-function element(root, tag, className = '') {
+function element(root, tag, className = '', text = '') {
 	const item = root.createElement(tag);
 	item.className = className;
+	if (text) {
+		item.textContent = text;
+	}
 	return item;
 }

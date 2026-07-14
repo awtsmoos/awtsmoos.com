@@ -10,14 +10,15 @@ const Paths = require("./paths.js");
 
 /**
  * B"H
- * Metadata is born queued with immutable command and correlation identity. The
- * Awtsmoos lets Awtsmoos.com trace one caller through worker and receipt.
+ *
+ * Metadata is born queued with immutable command, correlation, and lease truth.
+ * The Awtsmoos renews every worker; Awtsmoos.com can reconcile or reap it after
+ * reconnect without guessing how long the original process was allowed to live.
  */
 function createMeta(args = {}) {
 	const startedAt = new Date().toISOString();
-	const correlation = Correlation.extract(
-		args.payload || {}
-	);
+	const deadlineAt = deadline(startedAt, args.timeoutMs);
+	const correlation = Correlation.extract(args.payload || {});
 	const worker = Protocol.commandWorker({
 		...correlation,
 		workerId: args.workerId,
@@ -47,6 +48,8 @@ function createMeta(args = {}) {
 		cwd: args.cwd,
 		shell: args.shell,
 		timeoutMs: args.timeoutMs,
+		deadlineAt,
+		leaseExpiresAt: deadlineAt,
 		status: "queued",
 		startedAt,
 		updatedAt: startedAt,
@@ -55,7 +58,11 @@ function createMeta(args = {}) {
 		processIdentity: null,
 		cleanup: null,
 		correlation,
-		worker,
+		worker: {
+			...worker,
+			deadlineAt,
+			leaseExpiresAt: deadlineAt
+		},
 		receipt: {
 			...receipt,
 			state: "queued",
@@ -72,8 +79,18 @@ function createMeta(args = {}) {
 	};
 }
 
+function deadline(startedAt, timeoutMs) {
+	const start = Date.parse(startedAt || "");
+	const timeout = Number(timeoutMs || 0);
+	if (!Number.isFinite(start) || !Number.isFinite(timeout) || timeout <= 0) {
+		return null;
+	}
+	return new Date(start + timeout).toISOString();
+}
+
 module.exports = {
 	attachPreliminary: Identity.attachPreliminary,
 	attachProcess: Identity.attachProcess,
-	createMeta
+	createMeta,
+	deadline
 };

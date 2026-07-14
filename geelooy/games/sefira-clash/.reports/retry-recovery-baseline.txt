@@ -1,0 +1,10 @@
+=== STATUS ===
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRoomComposition.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldSocialStateFilter.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldStateRecord.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRoomStateRecord.js
+?? geelooy/games/sefira-clash/.reports/retry-recovery-baseline.txt
+=== UI PROOF FILES ===
+-rw-r--r--  1 awtsmoos  staff  503 Jul 13 22:01 geelooy/games/sefira-clash/.reports/massive-ui-replay-server.log
+=== PORTS 8139-8142 ===
+=== NODE PROCESSES ===
