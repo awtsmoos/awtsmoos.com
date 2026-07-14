@@ -2,17 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+const Effects = require("./main-registration-effects.js");
+const Timer = require("./main-registration-timer.js");
 const { boundedNumber } = require("./runtime-number.js");
-
 const DEFAULT_RETRY_MS = 3000;
 const DEFAULT_MAXIMUM_ATTEMPTS = 6;
 
 /**
  * B"H
  *
- * An opened doorway is not yet a registered home. The Awtsmoos renews each
- * acknowledgement attempt; Awtsmoos.com reports terminal silence to the owning
- * connection runtime, which replaces the socket without terminating the process.
+ * Registration retry is armed before transport send. The Awtsmoos renews each
+ * failed testimony; synchronous side effects cannot erase bounded recovery.
  */
 function startRegistrationWatchdog(options = {}) {
 	const {
@@ -36,19 +36,25 @@ function startRegistrationWatchdog(options = {}) {
 		20,
 		DEFAULT_MAXIMUM_ATTEMPTS
 	);
-	const setTimer = options.setTimer || setTimeout;
-	const clearTimer = options.clearTimer || clearTimeout;
-	let timer = null;
 	let attempts = 0;
 	let stopped = false;
+	const timer = Timer.createRegistrationTimer({
+		setTimer: options.setTimer,
+		clearTimer: options.clearTimer,
+		retryMs,
+		onError(error) {
+			Effects.log(
+				dependencies,
+				"warn",
+				`Registration timer failed: ${error?.message || error}`
+			);
+			expire();
+		}
+	});
 
 	function stop() {
 		stopped = true;
-		if (!timer) {
-			return;
-		}
-		clearTimer(timer);
-		timer = null;
+		timer.clear();
 	}
 
 	function eligible() {
@@ -66,44 +72,38 @@ function startRegistrationWatchdog(options = {}) {
 			return;
 		}
 		attempts += 1;
-		dependencies.Receipt?.write("registration_pending", {
-			tunnelName: config.tunnelName,
-			generation,
+		if (!timer.arm(attempts >= maximumAttempts ? expire : attempt)) {
+			return;
+		}
+		Effects.write(dependencies, config, generation, "registration_pending", {
 			attempt: attempts,
 			maximumAttempts
 		});
-		registerReady(ws, config);
-		timer = setTimer(
-			attempts >= maximumAttempts ? expire : attempt,
-			retryMs
-		);
-		timer?.unref?.();
+		Effects.send({
+			dependencies,
+			config,
+			generation,
+			attempt: attempts,
+			registerReady,
+			ws
+		});
 	}
 
 	function expire() {
-		timer = null;
+		timer.clear();
 		if (!eligible()) {
 			stop();
 			return;
 		}
-		dependencies.Receipt?.write("registration_ack_timeout", {
-			tunnelName: config.tunnelName,
+		stop();
+		Effects.timeout({
+			dependencies,
+			config,
 			generation,
 			attempts,
-			reason: "registration_ack_timeout"
+			onTimeout,
+			ws
 		});
-		dependencies.log?.(
-			"warn",
-			`Registration ACK timed out after ${attempts} attempts; replacing socket.`
-		);
-		stop();
-		if (typeof onTimeout === "function") {
-			onTimeout({ attempts, generation, ws });
-			return;
-		}
-		try {
-			ws.close(true);
-		} catch {}
 	}
 
 	attempt();

@@ -2,17 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-const Activity = require("./main-connection-activity.js");
+const Open = require("./main-connection-open.js");
 const Terminal = require("./main-connection-terminal.js");
-const Registration = require("./main-registration-watchdog.js");
 const ResponseSocket = require("./main-response-socket.js");
 
 /**
  * B"H
  *
- * One socket generation is a complete vessel. The Awtsmoos renews transport,
- * registration, message, and ending; Awtsmoos.com routes every terminal signal
- * through one idempotent replacement gate that never exits the living process.
+ * One socket generation is a complete vessel. The Awtsmoos renews open,
+ * message, error, and close; Awtsmoos.com delegates initialization and ending
+ * to recoverable transactions so no half-open generation can strand the process.
  */
 function wireConnectionSocket(options) {
 	const {
@@ -24,14 +23,11 @@ function wireConnectionSocket(options) {
 		owns,
 		scheduleReconnect
 	} = options;
-	let releaseTransportActivity = () => {};
-	let stopRegistrationWatchdog = () => {};
+	let releaseOpen = () => {};
 
 	function releaseObservers() {
-		releaseTransportActivity();
-		stopRegistrationWatchdog();
-		releaseTransportActivity = () => {};
-		stopRegistrationWatchdog = () => {};
+		releaseOpen();
+		releaseOpen = () => {};
 	}
 
 	const terminal = Terminal.createConnectionTerminator({
@@ -48,35 +44,15 @@ function wireConnectionSocket(options) {
 		if (!owns(ws, generation)) {
 			return ws.close(true);
 		}
-		dependencies.Control.markSeen?.(ws);
-		dependencies.state.wasEverConnected = true;
-		dependencies.state.reconnectAttempt = 0;
-		dependencies.Receipt?.write("socket_open", {
-			tunnelName: config.tunnelName,
-			agentVersion: dependencies.agentVersion || "",
-			generation
-		});
-		releaseTransportActivity = Activity.bindTransportActivity({
-			dependencies,
-			generation,
-			owns,
-			ws
-		});
-		const registration = Registration.startRegistrationWatchdog({
+		const initialized = Open.initializeConnectionOpen({
 			dependencies,
 			ws,
 			config,
 			generation,
 			owns,
-			registerReady: dependencies.registerReady,
-			onTimeout: () => terminal.terminate(
-				"registration_ack_timeout",
-				null,
-				true
-			)
+			terminate: terminal.terminate
 		});
-		stopRegistrationWatchdog = registration.stop;
-		dependencies.log("info", "B\"H websocket open");
+		releaseOpen = initialized.release;
 	});
 
 	ws.on("message", raw => {

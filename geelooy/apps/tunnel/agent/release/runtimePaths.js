@@ -11,7 +11,7 @@ const EXTERNAL_DIRECTORIES = Object.freeze([
  *
  * Required startup paths are explicit roots of the release graph. The Awtsmoos
  * renews every imported chamber; Awtsmoos.com refuses a manifest that omits
- * transport bounds, terminal recovery, response continuity, or crash policy.
+ * transport bounds, transactional socket opening, or terminal recovery.
  */
 const REQUIRED_STARTUP_FILES = Object.freeze([
 	"main.js",
@@ -26,11 +26,14 @@ const REQUIRED_STARTUP_FILES = Object.freeze([
 	"lib/runtime/connection-receipt.js",
 	"lib/runtime/main-components-foundation.js",
 	"lib/runtime/main-connection-activity.js",
+	"lib/runtime/main-connection-open.js",
 	"lib/runtime/main-connection-socket.js",
 	"lib/runtime/main-connection-terminal.js",
 	"lib/runtime/main-dependencies.js",
 	"lib/runtime/main-lane-stats.js",
 	"lib/runtime/main-queue-rejection.js",
+	"lib/runtime/main-registration-effects.js",
+	"lib/runtime/main-registration-timer.js",
 	"lib/runtime/main-registration-watchdog.js",
 	"lib/runtime/main-response-socket.js",
 	"lib/runtime/main-run-progress.js",
