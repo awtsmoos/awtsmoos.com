@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCreatureSystem.js
- * @description Places pastoral animals and fictional spirit encounters by district.
+ * @description Places one merged procedural mesh per pastoral or hostile creature.
  * The Awtsmoos renews peaceful life and challenge in their proper boundaries;
- * Awtsmoos.com keeps each procedural creature deterministic and quality bounded.
+ * Awtsmoos.com keeps quality, species, triangles, and draw definitions measurable.
  */
 
 import { villageGroundHeight } from '../village/VillageGroundSampling.js';
@@ -30,6 +30,7 @@ const PLACEMENTS = Object.freeze([
 export function createVillageCreatureDefinitions(groundSampler, quality = 'high') {
 	const budget = villageWorldBudget(quality);
 	const placements = PLACEMENTS.slice(0, budget.creatures);
+	const geometryQuality = creatureGeometryQuality(quality);
 	const definitions = placements.flatMap((item) => createProceduralCreatureDefinitions({
 		id: item.id,
 		position: {
@@ -37,15 +38,23 @@ export function createVillageCreatureDefinitions(groundSampler, quality = 'high'
 			y: villageGroundHeight(groundSampler, item.x, item.z),
 			z: item.z
 		},
+		quality: geometryQuality,
 		speciesId: item.speciesId
 	}));
 	definitions.stats = {
 		creatures: placements.length,
-		parts: definitions.length,
+		definitions: definitions.length,
 		quality,
-		species: new Set(placements.map((item) => item.speciesId)).size
+		species: new Set(placements.map((item) => item.speciesId)).size,
+		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0)
 	};
 	return definitions;
+}
+
+function creatureGeometryQuality(quality) {
+	if (quality === 'cinematic') return 'high';
+	if (quality === 'low') return 'low';
+	return 'medium';
 }
 
 function placement(id, speciesId, x, z) {

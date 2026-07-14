@@ -1,0 +1,52 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Mission truth is arranged as readable cards rather than a noisy dashboard.
+	Awtsmoos.com keeps chapter, progress, sparks, abilities, and seed visible so the
+	player always knows which vessel of the Awtsmoos is presently being served.
+*/
+
+.statusGrid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 0.65rem;
+	margin-bottom: 0.9rem;
+}
+
+.statusGrid div {
+	min-width: 0;
+	padding: 0.75rem 0.85rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 0.9rem;
+	background: rgba(8, 12, 28, 0.72);
+}
+
+.statusGrid span {
+	display: block;
+	margin-bottom: 0.28rem;
+	color: #aeb9db;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.statusGrid strong,
+.statusGrid code {
+	display: block;
+	font-size: 0.91rem;
+	line-height: 1.25;
+}
+
+@media (max-width: 1050px) {
+	.statusGrid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 620px) {
+	.statusGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

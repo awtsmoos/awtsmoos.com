@@ -1,7 +1,12 @@
-/* B"H Heichel visual covenant: every old organ stays nested under one final rule. */
-@import "/style/social-system/tokens.css";
-@import "/style/social-system/simple-events.css";
-@import "./tokens.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Heichel manifest preserves runtime compatibility and ends with canonical beauty.
+ */
+@import "/style/social-system/index.css?v=unified-ui-001";
+@import "/style/social-system/tokens.css?v=unified-ui-001";
+@import "/style/social-system/simple-events.css?v=unified-ui-001";
+@import "./tokens.css?v=unified-ui-001";
 @import "./shell.css";
 @import "./hero.css";
 @import "./tabs.css";
@@ -23,11 +28,11 @@
 @import "./future/bulk-actions.css";
 @import "./future/mini-mail.css";
 @import "./modal/index.css";
-@import "./future/visual-polish.css";
-@import "./future/simple-events.css";
 @import "./future/responsive.css";
 @import "./future/accessibility.css";
 @import "../revamped-partials/heichel-boot-states.css";
 @import "../revamped-partials/heichel-os-world.css";
-@import "./beauty/index.css";
+@import "./beauty/index.css?v=unified-ui-001";
 @import "./sovereign.css";
+@import "./controls.css?v=unified-ui-001";
+@import "/style/geelooy-app/performance.css?v=unified-ui-001";

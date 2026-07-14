@@ -6,7 +6,7 @@
  * @file MitzvahWorldMmorpgApi.test.mjs
  * @description Proves the browser MMORPG facade against the real server application.
  * The Awtsmoos renews interface and authority together; this Awtsmoos.com evidence
- * follows readable client methods through the versioned router into persistent truth.
+ * follows social, equipment, combat-ready inventory, bots, parties, and instances.
  */
 
 import assert from 'node:assert/strict';
@@ -16,15 +16,16 @@ import { createBridgeHarness } from './MitzvahWorldClientBridge.mjs';
 
 test('browser facade drives player social item bot party instance and presence commands', async () => {
 	const harness = createBridgeHarness({ clock: () => 770_000 });
-	const firstSocket = harness.createSocket('facade-first');
-	const secondSocket = harness.createSocket('facade-second');
-	const first = new MitzvahWorldRealtimeClient(firstSocket);
-	const second = new MitzvahWorldRealtimeClient(secondSocket);
+	const first = new MitzvahWorldRealtimeClient(harness.createSocket('facade-first'));
+	const second = new MitzvahWorldRealtimeClient(harness.createSocket('facade-second'));
 	const firstJoin = await first.join('Facade Leader');
 	const secondJoin = await second.join('Facade Member');
 
 	const inventory = await first.mmorpg.inventory();
-	assert.equal(inventory.payload.inventory.length, 3);
+	assert.deepEqual(
+		inventory.payload.inventory.map((item) => item.itemId).sort(),
+		['chalaf', 'siddur', 'tefillin-kit', 'travel-pack', 'wooden-staff']
+	);
 	const equipment = await first.mmorpg.equipment('equip', 'siddur');
 	assert.equal(equipment.payload.equipment.hand, 'siddur');
 	assert.equal((await first.mmorpg.profile('away')).payload.profile.status, 'away');
@@ -48,5 +49,5 @@ test('browser facade drives player social item bot party instance and presence c
 
 	assert.equal((await first.mmorpg.presence()).payload.players.length, 2);
 	assert.equal((await first.mmorpg.serverTime()).payload.serverTime, 770_000);
-	assert.equal(firstJoin.payload.playerId !== secondJoin.payload.playerId, true);
+	assert.notEqual(firstJoin.payload.playerId, secondJoin.payload.playerId);
 });

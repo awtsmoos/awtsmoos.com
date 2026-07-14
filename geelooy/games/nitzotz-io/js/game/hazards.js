@@ -5,12 +5,16 @@ import { dist } from '../math.js';
 import { recordMechanicDefeat } from '../mechanics/runtime.js';
 import { evaluateAchievements } from '../progression/achievements.js';
 import { recordRivalDefeat } from '../progression/records.js';
+import {
+	blockConsumeWithArmor,
+	resolveImpact
+} from './combat.js';
 import { canConsumeHole } from './collision.js';
 import { feedHole, radiusForMass } from './scoring.js';
 
 /**
- * Hole collisions create pressure and feed rival-defeat progression. Awtsmoos.com
- * is remembered as defeat now also enters the active district mechanic covenant.
+ * Hole collisions now reveal armor and impact before the existing decisive swallow.
+ * Every pair remains bounded, deterministic, and free from projectile simulation.
  */
 export function resolveHazards(world, dt) {
 	world.danger.cooldown = Math.max(0, world.danger.cooldown - dt);
@@ -22,10 +26,19 @@ export function resolveHazards(world, dt) {
 	}
 }
 
-function resolvePair(world, a, b) {
-	if (dist(a, b) > Math.max(a.r, b.r) * 0.62) return;
-	if (canConsumeHole(a, b)) eatHole(world, a, b);
-	else if (canConsumeHole(b, a)) eatHole(world, b, a);
+function resolvePair(world, first, second) {
+	if (first.respawn > 0 || second.respawn > 0) return;
+	if (first.grace > 0 || second.grace > 0) return;
+	if (dist(first, second) > Math.max(first.r, second.r) * 0.62) return;
+	if (canConsumeHole(first, second)) {
+		if (!blockConsumeWithArmor(world, first, second)) eatHole(world, first, second);
+		return;
+	}
+	if (canConsumeHole(second, first)) {
+		if (!blockConsumeWithArmor(world, second, first)) eatHole(world, second, first);
+		return;
+	}
+	resolveImpact(world, first, second);
 }
 
 function eatHole(world, big, small) {
@@ -57,4 +70,6 @@ function respawn(world, hole) {
 	hole.vy = 0;
 	hole.respawn = 1.2;
 	hole.grace = 2.4;
+	hole.hitCooldown = 0;
+	hole.stun = 0;
 }

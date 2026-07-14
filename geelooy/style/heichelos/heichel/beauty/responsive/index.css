@@ -1,4 +1,46 @@
-/* B"H index. */
-@import "./mobile.css";
-@import "./tablet.css";
-@import "./desktop.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel density changes intentionally across wide, medium, and hand-sized screens.
+ */
+@media (max-width: 64rem) {
+	.heichel-mobile-navigation .geelooy-main-stage {
+		padding-inline: var(--space-3);
+	}
+	.heichel-mobile-navigation .heichel-nav-panel {
+		padding: var(--space-3);
+	}
+}
+@media (max-width: 47.5rem) {
+	.heichel-mobile-navigation .geelooy-main-stage {
+		padding-inline: .55rem;
+		padding-bottom: var(--floating-clearance);
+	}
+	.heichel-mobile-navigation :where(.series-list, .post-list, .cards-container, .geelooy-card-grid) {
+		grid-template-columns: 1fr;
+	}
+	.heichel-mobile-navigation :where(.tab-gates, .geelooy-tabs) {
+		top: .5rem;
+	}
+	.heichel-shell-boot__panel {
+		grid-template-columns: 1fr;
+		justify-items: start;
+	}
+}
+@media (max-width: 28rem) {
+	.heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
+		min-height: 22rem;
+	}
+	.heichel-mobile-navigation #heichel-main-title {
+		font-size: clamp(2.7rem, 18vw, 4.5rem);
+	}
+	.heichel-mobile-navigation .geelooy-bottom-nav :where(a, button) {
+		padding-inline: .35rem;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.heichel-shell-boot__progress span {
+		animation: none;
+		width: 72%;
+	}
+}

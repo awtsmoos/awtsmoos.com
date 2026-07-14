@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@media (max-width: 999px) {
+	.hubHeader {
+		align-items: stretch;
+		flex-direction: column;
+		padding: 0.9rem 1rem;
+	}
+
+	.brandCluster {
+		align-items: flex-start;
+	}
+
+	.brandSigil {
+		width: 2.8rem;
+	}
+
+	.identityCluster {
+		align-items: stretch;
+	}
+
+	.identityCluster label {
+		flex: 1;
+	}
+
+	.contextRibbon {
+		top: 0;
+		justify-content: flex-start;
+		overflow-x: auto;
+		flex-wrap: nowrap;
+		scrollbar-width: none;
+	}
+
+	.contextRibbon::-webkit-scrollbar {
+		display: none;
+	}
+}

@@ -1,37 +1,37 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const { writeHandshake } = require("./websocket/core/handshake.js");
-const { sendFrame } = require("./websocket/core/frameWriter.js");
+const { writeHandshake } = require('./websocket/core/handshake.js');
+const { sendFrame } = require('./websocket/core/frameWriter.js');
 const {
 	attachSocketClient,
 	collectClientMessage,
 	createSocketClient,
 	handleClientFrame,
 	processClientBuffer
-} = require("./websocket/core/clientSession.js");
+} = require('./websocket/core/clientSession.js');
+const { resolveUpgradeIdentity } = require('./websocket/core/upgradeIdentity.js');
 const {
 	heartbeatSocketClients,
 	removeAlias,
 	removeSocketClient
-} = require("./websocket/core/serverLifecycle.js");
-const { sendToAlias } = require("./websocket/apps/aliasRouting.js");
-const { sendTunnelRequest } = require("./websocket/apps/tunnelRelay.js");
+} = require('./websocket/core/serverLifecycle.js');
+const { sendToAlias } = require('./websocket/apps/aliasRouting.js');
+const { sendTunnelRequest } = require('./websocket/apps/tunnelRelay.js');
 const {
 	authorizeMissionRoomUpgrade,
 	rejectMissionRoomUpgrade
-} = require("./websocket/apps/missionRooms/upgradePolicy.js");
-const { startMissionRoomChannel } = require("./websocket/apps/missionRooms/channel.js");
-const { ensureServerState } = require("./websocket/platform/ServerState.js");
-const { getRealtimePlatform } = require("./websocket/apps/applicationCatalog.js");
+} = require('./websocket/apps/missionRooms/upgradePolicy.js');
+const { startMissionRoomChannel } = require('./websocket/apps/missionRooms/channel.js');
+const { ensureServerState } = require('./websocket/platform/ServerState.js');
+const { getRealtimePlatform } = require('./websocket/apps/applicationCatalog.js');
 
 /**
- * B"H
- *
- * The socket server is a conductor, not the music. The Awtsmoos recreates every
- * client and relay; Awtsmoos.com preserves the public server API while one
- * extensible platform owns applications and one canonical state owns names.
+ * @file Conducts the shared socket transport and trusted upgrade identity boundary.
+ * @description The Awtsmoos renews every client and application without mixture.
+ * Awtsmoos.com preserves the root handshake and historical routes while signed HTTP
+ * identity crosses once as a sanitized immutable socket-session attribute.
  */
 
 class AwtsmoosSocket {
@@ -42,6 +42,8 @@ class AwtsmoosSocket {
 		this.tunnels = new Map();
 		this.pendingTunnelRequests = new Map();
 		this.settingsCache = new Map();
+		this.auth = null;
+		this.parseCookies = null;
 		ensureServerState(this);
 		getRealtimePlatform(this);
 		setInterval(() => this.heartbeat(), 30000).unref?.();
@@ -54,21 +56,19 @@ class AwtsmoosSocket {
 			rejectMissionRoomUpgrade(socket, decision);
 			return;
 		}
-		if (!writeHandshake(request, socket)) {
-			return;
-		}
-
-		const client = this.makeClient(socket);
+		const identity = resolveUpgradeIdentity(this, request);
+		if (!writeHandshake(request, socket)) return;
+		const client = this.makeClient(socket, { identity });
 		this.clients.add(client);
 		attachSocketClient(this, client, head);
 		if (decision.ticket) {
 			startMissionRoomChannel(this, client, decision.ticket);
 		}
-		console.log("B\"H - Socket Connected:", client.id);
+		console.log('B"H - Socket Connected:', client.id);
 	}
 
-	makeClient(socket) {
-		return createSocketClient(socket);
+	makeClient(socket, metadata = {}) {
+		return createSocketClient(socket, metadata);
 	}
 
 	processBuffer(client, chunk) {
@@ -104,9 +104,7 @@ class AwtsmoosSocket {
 	}
 
 	broadcastAll(data) {
-		for (const client of this.clients) {
-			client.send(data);
-		}
+		for (const client of this.clients) client.send(data);
 	}
 
 	sendFrame(socket, data, opcode = 0x1) {

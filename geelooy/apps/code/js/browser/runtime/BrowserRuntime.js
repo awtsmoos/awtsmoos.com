@@ -1,153 +1,137 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { PreviewManager } from "../../editor/preview-manager.js";
+import { App } from "../../app.js";
+import { BrowserTargetRegistry } from "../target-registry.js";
+import { browserBlueprint, H } from "./dom.js";
+import { appendConsole } from "./console.js";
+import { rememberCustomCode, runCustomHtml, runCustomJs } from "./customRunner.js";
+import { CODE_BROWSER_WELCOME_URL } from "./address.js";
+import { backRuntime, loadCurrent, navigateRuntime } from "./browser-navigation.js";
+import { createRuntimeTarget } from "./browser-target.js";
+
 /**
- * @file BrowserRuntime.js
- * @description
- * Chapter 11: The browser vessel became an ocean-forge. The Awtsmoos no longer
- * lets the iframe sit in a half-width cup; on mount, the runtime marks its host
- * and ancestors so CSS can stretch the whole tab surface to the available sky.
+ * B"H
+ *
+ * The Code browser is now one visible human tab and one automation target. The
+ * Awtsmoos renews toolbar and agent action together; Awtsmoos.com never opens an
+ * invisible about:blank window when the browser vessel already stands before us.
  */
-
-import { PreviewManager } from '../../editor/preview-manager.js';
-import { App } from '../../app.js';
-import { browserBlueprint, H } from './dom.js';
-import { resolveRoute } from './address.js';
-import { appendConsole } from './console.js';
-import { rememberCustomCode, runCustomHtml, runCustomJs } from './customRunner.js';
-
 export class BrowserRuntime {
-    /** @param {object} host Runtime host with id, container, state, and save callback. */
-    constructor(host) {
-        this.host = host;
-        this.container = host.container;
-        this.state = host.state;
-        this.id = host.id;
-    }
+	constructor(host) {
+		this.host = host;
+		this.container = host.container;
+		this.state = host.state;
+		this.id = host.id;
+	}
 
-    /** @returns {void} Mounts the browser UI and loads its current route. */
-    mount() {
-        this.prepareState();
-        this.markHostVessels();
-        const root = H(browserBlueprint(this.state));
-        this.container.replaceChildren(root);
-        this.bindNodes(root);
-        this.bindEvents(root);
-        PreviewManager.registerIframe(this.id, this.frame);
-        this.loadCurrent();
-    }
+	mount() {
+		this.prepareState();
+		this.markHostVessels();
+		const root = H(browserBlueprint(this.state));
+		this.container.replaceChildren(root);
+		this.bindNodes(root);
+		this.bindEvents(root);
+		PreviewManager.registerIframe(this.id, this.frame);
+		BrowserTargetRegistry.register(createRuntimeTarget(this));
+		void loadCurrent(this).then(() => this.log("nav", this.state.currentUrl)).catch(error => this.fail(error));
+	}
 
-    /** @returns {void} Ensures state fields exist. */
-    prepareState() {
-        this.state.currentUrl = this.state.currentUrl || this.state.url || 'about:blank';
-        this.state.history = Array.isArray(this.state.history) ? this.state.history : [];
-        this.state.consoleVisible = Boolean(this.state.consoleVisible);
-        this.state.studioVisible = Boolean(this.state.studioVisible);
-    }
+	prepareState() {
+		this.state.currentUrl = this.state.currentUrl || this.state.url || CODE_BROWSER_WELCOME_URL;
+		this.state.history = Array.isArray(this.state.history) ? this.state.history : [];
+		this.state.consoleVisible = Boolean(this.state.consoleVisible);
+		this.state.studioVisible = Boolean(this.state.studioVisible);
+	}
 
-    /** @returns {void} Marks host containers so CSS can destroy the black void. */
-    markHostVessels() {
-        this.container.classList.add('awtsmoos-browser-host-fill');
-        this.container.closest('.editor-area')?.classList.add('awtsmoos-browser-editor-fill');
-        this.container.closest('.main-content')?.classList.add('awtsmoos-browser-main-fill');
-    }
+	markHostVessels() {
+		this.container.classList.add("awtsmoos-browser-host-fill");
+		this.container.closest(".editor-area")?.classList.add("awtsmoos-browser-editor-fill");
+		this.container.closest(".main-content")?.classList.add("awtsmoos-browser-main-fill");
+	}
 
-    /** @param {HTMLElement} root Root node. @returns {void} Captures useful elements. */
-    bindNodes(root) {
-        this.root = root;
-        this.address = root.querySelector('.browser-runtime-address');
-        this.frame = root.querySelector('.browser-runtime-frame');
-        this.lines = root.querySelector('.browser-runtime-console-lines');
-        this.htmlBox = root.querySelector('.browser-runtime-code');
-        this.jsBox = root.querySelector('.browser-runtime-js');
-        this.studio = root.querySelector('.browser-runtime-studio');
-    }
+	bindNodes(root) {
+		this.root = root;
+		this.address = root.querySelector(".browser-runtime-address");
+		this.frame = root.querySelector(".browser-runtime-frame");
+		this.lines = root.querySelector(".browser-runtime-console-lines");
+		this.htmlBox = root.querySelector(".browser-runtime-code");
+		this.jsBox = root.querySelector(".browser-runtime-js");
+		this.studio = root.querySelector(".browser-runtime-studio");
+		this.statusLine = root.querySelector(".browser-runtime-status");
+	}
 
-    /** @param {HTMLElement} root Root node. @returns {void} Attaches event handlers. */
-    bindEvents(root) {
-        root.querySelector('[data-action="go"]').onclick = () => this.navigate(this.address.value);
-        root.querySelector('[data-action="reload"]').onclick = () => this.navigate(this.state.currentUrl, false);
-        root.querySelector('[data-action="home"]').onclick = () => this.navigate('about:blank');
-        root.querySelector('[data-action="console"]').onclick = () => this.toggleConsole();
-        root.querySelector('[data-action="studio"]').onclick = () => this.toggleStudio();
-        root.querySelector('[data-action="back"]').onclick = () => this.back();
-        root.querySelector('[data-action="run-html"]').onclick = () => this.runHtml();
-        root.querySelector('[data-action="run-js"]').onclick = () => this.runJs();
-        this.address.addEventListener('keydown', e => { if (e.key === 'Enter') this.navigate(this.address.value); });
-        this.studio.addEventListener('toggle', () => { this.state.studioVisible = this.studio.open; this.syncStudio(); });
-        this.frame.addEventListener('load', () => appendConsole(this.lines, 'info', 'Frame loaded.'));
-    }
+	bindEvents(root) {
+		root.querySelector('[data-action="go"]').onclick = () => void this.navigate(this.address.value);
+		root.querySelector('[data-action="reload"]').onclick = () => void this.navigate(this.state.currentUrl, false);
+		root.querySelector('[data-action="home"]').onclick = () => void this.navigate(CODE_BROWSER_WELCOME_URL);
+		root.querySelector('[data-action="console"]').onclick = () => this.toggle("consoleVisible", "has-console");
+		root.querySelector('[data-action="studio"]').onclick = () => this.toggleStudio();
+		root.querySelector('[data-action="back"]').onclick = () => void backRuntime(this).catch(error => this.fail(error));
+		root.querySelector('[data-action="run-html"]').onclick = () => this.runHtml();
+		root.querySelector('[data-action="run-js"]').onclick = () => this.runJs();
+		this.address.addEventListener("keydown", event => {
+			if (event.key === "Enter") void this.navigate(this.address.value);
+		});
+	}
 
-    /** @returns {void} Loads current URL or srcdoc route. */
-    loadCurrent() {
-        const route = resolveRoute(this.state.currentUrl);
-        this.address.value = route.url;
-        this.state.currentUrl = route.url;
-        if (route.type === 'url') {
-            this.frame.removeAttribute('srcdoc');
-            this.frame.src = route.url;
-        } else {
-            this.frame.removeAttribute('src');
-            this.frame.srcdoc = route.html;
-        }
-        appendConsole(this.lines, 'nav', route.url);
-    }
+	async navigate(nextUrl, addHistory = true, options = {}) {
+		this.setStatus("Navigating…", "busy");
+		try {
+			const result = await navigateRuntime(this, nextUrl, { ...options, addHistory });
+			this.log("nav", result.url);
+			this.setStatus("Ready", "ready");
+			return result;
+		} catch (error) {
+			this.fail(error);
+			throw error;
+		}
+	}
 
-    /** @returns {void} Runs custom HTML in the iframe. */
-    runHtml() {
-        rememberCustomCode(this.state, this.htmlBox, this.jsBox);
-        runCustomHtml(this.frame, this.state.customHtml);
-        appendConsole(this.lines, 'html', 'Custom HTML rendered.');
-        this.save();
-    }
+	runHtml() {
+		rememberCustomCode(this.state, this.htmlBox, this.jsBox);
+		runCustomHtml(this.frame, this.state.customHtml);
+		this.log("html", "Custom HTML rendered.");
+		this.save();
+	}
 
-    /** @returns {void} Runs custom JavaScript inside the iframe window. */
-    runJs() {
-        rememberCustomCode(this.state, this.htmlBox, this.jsBox);
-        runCustomJs(this.frame, this.lines, this.state.customJs);
-        this.save();
-    }
+	runJs() {
+		rememberCustomCode(this.state, this.htmlBox, this.jsBox);
+		runCustomJs(this.frame, this.lines, this.state.customJs);
+		this.save();
+	}
 
-    /** @param {string} nextUrl New URL. @param {boolean} addHistory History flag. @returns {void} */
-    navigate(nextUrl, addHistory = true) {
-        const route = resolveRoute(nextUrl);
-        if (addHistory && this.state.currentUrl && this.state.currentUrl !== route.url) this.state.history.push(this.state.currentUrl);
-        this.state.currentUrl = route.url;
-        this.loadCurrent();
-        this.save();
-    }
+	toggle(key, className) {
+		this.state[key] = !this.state[key];
+		this.root.classList.toggle(className, this.state[key]);
+		this.save();
+	}
 
-    /** @returns {void} Navigates back. */
-    back() {
-        const previous = this.state.history.pop();
-        if (!previous) return;
-        this.state.currentUrl = previous;
-        this.loadCurrent();
-        this.save();
-    }
+	toggleStudio() {
+		this.toggle("studioVisible", "has-studio");
+		this.studio.open = this.state.studioVisible;
+	}
 
-    /** @returns {void} Toggles console panel. */
-    toggleConsole() {
-        this.state.consoleVisible = !this.state.consoleVisible;
-        this.root.classList.toggle('has-console', this.state.consoleVisible);
-        this.save();
-    }
+	setStatus(text, state) {
+		if (!this.statusLine) return;
+		this.statusLine.textContent = text;
+		this.statusLine.dataset.state = state;
+	}
 
-    /** @returns {void} Toggles custom preview forge. */
-    toggleStudio() {
-        this.state.studioVisible = !this.state.studioVisible;
-        this.studio.open = this.state.studioVisible;
-        this.syncStudio();
-    }
+	log(type, message) {
+		appendConsole(this.lines, type, message);
+	}
 
-    /** @returns {void} Synchronizes studio chrome. */
-    syncStudio() {
-        this.root.classList.toggle('has-studio', this.state.studioVisible);
-        this.root.querySelector('[data-action="studio"]').textContent = this.state.studioVisible ? 'Hide Dev' : 'Dev';
-        this.save();
-    }
+	fail(error) {
+		this.state.lastNavigationError = error.message;
+		this.setStatus(error.message, "error");
+		this.log("error", error.message);
+	}
 
-    /** @returns {void} Persists session state. */
-    save() {
-        if (this.host.save) this.host.save();
-        else App.saveSessionDebounced();
-    }
+	save() {
+		if (this.host.save) this.host.save();
+		else App.saveSessionDebounced();
+	}
 }

@@ -1,0 +1,73 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Heichel Review and Governance Center</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<header class="pageHeader">
+		<div>
+			<p class="eyebrow">Awtsmoos.com · institutional moderation</p>
+			<h1>Heichel Review and Governance Center</h1>
+			<p>Review submissions, inspect provenance, govern members, invitations, and series policy.</p>
+		</div>
+		<div class="identityControls">
+			<label>Act as<select id="aliasSelect"><option value="">Choose alias</option></select></label>
+			<label>Heichel ID<input id="heichelId" placeholder="Heichel ID"></label>
+			<button id="refreshQueue" type="button">Refresh queue</button>
+		</div>
+	</header>
+	<main>
+		<section class="reviewLayout">
+			<aside class="queueColumn">
+				<section class="panel filterPanel">
+					<div class="panelHeading"><h2>Queue <span id="queueCount">0</span></h2></div>
+					<label>State<select id="filter-state"><option value="">All states</option><option value="submitted">Submitted</option><option value="triaged">Triaged</option><option value="changes_requested">Changes requested</option><option value="approved">Approved</option><option value="scheduled">Scheduled</option></select></label>
+					<label>Series ID<input id="filter-seriesId" placeholder="Any series"></label>
+					<label>Submitter alias<input id="filter-submitterAliasId" placeholder="Any submitter"></label>
+				</section>
+				<section id="reviewQueue" class="reviewQueue" aria-label="Submission queue"></section>
+			</aside>
+			<section class="detailColumn">
+				<div id="detailEmpty" class="panel emptyDetail"><h2>Select a submission</h2><p>Its source, destination, payload, history, assignment, and legal next actions will appear here.</p></div>
+				<article id="detailPanel" class="panel" hidden>
+					<div class="panelHeading"><div><h2>Submission</h2><pre id="submissionHeading"></pre></div><code id="submissionId"></code></div>
+					<h3>Submitter note</h3><p id="submissionNote"></p>
+					<div class="detailGrid"><details open><summary>Structured payload and provenance</summary><pre id="submissionPayload"></pre></details><details open><summary>Review history</summary><pre id="submissionHistory"></pre></details></div>
+					<section class="decisionPanel">
+						<h3>Decision</h3>
+						<label>Decision note<textarea id="decisionNote" placeholder="Explain approval, rejection, or required revision."></textarea></label>
+						<div class="decisionFields"><label>Assign reviewer<input id="assignedAliasId"></label><label>Schedule publication<input id="scheduledAt" type="datetime-local"></label></div>
+						<div class="decisionActions"><button type="button" data-review-action="triage">Triage</button><button type="button" data-review-action="assign">Assign</button><button type="button" data-review-action="changes">Request changes</button><button type="button" data-review-action="approve">Approve</button><button type="button" data-review-action="schedule">Schedule</button><button type="button" data-review-action="publish" class="primaryAction">Publish</button><button type="button" data-review-action="reject" class="dangerAction">Reject</button><button type="button" data-review-action="withdraw">Withdraw</button><button type="button" data-review-action="resubmit">Resubmit</button></div>
+					</section>
+				</article>
+			</section>
+		</section>
+		<section class="governanceLayout">
+			<section class="panel governancePanel">
+				<div class="panelHeading"><div><h2>Members and roles</h2><p>Effective acting role: <strong id="governanceRole">unavailable</strong></p></div><button id="refreshGovernance" type="button">Refresh governance</button></div>
+				<p id="governanceUnavailable" class="emptyState" hidden></p>
+				<div id="memberList" class="memberList"></div>
+			</section>
+			<section class="panel invitationPanel">
+				<h2>Role invitations</h2>
+				<div class="invitationForm"><label>Alias<input id="inviteAliasId" placeholder="Invited alias ID"></label><label>Role<select id="inviteRole"><option value="admin">Admin</option><option value="moderator">Moderator</option><option value="editor">Editor</option><option value="contributor" selected>Contributor</option><option value="member">Member</option><option value="follower">Follower</option></select></label><label>Reason<input id="inviteReason" placeholder="Why this role?"></label><button id="inviteRoleButton" type="button">Send seven-day invitation</button></div>
+				<div id="invitationList" class="invitationList"></div>
+			</section>
+			<section class="panel policyPanel">
+				<h2>Series policy</h2>
+				<label>Series ID<input id="policySeriesId" value="root"></label>
+				<div class="policyGrid"><label><input id="policyAllowContent" type="checkbox" checked> Accept content submissions</label><label><input id="policyRequireContentApproval" type="checkbox" checked> Require content approval</label><label><input id="policyAllowReferences" type="checkbox" checked> Accept reference submissions</label><label><input id="policyRequireReferenceApproval" type="checkbox" checked> Require reference approval</label><label><input id="policyCommentsEnabled" type="checkbox" checked> Enable comments</label><label><input id="policyAnswersEnabled" type="checkbox" checked> Enable answers</label></div>
+				<button id="saveSeriesPolicyButton" type="button" class="primaryAction">Save bounded policy</button>
+			</section>
+		</section>
+	</main>
+	<p id="statusMessage" class="statusMessage" hidden aria-live="polite"></p>
+	<script type="module" src="./js/main.js"></script>
+</body>
+</html>

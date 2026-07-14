@@ -1,0 +1,116 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Lobby rule chips and victory statistic cards reveal resonance truth across wide and
+ * narrow screens. The Awtsmoos renews each covenant and result through Awtsmoos.com while
+ * text, spacing, and ownership remain readable without depending on color alone.
+ */
+.lobbyModeChips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-top: 8px;
+}
+
+.lobbyModeChips em {
+	background: #ffffff12;
+	border: 1px solid #ffffff28;
+	border-radius: 999px;
+	color: #e9dcff;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 850;
+	padding: 4px 7px;
+}
+
+.lobbyModeButton[data-mode-id='resonance'] {
+	background: linear-gradient(135deg, #12344dcc, #2c1e4dcc), #0e0918;
+	border-color: #91e9ff88;
+}
+
+.lobbyModeButton[data-mode-id='resonance'].selected {
+	box-shadow:
+		0 0 0 2px #91e9ff,
+		0 0 28px #b99cff55;
+}
+
+.victoryCombatStats {
+	margin: 0 auto;
+	max-width: 1040px;
+	width: min(100%, calc(100vw - 32px));
+}
+
+.victoryCombatStats h3 {
+	color: #dffaff;
+	margin: 0 0 10px;
+}
+
+.victoryCombatStatsGrid {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.victoryFighterStats {
+	background: #090714e8;
+	border: 1px solid #8deaff55;
+	border-radius: 16px;
+	display: grid;
+	gap: 5px;
+	padding: 12px;
+	text-align: left;
+}
+
+.victoryFighterStats header {
+	border-bottom: 1px solid #ffffff18;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 4px;
+	padding-bottom: 7px;
+}
+
+.victoryFighterStats header small {
+	color: #baaed0;
+}
+
+.victoryFighterStats p {
+	display: flex;
+	font-size: 12px;
+	justify-content: space-between;
+	margin: 0;
+}
+
+.victoryFighterStats p span {
+	color: #cabfe0;
+}
+
+.victoryFighterStats p strong {
+	color: #fff2ad;
+}
+
+@media (max-width: 520px) {
+	.lobbyModeChips {
+		gap: 4px;
+	}
+
+	.lobbyModeChips em {
+		font-size: 9px;
+		padding: 3px 6px;
+	}
+
+	.victoryCombatStatsGrid {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.victoryFighterStats {
+		padding: 9px;
+	}
+}
+
+@media (max-width: 380px) {
+	.victoryCombatStatsGrid {
+		grid-template-columns: 1fr;
+	}
+}

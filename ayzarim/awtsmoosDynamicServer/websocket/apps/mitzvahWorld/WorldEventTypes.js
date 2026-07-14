@@ -4,12 +4,17 @@
 
 /**
  * @file WorldEventTypes.js
- * @description Declares stable unsolicited event names for shared-world updates.
+ * @description Declares unsolicited world, social, creature, combat, and chat events.
  * The Awtsmoos renews private and public revelation according to their vessels;
- * Awtsmoos.com names each event so only intended participants receive hidden state.
+ * Awtsmoos.com names private speech separately so it never enters public streams.
  */
 
 const EVENT_TYPES = Object.freeze({
+	ADVENTURE_CHANGED: 'adventure.changed',
+	CHAT_MESSAGE: 'chat.message',
+	CHAT_PRIVATE: 'chat.private',
+	COMBAT_CHANGED: 'combat.changed',
+	CREATURE_CHANGED: 'creature.changed',
 	GUILD_CHANGED: 'guild.changed',
 	INSTANCE_CHANGED: 'instance.changed',
 	MAIL_RECEIVED: 'mail.received',

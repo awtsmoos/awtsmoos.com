@@ -4,16 +4,16 @@
 
 /**
  * @file VillageWorldBudget.js
- * @description Holds quality budgets for district scale, flora, architecture, and creatures.
- * The Awtsmoos renews abundance through measured vessels; Awtsmoos.com keeps
- * every quality tier explicit so larger worlds do not silently consume the frame.
+ * @description Holds quality budgets for districts, flora, facades, creatures, and radius.
+ * The Awtsmoos renews abundance through measured vessels; Awtsmoos.com reserves
+ * enough complete cottages while batched facade details preserve the frame budget.
  */
 
 export const VILLAGE_WORLD_BUDGETS = Object.freeze({
-	low: budget(6, 72, 36, 10, 2600, 140),
-	medium: budget(8, 126, 54, 18, 4800, 200),
-	high: budget(10, 220, 78, 28, 8800, 280),
-	cinematic: budget(10, 310, 96, 40, 13200, 360)
+	low: budget(6, 72, 36, 10, 3200, 140),
+	medium: budget(8, 126, 60, 18, 6200, 200),
+	high: budget(10, 220, 90, 28, 11200, 280),
+	cinematic: budget(10, 310, 110, 40, 16800, 360)
 });
 
 export function villageWorldBudget(name = 'high') {
@@ -23,7 +23,9 @@ export function villageWorldBudget(name = 'high') {
 export function districtGeometryQuality(detail, requestedQuality = 'high') {
 	if (requestedQuality === 'low') return 'low';
 	if (detail === 'far') return 'low';
-	if (detail === 'medium') return requestedQuality === 'cinematic' ? 'medium' : 'low';
+	if (detail === 'medium') {
+		return requestedQuality === 'cinematic' ? 'medium' : 'low';
+	}
 	return requestedQuality === 'cinematic' ? 'high' : requestedQuality;
 }
 

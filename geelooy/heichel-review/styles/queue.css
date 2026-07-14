@@ -1,0 +1,38 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.reviewQueue {
+	display: grid;
+	gap: 0.65rem;
+}
+
+.queueCard {
+	display: grid;
+	gap: 0.3rem;
+	width: 100%;
+	text-align: left;
+}
+
+.queueCard[data-selected="true"] {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 0.15rem rgb(74 66 199 / 18%);
+}
+
+.queueCard span,
+.queueCard small,
+.emptyState {
+	color: var(--muted);
+}
+
+.queueCard strong {
+	font-size: 0.95rem;
+}
+
+.queueCard span {
+	font-size: 0.82rem;
+}
+
+.queueCard small {
+	font-size: 0.76rem;
+}

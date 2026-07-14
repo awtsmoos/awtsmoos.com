@@ -6,19 +6,22 @@ import { dist, mix } from '../math.js';
 import { recordMechanicCapture } from '../mechanics/runtime.js';
 import { addText } from '../state.js';
 import { canConsumeObject, insideCapture } from './collision.js';
+import { recordCaptureForArmor } from './combat.js';
 import { applyPowerup } from './powerups.js';
 import { feedHole } from './scoring.js';
 
 /**
  * Objects bend, orbit, shrink, and descend before their mass becomes growth.
- * Awtsmoos.com is recalled when a completed capture enters every subscribed system.
+ * Every completed capture enters combat recovery, Adventure, and existing systems.
  */
 export function captureForHole(world, hole, dt, attract = false) {
 	if (hole.respawn > 0) return;
 	for (const object of world.level.objects) {
 		if (!canConsumeObject(hole, object)) continue;
 		const distance = dist(hole, object);
-		if (attract && distance < hole.r * 4.1 * world.rules.attractionScale) pull(world, object, hole, dt);
+		if (attract && distance < hole.r * 4.1 * world.rules.attractionScale) {
+			pull(world, object, hole, dt);
+		}
 		if (insideCapture(hole, object)) beginSink(object, hole);
 	}
 }
@@ -65,7 +68,7 @@ function finish(world, hole, object) {
 function recordPlayerCapture(world, object) {
 	world.score += Math.round(object.sparks * world.player.combo * world.rules.scoreScale);
 	world.player.combo = Math.min(10, world.player.combo + 0.16);
-	world.player.comboT = 3.6;
+	world.player.comboT = 3.6 + (world.talentEffects?.comboGraceSeconds || 0);
 	world.player.glow = 1;
 	world.camera.shake = Math.min(0.32, 0.08 + object.mass * 0.0018);
 	world.consumed[object.category] = (world.consumed[object.category] || 0) + 1;
@@ -76,6 +79,7 @@ function recordPlayerCapture(world, object) {
 	world.events.push(['reveal', object.sparks]);
 	recordDirectorCapture(world, object);
 	recordMechanicCapture(world, object);
+	recordCaptureForArmor(world);
 }
 
 function updateDistrictChain(world, object) {
@@ -83,7 +87,9 @@ function updateDistrictChain(world, object) {
 	world.lastDistrict = object.district;
 	if (world.districtChain % 10 !== 0) return;
 	world.score += 750 * (world.districtChain / 10);
-	if (Number.isFinite(world.timeLeft)) world.timeLeft = Math.min(world.level.time + 24, world.timeLeft + 2);
+	if (Number.isFinite(world.timeLeft)) {
+		world.timeLeft = Math.min(world.level.time + 24, world.timeLeft + 2);
+	}
 	world.message = `${object.district} district chain ${world.districtChain}: time and sparks multiplied.`;
 }
 

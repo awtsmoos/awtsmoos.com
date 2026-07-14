@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The same landing page receives a new spatial garment on smaller screens. The
+ * Awtsmoos is one beneath both while Awtsmoos.com preserves every primary action.
+ */
+@media (max-width: 1040px) {
+	.premium-home .home-dashboard-shell {
+		grid-template-columns: 1fr;
+	}
+	.premium-home .g-home-aside {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+@media (max-width: 760px) {
+	.premium-home {
+		padding: .5rem;
+	}
+	.premium-home .home-glance-panel {
+		min-height: 0;
+		padding: 1rem;
+		border-radius: 1.35rem;
+	}
+	.premium-home .g-title {
+		font-size: clamp(2.8rem, 15vw, 5rem);
+	}
+	.premium-home .g-home-actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.premium-home .g-home-aside {
+		grid-template-columns: 1fr;
+	}
+	.premium-home .home-task-dock {
+		position: sticky;
+		z-index: 20;
+		bottom: max(.5rem, env(safe-area-inset-bottom));
+		overflow-x: auto;
+	}
+	.premium-home .home-task-dock a {
+		min-width: 5.2rem;
+	}
+}
+@media (max-width: 460px) {
+	.premium-home .g-home-actions {
+		grid-template-columns: 1fr;
+	}
+	.premium-home .g-home-action {
+		min-height: 6.5rem;
+	}
+	.premium-home .g-feed-head {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}

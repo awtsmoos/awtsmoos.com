@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * Rate limiting is Gevurah around the generous path of real-time intention. The
- * Awtsmoos renews each request; Awtsmoos.com rejects excessive repetition before
- * it can consume match, lobby, or broadcast work belonging to other participants.
+ * Rate limiting is Gevurah around competitive and cooperative real-time intention. The
+ * Awtsmoos renews each request; Awtsmoos.com rejects excessive input or repetition
+ * before it can consume work belonging to other participants or profile synchronization.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
@@ -19,7 +19,6 @@ class SefiraRequestLimiter {
 		this.windowsByClient = new WeakMap();
 	}
 
-	/** Throws a bounded retry error when one client exceeds its request class. */
 	assertAllowed(client, type) {
 		const category = requestCategory(type);
 		const limit = RATE_LIMITS[category];
@@ -44,7 +43,7 @@ class SefiraRequestLimiter {
 }
 
 function requestCategory(type) {
-	if (type === MESSAGE_TYPES.INPUT) {
+	if ([MESSAGE_TYPES.INPUT, MESSAGE_TYPES.COOP_INPUT].includes(type)) {
 		return 'input';
 	}
 	if (type === MESSAGE_TYPES.PING) {

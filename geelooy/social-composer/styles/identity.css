@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.identityPanel {
+	position: relative;
+	overflow: hidden;
+}
+
+.identityPanel::after {
+	position: absolute;
+	top: -5rem;
+	right: -4rem;
+	width: 11rem;
+	height: 11rem;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	content: '';
+	pointer-events: none;
+	opacity: 0.35;
+}
+
+.panelHeading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.panelHeading h2,
+.panelHeading p {
+	margin-top: 0;
+}
+
+.panelHeading p {
+	color: var(--muted);
+}
+
+.inlineCreation {
+	display: grid;
+	grid-template-columns: minmax(10rem, 0.8fr) minmax(14rem, 1.2fr) auto;
+	gap: 0.75rem;
+	align-items: end;
+	margin-top: 1rem;
+	padding: 1rem;
+	border: 1px dashed var(--line);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--surface), transparent 16%);
+}
+
+.notice {
+	padding: 0.8rem 1rem;
+	border-left: 0.25rem solid var(--accent);
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, var(--accent), transparent 88%);
+}
+
+.advancedIds {
+	margin-top: 1rem;
+	color: var(--muted);
+}
+
+.advancedIds[open] {
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+}
+
+@media (max-width: 760px) {
+	.inlineCreation {
+		grid-template-columns: 1fr;
+	}
+
+	.panelHeading {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

@@ -1,0 +1,51 @@
+      45 geelooy/games/sefira-clash/js/expedition/ExpeditionDefaults.js
+      65 geelooy/games/sefira-clash/js/expedition/ExpeditionInventory.js
+      75 geelooy/games/sefira-clash/js/expedition/ExpeditionMatchContext.js
+      70 geelooy/games/sefira-clash/js/expedition/ExpeditionProfile.js
+      75 geelooy/games/sefira-clash/js/expedition/ExpeditionQuestLedger.js
+      74 geelooy/games/sefira-clash/js/expedition/ExpeditionRewards.js
+      55 geelooy/games/sefira-clash/js/expedition/ExpeditionStats.js
+      69 geelooy/games/sefira-clash/js/expedition/ExpeditionWorld.js
+     528 total
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionDefaults.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionInventory.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionMatchContext.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionProfile.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionQuestLedger.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionRewards.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionStats.js ===
+
+=== geelooy/games/sefira-clash/js/expedition/ExpeditionWorld.js ===
+{
+  "level": 1,
+  "perutas": 19,
+  "stats": {
+    "power": 0.07,
+    "guard": 0.05,
+    "vitality": 0.03,
+    "mobility": 0.1,
+    "recovery": 0.02,
+    "fortune": 0.05
+  },
+  "clearRewards": {
+    "xp": 78,
+    "perutas": 7,
+    "reputation": 2,
+    "gearIds": []
+  },
+  "questReward": {
+    "xp": 90,
+    "perutas": 12,
+    "reputation": 2,
+    "gearIds": [
+      "cedar-edge"
+    ]
+  }
+}

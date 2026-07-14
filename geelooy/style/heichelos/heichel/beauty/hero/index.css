@@ -1,4 +1,82 @@
-/* B"H index. */
-@import "./compact-state.css";
-@import "./depth-glow.css";
-@import "./ornaments.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel identity is editorial and readable without orbit glow or decorative fog.
+ */
+.heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
+	display: grid;
+	grid-template-columns: minmax(0, 1.45fr) minmax(10rem, .55fr);
+	align-items: end;
+	gap: clamp(1.25rem, 4vw, 3rem);
+	min-height: clamp(22rem, 48vw, 36rem);
+	padding: clamp(1.25rem, 4vw, 3rem);
+	overflow: hidden;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-2xl);
+	background: var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-lift);
+}
+.heichel-mobile-navigation .heichel-hero-copy {
+	align-self: end;
+	max-width: 58rem;
+}
+.heichel-mobile-navigation .heichel-seal {
+	display: grid;
+	width: clamp(3.4rem, 7vw, 5rem);
+	aspect-ratio: 1;
+	place-items: center;
+	margin-bottom: var(--space-5);
+	border: 1px solid var(--heichel-line-strong);
+	border-radius: 1rem;
+	background: var(--heichel-panel-soft);
+	color: var(--heichel-cyan);
+	font-size: 1.35rem;
+	font-weight: 900;
+}
+.heichel-mobile-navigation .hero-kicker {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	width: fit-content;
+	padding: .35rem .6rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-pill);
+	background: var(--heichel-panel-soft);
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-caption);
+	font-weight: 800;
+	letter-spacing: var(--tracking-caption);
+	text-transform: uppercase;
+}
+.heichel-mobile-navigation .hero-kicker::before {
+	width: .38rem;
+	height: .38rem;
+	border-radius: 50%;
+	background: var(--heichel-cyan);
+	content: "";
+}
+.heichel-mobile-navigation #heichel-main-title {
+	max-width: 12ch;
+	margin: var(--space-3) 0 0;
+	font-size: clamp(3rem, 9vw, 7.5rem);
+	line-height: .92;
+	letter-spacing: -.07em;
+}
+.heichel-mobile-navigation .hero-description {
+	max-width: 48rem;
+	margin: var(--space-5) 0 0;
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-lead);
+	line-height: 1.68;
+}
+@media (max-width: 47.5rem) {
+	.heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
+		grid-template-columns: 1fr;
+		min-height: 25rem;
+		padding: var(--space-4);
+		border-radius: var(--radius-l);
+	}
+	.heichel-mobile-navigation #heichel-main-title {
+		font-size: clamp(3rem, 17vw, 5.25rem);
+	}
+}

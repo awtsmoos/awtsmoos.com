@@ -1,0 +1,90 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.publicationPanel {
+	border-width: 2px;
+}
+
+.publicationPlanView,
+.publicationPlanResult {
+	min-height: 6rem;
+	margin: 1rem 0 0;
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	background: color-mix(in srgb, var(--surface), black 4%);
+	font-size: 0.82rem;
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+
+.publicationPlanResult:empty {
+	display: none;
+}
+
+.publicationPlanResult:not(:empty) {
+	border-left: 0.3rem solid var(--accent);
+}
+
+.headerStats {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(6rem, 1fr));
+	gap: 0.5rem;
+}
+
+.headerStats span {
+	padding: 0.55rem 0.7rem;
+	border: 1px solid var(--line);
+	border-radius: 0.7rem;
+	background: color-mix(in srgb, var(--surface), transparent 10%);
+	font-size: 0.8rem;
+}
+
+.headerStats b {
+	display: block;
+	font-size: 1.15rem;
+}
+
+.answerContext,
+.questionFields {
+	padding: 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+	background: color-mix(in srgb, var(--accent), transparent 92%);
+}
+
+.questionFields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+	margin: 1rem 0;
+}
+
+.questionFields label:last-child {
+	grid-column: 1 / -1;
+}
+
+.previewFocused .composerColumn {
+	display: none;
+}
+
+.previewFocused .composerLayout {
+	grid-template-columns: minmax(0, 1fr);
+	max-width: 72rem;
+}
+
+.previewFocused .previewColumn {
+	max-width: none;
+}
+
+@media (max-width: 700px) {
+	.headerStats,
+	.questionFields {
+		grid-template-columns: 1fr;
+	}
+
+	.questionFields label:last-child {
+		grid-column: auto;
+	}
+}

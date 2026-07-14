@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * Stable names let distant participants share an evolving world without guessing.
- * The Awtsmoos renews every packet; Awtsmoos.com adds resilience, health, witness,
- * and replay names while preserving every original lobby and match contract exactly.
+ * Stable names let distant participants share VS, profiles, and cooperative roads
+ * without guessing. The Awtsmoos renews every packet; Awtsmoos.com appends new light
+ * while preserving every established lobby and match contract exactly.
  */
 
 const APPLICATION_ID = 'sefira-clash';
@@ -25,7 +25,18 @@ const MESSAGE_TYPES = Object.freeze({
 	SNAPSHOT: 'lobby.snapshot',
 	START: 'match.start',
 	UPDATE: 'lobby.update',
-	WATCH: 'lobby.watch'
+	WATCH: 'lobby.watch',
+	PROFILE_PULL: 'expedition.profile.pull',
+	PROFILE_PUSH: 'expedition.profile.push',
+	COOP_CREATE: 'expedition.coop.create',
+	COOP_JOIN: 'expedition.coop.join',
+	COOP_UPDATE: 'expedition.coop.update',
+	COOP_START: 'expedition.coop.start',
+	COOP_INPUT: 'expedition.coop.input',
+	COOP_SNAPSHOT: 'expedition.coop.snapshot',
+	COOP_RESUME: 'expedition.coop.resume',
+	COOP_REMATCH: 'expedition.coop.rematch',
+	COOP_LEAVE: 'expedition.coop.leave'
 });
 
 const RESPONSE_TYPES = Object.freeze({
@@ -42,13 +53,26 @@ const RESPONSE_TYPES = Object.freeze({
 	SNAPSHOT: 'lobby.snapshot',
 	STARTED: 'match.started',
 	UPDATED: 'lobby.updated',
-	WATCHING: 'lobby.watching'
+	WATCHING: 'lobby.watching',
+	PROFILE: 'expedition.profile',
+	PROFILE_SAVED: 'expedition.profile.saved',
+	COOP_CREATED: 'expedition.coop.created',
+	COOP_JOINED: 'expedition.coop.joined',
+	COOP_UPDATED: 'expedition.coop.updated',
+	COOP_STARTED: 'expedition.coop.started',
+	COOP_INPUT_ACCEPTED: 'expedition.coop.input.accepted',
+	COOP_SNAPSHOT: 'expedition.coop.snapshot',
+	COOP_RESUMED: 'expedition.coop.resumed',
+	COOP_REMATCHED: 'expedition.coop.rematched',
+	COOP_LEFT: 'expedition.coop.left'
 });
 
 const EVENT_TYPES = Object.freeze({
 	CHANGED: 'lobby.changed',
 	LOBBY_CHANGED: 'lobby.changed',
-	MATCH_SNAPSHOT: 'match.snapshot'
+	MATCH_SNAPSHOT: 'match.snapshot',
+	COOP_CHANGED: 'expedition.coop.changed',
+	COOP_SNAPSHOT: 'expedition.coop.snapshot'
 });
 
 const CHARACTER_IDS = Object.freeze([

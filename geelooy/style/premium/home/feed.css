@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Feed and side chambers reveal living objects without becoming their source. The
+ * Awtsmoos creates each post anew while Awtsmoos.com frames the river with clarity.
+ */
+.premium-home .home-task-dock {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: .5rem;
+	padding: .5rem;
+	border: 1px solid var(--premium-line);
+	border-radius: 1.1rem;
+	background: rgba(3, 5, 10, .74);
+	box-shadow: var(--premium-shadow-soft);
+	backdrop-filter: blur(1.1rem);
+}
+.premium-home .home-task-dock a {
+	min-width: 0;
+	padding: .65rem .45rem;
+	border-radius: .8rem;
+	color: var(--premium-muted);
+	font-size: .78rem;
+	font-weight: 750;
+	text-align: center;
+	text-decoration: none;
+}
+.premium-home .home-task-dock a:hover {
+	background: rgba(255, 255, 255, .055);
+	color: var(--premium-ink);
+}
+.premium-home .home-feed-panel,
+.premium-home .g-side-card {
+	padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+.premium-home .g-feed-head {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.premium-home .g-feed-tabs {
+	display: inline-grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .3rem;
+	margin: 1rem 0;
+	padding: .3rem;
+	border: 1px solid var(--premium-line);
+	border-radius: 999px;
+	background: rgba(3, 5, 10, .6);
+}
+.premium-home .g-feed-tabs button {
+	min-height: 2.5rem;
+	padding: .5rem .75rem;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--premium-muted);
+	font-weight: 760;
+}
+.premium-home .g-feed-tabs button.active {
+	background: var(--premium-gold-bright);
+	color: #17130b;
+}
+.premium-home .g-feed-list {
+	display: grid;
+	gap: .75rem;
+}
+.premium-home .geelooy-feed-card {
+	padding: 1rem;
+	border: 1px solid var(--premium-line);
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, .03);
+}
+.premium-home .g-route-list,
+.premium-home .g-trend-list {
+	display: grid;
+	gap: .55rem;
+}
+.premium-home .g-route-list a,
+.premium-home .g-trend-list a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: .8rem;
+	border: 1px solid transparent;
+	border-radius: .85rem;
+	text-decoration: none;
+}
+.premium-home .g-route-list a:hover,
+.premium-home .g-trend-list a:hover {
+	border-color: var(--premium-line);
+	background: rgba(255, 255, 255, .04);
+}
+.premium-home .g-route-list small,
+.premium-home .g-trend-list small {
+	color: var(--premium-soft);
+}

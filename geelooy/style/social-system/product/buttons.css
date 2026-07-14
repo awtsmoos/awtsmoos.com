@@ -1,3 +1,46 @@
-.p-button, .home-card-actions a, .home-empty-actions a { align-items: center; background: var(--p-blue); border: 1px solid var(--p-line-strong); border-radius: 16px; color: var(--p-text); display: inline-flex; font-weight: 800; justify-content: center; min-height: 44px; padding: .72rem 1rem; text-decoration: none; }
-.p-button-primary, .home-action-primary, .home-feed-create { background: #0b1b35; border-color: rgba(96, 165, 250, .38); color: #fff; }
-.p-button:active, .home-card-actions a:active, .home-empty-actions a:active { transform: translateY(1px); }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Product buttons inherit the shared action law instead of restoring neon depth.
+ */
+:where(.p-button, .home-card-actions a, .home-empty-actions a, .home-action-primary, .home-feed-create) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	min-width: 44px;
+	min-height: 44px;
+	padding: .66rem .9rem;
+	border: 1px solid var(--p-line);
+	border-radius: var(--radius-m);
+	background: var(--p-panel);
+	box-shadow: none;
+	color: var(--p-text);
+	font-weight: 750;
+	text-decoration: none;
+	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
+}
+:where(.p-button-primary, .home-action-primary, .home-feed-create) {
+	border-color: var(--p-accent);
+	background: var(--p-accent);
+	color: #fff;
+}
+:where(.p-button-primary, .home-action-primary, .home-feed-create)::after {
+	content: "→";
+	font-weight: 900;
+}
+:where(.p-button, .home-card-actions a, .home-empty-actions a):is(:hover, :focus-visible) {
+	border-color: var(--p-line-strong);
+	box-shadow: var(--shadow-card);
+	transform: translateY(var(--motion-hover-lift));
+}
+:where(.p-button, .home-card-actions a, .home-empty-actions a):active {
+	box-shadow: none;
+	transform: translateY(var(--motion-press-depth));
+}
+@media (pointer: coarse) {
+	:where(.p-button, .home-card-actions a, .home-empty-actions a):hover {
+		box-shadow: none;
+		transform: none;
+	}
+}

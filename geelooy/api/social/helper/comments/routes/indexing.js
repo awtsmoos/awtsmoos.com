@@ -1,64 +1,70 @@
-/*B"H*/
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @module CommentIndexRoutes
  * @description
- * Alias profile routes read the dedicated packed alias-comment index. The
- * comment body remains in the universal comment-tree; this route returns the
- * map of where each alias spoke: heichel, series, post, root replies and nested
- * replies included through the same pointer shape.
+ * Profile comment routes prefer packed pointers, dual-read legacy maps, and rebuild
+ * old trees through one compatibility handler. The Awtsmoos holds both generations
+ * while Awtsmoos.com preserves every historical route and success contract.
  */
-const { addCommentIndexToAlias, updateAllCommentIndexes } = require('../index.js');
-const aliasIndex = require('../aliasCommentIndex.js');
-const { er, methodIs, getUserId } = require('./utils.js');
 
-function item(id, kind) { return { id, name: id, kind }; }
-function listIds(ids, kind) { return (ids || []).filter(Boolean).map(id => item(id, kind)); }
-function pointers(rows) { return { success: Array.isArray(rows) ? rows : [] }; }
+const aliasIndex = require('../aliasCommentIndex.js');
+const handlers = require('./IndexingRouteHandlers.js');
 
 module.exports = ({ $i, userid }) => ({
-  '/aliases/:alias/commentsMade': async vars => pointers(aliasIndex.allFor($i, vars.alias)),
-
-  '/aliases/:alias/commentsMade/heichelos': async vars => ({
-    success: listIds(aliasIndex.heichelosFor($i, vars.alias), 'comment-heichel')
-  }),
-
-  '/aliases/:alias/commentsMade/heichel/:heichel': async vars => {
-    return pointers(aliasIndex.forHeichel($i, vars.alias, vars.heichel));
-  },
-
-  '/aliases/:alias/commentsMade/heichel/:heichel/series': async vars => ({
-    success: listIds(aliasIndex.seriesFor($i, vars.alias, vars.heichel), 'comment-series')
-  }),
-
-  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series': async vars => {
-    return pointers(aliasIndex.forSeries($i, vars.alias, vars.heichel, vars.series));
-  },
-
-  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts': async vars => ({
-    success: listIds(aliasIndex.postsFor($i, vars.alias, vars.heichel, vars.series), 'comment-post')
-  }),
-
-  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post': async vars => {
-    return pointers(aliasIndex.forPost($i, vars.alias, vars.heichel, vars.series, vars.post));
-  },
-
-  '/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment': async vars => {
-    if (!methodIs($i, 'POST')) return er({ message: 'POST only request', code: 'POST_ONLY' });
-    const seriesId = $i.$_POST.seriesId;
-    if (!seriesId) return er({ message: 'Missing required POST parameter: seriesId', code: 'MISSING_PARAMS' });
-    return await addCommentIndexToAlias({
-      $i,
-      userid: getUserId($i, userid),
-      aliasId: vars.alias,
-      heichelId: vars.heichel,
-      seriesId
-    });
-  },
-
-  '/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes': async vars => {
-    if (!methodIs($i, 'POST')) return { message: 'Use POST. This endpoint is legacy compatibility.' };
-    const requestingUserid = getUserId($i, userid);
-    if (!requestingUserid) return er({ message: "You're not logged in" });
-    return await updateAllCommentIndexes({ $i, userid: requestingUserid, aliasId: vars.alias, heichelId: vars.heichel });
-  }
+	'/aliases/:alias/commentsMade': async variables => {
+		return handlers.pointers(aliasIndex.allFor($i, variables.alias));
+	},
+	'/aliases/:alias/commentsMade/heichelos': async variables => ({
+		success: await handlers.heichelItems($i, variables.alias)
+	}),
+	'/aliases/:alias/commentsMade/heichel/:heichel': async variables => {
+		return handlers.pointers(aliasIndex.forHeichel(
+			$i,
+			variables.alias,
+			variables.heichel
+		));
+	},
+	'/aliases/:alias/commentsMade/heichel/:heichel/series': async variables => ({
+		success: await handlers.seriesItems(
+			$i,
+			variables.alias,
+			variables.heichel
+		)
+	}),
+	'/aliases/:alias/commentsMade/heichel/:heichel/series/:series': async variables => {
+		return handlers.pointers(aliasIndex.forSeries(
+			$i,
+			variables.alias,
+			variables.heichel,
+			variables.series
+		));
+	},
+	'/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts': async variables => ({
+		success: handlers.listIds(aliasIndex.postsFor(
+			$i,
+			variables.alias,
+			variables.heichel,
+			variables.series
+		), 'comment-post')
+	}),
+	'/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post': async variables => {
+		return handlers.pointers(aliasIndex.forPost(
+			$i,
+			variables.alias,
+			variables.heichel,
+			variables.series,
+			variables.post
+		));
+	},
+	'/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment': async variables => {
+		return handlers.addOne({ $i, userid, variables });
+	},
+	'/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes': async variables => {
+		return handlers.rebuildAll({ $i, userid, variables });
+	}
 });
+
+module.exports.handlers = handlers;

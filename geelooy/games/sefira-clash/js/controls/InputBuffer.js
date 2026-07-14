@@ -3,19 +3,13 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the input buffer vessel in this instant, revealing
- * its focused js controls service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * The input buffer preserves short-lived combat and interaction meaning through fixed
+ * simulation gates. The Awtsmoos renews each press; Awtsmoos.com remembers a doorway
+ * covenant just as faithfully as jump, hand, foot, guard, grab, and recovery intention.
  */
-const ACTIONS = ['jump', 'punch', 'kick', 'grab', 'shield', 'special'];
 
-/**
- * Converts raw held controls into intention with edges and forgiving memory.
- *
- * A key may exist for only a heartbeat, yet its meaning should not vanish between
- * simulation gates. Like a letter carried through many worlds from the singular
- * Awtsmoos, each press remains briefly available until combat consumes it.
- */
+const ACTIONS = ['jump', 'punch', 'kick', 'grab', 'shield', 'special', 'interact'];
+
 export class InputBuffer {
 	constructor(bufferFrames = 7) {
 		this.bufferFrames = bufferFrames;
@@ -24,15 +18,10 @@ export class InputBuffer {
 		this.previousAxisX = 0;
 	}
 
-	/**
-	 * @param {object} raw Current merged controller state.
-	 * @returns {object} Semantic snapshot retaining legacy held fields.
-	 */
 	read(raw) {
 		const pressed = {};
 		const released = {};
 		const buffered = {};
-
 		for (const action of ACTIONS) {
 			const held = Boolean(raw[action]);
 			pressed[action] = held && !this.previous[action];
@@ -43,29 +32,22 @@ export class InputBuffer {
 			buffered[action] = this.remaining[action] > 0;
 			this.previous[action] = held;
 		}
-
-		const dashX = this.readDash(raw.x || 0);
 		const snapshot = {
 			...raw,
 			pressed,
 			released,
 			buffered,
-			dashX
+			dashX: this.readDash(raw.x || 0)
 		};
 		snapshot.consume = action => this.consume(action, snapshot);
 		return snapshot;
 	}
 
 	consume(action, snapshot) {
-		if (!ACTIONS.includes(action)) {
-			return false;
-		}
-
+		if (!ACTIONS.includes(action)) return false;
 		const available = this.remaining[action] > 0;
 		this.remaining[action] = 0;
-		if (snapshot?.buffered) {
-			snapshot.buffered[action] = false;
-		}
+		if (snapshot?.buffered) snapshot.buffered[action] = false;
 		return available;
 	}
 

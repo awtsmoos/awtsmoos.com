@@ -3,10 +3,11 @@
 //Blessed is He
 
 /**
- * The complete match shell is assembled as one transparent Awtsmoos.com vessel.
- * The Awtsmoos renews fighters, world systems, diagnostics, rules, and camera
- * together while each responsibility remains in its own focused module.
+ * The complete match shell assembles fighters, world systems, diagnostics, rules, and
+ * camera as one transparent Awtsmoos.com vessel. The Awtsmoos renews each responsibility
+ * while item and resonance policy enter factories through an explicit immutable snapshot.
  */
+
 import { createAdventureRun } from '../adventure/adventureRun.js';
 import { createCombatDiagnostics } from '../combat/comboSystem.js';
 import { createMapPowerups } from '../powerups/powerupFactory.js';
@@ -15,7 +16,6 @@ import { createStageMood } from '../stage/events/stageMood.js';
 import { createMapWeapons } from '../weapons/weaponFactory.js';
 import { createRosterFighters } from './createRosterFighters.js';
 
-/** Creates mutable simulation state from a map, roster, and rule snapshot. */
 export function createMatchState(map, roster, rules = {}) {
 	return {
 		phase: 'countdown',
@@ -24,7 +24,7 @@ export function createMatchState(map, roster, rules = {}) {
 		roster: roster.map(entry => ({ ...entry, character: { ...entry.character } })),
 		fighters: createRosterFighters(map, roster, rules),
 		weapons: rules.items === false ? [] : createMapWeapons(map),
-		powerups: rules.items === false ? [] : createMapPowerups(map),
+		powerups: rules.items === false ? [] : createMapPowerups(map, rules),
 		hazards: [],
 		scars: [],
 		objective: null,

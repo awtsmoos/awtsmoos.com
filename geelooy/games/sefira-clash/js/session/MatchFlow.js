@@ -3,15 +3,17 @@
 //Blessed is He
 
 /**
- * Match flow conducts countdown, battle, victory, rematch, and return.
- * The Awtsmoos renews each Awtsmoos.com transition while focused presentation
- * modules preserve team identity and Adventure reward meaning.
+ * Match flow conducts countdown, battle, victory, rematch, and return. The Awtsmoos
+ * renews each Awtsmoos.com transition while Adventure and Expedition share honest
+ * journey behavior without obscuring local VS roster law.
  */
+
 import { adventureStatusLine } from '../adventure/adventureRun.js';
 import { showCountdown } from '../menu/menuViews.js';
 import { enterMatchVictory } from './MatchVictory.js';
+import { isJourneyMode, journeyStatus, noopSceneChange } from './modeHelpers.js';
 
-/** Conducts countdown, play, status, victory, rematch, and next-gate transitions. */
+/** Conducts countdown, play, status, victory, rematch, and next-road transitions. */
 export class MatchFlow {
 	constructor(options) {
 		this.model = options.model;
@@ -26,8 +28,9 @@ export class MatchFlow {
 
 	beginCountdown(map = this.model.choice.map, mode = this.model.choice.mode) {
 		this.clearCountdown();
-		const bots =
-			mode === 'adventure' ? map.adventure?.bots || 1 : Number(this.botSelect.value || 5);
+		const bots = isJourneyMode(mode)
+			? map.adventure?.bots || 1
+			: Number(this.botSelect.value || 5);
 		this.model.createMatch(map, mode, bots);
 		this.host.classList.remove('hidden', 'victoryOverlay');
 		this.status.textContent = `${map.name}. ${this.profile.label} ready.`;
@@ -55,10 +58,9 @@ export class MatchFlow {
 	startMatch() {
 		this.host.classList.add('hidden');
 		this.model.startPlaying();
-		this.status.textContent =
-			this.model.choice.mode === 'adventure'
-				? adventureStatusLine(this.model.state)
-				: 'Fight: dash, short-hop, aim, charge, shield, launch, recover.';
+		this.status.textContent = isJourneyMode(this.model.choice.mode)
+			? `${journeyStatus(this.model.choice.mode)} ${adventureStatusLine(this.model.state)}`
+			: 'Fight: dash, short-hop, aim, charge, shield, launch, recover.';
 	}
 
 	update() {
@@ -66,7 +68,7 @@ export class MatchFlow {
 		if (state.phase !== 'playing') {
 			return;
 		}
-		if (this.model.choice.mode === 'adventure' && state.frame % 18 === 0) {
+		if (isJourneyMode(this.model.choice.mode) && state.frame % 18 === 0) {
 			this.status.textContent = adventureStatusLine(state);
 		}
 		const winner = this.model.winner();
@@ -111,8 +113,4 @@ export class MatchFlow {
 		this.countdownTimer = null;
 		this.host.classList.remove('victoryOverlay');
 	}
-}
-
-function noopSceneChange() {
-	return undefined;
 }

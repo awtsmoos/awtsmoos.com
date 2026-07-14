@@ -1,0 +1,378 @@
+=== HEAD AND STATUS ===
+65d8a25ff (HEAD -> main, origin/main, origin/HEAD) B_H automatic update
+?? geelooy/games/sefira-clash/.reports/adventure-expansion-recon.txt
+
+=== js/adventure ===
+geelooy/games/sefira-clash/js/adventure/AdventureCheckpoints.js
+geelooy/games/sefira-clash/js/adventure/AdventureObjectives.js
+geelooy/games/sefira-clash/js/adventure/adventureRun.js
+
+=== js/data ===
+geelooy/games/sefira-clash/js/data/adventure/adventureFactory.js
+geelooy/games/sefira-clash/js/data/adventure/adventureGridParser.js
+geelooy/games/sefira-clash/js/data/adventure/adventureLevels.js
+geelooy/games/sefira-clash/js/data/adventure/adventureWorlds.js
+geelooy/games/sefira-clash/js/data/attacks.js
+geelooy/games/sefira-clash/js/data/characterProfiles.js
+geelooy/games/sefira-clash/js/data/characters.js
+geelooy/games/sefira-clash/js/data/combatTuning.js
+geelooy/games/sefira-clash/js/data/hats.js
+geelooy/games/sefira-clash/js/data/maps.js
+geelooy/games/sefira-clash/js/data/maps/abyssOfDin.js
+geelooy/games/sefira-clash/js/data/maps/alephRiftExpanse.js
+geelooy/games/sefira-clash/js/data/maps/beitMidrashBouncer.js
+geelooy/games/sefira-clash/js/data/maps/binahTowerLabyrinth.js
+geelooy/games/sefira-clash/js/data/maps/celestialGate.js
+geelooy/games/sefira-clash/js/data/maps/chesedRiverBridges.js
+geelooy/games/sefira-clash/js/data/maps/crownRuins.js
+geelooy/games/sefira-clash/js/data/maps/crystalSefirah.js
+geelooy/games/sefira-clash/js/data/maps/factory.js
+geelooy/games/sefira-clash/js/data/maps/gevurahForgeExpanse.js
+geelooy/games/sefira-clash/js/data/maps/hodMirrorPalace.js
+geelooy/games/sefira-clash/js/data/maps/index.js
+geelooy/games/sefira-clash/js/data/maps/kesserCrownRift.js
+geelooy/games/sefira-clash/js/data/maps/malchusEndlessMeadow.js
+geelooy/games/sefira-clash/js/data/maps/merkavaBattlefield.js
+geelooy/games/sefira-clash/js/data/maps/merkavaPinballCourt.js
+geelooy/games/sefira-clash/js/data/maps/netzachCauseway.js
+geelooy/games/sefira-clash/js/data/maps/riverOfLight.js
+geelooy/games/sefira-clash/js/data/maps/sevenHeichalos.js
+geelooy/games/sefira-clash/js/data/maps/templeOfEchoes.js
+geelooy/games/sefira-clash/js/data/maps/throneOfFire.js
+geelooy/games/sefira-clash/js/data/maps/tiferesBattlefieldVast.js
+geelooy/games/sefira-clash/js/data/maps/treeOfLifeArena.js
+geelooy/games/sefira-clash/js/data/maps/upgradeLevels.js
+geelooy/games/sefira-clash/js/data/maps/yesodMoonEngine.js
+geelooy/games/sefira-clash/js/data/powerups/definitions.js
+geelooy/games/sefira-clash/js/data/powerups/index.js
+geelooy/games/sefira-clash/js/data/sefirot.js
+geelooy/games/sefira-clash/js/data/weapons.js
+
+=== js/maps ===
+geelooy/games/sefira-clash/js/maps/mapAnalysis.js
+geelooy/games/sefira-clash/js/maps/mapCulling.js
+geelooy/games/sefira-clash/js/maps/mapFlowGraph.js
+geelooy/games/sefira-clash/js/maps/mapPerformanceCache.js
+geelooy/games/sefira-clash/js/maps/mapPersonality.js
+geelooy/games/sefira-clash/js/maps/mapSpecificRules.js
+geelooy/games/sefira-clash/js/maps/mapZones.js
+
+=== js/mapNavigation ===
+geelooy/games/sefira-clash/js/mapNavigation/buildGraph.js
+geelooy/games/sefira-clash/js/mapNavigation/findRoute.js
+geelooy/games/sefira-clash/js/mapNavigation/platformNode.js
+
+=== js/narrative ===
+geelooy/games/sefira-clash/js/narrative/narrativeSystem.js
+
+=== js/weapons ===
+geelooy/games/sefira-clash/js/weapons/weaponFactory.js
+geelooy/games/sefira-clash/js/weapons/weaponPickup.js
+
+=== js/systems ===
+geelooy/games/sefira-clash/js/systems/ai.js
+geelooy/games/sefira-clash/js/systems/combat.js
+geelooy/games/sefira-clash/js/systems/controls.js
+geelooy/games/sefira-clash/js/systems/noise.js
+geelooy/games/sefira-clash/js/systems/render.js
+geelooy/games/sefira-clash/js/systems/skeleton.js
+geelooy/games/sefira-clash/js/systems/world.js
+
+=== js/multiplayer ===
+geelooy/games/sefira-clash/js/multiplayer/DeviceRegistry.js
+geelooy/games/sefira-clash/js/multiplayer/MatchRoster.js
+geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+geelooy/games/sefira-clash/js/multiplayer/PlayerLobby.js
+geelooy/games/sefira-clash/js/multiplayer/PlayerLobbyDefaults.js
+geelooy/games/sefira-clash/js/multiplayer/PlayerSlot.js
+
+=== js/spectacle ===
+geelooy/games/sefira-clash/js/spectacle/impactTiers.js
+geelooy/games/sefira-clash/js/spectacle/spectacleCamera.js
+geelooy/games/sefira-clash/js/spectacle/spectacleEvents.js
+geelooy/games/sefira-clash/js/spectacle/spectacleRender.js
+geelooy/games/sefira-clash/js/spectacle/spectacleState.js
+
+=== js/particles ===
+geelooy/games/sefira-clash/js/particles/emitters/ambientDust.js
+geelooy/games/sefira-clash/js/particles/emitters/weaponTrails.js
+geelooy/games/sefira-clash/js/particles/hitEffects.js
+geelooy/games/sefira-clash/js/particles/particleBudget.js
+geelooy/games/sefira-clash/js/particles/particleBursts.js
+geelooy/games/sefira-clash/js/particles/particleEventRouter.js
+geelooy/games/sefira-clash/js/particles/particleHitBurst.js
+geelooy/games/sefira-clash/js/particles/particleImpactPrimitives.js
+geelooy/games/sefira-clash/js/particles/particlePool.js
+geelooy/games/sefira-clash/js/particles/particlePrimitives.js
+geelooy/games/sefira-clash/js/particles/particleRecycle.js
+geelooy/games/sefira-clash/js/particles/particleTextPrimitives.js
+geelooy/games/sefira-clash/js/particles/particleWorldBursts.js
+geelooy/games/sefira-clash/js/particles/particles.js
+geelooy/games/sefira-clash/js/particles/smashEffects.js
+
+=== js/session ===
+geelooy/games/sefira-clash/js/session/AdventureProgress.js
+geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+geelooy/games/sefira-clash/js/session/GameModel.js
+geelooy/games/sefira-clash/js/session/MatchFlow.js
+geelooy/games/sefira-clash/js/session/MatchVictory.js
+geelooy/games/sefira-clash/js/session/ProfileStore.js
+geelooy/games/sefira-clash/js/session/sessionHelpers.js
+
+=== js/fighters ===
+geelooy/games/sefira-clash/js/fighters/applyCharacterProfile.js
+geelooy/games/sefira-clash/js/fighters/applyHatStats.js
+geelooy/games/sefira-clash/js/fighters/createFighter.js
+geelooy/games/sefira-clash/js/fighters/fighterDNA.js
+geelooy/games/sefira-clash/js/fighters/fighterState.js
+geelooy/games/sefira-clash/js/fighters/fighterStats.js
+
+=== js/combat ===
+geelooy/games/sefira-clash/js/combat/attackGeometry.js
+geelooy/games/sefira-clash/js/combat/attackImpulse.js
+geelooy/games/sefira-clash/js/combat/attackLauncher.js
+geelooy/games/sefira-clash/js/combat/attackMath.js
+geelooy/games/sefira-clash/js/combat/attackResolver.js
+geelooy/games/sefira-clash/js/combat/attackState.js
+geelooy/games/sefira-clash/js/combat/attackTraits.js
+geelooy/games/sefira-clash/js/combat/chargeAttack.js
+geelooy/games/sefira-clash/js/combat/combatAimIntent.js
+geelooy/games/sefira-clash/js/combat/combatEvents.js
+geelooy/games/sefira-clash/js/combat/combatInputEdges.js
+geelooy/games/sefira-clash/js/combat/comboSystem.js
+geelooy/games/sefira-clash/js/combat/directionalAttack.js
+geelooy/games/sefira-clash/js/combat/grabResolver.js
+geelooy/games/sefira-clash/js/combat/inputIntent.js
+geelooy/games/sefira-clash/js/combat/movePicker.js
+geelooy/games/sefira-clash/js/combat/rapidAttack.js
+geelooy/games/sefira-clash/js/combat/rapidIntent.js
+geelooy/games/sefira-clash/js/combat/shields.js
+geelooy/games/sefira-clash/js/combat/startAttack.js
+geelooy/games/sefira-clash/js/combat/throwResolver.js
+
+=== js/render ===
+geelooy/games/sefira-clash/js/render/background.js
+geelooy/games/sefira-clash/js/render/background/palette.js
+geelooy/games/sefira-clash/js/render/background/parchmentTexture.js
+geelooy/games/sefira-clash/js/render/background/treeOfLife.js
+geelooy/games/sefira-clash/js/render/fighter/auras.js
+geelooy/games/sefira-clash/js/render/fighter/body.js
+geelooy/games/sefira-clash/js/render/fighter/bodyLanguage.js
+geelooy/games/sefira-clash/js/render/fighter/colors.js
+geelooy/games/sefira-clash/js/render/fighter/head.js
+geelooy/games/sefira-clash/js/render/fighter/labels.js
+geelooy/games/sefira-clash/js/render/fighter/limbs.js
+geelooy/games/sefira-clash/js/render/fighters.js
+geelooy/games/sefira-clash/js/render/geometry/sefirotTree.js
+geelooy/games/sefira-clash/js/render/glyphAtlas.js
+geelooy/games/sefira-clash/js/render/glyphBuckets.js
+geelooy/games/sefira-clash/js/render/glyphCache.js
+geelooy/games/sefira-clash/js/render/glyphCanvas.js
+geelooy/games/sefira-clash/js/render/lighting/glow.js
+geelooy/games/sefira-clash/js/render/minimap/mapPreview.js
+geelooy/games/sefira-clash/js/render/offscreenIndicators.js
+geelooy/games/sefira-clash/js/render/offscreenSurface.js
+geelooy/games/sefira-clash/js/render/particleGlyphs.js
+geelooy/games/sefira-clash/js/render/particleShapes.js
+geelooy/games/sefira-clash/js/render/particles.js
+geelooy/games/sefira-clash/js/render/platforms.js
+geelooy/games/sefira-clash/js/render/platforms/stoneTexture.js
+geelooy/games/sefira-clash/js/render/powerups.js
+geelooy/games/sefira-clash/js/render/renderer.js
+geelooy/games/sefira-clash/js/render/ui.js
+geelooy/games/sefira-clash/js/render/ui/blastDiagram.js
+geelooy/games/sefira-clash/js/render/ui/fighterPreview.js
+geelooy/games/sefira-clash/js/render/ui/generatorMetrics.js
+geelooy/games/sefira-clash/js/render/ui/generatorPanel.js
+geelooy/games/sefira-clash/js/render/ui/mapCards.js
+geelooy/games/sefira-clash/js/render/ui/panels.js
+geelooy/games/sefira-clash/js/render/ui/signatureChart.js
+geelooy/games/sefira-clash/js/render/ui/statSliders.js
+geelooy/games/sefira-clash/js/render/ui/systemsPanel.js
+geelooy/games/sefira-clash/js/render/weapons.js
+
+=== js/stage ===
+geelooy/games/sefira-clash/js/stage/events/stageDirector.js
+geelooy/games/sefira-clash/js/stage/events/stageMood.js
+geelooy/games/sefira-clash/js/stage/hazards/hazardRegistry.js
+geelooy/games/sefira-clash/js/stage/hazards/hazardRender.js
+geelooy/games/sefira-clash/js/stage/hazards/hazardSpawner.js
+geelooy/games/sefira-clash/js/stage/hazards/hazardState.js
+geelooy/games/sefira-clash/js/stage/items/itemRegistry.js
+geelooy/games/sefira-clash/js/stage/items/itemSpawner.js
+geelooy/games/sefira-clash/js/stage/narrative/stageStoryEvents.js
+geelooy/games/sefira-clash/js/stage/narrative/stageStoryMemory.js
+geelooy/games/sefira-clash/js/stage/narrative/stageVoiceLines.js
+geelooy/games/sefira-clash/js/stage/objectives/objectiveDirector.js
+geelooy/games/sefira-clash/js/stage/scars/battlefieldScars.js
+
+=== ROOT PAGES ===
+geelooy/games/sefira-clash/.awtsmoos-ai2-smoke.mjs
+geelooy/games/sefira-clash/.gitignore
+geelooy/games/sefira-clash/.prettierignore
+geelooy/games/sefira-clash/index.html
+geelooy/games/sefira-clash/online.html
+geelooy/games/sefira-clash/package-lock.json
+geelooy/games/sefira-clash/package.json
+geelooy/games/sefira-clash/prettier.config.mjs
+geelooy/games/sefira-clash/style.css
+
+=== TESTS ===
+
+=== LINE COUNTS RELEVANT ===
+      10 geelooy/games/sefira-clash/js/data/powerups/index.js
+      10 geelooy/games/sefira-clash/js/systems/ai.js
+      10 geelooy/games/sefira-clash/js/systems/combat.js
+      10 geelooy/games/sefira-clash/js/systems/noise.js
+      10 geelooy/games/sefira-clash/js/systems/render.js
+      11 geelooy/games/sefira-clash/js/systems/skeleton.js
+      16 geelooy/games/sefira-clash/js/data/maps.js
+      19 geelooy/games/sefira-clash/js/particles/particleBursts.js
+      19 geelooy/games/sefira-clash/js/particles/particlePrimitives.js
+      21 geelooy/games/sefira-clash/js/systems/controls.js
+      23 geelooy/games/sefira-clash/js/data/sefirot.js
+      23 geelooy/games/sefira-clash/js/narrative/narrativeSystem.js
+      24 geelooy/games/sefira-clash/js/data/maps/hodMirrorPalace.js
+      24 geelooy/games/sefira-clash/js/data/maps/netzachCauseway.js
+      24 geelooy/games/sefira-clash/js/systems/world.js
+      25 geelooy/games/sefira-clash/js/maps/mapPerformanceCache.js
+      25 geelooy/games/sefira-clash/js/particles/emitters/ambientDust.js
+      27 geelooy/games/sefira-clash/js/particles/emitters/weaponTrails.js
+      27 geelooy/games/sefira-clash/js/particles/hitEffects.js
+      27 geelooy/games/sefira-clash/js/particles/smashEffects.js
+      27 geelooy/games/sefira-clash/js/weapons/weaponFactory.js
+      28 geelooy/games/sefira-clash/js/data/maps/chesedRiverBridges.js
+      28 geelooy/games/sefira-clash/js/data/maps/malchusEndlessMeadow.js
+      29 geelooy/games/sefira-clash/js/data/maps/binahTowerLabyrinth.js
+      29 geelooy/games/sefira-clash/js/data/maps/celestialGate.js
+      29 geelooy/games/sefira-clash/js/data/maps/crownRuins.js
+      29 geelooy/games/sefira-clash/js/data/maps/crystalSefirah.js
+      29 geelooy/games/sefira-clash/js/data/maps/gevurahForgeExpanse.js
+      29 geelooy/games/sefira-clash/js/data/maps/merkavaBattlefield.js
+      29 geelooy/games/sefira-clash/js/data/maps/riverOfLight.js
+      29 geelooy/games/sefira-clash/js/data/maps/templeOfEchoes.js
+      29 geelooy/games/sefira-clash/js/data/maps/throneOfFire.js
+      29 geelooy/games/sefira-clash/js/data/maps/yesodMoonEngine.js
+      29 geelooy/games/sefira-clash/js/spectacle/spectacleCamera.js
+      30 geelooy/games/sefira-clash/js/data/maps/alephRiftExpanse.js
+      30 geelooy/games/sefira-clash/js/data/maps/treeOfLifeArena.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level12.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level18.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level21.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level25.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level26.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level31.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level41.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level45.js
+      31 geelooy/games/sefira-clash/js/data/adventure/levels/level48.js
+      31 geelooy/games/sefira-clash/js/data/maps/abyssOfDin.js
+      31 geelooy/games/sefira-clash/js/data/maps/sevenHeichalos.js
+      31 geelooy/games/sefira-clash/js/multiplayer/PlayerLobbyDefaults.js
+      31 geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level11.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level16.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level17.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level19.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level22.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level24.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level27.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level28.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level29.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level32.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level33.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level35.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level37.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level39.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level44.js
+      32 geelooy/games/sefira-clash/js/data/adventure/levels/level46.js
+      32 geelooy/games/sefira-clash/js/data/maps/kesserCrownRift.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level14.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level15.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level20.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level30.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level38.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level40.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level42.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level43.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level49.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level50.js
+      33 geelooy/games/sefira-clash/js/data/adventure/levels/level57.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level13.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level23.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level36.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level47.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level53.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level55.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level56.js
+      34 geelooy/games/sefira-clash/js/data/adventure/levels/level58.js
+      35 geelooy/games/sefira-clash/js/data/adventure/levels/level34.js
+      35 geelooy/games/sefira-clash/js/data/adventure/levels/level51.js
+      35 geelooy/games/sefira-clash/js/data/adventure/levels/level52.js
+      35 geelooy/games/sefira-clash/js/data/adventure/levels/level59.js
+      35 geelooy/games/sefira-clash/js/mapNavigation/platformNode.js
+      37 geelooy/games/sefira-clash/js/data/adventure/levels/level54.js
+      37 geelooy/games/sefira-clash/js/data/attacks.js
+      38 geelooy/games/sefira-clash/js/data/characterProfiles.js
+      38 geelooy/games/sefira-clash/js/maps/mapFlowGraph.js
+      38 geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+      39 geelooy/games/sefira-clash/js/data/adventure/levels/level01.js
+      39 geelooy/games/sefira-clash/js/data/adventure/levels/level03.js
+      39 geelooy/games/sefira-clash/js/data/adventure/levels/level04.js
+      40 geelooy/games/sefira-clash/js/data/adventure/levels/level02.js
+      40 geelooy/games/sefira-clash/js/data/adventure/levels/level09.js
+      41 geelooy/games/sefira-clash/js/data/adventure/levels/level07.js
+      41 geelooy/games/sefira-clash/js/data/adventure/levels/level60.js
+      41 geelooy/games/sefira-clash/js/data/maps/beitMidrashBouncer.js
+      41 geelooy/games/sefira-clash/js/mapNavigation/findRoute.js
+      41 geelooy/games/sefira-clash/js/spectacle/impactTiers.js
+      42 geelooy/games/sefira-clash/js/data/adventure/levels/level08.js
+      42 geelooy/games/sefira-clash/js/mapNavigation/buildGraph.js
+      43 geelooy/games/sefira-clash/js/data/adventure/levels/level05.js
+      43 geelooy/games/sefira-clash/js/data/adventure/levels/level10.js
+      44 geelooy/games/sefira-clash/js/data/adventure/levels/level06.js
+      44 geelooy/games/sefira-clash/js/data/maps/merkavaPinballCourt.js
+      45 geelooy/games/sefira-clash/js/adventure/AdventureCheckpoints.js
+      47 geelooy/games/sefira-clash/js/data/maps/tiferesBattlefieldVast.js
+      49 geelooy/games/sefira-clash/js/data/weapons.js
+      49 geelooy/games/sefira-clash/js/maps/mapPersonality.js
+      50 geelooy/games/sefira-clash/js/data/powerups/definitions.js
+      50 geelooy/games/sefira-clash/js/maps/mapCulling.js
+      51 geelooy/games/sefira-clash/js/session/MatchVictory.js
+      56 geelooy/games/sefira-clash/js/particles/particles.js
+      56 geelooy/games/sefira-clash/js/weapons/weaponPickup.js
+      57 geelooy/games/sefira-clash/js/data/combatTuning.js
+      57 geelooy/games/sefira-clash/js/multiplayer/PlayerSlot.js
+      58 geelooy/games/sefira-clash/js/maps/mapZones.js
+      60 geelooy/games/sefira-clash/js/maps/mapAnalysis.js
+      62 geelooy/games/sefira-clash/js/data/maps/index.js
+      63 geelooy/games/sefira-clash/js/maps/mapSpecificRules.js
+      64 geelooy/games/sefira-clash/js/particles/particleBudget.js
+      69 geelooy/games/sefira-clash/js/particles/particleEventRouter.js
+      69 geelooy/games/sefira-clash/js/session/ProfileStore.js
+      71 geelooy/games/sefira-clash/js/adventure/AdventureObjectives.js
+      73 geelooy/games/sefira-clash/js/particles/particleHitBurst.js
+      74 geelooy/games/sefira-clash/js/data/adventure/adventureFactory.js
+      74 geelooy/games/sefira-clash/js/spectacle/spectacleState.js
+      75 geelooy/games/sefira-clash/js/data/maps/upgradeLevels.js
+      79 geelooy/games/sefira-clash/js/multiplayer/MatchRoster.js
+      81 geelooy/games/sefira-clash/js/data/characters.js
+      86 geelooy/games/sefira-clash/js/data/hats.js
+      87 geelooy/games/sefira-clash/js/particles/particlePool.js
+      89 geelooy/games/sefira-clash/js/spectacle/spectacleRender.js
+      93 geelooy/games/sefira-clash/js/multiplayer/DeviceRegistry.js
+      93 geelooy/games/sefira-clash/js/particles/particleTextPrimitives.js
+      96 geelooy/games/sefira-clash/js/particles/particleWorldBursts.js
+      99 geelooy/games/sefira-clash/js/data/adventure/adventureWorlds.js
+      99 geelooy/games/sefira-clash/js/particles/particleRecycle.js
+     102 geelooy/games/sefira-clash/js/session/sessionHelpers.js
+     109 geelooy/games/sefira-clash/js/particles/particleImpactPrimitives.js
+     110 geelooy/games/sefira-clash/js/session/GameModel.js
+     117 geelooy/games/sefira-clash/js/multiplayer/PlayerLobby.js
+     118 geelooy/games/sefira-clash/js/data/adventure/adventureGridParser.js
+     118 geelooy/games/sefira-clash/js/session/MatchFlow.js
+     124 geelooy/games/sefira-clash/js/adventure/adventureRun.js
+     145 geelooy/games/sefira-clash/js/spectacle/spectacleEvents.js
+     153 geelooy/games/sefira-clash/js/data/adventure/adventureLevels.js
+     167 geelooy/games/sefira-clash/js/session/AdventureProgress.js
+     186 geelooy/games/sefira-clash/js/data/maps/factory.js
+    7182 total

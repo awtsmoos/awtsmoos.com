@@ -3,13 +3,15 @@
 // Blessed is He
 /**
  * @file WorldRoom.js
- * @description Coordinates authority, social services, revisions, and interest.
- * The Awtsmoos renews one shared world through many lawful vessels; Awtsmoos.com
- * keeps the room small while focused services reveal every persistent MMORPG law.
+ * @description Coordinates players, creatures, social services, revision, and interest.
+ * The Awtsmoos renews one shared world through many focused vessels; Awtsmoos.com
+ * keeps the room below its size ceiling while every entity enters one projection.
  */
 const { snapshotPlayer } = require('./PlayerEntity.js');
 const { DEFINITION, NPCS } = require('./TefillinMission.js');
+const { lookupWorldEntity } = require('./WorldEntityLookup.js');
 const { worldEntitySnapshots } = require('./WorldEntitySnapshot.js');
+const { releaseWorldMembership } = require('./WorldMembershipRelease.js');
 const { createWorldRoomComposition } = require('./WorldRoomComposition.js');
 const { projectWorldSnapshot } = require('./WorldSnapshotProjector.js');
 class WorldRoom {
@@ -41,7 +43,7 @@ class WorldRoom {
 	leave(client) {
 		this.interest.release(client);
 		const player = this.playerFor(client);
-		this.releaseMembership(player);
+		releaseWorldMembership(this, player);
 		const playerId = this.roster.leave(client);
 		if (!playerId) return false;
 		this.bots.remove(playerId);
@@ -50,7 +52,7 @@ class WorldRoom {
 	}
 	removePlayer(playerId) {
 		const player = this.players.get(playerId);
-		if (player) this.releaseMembership(player);
+		if (player) releaseWorldMembership(this, player);
 		if (!this.roster.remove(playerId)) return false;
 		this.bots.remove(playerId);
 		this.record('player.expired', { playerId });
@@ -78,7 +80,8 @@ class WorldRoom {
 		return this.bots.commandBot(botId, command);
 	}
 	prepareInterestEntities() {
-		return this.interest.prepare(worldEntitySnapshots(this.players, NPCS));
+		const creatures = this.creatures.snapshots();
+		return this.interest.prepare(worldEntitySnapshots(this.players, NPCS, creatures));
 	}
 	deltaFor(client, preparedEntities = this.prepareInterestEntities()) {
 		return this.interest.project(
@@ -89,7 +92,7 @@ class WorldRoom {
 		);
 	}
 	entityById(entityId) {
-		return this.players.get(entityId) || NPCS.find(npc => npc.id === entityId) || null;
+		return lookupWorldEntity(this, entityId, NPCS);
 	}
 	snapshot() {
 		return projectWorldSnapshot(this, NPCS, DEFINITION);
@@ -103,10 +106,6 @@ class WorldRoom {
 	playerFor(client) {
 		return this.roster.playerFor(client);
 	}
-	releaseMembership(player) {
-		if (player.partyId) this.parties.leave(player);
-		if (player.instanceId) this.instances.leave(player);
-	}
 	entityId(prefix) {
 		return `${prefix}-${this.nextEntity++}`;
 	}
@@ -114,7 +113,6 @@ class WorldRoom {
 		this.journal.record(type, payload);
 	}
 }
-
 module.exports = {
 	WorldRoom
 };

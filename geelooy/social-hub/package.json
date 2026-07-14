@@ -1,0 +1,17 @@
+{
+	"BH": "B\"H",
+	"BoruchHashem": "Blessed is He",
+	"name": "awtsmoos-social-hub",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Responsive Awtsmoos.com social command center for private activity, profiles, comments, replies, voice, video, references, and provenance-safe transformations.",
+	"scripts": {
+		"test:state": "node tests/stateRoute.test.mjs",
+		"test:comments": "node tests/commentPayload.test.mjs",
+		"test:legal": "node tests/legalEntry.test.mjs",
+		"test": "npm run test:state && npm run test:comments && npm run test:legal",
+		"test:browser": "node tests/browserSmoke.test.mjs",
+		"test:all": "npm test && npm run test:browser"
+	}
+}

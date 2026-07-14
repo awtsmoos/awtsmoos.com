@@ -1,15 +1,92 @@
-/* B"H — object cards look like community posts, not debugger dumps. */
-.home-post-card[data-object-type] { cursor: pointer; }
-.home-post-card[data-object-type]:focus { outline: 2px solid rgba(40,243,215,.62); outline-offset: 4px; }
-.universal-object-card { display: grid; gap: .72rem; }
-.post-author { align-items: center; display: grid; gap: .14rem .6rem; grid-template-columns: 2.55rem minmax(0,1fr); }
-.post-author > span { background: linear-gradient(135deg,#28f3d7,#8b5cf6); border-radius: 16px; display: grid; grid-row: span 2; height: 2.55rem; place-items: center; width: 2.55rem; }
-.post-author > span::after { content: "✨"; font-size: 1rem; }
-.post-author strong { color: #fff; font-size: 1.02rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.post-author small { color: #95a1b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.object-type-row,.object-action-row,.object-meta-grid { align-items: center; display: flex; flex-wrap: wrap; gap: .46rem; min-width: 0; }
-.object-pill { background: rgba(40,243,215,.08); border: 1px solid rgba(91,216,232,.18); border-radius: 999px; color: #a7f3ff; display: inline-flex; font-size: .68rem; font-weight: 1000; letter-spacing: .055em; max-width: 100%; min-height: 1.85rem; overflow: hidden; padding: .25rem .55rem; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-.object-action-row a,.object-action-row button { align-items: center; background: linear-gradient(135deg, rgba(46,167,255,.14), rgba(139,92,246,.12)); border: 1px solid rgba(91,216,232,.24); border-radius: 999px; color: #f8fafc; cursor: pointer; display: inline-flex; font-weight: 950; gap: .42rem; min-height: 2.55rem; padding: .45rem .82rem; text-decoration: none; }
-.object-action-row a::before { content: "📍"; }
-.object-action-row button::before { content: "🔍"; }
-.object-action-row a:hover,.object-action-row button:hover { border-color: rgba(40,243,215,.5); transform: translate3d(0,-1px,0); }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Home objects read as social content with provenance, not neon debugger output.
+ */
+.home-post-card[data-object-type] {
+	cursor: pointer;
+}
+.home-post-card[data-object-type]:focus-visible {
+	outline: 3px solid var(--g-focus);
+	outline-offset: 3px;
+}
+.universal-object-card {
+	display: grid;
+	gap: var(--space-3);
+}
+.post-author {
+	display: grid;
+	grid-template-columns: 2.5rem minmax(0, 1fr);
+	align-items: center;
+	gap: .15rem .65rem;
+}
+.post-author > span {
+	display: grid;
+	grid-row: span 2;
+	width: 2.5rem;
+	height: 2.5rem;
+	place-items: center;
+	border: 1px solid var(--g-border);
+	border-radius: .75rem;
+	background: var(--awt-surface-muted);
+	color: var(--g-accent);
+	font-weight: 850;
+}
+.post-author > span::after {
+	content: "א";
+}
+.post-author strong,
+.post-author small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.post-author strong {
+	color: var(--g-text);
+	font-size: 1rem;
+}
+.post-author small {
+	color: var(--g-faint);
+}
+:where(.object-type-row, .object-action-row, .object-meta-grid) {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .4rem;
+	min-width: 0;
+}
+.object-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: .3rem;
+	max-width: 100%;
+	min-height: 1.8rem;
+	padding: .25rem .5rem;
+	overflow: hidden;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-pill);
+	background: var(--awt-surface-soft);
+	color: var(--g-text-2);
+	font-size: var(--type-caption);
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.object-pill::before {
+	width: .35rem;
+	height: .35rem;
+	border-radius: 50%;
+	background: var(--g-accent);
+	content: "";
+}
+.object-action-row :where(a, button) {
+	min-height: 40px;
+	padding: .5rem .7rem;
+	border-radius: .7rem;
+}
+.object-action-row a::before {
+	content: "↗";
+}
+.object-action-row button::before {
+	content: "⌕";
+}

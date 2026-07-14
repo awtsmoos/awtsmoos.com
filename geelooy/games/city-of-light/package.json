@@ -1,0 +1,15 @@
+{
+	"BH": "B\"H",
+	"BoruchHashem": "Blessed is He",
+	"name": "awtsmoos-city-of-light",
+	"version": "2.0.0",
+	"private": true,
+	"type": "module",
+	"description": "A 24-chapter generated campaign where every Awtsmoos.com district, platform, mission, and wildlife path is validated.",
+	"scripts": {
+		"test": "node tests/campaign.test.mjs && node tests/saveRepository.test.mjs && node tests/checkpointRestore.test.mjs && node tests/wildlife.test.mjs && node tests/levelGenerator.test.mjs",
+		"test:stress": "CITY_SEED_COUNT=100 node tests/levelGenerator.test.mjs",
+		"test:browser": "node tests/browserSmoke.test.mjs",
+		"test:all": "npm test && npm run test:stress && npm run test:browser"
+	}
+}

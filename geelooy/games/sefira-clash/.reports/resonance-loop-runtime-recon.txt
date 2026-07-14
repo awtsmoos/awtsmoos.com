@@ -1,0 +1,95 @@
+=== OPEN WORLD CALLERS ===
+js/core/loop.js:13:import { stepOpenWorldState } from '../openworld/OpenWorldRuntime.js';
+js/core/loop.js:28:		stepOpenWorldState(state, frameInput);
+js/openworld/OpenWorldRuntime.js:30:export function stepOpenWorldState(state, frameInput) {
+=== EXPEDITION STEP SYMBOLS ===
+js/expedition/ExpeditionWeather.js:49:export function stepExpeditionWeather(state) {
+js/expedition/ExpeditionBossDirector.js:27:export function stepExpeditionBoss(state) {
+js/core/loop.js:12:import { stepExpeditionState } from '../expedition/ExpeditionRuntime.js';
+js/core/loop.js:45:	stepExpeditionState(state);
+js/openworld/OpenWorldRuntime.js:14:import { stepExpeditionWeather } from '../expedition/ExpeditionWeather.js';
+js/openworld/OpenWorldRuntime.js:52:	stepExpeditionWeather(state);
+=== CURRENT LOOP DIFF ===
+diff --git a/geelooy/games/sefira-clash/js/core/loop.js b/geelooy/games/sefira-clash/js/core/loop.js
+index 104892e68..963110295 100644
+--- a/geelooy/games/sefira-clash/js/core/loop.js
++++ b/geelooy/games/sefira-clash/js/core/loop.js
+@@ -3,52 +3,47 @@
+ //Blessed is He
+ 
+ /**
+- * The fixed simulation breath now honors every local player seat independently.
+- * The Awtsmoos renews intention, motion, impact, and consequence in Awtsmoos.com
+- * while keeping the proven combat and Adventure order unchanged.
++ * The fixed-step heart renews ordinary combat, Adventure, Expedition, and lived Open World
++ * through explicit mode boundaries. The Awtsmoos creates each frame; Awtsmoos.com records
++ * resonance only from newly emitted authoritative events and never rescans old history.
+  */
+-import { stepAdventureRun } from '../adventure/adventureRun.js';
+-import { driveBots } from '../ai/botBrain.js';
++
+ import { resolveAttacks } from '../combat/attackResolver.js';
+-import { updateGrabs } from '../combat/grabResolver.js';
+-import { attachBlastEvents } from '../physics/blastZones.js';
+-import { stepRespawns } from '../physics/respawn.js';
+-import { resolveLandingShockwaves } from '../physics/special/landingShockwave.js';
+-import { resolveStomps } from '../physics/special/stomp.js';
++import { stepExpeditionState } from '../expedition/ExpeditionRuntime.js';
++import { stepOpenWorldState } from '../openworld/OpenWorldRuntime.js';
+ import { stepPowerups } from '../powerups/powerupSystem.js';
+-import { stepSpectacleFromEvents } from '../spectacle/spectacleEvents.js';
+-import { stepSpectacleState } from '../spectacle/spectacleState.js';
+-import { stepStageDirector } from '../stage/events/stageDirector.js';
+-import { resolveWeaponPickups, syncHeldWeapons } from '../weapons/weaponPickup.js';
++import { recordResonanceEvents } from '../resonance/ResonanceRuntime.js';
++import { stepStageSystems } from '../stage/stageSystems.js';
++import { stepAi } from '../systems/ai.js';
++import { stepWeapons } from '../weapons/weaponSystem.js';
++import { stepAdventureRun } from '../adventure/adventureRun.js';
+ import { inputForFighter } from './fighterInput.js';
+ import { stepAftermath } from './stepAftermath.js';
+ import { stepFighter } from './stepFighter.js';
+ import { stepHitstop } from './stepHitstop.js';
+-import { resolveWinner } from './winner.js';
++import { updateWinner } from './winner.js';
+ 
+-/** Advances one exact simulation breath through combat, world, and consequence. */
+ export function stepState(state, frameInput) {
+-	state.frame += 1;
+-	attachBlastEvents(state.map, state.events);
+-	stepRespawns(state);
+-	if (stepHitstop(state)) {
++	if (state.mode === 'openworld') {
++		stepOpenWorldState(state, frameInput);
+ 		return;
+ 	}
+-	driveBots(state);
++	state.frame += 1;
++	state.map._events = state.events;
++	if (stepHitstop(state)) return;
+ 	for (const fighter of state.fighters) {
+-		stepFighter(state, fighter, inputForFighter(frameInput, fighter));
++		const input = inputForFighter(frameInput, fighter);
++		if (!fighter.human) stepAi(state, fighter, input);
++		stepFighter(state, fighter, input);
+ 	}
+-	updateGrabs(state.fighters);
+-	resolveLandingShockwaves(state);
+-	resolveStomps(state);
++	const eventStart = state.events.length;
+ 	resolveAttacks(state);
+-	resolveWeaponPickups(state);
++	recordResonanceEvents(state, eventStart);
++	stepWeapons(state);
+ 	stepPowerups(state);
+-	syncHeldWeapons(state);
+-	stepStageDirector(state);
++	stepStageSystems(state);
++	stepExpeditionState(state);
+ 	stepAdventureRun(state);
+-	stepSpectacleFromEvents(state);
+ 	stepAftermath(state);
+-	stepSpectacleState(state);
+-	resolveWinner(state);
++	updateWinner(state);
+ }

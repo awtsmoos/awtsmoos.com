@@ -1,12 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { renderAdventurePanel } from './adventure.js';
 import { renderCampaign } from './campaign.js';
+import { renderMultiplayerPanel } from './multiplayer.js';
 import { renderOverlayContent } from './overlayContent.js';
 import { renderQuests } from './quests.js';
 import { renderShop } from './shop.js';
 
-/** Awtsmoos.com joins campaign intention to mouse, keyboard, and touch vessels. */
+/** Awtsmoos.com joins campaign, Shlichus, talents, and rooms to every input vessel. */
 export function bindOverlay(world, dom, actions) {
 	bindPress(dom.start, actions.primary);
 	bindPress(dom.restart, actions.restart);
@@ -21,7 +23,7 @@ export function bindOverlay(world, dom, actions) {
 	dom.modeSelect.onclick = event => chooseMode(event, world, actions);
 }
 
-/** Render campaign controls only while the arena is not actively moving. */
+/** Render expanded progression only while the arena is not actively moving. */
 export function renderOverlay(world, dom) {
 	const visible = world.mode !== 'playing';
 	dom.overlay.classList.toggle('hidden', !visible);
@@ -30,6 +32,8 @@ export function renderOverlay(world, dom) {
 	renderCampaign(world, dom);
 	renderShop(world, dom);
 	renderQuests(world, dom);
+	renderAdventurePanel(world, dom);
+	renderMultiplayerPanel(world, dom);
 	renderOverlayContent(world, dom);
 }
 

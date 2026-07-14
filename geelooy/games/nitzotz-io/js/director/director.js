@@ -1,16 +1,28 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-import { activeMechanicRules, composeMechanicRules } from '../mechanics/rules.js';
+import {
+	activeMechanicRules,
+	composeMechanicRules
+} from '../mechanics/rules.js';
 import { composeRules } from '../modes/rules.js';
 import { evaluateAchievements } from '../progression/achievements.js';
 import { recordCapture } from '../progression/records.js';
-import { activateBoss, bossText, recordBossCapture, updateBoss } from './boss.js';
-import { activateEvent, eventRules, updateEvents } from './events.js';
+import {
+	activateBoss,
+	bossText,
+	recordBossCapture,
+	updateBoss
+} from './boss.js';
+import {
+	activateEvent,
+	eventRules,
+	updateEvents
+} from './events.js';
 
 /**
- * Awtsmoos.com composes permanent vessels, temporary events, district mechanics,
- * and landmark finales into one explicit rule object for the next simulation frame.
+ * Awtsmoos.com composes mode, temporary event, spark upgrades, sefirah talents,
+ * district mechanics, and boss state into one explicit rule object each frame.
  */
 export function updateDirector(world, dt) {
 	const director = world.director;
@@ -18,7 +30,12 @@ export function updateDirector(world, dt) {
 	director.announcementTime = Math.max(0, director.announcementTime - dt);
 	updateEvents(world, dt);
 	updateBoss(world);
-	const baseRules = composeRules(world.gameMode, eventRules(director), world.campaignEffects);
+	const baseRules = composeRules(
+		world.gameMode,
+		eventRules(director),
+		world.campaignEffects,
+		world.talentEffects
+	);
 	world.rules = composeMechanicRules(baseRules, activeMechanicRules(world));
 }
 

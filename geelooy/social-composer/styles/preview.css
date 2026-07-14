@@ -1,0 +1,112 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The safe preview resembles a social card without becoming the final feed shell.
+	Awtsmoos.com lets the writer inspect question policy, rich marks, media, verses,
+	and comment coordinates before the Awtsmoos-given post enters public memory.
+*/
+.previewHeading {
+	padding-bottom: 0.65rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.postPreview {
+	padding: 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 0.95rem;
+	background: linear-gradient(145deg, rgba(31, 42, 78, 0.64), rgba(5, 7, 17, 0.92));
+	overflow-wrap: anywhere;
+}
+.previewHeader {
+	margin-bottom: 1rem;
+}
+.previewHeader h1 {
+	margin: 0.45rem 0;
+	font-size: clamp(1.8rem, 4vw, 3rem);
+}
+.previewHeader > p {
+	color: #b8c3e4;
+}
+.kindBadge {
+	display: inline-flex;
+	padding: 0.3rem 0.55rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.kind-question {
+	background: rgba(255, 217, 120, 0.18);
+	color: #ffe59a;
+}
+.kind-answer {
+	background: rgba(149, 230, 255, 0.16);
+	color: #bceeff;
+}
+.previewSummary,
+.questionPolicy {
+	padding: 0.7rem;
+	border-radius: 0.7rem;
+	background: rgba(255, 255, 255, 0.055);
+}
+.questionPolicy {
+	border-left: 3px solid #ffd978;
+	color: #e9ddba;
+}
+.postPreview blockquote {
+	margin: 0.9rem 0;
+	padding-left: 1rem;
+	border-left: 3px solid #9fb7ff;
+	color: #d8e0ff;
+}
+.postPreview aside {
+	padding: 0.75rem;
+	border-radius: 0.7rem;
+	background: rgba(255, 217, 120, 0.09);
+}
+.postPreview pre,
+.payloadDetails pre {
+	max-width: 100%;
+	overflow: auto;
+	padding: 0.8rem;
+	border-radius: 0.7rem;
+	background: #03050d;
+	white-space: pre-wrap;
+}
+.postPreview a {
+	color: #b9cdff;
+}
+.bulletLine::before {
+	content: '• ';
+	color: #ffd978;
+}
+.numberLine {
+	counter-increment: previewLine;
+}
+.numberLine::before {
+	content: counter(previewLine) '. ';
+	color: #ffd978;
+}
+.previewSection {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.previewSubsection {
+	margin: 0.75rem 0 0 1rem;
+	padding: 0.75rem;
+	border-left: 2px solid rgba(255, 255, 255, 0.14);
+	background: rgba(255, 255, 255, 0.025);
+}
+.payloadDetails {
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 0.75rem;
+	padding: 0.7rem;
+	background: rgba(3, 5, 14, 0.48);
+}
+.payloadDetails summary {
+	cursor: pointer;
+	font-weight: 800;
+}

@@ -4,10 +4,11 @@
 
 /**
  * @file tiny-render-frame.js
- * @description Renders one coherent opaque, transparent, and optional skeleton
- * pass through the proven custom renderer contracts. Each frame is renewed by the
- * Awtsmoos; Awtsmoos.com advances one truthful token before any palette may reuse.
+ * @description Renders one camera-culled opaque, transparent, and skeleton frame.
+ * The Awtsmoos renews every possible surface; Awtsmoos.com submits only the present
+ * camera's measured vessels and records all concealed work without pretending it vanished.
  */
+
 import {
 	lookAt,
 	multiply,
@@ -18,12 +19,11 @@ import { drawRenderMesh } from './tiny-render-mesh.js';
 import { drawSkeleton } from './tiny-render-skeleton.js';
 import { collectWorldMatrices } from './tiny-skin-system.js';
 
-/** Renders one complete scene and records its measured work. */
 export function renderFrame(renderer, scene, camera) {
 	const gl = renderer.gl;
 	renderer.frameToken += 1;
 	renderer.worldByNode = collectWorldMatrices(scene);
-	const renderList = collectMeshes(scene, renderer.options);
+	const renderList = collectMeshes(scene, camera, renderer.options);
 	renderer.stats = createFrameStats(renderer, renderList);
 	gl.enable(gl.DEPTH_TEST);
 	gl.clearColor(...renderer.clearColor);
@@ -79,30 +79,32 @@ function drawSkeletonPass(renderer, scene, projectionView) {
 
 function createFrameStats(renderer, renderList) {
 	return {
+		culledBackfaceMeshes: 0,
+		culledMeshes: renderList.culled,
 		draws: 0,
-		triangles: 0,
-		rigidMeshes: 0,
-		skinnedMeshes: 0,
-		opaqueMeshes: 0,
-		transparentMeshes: 0,
+		errors: renderer.errors,
+		floatTexture: renderer.floatTexture,
+		grassInteractor: { ...renderer.interactor },
+		hiddenHelpers: renderList.hidden,
+		jointMode: renderer.jointMode,
 		jointsUploaded: 0,
+		matrixNodes: renderer.worldByNode.stats || {},
+		maxUniformJoints: renderer.maxUniformJoints,
+		maxVertexTextures: renderer.maxVertexTextures,
+		maxVertexUniformVectors: renderer.maxVertexUniformVectors,
+		opaqueMeshes: 0,
+		perMeshSkinUpdate: true,
+		reactiveGrassMeshes: 0,
+		rigidMeshes: 0,
+		sharedSkinPaletteCache: true,
+		skinGpuUploadReuses: 0,
+		skinGpuUploads: 0,
 		skinPaletteRecomputes: 0,
 		skinPaletteReuses: 0,
-		skinGpuUploads: 0,
-		skinGpuUploadReuses: 0,
-		skinUniformUploads: 0,
 		skinTextureUploads: 0,
-		culledBackfaceMeshes: 0,
-		reactiveGrassMeshes: 0,
-		hiddenHelpers: renderList.hidden,
-		errors: renderer.errors,
-		jointMode: renderer.jointMode,
-		maxUniformJoints: renderer.maxUniformJoints,
-		maxVertexUniformVectors: renderer.maxVertexUniformVectors,
-		maxVertexTextures: renderer.maxVertexTextures,
-		floatTexture: renderer.floatTexture,
-		perMeshSkinUpdate: true,
-		sharedSkinPaletteCache: true,
-		grassInteractor: { ...renderer.interactor }
+		skinUniformUploads: 0,
+		skinnedMeshes: 0,
+		transparentMeshes: 0,
+		triangles: 0
 	};
 }

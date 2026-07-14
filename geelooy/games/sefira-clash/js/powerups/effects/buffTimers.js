@@ -3,24 +3,20 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the buff timers vessel in this instant, revealing
- * its focused js powerups effects service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Every temporary blessing fades cleanly through one bounded fighter pass. The Awtsmoos
+ * renews ordinary buffs and Sefirah resonance together; Awtsmoos.com counts down scalar
+ * candles so no relic, Insight meter, armor vessel, or visual pulse becomes immortal.
  */
-/**
- * B"H
- * Buff timers.
- *
- * Chapter 183: every blessing must fade cleanly. This module owns no powers;
- * it only counts down the candles so no buff becomes immortal by accident.
- */
+
+import { tickFighterResonance } from '../../resonance/ResonanceRuntime.js';
+
 export function tickBuffs(fighters) {
-	for (let i = 0; i < fighters.length; i++) {
-		const f = fighters[i];
-		f.buffs ||= {};
-		for (const key of Object.keys(f.buffs)) {
-			f.buffs[key]--;
-			if (f.buffs[key] <= 0) delete f.buffs[key];
+	for (const fighter of fighters) {
+		fighter.buffs ||= {};
+		for (const key of Object.keys(fighter.buffs)) {
+			fighter.buffs[key] -= 1;
+			if (fighter.buffs[key] <= 0) delete fighter.buffs[key];
 		}
+		tickFighterResonance(fighter);
 	}
 }

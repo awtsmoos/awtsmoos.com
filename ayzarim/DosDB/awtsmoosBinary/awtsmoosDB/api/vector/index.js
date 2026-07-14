@@ -1,30 +1,37 @@
 // B"H
-
 /**
  * @file api/vector/index.js
- * @chapter One Logical Replacement Produces One Reachable Graph Generation
- * @description Coordinates metadata, strict queries, atomic mutations, reconciliation, audits, and bulk loading.
+ * @chapter One Vector Body Serves Search, Audit, Mutation, Migration, And Vacuum
+ * @description Coordinates graph lifecycle, detached loading/cloning/rebinding,
+ * persisted-vector enumeration, topology capture, reconciliation, and audits.
  */
-
 const HNSW = require('./hnsw.js');
 const VectorReindexer = require('./reindexer.js');
 const VectorMetadata = require('./metadata.js');
 const VectorBulkLoader = require('./bulkLoader.js');
-const mutation = require('./mutation.js');
+const DetachedBulkLoader = require('./detachedBulkLoader.js');
+const DetachedRebinder = require('./detachedRebinder.js');
+const DetachedGraphCloner = require('./detachedGraphCloner.js');
+const managerMutation = require('./managerMutation.js');
+const managerSearch = require('./managerSearch.js');
+const persisted = require('./persistedEntries.js');
+const topology = require('./persistedTopology.js');
 const reconcileVectorIndex = require('./reconcile/indexReconciler.js');
 const auditVectorIndex = require('./audit.js');
 const statusTools = require('./status.js');
 const { pathOf, resolvePath } = require('./pathResolver.js');
-const { scanNearest, vectorOf } = require('./query.js');
 
 class VectorManager {
-	constructor(db) {
-		this.db = db;
+	constructor(database) {
+		this.db = database;
 		this.indexes = new Map();
 		this.reindexReports = new Map();
-		this.reindexer = new VectorReindexer(db);
-		this.metadata = new VectorMetadata(db);
+		this.reindexer = new VectorReindexer(database);
+		this.metadata = new VectorMetadata(database);
 		this.bulkLoader = new VectorBulkLoader(this);
+		this.detachedBulkLoader = new DetachedBulkLoader(this);
+		this.detachedRebinder = new DetachedRebinder(this);
+		this.detachedGraphCloner = new DetachedGraphCloner(this);
 	}
 
 	enable(handle, options = {}) {
@@ -54,40 +61,11 @@ class VectorManager {
 		return index;
 	}
 
-	insert(path, key, vector, payload) {
-		const index = this.getIndex(path);
-		const normalized = vectorOf(vector);
-		return index && normalized ? mutation.insert(this, path, index, key, normalized, payload) : null;
-	}
-
-	delete(path, key) {
-		const index = this.getIndex(path);
-		return index ? mutation.remove(this, index, key) : false;
-	}
-
-	replace(path, key, vector, payload) {
-		const index = this.getIndex(path);
-		const normalized = vectorOf(vector);
-		return index && normalized ? mutation.replace(this, path, index, key, normalized, payload) : null;
-	}
-
-	nearest(handle, queryVector, count = 5) {
-		const query = vectorOf(queryVector);
-		if (!query) return [];
-		const graph = this.getIndex(handle)?.search(query, count) || [];
-		return graph.length ? graph : scanNearest(handle, query, count);
-	}
-
-	nearestIndexed(handle, queryVector, count = 5) {
-		const query = vectorOf(queryVector);
-		if (!query) throw statusTools.vectorError('query is not a finite vector');
-		const status = this.indexStatus(handle);
-		if (!status.usable) throw statusTools.vectorError(`index is not usable: ${status.path}`, statusTools.publicStatus(status));
-		const results = status.index.search(query, count);
-		if (!results.length) throw statusTools.vectorError(`index returned no live payloads: ${status.path}`, statusTools.publicStatus(status));
-		return results;
-	}
-
+	insert(path, key, vector, payload) { return managerMutation.insert(this, path, key, vector, payload); }
+	delete(path, key) { return managerMutation.remove(this, path, key); }
+	replace(path, key, vector, payload) { return managerMutation.replace(this, path, key, vector, payload); }
+	nearest(handle, vector, count = 5) { return managerSearch.nearest(this, handle, vector, count); }
+	nearestIndexed(handle, vector, count = 5) { return managerSearch.nearestIndexed(this, handle, vector, count); }
 	reindex(value, options = {}) {
 		const path = String(pathOf(value));
 		const index = this.getIndex(path);
@@ -114,14 +92,29 @@ class VectorManager {
 		const path = String(pathOf(value));
 		const index = this.getIndex(path);
 		const count = index ? index.registry.count() : 0;
-		return { path, index, configured: Boolean(this.metadata.read(path)), registryCount: count, entryNodeID: index?.entryNodeID ?? -1, maxLevel: Number(index?.maxLevel || 0), usable: count > 0 && index?.entryNodeID >= 0 };
+		return {
+			path, index,
+			configured: Boolean(this.metadata.read(path)),
+			registryCount: count,
+			entryNodeID: index?.entryNodeID ?? -1,
+			maxLevel: Number(index?.maxLevel || 0),
+			usable: count > 0 && index?.entryNodeID >= 0
+		};
 	}
 	bulkLoad(handle, records, options = {}) { return this.bulkLoader.load(handle, records, options); }
+	bulkLoadDetached(handle, entries, options = {}) { return this.detachedBulkLoader.load(handle, entries, options); }
+	rebindDetached(handle, entries, options = {}) { return this.detachedRebinder.rebind(handle, entries, options); }
+	cloneDetachedGraph(handle, snapshot, keys, options = {}) { return this.detachedGraphCloner.clone(handle, snapshot, keys, options); }
+	snapshotTopology(value) { return topology.snapshot(this, value); }
+	entries(value, options = {}) { return persisted.entries(this, value, options); }
+	nearestExact(value, vector, count = 5) { return persisted.nearestExact(this, value, vector, count); }
 	configurations() { return this.metadata.configurations(); }
 	lastReindexReport(value) { return this.reindexReports.get(String(pathOf(value))) || null; }
 	auditIndex(value) { return auditVectorIndex(this, value); }
 }
 
-function emptyReport(path) { return { path, scanned: 0, indexed: 0, registryCount: 0, entryNodeID: -1 }; }
+function emptyReport(path) {
+	return { path, scanned: 0, indexed: 0, registryCount: 0, entryNodeID: -1 };
+}
 
 module.exports = VectorManager;

@@ -1,0 +1,140 @@
+
+> test:resonance
+> node --test tests/resonance/*.test.mjs
+
+✔ Binah armor caps and records exact absorbed damage (2.9197ms)
+✔ damage beyond the vessel passes through and breaks armor cleanly (0.48796ms)
+✔ disabled empty resonance never changes incoming damage (0.284796ms)
+✔ disabled fighters neither gain nor spend Insight (1.846687ms)
+✔ varied clean hits build more Insight than repetition (0.788142ms)
+✔ full Insight empowers one qualifying hit and resets (0.393413ms)
+✔ Resonance Clash round-trips and creates only Chochmah and Binah pickups (4.121519ms)
+✔ Hands Covenant disables items, resonance, and every powerup (0.322594ms)
+✔ lobby and victory descriptors expose resonance semantics and fixed stats (3.708888ms)
+✔ resonance definitions are present and immutable (1.508182ms)
+✔ Resonance Clash cycles only Chochmah and Binah vessels (9.847958ms)
+✔ Adventure receives one deterministic persistent resonance vessel (1.449523ms)
+✔ new hit events update attacker, target, and longest chain (55.604374ms)
+✔ parried events count defense without hit or damage (0.393641ms)
+✔ thousands of increments and decay remain bounded scalar state (23.767962ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1392.001803
+RESONANCE_EXIT=0
+
+> test:adventure-shlichus
+> node --test tests/adventure/*.test.mjs
+
+✔ every Adventure gate receives three original vows plus one resonance vow (8.568446ms)
+✔ real run state fulfills all vows and persistence decorates gate cards (3.028786ms)
+✔ optional vow state does not alter required unlock metadata (3.121374ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 671.272729
+ADVENTURE_EXIT=0
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ thirty citizens cover every region with deterministic schedules (7.522743ms)
+✔ spatial hash returns stable sorted bounded nearby citizens (48.230854ms)
+✔ speaking persists acquaintance and relationship exactly once per action (121.22579ms)
+✔ archive, clinic, council, and guesthouse emit bounded civic evidence (196.717378ms)
+✔ ferry and kitchen validate passage and currency before mutation (7.016336ms)
+✔ training partner resolves through damage without winner or exile (2.233ms)
+✔ training partner resolves through posture without winner or exile (127.064414ms)
+✔ a released buffered interaction still enters once (79.65489ms)
+✔ deep doorway overlap outranks a citizen and traversal marker (0.595279ms)
+✔ sixteen shlichus chains remain serializable and uniquely named (1.641718ms)
+✔ role-aware citizen mission advances only through ordered matching roles (1.44059ms)
+✔ shlichus advances only through its ordered physical events (2.471579ms)
+✔ market remains civic-only and validates before charging (0.863318ms)
+✔ trainer advances hands and feet through reputation and fee (0.508498ms)
+✔ guard edge opens a finite parry window and reverses one trainer hit (1.897232ms)
+✔ repeating one technique applies less posture pressure than varied rhythm (15.759567ms)
+✔ three-thousand fixed steps preserve every declared collection cap (2427.171149ms)
+✔ existing schema-v2 saves receive safe lived-world and social defaults (22.3214ms)
+✔ profile merge preserves permanent social progress and newer mutable state (3.984338ms)
+✔ server sanitation bounds expanded missions, citizens, doors, and ranks (1.933976ms)
+✔ all civic archetypes compile as ten physical doors and interiors (74.117499ms)
+✔ one physical interaction edge enters and exits the exact training room (91.910015ms)
+✔ interaction is buffered as one semantic edge (15.989134ms)
+✔ ranked punch chain spends stamina and names existing attack intent (0.962961ms)
+✔ patrol and clue nodes emit one unique evidence event (181.445901ms)
+✔ ladder moves only to its authored destination (11.44248ms)
+✔ Hands Covenant removes item state and ignores Open World ranks (132.47362ms)
+✔ ordinary Duel remains distinct from Hands Covenant (4.961783ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9018.164697
+OPENWORLD_EXIT=0
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (5.364485ms)
+✔ every world reference resolves to a real authored vessel (1.595444ms)
+✔ authors ten guardians with three monotonic phases (8.530189ms)
+✔ boss transitions from actual damage and emits visible events (4.551171ms)
+✔ weather is deterministic, advances explicitly, and emits named effects (46.789977ms)
+✔ authors twenty citizens, ten shops, and fifteen deterministic recipes (5.171112ms)
+✔ purchase validates before charging and grants exact material quantity (2.081753ms)
+✔ crafting is atomic and civic services are idempotent (22.13465ms)
+✔ compiles thirty unique bespoke Expedition roads (9.358992ms)
+✔ every settlement and climax owns the required authored nodes (173.864921ms)
+✔ migrates schema-v1 profile into complete schema-v2 state (23.300848ms)
+✔ opaque profile identity is stable after first assignment (101.430913ms)
+✔ conflict merge preserves permanent progress and newest remote selection (14.946141ms)
+✔ runs a persistent authored expedition from atlas to next road (2434.223992ms)
+✔ every named mode round-trips through enforced match rules (27.656865ms)
+✔ expedition context changes only the human fighter and carries region truth (3.153151ms)
+✔ migrates old gate clears and Perutas into the connected world (94.766826ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (3.842833ms)
+✔ reveals only the authored next road after a clear (18.702343ms)
+✔ completes and claims an authored quest exactly once (36.959447ms)
+✔ equips only known owned gear in its declared slot (1.254479ms)
+✔ derived gear stats mutate real fighter values and weapon (2.241599ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5419.418993
+EXPEDITION_EXIT=0
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_EXIT=0
+✔ issues strict opaque resume tokens (2.518496ms)
+✔ declares capabilities and safe aggregate health without membership (4.733707ms)
+✔ echoes client ping time beside a server timestamp (0.582475ms)
+✔ enforces independent input, ping, and command windows (0.769875ms)
+✔ capabilities advertise resonance additively beside legacy features (7.308547ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 979.419115
+SERVER_CAPABILITY_EXIT=0

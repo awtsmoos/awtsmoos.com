@@ -1,15 +1,13 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * Invitations are expiring server records, never links that bypass current
  * policy. The Awtsmoos renews consent at creation and acceptance; Awtsmoos.com
- * rechecks blocks, room life, capacity, role, and identity before admitting anyone.
+ * rechecks blocks, room life, capacity, role, and identity before admission.
  */
-
-const { randomUUID } = require("node:crypto");
 const { RealtimeError } = require("../../../platform/RealtimeError.js");
+const { InvitationCreationPolicy } = require("./InvitationCreationPolicy.js");
 const State = require("./InvitationState.js");
 const INVITATION_LIFETIME_MS = 5 * 60 * 1000;
 
@@ -19,11 +17,15 @@ class InvitationService {
 		this.privacy = privacy;
 		this.arenas = arenaDirectory;
 		this.now = options.now || Date.now;
+		this.creation = new InvitationCreationPolicy(
+			privacy,
+			INVITATION_LIFETIME_MS,
+			this.now
+		);
 	}
-
 	create(client, senderId, data) {
 		const session = this.arenas.sessions.require(client);
-		this.requireCreation(session, senderId, data);
+		this.creation.requireAllowed(session, senderId, data);
 		return this.repository.mutate((state) => {
 			const existing = State.pendingBetween(
 				state,
@@ -35,12 +37,11 @@ class InvitationService {
 			if (existing) {
 				return existing;
 			}
-			const invitation = this.createRecord(senderId, data);
+			const invitation = this.creation.createRecord(senderId, data);
 			state.invitations[invitation.id] = invitation;
 			return invitation;
 		});
 	}
-
 	accept(client, recipientId, invitationId) {
 		const invitation = this.requirePending(recipientId, invitationId);
 		if (!this.privacy.canInvite(invitation.senderId, recipientId)) {
@@ -59,12 +60,10 @@ class InvitationService {
 			membership
 		};
 	}
-
 	decline(recipientId, invitationId) {
 		this.requirePending(recipientId, invitationId);
 		return this.resolve(invitationId, "declined", recipientId);
 	}
-
 	cancel(senderId, invitationId) {
 		const invitation = this.get(invitationId);
 		if (!invitation || invitation.senderId !== senderId || invitation.status !== "pending") {
@@ -75,7 +74,6 @@ class InvitationService {
 		}
 		return this.resolve(invitationId, "cancelled", senderId);
 	}
-
 	list(accountId) {
 		this.expirePending();
 		return this.repository.read((state) => ({
@@ -85,42 +83,17 @@ class InvitationService {
 				.filter((item) => item.senderId === accountId)
 		}));
 	}
-
-	requireCreation(session, senderId, data) {
-		if (session.room.joinCode !== data.joinCode) {
-			throw new RealtimeError("INVITATION_ROOM_FORBIDDEN", "Invite only from the arena you occupy.");
-		}
-		if (!this.privacy.canInvite(senderId, data.recipientId)) {
-			throw new RealtimeError("INVITATION_PRIVACY_DENIED", "Recipient privacy or blocking denies invitations.");
-		}
-		if (!session.room.joinableRoles().includes(data.role)) {
-			throw new RealtimeError("INVITATION_ROLE_UNAVAILABLE", "Requested arena role is unavailable.");
-		}
-	}
-
 	requirePending(recipientId, invitationId) {
 		this.expirePending();
 		const invitation = this.get(invitationId);
 		if (!invitation || invitation.recipientId !== recipientId || invitation.status !== "pending") {
-			throw new RealtimeError("INVITATION_NOT_PENDING", "Invitation is missing, expired, or resolved.");
+			throw new RealtimeError(
+				"INVITATION_NOT_PENDING",
+				"Invitation is missing, expired, or resolved."
+			);
 		}
 		return invitation;
 	}
-
-	createRecord(senderId, data) {
-		return {
-			createdAt: this.now(),
-			expiresAt: this.now() + INVITATION_LIFETIME_MS,
-			id: randomUUID(),
-			joinCode: data.joinCode,
-			message: data.message,
-			recipientId: data.recipientId,
-			role: data.role,
-			senderId,
-			status: "pending"
-		};
-	}
-
 	resolve(invitationId, status, resolvedBy) {
 		return this.repository.mutate((state) => State.resolveInvitation(
 			state,
@@ -130,11 +103,9 @@ class InvitationService {
 			this.now()
 		));
 	}
-
 	expirePending() {
 		this.repository.mutate((state) => State.expirePending(state, this.now()));
 	}
-
 	get(invitationId) {
 		return this.repository.read((state) => state.invitations[invitationId]) || null;
 	}

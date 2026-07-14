@@ -3,22 +3,24 @@
 // Blessed is He
 /**
  * @file MitzvahWorldRealtimeClient.js
- * @description Browser client with idempotent arrival, recovery, deltas, and MMORPG API.
- * The Awtsmoos renews each private session garment; Awtsmoos.com updates rotated
- * credentials and clears revoked identity without leaving stale browser authority.
+ * @description Browser client with recovery, deltas, census, events, and public address.
+ * The Awtsmoos renews each private session garment; Awtsmoos.com separates public
+ * player address, private resume token, world state, and unsolicited event streams.
  */
 import { createMitzvahWorldJoinKey } from './MitzvahWorldJoinKey.js';
+import { MitzvahWorldEventHub } from './MitzvahWorldEventHub.js';
 import { MitzvahWorldMmorpgApi } from './MitzvahWorldMmorpgApi.js';
 import { MitzvahWorldTransport } from './MitzvahWorldTransport.js';
 import { applyWorldDelta } from './WorldDeltaStore.js';
-
 export class MitzvahWorldRealtimeClient {
 	constructor(socket) {
+		this.events = new MitzvahWorldEventHub();
 		this.joinKey = createMitzvahWorldJoinKey();
 		this.listeners = new Set();
+		this.needsResync = false;
+		this.playerAddress = null;
 		this.session = null;
 		this.world = null;
-		this.needsResync = false;
 		this.transport = new MitzvahWorldTransport(
 			socket,
 			message => this.receive(message)
@@ -27,16 +29,16 @@ export class MitzvahWorldRealtimeClient {
 			(type, payload) => this.send(type, payload)
 		);
 	}
-
 	static connect(url, WebSocketClass = globalThis.WebSocket) {
 		if (!WebSocketClass) throw new Error('WebSocket is unavailable.');
 		return new MitzvahWorldRealtimeClient(new WebSocketClass(url));
 	}
-
 	get socket() {
 		return this.transport.socket;
 	}
-
+	census() {
+		return this.send('world.census');
+	}
 	join(displayName, worldId = 'main-village') {
 		return this.send('world.join', {
 			displayName,
@@ -44,7 +46,6 @@ export class MitzvahWorldRealtimeClient {
 			worldId
 		});
 	}
-
 	async reconnect(socket) {
 		if (!this.session?.resumeToken) {
 			throw new Error('No resumable Mitzvah World session exists.');
@@ -58,7 +59,6 @@ export class MitzvahWorldRealtimeClient {
 		await this.resync(revision);
 		return joined;
 	}
-
 	input(forward, strafe, facing) {
 		return this.send('player.input', { facing, forward, strafe });
 	}
@@ -77,23 +77,26 @@ export class MitzvahWorldRealtimeClient {
 	heartbeat(lastAcknowledgedRevision = this.world?.revision ?? 0) {
 		return this.send('world.heartbeat', { lastAcknowledgedRevision });
 	}
-
+	on(type, listener) {
+		return this.events.on(type, listener);
+	}
 	onWorld(listener) {
 		this.listeners.add(listener);
 		return () => this.listeners.delete(listener);
 	}
-
 	send(type, payload = {}) {
 		return this.transport.send(type, payload);
 	}
-
 	receive(message) {
+		this.events.emit(message);
 		if (message.type === 'session.revoked') {
+			this.playerAddress = null;
 			this.session = null;
 			this.world = null;
 			this.needsResync = false;
 			return;
 		}
+		if (message.payload?.playerAddress) this.playerAddress = message.payload.playerAddress;
 		if (message.payload?.session) this.session = { ...message.payload.session };
 		if (message.payload?.world) this.publishWorld(message.payload.world);
 		if (message.payload?.delta && this.world) {
@@ -101,7 +104,6 @@ export class MitzvahWorldRealtimeClient {
 			this.publishWorld(applyWorldDelta(this.world, message.payload.delta));
 		}
 	}
-
 	publishWorld(world) {
 		if (this.world && Number(world.revision) < Number(this.world.revision)) return;
 		this.world = world;

@@ -1,0 +1,69 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews cooperative typography, color, and controls through Awtsmoos.com.
+ * This base sheet keeps every element readable while layout and room components live in
+ * focused siblings that remain small enough to inspect and evolve deliberately.
+ */
+
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	background: #06040d;
+	color: #f7f4ff;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	background:
+		radial-gradient(circle at 18% 8%, rgba(95, 54, 164, 0.26), transparent 36%),
+		linear-gradient(150deg, #070511, #0b1120 62%, #05040a);
+}
+
+button,
+input,
+select,
+a {
+	font: inherit;
+}
+
+button,
+a {
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 10px;
+	background: rgba(20, 26, 48, 0.92);
+	color: #ffffff;
+	padding: 10px 14px;
+	text-decoration: none;
+}
+
+button:disabled {
+	opacity: 0.48;
+}
+
+button:not(:disabled):hover,
+a:hover {
+	border-color: #fff2ad;
+}
+
+.eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 0.72rem;
+	color: #fff2ad;
+}
+
+.coopPanel {
+	margin: 14px 0;
+	padding: 16px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 14px;
+	background: rgba(8, 12, 28, 0.86);
+}

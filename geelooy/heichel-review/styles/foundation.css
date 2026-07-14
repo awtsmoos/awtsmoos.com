@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+:root {
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: #172033;
+	background: #eef2f8;
+	--surface: #ffffff;
+	--line: #d7deea;
+	--muted: #657088;
+	--accent: #4a42c7;
+	--danger: #b32938;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button,
+input,
+select,
+textarea,
+.panel {
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+}
+
+button,
+input,
+select,
+textarea {
+	padding: 0.7rem 0.8rem;
+	background: var(--surface);
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+}
+
+label {
+	display: grid;
+	gap: 0.35rem;
+	font-weight: 650;
+}
+
+pre {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+textarea {
+	min-height: 8rem;
+	resize: vertical;
+}
+
+.primaryAction {
+	background: var(--accent);
+	color: white;
+}
+
+.dangerAction {
+	border-color: var(--danger);
+	color: var(--danger);
+}

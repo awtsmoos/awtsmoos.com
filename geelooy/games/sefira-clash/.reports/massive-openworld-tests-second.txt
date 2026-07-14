@@ -1,0 +1,64 @@
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ thirty citizens cover every region with deterministic schedules (11.776005ms)
+✔ spatial hash returns stable sorted bounded nearby citizens (413.771288ms)
+✔ speaking persists acquaintance and relationship exactly once per action (154.71105ms)
+✔ archive, clinic, council, and guesthouse emit bounded civic evidence (419.224553ms)
+✔ ferry and kitchen validate passage and currency before mutation (20.338891ms)
+✔ training partner resolves through damage without winner or exile (2.33594ms)
+✔ training partner resolves through posture without winner or exile (0.377261ms)
+✔ sixteen shlichus chains remain serializable and uniquely named (4.628333ms)
+✔ role-aware citizen mission advances only through ordered matching roles (2.754752ms)
+✔ shlichus advances only through its ordered physical events (130.259017ms)
+✔ market remains civic-only and validates before charging (1.164651ms)
+✔ trainer advances hands and feet through reputation and fee (0.878305ms)
+✔ guard edge opens a finite parry window and reverses one trainer hit (3.967984ms)
+✔ repeating one technique applies less posture pressure than varied rhythm (15.758307ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/openworld/OpenWorldInputState.js' imported from /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/openworld/OpenWorldCombatRuntime.js
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:691:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:708:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:740:52)
+    at #resolve (node:internal/modules/esm/loader:673:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:593:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/openworld/OpenWorldInputState.js'
+}
+
+Node.js v24.17.0
+✖ tests/openworld/open-world-performance.test.mjs (3151.976759ms)
+✔ existing schema-v2 saves receive safe lived-world and social defaults (4.102033ms)
+✔ profile merge preserves permanent social progress and newer mutable state (3.71671ms)
+✔ server sanitation bounds expanded missions, citizens, doors, and ranks (18.618259ms)
+✔ all civic archetypes compile as ten physical doors and interiors (311.280472ms)
+✔ one physical interaction edge enters and exits the exact training room (75.675646ms)
+✔ interaction is buffered as one semantic edge (2.455545ms)
+✔ ranked punch chain spends stamina and names existing attack intent (1.924842ms)
+✔ patrol and clue nodes emit one unique evidence event (135.205588ms)
+✔ ladder moves only to its authored destination (5.400942ms)
+✔ Hands Covenant removes item state and ignores Open World ranks (35.624693ms)
+✔ ordinary Duel remains distinct from Hands Covenant (122.017654ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 25
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11893.587013
+
+✖ failing tests:
+
+test at tests/openworld/open-world-performance.test.mjs:1:1
+✖ tests/openworld/open-world-performance.test.mjs (3151.976759ms)
+  'test failed'

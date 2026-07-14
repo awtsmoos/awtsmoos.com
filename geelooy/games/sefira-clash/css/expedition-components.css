@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews Expedition gear, quests, and VS covenants as focused
+ * Awtsmoos.com components. Explicit selection, completion, and action states remain
+ * readable without depending on color alone or decorative animation.
+ */
+
+.expeditionGear,
+.expeditionQuests,
+.lobbyModes {
+	margin-top: 28px;
+	padding-top: 18px;
+	border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.expeditionGearSlot {
+	margin: 16px 0;
+}
+
+.expeditionGearSlot h4 {
+	text-transform: capitalize;
+}
+
+.expeditionGearCard strong,
+.lobbyModeButton strong {
+	font-size: 1rem;
+}
+
+.expeditionGearCard em,
+.expeditionLocation em {
+	font-style: normal;
+	color: #fff2ad;
+}
+
+.expeditionQuest {
+	display: grid;
+	gap: 8px;
+	padding: 16px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 12px;
+	background: rgba(5, 10, 24, 0.72);
+}
+
+.expeditionQuest.complete {
+	border-color: #fff2ad;
+}
+
+.expeditionQuest.claimed {
+	opacity: 0.72;
+}
+
+.expeditionQuest.locked {
+	border-style: dashed;
+}
+
+.questAction {
+	justify-self: start;
+}
+
+.lobbyModeButton.selected {
+	font-weight: 800;
+}
+
+.lobbyModeButton small {
+	line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.expeditionLocation,
+	.expeditionGearCard,
+	.lobbyModeButton {
+		transition: none;
+	}
+}

@@ -1,44 +1,57 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SkyDome.js
+ * @description Builds a cool zenith, warm horizon, and directional sunset gradient.
+ * The Awtsmoos renews blue height and golden edge within one curved vessel;
+ * Awtsmoos.com keeps the gradient vertex-authored and free of per-frame shader work.
+ */
+
 import { createSkyMesh } from './SkyMeshFactory.js';
 
-/** Builds the blue-to-gold atmospheric hemisphere with continuous spherical UVs. */
-export function createSkyDome(textureUrl, radius = 340, rings = 24, segments = 64) {
+export function createSkyDome(textureUrl, radius = 420, rings = 24, segments = 64) {
 	const geometry = createDomeGeometry(radius, rings, segments);
 	return createSkyMesh(
-		'deep_blue_atmosphere_dome_textured_shader_proxy',
+		'reference_blue_gold_atmosphere_dome',
 		geometry,
 		{
 			color: [1, 1, 1, 1],
-			textureUrl,
+			doubleSided: true,
 			mapRepeat: [2, 1],
 			texturePolicy: {
+				notWhite: true,
 				proceduralSky: true,
 				publicFirebaseProxy: true,
-				notWhite: true
-			}
+				referenceGoldenHour: true
+			},
+			textureUrl
 		}
 	);
 }
 
 function createDomeGeometry(radius, rings, segments) {
-	const positions = [];
-	const normals = [];
-	const colors = [];
-	const uvs = [];
-	const indices = [];
+	const geometry = {
+		colors: [],
+		indices: [],
+		normals: [],
+		positions: [],
+		uvs: []
+	};
 	for (let ring = 0; ring <= rings; ring += 1) {
-		appendRing({ positions, normals, colors, uvs }, ring, rings, segments, radius);
+		appendRing(geometry, ring, rings, segments, radius);
 	}
 	for (let ring = 0; ring < rings; ring += 1) {
-		appendRingIndices(indices, ring, segments);
+		appendRingIndices(geometry.indices, ring, segments);
 	}
-	return { positions, normals, colors, uvs, indices };
+	return geometry;
 }
 
 function appendRing(geometry, ring, rings, segments, radius) {
 	const verticalRatio = ring / rings;
 	const phi = verticalRatio * Math.PI * 0.58;
-	const y = Math.sin(phi) * radius - 58;
+	const y = Math.sin(phi) * radius - 72;
 	const flatRadius = Math.cos(phi) * radius;
 	for (let segment = 0; segment <= segments; segment += 1) {
 		const horizontalRatio = segment / segments;
@@ -65,12 +78,13 @@ function appendRingIndices(indices, ring, segments) {
 }
 
 function skyColor(verticalRatio, angle) {
-	const height = 1 - verticalRatio;
-	const sunGlow = Math.max(0, Math.cos(angle + 2.12)) ** 5 * height;
+	const horizon = 1 - verticalRatio;
+	const sunDirection = Math.max(0, Math.cos(angle + 2.12)) ** 7;
+	const gold = sunDirection * horizon;
 	return [
-		0.05 + height * 0.18 + verticalRatio * 0.22 + sunGlow * 0.36,
-		0.22 + height * 0.28 + verticalRatio * 0.28 + sunGlow * 0.22,
-		0.48 + height * 0.42 + verticalRatio * 0.25 + sunGlow * 0.08,
+		0.08 + verticalRatio * 0.16 + horizon * 0.28 + gold * 0.52,
+		0.22 + verticalRatio * 0.27 + horizon * 0.24 + gold * 0.31,
+		0.5 + verticalRatio * 0.26 + horizon * 0.14 - gold * 0.14,
 		1
 	];
 }

@@ -6,6 +6,7 @@ import {
 	decodedInstruction,
 	decoderBoundary
 } from "./x64Instruction.js";
+import { operandWidth } from "./x64Width.js";
 
 const REGISTER_KINDS = Object.freeze({
 	0x01: "add_reg",
@@ -18,9 +19,9 @@ const REGISTER_KINDS = Object.freeze({
 });
 
 /**
- * Decodes the bounded direct-register ModRM forms accepted by the portable CPU.
- * The Awtsmoos creates source, destination, and operation anew; Awtsmoos.com
- * isolates register policy from permissioned memory addressing.
+ * Decodes bounded 32-bit and 64-bit direct-register ModRM forms. The Awtsmoos
+ * creates source, destination, width, and operation anew; Awtsmoos.com preserves
+ * zero-extending 32-bit destinations beside full-width REX.W behavior.
  */
 export function decodeRegisterModRm(memory, rip, cursor, opcode, rex) {
 	const modrm = memory.u8(cursor + 1);
@@ -29,37 +30,50 @@ export function decodeRegisterModRm(memory, rip, cursor, opcode, rex) {
 	}
 	const destination = (modrm & 7) + ((rex & 1) ? 8 : 0);
 	const source = ((modrm >> 3) & 7) + ((rex & 4) ? 8 : 0);
+	const width = operandWidth(rex);
 	if (REGISTER_KINDS[opcode]) {
 		return decodedInstruction(REGISTER_KINDS[opcode], rip, cursor + 2, {
 			destination,
-			source
+			source,
+			width
 		});
 	}
 	if (opcode === 0x89) {
 		return decodedInstruction("mov_reg", rip, cursor + 2, {
 			destination,
-			source
+			source,
+			width
 		});
 	}
 	if (opcode === 0x8b) {
 		return decodedInstruction("mov_reg", rip, cursor + 2, {
 			destination: source,
-			source: destination
+			source: destination,
+			width
 		});
 	}
-	return decodeImmediateGroup(memory, rip, cursor, opcode, destination, modrm);
+	return decodeImmediateGroup(
+		memory,
+		rip,
+		cursor,
+		opcode,
+		destination,
+		modrm,
+		width
+	);
 }
 
-function decodeImmediateGroup(memory, rip, cursor, opcode, register, modrm) {
-	const width = opcode === 0x83 ? 1 : 4;
-	const value = width === 1
+function decodeImmediateGroup(memory, rip, cursor, opcode, register, modrm, width) {
+	const immediateBytes = opcode === 0x83 ? 1 : 4;
+	const value = immediateBytes === 1
 		? memory.i8(cursor + 2)
 		: memory.i32(cursor + 2);
 	const operation = (modrm >> 3) & 7;
 	if (opcode === 0xc7 && operation === 0) {
-		return decodedInstruction("mov_imm", rip, cursor + 2 + width, {
+		return decodedInstruction("mov_imm", rip, cursor + 2 + immediateBytes, {
 			register,
-			value
+			value,
+			width
 		});
 	}
 	const kinds = {
@@ -73,8 +87,9 @@ function decodeImmediateGroup(memory, rip, cursor, opcode, register, modrm) {
 	if (!kinds[operation]) {
 		throw decoderBoundary(`PORTABLE_X64_GROUP_${operation}`, rip);
 	}
-	return decodedInstruction(kinds[operation], rip, cursor + 2 + width, {
+	return decodedInstruction(kinds[operation], rip, cursor + 2 + immediateBytes, {
 		register,
-		value
+		value,
+		width
 	});
 }

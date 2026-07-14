@@ -1,48 +1,53 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { Tabs } from "../tabs/index.js";
+import { BrowserRuntime } from "./runtime/BrowserRuntime.js";
+import { CODE_BROWSER_WELCOME_URL } from "./runtime/address.js";
+
 /**
- * @file index.js
- * @brief The Universal Web Viewer.
+ * B"H
+ *
+ * The Browser Manager opens one visible Code tab, never a hidden native window.
+ * The Awtsmoos renews human and agent target together; Awtsmoos.com returns the
+ * tab identity so Chrome-shaped actions can wait for its mounted runtime safely.
  */
-
-import { DOM } from '../state.js';
-import { Tabs } from '../tabs/index.js';
-import { BrowserRuntime } from './runtime/BrowserRuntime.js';
-
 export const BrowserManager = {
-    async open(initialUrl = 'http://localhost:3000', options = {}) {
-        const item = {
-            id: `browser-tab-${Date.now()}`,
-            name: options.name || 'Browser',
-            path: 'browser-realm',
-            type: 'browser',
-            kind: 'file'
-        };
+	async open(initialUrl = CODE_BROWSER_WELCOME_URL, options = {}) {
+		const item = {
+			name: options.name || "Code Browser",
+			path: `/browser/${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+			kind: "file",
+			type: "browser",
+			isVirtual: true,
+			agentOwner: options.agentOwner || "",
+			browserState: {
+				currentUrl: initialUrl || CODE_BROWSER_WELCOME_URL,
+				history: [],
+				consoleVisible: false,
+				studioVisible: false
+			}
+		};
+		const tab = await Tabs.create(item, false, true, true);
+		tab.fileType = "browser";
+		tab.browserState = item.browserState;
+		tab.agentOwner = item.agentOwner;
+		return tab;
+	},
 
-        const contentState = {
-            currentUrl: initialUrl,
-            history: [],
-            consoleVisible: false
-        };
-
-        await Tabs.create({ ...item, content: contentState }, false, true, true);
-    },
-
-    render(tab) {
-        const container = DOM.browserWrapper;
-        if (!container) return;
-
-        const state = tab.content || (tab.content = { currentUrl: 'about:blank', history: [], consoleVisible: false });
-
-        const runtime = new BrowserRuntime({
-            id: tab.id,
-            container,
-            state,
-            save() {
-                import('../app.js').then((m) => m.App.saveSessionDebounced());
-            }
-        });
-
-        runtime.mount();
-    }
+	render(tab, container) {
+		const runtime = new BrowserRuntime({
+			id: tab.id,
+			container,
+			state: tab.browserState || tab.item.browserState || {},
+			tab,
+			save: () => import("../app.js").then(module => module.App.saveSessionDebounced())
+		});
+		tab.browserRuntime = runtime;
+		runtime.mount();
+		return runtime;
+	}
 };
+
+export { BrowserRuntime };

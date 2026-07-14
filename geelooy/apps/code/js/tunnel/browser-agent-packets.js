@@ -1,90 +1,51 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
-import { registrationPacket } from "../../../../shared/tunnel/protocol.js";
-import { browserRegistrationProfile } from "../../../../shared/tunnel/registrationProfile.js";
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * B"H
  *
- * Apps Code is a browser vessel with real browser powers and explicit native
- * boundaries. The Awtsmoos creates workspace, runtime, and server together;
- * Awtsmoos.com registers one truthful identity without discarding legacy readers.
+ * The browser registration oath describes only implemented abilities. The
+ * Awtsmoos renews filesystem, simulated command, custom browser, preview, and
+ * multi-agent identity; Awtsmoos.com no longer advertises a Chrome void as false.
  */
-
-export const CODE_BROWSER_TUNNEL_VERSION = "browser-agent-3.1.0";
-
-/** Creates the compatibility tool projection for the browser tunnel. */
-export function codeBrowserTunnelTools(options = {}) {
+export function codeBrowserRegistrationPacket(options = {}) {
+	const fsActions = unique(options.fsActions);
+	const commandActions = unique(options.commandActions);
+	const previewActions = unique(options.previewActions);
+	const chromeActions = previewActions.filter(action => action.startsWith("chrome"));
 	return {
-		command: "merkava-virtual-or-remote",
-		chrome: false,
-		receiptStore: true,
-		fsAdvanced: bounded(options.fsActions),
-		commandActions: bounded(options.commandActions),
-		previewControl: bounded(options.previewActions)
+		type: "REGISTER_TUNNEL",
+		tunnelName: options.tunnelName,
+		clientType: "browser-code-editor",
+		vesselType: "browser-tab",
+		agentVersion: "browser-agent-4.0.0",
+		protocolVersion: "awtsmoos-tunnel-v2",
+		allowWrite: true,
+		allowCommands: true,
+		capabilities: {
+			browserTunnel: true,
+			multiAgentSessions: true,
+			missionAware: true,
+			actionLedger: true,
+			customBrowser: true,
+			htmlPreview: true,
+			chrome: chromeActions.length > 0,
+			commandMode: "browser-simulated",
+			nodeRuntime: "web-worker-commonjs",
+			npmRuntime: "virtual-package-json-and-scripts",
+			correlationSafe: true,
+			userAgent: options.userAgent || "browser"
+		},
+		tools: {
+			fs: fsActions,
+			command: commandActions,
+			preview: previewActions,
+			chrome: chromeActions
+		}
 	};
 }
 
-/** Builds one canonical Apps Code registration packet with legacy fields. */
-export function codeBrowserRegistrationPacket(options = {}) {
-	if (!options.tunnelName) {
-		throw new Error("code_browser_tunnel_name_required");
-	}
-	const fsActions = bounded(options.fsActions);
-	const commandActions = bounded(options.commandActions);
-	const previewActions = bounded(options.previewActions);
-	const profile = browserRegistrationProfile({
-		workspaceId: options.workspaceId || "browser-workspace"
-	});
-	return registrationPacket({
-		...profile,
-		kind: "browser-code-vessel",
-		tunnelName: options.tunnelName,
-		vessel: "awtsmoos-code",
-		deviceName: "Awtsmoos Code",
-		root: "awtsmoos://code",
-		workspaceId: profile.runtime.workspaceId,
-		allowWrite: true,
-		allowSecrets: false,
-		allowCommands: "limited",
-		agentVersion: CODE_BROWSER_TUNNEL_VERSION,
-		userAgent: String(options.userAgent || ""),
-		capabilities: {
-			...profile.capabilities,
-			commandRun: "merkava-virtual-or-remote",
-			nodeScript: "merkava-simulated",
-			missionAware: true,
-			receiptStore: true,
-			correlationSafe: true,
-			commandModes: [
-				"merkava-virtual",
-				"native-delegated",
-				"unsupported"
-			],
-			fsActions,
-			previewControl: previewActions
-		},
-		tools: codeBrowserTunnelTools({
-			fsActions,
-			commandActions,
-			previewActions
-		}),
-		command: {
-			mode: "merkava-virtual-or-remote",
-			actions: commandActions
-		},
-		safety: {
-			preserveIdentity: true,
-			missionSideChannel: true,
-			denyUnsupportedNative: true
-		}
-	});
-}
-
-function bounded(values) {
-	return Array.isArray(values)
-		? values.slice(0, 512).map(value => String(value))
-		: [];
+function unique(values = []) {
+	return [...new Set((values || []).map(value => String(value || "").trim()).filter(Boolean))];
 }

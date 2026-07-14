@@ -1,0 +1,80 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Keyboard guidance and touch actions become one deck beneath the city window.
+	Awtsmoos.com offers movement, call, dash, and reveal through generous controls,
+	so different bodies may enter one path continually created by the Awtsmoos.
+*/
+
+.controlDeck {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 0.85rem;
+	padding: 0.85rem 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.controlHelp {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem 0.9rem;
+	color: #bdc7e8;
+	font-size: 0.86rem;
+}
+
+.controlHelp strong {
+	color: #ffffff;
+}
+
+.touchControls {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(3rem, auto));
+	grid-template-rows: repeat(2, 3rem);
+	gap: 0.35rem;
+}
+
+.touchControls button {
+	padding: 0 0.75rem;
+	touch-action: none;
+}
+
+.up {
+	grid-column: 2;
+}
+
+.left,
+.down,
+.right {
+	grid-row: 2;
+}
+
+.interact {
+	grid-column: 4;
+	grid-row: 1 / span 2;
+}
+
+.dash {
+	grid-column: 5;
+	grid-row: 1;
+}
+
+.reveal {
+	grid-column: 5;
+	grid-row: 2;
+}
+
+@media (max-width: 900px) {
+	.controlDeck {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.touchControls {
+		align-self: center;
+	}
+}

@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.desktopRail {
+	position: sticky;
+	top: 2.7rem;
+	z-index: 2;
+	display: flex;
+	min-height: calc(100vh - 2.7rem);
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 1rem 0.75rem;
+	border-right: 1px solid var(--line);
+	background: rgb(4 7 19 / 74%);
+	backdrop-filter: blur(1.2rem);
+}
+
+.routeNavigation {
+	display: grid;
+	gap: 0.55rem;
+}
+
+.routeNavigation button {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.6rem minmax(0, 1fr);
+	align-items: center;
+	gap: 0.65rem;
+	width: 100%;
+	border-color: transparent;
+	background: transparent;
+	color: var(--muted);
+	text-align: left;
+}
+
+.routeNavigation button::before {
+	position: absolute;
+	inset: 0;
+	border: 1px solid transparent;
+	border-radius: inherit;
+	background: linear-gradient(110deg, transparent, rgb(158 247 255 / 8%), transparent);
+	content: '';
+	opacity: 0;
+	transform: translateX(-25%);
+}
+
+.routeNavigation button:hover::before,
+.routeNavigation button[data-active="true"]::before {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.routeNavigation button[data-active="true"] {
+	border-color: rgb(158 247 255 / 25%);
+	background: linear-gradient(135deg, rgb(46 86 187 / 22%), rgb(122 49 177 / 16%));
+	box-shadow:
+		inset 0 0 1.2rem rgb(158 247 255 / 6%),
+		0 0.7rem 2rem rgb(0 0 0 / 20%);
+	color: var(--ink);
+}
+
+.routeIcon {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	width: 2.4rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid rgb(158 247 255 / 14%);
+	border-radius: 0.85rem;
+	background: rgb(11 17 42 / 72%);
+	color: var(--cyan);
+	font-size: 1.1rem;
+}
+
+.routeLabel {
+	position: relative;
+	z-index: 1;
+	font-weight: 760;
+}
+
+.railFooter {
+	display: grid;
+	gap: 0.45rem;
+	padding: 0.8rem;
+}
+
+.railFooter a {
+	color: var(--muted);
+	font-size: 0.78rem;
+	text-decoration: none;
+}
+
+.mobileDock {
+	display: none;
+}

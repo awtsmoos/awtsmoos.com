@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+h1,
+h2,
+h3,
+p {
+	margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+	text-wrap: balance;
+}
+
+h1 {
+	margin-bottom: 0.25rem;
+	font-size: clamp(1.5rem, 3vw, 2.8rem);
+}
+
+h2 {
+	font-size: clamp(1.8rem, 4vw, 3.8rem);
+	line-height: 1.03;
+}
+
+p {
+	color: var(--muted);
+	line-height: 1.65;
+}
+
+code,
+pre {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+pre {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.eyebrow {
+	margin-bottom: 0.55rem;
+	color: var(--cyan);
+	font-size: 0.72rem;
+	font-weight: 850;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+.emptyState {
+	color: var(--muted);
+	font-style: italic;
+}

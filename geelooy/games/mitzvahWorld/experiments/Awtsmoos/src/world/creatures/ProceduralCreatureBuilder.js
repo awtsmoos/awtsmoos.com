@@ -4,90 +4,46 @@
 
 /**
  * @file ProceduralCreatureBuilder.js
- * @description Builds articulated animals and spirit husks from renderer primitives.
- * The Awtsmoos renews body, limb, wing, and aura from simple measured vessels;
- * Awtsmoos.com receives deterministic recognizable creatures without external models.
+ * @description Builds one merged lofted definition for each animal or spirit husk.
+ * The Awtsmoos renews many anatomical intentions within one indexed garment;
+ * Awtsmoos.com gains smoother silhouettes and one material draw per creature.
  */
 
+import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { createLoftedAnimalGeometry } from './LoftedAnimalGeometry.js';
+import { createLoftedSpiritGeometry } from './LoftedSpiritGeometry.js';
 import { creatureVisual } from './CreatureVisualCatalog.js';
 
 export function createProceduralCreatureDefinitions(options) {
 	const visual = creatureVisual(options.speciesId);
-	return visual.kind === 'animal'
-		? animalDefinitions(visual, options)
-		: spiritDefinitions(visual, options);
+	const quality = options.quality || 'medium';
+	const generated = visual.kind === 'animal'
+		? { geometry: createLoftedAnimalGeometry(visual, quality), rotation: null }
+		: createLoftedSpiritGeometry(visual, quality);
+	return [definition(options, visual, generated)];
 }
 
-function animalDefinitions(visual, options) {
-	const { x, y, z } = options.position;
-	const bodyY = y + visual.height * 0.72;
-	const parts = [
-		part(options, 'body', 'sphere', x, bodyY, z, {
-			radius: visual.width,
-			scale: { x: visual.length / visual.width, y: 0.92, z: 1 }
-		}, visual.color),
-		part(options, 'head', 'sphere', x + visual.length * 0.58, bodyY + 0.18, z, {
-			radius: visual.width * 0.56
-		}, visual.color)
-	];
-	for (const [index, offset] of legOffsets(visual)) {
-		parts.push(part(options, `leg-${index}`, 'cylinder', x + offset.x, y + visual.height * 0.34, z + offset.z, {
-			height: visual.height * 0.68,
-			radius: visual.width * 0.13,
-			segments: 8
-		}, darken(visual.color)));
-	}
-	parts.push(part(options, 'tail', 'cylinder', x - visual.length * 0.58, bodyY, z, {
-		height: visual.length * 0.42,
-		radius: visual.width * 0.1,
-		rotation: { x: 0, y: 0, z: Math.PI / 2 }
-	}, darken(visual.color)));
-	return parts;
-}
-
-function spiritDefinitions(visual, options) {
-	const { x, y, z } = options.position;
-	return [
-		part(options, 'core', 'sphere', x, y + visual.height * 0.65, z, {
-			radius: visual.width * 0.58
-		}, visual.color),
-		part(options, 'mantle', 'triPrism', x, y + visual.height * 0.35, z, {
-			x: visual.width * 1.55,
-			y: visual.height * 0.9,
-			z: visual.width * 0.8
-		}, darken(visual.color)),
-		part(options, 'aura', 'sphere', x, y + visual.height * 0.62, z, {
-			radius: visual.width * 0.9
-		}, '#d7c8ff', false)
-	];
-}
-
-function legOffsets(visual) {
-	const x = visual.length * 0.34;
-	const z = visual.width * 0.58;
-	return [[0, { x, z }], [1, { x, z: -z }], [2, { x: -x, z }], [3, { x: -x, z: -z }]];
-}
-
-function part(options, name, shape, x, y, z, dimensions, color, solid = true) {
+function definition(options, visual, generated) {
 	return {
-		...dimensions,
-		color,
-		id: `Awtsmoos_creature_${options.id}_${name}`,
-		position: { x, y, z },
-		shape,
-		solid,
-		transparent: solid === false,
+		...generated.geometry,
+		color: visual.color,
+		doubleSided: visual.kind === 'spirit',
+		id: `Awtsmoos_creature_${options.id}_lofted`,
+		position: options.position,
+		rotation: generated.rotation || undefined,
+		shape: 'manual',
+		solid: visual.kind === 'animal',
+		textureUrl: visual.kind === 'animal'
+			? TEXTURE_URLS.terrain.tilledSoil
+			: TEXTURE_URLS.stone.cobblestone,
 		userData: {
-			AwtsmoosLod: { className: 'creature' },
+			AwtsmoosLod: {
+				className: 'creature',
+				quality: options.quality || 'medium'
+			},
 			creatureId: options.id,
-			family: 'procedural-creature',
+			family: 'procedural-lofted-creature',
 			speciesId: options.speciesId
 		}
 	};
-}
-
-function darken(color) {
-	const value = parseInt(color.replace('#', ''), 16);
-	const channel = (shift) => Math.max(0, ((value >> shift) & 255) - 28);
-	return `#${[16, 8, 0].map((shift) => channel(shift).toString(16).padStart(2, '0')).join('')}`;
 }

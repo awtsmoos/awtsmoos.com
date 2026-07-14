@@ -3,11 +3,11 @@
 //Blessed is He
 
 /**
- * Match controls expose only enforced promises in this Awtsmoos.com vessel.
- * The Awtsmoos renews stocks, teams, and item presence as choices that already
- * descend into fighter lives, victory law, and the spawned battlefield objects.
+ * Match controls expose only enforced promises in this Awtsmoos.com vessel. The
+ * Awtsmoos renews stocks, teams, items, and CPU force as choices already consumed
+ * by fighter lives, victory law, battlefield objects, and bot decision intensity.
  */
-/** Builds the currently enforced local match rule controls. */
+
 export function lobbyRulesView(rules, onRule) {
 	return {
 		tag: 'section',
@@ -15,6 +15,7 @@ export function lobbyRulesView(rules, onRule) {
 		children: [
 			{ tag: 'h3', children: ['Match Covenant'] },
 			numberRule('Stocks', 'stocks', rules.stocks, 1, 9, onRule),
+			numberRule('CPU Force', 'cpuDifficulty', rules.cpuDifficulty, 1, 5, onRule),
 			checkRule('Teams', 'teams', rules.teams, onRule),
 			checkRule('Items', 'items', rules.items, onRule)
 		]

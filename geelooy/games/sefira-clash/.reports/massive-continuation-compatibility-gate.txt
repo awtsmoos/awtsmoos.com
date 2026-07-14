@@ -1,0 +1,139 @@
+
+> test:adventure-shlichus
+> node --test tests/adventure/*.test.mjs
+
+✔ every Adventure gate receives three deterministic optional vows (16.239176ms)
+✔ real run state fulfills vows and persistence decorates gate cards (16.086704ms)
+✔ optional vow state does not alter required unlock metadata (0.372233ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2297.733543
+ADVENTURE_SHLICHUS_EXIT=0
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ training partner resolves without winner or stock exile (87.47259ms)
+✔ shlichus advances only through its ordered physical events (5.77727ms)
+✔ market remains civic-only and validates before charging (3.115957ms)
+✔ trainer advances hands and feet through reputation and fee (0.675138ms)
+✔ existing schema-v2 saves receive safe lived-world defaults (123.799895ms)
+✔ profile merge preserves permanent civic progress and newer mutable state (43.520139ms)
+✔ server sanitation bounds open-world ids and ranks (149.996369ms)
+✔ all settlement archetypes compile as physical street doors and interiors (185.46444ms)
+✔ overlap plus one interaction edge enters and exits the exact room (11.495996ms)
+✔ interaction is buffered as one semantic edge (50.164174ms)
+✔ ranked punch chain spends stamina and names existing attack intent (1.751183ms)
+✔ Hands Covenant removes item state and ignores Open World ranks (17.828476ms)
+✔ ordinary Duel remains distinct from Hands Covenant (184.4531ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5264.917406
+OPEN_WORLD_EXIT=0
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (2.733901ms)
+✔ every world reference resolves to a real authored vessel (0.613804ms)
+✔ authors ten guardians with three monotonic phases (6.712464ms)
+✔ boss transitions from actual damage and emits visible events (3.456146ms)
+✔ weather is deterministic, advances explicitly, and emits named effects (5.79188ms)
+✔ authors twenty citizens, ten shops, and fifteen deterministic recipes (16.742817ms)
+✔ purchase validates before charging and grants exact material quantity (2.418908ms)
+✔ crafting is atomic and civic services are idempotent (149.491359ms)
+✔ compiles thirty unique bespoke Expedition roads (10.57256ms)
+✔ every settlement and climax owns the required authored nodes (5.493318ms)
+✔ migrates schema-v1 profile into complete schema-v2 state (75.603367ms)
+✔ opaque profile identity is stable after first assignment (6.019926ms)
+✔ conflict merge preserves permanent progress and newest remote selection (40.719816ms)
+✔ runs a persistent authored expedition from atlas to next road (2780.401817ms)
+file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/tests/expedition/modes-context.test.mjs:17
+	matchingMatchMode,
+	^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module '../../js/multiplayer/MatchModeCatalog.js' does not provide an export named 'matchingMatchMode'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:327:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:431:5)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.17.0
+✖ tests/expedition/modes-context.test.mjs (896.584232ms)
+✔ migrates old gate clears and Perutas into the connected world (4.119789ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (161.066058ms)
+✔ reveals only the authored next road after a clear (1.588035ms)
+✔ completes and claims an authored quest exactly once (14.307944ms)
+✔ equips only known owned gear in its declared slot (0.512565ms)
+✔ derived gear stats mutate real fighter values and weapon (1.060441ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 20
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6858.327362
+
+✖ failing tests:
+
+test at tests/expedition/modes-context.test.mjs:1:1
+✖ tests/expedition/modes-context.test.mjs (896.584232ms)
+  'test failed'
+EXPEDITION_EXIT=1
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+ADVENTURE_AUDIT_EXIT=0
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_AUDIT_EXIT=0
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (8.104878ms)
+✔ preserves original server exports and registered factories (9.716315ms)
+✔ supports both original and options-object RealtimeClient constructors (26.089653ms)
+✔ preserves the complete original SefiraLobbyClient class surface (99.139829ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4466.727138
+WEBSOCKET_EXIT=0
+19 geelooy/games/sefira-clash/js/adventure/adventureRun.js
+35 geelooy/games/sefira-clash/js/adventure/AdventureRunState.js
+36 geelooy/games/sefira-clash/js/adventure/AdventureRunStep.js
+27 geelooy/games/sefira-clash/js/adventure/AdventurePickup.js
+18 geelooy/games/sefira-clash/js/adventure/AdventureStatus.js
+86 geelooy/games/sefira-clash/js/menu/menuCards.js
+81 geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js
+65 geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+LINE_EXIT=0

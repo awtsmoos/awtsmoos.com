@@ -9,31 +9,26 @@ import {
 	workspaceExtension
 } from "./fileKinds.js";
 
+const BINARY_CANDIDATE_KINDS = new Set([
+	WORKSPACE_FILE_KINDS.ANDROID_PACKAGE,
+	WORKSPACE_FILE_KINDS.AWTSMOOS_EXECUTABLE,
+	WORKSPACE_FILE_KINDS.BINARY,
+	WORKSPACE_FILE_KINDS.ELF_EXECUTABLE,
+	WORKSPACE_FILE_KINDS.MACHO_EXECUTABLE,
+	WORKSPACE_FILE_KINDS.PE_EXECUTABLE,
+	WORKSPACE_FILE_KINDS.WEBASSEMBLY
+]);
+
 /**
  * VFS content crosses Blob, ArrayBuffer, typed-array, and textual vessels. The
  * Awtsmoos creates each representation; Awtsmoos.com converts only launchable
  * binary candidates before asking their bytes to reveal an artifact identity.
  */
-
-const BINARY_CANDIDATE_KINDS = new Set([
-	WORKSPACE_FILE_KINDS.PE_EXECUTABLE,
-	WORKSPACE_FILE_KINDS.MACHO_EXECUTABLE,
-	WORKSPACE_FILE_KINDS.ELF_EXECUTABLE,
-	WORKSPACE_FILE_KINDS.AWTSMOOS_EXECUTABLE,
-	WORKSPACE_FILE_KINDS.WEBASSEMBLY,
-	WORKSPACE_FILE_KINDS.BINARY
-]);
-
-/** Detects one launchable artifact or returns null for ordinary text/source. */
 export async function detectWorkspaceArtifact(item, content) {
 	const advisoryKind = classifyWorkspaceFile(item);
-	if (!BINARY_CANDIDATE_KINDS.has(advisoryKind)) {
-		return null;
-	}
+	if (!BINARY_CANDIDATE_KINDS.has(advisoryKind)) return null;
 	const bytes = await workspaceArtifactBytes(content, advisoryKind);
-	if (!bytes) {
-		return null;
-	}
+	if (!bytes) return null;
 	return detectArtifactIdentity(bytes, {
 		extension: extensionWithPeriod(item)
 	});
@@ -41,19 +36,20 @@ export async function detectWorkspaceArtifact(item, content) {
 
 /** Converts supported VFS binary content into exact Uint8Array bytes. */
 export async function workspaceArtifactBytes(content, advisoryKind) {
-	if (content instanceof Uint8Array) {
-		return content;
-	}
-	if (content instanceof ArrayBuffer) {
-		return new Uint8Array(content);
-	}
+	if (content instanceof Uint8Array) return content;
+	if (content instanceof ArrayBuffer) return new Uint8Array(content);
 	if (ArrayBuffer.isView(content)) {
-		return new Uint8Array(content.buffer, content.byteOffset, content.byteLength);
+		return new Uint8Array(
+			content.buffer,
+			content.byteOffset,
+			content.byteLength
+		);
 	}
 	if (typeof Blob !== "undefined" && content instanceof Blob) {
 		return new Uint8Array(await content.arrayBuffer());
 	}
-	if (typeof content === "string" && advisoryKind === WORKSPACE_FILE_KINDS.AWTSMOOS_EXECUTABLE) {
+	if (typeof content === "string"
+		&& advisoryKind === WORKSPACE_FILE_KINDS.AWTSMOOS_EXECUTABLE) {
 		return new TextEncoder().encode(content);
 	}
 	return null;

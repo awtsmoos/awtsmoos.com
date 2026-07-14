@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * This layout owns the premium landing-page composition, not feed data or routing.
+ * The Awtsmoos creates every chamber while Awtsmoos.com keeps the pathways clear.
+ */
+.premium-home {
+	min-height: 100dvh;
+	padding: clamp(.7rem, 2vw, 1.5rem);
+}
+.premium-home .home-dashboard-shell {
+	display: grid;
+	grid-template-columns: minmax(0, 1.45fr) minmax(18rem, .55fr);
+	gap: 1rem;
+	width: min(100%, var(--premium-width));
+	margin: 0 auto;
+}
+.premium-home .g-home-main,
+.premium-home .g-home-aside {
+	display: grid;
+	align-content: start;
+	gap: 1rem;
+	min-width: 0;
+}
+.premium-home .home-app-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: clamp(1.4rem, 4vw, 3rem);
+}
+.premium-home .home-orb-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: .8rem;
+	color: var(--premium-ink);
+	text-decoration: none;
+}
+.premium-home .home-orb-logo {
+	display: grid;
+	width: 3.1rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--premium-line-strong);
+	border-radius: 1rem 50% 1rem 50%;
+	background: linear-gradient(145deg, rgba(227, 205, 157, .19), rgba(135, 217, 233, .1));
+	box-shadow: 0 0 2.8rem rgba(227, 205, 157, .12);
+}
+.premium-home .home-brand-copy {
+	display: grid;
+	gap: .12rem;
+}
+.premium-home .home-brand-copy strong {
+	font-size: 1.05rem;
+	letter-spacing: .02em;
+}
+.premium-home .home-brand-copy small {
+	color: var(--premium-soft);
+}
+.premium-home .home-bell-button {
+	display: grid;
+	width: 2.8rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--premium-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .045);
+	text-decoration: none;
+}

@@ -1,0 +1,105 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--
+	Seven paths stand beneath one sky. On Awtsmoos.com the landscape breathes,
+	yet the teaching remains clear: every created moment can become a dwelling
+	for justice, dignity, compassion, and awareness of the Awtsmoos.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#071321">
+	<meta name="description" content="An immersive guide to the Seven Mitzvos of Bnei Noach.">
+	<title>Seven Mitzvos · A World Built on Justice</title>
+	<link rel="stylesheet" href="./styles/foundation.css">
+	<link rel="stylesheet" href="./styles/landscape.css">
+	<link rel="stylesheet" href="./styles/components.css">
+</head>
+<body>
+	<div class="livingWorld" aria-hidden="true">
+		<canvas id="landscapeCanvas"></canvas>
+		<div class="sunVeil"></div>
+		<div class="grainVeil"></div>
+		<div class="edgeVeil"></div>
+	</div>
+
+	<header class="heroSection">
+		<nav class="topBar" aria-label="Page navigation">
+			<a class="backLink" href="../">← Awtsmoos Games</a>
+			<span class="worldMark">B"H · One humanity, seven foundations</span>
+		</nav>
+
+		<div class="heroContent">
+			<p class="eyebrow">The Seven Mitzvos of Bnei Noach</p>
+			<h1>A world can become<br><em>a dwelling for goodness.</em></h1>
+			<p class="heroLead">
+				Seven universal commandments form a practical covenant of reverence,
+				human dignity, moral restraint, compassion, property, and justice.
+			</p>
+			<div class="heroActions">
+				<button id="beginJourney" class="primaryAction" type="button">Enter the seven paths</button>
+				<a class="quietAction" href="#meaning">Why these seven?</a>
+			</div>
+		</div>
+
+		<div class="scrollSignal" aria-hidden="true">
+			<span></span>
+			<small>Scroll into the world</small>
+		</div>
+	</header>
+
+	<main>
+		<section id="meaning" class="meaningSection contentPanel">
+			<p class="sectionNumber">01 · The covenant</p>
+			<div>
+				<h2>Not merely seven rules.<br>A complete moral architecture.</h2>
+				<p>
+					The mitzvos teach that freedom is strongest when it protects life,
+					honors the Creator, guards trust, limits harm, and builds courts
+					capable of turning principle into lived justice.
+				</p>
+			</div>
+		</section>
+
+		<section id="mitzvos" class="mitzvosSection">
+			<header class="sectionHeader">
+				<p class="sectionNumber">02 · The seven paths</p>
+				<h2>Choose a foundation</h2>
+				<p>Open each path to see its meaning and its positive work in daily life.</p>
+			</header>
+			<div id="mitzvahGrid" class="mitzvahGrid" aria-live="polite"></div>
+		</section>
+
+		<section class="closingSection contentPanel">
+			<p class="sectionNumber">03 · The living world</p>
+			<blockquote>
+				“When human beings protect what is sacred in one another, the whole
+				world becomes more capable of revealing the light within creation.”
+			</blockquote>
+			<p class="closingNote">Learn carefully. Practice concretely. Build peace through justice.</p>
+		</section>
+	</main>
+
+	<dialog id="mitzvahDialog" class="mitzvahDialog" aria-labelledby="dialogTitle">
+		<button id="closeDialog" class="dialogClose" type="button" aria-label="Close details">×</button>
+		<p id="dialogNumber" class="dialogNumber"></p>
+		<div id="dialogSymbol" class="dialogSymbol" aria-hidden="true"></div>
+		<h2 id="dialogTitle"></h2>
+		<p id="dialogSummary" class="dialogSummary"></p>
+		<div class="dialogDivider"></div>
+		<h3>The positive work</h3>
+		<p id="dialogPractice"></p>
+	</dialog>
+
+	<footer>
+		<span>B"H</span>
+		<p>Created as an educational doorway on Awtsmoos.com.</p>
+	</footer>
+
+	<script type="module" src="./js/main.js"></script>
+	<script src="/register.js"></script>
+</body>
+</html>

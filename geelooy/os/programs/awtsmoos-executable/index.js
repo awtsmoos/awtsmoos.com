@@ -5,19 +5,14 @@
 import { createVirtualWindows } from "../../../apps/exe-emulator/core/virtualWindows.js";
 import { ensureProgramStyles } from "../shared/programStyles.js";
 import { executableBytes } from "./content.js";
-import {
-	executionLabel,
-	executionReport
-} from "./executionReport.js";
+import { executionLabel, executionReport } from "./executionReport.js";
 import { runExecutable } from "./runtime.js";
 
 /**
  * The executable window displays measured capability rather than one simulated
- * label for every format. The Awtsmoos creates execution, inspection, and
- * simulation distinctly; Awtsmoos.com names the actual path after byte detection.
+ * label for every format. The Awtsmoos creates execution, bundle inspection, and
+ * simulation distinctly; Awtsmoos.com preserves the selected application contract.
  */
-
-/** Creates an auto-running executable, loader-inspection, or simulation window. */
 export default function createAwtsmoosExecutable(options = {}) {
 	ensureProgramStyles();
 	const surface = createSurface(options.title || options.fileName || "Executable");
@@ -36,27 +31,35 @@ export default function createAwtsmoosExecutable(options = {}) {
 function createExecutor({ options, surface, host }) {
 	return async function executeArtifact() {
 		host.clear();
-		surface.report.textContent = "Detecting artifact bytes…";
+		surface.report.textContent = options.bundle
+			? "Resolving application bundle…"
+			: "Detecting artifact bytes…";
 		try {
 			const bytes = await executableBytes(options.content);
 			const outcome = await runExecutable({
+				arguments: options.arguments,
+				artifactIdentity: options.artifactIdentity,
+				bundle: options.bundle,
 				bytes,
 				extension: options.extension,
-				manifest: options.manifest,
 				host,
+				importObject: options.importObject,
 				inspectOnly: options.inspectOnly,
-				arguments: options.arguments,
-				importObject: options.importObject
+				instructionLimit: options.instructionLimit,
+				manifest: options.manifest,
+				maximumBytes: options.maximumBytes,
+				maximumStackBytes: options.maximumStackBytes,
+				stackSize: options.stackSize
 			});
 			surface.heading.textContent = executionLabel(outcome, options.artifactIdentity);
 			surface.report.textContent = executionReport(outcome);
 		} catch (error) {
 			surface.heading.textContent = "Artifact rejected";
 			surface.report.textContent = executionReport({
+				architecture: options.detectedArchitecture || null,
 				code: error.code || "EXECUTABLE_HOST_FAILED",
-				message: error.message,
 				format: options.detectedFormat || null,
-				architecture: options.detectedArchitecture || null
+				message: error.message
 			});
 			host.print(`Loader fault: ${error.code || "unknown"}: ${error.message}`);
 		}

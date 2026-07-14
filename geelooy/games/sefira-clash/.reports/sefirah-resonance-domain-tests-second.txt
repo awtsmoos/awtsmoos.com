@@ -1,0 +1,46 @@
+file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/resonance/BinahVessel.js:13
+	enableFighterResonance,
+	^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './ResonanceState.js' does not provide an export named 'enableFighterResonance'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:327:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:431:5)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.17.0
+✖ tests/resonance/binah-armor.test.mjs (695.257167ms)
+file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/resonance/ChochmahInsight.js:13
+	enableFighterResonance,
+	^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './ResonanceState.js' does not provide an export named 'enableFighterResonance'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:327:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:431:5)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.17.0
+✖ tests/resonance/chochmah-insight.test.mjs (592.303774ms)
+✔ resonance definitions are present and immutable (8.34233ms)
+✔ Resonance Clash cycles only Chochmah and Binah vessels (3.212597ms)
+✔ Adventure receives one deterministic persistent resonance vessel (0.536129ms)
+✔ new hit events update attacker, target, and longest chain (14.108989ms)
+✔ parried events count defense without hit or damage (0.385065ms)
+✔ thousands of increments and decay remain bounded scalar state (7.806345ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1438.443517
+
+✖ failing tests:
+
+test at tests/resonance/binah-armor.test.mjs:1:1
+✖ tests/resonance/binah-armor.test.mjs (695.257167ms)
+  'test failed'
+
+test at tests/resonance/chochmah-insight.test.mjs:1:1
+✖ tests/resonance/chochmah-insight.test.mjs (592.303774ms)
+  'test failed'

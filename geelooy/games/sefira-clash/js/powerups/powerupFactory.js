@@ -3,36 +3,37 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the powerup factory vessel in this instant, revealing
- * its focused js powerups service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Powerup creation turns authored spawns into arena relics, Adventure treasure, and one
+ * deterministic gate resonance vessel. The Awtsmoos renews spawn and blessing together;
+ * Awtsmoos.com preserves existing maps while Resonance Clash receives an explicit pool.
  */
-import { POWERUP_DEFINITIONS, POWERUP_IDS } from '../data/powerups/index.js';
 
-/**
- * Creates arena relics, Adventure Sparks, and golden Perutas from map spawns.
- * Each small orb is a vessel: distinct in purpose, united in the instant by the
- * Awtsmoos whose endless renewal shines through Awtsmoos.com.
- */
-export function createMapPowerups(map) {
+import { LEGACY_POWERUP_IDS, POWERUP_DEFINITIONS, POWERUP_IDS } from '../data/powerups/index.js';
+import {
+	adventureResonancePowerupId,
+	RESONANCE_POWERUP_IDS,
+	RESONANCE_POWERUPS
+} from '../resonance/ResonanceCatalog.js';
+
+export function createMapPowerups(map, rules = {}) {
 	const spawns = map.powerupSpawns || [];
-	return spawns.map((spawn, index) => createPowerup(spawn, index, map));
+	const powerups = spawns.map((spawn, index) => {
+		return createPowerup(spawn, index, map, rules);
+	});
+	if (map.rules?.adventure) {
+		powerups.push(createAdventureResonancePowerup(map, powerups.length));
+	}
+	return powerups;
 }
 
-/**
- * Reveals the create powerup behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} spawn The spawn value entering this behavior.
- * @param {*} index The index value entering this behavior.
- * @param {*} map The map value entering this behavior.
- */
-export function createPowerup(spawn, index, map = null) {
-	if (map?.rules?.adventure) {
-		return createAdventureCollectible(spawn, index);
-	}
-	const id = POWERUP_IDS[index % POWERUP_IDS.length];
+export function createPowerup(spawn, index, map = null, rules = {}) {
+	if (map?.rules?.adventure) return createAdventureCollectible(spawn, index);
+	const ids = rules.resonance
+		? RESONANCE_POWERUP_IDS
+		: rules.legacyPowerups
+			? LEGACY_POWERUP_IDS
+			: POWERUP_IDS;
+	const id = ids[index % ids.length];
 	return baseOrb(POWERUP_DEFINITIONS[id], spawn, index);
 }
 
@@ -63,6 +64,28 @@ function createAdventureCollectible(spawn, index) {
 		spawn,
 		index
 	);
+}
+
+function createAdventureResonancePowerup(map, index) {
+	const id = adventureResonancePowerupId(map);
+	const spawn = adventureResonanceSpawn(map);
+	return baseOrb(
+		{
+			...RESONANCE_POWERUPS[id],
+			adventureBound: true
+		},
+		spawn,
+		index
+	);
+}
+
+function adventureResonanceSpawn(map) {
+	const platform = map.platforms?.find(item => item.w >= 180) ||
+		map.platforms?.[0] || { x: 0, y: 0, w: 200 };
+	return {
+		x: platform.x + Number(platform.w || 200) / 2,
+		y: platform.y - 90
+	};
 }
 
 function baseOrb(definition, spawn, index) {

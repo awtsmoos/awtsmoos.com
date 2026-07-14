@@ -7,9 +7,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#050719">
-	<title>Nitzotz.io — Procedural Kabbalah Metropolis</title>
+	<title>Nitzotz.io — Shlichus Adventure Metropolis</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23050719' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./style.css?v=20260713_firebase_materials_1">
+	<link rel="stylesheet" href="./style.css?v=20260714_shlichus_1">
 </head>
 <body>
 	<canvas id="game" aria-label="Nitzotz.io procedural city arena"></canvas>
@@ -29,6 +29,12 @@
 			<meter id="sparkMeter" min="0" max="1" value="0"></meter>
 			<div class="bonus-line"><b id="bonusText">Clear the district</b><span id="bonusProgressText">0 / 16</span></div>
 		</section>
+		<div id="resourceRail" class="resource-rail">
+			<span><small>ARMOR</small><b id="armorText">1/1</b></span>
+			<span><small>PERUTOT</small><b id="perutahText">0</b></span>
+			<span class="shlichus-resource"><small>SHLICHUS</small><b id="shlichusText">ARENA PATH</b></span>
+			<span><small>HEVRUTA</small><b id="peerText">0 LIVE</b></span>
+		</div>
 		<p id="message">B'H · enter the generated metropolis.</p>
 		<div class="telemetry-pool" hidden>
 			<span id="modeText"></span><span id="eventText"></span><span id="bossText"></span>
@@ -43,11 +49,11 @@
 	<section id="overlay" class="overlay">
 		<div class="overlay-panel">
 			<div class="overlay-hero">
-				<p class="eyebrow">B'H · persistent city · procedural revelation</p>
+				<p class="eyebrow">B'H · campaign · Shlichus · living local rooms</p>
 				<h1 id="overlayTitle">Malchus Courtyard</h1>
 				<div id="overlayStars" class="stars">☆☆☆</div>
 				<p id="overlayText">Consume generated plants, streets, traffic, buildings, and landmarks.</p>
-				<div class="campaign-ledger"><span id="campaignSummary">0 / 200 DISTRICTS</span><span id="campaignSpark">0 SPARKS</span></div>
+				<div class="campaign-ledger"><span id="campaignSummary">0 / 200 DISTRICTS</span><span id="campaignSpark">0 SPARKS · 0₽</span></div>
 			</div>
 			<section class="mode-gate" aria-label="arena mode">
 				<div class="mode-heading">
@@ -60,15 +66,20 @@
 				<button id="startBtn" class="button primary" type="button">ENTER DISTRICT</button>
 				<button id="restartBtn" class="button ghost" type="button">REGENERATE</button>
 			</div>
-			<details class="compact-disclosure">
-				<summary>Campaign and districts</summary>
-				<div class="compact-disclosure-content">
-					<section class="campaign-section"><div id="chapterSelect" class="chapter-select"></div></section>
-					<section class="campaign-section"><div id="levelSelect" class="level-select"></div></section>
-				</div>
+			<details class="compact-disclosure expansion-disclosure">
+				<summary>Shlichus and Sefirah Talents</summary>
+				<div class="compact-disclosure-content"><div id="adventureBrief" class="shlichus-grid"></div><div id="talentGrid" class="talent-grid"></div></div>
+			</details>
+			<details class="compact-disclosure expansion-disclosure">
+				<summary>Hevruta Same-Origin Room</summary>
+				<div class="compact-disclosure-content room-panel"><p id="roomStatus">LOCAL ROOM READY</p><div class="room-controls"><input id="roomInput" maxlength="12" value="malchus" aria-label="local room name"><button id="roomBtn" class="button ghost" type="button">JOIN LOCAL ROOM</button></div><small>Live synchronization works between tabs on this same origin. It is not an internet matchmaking server.</small></div>
 			</details>
 			<details class="compact-disclosure">
-				<summary>Permanent upgrades</summary>
+				<summary>Campaign and districts</summary>
+				<div class="compact-disclosure-content"><section class="campaign-section"><div id="chapterSelect" class="chapter-select"></div></section><section class="campaign-section"><div id="levelSelect" class="level-select"></div></section></div>
+			</details>
+			<details class="compact-disclosure">
+				<summary>Permanent spark upgrades</summary>
 				<div class="compact-disclosure-content"><section class="campaign-section"><div id="shopGrid" class="shop-grid"></div></section></div>
 			</details>
 			<details class="compact-disclosure">
@@ -77,19 +88,13 @@
 			</details>
 			<details class="compact-disclosure">
 				<summary>Graphics and feedback</summary>
-				<div class="compact-disclosure-content settings" aria-label="quality">
-					<button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>fewer models</span></button>
-					<button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>dense city</span></button>
-					<button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>full metropolis</span></button>
-					<button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>impact</span></button>
-					<button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button>
-				</div>
+				<div class="compact-disclosure-content settings" aria-label="quality"><button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>fewer models</span></button><button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>dense city</span></button><button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>full metropolis</span></button><button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>impact</span></button><button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button></div>
 			</details>
-			<p class="overlay-help"><b>WASD</b> move · <b>SPACE</b> surge · <b>M</b> mode · <b>P</b> pause</p>
+			<p class="overlay-help"><b>WASD</b> move · <b>SPACE</b> Chochmah pulse · <b>M</b> mode · <b>P</b> pause</p>
 		</div>
 	</section>
 	<div id="stick"><span>MOVE</span><i></i></div>
-	<button id="pulse" type="button"><b>SURGE</b><span>OHR</span></button>
-	<script type="module" src="./js/main.js?v=20260713_firebase_materials_1"></script>
+	<button id="pulse" type="button"><b>SURGE</b><span id="pulseState">READY</span></button>
+	<script type="module" src="./js/main.js?v=20260714_shlichus_1"></script>
 </body>
 </html>

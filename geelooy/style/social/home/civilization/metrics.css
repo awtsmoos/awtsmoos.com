@@ -1,23 +1,48 @@
-/* B"H - small cards count the pulse without crowding the river. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Home metrics communicate pulse through typography and compact status geometry.
+ */
 .civilization-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .55rem;
-  margin: .75rem 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-2);
+	margin: var(--space-3) 0;
 }
 .civilization-metric-card {
-  display: grid;
-  gap: .2rem;
-  padding: .75rem;
-  border-radius: 1rem;
-  border: 1px solid var(--g-line);
-  background: rgba(255,255,255,.07);
-  box-shadow: var(--g-shadow-soft);
+	display: grid;
+	gap: .25rem;
+	min-width: 0;
+	padding: .75rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface-soft);
+	box-shadow: none;
 }
-.civilization-metric-card strong { font-size: clamp(1.1rem, 4vw, 1.8rem); line-height: 1; color: #fff; }
+.civilization-metric-card strong {
+	color: var(--g-text);
+	font-size: clamp(1.15rem, 4vw, 1.75rem);
+	line-height: 1;
+}
 .civilization-metric-card small {
-  color: var(--g-muted);
-  font-weight: 850;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+	display: inline-flex;
+	align-items: center;
+	gap: .35rem;
+	color: var(--g-faint);
+	font-size: var(--type-caption);
+	font-weight: 760;
+	letter-spacing: var(--tracking-caption);
+	text-transform: uppercase;
+}
+.civilization-metric-card small::before {
+	width: .36rem;
+	height: .36rem;
+	border-radius: 50%;
+	background: var(--g-accent);
+	content: "";
+}
+@media (max-width: 34rem) {
+	.civilization-metrics {
+		grid-template-columns: 1fr;
+	}
 }

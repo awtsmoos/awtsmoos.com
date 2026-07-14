@@ -1,0 +1,94 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Each discovery card names a real canonical Heichel. The Awtsmoos gives every
+ * chamber its inward unity while Awtsmoos.com reveals provenance and action clearly.
+ */
+.social-spaces-shell .social-space-card {
+	position: relative;
+	display: grid;
+	min-height: 22rem;
+	align-content: space-between;
+	gap: 1.2rem;
+	overflow: hidden;
+	padding: 1.2rem;
+}
+.social-spaces-shell .social-space-card::after {
+	position: absolute;
+	right: -5rem;
+	bottom: -6rem;
+	width: 13rem;
+	aspect-ratio: 1;
+	border: 1px solid rgba(135, 217, 233, .11);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(135, 217, 233, .07), transparent 68%);
+	content: "";
+	pointer-events: none;
+}
+.social-spaces-shell .space-body {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	gap: 1rem;
+}
+.social-spaces-shell .space-seal {
+	display: grid;
+	width: 4rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--premium-line-strong);
+	border-radius: 1.15rem 50% 1.15rem 50%;
+	background: linear-gradient(145deg, rgba(227, 205, 157, .18), rgba(135, 217, 233, .08));
+	color: var(--premium-gold-bright);
+	font-size: 1.2rem;
+	font-weight: 850;
+}
+.social-spaces-shell .space-copy {
+	display: grid;
+	gap: .75rem;
+}
+.social-spaces-shell .space-title-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.social-spaces-shell .space-title-row h2 {
+	margin: 0;
+	font-size: clamp(1.6rem, 3vw, 2.35rem);
+	line-height: 1.03;
+}
+.social-spaces-shell .space-copy p {
+	margin: 0;
+}
+.social-spaces-shell .space-meta-line {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	color: var(--premium-soft);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: .72rem;
+}
+.social-spaces-shell .space-meta-line span {
+	padding: .3rem .5rem;
+	border: 1px solid rgba(255, 255, 255, .06);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .025);
+}
+.social-spaces-shell .space-actions {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+}
+.social-spaces-shell .space-actions .premium-button {
+	flex: 1 1 7rem;
+}
+.social-spaces-shell .social-empty-card {
+	display: grid;
+	justify-items: start;
+	gap: .8rem;
+	grid-column: 1 / -1;
+	padding: clamp(1.2rem, 4vw, 3rem);
+}

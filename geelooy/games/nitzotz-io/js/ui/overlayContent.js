@@ -4,7 +4,7 @@
 import { LEVELS } from '../levels/catalog.js';
 import { MODES } from '../modes/catalog.js';
 
-/** Awtsmoos.com gives each overlay state a bounded and readable voice. */
+/** Awtsmoos.com gives each overlay state a bounded campaign and Shlichus voice. */
 export function renderOverlayContent(world, dom) {
 	renderModeSelect(world, dom);
 	if (world.mode === 'won') return renderWon(world, dom);
@@ -15,22 +15,25 @@ export function renderOverlayContent(world, dom) {
 
 function renderReady(world, dom) {
 	dom.title.textContent = world.level.name;
-	dom.text.textContent = `${world.gameMode.name}. ${world.level.objective}. Bonus: ${world.level.bonus.label}. Mastery: ${world.level.mastery.label}.`;
+	const path = world.gameMode.adventure
+		? 'Three deterministic Shlichus stages will reveal perutot.'
+		: `Bonus: ${world.level.bonus.label}. Mastery: ${world.level.mastery.label}.`;
+	dom.text.textContent = `${world.gameMode.name}. ${world.level.objective}. ${path}`;
 	dom.stars.textContent = starLine(world.save.stars[world.level.key] || 0);
-	dom.start.textContent = 'ENTER DISTRICT';
+	dom.start.textContent = world.gameMode.id === 'hevruta' ? 'ENTER HEVRUTA DISTRICT' : 'ENTER DISTRICT';
 	dom.restart.textContent = 'REGENERATE';
 }
 
 function renderPaused(world, dom) {
 	dom.title.textContent = 'Arena Paused';
-	dom.text.textContent = `${world.gameMode.name} remains suspended inside ${world.level.name}.`;
+	dom.text.textContent = `${world.gameMode.name} remains suspended inside ${world.level.name}. Armor ${world.player.armor}/${world.player.maxArmor}.`;
 	dom.stars.textContent = starLine(world.save.stars[world.level.key] || 0);
 	dom.start.textContent = 'RESUME';
 	dom.restart.textContent = 'RESTART LEVEL';
 }
 
 function renderWon(world, dom) {
-	const reward = world.lastReward?.sparks ? ` ${world.lastReward.sparks} sparks returned.` : '';
+	const reward = rewardText(world.lastReward);
 	dom.title.textContent = `${world.level.name} Revealed`;
 	dom.text.textContent = `${world.gameMode.name}. Rank ${world.rank}. Mass ${Math.round(world.player.mass)}.${reward}`;
 	dom.stars.textContent = starLine(world.stars);
@@ -40,7 +43,7 @@ function renderWon(world, dom) {
 
 function renderLost(world, dom) {
 	dom.title.textContent = 'The Round Closed';
-	dom.text.textContent = `${world.gameMode.name}: mass ${Math.round(world.player.mass)} / ${world.level.targetMass}. Change routes or modes and return.`;
+	dom.text.textContent = `${world.gameMode.name}: mass ${Math.round(world.player.mass)} / ${world.level.targetMass}. Pending Shlichus rewards were not settled.`;
 	dom.stars.textContent = starLine(0);
 	dom.start.textContent = 'RETRY';
 	dom.restart.textContent = 'REGENERATE';
@@ -58,6 +61,13 @@ function modeCard(mode, world, locked) {
 	const record = world.save.modeRecords[mode.id];
 	const result = record ? `${record.wins || 0} WINS · ${record.bestScore || 0} BEST` : 'NEW PATH';
 	return `<button class="mode-card${active}" data-mode="${mode.id}" ${locked ? 'disabled' : ''}><b>${mode.name}</b><span>${mode.description}</span><em>${result}</em></button>`;
+}
+
+function rewardText(reward) {
+	if (!reward) return '';
+	const sparks = reward.sparks ? ` ${reward.sparks} sparks` : '';
+	const perutot = reward.perutot ? ` ${reward.perutot} perutot` : '';
+	return sparks || perutot ? ` Returned:${sparks}${perutot}.` : '';
 }
 
 function starLine(count) {

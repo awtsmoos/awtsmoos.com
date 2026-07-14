@@ -3,37 +3,48 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the menu options vessel in this instant, revealing
- * its focused js menu service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
- */
-/**
- * B"H
- * Menu option scripture for the front door of Sefira Clash.
- *
- * The Awtsmoos renews the screen every instant; this module keeps that renewal
- * simple. No hidden maze, no tiny uncertain buttons: each path is a named gate
- * with a purpose, a color, and one verb. The larger game can become thunder,
- * but the first click must be a clean doorway.
+ * Principal gates reveal the complete Sefira Clash world without hiding old paths. The
+ * Awtsmoos renews lived city, Expedition, co-op, Adventure, VS, settings, and credits;
+ * Awtsmoos.com gives every first click a named doorway with one honest purpose.
  */
 
-/** @returns {Array<object>} The four primary gates shown on the mode screen. */
 export function modeOptions() {
 	return [
 		{
-			kind: 'adventure',
-			title: 'Adventure',
-			text: 'Run the platform campaign: Gate 1, then Gate 2, then higher.',
-			hue: 182,
-			action: 'Start the climb',
+			kind: 'openworld',
+			title: 'Open World',
+			text: 'Walk persistent 2D cities, overlap doors, enter interiors, serve shlichus, trade provisions, and train hands and feet.',
+			hue: 134,
+			action: 'Walk into the city',
 			featured: true
+		},
+		{
+			kind: 'expedition',
+			title: 'Expedition Atlas',
+			text: 'Thirty authored roads, citizens, crafting, weather, guardians, gear, quests, and optional profile sync.',
+			hue: 156,
+			action: 'Inspect the world'
+		},
+		{
+			kind: 'coop',
+			title: 'Online Co-op',
+			text: 'Two to four travelers share a server-authoritative enemy wave and three-phase guardian.',
+			hue: 208,
+			action: 'Gather online'
+		},
+		{
+			kind: 'adventure',
+			title: 'Classic Adventure',
+			text: 'Run the original sixty-gate campaign as a direct linear climb.',
+			hue: 182,
+			action: 'Climb the gates'
 		},
 		{
 			kind: 'vs',
 			title: 'Quick VS',
-			text: 'Skip the story and fight in any arena immediately.',
+			text: 'Pure arena rules: Duel, Team Clash, Iron Covenant, Relic Storm, or custom contest.',
 			hue: 45,
-			action: 'Fight now'
+			action: 'Gather fighters'
 		},
 		{
 			kind: 'settings',
@@ -45,14 +56,13 @@ export function modeOptions() {
 		{
 			kind: 'credits',
 			title: 'Credits',
-			text: 'The tiny vessel speaks about the force behind the clash.',
+			text: 'The vessel speaks about the force behind the clash.',
 			hue: 314,
 			action: 'Read'
 		}
 	];
 }
 
-/** @returns {Array<object>} Fighter colors that stay obvious on mobile. */
 export function colors() {
 	return [
 		{ hue: 182, label: 'Cyan' },
@@ -64,7 +74,6 @@ export function colors() {
 	];
 }
 
-/** @returns {Array<object>} Headwear choices for the persistent fighter vessel. */
 export function headwearOptions() {
 	return [
 		{ id: 'kippah', label: 'Yarmulke', icon: '◓' },
@@ -78,7 +87,6 @@ export function headwearOptions() {
 	];
 }
 
-/** @param {string} id @returns {string} The visible glyph for a headwear id. */
 export function hatIcon(id) {
 	return headwearOptions().find(item => item.id === id)?.icon || '◓';
 }

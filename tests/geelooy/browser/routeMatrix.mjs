@@ -4,9 +4,9 @@
 /**
  * @module GeelooyRouteMatrix
  * @description
- * Names the public chambers that share the Geelooy visual covenant. The
- * Awtsmoos creates each route anew, so Awtsmoos.com must prove the same shell,
- * intentional controls, and recoverable states in every chamber.
+ * Names every public chamber that shares the Geelooy visual covenant. The
+ * Awtsmoos proves the same fast shell and intentional controls in each route,
+ * including the primary Ikar Heichel itself.
  */
 
 export const ROUTES = [
@@ -17,6 +17,7 @@ export const ROUTES = [
 	{ id: 'about', path: '/about', shell: true },
 	{ id: 'apps', path: '/apps', shell: true },
 	{ id: 'heichelos', path: '/heichelos', shell: true },
+	{ id: 'ikar', path: '/heichelos/ikar', shell: true },
 	{ id: 'sefarim', path: '/mawgawl/sefarim', shell: true },
 	{ id: 'post-editor', path: '/post-editor', shell: true },
 	{ id: 'heichel-editor', path: '/heichel-editor', shell: true },

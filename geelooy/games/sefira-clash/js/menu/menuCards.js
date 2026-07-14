@@ -3,17 +3,14 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the menu cards vessel in this instant, revealing
- * its focused js menu service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Menu cards preserve the original forge-based public contract while adding optional
+ * gate shlichus honestly. The Awtsmoos renews every visible choice; Awtsmoos.com keeps
+ * mode, arena, level, statistic, and result controls compatible with all existing grids.
  */
+
+import { adventureShlichusCardContent } from './AdventureShlichusCard.js';
 import { forge } from './domForge.js';
 
-/**
- * Builds honest mode, arena, level, statistic, and result controls.
- * Each card is a covenant of navigation: many visible choices, one renewing source,
- * the Awtsmoos, guiding a hand into a clearly described next world.
- */
 export function modeCard(option, onPick) {
 	return forge({
 		tag: 'button',
@@ -33,14 +30,6 @@ export function modeCard(option, onPick) {
 	});
 }
 
-/**
- * Reveals the arena card behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} item The item value entering this behavior.
- * @param {*} onPick The on pick value entering this behavior.
- */
 export function arenaCard(item, onPick) {
 	return forge({
 		tag: 'button',
@@ -55,14 +44,6 @@ export function arenaCard(item, onPick) {
 	});
 }
 
-/**
- * Reveals the level card behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} item The item value entering this behavior.
- * @param {*} onPick The on pick value entering this behavior.
- */
 export function levelCard(item, onPick) {
 	const ui = item.adventureUi || {};
 	return forge({
@@ -76,19 +57,12 @@ export function levelCard(item, onPick) {
 				tag: 'small',
 				children: [ui.locked ? 'Locked: clear the prior gate.' : item.description]
 			},
-			{ tag: 'div', attrs: { class: 'levelMeta' }, children: levelMeta(item, ui) }
+			{ tag: 'div', attrs: { class: 'levelMeta' }, children: levelMeta(item, ui) },
+			...adventureShlichusCardContent(item)
 		]
 	});
 }
 
-/**
- * Reveals the stat behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} label The label value entering this behavior.
- * @param {*} value The value value entering this behavior.
- */
 export function stat(label, value) {
 	return {
 		tag: 'span',
@@ -99,15 +73,6 @@ export function stat(label, value) {
 	};
 }
 
-/**
- * Reveals the action behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} label The label value entering this behavior.
- * @param {*} kind The kind value entering this behavior.
- * @param {*} disabled The disabled value entering this behavior.
- */
 export function action(label, kind, disabled) {
 	return {
 		tag: 'button',
@@ -143,13 +108,12 @@ function levelAttrs(item, ui) {
 }
 
 function levelMeta(item, ui) {
-	const values = [
+	return [
 		item.difficulty || 'Easy',
 		`${item.adventure?.bots || 1} Kelipos`,
 		`${ui.stars || 0}★`,
 		`Best ${ui.best || '—'}`,
 		`◈ ${ui.perutasFound || 0}/${ui.perutasTotal || 0}`,
 		`✦ ${ui.hiddenFound || 0}/${ui.hiddenTotal || 0}`
-	];
-	return values.map(text => ({ tag: 'span', children: [text] }));
+	].map(text => ({ tag: 'span', children: [text] }));
 }

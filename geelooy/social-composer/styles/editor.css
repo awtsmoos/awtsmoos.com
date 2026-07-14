@@ -1,0 +1,115 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Blocks and verses appear as movable chambers with explicit controls instead of
+	a hidden contenteditable spell. Awtsmoos.com keeps every transformation visible
+	to the writer while the Awtsmoos gives language its ever-new inner life.
+*/
+
+.blockList,
+.sectionList,
+.subsectionList {
+	display: grid;
+	gap: 0.7rem;
+}
+
+.blockEditor,
+.sectionEditor,
+.subsectionEditor {
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 0.9rem;
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.blockEditor {
+	padding: 0.7rem;
+}
+
+.sectionEditor {
+	padding: 0.85rem;
+	background: rgba(64, 82, 144, 0.09);
+}
+
+.subsectionEditor {
+	padding: 0.75rem;
+	background: rgba(255, 255, 255, 0.025);
+}
+
+.blockHeader,
+.sectionHeader,
+.markToolbar,
+.mediaActions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.38rem;
+}
+
+.blockHeader,
+.sectionHeader {
+	margin-bottom: 0.55rem;
+}
+
+.blockHeader select {
+	width: min(220px, 100%);
+	margin-right: auto;
+}
+
+.sectionHeader > input {
+	flex: 1 1 260px;
+}
+
+.markToolbar {
+	margin-bottom: 0.45rem;
+}
+
+.markToolbar button,
+.blockHeader button,
+.sectionHeader button,
+.secondaryAction {
+	padding: 0.42rem 0.68rem;
+	font-size: 0.78rem;
+}
+
+.blockEditor textarea {
+	min-height: 6rem;
+	font-family: inherit;
+}
+
+.blockEditor:has(select option[value="code"]:checked) textarea {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.coordinate,
+.discussionCoordinate {
+	display: inline-block;
+	margin: 0 0 0.6rem;
+	padding: 0.32rem 0.48rem;
+	border-radius: 0.45rem;
+	background: rgba(255, 217, 120, 0.1);
+	color: #ffe59a;
+	font-size: 0.72rem;
+	overflow-wrap: anywhere;
+}
+
+.toggleLabel {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	align-self: center;
+}
+
+.toggleLabel input {
+	width: auto;
+}
+
+.questionPanel {
+	border-color: rgba(255, 217, 120, 0.3);
+	background: linear-gradient(145deg, rgba(85, 61, 118, 0.3), rgba(8, 12, 28, 0.82));
+}
+
+.kindPanel > label,
+.questionPanel > label {
+	margin-top: 0.7rem;
+}

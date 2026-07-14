@@ -1,0 +1,243 @@
+
+> test:resonance
+> node --test tests/resonance/*.test.mjs
+
+✔ Binah armor caps and records exact absorbed damage (1.950486ms)
+✔ damage beyond the vessel passes through and breaks armor cleanly (3.240424ms)
+✔ disabled empty resonance never changes incoming damage (0.335204ms)
+✔ disabled fighters neither gain nor spend Insight (63.692789ms)
+✔ varied clean hits build more Insight than repetition (0.491594ms)
+✔ full Insight empowers one qualifying hit and resets (0.335268ms)
+✔ Resonance Clash round-trips and creates only Chochmah and Binah pickups (76.333645ms)
+✔ Hands Covenant disables items, resonance, and every powerup (0.342173ms)
+✔ lobby and victory descriptors expose resonance semantics and fixed stats (1.232665ms)
+✔ resonance definitions are present and immutable (1.445862ms)
+✔ Resonance Clash cycles only Chochmah and Binah vessels (6.22768ms)
+✔ Adventure receives one deterministic persistent resonance vessel (0.76826ms)
+✔ new hit events update attacker, target, and longest chain (8.193107ms)
+✔ parried events count defense without hit or damage (0.29509ms)
+✔ thousands of increments and decay remain bounded scalar state (9.596349ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 994.623455
+RESONANCE_EXIT=0
+
+> test:adventure-shlichus
+> node --test tests/adventure/*.test.mjs
+
+✔ every Adventure gate receives three original vows plus one resonance vow (7.842394ms)
+✔ real run state fulfills all vows and persistence decorates gate cards (1.048797ms)
+✔ optional vow state does not alter required unlock metadata (1.190735ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 379.380465
+ADVENTURE_EXIT=0
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ thirty citizens cover every region with deterministic schedules (3.521005ms)
+✔ spatial hash returns stable sorted bounded nearby citizens (82.835312ms)
+✔ speaking persists acquaintance and relationship exactly once per action (128.863399ms)
+✔ archive, clinic, council, and guesthouse emit bounded civic evidence (82.627978ms)
+✔ ferry and kitchen validate passage and currency before mutation (17.453301ms)
+✔ training partner resolves through damage without winner or exile (2.07147ms)
+✔ training partner resolves through posture without winner or exile (0.438423ms)
+✔ a released buffered interaction still enters once (9.793454ms)
+✔ deep doorway overlap outranks a citizen and traversal marker (0.711453ms)
+✔ sixteen shlichus chains remain serializable and uniquely named (3.924639ms)
+✔ role-aware citizen mission advances only through ordered matching roles (1.595465ms)
+✔ shlichus advances only through its ordered physical events (2.564157ms)
+✔ market remains civic-only and validates before charging (0.856429ms)
+✔ trainer advances hands and feet through reputation and fee (0.485118ms)
+✔ guard edge opens a finite parry window and reverses one trainer hit (38.445503ms)
+✔ repeating one technique applies less posture pressure than varied rhythm (1.848214ms)
+✔ three-thousand fixed steps preserve every declared collection cap (1636.310413ms)
+✔ existing schema-v2 saves receive safe lived-world and social defaults (3.881804ms)
+✔ profile merge preserves permanent social progress and newer mutable state (8.702531ms)
+✔ server sanitation bounds expanded missions, citizens, doors, and ranks (1.648469ms)
+✔ all civic archetypes compile as ten physical doors and interiors (42.97573ms)
+✔ one physical interaction edge enters and exits the exact training room (56.979827ms)
+✔ interaction is buffered as one semantic edge (1.724228ms)
+✔ ranked punch chain spends stamina and names existing attack intent (17.378953ms)
+✔ patrol and clue nodes emit one unique evidence event (107.053625ms)
+✔ ladder moves only to its authored destination (5.133914ms)
+✔ Hands Covenant removes item state and ignores Open World ranks (25.502455ms)
+✔ ordinary Duel remains distinct from Hands Covenant (33.401573ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4777.74097
+OPENWORLD_EXIT=0
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (3.935948ms)
+✔ every world reference resolves to a real authored vessel (11.409693ms)
+✔ authors ten guardians with three monotonic phases (2.60797ms)
+✔ boss transitions from actual damage and emits visible events (20.798455ms)
+✔ weather is deterministic, advances explicitly, and emits named effects (2.708811ms)
+✔ authors twenty citizens, ten shops, and fifteen deterministic recipes (1.3153ms)
+✔ purchase validates before charging and grants exact material quantity (2.265082ms)
+✔ crafting is atomic and civic services are idempotent (1.800944ms)
+✔ compiles thirty unique bespoke Expedition roads (27.139801ms)
+✔ every settlement and climax owns the required authored nodes (39.953329ms)
+✔ migrates schema-v1 profile into complete schema-v2 state (7.345253ms)
+✔ opaque profile identity is stable after first assignment (21.242072ms)
+✔ conflict merge preserves permanent progress and newest remote selection (2.381224ms)
+✔ runs a persistent authored expedition from atlas to next road (865.499661ms)
+✔ every named mode round-trips through enforced match rules (89.977773ms)
+✔ expedition context changes only the human fighter and carries region truth (3.117519ms)
+✔ migrates old gate clears and Perutas into the connected world (4.142814ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (18.577034ms)
+✔ reveals only the authored next road after a clear (1.011422ms)
+✔ completes and claims an authored quest exactly once (6.290121ms)
+✔ equips only known owned gear in its declared slot (0.644023ms)
+✔ derived gear stats mutate real fighter values and weapon (3.687095ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1841.960723
+EXPEDITION_EXIT=0
+
+> audit:modules
+> node tools/module-smoke-audit.mjs
+
+{"vs":{"frame":10,"fighters":3,"map":"beit-midrash-bouncer"},"adventure":{"frame":10,"gate":60,"fighters":4,"collectibles":21}}
+MODULE_EXIT=0
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+ADVENTURE_AUDIT_EXIT=0
+
+> audit:feel
+> node tools/core-feel-audit.mjs
+
+{"simulation":{"hertz":60,"simulatedSteps":59,"renderSamples":121},"input":{"edgeDetected":true,"bufferedFrames":7,"consumedOnce":true},"shield":{"parryWindow":3,"shieldDamageApplied":true},"adventure":{"perutas":10,"exitOpened":true,"completed":true}}
+FEEL_EXIT=0
+
+> audit:winners
+> node tools/winner-rules-audit.mjs
+
+{"adventureWaitsForObjective":true,"adventureDefeatResolves":true,"versusLastStockWins":true}
+WINNER_EXIT=0
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_EXIT=0
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (1.805705ms)
+✔ preserves original server exports and registered factories (1.78107ms)
+✔ supports both original and options-object RealtimeClient constructors (7.156943ms)
+✔ preserves the complete original SefiraLobbyClient class surface (4.145553ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 461.803981
+WEBSOCKET_EXIT=0
+✔ merges independent input sources without one erasing another (34.607432ms)
+✔ measures latency, jitter, frame gaps, and human-readable quality (30.034735ms)
+✔ reconnect and checksum failure are visible without color dependence (0.803941ms)
+✔ browser and server produce the same schema-two checksum (28.792383ms)
+✔ browser integrity rejects corruption and counts the failure (10.445125ms)
+✔ legacy unsealed snapshot remains accepted and measured (0.589667ms)
+✔ stores minimum resume identity and clears it safely (58.821893ms)
+✔ public session snapshot never exposes the private resume token (4.624829ms)
+✔ reconnect policy remains bounded inside grace (3.000406ms)
+✔ two clients create, ready, start, and receive authoritative state (23.305696ms)
+✔ disconnect and resume preserve the same participant (1.360361ms)
+✔ owner migration and rematch remain deterministic (0.661793ms)
+✔ server computes movement from bounded input (5.234735ms)
+✔ server attacks wave and completes through boss damage (1.200423ms)
+✔ boss phases are derived from server health (0.594ms)
+✔ stale revision merges permanent progress and repository survives restart (89.3105ms)
+✔ exact revision accepts lawful spending and derives level (51.194586ms)
+✔ request router exposes additive pull and push without old lobby membership (7.326815ms)
+✔ creates and joins a private four-player room with safe snapshots (14.380482ms)
+✔ invalidates readiness after character or team changes (2.100259ms)
+✔ migrates ownership and deletes a room after immediate expiry (1.638266ms)
+✔ rejects a fifth player without corrupting room membership (40.559351ms)
+✔ seals canonical public state and detects corruption (19.818134ms)
+✔ records authoritative hit, damage, fall, and ring-out statistics (26.198357ms)
+✔ exports bounded public replay after a completed match (2.644252ms)
+✔ journal trims old snapshots and events to declared bounds (30.383203ms)
+✔ requires owner authority and unanimous readiness before starting (6.676717ms)
+✔ binds input to its socket fighter and ignores a stale sequence (1.4296ms)
+✔ zero-grace disconnect eliminates and returns a finished match to lobby (2.303232ms)
+✔ accepts only newer bounded input and moves the bound fighter (132.082772ms)
+✔ resolves attack damage and guarded reduction on the server (40.598035ms)
+✔ owns ring-out stocks and free-for-all victory (6.969026ms)
+✔ resolves team victory after the opposing team is eliminated (5.651379ms)
+✔ team match rejects one team and accepts opposing teams (106.721736ms)
+✔ issues strict opaque resume tokens (2.213458ms)
+✔ declares capabilities and safe aggregate health without membership (5.676574ms)
+✔ echoes client ping time beside a server timestamp (0.457473ms)
+✔ enforces independent input, ping, and command windows (0.628524ms)
+✔ lived-city profile survives repository restart (6.795513ms)
+✔ current revision permits spending while stale civic progress cannot regress (15.133404ms)
+✔ request route returns match identity, events, snapshots, and final state (18.864621ms)
+✔ request route rejects replay before authoritative completion (2.081038ms)
+✔ capabilities advertise resonance additively beside legacy features (1.374091ms)
+✔ disconnect neutralizes then resume restores the same fighter and identity (68.863563ms)
+✔ grace expiry eliminates a disconnected fighter and migrates ownership (6.754437ms)
+✔ intentional leave removes immediately without scheduling grace (2.761704ms)
+✔ spectator watches an active match without entering player equations (49.623223ms)
+✔ spectator capacity is independent and bounded (174.380336ms)
+✔ preserves every original Sefira protocol name while adding match names (3.853077ms)
+✔ preserves original server exports and registered factories (3.318716ms)
+✔ supports both original and options-object RealtimeClient constructors (19.045806ms)
+✔ preserves the complete original SefiraLobbyClient class surface (2.713015ms)
+ℹ tests 52
+ℹ suites 0
+ℹ pass 52
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3532.656399
+SERVER_EXIT=0
+Checking formatting...
+[warn] geelooy/games/sefira-clash/js/core/loop.js
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.
+FORMAT_EXIT=1
+DIFF_EXIT=0
+=== DELETED ===

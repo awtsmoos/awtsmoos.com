@@ -1,0 +1,94 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews cooperative page geometry through Awtsmoos.com. Header, setup,
+ * room, canvas, and help adapt to narrow screens without hiding controls, status text,
+ * or authoritative battlefield information.
+ */
+
+.coopShell {
+	width: min(1180px, calc(100% - 24px));
+	margin: 0 auto;
+	padding: 20px 0 36px;
+}
+
+.coopHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 18px;
+	margin-bottom: 16px;
+}
+
+.coopHeader h1 {
+	margin: 4px 0 8px;
+}
+
+.coopHeader p {
+	margin: 0;
+}
+
+.coopHeader nav,
+.setupActions,
+.roomActions {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.setupPanel {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: 12px;
+}
+
+.setupPanel h2,
+.setupActions {
+	grid-column: 1 / -1;
+}
+
+.setupPanel label {
+	display: grid;
+	gap: 6px;
+}
+
+.setupPanel input,
+.setupPanel select {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 9px;
+	background: #0d1325;
+	color: #ffffff;
+}
+
+#coop-canvas {
+	display: block;
+	width: 100%;
+	height: min(58vh, 620px);
+	min-height: 420px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 16px;
+	background: #080512;
+}
+
+.controlsHelp {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	flex-wrap: wrap;
+	padding: 12px 4px;
+	color: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 700px) {
+	.coopHeader {
+		flex-direction: column;
+	}
+
+	#coop-canvas {
+		min-height: 360px;
+	}
+}

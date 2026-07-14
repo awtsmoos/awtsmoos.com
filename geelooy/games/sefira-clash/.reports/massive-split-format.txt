@@ -1,0 +1,19 @@
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizenFactory.js 748ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensBinah.js 182ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensChesed.js 176ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensChochmah.js 18ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensGevurah.js 5ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensHod.js 9ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensKeser.js 6ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensLower.js 10ms (unchanged)
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensMalchus.js 13ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensNetzach.js 6ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensTiferes.js 23ms
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensUpper.js 7ms (unchanged)
+geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensYesod.js 93ms
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicCommunity.js 42ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicKnowledgeCare.js 45ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicPassageProvision.js 28ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicPresentation.js 52ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicResult.js 8ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCivicService.js 10ms

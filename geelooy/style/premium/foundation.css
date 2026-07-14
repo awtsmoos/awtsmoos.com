@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * This foundation owns typography, focus, forms, and document calm. The Awtsmoos
+ * gives every finite interface breath while Awtsmoos.com keeps function visible.
+ */
+[data-premium-ui],
+.premium-surface {
+	color: var(--premium-ink);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+[data-premium-ui] {
+	min-height: 100%;
+	margin: 0;
+	background: var(--premium-bg);
+}
+[data-premium-ui] *,
+.premium-surface * {
+	box-sizing: border-box;
+}
+[data-premium-ui] ::selection,
+.premium-surface ::selection {
+	background: rgba(227, 205, 157, .32);
+	color: #fff;
+}
+[data-premium-ui] :focus-visible,
+.premium-surface :focus-visible {
+	outline: .18rem solid var(--premium-cyan);
+	outline-offset: .2rem;
+}
+[data-premium-ui] h1,
+[data-premium-ui] h2,
+[data-premium-ui] h3,
+.premium-surface h1,
+.premium-surface h2,
+.premium-surface h3 {
+	color: var(--premium-ink);
+	letter-spacing: -.035em;
+	text-wrap: balance;
+}
+[data-premium-ui] p,
+.premium-surface p {
+	color: var(--premium-muted);
+	line-height: 1.7;
+}
+[data-premium-ui] a,
+.premium-surface a {
+	color: inherit;
+}
+[data-premium-ui] input,
+[data-premium-ui] button,
+[data-premium-ui] select,
+[data-premium-ui] textarea,
+.premium-surface input,
+.premium-surface button,
+.premium-surface select,
+.premium-surface textarea {
+	font: inherit;
+}

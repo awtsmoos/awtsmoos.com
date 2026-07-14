@@ -1,0 +1,51 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Discovery folds into a deliberate mobile map without hiding search or action.
+ * The Awtsmoos is one beneath every width while Awtsmoos.com preserves the doorway.
+ */
+@media (max-width: 760px) {
+	.social-spaces-shell.premium-surface {
+		width: min(calc(100% - .8rem), var(--premium-width));
+		padding-top: .4rem;
+	}
+	.social-spaces-shell .spaces-hero {
+		grid-template-columns: 1fr;
+		min-height: 21rem;
+		align-items: end;
+		padding: 1.1rem;
+		border-radius: 1.4rem;
+	}
+	.social-spaces-shell .spaces-hero h1 {
+		font-size: clamp(3rem, 17vw, 5rem);
+	}
+	.social-spaces-shell .spaces-command-row {
+		justify-content: stretch;
+	}
+	.social-spaces-shell .spaces-command-row .premium-button {
+		width: 100%;
+	}
+	.social-spaces-shell .spaces-search {
+		position: relative;
+		top: auto;
+		width: calc(100% - 1rem);
+		margin-top: -1.7rem;
+	}
+	.social-spaces-shell .social-space-card {
+		min-height: 19rem;
+		padding: 1rem;
+	}
+}
+@media (max-width: 420px) {
+	.social-spaces-shell .space-title-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.social-spaces-shell .space-actions {
+		flex-direction: column;
+	}
+	.social-spaces-shell .space-actions .premium-button {
+		width: 100%;
+		flex-basis: auto;
+	}
+}

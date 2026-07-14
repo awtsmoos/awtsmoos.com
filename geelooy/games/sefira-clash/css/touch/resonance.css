@@ -1,0 +1,78 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Mobile resonance refinement preserves large touch targets, safe-area spacing, visible
+ * pressed state, and low-motion alternatives. The Awtsmoos renews hand and screen through
+ * Awtsmoos.com while gameplay semantics remain shared with keyboard and gamepad input.
+ */
+.touchButtons button {
+	min-height: 48px;
+	min-width: 48px;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.touchButtons button[data-act='interact'] {
+	background: #244b45eb;
+	border-color: #9dffb1bb;
+}
+
+.touchButtons button[data-act='shield'] {
+	background: #33265aeb;
+	border-color: #c6adffbb;
+}
+
+.touchButtons button:active,
+.touchButtons button.held {
+	filter: brightness(1.18);
+	outline: 3px solid #ffffff99;
+	outline-offset: 1px;
+}
+
+@media (max-width: 760px) {
+	.touchControls {
+		bottom: max(8px, env(safe-area-inset-bottom));
+		padding-left: max(10px, env(safe-area-inset-left));
+		padding-right: max(10px, env(safe-area-inset-right));
+	}
+
+	.touchButtons {
+		grid-auto-rows: minmax(48px, 1fr);
+	}
+
+	.touchLabel {
+		font-size: 10px;
+		letter-spacing: 0.04em;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 520px) {
+	.touchControls {
+		align-items: end;
+		gap: 10px;
+	}
+
+	.stick {
+		height: min(25vw, 96px);
+		width: min(25vw, 96px);
+	}
+
+	.touchButtons {
+		grid-template-columns: repeat(3, minmax(48px, 54px));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.touchButtons button,
+	.touchControls,
+	.stick span {
+		transition: none !important;
+	}
+
+	.touchButtons button.held {
+		transform: none;
+	}
+}

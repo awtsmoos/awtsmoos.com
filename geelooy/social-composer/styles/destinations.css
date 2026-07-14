@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.destinationWorkspace {
+	display: grid;
+	grid-template-columns: minmax(14rem, 0.75fr) minmax(18rem, 1.25fr);
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.destinationResults,
+.seriesBrowser {
+	max-height: 26rem;
+	overflow: auto;
+	padding: 0.5rem;
+	border: 1px solid var(--line);
+	border-radius: 0.85rem;
+	background: color-mix(in srgb, var(--surface), transparent 10%);
+}
+
+.heichelChoice {
+	padding: 0.75rem;
+	border-bottom: 1px solid var(--line);
+}
+
+.heichelChoice:last-child {
+	border-bottom: 0;
+}
+
+.heichelChoice p,
+.heichelChoice small {
+	display: block;
+	margin: 0.35rem 0 0;
+	color: var(--muted);
+}
+
+.heichelOpenButton,
+.seriesSelectButton {
+	width: 100%;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: 700;
+	text-align: left;
+}
+
+.seriesChoice {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.45rem;
+	align-items: center;
+	margin-left: calc(var(--series-depth, 0) * 1rem);
+	padding: 0.35rem 0;
+	border-bottom: 1px dashed var(--line);
+}
+
+.seriesSelectButton small {
+	display: block;
+	margin-top: 0.2rem;
+	color: var(--muted);
+	font-weight: 400;
+}
+
+.destinationSummary,
+.publicationPlanView,
+.publicationPlanResult {
+	white-space: pre-wrap;
+}
+
+.placementComposer {
+	display: grid;
+	grid-template-columns: minmax(8rem, 0.35fr) minmax(12rem, 1fr);
+	gap: 0.75rem;
+	margin: 1rem 0;
+}
+
+.secondaryPlacementCard {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 0.6rem;
+	padding: 0.75rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+}
+
+.secondaryPlacementCard small {
+	display: block;
+	margin-top: 0.2rem;
+	color: var(--muted);
+}
+
+.creationGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+	padding: 1rem 0;
+}
+
+.creationGrid textarea,
+.creationGrid button {
+	grid-column: 1 / -1;
+}
+
+.emptyState {
+	color: var(--muted);
+	font-style: italic;
+}
+
+@media (max-width: 880px) {
+	.destinationWorkspace,
+	.creationGrid,
+	.placementComposer {
+		grid-template-columns: 1fr;
+	}
+}

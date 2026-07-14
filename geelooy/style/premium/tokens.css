@@ -1,0 +1,32 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * These measured tokens are the keilim of the premium surface. The Awtsmoos,
+ * beyond measure, creates every color and interval anew within Awtsmoos.com.
+ */
+:root {
+	--premium-bg: #05070d;
+	--premium-bg-deep: #020308;
+	--premium-panel: rgba(13, 17, 27, .78);
+	--premium-panel-strong: rgba(10, 13, 22, .94);
+	--premium-panel-soft: rgba(255, 255, 255, .035);
+	--premium-ink: #f5f1e8;
+	--premium-muted: #a8afbd;
+	--premium-soft: #737c8d;
+	--premium-line: rgba(255, 255, 255, .11);
+	--premium-line-strong: rgba(227, 205, 157, .34);
+	--premium-gold: #e3cd9d;
+	--premium-gold-bright: #f6e6bd;
+	--premium-cyan: #87d9e9;
+	--premium-violet: #a9a4e8;
+	--premium-rose: #d79da9;
+	--premium-success: #9fd8b4;
+	--premium-danger: #ec9ca7;
+	--premium-radius-small: .8rem;
+	--premium-radius: 1.25rem;
+	--premium-radius-large: 2rem;
+	--premium-shadow: 0 2rem 6rem rgba(0, 0, 0, .38);
+	--premium-shadow-soft: 0 1rem 3rem rgba(0, 0, 0, .24);
+	--premium-width: 92rem;
+	--premium-ease: cubic-bezier(.2, .75, .2, 1);
+}

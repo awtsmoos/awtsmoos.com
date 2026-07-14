@@ -1,0 +1,116 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Heichel shell becomes one continuous premium reading world. The Awtsmoos
+ * gives every region unity while Awtsmoos.com removes visual seams and dead weight.
+ */
+.heichel-os-document,
+.heichel-os-page,
+.heichel-mobile-navigation {
+	background:
+		radial-gradient(circle at 12% -6%, rgba(135, 217, 233, .14), transparent 30rem),
+		radial-gradient(circle at 86% 0%, rgba(227, 205, 157, .12), transparent 28rem),
+		var(--heichel-bg);
+	color: var(--heichel-ink);
+}
+.heichel-mobile-navigation {
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.heichel-mobile-navigation::before {
+	position: fixed;
+	z-index: 0;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, .02) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, .02) 1px, transparent 1px);
+	background-size: 4rem 4rem;
+	content: "";
+	mask-image: radial-gradient(circle at 50% 22%, black, transparent 80%);
+	pointer-events: none;
+}
+.heichel-mobile-navigation .geelooy-main-stage {
+	position: relative;
+	z-index: 1;
+	width: min(100%, 92rem);
+	gap: clamp(1rem, 2.4vw, 1.7rem);
+	padding-inline: clamp(.65rem, 3vw, 2.5rem);
+}
+.heichel-mobile-navigation .heichel-nav-panel {
+	overflow: visible;
+	gap: clamp(1rem, 2vw, 1.4rem);
+	padding: clamp(.75rem, 2vw, 1.25rem);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-large);
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, .04), transparent 48%),
+		var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-lift);
+	backdrop-filter: blur(1.25rem) saturate(1.12);
+}
+.heichel-mobile-navigation .void-error {
+	width: min(calc(100% - 2rem), 48rem);
+	margin: 12vh auto;
+	padding: 2rem;
+	border: 1px solid rgba(236, 156, 167, .35);
+	border-radius: var(--heichel-radius-large);
+	background: var(--heichel-panel-strong);
+	color: #f4d7dc;
+	box-shadow: var(--heichel-shadow-lift);
+}
+.heichel-shell-boot {
+	display: grid;
+	min-height: 100dvh;
+	place-items: center;
+	padding: 1rem;
+}
+.heichel-shell-boot__panel {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: 1.2rem;
+	width: min(100%, 44rem);
+	padding: clamp(1.2rem, 4vw, 2.4rem);
+}
+.heichel-shell-boot__seal {
+	display: grid;
+	width: clamp(4rem, 11vw, 6.5rem);
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--premium-line-strong);
+	border-radius: 1.4rem 50% 1.4rem 50%;
+	background: linear-gradient(145deg, rgba(227, 205, 157, .2), rgba(135, 217, 233, .08));
+	color: var(--premium-gold-bright);
+	font-size: clamp(1.5rem, 4vw, 2.4rem);
+}
+.heichel-shell-boot__copy h1 {
+	margin: 0;
+	font-size: clamp(2rem, 6vw, 4rem);
+}
+.heichel-shell-boot__copy p:last-child {
+	margin-bottom: 0;
+}
+.heichel-shell-boot__progress {
+	grid-column: 1 / -1;
+	overflow: hidden;
+	height: .28rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .06);
+}
+.heichel-shell-boot__progress span {
+	display: block;
+	width: 42%;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--premium-gold), var(--premium-cyan));
+	animation: boot-progress 1.4s ease-in-out infinite alternate;
+}
+@keyframes boot-progress {
+	to {
+		width: 86%;
+	}
+}
+@media (max-width: 560px) {
+	.heichel-shell-boot__panel {
+		grid-template-columns: 1fr;
+	}
+}

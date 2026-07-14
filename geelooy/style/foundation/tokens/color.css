@@ -1,15 +1,50 @@
-/* B"H color tokens: one palette, many vessels. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * One restrained palette gives every existing Geelooy surface a common source.
+ */
 :root {
-  --awt-bg-deep: #080c1a;
-  --awt-bg-night: #050812;
-  --awt-vellum: #fffaf1;
-  --awt-vellum-2: #f8f0e2;
-  --awt-ink: #171624;
-  --awt-ink-soft: #6e6877;
-  --awt-gold: #b9853f;
-  --awt-gold-light: #f5ca70;
-  --awt-line: rgba(67, 46, 24, .14);
-  --awt-dark-line: rgba(255, 255, 255, .14);
-  --awt-danger: #9d2f16;
-  --awt-success: #2f7d48;
+	color-scheme: light dark;
+	--awt-bg-deep: #07090f;
+	--awt-bg-night: #0b0e16;
+	--awt-surface: #ffffff;
+	--awt-surface-soft: #f6f7f9;
+	--awt-surface-muted: #edf0f4;
+	--awt-vellum: #fbfaf7;
+	--awt-vellum-2: #f3efe6;
+	--awt-ink: #171a21;
+	--awt-ink-soft: #5d6572;
+	--awt-ink-faint: #828b99;
+	--awt-gold: #9b7437;
+	--awt-gold-light: #d7b36a;
+	--awt-accent: #236f73;
+	--awt-accent-soft: #d7eeee;
+	--awt-line: rgba(23, 26, 33, .12);
+	--awt-line-strong: rgba(23, 26, 33, .22);
+	--awt-dark-line: rgba(255, 255, 255, .12);
+	--awt-danger: #a33b4a;
+	--awt-success: #2f7d58;
+	--awt-warning: #9a6a1f;
+	--g-text: var(--awt-ink);
+	--g-text-2: var(--awt-ink-soft);
+	--g-muted: var(--awt-ink-soft);
+	--g-faint: var(--awt-ink-faint);
+	--g-border: var(--awt-line);
+	--g-border-strong: var(--awt-line-strong);
+	--g-accent: var(--awt-accent);
+	--g-focus: #268b91;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--awt-surface: #11151d;
+		--awt-surface-soft: #171c25;
+		--awt-surface-muted: #202733;
+		--awt-vellum: #12161e;
+		--awt-vellum-2: #1a202a;
+		--awt-ink: #f4f2ec;
+		--awt-ink-soft: #b3bac5;
+		--awt-ink-faint: #8b95a4;
+		--awt-line: rgba(255, 255, 255, .1);
+		--awt-line-strong: rgba(255, 255, 255, .2);
+	}
 }

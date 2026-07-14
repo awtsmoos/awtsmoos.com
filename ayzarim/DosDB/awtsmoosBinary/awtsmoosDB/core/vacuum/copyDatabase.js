@@ -2,11 +2,9 @@
 
 /**
  * @file core/vacuum/copyDatabase.js
- * @chapter Reachable Names Are Spoken Into A Clean Vessel
- * @description
- * Copies logical root values while excluding pointer-bearing derived indexes.
- * Sequence-backed root lists use bounded splices before search and vector graphs
- * are rebuilt once against destination-owned allocations.
+ * @chapter Reachable Names And Compact Vectors Enter A Clean Destination Vessel
+ * @description Copies logical root values while excluding pointer-bearing derived
+ * indexes, then rebuilds ordinary or detached vector graphs against new pointers.
  */
 
 const derivedIndexes = require('./derivedIndexes.js');
@@ -45,7 +43,11 @@ function copyDatabase(source, destination, options = {}) {
 		context.stats.rootKeys++;
 	}
 
-	context.stats.rebuiltIndexes = derivedIndexes.rebuild(destination, configuration);
+	context.stats.rebuiltIndexes = derivedIndexes.rebuild(
+		source,
+		destination,
+		configuration
+	);
 	return context.stats;
 }
 

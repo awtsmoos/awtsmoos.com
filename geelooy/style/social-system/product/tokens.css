@@ -1,14 +1,21 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Product tokens are aliases of the canonical foundation, never a competing palette.
+ */
 :root {
-  --p-bg: #070b12;
-  --p-bg-2: #101720;
-  --p-panel: #11151c;
-  --p-panel-2: #171d26;
-  --p-line: rgba(148, 163, 184, .22);
-  --p-line-strong: rgba(203, 213, 225, .32);
-  --p-text: #f8fafc;
-  --p-muted: #9aa8bd;
-  --p-accent: #13c8b5;
-  --p-blue: #10213d;
-  --p-radius: 22px;
-  --p-shadow: 0 18px 50px rgba(0, 0, 0, .34);
+	--p-bg: var(--awt-bg-deep);
+	--p-bg-2: var(--awt-bg-night);
+	--p-panel: var(--awt-surface);
+	--p-panel-2: var(--awt-surface-soft);
+	--p-line: var(--awt-line);
+	--p-line-strong: var(--awt-line-strong);
+	--p-text: var(--awt-ink);
+	--p-muted: var(--awt-ink-soft);
+	--p-faint: var(--awt-ink-faint);
+	--p-accent: var(--awt-accent);
+	--p-accent-soft: var(--awt-accent-soft);
+	--p-blue: var(--awt-surface-muted);
+	--p-radius: var(--radius-l);
+	--p-shadow: var(--shadow-card);
 }

@@ -2,37 +2,43 @@
 // Boruch Hashem
 // Blessed is He
 
-const crypto = require("node:crypto");
-const { readFrame } = require("./frameReader.js");
-const { sendFrame } = require("./frameWriter.js");
-const Limits = require("./frameLimits.js");
-const Live = require("./clientLiveness.js");
-const { dispatchClientFrame } = require("./frameDispatch.js");
-const { collectTextMessage } = require("./textFragments.js");
+const crypto = require('node:crypto');
+const { readFrame } = require('./frameReader.js');
+const { sendFrame } = require('./frameWriter.js');
+const Limits = require('./frameLimits.js');
+const Live = require('./clientLiveness.js');
+const { dispatchClientFrame } = require('./frameDispatch.js');
+const { collectTextMessage } = require('./textFragments.js');
 
 /**
- * B"H
- *
- * A session is a bounded vessel whose ceiling agrees with the native tunnel.
- * The Awtsmoos renews chunk and frame; Awtsmoos.com rejects declared excess
- * before concatenation while preserving established eight-megabyte responses.
+ * @file Owns one bounded socket client, its liveness, fragments, and trusted identity.
+ * @description The Awtsmoos renews chunk, frame, and authenticated account as
+ * separate measured vessels. Awtsmoos.com stores only frozen sanitized identity,
+ * while established buffering, aliases, and eight-megabyte responses remain intact.
  */
 
 const MAXIMUM_BUFFER_BYTES = Limits.maximumBufferBytes();
 const MAXIMUM_PAYLOAD_BYTES = Limits.maximumPayloadBytes();
 
-function createSocketClient(socket) {
+function trustedIdentity(metadata = {}) {
+	return metadata.identity
+		? Object.freeze({ ...metadata.identity })
+		: null;
+}
+
+function createSocketClient(socket, metadata = {}) {
 	const client = {
-		id: `${Date.now()}_${crypto.randomBytes(8).toString("hex")}`,
-		socket,
 		aliasId: null,
-		isAlive: true,
 		buffer: Buffer.alloc(0),
-		fragments: [],
 		fragmentOpcode: null,
-		lastTransportError: "",
+		fragments: [],
+		id: `${Date.now()}_${crypto.randomBytes(8).toString('hex')}`,
+		identity: trustedIdentity(metadata),
+		isAlive: true,
+		lastTransportError: '',
+		socket,
 		send(message) {
-			const payload = typeof message === "string"
+			const payload = typeof message === 'string'
 				? message
 				: JSON.stringify(message);
 			sendFrame(socket, payload);
@@ -43,16 +49,14 @@ function createSocketClient(socket) {
 }
 
 function attachSocketClient(server, client, head) {
-	if (head?.length) {
-		processClientBuffer(server, client, head);
-	}
-	client.socket.on("data", chunk => {
+	if (head?.length) processClientBuffer(server, client, head);
+	client.socket.on('data', (chunk) => {
 		processClientBuffer(server, client, chunk);
 	});
-	client.socket.on("close", () => {
+	client.socket.on('close', () => {
 		server.removeClient(client);
 	});
-	client.socket.on("error", error => {
+	client.socket.on('error', (error) => {
 		client.lastTransportError = `socket_error:${error.message}`;
 		server.removeClient(client);
 	});
@@ -68,11 +72,7 @@ function processClientBuffer(server, client, chunk) {
 		);
 		return;
 	}
-	client.buffer = Buffer.concat([
-		client.buffer || Buffer.alloc(0),
-		chunk
-	]);
-
+	client.buffer = Buffer.concat([client.buffer || Buffer.alloc(0), chunk]);
 	while (client.buffer.length) {
 		let parsed;
 		try {
@@ -83,17 +83,15 @@ function processClientBuffer(server, client, chunk) {
 			closeForTransportError(client, error.message);
 			return;
 		}
-		if (!parsed) {
-			return;
-		}
+		if (!parsed) return;
 		client.buffer = client.buffer.subarray(parsed.consumed);
 		dispatchClientFrame(server, client, parsed.frame);
 	}
 }
 
 function closeForTransportError(client, reason) {
-	client.lastTransportError = String(reason || "websocket_transport_error");
-	console.error("B\"H WS TRANSPORT CLOSE", {
+	client.lastTransportError = String(reason || 'websocket_transport_error');
+	console.error('B"H WS TRANSPORT CLOSE', {
 		clientId: client.id,
 		reason: client.lastTransportError
 	});

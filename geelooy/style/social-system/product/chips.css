@@ -1,50 +1,52 @@
 /* B"H
- * Second pass Step 1a: chips become tiny glass controls.
- * A chip is not a loose label; it is a touchable, focusable, overflow-safe atom
- * of product navigation with shared depth, motion, and current-state language.
+ * Boruch Hashem
+ * Blessed is He
+ * Chips are compact metadata and filter controls, not glowing miniature cards.
  */
-.p-chip,
-.home-suggestion-row a,
-:where(.chip, .filter-chip, [data-chip]) {
-  align-items: center;
-  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(248,250,252,.68));
-  border: 1px solid var(--p-line, rgba(15,23,42,.12));
-  border-radius: var(--radius-pill, 999px);
-  box-shadow: 0 6px 18px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.72);
-  color: var(--p-muted, #64748b);
-  display: inline-flex;
-  font-size: .82rem;
-  font-weight: 850;
-  gap: .35rem;
-  justify-content: center;
-  line-height: 1.1;
-  max-width: 100%;
-  min-height: 36px;
-  min-width: 44px;
-  overflow: hidden;
-  padding: .48rem .78rem;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  touch-action: manipulation;
-  transition: transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), background var(--motion-fast) var(--ease-soft);
-  white-space: nowrap;
+:where(.p-chip, .home-suggestion-row a, .chip, .filter-chip, [data-chip]) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .35rem;
+	max-width: 100%;
+	min-width: 36px;
+	min-height: 32px;
+	padding: .4rem .65rem;
+	overflow: hidden;
+	border: 1px solid var(--p-line);
+	border-radius: var(--radius-pill);
+	background: var(--p-panel-2);
+	box-shadow: none;
+	color: var(--p-muted);
+	font-size: var(--type-small);
+	font-weight: 720;
+	line-height: 1.1;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	transition: border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), transform var(--motion-fast) var(--ease-snap);
 }
-
-.p-chip:is(:hover, :focus-visible),
-.home-suggestion-row a:is(:hover, :focus-visible),
-:where(.chip, .filter-chip, [data-chip]):is(:hover, :focus-visible) {
-  background: rgba(255,255,255,.94);
-  border-color: var(--p-line-strong, rgba(245,202,112,.52));
-  box-shadow: 0 12px 26px rgba(15,23,42,.10);
-  color: var(--p-text, #0f172a);
-  transform: translateY(var(--motion-hover-lift));
+:where(.p-chip, .home-suggestion-row a, .chip, .filter-chip, [data-chip]):is(:hover, :focus-visible) {
+	border-color: var(--p-line-strong);
+	background: var(--p-panel);
+	color: var(--p-text);
+	transform: translateY(var(--motion-hover-lift));
 }
-
-.p-chip[aria-current="true"],
-.p-chip[aria-pressed="true"],
-.home-suggestion-row a[aria-current="page"],
-:where(.chip, .filter-chip, [data-chip]).is-active {
-  background: linear-gradient(135deg, rgba(245,202,112,.28), rgba(255,255,255,.92));
-  border-color: rgba(245,202,112,.6);
-  color: var(--p-text, #0f172a);
+:where(.p-chip[aria-current="true"], .p-chip[aria-pressed="true"], .home-suggestion-row a[aria-current="page"], .chip.is-active, .filter-chip.is-active, [data-chip].is-active) {
+	border-color: color-mix(in srgb, var(--p-accent) 42%, var(--p-line));
+	background: color-mix(in srgb, var(--p-accent) 10%, var(--p-panel));
+	color: var(--p-accent);
+}
+:where(.p-chip, .chip, .filter-chip, [data-chip])::before {
+	width: .38rem;
+	height: .38rem;
+	border-radius: 50%;
+	background: currentColor;
+	content: "";
+	opacity: .65;
+}
+@media (pointer: coarse) {
+	:where(.p-chip, .home-suggestion-row a, .chip, .filter-chip, [data-chip]):hover {
+		transform: none;
+	}
 }

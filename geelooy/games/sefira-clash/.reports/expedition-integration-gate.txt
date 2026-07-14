@@ -1,0 +1,16 @@
+=== LINE VIOLATIONS ===
+     155 geelooy/games/sefira-clash/js/menu/menuCards.js
+     124 geelooy/games/sefira-clash/js/menu/gridViews.js
+     167 geelooy/games/sefira-clash/js/session/AdventureProgress.js
+=== SYNTAX ===
+=== INTEGRATION ===
+file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/[eval1]:37
+const weaponIds = new Set((weapons.WEAPONS || weapons.default || []).map(item => item.id));
+                                                                     ^
+
+TypeError: (weapons.WEAPONS || weapons.default || []).map is not a function
+    at file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/[eval1]:37:70
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.17.0
+INTEGRATION_EXIT=1

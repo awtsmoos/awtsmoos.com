@@ -1,13 +1,11 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * One fighter is a server-owned vessel for identity, intention, health, and
  * position. The Awtsmoos renews every finite state; Awtsmoos.com refuses to let
- * a browser appoint itself judge of movement, damage, stocks, or victory.
+ * a browser appoint itself judge of movement, damage, stocks, spawn, or victory.
  */
-
 const { randomUUID } = require("node:crypto");
 const STARTING_STOCKS = 3;
 
@@ -24,6 +22,7 @@ class ArenaFighter {
 		this.role = "fighter";
 		this.input = { attack: false, axis: 0, jump: false };
 		this.score = 0;
+		this.spawnPoint = null;
 		this.stocks = STARTING_STOCKS;
 		this.respawn();
 	}
@@ -58,6 +57,11 @@ class ArenaFighter {
 		this.vx = 0;
 	}
 
+	setSpawnPoint(point) {
+		this.spawnPoint = { x: point.x, y: point.y };
+		this.respawn();
+	}
+
 	consumeImpulse(name) {
 		const value = this.input[name] === true;
 		this.input[name] = false;
@@ -65,14 +69,15 @@ class ArenaFighter {
 	}
 
 	respawn() {
-		this.x = 180 + (this.index % 4) * 280;
-		this.y = 420;
+		this.x = this.spawnPoint?.x ?? 180 + (this.index % 4) * 280;
+		this.y = this.spawnPoint?.y ?? 420;
 		this.vx = 0;
 		this.vy = 0;
 		this.facing = this.index % 2 === 0 ? 1 : -1;
 		this.health = 100;
 		this.attackFrames = 0;
 		this.attackCooldown = 0;
+		this.hazardCooldown = 0;
 		this.hitTargets = new Set();
 		this.invulnerableFrames = 30;
 		this.eliminated = this.stocks <= 0;

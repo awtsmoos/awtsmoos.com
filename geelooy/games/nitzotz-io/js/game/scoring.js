@@ -1,4 +1,7 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+import { visiblePeers } from '../multiplayer/state.js';
 
 /** Radius grows sublinearly, preserving control while unlocking larger prey. */
 export function radiusForMass(mass) {
@@ -12,10 +15,40 @@ export function feedHole(hole, mass, score = mass) {
 	hole.r = radiusForMass(hole.mass);
 }
 
-/** Produce a stable leaderboard ordered by mass and then score. */
+/**
+ * Produce one visual leaderboard containing authoritative local rivals and
+ * observational live peers. Peer mass can never affect campaign rank or stars.
+ */
 export function rankings(world) {
-	const entries = [
-		{ id: 'player', name: 'You', mass: world.player.mass, score: world.score, player: true },
+	return [
+		...localRankings(world),
+		...visiblePeers(world).map(peer => ({
+			id: peer.peerId,
+			name: peer.name,
+			archetype: 'LIVE HEVRUTA',
+			mass: peer.mass,
+			score: 0,
+			peer: true,
+			player: false
+		}))
+	].sort(compareRank);
+}
+
+/** Calculate campaign-authoritative rank from local simulation only. */
+export function playerRank(world) {
+	return localRankings(world).sort(compareRank).findIndex(entry => entry.player) + 1;
+}
+
+/** Return the local player and deterministic rivals without peer observations. */
+export function localRankings(world) {
+	return [
+		{
+			id: 'player',
+			name: 'You',
+			mass: world.player.mass,
+			score: world.score,
+			player: true
+		},
 		...world.rivals.map(rival => ({
 			id: rival.id,
 			name: rival.name,
@@ -25,9 +58,8 @@ export function rankings(world) {
 			player: false
 		}))
 	];
-	return entries.sort((left, right) => right.mass - left.mass || right.score - left.score);
 }
 
-export function playerRank(world) {
-	return rankings(world).findIndex(entry => entry.player) + 1;
+function compareRank(left, right) {
+	return right.mass - left.mass || right.score - left.score;
 }

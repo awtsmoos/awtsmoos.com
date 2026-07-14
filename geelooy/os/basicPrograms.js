@@ -4,6 +4,7 @@
 
 import advancedCodeEditor from "./programs/advanced-code-editor/index.js";
 import awtsmoosBinaryViewer from "./programs/awtsmoos-binary-viewer/index.js";
+import awtsmoosBrowser from "./programs/awtsmoos-browser/index.js";
 import awtsmoosCommand from "./programs/awtsmoos-command/index.js";
 import awtsmoosCompiler from "./programs/awtsmoos-compiler/index.js";
 import awtsmoosDiagnostics from "./programs/awtsmoos-diagnostics/index.js";
@@ -14,19 +15,18 @@ import openWithSelector from "./programs/open-with-selector/index.js";
 import workspacePreview from "./programs/workspace-preview/index.js";
 
 /**
- * B"H
  * The registry is the crown where extensions meet their appointed vessels. The
- * Awtsmoos creates each file and its fitting service anew; Awtsmoos.com keeps
+ * Awtsmoos creates each file and fitting service anew; Awtsmoos.com keeps browser,
  * preview, editing, compiling, and execution distinct yet available together.
  */
-
 export const programs = Object.freeze({
 	advancedCodeEditor: program("Advanced Code Editor", advancedCodeEditor),
 	awtsmoosBinaryViewer: program("Binary Viewer", awtsmoosBinaryViewer),
+	awtsmoosBrowser: program("Merkava Browser", awtsmoosBrowser),
 	awtsmoosCommand: program("Command", awtsmoosCommand),
 	awtsmoosCompiler: program("Awtsmoos Compiler", awtsmoosCompiler),
 	awtsmoosDiagnostics: program("Developer Diagnostics", awtsmoosDiagnostics),
-	awtsmoosExecutable: program("Executable Simulator", awtsmoosExecutable),
+	awtsmoosExecutable: program("Executable Host", awtsmoosExecutable),
 	awtsmoosFileExplorer: program("File Explorer", awtsmoosFileExplorer),
 	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
 	openWithSelector: program("Open With…", openWithSelector),
@@ -35,19 +35,20 @@ export const programs = Object.freeze({
 
 export const programsByExtension = Object.freeze({
 	".folder": ["awtsmoosFileExplorer"],
-	".html": ["workspacePreview", "advancedCodeEditor", "awtsmoosTextEdit"],
-	".htm": ["workspacePreview", "advancedCodeEditor"],
+	".html": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
+	".htm": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
+	".merkava": ["awtsmoosBrowser", "advancedCodeEditor"],
 	".c": ["advancedCodeEditor", "awtsmoosCompiler", "awtsmoosTextEdit"],
 	".cc": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".cpp": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".cxx": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".h": ["advancedCodeEditor", "awtsmoosCompiler"],
-	".hh": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".hpp": ["advancedCodeEditor", "awtsmoosCompiler"],
-	".hxx": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".exe": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
 	".dll": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
-	".awtexe": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
+	".elf": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
+	".macho": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
+	".apk": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
 	".wasm": ["awtsmoosExecutable", "awtsmoosBinaryViewer"],
 	".js": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".mjs": ["advancedCodeEditor", "awtsmoosTextEdit"],
@@ -61,17 +62,18 @@ export const initialDefaultPrograms = Object.freeze({
 	".folder": "awtsmoosFileExplorer",
 	".html": "workspacePreview",
 	".htm": "workspacePreview",
+	".merkava": "awtsmoosBrowser",
 	".c": "advancedCodeEditor",
 	".cc": "advancedCodeEditor",
 	".cpp": "advancedCodeEditor",
 	".cxx": "advancedCodeEditor",
 	".h": "advancedCodeEditor",
-	".hh": "advancedCodeEditor",
 	".hpp": "advancedCodeEditor",
-	".hxx": "advancedCodeEditor",
 	".exe": "awtsmoosExecutable",
 	".dll": "awtsmoosExecutable",
-	".awtexe": "awtsmoosExecutable",
+	".elf": "awtsmoosExecutable",
+	".macho": "awtsmoosExecutable",
+	".apk": "awtsmoosExecutable",
 	".wasm": "awtsmoosExecutable",
 	".js": "advancedCodeEditor",
 	".mjs": "advancedCodeEditor",
@@ -83,7 +85,6 @@ export const initialDefaultPrograms = Object.freeze({
 
 export const defaultPrograms = {};
 
-/** Resolves a configured launcher and falls back to the binary viewer. */
 export function getDefaultProgram(extension) {
 	const programName = defaultPrograms[extension]
 		|| initialDefaultPrograms[extension]
@@ -92,5 +93,21 @@ export function getDefaultProgram(extension) {
 }
 
 function program(name, launch) {
-	return Object.freeze({ name, launch });
+	return Object.freeze({ launch, name });
+}
+
+export default Object.freeze(Object.entries(programs).map(([name, value]) => {
+	return Object.freeze({ icon: programIcon(name), name, title: value.name });
+}));
+
+function programIcon(name) {
+	const icons = {
+		advancedCodeEditor: "🧠", awtsmoosBinaryViewer: "🔬",
+		awtsmoosBrowser: "🌎", awtsmoosCommand: "⌨️",
+		awtsmoosCompiler: "🧬", awtsmoosDiagnostics: "🩺",
+		awtsmoosExecutable: "⚙️", awtsmoosFileExplorer: "🗂️",
+		awtsmoosTextEdit: "📝", openWithSelector: "🚪",
+		workspacePreview: "🌐"
+	};
+	return icons[name] || "✨";
 }

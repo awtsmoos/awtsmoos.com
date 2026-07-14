@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Premium Heichel motion guides attention without delaying the living runtime. The
+ * Awtsmoos renews every state while Awtsmoos.com keeps motion optional and calm.
+ */
+.heichel-mobile-navigation .card-wrapper,
+.heichel-mobile-navigation .post-card,
+.heichel-mobile-navigation .series-list > *,
+.heichel-mobile-navigation .tab,
+.heichel-mobile-navigation .geelooy-tabs button,
+.heichel-mobile-navigation .geelooy-bottom-nav a,
+.heichel-mobile-navigation .geelooy-bottom-nav button,
+.heichel-mobile-navigation .context-menu-item {
+	transition:
+		transform .24s cubic-bezier(.2, .75, .2, 1),
+		border-color .24s ease,
+		box-shadow .24s ease,
+		background-color .24s ease,
+		color .24s ease;
+}
+.heichel-mobile-navigation .card-wrapper:hover,
+.heichel-mobile-navigation .card-wrapper:focus-within,
+.heichel-mobile-navigation .series-list > *:hover,
+.heichel-mobile-navigation .post-card:hover {
+	border-color: var(--heichel-line-strong);
+	box-shadow: var(--heichel-shadow-lift);
+	transform: translateY(-.24rem);
+}
+@keyframes heichel-premium-arrival {
+	from {
+		opacity: 0;
+		transform: translateY(.9rem) scale(.987);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+.heichel-mobile-navigation .geelooy-heichel-hero,
+.heichel-mobile-navigation .heichel-nav-panel,
+.heichel-mobile-navigation .card-wrapper {
+	animation: heichel-premium-arrival .55s cubic-bezier(.2, .75, .2, 1) both;
+}
+.heichel-mobile-navigation .card-wrapper:nth-child(2) {
+	animation-delay: 45ms;
+}
+.heichel-mobile-navigation .card-wrapper:nth-child(3) {
+	animation-delay: 90ms;
+}
+.heichel-mobile-navigation .card-wrapper:nth-child(4) {
+	animation-delay: 135ms;
+}
+@media (prefers-reduced-motion: reduce) {
+	.heichel-mobile-navigation *,
+	.heichel-mobile-navigation *::before,
+	.heichel-mobile-navigation *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 1ms !important;
+	}
+	.heichel-mobile-navigation .card-wrapper:hover,
+	.heichel-mobile-navigation .series-list > *:hover,
+	.heichel-mobile-navigation .post-card:hover {
+		transform: none;
+	}
+}

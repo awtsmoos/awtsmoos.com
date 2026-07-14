@@ -1,0 +1,54 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Geelooy Unified Social Composer</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<header class="pageHeader">
+		<div><p class="eyebrow">Awtsmoos.com · unified social graph</p><h1 id="composerTitle">Create a rich post</h1><p>Write once, choose one canonical home, then reference anywhere policy permits.</p></div>
+		<div class="headerStats" aria-label="Composer totals"><span><b id="wordCount">0</b> words</span><span><b id="sectionCount">0</b> verses</span><span><b id="mediaCount">0</b> media</span><span><b id="destinationCount">0</b> destinations</span></div>
+	</header>
+	<main class="composerLayout">
+		<section class="composerColumn" aria-label="Composer controls">
+			<section class="panel identityPanel">
+				<div class="panelHeading"><div><h2>1. Public identity</h2><p id="aliasState">Checking aliases…</p></div><button id="setDefaultAliasButton" type="button">Make default</button></div>
+				<p id="loginNotice" class="notice" hidden>Log in to Awtsmoos.com, then return here; this draft remains local.</p>
+				<label>Post as<select id="aliasSelect"><option value="">Choose an alias</option></select></label>
+				<div id="aliasCreation" class="inlineCreation" hidden><input id="newAliasName" placeholder="New alias name" maxlength="120"><input id="newAliasDescription" placeholder="Public description" maxlength="1200"><button id="createAliasButton" type="button" class="primaryAction">Create alias inline</button></div>
+			</section>
+			<section class="panel destinationPanel">
+				<div class="panelHeading"><div><h2>2. Destination</h2><p id="destinationMode"></p></div><input id="destinationSearch" type="search" placeholder="Search Heichelos"></div>
+				<div class="destinationWorkspace"><div id="destinationResults" class="destinationResults"></div><div><pre id="selectedDestinationSummary" class="destinationSummary">Choose a Heichel.</pre><div id="seriesBrowser" class="seriesBrowser"></div></div></div>
+				<div class="placementComposer"><select id="placementKind"><option value="reference">Reference</option><option value="repost">Repost</option><option value="quote">Quote</option><option value="excerpt">Excerpt</option><option value="syndication">Syndication</option></select><input id="placementNote" placeholder="Optional curator note"></div>
+				<h3>Secondary destinations</h3><div id="secondaryPlacements"></div>
+				<details><summary>Create a Heichel inline</summary><div class="creationGrid"><input id="newHeichelName" placeholder="Heichel name"><textarea id="newHeichelDescription" placeholder="What is this Heichel for?"></textarea><input id="newHeichelId" placeholder="Optional custom ID"><label><input id="heichelAllowSubmissions" type="checkbox" checked> Anyone may submit</label><label><input id="heichelRequireApproval" type="checkbox" checked> Require approval</label><button id="createHeichelButton" type="button" class="primaryAction">Create Heichel</button></div></details>
+				<details><summary>Create a series inline</summary><div class="creationGrid"><input id="newSeriesName" placeholder="Series name"><textarea id="newSeriesDescription" placeholder="Series description"></textarea><input id="newSeriesId" placeholder="Optional custom ID"><select id="newSeriesParent"><option value="root">Heichel Home</option></select><label><input id="seriesAllowSubmissions" type="checkbox" checked> Accept submissions</label><label><input id="seriesRequireApproval" type="checkbox" checked> Require approval</label><button id="createSeriesButton" type="button" class="primaryAction">Create series</button></div></details>
+				<details class="advancedIds"><summary>Advanced stable IDs</summary><div class="threeColumns fieldGrid"><label>Alias ID<input id="aliasId"></label><label>Heichel ID<input id="heichelId"></label><label>Series ID<input id="seriesId" value="root"></label></div></details>
+			</section>
+			<section class="panel contentPanel">
+				<div class="panelHeading"><div><h2>3. Content</h2><p>Rich text, media, formal questions and answers, verses, and subsections.</p></div><label><input id="commentsEnabled" type="checkbox" checked> Whole-post comments</label></div>
+				<div class="twoColumns fieldGrid"><label>Social type<select id="postKind"><option value="post">Regular post</option><option value="question">Question</option></select></label><label>Presentation<select id="presentationKind"><option value="post">Article/feed post</option><option value="image">Image or carousel</option><option value="short">Short video</option><option value="video">Long video</option><option value="audio">Audio or podcast</option><option value="story">Story</option><option value="poll">Poll</option><option value="live">Live event</option><option value="quote">Quote post</option></select></label></div>
+				<label>Title<input id="title" maxlength="240" placeholder="What is being revealed?"></label><label>Summary<textarea id="summary" maxlength="1600" placeholder="A clear social preview and search summary"></textarea></label>
+				<p id="answerContext" class="answerContext" hidden>Formal answer to question <code id="answerQuestionId"></code></p>
+				<div id="questionFields" class="questionFields" hidden><label><input id="answersEnabled" type="checkbox" checked> Accept formal answers</label><label>Answer policy<select id="answerPolicy"><option value="open">Open</option><option value="onePerAlias">One per alias</option><option value="moderated">Moderated</option></select></label><label>Answer guidance<textarea id="answerGuidance"></textarea></label></div>
+				<h3>Opening document</h3><div id="rootBlocks"></div><h3>Opening media</h3><div id="rootMedia"></div><div class="sectionHeading"><h3>Verses and subsections</h3><button id="addSectionButton" type="button">Add verse</button></div><div id="sectionList"></div>
+			</section>
+			<section class="panel publicationPanel">
+				<div class="panelHeading"><div><h2>4. Publication plan</h2><p>The server explains every direct write, reference, no-op, denial, or moderation submission.</p></div><button id="previewPlanButton" type="button">Verify plan</button></div>
+				<div class="twoColumns fieldGrid"><label>Visibility<select id="visibility"><option value="public">Public</option><option value="unlisted">Unlisted</option><option value="private">Private</option></select></label><label>Schedule<input id="scheduledAt" type="datetime-local"></label></div>
+				<pre id="publicationPlanView" class="publicationPlanView"></pre><pre id="publicationPlanResult" class="publicationPlanResult"></pre>
+			</section>
+			<p id="statusMessage" class="statusMessage" hidden aria-live="polite"></p>
+			<div class="actionBar"><button id="saveLocalButton" type="button">Save locally</button><button id="saveServerButton" type="button">Save server draft</button><button id="previewButton" type="button">Focus preview</button><button id="clearDraftButton" type="button">Clear saved draft</button><button id="publishButton" type="button" class="publishButton">Publish or submit</button></div>
+		</section>
+		<aside class="previewColumn"><div class="previewSticky"><h2>5. Living preview</h2><article id="postPreview"></article><details><summary>Structured payload</summary><pre id="payloadInspector"></pre></details><details><summary>Publication result</summary><pre id="publishResult"></pre></details></div></aside>
+	</main>
+	<script type="module" src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@media (max-width: 860px) {
+	.pageHeader,
+	.reviewLayout,
+	.detailGrid {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.identityControls,
+	.decisionFields,
+	.decisionActions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.identityControls > *,
+	.decisionFields > *,
+	.decisionActions > * {
+		width: 100%;
+	}
+}

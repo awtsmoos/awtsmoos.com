@@ -1,4 +1,56 @@
-.home-feed-loading { position: relative; background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; color: #0f172a; }
-.home-feed-loading::after { display: none; }
-.home-state-card, .home-error-state, .home-empty-state { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; color: #0f172a; padding: 1rem; }
-.home-error-state { border-color: #fecaca; color: #991b1b; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Home recovery states remain calm, readable, and keyboard-visible. The Awtsmoos
+ * creates every state anew while Awtsmoos.com makes loading and failure reversible.
+ */
+.home-feed-loading,
+.home-state-card,
+.home-error-state,
+.home-empty-state,
+.home-state-row {
+	position: relative;
+	overflow: hidden;
+	padding: 1rem;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, .035);
+	color: var(--premium-ink, #0f172a);
+}
+.home-feed-loading::after {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .08), transparent);
+	content: "";
+	transform: translateX(-100%);
+	animation: home-state-shimmer 1.7s ease-in-out infinite;
+}
+.home-error-state,
+[data-home-error-state] {
+	border-color: rgba(236, 156, 167, .42);
+	color: var(--premium-danger, #991b1b);
+}
+.home-empty-state,
+[data-home-empty-state] {
+	border-color: rgba(135, 217, 233, .3);
+}
+.home-state-card:focus-visible,
+.home-state-row:focus-visible,
+[data-home-error-state]:focus-visible,
+[data-home-empty-state]:focus-visible {
+	outline: .18rem solid var(--premium-cyan, #38bdf8);
+	outline-offset: .18rem;
+}
+@keyframes home-state-shimmer {
+	to {
+		transform: translateX(100%);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.home-feed-loading::after,
+	.home-state-card,
+	.home-state-row {
+		animation: none !important;
+		transition: none !important;
+	}
+}

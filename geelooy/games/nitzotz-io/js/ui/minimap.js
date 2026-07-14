@@ -1,6 +1,9 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+import { visiblePeers } from '../multiplayer/state.js';
 
-/** Draw the entire persistent arena: prey, threats, rivals, and the player. */
+/** Draw the persistent arena: prey, rivals, live peers, and the local player. */
 export function drawMap(canvas, world) {
 	const context = canvas.getContext('2d');
 	const width = canvas.width = Math.max(1, canvas.clientWidth * 2);
@@ -12,9 +15,31 @@ export function drawMap(canvas, world) {
 	drawBoundary(context, width, height);
 	drawObjects(context, width, height, scale, world);
 	for (const rival of world.rivals) {
-		if (rival.respawn <= 0) dot(context, point(width, rival.x, scale), point(height, rival.y, scale), Math.max(3, rival.r * scale), '#ff6b7a');
+		if (rival.respawn > 0) continue;
+		dot(
+			context,
+			point(width, rival.x, scale),
+			point(height, rival.y, scale),
+			Math.max(3, rival.r * scale),
+			'#ff6b7a'
+		);
 	}
-	dot(context, point(width, world.player.x, scale), point(height, world.player.y, scale), Math.max(5, world.player.r * scale), '#ffffff');
+	for (const peer of visiblePeers(world)) {
+		dot(
+			context,
+			point(width, peer.x, scale),
+			point(height, peer.y, scale),
+			Math.max(4, peer.r * scale),
+			'#7edcff'
+		);
+	}
+	dot(
+		context,
+		point(width, world.player.x, scale),
+		point(height, world.player.y, scale),
+		Math.max(5, world.player.r * scale),
+		'#ffffff'
+	);
 }
 
 function drawObjects(context, width, height, scale, world) {
@@ -22,7 +47,13 @@ function drawObjects(context, width, height, scale, world) {
 		if (object.taken) continue;
 		const edible = object.r <= world.player.r * 0.72;
 		const color = edible ? '#ffda63' : object.r > world.player.r ? '#614d80' : '#6da9ff';
-		dot(context, point(width, object.x, scale), point(height, object.y, scale), edible ? 2.5 : 1.4, color);
+		dot(
+			context,
+			point(width, object.x, scale),
+			point(height, object.y, scale),
+			edible ? 2.5 : 1.4,
+			color
+		);
 	}
 }
 

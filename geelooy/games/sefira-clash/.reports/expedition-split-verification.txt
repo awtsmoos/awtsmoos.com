@@ -1,0 +1,52 @@
+=== SPLIT FILES ===
+catalogBuilders.js
+gearArmor.js
+gearBoots.js
+gearCatalog.js
+gearMantles.js
+gearRelics.js
+gearWeapons.js
+locationCatalog.js
+locationsChesedBinah.js
+locationsChochmahKeser.js
+locationsHodNetzach.js
+locationsMalchusYesod.js
+locationsTiferesGevurah.js
+questCatalog.js
+questsCrown.js
+questsDiscipline.js
+questsEndurance.js
+questsFoundation.js
+regionCatalog.js
+=== FORMAT SPLIT DATA AND LIFECYCLE ===
+geelooy/games/sefira-clash/js/data/expedition/catalogBuilders.js 226ms
+geelooy/games/sefira-clash/js/data/expedition/gearArmor.js 21ms
+geelooy/games/sefira-clash/js/data/expedition/gearBoots.js 90ms
+geelooy/games/sefira-clash/js/data/expedition/gearCatalog.js 23ms (unchanged)
+geelooy/games/sefira-clash/js/data/expedition/gearMantles.js 77ms
+geelooy/games/sefira-clash/js/data/expedition/gearRelics.js 6ms
+geelooy/games/sefira-clash/js/data/expedition/gearWeapons.js 9ms
+geelooy/games/sefira-clash/js/data/expedition/locationCatalog.js 6ms (unchanged)
+geelooy/games/sefira-clash/js/data/expedition/locationsChesedBinah.js 6ms
+geelooy/games/sefira-clash/js/data/expedition/locationsChochmahKeser.js 4ms
+geelooy/games/sefira-clash/js/data/expedition/locationsHodNetzach.js 5ms
+geelooy/games/sefira-clash/js/data/expedition/locationsMalchusYesod.js 27ms
+geelooy/games/sefira-clash/js/data/expedition/locationsTiferesGevurah.js 11ms
+geelooy/games/sefira-clash/js/data/expedition/questCatalog.js 7ms (unchanged)
+geelooy/games/sefira-clash/js/data/expedition/questsCrown.js 5ms
+geelooy/games/sefira-clash/js/data/expedition/questsDiscipline.js 7ms
+geelooy/games/sefira-clash/js/data/expedition/questsEndurance.js 5ms
+geelooy/games/sefira-clash/js/data/expedition/questsFoundation.js 6ms
+geelooy/games/sefira-clash/js/data/expedition/regionCatalog.js 7ms (unchanged)
+geelooy/games/sefira-clash/js/core/MainLifecycle.js 23ms
+=== LINE VIOLATIONS ===
+=== CATALOG API ===
+{
+  "locations": 30,
+  "gear": 25,
+  "quests": 20,
+  "uniqueLocations": 30,
+  "uniqueGear": 25,
+  "uniqueQuests": 20
+}
+CATALOG_EXIT=0

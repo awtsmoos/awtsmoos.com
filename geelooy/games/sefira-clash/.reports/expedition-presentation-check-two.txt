@@ -1,0 +1,13 @@
+      46 geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js
+      46 geelooy/games/sefira-clash/js/menu/lobbyModeView.js
+      36 geelooy/games/sefira-clash/js/menu/expeditionSummaryView.js
+      62 geelooy/games/sefira-clash/js/menu/expeditionRegionView.js
+      73 geelooy/games/sefira-clash/js/menu/expeditionGearView.js
+      68 geelooy/games/sefira-clash/js/menu/expeditionQuestView.js
+      49 geelooy/games/sefira-clash/js/menu/expeditionView.js
+     145 geelooy/games/sefira-clash/css/expedition.css
+     525 total
+{
+  "modes": 5,
+  "custom": "custom"
+}

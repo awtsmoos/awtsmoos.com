@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+:root {
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+	color: #edf7ff;
+	background: #03040c;
+	--ink: #edf7ff;
+	--muted: #9caccc;
+	--surface: rgb(11 16 39 / 78%);
+	--surface-strong: rgb(10 15 37 / 94%);
+	--line: rgb(131 180 255 / 24%);
+	--line-hot: rgb(142 242 255 / 70%);
+	--cyan: #9ef7ff;
+	--blue: #6ca4ff;
+	--violet: #b9a4ff;
+	--magenta: #f39cff;
+	--danger: #ff7f9f;
+	--success: #87ffc5;
+	--shadow: 0 2rem 6rem rgb(0 0 0 / 38%);
+	--radius: 1.4rem;
+	--safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	min-width: 20rem;
+	scroll-behavior: smooth;
+	background: #03040c;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	overflow-x: hidden;
+	background: transparent;
+	color: var(--ink);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+summary {
+	-webkit-tap-highlight-color: transparent;
+}
+
+button,
+summary {
+	cursor: pointer;
+}
+
+a {
+	color: var(--cyan);
+}
+
+[hidden] {
+	display: none !important;
+}

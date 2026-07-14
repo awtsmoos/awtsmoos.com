@@ -1,61 +1,93 @@
 /* B"H
- * Chapter: Navigation becomes a floating instrument.
- * The dock is glass, safe-area aware, magnetic on hover, and bounded by named
- * depth tokens so menus and modals no longer fight by random z-index.
+ * Boruch Hashem
+ * Blessed is He
+ * Navigation uses opaque fast surfaces, visible active geometry, and safe-area space.
  */
-.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav {
-  align-items: center;
-  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: var(--radius-dock);
-  bottom: max(.75rem, env(safe-area-inset-bottom));
-  box-shadow: var(--shadow-dock);
-  display: flex;
-  gap: var(--g-2, .5rem);
-  justify-content: center;
-  left: 50%;
-  max-width: min(94dvw, 560px);
-  min-height: 58px;
-  padding: .45rem;
-  position: fixed;
-  transform: translateX(-50%) translateZ(0);
-  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), background var(--motion-med) var(--ease-soft);
-  width: max-content;
-  z-index: var(--z-dock);
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: .35rem;
+	max-width: min(94dvw, 38rem);
+	min-height: 56px;
+	padding: .4rem;
+	border: 1px solid var(--g-border-strong);
+	border-radius: var(--radius-dock);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-dock);
+	color: var(--g-text);
 }
-
-.home-command-dock:is(:hover, :focus-within), .profile-bottom-nav:is(:hover, :focus-within),
-.spaces-bottom-nav:is(:hover, :focus-within), .mobile-bottom-nav:is(:hover, :focus-within) {
-  box-shadow: var(--shadow-menu);
-  transform: translateX(-50%) translateY(-2px);
+:where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
+	position: fixed;
+	z-index: var(--z-dock);
+	right: max(.5rem, env(safe-area-inset-right));
+	bottom: max(.5rem, env(safe-area-inset-bottom));
+	left: max(.5rem, env(safe-area-inset-left));
+	margin-inline: auto;
 }
-
-.home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a {
-  align-items: center;
-  border-radius: var(--radius-pill);
-  color: var(--g-text-2, #64748b);
-  display: inline-flex;
-  gap: .35rem;
-  min-height: 44px;
-  min-width: 44px;
-  padding: .58rem .78rem;
-  position: relative;
-  text-decoration: none;
-  transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft);
+:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where(a, button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .35rem;
+	min-width: 44px;
+	min-height: 44px;
+	padding: .55rem .7rem;
+	border: 1px solid transparent;
+	border-radius: .85rem;
+	background: transparent;
+	box-shadow: none;
+	color: var(--g-text-2);
+	font-size: var(--type-small);
+	font-weight: 700;
+	text-decoration: none;
+	transition: transform var(--motion-fast) var(--ease-snap), background-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft);
 }
-
-.home-command-dock a:is(:hover, :focus-visible), .profile-bottom-nav a:is(:hover, :focus-visible),
-.spaces-bottom-nav a:is(:hover, :focus-visible), .mobile-bottom-nav a:is(:hover, :focus-visible) {
-  background: rgba(255,255,255,.72);
-  color: var(--g-text, #0f172a);
-  transform: translateY(var(--motion-hover-lift)) scale(1.03);
+:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where(a, button):is(:hover, :focus-visible) {
+	border-color: var(--g-border);
+	background: var(--awt-surface-soft);
+	color: var(--g-text);
+	transform: translateY(var(--motion-hover-lift));
 }
-
-[aria-current="page"] {
-  background: rgba(255,255,255,.86) !important;
-  color: var(--g-text, #0f172a) !important;
-  font-weight: 800;
-  box-shadow: 0 8px 22px rgba(15,23,42,.10);
+:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where([aria-current="page"], .active, .Active) {
+	border-color: color-mix(in srgb, var(--g-accent) 34%, var(--g-border));
+	background: color-mix(in srgb, var(--g-accent) 10%, var(--awt-surface));
+	color: var(--g-accent);
+	font-weight: 820;
+}
+:where(.nav-icon, .dock-icon, [data-nav-icon]) {
+	display: grid;
+	width: 1.45rem;
+	height: 1.45rem;
+	place-items: center;
+	border-radius: .45rem;
+	background: color-mix(in srgb, currentColor 9%, transparent);
+	flex: 0 0 auto;
+}
+:where(.nav-copy, .dock-copy) {
+	display: grid;
+	gap: .05rem;
+	text-align: start;
+}
+:where(.nav-copy small, .dock-copy small) {
+	color: var(--g-faint);
+	font-size: var(--type-caption);
+	font-weight: 600;
+}
+@media (max-width: 34rem) {
+	:where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
+		justify-content: space-around;
+	}
+	:where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where(a, button) {
+		flex: 1 1 0;
+		padding-inline: .35rem;
+	}
+	:where(.nav-copy small, .dock-copy small) {
+		display: none;
+	}
+}
+@media (pointer: coarse) {
+	:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where(a, button):hover {
+		transform: none;
+	}
 }

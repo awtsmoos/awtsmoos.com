@@ -1,0 +1,156 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel discovery uses the existing foundation to reveal spaces without a theme fork.
+ */
+.social-spaces-shell {
+	display: grid;
+	gap: var(--space-4);
+	width: min(calc(100% - 1.25rem), var(--content-width));
+	margin: 0 auto;
+	padding: clamp(.75rem, 3vw, 2.25rem) 0 var(--floating-clearance);
+	color: var(--g-text);
+}
+.social-spaces-shell .spaces-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: var(--space-6);
+	min-height: clamp(17rem, 36vw, 28rem);
+	padding: clamp(1.25rem, 4vw, 3rem);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-2xl);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-card);
+}
+.social-spaces-shell .spaces-hero h1 {
+	max-width: 12ch;
+	margin: 0;
+	font-size: var(--type-display);
+	line-height: .94;
+	letter-spacing: -.065em;
+}
+.social-spaces-shell .spaces-hero p:not(.field-label) {
+	max-width: 42rem;
+	margin: var(--space-4) 0 0;
+	color: var(--g-text-2);
+	font-size: var(--type-lead);
+}
+.social-spaces-shell .spaces-command-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+.social-spaces-shell .spaces-search {
+	position: sticky;
+	z-index: var(--z-sticky);
+	top: .65rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--space-2);
+	width: min(calc(100% - 2rem), 56rem);
+	margin: -2rem auto var(--space-4);
+	padding: .55rem;
+	border: 1px solid var(--g-border-strong);
+	border-radius: var(--radius-l);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-float);
+}
+.social-spaces-shell .spaces-search label {
+	grid-column: 1 / -1;
+	margin-left: .2rem;
+}
+.social-spaces-shell .spaces-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: var(--space-4);
+}
+.social-spaces-shell .social-space-card {
+	display: grid;
+	align-content: space-between;
+	gap: var(--space-5);
+	min-height: 20rem;
+	padding: var(--space-4);
+}
+.social-spaces-shell .space-body,
+.social-spaces-shell .space-copy {
+	display: grid;
+	gap: var(--space-3);
+}
+.social-spaces-shell .space-seal {
+	display: grid;
+	width: 3.25rem;
+	height: 3.25rem;
+	place-items: center;
+	border: 1px solid var(--g-border-strong);
+	border-radius: .9rem;
+	background: var(--awt-surface-muted);
+	color: var(--g-accent);
+	font-weight: 850;
+}
+.social-spaces-shell .space-title-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+.social-spaces-shell .space-title-row h2 {
+	margin: 0;
+	font-size: clamp(1.45rem, 3vw, 2.15rem);
+	line-height: 1.05;
+}
+.social-spaces-shell .space-meta-line {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+}
+.social-spaces-shell .space-meta-line span {
+	padding: .3rem .5rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-pill);
+	background: var(--awt-surface-soft);
+	color: var(--g-faint);
+	font-family: var(--font-mono);
+	font-size: var(--type-caption);
+}
+.social-spaces-shell .space-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+.social-spaces-shell .space-actions a {
+	flex: 1 1 7rem;
+}
+.social-spaces-shell .social-empty-card {
+	grid-column: 1 / -1;
+	justify-items: start;
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+@media (max-width: 47.5rem) {
+	.social-spaces-shell .spaces-hero {
+		grid-template-columns: 1fr;
+		min-height: 20rem;
+		padding: var(--space-4);
+		border-radius: var(--radius-l);
+	}
+	.social-spaces-shell .spaces-command-row,
+	.social-spaces-shell .spaces-command-row a {
+		width: 100%;
+	}
+	.social-spaces-shell .spaces-search {
+		position: relative;
+		top: auto;
+		grid-template-columns: 1fr;
+		margin-top: -1.5rem;
+	}
+}
+@media (max-width: 26rem) {
+	.social-spaces-shell .space-title-row,
+	.social-spaces-shell .space-actions {
+		flex-direction: column;
+	}
+	.social-spaces-shell .space-actions a {
+		width: 100%;
+		flex-basis: auto;
+	}
+}

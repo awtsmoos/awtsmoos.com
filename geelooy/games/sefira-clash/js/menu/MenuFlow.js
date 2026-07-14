@@ -3,21 +3,24 @@
 //Blessed is He
 
 /**
- * Menu flow conducts the principal gates of Sefira Clash in Awtsmoos.com.
- * The Awtsmoos renews customization, local play, Adventure, and utility rooms
- * while focused sibling modules carry their own presentation responsibilities.
+ * Menu flow conducts the principal gates of Sefira Clash in Awtsmoos.com. The Awtsmoos
+ * renews Open World, Expedition, co-op, Adventure, local VS, and utility rooms while
+ * focused sibling modules carry synchronization, continuity, and roster detail.
  */
+
+import { ExpeditionSyncCoordinator } from '../expedition/ExpeditionSyncCoordinator.js';
+import { refreshExpeditionMenu, showAdventureMenu, showExpeditionMenu } from './JourneyMenuFlow.js';
 import { showModeMenu } from './menuViews.js';
 import { routeMenuClick, routeMenuMode } from './menuActionRouter.js';
-import { showAdventureScreen, showVsArenaScreen, showVsLobbyScreen } from './playMenuScreens.js';
 import {
 	completeCustomization,
 	revealCredits,
 	revealCustomization,
 	revealSettings
 } from './menuUtilityFlow.js';
+import { showOpenWorldMenu } from './OpenWorldMenuFlow.js';
+import { refreshVsLobby, showVsArena, showVsMenu } from './VsMenuFlow.js';
 
-/** Conducts the visible browser menu lifecycle. */
 export class MenuFlow {
 	constructor(options) {
 		this.model = options.model;
@@ -28,7 +31,10 @@ export class MenuFlow {
 		this.botSelect = options.botSelect;
 		this.registry = options.registry;
 		this.onBeginMatch = options.onBeginMatch;
+		this.onBeginOpenWorld = options.onBeginOpenWorld;
+		this.onCloseOpenWorld = options.onCloseOpenWorld;
 		this.currentView = 'mode';
+		this.expeditionSync = new ExpeditionSyncCoordinator(this.model.expedition);
 	}
 
 	showCustomize() {
@@ -40,55 +46,44 @@ export class MenuFlow {
 	}
 
 	showMode() {
+		this.onCloseOpenWorld?.();
 		this.currentView = 'mode';
-		this.prepare('Choose Adventure, Local VS, Settings, or Credits.');
-		showModeMenu(this.host, {
-			onPick: mode => this.handleMode(mode)
-		});
+		this.prepare(
+			'Choose Open World, Expedition, Online Co-op, Classic Adventure, Local VS, Settings, or Credits.'
+		);
+		showModeMenu(this.host, { onPick: mode => this.handleMode(mode) });
+	}
+
+	showOpenWorld() {
+		showOpenWorldMenu(this);
 	}
 
 	showVs() {
-		this.model.choice.mode = 'vs';
-		this.currentView = 'lobby';
-		this.prepare('Local VS: assign every seat and ready every human.');
-		this.renderVsLobby();
-	}
-
-	renderVsLobby() {
-		showVsLobbyScreen({
-			host: this.host,
-			model: this.model,
-			registry: this.registry,
-			onCharacter: (index, id) => this.model.setLobbyCharacter(index, id),
-			onBack: () => this.showMode(),
-			onContinue: () => this.showVsArena()
-		});
+		showVsMenu(this);
 	}
 
 	refreshVsLobby() {
-		if (this.currentView === 'lobby') {
-			this.renderVsLobby();
-		}
+		refreshVsLobby(this);
 	}
 
 	showVsArena() {
-		this.currentView = 'arena';
-		this.prepare('Local VS: choose an arena for the assembled roster.');
-		showVsArenaScreen({
-			host: this.host,
-			onBeginMatch: this.onBeginMatch
-		});
+		showVsArena(this);
 	}
 
 	showAdventure() {
-		this.model.choice.mode = 'adventure';
-		this.currentView = 'adventure';
-		this.prepare('Adventure Mode: clear gates to unlock more.');
-		showAdventureScreen({
-			host: this.host,
-			model: this.model,
-			onBeginMatch: this.onBeginMatch
-		});
+		showAdventureMenu(this);
+	}
+
+	showExpedition() {
+		showExpeditionMenu(this);
+	}
+
+	refreshExpedition() {
+		refreshExpeditionMenu(this);
+	}
+
+	showCoop() {
+		globalThis.location?.assign?.('./coop.html');
 	}
 
 	showSettings() {

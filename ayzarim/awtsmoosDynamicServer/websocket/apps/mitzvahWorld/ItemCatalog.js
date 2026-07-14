@@ -3,72 +3,51 @@
 // Blessed is He
 
 /**
- * @file Defines stable private items, stack limits, equipment, and vendor prices.
- * @description The Awtsmoos renews material vessel, lawful value, and crafted form
- * together. Awtsmoos.com keeps one canonical catalog so clients cannot invent
- * prices, capacities, ingredients, or equipment permissions.
+ * @file ItemCatalog.js
+ * @description Defines canonical social, crafting, combat, and harvest items.
+ * The Awtsmoos renews every useful vessel beneath one measured catalog;
+ * Awtsmoos.com refuses invented damage, prices, stack limits, or equipment slots.
  */
 
 const ITEMS = Object.freeze({
-	'community-badge': Object.freeze({
-		description: 'A crafted sign of shared service.',
-		id: 'community-badge',
-		name: 'Community Badge',
-		slot: 'accessory',
-		stackLimit: 10,
-		vendorSellPrice: 25
-	}),
-	'siddur': Object.freeze({
-		description: 'A prayer book carried for learning and prayer.',
-		id: 'siddur',
-		name: 'Siddur',
-		slot: 'hand',
-		stackLimit: 1,
-		vendorSellPrice: 10
-	}),
-	'tefillin-kit': Object.freeze({
-		description: 'A checked mission kit handled with care and respect.',
-		id: 'tefillin-kit',
-		name: 'Tefillin Kit',
-		slot: null,
-		stackLimit: 1
-	}),
-	'travel-pack': Object.freeze({
-		description: 'A practical pack for a journey of shlichus.',
-		id: 'travel-pack',
-		name: 'Travel Pack',
-		slot: 'accessory',
-		stackLimit: 2,
-		vendorBuyPrice: 30,
-		vendorSellPrice: 15
-	}),
-	'wooden-token': Object.freeze({
-		description: 'A simple carved token used in community crafts.',
-		id: 'wooden-token',
-		name: 'Wooden Token',
-		slot: null,
-		stackLimit: 20,
-		vendorBuyPrice: 5,
-		vendorSellPrice: 2
-	}),
-	'wool-thread': Object.freeze({
-		description: 'Strong thread prepared for careful communal work.',
-		id: 'wool-thread',
-		name: 'Wool Thread',
-		slot: null,
-		stackLimit: 20,
-		vendorBuyPrice: 8,
-		vendorSellPrice: 4
-	})
+	'chalaf': item('Chalaf', 'A designated abstract kosher harvest tool.', 'tool', 1),
+	'community-badge': item('Community Badge', 'A crafted sign of shared service.', 'accessory', 10, null, 25),
+	'kosher-meat': item('Kosher Meat', 'An abstract provision reward from an eligible harvest.', null, 20, null, 8),
+	'prepared-hide': item('Prepared Hide', 'An abstract crafting material from an eligible harvest.', null, 20, null, 6),
+	'siddur': item('Siddur', 'A prayer book carried for learning and prayer.', 'hand', 1, null, 10),
+	'spark-blade': item('Spark Blade', 'A refined weapon for fictional hostile husks.', 'hand', 1),
+	'spark-shard': item('Spark Shard', 'A symbolic shard of refined spiritual energy.', null, 99),
+	'tefillin-kit': item('Tefillin Kit', 'A checked mission kit handled with care and respect.', null, 1),
+	'travel-pack': item('Travel Pack', 'A practical pack for a journey of shlichus.', 'accessory', 2, 30, 15),
+	'wooden-staff': item('Wooden Staff', 'A balanced defensive staff for wilderness patrols.', 'hand', 1),
+	'wooden-token': item('Wooden Token', 'A carved token used in community crafts.', null, 20, 5, 2),
+	'wool-thread': item('Wool Thread', 'Strong thread prepared for communal work.', null, 20, 8, 4)
 });
+
+function item(name, description, slot, stackLimit, vendorBuyPrice = null, vendorSellPrice = null) {
+	return Object.freeze({
+		description,
+		id: name.toLowerCase().replaceAll(' ', '-'),
+		name,
+		slot,
+		stackLimit,
+		vendorBuyPrice,
+		vendorSellPrice
+	});
+}
 
 function itemDefinition(itemId) {
 	return ITEMS[itemId] || null;
 }
 
 function starterInventory() {
-	return ['siddur', 'tefillin-kit', 'travel-pack']
-		.map((itemId) => ({ itemId, quantity: 1 }));
+	return [
+		'siddur',
+		'tefillin-kit',
+		'travel-pack',
+		'wooden-staff',
+		'chalaf'
+	].map((itemId) => ({ itemId, quantity: 1 }));
 }
 
 module.exports = {

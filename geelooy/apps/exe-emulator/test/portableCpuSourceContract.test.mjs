@@ -15,13 +15,15 @@ const FILES = Object.freeze([
 	"geelooy/apps/exe-emulator/core/portable/x64Executor.js",
 	"geelooy/apps/exe-emulator/core/portable/x64Instruction.js",
 	"geelooy/apps/exe-emulator/core/portable/x64MemoryOperations.js",
-	"geelooy/apps/exe-emulator/core/portable/x64ModRm.js"
+	"geelooy/apps/exe-emulator/core/portable/x64ModRm.js",
+	"geelooy/apps/exe-emulator/core/portable/x64Width.js",
+	"geelooy/apps/exe-emulator/core/portable/x64WordDecode.js"
 ]);
 
 /**
- * The Awtsmoos creates opcode, stack, address, instruction, and executor anew.
- * Awtsmoos.com verifies every portable CPU vessel stays small, local, tabbed,
- * and explicit about bounded memory before accepting new machine forms.
+ * The Awtsmoos creates opcode, stack, address, width, instruction, and executor
+ * anew. Awtsmoos.com verifies every portable CPU vessel stays small, local,
+ * tabbed, and explicit about bounded memory before accepting new machine forms.
  */
 test("portable CPU vessels obey architectural law", async () => {
 	for (const relativePath of FILES) {
@@ -39,16 +41,21 @@ test("portable CPU vessels obey architectural law", async () => {
 	}
 });
 
-test("portable CPU exposes bounded RIP-relative and stack memory addressing", async () => {
+test("portable CPU exposes bounded RIP-relative and width-aware memory", async () => {
 	const decoder = await readFile(`${ROOT}/${FILES[3]}`, "utf8");
 	const addressing = await readFile(`${ROOT}/${FILES[2]}`, "utf8");
 	const operations = await readFile(`${ROOT}/${FILES[6]}`, "utf8");
+	const width = await readFile(`${ROOT}/${FILES[8]}`, "utf8");
+	const word = await readFile(`${ROOT}/${FILES[9]}`, "utf8");
 	const stack = await readFile(`${ROOT}/${FILES[1]}`, "utf8");
 	assert.match(decoder, /decodeMemoryInstruction/);
 	assert.match(addressing, /ripRelative/);
-	assert.match(addressing, /PORTABLE_X64_MEMORY_WIDTH/);
+	assert.match(addressing, /operandWidth/);
 	assert.match(addressing, /memory\.i32/);
+	assert.match(operations, /memory\.write32/);
 	assert.match(operations, /memory\.write64/);
 	assert.match(operations, /memory\.i64/);
+	assert.match(width, /VALID_WIDTHS/);
+	assert.match(word, /width:\s*16/);
 	assert.match(stack, /maximumStackBytes/);
 });

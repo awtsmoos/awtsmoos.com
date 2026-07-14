@@ -1,7 +1,12 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 import { clamp, heightAt, len, norm } from '../math.js';
 
-/** Momentum responds to growth, pulse, powers, modes, and celestial windows. */
+/**
+ * Momentum responds to growth, pulse, powers, modes, and finite combat stun.
+ * Keyboard and touch retain the same acceleration law across every mode.
+ */
 export function movePlayer(world, dt) {
 	const player = world.player;
 	if (player.respawn > 0) return tickTimers(world, dt);
@@ -9,8 +14,12 @@ export function movePlayer(world, dt) {
 	const magnitude = clamp(len(world.input.x, world.input.y), 0, 1);
 	const empowered = world.input.pulse > 0 || world.powerups.surge > 0;
 	const ruleScale = world.rules.playerSpeed || 1;
-	const maxSpeed = clamp(560 - player.r * 2.35, 275, 515) * (empowered ? 1.46 : 1) * ruleScale;
-	const acceleration = (empowered ? 1580 : 1320) * magnitude * ruleScale;
+	const stunScale = player.stun > 0 ? 0.35 : 1;
+	const maxSpeed = clamp(560 - player.r * 2.35, 275, 515)
+		* (empowered ? 1.46 : 1)
+		* ruleScale
+		* stunScale;
+	const acceleration = (empowered ? 1580 : 1320) * magnitude * ruleScale * stunScale;
 	player.vx += direction.x * acceleration * dt;
 	player.vy += direction.y * acceleration * dt;
 	limitVelocity(player, maxSpeed);

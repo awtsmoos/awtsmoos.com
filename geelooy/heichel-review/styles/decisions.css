@@ -1,0 +1,35 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.decisionPanel {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--line);
+}
+
+.decisionActions {
+	margin-top: 1rem;
+}
+
+.statusMessage {
+	position: sticky;
+	bottom: 1rem;
+	max-width: 50rem;
+	margin: 1rem auto;
+	padding: 0.9rem 1rem;
+	background: #171a32;
+	color: white;
+}
+
+.statusMessage[data-kind="error"] {
+	background: var(--danger);
+}
+
+.statusMessage[data-kind="success"] {
+	background: #17663c;
+}
+
+.statusMessage[data-kind="working"] {
+	background: var(--accent);
+}

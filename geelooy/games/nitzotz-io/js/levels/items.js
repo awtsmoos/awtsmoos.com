@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * The Awtsmoos orders each arena form by readable mass, geometry, and reward.
- * Procedural plants now create fair botanical chains before vehicles and buildings.
+ * The Awtsmoos orders each arena form by readable mass, geometry, reward, and power.
+ * Four sefirah pickups now form a deterministic circuit inside every district.
  */
 export const ITEMS = {
 	letter: item('Hebrew Letter', 'letter', 5, 10, 3, 18, [5, 5, 5], 'small'),
@@ -45,9 +45,10 @@ export const ITEMS = {
 	tower: model('Tower of Letters', 'tower', 72, 118, 286, 900, 8.6, 'building'),
 	monument: model('Monument of Light', 'monument', 76, 105, 318, 990, 9.2, 'landmark'),
 	palace: model('Palace of Understanding', 'palace', 96, 132, 440, 1350, 8, 'landmark'),
-	timeOrb: pickup('Time Crystal', 'star', 10, 16, 6, 90, [7, 7, 7], 'time'),
-	magnetOrb: pickup('Gathering Light', 'ring', 11, 14, 7, 110, [8, 8, 8], 'magnet'),
-	surgeOrb: pickup('Ohr Surge', 'star', 12, 18, 8, 130, [9, 9, 9], 'surge')
+	timeOrb: pickup('Returned Time', 'star', 10, 16, 6, 90, [7, 7, 7], 'time'),
+	magnetOrb: pickup('Binah Field', 'ring', 11, 14, 7, 110, [8, 8, 8], 'magnet'),
+	surgeOrb: pickup('Chochmah Surge', 'star', 12, 18, 8, 130, [9, 9, 9], 'surge'),
+	armorOrb: pickup('Gevurah Shield', 'ring', 12, 18, 8, 130, [9, 9, 9], 'armor')
 };
 
 export function itemDefinition(kind) {
@@ -55,7 +56,9 @@ export function itemDefinition(kind) {
 }
 
 export function weightedKinds(weights) {
-	return Object.entries(weights).flatMap(([kind, weight]) => Array(Math.max(1, Math.round(weight))).fill(kind));
+	return Object.entries(weights).flatMap(([kind, weight]) => {
+		return Array(Math.max(1, Math.round(weight))).fill(kind);
+	});
 }
 
 function item(label, shape, r, h, mass, sparks, meshScale, category, extra = {}) {

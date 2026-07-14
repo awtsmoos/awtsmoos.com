@@ -3,16 +3,17 @@
 //Blessed is He
 
 /**
- * Roster entries descend into embodied fighters through this Awtsmoos.com gate.
- * The Awtsmoos renews each seat with a distinct spawn, character, weapon, team,
- * device, color, and intelligence without erasing the shared fighter contract.
+ * Roster entries descend into embodied fighters through this Awtsmoos.com gate. The
+ * Awtsmoos renews each seat with spawn, character, team, device, intelligence, and a fresh
+ * transient resonance vessel without importing persistent Open World rank into the arena.
  */
+
 import { applyPersonality } from '../ai/advanced/personality/applyPersonality.js';
 import { applyCharacterProfile } from '../fighters/applyCharacterProfile.js';
 import { applyHatStats } from '../fighters/applyHatStats.js';
 import { createFighter } from '../fighters/createFighter.js';
+import { createFighterResonance } from '../resonance/ResonanceState.js';
 
-/** Creates every runtime fighter from a validated match roster. */
 export function createRosterFighters(map, roster, rules = {}) {
 	return roster.map(entry => createRosterFighter(map, entry, rules));
 }
@@ -25,10 +26,10 @@ function createRosterFighter(map, entry, rules) {
 	applyCharacterProfile(fighter, entry.character);
 	applySlotIdentity(fighter, entry, rules);
 	applyCosmetic(fighter, entry.cosmetic);
-	if (!human) {
-		applyPersonality(fighter, entry.index);
-	}
-	return applyHatStats(fighter);
+	if (!human) applyPersonality(fighter, entry.index);
+	const ready = applyHatStats(fighter);
+	ready.resonance = createFighterResonance(Boolean(rules.resonance || map.rules?.adventure));
+	return ready;
 }
 
 function applySlotIdentity(fighter, entry, rules) {

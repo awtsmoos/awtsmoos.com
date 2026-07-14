@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-/** Awtsmoos.com caches every desktop, mobile, campaign, and director vessel once. */
+/** Awtsmoos.com caches every compact campaign, Adventure, combat, and room vessel once. */
 export function cacheDom() {
 	const byId = id => document.getElementById(id);
 	return {
@@ -27,6 +27,13 @@ export function cacheDom() {
 		achievement: byId('achievementText'),
 		sparkHud: byId('sparkHudText'),
 		message: byId('message'),
+		resourceRail: byId('resourceRail'),
+		armorText: byId('armorText'),
+		perutahText: byId('perutahText'),
+		shlichusText: byId('shlichusText'),
+		peerText: byId('peerText'),
+		pulseButton: byId('pulse'),
+		pulseState: byId('pulseState'),
 		leaderboard: byId('leaderboard'),
 		overlay: byId('overlay'),
 		title: byId('overlayTitle'),
@@ -44,6 +51,11 @@ export function cacheDom() {
 		modeSelect: byId('modeSelect'),
 		modeCycle: byId('modeCycleBtn'),
 		modeDescription: byId('modeDescription'),
+		adventureBrief: byId('adventureBrief'),
+		talentGrid: byId('talentGrid'),
+		roomStatus: byId('roomStatus'),
+		roomInput: byId('roomInput'),
+		roomButton: byId('roomBtn'),
 		haptic: byId('hapticBtn'),
 		postfx: byId('postfxBtn'),
 		map: byId('map'),

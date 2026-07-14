@@ -1,0 +1,44 @@
+{
+	"startedAt": "2026-07-14T07:22:28.444Z",
+	"steps": [
+		{
+			"name": "profile-pushed",
+			"ok": true,
+			"revision": 1
+		},
+		{
+			"name": "profile-survived-restart",
+			"ok": true,
+			"revision": 1,
+			"activeLocationId": "cedar-forest"
+		},
+		{
+			"name": "coop-start-and-authoritative-movement",
+			"ok": true,
+			"joinCode": "PV7P6F",
+			"before": -800,
+			"after": -747.6,
+			"weatherId": "aurora",
+			"enemies": 8
+		},
+		{
+			"name": "coop-resume-same-participant",
+			"ok": true,
+			"playerId": "e33db508-2542-48e1-8cc5-40e2e906b448",
+			"connected": true
+		},
+		{
+			"name": "service-health-visible",
+			"ok": true,
+			"profileCount": 1,
+			"cooperative": {
+				"rooms": 1,
+				"activeRuns": 1,
+				"completedRuns": 0,
+				"connectedPlayers": 2
+			}
+		}
+	],
+	"ok": true,
+	"finishedAt": "2026-07-14T07:22:36.183Z"
+}

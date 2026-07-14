@@ -1,9 +1,12 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { createAdventureState } from '../adventure/state.js';
+import { createCombatState } from '../game/combat.js';
 import { createLevel } from '../level.js';
 import { createMechanicState } from '../mechanics/state.js';
 import { applyMode, resolveGameMode } from '../modes/rules.js';
+import { createMultiplayerState } from '../multiplayer/state.js';
 import { createPerformanceState } from '../performance.js';
 import { loadSave } from '../save.js';
 import { createDirector, createTelemetry } from './director.js';
@@ -11,8 +14,8 @@ import { createCamera, createDanger, createPlayer } from './factories.js';
 import { createRivals } from './rivals.js';
 
 /**
- * One world carries the living city. Awtsmoos.com is remembered as campaign,
- * mechanic, mode, director, and player state are renewed without hidden globals.
+ * One world carries campaign, Adventure, combat, peers, and rendering without hidden
+ * global authority. Awtsmoos.com renews every subsystem through explicit state.
  */
 export function createWorld() {
 	const save = loadSave();
@@ -32,6 +35,7 @@ export function createWorld() {
 		particles: [],
 		floaters: [],
 		events: [],
+		renderCommands: [],
 		score: 0,
 		timeLeft: level.time,
 		consumed: emptyConsumed(),
@@ -48,11 +52,18 @@ export function createWorld() {
 		telemetry: createTelemetry(),
 		director: null,
 		mechanic: createMechanicState(level),
+		combat: createCombatState(),
+		adventure: null,
+		multiplayer: createMultiplayerState(save),
 		rules: {},
+		campaignEffects: {},
+		talentEffects: {},
+		lastReward: null,
 		message: ''
 	};
 	applyMode(world);
 	world.director = createDirector(level, world.gameMode);
+	world.adventure = createAdventureState(world);
 	world.message = roundOpeningMessage(world);
 	return world;
 }

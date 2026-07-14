@@ -1,0 +1,118 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The painted world is only a veil. Its light, mist, and grain move across
+	Awtsmoos.com like a chapter breathing, while the Awtsmoos remains beyond
+	all scenery and nevertheless gives every pixel its present existence.
+*/
+.livingWorld {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	background: #071321;
+	pointer-events: none;
+}
+
+#landscapeCanvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	filter: saturate(112%) contrast(103%);
+}
+
+.sunVeil,
+.grainVeil,
+.edgeVeil {
+	position: absolute;
+	inset: 0;
+}
+
+.sunVeil {
+	background:
+		radial-gradient(circle at 72% 20%, rgba(255, 231, 171, 0.2), transparent 22%),
+		linear-gradient(180deg, transparent 60%, rgba(2, 8, 13, 0.3));
+	mix-blend-mode: screen;
+}
+
+.grainVeil {
+	opacity: 0.12;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
+	mix-blend-mode: soft-light;
+}
+
+.edgeVeil {
+	background: radial-gradient(circle at center, transparent 45%, rgba(0, 4, 8, 0.58) 120%);
+}
+
+.heroSection {
+	display: grid;
+	align-content: space-between;
+	min-height: 100svh;
+	padding: 1.25rem clamp(1rem, 4vw, 4rem) 2.2rem;
+}
+
+.topBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.backLink {
+	color: var(--ink);
+	font-weight: 750;
+	text-decoration: none;
+}
+
+.heroContent {
+	width: min(980px, 100%);
+	padding-block: 6rem 4rem;
+	text-shadow: 0 4px 34px rgba(0, 0, 0, 0.62);
+}
+
+.heroLead {
+	max-width: 670px;
+	margin-bottom: 2rem;
+	color: #e1e8e6;
+	font-size: clamp(1.08rem, 2vw, 1.35rem);
+}
+
+.scrollSignal {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: var(--muted);
+}
+
+.scrollSignal span {
+	display: block;
+	width: 3.5rem;
+	height: 1px;
+	background: currentColor;
+	transform-origin: left;
+	animation: breatheLine 2.6s ease-in-out infinite;
+}
+
+@keyframes breatheLine {
+	50% {
+		transform: scaleX(0.45);
+		opacity: 0.45;
+	}
+}
+
+@media (max-width: 680px) {
+	.worldMark {
+		display: none;
+	}
+
+	.heroContent {
+		padding-block: 4rem 2rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.scrollSignal span {
+		animation: none;
+	}
+}

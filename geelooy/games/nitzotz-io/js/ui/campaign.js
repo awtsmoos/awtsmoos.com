@@ -2,17 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 import { CHAPTERS } from '../campaign/catalog.js';
-import { campaignProgress, chapterProgress, levelsForChapter, unlockedChapterIndex } from '../campaign/navigation.js';
+import {
+	campaignProgress,
+	chapterProgress,
+	levelsForChapter,
+	unlockedChapterIndex
+} from '../campaign/navigation.js';
 
-/** Awtsmoos.com turns two hundred districts into ten readable ascending gates. */
+/** Awtsmoos.com turns two hundred districts and two currencies into readable gates. */
 export function renderCampaign(world, dom) {
 	const maximumChapter = unlockedChapterIndex(world.save);
 	const selectedChapter = Math.min(maximumChapter, world.save.selectedChapter || 0);
 	const total = campaignProgress(world.save);
 	dom.campaignSummary.textContent = `${total.completed} / ${total.total} DISTRICTS · ${total.percent}% REVEALED`;
-	dom.campaignSpark.textContent = `${world.save.sparks || 0} SPARKS`;
-	dom.chapterSelect.innerHTML = CHAPTERS.map((chapter, index) => chapterButton(world, chapter, index, selectedChapter, maximumChapter)).join('');
-	dom.levelSelect.innerHTML = levelsForChapter(selectedChapter).map(level => levelButton(world, level)).join('');
+	dom.campaignSpark.textContent = `${world.save.sparks || 0} SPARKS · ${world.save.perutot || 0}₽`;
+	dom.chapterSelect.innerHTML = CHAPTERS.map((chapter, index) => {
+		return chapterButton(world, chapter, index, selectedChapter, maximumChapter);
+	}).join('');
+	dom.levelSelect.innerHTML = levelsForChapter(selectedChapter).map(level => {
+		return levelButton(world, level);
+	}).join('');
 }
 
 function chapterButton(world, chapter, index, selectedChapter, maximumChapter) {

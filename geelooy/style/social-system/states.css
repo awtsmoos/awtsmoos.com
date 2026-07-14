@@ -1,46 +1,75 @@
 /* B"H
- * Second pass Step 2: states become calm rooms, not afterthoughts.
- * Empty, loading, error, and success states now share material, spacing, icons,
- * and readable hierarchy across social surfaces.
+ * Boruch Hashem
+ * Blessed is He
+ * Empty, loading, error, and success states share one calm recovery language.
  */
-.g-social-empty,
-.g-social-loading,
-.g-social-error,
-.g-social-success,
-:where(.empty-state, .loading-state, .error-state, .success-state) {
-  align-items: center;
-  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(248,250,252,.68));
-  border: 1px dashed var(--g-line-2, rgba(15,23,42,.16));
-  border-radius: var(--radius-xl, 2rem);
-  box-shadow: var(--shadow-paper, 0 8px 24px rgba(15,23,42,.06));
-  color: var(--g-muted, #64748b);
-  display: grid;
-  gap: .75rem;
-  justify-items: center;
-  max-width: 100%;
-  min-width: 0;
-  padding: clamp(1rem, 4vw, 2rem);
-  text-align: center;
+:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) {
+	display: grid;
+	justify-items: start;
+	gap: var(--space-3);
+	max-width: 100%;
+	min-width: 0;
+	padding: clamp(1rem, 3vw, 1.75rem);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-l);
+	background: var(--awt-surface-soft);
+	box-shadow: none;
+	color: var(--g-text-2);
 }
-
-:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state) > :where(h2, h3, strong) {
-  color: var(--g-text, #0f172a);
-  max-width: 52ch;
+:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state])::before {
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid var(--g-border);
+	border-radius: .65rem;
+	background: var(--awt-surface);
+	content: "·";
+	color: var(--g-accent);
+	font-weight: 900;
 }
-
-.g-social-error,
-.error-state {
-  border-color: rgba(255,111,145,.42);
-  box-shadow: var(--shadow-alert, 0 22px 70px rgba(157,47,22,.22));
-  color: #9d2f16;
+:where(.g-social-empty, .empty-state, [data-empty-state])::before {
+	content: "○";
 }
-
-.g-social-success,
-.success-state {
-  border-color: rgba(103,240,189,.42);
-  color: var(--awt-success, #2f7d48);
+:where(.g-social-error, .error-state, [data-error-state])::before {
+	content: "!";
+	color: var(--awt-danger);
 }
-
-.g-social-loading,
-.loading-state { animation: awt-state-breathe 1.8s var(--ease-soft) infinite alternate; }
-@keyframes awt-state-breathe { from { opacity: .74; transform: translateY(1px); } to { opacity: 1; transform: translateY(-1px); } }
+:where(.g-social-success, .success-state)::before {
+	content: "✓";
+	color: var(--awt-success);
+}
+:where(.g-social-loading, .loading-state)::before {
+	border-right-color: transparent;
+	border-radius: 50%;
+	content: "";
+	animation: awt-state-spin .75s linear infinite;
+}
+:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) > :where(h2, h3, strong) {
+	max-width: 52ch;
+	margin: 0;
+	color: var(--g-text);
+}
+:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) > p {
+	max-width: 62ch;
+	margin: 0;
+}
+:where(.g-social-error, .error-state, [data-error-state]) {
+	border-color: color-mix(in srgb, var(--awt-danger) 38%, var(--g-border));
+	background: color-mix(in srgb, var(--awt-danger) 6%, var(--awt-surface));
+}
+:where(.g-social-success, .success-state) {
+	border-color: color-mix(in srgb, var(--awt-success) 38%, var(--g-border));
+	background: color-mix(in srgb, var(--awt-success) 6%, var(--awt-surface));
+}
+@keyframes awt-state-spin {
+	to {
+		transform: rotate(1turn);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-social-loading, .loading-state)::before {
+		animation: none;
+		border-right-color: var(--g-border);
+	}
+}

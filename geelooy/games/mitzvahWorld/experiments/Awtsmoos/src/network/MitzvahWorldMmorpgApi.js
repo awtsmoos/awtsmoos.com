@@ -4,14 +4,23 @@
 
 /**
  * @file MitzvahWorldMmorpgApi.js
- * @description Exposes typed browser methods for every version-one MMORPG command.
- * The Awtsmoos renews many intentions beneath one transport; this Awtsmoos.com
- * facade names each lawful action without exposing envelope mechanics to the UI.
+ * @description Exposes typed player, Shliach, RPG, economy, and community browser methods.
+ * The Awtsmoos renews many intentions beneath one transport; Awtsmoos.com keeps
+ * every historic facade stable while focused nested APIs hold expanding domains.
  */
+
+import { MitzvahWorldCommunityApi } from './MitzvahWorldCommunityApi.js';
+import { MitzvahWorldEconomyApi } from './MitzvahWorldEconomyApi.js';
+import { MitzvahWorldProfileApi } from './MitzvahWorldProfileApi.js';
+import { MitzvahWorldRpgApi } from './MitzvahWorldRpgApi.js';
 
 export class MitzvahWorldMmorpgApi {
 	constructor(send) {
 		this.send = send;
+		this.community = new MitzvahWorldCommunityApi(send);
+		this.economy = new MitzvahWorldEconomyApi(send);
+		this.rpg = new MitzvahWorldRpgApi(send);
+		this.shliach = new MitzvahWorldProfileApi(send);
 	}
 
 	action(action) {
@@ -30,9 +39,16 @@ export class MitzvahWorldMmorpgApi {
 		return this.send('player.respawn');
 	}
 	profile(status = null) {
-		return status
-			? this.send('player.profile', { operation: 'update', status })
-			: this.send('player.profile', { operation: 'get' });
+		return status ? this.shliach.update(status) : this.shliach.get();
+	}
+	allocateAttribute(attributeId, points = 1) {
+		return this.shliach.allocate(attributeId, points);
+	}
+	activatePowerup(powerupId) {
+		return this.shliach.activate(powerupId);
+	}
+	buyItem(itemId, quantity = 1) {
+		return this.economy.buy(itemId, quantity);
 	}
 	inventory() {
 		return this.send('player.inventory');

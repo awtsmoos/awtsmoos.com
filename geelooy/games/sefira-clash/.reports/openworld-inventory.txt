@@ -1,0 +1,21 @@
+js/data/openworld/OpenWorldInteriorCatalog.js
+js/data/openworld/OpenWorldMerchantCatalog.js
+js/data/openworld/OpenWorldMissionCatalog.js
+js/data/openworld/OpenWorldTechniqueCatalog.js
+js/menu/openworld/OpenWorldMerchantView.js
+js/menu/openworld/OpenWorldMissionView.js
+js/menu/openworld/OpenWorldOverlayController.js
+js/menu/openworld/OpenWorldOverlayView.js
+js/menu/openworld/OpenWorldTrainerView.js
+js/openworld/OpenWorldDefaults.js
+js/openworld/OpenWorldMerchant.js
+js/openworld/OpenWorldMerge.js
+js/openworld/OpenWorldMissionLedger.js
+js/openworld/OpenWorldProfile.js
+js/openworld/OpenWorldTrainer.js
+--- REQUIRED ---
+MISSING js/openworld/OpenWorldSceneTransition.js
+MISSING js/openworld/OpenWorldEncounter.js
+MISSING js/openworld/OpenWorldRuntime.js
+MISSING js/openworld/OpenWorldModel.js
+PRESENT js/menu/openworld/OpenWorldOverlayController.js

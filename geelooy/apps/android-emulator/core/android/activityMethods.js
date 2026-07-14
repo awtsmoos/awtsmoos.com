@@ -1,0 +1,60 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * Resolves launcher lifecycle methods and validates DEX incoming register words.
+ * The Awtsmoos creates component descriptor, constructor, onCreate, and argument
+ * frame anew; Awtsmoos.com refuses to coerce malformed `ins_size` declarations.
+ */
+export function resolveLauncherMethods(identity, registry) {
+	const launcher = identity.manifest.launcherActivity;
+	if (!launcher) throw activityError("ANDROID_LAUNCHER_MISSING");
+	const type = `L${launcher.replace(/\./g, "/")};`;
+	const constructor = findMethod(registry, type, "<init>", method => method.descriptor === "()V");
+	const onCreate = findMethod(
+		registry,
+		type,
+		"onCreate",
+		method => method.descriptor.endsWith(")V")
+	);
+	if (!onCreate) throw activityError("ANDROID_ONCREATE_MISSING", type);
+	return Object.freeze({ constructor, onCreate, type });
+}
+
+export function lifecycleArguments(record, receiver, parameterValues = []) {
+	const parameters = record.method.prototype.parameters;
+	const expectedWords = parameters.reduce((sum, type) => {
+		return sum + (["J", "D"].includes(type) ? 2 : 1);
+	}, record.encoded?.accessFlags & 0x0008 ? 0 : 1);
+	if (record.code.insSize !== expectedWords) {
+		throw activityError(
+			"ANDROID_METHOD_INS_SIZE",
+			`${record.signature}:${record.code.insSize}:${expectedWords}`
+		);
+	}
+	const values = record.encoded?.accessFlags & 0x0008
+		? parameterValues
+		: [receiver, ...parameterValues];
+	if (values.length > expectedWords) {
+		throw activityError(
+			"ANDROID_METHOD_ARGUMENT_COUNT",
+			`${record.signature}:${values.length}:${expectedWords}`
+		);
+	}
+	return Object.freeze(values);
+}
+
+function findMethod(registry, type, name, predicate) {
+	return registry.list.find(record => {
+		return record.method.classType === type
+			&& record.method.name === name
+			&& predicate(record.method);
+	}) || null;
+}
+
+function activityError(code, detail = "") {
+	const error = new Error(detail ? `${code}:${detail}` : code);
+	error.code = code;
+	return error;
+}

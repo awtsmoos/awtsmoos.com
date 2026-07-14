@@ -1,0 +1,66 @@
+{
+	"profile_live_frontier_1": {
+		"profile": {
+			"version": 2,
+			"level": 3,
+			"xp": 900,
+			"perutas": 144,
+			"reputation": {
+				"malchus": 12,
+				"yesod": 0,
+				"hod": 0,
+				"netzach": 0,
+				"tiferes": 0,
+				"gevurah": 0,
+				"chesed": 0,
+				"binah": 0,
+				"chochmah": 0,
+				"keser": 0
+			},
+			"discovered": [
+				"malchus-citadel",
+				"cedar-forest"
+			],
+			"cleared": [
+				"malchus-citadel"
+			],
+			"inventory": [
+				"training-sword",
+				"woven-vest",
+				"travel-mantle",
+				"path-boots",
+				"spark-charm",
+				"cedar-edge"
+			],
+			"equipped": {
+				"weapon": "cedar-edge",
+				"armor": "woven-vest",
+				"mantle": "travel-mantle",
+				"boots": "path-boots",
+				"relic": "spark-charm"
+			},
+			"quests": {
+				"citadel-oath": {
+					"status": "claimed",
+					"progress": 1
+				}
+			},
+			"materials": {
+				"cedar-heartwood": 3
+			},
+			"crafted": [
+				"craft-cedar-edge"
+			],
+			"serviceClaims": [],
+			"weatherClock": 4,
+			"activeLocationId": "cedar-forest",
+			"sync": {
+				"profileId": "profile_live_frontier_1",
+				"revision": 1,
+				"syncedAt": 1784013752288
+			}
+		},
+		"revision": 1,
+		"updatedAt": 1784013752288
+	}
+}

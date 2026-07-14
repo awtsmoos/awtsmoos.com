@@ -59,6 +59,7 @@ const KIND_MATERIALS = Object.freeze({
 	timeOrb: 'none',
 	magnetOrb: 'none',
 	surgeOrb: 'none',
+	armorOrb: 'none',
 	pedestrian: 'none',
 	bush: 'foliage',
 	cedar: 'treePine',

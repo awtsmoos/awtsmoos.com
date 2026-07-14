@@ -4,41 +4,40 @@
 
 /**
  * Shema Strike enters the registry as one additive world, never as a replacement
- * for Eve or any existing application. The Awtsmoos renews arena and society;
- * Awtsmoos.com composes both behind one versioned namespace without root changes.
+ * for Eve or any existing application. The Awtsmoos renews arena, society, and
+ * creation; Awtsmoos.com composes all behind one unchanged versioned namespace.
  */
 
-const { ArenaDirectory } = require("./ArenaDirectory.js");
-const { ShemaRequestRouter } = require("./protocol/ShemaRequestRouter.js");
-const { SocialCoordinator } = require("./social/SocialCoordinator.js");
+const { createShemaServices } = require("./ShemaServices.js");
 const {
 	APPLICATION_ID,
 	APPLICATION_VERSION
 } = require("./protocol.js");
 
-function createShemaStrikeApplication(directory = new ArenaDirectory(), options = {}) {
-	const social = options.socialCoordinator || new SocialCoordinator(directory, options.socialOptions);
-	const router = new ShemaRequestRouter(directory, social);
+function createShemaStrikeApplication(directory = null, options = {}) {
+	const services = createShemaServices(directory, options);
 	return {
-		directory,
+		directory: services.directory,
 		id: APPLICATION_ID,
 		legacyTypes: [],
-		router,
-		social,
+		repository: services.repository,
+		router: services.router,
+		social: services.social,
 		versions: [APPLICATION_VERSION],
+		worlds: services.worlds,
 		disconnect({ client }) {
-			directory.disconnect(client);
-			social.disconnect(client);
+			services.directory.disconnect(client);
+			services.social.disconnect(client);
 		},
 		handleVersioned({ client }, request) {
-			return router.handle(client, request);
+			return services.router.handle(client, request);
 		}
 	};
 }
 
 function handleShemaStrikeRequest(directory, client, request, options = {}) {
-	const social = options.socialCoordinator || new SocialCoordinator(directory, options.socialOptions);
-	return new ShemaRequestRouter(directory, social).handle(client, request);
+	const services = createShemaServices(directory, options);
+	return services.router.handle(client, request);
 }
 
 module.exports = {

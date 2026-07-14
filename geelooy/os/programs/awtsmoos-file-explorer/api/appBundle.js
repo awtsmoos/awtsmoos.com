@@ -2,94 +2,77 @@
 //Boruch Hashem
 //Blessed is He
 
-import { detectWorkspaceArtifact } from "../../../../shared/workspace/artifactContent.js";
+import { parsePlistMetadata } from "../../../../apps/exe-emulator/core/bundle/plistMetadata.js";
+import { detectWorkspaceArtifact, workspaceArtifactBytes } from "../../../../shared/workspace/artifactContent.js";
+import { WORKSPACE_FILE_KINDS } from "../../../../shared/workspace/fileKinds.js";
 import { createWorkspaceLaunchDescriptor } from "../../../../shared/workspace/launchDescriptor.js";
 import {
-	explorerTextContent,
-	extractExplorerContent
-} from "./content.js";
+	createApplicationBundleWindow,
+	createSelectedBundle,
+	safeExecutableName
+} from "./appBundleContract.js";
+import { explorerTextContent, extractExplorerContent } from "./content.js";
 
 /**
- * A macOS application bundle is a folder whose manifest points to a real inner
- * executable. The Awtsmoos creates wrapper and core together; Awtsmoos.com reads
- * `Info.plist`, rejects unsafe names, and identifies the inner bytes before launch.
+ * Imports a macOS application folder as metadata, path inventory, and main bytes.
+ * The Awtsmoos creates wrapper, executable, and library evidence together;
+ * Awtsmoos.com loads no resource payload until the generic runtime explicitly asks.
  */
-
 export async function openApplicationBundle({ os, item }) {
-	const bundlePath = normalizeBundlePath(item.path);
+	const bundlePath = String(item.path || "").replace(/\/+$/, "");
 	const manifestPath = `${bundlePath}/Contents/Info.plist`;
 	const manifestResponse = await os.vfs.read(manifestPath);
 	const manifestText = await explorerTextContent(extractExplorerContent(manifestResponse));
-	const executableName = parseExecutableName(manifestText);
-	const executablePath = `${bundlePath}/Contents/MacOS/${executableName}`;
+	const metadata = parsePlistMetadata(manifestText);
+	const executableName = safeExecutableName(metadata.CFBundleExecutable);
+	const executableRelative = `Contents/MacOS/${executableName}`;
+	const executablePath = `${bundlePath}/${executableRelative}`;
 	const executableResponse = await os.vfs.read(executablePath);
 	const content = extractExplorerContent(executableResponse);
-	const executableItem = {
-		name: item.name || executableName,
-		path: executablePath,
-		kind: "file"
-	};
+	const executableItem = { name: executableName, path: executablePath, kind: "file" };
 	const artifactIdentity = await detectWorkspaceArtifact(executableItem, content);
 	assertMachOIdentity(artifactIdentity);
-	const descriptor = createWorkspaceLaunchDescriptor(executableItem, {
-		basePath: bundlePath,
+	const executableBytes = await workspaceArtifactBytes(
+		content,
+		WORKSPACE_FILE_KINDS.MACHO_EXECUTABLE
+	);
+	if (!executableBytes) throw bundleError("APP_BUNDLE_EXECUTABLE_BYTES");
+	const bundle = await createSelectedBundle({
+		bundlePath,
+		executableBytes,
+		executableName,
+		executableRelative,
+		item,
+		manifestText,
+		metadata,
+		os
+	});
+	const descriptor = createWorkspaceLaunchDescriptor(item, {
 		artifactIdentity,
+		basePath: bundlePath,
 		programName: "awtsmoosExecutable"
 	});
-	os.addWindow(createBundleWindow({
-		os,
-		item,
-		content,
-		bundlePath,
-		executablePath,
+	os.addWindow(createApplicationBundleWindow({
 		artifactIdentity,
-		descriptor
+		bundle,
+		bundlePath,
+		content: executableBytes,
+		descriptor,
+		executablePath,
+		item,
+		os
 	}));
-	return Object.freeze({ item, manifestPath, executablePath, descriptor });
-}
-
-function createBundleWindow(options) {
-	return {
-		title: options.item.name || leafName(options.executablePath),
-		content: options.content,
-		path: options.bundlePath,
-		filePath: options.executablePath,
-		bundlePath: options.bundlePath,
-		os: options.os,
-		programName: options.descriptor.programName,
-		extension: options.descriptor.extension,
-		artifactIdentity: options.artifactIdentity,
-		detectedFormat: options.artifactIdentity.format,
-		detectedArchitecture: options.artifactIdentity.architecture,
-		inspectOnly: true
-	};
-}
-
-function parseExecutableName(plist) {
-	const match = String(plist).match(/<key>\s*CFBundleExecutable\s*<\/key>\s*<string>\s*([^<]+?)\s*<\/string>/i);
-	const name = match?.[1]?.trim();
-	if (!name || name.includes("/") || name.includes("\\") || name === "." || name === "..") {
-		throw bundleError("APP_BUNDLE_MANIFEST_INVALID", "Info.plist has no safe CFBundleExecutable value.");
-	}
-	return name;
+	return Object.freeze({ bundle, descriptor, executablePath, item, manifestPath });
 }
 
 function assertMachOIdentity(identity) {
 	if (!identity || !["mach-o", "mach-o-fat"].includes(identity.format)) {
-		throw bundleError("APP_BUNDLE_EXECUTABLE_INVALID", "Application bundle does not contain a Mach-O executable.");
+		throw bundleError("APP_BUNDLE_EXECUTABLE_INVALID");
 	}
 }
 
-function normalizeBundlePath(value) {
-	return String(value || "").replace(/\/+$/, "");
-}
-
-function leafName(value) {
-	return String(value || "").split("/").pop() || "Application";
-}
-
-function bundleError(code, message) {
-	const error = new Error(message);
+function bundleError(code) {
+	const error = new Error(code);
 	error.code = code;
 	return error;
 }

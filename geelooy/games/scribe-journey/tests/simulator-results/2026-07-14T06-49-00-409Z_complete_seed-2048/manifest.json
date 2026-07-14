@@ -1,0 +1,22 @@
+{
+  "config": {
+    "concurrency": 4,
+    "durationMs": 300000,
+    "exclude": "",
+    "include": "",
+    "iterations": 1,
+    "profile": "complete",
+    "projectRoot": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/scribe-journey/",
+    "resultsRoot": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/scribe-journey/tests/simulator-results",
+    "seed": 2048,
+    "shuffle": false,
+    "stopOnFailure": false,
+    "timeoutMs": 180000
+  },
+  "createdAt": "2026-07-14T06:49:00.436Z",
+  "executionCount": 59,
+  "node": "v24.17.0",
+  "platform": "darwin",
+  "runId": "2026-07-14T06-49-00-409Z_complete_seed-2048",
+  "scenarioCount": 59
+}

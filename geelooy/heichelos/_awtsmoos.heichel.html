@@ -1,30 +1,35 @@
-<!-- B"H clean Heichel app shell with the shared Geelooy design system crown. -->
-<!DOCTYPE html>
-<html lang="en">
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates this Heichel anew through the canonical Geelooy shell and runtime.
+-->
+<!doctype html>
+<html class="heichel-os-document" lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<title>Geelooy Heichel</title>
-	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=system-004" type="text/css">
-	<link rel="stylesheet" href="/style/social-system/index.css?v=system-004" type="text/css">
-	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=system-004" type="text/css">
-	<link rel="stylesheet" href="/style/geelooy-system/index.css?v=system-004" type="text/css">
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>
-	<script type="module" src="/scripts/awtsmoos/social/navigation/appNavigation.js?v=create-002"></script>
-	<script type="module" src="/heichelos/heichel/app.js?v=system-004"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#07090f">
+	<title>Heichel — Geelooy</title>
+	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=unified-ui-001">
+	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=unified-ui-001">
+	<link rel="stylesheet" href="/style/geelooy-system/index.css?v=unified-ui-001">
 </head>
-<body class="heichel-os-document" data-heichel-page data-heichel-reduced-motion-safe>
-	<div class="all awtsmoospage heichel-os-page geelooy-content-region">
-		<?<script> return $a("nav/header.html") </script>?>
-		<main class="main" aria-live="polite" data-heichel-render-root>
-			<section class="heichel-boot-shell" data-heichel-boot-state aria-labelledby="heichel-boot-title">
-				<p class="hero-kicker g-kicker">Workspace chamber</p>
-				<h1 id="heichel-boot-title">Loading workspace</h1>
-				<p>Preparing posts, series, roles, comments, and tools.</p>
-				<div class="heichel-boot-grid" aria-hidden="true"><span></span><span></span><span></span></div>
-				<noscript><p class="void-error">This Heichel needs JavaScript.</p></noscript>
-			</section>
-		</main>
-	</div>
+<body class="heichel-os-page" data-heichel-page data-heichel-page-root data-geelooy-route="heichel">
+	<main class="heichel-shell-boot" data-heichel-render-root data-heichel-boot-state="loading" aria-live="polite">
+		<section class="heichel-shell-boot__panel" aria-labelledby="heichel-boot-title" data-enter>
+			<div class="heichel-shell-boot__seal" aria-hidden="true">א</div>
+			<div class="heichel-shell-boot__copy">
+				<p class="field-label">Entering living architecture</p>
+				<h1 id="heichel-boot-title">Opening this Heichel</h1>
+				<p>Loading identity, series, posts, ownership, and social paths.</p>
+			</div>
+			<div class="heichel-shell-boot__progress" aria-hidden="true"><span></span></div>
+		</section>
+	</main>
+	<script src="/scripts/awtsmoos/social/shell/boot.js?v=unified-ui-001" type="module"></script>
+	<script src="/scripts/awtsmoos/social/app-navigation/index.js?v=unified-ui-001" type="module"></script>
+	<script src="/heichelos/heichel/app.js?v=unified-ui-001" type="module"></script>
+	<script src="/scripts/awtsmoos/social/geelooy-bootstrap.js?v=unified-ui-001" type="module"></script>
+	<script src="/register.js?v=unified-ui-001"></script>
 </body>
 </html>

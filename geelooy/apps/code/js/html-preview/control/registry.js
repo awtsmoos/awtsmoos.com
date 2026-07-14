@@ -1,45 +1,118 @@
-// B\"H
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-import { PREVIEW_CONTROL_ACTIONS } from './actions.js';
+import { normalizePreviewAction } from "./actions.js";
+
+/**
+ * B"H
+ *
+ * Preview control tracks living iframe targets explicitly. The Awtsmoos renews
+ * target and message; Awtsmoos.com chooses the active visible preview and returns
+ * bounded readiness failures instead of forcing agents to guess stale tab IDs.
+ */
+const targets = new Map();
+let activeId = null;
+let nextRequestId = 1;
 
 export const PreviewControlRegistry = {
-    nextId: 1,
-    pending: new Map(),
+	register(tabId, iframe) {
+		const id = String(tabId);
+		targets.set(id, iframe);
+		activeId = id;
+		return iframe;
+	},
 
-    iframeFor(tabId) {
-        return document.querySelector(`iframe[data-tab-id="${tabId}"]`);
-    },
+	unregister(tabId) {
+		const id = String(tabId);
+		const removed = targets.delete(id);
+		if (activeId === id) activeId = [...targets.keys()].at(-1) || null;
+		return removed;
+	},
 
-    send(tabId, action, payload = {}, timeoutMs = 5000) {
-        if (!PREVIEW_CONTROL_ACTIONS.includes(action)) {
-            return Promise.resolve({ ok: false, error: 'unsupported_preview_action', action });
-        }
-        const iframe = this.iframeFor(tabId);
-        if (!iframe?.contentWindow) return Promise.resolve({ ok: false, error: 'preview_frame_not_found', tabId });
+	activate(tabId) {
+		const id = String(tabId);
+		if (!this.get(id)) return false;
+		activeId = id;
+		return true;
+	},
 
-        const id = this.nextId++;
-        const message = { source: 'preview-control-parent', id, action, payload };
+	activeTabId() {
+		return activeId && this.get(activeId) ? activeId : null;
+	},
 
-        return new Promise(resolve => {
-            const timer = setTimeout(() => {
-                this.pending.delete(id);
-                resolve({ ok: false, error: 'preview_control_timeout', action, id });
-            }, timeoutMs);
+	get(tabId) {
+		const id = String(tabId || "");
+		let iframe = targets.get(id) || null;
+		if (!iframe?.isConnected) {
+			iframe = globalThis.document?.querySelector?.(`iframe[data-tab-id="${cssEscape(id)}"]`) || null;
+			if (iframe) targets.set(id, iframe);
+		}
+		return iframe;
+	},
 
-            this.pending.set(id, { resolve, timer });
-            iframe.contentWindow.postMessage(message, '*');
-        });
-    },
+	snapshot() {
+		return [...targets.entries()]
+			.filter(([, iframe]) => iframe?.isConnected)
+			.map(([tabId, iframe]) => ({
+				tabId,
+				active: tabId === activeId,
+				ready: Boolean(iframe.contentWindow)
+			}));
+	},
 
-    handleMessage(event) {
-        const d = event.data;
-        if (!d || d.source !== 'preview-control-frame') {return; }
-        const pending = this.pending.get(d.id);
-        if (!pending) {return; }
-        clearTimeout(pending.timer);
-        this.pending.delete(d.id);
-        pending.resolve(d.result || { ok: false, error: 'empty_result' });
-    }
+	async send(tabId, action, payload = {}, options = {}) {
+		const id = String(tabId || this.activeTabId() || "");
+		const iframe = this.get(id);
+		if (!iframe?.contentWindow) {
+			return {
+				ok: false,
+				status: 404,
+				error: "preview_iframe_not_ready",
+				tabId: id,
+				availableTargets: this.snapshot()
+			};
+		}
+		activeId = id;
+		return requestIframe(iframe, id, normalizePreviewAction(action), payload, options.timeoutMs);
+	}
 };
 
-window.addEventListener('message', event => PreviewControlRegistry.handleMessage(event));
+function requestIframe(iframe, tabId, action, payload, timeoutMs = 6000) {
+	const requestId = `preview-${Date.now()}-${nextRequestId++}`;
+	return new Promise(resolve => {
+		const timer = setTimeout(() => finish({
+			ok: false,
+			status: 504,
+			error: "preview_control_timeout",
+			action,
+			tabId
+		}), Math.max(100, Number(timeoutMs || 6000)));
+		function onMessage(event) {
+			const data = event.data || {};
+			if (event.source !== iframe.contentWindow || data.requestId !== requestId) return;
+			finish(data.result || data);
+		}
+		function finish(result) {
+			clearTimeout(timer);
+			globalThis.removeEventListener?.("message", onMessage);
+			resolve({
+				ok: result.ok !== false,
+				action,
+				tabId,
+				...result
+			});
+		}
+		globalThis.addEventListener?.("message", onMessage);
+		iframe.contentWindow.postMessage({
+			type: "awtsmoos-preview-control",
+			requestId,
+			action,
+			payload
+		}, "*");
+	});
+}
+
+function cssEscape(value) {
+	return globalThis.CSS?.escape ? CSS.escape(value) : String(value).replace(/["\\]/g, "\\$&");
+}

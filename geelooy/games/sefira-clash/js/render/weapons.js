@@ -3,63 +3,87 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the weapons vessel in this instant, revealing
- * its focused js render service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * The Awtsmoos renews weapon geometry and Expedition radiance in one instant.
+ * Awtsmoos.com preserves the same sword, axe, shield, and staff hit vessels while
+ * named gear receives a visible aura that never alters collision or authoritative force.
  */
-/** B"H — weapons are geometry: sword line, axe blade, shield circle, staff. */
+
+import { drawExpeditionWeaponAura } from './ExpeditionWeaponAura.js';
+
 export function drawWeapons(ctx, weapons) {
-	for (const w of weapons) {
-		if (w.held) continue;
-		drawWeapon(ctx, w, w.x, w.y, 1, 0);
+	for (const weapon of weapons) {
+		if (weapon.held) {
+			continue;
+		}
+		drawWeapon(ctx, weapon, weapon.x, weapon.y, 1, 0);
 	}
 }
-/**
- * Reveals the draw held weapons behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} ctx The ctx value entering this behavior.
- * @param {*} fighters The fighters value entering this behavior.
- */
+
 export function drawHeldWeapons(ctx, fighters) {
-	for (const f of fighters) {
-		if (!f.heldWeapon || f.dead) continue;
-		drawWeapon(ctx, f.heldWeapon, f.heldWeapon.x, f.heldWeapon.y, f.face, f.heldWeapon.spin);
+	for (const fighter of fighters) {
+		if (!fighter.heldWeapon || fighter.dead) {
+			continue;
+		}
+		drawWeapon(
+			ctx,
+			fighter.heldWeapon,
+			fighter.heldWeapon.x,
+			fighter.heldWeapon.y,
+			fighter.face,
+			fighter.heldWeapon.spin
+		);
 	}
 }
-function drawWeapon(ctx, w, x, y, face, spin) {
+
+function drawWeapon(ctx, weapon, x, y, face, spin) {
 	ctx.save();
 	ctx.translate(x, y);
 	ctx.rotate(spin * 0.2);
-	ctx.strokeStyle = w.color;
-	ctx.fillStyle = w.color;
+	drawExpeditionWeaponAura(ctx, weapon, face);
+	ctx.strokeStyle = weapon.color;
+	ctx.fillStyle = weapon.color;
 	ctx.lineWidth = 4;
-	if (w.id === 'sword') {
-		ctx.beginPath();
-		ctx.moveTo(0, 0);
-		ctx.lineTo(face * 45, -8);
-		ctx.stroke();
+	if (weapon.id === 'sword') {
+		drawSword(ctx, face);
 	}
-	if (w.id === 'axe') {
-		ctx.beginPath();
-		ctx.moveTo(0, 0);
-		ctx.lineTo(face * 34, -4);
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.arc(face * 38, -6, 12, 0, Math.PI * 2);
-		ctx.fill();
+	if (weapon.id === 'axe') {
+		drawAxe(ctx, face);
 	}
-	if (w.id === 'shield') {
-		ctx.beginPath();
-		ctx.arc(0, 0, 17, 0, Math.PI * 2);
-		ctx.stroke();
+	if (weapon.id === 'shield') {
+		drawShield(ctx);
 	}
-	if (w.id === 'staff') {
-		ctx.beginPath();
-		ctx.moveTo(face * -18, 14);
-		ctx.lineTo(face * 52, -16);
-		ctx.stroke();
+	if (weapon.id === 'staff') {
+		drawStaff(ctx, face);
 	}
 	ctx.restore();
+}
+
+function drawSword(ctx, face) {
+	ctx.beginPath();
+	ctx.moveTo(0, 0);
+	ctx.lineTo(face * 45, -8);
+	ctx.stroke();
+}
+
+function drawAxe(ctx, face) {
+	ctx.beginPath();
+	ctx.moveTo(0, 0);
+	ctx.lineTo(face * 34, -4);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(face * 38, -6, 12, 0, Math.PI * 2);
+	ctx.fill();
+}
+
+function drawShield(ctx) {
+	ctx.beginPath();
+	ctx.arc(0, 0, 17, 0, Math.PI * 2);
+	ctx.stroke();
+}
+
+function drawStaff(ctx, face) {
+	ctx.beginPath();
+	ctx.moveTo(face * -18, 14);
+	ctx.lineTo(face * 52, -16);
+	ctx.stroke();
 }

@@ -1,0 +1,59 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Responsive and reduced-motion laws preserve the same expressive capabilities in
+	a smaller or quieter vessel. Awtsmoos.com changes arrangement, never meaning,
+	while the Awtsmoos remains equally present through every body and screen.
+*/
+
+@media (max-width: 1050px) {
+	.composerLayout {
+		grid-template-columns: 1fr;
+	}
+
+	.previewSticky {
+		position: static;
+	}
+}
+
+@media (max-width: 680px) {
+	.pageHeader {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.twoColumns,
+	.threeColumns {
+		grid-template-columns: 1fr;
+	}
+
+	.panelHeading {
+		flex-direction: column;
+	}
+
+	.actionBar button {
+		flex: 1 1 45%;
+	}
+}
+
+@media (max-width: 600px) {
+	.blockHeader select {
+		flex-basis: 100%;
+	}
+
+	.sectionHeader {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+		animation-duration: 0.001ms !important;
+	}
+}

@@ -2,16 +2,16 @@
 
 /**
  * @file api/vector/reindexer.js
- * @chapter A Fresh Graph Reuses Intermediate Node Bodies Before Final Sealing
- * @description
- * Rebuilds only an empty HNSW generation, validates every vector dimension, and
- * commits its registry once after all source records have been indexed.
+ * @chapter A Fresh Graph Seals Nodes And Names Once
+ * @description Rebuilds only an empty HNSW generation, validates every vector,
+ * and commits registry pointers plus the complete key ledger once.
  */
 
 const constants = require('../../constants.js');
 const createSourceIterator = require('./reindex/sourceIterator.js');
 const resolveRecord = require('./reindex/recordResolver.js');
 const extractVector = require('./reindex/vectorExtractor.js');
+const bulkSession = require('./graphBulkSession.js');
 
 class VectorReindexer {
 	constructor(db) {
@@ -29,16 +29,16 @@ class VectorReindexer {
 		const iterator = createSourceIterator(this.db, soul);
 		if (!iterator) return report;
 		const dimensions = Number(index.meta?.dim || 0);
-		index.registry.beginBulk({ detached: true });
-
+		bulkSession.begin(index, { detached: true });
 		try {
-			for (const row of iterator) this.indexRow(index, row, dimensions, report);
-			index.registry.commitBulk();
+			for (const row of iterator) {
+				this.indexRow(index, row, dimensions, report);
+			}
+			bulkSession.commit(index);
 		} catch (error) {
-			index.registry.abortBulk();
+			bulkSession.abort(index);
 			throw error;
 		}
-
 		report.registryCount = index.registry.count();
 		report.entryNodeID = index.entryNodeID;
 		return report;
@@ -56,7 +56,11 @@ class VectorReindexer {
 			report.invalidDimensions++;
 			return;
 		}
-		index.insert(String(row.key), vector, row.pointer || Buffer.alloc(16));
+		index.insert(
+			String(row.key),
+			vector,
+			row.pointer || Buffer.alloc(16)
+		);
 		report.indexed++;
 	}
 }

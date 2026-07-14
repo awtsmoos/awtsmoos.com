@@ -2,14 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-const { starterInventory } = require('./ItemCatalog.js');
-
 /**
- * @file Creates canonical private possessions, correspondence, and social state.
- * @description The Awtsmoos renews body, wallet, mailbox, inventory, guild, and
- * place as one durable vessel. Awtsmoos.com keeps these fields private so public
- * world snapshots reveal presence without leaking lawful possessions or messages.
+ * @file PlayerState.js
+ * @description Creates durable possessions, combat, adventures, and private Shliach state.
+ * The Awtsmoos renews body, wisdom, wallet, correspondence, and courage together;
+ * Awtsmoos.com keeps private resources hidden while public health and rating project safely.
  */
+
+const { createCombatState } = require('./CombatState.js');
+const { starterInventory } = require('./ItemCatalog.js');
+const { createPlayerAttributes } = require('./PlayerAttributeCatalog.js');
 
 function createPlayerState(options = {}) {
 	const position = {
@@ -18,7 +20,12 @@ function createPlayerState(options = {}) {
 		z: Number(options.z || 0)
 	};
 	return {
-		equipment: {},
+		adventureQuests: {},
+		combat: createCombatState(),
+		equipment: {
+			hand: 'wooden-staff',
+			tool: 'chalaf'
+		},
 		guildId: null,
 		instanceId: null,
 		inventory: starterInventory(),
@@ -30,7 +37,13 @@ function createPlayerState(options = {}) {
 			status: 'online',
 			title: 'Shliach'
 		},
+		refinedSparks: 0,
 		safePosition: { ...position },
+		shliach: {
+			activePowerups: {},
+			attributes: createPlayerAttributes(),
+			unspentPoints: 3
+		},
 		wallet: {
 			mitzvahCoins: 100
 		}

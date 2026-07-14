@@ -1,28 +1,71 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * Chapter 103: The request wore a crown no mission could remove.
- * Identity is copied first and restored last, while continuation walks beside it.
+ * B"H
+ *
+ * The request wears every crown required for multi-agent observability. The
+ * Awtsmoos renews mission, room, conversation, tab, and request together;
+ * Awtsmoos.com restores them after every filesystem, browser, or command action.
  */
-const KEYS = Object.freeze([
-  'requestId', 'id', 'action', 'actualAction', 'jobId',
-  'correlationId', 'clientRequestId', 'controlRequestId',
-  'vessel', 'workspaceId', 'path', 'p'
+const IDENTITY_KEYS = Object.freeze([
+	"requestId",
+	"id",
+	"action",
+	"actualAction",
+	"jobId",
+	"correlationId",
+	"clientRequestId",
+	"controlRequestId",
+	"vessel",
+	"workspaceId",
+	"logicalAgentId",
+	"agentSessionId",
+	"agentId",
+	"agentName",
+	"missionId",
+	"missionRoomId",
+	"roomId",
+	"missionTitle",
+	"conversationId",
+	"conversationName",
+	"tabId",
+	"previewTabId",
+	"targetId",
+	"path",
+	"p",
+	"url"
 ]);
 
 export function captureIdentity(payload = {}) {
-  const action = payload.action || payload.actualAction || 'list';
-  const got = { action, actualAction: action };
-  for (const key of KEYS) if (payload[key] !== undefined) got[key] = payload[key];
-  return got;
+	const action = payload.action || payload.actualAction || "list";
+	const identity = {
+		action,
+		actualAction: payload.actualAction || action
+	};
+	for (const key of IDENTITY_KEYS) {
+		if (payload[key] !== undefined) {
+			identity[key] = payload[key];
+		}
+	}
+	return identity;
 }
 
 export function preserveIdentity(payload = {}, result = {}) {
-  const id = captureIdentity(payload);
-  return {
-    ...result,
-    ...id,
-    action: id.action,
-    actualAction: id.actualAction || id.action,
-    mission: result.mission || payload.mission || payload.missionStatus || null
-  };
+	const identity = captureIdentity(payload);
+	return {
+		...result,
+		...identity,
+		action: identity.action,
+		actualAction: identity.actualAction || identity.action,
+		mission: result.mission || payload.mission || payload.missionStatus || null
+	};
+}
+
+export function correlationSummary(payload = {}) {
+	const identity = captureIdentity(payload);
+	return Object.fromEntries(Object.entries(identity).filter(([, value]) => (
+		value !== undefined && value !== null && value !== ""
+	)));
 }

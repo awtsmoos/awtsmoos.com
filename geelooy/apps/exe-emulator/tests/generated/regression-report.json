@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T16:07:35.516Z",
+  "generatedAt": "2026-07-14T17:03:45.953Z",
   "nativeTimeoutMs": 2400,
   "hardSuiteTimeoutMs": 25000,
   "maxNativeLaunches": 8,
@@ -14,14 +14,16 @@
         "ok": true,
         "result": {
           "mode": "windows-console",
-          "message": "Executed compiler x64 subset.",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
           "runtime": {
             "steps": 45,
             "halted": true
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-console",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -30,7 +32,7 @@
           "IAT 0x1080 -> KERNEL32.dll!WriteFile",
           "IAT 0x1088 -> KERNEL32.dll!Sleep",
           "IAT 0x1090 -> KERNEL32.dll!ExitProcess",
-          "B\"H generated console test",
+          "B\"H generated console test\r\n",
           "Sleep(1500) skipped in virtual time."
         ],
         "windows": [],
@@ -53,14 +55,16 @@
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Executed compiler x64 subset.",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
           "runtime": {
             "steps": 23,
             "halted": true
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-gui",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -93,14 +97,16 @@
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Executed compiler x64 subset.",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
           "runtime": {
             "steps": 23,
             "halted": true
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-gui",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -133,14 +139,16 @@
         "ok": true,
         "result": {
           "mode": "windows-console",
-          "message": "Executed compiler x64 subset.",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
           "runtime": {
             "steps": 163,
             "halted": true
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-console",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -180,14 +188,16 @@
         "ok": true,
         "result": {
           "mode": "windows-console",
-          "message": "Executed compiler x64 subset.",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
           "runtime": {
             "steps": 71,
             "halted": true
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-console",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -195,10 +205,7 @@
           "IAT 0x10d0 -> KERNEL32.dll!CreateFileA",
           "IAT 0x10d8 -> KERNEL32.dll!WriteFile",
           "IAT 0x10e0 -> KERNEL32.dll!CloseHandle",
-          "IAT 0x10e8 -> KERNEL32.dll!ExitProcess",
-          "CreateFileA RAM handle 101: created_by_asm.txt",
-          "WriteFile RAM created_by_asm.txt: B\"H - Existence generated from nothingness.",
-          "CloseHandle RAM created_by_asm.txt (43 chars)"
+          "IAT 0x10e8 -> KERNEL32.dll!ExitProcess"
         ],
         "windows": [],
         "draws": []
@@ -220,14 +227,20 @@
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Executed compiler x64 subset.",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
           "runtime": {
-            "steps": 164,
-            "halted": true
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0x0 at 0x10ed",
+            "title": "B\"H - Native Window",
+            "body": "Compiler-generated Win32 window represented semantically."
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-gui",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -243,14 +256,16 @@
           "IAT 0x11e0 -> USER32.dll!DispatchMessageA",
           "IAT 0x11e8 -> USER32.dll!DefWindowProcA",
           "IAT 0x11f0 -> USER32.dll!PostQuitMessage",
-          "RegisterClassA -> 101",
-          "ShowWindow(102, 5)",
-          "DispatchMessageA(8388456)"
+          "Semantic simulation boundary: Unsupported opcode 0x0 at 0x10ed"
         ],
         "windows": [
           {
             "title": "B\"H - Native Window",
-            "body": "CreateWindowExA mapped this native window into JS."
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Native Window",
+            "body": "Compiler-generated Win32 window represented semantically."
           }
         ],
         "draws": []
@@ -272,14 +287,20 @@
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Executed compiler x64 subset.",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
           "runtime": {
-            "steps": 164,
-            "halted": true
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0x0 at 0x10ed",
+            "title": "B\"H - Drawing",
+            "body": "B\"H - Awtsmoos Generated This!"
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-gui",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -303,17 +324,18 @@
           "IAT 0x1350 -> USER32.dll!BeginPaint",
           "IAT 0x1358 -> USER32.dll!EndPaint",
           "IAT 0x1360 -> USER32.dll!FillRect",
-          "RegisterClassA -> 101",
-          "ShowWindow(102, 5)",
-          "DispatchMessageA(8388456)",
-          "FillRect(hdc=8388456)",
-          "GDI TextOutA: B\"H - Awtsmoos Generated This!",
-          "GDI SetPixel: diagonal pixel ritual rendered symbolically."
+          "GDI TextOutA simulation: B\"H - Awtsmoos Generated This!",
+          "GDI SetPixel simulation: diagonal pixel line.",
+          "Semantic simulation boundary: Unsupported opcode 0x0 at 0x10ed"
         ],
         "windows": [
           {
             "title": "B\"H - Drawing",
-            "body": "CreateWindowExA mapped this native window into JS."
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Drawing",
+            "body": "B\"H - Awtsmoos Generated This!"
           }
         ],
         "draws": [
@@ -345,14 +367,20 @@
         "ok": true,
         "result": {
           "mode": "windows-gui",
-          "message": "Executed compiler x64 subset.",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
           "runtime": {
-            "steps": 241,
-            "halted": true
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0xc at 0x1190",
+            "title": "B\"H - Rotating Triangle",
+            "body": "Compiler-generated Win32 window represented semantically."
           }
         },
         "lines": [
-          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Awtsmoos PE loader: validated headers and mapped sections.",
           "Subsystem: windows-gui",
           "ImageBase: 0x140000000",
           "EntryRVA: 0x1000",
@@ -378,20 +406,17 @@
           "IAT 0x16c8 -> GDI32.dll!BitBlt",
           "IAT 0x16d0 -> GDI32.dll!DeleteObject",
           "IAT 0x16d8 -> GDI32.dll!DeleteDC",
-          "RegisterClassA -> 102",
-          "GetDC(103) -> 104",
-          "CreateCompatibleDC(104) -> 105",
-          "CreateDIBSection -> bitmap 106, pixels 107",
-          "SelectObject(dc=105, obj=106)",
-          "ShowWindow(103, 5)",
-          "SetTimer(hwnd=103, id=1, ms=16)",
-          "DispatchMessageA(8388456)",
-          "GDI triangle/DIB pipeline rendered symbolically."
+          "GDI bitmap simulation: triangle pipeline.",
+          "Semantic simulation boundary: Unsupported opcode 0xc at 0x1190"
         ],
         "windows": [
           {
             "title": "B\"H - Rotating Triangle",
-            "body": "CreateWindowExA mapped this native window into JS."
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Rotating Triangle",
+            "body": "Compiler-generated Win32 window represented semantically."
           }
         ],
         "draws": [

@@ -3,16 +3,19 @@
 //Blessed is He
 
 /**
- * The game model owns an explicit local lobby beside Adventure progression.
- * The Awtsmoos renews both paths in Awtsmoos.com without letting teams, devices,
- * readiness, or result arithmetic blur their focused responsibilities.
+ * The game model owns local VS, sixty-gate Adventure, optional gate shlichus, persistent
+ * Expedition, and lived Open World continuity. The Awtsmoos renews all Awtsmoos.com
+ * paths while focused modules retain state creation, civic law, and result arithmetic.
  */
-import { createGameState, createRosterGameState } from '../core/state.js';
+
+import { AdventureShlichusModel } from '../adventure/AdventureShlichusModel.js';
 import { CHARACTERS, characterById } from '../data/characters.js';
 import { ADVENTURE_MAPS, MAPS } from '../data/maps.js';
+import { ExpeditionModel } from '../expedition/ExpeditionModel.js';
 import { PlayerLobby } from '../multiplayer/PlayerLobby.js';
-import { legacyRoster, rosterFromLobby } from '../multiplayer/MatchRoster.js';
+import { OpenWorldModel } from '../openworld/OpenWorldModel.js';
 import { recordAdventureSessionWin } from './AdventureSessionResults.js';
+import { createMenuGameState, createModeGameState } from './GameStateFactory.js';
 import {
 	decorateAdventureMaps,
 	loadAdventureProgress,
@@ -22,61 +25,51 @@ import {
 	winnerFor
 } from './sessionHelpers.js';
 
-/** Owns player choice, local lobby, match state, and durable campaign progress. */
 export class GameModel {
 	constructor() {
 		const saved = loadProfile();
 		this.lobby = new PlayerLobby();
-		this.choice = {
-			mode: 'vs',
-			character: CHARACTERS[0],
-			map: MAPS[0],
-			cosmetic: {
-				headwear: saved.headwear || 'kippah',
-				hue: Number(saved.hue || 182),
-				ready: Boolean(saved.ready)
-			}
-		};
+		this.choice = createChoice(saved);
 		this.adventureProgress = loadAdventureProgress(ADVENTURE_MAPS);
+		this.adventureShlichus = new AdventureShlichusModel(ADVENTURE_MAPS);
+		this.expedition = new ExpeditionModel(this.adventureProgress, ADVENTURE_MAPS);
+		this.openWorld = new OpenWorldModel(this.expedition);
 		this.runStartedAt = 0;
 		this.state = this.createMenuState();
 	}
 
 	createMenuState() {
-		const state = createGameState(MAPS[0], 0, this.choice.character, this.choice.cosmetic);
-		state.phase = 'menu';
-		return state;
+		return createMenuGameState(this.choice, MAPS[0]);
 	}
 
 	enterMenu() {
+		if (this.state.mode === 'openworld') this.openWorld.consumeState(this.state);
 		this.state = this.createMenuState();
 	}
 
 	createMatch(map, mode, botCount) {
 		this.choice.map = map;
 		this.choice.mode = mode;
-		const roster =
-			mode === 'vs'
-				? rosterFromLobby(this.lobby)
-				: legacyRoster(this.choice.character, this.choice.cosmetic, botCount);
-		const rules = mode === 'vs' ? this.lobby.rules : {};
-		this.state = createRosterGameState(map, roster, rules);
-		this.state.phase = 'countdown';
-		this.state.mode = mode;
+		this.state = createModeGameState(this, map, mode, botCount);
+	}
+
+	createOpenWorld() {
+		this.choice.mode = 'openworld';
+		this.state = createModeGameState(this, null, 'openworld', 0);
+		this.choice.map = this.state.map;
+		this.runStartedAt = performance.now();
+		return this.state;
 	}
 
 	setLobbyCharacter(index, characterId) {
 		this.lobby.setCharacter(index, characterId);
-		if (index === 0) {
-			this.choice.character = characterById(characterId);
-		}
+		if (index === 0) this.choice.character = characterById(characterId);
 	}
 
 	inputSlots() {
-		if (this.choice.mode === 'vs') {
-			return this.lobby.activeSlots();
-		}
-		return [{ id: 'player-1', kind: 'human', deviceId: 'keyboard', connected: true }];
+		if (this.choice.mode === 'vs') return this.lobby.activeSlots();
+		const id = this.choice.mode === 'openworld' ? 'open-world-player' : 'player-1';
+		return [{ id, kind: 'human', deviceId: 'keyboard', connected: true }];
 	}
 
 	startPlaying() {
@@ -90,7 +83,8 @@ export class GameModel {
 	}
 
 	adventureMaps() {
-		return decorateAdventureMaps(ADVENTURE_MAPS, this.adventureProgress);
+		const decorated = decorateAdventureMaps(ADVENTURE_MAPS, this.adventureProgress);
+		return this.adventureShlichus.decorate(decorated);
 	}
 
 	winner() {
@@ -98,6 +92,9 @@ export class GameModel {
 	}
 
 	nextMap() {
+		if (this.choice.mode === 'expedition') {
+			return this.expedition.nextMap(this.choice.map.id);
+		}
 		const list = this.choice.mode === 'adventure' ? ADVENTURE_MAPS : MAPS;
 		return nextStage(list, this.choice.map);
 	}
@@ -105,6 +102,19 @@ export class GameModel {
 	recordAdventureWin() {
 		return recordAdventureSessionWin(this);
 	}
+}
+
+function createChoice(saved) {
+	return {
+		mode: 'vs',
+		character: CHARACTERS[0],
+		map: MAPS[0],
+		cosmetic: {
+			headwear: saved.headwear || 'kippah',
+			hue: Number(saved.hue || 182),
+			ready: Boolean(saved.ready)
+		}
+	};
 }
 
 export { ADVENTURE_MAPS, MAPS };

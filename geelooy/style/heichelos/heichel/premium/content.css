@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Series, posts, and controls receive one premium content language. The Awtsmoos
+ * gives every object its source while Awtsmoos.com improves scanning and reading.
+ */
+.heichel-mobile-navigation .series-list,
+.heichel-mobile-navigation .post-list,
+.heichel-mobile-navigation .cards-container,
+.heichel-mobile-navigation .geelooy-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+	gap: clamp(.8rem, 2vw, 1.2rem);
+}
+.heichel-mobile-navigation .card-wrapper,
+.heichel-mobile-navigation .series-list > *,
+.heichel-mobile-navigation .post-card,
+.heichel-mobile-navigation .geelooy-card {
+	position: relative;
+	overflow: hidden;
+	min-height: 12rem;
+	padding: 1rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius);
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, .035), transparent 54%),
+		var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-soft);
+	color: var(--heichel-ink);
+}
+.heichel-mobile-navigation .card-wrapper::after,
+.heichel-mobile-navigation .post-card::after {
+	position: absolute;
+	right: -4rem;
+	bottom: -5rem;
+	width: 11rem;
+	aspect-ratio: 1;
+	border: 1px solid rgba(135, 217, 233, .08);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
+}
+.heichel-mobile-navigation .post-card h2,
+.heichel-mobile-navigation .series-list h2,
+.heichel-mobile-navigation .geelooy-card h2,
+.heichel-mobile-navigation .geelooy-card h3 {
+	position: relative;
+	z-index: 1;
+	margin: 0 0 .7rem;
+	font-size: clamp(1.3rem, 2vw, 1.8rem);
+	line-height: 1.08;
+	letter-spacing: -.035em;
+}
+.heichel-mobile-navigation .post-preview,
+.heichel-mobile-navigation .series-list p,
+.heichel-mobile-navigation .geelooy-card p {
+	position: relative;
+	z-index: 1;
+	color: var(--heichel-soft-ink);
+	line-height: 1.65;
+}
+.heichel-mobile-navigation .context-menu-icon {
+	position: absolute;
+	z-index: 8;
+	top: .7rem;
+	right: .7rem;
+	display: grid;
+	width: 2.35rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--heichel-line);
+	border-radius: 999px;
+	background: rgba(3, 5, 10, .72);
+	color: var(--heichel-muted-ink);
+}
+.heichel-mobile-navigation .empty-message,
+.heichel-mobile-navigation .empty-state {
+	grid-column: 1 / -1;
+	padding: 2rem;
+	border: 1px dashed var(--heichel-line);
+	border-radius: var(--heichel-radius);
+	background: rgba(255, 255, 255, .025);
+	color: var(--heichel-muted-ink);
+	text-align: center;
+}
+.heichel-mobile-navigation .card-wrapper.selected {
+	border-color: var(--heichel-line-strong);
+	box-shadow: 0 0 0 .2rem rgba(227, 205, 157, .08), var(--heichel-shadow-soft);
+}
+@media (min-width: 1120px) {
+	.heichel-mobile-navigation .series-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.heichel-mobile-navigation .post-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

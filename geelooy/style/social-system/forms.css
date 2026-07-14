@@ -1,56 +1,102 @@
 /* B"H
- * Step 1: Forms become soft, readable instruments.
- * The Awtsmoos draws every input as a small gate: clear touch target, glassy
- * focus, no iOS zoom, honest disabled state, and no horizontal overflow.
+ * Boruch Hashem
+ * Blessed is He
+ * Forms become clear instruments: designed captions, stable fields, and honest state.
  */
-:where(input, textarea, select) {
-  appearance: none;
-  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,250,252,.86));
-  border: 1px solid var(--g-border, rgba(15,23,42,.12));
-  border-radius: var(--radius-l, 1.35rem);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 8px 24px rgba(15,23,42,.04);
-  color: var(--g-text, #0f172a);
-  font: inherit;
-  font-size: max(16px, 1em);
-  min-height: 46px;
-  min-width: 0;
-  outline: none;
-  padding: .72rem .9rem;
-  transition: border-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft), background var(--motion-fast) var(--ease-soft), transform var(--motion-fast) var(--ease-snap);
-  width: 100%;
+:where(.field, .form-field, [data-field]) {
+	display: grid;
+	gap: var(--space-2, .5rem);
+	min-width: 0;
 }
-
+:where(label[for], .field-label, .form-label, .input-label, .control-label):not(.sr-only) {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	width: fit-content;
+	color: var(--g-text-2);
+	font-size: var(--type-small, .84rem);
+	font-weight: 750;
+	line-height: 1.25;
+}
+:where(label[for], .field-label, .form-label, .input-label, .control-label):not(.sr-only)::before {
+	width: .48rem;
+	height: .48rem;
+	border: 1px solid color-mix(in srgb, var(--g-accent) 52%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--g-accent) 16%, transparent);
+	content: "";
+	flex: 0 0 auto;
+}
+:where([data-required="true"], .is-required):not(.sr-only)::after {
+	padding: .15rem .38rem;
+	border-radius: var(--radius-pill);
+	background: color-mix(in srgb, var(--awt-danger) 12%, transparent);
+	color: var(--awt-danger);
+	content: "Required";
+	font-size: var(--type-caption);
+	font-weight: 800;
+}
+:where(.field-hint, .form-hint, .input-hint, [data-field-hint]) {
+	margin: 0;
+	color: var(--g-faint);
+	font-size: var(--type-small);
+	line-height: 1.45;
+}
+:where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]), textarea, select) {
+	width: 100%;
+	min-width: 0;
+	min-height: 46px;
+	padding: .72rem .85rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface);
+	box-shadow: none;
+	color: var(--g-text);
+	font: inherit;
+	font-size: max(16px, 1em);
+	outline: 0;
+	transition: border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
+}
 :where(textarea) {
-  line-height: 1.5;
-  min-height: 7.5rem;
-  resize: vertical;
+	min-height: 7.5rem;
+	line-height: 1.55;
+	resize: vertical;
 }
-
-:where(input, textarea, select):is(:focus, :focus-visible) {
-  border-color: color-mix(in srgb, var(--g-focus, #f5ca70), white 18%);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--g-focus, #f5ca70), transparent 72%), 0 14px 34px rgba(15,23,42,.10);
-  transform: translateY(-1px);
+:where(input, textarea)::placeholder {
+	color: var(--g-faint);
+	opacity: .9;
 }
-
-:where(input, textarea)::placeholder { color: var(--g-faint, #94a3b8); }
-
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select):is(:focus, :focus-visible) {
+	border-color: var(--g-focus);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-focus) 20%, transparent);
+}
+:where(input, textarea, select):user-invalid {
+	border-color: var(--awt-danger);
+}
 :where(input, textarea, select):disabled,
 :where(input, textarea, select)[aria-disabled="true"] {
-  cursor: not-allowed;
-  opacity: .58;
+	cursor: not-allowed;
+	opacity: .55;
 }
-
+:where(input[type="checkbox"], input[type="radio"]) {
+	width: 1.15rem;
+	height: 1.15rem;
+	margin: 0;
+	accent-color: var(--g-accent);
+}
+:where(input[type="file"]) {
+	max-width: 100%;
+	padding: .55rem;
+	border: 1px dashed var(--g-border-strong);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface-soft);
+}
 .home-search-vessel {
-  align-items: stretch;
-  display: grid;
-  gap: var(--g-2, .5rem);
-  grid-template-columns: minmax(0, 1fr) auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--space-2);
+	align-items: stretch;
 }
-
 .home-command-label {
-  color: var(--g-muted, #64748b);
-  display: block;
-  font-size: .85rem;
-  font-weight: 700;
-  margin-bottom: var(--g-2, .5rem);
+	margin-bottom: var(--space-2);
 }

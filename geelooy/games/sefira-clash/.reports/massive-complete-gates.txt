@@ -1,0 +1,166 @@
+
+> test:adventure-shlichus
+> node --test tests/adventure/*.test.mjs
+
+✔ every Adventure gate receives three deterministic optional vows (200.531244ms)
+✔ real run state fulfills vows and persistence decorates gate cards (44.854146ms)
+✔ optional vow state does not alter required unlock metadata (2.844994ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2605.064899
+ADVENTURE_SHLICHUS_EXIT=0
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (1.797101ms)
+✔ every world reference resolves to a real authored vessel (0.94207ms)
+✔ authors ten guardians with three monotonic phases (225.966065ms)
+✔ boss transitions from actual damage and emits visible events (91.333359ms)
+✔ weather is deterministic, advances explicitly, and emits named effects (5.039887ms)
+✔ authors twenty citizens, ten shops, and fifteen deterministic recipes (4.924531ms)
+✔ purchase validates before charging and grants exact material quantity (35.572688ms)
+✔ crafting is atomic and civic services are idempotent (11.120911ms)
+✔ compiles thirty unique bespoke Expedition roads (12.430999ms)
+✔ every settlement and climax owns the required authored nodes (7.041205ms)
+✔ migrates schema-v1 profile into complete schema-v2 state (7.200743ms)
+✔ opaque profile identity is stable after first assignment (8.914519ms)
+✔ conflict merge preserves permanent progress and newest remote selection (6.555648ms)
+✔ runs a persistent authored expedition from atlas to next road (3205.86757ms)
+✔ every named mode round-trips through enforced match rules (40.704914ms)
+✔ expedition context changes only the human fighter and carries region truth (67.292463ms)
+✔ migrates old gate clears and Perutas into the connected world (145.756738ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (31.920436ms)
+✔ reveals only the authored next road after a clear (2.165469ms)
+✔ completes and claims an authored quest exactly once (153.5368ms)
+✔ equips only known owned gear in its declared slot (0.604265ms)
+✔ derived gear stats mutate real fighter values and weapon (1.680484ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8181.89986
+EXPEDITION_EXIT=0
+✔ merges independent input sources without one erasing another (28.985066ms)
+✔ measures latency, jitter, frame gaps, and human-readable quality (27.643139ms)
+✔ reconnect and checksum failure are visible without color dependence (0.912646ms)
+✔ browser and server produce the same schema-two checksum (11.161093ms)
+✔ browser integrity rejects corruption and counts the failure (10.000887ms)
+✔ legacy unsealed snapshot remains accepted and measured (0.702467ms)
+✔ stores minimum resume identity and clears it safely (119.178815ms)
+✔ public session snapshot never exposes the private resume token (45.30316ms)
+✔ reconnect policy remains bounded inside grace (243.299076ms)
+✔ two clients create, ready, start, and receive authoritative state (189.832535ms)
+✔ disconnect and resume preserve the same participant (5.908288ms)
+✔ owner migration and rematch remain deterministic (1.255838ms)
+✔ server computes movement from bounded input (5.555058ms)
+✔ server attacks wave and completes through boss damage (2.300289ms)
+✔ boss phases are derived from server health (0.746093ms)
+✔ exact revision accepts lawful spending and derives level (17.399718ms)
+✔ stale revision merges progress and repository survives restart (10.225103ms)
+✔ request router exposes additive pull and push without old lobby membership (201.797678ms)
+✔ creates and joins a private four-player room with safe snapshots (4.947399ms)
+✔ invalidates readiness after character or team changes (1.092039ms)
+✔ migrates ownership and deletes a room after immediate expiry (2.182142ms)
+✔ rejects a fifth player without corrupting room membership (2.328505ms)
+✔ seals canonical public state and detects corruption (22.853272ms)
+✔ records authoritative hit, damage, fall, and ring-out statistics (78.955045ms)
+✔ exports bounded public replay after a completed match (29.670844ms)
+✔ journal trims old snapshots and events to declared bounds (70.9974ms)
+✔ requires owner authority and unanimous readiness before starting (275.043924ms)
+✔ binds input to its socket fighter and ignores a stale sequence (2.030479ms)
+✔ zero-grace disconnect eliminates and returns a finished match to lobby (3.227127ms)
+✔ accepts only newer bounded input and moves the bound fighter (362.85599ms)
+✔ resolves attack damage and guarded reduction on the server (146.237206ms)
+✔ owns ring-out stocks and free-for-all victory (25.349663ms)
+✔ resolves team victory after the opposing team is eliminated (3.28601ms)
+✔ team match rejects one team and accepts opposing teams (54.743351ms)
+✔ issues strict opaque resume tokens (177.612633ms)
+✔ declares capabilities and safe aggregate health without membership (1.41292ms)
+✔ echoes client ping time beside a server timestamp (2.52703ms)
+✔ enforces independent input, ping, and command windows (2.956414ms)
+✔ lived-city profile survives repository restart (19.41383ms)
+✔ current revision permits spending while stale civic progress cannot regress (254.464369ms)
+✔ request route returns match identity, events, snapshots, and final state (160.149996ms)
+✔ request route rejects replay before authoritative completion (1.222434ms)
+✔ disconnect neutralizes then resume restores the same fighter and identity (254.868625ms)
+✔ grace expiry eliminates a disconnected fighter and migrates ownership (2.256562ms)
+✔ intentional leave removes immediately without scheduling grace (1.11324ms)
+✔ spectator watches an active match without entering player equations (11.850264ms)
+✔ spectator capacity is independent and bounded (16.186331ms)
+✔ preserves every original Sefira protocol name while adding match names (3.715925ms)
+✔ preserves original server exports and registered factories (3.698594ms)
+✔ supports both original and options-object RealtimeClient constructors (27.303877ms)
+✔ preserves the complete original SefiraLobbyClient class surface (5.637622ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10825.517155
+SERVER_EXIT=0
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (2.131096ms)
+✔ preserves original server exports and registered factories (4.023928ms)
+✔ supports both original and options-object RealtimeClient constructors (14.119998ms)
+✔ preserves the complete original SefiraLobbyClient class surface (182.464518ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2919.227622
+WEBSOCKET_EXIT=0
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+ADVENTURE_AUDIT_EXIT=0
+
+> audit:feel
+> node tools/core-feel-audit.mjs
+
+{"simulation":{"hertz":60,"simulatedSteps":59,"renderSamples":121},"input":{"edgeDetected":true,"bufferedFrames":7,"consumedOnce":true},"shield":{"parryWindow":3,"shieldDamageApplied":true},"adventure":{"perutas":10,"exitOpened":true,"completed":true}}
+FEEL_EXIT=0
+
+> audit:winners
+> node tools/winner-rules-audit.mjs
+
+{"adventureWaitsForObjective":true,"adventureDefeatResolves":true,"versusLastStockWins":true}
+WINNER_EXIT=0
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_EXIT=0
+
+> audit:modules
+> node tools/module-smoke-audit.mjs
+
+{"vs":{"frame":10,"fighters":3,"map":"beit-midrash-bouncer"},"adventure":{"frame":10,"gate":60,"fighters":4,"collectibles":20}}

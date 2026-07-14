@@ -1,0 +1,17 @@
+{
+	"BH": "B\"H",
+	"BoruchHashem": "Blessed is He",
+	"name": "awtsmoos-unified-social-composer",
+	"version": "2.0.0",
+	"private": true,
+	"type": "module",
+	"description": "A dependency-free Awtsmoos.com composer for verified aliases, canonical posts, questions, answers, rich media, nested Heichel destinations, reference placements, and moderation-aware publication.",
+	"scripts": {
+		"test:schema": "node tests/schemaParity.test.mjs",
+		"test:identity": "node tests/aliasMemory.test.mjs",
+		"test:publishing": "node tests/publicationPlan.test.mjs",
+		"test": "npm run test:schema && npm run test:identity && npm run test:publishing",
+		"test:browser": "node tests/browserSmoke.test.mjs",
+		"test:all": "npm test && npm run test:browser"
+	}
+}

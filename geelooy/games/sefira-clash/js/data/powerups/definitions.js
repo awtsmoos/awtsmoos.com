@@ -3,48 +3,54 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the definitions vessel in this instant, revealing
- * its focused js data powerups service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Powerup definitions name every short-lived arena blessing explicitly. The Awtsmoos
+ * renews jump, force, healing, speed, shield, Chochmah Insight, and Binah armor together;
+ * Awtsmoos.com keeps each color, letter, duration, and gameplay purpose immutable.
  */
-/**
- * B"H
- * Power-up definitions.
- *
- * Chapter 14: the Awtsmoos places small suns in the arena. Each one changes
- * one readable rule for a short time, never hidden, never vague: jump higher,
- * move faster, heal, shield, or strike harder.
- */
-export const POWERUP_DEFINITIONS = {
-	doubleJump: {
+
+import { RESONANCE_POWERUPS } from '../../resonance/ResonanceCatalog.js';
+
+const LEGACY_POWERUPS = Object.freeze({
+	doubleJump: Object.freeze({
 		id: 'doubleJump',
 		name: 'Double Jump Orb',
 		letter: 'ק',
 		color: '#8af7ff',
 		duration: 900
-	},
-	gevurahFist: {
+	}),
+	gevurahFist: Object.freeze({
 		id: 'gevurahFist',
 		name: 'Gevurah Fist',
 		letter: 'ג',
 		color: '#ff776a',
 		duration: 540
-	},
-	chesedHeal: {
+	}),
+	chesedHeal: Object.freeze({
 		id: 'chesedHeal',
 		name: 'Chesed Heal',
 		letter: 'ח',
 		color: '#9dffb1',
 		duration: 1
-	},
-	netzachBoots: {
+	}),
+	netzachBoots: Object.freeze({
 		id: 'netzachBoots',
 		name: 'Netzach Boots',
 		letter: 'נ',
 		color: '#d6ff75',
 		duration: 600
-	},
-	ohrShield: { id: 'ohrShield', name: 'Ohr Shield', letter: 'א', color: '#fff1a6', duration: 720 }
-};
+	}),
+	ohrShield: Object.freeze({
+		id: 'ohrShield',
+		name: 'Ohr Shield',
+		letter: 'א',
+		color: '#fff1a6',
+		duration: 720
+	})
+});
 
-export const POWERUP_IDS = Object.keys(POWERUP_DEFINITIONS);
+export const LEGACY_POWERUP_IDS = Object.freeze(Object.keys(LEGACY_POWERUPS));
+export const POWERUP_DEFINITIONS = Object.freeze({
+	...LEGACY_POWERUPS,
+	...RESONANCE_POWERUPS
+});
+export const POWERUP_IDS = Object.freeze(Object.keys(POWERUP_DEFINITIONS));

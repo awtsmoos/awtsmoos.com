@@ -1,0 +1,22 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+:focus-visible {
+	outline: 0.18rem solid var(--accent);
+	outline-offset: 0.18rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+@media (forced-colors: active) {
+	header,
+	section,
+	nav a {
+		border: 1px solid CanvasText;
+	}
+}

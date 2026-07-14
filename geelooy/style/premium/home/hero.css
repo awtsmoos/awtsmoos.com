@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The hero offers purpose before detail. The Awtsmoos is beyond every headline
+ * while Awtsmoos.com reveals one quiet and useful first movement.
+ */
+.premium-home .home-glance-panel {
+	position: relative;
+	overflow: hidden;
+	min-height: clamp(38rem, 72vh, 54rem);
+	padding: clamp(1.15rem, 4vw, 3.5rem);
+}
+.premium-home .home-glance-panel::after {
+	position: absolute;
+	right: -12rem;
+	bottom: -15rem;
+	width: 34rem;
+	aspect-ratio: 1;
+	border: 1px solid rgba(227, 205, 157, .11);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(227, 205, 157, .08), transparent 66%);
+	content: "";
+	pointer-events: none;
+}
+.premium-home .g-home-hero-copy {
+	position: relative;
+	z-index: 2;
+	max-width: 52rem;
+}
+.premium-home .g-title {
+	margin: 0;
+	font-size: clamp(3rem, 8vw, 7.4rem);
+	line-height: .91;
+	letter-spacing: -.072em;
+}
+.premium-home .g-gradient-text {
+	background: linear-gradient(120deg, var(--premium-gold-bright), var(--premium-cyan));
+	background-clip: text;
+	color: transparent;
+}
+.premium-home #home-introduction {
+	max-width: 44rem;
+	margin: 1.35rem 0 0;
+	font-size: clamp(1rem, 2vw, 1.22rem);
+}
+.premium-home .home-proof-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	margin: 1.4rem 0;
+}
+.premium-home .g-home-portal-search {
+	position: relative;
+	z-index: 2;
+	margin-top: clamp(1.6rem, 4vw, 3rem);
+}
+.premium-home .g-search-orb,
+.premium-home .g-search-submit {
+	display: grid;
+	min-width: 2.7rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 0;
+	border-radius: .8rem;
+	background: rgba(255, 255, 255, .05);
+	color: var(--premium-ink);
+}
+.premium-home .g-search-submit {
+	background: var(--premium-gold-bright);
+	color: #17130b;
+}
+.premium-home .g-home-actions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .7rem;
+	margin-top: 1rem;
+}
+.premium-home .g-home-action {
+	display: grid;
+	min-height: 8.5rem;
+	align-content: center;
+	gap: .3rem;
+	padding: 1rem;
+	border: 1px solid var(--premium-line);
+	border-radius: 1.15rem;
+	background: rgba(255, 255, 255, .035);
+	text-decoration: none;
+}
+.premium-home .g-home-action span {
+	font-size: 1.35rem;
+}
+.premium-home .g-home-action small {
+	color: var(--premium-soft);
+	line-height: 1.4;
+}
+.premium-home .g-home-action.is-primary {
+	border-color: var(--premium-line-strong);
+	background: linear-gradient(145deg, rgba(227, 205, 157, .13), rgba(135, 217, 233, .07));
+}

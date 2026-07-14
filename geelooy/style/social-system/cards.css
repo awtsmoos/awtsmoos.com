@@ -1,37 +1,60 @@
 /* B"H
- * Chapter: Cards learn depth, hover, glass, and restraint.
- * The same premium physical language now flows through home, profile, spaces,
- * posts, and empty states without duplicated local spellwork.
+ * Boruch Hashem
+ * Blessed is He
+ * Shared cards use one border, one surface, one optional shadow, and no 3D tilt.
  */
-.home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel,
-.social-space-card, .social-empty-card, .home-route-card, .profile-about-grid article,
-.profile-stat-grid article, .home-post-card, .spaces-hero {
-  background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
-  border: 1px solid var(--g-border, rgba(15,23,42,.12));
-  border-radius: var(--g-radius-lg, 24px);
-  box-shadow: var(--g-shadow-sm, 0 10px 30px rgba(15,23,42,.08));
-  overflow: clip;
-  position: relative;
-  transform: translateZ(0);
-  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-med) var(--ease-soft);
+:where(.home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel, .social-space-card, .social-empty-card, .home-route-card, .profile-about-grid article, .profile-stat-grid article, .home-post-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper) {
+	position: relative;
+	min-width: 0;
+	overflow: clip;
+	border: 1px solid var(--g-border);
+	border-radius: var(--g-radius-lg);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-paper);
+	color: var(--g-text);
+	contain: layout paint style;
+	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft);
 }
-
-.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero { padding: var(--g-5, 1.25rem); }
-.home-route-card, .social-space-card, .social-empty-card, .home-post-card, .profile-about-grid article, .profile-stat-grid article { padding: var(--g-4, 1rem); }
-
-.home-command-card::before, .home-feed-phone::before, .profile-hero-card::before,
-.social-space-card::before, .home-route-card::before, .home-post-card::before, .spaces-hero::before {
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  background: linear-gradient(120deg, rgba(255,255,255,.45), transparent 42%, rgba(245,202,112,.12));
-  opacity: .72;
+:where(.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero) {
+	padding: var(--space-5);
 }
-
-.social-space-card:hover, .home-route-card:hover, .home-post-card:hover, .home-command-card:hover,
-.profile-hero-card:hover, .spaces-hero:hover {
-  border-color: var(--g-border-strong, rgba(214,168,79,.44));
-  box-shadow: var(--motion-shadow-lift);
-  transform: translateY(var(--motion-hover-lift)) rotateX(var(--motion-tilt-x)) rotateY(var(--motion-tilt-y));
+:where(.home-route-card, .social-space-card, .social-empty-card, .home-post-card, .profile-about-grid article, .profile-stat-grid article, .geelooy-card, .post-card, .card-wrapper) {
+	padding: var(--space-4);
+}
+:where(.home-post-card, .social-space-card, .profile-activity-item, .comment-card, .reviewCard, .queueCard) {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 12rem;
+}
+:where(.home-command-card, .social-space-card, .home-route-card, .home-post-card, .profile-hero-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper):is(:hover, :focus-within) {
+	border-color: var(--g-border-strong);
+	box-shadow: var(--shadow-card);
+	transform: translateY(var(--motion-hover-lift));
+}
+:where(.card-header, .card-title-row, .space-title-row, .panel-header) {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+:where(.card-meta, .metadata-row, .space-meta-line, .provenance-row) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+	color: var(--g-faint);
+	font-size: var(--type-small);
+}
+:where(.card-meta code, .metadata-row code, .space-meta-line code, .provenance-chip) {
+	padding: .25rem .45rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-pill);
+	background: var(--awt-surface-soft);
+	font-family: var(--font-mono);
+	font-size: var(--type-caption);
+}
+@media (pointer: coarse) {
+	:where(.home-command-card, .social-space-card, .home-route-card, .home-post-card, .profile-hero-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper):hover {
+		box-shadow: var(--shadow-paper);
+		transform: none;
+	}
 }

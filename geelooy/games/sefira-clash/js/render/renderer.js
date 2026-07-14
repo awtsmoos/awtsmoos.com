@@ -3,112 +3,99 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the renderer vessel in this instant, revealing
- * its focused js render service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * The Awtsmoos renews contest and lived-world imagery in Awtsmoos.com: atmosphere, camera,
+ * geometry, thresholds, traversal, citizens, fighters, effects, and mode-honest HUD. Every
+ * layer witnesses simulation truth after culling and never owns mission or combat law.
  */
-import { drawBackground } from './background.js';
-import { drawPlatforms } from './platforms.js';
-import { drawFighters } from './fighters.js';
-import { drawWeapons, drawHeldWeapons } from './weapons.js';
-import { drawPowerups } from './powerups.js';
-import { drawParticles } from './particles.js';
-import { drawUi } from './ui.js';
+
 import { updateCamera } from '../camera/camera.js';
+import { drawBattlefieldScars } from '../stage/scars/battlefieldScars.js';
 import { drawHazards } from '../stage/hazards/hazardRender.js';
 import { drawObjective } from '../stage/objectives/objectiveDirector.js';
-import { drawBattlefieldScars } from '../stage/scars/battlefieldScars.js';
 import { drawSpectacleOverlay } from '../spectacle/spectacleRender.js';
+import { drawBackground } from './background.js';
+import { drawExpeditionBackdrop, drawExpeditionHud } from './ExpeditionVisuals.js';
+import { drawFighters } from './fighters.js';
+import { drawOpenWorldAmbient } from './OpenWorldAmbientPainter.js';
+import { drawOpenWorldCitizens } from './OpenWorldCitizenPainter.js';
+import { drawOpenWorldEncounterHud } from './OpenWorldEncounterHud.js';
+import { drawOpenWorldHud } from './OpenWorldHud.js';
+import { drawOpenWorldPerformanceHud } from './OpenWorldPerformanceHud.js';
+import { drawOpenWorldScene } from './OpenWorldPainter.js';
+import { drawOpenWorldTraversal } from './OpenWorldTraversalPainter.js';
+import { drawParticles } from './particles.js';
+import { drawPlatforms } from './platforms.js';
+import { drawPowerups } from './powerups.js';
+import {
+	makeRenderView,
+	visibleRenderHazards,
+	visibleRenderPoints,
+	visibleRenderRects
+} from './renderVisibility.js';
+import { drawUi } from './ui.js';
+import { drawHeldWeapons, drawWeapons } from './weapons.js';
 
-/**
- * B"H
- * Zoom-aware battle renderer with spectacle overlay.
- *
- * Chapter 11: after fighters, relics, hazards, and glyph sparks have crossed
- * the canvas, the final veil descends: flash, tint, shock ring, afterimage. The
- * Awtsmoos has no form, but every form is renewed by His speech, and the screen
- * now admits what the brawl already knew: impact is visible thunder.
- */
-export function draw(ctx, state, w, h) {
-	ctx.clearRect(0, 0, w, h);
-	drawBackground(ctx, state.map, w, h);
-	updateCamera(state, w, h);
+export function draw(ctx, state, width, height) {
+	ctx.clearRect(0, 0, width, height);
+	drawBackground(ctx, state.map, width, height);
+	drawExpeditionBackdrop(ctx, state, width, height);
+	updateCamera(state, width, height);
 	const zoom = state.camera.zoom || 1;
-	const view = makeView(state.camera, w, h, 300, zoom);
+	const view = makeRenderView(state.camera, width, height, 300, zoom);
 	ctx.save();
-	ctx.translate(w / 2, h / 2);
+	ctx.translate(width / 2, height / 2);
 	ctx.scale(zoom, zoom);
-	ctx.translate(state.camera.x - w / 2, state.camera.y - h / 2);
-	drawBattlefieldScars(ctx, visiblePoints(state.scars || [], view));
+	ctx.translate(state.camera.x - width / 2, state.camera.y - height / 2);
+	drawWorldLayers(ctx, state, view);
+	ctx.restore();
+	drawScreenLayers(ctx, state, width, height);
+}
+
+function drawWorldLayers(ctx, state, view) {
+	drawBattlefieldScars(ctx, visibleRenderPoints(state.scars || [], view));
 	drawPlatforms(
 		ctx,
-		visibleRects([...(state.map.platforms || []), ...(state.map.walls || [])], view),
+		visibleRenderRects([...(state.map.platforms || []), ...(state.map.walls || [])], view),
 		state.map
 	);
-	drawHazards(ctx, visibleHazards(state.hazards || [], view));
+	drawOpenWorldScene(ctx, state);
+	if (state.mode === 'openworld') drawOpenWorldActors(ctx, state, view);
+	drawHazards(ctx, visibleRenderHazards(state.hazards || [], view));
 	drawObjective(ctx, state.objective);
-	drawPowerups(ctx, visiblePoints(state.powerups || [], view));
-	drawWeapons(ctx, visiblePoints(state.weapons, view));
-	drawHeldWeapons(ctx, state.fighters);
-	drawFighters(ctx, visiblePoints(state.fighters, view));
-	drawParticles(ctx, visiblePoints(state.particles, view));
-	ctx.restore();
-	drawUi(ctx, state, w, h);
-	drawSpectacleOverlay(ctx, state, w, h);
+	drawPowerups(ctx, visibleRenderPoints(state.powerups || [], view));
+	drawWeapons(ctx, visibleRenderPoints(state.weapons || [], view));
+	drawHeldWeapons(
+		ctx,
+		state.fighters.filter(fighter => !fighter.hidden)
+	);
+	drawFighters(ctx, visibleRenderPoints(state.fighters, view));
+	drawParticles(ctx, visibleRenderPoints(state.particles, view));
 }
 
-function makeView(camera, w, h, pad, zoom) {
-	const halfW = w / (2 * zoom);
-	const halfH = h / (2 * zoom);
-	const centerX = w / 2 - camera.x;
-	const centerY = h / 2 - camera.y;
-	return {
-		left: centerX - halfW - pad,
-		right: centerX + halfW + pad,
-		top: centerY - halfH - pad,
-		bottom: centerY + halfH + pad
-	};
+function drawOpenWorldActors(ctx, state, view) {
+	const world = state.openWorld;
+	drawOpenWorldAmbient(ctx, visibleRenderPoints(world.ambientParticles, view));
+	drawOpenWorldTraversal(
+		ctx,
+		visibleRenderRects(state.map.openWorld?.traversalNodes || [], view),
+		world.usedTraversalNodes,
+		world.nearby?.kind === 'traversal' ? world.nearby.id : ''
+	);
+	drawOpenWorldCitizens(
+		ctx,
+		visibleRenderPoints(world.activeCitizens, view),
+		world.nearby?.kind === 'citizen' ? world.nearby.id : ''
+	);
 }
 
-function visibleRects(items, view) {
-	const out = [];
-	for (let i = 0; i < items.length; i++) {
-		const r = items[i];
-		if (
-			r.x + r.w >= view.left &&
-			r.x <= view.right &&
-			r.y + r.h >= view.top &&
-			r.y <= view.bottom
-		)
-			out.push(r);
+function drawScreenLayers(ctx, state, width, height) {
+	if (state.mode === 'openworld') {
+		drawOpenWorldHud(ctx, state, width, height);
+		drawOpenWorldEncounterHud(ctx, state, width, height);
+		drawOpenWorldPerformanceHud(ctx, state, width);
+	} else {
+		drawUi(ctx, state, width, height);
+		drawExpeditionHud(ctx, state, width, height);
 	}
-	return out;
-}
-
-function visibleHazards(items, view) {
-	const out = [];
-	for (let i = 0; i < items.length; i++) {
-		const p = items[i];
-		if (!p) continue;
-		const r = p.radius || 100;
-		if (
-			p.x + r >= view.left &&
-			p.x - r <= view.right &&
-			p.y + r >= view.top &&
-			p.y - r <= view.bottom
-		)
-			out.push(p);
-	}
-	return out;
-}
-
-function visiblePoints(items, view) {
-	const out = [];
-	for (let i = 0; i < items.length; i++) {
-		const p = items[i];
-		if (!p || p.dead || p.active === false) continue;
-		if (p.x >= view.left && p.x <= view.right && p.y >= view.top && p.y <= view.bottom)
-			out.push(p);
-	}
-	return out;
+	drawSpectacleOverlay(ctx, state, width, height);
 }

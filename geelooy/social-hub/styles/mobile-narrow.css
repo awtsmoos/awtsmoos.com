@@ -1,0 +1,66 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@media (max-width: 560px) {
+	.targetGrid,
+	.twoColumnFields,
+	.privacyGrid,
+	.categoryGrid,
+	.pulseGrid,
+	.quickActionGrid,
+	.cardGrid,
+	.referenceMap {
+		grid-template-columns: 1fr;
+	}
+
+	.identityCluster,
+	.mediaActions,
+	.actionRow,
+	.filterRow {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.mobileDock {
+		right: 0.35rem;
+		left: 0.35rem;
+	}
+
+	.brandCluster h1 {
+		font-size: 1.55rem;
+	}
+
+	.contextRibbon span,
+	.contextRibbon strong {
+		white-space: nowrap;
+	}
+
+	.workspace {
+		padding-inline: 0.55rem;
+	}
+
+	.workspacePanel,
+	.panelIntro,
+	.commentComposer,
+	.promotionPanel,
+	.referenceComposer {
+		border-radius: 1.05rem;
+	}
+
+	.heroRift {
+		padding: 1rem;
+	}
+
+	.commentMediaQueue {
+		grid-template-columns: 1fr;
+	}
+
+	.mobileDock .routeLabel {
+		display: none;
+	}
+
+	.mobileDock button {
+		min-height: 3.7rem;
+	}
+}

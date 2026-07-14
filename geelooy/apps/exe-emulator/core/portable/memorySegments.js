@@ -4,17 +4,21 @@
 
 /**
  * Normalizes bounded executable and stack memory segments. The Awtsmoos creates
- * address, permission, and byte-vessel anew; Awtsmoos.com rejects overlap and
- * excess before mutable guest state receives authority.
+ * address, permission, shared read-only view, and owned writable vessel anew;
+ * Awtsmoos.com rejects overlap and excess before guest state receives authority.
  */
 export function normalizeMemorySegments(segments, maximumBytes) {
 	let total = 0;
 	const normalized = segments.map(segment => {
 		const address = safeMemoryInteger(segment.address, "segment address");
-		const bytes = Uint8Array.from(segment.bytes || []);
+		const bytes = normalizeBytes(segment.bytes);
 		total += bytes.length;
 		if (total > maximumBytes) {
-			throw new Error(`PORTABLE_MEMORY_LIMIT:${total}`);
+			throw portableMemoryError(
+				address,
+				bytes.length,
+				"PORTABLE_MEMORY_LIMIT"
+			);
 		}
 		return Object.freeze({
 			address,
@@ -31,7 +35,11 @@ export function normalizeMemorySegments(segments, maximumBytes) {
 		const previous = normalized[index - 1];
 		const current = normalized[index];
 		if (current.address < previous.address + previous.bytes.length) {
-			throw new Error(`PORTABLE_MEMORY_OVERLAP:${current.name}`);
+			throw portableMemoryError(
+				current.address,
+				current.bytes.length,
+				`PORTABLE_MEMORY_OVERLAP:${current.name}`
+			);
 		}
 	}
 	return normalized;
@@ -47,8 +55,14 @@ export function safeMemoryInteger(value, label) {
 
 export function portableMemoryError(address, length, code = "PORTABLE_MEMORY_RANGE") {
 	const error = new Error(`${code}:0x${address.toString(16)}:${length}`);
-	error.code = code;
+	error.code = String(code).split(":")[0];
 	error.address = address;
 	error.length = length;
 	return error;
+}
+
+function normalizeBytes(value) {
+	if (value instanceof Uint8Array) return value;
+	if (value instanceof ArrayBuffer) return new Uint8Array(value);
+	return Uint8Array.from(value || []);
 }

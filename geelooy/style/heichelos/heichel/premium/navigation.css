@@ -1,0 +1,81 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Tabs, search, and mobile dock become one calm command language. The Awtsmoos
+ * joins every route while Awtsmoos.com keeps active state and touch targets visible.
+ */
+.heichel-mobile-navigation .tab-gates,
+.heichel-mobile-navigation .geelooy-tabs {
+	top: calc(var(--heichel-topbar-height, 4.15rem) + .55rem);
+	gap: .3rem;
+	padding: .35rem;
+	border-color: var(--heichel-line);
+	background: rgba(4, 6, 11, .82);
+	box-shadow: var(--heichel-shadow-soft);
+	backdrop-filter: blur(1rem);
+}
+.heichel-mobile-navigation .tab,
+.heichel-mobile-navigation .geelooy-tabs button {
+	min-height: 2.9rem;
+	color: var(--heichel-soft-ink);
+	font-size: .76rem;
+	letter-spacing: .09em;
+}
+.heichel-mobile-navigation .tab.Active,
+.heichel-mobile-navigation .tab.active,
+.heichel-mobile-navigation .geelooy-tabs button.Active,
+.heichel-mobile-navigation .geelooy-tabs button.active {
+	background: linear-gradient(135deg, var(--heichel-gold), #c4ad75);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .35), 0 .7rem 2rem rgba(227, 205, 157, .12);
+	color: #17130b;
+}
+.heichel-mobile-navigation .geelooy-bottom-nav {
+	width: min(calc(100% - 1rem), 39rem);
+	padding: .42rem;
+	border-color: var(--heichel-line-strong);
+	border-radius: 1.45rem;
+	background: rgba(4, 6, 11, .9);
+	box-shadow: 0 1.5rem 4.5rem rgba(0, 0, 0, .5);
+	backdrop-filter: blur(1.25rem) saturate(1.15);
+}
+.heichel-mobile-navigation .geelooy-bottom-nav a,
+.heichel-mobile-navigation .geelooy-bottom-nav button {
+	min-height: 3rem;
+	border-radius: 1rem;
+	color: var(--heichel-soft-ink);
+	font-size: .7rem;
+	letter-spacing: .01em;
+}
+.heichel-mobile-navigation .geelooy-bottom-nav :nth-child(3) {
+	background: linear-gradient(135deg, var(--heichel-gold), #c4ad75);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .38), 0 .7rem 2rem rgba(227, 205, 157, .16);
+	color: #17130b;
+}
+.heichel-mobile-navigation input[type="search"],
+.heichel-mobile-navigation .search-input,
+.heichel-mobile-navigation .geelooy-search input {
+	min-height: 3rem;
+	padding: .7rem .9rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: .9rem;
+	background: rgba(3, 5, 10, .72);
+	color: var(--heichel-ink);
+}
+.heichel-mobile-navigation .context-menu {
+	min-width: 11rem;
+	padding: .45rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: 1rem;
+	background: var(--heichel-panel-strong);
+	box-shadow: var(--heichel-shadow-lift);
+	backdrop-filter: blur(1rem);
+}
+.heichel-mobile-navigation .context-menu-item {
+	padding: .75rem;
+	border-radius: .7rem;
+	color: var(--heichel-soft-ink);
+}
+.heichel-mobile-navigation .context-menu-item:hover {
+	background: rgba(255, 255, 255, .055);
+	color: var(--heichel-ink);
+}

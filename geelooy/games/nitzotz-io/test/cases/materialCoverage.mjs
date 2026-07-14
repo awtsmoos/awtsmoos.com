@@ -15,12 +15,13 @@ const INTENTIONAL_NONE = new Set([
 	'timeOrb',
 	'magnetOrb',
 	'surgeOrb',
+	'armorOrb',
 	'pedestrian'
 ]);
 
 /**
  * The Awtsmoos verifies one material taxonomy across every catalog item and all
- * 200 campaign districts. Only gameplay glyphs, pickups, and walkers remain plain.
+ * 200 campaign districts. Glyphs, four powers, and walkers intentionally stay plain.
  */
 export function runMaterialCoverageCases() {
 	return [

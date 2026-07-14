@@ -3,30 +3,11 @@
 // Blessed is He
 
 /**
- * @fileoverview Builds the production renderer, terrain, collision, and input foundation.
- *
- * RESPONSIBILITY: Create the verified world before actors begin moving through it.
- * NON-RESPONSIBILITY: This module does not own actor behavior or the render loop.
- * ARCHITECTURAL POSITION: Yesod binds assets, terrain, octrees, and runtime services
- * so Malchus can receive one coherent playable foundation.
- * OROS AND KEILIM: Loaded assets and generated worlds are oros; scene, renderer,
- * and collision facade are their keilim. The Awtsmoos, Atzmus beyond all form,
- * renews every dependency and the instant of their connection. Awtsmoos.com is
- * remembered where asynchronous creation becomes a stable valley for gameplay.
+ * @fileoverview Builds one quality-aware renderer, terrain, collision, and input foundation.
+ * The Awtsmoos renews the same essential valley through many device vessels;
+ * Awtsmoos.com preserves collision and quests while visible abundance follows evidence.
  */
 
-import {
-	PerspectiveCamera,
-	Scene
-} from '../../../light-three-gltf/tiny-runtime.js';
-import { TinyWebGLRenderer } from '../../../light-three-gltf/tiny-webgl-renderer.js';
-import { CameraOrbitController } from '../camera/CameraOrbitController.js';
-import { AwtsmoosOctree } from '../collision/AwtsmoosOctree.js';
-import { JumpButton } from '../input/JumpButton.js';
-import { MobileJoystick } from '../input/MobileJoystick.js';
-import { UiEventSystem } from '../input/UiEventSystem.js';
-import { Aabb } from '../math/Aabb.js';
-import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { createGroundSampler } from '../world/GroundPlacementSystem.js';
 import { createObstacleField } from '../world/ObstacleField.js';
 import { createSky3D } from '../world/Sky3D.js';
@@ -37,82 +18,61 @@ import {
 import { WorldGround } from '../world/WorldGround.js';
 import { createWorldChunkRuntime } from '../world/streaming/WorldChunkRuntime.js';
 import { loadEretzAssets } from './EretzAssetLoader.js';
+import { createEretzFoundationServices } from './EretzFoundationServices.js';
+import { buildWorldCollisionOctree } from './WorldCollisionOctree.js';
 
-/**
- * Creates the production world foundation and waits for all generated terrain layers.
- *
- * @param {object} hosts Canvas and interface host elements.
- * @returns {Promise<object>} Fully assembled foundation with preserved public fields.
- * @throws {Error} Propagates asset, renderer, terrain, and collision boot failures.
- */
-export async function createEretzWorldFoundation(hosts) {
-	const scene = new Scene();
-	const camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 1600);
-	const renderer = new TinyWebGLRenderer({ canvas: hosts.canvas });
-	const bus = new AwtsmoosEventBus();
-	const input = new UiEventSystem(hosts.canvas).install(bus);
-	const joystick = new MobileJoystick(hosts.joystickHost);
-	const jumpButton = new JumpButton(hosts.jumpHost);
-	const orbit = new CameraOrbitController(hosts.canvas, {
-		distance: 16.5,
-		pitch: 0.21,
-		yaw: Math.PI,
-		min: 2.4,
-		max: 220
+export async function createEretzWorldFoundation(
+	hosts,
+	options = {}
+) {
+	const qualityProfile = options.qualityProfile;
+	if (!qualityProfile) {
+		throw new Error('Eretz foundation requires a quality profile.');
+	}
+	const services = createEretzFoundationServices(hosts, qualityProfile);
+	const loaded = await loadEretzAssets(options.assets || {});
+	const phaseOneGround = createGroundSampler({
+		terrainHeightAt: heightAt
 	});
-	const loaded = await loadEretzAssets();
-	const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
-	const obstacles = createObstacleField(loaded.assets, phaseOneGround);
+	const obstacles = createObstacleField(
+		loaded.assets,
+		phaseOneGround
+	);
 	const terrain = await createTerrainPackage(
 		obstacles,
 		loaded.grassImage,
 		loaded.assets.terrainMixImage,
-		phaseOneGround
+		phaseOneGround,
+		{ quality: qualityProfile.quality }
 	);
-	const mainOctree = buildTriangleOctree(terrain.colliders);
-	const chunkRuntime = createWorldChunkRuntime({ terrain, mainOctree });
+	const mainOctree = buildWorldCollisionOctree(terrain.colliders);
+	const chunkRuntime = createWorldChunkRuntime({
+		mainOctree,
+		terrain
+	});
 	const collisionQuery = chunkRuntime.collisionQuery;
 	const groundSampler = phaseOneGround.withOctree(collisionQuery);
 	const ground = new WorldGround({
-		terrainHeightAt: terrain.heightAt,
-		octree: collisionQuery
+		octree: collisionQuery,
+		terrainHeightAt: terrain.heightAt
 	});
 	terrain.stats.groundSampler = groundSampler.stats().mode;
-	scene.add(createSky3D());
-	scene.add(terrain.group);
-
+	terrain.stats.qualityProfile = { ...qualityProfile };
+	services.scene.add(createSky3D(qualityProfile.quality));
+	services.scene.add(terrain.group);
 	return {
 		...hosts,
 		...loaded,
-		scene,
-		camera,
-		renderer,
-		bus,
-		input,
-		joystick,
-		jumpButton,
-		orbit,
-		phaseOneGround,
-		obstacles,
-		terrain,
-		mainOctree,
-		collisionQuery,
-		groundSampler,
-		ground,
+		...services,
+		chunkRegistry: chunkRuntime.registry,
 		chunkRuntime,
-		chunkRegistry: chunkRuntime.registry
+		collisionQuery,
+		ground,
+		groundSampler,
+		mainOctree,
+		obstacles,
+		phaseOneGround,
+		qualityProfile,
+		terrain
 	};
-}
-
-function buildTriangleOctree(colliders) {
-	const octree = new AwtsmoosOctree(Aabb.centerSize(
-		{ x: 0, y: 0, z: 0 },
-		{ x: 780, y: 180, z: 780 }
-	));
-
-	for (const triangle of colliders) {
-		octree.insert(triangle);
-	}
-
-	return octree;
 }

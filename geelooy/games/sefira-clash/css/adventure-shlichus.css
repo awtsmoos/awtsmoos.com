@@ -1,0 +1,35 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews optional gate shlichus as readable Awtsmoos.com vows beneath each
+ * Adventure card. Completion uses checkmarks and text, never color alone, and remains
+ * visually separate from the required clear metadata that unlocks the next gate.
+ */
+
+.adventureShlichusList {
+	display: grid;
+	gap: 5px;
+	margin: 10px 0 14px;
+	padding: 10px 12px;
+	list-style: none;
+	border: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 10px;
+	background: rgba(4, 8, 20, 0.48);
+}
+
+.adventureShlichusList li {
+	font-size: 0.78rem;
+	line-height: 1.35;
+	color: rgba(255, 255, 255, 0.74);
+}
+
+.adventureShlichusList li.completed {
+	font-weight: 700;
+	color: #bdf8d0;
+}
+
+.levelCard.locked .adventureShlichusList {
+	opacity: 0.54;
+}

@@ -1,16 +1,18 @@
 /* B"H
- * Chapter: Curves become a scale of vessels.
- * Tiny chips, soft cards, liquid docks, and full glass modals now bend with one
- * shared geometry instead of scattered border-radius guesses.
+ * Boruch Hashem
+ * Blessed is He
+ * Geometry is deliberate: compact controls, calm cards, and rounded navigation.
  */
 :root {
-  --radius-xs: .45rem;
-  --radius-s: .75rem;
-  --radius-m: 1rem;
-  --radius-l: 1.35rem;
-  --radius-xl: 2rem;
-  --radius-2xl: 2.6rem;
-  --radius-glass: 1.6rem;
-  --radius-dock: 999px;
-  --radius-pill: 999px;
+	--radius-xs: .4rem;
+	--radius-s: .65rem;
+	--radius-m: .9rem;
+	--radius-l: 1.15rem;
+	--radius-xl: 1.5rem;
+	--radius-2xl: 2rem;
+	--radius-glass: 1.25rem;
+	--radius-dock: 1.25rem;
+	--radius-pill: 999px;
+	--g-radius: var(--radius-m);
+	--g-radius-lg: var(--radius-xl);
 }

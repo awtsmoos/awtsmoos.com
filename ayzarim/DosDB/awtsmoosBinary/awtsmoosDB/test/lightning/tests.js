@@ -8,8 +8,8 @@
  * @description
  * Declares every strict test in deterministic order. The Awtsmoos renews each
  * gate independently, so a later success can never conceal an earlier failure.
- * Awtsmoos.com carries the full court through storage, vacuum, recovery, leases,
- * search, vectors, isolation, bounded growth, and production behavior.
+ * The court guards compact payloads, packed key-ledger density, topology cloning,
+ * vacuum rebinding, storage, recovery, leases, search, and bounded growth.
  */
 
 module.exports = [
@@ -55,6 +55,11 @@ module.exports = [
 	'vacuum_virtual_fs_test.js',
 	'vacuum_search_index_test.js',
 	'vector_bulk_load_test.js',
+	'vector_detached_bulk_load_test.js',
+	'vector_detached_graph_clone_test.js',
+	'vector_bulk_key_map_density_test.js',
+	'vector_compact_corpus_test.js',
+	'vector_compact_vacuum_test.js',
 	'vector_verified_complement_test.js',
 	'vacuum_vector_index_test.js',
 	'indexed_restart_mutation_test.js',

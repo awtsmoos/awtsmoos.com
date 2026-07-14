@@ -1,0 +1,129 @@
+geelooy/games/sefira-clash/js/data/expedition/gearCatalog.js 609ms
+geelooy/games/sefira-clash/js/data/expedition/locationCatalog.js 210ms
+geelooy/games/sefira-clash/js/data/expedition/questCatalog.js 188ms
+geelooy/games/sefira-clash/js/data/expedition/regionCatalog.js 6ms
+geelooy/games/sefira-clash/js/expedition/ExpeditionDefaults.js 12ms (unchanged)
+geelooy/games/sefira-clash/js/expedition/ExpeditionInventory.js 111ms
+geelooy/games/sefira-clash/js/expedition/ExpeditionMatchContext.js 87ms (unchanged)
+geelooy/games/sefira-clash/js/expedition/ExpeditionModel.js 129ms
+geelooy/games/sefira-clash/js/expedition/ExpeditionProfile.js 90ms
+geelooy/games/sefira-clash/js/expedition/ExpeditionQuestLedger.js 67ms (unchanged)
+geelooy/games/sefira-clash/js/expedition/ExpeditionRewards.js 79ms
+geelooy/games/sefira-clash/js/expedition/ExpeditionStats.js 11ms (unchanged)
+geelooy/games/sefira-clash/js/expedition/ExpeditionWorld.js 59ms
+geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js 10ms
+geelooy/games/sefira-clash/js/multiplayer/MatchRules.js 4ms
+geelooy/games/sefira-clash/js/menu/JourneyMenuFlow.js 5ms (unchanged)
+geelooy/games/sefira-clash/js/menu/localLobbySupport.js 131ms (unchanged)
+geelooy/games/sefira-clash/js/menu/lobbyModeView.js 8ms (unchanged)
+geelooy/games/sefira-clash/js/menu/expeditionGearView.js 79ms (unchanged)
+geelooy/games/sefira-clash/js/menu/expeditionQuestView.js 48ms
+geelooy/games/sefira-clash/js/menu/expeditionRegionView.js 67ms
+geelooy/games/sefira-clash/js/menu/expeditionSummaryView.js 4ms (unchanged)
+geelooy/games/sefira-clash/js/menu/expeditionView.js 4ms
+geelooy/games/sefira-clash/js/menu/localLobbyView.js 6ms
+geelooy/games/sefira-clash/js/menu/lobbyRulesView.js 4ms (unchanged)
+geelooy/games/sefira-clash/js/menu/menuOptions.js 10ms (unchanged)
+geelooy/games/sefira-clash/js/menu/menuActionRouter.js 3ms (unchanged)
+geelooy/games/sefira-clash/js/menu/MenuFlow.js 138ms (unchanged)
+geelooy/games/sefira-clash/js/menu/victoryView.js 81ms (unchanged)
+geelooy/games/sefira-clash/js/session/modeHelpers.js 2ms (unchanged)
+geelooy/games/sefira-clash/js/session/GameModel.js 10ms
+geelooy/games/sefira-clash/js/session/AdventureSessionResults.js 4ms
+geelooy/games/sefira-clash/js/session/MatchFlow.js 10ms (unchanged)
+geelooy/games/sefira-clash/js/session/MatchVictory.js 22ms
+[error] No files matching the pattern were found: "geelooy/games/sefira-clash/js/core/MainLifecycle.js".
+geelooy/games/sefira-clash/js/render/ExpeditionAtmosphere.js 116ms (unchanged)
+geelooy/games/sefira-clash/js/render/ExpeditionLoadoutPainter.js 48ms (unchanged)
+geelooy/games/sefira-clash/js/render/ExpeditionWeaponAura.js 45ms
+geelooy/games/sefira-clash/js/render/fighters.js 2ms (unchanged)
+geelooy/games/sefira-clash/js/render/weapons.js 27ms (unchanged)
+geelooy/games/sefira-clash/js/render/renderer.js 54ms
+geelooy/games/sefira-clash/js/main.js 9ms (unchanged)
+geelooy/games/sefira-clash/tests/expedition/catalogs.test.mjs 82ms (unchanged)
+geelooy/games/sefira-clash/tests/expedition/game-model.test.mjs 6ms (unchanged)
+geelooy/games/sefira-clash/tests/expedition/modes-context.test.mjs 96ms (unchanged)
+geelooy/games/sefira-clash/tests/expedition/profile-world.test.mjs 61ms (unchanged)
+geelooy/games/sefira-clash/tests/expedition/quests-gear.test.mjs 10ms
+geelooy/games/sefira-clash/css/expedition.css 297ms (unchanged)
+geelooy/games/sefira-clash/css/expedition-components.css 10ms (unchanged)
+geelooy/games/sefira-clash/index.html 141ms
+geelooy/games/sefira-clash/package.json 4ms (unchanged)
+=== EXPEDITION TESTS ===
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (1.409909ms)
+✔ every world reference resolves to a real authored vessel (0.712876ms)
+✔ runs a persistent authored expedition from atlas to next road (1113.860028ms)
+✔ every named mode round-trips through enforced match rules (52.60476ms)
+✔ expedition context changes only the human fighter and carries region truth (3.700319ms)
+✔ migrates old gate clears and Perutas into the connected world (20.09127ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (1.766447ms)
+✔ reveals only the authored next road after a clear (0.633556ms)
+✔ completes and claims an authored quest exactly once (42.7766ms)
+✔ equips only known owned gear in its declared slot (1.484258ms)
+✔ derived gear stats mutate real fighter values and weapon (19.11955ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1932.178381
+EXPEDITION_TEST_EXIT=0
+=== OWNED LINE VIOLATIONS ===
+     227 geelooy/games/sefira-clash/js/data/expedition/questCatalog.js
+     334 geelooy/games/sefira-clash/js/data/expedition/locationCatalog.js
+     248 geelooy/games/sefira-clash/js/data/expedition/gearCatalog.js
+wc: geelooy/games/sefira-clash/js/core/MainLifecycle.js: open: No such file or directory
+=== ADVENTURE AUDIT ===
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+ADVENTURE_EXIT=0
+=== MULTIPLAYER AUDIT ===
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_EXIT=0
+=== WINNER AUDIT ===
+
+> audit:winners
+> node tools/winner-rules-audit.mjs
+
+{"adventureWaitsForObjective":true,"adventureDefeatResolves":true,"versusLastStockWins":true}
+WINNER_EXIT=0
+=== WEBSOCKET COMPAT ===
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (1.546719ms)
+✔ preserves original server exports and registered factories (1.540345ms)
+✔ supports both original and options-object RealtimeClient constructors (87.691945ms)
+✔ preserves the complete original SefiraLobbyClient class surface (3.742422ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2300.983152
+WEBSOCKET_EXIT=0

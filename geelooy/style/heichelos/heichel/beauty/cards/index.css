@@ -1,7 +1,85 @@
-/* B"H index. */
-@import "./base-depth.css";
-@import "./featured.css";
-@import "./compact.css";
-@import "./ghost.css";
-@import "./progress.css";
-@import "./menu.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel cards use canonical surfaces, restrained hover, and readable provenance.
+ */
+.heichel-mobile-navigation :where(.series-list, .post-list, .cards-container, .geelooy-card-grid) {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+	gap: var(--heichel-gap);
+}
+.heichel-mobile-navigation :where(.card-wrapper, .series-list > *, .post-card, .geelooy-card) {
+	position: relative;
+	min-width: 0;
+	min-height: 11rem;
+	overflow: clip;
+	padding: var(--space-4);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius);
+	background: var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-soft);
+	color: var(--heichel-ink);
+	contain: layout paint style;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 11rem;
+	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
+}
+.heichel-mobile-navigation :where(.post-card h2, .series-list h2, .geelooy-card h2, .geelooy-card h3) {
+	margin: 0 0 .65rem;
+	color: var(--heichel-ink);
+	font-size: clamp(1.25rem, 2vw, 1.7rem);
+	line-height: 1.1;
+	letter-spacing: -.03em;
+}
+.heichel-mobile-navigation :where(.post-preview, .series-list p, .geelooy-card p) {
+	margin: 0;
+	color: var(--heichel-soft-ink);
+	line-height: 1.6;
+}
+.heichel-mobile-navigation .context-menu-icon {
+	position: absolute;
+	z-index: var(--z-raised);
+	top: .65rem;
+	right: .65rem;
+	display: grid;
+	width: 2.35rem;
+	height: 2.35rem;
+	place-items: center;
+	border: 1px solid var(--heichel-line);
+	border-radius: .7rem;
+	background: var(--heichel-panel-soft);
+	box-shadow: none;
+	color: var(--heichel-muted-ink);
+}
+.heichel-mobile-navigation :where(.empty-message, .empty-state) {
+	grid-column: 1 / -1;
+	padding: var(--space-7);
+	border: 1px dashed var(--heichel-line-strong);
+	border-radius: var(--heichel-radius);
+	background: var(--heichel-panel-soft);
+	color: var(--heichel-muted-ink);
+	text-align: center;
+}
+.heichel-mobile-navigation .card-wrapper.selected {
+	border-color: color-mix(in srgb, var(--heichel-cyan) 46%, var(--heichel-line));
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--heichel-cyan) 12%, transparent);
+}
+.heichel-mobile-navigation :where(.card-wrapper, .series-list > *, .post-card, .geelooy-card):is(:hover, :focus-within) {
+	border-color: var(--heichel-line-strong);
+	box-shadow: var(--heichel-shadow-lift);
+	transform: translateY(var(--motion-hover-lift));
+}
+@media (min-width: 70rem) {
+	.heichel-mobile-navigation .series-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.heichel-mobile-navigation .post-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (pointer: coarse) {
+	.heichel-mobile-navigation :where(.card-wrapper, .series-list > *, .post-card, .geelooy-card):hover {
+		box-shadow: var(--heichel-shadow-soft);
+		transform: none;
+	}
+}

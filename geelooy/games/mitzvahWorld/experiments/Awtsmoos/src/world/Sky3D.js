@@ -1,86 +1,59 @@
 // B"H
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
-import { createSkyDome } from './sky/SkyDome.js';
-import {
-	createSkyDisc,
-	createSkyQuad,
-	createSkyRay
-} from './sky/SkyMeshFactory.js';
-
-const SUN_POSITION = Object.freeze([-96, 84, -150]);
-const CLOUD_COLOR = Object.freeze([0.78, 0.86, 0.96, 0.22]);
-const RAY_COLOR = Object.freeze([1, 0.88, 0.46, 0.14]);
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Builds the golden-hour atmospheric layer from cache-bound public materials.
- * The sky is a living ceiling: water lends its blue depth, gold lends the sun its fire.
+ * @file Sky3D.js
+ * @description Builds the reference golden-hour dome, haze, sun, clouds, and shafts.
+ * The Awtsmoos renews the valley beneath one luminous ceiling; Awtsmoos.com keeps
+ * every transparent atmospheric garment fixed, cache-bound, and quality-budgeted.
  */
-export function createSky3D() {
+
+import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
+import {
+	REFERENCE_GOLDEN_HOUR,
+	referenceLightingBudget
+} from './lighting/ReferenceGoldenHourPreset.js';
+import {
+	createReferenceHazeLayers,
+	createReferenceSkyClouds
+} from './lighting/ReferenceSkyCloudSystem.js';
+import { createVolumetricSunShafts } from './lighting/VolumetricSunShaftSystem.js';
+import { createSkyDome } from './sky/SkyDome.js';
+import { createSkyDisc } from './sky/SkyMeshFactory.js';
+
+export function createSky3D(quality = 'high') {
 	const group = new Group();
-	group.name = 'Awtsmoos_hyper_real_sun_sky_clouds_fast';
+	const budget = referenceLightingBudget(quality);
+	group.name = `Awtsmoos_reference_golden_hour_sky_${quality}`;
 	group.add(createSkyDome(TEXTURE_URLS.water.bright));
-	group.add(createHorizonHaze());
+	for (const haze of createReferenceHazeLayers()) group.add(haze);
 	group.add(createSkyDisc(
-		'sun-white-hot-core',
-		SUN_POSITION,
-		5.5,
-		[1, 0.96, 0.82, 1],
+		'reference_sun_white_core',
+		REFERENCE_GOLDEN_HOUR.sunPosition,
+		6.4,
+		REFERENCE_GOLDEN_HOUR.sunCore,
 		TEXTURE_URLS.metals.gold2
 	));
 	group.add(createSkyDisc(
-		'sun-golden-bloom-fresnel',
-		SUN_POSITION,
-		15,
-		[1, 0.68, 0.16, 0.32],
+		'reference_sun_warm_bloom',
+		REFERENCE_GOLDEN_HOUR.sunPosition,
+		21,
+		REFERENCE_GOLDEN_HOUR.sunGlow,
 		TEXTURE_URLS.metals.gold2
 	));
-	for (let index = 0; index < 9; index += 1) group.add(createSunRay(index));
-	for (let index = 0; index < 16; index += 1) group.add(createCloudBand(index));
+	for (const ray of createVolumetricSunShafts(quality)) group.add(ray);
+	for (const cloud of createReferenceSkyClouds(quality)) group.add(cloud);
 	group.userData.AwtsmoosSky = {
-		sun: SUN_POSITION,
-		style: 'gradient-atmosphere-haze-cloud-lens-cache-bound',
+		budget,
 		cloudTextureProxy: TEXTURE_URLS.water.bright,
-		shaderPolicy: 'sun-position-driven-gradient-with-transparent-cloud-planes'
+		quality,
+		style: 'reference-golden-hour-atmospheric-depth',
+		sun: REFERENCE_GOLDEN_HOUR.sunPosition,
+		technique: 'static-transparent-meshes-no-fullscreen-postprocess'
 	};
 	return group;
 }
 
-function createHorizonHaze() {
-	return createSkyQuad(
-		'blue_gold_horizon_haze_not_white',
-		[0, 4, -175],
-		[540, 92],
-		[0.58, 0.72, 0.92, 0.22],
-		TEXTURE_URLS.water.bright
-	);
-}
-
-function createSunRay(index) {
-	const angle = index / 9 * Math.PI * 2;
-	const length = index % 2 ? 72 : 106;
-	const width = index % 2 ? 5.8 : 8.5;
-	return createSkyRay(
-		`sun_lens_ray_${index}`,
-		SUN_POSITION,
-		angle,
-		length,
-		width,
-		RAY_COLOR,
-		TEXTURE_URLS.metals.gold2
-	);
-}
-
-function createCloudBand(index) {
-	return createSkyQuad(
-		`soft_cloud_layer_${index}`,
-		[
-			-180 + index * 24,
-			48 + Math.sin(index * 1.7) * 10,
-			-120 - (index % 5) * 16
-		],
-		[28 + (index % 4) * 12, 7 + (index % 3) * 4],
-		CLOUD_COLOR,
-		TEXTURE_URLS.water.bright
-	);
-}
+export default createSky3D;

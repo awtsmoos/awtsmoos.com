@@ -1,0 +1,108 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the Expedition atlas as a readable Awtsmoos.com world.
+ * Region hue provides atmosphere while borders, labels, spacing, and lock language
+ * preserve meaning for high contrast, reduced motion, keyboard, and narrow screens.
+ */
+
+.expeditionPanel {
+	max-width: 1180px;
+}
+
+.expeditionSummary,
+.expeditionStats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+	gap: 10px;
+	margin: 16px 0 24px;
+}
+
+.expeditionSummary span,
+.expeditionStats span {
+	display: grid;
+	gap: 4px;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 12px;
+	background: rgba(5, 10, 24, 0.72);
+}
+
+.expeditionSummary em,
+.expeditionStats span {
+	font-style: normal;
+	color: #fff2ad;
+}
+
+.expeditionRegion {
+	margin: 18px 0;
+	padding: 16px;
+	border-left: 5px solid hsl(var(--region-hue) 78% 58%);
+	border-radius: 14px;
+	background: hsla(var(--region-hue), 54%, 18%, 0.42);
+}
+
+.expeditionRegion > header {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+
+.expeditionLocationGrid,
+.expeditionGearGrid,
+.expeditionQuestGrid,
+.lobbyModeGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: 12px;
+}
+
+.expeditionLocation,
+.expeditionGearCard,
+.lobbyModeButton {
+	display: grid;
+	gap: 8px;
+	padding: 14px;
+	text-align: left;
+}
+
+.expeditionLocation.settlement {
+	border-color: #79d6ff;
+}
+
+.expeditionLocation.wilderness {
+	border-color: #82e292;
+}
+
+.expeditionLocation.climax {
+	border-color: #ffb66d;
+}
+
+.expeditionLocation.cleared,
+.expeditionGearCard.equipped,
+.lobbyModeButton.selected {
+	outline: 3px solid #fff2ad;
+}
+
+.locationKind,
+.questState {
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+	.expeditionPanel {
+		padding-inline: 10px;
+	}
+
+	.expeditionLocationGrid,
+	.expeditionGearGrid,
+	.expeditionQuestGrid {
+		grid-template-columns: 1fr;
+	}
+}

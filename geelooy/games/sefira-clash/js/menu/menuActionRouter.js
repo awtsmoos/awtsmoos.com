@@ -3,11 +3,11 @@
 //Blessed is He
 
 /**
- * Menu actions become explicit routes within the halls of Awtsmoos.com.
- * The Awtsmoos renews every click as a named transition instead of compressed
- * branching hidden inside the larger conductor.
+ * Menu actions become explicit routes within the halls of Awtsmoos.com. The Awtsmoos
+ * renews every click as a named transition so Open World, Expedition, co-op, Adventure,
+ * VS, settings, credits, and customization remain inspectable instead of hidden branches.
  */
-/** Routes delegated overlay clicks and reports whether one was consumed. */
+
 export function routeMenuClick(flow, event) {
 	const customize = event.target.closest('[data-customize-action]');
 	if (customize) {
@@ -21,9 +21,11 @@ export function routeMenuClick(flow, event) {
 	return false;
 }
 
-/** Routes one principal mode identifier to its focused chamber. */
 export function routeMenuMode(flow, mode) {
 	const routes = {
+		openworld: 'showOpenWorld',
+		expedition: 'showExpedition',
+		coop: 'showCoop',
 		adventure: 'showAdventure',
 		settings: 'showSettings',
 		credits: 'showCredits',

@@ -1,0 +1,332 @@
+=== FORMAT LAST EDIT ===
+geelooy/games/sefira-clash/tests/expedition/quests-gear.test.mjs 307ms (unchanged)
+=== EXPEDITION TESTS ===
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (2.7342ms)
+✔ every world reference resolves to a real authored vessel (2.987654ms)
+✔ runs a persistent authored expedition from atlas to next road (738.713861ms)
+✔ every named mode round-trips through enforced match rules (8.557061ms)
+✔ expedition context changes only the human fighter and carries region truth (2.954844ms)
+✔ migrates old gate clears and Perutas into the connected world (3.365962ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (2.183381ms)
+✔ reveals only the authored next road after a clear (0.731348ms)
+✔ completes and claims an authored quest exactly once (6.184419ms)
+✔ equips only known owned gear in its declared slot (0.456978ms)
+✔ derived gear stats mutate real fighter values and weapon (1.438297ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1287.495172
+EXPEDITION_EXIT=0
+=== OWNED FORMAT CHECK ===
+Checking formatting...
+All matched files use Prettier code style!
+FORMAT_EXIT=0
+=== OWNED LINE VIOLATIONS ===
+=== STRUCTURE AUDIT ===
+
+> audit:structure
+> node tools/source-structure-audit.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Source files exceed 120 lines:
+125 js/adventure/adventureRun.js
+147 js/ai/advanced/memory/actionMemory.js
+153 js/ai/advanced/memory/positionLoopMetrics.js
+127 js/ai/advanced/npcMind.js
+124 js/ai/brain/executeMovement.js
+150 js/ai/brain/executeTraversal.js
+134 js/ai/brain/unstuckPlan.js
+171 js/camera/camera.js
+180 js/combat/attackResolver.js
+121 js/combat/attackState.js
+123 js/combat/combatEvents.js
+154 js/data/adventure/adventureLevels.js
+187 js/data/maps/factory.js
+124 js/feedback/feedbackSounds.js
+125 js/menu/gridViews.js
+156 js/menu/menuCards.js
+159 js/physics/blastZones.js
+126 js/physics/knockback.js
+159 js/physics/special/stomp.js
+135 js/physics/walls.js
+133 js/render/fighter/auras.js
+131 js/render/v3/character/CharacterRig.js
+168 js/session/AdventureProgress.js
+133 js/skeleton/solveSkeleton.js
+146 js/spectacle/spectacleEvents.js
+158 js/stage/narrative/stageStoryEvents.js
+137 js/stage/narrative/stageStoryMemory.js
+156 js/stage/objectives/objectiveDirector.js
++ actual - expected
+
++ [
++   {
++     file: 'js/adventure/adventureRun.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/ai/advanced/memory/actionMemory.js',
++     lineCount: 147
++   },
++   {
++     file: 'js/ai/advanced/memory/positionLoopMetrics.js',
++     lineCount: 153
++   },
++   {
++     file: 'js/ai/advanced/npcMind.js',
++     lineCount: 127
++   },
++   {
++     file: 'js/ai/brain/executeMovement.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/ai/brain/executeTraversal.js',
++     lineCount: 150
++   },
++   {
++     file: 'js/ai/brain/unstuckPlan.js',
++     lineCount: 134
++   },
++   {
++     file: 'js/camera/camera.js',
++     lineCount: 171
++   },
++   {
++     file: 'js/combat/attackResolver.js',
++     lineCount: 180
++   },
++   {
++     file: 'js/combat/attackState.js',
++     lineCount: 121
++   },
++   {
++     file: 'js/combat/combatEvents.js',
++     lineCount: 123
++   },
++   {
++     file: 'js/data/adventure/adventureLevels.js',
++     lineCount: 154
++   },
++   {
++     file: 'js/data/maps/factory.js',
++     lineCount: 187
++   },
++   {
++     file: 'js/feedback/feedbackSounds.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/menu/gridViews.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/menu/menuCards.js',
++     lineCount: 156
++   },
++   {
++     file: 'js/physics/blastZones.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/knockback.js',
++     lineCount: 126
++   },
++   {
++     file: 'js/physics/special/stomp.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/walls.js',
++     lineCount: 135
++   },
++   {
++     file: 'js/render/fighter/auras.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/render/v3/character/CharacterRig.js',
++     lineCount: 131
++   },
++   {
++     file: 'js/session/AdventureProgress.js',
++     lineCount: 168
++   },
++   {
++     file: 'js/skeleton/solveSkeleton.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/spectacle/spectacleEvents.js',
++     lineCount: 146
++   },
++   {
++     file: 'js/stage/narrative/stageStoryEvents.js',
++     lineCount: 158
++   },
++   {
++     file: 'js/stage/narrative/stageStoryMemory.js',
++     lineCount: 137
++   },
++   {
++     file: 'js/stage/objectives/objectiveDirector.js',
++     lineCount: 156
++   }
++ ]
+- []
+
+    at file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/tools/source-structure-audit.mjs:43:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    { file: 'js/adventure/adventureRun.js', lineCount: 125 },
+    { file: 'js/ai/advanced/memory/actionMemory.js', lineCount: 147 },
+    {
+      file: 'js/ai/advanced/memory/positionLoopMetrics.js',
+      lineCount: 153
+    },
+    { file: 'js/ai/advanced/npcMind.js', lineCount: 127 },
+    { file: 'js/ai/brain/executeMovement.js', lineCount: 124 },
+    { file: 'js/ai/brain/executeTraversal.js', lineCount: 150 },
+    { file: 'js/ai/brain/unstuckPlan.js', lineCount: 134 },
+    { file: 'js/camera/camera.js', lineCount: 171 },
+    { file: 'js/combat/attackResolver.js', lineCount: 180 },
+    { file: 'js/combat/attackState.js', lineCount: 121 },
+    { file: 'js/combat/combatEvents.js', lineCount: 123 },
+    { file: 'js/data/adventure/adventureLevels.js', lineCount: 154 },
+    { file: 'js/data/maps/factory.js', lineCount: 187 },
+    { file: 'js/feedback/feedbackSounds.js', lineCount: 124 },
+    { file: 'js/menu/gridViews.js', lineCount: 125 },
+    { file: 'js/menu/menuCards.js', lineCount: 156 },
+    { file: 'js/physics/blastZones.js', lineCount: 159 },
+    { file: 'js/physics/knockback.js', lineCount: 126 },
+    { file: 'js/physics/special/stomp.js', lineCount: 159 },
+    { file: 'js/physics/walls.js', lineCount: 135 },
+    { file: 'js/render/fighter/auras.js', lineCount: 133 },
+    { file: 'js/render/v3/character/CharacterRig.js', lineCount: 131 },
+    { file: 'js/session/AdventureProgress.js', lineCount: 168 },
+    { file: 'js/skeleton/solveSkeleton.js', lineCount: 133 },
+    { file: 'js/spectacle/spectacleEvents.js', lineCount: 146 },
+    { file: 'js/stage/narrative/stageStoryEvents.js', lineCount: 158 },
+    { file: 'js/stage/narrative/stageStoryMemory.js', lineCount: 137 },
+    {
+      file: 'js/stage/objectives/objectiveDirector.js',
+      lineCount: 156
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.17.0
+STRUCTURE_EXIT=1
+=== OWNED DIFF CHECK ===
+DIFF_CHECK_EXIT=0
+=== DELETED GAME FILES ===
+=== CLEAN PROOF PID ===
+=== TEST PORT ===
+=== GAME STATUS ===
+ M geelooy/games/sefira-clash/index.html
+ M geelooy/games/sefira-clash/js/main.js
+ M geelooy/games/sefira-clash/js/menu/MenuFlow.js
+ M geelooy/games/sefira-clash/js/menu/lobbyRulesView.js
+ M geelooy/games/sefira-clash/js/menu/localLobbyView.js
+ M geelooy/games/sefira-clash/js/menu/menuActionRouter.js
+ M geelooy/games/sefira-clash/js/menu/menuOptions.js
+ M geelooy/games/sefira-clash/js/menu/victoryView.js
+ M geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+ M geelooy/games/sefira-clash/js/render/fighters.js
+ M geelooy/games/sefira-clash/js/render/renderer.js
+ M geelooy/games/sefira-clash/js/render/weapons.js
+ M geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+ M geelooy/games/sefira-clash/js/session/GameModel.js
+ M geelooy/games/sefira-clash/js/session/MatchFlow.js
+ M geelooy/games/sefira-clash/js/session/MatchVictory.js
+ M geelooy/games/sefira-clash/package.json
+?? geelooy/games/sefira-clash/.reports/adventure-expansion-recon.txt
+?? geelooy/games/sefira-clash/.reports/expedition-browser-atlas.png
+?? geelooy/games/sefira-clash/.reports/expedition-browser-battle.png
+?? geelooy/games/sefira-clash/.reports/expedition-browser-proof.json
+?? geelooy/games/sefira-clash/.reports/expedition-catalog-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-complete-focused-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-domain-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-final-cleanup.txt
+?? geelooy/games/sefira-clash/.reports/expedition-final-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-focused-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-gate-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-gate.txt
+?? geelooy/games/sefira-clash/.reports/expedition-matchflow-fix.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-shared-snapshot.txt
+?? geelooy/games/sefira-clash/.reports/expedition-split-verification.txt
+?? geelooy/games/sefira-clash/.reports/expedition-touched-manifest.txt
+?? geelooy/games/sefira-clash/css/expedition-components.css
+?? geelooy/games/sefira-clash/css/expedition.css
+?? geelooy/games/sefira-clash/js/core/MainLifecycle.js
+?? geelooy/games/sefira-clash/js/data/expedition/
+?? geelooy/games/sefira-clash/js/expedition/
+?? geelooy/games/sefira-clash/js/menu/JourneyMenuFlow.js
+?? geelooy/games/sefira-clash/js/menu/expeditionGearView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionQuestView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionRegionView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionSummaryView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionView.js
+?? geelooy/games/sefira-clash/js/menu/lobbyModeView.js
+?? geelooy/games/sefira-clash/js/menu/localLobbySupport.js
+?? geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionAtmosphere.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionLoadoutPainter.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionWeaponAura.js
+?? geelooy/games/sefira-clash/js/session/modeHelpers.js
+?? geelooy/games/sefira-clash/tests/
+=== UNRELATED STATUS ===
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/ItemCatalog.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/JoinedRequestHandlers.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/PlayerActionService.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/PlayerEntity.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/PlayerState.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldEntitySnapshot.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldEventTypes.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldMessageTypes.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRequestHandlers.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldResponseTypes.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRoom.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRoomComposition.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldRoomStateRecord.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldSnapshotProjector.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/mmorpgPlayer.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AdventureQuestCatalog.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AdventureQuestService.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AdventureRequestHandler.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AnimalHarvestService.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatRequestHandler.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatService.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatState.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatantCatalog.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureBrain.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureDirectory.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureSpawnCatalog.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureStateRecord.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/HostileCombatService.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldEntityLookup.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldMembershipRelease.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/adventureCatalog.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/animalHarvest.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatAdventure.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatPersistence.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatSecurity.test.cjs

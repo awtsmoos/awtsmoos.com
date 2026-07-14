@@ -1,67 +1,95 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file api/vector/hnsw/keyIndex.js
- * @chapter The Living Graph Remembers Keys Before The Persisted Map Reopens
- * @description Maintains an in-memory key cache while mirroring every update to the persistent key map.
+ * @chapter Living Vector Names Stay Readable Inside One Binary Ledger
+ * @description Hydrates packed or legacy ledgers into memory, persists ordinary
+ * mutations as one bounded buffer, and delegates bulk replacement as one seal.
  */
 
-const keyMap = require('./keyMap.js');
+const ledger = require('./keyLedger.js');
+const bulk = require('./keyIndexBulk.js');
 
 class HNSWKeyIndex {
-	constructor(handle, registry) {
+	constructor(hnsw, handle, registry) {
+		this.hnsw = hnsw;
 		this.handle = handle;
 		this.registry = registry;
 		this.cache = new Map();
 		this.hydrated = false;
+		this.bulk = false;
+		this.bulkOriginal = null;
+		this.bulkEntries = null;
+	}
+
+	beginBulk(options = {}) {
+		bulk.begin(this, options);
+	}
+
+	commitBulk() {
+		bulk.commit(this);
+	}
+
+	abortBulk() {
+		bulk.abort(this);
 	}
 
 	set(key, id) {
+		this.hydrate();
 		const text = String(key);
-		this.cache.set(text, Number(id));
-		keyMap.set(this.handle, text, Number(id));
+		const numericId = Number(id);
+		this.cache.set(text, numericId);
+		if (this.bulk) {
+			this.bulkEntries.set(text, numericId);
+			return numericId;
+		}
+		bulk.persist(this, this.cache);
+		return numericId;
 	}
 
 	get(key) {
-		const text = String(key);
-		if (this.cache.has(text)) return this.cache.get(text);
-		const persisted = keyMap.get(this.handle, text);
-		if (persisted !== undefined && persisted !== null) {
-			const id = Number(persisted);
-			if (Number.isInteger(id)) this.cache.set(text, id);
-			return id;
-		}
 		this.hydrate();
-		return this.cache.get(text);
+		return this.cache.get(String(key));
 	}
 
 	entries() {
+		if (this.bulk) return Array.from(this.bulkEntries.entries());
 		this.hydrate();
 		return Array.from(this.cache.entries());
 	}
 
 	persistedEntries() {
-		return keyMap.entries(this.handle);
+		return ledger.entries(this.handle);
 	}
 
 	remove(key) {
+		this.hydrate();
 		const text = String(key);
-		this.cache.delete(text);
-		return keyMap.remove(this.handle, text);
+		const removed = this.cache.delete(text);
+		if (!removed) return false;
+		if (this.bulk) return this.bulkEntries.delete(text);
+		bulk.persist(this, this.cache);
+		return true;
 	}
 
 	hydrate() {
 		if (this.hydrated) return;
-		for (const [key, id] of keyMap.entries(this.handle)) {
+		for (const [key, id] of ledger.entries(this.handle)) {
 			if (Number.isInteger(id)) this.cache.set(key, id);
 		}
-		if (!this.cache.size) {
-			for (let id = 0; id < this.registry.count(); id++) {
-				const node = this.registry.getNode(id);
-				if (node?.key !== undefined) this.cache.set(String(node.key), id);
+		if (!this.cache.size) this.hydrateFromRegistry();
+		this.hydrated = true;
+	}
+
+	hydrateFromRegistry() {
+		for (let id = 0; id < this.registry.count(); id++) {
+			const node = this.registry.getNode(id);
+			if (node?.key !== undefined) {
+				this.cache.set(String(node.key), id);
 			}
 		}
-		this.hydrated = true;
 	}
 }
 

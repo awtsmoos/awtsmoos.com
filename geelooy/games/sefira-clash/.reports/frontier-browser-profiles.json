@@ -1,0 +1,62 @@
+{
+	"exp_720cc3c2e4954d599b657e4dd2fde4f9": {
+		"profile": {
+			"version": 2,
+			"level": 3,
+			"xp": 1200,
+			"perutas": 982,
+			"reputation": {
+				"malchus": 30,
+				"yesod": 30,
+				"hod": 10,
+				"netzach": 10,
+				"tiferes": 10,
+				"gevurah": 10,
+				"chesed": 10,
+				"binah": 10,
+				"chochmah": 10,
+				"keser": 10
+			},
+			"discovered": [
+				"malchus-citadel",
+				"cedar-forest",
+				"crown-ruins",
+				"moonworks-city"
+			],
+			"cleared": [
+				"malchus-citadel",
+				"cedar-forest"
+			],
+			"inventory": [
+				"training-sword",
+				"woven-vest",
+				"travel-mantle",
+				"path-boots",
+				"spark-charm",
+				"cedar-edge"
+			],
+			"equipped": {
+				"weapon": "training-sword",
+				"armor": "woven-vest",
+				"mantle": "travel-mantle",
+				"boots": "path-boots",
+				"relic": "spark-charm"
+			},
+			"quests": {},
+			"materials": {},
+			"crafted": [
+				"craft-cedar-edge"
+			],
+			"serviceClaims": [],
+			"weatherClock": 5,
+			"activeLocationId": "moonworks-city",
+			"sync": {
+				"profileId": "exp_720cc3c2e4954d599b657e4dd2fde4f9",
+				"revision": 1,
+				"syncedAt": 1784013849745
+			}
+		},
+		"revision": 1,
+		"updatedAt": 1784013849745
+	}
+}

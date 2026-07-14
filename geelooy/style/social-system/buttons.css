@@ -1,48 +1,106 @@
 /* B"H
- * Chapter: Buttons become instruments, not boxes.
- * Every shared action receives touch size, glass-aware depth, hover lift,
- * pressed feedback, focus clarity, and calm reduced-motion obedience.
+ * Boruch Hashem
+ * Blessed is He
+ * Shared actions become stable instruments with icon vessels and clear state.
  */
-a, button { font: inherit; }
-
-button, .btn, .home-search-vessel button, .profile-primary-action, .spaces-create,
-.home-profile-pill, .space-actions a, .home-empty-actions a, .profile-command-rail a,
-.profile-inline-actions button, .profile-inline-actions a {
-  align-items: center;
-  border-radius: var(--g-radius, 16px);
-  border: 1px solid var(--g-border, rgba(15,23,42,.12));
-  cursor: pointer;
-  display: inline-flex;
-  font-weight: 700;
-  gap: var(--g-2, .5rem);
-  justify-content: center;
-  min-height: 44px;
-  min-width: 44px;
-  padding: .68rem 1rem;
-  position: relative;
-  text-decoration: none;
-  transform: translateZ(0);
-  transition: transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft);
-  user-select: none;
+a,
+button {
+	font: inherit;
 }
-
-.home-search-vessel button, .profile-primary-action, .spaces-create, .is-create {
-  background: linear-gradient(135deg, var(--g-text, #0f172a), #26344f);
-  border-color: rgba(255,255,255,.2);
-  color: #fff;
-  box-shadow: 0 14px 34px rgba(15,23,42,.18);
+:where(button, .btn, .button, .premium-button, .profile-primary-action, .spaces-create, .space-actions a, .home-empty-actions a, .profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	min-width: 44px;
+	min-height: 44px;
+	padding: .66rem .9rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface);
+	box-shadow: none;
+	color: var(--g-text);
+	cursor: pointer;
+	font-weight: 750;
+	line-height: 1.15;
+	text-decoration: none;
+	user-select: none;
+	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
 }
-
-button, .profile-command-rail a, .space-actions a {
-  background: rgba(255,255,255,.88);
-  color: var(--g-text, #0f172a);
+:where(.button-icon, [data-button-icon]) {
+	display: grid;
+	width: 1.45rem;
+	height: 1.45rem;
+	place-items: center;
+	border-radius: .45rem;
+	background: color-mix(in srgb, currentColor 9%, transparent);
+	font-size: .9em;
+	flex: 0 0 auto;
 }
-
-button:is(:hover, :focus-visible), a:is(:hover, :focus-visible), .btn:is(:hover, :focus-visible) {
-  border-color: var(--g-accent, rgba(214,168,79,.72));
-  box-shadow: 0 16px 38px rgba(15,23,42,.14);
-  transform: translateY(var(--motion-hover-lift));
+:where([data-icon])::before {
+	display: grid;
+	width: 1.45rem;
+	height: 1.45rem;
+	place-items: center;
+	border-radius: .45rem;
+	background: color-mix(in srgb, currentColor 9%, transparent);
+	content: attr(data-icon);
+	font-size: .9em;
 }
-
-button:active, .btn:active, a:active { transform: translateY(var(--motion-press-depth)) scale(.99); }
-button:disabled, .btn[aria-disabled="true"] { cursor: not-allowed; opacity: .58; transform: none; }
+:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary, .profile-primary-action, .spaces-create) {
+	border-color: var(--g-accent);
+	background: var(--g-accent);
+	color: #fff;
+}
+:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary):not(.icon-only)::after {
+	content: "→";
+	font-weight: 900;
+	transition: transform var(--motion-fast) var(--ease-snap);
+}
+:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary):is(:hover, :focus-visible)::after {
+	transform: translateX(2px);
+}
+:where(.is-danger, .button-danger, [data-variant="danger"]) {
+	border-color: color-mix(in srgb, var(--awt-danger) 45%, transparent);
+	background: color-mix(in srgb, var(--awt-danger) 10%, var(--awt-surface));
+	color: var(--awt-danger);
+}
+:where(button, .btn, .button, .premium-button, .profile-command-rail a, .space-actions a):is(:hover, :focus-visible) {
+	border-color: var(--g-border-strong);
+	box-shadow: var(--shadow-card);
+	transform: translateY(var(--motion-hover-lift));
+}
+:where(button, .btn, .button, .premium-button):active {
+	box-shadow: none;
+	transform: translateY(var(--motion-press-depth));
+}
+:where(button, .btn, .button, .premium-button):disabled,
+:where(.btn, .button, .premium-button)[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .5;
+	box-shadow: none;
+	transform: none;
+}
+:where(button, .btn, .button, .premium-button)[aria-busy="true"] {
+	cursor: progress;
+}
+:where(button, .btn, .button, .premium-button)[aria-busy="true"]::before {
+	width: .85rem;
+	height: .85rem;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	content: "";
+	animation: awt-button-spin .7s linear infinite;
+}
+@keyframes awt-button-spin {
+	to {
+		transform: rotate(1turn);
+	}
+}
+@media (pointer: coarse) {
+	:where(button, .btn, .button, .premium-button):hover {
+		box-shadow: none;
+		transform: none;
+	}
+}

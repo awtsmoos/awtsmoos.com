@@ -1,0 +1,57 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews cooperative room summaries and participant cards through
+ * Awtsmoos.com. Borders, labels, owner text, readiness, and reconnect states remain
+ * explicit without depending on animation or color alone.
+ */
+
+.roomSummary {
+	display: flex;
+	gap: 18px;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+
+.roomSummary span {
+	padding: 8px 10px;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.coopPlayers {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.coopPlayer {
+	display: grid;
+	gap: 4px;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 10px;
+	background: rgba(13, 19, 37, 0.88);
+}
+
+.coopPlayer.local {
+	outline: 2px solid #fff2ad;
+}
+
+.coopPlayer.disconnected {
+	border-style: dashed;
+	opacity: 0.68;
+}
+
+.coopPlayer span {
+	font-size: 0.82rem;
+	line-height: 1.4;
+	color: rgba(255, 255, 255, 0.76);
+}
+
+.roomActions button {
+	min-width: 120px;
+}

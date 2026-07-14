@@ -3,13 +3,13 @@
 //Blessed is He
 
 /**
- * Many control garments become one semantic intention in this Awtsmoos.com gate.
- * The Awtsmoos renews keyboard, touch, mouse, and one owned pad while preserving
- * aim, movement, and combat meaning for the buffering layer.
+ * Many control garments become one semantic intention in this Awtsmoos.com gate. The
+ * Awtsmoos renews keyboard, touch, mouse, and pad while preserving movement, combat,
+ * aim, and one explicit interaction verb for doors, citizens, boards, and services.
  */
+
 import { tickTouchAim } from './touchAimMemory.js';
 
-/** Merges control sources belonging to the same player seat. */
 export function mergeInputStates(keys, touch, mouse, gamepad) {
 	const memory = tickTouchAim(touch);
 	const x = strongestAxis(touch.x, gamepad.x, keys.x);
@@ -28,11 +28,11 @@ export function mergeInputStates(keys, touch, mouse, gamepad) {
 		kick: any(mouse.kick, touch.kick, gamepad.kick, keys.kick),
 		grab: any(touch.grab, gamepad.grab, keys.grab),
 		shield: any(touch.shield, gamepad.shield, keys.shield),
-		special: any(touch.special, gamepad.special, keys.special)
+		special: any(touch.special, gamepad.special, keys.special),
+		interact: any(touch.interact, gamepad.interact, keys.interact)
 	};
 }
 
-/** Returns a mutable neutral input object for touch and mouse adapters. */
 export function blankInputState() {
 	return {
 		x: 0,
@@ -45,7 +45,8 @@ export function blankInputState() {
 		kick: false,
 		grab: false,
 		shield: false,
-		special: false
+		special: false,
+		interact: false
 	};
 }
 

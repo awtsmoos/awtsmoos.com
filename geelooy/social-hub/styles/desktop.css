@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@media (min-width: 1000px) {
+	.hubShell {
+		grid-template-columns: 14.5rem minmax(0, 1fr);
+	}
+
+	.desktopRail {
+		display: flex;
+	}
+
+	.workspace {
+		padding-inline: clamp(1.5rem, 4vw, 4rem);
+	}
+
+	.homePanel {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.55fr);
+		gap: 1rem;
+	}
+
+	.homePanel .heroRift {
+		grid-row: span 2;
+	}
+
+	.homePanel .pulseGrid,
+	.homePanel .quickActionGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: 0;
+	}
+
+	.interactionPanel {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(20rem, 0.65fr);
+		gap: 1rem;
+	}
+
+	.interactionPanel > .panelIntro,
+	.interactionPanel > .targetGrid,
+	.interactionPanel > .commentComposer,
+	.interactionPanel > .referenceComposer,
+	.interactionPanel > #publishComment {
+		grid-column: 1;
+	}
+
+	.interactionPanel > .promotionPanel {
+		position: sticky;
+		top: 4.5rem;
+		grid-column: 2;
+		grid-row: 1 / span 5;
+		align-self: start;
+	}
+
+	.profilePanel .cardGrid,
+	.referencesPanel .referenceMap {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.activityPanel {
+		display: grid;
+		grid-template-columns: minmax(18rem, 0.42fr) minmax(0, 1fr);
+		gap: 1rem;
+	}
+
+	.activityPanel .panelIntro,
+	.activityPanel .filterRow {
+		grid-column: 1;
+		align-self: start;
+	}
+
+	.activityPanel .filterRow {
+		position: sticky;
+		top: 15rem;
+	}
+
+	.activityPanel .activityTimeline {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+
+	.privacyPanel {
+		max-width: 74rem;
+	}
+}
+
+@media (min-width: 1450px) {
+	.hubShell {
+		grid-template-columns: 16rem minmax(0, 1fr);
+	}
+
+	.workspace {
+		padding-inline: 5vw;
+	}
+
+	.heroRift {
+		min-height: 30rem;
+	}
+}

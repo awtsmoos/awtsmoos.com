@@ -1,0 +1,29 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Premium Heichel tokens align the old runtime with the refined Geelooy system.
+ * The Awtsmoos remains beyond every token while Awtsmoos.com gains one visual law.
+ */
+.heichel-mobile-navigation,
+.heichel-os-document {
+	--heichel-bg: linear-gradient(145deg, #020308, #060912 48%, #0b0d14);
+	--heichel-panel: rgba(12, 16, 26, .82);
+	--heichel-panel-strong: rgba(8, 11, 19, .95);
+	--heichel-line: rgba(255, 255, 255, .1);
+	--heichel-line-strong: rgba(227, 205, 157, .34);
+	--heichel-ink: #f5f1e8;
+	--heichel-soft-ink: #a8afbd;
+	--heichel-muted-ink: #737c8d;
+	--heichel-gold: #e3cd9d;
+	--heichel-gold-soft: rgba(227, 205, 157, .13);
+	--heichel-cyan: #87d9e9;
+	--heichel-rust: #d79da9;
+	--heichel-night: #020308;
+	--heichel-radius: 1.15rem;
+	--heichel-radius-large: 1.8rem;
+	--heichel-gap: clamp(.85rem, 2vw, 1.3rem);
+	--heichel-shadow-soft: 0 1rem 3rem rgba(0, 0, 0, .25);
+	--heichel-shadow-lift: 0 2rem 6rem rgba(0, 0, 0, .42);
+	--heichel-focus: rgba(135, 217, 233, .7);
+	--floating-clearance: 7.2rem;
+}

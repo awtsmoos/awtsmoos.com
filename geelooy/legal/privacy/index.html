@@ -1,0 +1,54 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos.com Privacy Policy</title>
+	<link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+	<main>
+		<header>
+			<p class="eyebrow">Awtsmoos.com · private by default</p>
+			<h1>Privacy Policy</h1>
+			<p class="version">Version 1.0 · Effective July 14, 2026</p>
+			<p>This project-authored policy explains how current social features are designed to handle identity, activity, media, and sharing. It is not legal advice.</p>
+			<nav><a href="#identity">Identity</a><a href="#activity">Activity</a><a href="#sharing">Sharing</a><a href="#control">Control</a><a href="../terms/">Terms</a></nav>
+		</header>
+		<section id="identity">
+			<h2>Private account and public aliases</h2>
+			<p>Your authenticated account is distinct from the aliases you use publicly. Alias IDs, names, posts, comments, and public profile details may be visible according to their content settings.</p>
+			<p>The Social Hub stores only public alias preference in browser memory. It is not designed to store passwords, cookies, bearer tokens, authorization headers, or private user IDs.</p>
+		</section>
+		<section id="activity">
+			<h2>Activity ledger</h2>
+			<p>The activity ledger can record same-origin page visits and social actions to help you return to work and understand your own use. It is private by default and visible to you in the Activity tab.</p>
+			<ul>
+				<li>Sensitive query keys such as tokens, passwords, authorization codes, and session values are removed before storage.</li>
+				<li>Categories may be paused individually or the complete ledger may be paused.</li>
+				<li>Retention may be set between one and 365 days.</li>
+				<li>Events may be deleted, cleared, or exported as JSON.</li>
+				<li>Rapid repeated navigation to the same path may be deduplicated.</li>
+			</ul>
+		</section>
+		<section id="sharing">
+			<h2>Granular sharing</h2>
+			<p>Each activity event begins private unless you choose another default or change that event. Available scopes are private, selected aliases, members of a selected Heichel, or public.</p>
+			<p>Sharing an event changes its visibility descriptor. It does not create a second public browsing-history database. Visibility is checked again whenever another viewer requests the profile.</p>
+		</section>
+		<section>
+			<h2>Content, comments, voice, and video</h2>
+			<p>Posts, comments, voice notes, video reports, and references are associated with the public alias that creates them. Media is stored as alias-owned native assets and comments retain canonical target coordinates.</p>
+			<p>When a comment becomes a post, both remain separate canonical entities connected by provenance. When a post appears in a comment, the comment stores a reference rather than copying the original post body.</p>
+		</section>
+		<section id="control">
+			<h2>Your controls</h2>
+			<p>You may inspect, pause, update, export, and delete activity through the Social Hub. Content deletion may preserve a bounded tombstone when thread or provenance continuity requires the identifier to remain understandable.</p>
+			<p><a href="/login">Return to login</a> · <a href="/social-hub/#privacy">Open privacy controls</a></p>
+		</section>
+	</main>
+</body>
+</html>

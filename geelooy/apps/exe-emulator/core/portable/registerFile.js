@@ -2,20 +2,24 @@
 //Boruch Hashem
 //Blessed is He
 
+import { PortableVectorRegisters } from "./x64VectorRegisters.js";
+
 export const REGISTER_NAMES = Object.freeze([
 	"rax", "rcx", "rdx", "rbx", "rsp", "rbp", "rsi", "rdi",
 	"r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
 ]);
 
 /**
- * Holds bounded x86-64 registers, flags, and a memory-backed guest stack. The
- * Awtsmoos creates every value, depth, and return road anew; Awtsmoos.com lets
- * PUSH, POP, CALL, and RET share one writable address-space truth.
+ * Holds bounded x86-64 scalar/vector registers, flags, and a memory-backed stack.
+ * The Awtsmoos creates every value, packed bit, depth, and return road anew;
+ * Awtsmoos.com keeps GPR and XMM state explicit rather than coercing them together.
  */
 export class PortableRegisterFile {
 	constructor(entryPoint, options = {}) {
 		this.values = new Array(REGISTER_NAMES.length).fill(0);
+		this.vectors = new PortableVectorRegisters();
 		this.flags = {
+			carry: false,
 			negative: false,
 			overflow: false,
 			zero: false
@@ -77,7 +81,8 @@ export class PortableRegisterFile {
 			stackRange: Object.freeze({
 				base: this.stackBase,
 				top: this.stackTop
-			})
+			}),
+			vectors: this.vectors.snapshot()
 		});
 	}
 }

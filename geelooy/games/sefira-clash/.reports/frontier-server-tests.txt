@@ -1,0 +1,103 @@
+=== ALL SEFIRA TESTS ===
+✔ merges independent input sources without one erasing another (9.981478ms)
+✔ measures latency, jitter, frame gaps, and human-readable quality (277.411661ms)
+✔ reconnect and checksum failure are visible without color dependence (0.716373ms)
+✔ browser and server produce the same schema-two checksum (8.702762ms)
+✔ browser integrity rejects corruption and counts the failure (8.067199ms)
+✔ legacy unsealed snapshot remains accepted and measured (0.633969ms)
+✔ stores minimum resume identity and clears it safely (102.173135ms)
+✔ public session snapshot never exposes the private resume token (47.435821ms)
+✔ reconnect policy remains bounded inside grace (11.397292ms)
+✔ two clients create, ready, start, and receive authoritative state (67.09726ms)
+✔ disconnect and resume preserve the same participant (11.569292ms)
+✔ owner migration and rematch remain deterministic (14.013413ms)
+✔ server computes movement from bounded input (33.511402ms)
+✔ server attacks wave and completes through boss damage (16.410851ms)
+✔ boss phases are derived from server health (0.892907ms)
+✔ exact revision accepts lawful spending and derives level (138.317845ms)
+✖ stale revision merges progress and repository survives restart (53.979626ms)
+✔ request router exposes additive pull and push without old lobby membership (8.36964ms)
+✔ creates and joins a private four-player room with safe snapshots (64.148775ms)
+✔ invalidates readiness after character or team changes (3.299308ms)
+✔ migrates ownership and deletes a room after immediate expiry (5.840824ms)
+✔ rejects a fifth player without corrupting room membership (1.674402ms)
+✔ seals canonical public state and detects corruption (155.807598ms)
+✔ records authoritative hit, damage, fall, and ring-out statistics (16.93663ms)
+✔ exports bounded public replay after a completed match (7.642687ms)
+✔ journal trims old snapshots and events to declared bounds (11.187152ms)
+✔ requires owner authority and unanimous readiness before starting (169.991577ms)
+✔ binds input to its socket fighter and ignores a stale sequence (6.652522ms)
+✔ zero-grace disconnect eliminates and returns a finished match to lobby (68.490826ms)
+✔ accepts only newer bounded input and moves the bound fighter (69.353324ms)
+✔ resolves attack damage and guarded reduction on the server (19.876894ms)
+✔ owns ring-out stocks and free-for-all victory (3.547498ms)
+✔ resolves team victory after the opposing team is eliminated (107.647743ms)
+✔ team match rejects one team and accepts opposing teams (59.01909ms)
+✔ issues strict opaque resume tokens (100.086597ms)
+✖ declares capabilities and safe aggregate health without membership (26.04068ms)
+✔ echoes client ping time beside a server timestamp (11.338336ms)
+✔ enforces independent input, ping, and command windows (11.123296ms)
+✔ request route returns match identity, events, snapshots, and final state (29.559325ms)
+✔ request route rejects replay before authoritative completion (4.816413ms)
+✔ disconnect neutralizes then resume restores the same fighter and identity (53.469185ms)
+✔ grace expiry eliminates a disconnected fighter and migrates ownership (45.380867ms)
+✔ intentional leave removes immediately without scheduling grace (1.453232ms)
+✔ spectator watches an active match without entering player equations (162.296201ms)
+✔ spectator capacity is independent and bounded (1.294905ms)
+✔ preserves every original Sefira protocol name while adding match names (1.435017ms)
+✔ preserves original server exports and registered factories (3.198735ms)
+✔ supports both original and options-object RealtimeClient constructors (46.32257ms)
+✔ preserves the complete original SefiraLobbyClient class surface (33.270648ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 47
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6137.346082
+
+✖ failing tests:
+
+test at ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs:68:1
+✖ stale revision merges progress and repository survives restart (53.979626ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(stale.profile.inventory.includes('cedar-edge'))
+  
+      at TestContext.<anonymous> (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs:87:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/network-guard.test.cjs:35:1
+✖ declares capabilities and safe aggregate health without membership (26.04068ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/network-guard.test.cjs:43:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+TEST_EXIT=1

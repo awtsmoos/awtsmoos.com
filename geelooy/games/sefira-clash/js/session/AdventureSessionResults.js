@@ -3,17 +3,17 @@
 //Blessed is He
 
 /**
- * Adventure victory becomes durable progression through this Awtsmoos.com gate.
- * The Awtsmoos renews elapsed time, hidden light, Perutas, stars, and best records
- * without burdening the general game model with campaign arithmetic.
+ * Journey result law preserves the original Adventure clear contract while layering
+ * optional gate shlichus and Expedition rewards beside it. The Awtsmoos renews every
+ * ledger distinctly; Awtsmoos.com never lets optional service rewrite required progress.
  */
+
 import { ADVENTURE_MAPS } from '../data/maps.js';
 import { formatTime, recordAdventureClear } from './sessionHelpers.js';
 
-/** Records the current Adventure win and returns presentation-ready rewards. */
 export function recordAdventureSessionWin(model, currentTime = performance.now()) {
-	const elapsed = Math.max(1000, currentTime - model.runStartedAt);
 	const run = model.state.adventureRun || {};
+	const elapsed = Math.max(1000, currentTime - model.runStartedAt);
 	model.adventureProgress = recordAdventureClear(
 		model.adventureProgress,
 		ADVENTURE_MAPS,
@@ -22,10 +22,33 @@ export function recordAdventureSessionWin(model, currentTime = performance.now()
 		run.hiddenFound || 0,
 		run.perutas || 0
 	);
-	const record = model.adventureProgress.records[model.choice.map.id];
+	const record = model.adventureProgress.records[model.choice.map.id] || {};
+	const presentation = {
+		best: formatTime(record.bestMs),
+		stars: record.stars || 0,
+		perutas: record.perutasFound || 0,
+		expedition: null,
+		adventureShlichus: null
+	};
+	if (model.choice.mode === 'adventure') {
+		presentation.adventureShlichus = model.adventureShlichus.record(
+			model.choice.map,
+			model.state,
+			elapsed
+		);
+	}
+	if (model.choice.mode !== 'expedition') return presentation;
+	const expedition = model.expedition.recordClear(model.choice.map.id, run);
+	presentation.expedition = expedition ? expeditionPresentation(expedition) : null;
+	return presentation;
+}
+
+function expeditionPresentation(expedition) {
 	return {
-		best: formatTime(record?.bestMs),
-		stars: record?.stars || 0,
-		perutas: record?.perutasFound || 0
+		xp: expedition.rewards.xp,
+		perutas: expedition.rewards.perutas,
+		level: expedition.profile.level,
+		completedQuests: expedition.completedQuests,
+		firstClear: expedition.rewards.xp > 0
 	};
 }

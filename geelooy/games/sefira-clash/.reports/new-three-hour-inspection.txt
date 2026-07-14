@@ -1,0 +1,383 @@
+=== HEAD ===
+1ea4d130d (HEAD -> main, origin/main, origin/HEAD) B_H make stale workers self healing
+=== STATUS ===
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraCapabilities.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraRequestLimiter.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraRequestRouter.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js
+ M geelooy/games/sefira-clash/index.html
+ M geelooy/games/sefira-clash/js/adventure/adventureRun.js
+ M geelooy/games/sefira-clash/js/controls/InputBuffer.js
+ M geelooy/games/sefira-clash/js/controls/gamepadState.js
+ M geelooy/games/sefira-clash/js/controls/keyboard.js
+ M geelooy/games/sefira-clash/js/controls/mergeInputStates.js
+ M geelooy/games/sefira-clash/js/core/loop.js
+ M geelooy/games/sefira-clash/js/main.js
+ M geelooy/games/sefira-clash/js/menu/MenuFlow.js
+ M geelooy/games/sefira-clash/js/menu/lobbyRulesView.js
+ M geelooy/games/sefira-clash/js/menu/localLobbyView.js
+ M geelooy/games/sefira-clash/js/menu/menuActionRouter.js
+ M geelooy/games/sefira-clash/js/menu/menuCards.js
+ M geelooy/games/sefira-clash/js/menu/menuOptions.js
+ M geelooy/games/sefira-clash/js/menu/victoryView.js
+ M geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+ M geelooy/games/sefira-clash/js/render/fighters.js
+ M geelooy/games/sefira-clash/js/render/renderer.js
+ M geelooy/games/sefira-clash/js/render/weapons.js
+ M geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+ M geelooy/games/sefira-clash/js/session/GameModel.js
+ M geelooy/games/sefira-clash/js/session/MatchFlow.js
+ M geelooy/games/sefira-clash/js/session/MatchVictory.js
+ M geelooy/games/sefira-clash/package.json
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopBoss.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopBroadcast.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopDirectory.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopDirectoryMembership.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopEnemy.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopInput.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopMovement.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopPlayer.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRoom.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRoomLifecycle.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRules.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopSessionRegistry.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopSimulation.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopTicker.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogCraft.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogProgress.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogWorld.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileController.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileMerge.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileSchema.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileServerSanitizers.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileTestFixture.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionServerCatalog.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionServiceRouter.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileMerge.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileSchema.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldServerCatalog.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldSocialSchema.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraExpeditionServices.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/coop-lifecycle.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/coop-simulation.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-conflict.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/open-world-profile-sync.test.cjs
+?? geelooy/games/sefira-clash/.reports/BrowserProofHarness.cjs
+?? geelooy/games/sefira-clash/.reports/adventure-expansion-recon.txt
+?? geelooy/games/sefira-clash/.reports/browser-phase-patrol.cjs
+?? geelooy/games/sefira-clash/.reports/browser-phase-patrol.json
+?? geelooy/games/sefira-clash/.reports/compat-head-contracts.txt
+?? geelooy/games/sefira-clash/.reports/continuation-compatibility-inspection.txt
+?? geelooy/games/sefira-clash/.reports/expedition-browser-atlas.png
+?? geelooy/games/sefira-clash/.reports/expedition-browser-battle.png
+?? geelooy/games/sefira-clash/.reports/expedition-browser-proof.json
+?? geelooy/games/sefira-clash/.reports/expedition-catalog-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-complete-focused-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-domain-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-final-cleanup.txt
+?? geelooy/games/sefira-clash/.reports/expedition-final-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-focused-gates.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-gate-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-gate.txt
+?? geelooy/games/sefira-clash/.reports/expedition-matchflow-fix.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-shared-snapshot.txt
+?? geelooy/games/sefira-clash/.reports/expedition-split-verification.txt
+?? geelooy/games/sefira-clash/.reports/expedition-touched-manifest.txt
+?? geelooy/games/sefira-clash/.reports/frontier-browser-atlas.png
+?? geelooy/games/sefira-clash/.reports/frontier-browser-boss.png
+?? geelooy/games/sefira-clash/.reports/frontier-browser-coop.png
+?? geelooy/games/sefira-clash/.reports/frontier-browser-profiles.json
+?? geelooy/games/sefira-clash/.reports/frontier-browser-proof.json
+?? geelooy/games/sefira-clash/.reports/frontier-canonical-summary.json
+?? geelooy/games/sefira-clash/.reports/frontier-client-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/frontier-client-pass
+?? geelooy/games/sefira-clash/.reports/frontier-client-tests-latest.txt
+?? geelooy/games/sefira-clash/.reports/frontier-client-tests-marker.txt
+?? geelooy/games/sefira-clash/.reports/frontier-closure-assertion.json
+?? geelooy/games/sefira-clash/.reports/frontier-closure.fail
+?? geelooy/games/sefira-clash/.reports/frontier-completion-recon.txt
+?? geelooy/games/sefira-clash/.reports/frontier-domain-gate.txt
+?? geelooy/games/sefira-clash/.reports/frontier-final-focused.txt
+?? geelooy/games/sefira-clash/.reports/frontier-final-gates.txt
+?? geelooy/games/sefira-clash/.reports/frontier-final-handoff.json
+?? geelooy/games/sefira-clash/.reports/frontier-final-summary.json
+?? geelooy/games/sefira-clash/.reports/frontier-format-and-tests.txt
+?? geelooy/games/sefira-clash/.reports/frontier-format-summary.txt
+?? geelooy/games/sefira-clash/.reports/frontier-line-markers/
+?? geelooy/games/sefira-clash/.reports/frontier-live-profiles.json
+?? geelooy/games/sefira-clash/.reports/frontier-live-server-proof.json
+?? geelooy/games/sefira-clash/.reports/frontier-map-compiler.txt
+?? geelooy/games/sefira-clash/.reports/frontier-map-variants.txt
+?? geelooy/games/sefira-clash/.reports/frontier-markers/
+?? geelooy/games/sefira-clash/.reports/frontier-over-120.json
+?? geelooy/games/sefira-clash/.reports/frontier-server-syntax.txt
+?? geelooy/games/sefira-clash/.reports/frontier-server-tests-marker.txt
+?? geelooy/games/sefira-clash/.reports/frontier-server-tests-two.txt
+?? geelooy/games/sefira-clash/.reports/frontier-server-tests.txt
+?? geelooy/games/sefira-clash/.reports/massive-authoritative-gate-1.txt
+?? geelooy/games/sefira-clash/.reports/massive-city-browser-proof.cjs
+?? geelooy/games/sefira-clash/.reports/massive-city-integration-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/massive-complete-gates.txt
+?? geelooy/games/sefira-clash/.reports/massive-continuation-compatibility-gate.txt
+?? geelooy/games/sefira-clash/.reports/massive-format.txt
+?? geelooy/games/sefira-clash/.reports/massive-latest-hardening-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/massive-line-audit-after-split.txt
+?? geelooy/games/sefira-clash/.reports/massive-line-audit.txt
+?? geelooy/games/sefira-clash/.reports/massive-openworld-tests-final.txt
+?? geelooy/games/sefira-clash/.reports/massive-openworld-tests-second.txt
+?? geelooy/games/sefira-clash/.reports/massive-openworld-tests-third.txt
+?? geelooy/games/sefira-clash/.reports/massive-openworld-tests.txt
+?? geelooy/games/sefira-clash/.reports/massive-parser-line-report.json
+?? geelooy/games/sefira-clash/.reports/massive-profile-online-final.txt
+?? geelooy/games/sefira-clash/.reports/massive-profile-test-split-format.txt
+?? geelooy/games/sefira-clash/.reports/massive-profile-test-split-lines.txt
+?? geelooy/games/sefira-clash/.reports/massive-remaining-gates.txt
+?? geelooy/games/sefira-clash/.reports/massive-split-format.txt
+?? geelooy/games/sefira-clash/.reports/matching-mode-repair.txt
+?? geelooy/games/sefira-clash/.reports/new-three-hour-inspection.txt
+?? geelooy/games/sefira-clash/.reports/openworld-adventure-vs-gates.txt
+?? geelooy/games/sefira-clash/.reports/openworld-domain-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/openworld-file-manifest.txt
+?? geelooy/games/sefira-clash/.reports/openworld-format-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/openworld-git-status.txt
+?? geelooy/games/sefira-clash/.reports/openworld-integration-checkpoint.txt
+?? geelooy/games/sefira-clash/.reports/openworld-inventory.txt
+?? geelooy/games/sefira-clash/.reports/openworld-post-split-gates.txt
+?? geelooy/games/sefira-clash/.reports/openworld-tests-first.txt
+?? geelooy/games/sefira-clash/.reports/openworld-tests-second.txt
+?? geelooy/games/sefira-clash/coop.html
+?? geelooy/games/sefira-clash/css/adventure-shlichus.css
+?? geelooy/games/sefira-clash/css/coop-components.css
+?? geelooy/games/sefira-clash/css/coop-layout.css
+?? geelooy/games/sefira-clash/css/coop.css
+?? geelooy/games/sefira-clash/css/expedition-components.css
+?? geelooy/games/sefira-clash/css/expedition-services.css
+?? geelooy/games/sefira-clash/css/expedition-sync.css
+?? geelooy/games/sefira-clash/css/expedition-weather.css
+?? geelooy/games/sefira-clash/css/expedition.css
+?? geelooy/games/sefira-clash/css/open-world-services.css
+?? geelooy/games/sefira-clash/css/open-world.css
+?? geelooy/games/sefira-clash/js/adventure/AdventurePickup.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureRunState.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureRunStep.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureShlichusCatalog.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureShlichusModel.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureShlichusProgress.js
+?? geelooy/games/sefira-clash/js/adventure/AdventureStatus.js
+?? geelooy/games/sefira-clash/js/coop/
+?? geelooy/games/sefira-clash/js/core/MainLifecycle.js
+?? geelooy/games/sefira-clash/js/data/expedition/
+?? geelooy/games/sefira-clash/js/data/openworld/
+?? geelooy/games/sefira-clash/js/expedition/
+?? geelooy/games/sefira-clash/js/menu/AdventureShlichusCard.js
+?? geelooy/games/sefira-clash/js/menu/ExpeditionMenuActions.js
+?? geelooy/games/sefira-clash/js/menu/JourneyMenuFlow.js
+?? geelooy/games/sefira-clash/js/menu/OpenWorldMenuFlow.js
+?? geelooy/games/sefira-clash/js/menu/VsMenuFlow.js
+?? geelooy/games/sefira-clash/js/menu/expeditionActiveLocationView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionBossView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionCitizenView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionCraftView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionGearView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionMaterialsView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionQuestView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionRegionView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionShopView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionSummaryView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionSyncView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionWeatherView.js
+?? geelooy/games/sefira-clash/js/menu/lobbyModeView.js
+?? geelooy/games/sefira-clash/js/menu/localLobbyRulesView.js
+?? geelooy/games/sefira-clash/js/menu/localLobbySupport.js
+?? geelooy/games/sefira-clash/js/menu/openworld/
+?? geelooy/games/sefira-clash/js/multiplayer/HandsOnlyCovenant.js
+?? geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js
+?? geelooy/games/sefira-clash/js/openworld/
+?? geelooy/games/sefira-clash/js/render/ExpeditionAtmosphere.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionBossHud.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionLoadoutPainter.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionVisuals.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionWeaponAura.js
+?? geelooy/games/sefira-clash/js/render/ExpeditionWeatherPainter.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldAmbientPainter.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldCitizenPainter.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldEncounterHud.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldHud.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldPainter.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldPerformanceHud.js
+?? geelooy/games/sefira-clash/js/render/OpenWorldTraversalPainter.js
+?? geelooy/games/sefira-clash/js/render/renderVisibility.js
+?? geelooy/games/sefira-clash/js/session/GameStateFactory.js
+?? geelooy/games/sefira-clash/js/session/modeHelpers.js
+?? geelooy/games/sefira-clash/tests/
+=== AI THOUGHTS ===
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/16_RISK_AND_REGRESSION_MAP.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/17_BASELINE_GIT_EVIDENCE.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/18_CANONICAL_NPM_TEST.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/19_FOCUSED_AUDITS.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/21_FOUNDATION_SCOPED_VALIDATION.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/22_LOBBY_LINE_COUNTS.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/23_LOCAL_MULTIPLAYER_AUDIT.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/24_SCOPED_FORMAT_AND_GATES.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/25_FINAL_SPLITS_AND_MULTIPLAYER.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/26_RULE_AND_QUALITY_AUDIT.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/27_FINAL_GATE_MATRIX.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/28_FINAL_GIT_EVIDENCE.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/29_BROWSER_VERIFICATION.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/30_PLANNED_VS_ACTUAL.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/31_CURRENT_REMAINING_WORK.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/32_CORRECTED_FEATURE_GATES.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/33_FINAL_HANDOFF.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/00_PHASE_ONE_PROJECT_UNIVERSE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/01_PHASE_TWO_THEORETICAL_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/02_PHASE_THREE_PLAN_CHALLENGE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/03_REPOSITORY_EVIDENCE.json
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/04_EVIDENCE_LEDGER.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/05_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/06_REMAINING_WORK.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/07_SERVER_TESTS.txt
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/collect-git-evidence.cjs
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/01_PHASE_ONE_COMPLETE_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/02_PHASE_TWO_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/03_PHASE_THREE_PLAN_CHALLENGE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/04_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/05_ACCEPTANCE_AND_REMAINING_WORK.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/06_PLANNED_VS_ACTUAL.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/07_VERIFICATION_EVIDENCE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-13T17-03-00-0400_online_match_authority_revelation/08_FINAL_HANDOFF.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/01_PHASE_ONE_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/02_PHASE_TWO_IMPROVED_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/03_FINAL_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/04_IMPLEMENTATION_READBACK.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/05_VERIFICATION.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-01-30-0400_websocket_api_preservation/06_FINAL_HANDOFF.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/01_PHASE_ONE_COMPLETE_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/02_PHASE_TWO_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/03_PHASE_THREE_CHALLENGE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/04_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/05_ACCEPTANCE_MATRIX.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/06_RETRY_DISCOVERY_AND_REPLAY_FIX.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/07_FINAL_VERIFICATION_DELTA.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T00-22-00-0400_massive_online_evolution/08_PLANNED_VS_ACTUAL_FINAL.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/01_PHASE_ONE_UNBOUNDED_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/02_PHASE_TWO_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/03_PHASE_THREE_CHALLENGE_AND_IMPROVEMENTS.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/04_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/05_ACCEPTANCE_MATRIX.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/06_FIRST_PASS_RECONCILIATION.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/07_FINAL_VERIFICATION.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T05-30-00-0400_expedition_world_realism/08_PLANNED_VS_ACTUAL.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/01_PHASE_ONE_UNBOUNDED_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/02_PHASE_TWO_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/03_PHASE_THREE_CHALLENGE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/04_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/05_ACCEPTANCE_MATRIX.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/06_FIRST_PASS_RECONCILIATION.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/07_SERVER_AND_BROWSER_PROOF.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/08_PLANNED_VS_ACTUAL_FINAL.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T06-20-00-0400_total_expedition_completion/09_HONEST_LIMITS.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T07-36-00-0400_open_world_city_shlichus/00_CURRENT_REALITY.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T07-36-00-0400_open_world_city_shlichus/01_PHASE_ONE_INTENSE_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T07-36-00-0400_open_world_city_shlichus/02_PHASE_TWO_IMPROVED_ARCHITECTURE.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T07-36-00-0400_open_world_city_shlichus/03_PHASE_THREE_FINAL_IMPLEMENTATION_PLAN.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T07-36-00-0400_open_world_city_shlichus/04_ACCEPTANCE_GATES.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T16-00-00-0400_massive_city_realism_60fps/00_CURRENT_REALITY_AND_CONSTRAINTS.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T16-00-00-0400_massive_city_realism_60fps/01_PHASE_ONE_UNBOUNDED_BRAINSTORM.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T16-00-00-0400_massive_city_realism_60fps/02_PHASE_TWO_ARCHITECTURE_AND_FILE_GRAPH.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T16-00-00-0400_massive_city_realism_60fps/03_PHASE_THREE_CHALLENGE_AND_IMPROVEMENTS.md
+geelooy/games/sefira-clash/ai_thoughts/2026-07-14T16-00-00-0400_massive_city_realism_60fps/04_FINAL_IMPLEMENTATION_AND_ACCEPTANCE.md
+=== REPORTS ===
+geelooy/games/sefira-clash/.reports/massive-city-browser-proof.cjs
+geelooy/games/sefira-clash/.reports/massive-city-integration-checkpoint.txt
+geelooy/games/sefira-clash/.reports/massive-close-resume-ui-server.log
+geelooy/games/sefira-clash/.reports/massive-complete-gates.txt
+geelooy/games/sefira-clash/.reports/massive-continuation-compatibility-gate.txt
+geelooy/games/sefira-clash/.reports/massive-focused-gates-final.txt
+geelooy/games/sefira-clash/.reports/massive-focused-gates.txt
+geelooy/games/sefira-clash/.reports/massive-format-write.txt
+geelooy/games/sefira-clash/.reports/massive-format.txt
+geelooy/games/sefira-clash/.reports/massive-latest-hardening-checkpoint.txt
+geelooy/games/sefira-clash/.reports/massive-line-audit-after-split.txt
+geelooy/games/sefira-clash/.reports/massive-line-audit.txt
+geelooy/games/sefira-clash/.reports/massive-live-proof.json
+geelooy/games/sefira-clash/.reports/massive-live-server.log
+geelooy/games/sefira-clash/.reports/massive-openworld-tests-final.txt
+geelooy/games/sefira-clash/.reports/massive-openworld-tests-second.txt
+geelooy/games/sefira-clash/.reports/massive-openworld-tests-third.txt
+geelooy/games/sefira-clash/.reports/massive-openworld-tests.txt
+geelooy/games/sefira-clash/.reports/massive-parser-line-report.json
+geelooy/games/sefira-clash/.reports/massive-profile-online-final.txt
+geelooy/games/sefira-clash/.reports/massive-profile-test-split-format.txt
+geelooy/games/sefira-clash/.reports/massive-profile-test-split-lines.txt
+geelooy/games/sefira-clash/.reports/massive-remaining-gates.txt
+geelooy/games/sefira-clash/.reports/massive-resume-live-proof.json
+geelooy/games/sefira-clash/.reports/massive-resume-live-server.log
+geelooy/games/sefira-clash/.reports/massive-server-checkpoint.txt
+geelooy/games/sefira-clash/.reports/massive-server-tests-three.txt
+geelooy/games/sefira-clash/.reports/massive-server-tests-two.txt
+geelooy/games/sefira-clash/.reports/massive-split-format.txt
+geelooy/games/sefira-clash/.reports/massive-structure-second.txt
+geelooy/games/sefira-clash/.reports/massive-ui-replay-server.log
+geelooy/games/sefira-clash/.reports/matching-mode-repair.txt
+geelooy/games/sefira-clash/.reports/new-three-hour-inspection.txt
+geelooy/games/sefira-clash/.reports/online-browser-diagnostic.txt
+geelooy/games/sefira-clash/.reports/online-browser-proof.json
+geelooy/games/sefira-clash/.reports/online-browser-proof.png
+geelooy/games/sefira-clash/.reports/online-browser-server.log
+geelooy/games/sefira-clash/.reports/online-canonical-npm-test.txt
+geelooy/games/sefira-clash/.reports/online-final-repository-state.txt
+geelooy/games/sefira-clash/.reports/online-final-verification.txt
+geelooy/games/sefira-clash/.reports/online-focused-final-gates.txt
+geelooy/games/sefira-clash/.reports/online-format-write.txt
+geelooy/games/sefira-clash/.reports/online-independent-project-audits.txt
+geelooy/games/sefira-clash/.reports/online-live-http.txt
+geelooy/games/sefira-clash/.reports/online-multiplayer-baseline.txt
+geelooy/games/sefira-clash/.reports/online-multiplayer-preflight-tests.txt
+geelooy/games/sefira-clash/.reports/online-post-cleanup-status.txt
+geelooy/games/sefira-clash/.reports/online-post-format-gates.txt
+geelooy/games/sefira-clash/.reports/online-resume-baseline.txt
+geelooy/games/sefira-clash/.reports/online-server-first-pass.txt
+geelooy/games/sefira-clash/.reports/online-server-tests.txt
+geelooy/games/sefira-clash/.reports/online-structural-pass.txt
+geelooy/games/sefira-clash/.reports/openworld-adventure-vs-gates.txt
+geelooy/games/sefira-clash/.reports/openworld-domain-checkpoint.txt
+geelooy/games/sefira-clash/.reports/openworld-file-manifest.txt
+geelooy/games/sefira-clash/.reports/openworld-format-checkpoint.txt
+geelooy/games/sefira-clash/.reports/openworld-git-status.txt
+geelooy/games/sefira-clash/.reports/openworld-integration-checkpoint.txt
+geelooy/games/sefira-clash/.reports/openworld-inventory.txt
+geelooy/games/sefira-clash/.reports/openworld-post-split-gates.txt
+geelooy/games/sefira-clash/.reports/openworld-tests-first.txt
+geelooy/games/sefira-clash/.reports/openworld-tests-second.txt
+geelooy/games/sefira-clash/.reports/retry-final-gates.txt
+geelooy/games/sefira-clash/.reports/retry-final-status.txt
+geelooy/games/sefira-clash/.reports/retry-recovery-baseline.txt
+geelooy/games/sefira-clash/.reports/retry-replay-fix-gates.txt
+geelooy/games/sefira-clash/.reports/retry-retention-check.txt
+geelooy/games/sefira-clash/.reports/retry-ui-replay-proof.json
+geelooy/games/sefira-clash/.reports/retry-ui-replay-proof.png
+geelooy/games/sefira-clash/.reports/retry-ui-replay-server.log
+geelooy/games/sefira-clash/.reports/websocket-api-preservation-baseline.txt
+geelooy/games/sefira-clash/.reports/websocket-compat-canonical-test.txt
+geelooy/games/sefira-clash/.reports/websocket-compat-final-state.txt
+geelooy/games/sefira-clash/.reports/websocket-compat-quality.txt
+geelooy/games/sefira-clash/.reports/websocket-compat-structure.txt
+geelooy/games/sefira-clash/.reports/websocket-compat-tests.txt
+geelooy/games/sefira-clash/.reports/websocket-head-public-surface.txt
+geelooy/games/sefira-clash/.reports/websocket-head-transport-surface.txt
+geelooy/games/sefira-clash/.reports/websocket-live-compatibility-server.log
+geelooy/games/sefira-clash/.reports/websocket-live-compatibility.json

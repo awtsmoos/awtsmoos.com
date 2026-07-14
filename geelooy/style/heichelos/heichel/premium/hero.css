@@ -1,0 +1,84 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Heichel hero becomes an editorial identity chamber. The Awtsmoos gives the
+ * Heichel its true life while Awtsmoos.com clarifies name, purpose, and authority.
+ */
+.heichel-mobile-navigation .geelooy-heichel-hero,
+.heichel-mobile-navigation .heichel-hero {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1.45fr) minmax(10rem, .55fr);
+	align-items: end;
+	gap: clamp(1.2rem, 4vw, 4rem);
+	overflow: hidden;
+	min-height: clamp(24rem, 52vw, 40rem);
+	padding: clamp(1.2rem, 4vw, 3.8rem);
+	border: 1px solid var(--heichel-line);
+	border-radius: clamp(1.4rem, 3vw, 2.4rem);
+	background:
+		radial-gradient(circle at 82% 18%, rgba(227, 205, 157, .17), transparent 22rem),
+		radial-gradient(circle at 12% 92%, rgba(135, 217, 233, .11), transparent 24rem),
+		linear-gradient(145deg, rgba(255, 255, 255, .05), transparent 48%),
+		var(--heichel-panel-strong);
+	box-shadow: var(--heichel-shadow-lift);
+}
+.heichel-mobile-navigation .geelooy-heichel-hero::after,
+.heichel-mobile-navigation .heichel-hero::after {
+	position: absolute;
+	right: -9rem;
+	bottom: -12rem;
+	width: 28rem;
+	aspect-ratio: 1;
+	border: 1px solid rgba(227, 205, 157, .11);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
+}
+.heichel-mobile-navigation .heichel-hero-copy {
+	position: relative;
+	z-index: 2;
+	align-self: end;
+	max-width: 58rem;
+}
+.heichel-mobile-navigation .heichel-seal {
+	width: clamp(3.4rem, 7vw, 5.2rem);
+	height: auto;
+	aspect-ratio: 1;
+	margin-bottom: 1.2rem;
+	border-color: var(--heichel-line-strong);
+	border-radius: 1.25rem 50% 1.25rem 50%;
+	background: linear-gradient(145deg, rgba(227, 205, 157, .18), rgba(135, 217, 233, .08));
+	box-shadow: 0 0 3rem rgba(227, 205, 157, .1);
+}
+.heichel-mobile-navigation .hero-kicker {
+	padding: .38rem .7rem;
+	border-color: rgba(227, 205, 157, .2);
+	background: rgba(227, 205, 157, .08);
+	color: var(--heichel-gold);
+	letter-spacing: .16em;
+}
+.heichel-mobile-navigation #heichel-main-title {
+	max-width: 12ch;
+	font-size: clamp(3.1rem, 9vw, 8rem);
+	line-height: .9;
+	letter-spacing: -.075em;
+}
+.heichel-mobile-navigation .hero-description {
+	max-width: 48rem;
+	margin-top: 1.4rem;
+	color: var(--heichel-soft-ink);
+	font-size: clamp(1rem, 2vw, 1.22rem);
+	line-height: 1.72;
+}
+@media (max-width: 760px) {
+	.heichel-mobile-navigation .geelooy-heichel-hero,
+	.heichel-mobile-navigation .heichel-hero {
+		grid-template-columns: 1fr;
+		min-height: 28rem;
+		padding: 1.2rem;
+	}
+	.heichel-mobile-navigation #heichel-main-title {
+		font-size: clamp(3rem, 17vw, 5.5rem);
+	}
+}

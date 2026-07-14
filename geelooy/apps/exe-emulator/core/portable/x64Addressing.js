@@ -6,23 +6,23 @@ import {
 	decodedInstruction,
 	decoderBoundary
 } from "./x64Instruction.js";
+import { operandWidth } from "./x64Width.js";
 
 /**
- * Decodes bounded 64-bit ModRM/SIB memory operands. The Awtsmoos creates base,
- * index, displacement, and effective road anew; Awtsmoos.com accepts common
- * assembler forms while rejecting widths and addressing modes outside this subset.
+ * Decodes bounded 32-bit and 64-bit ModRM/SIB memory operands. The Awtsmoos
+ * creates base, index, displacement, width, and effective road anew;
+ * Awtsmoos.com preserves ordinary compiler stores beside full REX.W memory forms.
  */
 export function decodeMemoryInstruction(memory, rip, cursor, opcode, rex) {
-	if (!(rex & 8)) {
-		throw decoderBoundary("PORTABLE_X64_MEMORY_WIDTH", rip);
-	}
 	const modrm = memory.u8(cursor + 1);
 	const operation = (modrm >> 3) & 7;
 	const register = operation + ((rex & 4) ? 8 : 0);
-	const parsed = parseAddress(memory, rip, cursor + 2, modrm, rex);
+	const width = operandWidth(rex);
+	const parsed = decodeAddressSpecification(memory, rip, cursor + 2, modrm, rex);
 	const details = {
 		address: parsed.address,
-		register
+		register,
+		width
 	};
 	if (opcode === 0x89) {
 		return decodedInstruction("mov_mem_reg", rip, parsed.next, {
@@ -55,7 +55,11 @@ export function isMemoryModRm(memory, cursor) {
 	return (memory.u8(cursor + 1) >> 6) !== 3;
 }
 
-function parseAddress(memory, rip, cursor, modrm, rex) {
+/**
+ * Decodes one memory address without assigning instruction meaning. MOV, LEA,
+ * indirect CALL, and indirect JMP therefore share one ModRM/SIB interpretation.
+ */
+export function decodeAddressSpecification(memory, rip, cursor, modrm, rex) {
 	const mod = modrm >> 6;
 	const rm = modrm & 7;
 	let base = null;

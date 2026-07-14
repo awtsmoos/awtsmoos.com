@@ -1,62 +1,127 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { HTML } from "../../../html-generator.js";
+import { CODE_BROWSER_WELCOME_URL } from "./address.js";
+
 /**
- * @file dom.js
- * @description
- * Chapter 2: The Awtsmoos hid the forge behind a deliberate gate. The normal
- * browser view is now readable first; HTML and JS lightning open only when the
- * human asks for the custom preview chamber.
+ * B"H
+ *
+ * The browser chrome begins in a named welcome world, never a black blank void.
+ * The Awtsmoos renews address, status, document, and developer forge together;
+ * Awtsmoos.com gives humans the same visible target that agents automate.
  */
-
-import { HTML } from '../../../html-generator.js';
-
-/** @param {object|string|HTMLElement} schema Data shape. @returns {HTMLElement|Text|null} DOM node. */
 export function H(schema) {
-    return HTML(schema);
+	return HTML(schema);
 }
 
-/** @param {object} state Browser state. @returns {object} Data blueprint. */
 export function browserBlueprint(state) {
-    return {
-        tag: 'div',
-        className: `browser-runtime${state.consoleVisible ? ' has-console' : ''}${state.studioVisible ? ' has-studio' : ''}`,
-        children: [toolbarBlueprint(state), studioBlueprint(state), frameBlueprint()]
-    };
+	return {
+		tag: "div",
+		className: `browser-runtime${state.consoleVisible ? " has-console" : ""}${state.studioVisible ? " has-studio" : ""}`,
+		children: [
+			toolbarBlueprint(state),
+			statusBlueprint(),
+			studioBlueprint(state),
+			frameBlueprint()
+		]
+	};
 }
 
 function toolbarBlueprint(state) {
-    return { tag: 'div', className: 'browser-runtime-toolbar', children: [
-        button('←', 'back'), button('↻', 'reload'), button('Home', 'home'),
-        { tag: 'input', className: 'vos-app-input browser-runtime-address', value: state.currentUrl || 'about:blank' },
-        button('Go', 'go'), button(state.studioVisible ? 'Hide Dev' : 'Dev', 'studio'),
-        button('Console', 'console')
-    ] };
+	return {
+		tag: "div",
+		className: "browser-runtime-toolbar",
+		children: [
+			button("←", "back", "Back"),
+			button("↻", "reload", "Reload"),
+			button("Home", "home", "Safe Code Browser welcome"),
+			{
+				tag: "input",
+				className: "vos-app-input browser-runtime-address",
+				value: state.currentUrl || CODE_BROWSER_WELCOME_URL,
+				attrs: {
+					"aria-label": "Browser address",
+					placeholder: "https://example.com or /local/path"
+				}
+			},
+			button("Go", "go", "Navigate"),
+			button(state.studioVisible ? "Hide Dev" : "Dev", "studio", "Custom HTML and JavaScript"),
+			button("Console", "console", "Browser console")
+		]
+	};
+}
+
+function statusBlueprint() {
+	return {
+		tag: "div",
+		className: "browser-runtime-status",
+		text: "Ready",
+		attrs: {
+			role: "status",
+			"aria-live": "polite"
+		}
+	};
 }
 
 function studioBlueprint(state) {
-    return { tag: 'details', className: 'browser-runtime-studio', open: Boolean(state.studioVisible), children: [
-        { tag: 'summary', text: 'Custom HTML / JS preview forge' },
-        { className: 'browser-runtime-studio-grid', children: [
-            { tag: 'textarea', className: 'browser-runtime-code', text: state.customHtml || starterHtml() },
-            { tag: 'textarea', className: 'browser-runtime-js', text: state.customJs || "document.body.dataset.awtsmoos = 'revealed';" }
-        ] },
-        { className: 'browser-runtime-studio-actions', children: [button('Run HTML', 'run-html'), button('Run JS', 'run-js')] }
-    ] };
+	return {
+		tag: "details",
+		className: "browser-runtime-studio",
+		open: Boolean(state.studioVisible),
+		children: [
+			{ tag: "summary", text: "Custom HTML / JavaScript preview forge" },
+			{
+				className: "browser-runtime-studio-grid",
+				children: [
+					{ tag: "textarea", className: "browser-runtime-code", text: state.customHtml || starterHtml() },
+					{ tag: "textarea", className: "browser-runtime-js", text: state.customJs || "document.body.dataset.awtsmoos = 'revealed';" }
+				]
+			},
+			{
+				className: "browser-runtime-studio-actions",
+				children: [button("Run HTML", "run-html"), button("Run JavaScript", "run-js")]
+			}
+		]
+	};
 }
 
 function frameBlueprint() {
-    return { tag: 'div', className: 'browser-runtime-frame-wrap', children: [
-        { tag: 'iframe', className: 'browser-runtime-frame', attrs: { sandbox: 'allow-scripts allow-forms allow-same-origin allow-popups allow-modals' } },
-        { tag: 'div', className: 'browser-runtime-console', children: [
-            { tag: 'div', className: 'browser-runtime-console-head', text: 'Console' },
-            { tag: 'div', className: 'browser-runtime-console-lines' }
-        ] }
-    ] };
+	return {
+		tag: "div",
+		className: "browser-runtime-frame-wrap",
+		children: [
+			{
+				tag: "iframe",
+				className: "browser-runtime-frame",
+				attrs: {
+					sandbox: "allow-scripts allow-forms allow-same-origin allow-popups allow-modals allow-downloads",
+					title: "Awtsmoos Code Browser"
+				}
+			},
+			{
+				tag: "div",
+				className: "browser-runtime-console",
+				children: [
+					{ tag: "div", className: "browser-runtime-console-head", text: "Console" },
+					{ tag: "div", className: "browser-runtime-console-lines" }
+				]
+			}
+		]
+	};
 }
 
-function button(text, action) {
-    return { tag: 'button', className: 'vos-app-button', text, dataset: { action }, attrs: { type: 'button' } };
+function button(text, action, title = text) {
+	return {
+		tag: "button",
+		className: "vos-app-button",
+		text,
+		dataset: { action },
+		attrs: { type: "button", title }
+	};
 }
 
 function starterHtml() {
-    return '<!doctype html><html><body><h1>B"H Virtual Preview</h1><p>The Awtsmoos reveals this custom HTML.</p></body></html>';
+	return "<!doctype html><html><body><h1>B\"H Virtual Preview</h1><p>The Awtsmoos reveals this custom HTML.</p></body></html>";
 }

@@ -1,21 +1,17 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
- * The directory composes rooms, discovery, sessions, and resumable identity
- * without becoming transport. The Awtsmoos renews every relation; Awtsmoos.com
- * keeps one live client in one role while public records remain safely bounded.
+ * The directory composes rooms, discovery, sessions, resumable identity, and
+ * immutable world resolution without becoming transport. The Awtsmoos renews
+ * every relation; Awtsmoos.com keeps one live client in one authoritative role.
  */
-
 const { RealtimeError } = require("../../platform/RealtimeError.js");
-const { ArenaRoom } = require("./ArenaRoom.js");
-const { createJoinCode } = require("./joinCode.js");
 const { ArenaDirectoryLifecycle } = require("./arena/ArenaDirectoryLifecycle.js");
 const { ArenaDiscovery } = require("./arena/ArenaDiscovery.js");
 const { ArenaReconnectRegistry } = require("./arena/ArenaReconnectRegistry.js");
+const { ArenaRoomFactory } = require("./arena/ArenaRoomFactory.js");
 const { ArenaSessionIndex } = require("./arena/ArenaSessionIndex.js");
-const { validateArenaSettings } = require("./arena/ArenaSettings.js");
 
 class ArenaDirectory {
 	constructor(options = {}) {
@@ -23,15 +19,21 @@ class ArenaDirectory {
 		this.sessions = new ArenaSessionIndex();
 		this.reconnects = new ArenaReconnectRegistry(options.reconnectOptions);
 		this.discovery = new ArenaDiscovery();
+		this.roomFactory = new ArenaRoomFactory(
+			this.rooms,
+			options.worldResolver
+		);
 		this.lifecycle = new ArenaDirectoryLifecycle(this);
+	}
+
+	setWorldResolver(worldResolver) {
+		this.roomFactory.worldResolver = worldResolver;
 	}
 
 	create(client, name, settings = {}) {
 		this.sessions.requireAvailable(client);
-		const validatedSettings = validateArenaSettings(settings);
-		const joinCode = createJoinCode(this.rooms);
-		const room = new ArenaRoom(joinCode, client, name, validatedSettings);
-		this.rooms.set(joinCode, room);
+		const room = this.roomFactory.create(client, name, settings);
+		this.rooms.set(room.joinCode, room);
 		return this.register(client, room, room.owner());
 	}
 
@@ -82,7 +84,10 @@ class ArenaDirectory {
 	requireRoomByCode(joinCode) {
 		const room = this.rooms.get(joinCode);
 		if (!room) {
-			throw new RealtimeError("ARENA_NOT_FOUND", "No active arena uses that code.");
+			throw new RealtimeError(
+				"ARENA_NOT_FOUND",
+				"No active arena uses that code."
+			);
 		}
 		return room;
 	}

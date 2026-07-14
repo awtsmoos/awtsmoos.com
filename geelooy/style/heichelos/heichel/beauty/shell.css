@@ -1,0 +1,101 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Heichel shell is one solid reading world with a fast, quiet boot state.
+ */
+:where(.heichel-os-document, .heichel-os-page, .heichel-mobile-navigation) {
+	min-height: 100%;
+	background: linear-gradient(145deg, var(--awt-bg-deep), var(--awt-bg-night));
+	color: var(--heichel-ink);
+	font-family: var(--font-ui);
+}
+.heichel-mobile-navigation .geelooy-main-stage {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	gap: var(--heichel-gap);
+	width: min(100%, var(--content-width));
+	margin-inline: auto;
+	padding-inline: var(--page-gutter);
+	padding-bottom: var(--floating-clearance);
+}
+.heichel-mobile-navigation .heichel-nav-panel {
+	display: grid;
+	gap: var(--heichel-gap);
+	overflow: visible;
+	padding: clamp(.75rem, 2vw, 1.25rem);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-large);
+	background: var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-soft);
+}
+.heichel-mobile-navigation .void-error {
+	width: min(calc(100% - 2rem), 48rem);
+	margin: 12vh auto;
+	padding: var(--space-7);
+	border: 1px solid color-mix(in srgb, var(--awt-danger) 40%, var(--heichel-line));
+	border-radius: var(--heichel-radius-large);
+	background: var(--heichel-panel);
+	box-shadow: var(--shadow-alert);
+	color: var(--awt-danger);
+}
+.heichel-shell-boot {
+	display: grid;
+	min-height: 100dvh;
+	place-items: center;
+	padding: var(--space-4);
+	background: linear-gradient(145deg, var(--awt-bg-deep), var(--awt-bg-night));
+}
+.heichel-shell-boot__panel {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: var(--space-5);
+	width: min(100%, 44rem);
+	padding: clamp(1.25rem, 4vw, 2.25rem);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-xl);
+	background: var(--heichel-panel);
+	box-shadow: var(--shadow-card);
+}
+.heichel-shell-boot__seal {
+	display: grid;
+	width: clamp(4rem, 11vw, 6rem);
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--heichel-line-strong);
+	border-radius: 1.1rem;
+	background: var(--heichel-panel-soft);
+	color: var(--heichel-cyan);
+	font-size: clamp(1.5rem, 4vw, 2.35rem);
+	font-weight: 900;
+}
+.heichel-shell-boot__copy h1 {
+	margin: 0;
+	font-size: clamp(2rem, 6vw, 3.75rem);
+}
+.heichel-shell-boot__copy p:last-child {
+	margin-bottom: 0;
+}
+.heichel-shell-boot__progress {
+	grid-column: 1 / -1;
+	overflow: hidden;
+	height: .3rem;
+	border-radius: var(--radius-pill);
+	background: var(--awt-surface-muted);
+}
+.heichel-shell-boot__progress span {
+	display: block;
+	width: 64%;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--heichel-cyan);
+	transform-origin: left;
+	animation: heichel-boot-pulse 1s var(--ease-soft) infinite alternate;
+}
+@keyframes heichel-boot-pulse {
+	to {
+		transform: scaleX(.68);
+		opacity: .55;
+	}
+}

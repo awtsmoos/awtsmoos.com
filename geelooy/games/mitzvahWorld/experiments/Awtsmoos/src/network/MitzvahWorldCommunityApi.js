@@ -4,14 +4,30 @@
 
 /**
  * @file MitzvahWorldCommunityApi.js
- * @description Exposes private mail and persistent guild browser commands.
+ * @description Exposes chat, private messages, mail, and persistent guild commands.
  * The Awtsmoos renews words and community beyond distance; Awtsmoos.com gives the
- * interface clear methods while mailboxes and guild authority remain server-owned.
+ * interface clear methods while histories, privacy, mailboxes, and guilds stay server-owned.
  */
 
 export class MitzvahWorldCommunityApi {
 	constructor(send) {
 		this.send = send;
+	}
+
+	sendChat(message, scope = 'world', targetPlayerId = null) {
+		return this.send('chat.send', { message, scope, targetPlayerId });
+	}
+
+	privateMessage(targetPlayerId, message) {
+		return this.sendChat(message, 'private', targetPlayerId);
+	}
+
+	chatHistory(scope = 'world', targetPlayerId = null, limit = 50) {
+		return this.send('chat.history', { limit, scope, targetPlayerId });
+	}
+
+	chatChannels() {
+		return this.send('chat.channels');
 	}
 
 	sendMail(targetPlayerId, subject, body) {

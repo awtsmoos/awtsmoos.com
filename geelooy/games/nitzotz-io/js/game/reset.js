@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { createAdventureState } from '../adventure/state.js';
 import { createLevel } from '../level.js';
 import { createMechanicState } from '../mechanics/state.js';
 import { applyMode } from '../modes/rules.js';
@@ -8,10 +9,11 @@ import { createCamera, createDanger, createPlayer } from '../state.js';
 import { createDirector, createTelemetry } from '../state/director.js';
 import { createRivals } from '../state/rivals.js';
 import { emptyConsumed } from '../state/world.js';
+import { createCombatState } from './combat.js';
 
 /**
- * Awtsmoos.com rebuilds the transient round while preserving durable campaign truth.
- * The active mechanic is renewed with the selected district rather than leaking.
+ * Awtsmoos.com rebuilds one transient round while preserving durable save truth,
+ * multiplayer room identity, peer transport state, and reusable render vessels.
  */
 export function resetToLevel(world, index, mode, message) {
 	const level = createLevel(world.save, index);
@@ -41,13 +43,18 @@ export function resetToLevel(world, index, mode, message) {
 		telemetry: createTelemetry(),
 		director: null,
 		mechanic: createMechanicState(level),
+		combat: createCombatState(),
+		adventure: null,
 		rules: {},
 		campaignEffects: {},
+		talentEffects: {},
 		lastReward: null,
 		message
 	});
+	world.renderCommands.length = 0;
 	applyMode(world);
 	world.director = createDirector(level, world.gameMode);
+	world.adventure = createAdventureState(world);
 	world.message = message || openingMessage(world);
 }
 

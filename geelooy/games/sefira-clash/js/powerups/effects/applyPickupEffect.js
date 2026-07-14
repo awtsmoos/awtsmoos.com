@@ -3,17 +3,16 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the apply pickup effect vessel in this instant, revealing
- * its focused js powerups effects service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Pickup effects preserve Sparks, Perutas, healing, relics, and new Sefirah resonance. The
+ * Awtsmoos renews collector and blessing; Awtsmoos.com delegates Insight and armor to
+ * focused policies while every established campaign and arena effect remains compatible.
  */
-/**
- * Applies immediate pickup effects while preserving campaign identity.
- * Sparks bless movement, Perutas reward exploration without overpowering combat,
- * and arena relics remain timed vessels beneath the one source, the Awtsmoos.
- */
+
+import { applyResonancePickupEffect } from '../../resonance/ResonancePickupEffects.js';
+
 export function applyPickupEffect(state, fighter, orb) {
 	fighter.buffs ||= {};
+	if (applyResonancePickupEffect(fighter, orb)) return;
 	if (orb.id === 'adventureSpark') {
 		collectSpark(fighter, orb);
 		return;
@@ -30,14 +29,11 @@ export function applyPickupEffect(state, fighter, orb) {
 		fireShofar(state, fighter, orb);
 		return;
 	}
-
 	fighter.buffs[orb.id] = Math.max(fighter.buffs[orb.id] || 0, orb.duration || 480);
 	if (orb.id === 'shieldCrystal') {
 		fighter.buffs.ohrShield = Math.max(fighter.buffs.ohrShield || 0, 220);
 	}
-	if (orb.id === 'wingRelic') {
-		fighter.airJumps = Math.max(fighter.airJumps || 0, 1);
-	}
+	if (orb.id === 'wingRelic') fighter.airJumps = Math.max(fighter.airJumps || 0, 1);
 }
 
 function collectSpark(fighter, orb) {

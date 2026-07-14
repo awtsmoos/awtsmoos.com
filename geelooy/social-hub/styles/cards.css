@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.riftCard,
+.pulseGrid article,
+.quickActionGrid > * {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background:
+		linear-gradient(135deg, rgb(20 29 70 / 72%), rgb(7 11 29 / 82%)),
+		var(--surface);
+	box-shadow:
+		inset 0 1px rgb(255 255 255 / 5%),
+		0 1.4rem 4rem rgb(0 0 0 / 26%);
+	backdrop-filter: blur(1rem) saturate(1.2);
+}
+
+.riftCard::before,
+.pulseGrid article::before,
+.quickActionGrid > *::before {
+	position: absolute;
+	inset: -1px;
+	border-radius: inherit;
+	background: conic-gradient(
+		from var(--rift-angle, 0deg),
+		transparent 0 42%,
+		rgb(158 247 255 / 22%) 48%,
+		rgb(243 156 255 / 18%) 53%,
+		transparent 60% 100%
+	);
+	content: '';
+	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	padding: 1px;
+	pointer-events: none;
+}
+
+.heroRift {
+	display: grid;
+	grid-template-columns: minmax(10rem, 0.5fr) minmax(18rem, 1fr);
+	align-items: center;
+	gap: clamp(1.2rem, 4vw, 4rem);
+	min-height: 24rem;
+	padding: clamp(1.2rem, 4vw, 4rem);
+	border: 1px solid var(--line);
+	border-radius: 2rem;
+	background:
+		radial-gradient(circle at 16% 28%, rgb(96 164 255 / 23%), transparent 38%),
+		linear-gradient(135deg, rgb(16 23 59 / 85%), rgb(7 10 27 / 88%));
+	box-shadow: var(--shadow);
+}
+
+.pulseOrb {
+	position: relative;
+	width: min(17rem, 54vw);
+	aspect-ratio: 1;
+	margin: auto;
+	border: 1px solid rgb(158 247 255 / 35%);
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 40% 36%, rgb(255 255 255 / 55%), transparent 7%),
+		radial-gradient(circle, rgb(95 197 255 / 36%), rgb(109 70 232 / 18%) 46%, transparent 72%);
+	box-shadow:
+		inset 0 0 4rem rgb(158 247 255 / 16%),
+		0 0 6rem rgb(95 135 255 / 25%);
+}
+
+.pulseOrb span {
+	position: absolute;
+	inset: calc(var(--orbit, 1) * -1.2rem);
+	border: 1px solid rgb(158 247 255 / calc(0.26 - var(--orbit, 1) * 0.04));
+	border-radius: 50%;
+	transform: rotate(calc(var(--orbit, 1) * 28deg)) scaleY(calc(0.45 + var(--orbit, 1) * 0.08));
+}
+
+.pulseOrb span:nth-child(1) {
+	--orbit: 1;
+}
+
+.pulseOrb span:nth-child(2) {
+	--orbit: 2;
+}
+
+.pulseOrb span:nth-child(3) {
+	--orbit: 3;
+}
+
+.pulseGrid,
+.quickActionGrid,
+.cardGrid,
+.referenceMap {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+	gap: 0.85rem;
+	margin-top: 1rem;
+}
+
+.pulseGrid article,
+.quickActionGrid > * {
+	display: grid;
+	min-height: 7.5rem;
+	align-content: center;
+	gap: 0.25rem;
+	padding: 1rem;
+	text-decoration: none;
+}
+
+.pulseGrid strong {
+	color: var(--cyan);
+	font-size: clamp(1.15rem, 2vw, 2rem);
+}
+
+.pulseGrid span {
+	color: var(--muted);
+	font-size: 0.78rem;
+}

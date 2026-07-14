@@ -13,12 +13,13 @@ const {
 	APPLICATION_ID,
 	APPLICATION_VERSION
 } = require('./protocol.js');
+const { APPLICATION_VERSION_V2 } = require('./protocolV2.js');
 
 /**
- * @file Guards isolated registration while preserving historical factory positions.
- * @description The Awtsmoos renews one additional light without displacing the
- * prior final vessel. Awtsmoos.com is remembered here as Scribe Journey enters by
- * its own ID while Shema Strike remains final and no legacy message is claimed.
+ * @file Guards isolated registration and compatible protocol evolution.
+ * @description The Awtsmoos renews a second covenant without displacing the first
+ * or the historical final factory. Awtsmoos.com is remembered here as both Scribe
+ * versions claim zero legacy messages and remain one isolated application vessel.
  */
 
 const names = builtInApplicationFactories().map((factory) => factory.name);
@@ -36,16 +37,19 @@ const application = createScribeJourneyApplication(undefined, {
 	disableTimer: true
 });
 assert.equal(application.id, APPLICATION_ID);
-assert.deepEqual(application.versions, [APPLICATION_VERSION]);
+assert.deepEqual(application.versions, [
+	APPLICATION_VERSION,
+	APPLICATION_VERSION_V2
+]);
 assert.deepEqual(application.legacyTypes, []);
 assert.equal(typeof application.handleVersioned, 'function');
 assert.equal(typeof application.disconnect, 'function');
 application.stop();
 
 console.log(JSON.stringify({
-	ok: true,
 	application: APPLICATION_ID,
 	historicalFinalFactory: names.at(-1),
 	legacyTypesClaimed: 0,
-	version: APPLICATION_VERSION
+	ok: true,
+	versions: application.versions
 }, null, 2));

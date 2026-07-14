@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel controls inherit canonical labels, fields, focus, and disabled state.
+ */
+body.heichel-os-page :where(.field-label, label[for]):not(.sr-only) {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	width: fit-content;
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-small);
+	font-weight: 750;
+}
+body.heichel-os-page :where(.field-label, label[for]):not(.sr-only)::before {
+	width: .48rem;
+	height: .48rem;
+	border: 1px solid color-mix(in srgb, var(--heichel-cyan) 52%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--heichel-cyan) 16%, transparent);
+	content: "";
+}
+body.heichel-os-page :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea) {
+	min-height: 46px;
+	padding: .72rem .85rem;
+	border: 1px solid var(--heichel-line) !important;
+	border-radius: var(--radius-m) !important;
+	background: var(--heichel-panel) !important;
+	box-shadow: none !important;
+	color: var(--heichel-ink) !important;
+	font-family: inherit;
+	font-size: max(1rem, 16px);
+	line-height: 1.4;
+	outline: 0;
+	transition: border-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft);
+}
+body.heichel-os-page :where(input, textarea)::placeholder {
+	color: var(--heichel-muted-ink) !important;
+	opacity: 1;
+}
+body.heichel-os-page :where(input, select, textarea):focus-visible {
+	border-color: var(--heichel-cyan) !important;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--heichel-cyan) 20%, transparent) !important;
+}
+body.heichel-os-page input:-webkit-autofill,
+body.heichel-os-page input:-webkit-autofill:hover,
+body.heichel-os-page input:-webkit-autofill:focus {
+	-webkit-text-fill-color: var(--heichel-ink) !important;
+	box-shadow: 0 0 0 1000px var(--heichel-panel) inset !important;
+}
+body.heichel-os-page :where(input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: .55;
+}

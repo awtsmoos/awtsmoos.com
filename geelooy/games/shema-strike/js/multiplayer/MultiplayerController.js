@@ -3,9 +3,10 @@
 // Blessed is He
 /**
  * Optional shared play never becomes a campaign dependency. The Awtsmoos
- * renews fighter, witness, and solitary paths; Awtsmoos.com keeps every online
- * state outside campaign saves, checkpoints, equipment, and economy.
+ * renews fighter, witness, friendship, and solitary paths; Awtsmoos.com keeps
+ * every online state outside campaign saves, checkpoints, equipment, and economy.
  */
+import { SocialController } from "../social/SocialController.js";
 import { ArenaClientState } from "./ArenaClientState.js";
 import { ArenaConnectionFlow } from "./ArenaConnectionFlow.js";
 import { ArenaDiscoveryFlow } from "./ArenaDiscoveryFlow.js";
@@ -27,6 +28,11 @@ export class MultiplayerController {
 			entered: (snapshot) => this.entered(snapshot),
 			left: (status) => this.reset(status)
 		});
+		this.social = new SocialController(
+			game,
+			socket,
+			() => this.session.arena?.joinCode || ""
+		);
 		socket.onEvent((message) => this.handleEvent(message));
 		bindMultiplayerView(this, view);
 	}

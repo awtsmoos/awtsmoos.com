@@ -1,0 +1,547 @@
+{
+  "checked": 90,
+  "syntax_failures": [],
+  "line_violations": [],
+  "results": [
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileMerge.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 82
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileSchema.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 87
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileMerge.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 76
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileSchema.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 97
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldServerCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 69
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldSocialSchema.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 77
+    },
+    {
+      "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/open-world-profile-sync.test.cjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 116
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizenCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 25
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensLower.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 31
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensUpper.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 31
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldInteriorCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 30
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldMerchantCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 61
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldMissionBaseCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 43
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldMissionCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 21
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldMissionExpansionCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldMissionFactory.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 27
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldTechniqueCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 63
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/data/openworld/OpenWorldTraversalCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 16
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/menuCards.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 86
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldCivicServiceView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 33
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldDialogueView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 42
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldMerchantView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 52
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldMissionView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldOverlayActions.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldOverlayController.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 82
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldOverlayView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 67
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldServiceSection.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 59
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/menu/openworld/OpenWorldTrainerView.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 63
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 98
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/multiplayer/MatchRules.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldAmbientRuntime.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 54
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldCitizenRuntime.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 66
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldCitizenSchedule.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 54
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldCitizenService.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 32
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldCitizenState.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 71
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldCivicService.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 108
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldDefaults.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 53
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldDialogue.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 61
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldDoorLayout.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 31
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldEncounter.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 87
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldInteraction.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldInteriorCompiler.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 71
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldMerchant.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 71
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldMerge.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 67
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldMissionLedger.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 102
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldMissionMatch.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 19
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldModel.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 95
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldParry.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 47
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldPerformanceBudget.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 30
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldPerformanceTelemetry.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 62
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldPersistence.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 97
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldPosture.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 51
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldProfile.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 98
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldProfileSocial.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 81
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldRoster.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 54
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldRuntime.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 68
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldSceneCompiler.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 57
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldSceneTransition.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 104
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldServiceActions.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 88
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldServiceSnapshot.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 46
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldSpatialHash.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 61
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldState.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 76
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldStateFactory.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 51
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldTechnique.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 92
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldTrainer.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 65
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldTrainingPartner.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 46
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldTraversal.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 41
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/openworld/OpenWorldTraversalCompiler.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 40
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldAmbientPainter.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 34
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldCitizenPainter.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 42
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldEncounterHud.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 42
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldHud.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 91
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldPainter.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 102
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldPerformanceHud.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 26
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/OpenWorldTraversalPainter.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 34
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/render/renderer.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 89
+    },
+    {
+      "path": "geelooy/games/sefira-clash/js/session/AdventureSessionResults.js",
+      "exit": 0,
+      "stderr": "",
+      "lines": 54
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-citizens.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 57
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-civic-services.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 58
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-encounter.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 75
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-mission-expansion.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 57
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-missions.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 91
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-parry-posture.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 59
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-performance.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 35
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-profile.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 105
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-scene.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 57
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-technique.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 79
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-test-fixture.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 42
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-traversal.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 43
+    },
+    {
+      "path": "geelooy/games/sefira-clash/tests/openworld/open-world-vs-boundary.test.mjs",
+      "exit": 0,
+      "stderr": "",
+      "lines": 68
+    }
+  ]
+}

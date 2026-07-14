@@ -4,18 +4,29 @@
 
 /**
  * @file WorldResponseTypes.js
- * @description Declares stable version-one success names across MMORPG families.
+ * @description Declares stable version-one success names including census and chat.
  * The Awtsmoos renews every answer without erasing prior covenants; Awtsmoos.com
- * keeps each response explicit for clients, tests, telemetry, and future migration.
+ * keeps global, world, community, and private communication explicitly typed.
  */
 
 const RESPONSE_TYPES = Object.freeze({
+	ADVENTURE_LIST: 'adventure.list',
+	ADVENTURE_SNAPSHOT: 'adventure.snapshot',
+	ADVENTURE_STARTED: 'adventure.started',
 	BOT_COMMAND_ACCEPTED: 'bot.command.accepted',
 	BOT_REMOVED: 'bot.removed',
 	BOT_SPAWNED: 'bot.spawned',
 	BOT_TICKED: 'bot.ticked',
+	CHAT_CHANNELS: 'chat.channels',
+	CHAT_HISTORY: 'chat.history',
+	CHAT_SENT: 'chat.sent',
+	COMBAT_ATTACKED: 'combat.attacked',
+	COMBAT_SNAPSHOT: 'combat.snapshot',
+	COMBAT_TICKED: 'combat.ticked',
 	CRAFT_COMPLETED: 'craft.completed',
 	CRAFT_RECIPES: 'craft.recipes',
+	CREATURE_CARED: 'creature.cared',
+	CREATURE_SNAPSHOT: 'creature.snapshot',
 	ECONOMY_BALANCE: 'economy.balance',
 	GUILD_CREATED: 'guild.created',
 	GUILD_INVITED: 'guild.invited',
@@ -23,6 +34,7 @@ const RESPONSE_TYPES = Object.freeze({
 	GUILD_KICKED: 'guild.kicked',
 	GUILD_LEFT: 'guild.left',
 	GUILD_SNAPSHOT: 'guild.snapshot',
+	HARVEST_COMPLETED: 'harvest.completed',
 	INSTANCE_ENTERED: 'instance.entered',
 	INSTANCE_LEFT: 'instance.left',
 	INSTANCE_SNAPSHOT: 'instance.snapshot',
@@ -60,6 +72,7 @@ const RESPONSE_TYPES = Object.freeze({
 	TRADE_SNAPSHOT: 'trade.snapshot',
 	VENDOR_BOUGHT: 'vendor.bought',
 	VENDOR_SOLD: 'vendor.sold',
+	WORLD_CENSUS: 'world.census',
 	WORLD_HEARTBEAT: 'world.heartbeat',
 	WORLD_JOINED: 'world.joined',
 	WORLD_LEFT: 'world.left',

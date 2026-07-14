@@ -7,7 +7,7 @@ import { finishRound, selectMode, upgrades } from '../../js/game/progression.js'
 import { loadSave } from '../../js/save.js';
 import { createWorld } from '../../js/state.js';
 
-/** Awtsmoos.com tests that old history enters new progression without duplication. */
+/** Awtsmoos.com tests that old history enters schema four without duplication. */
 export function runProgressionCases() {
 	return [
 		checkSaveMigration(),
@@ -21,18 +21,31 @@ export function runProgressionCases() {
 function checkSaveMigration() {
 	const original = globalThis.localStorage;
 	globalThis.localStorage = {
-		getItem: () => JSON.stringify({ best: 99, stars: { malchus: 2 }, currentLevel: 1, unlocked: 5, perf: 'low' })
+		getItem: () => JSON.stringify({
+			best: 99,
+			stars: { malchus: 2 },
+			currentLevel: 1,
+			unlocked: 5,
+			perf: 'low'
+		})
 	};
 	const save = loadSave();
 	if (original === undefined) delete globalThis.localStorage;
 	else globalThis.localStorage = original;
-	assert.equal(save.schemaVersion, 3);
+	assert.equal(save.schemaVersion, 4);
 	assert.equal(save.stars['malchus-01'], 2);
 	assert.equal(save.stars.malchus, undefined);
 	assert.equal(save.currentLevel, 20);
 	assert.equal(save.unlocked, 160);
 	assert.equal(save.selectedMode, 'classic');
-	return { test: 'save-migration', currentLevel: save.currentLevel, unlocked: save.unlocked };
+	assert.equal(save.perutot, 0);
+	assert.equal(save.talentTiers.chochmah, 0);
+	return {
+		test: 'save-migration',
+		currentLevel: save.currentLevel,
+		unlocked: save.unlocked,
+		schema: save.schemaVersion
+	};
 }
 
 function checkAchievementUnlock() {
@@ -78,5 +91,9 @@ function checkReverseObjective() {
 	world.consumed.landmark = 3;
 	upgrades(world);
 	assert.equal(world.objectiveMet, true);
-	return { test: 'reverse-objective', mass: world.player.mass, landmarks: world.consumed.landmark };
+	return {
+		test: 'reverse-objective',
+		mass: world.player.mass,
+		landmarks: world.consumed.landmark
+	};
 }

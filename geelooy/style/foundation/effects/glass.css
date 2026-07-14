@@ -1,20 +1,24 @@
 /* B"H
- * Chapter: Glass that remembers the light behind it.
- * This is not a patch; it is a shared translucent covenant for cards, modals,
- * navs, menus, and sacred floating tools across the interface.
+ * Boruch Hashem
+ * Blessed is He
+ * Glass becomes a solid translucent surface first; blur is an explicit luxury mode.
  */
 .awt-glass,
-:where(.glass-surface, .premium-glass, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
-  background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,255,255,.58));
-  border: 1px solid rgba(255,255,255,.46);
-  box-shadow: 0 18px 55px rgba(15,23,42,.14), inset 0 1px 0 rgba(255,255,255,.68);
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+:where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
+	background: color-mix(in srgb, var(--awt-surface) 94%, transparent);
+	border: 1px solid var(--awt-line);
+	box-shadow: var(--shadow-glass);
 }
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .awt-glass,
-  :where(.glass-surface, .premium-glass, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
-    background: rgba(255,255,255,.94);
-  }
+html[data-g-effects="full"] .awt-glass,
+html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+@media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
+	.awt-glass,
+	:where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
+		background: var(--awt-surface);
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
 }

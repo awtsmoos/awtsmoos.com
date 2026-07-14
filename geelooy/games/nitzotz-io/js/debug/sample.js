@@ -2,14 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 import { directorSummary } from '../director/director.js';
+import { expansionSample } from './expansionSample.js';
 
 /**
  * The Awtsmoos gathers one bounded evidence snapshot from the living arena.
- * Firebase garment readiness joins simulation, performance, and WebGL truth.
+ * Firebase readiness, Adventure, combat, peers, performance, and WebGL remain visible.
  */
 export function sampleWorld(world, renderer) {
 	const counts = countObjects(world.level.objects);
-	const performance = world.performance;
 	return {
 		mode: world.mode,
 		gameMode: { id: world.gameMode.id, name: world.gameMode.name },
@@ -23,7 +23,9 @@ export function sampleWorld(world, renderer) {
 			unlocked: world.save.unlocked,
 			selectedChapter: world.save.selectedChapter,
 			sparks: world.save.sparks,
+			perutot: world.save.perutot,
 			upgradeTiers: { ...world.save.upgradeTiers },
+			talentTiers: { ...world.save.talentTiers },
 			quests: { ...world.save.questProgress }
 		},
 		mass: world.player.mass,
@@ -36,12 +38,15 @@ export function sampleWorld(world, renderer) {
 		rivals: world.rivals.map(rival => ({
 			name: rival.name,
 			archetype: rival.archetype.name,
-			mass: rival.mass
+			mass: rival.mass,
+			armor: rival.armor,
+			maxArmor: rival.maxArmor
 		})),
 		director: directorSummary(world),
 		achievements: Object.keys(world.save.achievements).length,
-		performance: performanceSnapshot(performance),
+		performance: performanceSnapshot(world.performance),
 		textures: renderer.textures?.status() || null,
+		expansion: expansionSample(world),
 		stats: world.stats ? { ...world.stats } : null,
 		webglError: renderer.gl.getError(),
 		message: world.message
@@ -68,7 +73,8 @@ function countObjects(objects) {
 		traffic: 0,
 		pedestrians: 0,
 		compositeModels: 0,
-		botanical: 0
+		botanical: 0,
+		powerCircuit: 0
 	};
 	for (const object of objects) {
 		if (object.taken) continue;
@@ -77,6 +83,7 @@ function countObjects(objects) {
 		counts.pedestrians += Number(Boolean(object.pedestrian));
 		counts.compositeModels += Number(object.shape.startsWith('model:'));
 		counts.botanical += Number(object.category === 'botanical');
+		counts.powerCircuit += Number(Boolean(object.power));
 	}
 	return counts;
 }

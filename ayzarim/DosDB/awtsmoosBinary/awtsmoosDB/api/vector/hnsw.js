@@ -6,7 +6,6 @@
  * @description Coordinates insertion and deletion while delegated modules own
  * levels, traversal, storage, registry, living key identity, and neighbor links.
  */
-
 const VectorMath = require('./math.js');
 const VectorStorage = require('./storage.js');
 const HNSWRegistry = require('./hnsw/registry.js');
@@ -20,7 +19,7 @@ class HNSW {
 		this.db = db;
 		this.registry = new HNSWRegistry(this, registryHandle);
 		this.keyMap = keyMapHandle;
-		this.keys = new HNSWKeyIndex(keyMapHandle, this.registry);
+		this.keys = new HNSWKeyIndex(this, keyMapHandle, this.registry);
 		this.meta = metadata;
 		this.storage = new VectorStorage(db.allocator);
 		this.metric = VectorMath[metadata.metric] || VectorMath.cosine;
@@ -34,7 +33,6 @@ class HNSW {
 		this.ops = new HNSWOps(this);
 		this.onEntryPointChanged = null;
 	}
-
 	insert(key, vector, payloadPointer) {
 		const node = this.createNode(key, vector, payloadPointer);
 		if (this.entryNodeID < 0) return this.insertFirstNode(node);
@@ -52,18 +50,23 @@ class HNSW {
 		this.keys.set(node.key, node.id);
 		return node.id;
 	}
-
 	insertFirstNode(node) {
 		this.registry.saveNode(node);
 		this.updateEntryPoint(node);
 		this.keys.set(node.key, node.id);
 		return node.id;
 	}
-
 	connectLevel(node, entry, level) {
-		const candidates = this.ops.searchLayer(entry, node.vector, this.efConstruction, level);
+		const candidates = this.ops.searchLayer(
+			entry,
+			node.vector,
+			this.efConstruction,
+			level
+		);
 		const limit = level === 0 ? this.M0 : this.M;
-		const neighbors = candidates.slice(0, limit).map(candidate => candidate.node.id);
+		const neighbors = candidates
+			.slice(0, limit)
+			.map(candidate => candidate.node.id);
 		node.neighbors[level] = neighbors;
 		this.registry.saveNode(node);
 		for (const neighborId of neighbors) {
@@ -72,7 +75,6 @@ class HNSW {
 		}
 		return candidates[0]?.node || entry;
 	}
-
 	createNode(key, vector, payloadPointer) {
 		const textKey = String(key);
 		const level = deterministicLevel(textKey, this.ml);
@@ -86,19 +88,18 @@ class HNSW {
 			deleted: false
 		};
 	}
-
 	updateEntryPoint(node) {
 		this.entryNodeID = node.id;
 		this.maxLevel = node.level;
 		this.meta.entryNodeID = node.id;
 		this.meta.maxLevel = node.level;
-		if (this.onEntryPointChanged) this.onEntryPointChanged(node.id, node.level);
+		if (this.onEntryPointChanged) {
+			this.onEntryPointChanged(node.id, node.level);
+		}
 	}
-
 	search(queryVector, count = 5) {
 		return searchGraph(this, queryVector, count);
 	}
-
 	delete(key) {
 		const textKey = String(key);
 		const id = this.keys.get(textKey);

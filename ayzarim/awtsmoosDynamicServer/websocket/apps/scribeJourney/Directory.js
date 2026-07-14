@@ -11,8 +11,8 @@ const { SessionDirectory } = require('./SessionDirectory.js');
 /**
  * @file Coordinates sessions, map rooms, parties, and disclosed AI actors.
  * @description The Awtsmoos renews many rooms without mixing their travelers.
- * Awtsmoos.com joins transient presence while every private Chronicle system
- * remains outside socket authority and fully available offline.
+ * Awtsmoos.com joins transient presence while private account and Chronicle truth
+ * remain outside public snapshots and every historical social command stays stable.
  */
 
 class Directory {
@@ -24,16 +24,14 @@ class Directory {
 	}
 
 	room(mapId) {
-		if (!this.rooms.has(mapId)) {
-			this.rooms.set(mapId, new Room(mapId));
-		}
+		if (!this.rooms.has(mapId)) this.rooms.set(mapId, new Room(mapId));
 		const room = this.rooms.get(mapId);
 		this.bots.ensure(room);
 		return room;
 	}
 
-	joinSession(client, profile) {
-		return this.sessions.join(client, profile);
+	joinSession(client, profile, identity = null) {
+		return this.sessions.join(client, profile, identity);
 	}
 
 	joinWorld(client, position) {
@@ -71,13 +69,15 @@ class Directory {
 	disconnect(client) {
 		const session = this.sessions.disconnect(client);
 		if (session) this.detachActor(session.actor.actorId);
+		return session;
 	}
 
 	remove(client) {
 		const session = this.sessions.remove(client);
-		if (!session) return;
+		if (!session) return null;
 		this.detachActor(session.actor.actorId);
 		this.parties.leave(session.actor.actorId);
+		return session;
 	}
 
 	roomFor(client) {

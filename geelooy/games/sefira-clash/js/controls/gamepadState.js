@@ -3,16 +3,14 @@
 //Blessed is He
 
 /**
- * Each controller receives its own semantic current in this Awtsmoos.com module.
- * The Awtsmoos renews every indexed pad independently, ending the old law where
- * only the first connected controller could speak.
+ * Each controller receives its own semantic current in this Awtsmoos.com module. The
+ * Awtsmoos renews every indexed pad independently; start or select may now speak the
+ * same lived-world interaction covenant as E and Enter without changing combat buttons.
  */
-/** Reads one exact gamepad index into the shared semantic control contract. */
+
 export function readGamepadAt(index, navigatorObject = globalThis.navigator) {
 	const pad = navigatorObject?.getGamepads?.()?.[index];
-	if (!pad?.connected) {
-		return blankGamepadState();
-	}
+	if (!pad?.connected) return blankGamepadState();
 	const x = deadZone(pad.axes?.[0] || 0);
 	const y = deadZone(pad.axes?.[1] || 0);
 	return {
@@ -26,17 +24,16 @@ export function readGamepadAt(index, navigatorObject = globalThis.navigator) {
 		kick: pressed(pad, 1),
 		grab: pressed(pad, 4),
 		shield: pressed(pad, 5) || pressed(pad, 6),
-		special: pressed(pad, 7)
+		special: pressed(pad, 7),
+		interact: pressed(pad, 8) || pressed(pad, 9)
 	};
 }
 
-/** Returns connected browser gamepad indices in deterministic order. */
 export function connectedGamepadIndices(navigatorObject = globalThis.navigator) {
 	const pads = navigatorObject?.getGamepads?.() || [];
 	return [...pads].filter(pad => pad?.connected).map(pad => pad.index);
 }
 
-/** Returns the neutral semantic command used for absent or disconnected pads. */
 export function blankGamepadState() {
 	return {
 		x: 0,
@@ -49,7 +46,8 @@ export function blankGamepadState() {
 		kick: false,
 		grab: false,
 		shield: false,
-		special: false
+		special: false,
+		interact: false
 	};
 }
 
@@ -59,8 +57,6 @@ function pressed(pad, index) {
 
 function deadZone(value) {
 	const magnitude = Math.abs(value);
-	if (magnitude < 0.16) {
-		return 0;
-	}
+	if (magnitude < 0.16) return 0;
 	return Math.sign(value) * Math.min(1, (magnitude - 0.16) / 0.84);
 }

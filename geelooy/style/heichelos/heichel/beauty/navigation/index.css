@@ -1,5 +1,83 @@
-/* B"H index. */
-@import "./topbar-glass.css";
-@import "./bottom-orbit.css";
-@import "./breadcrumb-ribbon.css";
-@import "./tabs-slider.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel tabs, search, menus, and dock use one solid high-performance command law.
+ */
+.heichel-mobile-navigation :where(.tab-gates, .geelooy-tabs) {
+	position: sticky;
+	z-index: var(--z-sticky);
+	top: calc(var(--heichel-topbar-height, 4rem) + .5rem);
+	display: flex;
+	gap: .3rem;
+	overflow-x: auto;
+	padding: .3rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-m);
+	background: var(--heichel-panel);
+	box-shadow: var(--heichel-shadow-soft);
+	scrollbar-width: thin;
+}
+.heichel-mobile-navigation :where(.tab, .geelooy-tabs button) {
+	min-width: max-content;
+	min-height: 44px;
+	padding: .55rem .75rem;
+	border: 1px solid transparent;
+	border-radius: .65rem;
+	background: transparent;
+	box-shadow: none;
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-small);
+	font-weight: 730;
+}
+.heichel-mobile-navigation :where(.tab.Active, .tab.active, .geelooy-tabs button.Active, .geelooy-tabs button.active) {
+	border-color: color-mix(in srgb, var(--heichel-cyan) 36%, var(--heichel-line));
+	background: color-mix(in srgb, var(--heichel-cyan) 9%, var(--heichel-panel));
+	color: var(--heichel-cyan);
+	font-weight: 820;
+}
+.heichel-mobile-navigation .geelooy-bottom-nav {
+	width: min(calc(100% - 1rem), 39rem);
+	padding: .4rem;
+	border: 1px solid var(--heichel-line-strong);
+	border-radius: var(--radius-dock);
+	background: var(--heichel-panel);
+	box-shadow: var(--shadow-dock);
+}
+.heichel-mobile-navigation .geelooy-bottom-nav :where(a, button) {
+	min-height: 44px;
+	border-radius: .75rem;
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-caption);
+	font-weight: 720;
+}
+.heichel-mobile-navigation .geelooy-bottom-nav :nth-child(3) {
+	border-color: var(--heichel-cyan);
+	background: var(--heichel-cyan);
+	color: #fff;
+}
+.heichel-mobile-navigation :where(input[type="search"], .search-input, .geelooy-search input) {
+	min-height: 46px;
+	padding: .7rem .85rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-m);
+	background: var(--heichel-panel);
+	color: var(--heichel-ink);
+}
+.heichel-mobile-navigation .context-menu {
+	min-width: 11rem;
+	padding: .4rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-m);
+	background: var(--heichel-panel);
+	box-shadow: var(--shadow-menu);
+}
+.heichel-mobile-navigation .context-menu-item {
+	min-height: 42px;
+	padding: .65rem .7rem;
+	border-radius: .65rem;
+	color: var(--heichel-soft-ink);
+}
+.heichel-mobile-navigation .context-menu-item:is(:hover, :focus-visible) {
+	background: var(--heichel-panel-soft);
+	color: var(--heichel-ink);
+}

@@ -1,0 +1,762 @@
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+ADVENTURE_AUDIT_EXIT=0
+
+> audit:feel
+> node tools/core-feel-audit.mjs
+
+{"simulation":{"hertz":60,"simulatedSteps":59,"renderSamples":121},"input":{"edgeDetected":true,"bufferedFrames":7,"consumedOnce":true},"shield":{"parryWindow":3,"shieldDamageApplied":true},"adventure":{"perutas":10,"exitOpened":true,"completed":true}}
+FEEL_EXIT=0
+
+> audit:winners
+> node tools/winner-rules-audit.mjs
+
+{"adventureWaitsForObjective":true,"adventureDefeatResolves":true,"versusLastStockWins":true}
+WINNER_EXIT=0
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+MULTIPLAYER_EXIT=0
+
+> audit:modules
+> node tools/module-smoke-audit.mjs
+
+{"vs":{"frame":10,"fighters":3,"map":"beit-midrash-bouncer"},"adventure":{"frame":10,"gate":60,"fighters":4,"collectibles":20}}
+MODULE_EXIT=0
+{
+	"filesAudited": 142,
+	"failures": [
+		{
+			"findings": [
+				"line-count:124"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs"
+		}
+	],
+	"ok": false,
+	"reports": [
+		{
+			"findings": [],
+			"lineCount": 44,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CharacterProfiles.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 75,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopBoss.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 40,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopBroadcast.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 113,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 85,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopDirectory.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 115,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopDirectoryMembership.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 44,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopEnemy.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 31,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopInput.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 59,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopMovement.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 89,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopPlayer.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 99,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRoom.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 86,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRoomLifecycle.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 42,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRules.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 77,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopSessionRegistry.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 112,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopSimulation.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 45,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopTicker.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 72,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogCraft.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 66,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogProgress.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 61,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionCatalogWorld.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileController.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 83,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileMerge.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 68,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 88,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileSchema.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 62,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileServerSanitizers.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 28,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionServerCatalog.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 75,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionServiceRouter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 33,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyBroadcast.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 105,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 119,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectoryMembership.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 65,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectoryPolicy.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 59,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyFieldValidation.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 45,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchContinuity.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 106,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchController.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 46,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchTicker.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 61,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyParticipant.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 45,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 119,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 87,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoomPolicy.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 101,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoomRoster.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 114,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbySessionRegistry.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 28,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbySpectator.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 36,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchBroadcast.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 106,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchCombat.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 55,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchConnectionState.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 116,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchFighter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 43,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchInput.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchJournal.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 117,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchPhysics.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 42,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchRules.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 101,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSimulation.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 38,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSnapshot.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 68,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchStateHash.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 64,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchStats.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 64,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchStep.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 70,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchWinner.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 89,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileMerge.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 106,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldProfileSchema.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 84,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldServerCatalog.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 79,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/OpenWorldSocialSchema.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 67,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraCapabilities.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 31,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraExpeditionServices.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 37,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraLimits.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 45,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraMetrics.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 59,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraRequestLimiter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 107,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SefiraRequestRouter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 35,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/SessionToken.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 65,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 70,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/browser-input-health.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 74,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/browser-integrity.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 86,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/browser-session.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 120,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/coop-lifecycle.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 85,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/coop-simulation.test.cjs"
+		},
+		{
+			"findings": [
+				"line-count:124"
+			],
+			"lineCount": 124,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 35,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 103,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobby.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 83,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 101,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-integrity-replay.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 100,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-lifecycle.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 100,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-simulation.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 51,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-team-gate.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 85,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/network-guard.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 117,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/open-world-profile-sync.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 95,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 84,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/replay-route.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 118,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/session-resume.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 92,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/spectator-mode.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 109,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocketApiContract.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "geelooy/games/sefira-clash/css/online-accessibility.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 42,
+			"relativePath": "geelooy/games/sefira-clash/css/online-arena.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 57,
+			"relativePath": "geelooy/games/sefira-clash/css/online-controls.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 64,
+			"relativePath": "geelooy/games/sefira-clash/css/online-health.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 88,
+			"relativePath": "geelooy/games/sefira-clash/css/online-layout.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 60,
+			"relativePath": "geelooy/games/sefira-clash/css/online-touch.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 68,
+			"relativePath": "geelooy/games/sefira-clash/css/online.css"
+		},
+		{
+			"findings": [],
+			"lineCount": 60,
+			"relativePath": "geelooy/games/sefira-clash/js/online/LobbyPlayerCards.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 96,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineAccessibilityController.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 44,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineArenaMarkup.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 78,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineArenaRenderer.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineArenaScene.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 30,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineCharacterVisuals.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 117,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineConnectionCoordinator.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 117,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineConnectionHealth.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 88,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineFighterPainter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 53,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineFighterStatusPainter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 37,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineHealthQuality.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 59,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineHealthView.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 85,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineHudPainter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 102,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineInputController.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 79,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineInputState.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 114,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineLobbyView.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 36,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineMatchIntegrity.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 76,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlinePageActions.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 27,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlinePageMarkup.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 81,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlinePageRuntime.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 41,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlinePageTelemetry.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 48,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineParticipantView.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 27,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineProtocol.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 39,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineReconnectPolicy.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 47,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineReconnectRunner.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 29,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineReplayExporter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 57,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineRuntimeBindings.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 116,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineSessionModel.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 57,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineSessionStorage.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 50,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineSetupForm.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 63,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineSetupMarkup.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 71,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineSnapshotBuffer.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 62,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineStateHash.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 42,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineStatsPainter.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 78,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineTouchController.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 41,
+			"relativePath": "geelooy/games/sefira-clash/js/online/ProtocolEnvelope.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 107,
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeClient.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 30,
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeClientOptions.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 55,
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeRequests.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 77,
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeSocket.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 100,
+			"relativePath": "geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 76,
+			"relativePath": "geelooy/games/sefira-clash/js/online/SefiraOnlineClient.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 95,
+			"relativePath": "geelooy/games/sefira-clash/js/online/SefiraOnlineCommands.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 11,
+			"relativePath": "geelooy/games/sefira-clash/js/online/onlineLobbyPage.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 16,
+			"relativePath": "geelooy/games/sefira-clash/js/online/onlinePage.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 24,
+			"relativePath": "geelooy/games/sefira-clash/online.html"
+		},
+		{
+			"findings": [],
+			"lineCount": 92,
+			"relativePath": "geelooy/games/sefira-clash/tools/online-multiplayer-audit.mjs"
+		}
+	]
+}
+ONLINE_EXIT=1
+Checking formatting...
+All matched files use Prettier code style!
+FORMAT_EXIT=0
+DIFF_EXIT=0
+=== DELETED ===

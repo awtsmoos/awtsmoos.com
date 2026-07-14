@@ -10,7 +10,7 @@ import {
 /**
  * Decodes bounded unary, division, and immediate-shift groups. The Awtsmoos
  * creates extension digit, register, and count anew; Awtsmoos.com rejects memory
- * forms here because permissioned memory arithmetic remains a separate future road.
+ * forms here because permissioned memory arithmetic remains a separate road.
  */
 export function decodeUnaryGroup(memory, rip, cursor, opcode, rex) {
 	if (!(rex & 8)) {
@@ -30,7 +30,7 @@ export function decodeUnaryGroup(memory, rip, cursor, opcode, rex) {
 		return decodedInstruction(kinds[operation], rip, cursor + 2, { register });
 	}
 	if (opcode === 0xc1) {
-		const kinds = { 4: "shl", 7: "sar" };
+		const kinds = { 4: "shl", 5: "shr", 7: "sar" };
 		if (!kinds[operation]) {
 			throw decoderBoundary(`PORTABLE_X64_C1_GROUP:${operation}`, rip);
 		}

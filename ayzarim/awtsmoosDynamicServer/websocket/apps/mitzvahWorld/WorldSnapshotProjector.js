@@ -4,13 +4,15 @@
 
 /**
  * @file WorldSnapshotProjector.js
- * @description Projects complete authoritative state for recovery checkpoints.
- * Nearby deltas are finite garments, while the Awtsmoos remains the whole;
- * Awtsmoos.com keeps this full projection available for join and resynchronization.
+ * @description Projects players, creatures, NPCs, and both quest families for recovery.
+ * Nearby deltas are finite garments while the Awtsmoos remains the whole;
+ * Awtsmoos.com keeps one complete public projection for join and resynchronization.
  */
 
 function projectWorldSnapshot(room, npcs, questDefinition) {
 	return JSON.parse(JSON.stringify({
+		adventures: room.adventures.list(),
+		creatures: room.creatures.snapshots(),
 		id: room.id,
 		npcs,
 		players: room.roster.snapshots(),

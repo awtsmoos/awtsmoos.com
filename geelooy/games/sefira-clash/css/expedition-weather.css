@@ -1,0 +1,80 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews weather, time, and guardian warnings as explicit Awtsmoos.com
+ * information. Hue supports atmosphere while text, structure, and borders carry the
+ * complete meaning for high contrast, reduced motion, and keyboard-oriented players.
+ */
+
+.expeditionWeatherCard {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 14px 0;
+	padding: 12px 14px;
+	border-left: 5px solid hsl(var(--weather-hue, 190) 86% 68%);
+	border-radius: 12px;
+	background: hsla(var(--weather-hue, 190), 52%, 18%, 0.44);
+}
+
+.expeditionWeatherCard > div {
+	display: grid;
+	gap: 4px;
+}
+
+.weatherGlyph {
+	font-size: 2rem;
+	color: hsl(var(--weather-hue, 190) 88% 78%);
+}
+
+.expeditionBossDossier {
+	padding: 16px;
+	border: 2px solid hsl(var(--boss-hue, 40) 86% 62%);
+	border-radius: 14px;
+	background: hsla(var(--boss-hue, 40), 50%, 15%, 0.5);
+}
+
+.bossPhaseList {
+	display: grid;
+	gap: 10px;
+	padding-left: 20px;
+}
+
+.bossPhaseList li {
+	display: grid;
+	gap: 4px;
+	padding: 10px;
+	border-radius: 10px;
+	background: rgba(4, 7, 20, 0.64);
+}
+
+.bossPhaseList em {
+	font-style: italic;
+	color: #fff2ad;
+}
+
+.expeditionLocation {
+	position: relative;
+}
+
+.expeditionLocation.active::after {
+	content: 'Inspected';
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	padding: 3px 7px;
+	border-radius: 999px;
+	font-size: 0.66rem;
+	text-transform: uppercase;
+	background: #fff2ad;
+	color: #151018;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.expeditionWeatherCard,
+	.expeditionBossDossier {
+		transition: none;
+	}
+}

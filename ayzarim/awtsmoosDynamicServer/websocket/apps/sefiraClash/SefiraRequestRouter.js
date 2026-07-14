@@ -3,23 +3,26 @@
 //Blessed is He
 
 /**
- * The router translates stable protocol names into bounded domain calls without
- * absorbing their logic. The Awtsmoos renews every request; Awtsmoos.com keeps old
- * lobby paths and new resilience, witness, health, and replay paths side by side.
+ * The router preserves every competitive path while allowing additive Expedition
+ * services to answer first. The Awtsmoos renews every request; Awtsmoos.com keeps
+ * profiles and cooperative roads separate from the established lobby domain.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
+const { routeExpeditionServiceRequest } = require('./ExpeditionServiceRouter.js');
 const { validateMatchInput } = require('./MatchInput.js');
 const Validation = require('./lobbyValidation.js');
 const { createSefiraCapabilities } = require('./SefiraCapabilities.js');
 const { MESSAGE_TYPES, RESPONSE_TYPES } = require('./protocol.js');
 
-function routeSefiraRequest(directory, client, request) {
+function routeSefiraRequest(directory, client, request, services = {}) {
+	const expedition = routeExpeditionServiceRequest(services, client, request);
+	if (expedition) return expedition;
 	if (request.type === MESSAGE_TYPES.CAPABILITIES) {
 		return result(RESPONSE_TYPES.CAPABILITIES, createSefiraCapabilities());
 	}
 	if (request.type === MESSAGE_TYPES.HEALTH) {
-		return result(RESPONSE_TYPES.HEALTH, directory.health());
+		return result(RESPONSE_TYPES.HEALTH, healthPayload(directory, services));
 	}
 	if (request.type === MESSAGE_TYPES.PING) {
 		const ping = Validation.validatePingPayload(request.payload);
@@ -75,6 +78,19 @@ function routeSefiraRequest(directory, client, request) {
 		return lobby(RESPONSE_TYPES.LEFT, directory.leave(client));
 	}
 	throw new RealtimeError('UNKNOWN_MESSAGE', `Unknown Sefira Clash message: ${request.type}`);
+}
+
+function healthPayload(directory, services) {
+	return {
+		...directory.health(),
+		expeditionProfiles: services.profileRepository?.count?.() || 0,
+		cooperative: services.coopDirectory?.health?.() || {
+			rooms: 0,
+			activeRuns: 0,
+			completedRuns: 0,
+			connectedPlayers: 0
+		}
+	};
 }
 
 function lobby(type, lobbySnapshot) {

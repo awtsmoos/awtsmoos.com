@@ -3,13 +3,16 @@
 //Blessed is He
 
 /**
- * Browser bootstrap joins menu, devices, simulation, and rendering in Awtsmoos.com.
- * The Awtsmoos renews every local controller as its own vessel while Adventure
- * retains the proven single-human path through the same focused runtime.
+ * Browser bootstrap joins menu, devices, simulation, civic overlay, and rendering in
+ * Awtsmoos.com. The Awtsmoos renews every local controller while Open World, Expedition,
+ * Adventure, and VS enter explicit mode-honest flows through one tested runtime.
  */
+
 import { createInput } from './controls/input.js';
 import { BrowserRuntime } from './core/BrowserRuntime.js';
+import { bindMainLifecycle, returnFromVictory } from './core/MainLifecycle.js';
 import { MenuFlow } from './menu/MenuFlow.js';
+import { OpenWorldOverlayController } from './menu/openworld/OpenWorldOverlayController.js';
 import { DeviceRegistry } from './multiplayer/DeviceRegistry.js';
 import { applyMobileProfile, mobileProfile } from './platform/mobileProfile.js';
 import { createRenderSurface } from './render/offscreenSurface.js';
@@ -19,6 +22,7 @@ import { MatchFlow } from './session/MatchFlow.js';
 
 const canvas = document.getElementById('olam');
 const overlay = document.getElementById('menuOverlay');
+const civicOverlay = document.getElementById('openWorldOverlay');
 const botSelect = document.getElementById('botSelect');
 const soundSelect = document.getElementById('soundSelect');
 const restart = document.getElementById('restart');
@@ -38,8 +42,14 @@ const input = createInput(document, {
 	getSlots: () => model.inputSlots(),
 	navigatorObject: navigator
 });
-let menuFlow;
 let runtime;
+let menuFlow;
+
+const openWorldOverlay = new OpenWorldOverlayController({
+	host: civicOverlay,
+	model,
+	status
+});
 
 const matchFlow = new MatchFlow({
 	model,
@@ -47,7 +57,7 @@ const matchFlow = new MatchFlow({
 	status,
 	botSelect,
 	profile,
-	onReturnMenu: () => menuFlow.showMode(),
+	onReturnMenu: () => returnFromVictory(model, menuFlow),
 	onSceneChange: () => runtime?.resetClock()
 });
 
@@ -59,7 +69,9 @@ menuFlow = new MenuFlow({
 	soundSelect,
 	botSelect,
 	registry,
-	onBeginMatch: (map, mode) => matchFlow.beginCountdown(map, mode)
+	onBeginMatch: (map, mode) => matchFlow.beginCountdown(map, mode),
+	onBeginOpenWorld: beginOpenWorld,
+	onCloseOpenWorld: () => openWorldOverlay.closeForMenu()
 });
 
 runtime = new BrowserRuntime({
@@ -68,39 +80,37 @@ runtime = new BrowserRuntime({
 	canvas,
 	surface,
 	profile,
-	onStep: () => matchFlow.update()
+	onStep: () => {
+		if (model.state.mode === 'openworld') openWorldOverlay.update();
+		else matchFlow.update();
+	}
 });
 
 soundSelect.value = readAudioMode();
 soundSelect.onchange = () => writeAudioMode(soundSelect.value);
 overlay.addEventListener('click', event => {
-	if (!matchFlow.handleClick(event)) {
-		menuFlow.handleClick(event);
-	}
+	if (!matchFlow.handleClick(event)) menuFlow.handleClick(event);
 });
-restart.onclick = () => menuFlow.showMode();
-botSelect.onchange = () => restartAdventureIfActive(model, matchFlow);
-debug.onclick = () => {
-	model.state.debug = !model.state.debug;
-};
-addEventListener('resize', () => runtime.resize());
-addEventListener('orientationchange', () => setTimeout(() => runtime.resize(), 140));
-addEventListener('gamepadconnected', refreshDevices);
-addEventListener('gamepaddisconnected', refreshDevices);
 
-function refreshDevices() {
-	registry.refresh();
-	model.lobby.syncConnections(registry);
-	menuFlow.refreshVsLobby();
-}
-
-function restartAdventureIfActive(gameModel, flow) {
-	const active = ['playing', 'victory'].includes(gameModel.state.phase);
-	if (gameModel.choice.mode === 'adventure' && active) {
-		flow.beginCountdown(gameModel.choice.map, 'adventure');
-	}
-}
+bindMainLifecycle({
+	botSelect,
+	debug,
+	matchFlow,
+	menuFlow,
+	model,
+	registry,
+	restart,
+	runtime
+});
 
 runtime.resize();
 model.choice.cosmetic.ready ? menuFlow.showMode() : menuFlow.showCustomize();
 runtime.start();
+
+function beginOpenWorld() {
+	model.createOpenWorld();
+	overlay.classList.add('hidden');
+	input.clear();
+	runtime?.resetClock();
+	openWorldOverlay.update();
+}

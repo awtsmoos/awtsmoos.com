@@ -9,12 +9,13 @@ import {
 	trafficPlacement
 } from './objectFactory.js';
 import { addPedestrians } from './pedestrians.js';
+import { addPowerCircuit } from './powerCircuit.js';
 
 const POPULATION = { low: 280, medium: 470, high: 700 };
 
 /**
- * Build one persistent district-aware arena. Population orchestration stays small
- * while one dedicated factory owns shape, surface, reward, and placement details.
+ * Build one persistent district-aware arena. Eight guaranteed sefirah powers enter
+ * before ordinary population fills to the unchanged quality target.
  */
 export function buildArena(level, perf = 'high') {
 	const random = rng(level.seed);
@@ -22,6 +23,7 @@ export function buildArena(level, perf = 'high') {
 	const total = Math.round((POPULATION[perf] || POPULATION.medium) * level.density);
 	const objects = [];
 	addSafeOpening(objects, level, random, kinds);
+	addPowerCircuit(objects, level, random);
 	while (objects.length < total) {
 		objects.push(makeRandomObject(objects.length, level, random, kinds));
 	}

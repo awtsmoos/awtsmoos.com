@@ -21,7 +21,8 @@ const KINDS = new Set([
 	"neg",
 	"or_reg",
 	"sar",
-	"shl"
+	"shl",
+	"shr"
 ]);
 
 /**

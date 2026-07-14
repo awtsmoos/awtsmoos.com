@@ -1,0 +1,9 @@
+geelooy/games/sefira-clash/js/core/MainLifecycle.js 585ms (unchanged)
+geelooy/games/sefira-clash/js/openworld/OpenWorldCombatRuntime.js 26ms
+     107 geelooy/games/sefira-clash/js/core/MainLifecycle.js
+      51 geelooy/games/sefira-clash/js/openworld/OpenWorldCombatRuntime.js
+     158 total
+Checking formatting...
+All matched files use Prettier code style!
+FORMAT_EXIT=0
+DIFF_EXIT=0

@@ -3,9 +3,9 @@
 <!--Boruch Hashem-->
 <!--Blessed is He-->
 <!--
-	Sefira Clash is a many-doored vessel: canvas, menu, touch, keyboard, controller,
-	VS arena, and Adventure road. The Awtsmoos renews them all from nothing every
-	instant, while this document keeps their public landmarks accessible and clear.
+	Sefira Clash is a many-doored vessel: lived cities, physical interiors, shlichus,
+	measured hands and feet, Expedition roads, synchronization, Adventure, VS, and co-op.
+	The Awtsmoos renews them through Awtsmoos.com while this document keeps landmarks clear.
 -->
 <html lang="en">
 	<head>
@@ -17,17 +17,27 @@
 		<meta name="theme-color" content="#07040d" />
 		<meta
 			name="description"
-			content="Sefira Clash: an original platform fighter with VS and a sixty-gate Adventure campaign."
+			content="Sefira Clash: a 2D lived Open World with walk-in cities, shlichus, merchants, trainers, Expedition roads, co-op, Adventure, and pure arena VS."
 		/>
-		<title>Sefira Clash · VS &amp; Adventure</title>
+		<title>Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS</title>
 		<link rel="stylesheet" href="./style.css" />
+		<link rel="stylesheet" href="./css/expedition.css" />
+		<link rel="stylesheet" href="./css/expedition-components.css" />
+		<link rel="stylesheet" href="./css/expedition-services.css" />
+		<link rel="stylesheet" href="./css/expedition-weather.css" />
+		<link rel="stylesheet" href="./css/expedition-sync.css" />
+		<link rel="stylesheet" href="./css/open-world.css" />
+		<link rel="stylesheet" href="./css/open-world-services.css" />
 	</head>
 	<body>
 		<main class="shell">
 			<section class="topbar" aria-label="game settings">
 				<div>
 					<h1>Sefira Clash</h1>
-					<p id="statusText">Adventure road · Quick VS · responsive platform combat</p>
+					<p id="statusText">
+						Lived 2D cities · shlichus · measured combat · Expedition · co-op ·
+						Adventure · VS
+					</p>
 				</div>
 				<label>
 					<span>Bots</span>
@@ -50,10 +60,16 @@
 				<button id="debugToggle" type="button">Debug</button>
 			</section>
 
-			<canvas id="olam" aria-label="Sefira Clash battlefield"></canvas>
+			<canvas id="olam" aria-label="Sefira Clash battlefield and lived city"></canvas>
 			<section id="menuOverlay" class="menuOverlay" aria-live="polite"></section>
+			<section
+				id="openWorldOverlay"
+				class="openWorldOverlay hidden"
+				aria-live="polite"
+				aria-label="open world civic service"
+			></section>
 
-			<section id="touchControls" class="touchControls" aria-label="mobile combat controls">
+			<section id="touchControls" class="touchControls" aria-label="mobile game controls">
 				<div id="stick" class="stick" aria-label="move, aim, fast-fall, and ledge drop">
 					<span></span>
 				</div>
@@ -66,6 +82,9 @@
 					</button>
 					<button class="primary jumpButton" data-act="jump" aria-label="jump">
 						<span class="touchIcon">↟</span><span class="touchLabel">Jump</span>
+					</button>
+					<button class="utility" data-act="interact" aria-label="interact or enter">
+						<span class="touchIcon">↵</span><span class="touchLabel">Enter</span>
 					</button>
 					<button class="utility" data-act="grab" aria-label="grab">
 						<span class="touchIcon">🤝</span><span class="touchLabel">Grab</span>

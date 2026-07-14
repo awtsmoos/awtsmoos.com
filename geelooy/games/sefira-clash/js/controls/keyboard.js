@@ -3,36 +3,62 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the keyboard vessel in this instant, revealing
- * its focused js controls service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Keyboard intent carries combat and lived-world interaction through held state plus one
+ * event-source latch. The Awtsmoos renews every press; Awtsmoos.com preserves E and Enter
+ * even when a complete keydown/keyup occurs between two fixed simulation reads.
  */
-/**
- * B"H
- * Keyboard gates for sane desktop fighting.
- *
- * Chapter 70: broken controls are exile. This file restores the covenant:
- * F punches immediately, G kicks immediately, H grabs, Shift shields, R is
- * special, W/Space jump, S/Down reads as down for fast-fall and short-hop.
- */
+
+const LATCHED_ACTION_KEYS = Object.freeze({
+	Space: 'jump',
+	KeyW: 'jump',
+	ArrowUp: 'jump',
+	KeyF: 'punch',
+	KeyJ: 'punch',
+	KeyG: 'kick',
+	KeyK: 'kick',
+	KeyH: 'grab',
+	KeyL: 'grab',
+	ShiftLeft: 'shield',
+	ShiftRight: 'shield',
+	KeyR: 'special',
+	KeyU: 'special',
+	KeyE: 'interact',
+	Enter: 'interact'
+});
+
 export function keyboard(doc) {
 	const keys = new Set();
+	const latched = new Set();
 	doc.addEventListener('keydown', event => {
 		if (isGameKey(event.code)) event.preventDefault();
+		if (!event.repeat && LATCHED_ACTION_KEYS[event.code]) {
+			latched.add(LATCHED_ACTION_KEYS[event.code]);
+		}
 		keys.add(event.code);
 	});
 	doc.addEventListener('keyup', event => keys.delete(event.code));
-	return () => ({
+	return () => readKeyboard(keys, latched);
+}
+
+function readKeyboard(keys, latched) {
+	const state = {
 		x: axis(keys),
 		y: down(keys) ? 1 : 0,
 		down: down(keys),
-		jump: keys.has('Space') || keys.has('KeyW') || keys.has('ArrowUp'),
-		punch: keys.has('KeyF') || keys.has('KeyJ'),
-		kick: keys.has('KeyG') || keys.has('KeyK'),
-		grab: keys.has('KeyH') || keys.has('KeyL'),
-		shield: keys.has('ShiftLeft') || keys.has('ShiftRight'),
-		special: keys.has('KeyR') || keys.has('KeyU')
-	});
+		jump: action(keys, latched, 'jump', ['Space', 'KeyW', 'ArrowUp']),
+		punch: action(keys, latched, 'punch', ['KeyF', 'KeyJ']),
+		kick: action(keys, latched, 'kick', ['KeyG', 'KeyK']),
+		grab: action(keys, latched, 'grab', ['KeyH', 'KeyL']),
+		shield: action(keys, latched, 'shield', ['ShiftLeft', 'ShiftRight']),
+		special: action(keys, latched, 'special', ['KeyR', 'KeyU']),
+		interact: action(keys, latched, 'interact', ['KeyE', 'Enter'])
+	};
+	latched.clear();
+	return state;
+}
+
+function action(keys, latched, name, codes) {
+	return latched.has(name) || codes.some(code => keys.has(code));
 }
 
 function axis(keys) {
@@ -53,6 +79,8 @@ function isGameKey(code) {
 		'KeyA',
 		'KeyS',
 		'KeyD',
+		'KeyE',
+		'Enter',
 		'KeyF',
 		'KeyG',
 		'KeyH',

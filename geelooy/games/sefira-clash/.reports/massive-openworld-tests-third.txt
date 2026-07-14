@@ -1,0 +1,38 @@
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ thirty citizens cover every region with deterministic schedules (6.183822ms)
+✔ spatial hash returns stable sorted bounded nearby citizens (336.491475ms)
+✔ speaking persists acquaintance and relationship exactly once per action (148.844799ms)
+✔ archive, clinic, council, and guesthouse emit bounded civic evidence (286.90195ms)
+✔ ferry and kitchen validate passage and currency before mutation (17.978356ms)
+✔ training partner resolves through damage without winner or exile (5.16247ms)
+✔ training partner resolves through posture without winner or exile (0.520741ms)
+✔ sixteen shlichus chains remain serializable and uniquely named (2.827091ms)
+✔ role-aware citizen mission advances only through ordered matching roles (1.25868ms)
+✔ shlichus advances only through its ordered physical events (212.380842ms)
+✔ market remains civic-only and validates before charging (1.648151ms)
+✔ trainer advances hands and feet through reputation and fee (0.752094ms)
+✔ guard edge opens a finite parry window and reverses one trainer hit (1.680958ms)
+✔ repeating one technique applies less posture pressure than varied rhythm (3.733438ms)
+✔ three-thousand fixed steps preserve every declared collection cap (5431.252781ms)
+✔ existing schema-v2 saves receive safe lived-world and social defaults (4.418424ms)
+✔ profile merge preserves permanent social progress and newer mutable state (3.934593ms)
+✔ server sanitation bounds expanded missions, citizens, doors, and ranks (2.857489ms)
+✔ all civic archetypes compile as ten physical doors and interiors (479.415153ms)
+✔ one physical interaction edge enters and exits the exact training room (17.809937ms)
+✔ interaction is buffered as one semantic edge (2.694655ms)
+✔ ranked punch chain spends stamina and names existing attack intent (0.971363ms)
+✔ patrol and clue nodes emit one unique evidence event (239.759019ms)
+✔ ladder moves only to its authored destination (151.498994ms)
+✔ Hands Covenant removes item state and ignores Open World ranks (23.262006ms)
+✔ ordinary Duel remains distinct from Hands Covenant (157.413929ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15286.814515

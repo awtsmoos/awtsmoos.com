@@ -1,0 +1,227 @@
+ M ../../api/social/helper/search/rag/search.js
+ M ../../apps/exe-emulator/core/graphicsHints.js
+ M ../../apps/exe-emulator/core/portable/byteMemory.js
+ M ../../apps/exe-emulator/core/portable/execution.js
+ M ../../apps/exe-emulator/core/portable/machoImage.js
+ M ../../apps/exe-emulator/core/portable/memorySegments.js
+ M ../../apps/exe-emulator/core/portable/syscallHost.js
+ M ../../apps/exe-emulator/core/portable/x64Addressing.js
+ M ../../apps/exe-emulator/core/portable/x64Decoder.js
+ M ../../apps/exe-emulator/core/portable/x64Executor.js
+ M ../../apps/exe-emulator/core/portable/x64Flags.js
+ M ../../apps/exe-emulator/core/portable/x64MemoryOperations.js
+ M ../../apps/exe-emulator/core/portable/x64ModRm.js
+ M ../../apps/exe-emulator/core/portable/x64Operations.js
+ M ../../apps/exe-emulator/core/portableRuntime.js
+ M ../../apps/exe-emulator/core/portableSimulation.js
+ M ../../apps/exe-emulator/core/winApi.js
+ M ../../apps/exe-emulator/tests/generated/regression-report.json
+ M ../mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js
+ M ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldCommunityApi.js
+ M ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldMmorpgApi.js
+ M ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRealtimeClient.js
+ M ../mitzvahWorld/experiments/Awtsmoos/src/test/MitzvahWorldMmorpgApi.test.mjs
+ M ../mitzvahWorld/experiments/Awtsmoos/src/test/botany/villageBotanicalComposition.test.mjs
+ M ../mitzvahWorld/experiments/Awtsmoos/src/test/geometry/villageBotanicalBudget.test.mjs
+ M ../mitzvahWorld/experiments/Awtsmoos/src/test/geometry/villageLandscapeDefinitions.test.mjs
+ M ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/ProceduralCreatureBuilder.js
+ M ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/VillageCreatureSystem.js
+ M ../scripts/games-list.js
+ M index.html
+ M js/core/loop.js
+ M js/main.js
+ M js/menu/MenuFlow.js
+ M js/menu/lobbyRulesView.js
+ M js/menu/localLobbyView.js
+ M js/menu/menuActionRouter.js
+ M js/menu/menuOptions.js
+ M js/menu/victoryView.js
+ M js/multiplayer/MatchRules.js
+ M js/render/fighters.js
+ M js/render/renderer.js
+ M js/render/weapons.js
+ M js/session/AdventureSessionResults.js
+ M js/session/GameModel.js
+ M js/session/MatchFlow.js
+ M js/session/MatchVictory.js
+ M package.json
+ M ../shema-strike/js/multiplayer/MultiplayerController.js
+ M ../../heichelos/_awtsmoos.heichel.html
+ M ../../heichelos/heichel/_awtsmoos.heichel.html
+ M ../../heichelos/heichel/modules/test/heichelShellRouteContract.test.mjs
+ M ../../scripts/awtsmoos/compiling/pe/c/parser/declarations.js
+ M ../../style/geelooy-app/performance.css
+ M ../../style/heichelos/heichel/index.css
+?? ../../api/social/_awtsmoos.radiance.js
+?? ../../api/social/_awtsmoos.richSocial.js
+?? ../../api/social/helper/radiance/
+?? ../../api/social/helper/richSocial/
+?? ../../api/social/helper/search/rag/sourceSearch.js
+?? ../../apps/android-emulator/
+?? ../../apps/exe-emulator/core/binaryScan.js
+?? ../../apps/exe-emulator/core/bundle/
+?? ../../apps/exe-emulator/core/portable/darwinAllocationImports.js
+?? ../../apps/exe-emulator/core/portable/darwinImportHost.js
+?? ../../apps/exe-emulator/core/portable/darwinMemoryImports.js
+?? ../../apps/exe-emulator/core/portable/darwinStringImports.js
+?? ../../apps/exe-emulator/core/portable/darwinTransferImports.js
+?? ../../apps/exe-emulator/core/portable/machoBoundary.js
+?? ../../apps/exe-emulator/core/portable/machoCommands.js
+?? ../../apps/exe-emulator/core/portable/machoImports.js
+?? ../../apps/exe-emulator/core/portable/machoSections.js
+?? ../../apps/exe-emulator/core/portable/machoSegment.js
+?? ../../apps/exe-emulator/core/portable/machoSymbolTables.js
+?? ../../apps/exe-emulator/core/portable/machoTls.js
+?? ../../apps/exe-emulator/core/portable/memoryTransfer.js
+?? ../../apps/exe-emulator/core/portable/virtualDarwinRuntime.js
+?? ../../apps/exe-emulator/core/portable/virtualHeap.js
+?? ../../apps/exe-emulator/core/portable/virtualImportThunks.js
+?? ../../apps/exe-emulator/core/portable/virtualTlsRuntime.js
+?? ../../apps/exe-emulator/core/portable/x64ByteDecode.js
+?? ../../apps/exe-emulator/core/portable/x64ByteOperations.js
+?? ../../apps/exe-emulator/core/portable/x64ByteRegisters.js
+?? ../../apps/exe-emulator/core/portable/x64EffectiveAddress.js
+?? ../../apps/exe-emulator/core/portable/x64IndirectDecode.js
+?? ../../apps/exe-emulator/core/portable/x64IndirectExecution.js
+?? ../../apps/exe-emulator/core/portable/x64Width.js
+?? ../../apps/exe-emulator/core/win32/
+?? ../../apps/exe-emulator/examples/bundles/
+?? ../../apps/exe-emulator/examples/progressive/
+?? ../../apps/exe-emulator/test/byteWidth.test.mjs
+?? ../../apps/exe-emulator/test/largeBinaryScan.test.mjs
+?? ../../apps/exe-emulator/test/machOPageZero.test.mjs
+?? ../../apps/exe-emulator/test/macosBundleRunner.test.mjs
+?? ../../apps/exe-emulator/test/operandWidth.test.mjs
+?? ../../apps/exe-emulator/test/plistMetadata.test.mjs
+?? ../../apps/exe-emulator/test/portableIndirectControl.test.mjs
+?? ../../apps/exe-emulator/test/progressiveContractFiles.mjs
+?? ../../apps/exe-emulator/test/progressiveExamples.test.mjs
+?? ../../apps/exe-emulator/test/progressiveSourceContract.test.mjs
+?? ../../apps/exe-emulator/test/virtualDarwinImports.test.mjs
+?? ../../apps/exe-emulator/test/win32Registry.test.mjs
+?? ../city-of-light/
+?? ../mitzvahWorld/experiments/Awtsmoos/src/network/LocalRpgCatalog.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldEventHub.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldLocalRpgSession.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRpgApi.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/network/WorldPopulationClient.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/render/
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/MitzvahWorldChatCensus.test.mjs
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/MitzvahWorldLocalRpgSession.test.mjs
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/MitzvahWorldRpgApi.test.mjs
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/geometry/expandedVillageComposition.test.mjs
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/geometry/proceduralCreatureGeometry.test.mjs
+?? ../mitzvahWorld/experiments/Awtsmoos/src/test/render/
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/AnimalGeometryParts.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/CreatureVectorMath.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/LoftedAnimalGeometry.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/LoftedSpiritGeometry.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/creatures/ManualGeometryBuilder.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/lighting/
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/DistanceMaterialPolicy.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageArchitectureDetailPolicy.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageBoxBatch.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageCottageDetail.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageCottageDetailBatch.js
+?? ../mitzvahWorld/experiments/Awtsmoos/src/world/village/VillagePracticalLightSystem.js
+?? ../scribe-journey/tests/simulator-results/
+?? ../scribe-journey/tests/simulator/
+?? .reports/adventure-expansion-recon.txt
+?? .reports/expedition-browser-atlas.png
+?? .reports/expedition-browser-battle.png
+?? .reports/expedition-browser-proof.json
+?? .reports/expedition-catalog-check.txt
+?? .reports/expedition-complete-focused-gates.txt
+?? .reports/expedition-domain-check.txt
+?? .reports/expedition-final-cleanup.txt
+?? .reports/expedition-final-gates.txt
+?? .reports/expedition-focused-gates.txt
+?? .reports/expedition-integration-check-two.txt
+?? .reports/expedition-integration-check.txt
+?? .reports/expedition-integration-gate-two.txt
+?? .reports/expedition-integration-gate.txt
+?? .reports/expedition-matchflow-fix.txt
+?? .reports/expedition-presentation-check-two.txt
+?? .reports/expedition-presentation-check.txt
+?? .reports/expedition-shared-snapshot.txt
+?? .reports/expedition-split-verification.txt
+?? .reports/expedition-touched-manifest.txt
+?? .reports/frontier-browser-atlas.png
+?? .reports/frontier-browser-boss.png
+?? .reports/frontier-browser-coop.png
+?? .reports/frontier-browser-profiles.json
+?? .reports/frontier-browser-proof.json
+?? .reports/frontier-canonical-summary.json
+?? .reports/frontier-client-checkpoint.txt
+?? .reports/frontier-client-pass
+?? .reports/frontier-client-tests-latest.txt
+?? .reports/frontier-client-tests-marker.txt
+?? .reports/frontier-closure-assertion.json
+?? .reports/frontier-closure.fail
+?? .reports/frontier-completion-recon.txt
+?? .reports/frontier-domain-gate.txt
+?? .reports/frontier-final-focused.txt
+?? .reports/frontier-final-gates.txt
+?? .reports/frontier-final-handoff.json
+?? .reports/frontier-final-summary.json
+?? .reports/frontier-format-and-tests.txt
+?? .reports/frontier-format-summary.txt
+?? .reports/frontier-line-markers/
+?? .reports/frontier-live-profiles.json
+?? .reports/frontier-live-server-proof.json
+?? .reports/frontier-map-compiler.txt
+?? .reports/frontier-map-variants.txt
+?? .reports/frontier-markers/
+?? .reports/frontier-over-120.json
+?? .reports/frontier-server-syntax.txt
+?? .reports/frontier-server-tests-marker.txt
+?? .reports/frontier-server-tests-two.txt
+?? .reports/frontier-server-tests.txt
+?? .reports/openworld-file-manifest.txt
+?? .reports/openworld-git-status.txt
+?? coop.html
+?? css/coop-components.css
+?? css/coop-layout.css
+?? css/coop.css
+?? css/expedition-components.css
+?? css/expedition-services.css
+?? css/expedition-sync.css
+?? css/expedition-weather.css
+?? css/expedition.css
+?? js/coop/
+?? js/core/MainLifecycle.js
+?? js/data/expedition/
+?? js/expedition/
+?? js/menu/ExpeditionMenuActions.js
+?? js/menu/JourneyMenuFlow.js
+?? js/menu/VsMenuFlow.js
+?? js/menu/expeditionActiveLocationView.js
+?? js/menu/expeditionBossView.js
+?? js/menu/expeditionCitizenView.js
+?? js/menu/expeditionCraftView.js
+?? js/menu/expeditionGearView.js
+?? js/menu/expeditionMaterialsView.js
+?? js/menu/expeditionQuestView.js
+?? js/menu/expeditionRegionView.js
+?? js/menu/expeditionShopView.js
+?? js/menu/expeditionSummaryView.js
+?? js/menu/expeditionSyncView.js
+?? js/menu/expeditionView.js
+?? js/menu/expeditionWeatherView.js
+?? js/menu/lobbyModeView.js
+?? js/menu/localLobbySupport.js
+?? js/multiplayer/MatchModeCatalog.js
+?? js/render/ExpeditionAtmosphere.js
+?? js/render/ExpeditionBossHud.js
+?? js/render/ExpeditionLoadoutPainter.js
+?? js/render/ExpeditionVisuals.js
+?? js/render/ExpeditionWeaponAura.js
+?? js/render/ExpeditionWeatherPainter.js
+?? js/session/modeHelpers.js
+?? tests/
+?? ../shema-strike/js/social/
+?? ../shema-strike/tests/social-flow.test.mjs
+?? ../../social-composer/
+?? ../../style/geelooy-app/performance/
+?? ../../style/heichelos/heichel/controls.css

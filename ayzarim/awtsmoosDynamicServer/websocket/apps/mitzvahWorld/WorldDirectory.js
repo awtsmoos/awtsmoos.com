@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
+const { ChatChannelDirectory } = require('./ChatChannelDirectory.js');
 const { SessionCredentialService } = require('./SessionCredentialService.js');
 const { removeEmptyRoom } = require('./WorldDirectoryPolicy.js');
 const { WorldIdentityProvider } = require('./WorldIdentityProvider.js');
@@ -13,10 +14,10 @@ const { WorldRoom } = require('./WorldRoom.js');
 const { WorldSessionDirectory } = require('./WorldSessionDirectory.js');
 
 /**
- * @file Coordinates Mitzvah World identity, sessions, rooms, and persistence.
+ * @file Coordinates Mitzvah World identity, sessions, rooms, chat, and persistence.
  * @description The Awtsmoos renews socket and verified person without multiplying
- * either. Awtsmoos.com carries injected time into every room so mail, leases, and
- * deterministic witnesses obey one authoritative clock while public state stays safe.
+ * either. Awtsmoos.com carries one clock into rooms and bounded communication while
+ * private sessions, direct speech, and public world projections remain distinct.
  */
 
 class WorldDirectory {
@@ -31,6 +32,7 @@ class WorldDirectory {
 		};
 		this.rooms = new Map();
 		this.sessions = options.sessions || new WorldSessionDirectory(options);
+		this.chat = options.chat || new ChatChannelDirectory({ clock: this.sessions.clock });
 		this.sessionCredentials = new SessionCredentialService(this.sessions);
 		this.recovery = new WorldRecoveryService(this.sessions);
 		this.persistence = new WorldPersistenceCoordinator(options.persistence);

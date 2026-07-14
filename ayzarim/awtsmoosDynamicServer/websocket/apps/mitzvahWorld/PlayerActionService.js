@@ -4,12 +4,13 @@
 
 /**
  * @file PlayerActionService.js
- * @description Applies bounded social actions, profiles, interaction, and respawn.
+ * @description Applies bounded social actions, profiles, interaction, and full respawn.
  * The Awtsmoos renews expression without surrendering authority; Awtsmoos.com
- * records lawful intent while position, targets, and safe return remain server-owned.
+ * restores position and combat through canonical state rather than client invention.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
+const { reviveCombatState } = require('./CombatState.js');
 const ALLOWED_ACTIONS = new Set(['jump', 'kneel', 'pray', 'wave']);
 const ALLOWED_EMOTES = new Set(['bow', 'joy', 'pray', 'wave']);
 const ALLOWED_STATUSES = new Set(['away', 'busy', 'online']);
@@ -64,11 +65,13 @@ class PlayerActionService {
 		player.position = { ...player.safePosition };
 		player.velocity = { x: 0, y: 0, z: 0 };
 		player.lastAction = 'respawn';
+		reviveCombatState(player.combat);
 		return this.publicState(player);
 	}
 
 	publicState(player) {
 		return clone({
+			combat: player.combat,
 			id: player.id,
 			lastAction: player.lastAction,
 			lastEmote: player.lastEmote,

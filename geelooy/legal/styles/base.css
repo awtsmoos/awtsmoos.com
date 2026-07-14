@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+:root {
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: #eaf4ff;
+	background: #050615;
+	--surface: rgb(13 18 43 / 82%);
+	--line: rgb(130 180 255 / 24%);
+	--muted: #a9b7d2;
+	--accent: #9ef7ff;
+	--violet: #b8a2ff;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background:
+		radial-gradient(circle at 12% 8%, rgb(50 92 210 / 30%), transparent 34rem),
+		radial-gradient(circle at 88% 24%, rgb(126 52 210 / 26%), transparent 32rem),
+		linear-gradient(145deg, #050615, #090c22 48%, #04050d);
+}
+
+body::before {
+	position: fixed;
+	inset: 0;
+	background-image:
+		linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
+	background-size: 3rem 3rem;
+	content: '';
+	mask-image: linear-gradient(to bottom, black, transparent 82%);
+	pointer-events: none;
+}
+
+p,
+li {
+	color: var(--muted);
+	line-height: 1.75;
+}
+
+a {
+	color: var(--accent);
+}
+
+h1,
+h2 {
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: clamp(2.2rem, 7vw, 5.5rem);
+	line-height: 0.98;
+}
+
+h2 {
+	color: var(--violet);
+}
+
+.eyebrow {
+	color: var(--accent);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.version {
+	font-family: ui-monospace, SFMono-Regular, monospace;
+	font-size: 0.82rem;
+}

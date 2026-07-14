@@ -5,12 +5,16 @@ import { quality } from '../performance.js';
 import { addHole } from './portal.js';
 
 /**
- * Each rival is a distinct will within the arena recreated by the Awtsmoos.
- * Essential silhouettes remain constant while wake ornament returns only in health.
+ * Each rival remains a distinct will within the arena. Essential silhouettes and
+ * armor stay visible while wake ornament returns only when frame health permits.
  */
 export function rivalCommands(commands, world, time) {
 	const detailed = quality(world) > 0.96;
 	for (const rival of world.rivals) {
-		addHole(commands, rival, rival.color, time, { detailed });
+		addHole(commands, rival, rival.color, time, {
+			detailed,
+			armor: rival.armor,
+			maxArmor: rival.maxArmor
+		});
 	}
 }

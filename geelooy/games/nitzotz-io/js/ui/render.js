@@ -1,8 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { currentAdventureStep } from '../adventure/state.js';
 import { bossText } from '../director/boss.js';
 import { bonusProgress } from '../game/progression.js';
+import { rankings } from '../game/scoring.js';
+import { renderExpansionHud } from './expansion.js';
 import { renderLeaderboard } from './leaderboard.js';
 import { drawMap } from './minimap.js';
 import { renderOverlay } from './overlay.js';
@@ -10,29 +13,33 @@ import { renderToggles } from './toggles.js';
 
 /**
  * The Awtsmoos preserves essential mission knowledge while dormant telemetry recedes.
- * Awtsmoos.com receives one contextual intel line rather than simultaneous status walls.
+ * Adventure, armor, perutot, and peers enter one compact measured interface.
  */
 export function renderUI(world, dom, options = {}) {
-	const progress = bonusProgress(world);
+	const bonus = bonusProgress(world);
+	const stage = currentAdventureStep(world.adventure);
 	document.body.dataset.mode = world.mode;
-	dom.progress.value = Math.min(1, world.player.mass / world.level.targetMass);
+	dom.progress.value = progressRatio(world, stage);
 	dom.mass.textContent = Math.round(world.player.mass);
 	dom.time.textContent = Number.isFinite(world.timeLeft)
 		? Math.max(0, Math.ceil(world.timeLeft))
 		: '∞';
-	dom.rank.textContent = `${world.rank}/${world.rivals.length + 1}`;
+	dom.rank.textContent = `${world.rank}/${rankings(world).length}`;
 	dom.combo.textContent = `x${world.player.combo.toFixed(1)}`;
 	dom.best.textContent = Math.round(world.save.bestMass || 0);
 	dom.sparkHud.textContent = world.save.sparks || 0;
 	dom.level.textContent = `District ${world.level.index + 1}: ${world.level.name}`;
 	dom.sefirah.textContent = world.level.sefirah;
-	dom.objective.textContent = world.level.objective;
-	dom.progressText.textContent = `${Math.round(world.player.mass)} / ${world.level.targetMass}`;
+	dom.objective.textContent = stage ? stage.name : world.level.objective;
+	dom.progressText.textContent = stage
+		? `${Math.floor(stage.progress)} / ${stage.target}`
+		: `${Math.round(world.player.mass)} / ${world.level.targetMass}`;
 	dom.bonus.textContent = world.level.bonus.label;
-	dom.bonusProgress.textContent = `${progress} / ${world.level.bonus.target}`;
+	dom.bonusProgress.textContent = `${bonus} / ${world.level.bonus.target}`;
 	dom.power.textContent = powerText(world);
 	dom.district.textContent = districtText(world);
 	renderDirector(world, dom);
+	renderExpansionHud(world, dom);
 	dom.message.textContent = contextualMessage(world, dom);
 	renderLeaderboard(world, dom.leaderboard);
 	renderOverlay(world, dom);
@@ -66,18 +73,22 @@ function contextualMessage(world, dom) {
 	return details.filter(Boolean).join(' · ');
 }
 
+function progressRatio(world, stage) {
+	if (stage) return Math.min(1, stage.progress / stage.target);
+	return Math.min(1, world.player.mass / world.level.targetMass);
+}
+
 function strongestRival(rivals) {
 	let strongest = null;
-	for (const rival of rivals) {
-		if (!strongest || rival.mass > strongest.mass) strongest = rival;
-	}
+	for (const rival of rivals) if (!strongest || rival.mass > strongest.mass) strongest = rival;
 	return strongest;
 }
 
 function powerText(world) {
 	const powers = [];
-	if (world.powerups.magnet > 0) powers.push(`MAGNET ${Math.ceil(world.powerups.magnet)}s`);
-	if (world.powerups.surge > 0) powers.push(`SURGE ${Math.ceil(world.powerups.surge)}s`);
+	if (world.powerups.magnet > 0) powers.push(`BINAH ${Math.ceil(world.powerups.magnet)}s`);
+	if (world.powerups.surge > 0) powers.push(`CHOCHMAH ${Math.ceil(world.powerups.surge)}s`);
+	if (world.player.armor > 0) powers.push(`GEVURAH ${world.player.armor}`);
 	return powers.join(' · ') || 'NO ACTIVE POWER';
 }
 

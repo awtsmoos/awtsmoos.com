@@ -2,18 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file WorldRoomStateRecord.js
+ * @description Captures durable players, creatures, possessions, and social truth.
+ * The Awtsmoos renews courage and creature outcome beyond process replacement;
+ * Awtsmoos.com omits transport and animation while preserving lawful world results.
+ */
+
+const { restoreCombatState } = require('./CombatState.js');
+const {
+	captureCreatureState,
+	restoreCreatureState
+} = require('./CreatureStateRecord.js');
 const { createPlayerState } = require('./PlayerState.js');
 const { sanitizeSocialState } = require('./WorldSocialStateFilter.js');
 
-/**
- * @file Captures and restores one room's durable private and social truth.
- * @description The Awtsmoos renews player possessions, mail, parties, instances,
- * and guilds beyond process replacement. Awtsmoos.com deliberately omits active
- * trades, whose mutual consent cannot survive a disconnected server lifetime.
- */
-
 function captureRoomState(room) {
 	return {
+		creatures: captureCreatureState(room.creatures),
 		guilds: room.guilds.snapshotAll(),
 		id: room.id,
 		instances: room.instances.snapshotAll(),
@@ -40,6 +46,7 @@ function restoreRoomState(directory, roomRecord, survivingPlayerIds) {
 	room.parties.restore(social.parties);
 	room.instances.restore(social.instances);
 	room.guilds.restore(social.guilds);
+	restoreCreatureState(room.creatures, roomRecord.creatures);
 	return room;
 }
 
@@ -48,10 +55,13 @@ function restorePlayer(record) {
 	return {
 		...defaults,
 		...clone(record),
+		adventureQuests: clone(record.adventureQuests || defaults.adventureQuests),
+		combat: restoreCombatState(record.combat || defaults.combat),
 		equipment: clone(record.equipment || defaults.equipment),
 		inventory: clone(record.inventory || defaults.inventory),
 		mailbox: clone(record.mailbox || defaults.mailbox),
 		profile: clone(record.profile || defaults.profile),
+		refinedSparks: Math.max(0, Number(record.refinedSparks || 0)),
 		safePosition: clone(record.safePosition || defaults.safePosition),
 		wallet: clone(record.wallet || defaults.wallet)
 	};

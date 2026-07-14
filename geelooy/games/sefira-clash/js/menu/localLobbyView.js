@@ -4,13 +4,20 @@
 
 /**
  * The local lobby is the visible throne of multiplayer truth in Awtsmoos.com.
- * The Awtsmoos renews four possible seats and their rules while every click
- * immediately changes the same model later used to create fighters.
+ * The Awtsmoos renews four seats, lawful presets, and custom rules while each click
+ * changes the same model later consumed by roster, fighter, winner, and item systems.
  */
-import { createMatchRules } from '../multiplayer/MatchRules.js';
+
 import { reveal } from './domForge.js';
+import { lobbyModeView } from './lobbyModeView.js';
 import { lobbyRulesView } from './lobbyRulesView.js';
 import { lobbySlotView } from './lobbySlotView.js';
+import {
+	applyLobbyMode,
+	changeLobbyKind,
+	localLobbyFooter,
+	updateLobbyRule
+} from './localLobbySupport.js';
 
 /** Reveals and wires the two-to-four-player local lobby. */
 export function showLocalLobby(host, config) {
@@ -18,9 +25,9 @@ export function showLocalLobby(host, config) {
 	config.lobby.syncConnections(config.registry);
 	const devices = config.registry.list();
 	const refresh = () => showLocalLobby(host, config);
-	const slots = config.lobby.slots.map(slot =>
-		lobbySlotView(slot, devices, slotHandlers(slot, config, refresh))
-	);
+	const slots = config.lobby.slots.map(slot => {
+		return lobbySlotView(slot, devices, slotHandlers(slot, config, refresh));
+	});
 	reveal(host, {
 		tag: 'section',
 		attrs: { class: 'menuPanel localLobby' },
@@ -31,14 +38,19 @@ export function showLocalLobby(host, config) {
 				tag: 'p',
 				attrs: { class: 'menuPoem' },
 				children: [
-					'Assign each hand, choose each warrior, then enter the arena as distinct souls.'
+					'Assign each hand, choose each warrior, then name the covenant of battle.'
 				]
 			},
 			{ tag: 'div', attrs: { class: 'lobbyGrid' }, children: slots },
-			lobbyRulesView(config.lobby.rules, (key, value) =>
-				updateRule(config, refresh, key, value)
-			),
-			footer(config)
+			lobbyModeView(config.lobby.rules, modeId => {
+				applyLobbyMode(config, modeId);
+				refresh();
+			}),
+			lobbyRulesView(config.lobby.rules, (key, value) => {
+				updateLobbyRule(config, key, value);
+				refresh();
+			}),
+			localLobbyFooter(config)
 		]
 	});
 }
@@ -46,7 +58,7 @@ export function showLocalLobby(host, config) {
 function slotHandlers(slot, config, refresh) {
 	return {
 		onKind(event) {
-			changeKind(slot, event.target.value, config);
+			changeLobbyKind(slot, event.target.value, config);
 			refresh();
 		},
 		onDevice(event) {
@@ -66,54 +78,5 @@ function slotHandlers(slot, config, refresh) {
 			config.lobby.toggleReady(slot.index);
 			refresh();
 		}
-	};
-}
-
-function changeKind(slot, kind, config) {
-	config.registry.releaseSlot(slot.id);
-	if (kind !== 'human') {
-		config.lobby.setKind(slot.index, kind);
-		return;
-	}
-	const device = firstAvailableDevice(config.registry.list(), slot.id);
-	if (!device) {
-		config.lobby.setKind(slot.index, 'closed');
-		return;
-	}
-	config.registry.assign(device.id, slot.id);
-	config.lobby.setKind(slot.index, 'human', device.id);
-}
-
-function firstAvailableDevice(devices, slotId) {
-	return devices.find(device => device.connected && (!device.owner || device.owner === slotId));
-}
-
-function updateRule(config, refresh, key, value) {
-	config.lobby.rules = createMatchRules({ ...config.lobby.rules, [key]: value });
-	refresh();
-}
-
-function footer(config) {
-	return {
-		tag: 'div',
-		attrs: { class: 'lobbyFooter' },
-		children: [
-			{
-				tag: 'button',
-				attrs: { class: 'backMenuButton', type: 'button' },
-				on: { click: config.onBack },
-				children: ['Back']
-			},
-			{
-				tag: 'button',
-				attrs: {
-					class: 'primaryMenuButton',
-					type: 'button',
-					disabled: !config.lobby.canStart()
-				},
-				on: { click: config.onContinue },
-				children: [config.lobby.canStart() ? 'Choose Arena' : 'Ready Every Human']
-			}
-		]
 	};
 }

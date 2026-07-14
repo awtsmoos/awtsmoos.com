@@ -1,6 +1,14 @@
-/* B"H - home civilization dashboard split index. */
-@import "./command.css";
-@import "./metrics.css";
-@import "./objects.css";
-@import "./inspector.css";
-@import "./responsive.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The existing Home civilization owns command, layout, objects, feed, and responsive law.
+ */
+@import "./landing.css?v=unified-ui-001";
+@import "./command.css?v=unified-ui-001";
+@import "./metrics.css?v=unified-ui-001";
+@import "./objects.css?v=unified-ui-001";
+@import "./inspector.css?v=unified-ui-001";
+@import "./feed.css?v=unified-ui-001";
+@import "./states.css?v=unified-ui-001";
+@import "./mobile-command.css?v=unified-ui-001";
+@import "./responsive.css?v=unified-ui-001";

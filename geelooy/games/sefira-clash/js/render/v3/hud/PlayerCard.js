@@ -3,26 +3,32 @@
 //Blessed is He
 
 /**
- * Every HUD card names its owning seat within Awtsmoos.com.
- * The Awtsmoos renews player color, team, fighter identity, damage, and stocks
- * so four local humans never dissolve into four identical labels reading YOU.
+ * Every HUD card names its owning seat and exposes damage, stocks, Chochmah Insight, and
+ * Binah armor without color dependence. The Awtsmoos renews player identity and combat
+ * truth; Awtsmoos.com keeps each card fixed-size for one-to-four player desktop and mobile.
  */
+
+import { drawResonanceMeter } from './ResonanceMeter.js';
 import { drawStockDots } from './StockDots.js';
 
-/** Draws one ownership-aware fighter card. */
 export function drawPlayerCard(ctx, fighter, x, y, width) {
 	const color = fighterColor(fighter);
 	const damage = Math.round(fighter.damage);
+	const resonanceHeight = fighter.resonance?.enabled ? 15 : 0;
+	const height = 54 + resonanceHeight;
 	ctx.save();
-	ctx.fillStyle = 'rgba(3,4,8,.86)';
+	ctx.fillStyle = 'rgba(3,4,8,.88)';
 	ctx.strokeStyle = color;
 	ctx.lineWidth = fighter.human ? 2.5 : 1.8;
-	round(ctx, x, y, width, 54, 12);
+	round(ctx, x, y, width, height, 12);
 	ctx.fill();
 	ctx.stroke();
 	drawIdentity(ctx, fighter, x, y, color);
 	drawDamage(ctx, fighter, damage, x, y);
 	drawStockDots(ctx, fighter, x + width - 35, y + 42, color);
+	if (fighter.resonance?.enabled) {
+		drawResonanceMeter(ctx, fighter, x + 7, y + 55, width - 14);
+	}
 	ctx.restore();
 }
 
@@ -54,25 +60,12 @@ function fighterColor(fighter) {
 }
 
 function damageColor(damage) {
-	if (damage >= 120) {
-		return '#ff6f5c';
-	}
-	if (damage >= 70) {
-		return '#ffe36e';
-	}
+	if (damage >= 120) return '#ff6f5c';
+	if (damage >= 70) return '#ffe36e';
 	return '#ffffff';
 }
 
 function round(ctx, x, y, width, height, radius) {
 	ctx.beginPath();
-	ctx.moveTo(x + radius, y);
-	ctx.lineTo(x + width - radius, y);
-	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-	ctx.lineTo(x + width, y + height - radius);
-	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-	ctx.lineTo(x + radius, y + height);
-	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-	ctx.lineTo(x, y + radius);
-	ctx.quadraticCurveTo(x, y, x + radius, y);
-	ctx.closePath();
+	ctx.roundRect(x, y, width, height, radius);
 }

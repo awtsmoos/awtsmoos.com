@@ -2,20 +2,20 @@
 
 /**
  * @file api/vector/metadata.js
- * @chapter The Derived Graph Remembers Its Source And Its Highest Gate
- * @description
- * Owns persisted vector configuration, registry/map vessels, entry node, and
- * hierarchy height so reopened insertion and search resume the same graph shape.
+ * @chapter Derived Graph Metadata Shares Its Caller's Durability Boundary
+ * @description Owns persisted vector configuration and vessels. Creation flushes
+ * immediately only when no outer database batch already owns the generation.
  */
 
 class VectorMetadata {
-	constructor(db) {
-		this.db = db;
+	constructor(database) {
+		this.db = database;
 	}
 
 	plain(value) {
 		if (value?.__resolve__) {
-			try { return value.__resolve__(); } catch (_error) {}
+			try { return value.__resolve__(); }
+			catch (_error) {}
 		}
 		return value;
 	}
@@ -38,7 +38,15 @@ class VectorMetadata {
 		const regPath = `__reg_${safe}`;
 		const mapPath = `__map_${safe}`;
 		return root[regPath] && root[mapPath]
-			? normalize({ dim: 384, metric: 'cosine', regPath, mapPath, entryNodeID: 0, maxLevel: 0, synthesized: true })
+			? normalize({
+				dim: 384,
+				metric: 'cosine',
+				regPath,
+				mapPath,
+				entryNodeID: 0,
+				maxLevel: 0,
+				synthesized: true
+			})
 			: null;
 	}
 
@@ -58,13 +66,15 @@ class VectorMetadata {
 		root[metadata.regPath] = new this.db.List();
 		root[metadata.mapPath] = new this.db.Map();
 		root.set(path, metadata);
-		this.db.waitForIdle();
+		if (!this.db.pager.isBatching) this.db.waitForIdle();
 		return metadata;
 	}
 
 	write(path, metadata) {
 		const root = this.root(false);
-		if (!root) throw new Error(`B"H vector metadata root is missing: ${path}`);
+		if (!root) {
+			throw new Error(`B"H vector metadata root is missing: ${path}`);
+		}
 		root.set(String(path), normalize(metadata));
 	}
 
@@ -75,20 +85,31 @@ class VectorMetadata {
 		for (const key of this.db.keys(root)) {
 			const metadata = this.plain(root[key]);
 			if (!metadata?.regPath || !metadata?.mapPath) continue;
-			output.push({ path: String(key), dimensions: Number(metadata.dim || 1536), metric: metadata.metric || 'cosine' });
+			output.push({
+				path: String(key),
+				dimensions: Number(metadata.dim || 1536),
+				metric: metadata.metric || 'cosine'
+			});
 		}
 		return output.sort((left, right) => left.path.localeCompare(right.path));
 	}
 }
 
-function safePath(path) { return String(path || '').replace(/\./g, '_'); }
+function safePath(path) {
+	return String(path || '').replace(/\./g, '_');
+}
+
 function normalize(metadata) {
 	return {
 		...metadata,
 		dim: Number(metadata.dim || 1536),
 		metric: metadata.metric || 'cosine',
-		entryNodeID: Number.isInteger(metadata.entryNodeID) ? metadata.entryNodeID : -1,
-		maxLevel: Number.isInteger(metadata.maxLevel) && metadata.maxLevel >= 0 ? metadata.maxLevel : 0
+		entryNodeID: Number.isInteger(metadata.entryNodeID)
+			? metadata.entryNodeID
+			: -1,
+		maxLevel: Number.isInteger(metadata.maxLevel) && metadata.maxLevel >= 0
+			? metadata.maxLevel
+			: 0
 	};
 }
 

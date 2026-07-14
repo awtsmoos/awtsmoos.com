@@ -1,5 +1,51 @@
-.p-surface { background: var(--p-panel); border: 1px solid var(--p-line); border-radius: var(--p-radius); box-shadow: var(--p-shadow); color: var(--p-text); }
-.p-surface-soft { background: var(--p-panel-2); border: 1px solid var(--p-line); border-radius: 18px; color: var(--p-text); }
-.p-section { display: grid; gap: .85rem; }
-.p-section-title { margin: 0; color: var(--p-text); letter-spacing: -.035em; }
-.p-section-copy { color: var(--p-muted); line-height: 1.55; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Product surfaces are quiet sections with visible hierarchy and inexpensive depth.
+ */
+.p-surface {
+	min-width: 0;
+	padding: var(--space-4);
+	border: 1px solid var(--p-line);
+	border-radius: var(--p-radius);
+	background: var(--p-panel);
+	box-shadow: var(--shadow-paper);
+	color: var(--p-text);
+}
+.p-surface-soft {
+	min-width: 0;
+	padding: var(--space-3);
+	border: 1px solid var(--p-line);
+	border-radius: var(--radius-m);
+	background: var(--p-panel-2);
+	color: var(--p-text);
+}
+.p-section {
+	display: grid;
+	gap: var(--space-3);
+	min-width: 0;
+}
+.p-section-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+.p-section-title {
+	margin: 0;
+	color: var(--p-text);
+	font-size: clamp(1.15rem, 2vw, 1.55rem);
+	letter-spacing: -.025em;
+	line-height: var(--leading-tight);
+}
+.p-section-copy {
+	max-width: var(--reading-width);
+	margin: 0;
+	color: var(--p-muted);
+	line-height: var(--leading-body);
+}
+:where(.p-surface[data-list-item], .p-surface.is-feed-item, .p-surface.is-queue-item) {
+	content-visibility: auto;
+	contain: layout paint style;
+	contain-intrinsic-size: auto 10rem;
+}

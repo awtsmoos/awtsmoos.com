@@ -1,24 +1,30 @@
-/* B"H Heichel tokens: dark, sharp, and shared with Geelooy. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Heichel tokens alias the shared foundation while retaining meaningful local names.
+ */
 .heichel-os-document,
+.heichel-os-page,
 .heichel-mobile-navigation {
-  --heichel-bg: radial-gradient(circle at 14% -8%, rgba(102,231,255,.16), transparent 26rem), radial-gradient(circle at 86% 0%, rgba(241,184,79,.14), transparent 27rem), linear-gradient(145deg, var(--g-bg), var(--g-bg-2) 58%, #02040a);
-  --heichel-panel: linear-gradient(145deg, var(--g-panel), var(--g-panel-2));
-  --heichel-panel-strong: linear-gradient(145deg, rgba(15,25,45,.96), rgba(18,27,48,.9));
-  --heichel-line: var(--g-line);
-  --heichel-line-strong: var(--g-line-2);
-  --heichel-ink: var(--g-ink);
-  --heichel-soft-ink: var(--g-muted);
-  --heichel-muted-ink: var(--g-soft);
-  --heichel-gold: var(--g-gold);
-  --heichel-gold-soft: rgba(241,184,79,.16);
-  --heichel-cyan: var(--g-cyan);
-  --heichel-rust: var(--g-rose);
-  --heichel-night: var(--g-bg-3);
-  --heichel-radius: clamp(.95rem, 2vw, 1.25rem);
-  --heichel-radius-large: clamp(1.1rem, 3vw, 1.55rem);
-  --heichel-gap: clamp(.9rem, 2vw, 1.35rem);
-  --heichel-shadow-soft: var(--g-shadow-soft);
-  --heichel-shadow-lift: var(--g-shadow);
-  --heichel-focus: rgba(102,231,255,.56);
-  --floating-clearance: 6.9rem;
+	--heichel-bg: var(--awt-bg-deep);
+	--heichel-panel: var(--awt-surface);
+	--heichel-panel-strong: var(--awt-surface);
+	--heichel-panel-soft: var(--awt-surface-soft);
+	--heichel-line: var(--awt-line);
+	--heichel-line-strong: var(--awt-line-strong);
+	--heichel-ink: var(--awt-ink);
+	--heichel-soft-ink: var(--awt-ink-soft);
+	--heichel-muted-ink: var(--awt-ink-faint);
+	--heichel-gold: var(--awt-gold);
+	--heichel-gold-soft: color-mix(in srgb, var(--awt-gold) 10%, transparent);
+	--heichel-cyan: var(--awt-accent);
+	--heichel-rust: var(--awt-danger);
+	--heichel-night: var(--awt-bg-night);
+	--heichel-radius: var(--radius-m);
+	--heichel-radius-large: var(--radius-xl);
+	--heichel-gap: clamp(.75rem, 2vw, 1.25rem);
+	--heichel-shadow-soft: var(--shadow-paper);
+	--heichel-shadow-lift: var(--shadow-card);
+	--heichel-focus: var(--g-focus);
+	--floating-clearance: max(6rem, calc(4.75rem + env(safe-area-inset-bottom)));
 }

@@ -1,0 +1,104 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--
+	Twenty-four chapters gather inside one accessible campaign shell. Every menu,
+	control, mission word, and generated street on Awtsmoos.com becomes a doorway
+	through which the continuously creating Awtsmoos may be encountered in play.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#080b18">
+	<title>City of Light · The Complete Pilgrimage</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<main class="campaignShell">
+		<header class="campaignHeader">
+			<div>
+				<a class="backLink" href="../">← Awtsmoos Games</a>
+				<p class="eyebrow">B"H · Twenty-four generated chapters</p>
+				<h1>City of Light</h1>
+				<p class="chapterLine"><span id="regionValue">Courtyards of Dawn</span> · Chapter <strong id="chapterValue">1 / 24</strong></p>
+				<h2 id="chapterTitle">First Courtyard</h2>
+			</div>
+			<button id="pauseButton" class="pauseButton" type="button">Pause · P</button>
+		</header>
+
+		<section class="statusGrid" aria-label="Campaign status">
+			<div><span>Mission</span><strong id="missionLabel">Gather six sparks</strong></div>
+			<div><span>Progress</span><strong id="missionProgress">0 / 6</strong></div>
+			<div><span>Chapter light</span><strong id="sparkValue">0</strong></div>
+			<div><span>Total light</span><strong id="totalValue">0</strong></div>
+			<div><span>Abilities</span><strong id="abilityValue">Steady Light</strong></div>
+			<div><span>Seed</span><code id="seedValue">city-of-light</code></div>
+		</section>
+
+		<section class="gameFrame" aria-label="City of Light campaign game">
+			<canvas id="cityCanvas" aria-label="A generated campaign district with wildlife"></canvas>
+			<p id="message" class="message" aria-live="polite">The district awakens.</p>
+		</section>
+
+		<section class="controlDeck" aria-label="Controls">
+			<div class="controlHelp">
+				<strong>Move</strong> arrows / WASD
+				<strong>Interact or call</strong> E / Enter
+				<strong>Dash</strong> Shift
+				<strong>Reveal targets</strong> Q
+			</div>
+			<nav class="touchControls" aria-label="Touch controls">
+				<button class="up" type="button" data-direction="ArrowUp" aria-label="Move up">↑</button>
+				<button class="left" type="button" data-direction="ArrowLeft" aria-label="Move left">←</button>
+				<button class="down" type="button" data-direction="ArrowDown" aria-label="Move down">↓</button>
+				<button class="right" type="button" data-direction="ArrowRight" aria-label="Move right">→</button>
+				<button class="interact" type="button" data-action="Interact">Call · E</button>
+				<button class="dash" type="button" data-action="Dash">Dash</button>
+				<button class="reveal" type="button" data-action="Reveal">Reveal</button>
+			</nav>
+		</section>
+	</main>
+
+	<section id="pauseOverlay" class="overlay" aria-hidden="true">
+		<div class="overlayPanel pausePanel">
+			<p class="eyebrow">The pilgrimage is still</p>
+			<h2>Campaign Map</h2>
+			<div class="pauseActions">
+				<button id="resumeButton" type="button">Resume</button>
+				<button id="restartCheckpointButton" type="button">Restart checkpoint</button>
+				<button id="restartChapterButton" type="button">Restart chapter</button>
+				<button id="newCampaignButton" type="button">New campaign</button>
+			</div>
+			<div class="settingsRow">
+				<button id="motionButton" type="button" aria-pressed="false">Reduced motion</button>
+				<button id="contrastButton" type="button" aria-pressed="false">High contrast</button>
+				<button id="muteButton" type="button" aria-pressed="false">Mute sound</button>
+			</div>
+			<div id="chapterGrid" class="chapterGrid" aria-label="Chapter selection"></div>
+		</div>
+	</section>
+
+	<section id="transitionOverlay" class="overlay" aria-hidden="true">
+		<div class="overlayPanel transitionPanel">
+			<p class="eyebrow">A district becomes light</p>
+			<h2 id="transitionTitle">Chapter complete</h2>
+			<p id="transitionReward">The next road opens.</p>
+			<button id="continueButton" type="button">Continue the pilgrimage</button>
+		</div>
+	</section>
+
+	<section id="errorOverlay" class="overlay" aria-hidden="true">
+		<div class="overlayPanel errorPanel">
+			<p class="eyebrow">The vessel needs repair</p>
+			<h2>City paused safely</h2>
+			<p id="errorMessage">An unexpected error occurred.</p>
+			<button type="button" onclick="location.reload()">Reload the chapter</button>
+		</div>
+	</section>
+
+	<script type="module" src="./js/main.js"></script>
+	<script src="/register.js"></script>
+</body>
+</html>

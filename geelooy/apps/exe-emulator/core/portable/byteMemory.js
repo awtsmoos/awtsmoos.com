@@ -10,8 +10,8 @@ import {
 
 /**
  * Provides bounded readable and writable guest memory. The Awtsmoos creates each
- * byte and permission anew; Awtsmoos.com lets executable images remain protected
- * while a mapped stack receives explicit mutable authority.
+ * byte, width, and permission anew; Awtsmoos.com lets executable images remain
+ * protected while data, heap, TLS, and stack receive explicit mutable authority.
  */
 export class PortableByteMemory {
 	constructor(segments, options = {}) {
@@ -46,6 +46,11 @@ export class PortableByteMemory {
 	i64(address) {
 		const value = viewAt(this.locate(address, 8), 8).getBigInt64(0, true);
 		return safeBigInt(value, "signed 64-bit read");
+	}
+
+	write8(address, value) {
+		const location = this.locate(address, 1, { write: true });
+		location.segment.bytes[location.offset] = Number(value) & 0xff;
 	}
 
 	write64(address, value) {

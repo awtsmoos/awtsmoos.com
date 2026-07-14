@@ -1,0 +1,21 @@
+=== CAPABILITY TESTS ===
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/network-guard.test.cjs:42:	assert.equal(capabilities.features.spectators, true);
+=== PACKAGE SCRIPTS ===
+{
+  "test:adventure-shlichus": "node --test tests/adventure/*.test.mjs",
+  "test:openworld": "node --test tests/openworld/*.test.mjs",
+  "test:expedition": "node --test tests/expedition/*.test.mjs",
+  "audit:websocket:compat": "node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs",
+  "audit:structure": "node tools/source-structure-audit.mjs",
+  "audit:syntax": "node tools/source-syntax-audit.mjs",
+  "audit:adventure": "node tools/adventure-catalog-audit.mjs",
+  "audit:feel": "node tools/core-feel-audit.mjs",
+  "audit:modules": "node tools/module-smoke-audit.mjs",
+  "audit:winners": "node tools/winner-rules-audit.mjs",
+  "audit:multiplayer": "node tools/local-multiplayer-audit.mjs",
+  "audit:quality:self": "node tools/source-quality-self-test.mjs",
+  "audit:quality": "node tools/source-quality-audit.mjs",
+  "format:source": "prettier --write \"js/**/*.{js,mjs}\" \"tests/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
+  "format:check": "prettier --check \"js/**/*.{js,mjs}\" \"tests/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
+  "test": "npm run test:adventure-shlichus && npm run test:openworld && npm run test:expedition && npm run audit:websocket:compat && npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules"
+}

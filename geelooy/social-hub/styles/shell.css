@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.hubHeader {
+	position: relative;
+	z-index: 4;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	padding: 1.1rem clamp(1rem, 3vw, 3rem);
+	border-bottom: 1px solid var(--line);
+	background: rgb(3 6 18 / 72%);
+	box-shadow: 0 1rem 3rem rgb(0 0 0 / 22%);
+	backdrop-filter: blur(1.4rem) saturate(1.25);
+}
+
+.brandCluster,
+.identityCluster,
+.contextRibbon,
+.actionRow,
+.filterRow,
+.mediaActions {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.brandSigil {
+	display: grid;
+	width: 3.2rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid rgb(158 247 255 / 45%);
+	border-radius: 1rem 50% 1rem 50%;
+	background:
+		linear-gradient(135deg, rgb(92 116 255 / 22%), rgb(238 97 255 / 16%)),
+		rgb(10 15 36 / 90%);
+	box-shadow:
+		0 0 0 0.35rem rgb(158 247 255 / 4%),
+		0 0 2.2rem rgb(110 176 255 / 24%);
+	color: var(--cyan);
+	font-size: 1.5rem;
+}
+
+.identityCluster label {
+	min-width: 12rem;
+}
+
+.contextRibbon {
+	position: sticky;
+	z-index: 3;
+	top: 0;
+	justify-content: center;
+	flex-wrap: wrap;
+	min-height: 2.7rem;
+	padding: 0.45rem 1rem;
+	border-bottom: 1px solid var(--line);
+	background: rgb(6 9 24 / 78%);
+	backdrop-filter: blur(1rem);
+}
+
+.contextRibbon span {
+	padding: 0.3rem 0.65rem;
+	border: 1px solid rgb(158 247 255 / 16%);
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: 0.75rem;
+}
+
+.contextRibbon strong {
+	color: var(--violet);
+	font-size: 0.82rem;
+}
+
+.hubShell {
+	display: grid;
+	min-height: calc(100vh - 8rem);
+}
+
+.workspace {
+	min-width: 0;
+	padding: clamp(1rem, 3vw, 2.2rem);
+}
+
+.workspacePanel {
+	position: relative;
+	max-width: 92rem;
+	margin: 0 auto;
+	view-transition-name: hub-panel;
+}
+
+.panelIntro {
+	margin-bottom: 1.2rem;
+	padding: clamp(1rem, 2.5vw, 1.8rem);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: linear-gradient(135deg, rgb(15 23 58 / 84%), rgb(10 14 36 / 68%));
+	box-shadow: var(--shadow);
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--
+	The Awtsmoos renews every cooperative traveler through Awtsmoos.com. This page keeps
+	create, join, resume, readiness, input, objective, weather, and guardian truth explicit.
+-->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="theme-color" content="#080514" />
+		<title>Sefira Clash · Cooperative Expedition</title>
+		<link rel="stylesheet" href="./css/coop.css" />
+		<link rel="stylesheet" href="./css/coop-layout.css" />
+		<link rel="stylesheet" href="./css/coop-components.css" />
+	</head>
+	<body>
+		<main class="coopShell">
+			<header class="coopHeader">
+				<div>
+					<p class="eyebrow">B"H · server-authoritative shared road</p>
+					<h1>Cooperative Expedition</h1>
+					<p id="coop-status" aria-live="polite">
+						Create, join, or resume a cooperative room.
+					</p>
+				</div>
+				<nav>
+					<a href="./index.html">Expedition Atlas</a>
+					<a href="./online.html">Competitive Online</a>
+				</nav>
+			</header>
+
+			<section id="coop-setup" class="coopPanel setupPanel">
+				<h2>Gather the Shared Road</h2>
+				<label>
+					<span>Display name</span>
+					<input id="display-name" maxlength="24" value="Co-op Traveler" />
+				</label>
+				<label>
+					<span>Character</span>
+					<select id="character-id">
+						<option value="chesed-fist">Chesed Fist</option>
+						<option value="gevurah-sw">Gevurah Sword</option>
+						<option value="hod-staff">Hod Staff</option>
+						<option value="malchus-crown">Malchus Crown</option>
+						<option value="netzach-spark">Netzach Spark</option>
+						<option value="yesod-lance">Yesod Lance</option>
+					</select>
+				</label>
+				<label>
+					<span>Climax road</span>
+					<select id="location-id">
+						<option value="crown-ruins">Ruins Beneath the Crown</option>
+						<option value="foundation-engine">Engine of Foundation</option>
+						<option value="palace-reflections">Palace of Reflections</option>
+						<option value="endless-causeway">The Endless Causeway</option>
+						<option value="heart-sanctum">Sanctum of the Heart</option>
+						<option value="furnace-depths">Furnace Depths</option>
+						<option value="bridge-light">Bridge of Living Light</option>
+						<option value="tower-forms">Tower of Forms</option>
+						<option value="wisdom-rift">Rift of Wisdom</option>
+						<option value="throne-road">Road Beyond the Throne</option>
+					</select>
+				</label>
+				<label>
+					<span>Join code</span>
+					<input id="join-code-input" maxlength="8" autocomplete="off" />
+				</label>
+				<div class="setupActions">
+					<button id="create-room" type="button">Create Room</button>
+					<button id="join-room" type="button">Join Room</button>
+					<button id="resume-room" type="button">Resume Saved Seat</button>
+				</div>
+			</section>
+
+			<section id="coop-room" class="coopPanel roomPanel" hidden>
+				<header class="roomSummary">
+					<span>Code <strong id="room-code">—</strong></span>
+					<span>Road <strong id="room-location">—</strong></span>
+					<span>Phase <strong id="room-phase">—</strong></span>
+				</header>
+				<div id="coop-players" class="coopPlayers"></div>
+				<div class="roomActions">
+					<button id="ready-player" type="button">Ready</button>
+					<button id="start-room" type="button">Start Shared Road</button>
+					<button id="rematch-room" type="button" hidden>Rematch</button>
+					<button id="leave-room" type="button">Leave</button>
+				</div>
+			</section>
+
+			<canvas
+				id="coop-canvas"
+				aria-label="authoritative cooperative Expedition battlefield"
+			></canvas>
+			<section class="controlsHelp" aria-label="controls">
+				<strong>Controls</strong>
+				<span
+					>A/D or arrows move · W/up/space jumps · J/K/enter attacks · Shift guards</span
+				>
+			</section>
+		</main>
+		<script type="module" src="./js/coop/coopPage.js"></script>
+	</body>
+</html>

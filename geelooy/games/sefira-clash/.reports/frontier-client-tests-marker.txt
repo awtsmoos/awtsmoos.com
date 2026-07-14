@@ -1,0 +1,34 @@
+
+> test:expedition
+> node --test tests/expedition/*.test.mjs
+
+✔ authors ten regions, thirty real locations, twenty quests, and broad gear (1.345896ms)
+✔ every world reference resolves to a real authored vessel (1.403238ms)
+✔ authors ten guardians with three monotonic phases (10.164509ms)
+✔ boss transitions from actual damage and emits visible events (123.290865ms)
+✔ weather is deterministic, advances explicitly, and emits named effects (2.271072ms)
+✔ authors twenty citizens, ten shops, and fifteen deterministic recipes (3.666589ms)
+✔ purchase validates before charging and grants exact material quantity (7.353342ms)
+✔ crafting is atomic and civic services are idempotent (8.516235ms)
+✔ compiles thirty unique bespoke Expedition roads (14.062128ms)
+✔ every settlement and climax owns the required authored nodes (8.3548ms)
+✔ migrates schema-v1 profile into complete schema-v2 state (22.623295ms)
+✔ opaque profile identity is stable after first assignment (104.374781ms)
+✔ conflict merge preserves permanent progress and newest remote selection (1.808201ms)
+✔ runs a persistent authored expedition from atlas to next road (1623.55125ms)
+✔ every named mode round-trips through enforced match rules (23.26509ms)
+✔ expedition context changes only the human fighter and carries region truth (22.070884ms)
+✔ migrates old gate clears and Perutas into the connected world (9.387071ms)
+✔ sanitizes corrupt ids and round-trips a stable profile (2.429703ms)
+✔ reveals only the authored next road after a clear (0.48524ms)
+✔ completes and claims an authored quest exactly once (56.745562ms)
+✔ equips only known owned gear in its declared slot (9.186492ms)
+✔ derived gear stats mutate real fighter values and weapon (2.307392ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5672.606604

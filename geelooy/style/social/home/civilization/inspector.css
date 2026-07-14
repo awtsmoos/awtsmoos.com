@@ -1,17 +1,54 @@
-/* B"H - the inspector receives raw metadata without breaking the wall. */
-.civilization-object-inspector { display: grid; gap: .7rem; max-height: calc(100dvh - 2rem); overflow: auto; }
-.object-inspector-body { display: grid; gap: .6rem; }
-.object-inspector-section {
-  display: grid;
-  gap: .35rem;
-  padding: .65rem;
-  border: 1px solid var(--g-line);
-  border-radius: .9rem;
-  background: rgba(255,255,255,.07);
-  color: var(--g-ink);
-  overflow-wrap: anywhere;
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Metadata remains readable, selectable, and bounded without looking like a debug dump.
+ */
+.civilization-object-inspector {
+	display: grid;
+	gap: var(--space-3);
+	max-height: calc(100dvh - 2rem);
+	overflow: auto;
 }
-.object-inspector-section h3,
-.object-inspector-section p,
-.object-inspector-section pre { margin: 0; }
-.object-inspector-section pre { white-space: pre-wrap; font-size: .76rem; max-height: 16rem; overflow: auto; color: var(--g-muted); }
+.object-inspector-body {
+	display: grid;
+	gap: var(--space-2);
+}
+.object-inspector-section {
+	display: grid;
+	gap: .35rem;
+	min-width: 0;
+	padding: .7rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface-soft);
+	color: var(--g-text);
+	overflow-wrap: anywhere;
+}
+.object-inspector-section::before {
+	width: .45rem;
+	height: .45rem;
+	border-radius: 50%;
+	background: var(--g-accent);
+	content: "";
+}
+:where(.object-inspector-section h3, .object-inspector-section p, .object-inspector-section pre) {
+	margin: 0;
+}
+.object-inspector-section h3 {
+	font-size: var(--type-small);
+	letter-spacing: .02em;
+}
+.object-inspector-section pre {
+	max-height: 16rem;
+	overflow: auto;
+	padding: .65rem;
+	border: 1px solid var(--g-border);
+	border-radius: .65rem;
+	background: var(--awt-surface);
+	color: var(--g-text-2);
+	font-family: var(--font-mono);
+	font-size: var(--type-caption);
+	line-height: 1.55;
+	white-space: pre-wrap;
+	user-select: text;
+}

@@ -2,6 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 
+import { effectiveAddress } from "./x64EffectiveAddress.js";
+import { readRegisterWidth, signed32ForMemory, writeRegisterWidth } from "./x64Width.js";
+
 const MEMORY_KINDS = new Set([
 	"lea_mem",
 	"mov_mem_imm",
@@ -10,45 +13,51 @@ const MEMORY_KINDS = new Set([
 ]);
 
 /**
- * Executes bounded 64-bit guest memory operations. The Awtsmoos creates effective
- * address, stored value, and loaded value anew; Awtsmoos.com lets permissioned
- * memory decide whether each write may enter the world.
+ * Executes bounded 16-bit, 32-bit, and 64-bit guest memory operations. The
+ * Awtsmoos creates effective address, width, stored value, and load anew;
+ * Awtsmoos.com lets permissioned memory decide whether each write may enter.
  */
 export function executeMemoryOperation(item, registers, memory) {
 	if (!MEMORY_KINDS.has(item.kind)) return false;
 	const address = effectiveAddress(item, registers);
 	if (item.kind === "lea_mem") {
-		registers.set(item.destination, address);
+		writeRegisterWidth(registers, item.destination, address, item.width);
 		return true;
 	}
 	if (item.kind === "mov_reg_mem") {
-		registers.set(item.destination, memory.i64(address));
+		writeRegisterWidth(
+			registers,
+			item.destination,
+			readMemoryWidth(memory, address, item.width),
+			item.width
+		);
 		return true;
 	}
 	if (item.kind === "mov_mem_reg") {
-		memory.write64(address, registers.get(item.source));
+		const value = readRegisterWidth(registers, item.source, item.width);
+		writeMemoryWidth(memory, address, value, item.width);
 		return true;
 	}
-	memory.write64(address, item.value);
+	writeMemoryWidth(memory, address, item.value, item.width);
 	return true;
 }
 
-function effectiveAddress(item, registers) {
-	const specification = item.address;
-	let address = specification.ripRelative
-		? item.nextRip
-		: 0;
-	if (specification.base !== null) {
-		address += registers.get(specification.base);
+function readMemoryWidth(memory, address, width) {
+	if (width === 16) {
+		return memory.u8(address) | memory.u8(address + 1) << 8;
 	}
-	if (specification.index !== null) {
-		address += registers.get(specification.index) * specification.scale;
+	return width === 32 ? memory.u32(address) : memory.i64(address);
+}
+
+function writeMemoryWidth(memory, address, value, width) {
+	if (width === 16) {
+		memory.write8(address, value);
+		memory.write8(address + 1, Number(value) >>> 8);
+		return;
 	}
-	address += specification.displacement;
-	if (!Number.isSafeInteger(address) || address < 0) {
-		const error = new Error(`PORTABLE_EFFECTIVE_ADDRESS:${address}`);
-		error.code = "PORTABLE_EFFECTIVE_ADDRESS";
-		throw error;
+	if (width === 32) {
+		memory.write32(address, signed32ForMemory(value));
+		return;
 	}
-	return address;
+	memory.write64(address, value);
 }

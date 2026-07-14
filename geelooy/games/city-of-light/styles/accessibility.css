@@ -1,0 +1,54 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Accessibility changes presentation, never mission truth or traversal topology.
+	Awtsmoos.com offers stillness, stronger contrast, clear focus, and readable
+	controls so more vessels may receive the same light of the Awtsmoos.
+*/
+
+.highContrast {
+	filter: contrast(1.22) saturate(0.92);
+}
+
+.highContrast .statusGrid div,
+.highContrast .overlayPanel,
+.highContrast .controlDeck {
+	border-color: rgba(255, 255, 255, 0.48);
+	background: #050713;
+}
+
+button[aria-pressed="true"] {
+	border-color: #fff0a6;
+	background: rgba(255, 240, 166, 0.18);
+}
+
+:focus-visible {
+	outline: 3px solid #fff0a6;
+	outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+		animation-duration: 0.001ms !important;
+	}
+}
+
+@media (max-width: 520px) {
+	.touchControls {
+		grid-template-columns: repeat(5, minmax(2.55rem, auto));
+	}
+
+	.touchControls button {
+		padding: 0 0.45rem;
+		font-size: 0.78rem;
+	}
+
+	.message {
+		font-size: 0.82rem;
+	}
+}

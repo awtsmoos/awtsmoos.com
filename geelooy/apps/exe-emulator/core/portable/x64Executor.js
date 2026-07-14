@@ -2,16 +2,20 @@
 //Boruch Hashem
 //Blessed is He
 
+import { executeAtomicOperation } from "./x64AtomicOperations.js";
 import { executeBranch } from "./x64Branches.js";
+import { executeByteOperation } from "./x64ByteOperations.js";
 import { decodePortableX64 } from "./x64Decoder.js";
+import { executeIndirectControl } from "./x64IndirectExecution.js";
 import { executeMemoryOperation } from "./x64MemoryOperations.js";
 import { executeMultiplyDivide } from "./x64MultiplyDivide.js";
 import { executeDataOperation } from "./x64Operations.js";
+import { executeVectorOperation } from "./x64VectorOperations.js";
 
 /**
  * Executes the documented portable x86-64 subset under an instruction limit.
- * The Awtsmoos creates each step, integer operation, memory road, and branch anew;
- * Awtsmoos.com records the exact boundary and never disguises unsupported work.
+ * The Awtsmoos creates scalar, atomic, packed-vector, indirect, and branch steps
+ * anew; Awtsmoos.com records the exact boundary and never disguises missing work.
  */
 export function executePortableX64({ memory, registers, syscalls, limit = 100000 }) {
 	let steps = 0;
@@ -35,10 +39,18 @@ export function executePortableX64({ memory, registers, syscalls, limit = 100000
 function executeInstruction(item, registers, memory, syscalls) {
 	if (item.kind === "nop") return false;
 	if (executeDataOperation(item, registers)) return false;
+	if (executeAtomicOperation(item, registers, memory)) return false;
+	if (executeVectorOperation(item, registers, memory)) return false;
+	if (executeByteOperation(item, registers, memory)) return false;
 	if (executeMultiplyDivide(item, registers)) return false;
 	if (executeMemoryOperation(item, registers, memory)) return false;
+	if (executeIndirectControl(item, registers, memory)) return false;
 	if (item.kind === "push") {
 		registers.push(registers.get(item.register));
+		return false;
+	}
+	if (item.kind === "push_imm") {
+		registers.push(item.value);
 		return false;
 	}
 	if (item.kind === "pop") {

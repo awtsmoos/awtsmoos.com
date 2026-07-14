@@ -1,0 +1,23 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Independent feed, comment, profile, review, and media vessels receive containment.
+ */
+:where(.g-home-main > section, .g-home-aside > section, .g-route-list > a, .g-constellation-route, .geelooy-feed-card, .home-post-card, .social-space-card, .profile-activity-item, .comment-card, .commentProfileCard, .reviewCard, .queueCard, .submissionCard, .referenceCard, .mediaCard, .card-wrapper, .post-card) {
+	content-visibility: auto;
+	contain: layout paint style;
+	contain-intrinsic-size: auto 12rem;
+}
+:where(.series-list, .post-list, .g-feed-list, .activityList, .profileCommentList, .reviewQueue, .submissionQueue, .referenceList) {
+	contain: layout style;
+}
+:where(img, video) {
+	background: var(--awt-surface-muted);
+}
+:where(.g-unusual-header, .g-dock, .g-context-ribbon, .awtsmoosDrop, .g-header-search, .modal, dialog, .context-menu, .dropdown-menu, .geelooy-bottom-nav, .profile-bottom-nav, .mobileDock, .desktopRail, .composerToolbar, .reviewToolbar) {
+	content-visibility: visible;
+	contain: none;
+}
+:where(.geelooy-feed-card, .home-post-card, .social-space-card, .profile-activity-item, .comment-card, .reviewCard, .queueCard, .submissionCard, .referenceCard, .card-wrapper, .post-card) {
+	will-change: auto;
+}

@@ -3,8 +3,9 @@
 //Blessed is He
 
 /**
- * The Awtsmoos renews the index vessel in this instant, revealing
- * its focused js data powerups service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * Powerup data exports one stable public catalog for old relics and new resonance vessels.
+ * The Awtsmoos renews each definition through Awtsmoos.com while callers may still consume
+ * the complete legacy-compatible POWERUP_DEFINITIONS and POWERUP_IDS names unchanged.
  */
-export { POWERUP_DEFINITIONS, POWERUP_IDS } from './definitions.js';
+
+export { LEGACY_POWERUP_IDS, POWERUP_DEFINITIONS, POWERUP_IDS } from './definitions.js';

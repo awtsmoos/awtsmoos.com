@@ -23,7 +23,7 @@ test('player MMORPG commands remain bounded authoritative and publicly projected
 	const inventory = await player.send('player.inventory');
 	assert.deepEqual(
 		inventory.payload.inventory.map(item => item.itemId).sort(),
-		['siddur', 'tefillin-kit', 'travel-pack']
+		['chalaf', 'siddur', 'tefillin-kit', 'travel-pack', 'wooden-staff']
 	);
 	for (const publicPlayer of joined.payload.world.players) {
 		assert.equal(Object.prototype.hasOwnProperty.call(publicPlayer, 'inventory'), false);
@@ -55,6 +55,7 @@ test('player MMORPG commands remain bounded authoritative and publicly projected
 	assert.equal(peer.latest('player.chat').payload.from.id, joined.payload.playerId);
 	const respawn = await player.send('player.respawn');
 	assert.deepEqual(respawn.payload.player.position, { x: 0, y: 0, z: 0 });
+	assert.equal(respawn.payload.player.combat.health, 100);
 
 	const presence = await player.send('presence.query', { limit: 10 });
 	assert.equal(presence.payload.players.length, 2);

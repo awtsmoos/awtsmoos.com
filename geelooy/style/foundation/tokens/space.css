@@ -1,8 +1,24 @@
-/* B"H space tokens: the breath between vessels. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * A compact rhythm scale keeps dense tools readable without wasting screen space.
+ */
 :root {
-  --space-1: .25rem; --space-2: .45rem; --space-3: .7rem;
-  --space-4: 1rem; --space-5: 1.35rem; --space-6: 1.8rem;
-  --space-7: 2.4rem; --space-8: 3.2rem; --space-9: 4.4rem;
-  --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
-  --floating-clearance: max(6.5rem, calc(5rem + env(safe-area-inset-bottom)));
+	--space-1: .25rem;
+	--space-2: .5rem;
+	--space-3: .75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-7: 2rem;
+	--space-8: 2.75rem;
+	--space-9: 4rem;
+	--safe-top: env(safe-area-inset-top);
+	--safe-right: env(safe-area-inset-right);
+	--safe-bottom: env(safe-area-inset-bottom);
+	--safe-left: env(safe-area-inset-left);
+	--page-gutter: clamp(.75rem, 2.5vw, 2rem);
+	--content-width: 92rem;
+	--reading-width: 68ch;
+	--floating-clearance: max(6rem, calc(4.75rem + env(safe-area-inset-bottom)));
 }

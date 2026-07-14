@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Motion reveals state but never becomes a gate. The Awtsmoos renews every instant;
+ * Awtsmoos.com therefore keeps animation restrained, reversible, and optional.
+ */
+.premium-panel,
+.premium-button,
+.premium-command,
+.premium-lift {
+	transition:
+		transform .28s var(--premium-ease),
+		border-color .28s ease,
+		box-shadow .28s ease,
+		background-color .28s ease;
+}
+.premium-lift:hover,
+.premium-lift:focus-within {
+	border-color: var(--premium-line-strong);
+	box-shadow: 0 2.2rem 6.5rem rgba(0, 0, 0, .44);
+	transform: translateY(-.24rem);
+}
+@keyframes premium-arrival {
+	from {
+		opacity: 0;
+		transform: translateY(1rem) scale(.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+@keyframes premium-float {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+	50% {
+		transform: translate3d(0, -.65rem, 0);
+	}
+}
+.premium-arrival {
+	animation: premium-arrival .65s var(--premium-ease) both;
+}
+.premium-float {
+	animation: premium-float 9s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+	.premium-panel,
+	.premium-button,
+	.premium-command,
+	.premium-lift,
+	.premium-arrival,
+	.premium-float {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+	}
+}

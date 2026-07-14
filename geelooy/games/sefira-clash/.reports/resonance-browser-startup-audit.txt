@@ -1,0 +1,4 @@
+
+> audit:syntax
+> node tools/source-syntax-audit.mjs
+

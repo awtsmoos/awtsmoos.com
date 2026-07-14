@@ -1,0 +1,57 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews local and remote profile history through a transparent
+ * Awtsmoos.com synchronization chamber. Identity, revision, status, and failure remain
+ * visible while every control states that offline Expedition is complete without sync.
+ */
+
+.expeditionSync {
+	margin: 18px 0 24px;
+	padding: 16px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 14px;
+	background: rgba(7, 13, 29, 0.82);
+}
+
+.expeditionSync.sync-online {
+	border-color: rgba(110, 238, 166, 0.72);
+}
+
+.expeditionSync.sync-syncing {
+	border-color: rgba(255, 242, 173, 0.8);
+}
+
+.syncFacts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+	gap: 8px;
+	margin: 12px 0;
+}
+
+.syncFacts span {
+	display: grid;
+	gap: 3px;
+	padding: 9px;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.syncFacts em {
+	font-style: normal;
+	color: #fff2ad;
+	word-break: break-word;
+}
+
+.syncMessage {
+	min-height: 1.5em;
+	color: rgba(255, 255, 255, 0.82);
+}
+
+.syncActions {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}

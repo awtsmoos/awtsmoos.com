@@ -3,11 +3,12 @@
 //Blessed is He
 
 /**
- * Capability negotiation reveals the shape of the vessel before clients pour light
- * into it. The Awtsmoos renews server and browser alike; Awtsmoos.com declares safe
- * feature flags and limits without exposing implementation secrets or live identity.
+ * Capability negotiation reveals competitive, profile, cooperative, and additive resonance
+ * shape before clients pour light into it. The Awtsmoos renews server and browser alike;
+ * Awtsmoos.com appends declarations while preserving every legacy field and value.
  */
 
+const { COOP_MAXIMUM_PLAYERS, COOP_RECONNECT_GRACE_MS, COOP_TICK_RATE } = require('./CoopRules.js');
 const { CHARACTER_IDS } = require('./protocol.js');
 const {
 	MAXIMUM_PLAYERS,
@@ -21,18 +22,23 @@ const {
 	TICK_RATE
 } = require('./SefiraLimits.js');
 
-/** Returns an immutable-description payload for responsible client behavior. */
 function createSefiraCapabilities(serverTime = Date.now()) {
 	return {
 		characters: [...CHARACTER_IDS],
 		features: {
+			cooperativeExpedition: true,
+			expeditionProfileSync: true,
 			inputAcknowledgment: true,
 			matchReplay: true,
+			resonancePowerups: true,
+			resonanceStats: true,
 			resume: true,
 			snapshotIntegrity: true,
 			spectators: true
 		},
 		limits: {
+			coopPlayers: COOP_MAXIMUM_PLAYERS,
+			coopReconnectGraceMs: COOP_RECONNECT_GRACE_MS,
 			players: MAXIMUM_PLAYERS,
 			rateLimits: RATE_LIMITS,
 			reconnectGraceMs: RECONNECT_GRACE_MS,
@@ -41,10 +47,17 @@ function createSefiraCapabilities(serverTime = Date.now()) {
 			spectators: MAXIMUM_SPECTATORS
 		},
 		network: {
+			coopSnapshotSchemaVersion: 1,
+			coopTickRate: COOP_TICK_RATE,
 			replaySampleEveryFrames: REPLAY_SAMPLE_EVERY_FRAMES,
 			snapshotEveryFrames: SNAPSHOT_EVERY_FRAMES,
 			snapshotSchemaVersion: 2,
 			tickRate: TICK_RATE
+		},
+		profiles: {
+			schemaVersion: 2,
+			persistence: 'single-process-atomic-json',
+			merge: 'revision-aware-monotonic-on-conflict'
 		},
 		serverTime
 	};

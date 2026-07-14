@@ -5,14 +5,13 @@ import { selectSafeChapter } from '../campaign/navigation.js';
 import { WORLDS } from '../level.js';
 import { nextModeId } from '../modes/catalog.js';
 import { objectiveMet } from '../modes/rules.js';
-import { evaluateAchievements } from '../progression/achievements.js';
-import { applyCampaignResult } from '../progression/campaign.js';
 import { purchaseUpgrade } from '../progression/economy.js';
 import { claimQuest } from '../progression/quests.js';
-import { recordRound } from '../progression/records.js';
+import { purchaseTalent } from '../progression/talents.js';
 import { saveGame } from '../save.js';
 import { resetToLevel } from './reset.js';
 import { playerRank } from './scoring.js';
+import { persistRoundResult } from './settlement.js';
 
 /** Awtsmoos.com opens the chosen district only after every lock agrees. */
 export function start(world) {
@@ -59,13 +58,11 @@ export function cycleMode(world) {
 }
 
 export function buyUpgrade(world, id) {
-	const result = purchaseUpgrade(world.save, id);
-	world.message = result.message;
-	if (result.ok) {
-		saveGame(world.save);
-		resetToLevel(world, world.level.index, 'ready', result.message);
-	}
-	return result;
+	return completePurchase(world, purchaseUpgrade(world.save, id));
+}
+
+export function buyTalent(world, id) {
+	return completePurchase(world, purchaseTalent(world.save, id));
 }
 
 export function claimCampaignQuest(world, id) {
@@ -92,29 +89,26 @@ export function finishRound(world) {
 	world.stars = 1 + Number(world.rank <= 2) + Number(world.bonusMet);
 	world.won = true;
 	world.mode = 'won';
-	const result = persistResult(world, true);
-	const reward = result.sparks ? ` · +${result.sparks} sparks` : '';
+	const result = persistRoundResult(world, true);
+	const sparks = result.sparks ? ` · +${result.sparks} sparks` : '';
+	const perutot = result.perutot ? ` · +${result.perutot} perutot` : '';
 	const mastery = result.mastered ? ' · mastery' : '';
-	world.message = `${world.level.name}: rank ${world.rank}, ${world.stars} stars${reward}${mastery}.`;
+	world.message = `${world.level.name}: rank ${world.rank}, ${world.stars} stars${sparks}${perutot}${mastery}.`;
 	world.events.push(['win']);
 }
 
 export function lose(world) {
 	world.lost = true;
 	world.mode = 'lost';
-	persistResult(world, false);
+	persistRoundResult(world, false);
 	world.message = `The round closed at ${Math.round(world.player.mass)} mass in ${world.gameMode.name}.`;
 	world.events.push(['lose']);
 }
 
-function persistResult(world, won) {
-	world.save.best = Math.max(world.save.best, world.score);
-	world.save.bestMass = Math.max(world.save.bestMass || 0, world.player.mass);
-	recordRound(world, won);
-	evaluateAchievements(world);
-	if (won) world.save.stars[world.level.key] = Math.max(world.save.stars[world.level.key] || 0, world.stars);
-	const result = applyCampaignResult(world, won);
-	world.lastReward = result;
+function completePurchase(world, result) {
+	world.message = result.message;
+	if (!result.ok) return result;
 	saveGame(world.save);
+	resetToLevel(world, world.level.index, 'ready', result.message);
 	return result;
 }

@@ -1,0 +1,23 @@
+
+> test:openworld
+> node --test tests/openworld/*.test.mjs
+
+✔ shlichus advances only through its ordered physical events (3.487893ms)
+✔ market remains civic-only and validates before charging (6.446891ms)
+✔ trainer advances hands and feet through reputation and fee (1.290833ms)
+✔ existing schema-v2 saves receive safe lived-world defaults (89.933674ms)
+✔ profile merge preserves permanent civic progress and newer mutable state (2.406059ms)
+✔ server sanitation bounds open-world ids and ranks (2.913794ms)
+✔ all settlement archetypes compile as physical street doors and interiors (105.431555ms)
+✔ overlap plus one interaction edge enters and exits the exact room (4.038579ms)
+✔ interaction is buffered as one semantic edge (4.610946ms)
+✔ ranked punch chain spends stamina and names existing attack intent (1.457303ms)
+✔ training partner resolves without winner or stock exile (1.752516ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2338.663289

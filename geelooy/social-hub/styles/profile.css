@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.profileCard,
+.referenceCard,
+.roleCard,
+.sharedActivityCard {
+	display: grid;
+	gap: 0.65rem;
+	min-height: 10rem;
+	padding: 1rem;
+}
+
+.profileCard h3,
+.referenceCard h3 {
+	margin-bottom: 0;
+}
+
+.cardSummary,
+.commentExcerpt {
+	margin-bottom: 0;
+}
+
+.cardActions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: auto;
+}
+
+.cardAction,
+.cardActions button {
+	display: inline-flex;
+	min-height: 2.4rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0.7rem;
+	border: 1px solid var(--line);
+	border-radius: 0.7rem;
+	background: rgb(12 20 47 / 75%);
+	color: var(--cyan);
+	font-size: 0.78rem;
+	text-decoration: none;
+}
+
+.commentProfileCard {
+	background:
+		linear-gradient(135deg, rgb(40 31 79 / 72%), rgb(8 13 31 / 88%)),
+		var(--surface);
+}
+
+.referenceCard {
+	background:
+		linear-gradient(135deg, rgb(19 61 82 / 62%), rgb(11 15 36 / 86%)),
+		var(--surface);
+}
+
+.referenceCoordinates {
+	max-height: 18rem;
+	overflow: auto;
+	padding: 0.7rem;
+	border-radius: 0.7rem;
+	background: rgb(1 4 11 / 68%);
+	color: var(--muted);
+	font-size: 0.72rem;
+}
+
+.roleCard strong {
+	color: var(--violet);
+}
+
+.sharedActivityCard small {
+	color: var(--cyan);
+	text-transform: capitalize;
+}
+
+.profilePanel > h3,
+.referencesPanel > h3 {
+	margin-top: 2rem;
+	color: var(--violet);
+}
+
+#profileStats {
+	padding: 0.6rem 0.8rem;
+	border-left: 0.2rem solid var(--cyan);
+	background: rgb(158 247 255 / 5%);
+}
+
+.referenceMap {
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}

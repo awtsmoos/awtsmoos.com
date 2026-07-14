@@ -2,70 +2,69 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	createBinaryScanWindows,
+	decodeBinaryWindow
+} from "./binaryScan.js";
+
 const GRAPHICS_RULES = Object.freeze([
-	Object.freeze({
-		api: "opengl",
-		patterns: Object.freeze([/OpenGL/i, /glBegin/i, /glDraw/i, /GLX/i, /CGL/i])
-	}),
-	Object.freeze({
-		api: "egl",
-		patterns: Object.freeze([/EGL_/i, /eglCreate/i, /libEGL/i])
-	}),
-	Object.freeze({
-		api: "metal",
-		patterns: Object.freeze([/Metal/i, /MTLDevice/i, /CAMetalLayer/i])
-	}),
-	Object.freeze({
-		api: "sdl",
-		patterns: Object.freeze([/SDL_/i, /libSDL/i])
-	}),
-	Object.freeze({
-		api: "glfw",
-		patterns: Object.freeze([/GLFW/i, /glfwCreateWindow/i])
-	})
+	rule("opengl", [/OpenGL/i, /glBegin/i, /glDraw/i, /GLX/i, /CGL/i]),
+	rule("egl", [/EGL_/i, /eglCreate/i, /libEGL/i]),
+	rule("metal", [/Metal/i, /MTLDevice/i, /CAMetalLayer/i]),
+	rule("sdl", [/SDL_/i, /libSDL/i]),
+	rule("glfw", [/GLFW/i, /glfwCreateWindow/i])
 ]);
 
 /**
- * Finds bounded printable strings and recognized graphics API hints in bytes.
- *
- * The Awtsmoos creates hidden intention inside every binary vessel. Awtsmoos.com
- * reveals only directly observed names and never upgrades a string into execution.
- *
- * @param {Uint8Array} bytes Binary bytes.
- * @returns {{apis: string[], strings: string[], hasGraphics: boolean}} Hint report.
+ * Finds bounded printable strings and recognized graphics names in binary bytes.
+ * The Awtsmoos creates hidden intention and sampled evidence anew; Awtsmoos.com
+ * reports truncation explicitly and never upgrades an observed name into execution.
  */
-export function detectGraphicsHints(bytes) {
-	const strings = extractPrintableStrings(bytes);
-	const joined = strings.join("\n");
+export function detectGraphicsHints(bytes, options = {}) {
+	const scan = createBinaryScanWindows(bytes, options);
+	const matchedApis = new Set();
+	const strings = [];
+	for (const range of scan.ranges) {
+		const text = decodeBinaryWindow(bytes, range);
+		for (const candidate of text.match(/[ -~]{4,}/g) || []) {
+			if (strings.length < 64) strings.push(candidate.slice(0, 4096));
+		}
+		for (const graphicsRule of GRAPHICS_RULES) {
+			if (graphicsRule.patterns.some(pattern => pattern.test(text))) {
+				matchedApis.add(graphicsRule.api);
+			}
+		}
+	}
 	const apis = GRAPHICS_RULES
-		.filter(rule => rule.patterns.some(pattern => pattern.test(joined)))
-		.map(rule => rule.api);
+		.map(graphicsRule => graphicsRule.api)
+		.filter(api => matchedApis.has(api));
 	return Object.freeze({
 		apis: Object.freeze(apis),
 		hasGraphics: apis.length > 0,
-		strings: Object.freeze(strings.slice(0, 64))
+		scan: Object.freeze({
+			scannedBytes: scan.scannedBytes,
+			totalBytes: scan.totalBytes,
+			truncated: scan.truncated,
+			windowCount: scan.ranges.length
+		}),
+		strings: Object.freeze(strings)
 	});
 }
 
 /**
- * Translates observed native graphics hints into bounded WebGL-style operations.
- * This is semantic translation, not OpenGL, Metal, SDL, or window-system execution.
- *
- * @param {{apis: string[], hasGraphics: boolean}} hints Graphics hint report.
- * @returns {object[]} Draw operations understood by the virtual host.
+ * Translates observed graphics names into bounded WebGL-style host operations.
+ * This is semantic translation, not OpenGL, Metal, SDL, or toolkit execution.
  */
 export function graphicsOperationsForHints(hints) {
-	if (!hints.hasGraphics) {
-		return [];
-	}
+	if (!hints.hasGraphics) return [];
 	const operations = [{
-		type: "clear",
-		color: [0.018, 0.03, 0.075, 1]
+		color: [0.018, 0.03, 0.075, 1],
+		type: "clear"
 	}];
 	if (hints.apis.some(api => ["opengl", "egl", "metal"].includes(api))) {
 		operations.push({
-			type: "opengl-triangles",
 			color: [0.18, 0.94, 0.82, 1],
+			type: "opengl-triangles",
 			vertices: [
 				{ x: 0, y: 92 },
 				{ x: -96, y: -76 },
@@ -75,29 +74,14 @@ export function graphicsOperationsForHints(hints) {
 	}
 	if (hints.apis.some(api => ["sdl", "glfw"].includes(api))) {
 		operations.push({
-			type: "text",
-			text: `Window toolkit simulation: ${hints.apis.join(", ")}`
+			text: `Window toolkit simulation: ${hints.apis.join(", ")}`,
+			type: "text"
 		});
 	}
 	operations.push({ type: "present" });
 	return operations;
 }
 
-function extractPrintableStrings(bytes, minimumLength = 4) {
-	const strings = [];
-	let current = "";
-	for (const byte of bytes) {
-		if (byte >= 32 && byte <= 126) {
-			current += String.fromCharCode(byte);
-			continue;
-		}
-		if (current.length >= minimumLength) {
-			strings.push(current);
-		}
-		current = "";
-	}
-	if (current.length >= minimumLength) {
-		strings.push(current);
-	}
-	return strings.slice(0, 256);
+function rule(api, patterns) {
+	return Object.freeze({ api, patterns: Object.freeze(patterns) });
 }

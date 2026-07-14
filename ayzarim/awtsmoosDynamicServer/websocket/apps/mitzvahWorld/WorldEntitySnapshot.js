@@ -4,23 +4,27 @@
 
 /**
  * @file WorldEntitySnapshot.js
- * @description Reveals public player, bot, and NPC state for interest projection.
- * The Awtsmoos renews every being without exposing private session vessels;
- * Awtsmoos.com therefore projects only canonical public entity garments.
+ * @description Reveals public player, bot, NPC, animal, and spirit state for interest.
+ * The Awtsmoos renews every being without exposing private reward vessels;
+ * Awtsmoos.com projects position, health, status, and identity needed for shared play.
  */
 
 const { snapshotPlayer } = require('./PlayerEntity.js');
 
-function worldEntitySnapshots(players, npcs) {
-	const playerEntities = [...players.values()].map(player => ({
+function worldEntitySnapshots(players, npcs, creatures = []) {
+	const playerEntities = [...players.values()].map((player) => ({
 		...snapshotPlayer(player),
 		entityType: player.kind === 'bot' ? 'bot' : 'player'
 	}));
-	const npcEntities = npcs.map(npc => ({
+	const npcEntities = npcs.map((npc) => ({
 		...clone(npc),
 		entityType: 'npc'
 	}));
-	return [...playerEntities, ...npcEntities]
+	const creatureEntities = creatures.map((creature) => ({
+		...clone(creature),
+		entityType: 'creature'
+	}));
+	return [...playerEntities, ...npcEntities, ...creatureEntities]
 		.sort((left, right) => left.id.localeCompare(right.id));
 }
 

@@ -1,0 +1,83 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews shlichus, market, training, and hideout cards in Awtsmoos.com.
+ * Status, requirement, purpose, price, and progress remain explicit without relying on
+ * color, animation, random rarity, weapon silhouettes, or armor-score comparison.
+ */
+
+.openWorldServiceSection {
+	padding-top: 14px;
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.openWorldCardGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 12px;
+}
+
+.openWorldCard {
+	display: grid;
+	align-content: start;
+	gap: 8px;
+	min-height: 210px;
+	padding: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.17);
+	border-radius: 13px;
+	background: rgba(13, 19, 38, 0.78);
+}
+
+.openWorldCard p,
+.openWorldCard small {
+	line-height: 1.45;
+}
+
+.openWorldCard small {
+	color: rgba(255, 255, 255, 0.74);
+}
+
+.openWorldCard button,
+.openWorldHideout button,
+.openWorldClose {
+	margin-top: auto;
+	padding: 10px 12px;
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 10px;
+	background: rgba(26, 37, 68, 0.94);
+	color: #ffffff;
+	font: inherit;
+}
+
+.openWorldCard button:not(:disabled):hover,
+.openWorldHideout button:hover,
+.openWorldClose:hover {
+	border-color: #fff2ad;
+}
+
+.openWorldCard button:disabled,
+.openWorldCard.locked {
+	opacity: 0.62;
+}
+
+.openWorldCard.mission-active {
+	border-style: dashed;
+}
+
+.openWorldCard.mission-complete {
+	outline: 2px solid #bdf8d0;
+}
+
+.openWorldHideout {
+	display: grid;
+	gap: 10px;
+	max-width: 620px;
+}
+
+@media (max-width: 560px) {
+	.openWorldCardGrid {
+		grid-template-columns: 1fr;
+	}
+}

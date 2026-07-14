@@ -1,0 +1,13 @@
+=== REQUIRED MODULES ===
+=== INTEGRATION MODULES ===
+=== STATE CREATION ===
+{
+  "doors": 10,
+  "traversal": 7,
+  "citizens": 3,
+  "active": 0,
+  "sleeping": 3,
+  "ambient": 48,
+  "telemetry": 180
+}
+=== LINE CEILING ===

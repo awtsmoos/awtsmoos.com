@@ -4,25 +4,31 @@
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
 const { dispatchJoinedRequest } = require('./JoinedRequestHandlers.js');
+const { playerAddress } = require('./PlayerAddress.js');
 const { MESSAGE_TYPES, RESPONSE_TYPES } = require('./protocol.js');
 const { validateJoin } = require('./validation.js');
+const { projectWorldCensus } = require('./WorldCensusProjector.js');
 const { broadcastWorldChanges } = require('./WorldEventBroadcaster.js');
 
 /**
  * @file Routes every version-one Mitzvah World command through focused owners.
  * @description The Awtsmoos renews many requests beneath one replay covenant.
- * Awtsmoos.com is remembered here as join, replay, checkpoint, and response policy
- * remain unified while every joined domain lives in its own bounded handler vessel.
+ * Awtsmoos.com permits census before identity and reveals one globally unambiguous
+ * public player address while local entity IDs and private session keys remain intact.
  */
 
 function dispatchWorldRequest(directory, context, request) {
+	if (request.type === MESSAGE_TYPES.WORLD_CENSUS) {
+		return {
+			payload: projectWorldCensus(directory),
+			type: RESPONSE_TYPES.WORLD_CENSUS
+		};
+	}
 	if (request.type === MESSAGE_TYPES.WORLD_JOIN) {
 		return handleJoin(directory, context, request);
 	}
 	const begun = directory.beginRequest(context.client, request);
-	if (begun.duplicate) {
-		return begun.result;
-	}
+	if (begun.duplicate) return begun.result;
 	const room = directory.forClient(context.client);
 	const command = dispatchJoinedRequest(directory, context, request, room);
 	if (!command) {
@@ -31,9 +37,7 @@ function dispatchWorldRequest(directory, context, request) {
 			`Unknown Mitzvah World message: ${request.type}`
 		);
 	}
-	if (command.broadcast) {
-		broadcastWorldChanges(context, room);
-	}
+	if (command.broadcast) broadcastWorldChanges(context, room);
 	if (
 		request.type === MESSAGE_TYPES.WORLD_LEAVE ||
 		request.type === MESSAGE_TYPES.SESSION_REVOKE
@@ -46,14 +50,13 @@ function dispatchWorldRequest(directory, context, request) {
 function handleJoin(directory, context, request) {
 	const joined = directory.join(context.client, validateJoin(request.payload));
 	const begun = directory.beginRequest(context.client, request);
-	if (begun.duplicate) {
-		return begun.result;
-	}
+	if (begun.duplicate) return begun.result;
 	const command = {
 		broadcast: true,
 		checkpoint: true,
 		response: {
 			payload: {
+				playerAddress: playerAddress(joined.room.id, joined.player.id),
 				playerId: joined.player.id,
 				resumed: joined.resumed,
 				session: joined.session,
@@ -73,9 +76,7 @@ function complete(directory, client, request, begun, command) {
 		begun.fingerprint,
 		command.response
 	);
-	if (command.checkpoint) {
-		directory.checkpoint();
-	}
+	if (command.checkpoint) directory.checkpoint();
 	return command.response;
 }
 

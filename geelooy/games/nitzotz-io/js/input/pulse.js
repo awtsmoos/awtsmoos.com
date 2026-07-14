@@ -1,26 +1,32 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { activatePulse } from '../game/combat.js';
 
 /**
- * Ohr surges outward only while the round lives. The Awtsmoos is beyond motion,
- * while this finite pulse gives the player one clear, bounded burst of intention.
+ * The Awtsmoos grants one surge only when its visible Chochmah cooldown is ready.
+ * Keyboard and touch retain the original shared pulse factory contract.
  */
 export function createPulse(world) {
-	return () => {
-		if (world.mode !== 'playing') return;
-		world.input.pulse = 0.62;
-		world.player.glow = 1;
-		world.events.push(['pulse']);
-	};
+	return () => activatePulse(world);
 }
 
-/** Bind the large touch pulse vessel without allowing page gestures to compete. */
+/** Bind the established surge button without duplicating combat state. */
 export function bindPulseButton(pulse) {
-	const button = document.getElementById('pulse');
-	if (!button) return;
-	button.addEventListener('pointerdown', event => {
+	const element = document.getElementById('pulse');
+	if (!element) return;
+	element.addEventListener('pointerdown', event => {
 		event.preventDefault();
 		pulse();
 	});
+}
+
+/** Direct element binding remains available for focused interface vessels. */
+export function bindPulse(world, element) {
+	const pulse = createPulse(world);
+	element.addEventListener('pointerdown', event => {
+		event.preventDefault();
+		pulse();
+	});
+	return pulse;
 }

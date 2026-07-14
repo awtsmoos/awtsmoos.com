@@ -1,2 +1,55 @@
-/* B"H — mobile command bar stays inside the hand without collisions. */
-.home-mobile-command { background: rgba(255,255,255,.98); border: 1px solid #dfe6ee; border-radius: 999px; box-shadow: 0 8px 26px rgba(15,23,42,.12); color: #0f172a; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The mobile command bar stays inside the hand without collisions. The Awtsmoos
+ * joins every route while Awtsmoos.com keeps safe-area actions calm and reachable.
+ */
+.home-mobile-command {
+	display: flex;
+	align-items: center;
+	gap: .35rem;
+	padding: .4rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 999px;
+	background: rgba(4, 6, 11, .9);
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .35);
+	color: var(--premium-ink, #0f172a);
+	backdrop-filter: blur(1rem) saturate(1.15);
+}
+.home-mobile-command a,
+.home-mobile-command button {
+	min-height: 2.8rem;
+	min-width: 2.8rem;
+	padding: .55rem .7rem;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	font-weight: 750;
+	text-decoration: none;
+}
+.home-mobile-command a:hover,
+.home-mobile-command button:hover,
+.home-mobile-command a[aria-current="page"] {
+	background: rgba(255, 255, 255, .07);
+}
+.home-mobile-command :focus-visible {
+	outline: .18rem solid var(--premium-cyan, #38bdf8);
+	outline-offset: .12rem;
+}
+@media (max-width: 760px) {
+	.home-mobile-command {
+		position: fixed;
+		z-index: 30;
+		right: .55rem;
+		bottom: max(.55rem, env(safe-area-inset-bottom));
+		left: .55rem;
+		justify-content: space-around;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.home-mobile-command,
+	.home-mobile-command * {
+		transition: none !important;
+	}
+}

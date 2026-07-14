@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.hubStatus {
+	position: fixed;
+	z-index: 20;
+	right: 1rem;
+	bottom: calc(1rem + var(--safe-bottom));
+	max-width: min(32rem, calc(100% - 2rem));
+	padding: 0.85rem 1rem;
+	border: 1px solid var(--line-hot);
+	border-radius: 1rem;
+	background: rgb(5 10 27 / 94%);
+	box-shadow: 0 1rem 3rem rgb(0 0 0 / 45%);
+	color: var(--ink);
+}
+
+.hubStatus[data-kind="error"] {
+	border-color: var(--danger);
+}
+
+.hubStatus[data-kind="success"] {
+	border-color: var(--success);
+}
+
+.hubStatus[data-kind="working"] {
+	border-color: var(--violet);
+}

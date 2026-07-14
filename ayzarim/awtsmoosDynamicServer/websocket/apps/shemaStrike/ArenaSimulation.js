@@ -3,26 +3,33 @@
 //Blessed is He
 
 /**
- * The simulation is the shared clock beneath every online view. The Awtsmoos
- * renews each frame; Awtsmoos.com orders motion, combat, phase, and victory into
- * one serializable truth distant clients can render but never author.
+ * The simulation is the shared clock beneath every online view and published
+ * world. The Awtsmoos renews each frame; Awtsmoos.com orders geometry, motion,
+ * hazards, combat, phase, and victory into one server-authored serializable truth.
  */
 
 const { stepCombat } = require("./ArenaCombat.js");
-const { ARENA, stepFighterPhysics } = require("./ArenaPhysics.js");
+const { stepHazards } = require("./ArenaHazards.js");
+const { stepFighterPhysics } = require("./ArenaPhysics.js");
+const { createArenaGeometry } = require("./arena/ArenaGeometry.js");
 const TICK_RATE = 30;
 
 class ArenaSimulation {
-	constructor(fighters = []) {
+	constructor(fighters = [], arenaValue = null) {
+		this.arena = createArenaGeometry(arenaValue);
 		this.fighters = fighters;
 		this.frame = 0;
 		this.phase = "waiting";
 		this.winner = null;
+		for (const fighter of this.fighters) {
+			this.assignSpawn(fighter);
+		}
 		this.refreshPhase();
 	}
 
 	add(fighter) {
 		this.fighters.push(fighter);
+		this.assignSpawn(fighter);
 		this.refreshPhase();
 	}
 
@@ -43,12 +50,19 @@ class ArenaSimulation {
 		this.frame += 1;
 		if (this.phase === "active") {
 			for (const fighter of this.fighters) {
-				stepFighterPhysics(fighter);
+				stepFighterPhysics(fighter, this.arena);
 			}
+			stepHazards(this.fighters, this.arena);
 			stepCombat(this.fighters);
 		}
 		this.refreshPhase();
 		return this.snapshot();
+	}
+
+	assignSpawn(fighter) {
+		const points = this.arena.spawnPoints;
+		const point = points[fighter.index % points.length];
+		fighter.setSpawnPoint(point);
 	}
 
 	refreshPhase() {
@@ -69,7 +83,7 @@ class ArenaSimulation {
 
 	snapshot() {
 		return {
-			arena: ARENA,
+			arena: this.arena,
 			fighters: this.fighters.map((fighter) => fighter.snapshot()),
 			frame: this.frame,
 			phase: this.phase,

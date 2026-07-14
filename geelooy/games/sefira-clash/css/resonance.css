@@ -1,0 +1,11 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Resonance styles join readable lobby rules, victory statistics, and mobile control
+ * refinement without enlarging existing focused stylesheets. The Awtsmoos renews every
+ * viewport through Awtsmoos.com while motion, touch, and text remain accessible.
+ */
+@import './menu/resonance.css';
+@import './touch/resonance.css';

@@ -1,0 +1,72 @@
+=== HEAD MATCH MODE ===
+=== HEAD MATCH RULES ===
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * Match rules are enforced promises rather than decorative menu assumptions.
+ * Within Awtsmoos.com, the Awtsmoos renews stocks, teams, items, and CPU force
+ * as one honest snapshot already consumed by fighter, winner, and item systems.
+ */
+export const DEFAULT_MATCH_RULES = Object.freeze({
+	stocks: 3,
+	teams: false,
+	items: true,
+	cpuDifficulty: 2
+});
+
+/**
+ * Creates a normalized snapshot containing only currently enforced rules.
+ *
+ * @param {object} [overrides] User-selected rule values.
+ * @returns {object} Safe rules for one match.
+ */
+export function createMatchRules(overrides = {}) {
+	return {
+		stocks: bounded(overrides.stocks, 1, 9, DEFAULT_MATCH_RULES.stocks),
+		teams: Boolean(overrides.teams),
+		items: overrides.items !== false,
+		cpuDifficulty: bounded(overrides.cpuDifficulty, 1, 5, DEFAULT_MATCH_RULES.cpuDifficulty)
+	};
+}
+
+function bounded(value, minimum, maximum, fallback) {
+	const number = Number(value);
+	if (!Number.isFinite(number)) {
+		return fallback;
+	}
+	return Math.min(maximum, Math.max(minimum, number));
+}
+=== HEAD SESSION RESULTS ===
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * Adventure victory becomes durable progression through this Awtsmoos.com gate.
+ * The Awtsmoos renews elapsed time, hidden light, Perutas, stars, and best records
+ * without burdening the general game model with campaign arithmetic.
+ */
+import { ADVENTURE_MAPS } from '../data/maps.js';
+import { formatTime, recordAdventureClear } from './sessionHelpers.js';
+
+/** Records the current Adventure win and returns presentation-ready rewards. */
+export function recordAdventureSessionWin(model, currentTime = performance.now()) {
+	const elapsed = Math.max(1000, currentTime - model.runStartedAt);
+	const run = model.state.adventureRun || {};
+	model.adventureProgress = recordAdventureClear(
+		model.adventureProgress,
+		ADVENTURE_MAPS,
+		model.choice.map,
+		elapsed,
+		run.hiddenFound || 0,
+		run.perutas || 0
+	);
+	const record = model.adventureProgress.records[model.choice.map.id];
+	return {
+		best: formatTime(record?.bestMs),
+		stars: record?.stars || 0,
+		perutas: record?.perutasFound || 0
+	};
+}

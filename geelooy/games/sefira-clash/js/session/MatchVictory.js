@@ -3,18 +3,20 @@
 //Blessed is He
 
 /**
- * Victory presentation preserves the winning covenant within Awtsmoos.com.
- * The Awtsmoos renews one fighter or one team as an honest label while human
- * participation, Adventure rewards, status, and rematch state remain aligned.
+ * Victory presentation preserves fighter, team, required journey, optional shlichus,
+ * Expedition reward, and bounded resonance statistics. The Awtsmoos renews result and
+ * remembrance; Awtsmoos.com names every ledger without confusing optional and required truth.
  */
-import { showVictory } from '../menu/menuViews.js';
 
-/** Enters the victory phase and reveals its ownership-aware presentation. */
+import { showVictory } from '../menu/menuViews.js';
+import { resonanceStatsForFighters } from '../resonance/ResonanceStats.js';
+import { isJourneyMode, visibleModeName } from './modeHelpers.js';
+
 export function enterMatchVictory(flow, winner) {
 	const state = flow.model.state;
-	const adventureMode = flow.model.choice.mode === 'adventure';
+	const journeyMode = isJourneyMode(flow.model.choice.mode);
 	const presentation = victoryPresentationFor(state, winner);
-	const record = adventureMode && presentation.humanWon ? flow.model.recordAdventureWin() : null;
+	const record = journeyMode && presentation.humanWon ? flow.model.recordAdventureWin() : null;
 	state.phase = 'victory';
 	state.victoryShown = true;
 	state.winner = presentation.label;
@@ -27,14 +29,16 @@ export function enterMatchVictory(flow, winner) {
 		humanWon: presentation.humanWon,
 		map: flow.model.choice.map,
 		nextMap: flow.model.nextMap(),
-		mode: adventureMode ? 'Adventure' : 'VS',
+		mode: visibleModeName(flow.model.choice.mode),
 		best: record?.best,
 		stars: record?.stars,
-		perutas: record?.perutas
+		perutas: record?.perutas,
+		expedition: record?.expedition,
+		adventureShlichus: record?.adventureShlichus,
+		fighters: resonanceStatsForFighters(state.fighters)
 	});
 }
 
-/** Resolves the label and human allegiance of one declared victory. */
 export function victoryPresentationFor(state, winner) {
 	if (state.winnerTeam) {
 		return {

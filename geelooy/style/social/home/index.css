@@ -1,7 +1,11 @@
-/* B"H — home visual covenant, concluded by one mobile geometry authority. */
-@import "/style/social-system/index.css";
-@import "/style/social-system/product/index.css";
-@import "/style/social-system/motion/index.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Home retains compatible generations, then the existing civilization layer resolves them.
+ */
+@import "/style/social-system/index.css?v=unified-ui-001";
+@import "/style/social-system/product/index.css?v=unified-ui-001";
+@import "/style/social-system/motion/index.css?v=unified-ui-001";
 @import "./dashboard/index.css";
 @import "./top-shell/index.css";
 @import "./search/index.css";
@@ -19,3 +23,4 @@
 @import "./sovereign/index.css";
 @import "./awake/index.css?v=awake-001";
 @import "./recovery/mobile-layout.css?v=recovery-001";
+@import "./civilization/index.css?v=unified-ui-001";

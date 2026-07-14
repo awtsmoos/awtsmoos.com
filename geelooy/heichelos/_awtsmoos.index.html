@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals real Heichelos at Awtsmoos.com while refusing to turn absence into a false doorway or invented biography.
+The Awtsmoos reveals canonical Heichelos through the existing Geelooy UI foundation.
 -->
 <?<script>
 	var alias = $_GET['alias'] || '';
@@ -48,24 +48,28 @@ The Awtsmoos reveals real Heichelos at Awtsmoos.com while refusing to turn absen
 			var id = rawHeichelId(heichel);
 			if (!id) return false;
 			if (!query) return true;
-			var haystack = [id, heichel.name, heichel.description, heichel.author, heichel.aliasId].join(' ').toLowerCase();
-			return haystack.includes(query);
+			return [id, heichel.name, heichel.description, heichel.author, heichel.aliasId]
+				.join(' ').toLowerCase().includes(query);
 		});
 	}
 
 	async function getHeichelos() {
-		var route = alias ? '/api/social/heichelos/searchByAliasOwner/' + safeAlias : '/api/social/heichelos/discover?limit=100';
+		var route = alias
+			? '/api/social/heichelos/searchByAliasOwner/' + safeAlias
+			: '/api/social/heichelos/discover?limit=100';
 		return normalizeHeichelos(await fetchAwtsmoos(route));
 	}
 
 	function cardActions(rawId) {
 		var safeId = slug(rawId);
 		if (!safeId) return '';
-		var manage = doesOwn ? '<a class="g-button" href="/heichelos/' + safeId + '/?editingAlias=' + safeAlias + '">Manage</a>' : '';
-		return '<div class="space-actions"><a class="g-button g-button-primary" href="/heichelos/' + safeId + '/">Open</a><a class="g-button" href="/heichelos/' + safeId + '/submit">Submit</a>' + manage + '</div>';
+		var manage = doesOwn
+			? '<a class="p-button" href="/heichelos/' + safeId + '/?editingAlias=' + safeAlias + '" data-icon="⚙">Manage</a>'
+			: '';
+		return '<div class="space-actions"><a class="p-button p-button-primary" href="/heichelos/' + safeId + '/" data-icon="↗">Open Heichel</a><a class="p-button" href="/heichelos/' + safeId + '/submit" data-icon="＋">Submit</a>' + manage + '</div>';
 	}
 
-	function heichelCard(heichel) {
+	function heichelCard(heichel, index) {
 		var rawId = rawHeichelId(heichel);
 		var id = clean(rawId);
 		var name = clean(heichel.name || rawId || 'Unnamed Heichel');
@@ -73,28 +77,35 @@ The Awtsmoos reveals real Heichelos at Awtsmoos.com while refusing to turn absen
 		var rawAuthor = heichel.author || heichel.aliasId || alias || '';
 		var author = rawAuthor ? '@' + clean(rawAuthor) : 'Creator not provided';
 		var badge = alias ? (doesOwn ? 'Owner' : 'Alias') : 'Discover';
-		return '<article class="social-space-card" data-heichel-id="' + id + '"><div class="space-body"><div class="space-seal geelooy-avatar" aria-hidden="true">H</div><div class="space-copy"><div class="space-title-row"><h2>' + name + '</h2><span class="g-chip">' + badge + '</span></div><p>' + description + '</p><div class="space-meta-line"><span>' + author + '</span><span>' + id + '</span></div></div></div>' + cardActions(rawId) + '</article>';
+		return '<article class="social-space-card" data-heichel-id="' + id + '" data-enter><div class="space-body"><div class="space-seal" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</div><div class="space-copy"><div class="space-title-row"><h2>' + name + '</h2><span class="p-badge">' + badge + '</span></div><p>' + description + '</p><div class="space-meta-line"><span>' + author + '</span><span>' + id + '</span></div></div></div>' + cardActions(rawId) + '</article>';
 	}
 
 	function emptyState() {
-		var message = query ? 'No Heichelos matched “' + clean(query) + '”.' : alias ? 'No Heichelos found for @' + clean(alias) + '.' : 'No visible Heichelos were returned yet.';
+		var message = query
+			? 'No Heichelos matched “' + clean(query) + '”.'
+			: alias ? 'No Heichelos found for @' + clean(alias) + '.' : 'No visible Heichelos were returned yet.';
 		var href = alias ? '/heichelos/manage-alias-heichelos?alias=' + safeAlias : '/profile';
 		var label = alias ? 'Create Heichel' : 'Choose alias';
-		return '<article class="social-empty-card spaces-state-row" data-heichelos-empty-state><h2>No spaces found</h2><p>' + message + '</p><div class="space-actions"><a class="g-button g-button-primary" href="' + href + '">' + label + '</a></div></article>';
+		return '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-empty-state><p class="field-label">The map is quiet</p><h2>No spaces found</h2><p>' + message + '</p><a class="p-button p-button-primary" href="' + href + '" data-icon="＋">' + label + '</a></article>';
 	}
 
 	var heichelos = await getHeichelos();
 	var cards = heichelos.length ? heichelos.map(heichelCard).join('') : emptyState();
 	var pageTitle = alias ? '@' + clean(alias) + ' Heichelos' : 'Heichelos';
-	var primaryAction = doesOwn ? '<a class="spaces-create" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>' : alias ? '<a class="spaces-create" href="/@' + safeAlias + '">View profile</a>' : '<a class="spaces-create" href="/profile">Choose alias</a>';
+	var primaryAction = doesOwn
+		? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '" data-icon="＋">Create Heichel</a>'
+		: alias ? '<a class="p-button" href="/@' + safeAlias + '" data-icon="◎">View profile</a>' : '<a class="p-button" href="/profile" data-icon="◎">Choose alias</a>';
 
 	return $a('nav/page.html', { centered: false, tochen:
 		'<title>' + pageTitle + ' — Geelooy</title>' +
-		'<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">' +
+		'<link rel="stylesheet" href="/style/geelooy-app/index.css?v=unified-ui-001">' +
+		'<link rel="stylesheet" href="/style/social-system/index.css?v=unified-ui-001">' +
+		'<link rel="stylesheet" href="/style/heichelos/discovery.css?v=unified-ui-001">' +
+		'<script>document.body.classList.add("heichelos-discovery-page");</' + 'script>' +
 		'<main class="social-spaces-shell geelooy-content-region" data-heichelos-index>' +
-		'<section class="spaces-hero"><div><p class="spaces-kicker g-kicker">Discovery chamber</p><h1 id="spaces-title">' + pageTitle + '</h1><p>Find communities, libraries, series, submissions, and post streams.</p></div><div class="spaces-command-row">' + primaryAction + '</div></section>' +
-		'<form class="home-command-galaxy" role="search" action="/heichelos" method="get"><label class="g-sr-only" for="heichelos-search">Search Heichelos</label><input id="heichelos-search" name="q" type="search" value="' + clean(query) + '" placeholder="Search Heichelos"><button class="g-button g-button-primary" type="submit">Search</button></form>' +
+		'<section class="spaces-hero" data-enter><div><p class="field-label">Living architecture</p><h1 id="spaces-title">' + pageTitle + '</h1><p>Discover communities, libraries, series, submissions, and post streams without losing their source.</p></div><div class="spaces-command-row">' + primaryAction + '</div></section>' +
+		'<form class="spaces-search" role="search" action="/heichelos" method="get"><label class="field-label" for="heichelos-search">Search the Heichel map</label><input id="heichelos-search" name="q" type="search" value="' + clean(query) + '" placeholder="Name, creator, or canonical ID"><button class="p-button p-button-primary" type="submit" data-icon="⌕">Search</button></form>' +
 		'<section class="spaces-grid" aria-label="Heichelos list">' + cards + '</section></main>' +
-		'<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></' + 'script>'
+		'<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=unified-ui-001"></' + 'script>'
 	});
 </script>?>

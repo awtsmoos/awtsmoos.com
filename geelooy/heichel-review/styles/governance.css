@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+.governanceLayout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+	gap: 1rem;
+	max-width: 96rem;
+	margin: 0 auto 2rem;
+	padding: 0 1rem;
+}
+
+.policyPanel {
+	grid-column: 1 / -1;
+}
+
+.memberList,
+.invitationList {
+	display: grid;
+	gap: 0.7rem;
+	margin-top: 1rem;
+}
+
+.memberCard,
+.invitationCard {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+}
+
+.memberCard small,
+.invitationCard small {
+	display: block;
+	margin-top: 0.25rem;
+	color: var(--muted);
+}
+
+.memberControls,
+.invitationActions,
+.invitationForm,
+.policyGrid {
+	display: grid;
+	gap: 0.65rem;
+}
+
+.memberControls {
+	grid-template-columns: minmax(8rem, 0.7fr) minmax(10rem, 1fr) auto;
+}
+
+.invitationForm {
+	grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+	align-items: end;
+}
+
+.policyGrid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin: 1rem 0;
+}
+
+.invitationActions {
+	grid-template-columns: repeat(2, auto);
+}
+
+@media (max-width: 900px) {
+	.governanceLayout,
+	.memberControls,
+	.invitationForm,
+	.policyGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.policyPanel {
+		grid-column: auto;
+	}
+
+	.memberCard,
+	.invitationCard {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

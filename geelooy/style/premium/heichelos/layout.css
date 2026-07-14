@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Discovery becomes an ordered map rather than a loose list. The Awtsmoos gathers
+ * every Heichel already, while Awtsmoos.com gives their finite doors useful rhythm.
+ */
+.social-spaces-shell.premium-surface {
+	display: grid;
+	gap: 1rem;
+	width: min(calc(100% - 1.4rem), var(--premium-width));
+	margin: 0 auto;
+	padding: clamp(1rem, 3vw, 2.5rem) 0 5rem;
+}
+.social-spaces-shell .spaces-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 1.5rem;
+	min-height: clamp(18rem, 38vw, 30rem);
+	padding: clamp(1.2rem, 4vw, 3.5rem);
+	border: 1px solid var(--premium-line);
+	border-radius: var(--premium-radius-large);
+	background:
+		radial-gradient(circle at 88% 4%, rgba(227, 205, 157, .15), transparent 22rem),
+		linear-gradient(145deg, rgba(255, 255, 255, .045), transparent 55%),
+		var(--premium-panel);
+	box-shadow: var(--premium-shadow);
+}
+.social-spaces-shell .spaces-hero h1 {
+	max-width: 12ch;
+	margin: 0;
+	font-size: clamp(3rem, 8vw, 7rem);
+	line-height: .92;
+	letter-spacing: -.07em;
+}
+.social-spaces-shell .spaces-hero p:not(.premium-eyebrow) {
+	max-width: 42rem;
+	margin: 1rem 0 0;
+	font-size: clamp(1rem, 2vw, 1.18rem);
+}
+.social-spaces-shell .spaces-command-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+.social-spaces-shell .spaces-search {
+	position: sticky;
+	z-index: 20;
+	top: .65rem;
+	max-width: 56rem;
+	margin: -2.2rem auto 1rem;
+	width: calc(100% - 2rem);
+	box-shadow: var(--premium-shadow-soft);
+	backdrop-filter: blur(1.2rem);
+}
+.social-spaces-shell .spaces-search button {
+	border: 0;
+}
+.social-spaces-shell .spaces-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+	gap: 1rem;
+}

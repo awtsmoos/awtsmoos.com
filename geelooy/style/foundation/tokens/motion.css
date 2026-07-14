@@ -1,33 +1,32 @@
 /* B"H
- * Chapter: Motion receives a soul and a boundary.
- * The Awtsmoos animates all worlds from stillness into song; these tokens keep
- * that song premium, quick, soft, and merciful when the user asks for calm.
+ * Boruch Hashem
+ * Blessed is He
+ * Motion explains change through transform and opacity, never through costly fog.
  */
 :root {
-  --ease-soft: cubic-bezier(.2, .8, .2, 1);
-  --ease-snap: cubic-bezier(.16, 1, .3, 1);
-  --ease-orbit: cubic-bezier(.22, .61, .36, 1);
-  --motion-fast: 160ms;
-  --motion-med: 280ms;
-  --motion-slow: 520ms;
-  --motion-hover-lift: -3px;
-  --motion-press-depth: 1px;
-  --motion-tilt-x: 1.2deg;
-  --motion-tilt-y: -1.6deg;
-  --motion-slide-distance: 14px;
-  --motion-perspective: 900px;
-  --motion-shadow-lift: 0 22px 60px rgba(15, 23, 42, .18);
+	--ease-soft: cubic-bezier(.2, .7, .2, 1);
+	--ease-snap: cubic-bezier(.2, .8, .2, 1);
+	--ease-orbit: var(--ease-soft);
+	--motion-instant: 90ms;
+	--motion-fast: 150ms;
+	--motion-med: 220ms;
+	--motion-slow: 360ms;
+	--motion-hover-lift: -1px;
+	--motion-press-depth: 1px;
+	--motion-tilt-x: 0deg;
+	--motion-tilt-y: 0deg;
+	--motion-slide-distance: 8px;
+	--motion-perspective: none;
+	--motion-shadow-lift: var(--shadow-card-hover);
 }
-
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --motion-fast: .01ms;
-    --motion-med: .01ms;
-    --motion-slow: .01ms;
-    --motion-hover-lift: 0px;
-    --motion-press-depth: 0px;
-    --motion-tilt-x: 0deg;
-    --motion-tilt-y: 0deg;
-    --motion-slide-distance: 0px;
-  }
+	:root {
+		--motion-instant: .01ms;
+		--motion-fast: .01ms;
+		--motion-med: .01ms;
+		--motion-slow: .01ms;
+		--motion-hover-lift: 0px;
+		--motion-press-depth: 0px;
+		--motion-slide-distance: 0px;
+	}
 }

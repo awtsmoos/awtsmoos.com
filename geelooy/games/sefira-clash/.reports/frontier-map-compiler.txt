@@ -1,0 +1,9 @@
+{
+  "variants": 30,
+  "maps": 30,
+  "uniqueVariants": 30,
+  "uniqueGeometry": 30,
+  "settlements": 10,
+  "bosses": 10,
+  "serviceNodes": 20
+}

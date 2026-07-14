@@ -1,0 +1,22 @@
+{
+  "PROOF_EXIT": 0,
+  "CLIENT_TEST_EXIT": 0,
+  "SERVER_TEST_EXIT": 0,
+  "ADVENTURE_EXIT": 0,
+  "FEEL_EXIT": 0,
+  "WINNER_EXIT": null,
+  "MULTIPLAYER_EXIT": null,
+  "MODULE_EXIT": null,
+  "WEBSOCKET_EXIT": null,
+  "ONLINE_EXIT": null,
+  "FORMAT_EXIT": null,
+  "LINE_EXIT": null,
+  "NPM_TEST_EXIT": null,
+  "DIFF_EXIT": null,
+  "not_ok": [],
+  "line_violations": [],
+  "proof_lines": [
+    "geelooy/games/sefira-clash/.reports/frontier-live-server-proof.json steps= 5 ok= true",
+    "geelooy/games/sefira-clash/.reports/frontier-browser-proof.json steps= 5 ok= true"
+  ]
+}

@@ -1,34 +1,55 @@
-/* B"H - command mountain: the label now stands above the vessel. */
-.awtsmoos-civilization-dashboard { align-items: start; }
-.civilization-command-card,
-.civilization-object-inspector,
-.civilization-feed-orb { position: relative; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Home search and layer controls use the canonical caption and field language.
+ */
+.awtsmoos-civilization-dashboard {
+	align-items: start;
+}
+:where(.civilization-command-card, .civilization-object-inspector, .civilization-feed-orb) {
+	position: relative;
+}
 .home-command-galaxy {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .5rem;
-  margin: 1rem 0;
-  min-width: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--space-2);
+	min-width: 0;
+	margin: var(--space-4) 0;
 }
 .home-command-label {
-  grid-column: 1 / -1;
-  max-width: 100%;
-  line-height: 1.22;
-  overflow-wrap: normal;
+	grid-column: 1 / -1;
+	max-width: 100%;
+	line-height: 1.25;
 }
-.home-search-vessel { width: 100%; min-width: 0; }
-.home-search-vessel input,
-.home-command-galaxy input {
-  width: 100%;
-  min-width: 0;
-  min-height: 2.7rem;
-  border-radius: 999px;
-  border: 1px solid rgba(112, 77, 26, .22);
-  padding: 0 .9rem;
-  background: rgba(255,255,255,.78);
-  color: inherit;
+.home-search-vessel {
+	width: 100%;
+	min-width: 0;
 }
-.home-command-galaxy button,
-.civilization-layer-tabs button { min-height: 2.65rem; }
-.civilization-layer-tabs { overflow-x: auto; scrollbar-width: thin; }
-.civilization-layer-tabs button { white-space: nowrap; }
+:where(.home-search-vessel input, .home-command-galaxy input) {
+	width: 100%;
+	min-width: 0;
+	min-height: 46px;
+	padding: .72rem .85rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface);
+	color: var(--g-text);
+}
+:where(.home-command-galaxy button, .civilization-layer-tabs button) {
+	min-height: 44px;
+}
+.civilization-layer-tabs {
+	display: flex;
+	gap: .35rem;
+	overflow-x: auto;
+	padding-bottom: .2rem;
+	scrollbar-width: thin;
+}
+.civilization-layer-tabs button {
+	white-space: nowrap;
+}
+@media (max-width: 34rem) {
+	.home-command-galaxy {
+		grid-template-columns: 1fr;
+	}
+}

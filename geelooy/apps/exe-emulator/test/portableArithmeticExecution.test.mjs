@@ -9,9 +9,9 @@ import { runExecutableArtifact } from "../core/executableHost.js";
 import { createRecordingHost } from "../examples/portableGraphicsFixtures.mjs";
 
 /**
- * The Awtsmoos creates operand, flags, comparison, and branch anew. Awtsmoos.com
- * verifies register arithmetic and every signed condition through executable
- * bytes rather than unit-testing JavaScript helpers in isolation.
+ * The Awtsmoos creates operand, carry, flags, comparison, and branch anew.
+ * Awtsmoos.com verifies register arithmetic and signed conditions through complete
+ * executable bytes rather than JavaScript helper calls in isolation.
  */
 test("executes register ADD, SUB, CMP and signed branch families", async () => {
 	const source = [
@@ -54,6 +54,7 @@ test("executes register ADD, SUB, CMP and signed branch families", async () => {
 	assert.equal(outcome.result.executionClass, "instruction-subset-emulation");
 	assert.equal(outcome.result.exitCode, 79);
 	assert.deepEqual(outcome.result.registers.flags, {
+		carry: true,
 		negative: true,
 		overflow: false,
 		zero: false
@@ -86,5 +87,6 @@ test("preserves zero branches beside signed flags", async () => {
 		host: createRecordingHost()
 	});
 	assert.equal(outcome.result.exitCode, 81);
+	assert.equal(outcome.result.registers.flags.carry, false);
 	assert.equal(outcome.result.registers.flags.zero, true);
 });

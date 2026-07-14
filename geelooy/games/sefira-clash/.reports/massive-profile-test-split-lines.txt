@@ -1,0 +1,4 @@
+      52 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileTestFixture.cjs
+      83 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs
+      53 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-conflict.test.cjs
+     188 total

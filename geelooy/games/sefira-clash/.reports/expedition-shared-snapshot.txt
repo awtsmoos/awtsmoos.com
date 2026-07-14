@@ -1,0 +1,53 @@
+=== STATUS ===
+?? geelooy/games/sefira-clash/.reports/adventure-expansion-recon.txt
+?? geelooy/games/sefira-clash/.reports/expedition-catalog-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-domain-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-integration-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check-two.txt
+?? geelooy/games/sefira-clash/.reports/expedition-presentation-check.txt
+?? geelooy/games/sefira-clash/.reports/expedition-shared-snapshot.txt
+?? geelooy/games/sefira-clash/css/expedition-components.css
+?? geelooy/games/sefira-clash/css/expedition.css
+?? geelooy/games/sefira-clash/js/data/expedition/
+?? geelooy/games/sefira-clash/js/expedition/
+?? geelooy/games/sefira-clash/js/menu/expeditionGearView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionQuestView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionRegionView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionSummaryView.js
+?? geelooy/games/sefira-clash/js/menu/expeditionView.js
+?? geelooy/games/sefira-clash/js/menu/lobbyModeView.js
+?? geelooy/games/sefira-clash/js/multiplayer/MatchModeCatalog.js
+?? geelooy/games/sefira-clash/js/session/modeHelpers.js
+=== HASHES AND TIMES ===
+1783962895 2961 geelooy/games/sefira-clash/js/session/GameModel.js
+c0ff83c8b9d75f8e6df772edbb561fe5191f97edbcd4b6443455e5b4442b1a76  geelooy/games/sefira-clash/js/session/GameModel.js
+1783962726 1042 geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+ec87edd62daa3f94dedd1b74c36123f7eaaa13d0d95e5df6aa0626e82172ce45  geelooy/games/sefira-clash/js/session/AdventureSessionResults.js
+1783964004 3107 geelooy/games/sefira-clash/js/session/MatchFlow.js
+89defbeda3c1fab41db33a68214dba15abb6a193692052d70f8f5ed3986769ee  geelooy/games/sefira-clash/js/session/MatchFlow.js
+1783963362 1668 geelooy/games/sefira-clash/js/session/MatchVictory.js
+4370e56fe05976df08b3a8def1b441d98d385d91516ba69520edfd8135c35405  geelooy/games/sefira-clash/js/session/MatchVictory.js
+1783963363 1929 geelooy/games/sefira-clash/js/menu/victoryView.js
+48b05c07ac2bf34bfcbf5e83516ed2f99b843fe117f34e47325cf5782d0ea733  geelooy/games/sefira-clash/js/menu/victoryView.js
+1783962662 2688 geelooy/games/sefira-clash/js/menu/MenuFlow.js
+5de5be26878ea5a3dcb57459a08a958f75ba14ca275a9c0af01318fbd14e1f69  geelooy/games/sefira-clash/js/menu/MenuFlow.js
+1783962261 1272 geelooy/games/sefira-clash/js/menu/playMenuScreens.js
+65adf2797eb53e32c4930d202d27547752bdfa4f87d2a4233396806a22cc3e98  geelooy/games/sefira-clash/js/menu/playMenuScreens.js
+1783962531 1084 geelooy/games/sefira-clash/js/menu/menuActionRouter.js
+47915323c5c3cfff0e54c09cd3bfb597f256ace5d7ec35a6478c414f13748f66  geelooy/games/sefira-clash/js/menu/menuActionRouter.js
+1783960024 2415 geelooy/games/sefira-clash/js/menu/menuOptions.js
+59e2250156f35cf55037b6de391585021d848ba9a8a4c968914fd0f1440b80fe  geelooy/games/sefira-clash/js/menu/menuOptions.js
+1783962662 3273 geelooy/games/sefira-clash/js/menu/localLobbyView.js
+043f474d9c497c4457e1467c2eb052d0ed3372ac451635f3d66cdead9f15805d  geelooy/games/sefira-clash/js/menu/localLobbyView.js
+1783963110 1458 geelooy/games/sefira-clash/js/menu/lobbyRulesView.js
+c17faf18a5d1d14465a7ef166046c6cd44f019b514bf679f99368a73498a5e26  geelooy/games/sefira-clash/js/menu/lobbyRulesView.js
+1783963225 1089 geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+569901ca8055f6cf9e6a364be3124e2737dac6bd8cfd40959e8c2f2ea4b2cff3  geelooy/games/sefira-clash/js/multiplayer/MatchRules.js
+1783960148 3066 geelooy/games/sefira-clash/index.html
+160ee3d50a53d30960d2ffdcf8a8c3e83ed9f89021dfae8c8ab7d0ed6fbd873c  geelooy/games/sefira-clash/index.html
+=== ACTIVE WORKERS ===
+25119 01-21:25:12 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 8765 --directory /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/ohr-hagnuz
+85420       03:11 node --test /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/adventureCatalog.test.cjs /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatAdventure.test.cjs /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/animalHarvest.test.cjs /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatSecurity.test.cjs /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatPersistence.test.cjs /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/MitzvahWorldRpgApi.test.mjs
+85427       03:10 /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node --test-concurrency=0 --heap-prof-interval=524288 --test-timeout=0 --stack-trace-limit=10 --report-signal=SIGUSR2 --max-http-header-size=16384 --heapsnapshot-near-heap-limit=0 --tls-cipher-list=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:DHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA256:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA --watch-kill-signal=SIGTERM --inspect-publish-uid=stderr,http --cpu-prof-interval=1000 --test-coverage-functions=0 --test-coverage-lines=0 --inspect-port=127.0.0.1:9229 --test-coverage-branches=0 --test-isolation=process --use-largepages=off --network-family-autoselection-attempt-timeout=250 --secure-heap-min=2 --v8-pool-size=4 --node-snapshot --trace-event-file-pattern=node_trace.${rotation}.log --secure-heap=0 /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/combatPersistence.test.cjs
+86444       00:02 /bin/sh -c cd /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com\012GAME=geelooy/games/sefira-clash\012REPORT="$GAME/.reports/expedition-shared-snapshot.txt"\012FILES=(\012\011"$GAME/js/session/GameModel.js"\012\011"$GAME/js/session/AdventureSessionResults.js"\012\011"$GAME/js/session/MatchFlow.js"\012\011"$GAME/js/session/MatchVictory.js"\012\011"$GAME/js/menu/victoryView.js"\012\011"$GAME/js/menu/MenuFlow.js"\012\011"$GAME/js/menu/playMenuScreens.js"\012\011"$GAME/js/menu/menuActionRouter.js"\012\011"$GAME/js/menu/menuOptions.js"\012\011"$GAME/js/menu/localLobbyView.js"\012\011"$GAME/js/menu/lobbyRulesView.js"\012\011"$GAME/js/multiplayer/MatchRules.js"\012\011"$GAME/index.html"\012)\012{\012\011printf '%s\n' '=== STATUS ==='\012\011git status --short -- "$GAME"\012\011printf '%s\n' '=== HASHES AND TIMES ==='\012\011for file in "${FILES[@]}"; do\012\011\011stat -f '%m %z %N' "$file"\012\011\011shasum -a 256 "$file"\012\011done\012\011printf '%s\n' '=== ACTIVE WORKERS ==='\012\011ps -Ao pid,etime,command | grep '[a]wtsmoos.com' | grep -E 'node|npm|python' || true\012} > "$REPORT" 2>&1

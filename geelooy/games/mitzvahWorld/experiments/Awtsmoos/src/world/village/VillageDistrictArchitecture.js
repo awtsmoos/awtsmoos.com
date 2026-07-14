@@ -4,83 +4,97 @@
 
 /**
  * @file VillageDistrictArchitecture.js
- * @description Generates budgeted cottage, landmark, lantern, and terrace definitions.
- * The Awtsmoos renews a large village from repeated lawful forms; Awtsmoos.com
- * varies scale, roof, placement, and district identity without downloaded buildings.
+ * @description Generates cottages, landmarks, and three batched facade-detail layers.
+ * The Awtsmoos renews one village from repeated lawful forms; Awtsmoos.com keeps
+ * warm windows abundant while doors, chimneys, stone, roof, and wood remain bounded.
  */
 
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
-import { villageGroundHeight } from './VillageGroundSampling.js';
+import { architectureDistrictPolicy } from './VillageArchitectureDetailPolicy.js';
+import {
+	appendCottageDetails,
+	createCottageDetailBatches,
+	createCottageDetailCollector
+} from './VillageCottageDetailBatch.js';
 import { VILLAGE_DISTRICTS } from './VillageDistrictCatalog.js';
+import { villageGroundHeight } from './VillageGroundSampling.js';
+import { villageMaterialPolicy } from './DistanceMaterialPolicy.js';
 import { villageWorldBudget } from './VillageWorldBudget.js';
 
 export function createVillageDistrictArchitecture(groundSampler, quality = 'high') {
 	const budget = villageWorldBudget(quality);
 	const districts = VILLAGE_DISTRICTS.slice(0, budget.districts);
+	const collector = createCottageDetailCollector();
 	const definitions = [];
-	for (const district of districts) appendDistrict(definitions, district, groundSampler);
-	definitions.length = Math.min(definitions.length, budget.architecturePieces);
+	for (const district of districts) {
+		appendDistrict(definitions, collector, district, groundSampler, quality);
+	}
+	definitions.push(...createCottageDetailBatches(collector));
+	if (definitions.length > budget.architecturePieces) {
+		throw new Error(`Architecture budget ${budget.architecturePieces} is below ${definitions.length}.`);
+	}
 	definitions.stats = {
 		districts: districts.length,
 		pieces: definitions.length,
 		quality,
-		radius: budget.radius
+		radius: budget.radius,
+		warmWindows: collector.windows.length
 	};
 	return definitions;
 }
 
-function appendDistrict(output, district, groundSampler) {
-	const cottageCount = district.detail === 'near' ? 4 : district.detail === 'medium' ? 3 : 2;
-	for (let index = 0; index < cottageCount; index += 1) {
-		const angle = district.phase + index / cottageCount * Math.PI * 2;
+function appendDistrict(output, collector, district, groundSampler, quality) {
+	const policy = architectureDistrictPolicy(district, quality);
+	for (let index = 0; index < policy.cottages; index += 1) {
+		const angle = district.phase + index / policy.cottages * Math.PI * 2;
 		const x = district.center[0] + Math.cos(angle) * district.radius[0] * 0.62;
 		const z = district.center[1] + Math.sin(angle) * district.radius[1] * 0.62;
-		output.push(...cottage(district.id, index, x, z, groundSampler));
+		appendCottage(output, collector, district, policy.detail, index, x, z, angle + Math.PI, groundSampler);
 	}
-	output.push(landmark(district, groundSampler));
+	output.push(landmark(district, policy.detail, groundSampler));
 }
 
-function cottage(districtId, index, x, z, groundSampler) {
+function appendCottage(output, collector, district, detail, index, x, z, yaw, groundSampler) {
 	const base = villageGroundHeight(groundSampler, x, z);
 	const width = 6.4 + index % 2 * 1.2;
-	return [
-		definition(`${districtId}-cottage-${index}`, 'box', x, base + 1.7, z, {
-			x: width,
-			y: 3.4,
-			z: 5.4
-		}, TEXTURE_URLS.bricks.fieldstone1, '#b79a72', 'architecture'),
-		definition(`${districtId}-roof-${index}`, 'triPrism', x, base + 4.2, z, {
-			x: width + 0.6,
-			y: 2.0,
-			z: 6.0
-		}, TEXTURE_URLS.roof.tile2, '#8c4934', 'architecture')
-	];
+	const depth = 5.4;
+	const materials = villageMaterialPolicy(detail);
+	const id = `${district.id}-cottage-${index}`;
+	output.push(
+		definition(id, 'box', x, base + 1.7, z, yaw, {
+			size: { x: width, y: 3.4, z: depth }
+		}, materials.stone, '#b79a72', materials, 'architecture'),
+		definition(`${district.id}-roof-${index}`, 'triPrism', x, base + 4.2, z, yaw, {
+			size: { x: width + 0.7, y: 2.05, z: depth + 0.7 }
+		}, materials.roof, '#705044', materials, 'architecture')
+	);
+	appendCottageDetails(collector, { base, depth, detail, id, width, x, yaw, z });
 }
 
-function landmark(district, groundSampler) {
+function landmark(district, detail, groundSampler) {
+	const materials = villageMaterialPolicy(detail);
 	const x = district.center[0];
 	const z = district.center[1];
 	const y = villageGroundHeight(groundSampler, x, z) + 1.8;
-	return definition(`${district.id}-landmark`, 'cylinder', x, y, z, {
+	return definition(`${district.id}-landmark`, 'cylinder', x, y, z, 0, {
 		height: 3.6,
-		radius: district.detail === 'near' ? 1.2 : 0.9,
-		segments: district.detail === 'far' ? 8 : 14
-	}, TEXTURE_URLS.wood.planks1, '#6f4b2f', 'landmark');
+		radius: detail === 'near' ? 1.2 : 0.9,
+		segments: detail === 'far' ? 8 : 14
+	}, materials.wood, '#6f4b2f', materials, 'landmark');
 }
 
-function definition(id, shape, x, y, z, dimensions, textureUrl, color, className) {
+function definition(id, shape, x, y, z, yaw, dimensions, textureUrl, color, materials, className) {
 	return {
 		...dimensions,
+		anisotropy: materials.anisotropy,
 		color,
 		id: `Awtsmoos_${id}`,
 		mapRepeat: [2, 2],
 		position: { x, y, z },
+		rotation: { y: yaw },
 		shape,
 		solid: true,
+		texturePolicy: materials.texturePolicy,
 		textureUrl,
-		userData: {
-			AwtsmoosLod: { className },
-			family: 'expanded-village-district'
-		}
+		userData: { AwtsmoosLod: { className }, family: 'reference-village-district' }
 	};
 }

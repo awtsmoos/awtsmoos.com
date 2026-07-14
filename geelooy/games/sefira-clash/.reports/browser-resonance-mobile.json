@@ -1,0 +1,39 @@
+{
+	"startedAt": "2026-07-14T18:37:41.683Z",
+	"ok": false,
+	"steps": [
+		{
+			"name": "browser-started",
+			"ok": true,
+			"port": 8165
+		},
+		{
+			"name": "mobile-adventure-four-vow-card",
+			"ok": true,
+			"count": 60,
+			"firstHasFourVows": true,
+			"firstHasChochmah": true,
+			"secondHasBinah": true,
+			"firstText": "Gate 1: Malchus Gate GardenA calm first garden: one safe Spark, one bridge hop, one Kelipah Walker.Easy1 Kelipos0★Best —◈ 0/0✦ 0/1Shlichus 0/4○ Gather Every Spark○ Reveal Hidden Light○ Steady Vessel○ Awaken Chochmah"
+		},
+		{
+			"name": "mobile-adventure-resonance",
+			"ok": true,
+			"adventure": {
+				"phase": "countdown",
+				"powerup": {
+					"id": "chochmahFlash",
+					"active": true,
+					"x": 375,
+					"y": -480,
+					"resonanceKind": "insight"
+				},
+				"fighters": 2
+			},
+			"touchButtonCount": 7
+		}
+	],
+	"browserErrors": [],
+	"error": "Error: Timed out waiting for buffered mobile-width doorway entry; last=false\n    at waitFor (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/.reports/BrowserProofHarness.cjs:22:8)\n    at async /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/.reports/browser-resonance-mobile.cjs:99:3",
+	"finishedAt": "2026-07-14T18:38:17.252Z"
+}
