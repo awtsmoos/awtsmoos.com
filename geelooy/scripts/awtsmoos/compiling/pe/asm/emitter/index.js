@@ -1,143 +1,101 @@
-/*
-B"H
-Boruch Hashem
-Biezrash Hashem
-*/
-import { CodeBuilder } from '../assembler.js';
-import { OPCODES, PREFIXES } from '../opcodes.js';
-import { emitData } from './data.js';
-import { emitMath } from './math.js';
-import { emitStack } from './stack.js';
-import { emitFlow } from './flow.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-export function emitAsm(ctx) {
-    const code = new CodeBuilder();
-    const { tokens, dataSymbols, importDef } = ctx;
+import { CodeBuilder } from "../assembler.js";
+import { PREFIXES } from "../opcodes.js";
+import { emitData } from "./data.js";
+import { emitFlow } from "./flow.js";
+import { emitMath } from "./math.js";
+import { emitMisc } from "./misc.js";
+import { emitStack } from "./stack.js";
 
-    const imports = new Set();
-    if (importDef) {
-        importDef.forEach(dll => {
-            dll.funcs.forEach(f => imports.add(f));
-        });
-    }
+const DATA_MNEMONICS = new Set([
+	"MOV", "LEA", "MOVSX", "MOVZX",
+	"CMOVO", "CMOVNO", "CMOVB", "CMOVAE",
+	"CMOVE", "CMOVNE", "CMOVBE", "CMOVA",
+	"CMOVS", "CMOVNS", "CMOVP", "CMOVNP",
+	"CMOVL", "CMOVGE", "CMOVLE", "CMOVG",
+	"CMOVZ", "CMOVNZ"
+]);
 
-    for (const token of tokens) {
-        if (token.type === 'label') {
-            code.markLabel(token.value);
-        } else if (token.type === 'instr') {
-            dispatchInstruction(code, token, dataSymbols, imports);
-        }
-    }
+const MATH_MNEMONICS = new Set([
+	"ADD", "SUB", "XOR", "OR", "AND", "CMP", "TEST",
+	"INC", "DEC", "NEG", "IMUL", "IDIV", "DIV", "SAR", "SHL",
+	"SETE", "SETNE", "SETG", "SETL", "SETGE", "SETLE"
+]);
 
-    return code;
+const FLOW_MNEMONICS = new Set([
+	"CALL", "RET", "JMP", "JE", "JZ", "JNE", "JNZ",
+	"JL", "JGE", "JLE", "JG", "CLD", "STD"
+]);
+
+/**
+ * Emits one parsed assembly context through focused instruction families. The
+ * Awtsmoos creates token and opcode anew; Awtsmoos.com keeps dispatch explicit,
+ * deterministic, and small enough to audit as new targets are revealed.
+ */
+export function emitAsm(context) {
+	const code = new CodeBuilder();
+	const imports = collectImports(context.importDef);
+	for (const token of context.tokens) {
+		if (token.type === "label") {
+			code.markLabel(token.value);
+			continue;
+		}
+		if (token.type === "instr") {
+			dispatchInstruction(
+				code,
+				token,
+				context.dataSymbols,
+				imports
+			);
+		}
+	}
+	return code;
 }
 
 function dispatchInstruction(code, token, dataSymbols, imports) {
-    const { mnemonic, args } = token;
-    
-    // Prefix Handling: REP
-    if (mnemonic === 'REP') {
-        code.addBytes([PREFIXES.REP]);
-        if (args.length > 0) {
-            const nextMnemonic = args[0].toUpperCase();
-            const nextToken = {
-                type: 'instr',
-                mnemonic: nextMnemonic,
-                args: args.slice(1) 
-            };
-            dispatchInstruction(code, nextToken, dataSymbols, imports);
-        }
-        return;
-    }
+	const { args, mnemonic } = token;
+	if (mnemonic === "REP") {
+		code.addBytes([PREFIXES.REP]);
+		if (args.length) {
+			dispatchInstruction(code, {
+				args: args.slice(1),
+				mnemonic: args[0].toUpperCase(),
+				type: "instr"
+			}, dataSymbols, imports);
+		}
+		return;
+	}
+	if (DATA_MNEMONICS.has(mnemonic)) {
+		emitData(code, mnemonic, args, dataSymbols);
+		return;
+	}
+	if (MATH_MNEMONICS.has(mnemonic)) {
+		emitMath(code, mnemonic, args, dataSymbols);
+		return;
+	}
+	if (["PUSH", "POP"].includes(mnemonic)) {
+		emitStack(code, mnemonic, args, dataSymbols);
+		return;
+	}
+	if (FLOW_MNEMONICS.has(mnemonic)) {
+		emitFlow(code, mnemonic, args, dataSymbols, imports);
+		return;
+	}
+	if (emitMisc(code, mnemonic)) {
+		return;
+	}
+	throw new Error(`Unknown mnemonic: ${mnemonic}`);
+}
 
-    switch (mnemonic) {
-        // --- String Instructions ---
-        case 'STOSD':
-            code.addBytes([OPCODES.STOSD]);
-            break;
-        case 'STOSB':
-            code.addBytes([OPCODES.STOSB]);
-            break;
-        case 'MOVSB':
-            code.addBytes([OPCODES.MOVSB]);
-            break;
-        case 'MOVSD':
-            code.addBytes([OPCODES.MOVSD]);
-            break;
-
-        // --- Data Transfer ---
-        case 'MOV':
-        case 'LEA':
-        case 'MOVSX':
-        case 'MOVZX':
-        // CMOVcc
-        case 'CMOVO': case 'CMOVNO': case 'CMOVB': case 'CMOVAE':
-        case 'CMOVE': case 'CMOVNE': case 'CMOVBE': case 'CMOVA':
-        case 'CMOVS': case 'CMOVNS': case 'CMOVP': case 'CMOVNP':
-        case 'CMOVL': case 'CMOVGE': case 'CMOVLE': case 'CMOVG':
-        case 'CMOVZ': case 'CMOVNZ': 
-            emitData(code, mnemonic, args, dataSymbols);
-            break;
-
-        // --- Arithmetic & Logic ---
-        case 'ADD':
-        case 'SUB':
-        case 'XOR':
-        case 'OR':
-        case 'AND':
-        case 'CMP':
-        case 'TEST':
-        case 'INC':
-        case 'DEC':
-        case 'NEG':
-        case 'IMUL':
-        case 'IDIV':
-        case 'DIV':
-        case 'SAR':
-        case 'SHL':
-        case 'SETE':
-        case 'SETNE':
-        case 'SETG':
-        case 'SETL':
-        case 'SETGE':
-        case 'SETLE':
-            emitMath(code, mnemonic, args, dataSymbols);
-            break;
-
-        case 'CQO':
-            code.addBytes([PREFIXES.REX_W, OPCODES.CQO]);
-            break;
-
-        // --- Stack ---
-        case 'PUSH':
-        case 'POP':
-            emitStack(code, mnemonic, args, dataSymbols);
-            break;
-
-        // --- Control Flow ---
-        case 'CALL':
-        case 'RET':
-        case 'JMP':
-        case 'JE':  case 'JZ':
-        case 'JNE': case 'JNZ':
-        case 'JL':
-        case 'JGE':
-        case 'JLE':
-        case 'JG':
-        case 'CLD':
-        case 'STD':
-            emitFlow(code, mnemonic, args, dataSymbols, imports);
-            break;
-
-        // --- Misc ---
-        case 'NOP':
-            code.addBytes([OPCODES.NOP]);
-            break;
-        case 'INT3':
-            code.addBytes([OPCODES.INT3]);
-            break;
-
-        default:
-            throw new Error(`Unknown mnemonic: ${mnemonic}`);
-    }
+function collectImports(importDefinitions = []) {
+	const imports = new Set();
+	for (const definition of importDefinitions) {
+		for (const functionName of definition.funcs) {
+			imports.add(functionName);
+		}
+	}
+	return imports;
 }

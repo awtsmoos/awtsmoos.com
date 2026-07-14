@@ -1,37 +1,43 @@
-/* B"H — Mobile identity opens as a full spectral sheet, never clipped. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets mobile identity slide within every safe-area boundary.
+ */
 @media (max-width: 43.75rem) {
 	.awtsmoosDrop .dropdown-content:not(.alias-switcher) {
 		position: fixed;
-		inset: max(5.25rem, calc(env(safe-area-inset-top) + 5.25rem)) max(0.48rem, env(safe-area-inset-right)) auto max(0.48rem, env(safe-area-inset-left));
+		inset: auto max(0.48rem, env(safe-area-inset-right)) max(0.58rem, env(safe-area-inset-bottom)) max(0.48rem, env(safe-area-inset-left));
 		width: auto;
 		min-width: 0;
-		max-height: calc(100dvh - 6rem);
-		border-radius: 1.25rem;
+		max-height: calc(100dvh - max(5rem, env(safe-area-inset-top)));
+		border-radius: 1.4rem 1.4rem 0.65rem 0.65rem;
+		transform-origin: bottom center;
 	}
 
-	.awtsmoosDrop .prim {
-		max-width: 5rem;
+	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="opening"],
+	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="closing"] {
+		transform: translate3d(0, 2.5rem, 0) scale(0.985);
 	}
 
-	.awtsmoosDrop .profile-trigger {
-		padding-inline: 0.48rem;
-	}
-
-	.awtsmoosDrop .profile-menu-card {
-		gap: 0.55rem;
-	}
-}
-
-@media (max-width: 27rem) {
-	.awtsmoosDrop .profile-trigger .arrow {
+	.awtsmoosDrop .profile-trigger-copy small {
 		display: none;
 	}
+
+	.awtsmoosDrop .profile-trigger-copy strong {
+		max-width: 5.6rem;
+	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoosDrop *,
-	.awtsmoosDrop *::before,
-	.awtsmoosDrop *::after {
-		transition-duration: 0.01ms !important;
+@media (max-width: 28rem) {
+	.awtsmoosDrop .profile-trigger {
+		padding-inline: 0.4rem;
+	}
+
+	.awtsmoosDrop .profile-chevron {
+		display: none;
+	}
+
+	.awtsmoosDrop .profile-menu-actions {
+		grid-template-columns: 1fr;
 	}
 }

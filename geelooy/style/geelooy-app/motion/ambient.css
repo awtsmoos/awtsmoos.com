@@ -1,0 +1,110 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews the field around every eligible Awtsmoos.com route.
+ * Light follows attention slowly enough that content remains the sovereign vessel.
+ */
+body.geelooy-spectral-shell {
+	--g-pointer-x: 50%;
+	--g-pointer-y: 22%;
+	background:
+		radial-gradient(circle at var(--g-pointer-x) var(--g-pointer-y), rgba(60, 236, 255, 0.14), transparent 15rem),
+		radial-gradient(circle at 88% 2%, rgba(139, 92, 255, 0.2), transparent 34rem),
+		radial-gradient(circle at 12% 78%, rgba(255, 72, 203, 0.11), transparent 32rem),
+		linear-gradient(145deg, var(--g-bg-deep), var(--g-bg) 48%, #07091a);
+	background-attachment: fixed;
+}
+
+body.geelooy-app-shell.geelooy-spectral-shell:not(.geelooy-mail-document)::before {
+	background:
+		linear-gradient(rgba(60, 236, 255, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(139, 92, 255, 0.04) 1px, transparent 1px),
+		radial-gradient(circle at var(--g-pointer-x) var(--g-pointer-y), rgba(255, 255, 255, 0.08), transparent 9rem);
+	background-size: 3.4rem 3.4rem, 3.4rem 3.4rem, 100% 100%;
+	mask-image: linear-gradient(to bottom, black 0 55%, transparent 92%);
+	transform: none;
+}
+
+body.geelooy-spectral-shell :where(.geelooy-content-region, .g-page) {
+	position: relative;
+	isolation: isolate;
+	animation: g-route-arrival 520ms var(--g-ease) both;
+}
+
+body.geelooy-spectral-shell :where(.geelooy-content-region, .g-page)::after {
+	position: absolute;
+	z-index: -1;
+	inset: 5rem 8% auto;
+	height: min(34rem, 58vh);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(79, 125, 255, 0.09), transparent 68%);
+	content: "";
+	filter: blur(34px);
+	pointer-events: none;
+}
+
+body.geelooy-spectral-shell :where(.g-panel, .g-card, .home-panel) {
+	transform: translateZ(0);
+	transition:
+		border-color var(--g-motion-medium) var(--g-ease),
+		box-shadow var(--g-motion-medium) var(--g-ease),
+		filter var(--g-motion-medium) var(--g-ease);
+}
+
+@media (hover: hover) {
+	body.geelooy-spectral-shell :where(.g-panel, .g-card, .home-panel):hover {
+		border-color: color-mix(in srgb, var(--g-cyan) 34%, var(--g-line));
+		box-shadow: var(--g-shadow-lg), inset 0 1px rgba(255, 255, 255, 0.08);
+		filter: saturate(1.08);
+	}
+}
+
+body.geelooy-spectral-shell {
+	scrollbar-color: color-mix(in srgb, var(--g-violet) 62%, var(--g-cyan)) rgba(2, 5, 13, 0.78);
+	scrollbar-width: thin;
+}
+
+body.geelooy-spectral-shell::-webkit-scrollbar {
+	width: 0.72rem;
+	height: 0.72rem;
+}
+
+body.geelooy-spectral-shell::-webkit-scrollbar-track {
+	background: rgba(2, 5, 13, 0.78);
+}
+
+body.geelooy-spectral-shell::-webkit-scrollbar-thumb {
+	border: 2px solid rgba(2, 5, 13, 0.78);
+	border-radius: var(--g-radius-pill);
+	background: var(--g-gradient);
+}
+
+@keyframes g-route-arrival {
+	from {
+		opacity: 0;
+		transform: translateY(0.8rem) scale(0.995);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.geelooy-spectral-shell {
+		background-attachment: scroll;
+	}
+
+	body.geelooy-spectral-shell :where(.geelooy-content-region, .g-page) {
+		animation: none;
+	}
+}
+
+@media (forced-colors: active) {
+	body.geelooy-spectral-shell,
+	body.geelooy-app-shell.geelooy-spectral-shell:not(.geelooy-mail-document)::before {
+		background: Canvas;
+	}
+}

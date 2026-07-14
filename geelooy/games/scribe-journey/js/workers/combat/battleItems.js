@@ -2,62 +2,116 @@
 // Boruch Hashem
 // Blessed is He
 
-import { debateFx } from './debateEffects.js';
-import { emitBattleEvent } from './battleEvents.js';
-import { getBattleUIPayload } from './utils.js';
+import { emitQuestEvent } from '../systems/quests/questEvents.js';
+import {
+	activePartyTarget,
+	opponentHealthPercent,
+	recruitmentIsReady,
+	recruitmentThreshold
+} from './recruitmentRules.js';
 
-function recruitOpponent(state) {
-	const member = { id: state.battle.opponent.id, level: state.battle.opponent.level };
-	if (state.player.team.length < 6) state.player.team.push(member);
-	else state.player.storage.push(member);
-	state.battle.captured = true;
-	state.battle.winner = 'player';
-	emitBattleEvent(state, { type: 'recruit_musag', targetId: member.id, quantity: 1 });
-	emitBattleEvent(state, { type: 'research_or_recruit', targetId: member.id, quantity: 1 });
-	emitBattleEvent(state, { type: 'resolve_encounter', targetId: member.id, quantity: 1 });
+/**
+ * @file Uses battle items while preserving restraint, inventory, and relationship truth.
+ * @description The Awtsmoos renews vessel, creature, and choice in one ordered deed.
+ * Awtsmoos.com is remembered here as both legacy recruitment seals and authored
+ * Kelim honor the creature's threshold before a truthful bond consumes the item.
+ */
+
+const RECRUITMENT_ITEM_TYPES = new Set(['kli', 'recruitment']);
+
+function removeInventoryItem(state, itemIndex) {
+	state.player.inventory.splice(itemIndex, 1);
+}
+
+function recruitmentChance(opponent, item) {
+	const missingHealth = 1 - (opponent.currentHp / opponent.maxHp);
+	return Math.min(
+		0.95,
+		Number(item.captureRate || 0.2) + (missingHealth * 0.65)
+	);
+}
+
+function placeRecruitedMember(state, member) {
+	if (state.player.team.length < 6) {
+		state.player.team.push(member);
+		return 'active';
+	}
+
+	state.player.storage ||= [];
+	state.player.storage.push(member);
+	return 'storage';
+}
+
+function emitRecruitmentFacts(state, member, placement) {
+	for (const type of ['recruit_musag', 'research_or_recruit', 'resolve_encounter']) {
+		emitQuestEvent(state, {
+			type,
+			targetId: member.id
+		});
+	}
+
+	if (placement === 'active') {
+		emitQuestEvent(state, {
+			type: 'party_composition',
+			targetId: activePartyTarget(member.id)
+		});
+	}
+}
+
+function refusePrematureRecruitment(state, sendUIUpdate) {
+	const threshold = recruitmentThreshold(state);
+	const health = Math.ceil(opponentHealthPercent(state));
+	state.battle.log = `${state.battle.opponent.name} is still at ${health}% health. Lower it to ${threshold}% before offering a vessel.`;
+	state.battle.awaitingConfirm = true;
+	sendUIUpdate({ battle: state.battle });
+	return true;
 }
 
 function attemptRecruitment(state, item, sendUIUpdate) {
 	const opponent = state.battle.opponent;
-	const healthFactor = (opponent.maxHp - opponent.currentHp) / opponent.maxHp;
-	const statusBonus = opponent.status ? 0.15 : 0;
-	const knowledgeBonus = state.player.bestiary?.[opponent.id] ? 0.1 : 0;
-	const chance = Math.min(0.95, (item.captureRate || 0.45) + (healthFactor * 0.4) + statusBonus + knowledgeBonus);
-	if (Math.random() <= chance) {
-		state.battle.log += ' Befriended!';
-		recruitOpponent(state);
-		sendUIUpdate({ fx: debateFx('capture') });
-	} else {
-		state.battle.log += ' The bond did not yet hold.';
-		state.battle.turn = 'opponent';
+	if (Math.random() > recruitmentChance(opponent, item)) {
+		state.battle.log = `${item.name} trembles, but ${opponent.name} is not ready to join.`;
+		state.battle.awaitingConfirm = true;
+		sendUIUpdate({ battle: state.battle });
+		return true;
 	}
-}
 
-function applyConsumable(state, item, sendUIUpdate) {
-	const effect = item.effect || {};
-	const healAmount = effect.amount || effect.hp || 0;
-	if (healAmount > 0) {
-		const multiplier = state.battle.gateEffects.healMult || 1;
-		const healing = Math.floor(healAmount * multiplier);
-		state.battle.player.currentHp = Math.min(state.battle.player.maxHp, state.battle.player.currentHp + healing);
-		sendUIUpdate({ fx: { type: 'floatingText', text: `+${healing}`, style: 'float-heal', x: 'player' } });
-	}
-	if (effect.cure || effect.status) state.battle.player.status = null;
-	state.battle.turn = 'opponent';
-}
-
-/** Uses exactly one inventory item and distinguishes recruitment from defeat. */
-export function useBattleItem(state, itemId, sendUIUpdate) {
-	const item = state.db.items[itemId];
-	const index = state.player.inventory.findIndex(entry => entry.id === itemId);
-	if (!item || index < 0) return false;
-	state.player.inventory.splice(index, 1);
-	state.battle.metrics.itemsUsed += 1;
-	state.battle.log = `You used ${item.name}.`;
-	emitBattleEvent(state, { type: 'use_item', targetId: itemId, quantity: 1 });
-	if (item.type === 'kli' || item.type === 'recruitment') attemptRecruitment(state, item, sendUIUpdate);
-	else applyConsumable(state, item, sendUIUpdate);
-	state.battle.awaitingConfirm = true;
-	sendUIUpdate({ battle: getBattleUIPayload(state.battle, false, [], state) });
+	const member = { id: opponent.id, level: opponent.level };
+	const placement = placeRecruitedMember(state, member);
+	emitRecruitmentFacts(state, member, placement);
+	state.battle.captured = true;
+	state.battle.log = `${opponent.name} joined the Chronicle${placement === 'storage' ? ' and entered storage' : ''}.`;
+	state.battle.winner = 'player';
+	state.battle.active = false;
+	state.mode = 'game';
+	sendUIUpdate({ battle: state.battle, screen: 'game' });
 	return true;
+}
+
+/** Uses an inventory item through the public battle action contract. */
+export function useBattleItem(state, itemId, sendUIUpdate) {
+	const itemIndex = state.player.inventory.findIndex((item) => item.id === itemId);
+	const item = state.db.items[itemId];
+
+	if (
+		itemIndex < 0 ||
+		!item ||
+		!RECRUITMENT_ITEM_TYPES.has(item.type) ||
+		!state.battle?.active
+	) {
+		return false;
+	}
+
+	if (!recruitmentIsReady(state)) {
+		return refusePrematureRecruitment(state, sendUIUpdate);
+	}
+
+	removeInventoryItem(state, itemIndex);
+	state.battle.metrics.itemsUsed ||= [];
+	state.battle.metrics.itemsUsed.push(itemId);
+	emitQuestEvent(state, {
+		type: 'use_item',
+		targetId: itemId
+	});
+	return attemptRecruitment(state, item, sendUIUpdate);
 }

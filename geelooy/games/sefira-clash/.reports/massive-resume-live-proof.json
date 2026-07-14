@@ -1,0 +1,32 @@
+{
+	"browserErrors": [],
+	"startedAt": "2026-07-14T04:56:23.631Z",
+	"steps": [
+		{
+			"name": "server-started",
+			"ok": true,
+			"pid": 68784,
+			"port": 8140
+		},
+		{
+			"joinCode": "4TQCSJ",
+			"name": "owner-created-room",
+			"ok": true,
+			"ownerId": null
+		},
+		{
+			"guestId": "1990ba40-1f02-43e2-badc-d801ecd49ba6",
+			"name": "guest-and-spectator-joined",
+			"ok": true
+		},
+		{
+			"checksum": "ca965e9e",
+			"frame": 90,
+			"name": "active-checksummed-match",
+			"ok": true
+		}
+	],
+	"error": "Error: Timed out waiting for grace suspension from browser close; last=null\n    at waitFor ([stdin]:84:8)\n    at async main ([stdin]:204:20)\n    at async [stdin]:270:8",
+	"ok": false,
+	"finishedAt": "2026-07-14T04:56:56.179Z"
+}

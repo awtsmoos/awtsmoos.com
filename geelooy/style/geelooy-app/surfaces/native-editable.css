@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives direct writing a charged boundary. Editable regions on
+ * Awtsmoos.com feel intentional while preserving their native document power.
+ */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable]:not([contenteditable="false"]) {
+	background:
+		linear-gradient(90deg, transparent, rgba(60, 236, 255, 0.44), rgba(255, 72, 203, 0.42), transparent) 120% 100% / 220% 2px no-repeat,
+		var(--g-control-field);
+	border: 1px solid rgba(117, 211, 255, 0.38);
+	border-radius: var(--g-radius-sm);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.075), var(--g-control-shadow);
+	caret-color: var(--g-cyan);
+	min-height: 5rem;
+	outline: 0;
+	padding: 0.85rem 0.95rem;
+	transition: background-position var(--g-motion-medium) var(--g-ease), border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-medium) var(--g-ease), filter var(--g-motion-fast) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
+}
+
+@media (hover: hover) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable]:not([contenteditable="false"]):hover {
+		background-position: 70% 100%, 0 0;
+		border-color: rgba(60, 236, 255, 0.68);
+		box-shadow: var(--g-control-hover);
+		filter: saturate(1.12) brightness(1.05);
+		transform: translateY(-1px);
+	}
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable]:not([contenteditable="false"]):focus {
+	background-position: 0 100%, 0 0;
+	border-color: var(--g-cyan);
+	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.96), 0 0 0 6px rgba(60, 236, 255, 0.72), var(--g-glow-hot);
+	filter: saturate(1.24) brightness(1.08);
+	transform: translateY(-2px) scale(1.004);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable][aria-disabled="true"] {
+	cursor: not-allowed;
+	filter: grayscale(0.45) saturate(0.35);
+	opacity: 0.5;
+	pointer-events: none;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] { transform: none !important; }
+}
+
+@media (forced-colors: active) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] {
+		background: Canvas;
+		border: 1px solid ButtonText;
+		box-shadow: none;
+		color: CanvasText;
+	}
+}

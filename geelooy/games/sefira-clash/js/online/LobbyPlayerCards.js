@@ -3,39 +3,54 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * Every fighter appears through text-safe DOM nodes rather than injected HTML.
- * The Awtsmoos renews each soul beyond its display name; Awtsmoos.com reveals
- * only server-approved lobby fields and marks the local opaque identity.
+ * Every participant appears through text-safe DOM nodes rather than injected data.
+ * The Awtsmoos renews each soul beyond display name; Awtsmoos.com marks local identity,
+ * role, readiness, ownership, team, and connection through semantic public fields.
  */
 
-/** Replaces the lobby player list with safe public player cards. */
 export function renderPlayerCards(list, players, localPlayerId) {
-	list.replaceChildren();
-	for (const player of players) {
-		list.append(createPlayerCard(player, localPlayerId));
-	}
+	list.replaceChildren(...players.map(player => createPlayerCard(player, localPlayerId)));
 }
 
-/** Builds one semantic card without parsing player-controlled markup. */
+export function renderSpectatorCards(list, spectators, localParticipantId) {
+	list.replaceChildren(
+		...spectators.map(spectator => createSpectatorCard(spectator, localParticipantId))
+	);
+}
+
 function createPlayerCard(player, localPlayerId) {
-	const card = document.createElement("li");
-	card.className = "player-card";
-	card.dataset.self = String(player.id === localPlayerId);
+	const card = participantCard(player, localPlayerId);
 	card.append(
-		paragraph(player.displayName, "player-name"),
 		paragraph(`Character: ${player.characterId}`),
 		paragraph(`Team ${player.team}`),
-		paragraph(player.ready ? "Ready" : "Preparing"),
-		paragraph(player.isOwner ? "Lobby owner" : "Lobby member")
+		paragraph(player.ready ? 'Ready' : 'Preparing'),
+		paragraph(player.isOwner ? 'Lobby owner' : 'Lobby member')
 	);
 	return card;
 }
 
-/** Creates one text-only paragraph with an optional class name. */
-function paragraph(text, className = "") {
-	const element = document.createElement("p");
+function createSpectatorCard(spectator, localParticipantId) {
+	const card = participantCard(spectator, localParticipantId);
+	card.append(paragraph('Spectator · read-only witness'));
+	return card;
+}
+
+function participantCard(participant, localParticipantId) {
+	const card = document.createElement('li');
+	card.className = 'player-card';
+	card.dataset.connected = String(participant.connected !== false);
+	card.dataset.self = String(participant.id === localParticipantId);
+	card.append(
+		paragraph(participant.displayName, 'player-name'),
+		paragraph(
+			participant.connected === false ? 'Disconnected · resume grace active' : 'Connected'
+		)
+	);
+	return card;
+}
+
+function paragraph(text, className = '') {
+	const element = document.createElement('p');
 	element.textContent = text;
 	if (className) {
 		element.className = className;

@@ -1,0 +1,192 @@
+=== BRANCH ===
+main
+=== HEAD ===
+7120df584 (HEAD -> main, origin/main, origin/HEAD) B_H verify mirrored tunnel recovery clients
+=== STATUS ===
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyBroadcast.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobby.test.cjs
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js
+ M ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js
+ M geelooy/games/sefira-clash/css/online-layout.css
+ M geelooy/games/sefira-clash/css/online.css
+ M geelooy/games/sefira-clash/js/online/LobbyPlayerCards.js
+ M geelooy/games/sefira-clash/js/online/OnlineLobbyView.js
+ M geelooy/games/sefira-clash/js/online/ProtocolEnvelope.js
+ M geelooy/games/sefira-clash/js/online/RealtimeClient.js
+ M geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js
+ M geelooy/games/sefira-clash/js/online/onlineLobbyPage.js
+ M geelooy/games/sefira-clash/online.html
+ M geelooy/games/sefira-clash/tools/online-multiplayer-audit.mjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CharacterProfiles.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectoryPolicy.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchController.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoomPolicy.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchBroadcast.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchCombat.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchFighter.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchInput.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchPhysics.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchRules.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSimulation.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchWinner.js
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-lifecycle.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-simulation.test.cjs
+?? ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-team-gate.test.cjs
+?? geelooy/games/sefira-clash/.reports/audit-syntax-independent.txt
+?? geelooy/games/sefira-clash/.reports/chrome-cdp-discovery.txt
+?? geelooy/games/sefira-clash/.reports/online-browser-diagnostic.txt
+?? geelooy/games/sefira-clash/.reports/online-browser-proof.json
+?? geelooy/games/sefira-clash/.reports/online-browser-proof.png
+?? geelooy/games/sefira-clash/.reports/online-canonical-npm-test.txt
+?? geelooy/games/sefira-clash/.reports/online-final-repository-state.txt
+?? geelooy/games/sefira-clash/.reports/online-focused-final-gates.txt
+?? geelooy/games/sefira-clash/.reports/online-format-write.txt
+?? geelooy/games/sefira-clash/.reports/online-independent-project-audits.txt
+?? geelooy/games/sefira-clash/.reports/online-live-http.txt
+?? geelooy/games/sefira-clash/.reports/online-multiplayer-baseline.txt
+?? geelooy/games/sefira-clash/.reports/online-multiplayer-preflight-tests.txt
+?? geelooy/games/sefira-clash/.reports/online-post-format-gates.txt
+?? geelooy/games/sefira-clash/.reports/online-resume-baseline.txt
+?? geelooy/games/sefira-clash/.reports/online-server-first-pass.txt
+?? geelooy/games/sefira-clash/.reports/online-server-tests.txt
+?? geelooy/games/sefira-clash/.reports/online-structural-pass.txt
+?? geelooy/games/sefira-clash/css/online-arena.css
+?? geelooy/games/sefira-clash/css/online-controls.css
+?? geelooy/games/sefira-clash/js/online/OnlineArenaRenderer.js
+?? geelooy/games/sefira-clash/js/online/OnlineArenaScene.js
+?? geelooy/games/sefira-clash/js/online/OnlineCharacterVisuals.js
+?? geelooy/games/sefira-clash/js/online/OnlineFighterPainter.js
+?? geelooy/games/sefira-clash/js/online/OnlineHudPainter.js
+?? geelooy/games/sefira-clash/js/online/OnlineInputController.js
+?? geelooy/games/sefira-clash/js/online/OnlineProtocol.js
+?? geelooy/games/sefira-clash/js/online/OnlineSetupForm.js
+?? geelooy/games/sefira-clash/js/online/OnlineSnapshotBuffer.js
+?? geelooy/games/sefira-clash/js/online/RealtimeRequests.js
+?? geelooy/games/sefira-clash/js/online/RealtimeSocket.js
+?? geelooy/games/sefira-clash/js/online/SefiraOnlineClient.js
+?? geelooy/games/sefira-clash/js/online/onlinePage.js
+=== DIFF STAT ===
+ .../websocket/apps/sefiraClash/LobbyBroadcast.js   |  26 +---
+ .../websocket/apps/sefiraClash/LobbyDirectory.js   |  83 +++++-----
+ .../websocket/apps/sefiraClash/LobbyPlayer.js      |   2 +-
+ .../websocket/apps/sefiraClash/LobbyRoom.js        |  70 +++++----
+ .../websocket/apps/sefiraClash/application.js      |  59 ++++---
+ .../websocket/apps/sefiraClash/joinCode.js         |  15 +-
+ .../websocket/apps/sefiraClash/lobby.test.cjs      |  56 +++----
+ .../websocket/apps/sefiraClash/lobbyValidation.js  |  66 +++-----
+ .../websocket/apps/sefiraClash/protocol.js         |  50 +++---
+ geelooy/games/sefira-clash/css/online-layout.css   |  26 +++-
+ geelooy/games/sefira-clash/css/online.css          |  88 ++---------
+ .../sefira-clash/js/online/LobbyPlayerCards.js     |  14 +-
+ .../sefira-clash/js/online/OnlineLobbyView.js      |  98 +++++-------
+ .../sefira-clash/js/online/ProtocolEnvelope.js     |   4 +-
+ .../games/sefira-clash/js/online/RealtimeClient.js | 147 +++++++-----------
+ .../sefira-clash/js/online/SefiraLobbyClient.js    |  96 +-----------
+ .../sefira-clash/js/online/onlineLobbyPage.js      |  85 +---------
+ geelooy/games/sefira-clash/online.html             | 171 +++++++++++++--------
+ .../tools/online-multiplayer-audit.mjs             | 110 +++++++------
+ 19 files changed, 501 insertions(+), 765 deletions(-)
+=== UNTRACKED ===
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CharacterProfiles.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectoryPolicy.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchController.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoomPolicy.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchBroadcast.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchCombat.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchFighter.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchInput.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchPhysics.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchRules.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSimulation.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchWinner.js
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-lifecycle.test.cjs
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-simulation.test.cjs
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-team-gate.test.cjs
+geelooy/games/sefira-clash/.reports/audit-syntax-independent.txt
+geelooy/games/sefira-clash/.reports/chrome-cdp-discovery.txt
+geelooy/games/sefira-clash/.reports/online-browser-diagnostic.txt
+geelooy/games/sefira-clash/.reports/online-browser-proof.json
+geelooy/games/sefira-clash/.reports/online-browser-proof.png
+geelooy/games/sefira-clash/.reports/online-canonical-npm-test.txt
+geelooy/games/sefira-clash/.reports/online-final-repository-state.txt
+geelooy/games/sefira-clash/.reports/online-focused-final-gates.txt
+geelooy/games/sefira-clash/.reports/online-format-write.txt
+geelooy/games/sefira-clash/.reports/online-independent-project-audits.txt
+geelooy/games/sefira-clash/.reports/online-live-http.txt
+geelooy/games/sefira-clash/.reports/online-multiplayer-baseline.txt
+geelooy/games/sefira-clash/.reports/online-multiplayer-preflight-tests.txt
+geelooy/games/sefira-clash/.reports/online-post-format-gates.txt
+geelooy/games/sefira-clash/.reports/online-resume-baseline.txt
+geelooy/games/sefira-clash/.reports/online-server-first-pass.txt
+geelooy/games/sefira-clash/.reports/online-server-tests.txt
+geelooy/games/sefira-clash/.reports/online-structural-pass.txt
+geelooy/games/sefira-clash/css/online-arena.css
+geelooy/games/sefira-clash/css/online-controls.css
+geelooy/games/sefira-clash/js/online/OnlineArenaRenderer.js
+geelooy/games/sefira-clash/js/online/OnlineArenaScene.js
+geelooy/games/sefira-clash/js/online/OnlineCharacterVisuals.js
+geelooy/games/sefira-clash/js/online/OnlineFighterPainter.js
+geelooy/games/sefira-clash/js/online/OnlineHudPainter.js
+geelooy/games/sefira-clash/js/online/OnlineInputController.js
+geelooy/games/sefira-clash/js/online/OnlineProtocol.js
+geelooy/games/sefira-clash/js/online/OnlineSetupForm.js
+geelooy/games/sefira-clash/js/online/OnlineSnapshotBuffer.js
+geelooy/games/sefira-clash/js/online/RealtimeRequests.js
+geelooy/games/sefira-clash/js/online/RealtimeSocket.js
+geelooy/games/sefira-clash/js/online/SefiraOnlineClient.js
+geelooy/games/sefira-clash/js/online/onlinePage.js
+=== HASHES ===
+fec735c25395c0951c23d6b1fccff621394e129228354f54667050bf8614bff3  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CharacterProfiles.js
+d88a8f2d50fb3597eb5e76ba3b6372222bd5334fe19999f36039210d238fae00  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyBroadcast.js
+a53a7a3624307c38e64b21a08c7e432de7e4be1fd86d817a42aa927761882eb5  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js
+b2eddb2680f6640f27edbe01244bfe02db6c714745efe0da079762ae843b5814  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectoryPolicy.js
+7f882531f6eae8843b8a0c1f9b237ff79f6e2874628f0168d2a0a8e3185c3e68  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchController.js
+b4c6173fa386c09f295af4065766a68e97af7c6ada9134af45e6edefa9fa95bc  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js
+e8ec5cd46ee8f3eb663bf3e56044a5328cca5c2f78f19c0986eff5136b5cfd66  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js
+b472cfb904a742f067313ae16fa77a1ca223bed7edead6fdca03f4973075e7bb  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoomPolicy.js
+91579ed49ab3562386aae2c606d12aed2a3484bf6cba66b29254f69c7e03be93  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchBroadcast.js
+2a5a4e3b093743c4b826915346aef630a9b301dc3ba9336c1c6ce71760e23c1a  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchCombat.js
+399532eb99c4664e3021bf41db958d6ec205241293301d864cf9dffebca8c162  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchFighter.js
+09f050811c45d2206b2a98e57e89b15d932c67ecdbfe5811b8e0c0920fcebbaf  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchInput.js
+58c3bc024f12fdc7c4c1968416faeb8c69cfabb3c008db4307d61855893dd69f  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchPhysics.js
+8702ab628f121cca98523dd9e8e4378097d2cabdfcf9e49dc4cc7ce55452172a  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchRules.js
+0957af1e4220b0f252fe42f3197e413f7f0060fc93c9533f4b3188f0ed5b5b75  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSimulation.js
+60858af27944f6304db30ef9348fbcb4b09306358953b78a5b57a22f9a1b6e77  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchWinner.js
+92f157d65829673b74ebbbef2f3749e46df41e5a84d19a7497e6d055b96b16ac  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js
+a0206e6486268d76598aa4a3ff0d981fc625b19dc739c6437693554417142ba0  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js
+5f576e2cc957906ea783ae23b103daf3214764619165548a87368239fd003b93  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobby.test.cjs
+6227129b375440a6d2b51375be5c92f4722e740995b18cc1412853642b524aac  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js
+35fce333f903288f5435bb7a5f71d484c2e118fe0c4bba0e3d995c62ca5056fd  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-lifecycle.test.cjs
+1b9e4afce7e7c9d1305685becf6486ecb457fb03087e37b4d6bfbe4bbccd12bd  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-simulation.test.cjs
+36ad010f1cea8a4273568508f85ca885f41b2fe51c566f2e7fa62d61c628c779  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/match-team-gate.test.cjs
+d470e92ae9a24fe2d461b688c1f42eeebad96445b05a9e924e50d9fa6e32ecff  ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js
+2472023da82644b31650c17dd53d0559044135e48f707dcd0adcd5c376008296  geelooy/games/sefira-clash/js/online/LobbyPlayerCards.js
+9c5bfa928887d2d14175c1133d6ed203a31cc82ac0412e3ea390e4154700cdc4  geelooy/games/sefira-clash/js/online/OnlineArenaRenderer.js
+00378a653291025da6ac39089678ceefb85a8c0ad7b6733ecc7ff66314e7516b  geelooy/games/sefira-clash/js/online/OnlineArenaScene.js
+3f6ce84ac1674438b20e53e923c03cc29e69e5a31aa5277111eaaf66c0b478e7  geelooy/games/sefira-clash/js/online/OnlineCharacterVisuals.js
+336e9ee81bd18dfad936fd0847783f61946d0d7e691fa63d680c387350f534a9  geelooy/games/sefira-clash/js/online/OnlineFighterPainter.js
+63779e007a92e46de7afd4fdea71f8e00f95650fdc678614597dd11b3e6d0f20  geelooy/games/sefira-clash/js/online/OnlineHudPainter.js
+cc854551ee6359247e62cc227c1544cf383a0b0096ec0991d7cf42eb1c2bc879  geelooy/games/sefira-clash/js/online/OnlineInputController.js
+27e9add81047fb4584d525ac3357a910f5544acee9de33e531c318e1b4de7f4b  geelooy/games/sefira-clash/js/online/OnlineLobbyView.js
+d615e323c9338ff30f3c8e4dc2c5e34d0d2c1b3865aff3078e4fd793ad49566a  geelooy/games/sefira-clash/js/online/OnlineProtocol.js
+1036fb85df1a3cb12bfe8db5935553373aee42f363292e01c13d37b761568429  geelooy/games/sefira-clash/js/online/OnlineSetupForm.js
+b9fe581ba6af21b1805d40f0568f51734333aaa4e92e15e4be9ea854c888772d  geelooy/games/sefira-clash/js/online/OnlineSnapshotBuffer.js
+ca6a40a3559c8a04ee48d6913d256ea444ea5e109e743536d81669aa371c438a  geelooy/games/sefira-clash/js/online/ProtocolEnvelope.js
+52be5e1fdb32c72adc7c1eb0b9a1a6433a5660d7aa025d16a8115b75ebe3ce5b  geelooy/games/sefira-clash/js/online/RealtimeClient.js
+c551bba34b1756d2ab8dedb705139ca53cdd3c8bb99e4c7abcf1a3dec5ad0174  geelooy/games/sefira-clash/js/online/RealtimeRequests.js
+a62bece1ad0a38385da96044e88f4b16049f59b7d97c01740c05b1398819a7b7  geelooy/games/sefira-clash/js/online/RealtimeSocket.js
+9b56d884a9ea718ede9daab59a7445f5964d85b654638c7941d87827be6c8769  geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js
+7bdc7af15a9d7e24864224612e5fb7e2965d24e5e8e6d4db59196385aed8d342  geelooy/games/sefira-clash/js/online/SefiraOnlineClient.js
+75e1454bd07ea9f6e80d5c6a64ea48029f0bb5c0baf43486eace1387f44b3d4e  geelooy/games/sefira-clash/js/online/onlineLobbyPage.js
+63a04a05e62f2f7e25ad973c14540f35558ed0a8081517d99af80c6960aed347  geelooy/games/sefira-clash/js/online/onlinePage.js
+4506e7cdb969ce8be5bb446e7ed91567e71baaf2acecb3a8420b6f56c358f645  geelooy/games/sefira-clash/online.html
+a6e0e08fdce80da003555e1a99c7e85fe689e44802edc61a80f83b63afb2a68d  geelooy/games/sefira-clash/css/online-arena.css
+15a0be77621cc6826ba4a05bcce1df448db9392f32617804e65948911f45411c  geelooy/games/sefira-clash/css/online-controls.css
+e6a21c4007b79afa5f4f925b5848e76ebe2bbca850fd176589ac2444d197e8c7  geelooy/games/sefira-clash/css/online-layout.css
+c945ed6719cfb8096e9f2521f781b6d4d438e7c21dc1248538369c79ca4ced1e  geelooy/games/sefira-clash/css/online.css
+548901018773b6786163f48eb622e2af304f60ff82716f9c11fa3e825ed014e6  geelooy/games/sefira-clash/tools/online-multiplayer-audit.mjs

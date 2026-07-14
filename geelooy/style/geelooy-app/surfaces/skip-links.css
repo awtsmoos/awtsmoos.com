@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps hidden navigation present for the keyboard and reveals it
+ * only when summoned. A failed script must never leave accessibility text
+ * hanging as an accidental plain link at the top of Awtsmoos.com.
+ */
+
+:where(.g-sr-only, .home-skip-link, .notifications-skip):not(:focus):not(:focus-within) {
+	border: 0 !important;
+	clip: rect(0 0 0 0) !important;
+	clip-path: inset(50%) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	white-space: nowrap !important;
+	width: 1px !important;
+}
+
+:where(a.g-sr-only, a.home-skip-link, a.notifications-skip):focus-visible {
+	background: linear-gradient(135deg, rgba(9, 22, 47, 0.99), rgba(31, 12, 57, 0.99));
+	border: 1px solid var(--g-cyan);
+	border-radius: var(--g-radius-sm);
+	box-shadow: var(--g-shadow-lg), var(--g-glow-hot);
+	color: var(--g-text);
+	font: 850 1rem/1.2 var(--g-font);
+	inset: max(0.75rem, env(safe-area-inset-top)) auto auto max(0.75rem, env(safe-area-inset-left));
+	max-width: calc(100vw - 1.5rem);
+	outline: 2px solid transparent;
+	padding: 0.82rem 1rem;
+	position: fixed;
+	text-decoration: none;
+	width: auto;
+	z-index: 2147483647;
+}

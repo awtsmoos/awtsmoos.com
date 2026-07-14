@@ -1,0 +1,45 @@
+=== SERVER LISTENER ===
+=== CHROME TARGETS ===
+[ {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@f405107495a07cb1bfcf687d4af8d91117098db6/inspector.html?ws=127.0.0.1:9222/devtools/page/A5936E8E94DB4DF1584C92267EBA94DF",
+   "id": "A5936E8E94DB4DF1584C92267EBA94DF",
+   "title": "Sefira Clash Online Arena",
+   "type": "page",
+   "url": "http://127.0.0.1:8137/games/sefira-clash/online.html",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/A5936E8E94DB4DF1584C92267EBA94DF"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@f405107495a07cb1bfcf687d4af8d91117098db6/inspector.html?ws=127.0.0.1:9222/devtools/page/8BA5EE37ACAF61F829DF526E68964669",
+   "id": "8BA5EE37ACAF61F829DF526E68964669",
+   "title": "Sefira Clash Online Arena",
+   "type": "page",
+   "url": "http://127.0.0.1:8137/games/sefira-clash/online.html",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/8BA5EE37ACAF61F829DF526E68964669"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@f405107495a07cb1bfcf687d4af8d91117098db6/inspector.html?ws=127.0.0.1:9222/devtools/page/4F3A5D320EBFDE93E3B37C4C4233F174",
+   "id": "4F3A5D320EBFDE93E3B37C4C4233F174",
+   "title": "B&quot;H Awtsmoos 3D Chossid",
+   "type": "page",
+   "url": "http://127.0.0.1:4173/geelooy/games/mitzvahWorld/index.html?botanicalReference=20260713",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/4F3A5D320EBFDE93E3B37C4C4233F174"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@f405107495a07cb1bfcf687d4af8d91117098db6/inspector.html?ws=127.0.0.1:9222/devtools/page/DC245005710ACBBF9E6C5FB94EDA1C4B",
+   "id": "DC245005710ACBBF9E6C5FB94EDA1C4B",
+   "title": "The Scribe&#39;s Journey: Echoes of Ein Sof",
+   "type": "page",
+   "url": "http://localhost:4173/geelooy/games/scribe-journey/index.html?verification=1&journey=2",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/DC245005710ACBBF9E6C5FB94EDA1C4B"
+} ]
+
+=== PAGE MODULE PROBES ===
+/games/sefira-clash/online.html curl: (7) Failed to connect to 127.0.0.1 port 8137 after 0 ms: Couldn't connect to server
+000 
+/games/sefira-clash/js/online/onlinePage.js curl: (7) Failed to connect to 127.0.0.1 port 8137 after 0 ms: Couldn't connect to server
+000 
+/games/sefira-clash/js/online/RealtimeClient.js curl: (7) Failed to connect to 127.0.0.1 port 8137 after 0 ms: Couldn't connect to server
+000 
+/games/sefira-clash/js/online/RealtimeSocket.js curl: (7) Failed to connect to 127.0.0.1 port 8137 after 0 ms: Couldn't connect to server
+000 

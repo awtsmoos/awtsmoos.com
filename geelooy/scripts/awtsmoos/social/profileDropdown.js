@@ -1,16 +1,19 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module AwtsmoosProfileDropdown
  * @description
- * Mounts a semantic account and alias menu. The old monolith has become small
- * modules so Mail and every main route can load identity without importing a
- * game engine, emitting password-form warnings, or hiding API behavior.
+ * Mounts one uniquely owned account and alias instrument. The Awtsmoos lets
+ * Header and Mail reveal the same identity without duplicate IDs or listeners.
  */
 import { bindProfileAuth } from './profileDropdown/auth.js';
 import { hydrateProfileIdentity } from './profileDropdown/identity.js';
 import { bindProfileMenus } from './profileDropdown/menus.js';
 import { ensureProfileDropdownStyles } from './profileDropdown/styles.js';
 import { buildProfileDropdown } from './profileDropdown/template.js';
+
+let mountSequence = 0;
 
 /**
  * Mounts the shared profile dropdown into a supplied element.
@@ -19,16 +22,25 @@ import { buildProfileDropdown } from './profileDropdown/template.js';
  */
 export default function createProfileDropdown(parentElement) {
 	if (!(parentElement instanceof HTMLElement)) return null;
-	ensureProfileDropdownStyles();
-	const container = document.createElement('div');
+	parentElement.awtsmoosProfileCleanup?.();
+	ensureProfileDropdownStyles(parentElement.ownerDocument);
+	const container = parentElement.ownerDocument.createElement('div');
+	const prefix = `awtsmoos-profile-${++mountSequence}`;
 	container.className = 'awtsmoosDrop awtsmoos-profile-dropdown';
+	container.dataset.profileDropdownRoot = 'true';
+	container.dataset.profileOwner = prefix;
 	parentElement.replaceChildren(container);
-	const elements = buildProfileDropdown(container);
-	bindProfileAuth(elements);
-	bindProfileMenus(elements);
+	const elements = buildProfileDropdown(container, prefix);
+	const menuController = bindProfileMenus(elements);
+	bindProfileAuth(elements, menuController.close);
 	hydrateProfileIdentity(elements).catch(error => {
 		console.error('B"H profile identity hydration failed', error);
-		elements.notLoggedIn.classList.remove('hidden');
+		elements.notLoggedIn.hidden = false;
 	});
+	parentElement.awtsmoosProfileCleanup = () => {
+		menuController.destroy();
+		container.remove();
+		delete parentElement.awtsmoosProfileCleanup;
+	};
 	return container;
 }

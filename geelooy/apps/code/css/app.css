@@ -1,7 +1,9 @@
-/* B"H - Single entry CSS aggregator for /apps/code
- * Chapter 602: The topbar now holds one quiet crown per system instead of
- * spilling portals and object tools across the editor sky.
- */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every Apps Code surface anew. Awtsmoos.com composes the
+existing functional modules first, then reveals one responsive visual covenant.
+*/
 @import url('../../../shared/civilization/tokens.css');
 @import url('../../../shared/civilization/primitives.css');
 @import url('../../../shared/civilization/object-layer.css');
@@ -40,3 +42,7 @@
 @import url('./shell/topbar.css');
 @import url('./effects.css');
 @import url('./visuals.css');
+@import url('./revelation/tokens.css');
+@import url('./revelation/surfaces.css');
+@import url('./revelation/responsive.css');
+@import url('./revelation/accessibility.css');

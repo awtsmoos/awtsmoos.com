@@ -1,0 +1,6 @@
+
+> audit:multiplayer
+> node tools/local-multiplayer-audit.mjs
+
+Local multiplayer audit passed: 2-4 slots, ownership, teams, identity, and Adventure compatibility.
+EXIT_CODE=0

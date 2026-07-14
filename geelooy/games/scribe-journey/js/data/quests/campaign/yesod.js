@@ -2,17 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
-import { buildChapter, objective as o } from './questFactory.js';
+import { buildChapter } from './questFactory.js';
+import { yesodEarlyEntries } from './yesodEarly.js';
+import { yesodLateEntries } from './yesodLate.js';
+
+/**
+ * @file Braids Yesod's eight designed relationships while exposing only proven play.
+ * @description The Awtsmoos renews every future chapter inside one ordered scroll.
+ * Awtsmoos.com is remembered here as readable design may be preserved without
+ * pretending that later relationships already possess complete player-facing owners.
+ */
 
 const entries = [
-	{ title: 'The Road Reflected Twice', summary: 'Only one bridge reaches Moonwell Hamlet; the other remembers a road that never was.', giverId: 'warden_liora', objectives: [o('reach_map', 'yesod_shore', 1, 'Travel to Yesod Shore'), o('discover_landmark', 'yesod_road_marker', 3, 'Reach 3 road markers'), o('defeat_species', 'mist_mimic', 5, 'Defeat 5 Mist Mimics'), o('solve_puzzle', 'real_bridge', 1, 'Discover which bridge is real'), o('speak_npc', 'warden_liora', 1, 'Speak to Warden Liora')] },
-	{ title: 'Water That Remembers Names', summary: 'Moonwater holds names the villagers have forgotten.', giverId: 'warden_liora', objectives: [o('gather_node', 'moonwater_sample', 7, 'Gather 7 Moonwater Samples', 'yesod_reflection_pool'), o('visit_order', 'three_yesod_pools', 3, 'Sample 3 different pools'), o('defeat_species', 'silt_shade', 4, 'Defeat 4 Silt Shades'), o('use_item', 'tamar_field_lens', 3, 'Inspect each pool sample'), o('deliver_item', 'moonwater_sample', 7, 'Deliver the samples to Liora')] },
-	{ title: 'Dreams Escaping Their Sleepers', summary: 'Unmoored dreams are taking memories with them.', giverId: 'dream_healer_mara', objectives: [o('speak_group', 'sleeping_villagers', 3, 'Speak to 3 sleeping villagers'), o('enter_instance', 'dream_pocket', 3, 'Enter 3 dream pockets'), o('collect_item', 'memory_token', 3, 'Recover 3 memory tokens'), o('defeat_species', 'nightmare_nibbler', 6, 'Defeat 6 Nightmare Nibblers'), o('deliver_item', 'memory_token', 3, 'Return each memory')] },
-	{ title: 'The Lantern Keeper’s Test', summary: 'A safe road through fog exists only while its lights remember one another.', giverId: 'lantern_keeper', objectives: [o('activate_sequence', 'marsh_lanterns', 5, 'Light 5 lanterns in order', 'dreaming_reedbeds'), o('protect_target', 'lantern_route', 90, 'Protect the route for 90 seconds'), o('survive_waves', 'fog_wraiths', 3, 'Defeat 3 waves of Fog Wraiths'), o('battle_condition', 'three_lanterns_lit', 1, 'Keep at least 3 lanterns lit'), o('return_npc', 'lantern_keeper', 1, 'Report to the Lantern Keeper')] },
-	{ title: 'A Musag Beneath the Moon', summary: 'Tamar asks the Scribe to approach Lunafawn as a naturalist, not a hunter.', giverId: 'tamar', objectives: [o('inspect_clue', 'crescent_hoofprint', 4, 'Find 4 crescent hoofprints'), o('resolve_encounter', 'mirehorn', 3, 'Avoid or defeat 3 Mirehorns'), o('use_item', 'moonwater_offering', 1, 'Offer Moonwater at the stone basin'), o('battle_species', 'lunafawn', 1, 'Battle Lunafawn'), o('research_or_recruit', 'lunafawn', 1, 'Befriend or fully record Lunafawn')] },
-	{ title: 'Neria’s Shortcut', summary: 'Neria forces a path through a dream and learns that speed can strand everyone behind her.', giverId: 'neria', objectives: [o('trainer_battle', 'neria_yesod', 1, 'Battle Neria'), o('battle_condition', 'two_party_conscious', 1, 'Win with two conscious Musagim'), o('inspect_object', 'neria_shortcut', 1, 'Investigate the opened shortcut'), o('rescue_npc', 'neria_dream_collapse', 1, 'Rescue Neria from the dream pocket')] },
-	{ title: 'The Sunken Observatory', summary: 'Moon mirrors below the marsh chart memories that no longer have owners.', giverId: 'warden_liora', objectives: [o('party_composition', 'three_musagim', 1, 'Enter with at least 3 Musagim'), o('activate_object', 'lunar_mirror', 4, 'Activate 4 lunar mirrors', 'sunken_observatory'), o('defeat_faction', 'observatory_sentinel', 8, 'Defeat 8 Observatory Sentinels'), o('solve_puzzle', 'constellation_floor', 1, 'Solve the constellation floor'), o('collect_item', 'star_lens', 3, 'Recover 3 star lenses')] },
-	{ title: 'The Unremembered Moon', summary: 'The Moth of Unmemory feeds on erased move names and forgotten selves.', giverId: 'warden_liora', objectives: [o('defeat_boss_phase', 'moth_blank_cocoon', 1, 'Break the Blank Cocoon'), o('battle_condition', 'retain_move_slot', 1, 'Prevent all moves from being erased'), o('use_item', 'memory_thread', 1, 'Restore an erased move'), o('elevate_musag', 'moth_of_unmemory', 1, 'Elevate the Moth of Unmemory'), o('complete_dungeon', 'sunken_observatory', 1, 'Complete the Sunken Observatory')], mapChanges: [{ mapId: 'moonwell_hamlet', changeId: 'resident_names_restored' }] }
+	...yesodEarlyEntries,
+	...yesodLateEntries
 ];
 
-export const yesodCampaignQuests = buildChapter('yesod', 9, entries, 'campaign_malkuth_08');
+export const yesodCampaignQuests = buildChapter(
+	'yesod',
+	9,
+	entries,
+	'campaign_malkuth_08'
+);

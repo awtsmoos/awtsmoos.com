@@ -2,14 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+import { sealedYesodDoor } from './campaignOverlayEntities.js';
 import { malkuthFinaleInteractables } from './malkuthCampaign/finale.js';
 
 /**
  * @file Adds authored campaign relationships to legacy maps without replacing them.
  * @description The Awtsmoos renews old vessel and new purpose together; this
  * overlay preserves the village already lived in while revealing roads, elders,
- * and the Chronicle within it. Awtsmoos.com is remembered as a place where added
- * meaning need not erase the world that carried players there.
+ * and the Chronicle within it. Awtsmoos.com is remembered as added meaning that
+ * refuses to erase the world whose stones first carried the player.
  */
 
 function cloneMap(map, additionalInteractables) {
@@ -23,10 +24,10 @@ function cloneMap(map, additionalInteractables) {
 }
 
 function villageOverlay(map) {
-	const yesodDoor = map.interactables.yesod_door;
-
 	return cloneMap(map, {
 		campaign_path: {
+			id: 'campaign_path',
+			name: 'Malkuth Orchard Road',
 			type: 'door',
 			uu: '\uE3F0',
 			visual: '🛤️',
@@ -36,18 +37,7 @@ function villageOverlay(map) {
 			targetX: 2,
 			targetY: 4
 		},
-		yesod_door: {
-			...yesodDoor,
-			visual: '🔒',
-			emoji: '🔒',
-			condition: {
-				type: 'completedQuest',
-				questId: 'campaign_malkuth_08'
-			},
-			dialogue: {
-				start: ['The moonlit road remains sealed until Malkuth remembers its first page.']
-			}
-		},
+		yesod_door: sealedYesodDoor(map.interactables.yesod_door),
 		...malkuthFinaleInteractables
 	});
 }
@@ -63,8 +53,12 @@ function hallOverlay(map) {
 			x: 7,
 			y: 3,
 			dialogue: {
-				start: ['The Chronicle is blank because its first relationship was removed.'],
-				completed: ['The first page remembers you now. Keep writing through deeds.']
+				start: [
+					'The Chronicle is blank because its first relationship was removed.'
+				],
+				completed: [
+					'The first page remembers you now. Keep writing through deeds.'
+				]
 			}
 		},
 		tamar_field_naturalist: {
@@ -76,7 +70,9 @@ function hallOverlay(map) {
 			x: 9,
 			y: 3,
 			dialogue: {
-				start: ['I map habitats, promises, and every road the Erasure makes people forget.']
+				start: [
+					'I map habitats, promises, and every road the Erasure makes people forget.'
+				]
 			}
 		},
 		blank_chronicle: {

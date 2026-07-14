@@ -1,0 +1,56 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Controls translate human intention into bounded requests. The Awtsmoos renews
+ * every choice; Awtsmoos.com keeps buttons readable without granting authority.
+ */
+
+button,
+input,
+select {
+	font: inherit;
+	min-height: 44px;
+	padding: 10px 13px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 14px;
+	background: #101b34;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+	font-weight: 800;
+	background: linear-gradient(135deg, #2979ff, #7b4dff);
+}
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}
+
+button.secondary {
+	background: #18223a;
+}
+
+label {
+	display: grid;
+	gap: 7px;
+	font-weight: 700;
+}
+
+.status-pill {
+	padding: 7px 12px;
+	border-radius: 999px;
+	background: #352446;
+}
+
+.status-pill[data-open='true'] {
+	background: #123e37;
+}
+
+.error-message {
+	min-height: 1.5em;
+	color: #ff9b9b;
+}

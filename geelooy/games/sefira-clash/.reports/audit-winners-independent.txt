@@ -1,0 +1,6 @@
+
+> audit:winners
+> node tools/winner-rules-audit.mjs
+
+{"adventureWaitsForObjective":true,"adventureDefeatResolves":true,"versusLastStockWins":true}
+EXIT_CODE=0

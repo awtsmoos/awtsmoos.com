@@ -5,11 +5,11 @@ import { quality } from '../performance.js';
 
 /**
  * The Awtsmoos fills every finite vessel according to its capacity. Decorative
- * density follows measured quality and remains conservative during warm-up.
+ * density yields early while each chapter keeps water, growth, mountain, and path.
  */
 export function environmentBudget(world, preset) {
 	const measuredQuality = quality(world);
-	const tier = measuredQuality < 0.52 ? 'low' : measuredQuality < 0.78 ? 'medium' : 'high';
+	const tier = measuredQuality < 0.62 ? 'low' : measuredQuality < 0.9 ? 'medium' : 'high';
 	const counts = tierCounts(tier);
 	return Object.freeze({
 		tier,

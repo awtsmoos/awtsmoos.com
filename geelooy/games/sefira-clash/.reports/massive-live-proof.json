@@ -1,0 +1,83 @@
+{
+	"browserErrors": [],
+	"startedAt": "2026-07-14T04:52:37.687Z",
+	"steps": [
+		{
+			"name": "real-server-started",
+			"ok": true,
+			"pid": 67853,
+			"port": 8139
+		},
+		{
+			"name": "production-ui-connected",
+			"ok": true
+		},
+		{
+			"joinCode": "YXQJ5A",
+			"name": "owner-created-room",
+			"ok": true,
+			"ownerId": "eaaa007b-aa72-4eda-b7ee-5c490965000f"
+		},
+		{
+			"capabilityVersion": 2,
+			"guestId": "81d9f25e-b1ab-4b70-8d0b-7abc9fde42db",
+			"name": "guest-joined-with-private-resume",
+			"ok": true
+		},
+		{
+			"name": "spectator-watch-separated",
+			"ok": true,
+			"spectators": 1
+		},
+		{
+			"latencyMs": 1,
+			"name": "capability-ping-health",
+			"ok": true,
+			"serverHealth": {
+				"activeMatches": 0,
+				"connectedPlayers": 2,
+				"connectedSpectators": 1,
+				"counters": {
+					"requests": 8,
+					"commandRequests": 7,
+					"roomsCreated": 1,
+					"playersJoined": 2,
+					"lobbyBroadcastDeliveries": 6,
+					"spectatorsJoined": 1,
+					"pingRequests": 1
+				},
+				"disconnectedPlayers": 0,
+				"disconnectedSpectators": 0,
+				"rooms": 1,
+				"serverTime": 1784004763959,
+				"uptimeMs": 2164
+			}
+		},
+		{
+			"checksum": "277154ba",
+			"frame": 90,
+			"name": "shared-checksummed-active-frame",
+			"ok": true
+		},
+		{
+			"name": "accessibility-preferences-applied",
+			"ok": true,
+			"preferences": {
+				"highContrast": "true",
+				"highPressed": "true",
+				"reducedMotion": "true",
+				"reducedPressed": "true"
+			}
+		},
+		{
+			"acknowledgedInputSequence": 2,
+			"baselineX": 260,
+			"movedX": 361.3,
+			"name": "touch-change-input-and-heartbeat",
+			"ok": true
+		}
+	],
+	"error": "Error: Timed out waiting for guest suspension during grace; last=null\n    at waitFor ([stdin]:107:8)\n    at async main ([stdin]:342:20)\n    at async [stdin]:458:3",
+	"ok": false,
+	"finishedAt": "2026-07-14T04:53:13.235Z"
+}

@@ -1,65 +1,66 @@
-/* B"H — Account and alias forms remain native, bright, and unmistakable. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives account and alias input a solid, legible native vessel.
+ */
 .awtsmoosDrop .profile-auth-form,
 .awtsmoosDrop .alias-form {
 	display: grid;
 	gap: 0.48rem;
-}
-
-.awtsmoosDrop .profile-auth-form h3,
-.awtsmoosDrop .alias-form h3 {
-	margin: 0.15rem 0 0.4rem;
-	font-size: 1.2rem;
+	padding: 0.2rem 0;
 }
 
 .awtsmoosDrop label {
-	color: #dbe8ff;
-	font: 850 0.76rem/1.2 var(--g-mono, monospace);
+	color: #dce8ff;
+	font: 800 0.72rem/1.2 var(--g-mono, monospace);
 	letter-spacing: 0.04em;
 }
 
 .awtsmoosDrop input,
 .awtsmoosDrop textarea {
 	width: 100%;
-	min-height: 2.75rem;
+	min-height: 2.85rem;
 	margin: 0;
-	padding: 0.65rem 0.72rem;
-	border: 2px solid transparent;
-	border-radius: 0.82rem;
-	background: #f8fafc;
-	color: #07101f;
+	padding: 0.68rem 0.74rem;
+	border: 1px solid #33415e;
+	border-radius: 0.72rem;
+	background: #f7faff;
+	color: #050b16;
 	font: 750 1rem/1.35 var(--g-font, sans-serif);
-	box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);
+	box-shadow: inset 0 2px 5px rgba(7, 16, 31, 0.14);
 	outline: none;
 }
 
 .awtsmoosDrop textarea {
-	min-height: 5.5rem;
+	min-height: 5.4rem;
 	resize: vertical;
 }
 
-.awtsmoosDrop input:focus,
-.awtsmoosDrop textarea:focus {
+.awtsmoosDrop :where(input, textarea):focus {
 	border-color: #3cecff;
-	box-shadow: 0 0 0 4px rgba(60, 236, 255, 0.12), 0 0 26px rgba(139, 92, 255, 0.16);
+	box-shadow: 0 0 0 4px rgba(60, 236, 255, 0.15), 0 0 28px rgba(139, 92, 255, 0.2);
 }
 
-.awtsmoosDrop .profile-auth-form > button[type="submit"],
-.awtsmoosDrop .alias-form > button[type="submit"] {
-	min-height: 2.75rem;
-	margin-top: 0.28rem;
-	border: 0;
-	border-radius: 0.9rem;
-	background: linear-gradient(120deg, #3cecff, #7660ff 50%, #ff48cb);
-	color: #02050d;
-	font-weight: 1000;
-	box-shadow: 0 12px 30px rgba(79, 125, 255, 0.28);
+.awtsmoosDrop :where(.profile-auth-form, .alias-form) > button[type="submit"] {
+	display: flex;
+	min-height: 2.9rem;
+	align-items: center;
+	justify-content: center;
+	gap: 0.48rem;
+	margin-top: 0.3rem;
+	border: 1px solid rgba(255, 255, 255, 0.32);
+	border-radius: 0.8rem;
+	background: linear-gradient(115deg, #47ebff, #8b5cff 55%, #ff48cb);
+	color: #030613;
+	font-weight: 950;
+	box-shadow: 0 14px 32px rgba(79, 125, 255, 0.3);
 	cursor: pointer;
 }
 
 .awtsmoosDrop .description {
-	margin: 0.22rem 0 0;
-	color: #aebdd8;
-	font-size: 0.8rem;
+	margin: 0.25rem 0 0;
+	color: #9dafce;
+	font-size: 0.78rem;
 }
 
 .awtsmoosDrop .description a,
@@ -67,7 +68,7 @@
 	padding: 0;
 	border: 0;
 	background: transparent;
-	color: #79f2ff;
+	color: #71eaff;
 	font: inherit;
 	font-weight: 900;
 	text-decoration: underline;
@@ -76,19 +77,20 @@
 }
 
 .awtsmoosDrop .validation-message {
-	min-height: 1.35rem;
-	color: #aebdd8;
-	font-size: 0.8rem;
+	min-height: 1.3rem;
+	margin: 0;
+	color: #9dafce;
+	font-size: 0.78rem;
 }
 
-.awtsmoosDrop .validation-message.valid {
-	color: #48f0b6;
+.awtsmoosDrop .validation-message.success {
+	color: #65f5c1;
 }
 
-.awtsmoosDrop .validation-message.invalid {
-	color: #ff7ca4;
+.awtsmoosDrop .validation-message.error {
+	color: #ff8db0;
 }
 
-.awtsmoosDrop [aria-busy="true"] {
-	opacity: 0.72;
+.awtsmoosDrop .validation-message.processing {
+	color: #71eaff;
 }

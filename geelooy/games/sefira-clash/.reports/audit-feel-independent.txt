@@ -1,0 +1,6 @@
+
+> audit:feel
+> node tools/core-feel-audit.mjs
+
+{"simulation":{"hertz":60,"simulatedSteps":59,"renderSamples":121},"input":{"edgeDetected":true,"bufferedFrames":7,"consumedOnce":true},"shield":{"parryWindow":3,"shieldDamageApplied":true},"adventure":{"perutas":10,"exitOpened":true,"completed":true}}
+EXIT_CODE=0

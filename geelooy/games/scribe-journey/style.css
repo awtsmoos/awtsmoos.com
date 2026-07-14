@@ -1,4 +1,4 @@
-/* B"H — One manifest, many vessels, one coherent journey. */
+/* B"H — One manifest, many vessels, one coherent online Chronicle. */
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Cinzel:wght@600;700&display=swap');
 @import url('./css/variables.css');
 @import url('./css/core.css');
@@ -9,4 +9,5 @@
 @import url('./css/hud.css');
 @import url('./css/menus.css');
 @import url('./css/settings.css');
+@import url('./css/multiplayer.css');
 @import url('./css/responsive.css');

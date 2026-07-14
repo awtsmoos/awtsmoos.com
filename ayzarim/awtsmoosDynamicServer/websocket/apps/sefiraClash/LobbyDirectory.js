@@ -3,112 +3,99 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * Rooms become discoverable through a directory that remembers codes without
- * exposing sockets. The Awtsmoos renews each gathering; Awtsmoos.com removes
- * abandoned vessels and forbids one client from entering two rooms at once.
+ * The directory binds codes, clients, tokens, rooms, and metrics without owning
+ * combat. The Awtsmoos renews every gathering; Awtsmoos.com preserves all original
+ * methods while additive membership and health paths enter through focused modules.
  */
 
-const { RealtimeError } = require("../../platform/RealtimeError.js");
-const { broadcastLobby } = require("./LobbyBroadcast.js");
-const { createJoinCode } = require("./joinCode.js");
-const { LobbyRoom } = require("./LobbyRoom.js");
+const Membership = require('./LobbyDirectoryMembership.js');
+const Policy = require('./LobbyDirectoryPolicy.js');
+const { LobbySessionRegistry } = require('./LobbySessionRegistry.js');
+const { SefiraMetrics } = require('./SefiraMetrics.js');
 
-/** Owns all active in-process Sefira Clash lobby rooms. */
+/** Owns active in-process Sefira Clash rooms and resumable participant bindings. */
 class LobbyDirectory {
-	constructor() {
+	constructor(options = {}) {
+		this.metrics = options.metrics || new SefiraMetrics();
 		this.roomsByCode = new Map();
-		this.roomsByClient = new WeakMap();
+		this.sessions = options.sessions || new LobbySessionRegistry(options);
+		this.roomsByClient = this.sessions.sessionsByClient;
 	}
 
-	/** Creates one room and returns its public state plus owner identity. */
 	create(client, profile) {
-		this.requireAvailableClient(client);
-		const code = createJoinCode(this.roomsByCode);
-		const room = new LobbyRoom(code, client, profile);
-		this.roomsByCode.set(code, room);
-		this.roomsByClient.set(client, room);
-		broadcastLobby(room);
-		return this.sessionResult(room, client);
+		return Membership.createPlayer(this, client, profile);
 	}
 
-	/** Joins one room and returns its public state plus member identity. */
 	join(client, profile) {
-		this.requireAvailableClient(client);
-		const room = this.roomsByCode.get(profile.joinCode);
-		if (!room) {
-			throw new RealtimeError(
-				"LOBBY_NOT_FOUND",
-				"No lobby matches that join code."
-			);
-		}
-		room.add(client, profile);
-		this.roomsByClient.set(client, room);
-		broadcastLobby(room);
-		return this.sessionResult(room, client);
+		return Membership.joinPlayer(this, client, profile);
 	}
 
-	/** Applies validated player fields and broadcasts the new revision. */
+	watch(client, profile) {
+		return Membership.watchRoom(this, client, profile);
+	}
+
+	resume(client, token) {
+		return Membership.resumeSession(this, client, token);
+	}
+
 	update(client, fields) {
 		const room = this.requireRoom(client);
 		room.update(client, fields);
-		broadcastLobby(room);
+		require('./LobbyBroadcast.js').broadcastLobby(room);
 		return room.snapshot();
 	}
 
-	/** Returns the current public room snapshot for one member. */
+	start(client) {
+		const room = this.requireRoom(client);
+		const match = room.match.start(client);
+		require('./LobbyBroadcast.js').broadcastLobby(room);
+		return match;
+	}
+
+	input(client, input) {
+		const room = this.requireRoom(client);
+		return {
+			accepted: room.match.input(client, input),
+			frame: room.match.simulation?.frame || 0
+		};
+	}
+
+	recordRejectedInput(client) {
+		const session = this.sessions.sessionForClient(client);
+		session?.room.match.recordRejectedInput(session.participant.id);
+	}
+
+	rematch(client) {
+		const room = this.requireRoom(client);
+		const lobby = room.match.rematch(client);
+		require('./LobbyBroadcast.js').broadcastLobby(room);
+		return lobby;
+	}
+
+	replay(client) {
+		const room = this.requireRoom(client);
+		room.requireParticipant(client);
+		return room.match.replay();
+	}
+
 	snapshot(client) {
 		return this.requireRoom(client).snapshot();
 	}
 
-	/** Removes one member, migrates ownership, and retires empty rooms. */
+	health() {
+		return this.metrics.snapshot(this);
+	}
+
 	leave(client) {
-		const room = this.roomsByClient.get(client);
-		if (!room) {
-			return null;
-		}
-		room.remove(client);
-		this.roomsByClient.delete(client);
-		if (room.isEmpty()) {
-			this.roomsByCode.delete(room.joinCode);
-			return null;
-		}
-		broadcastLobby(room);
-		return room.snapshot();
+		return Membership.leaveSession(this, client);
 	}
 
-	/** Applies the same room lifecycle when the transport disconnects. */
 	disconnect(client) {
-		this.leave(client);
-	}
-
-	/** Returns public state plus the requesting client's opaque player id. */
-	sessionResult(room, client) {
-		return {
-			lobby: room.snapshot(),
-			playerId: room.requireMember(client).id
-		};
-	}
-
-	requireAvailableClient(client) {
-		if (this.roomsByClient.has(client)) {
-			throw new RealtimeError(
-				"ALREADY_IN_LOBBY",
-				"Leave the current lobby first."
-			);
-		}
+		return Membership.suspendSession(this, client);
 	}
 
 	requireRoom(client) {
-		const room = this.roomsByClient.get(client);
-		if (!room) {
-			throw new RealtimeError(
-				"NOT_IN_LOBBY",
-				"Client has no active Sefira lobby."
-			);
-		}
-		return room;
+		return Policy.requireRoom(this.sessions, client);
 	}
 }
 

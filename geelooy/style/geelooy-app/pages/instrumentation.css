@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every connected Awtsmoos.com route a recognizable command face.
+ */
+body.geelooy-app-shell .g-page-hero,
+body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	border: 1px solid rgba(60, 236, 255, 0.22);
+	border-radius: 0.8rem 3rem 0.8rem 3rem;
+	background:
+		linear-gradient(132deg, rgba(60, 236, 255, 0.1), transparent 30%),
+		linear-gradient(310deg, rgba(255, 72, 203, 0.08), transparent 32%),
+		var(--g-surface);
+	box-shadow: var(--g-shadow-lg), inset 0 1px rgba(255, 255, 255, 0.07);
+}
+
+body.geelooy-app-shell .g-page-hero::after,
+body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero)::after {
+	position: absolute;
+	inset: auto 6% 0;
+	height: 2px;
+	background: var(--g-gradient-hot);
+	content: "";
+	box-shadow: var(--g-glow);
+}
+
+body.geelooy-app-shell .g-page-hero h1,
+body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) h1 {
+	background: linear-gradient(100deg, #ffffff 10%, var(--g-cyan) 58%, #d7c9ff);
+	background-clip: text;
+	color: transparent;
+	text-wrap: balance;
+}
+
+body.geelooy-app-shell :where(
+	.notifications-console,
+	.g-search-form,
+	.g-app-filter,
+	.profile-command-panel,
+	.home-command-galaxy
+) {
+	border-radius: 1.6rem 0.55rem 1.6rem 0.55rem;
+	background:
+		linear-gradient(145deg, rgba(79, 125, 255, 0.08), rgba(255, 72, 203, 0.045)),
+		var(--g-surface);
+	box-shadow: var(--g-shadow-md), inset 0 1px rgba(255, 255, 255, 0.055);
+}
+
+@media (max-width: 42rem) {
+	body.geelooy-app-shell .g-page-hero,
+	body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
+		align-items: stretch;
+		border-radius: 0.65rem 1.8rem 0.65rem 1.8rem;
+	}
+}

@@ -1,0 +1,70 @@
+{
+	"version": 1,
+	"title": "The First Tefillin Shlichus — Two Minute Mission Film",
+	"duration": 120,
+	"fps": 24,
+	"resolution": { "width": 1280, "height": 720 },
+	"seed": 613,
+	"render": { "fileName": "tefillin-shlichus-120s.webm", "videoBitsPerSecond": 6000000 },
+	"tracks": [
+		{
+			"id": "scenes", "type": "scene", "clips": [
+				{ "start": 0, "duration": 24, "label": "Morning Briefing", "grade": "#d8b66b", "transition": "fade" },
+				{ "start": 24, "duration": 30, "label": "Walking to the Square", "grade": "#87bca2", "transition": "crossfade" },
+				{ "start": 54, "duration": 42, "label": "Respectful Invitation", "grade": "#88a9d2", "transition": "cut" },
+				{ "start": 96, "duration": 24, "label": "Return with Joy", "grade": "#d9a76f", "transition": "crossfade" }
+			]
+		},
+		{
+			"id": "shliach-performance", "type": "actor", "target": "player", "clips": [
+				{ "start": 0, "duration": 8, "action": "pose", "animation": "idle", "at": { "x": 48, "z": -29 }, "face": "npc" },
+				{ "start": 8, "duration": 10, "action": "talk", "animation": "talk", "at": { "x": 48, "z": -29 }, "face": "npc" },
+				{ "start": 18, "duration": 28, "action": "move", "animation": "walk", "from": { "x": 48, "z": -29 }, "to": { "x": 65, "z": -43 }, "easing": "easeInOutCubic" },
+				{ "start": 46, "duration": 12, "action": "talk", "animation": "talk", "at": { "x": 65, "z": -43 }, "face": "npc" },
+				{ "start": 58, "duration": 18, "action": "move", "animation": "walk", "from": { "x": 65, "z": -43 }, "to": { "x": 72, "z": -54 }, "easing": "smoothstep" },
+				{ "start": 76, "duration": 20, "action": "talk", "animation": "talk", "at": { "x": 72, "z": -54 }, "face": "npc" },
+				{ "start": 96, "duration": 18, "action": "move", "animation": "walk", "from": { "x": 72, "z": -54 }, "to": { "x": 50, "z": -31 }, "easing": "smootherstep" },
+				{ "start": 114, "duration": 6, "action": "talk", "animation": "talk", "at": { "x": 50, "z": -31 }, "face": "npc" }
+			]
+		},
+		{
+			"id": "npc-performance", "type": "actor", "target": "npc", "clips": [
+				{ "start": 0, "duration": 18, "action": "talk", "animation": "talk", "at": { "x": 52, "z": -29 }, "face": "player" },
+				{ "start": 18, "duration": 28, "action": "move", "animation": "walk", "from": { "x": 52, "z": -29 }, "to": { "x": 68, "z": -43 }, "easing": "easeInOutCubic" },
+				{ "start": 46, "duration": 30, "action": "talk", "animation": "talk", "at": { "x": 68, "z": -43 }, "face": "player" },
+				{ "start": 76, "duration": 20, "action": "talk", "animation": "talk", "at": { "x": 74, "z": -54 }, "face": "player" },
+				{ "start": 96, "duration": 24, "action": "pose", "animation": "idle", "at": { "x": 53, "z": -31 }, "face": "player" }
+			]
+		},
+		{
+			"id": "camera", "type": "camera", "clips": [
+				{ "start": 0, "duration": 18, "shot": "briefingTwoShot", "from": { "position": { "x": 42, "y": 5, "z": -20 }, "target": { "x": 50, "y": 2, "z": -29 } }, "to": { "position": { "x": 45, "y": 4, "z": -23 }, "target": { "x": 50, "y": 2, "z": -29 } }, "easing": "smootherstep" },
+				{ "start": 18, "duration": 28, "shot": "walkingTrack", "from": { "position": { "x": 42, "y": 4, "z": -22 }, "targetActor": "player" }, "to": { "position": { "x": 59, "y": 4.5, "z": -35 }, "targetActor": "player" }, "easing": "easeInOutCubic" },
+				{ "start": 46, "duration": 30, "shot": "outreachWide", "from": { "position": { "x": 74, "y": 6, "z": -34 }, "target": { "x": 67, "y": 2, "z": -43 } }, "to": { "position": { "x": 76, "y": 4.5, "z": -40 }, "target": { "x": 68, "y": 2, "z": -44 } }, "easing": "smoothstep" },
+				{ "start": 76, "duration": 20, "shot": "consentClose", "from": { "position": { "x": 78, "y": 3.8, "z": -48 }, "target": { "x": 73, "y": 2.1, "z": -54 } }, "to": { "position": { "x": 77, "y": 3.4, "z": -50 }, "target": { "x": 73, "y": 2.1, "z": -54 } } },
+				{ "start": 96, "duration": 24, "shot": "returnCrane", "from": { "position": { "x": 71, "y": 5, "z": -49 }, "targetActor": "player" }, "to": { "position": { "x": 57, "y": 12, "z": -20 }, "targetActor": "player" }, "easing": "smootherstep" }
+			]
+		},
+		{
+			"id": "dialogue", "type": "dialogue", "clips": [
+				{ "start": 2, "duration": 6, "speaker": "Rabbi Dov Ber", "text": "Go with preparation, patience, and respect for every person." },
+				{ "start": 9, "duration": 6, "speaker": "Shliach", "text": "I will carry the tefillin carefully and listen before I speak." },
+				{ "start": 47, "duration": 7, "speaker": "Levi", "text": "We invite; we never pressure. A mitzvah is met with dignity." },
+				{ "start": 77, "duration": 8, "speaker": "Shliach", "text": "Daniel, would you like help putting on tefillin today?" },
+				{ "start": 86, "duration": 7, "speaker": "Daniel", "text": "Yes. Please show me each step slowly." },
+				{ "start": 114, "duration": 6, "speaker": "Rabbi Dov Ber", "text": "One willing heart, one careful deed, one world illuminated." }
+			]
+		},
+		{
+			"id": "audio", "type": "audio", "clips": [
+				{ "start": 0, "duration": 120, "kind": "score", "frequency": 110, "volume": 0.035 },
+				{ "start": 2, "duration": 6, "kind": "speechTone", "frequency": 155, "volume": 0.04 },
+				{ "start": 9, "duration": 6, "kind": "speechTone", "frequency": 195, "volume": 0.04 },
+				{ "start": 47, "duration": 7, "kind": "speechTone", "frequency": 175, "volume": 0.04 },
+				{ "start": 77, "duration": 8, "kind": "speechTone", "frequency": 205, "volume": 0.04 },
+				{ "start": 86, "duration": 7, "kind": "speechTone", "frequency": 165, "volume": 0.04 },
+				{ "start": 114, "duration": 6, "kind": "speechTone", "frequency": 145, "volume": 0.04 }
+			]
+		}
+	]
+}

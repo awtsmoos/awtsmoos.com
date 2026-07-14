@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos renews the Awtsmoos.com Character Lab for narrow vessels. */
+@media (max-width: 820px) {
+	.character-customizer {
+		right: 8px;
+		top: 58px;
+	}
+
+	.character-lab-card {
+		width: calc(100vw - 16px);
+		height: calc(100vh - 70px);
+	}
+
+	.character-lab-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.character-controls,
+	.character-lab-card aside {
+		max-height: 45vh;
+	}
+
+	.character-grid {
+		grid-template-columns: 1fr;
+	}
+}

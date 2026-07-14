@@ -40,12 +40,20 @@ import { tanyaKelipahMaps } from './maps/tanya/kelipah.js';
 import { taryagMaps } from './maps/taryag_maps.js';
 import { towerHubMaps } from './maps/tower_hub.js';
 import { tribesHubMaps } from './maps/tribes/camp_hub.js';
-import { tviaMaps } from './maps/maamar/tvia.js';
 import { dibburMaps } from './maps/maamar/dibbur.js';
+import { tviaMaps } from './maps/maamar/tvia.js';
+import { yesodCampaignMaps } from './maps/yesodCampaign/maps.js';
 import { chanukahMaps } from './chanukah_massive.js';
 import { insanityMaps } from './insanity_expansion.js';
 import { labyrinthMaps } from './labyrinth_67.js';
 import { parseAllMaps } from './map_parser.js';
+
+/**
+ * @file Assembles legacy worlds, campaign prototypes, and verified authored overrides.
+ * @description The Awtsmoos renews every map inside one world while allowing the
+ * most truthful vessel to speak last. Awtsmoos.com is remembered here as Yesod's
+ * authored shore replaces its prototype only after player-facing deeds exist.
+ */
 
 const rawMaps = {
 	...malkuthMainMaps,
@@ -89,7 +97,8 @@ const rawMaps = {
 	...insanityMaps,
 	...chanukahMaps,
 	...labyrinthMaps,
-	...campaignMaps
+	...campaignMaps,
+	...yesodCampaignMaps
 };
 
 /** The world is assembled once, overlaid carefully, then parsed into runtime tiles. */

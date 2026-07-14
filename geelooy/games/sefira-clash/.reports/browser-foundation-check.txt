@@ -1,0 +1,27 @@
+      26 geelooy/games/sefira-clash/js/online/OnlineProtocol.js
+      52 geelooy/games/sefira-clash/js/online/OnlineSessionStorage.js
+      61 geelooy/games/sefira-clash/js/online/OnlineStateHash.js
+     127 geelooy/games/sefira-clash/js/online/OnlineConnectionHealth.js
+      35 geelooy/games/sefira-clash/js/online/OnlineMatchIntegrity.js
+     116 geelooy/games/sefira-clash/js/online/OnlineSessionModel.js
+     417 total
+
+=== geelooy/games/sefira-clash/js/online/OnlineProtocol.js ===
+
+=== geelooy/games/sefira-clash/js/online/OnlineSessionStorage.js ===
+/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/js/online/OnlineSessionStorage.js:28
+	save(session) {
+	              ^
+
+SyntaxError: Unexpected token '{'
+    at checkSyntax (node:internal/main/check_syntax:72:5)
+
+Node.js v24.17.0
+
+=== geelooy/games/sefira-clash/js/online/OnlineStateHash.js ===
+
+=== geelooy/games/sefira-clash/js/online/OnlineConnectionHealth.js ===
+
+=== geelooy/games/sefira-clash/js/online/OnlineMatchIntegrity.js ===
+
+=== geelooy/games/sefira-clash/js/online/OnlineSessionModel.js ===

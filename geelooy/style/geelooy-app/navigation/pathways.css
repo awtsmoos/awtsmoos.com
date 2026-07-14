@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns movement through Awtsmoos.com into a legible current.
+ * Navigation reveals destination and current position before decoration.
+ */
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+) {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+}
+
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+)::after {
+	position: absolute;
+	inset: auto 0 0;
+	height: 2px;
+	background: var(--g-gradient-hot);
+	content: "";
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--g-motion-medium) var(--g-ease);
+}
+
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+)[aria-current="page"] {
+	border-color: rgba(60, 236, 255, 0.54);
+	background: var(--g-gradient-soft);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), var(--g-glow);
+	color: #ffffff;
+}
+
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+)[aria-current="page"]::after {
+	transform: scaleX(1);
+}
+
+body.geelooy-app-shell :where(.g-route-list a, .g-trend-list a) small::after {
+	content: "  ↗";
+	color: var(--g-cyan);
+	font-family: var(--g-mono);
+}
+
+body.geelooy-app-shell :where(a[data-danger="true"], a[data-intent="destructive"]) {
+	border-color: color-mix(in srgb, var(--g-danger) 52%, var(--g-line));
+	background-image: linear-gradient(90deg, rgba(255, 95, 143, 0.18), rgba(255, 72, 203, 0.08));
+	color: #ffdbe7;
+}

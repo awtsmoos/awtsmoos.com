@@ -1,4 +1,7 @@
-<!-- B"H — Profile dashboard inside the unified Geelooy shell. -->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos reveals the personal identity chamber through real account truth at Awtsmoos.com. -->
 <?<script>
 	function escapeProfileText(value) {
 		return String(value || '')
@@ -9,14 +12,14 @@
 			.replace(/'/g, '&#39;');
 	}
 
-	var shellBoot = '<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-001"></' + 'script>';
+	var shellBoot = '<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></' + 'script>';
 	var user = request.user ? escapeProfileText(request.user.info.userId) : '';
 	if (request.user) sharedData.user = request.user.info.userId;
 
 	if (!request.user) {
 		return $a('nav/page.html', { centered: false, tochen: /*html*/`
 			<title>Profile — Geelooy</title>
-			<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-001">
+			<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
 			<main class="geelooy-profile-shell geelooy-content-region" data-profile>
 				<section class="profile-hero-card" aria-labelledby="profile-title">
 					<div class="profile-identity-row">
@@ -40,7 +43,7 @@
 
 	return $a('nav/page.html', { centered: false, tochen: /*html*/`
 		<title>${user} — Geelooy Profile</title>
-		<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-001">
+		<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
 		<main class="geelooy-profile-shell geelooy-content-region" data-user="${user}" data-profile>
 			<section class="profile-hero-card" aria-labelledby="profile-title">
 				<div class="profile-identity-row">
@@ -73,9 +76,21 @@
 					<button id="profile-tab-about" type="button" role="tab" aria-selected="false" aria-controls="profile-panel-about" data-profile-tab="about" tabindex="-1">Settings</button>
 				</nav>
 				<div class="profile-panel-body">
-					<section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases"><div class="panel-title-row"><h2>Aliases</h2><a class="g-button" href="./alias-manage/">Add alias</a></div><div class="alias-list social-card-list" aria-live="polite"><div class="g-state">Loading aliases…</div></div></section>
-					<section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden><div class="panel-title-row"><h2>Heichelos</h2><a class="g-button" href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list" aria-live="polite"></div></section>
-					<section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden><div class="g-grid"><article class="g-card"><h3>Aliases</h3><p>Public identities for posts, mail, comments, and relationships.</p></article><article class="g-card"><h3>Heichelos</h3><p>Spaces for libraries, series, communities, and submissions.</p></article><article class="g-card"><h3>Mail</h3><p>Messages use your selected alias and remain connected to the global shell.</p></article></div></section>
+					<section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases">
+						<div class="panel-title-row"><h2>Aliases</h2><a class="g-button" href="./alias-manage/">Add alias</a></div>
+						<div class="alias-list social-card-list" aria-live="polite"><div class="g-state">Loading aliases…</div></div>
+					</section>
+					<section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden>
+						<div class="panel-title-row"><h2>Heichelos</h2><a class="g-button" href="/heichelos/manage-alias-heichelos/">Manage</a></div>
+						<div class="heichel-list social-card-list" aria-live="polite"></div>
+					</section>
+					<section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden>
+						<div class="g-grid">
+							<article class="g-card"><h3>Aliases</h3><p>Public identities for posts, mail, comments, and relationships.</p></article>
+							<article class="g-card"><h3>Heichelos</h3><p>Spaces for libraries, series, communities, and submissions.</p></article>
+							<article class="g-card"><h3>Mail</h3><p>Messages use your selected alias and remain connected to the global shell.</p></article>
+						</div>
+					</section>
 				</div>
 			</section>
 			<section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>

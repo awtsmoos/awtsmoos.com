@@ -1,8 +1,15 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @file index.js (Key Logic)
- * @chapter The Book of Names (Shemos)
+ * @file api/liveHandle/navigator/key/index.js
+ * @chapter The Book Of Names Opens The Correct Vessel
+ * @description
+ * Resolves one child pointer according to the effective structure type. Anchored
+ * sequences pass their stable soul to the sequence seeker so named metadata can
+ * be found beside numeric positions. The Awtsmoos reveals each name without
+ * confusing packed, sparse, mapped, or sequential worlds.
  */
 
 const constants = require('../../../../constants.js');
@@ -15,49 +22,56 @@ const PackedLive = require('../../../packed/liveObject.js');
 const PackedArray = require('../../../packed/liveArray.js');
 
 class KeyLogic {
-    static resolveKey(state, key, structCoords) {
-        const T = constants.VAL_TYPE;
-        let type = state.type;
+	static resolveKey(state, key, structureCoordinates) {
+		const type = this._effectiveType(state);
+		const database = state.db;
 
-        if (type === T.ANCHOR) {
-            type = AnchorLogic.resolveInnerType(state) || T.DICTIONARY;
-        }
+		if (type === constants.VAL_TYPE.PACKED_OBJECT) {
+			return this._packedResult(PackedLive.get(database, state.ptr, key));
+		}
+		if (type === constants.VAL_TYPE.PACKED_ARRAY) {
+			return this._packedResult(PackedArray.get(database, state.ptr, key));
+		}
 
-        const db = state.db;
-        let valPtr = null;
+		let valuePointer = null;
+		if (type === constants.VAL_TYPE.SMART_OBJECT || type === constants.VAL_TYPE.SMART_ARRAY) {
+			valuePointer = FlatSeeker.seek(database, type, structureCoordinates, key);
+			if (!valuePointer && type === constants.VAL_TYPE.SMART_ARRAY && database.sparseArrays) {
+				valuePointer = database.sparseArrays.getPtr(state, key);
+			}
+		} else if (this._isSequence(type)) {
+			valuePointer = SequenceSeeker.seek(database, structureCoordinates, key, state);
+			if (!valuePointer && database.sparseArrays) {
+				valuePointer = database.sparseArrays.getPtr(state, key);
+			}
+		} else {
+			valuePointer = MapSeeker.seek(database, type, structureCoordinates, key);
+		}
 
-        if (type === T.PACKED_OBJECT) {
-            const out = PackedLive.get(db, state.ptr, key);
-            return out.hit ? { virtualPacked: true, value: out.value } : null;
-        }
-        if (type === T.PACKED_ARRAY) {
-            const out = PackedArray.get(db, state.ptr, key);
-            return out.hit ? { virtualPacked: true, value: out.value } : null;
-        }
-        if (type === T.PACKED_ARRAY) {
-            const out = PackedArray.get(db, state.ptr, key);
-            return out.hit ? { virtualPacked: true, value: out.value } : null;
-        }
+		if (!valuePointer) return null;
+		return {
+			ptr: valuePointer,
+			type: SmartPointer.getType(valuePointer)
+		};
+	}
 
-        if (type === T.SMART_OBJECT || type === T.SMART_ARRAY) {
-            valPtr = FlatSeeker.seek(db, type, structCoords, key);
-            if (!valPtr && type === T.SMART_ARRAY && db.sparseArrays) {
-                valPtr = db.sparseArrays.getPtr(state, key);
-            }
-        } else if ([T.SEQUENCE, T.ARRAY, T.SET, T.JS_SET].includes(type)) {
-            valPtr = SequenceSeeker.seek(db, structCoords, key);
-            if (!valPtr && db.sparseArrays) valPtr = db.sparseArrays.getPtr(state, key);
-        } else {
-            valPtr = MapSeeker.seek(db, type, structCoords, key);
-        }
+	static _effectiveType(state) {
+		if (state.type !== constants.VAL_TYPE.ANCHOR) return state.type;
+		return AnchorLogic.resolveInnerType(state) || constants.VAL_TYPE.DICTIONARY;
+	}
 
-        if (!valPtr) return null;
+	static _isSequence(type) {
+		return [
+			constants.VAL_TYPE.SEQUENCE,
+			constants.VAL_TYPE.ARRAY,
+			constants.VAL_TYPE.SET,
+			constants.VAL_TYPE.JS_SET
+		].includes(type);
+	}
 
-        return {
-            ptr: valPtr,
-            type: SmartPointer.getType(valPtr)
-        };
-    }
+	static _packedResult(result) {
+		return result.hit ? { virtualPacked: true, value: result.value } : null;
+	}
 }
 
 module.exports = KeyLogic;

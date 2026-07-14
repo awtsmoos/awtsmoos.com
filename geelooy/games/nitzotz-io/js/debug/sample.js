@@ -3,14 +3,22 @@
 // Blessed is He
 import { directorSummary } from '../director/director.js';
 
-/** The Awtsmoos gathers one bounded evidence snapshot from the living arena. */
+/**
+ * The Awtsmoos gathers one bounded evidence snapshot from the living arena.
+ * Firebase garment readiness joins simulation, performance, and WebGL truth.
+ */
 export function sampleWorld(world, renderer) {
 	const counts = countObjects(world.level.objects);
 	const performance = world.performance;
 	return {
 		mode: world.mode,
 		gameMode: { id: world.gameMode.id, name: world.gameMode.name },
-		level: { index: world.level.index, key: world.level.key, name: world.level.name, chapter: world.level.chapterName },
+		level: {
+			index: world.level.index,
+			key: world.level.key,
+			name: world.level.name,
+			chapter: world.level.chapterName
+		},
 		campaign: {
 			unlocked: world.save.unlocked,
 			selectedChapter: world.save.selectedChapter,
@@ -25,28 +33,43 @@ export function sampleWorld(world, renderer) {
 		...counts,
 		botanicalGallery: Boolean(world.botanicalGallery),
 		powerups: { ...world.powerups },
-		rivals: world.rivals.map(rival => ({ name: rival.name, archetype: rival.archetype.name, mass: rival.mass })),
+		rivals: world.rivals.map(rival => ({
+			name: rival.name,
+			archetype: rival.archetype.name,
+			mass: rival.mass
+		})),
 		director: directorSummary(world),
 		achievements: Object.keys(world.save.achievements).length,
-		performance: {
-			fps: performance.fps,
-			ms: performance.ms,
-			p95: performance.p95,
-			p99: performance.p99,
-			scale: performance.scale,
-			resolutionScale: performance.resolutionScale,
-			stress: performance.stress,
-			commands: performance.commands,
-			postfx: performance.postfx
-		},
+		performance: performanceSnapshot(performance),
+		textures: renderer.textures?.status() || null,
 		stats: world.stats ? { ...world.stats } : null,
 		webglError: renderer.gl.getError(),
 		message: world.message
 	};
 }
 
+function performanceSnapshot(performance) {
+	return {
+		fps: performance.fps,
+		ms: performance.ms,
+		p95: performance.p95,
+		p99: performance.p99,
+		scale: performance.scale,
+		resolutionScale: performance.resolutionScale,
+		stress: performance.stress,
+		commands: performance.commands,
+		postfx: performance.postfx
+	};
+}
+
 function countObjects(objects) {
-	const counts = { remaining: 0, traffic: 0, pedestrians: 0, compositeModels: 0, botanical: 0 };
+	const counts = {
+		remaining: 0,
+		traffic: 0,
+		pedestrians: 0,
+		compositeModels: 0,
+		botanical: 0
+	};
 	for (const object of objects) {
 		if (object.taken) continue;
 		counts.remaining += 1;

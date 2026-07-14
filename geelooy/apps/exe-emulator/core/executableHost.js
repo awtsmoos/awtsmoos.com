@@ -4,27 +4,33 @@
 
 import { detectArtifactIdentity } from "../../../shared/compiling/native/artifactIdentity.js";
 import { normalizeBytes } from "../../../shared/compiling/native/byteReader.js";
+import { runAwtexePackage } from "./awtexeRuntime.js";
 import { inspectUnknownBinary } from "./binaryInspector.js";
 import { inspectElf } from "./elfLoader.js";
 import { emulatePortableExecutable } from "./emulator.js";
+import {
+	createExecutableHost,
+	exactArrayBuffer
+} from "./hostAdapter.js";
 import { inspectMachO } from "./machoLoader.js";
+import { runPortableArtifact } from "./portableRuntime.js";
 import { runWebAssemblyModule } from "./wasmRuntime.js";
 
 /**
- * The executable host listens to bytes before extensions. The Awtsmoos creates
- * inner form, outer name, and runtime boundary together; Awtsmoos.com rejects
- * mismatches and keeps native, emulated, inspected, and simulated classes apart.
+ * Opens executable bytes through the strongest truthful runtime available.
+ * The Awtsmoos creates byte identity and runtime possibility together.
+ * Awtsmoos.com keeps inspection, semantic simulation, instruction-subset
+ * emulation, WebAssembly execution, and native execution as distinct evidence.
  */
-
 export async function runExecutableArtifact(options = {}) {
 	const bytes = normalizeBytes(options.bytes);
-	const host = createHost(options.host);
+	const host = createExecutableHost(options.host);
 	const identity = detectArtifactIdentity(bytes, {
 		extension: options.extension,
 		manifest: options.manifest
 	});
 	if (identity.format === "awtexe") {
-		return runAwtexe(identity, options, host);
+		return runAwtexePackage(identity, options, host, runDetected);
 	}
 	const result = await runDetected(identity, bytes, options, host);
 	return Object.freeze({ identity, result });
@@ -35,20 +41,25 @@ async function runDetected(identity, bytes, options, host) {
 		return inspectDetected(identity, bytes, host);
 	}
 	if (identity.format === "pe") {
-		const result = emulatePortableExecutable(exactBuffer(bytes), host);
-		return Object.freeze({
-			...result,
-			executionClass: result.runtime?.fallback
-				? "semantic-simulation"
-				: "instruction-subset-emulation",
-			completeCpuEmulation: false
-		});
-	}
-	if (["mach-o", "mach-o-fat"].includes(identity.format)) {
-		return inspectMachO(identity, host);
+		return emulatePe(bytes, host);
 	}
 	if (identity.format === "elf") {
-		return inspectElf(identity, host);
+		return runPortableArtifact(
+			identity,
+			bytes,
+			host,
+			inspectElf(identity, bytes, host),
+			options
+		);
+	}
+	if (["mach-o", "mach-o-fat"].includes(identity.format)) {
+		return runPortableArtifact(
+			identity,
+			bytes,
+			host,
+			inspectMachO(identity, bytes, host),
+			options
+		);
 	}
 	if (identity.format === "webassembly") {
 		return runWebAssemblyModule(bytes, { ...options, host });
@@ -56,56 +67,26 @@ async function runDetected(identity, bytes, options, host) {
 	return inspectUnknownBinary(identity, bytes, host);
 }
 
+function emulatePe(bytes, host) {
+	const result = emulatePortableExecutable(exactArrayBuffer(bytes), host);
+	return Object.freeze({
+		...result,
+		completeCpuEmulation: false,
+		executionClass: result.runtime?.fallback
+			? "semantic-simulation"
+			: "instruction-subset-emulation"
+	});
+}
+
 function inspectDetected(identity, bytes, host) {
+	if (identity.format === "elf") return inspectElf(identity, bytes, host);
 	if (["mach-o", "mach-o-fat"].includes(identity.format)) {
-		return inspectMachO(identity, host);
-	}
-	if (identity.format === "elf") {
-		return inspectElf(identity, host);
+		return inspectMachO(identity, bytes, host);
 	}
 	return Object.freeze({
 		...inspectUnknownBinary(identity, bytes, host),
-		mode: "loader-inspection",
+		detectedArchitecture: identity.architecture,
 		detectedFormat: identity.format,
-		detectedArchitecture: identity.architecture
+		mode: "loader-inspection"
 	});
-}
-
-async function runAwtexe(identity, options, host) {
-	const payloadIdentity = detectArtifactIdentity(identity.payloadBytes, {
-		manifest: { format: expectedPayloadFormat(identity.manifest.entryKind) }
-	});
-	const payloadResult = await runDetected(payloadIdentity, identity.payloadBytes, options, host);
-	return Object.freeze({
-		identity,
-		result: Object.freeze({
-			mode: "awtsmoos-simulated-runtime",
-			executionClass: "simulated-package",
-			manifest: identity.manifest,
-			payloadIdentity,
-			payloadResult
-		})
-	});
-}
-
-function expectedPayloadFormat(entryKind) {
-	if (entryKind === "pe") {
-		return "pe";
-	}
-	if (entryKind === "wasm") {
-		return "webassembly";
-	}
-	throw new Error(`unsupported_awtexe_entry_kind:${entryKind}`);
-}
-
-function createHost(host = {}) {
-	return Object.freeze({
-		print: typeof host.print === "function" ? host.print.bind(host) : () => {},
-		openWindow: typeof host.openWindow === "function" ? host.openWindow.bind(host) : () => {},
-		draw: typeof host.draw === "function" ? host.draw.bind(host) : undefined
-	});
-}
-
-function exactBuffer(bytes) {
-	return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 }

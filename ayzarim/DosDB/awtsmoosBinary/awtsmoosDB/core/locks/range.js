@@ -1,143 +1,103 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file core/locks/range.js
- * @chapter The Gates That Know Their Borders
+ * @chapter The Gate Releases As Soon As Synchronous Work Is Complete
  * @description
- * A small shared/exclusive range lock table. It lets non-overlapping byte
- * regions proceed without waiting on each other, while overlapping writes wait
- * until the earlier holder releases its gate.
+ * Coordinates shared and exclusive byte ranges. Synchronous callbacks complete
+ * and release inside the calling turn, avoiding a growing active-lock crowd;
+ * genuine promises retain their locks until settlement. The Awtsmoos preserves
+ * every overlap boundary while removing needless microtask and quadratic cost.
  */
 
-/**
- * @class RangeLockManager
- * @description Async shared/exclusive locks for named byte ranges.
- */
 class RangeLockManager {
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.active = [];
-    this.waiting = [];
-  }
+	constructor() {
+		this.active = [];
+		this.waiting = [];
+	}
 
-  /**
-   * @method read
-   * @param {string} resource - Resource id.
-   * @param {number} offset - Start byte.
-   * @param {number} length - Byte count.
-   * @param {Function} fn - Work callback.
-   * @returns {Promise<*>} Callback result.
-   */
-  read(resource, offset, length, fn) {
-    return this.withLock({ resource, offset, length, mode: 'read' }, fn);
-  }
+	read(resource, offset, length, work) {
+		return this.withLock({ resource, offset, length, mode: 'read' }, work);
+	}
 
-  /**
-   * @method write
-   * @param {string} resource - Resource id.
-   * @param {number} offset - Start byte.
-   * @param {number} length - Byte count.
-   * @param {Function} fn - Work callback.
-   * @returns {Promise<*>} Callback result.
-   */
-  write(resource, offset, length, fn) {
-    return this.withLock({ resource, offset, length, mode: 'write' }, fn);
-  }
+	write(resource, offset, length, work) {
+		return this.withLock({ resource, offset, length, mode: 'write' }, work);
+	}
 
-  /**
-   * @method withLock
-   * @param {object} lock - Lock request.
-   * @param {Function} fn - Work callback.
-   * @returns {Promise<*>} Callback result.
-   */
-  async withLock(lock, fn) {
-    await this.acquire(lock);
+	withLock(lock, work) {
+		this._normalize(lock);
+		if (!this._conflicts(lock)) {
+			this.active.push(lock);
+			return this._execute(lock, work);
+		}
+		return this._wait(lock).then(() => this._execute(lock, work));
+	}
 
-    try {
-      return await fn();
-    } finally {
-      this.release(lock);
-    }
-  }
+	_wait(lock) {
+		return new Promise(resolve => {
+			this.waiting.push({ lock, resolve });
+		});
+	}
 
-  /**
-   * @method acquire
-   * @param {object} lock - Lock request.
-   * @returns {Promise<void>} Resolution when granted.
-   */
-  acquire(lock) {
-    this._clean(lock);
+	_execute(lock, work) {
+		let result;
+		try {
+			result = work();
+		} catch (error) {
+			this.release(lock);
+			return Promise.reject(error);
+		}
 
-    if (!this._conflicts(lock)) {
-      this.active.push(lock);
-      return Promise.resolve();
-    }
+		if (!result || typeof result.then !== 'function') {
+			this.release(lock);
+			return Promise.resolve(result);
+		}
+		return Promise.resolve(result).then(
+			value => {
+				this.release(lock);
+				return value;
+			},
+			error => {
+				this.release(lock);
+				throw error;
+			}
+		);
+	}
 
-    return new Promise(resolve => {
-      this.waiting.push({ lock, resolve });
-    });
-  }
+	release(lock) {
+		const index = this.active.indexOf(lock);
+		if (index !== -1) this.active.splice(index, 1);
+		this._drain();
+	}
 
-  /**
-   * @method release
-   * @param {object} lock - Lock to release.
-   * @returns {void}
-   */
-  release(lock) {
-    const index = this.active.indexOf(lock);
-    if (index !== -1) this.active.splice(index, 1);
-    this._drain();
-  }
+	_drain() {
+		for (let index = 0; index < this.waiting.length; index++) {
+			const item = this.waiting[index];
+			if (this._conflicts(item.lock)) continue;
+			this.waiting.splice(index, 1);
+			this.active.push(item.lock);
+			item.resolve();
+			index--;
+		}
+	}
 
-  /**
-   * @method _drain
-   * @returns {void}
-   */
-  _drain() {
-    for (let i = 0; i < this.waiting.length; i++) {
-      const item = this.waiting[i];
-      if (this._conflicts(item.lock)) continue;
+	_conflicts(lock) {
+		return this.active.some(active => this._blocks(active, lock));
+	}
 
-      this.waiting.splice(i, 1);
-      this.active.push(item.lock);
-      item.resolve();
-      i--;
-    }
-  }
+	_blocks(active, candidate) {
+		if (active.resource !== candidate.resource) return false;
+		if (active.mode === 'read' && candidate.mode === 'read') return false;
+		return active.offset < candidate.offset + candidate.length
+			&& candidate.offset < active.offset + active.length;
+	}
 
-  /**
-   * @method _conflicts
-   * @param {object} lock - Candidate lock.
-   * @returns {boolean} True when active locks block it.
-   */
-  _conflicts(lock) {
-    return this.active.some(active => this._blocks(active, lock));
-  }
-
-  /**
-   * @method _blocks
-   * @param {object} a - Active lock.
-   * @param {object} b - Candidate lock.
-   * @returns {boolean} True when locks conflict.
-   */
-  _blocks(a, b) {
-    if (a.resource !== b.resource) return false;
-    if (a.mode === 'read' && b.mode === 'read') return false;
-    return a.offset < b.offset + b.length && b.offset < a.offset + a.length;
-  }
-
-  /**
-   * @method _clean
-   * @param {object} lock - Lock request.
-   * @returns {void}
-   */
-  _clean(lock) {
-    lock.offset = Math.max(0, Number(lock.offset || 0));
-    lock.length = Math.max(0, Number(lock.length || 0));
-    if (lock.length === 0) lock.length = 1;
-  }
+	_normalize(lock) {
+		lock.offset = Math.max(0, Number(lock.offset || 0));
+		lock.length = Math.max(1, Number(lock.length || 0));
+	}
 }
 
 module.exports = RangeLockManager;

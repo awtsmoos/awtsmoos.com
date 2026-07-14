@@ -1,0 +1,85 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos makes each object on Awtsmoos.com visibly ready for reading and action.
+ */
+body.geelooy-app-shell :where(
+	.g-card,
+	.social-space-card,
+	.social-empty-card,
+	.notification,
+	.g-search-result
+) {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	border-radius: 1.3rem 0.45rem 1.3rem 0.45rem;
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 42%),
+		var(--g-surface);
+}
+
+body.geelooy-app-shell :where(
+	.g-card,
+	.social-space-card,
+	.social-empty-card,
+	.notification,
+	.g-search-result
+)::before {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 3px;
+	background: var(--g-gradient-hot);
+	content: "";
+	opacity: 0.34;
+	transition: opacity var(--g-motion-fast) var(--g-ease), width var(--g-motion-fast) var(--g-ease);
+}
+
+body.geelooy-app-shell :where(
+	.g-card,
+	.social-space-card,
+	.social-empty-card,
+	.notification,
+	.g-search-result
+):focus-within::before {
+	width: 5px;
+	opacity: 1;
+}
+
+body.geelooy-app-shell .g-app-icon {
+	transition:
+		box-shadow var(--g-motion-medium) var(--g-ease),
+		filter var(--g-motion-medium) var(--g-ease),
+		transform var(--g-motion-medium) var(--g-ease);
+}
+
+body.geelooy-app-shell :where(.notifications-summary, .g-search-status, .profile-status) {
+	border: 1px solid rgba(60, 236, 255, 0.14);
+	border-radius: 0.4rem 1rem 0.4rem 1rem;
+	font-family: var(--g-mono);
+}
+
+@media (hover: hover) {
+	body.geelooy-app-shell :where(
+		.g-card,
+		.social-space-card,
+		.notification,
+		.g-search-result
+	):hover::before {
+		width: 5px;
+		opacity: 1;
+	}
+
+	body.geelooy-app-shell .g-app-card:hover .g-app-icon {
+		box-shadow: var(--g-glow-hot);
+		filter: saturate(1.32);
+		transform: rotate(-5deg) scale(1.08);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.geelooy-app-shell .g-app-icon {
+		transform: none !important;
+	}
+}

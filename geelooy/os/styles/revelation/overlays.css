@@ -1,0 +1,116 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every menu and question anew. Awtsmoos.com keeps modal
+surfaces focused, searchable, and visually distinct from the desktop beneath.
+*/
+#start-menu {
+	left: 50%;
+	right: auto;
+	bottom: calc(var(--geo-dock-height) + 26px);
+	width: min(420px, calc(100vw - 28px));
+	max-height: min(70vh, 640px);
+	transform: translateX(-50%);
+	overflow: auto;
+	border: 1px solid var(--geo-border);
+	border-radius: var(--geo-radius-lg);
+	background: rgba(8, 14, 35, 0.94);
+	box-shadow: var(--geo-shadow);
+	backdrop-filter: blur(30px) saturate(165%);
+}
+#menu-items li {
+	color: var(--geo-text);
+	border-radius: 14px;
+}
+#menu-items li:hover {
+	color: var(--geo-text);
+	background: linear-gradient(90deg, rgba(77, 233, 220, 0.18), rgba(91, 140, 255, 0.2));
+	border-color: var(--geo-border-bright);
+	transform: translateX(3px);
+}
+.shell-panel {
+	position: fixed;
+	z-index: 1800;
+	top: calc(var(--geo-topbar-height) + 14px);
+	right: 16px;
+	width: min(340px, calc(100vw - 28px));
+	padding: 14px;
+	border: 1px solid var(--geo-border);
+	border-radius: var(--geo-radius-md);
+	background: rgba(8, 14, 35, 0.94);
+	box-shadow: var(--geo-shadow);
+	backdrop-filter: blur(28px) saturate(160%);
+}
+.shell-setting-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+.shell-setting {
+	min-height: 70px;
+	padding: 10px;
+	border: 1px solid var(--geo-border);
+	border-radius: 14px;
+	color: var(--geo-text);
+	background: var(--geo-surface-soft);
+	cursor: pointer;
+}
+.shell-setting[aria-pressed="true"] {
+	border-color: var(--geo-border-bright);
+	background: rgba(77, 233, 220, 0.2);
+}
+#shell-command-palette {
+	position: fixed;
+	z-index: 1900;
+	inset: 0;
+	display: grid;
+	place-items: start center;
+	padding-top: min(16vh, 150px);
+	background: rgba(1, 4, 14, 0.68);
+	backdrop-filter: blur(14px);
+}
+#shell-command-palette[hidden], .shell-panel[hidden] {
+	display: none;
+}
+.shell-command-card {
+	width: min(660px, calc(100vw - 28px));
+	max-height: min(70vh, 620px);
+	overflow: hidden;
+	border: 1px solid var(--geo-border-bright);
+	border-radius: var(--geo-radius-lg);
+	background: rgba(8, 14, 35, 0.97);
+	box-shadow: var(--geo-shadow);
+}
+#shell-command-input {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 58px;
+	padding: 0 18px;
+	border: 0;
+	border-bottom: 1px solid var(--geo-border);
+	color: var(--geo-text);
+	background: rgba(255, 255, 255, 0.06);
+	font-size: 17px;
+	outline: none;
+}
+#shell-command-results {
+	display: grid;
+	gap: 6px;
+	max-height: 52vh;
+	padding: 10px;
+	overflow: auto;
+}
+.shell-command-result {
+	min-height: 46px;
+	padding: 0 14px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	color: var(--geo-text);
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+}
+.shell-command-result:hover, .shell-command-result:focus-visible {
+	border-color: var(--geo-border-bright);
+	background: rgba(77, 233, 220, 0.13);
+}

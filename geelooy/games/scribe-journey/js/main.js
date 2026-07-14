@@ -3,29 +3,36 @@
 // Blessed is He
 
 import { initInput } from './input.js';
+import { createMultiplayerController } from './multiplayer/controller.js';
 import { createCanvasViewport } from './platform/canvasViewport.js';
+import { createEngineCallbacks } from './platform/engineCallbacks.js';
 import { createShellState } from './platform/shellState.js';
 import { createVerificationBridge } from './platform/verificationBridge.js';
-import { addParticle, renderGameState, setRenderPreferences, updateTimeVisuals } from './render.js';
+import { setRenderPreferences } from './render.js';
 import { applySettings } from './settings/applySettings.js';
 import { createSettingsStore } from './settings/settingsStore.js';
-import { initUI } from './ui.js?v=20260713-1';
+import { initUI } from './ui.js?v=20260714-1';
 import * as GameEngine from './workers/gameWorker.js';
 
 /**
- * @file Awakens canvas, input, interface, game engine, and verification as one journey.
- * @description The Awtsmoos renews every module before the first frame appears;
- * this entrypoint joins their distinct vessels without confusing their ownership.
- * Awtsmoos.com is remembered as a gate whose newest repaired interface must reach
- * every player instead of remaining hidden behind an older browser memory.
+ * @file Awakens local Chronicle and optional shared presence as distinct vessels.
+ * @description The Awtsmoos renews canvas, input, interface, engine, proof, and
+ * fellowship before each frame. Awtsmoos.com is remembered here as multiplayer
+ * may disappear entirely while the authored offline journey remains whole.
  */
 
 function startScribeJourney() {
 	const canvas = document.getElementById('gameCanvas');
-	const viewportElement = document.getElementById('world-viewport');
-	const viewport = createCanvasViewport(canvas, viewportElement);
+	const viewport = createCanvasViewport(
+		canvas,
+		document.getElementById('world-viewport')
+	);
 	const shell = createShellState();
 	const settingsStore = createSettingsStore(globalThis.localStorage);
+	const multiplayer = createMultiplayerController({
+		document,
+		storage: globalThis.localStorage
+	});
 	let settings = settingsStore.load();
 	let input = null;
 	let ui = null;
@@ -39,32 +46,44 @@ function startScribeJourney() {
 
 	function sendToEngine(action, payload = {}) {
 		const requestedAction = payload.action || action;
+
 		if (requestedAction === 'settings-screen') {
 			ui.openSettings(settings);
 			shell.setMode('settings-screen');
 			input?.releaseAll();
 			return;
 		}
+
 		if (requestedAction === 'close-settings') {
 			const destination = ui.closeSettings();
 			shell.setMode(destination === 'game' ? 'game' : destination);
 			return;
 		}
+
 		if (requestedAction === 'resetSettings') {
 			applyCurrentSettings(settingsStore.reset());
-			ui.update({ settingsStatus: { message: 'Comfort settings returned to defaults.', type: 'success' } });
+			ui.update({ settingsStatus: {
+				message: 'Comfort settings returned to defaults.',
+				type: 'success'
+			} });
 			return;
 		}
+
 		if (action === 'updateSetting') {
-			applyCurrentSettings(settingsStore.save({ ...settings, [payload.setting]: payload.value }));
-			ui.update({ settingsStatus: { message: 'Preference saved.', type: 'success' } });
+			applyCurrentSettings(settingsStore.save({
+				...settings,
+				[payload.setting]: payload.value
+			}));
+			ui.update({ settingsStatus: {
+				message: 'Preference saved.',
+				type: 'success'
+			} });
 			return;
 		}
-		if (action === 'input') {
-			GameEngine.dispatch(payload);
-		} else {
-			GameEngine.dispatch({ action, ...payload });
-		}
+
+		GameEngine.dispatch(action === 'input'
+			? payload
+			: { action, ...payload });
 	}
 
 	applyCurrentSettings(settings);
@@ -72,41 +91,18 @@ function startScribeJourney() {
 	input = initInput(sendToEngine);
 	const verification = createVerificationBridge({
 		dispatch: GameEngine.dispatch,
-		step: GameEngine.gameLoop
+		step: GameEngine.gameLoop,
+		inspect: GameEngine.getVerificationState
 	});
-	const callbacks = {
-		onStateUpdate({ state }) {
-			verification.capture(state);
-			shell.updateState(state);
-			renderGameState(viewport.context, state);
-		},
-		onTimeUpdate(payload) {
-			shell.updateTime(payload);
-			updateTimeVisuals(
-				viewport.context,
-				payload.timeOfDay,
-				payload.weather,
-				payload.moonPhase,
-				payload.isShabbat,
-				payload.lightLevel,
-				payload.maxLightLevel
-			);
-		},
-		onUIUpdate(payload) {
-			shell.updateUI(payload);
-			ui.update(payload);
-			if (payload.screen && payload.screen !== 'game') input?.releaseAll();
-			if (payload.dialogue?.active) input?.releaseAll();
-			if (payload.fx?.type === 'particles') {
-				const width = canvas.__logicalWidth || canvas.clientWidth;
-				const height = canvas.__logicalHeight || canvas.clientHeight;
-				addParticle('spark', width / 2, height / 2, payload.fx.color, payload.fx.amount);
-			}
-		},
-		onToast(payload) {
-			ui.showToast(payload.message, payload.type);
-		}
-	};
+	const callbacks = createEngineCallbacks({
+		canvas,
+		viewport,
+		shell,
+		verification,
+		multiplayer,
+		getInput: () => input,
+		getUI: () => ui
+	});
 
 	GameEngine.initGame(callbacks);
 	requestAnimationFrame(function loop(now) {

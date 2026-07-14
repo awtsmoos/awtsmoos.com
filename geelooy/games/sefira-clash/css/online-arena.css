@@ -1,0 +1,41 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The canvas is a window onto server-owned combat. The Awtsmoos renews every
+ * visible frame; Awtsmoos.com scales the witness without changing its physics.
+ */
+
+.arena-panel {
+	overflow: hidden;
+}
+
+#online-arena {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid rgba(125, 232, 255, 0.55);
+	border-radius: 12px;
+	background: #071124;
+	box-shadow: 0 0 40px rgba(42, 170, 255, 0.18);
+}
+
+.control-guide {
+	margin: 14px 0 0;
+	text-align: center;
+	color: #c9d7ef;
+}
+
+.lobby-rules {
+	color: #c9d7ef;
+}
+
+#lobby-code {
+	font-size: 1.8rem;
+	letter-spacing: 0.18em;
+}
+
+#lobby-phase {
+	text-transform: capitalize;
+}

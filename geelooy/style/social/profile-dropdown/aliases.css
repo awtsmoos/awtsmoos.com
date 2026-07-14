@@ -1,0 +1,84 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos makes every alias choice visibly truthful before it is touched.
+ */
+.awtsmoosDrop .alias-switcher {
+	position: static;
+	width: 100%;
+	min-width: 0;
+	max-height: 20rem;
+	margin: 0;
+	padding: 0.62rem;
+	border-radius: 0.45rem 1rem 0.45rem 1rem;
+	background: #020711;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.awtsmoosDrop .alias-choice-list {
+	display: grid;
+	gap: 0.45rem;
+}
+
+.awtsmoosDrop .menu-wide,
+.awtsmoosDrop .aliasId {
+	width: 100%;
+	justify-content: flex-start;
+	border-radius: 0.42rem 0.95rem 0.42rem 0.95rem;
+}
+
+.awtsmoosDrop .aliasId > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsmoosDrop .aliasId > small {
+	margin-left: auto;
+	color: #7eeeff;
+}
+
+.awtsmoosDrop .aliasId[aria-pressed="true"],
+.awtsmoosDrop .aliasId[data-state="selected"] {
+	border-color: rgba(72, 240, 182, 0.72);
+	background: linear-gradient(120deg, #123126, #101b34 58%, #21102f);
+	box-shadow: 0 0 0 2px rgba(72, 240, 182, 0.14), 0 0 28px rgba(72, 240, 182, 0.18);
+}
+
+.awtsmoosDrop .aliasId[aria-pressed="true"]::after {
+	margin-left: auto;
+	color: #65f5c1;
+	content: "active";
+	font: 850 0.6rem/1 var(--g-mono, monospace);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.awtsmoosDrop .alias-empty-state {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	margin: 0;
+	padding: 0.72rem;
+	border: 1px dashed rgba(60, 236, 255, 0.24);
+	border-radius: 0.85rem;
+	color: #aebdd8;
+}
+
+.awtsmoosDrop .alias-form-heading {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	padding-bottom: 0.45rem;
+	color: #ffffff;
+}
+
+.awtsmoosDrop .alias-form-heading > span {
+	display: grid;
+}
+
+.awtsmoosDrop .alias-form-heading small {
+	color: #8ea4c7;
+	font: 750 0.6rem/1 var(--g-mono, monospace);
+	text-transform: uppercase;
+}

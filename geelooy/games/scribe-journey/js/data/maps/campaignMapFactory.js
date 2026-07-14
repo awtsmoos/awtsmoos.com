@@ -2,106 +2,111 @@
 // Boruch Hashem
 // Blessed is He
 
-function row(edge, middle) {
-	return `${edge}${middle.repeat(11)}${edge}`;
-}
+/**
+ * @file Builds traversable campaign prototypes without fake completion props.
+ * @description The Awtsmoos gives a road existence before every future deed is
+ * authored upon it. Awtsmoos.com may preserve geography, residents, ecology,
+ * and return routes, but no object here may impersonate an unimplemented act.
+ */
 
-function layerString(theme) {
-	const wall = theme.wall || '🌳';
-	const floor = theme.floor || '⬜';
-	return [
-		wall.repeat(13),
-		row(wall, floor),
-		row(wall, floor),
-		row(wall, floor),
-		row(wall, floor),
-		row(wall, floor),
-		row(wall, floor),
-		row(wall, floor),
-		wall.repeat(13)
-	].join('\n');
-}
+const BASE_ROWS = Object.freeze([
+	'🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱',
+	'🧱▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🧱',
+	'🧱▫️🌿▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🌿▫️▫️🧱',
+	'🧱▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🧱',
+	'🧱▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🧱',
+	'🧱▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🧱',
+	'🧱▫️🌿▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🌿▫️▫️🧱',
+	'🧱▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️🧱',
+	'🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱'
+]);
 
-function identity(index, offset) {
-	return String.fromCodePoint(0xE400 + (index * 8) + offset);
-}
-
-function addDoor(interactables, entry, key, offset, x, targetMap, targetX) {
-	if (!targetMap) return;
-	interactables[key] = {
+function door(id, x, y, targetMap, targetX, targetY, visual) {
+	return {
+		id,
 		type: 'door',
-		uu: identity(entry.index, offset),
-		visual: x < 6 ? '⬅️' : '➡️',
 		x,
-		y: 4,
+		y,
 		targetMap,
 		targetX,
-		targetY: 4
+		targetY,
+		visual
 	};
 }
 
-function chapterFinalQuestId(regionId) {
-	if (regionId === 'postgame') return 'campaign_postgame_08';
-	return `campaign_${regionId}_08`;
+function resident(definition, x, y) {
+	return {
+		id: definition.id,
+		type: 'npc',
+		name: definition.name,
+		x,
+		y,
+		visual: definition.visual,
+		dialogue: definition.line,
+		questGiver: null
+	};
 }
 
-function residentDialogue(npc, isLeader) {
-	const completed = `${npc.name} remembers what the Scribe repaired here.`;
-	if (!isLeader) {
-		return {
-			start: [npc.line],
-			completed: [completed]
-		};
+function addDoors(interactables, entry) {
+	interactables.return_path = door(
+		`${entry.id}_return`,
+		1,
+		7,
+		entry.previous,
+		2,
+		2,
+		'⬅️'
+	);
+
+	if (!entry.next) {
+		return;
 	}
-	return {
-		start: [npc.line],
-		in_progress: [`${npc.name} watches the region change with every restored thread.`],
-		ready: [`${npc.name} says: “The final thread is ready in your Chronicle.”`],
-		completed: [completed]
-	};
+
+	interactables.forward_path = door(
+		`${entry.id}_forward`,
+		15,
+		1,
+		entry.next,
+		2,
+		6,
+		'➡️'
+	);
 }
 
-function addNpcs(interactables, entry) {
-	const positions = [[3, 2], [6, 2], [9, 2], [6, 6]];
-	(entry.npcs || []).slice(0, positions.length).forEach((npc, npcIndex) => {
-		const [x, y] = positions[npcIndex];
-		const isLeader = npcIndex === 0;
-		interactables[`npc_${npc.id}_${npcIndex}`] = {
-			id: npc.id,
-			name: npc.name,
-			type: 'npc',
-			uu: identity(entry.index, 3 + npcIndex),
-			visual: npc.visual,
-			x,
-			y,
-			regionId: entry.regionId,
-			questGiver: isLeader ? chapterFinalQuestId(entry.regionId) : null,
-			dialogue: residentDialogue(npc, isLeader)
-		};
-	});
+function addResidents(interactables, entry) {
+	const residents = entry.npcs || [];
+	const first = residents[(entry.index * 2) % residents.length];
+	const second = residents[((entry.index * 2) + 1) % residents.length];
+
+	if (first) {
+		interactables.region_keeper = resident(first, 5, 4);
+	}
+
+	if (second) {
+		interactables.region_witness = resident(second, 11, 5);
+	}
 }
 
-/** Creates one traversable region with inhabitants, ecology, and return paths. */
+/** Builds one prototype map from the enriched regional entry contract. */
 export function createCampaignMap(entry) {
-	const interactables = {
-		chronicle_focus: {
-			type: 'quest_focus',
-			uu: identity(entry.index, 0),
-			visual: entry.theme.focus || '✒️',
-			x: 6,
-			y: 4,
-			mapId: entry.id
-		}
-	};
-	addDoor(interactables, entry, 'previous_path', 1, 1, entry.previous, 10);
-	addDoor(interactables, entry, 'next_path', 2, 11, entry.next, 2);
-	addNpcs(interactables, entry);
+	const interactables = {};
+	addDoors(interactables, entry);
+	addResidents(interactables, entry);
+
 	return {
+		id: entry.id,
 		name: entry.name,
-		regionId: entry.regionId,
-		width: 13,
-		baseLayerString: layerString(entry.theme),
+		width: 17,
+		height: 9,
+		baseLayerString: BASE_ROWS.join('\n'),
 		interactables,
-		encounters: entry.encounters || {}
+		encounters: entry.encounters,
+		theme: {
+			ground: entry.theme.ground,
+			accent: entry.theme.accent,
+			border: entry.theme.border,
+			regionId: entry.regionId,
+			prototype: true
+		}
 	};
 }

@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns every path into a visible current. Links on Awtsmoos.com
+ * no longer disappear into ordinary text, yet remain readable inside prose.
+ */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button):not(.g-skip-link):not(.spaces-create):not(.profile-primary-action) {
+	background-image:
+		linear-gradient(90deg, rgba(60, 236, 255, 0.34), rgba(139, 92, 255, 0.42), rgba(255, 72, 203, 0.34)),
+		linear-gradient(90deg, rgba(60, 236, 255, 0.12), rgba(255, 72, 203, 0.12));
+	background-position: 100% 100%, 0 100%;
+	background-repeat: no-repeat;
+	background-size: 0 2px, 100% 1px;
+	color: color-mix(in srgb, var(--g-text) 88%, var(--g-cyan));
+	text-decoration: none;
+	text-shadow: 0 0 0 transparent;
+	transition:
+		background-position var(--g-motion-medium) var(--g-ease),
+		background-size var(--g-motion-medium) var(--g-ease),
+		color var(--g-motion-fast) var(--g-ease),
+		filter var(--g-motion-fast) var(--g-ease),
+		text-shadow var(--g-motion-medium) var(--g-ease);
+}
+
+@media (hover: hover) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button):not(.g-skip-link):not(.spaces-create):not(.profile-primary-action):hover {
+		background-position: 0 100%, 0 100%;
+		background-size: 100% 3px, 100% 1px;
+		color: #ffffff;
+		filter: saturate(1.35) brightness(1.12);
+		text-shadow: 0 0 12px rgba(60, 236, 255, 0.42), 0 0 28px rgba(255, 72, 203, 0.24);
+	}
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button):not(.g-skip-link):not(.spaces-create):not(.profile-primary-action):active {
+	background-size: 100% 100%, 100% 1px;
+	color: #ffffff;
+	filter: saturate(1.65) brightness(1.22);
+	text-shadow: 0 0 16px rgba(60, 236, 255, 0.58), 0 0 34px rgba(255, 72, 203, 0.34);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button):not(.g-skip-link):not(.spaces-create):not(.profile-primary-action):focus-visible {
+	background-size: 100% 3px, 100% 1px;
+	border-radius: 0.28rem;
+	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.96), 0 0 0 5px var(--g-cyan), var(--g-glow);
+	outline: 0;
+}
+
+@media (forced-colors: active) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button) {
+		background: none;
+		text-decoration: underline;
+	}
+}

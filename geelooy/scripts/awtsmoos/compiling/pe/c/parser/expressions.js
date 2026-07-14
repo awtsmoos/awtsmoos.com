@@ -1,204 +1,106 @@
-/*
-B"H
-Boruch Hashem
-*/
-import { TOKENS } from '../lexer.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
+import { TOKENS } from "../lexer.js";
+import { parsePostfix } from "./expressionPrimary.js";
+
+const ASSIGNMENTS = new Set([
+	"%=", "&=", "*=", "+=", "-=", "/=", "<<=", "=", ">>=", "^=", "|="
+]);
+
+/**
+ * Parses C expressions through the complete integer precedence ladder. The
+ * Awtsmoos creates assignment, logical relation, bitwise road, shift, product,
+ * and new-value prefix update anew; every level remains explicit and bounded.
+ */
 export function parseExpression(stream) {
-    return parseAssign(stream);
+	return parseAssignment(stream);
 }
 
-function parseAssign(stream) {
-    let left = parseLogicalOr(stream);
-    
-    const t = stream.peek();
-    if (t.type === TOKENS.OP && ['=', '+=', '-=', '*=', '/='].includes(t.value)) {
-        const op = stream.consume().value;
-        const right = parseAssign(stream);
-        
-        if (op === '=') {
-            return { type: 'assign', left, right };
-        } else {
-            const binOp = op[0];
-            return {
-                type: 'assign',
-                left: left,
-                right: { type: 'binop', op: binOp, left: left, right: right }
-            };
-        }
-    }
-    return left;
+function parseAssignment(stream) {
+	const left = parseLogicalOr(stream);
+	const token = stream.peek();
+	if (token.type !== TOKENS.OP || !ASSIGNMENTS.has(token.value)) return left;
+	const operator = stream.consume().value;
+	const right = parseAssignment(stream);
+	if (operator === "=") return { type: "assign", left, right };
+	return {
+		type: "assign",
+		left,
+		right: {
+			type: "binop",
+			op: operator.slice(0, -1),
+			left,
+			right
+		}
+	};
 }
 
 function parseLogicalOr(stream) {
-    let left = parseLogicalAnd(stream);
-    while (stream.peek().type === TOKENS.OP && stream.peek().value === '||') {
-        const op = stream.consume().value;
-        const right = parseLogicalAnd(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseLogicalAnd, ["||"]);
 }
 
 function parseLogicalAnd(stream) {
-    let left = parseEquality(stream);
-    while (stream.peek().type === TOKENS.OP && stream.peek().value === '&&') {
-        const op = stream.consume().value;
-        const right = parseEquality(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseBitwiseOr, ["&&"]);
+}
+
+function parseBitwiseOr(stream) {
+	return parseBinary(stream, parseBitwiseXor, ["|"]);
+}
+
+function parseBitwiseXor(stream) {
+	return parseBinary(stream, parseBitwiseAnd, ["^"]);
+}
+
+function parseBitwiseAnd(stream) {
+	return parseBinary(stream, parseEquality, ["&"]);
 }
 
 function parseEquality(stream) {
-    let left = parseRelational(stream);
-    while (stream.peek().type === TOKENS.OP && (stream.peek().value === '==' || stream.peek().value === '!=')) {
-        const op = stream.consume().value;
-        const right = parseRelational(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseRelational, ["==", "!="]);
 }
 
 function parseRelational(stream) {
-    let left = parseAdditive(stream);
-    while (stream.peek().type === TOKENS.OP && ['<', '>', '<=', '>='].includes(stream.peek().value)) {
-        const op = stream.consume().value;
-        const right = parseAdditive(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseShift, ["<", "<=", ">", ">="]);
+}
+
+function parseShift(stream) {
+	return parseBinary(stream, parseAdditive, ["<<", ">>"]);
 }
 
 function parseAdditive(stream) {
-    let left = parseMultiplicative(stream);
-    while (stream.peek().type === TOKENS.OP && (stream.peek().value === '+' || stream.peek().value === '-')) {
-        const op = stream.consume().value;
-        const right = parseMultiplicative(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseMultiplicative, ["+", "-"]);
 }
 
 function parseMultiplicative(stream) {
-    let left = parseUnary(stream);
-    while (stream.peek().type === TOKENS.OP && ['*', '/', '%'].includes(stream.peek().value)) {
-        const op = stream.consume().value;
-        const right = parseUnary(stream);
-        left = { type: 'binop', op, left, right };
-    }
-    return left;
+	return parseBinary(stream, parseUnary, ["*", "/", "%"]);
 }
 
 function parseUnary(stream) {
-    const t = stream.peek();
-    
-    if (t.type === TOKENS.OP && (t.value === '++' || t.value === '--')) {
-        const op = stream.consume().value;
-        const target = parseUnary(stream);
-        const one = { type: 'literal', val: '1' };
-        const mathOp = (op === '++') ? '+' : '-';
-        return {
-             type: 'assign',
-             left: target,
-             right: { type: 'binop', op: mathOp, left: target, right: one }
-        };
-    }
-
-    // Handle Unary Operators (*, &, -, !)
-    if (t.type === TOKENS.OP && ['*', '&', '-', '!'].includes(t.value)) {
-        const op = stream.consume().value;
-        const expr = parseUnary(stream); 
-        return { type: 'unary', op, expr };
-    }
-    
-    return parsePostfix(stream);
+	const token = stream.peek();
+	if (token.type === TOKENS.OP && ["++", "--"].includes(token.value)) {
+		return {
+			operator: stream.consume().value,
+			prefix: true,
+			target: parseUnary(stream),
+			type: "update"
+		};
+	}
+	if (token.type === TOKENS.OP && ["*", "&", "-", "!", "~"].includes(token.value)) {
+		const operator = stream.consume().value;
+		return { type: "unary", op: operator, expr: parseUnary(stream) };
+	}
+	return parsePostfix(stream, parseExpression);
 }
 
-function parsePostfix(stream) {
-    let expr = parsePrimary(stream);
-    while (true) {
-        const t = stream.peek();
-        if (t.type === TOKENS.PUNCT && t.value === '[') {
-            stream.consume(); 
-            const index = parseExpression(stream);
-            stream.expect(TOKENS.PUNCT, ']');
-            expr = { type: 'index', target: expr, index };
-        } 
-        else if (t.type === TOKENS.OP && t.value === '.') {
-            stream.consume();
-            const id = stream.expect(TOKENS.ID);
-            expr = { type: 'binop', op: '.', left: expr, right: { type: 'var', name: id.value } };
-        }
-        else if (t.type === TOKENS.OP && t.value === '->') {
-            stream.consume();
-            const id = stream.expect(TOKENS.ID);
-            expr = { type: 'binop', op: '->', left: expr, right: { type: 'var', name: id.value } };
-        }
-        else if (t.type === TOKENS.OP && (t.value === '++' || t.value === '--')) {
-            const op = stream.consume().value;
-            const mathOp = (op === '++') ? '+' : '-';
-            const one = { type: 'literal', val: '1' };
-            expr = {
-                type: 'assign',
-                left: expr,
-                right: { type: 'binop', op: mathOp, left: expr, right: one }
-            };
-        }
-        else {
-            break;
-        }
-    }
-    return expr;
-}
-
-function parsePrimary(stream) {
-    const t = stream.peek();
-    
-    // Literals
-    if (t.type === TOKENS.NUM) return { type: 'literal', val: stream.consume().value };
-    if (t.type === TOKENS.STRING) return { type: 'string', val: stream.consume().value };
-    
-    // Identifier (Var or Call)
-    if (t.type === TOKENS.ID) {
-        const name = stream.consume().value;
-        if (stream.peek().type === TOKENS.PUNCT && stream.peek().value === '(') {
-            stream.consume(); // (
-            const args = [];
-            
-            if (stream.peek().type !== TOKENS.PUNCT || stream.peek().value !== ')') {
-                while (true) {
-                    if (stream.peek().type === TOKENS.PUNCT && stream.peek().value === ')') break;
-                    args.push(parseExpression(stream));
-                    if (stream.peek().type === TOKENS.PUNCT && stream.peek().value === ',') {
-                        stream.consume();
-                    } else {
-                        break;
-                    }
-                }
-            }
-            
-            stream.expect(TOKENS.PUNCT, ')');
-            return { type: 'call', name, args };
-        }
-        return { type: 'var', name };
-    }
-    
-    // Parentheses
-    if (t.type === TOKENS.PUNCT && t.value === '(') {
-        stream.consume();
-        if (stream.peek().type === TOKENS.PUNCT && stream.peek().value === ')') {
-             stream.error("Empty parentheses '()' are not a valid expression.");
-        }
-        const e = parseExpression(stream);
-        stream.expect(TOKENS.PUNCT, ')');
-        return e;
-    }
-    
-    // Detailed Error Reporting
-    if (t.type === TOKENS.PUNCT && t.value === ')') {
-        stream.error("Unexpected closing parenthesis ')'. Check for mismatched parentheses or missing expressions.");
-    }
-    
-    stream.error(`Unexpected token: '${t.value}' (Type: ${t.type})`);
+function parseBinary(stream, nextLevel, operators) {
+	let left = nextLevel(stream);
+	while (stream.peek().type === TOKENS.OP
+		&& operators.includes(stream.peek().value)) {
+		const operator = stream.consume().value;
+		const right = nextLevel(stream);
+		left = { type: "binop", op: operator, left, right };
+	}
+	return left;
 }

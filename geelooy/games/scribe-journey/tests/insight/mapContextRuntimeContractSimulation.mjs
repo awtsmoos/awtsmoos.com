@@ -10,9 +10,9 @@ import { createMapContext, MapContext } from '../../js/workers/runtime/mapContex
 /**
  * @file Protects the runtime map-context contract used by actions and frames.
  * @description The Awtsmoos renews state and map together; this witness ensures
- * the newest state vessel can enter the context before any frame is revealed.
- * Awtsmoos.com is remembered as a living road whose projection must remain
- * callable by the systems that move and render the world.
+ * the newest state vessel receives the same projected map used by rendering.
+ * Awtsmoos.com is remembered as a living road where interaction and appearance
+ * cannot silently inhabit two different worlds.
  */
 
 const factoryContext = createMapContext(maps);
@@ -22,6 +22,7 @@ assert.equal(factoryContext.current(), null);
 const initialState = createDefaultGameState();
 const initialMap = factoryContext.update(initialState);
 assert.equal(initialMap.name, maps[initialState.currentMapId].name);
+assert.equal(initialState.maps[initialState.currentMapId], initialMap);
 assert.equal(typeof factoryContext.update, 'function');
 
 const restoredState = createDefaultGameState();
@@ -35,15 +36,17 @@ restoredState.player.mapChanges.malkuth_village = {
 const updatedMap = factoryContext.update(restoredState);
 assert.equal(updatedMap.entityById.yesod_door.visual, '🌙');
 assert.equal(updatedMap.entityById.fountain_witness.visual, '⛲');
+assert.equal(restoredState.maps.malkuth_village, updatedMap);
 assert.equal(factoryContext.current().entityById.yesod_door.visual, '🌙');
 
-factoryContext.moveTo('malkuth_orchard');
-assert.equal(factoryContext.current().name, 'The Orchard of First Echoes');
+const orchardMap = factoryContext.moveTo('malkuth_orchard');
+assert.equal(orchardMap.name, 'The Orchard of First Echoes');
+assert.equal(restoredState.maps.malkuth_orchard, orchardMap);
 
 console.log(JSON.stringify({
 	ok: true,
 	factoryContract: true,
-	updateContract: true,
+	runtimeRegistry: true,
 	restoredGate: updatedMap.entityById.yesod_door.visual,
-	currentMap: factoryContext.current().name
+	currentMap: orchardMap.name
 }, null, 2));

@@ -1,0 +1,739 @@
+===== npm test =====
+
+> test
+> npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules
+
+
+> audit:structure
+> node tools/source-structure-audit.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Source files exceed 120 lines:
+125 js/adventure/adventureRun.js
+147 js/ai/advanced/memory/actionMemory.js
+153 js/ai/advanced/memory/positionLoopMetrics.js
+127 js/ai/advanced/npcMind.js
+124 js/ai/brain/executeMovement.js
+150 js/ai/brain/executeTraversal.js
+134 js/ai/brain/unstuckPlan.js
+171 js/camera/camera.js
+180 js/combat/attackResolver.js
+121 js/combat/attackState.js
+123 js/combat/combatEvents.js
+154 js/data/adventure/adventureLevels.js
+187 js/data/maps/factory.js
+124 js/feedback/feedbackSounds.js
+125 js/menu/gridViews.js
+156 js/menu/menuCards.js
+129 js/online/RealtimeClient.js
+159 js/physics/blastZones.js
+126 js/physics/knockback.js
+159 js/physics/special/stomp.js
+135 js/physics/walls.js
+133 js/render/fighter/auras.js
+131 js/render/v3/character/CharacterRig.js
+168 js/session/AdventureProgress.js
+133 js/skeleton/solveSkeleton.js
+146 js/spectacle/spectacleEvents.js
+158 js/stage/narrative/stageStoryEvents.js
+137 js/stage/narrative/stageStoryMemory.js
+156 js/stage/objectives/objectiveDirector.js
+128 css/online.css
++ actual - expected
+
++ [
++   {
++     file: 'js/adventure/adventureRun.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/ai/advanced/memory/actionMemory.js',
++     lineCount: 147
++   },
++   {
++     file: 'js/ai/advanced/memory/positionLoopMetrics.js',
++     lineCount: 153
++   },
++   {
++     file: 'js/ai/advanced/npcMind.js',
++     lineCount: 127
++   },
++   {
++     file: 'js/ai/brain/executeMovement.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/ai/brain/executeTraversal.js',
++     lineCount: 150
++   },
++   {
++     file: 'js/ai/brain/unstuckPlan.js',
++     lineCount: 134
++   },
++   {
++     file: 'js/camera/camera.js',
++     lineCount: 171
++   },
++   {
++     file: 'js/combat/attackResolver.js',
++     lineCount: 180
++   },
++   {
++     file: 'js/combat/attackState.js',
++     lineCount: 121
++   },
++   {
++     file: 'js/combat/combatEvents.js',
++     lineCount: 123
++   },
++   {
++     file: 'js/data/adventure/adventureLevels.js',
++     lineCount: 154
++   },
++   {
++     file: 'js/data/maps/factory.js',
++     lineCount: 187
++   },
++   {
++     file: 'js/feedback/feedbackSounds.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/menu/gridViews.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/menu/menuCards.js',
++     lineCount: 156
++   },
++   {
++     file: 'js/online/RealtimeClient.js',
++     lineCount: 129
++   },
++   {
++     file: 'js/physics/blastZones.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/knockback.js',
++     lineCount: 126
++   },
++   {
++     file: 'js/physics/special/stomp.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/walls.js',
++     lineCount: 135
++   },
++   {
++     file: 'js/render/fighter/auras.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/render/v3/character/CharacterRig.js',
++     lineCount: 131
++   },
++   {
++     file: 'js/session/AdventureProgress.js',
++     lineCount: 168
++   },
++   {
++     file: 'js/skeleton/solveSkeleton.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/spectacle/spectacleEvents.js',
++     lineCount: 146
++   },
++   {
++     file: 'js/stage/narrative/stageStoryEvents.js',
++     lineCount: 158
++   },
++   {
++     file: 'js/stage/narrative/stageStoryMemory.js',
++     lineCount: 137
++   },
++   {
++     file: 'js/stage/objectives/objectiveDirector.js',
++     lineCount: 156
++   },
++   {
++     file: 'css/online.css',
++     lineCount: 128
++   }
++ ]
+- []
+
+    at file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/tools/source-structure-audit.mjs:43:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    { file: 'js/adventure/adventureRun.js', lineCount: 125 },
+    { file: 'js/ai/advanced/memory/actionMemory.js', lineCount: 147 },
+    {
+      file: 'js/ai/advanced/memory/positionLoopMetrics.js',
+      lineCount: 153
+    },
+    { file: 'js/ai/advanced/npcMind.js', lineCount: 127 },
+    { file: 'js/ai/brain/executeMovement.js', lineCount: 124 },
+    { file: 'js/ai/brain/executeTraversal.js', lineCount: 150 },
+    { file: 'js/ai/brain/unstuckPlan.js', lineCount: 134 },
+    { file: 'js/camera/camera.js', lineCount: 171 },
+    { file: 'js/combat/attackResolver.js', lineCount: 180 },
+    { file: 'js/combat/attackState.js', lineCount: 121 },
+    { file: 'js/combat/combatEvents.js', lineCount: 123 },
+    { file: 'js/data/adventure/adventureLevels.js', lineCount: 154 },
+    { file: 'js/data/maps/factory.js', lineCount: 187 },
+    { file: 'js/feedback/feedbackSounds.js', lineCount: 124 },
+    { file: 'js/menu/gridViews.js', lineCount: 125 },
+    { file: 'js/menu/menuCards.js', lineCount: 156 },
+    { file: 'js/online/RealtimeClient.js', lineCount: 129 },
+    { file: 'js/physics/blastZones.js', lineCount: 159 },
+    { file: 'js/physics/knockback.js', lineCount: 126 },
+    { file: 'js/physics/special/stomp.js', lineCount: 159 },
+    { file: 'js/physics/walls.js', lineCount: 135 },
+    { file: 'js/render/fighter/auras.js', lineCount: 133 },
+    { file: 'js/render/v3/character/CharacterRig.js', lineCount: 131 },
+    { file: 'js/session/AdventureProgress.js', lineCount: 168 },
+    { file: 'js/skeleton/solveSkeleton.js', lineCount: 133 },
+    { file: 'js/spectacle/spectacleEvents.js', lineCount: 146 },
+    { file: 'js/stage/narrative/stageStoryEvents.js', lineCount: 158 },
+    { file: 'js/stage/narrative/stageStoryMemory.js', lineCount: 137 },
+    {
+      file: 'js/stage/objectives/objectiveDirector.js',
+      lineCount: 156
+    },
+    { file: 'css/online.css', lineCount: 128 }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.17.0
+EXIT_CODE=1
+===== quality self =====
+
+> audit:quality:self
+> node tools/source-quality-self-test.mjs
+
+{"fixtures":9,"results":[{"name":"readable-source","expectedRule":null,"observedRules":[]},{"name":"exported-data","expectedRule":null,"observedRules":[]},{"name":"missing-header","expectedRule":"required-bh-header","observedRules":["required-bh-header"]},{"name":"space-indentation","expectedRule":"tabs-only-indentation","observedRules":["tabs-only-indentation"]},{"name":"compressed-function","expectedRule":"one-line-function-body","observedRules":["one-line-function-body"]},{"name":"undocumented-export","expectedRule":"exported-callable-jsdoc","observedRules":["exported-callable-jsdoc"]},{"name":"branch-complexity","expectedRule":"function-branches","observedRules":["function-branches"]},{"name":"empty-export","expectedRule":"active-placeholder-export","observedRules":["active-placeholder-export"]},{"name":"missing-import","expectedRule":"missing-relative-import","observedRules":["missing-relative-import"]}]}
+EXIT_CODE=0
+===== quality =====
+
+> audit:quality
+> node tools/source-quality-audit.mjs
+
+js/ai/advanced/blackboard/progressTracker.js:24 [function-branches] updateProgress has 14 branches; maximum is 12.
+js/ai/advanced/combat/attackValidator.js:19 [function-branches] validateAttack has 13 branches; maximum is 12.
+js/ai/advanced/combat/commitmentPlanner.js:34 [function-branches] desiredCommitment has 21 branches; maximum is 12.
+js/ai/advanced/combat/divePlanner.js:17 [function-branches] divePlan has 15 branches; maximum is 12.
+js/ai/advanced/combat/divePlanner.js:37 [function-branches] shouldSetup has 13 branches; maximum is 12.
+js/ai/advanced/combat/positionPlanner.js:12 [function-branches] combatPocket has 14 branches; maximum is 12.
+js/ai/advanced/combat/threatAwareness.js:18 [function-branches] threatAwareness has 13 branches; maximum is 12.
+js/ai/advanced/commands/commandMode.js:26 [function-branches] applyCommandMode has 13 branches; maximum is 12.
+js/ai/advanced/commands/jumpCommands.js:32 [function-branches] maybeApplyJump has 14 branches; maximum is 12.
+js/ai/advanced/commands/moveTravel.js:35 [function-branches] chaseGoal has 13 branches; maximum is 12.
+js/ai/advanced/commands/strategyCommands.js:28 [function-branches] applyStrategyCommand has 19 branches; maximum is 12.
+js/ai/advanced/debug/npcDebugPacket.js:11 [function-branches] debugPacket has 29 branches; maximum is 12.
+js/ai/advanced/edge/edgeCarryPlan.js:19 [function-branches] edgeCarryPlan has 15 branches; maximum is 12.
+js/ai/advanced/edge/offstageRead.js:18 [function-branches] offstageRead has 13 branches; maximum is 12.
+js/ai/advanced/kill/koIntent.js:19 [function-branches] chooseKoIntent has 16 branches; maximum is 12.
+js/ai/advanced/kill/launchDirection.js:18 [function-branches] launchDirection has 15 branches; maximum is 12.
+js/ai/advanced/memory/combatFrustration.js:19 [function-branches] updateCombatFrustration has 22 branches; maximum is 12.
+js/ai/advanced/memory/positionLoopMetrics.js:85 [function-branches] edgeBounceFrames has 15 branches; maximum is 12.
+js/ai/advanced/navigation/antiOscillation.js:18 [function-branches] calmOscillation has 16 branches; maximum is 12.
+js/ai/advanced/navigation/targetScoring.js:16 [function-branches] targetScore has 21 branches; maximum is 12.
+js/ai/advanced/navigation/worldCombatPlans.js:10 [missing-relative-import] Relative import does not resolve: ../combat/combatPocket.js
+js/ai/advanced/navigation/worldCombatPlans.js:11 [missing-relative-import] Relative import does not resolve: ../combat/combatTactics.js
+js/ai/advanced/navigation/worldCombatPlans.js:13 [missing-relative-import] Relative import does not resolve: ../combat/koIntent.js
+js/ai/advanced/navigation/worldCombatPlans.js:14 [missing-relative-import] Relative import does not resolve: ../combat/launchGeometry.js
+js/ai/advanced/navigation/worldCombatPlans.js:15 [missing-relative-import] Relative import does not resolve: ../combat/landingTrap.js
+js/ai/advanced/navigation/worldCombatPlans.js:16 [missing-relative-import] Relative import does not resolve: ../combat/predatorGoal.js
+js/ai/advanced/navigation/worldFoundation.js:10 [missing-relative-import] Relative import does not resolve: ../combat/combatGeometry.js
+js/ai/advanced/navigation/worldFoundation.js:13 [missing-relative-import] Relative import does not resolve: ../strategy/threatVision.js
+js/ai/advanced/navigation/worldFoundation.js:14 [missing-relative-import] Relative import does not resolve: ../world/mapIntelligence.js
+js/ai/advanced/navigation/worldFoundation.js:15 [missing-relative-import] Relative import does not resolve: ./flowGraph.js
+js/ai/advanced/navigation/worldFoundation.js:17 [missing-relative-import] Relative import does not resolve: ./prediction.js
+js/ai/advanced/navigation/worldFoundation.js:18 [missing-relative-import] Relative import does not resolve: ./senses/motionSenses.js
+js/ai/advanced/navigation/worldFoundation.js:19 [missing-relative-import] Relative import does not resolve: ./wallSense.js
+js/ai/advanced/navigation/worldStrategyPlans.js:10 [missing-relative-import] Relative import does not resolve: ../behavior/antiPlatformSpam.js
+js/ai/advanced/navigation/worldStrategyPlans.js:11 [missing-relative-import] Relative import does not resolve: ../behavior/noStillness.js
+js/ai/advanced/navigation/worldStrategyPlans.js:12 [missing-relative-import] Relative import does not resolve: ../learning/patternModel.js
+js/ai/advanced/navigation/worldStrategyPlans.js:13 [missing-relative-import] Relative import does not resolve: ../memory/combatHeatMemory.js
+js/ai/advanced/navigation/worldStrategyPlans.js:14 [missing-relative-import] Relative import does not resolve: ../memory/huntClock.js
+js/ai/advanced/navigation/worldStrategyPlans.js:15 [missing-relative-import] Relative import does not resolve: ../strategy/antiWander.js
+js/ai/advanced/navigation/worldStrategyPlans.js:16 [missing-relative-import] Relative import does not resolve: ../strategy/diveCrush.js
+js/ai/advanced/navigation/worldStrategyPlans.js:17 [missing-relative-import] Relative import does not resolve: ../strategy/diveStunRush.js
+js/ai/advanced/navigation/worldStrategyPlans.js:18 [missing-relative-import] Relative import does not resolve: ../strategy/edgePoison.js
+js/ai/advanced/navigation/worldStrategyPlans.js:19 [missing-relative-import] Relative import does not resolve: ../strategy/executionPriority.js
+js/ai/advanced/navigation/worldStrategyPlans.js:21 [missing-relative-import] Relative import does not resolve: ../strategy/frustrationModel.js
+js/ai/advanced/navigation/worldStrategyPlans.js:22 [missing-relative-import] Relative import does not resolve: ../strategy/objectivePlanner.js
+js/ai/advanced/navigation/worldStrategyPlans.js:24 [missing-relative-import] Relative import does not resolve: ../strategy/threatVision.js
+js/ai/advanced/navigation/worldStrategyPlans.js:25 [missing-relative-import] Relative import does not resolve: ./platformOpportunity.js
+js/ai/advanced/navigation/worldTargets.js:21 [function-branches] chooseStableTarget has 16 branches; maximum is 12.
+js/ai/advanced/npcMind.js:72 [function-statements] enrichMind has 28 statements; maximum is 24.
+js/ai/advanced/position/killPocket.js:18 [function-branches] killPocket has 20 branches; maximum is 12.
+js/ai/advanced/resources/powerupValue.js:28 [function-branches] roleBonus has 24 branches; maximum is 12.
+js/ai/advanced/sense/threatVision.js:17 [function-branches] threatVision has 16 branches; maximum is 12.
+js/ai/advanced/strategy/humanIntent.js:38 [function-branches] goalX has 13 branches; maximum is 12.
+js/ai/advanced/strategy/platformDesireMap.js:40 [function-branches] scoreNode has 14 branches; maximum is 12.
+js/ai/advanced/strategy/platformDesireMap.js:65 [function-branches] reasonFor has 13 branches; maximum is 12.
+js/ai/advanced/strategy/pressureBudget.js:18 [function-branches] updatePressure has 16 branches; maximum is 12.
+js/ai/advanced/strategy/roleAssignment.js:17 [function-branches] assignRole has 13 branches; maximum is 12.
+js/ai/advanced/test/metrics/attackIntentMetrics.js:39 [function-branches] observeAttackIntent has 17 branches; maximum is 12.
+js/ai/advanced/test/sim/frameSnapshot.js:10 [missing-relative-import] Relative import does not resolve: ../../behavior/behaviorMachine.js
+js/ai/advanced/test/sim/ReportFinish.js:13 [function-branches] finishReport has 13 branches; maximum is 12.
+js/ai/advanced/test/sim/ReportHealth.js:11 [function-branches] assertHealthyReport has 22 branches; maximum is 12.
+js/ai/brain/executeAttackRules.js:39 [function-branches] wantsAttack has 18 branches; maximum is 12.
+js/ai/brain/executeTraversal.js:17 [function-branches] wantsJump has 13 branches; maximum is 12.
+js/ai/brain/goals.js:20 [function-branches] goalX has 37 branches; maximum is 12.
+js/ai/brain/memory.js:18 [function-branches] prepareMemory has 29 branches; maximum is 12.
+js/ai/brain/utility.js:35 [function-branches] rawScores has 31 branches; maximum is 12.
+js/ai/direct/command.js:25 [function-branches] botCommand has 27 branches; maximum is 12.
+js/ai/direct/mark.js:11 [function-branches] mark has 18 branches; maximum is 12.
+js/ai/direct/memory.js:11 [function-branches] remember has 17 branches; maximum is 12.
+js/ai/sense/combatSense.js:18 [function-branches] combatSense has 24 branches; maximum is 12.
+js/combat/attackImpulse.js:19 [function-branches] applyAttackImpulse has 15 branches; maximum is 12.
+js/combat/attackState.js:30 [function-branches] createAttackState has 16 branches; maximum is 12.
+js/combat/combatInputEdges.js:15 [function-branches] readCombatEdges has 17 branches; maximum is 12.
+js/combat/directionalAttack.js:46 [function-branches] normalizedAttackAim has 13 branches; maximum is 12.
+js/combat/shields.js:23 [function-branches] updateShield has 15 branches; maximum is 12.
+js/controls/touchJoystick.js:19 [function-statements] touchJoystick has 32 statements; maximum is 24.
+js/feedback/haptics.js:17 [function-branches] shouldVibrateForEvent has 14 branches; maximum is 12.
+js/particles/particleHitBurst.js:29 [function-branches] addHitBurst has 20 branches; maximum is 12.
+js/physics/special/stomp.js:26 [function-branches] resolveStomps has 13 branches; maximum is 12.
+js/render/fighter/bodyLanguage.js:14 [function-branches] renderLanguage has 18 branches; maximum is 12.
+js/render/fighter/hero/converter/HeroPoseTargets.js:17 [function-branches] heroPoseTarget has 13 branches; maximum is 12.
+js/render/fighter/hero/poses/PunchKeyframes.js:26 [function-branches] applyPunchKeyframe has 14 branches; maximum is 12.
+js/render/offscreenIndicators.js:50 [function-statements] drawIndicator has 25 statements; maximum is 24.
+js/render/ui.js:39 [function-branches] drawOffscreenFighterBeacons has 13 branches; maximum is 12.
+js/render/v3/character/animation/AnimationController.js:35 [function-branches] resolvePose has 20 branches; maximum is 12.
+js/render/v3/character/animation/damage/Reactions.js:23 [function-branches] reaction has 15 branches; maximum is 12.
+js/render/v3/character/animation/jump/FallPanic.js:22 [function-branches] fallPanic has 17 branches; maximum is 12.
+js/render/v3/character/animation/Kick.js:26 [function-branches] kick has 22 branches; maximum is 12.
+js/render/v3/character/animation/Math.js:68 [function-branches] attackPhase has 13 branches; maximum is 12.
+js/render/v3/character/animation/Pose.js:29 [function-branches] poseInfo has 41 branches; maximum is 12.
+js/render/v3/character/animation/Pose.js:61 [function-branches] attackInfo has 19 branches; maximum is 12.
+js/render/v3/character/animation/Pose.js:84 [function-branches] airInfo has 17 branches; maximum is 12.
+js/render/v3/character/animation/Punch.js:25 [function-branches] punch has 16 branches; maximum is 12.
+js/render/v3/effects/KickTrail.js:11 [active-placeholder-export] drawKickTrail has an empty exported runtime body.
+js/render/v3/effects/KickTrail.js:11 [one-line-function-body] Function drawKickTrail must use a multiline body.
+js/render/v3/effects/LandingDust.js:11 [active-placeholder-export] drawLandingDust has an empty exported runtime body.
+js/render/v3/effects/LandingDust.js:11 [one-line-function-body] Function drawLandingDust must use a multiline body.
+js/render/v3/effects/PunchTrail.js:11 [active-placeholder-export] drawPunchTrail has an empty exported runtime body.
+js/render/v3/effects/PunchTrail.js:11 [one-line-function-body] Function drawPunchTrail must use a multiline body.
+js/render/v3/effects/StunFlash.js:11 [active-placeholder-export] drawStunFlash has an empty exported runtime body.
+js/render/v3/effects/StunFlash.js:11 [one-line-function-body] Function drawStunFlash must use a multiline body.
+js/render/v3/stage/PlatformRenderer.js:11 [active-placeholder-export] drawV3Platform has an empty exported runtime body.
+js/render/v3/stage/PlatformRenderer.js:11 [one-line-function-body] Function drawV3Platform must use a multiline body.
+js/render/v3/stage/PlatformShadow.js:11 [active-placeholder-export] drawPlatformShadow has an empty exported runtime body.
+js/render/v3/stage/PlatformShadow.js:11 [one-line-function-body] Function drawPlatformShadow must use a multiline body.
+js/render/weapons.js:31 [function-statements] drawWeapon has 25 statements; maximum is 24.
+js/skeleton/base/baseAnchors.js:36 [function-branches] baseAnchors has 13 branches; maximum is 12.
+js/skeleton/motion/motionMemory.js:14 [function-branches] updateMotionMemory has 18 branches; maximum is 12.
+js/skeleton/motion/motionMetrics.js:23 [function-branches] motionMetrics has 14 branches; maximum is 12.
+js/skeleton/poseIntent.js:24 [function-branches] poseIntent has 21 branches; maximum is 12.
+js/skeleton/solveSkeleton.js:69 [function-statements] solveSkeleton has 45 statements; maximum is 24.
+js/skeleton/state/stateClassifier.js:14 [function-branches] stateClassifier has 22 branches; maximum is 12.
+js/spectacle/impactTiers.js:33 [function-branches] impactTier has 13 branches; maximum is 12.
+js/stage/narrative/stageStoryEvents.js:83 [function-branches] markEvents has 16 branches; maximum is 12.
+{"filesAudited":934,"violations":114,"rules":{"function-branches":69,"missing-relative-import":28,"function-statements":5,"active-placeholder-export":6,"one-line-function-body":6}}
+EXIT_CODE=1
+===== online =====
+{
+	"filesAudited": 31,
+	"failures": [
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/applicationCatalog.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosSocialApplication.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.compatibility.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobby.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/core/serverLifecycle.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRegistry.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRouter.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRouter.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/LegacyRouting.js"
+		},
+		{
+			"findings": [
+				"line-count:125",
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ProtocolEnvelope.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/RealtimeError.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/VersionedRouting.js"
+		},
+		{
+			"findings": [
+				"line-count:128"
+			],
+			"relativePath": "geelooy/games/sefira-clash/css/online.css"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/LobbyPlayerCards.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineLobbyView.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/ProtocolEnvelope.js"
+		},
+		{
+			"findings": [
+				"line-count:129",
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeClient.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"relativePath": "geelooy/games/sefira-clash/js/online/onlineLobbyPage.js"
+		}
+	],
+	"ok": false,
+	"reports": [
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 66,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/applicationCatalog.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 80,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosCoreApplication.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 71,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosSocialApplication.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 30,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 76,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.compatibility.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 118,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 52,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 113,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 90,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 40,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 109,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobby.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 116,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 53,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 84,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/core/serverLifecycle.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 104,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRegistry.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 80,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRegistry.test.cjs"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 110,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRouter.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 95,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ApplicationRouter.test.cjs"
+		},
+		{
+			"findings": [],
+			"lineCount": 98,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ClientRequestState.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 55,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/LegacyRouting.js"
+		},
+		{
+			"findings": [
+				"line-count:125",
+				"compressed-function-body"
+			],
+			"lineCount": 125,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/ProtocolEnvelope.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 43,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/RealtimeError.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 91,
+			"relativePath": "ayzarim/awtsmoosDynamicServer/websocket/platform/VersionedRouting.js"
+		},
+		{
+			"findings": [],
+			"lineCount": 76,
+			"relativePath": "geelooy/games/sefira-clash/online.html"
+		},
+		{
+			"findings": [
+				"line-count:128"
+			],
+			"lineCount": 128,
+			"relativePath": "geelooy/games/sefira-clash/css/online.css"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 45,
+			"relativePath": "geelooy/games/sefira-clash/js/online/LobbyPlayerCards.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 115,
+			"relativePath": "geelooy/games/sefira-clash/js/online/OnlineLobbyView.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 41,
+			"relativePath": "geelooy/games/sefira-clash/js/online/ProtocolEnvelope.js"
+		},
+		{
+			"findings": [
+				"line-count:129",
+				"compressed-function-body"
+			],
+			"lineCount": 129,
+			"relativePath": "geelooy/games/sefira-clash/js/online/RealtimeClient.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 101,
+			"relativePath": "geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js"
+		},
+		{
+			"findings": [
+				"compressed-function-body"
+			],
+			"lineCount": 90,
+			"relativePath": "geelooy/games/sefira-clash/js/online/onlineLobbyPage.js"
+		}
+	]
+}
+EXIT_CODE=1
+===== format check =====
+
+> format:check
+> prettier --check "js/**/*.{js,mjs}" "tools/**/*.{js,mjs}" "css/**/*.css" style.css prettier.config.mjs
+
+Checking formatting...
+[warn] js/online/LobbyPlayerCards.js
+[warn] js/online/onlineLobbyPage.js
+[warn] js/online/OnlineLobbyView.js
+[warn] js/online/ProtocolEnvelope.js
+[warn] js/online/RealtimeClient.js
+[warn] js/online/SefiraLobbyClient.js
+[warn] tools/online-multiplayer-audit.mjs
+[warn] css/online.css
+[warn] Code style issues found in 8 files. Run Prettier with --write to fix.
+EXIT_CODE=1

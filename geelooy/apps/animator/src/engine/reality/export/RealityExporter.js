@@ -1,87 +1,52 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { AnimatorMovieExportEngine } from '../../../studio/export/AnimatorMovieExportEngine.js';
+
 /**
- * @file RealityExporter.js
- * @description Captures the active canvas into a downloadable WebM vessel.
+ * Reality export is deterministic browser MP4 production, not a real-time WebM
+ * screen grab. The Awtsmoos renews plan, voices, frames, H.264, AAC, and MP4 while
+ * Awtsmoos.com exposes a compatibility vessel for older export controls.
  */
 export class RealityExporter {
-  static recorder = null;
-  static chunks = [];
+	static activePromise = null;
 
-  /**
-   * Starts capturing pixels and optional audio.
-   *
-   * @param {HTMLCanvasElement} canvas - Primary stage canvas.
-   * @param {AudioContext} audioCtx - Optional audio context.
-   * @returns {{ok:boolean,error?:string}} Start result.
-   */
-  static beginHarvest(canvas, audioCtx) {
-    if (!canvas || typeof canvas.captureStream !== 'function') {
-      return { ok: false, error: 'Canvas capture is unavailable on this device.' };
-    }
+	static beginHarvest(canvas, audioContext, options = {}) {
+		void canvas;
+		void audioContext;
+		if (this.activePromise) {
+			return {
+				ok: false,
+				error: 'A deterministic browser MP4 export is already running.'
+			};
+		}
 
-    if (typeof MediaRecorder === 'undefined') {
-      return { ok: false, error: 'MediaRecorder is unavailable in this browser.' };
-    }
+		this.activePromise = AnimatorMovieExportEngine.exportFourMinute(options)
+			.finally(() => {
+				this.activePromise = null;
+			});
+		return {
+			ok: true,
+			promise: this.activePromise,
+			mode: 'browser-mp4-deterministic'
+		};
+	}
 
-    this.chunks = [];
-    const canvasStream = canvas.captureStream(60);
-    let finalStream = canvasStream;
+	static endHarvest() {
+		if (!this.activePromise) {
+			return {
+				ok: false,
+				error: 'No browser MP4 export is running.'
+			};
+		}
+		return {
+			ok: true,
+			message: 'Deterministic browser export finalizes automatically.'
+		};
+	}
 
-    if (audioCtx && typeof audioCtx.createMediaStreamDestination === 'function') {
-      const audioDest = audioCtx.createMediaStreamDestination();
-      const audioTracks = audioDest.stream.getAudioTracks();
-      if (audioTracks.length > 0) finalStream = new MediaStream([...canvasStream.getTracks(), ...audioTracks]);
-    }
-
-    let options = { mimeType: 'video/webm; codecs=vp9' };
-    if (!MediaRecorder.isTypeSupported(options.mimeType)) options = { mimeType: 'video/webm' };
-
-    try {
-      this.recorder = new MediaRecorder(finalStream, options);
-    } catch (error) {
-      return { ok: false, error: `Recording could not start: ${error?.message || error}` };
-    }
-
-    this.recorder.ondataavailable = event => {
-      if (event.data.size > 0) this.chunks.push(event.data);
-    };
-    this.recorder.onstop = () => this.crystallizeVessel();
-    this.recorder.start();
-    return { ok: true };
-  }
-
-  /**
-   * Stops the active recording.
-   *
-   * @returns {{ok:boolean,error?:string}} Stop result.
-   */
-  static endHarvest() {
-    if (!this.recorder || this.recorder.state === 'inactive') {
-      return { ok: false, error: 'No active recording to stop.' };
-    }
-
-    this.recorder.stop();
-    return { ok: true };
-  }
-
-  /**
-   * Converts byte chunks into a hidden download link and releases the URL.
-   *
-   * @returns {void}
-   */
-  static crystallizeVessel() {
-    const blob = new Blob(this.chunks, { type: 'video/webm' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.className = 'aw-download-link';
-    link.href = url;
-    link.download = `Awtsmoos_Emanation_${Date.now()}.webm`;
-    document.body.appendChild(link);
-    link.click();
-
-    setTimeout(() => {
-      link.remove();
-      window.URL.revokeObjectURL(url);
-    }, 100);
-  }
+	static exportMovie(options = {}) {
+		return AnimatorMovieExportEngine.exportFourMinute(options);
+	}
 }

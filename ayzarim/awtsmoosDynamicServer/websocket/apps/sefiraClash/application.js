@@ -3,29 +3,18 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * Sefira Clash enters the shared real-time platform as one registered world,
- * never as transport conditionals. The Awtsmoos renews every player request;
- * Awtsmoos.com delegates each lobby command to a server-owned domain service.
+ * Sefira Clash enters the platform through one guarded adapter. The Awtsmoos renews
+ * every request; Awtsmoos.com preserves original dispatch exports while applying
+ * additive metrics and rate limits before the focused domain router receives work.
  */
 
-const { RealtimeError } = require("../../platform/RealtimeError.js");
-const { LobbyDirectory } = require("./LobbyDirectory.js");
-const {
-	validateCreatePayload,
-	validateJoinPayload,
-	validateUpdatePayload
-} = require("./lobbyValidation.js");
-const {
-	APPLICATION_ID,
-	APPLICATION_VERSION,
-	MESSAGE_TYPES,
-	RESPONSE_TYPES
-} = require("./protocol.js");
+const { LobbyDirectory } = require('./LobbyDirectory.js');
+const { routeSefiraRequest } = require('./SefiraRequestRouter.js');
+const { SefiraRequestLimiter, requestCategory } = require('./SefiraRequestLimiter.js');
+const { APPLICATION_ID, APPLICATION_VERSION, MESSAGE_TYPES } = require('./protocol.js');
 
-/** Creates the independently registered Sefira Clash real-time application. */
-function createSefiraClashApplication(directory = new LobbyDirectory()) {
+function createSefiraClashApplication(directory = new LobbyDirectory(), options = {}) {
+	const limiter = options.limiter || new SefiraRequestLimiter(options);
 	return {
 		directory,
 		id: APPLICATION_ID,
@@ -35,55 +24,36 @@ function createSefiraClashApplication(directory = new LobbyDirectory()) {
 			directory.disconnect(client);
 		},
 		handleVersioned({ client }, request) {
-			return handleLobbyRequest(directory, client, request);
+			return handleSefiraRequest(directory, client, request, { limiter });
 		}
 	};
 }
 
-/** Dispatches one validated Sefira lobby command by stable message type. */
+function handleSefiraRequest(directory, client, request, services = {}) {
+	const category = requestCategory(request.type);
+	directory.metrics?.increment('requests');
+	directory.metrics?.increment(`${category}Requests`);
+	try {
+		services.limiter?.assertAllowed(client, request.type);
+		return routeSefiraRequest(directory, client, request);
+	} catch (error) {
+		directory.metrics?.increment('requestErrors');
+		if (error.code === 'RATE_LIMITED') {
+			directory.metrics?.increment('rateLimitedRequests');
+			if (request.type === MESSAGE_TYPES.INPUT) {
+				directory.recordRejectedInput?.(client);
+			}
+		}
+		throw error;
+	}
+}
+
 function handleLobbyRequest(directory, client, request) {
-	if (request.type === MESSAGE_TYPES.CREATE) {
-		return payloadResult(
-			RESPONSE_TYPES.CREATED,
-			directory.create(client, validateCreatePayload(request.payload))
-		);
-	}
-	if (request.type === MESSAGE_TYPES.JOIN) {
-		return payloadResult(
-			RESPONSE_TYPES.JOINED,
-			directory.join(client, validateJoinPayload(request.payload))
-		);
-	}
-	if (request.type === MESSAGE_TYPES.UPDATE) {
-		return lobbyResult(
-			RESPONSE_TYPES.UPDATED,
-			directory.update(client, validateUpdatePayload(request.payload))
-		);
-	}
-	if (request.type === MESSAGE_TYPES.SNAPSHOT) {
-		return lobbyResult(RESPONSE_TYPES.SNAPSHOT, directory.snapshot(client));
-	}
-	if (request.type === MESSAGE_TYPES.LEAVE) {
-		return lobbyResult(RESPONSE_TYPES.LEFT, directory.leave(client));
-	}
-	throw new RealtimeError(
-		"UNKNOWN_MESSAGE",
-		`Unknown Sefira Clash message: ${request.type}`
-	);
-}
-
-function lobbyResult(type, lobby) {
-	return payloadResult(type, { lobby });
-}
-
-function payloadResult(type, payload) {
-	return {
-		payload,
-		type
-	};
+	return handleSefiraRequest(directory, client, request);
 }
 
 module.exports = {
 	createSefiraClashApplication,
-	handleLobbyRequest
+	handleLobbyRequest,
+	handleSefiraRequest
 };

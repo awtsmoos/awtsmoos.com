@@ -1,40 +1,44 @@
-<!--B"H
-בּ״ה
--->
-<!--B"H
-page template
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives each page one roof. Legacy chambers receive the historical
+navigation template; canonical Geelooy chambers reveal their own shared shell
+without duplicating headers, profiles, backdrops, IDs, or focus paths.
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Awtsmoos | עצמות</title>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Awtsmoos | עצמות</title>
 </head>
 <body>
-    
-    <div class="all awtsmoospage">
-    <?<script> return $a("nav/header.html") 
-    </script>?>
-    <div class="main <?Awtsmoos return ((this.centered ? 'centered' : '') + (this.y ? ' y':'')) ?>">
-            
-        <?<script>
-        var tochen = this.tochen;
-        if(tochen) {
-            return /*html*/`
-                ${tochen}
-            `
-        } else {
-            return "Hello!"
-        }
-        </script>?>
-    </div>
-
-    <?<script> 
-    if(this.footer) 
-        return $a("nav/footer.html") 
-    </script>?>
-</div>
+	<div class="all awtsmoospage">
+		<?<script>
+			const content = String(this.tochen || "");
+			const hasCanonicalBoot = /social\/shell\/boot\.js/.test(content);
+			const shellOwned = this.shellOwned === true || hasCanonicalBoot;
+			if (!shellOwned) {
+				return $a("nav/header.html");
+			}
+			return "";
+		</script>?>
+		<div class="main <?Awtsmoos return ((this.centered ? 'centered' : '') + (this.y ? ' y' : '')) ?>">
+			<?<script>
+				const content = this.tochen;
+				if (content) {
+					return /*html*/`${content}`;
+				}
+				return "Hello!";
+			</script>?>
+		</div>
+		<?<script>
+			if (this.footer) {
+				return $a("nav/footer.html");
+			}
+			return "";
+		</script>?>
+	</div>
 </body>
 </html>

@@ -3,9 +3,9 @@
 	"version": "0.1.0",
 	"type": "module",
 	"private": true,
-	"description": "B\"H - Production reusable Awtsmoos procedural geometry, animation, physics, WebGL material, tree, hair, skeleton, and adapter core.",
+	"description": "B\"H - Production reusable Awtsmoos procedural geometry, recipes, animation, physics, WebGL material, tree, hair, skeleton, and adapter core.",
 	"scripts": {
-		"test": "node test/treePresets.test.mjs"
+		"test": "node test/treePresets.test.mjs && node test/meshText.test.mjs && node test/botanicalComplete.test.mjs"
 	},
 	"exports": {
 		".": "./src/index.js",

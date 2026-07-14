@@ -1,0 +1,60 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every screen boundary anew. Awtsmoos.com lets the Geelooy
+desktop contract gracefully into a pocket-sized command and window vessel.
+*/
+@media (max-width: 760px) {
+	:root {
+		--geo-topbar-height: 50px;
+		--geo-dock-height: 64px;
+	}
+	#awtsmoos-shell-topbar {
+		padding-inline: 10px;
+		gap: 8px;
+	}
+	.shell-brand-copy, #shell-status {
+		display: none;
+	}
+	.shell-chip {
+		padding-inline: 9px;
+		font-size: 12px;
+	}
+	.desktop {
+		padding: 8px 8px calc(var(--geo-dock-height) + 24px);
+	}
+	#start-bar {
+		bottom: max(8px, env(safe-area-inset-bottom));
+		width: calc(100% - 16px);
+		height: var(--geo-dock-height);
+		border-radius: 20px;
+	}
+	#start-button {
+		width: 46px;
+		height: 46px;
+		border-radius: 15px;
+	}
+	.window {
+		max-width: calc(100vw - 12px) !important;
+		max-height: calc(100vh - var(--geo-topbar-height) - var(--geo-dock-height) - 28px) !important;
+		border-radius: 16px !important;
+	}
+	.shell-panel {
+		top: calc(var(--geo-topbar-height) + 8px);
+		right: 8px;
+	}
+	.shell-setting-grid {
+		grid-template-columns: 1fr;
+	}
+}
+@media (max-width: 420px) {
+	.shell-topbar-actions .shell-chip {
+		display: none;
+	}
+	#start-menu {
+		bottom: calc(var(--geo-dock-height) + 18px);
+	}
+	.shell-command-card {
+		border-radius: 20px;
+	}
+}

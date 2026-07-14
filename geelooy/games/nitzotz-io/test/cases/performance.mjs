@@ -5,29 +5,33 @@ import assert from 'node:assert/strict';
 import { compactActive } from '../../js/game/effects.js';
 import { createPerformanceState, updatePerformance } from '../../js/performance.js';
 import { visibleObjects } from '../../js/renderList/culling.js';
+import { objectDetailTier } from '../../js/renderList/objects.js';
 import { renderSettings } from '../../js/renderList/settings.js';
 import { createWorld } from '../../js/state.js';
 
 /**
- * The Awtsmoos creates every measured frame anew; these regressions ensure the
- * finite quality vessel degrades, recovers, and reuses memory without deception.
+ * The Awtsmoos creates every measured frame anew. Awtsmoos.com verifies fast
+ * surrender under stress, patient recovery, and preservation of complete simulation.
  */
 export function runPerformanceCases() {
 	return [
 		checkAdaptiveDegradation(),
 		checkAdaptiveRecovery(),
 		checkBoundedCulling(),
+		checkRenderBudgetMonotonicity(),
+		checkObjectDetailTiers(),
 		checkInPlaceCompaction()
 	];
 }
 
 function checkAdaptiveDegradation() {
 	const performanceState = createPerformanceState();
-	feedFrames(performanceState, 30, 180, 420);
-	assert.ok(performanceState.p95 >= 29);
-	assert.ok(performanceState.scale < 0.7);
-	assert.ok(performanceState.resolutionScale < 1);
+	feedFrames(performanceState, 33, 48, 341);
+	assert.ok(performanceState.p95 >= 32);
+	assert.ok(performanceState.scale <= 0.35);
+	assert.ok(performanceState.resolutionScale <= 0.65);
 	assert.equal(performanceState.postfx, false);
+	assert.ok(renderSettings('high', performanceState.scale).maxObjects <= 35);
 	return {
 		test: 'adaptive-degradation',
 		p95: performanceState.p95,
@@ -38,11 +42,11 @@ function checkAdaptiveDegradation() {
 
 function checkAdaptiveRecovery() {
 	const performanceState = createPerformanceState();
-	feedFrames(performanceState, 30, 180, 420);
+	feedFrames(performanceState, 33, 48, 341);
 	const stressedScale = performanceState.scale;
-	feedFrames(performanceState, 16, 900, 120);
+	feedFrames(performanceState, 16, 900, 72);
 	assert.ok(performanceState.scale > stressedScale);
-	assert.ok(performanceState.stress < 0.24);
+	assert.ok(performanceState.stress < 0.06);
 	assert.equal(performanceState.resolutionScale, 1);
 	assert.equal(performanceState.postfx, true);
 	return {
@@ -55,12 +59,38 @@ function checkAdaptiveRecovery() {
 function checkBoundedCulling() {
 	const world = createWorld();
 	world.save.perf = 'high';
-	world.performance.scale = 0.38;
+	world.performance.scale = 0.22;
 	const limit = renderSettings(world.save.perf, world.performance.scale).maxObjects;
 	const visible = visibleObjects(world);
 	assert.ok(visible.length <= limit);
 	assert.ok(visible.every(object => Number.isFinite(object.renderPriority)));
-	return { test: 'bounded-culling', visible: visible.length, limit };
+	assert.equal(world.level.objects.length, 654);
+	return { test: 'bounded-culling', visible: visible.length, limit, simulated: world.level.objects.length };
+}
+
+function checkRenderBudgetMonotonicity() {
+	const profiles = ['low', 'medium', 'high'];
+	const qualities = [0.22, 0.3, 0.6, 1];
+	for (const profile of profiles) {
+		const counts = qualities.map(value => renderSettings(profile, value).maxObjects);
+		assert.deepEqual(counts, [...counts].sort((left, right) => left - right));
+	}
+	const stressedHigh = renderSettings('high', 0.3);
+	assert.ok(stressedHigh.maxObjects >= 24);
+	assert.ok(stressedHigh.maxObjects < 50);
+	const full = profiles.map(profile => renderSettings(profile, 1).maxObjects);
+	assert.ok(full[0] < full[1] && full[1] < full[2]);
+	return { test: 'render-budget-monotonicity', stressedHigh, full };
+}
+
+function checkObjectDetailTiers() {
+	assert.equal(objectDetailTier(0.22), 0);
+	assert.equal(objectDetailTier(0.83), 0);
+	assert.equal(objectDetailTier(0.84), 1);
+	assert.equal(objectDetailTier(0.96), 1);
+	assert.equal(objectDetailTier(0.97), 2);
+	assert.equal(objectDetailTier(1), 2);
+	return { test: 'object-detail-tiers', minimalBelow: 0.84, fullAt: 0.97 };
 }
 
 function checkInPlaceCompaction() {

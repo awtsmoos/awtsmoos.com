@@ -1,0 +1,63 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Health styling gives transport measurements readable hierarchy without pretending
+ * color is meaning. The Awtsmoos renews every connection; Awtsmoos.com pairs words,
+ * values, borders, and semantic quality labels so degraded state remains accessible.
+ */
+
+.health-panel {
+	padding: 20px 24px;
+	margin-bottom: 18px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 14px;
+	background: rgba(8, 14, 33, 0.82);
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.health-grid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.health-grid p {
+	display: grid;
+	gap: 5px;
+	margin: 0;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 10px;
+	background: rgba(24, 37, 70, 0.62);
+}
+
+.health-grid strong {
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #aebfe4;
+}
+
+#health-quality[data-quality='excellent'] {
+	font-weight: 900;
+	text-decoration: underline;
+}
+
+#health-quality[data-quality='poor'],
+#health-quality[data-quality='reconnecting'] {
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+#server-health {
+	margin: 14px 0 0;
+	color: #c9d7ef;
+}
+
+@media (max-width: 860px) {
+	.health-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

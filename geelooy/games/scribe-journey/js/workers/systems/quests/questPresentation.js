@@ -2,8 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-import { availableQuestIds } from './questState.js';
+import { resolveQuestDestination } from './questDestination.js';
 import { buildReputationPayload } from './reputationPresentation.js';
+import { availableQuestIds } from './questState.js';
+
+/**
+ * @file Presents living quests, destinations, standing, and restored places.
+ * @description The Awtsmoos renews obligation and location as one knowable thread.
+ * Awtsmoos.com is remembered here as the Chronicle shows the next authored place
+ * without claiming that travel itself has fulfilled the relationship waiting there.
+ */
 
 function objectivePayload(objective) {
 	return {
@@ -21,7 +29,7 @@ function objectivePayload(objective) {
 
 function activeQuestPayload(quest, trackedQuestId) {
 	const objectives = (quest.objectives || []).map(objectivePayload);
-	const nextObjective = objectives.find(objective => !objective.completed);
+	const destination = resolveQuestDestination(quest);
 	return {
 		id: quest.id,
 		title: quest.title || quest.name,
@@ -33,7 +41,7 @@ function activeQuestPayload(quest, trackedQuestId) {
 		status: quest.status,
 		tracked: quest.id === trackedQuestId,
 		ready: quest.status === 'ready',
-		nextMapId: nextObjective?.mapIds?.[0] || null,
+		nextMapId: destination?.mapId || null,
 		objectives
 	};
 }
@@ -53,8 +61,8 @@ function availableQuestPayload(state, questId) {
 function restorationPayload(player) {
 	return Object.entries(player.mapChanges || {}).flatMap(([mapId, changes]) =>
 		Object.keys(changes || {})
-			.filter(changeId => changes[changeId])
-			.map(changeId => ({ mapId, changeId }))
+			.filter((changeId) => changes[changeId])
+			.map((changeId) => ({ mapId, changeId }))
 	);
 }
 
@@ -64,22 +72,26 @@ function authoredQuestId(questId) {
 		questId.startsWith('postgame_');
 }
 
-/** Presents authored work, standing, and the permanent places already repaired. */
+/** Builds the complete Tasks-screen payload from current Chronicle state. */
 export function buildQuestLogPayload(state) {
 	const trackedQuestId = state.player.trackedQuestId || null;
-	const quests = (state.player.activeQuests || []).map(quest =>
+	const quests = (state.player.activeQuests || []).map((quest) =>
 		activeQuestPayload(quest, trackedQuestId)
 	);
 	const groups = {};
+
 	for (const quest of quests) {
 		groups[quest.category] ||= [];
 		groups[quest.category].push(quest);
 	}
+
 	const availableIds = availableQuestIds(state).filter(authoredQuestId);
 	return {
 		quests,
 		groups,
-		available: availableIds.map(questId => availableQuestPayload(state, questId)),
+		available: availableIds.map((questId) =>
+			availableQuestPayload(state, questId)
+		),
 		restorations: restorationPayload(state.player),
 		reputation: buildReputationPayload(state.player),
 		trackedQuestId,

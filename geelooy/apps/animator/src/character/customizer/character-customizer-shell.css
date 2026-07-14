@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos renews the outer theater of the Awtsmoos.com Character Lab. */
+.character-customizer {
+	position: fixed;
+	z-index: 70;
+	right: 18px;
+	top: 74px;
+	font: 13px/1.35 Inter, system-ui, sans-serif;
+	color: #f8fafc;
+}
+
+.character-lab-toggle {
+	border: 1px solid #a78bfa;
+	background: linear-gradient(135deg, #312e81, #7c3aed);
+	color: #ffffff;
+	border-radius: 999px;
+	padding: 10px 16px;
+	font-weight: 800;
+	box-shadow: 0 10px 30px #0008;
+}
+
+.character-lab-card {
+	display: none;
+	width: min(1040px, calc(100vw - 36px));
+	height: min(780px, calc(100vh - 100px));
+	background: #090d18f5;
+	border: 1px solid #475569;
+	border-radius: 18px;
+	box-shadow: 0 30px 90px #000c;
+	overflow: hidden;
+}
+
+.character-customizer[data-open='true'] .character-lab-card {
+	display: block;
+}
+
+.character-customizer[data-open='true'] .character-lab-toggle {
+	display: none;
+}
+
+.character-lab-card > header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 18px;
+	background: linear-gradient(90deg, #172554, #4c1d95);
+}
+
+.character-lab-card header div {
+	display: grid;
+}
+
+.character-lab-card header small {
+	color: #c4b5fd;
+}
+
+.character-lab-card header button {
+	font-size: 24px;
+	background: transparent;
+	border: 0;
+	color: #ffffff;
+}
+
+.character-lab-layout {
+	display: grid;
+	grid-template-columns: minmax(480px, 1fr) 360px;
+	height: calc(100% - 60px);
+}
+
+.character-controls {
+	overflow: auto;
+	padding: 14px;
+}
+
+.character-lab-card aside {
+	overflow: auto;
+	padding: 14px;
+	background: #0f172a;
+	display: grid;
+	gap: 10px;
+	align-content: start;
+}

@@ -1,0 +1,6 @@
+
+> audit:adventure
+> node tools/adventure-catalog-audit.mjs
+
+{"levels":60,"worlds":10,"uniqueIds":60,"uniqueAuthoredLayouts":50,"authoredGatesWithCheckpoints":50,"authoredGatesWithExits":50,"totalPerutas":350}
+EXIT_CODE=0

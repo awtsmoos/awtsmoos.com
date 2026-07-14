@@ -4,8 +4,8 @@
 
 /**
  * @file villageLandscapeDefinitions.test.mjs
- * @description Guards the measured landscape contract after the complete
- * botanical revelation, keeping beauty and truth joined before the Awtsmoos.
+ * @description Guards the denser reference landscape after deterministic garden
+ * composition, joining visible beauty and measured truth before the Awtsmoos.
  */
 import assert from 'node:assert/strict';
 import { createVillageLandscapeDefinitions } from '../../world/village/VillageLandscapeSystem.js';
@@ -17,11 +17,11 @@ assert.deepEqual(landscape.stats, {
 	bushes: 24,
 	bushBatches: 3,
 	bushTriangles: 576,
-	flowerInstances: 113,
+	flowerInstances: 140,
 	flowerSpecies: 113,
 	flowerBatches: 6,
-	flowerVertices: 7120,
-	flowerTriangles: 6130,
+	flowerVertices: 8470,
+	flowerTriangles: 7130,
 	gardenBeds: 3,
 	shoreStones: 18,
 	quality: 'high'
@@ -48,10 +48,8 @@ for (const definition of [...gardenBeds, ...shoreStones]) {
 }
 for (const definition of definitions) {
 	assert.ok(definition.textureUrl, `${definition.id} should retain a real material URL`);
-	if (definition.vertices) {
-		for (const point of definition.vertices) {
-			assert.ok(point.every(Number.isFinite), `${definition.id} must contain finite geometry`);
-		}
+	for (const point of definition.vertices || []) {
+		assert.ok(point.every(Number.isFinite), `${definition.id} must contain finite geometry`);
 	}
 }
 

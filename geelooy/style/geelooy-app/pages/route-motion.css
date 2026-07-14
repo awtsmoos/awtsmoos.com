@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals each page in ordered waves while keeping reading immediate.
+ */
+body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > * {
+	animation: g-route-piece-arrival 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > :nth-child(2) {
+	animation-delay: 45ms;
+}
+
+body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > :nth-child(3) {
+	animation-delay: 90ms;
+}
+
+body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > :nth-child(4) {
+	animation-delay: 135ms;
+}
+
+body.geelooy-app-shell :where(.g-card, .social-space-card, .notification, .g-search-result, .home-post-card) {
+	transition: border-color 180ms ease, box-shadow 220ms ease, filter 180ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) {
+	body.geelooy-app-shell :where(.g-card, .social-space-card, .notification, .g-search-result, .home-post-card):hover {
+		border-color: color-mix(in srgb, var(--g-route-accent) 52%, var(--g-line));
+		box-shadow: var(--g-shadow-lg), 0 0 34px var(--g-route-halo);
+		filter: saturate(1.1);
+		transform: translate3d(0, -0.22rem, 0);
+	}
+}
+
+@keyframes g-route-piece-arrival {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 0.9rem, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > * {
+		animation: none;
+	}
+
+	body.geelooy-app-shell :where(.g-card, .social-space-card, .notification, .g-search-result, .home-post-card) {
+		transform: none !important;
+	}
+}

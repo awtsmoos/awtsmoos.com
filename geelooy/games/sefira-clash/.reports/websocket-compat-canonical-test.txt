@@ -1,0 +1,231 @@
+=== CANONICAL NPM TEST ===
+
+> test
+> npm run audit:websocket:compat && npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules
+
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (3.178552ms)
+✔ preserves original server exports and registered factories (1.450767ms)
+✔ supports both original and options-object RealtimeClient constructors (17.390912ms)
+✔ preserves the complete original SefiraLobbyClient class surface (5.25456ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 782.06641
+
+> audit:structure
+> node tools/source-structure-audit.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Source files exceed 120 lines:
+125 js/adventure/adventureRun.js
+147 js/ai/advanced/memory/actionMemory.js
+153 js/ai/advanced/memory/positionLoopMetrics.js
+127 js/ai/advanced/npcMind.js
+124 js/ai/brain/executeMovement.js
+150 js/ai/brain/executeTraversal.js
+134 js/ai/brain/unstuckPlan.js
+171 js/camera/camera.js
+180 js/combat/attackResolver.js
+121 js/combat/attackState.js
+123 js/combat/combatEvents.js
+154 js/data/adventure/adventureLevels.js
+187 js/data/maps/factory.js
+124 js/feedback/feedbackSounds.js
+125 js/menu/gridViews.js
+156 js/menu/menuCards.js
+159 js/physics/blastZones.js
+126 js/physics/knockback.js
+159 js/physics/special/stomp.js
+135 js/physics/walls.js
+133 js/render/fighter/auras.js
+131 js/render/v3/character/CharacterRig.js
+168 js/session/AdventureProgress.js
+133 js/skeleton/solveSkeleton.js
+146 js/spectacle/spectacleEvents.js
+158 js/stage/narrative/stageStoryEvents.js
+137 js/stage/narrative/stageStoryMemory.js
+156 js/stage/objectives/objectiveDirector.js
++ actual - expected
+
++ [
++   {
++     file: 'js/adventure/adventureRun.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/ai/advanced/memory/actionMemory.js',
++     lineCount: 147
++   },
++   {
++     file: 'js/ai/advanced/memory/positionLoopMetrics.js',
++     lineCount: 153
++   },
++   {
++     file: 'js/ai/advanced/npcMind.js',
++     lineCount: 127
++   },
++   {
++     file: 'js/ai/brain/executeMovement.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/ai/brain/executeTraversal.js',
++     lineCount: 150
++   },
++   {
++     file: 'js/ai/brain/unstuckPlan.js',
++     lineCount: 134
++   },
++   {
++     file: 'js/camera/camera.js',
++     lineCount: 171
++   },
++   {
++     file: 'js/combat/attackResolver.js',
++     lineCount: 180
++   },
++   {
++     file: 'js/combat/attackState.js',
++     lineCount: 121
++   },
++   {
++     file: 'js/combat/combatEvents.js',
++     lineCount: 123
++   },
++   {
++     file: 'js/data/adventure/adventureLevels.js',
++     lineCount: 154
++   },
++   {
++     file: 'js/data/maps/factory.js',
++     lineCount: 187
++   },
++   {
++     file: 'js/feedback/feedbackSounds.js',
++     lineCount: 124
++   },
++   {
++     file: 'js/menu/gridViews.js',
++     lineCount: 125
++   },
++   {
++     file: 'js/menu/menuCards.js',
++     lineCount: 156
++   },
++   {
++     file: 'js/physics/blastZones.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/knockback.js',
++     lineCount: 126
++   },
++   {
++     file: 'js/physics/special/stomp.js',
++     lineCount: 159
++   },
++   {
++     file: 'js/physics/walls.js',
++     lineCount: 135
++   },
++   {
++     file: 'js/render/fighter/auras.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/render/v3/character/CharacterRig.js',
++     lineCount: 131
++   },
++   {
++     file: 'js/session/AdventureProgress.js',
++     lineCount: 168
++   },
++   {
++     file: 'js/skeleton/solveSkeleton.js',
++     lineCount: 133
++   },
++   {
++     file: 'js/spectacle/spectacleEvents.js',
++     lineCount: 146
++   },
++   {
++     file: 'js/stage/narrative/stageStoryEvents.js',
++     lineCount: 158
++   },
++   {
++     file: 'js/stage/narrative/stageStoryMemory.js',
++     lineCount: 137
++   },
++   {
++     file: 'js/stage/objectives/objectiveDirector.js',
++     lineCount: 156
++   }
++ ]
+- []
+
+    at file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/tools/source-structure-audit.mjs:43:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    { file: 'js/adventure/adventureRun.js', lineCount: 125 },
+    { file: 'js/ai/advanced/memory/actionMemory.js', lineCount: 147 },
+    {
+      file: 'js/ai/advanced/memory/positionLoopMetrics.js',
+      lineCount: 153
+    },
+    { file: 'js/ai/advanced/npcMind.js', lineCount: 127 },
+    { file: 'js/ai/brain/executeMovement.js', lineCount: 124 },
+    { file: 'js/ai/brain/executeTraversal.js', lineCount: 150 },
+    { file: 'js/ai/brain/unstuckPlan.js', lineCount: 134 },
+    { file: 'js/camera/camera.js', lineCount: 171 },
+    { file: 'js/combat/attackResolver.js', lineCount: 180 },
+    { file: 'js/combat/attackState.js', lineCount: 121 },
+    { file: 'js/combat/combatEvents.js', lineCount: 123 },
+    { file: 'js/data/adventure/adventureLevels.js', lineCount: 154 },
+    { file: 'js/data/maps/factory.js', lineCount: 187 },
+    { file: 'js/feedback/feedbackSounds.js', lineCount: 124 },
+    { file: 'js/menu/gridViews.js', lineCount: 125 },
+    { file: 'js/menu/menuCards.js', lineCount: 156 },
+    { file: 'js/physics/blastZones.js', lineCount: 159 },
+    { file: 'js/physics/knockback.js', lineCount: 126 },
+    { file: 'js/physics/special/stomp.js', lineCount: 159 },
+    { file: 'js/physics/walls.js', lineCount: 135 },
+    { file: 'js/render/fighter/auras.js', lineCount: 133 },
+    { file: 'js/render/v3/character/CharacterRig.js', lineCount: 131 },
+    { file: 'js/session/AdventureProgress.js', lineCount: 168 },
+    { file: 'js/skeleton/solveSkeleton.js', lineCount: 133 },
+    { file: 'js/spectacle/spectacleEvents.js', lineCount: 146 },
+    { file: 'js/stage/narrative/stageStoryEvents.js', lineCount: 158 },
+    { file: 'js/stage/narrative/stageStoryMemory.js', lineCount: 137 },
+    {
+      file: 'js/stage/objectives/objectiveDirector.js',
+      lineCount: 156
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.17.0
+CANONICAL_EXIT=1

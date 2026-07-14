@@ -2,41 +2,61 @@
 // Boruch Hashem
 // Blessed is He
 
-import { createDefaultGameState } from '../../js/data/database.js';
-import { malkuthCampaignQuests } from '../../js/data/quests/campaign/malkuth.js';
-import { chooseScribeName, chooseStarter } from '../../js/workers/systems/quests/questOnboarding.js';
-import * as Quests from '../../js/workers/quests.js';
+import assert from 'node:assert/strict';
+import { createFreshGameState } from '../../js/workers/runtime/stateFactory.js';
+import {
+	chooseScribeName,
+	chooseStarter
+} from '../../js/workers/systems/quests/questOnboarding.js';
 
-function assert(condition, message) {
-	if (!condition) throw new Error(message);
-}
+/**
+ * @file Proves that the real fresh-state path owns the complete first calling.
+ * @description The Awtsmoos creates a beginning whole. Awtsmoos.com therefore
+ * verifies the same state used by Begin Anew instead of manually accepting the
+ * opening quest inside the test and concealing a broken player-facing reset.
+ */
 
-const state = createDefaultGameState();
-state.db.quests = malkuthCampaignQuests;
-assert(Quests.accept(state, 'campaign_malkuth_01'), 'First campaign quest could not be accepted.');
-assert(!chooseScribeName(state, '   '), 'Blank Scribe name should be rejected.');
-assert(chooseScribeName(state, 'Miriam the Scribe'), 'Valid Scribe name was rejected.');
-assert(state.player.name === 'Miriam the Scribe', 'Scribe name did not persist in state.');
-assert(chooseStarter(state, 'alephling'), 'Alephling could not be chosen.');
-assert(state.player.team[0].id === 'alephling', 'Alephling was not placed first.');
-assert(state.player.storage.some(member => member.id === 'clay_golem'), 'Previous lead was not preserved in storage.');
-assert(chooseStarter(state, 'golemet'), 'Golemet could not replace Alephling.');
-assert(state.player.team[0].id === 'golemet', 'Golemet was not placed first.');
-assert(state.player.storage.filter(member => member.id === 'alephling').length === 1, 'Alephling was not preserved exactly once.');
-assert(chooseStarter(state, 'alephling'), 'Alephling could not be reselected.');
-assert(state.player.team.filter(member => member.id === 'alephling').length === 1, 'Alephling duplicated in the party.');
-assert(state.player.storage.filter(member => member.id === 'alephling').length === 0, 'Selected starter remained duplicated in storage.');
-assert(state.player.team.length <= 6, 'Party exceeded the six-Musag limit.');
+const state = createFreshGameState();
 
-const quest = state.player.activeQuests.find(entry => entry.id === 'campaign_malkuth_01');
-assert(quest.objectives.find(entry => entry.targetId === 'player_name_chosen').completed, 'Name objective did not complete.');
-assert(quest.objectives.find(entry => entry.targetId === 'starter_musag').completed, 'Starter objective did not complete.');
-assert(quest.objectives.find(entry => entry.targetId === 'starter_equipped').completed, 'Party slot objective did not complete.');
+assert.equal(state.currentMapId, 'malkuth_village');
+assert.equal(state.player.x, 2);
+assert.equal(state.player.y, 3);
+assert.equal(state.player.pixelX, 80);
+assert.equal(state.player.pixelY, 120);
+assert.equal(state.player.direction, 'up');
+assert.equal(state.player.trackedQuestId, 'campaign_malkuth_01');
+assert.deepEqual(
+	state.player.activeQuests.map((quest) => quest.id),
+	['campaign_malkuth_01']
+);
+
+assert.equal(chooseScribeName(state, '   '), false);
+assert.equal(chooseScribeName(state, 'Miriam the Scribe'), true);
+assert.equal(state.player.name, 'Miriam the Scribe');
+assert.equal(chooseStarter(state, 'alephling'), true);
+assert.equal(state.player.team[0].id, 'alephling');
+assert(state.player.storage.some((member) => member.id === 'clay_golem'));
+assert.equal(chooseStarter(state, 'golemet'), true);
+assert.equal(state.player.team[0].id, 'golemet');
+assert.equal(
+	state.player.storage.filter((member) => member.id === 'alephling').length,
+	1
+);
+assert.equal(chooseStarter(state, 'alephling'), true);
+assert.equal(state.player.team.filter((member) => member.id === 'alephling').length, 1);
+assert.equal(state.player.storage.filter((member) => member.id === 'alephling').length, 0);
+assert(state.player.team.length <= 6);
+
+const quest = state.player.activeQuests[0];
+assert(quest.objectives.find((objective) => objective.targetId === 'player_name_chosen').completed);
+assert(quest.objectives.find((objective) => objective.targetId === 'starter_musag').completed);
+assert(quest.objectives.find((objective) => objective.targetId === 'starter_equipped').completed);
 
 console.log(JSON.stringify({
 	ok: true,
+	map: state.currentMapId,
+	position: { x: state.player.x, y: state.player.y },
+	openingQuest: quest.id,
 	name: state.player.name,
-	lead: state.player.team[0].id,
-	teamSize: state.player.team.length,
-	storageSize: state.player.storage.length
+	lead: state.player.team[0].id
 }, null, 2));

@@ -3,18 +3,17 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * This client translates page intention into stable Sefira lobby commands. The
- * Awtsmoos renews the shared room; Awtsmoos.com keeps the newest server snapshot
- * as truth and remembers only the opaque player identity issued for this socket.
+ * The original lobby client remains a complete public vessel beside the expanded
+ * online match client. The Awtsmoos renews features without erasing callers, and
+ * Awtsmoos.com keeps every historic method and return shape available.
  */
 
-import { RealtimeClient } from "./RealtimeClient.js";
-const APPLICATION_ID = "sefira-clash";
+import { RealtimeClient } from './RealtimeClient.js';
+
+const APPLICATION_ID = 'sefira-clash';
 const APPLICATION_VERSION = 1;
 
-/** Owns the browser's current Sefira lobby snapshot and commands. */
+/** Preserves the original lobby-only browser API on the expanded transport. */
 export class SefiraLobbyClient {
 	constructor(transport = new RealtimeClient(APPLICATION_ID, APPLICATION_VERSION)) {
 		this.transport = transport;
@@ -29,23 +28,23 @@ export class SefiraLobbyClient {
 	}
 
 	async create(profile) {
-		return this.applySession(await this.transport.request("lobby.create", profile));
+		return this.applySession(await this.transport.request('lobby.create', profile));
 	}
 
 	async join(profile) {
-		return this.applySession(await this.transport.request("lobby.join", profile));
+		return this.applySession(await this.transport.request('lobby.join', profile));
 	}
 
 	async update(fields) {
-		return this.applyLobby(await this.transport.request("lobby.update", fields));
+		return this.applyLobby(await this.transport.request('lobby.update', fields));
 	}
 
 	async refresh() {
-		return this.applyLobby(await this.transport.request("lobby.snapshot"));
+		return this.applyLobby(await this.transport.request('lobby.snapshot'));
 	}
 
 	async leave() {
-		await this.transport.request("lobby.leave");
+		await this.transport.request('lobby.leave');
 		this.clearSession();
 		return null;
 	}
@@ -59,10 +58,10 @@ export class SefiraLobbyClient {
 	}
 
 	bindTransport() {
-		this.transport.on("lobby.changed", payload => {
+		this.transport.on('lobby.changed', payload => {
 			this.applyLobby(payload);
 		});
-		this.transport.on("connection.closed", () => {
+		this.transport.on('connection.closed', () => {
 			this.clearSession();
 		});
 	}

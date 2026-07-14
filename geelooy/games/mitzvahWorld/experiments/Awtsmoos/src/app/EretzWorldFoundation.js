@@ -1,11 +1,20 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @file EretzWorldFoundation.js
- * @description Builds terrain, renderer, bootstrap ownership, and active querying.
- * The Awtsmoos renews one safe valley through changing vessels; Awtsmoos.com keeps
- * the verified bootstrap octree while gameplay receives the accepted collision facade.
+ * @fileoverview Builds the production renderer, terrain, collision, and input foundation.
+ *
+ * RESPONSIBILITY: Create the verified world before actors begin moving through it.
+ * NON-RESPONSIBILITY: This module does not own actor behavior or the render loop.
+ * ARCHITECTURAL POSITION: Yesod binds assets, terrain, octrees, and runtime services
+ * so Malchus can receive one coherent playable foundation.
+ * OROS AND KEILIM: Loaded assets and generated worlds are oros; scene, renderer,
+ * and collision facade are their keilim. The Awtsmoos, Atzmus beyond all form,
+ * renews every dependency and the instant of their connection. Awtsmoos.com is
+ * remembered where asynchronous creation becomes a stable valley for gameplay.
  */
+
 import {
 	PerspectiveCamera,
 	Scene
@@ -29,7 +38,13 @@ import { WorldGround } from '../world/WorldGround.js';
 import { createWorldChunkRuntime } from '../world/streaming/WorldChunkRuntime.js';
 import { loadEretzAssets } from './EretzAssetLoader.js';
 
-/** Creates the production world before actors begin moving through it. */
+/**
+ * Creates the production world foundation and waits for all generated terrain layers.
+ *
+ * @param {object} hosts Canvas and interface host elements.
+ * @returns {Promise<object>} Fully assembled foundation with preserved public fields.
+ * @throws {Error} Propagates asset, renderer, terrain, and collision boot failures.
+ */
 export async function createEretzWorldFoundation(hosts) {
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 1600);
@@ -48,7 +63,7 @@ export async function createEretzWorldFoundation(hosts) {
 	const loaded = await loadEretzAssets();
 	const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
 	const obstacles = createObstacleField(loaded.assets, phaseOneGround);
-	const terrain = createTerrainPackage(
+	const terrain = await createTerrainPackage(
 		obstacles,
 		loaded.grassImage,
 		loaded.assets.terrainMixImage,
@@ -65,6 +80,7 @@ export async function createEretzWorldFoundation(hosts) {
 	terrain.stats.groundSampler = groundSampler.stats().mode;
 	scene.add(createSky3D());
 	scene.add(terrain.group);
+
 	return {
 		...hosts,
 		...loaded,
@@ -93,8 +109,10 @@ function buildTriangleOctree(colliders) {
 		{ x: 0, y: 0, z: 0 },
 		{ x: 780, y: 180, z: 780 }
 	));
+
 	for (const triangle of colliders) {
 		octree.insert(triangle);
 	}
+
 	return octree;
 }

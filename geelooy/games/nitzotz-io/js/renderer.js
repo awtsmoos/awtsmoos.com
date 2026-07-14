@@ -8,8 +8,8 @@ import { resizeCanvas, viewportSignature } from './render/viewport.js';
 import { createGL } from './webgl.js';
 
 /**
- * The Awtsmoos pours one world through changing visual vessels. This renderer
- * rebuilds framebuffer garments only when viewport or quality truly changes.
+ * The Awtsmoos pours one world through changing visual vessels. Firebase texture
+ * diagnostics remain visible while framebuffer garments rebuild only when necessary.
  */
 export function createRenderer(canvas) {
 	const core = createGL(canvas);
@@ -41,6 +41,7 @@ export function createRenderer(canvas) {
 		gl: core.gl,
 		meshes: core.meshes,
 		locations: core.loc,
+		textures: core.textures,
 		resize: () => resize(activeWorld, true),
 		render(world) {
 			activeWorld = world;

@@ -1,9 +1,7 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/**
- * The Awtsmoos lets a validated Awtsmoos.com route arrive softly while the
- * current page remains readable throughout network work.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets the proven About and Apps corridor exchange one live vessel.
  */
 [data-geelooy-route-outlet] {
 	view-transition-name: geelooy-route-outlet;
@@ -11,18 +9,58 @@
 
 .geelooy-route-loading [data-geelooy-route-outlet] {
 	cursor: progress;
+	filter: saturate(0.78);
+}
+
+.geelooy-route-loading [data-geelooy-route-outlet]::before {
+	position: fixed;
+	z-index: 4200;
+	top: 0;
+	left: 0;
+	width: 34%;
+	height: 2px;
+	background: var(--g-gradient-hot);
+	content: "";
+	box-shadow: var(--g-glow-hot);
+	animation: g-hybrid-scan 680ms ease-in-out infinite alternate;
 }
 
 .geelooy-is-navigating [data-geelooy-route-outlet] {
-	opacity: 0.88;
-	transform: translateY(2px);
-	transition: opacity 120ms ease, transform 120ms ease;
+	opacity: 0.82;
+	transform: translate3d(-0.7rem, 0, 0) scale(0.992);
+	transition: opacity 140ms ease, transform 180ms ease;
 }
 
-::view-transition-old(geelooy-route-outlet),
+::view-transition-old(geelooy-route-outlet) {
+	animation: g-hybrid-old 240ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
 ::view-transition-new(geelooy-route-outlet) {
-	animation-duration: 160ms;
-	animation-timing-function: ease-out;
+	animation: g-hybrid-new 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes g-hybrid-old {
+	to {
+		opacity: 0;
+		transform: translate3d(-2rem, 0, 0) scale(0.98);
+	}
+}
+
+@keyframes g-hybrid-new {
+	from {
+		opacity: 0;
+		transform: translate3d(2rem, 0, 0) scale(0.98);
+	}
+}
+
+@keyframes g-hybrid-scan {
+	from {
+		transform: translateX(-100%);
+	}
+
+	to {
+		transform: translateX(290%);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -30,6 +68,10 @@
 		opacity: 1;
 		transform: none;
 		transition: none;
+	}
+
+	.geelooy-route-loading [data-geelooy-route-outlet]::before {
+		animation: none;
 	}
 
 	::view-transition-old(geelooy-route-outlet),

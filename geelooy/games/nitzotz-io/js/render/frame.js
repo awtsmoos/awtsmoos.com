@@ -9,8 +9,8 @@ import { drawCommand } from './draw.js';
 import { viewProjection } from './matrix.js';
 
 /**
- * The Awtsmoos renews one complete visible world per frame. Chapter atmosphere now
- * enters through explicit light, fog, and haze uniforms rather than a fixed tint.
+ * The Awtsmoos renews one complete visible world per frame. Material binding resets
+ * after post-processing so every Firebase garment is explicit in the new procession.
  */
 export function renderFrame(renderer, effects, screen, world, canvas) {
 	const gl = renderer.gl;
@@ -23,6 +23,7 @@ export function renderFrame(renderer, effects, screen, world, canvas) {
 	gl.clearColor(preset.clear[0], preset.clear[1], preset.clear[2], 1);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.useProgram(renderer.program);
+	renderer.textures.resetBinding();
 	setSceneUniforms(renderer, world, canvas, time, preset);
 	for (const command of commands) {
 		drawCommand(renderer, command);
@@ -38,7 +39,11 @@ export function renderFrame(renderer, effects, screen, world, canvas) {
 function setSceneUniforms(renderer, world, canvas, time, preset) {
 	const { gl, loc } = renderer;
 	const camera = world.camera;
-	gl.uniformMatrix4fv(loc.uVP, false, new Float32Array(viewProjection(canvas, camera, world.player)));
+	gl.uniformMatrix4fv(
+		loc.uVP,
+		false,
+		new Float32Array(viewProjection(canvas, camera, world.player))
+	);
 	gl.uniform3fv(loc.uCamera, [camera.x, camera.z, camera.y]);
 	gl.uniform3fv(loc.uFogColor, preset.fog);
 	gl.uniform3fv(loc.uSunDirection, preset.sunDirection);

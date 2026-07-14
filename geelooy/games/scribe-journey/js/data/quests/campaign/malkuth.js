@@ -2,17 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-import { buildChapter, objective as o } from './questFactory.js';
+import { buildChapter } from './questFactory.js';
+import { malkuthEarlyEntries } from './malkuthEarly.js';
+import { malkuthLateEntries } from './malkuthLate.js';
+
+/**
+ * @file Braids Malkuth's eight authored relationships into one strict chapter.
+ * @description The Awtsmoos renews each deed as a distinct vessel while one
+ * Chronicle remembers their order. Awtsmoos.com is remembered here as early
+ * friendship and later restoration join without collapsing into cramped data.
+ */
 
 const entries = [
-	{ title: 'A Name in Fresh Ink', summary: 'Master Oren awakens the blank Chronicle and entrusts the first Musag.', giverId: 'master_oren', objectives: [o('speak_npc', 'master_oren', 1, 'Speak to Master Oren', 'scribe_atheneum_main'), o('inspect_object', 'blank_chronicle', 1, 'Inspect the blank Chronicle', 'scribe_atheneum_main'), o('dialogue_choice', 'player_name_chosen', 1, 'Choose the Scribe’s name'), o('recruit_musag', 'starter_musag', 1, 'Choose Alephling, Golemet, or Neginah'), o('party_composition', 'starter_equipped', 1, 'Place the starter in the first party slot')] },
-	{ title: 'Reeds Before Sunrise', summary: 'Gather the materials that let the Chronicle hold living ink.', giverId: 'master_oren', objectives: [o('reach_map', 'malkuth_fields', 1, 'Travel to the Reedbank', 'malkuth_fields'), o('gather_node', 'scribe_reed', 5, 'Gather 5 Scribe Reeds', 'malkuth_fields'), o('collect_item', 'river_ink', 3, 'Collect 3 drops of River Ink', 'malkuth_fields'), o('resolve_encounter', 'blotling', 3, 'Defeat or calm 3 Blotlings', 'malkuth_fields'), o('return_npc', 'master_oren', 1, 'Return to Master Oren')] },
-	{ title: 'The First Echo', summary: 'A frightened Orchard Wisp teaches that friendship requires attention.', giverId: 'tamar', objectives: [o('follow_trail', 'silver_letters', 3, 'Inspect 3 silver echo marks', 'malkuth_orchard'), o('battle_condition', 'orchard_wisp_below_35', 1, 'Lower the Orchard Wisp below 35% health'), o('recruit_musag', 'orchard_wisp', 1, 'Befriend the Orchard Wisp'), o('party_composition', 'orchard_wisp_active', 1, 'Return with Orchard Wisp active'), o('return_npc', 'tamar', 1, 'Report to Tamar')] },
-	{ title: 'Grain That Forgot the Field', summary: 'Yael’s granary is losing the memory of harvest.', giverId: 'yael_miller', objectives: [o('inspect_object', 'damaged_grain_sack', 4, 'Inspect 4 damaged grain sacks', 'malkuth_granary'), o('defeat_species', 'husk_mite', 6, 'Defeat 6 Husk Mites', 'malkuth_granary'), o('collect_item', 'clean_grain', 8, 'Recover 8 Clean Grain', 'malkuth_granary'), o('activate_object', 'husks_cleansed', 3, 'Cleanse 3 corrupted husks', 'malkuth_granary'), o('return_npc', 'yael_miller', 1, 'Return to Yael')], mapChanges: [{ mapId: 'malkuth_granary', changeId: 'food_station_open' }] },
-	{ title: 'Footprints Without Feet', summary: 'Tamar follows impossible tracks toward an erased passage.', giverId: 'tamar', objectives: [o('inspect_clue', 'strange_footprint', 5, 'Inspect 5 strange footprints', 'malkuth_fields'), o('visit_order', 'footprint_trail', 2, 'Follow the trail across two maps'), o('defeat_species', 'scribble_stalker', 4, 'Defeat 4 Scribble Stalkers'), o('collect_item', 'tamar_field_lens', 1, 'Recover Tamar’s field lens'), o('discover_landmark', 'abandoned_cistern', 1, 'Discover the Abandoned Cistern')] },
-	{ title: 'The Child Behind the Wall', summary: 'Old waterworks still remember a child the village nearly forgot.', giverId: 'tamar', objectives: [o('activate_sequence', 'cistern_wheels', 3, 'Activate 3 old water wheels', 'abandoned_cistern'), o('solve_puzzle', 'cistern_channels', 1, 'Redirect the water channels', 'abandoned_cistern'), o('defeat_species', 'cistern_crawler', 5, 'Defeat 5 Cistern Crawlers'), o('escort_npc', 'eli_child', 1, 'Escort Eli to the entrance'), o('protect_target', 'eli_ambush', 1, 'Protect Eli during the ambush')] },
-	{ title: 'A Creature in Two Minds', summary: 'The Splitstone Golem can be restored only by breaking corruption without breaking the creature.', giverId: 'master_oren', objectives: [o('defeat_boss_phase', 'splitstone_shell', 1, 'Break the Corruption Shell', 'cistern_depths'), o('use_move', 'calming_move', 1, 'Use a calming move after the shell breaks'), o('elevate_musag', 'splitstone_golem', 1, 'Elevate the Splitstone Golem'), o('complete_dungeon', 'abandoned_cistern', 1, 'Complete the Abandoned Cistern')], mapChanges: [{ mapId: 'malkuth_village', changeId: 'fountain_restored' }] },
-	{ title: 'The Page That Was Removed', summary: 'Four elders disagree because the Great Erasure removed the relationship between their memories.', giverId: 'master_oren', objectives: [o('speak_group', 'malkuth_elders', 4, 'Question 4 village elders', 'malkuth_village'), o('collect_item', 'first_page_fragment', 1, 'Find the page fragment beneath the fountain'), o('survive_waves', 'blankling_attack', 3, 'Survive 3 Blankling waves'), o('discover_lore', 'pale_editor_projection', 1, 'Witness the Pale Editor’s projection'), o('return_npc', 'master_oren', 1, 'Restore the fragment to the Chronicle')], mapChanges: [{ mapId: 'malkuth_village', changeId: 'yesod_road_open' }] }
+	...malkuthEarlyEntries,
+	...malkuthLateEntries
 ];
 
 export const malkuthCampaignQuests = buildChapter('malkuth', 1, entries);

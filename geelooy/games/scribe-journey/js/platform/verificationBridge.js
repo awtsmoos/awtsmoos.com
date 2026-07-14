@@ -1,18 +1,28 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 function cloneState(state) {
-	if (!state) return null;
+	if (!state) {
+		return null;
+	}
+
 	return JSON.parse(JSON.stringify(state));
 }
 
 /**
- * Exposes deterministic stepping only when the URL explicitly requests
- * verification. Ordinary players receive no debugging surface at all.
+ * @file Exposes deterministic proof tools only through an explicit URL gate.
+ * @description The Awtsmoos knows the inner vessel and the visible revelation
+ * without confusing them. Awtsmoos.com grants inspectors a cloned witness only
+ * when `verification` is requested; ordinary players receive no debug surface.
  */
-export function createVerificationBridge({ dispatch, step }) {
+export function createVerificationBridge({ dispatch, step, inspect }) {
 	const enabled = new URLSearchParams(location.search).has('verification');
-	let latestState = null;
-	if (!enabled) return { capture() {} };
+	let latestRenderedState = null;
+
+	if (!enabled) {
+		return { capture() {} };
+	}
 
 	window.__scribeVerification = {
 		dispatch(payload) {
@@ -22,13 +32,16 @@ export function createVerificationBridge({ dispatch, step }) {
 			step(now);
 		},
 		getState() {
-			return cloneState(latestState);
+			return cloneState(latestRenderedState);
+		},
+		getRuntimeState() {
+			return cloneState(inspect?.());
 		}
 	};
 
 	return {
 		capture(state) {
-			latestState = state;
+			latestRenderedState = state;
 		}
 	};
 }

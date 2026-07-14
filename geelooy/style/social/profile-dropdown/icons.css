@@ -1,0 +1,104 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos holds remembered symbols inside precise lines of light. The
+ * profile doorway on Awtsmoos.com keeps emoji warmth, SVG geometry, responsive
+ * sizing, and motion as one intentional identity jewel.
+ */
+.profile-icon-stack {
+	position: relative;
+	display: inline-grid;
+	width: 2rem;
+	height: 2rem;
+	flex: 0 0 2rem;
+	place-items: center;
+	isolation: isolate;
+	border: 1px solid rgba(60, 236, 255, 0.28);
+	border-radius: 0.72rem 0.28rem 0.72rem 0.28rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, 0.16), rgba(139, 92, 255, 0.26), rgba(255, 72, 203, 0.16));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.14), 0 0 18px rgba(139, 92, 255, 0.18);
+	color: #dffcff;
+	transition: transform 180ms var(--g-ease, ease), box-shadow 180ms var(--g-ease, ease);
+}
+
+.profile-icon-symbol {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	place-items: center;
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+	font-size: 0.92rem;
+	font-weight: 900;
+	line-height: 1;
+	filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.38));
+}
+
+.profile-icon-line {
+	position: absolute;
+	inset: 0.18rem;
+	z-index: 1;
+	width: calc(100% - 0.36rem);
+	height: calc(100% - 0.36rem);
+	color: rgba(190, 246, 255, 0.44);
+	filter: drop-shadow(0 0 5px rgba(60, 236, 255, 0.32));
+	pointer-events: none;
+}
+
+.profile-trigger-crest .profile-icon-stack,
+.profile-panel-orb .profile-icon-stack {
+	width: 2.35rem;
+	height: 2.35rem;
+	flex-basis: 2.35rem;
+	border-radius: 0.9rem 0.32rem 0.9rem 0.32rem;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.16), 0 0 24px rgba(60, 236, 255, 0.2);
+}
+
+.profile-trigger-crest .profile-icon-symbol,
+.profile-panel-orb .profile-icon-symbol {
+	font-size: 1.08rem;
+}
+
+.profile-icon-stack.profile-chevron {
+	width: 1.45rem;
+	height: 1.45rem;
+	flex-basis: 1.45rem;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.06);
+	box-shadow: none;
+}
+
+.profile-chevron .profile-icon-symbol {
+	font-family: var(--g-font, sans-serif);
+	font-size: 1rem;
+	color: #b8c7e8;
+}
+
+.profile-chevron .profile-icon-line {
+	display: none;
+}
+
+[aria-expanded="true"] > .profile-chevron,
+[aria-expanded="true"] .profile-chevron {
+	transform: rotate(180deg);
+}
+
+:is(.profile-trigger, .menu-wide, .identity-current-card, .profile-menu-actions a):hover .profile-icon-stack {
+	transform: translateY(-1px) rotate(-3deg) scale(1.05);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 0 26px rgba(60, 236, 255, 0.26), 0 0 34px rgba(255, 72, 203, 0.14);
+}
+
+@media (max-width: 430px) {
+	.profile-icon-stack {
+		width: 1.85rem;
+		height: 1.85rem;
+		flex-basis: 1.85rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.profile-icon-stack {
+		transition-duration: 0.01ms;
+	}
+}

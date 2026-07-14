@@ -2,112 +2,65 @@
 // Boruch Hashem
 // Blessed is He
 
+import assert from 'node:assert/strict';
 import { createDefaultGameState } from '../../js/data/database.js';
+import { maps } from '../../js/data/maps.js';
+import { campaignRegionMapLists } from '../../js/data/maps/campaignRegionMaps.js';
+import {
+	CAMPAIGN_AVAILABILITY,
+	playableCampaignQuestIds
+} from '../../js/data/quests/campaign/campaignAvailability.js';
 import { campaignQuests } from '../../js/data/quests/campaign/index.js';
 import * as Quests from '../../js/workers/quests.js';
 
-function assert(condition, message) {
-	if (!condition) throw new Error(message);
-}
+/**
+ * @file Verifies the truthful boundary between playable and preserved content.
+ * @description The Awtsmoos contains every future chapter, yet Awtsmoos.com
+ * invites a player only into deeds whose world and runtime presently exist.
+ * Malkuth's eight threads and Yesod's first road now form the playable frontier.
+ */
 
 const state = createDefaultGameState();
 state.db.quests = campaignQuests;
 state.player.level = 100;
-state.player.money.perutah = 0;
 
-const completing = new Set();
-let emittedObjectives = 0;
-let duplicateRewardChecks = 0;
-
-function activeQuest(questId) {
-	return state.player.activeQuests.find(quest => quest.id === questId) || null;
-}
-
-function emitObjective(questId, objective) {
-	Quests.emit(state, {
-		type: objective.type,
-		targetId: objective.targetId,
-		quantity: objective.required,
-		mapId: objective.mapIds?.[0],
-		questId,
-		objectiveId: objective.id
-	});
-	emittedObjectives += 1;
-}
-
-function completeQuest(questId) {
-	if (state.player.completedQuests.includes(questId)) return;
-	assert(!completing.has(questId), `Recursive completion loop at ${questId}.`);
-	const definition = campaignQuests[questId];
-	assert(definition, `Missing campaign quest ${questId}.`);
-	completing.add(questId);
-
-	for (const prerequisite of definition.prerequisites || []) {
-		completeQuest(prerequisite);
-	}
-
-	assert(Quests.accept(state, questId), `Could not accept reachable quest ${questId}.`);
-
-	while (true) {
-		const quest = activeQuest(questId);
-		assert(quest, `Accepted quest ${questId} disappeared before turn-in.`);
-		const objective = quest.objectives.find(entry => !entry.completed);
-		if (!objective) break;
-
-		if (objective.type === 'complete_other_quest' && campaignQuests[objective.targetId]) {
-			completeQuest(objective.targetId);
-			const refreshed = activeQuest(questId);
-			assert(
-				refreshed?.objectives.find(entry => entry.id === objective.id)?.completed,
-				`${questId}/${objective.id} did not observe ${objective.targetId} completion.`
-			);
-			continue;
-		}
-
-		emitObjective(questId, objective);
-		const refreshedObjective = activeQuest(questId)?.objectives.find(entry => entry.id === objective.id);
-		assert(refreshedObjective?.completed, `${questId}/${objective.id} did not consume its event.`);
-	}
-
-	assert(Quests.getStatus(state, questId) === 'ready', `${questId} did not become ready.`);
-	assert(Quests.finalize(state, questId), `${questId} did not turn in.`);
-	const moneyAfter = state.player.money.perutah;
-	assert(!Quests.finalize(state, questId), `${questId} allowed duplicate turn-in.`);
-	assert(state.player.money.perutah === moneyAfter, `${questId} duplicated rewards.`);
-	duplicateRewardChecks += 1;
-	completing.delete(questId);
-}
-
-for (const questId of Object.keys(campaignQuests)) {
-	completeQuest(questId);
-}
-
-const completed = state.player.completedQuests.filter(questId => campaignQuests[questId]);
-const mainCompleted = completed.filter(questId =>
-	questId.startsWith('campaign_') && !questId.startsWith('campaign_postgame_')
+const playableIds = playableCampaignQuestIds();
+const disabledIds = Object.keys(campaignQuests).filter((questId) =>
+	campaignQuests[questId].availability === CAMPAIGN_AVAILABILITY.DISABLED
 );
-const regionalCompleted = completed.filter(questId => questId.startsWith('side_'));
-const contractCompleted = completed.filter(questId => questId.startsWith('postgame_contract_'));
-const postgameCompleted = completed.filter(questId => questId.startsWith('campaign_postgame_'));
+const campaignMapIds = Object.values(campaignRegionMapLists)
+	.flat()
+	.map(([mapId]) => mapId);
 
-assert(completed.length === 198, `Expected 198 completed authored quests, received ${completed.length}.`);
-assert(mainCompleted.length === 80, `Expected 80 main completions, received ${mainCompleted.length}.`);
-assert(regionalCompleted.length === 100, `Expected 100 regional completions, received ${regionalCompleted.length}.`);
-assert(contractCompleted.length === 10, `Expected 10 contract completions, received ${contractCompleted.length}.`);
-assert(postgameCompleted.length === 8, `Expected 8 Cantor completions, received ${postgameCompleted.length}.`);
-assert(state.player.rewardedQuests.length === 198, 'Every authored quest must have one reward guard.');
-assert(state.player.activeQuests.length === 0, 'No authored quest may remain active after simulation.');
-assert(state.player.completedQuests.includes('side_binah_research_04'), 'Binah evidence quest must complete through the cross-quest objective.');
+assert.equal(playableIds.length, 9);
+assert.equal(disabledIds.length, 189);
+assert.deepEqual(Quests.getAvailableQuestIds(state), ['campaign_malkuth_01']);
+assert.equal(Quests.accept(state, 'campaign_malkuth_01'), true);
+
+for (const questId of disabledIds) {
+	assert.equal(
+		Quests.accept(state, questId),
+		false,
+		`${questId} escaped the disabled-content gate.`
+	);
+}
+
+for (const mapId of campaignMapIds) {
+	const genericFocuses = Object.values(maps[mapId]?.interactables || {})
+		.filter((entity) => entity.type === 'quest_focus');
+
+	assert.equal(
+		genericFocuses.length,
+		0,
+		`${mapId} still contains a generic objective-completion focus.`
+	);
+}
 
 console.log(JSON.stringify({
 	ok: true,
-	completed: completed.length,
-	mainCompleted: mainCompleted.length,
-	regionalCompleted: regionalCompleted.length,
-	contractCompleted: contractCompleted.length,
-	postgameCompleted: postgameCompleted.length,
-	emittedObjectives,
-	duplicateRewardChecks,
-	finalMoney: state.player.money.perutah,
-	finalXp: state.player.xp
+	playableQuests: playableIds.length,
+	disabledQuests: disabledIds.length,
+	firstAvailable: 'campaign_malkuth_01',
+	playableFrontier: 'campaign_yesod_01',
+	genericQuestFocuses: 0
 }, null, 2));

@@ -1,73 +1,120 @@
-<!-- B"H - Browser-native Animator movie exporter. No ffmpeg render path. -->
+<!-- B"H -->
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Awtsmoos Browser Movie Export</title>
-<style>html,body{margin:0;background:#050713;color:white;font-family:system-ui}canvas{width:960px;height:540px;display:block;margin:12px auto;border:1px solid #38506f;border-radius:18px}#status{max-width:960px;margin:10px auto;font:16px system-ui;color:#9ed2ff}</style></head>
-<body><canvas id="movie" width="960" height="540"></canvas><div id="status">arming browser renderer...</div>
-<script type="module">
-const B="B\"H";
-const canvas=document.getElementById('movie');
-const ctx=canvas.getContext('2d');
-const status=document.getElementById('status');
-const W=canvas.width,H=canvas.height,FPS=30,DURATION=60000;
-const characters=[
- {name:'Inventor Parent',shirt:'#7cffc4',fur:'#14294f',x:-120,y:330,h:150},
- {name:'Practical Parent',shirt:'#ff9ff3',fur:'#402848',x:-260,y:332,h:146},
- {name:'Brainy Kid',shirt:'#9ed2ff',fur:'#1b3f67',x:-380,y:360,h:112},
- {name:'Wild Toddler',shirt:'#ffd166',fur:'#6d4b10',x:-470,y:382,h:86},
- {name:'Dry Talking Pet',shirt:'#cdb4db',fur:'#7b5e46',x:-560,y:394,h:78,pet:true}
-];
-const beats=[['WIDE ESTABLISHING CAMERA',0,10],['LOW ANGLE CHAOS BUILD',10,20],['CLOSEUP EYE TAGS',20,30],['OVER SHOULDER ARGUMENT',30,42],['CRANE OUT TAG JOKE',42,60]];
-function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
-function camera(t){
- if(t<10)return {scale:1,pan:0,label:'WIDE'};
- if(t<20)return {scale:1.28,pan:-120,label:'LOW ANGLE'};
- if(t<30)return {scale:1.72,pan:-250,label:'EYE CLOSEUP'};
- if(t<42)return {scale:1.35,pan:-390,label:'OVER SHOULDER'};
- return {scale:0.9,pan:120,label:'CRANE OUT'};
-}
-function box(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);} 
-function txt(s,x,y,size=24,c='white',align='left'){ctx.fillStyle=c;ctx.font=`800 ${size}px system-ui`;ctx.textAlign=align;ctx.fillText(s,x,y);} 
-function roundBox(x,y,w,h,c){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,y,w,h,18);ctx.fill();}
-function drawBackground(t,cam){
- const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#101a38');g.addColorStop(1,'#07111f');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
- ctx.save();ctx.translate(W/2,H/2);ctx.scale(cam.scale,cam.scale);ctx.translate(-W/2+cam.pan,-H/2);
- box(-400,405,1800,150,'#203b2f');box(-400,0,1800,405,'#0a1830');
- for(let i=0;i<12;i++){box(-250+i*160+Math.sin(t+i)*8,80+(i%3)*22,70,42,'#16365e');box(-230+i*160,40+(i%2)*17,30,30,'#254b74');}
- ctx.restore();
-}
-function drawCharacter(c,i,t,cam){
- const walk=(t*70+i*120)%1280; const x=(c.x+walk+cam.pan*.18); const bob=Math.sin(t*6+i)*6;
- ctx.save();ctx.translate(W/2,H/2);ctx.scale(cam.scale,cam.scale);ctx.translate(-W/2+cam.pan,-H/2);
- const y=c.y+bob; const h=c.h; const w=c.pet?86:76;
- roundBox(x,y-h,w,h,c.shirt); roundBox(x+8,y-h-56,w-16,62,c.fur);
- // eyes + moving pupils
- box(x+22,y-h-36,14,14,'white');box(x+46,y-h-36,14,14,'white');box(x+26+Math.sin(t*7)*3,y-h-32,6,6,'#050713');box(x+50+Math.sin(t*7)*3,y-h-32,6,6,'#050713');
- box(x+23,y-h-12,36,6,'#050713');
- // limbs
- box(x-12,y-h+55,12,58,c.fur);box(x+w,y-h+48,12,64,c.fur);box(x+12,y,16,44,c.fur);box(x+w-28,y,16,44,c.fur);
- if(c.pet){for(let f=0;f<8;f++)box(x+5+f*8,y-h-64-Math.sin(t*9+f)*3,4,12,c.fur);}
- ctx.restore();
-}
-function overlays(t,cam){
- roundBox(24,22,912,64,'rgba(15,29,56,.88)');txt(`${B} AWTSMOOS ANIMATOR - BROWSER BASED EXPORT`,44,62,28,'white');
- roundBox(30,92,250,44,'rgba(124,255,196,.25)');txt(`CAMERA: ${cam.label}`,46,122,20,'#7cffc4');
- roundBox(650,92,280,44,'rgba(255,209,102,.22)');txt(`TIME ${t.toFixed(2)} / 60.00`,668,122,20,'#ffd166');
- const beat=beats.find(b=>t>=b[1]&&t<b[2])||beats.at(-1);roundBox(210,456,540,58,'rgba(0,0,0,.62)');txt(beat[0],480,493,28,'white','center');
- if(t>=20&&t<30){roundBox(328,165,300,58,'rgba(255,255,255,.92)');txt('EYE TAG TEXT BOX',478,203,24,'#07111f','center');}
- if(t>=42){roundBox(285,145,390,66,'rgba(255,159,243,.88)');txt('TAG JOKE: THE EXPORT WORKED',480,187,25,'#07111f','center');}
-}
-function draw(now){
- const t=Math.min((now-start)/1000,60); const cam=camera(t); drawBackground(t,cam); characters.forEach((c,i)=>drawCharacter(c,i,t,cam)); overlays(t,cam);
- if(t<60)requestAnimationFrame(draw);
-}
-async function record(){
- status.textContent='recording exact 60 second browser canvas movie...';
- const stream=canvas.captureStream(FPS); const chunks=[];
- const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';
- const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:4000000});
- rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
- rec.onstop=()=>{const blob=new Blob(chunks,{type:'video/webm'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='awtsmoos-browser-real-movie-60s.webm'; a.click(); status.textContent='downloaded browser-rendered movie: '+blob.size+' bytes';};
- rec.start(1000); window.start=performance.now(); requestAnimationFrame(draw); setTimeout(()=>rec.stop(),DURATION);
-}
-setTimeout(record,500);
-</script></body></html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Awtsmoos Animator — Browser MP4 Renderer</title>
+	<style>
+		html, body {
+			margin: 0;
+			min-height: 100%;
+			background: radial-gradient(circle at 30% 20%, #25164d, #050713 60%);
+			color: #f8fafc;
+			font: 15px/1.5 system-ui, sans-serif;
+		}
+		main {
+			max-width: 860px;
+			margin: 36px auto;
+			padding: 28px;
+			border: 1px solid #475569;
+			border-radius: 22px;
+			background: #0b1221ee;
+			box-shadow: 0 30px 90px #000b;
+		}
+		.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+		.card { padding: 12px; border: 1px solid #334155; border-radius: 12px; background: #111827; }
+		.card b { display: block; font-size: 22px; color: #f8c44f; }
+		progress { width: 100%; height: 22px; }
+		.status { min-height: 48px; padding: 12px; border-left: 4px solid #8b5cf6; background: #1e1b4b; }
+		.ok { border-color: #22c55e; background: #123524; }
+		.error { border-color: #ef4444; background: #40181d; }
+	</style>
+</head>
+<body>
+	<main>
+		<p>B"H · Piano-derived browser muxing</p>
+		<h1>The Forecast That Stole Tuesday</h1>
+		<p>WebCodecs H.264 · browser AAC · MediaBunny MP4 · native AIFF decoding</p>
+		<div class="grid">
+			<div class="card"><b>8</b>worlds</div>
+			<div class="card"><b>32</b>shots</div>
+			<div class="card"><b>5</b>voices</div>
+			<div class="card"><b>24</b>lines</div>
+		</div>
+		<p id="status" class="status">Ready to render.</p>
+		<progress id="progress" max="100" value="0"></progress>
+		<p><button id="start">Render Browser MP4</button></p>
+	</main>
+	<script type="module">
+		import { FourMinuteFestivalMovie } from '/geelooy/apps/animator/src/scenes/FourMinuteFestivalMovie.js';
+		import { AnimatorBrowserExportController } from '/geelooy/apps/animator/src/studio/export/browser/AnimatorBrowserExportController.js';
+
+		const status = document.getElementById('status');
+		const progress = document.getElementById('progress');
+		const start = document.getElementById('start');
+		const query = new URLSearchParams(location.search);
+		const durationMs = Number(query.get('durationMs')) || 240000;
+		window.__AWTSMOOS_BROWSER_EXPORT__ = { state: 'ready', durationMs };
+
+		function updateState(value) {
+			window.__AWTSMOOS_BROWSER_EXPORT__ = {
+				...window.__AWTSMOOS_BROWSER_EXPORT__,
+				...value,
+				durationMs
+			};
+		}
+
+		async function renderMovie() {
+			start.disabled = true;
+			status.className = 'status';
+			updateState({ state: 'rendering', percent: 0, completedFrames: 0 });
+			try {
+				const result = await AnimatorBrowserExportController.export(
+					FourMinuteFestivalMovie.create(),
+					{
+						durationMs,
+						fileName: durationMs < 240000
+							? 'the-forecast-that-stole-tuesday-browser-proof.mp4'
+							: 'the-forecast-that-stole-tuesday-browser.mp4',
+						onStatus: message => {
+							status.textContent = message;
+							updateState({ statusMessage: message });
+						},
+						onProgress: value => {
+							progress.value = value.percent;
+							status.textContent = `Rendering frame ${value.completedFrames} of ${value.totalFrames} (${value.percent}%)`;
+							updateState({ state: 'rendering', ...value });
+						}
+					}
+				);
+				progress.value = 100;
+				status.className = 'status ok';
+				status.textContent = `Complete: ${result.blob.size.toLocaleString()} browser-created MP4 bytes.`;
+				updateState({
+					state: 'complete',
+					percent: 100,
+					bytes: result.blob.size,
+					type: result.blob.type,
+					fileName: result.fileName,
+					durationSeconds: result.durationSeconds,
+					frameCount: result.frameCount,
+					voiceClipCount: result.voiceClips.length,
+					capabilities: result.capabilities,
+					codecPath: result.codecPath
+				});
+			} catch (error) {
+				status.className = 'status error';
+				status.textContent = error.stack || error.message;
+				updateState({ state: 'error', error: error.stack || error.message });
+				start.disabled = false;
+			}
+		}
+
+		start.addEventListener('click', renderMovie);
+		if (query.get('autostart') === '1') {
+			renderMovie();
+		}
+	</script>
+</body>
+</html>

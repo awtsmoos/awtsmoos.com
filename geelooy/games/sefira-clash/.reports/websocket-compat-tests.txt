@@ -1,0 +1,65 @@
+=== FORMAT WRITE ===
+geelooy/games/sefira-clash/package.json 111ms (unchanged)
+geelooy/games/sefira-clash/js/online/RealtimeClient.js 314ms (unchanged)
+geelooy/games/sefira-clash/js/online/RealtimeClientOptions.js 56ms (unchanged)
+geelooy/games/sefira-clash/js/online/RealtimeSocket.js 40ms (unchanged)
+geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js 21ms (unchanged)
+geelooy/games/sefira-clash/tools/websocket-api-preservation-audit.mjs 27ms
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js 23ms (unchanged)
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js 94ms (unchanged)
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocketApiContract.js 45ms
+ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs 120ms (unchanged)
+FORMAT_WRITE_EXIT=0
+=== COMPATIBILITY GATE ===
+
+> audit:websocket:compat
+> node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+
+{
+	"findings": [],
+	"ok": true,
+	"requiredFiles": 6,
+	"watchedPaths": [
+		"ayzarim/awtsmoosDynamicServer/websocket",
+		"geelooy/games/sefira-clash/js/online"
+	]
+}
+✔ preserves every original Sefira protocol name while adding match names (1.64512ms)
+✔ preserves original server exports and registered factories (1.391654ms)
+✔ supports both original and options-object RealtimeClient constructors (13.958578ms)
+✔ preserves the complete original SefiraLobbyClient class surface (3.433766ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 658.210727
+COMPAT_EXIT=0
+=== ALL SEFIRA TESTS ===
+✔ creates and joins a private four-player room with safe snapshots (3.665139ms)
+✔ invalidates readiness after character or team changes (0.918267ms)
+✔ migrates ownership and deletes a room after its final disconnect (1.259864ms)
+✔ rejects a fifth player without corrupting room membership (37.751373ms)
+✔ requires owner authority and unanimous readiness before starting (110.355387ms)
+✔ binds input to its socket fighter and ignores a stale sequence (1.340559ms)
+✔ eliminates a disconnect and returns a finished match to lobby (5.746009ms)
+✔ accepts only newer bounded input and moves the bound fighter (11.707655ms)
+✔ resolves attack damage and guarded reduction on the server (8.400464ms)
+✔ owns ring-out stocks and free-for-all victory (1.18374ms)
+✔ resolves team victory after the opposing team is eliminated (143.115043ms)
+✔ team match rejects one team and accepts opposing teams (6.629081ms)
+✔ preserves every original Sefira protocol name while adding match names (10.929726ms)
+✔ preserves original server exports and registered factories (24.332887ms)
+✔ supports both original and options-object RealtimeClient constructors (22.489365ms)
+✔ preserves the complete original SefiraLobbyClient class surface (21.149104ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1359.158852
+SEFIRA_TEST_EXIT=0

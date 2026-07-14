@@ -1,3 +1,9 @@
-/* B"H — The living search lens is composed from focused modules. */
-@import "./search/control.css";
-@import "./search/suggestions.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The living search lens is composed from versioned control and suggestion
+ * vessels so Awtsmoos.com never keeps a stale orb beside a renewed shell.
+ */
+@import "./search/control.css?v=magic-001";
+@import "./search/suggestions.css?v=magic-001";

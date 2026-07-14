@@ -2,6 +2,7 @@
 	"BH": "B\"H",
 	"type": "module",
 	"scripts": {
+		"audit:websocket:compat": "node tools/websocket-api-preservation-audit.mjs && node --test ../../../ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs",
 		"audit:structure": "node tools/source-structure-audit.mjs",
 		"audit:syntax": "node tools/source-syntax-audit.mjs",
 		"audit:adventure": "node tools/adventure-catalog-audit.mjs",
@@ -13,7 +14,7 @@
 		"audit:quality": "node tools/source-quality-audit.mjs",
 		"format:source": "prettier --write \"js/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
 		"format:check": "prettier --check \"js/**/*.{js,mjs}\" \"tools/**/*.{js,mjs}\" \"css/**/*.css\" style.css prettier.config.mjs",
-		"test": "npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules"
+		"test": "npm run audit:websocket:compat && npm run audit:structure && npm run audit:syntax && npm run audit:adventure && npm run audit:feel && npm run audit:winners && npm run audit:multiplayer && npm run audit:modules"
 	},
 	"devDependencies": {
 		"prettier": "3.9.5"

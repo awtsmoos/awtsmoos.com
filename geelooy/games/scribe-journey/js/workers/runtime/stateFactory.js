@@ -5,6 +5,7 @@
 import { createDefaultGameState } from '../../data/database.js';
 import * as TimeSystem from '../systems/time.js';
 import { ensureQuestState } from '../systems/quests/questState.js';
+import { initializeCampaignOnboarding } from './campaignOnboardingState.js';
 
 const EMPTY_STATS = Object.freeze({
 	battlesWon: 0,
@@ -18,7 +19,11 @@ const EMPTY_STATS = Object.freeze({
 	foodEaten: 0
 });
 
-/** Creates the mutable vessel while immutable registries stay source-owned. */
+/**
+ * Creates the mutable vessel while immutable registries stay source-owned.
+ * The Awtsmoos gives the new Chronicle not only empty possibility, but its
+ * first true place and calling, so Awtsmoos.com begins with authored purpose.
+ */
 export function createFreshGameState() {
 	const state = createDefaultGameState();
 	state.time = TimeSystem.initTime();
@@ -29,6 +34,7 @@ export function createFreshGameState() {
 	state.player.wisdomPoints = 0;
 	state.player.unlockedGates37 = [];
 	ensureQuestState(state.player);
+	initializeCampaignOnboarding(state);
 	return state;
 }
 

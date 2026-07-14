@@ -1,70 +1,56 @@
-/* B"H — Controls feel charged but remain unmistakably usable. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos shapes every command into a charged but readable vessel.
+ * Awtsmoos.com buttons carry depth before motion begins.
+ */
 .g-button,
-.geelooy-app-shell button,
-.geelooy-app-shell .spaces-create,
-.geelooy-app-shell .profile-primary-action {
-	display: inline-flex;
-	min-height: 2.85rem;
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	.spaces-create,
+	.profile-primary-action
+) {
+	appearance: none;
 	align-items: center;
-	justify-content: center;
-	gap: 0.48rem;
-	padding: 0.68rem 1rem;
-	border: 1px solid rgba(60, 236, 255, 0.2);
+	background:
+		linear-gradient(120deg, transparent 0 24%, rgba(255, 255, 255, 0.18) 42%, transparent 58%) 140% 0 / 240% 100% no-repeat,
+		var(--g-control-energy),
+		linear-gradient(145deg, rgba(17, 31, 59, 0.96), rgba(5, 9, 24, 0.99));
+	border: 1px solid rgba(103, 223, 255, 0.42);
 	border-radius: var(--g-radius-sm);
-	background: linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(79, 125, 255, 0.08));
+	box-shadow: var(--g-control-shadow);
 	color: var(--g-text);
-	font-weight: 800;
 	cursor: pointer;
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
-	transition: 180ms var(--g-ease);
-}
-
-.g-button:hover,
-.geelooy-app-shell button:hover,
-.geelooy-app-shell .spaces-create:hover,
-.geelooy-app-shell .profile-primary-action:hover {
-	border-color: rgba(60, 236, 255, 0.48);
-	background: var(--g-gradient-soft);
-	box-shadow: var(--g-glow);
-	transform: translateY(-2px) scale(1.015);
+	display: inline-flex;
+	font-weight: 850;
+	gap: 0.5rem;
+	isolation: isolate;
+	justify-content: center;
+	letter-spacing: 0.012em;
+	min-height: 2.9rem;
+	padding: 0.7rem 1.05rem;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 0 18px rgba(60, 236, 255, 0.18);
+	transform: translateZ(0);
+	transition:
+		background-position var(--g-motion-medium) var(--g-ease),
+		border-color var(--g-motion-fast) var(--g-ease),
+		box-shadow var(--g-motion-medium) var(--g-ease),
+		color var(--g-motion-fast) var(--g-ease),
+		filter var(--g-motion-fast) var(--g-ease),
+		transform var(--g-motion-fast) var(--g-ease-pressure);
 }
 
 .g-button-primary {
-	border-color: transparent !important;
 	background: var(--g-gradient-hot) !important;
+	border-color: rgba(255, 255, 255, 0.32) !important;
+	box-shadow: 0 18px 48px rgba(79, 125, 255, 0.34), 0 0 34px rgba(255, 72, 203, 0.26) !important;
 	color: #02050d !important;
-	box-shadow: 0 14px 38px rgba(79, 125, 255, 0.32), 0 0 28px rgba(255, 72, 203, 0.18) !important;
-}
-
-.g-field,
-.geelooy-app-shell input,
-.geelooy-app-shell select,
-.geelooy-app-shell textarea {
-	width: 100%;
-	min-height: 3.1rem;
-	padding: 0.75rem 0.92rem;
-	border: 1px solid rgba(60, 236, 255, 0.16);
-	border-radius: var(--g-radius-sm);
-	background: rgba(1, 5, 14, 0.74);
-	color: var(--g-text);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
-	outline: none;
-}
-
-.geelooy-app-shell textarea {
-	min-height: 7rem;
-	resize: vertical;
-}
-
-.g-field:focus,
-.geelooy-app-shell input:focus,
-.geelooy-app-shell select:focus,
-.geelooy-app-shell textarea:focus {
-	border-color: var(--g-cyan);
-	box-shadow: 0 0 0 4px rgba(60, 236, 255, 0.1), 0 0 32px rgba(139, 92, 255, 0.13);
-}
-
-.geelooy-app-shell input::placeholder,
-.geelooy-app-shell textarea::placeholder {
-	color: #7f8ba5;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.42) !important;
 }

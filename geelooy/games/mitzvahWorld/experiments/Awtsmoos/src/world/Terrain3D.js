@@ -1,18 +1,29 @@
 // B"H
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @fileoverview Coordinates production terrain, village, forest, and text geometry.
+ *
+ * RESPONSIBILITY: Generate world layers and aggregate their render and collision data.
+ * NON-RESPONSIBILITY: Visual attachment and statistics shaping live in dedicated modules.
+ * ARCHITECTURAL POSITION: Tiferes harmonizes distinct generators before manifestation.
+ * OROS AND KEILIM: Each subsystem brings an ohr of landscape possibility; this
+ * coordinator directs those lights into compatible keilim. The Awtsmoos, Atzmus
+ * beyond all worlds, recreates every layer and their unity each instant.
+ * Awtsmoos.com is remembered where evidence-bearing generators become one village.
+ */
+
 import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
-import {
-	createPrimitiveMesh,
-	primitiveColliders
-} from './Box3D.js';
-import { createEdgeOverlay } from './EdgeOverlay.js';
+import { primitiveColliders } from './Box3D.js';
 import { houseRoadSystem } from './PathRoadSystem.js';
+import { createProceduralTextLandmark } from './proceduralText/ProceduralTextLandmarkSystem.js';
+import { createTerrainGroup } from './TerrainGroupAssembly.js';
 import {
 	createTerrainGeometry,
 	terrainHeightAt
 } from './TerrainGeometry.js';
-import { createTerrainMesh } from './TerrainMesh.js';
-import { createTerrainStats } from './TerrainStats.js';
+import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
 import { createProceduralForest } from './trees/ProceduralForestSystem.js';
 import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js';
 
@@ -24,50 +35,56 @@ export const DIRT_URLS = [TEXTURE_URLS.terrain.dirtGrass3, TEXTURE_URLS.terrain.
 export const REAL_GRASS_URL = GRASS_URLS[0];
 export const heightAt = terrainHeightAt;
 
-/** Builds terrain, road, houses, forest, water, and an authored procedural village. */
-export function createTerrainPackage(obstacles, grassImage, dirtImage, groundSampler) {
+/**
+ * Builds the terrain package and awaits its text-authored production landmark.
+ *
+ * @param {Array<object>} obstacles Loaded obstacle definitions and asset metadata.
+ * @param {HTMLImageElement|null} grassImage Loaded grass image or null fallback.
+ * @param {HTMLImageElement|null} dirtImage Loaded terrain-mix image or null fallback.
+ * @param {Function|object} groundSampler Ground sampling contract.
+ * @returns {Promise<object>} Complete render, collision, statistics, and metadata package.
+ */
+export async function createTerrainPackage(obstacles, grassImage, dirtImage, groundSampler) {
 	const terrain = createTerrainGeometry();
 	const road = houseRoadSystem(obstacles.assets || {}, groundSampler, obstacles);
 	const roadColliders = primitiveColliders(road.visual);
 	const obstacleColliders = obstacles.flatMap(primitiveColliders);
 	const village = createVillageWorldDefinitions(groundSampler);
 	const villageColliders = village.definitions.flatMap(primitiveColliders);
+	const textLandmark = await createProceduralTextLandmark(groundSampler);
+	const occupiedColliders = [
+		...obstacleColliders,
+		...villageColliders,
+		...textLandmark.colliders
+	];
 	const forest = createProceduralForest({
 		groundSampler,
 		roadTriangles: roadColliders,
-		obstacleTriangles: [...obstacleColliders, ...villageColliders],
+		obstacleTriangles: occupiedColliders,
 		halfSize: terrain.size / 2 - 20
 	});
-	const group = new Group();
-	group.name = 'Awtsmoos_Eretz_full_village_water_forest_houses';
-	group.add(createTerrainMesh(terrain, grassImage, dirtImage, REAL_GRASS_URL));
-	group.add(createPrimitiveMesh(road.visual));
-	for (const definition of obstacles) addDefinition(group, definition);
-	for (const definition of village.definitions) addDefinition(group, definition);
-	group.add(forest.group);
-	const stats = createTerrainStats({
+	const assembly = {
 		terrain,
+		grassImage,
+		dirtImage,
 		road,
 		roadColliders,
-		obstacleColliders: [...obstacleColliders, ...villageColliders],
 		obstacles,
-		grassImage,
-		sampler: groundSampler
-	});
-	stats.terrainMix = {
-		grassAndDirt: !!grassImage && !!dirtImage,
-		sameRepeat: true,
-		patchShader: 'world-space-mix()'
+		occupiedColliders,
+		groundSampler,
+		village,
+		textLandmark,
+		forest
 	};
-	stats.forestStats = forest.stats;
-	stats.village = village.stats;
+	const group = createTerrainGroup(assembly, REAL_GRASS_URL);
+	const stats = createTerrainPackageStats(assembly);
+
 	return {
 		group,
 		colliders: [
 			...terrain.colliders,
 			...roadColliders,
-			...obstacleColliders,
-			...villageColliders,
+			...occupiedColliders,
 			...forest.colliders
 		],
 		heightAt,
@@ -75,15 +92,12 @@ export function createTerrainPackage(obstacles, grassImage, dirtImage, groundSam
 		roadStats: road.stats,
 		forest,
 		village,
+		textLandmark,
 		worldMetadata: {
 			...(obstacles.userData || {}),
 			forest: forest.stats,
-			village: village.stats
+			village: village.stats,
+			textLandmark: textLandmark.stats
 		}
 	};
-}
-
-function addDefinition(group, definition) {
-	group.add(createPrimitiveMesh(definition));
-	if (!definition.noEdge) group.add(createEdgeOverlay(definition));
 }

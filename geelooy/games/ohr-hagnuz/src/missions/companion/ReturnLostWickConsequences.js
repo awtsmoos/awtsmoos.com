@@ -4,14 +4,19 @@
 
 /**
  * @file ReturnLostWickConsequences.js
- * @description Resolves exploration-order approaches into durable world effects.
+ * @description Resolves exploration-order approaches into durable world, bond, passage, equipment, item, and skill effects.
  *
  * One first step changes the shape of later kindness. The Awtsmoos recreates
- * every path without confusion; this vessel lets compassion, resolve, and song
- * leave distinct truthful consequences throughout Awtsmoos.com.
+ * every path without confusion; this vessel lets compassion, resolve, song, and
+ * the received responsibility of light leave truthful consequences on Awtsmoos.com.
  */
 import { State } from '../../binah/State.js';
-import { RETURN_LOST_WICK, approachById, approachByTraceId } from '../../content/companions/ReturnLostWick.js';
+import {
+	RETURN_LOST_WICK,
+	approachById,
+	approachByTraceId
+} from '../../content/companions/ReturnLostWick.js';
+import { grantFirstLightReward } from '../../yesod/codex/FirstLightReward.js';
 import { grantBond } from '../../yesod/party/PartyRuntime.js';
 import { ensureReturnLostWickState } from './CompanionShlichusState.js';
 
@@ -26,8 +31,14 @@ export function resolveReturnLostWickApproach(lead) {
 export function applyReturnLostWickConsequences(lead) {
 	const approach = resolveReturnLostWickApproach(lead);
 	if (lead.consequences?.applied) {
-		return { approach, bonusBond: null, repeated: true };
+		return {
+			approach,
+			bonusBond: null,
+			firstLightReward: grantFirstLightReward(),
+			repeated: true
+		};
 	}
+
 	lead.approachId = approach.id;
 	lead.consequences = {
 		applied: true,
@@ -40,7 +51,13 @@ export function applyReturnLostWickConsequences(lead) {
 	const bonusBond = approach.bonusBondReason
 		? grantBond('nerel', approach.bonusBondReason)
 		: null;
-	return { approach, bonusBond, repeated: false };
+	const firstLightReward = grantFirstLightReward();
+	return {
+		approach,
+		bonusBond,
+		firstLightReward,
+		repeated: false
+	};
 }
 
 export function returnLostWickEffects() {

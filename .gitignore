@@ -1,4 +1,11 @@
 # B"H
+# Boruch Hashem
+# Blessed is He
+#
+# The Awtsmoos creates every repository boundary anew. Local tunnel vessels
+# remain concealed, while the intentional Geelooy browser application stays
+# visible so Awtsmoos.com can receive every module its public entry points use.
+
 # Awtsmoos tunnel generated artifacts: never commit local tunnel state.
 .awtsmoos/
 .Awtsmoos/
@@ -13,6 +20,13 @@
 .awtsmoos.config.local.json
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
+
+# The public Geelooy social application intentionally uses this namespace.
+# Reveal the parent, seal every child again, then open only the browser subtree.
+!geelooy/scripts/awtsmoos/
+geelooy/scripts/awtsmoos/*
+!geelooy/scripts/awtsmoos/social/
+!geelooy/scripts/awtsmoos/social/**
 
 # The live Mitzvah World runtime is intentionally named Awtsmoos.
 # Keep this one revealed directory tracked even though generic local
@@ -34,11 +48,11 @@ AI-THOUGHTS/
 **/[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
 **/[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
 
-# Runtime mutable app data
+# Runtime mutable app data.
 geelooy/.data/
 .data/
 
-# Generated AwtsDB/search shard artifacts
+# Generated AwtsDB/search shard artifacts.
 searchPacked/
 *.bin
 *.awtsbin
@@ -47,7 +61,7 @@ searchPacked/
 *.awtsdb.tmp
 *.awtsidx
 
-# Logs and runtime spill files
+# Logs and runtime spill files.
 .logs/
 *.log
 *.out.log
@@ -62,11 +76,11 @@ geelooy/games/mitzvahWorld/tests/headless/long-run/*.json
 geelooy/games/mitzvahWorld/tests/headless/lastNodeDomLivingWorldGameplaySimulation.json
 geelooy/games/mitzvahWorld/tests/chrome/lastChromeGameplayReport.json
 
-# OS/editor noise
+# OS/editor noise.
 .DS_Store
 Thumbs.db
 
-# Heavy generated browser/game/build proof artifacts
+# Heavy generated browser/game/build proof artifacts.
 **/tests/headless/visual-proof/*.png
 **/tests/chrome/*.png
 **/tests/headless/long-run/*.json
@@ -82,7 +96,7 @@ Thumbs.db
 **/coverage/
 **/.nyc_output/
 
-# Generated runtime/compiler caches
+# Generated runtime/compiler caches.
 **/runtime-cache/
 **/runtime-cache/**
 **/execution-plans/*.json

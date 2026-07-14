@@ -1,0 +1,34 @@
+=== LINE COUNTS ===
+      43 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CharacterProfiles.js
+      32 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyBroadcast.js
+     125 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyDirectory.js
+     109 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyMatchController.js
+      51 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyPlayer.js
+     144 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/LobbyRoom.js
+      32 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchBroadcast.js
+      90 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchCombat.js
+      89 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchFighter.js
+      42 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchInput.js
+      98 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchPhysics.js
+      41 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchRules.js
+      90 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchSimulation.js
+      69 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/MatchWinner.js
+      81 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js
+      39 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/joinCode.js
+      93 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/lobbyValidation.js
+      56 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js
+    1324 total
+=== SYNTAX ===
+=== EXISTING TESTS ===
+✔ creates and joins a private four-player room with safe snapshots (4.478903ms)
+✔ invalidates readiness after character or team changes (1.224437ms)
+✔ migrates ownership and deletes a room after its final disconnect (2.163353ms)
+✔ rejects a fifth player without corrupting room membership (1.831616ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 556.19243

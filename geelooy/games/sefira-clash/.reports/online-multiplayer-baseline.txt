@@ -1,0 +1,80 @@
+=== BRANCH ===
+main
+=== HEAD ===
+36a1aa5bd (HEAD -> main, origin/main, origin/HEAD) B_H harden tunnel recovery and multi-agent fairness
+=== STATUS ===
+?? .reports/online-multiplayer-baseline.txt
+=== UNTRACKED ===
+.reports/online-multiplayer-baseline.txt
+=== NEWEST AI THOUGHT FILES ===
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/07_SERVER_TESTS.txt
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/06_REMAINING_WORK.md
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/05_FINAL_IMPLEMENTATION_PLAN.md
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/04_EVIDENCE_LEDGER.md
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/03_REPOSITORY_EVIDENCE.json
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/collect-git-evidence.cjs
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/02_PHASE_THREE_PLAN_CHALLENGE.md
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/01_PHASE_TWO_THEORETICAL_FILE_GRAPH.md
+ai_thoughts/2026-07-13T13-46-45-0400_online_social_multiplayer_world_revelation/00_PHASE_ONE_PROJECT_UNIVERSE.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/33_FINAL_HANDOFF.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/32_CORRECTED_FEATURE_GATES.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/28_FINAL_GIT_EVIDENCE.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/27_FINAL_GATE_MATRIX.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/31_CURRENT_REMAINING_WORK.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/30_PLANNED_VS_ACTUAL.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/29_BROWSER_VERIFICATION.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/26_RULE_AND_QUALITY_AUDIT.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/25_FINAL_SPLITS_AND_MULTIPLAYER.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/24_SCOPED_FORMAT_AND_GATES.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/23_LOCAL_MULTIPLAYER_AUDIT.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/22_LOBBY_LINE_COUNTS.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/21_FOUNDATION_SCOPED_VALIDATION.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/16_RISK_AND_REGRESSION_MAP.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/15_ACCEPTANCE_TEST_MATRIX.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/14_DEPENDENCY_ORDERED_ROADMAP.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/13_FILES_TO_TOUCH.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/12_LOCAL_MULTIPLAYER_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/11_TRAINING_AND_REPLAY_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/10_WORLD_AND_LEVEL_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/09_CHARACTER_ROSTER_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/19_FOCUSED_AUDITS.txt
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/08_ENEMY_AND_BOSS_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/07_EQUIPMENT_AND_UPGRADES_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/06_PERUTA_ECONOMY_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/05_ADVENTURE_AND_QUEST_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/04_ANIMATION_AND_EFFECTS_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/03_COMBAT_MECHANICS_PLAN.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/02_PLAYER_FANTASY_AND_CORE_LOOPS.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/01_COMPLETE_GAMEPLAY_BRAINSTORM.md
+ai_thoughts/2026-07-13T12-48-00-0400_next_level_gameplay_adventure_revelation/00_CURRENT_REALITY.md
+=== NETWORK PATHS ===
+js/ai/advanced/test/sim/NeutralInput.js
+js/ai/direct/blankInput.js
+js/combat/combatInputEdges.js
+js/combat/inputIntent.js
+js/controls/InputBuffer.js
+js/controls/SlotInputRouter.js
+js/controls/input.js
+js/controls/mergeInputStates.js
+js/core/fighterInput.js
+js/multiplayer/DeviceRegistry.js
+js/multiplayer/MatchRoster.js
+js/multiplayer/MatchRules.js
+js/multiplayer/PlayerLobby.js
+js/multiplayer/PlayerLobbyDefaults.js
+js/multiplayer/PlayerSlot.js
+js/online/LobbyPlayerCards.js
+js/online/OnlineLobbyView.js
+js/online/ProtocolEnvelope.js
+js/online/RealtimeClient.js
+js/online/SefiraLobbyClient.js
+js/online/onlineLobbyPage.js
+tools/local-multiplayer-audit.mjs
+tools/local-multiplayer/deviceAudit.mjs
+tools/local-multiplayer/matchAudit.mjs
+tools/online-multiplayer-audit.mjs
+=== WEBSOCKET REFERENCES ===
+js/online/RealtimeClient.js:19:/** Owns one versioned WebSocket connection for a registered application. */
+js/online/RealtimeClient.js:34:		if (this.socket?.readyState === WebSocket.OPEN) {
+js/online/RealtimeClient.js:42:			const socket = new WebSocket(this.url);
+tools/online-multiplayer-audit.mjs:18:const SERVER_ROOT = "ayzarim/awtsmoosDynamicServer/websocket";

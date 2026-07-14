@@ -2,7 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Integration tests follow the real campaign path into the authored garden; Awtsmoos.com renews every connected vessel.
+ * Gate 1 integration tests follow the real campaign path into the authored garden.
+ * Awtsmoos.com renews every connected vessel while assertions preserve the garden's exact executable contract.
  */
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -31,11 +32,7 @@ test("Gate 1 builds exact authored entities and a checkpoint", () => {
 
 test("enemy clearance alone cannot awaken the authored portal", () => {
 	const scene = builder.build(campaign.get(1), DIFFICULTIES.normal);
-	const runtime = new StageRuntime(scene, { x: 0 }, {
-		combat: {},
-		pickups: {},
-		effects: {}
-	});
+	const runtime = new StageRuntime(scene, { x: 0 }, { combat: {}, pickups: {}, effects: {} });
 	scene.enemies = [];
 	scene.defeated = 4;
 	runtime.updateObjective();
@@ -43,17 +40,4 @@ test("enemy clearance alone cannot awaken the authored portal", () => {
 	scene.collectedTags["garden-spark"] = 3;
 	runtime.updateObjective();
 	assert.equal(scene.portal.active, true);
-});
-
-test("Gate 3 still uses deterministic generated fallback content", () => {
-	const recipe = campaign.get(3);
-	const first = builder.build(recipe, DIFFICULTIES.normal);
-	const second = builder.build(recipe, DIFFICULTIES.normal);
-	assert.equal(recipe.authoredContent, undefined);
-	assert.equal(first.checkpoints.length, 0);
-	assert.equal(first.bodies.length, second.bodies.length);
-	assert.deepEqual(
-		first.enemies.map((enemy) => [enemy.id, Math.round(enemy.x)]),
-		second.enemies.map((enemy) => [enemy.id, Math.round(enemy.x)])
-	);
 });

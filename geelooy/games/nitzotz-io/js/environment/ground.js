@@ -4,8 +4,8 @@
 import { cmd } from '../renderList/command.js';
 
 /**
- * The Awtsmoos reveals a navigable valley through layered finite surfaces. Traffic
- * lanes remain legible while terraces and a curved footpath break the former grid.
+ * The Awtsmoos reveals one navigable valley through named remote materials. Grass,
+ * dirt, and stone retain the original geometry while Awtsmoos.com gains surface scale.
  */
 export function groundCommands(commands, world, preset, budget) {
 	const bounds = world.level.bounds;
@@ -16,7 +16,9 @@ export function groundCommands(commands, world, preset, budget) {
 		0,
 		preset.ground,
 		1,
-		0.04
+		0.04,
+		0,
+		'grass'
 	));
 	addTerraces(commands, bounds, preset, budget.terraces);
 	addTrafficLanes(commands, bounds, preset, budget.roads);
@@ -28,7 +30,9 @@ export function groundCommands(commands, world, preset, budget) {
 		0,
 		preset.path,
 		0.64,
-		0.28
+		0.28,
+		0,
+		'stone'
 	));
 }
 
@@ -42,7 +46,9 @@ function addTerraces(commands, bounds, preset, count) {
 			index * 0.18,
 			index % 2 ? preset.terrace : preset.ground,
 			0.9,
-			0.04
+			0.04,
+			0,
+			index % 2 ? 'dirt' : 'grass'
 		));
 	}
 }
@@ -52,8 +58,28 @@ function addTrafficLanes(commands, bounds, preset, count) {
 	for (let index = 0; index < laneCount; index += 1) {
 		const centered = index - (laneCount - 1) / 2;
 		const offset = centered * bounds * 0.18;
-		commands.push(cmd('cube', [offset, -17.4, 0], [18, 1, bounds], 0, preset.road, 0.76, 0.04));
-		commands.push(cmd('cube', [0, -17.2, offset], [bounds, 1, 18], 0, preset.road, 0.76, 0.04));
+		commands.push(cmd(
+			'cube',
+			[offset, -17.4, 0],
+			[18, 1, bounds],
+			0,
+			preset.road,
+			0.76,
+			0.04,
+			0,
+			'stone'
+		));
+		commands.push(cmd(
+			'cube',
+			[0, -17.2, offset],
+			[bounds, 1, 18],
+			0,
+			preset.road,
+			0.76,
+			0.04,
+			0,
+			'stone'
+		));
 	}
 }
 
@@ -70,7 +96,9 @@ function addCurvedPath(commands, bounds, preset, count) {
 			Math.atan2(deltaX, deltaZ),
 			preset.path,
 			0.84,
-			0.12
+			0.12,
+			0,
+			'dirt'
 		));
 	}
 }

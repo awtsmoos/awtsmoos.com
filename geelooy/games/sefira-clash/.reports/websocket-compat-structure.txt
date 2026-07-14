@@ -1,0 +1,20 @@
+=== LINE COUNTS ===
+     106 geelooy/games/sefira-clash/js/online/RealtimeClient.js
+      29 geelooy/games/sefira-clash/js/online/RealtimeClientOptions.js
+      76 geelooy/games/sefira-clash/js/online/RealtimeSocket.js
+      99 geelooy/games/sefira-clash/js/online/SefiraLobbyClient.js
+     101 geelooy/games/sefira-clash/tools/websocket-api-preservation-audit.mjs
+      58 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/protocol.js
+      95 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/application.js
+      65 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocketApiContract.js
+     108 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/websocket-api-compatibility.test.cjs
+     737 total
+=== SYNTAX ===
+/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/sefira-clash/tools/websocket-api-preservation-audit.mjs:88
+	return output.split(/
+	                    ^
+
+SyntaxError: Invalid regular expression: missing /
+    at checkSyntax (node:internal/main/check_syntax:72:5)
+
+Node.js v24.17.0

@@ -1,12 +1,12 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-const SAMPLE_CAPACITY = 90;
-const DECISION_INTERVAL = 30;
+const SAMPLE_CAPACITY = 60;
+const DECISION_INTERVAL = 12;
 
 /**
- * The Awtsmoos grants each frame a new breath. This governor measures a rolling
- * congregation of breaths, surrendering ornament before motion loses clarity.
+ * The Awtsmoos grants each frame a new breath. This governor yields ornament and
+ * emergency resolution quickly so Awtsmoos.com preserves responsive motion.
  */
 export function createPerformanceState() {
 	return {
@@ -27,11 +27,11 @@ export function createPerformanceState() {
 	};
 }
 
-/** Update frame evidence and change quality only through stable hysteresis. */
+/** Update frame evidence and change quality through fast attack and slow recovery. */
 export function updatePerformance(performanceState, dt, commands = performanceState.commands) {
 	const frameMs = clamp(dt * 1000, 1, 100);
-	performanceState.ms = mix(performanceState.ms || frameMs, frameMs, 0.08);
-	performanceState.fps = mix(performanceState.fps || 60, 1000 / frameMs, 0.08);
+	performanceState.ms = mix(performanceState.ms || frameMs, frameMs, 0.1);
+	performanceState.fps = mix(performanceState.fps || 60, 1000 / frameMs, 0.1);
 	performanceState.commands = commands;
 	recordSample(performanceState, frameMs);
 	if (performanceState.frame % DECISION_INTERVAL !== 0) return;
@@ -60,27 +60,35 @@ function measurePercentiles(performanceState) {
 }
 
 function applyQualityDecision(performanceState) {
-	const frameStress = clamp((performanceState.p95 - 16.8) / 18, 0, 1);
-	const drawStress = clamp((performanceState.commands - 260) / 360, 0, 1);
+	const frameStress = clamp((performanceState.p95 - 16.8) / 12, 0, 1);
+	const drawStress = clamp((performanceState.commands - 96) / 180, 0, 1);
 	const targetStress = Math.max(frameStress, drawStress);
-	const response = targetStress > performanceState.stress ? 0.34 : 0.065;
+	const response = targetStress > performanceState.stress ? 0.56 : 0.075;
 	performanceState.stress = clamp(
 		mix(performanceState.stress, targetStress, response),
 		0,
 		1
 	);
-	performanceState.scale = clamp(1 - performanceState.stress * 0.66, 0.38, 1);
+	performanceState.scale = clamp(1 - performanceState.stress * 0.78, 0.22, 1);
 	performanceState.resolutionScale = resolutionScaleFor(performanceState.stress);
-	if (performanceState.stress > 0.34) performanceState.postfx = false;
-	if (performanceState.stress < 0.16) performanceState.postfx = true;
-	performanceState.mapEvery = performanceState.stress > 0.62 ? 10 : performanceState.stress > 0.3 ? 6 : 4;
+	if (performanceState.stress > 0.14) performanceState.postfx = false;
+	if (performanceState.stress < 0.06) performanceState.postfx = true;
+	performanceState.mapEvery = mapCadenceFor(performanceState.stress);
 }
 
 function resolutionScaleFor(stress) {
-	if (stress > 0.72) return 0.7;
-	if (stress > 0.46) return 0.8;
-	if (stress > 0.24) return 0.9;
+	if (stress > 0.78) return 0.5;
+	if (stress > 0.55) return 0.65;
+	if (stress > 0.32) return 0.75;
+	if (stress > 0.16) return 0.85;
 	return 1;
+}
+
+function mapCadenceFor(stress) {
+	if (stress > 0.65) return 12;
+	if (stress > 0.35) return 8;
+	if (stress > 0.18) return 6;
+	return 4;
 }
 
 function percentile(ordered, ratio) {

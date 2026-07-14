@@ -29,6 +29,7 @@ export class ObjectiveController {
 			label: "Gate opened",
 			progress: 1,
 			target: 1,
+			activeIndex: this.index,
 			complete: true
 		};
 	}
@@ -46,6 +47,7 @@ export class ObjectiveController {
 			label: step.label ?? step.type,
 			progress: Math.min(step.target, progress),
 			target: step.target,
+			activeIndex: this.index,
 			complete
 		};
 	}

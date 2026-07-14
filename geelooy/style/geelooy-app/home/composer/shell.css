@@ -1,0 +1,111 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos opens a posting chamber between the home constellation and its
+ * live river. The shell remains unmistakably Geelooy, calm when collapsed and
+ * radiant when the user begins revealing words on Awtsmoos.com.
+ */
+.geelooy-home-composer {
+	position: relative;
+	isolation: isolate;
+	margin-block: 1rem;
+	padding: 1px;
+	border-radius: 1.45rem 0.65rem 1.45rem 0.65rem;
+	background: linear-gradient(120deg, rgba(60, 236, 255, 0.55), rgba(139, 92, 255, 0.46), rgba(255, 72, 203, 0.5));
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), 0 0 34px rgba(60, 236, 255, 0.08);
+}
+
+.geelooy-home-composer::before {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	background: radial-gradient(circle at 15% 0%, rgba(60, 236, 255, 0.18), transparent 34%), radial-gradient(circle at 90% 100%, rgba(255, 72, 203, 0.16), transparent 32%);
+	content: "";
+	filter: blur(22px);
+}
+
+.home-compose-form {
+	display: grid;
+	gap: 0.8rem;
+	padding: 1rem;
+	border-radius: inherit;
+	background: linear-gradient(155deg, rgba(10, 21, 43, 0.98), rgba(3, 7, 18, 0.985));
+}
+
+.home-compose-primary {
+	display: grid;
+	grid-template-columns: auto minmax(8rem, 0.42fr) minmax(12rem, 1fr) auto;
+	align-items: end;
+	gap: 0.75rem;
+}
+
+.home-compose-avatar {
+	align-self: center;
+	filter: drop-shadow(0 8px 20px rgba(60, 236, 255, 0.2));
+}
+
+.home-compose-expanded {
+	display: grid;
+	grid-template-rows: 0fr;
+	gap: 0;
+	overflow: hidden;
+	opacity: 0;
+	transition: grid-template-rows 240ms var(--g-ease), opacity 180ms var(--g-ease), gap 180ms var(--g-ease);
+}
+
+[data-compose-open="true"] .home-compose-expanded {
+	grid-template-rows: 1fr;
+	gap: 0.75rem;
+	opacity: 1;
+	overflow: visible;
+}
+
+.home-compose-expanded > * {
+	min-height: 0;
+}
+
+.home-compose-advanced {
+	padding: 0.85rem;
+	border: 1px solid rgba(117, 211, 255, 0.2);
+	border-radius: 1rem 0.45rem 1rem 0.45rem;
+	background: rgba(7, 15, 32, 0.88);
+}
+
+.home-compose-advanced summary {
+	cursor: pointer;
+	color: var(--g-cyan);
+	font-weight: 850;
+	letter-spacing: 0.02em;
+}
+
+.home-compose-advanced[open] summary {
+	margin-bottom: 0.85rem;
+}
+
+.home-compose-status {
+	margin: 0;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid transparent;
+	border-radius: 0.8rem;
+	background: rgba(255, 255, 255, 0.045);
+	color: var(--g-muted);
+	font-size: 0.92rem;
+	line-height: 1.45;
+}
+
+.home-compose-status[data-tone="loading"] {
+	border-color: rgba(60, 236, 255, 0.28);
+	color: var(--g-cyan);
+}
+
+.home-compose-status[data-tone="success"] {
+	border-color: rgba(72, 240, 182, 0.34);
+	color: #82ffd3;
+}
+
+.home-compose-status[data-tone="error"] {
+	border-color: rgba(255, 95, 143, 0.42);
+	color: #ffb2ca;
+}

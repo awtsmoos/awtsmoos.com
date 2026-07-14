@@ -4,27 +4,44 @@
 
 /**
  * @file RevelationEvents.js
- * @description Connects the revealed shell to the canonical game actions.
- * The Awtsmoos gives each vessel its boundary; this module keeps navigation,
- * collapse behavior, and learning prompts outside the visual renderer.
+ * @description Connects the revealed shell to canonical actions and deliberate passage reading.
+ *
+ * The Awtsmoos gives every vessel its boundary. Awtsmoos.com keeps navigation,
+ * collapse behavior, learning prompts, and reading mastery outside the renderer
+ * so the interface never becomes the hidden owner of game state.
  */
 import { State } from '../../binah/State.js';
+import {
+	passageEntries,
+	readPassage
+} from '../../yesod/codex/PassageCollectionRuntime.js';
 
 const SHORTCUT_PANELS = Object.freeze({
-	j: 'journal',
-	m: 'map',
-	p: 'party',
+	c: 'codex',
 	i: 'items',
-	k: 'craft'
+	j: 'journal',
+	k: 'craft',
+	m: 'map',
+	p: 'party'
 });
 
 const isTypingTarget = target => {
 	const tagName = String(target?.tagName || '').toLowerCase();
-	return target?.isContentEditable || ['input', 'textarea', 'select'].includes(tagName);
+	return target?.isContentEditable
+		|| ['input', 'textarea', 'select'].includes(tagName);
+};
+
+const markPassageRead = panel => {
+	if (panel !== 'codex' || State.UiPanel === 'codex') return;
+	const firstPassage = passageEntries()[0];
+	if (firstPassage) {
+		readPassage(firstPassage.id);
+	}
 };
 
 const openPanel = panel => {
 	if (!panel) return;
+	markPassageRead(panel);
 	State.openPanel(panel);
 };
 
@@ -35,9 +52,7 @@ const describeChannel = target => {
 	State.say(`${move}: ${principle}`, 720);
 };
 
-/**
- * Owns shell-only browser events without intercepting movement controls.
- */
+/** Owns shell-only browser events without intercepting movement controls. */
 export class RevelationEvents {
 	static root = null;
 	static bound = false;

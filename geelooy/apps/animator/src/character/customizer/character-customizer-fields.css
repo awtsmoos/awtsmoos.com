@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos renews each clear control in the Awtsmoos.com design vessel. */
+.character-controls fieldset {
+	border: 1px solid #334155;
+	border-radius: 12px;
+	margin: 0 0 12px;
+	padding: 12px;
+	background: #111827;
+}
+
+.character-controls legend {
+	font-weight: 800;
+	color: #c4b5fd;
+	padding: 0 8px;
+}
+
+.character-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.character-grid label {
+	display: grid;
+	gap: 4px;
+	color: #cbd5e1;
+}
+
+.character-grid input,
+.character-grid select,
+.character-lab-card textarea,
+.character-lab-card aside select {
+	width: 100%;
+	box-sizing: border-box;
+	background: #020617;
+	color: #f8fafc;
+	border: 1px solid #475569;
+	border-radius: 8px;
+	padding: 8px;
+}
+
+.character-grid input[type='color'] {
+	padding: 2px;
+	height: 38px;
+}
+
+.character-grid output {
+	color: #a78bfa;
+	font-variant-numeric: tabular-nums;
+}
+
+.character-lab-card canvas {
+	width: 100%;
+	height: auto;
+	border: 1px solid #475569;
+	border-radius: 12px;
+	background: #11233f;
+}
+
+.character-lab-card textarea[data-character-ai] {
+	min-height: 72px;
+}
+
+.character-lab-card textarea[data-character-json] {
+	min-height: 220px;
+	font: 11px/1.4 ui-monospace, monospace;
+}
+
+.character-actions {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+}
+
+.character-actions button {
+	border: 1px solid #6366f1;
+	background: #312e81;
+	color: #ffffff;
+	border-radius: 8px;
+	padding: 9px;
+	font-weight: 700;
+}
+
+.character-actions button:hover {
+	background: #4f46e5;
+}
+
+.character-lab-card [data-character-status] {
+	margin: 0;
+	padding: 8px;
+	border-left: 3px solid #a78bfa;
+	background: #1e1b4b;
+	color: #ddd6fe;
+}

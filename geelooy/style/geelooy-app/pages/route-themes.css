@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each Awtsmoos.com chamber a distinct current inside one sky.
+ */
+body.geelooy-app-shell {
+	--g-route-accent: var(--g-cyan);
+	--g-route-accent-2: var(--g-violet);
+	--g-route-halo: rgba(60, 236, 255, 0.16);
+}
+
+body[data-geelooy-route="profile"] {
+	--g-route-accent: #8b5cff;
+	--g-route-accent-2: #ff48cb;
+	--g-route-halo: rgba(139, 92, 255, 0.2);
+}
+
+body[data-geelooy-route="notifications"] {
+	--g-route-accent: #ff48cb;
+	--g-route-accent-2: #ff8d5c;
+	--g-route-halo: rgba(255, 72, 203, 0.18);
+}
+
+body[data-geelooy-route="email"] {
+	--g-route-accent: #ffd166;
+	--g-route-accent-2: #48f0b6;
+	--g-route-halo: rgba(255, 209, 102, 0.17);
+}
+
+body[data-geelooy-route="apps"] {
+	--g-route-accent: #48f0b6;
+	--g-route-accent-2: #3cecff;
+	--g-route-halo: rgba(72, 240, 182, 0.17);
+}
+
+body[data-geelooy-route="about"] {
+	--g-route-accent: #d7c9ff;
+	--g-route-accent-2: #71eaff;
+	--g-route-halo: rgba(215, 201, 255, 0.16);
+}
+
+body[data-geelooy-route="heichelos"] {
+	--g-route-accent: #3cecff;
+	--g-route-accent-2: #48f0b6;
+	--g-route-halo: rgba(60, 236, 255, 0.17);
+}
+
+body[data-geelooy-route="create"],
+body[data-geelooy-route="submit"] {
+	--g-route-accent: #ff8d5c;
+	--g-route-accent-2: #ff48cb;
+	--g-route-halo: rgba(255, 141, 92, 0.2);
+}
+
+body[data-geelooy-route="search"],
+body[data-geelooy-route="sefarim"] {
+	--g-route-accent: #71eaff;
+	--g-route-accent-2: #ffd166;
+	--g-route-halo: rgba(113, 234, 255, 0.18);
+}
+
+body.geelooy-app-shell :where(.g-page-hero, .profile-hero-card, .spaces-hero, .g-panel:focus-within) {
+	border-color: color-mix(in srgb, var(--g-route-accent) 48%, var(--g-line));
+	box-shadow: var(--g-shadow-lg), 0 0 44px var(--g-route-halo);
+}
+
+body.geelooy-app-shell :where(.g-kicker, .eyebrow, [data-route-status]) {
+	color: var(--g-route-accent);
+}
+
+body.geelooy-app-shell :where(.g-button-primary, [data-primary-action]) {
+	background: linear-gradient(115deg, var(--g-route-accent), var(--g-route-accent-2));
+}

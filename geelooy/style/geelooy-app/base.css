@@ -1,4 +1,11 @@
-/* B"H — The background is a living field; content remains the readable vessel. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the universal Geelooy field its atmosphere without
+ * stealing the voice of a deliberate component. Awtsmoos.com inherits one
+ * family, while text-entry vessels keep a mobile-safe readable size.
+ */
 html.geelooy-route-ready {
 	background: var(--g-bg);
 	scroll-behavior: smooth;
@@ -57,11 +64,17 @@ body.geelooy-app-shell a {
 	text-decoration: none;
 }
 
-body.geelooy-app-shell button,
-body.geelooy-app-shell input,
-body.geelooy-app-shell select,
-body.geelooy-app-shell textarea {
-	font: inherit;
+body.geelooy-app-shell :is(button, input, select, textarea) {
+	font-family: inherit;
+}
+
+body.geelooy-app-shell :is(
+	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]),
+	select,
+	textarea
+) {
+	font-size: max(1rem, 16px);
+	line-height: 1.35;
 }
 
 body.geelooy-app-shell :focus-visible {
@@ -69,13 +82,11 @@ body.geelooy-app-shell :focus-visible {
 	outline-offset: 3px;
 }
 
-body.geelooy-app-shell img,
-body.geelooy-app-shell video {
+body.geelooy-app-shell :is(img, video) {
 	max-width: 100%;
 }
 
-body.geelooy-app-shell .sr-only,
-body.geelooy-app-shell .g-sr-only {
+body.geelooy-app-shell :is(.sr-only, .g-sr-only) {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -87,9 +98,7 @@ body.geelooy-app-shell .g-sr-only {
 	border: 0;
 }
 
-body.geelooy-app-shell .home-command-dock,
-body.geelooy-app-shell .profile-bottom-nav,
-body.geelooy-app-shell .spaces-bottom-nav {
+body.geelooy-app-shell :is(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav) {
 	display: none !important;
 }
 
@@ -100,14 +109,24 @@ html.geelooy-is-navigating body {
 }
 
 @keyframes g-aurora-drift {
-	from { transform: translate3d(-2%, -1%, 0) rotate(-2deg); }
-	to { transform: translate3d(3%, 2%, 0) rotate(3deg); }
+	from {
+		transform: translate3d(-2%, -1%, 0) rotate(-2deg);
+	}
+	to {
+		transform: translate3d(3%, 2%, 0) rotate(3deg);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	html.geelooy-route-ready { scroll-behavior: auto; }
-	body.geelooy-app-shell::after { animation: none !important; }
-	body.geelooy-app-shell *, body.geelooy-app-shell *::before, body.geelooy-app-shell *::after {
+	html.geelooy-route-ready {
+		scroll-behavior: auto;
+	}
+	body.geelooy-app-shell::after {
+		animation: none !important;
+	}
+	body.geelooy-app-shell *,
+	body.geelooy-app-shell *::before,
+	body.geelooy-app-shell *::after {
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;

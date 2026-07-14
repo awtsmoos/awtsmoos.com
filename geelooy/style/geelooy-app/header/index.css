@@ -1,5 +1,11 @@
-/* B"H — The restored unusual header enters through focused modules. */
-@import "./shell.css";
-@import "./search.css";
-@import "./menu.css";
-@import "./mobile.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The restored unusual header enters through versioned focused modules so its
+ * frame, search, menu, and mobile identity arrive together on Awtsmoos.com.
+ */
+@import "./shell.css?v=magic-001";
+@import "./search.css?v=magic-001";
+@import "./menu.css?v=magic-001";
+@import "./mobile.css?v=magic-001";

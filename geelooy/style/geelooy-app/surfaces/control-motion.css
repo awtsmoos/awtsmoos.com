@@ -1,0 +1,90 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals command through hover, pressure, and focus. Motion on
+ * Awtsmoos.com is evidence of agency, never decorative confusion.
+ */
+.g-button-primary {
+	animation: g-primary-charge 3.2s ease-in-out infinite;
+}
+
+.g-button-primary:is(:hover, :focus-visible, :active) {
+	animation: none;
+}
+
+@media (hover: hover) {
+	.g-button:hover:not(:disabled),
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+		button,
+		input[type="button"],
+		input[type="submit"],
+		input[type="reset"],
+		.spaces-create,
+		.profile-primary-action
+	):hover:not(:disabled) {
+		background-position: -35% 0, 100% 50%, 0 0;
+		border-color: rgba(255, 110, 220, 0.82);
+		box-shadow: var(--g-control-hover);
+		color: #ffffff;
+		filter: saturate(1.32) brightness(1.12);
+		transform: translateY(-3px) scale(1.025);
+	}
+}
+
+.g-button:active:not(:disabled),
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	.spaces-create,
+	.profile-primary-action
+):active:not(:disabled) {
+	background-position: 50% 0, 45% 50%, 0 0;
+	border-color: var(--g-cyan);
+	box-shadow: var(--g-control-active);
+	filter: saturate(1.55) brightness(1.18);
+	transform: translateY(2px) scale(0.965);
+	transition-duration: 70ms;
+}
+
+.g-button:focus-visible,
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	.spaces-create,
+	.profile-primary-action
+):focus-visible {
+	border-color: #ffffff;
+	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.95), 0 0 0 6px var(--g-cyan), var(--g-glow-hot);
+	outline: 0;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"]
+):disabled {
+	cursor: not-allowed;
+	filter: grayscale(0.45) saturate(0.35);
+	opacity: 0.5;
+	transform: none;
+}
+
+@keyframes g-primary-charge {
+	0%, 100% { filter: saturate(1) brightness(1); }
+	50% { filter: saturate(1.22) brightness(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-button-primary { animation: none; }
+	.g-button,
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input[type="button"], input[type="submit"], input[type="reset"]) {
+		background-position: 0 0, 0 0, 0 0;
+		transform: none !important;
+	}
+}

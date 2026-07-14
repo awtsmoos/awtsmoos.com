@@ -1,0 +1,21 @@
+// B"H
+import assert from 'node:assert/strict';
+import { sampleCollegePage } from './sampleCollegeFeed.js';
+import { addComment, readComments } from './commentStore.js';
+import { readFileSync } from 'node:fs';
+const sample = sampleCollegePage(0, 1)[0];
+assert.equal(sample.sections.length, 3, 'sample posts need three viewer verses');
+assert.ok(sample.sections.some(section => section.label === 'Where'), 'sample posts need clickable where verse');
+const memory = new Map();
+const storage = { getItem:k => memory.get(k), setItem:(k,v) => memory.set(k,v) };
+addComment('post-a', 'This is a real local comment', storage, { verseSection:'sicha-1', subsectionId:'segment-2' });
+assert.ok(readComments('post-a', storage).some(comment => comment.verseSection === 'sicha-1' && comment.subsectionId === 'segment-2'));
+const viewer = readFileSync('geelooy/scripts/awtsmoos/social/feed/postViewer.js', 'utf8');
+for (const token of ['openOfficialPostViewer', 'data-viewer-verses', 'data-viewer-comment-form', 'data-verse-comment-form', 'submitVerseComment', 'verseSection:\'root\'', 'geelooy-comment-scope', 'geelooy-rich-comment-section']) assert.ok(viewer.includes(token), `viewer missing ${token}`);
+const api = readFileSync('geelooy/scripts/awtsmoos/social/feed/commentApi.js', 'utf8');
+for (const token of ['verseSection', 'subsectionId', 'parentSectionId', 'sections:Array.isArray', 'assets:Array.isArray', 'links:Array.isArray', '/comment-tree']) assert.ok(api.includes(token), `commentApi missing ${token}`);
+const card = readFileSync('geelooy/heichelos/social/components/FeedCard.js', 'utf8');
+for (const token of ['FeedCharacter', 'data-read-more', 'Read verses', 'shouldShowSummary']) assert.ok(card.includes(token), `FeedCard missing ${token}`);
+const renderer = readFileSync('geelooy/scripts/awtsmoos/social/feed/renderFeedCard.js', 'utf8');
+for (const token of ['openOfficialPostViewer', 'data-read-more', 'onReadMore']) assert.ok(renderer.includes(token), `renderer missing ${token}`);
+console.log('B"H postViewerContract.test passed');

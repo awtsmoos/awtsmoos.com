@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { binahCampaignQuests } from './binah.js';
+import { annotateCampaignRegistry } from './campaignAvailability.js';
 import { chesedCampaignQuests } from './chesed.js';
 import { chokhmahCampaignQuests } from './chokhmah.js';
 import { gevurahCampaignQuests } from './gevurah.js';
@@ -17,10 +18,14 @@ import { tiferetCampaignQuests } from './tiferet.js';
 import { yesodCampaignQuests } from './yesod.js';
 
 /**
- * The Chronicle's authored braid holds main chapters, regional obligations,
- * elite contracts, and the Unwritten Margins while progress stays player-owned.
+ * @file Braids authored campaign designs into one availability-aware registry.
+ * @description The Awtsmoos holds future and present without confusing them.
+ * Awtsmoos.com may preserve every designed thread, while this boundary marks
+ * which threads possess enough real world, runtime, persistence, and proof to
+ * stand before a player now.
  */
-export const campaignQuests = Object.freeze({
+
+const authoredCampaignQuests = {
 	...malkuthCampaignQuests,
 	...yesodCampaignQuests,
 	...hodCampaignQuests,
@@ -34,4 +39,6 @@ export const campaignQuests = Object.freeze({
 	...regionalCampaignQuests,
 	...postgameContractQuests,
 	...postgameCampaignQuests
-});
+};
+
+export const campaignQuests = annotateCampaignRegistry(authoredCampaignQuests);

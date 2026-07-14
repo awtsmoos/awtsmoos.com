@@ -31,11 +31,7 @@ export class Game {
 		this.audio = new AudioSystem();
 		this.camera = new Camera();
 		this.effects = new EffectSystem();
-		this.accessibility = new AccessibilityProfile(
-			this.store,
-			this.effects,
-			root
-		);
+		this.accessibility = new AccessibilityProfile(this.store, this.effects, root);
 		this.performance = new PerformanceProbe();
 		this.campaign = new Campaign();
 		this.builder = new LevelBuilder();
@@ -57,11 +53,7 @@ export class Game {
 		this.loop = new GameLoop(
 			(delta) => this.update(delta),
 			() => this.render(),
-			(milliseconds) => this.performance.record(
-				milliseconds,
-				this.scene,
-				this.effects
-			)
+			(milliseconds) => this.performance.record(milliseconds, this.scene, this.effects)
 		);
 		globalThis.__SHEMA_STRIKE__ = this;
 	}
@@ -78,9 +70,7 @@ export class Game {
 
 	update(delta) {
 		if (this.input.consume("pause")) {
-			this.state === "playing"
-				? this.pauseGame()
-				: this.resumeGame();
+			this.state === "playing" ? this.pauseGame() : this.resumeGame();
 		}
 		if (this.state !== "playing" || !this.runtime) {
 			return;
@@ -112,3 +102,5 @@ export class Game {
 }
 
 installFlowMethods(Game, [GameFlow, MenuFlow]);
+
+export { Game as ShemaStrikeGame };

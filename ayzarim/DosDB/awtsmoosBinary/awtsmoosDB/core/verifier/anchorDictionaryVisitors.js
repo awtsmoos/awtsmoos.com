@@ -1,10 +1,15 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file core/verifier/anchorDictionaryVisitors.js
- * @chapter The Root And Its Two Rivers
+ * @chapter The Root And Every Named River Are Counted As Living
  * @description
- * Walks stable anchors and dictionary manifests without hydrating user values.
+ * Walks stable anchors, their optional metadata dictionaries, and dictionary
+ * manifests without hydrating user values. The Awtsmoos reveals every reachable
+ * body so verified complement reuse cannot reclaim a named property or its
+ * nested structures.
  */
 
 const constants = require('../../constants.js');
@@ -16,8 +21,28 @@ function visitAnchor(verifier, pointer, tag) {
 		return;
 	}
 
-	const sealLength = bytes.readUInt8(5);
-	if (sealLength > 0) verifier.visitSeal(bytes.subarray(6, 6 + sealLength), `${tag}.anchor`);
+	const innerLength = bytes.readUInt8(5);
+	const innerStart = 6;
+	const innerEnd = innerStart + innerLength;
+	if (innerEnd > bytes.length) {
+		verifier.bad.push({ tag, reason: 'bad-anchor-inner-length', ptr: pointer });
+		return;
+	}
+	if (innerLength > 0) {
+		verifier.visitSeal(bytes.subarray(innerStart, innerEnd), `${tag}.anchor`);
+	}
+
+	if (innerEnd >= bytes.length) return;
+	const metadataLength = bytes.readUInt8(innerEnd);
+	const metadataStart = innerEnd + 1;
+	const metadataEnd = metadataStart + metadataLength;
+	if (metadataEnd > bytes.length) {
+		verifier.bad.push({ tag, reason: 'bad-anchor-metadata-length', ptr: pointer });
+		return;
+	}
+	if (metadataLength > 0) {
+		verifier.visitSeal(bytes.subarray(metadataStart, metadataEnd), `${tag}.anchor.metadata`);
+	}
 }
 
 function visitDictionary(verifier, pointer, tag) {

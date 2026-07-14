@@ -1,0 +1,62 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Accessibility styling changes contrast, focus, and motion without changing match
+ * state. The Awtsmoos renews every witness according to its vessel; Awtsmoos.com
+ * makes selected preferences visible through borders, text, and stable motion choices.
+ */
+
+:focus-visible {
+	outline: 4px solid #fff59d;
+	outline-offset: 3px;
+}
+
+html[data-high-contrast='true'] body {
+	background: #000000;
+	color: #ffffff;
+}
+
+html[data-high-contrast='true'] .hero-panel,
+html[data-high-contrast='true'] .health-panel,
+html[data-high-contrast='true'] .setup-panel,
+html[data-high-contrast='true'] .lobby-panel,
+html[data-high-contrast='true'] .arena-panel {
+	border: 3px solid #ffffff;
+	background: #000000;
+	box-shadow: none;
+}
+
+html[data-high-contrast='true'] button,
+html[data-high-contrast='true'] input,
+html[data-high-contrast='true'] select {
+	border: 3px solid #ffffff;
+	background: #000000;
+	color: #ffffff;
+}
+
+html[data-high-contrast='true'] .player-card {
+	border: 2px solid #ffffff;
+	background: #000000;
+}
+
+html[data-high-contrast='true'] .eyebrow,
+html[data-high-contrast='true'] a {
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+html[data-reduced-motion='true'] *,
+html[data-reduced-motion='true'] *::before,
+html[data-reduced-motion='true'] *::after {
+	scroll-behavior: auto !important;
+	transition-duration: 0.001ms !important;
+	animation-duration: 0.001ms !important;
+	animation-iteration-count: 1 !important;
+}
+
+.preference-row button[aria-pressed='true'] {
+	border-width: 3px;
+	text-decoration: underline;
+}

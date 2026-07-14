@@ -1,0 +1,111 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file MitzvahWorldRealtimeClient.js
+ * @description Browser client with idempotent arrival, recovery, deltas, and MMORPG API.
+ * The Awtsmoos renews each private session garment; Awtsmoos.com updates rotated
+ * credentials and clears revoked identity without leaving stale browser authority.
+ */
+import { createMitzvahWorldJoinKey } from './MitzvahWorldJoinKey.js';
+import { MitzvahWorldMmorpgApi } from './MitzvahWorldMmorpgApi.js';
+import { MitzvahWorldTransport } from './MitzvahWorldTransport.js';
+import { applyWorldDelta } from './WorldDeltaStore.js';
+
+export class MitzvahWorldRealtimeClient {
+	constructor(socket) {
+		this.joinKey = createMitzvahWorldJoinKey();
+		this.listeners = new Set();
+		this.session = null;
+		this.world = null;
+		this.needsResync = false;
+		this.transport = new MitzvahWorldTransport(
+			socket,
+			message => this.receive(message)
+		);
+		this.mmorpg = new MitzvahWorldMmorpgApi(
+			(type, payload) => this.send(type, payload)
+		);
+	}
+
+	static connect(url, WebSocketClass = globalThis.WebSocket) {
+		if (!WebSocketClass) throw new Error('WebSocket is unavailable.');
+		return new MitzvahWorldRealtimeClient(new WebSocketClass(url));
+	}
+
+	get socket() {
+		return this.transport.socket;
+	}
+
+	join(displayName, worldId = 'main-village') {
+		return this.send('world.join', {
+			displayName,
+			joinKey: this.joinKey,
+			worldId
+		});
+	}
+
+	async reconnect(socket) {
+		if (!this.session?.resumeToken) {
+			throw new Error('No resumable Mitzvah World session exists.');
+		}
+		const revision = this.world?.revision ?? 0;
+		this.transport.replaceSocket(socket);
+		const joined = await this.send('world.join', {
+			lastAcknowledgedRevision: revision,
+			resumeToken: this.session.resumeToken
+		});
+		await this.resync(revision);
+		return joined;
+	}
+
+	input(forward, strafe, facing) {
+		return this.send('player.input', { facing, forward, strafe });
+	}
+	startQuest(questId = 'first-tefillin-shlichus') {
+		return this.send('quest.start', { questId });
+	}
+	interact(questId, npcId, action) {
+		return this.send('quest.interact', { action, npcId, questId });
+	}
+	spawnBots(count = 1, seed = 613, displayName = 'Shliach Bot') {
+		return this.send('bot.spawn', { count, displayName, seed });
+	}
+	resync(lastAcknowledgedRevision = this.world?.revision ?? 0) {
+		return this.send('world.resync', { lastAcknowledgedRevision });
+	}
+	heartbeat(lastAcknowledgedRevision = this.world?.revision ?? 0) {
+		return this.send('world.heartbeat', { lastAcknowledgedRevision });
+	}
+
+	onWorld(listener) {
+		this.listeners.add(listener);
+		return () => this.listeners.delete(listener);
+	}
+
+	send(type, payload = {}) {
+		return this.transport.send(type, payload);
+	}
+
+	receive(message) {
+		if (message.type === 'session.revoked') {
+			this.session = null;
+			this.world = null;
+			this.needsResync = false;
+			return;
+		}
+		if (message.payload?.session) this.session = { ...message.payload.session };
+		if (message.payload?.world) this.publishWorld(message.payload.world);
+		if (message.payload?.delta && this.world) {
+			this.needsResync = Boolean(message.payload.delta.fullSnapshotRequired);
+			this.publishWorld(applyWorldDelta(this.world, message.payload.delta));
+		}
+	}
+
+	publishWorld(world) {
+		if (this.world && Number(world.revision) < Number(this.world.revision)) return;
+		this.world = world;
+		if (!this.needsResync) this.needsResync = false;
+		for (const listener of this.listeners) listener(world);
+	}
+}

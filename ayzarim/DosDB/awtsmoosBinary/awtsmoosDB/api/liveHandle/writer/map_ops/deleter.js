@@ -1,18 +1,16 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @file map_ops/deleter.js
- * @class MapDeleter
+ * @file api/liveHandle/writer/map_ops/deleter.js
+ * @chapter The Name Is Unlinked Before Its Chamber Returns To Silence
  * @description
- *  =============================================================================
- *  CHAPTER 20: THE ANGEL OF WITHDRAWAL (HISTALKUS)
- *  =============================================================================
- *  "He withdraws His spirit and His breath, all flesh will expire together..." (Job 34:14)
- *  
- *  To delete is to withdraw the Divine Speech that sustains the object. When 
- *  the letters of creation depart, the vessel collapses back into Ayin (Nothingness). 
- *  This module performs the surgical excision of a key from the B-Tree and ensures 
- *  that its echoes are silenced in the Semantic and Spatial realms.
+ * Performs capture, copy-on-write deletion, parent publication, index cleanup,
+ * and former-value retirement inside one outer database generation. The
+ * Awtsmoos keeps the removed value quarantined until the replacement map is
+ * linked and verified, preventing a later explicit release from colliding with
+ * an already refreshed complement.
  */
 
 const keyEncoding = require('../../../../utils/keyEncoding.js');
@@ -20,58 +18,64 @@ const constants = require('../../../../constants.js');
 const MapIndexer = require('./indexer.js');
 
 class MapDeleter {
-    constructor(mapWriter) {
-        this.writer = mapWriter;
-        this.common = mapWriter.common;
-        this.handle = mapWriter.handle;
-        this.db = mapWriter.db;
-    }
+	constructor(mapWriter) {
+		this.writer = mapWriter;
+		this.common = mapWriter.common;
+		this.handle = mapWriter.handle;
+		this.db = mapWriter.db;
+	}
 
-    /**
-     * @method delete
-     * @description Exiles the key from the structure and purges the index.
-     */
-    delete(key) {
-        const encodedKey = keyEncoding.encode(key);
-        const structPtr = this.common.resolveStructPtr();
-        if (!structPtr) return false;
-        
-        const path = this.handle.getPath();
-        const searchIndexed = this.common.getSearchIndex(path);
-        const vectorIndex = this.common.getVectorIndex(path);
-        
-        const T = constants.VAL_TYPE;
-        let engine;
+	delete(key) {
+		return this.db.batch(() => this._deleteWithinGeneration(key));
+	}
 
-        if (this.handle.type === T.DICTIONARY || this.handle.type === T.OBJECT) {
-            engine = this.common.getEngine(structPtr, T.DICTIONARY);
-        } else {
-            engine = this.common.getEngine(structPtr, T.MAP);
-        }
+	_deleteWithinGeneration(key) {
+		const encodedKey = keyEncoding.encode(key);
+		const structurePointer = this.common.resolveStructPtr();
+		if (!structurePointer) return false;
 
-        // Capture the form before it fades entirely
-        const { oldPtr, oldVal } = MapIndexer.captureOldState(engine, encodedKey, this.common, this.handle, searchIndexed, vectorIndex);
+		const path = this.handle.getPath();
+		const searchIndexed = this.common.getSearchIndex(path);
+		const vectorIndexed = this.common.getVectorIndex(path);
+		const type = this._engineType();
+		const engine = this.common.getEngine(structurePointer, type);
+		const previous = MapIndexer.captureOldState(
+			engine,
+			encodedKey,
+			this.common,
+			this.handle,
+			searchIndexed,
+			vectorIndexed
+		);
+		const result = engine.delete(encodedKey);
+		const success = typeof result === 'boolean'
+			? result
+			: Boolean(result && result.success);
+		this.common.checkAutoCompact(engine, type);
+		if (!success) return false;
 
-        let success = false;
-        
-        // Execute the withdrawal
-        if (this.handle.type === T.DICTIONARY || this.handle.type === T.OBJECT) {
-            success = engine.delete(encodedKey);
-            this.common.checkAutoCompact(engine, T.DICTIONARY);
-        } else {
-            const res = engine.delete(encodedKey);
-            success = typeof res === 'boolean' ? res : !!(res && res.success);
-            this.common.checkAutoCompact(engine, T.MAP);
-        }
-        
-        // Cleanse the cosmic ledgers
-        if (success) {
-            MapIndexer.processDelete(this.db, path, key, oldPtr, oldVal, searchIndexed, vectorIndex);
-            if (oldPtr && !searchIndexed && !vectorIndex) this.db.allocator.releasePointer(oldPtr);
-        }
+		MapIndexer.processDelete(
+			this.db,
+			path,
+			key,
+			previous.oldPtr,
+			previous.oldVal,
+			searchIndexed,
+			vectorIndexed
+		);
+		if (previous.oldPtr && !searchIndexed && !vectorIndexed) {
+			this.db.allocator.releasePointer(previous.oldPtr);
+		}
+		return true;
+	}
 
-        return success;
-    }
+	_engineType() {
+		const types = constants.VAL_TYPE;
+		if (this.handle.type === types.DICTIONARY || this.handle.type === types.OBJECT) {
+			return types.DICTIONARY;
+		}
+		return types.MAP;
+	}
 }
 
 module.exports = MapDeleter;

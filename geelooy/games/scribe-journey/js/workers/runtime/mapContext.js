@@ -5,12 +5,20 @@
 import { projectMap } from './mapProjection.js';
 
 /**
- * @file Reveals the current map as authored source projected through saved deeds.
+ * @file Reveals authored maps through saved deeds and publishes their runtime forms.
  * @description The Awtsmoos recreates the world from nothing every instant, yet
- * no deed is lost: the renewed village carries its restored fountain, opened
- * road, and removed danger. Awtsmoos.com is remembered as a living context whose
- * present form is truthful to both origin and consequence.
+ * movement and interaction must meet the same renewed vessel that rendering sees.
+ * Awtsmoos.com is remembered here as the bridge from immutable source into the
+ * living `state.maps` registry required by every world-facing system.
  */
+
+function ensureRuntimeRegistry(state) {
+	if (!state.maps || typeof state.maps !== 'object') {
+		state.maps = {};
+	}
+
+	return state.maps;
+}
 
 export class MapContext {
 	constructor(state, staticMaps) {
@@ -18,12 +26,14 @@ export class MapContext {
 		this.staticMaps = staticMaps;
 	}
 
-	/** Adopts the newest state vessel before rendering or routing an action. */
+	/** Adopts the newest state and publishes its current projected map. */
 	update(state) {
 		this.state = state;
+		ensureRuntimeRegistry(this.state);
 		return this.current();
 	}
 
+	/** Returns and publishes the current projection for world logic and rendering. */
 	current() {
 		const mapId = this.state?.currentMapId;
 		const source = this.state?.generatedMaps?.[mapId] || this.staticMaps[mapId];
@@ -32,25 +42,26 @@ export class MapContext {
 			return null;
 		}
 
-		return projectMap(source, this.state, mapId);
+		const projectedMap = projectMap(source, this.state, mapId);
+		ensureRuntimeRegistry(this.state)[mapId] = projectedMap;
+		return projectedMap;
 	}
 
+	/** Moves the shared state and immediately publishes the destination map. */
 	moveTo(mapId) {
 		this.state.currentMapId = mapId;
 		return this.current();
 	}
 
+	/** Clears runtime projections before a different state vessel is adopted. */
 	invalidate() {
-		return this.current();
+		if (this.state && typeof this.state === 'object') {
+			this.state.maps = {};
+		}
 	}
 }
 
-/**
- * Builds the runtime context before the first game state has been adopted.
- *
- * @param {Record<string, object>} staticMaps Parsed authored map registry.
- * @returns {MapContext} A context ready for `update(state)` during initialization.
- */
+/** Builds the context before the first game state has been adopted. */
 export function createMapContext(staticMaps) {
 	return new MapContext({}, staticMaps);
 }

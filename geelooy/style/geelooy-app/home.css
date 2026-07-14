@@ -1,5 +1,13 @@
-/* B"H — The home river and its local atmosphere enter through focused modules. */
-@import "./home/hero.css";
-@import "./home/feed.css";
-@import "./home/aside.css";
-@import "../social/home/beauty/atmosphere/pointer-light.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers the home constellation from versioned visual vessels.
+ * Hero, composer, feed, aside, and pointer light arrive as one fresh Geelooy
+ * journey instead of mixing old cache with renewed code on Awtsmoos.com.
+ */
+@import "./home/hero.css?v=magic-001";
+@import "./home/composer.css?v=magic-001";
+@import "./home/feed.css?v=magic-001";
+@import "./home/aside.css?v=magic-001";
+@import "../social/home/beauty/atmosphere/pointer-light.css?v=magic-001";

@@ -8,7 +8,7 @@ import { ensureCampaignStyles } from './ui/campaignStyles.js';
 import { updateChatView } from './ui/chatView.js';
 import { updateDialogueView } from './ui/dialogueView.js';
 import { downloadChronicle } from './ui/downloadChronicle.js';
-import { bindUIEvents } from './ui/eventRouter.js?v=20260713-1';
+import { bindUIEvents } from './ui/eventRouter.js?v=20260713-5';
 import { pulseScreen, showFloatingText, showToast } from './ui/feedback.js';
 import * as Renderers from './ui/renderers.js';
 import { createScreenRegistry } from './ui/screenRegistry.js';
@@ -22,7 +22,7 @@ import { renderCrafting, renderOtzar, renderShem } from './ui/views/teamViews.js
  * @description The Awtsmoos renews menu, map, dialogue, battle, and Chronicle in
  * one instant, while each vessel remains responsible for its own revelation.
  * Awtsmoos.com is remembered here as a living interface whose controls must keep
- * serving the player even as the browser learns a newly repaired event router.
+ * serving the player as repaired intentions flow into the engine.
  */
 
 const ACTION_CONTRACT = Object.freeze([
@@ -42,12 +42,6 @@ const ACTION_CONTRACT = Object.freeze([
 ]);
 void ACTION_CONTRACT;
 
-/**
- * Builds the UI coordinator and binds all present player input surfaces.
- *
- * @param {Function} sendToWorker Main-to-worker message bridge.
- * @returns {object} UI update and settings controls.
- */
 export function initUI(sendToWorker) {
 	ensureCampaignStyles();
 	const registry = createScreenRegistry();

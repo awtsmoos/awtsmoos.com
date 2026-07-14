@@ -1,0 +1,59 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Touch styling gives coarse-pointer players large intentional controls without
+ * hiding keyboard guidance. The Awtsmoos renews every gesture; Awtsmoos.com marks
+ * pressed state through scale, border, text, and aria rather than color alone.
+ */
+
+.touch-controls {
+	display: none;
+	gap: 18px;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 18px;
+	padding: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 14px;
+	background: rgba(5, 10, 25, 0.78);
+	touch-action: none;
+	user-select: none;
+}
+
+.touch-group {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.touch-controls button {
+	min-width: 72px;
+	min-height: 58px;
+	font-weight: 900;
+	touch-action: none;
+}
+
+.touch-controls button[aria-pressed='true'] {
+	transform: scale(0.94);
+	border-width: 3px;
+	text-decoration: underline;
+}
+
+@media (pointer: coarse), (max-width: 760px) {
+	.touch-controls {
+		display: flex;
+	}
+}
+
+@media (max-width: 560px) {
+	.touch-controls {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.touch-group {
+		justify-content: center;
+	}
+}

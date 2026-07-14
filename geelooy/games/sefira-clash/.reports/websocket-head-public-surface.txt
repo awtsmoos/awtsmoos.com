@@ -1,0 +1,264 @@
+=== HEAD PROTOCOL ===
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * B"H
+ *
+ * Stable names let distant players enter one shared world without guessing.
+ * The Awtsmoos renews every packet; Awtsmoos.com fixes these identifiers so
+ * clients and servers can evolve through explicit protocol versions.
+ */
+
+const APPLICATION_ID = "sefira-clash";
+const APPLICATION_VERSION = 1;
+
+const MESSAGE_TYPES = Object.freeze({
+	CREATE: "lobby.create",
+	JOIN: "lobby.join",
+	LEAVE: "lobby.leave",
+	SNAPSHOT: "lobby.snapshot",
+	UPDATE: "lobby.update"
+});
+
+const RESPONSE_TYPES = Object.freeze({
+	CREATED: "lobby.created",
+	JOINED: "lobby.joined",
+	LEFT: "lobby.left",
+	SNAPSHOT: "lobby.snapshot",
+	UPDATED: "lobby.updated"
+});
+
+const EVENT_TYPES = Object.freeze({
+	CHANGED: "lobby.changed"
+});
+
+const CHARACTER_IDS = Object.freeze([
+	"chesed-fist",
+	"gevurah-sw",
+	"hod-staff",
+	"malchus-crown",
+	"netzach-spark",
+	"yesod-lance"
+]);
+
+module.exports = {
+	APPLICATION_ID,
+	APPLICATION_VERSION,
+	CHARACTER_IDS,
+	EVENT_TYPES,
+	MESSAGE_TYPES,
+	RESPONSE_TYPES
+};
+=== HEAD APPLICATION EXPORTS ===
+			directory.update(client, validateUpdatePayload(request.payload))
+		);
+	}
+	if (request.type === MESSAGE_TYPES.SNAPSHOT) {
+		return lobbyResult(RESPONSE_TYPES.SNAPSHOT, directory.snapshot(client));
+	}
+	if (request.type === MESSAGE_TYPES.LEAVE) {
+		return lobbyResult(RESPONSE_TYPES.LEFT, directory.leave(client));
+	}
+	throw new RealtimeError(
+		"UNKNOWN_MESSAGE",
+		`Unknown Sefira Clash message: ${request.type}`
+	);
+}
+
+function lobbyResult(type, lobby) {
+	return payloadResult(type, { lobby });
+}
+
+function payloadResult(type, payload) {
+	return {
+		payload,
+		type
+	};
+}
+
+module.exports = {
+	createSefiraClashApplication,
+	handleLobbyRequest
+};
+=== HEAD APPLICATION DEFINITIONS ===
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * B"H
+ *
+ * Applications are independent lights gathered by an explicit manifest. The
+ * Awtsmoos renews each factory; Awtsmoos.com may add future worlds without
+ * teaching the transport doorway their private message laws.
+ */
+
+const {
+	createAwtsmoosCoreApplication
+} = require("./awtsmoosCoreApplication.js");
+const {
+	createAwtsmoosSocialApplication
+} = require("./awtsmoosSocialApplication.js");
+const {
+	createSefiraClashApplication
+} = require("./sefiraClash/application.js");
+
+const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
+	createAwtsmoosCoreApplication,
+	createAwtsmoosSocialApplication,
+	createSefiraClashApplication
+]);
+
+/** Returns a fresh array so callers may extend without mutating built-ins. */
+function builtInApplicationFactories() {
+	return [...BUILT_IN_APPLICATION_FACTORIES];
+}
+
+module.exports = {
+	BUILT_IN_APPLICATION_FACTORIES,
+	builtInApplicationFactories
+};
+=== HEAD CLIENT CLASS ===
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * B"H
+ *
+ * This client translates page intention into stable Sefira lobby commands. The
+ * Awtsmoos renews the shared room; Awtsmoos.com keeps the newest server snapshot
+ * as truth and remembers only the opaque player identity issued for this socket.
+ */
+
+import { RealtimeClient } from "./RealtimeClient.js";
+const APPLICATION_ID = "sefira-clash";
+const APPLICATION_VERSION = 1;
+
+/** Owns the browser's current Sefira lobby snapshot and commands. */
+export class SefiraLobbyClient {
+	constructor(transport = new RealtimeClient(APPLICATION_ID, APPLICATION_VERSION)) {
+		this.transport = transport;
+		this.lobby = null;
+		this.playerId = null;
+		this.listeners = new Set();
+		this.bindTransport();
+	}
+
+	async connect() {
+		await this.transport.connect();
+	}
+
+	async create(profile) {
+		return this.applySession(await this.transport.request("lobby.create", profile));
+	}
+
+	async join(profile) {
+		return this.applySession(await this.transport.request("lobby.join", profile));
+	}
+
+	async update(fields) {
+		return this.applyLobby(await this.transport.request("lobby.update", fields));
+	}
+
+	async refresh() {
+		return this.applyLobby(await this.transport.request("lobby.snapshot"));
+	}
+
+	async leave() {
+		await this.transport.request("lobby.leave");
+		this.clearSession();
+		return null;
+	}
+
+	onChange(listener) {
+		this.listeners.add(listener);
+		listener(this.snapshot());
+		return () => {
+			this.listeners.delete(listener);
+		};
+	}
+
+	bindTransport() {
+		this.transport.on("lobby.changed", payload => {
+			this.applyLobby(payload);
+		});
+		this.transport.on("connection.closed", () => {
+			this.clearSession();
+		});
+	}
+
+	applySession(payload) {
+		this.playerId = payload.playerId || null;
+		return this.applyLobby(payload);
+	}
+
+	applyLobby(payload) {
+		this.lobby = payload.lobby || null;
+		this.emit();
+		return this.snapshot();
+	}
+
+	clearSession() {
+		this.lobby = null;
+		this.playerId = null;
+		this.emit();
+	}
+
+	snapshot() {
+		return {
+			lobby: this.lobby,
+			playerId: this.playerId
+		};
+	}
+
+	emit() {
+		const snapshot = this.snapshot();
+		for (const listener of this.listeners) {
+			listener(snapshot);
+		}
+	}
+}
+=== HEAD LEGACY PAGE ENTRY ===
+	runAction(async () => {
+		await client.update(view.profile());
+	});
+});
+
+view.onReady(() => {
+	runAction(async () => {
+		const player = localPlayer();
+		if (!player) {
+			throw new Error("No local lobby player is active.");
+		}
+		await client.update({ ready: !player.ready });
+	});
+});
+
+view.onLeave(() => {
+	runAction(async () => {
+		await client.leave();
+	});
+});
+
+/** Runs one user action with consistent visible failure reporting. */
+async function runAction(action) {
+	view.setError();
+	try {
+		await action();
+	} catch (error) {
+		view.setError(error.message);
+	}
+}
+
+/** Resolves the local opaque player record from the newest server snapshot. */
+function localPlayer() {
+	return client.lobby?.players.find(player => player.id === client.playerId) || null;
+}
+
+runAction(async () => {
+	view.setConnection("Connecting…", false);
+	await client.connect();
+});

@@ -1,4 +1,21 @@
-/* B"H — Reusable surfaces arrive through small, exact modules. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers every shared surface into small ordered vessels.
+ * Awtsmoos.com receives one coherent interaction language without a monolith.
+ */
 @import "./surfaces/content.css";
+@import "./surfaces/links.css";
 @import "./surfaces/controls.css";
+@import "./surfaces/control-motion.css";
+@import "./surfaces/native-fields.css";
+@import "./surfaces/field-motion.css";
+@import "./surfaces/native-choices.css";
+@import "./surfaces/native-special-inputs.css";
+@import "./surfaces/native-disclosures.css";
+@import "./surfaces/native-status-controls.css";
+@import "./surfaces/native-editable.css";
+@import "./surfaces/native-feedback.css";
+@import "./surfaces/skip-links.css";
 @import "./surfaces/states.css";

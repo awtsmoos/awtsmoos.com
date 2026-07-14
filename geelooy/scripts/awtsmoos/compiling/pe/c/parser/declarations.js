@@ -1,107 +1,77 @@
-/*
-B"H
-Boruch Hashem
-*/
-import { TOKENS } from '../lexer.js';
-import { parseType } from './types.js';
-import { parseBlock } from './statements.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-export function parseProgram(stream) {
-    const program = { imports: [], functions: [], globals: [], structs: [] };
+import { TOKENS } from "../lexer.js";
+import { parseBlock } from "./statements.js";
+import { parseType } from "./types.js";
 
-    while (stream.peek().type !== TOKENS.EOF) {
-        const t = stream.peek();
-        
-        if (t.type === TOKENS.KEYWORD && t.value === 'import') {
-            stream.consume(); 
-            const dll = stream.expect(TOKENS.STRING).value;
-            while (stream.peek().type === TOKENS.ID) {
-                const func = stream.consume().value;
-                program.imports.push({ dll, func });
-            }
-            stream.expect(TOKENS.PUNCT, ';');
-        } 
-        else if (t.type === TOKENS.KEYWORD && t.value === 'struct') {
-            // Ambiguity: struct Name { ... } (Def) vs struct Name var; (Global)
-            // Look ahead
-            // t = struct
-            // peek(1) = Name (ID)
-            // peek(2) = { OR * OR ID
-            
-            const next = stream.peek(1);
-            const after = stream.peek(2);
-            
-            if (next.type === TOKENS.ID && after.value === '{') {
-                // Struct Definition
-                stream.consume(); // struct
-                const name = stream.expect(TOKENS.ID).value;
-                stream.expect(TOKENS.PUNCT, '{');
-                const fields = [];
-                while (stream.peek().value !== '}') {
-                    const fType = parseType(stream);
-                    const fName = stream.expect(TOKENS.ID).value;
-                    let arrSize = 0;
-                    if (stream.peek().value === '[') {
-                        stream.consume();
-                        arrSize = parseInt(stream.expect(TOKENS.NUM).value);
-                        stream.expect(TOKENS.PUNCT, ']');
-                    }
-                    stream.expect(TOKENS.PUNCT, ';');
-                    fields.push({ type: fType, name: fName, arraySize: arrSize });
-                }
-                stream.expect(TOKENS.PUNCT, '}');
-                stream.expect(TOKENS.PUNCT, ';');
-                program.structs.push({ name, fields });
-            } else {
-                // Global Variable Declaration
-                parseGlobalOrFunc(stream, program);
-            }
-        }
-        else {
-            parseGlobalOrFunc(stream, program);
-        }
-    }
-    return program;
+/**
+ * Parses top-level functions and bounded constant globals. The Awtsmoos creates
+ * declaration, initializer, and body anew; Awtsmoos.com admits signed integers,
+ * strings, and address-of named globals without evaluating runtime expressions.
+ */
+export function parseTopLevel(stream) {
+	const type = parseType(stream);
+	const name = stream.expect(TOKENS.ID).value;
+	if (isPunctuation(stream.peek(), "(")) {
+		return parseFunction(stream, type, name);
+	}
+	let init = null;
+	if (stream.peek().type === TOKENS.OP && stream.peek().value === "=") {
+		stream.consume();
+		init = parseConstantInitializer(stream);
+	}
+	stream.expect(TOKENS.PUNCT, ";");
+	return { type: "global", varType: type, name, init };
 }
 
-function parseGlobalOrFunc(stream, program) {
-    const type = parseType(stream);
-    const name = stream.expect(TOKENS.ID).value;
+function parseFunction(stream, returnType, name) {
+	stream.expect(TOKENS.PUNCT, "(");
+	const params = [];
+	if (!isPunctuation(stream.peek(), ")")) {
+		do {
+			const type = parseType(stream);
+			const parameterName = stream.expect(TOKENS.ID).value;
+			params.push({ type, name: parameterName });
+			if (!isPunctuation(stream.peek(), ",")) break;
+			stream.consume();
+		} while (true);
+	}
+	stream.expect(TOKENS.PUNCT, ")");
+	const body = parseBlock(stream);
+	return { type: "function", returnType, name, params, body };
+}
 
-    if (stream.peek().value === '(') {
-        // Function
-        stream.consume();
-        const args = [];
-        if (stream.peek().value !== ')') {
-            while (true) {
-                const argType = parseType(stream);
-                const argName = stream.expect(TOKENS.ID).value;
-                args.push({ type: argType, name: argName });
-                if (stream.peek().value === ',') stream.consume();
-                else break;
-            }
-        }
-        stream.expect(TOKENS.PUNCT, ')');
-        const body = parseBlock(stream);
-        program.functions.push({ retType: type, name, args, body });
-    } else {
-        // Global
-        let value = null;
-        if (stream.peek().value === '=') {
-            stream.consume();
-            let modifier = '';
-            if (stream.peek().value === '-') { stream.consume(); modifier = '-'; }
+function parseConstantInitializer(stream) {
+	const token = stream.peek();
+	if (token.type === TOKENS.NUM) {
+		return { type: "literal", val: stream.consume().value };
+	}
+	if (token.type === TOKENS.STRING) {
+		return { type: "string", val: stream.consume().value };
+	}
+	if (token.type === TOKENS.OP && token.value === "-") {
+		stream.consume();
+		const number = stream.expect(TOKENS.NUM);
+		return {
+			type: "unary",
+			op: "-",
+			expr: { type: "literal", val: number.value }
+		};
+	}
+	if (token.type === TOKENS.OP && token.value === "&") {
+		stream.consume();
+		const identifier = stream.expect(TOKENS.ID);
+		return {
+			type: "unary",
+			op: "&",
+			expr: { type: "var", name: identifier.value }
+		};
+	}
+	stream.error(`Expected constant global initializer, found '${token.value}'`);
+}
 
-            if (stream.peek().type === TOKENS.NUM) {
-                value = modifier + stream.consume().value;
-            } 
-            else if (stream.peek().type === TOKENS.STRING) {
-                    if (modifier) throw new Error("Cannot negate string");
-                    value = '"' + stream.consume().value + '"'; 
-            }
-            else { throw new Error("Globals must be initialized with constants"); }
-        }
-        stream.expect(TOKENS.PUNCT, ';');
-        program.globals.push({ type, name, value });
-    }
+function isPunctuation(token, value) {
+	return token.type === TOKENS.PUNCT && token.value === value;
 }

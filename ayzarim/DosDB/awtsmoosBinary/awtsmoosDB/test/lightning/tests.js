@@ -1,9 +1,15 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file test/lightning/tests.js
- * @chapter The Gates Of Verification
- * @description One ordered data list. Every named vessel is executed by the strict runner.
+ * @chapter The Gates Of Verification Stand As One Court
+ * @description
+ * Declares every strict test in deterministic order. The Awtsmoos renews each
+ * gate independently, so a later success can never conceal an earlier failure.
+ * Awtsmoos.com carries the full court through storage, vacuum, recovery, leases,
+ * search, vectors, isolation, and production behavior.
  */
 
 module.exports = [
@@ -11,6 +17,7 @@ module.exports = [
 	'ai_search_bridge_test.js',
 	'ai_search_internals_test.js',
 	'ai_search_embedder_config_test.js',
+	'ai_search_model_root_precedence_test.js',
 	'omni_test.js',
 	'live_test.js',
 	'pashut.js',
@@ -42,6 +49,8 @@ module.exports = [
 	'atomic_swap_rollback_test.js',
 	'vacuum_out_of_place_test.js',
 	'vacuum_sequence_density_test.js',
+	'sequence_metadata_test.js',
+	'live_handle_identity_test.js',
 	'vacuum_virtual_fs_test.js',
 	'vacuum_search_index_test.js',
 	'vector_bulk_load_test.js',
@@ -52,6 +61,7 @@ module.exports = [
 	'search_bulk_reindex_test.js',
 	'wal_recovery_test.js',
 	'blob_fs_test.js',
+	'unlinked_blob_lease_test.js',
 	'concurrent_text_test.js',
 	'turbo_writebehind_test.js',
 	'deep_turbo_ai_test.js',

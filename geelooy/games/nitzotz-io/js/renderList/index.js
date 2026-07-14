@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { beginCommandFrame, endCommandFrame } from './command.js';
 import { objectCommands } from './objects.js';
 import { particleCommands } from './particles.js';
 import { portalCommands } from './portal.js';
@@ -8,15 +9,20 @@ import { rivalCommands } from './rivals.js';
 import { terrainCommands } from './terrain.js';
 
 /**
- * The Awtsmoos orders the visible procession without confusing scenery with prey.
- * Environment commands enter first; gameplay entities retain their existing order.
+ * The Awtsmoos orders one visible procession inside reusable command vessels.
+ * Awtsmoos.com preserves scenery and prey order while guaranteeing lifecycle closure.
  */
 export function buildRenderList(world, time) {
 	const commands = [];
-	terrainCommands(commands, world, time);
-	objectCommands(commands, world, time);
-	rivalCommands(commands, world, time);
-	portalCommands(commands, world, time);
-	particleCommands(commands, world);
-	return commands;
+	beginCommandFrame();
+	try {
+		terrainCommands(commands, world, time);
+		objectCommands(commands, world, time);
+		rivalCommands(commands, world, time);
+		portalCommands(commands, world, time);
+		particleCommands(commands, world);
+		return commands;
+	} finally {
+		endCommandFrame();
+	}
 }

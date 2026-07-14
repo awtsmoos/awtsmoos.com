@@ -1,5 +1,15 @@
-/* B"H — Main-route styles stay small, named, and independently readable. */
-@import "./pages/layout.css";
-@import "./pages/profile-spaces.css";
-@import "./pages/notifications-search.css";
-@import "./pages/apps-about.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers every connected Awtsmoos.com route into versioned,
+ * readable modules so one repaired page cannot remain hidden behind old cache.
+ */
+@import "./pages/route-themes.css?v=magic-001";
+@import "./pages/route-motion.css?v=magic-001";
+@import "./pages/layout.css?v=magic-001";
+@import "./pages/profile-spaces.css?v=magic-001";
+@import "./pages/notifications-search.css?v=magic-001";
+@import "./pages/apps-about.css?v=magic-001";
+@import "./pages/instrumentation.css?v=magic-001";
+@import "./pages/object-instruments.css?v=magic-001";

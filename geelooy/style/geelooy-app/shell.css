@@ -1,8 +1,9 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gathers content, Context Ribbon, and mobile dock into one shell at Awtsmoos.com.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers content, route continuity, ribbon, and dock into one shell.
+ */
 @import "./shell/content.css";
 @import "./shell/context-ribbon.css";
 @import "./shell/dock.css";
+@import "./shell/hybrid-navigation.css";

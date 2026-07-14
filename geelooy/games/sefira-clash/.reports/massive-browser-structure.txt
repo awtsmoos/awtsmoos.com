@@ -1,0 +1,44 @@
+=== LINE VIOLATIONS ===
+     125 geelooy/games/sefira-clash/js/online/SefiraOnlineClient.js
+     134 geelooy/games/sefira-clash/js/online/OnlineConnectionCoordinator.js
+=== CLIENT SYNTAX ===
+=== SERVER SYNTAX ===
+=== SERVER TESTS ===
+✔ creates and joins a private four-player room with safe snapshots (4.242723ms)
+✔ invalidates readiness after character or team changes (1.329485ms)
+✔ migrates ownership and deletes a room after immediate expiry (1.895203ms)
+✔ rejects a fifth player without corrupting room membership (10.640645ms)
+✔ seals canonical public state and detects corruption (40.737998ms)
+✔ records authoritative hit, damage, fall, and ring-out statistics (45.952278ms)
+✔ exports bounded public replay after a completed match (3.206355ms)
+✔ journal trims old snapshots and events to declared bounds (4.982442ms)
+✔ requires owner authority and unanimous readiness before starting (7.061642ms)
+✔ binds input to its socket fighter and ignores a stale sequence (1.345589ms)
+✔ zero-grace disconnect eliminates and returns a finished match to lobby (59.721642ms)
+✔ accepts only newer bounded input and moves the bound fighter (80.296695ms)
+✔ resolves attack damage and guarded reduction on the server (15.602626ms)
+✔ owns ring-out stocks and free-for-all victory (2.13938ms)
+✔ resolves team victory after the opposing team is eliminated (2.545961ms)
+✔ team match rejects one team and accepts opposing teams (14.307898ms)
+✔ issues strict opaque resume tokens (2.167514ms)
+✔ declares capabilities and safe aggregate health without membership (0.992979ms)
+✔ echoes client ping time beside a server timestamp (0.497814ms)
+✔ enforces independent input, ping, and command windows (0.657775ms)
+✔ disconnect neutralizes then resume restores the same fighter and identity (19.843712ms)
+✔ grace expiry eliminates a disconnected fighter and migrates ownership (2.512057ms)
+✔ intentional leave removes immediately without scheduling grace (51.581739ms)
+✔ spectator watches an active match without entering player equations (33.460536ms)
+✔ spectator capacity is independent and bounded (2.017138ms)
+✔ preserves every original Sefira protocol name while adding match names (1.515354ms)
+✔ preserves original server exports and registered factories (1.350348ms)
+✔ supports both original and options-object RealtimeClient constructors (6.560396ms)
+✔ preserves the complete original SefiraLobbyClient class surface (7.352086ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2131.255543
+SERVER_TEST_EXIT=0

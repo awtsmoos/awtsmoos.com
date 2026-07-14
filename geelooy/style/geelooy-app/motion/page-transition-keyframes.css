@@ -1,0 +1,51 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each Awtsmoos.com route journey a readable beginning and end.
+ */
+@keyframes g-page-old-forward {
+	to {
+		opacity: 0;
+		transform: translateX(-3rem) scale(0.98);
+	}
+}
+
+@keyframes g-page-new-forward {
+	from {
+		opacity: 0;
+		transform: translateX(3rem) scale(0.98);
+	}
+}
+
+@keyframes g-page-old-backward {
+	to {
+		opacity: 0;
+		transform: translateX(3rem) scale(0.98);
+	}
+}
+
+@keyframes g-page-new-backward {
+	from {
+		opacity: 0;
+		transform: translateX(-3rem) scale(0.98);
+	}
+}
+
+@keyframes g-page-create {
+	from {
+		opacity: 0;
+		transform: translateY(1.6rem) scale(0.94);
+	}
+}
+
+@keyframes g-native-arrival {
+	from {
+		opacity: 0;
+		transform: translate3d(1.6rem, 0, 0) scale(0.985);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}

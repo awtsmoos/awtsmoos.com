@@ -1,0 +1,83 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every eligible Awtsmoos.com document travel as one living stage.
+ */
+@view-transition {
+	navigation: auto;
+}
+
+body.geelooy-app-shell .g-shell {
+	view-transition-name: geelooy-shell;
+}
+
+body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+	view-transition-name: geelooy-page;
+}
+
+::view-transition-old(geelooy-shell),
+::view-transition-new(geelooy-shell) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+::view-transition-old(geelooy-page),
+::view-transition-new(geelooy-page) {
+	animation-duration: 320ms;
+	animation-fill-mode: both;
+	animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+	mix-blend-mode: normal;
+}
+
+html[data-route-exit-direction="forward"]::view-transition-old(geelooy-page) {
+	animation-name: g-page-old-forward;
+}
+
+html[data-route-enter-direction="forward"]::view-transition-new(geelooy-page) {
+	animation-name: g-page-new-forward;
+}
+
+html[data-route-exit-direction="backward"]::view-transition-old(geelooy-page) {
+	animation-name: g-page-old-backward;
+}
+
+html[data-route-enter-direction="backward"]::view-transition-new(geelooy-page) {
+	animation-name: g-page-new-backward;
+}
+
+html[data-route-exit-direction="create"]::view-transition-old(geelooy-page),
+html[data-route-enter-direction="create"]::view-transition-new(geelooy-page) {
+	animation-name: g-page-create;
+}
+
+.geelooy-native-leaving body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+	opacity: 0;
+	transform: translate3d(-2rem, 0, 0) scale(0.985);
+	transition: opacity 130ms ease, transform 135ms ease;
+}
+
+.geelooy-native-leaving[data-route-exit-direction="backward"] body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+	transform: translate3d(2rem, 0, 0) scale(0.985);
+}
+
+.geelooy-native-leaving[data-route-exit-direction="create"] body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+	transform: translate3d(0, 1.4rem, 0) scale(0.94);
+}
+
+.geelooy-native-arriving body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+	animation: g-native-arrival 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(geelooy-page),
+	::view-transition-new(geelooy-page) {
+		animation-duration: 0.01ms;
+	}
+
+	.geelooy-native-leaving body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]),
+	.geelooy-native-arriving body.geelooy-app-shell > :is(main, .geelooy-content-region, [data-geelooy-route-outlet]) {
+		animation: none;
+		transition: none;
+		transform: none;
+	}
+}

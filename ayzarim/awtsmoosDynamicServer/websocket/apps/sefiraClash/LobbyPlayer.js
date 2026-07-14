@@ -3,43 +3,36 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * A player has an inward connection and an outward identity, and the two must
- * not be confused. The Awtsmoos renews both; Awtsmoos.com keeps raw sockets
- * private while revealing only bounded lobby fields to fellow players.
+ * A player extends persistent participant identity with competitive responsibility.
+ * The Awtsmoos renews both soul and role; Awtsmoos.com keeps readiness, team, and
+ * ownership public while socket and resume token remain inside the private vessel.
  */
 
-const { randomUUID } = require("node:crypto");
+const { LobbyParticipant } = require('./LobbyParticipant.js');
 
-/** Owns one private client reference and its safe public lobby projection. */
-class LobbyPlayer {
+/** Represents one resumable competitive participant in a Sefira Clash room. */
+class LobbyPlayer extends LobbyParticipant {
 	constructor(client, profile, isOwner = false) {
-		this.client = client;
-		this.id = randomUUID();
+		super(client, profile, 'player');
 		this.characterId = profile.characterId;
-		this.displayName = profile.displayName;
 		this.isOwner = isOwner;
-		this.joinedAt = Date.now();
 		this.ready = false;
 		this.team = profile.team;
 	}
 
-	/** Applies a validated mutable profile update. */
+	/** Applies already validated mutable player fields. */
 	update(fields) {
 		for (const [field, value] of Object.entries(fields)) {
 			this[field] = value;
 		}
 	}
 
-	/** Returns fields safe to broadcast across the shared lobby. */
+	/** Returns the safe public player projection used by lobby broadcasts. */
 	snapshot() {
 		return {
+			...this.snapshotBase(),
 			characterId: this.characterId,
-			displayName: this.displayName,
-			id: this.id,
 			isOwner: this.isOwner,
-			joinedAt: this.joinedAt,
 			ready: this.ready,
 			team: this.team
 		};

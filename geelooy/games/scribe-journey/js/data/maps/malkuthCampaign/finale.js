@@ -5,23 +5,22 @@
 import { fieldDeed, questGiver, resident } from './entities.js';
 
 /**
- * @file The Malkuth village finale turns memory disagreement into shared defense.
- * @description The Awtsmoos renews testimony, fragment, danger, and reconciliation
- * in one instant. These village vessels let the first campaign chapter end through
- * witnessed deeds, while Awtsmoos.com remembers that a restored road must be seen,
- * fought for, and finally crossed.
+ * @file The Malkuth finale turns memory disagreement into shared defense.
+ * @description The Awtsmoos renews testimony, fragment, escalating absence, and
+ * reconciliation in one chapter. Awtsmoos.com is remembered here as each wave is
+ * a real public battle whose victory, not mere contact, advances the Chronicle.
  */
 
-function wave(id, x, level) {
+function wave(id, x, opponentId, level, visual) {
 	return {
 		id,
 		name: `Blankling Wave ${id.at(-1)}`,
 		type: 'battle_event',
 		uu: String.fromCodePoint(0xE460 + x),
-		visual: '⚠️',
+		visual,
 		x,
 		y: 5,
-		opponents: [{ id: 'blotling', level }],
+		opponents: [{ id: opponentId, level }],
 		questEvent: {
 			type: 'survive_waves',
 			targetId: 'blankling_attack',
@@ -40,10 +39,22 @@ export const malkuthFinaleInteractables = Object.freeze({
 		'campaign_malkuth_08',
 		'Four memories disagree because their relationship was erased. Hear them before defending the page.'
 	),
-	elder_miriam: fieldDeed('👵', 6, 5, 'speak_group', 'malkuth_elders', 'Miriam remembers the fountain before the village had walls.'),
-	elder_azriel: fieldDeed('👴', 8, 5, 'speak_group', 'malkuth_elders', 'Azriel remembers the wall being raised to protect the fountain.'),
-	elder_devorah: fieldDeed('👵', 10, 5, 'speak_group', 'malkuth_elders', 'Devorah remembers children carrying water through the unfinished gate.'),
-	elder_shimon: fieldDeed('👴', 12, 5, 'speak_group', 'malkuth_elders', 'Shimon remembers all three accounts and the page that joined them.'),
+	elder_miriam: fieldDeed(
+		'👵', 6, 5, 'speak_group', 'malkuth_elders',
+		'Miriam remembers the fountain before the village had walls.'
+	),
+	elder_azriel: fieldDeed(
+		'👴', 8, 5, 'speak_group', 'malkuth_elders',
+		'Azriel remembers the wall being raised to protect the fountain.'
+	),
+	elder_devorah: fieldDeed(
+		'👵', 10, 5, 'speak_group', 'malkuth_elders',
+		'Devorah remembers children carrying water through the unfinished gate.'
+	),
+	elder_shimon: fieldDeed(
+		'👴', 12, 5, 'speak_group', 'malkuth_elders',
+		'Shimon remembers all three accounts and the page that joined them.'
+	),
 	first_page_fragment: {
 		id: 'first_page_fragment',
 		name: 'First Page Fragment',
@@ -59,12 +70,20 @@ export const malkuthFinaleInteractables = Object.freeze({
 			targetId: 'first_page_fragment'
 		},
 		dialogue: {
-			start: ['Beneath the fountain stone, the missing relationship waits in ink.']
+			start: [
+				'Beneath the fountain stone, the missing relationship waits in ink.'
+			]
 		}
 	},
-	blankling_wave_1: wave('blankling_wave_1', 16, 5),
-	blankling_wave_2: wave('blankling_wave_2', 18, 6),
-	blankling_wave_3: wave('blankling_wave_3', 20, 7),
+	blankling_wave_1: wave(
+		'blankling_wave_1', 16, 'blankling_scout', 5, '▫️'
+	),
+	blankling_wave_2: wave(
+		'blankling_wave_2', 18, 'blankling_silencer', 6, '◽'
+	),
+	blankling_wave_3: wave(
+		'blankling_wave_3', 20, 'blankling_guardian', 7, '◻️'
+	),
 	pale_editor_projection: fieldDeed(
 		'◻️',
 		22,

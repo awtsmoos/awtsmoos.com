@@ -2,20 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 import { bossText } from '../director/boss.js';
-import { statsText } from '../engine/stats.js';
 import { bonusProgress } from '../game/progression.js';
 import { renderLeaderboard } from './leaderboard.js';
 import { drawMap } from './minimap.js';
 import { renderOverlay } from './overlay.js';
 import { renderToggles } from './toggles.js';
 
-/** Awtsmoos.com reveals one world through measured, readable interface vessels. */
+/**
+ * The Awtsmoos preserves essential mission knowledge while dormant telemetry recedes.
+ * Awtsmoos.com receives one contextual intel line rather than simultaneous status walls.
+ */
 export function renderUI(world, dom, options = {}) {
 	const progress = bonusProgress(world);
 	document.body.dataset.mode = world.mode;
 	dom.progress.value = Math.min(1, world.player.mass / world.level.targetMass);
 	dom.mass.textContent = Math.round(world.player.mass);
-	dom.time.textContent = Number.isFinite(world.timeLeft) ? Math.max(0, Math.ceil(world.timeLeft)) : '∞';
+	dom.time.textContent = Number.isFinite(world.timeLeft)
+		? Math.max(0, Math.ceil(world.timeLeft))
+		: '∞';
 	dom.rank.textContent = `${world.rank}/${world.rivals.length + 1}`;
 	dom.combo.textContent = `x${world.player.combo.toFixed(1)}`;
 	dom.best.textContent = Math.round(world.save.bestMass || 0);
@@ -29,7 +33,7 @@ export function renderUI(world, dom, options = {}) {
 	dom.power.textContent = powerText(world);
 	dom.district.textContent = districtText(world);
 	renderDirector(world, dom);
-	dom.message.textContent = `${world.message}${statsText(world)}`;
+	dom.message.textContent = contextualMessage(world, dom);
 	renderLeaderboard(world, dom.leaderboard);
 	renderOverlay(world, dom);
 	renderToggles(world, dom);
@@ -40,13 +44,26 @@ function renderDirector(world, dom) {
 	const activeEvent = world.director.event;
 	const strongest = strongestRival(world.rivals);
 	dom.mode.textContent = world.gameMode.name;
-	dom.event.textContent = activeEvent ? `${activeEvent.name} · ${Math.ceil(world.director.eventTime)}s` : 'CITY QUIET';
+	dom.event.textContent = activeEvent
+		? `${activeEvent.name} · ${Math.ceil(world.director.eventTime)}s`
+		: 'CITY QUIET';
 	dom.event.classList.toggle('active', Boolean(activeEvent));
 	dom.boss.textContent = bossText(world);
 	dom.boss.classList.toggle('active', world.director.boss.status !== 'dormant');
-	dom.rival.textContent = strongest ? `${strongest.name} · ${strongest.archetype.name}` : 'NO RIVALS';
+	dom.rival.textContent = strongest
+		? `${strongest.name} · ${strongest.archetype.name}`
+		: 'NO RIVALS';
 	const count = Object.keys(world.save.achievements).length;
 	dom.achievement.textContent = `${count} ACHIEVEMENT${count === 1 ? '' : 'S'}`;
+}
+
+function contextualMessage(world, dom) {
+	const details = [world.message];
+	if (world.director.event) details.push(dom.event.textContent);
+	if (world.director.boss.status !== 'dormant') details.push(dom.boss.textContent);
+	if (dom.power.textContent !== 'NO ACTIVE POWER') details.push(dom.power.textContent);
+	if (world.districtChain > 1) details.push(dom.district.textContent);
+	return details.filter(Boolean).join(' · ');
 }
 
 function strongestRival(rivals) {

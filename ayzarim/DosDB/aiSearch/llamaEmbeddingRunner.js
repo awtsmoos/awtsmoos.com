@@ -1,68 +1,95 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file llamaEmbeddingRunner.js
- * @chapter The One Spark Per Breath Runner
+ * @chapter One Text Enters The Llama Gate And One Normalized Flame Returns
  * @description
- * The Awtsmoos speaks a single word and the vessel answers once. This runner
- * invokes llama.cpp one text at a time, parses raw BGE rows, averages token rows
- * when llama prints them, and returns one normalized 384-dimensional flame.
+ * Executes one real llama.cpp embedding request. Root and binary precedence live
+ * in a separate lazy resolver so isolated callers never probe production paths.
  */
-const fs = require("fs");
-const path = require("path");
-const child = require("child_process");
-const { getDefaultEmbedderConfig, resolveEmbedderModelPath } = require("./embedderConfig.js");
 
-function existing(...items) { return items.find(Boolean) || null; }
-function commandPath(name) {
-  try { return child.execFileSync("bash", ["-lc", `command -v ${name}`], { encoding: "utf8" }).trim() || null; }
-  catch (_) { return null; }
-}
-function defaultCommentRagRoot() {
-  const p = "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/ai/comment-rag";
-  return fs.existsSync(p) ? p : null;
-}
-function resolveModelRoot(options = {}) {
-  return existing(options.modelRoot, process.env.AWTSMOOS_EMBED_MODEL_ROOT, defaultCommentRagRoot(), path.join(process.cwd(), ".awtsmoos", "ai"));
-}
-function resolveLlamaBinary(options = {}) {
-  const root = resolveModelRoot(options);
-  return existing(options.llamaBinary, process.env.AWTSMOOS_LLAMA_EMBEDDING_BIN, root && path.join(root, "embedder-lab/llama.cpp/build/bin/llama-embedding"), commandPath("llama-embedding"));
-}
+const childProcess = require('child_process');
+const fs = require('fs');
+const { getDefaultEmbedderConfig, resolveEmbedderModelPath } = require('./embedderConfig.js');
+const { resolveLlamaBinary, resolveModelRoot } = require('./modelRootResolver.js');
+
 function llamaReadiness(options = {}) {
-  const provider = options.provider || getDefaultEmbedderConfig();
-  const root = resolveModelRoot(options);
-  const modelPath = options.modelPath || resolveEmbedderModelPath(root, provider);
-  const llamaBinary = resolveLlamaBinary(options);
-  return { ok: fs.existsSync(modelPath) && fs.existsSync(llamaBinary || ""), root, modelPath, llamaBinary, provider };
+	const provider = options.provider || getDefaultEmbedderConfig();
+	const root = resolveModelRoot(options);
+	const modelPath = options.modelPath || resolveEmbedderModelPath(root, provider);
+	const llamaBinary = resolveLlamaBinary({ ...options, modelRoot: root });
+	return {
+		ok: fs.existsSync(modelPath) && fs.existsSync(llamaBinary || ''),
+		root,
+		modelPath,
+		llamaBinary,
+		provider
+	};
 }
-function normalize(vec) {
-  const mag = Math.sqrt(vec.reduce((s, n) => s + n * n, 0)) || 1;
-  return vec.map(n => Number((n / mag).toFixed(7)));
+
+function normalize(vector) {
+	const magnitude = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0)) || 1;
+	return vector.map(value => Number((value / magnitude).toFixed(7)));
 }
-function parseRawEmbedding(raw, dim = 384) {
-  const nums = String(raw || "").trim().split(/\s+/).map(Number).filter(Number.isFinite);
-  if (nums.length === dim) return { vector: normalize(nums), parseMode: `single-${dim}` };
-  if (nums.length > dim && nums.length % dim === 0) {
-    const rows = nums.length / dim;
-    const avg = Array(dim).fill(0);
-    for (let r = 0; r < rows; r++) for (let i = 0; i < dim; i++) avg[i] += nums[r * dim + i] / rows;
-    return { vector: normalize(avg), parseMode: `mean-${rows}x${dim}` };
-  }
-  throw new Error(`B"H llama raw embedding parse failed: expected ${dim} or ${dim}-wide rows, got ${nums.length}`);
+
+function parseRawEmbedding(raw, dimensions = 384) {
+	const numbers = String(raw || '').trim().split(/\s+/).map(Number).filter(Number.isFinite);
+	if (numbers.length === dimensions) {
+		return { vector: normalize(numbers), parseMode: `single-${dimensions}` };
+	}
+	if (numbers.length > dimensions && numbers.length % dimensions === 0) {
+		const rows = numbers.length / dimensions;
+		const average = Array(dimensions).fill(0);
+		for (let row = 0; row < rows; row++) {
+			for (let index = 0; index < dimensions; index++) {
+				average[index] += numbers[row * dimensions + index] / rows;
+			}
+		}
+		return { vector: normalize(average), parseMode: `mean-${rows}x${dimensions}` };
+	}
+	throw new Error(`B"H llama raw embedding parse failed: expected ${dimensions} or ${dimensions}-wide rows, got ${numbers.length}`);
 }
+
 function embedTextWithLlama(text, options = {}) {
-  const ready = llamaReadiness(options);
-  const dim = Number(ready.provider.embeddingDimensions || ready.provider.dimensions || 384);
-  if (!ready.ok) {
-    const error = new Error("B\"H llama embedder is not ready");
-    error.code = "LLAMA_EMBEDDER_NOT_READY";
-    error.readiness = ready;
-    throw error;
-  }
-  const args = ["-m", ready.modelPath, "-p", String(text || ""), "--pooling", ready.provider.pooling || "cls", "--embd-normalize", "2", "--embd-output-format", "raw"];
-  const res = child.spawnSync(ready.llamaBinary, args, { encoding: "utf8", maxBuffer: options.maxBuffer || 128 * 1024 * 1024 });
-  if (res.status !== 0) throw new Error(res.stderr || `B"H llama-embedding exited ${res.status}`);
-  const parsed = parseRawEmbedding(res.stdout, dim);
-  return { success: true, realEmbedding: true, vector: parsed.vector, provider: "llama-embedding:bge-small-en-v1.5-q8_0", state: { ...ready, parseMode: parsed.parseMode }, cached: false };
+	const readiness = llamaReadiness(options);
+	const dimensions = Number(readiness.provider.embeddingDimensions || readiness.provider.dimensions || 384);
+	if (!readiness.ok) {
+		const error = new Error('B"H llama embedder is not ready');
+		error.code = 'LLAMA_EMBEDDER_NOT_READY';
+		error.readiness = readiness;
+		throw error;
+	}
+	const argumentsList = [
+		'-m', readiness.modelPath,
+		'-p', String(text || ''),
+		'--pooling', readiness.provider.pooling || 'cls',
+		'--embd-normalize', '2',
+		'--embd-output-format', 'raw'
+	];
+	const result = childProcess.spawnSync(readiness.llamaBinary, argumentsList, {
+		encoding: 'utf8',
+		maxBuffer: options.maxBuffer || 128 * 1024 * 1024
+	});
+	if (result.status !== 0) {
+		throw new Error(result.stderr || `B"H llama-embedding exited ${result.status}`);
+	}
+	const parsed = parseRawEmbedding(result.stdout, dimensions);
+	return {
+		success: true,
+		realEmbedding: true,
+		vector: parsed.vector,
+		provider: 'llama-embedding:bge-small-en-v1.5-q8_0',
+		state: { ...readiness, parseMode: parsed.parseMode },
+		cached: false
+	};
 }
-module.exports = { resolveModelRoot, resolveLlamaBinary, llamaReadiness, parseRawEmbedding, embedTextWithLlama };
+
+module.exports = {
+	resolveModelRoot,
+	resolveLlamaBinary,
+	llamaReadiness,
+	parseRawEmbedding,
+	embedTextWithLlama
+};

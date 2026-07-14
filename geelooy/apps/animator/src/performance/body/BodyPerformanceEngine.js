@@ -34,7 +34,8 @@ export class BodyPerformanceEngine {
 		const head = HeadMotion.sample(time, progress, performedEnergy);
 		const speechNod = speaking ? (timing.phase - 0.5) * speechPulse * 0.12 * styleEnergy : 0;
 		const ambientShoulder = ShoulderMotion.sample(progress, baseEnergy);
-		const speechShoulder = speechPulse * 0.06 * styleEnergy;
+		const stylePosture = speaking ? 0.018 * styleEnergy : 0;
+		const speechShoulder = stylePosture + speechPulse * 0.06 * styleEnergy;
 		const breath = BreathingMotion.sample(time, performedEnergy) + speechPulse * 0.08 * styleEnergy;
 
 		return ActingPose.make({

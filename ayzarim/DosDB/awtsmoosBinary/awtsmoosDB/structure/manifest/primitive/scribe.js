@@ -1,71 +1,65 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file structure/manifest/primitive/scribe.js
- * @chapter The Chisel Of The Small Vessels
+ * @chapter The External Body's Lease Ends When Its Token Enters The Build
  * @description
- * PrimitiveScribe is the single gate for non-container values.
- * It does not guess. It walks a strict encoder table and saves exact bytes.
+ * Runs the ordered primitive encoder choir for packed and persisted scalars.
+ * Blob and text-body leases transfer inside the active build generation as soon
+ * as token bytes exist. Metrics are resolved at write time because the database
+ * creates its scribe before the byte ledger. The Awtsmoos preserves ownership
+ * truth and the exact measure of every compressed vessel.
  */
 
 const Pointer = require('../../../utils/pointer/crown.js');
 const encoders = require('./encoders/index.js');
 
-/**
- * @class PrimitiveScribe
- * @description
- * Saves primitive values into the allocator and returns pointer seals.
- */
 class PrimitiveScribe {
-  /**
-   * @constructor
-   * @param {object} allocator - Allocator vessel.
-   */
-  constructor(allocator) {
-    this.allocator = allocator;
-    this.pager = allocator.pager;
-  }
+	constructor(allocator, metrics = null) {
+		this.allocator = allocator;
+		this.metrics = metrics;
+	}
 
-  /**
-   * @method encode
-   * @description
-   * Finds the first encoder that recognizes the value.
-   *
-   * @param {*} value - Value to encode.
-   * @returns {object} Primitive packet.
-   */
-  encode(value) {
-    for (const encode of encoders) {
-      const packet = encode(value, this);
-      if (packet) return packet;
-    }
+	encode(value) {
+		for (const encoder of encoders) {
+			const packet = encoder(value, this);
+			if (!packet) continue;
+			this._releaseExternalLeases(value);
+			return packet;
+		}
+		return null;
+	}
 
-    return encoders[0](null);
-  }
+	save(value) {
+		const packet = this.encode(value);
+		if (!packet) {
+			throw new Error(`B"H unsupported primitive value: ${Object.prototype.toString.call(value)}`);
+		}
 
-  /**
-   * @method save
-   * @description
-   * Writes encoded bytes and returns a pointer crown.
-   *
-   * @param {*} value - Value to save.
-   * @returns {Buffer} Pointer seal.
-   */
-  save(value) {
-    const packet = this.encode(value);
-    const loc = this.allocator.allocate(packet.buffer.length);
+		const location = this.allocator.allocate(packet.buffer.length);
+		this.allocator.db.pager.writeExact(location.offset, packet.buffer);
+		const metrics = this.metrics || this.allocator.db.metrics;
+		if (metrics && typeof metrics.recordPrimitive === 'function') {
+			metrics.recordPrimitive(packet);
+		}
+		return Pointer.encode(packet.type, location.offset, packet.buffer.length);
+	}
 
-    if (packet.buffer.length) {
-      this.pager.writeExact(loc.offset, packet.buffer);
-    }
-
-    if (this.allocator.db && this.allocator.db.metrics) {
-      this.allocator.db.metrics.recordPrimitive(packet);
-    }
-
-    return Pointer.encode(packet.type, loc.offset, packet.buffer.length);
-  }
+	_releaseExternalLeases(value) {
+		if (!value || typeof this.allocator.releaseLease !== 'function') return;
+		if (value.__awtsmoosBlob === true) {
+			this.allocator.releaseLease(Number(value.offset), Number(value.length));
+			return;
+		}
+		if (value.__awtsmoosText !== true || !Array.isArray(value.blocks)) return;
+		for (const block of value.blocks) {
+			const blob = block && block.blob;
+			if (!blob || blob.__awtsmoosBlob !== true) continue;
+			this.allocator.releaseLease(Number(blob.offset), Number(blob.length));
+		}
+	}
 }
 
 module.exports = PrimitiveScribe;

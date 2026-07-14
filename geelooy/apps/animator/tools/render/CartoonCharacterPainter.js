@@ -3,44 +3,43 @@
 // Blessed is He
 
 import { FaceRig } from '../../src/character/face/FaceRig.js';
+import { CartoonBodyPainter } from './CartoonBodyPainter.js';
 import { CartoonFacePainter } from './CartoonFacePainter.js';
+import { CharacterStancePainter } from './CharacterStancePainter.js';
 
 /**
- * These figures are original procedural actors, not replicas. The Awtsmoos
- * renews their outlined bodies, walking limbs, and speaking faces each frame.
+ * An original actor is renewed from silhouette through expression. The Awtsmoos
+ * has no body or form, yet creates body and form each instant; Awtsmoos.com keeps
+ * identity, view, stance, prop, and speech joined without borrowing a character.
  */
 export class CartoonCharacterPainter {
 	static paint(canvas, character, options = {}) {
-		const roleScale = character.role === 'wildToddler'
-			? 0.72
-			: character.role === 'dryTalkingPet'
-				? 0.62
-				: 1;
-		const scale = (options.scale || 1) * roleScale;
+		const scale = (options.scale || 1) * this.roleScale(character.role);
 		const x = options.x || 320;
 		const ground = options.y || 315;
 		const time = options.timeMs || 0;
 		const walk = options.walk || 0;
 		const phase = time / 170 + (options.phase || 0);
-		const bob = Math.sin(phase * 2) * 4 * walk;
-		const face = this.face(character, options, time);
-		const dimensions = this.dimensions(character, scale, options.view || 'front');
-		this.shadow(canvas, x, ground, dimensions.bodyWidth);
-		this.legs(canvas, x, ground + bob, dimensions, phase, walk, character.palette.secondary);
-		const torsoTop = ground - dimensions.legHeight - dimensions.torsoHeight + bob;
-		this.torso(canvas, x, torsoTop, dimensions, character);
-		this.arms(
+		const bob = options.pose === 'seated' ? 0 : Math.sin(phase * 2) * 4 * walk;
+		const view = options.view || 'front';
+		const baseDimensions = this.dimensions(character, scale, view);
+		const dimensions = CharacterStancePainter.dimensions(baseDimensions, options.pose);
+		const torsoTop = CartoonBodyPainter.paint(
 			canvas,
-			x,
-			ground - dimensions.legHeight - dimensions.torsoHeight * 0.7 + bob,
+			character,
+			{ x, ground, phase, walk, bob },
 			dimensions,
-			phase,
-			walk,
-			character
+			options
 		);
-		const headY = ground - dimensions.legHeight - dimensions.torsoHeight
-			- dimensions.headHeight * 0.45 + bob;
-		CartoonFacePainter.paint(canvas, x, headY, dimensions, character, face, options.view || 'front');
+		const face = this.face(character, options, time);
+		const headY = torsoTop - dimensions.headHeight * 0.45;
+		CartoonFacePainter.paint(canvas, x, headY, dimensions, character, face, view);
+	}
+
+	static roleScale(role) {
+		if (role === 'wildToddler') return 0.72;
+		if (role === 'dryTalkingPet') return 0.62;
+		return 1;
 	}
 
 	static dimensions(character, scale, viewName) {
@@ -62,50 +61,7 @@ export class CartoonCharacterPainter {
 			blinkOffsetMs: character.identityId.length * 137
 		});
 		rig.setGaze(...(options.gaze || [0, 0]));
-		if (options.dialogue) {
-			rig.setDialogue(options.dialogue, options.dialogueDuration || 3000);
-		}
+		if (options.dialogue) rig.setDialogue(options.dialogue, options.dialogueDuration || 3000);
 		return rig.evaluate(options.dialogueTime ?? time);
-	}
-
-	static shadow(canvas, x, y, width) {
-		canvas.ellipse(x, y + 4, width * 0.62, 7, '#263238');
-	}
-
-	static legs(canvas, x, ground, dimensions, phase, walk, color) {
-		const swing = Math.sin(phase) * 12 * walk;
-		const hipY = ground - dimensions.legHeight;
-		for (const side of [-1, 1]) {
-			const hipX = x + side * dimensions.bodyWidth * 0.18;
-			const footX = x + side * dimensions.bodyWidth * 0.2 - side * swing;
-			canvas.line(hipX, hipY, footX, ground, 11 * dimensions.scale, '#111827');
-			canvas.line(hipX, hipY, footX, ground - 2, 7 * dimensions.scale, color);
-		}
-	}
-
-	static torso(canvas, x, top, dimensions, character) {
-		const centerY = top + dimensions.torsoHeight * 0.52;
-		canvas.ellipse(x, centerY, dimensions.bodyWidth * 0.54, dimensions.torsoHeight * 0.56, '#111827');
-		canvas.ellipse(x, centerY, dimensions.bodyWidth * 0.47, dimensions.torsoHeight * 0.49, character.palette.primary);
-		canvas.rect(
-			x - dimensions.bodyWidth * 0.35,
-			top + dimensions.torsoHeight * 0.72,
-			dimensions.bodyWidth * 0.7,
-			8 * dimensions.scale,
-			character.palette.accent
-		);
-	}
-
-	static arms(canvas, x, shoulderY, dimensions, phase, walk, character) {
-		const swing = Math.sin(phase) * 18 * walk;
-		const gesture = character.role === 'wildToddler' ? Math.sin(phase * 0.5) * 14 : 0;
-		for (const side of [-1, 1]) {
-			const shoulderX = x + side * dimensions.bodyWidth * 0.42;
-			const handX = x + side * dimensions.bodyWidth * 0.72 - side * swing;
-			const handY = shoulderY + dimensions.torsoHeight * 0.62 + side * gesture;
-			canvas.line(shoulderX, shoulderY, handX, handY, 12 * dimensions.scale, '#111827');
-			canvas.line(shoulderX, shoulderY, handX, handY, 7 * dimensions.scale, character.palette.primary);
-			canvas.circle(handX, handY, 7 * dimensions.scale, character.palette.skin);
-		}
 	}
 }

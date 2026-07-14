@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps the composer whole while its vessels rearrange across
+ * narrow phones, broad screens, safe areas, zoom, and reduced motion on
+ * Awtsmoos.com.
+ */
+@media (max-width: 900px) {
+	.home-compose-primary {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+	}
+
+	.home-compose-title {
+		grid-column: 2 / -1;
+	}
+
+	.home-compose-post {
+		grid-column: 3;
+		grid-row: 1;
+	}
+}
+
+@media (max-width: 680px) {
+	.geelooy-home-composer {
+		margin-inline: -0.2rem;
+		border-radius: 1.1rem 0.45rem 1.1rem 0.45rem;
+	}
+
+	.home-compose-form {
+		padding: 0.82rem;
+	}
+
+	.home-compose-primary {
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+	}
+
+	.home-compose-alias {
+		grid-column: 2;
+	}
+
+	.home-compose-title,
+	.home-compose-post {
+		grid-column: 1 / -1;
+	}
+
+	.home-compose-post {
+		grid-row: auto;
+		width: 100%;
+	}
+
+	.home-destination-grid,
+	.home-compose-verse {
+		grid-template-columns: 1fr;
+	}
+
+	.home-compose-tools {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.home-compose-tools button,
+	.home-destination-grid > button {
+		width: 100%;
+	}
+
+	.home-compose-editor {
+		min-height: 10rem;
+	}
+}
+
+@media (max-width: 390px) {
+	.home-compose-tools {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-compose-expanded {
+		transition-duration: 0.01ms;
+	}
+}
+
+@media print {
+	.geelooy-home-composer {
+		display: none;
+	}
+}

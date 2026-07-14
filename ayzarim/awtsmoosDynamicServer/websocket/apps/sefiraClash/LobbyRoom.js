@@ -3,102 +3,107 @@
 //Blessed is He
 
 /**
- * B"H
- *
- * A lobby is a temporary world whose ownership, rules, and revision are server
- * truth. The Awtsmoos renews every member; Awtsmoos.com keeps four players in
- * one ordered vessel and transfers stewardship when an owner departs.
+ * A room gathers competitive players and witnessing spectators without confusing
+ * their powers. The Awtsmoos renews both; Awtsmoos.com exposes a small public
+ * façade while roster law and authoritative combat remain in focused modules.
  */
 
-const { randomUUID } = require("node:crypto");
-const { RealtimeError } = require("../../platform/RealtimeError.js");
-const { LobbyPlayer } = require("./LobbyPlayer.js");
-const MAXIMUM_PLAYERS = 4;
+const { randomUUID } = require('node:crypto');
+const { LobbyMatchController } = require('./LobbyMatchController.js');
+const Policy = require('./LobbyRoomPolicy.js');
+const Roster = require('./LobbyRoomRoster.js');
+const { MAXIMUM_PLAYERS, MAXIMUM_SPECTATORS } = require('./SefiraLimits.js');
 
-/** Owns one bounded Sefira Clash lobby and its private socket membership. */
+/** Owns one bounded room and delegates membership and match lifecycle. */
 class LobbyRoom {
-	constructor(joinCode, ownerClient, ownerProfile) {
+	constructor(joinCode, ownerClient, ownerProfile, options = {}) {
 		this.createdAt = Date.now();
 		this.id = randomUUID();
 		this.joinCode = joinCode;
+		this.metrics = options.metrics || null;
 		this.players = [];
 		this.revision = 0;
 		this.rules = ownerProfile.rules;
-		this.add(ownerClient, ownerProfile, true);
+		this.spectators = [];
+		this.match = new LobbyMatchController(this, this.metrics);
+		this.addPlayer(ownerClient, ownerProfile, true);
 	}
 
-	/** Adds one client and returns its private membership record. */
 	add(client, profile, isOwner = false) {
-		if (this.players.length >= MAXIMUM_PLAYERS) {
-			throw new RealtimeError("LOBBY_FULL", "This lobby already has four players.");
-		}
-		if (this.memberForClient(client)) {
-			throw new RealtimeError("ALREADY_IN_LOBBY", "Client is already in this lobby.");
-		}
-		const player = new LobbyPlayer(client, profile, isOwner);
-		this.players.push(player);
-		this.touch();
-		return player;
+		return this.addPlayer(client, profile, isOwner);
 	}
 
-	/** Applies validated mutable fields to one connected player. */
+	addPlayer(client, profile, isOwner = false) {
+		return Roster.addPlayer(this, client, profile, isOwner);
+	}
+
+	addSpectator(client, profile) {
+		return Roster.addSpectator(this, client, profile);
+	}
+
 	update(client, fields) {
-		const player = this.requireMember(client);
-		if (fields.characterId !== undefined || fields.team !== undefined) {
-			fields.ready = false;
-		}
-		player.update(fields);
-		this.touch();
-		return player;
+		return Roster.updatePlayer(this, client, fields);
 	}
 
-	/** Removes one client and migrates ownership to the earliest survivor. */
+	suspend(participant) {
+		Roster.suspendParticipant(this, participant);
+	}
+
+	resume(participant) {
+		Roster.resumeParticipant(this, participant);
+	}
+
 	remove(client) {
-		const index = this.players.findIndex(player => player.client === client);
-		if (index < 0) {
-			return null;
-		}
-		const [removed] = this.players.splice(index, 1);
-		if (removed.isOwner && this.players.length > 0) {
-			this.players[0].isOwner = true;
-		}
-		this.touch();
-		return removed;
+		const participant = Policy.participantForClient(this, client);
+		return participant ? this.removeParticipant(participant) : null;
 	}
 
-	/** Resolves private membership by socket identity. */
-	memberForClient(client) {
-		return this.players.find(player => player.client === client) || null;
+	removeParticipant(participant) {
+		return Roster.removeParticipant(this, participant);
 	}
 
-	/** Returns membership or a safe application error. */
+	requireStartable() {
+		Policy.requireStartable(this);
+	}
+
+	requireOwner(client) {
+		return Policy.requireOwner(this, client);
+	}
+
 	requireMember(client) {
-		const player = this.memberForClient(client);
-		if (!player) {
-			throw new RealtimeError("NOT_IN_LOBBY", "Client has no active Sefira lobby.");
-		}
-		return player;
+		return Policy.requireMember(this, client);
 	}
 
-	/** Returns current connected clients for event broadcasting. */
+	requireParticipant(client) {
+		return Policy.requireParticipant(this, client);
+	}
+
+	allParticipants() {
+		return [...this.players, ...this.spectators];
+	}
+
 	clients() {
-		return this.players.map(player => player.client);
+		return this.allParticipants()
+			.filter(participant => participant.connected)
+			.map(participant => participant.client);
 	}
 
-	/** Returns a safe public room projection with no raw socket identifiers. */
 	snapshot() {
 		return {
 			createdAt: this.createdAt,
 			id: this.id,
 			joinCode: this.joinCode,
+			limits: { players: MAXIMUM_PLAYERS, spectators: MAXIMUM_SPECTATORS },
+			match: this.match.summary(),
 			players: this.players.map(player => player.snapshot()),
 			revision: this.revision,
-			rules: { ...this.rules }
+			rules: this.rules,
+			spectators: this.spectators.map(spectator => spectator.snapshot())
 		};
 	}
 
 	isEmpty() {
-		return this.players.length === 0;
+		return this.players.length === 0 && this.spectators.length === 0;
 	}
 
 	touch() {
@@ -108,5 +113,6 @@ class LobbyRoom {
 
 module.exports = {
 	LobbyRoom,
-	MAXIMUM_PLAYERS
+	MAXIMUM_PLAYERS,
+	MAXIMUM_SPECTATORS
 };

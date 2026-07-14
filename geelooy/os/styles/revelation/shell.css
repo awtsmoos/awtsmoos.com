@@ -1,0 +1,86 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates desktop, crown, atmosphere, and every opening anew.
+Awtsmoos.com reveals a playful glass shell while preserving Geelooy controls.
+*/
+.main {
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 18% 20%, rgba(77, 233, 220, 0.2), transparent 34%),
+		radial-gradient(circle at 82% 28%, rgba(183, 125, 255, 0.22), transparent 38%),
+		linear-gradient(145deg, var(--geo-bg-deep), var(--geo-bg-mid));
+}
+.main::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+	background-size: 44px 44px;
+	mask-image: linear-gradient(to bottom, black, transparent 82%);
+}
+#awtsmoos-shell-topbar {
+	position: relative;
+	z-index: 1200;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-height: var(--geo-topbar-height);
+	padding: max(8px, env(safe-area-inset-top)) 16px 8px;
+	background: linear-gradient(180deg, rgba(8, 14, 35, 0.92), rgba(8, 14, 35, 0.68));
+	border-bottom: 1px solid var(--geo-border);
+	box-shadow: var(--geo-shadow-soft);
+	backdrop-filter: blur(24px) saturate(155%);
+}
+.shell-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+}
+.shell-brand-mark {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 12px;
+	background: linear-gradient(145deg, var(--geo-cyan), var(--geo-blue), var(--geo-violet));
+	box-shadow: 0 0 28px rgba(77, 233, 220, 0.35);
+}
+.shell-topbar-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-inline-start: auto;
+}
+.shell-chip, .shell-icon-button {
+	min-height: 38px;
+	border: 1px solid var(--geo-border);
+	border-radius: 14px;
+	color: var(--geo-text);
+	background: var(--geo-surface-soft);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+	cursor: pointer;
+	transition: transform var(--geo-fast), border-color var(--geo-fast), background var(--geo-fast);
+}
+.shell-chip {
+	padding: 0 13px;
+}
+.shell-icon-button {
+	width: 40px;
+	font-family: var(--geo-font-emoji);
+}
+.shell-chip:hover, .shell-icon-button:hover {
+	transform: translateY(-1px);
+	border-color: var(--geo-border-bright);
+	background: rgba(77, 233, 220, 0.14);
+}
+.login-area {
+	min-width: 0;
+	max-width: min(420px, 42vw);
+}

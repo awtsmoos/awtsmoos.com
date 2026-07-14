@@ -5,7 +5,8 @@
 /**
  * @file index.js
  * @description Production doorway into the Awtsmoos procedural core. Geometry,
- * trees, people, and gardens emerge as distinct vessels from one coherent API.
+ * trees, people, gardens, and now inspectable text recipes emerge as distinct
+ * vessels from one coherent API, renewed in order by the Awtsmoos.
  */
 export { generateProceduralGeometry } from './core/geometry/geometryGenerator.js';
 export { routePrimitive } from './core/geometry/generators/primitiveRouter.js';
@@ -69,3 +70,26 @@ export { createAwtsmoosThreeMaterial } from './adapters/three/materialFactory.js
 export { createProceduralThreeMesh } from './adapters/three/meshFactory.js';
 export { createProceduralTreeThreeGroup } from './adapters/three/treeMeshFactory.js';
 export { removeWhiteLeafTextureBackgroundOnce } from './adapters/three/treeAlphaTexture.js';
+export { AwtsmoosMesh } from './core/meshText/AwtsmoosMesh.js';
+export { compileMeshText } from './core/meshText/meshTextCompiler.js';
+export { tokenizeMeshText } from './core/meshText/meshTextTokenizer.js';
+export { buildMeshRecipe } from './core/meshText/meshArtifactBuilder.js';
+export {
+	MeshGeneratorRegistry,
+	listMeshGenerators,
+	meshGeneratorRegistry,
+	registerMeshGenerator,
+	resolveMeshGenerator
+} from './core/meshText/meshGeneratorRegistry.js';
+export {
+	createMeshRecipe,
+	deserializeMeshRecipe,
+	hashMeshRecipe,
+	serializeMeshRecipe,
+	validateMeshRecipe
+} from './core/recipes/meshRecipe.js';
+export {
+	canonicalizeRecipeValue,
+	hashStableRecipeValue,
+	stableRecipeJson
+} from './core/recipes/stableRecipeJson.js';

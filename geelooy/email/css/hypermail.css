@@ -1,29 +1,21 @@
-/* B"H — Final Quantum Mail authority: spectacle remains subordinate to truth and action. */
-.geelooy-mail-document .mail-quantum-frame,
-.geelooy-mail-document .sidebar,
-.geelooy-mail-document .chat-area,
-.geelooy-mail-document .composer-area {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers Mail's final authority from small quantum vessels.
+ * Identity remains singular, touch remains generous, and spectacle remains
+ * subordinate to truth and action throughout Awtsmoos.com.
+ */
+@import "./quantum/identity-summary.css?v=mail-magic-003";
+@import "./quantum/touch-targets.css?v=mail-magic-003";
+
+.geelooy-mail-document :is(
+	.mail-quantum-frame,
+	.sidebar,
+	.chat-area,
+	.composer-area
+) {
 	color-scheme: dark;
-}
-
-.geelooy-mail-document .awtsmoosDrop .dropdown-content {
-	left: 0;
-	right: auto;
-	min-width: min(86vw, 20rem);
-}
-
-.geelooy-mail-document .mail-sidebar-profile-mount .profile-trigger {
-	width: 100%;
-	justify-content: flex-start;
-	border-radius: 0.25rem 0.75rem 0.25rem 0.75rem;
-}
-
-.geelooy-mail-document .mail-sidebar-profile-mount .profile-trigger .arrow {
-	margin-left: auto;
-}
-
-.geelooy-mail-document .mail-sidebar-profile-mount .dropdown-content {
-	top: calc(100% + 0.4rem);
 }
 
 .geelooy-mail-document input::placeholder,
@@ -53,25 +45,57 @@
 	border-style: dashed !important;
 }
 
-.geelooy-mail-document .identity-modal-card .awtsmoosDrop,
-.geelooy-mail-document .identity-modal-card .profile-trigger {
+.geelooy-mail-document .identity-modal-card {
+	display: grid;
+	gap: 0.9rem;
+	max-width: min(92vw, 32rem);
+}
+
+.geelooy-mail-document .identity-modal-copy {
+	margin: 0;
+	color: var(--mail-dim);
+	line-height: 1.55;
+}
+
+.geelooy-mail-document .mail-sidebar-identity {
+	display: grid;
+	gap: 0.7rem;
 	width: 100%;
 }
 
-.geelooy-mail-document .identity-modal-card .profile-trigger {
-	justify-content: flex-start;
+.geelooy-mail-document .mail-sidebar-header {
+	align-items: stretch;
 }
 
-.geelooy-mail-document .identity-modal-card .profile-trigger .arrow {
-	margin-left: auto;
+body.geelooy-mail-document.geelooy-app-shell button {
+	min-width: 2.75rem !important;
+	min-height: 2.75rem !important;
 }
 
-@media (max-width: 850px) {
-	.geelooy-mail-document .mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
-		position: fixed;
-		inset: max(5.25rem, calc(env(safe-area-inset-top) + 5.25rem)) 0.5rem auto;
-		width: auto;
-	}
+body.geelooy-mail-document.geelooy-app-shell :is(
+	.mail-folder-tab,
+	.mail-sender-category,
+	.mode-tab,
+	.ctx-item
+) {
+	height: auto !important;
+	min-height: 2.75rem !important;
+	padding-block: 0.62rem;
+}
+
+body.geelooy-mail-document.geelooy-app-shell :is(
+	.icon-btn,
+	.win-ctrl,
+	.close-modal,
+	.mail-toolbar-button,
+	.chat-header button,
+	.composer-actions button
+) {
+	width: 2.75rem !important;
+	height: 2.75rem !important;
+	min-width: 2.75rem !important;
+	min-height: 2.75rem !important;
+	padding: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

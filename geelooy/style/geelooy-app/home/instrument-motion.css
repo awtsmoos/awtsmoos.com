@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets creation and feed chambers answer attention without stealing it.
+ */
+.geelooy-home-shell .g-home-actions {
+	position: relative;
+}
+
+.geelooy-home-shell .g-home-actions::before {
+	position: absolute;
+	z-index: -1;
+	inset: 50% 6% auto;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--g-cyan), var(--g-violet), var(--g-magenta), transparent);
+	content: "";
+	box-shadow: 0 0 18px rgba(60, 236, 255, 0.28);
+}
+
+.geelooy-home-shell .g-home-action {
+	min-height: 7.4rem;
+	backdrop-filter: blur(16px) saturate(130%);
+}
+
+.geelooy-home-shell .g-home-action span {
+	transition: filter var(--g-motion-medium) var(--g-ease), transform var(--g-motion-medium) var(--g-ease);
+}
+
+.geelooy-home-shell :where(.home-feed-panel, .g-home-aside) {
+	filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.22));
+}
+
+.geelooy-home-shell .geelooy-feed-card:focus-within {
+	border-color: var(--g-cyan);
+	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.95), 0 0 0 5px rgba(60, 236, 255, 0.72), var(--g-glow);
+}
+
+@media (hover: hover) {
+	.geelooy-home-shell .g-home-action:hover span {
+		filter: drop-shadow(0 0 18px rgba(60, 236, 255, 0.52));
+		transform: translateY(-0.18rem) rotate(-4deg) scale(1.08);
+	}
+}
+
+@media (max-width: 42rem) {
+	.geelooy-home-shell .home-system-rail {
+		grid-template-columns: 1fr;
+	}
+
+	.geelooy-home-shell .home-system-rail li {
+		grid-template-columns: auto 1fr;
+		column-gap: 0.55rem;
+	}
+
+	.geelooy-home-shell .home-system-rail small {
+		grid-column: 2;
+	}
+
+	.geelooy-home-shell .g-home-actions::before {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-home-shell .g-home-action span {
+		transform: none !important;
+	}
+}

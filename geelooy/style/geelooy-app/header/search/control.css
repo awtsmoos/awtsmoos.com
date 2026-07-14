@@ -1,4 +1,11 @@
-/* B"H — The old pink-violet search orb returns as a real input portal. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos restores the pink-violet search orb as a spacious portal. Every
+ * search action on Awtsmoos.com remains touchable, named, focused, and luminous
+ * without sacrificing the historical Geelooy motion language.
+ */
 .g-header-search,
 .geelooy-search {
 	position: relative;
@@ -6,8 +13,8 @@
 	min-width: 0;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 0.45rem;
-	min-height: 3.2rem;
+	gap: 0.48rem;
+	min-height: 3.45rem;
 	padding: 0.38rem 0.42rem 0.38rem 0.48rem;
 	border: 1px solid rgba(255, 255, 255, 0.22);
 	border-radius: 999px;
@@ -37,12 +44,13 @@
 
 .g-header-search input {
 	min-width: 0;
-	min-height: 2.35rem;
+	min-height: 2.5rem;
 	padding: 0 0.25rem;
 	border: 0 !important;
 	background: transparent !important;
 	box-shadow: none !important;
 	color: var(--g-text);
+	font-size: max(1rem, 16px);
 	font-weight: 700;
 	outline: 0;
 }
@@ -54,8 +62,10 @@
 .g-search-orb,
 .g-search-submit {
 	display: grid;
-	width: 2.35rem;
-	height: 2.35rem;
+	width: 2.65rem;
+	height: 2.65rem;
+	min-width: 2.65rem;
+	min-height: 2.65rem;
 	place-items: center;
 	padding: 0;
 	border: 1px solid rgba(255, 255, 255, 0.18) !important;
@@ -76,14 +86,33 @@
 	transition: 180ms var(--g-ease);
 }
 
-.g-search-submit:hover {
-	background: rgba(60, 236, 255, 0.16) !important;
-	transform: rotate(8deg) scale(1.08);
+.g-search-orb:focus-visible,
+.g-search-submit:focus-visible {
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, 0.28), var(--g-glow-hot);
+	outline: 2px solid transparent;
+}
+
+@media (hover: hover) {
+	.g-search-submit:hover {
+		background: rgba(60, 236, 255, 0.16) !important;
+		transform: rotate(8deg) scale(1.08);
+	}
 }
 
 @keyframes g-search-glow {
 	50% {
 		transform: translateY(-2px) rotate(-7deg);
 		box-shadow: 0 12px 34px rgba(255, 76, 190, 0.62), 0 0 30px rgba(60, 236, 255, 0.24);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-search-orb {
+		animation: none;
+	}
+
+	.g-header-search,
+	.g-search-submit {
+		transition-duration: 0.01ms;
 	}
 }

@@ -3,31 +3,42 @@
 // Blessed is He
 
 /**
- * The Awtsmoos names each finite shader doorway once. Frames then pass light and
- * haze through stable locations without repeating string searches.
+ * The Awtsmoos names every shader doorway once. Primary, secondary, flow, light,
+ * fog, haze, and transform values then pass without repeated location searches.
  */
 export function locations(gl, program) {
 	return {
 		aPos: gl.getAttribLocation(program, 'aPos'),
 		aNormal: gl.getAttribLocation(program, 'aNormal'),
 		aColor: gl.getAttribLocation(program, 'aColor'),
-		uVP: gl.getUniformLocation(program, 'uVP'),
-		uPos: gl.getUniformLocation(program, 'uPos'),
-		uScale: gl.getUniformLocation(program, 'uScale'),
-		uRot: gl.getUniformLocation(program, 'uRot'),
-		uTilt: gl.getUniformLocation(program, 'uTilt'),
-		uColor: gl.getUniformLocation(program, 'uColor'),
-		uAlpha: gl.getUniformLocation(program, 'uAlpha'),
-		uGlow: gl.getUniformLocation(program, 'uGlow'),
-		uCamera: gl.getUniformLocation(program, 'uCamera'),
-		uFogColor: gl.getUniformLocation(program, 'uFogColor'),
-		uFogNear: gl.getUniformLocation(program, 'uFogNear'),
-		uFogFar: gl.getUniformLocation(program, 'uFogFar'),
-		uSunDirection: gl.getUniformLocation(program, 'uSunDirection'),
-		uSunColor: gl.getUniformLocation(program, 'uSunColor'),
-		uAmbientColor: gl.getUniformLocation(program, 'uAmbientColor'),
-		uHazeHeight: gl.getUniformLocation(program, 'uHazeHeight'),
-		uHazeStrength: gl.getUniformLocation(program, 'uHazeStrength'),
-		uTime: gl.getUniformLocation(program, 'uTime')
+		uVP: uniform(gl, program, 'uVP'),
+		uPos: uniform(gl, program, 'uPos'),
+		uScale: uniform(gl, program, 'uScale'),
+		uRot: uniform(gl, program, 'uRot'),
+		uTilt: uniform(gl, program, 'uTilt'),
+		uColor: uniform(gl, program, 'uColor'),
+		uAlpha: uniform(gl, program, 'uAlpha'),
+		uGlow: uniform(gl, program, 'uGlow'),
+		uCamera: uniform(gl, program, 'uCamera'),
+		uFogColor: uniform(gl, program, 'uFogColor'),
+		uFogNear: uniform(gl, program, 'uFogNear'),
+		uFogFar: uniform(gl, program, 'uFogFar'),
+		uSunDirection: uniform(gl, program, 'uSunDirection'),
+		uSunColor: uniform(gl, program, 'uSunColor'),
+		uAmbientColor: uniform(gl, program, 'uAmbientColor'),
+		uHazeHeight: uniform(gl, program, 'uHazeHeight'),
+		uHazeStrength: uniform(gl, program, 'uHazeStrength'),
+		uTime: uniform(gl, program, 'uTime'),
+		uTexture: uniform(gl, program, 'uTexture'),
+		uSecondaryTexture: uniform(gl, program, 'uSecondaryTexture'),
+		uTextureMix: uniform(gl, program, 'uTextureMix'),
+		uSecondaryMix: uniform(gl, program, 'uSecondaryMix'),
+		uTextureScale: uniform(gl, program, 'uTextureScale'),
+		uMaterialMode: uniform(gl, program, 'uMaterialMode'),
+		uTextureFlow: uniform(gl, program, 'uTextureFlow')
 	};
+}
+
+function uniform(gl, program, name) {
+	return gl.getUniformLocation(program, name);
 }

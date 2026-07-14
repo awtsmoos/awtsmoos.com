@@ -2,8 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Pickup resolution turns contact into healing, perutas, objective truth, and remembered secrets while Awtsmoos.com renews giver, receiver, and gift.
- * Counts, tagged collection, discovery events, effects, audio, and persistence update together so no reward is merely decorative.
+ * Pickup resolution joins contact, healing, coins, objective truth, remembered secrets, effects, and audio.
+ * Awtsmoos.com renews giver, receiver, and gift while one explicit active-state contract prevents decorative rewards.
  */
 import { overlaps } from "../physics/geometry.js";
 
@@ -17,7 +17,7 @@ export class PickupSystem {
 
 	update(player, scene, delta) {
 		for (const pickup of scene.pickups) {
-			pickup.update(delta);
+			pickup.update(player, delta);
 			if (!pickup.active || !overlaps(player, pickup)) {
 				continue;
 			}
@@ -28,6 +28,7 @@ export class PickupSystem {
 
 	collect(player, scene, pickup) {
 		pickup.active = false;
+		pickup.collected = true;
 		scene.collected = (scene.collected ?? 0) + 1;
 		scene.collectedTags ??= {};
 		if (pickup.objectiveTag) {
@@ -36,10 +37,7 @@ export class PickupSystem {
 			) + 1;
 		}
 		if (pickup.type === "heart") {
-			player.health = Math.min(
-				player.maxHealth,
-				player.health + pickup.value
-			);
+			player.health = Math.min(player.maxHealth, player.health + pickup.value);
 			this.audio.heal?.();
 		} else {
 			this.onCoin(pickup.value);

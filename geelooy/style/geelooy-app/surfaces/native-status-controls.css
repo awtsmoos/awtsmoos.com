@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos makes change visible as living current. Progress, measurement,
+ * and output on Awtsmoos.com become instruments instead of gray tracks.
+ */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(progress, meter) {
+	appearance: none;
+	background: rgba(2, 5, 13, 0.92);
+	border: 1px solid rgba(117, 211, 255, 0.28);
+	border-radius: var(--g-radius-pill);
+	box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.72), 0 0 24px rgba(60, 236, 255, 0.12);
+	height: 0.85rem;
+	overflow: hidden;
+	width: 100%;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-webkit-progress-bar {
+	background: rgba(2, 5, 13, 0.92);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-webkit-progress-value {
+	animation: g-status-flow 2.2s linear infinite;
+	background: var(--g-gradient-hot);
+	background-size: 220% 100%;
+	box-shadow: 0 0 20px rgba(60, 236, 255, 0.54), 0 0 38px rgba(255, 72, 203, 0.34);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-moz-progress-bar {
+	background: var(--g-gradient-hot);
+	box-shadow: 0 0 20px rgba(60, 236, 255, 0.54), 0 0 38px rgba(255, 72, 203, 0.34);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) meter::-webkit-meter-bar {
+	background: rgba(2, 5, 13, 0.92);
+	border: 0;
+	box-shadow: none;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) meter::-webkit-meter-optimum-value { background: var(--g-gradient-hot); }
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) meter::-webkit-meter-suboptimum-value { background: linear-gradient(90deg, var(--g-warning), var(--g-orange)); }
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) meter::-webkit-meter-even-less-good-value { background: linear-gradient(90deg, var(--g-danger), var(--g-magenta)); }
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) output {
+	background: var(--g-gradient-soft);
+	border: 1px solid rgba(60, 236, 255, 0.32);
+	border-radius: var(--g-radius-sm);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), var(--g-glow);
+	color: var(--g-text);
+	display: inline-flex;
+	font-family: var(--g-mono);
+	font-weight: 800;
+	min-height: 2.5rem;
+	padding: 0.55rem 0.75rem;
+}
+
+@keyframes g-status-flow {
+	0% { background-position: 100% 0; }
+	100% { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-webkit-progress-value { animation: none; }
+}
+
+@media (forced-colors: active) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(progress, meter, output) {
+		border: 1px solid ButtonText;
+		box-shadow: none;
+	}
+}

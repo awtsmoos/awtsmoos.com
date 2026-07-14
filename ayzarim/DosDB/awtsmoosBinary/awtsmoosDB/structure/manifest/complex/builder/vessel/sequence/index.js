@@ -1,50 +1,39 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file structure/manifest/complex/builder/vessel/sequence/index.js
- * @chapter The Sequence Body With The Correct Soul Name
+ * @chapter The Explicit List Receives A Stable Name
  * @description
- * Sequence-backed structures store the same body, but return with their own
- * outer type. A native Set must return as JS_SET, not plain SEQUENCE.
+ * Sequence-backed structures share one ordered body. Ordinary arrays and sets
+ * retain direct seals, while an explicit Awtsmoos list receives a stable anchor
+ * so named metadata can survive every root relocation. The Awtsmoos distinguishes
+ * a passing collection from a declared list identity without changing old data.
  */
 
 const Sequence = require('../../../../../../structure/sequence/index.js');
+const StableAnchor = require('../../../../../../structure/anchor/stable.js');
+const constants = require('../../../../../../constants.js');
 const toItems = require('./items.js');
 const retagSeal = require('./typeSeal.js');
 
-/**
- * @class SequenceManifestor
- * @description
- * Writes Array/List/Set values into sequence-backed storage.
- */
 class SequenceManifestor {
-  /**
-   * @static
-   * @method manifest
-   * @description
-   * Builds a sequence body and retags the pointer to the requested outer type.
-   *
-   * @param {object} builder - StructBuilder instance.
-   * @param {*} val - Source collection.
-   * @param {Map<object, Buffer>} visited - Circular table.
-   * @param {number} type - Requested VAL_TYPE.
-   * @returns {Buffer} Retagged sequence seal.
-   */
-  static manifest(builder, val, visited, type) {
-    const sequence = new Sequence(builder.allocator);
-    sequence.create();
+	static manifest(builder, value, visited, type) {
+		const sequence = new Sequence(builder.allocator);
+		sequence.create();
 
-    for (const item of toItems(val)) {
-      const itemSeal = builder.build(item, visited);
+		for (const item of toItems(value)) {
+			const itemSeal = builder.build(item, visited);
+			sequence.push(itemSeal, { isPtr: true });
+		}
 
-      sequence.push(itemSeal, {
-        isPtr: true
-      });
-    }
+		const sequenceSeal = retagSeal(sequence.seal(), type);
+		if (!value || value._isAwtsmoosList !== true) return sequenceSeal;
 
-    return retagSeal(sequence.seal(), type);
-  }
+		const anchor = new StableAnchor(builder.allocator.db);
+		return anchor.create(constants.VAL_TYPE.SEQUENCE, sequenceSeal);
+	}
 }
 
 module.exports = SequenceManifestor;

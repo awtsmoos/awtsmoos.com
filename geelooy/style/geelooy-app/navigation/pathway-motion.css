@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets every Awtsmoos.com pathway answer approach, pressure, and focus.
+ */
+@media (hover: hover) {
+	body.geelooy-app-shell :where(
+		.g-dock a,
+		.g-route-list a,
+		.g-trend-list a,
+		.g-home-action,
+		.g-home-torah-portal,
+		.home-command-dock a
+	):hover::after {
+		transform: scaleX(1);
+	}
+
+	body.geelooy-app-shell :where(.g-dock a, .home-command-dock a):hover {
+		background: rgba(60, 236, 255, 0.08);
+		color: #ffffff;
+	}
+}
+
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+):active {
+	filter: saturate(1.38) brightness(1.08);
+	transform: translateY(1px) scale(0.985);
+}
+
+body.geelooy-app-shell :where(
+	.g-dock a,
+	.g-route-list a,
+	.g-trend-list a,
+	.g-home-action,
+	.g-home-torah-portal,
+	.home-command-dock a
+):focus-visible::after {
+	transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.geelooy-app-shell :where(
+		.g-dock a,
+		.g-route-list a,
+		.g-trend-list a,
+		.g-home-action,
+		.g-home-torah-portal,
+		.home-command-dock a
+	) {
+		transform: none !important;
+	}
+}

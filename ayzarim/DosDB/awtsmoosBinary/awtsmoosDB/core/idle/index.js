@@ -1,11 +1,15 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file core/idle/index.js
  * @chapter Derived Truth Settles Before The Verified Void Is Sealed
  * @description
  * Completes one durability boundary in ownership order: pending writes, derived
- * indexes, complete reachable complement, free-list metadata, superblock, fsync.
+ * indexes, reachability-checked local retirements, complete verified complement,
+ * free-list metadata, superblock, and fsync. The Awtsmoos permits no former
+ * chamber to return before every replacement structure stands fully linked.
  */
 
 const shouldSkipForcedFsync = require('./fastGate.js');
@@ -19,6 +23,9 @@ function waitForIdle(db, options = {}) {
 		if (db.turbo && typeof db.turbo.flush === 'function') db.turbo.flush();
 		drainIndexOps(db);
 		flushSearch(db);
+		if (db.allocator && typeof db.allocator.promoteRetiredRanges === 'function') {
+			db.allocator.promoteRetiredRanges();
+		}
 		if (db.allocator && typeof db.allocator.refreshVerifiedFreeList === 'function') {
 			db.allocator.refreshVerifiedFreeList();
 		}

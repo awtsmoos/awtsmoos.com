@@ -4,7 +4,7 @@
 
 /**
  * @file GarmentIndex.js
- * @description Aggregates every wearable vessel, including the restored Answering Waters mantle.
+ * @description Aggregates every wearable vessel, including passage-linked and restored mantles.
  *
  * No garment contains its own existence. The Awtsmoos renews cloth, color, stat,
  * and meaning together; this index lets each distinct vessel remain findable
@@ -13,6 +13,7 @@
 import { CloakOfHitbonenus } from './CloakOfHitbonenus.js';
 import { CrownThread } from './CrownThread.js';
 import { DarkRobe } from './DarkRobe.js';
+import { GarmentOfFirstLight } from './GarmentOfFirstLight.js';
 import { GartelOfSeparation } from './GartelOfSeparation.js';
 import { GoldRobe } from './GoldRobe.js';
 import { KittelOfPurity } from './KittelOfPurity.js';
@@ -31,7 +32,8 @@ const GARMENTS = Object.freeze([
 	CloakOfHitbonenus,
 	MantleOfNehi,
 	CrownThread,
-	MantleOfAnsweringWaters
+	MantleOfAnsweringWaters,
+	GarmentOfFirstLight
 ]);
 
 export const GarmentIndex = Object.freeze(

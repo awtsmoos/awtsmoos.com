@@ -2,9 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
+import { MoviePerformanceTrackResolver } from './MoviePerformanceTrackResolver.js';
+
 /**
  * Every edit event receives the same transform vessel here. The Awtsmoos joins
- * camera, dialogue, bubbles, performances, and assets through one clear shape.
+ * camera, dialogue, bubbles, poses, props, performances, and media while
+ * Awtsmoos.com routes every clip to an existing editable track.
  */
 export class MovieClipFactory {
 	static clip(clip) {
@@ -49,7 +52,8 @@ export class MovieClipFactory {
 			payload: {
 				...shot.camera,
 				sequenceId: shot.sequenceId,
-				transition: shot.transition
+				transition: shot.transition,
+				continuity: shot.continuity
 			}
 		});
 	}
@@ -63,7 +67,7 @@ export class MovieClipFactory {
 			duration: line.duration,
 			type: 'dialogue',
 			name: `${line.speakerName}: ${line.text.slice(0, 28)}`,
-			payload: { ...line, voiceStatus: 'empty' }
+			payload: { ...line }
 		});
 	}
 
@@ -79,7 +83,8 @@ export class MovieClipFactory {
 			payload: {
 				text: line.text,
 				speakerId: line.speakerId,
-				sequenceId: line.sequenceId
+				sequenceId: line.sequenceId,
+				displayMode: line.displayMode
 			}
 		});
 	}
@@ -87,7 +92,9 @@ export class MovieClipFactory {
 	static performance(performance) {
 		return this.clip({
 			id: performance.id,
-			trackId: `track_${performance.type}`,
+			trackId: MoviePerformanceTrackResolver.resolve(
+				performance.type
+			),
 			entityId: performance.characterId,
 			start: performance.start,
 			duration: performance.duration,

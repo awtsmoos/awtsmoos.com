@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos joins search, identity, and status into one readable home instrument.
+ */
+.geelooy-home-shell .home-glance-panel {
+	border-radius: 2.6rem 0.8rem 2.6rem 0.8rem;
+	background:
+		linear-gradient(145deg, rgba(13, 29, 58, 0.92), rgba(4, 8, 22, 0.96)),
+		var(--g-surface);
+	box-shadow: var(--g-shadow-lg), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.geelooy-home-shell .home-system-rail {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.55rem;
+	margin: 1.2rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.geelooy-home-shell .home-system-rail li {
+	display: grid;
+	min-height: 3.35rem;
+	align-content: center;
+	gap: 0.18rem;
+	padding: 0.68rem 0.78rem;
+	border: 1px solid rgba(60, 236, 255, 0.16);
+	border-radius: 0.45rem 1rem 0.45rem 1rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, 0.07), rgba(139, 92, 255, 0.06));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
+}
+
+.geelooy-home-shell .home-system-rail strong {
+	color: var(--g-text);
+	font: 850 0.78rem/1.15 var(--g-font);
+}
+
+.geelooy-home-shell .home-system-rail small {
+	color: var(--g-muted);
+	font: 700 0.66rem/1.2 var(--g-mono);
+	letter-spacing: 0.035em;
+}
+
+.geelooy-home-shell .home-system-rail li::before {
+	width: 0.48rem;
+	height: 0.48rem;
+	border-radius: 50%;
+	background: var(--g-green);
+	box-shadow: 0 0 14px rgba(72, 240, 182, 0.72);
+	content: "";
+}
+
+.geelooy-home-shell .g-home-portal-search {
+	position: relative;
+	box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38), var(--g-glow);
+}
+
+.geelooy-home-shell .g-home-portal-search:focus-within {
+	box-shadow: 0 32px 100px rgba(0, 0, 0, 0.48), var(--g-glow-hot);
+}

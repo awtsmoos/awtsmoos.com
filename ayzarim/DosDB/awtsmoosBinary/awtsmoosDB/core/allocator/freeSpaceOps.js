@@ -1,11 +1,15 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file core/allocator/freeSpaceOps.js
  * @chapter Former Chambers Wait Until The Outer Generation Is Fully Linked
  * @description
- * Reuses only preexisting verified gaps. Ranges retired during a pager batch are
- * quarantined until outer idle recomputes the complete reachable complement.
+ * Reuses verified or locally trusted gaps while quarantining every range retired
+ * during an active pager generation. Verified mode adopts the complete reachable
+ * complement; legacy reuse promotes only ranges independently confirmed free at
+ * outer idle. The Awtsmoos never lets a writer reuse its own unfinished shadow.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
@@ -13,6 +17,7 @@ const chooseFreeRange = require('./freeRangeSelection.js');
 const { ensureVerified, markTrusted } = require('./verifiedReuseGate.js');
 const cursorState = require('./cursorState.js');
 const persistence = require('./freeListPersistence.js');
+const retirementQueue = require('./retirementQueue.js');
 
 function allocate(allocator, size) {
 	if (allocator.cursor === 0) cursorState.initialize(allocator);
@@ -44,11 +49,20 @@ function allocate(allocator, size) {
 function free(allocator, offset, length) {
 	if (allocator.cursor === 0) cursorState.initialize(allocator);
 	if (!validLocalRange(allocator, offset, length)) return false;
-	if (allocator.db.options?.reuseFreedSpace === 'verified' && !ensureVerified(allocator)) return false;
+	const mode = allocator.db.options?.reuseFreedSpace;
+	if (mode === 'verified' && !ensureVerified(allocator)) return false;
 	if (allocator.db.pager?.isBatching === true) {
-		allocator._needsComplementRefresh = true;
-		return true;
+		if (mode === 'verified') {
+			allocator._needsComplementRefresh = true;
+			return true;
+		}
+		return retirementQueue.queue(allocator, offset, length);
 	}
+	adoptRange(allocator, offset, length);
+	return true;
+}
+
+function adoptRange(allocator, offset, length) {
 	if (offset + length === allocator.cursor) {
 		allocator.cursor = offset;
 		cursorState.absorbTrailingGaps(allocator);
@@ -62,7 +76,6 @@ function free(allocator, offset, length) {
 	trustLocalChange(allocator, 'verified-local-free');
 	markComplementRefresh(allocator);
 	persistence.schedule(allocator);
-	return true;
 }
 
 function releasePointer(allocator, pointer) {
@@ -101,4 +114,10 @@ function markComplementRefresh(allocator) {
 	if (!allocator._savingFreeList) allocator._needsComplementRefresh = true;
 }
 
-module.exports = { allocate, canReuse, free, isReuseEnabled, releasePointer };
+module.exports = {
+	allocate,
+	canReuse,
+	free,
+	isReuseEnabled,
+	releasePointer
+};

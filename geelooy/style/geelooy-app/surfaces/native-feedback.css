@@ -1,0 +1,117 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals success, error, waiting, and measured progress through
+ * intentional light. Feedback on Awtsmoos.com must never depend on a browser's
+ * anonymous red outline, yellow autofill, gray dialog, or unstyled meter.
+ */
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea):user-invalid {
+	border-color: var(--g-danger);
+	box-shadow: 0 0 0 3px rgba(255, 95, 143, 0.18), 0 0 26px rgba(255, 95, 143, 0.16);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea):user-valid {
+	border-color: rgba(72, 240, 182, 0.62);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea):-webkit-autofill,
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea):-webkit-autofill:hover,
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea):-webkit-autofill:focus {
+	-webkit-text-fill-color: var(--g-text);
+	box-shadow: inset 0 0 0 1000px #0a1530, 0 0 0 3px rgba(60, 236, 255, 0.16);
+	caret-color: var(--g-cyan);
+	transition: background-color 9999s ease-out;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(fieldset, dialog, [popover]) {
+	background: linear-gradient(155deg, rgba(10, 21, 43, 0.98), rgba(3, 7, 18, 0.99));
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-md);
+	box-shadow: var(--g-shadow-lg), var(--g-glow);
+	color: var(--g-text);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) fieldset {
+	margin: 0;
+	min-width: 0;
+	padding: 1rem;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) legend {
+	color: var(--g-cyan);
+	font-weight: 900;
+	letter-spacing: 0.06em;
+	padding-inline: 0.45rem;
+	text-transform: uppercase;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) dialog {
+	inset: 50% auto auto 50%;
+	margin: 0;
+	max-height: min(86dvh, 48rem);
+	max-width: min(92vw, 42rem);
+	overflow: auto;
+	padding: 1rem;
+	transform: translate(-50%, -50%);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) dialog::backdrop {
+	backdrop-filter: blur(12px);
+	background: rgba(1, 3, 10, 0.76);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(progress, meter) {
+	appearance: none;
+	background: rgba(4, 10, 24, 0.92);
+	border: 1px solid rgba(117, 211, 255, 0.28);
+	border-radius: var(--g-radius-pill);
+	height: 0.78rem;
+	overflow: hidden;
+	width: 100%;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-webkit-progress-bar {
+	background: rgba(4, 10, 24, 0.92);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) progress::-webkit-progress-value,
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) meter::-webkit-meter-optimum-value {
+	background: var(--g-gradient-hot);
+	box-shadow: 0 0 18px rgba(60, 236, 255, 0.42);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(output, .validation-message, [role="status"]) {
+	border-radius: var(--g-radius-sm);
+	color: var(--g-muted);
+	line-height: 1.45;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where([aria-busy="true"], .is-loading) {
+	cursor: progress;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(a) {
+	color: color-mix(in srgb, var(--g-cyan) 72%, white);
+	text-decoration-color: rgba(139, 92, 255, 0.65);
+	text-decoration-thickness: 0.11em;
+	text-underline-offset: 0.18em;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(a):focus-visible {
+	border-radius: 0.3rem;
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, 0.24);
+	outline: 2px solid transparent;
+}
+
+::selection {
+	background: rgba(139, 92, 255, 0.52);
+	color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input, select, textarea) {
+		transition-duration: 0.01ms;
+	}
+}

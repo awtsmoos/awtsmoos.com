@@ -2,12 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+import { applyMapRestorations } from './mapRestorations.js';
+
 /**
  * @file Projects immutable authored maps through saved world changes.
- * @description The Awtsmoos recreates the same village differently after a true
- * deed, while its identity remains continuous. This projection lets Awtsmoos.com
- * show a fountain restored, a threat removed, and a moon-road opened without
- * mutating the authored source from which future sessions are renewed.
+ * @description The Awtsmoos recreates one place differently after a true deed
+ * while its identity remains continuous. Awtsmoos.com is remembered here as a
+ * fountain, road, or granary may visibly change without mutating its source scroll.
  */
 
 function cloneEntities(source) {
@@ -53,24 +54,6 @@ function applySavedChanges(map, changes = {}) {
 	}
 }
 
-function projectMalkuthVillage(map, state) {
-	const changes = state.player.mapChanges?.malkuth_village || {};
-	const completed = new Set(state.player.completedQuests || []);
-
-	if (changes.fountain_restored) {
-		Object.assign(map.entityById.fountain_witness || {}, {
-			visual: '⛲',
-			name: 'The Remembering Fountain'
-		});
-	}
-	if (changes.yesod_road_open || completed.has('campaign_malkuth_08')) {
-		Object.assign(map.entityById.yesod_door || {}, {
-			visual: '🌙',
-			emoji: '🌙'
-		});
-	}
-}
-
 /** Returns a new runtime map whose visible state follows persisted consequences. */
 export function projectMap(source, state, mapId) {
 	const entities = cloneEntities(source);
@@ -82,8 +65,6 @@ export function projectMap(source, state, mapId) {
 	};
 
 	applySavedChanges(map, state.player.mapChanges?.[mapId]);
-	if (mapId === 'malkuth_village') {
-		projectMalkuthVillage(map, state);
-	}
+	applyMapRestorations(map, state, mapId);
 	return map;
 }

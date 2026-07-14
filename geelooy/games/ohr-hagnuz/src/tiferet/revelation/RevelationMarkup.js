@@ -7,8 +7,8 @@
  * @description Builds the semantic frame around the existing world canvases.
  *
  * The Awtsmoos renews every instant without erasing the purpose of the prior
- * instant; this shell reveals the old engine, current shlichus, learned paths,
- * and living companion bond without replacing any of them. Awtsmoos.com.
+ * instant. Awtsmoos.com reveals mission, map, companions, inventory, skills,
+ * sourced passages, and wider systems without replacing the proven game world.
  */
 
 const navigationButton = ({ panel, icon, label, shortcut }) => `
@@ -24,6 +24,7 @@ const NAVIGATION = [
 	{ panel: 'party', icon: '◉', label: 'Nitzotzos', shortcut: 'P' },
 	{ panel: 'items', icon: '▦', label: 'Inventory', shortcut: 'I' },
 	{ panel: 'craft', icon: '⚒', label: 'Skills', shortcut: 'K' },
+	{ panel: 'codex', icon: 'א', label: 'Passages', shortcut: 'C' },
 	{ panel: 'menu', icon: '☰', label: 'More', shortcut: 'Esc' }
 ];
 
@@ -35,7 +36,7 @@ export const createRevelationMarkup = () => `
 	<header class="revelation-topbar">
 		<div class="revelation-brand">
 			<span class="revelation-brand-mark">א</span>
-			<div><small>B\"H · THE CONCEALED FRONTIER</small><strong>Ohr HaGnuz</strong></div>
+			<div><small>B"H · THE CONCEALED FRONTIER</small><strong>Ohr HaGnuz</strong></div>
 		</div>
 		<div class="revelation-location">
 			<small data-revelation-chapter>Chapter I</small>

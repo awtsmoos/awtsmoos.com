@@ -1,0 +1,63 @@
+{
+	"startedAt": "2026-07-13T23:20:27.568Z",
+	"steps": [
+		{
+			"name": "real-server-started",
+			"pid": 85603,
+			"ok": true
+		},
+		{
+			"name": "two-browser-connections",
+			"ok": true
+		},
+		{
+			"name": "lobby-created",
+			"joinCode": "F28NFY",
+			"ownerId": "03af7619-9e89-4434-8a4b-9f82bf5ecd01",
+			"ok": true
+		},
+		{
+			"name": "guest-joined",
+			"guestId": "c37fa5ee-9e01-4b6e-a6c8-2388d1257774",
+			"playerCount": 2,
+			"ok": true
+		},
+		{
+			"name": "authoritative-match-started",
+			"frame": 92,
+			"ok": true
+		},
+		{
+			"name": "movement-synchronized",
+			"baselineX": 260,
+			"ownerX": 417.1,
+			"guestObservedX": 417.1,
+			"frame": 124,
+			"ok": true
+		},
+		{
+			"name": "attack-synchronized",
+			"damage": 14,
+			"frame": 132,
+			"ok": true
+		},
+		{
+			"name": "disconnect-elimination",
+			"winner": {
+				"playerId": "03af7619-9e89-4434-8a4b-9f82bf5ecd01",
+				"reason": "elimination",
+				"team": null
+			},
+			"remainingPlayers": 1,
+			"ok": true
+		},
+		{
+			"name": "rematch-returned-to-lobby",
+			"phase": "lobby",
+			"ok": true
+		}
+	],
+	"console": [],
+	"ok": true,
+	"finishedAt": "2026-07-13T23:20:34.235Z"
+}
