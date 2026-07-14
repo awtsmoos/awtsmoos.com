@@ -1,44 +1,33 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-This static fixture uses the production Heichel-discovery classes and styles only.
-The Awtsmoos creates the true Heichelos; Awtsmoos.com tests their visual doorway here.
+This historical test path now exercises the canonical Heichel discovery styles only.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<title>Premium Heichel Discovery Fixture</title>
-	<link rel="stylesheet" href="/style/geelooy-app/index.css">
-	<link rel="stylesheet" href="/style/premium/index.css">
-	<link rel="stylesheet" href="/style/premium/heichelos/index.css">
+	<title>Unified Heichel Discovery Fixture</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=unified-ui-001">
+	<link rel="stylesheet" href="/style/social-system/index.css?v=unified-ui-001">
+	<link rel="stylesheet" href="/style/heichelos/discovery.css?v=unified-ui-001">
 </head>
-<body data-premium-ui>
-	<div class="premium-sky" aria-hidden="true"><span></span><span></span></div>
-	<main class="social-spaces-shell premium-surface geelooy-content-region" data-heichelos-index>
-		<section class="spaces-hero premium-arrival">
-			<div><p class="premium-eyebrow">Living architecture</p><h1>Heichelos</h1><p>Communities, libraries, series, and conversations that preserve their source.</p></div>
-			<div class="spaces-command-row"><a class="premium-button is-primary" href="#create">Create Heichel</a></div>
+<body class="heichelos-discovery-page">
+	<main class="social-spaces-shell geelooy-content-region" data-heichelos-index>
+		<section class="spaces-hero" data-enter>
+			<div><p class="field-label">Living architecture</p><h1>Heichelos</h1><p>Communities, libraries, series, and conversations that preserve their source.</p></div>
+			<div class="spaces-command-row"><a class="p-button p-button-primary" href="#create" data-icon="＋">Create Heichel</a></div>
 		</section>
-		<form class="spaces-search premium-command" role="search">
-			<label class="g-sr-only" for="fixture-search">Search Heichelos</label>
-			<input id="fixture-search" type="search" placeholder="Search Heichelos">
-			<button class="premium-button is-primary" type="submit">Search</button>
+		<form class="spaces-search" role="search">
+			<label class="field-label" for="fixture-search">Search the Heichel map</label>
+			<input id="fixture-search" type="search" placeholder="Name, creator, or canonical ID">
+			<button class="p-button p-button-primary" type="submit" data-icon="⌕">Search</button>
 		</form>
 		<section class="spaces-grid" aria-label="Heichel fixture cards">
-			<article class="social-space-card premium-panel premium-lift premium-arrival">
-				<div class="space-body"><div class="space-seal">01</div><div class="space-copy"><div class="space-title-row"><h2>Ikar</h2><span class="premium-chip">Owner</span></div><p>The central river for Torah, publication, and source-linked conversation.</p><div class="space-meta-line"><span>@teacher</span><span>ikar</span></div></div></div>
-				<div class="space-actions"><a class="premium-button is-primary" href="#open">Open Heichel</a><a class="premium-button" href="#submit">Submit</a><a class="premium-button" href="#manage">Manage</a></div>
-			</article>
-			<article class="social-space-card premium-panel premium-lift premium-arrival">
-				<div class="space-body"><div class="space-seal">02</div><div class="space-copy"><div class="space-title-row"><h2>Community Archive</h2><span class="premium-chip">Discover</span></div><p>A reference library for preserved teachings and public discussion.</p><div class="space-meta-line"><span>@archivist</span><span>community-archive</span></div></div></div>
-				<div class="space-actions"><a class="premium-button is-primary" href="#open-two">Open Heichel</a><a class="premium-button" href="#submit-two">Submit</a></div>
-			</article>
-			<article class="social-space-card premium-panel premium-lift premium-arrival">
-				<div class="space-body"><div class="space-seal">03</div><div class="space-copy"><div class="space-title-row"><h2>Study Hall</h2><span class="premium-chip">Discover</span></div><p>Questions, answers, voice notes, and evolving study series.</p><div class="space-meta-line"><span>@learner</span><span>study-hall</span></div></div></div>
-				<div class="space-actions"><a class="premium-button is-primary" href="#open-three">Open Heichel</a><a class="premium-button" href="#submit-three">Submit</a></div>
-			</article>
+			<article class="social-space-card" data-enter><div class="space-body"><div class="space-seal">01</div><div class="space-copy"><div class="space-title-row"><h2>Ikar</h2><span class="p-badge">Owner</span></div><p>The central river for Torah, publication, and source-linked conversation.</p><div class="space-meta-line"><span>@teacher</span><span>ikar</span></div></div></div><div class="space-actions"><a class="p-button p-button-primary" href="#open" data-icon="↗">Open Heichel</a><a class="p-button" href="#submit" data-icon="＋">Submit</a><a class="p-button" href="#manage" data-icon="⚙">Manage</a></div></article>
+			<article class="social-space-card" data-enter><div class="space-body"><div class="space-seal">02</div><div class="space-copy"><div class="space-title-row"><h2>Community Archive</h2><span class="p-badge">Discover</span></div><p>A reference library for preserved teachings and public discussion.</p><div class="space-meta-line"><span>@archivist</span><span>community-archive</span></div></div></div><div class="space-actions"><a class="p-button p-button-primary" href="#open-two" data-icon="↗">Open Heichel</a><a class="p-button" href="#submit-two" data-icon="＋">Submit</a></div></article>
+			<article class="social-space-card" data-enter><div class="space-body"><div class="space-seal">03</div><div class="space-copy"><div class="space-title-row"><h2>Study Hall</h2><span class="p-badge">Discover</span></div><p>Questions, answers, voice notes, and evolving study series.</p><div class="space-meta-line"><span>@learner</span><span>study-hall</span></div></div></div><div class="space-actions"><a class="p-button p-button-primary" href="#open-three" data-icon="↗">Open Heichel</a><a class="p-button" href="#submit-three" data-icon="＋">Submit</a></div></article>
 		</section>
 	</main>
 </body>

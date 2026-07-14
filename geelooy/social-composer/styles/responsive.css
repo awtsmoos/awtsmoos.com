@@ -1,59 +1,58 @@
-/*B"H*/
-/*Boruch Hashem*/
-/*Blessed is He*/
-/*
-	Responsive and reduced-motion laws preserve the same expressive capabilities in
-	a smaller or quieter vessel. Awtsmoos.com changes arrangement, never meaning,
-	while the Awtsmoos remains equally present through every body and screen.
-*/
-
-@media (max-width: 1050px) {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Composer preserves every capability while changing density for smaller vessels.
+ */
+@media (max-width: 65.625rem) {
 	.composerLayout {
 		grid-template-columns: 1fr;
 	}
-
 	.previewSticky {
 		position: static;
 	}
 }
-
-@media (max-width: 680px) {
+@media (max-width: 42.5rem) {
 	.pageHeader {
 		align-items: stretch;
 		flex-direction: column;
+		padding-inline: .75rem;
 	}
-
+	.composerLayout {
+		padding-inline: .75rem;
+	}
 	.twoColumns,
 	.threeColumns {
 		grid-template-columns: 1fr;
 	}
-
 	.panelHeading {
+		align-items: stretch;
 		flex-direction: column;
 	}
-
+	.actionBar {
+		bottom: max(.45rem, env(safe-area-inset-bottom));
+	}
 	.actionBar button {
 		flex: 1 1 45%;
 	}
 }
-
-@media (max-width: 600px) {
+@media (max-width: 37.5rem) {
 	.blockHeader select {
 		flex-basis: 100%;
 	}
-
 	.sectionHeader {
 		align-items: stretch;
 		flex-direction: column;
 	}
+	.actionBar button {
+		flex-basis: 100%;
+	}
 }
-
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
+		animation-duration: .01ms !important;
 		scroll-behavior: auto !important;
-		transition-duration: 0.001ms !important;
-		animation-duration: 0.001ms !important;
+		transition-duration: .01ms !important;
 	}
 }

@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Profile uses one final layout, control, card, tab, and dock authority.
+ */
+:where(.profile-page, .profile-shell, [data-profile-page]) {
+	min-height: 100dvh;
+	padding-bottom: var(--floating-clearance);
+	background: linear-gradient(145deg, var(--awt-bg-deep), var(--awt-bg-night));
+	color: var(--g-text);
+}
+:where(.profile-main, .profile-content, .profile-view-flow) {
+	width: min(100%, var(--content-width));
+	margin-inline: auto;
+	padding-inline: var(--page-gutter);
+}
+:where(.profile-hero-card, .profile-command-panel, .profile-about-grid article, .profile-stat-grid article, .profile-activity-item, .profile-alias-card, .profile-heichel-card, .profile-post-card, .profile-comment-card) {
+	border: 1px solid var(--g-border) !important;
+	border-radius: var(--radius-l) !important;
+	background: var(--awt-surface) !important;
+	box-shadow: var(--shadow-paper) !important;
+	filter: none !important;
+	backdrop-filter: none !important;
+}
+.profile-hero-card {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: var(--space-5);
+	padding: clamp(1rem, 4vw, 2.5rem);
+}
+:where(.profile-avatar, .profile-seal, .profile-icon-symbol) {
+	border: 1px solid var(--g-border-strong) !important;
+	border-radius: 1rem !important;
+	background: var(--awt-surface-muted) !important;
+	box-shadow: none !important;
+	color: var(--g-accent) !important;
+	filter: none !important;
+}
+:where(.profile-eyebrow, .profile-label, .profile-section-kicker) {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	width: fit-content;
+	color: var(--g-text-2);
+	font-size: var(--type-caption);
+	font-weight: 820;
+	letter-spacing: var(--tracking-caption);
+	text-transform: uppercase;
+}
+:where(.profile-eyebrow, .profile-label, .profile-section-kicker)::before {
+	width: .4rem;
+	height: .4rem;
+	border-radius: 50%;
+	background: var(--g-accent);
+	content: "";
+}
+:where(.profile-tabs, .profile-tab-list) {
+	display: flex;
+	gap: .3rem;
+	overflow-x: auto;
+	padding: .3rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-m);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-paper);
+}
+:where(.profile-tabs, .profile-tab-list) :where(button, a) {
+	min-width: max-content;
+	min-height: 44px;
+	border: 1px solid transparent;
+	background: transparent;
+	box-shadow: none;
+	color: var(--g-text-2);
+}
+:where(.profile-tabs, .profile-tab-list) :where(.active, .Active, [aria-selected="true"], [aria-current="page"]) {
+	border-color: color-mix(in srgb, var(--g-accent) 36%, var(--g-border));
+	background: color-mix(in srgb, var(--g-accent) 9%, var(--awt-surface));
+	color: var(--g-accent);
+}
+:where(.profile-command-rail, .profile-inline-actions, .profile-card-actions) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+:where(.profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a, .profile-card-actions a, .profile-card-actions button) {
+	min-height: 44px;
+}
+:where(.profile-grid, .profile-about-grid, .profile-stat-grid, .profile-card-grid) {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+	gap: var(--space-3);
+}
+:where(.profile-activity-item, .profile-alias-card, .profile-heichel-card, .profile-post-card, .profile-comment-card) {
+	padding: var(--space-4);
+	contain: layout paint style;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 10rem;
+}
+.profile-bottom-nav {
+	background: var(--awt-surface) !important;
+	box-shadow: var(--shadow-dock) !important;
+	filter: none !important;
+	backdrop-filter: none !important;
+}
+@media (max-width: 42.5rem) {
+	.profile-hero-card {
+		grid-template-columns: 1fr;
+	}
+	:where(.profile-main, .profile-content, .profile-view-flow) {
+		padding-inline: .65rem;
+	}
+}

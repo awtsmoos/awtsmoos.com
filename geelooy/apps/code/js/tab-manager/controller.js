@@ -1,104 +1,101 @@
 // B"H
-import { State } from '../state.js';
-import { Tabs } from '../tabs/index.js';
+// Boruch Hashem
+// Blessed is He
 
-function iconFor(tab) {
-    const map = {
-        text: 'file', image: 'eye', zip: 'save', 'html-preview': 'eye',
-        console: 'laptop', commander: 'folder', vibe: 'brain', terminal: 'laptop', browser: 'globe'
-    };
-    return map[tab.fileType] || map[tab.item?.type] || 'file';
-}
+import { State } from "../state.js";
+import { Tabs } from "../tabs/index.js";
+import { tabManagerMarkup } from "./markup.js";
 
-function escapeHtml(value = '') {
-    return String(value).replace(/[&<>"']/g, ch => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[ch]));
-}
-
+/**
+ * B"H
+ *
+ * The tab manager exposes lifecycle rather than only destruction. The Awtsmoos
+ * renews open, hidden, pinned, and closed vessels; Awtsmoos.com lets old tabs
+ * sleep, recover, or dissolve without remaining active browser automation targets.
+ */
 export const TMController = {
-    element: null,
-    isOpen: false,
+	element: null,
+	isOpen: false,
 
-    init() {
-        this.element = document.getElementById('tab-manager-overlay');
-        if (!this.element) return;
-        this.element.addEventListener('click', e => {
-            if (e.target === this.element || e.target.closest('[data-tm-close-overlay]')) this.hide();
-        });
-        const btn = document.getElementById('tab-manager-btn');
-        if (btn) btn.onclick = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.toggle();
-        };
-    },
+	init() {
+		this.element = document.getElementById("tab-manager-overlay");
+		if (!this.element) return;
+		this.element.addEventListener("click", event => {
+			if (event.target === this.element || event.target.closest("[data-tm-close-overlay]")) {
+				this.hide();
+			}
+		});
+		const button = document.getElementById("tab-manager-btn");
+		if (button) button.onclick = event => {
+			event.preventDefault();
+			event.stopPropagation();
+			this.toggle();
+		};
+	},
 
-    show() {
-        if (!this.element) this.init();
-        if (!this.element) return;
-        this.isOpen = true;
-        this.element.classList.remove('hidden');
-        this.element.style.display = 'block';
-        this.renderGrid();
-    },
+	show() {
+		if (!this.element) this.init();
+		if (!this.element) return;
+		this.isOpen = true;
+		this.element.classList.remove("hidden");
+		this.element.classList.add("visible");
+		this.renderGrid();
+	},
 
-    hide() {
-        if (!this.element) return;
-        this.isOpen = false;
-        this.element.classList.add('hidden');
-        this.element.style.display = 'none';
-    },
+	hide() {
+		if (!this.element) return;
+		this.isOpen = false;
+		this.element.classList.remove("visible");
+		this.element.classList.add("hidden");
+	},
 
-    toggle() {
-        this.isOpen ? this.hide() : this.show();
-    },
+	toggle() {
+		this.isOpen ? this.hide() : this.show();
+	},
 
-    renderGrid() {
-        if (!this.element) return;
-        const tabs = State.tabs || [];
-        const cards = tabs.map(tab => `
-            <div class="tm-card ${tab.id === State.activeTabId ? 'active-tab' : ''}" data-tab-id="${tab.id}" style="cursor:pointer;">
-                <div class="tm-card-header">
-                    <div class="tm-icon"><svg class="svg-icon"><use href="#icon-${iconFor(tab)}"></use></svg></div>
-                    <div class="tm-info">
-                        <span class="tm-name">${tab.isDirty ? '<span class="tm-status-dot dirty"></span>' : ''}${escapeHtml(tab.item?.name || tab.title || 'Untitled')}</span>
-                        <span class="tm-path" title="${escapeHtml(tab.item?.path || '')}">${escapeHtml(tab.item?.path || '/')}</span>
-                    </div>
-                    <button class="tm-close-btn" data-close-tab="${tab.id}" title="Close tab">×</button>
-                </div>
-            </div>
-        `).join('') || '<div style="opacity:.75;padding:20px;">No open tabs.</div>';
+	renderGrid() {
+		if (!this.element) return;
+		this.element.innerHTML = tabManagerMarkup({
+			openTabs: State.tabs,
+			hiddenTabs: Tabs.listHidden(),
+			closedTabs: State.closedTabHistory
+		});
+		for (const button of this.element.querySelectorAll("[data-tab-action]")) {
+			button.addEventListener("click", event => void this.handleAction(event));
+		}
+	},
 
-        this.element.innerHTML = `
-            <div class="tm-shell" style="max-width:880px;margin:40px auto;background:var(--color-bg-secondary,#111827);border:1px solid var(--color-border,#26314a);border-radius:14px;box-shadow:0 20px 70px rgba(0,0,0,.45);padding:14px;color:var(--color-text-primary,#fff);">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
-                    <div>
-                        <div style="font-weight:700;color:var(--neon-cyan,#00f6ff);">Open Tabs</div>
-                        <div style="font-size:.85em;opacity:.75;">Click a card to activate it.</div>
-                    </div>
-                    <button data-tm-close-overlay class="icon-button" title="Close">×</button>
-                </div>
-                <div class="tm-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;max-height:65vh;overflow:auto;">${cards}</div>
-            </div>
-        `;
+	async handleAction(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		const button = event.currentTarget;
+		const action = button.dataset.tabAction;
+		const tabId = Number(button.dataset.tabId);
+		if (action === "activate") {
+			await Tabs.activate(tabId);
+			this.hide();
+			return;
+		}
+		if (action === "hide") await Tabs.hide(tabId);
+		if (action === "restore") await Tabs.restoreHidden(tabId);
+		if (action === "pin") Tabs.pin(tabId);
+		if (action === "close") await Tabs.close(tabId);
+		if (action === "reopen-index") await reopenIndex(Number(button.dataset.closedIndex));
+		this.renderGrid();
+	},
 
-        this.element.querySelectorAll('[data-tab-id]').forEach(card => {
-            card.onclick = async e => {
-                if (e.target.closest('[data-close-tab]')) return;
-                await Tabs.activate(Number(card.dataset.tabId));
-                this.hide();
-            };
-        });
-        this.element.querySelectorAll('[data-close-tab]').forEach(btn => {
-            btn.onclick = async e => {
-                e.preventDefault();
-                e.stopPropagation();
-                await Tabs.close(Number(btn.dataset.closeTab));
-                this.renderGrid();
-            };
-        });
-    },
-
-    handleContextAction() {}
+	handleContextAction() {}
 };
+
+async function reopenIndex(index) {
+	const [record] = State.closedTabHistory.splice(index, 1);
+	if (!record) return null;
+	const tab = await Tabs.create(record.item, false, true, true);
+	Object.assign(tab, record, {
+		id: tab.id,
+		item: {
+			...record.item
+		}
+	});
+	return tab;
+}

@@ -1,25 +1,37 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { BrowserTargetRegistry } from "../browser/target-registry.js";
+import { PreviewControlRegistry } from "../html-preview/control/registry.js";
+import { State } from "../state.js";
+import { VisualFocusEnforcer } from "./dom/VisualFocusEnforcer.js";
+import { TabActivationOrchestrator } from "./logic/TabActivationOrchestrator.js";
+
 /**
- * @file orchestrator.js
+ * B"H
+ *
+ * Activation aligns visible focus with automation focus. The Awtsmoos renews tab,
+ * browser target, and preview target together; Awtsmoos.com prevents an agent from
+ * navigating a hidden or previously active world after the human changes tabs.
  */
-
-import { TabActivationOrchestrator } from './logic/TabActivationOrchestrator.js';
-import { VisualFocusEnforcer } from './dom/VisualFocusEnforcer.js';
-import { State } from '../state.js';
-
 export const TabOrchestrator = {
-    async activate(tabId, forceReload = false) {
-        // 1. Synchronously fix the visual aura
-        VisualFocusEnforcer.enforce(tabId);
-        
-        // 2. Perform the dimensional shift
-        const result = await TabActivationOrchestrator.execute(tabId, forceReload);
-
-        // 3. Broadcast the realization to the heavens
-        const tab = State.tabs.find(t => t.id === Number(tabId));
-        window.dispatchEvent(new CustomEvent('awtsmoos-tab-activated', { detail: { tabId, tab } }));
-
-        return result;
-    }
+	async activate(tabId, forceReload = false) {
+		VisualFocusEnforcer.enforce(tabId);
+		const result = await TabActivationOrchestrator.execute(tabId, forceReload);
+		const tab = State.tabs.find(candidate => candidate.id === Number(tabId));
+		if (tab?.fileType === "browser") {
+			BrowserTargetRegistry.activate(tab.id);
+		}
+		if (tab?.fileType === "html-preview" || tab?.isPreview) {
+			PreviewControlRegistry.activate(tab.id);
+		}
+		globalThis.dispatchEvent?.(new CustomEvent("awtsmoos-tab-activated", {
+			detail: {
+				tabId,
+				tab
+			}
+		}));
+		return result;
+	}
 };

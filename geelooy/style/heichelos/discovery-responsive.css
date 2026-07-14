@@ -1,0 +1,37 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Discovery preserves search and actions while changing spatial arrangement on mobile.
+ */
+@media (max-width: 47.5rem) {
+	.social-spaces-shell {
+		width: min(calc(100% - .75rem), var(--content-width));
+		padding-top: .4rem;
+	}
+	.social-spaces-shell .spaces-hero {
+		grid-template-columns: 1fr;
+		min-height: 20rem;
+		padding: var(--space-4);
+		border-radius: var(--radius-l);
+	}
+	.social-spaces-shell .spaces-command-row,
+	.social-spaces-shell .spaces-command-row a {
+		width: 100%;
+	}
+	.social-spaces-shell .spaces-search {
+		position: relative;
+		top: auto;
+		grid-template-columns: 1fr;
+		margin-top: -1.5rem;
+	}
+}
+@media (max-width: 26rem) {
+	.social-spaces-shell .space-title-row,
+	.social-spaces-shell .space-actions {
+		flex-direction: column;
+	}
+	.social-spaces-shell .space-actions a {
+		width: 100%;
+		flex-basis: auto;
+	}
+}

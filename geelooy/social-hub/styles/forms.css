@@ -1,51 +1,71 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-button,
-input,
-select,
-textarea {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Hub controls extend canonical labels and fields without gradients or glow.
+ */
+:where(label, .fieldLabel):not(.sr-only) {
+	display: grid;
+	gap: .4rem;
+	min-width: 0;
+	color: var(--muted);
+	font-size: var(--type-small);
+	font-weight: 750;
+}
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+	width: 100%;
+	min-width: 0;
+	min-height: 46px;
+	padding: .72rem .85rem;
 	border: 1px solid var(--line);
-	border-radius: 0.8rem;
-	background: rgb(8 12 31 / 88%);
+	border-radius: var(--radius-m);
+	background: var(--surface);
+	box-shadow: none;
 	color: var(--ink);
+	font: inherit;
+	font-size: max(16px, 1em);
+	outline: 0;
 }
-
-button,
-input,
-select {
-	min-height: 2.8rem;
-	padding: 0.65rem 0.8rem;
-}
-
 textarea {
 	min-height: 7rem;
-	padding: 0.8rem;
+	line-height: 1.55;
 	resize: vertical;
 }
-
-button:hover,
-a:hover {
-	filter: brightness(1.12);
+:where(input, textarea)::placeholder {
+	color: var(--g-faint);
 }
-
-label {
-	display: grid;
-	gap: 0.35rem;
-	color: var(--muted);
-	font-size: 0.84rem;
-	font-weight: 720;
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):focus-visible {
+	border-color: var(--g-focus);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-focus) 20%, transparent);
 }
-
+:where(button, .primaryButton, .dangerButton, .fileButton, .quickActionGrid > a) {
+	min-height: 44px;
+}
 .primaryButton {
-	border-color: var(--line-hot);
-	background: linear-gradient(135deg, rgb(54 113 255 / 75%), rgb(153 61 223 / 75%));
-	box-shadow: 0 0.8rem 2.5rem rgb(75 116 255 / 22%);
-	color: white;
+	border-color: var(--g-accent);
+	background: var(--g-accent);
+	color: #fff;
 }
-
 .dangerButton {
-	border-color: rgb(255 127 159 / 50%);
+	border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+	background: color-mix(in srgb, var(--danger) 8%, var(--surface));
 	color: var(--danger);
+}
+.fileButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .45rem;
+	padding: .65rem .8rem;
+	border: 1px dashed var(--line-hot);
+	border-radius: var(--radius-m);
+	background: var(--surface);
+	color: var(--muted);
+	cursor: pointer;
+}
+.fileButton input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
 }

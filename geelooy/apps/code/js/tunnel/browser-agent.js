@@ -19,18 +19,21 @@ import { buildTunnelStatusModel } from "./tunnel-status-model.js";
 /**
  * B"H
  *
- * The public browser-tunnel facade owns no hidden UI and no duplicate protocol.
- * The Awtsmoos renews socket, many agents, browser targets, and live testimony;
- * Awtsmoos.com emits one status event that onboarding and console panels may share.
+ * The public browser-tunnel facade owns one socket but many logical agents. The
+ * Awtsmoos renews connection, browser targets, sessions, and live testimony;
+ * Awtsmoos.com never confuses a browser tunnel with native device delegation.
  */
 export const BrowserTunnelAgent = {
 	ws: null,
 	reconnectTimer: null,
 	reconnectAttempt: 0,
 	connecting: false,
+	initialized: false,
 	events: [],
 
 	init() {
+		if (this.initialized) return this.getStatus();
+		this.initialized = true;
 		initializeBrowserTunnelState();
 		globalThis.BrowserTunnelAgent = this;
 		this.emitUpdate();
@@ -39,6 +42,7 @@ export const BrowserTunnelAgent = {
 	},
 
 	start() {
+		if (!this.initialized) this.init();
 		return startBrowserTunnel(this);
 	},
 
@@ -95,9 +99,10 @@ export const BrowserTunnelAgent = {
 			sessions: CodeTunnelSessions.snapshot(),
 			actions: CodeTunnelActions.snapshot(),
 			browserTarget: BrowserTargetRegistry.snapshot(),
-			runtime: nodeCapabilityReport({
-				nativeTunnel: State.browserTunnel.status === "connected"
-			})
+			runtime: {
+				...nodeCapabilityReport({ nativeTunnel: false }),
+				browserTunnelConnected: State.browserTunnel.status === "connected"
+			}
 		});
 	},
 

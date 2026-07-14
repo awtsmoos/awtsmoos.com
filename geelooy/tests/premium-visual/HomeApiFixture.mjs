@@ -5,9 +5,8 @@
 /**
  * @module HomeApiFixture
  * @description
- * The premium browser journey loads the real landing page through a static server.
- * These two read-only feed routes return empty success vessels so Chrome can prove
- * layout without inventing live social data or reporting expected static 404 noise.
+ * The unified browser journey loads the real landing page through a static server.
+ * Two read-only feed routes return empty success vessels without inventing live data.
  */
 
 function installHomeVisualApiFixture() {

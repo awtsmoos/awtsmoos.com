@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Discovery layout presents one calm map with a visible command surface.
+ */
+.social-spaces-shell {
+	display: grid;
+	gap: var(--space-4);
+	width: min(calc(100% - 1.25rem), var(--content-width));
+	margin: 0 auto;
+	padding: clamp(.75rem, 3vw, 2.25rem) 0 var(--floating-clearance);
+	color: var(--g-text);
+}
+.social-spaces-shell .spaces-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: var(--space-6);
+	min-height: clamp(17rem, 36vw, 28rem);
+	padding: clamp(1.25rem, 4vw, 3rem);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-2xl);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-card);
+}
+.social-spaces-shell .spaces-hero h1 {
+	max-width: 12ch;
+	margin: 0;
+	font-size: var(--type-display);
+	line-height: .94;
+	letter-spacing: -.065em;
+}
+.social-spaces-shell .spaces-hero p:not(.field-label) {
+	max-width: 42rem;
+	margin: var(--space-4) 0 0;
+	color: var(--g-text-2);
+	font-size: var(--type-lead);
+}
+.social-spaces-shell .spaces-command-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+.social-spaces-shell .spaces-search {
+	position: sticky;
+	z-index: var(--z-sticky);
+	top: .65rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--space-2);
+	width: min(calc(100% - 2rem), 56rem);
+	margin: -2rem auto var(--space-4);
+	padding: .55rem;
+	border: 1px solid var(--g-border-strong);
+	border-radius: var(--radius-l);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-float);
+}
+.social-spaces-shell .spaces-search label {
+	grid-column: 1 / -1;
+	margin-left: .2rem;
+}
+.social-spaces-shell .spaces-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: var(--space-4);
+}

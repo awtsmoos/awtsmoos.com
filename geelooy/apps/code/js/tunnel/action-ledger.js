@@ -13,7 +13,7 @@ import { sessionIdentity } from "./session-registry.js";
  */
 export function createActionLedger(options = {}) {
 	const entries = [];
-	const maximum = bounded(options.maximum, 180, 10, 1000);
+	const maximum = bounded(options.maximum, 180, 1, 1000);
 	let nextSequence = 1;
 
 	function begin(payload = {}) {

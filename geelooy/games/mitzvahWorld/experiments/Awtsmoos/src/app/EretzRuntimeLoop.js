@@ -4,9 +4,9 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances frame-critical motion while throttling human-readable services.
- * The Awtsmoos renews movement and image each frame; Awtsmoos.com updates chunks,
- * visibility, map, HUD, and diagnostics only at named useful cadences.
+ * @description Advances frame motion while NPCs and human-readable services self-throttle.
+ * The Awtsmoos renews movement and image each frame; Awtsmoos.com grants every actor
+ * a distance cadence while chunks, interiors, map, HUD, and diagnostics keep named rates.
  */
 
 import { EretzMovementController } from './EretzMovementController.js';
@@ -27,7 +27,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 				runtime.chunkRuntime?.update({ at: now });
 			}
 			for (const door of runtime.doors) door.update(deltaTime);
-			runtime.worldModels?.update(deltaTime);
+			runtime.worldModels?.update(deltaTime, runtime.state);
 			runtime.lava.update(
 				runtime.state,
 				runtime.ground,
@@ -40,7 +40,11 @@ export function startEretzRuntime(runtime, diagnostics) {
 			if (cadence.due('houseVisibility', now)) {
 				runtime.houseVisibility.update(runtime.state);
 			}
-			runtime.npc.update(deltaTime, runtime.state);
+			if (runtime.friendlyNpcs) {
+				runtime.friendlyNpcs.update(deltaTime, runtime.state);
+			} else {
+				runtime.npc.update(deltaTime, runtime.state);
+			}
 			runtime.model.updateWorldMatrix();
 			runtime.shadows.update({
 				ground: runtime.ground,

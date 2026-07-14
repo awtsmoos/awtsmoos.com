@@ -1,50 +1,34 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-This static fixture uses the production Heichel runtime classes and complete CSS.
-The Awtsmoos creates the true content; Awtsmoos.com verifies the premium vessel here.
+This historical test path now exercises the canonical Heichel runtime styles only.
 -->
 <!doctype html>
 <html class="heichel-os-document" lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<title>Premium Heichel Fixture</title>
-	<link rel="stylesheet" href="/style/premium/index.css">
-	<link rel="stylesheet" href="/style/heichelos/heichel/index.css">
+	<title>Unified Heichel Fixture</title>
+	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=unified-ui-001">
 </head>
-<body class="heichel-os-page heichel-mobile-navigation" data-premium-ui>
-	<div class="premium-sky" aria-hidden="true"><span></span><span></span></div>
+<body class="heichel-os-page heichel-mobile-navigation">
 	<main class="geelooy-main-stage">
-		<section class="geelooy-heichel-hero heichel-hero">
-			<div class="heichel-hero-copy">
-				<div class="heichel-seal" aria-hidden="true">א</div>
-				<p class="hero-kicker">Heichel · living Torah architecture</p>
-				<h1 id="heichel-main-title">Ikar</h1>
-				<p class="hero-description">A central chamber for source-linked teachings, evolving series, questions, answers, voice notes, and public conversation.</p>
-			</div>
-			<div><span class="premium-chip">Owner · @teacher</span></div>
+		<section class="geelooy-heichel-hero heichel-hero" data-enter>
+			<div class="heichel-hero-copy"><div class="heichel-seal" aria-hidden="true">א</div><p class="hero-kicker">Heichel · living Torah architecture</p><h1 id="heichel-main-title">Ikar</h1><p class="hero-description">A central chamber for source-linked teachings, evolving series, questions, answers, voice notes, and public conversation.</p></div>
+			<div><span class="p-badge">Owner · @teacher</span></div>
 		</section>
 		<section class="heichel-nav-panel">
-			<nav class="tab-gates geelooy-tabs" aria-label="Heichel sections">
-				<button class="tab Active" type="button">Series</button>
-				<button class="tab" type="button">Posts</button>
-				<button class="tab" type="button">About</button>
-			</nav>
-			<label class="geelooy-search"><span class="g-sr-only">Search this Heichel</span><input class="search-input" type="search" placeholder="Search this Heichel"></label>
+			<nav class="tab-gates geelooy-tabs" aria-label="Heichel sections"><button class="tab Active" type="button">Series</button><button class="tab" type="button">Posts</button><button class="tab" type="button">About</button></nav>
+			<label class="field-label" for="fixture-heichel-search">Search this Heichel</label>
+			<input id="fixture-heichel-search" class="search-input" type="search" placeholder="Title, source, or author">
 			<section class="series-list" aria-label="Series fixture list">
-				<article class="card-wrapper selected"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Foundations of Ikar</h2><p>Primary teachings arranged as a living source tree.</p><span class="premium-chip">12 posts</span></article>
-				<article class="card-wrapper"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Questions of Light</h2><p>Formal questions, answers, and discussion at exact subsections.</p><span class="premium-chip">8 questions</span></article>
-				<article class="card-wrapper"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Voice and Vision</h2><p>Audio teachings, video reports, and transcripts with provenance.</p><span class="premium-chip">5 media posts</span></article>
+				<article class="card-wrapper selected"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Foundations of Ikar</h2><p>Primary teachings arranged as a living source tree.</p><span class="p-badge">12 posts</span></article>
+				<article class="card-wrapper"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Questions of Light</h2><p>Formal questions, answers, and discussion at exact subsections.</p><span class="p-badge">8 questions</span></article>
+				<article class="card-wrapper"><button class="context-menu-icon" type="button" aria-label="Series actions">•••</button><h2>Voice and Vision</h2><p>Audio teachings, video reports, and transcripts with provenance.</p><span class="p-badge">5 media posts</span></article>
 			</section>
-			<section class="post-list" aria-label="Post fixture list">
-				<article class="post-card"><h2>The first teaching</h2><p class="post-preview">Every revealed detail remains connected to its source.</p></article>
-				<article class="post-card"><h2>A question becomes a doorway</h2><p class="post-preview">Answers, comments, and references gather without losing identity.</p></article>
-			</section>
+			<section class="post-list" aria-label="Post fixture list"><article class="post-card"><h2>The first teaching</h2><p class="post-preview">Every revealed detail remains connected to its source.</p></article><article class="post-card"><h2>A question becomes a doorway</h2><p class="post-preview">Answers, comments, and references gather without losing identity.</p></article></section>
 		</section>
 	</main>
-	<nav class="geelooy-bottom-nav" aria-label="Heichel mobile navigation">
-		<a href="#home">Home</a><a href="#series">Series</a><button type="button">Create</button><a href="#search">Search</a><a href="#profile">Profile</a>
-	</nav>
+	<nav class="geelooy-bottom-nav" aria-label="Heichel mobile navigation"><a href="#home">Home</a><a href="#series">Series</a><button type="button">Create</button><a href="#search">Search</a><a href="#profile">Profile</a></nav>
 </body>
 </html>

@@ -1,50 +1,61 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+const PERSISTABLE_WORKSPACE_TYPES = Object.freeze([
+	"github",
+	"indexeddb",
+	"ssh",
+	"local",
+	"opfs",
+	"relay"
+]);
+
+const PERSISTABLE_VIRTUAL_TAB_TYPES = Object.freeze([
+	"temp",
+	"vibe-session",
+	"terminal",
+	"commander",
+	"html-preview-file",
+	"devtools",
+	"virtual-os",
+	"browser"
+]);
+
 /**
- * @file ArchiveGuard.js
- * @brief Filters persistable session entities.
- * 
- * POEM OF THE CHOSEN VESSEL:
- * Not everything that manifests is meant to remain,
- * Some sparks are ephemeral, some free from the chain.
- * We filter the worlds that the user has built,
- * To save only those free from the error's deep guilt.
- * The allowed ones are chosen, the others depart,
- * Kept in the memory and held in the heart.
+ * B"H
+ *
+ * Archive law preserves deliberate worlds and sleeping virtual tabs while
+ * stripping native handles and caches. The Awtsmoos renews persistence and living
+ * process separately; Awtsmoos.com lets browser tabs return without stale targets.
  */
-
 export const ArchiveGuard = {
-    /**
-     * B"H - Identifies workspaces that can be safely archived.
-     * @param {Array} workspaces - The current list of worlds.
-     * @returns {Array} The chosen persistable worlds.
-     */
-    getPersistableWorkspaces(workspaces) {
-        const allowedTypes = ['github', 'indexeddb', 'ssh', 'local', 'opfs', 'relay'];
-        return workspaces
-            .filter(ws => allowedTypes.includes(ws.type))
-            .map(ws => {
-                // Strip non-serializable OS handles and temporary caches.
-                const { handle, _treeCache, isLocked, ...safeWs } = ws;
+	getPersistableWorkspaces(workspaces = []) {
+		return workspaces
+			.filter(workspace => PERSISTABLE_WORKSPACE_TYPES.includes(workspace.type))
+			.map(workspace => {
+				const {
+					handle,
+					_treeCache,
+					isLocked,
+					...serializable
+				} = workspace;
+				return serializable;
+			});
+	},
 
-                // B"H - SSH credentials intentionally remain in the saved workspace
-                // when the user chose to save them, so restored SSH workspaces can
-                // reconnect instead of becoming "Missing credentials" shells.
-                return safeWs;
-            });
-    },
+	getPersistableTabs(tabs = [], allowedWorkspaceIds = new Set()) {
+		return tabs.filter(tab => {
+			const item = tab.item || {};
+			const hasWorld = item.workspaceId !== undefined && allowedWorkspaceIds.has(item.workspaceId);
+			const type = item.type || tab.fileType;
+			const virtual = PERSISTABLE_VIRTUAL_TAB_TYPES.includes(type);
+			return hasWorld || virtual;
+		});
+	}
+};
 
-    /**
-     * B"H - Identifies tabs that should remain open across sessions.
-     * @param {Array} tabs - The active scroll-list.
-     * @param {Set} allowedWorkspaceIds - The IDs of surviving worlds.
-     */
-    getPersistableTabs(tabs, allowedWorkspaceIds) {
-        const virtualTypes = ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools', 'virtual-os'];
-
-        return tabs.filter(tab => {
-            const hasWorld = tab.item.workspaceId !== undefined && allowedWorkspaceIds.has(tab.item.workspaceId);
-            const isVirtual = virtualTypes.includes(tab.item.type);
-            return hasWorld || isVirtual;
-        });
-    }
+export {
+	PERSISTABLE_VIRTUAL_TAB_TYPES,
+	PERSISTABLE_WORKSPACE_TYPES
 };

@@ -11,6 +11,7 @@
  */
 export const GAMES = [
 	game('City of Light', './city-of-light/', 'A full 24-chapter generated pilgrimage with verified accessible platforms, living wildlife, authored missions, abilities, saves, weather, and procedural animation.', ['Expanded', 'Campaign', 'Generated', 'Mobile'], 48, '◇'),
+	game('Seven Mitzvos', './seven-mitzvos/', 'A cinematic living-world guide to the universal Noahide covenant, with seven accessible paths and practical meaning.', ['New', 'Learning', 'Cinematic', 'Mobile'], 38, '⚖️'),
 	game('Nitzotz.io', './nitzotz-io/', 'Raw WebGL spark-gathering arena inspired by Hole.io, transformed into Kabbalah: reveal hidden sparks and grow the vessel.', ['New', 'WebGL', 'Mobile'], 212, '🕯️'),
 	game('Sefira Clash', './sefira-clash/', 'Arena fighter with mystical smash-style combat, bots, power-ups, and huge maps.', ['New', 'Fighting', 'Mobile'], 44, '👊'),
 	game('Mitzvah World', './mitzvahWorld/', 'A wandering mitzvah adventure through playful worlds.', ['Adventure'], 132, '🌍'),

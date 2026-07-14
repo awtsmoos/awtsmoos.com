@@ -1,3 +1,10 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Profile preserves compatible structure and ends with one canonical unified layer.
+ */
+@import "/style/geelooy-app/index.css?v=unified-ui-001";
+@import "/style/social-system/index.css?v=unified-ui-001";
 @import "./tokens.css";
 @import "./shell.css";
 @import "./nav.css";
@@ -15,5 +22,6 @@
 @import "./view-flow/index.css";
 @import "./repair/index.css";
 @import "./fit/index.css";
-@import "./lux/index.css";
 @import "./click-safe.css";
+@import "./unified.css?v=unified-ui-001";
+@import "/style/geelooy-app/performance.css?v=unified-ui-001";

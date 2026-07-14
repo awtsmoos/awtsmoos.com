@@ -1,42 +1,71 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Legal sections use readable document measure, solid surfaces, and compact navigation.
+ */
 main {
-	position: relative;
-	width: min(74rem, calc(100% - 2rem));
+	width: min(74rem, calc(100% - 1.25rem));
 	margin: 0 auto;
-	padding: clamp(2rem, 6vw, 6rem) 0;
+	padding: clamp(1rem, 5vw, 4rem) 0;
 }
-
 header,
 section {
-	padding: clamp(1.2rem, 3vw, 2.4rem);
+	padding: clamp(1.15rem, 3vw, 2.25rem);
 	border: 1px solid var(--line);
-	border-radius: 1.4rem;
+	border-radius: 1.25rem;
 	background: var(--surface);
-	box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 28%);
-	backdrop-filter: blur(1.2rem);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
 }
-
 header {
 	margin-bottom: 1rem;
 }
-
 section + section {
 	margin-top: 1rem;
 }
-
 nav {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.7rem;
-	margin-top: 1.5rem;
+	gap: .45rem;
+	margin-top: 1.25rem;
 }
-
 nav a {
-	padding: 0.7rem 1rem;
+	display: inline-flex;
+	min-height: 40px;
+	align-items: center;
+	gap: .35rem;
+	padding: .55rem .75rem;
 	border: 1px solid var(--line);
-	border-radius: 999px;
+	border-radius: .75rem;
+	background: var(--surface-soft);
+	color: var(--muted);
+	font-size: .85rem;
+	font-weight: 720;
 	text-decoration: none;
+}
+nav a::before {
+	width: .35rem;
+	height: .35rem;
+	border-radius: 50%;
+	background: var(--accent);
+	content: "";
+}
+nav a:is(:hover, :focus-visible) {
+	border-color: var(--line-strong);
+	color: #f4f2ec;
+}
+ul {
+	padding-left: 1.25rem;
+}
+@media (max-width: 32rem) {
+	main {
+		width: min(100% - .75rem, 74rem);
+	}
+	header,
+	section {
+		padding: 1rem;
+		border-radius: .9rem;
+	}
+	nav a {
+		flex: 1 1 9rem;
+	}
 }

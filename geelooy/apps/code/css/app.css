@@ -26,6 +26,7 @@ existing functional modules first, then reveals one responsive visual covenant.
 @import url('./views/virtual-os.css');
 @import url('./zip-explorer.css');
 @import url('./tab-manager.css');
+@import url('./tab-manager-lifecycle.css');
 @import url('./search.css');
 @import url('./ai-studio.css');
 @import url('./file-commander/layout.css');
@@ -40,6 +41,8 @@ existing functional modules first, then reveals one responsive visual covenant.
 @import url('./civilization/launcher.css');
 @import url('./session/account-panel.css');
 @import url('./shell/topbar.css');
+@import url('./onboarding.css');
+@import url('./tunnel-console.css');
 @import url('./effects.css');
 @import url('./visuals.css');
 @import url('./revelation/tokens.css');

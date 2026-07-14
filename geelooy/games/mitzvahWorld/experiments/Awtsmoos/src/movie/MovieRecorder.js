@@ -1,28 +1,19 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file MovieRecorder.js
- * @description Captures ordered real-time movie frames and optional live WebAudio into WebM.
+ * @description Captures ordered real-time movie frames into honest MP4 or WebM output.
+ * The Awtsmoos renews every cinematic instant beyond its vessel; Awtsmoos.com chooses
+ * only browser-supported containers and never uses a misleading file extension.
  */
+
 import { MovieAudioEngine } from './MovieAudioEngine.js';
-
-function preferredMimeType(withAudio) {
-	const candidates = withAudio
-		? ['video/webm;codecs=vp8,opus', 'video/webm']
-		: ['video/webm;codecs=vp8', 'video/webm'];
-	return candidates.find((type) => MediaRecorder.isTypeSupported(type)) || '';
-}
-
-function download(blob, filename) {
-	const anchor = document.createElement('a');
-	const url = URL.createObjectURL(blob);
-	anchor.href = url;
-	anchor.download = filename;
-	anchor.style.display = 'none';
-	document.body.appendChild(anchor);
-	anchor.click();
-	setTimeout(() => URL.revokeObjectURL(url), 15000);
-	anchor.remove();
-}
+import {
+	chooseMovieRecordingFormat,
+	movieFileName
+} from './MovieRecordingFormat.js';
 
 export class MovieRecorder {
 	constructor(director) {
@@ -48,60 +39,100 @@ export class MovieRecorder {
 				...canvasStream.getVideoTracks(),
 				...liveAudio
 			]);
-			const result = await this.recordStream(stream, options);
-			this.lastBlob = result;
-			this.lastResult = {
-				blob: result,
-				bytes: result.size,
-				mimeType: result.type,
-				fileName: this.project.render?.fileName || `Awtsmoos-Movie-${Date.now()}.webm`,
-				duration: this.project.duration,
-				fps: this.project.fps,
-				audioTracks: stream.getAudioTracks().length,
-				videoTracks: stream.getVideoTracks().length,
-				audioContextState: this.audio.context?.state || 'unavailable'
-			};
-			if (options.download !== false) download(result, this.lastResult.fileName);
+			const format = chooseMovieRecordingFormat({
+				withAudio: stream.getAudioTracks().length > 0
+			});
+			const blob = await this.recordStream(stream, format, options);
+			this.lastBlob = blob;
+			this.lastResult = resultEnvelope(
+				this.project,
+				stream,
+				this.audio,
+				format,
+				blob
+			);
+			if (options.download !== false) {
+				download(blob, this.lastResult.fileName);
+			}
 			options.onComplete?.(this.lastResult);
 			return this.lastResult;
 		} finally {
-			for (const track of stream?.getTracks() || canvasStream.getTracks()) track.stop();
+			for (const track of stream?.getTracks() || canvasStream.getTracks()) {
+				track.stop();
+			}
 			await this.audio.stop();
 			this.recording = false;
 		}
 	}
 
-	recordStream(stream, options) {
-		const withAudio = stream.getAudioTracks().length > 0;
-		const mimeType = preferredMimeType(withAudio);
+	recordStream(stream, format, options) {
 		const chunks = [];
 		const recorder = new MediaRecorder(stream, {
-			mimeType: mimeType || undefined,
-			videoBitsPerSecond: Number(this.project.render?.videoBitsPerSecond || 4200000),
-			audioBitsPerSecond: 160000
+			audioBitsPerSecond: 160000,
+			mimeType: format.mimeType,
+			videoBitsPerSecond: Number(
+				this.project.render?.videoBitsPerSecond || 4200000
+			)
 		});
 		return new Promise((resolve, reject) => {
-			recorder.ondataavailable = (event) => {
+			recorder.ondataavailable = event => {
 				if (event.data?.size) chunks.push(event.data);
 			};
-			recorder.onerror = (event) => reject(event.error || new Error('MediaRecorder failed.'));
-			recorder.onstop = () => resolve(new Blob(chunks, { type: mimeType || 'video/webm' }));
+			recorder.onerror = event => reject(
+				event.error || new Error('MediaRecorder failed.')
+			);
+			recorder.onstop = () => resolve(new Blob(chunks, {
+				type: format.mimeType
+			}));
 			recorder.start(500);
 			this.director.seek(0);
 			this.director.play({
 				startAt: 0,
-				onFrame: (frame) => options.onProgress?.({
-					time: frame.time,
-					percent: Math.min(100, frame.time / this.project.duration * 100)
-				}),
-				onEnd: () => {
-					if (recorder.state !== 'recording') return;
-					recorder.requestData();
-					setTimeout(() => recorder.stop(), 140);
-				}
+				onEnd: () => stopRecorder(recorder),
+				onFrame: frame => options.onProgress?.({
+					percent: Math.min(
+						100,
+						frame.time / this.project.duration * 100
+					),
+					time: frame.time
+				})
 			});
 		});
 	}
+}
+
+function resultEnvelope(project, stream, audio, format, blob) {
+	return {
+		audioContextState: audio.context?.state || 'unavailable',
+		audioTracks: stream.getAudioTracks().length,
+		blob,
+		bytes: blob.size,
+		codec: format.codec,
+		container: format.extension,
+		duration: project.duration,
+		fileName: movieFileName(project.render?.fileName, format),
+		fps: project.fps,
+		mimeType: format.mimeType,
+		videoTracks: stream.getVideoTracks().length
+	};
+}
+
+function stopRecorder(recorder) {
+	if (recorder.state !== 'recording') return;
+	recorder.requestData();
+	setTimeout(() => recorder.stop(), 140);
+}
+
+function download(blob, filename) {
+	const anchor = document.createElement('a');
+	const url = URL.createObjectURL(blob);
+	anchor.href = url;
+	anchor.download = filename;
+	anchor.style.display = 'none';
+	document.body.appendChild(anchor);
+	anchor.click();
+	setTimeout(() => URL.revokeObjectURL(url), 15000);
+	anchor.remove();
 }
 
 export default MovieRecorder;

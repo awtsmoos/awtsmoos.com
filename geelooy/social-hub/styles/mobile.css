@@ -1,94 +1,93 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-@media (max-width: 999px) {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Mobile Hub uses a solid safe-area dock and single-column workspaces.
+ */
+@media (max-width: 62.4375rem) {
 	body {
 		padding-bottom: calc(5.4rem + var(--safe-bottom));
 	}
-
 	.desktopRail {
 		display: none;
 	}
-
 	.hubShell {
 		display: block;
 	}
-
 	.workspace {
-		padding: 0.85rem;
+		padding: .75rem;
 	}
-
 	.mobileDock {
 		position: fixed;
-		z-index: 15;
-		right: 0.65rem;
-		bottom: calc(0.55rem + var(--safe-bottom));
-		left: 0.65rem;
+		z-index: var(--z-dock);
+		right: max(.55rem, env(safe-area-inset-right));
+		bottom: max(.55rem, var(--safe-bottom));
+		left: max(.55rem, env(safe-area-inset-left));
 		display: grid;
 		grid-template-columns: repeat(6, minmax(0, 1fr));
-		gap: 0.25rem;
-		padding: 0.4rem;
-		border: 1px solid var(--line);
-		border-radius: 1.35rem;
-		background: rgb(5 9 25 / 92%);
-		box-shadow: 0 1rem 4rem rgb(0 0 0 / 52%);
-		backdrop-filter: blur(1.4rem) saturate(1.3);
+		gap: .25rem;
+		padding: .35rem;
+		border: 1px solid var(--line-hot);
+		border-radius: var(--radius-dock);
+		background: var(--surface);
+		box-shadow: var(--shadow-dock);
 	}
-
 	.mobileDock button {
 		display: grid;
 		min-width: 0;
 		grid-template-columns: 1fr;
-		gap: 0.15rem;
+		gap: .1rem;
 		justify-items: center;
-		padding: 0.35rem 0.1rem;
+		padding: .3rem .1rem;
 	}
-
 	.mobileDock .routeIcon {
 		width: 2rem;
+		height: 2rem;
 		border: 0;
 		background: transparent;
 	}
-
 	.mobileDock .routeLabel {
 		max-width: 100%;
 		overflow: hidden;
-		font-size: 0.6rem;
+		font-size: .62rem;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
 	.heroRift {
 		grid-template-columns: 1fr;
 		min-height: 0;
-		padding: 1.3rem;
+		padding: var(--space-4);
 		text-align: center;
 	}
-
 	.pulseOrb {
-		width: min(12rem, 54vw);
+		width: min(10rem, 48vw);
 	}
-
-	.targetGrid,
-	.twoColumnFields,
-	.privacyGrid,
-	.categoryGrid {
+	:where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-
 	.commentComposer > label:first-child textarea {
 		min-height: 9rem;
 	}
-
 	.promotionPanel {
 		position: static;
 	}
-
 	.hubStatus {
-		right: 0.7rem;
+		right: .7rem;
 		bottom: calc(5.7rem + var(--safe-bottom));
-		left: 0.7rem;
+		left: .7rem;
 		max-width: none;
+	}
+}
+@media (max-width: 34rem) {
+	:where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
+		grid-template-columns: 1fr;
+	}
+	.hubHeader,
+	.identityCluster,
+	.contextRibbon,
+	.actionRow,
+	.filterRow,
+	.mediaActions {
+		align-items: stretch;
+		flex-direction: column;
 	}
 }

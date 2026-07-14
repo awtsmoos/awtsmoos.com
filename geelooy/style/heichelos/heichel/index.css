@@ -1,12 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Heichel manifest preserves runtime compatibility and ends with canonical beauty.
+ * The Heichel manifest preserves browser cache law and filesystem graph compatibility.
  */
 @import "/style/social-system/index.css?v=unified-ui-001";
 @import "/style/social-system/tokens.css?v=unified-ui-001";
 @import "/style/social-system/simple-events.css?v=unified-ui-001";
-@import "./tokens.css?v=unified-ui-001";
+@import "./tokens.css";
 @import "./shell.css";
 @import "./hero.css";
 @import "./tabs.css";
@@ -32,7 +32,7 @@
 @import "./future/accessibility.css";
 @import "../revamped-partials/heichel-boot-states.css";
 @import "../revamped-partials/heichel-os-world.css";
-@import "./beauty/index.css?v=unified-ui-001";
+@import "./beauty/index.css";
 @import "./sovereign.css";
-@import "./controls.css?v=unified-ui-001";
+@import "./controls.css?v=ikar-speed-001";
 @import "/style/geelooy-app/performance.css?v=unified-ui-001";

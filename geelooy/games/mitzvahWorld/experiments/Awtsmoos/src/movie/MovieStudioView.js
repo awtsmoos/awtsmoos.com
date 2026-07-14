@@ -1,8 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file MovieStudioView.js
- * @description Creates the movie workspace without owning runtime behavior.
+ * @description Creates preview, structured transform inspector, JSON, toolbar, and timeline.
+ * The Awtsmoos renews every cinematic vessel beyond layout; Awtsmoos.com gives desktop
+ * and mobile one responsive workspace without allowing the view to own runtime behavior.
  */
+
 import { installMovieStudioStyles } from './MovieStudioStyles.js';
 
 export function createMovieStudioView(project) {
@@ -13,16 +19,19 @@ export function createMovieStudioView(project) {
 		<div class="movie-workspace">
 			<div class="movie-preview" data-preview></div>
 			<aside class="movie-inspector">
-				<h2 data-title></h2>
-				<p>AI movie JSON · easing paths · real actors · real doors · rendered audio/video</p>
+				<header><h2 data-title></h2><p>Browser-native NLE · real world runtime</p></header>
 				<div class="movie-toolbar">
 					<button data-play>▶ Play</button>
 					<button data-stop>■ Stop</button>
 					<button data-apply>Apply JSON</button>
-					<button data-copy>Copy GET URL</button>
-					<button data-render>Render + Download</button>
+					<button data-copy>Copy URL</button>
+					<button data-render>Render Movie</button>
 				</div>
-				<textarea class="movie-json" spellcheck="false" data-json></textarea>
+				<div class="movie-transform-inspector" data-transform></div>
+				<details class="movie-json-disclosure">
+					<summary>Project JSON</summary>
+					<textarea class="movie-json" spellcheck="false" data-json></textarea>
+				</details>
 				<div class="movie-status" data-status>Ready.</div>
 			</aside>
 		</div>
@@ -31,19 +40,7 @@ export function createMovieStudioView(project) {
 	root.querySelector('[data-title]').textContent = project.title;
 	root.querySelector('[data-json]').value = JSON.stringify(project, null, 2);
 	document.body.appendChild(root);
-	return {
-		root,
-		preview: root.querySelector('[data-preview]'),
-		timeline: root.querySelector('[data-timeline]'),
-		json: root.querySelector('[data-json]'),
-		status: root.querySelector('[data-status]'),
-		title: root.querySelector('[data-title]'),
-		play: root.querySelector('[data-play]'),
-		stop: root.querySelector('[data-stop]'),
-		apply: root.querySelector('[data-apply]'),
-		copy: root.querySelector('[data-copy]'),
-		render: root.querySelector('[data-render]')
-	};
+	return collectView(root);
 }
 
 export function showMovieLoading(message = 'B"H building the cinematic world…') {
@@ -52,7 +49,26 @@ export function showMovieLoading(message = 'B"H building the cinematic world…'
 	overlay.textContent = message;
 	document.body.appendChild(overlay);
 	return {
-		set: (text) => overlay.textContent = text,
-		remove: () => overlay.remove()
+		remove: () => overlay.remove(),
+		set: text => {
+			overlay.textContent = text;
+		}
+	};
+}
+
+function collectView(root) {
+	return {
+		apply: root.querySelector('[data-apply]'),
+		copy: root.querySelector('[data-copy]'),
+		json: root.querySelector('[data-json]'),
+		play: root.querySelector('[data-play]'),
+		preview: root.querySelector('[data-preview]'),
+		render: root.querySelector('[data-render]'),
+		root,
+		status: root.querySelector('[data-status]'),
+		stop: root.querySelector('[data-stop]'),
+		timeline: root.querySelector('[data-timeline]'),
+		title: root.querySelector('[data-title]'),
+		transform: root.querySelector('[data-transform]')
 	};
 }

@@ -1,22 +1,34 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Legal policy remains keyboard-visible, high-contrast, and still under reduced motion.
+ */
 :focus-visible {
-	outline: 0.18rem solid var(--accent);
-	outline-offset: 0.18rem;
+	outline: 3px solid var(--accent);
+	outline-offset: 3px;
 }
-
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
 	}
+	*,
+	*::before,
+	*::after {
+		animation-duration: .01ms !important;
+		transition-duration: .01ms !important;
+	}
 }
-
 @media (forced-colors: active) {
 	header,
 	section,
 	nav a {
 		border: 1px solid CanvasText;
+		box-shadow: none;
+	}
+}
+@media (prefers-contrast: more) {
+	:root {
+		--line: rgba(255, 255, 255, .3);
+		--line-strong: rgba(255, 255, 255, .5);
 	}
 }

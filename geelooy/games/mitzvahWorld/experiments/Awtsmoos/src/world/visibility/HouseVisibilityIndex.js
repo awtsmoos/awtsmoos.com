@@ -4,68 +4,66 @@
 
 /**
  * @file HouseVisibilityIndex.js
- * @description Indexes only explicitly tagged interior meshes and changes them
- * only when state changes, conserving the frame vessel before the Awtsmoos.
+ * @description Indexes tagged interiors and suspends their runtime vessels by house.
+ * The Awtsmoos renews hidden rooms beyond rendered sight; Awtsmoos.com changes only
+ * houses whose state changed while collision authority remains outside this index.
  */
+
+import {
+	houseInteriorObjectActive,
+	setHouseInteriorObjectActive
+} from './HouseInteriorActivity.js';
 import { houseVisibilityMetadata } from './HouseVisibilityMetadata.js';
 
-/** Builds a house-to-mesh index from the actual rendered hierarchy. */
 export function createHouseVisibilityIndex(root) {
-	const meshesByHouse = new Map();
-	walkHierarchy(root, (object) => {
+	const objectsByHouse = new Map();
+	walkHierarchy(root, object => {
 		const metadata = houseVisibilityMetadata(object);
-		if (!metadata || metadata.domain !== 'interior') {
-			return;
+		if (!metadata || metadata.domain !== 'interior') return;
+		if (!objectsByHouse.has(metadata.houseId)) {
+			objectsByHouse.set(metadata.houseId, []);
 		}
-		if (!meshesByHouse.has(metadata.houseId)) {
-			meshesByHouse.set(metadata.houseId, []);
-		}
-		meshesByHouse.get(metadata.houseId).push(object);
+		objectsByHouse.get(metadata.houseId).push(object);
 	});
-	return new HouseVisibilityIndex(meshesByHouse);
+	return new HouseVisibilityIndex(objectsByHouse);
 }
 
 export class HouseVisibilityIndex {
-	constructor(meshesByHouse = new Map()) {
-		this.meshesByHouse = meshesByHouse;
+	constructor(objectsByHouse = new Map()) {
+		this.objectsByHouse = objectsByHouse;
 		this.visibleByHouse = new Map();
 	}
 
 	setVisible(houseId, visible) {
-		const next = !!visible;
-		if (this.visibleByHouse.get(houseId) === next) {
-			return false;
-		}
-		for (const mesh of this.meshesByHouse.get(houseId) || []) {
-			mesh.visible = next;
+		const next = Boolean(visible);
+		if (this.visibleByHouse.get(houseId) === next) return false;
+		for (const object of this.objectsByHouse.get(houseId) || []) {
+			setHouseInteriorObjectActive(object, next);
 		}
 		this.visibleByHouse.set(houseId, next);
 		return true;
 	}
 
 	meshes(houseId) {
-		return [...(this.meshesByHouse.get(houseId) || [])];
+		return [...(this.objectsByHouse.get(houseId) || [])];
 	}
 
 	stats() {
-		const totalMeshes = [...this.meshesByHouse.values()]
-			.reduce((sum, meshes) => sum + meshes.length, 0);
-		const hiddenMeshes = [...this.meshesByHouse.entries()]
-			.filter(([houseId]) => this.visibleByHouse.get(houseId) === false)
-			.reduce((sum, [, meshes]) => sum + meshes.length, 0);
+		const objects = [...this.objectsByHouse.values()].flat();
+		const activeObjects = objects.filter(houseInteriorObjectActive).length;
 		return {
-			houses: this.meshesByHouse.size,
-			totalMeshes,
-			hiddenMeshes,
-			visibleMeshes: totalMeshes - hiddenMeshes
+			activeObjects,
+			hiddenMeshes: objects.length - activeObjects,
+			houses: this.objectsByHouse.size,
+			suspendedObjects: objects.length - activeObjects,
+			totalMeshes: objects.length,
+			visibleMeshes: activeObjects
 		};
 	}
 }
 
 function walkHierarchy(object, visitor) {
-	if (!object) {
-		return;
-	}
+	if (!object) return;
 	visitor(object);
 	for (const child of object.children || []) {
 		walkHierarchy(child, visitor);

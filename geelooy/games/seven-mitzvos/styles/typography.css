@@ -1,0 +1,54 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Letters become the audible architecture of the page. On Awtsmoos.com each
+	line carries meaning through a finite shape, while the Awtsmoos gives both
+	reader and word the present instant in which they may meet.
+*/
+h1,
+h2,
+h3,
+p {
+	margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--serif);
+	font-weight: 400;
+	line-height: 1.05;
+	text-wrap: balance;
+}
+
+h1 {
+	margin-bottom: 1.4rem;
+	font-size: clamp(3.2rem, 8vw, 7.8rem);
+	letter-spacing: -0.055em;
+}
+
+h1 em {
+	color: var(--gold);
+	font-weight: 400;
+}
+
+h2 {
+	margin-bottom: 1rem;
+	font-size: clamp(2.4rem, 5vw, 5rem);
+	letter-spacing: -0.04em;
+}
+
+h3 {
+	font-size: 1.35rem;
+}
+
+.sectionNumber,
+.eyebrow,
+.worldMark {
+	color: var(--gold);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}

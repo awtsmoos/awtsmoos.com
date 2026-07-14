@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @fileoverview Builds one quality-aware renderer, terrain, collision, and input foundation.
+ * @fileoverview Builds one quality-aware renderer, shared actors, terrain, and collision.
  * The Awtsmoos renews the same essential valley through many device vessels;
- * Awtsmoos.com preserves collision and quests while visible abundance follows evidence.
+ * Awtsmoos.com scales actor count and visible abundance without weakening world authority.
  */
 
 import { createGroundSampler } from '../world/GroundPlacementSystem.js';
@@ -21,23 +21,20 @@ import { loadEretzAssets } from './EretzAssetLoader.js';
 import { createEretzFoundationServices } from './EretzFoundationServices.js';
 import { buildWorldCollisionOctree } from './WorldCollisionOctree.js';
 
-export async function createEretzWorldFoundation(
-	hosts,
-	options = {}
-) {
+export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
 	if (!qualityProfile) {
 		throw new Error('Eretz foundation requires a quality profile.');
 	}
 	const services = createEretzFoundationServices(hosts, qualityProfile);
-	const loaded = await loadEretzAssets(options.assets || {});
+	const loaded = await loadEretzAssets({
+		...(options.assets || {}),
+		quality: qualityProfile.quality
+	});
 	const phaseOneGround = createGroundSampler({
 		terrainHeightAt: heightAt
 	});
-	const obstacles = createObstacleField(
-		loaded.assets,
-		phaseOneGround
-	);
+	const obstacles = createObstacleField(loaded.assets, phaseOneGround);
 	const terrain = await createTerrainPackage(
 		obstacles,
 		loaded.grassImage,

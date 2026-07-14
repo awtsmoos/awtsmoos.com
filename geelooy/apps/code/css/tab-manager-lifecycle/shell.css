@@ -1,0 +1,68 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the tab-lifecycle shell and section chambers.
+*/
+.tm-lifecycle-shell {
+	max-width: 1040px;
+	margin: 28px auto;
+	padding: 20px;
+	background: color-mix(in srgb, var(--color-bg-secondary) 94%, transparent);
+	border: 1px solid var(--color-border);
+	border-radius: 18px;
+	box-shadow: 0 24px 90px rgba(0, 0, 0, .55);
+	color: var(--color-text-primary);
+}
+.tm-lifecycle-header,
+.tm-lifecycle-section > header,
+.tm-lifecycle-card,
+.tm-lifecycle-actions {
+	display: flex;
+	align-items: center;
+}
+.tm-lifecycle-header {
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 18px;
+}
+.tm-lifecycle-header h2,
+.tm-lifecycle-section h3,
+.tm-lifecycle-section p { margin: 0; }
+.tm-lifecycle-header > button {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	border: 1px solid var(--color-border);
+	background: var(--color-bg-tertiary);
+	color: inherit;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+.tm-lifecycle-section { margin-top: 22px; }
+.tm-lifecycle-section > header {
+	justify-content: space-between;
+	gap: 18px;
+	margin-bottom: 10px;
+}
+.tm-lifecycle-section p,
+.tm-lifecycle-card small,
+.tm-lifecycle-card span {
+	color: var(--color-text-tertiary);
+	font-size: .82rem;
+}
+.tm-lifecycle-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 10px;
+}
+.tm-lifecycle-empty {
+	grid-column: 1 / -1;
+	padding: 14px;
+	border: 1px dashed var(--color-border);
+	border-radius: 10px;
+}
+@media (max-width: 700px) {
+	.tm-lifecycle-shell { margin: 8px; padding: 14px; }
+	.tm-lifecycle-section > header,
+	.tm-lifecycle-card { align-items: stretch; flex-direction: column; }
+}

@@ -1,35 +1,57 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Decision controls separate ordinary, primary, and destructive outcomes visibly.
+ */
 .decisionPanel {
-	margin-top: 1rem;
-	padding-top: 1rem;
-	border-top: 1px solid var(--line);
+	margin-top: var(--space-4);
+	padding: var(--space-4);
 }
-
 .decisionActions {
-	margin-top: 1rem;
+	margin-top: var(--space-4);
 }
-
+.decisionActions button {
+	flex: 1 1 8rem;
+	min-height: 44px;
+}
+.decisionActions [data-review-action="approve"],
+.decisionActions [data-review-action="publish"],
+.decisionActions [data-review-action="schedule"] {
+	border-color: color-mix(in srgb, var(--awt-success) 40%, var(--line));
+	background: color-mix(in srgb, var(--awt-success) 9%, var(--surface));
+	color: var(--awt-success);
+}
+.decisionActions [data-review-action="changes"],
+.decisionActions [data-review-action="triage"] {
+	border-color: color-mix(in srgb, var(--awt-warning) 40%, var(--line));
+	background: color-mix(in srgb, var(--awt-warning) 9%, var(--surface));
+	color: var(--awt-warning);
+}
 .statusMessage {
 	position: sticky;
-	bottom: 1rem;
+	z-index: var(--z-sticky);
+	bottom: max(1rem, env(safe-area-inset-bottom));
 	max-width: 50rem;
-	margin: 1rem auto;
-	padding: 0.9rem 1rem;
-	background: #171a32;
-	color: white;
+	margin: var(--space-4) auto;
+	padding: .8rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-m);
+	background: var(--surface);
+	box-shadow: var(--shadow-float);
+	color: var(--muted);
 }
-
 .statusMessage[data-kind="error"] {
-	background: var(--danger);
+	border-color: color-mix(in srgb, var(--danger) 44%, var(--line));
+	background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+	color: var(--danger);
 }
-
 .statusMessage[data-kind="success"] {
-	background: #17663c;
+	border-color: color-mix(in srgb, var(--awt-success) 44%, var(--line));
+	background: color-mix(in srgb, var(--awt-success) 8%, var(--surface));
+	color: var(--awt-success);
 }
-
 .statusMessage[data-kind="working"] {
-	background: var(--accent);
+	border-color: color-mix(in srgb, var(--awt-warning) 44%, var(--line));
+	background: color-mix(in srgb, var(--awt-warning) 8%, var(--surface));
+	color: var(--awt-warning);
 }

@@ -1,22 +1,25 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-@import url('./styles/foundation.css');
-@import url('./styles/typography.css');
-@import url('./styles/forms.css');
-@import url('./styles/cosmos.css');
-@import url('./styles/shell.css');
-@import url('./styles/shell-status.css');
-@import url('./styles/navigation.css');
-@import url('./styles/cards.css');
-@import url('./styles/interaction.css');
-@import url('./styles/interaction-media.css');
-@import url('./styles/activity.css');
-@import url('./styles/profile.css');
-@import url('./styles/motion.css');
-@import url('./styles/desktop.css');
-@import url('./styles/mobile.css');
-@import url('./styles/mobile-header.css');
-@import url('./styles/mobile-narrow.css');
-@import url('./styles/accessibility.css');
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Social Hub uses the shared Geelooy UI first and local functional layout second.
+ */
+@import url('/style/geelooy-app/index.css?v=unified-ui-001');
+@import url('/style/social-system/index.css?v=unified-ui-001');
+@import url('./styles/foundation.css?v=unified-ui-001');
+@import url('./styles/typography.css?v=unified-ui-001');
+@import url('./styles/forms.css?v=unified-ui-001');
+@import url('./styles/shell.css?v=unified-ui-001');
+@import url('./styles/shell-status.css?v=unified-ui-001');
+@import url('./styles/navigation.css?v=unified-ui-001');
+@import url('./styles/cards.css?v=unified-ui-001');
+@import url('./styles/interaction.css?v=unified-ui-001');
+@import url('./styles/interaction-media.css?v=unified-ui-001');
+@import url('./styles/activity.css?v=unified-ui-001');
+@import url('./styles/profile.css?v=unified-ui-001');
+@import url('./styles/motion.css?v=unified-ui-001');
+@import url('./styles/desktop.css?v=unified-ui-001');
+@import url('./styles/mobile.css?v=unified-ui-001');
+@import url('./styles/mobile-header.css?v=unified-ui-001');
+@import url('./styles/mobile-narrow.css?v=unified-ui-001');
+@import url('./styles/accessibility.css?v=unified-ui-001');
+@import url('/style/geelooy-app/performance.css?v=unified-ui-001');

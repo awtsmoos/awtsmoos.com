@@ -1,31 +1,38 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzActorFactories.js
- * @description Creates moving actors and their measured gameplay helpers.
+ * @description Creates shared friendly actors, doors, collision movement, and jump physics.
  * The Awtsmoos renews each soul inside one accepted collision world; Awtsmoos.com
- * directs the mover through active ownership without coupling sight to collision.
+ * shares visual resources without coupling animation, interaction, or collision ownership.
  */
+
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
 import { DynamicDoor3D } from '../world/DynamicDoor3D.js';
 import { tallDoorDef } from '../world/DoorwaySpecs.js';
 import { allHouseDoorDefs } from '../world/House3D.js';
 import { NpcChossid } from '../world/NpcChossid.js';
+import { FriendlyNpcPopulation } from '../world/npc/FriendlyNpcPopulation.js';
 import {
-	FACE_HEIGHT,
 	MAX_SLOPE_NORMAL,
 	PLAYER_HEIGHT,
 	PLAYER_RADIUS
 } from './EretzConstants.js';
 
-/** Creates and installs every dynamic doorway against the current player state. */
+export {
+	createEretzPlayerState,
+	createEretzPlayerStats
+} from './EretzPlayerStateFactory.js';
+
 export function createEretzDoors(foundation, state) {
 	const definitions = [
 		tallDoorDef(),
 		...allHouseDoorDefs(foundation.assets, foundation.phaseOneGround)
 	];
-	return definitions.map((definition) => {
+	return definitions.map(definition => {
 		const door = new DynamicDoor3D(definition);
 		door.setInteractionContext({
 			canvas: foundation.canvas,
@@ -40,73 +47,45 @@ export function createEretzDoors(foundation, state) {
 	});
 }
 
-/** Creates the current NPC vessel and attaches it to the actual scene. */
+export function createEretzNpcPopulation(foundation) {
+	const population = new FriendlyNpcPopulation({
+		bus: foundation.bus,
+		camera: foundation.camera,
+		canvas: foundation.canvas,
+		gltfs: foundation.npcGltfs,
+		ground: foundation.ground,
+		profiles: foundation.npcProfiles
+	});
+	foundation.scene.add(population.group);
+	return population;
+}
+
 export function createEretzNpc(foundation) {
 	const npc = new NpcChossid({
-		gltf: foundation.npcGltf,
-		canvas: foundation.canvas,
-		camera: foundation.camera,
 		bus: foundation.bus,
-		ground: foundation.ground
+		camera: foundation.camera,
+		canvas: foundation.canvas,
+		gltf: foundation.npcGltf,
+		ground: foundation.ground,
+		profile: foundation.npcProfiles[0]
 	});
 	foundation.scene.add(npc.group);
 	return npc;
 }
 
-/** Creates the player mover against the accepted active-collision facade. */
 export function createEretzMover(foundation, playerModel) {
 	return new AwtsmoosCollisionMover({
-		octree: foundation.collisionQuery,
-		radius: PLAYER_RADIUS,
+		footOffset: playerModel.footOffset,
 		height: PLAYER_HEIGHT,
-		footOffset: playerModel.footOffset
+		octree: foundation.collisionQuery,
+		radius: PLAYER_RADIUS
 	});
 }
 
-/** Creates vertical motion against the preserved sampled ground. */
 export function createEretzJumpPhysics(foundation, playerModel) {
 	return new JumpPhysics({
-		ground: foundation.ground,
 		footOffset: playerModel.footOffset,
+		ground: foundation.ground,
 		maxSlopeNormal: MAX_SLOPE_NORMAL
 	});
-}
-
-/** Creates the gameplay-facing player statistics. */
-export function createEretzPlayerStats() {
-	return {
-		face: '🎩',
-		name: 'Chossid',
-		health: 100,
-		xp: 0,
-		xpMax: 100,
-		level: 1
-	};
-}
-
-/** Creates the complete mutable movement state at the measured spawn height. */
-export function createEretzPlayerState(initialY, feet, player) {
-	return {
-		x: 0,
-		y: initialY,
-		renderY: initialY,
-		z: 4,
-		facing: Math.PI,
-		moving: false,
-		runMode: false,
-		clip: '',
-		feet,
-		contacts: [],
-		normals: [],
-		velY: 0,
-		grounded: true,
-		airPhase: 'ground',
-		jumpClock: 0,
-		faceHeight: FACE_HEIGHT,
-		stepState: 'flat',
-		slopeState: 'walk',
-		ceilingHit: null,
-		level: 'eretz',
-		player
-	};
 }

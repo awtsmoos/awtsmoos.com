@@ -4,15 +4,13 @@
 
 /**
  * @file EretzAssetLoader.js
- * @description Loads critical actors while allowing remote visual materials to degrade.
- * The Awtsmoos renews the valley before network pigment arrives; Awtsmoos.com keeps
- * actor vessels critical but records missing house textures as honest nonfatal evidence.
+ * @description Loads one shared actor template and degradable world materials in parallel.
+ * The Awtsmoos renews people and landscape beyond remote resources; Awtsmoos.com keeps
+ * actor bones distinct, source buffers shared, and missing decorative pigment nonfatal.
  */
 
 import { loadHouseAssets } from '../assets/HouseAssets.js';
 import { assertCriticalMaterialPreload } from '../assets/MaterialPreloadPolicy.js';
-import { bindImportedModelMaterials } from '../assets/ModelMaterialBinder.js';
-import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
 import {
 	cachedTextureImage,
 	loadPublicMaterialUrl,
@@ -22,13 +20,12 @@ import {
 } from '../assets/PublicMaterialCache.js';
 import { WORLD_TEXTURE_MATERIALS } from '../assets/WorldTextureManifest.js';
 import { GRASS_URLS } from '../world/Terrain3D.js';
-import { PLAYER_MODEL_URL } from './EretzConstants.js';
+import { loadEretzActorAssets } from './EretzActorAssetLoader.js';
 
 export async function loadEretzAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
-	boot?.begin('critical-materials-and-actors');
-	const playerPromise = loadIsolatedGltf(PLAYER_MODEL_URL, 'player');
-	const npcPromise = loadIsolatedGltf(PLAYER_MODEL_URL, 'npc');
+	boot?.begin('critical-materials-and-shared-actors');
+	const actorPromise = loadEretzActorAssets(options);
 	const criticalPreload = await preloadPublicMaterialImages({
 		concurrency: 4,
 		timeoutMs: options.criticalMaterialTimeoutMs || 3500
@@ -38,22 +35,26 @@ export async function loadEretzAssets(options = {}) {
 		WORLD_TEXTURE_MATERIALS
 	);
 	const requiredTimeout = options.requiredImageTimeoutMs || 7000;
-	const [grassImage, assets, playerGltf, npcGltf] = await Promise.all([
+	const [grassImage, assets, actors] = await Promise.all([
 		loadFirstImage(GRASS_URLS, requiredTimeout),
 		loadHouseAssets((urls, timeoutMs) => loadFirstImage(
 			urls,
 			Math.min(timeoutMs, requiredTimeout)
 		)),
-		playerPromise,
-		npcPromise
+		actorPromise
 	]);
-	bindActorMaterials(assets, playerGltf, npcGltf);
 	recordHouseMaterialDegradation(boot, assets);
+	assets.actorAssets = actors.actorAssetStats;
+	assets.importedModelMaterials = actors.importedModelMaterials;
 	assets.publicMaterialPreload = criticalPreload;
 	assets.publicMaterialPolicy = materialPolicy;
 	assets.publicMaterialCache = publicMaterialCacheStats();
 	assets.publicMaterialHydration = scheduleOptionalHydration(assets, options);
-	return { assets, grassImage, npcGltf, playerGltf };
+	return {
+		...actors,
+		assets,
+		grassImage
+	};
 }
 
 export async function loadFirstImage(urls, timeoutMs = 7000) {
@@ -64,13 +65,6 @@ export async function loadFirstImage(urls, timeoutMs = 7000) {
 		if (record.ok && record.image) return record.image;
 	}
 	return null;
-}
-
-function bindActorMaterials(assets, playerGltf, npcGltf) {
-	assets.importedModelMaterials = {
-		npc: bindImportedModelMaterials(npcGltf.scene),
-		player: bindImportedModelMaterials(playerGltf.scene)
-	};
 }
 
 function recordHouseMaterialDegradation(boot, assets) {

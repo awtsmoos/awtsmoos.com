@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Discovery cards reveal identity, provenance, and action without decorative fog.
+ */
+.social-spaces-shell .social-space-card {
+	display: grid;
+	align-content: space-between;
+	gap: var(--space-5);
+	min-height: 20rem;
+	padding: var(--space-4);
+}
+.social-spaces-shell .space-body,
+.social-spaces-shell .space-copy {
+	display: grid;
+	gap: var(--space-3);
+}
+.social-spaces-shell .space-seal {
+	display: grid;
+	width: 3.25rem;
+	height: 3.25rem;
+	place-items: center;
+	border: 1px solid var(--g-border-strong);
+	border-radius: .9rem;
+	background: var(--awt-surface-muted);
+	color: var(--g-accent);
+	font-weight: 850;
+}
+.social-spaces-shell .space-title-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+.social-spaces-shell .space-title-row h2 {
+	margin: 0;
+	font-size: clamp(1.45rem, 3vw, 2.15rem);
+	line-height: 1.05;
+}
+.social-spaces-shell .space-meta-line {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+}
+.social-spaces-shell .space-meta-line span {
+	padding: .3rem .5rem;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-pill);
+	background: var(--awt-surface-soft);
+	color: var(--g-faint);
+	font-family: var(--font-mono);
+	font-size: var(--type-caption);
+}
+.social-spaces-shell .space-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+.social-spaces-shell .space-actions a {
+	flex: 1 1 7rem;
+}
+.social-spaces-shell .social-empty-card {
+	grid-column: 1 / -1;
+	justify-items: start;
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+}

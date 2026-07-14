@@ -1,7 +1,6 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file tiny-gltf-instance.js
  * @description Clones transforms and skeletons while sharing immutable GLTF resources.
@@ -102,9 +101,7 @@ function copyNodeState(source, target) {
 	target.quaternion.copy(source.quaternion);
 	target.scale.copy(source.scale);
 	target.matrix = source.matrix ? copyMat4(source.matrix) : null;
-	target.userData = {
-		...(source.userData || {})
-	};
+	target.userData = { ...(source.userData || {}) };
 }
 
 function resolveMaterial(material, node, resolver) {

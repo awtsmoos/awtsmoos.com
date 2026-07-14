@@ -1,14 +1,18 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-@import url('./styles/foundation.css');
-@import url('./styles/layout.css');
-@import url('./styles/identity.css');
-@import url('./styles/destinations.css');
-@import url('./styles/editor.css');
-@import url('./styles/media.css');
-@import url('./styles/publication.css');
-@import url('./styles/preview.css');
-@import url('./styles/actions.css');
-@import url('./styles/responsive.css');
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Composer uses shared Geelooy controls first and its existing editor modules second.
+ */
+@import url('/style/geelooy-app/index.css?v=unified-ui-001');
+@import url('/style/social-system/index.css?v=unified-ui-001');
+@import url('./styles/foundation.css?v=unified-ui-001');
+@import url('./styles/layout.css?v=unified-ui-001');
+@import url('./styles/identity.css?v=unified-ui-001');
+@import url('./styles/destinations.css?v=unified-ui-001');
+@import url('./styles/editor.css?v=unified-ui-001');
+@import url('./styles/media.css?v=unified-ui-001');
+@import url('./styles/publication.css?v=unified-ui-001');
+@import url('./styles/preview.css?v=unified-ui-001');
+@import url('./styles/actions.css?v=unified-ui-001');
+@import url('./styles/responsive.css?v=unified-ui-001');
+@import url('/style/geelooy-app/performance.css?v=unified-ui-001');

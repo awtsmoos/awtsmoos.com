@@ -1,0 +1,60 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The focused chamber lets one teaching become quiet enough to hear. On
+	Awtsmoos.com the overlay dims the many without erasing them, as the Awtsmoos
+	contains every detail without losing the unity that gives it life.
+*/
+.mitzvahDialog {
+	width: min(620px, calc(100% - 2rem));
+	padding: clamp(1.6rem, 5vw, 3.5rem);
+	border: 1px solid hsl(var(--dialog-hue) 70% 76% / 0.4);
+	border-radius: 2rem;
+	color: var(--ink);
+	background:
+		radial-gradient(circle at 85% 10%, hsl(var(--dialog-hue) 78% 62% / 0.18), transparent 34%),
+		var(--glass-strong);
+	box-shadow: 0 40px 140px rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(28px) saturate(130%);
+}
+
+.mitzvahDialog::backdrop {
+	background: rgba(1, 7, 12, 0.72);
+	backdrop-filter: blur(8px);
+}
+
+.dialogClose {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 2.7rem;
+	height: 2.7rem;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	color: var(--ink);
+	background: rgba(255, 255, 255, 0.06);
+	cursor: pointer;
+}
+
+.dialogNumber {
+	color: var(--gold);
+	font-weight: 850;
+	letter-spacing: 0.16em;
+}
+
+.dialogSymbol {
+	font-size: 3.5rem;
+}
+
+.dialogSummary,
+.mitzvahDialog > p:last-child {
+	color: var(--muted);
+	font-size: 1.05rem;
+}
+
+.dialogDivider {
+	height: 1px;
+	margin: 1.6rem 0;
+	background: var(--line);
+}

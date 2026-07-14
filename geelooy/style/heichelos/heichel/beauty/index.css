@@ -4,11 +4,11 @@
  * The active Heichel beauty stack is small: shell, identity, hero, navigation, cards.
  */
 @import "/style/foundation/beauty/index.css?v=unified-ui-001";
-@import "./shell.css?v=unified-ui-001";
-@import "./identity/index.css?v=unified-ui-001";
-@import "./hero/index.css?v=unified-ui-001";
-@import "./navigation/index.css?v=unified-ui-001";
-@import "./cards/index.css?v=unified-ui-001";
-@import "./journey/index.css?v=unified-ui-001";
-@import "./modal/index.css?v=unified-ui-001";
-@import "./responsive/index.css?v=unified-ui-001";
+@import "./shell.css";
+@import "./identity/index.css";
+@import "./hero/index.css";
+@import "./navigation/index.css";
+@import "./cards/index.css";
+@import "./journey/index.css";
+@import "./modal/index.css";
+@import "./responsive/index.css";

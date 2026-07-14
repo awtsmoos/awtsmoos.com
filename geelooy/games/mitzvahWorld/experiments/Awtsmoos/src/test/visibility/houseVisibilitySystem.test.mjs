@@ -4,80 +4,112 @@
 
 /**
  * @file houseVisibilitySystem.test.mjs
- * @description Proves closed houses conceal only tagged interiors while doors,
- * entry, collision vessels, and exterior forms remain before the Awtsmoos.
+ * @description Proves door/entry reveal, runtime suspension, and collision separation.
+ * The Awtsmoos renews hidden rooms beyond sight; Awtsmoos.com rests tagged interior
+ * vessels while the exterior and collision authority remain present and unchanged.
  */
-import assert from 'node:assert/strict';
-import { pointInsideHouse } from '../../world/visibility/HouseBounds.js';
-import { HouseVisibilitySystem } from '../../world/visibility/HouseVisibilitySystem.js';
 
-const house = {
-	id: 'Awtsmoos-test-house',
-	x: 10,
-	z: -8,
-	yaw: Math.PI / 2,
-	width: 12,
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { pointInsideHouse } from '../../world/visibility/HouseBounds.js';
+import {
+	HouseVisibilitySystem
+} from '../../world/visibility/HouseVisibilitySystem.js';
+
+const HOUSE = Object.freeze({
 	depth: 8,
 	floorY: 2,
-	wallHeight: 10
-};
-const interiorWall = mesh('wall', house.id, 'room-partitions');
-const stair = mesh('stairs', house.id, 'stairs-1-2');
-const exterior = { name: 'outer-wall', visible: true, userData: {} };
-const root = { children: [interiorWall, { children: [stair, exterior] }] };
-const frontDoor = {
-	state: 'closed',
-	def: {
-		id: `${house.id}-front-door`,
-		frame: { houseId: house.id }
-	}
-};
-const system = new HouseVisibilitySystem({
-	root,
-	houses: [house],
-	doors: [frontDoor]
+	id: 'Awtsmoos-test-house',
+	wallHeight: 10,
+	width: 12,
+	x: 10,
+	yaw: Math.PI / 2,
+	z: -8
 });
 
-assert.equal(pointInsideHouse(house, { x: 10, renderY: 3, z: -8 }), true);
-assert.equal(pointInsideHouse(house, { x: 40, renderY: 3, z: -8 }), false);
-
-system.update({ x: 40, renderY: 3, z: -8 });
-assert.equal(interiorWall.visible, false);
-assert.equal(stair.visible, false);
-assert.equal(exterior.visible, true);
-assert.equal(system.stats().hiddenMeshes, 2);
-
-frontDoor.state = 'opening';
-system.update({ x: 40, renderY: 3, z: -8 });
-assert.equal(interiorWall.visible, true);
-assert.equal(stair.visible, true);
-
-frontDoor.state = 'closed';
-system.update({ x: 10, renderY: 3, z: -8 });
-assert.equal(interiorWall.visible, true);
-assert.equal(system.stats().visibleHouses, 1);
-
-system.update({ x: 40, renderY: 3, z: -8 });
-assert.equal(interiorWall.visible, false);
-assert.equal(system.stats().hiddenHouses, 1);
-
-console.log(JSON.stringify({
-	ok: true,
-	stats: system.stats(),
-	exteriorVisible: exterior.visible
-}, null, 2));
-
-function mesh(name, houseId, source) {
-	return {
-		name,
-		visible: true,
+function harness() {
+	const calls = [];
+	const interiorWall = mesh('wall', 'room-partitions', calls);
+	const stair = mesh('stairs', 'stairs-1-2', calls);
+	const exterior = {
 		children: [],
+		name: 'outer-wall',
+		userData: {},
+		visible: true
+	};
+	const root = {
+		children: [interiorWall, { children: [stair, exterior] }]
+	};
+	const frontDoor = {
+		def: {
+			frame: { houseId: HOUSE.id },
+			id: `${HOUSE.id}-front-door`
+		},
+		state: 'closed'
+	};
+	const system = new HouseVisibilitySystem({
+		doors: [frontDoor],
+		houses: [HOUSE],
+		root
+	});
+	return { calls, exterior, frontDoor, interiorWall, stair, system };
+}
+
+test('house bounds remain independent of visibility state', () => {
+	assert.equal(
+		pointInsideHouse(HOUSE, { renderY: 3, x: 10, z: -8 }),
+		true
+	);
+	assert.equal(
+		pointInsideHouse(HOUSE, { renderY: 3, x: 40, z: -8 }),
+		false
+	);
+});
+
+test('closed exterior view hides and suspends only tagged interiors', () => {
+	const value = harness();
+	value.system.update({ renderY: 3, x: 40, z: -8 });
+	assert.equal(value.interiorWall.visible, false);
+	assert.equal(value.stair.visible, false);
+	assert.equal(value.exterior.visible, true);
+	assert.equal(
+		value.interiorWall.userData.AwtsmoosInteriorRuntime.suspended,
+		true
+	);
+	assert.equal(value.system.stats().suspendedObjects, 2);
+	assert.deepEqual(value.calls, [false, false]);
+});
+
+test('opening the door or entering resumes interior runtime handles', () => {
+	const value = harness();
+	value.system.update({ renderY: 3, x: 40, z: -8 });
+	value.frontDoor.state = 'opening';
+	value.system.update({ renderY: 3, x: 40, z: -8 });
+	assert.equal(value.interiorWall.visible, true);
+	assert.equal(value.system.stats().activeObjects, 2);
+	value.frontDoor.state = 'closed';
+	value.system.update({ renderY: 3, x: 10, z: -8 });
+	assert.equal(value.stair.visible, true);
+	assert.equal(value.system.stats().visibleHouses, 1);
+	assert.deepEqual(value.calls, [false, false, true, true]);
+});
+
+function mesh(name, source, calls) {
+	return {
+		children: [],
+		name,
 		userData: {
 			AwtsmoosVisibility: {
-				houseId,
 				domain: 'interior',
+				houseId: HOUSE.id,
 				source
+			},
+			interiorRuntimeHandle: {
+				setActive(active) {
+					calls.push(active);
+				}
 			}
-		}
+		},
+		visible: true
 	};
 }

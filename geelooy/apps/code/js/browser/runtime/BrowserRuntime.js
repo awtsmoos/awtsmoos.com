@@ -2,22 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
-import { PreviewManager } from "../../editor/preview-manager.js";
 import { App } from "../../app.js";
 import { BrowserTargetRegistry } from "../target-registry.js";
-import { browserBlueprint, H } from "./dom.js";
 import { appendConsole } from "./console.js";
-import { rememberCustomCode, runCustomHtml, runCustomJs } from "./customRunner.js";
+import { browserBlueprint, H } from "./dom.js";
 import { CODE_BROWSER_WELCOME_URL } from "./address.js";
-import { backRuntime, loadCurrent, navigateRuntime } from "./browser-navigation.js";
+import { loadCurrent, navigateRuntime } from "./browser-navigation.js";
 import { createRuntimeTarget } from "./browser-target.js";
+import { bindRuntimeEvents, bindRuntimeNodes } from "./runtime-bindings.js";
 
 /**
  * B"H
  *
- * The Code browser is now one visible human tab and one automation target. The
- * Awtsmoos renews toolbar and agent action together; Awtsmoos.com never opens an
- * invisible about:blank window when the browser vessel already stands before us.
+ * The Code browser is one visible human tab and one automation target. The
+ * Awtsmoos renews toolbar, document, and agent action together; Awtsmoos.com
+ * never registers the browser iframe as an HTML-preview target or opens blank.
  */
 export class BrowserRuntime {
 	constructor(host) {
@@ -32,11 +31,12 @@ export class BrowserRuntime {
 		this.markHostVessels();
 		const root = H(browserBlueprint(this.state));
 		this.container.replaceChildren(root);
-		this.bindNodes(root);
-		this.bindEvents(root);
-		PreviewManager.registerIframe(this.id, this.frame);
+		bindRuntimeNodes(this, root);
+		bindRuntimeEvents(this);
 		BrowserTargetRegistry.register(createRuntimeTarget(this));
-		void loadCurrent(this).then(() => this.log("nav", this.state.currentUrl)).catch(error => this.fail(error));
+		void loadCurrent(this)
+			.then(() => this.log("nav", this.state.currentUrl))
+			.catch(error => this.fail(error));
 	}
 
 	prepareState() {
@@ -52,35 +52,13 @@ export class BrowserRuntime {
 		this.container.closest(".main-content")?.classList.add("awtsmoos-browser-main-fill");
 	}
 
-	bindNodes(root) {
-		this.root = root;
-		this.address = root.querySelector(".browser-runtime-address");
-		this.frame = root.querySelector(".browser-runtime-frame");
-		this.lines = root.querySelector(".browser-runtime-console-lines");
-		this.htmlBox = root.querySelector(".browser-runtime-code");
-		this.jsBox = root.querySelector(".browser-runtime-js");
-		this.studio = root.querySelector(".browser-runtime-studio");
-		this.statusLine = root.querySelector(".browser-runtime-status");
-	}
-
-	bindEvents(root) {
-		root.querySelector('[data-action="go"]').onclick = () => void this.navigate(this.address.value);
-		root.querySelector('[data-action="reload"]').onclick = () => void this.navigate(this.state.currentUrl, false);
-		root.querySelector('[data-action="home"]').onclick = () => void this.navigate(CODE_BROWSER_WELCOME_URL);
-		root.querySelector('[data-action="console"]').onclick = () => this.toggle("consoleVisible", "has-console");
-		root.querySelector('[data-action="studio"]').onclick = () => this.toggleStudio();
-		root.querySelector('[data-action="back"]').onclick = () => void backRuntime(this).catch(error => this.fail(error));
-		root.querySelector('[data-action="run-html"]').onclick = () => this.runHtml();
-		root.querySelector('[data-action="run-js"]').onclick = () => this.runJs();
-		this.address.addEventListener("keydown", event => {
-			if (event.key === "Enter") void this.navigate(this.address.value);
-		});
-	}
-
 	async navigate(nextUrl, addHistory = true, options = {}) {
 		this.setStatus("Navigating…", "busy");
 		try {
-			const result = await navigateRuntime(this, nextUrl, { ...options, addHistory });
+			const result = await navigateRuntime(this, nextUrl, {
+				...options,
+				addHistory
+			});
 			this.log("nav", result.url);
 			this.setStatus("Ready", "ready");
 			return result;
@@ -88,19 +66,6 @@ export class BrowserRuntime {
 			this.fail(error);
 			throw error;
 		}
-	}
-
-	runHtml() {
-		rememberCustomCode(this.state, this.htmlBox, this.jsBox);
-		runCustomHtml(this.frame, this.state.customHtml);
-		this.log("html", "Custom HTML rendered.");
-		this.save();
-	}
-
-	runJs() {
-		rememberCustomCode(this.state, this.htmlBox, this.jsBox);
-		runCustomJs(this.frame, this.lines, this.state.customJs);
-		this.save();
 	}
 
 	toggle(key, className) {

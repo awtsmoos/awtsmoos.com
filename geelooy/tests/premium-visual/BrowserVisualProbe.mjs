@@ -5,9 +5,7 @@
 /**
  * @module BrowserVisualProbe
  * @description
- * Real Chrome reports premium layout evidence instead of judging screenshots by
- * assertion alone. The Awtsmoos sees every surface directly while Awtsmoos.com
- * records computed desktop, mobile, and reduced-motion contracts.
+ * Real Chrome reports canonical layout, label, navigation, and performance evidence.
  */
 
 export async function settle(client, milliseconds = 450) {
@@ -19,13 +17,15 @@ export async function inspectHome(client) {
 		const shell = document.querySelector('.home-dashboard-shell');
 		const title = document.getElementById('home-title');
 		const dock = document.querySelector('.home-task-dock');
+		const label = document.querySelector('.home-command-label');
 		return {
-			premium: document.body.hasAttribute('data-premium-ui'),
 			columns: getComputedStyle(shell).gridTemplateColumns,
 			titleSize: parseFloat(getComputedStyle(title).fontSize),
 			actions: document.querySelectorAll('.g-home-action').length,
 			feed: Boolean(document.querySelector('[data-home-feed]')),
 			dockPosition: getComputedStyle(dock).position,
+			labelDisplay: getComputedStyle(label).display,
+			labelWeight: parseInt(getComputedStyle(label).fontWeight, 10),
 			viewport: [innerWidth, innerHeight]
 		};
 	})()`);
@@ -36,11 +36,14 @@ export async function inspectDiscovery(client) {
 		const hero = document.querySelector('.spaces-hero');
 		const grid = document.querySelector('.spaces-grid');
 		const search = document.querySelector('.spaces-search');
+		const label = document.querySelector('.spaces-search label');
 		return {
 			cards: document.querySelectorAll('.social-space-card').length,
 			columns: getComputedStyle(grid).gridTemplateColumns,
 			height: hero.getBoundingClientRect().height,
 			searchPosition: getComputedStyle(search).position,
+			backdrop: getComputedStyle(search).backdropFilter,
+			labelDisplay: getComputedStyle(label).display,
 			radius: getComputedStyle(hero).borderRadius
 		};
 	})()`);
@@ -58,7 +61,9 @@ export async function inspectHeichel(client) {
 			gridColumns: getComputedStyle(grid).gridTemplateColumns,
 			dockDisplay: getComputedStyle(dock).display,
 			dockPosition: getComputedStyle(dock).position,
+			dockBackdrop: getComputedStyle(dock).backdropFilter,
 			cardRadius: getComputedStyle(card).borderRadius,
+			cardTransform: getComputedStyle(card).transform,
 			viewport: [innerWidth, innerHeight]
 		};
 	})()`);

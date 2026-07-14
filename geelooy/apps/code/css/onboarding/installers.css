@@ -1,0 +1,69 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews installer commands and native-runtime truth as optional paths.
+*/
+.code-welcome__installers {
+	margin-top: 12px;
+}
+.code-command-card {
+	display: grid;
+	gap: 6px;
+	min-width: min(100%, 360px);
+	padding: 12px;
+	border: 1px solid rgba(151, 190, 216, .18);
+	border-radius: 15px;
+	background: rgba(255, 255, 255, .035);
+}
+.code-command-card code {
+	overflow: auto;
+	padding: 8px;
+	background: #020812;
+	border-radius: 7px;
+	color: #9effc5;
+	font-family: "Fira Code", monospace;
+	font-size: .78rem;
+}
+.code-command-card button {
+	justify-self: start;
+	padding: 6px 10px;
+}
+.code-settings-shell {
+	display: grid;
+	gap: 12px;
+}
+.settings-card {
+	padding: 14px;
+	border: 1px solid var(--color-border);
+	border-radius: 12px;
+	background: var(--color-bg-secondary);
+}
+.settings-card--primary {
+	border-color: color-mix(in srgb, var(--neon-cyan) 50%, var(--color-border));
+	box-shadow: inset 3px 0 0 var(--neon-cyan);
+}
+.settings-card h4,
+.settings-card p {
+	margin-top: 0;
+}
+.settings-help {
+	color: var(--color-text-tertiary);
+	line-height: 1.5;
+}
+.settings-title-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+.settings-provider-details summary {
+	cursor: pointer;
+}
+.settings-provider-details[open] summary {
+	margin-bottom: 12px;
+}
+@media (max-width: 620px) {
+	.code-welcome__installers { align-items: stretch; flex-direction: column; }
+	.code-command-card { min-width: 0; }
+	.settings-title-row { align-items: stretch; flex-direction: column; }
+}
