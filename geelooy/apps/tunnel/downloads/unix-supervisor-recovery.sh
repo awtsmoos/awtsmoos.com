@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos preserves verified older worlds without blessing them before they
-# register. Awtsmoos.com stages one archive, confirms it only after sustained
-# TUNNEL_ACK, and then clears the failure memory that requested restoration.
+# Verified older worlds remain available without becoming the first response to
+# one transport wound. The Awtsmoos renews retries and archives; Awtsmoos.com
+# restores only after durable policy requests it, then confirms registration.
 
 RESTORE_PENDING=0
 RESTORED_VERSION=""
@@ -34,8 +34,8 @@ recovery_environment() {
 
 report_registration_failure() {
 	local reason="${1:-registration_failure}"
-	node "$ROOT/scripts/recovery-control.cjs" report-failure \
-		"$ROOT" "$reason" restore >> "$RECOVERY_LOG" 2>&1 || true
+	node "$ROOT/scripts/recovery-control.cjs" report-registration-failure \
+		"$ROOT" "$reason" >> "$RECOVERY_LOG" 2>&1 || true
 	supervisor_log "registration_failure_reported" "reason=$reason"
 }
 

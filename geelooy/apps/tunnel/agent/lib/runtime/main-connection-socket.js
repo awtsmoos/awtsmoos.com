@@ -2,12 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const Activity = require("./main-connection-activity.js");
+
 /**
  * B"H
  *
  * One socket generation is wired as a complete vessel. The Awtsmoos renews
- * open, message, close, and error; Awtsmoos.com records each boundary without
- * letting stale sockets mutate the active generation.
+ * open, application messages, transport pulses, close, and error; Awtsmoos.com
+ * lets only the active acknowledged generation refresh connection testimony.
  */
 function wireConnectionSocket(options) {
 	const {
@@ -19,6 +21,12 @@ function wireConnectionSocket(options) {
 		owns,
 		scheduleReconnect
 	} = options;
+	let releaseTransportActivity = () => {};
+
+	function releaseActivity() {
+		releaseTransportActivity();
+		releaseTransportActivity = () => {};
+	}
 
 	ws.on("open", () => {
 		if (!owns(ws, generation)) {
@@ -32,6 +40,12 @@ function wireConnectionSocket(options) {
 			agentVersion: dependencies.agentVersion || "",
 			generation
 		});
+		releaseTransportActivity = Activity.bindTransportActivity({
+			dependencies,
+			generation,
+			owns,
+			ws
+		});
 		dependencies.log("info", "B\"H websocket open");
 		dependencies.registerReady(ws, config);
 	});
@@ -43,6 +57,7 @@ function wireConnectionSocket(options) {
 	});
 
 	ws.on("close", () => {
+		releaseActivity();
 		if (!owns(ws, generation)) {
 			return;
 		}
@@ -67,6 +82,7 @@ function wireConnectionSocket(options) {
 	});
 
 	ws.on("error", error => {
+		releaseActivity();
 		if (!owns(ws, generation)) {
 			return;
 		}

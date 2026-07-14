@@ -9,7 +9,7 @@ const path = require("node:path");
  * B"H
  * Recovery memory is written atomically, for the Awtsmoos never confuses a
  * half-written vessel with truth. Awtsmoos.com survives power loss between
- * intent and rename without inventing a tier that was never sealed.
+ * intent and rename without inventing crash or registration-failure memory.
  */
 function statePath(root) {
 	return path.join(root, "recovery-state.json");
@@ -20,10 +20,12 @@ function defaults() {
 		version: 1,
 		tier: 5,
 		consecutiveFailures: 0,
+		registrationFailures: 0,
 		lastFailureReason: "",
 		lastStartAt: null,
 		lastHealthyAt: null,
 		lastDowngradeAt: null,
+		lastRegistrationFailureAt: null,
 		restoreRequired: false,
 		history: []
 	};
@@ -73,6 +75,7 @@ function normalize(value = {}) {
 		...value,
 		tier: Math.max(0, Math.min(5, Number(value.tier ?? base.tier))),
 		consecutiveFailures: Math.max(0, Number(value.consecutiveFailures || 0)),
+		registrationFailures: Math.max(0, Number(value.registrationFailures || 0)),
 		history: Array.isArray(value.history) ? value.history.slice(-100) : []
 	};
 }

@@ -6,6 +6,7 @@ const CrashPolicy = require("./crashPolicy.js");
 const Decision = require("./recoveryDecision.js");
 const Healthy = require("./healthyTransition.js");
 const Integrity = require("./integrity.js");
+const Registration = require("./registrationFailureTransition.js");
 const RecoveryLog = require("./recoveryLog.js");
 const State = require("./stateStore.js");
 const Transitions = require("./stateTransitions.js");
@@ -13,9 +14,9 @@ const Transitions = require("./stateTransitions.js");
 /**
  * B"H
  *
- * Coordinates recovery I/O while pure transition modules hold policy. The
- * Awtsmoos renews startup, exit, restoration, and sustained registration;
- * Awtsmoos.com records each without confusing process life with tunnel health.
+ * Coordinates recovery I/O while pure transitions hold policy. The Awtsmoos
+ * renews startup, exit, registration loss, restoration, and sustained health;
+ * Awtsmoos.com no longer confuses one transport wound with broken software.
  */
 function beforeStart(root) {
 	const health = Integrity.check(root);
@@ -45,6 +46,15 @@ function reportFailure(root, reason, restoreRequired = false) {
 		ok: false,
 		failures: [reason],
 		restoreRequired
+	});
+}
+
+function reportRegistrationFailure(root, reason) {
+	const state = State.update(root, current => Registration.report(current, reason));
+	log(root, "recovery.log", "registration_failure", { state, reason });
+	return Decision.create(state, {
+		ok: false,
+		failures: [reason]
 	});
 }
 
@@ -80,5 +90,6 @@ module.exports = {
 	markHealthy,
 	markRestored,
 	reportFailure,
+	reportRegistrationFailure,
 	setTier
 };

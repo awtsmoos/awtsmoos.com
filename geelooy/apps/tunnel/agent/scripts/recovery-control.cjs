@@ -11,9 +11,9 @@ const State = require("../recovery/stateStore.js");
 /**
  * B"H
  *
- * One narrow Medaber mouth records startup, failure, restoration, and sustained
- * health. The Awtsmoos renews intent and receipt; Awtsmoos.com supervises the
- * tunnel without hand-editing recovery memory or duplicating policy in shell.
+ * One narrow Medaber mouth records startup, crash, registration loss,
+ * restoration, and sustained health. The Awtsmoos renews intent and receipt;
+ * Awtsmoos.com keeps transport wounds separate from broken-version evidence.
  */
 const [action = "status", rawRoot = process.cwd(), ...args] = process.argv.slice(2);
 const root = path.resolve(rawRoot);
@@ -44,6 +44,11 @@ function execute(selectedAction, runtimeRoot, selectedArgs) {
 				runtimeRoot,
 				selectedArgs[0] || "reported_failure",
 				selectedArgs[1] === "restore"
+			);
+		case "report-registration-failure":
+			return Controller.reportRegistrationFailure(
+				runtimeRoot,
+				selectedArgs[0] || "registration_failure"
 			);
 		case "set-tier":
 			return Controller.setTier(runtimeRoot, selectedArgs[0]);

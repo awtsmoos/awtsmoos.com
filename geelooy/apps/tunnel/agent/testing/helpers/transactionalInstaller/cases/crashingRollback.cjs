@@ -41,9 +41,9 @@ async function run() {
 			Context.UNIX_BOOTSTRAP,
 			Context.environment(origin, fixture.runtimeRoot, temporaryRoot, {
 				AWTSMOOS_RECOVERY_ROOT: fixture.recoveryRoot,
-				AWTSMOOS_STARTUP_TIMEOUT_SECONDS: "12",
-				AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS: "12",
-				AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "5",
+				AWTSMOOS_STARTUP_TIMEOUT_SECONDS: "24",
+				AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS: "24",
+				AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "8",
 				AWTSMOOS_STABILITY_SECONDS: "3"
 			}),
 			temporaryRoot
@@ -76,7 +76,7 @@ async function run() {
 
 async function requireRegisteredFixture(fixture, result) {
 	try {
-		await fixture.waitForAgent(15000);
+		await fixture.waitForAgent(25000);
 	} catch (error) {
 		throw new Error(Diagnostics.build(fixture, result, error));
 	}
