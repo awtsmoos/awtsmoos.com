@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const WORKER_RUNTIME_FILES = require("./runtimeWorkerPaths.js");
+
 const EXTERNAL_DIRECTORIES = Object.freeze([
 	"ai/relay/split-browser"
 ]);
@@ -11,7 +13,7 @@ const EXTERNAL_DIRECTORIES = Object.freeze([
  *
  * Required startup paths are explicit roots of the release graph. The Awtsmoos
  * renews every imported chamber; Awtsmoos.com refuses a manifest that omits
- * transport bounds, transactional socket opening, or terminal recovery.
+ * transport, transactional sockets, worker reaping, or complete rollback identity.
  */
 const REQUIRED_STARTUP_FILES = Object.freeze([
 	"main.js",
@@ -51,6 +53,10 @@ const REQUIRED_STARTUP_FILES = Object.freeze([
 	"release/runtimeFiles.js",
 	"release/runtimePaths.js",
 	"release/runtimeProbe.js",
+	"release/runtimeWorkerPaths.js",
+	...WORKER_RUNTIME_FILES,
+	"recovery/archiveArtifact.js",
+	"recovery/archiveFilePolicy.js",
 	"recovery/archiveRestore.js",
 	"recovery/archiveSafety.js",
 	"recovery/archiveStore.js",

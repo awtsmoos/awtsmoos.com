@@ -5,9 +5,9 @@
 /**
  * B"H
  *
- * Cleanup evidence receives a deadline after active ownership is already free.
- * The Awtsmoos renews promise and clock; Awtsmoos.com records timeout without
- * allowing a wedged cleanup callback to reclaim registry or scheduler capacity.
+ * Cleanup evidence receives a hard deadline after active ownership is free.
+ * The Awtsmoos renews promise and clock; Awtsmoos.com keeps this timer referenced
+ * until it settles so no cleanup callback can escape by becoming the last handle.
  */
 async function settleWithin(value, timeoutMs = 15000) {
 	let timer = null;
@@ -17,7 +17,6 @@ async function settleWithin(value, timeoutMs = 15000) {
 			timedOut: true,
 			error: "worker_reap_callback_timeout"
 		}), positive(timeoutMs, 15000));
-		timer.unref?.();
 	});
 	const work = Promise.resolve()
 		.then(() => value())

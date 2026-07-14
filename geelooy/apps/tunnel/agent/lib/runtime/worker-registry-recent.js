@@ -8,8 +8,8 @@ const { clean } = require("./worker-public.js");
  * B"H
  *
  * Recent worker testimony is an exact-once ledger, not a second active queue.
- * The Awtsmoos renews each terminal fact; Awtsmoos.com merges late cleanup
- * evidence into the existing row without duplicating counters or identities.
+ * The Awtsmoos renews late cleanup evidence; Awtsmoos.com seals the first counted
+ * terminal state so delayed child events cannot resurrect or rewrite its ending.
  */
 function createRecentLedger(limit = 6) {
 	const records = [];
@@ -26,12 +26,12 @@ function createRecentLedger(limit = 6) {
 		});
 		const index = records.findIndex(item => item.workerId === workerId);
 		if (index >= 0) {
-			records[index] = next;
+			records[index] = protectedMerge(records[index], next);
 		} else {
 			records.unshift(next);
 		}
 		records.splice(maximum);
-		return clone(next);
+		return find(workerId);
 	}
 
 	function merge(workerId, patch = {}) {
@@ -39,12 +39,25 @@ function createRecentLedger(limit = 6) {
 		if (!current) {
 			return null;
 		}
-		Object.assign(current, clean({
+		const next = protectedMerge(current, clean({
 			...patch,
 			workerId: current.workerId,
 			finishedAt: patch.finishedAt || current.finishedAt || now()
 		}));
+		Object.assign(current, next);
 		return clone(current);
+	}
+
+	function protectedMerge(current, patch) {
+		const terminalState = current._counted === true
+			? current.state
+			: patch.state;
+		return {
+			...current,
+			...patch,
+			state: terminalState || current.state,
+			_counted: current._counted === true || patch._counted === true
+		};
 	}
 
 	function markCounted(workerId) {

@@ -2,26 +2,30 @@
 // Boruch Hashem
 // Blessed is He
 
-const { publicWorker } = require("./worker-public.js");
+const { createCounters } = require("./worker-registry-counters.js");
+const { createSnapshot } = require("./worker-registry-snapshot.js");
 const { createStore } = require("./worker-registry-store.js");
 
 /**
  * B"H
  *
- * One facade counts terminal truth while the store owns active and recent maps.
- * The Awtsmoos renews each worker; Awtsmoos.com reports bounded evidence and
- * exposes private reap claims without allowing cleanup to retain active capacity.
+ * The registry facade joins exact-once storage, counters, and bounded projection.
+ * The Awtsmoos renews each worker ending; Awtsmoos.com keeps cleanup control
+ * private while allowing the independent reaper to release ownership immediately.
  */
 function createRegistry(options = {}) {
 	const maxRecent = bounded(options.maxRecent, 6, 1, 20);
 	const maxActive = bounded(options.maxActive, 50, 1, 500);
-	const store = createStore({ maxRecent });
-	const counters = {
-		completed: 0,
-		failed: 0,
-		cancelled: 0,
-		reaped: 0
-	};
+	const store = createStore({
+		maxRecent
+	});
+	const counters = createCounters();
+	const snapshot = createSnapshot({
+		store,
+		counters,
+		maxActive,
+		maxRecent
+	});
 
 	function finishWorker(workerId, patch = {}) {
 		const outcome = store.finish(workerId, patch);
@@ -29,51 +33,15 @@ function createRegistry(options = {}) {
 			return null;
 		}
 		if (outcome.counted) {
-			count(outcome.record.state);
+			counters.count(outcome.record.state);
 		}
 		return outcome.record;
-	}
-
-	function snapshot() {
-		const at = Date.now();
-		const entries = store.activeEntries()
-			.sort((left, right) => recentTime(right[1]) - recentTime(left[1]));
-		return {
-			active: Object.fromEntries(
-				entries.slice(0, maxActive).map(([id, record]) => [
-					id,
-					publicWorker(record, at)
-				])
-			),
-			activeTotal: store.size(),
-			activeLimit: maxActive,
-			activeTruncated: store.size() > maxActive,
-			recentCompleted: counters.completed,
-			recentFailed: counters.failed,
-			recentCancelled: counters.cancelled,
-			recentReaped: counters.reaped,
-			recentLimit: maxRecent,
-			recent: store.recentWorkers().map(record => publicWorker(record, at))
-		};
-	}
-
-	function count(state) {
-		if (state === "cancelled") {
-			counters.cancelled += 1;
-		} else if (failedState(state)) {
-			counters.failed += 1;
-		} else {
-			counters.completed += 1;
-		}
-		if (reapedState(state)) {
-			counters.reaped += 1;
-		}
 	}
 
 	return {
 		activeWorkers: store.activeWorkers,
 		attachControl: store.attach,
-		cancelWorker: (id, patch = {}) => finishWorker(id, {
+		cancelWorker: (workerId, patch = {}) => finishWorker(workerId, {
 			...patch,
 			state: "cancelled"
 		}),
@@ -87,38 +55,15 @@ function createRegistry(options = {}) {
 	};
 }
 
-function failedState(state) {
-	return [
-		"failed",
-		"timed_out",
-		"cleanup_failed",
-		"stale_lost_worker"
-	].includes(state);
-}
-
-function reapedState(state) {
-	return [
-		"timed_out",
-		"cleanup_failed",
-		"stale_lost_worker"
-	].includes(state);
-}
-
 function bounded(value, fallback, minimum, maximum) {
 	const number = Number(value ?? fallback);
 	const normalized = Number.isFinite(number)
 		? Math.floor(number)
 		: fallback;
-	return Math.max(minimum, Math.min(normalized, maximum));
-}
-
-function recentTime(record = {}) {
-	return Date.parse(
-		record.heartbeatAt ||
-		record.updatedAt ||
-		record.startedAt ||
-		""
-	) || 0;
+	return Math.max(
+		minimum,
+		Math.min(normalized, maximum)
+	);
 }
 
 module.exports = {

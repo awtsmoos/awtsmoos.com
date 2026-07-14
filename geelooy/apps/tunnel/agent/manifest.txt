@@ -1,5 +1,5 @@
 B"H
-1.0.307
+1.0.312
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -159,6 +159,16 @@ lib/runtime/watchdog.js
 lib/runtime/worker-process-control.js
 lib/runtime/worker-processes.js
 lib/runtime/worker-public.js
+lib/runtime/worker-reap-await.js
+lib/runtime/worker-reap-deadline.js
+lib/runtime/worker-reap-operation.js
+lib/runtime/worker-reaper-loop.js
+lib/runtime/worker-reaper.js
+lib/runtime/worker-registry-active.js
+lib/runtime/worker-registry-counters.js
+lib/runtime/worker-registry-recent.js
+lib/runtime/worker-registry-snapshot.js
+lib/runtime/worker-registry-store.js
 lib/runtime/worker-registry.js
 lib/runtime/worker-supervisor.js
 lib/self-update-bundles.js
@@ -247,6 +257,8 @@ next-runtime/transport/quarantineLedger.js
 next-runtime/transport/retryRegistry.js
 next-runtime/transport/retryShapes.js
 rebuild-manifest.cjs
+recovery/archiveArtifact.js
+recovery/archiveFilePolicy.js
 recovery/archiveRestore.js
 recovery/archiveSafety.js
 recovery/archiveStore.js
@@ -266,6 +278,7 @@ release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimePaths.js
 release/runtimeProbe.js
+release/runtimeWorkerPaths.js
 release/sourcePaths.js
 scripts/auto-manifest.cjs
 scripts/cleanup-state.cjs
@@ -451,6 +464,8 @@ tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
 tools/fs/commandJob/cancel.js
+tools/fs/commandJob/cancelResponse.js
+tools/fs/commandJob/cancelStored.js
 tools/fs/commandJob/concurrencyProfile.js
 tools/fs/commandJob/context.js
 tools/fs/commandJob/crossRootApply.js
@@ -463,6 +478,7 @@ tools/fs/commandJob/fairQueueRemove.js
 tools/fs/commandJob/fairQueueSnapshot.js
 tools/fs/commandJob/finalization.js
 tools/fs/commandJob/finalize.js
+tools/fs/commandJob/forceFinalization.js
 tools/fs/commandJob/gc.js
 tools/fs/commandJob/gcCadence.js
 tools/fs/commandJob/heartbeat.js
@@ -473,11 +489,15 @@ tools/fs/commandJob/ids.js
 tools/fs/commandJob/io.js
 tools/fs/commandJob/launcher.js
 tools/fs/commandJob/lifecycle.js
+tools/fs/commandJob/liveIdentity.js
 tools/fs/commandJob/liveLifecycle.js
+tools/fs/commandJob/liveProcessEvents.js
 tools/fs/commandJob/meta.js
 tools/fs/commandJob/metaFactory.js
 tools/fs/commandJob/metaIdentity.js
+tools/fs/commandJob/normalFinalization.js
 tools/fs/commandJob/output.js
+tools/fs/commandJob/ownership.js
 tools/fs/commandJob/pathJson.js
 tools/fs/commandJob/paths.js
 tools/fs/commandJob/policy.js
@@ -486,7 +506,9 @@ tools/fs/commandJob/processCleanup.js
 tools/fs/commandJob/processGroup.js
 tools/fs/commandJob/processIdentity.js
 tools/fs/commandJob/processObserve.js
+tools/fs/commandJob/promiseDeadline.js
 tools/fs/commandJob/queueLimits.js
+tools/fs/commandJob/reap.js
 tools/fs/commandJob/reconcile.js
 tools/fs/commandJob/registryBridge.js
 tools/fs/commandJob/responseLanguage.js

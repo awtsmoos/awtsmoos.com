@@ -11,14 +11,16 @@ const Scheduler = require("./scheduler.js");
 /**
  * B"H
  *
- * Reaping releases the scheduler before touching process or disk. The Awtsmoos
- * renews lane and cleanup separately; Awtsmoos.com verifies the exact process
- * family, escalates bounded signals, and persists terminal evidence afterward.
+ * Reaping claims terminal ownership before signaling and releases the scheduler
+ * before touching process or disk. The Awtsmoos renews ending and cleanup;
+ * Awtsmoos.com lets late child events contribute evidence without choosing state.
  */
 function reapLive(config, jobId, live, request = {}) {
 	if (live.reapPromise) {
 		return live.reapPromise;
 	}
+	live.terminalOwner = "reaper";
+	live.terminalClaim = request.status || "cancelled";
 	live.reapPromise = perform(config, jobId, live, request);
 	return live.reapPromise;
 }
@@ -48,12 +50,7 @@ async function perform(config, jobId, live, request) {
 	);
 	const cleanup = cleanupResult.ok
 		? cleanupResult.value
-		: {
-			ok: false,
-			state: "cleanup_failed",
-			error: cleanupResult.error,
-			at: new Date().toISOString()
-		};
+		: failedCleanup(cleanupResult.error);
 	const requestedStatus = request.status || "cancelled";
 	const status = cleanup.ok
 		? requestedStatus
@@ -65,8 +62,9 @@ async function perform(config, jobId, live, request) {
 		staleRecovered: status === "stale_lost_worker",
 		reapReason: request.reason || "worker_reap_requested",
 		cleanup,
+		...live.lateProcessExit,
 		error: cleanup.ok
-			? request.error
+			? request.error || live.lateProcessError
 			: cleanup.error || request.error
 	};
 	const meta = await Finalization.forceFinalizeLive(
@@ -82,7 +80,17 @@ async function perform(config, jobId, live, request) {
 	};
 }
 
+function failedCleanup(error) {
+	return {
+		ok: false,
+		state: "cleanup_failed",
+		error,
+		at: new Date().toISOString()
+	};
+}
+
 module.exports = {
+	failedCleanup,
 	perform,
 	reapLive
 };

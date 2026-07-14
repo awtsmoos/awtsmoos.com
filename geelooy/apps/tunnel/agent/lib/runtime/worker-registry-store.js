@@ -3,137 +3,81 @@
 // Blessed is He
 
 const { clean } = require("./worker-public.js");
+const { createActiveRegistry } = require("./worker-registry-active.js");
 const { createRecentLedger } = require("./worker-registry-recent.js");
 
 /**
  * B"H
  *
- * Active ownership and private recovery control remain distinct from recent
- * testimony. The Awtsmoos renews each handoff; Awtsmoos.com can release capacity
- * before cleanup awaits while preserving one worker identity for later evidence.
+ * The store moves one worker from active ownership into recent testimony before
+ * cleanup awaits. The Awtsmoos renews both ledgers; Awtsmoos.com keeps private
+ * control inside the active vessel and exact-once evidence inside the recent one.
  */
 function createStore(options = {}) {
-	const active = new Map();
-	const controls = new Map();
+	const active = createActiveRegistry();
 	const recent = createRecentLedger(options.maxRecent);
 
-	function register(record = {}, control = null) {
-		const workerId = idOf(record.workerId);
-		if (!workerId) {
-			return null;
-		}
-		const startedAt = record.startedAt || now();
-		const next = clean({
-			...record,
-			workerId,
-			startedAt,
-			heartbeatAt: record.heartbeatAt || startedAt,
-			state: record.state || "running"
-		});
-		active.set(workerId, next);
-		attach(workerId, control);
-		return clone(next);
-	}
-
-	function attach(workerId, control) {
-		const id = idOf(workerId);
-		if (!id || typeof control?.reap !== "function") {
-			return false;
-		}
-		controls.set(id, { reap: control.reap });
-		return true;
-	}
-
-	function update(workerId, patch = {}) {
-		const id = idOf(workerId);
-		const current = active.get(id);
-		if (!current) {
-			return null;
-		}
-		const next = clean({
-			...current,
-			...patch,
-			workerId: id,
-			updatedAt: patch.updatedAt || now()
-		});
-		active.set(id, next);
-		return clone(next);
-	}
-
 	function claim(workerId, patch = {}) {
-		const id = idOf(workerId);
-		const current = active.get(id);
-		if (!current) {
+		const released = active.release(workerId);
+		if (!released) {
 			return {
 				claimed: false,
-				record: recent.find(id)
+				record: recent.find(workerId)
 			};
 		}
-		const control = controls.get(id) || null;
-		const record = release(id, {
-			...patch,
-			state: "reaping",
-			reaping: true,
-			reapStartedAt: patch.reapStartedAt || now()
-		});
+		const record = recent.upsert(terminalRecord(
+			released.record,
+			{
+				...patch,
+				state: "reaping",
+				reaping: true,
+				reapStartedAt: patch.reapStartedAt || now()
+			}
+		));
 		return {
 			claimed: true,
-			control,
+			control: released.control,
 			record
 		};
 	}
 
 	function finish(workerId, patch = {}) {
-		const id = idOf(workerId);
-		const record = active.has(id)
-			? release(id, patch)
-			: recent.merge(id, patch);
+		const released = active.release(workerId);
+		const record = released
+			? recent.upsert(terminalRecord(released.record, patch))
+			: recent.merge(workerId, patch);
 		if (!record) {
 			return null;
 		}
 		return {
-			counted: recent.markCounted(id),
-			record: recent.find(id)
+			counted: recent.markCounted(workerId),
+			record: recent.find(workerId)
 		};
 	}
 
-	function release(workerId, patch = {}) {
-		const current = active.get(workerId);
-		if (!current) {
-			return null;
-		}
-		active.delete(workerId);
-		controls.delete(workerId);
-		return recent.upsert(clean({
+	function terminalRecord(current = {}, patch = {}) {
+		return clean({
 			...current,
 			...patch,
-			workerId,
+			workerId: current.workerId,
 			finishedAt: patch.finishedAt || now(),
 			heartbeatAt: patch.heartbeatAt || now(),
 			_counted: false
-		}));
+		});
 	}
 
 	return {
-		activeEntries: () => [...active.entries()].map(([id, value]) => [id, clone(value)]),
-		activeWorkers: () => [...active.values()].map(clone),
-		attach,
+		activeEntries: active.entries,
+		activeWorkers: active.values,
+		attach: active.attach,
 		claim,
 		finish,
-		get: workerId => clone(active.get(idOf(workerId))),
+		get: active.get,
 		recentWorkers: recent.rows,
-		register,
-		size: () => active.size,
-		update
+		register: active.register,
+		size: active.size,
+		update: active.update
 	};
-}
-
-function clone(value) {
-	return value ? structuredClone(value) : null;
-}
-
-function idOf(value) {
-	return String(value || "").trim();
 }
 
 function now() {
