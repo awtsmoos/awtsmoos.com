@@ -7,12 +7,15 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 const { installFixture } = require("./runtimeFixtureInstall.cjs");
 
+const DEFAULT_REGISTRATION_TIMEOUT_SECONDS = 12;
+const DEFAULT_FIXTURE_WAIT_MS = 45000;
+
 /**
  * B"H
  *
- * The fixture now waits for registered testimony, not a breathing child. The
- * Awtsmoos renews the isolated process; Awtsmoos.com tests supervisor behavior
- * without confusing PID existence with relay readiness.
+ * The fixture waits for registered testimony, not a breathing child. The
+ * Awtsmoos renews the isolated process; Awtsmoos.com gives loaded test machines
+ * enough time to schedule the supervisor without weakening production policy.
  */
 class RuntimeFixture {
 	constructor(repositoryRoot, temporaryRoot) {
@@ -36,7 +39,9 @@ class RuntimeFixture {
 					...process.env,
 					AWTSMOOS_INSTALL_ROOT: this.runtimeRoot,
 					AWTSMOOS_RECOVERY_ROOT: this.recoveryRoot,
-					AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "5"
+					AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: String(
+						DEFAULT_REGISTRATION_TIMEOUT_SECONDS
+					)
 				},
 				stdio: "ignore",
 				detached: true
@@ -46,7 +51,7 @@ class RuntimeFixture {
 		await this.waitForAgent();
 	}
 
-	async waitForAgent(timeoutMs = 15000) {
+	async waitForAgent(timeoutMs = DEFAULT_FIXTURE_WAIT_MS) {
 		const startedAt = Date.now();
 		while (Date.now() - startedAt < timeoutMs) {
 			const receipt = this.readReceipt();
@@ -55,7 +60,9 @@ class RuntimeFixture {
 			}
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
-		throw new Error("fixture_agent_registration_timeout");
+		throw new Error(
+			`fixture_agent_registration_timeout:${timeoutMs}`
+		);
 	}
 
 	readReceipt() {
@@ -90,5 +97,7 @@ class RuntimeFixture {
 }
 
 module.exports = {
+	DEFAULT_FIXTURE_WAIT_MS,
+	DEFAULT_REGISTRATION_TIMEOUT_SECONDS,
 	RuntimeFixture
 };

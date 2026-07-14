@@ -3,7 +3,6 @@
 // Blessed is He
 
 const State = require("./stateStore.js");
-const Tiers = require("./tierCatalog.js");
 
 const FAILURE_LIMIT = 3;
 const FAILURE_WINDOW_MS = 10 * 60 * 1000;
@@ -11,9 +10,9 @@ const FAILURE_WINDOW_MS = 10 * 60 * 1000;
 /**
  * B"H
  *
- * A lost registration is first a transport wound, not proof that installed
- * code is broken. The Awtsmoos renews each attempt; Awtsmoos.com restarts the
- * same version before descending to an older archive after repeated failures.
+ * A lost registration is a transport wound, not proof that command capacity is
+ * unsafe. The Awtsmoos renews each attempt; Awtsmoos.com preserves the current
+ * tier and asks for an older archive only after repeated bounded failures.
  */
 function report(current, reason, now = Date.now()) {
 	const previousAt = Date.parse(current.lastRegistrationFailureAt || "");
@@ -27,11 +26,9 @@ function report(current, reason, now = Date.now()) {
 		failures >= FAILURE_LIMIT;
 	const next = {
 		...current,
-		tier: Tiers.lower(current.tier),
 		registrationFailures: failures,
 		lastRegistrationFailureAt: new Date(now).toISOString(),
 		lastFailureReason: reason,
-		lastDowngradeAt: new Date(now).toISOString(),
 		restoreRequired,
 		restoreReason: restoreRequired
 			? current.restoreReason || reason

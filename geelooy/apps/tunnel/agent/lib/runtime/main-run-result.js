@@ -2,12 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const ResponseSocket = require("./main-response-socket.js");
+
 /**
  * B"H
  *
  * Completion and failure cross one correlation boundary. The Awtsmoos renews
- * result and witness; Awtsmoos.com records a terminal retry state, emits one
- * stream event, and sends one response without owning execution or scheduling.
+ * result and doorway; Awtsmoos.com preserves terminal testimony through the
+ * current registered generation when the admitting socket has already closed.
  */
 function completeRun(dependencies, context, result, advisoryOvertime) {
 	if (result && result.ok !== false) {
@@ -36,7 +38,8 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 			error: result?.error
 		}
 	);
-	dependencies.Send.safeSend(
+	ResponseSocket.sendOrQueue(
+		dependencies,
 		context.ws,
 		dependencies.Envelope.responseEnvelope(
 			context.data,
@@ -67,7 +70,7 @@ function failRun(dependencies, context, error) {
 		...failed,
 		runtimeMs: Date.now() - context.startedAt
 	});
-	dependencies.Send.safeSend(context.ws, {
+	ResponseSocket.sendOrQueue(dependencies, context.ws, {
 		type: "TUNNEL_RESPONSE",
 		id: context.data.id,
 		...dependencies.Correlation.fields(context.payload),

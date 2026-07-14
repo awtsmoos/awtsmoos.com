@@ -3,13 +3,15 @@
 // Blessed is He
 
 const Activity = require("./main-connection-activity.js");
+const Registration = require("./main-registration-watchdog.js");
+const ResponseSocket = require("./main-response-socket.js");
 
 /**
  * B"H
  *
- * One socket generation is wired as a complete vessel. The Awtsmoos renews
- * open, application messages, transport pulses, close, and error; Awtsmoos.com
- * lets only the active acknowledged generation refresh connection testimony.
+ * One socket generation is a complete vessel. The Awtsmoos renews transport,
+ * registration, close, and error; Awtsmoos.com retries acknowledgement locally
+ * and releases completed work when the registered doorway returns.
  */
 function wireConnectionSocket(options) {
 	const {
@@ -22,10 +24,13 @@ function wireConnectionSocket(options) {
 		scheduleReconnect
 	} = options;
 	let releaseTransportActivity = () => {};
+	let stopRegistrationWatchdog = () => {};
 
-	function releaseActivity() {
+	function releaseConnectionObservers() {
 		releaseTransportActivity();
+		stopRegistrationWatchdog();
 		releaseTransportActivity = () => {};
+		stopRegistrationWatchdog = () => {};
 	}
 
 	ws.on("open", () => {
@@ -46,18 +51,30 @@ function wireConnectionSocket(options) {
 			owns,
 			ws
 		});
+		const registration = Registration.startRegistrationWatchdog({
+			dependencies,
+			ws,
+			config,
+			generation,
+			owns,
+			registerReady: dependencies.registerReady
+		});
+		stopRegistrationWatchdog = registration.stop;
 		dependencies.log("info", "B\"H websocket open");
-		dependencies.registerReady(ws, config);
 	});
 
 	ws.on("message", raw => {
-		if (owns(ws, generation)) {
-			messages.handle(raw, ws);
+		if (!owns(ws, generation)) {
+			return;
+		}
+		messages.handle(raw, ws);
+		if (dependencies.state.registrationConfirmed === true) {
+			ResponseSocket.flush(dependencies, ws);
 		}
 	});
 
 	ws.on("close", () => {
-		releaseActivity();
+		releaseConnectionObservers();
 		if (!owns(ws, generation)) {
 			return;
 		}
@@ -78,11 +95,13 @@ function wireConnectionSocket(options) {
 			}
 		);
 		dependencies.log("warn", "WS closed; reconnecting...");
-		scheduleReconnect(rejected ? "registration_rejected" : "socket_closed");
+		scheduleReconnect(
+			rejected ? "registration_rejected" : "socket_closed"
+		);
 	});
 
 	ws.on("error", error => {
-		releaseActivity();
+		releaseConnectionObservers();
 		if (!owns(ws, generation)) {
 			return;
 		}

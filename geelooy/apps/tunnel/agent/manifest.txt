@@ -1,5 +1,5 @@
 B"H
-1.0.303
+1.0.305
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -65,7 +65,11 @@ lib/remoteNativeDesktop/rfb/server.js
 lib/remoteNativeDesktop/scene/geelooyScene.js
 lib/remoteNativeDesktop/scene/painter.js
 lib/remoteNativeDesktop/sceneToFramebuffer.js
+lib/response-output.js
+lib/response-prune.js
 lib/response-size.js
+lib/response-spill.js
+lib/response-values.js
 lib/responseContracts/index.js
 lib/responseContracts/registry.js
 lib/runtime/action-stream.js
@@ -109,7 +113,9 @@ lib/runtime/main-payload.js
 lib/runtime/main-queue-progress.js
 lib/runtime/main-queue-rejection.js
 lib/runtime/main-queue.js
+lib/runtime/main-registration-watchdog.js
 lib/runtime/main-registration.js
+lib/runtime/main-response-socket.js
 lib/runtime/main-retry-control.js
 lib/runtime/main-run-progress.js
 lib/runtime/main-run-request.js

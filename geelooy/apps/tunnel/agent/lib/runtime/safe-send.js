@@ -14,19 +14,22 @@ const Correlation = require("./correlation.js");
  * B"H
  *
  * Every response crosses a bounded vessel. The Awtsmoos renews content and
- * limit; Awtsmoos.com preserves correlation even when the first serialization
- * is too large or malformed.
+ * limit; Awtsmoos.com exposes the same compaction gate to immediate sends and
+ * reconnect queues so neither network nor memory holds an oversized envelope.
  */
+function compact(object) {
+	return compactForSend(ROOT, object, {
+		limitBytes: inlineLimit()
+	}).envelope;
+}
+
 function safeSend(ws, object) {
 	if (!ws || !ws.opened) {
 		return false;
 	}
 
 	try {
-		const compacted = compactForSend(ROOT, object, {
-			limitBytes: inlineLimit()
-		});
-		ws.sendJson(compacted.envelope);
+		ws.sendJson(compact(object));
 		return true;
 	} catch (error) {
 		return sendFailure(ws, object, error);
@@ -53,6 +56,7 @@ function sendFailure(ws, object, error) {
 }
 
 module.exports = {
+	compact,
 	safeSend,
 	sendFailure
 };

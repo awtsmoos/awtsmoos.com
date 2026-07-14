@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The supervisor accepts only a fresh receipt for its exact child and tunnel.
-# The Awtsmoos renews connection truth; Awtsmoos.com requires sustained health,
-# bounded receipt freshness, and a stability window shorter than its deadline.
+# The Awtsmoos renews connection truth; Awtsmoos.com gives the internal socket
+# watchdog five minutes to heal before process-level recovery becomes necessary.
 
 supervisor_expected_tunnel() {
 	node - "$ROOT/config.json" <<'NODE'
@@ -76,7 +76,7 @@ wait_child_registration() {
 }
 
 monitor_registered_child() {
-	local grace_seconds="${AWTSMOOS_RECONNECT_GRACE_SECONDS:-60}"
+	local grace_seconds="${AWTSMOOS_RECONNECT_GRACE_SECONDS:-300}"
 	local disconnected_at=0
 	while supervisor_alive "$CHILD_PID"; do
 		[ -f "$STOP_FILE" ] && finish_supervisor
