@@ -11,22 +11,25 @@ const { buildAgentBundle } = require("../../../../api/tunnel/install/tools/zipBu
 const tunnelRoot = path.resolve(__dirname, "../..");
 const repositoryRoot = path.resolve(tunnelRoot, "../../..");
 const manifestPath = path.join(tunnelRoot, "agent/manifest.txt");
-const packageStagePath = path.join(tunnelRoot, "downloads/unix-package-stage.sh");
-const installCorePath = path.join(tunnelRoot, "downloads/unix-install-core.sh");
-const windowsPath = path.join(tunnelRoot, "downloads/windows.ps1");
+const downloads = path.join(tunnelRoot, "downloads");
 
 /**
  * B"H
  *
- * Proves that exact release bytes, not normalized guesses, govern publication
- * and installation. The Awtsmoos joins manifest, ZIP, Unix preflight, and the
- * older Windows vessel into one checksum covenant for Awtsmoos.com.
+ * Exact release bytes govern publication on both platforms. The Awtsmoos joins
+ * manifest, ZIP, Unix staging, and split Windows helpers into one checksum oath;
+ * Awtsmoos.com never validates a normalized guess instead of published bytes.
  */
 const manifestBytes = fs.readFileSync(manifestPath);
 const bundle = buildAgentBundle(repositoryRoot);
-const packageStage = fs.readFileSync(packageStagePath, "utf8");
-const installCore = fs.readFileSync(installCorePath, "utf8");
-const windowsSource = fs.readFileSync(windowsPath, "utf8");
+const packageStage = read("unix-package-stage.sh");
+const installCore = read("unix-install-core.sh");
+const windows = [
+	"windows.ps1",
+	"windows-package.ps1",
+	"windows-bundle.ps1",
+	"windows-core.ps1"
+].map(read).join("\n");
 
 assert.equal(bundle.manifestSha256, hash(manifestBytes));
 assert.equal(bundle.sha256, hash(bundle.buffer));
@@ -38,8 +41,9 @@ assert.match(packageStage, /"\$actual_bundle_sha" = "\$BUNDLE_SHA"/);
 assert.match(installCore, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-package-stage\.sh"/);
 assert.match(installCore, /stage_release_candidate/);
 assert.match(installCore, /activate_release_candidate/);
-assert.match(windowsSource, /\$manifestHash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
-assert.match(windowsSource, /Write-Utf8NoBom \$manifestCopyPath \(\$lines -join "`n"\)/);
+assert.match(windows, /\$manifestHash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
+assert.match(windows, /Write-Utf8NoBom \$manifestCopyPath \(\$lines -join "`n"\)/);
+assert.match(windows, /Install-AwtsmoosBundles/);
 
 const newlineBytes = Buffer.from('B"H\n1.2.3\nmain.js\nlib/ws.js\n', "utf8");
 const noNewlineBytes = Buffer.from('B"H\n1.2.3\nmain.js\nlib/ws.js', "utf8");
@@ -52,19 +56,13 @@ console.log(JSON.stringify({
 	bundleSha256: bundle.sha256,
 	exactByteHashing: true,
 	unixTransactionalVerification: true,
-	windowsExactTextVerification: true
+	windowsSplitHelperVerification: true
 }, null, 2));
 
-/**
- * B"H
- *
- * Seals a Buffer or string exactly as received, preserving every final newline.
- *
- * @param {Buffer|string} value
- * 	Exact bytes or text to hash.
- * @returns {string}
- * 	Lowercase hexadecimal SHA-256.
- */
+function read(name) {
+	return fs.readFileSync(path.join(downloads, name), "utf8");
+}
+
 function hash(value) {
 	return crypto.createHash("sha256").update(value).digest("hex");
 }

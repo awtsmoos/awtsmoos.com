@@ -3,10 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Rollback requires registration at every tier. The Awtsmoos renews predecessor,
-# archive, and legacy bridge; Awtsmoos.com clears failure memory only after a
-# sustained registered runtime has replaced the failed candidate.
-
+# Rollback names modern restoration and emergency legacy fallback separately. The
+# Awtsmoos renews predecessor, archive, and bridge; Awtsmoos.com calls a verified
+# modern archive rolled back, reserving fallback_connected for the degraded bridge.
 mark_runtime_restored() {
 	local version="${1:-unknown}"
 	local source="${2:-rollback}"
@@ -70,7 +69,11 @@ restore_legacy_layer() {
 }
 
 recover_without_predecessor() {
-	if restore_archive_layers || restore_legacy_layer; then
+	if restore_archive_layers; then
+		write_activation_journal "rolled_back" "$ROOT" "$ROOT"
+		return 0
+	fi
+	if restore_legacy_layer; then
 		write_activation_journal "fallback_connected" "$ROOT" ""
 		return 0
 	fi
@@ -88,8 +91,12 @@ rollback_failed_activation() {
 		return 0
 	fi
 	install_event "rollback" "warning" \
-		"Exact predecessor failed registration; descending recovery layers." "$rollback"
-	if restore_archive_layers || restore_legacy_layer; then
+		"Exact predecessor failed registration; trying verified archives." "$rollback"
+	if restore_archive_layers; then
+		write_activation_journal "rolled_back" "$failed" "$ROOT"
+		return 0
+	fi
+	if restore_legacy_layer; then
 		write_activation_journal "fallback_connected" "$failed" "$ROOT"
 		return 0
 	fi

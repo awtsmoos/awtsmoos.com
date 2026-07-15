@@ -15,6 +15,9 @@ export ROOT RECOVERY_ROOT
 
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-log.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-progress.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-log-retention.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-io.sh"
@@ -33,10 +36,16 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-fresh.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
 
+# The core keeps download, staging, activation, registration, and completion in one
+# monotonic ascent. The Awtsmoos renews every gate; Awtsmoos.com reserves 100% for
+# a connection receipt that matches the active PID and tunnel name.
 cleanup_install() {
 	local exit_code=$?
-	if [ "$exit_code" -ne 0 ] && [ -n "$CANDIDATE_ROOT" ]; then
-		rm -rf "$CANDIDATE_ROOT" "${CANDIDATE_ROOT}.downloads"
+	if [ "$exit_code" -ne 0 ]; then
+		fail_install_progress "Awtsmoos Tunnel installation failed before registration."
+		if [ -n "$CANDIDATE_ROOT" ]; then
+			rm -rf "$CANDIDATE_ROOT" "${CANDIDATE_ROOT}.downloads"
+		fi
 	fi
 	release_install_lock
 	exit "$exit_code"
@@ -54,37 +63,35 @@ try {
 NODE
 }
 
-complete_install() {
-	local active_version
-	local phase
-	active_version="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf 'unknown')"
-	phase="$(activation_phase)"
-	if skip_start_requested; then
-		install_event "complete" "passed" \
-			"AWTSMOOS_SKIP_START set; Awtsmoos Tunnel files were verified without starting the runtime." \
-			"activeVersion=$active_version candidateVersion=$CANDIDATE_VERSION phase=$phase root=$ROOT"
+finalize_project_cleanup() {
+	if [ ! -f "$ROOT/config.json" ]; then
 		return 0
 	fi
-	install_event "complete" "passed" \
-		"Awtsmoos Tunnel installation ended with a guarded registered connection." \
-		"activeVersion=$active_version candidateVersion=$CANDIDATE_VERSION phase=$phase root=$ROOT"
+	local project_root
+	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
+	cleanup_disposable_state "$project_root"
 }
 
 trap cleanup_install EXIT
+install_progress 20 "Preparing transactional installation"
 acquire_install_lock
 rotate_runtime_logs
 prune_displaced_runtimes
 install_event "bootstrap" "started" \
 	"Beginning ACK-verified transactional tunnel installation." "$ROOT"
 cleanup_disposable_state "$(pwd)"
-stage_release_candidate
-activate_release_candidate
 
-if [ -f "$ROOT/config.json" ]; then
-	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
-	cleanup_disposable_state "$project_root"
+install_progress 22 "Fetching and verifying release"
+stage_release_candidate
+install_progress 68 "Release verified; preparing activation"
+activate_release_candidate
+if skip_start_requested; then
+	install_progress 72 "Release activated; runtime start skipped"
+else
+	install_progress 97 "Registration verified; finalizing"
 fi
+finalize_project_cleanup
 
 release_install_lock
 trap - EXIT
-complete_install
+complete_install_experience "$(activation_phase)"

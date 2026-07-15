@@ -1,103 +1,116 @@
 // B"H
-const assert = require("assert");
-const fs = require("fs");
-const fsp = require("fs/promises");
-const http = require("http");
-const path = require("path");
-const { spawn, spawnSync } = require("child_process");
-const { maybeSendBundle } = require("../../zipBundles/bundleRoute.js");
+// Boruch Hashem
+// Blessed is He
+
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const fsp = require("node:fs/promises");
+const path = require("node:path");
+const { spawnSync } = require("node:child_process");
 const { parseManifest } = require("../../zipBundles/bundleManifest.js");
-const { buildAgentZip, manifestFiles } = require("../../../../geelooy/api/tunnel/install/tools/zipBundle.js");
+const { UnixInstallerFixture } = require("./helpers/unixInstallerFixture.cjs");
+const { fetchJson, findFreePort, listenerPids, waitJson } = require("./helpers/localhostJson.cjs");
+
+const repositoryRoot = process.cwd();
+const sandbox = path.join(repositoryRoot, "AI_THOUGHTS/runtime-stress/.tmp-unix-localhost-install");
+const home = path.join(sandbox, "home");
+const installRoot = path.join(home, ".awtsmoos-tunnel");
+const manifestPath = path.join(repositoryRoot, "geelooy/apps/tunnel/agent/manifest.txt");
+const expectedTunnelName = "awt-sandbox-unix-zip";
 
 /**
  * B"H
- * Chapter 416: The Unix bootstrap walked on Windows through bash, drinking
- * bundles from localhost and leaving a bootable installed agent behind.
+ *
+ * The localhost proof binds install root, config, API port, and child PID into one
+ * disposable world. The Awtsmoos renews identity and listener together;
+ * Awtsmoos.com rejects any response belonging to the user's live tunnel.
  */
-const repoRoot = process.cwd();
-const agentRoot = path.join(repoRoot, "geelooy/apps/tunnel/agent");
-const manifestPath = path.join(agentRoot, "manifest.txt");
-const sandbox = path.join(repoRoot, "AI_THOUGHTS/runtime-stress/.tmp-unix-localhost-install");
-const home = path.join(sandbox, "home");
-const installRoot = path.join(home, ".awtsmoos-tunnel");
-const apiPort = 3990;
+async function main() {
+	if (!bashAvailable()) return printSkip();
+	fs.rmSync(sandbox, { recursive: true, force: true });
+	await fsp.mkdir(home, { recursive: true });
+	const manifest = parseManifest(fs.readFileSync(manifestPath, "utf8"));
+	const apiPort = await findFreePort();
+	const fixture = new UnixInstallerFixture(repositoryRoot, {
+		home,
+		installRoot,
+		apiPort,
+		tunnelName: expectedTunnelName
+	});
+	await fixture.start(0);
+	let agent = null;
+	try {
+		const install = await fixture.runInstaller();
+		assertInstalled(manifest);
+		assertSandboxConfig(apiPort);
+		agent = fixture.startAgent();
+		const health = await waitJson(`http://127.0.0.1:${apiPort}/health?summary=1`);
+		assert.equal(health.tunnelName, expectedTunnelName, compactHealth(health));
+		assert.deepEqual(listenerPids(apiPort), [agent.pid]);
+		const list = await fetchJson(`http://127.0.0.1:${apiPort}/tool`, listRequest());
+		assert.equal(list.ok, true, JSON.stringify(list));
+		assert.match(install.stdout, /\[\s*72%\].*runtime start skipped/i);
+		assert.doesNotMatch(install.stdout, /\[\s*100%\]/);
+		console.log(JSON.stringify({
+			ok: true,
+			installedFiles: manifest.files.length,
+			health: {
+				tunnelName: health.tunnelName,
+				agentVersion: health.agentVersion
+			},
+			listenerPid: agent.pid,
+			isolatedPort: apiPort,
+			progressVerified: true
+		}, null, 2));
+	} finally {
+		if (agent) await stopChild(agent);
+		await fixture.close();
+	}
 
-function bashAvailable() { return spawnSync("bash", ["--version"], { encoding: "utf8" }).status === 0; }
-function posix(file) { return file.replace(/\\/g, "/"); }
-function responseAdapter(res) { return { statusCode: 200, setHeader: (k, v) => res.setHeader(k, v), end: body => res.end(body) }; }
-function safeFile(root, rel) {
-  const full = path.resolve(root, rel.replace(/^\/+/, ""));
-  assert.ok(!path.relative(root, full).startsWith(".."), "unsafe serve path");
-  return full;
+	function assertInstalled(value) {
+		for (const file of [value.entry, ...value.files]) {
+			assert.equal(fs.existsSync(path.join(installRoot, file)), true, `missing ${file}`);
+		}
+	}
+
+	function assertSandboxConfig(port) {
+		const config = JSON.parse(fs.readFileSync(path.join(installRoot, "config.json"), "utf8"));
+		assert.equal(config.tunnelName, expectedTunnelName);
+		assert.equal(Number(config.localApi?.port), port);
+		assert.equal(path.resolve(config.root), path.resolve(repositoryRoot));
+	}
 }
-function server() {
-  return http.createServer(async (req, res) => {
-    try {
-      const url = new URL(req.url, "http://127.0.0.1:8082");
-      if (url.pathname === "/apps/tunnel/agent/manifest.txt" && url.searchParams.get("bundle")) {
-        const sent = await maybeSendBundle({ filePath: manifestPath, dependencies: { fs: fsp, request: { method: "GET", socket: { remoteAddress: "unix-test" }, headers: {}, yeser: {} }, response: responseAdapter(res), paramKinds: { GET: Object.fromEntries(url.searchParams.entries()) } } });
-        if (!sent) { res.statusCode = 500; res.end("bundle not sent"); }
-        return;
-      }
-      if (url.pathname === "/api/tunnel/install/bundle-manifest") {
-        res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.end(JSON.stringify({ ok: true, files: manifestFiles(repoRoot).length, bundles: [{ name: "agent", url: "/api/tunnel/install/agent.zip" }] }));
-        return;
-      }
-      if (url.pathname === "/api/tunnel/install/agent.zip") {
-        res.setHeader("Content-Type", "application/zip");
-        res.end(buildAgentZip(repoRoot));
-        return;
-      }
-      const full = safeFile(path.join(repoRoot, "geelooy"), url.pathname);
-      if (!fs.existsSync(full) || fs.statSync(full).isDirectory()) { res.statusCode = 404; res.end("missing"); return; }
-      res.end(fs.readFileSync(full));
-    } catch (error) { res.statusCode = 500; res.end(error.stack || error.message); }
-  });
+
+function bashAvailable() {
+	return spawnSync("bash", ["--version"], { encoding: "utf8" }).status === 0;
 }
-function runUnixInstaller() {
-  return new Promise((resolve, reject) => {
-    const child = spawn("bash", ["geelooy/apps/tunnel/downloads/unix.sh"], { cwd: repoRoot, env: { ...process.env, HOME: posix(home), AWTSMOOS_INSTALL_ORIGIN: "http://127.0.0.1:8082", AWTSMOOS_INSTALL_ROOT: posix(installRoot), AWTSMOOS_SKIP_START: "1", AWTSMOOS_TUNNEL_NAME: "awt-sandbox-unix-zip", AWTSMOOS_LOCAL_API_PORT: String(apiPort), AWTSMOOS_PROJECT_ROOT: posix(repoRoot), AWTSMOOS_SKIP_OPEN_CONTROL: "1" } });
-    let stdout = "", stderr = "";
-    child.stdout.on("data", c => stdout += c);
-    child.stderr.on("data", c => stderr += c);
-    child.on("exit", code => code === 0 ? resolve({ stdout, stderr }) : reject(new Error(`unix installer failed ${code}\n${stdout}\n${stderr}`)));
-  });
+
+function printSkip() {
+	console.log(JSON.stringify({ ok: true, skipped: true, reason: "bash_not_available" }, null, 2));
 }
-async function fetchJson(url, options = {}) {
-  const r = await fetch(url, options);
-  const text = await r.text();
-  assert.ok(r.ok, `${url} ${r.status}: ${text}`);
-  return JSON.parse(text);
+
+function compactHealth(health) {
+	return JSON.stringify({ tunnelName: health.tunnelName, root: health.root });
 }
-async function waitHealth() {
-  const start = Date.now(); let last;
-  while (Date.now() - start < 40000) {
-    try { return await fetchJson(`http://127.0.0.1:${apiPort}/health`); } catch (e) { last = e; await new Promise(r => setTimeout(r, 600)); }
-  }
-  throw last || new Error("health timeout");
+
+function listRequest() {
+	return {
+		method: "POST",
+		headers: { "content-type": "application/json" },
+		body: JSON.stringify({ action: "list", arguments: { p: ".", maxResults: 10 } })
+	};
 }
-function startAgent() {
-  return spawn(process.execPath, [path.join(installRoot, "main.js")], { cwd: repoRoot, env: { ...process.env, HOME: home, USERPROFILE: home, AWTSMOOS_LOCAL_API: "1", AWTSMOOS_LOCAL_API_PORT: String(apiPort) }, stdio: ["ignore", "pipe", "pipe"] });
+
+async function stopChild(child) {
+	child.kill("SIGTERM");
+	await Promise.race([
+		new Promise(resolve => child.once("exit", resolve)),
+		new Promise(resolve => setTimeout(resolve, 3000))
+	]);
+	if (child.exitCode === null) child.kill("SIGKILL");
 }
-(async () => {
-  if (!bashAvailable()) { console.log(JSON.stringify({ ok: true, skipped: true, reason: "bash_not_available" }, null, 2)); return; }
-  fs.rmSync(sandbox, { recursive: true, force: true });
-  await fsp.mkdir(home, { recursive: true });
-  const parsed = parseManifest(fs.readFileSync(manifestPath, "utf8"));
-  const s = server();
-  await new Promise(resolve => s.listen(8082, "127.0.0.1", resolve));
-  let agent = null;
-  try {
-    const install = await runUnixInstaller();
-    for (const file of [parsed.entry, ...parsed.files]) assert.ok(fs.existsSync(path.join(installRoot, file)), "missing " + file);
-    agent = startAgent();
-    const health = await waitHealth();
-    const list = await fetchJson(`http://127.0.0.1:${apiPort}/tool`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "list", arguments: { p: ".", maxResults: 10 } }) });
-    assert.equal(list.ok, true, JSON.stringify(list));
-    console.log(JSON.stringify({ ok: true, installedFiles: parsed.files.length, health: { tunnelName: health.tunnelName, agentVersion: health.agentVersion }, listItems: list.items?.length || 0, stdout: install.stdout.split(/\r?\n/).filter(Boolean).slice(0, 16) }, null, 2));
-  } finally {
-    if (agent) agent.kill();
-    await new Promise(resolve => s.close(resolve));
-  }
-})().catch(error => { console.error(JSON.stringify({ ok: false, error: error.message, stack: error.stack }, null, 2)); process.exit(1); });
+
+main().catch(error => {
+	console.error(JSON.stringify({ ok: false, error: error.message, stack: error.stack }, null, 2));
+	process.exit(1);
+});
