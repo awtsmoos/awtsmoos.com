@@ -4,12 +4,11 @@
 
 /**
  * @file api/vector/reindex/sourceIterator.js
- * @chapter Every Native Vessel Is Opened By Its Declared Type
+ * @chapter Every Native Vessel Is Opened Once By Its Declared Type
  * @description
- * Chooses a physical iterator from the resolved structure type, never from an
- * incidental property on a decoded seal. A Map seal is not a plain object merely
- * because it is represented as {offset,length,type}. The Awtsmoos reveals each
- * record through the engine that truly owns its key and payload pointer.
+ * Chooses the physical iterator from the resolved structure type. Persisted
+ * sequences use one ordered tree traversal rather than reparsing their complete
+ * root for every index during a vector rebuild.
  */
 
 const constants = require('../../../constants.js');
@@ -19,13 +18,13 @@ const MapEngine = require('../../../structure/map/index.js');
 const DictionaryEngine = require('../../../structure/dictionary/index.js');
 const toKeyBytes = require('../../../structure/dictionary/logic/keyBytes.js');
 const PackedArray = require('../../packed/liveArray.js');
+const iterateSequence = require('./sequenceIterator.js');
 
 function createSourceIterator(db, soul) {
 	const type = resolvedType(soul);
 	const pointer = soul.nav.resolveStructPtr();
 	const types = constants.VAL_TYPE;
 	if (!pointer) return null;
-
 	if ([types.SEQUENCE, types.ARRAY, types.SET, types.JS_SET].includes(type)) {
 		return iterateSequence(new Sequence(db.allocator, pointer));
 	}
@@ -48,35 +47,48 @@ function resolvedType(soul) {
 	return soul.nav.resolveAnchorInnerType() || soul.type;
 }
 
-function* iterateSequence(engine) {
-	for (let index = 0; index < engine.length(); index++) {
-		yield { key: index, pointer: engine.getPtr(index), value: undefined };
-	}
-}
-
 function* iterateMap(engine) {
 	for (const row of engine.range()) {
-		yield { key: row.key.toString('utf8'), pointer: row.ptr, value: undefined };
+		yield {
+			key: row.key.toString('utf8'),
+			pointer: row.ptr,
+			value: undefined
+		};
 	}
 }
 
 function* iterateDictionary(engine) {
 	for (const key of engine.keys()) {
-		yield { key, pointer: engine.getPtr(toKeyBytes(key)), value: undefined };
+		yield {
+			key,
+			pointer: engine.getPtr(toKeyBytes(key)),
+			value: undefined
+		};
 	}
 }
 
 function* iteratePackedArray(db, pointer) {
-	const values = PackedArray.readArray(db, SmartPointer.toBuffer(pointer)) || [];
+	const values = PackedArray.readArray(
+		db,
+		SmartPointer.toBuffer(pointer)
+	) || [];
 	for (let index = 0; index < values.length; index++) {
 		const value = values[index];
-		yield { key: index, pointer: db.builder.build(value), value };
+		yield {
+			key: index,
+			pointer: db.builder.build(value),
+			value
+		};
 	}
 }
 
 function* iterateObject(object) {
 	for (const key of Object.keys(object || {})) {
-		yield { key, pointer: null, value: object[key] };
+		yield {
+			key,
+			pointer: null,
+			value: object[key]
+		};
 	}
 }
 

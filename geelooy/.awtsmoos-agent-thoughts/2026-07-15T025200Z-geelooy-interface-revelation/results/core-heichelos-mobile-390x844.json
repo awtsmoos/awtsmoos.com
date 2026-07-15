@@ -1,0 +1,860 @@
+{
+	"capturedAt": "2026-07-15T03:22:03.040Z",
+	"requestedUrl": "http://127.0.0.1:8080/heichelos",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "5AEED1EB66C9DBFAFC73EB7267931C24",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 11315
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/heichelos/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos | עצמות",
+		"url": "http://127.0.0.1:8080/heichelos/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 11315,
+			"clientWidth": 390
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"width": 44,
+				"height": 42,
+				"text": "🔍"
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"width": 44,
+				"height": 42,
+				"text": "🧭"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.profile-icon-symbol",
+				"ratio": 1.01,
+				"minimum": 4.5,
+				"text": "◎",
+				"color": "rgb(223, 252, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "strong",
+				"ratio": 1.03,
+				"minimum": 4.5,
+				"text": "Sign in",
+				"color": "rgb(248, 251, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.42,
+				"minimum": 3,
+				"text": "🏠",
+				"color": "color(srgb 0.0818824 0.18102 0.257412)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.01,
+				"minimum": 4.5,
+				"text": "Home",
+				"color": "rgb(97, 113, 138)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.11,
+				"minimum": 3,
+				"text": "🌌",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.01,
+				"minimum": 4.5,
+				"text": "Spaces",
+				"color": "rgb(97, 113, 138)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.42,
+				"minimum": 3,
+				"text": "🏛️",
+				"color": "color(srgb 0.0818824 0.18102 0.257412)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.01,
+				"minimum": 4.5,
+				"text": "Ikar",
+				"color": "rgb(97, 113, 138)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.42,
+				"minimum": 3,
+				"text": "📬",
+				"color": "color(srgb 0.0818824 0.18102 0.257412)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.01,
+				"minimum": 4.5,
+				"text": "Mail",
+				"color": "rgb(97, 113, 138)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.42,
+				"minimum": 3,
+				"text": "👤",
+				"color": "color(srgb 0.0818824 0.18102 0.257412)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.01,
+				"minimum": 4.5,
+				"text": "Profile",
+				"color": "rgb(97, 113, 138)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqoai30t heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqobdvjn heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqobjy16 heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqobknjx heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqobwqov heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqodwcni heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqq7gy4m heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqq7loob heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqq7n2yv heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqq7qywe heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqqrh01n heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqsj3v4v heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqsq64ay heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqsqnebh heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "afmqsr5ra7 heich",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqobpr3o h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqobr3oc h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqobrne9 h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqobwtw9 h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqodz2nf h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqq7h098 h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqq7n3vw h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqq7r0pl h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqqrh30n h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqsj296p h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "arsmqsq62n8 h",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "chassidus",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@discover precedence mqpy9s11 6cb0oqimy0h alias",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "discover precedence mqpy9s11 6cb0oqimy0h heichel",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@awtsmoos",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "ikar",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@media deep mqpx2sfv u77sgm9xky alias",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "media deep mqpx2sfv u77sgm9xky heichel",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@media everywhere mqoetnwl xraxznkaxc alias",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "media everywhere mqoetnwl xraxznkaxc heichel",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@media everywhere mqpjkqga b75vkn8xj0n alias",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "media everywhere mqpjkqga b75vkn8xj0n heichel",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "@nested reply mqpxvuyg airuozo1ahc alias",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "nested reply mqpxvuyg airuozo1ahc heichel",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "Creator not provided",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span",
+				"ratio": 2.56,
+				"minimum": 4.5,
+				"text": "x",
+				"color": "rgb(148, 163, 184)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichelos"
+			},
+			{
+				"level": 2,
+				"text": "afmqoai30t heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqobdvjn heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqobjy16 heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqobknjx heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqobwqov heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqodwcni heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqq7gy4m heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqq7loob heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqq7n2yv heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqq7qywe heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqqrh01n heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqsj3v4v heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqsq64ay heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqsqnebh heich"
+			},
+			{
+				"level": 2,
+				"text": "afmqsr5ra7 heich"
+			},
+			{
+				"level": 2,
+				"text": "arsmqobpr3o h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqobr3oc h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqobrne9 h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqobwtw9 h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqodz2nf h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqq7h098 h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqq7n3vw h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqq7r0pl h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqqrh30n h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqsj296p h"
+			},
+			{
+				"level": 2,
+				"text": "arsmqsq62n8 h"
+			},
+			{
+				"level": 2,
+				"text": "chassidus"
+			},
+			{
+				"level": 2,
+				"text": "Discover Precedence discover precedence mqpy9s11 6cb0oqimy0h"
+			},
+			{
+				"level": 2,
+				"text": "Ikar"
+			},
+			{
+				"level": 2,
+				"text": "Deep Media Heichel"
+			},
+			{
+				"level": 2,
+				"text": "Media Everywhere Heichel"
+			},
+			{
+				"level": 2,
+				"text": "Media Everywhere Heichel"
+			},
+			{
+				"level": 2,
+				"text": "Nested Reply Heichel"
+			},
+			{
+				"level": 2,
+				"text": "x"
+			}
+		],
+		"landmarks": [
+			"header.awtsmoosificationalisticaticalism.g-unusual-header",
+			"nav.g-dock",
+			"main.social-spaces-shell.geelooy-content-region",
+			"form.spaces-search"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=unified-ui-001",
+			"http://127.0.0.1:8080/style/heichelos/discovery.css?v=unified-ui-001"
+		],
+		"styleNodes": 0,
+		"animations": 524
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-heichelos-mobile-390x844.png"
+}

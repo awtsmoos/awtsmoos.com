@@ -1,0 +1,358 @@
+{
+	"capturedAt": "2026-07-15T03:58:30.924Z",
+	"requestedUrl": "http://127.0.0.1:8080/email/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "255F3E4ADC2165F86516CF6481A51D15",
+		"loaderId": "30113AD8949B7BEBD126AF91434FBE27",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 844
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/email/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos Quantum Mail — Geelooy",
+		"url": "http://127.0.0.1:8080/email/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 844,
+			"clientWidth": 390
+		},
+		"overflow": [
+			{
+				"selector": "header.awtsmoosificationalisticaticalism.g-unusual-header",
+				"left": -178,
+				"right": 189,
+				"width": 368
+			},
+			{
+				"selector": "a.g-header-brand.home.icon",
+				"left": -169,
+				"right": -53,
+				"width": 116
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"left": -169,
+				"right": -121,
+				"width": 48
+			},
+			{
+				"selector": "span.g-header-brand-copy",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "strong",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "small",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "form.g-header-search.geelooy-search",
+				"left": -41,
+				"right": -25,
+				"width": 16
+			},
+			{
+				"selector": "button.g-search-orb",
+				"left": -32,
+				"right": 12,
+				"width": 44
+			},
+			{
+				"selector": "div.g-header-actions.header-buttons",
+				"left": -29,
+				"right": 180,
+				"width": 209
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"left": -29,
+				"right": 15,
+				"width": 44
+			},
+			{
+				"selector": "button.mail-sender-category",
+				"left": 294,
+				"right": 426,
+				"width": 131
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 399,
+				"right": 418,
+				"width": 18
+			},
+			{
+				"selector": "button.mail-sender-category",
+				"left": 431,
+				"right": 562,
+				"width": 131
+			},
+			{
+				"selector": "span",
+				"left": 438,
+				"right": 527,
+				"width": 89
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 536,
+				"right": 554,
+				"width": 18
+			},
+			{
+				"selector": "button.mail-sender-category",
+				"left": 567,
+				"right": 698,
+				"width": 131
+			},
+			{
+				"selector": "span",
+				"left": 575,
+				"right": 663,
+				"width": 89
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 672,
+				"right": 690,
+				"width": 18
+			},
+			{
+				"selector": "button.mail-sender-category",
+				"left": 703,
+				"right": 834,
+				"width": 131
+			},
+			{
+				"selector": "span",
+				"left": 711,
+				"right": 800,
+				"width": 89
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 808,
+				"right": 827,
+				"width": 18
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 382,
+				"right": 401,
+				"width": 18
+			},
+			{
+				"selector": "button.mail-folder-tab",
+				"left": 366,
+				"right": 410,
+				"width": 44
+			},
+			{
+				"selector": "span",
+				"left": 375,
+				"right": 412,
+				"width": 38
+			},
+			{
+				"selector": "span.mail-folder-count",
+				"left": 421,
+				"right": 440,
+				"width": 18
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "input",
+				"width": 8,
+				"height": 47,
+				"text": ""
+			},
+			{
+				"selector": "input#mailSearchInput",
+				"width": 346,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "a",
+				"width": 300,
+				"height": 25,
+				"text": "✉️ Full Mail Route"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-bh-jewel",
+				"ratio": 3.95,
+				"minimum": 4.5,
+				"text": "B\"H",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(145deg, rgba(255, 194, 71, 0.25), rgba(50, 231, 255, 0.18), rgba(139, 92, 255, 0.18))"
+			},
+			{
+				"selector": "small",
+				"ratio": 4.1,
+				"minimum": 4.5,
+				"text": "Mail",
+				"color": "rgb(60, 236, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "button.g-search-orb",
+				"ratio": 3.14,
+				"minimum": 4.5,
+				"text": "⌕",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(145deg, rgb(233, 91, 187), rgb(114, 88, 232))"
+			},
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.63,
+				"minimum": 3,
+				"text": "🏛️",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(135deg, rgb(32, 213, 244), rgb(115, 80, 255) 52%, rgb(255, 58, 169))"
+			},
+			{
+				"selector": "p.identity-modal-copy",
+				"ratio": 1.68,
+				"minimum": 4.5,
+				"text": "Your canonical Geelooy profile controls Mail identity. Sign in or switch aliases",
+				"color": "rgb(88, 103, 125)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small",
+				"ratio": 2.86,
+				"minimum": 4.5,
+				"text": "Mail identity",
+				"color": "rgb(88, 103, 125)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span.mail-status-light",
+				"ratio": 1.24,
+				"minimum": 4.5,
+				"text": "LIVE",
+				"color": "rgb(66, 245, 179)",
+				"background": "rgba(66, 245, 179, 0.1)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "strong",
+				"ratio": 1.04,
+				"minimum": 4.5,
+				"text": "AWTSMOOS QUANTUM MAIL",
+				"color": "rgb(248, 251, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span.mail-status-code",
+				"ratio": 1.37,
+				"minimum": 4.5,
+				"text": "QMAIL // 002",
+				"color": "rgb(50, 231, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small",
+				"ratio": 2.94,
+				"minimum": 4.5,
+				"text": "Mail identity",
+				"color": "rgb(88, 103, 125)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			}
+		],
+		"headings": [
+			{
+				"level": 2,
+				"text": "Mail Identity"
+			},
+			{
+				"level": 2,
+				"text": "New Transmission"
+			}
+		],
+		"landmarks": [
+			"header.awtsmoosificationalisticaticalism.g-unusual-header",
+			"form.g-header-search.geelooy-search",
+			"nav.g-dock",
+			"main#root",
+			"header.mail-quantum-status",
+			"aside.sidebar.mail-quantum-sidebar",
+			"div.mail-sender-category-grid",
+			"button.mail-sender-category.active",
+			"button.mail-sender-category",
+			"button.mail-sender-category",
+			"button.mail-sender-category",
+			"button.mail-sender-category",
+			"button.mail-sender-category",
+			"div.mail-folder-list",
+			"button.mail-folder-tab.active",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab",
+			"button.mail-folder-tab"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/email/css/core.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/sidebar.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/chat.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/composer.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/fx.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/social-shell.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/hypermail.css?v=quantum-002",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"styleNodes": 0,
+		"animations": 134
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/repair-mail-mobile-390x844.png"
+}

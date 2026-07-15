@@ -1,0 +1,191 @@
+{
+	"capturedAt": "2026-07-15T03:23:20.526Z",
+	"requestedUrl": "http://127.0.0.1:8080/profile/",
+	"viewport": {
+		"width": 1440,
+		"height": 1000
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "7B4B31A676BE1C86CCD3A4F51B1918F8",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 1440,
+		"height": 1000
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/profile/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos | עצמות",
+		"url": "http://127.0.0.1:8080/profile/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"document": {
+			"scrollWidth": 1440,
+			"scrollHeight": 1000,
+			"clientWidth": 1440
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"width": 42,
+				"height": 42,
+				"text": "⌕"
+			},
+			{
+				"selector": "input",
+				"width": 658,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "button.g-search-submit",
+				"width": 42,
+				"height": 42,
+				"text": "↵"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-bh-jewel",
+				"ratio": 1.08,
+				"minimum": 4.5,
+				"text": "B\"H",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "strong",
+				"ratio": 1.08,
+				"minimum": 4.5,
+				"text": "Geelooy",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small",
+				"ratio": 1.43,
+				"minimum": 4.5,
+				"text": "Profile",
+				"color": "rgb(60, 236, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.g-search-orb",
+				"ratio": 1,
+				"minimum": 4.5,
+				"text": "⌕",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.g-search-submit",
+				"ratio": 1.43,
+				"minimum": 4.5,
+				"text": "↵",
+				"color": "rgb(60, 236, 255)",
+				"background": "rgba(255, 255, 255, 0.08)"
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"ratio": 1.08,
+				"minimum": 4.5,
+				"text": "📬",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"ratio": 1.08,
+				"minimum": 4.5,
+				"text": "◎",
+				"color": "rgb(223, 252, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "small",
+				"ratio": 2.47,
+				"minimum": 4.5,
+				"text": "Identity access",
+				"color": "rgb(145, 166, 201)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "strong",
+				"ratio": 1.04,
+				"minimum": 4.5,
+				"text": "Sign in",
+				"color": "rgb(248, 251, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"ratio": 1.7,
+				"minimum": 4.5,
+				"text": "⌄",
+				"color": "rgb(184, 199, 232)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"ratio": 1.03,
+				"minimum": 4.5,
+				"text": "🧭",
+				"color": "rgb(251, 252, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "p.profile-kicker.g-kicker",
+				"ratio": 1,
+				"minimum": 4.5,
+				"text": "Personal chamber",
+				"color": "rgba(0, 0, 0, 0)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "h1#profile-title",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "Sign in to open your profile",
+				"color": "rgba(0, 0, 0, 0)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sign in to open your profile"
+			}
+		],
+		"landmarks": [
+			"header.awtsmoosificationalisticaticalism.g-unusual-header",
+			"form.g-header-search.geelooy-search",
+			"main.geelooy-profile-shell.geelooy-content-region"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001"
+		],
+		"styleNodes": 0,
+		"animations": 42
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-profile-desktop-1440x1000.png"
+}

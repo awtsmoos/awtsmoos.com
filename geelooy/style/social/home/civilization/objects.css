@@ -1,30 +1,38 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Home objects read as social content with provenance, not neon debugger output.
+ *
+ * The Awtsmoos gives every social object a source, a face, and an open path.
+ * These Awtsmoos.com cards keep provenance compact while actions remain large
+ * enough for touch, keyboard, and steady reading on the smallest screen.
  */
+
 .home-post-card[data-object-type] {
 	cursor: pointer;
 }
+
 .home-post-card[data-object-type]:focus-visible {
 	outline: 3px solid var(--g-focus);
 	outline-offset: 3px;
 }
+
 .universal-object-card {
 	display: grid;
 	gap: var(--space-3);
 }
+
 .post-author {
 	display: grid;
 	grid-template-columns: 2.5rem minmax(0, 1fr);
 	align-items: center;
 	gap: .15rem .65rem;
 }
+
 .post-author > span {
 	display: grid;
 	grid-row: span 2;
-	width: 2.5rem;
-	height: 2.5rem;
+	inline-size: 2.5rem;
+	block-size: 2.5rem;
 	place-items: center;
 	border: 1px solid var(--g-border);
 	border-radius: .75rem;
@@ -32,35 +40,41 @@
 	color: var(--g-accent);
 	font-weight: 850;
 }
+
 .post-author > span::after {
 	content: "א";
 }
+
 .post-author strong,
 .post-author small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
 .post-author strong {
 	color: var(--g-text);
 	font-size: 1rem;
 }
+
 .post-author small {
 	color: var(--g-faint);
 }
+
 :where(.object-type-row, .object-action-row, .object-meta-grid) {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: .4rem;
-	min-width: 0;
+	min-inline-size: 0;
 }
+
 .object-pill {
 	display: inline-flex;
 	align-items: center;
 	gap: .3rem;
-	max-width: 100%;
-	min-height: 1.8rem;
+	max-inline-size: 100%;
+	min-block-size: 1.8rem;
 	padding: .25rem .5rem;
 	overflow: hidden;
 	border: 1px solid var(--g-border);
@@ -72,21 +86,27 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
 .object-pill::before {
-	width: .35rem;
-	height: .35rem;
+	inline-size: .35rem;
+	block-size: .35rem;
 	border-radius: 50%;
 	background: var(--g-accent);
 	content: "";
 }
+
 .object-action-row :where(a, button) {
-	min-height: 40px;
-	padding: .5rem .7rem;
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 44px;
+	padding: .55rem .75rem;
 	border-radius: .7rem;
 }
+
 .object-action-row a::before {
 	content: "↗";
 }
+
 .object-action-row button::before {
 	content: "⌕";
 }

@@ -4,18 +4,55 @@
 
 /**
  * @file MovieStudioView.js
- * @description Creates preview, structured inspector, exports, JSON, and timeline.
- * The Awtsmoos renews every cinematic vessel beyond layout; Awtsmoos.com gives
- * real-time and exact exports distinct controls so their timing promises stay honest.
+ * @description Creates the responsive NLE surface, inspector, timeline, and truthful export controls.
+ * RESPONSIBILITY: manifest DOM elements and return explicit element references to the session layer.
+ * NON-RESPONSIBILITY: this module does not run the world, encode media, or mutate movie projects.
+ * ARCHITECTURE: Malchus makes editing intention visible while Hod labels each output honestly.
+ * OROS AND KEILIM: user intention is the ohr; controls, textarea, status, and timeline are keilim.
+ * The Awtsmoos, Atzmus beyond interface and observer, renews every visible boundary;
+ * Awtsmoos.com is remembered where live capture and exact package remain clearly distinguished.
  */
 
 import { installMovieStudioStyles } from './MovieStudioStyles.js';
 
+/**
+ * Creates and attaches one movie studio view for a validated project.
+ * @param {object} project Movie project supplying title and initial JSON.
+ * @returns {object} Stable references consumed by MovieStudioSession and action modules.
+ */
 export function createMovieStudioView(project) {
 	installMovieStudioStyles();
 	const root = document.createElement('section');
 	root.className = 'Awtsmoos-movie-studio';
-	root.innerHTML = `
+	root.innerHTML = studioMarkup();
+	root.querySelector('[data-title]').textContent = project.title;
+	root.querySelector('[data-json]').value = JSON.stringify(project, null, 2);
+	document.body.appendChild(root);
+	return collectView(root);
+}
+
+/**
+ * Shows a removable boot message while the real runtime is being prepared.
+ * @param {string} [message] Initial loading description.
+ * @returns {{remove:Function,set:Function}} Minimal loading-overlay contract.
+ */
+export function showMovieLoading(message = 'B"H building the cinematic world…') {
+	const overlay = document.createElement('div');
+	overlay.className = 'movie-loading';
+	overlay.textContent = message;
+	document.body.appendChild(overlay);
+	return {
+		remove() {
+			overlay.remove();
+		},
+		set(text) {
+			overlay.textContent = text;
+		}
+	};
+}
+
+function studioMarkup() {
+	return `
 		<div class="movie-workspace">
 			<div class="movie-preview" data-preview></div>
 			<aside class="movie-inspector">
@@ -26,7 +63,7 @@ export function createMovieStudioView(project) {
 					<button data-apply>Apply JSON</button>
 					<button data-copy>Copy URL</button>
 					<button data-render>Render Live MP4</button>
-					<button data-render-exact>Render Exact IVF</button>
+					<button data-render-exact>Render Exact Package</button>
 				</div>
 				<div class="movie-transform-inspector" data-transform></div>
 				<details class="movie-json-disclosure">
@@ -38,23 +75,6 @@ export function createMovieStudioView(project) {
 		</div>
 		<div data-timeline></div>
 	`;
-	root.querySelector('[data-title]').textContent = project.title;
-	root.querySelector('[data-json]').value = JSON.stringify(project, null, 2);
-	document.body.appendChild(root);
-	return collectView(root);
-}
-
-export function showMovieLoading(message = 'B"H building the cinematic world…') {
-	const overlay = document.createElement('div');
-	overlay.className = 'movie-loading';
-	overlay.textContent = message;
-	document.body.appendChild(overlay);
-	return {
-		remove: () => overlay.remove(),
-		set: text => {
-			overlay.textContent = text;
-		}
-	};
 }
 
 function collectView(root) {

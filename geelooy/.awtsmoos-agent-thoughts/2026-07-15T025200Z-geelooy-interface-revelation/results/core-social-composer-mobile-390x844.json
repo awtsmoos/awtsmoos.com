@@ -1,0 +1,297 @@
+{
+	"capturedAt": "2026-07-15T03:24:36.206Z",
+	"requestedUrl": "http://127.0.0.1:8080/social-composer/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "3CAE0CCE7F4629264FAEDD278F957450",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 3390
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/social-composer/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Geelooy Unified Social Composer",
+		"url": "http://127.0.0.1:8080/social-composer/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 3390,
+			"clientWidth": 390
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "summary",
+				"width": 364,
+				"height": 25,
+				"text": "Create a Heichel inline"
+			},
+			{
+				"selector": "input#heichelAllowSubmissions",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#heichelRequireApproval",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "summary",
+				"width": 364,
+				"height": 25,
+				"text": "Create a series inline"
+			},
+			{
+				"selector": "input#seriesAllowSubmissions",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#seriesRequireApproval",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "summary",
+				"width": 364,
+				"height": 25,
+				"text": "Advanced stable IDs"
+			},
+			{
+				"selector": "input#commentsEnabled",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "button",
+				"width": 44,
+				"height": 40,
+				"text": "↑"
+			},
+			{
+				"selector": "button",
+				"width": 44,
+				"height": 40,
+				"text": "↓"
+			},
+			{
+				"selector": "button",
+				"width": 72,
+				"height": 40,
+				"text": "Remove"
+			},
+			{
+				"selector": "button",
+				"width": 51,
+				"height": 40,
+				"text": "Bold"
+			},
+			{
+				"selector": "button",
+				"width": 54,
+				"height": 40,
+				"text": "Italic"
+			},
+			{
+				"selector": "button",
+				"width": 83,
+				"height": 40,
+				"text": "Underline"
+			},
+			{
+				"selector": "button",
+				"width": 60,
+				"height": 40,
+				"text": "Strike"
+			},
+			{
+				"selector": "button",
+				"width": 56,
+				"height": 40,
+				"text": "Code"
+			},
+			{
+				"selector": "button",
+				"width": 49,
+				"height": 40,
+				"text": "Link"
+			},
+			{
+				"selector": "summary",
+				"width": 366,
+				"height": 25,
+				"text": "Structured payload"
+			},
+			{
+				"selector": "summary",
+				"width": 366,
+				"height": 25,
+				"text": "Publication result"
+			}
+		],
+		"unnamed": [
+			"input#destinationSearch",
+			"input#placementNote",
+			"input#newHeichelName",
+			"textarea#newHeichelDescription",
+			"input#newHeichelId",
+			"input#newSeriesName",
+			"textarea#newSeriesDescription",
+			"input#newSeriesId",
+			"textarea"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button#createHeichelButton.primaryAction",
+				"ratio": 3.03,
+				"minimum": 4.5,
+				"text": "Create Heichel",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgb(14, 165, 164)"
+			},
+			{
+				"selector": "button#createSeriesButton.primaryAction",
+				"ratio": 3.03,
+				"minimum": 4.5,
+				"text": "Create series",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgb(14, 165, 164)"
+			},
+			{
+				"selector": "button",
+				"ratio": 2.72,
+				"minimum": 4.5,
+				"text": "↑",
+				"color": "rgb(125, 141, 165)",
+				"background": "rgba(108, 122, 143, 0.18)"
+			},
+			{
+				"selector": "button",
+				"ratio": 2.72,
+				"minimum": 4.5,
+				"text": "↓",
+				"color": "rgb(125, 141, 165)",
+				"background": "rgba(108, 122, 143, 0.18)"
+			},
+			{
+				"selector": "button",
+				"ratio": 2.72,
+				"minimum": 4.5,
+				"text": "Remove",
+				"color": "rgb(125, 141, 165)",
+				"background": "rgba(108, 122, 143, 0.18)"
+			},
+			{
+				"selector": "button#addSectionButton.primaryAction",
+				"ratio": 3.03,
+				"minimum": 4.5,
+				"text": "+ Add verse or section",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgb(14, 165, 164)"
+			},
+			{
+				"selector": "button#publishButton.publishButton",
+				"ratio": 3.03,
+				"minimum": 4.5,
+				"text": "Publish or submit",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgb(14, 165, 164)"
+			},
+			{
+				"selector": "p",
+				"ratio": 1.65,
+				"minimum": 4.5,
+				"text": "No alias · No Heichel",
+				"color": "rgb(184, 195, 228)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Create a rich post"
+			},
+			{
+				"level": 2,
+				"text": "1. Public identity"
+			},
+			{
+				"level": 2,
+				"text": "2. Destination"
+			},
+			{
+				"level": 3,
+				"text": "Secondary destinations"
+			},
+			{
+				"level": 2,
+				"text": "3. Content"
+			},
+			{
+				"level": 3,
+				"text": "Opening document"
+			},
+			{
+				"level": 3,
+				"text": "Opening media"
+			},
+			{
+				"level": 3,
+				"text": "Verses and subsections"
+			},
+			{
+				"level": 2,
+				"text": "4. Publication plan"
+			},
+			{
+				"level": 2,
+				"text": "5. Living preview"
+			},
+			{
+				"level": 1,
+				"text": "Untitled"
+			}
+		],
+		"landmarks": [
+			"header.pageHeader",
+			"main.composerLayout",
+			"aside.previewColumn",
+			"header.previewHeader"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-composer/style.css"
+		],
+		"styleNodes": 0,
+		"animations": 53
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-social-composer-mobile-390x844.png"
+}

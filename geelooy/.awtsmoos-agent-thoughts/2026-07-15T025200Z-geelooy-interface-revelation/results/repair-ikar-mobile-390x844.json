@@ -1,0 +1,500 @@
+{
+	"capturedAt": "2026-07-15T03:57:55.861Z",
+	"requestedUrl": "http://127.0.0.1:8080/heichelos/ikar",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "255F3E4ADC2165F86516CF6481A51D15",
+		"loaderId": "6DA713813B17C74EF57FA7CD43D57B13",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 2101
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/email/?embedded=1",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Geelooy Heichel",
+		"url": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 2101,
+			"clientWidth": 390
+		},
+		"overflow": [
+			{
+				"selector": "header.awtsmoosificationalisticaticalism.g-unusual-header",
+				"left": -178,
+				"right": 189,
+				"width": 368
+			},
+			{
+				"selector": "a.g-header-brand.home.icon",
+				"left": -169,
+				"right": -53,
+				"width": 117
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"left": -169,
+				"right": -121,
+				"width": 48
+			},
+			{
+				"selector": "span.g-header-brand-copy",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "strong",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "small",
+				"left": -111,
+				"right": -50,
+				"width": 61
+			},
+			{
+				"selector": "form.g-header-search.geelooy-search",
+				"left": -41,
+				"right": -24,
+				"width": 16
+			},
+			{
+				"selector": "button.g-search-orb",
+				"left": -32,
+				"right": 12,
+				"width": 44
+			},
+			{
+				"selector": "div.g-header-actions.header-buttons",
+				"left": -29,
+				"right": 180,
+				"width": 209
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"left": -29,
+				"right": 15,
+				"width": 44
+			},
+			{
+				"selector": "button",
+				"left": 365,
+				"right": 441,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 448,
+				"right": 525,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 532,
+				"right": 607,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 615,
+				"right": 726,
+				"width": 112
+			},
+			{
+				"selector": "button",
+				"left": 733,
+				"right": 804,
+				"width": 71
+			},
+			{
+				"selector": "button",
+				"left": 811,
+				"right": 896,
+				"width": 85
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "input",
+				"width": 8,
+				"height": 45,
+				"text": ""
+			},
+			{
+				"selector": "button",
+				"width": 96,
+				"height": 40,
+				"text": "Overview"
+			},
+			{
+				"selector": "button",
+				"width": 89,
+				"height": 40,
+				"text": "Timeline"
+			},
+			{
+				"selector": "button",
+				"width": 109,
+				"height": 40,
+				"text": "Knowledge"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "People"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "Assets"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "Events"
+			},
+			{
+				"selector": "button",
+				"width": 112,
+				"height": 40,
+				"text": "Moderation"
+			},
+			{
+				"selector": "button",
+				"width": 71,
+				"height": 40,
+				"text": "Graph"
+			},
+			{
+				"selector": "button",
+				"width": 85,
+				"height": 40,
+				"text": "Storage"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-bh-jewel",
+				"ratio": 4.15,
+				"minimum": 4.5,
+				"text": "B\"H",
+				"color": "color(srgb 0.894431 0.980706 1)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(145deg, rgba(60, 236, 255, 0.24), rgba(139, 92, 255, 0.3), rgba(255, 72, 203, 0.18))"
+			},
+			{
+				"selector": "button.g-search-orb",
+				"ratio": 3.14,
+				"minimum": 4.5,
+				"text": "⌕",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(145deg, rgb(233, 91, 187), rgb(114, 88, 232))"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.06,
+				"minimum": 4.5,
+				"text": "Home",
+				"color": "rgb(169, 184, 210)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.06,
+				"minimum": 4.5,
+				"text": "Spaces",
+				"color": "rgb(169, 184, 210)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.06,
+				"minimum": 4.5,
+				"text": "Ikar",
+				"color": "rgb(169, 184, 210)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.06,
+				"minimum": 4.5,
+				"text": "Mail",
+				"color": "rgb(169, 184, 210)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "small.g-route-label",
+				"ratio": 4.06,
+				"minimum": 4.5,
+				"text": "Profile",
+				"color": "rgb(169, 184, 210)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "summary.topbar-icon",
+				"ratio": 1.07,
+				"minimum": 3,
+				"text": "✨",
+				"color": "rgb(32, 21, 8)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.027))"
+			},
+			{
+				"selector": "div.heichel-seal",
+				"ratio": 2.92,
+				"minimum": 3,
+				"text": "🏛️",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgb(23, 28, 37)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "p.hero-kicker",
+				"ratio": 2.79,
+				"minimum": 4.5,
+				"text": "Current Heichel",
+				"color": "rgb(138, 86, 25)",
+				"background": "rgb(23, 28, 37)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "p.hero-description",
+				"ratio": 2.1,
+				"minimum": 4.5,
+				"text": "The root Heichel restored after device transfer.",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "button.breadcrumb-link",
+				"ratio": 1.59,
+				"minimum": 4.5,
+				"text": "🏡 Root",
+				"color": "rgb(251, 252, 255)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(120deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 24%, rgba(255, 255, 255, 0.18) 42%, rgba(0, 0, 0, 0) 58%), linear-gradient(115deg, rgba(60, 236, 255, 0.24), rgba(79, 125, 255, 0.18), rgba(255, 72, 203, 0.24)), linear-gradient(145deg, rgba(17, 31, 59, 0.96), rgba(5, 9, 24, 0.99))"
+			},
+			{
+				"selector": "button.filter-chip",
+				"ratio": 3.28,
+				"minimum": 4.5,
+				"text": "Filter",
+				"color": "rgb(3, 16, 27)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(135deg, rgb(214, 168, 79), rgb(35, 111, 115))"
+			},
+			{
+				"selector": "button.tab.Active",
+				"ratio": 3.28,
+				"minimum": 4.5,
+				"text": "Tree",
+				"color": "rgb(3, 16, 27)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "linear-gradient(135deg, rgb(214, 168, 79), rgb(35, 111, 115))"
+			},
+			{
+				"selector": "span",
+				"ratio": 1.96,
+				"minimum": 3,
+				"text": "S",
+				"color": "rgb(255, 247, 220)",
+				"background": "rgba(216, 170, 81, 0.72)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "h2",
+				"ratio": 1.12,
+				"minimum": 4.5,
+				"text": "The Written Torah",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"ratio": 2.43,
+				"minimum": 4.5,
+				"text": "›",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "p",
+				"ratio": 2.09,
+				"minimum": 4.5,
+				"text": "The Entire Torah that Moishe and prophets got from the Creator",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span",
+				"ratio": 3.91,
+				"minimum": 4.5,
+				"text": "0 sub-series",
+				"color": "rgb(139, 149, 164)",
+				"background": "rgba(255, 255, 255, 0.06)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span",
+				"ratio": 3.91,
+				"minimum": 4.5,
+				"text": "0 posts",
+				"color": "rgb(139, 149, 164)",
+				"background": "rgba(255, 255, 255, 0.06)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"ratio": 1.95,
+				"minimum": 4.5,
+				"text": "⌄",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(255, 255, 255, 0.07)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span",
+				"ratio": 1.96,
+				"minimum": 3,
+				"text": "S",
+				"color": "rgb(255, 247, 220)",
+				"background": "rgba(216, 170, 81, 0.72)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "h2",
+				"ratio": 1.12,
+				"minimum": 4.5,
+				"text": "The Oral Torah",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"ratio": 2.43,
+				"minimum": 4.5,
+				"text": "›",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "p",
+				"ratio": 2.09,
+				"minimum": 4.5,
+				"text": "Open or expand this series path.",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span",
+				"ratio": 3.91,
+				"minimum": 4.5,
+				"text": "0 sub-series",
+				"color": "rgb(139, 149, 164)",
+				"background": "rgba(255, 255, 255, 0.06)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "span",
+				"ratio": 3.91,
+				"minimum": 4.5,
+				"text": "0 posts",
+				"color": "rgb(139, 149, 164)",
+				"background": "rgba(255, 255, 255, 0.06)",
+				"backgroundImage": "none"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"ratio": 1.95,
+				"minimum": 4.5,
+				"text": "⌄",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(255, 255, 255, 0.07)",
+				"backgroundImage": "none"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ikar"
+			},
+			{
+				"level": 2,
+				"text": "The Written Torah"
+			},
+			{
+				"level": 2,
+				"text": "The Oral Torah"
+			}
+		],
+		"landmarks": [
+			"header.awtsmoosificationalisticaticalism.g-unusual-header",
+			"form.g-header-search.geelooy-search",
+			"nav.g-dock",
+			"main.main",
+			"header.heichel-mobile-topbar",
+			"main.geelooy-main-stage",
+			"nav#breadcrumb-container.breadcrumb-river",
+			"nav.tab-gates.geelooy-tabs",
+			"footer.nav-card-meta",
+			"footer.nav-card-meta",
+			"nav.geelooy-bottom-nav",
+			"aside.awtsmoos-notifications-panel",
+			"aside.awtsmoos-platform-panel"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/awtsmoos-scroll-sovereignty.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/heichelos/heichel/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"styleNodes": 0,
+		"animations": 132
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/repair-ikar-mobile-390x844.png"
+}

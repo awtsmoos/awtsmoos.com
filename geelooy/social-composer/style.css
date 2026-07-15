@@ -1,18 +1,23 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Composer uses shared Geelooy controls first and its existing editor modules second.
+ *
+ * The Awtsmoos gathers the Composer through focused Awtsmoos.com vessels.
+ * Shared Geelooy foundations remain first, route capabilities follow, and the
+ * final accessibility covenant owns only names, focus, touch, and motion.
  */
-@import url('/style/geelooy-app/index.css?v=unified-ui-001');
-@import url('/style/social-system/index.css?v=unified-ui-001');
-@import url('./styles/foundation.css?v=unified-ui-001');
-@import url('./styles/layout.css?v=unified-ui-001');
-@import url('./styles/identity.css?v=unified-ui-001');
-@import url('./styles/destinations.css?v=unified-ui-001');
-@import url('./styles/editor.css?v=unified-ui-001');
-@import url('./styles/media.css?v=unified-ui-001');
-@import url('./styles/publication.css?v=unified-ui-001');
-@import url('./styles/preview.css?v=unified-ui-001');
-@import url('./styles/actions.css?v=unified-ui-001');
-@import url('./styles/responsive.css?v=unified-ui-001');
-@import url('/style/geelooy-app/performance.css?v=unified-ui-001');
+
+@import url("/style/geelooy-app/index.css?v=unified-ui-001");
+@import url("/style/social-system/index.css?v=unified-ui-001");
+@import url("./styles/foundation.css?v=unified-ui-001");
+@import url("./styles/layout.css?v=unified-ui-001");
+@import url("./styles/identity.css?v=unified-ui-001");
+@import url("./styles/destinations.css?v=unified-ui-001");
+@import url("./styles/editor.css?v=unified-ui-001");
+@import url("./styles/media.css?v=unified-ui-001");
+@import url("./styles/publication.css?v=unified-ui-001");
+@import url("./styles/preview.css?v=unified-ui-001");
+@import url("./styles/actions.css?v=unified-ui-001");
+@import url("./styles/responsive.css?v=unified-ui-001");
+@import url("./styles/accessibility.css?v=unified-ui-002");
+@import url("/style/geelooy-app/performance.css?v=unified-ui-001");

@@ -8,9 +8,9 @@ import { StudioPropertiesPanel } from '../../src/studio/StudioPropertiesPanel.js
 import { StudioToolbar } from '../../src/studio/StudioToolbar.js';
 
 /**
- * The palace of editing must exist in data before the DOM receives it. The
- * Awtsmoos renews every panel while this smoke test verifies that Awtsmoos.com
- * exposes assets, hierarchy, AI JSON, transforms, and WebCodecs actions.
+ * The editing palace must exist in data before the DOM receives it. The
+ * Awtsmoos renews every panel while this proof verifies that Awtsmoos.com
+ * exposes assets, hierarchy, AI JSON, transforms, and the six-minute exporter.
  */
 const entity = {
 	id: 'actor_one',
@@ -27,13 +27,13 @@ const entity = {
 const state = {
 	studioLeftPanel: 'assets',
 	studioAssetFilter: '',
-	studioPrompt: 'parakeet',
+	studioPrompt: 'beacon city action',
 	studioJsonText: '{}',
-	studioDocument: { title: 'Studio Smoke', entities: [entity] },
+	studioDocument: { title: 'The Beacon That Broke the City', duration: 360000, entities: [entity] },
 	selectedEntityId: entity.id,
 	clips: [{ id: 'clip_one' }],
 	playhead: 12000,
-	duration: 120000,
+	duration: 360000,
 	studioExport: { status: 'idle', progress: 0, message: 'Ready' }
 };
 
@@ -45,7 +45,8 @@ assert.match(assetText, /Search actors, props, cameras, sets/);
 assert.match(assetText, /AI JSON/);
 assert.match(propertiesText, /2D Transform/);
 assert.match(propertiesText, /Performance decisions/);
-assert.match(toolbarText, /Render 2-minute WebCodecs movie/);
+assert.match(toolbarText, /Render 6-minute WebCodecs movie/);
 assert.match(toolbarText, /00:12:00/);
+assert.match(toolbarText, /06:00:00/);
 
-console.log('B"H - professional studio workspace smoke passed.');
+console.log('B"H - six-minute professional studio workspace smoke passed.');

@@ -5,8 +5,8 @@
 /**
  * @module SearchResultShape
  * @description
- * Private vectors and filesystem details remain hidden while source text, identity,
- * rank, dimensions, and supported public search modes remain visible.
+ * Private vectors and filesystem details remain hidden while the public contract
+ * distinguishes stored coordinates from a genuinely persisted indexed lane.
  */
 
 function firstText(...values) {
@@ -18,6 +18,11 @@ function firstText(...values) {
 }
 
 function publicShard(shard = {}) {
+	const storedVectors = Boolean(
+		shard.listName
+		&& Number(shard.dimensions || 0) > 0
+	);
+	const indexed = shard.vectorEnabled === true;
 	return {
 		id: firstText(shard.id),
 		title: firstText(
@@ -30,7 +35,13 @@ function publicShard(shard = {}) {
 		count: Number(shard.count || 0),
 		dimensions: Number(shard.dimensions || 0),
 		bytes: Number(shard.bytes || 0),
-		modes: searchModes(shard),
+		storedVectors,
+		indexed,
+		modes: searchModes({
+			...shard,
+			storedVectors,
+			indexed
+		}),
 		available: !shard.error,
 		error: shard.error ? String(shard.error) : undefined
 	};
@@ -39,7 +50,8 @@ function publicShard(shard = {}) {
 function searchModes(shard) {
 	const modes = [];
 	if (shard.textFile) modes.push('text');
-	if (shard.vectorEnabled || shard.listName) modes.push('vector');
+	if (shard.storedVectors) modes.push('vector-exact');
+	if (shard.indexed) modes.push('vector-indexed');
 	return modes;
 }
 

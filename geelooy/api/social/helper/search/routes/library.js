@@ -4,10 +4,11 @@
 
 /**
  * @module LibrarySearchRoutes
+ * @chapter Every Search Handler Carries Its Own Frozen Request Values
  * @description
- * Generic library search may choose its strategy. Both public RAG route spellings
- * are separate strict gates that force local embedding plus persisted HNSW and
- * refuse installation, exact scan, linear scan, or text fallback.
+ * Generic library search and both strict RAG spellings use the request snapshot
+ * captured before authentication. Caller parameters cannot cross lanes or weaken
+ * the persisted-index contract after concurrent requests begin.
  */
 
 const { availableShards } = require('../rag/shards.js');
@@ -18,17 +19,19 @@ const {
 	libraryOptions,
 	strictRagOptions
 } = require('./values.js');
+const { requestInterface } = require('./requestSnapshot.js');
 const { safe } = require('./safe.js');
 
-function libraryRoutes($i) {
+function libraryRoutes(context) {
+	const $i = requestInterface(context);
 	const list = async () => safe(async () => ({
 		success: (await availableShards({ $i })).map(publicShard)
 	}));
 	const librarySearch = async () => safe(async () => ({
-		success: await ragSearch(libraryOptions($i))
+		success: await ragSearch(libraryOptions(context))
 	}));
 	const strictRagSearch = async () => safe(async () => ({
-		success: await ragSearch(strictRagOptions($i))
+		success: await ragSearch(strictRagOptions(context))
 	}));
 	return {
 		'/search/library/shards': list,

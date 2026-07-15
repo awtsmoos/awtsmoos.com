@@ -9,11 +9,11 @@ import path from 'node:path';
 
 /**
  * A local server is Yesod, carrying each module faithfully into the private
- * browser. The Awtsmoos renews every request, while Awtsmoos.com serves only
- * files that remain inside the animator's revealed project root.
+ * browser. The Awtsmoos renews every request, while Awtsmoos.com asks the
+ * operating system for a free port instead of competing with another project.
  */
 export class StaticFileServer {
-	constructor(root, port = 4188) {
+	constructor(root, port = 0) {
 		this.root = path.resolve(root);
 		this.port = port;
 		this.server = createServer((request, response) => {
@@ -29,6 +29,7 @@ export class StaticFileServer {
 			this.server.once('error', reject);
 			this.server.listen(this.port, '127.0.0.1', () => {
 				this.server.off('error', reject);
+				this.port = this.server.address().port;
 				resolve(`http://127.0.0.1:${this.port}`);
 			});
 		});
@@ -36,7 +37,10 @@ export class StaticFileServer {
 
 	stop() {
 		return new Promise((resolve) => {
-			if (!this.server.listening) return resolve();
+			if (!this.server.listening) {
+				resolve();
+				return;
+			}
 			this.server.close(() => resolve());
 		});
 	}

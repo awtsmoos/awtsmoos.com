@@ -1,0 +1,52 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every vessel without forcing one garment upon another.
+ * This Awtsmoos.com compatibility guard protects legacy app and game entries
+ * while leaving their own route-specific visual systems fully sovereign.
+ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+:where(img, picture, video, canvas, svg) {
+	display: block;
+	max-inline-size: 100%;
+}
+
+:where(button, input, select, textarea) {
+	font: inherit;
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 3px solid #58c7d8;
+	outline-offset: 3px;
+}
+
+:where(button, [role="button"], summary) {
+	touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

@@ -2,19 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-import { TwoMinuteStrategyMovie } from '../scenes/TwoMinuteStrategyMovie.js';
+import { MoviePlanSelector } from './MoviePlanSelector.js';
 import { NLEStore } from './core/NLEStore.js';
 import { NLEMediaAssembly } from './NLEMediaAssembly.js';
 import { NLEMount } from './ui/NLEMount.js';
 
 /**
- * The editor opens as a real two-minute production with nested sequences,
- * camera grammar, durable media, portable project packaging, and visible
- * compositing. The Awtsmoos renews the edit while Awtsmoos.com preserves it.
+ * The editor opens the living production rather than a frozen demonstration.
+ * The Awtsmoos renews all six minutes while Awtsmoos.com preserves its tracks,
+ * media, camera grammar, performances, and optional legacy story in one NLE.
  */
 export class NLESystem {
 	static install(app) {
-		const moviePlan = TwoMinuteStrategyMovie.create();
+		const moviePlan = MoviePlanSelector.create();
 		const firstDialogue = moviePlan.nle.clips.find((clip) => {
 			return clip.type === 'dialogue';
 		});
@@ -39,18 +39,7 @@ export class NLESystem {
 		const unbindPreview = mediaAssembly.bindPreview(store);
 		const restorePromise = mediaAssembly.restore(store);
 
-		app?.state?.set?.('nle_store', store);
-		app?.state?.set?.('dialogue_recording_session', mediaAssembly.recordingSession);
-		app?.state?.set?.('video_import_service', mediaAssembly.videoImportService);
-		app?.state?.set?.('project_package_service', mediaAssembly.projectPackageService);
-		app?.state?.set?.('cinematic_movie_plan', moviePlan);
-
-		const cleanup = () => {
-			unmount();
-			unbindPreview();
-			mediaAssembly.destroy();
-		};
-
+		this.publish(app, store, mediaAssembly, moviePlan);
 		return {
 			store,
 			recordingSession: mediaAssembly.recordingSession,
@@ -58,7 +47,19 @@ export class NLESystem {
 			projectPackageService: mediaAssembly.projectPackageService,
 			moviePlan,
 			restorePromise,
-			cleanup
+			cleanup: () => {
+				unmount();
+				unbindPreview();
+				mediaAssembly.destroy();
+			}
 		};
+	}
+
+	static publish(app, store, mediaAssembly, moviePlan) {
+		app?.state?.set?.('nle_store', store);
+		app?.state?.set?.('dialogue_recording_session', mediaAssembly.recordingSession);
+		app?.state?.set?.('video_import_service', mediaAssembly.videoImportService);
+		app?.state?.set?.('project_package_service', mediaAssembly.projectPackageService);
+		app?.state?.set?.('cinematic_movie_plan', moviePlan);
 	}
 }

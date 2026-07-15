@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns a silent canvas into a readable ocean chamber. This
+ * Awtsmoos.com Three.js test owns its document, overlay, links, and focus while
+ * allowing the rendered world to fill every available pixel.
+ */
+
+:root {
+	color-scheme: dark;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	background: #03070c;
+	color: #f4f7fb;
+}
+
+html,
+body {
+	inline-size: 100%;
+	block-size: 100%;
+	margin: 0;
+	overflow: hidden;
+	background: #03070c;
+	color: #f4f7fb;
+}
+
+#container,
+#container canvas {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+#info {
+	position: fixed;
+	inset-block-start: max(.75rem, env(safe-area-inset-top));
+	inset-inline: 50% auto;
+	z-index: 10;
+	max-inline-size: calc(100% - 2rem);
+	padding: .6rem .85rem;
+	border: 1px solid rgba(120, 210, 230, .45);
+	border-radius: 999px;
+	background: rgba(3, 10, 17, .88);
+	color: #f4f7fb;
+	box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .28);
+	text-align: center;
+	transform: translateX(-50%);
+}
+
+#info a {
+	color: #7ce2f0;
+	font-weight: 800;
+}
+
+#info a:focus-visible {
+	outline: 3px solid #ffd27c;
+	outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

@@ -1,0 +1,132 @@
+{
+	"capturedAt": "2026-07-15T03:25:06.687Z",
+	"requestedUrl": "http://127.0.0.1:8080/heichel-review/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "0CBC1356B63E4E64C6645075709BDF68",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 1918
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/heichel-review/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Heichel Review and Governance Center",
+		"url": "http://127.0.0.1:8080/heichel-review/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 1918,
+			"clientWidth": 390
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#policyAllowContent",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#policyRequireContentApproval",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#policyAllowReferences",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#policyRequireReferenceApproval",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#policyCommentsEnabled",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			},
+			{
+				"selector": "input#policyAnswersEnabled",
+				"width": 18,
+				"height": 18,
+				"text": ""
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button#saveSeriesPolicyButton.primaryAction",
+				"ratio": 1,
+				"minimum": 4.5,
+				"text": "Save bounded policy",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichel Review and Governance Center"
+			},
+			{
+				"level": 2,
+				"text": "Queue 0"
+			},
+			{
+				"level": 2,
+				"text": "Select a submission"
+			},
+			{
+				"level": 2,
+				"text": "Members and roles"
+			},
+			{
+				"level": 2,
+				"text": "Role invitations"
+			},
+			{
+				"level": 2,
+				"text": "Series policy"
+			}
+		],
+		"landmarks": [
+			"header.pageHeader",
+			"main",
+			"aside.queueColumn"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/heichel-review/style.css"
+		],
+		"styleNodes": 0,
+		"animations": 19
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-heichel-review-mobile-390x844.png"
+}

@@ -1,48 +1,88 @@
 // B"H
-// Service Worker Kill-Switch: Unregisters all workers and clears all caches
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file register.js
+ * @description
+ * The Awtsmoos renews Awtsmoos.com without repeating yesterday's cleanup on
+ * every route. This versioned retirement removes legacy workers, caches, and
+ * metadata once, then leaves normal page startup quiet and fast.
+ */
 
-async function killServiceWorkers() {
-    if (!('serviceWorker' in navigator)) return;
+const RETIREMENT_VERSION = "geelooy-offline-retirement-2026-07-15";
+const RETIREMENT_KEY = "awtsmoos-geelooy-offline-retirement";
+const RELOAD_KEY = "awtsmoos-geelooy-offline-reload";
+const METADATA_PREFIX = "awtsmoos-metadata-";
 
-    try {
-        // 1. Get all active registrations
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (const registration of registrations) {
-            console.log('[Kill-Switch] Unregistering worker at scope:', registration.scope);
-            await registration.unregister();
-        }
-
-        // 2. Clear all Cache Storage
-        if ('caches' in window) {
-            const cacheNames = await caches.keys();
-            await Promise.all(cacheNames.map(name => {
-                console.log('[Kill-Switch] Deleting cache:', name);
-                return caches.delete(name);
-            }));
-        }
-
-        // 3. Clear the Metadata IndexedDB used in the previous version
-        const DB_NAME_PREFIX = 'awtsmoos-metadata-';
-        if ('indexedDB' in window && indexedDB.databases) {
-            const dbs = await indexedDB.databases();
-            for (const db of dbs) {
-                if (db.name && db.name.startsWith(DB_NAME_PREFIX)) {
-                    console.log('[Kill-Switch] Deleting DB:', db.name);
-                    indexedDB.deleteDatabase(db.name);
-                }
-            }
-        }
-
-        console.log('[Kill-Switch] Cleanup complete. Service worker functionality removed.');
-        
-        // Optional: Force reload to ensure the page is no longer controlled (only do this once)
-        if (navigator.serviceWorker.controller) {
-            window.location.reload();
-        }
-
-    } catch (error) {
-        console.error('[Kill-Switch] Error during cleanup:', error);
-    }
+/**
+ * Retires legacy offline state once for the declared release.
+ * @returns {Promise<void>} Completion of safe cleanup.
+ */
+async function retireLegacyOfflineState() {
+	if (readStorage(localStorage, RETIREMENT_KEY) === RETIREMENT_VERSION) {
+		return;
+	}
+	const controlled = Boolean(navigator.serviceWorker?.controller);
+	await unregisterWorkers();
+	await clearCaches();
+	await clearMetadataDatabases();
+	writeStorage(localStorage, RETIREMENT_KEY, RETIREMENT_VERSION);
+	if (controlled && readStorage(sessionStorage, RELOAD_KEY) !== RETIREMENT_VERSION) {
+		writeStorage(sessionStorage, RELOAD_KEY, RETIREMENT_VERSION);
+		location.reload();
+	}
 }
 
-killServiceWorkers();
+async function unregisterWorkers() {
+	if (!("serviceWorker" in navigator)) {
+		return;
+	}
+	const registrations = await navigator.serviceWorker.getRegistrations();
+	await Promise.allSettled(registrations.map(registration => registration.unregister()));
+}
+
+async function clearCaches() {
+	if (!("caches" in globalThis)) {
+		return;
+	}
+	const cacheNames = await caches.keys();
+	await Promise.allSettled(cacheNames.map(cacheName => caches.delete(cacheName)));
+}
+
+async function clearMetadataDatabases() {
+	if (!("indexedDB" in globalThis) || typeof indexedDB.databases !== "function") {
+		return;
+	}
+	const databases = await indexedDB.databases();
+	const names = databases.map(database => database.name).filter(name => name?.startsWith(METADATA_PREFIX));
+	await Promise.allSettled(names.map(deleteDatabase));
+}
+
+function deleteDatabase(databaseName) {
+	return new Promise(resolve => {
+		const request = indexedDB.deleteDatabase(databaseName);
+		request.addEventListener("success", resolve, { once: true });
+		request.addEventListener("error", resolve, { once: true });
+		request.addEventListener("blocked", resolve, { once: true });
+	});
+}
+
+function readStorage(storage, key) {
+	try {
+		return storage.getItem(key);
+	} catch {
+		return null;
+	}
+}
+
+function writeStorage(storage, key, value) {
+	try {
+		storage.setItem(key, value);
+	} catch {
+		return;
+	}
+}
+
+retireLegacyOfflineState().catch(() => {
+	return;
+});

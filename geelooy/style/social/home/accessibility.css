@@ -1,47 +1,86 @@
 /* B"H
- * Home accessibility covenant.
- * Responsibilities: visible focus, skip-link travel, reduced-motion safety, and
- * clear pressed/disabled state signals for the living Geelooy home shell.
- * Side effects: only presentation; no route or API behavior is changed.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is revealed when every traveler can reach the same doorway.
+ * This Awtsmoos.com covenant owns Home focus, touch dimensions, reduced motion,
+ * and the exact contrast of navigation that appears only to keyboard users.
  */
-.home-skip-link {
-  position: fixed;
-  inset-block-start: .75rem;
-  inset-inline-start: .75rem;
-  z-index: 1000;
-  transform: translateY(-160%);
-  padding: .72rem 1rem;
-  border-radius: 999px;
-  background: var(--g-gold, #f5ca70);
-  color: #06111d;
-  font-weight: 900;
-  text-decoration: none;
-  box-shadow: 0 .8rem 2rem rgba(0,0,0,.28);
+
+.geelooy-home-shell a.home-skip-link:focus-visible {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 44px;
+	max-inline-size: calc(100vw - 1.5rem);
+	padding: .75rem 1rem;
+	border: 2px solid #16202d;
+	border-radius: 999px;
+	background: #f5ca70;
+	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .36);
+	color: #07101b;
+	font-weight: 900;
+	text-decoration: none;
+	transform: none;
 }
-.home-skip-link:focus-visible { transform: translateY(0); }
-.home-task-dock { margin-block-start: .85rem; }
+
 .geelooy-home-shell :focus-visible {
-  outline: 3px solid rgba(35,58,113,.55);
-  outline-offset: 3px;
+	outline: 3px solid #73e3f0;
+	outline-offset: 3px;
 }
+
+.geelooy-home-shell :where(input, select, textarea, summary, .p-chip) {
+	min-block-size: 44px;
+}
+
+.geelooy-home-shell :where(.p-chip, summary) {
+	display: inline-flex;
+	align-items: center;
+}
+
+.geelooy-home-shell .home-feed-list :where(a, button),
+.geelooy-home-shell .geelooy-feed-compact-actions :where(a, button),
+.geelooy-home-shell .object-action-row :where(a, button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+}
+
+.geelooy-home-shell .g-home-action .p-icon {
+	color: #7de6f2;
+}
+
+.home-task-dock {
+	margin-block-start: .85rem;
+}
+
 .geelooy-home-shell [aria-current="page"],
 .geelooy-home-shell [aria-pressed="true"] {
-  text-decoration-thickness: .12em;
-  text-underline-offset: .2em;
+	text-decoration-thickness: .12em;
+	text-underline-offset: .2em;
 }
-.geelooy-home-shell a[href],
-.geelooy-home-shell button { touch-action: manipulation; }
+
+.geelooy-home-shell :where(a[href], button, summary) {
+	touch-action: manipulation;
+}
+
 .geelooy-home-shell button:disabled,
 .geelooy-home-shell [aria-disabled="true"] {
-  cursor: not-allowed;
-  opacity: .6;
+	cursor: not-allowed;
+	opacity: .6;
 }
-.home-status-rail a { color: inherit; font-weight: 900; }
+
+.home-status-rail a {
+	color: inherit;
+	font-weight: 900;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .home-skip-link,
-  .home-post-card,
-  .home-sanctuary-card a,
-  .home-feed-tabs button {
-    transition: none !important;
-  }
+	.home-skip-link,
+	.home-post-card,
+	.home-sanctuary-card a,
+	.home-feed-tabs button {
+		transition: none !important;
+	}
 }

@@ -1,66 +1,109 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Discovery cards reveal identity, provenance, and action without decorative fog.
+ *
+ * The Awtsmoos reveals every Heichel as a clear, readable vessel rather than a
+ * pale ornament. Awtsmoos.com cards preserve the existing discovery structure
+ * while metadata, provenance, and actions remain legible and touchable.
  */
-.social-spaces-shell .social-space-card {
+
+.heichel-discovery-document .social-space-card {
 	display: grid;
-	align-content: space-between;
-	gap: var(--space-5);
-	min-height: 20rem;
-	padding: var(--space-4);
+	grid-template-rows: auto 1fr auto;
+	gap: var(--space-4);
+	min-block-size: 15rem;
+	padding: clamp(1rem, 2.2vw, 1.4rem);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-xl);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-paper);
+	color: var(--g-text);
+	text-decoration: none;
+	transition: transform var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
 }
-.social-spaces-shell .space-body,
-.social-spaces-shell .space-copy {
-	display: grid;
-	gap: var(--space-3);
+
+.heichel-discovery-document .social-space-card:is(:hover, :focus-within) {
+	border-color: var(--g-border-strong);
+	box-shadow: var(--shadow-panel);
+	transform: translateY(-2px);
 }
-.social-spaces-shell .space-seal {
-	display: grid;
-	width: 3.25rem;
-	height: 3.25rem;
-	place-items: center;
-	border: 1px solid var(--g-border-strong);
-	border-radius: .9rem;
-	background: var(--awt-surface-muted);
-	color: var(--g-accent);
-	font-weight: 850;
-}
-.social-spaces-shell .space-title-row {
+
+.heichel-discovery-document .space-card-topline {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: var(--space-3);
 }
-.social-spaces-shell .space-title-row h2 {
+
+.heichel-discovery-document .space-card-title {
 	margin: 0;
-	font-size: clamp(1.45rem, 3vw, 2.15rem);
-	line-height: 1.05;
+	color: var(--g-text);
+	font-size: clamp(1.08rem, 2vw, 1.35rem);
+	line-height: 1.15;
+	letter-spacing: -.02em;
 }
-.social-spaces-shell .space-meta-line {
+
+.heichel-discovery-document .space-card-description {
+	display: -webkit-box;
+	margin: .65rem 0 0;
+	overflow: hidden;
+	color: var(--g-text-2);
+	font-size: .96rem;
+	line-height: 1.55;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+}
+
+.heichel-discovery-document .space-card-meta {
 	display: flex;
+	align-items: center;
 	flex-wrap: wrap;
-	gap: .4rem;
+	gap: .45rem .7rem;
+	min-block-size: 44px;
+	color: var(--g-text-2);
+	font-size: var(--type-small);
 }
-.social-spaces-shell .space-meta-line span {
-	padding: .3rem .5rem;
+
+.heichel-discovery-document .space-card-meta :where(a, button) {
+	display: inline-flex;
+	align-items: center;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+}
+
+.heichel-discovery-document .space-card-badge {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 2rem;
+	padding: .32rem .58rem;
 	border: 1px solid var(--g-border);
 	border-radius: var(--radius-pill);
 	background: var(--awt-surface-soft);
-	color: var(--g-faint);
-	font-family: var(--font-mono);
+	color: var(--g-text-2);
 	font-size: var(--type-caption);
+	font-weight: 800;
 }
-.social-spaces-shell .space-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: .5rem;
+
+.heichel-discovery-document .space-card-action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	padding: .55rem .8rem;
+	border-radius: .7rem;
+	color: var(--g-accent);
+	font-weight: 850;
+	text-decoration: none;
 }
-.social-spaces-shell .space-actions a {
-	flex: 1 1 7rem;
+
+.heichel-discovery-document .space-card-action:is(:hover, :focus-visible) {
+	background: color-mix(in srgb, var(--g-accent) 9%, var(--awt-surface));
 }
-.social-spaces-shell .social-empty-card {
-	grid-column: 1 / -1;
-	justify-items: start;
-	padding: clamp(1.25rem, 4vw, 2.5rem);
+
+@media (max-width: 40rem) {
+	.heichel-discovery-document .social-space-card {
+		min-block-size: 0;
+		border-radius: var(--radius-l);
+	}
 }

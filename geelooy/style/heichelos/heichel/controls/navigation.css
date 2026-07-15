@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps every Heichel path within the physical vessel. This
+ * Awtsmoos.com navigation law scopes itself to the live Heichel body, contains
+ * horizontal rails, and guarantees a full touch doorway for every action.
+ */
+
+body.heichel-os-document :where(
+	.tab-gates,
+	.geelooy-tabs,
+	.platform-tabs-row,
+	.breadcrumb-river,
+	.series-action-row,
+	.object-action-row,
+	.heichel-os-district-buttons
+) {
+	max-inline-size: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: thin;
+}
+
+body.heichel-os-document :where(
+	.tab,
+	.geelooy-tabs button,
+	.platform-tab,
+	.filter-chip,
+	.breadcrumb-link,
+	.context-menu-item,
+	.geelooy-bottom-nav a,
+	.geelooy-bottom-nav button,
+	.heichel-os-district-buttons button
+) {
+	block-size: auto !important;
+	min-block-size: 44px !important;
+}
+
+body.heichel-os-document :where(.series-expand-toggle, .card-menu-trigger) {
+	inline-size: 44px !important;
+	block-size: 44px !important;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	padding: 0 !important;
+}
+
+body.heichel-os-document :where(
+	.geelooy-main-stage,
+	.heichel-nav-panel,
+	.series-card,
+	.post-card,
+	.series-heading,
+	.card-copy
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body.heichel-os-document :where(img, video, canvas, svg) {
+	max-inline-size: 100%;
+}
+
+@media (max-width: 47.5rem) {
+	body.heichel-os-document #heichel-main-title {
+		max-inline-size: 100%;
+		overflow-wrap: anywhere;
+	}
+
+	body.heichel-os-document .geelooy-bottom-nav {
+		inline-size: min(calc(100% - 1rem), 39rem);
+	}
+
+	body.heichel-os-document .platform-panel :where(button, a) {
+		min-block-size: 44px;
+	}
+}

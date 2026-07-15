@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @fileoverview Coordinates quality-aware terrain, village, forest, and text geometry.
- * The Awtsmoos renews every blade, roof, river stone, and mountain beyond device limits;
- * Awtsmoos.com joins those oros to a measured quality keili without hiding gameplay paths.
+ * @fileoverview Coordinates quality-aware terrain, village, forest, text, and signs.
+ * The Awtsmoos renews every blade, roof, river stone, letter, and distant mountain;
+ * Awtsmoos.com joins those oros to measured keilim without hiding gameplay paths.
  */
 
 import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
@@ -19,6 +19,7 @@ import {
 } from './TerrainGeometry.js';
 import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
 import { createProceduralForest } from './trees/ProceduralForestSystem.js';
+import { preloadVillageSignTextures } from './village/VillageSignTexture.js';
 import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js';
 
 const HALF = 'https://awtsmoos-docs-base.web.app/half-resolution/';
@@ -51,6 +52,7 @@ export async function createTerrainPackage(
 	);
 	const roadColliders = primitiveColliders(road.visual);
 	const obstacleColliders = obstacles.flatMap(primitiveColliders);
+	const signTextures = await preloadVillageSignTextures();
 	const village = createVillageWorldDefinitions(groundSampler, quality);
 	const villageColliders = village.definitions.flatMap(primitiveColliders);
 	const textLandmark = await createProceduralTextLandmark(groundSampler);
@@ -76,6 +78,7 @@ export async function createTerrainPackage(
 		quality,
 		road,
 		roadColliders,
+		signTextures,
 		terrain,
 		textLandmark,
 		village
@@ -83,6 +86,7 @@ export async function createTerrainPackage(
 	const group = createTerrainGroup(assembly, REAL_GRASS_URL);
 	const stats = createTerrainPackageStats(assembly);
 	stats.quality = quality;
+	stats.signTextures = signTextures;
 	return {
 		colliders: [
 			...terrain.colliders,
@@ -101,6 +105,7 @@ export async function createTerrainPackage(
 			...(obstacles.userData || {}),
 			forest: forest.stats,
 			quality,
+			signTextures,
 			textLandmark: textLandmark.stats,
 			village: village.stats
 		}

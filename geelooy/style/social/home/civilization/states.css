@@ -1,13 +1,18 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Loading, empty, and failure states remain readable on the canonical dark surface.
+ *
+ * The Awtsmoos remains present when data is slow, absent, stale, or broken.
+ * These Awtsmoos.com Home states tell the truth on an owned dark surface and
+ * keep every loading signal readable without demanding endless motion.
  */
+
 .home-feed-loading,
 .home-state-card,
 .home-error-state,
 .home-empty-state,
-.home-state-row {
+.home-state-row,
+.geelooy-feed-sentinel {
 	position: relative;
 	overflow: hidden;
 	padding: 1rem;
@@ -16,9 +21,24 @@
 	background: var(--home-panel-soft);
 	color: var(--home-text);
 }
-.home-state-row :where(h2, h3, p) {
+
+.home-state-row :where(h2, h3, p),
+.geelooy-feed-sentinel :where(h2, h3, p) {
 	color: inherit;
 }
+
+.geelooy-feed-sentinel {
+	display: grid;
+	min-block-size: 44px;
+	place-items: center;
+	border-style: dashed;
+	border-color: color-mix(in srgb, var(--g-accent) 46%, var(--home-line));
+	background: color-mix(in srgb, var(--g-accent) 6%, var(--home-panel-soft));
+	color: var(--home-text);
+	font-weight: 720;
+	text-align: center;
+}
+
 .home-feed-loading::after {
 	position: absolute;
 	inset: 0;
@@ -27,19 +47,28 @@
 	transform: translateX(-100%);
 	animation: home-state-shimmer 1.4s ease-in-out infinite;
 }
+
 .home-error-state,
 [data-home-error-state] {
 	border-color: rgba(255, 127, 145, .5);
+	background: color-mix(in srgb, #ff7f91 6%, var(--home-panel-soft));
 	color: #ffd9de;
 }
+
 .home-empty-state,
 [data-home-empty-state] {
 	border-color: rgba(88, 199, 216, .42);
 	color: var(--home-text);
 }
+
 @keyframes home-state-shimmer {
-	to { transform: translateX(100%); }
+	to {
+		transform: translateX(100%);
+	}
 }
+
 @media (prefers-reduced-motion: reduce) {
-	.home-feed-loading::after { animation: none; }
+	.home-feed-loading::after {
+		animation: none;
+	}
 }

@@ -1,0 +1,209 @@
+{
+	"capturedAt": "2026-07-15T03:15:46.002Z",
+	"requestedUrl": "http://127.0.0.1:8080/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": true,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "C96EA8696AB35E2A21889E0F0C6115DB",
+		"loaderId": "8A6FB91EE304F58AF8A7C8D9CF9EBE2F",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 6519
+	},
+	"probe": {
+		"title": "Geelooy — Reveal, create, connect",
+		"url": "http://127.0.0.1:8080/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 6519,
+			"clientWidth": 390
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a.home-skip-link",
+				"width": 129,
+				"height": 18,
+				"text": "Skip to the live feed"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			},
+			{
+				"selector": "a",
+				"width": 34,
+				"height": 44,
+				"text": "Post"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a.home-skip-link",
+				"ratio": 1.12,
+				"minimum": 4.5,
+				"text": "Skip to the live feed",
+				"color": "rgb(244, 242, 236)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reveal what is hidden.Make it travel."
+			},
+			{
+				"level": 2,
+				"text": "The feed river"
+			},
+			{
+				"level": 3,
+				"text": "Answer"
+			},
+			{
+				"level": 3,
+				"text": "Question"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Answer"
+			},
+			{
+				"level": 3,
+				"text": "Question"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Answer"
+			},
+			{
+				"level": 3,
+				"text": "Question"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Post"
+			},
+			{
+				"level": 3,
+				"text": "Answer"
+			},
+			{
+				"level": 2,
+				"text": "Main chambers"
+			},
+			{
+				"level": 2,
+				"text": "Go beneath the surface"
+			},
+			{
+				"level": 2,
+				"text": "Do not only scroll."
+			}
+		],
+		"landmarks": [
+			"main.g-page.geelooy-content-region.g-home",
+			"header.home-app-header",
+			"form.g-home-portal-search.geelooy-search.home-command-galaxy",
+			"nav.g-home-actions.home-action-grid",
+			"nav.home-command-dock.home-task-dock",
+			"header.g-feed-head",
+			"nav.home-feed-tabs.g-feed-tabs",
+			"header.home-compose-primary",
+			"div.home-compose-tools",
+			"p.home-compose-status",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"header.awt-card-head.geelooy-feed-card-head",
+			"aside.g-home-aside",
+			"nav.g-route-list",
+			"nav.g-trend-list"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/home/index.css?v=home-fix-004"
+		],
+		"styleNodes": 0,
+		"animations": 6
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/home-after-390x844-reduced.png"
+}

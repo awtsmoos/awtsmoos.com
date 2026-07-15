@@ -1,0 +1,393 @@
+{
+	"capturedAt": "2026-07-15T03:22:30.383Z",
+	"requestedUrl": "http://127.0.0.1:8080/heichelos/ikar",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "9A734E9D7B3BBFBF89FFA80D859CB5FC",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 2077
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/email/?embedded=1",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Geelooy Heichel",
+		"url": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 2077,
+			"clientWidth": 390
+		},
+		"overflow": [
+			{
+				"selector": "button",
+				"left": 365,
+				"right": 441,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 448,
+				"right": 525,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 532,
+				"right": 607,
+				"width": 76
+			},
+			{
+				"selector": "button",
+				"left": 615,
+				"right": 726,
+				"width": 112
+			},
+			{
+				"selector": "button",
+				"left": 733,
+				"right": 804,
+				"width": 71
+			},
+			{
+				"selector": "button",
+				"left": 811,
+				"right": 896,
+				"width": 85
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"width": 44,
+				"height": 42,
+				"text": "🔍"
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"width": 44,
+				"height": 42,
+				"text": "🧭"
+			},
+			{
+				"selector": "button.tab",
+				"width": 140,
+				"height": 40,
+				"text": "Timeline"
+			},
+			{
+				"selector": "button.tab.Active",
+				"width": 140,
+				"height": 40,
+				"text": "Tree"
+			},
+			{
+				"selector": "button.tab",
+				"width": 140,
+				"height": 40,
+				"text": "Groupings"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"width": 38,
+				"height": 40,
+				"text": "⌄"
+			},
+			{
+				"selector": "button.card-menu-trigger",
+				"width": 38,
+				"height": 40,
+				"text": "⋮"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"width": 38,
+				"height": 40,
+				"text": "⌄"
+			},
+			{
+				"selector": "button.card-menu-trigger",
+				"width": 38,
+				"height": 40,
+				"text": "⋮"
+			},
+			{
+				"selector": "button",
+				"width": 96,
+				"height": 40,
+				"text": "Overview"
+			},
+			{
+				"selector": "button",
+				"width": 89,
+				"height": 40,
+				"text": "Timeline"
+			},
+			{
+				"selector": "button",
+				"width": 109,
+				"height": 40,
+				"text": "Knowledge"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "People"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "Assets"
+			},
+			{
+				"selector": "button",
+				"width": 76,
+				"height": 40,
+				"text": "Events"
+			},
+			{
+				"selector": "button",
+				"width": 112,
+				"height": 40,
+				"text": "Moderation"
+			},
+			{
+				"selector": "button",
+				"width": 71,
+				"height": 40,
+				"text": "Graph"
+			},
+			{
+				"selector": "button",
+				"width": 85,
+				"height": 40,
+				"text": "Storage"
+			},
+			{
+				"selector": "a",
+				"width": 64,
+				"height": 42,
+				"text": "🏡 Home"
+			},
+			{
+				"selector": "button",
+				"width": 64,
+				"height": 40,
+				"text": "🌳 Tree"
+			},
+			{
+				"selector": "a.is-create",
+				"width": 64,
+				"height": 42,
+				"text": "✍️ Create"
+			},
+			{
+				"selector": "button",
+				"width": 64,
+				"height": 40,
+				"text": "✉️ Inbox"
+			},
+			{
+				"selector": "a",
+				"width": 64,
+				"height": 42,
+				"text": "👤 Profile"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-route-icon",
+				"ratio": 1.11,
+				"minimum": 3,
+				"text": "🏛️",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "summary.topbar-icon",
+				"ratio": 1.11,
+				"minimum": 3,
+				"text": "✨",
+				"color": "rgb(32, 21, 8)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "div.heichel-seal",
+				"ratio": 2.92,
+				"minimum": 3,
+				"text": "🏛️",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgb(23, 28, 37)"
+			},
+			{
+				"selector": "p.hero-kicker",
+				"ratio": 2.79,
+				"minimum": 4.5,
+				"text": "Current Heichel",
+				"color": "rgb(138, 86, 25)",
+				"background": "rgb(23, 28, 37)"
+			},
+			{
+				"selector": "p.hero-description",
+				"ratio": 2.94,
+				"minimum": 4.5,
+				"text": "The root Heichel restored after device transfer.",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.breadcrumb-link",
+				"ratio": 1.79,
+				"minimum": 4.5,
+				"text": "🏡 Root",
+				"color": "rgb(251, 252, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.filter-chip",
+				"ratio": 1.05,
+				"minimum": 4.5,
+				"text": "Filter",
+				"color": "rgb(3, 16, 27)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.tab.Active",
+				"ratio": 1.01,
+				"minimum": 4.5,
+				"text": "Tree",
+				"color": "rgb(3, 16, 27)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "h2",
+				"ratio": 1.02,
+				"minimum": 4.5,
+				"text": "The Written Torah",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"ratio": 3.13,
+				"minimum": 4.5,
+				"text": "›",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "p",
+				"ratio": 2.7,
+				"minimum": 4.5,
+				"text": "The Entire Torah that Moishe and prophets got from the Creator",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"ratio": 2.61,
+				"minimum": 4.5,
+				"text": "⌄",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(255, 255, 255, 0.07)"
+			},
+			{
+				"selector": "h2",
+				"ratio": 1.02,
+				"minimum": 4.5,
+				"text": "The Oral Torah",
+				"color": "rgb(15, 23, 42)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"ratio": 3.13,
+				"minimum": 4.5,
+				"text": "›",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "p",
+				"ratio": 2.7,
+				"minimum": 4.5,
+				"text": "Open or expand this series path.",
+				"color": "rgb(107, 88, 65)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"ratio": 2.61,
+				"minimum": 4.5,
+				"text": "⌄",
+				"color": "rgb(35, 111, 115)",
+				"background": "rgba(255, 255, 255, 0.07)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ikar"
+			},
+			{
+				"level": 2,
+				"text": "The Written Torah"
+			},
+			{
+				"level": 2,
+				"text": "The Oral Torah"
+			}
+		],
+		"landmarks": [
+			"header.awtsmoosificationalisticaticalism.g-unusual-header",
+			"nav.g-dock",
+			"main.main",
+			"header.heichel-mobile-topbar",
+			"main.geelooy-main-stage",
+			"nav#breadcrumb-container.breadcrumb-river",
+			"nav.tab-gates.geelooy-tabs",
+			"footer.nav-card-meta",
+			"footer.nav-card-meta",
+			"nav.geelooy-bottom-nav",
+			"aside.awtsmoos-notifications-panel",
+			"aside.awtsmoos-platform-panel"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/awtsmoos-scroll-sovereignty.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/heichelos/heichel/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"styleNodes": 0,
+		"animations": 125
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-ikar-mobile-390x844.png"
+}

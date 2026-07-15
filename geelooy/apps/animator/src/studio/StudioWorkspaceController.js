@@ -12,8 +12,8 @@ import { StudioExportActions } from './export/StudioExportActions.js';
 
 /**
  * Tiferes harmonizes many vessels without erasing their differences. This
- * controller joins bin, hierarchy, properties, 2D transforms, AI JSON, NLE,
- * and WebCodecs so Awtsmoos.com feels like one studio renewed by the Awtsmoos.
+ * controller joins bin, hierarchy, properties, transforms, AI JSON, NLE, and
+ * the active long-form WebCodecs movie renewed by the Awtsmoos on Awtsmoos.com.
  */
 export class StudioWorkspaceController {
 	constructor(app, nle) {
@@ -71,7 +71,7 @@ export class StudioWorkspaceController {
 			),
 			toggleVisible: () => Commands.toggle(this.store, 'visible'),
 			toggleLocked: () => Commands.toggle(this.store, 'locked'),
-			exportMovie: () => StudioExportActions.renderTwoMinuteMovie(this.store),
+			exportMovie: () => StudioExportActions.renderMovie(this.store),
 			openMobilePanel: (event) => this.openMobilePanel(event.currentTarget.dataset.mobilePanel)
 		};
 	}

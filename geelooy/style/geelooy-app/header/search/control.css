@@ -2,26 +2,27 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos restores the pink-violet search orb as a spacious portal. Every
- * search action on Awtsmoos.com remains touchable, named, focused, and luminous
- * without sacrificing the historical Geelooy motion language.
+ * The Awtsmoos opens search as a calm portal rather than an endless flare.
+ * Awtsmoos.com preserves the same search contract while every field and action
+ * owns readable color, a 44-pixel doorway, and restrained high-speed motion.
  */
+
 .g-header-search,
 .geelooy-search {
 	position: relative;
 	display: grid;
-	min-width: 0;
-	grid-template-columns: auto minmax(0, 1fr) auto;
+	grid-template-columns: 44px minmax(0, 1fr) 44px;
 	align-items: center;
-	gap: 0.48rem;
-	min-height: 3.45rem;
-	padding: 0.38rem 0.42rem 0.38rem 0.48rem;
-	border: 1px solid rgba(255, 255, 255, 0.22);
+	gap: .48rem;
+	min-inline-size: 0;
+	min-block-size: 3.55rem;
+	padding: .38rem .42rem .38rem .48rem;
+	border: 1px solid rgba(124, 226, 240, .32);
 	border-radius: 999px;
-	background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(116, 79, 255, 0.13));
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.16), 0 16px 42px rgba(0, 0, 0, 0.28);
-	backdrop-filter: blur(18px) saturate(150%);
-	transition: 220ms var(--g-ease);
+	background: linear-gradient(135deg, rgba(14, 28, 47, .96), rgba(28, 20, 56, .96));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 .75rem 2rem rgba(0, 0, 0, .24);
+	color: var(--g-text);
+	transition: border-color 180ms var(--g-ease), box-shadow 180ms var(--g-ease), transform 180ms var(--g-ease);
 }
 
 .g-header-search::before {
@@ -29,23 +30,23 @@
 	inset: -1px;
 	z-index: -1;
 	border-radius: inherit;
-	background: linear-gradient(100deg, rgba(60, 236, 255, 0.5), transparent 28%, rgba(139, 92, 255, 0.5), rgba(255, 72, 203, 0.48));
+	background: linear-gradient(100deg, rgba(60, 236, 255, .42), transparent 34%, rgba(255, 72, 203, .36));
 	content: "";
-	opacity: 0.4;
+	opacity: .48;
 }
 
 .g-header-search[data-open="true"],
 .g-header-search:focus-within {
-	border-color: rgba(60, 236, 255, 0.62);
-	background: linear-gradient(135deg, rgba(10, 26, 48, 0.98), rgba(35, 19, 75, 0.97));
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), var(--g-glow-hot);
-	transform: translateY(-1px) scale(1.006);
+	border-color: rgba(124, 226, 240, .72);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 3px rgba(60, 236, 255, .14), 0 1rem 2.5rem rgba(0, 0, 0, .28);
+	transform: translateY(-1px);
 }
 
 .g-header-search input {
-	min-width: 0;
-	min-height: 2.5rem;
-	padding: 0 0.25rem;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding-inline: .25rem;
 	border: 0 !important;
 	background: transparent !important;
 	box-shadow: none !important;
@@ -56,63 +57,57 @@
 }
 
 .g-header-search input::placeholder {
-	color: #aeb8d0;
+	color: #b8c5da;
+	opacity: 1;
 }
 
 .g-search-orb,
 .g-search-submit {
 	display: grid;
-	width: 2.65rem;
-	height: 2.65rem;
-	min-width: 2.65rem;
-	min-height: 2.65rem;
+	inline-size: 44px;
+	block-size: 44px;
+	min-inline-size: 44px;
+	min-block-size: 44px;
 	place-items: center;
 	padding: 0;
-	border: 1px solid rgba(255, 255, 255, 0.18) !important;
+	border: 1px solid rgba(255, 255, 255, .2) !important;
 	border-radius: 50% !important;
 	cursor: pointer;
+	transition: transform 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
 }
 
 .g-search-orb {
-	background: linear-gradient(145deg, #ff62d0, #795dff) !important;
-	color: white !important;
-	box-shadow: 0 8px 24px rgba(131, 76, 255, 0.48), 0 0 18px rgba(255, 72, 203, 0.3);
-	animation: g-search-glow 3s ease-in-out infinite;
+	background: linear-gradient(145deg, #e95bbb, #7258e8) !important;
+	box-shadow: 0 .5rem 1.4rem rgba(118, 77, 224, .38);
+	color: #fff !important;
 }
 
 .g-search-submit {
-	background: rgba(255, 255, 255, 0.08) !important;
-	color: var(--g-cyan) !important;
-	transition: 180ms var(--g-ease);
+	background: rgba(124, 226, 240, .1) !important;
+	color: #91eff7 !important;
 }
 
 .g-search-orb:focus-visible,
 .g-search-submit:focus-visible {
-	box-shadow: 0 0 0 3px rgba(60, 236, 255, 0.28), var(--g-glow-hot);
-	outline: 2px solid transparent;
+	outline: 3px solid #7ce2f0;
+	outline-offset: 3px;
 }
 
 @media (hover: hover) {
+	.g-search-orb:hover,
 	.g-search-submit:hover {
-		background: rgba(60, 236, 255, 0.16) !important;
-		transform: rotate(8deg) scale(1.08);
+		transform: translateY(-1px);
 	}
-}
 
-@keyframes g-search-glow {
-	50% {
-		transform: translateY(-2px) rotate(-7deg);
-		box-shadow: 0 12px 34px rgba(255, 76, 190, 0.62), 0 0 30px rgba(60, 236, 255, 0.24);
+	.g-search-submit:hover {
+		background: rgba(124, 226, 240, .18) !important;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.g-search-orb {
-		animation: none;
-	}
-
 	.g-header-search,
+	.g-search-orb,
 	.g-search-submit {
-		transition-duration: 0.01ms;
+		transition: none;
 	}
 }

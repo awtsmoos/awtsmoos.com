@@ -4,13 +4,17 @@
 
 /**
  * @module RagShardDiscovery
+ * @chapter Manifest Identity And Live Persisted Readiness Must Agree
  * @description
- * Public discovery reads manifests only. A database opens only after one exact lane
- * is selected, so listing cannot awaken the whole library.
+ * Uses only manifest-backed candidates, then opens each selected shard read-only
+ * to verify its real list and HNSW registry before public routing or advertisement.
  */
 
-const { catalog } = require('./shardCatalog.js');
 const { openShardSession } = require('./shardStore.js');
+const {
+	describeFile,
+	shardFiles
+} = require('./shardManifest.js');
 
 function rowsOf(list) {
 	const plain = list?.__resolve__?.();
@@ -18,49 +22,60 @@ function rowsOf(list) {
 		? plain
 		: Array.from(
 			{ length: Number(list?.length || 0) },
-			(_, index) => list[index]
+			(_value, index) => list[index]
 		);
-}
-
-async function availableShards({ $i }) {
-	return catalog($i);
-}
-
-async function resolveShard({ $i, lane }) {
-	const shards = catalog($i);
-	const requested = String(lane || '').trim().toLowerCase();
-	const selected = requested
-		? shards.find(shard => matches(shard, requested))
-		: defaultShard(shards);
-	if (!selected) return null;
-	if (selected.listName) return selected;
-	return inspectSelected(selected);
-}
-
-function defaultShard(shards) {
-	return [...shards].sort((left, right) => {
-		const textDifference = Number(Boolean(right.textFile))
-			- Number(Boolean(left.textFile));
-		return textDifference || right.count - left.count;
-	})[0] || null;
-}
-
-function matches(shard, requested) {
-	return shard.id === requested
-		|| shard.aliases.includes(requested)
-		|| shard.id.includes(requested);
 }
 
 function inspectSelected(shard) {
 	const session = openShardSession(shard);
-	const sample = session.list.length ? session.list[0] : null;
+	const sample = session.list.length
+		? session.list[0]
+		: null;
 	return {
 		...shard,
 		listName: session.listName,
 		count: Number(session.list.length || 0),
 		sampleKeys: sample ? Object.keys(sample) : [],
-		vectorEnabled: session.status.usable
+		vectorEnabled: session.status.usable,
+		registryCount: session.status.registryCount,
+		entryNodeID: session.status.entryNodeID,
+		maxLevel: session.status.maxLevel
 	};
+}
+
+function inspectSafely(shard) {
+	try {
+		return inspectSelected(shard);
+	} catch (error) {
+		return {
+			...shard,
+			error: error.message
+		};
+	}
+}
+
+async function availableShards({ $i }) {
+	return shardFiles($i)
+		.map(describeFile)
+		.map(inspectSafely)
+		.sort((left, right) => (
+			(right.count || 0) - (left.count || 0)
+		));
+}
+
+async function resolveShard({ $i, lane }) {
+	const shards = shardFiles($i).map(describeFile);
+	const requested = String(lane || '').toLowerCase();
+	const selected = requested
+		? shards.find(shard => matchesLane(shard, requested))
+		: shards.sort((left, right) => right.count - left.count)[0];
+	return selected ? inspectSelected(selected) : null;
+}
+
+function matchesLane(shard, requested) {
+	return shard.id === requested
+		|| shard.aliases.includes(requested)
+		|| shard.id.includes(requested);
 }
 
 module.exports = {

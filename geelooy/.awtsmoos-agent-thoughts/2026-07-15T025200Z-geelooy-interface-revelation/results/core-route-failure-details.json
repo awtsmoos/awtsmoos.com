@@ -1,0 +1,7003 @@
+[
+	{
+		"resultName": "core-about-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/about/",
+		"finalUrl": "http://127.0.0.1:8080/about/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 658,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "strong",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "Geelooy",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "About",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.47,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.7,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "↵",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(255, 255, 255, 0.08)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "📬",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "h1#about-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "A social space for meaningful creation.",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-button.g-button-primary",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.58,
+						"minimum": 4.5,
+						"text": "Create an account",
+						"color": "rgb(2, 5, 13)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-about-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/about/",
+		"finalUrl": "http://127.0.0.1:8080/about/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🔍",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "h1#about-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "A social space for meaningful creation.",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-button.g-button-primary",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.58,
+						"minimum": 4.5,
+						"text": "Create an account",
+						"color": "rgb(2, 5, 13)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-alias-management-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/profile/alias-manage/",
+		"finalUrl": "http://127.0.0.1:8080/profile/alias-manage/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/home/headers.css?v=social-shell-011",
+			"http://127.0.0.1:8080/style/home/main.css",
+			"http://127.0.0.1:8080/profile/alias-manage/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 51,
+						"height": 18,
+						"text": "<- Back"
+					}
+				]
+			},
+			{
+				"selector": "input#alias-name",
+				"count": 1,
+				"samples": [
+					{
+						"width": 562,
+						"height": 37,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#alias-id",
+				"count": 1,
+				"samples": [
+					{
+						"width": 562,
+						"height": 37,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 82,
+						"height": 35,
+						"text": "Submit"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.7,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div.lg",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(255, 255, 255, 0.055)"
+					}
+				]
+			},
+			{
+				"selector": "a.home.icon",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "🏡",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.menuGlyph",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "☰",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.47,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.tooltip",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.98,
+						"minimum": 4.5,
+						"text": "?",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(0, 123, 255)"
+					}
+				]
+			},
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.98,
+						"minimum": 4.5,
+						"text": "Submit",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(0, 123, 255)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-alias-management-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/profile/alias-manage/",
+		"finalUrl": "http://127.0.0.1:8080/profile/alias-manage/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/home/headers.css?v=social-shell-011",
+			"http://127.0.0.1:8080/style/home/main.css",
+			"http://127.0.0.1:8080/profile/alias-manage/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 51,
+						"height": 18,
+						"text": "<- Back"
+					}
+				]
+			},
+			{
+				"selector": "input#alias-name",
+				"count": 1,
+				"samples": [
+					{
+						"width": 323,
+						"height": 37,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#alias-id",
+				"count": 1,
+				"samples": [
+					{
+						"width": 323,
+						"height": 37,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 82,
+						"height": 35,
+						"text": "Submit"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "div.lg",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(255, 255, 255, 0.055)"
+					}
+				]
+			},
+			{
+				"selector": "a.home.icon",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "🏡",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.menuGlyph",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "☰",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(255, 250, 241)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.tooltip",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.98,
+						"minimum": 4.5,
+						"text": "?",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(0, 123, 255)"
+					}
+				]
+			},
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.98,
+						"minimum": 4.5,
+						"text": "Submit",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(0, 123, 255)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-caption-video-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/apps/captions/video/",
+		"finalUrl": "http://127.0.0.1:8080/apps/captions/video/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/apps/captions/video/css/variables.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/layout.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/components.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/effects.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "select#preset-select",
+				"count": 1,
+				"samples": [
+					{
+						"width": 92,
+						"height": 40,
+						"text": "Presets..."
+					}
+				]
+			},
+			{
+				"selector": "button#save-preset-btn.icon-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 35,
+						"height": 36,
+						"text": "💾"
+					}
+				]
+			},
+			{
+				"selector": "button#randomize-all-btn.icon-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 35,
+						"height": 36,
+						"text": "🎲"
+					}
+				]
+			},
+			{
+				"selector": "select#renderMode",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 40,
+						"text": "Image BatchVideo"
+					}
+				]
+			},
+			{
+				"selector": "input#frameRate",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#videoWidth",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#videoHeight",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#headerText",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#dualCaptionToggle",
+				"count": 1,
+				"samples": [
+					{
+						"width": 20,
+						"height": 20,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleDensity",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#minParticleSize",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#maxParticleSize",
+				"count": 1,
+				"samples": [
+					{
+						"width": 156,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleSpeed",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleColorShift",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleChars",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#backgroundOpacity",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#basePaletteColor",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#cinematicBarHeight",
+				"count": 1,
+				"samples": [
+					{
+						"width": 322,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#enableImageDownload",
+				"count": 1,
+				"samples": [
+					{
+						"width": 20,
+						"height": 20,
+						"text": ""
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#headerText",
+			"textarea#mainCaptions"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button#renderButton.primary-btn",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 3,
+						"text": "RENDER",
+						"color": "rgb(0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-caption-video-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/apps/captions/video/",
+		"finalUrl": "http://127.0.0.1:8080/apps/captions/video/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/apps/captions/video/css/variables.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/layout.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/components.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/effects.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "select#preset-select",
+				"count": 1,
+				"samples": [
+					{
+						"width": 80,
+						"height": 40,
+						"text": "Presets..."
+					}
+				]
+			},
+			{
+				"selector": "button#save-preset-btn.icon-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 36,
+						"height": 36,
+						"text": "💾"
+					}
+				]
+			},
+			{
+				"selector": "button#randomize-all-btn.icon-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 36,
+						"height": 36,
+						"text": "🎲"
+					}
+				]
+			},
+			{
+				"selector": "select#renderMode",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 40,
+						"text": "Image BatchVideo"
+					}
+				]
+			},
+			{
+				"selector": "input#frameRate",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#videoWidth",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#videoHeight",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#headerText",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#dualCaptionToggle",
+				"count": 1,
+				"samples": [
+					{
+						"width": 20,
+						"height": 20,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleDensity",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#minParticleSize",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#maxParticleSize",
+				"count": 1,
+				"samples": [
+					{
+						"width": 157,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleSpeed",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleColorShift",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#particleChars",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#backgroundOpacity",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#basePaletteColor",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#cinematicBarHeight",
+				"count": 1,
+				"samples": [
+					{
+						"width": 324,
+						"height": 6,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#enableImageDownload",
+				"count": 1,
+				"samples": [
+					{
+						"width": 20,
+						"height": 20,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button#mobile-close-btn.icon-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 36,
+						"height": 36,
+						"text": "✕"
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#headerText",
+			"textarea#mainCaptions"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button#renderButton.primary-btn",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 3,
+						"text": "RENDER",
+						"color": "rgb(0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-comment-thread-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/comment-thread/",
+		"finalUrl": "http://127.0.0.1:8080/comment-thread/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/comments.css?v=comments-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 619,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"width": 70,
+						"height": 36,
+						"text": "Spaces"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-action",
+				"count": 1,
+				"samples": [
+					{
+						"width": 119,
+						"height": 36,
+						"text": "Browse spaces"
+					}
+				]
+			},
+			{
+				"selector": "a.soft-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 115,
+						"height": 18,
+						"text": "Open Heichelos"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.6,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.32,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Conversation thread",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Comment thread",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing heichel and post",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-action",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Browse spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-comment-thread-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/comment-thread/",
+		"finalUrl": "http://127.0.0.1:8080/comment-thread/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/comments.css?v=comments-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🧭"
+					}
+				]
+			},
+			{
+				"selector": "a.soft-btn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 115,
+						"height": 18,
+						"text": "Open Heichelos"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-route-icon",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏠",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🌌",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-route-label",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Home",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Ikar",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Conversation thread",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Comment thread",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing heichel and post",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-community-moderation-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/settings/community/moderation/",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/settings/community/moderation/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/heichelos/community-settings.css?v=clean-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 230,
+						"height": 21,
+						"text": "Back to community settings"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Back to community settings",
+						"color": "rgb(14, 165, 164)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-community-moderation-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/settings/community/moderation/",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/settings/community/moderation/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/heichelos/community-settings.css?v=clean-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 217,
+						"height": 19,
+						"text": "Back to community settings"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Back to community settings",
+						"color": "rgb(14, 165, 164)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-community-settings-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/heichelos/community-settings.css?v=clean-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input",
+				"count": 11,
+				"samples": [
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					},
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					},
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 198,
+						"height": 21,
+						"text": "Open moderation queue"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Open moderation queue",
+						"color": "rgb(14, 165, 164)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-community-settings-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/heichelos/community-settings.css?v=clean-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input",
+				"count": 11,
+				"samples": [
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					},
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					},
+					{
+						"width": 16,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 187,
+						"height": 19,
+						"text": "Open moderation queue"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Open moderation queue",
+						"color": "rgb(14, 165, 164)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-entity-view-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/entity-view/",
+		"finalUrl": "http://127.0.0.1:8080/entity-view/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social-system/entity/base.css",
+			"http://127.0.0.1:8080/style/social-system/entity/cards.css"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-entity-view-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/entity-view/",
+		"finalUrl": "http://127.0.0.1:8080/entity-view/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social-system/entity/base.css",
+			"http://127.0.0.1:8080/style/social-system/entity/cards.css"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichel-editor-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichel-editor/",
+		"finalUrl": "http://127.0.0.1:8080/heichel-editor/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/editor.css?v=editor-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a.g-context-action",
+				"count": 2,
+				"samples": [
+					{
+						"width": 104,
+						"height": 36,
+						"text": "Choose alias"
+					},
+					{
+						"width": 119,
+						"height": 36,
+						"text": "Browse spaces"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 619,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"width": 70,
+						"height": 36,
+						"text": "Spaces"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.6,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-action",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Choose alias",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Browse spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.32,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Governance workspace",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Heichel editor",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing heichel and alias",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichel-editor-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichel-editor/",
+		"finalUrl": "http://127.0.0.1:8080/heichel-editor/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/editor.css?v=editor-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-route-icon",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏠",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🌌",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-route-label",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Home",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Ikar",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Governance workspace",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Heichel editor",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing heichel and alias",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichel-review-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichel-review/",
+		"finalUrl": "http://127.0.0.1:8080/heichel-review/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/heichel-review/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#policyAllowContent",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyRequireContentApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyAllowReferences",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyRequireReferenceApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyCommentsEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyAnswersEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button#saveSeriesPolicyButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "Save bounded policy",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichel-review-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichel-review/",
+		"finalUrl": "http://127.0.0.1:8080/heichel-review/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/heichel-review/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#policyAllowContent",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyRequireContentApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyAllowReferences",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyRequireReferenceApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyCommentsEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#policyAnswersEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button#saveSeriesPolicyButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "Save bounded policy",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichelos-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=unified-ui-001",
+			"http://127.0.0.1:8080/style/heichelos/discovery.css?v=unified-ui-001"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 658,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span",
+				"count": 68,
+				"samples": [
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "Creator not provided",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "afmqoai30t heich",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "Creator not provided",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.61,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "rgb(64, 216, 239)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.32,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.6,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.61,
+						"minimum": 4.5,
+						"text": "↵",
+						"color": "rgb(64, 216, 239)",
+						"background": "rgba(255, 255, 255, 0.08)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-heichelos-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=unified-ui-001",
+			"http://127.0.0.1:8080/style/heichelos/discovery.css?v=unified-ui-001"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span",
+				"count": 68,
+				"samples": [
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "Creator not provided",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "afmqoai30t heich",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.56,
+						"minimum": 4.5,
+						"text": "Creator not provided",
+						"color": "rgb(148, 163, 184)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-route-icon",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.42,
+						"minimum": 3,
+						"text": "🏠",
+						"color": "color(srgb 0.0818824 0.18102 0.257412)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🌌",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.42,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "color(srgb 0.0818824 0.18102 0.257412)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-route-label",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Home",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Ikar",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-home-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/",
+		"finalUrl": "http://127.0.0.1:8080/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/home/index.css?v=home-fix-004"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a.home-skip-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 129,
+						"height": 18,
+						"text": "Skip to the live feed"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a.home-skip-link",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.12,
+						"minimum": 4.5,
+						"text": "Skip to the live feed",
+						"color": "rgb(244, 242, 236)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-home-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/",
+		"finalUrl": "http://127.0.0.1:8080/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/home/index.css?v=home-fix-004"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a.home-skip-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 129,
+						"height": 18,
+						"text": "Skip to the live feed"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "a.home-skip-link",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.12,
+						"minimum": 4.5,
+						"text": "Skip to the live feed",
+						"color": "rgb(244, 242, 236)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-ikar-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/ikar",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/awtsmoos-scroll-sovereignty.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/heichelos/heichel/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 11,
+				"samples": [
+					{
+						"width": 96,
+						"height": 40,
+						"text": "Overview"
+					},
+					{
+						"width": 89,
+						"height": 40,
+						"text": "Timeline"
+					},
+					{
+						"width": 109,
+						"height": 40,
+						"text": "Knowledge"
+					}
+				]
+			},
+			{
+				"selector": "button.tab",
+				"count": 2,
+				"samples": [
+					{
+						"width": 484,
+						"height": 40,
+						"text": "Timeline"
+					},
+					{
+						"width": 484,
+						"height": 40,
+						"text": "Groupings"
+					}
+				]
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"count": 2,
+				"samples": [
+					{
+						"width": 41,
+						"height": 41,
+						"text": "⌄"
+					},
+					{
+						"width": 41,
+						"height": 41,
+						"text": "⌄"
+					}
+				]
+			},
+			{
+				"selector": "button.card-menu-trigger",
+				"count": 2,
+				"samples": [
+					{
+						"width": 41,
+						"height": 41,
+						"text": "⋮"
+					},
+					{
+						"width": 41,
+						"height": 41,
+						"text": "⋮"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 658,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			},
+			{
+				"selector": "button.tab.Active",
+				"count": 1,
+				"samples": [
+					{
+						"width": 484,
+						"height": 40,
+						"text": "Tree"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "h2",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.02,
+						"minimum": 3,
+						"text": "The Written Torah",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.02,
+						"minimum": 3,
+						"text": "The Oral Torah",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 3.13,
+						"minimum": 4.5,
+						"text": "›",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 3.13,
+						"minimum": 4.5,
+						"text": "›",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 2.7,
+						"minimum": 4.5,
+						"text": "The Entire Torah that Moishe and prophets got from the Creator",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.7,
+						"minimum": 4.5,
+						"text": "Open or expand this series path.",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 2.61,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(255, 255, 255, 0.07)"
+					},
+					{
+						"ratio": 2.61,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(255, 255, 255, 0.07)"
+					}
+				]
+			},
+			{
+				"selector": "summary.topbar-icon",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "✨",
+						"color": "rgb(32, 21, 8)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div.heichel-seal",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.92,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgb(23, 28, 37)"
+					}
+				]
+			},
+			{
+				"selector": "p.hero-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.79,
+						"minimum": 4.5,
+						"text": "Current Heichel",
+						"color": "rgb(138, 86, 25)",
+						"background": "rgb(23, 28, 37)"
+					}
+				]
+			},
+			{
+				"selector": "p.hero-description",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.94,
+						"minimum": 4.5,
+						"text": "The root Heichel restored after device transfer.",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.breadcrumb-link",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.79,
+						"minimum": 4.5,
+						"text": "🏡 Root",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.filter-chip",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.05,
+						"minimum": 4.5,
+						"text": "Filter",
+						"color": "rgb(3, 16, 27)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.tab.Active",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "Tree",
+						"color": "rgb(3, 16, 27)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-ikar-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/heichelos/ikar",
+		"finalUrl": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/awtsmoos-scroll-sovereignty.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/heichelos/heichel/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-system/index.css?v=ikar-speed-001",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [
+			{
+				"selector": "button",
+				"count": 6,
+				"samples": [
+					{
+						"left": 365,
+						"right": 441,
+						"width": 76
+					},
+					{
+						"left": 448,
+						"right": 525,
+						"width": 76
+					},
+					{
+						"left": 532,
+						"right": 607,
+						"width": 76
+					}
+				]
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 11,
+				"samples": [
+					{
+						"width": 96,
+						"height": 40,
+						"text": "Overview"
+					},
+					{
+						"width": 89,
+						"height": 40,
+						"text": "Timeline"
+					},
+					{
+						"width": 109,
+						"height": 40,
+						"text": "Knowledge"
+					}
+				]
+			},
+			{
+				"selector": "button.tab",
+				"count": 2,
+				"samples": [
+					{
+						"width": 140,
+						"height": 40,
+						"text": "Timeline"
+					},
+					{
+						"width": 140,
+						"height": 40,
+						"text": "Groupings"
+					}
+				]
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"count": 2,
+				"samples": [
+					{
+						"width": 38,
+						"height": 40,
+						"text": "⌄"
+					},
+					{
+						"width": 38,
+						"height": 40,
+						"text": "⌄"
+					}
+				]
+			},
+			{
+				"selector": "button.card-menu-trigger",
+				"count": 2,
+				"samples": [
+					{
+						"width": 38,
+						"height": 40,
+						"text": "⋮"
+					},
+					{
+						"width": 38,
+						"height": 40,
+						"text": "⋮"
+					}
+				]
+			},
+			{
+				"selector": "a",
+				"count": 2,
+				"samples": [
+					{
+						"width": 64,
+						"height": 42,
+						"text": "🏡 Home"
+					},
+					{
+						"width": 64,
+						"height": 42,
+						"text": "👤 Profile"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🧭"
+					}
+				]
+			},
+			{
+				"selector": "button.tab.Active",
+				"count": 1,
+				"samples": [
+					{
+						"width": 140,
+						"height": 40,
+						"text": "Tree"
+					}
+				]
+			},
+			{
+				"selector": "a.is-create",
+				"count": 1,
+				"samples": [
+					{
+						"width": 64,
+						"height": 42,
+						"text": "✍️ Create"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "h2",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.02,
+						"minimum": 4.5,
+						"text": "The Written Torah",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.02,
+						"minimum": 4.5,
+						"text": "The Oral Torah",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.nav-card-chevron",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 3.13,
+						"minimum": 4.5,
+						"text": "›",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 3.13,
+						"minimum": 4.5,
+						"text": "›",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 2.7,
+						"minimum": 4.5,
+						"text": "The Entire Torah that Moishe and prophets got from the Creator",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.7,
+						"minimum": 4.5,
+						"text": "Open or expand this series path.",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.series-expand-toggle",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 2.61,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(255, 255, 255, 0.07)"
+					},
+					{
+						"ratio": 2.61,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgba(255, 255, 255, 0.07)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-route-icon",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "summary.topbar-icon",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "✨",
+						"color": "rgb(32, 21, 8)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div.heichel-seal",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.92,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "rgb(35, 111, 115)",
+						"background": "rgb(23, 28, 37)"
+					}
+				]
+			},
+			{
+				"selector": "p.hero-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.79,
+						"minimum": 4.5,
+						"text": "Current Heichel",
+						"color": "rgb(138, 86, 25)",
+						"background": "rgb(23, 28, 37)"
+					}
+				]
+			},
+			{
+				"selector": "p.hero-description",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.94,
+						"minimum": 4.5,
+						"text": "The root Heichel restored after device transfer.",
+						"color": "rgb(107, 88, 65)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.breadcrumb-link",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.79,
+						"minimum": 4.5,
+						"text": "🏡 Root",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.filter-chip",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.05,
+						"minimum": 4.5,
+						"text": "Filter",
+						"color": "rgb(3, 16, 27)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.tab.Active",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "Tree",
+						"color": "rgb(3, 16, 27)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-living-library-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"finalUrl": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/mawgawl/sefarim/styles.css?v=library-fix-002"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-living-library-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"finalUrl": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/mawgawl/sefarim/styles.css?v=library-fix-002"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-login-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/login/",
+		"finalUrl": "http://127.0.0.1:8080/login/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"http://127.0.0.1:8080/style/forms.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 34,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "a.secondary-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 123,
+						"height": 18,
+						"text": "Create Account"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.07,
+						"minimum": 4.5,
+						"text": "Log in",
+						"color": "rgb(5, 9, 20)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-login-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/login/",
+		"finalUrl": "http://127.0.0.1:8080/login/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"http://127.0.0.1:8080/style/forms.css"
+		],
+		"overflow": [
+			{
+				"selector": "div.login-card__glow",
+				"count": 1,
+				"samples": [
+					{
+						"left": 185,
+						"right": 457,
+						"width": 272
+					}
+				]
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 34,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "a.secondary-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 123,
+						"height": 18,
+						"text": "Create Account"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.07,
+						"minimum": 4.5,
+						"text": "Log in",
+						"color": "rgb(5, 9, 20)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-mail-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/email/",
+		"finalUrl": "http://127.0.0.1:8080/email/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/email/css/core.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/sidebar.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/chat.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/composer.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/fx.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/social-shell.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/hypermail.css?v=quantum-002",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 655,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#mailSearchInput",
+				"count": 1,
+				"samples": [
+					{
+						"width": 332,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 286,
+						"height": 25,
+						"text": "✉️ Full Mail Route"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "small",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "Mail",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.47,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.98,
+						"minimum": 4.5,
+						"text": "Mail identity",
+						"color": "rgb(88, 103, 125)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 3,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "Geelooy",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "AWTSMOOS QUANTUM MAIL",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.7,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "↵",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(255, 255, 255, 0.08)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "📬",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(255, 194, 71, 0.13)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p.identity-modal-copy",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.98,
+						"minimum": 4.5,
+						"text": "Your canonical Geelooy profile controls Mail identity. Sign in or switch aliases",
+						"color": "rgb(88, 103, 125)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.btn-primary",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.82,
+						"minimum": 4.5,
+						"text": "Transmit Message",
+						"color": "rgb(1, 2, 5)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.mail-status-light",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.34,
+						"minimum": 4.5,
+						"text": "LIVE",
+						"color": "rgb(66, 245, 179)",
+						"background": "rgba(66, 245, 179, 0.1)"
+					}
+				]
+			},
+			{
+				"selector": "span.mail-status-code",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.5,
+						"minimum": 4.5,
+						"text": "QMAIL // 002",
+						"color": "rgb(50, 231, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.fab-compose",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "✍️ New Transmission",
+						"color": "rgb(18, 8, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.send-btn.send-transmission-btn",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Send Transmission",
+						"color": "rgb(22, 9, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-mail-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/email/",
+		"finalUrl": "http://127.0.0.1:8080/email/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/email/css/core.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/sidebar.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/chat.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/composer.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/fx.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/social-shell.css?v=quantum-002",
+			"http://127.0.0.1:8080/email/css/hypermail.css?v=quantum-002",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [
+			{
+				"selector": "span.mail-folder-count",
+				"count": 6,
+				"samples": [
+					{
+						"left": 399,
+						"right": 418,
+						"width": 18
+					},
+					{
+						"left": 536,
+						"right": 554,
+						"width": 18
+					},
+					{
+						"left": 672,
+						"right": 690,
+						"width": 18
+					}
+				]
+			},
+			{
+				"selector": "button.mail-sender-category",
+				"count": 4,
+				"samples": [
+					{
+						"left": 294,
+						"right": 426,
+						"width": 131
+					},
+					{
+						"left": 431,
+						"right": 562,
+						"width": 131
+					},
+					{
+						"left": 567,
+						"right": 698,
+						"width": 131
+					}
+				]
+			},
+			{
+				"selector": "span",
+				"count": 4,
+				"samples": [
+					{
+						"left": 438,
+						"right": 527,
+						"width": 89
+					},
+					{
+						"left": 575,
+						"right": 663,
+						"width": 89
+					},
+					{
+						"left": 711,
+						"right": 800,
+						"width": 89
+					}
+				]
+			},
+			{
+				"selector": "button.icon-btn.win-ctrl",
+				"count": 4,
+				"samples": [
+					{
+						"left": 691,
+						"right": 735,
+						"width": 44
+					},
+					{
+						"left": 751,
+						"right": 795,
+						"width": 44
+					},
+					{
+						"left": 803,
+						"right": 847,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "button",
+				"count": 4,
+				"samples": [
+					{
+						"left": 409,
+						"right": 453,
+						"width": 44
+					},
+					{
+						"left": 457,
+						"right": 501,
+						"width": 44
+					},
+					{
+						"left": 505,
+						"right": 549,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "button.mode-tab",
+				"count": 2,
+				"samples": [
+					{
+						"left": 492,
+						"right": 617,
+						"width": 125
+					},
+					{
+						"left": 621,
+						"right": 691,
+						"width": 70
+					}
+				]
+			},
+			{
+				"selector": "button.mail-folder-tab",
+				"count": 1,
+				"samples": [
+					{
+						"left": 366,
+						"right": 410,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "header.chat-header",
+				"count": 1,
+				"samples": [
+					{
+						"left": 382,
+						"right": 921,
+						"width": 540
+					}
+				]
+			},
+			{
+				"selector": "div.chat-heading-lockup",
+				"count": 1,
+				"samples": [
+					{
+						"left": 392,
+						"right": 619,
+						"width": 228
+					}
+				]
+			},
+			{
+				"selector": "button.back-button",
+				"count": 1,
+				"samples": [
+					{
+						"left": 392,
+						"right": 436,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "span.chat-frequency-light",
+				"count": 1,
+				"samples": [
+					{
+						"left": 446,
+						"right": 477,
+						"width": 31
+					}
+				]
+			},
+			{
+				"selector": "div",
+				"count": 1,
+				"samples": [
+					{
+						"left": 488,
+						"right": 619,
+						"width": 132
+					}
+				]
+			},
+			{
+				"selector": "p.chat-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"left": 488,
+						"right": 619,
+						"width": 132
+					}
+				]
+			},
+			{
+				"selector": "h2.chat-title",
+				"count": 1,
+				"samples": [
+					{
+						"left": 488,
+						"right": 619,
+						"width": 132
+					}
+				]
+			},
+			{
+				"selector": "div.chat-tools",
+				"count": 1,
+				"samples": [
+					{
+						"left": 867,
+						"right": 911,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "button.tool-btn",
+				"count": 1,
+				"samples": [
+					{
+						"left": 867,
+						"right": 911,
+						"width": 44
+					}
+				]
+			},
+			{
+				"selector": "div.time-scrubber",
+				"count": 1,
+				"samples": [
+					{
+						"left": 744,
+						"right": 755,
+						"width": 12
+					}
+				]
+			},
+			{
+				"selector": "section.messages-scroll",
+				"count": 1,
+				"samples": [
+					{
+						"left": 382,
+						"right": 921,
+						"width": 540
+					}
+				]
+			},
+			{
+				"selector": "div.void-logo",
+				"count": 1,
+				"samples": [
+					{
+						"left": 396,
+						"right": 908,
+						"width": 512
+					}
+				]
+			},
+			{
+				"selector": "span.void-atom",
+				"count": 1,
+				"samples": [
+					{
+						"left": 608,
+						"right": 696,
+						"width": 88
+					}
+				]
+			},
+			{
+				"selector": "p.mail-modal-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"left": 562,
+						"right": 741,
+						"width": 179
+					}
+				]
+			},
+			{
+				"selector": "h2",
+				"count": 1,
+				"samples": [
+					{
+						"left": 549,
+						"right": 754,
+						"width": 205
+					}
+				]
+			},
+			{
+				"selector": "p",
+				"count": 1,
+				"samples": [
+					{
+						"left": 451,
+						"right": 853,
+						"width": 402
+					}
+				]
+			},
+			{
+				"selector": "canvas#particleCanvas",
+				"count": 1,
+				"samples": [
+					{
+						"left": 382,
+						"right": 755,
+						"width": 374
+					}
+				]
+			},
+			{
+				"selector": "div.composer-area",
+				"count": 1,
+				"samples": [
+					{
+						"left": 382,
+						"right": 921,
+						"width": 540
+					}
+				]
+			},
+			{
+				"selector": "div.composer-box",
+				"count": 1,
+				"samples": [
+					{
+						"left": 395,
+						"right": 909,
+						"width": 514
+					}
+				]
+			},
+			{
+				"selector": "div.flex.space-between.align-center",
+				"count": 1,
+				"samples": [
+					{
+						"left": 396,
+						"right": 908,
+						"width": 512
+					}
+				]
+			},
+			{
+				"selector": "div.composer-tabs",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 691,
+						"width": 286
+					}
+				]
+			},
+			{
+				"selector": "button.mode-tab.active",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 487,
+						"width": 83
+					}
+				]
+			},
+			{
+				"selector": "div.flex.gap-2.composer-window-controls",
+				"count": 1,
+				"samples": [
+					{
+						"left": 691,
+						"right": 899,
+						"width": 208
+					}
+				]
+			},
+			{
+				"selector": "div.composer-content",
+				"count": 1,
+				"samples": [
+					{
+						"left": 396,
+						"right": 908,
+						"width": 512
+					}
+				]
+			},
+			{
+				"selector": "div.visual-toolbar",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 899,
+						"width": 494
+					}
+				]
+			},
+			{
+				"selector": "div.input-wrapper",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 899,
+						"width": 494
+					}
+				]
+			},
+			{
+				"selector": "div.message-input.visual-editor",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 899,
+						"width": 494
+					}
+				]
+			},
+			{
+				"selector": "div.composer-action-row",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 899,
+						"width": 494
+					}
+				]
+			},
+			{
+				"selector": "button.send-btn.send-transmission-btn",
+				"count": 1,
+				"samples": [
+					{
+						"left": 404,
+						"right": 899,
+						"width": 494
+					}
+				]
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "input#mailSearchInput",
+				"count": 1,
+				"samples": [
+					{
+						"width": 346,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 300,
+						"height": 25,
+						"text": "✉️ Full Mail Route"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "strong",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "AWTSMOOS QUANTUM MAIL",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.98,
+						"minimum": 4.5,
+						"text": "Mail identity",
+						"color": "rgb(88, 103, 125)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 3.3,
+						"minimum": 4.5,
+						"text": "Mail identity",
+						"color": "rgb(88, 103, 125)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🔍",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p.identity-modal-copy",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.98,
+						"minimum": 4.5,
+						"text": "Your canonical Geelooy profile controls Mail identity. Sign in or switch aliases",
+						"color": "rgb(88, 103, 125)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.btn-primary",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.82,
+						"minimum": 4.5,
+						"text": "Transmit Message",
+						"color": "rgb(1, 2, 5)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.mail-status-light",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.34,
+						"minimum": 4.5,
+						"text": "LIVE",
+						"color": "rgb(66, 245, 179)",
+						"background": "rgba(66, 245, 179, 0.1)"
+					}
+				]
+			},
+			{
+				"selector": "span.mail-status-code",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.5,
+						"minimum": 4.5,
+						"text": "QMAIL // 002",
+						"color": "rgb(50, 231, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.fab-compose",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "✍️ New Transmission",
+						"color": "rgb(18, 8, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.send-btn.send-transmission-btn",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Send Transmission",
+						"color": "rgb(22, 9, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-not-found-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/definitely-missing-geelooy-route",
+		"finalUrl": "http://127.0.0.1:8080/definitely-missing-geelooy-route",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "pre",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "{\"BH\":\"B\\\"H\",\"error\":{\"message\":\"Dynamic route not found\",\"code\":\"DYN_ROUTE_NOT_",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [
+			{
+				"level": "error",
+				"text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+				"url": "http://127.0.0.1:8080/definitely-missing-geelooy-route"
+			}
+		],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-not-found-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/definitely-missing-geelooy-route",
+		"finalUrl": "http://127.0.0.1:8080/definitely-missing-geelooy-route",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "pre",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "{\"BH\":\"B\\\"H\",\"error\":{\"message\":\"Dynamic route not found\",\"code\":\"DYN_ROUTE_NOT_",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [
+			{
+				"level": "error",
+				"text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+				"url": "http://127.0.0.1:8080/definitely-missing-geelooy-route"
+			}
+		],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-notifications-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/notifications/",
+		"finalUrl": "http://127.0.0.1:8080/notifications/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=unified-ui-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 658,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "small",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.61,
+						"minimum": 4.5,
+						"text": "Signals",
+						"color": "rgb(64, 216, 239)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.32,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.6,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.61,
+						"minimum": 4.5,
+						"text": "↵",
+						"color": "rgb(64, 216, 239)",
+						"background": "rgba(255, 255, 255, 0.08)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-notifications-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/notifications/",
+		"finalUrl": "http://127.0.0.1:8080/notifications/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/index.css?v=unified-ui-001",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 44,
+						"height": 42,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-route-icon",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.42,
+						"minimum": 3,
+						"text": "🏠",
+						"color": "color(srgb 0.0818824 0.18102 0.257412)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.42,
+						"minimum": 3,
+						"text": "🌌",
+						"color": "color(srgb 0.0818824 0.18102 0.257412)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.42,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "color(srgb 0.0818824 0.18102 0.257412)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-route-label",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Home",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 4.01,
+						"minimum": 4.5,
+						"text": "Ikar",
+						"color": "rgb(97, 113, 138)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-post-editor-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/post-editor/",
+		"finalUrl": "http://127.0.0.1:8080/post-editor/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/editor.css?v=editor-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a.g-context-action",
+				"count": 2,
+				"samples": [
+					{
+						"width": 104,
+						"height": 36,
+						"text": "Choose alias"
+					},
+					{
+						"width": 119,
+						"height": 36,
+						"text": "Browse spaces"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 640,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"width": 70,
+						"height": 36,
+						"text": "Spaces"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.6,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-action",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Choose alias",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Browse spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.06,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 2.32,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-context-parent",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Creation chamber",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Post editor",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing alias and heichel",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-post-editor-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/post-editor/",
+		"finalUrl": "http://127.0.0.1:8080/post-editor/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001",
+			"http://127.0.0.1:8080/style/social-system/editor.css?v=editor-003",
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-route-icon",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏠",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🌌",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 3,
+						"text": "🏛️",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-route-label",
+				"count": 5,
+				"samples": [
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Home",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Spaces",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.11,
+						"minimum": 4.5,
+						"text": "Ikar",
+						"color": "color(srgb 0.0588235 0.0901961 0.164706)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.01,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small.g-context-type",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Creation chamber",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong#g-context-title.g-context-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "Post editor",
+						"color": "rgb(15, 23, 42)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-context-details",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.63,
+						"minimum": 4.5,
+						"text": "Missing alias and heichel",
+						"color": "rgb(100, 116, 139)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-privacy-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/legal/privacy/",
+		"finalUrl": "http://127.0.0.1:8080/legal/privacy/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/legal/shared.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 7,
+				"samples": [
+					{
+						"width": 90,
+						"height": 40,
+						"text": "Identity"
+					},
+					{
+						"width": 89,
+						"height": 40,
+						"text": "Activity"
+					},
+					{
+						"width": 90,
+						"height": 40,
+						"text": "Sharing"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-privacy-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/legal/privacy/",
+		"finalUrl": "http://127.0.0.1:8080/legal/privacy/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/legal/shared.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 7,
+				"samples": [
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Identity"
+					},
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Activity"
+					},
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Sharing"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-profile-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/profile/",
+		"finalUrl": "http://127.0.0.1:8080/profile/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "⌕"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 1,
+				"samples": [
+					{
+						"width": 658,
+						"height": 40,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 42,
+						"text": "↵"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "strong",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "Geelooy",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "small",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "Profile",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 2.47,
+						"minimum": 4.5,
+						"text": "Identity access",
+						"color": "rgb(145, 166, 201)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 2,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					},
+					{
+						"ratio": 1.7,
+						"minimum": 4.5,
+						"text": "⌄",
+						"color": "rgb(184, 199, 232)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-orb",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "⌕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-search-submit",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.43,
+						"minimum": 4.5,
+						"text": "↵",
+						"color": "rgb(60, 236, 255)",
+						"background": "rgba(255, 255, 255, 0.08)"
+					}
+				]
+			},
+			{
+				"selector": "a.g-header-action.g-mail-portal",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "📬",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p.profile-kicker.g-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "Personal chamber",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "h1#profile-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "Sign in to open your profile",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-profile-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/profile/",
+		"finalUrl": "http://127.0.0.1:8080/profile/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/profile-dropdown/index.css?v=solid-002",
+			"http://127.0.0.1:8080/style/geelooy-app/index.css?v=speed-001"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🔍"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"width": 42,
+						"height": 46,
+						"text": "🧭"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "span.g-bh-jewel",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "B\"H",
+						"color": "color(srgb 0.894431 0.980706 1)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.g-mobile-search-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🔍",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "span.profile-icon-symbol",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.08,
+						"minimum": 4.5,
+						"text": "◎",
+						"color": "rgb(223, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "strong",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.04,
+						"minimum": 4.5,
+						"text": "Sign in",
+						"color": "rgb(248, 251, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "button.g-header-action.menuBtn.g-menu-button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.03,
+						"minimum": 4.5,
+						"text": "🧭",
+						"color": "rgb(251, 252, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "p.profile-kicker.g-kicker",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 4.5,
+						"text": "Personal chamber",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "h1#profile-title",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "Sign in to open your profile",
+						"color": "rgba(0, 0, 0, 0)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-recorder-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/recorder/",
+		"finalUrl": "http://127.0.0.1:8080/recorder/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 29,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "button#rec",
+				"count": 1,
+				"samples": [
+					{
+						"width": 112,
+						"height": 21,
+						"text": "Record webcam"
+					}
+				]
+			},
+			{
+				"selector": "button#recd",
+				"count": 1,
+				"samples": [
+					{
+						"width": 109,
+						"height": 21,
+						"text": "Record desktop"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-recorder-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/recorder/",
+		"finalUrl": "http://127.0.0.1:8080/recorder/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 29,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "button#rec",
+				"count": 1,
+				"samples": [
+					{
+						"width": 112,
+						"height": 21,
+						"text": "Record webcam"
+					}
+				]
+			},
+			{
+				"selector": "button#recd",
+				"count": 1,
+				"samples": [
+					{
+						"width": 109,
+						"height": 21,
+						"text": "Record desktop"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-register-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/register/",
+		"finalUrl": "http://127.0.0.1:8080/register/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"http://127.0.0.1:8080/style/forms.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 34,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "a.secondary-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 253,
+						"height": 18,
+						"text": "Already have an account? Log in"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.07,
+						"minimum": 4.5,
+						"text": "Create account",
+						"color": "rgb(5, 9, 20)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-register-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/register/",
+		"finalUrl": "http://127.0.0.1:8080/register/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/bh.css",
+			"http://127.0.0.1:8080/style/forms.css"
+		],
+		"overflow": [
+			{
+				"selector": "div.login-card__glow",
+				"count": 1,
+				"samples": [
+					{
+						"left": 185,
+						"right": 457,
+						"width": 272
+					}
+				]
+			}
+		],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 1,
+				"samples": [
+					{
+						"width": 34,
+						"height": 18,
+						"text": "B\"H"
+					}
+				]
+			},
+			{
+				"selector": "a.secondary-link",
+				"count": 1,
+				"samples": [
+					{
+						"width": 253,
+						"height": 18,
+						"text": "Already have an account? Log in"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.07,
+						"minimum": 4.5,
+						"text": "Create account",
+						"color": "rgb(5, 9, 20)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-composer-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/social-composer/",
+		"finalUrl": "http://127.0.0.1:8080/social-composer/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-composer/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 9,
+				"samples": [
+					{
+						"width": 44,
+						"height": 40,
+						"text": "↑"
+					},
+					{
+						"width": 44,
+						"height": 40,
+						"text": "↓"
+					},
+					{
+						"width": 72,
+						"height": 40,
+						"text": "Remove"
+					}
+				]
+			},
+			{
+				"selector": "summary",
+				"count": 5,
+				"samples": [
+					{
+						"width": 970,
+						"height": 27,
+						"text": "Create a Heichel inline"
+					},
+					{
+						"width": 970,
+						"height": 27,
+						"text": "Create a series inline"
+					},
+					{
+						"width": 970,
+						"height": 27,
+						"text": "Advanced stable IDs"
+					}
+				]
+			},
+			{
+				"selector": "input#heichelAllowSubmissions",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#heichelRequireApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#seriesAllowSubmissions",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#seriesRequireApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#commentsEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#destinationSearch",
+			"input#placementNote",
+			"input#newHeichelName",
+			"textarea#newHeichelDescription",
+			"input#newHeichelId",
+			"input#newSeriesName",
+			"textarea#newSeriesDescription",
+			"input#newSeriesId",
+			"textarea"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 3,
+				"samples": [
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "↑",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					},
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "↓",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					},
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "Remove",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					}
+				]
+			},
+			{
+				"selector": "button#createHeichelButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Create Heichel",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#createSeriesButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Create series",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#addSectionButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "+ Add verse or section",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#publishButton.publishButton",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Publish or submit",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "p",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.65,
+						"minimum": 4.5,
+						"text": "No alias · No Heichel",
+						"color": "rgb(184, 195, 228)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-composer-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/social-composer/",
+		"finalUrl": "http://127.0.0.1:8080/social-composer/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-composer/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 9,
+				"samples": [
+					{
+						"width": 44,
+						"height": 40,
+						"text": "↑"
+					},
+					{
+						"width": 44,
+						"height": 40,
+						"text": "↓"
+					},
+					{
+						"width": 72,
+						"height": 40,
+						"text": "Remove"
+					}
+				]
+			},
+			{
+				"selector": "summary",
+				"count": 5,
+				"samples": [
+					{
+						"width": 364,
+						"height": 25,
+						"text": "Create a Heichel inline"
+					},
+					{
+						"width": 364,
+						"height": 25,
+						"text": "Create a series inline"
+					},
+					{
+						"width": 364,
+						"height": 25,
+						"text": "Advanced stable IDs"
+					}
+				]
+			},
+			{
+				"selector": "input#heichelAllowSubmissions",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#heichelRequireApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#seriesAllowSubmissions",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#seriesRequireApproval",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "input#commentsEnabled",
+				"count": 1,
+				"samples": [
+					{
+						"width": 18,
+						"height": 18,
+						"text": ""
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#destinationSearch",
+			"input#placementNote",
+			"input#newHeichelName",
+			"textarea#newHeichelDescription",
+			"input#newHeichelId",
+			"input#newSeriesName",
+			"textarea#newSeriesDescription",
+			"input#newSeriesId",
+			"textarea"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button",
+				"count": 3,
+				"samples": [
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "↑",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					},
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "↓",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					},
+					{
+						"ratio": 2.72,
+						"minimum": 4.5,
+						"text": "Remove",
+						"color": "rgb(125, 141, 165)",
+						"background": "rgba(108, 122, 143, 0.18)"
+					}
+				]
+			},
+			{
+				"selector": "button#createHeichelButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Create Heichel",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#createSeriesButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Create series",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#addSectionButton.primaryAction",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "+ Add verse or section",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "button#publishButton.publishButton",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 3.03,
+						"minimum": 4.5,
+						"text": "Publish or submit",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgb(14, 165, 164)"
+					}
+				]
+			},
+			{
+				"selector": "p",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.65,
+						"minimum": 4.5,
+						"text": "No alias · No Heichel",
+						"color": "rgb(184, 195, 228)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-feed-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/social/",
+		"finalUrl": "http://127.0.0.1:8080/social/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/hub/index.css",
+			"http://127.0.0.1:8080/style/social/live/presence.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 6,
+				"samples": [
+					{
+						"width": 78,
+						"height": 40,
+						"text": "Profiles"
+					},
+					{
+						"width": 68,
+						"height": 40,
+						"text": "Graph"
+					},
+					{
+						"width": 79,
+						"height": 40,
+						"text": "Follows"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 5,
+				"samples": [
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					},
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					},
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a.hub-mail-tag",
+				"count": 1,
+				"samples": [
+					{
+						"width": 99,
+						"height": 40,
+						"text": "✉ Unified Mail"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-feed-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/social/",
+		"finalUrl": "http://127.0.0.1:8080/social/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/hub/index.css",
+			"http://127.0.0.1:8080/style/social/live/presence.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 10,
+				"samples": [
+					{
+						"width": 103,
+						"height": 40,
+						"text": "Live Socket"
+					},
+					{
+						"width": 74,
+						"height": 40,
+						"text": "Search"
+					},
+					{
+						"width": 60,
+						"height": 40,
+						"text": "Feed"
+					}
+				]
+			},
+			{
+				"selector": "input",
+				"count": 5,
+				"samples": [
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					},
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					},
+					{
+						"width": 153,
+						"height": 21,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "a.hub-mail-tag",
+				"count": 1,
+				"samples": [
+					{
+						"width": 99,
+						"height": 40,
+						"text": "✉ Unified Mail"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-hub-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/social-hub/",
+		"finalUrl": "http://127.0.0.1:8080/social-hub/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-hub/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 2,
+				"samples": [
+					{
+						"width": 190,
+						"height": 41,
+						"text": "Terms"
+					},
+					{
+						"width": 190,
+						"height": 41,
+						"text": "Privacy"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "p#hubStatus.hubStatus",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.2,
+						"minimum": 4.5,
+						"text": "Invalid Route",
+						"color": "rgb(31, 41, 55)",
+						"background": "rgba(5, 10, 27, 0.94)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-social-hub-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/social-hub/",
+		"finalUrl": "http://127.0.0.1:8080/social-hub/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-hub/style.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "button",
+				"count": 6,
+				"samples": [
+					{
+						"width": 58,
+						"height": 44,
+						"text": "✦Pulse"
+					},
+					{
+						"width": 58,
+						"height": 44,
+						"text": "◉Interact"
+					},
+					{
+						"width": 58,
+						"height": 44,
+						"text": "⌁Activity"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "p#hubStatus.hubStatus",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1.2,
+						"minimum": 4.5,
+						"text": "Invalid Route",
+						"color": "rgb(31, 41, 55)",
+						"background": "rgba(5, 10, 27, 0.94)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-terms-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/legal/terms/",
+		"finalUrl": "http://127.0.0.1:8080/legal/terms/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/legal/shared.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 7,
+				"samples": [
+					{
+						"width": 93,
+						"height": 40,
+						"text": "Account"
+					},
+					{
+						"width": 92,
+						"height": 40,
+						"text": "Content"
+					},
+					{
+						"width": 95,
+						"height": 40,
+						"text": "Conduct"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-terms-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/legal/terms/",
+		"finalUrl": "http://127.0.0.1:8080/legal/terms/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"http://127.0.0.1:8080/legal/shared.css"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"count": 7,
+				"samples": [
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Account"
+					},
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Content"
+					},
+					{
+						"width": 168,
+						"height": 40,
+						"text": "Conduct"
+					}
+				]
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-video-editor-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/apps/video-editor/",
+		"finalUrl": "http://127.0.0.1:8080/apps/video-editor/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#fileInput",
+				"count": 1,
+				"samples": [
+					{
+						"width": 253,
+						"height": 21,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button#playBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 43,
+						"height": 37,
+						"text": "►"
+					}
+				]
+			},
+			{
+				"selector": "button#pauseBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 41,
+						"height": 37,
+						"text": "❚❚"
+					}
+				]
+			},
+			{
+				"selector": "button#cutBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 40,
+						"height": 37,
+						"text": "✖"
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#fileInput"
+		],
+		"contrastFailures": [
+			{
+				"selector": "h2",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "Media Bin",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#toggleBin",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "◀",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#minimizeBin",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "🗕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#toggleTimeline",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "▲",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#minimizeTimeline",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "🗕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-video-editor-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/apps/video-editor/",
+		"finalUrl": "http://127.0.0.1:8080/apps/video-editor/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#fileInput",
+				"count": 1,
+				"samples": [
+					{
+						"width": 253,
+						"height": 21,
+						"text": ""
+					}
+				]
+			},
+			{
+				"selector": "button#playBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 43,
+						"height": 37,
+						"text": "►"
+					}
+				]
+			},
+			{
+				"selector": "button#pauseBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 41,
+						"height": 37,
+						"text": "❚❚"
+					}
+				]
+			},
+			{
+				"selector": "button#cutBtn",
+				"count": 1,
+				"samples": [
+					{
+						"width": 40,
+						"height": 37,
+						"text": "✖"
+					}
+				]
+			}
+		],
+		"unnamed": [
+			"input#fileInput"
+		],
+		"contrastFailures": [
+			{
+				"selector": "h2",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "Media Bin",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#toggleBin",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "◀",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#minimizeBin",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "🗕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#toggleTimeline",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "▲",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			},
+			{
+				"selector": "div#minimizeTimeline",
+				"count": 1,
+				"samples": [
+					{
+						"ratio": 1,
+						"minimum": 3,
+						"text": "🗕",
+						"color": "rgb(255, 255, 255)",
+						"background": "rgba(0, 0, 0, 0)"
+					}
+				]
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-voice-record-desktop-1440x1000.json",
+		"requestedUrl": "http://127.0.0.1:8080/record/",
+		"finalUrl": "http://127.0.0.1:8080/record/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"stylesheets": [
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	{
+		"resultName": "core-voice-record-mobile-390x844.json",
+		"requestedUrl": "http://127.0.0.1:8080/record/",
+		"finalUrl": "http://127.0.0.1:8080/record/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"stylesheets": [
+			"inline"
+		],
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"consoleErrors": [],
+		"exceptions": []
+	}
+]

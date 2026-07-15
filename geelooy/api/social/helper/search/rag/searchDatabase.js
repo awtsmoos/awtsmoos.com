@@ -4,15 +4,17 @@
 
 /**
  * @module SearchDatabase
+ * @chapter The Read-Only Search Vessel Opens Only The Roads It Actually Travels
  * @description
- * A search witness opens AwtsmoosDB physically read-only and ignores allocator
- * free-space metadata that no read can consume. The persisted root, vectors, graph,
- * and payload seals remain untouched while cold opening avoids irrelevant work.
+ * Strict RAG uses the base AwtsmoosDB directly because it reads persisted vector
+ * metadata and HNSW nodes, not the public facade's general index-cache hydrator.
+ * The database remains physically read-only, WAL-free, shared-locked, and unable
+ * to allocate or reclaim bytes while cold startup avoids unrelated cache scans.
  */
 
-const AwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
+const BaseAwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/database.js');
 
-class SearchDatabase extends AwtsmoosDB {
+class SearchDatabase extends BaseAwtsmoosDB {
 	constructor(filePath) {
 		super(filePath, {
 			debug: false,
@@ -25,9 +27,8 @@ class SearchDatabase extends AwtsmoosDB {
 
 	/**
 	 * @description
-	 * Read-only search never allocates or frees bytes, so decoding a potentially vast
-	 * free-list cannot affect correctness. The Awtsmoos reveals only the structures
-	 * required to read the indexed corpus.
+	 * Read-only search never allocates or frees bytes, so persisted free-space
+	 * metadata cannot affect correctness and need not be decoded for a query.
 	 */
 	_loadFreeListSeal() {
 		this.freeListPtrRaw = null;

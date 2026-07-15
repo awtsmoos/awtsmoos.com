@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every Heichel field an owned vessel for ink, surface,
+ * placeholder, focus, and disabled truth. Awtsmoos.com preserves form contracts
+ * while preventing older visual generations from leaking unreadable controls.
+ */
+
+body.heichel-os-document {
+	background: linear-gradient(145deg, var(--awt-bg-deep), var(--awt-bg-night));
+	color: var(--heichel-ink);
+}
+
+body.heichel-os-document :where(.field-label, label[for]):not(.sr-only),
+body.heichel-os-page :where(.field-label, label[for]):not(.sr-only) {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	inline-size: fit-content;
+	color: var(--heichel-soft-ink);
+	font-size: var(--type-small);
+	font-weight: 750;
+}
+
+body.heichel-os-document :where(.field-label, label[for]):not(.sr-only)::before,
+body.heichel-os-page :where(.field-label, label[for]):not(.sr-only)::before {
+	inline-size: .48rem;
+	block-size: .48rem;
+	border: 1px solid color-mix(in srgb, var(--heichel-cyan) 52%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--heichel-cyan) 16%, transparent);
+	content: "";
+}
+
+body.heichel-os-document :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea),
+body.heichel-os-page :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea) {
+	min-block-size: 46px;
+	padding: .72rem .85rem;
+	border: 1px solid var(--heichel-line) !important;
+	border-radius: var(--radius-m) !important;
+	background: var(--heichel-panel) !important;
+	box-shadow: none !important;
+	color: var(--heichel-ink) !important;
+	font: inherit;
+	font-size: max(1rem, 16px);
+	line-height: 1.4;
+	outline: 0;
+}
+
+body.heichel-os-document :where(input, textarea)::placeholder,
+body.heichel-os-page :where(input, textarea)::placeholder {
+	color: var(--heichel-muted-ink) !important;
+	opacity: 1;
+}
+
+body.heichel-os-document :where(input, select, textarea):focus-visible,
+body.heichel-os-page :where(input, select, textarea):focus-visible {
+	border-color: var(--heichel-cyan) !important;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--heichel-cyan) 20%, transparent) !important;
+}
+
+body.heichel-os-document :where(input, select, textarea):disabled,
+body.heichel-os-page :where(input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: .55;
+}

@@ -1,0 +1,197 @@
+{
+	"capturedAt": "2026-07-15T03:25:48.440Z",
+	"requestedUrl": "http://127.0.0.1:8080/apps/captions/video/",
+	"viewport": {
+		"width": 1440,
+		"height": 1000
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "E616E976C63CE1F9AE5C781331718463",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 1440,
+		"height": 1000
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/apps/captions/video/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos Ein Sof [Quantum V5.3]",
+		"url": "http://127.0.0.1:8080/apps/captions/video/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"document": {
+			"scrollWidth": 1440,
+			"scrollHeight": 1000,
+			"clientWidth": 1440
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "select#preset-select",
+				"width": 92,
+				"height": 40,
+				"text": "Presets..."
+			},
+			{
+				"selector": "button#save-preset-btn.icon-btn",
+				"width": 35,
+				"height": 36,
+				"text": "💾"
+			},
+			{
+				"selector": "button#randomize-all-btn.icon-btn",
+				"width": 35,
+				"height": 36,
+				"text": "🎲"
+			},
+			{
+				"selector": "select#renderMode",
+				"width": 156,
+				"height": 40,
+				"text": "Image BatchVideo"
+			},
+			{
+				"selector": "input#frameRate",
+				"width": 156,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#videoWidth",
+				"width": 156,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#videoHeight",
+				"width": 156,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#headerText",
+				"width": 322,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#dualCaptionToggle",
+				"width": 20,
+				"height": 20,
+				"text": ""
+			},
+			{
+				"selector": "input#particleDensity",
+				"width": 322,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#minParticleSize",
+				"width": 156,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#maxParticleSize",
+				"width": 156,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#particleSpeed",
+				"width": 322,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#particleColorShift",
+				"width": 322,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#particleChars",
+				"width": 322,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#backgroundOpacity",
+				"width": 322,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#basePaletteColor",
+				"width": 322,
+				"height": 40,
+				"text": ""
+			},
+			{
+				"selector": "input#cinematicBarHeight",
+				"width": 322,
+				"height": 6,
+				"text": ""
+			},
+			{
+				"selector": "input#enableImageDownload",
+				"width": 20,
+				"height": 20,
+				"text": ""
+			}
+		],
+		"unnamed": [
+			"input#headerText",
+			"textarea#mainCaptions"
+		],
+		"contrastFailures": [
+			{
+				"selector": "button#renderButton.primary-btn",
+				"ratio": 1.06,
+				"minimum": 3,
+				"text": "RENDER",
+				"color": "rgb(0, 0, 0)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "EIN SOF"
+			}
+		],
+		"landmarks": [
+			"aside#controls-wrapper.glass-panel",
+			"header",
+			"footer#actions-footer",
+			"main#preview-wrapper"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/apps/captions/video/css/variables.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/layout.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/components.css",
+			"http://127.0.0.1:8080/apps/captions/video/css/effects.css"
+		],
+		"styleNodes": 0,
+		"animations": 27
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-caption-video-desktop-1440x1000.png"
+}

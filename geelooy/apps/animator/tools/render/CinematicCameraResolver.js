@@ -2,64 +2,94 @@
 // Boruch Hashem
 // Blessed is He
 
+import { CameraMotionLibrary } from './camera/CameraMotionLibrary.js';
+
 /**
- * A camera label becomes visible geometry here. The Awtsmoos renews viewpoint,
- * depth, and motion while Awtsmoos.com translates dolly, crane, truck, arc,
- * handheld, high, low, profile, and bird's-eye grammar into actual placement.
+ * The camera is not a floating label but an embodied witness. The Awtsmoos
+ * renews every viewpoint while Awtsmoos.com resolves lens, motion, horizon,
+ * focus, parallax, and lead room from the editable shot itself.
  */
 export class CinematicCameraResolver {
 	static resolve(shot, timeMs) {
-		const progress = Math.max(0, Math.min(1, (timeMs - shot.start) / shot.duration));
-		const move = this.move(shot.camera.move, progress, timeMs);
-		const angle = this.angle(shot.camera.angle);
+		const progress = this.progress(shot, timeMs);
+		const motion = CameraMotionLibrary.resolve(
+			shot.camera?.move || 'locked',
+			progress,
+			timeMs,
+			shot
+		);
+		const angle = this.angle(shot.camera?.angle);
+		const lens = this.lens(shot.camera?.lens || this.defaultLens(shot.camera?.size));
+		const baseScale = this.size(shot.camera?.size);
 		return {
-			...move,
-			...angle,
-			scale: this.size(shot.camera.size) * move.zoom * angle.scale,
-			view: angle.view
+			...motion,
+			view: angle.view,
+			groundShift: angle.groundShift + motion.y,
+			scale: baseScale * angle.scale * lens.scale * motion.zoom,
+			roll: angle.roll + motion.roll,
+			focus: shot.camera?.focus ?? motion.focus,
+			parallax: shot.camera?.parallax ?? motion.parallax,
+			shake: shot.camera?.shake ?? motion.shake,
+			leadRoom: shot.camera?.leadRoom || 0,
+			lens: lens.name,
+			focalLength: lens.focalLength,
+			progress
 		};
+	}
+
+	static progress(shot, timeMs) {
+		return Math.max(0, Math.min(1, (timeMs - shot.start) / Math.max(1, shot.duration)));
 	}
 
 	static size(size) {
 		return {
-			closeUp: 1.55,
-			reaction: 1.42,
+			extremeCloseUp: 1.92,
+			closeUp: 1.56,
+			reaction: 1.43,
 			overShoulder: 1.2,
-			twoShot: 1.12,
-			insert: 0.78,
-			tracking: 0.9,
-			group: 0.78,
-			wide: 0.82
-		}[size] || 0.9;
+			twoShot: 1.08,
+			insert: 0.84,
+			tracking: 0.94,
+			group: 0.8,
+			wide: 0.76,
+			extremeWide: 0.58
+		}[size] || 0.92;
 	}
 
-	static angle(angle) {
+	static angle(name) {
 		return {
-			profile: { view: 'sideRight', groundShift: 0, scale: 1 },
-			side: { view: 'sideRight', groundShift: 0, scale: 1 },
-			threeQuarter: { view: 'threeQuarterRight', groundShift: -2, scale: 1 },
-			rearThreeQuarter: { view: 'threeQuarterLeft', groundShift: -4, scale: 0.96 },
-			topDown: { view: 'front', groundShift: -46, scale: 0.72 },
-			birdEye: { view: 'front', groundShift: -82, scale: 0.58 },
-			highAngle: { view: 'front', groundShift: -28, scale: 0.82 },
-			lowAngle: { view: 'front', groundShift: 18, scale: 1.16 },
-			dutch: { view: 'threeQuarterRight', groundShift: 5, scale: 1.08 },
-			eyeLevel: { view: 'front', groundShift: 0, scale: 1 }
-		}[angle] || { view: 'front', groundShift: 0, scale: 1 };
+			profile: this.angleState('sideRight', 0, 1, 0),
+			side: this.angleState('sideRight', 0, 1, 0),
+			threeQuarter: this.angleState('threeQuarterRight', -2, 1, 0),
+			rearThreeQuarter: this.angleState('threeQuarterLeft', -4, 0.96, 0),
+			topDown: this.angleState('front', -48, 0.73, 0),
+			birdEye: this.angleState('front', -86, 0.58, 0),
+			highAngle: this.angleState('front', -30, 0.84, 0),
+			lowAngle: this.angleState('front', 19, 1.17, 0),
+			dutch: this.angleState('threeQuarterRight', 5, 1.06, -8),
+			wormEye: this.angleState('front', 34, 1.26, 0),
+			aerialOblique: this.angleState('threeQuarterRight', -60, 0.68, 3),
+			eyeLevel: this.angleState('front', 0, 1, 0)
+		}[name] || this.angleState('front', 0, 1, 0);
 	}
 
-	static move(move, progress, timeMs) {
-		const wave = Math.sin(timeMs / 90);
+	static lens(name) {
 		return {
-			slowPush: { x: 0, y: 0, zoom: 1 + progress * 0.09 },
-			dollyIn: { x: 0, y: 0, zoom: 1 + progress * 0.22 },
-			pullBack: { x: 0, y: 0, zoom: 1.18 - progress * 0.25 },
-			truckRight: { x: -70 + progress * 140, y: 0, zoom: 1 },
-			arcLeft: { x: Math.cos(progress * Math.PI) * 32, y: Math.sin(progress * Math.PI) * -8, zoom: 1.03 },
-			craneUp: { x: 0, y: 32 - progress * 64, zoom: 1.05 - progress * 0.12 },
-			tiltDown: { x: 0, y: -30 + progress * 50, zoom: 1 },
-			snapZoom: { x: 0, y: 0, zoom: progress < 0.22 ? 1 + progress * 1.1 : 1.24 },
-			handheld: { x: wave * 5, y: Math.cos(timeMs / 71) * 4, zoom: 1.04 }
-		}[move] || { x: 0, y: 0, zoom: 1 };
+			ultraWide: { name: 'ultraWide', focalLength: 18, scale: 0.9 },
+			wide: { name: 'wide', focalLength: 24, scale: 0.95 },
+			normal: { name: 'normal', focalLength: 40, scale: 1 },
+			portrait: { name: 'portrait', focalLength: 65, scale: 1.06 },
+			telephoto: { name: 'telephoto', focalLength: 105, scale: 1.12 }
+		}[name] || { name: 'normal', focalLength: 40, scale: 1 };
+	}
+
+	static defaultLens(size) {
+		if (size === 'extremeWide' || size === 'wide') return 'wide';
+		if (size === 'extremeCloseUp' || size === 'closeUp') return 'portrait';
+		return 'normal';
+	}
+
+	static angleState(view, groundShift, scale, roll) {
+		return { view, groundShift, scale, roll };
 	}
 }

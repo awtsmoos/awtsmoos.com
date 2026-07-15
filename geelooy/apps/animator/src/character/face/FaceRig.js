@@ -3,18 +3,23 @@
 // Blessed is He
 
 import { EmotionBlendShape } from './EmotionBlendShape.js';
+import { FacialMicroExpression } from './FacialMicroExpression.js';
 import { VisemeLibrary } from './VisemeLibrary.js';
 
 /**
- * The face is a small theater where eye attention, lids, lashes, brows, mood,
- * and speech remain separate vessels. The Awtsmoos renews their meeting each
- * frame so a character can listen sadly while speaking, blink while annoyed,
- * or smile without losing the direction of the gaze.
+ * The face is a layered theater rather than one symmetrical mask. The Awtsmoos
+ * renews speech, emotion, attention, blink, breath, tension, and asymmetry each
+ * instant while Awtsmoos.com preserves every channel as editable state.
  */
 export class FaceRig {
 	constructor(options = {}) {
-		this.emotion = EmotionBlendShape.fromPreset(options.emotion || 'neutral');
+		this.identity = options.identity || 'anonymous-face';
+		this.emotion = typeof options.emotion === 'string'
+			? EmotionBlendShape.fromPreset(options.emotion)
+			: EmotionBlendShape.normalize(options.emotion || {});
 		this.gaze = { x: 0, y: 0, ...options.gaze };
+		this.exertion = Number(options.exertion || 0);
+		this.intensity = Number(options.intensity ?? 1);
 		this.blink = {
 			intervalMs: options.blinkIntervalMs || 3200,
 			durationMs: options.blinkDurationMs || 140,
@@ -40,10 +45,7 @@ export class FaceRig {
 	}
 
 	setGaze(x = 0, y = 0) {
-		this.gaze = {
-			x: this.clampSigned(x),
-			y: this.clampSigned(y)
-		};
+		this.gaze = { x: this.signed(x), y: this.signed(y) };
 		return this;
 	}
 
@@ -59,20 +61,32 @@ export class FaceRig {
 
 	evaluate(timeMs = 0) {
 		const channels = EmotionBlendShape.toFaceChannels(this.emotion);
+		const micro = FacialMicroExpression.evaluate(
+			this.identity,
+			this.emotion,
+			timeMs,
+			{ exertion: this.exertion }
+		);
 		const blink = this.blinkAmount(timeMs);
 		const viseme = VisemeLibrary.at(this.visemes, timeMs);
+		const lidOpen = channels.lidOpen * (1 - blink);
 		return {
 			emotion: { ...this.emotion },
 			brows: {
 				inner: this.browOverride.inner ?? channels.browInner,
-				outer: this.browOverride.outer ?? channels.browOuter
+				outer: this.browOverride.outer ?? channels.browOuter,
+				leftBias: micro.leftBrowBias * this.intensity,
+				rightBias: micro.rightBrowBias * this.intensity
 			},
 			eyes: {
-				gazeX: this.gaze.x,
-				gazeY: this.gaze.y,
-				lidOpen: channels.lidOpen * (1 - blink),
+				gazeX: this.signed(this.gaze.x + micro.saccadeX),
+				gazeY: this.signed(this.gaze.y + micro.saccadeY),
+				leftLidOpen: this.clamp(lidOpen - micro.leftLidBias),
+				rightLidOpen: this.clamp(lidOpen - micro.rightLidBias),
+				lidOpen,
 				blink,
-				bob: Math.sin(timeMs / 530) * 0.025,
+				pupilDilation: micro.pupilDilation,
+				tearShine: micro.tearShine,
 				lashes: { ...this.lashes }
 			},
 			mouth: {
@@ -80,33 +94,31 @@ export class FaceRig {
 				viseme: viseme.name,
 				smile: channels.mouthSmile,
 				frown: channels.mouthFrown,
-				jawOpen: Math.max(channels.jawOpen, viseme.shape.open)
+				jawOpen: Math.max(channels.jawOpen, viseme.shape.open),
+				jawTension: micro.jawTension,
+				lipPress: micro.lipPress,
+				skew: micro.mouthSkew
 			},
 			cheekLift: channels.cheekLift,
-			noseWrinkle: channels.noseWrinkle
+			cheekCompression: micro.cheekCompression,
+			noseWrinkle: channels.noseWrinkle,
+			nostrilFlare: micro.nostrilFlare,
+			breath: micro.breath,
+			headDrift: micro.headDrift
 		};
 	}
 
 	blinkAmount(timeMs) {
 		const phase = (timeMs + this.blink.offsetMs) % this.blink.intervalMs;
 		if (phase >= this.blink.durationMs) return 0;
-		const progress = phase / this.blink.durationMs;
-		return Math.sin(progress * Math.PI);
+		return Math.sin((phase / this.blink.durationMs) * Math.PI);
 	}
 
-	clampSigned(value) {
+	clamp(value) {
+		return Math.max(0, Math.min(1, Number(value) || 0));
+	}
+
+	signed(value) {
 		return Math.max(-1, Math.min(1, Number(value) || 0));
-	}
-
-	static happy(options = {}) {
-		return new FaceRig({ ...options, emotion: 'laughing' });
-	}
-
-	static sad(options = {}) {
-		return new FaceRig({ ...options, emotion: 'concerned' }).setEmotion({ sadness: 0.9 }, 0.7);
-	}
-
-	static annoyed(options = {}) {
-		return new FaceRig({ ...options, emotion: 'annoyed' });
 	}
 }

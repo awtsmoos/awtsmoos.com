@@ -4,55 +4,94 @@
 
 import { CinematicCameraResolver } from './CinematicCameraResolver.js';
 import { CinematicCastPainter } from './CinematicCastPainter.js';
+import { CinematicLightingResolver } from './CinematicLightingResolver.js';
 import { CinematicOverlayPainter } from './CinematicOverlayPainter.js';
 import { CinematicSetPainter } from './CinematicSetPainter.js';
 import { PixelCanvas } from './PixelCanvas.js';
 
 /**
- * Camera, world, actors, performance clips, props, and words meet in one real
- * frame. The Awtsmoos, beyond depiction, renews every pixel while Awtsmoos.com
- * renders actual project state rather than a disconnected demonstration.
+ * One frame joins story time, camera intention, environmental light, blocking,
+ * acting, action objects, and readable dialogue. The Awtsmoos renews this whole
+ * world each instant while Awtsmoos.com keeps every source editable as JSON.
  */
 export class CinematicFrameRenderer {
 	constructor(plan) {
 		this.plan = plan;
-		this.width = plan.settings.width;
-		this.height = plan.settings.height;
+		this.canvas = new PixelCanvas(plan.settings.width, plan.settings.height);
 	}
 
 	render(timeMs) {
-		const canvas = new PixelCanvas(this.width, this.height);
-		const shot = this.activeRequired(this.plan.shots, timeMs);
-		const sequence = this.plan.sequences.find(item => item.id === shot.sequenceId);
-		const dialogue = this.activeOptional(this.plan.dialogue, timeMs);
-		const camera = CinematicCameraResolver.resolve(shot, timeMs);
-
-		CinematicSetPainter.background(canvas, sequence, timeMs);
-		CinematicSetPainter.setDressing(canvas, sequence, timeMs);
-		CinematicCastPainter.paint(
-			canvas,
-			this.plan,
-			shot,
-			dialogue,
-			camera,
+		const context = this.context(timeMs);
+		if (!context.shot || !context.sequence) {
+			this.canvas.clear('#090d18');
+			return this.canvas.buffer;
+		}
+		CinematicSetPainter.paint(
+			this.canvas,
+			context.sequence,
+			context.camera,
 			timeMs
 		);
-		CinematicSetPainter.foreground(canvas, sequence);
-		if (dialogue?.bubble) {
-			CinematicOverlayPainter.bubble(canvas, dialogue, this.plan.settings);
+		CinematicCastPainter.paint(
+			this.canvas,
+			this.plan,
+			context.shot,
+			context.camera,
+			context.dialogue,
+			timeMs,
+			context.lighting
+		);
+		this.weatherFlash(context.lighting);
+		if (context.dialogue?.bubble) {
+			CinematicOverlayPainter.bubble(
+				this.canvas,
+				context.dialogue,
+				this.plan.settings
+			);
 		}
-		CinematicOverlayPainter.slate(canvas, sequence, shot, timeMs);
-		return canvas.buffer;
+		CinematicOverlayPainter.slate(
+			this.canvas,
+			context.sequence,
+			context.shot,
+			timeMs
+		);
+		return this.canvas.buffer;
 	}
 
-	activeRequired(items, timeMs) {
-		return this.activeOptional(items, timeMs) || items[items.length - 1];
+	context(timeMs) {
+		const shot = this.active(this.plan.shots, timeMs);
+		const sequence = shot
+			? this.plan.sequences.find((item) => item.id === shot.sequenceId)
+			: this.active(this.plan.sequences, timeMs);
+		const dialogue = (this.plan.dialogue || []).find((line) => {
+			return timeMs >= line.start && timeMs < line.start + line.duration;
+		}) || null;
+		const camera = shot
+			? CinematicCameraResolver.resolve(shot, timeMs)
+			: null;
+		const lighting = sequence && shot
+			? CinematicLightingResolver.resolve(sequence, shot, timeMs)
+			: {};
+		return { shot, sequence, dialogue, camera, lighting };
 	}
 
-	activeOptional(items, timeMs) {
-		return items.find(item => (
-			timeMs >= item.start
-			&& timeMs < item.start + item.duration
-		)) || null;
+	active(items, timeMs) {
+		return (items || []).find((item) => {
+			return timeMs >= item.start && timeMs < item.start + item.duration;
+		}) || null;
+	}
+
+	weatherFlash(lighting) {
+		if (!lighting.flash) return;
+		for (let index = 0; index < 18; index += 1) {
+			this.canvas.line(
+				0,
+				index * 20,
+				this.canvas.width,
+				index * 20,
+				1,
+				'#eaf7ff'
+			);
+		}
 	}
 }

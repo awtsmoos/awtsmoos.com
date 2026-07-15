@@ -1,8 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Home feed, tabs, side routes, and task dock stay compact and visibly interactive.
+ *
+ * The Awtsmoos carries each social current through a calm, touchable vessel.
+ * This Awtsmoos.com Home feed keeps dense information while every route and tab
+ * remains reachable by finger, pointer, or keyboard.
  */
+
 .geelooy-home-shell .home-task-dock {
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -13,10 +17,11 @@
 	background: var(--awt-surface);
 	box-shadow: var(--shadow-paper);
 }
+
 .geelooy-home-shell .home-task-dock a {
 	display: grid;
-	min-width: 0;
-	min-height: 44px;
+	min-inline-size: 0;
+	min-block-size: 44px;
 	place-items: center;
 	padding: .55rem .4rem;
 	border: 1px solid transparent;
@@ -27,20 +32,24 @@
 	text-align: center;
 	text-decoration: none;
 }
+
 .geelooy-home-shell .home-task-dock a:is(:hover, :focus-visible) {
 	border-color: var(--g-border);
 	background: var(--awt-surface-soft);
 	color: var(--g-text);
 }
+
 .geelooy-home-shell :where(.home-feed-panel, .g-side-card) {
 	padding: clamp(1rem, 2.5vw, 1.5rem);
 }
+
 .geelooy-home-shell .g-feed-head {
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: var(--space-4);
 }
+
 .geelooy-home-shell .g-feed-tabs {
 	display: inline-grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -51,9 +60,10 @@
 	border-radius: var(--radius-m);
 	background: var(--awt-surface-soft);
 }
+
 .geelooy-home-shell .g-feed-tabs button {
-	min-height: 40px;
-	padding: .45rem .7rem;
+	min-block-size: 44px;
+	padding: .55rem .75rem;
 	border: 1px solid transparent;
 	border-radius: .65rem;
 	background: transparent;
@@ -61,35 +71,47 @@
 	color: var(--g-text-2);
 	font-weight: 730;
 }
+
+.geelooy-home-shell .g-feed-tabs button:is(:hover, :focus-visible) {
+	border-color: var(--g-border);
+	background: color-mix(in srgb, var(--g-accent) 7%, var(--awt-surface));
+	color: var(--g-text);
+}
+
 .geelooy-home-shell .g-feed-tabs button.active {
 	border-color: var(--g-border-strong);
 	background: var(--awt-surface);
 	color: var(--g-accent);
 }
+
 .geelooy-home-shell .g-feed-list {
 	display: grid;
 	gap: var(--space-3);
 }
+
 .geelooy-home-shell :where(.g-route-list, .g-trend-list) {
 	display: grid;
 	gap: .4rem;
 }
+
 .geelooy-home-shell :where(.g-route-list, .g-trend-list) a {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--space-3);
-	min-height: 48px;
+	min-block-size: 48px;
 	padding: .7rem .75rem;
 	border: 1px solid transparent;
 	border-radius: .75rem;
 	color: var(--g-text);
 	text-decoration: none;
 }
+
 .geelooy-home-shell :where(.g-route-list, .g-trend-list) a:is(:hover, :focus-visible) {
 	border-color: var(--g-border);
 	background: var(--awt-surface-soft);
 }
+
 .geelooy-home-shell :where(.g-route-list, .g-trend-list) small {
 	color: var(--g-faint);
 }

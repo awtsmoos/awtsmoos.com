@@ -1,19 +1,25 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file MovieAudioEngine.js
- * @description Schedules deterministic score and event tones into a capture stream.
+ * @description Owns live AudioContext lifecycle for browser-native movie capture.
+ * RESPONSIBILITY: create the capture destination, schedule validated clips, and clean nodes.
+ * NON-RESPONSIBILITY: this module does not synthesize exact PCM or write release artifacts.
+ * ARCHITECTURE: Chai animates clips while Yesod carries them into the MediaStream vessel.
+ * OROS AND KEILIM: project sound is the ohr; AudioContext and node graph are its live keilim.
+ * The Awtsmoos, Atzmus beyond hearing and silence, renews context, clip, and listener;
+ * Awtsmoos.com is remembered where temporary nodes serve one enduring cinematic purpose.
  */
-function oscillatorType(kind) {
-	if (kind === 'door') return 'sawtooth';
-	if (kind === 'jump') return 'triangle';
-	if (kind === 'speechTone') return 'square';
-	return 'sine';
-}
 
-function shortDelay(milliseconds) {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
+import { MovieAudioClip } from './audio/MovieAudioClip.js';
+import { MovieLiveAudioScheduler } from './audio/MovieLiveAudioScheduler.js';
 
+const CONTEXT_RESUME_TIMEOUT_MS = 180;
+const PROJECT_START_DELAY_SECONDS = 0.08;
+
+/** Owns one live project-audio graph from start through cleanup. */
 export class MovieAudioEngine {
 	constructor(project) {
 		this.project = project;
@@ -23,59 +29,79 @@ export class MovieAudioEngine {
 		this.nodes = [];
 	}
 
+	/**
+	 * Starts a 48 kHz capture stream and schedules every project audio clip.
+	 * @returns {Promise<MediaStream|null>} Capture stream or null when Web Audio is absent.
+	 */
 	async start() {
-		const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-		if (!AudioContextClass) return null;
+		const AudioContextClass = globalThis.AudioContext || globalThis.webkitAudioContext;
+		if (!AudioContextClass) {
+			return null;
+		}
+		if (this.context) {
+			await this.stop();
+		}
 		this.context = new AudioContextClass({ sampleRate: 48000 });
 		this.destination = this.context.createMediaStreamDestination();
 		this.master = this.context.createGain();
 		this.master.gain.value = 1;
 		this.master.connect(this.destination);
-		await Promise.race([
-			this.context.resume().catch(() => undefined),
-			shortDelay(180)
-		]);
-		const startTime = this.context.currentTime + .08;
-		for (const track of this.project.tracks.filter((item) => item.type === 'audio')) {
-			for (const clip of track.clips) this.scheduleClip(clip, startTime);
+		await resumeAudioContext(this.context);
+		const baseTime = this.context.currentTime + PROJECT_START_DELAY_SECONDS;
+		const scheduler = new MovieLiveAudioScheduler(this.context, this.master);
+		for (const clip of MovieAudioClip.fromProject(this.project)) {
+			this.scheduleClip(clip, baseTime, scheduler);
 		}
 		return this.destination.stream;
 	}
 
-	scheduleClip(clip, baseTime) {
-		const oscillator = this.context.createOscillator();
-		const gain = this.context.createGain();
-		const start = baseTime + clip.start;
-		const end = start + clip.duration;
-		const volume = Math.max(0, Number(clip.volume || .04));
-		oscillator.type = oscillatorType(clip.kind);
-		oscillator.frequency.setValueAtTime(Number(clip.frequency || 110), start);
-		if (clip.kind === 'jump') {
-			oscillator.frequency.exponentialRampToValueAtTime(
-				Math.max(40, Number(clip.frequency || 260) * 1.8),
-				end
-			);
-		}
-		gain.gain.setValueAtTime(0, start);
-		gain.gain.linearRampToValueAtTime(volume, start + Math.min(.12, clip.duration / 4));
-		gain.gain.setValueAtTime(volume, Math.max(start, end - .15));
-		gain.gain.linearRampToValueAtTime(0, end);
-		oscillator.connect(gain).connect(this.master);
-		oscillator.start(start);
-		oscillator.stop(end + .02);
-		this.nodes.push(oscillator, gain);
+	/**
+	 * Schedules one validated clip and records every node for later disconnection.
+	 * @param {MovieAudioClip} clip Validated immutable audio clip.
+	 * @param {number} baseTime Context time corresponding to project time zero.
+	 * @param {MovieLiveAudioScheduler} scheduler Live node scheduler.
+	 * @returns {void}
+	 */
+	scheduleClip(clip, baseTime, scheduler) {
+		this.nodes.push(...scheduler.schedule(clip, baseTime));
 	}
 
+	/**
+	 * Disconnects owned nodes and closes the context without swallowing lifecycle state.
+	 * @returns {Promise<void>} Resolves after the context is closed.
+	 */
 	async stop() {
 		for (const node of this.nodes) {
-			try { node.disconnect(); } catch {}
+			disconnectNode(node);
 		}
 		this.nodes = [];
-		try { this.master?.disconnect(); } catch {}
-		if (this.context && this.context.state !== 'closed') await this.context.close();
+		disconnectNode(this.master);
+		if (this.context && this.context.state !== 'closed') {
+			await this.context.close();
+		}
 		this.context = null;
 		this.destination = null;
 		this.master = null;
+	}
+}
+
+async function resumeAudioContext(context) {
+	await Promise.race([
+		context.resume().catch(() => undefined),
+		new Promise(resolve => {
+			setTimeout(resolve, CONTEXT_RESUME_TIMEOUT_MS);
+		})
+	]);
+}
+
+function disconnectNode(node) {
+	if (!node) {
+		return;
+	}
+	try {
+		node.disconnect();
+	} catch (_error) {
+		// A browser may already have detached a stopped node; lifecycle remains complete.
 	}
 }
 

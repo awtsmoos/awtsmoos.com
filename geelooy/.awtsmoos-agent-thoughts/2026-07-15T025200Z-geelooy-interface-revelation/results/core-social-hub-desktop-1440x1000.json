@@ -1,0 +1,92 @@
+{
+	"capturedAt": "2026-07-15T03:23:04.937Z",
+	"requestedUrl": "http://127.0.0.1:8080/social-hub/",
+	"viewport": {
+		"width": 1440,
+		"height": 1000
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "6670916F7D072F27D524DF2BD494FE13",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 1440,
+		"height": 1157
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/social-hub/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Social pulse · Awtsmoos Social Hub",
+		"url": "http://127.0.0.1:8080/social-hub/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"document": {
+			"scrollWidth": 1440,
+			"scrollHeight": 1157,
+			"clientWidth": 1440
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "a",
+				"width": 190,
+				"height": 41,
+				"text": "Terms"
+			},
+			{
+				"selector": "a",
+				"width": 190,
+				"height": 41,
+				"text": "Privacy"
+			}
+		],
+		"unnamed": [],
+		"contrastFailures": [
+			{
+				"selector": "p#hubStatus.hubStatus",
+				"ratio": 1.2,
+				"minimum": 4.5,
+				"text": "Invalid Route",
+				"color": "rgb(31, 41, 55)",
+				"background": "rgba(5, 10, 27, 0.94)"
+			}
+		],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Hub"
+			},
+			{
+				"level": 2,
+				"text": "Everything remains connected to its source."
+			}
+		],
+		"landmarks": [
+			"header.hubHeader",
+			"aside.desktopRail",
+			"main.workspace"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/social-hub/style.css"
+		],
+		"styleNodes": 0,
+		"animations": 8
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-social-hub-desktop-1440x1000.png"
+}

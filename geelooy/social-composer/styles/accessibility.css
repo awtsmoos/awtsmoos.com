@@ -1,0 +1,81 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every composing hand a visible, touchable path. This
+ * Awtsmoos.com layer owns only accessibility: names remain in HTML and JS,
+ * while focus, summaries, editors, and primary actions remain physically clear.
+ */
+
+:where(button, summary, [role="button"]) {
+	min-block-size: 44px;
+}
+
+summary {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	padding: .62rem .75rem;
+	border-radius: var(--radius-m);
+	cursor: pointer;
+	font-weight: 800;
+}
+
+summary:is(:hover, :focus-visible) {
+	background: var(--awt-surface-soft);
+}
+
+:where(.markToolbar, .blockHeader, .sectionHeader, .mediaActions) button {
+	block-size: auto !important;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	padding: .55rem .7rem;
+}
+
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]) {
+	display: inline-flex;
+	align-items: center;
+	gap: .6rem;
+	min-block-size: 44px;
+	padding-block: .35rem;
+	cursor: pointer;
+}
+
+:where(input[type="checkbox"], input[type="radio"]) {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	accent-color: var(--g-accent);
+}
+
+.publishButton,
+.primaryAction {
+	color: #03101b;
+}
+
+:where(button, summary, input, textarea, select):focus-visible {
+	outline: 3px solid var(--g-focus);
+	outline-offset: 3px;
+}
+
+:where(button, summary, [role="button"]):disabled,
+[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .58;
+}
+
+@media (max-width: 42.5rem) {
+	summary {
+		inline-size: 100%;
+	}
+
+	:where(.markToolbar, .blockHeader, .sectionHeader, .mediaActions) {
+		gap: .45rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(button, summary, input, textarea, select) {
+		transition: none !important;
+	}
+}

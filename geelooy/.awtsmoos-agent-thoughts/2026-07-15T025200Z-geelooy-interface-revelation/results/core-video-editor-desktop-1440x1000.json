@@ -1,0 +1,130 @@
+{
+	"capturedAt": "2026-07-15T03:25:53.983Z",
+	"requestedUrl": "http://127.0.0.1:8080/apps/video-editor/",
+	"viewport": {
+		"width": 1440,
+		"height": 1000
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "9C5258AEFEC9EE698887884953FFB5BC",
+		"loaderId": "20D880094E73FB5F5E5B915CF0D29477",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 1440,
+		"height": 1000
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/apps/video-editor/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos Video Editor - Chapter 7 Revised",
+		"url": "http://127.0.0.1:8080/apps/video-editor/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"document": {
+			"scrollWidth": 1440,
+			"scrollHeight": 1000,
+			"clientWidth": 1440
+		},
+		"overflow": [],
+		"smallTargets": [
+			{
+				"selector": "input#fileInput",
+				"width": 253,
+				"height": 21,
+				"text": ""
+			},
+			{
+				"selector": "button#playBtn",
+				"width": 43,
+				"height": 37,
+				"text": "►"
+			},
+			{
+				"selector": "button#pauseBtn",
+				"width": 41,
+				"height": 37,
+				"text": "❚❚"
+			},
+			{
+				"selector": "button#cutBtn",
+				"width": 40,
+				"height": 37,
+				"text": "✖"
+			}
+		],
+		"unnamed": [
+			"input#fileInput"
+		],
+		"contrastFailures": [
+			{
+				"selector": "h2",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "Media Bin",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "div#toggleBin",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "◀",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "div#minimizeBin",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "🗕",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "div#toggleTimeline",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "▲",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			},
+			{
+				"selector": "div#minimizeTimeline",
+				"ratio": 1,
+				"minimum": 3,
+				"text": "🗕",
+				"color": "rgb(255, 255, 255)",
+				"background": "rgba(0, 0, 0, 0)"
+			}
+		],
+		"headings": [
+			{
+				"level": 2,
+				"text": "Media Bin"
+			}
+		],
+		"landmarks": [],
+		"stylesheets": [
+			"inline"
+		],
+		"styleNodes": 1,
+		"animations": 10
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/core-video-editor-desktop-1440x1000.png"
+}

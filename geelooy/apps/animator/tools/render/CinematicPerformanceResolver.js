@@ -2,28 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+import { PerformanceChannelBlender } from './performance/PerformanceChannelBlender.js';
+
 /**
- * Many editable clips become one frame-local acting state. The Awtsmoos renews
- * emotion, posture, gesture, motion, and prop contact together while
- * Awtsmoos.com preserves the original clips that produced the union.
+ * Many editable clips become one frame-local acting state without losing their
+ * separate intentions. The Awtsmoos renews every layered performance while
+ * Awtsmoos.com blends gaze, breath, emotion, pose, action, and prop contact.
  */
 export class CinematicPerformanceResolver {
 	static resolve(plan, characterId, timeMs) {
-		const active = (plan.performances || []).filter(performance => (
-			performance.characterId === characterId
-			&& timeMs >= performance.start
-			&& timeMs < performance.start + performance.duration
-		));
-
-		return active.reduce((state, performance) => ({
-			...state,
-			...performance.payload,
-			activePerformanceIds: [
-				...state.activePerformanceIds,
-				performance.id
-			]
-		}), {
-			activePerformanceIds: []
-		});
+		const active = (plan.performances || [])
+			.filter((performance) => {
+				return performance.characterId === characterId
+					&& timeMs >= performance.start
+					&& timeMs < performance.start + performance.duration;
+			})
+			.map((performance) => ({
+				performance,
+				localTime: timeMs - performance.start
+			}));
+		return PerformanceChannelBlender.blend(active);
 	}
 }
