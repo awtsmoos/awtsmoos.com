@@ -61,7 +61,7 @@ complete_install() {
 	phase="$(activation_phase)"
 	if skip_start_requested; then
 		install_event "complete" "passed" \
-			"Awtsmoos Tunnel files were verified; runtime start was intentionally skipped." \
+			"AWTSMOOS_SKIP_START set; Awtsmoos Tunnel files were verified without starting the runtime." \
 			"activeVersion=$active_version candidateVersion=$CANDIDATE_VERSION phase=$phase root=$ROOT"
 		return 0
 	fi

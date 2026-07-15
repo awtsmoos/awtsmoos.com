@@ -2,71 +2,93 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos turns each composer action into a clear covenant: publish,
- * reveal destination, add a verse, create a chamber, or return calmly. Every
- * action on Awtsmoos.com keeps its geometry and state visible.
+ * The Awtsmoos turns intent into a clear action. Every Awtsmoos.com composer
+ * button owns border, surface, ink, focus, loading, and disabled states instead
+ * of inheriting browser gray from an unfinished world.
  */
-.home-compose-post {
+
+.geelooy-home-composer button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .42rem;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	padding: .65rem .82rem;
+	border: 1px solid var(--home-line-strong);
+	border-radius: .72rem;
+	background: #172231;
+	box-shadow: none;
+	color: var(--home-text);
+	font: 760 .9rem/1.2 var(--font-ui);
+	cursor: pointer;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.geelooy-home-composer .home-compose-post {
 	align-self: end;
-	min-width: 7.5rem;
-	min-height: 3rem;
-	border-color: rgba(255, 255, 255, 0.28);
-	background: var(--g-gradient-hot);
-	box-shadow: 0 14px 34px rgba(139, 92, 255, 0.3), 0 0 22px rgba(255, 72, 203, 0.18);
-	color: white;
+	min-inline-size: 7.6rem;
+	border-color: #58c7d8;
+	background: #58c7d8;
+	color: #061018;
+	font-weight: 860;
 }
 
 .home-compose-tools {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.55rem;
+	gap: .5rem;
 }
 
 .home-compose-tools button,
 .home-destination-grid > button {
-	min-height: 2.75rem;
-	border-color: rgba(117, 211, 255, 0.22);
-	background: rgba(255, 255, 255, 0.055);
-	color: var(--g-text);
+	background: #15202e;
+	color: #dce6f3;
 }
 
 .home-compose-tools button[aria-expanded="true"] {
-	border-color: rgba(60, 236, 255, 0.5);
-	background: linear-gradient(120deg, rgba(60, 236, 255, 0.14), rgba(139, 92, 255, 0.18));
-	box-shadow: var(--g-glow);
-	color: var(--g-cyan);
+	border-color: #58c7d8;
+	background: rgba(88, 199, 216, .14);
+	color: #a8edf5;
 }
 
-.home-destination-grid > button {
-	background: linear-gradient(135deg, rgba(60, 236, 255, 0.1), rgba(139, 92, 255, 0.13));
+.geelooy-home-composer button:is(:hover, :focus-visible):not(:disabled) {
+	border-color: #75d2df;
+	background: #1b2a3a;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .13);
+	transform: translateY(-1px);
+}
+
+.geelooy-home-composer .home-compose-post:is(:hover, :focus-visible):not(:disabled) {
+	background: #73d4e1;
+	color: #041016;
+}
+
+.geelooy-home-composer button:active:not(:disabled) {
+	box-shadow: none;
+	transform: translateY(0);
+}
+
+.geelooy-home-composer button:disabled,
+.home-compose-form[aria-busy="true"] button {
+	cursor: not-allowed;
+	opacity: .55;
+	transform: none;
 }
 
 .home-compose-form[aria-busy="true"] .home-compose-post::after {
-	width: 0.78rem;
-	height: 0.78rem;
-	border: 2px solid rgba(255, 255, 255, 0.36);
-	border-top-color: white;
+	inline-size: .78rem;
+	block-size: .78rem;
+	border: 2px solid rgba(6, 16, 24, .3);
+	border-top-color: #061018;
 	border-radius: 50%;
 	content: "";
-	animation: home-compose-spin 0.8s linear infinite;
+	animation: home-compose-spin .8s linear infinite;
 }
 
-.home-compose-form :is(button, input, textarea, [contenteditable="true"]):focus-visible {
-	position: relative;
-	z-index: 1;
-}
-
-@media (hover: hover) {
-	.home-compose-post:hover:not(:disabled) {
-		box-shadow: 0 18px 42px rgba(139, 92, 255, 0.38), var(--g-glow-hot);
-		transform: translateY(-2px) scale(1.015);
-	}
-
-	.home-compose-tools button:hover:not(:disabled),
-	.home-destination-grid > button:hover:not(:disabled) {
-		border-color: rgba(60, 236, 255, 0.5);
-		background: rgba(60, 236, 255, 0.11);
-	}
+.geelooy-home-composer :is(button, input, textarea, summary, [contenteditable="true"]):focus-visible {
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
 }
 
 @keyframes home-compose-spin {
@@ -77,10 +99,6 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.home-compose-form[aria-busy="true"] .home-compose-post::after {
-		animation-duration: 1.8s;
-	}
-
-	.home-compose-post:hover:not(:disabled) {
-		transform: none;
+		animation: none;
 	}
 }

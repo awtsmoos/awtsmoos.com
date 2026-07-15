@@ -74,7 +74,18 @@ export function locations(gl, program) {
 		mixStrength: uniform('uMixStrength'),
 		mixPatchScale: uniform('uMixPatchScale'),
 		mixPatchSharpness: uniform('uMixPatchSharpness'),
+		materialMode: uniform('uMaterialMode'),
+		emissiveStrength: uniform('uEmissiveStrength'),
+		ambient: uniform('uAmbient'),
+		sunDirection: uniform('uSunDirection'),
+		sunColor: uniform('uSunColor'),
+		cameraPosition: uniform('uCameraPosition'),
+		fogColor: uniform('uFogColor'),
+		fogNear: uniform('uFogNear'),
+		fogFar: uniform('uFogFar'),
+		exposure: uniform('uExposure'),
 		grassReactive: uniform('uGrassReactive'),
+		windMode: uniform('uWindMode'),
 		interactor: uniform('uInteractor'),
 		grassRadius: uniform('uGrassRadius'),
 		grassWindStrength: uniform('uGrassWindStrength'),
@@ -100,4 +111,25 @@ export function alphaModeCode(material) {
 	if (material?.alphaMode === 'MASK') return 1;
 	if (material?.alphaMode === 'BLEND') return 2;
 	return 0;
+}
+
+export function materialModeCode(mesh) {
+	const material = mesh.material || {};
+	const policy = material.texturePolicy || {};
+	const identity = materialIdentity(mesh);
+	if (policy.shader?.includes('water') || /water|lake|stream/.test(identity)) return 1;
+	if (policy.proceduralSky || /world-sky|sky_dome|atmosphere_dome/.test(identity)) return 4;
+	if (policy.practicalLightProxy || /lamp-pane|window-glow|fire|ember|flame/.test(identity)) return 3;
+	if (policy.shader?.includes('wind') || policy.alpha?.includes('cutout') || /leaves|botanical|flower|petal|fern|reed|bush/.test(identity)) return 2;
+	return 0;
+}
+
+function materialIdentity(mesh) {
+	const values = [mesh.name, mesh.material?.name];
+	let parent = mesh;
+	while (parent) {
+		values.push(parent.userData?.family, parent.userData?.AwtsmoosForestLayer?.layer);
+		parent = parent.parent;
+	}
+	return values.filter(Boolean).join(' ').toLowerCase();
 }

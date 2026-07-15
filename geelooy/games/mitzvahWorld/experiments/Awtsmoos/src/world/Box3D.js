@@ -25,7 +25,11 @@ export function createPrimitiveMesh(definition) {
 	const material = new MeshStandardMaterial({
 		name: definition.id,
 		color: colorArray(definition.color),
-		doubleSided: !!definition.doubleSided
+		doubleSided: !!definition.doubleSided,
+		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
+		alphaCutoff: definition.alphaCutoff ?? 0.5,
+		opacity: definition.opacity ?? 1,
+		transparent: !!definition.transparent
 	});
 	Object.assign(material, materialSource);
 	const mesh = new Mesh(geometry, material);
@@ -67,6 +71,10 @@ function materialProps(definition) {
 		anisotropy: definition.anisotropy ?? 3,
 		backfaceCull: !!definition.backfaceCull,
 		transparent: !!definition.transparent,
+		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
+		alphaCutoff: definition.alphaCutoff ?? 0.5,
+		opacity: definition.opacity ?? 1,
+		emissiveStrength: definition.emissiveStrength ?? 1.8,
 		texturePolicy: {
 			publicFirebase: textureUrl.startsWith('https://awtsmoos-docs-base.web.app/'),
 			fallbackApplied: !definition.textureUrl && !definition.mapImage,

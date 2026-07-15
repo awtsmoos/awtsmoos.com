@@ -1,0 +1,684 @@
+/* B"H */
+/* Final product polish for the connection gate, dashboard, and focused workspaces. */
+
+:root {
+  --awt-surface-quiet: rgba(8, 18, 34, .72);
+  --awt-surface-raised: rgba(12, 27, 48, .88);
+  --awt-border-bright: rgba(146, 204, 255, .28);
+  --awt-focus-ring: 0 0 0 4px rgba(94, 220, 255, .15);
+  --awt-text-gradient: linear-gradient(115deg, #ffffff 8%, #d8f5ff 44%, #cabfff 86%);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(52, 164, 255, .19), transparent 34rem),
+    radial-gradient(circle at 88% 0%, rgba(154, 91, 255, .18), transparent 38rem),
+    radial-gradient(circle at 52% 110%, rgba(35, 224, 168, .08), transparent 36rem),
+    linear-gradient(145deg, #030916 0%, #071326 48%, #050817 100%);
+}
+
+body::before {
+  opacity: .8;
+  background-image:
+    linear-gradient(rgba(133, 190, 239, .032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(133, 190, 239, .027) 1px, transparent 1px),
+    radial-gradient(circle at var(--awt-pointer-x, 50%) var(--awt-pointer-y, 24%), rgba(83, 210, 255, .1), transparent 21rem);
+  background-size: 64px 64px, 64px 64px, auto;
+}
+
+body::after {
+  opacity: .08;
+}
+
+.awt-mini-kicker {
+  color: #aeeeff;
+  font-size: .71rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.awt-login-gate {
+  position: relative;
+  isolation: isolate;
+  align-content: center;
+  min-height: 100svh;
+  padding: clamp(18px, 4vw, 60px);
+}
+
+.awt-login-gate::before,
+.awt-login-gate::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(70px);
+}
+
+.awt-login-gate::before {
+  top: -13rem;
+  right: -8rem;
+  background: rgba(139, 93, 255, .17);
+}
+
+.awt-login-gate::after {
+  bottom: -17rem;
+  left: -9rem;
+  background: rgba(48, 196, 255, .12);
+}
+
+.awt-login-card {
+  width: min(820px, 100%);
+  gap: clamp(16px, 2vw, 24px);
+  border: 1px solid var(--awt-border-bright);
+  border-radius: clamp(24px, 3.5vw, 40px);
+  background:
+    linear-gradient(155deg, rgba(18, 39, 67, .94), rgba(5, 14, 29, .96) 62%),
+    radial-gradient(circle at 0 0, rgba(94, 220, 255, .12), transparent 45%);
+  box-shadow:
+    0 42px 120px rgba(0, 0, 0, .48),
+    0 0 0 1px rgba(255, 255, 255, .025) inset,
+    0 1px 0 rgba(255, 255, 255, .12) inset;
+}
+
+.awt-login-card:has(.awt-install-lines) {
+  width: min(1180px, 100%);
+  grid-template-columns: minmax(0, 1.04fr) minmax(340px, .96fr);
+  grid-template-areas:
+    "brand install"
+    "title install"
+    "lede install"
+    "steps install"
+    "actions install";
+  column-gap: clamp(26px, 4vw, 60px);
+  align-items: start;
+}
+
+.awt-login-card:has(.awt-install-lines) > .awt-gate-brandline { grid-area: brand; }
+.awt-login-card:has(.awt-install-lines) > h1 { grid-area: title; }
+.awt-login-card:has(.awt-install-lines) > .awt-gate-lede { grid-area: lede; }
+.awt-login-card:has(.awt-install-lines) > .awt-gate-steps { grid-area: steps; }
+.awt-login-card:has(.awt-install-lines) > .awt-login-actions { grid-area: actions; }
+.awt-login-card:has(.awt-install-lines) > .awt-install-lines { grid-area: install; }
+
+.awt-gate-brandline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.awt-gate-brandline > div {
+  display: grid;
+  gap: 5px;
+}
+
+.awt-gate-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(94, 220, 255, .34);
+  border-radius: 16px;
+  color: #e9fbff;
+  background: linear-gradient(145deg, rgba(94, 220, 255, .18), rgba(140, 104, 255, .2));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .25), 0 0 28px rgba(94, 220, 255, .1);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.awt-gate-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--awt-muted);
+  font-size: .76rem;
+  font-weight: 750;
+}
+
+.awt-gate-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--awt-green);
+  box-shadow: 0 0 14px rgba(47, 231, 122, .78);
+}
+
+.awt-gate-status.is-waiting::before {
+  background: var(--awt-gold);
+  box-shadow: 0 0 14px rgba(255, 182, 74, .72);
+}
+
+.awt-login-card h1 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 6vw, 6.2rem);
+  line-height: .91;
+  letter-spacing: -.078em;
+  text-wrap: balance;
+  background: var(--awt-text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.awt-gate-lede,
+.awt-no-tunnel-card > p {
+  max-width: 58ch;
+  color: #bdc9dc;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.6;
+}
+
+.awt-gate-steps {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.awt-gate-steps li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+}
+
+.awt-gate-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(94, 220, 255, .2);
+  border-radius: 11px;
+  color: var(--awt-cyan);
+  background: rgba(94, 220, 255, .07);
+  font: 800 .68rem/1 var(--awt-mono);
+}
+
+.awt-gate-steps li > div {
+  display: grid;
+  gap: 2px;
+}
+
+.awt-gate-steps strong {
+  color: #f6f9ff;
+  font-size: .91rem;
+}
+
+.awt-gate-steps small {
+  color: var(--awt-muted);
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
+.awt-login-actions .awt-primary-link {
+  min-height: 50px;
+  padding-inline: 22px;
+}
+
+.awt-install-lines {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(143, 198, 242, .17);
+  border-radius: 26px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
+    rgba(1, 7, 17, .38);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .26), inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.awt-install-lines > p {
+  margin: 0;
+  color: var(--awt-muted);
+  font-size: .86rem;
+  line-height: 1.55;
+}
+
+.awt-install-lines-head,
+.awt-install-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.awt-install-lines-head > div {
+  display: grid;
+  gap: 4px;
+}
+
+.awt-install-lines-head span:first-child {
+  color: var(--awt-cyan);
+  font-size: .67rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.awt-install-lines-head h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  letter-spacing: -.045em;
+}
+
+.awt-transaction-badge,
+.awt-install-card-head span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(47, 231, 122, .2);
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: #a7f8c5;
+  background: rgba(47, 231, 122, .07);
+  font-size: .65rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.awt-install-card {
+  display: grid;
+  gap: 11px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(137, 185, 228, .15);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .025);
+}
+
+.awt-install-card[data-platform="unix"] {
+  border-color: rgba(94, 220, 255, .26);
+  background: linear-gradient(145deg, rgba(94, 220, 255, .075), rgba(255, 255, 255, .025));
+}
+
+.awt-install-card-head h3 {
+  margin: 0;
+  font-size: .96rem;
+  letter-spacing: -.02em;
+}
+
+.awt-install-card-head span {
+  border-color: rgba(135, 179, 224, .16);
+  color: var(--awt-muted);
+  background: rgba(255, 255, 255, .035);
+}
+
+.awt-command-shell {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 13px 14px;
+  border: 1px solid rgba(136, 180, 220, .16);
+  border-radius: 13px;
+  color: #dff9ff;
+  background: rgba(0, 4, 11, .62);
+  box-shadow: inset 0 1px 10px rgba(0, 0, 0, .3);
+}
+
+.awt-command-shell > span {
+  color: var(--awt-green);
+  font: 900 .78rem/1.5 var(--awt-mono);
+}
+
+.awt-command-shell code {
+  min-width: 0;
+  color: #dbe8f7;
+  font-size: clamp(.68rem, .86vw, .78rem);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.awt-install-card .awt-copy-command {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  font-size: .78rem;
+}
+
+.awt-no-tunnel-card {
+  width: min(900px, 100%);
+}
+
+.awt-no-tunnel-card h1 {
+  max-width: 14ch;
+}
+
+.awt-mode-grid {
+  width: min(1180px, 100%);
+}
+
+.awt-mode-card {
+  min-height: 230px;
+  align-content: start;
+  border-radius: 24px;
+}
+
+.awt-mode-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.awt-mode-card p {
+  min-height: 3.1em;
+  color: var(--awt-muted);
+}
+
+.awt-control-shell {
+  padding: clamp(12px, 2vw, 26px);
+}
+
+.awt-control-main {
+  width: min(100%, 1520px);
+}
+
+.awt-dashboard,
+.awt-workspace-stage {
+  border-radius: clamp(24px, 3vw, 38px);
+  border-color: rgba(137, 192, 238, .19);
+  background:
+    linear-gradient(145deg, rgba(10, 25, 45, .9), rgba(4, 12, 25, .94)),
+    radial-gradient(circle at 85% 0, rgba(140, 104, 255, .11), transparent 42%);
+  box-shadow: 0 38px 110px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .07);
+}
+
+.awt-dashboard {
+  gap: clamp(20px, 3vw, 38px);
+  padding: clamp(20px, 3.5vw, 54px);
+}
+
+.awt-mission-hero {
+  position: relative;
+  gap: 14px;
+  padding: clamp(6px, 1vw, 14px) 0 clamp(8px, 1.5vw, 18px);
+}
+
+.awt-mission-hero::after {
+  content: "";
+  width: min(220px, 34vw);
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--awt-green), var(--awt-cyan), transparent);
+  box-shadow: 0 0 24px rgba(94, 220, 255, .22);
+}
+
+.awt-mission-hero h2 {
+  max-width: 1060px;
+  font-size: clamp(2.8rem, 6.2vw, 6.7rem);
+  line-height: .9;
+  letter-spacing: -.072em;
+  text-wrap: balance;
+  background: var(--awt-text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.awt-mission-hero p:last-of-type {
+  max-width: 760px;
+  color: #b9c7da;
+  line-height: 1.65;
+}
+
+.awt-quick-actions {
+  gap: 9px;
+}
+
+.awt-quick-action {
+  border-color: rgba(132, 185, 229, .19);
+  background: rgba(255, 255, 255, .032);
+  box-shadow: none;
+}
+
+.awt-quick-action:first-child {
+  border-color: rgba(47, 231, 122, .32);
+  color: #c8ffdc;
+  background: linear-gradient(135deg, rgba(47, 231, 122, .16), rgba(40, 124, 255, .1));
+}
+
+.awt-agent-command-deck {
+  border-color: rgba(94, 220, 255, .22);
+  background:
+    radial-gradient(circle at 3% 0%, rgba(47, 231, 122, .11), transparent 32%),
+    radial-gradient(circle at 98% 8%, rgba(40, 124, 255, .16), transparent 38%),
+    linear-gradient(145deg, rgba(9, 23, 42, .96), rgba(3, 10, 22, .94));
+  box-shadow: 0 30px 82px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .055);
+}
+
+.awt-command-deck-card {
+  border-color: rgba(151, 193, 229, .14);
+  background: linear-gradient(155deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018));
+}
+
+.awt-mission-status {
+  gap: 12px;
+}
+
+.awt-mission-stat {
+  position: relative;
+  padding: 16px 17px;
+  overflow: hidden;
+  border-color: rgba(141, 188, 227, .15);
+  background: linear-gradient(145deg, rgba(255, 255, 255, .052), rgba(255, 255, 255, .018));
+}
+
+.awt-mission-stat::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(var(--awt-cyan), var(--awt-violet));
+  opacity: .8;
+}
+
+.awt-zone-head {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .7fr);
+  align-items: end;
+  gap: 18px;
+}
+
+.awt-zone-head h3 {
+  font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+  letter-spacing: -.045em;
+}
+
+.awt-zone-head p {
+  justify-self: end;
+  max-width: 520px;
+  text-align: right;
+  line-height: 1.5;
+}
+
+.awt-core-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+
+.awt-action-card {
+  min-height: 152px;
+  padding: 18px;
+  border-color: rgba(139, 188, 226, .16);
+  background:
+    radial-gradient(circle at 0 0, rgba(94, 220, 255, .07), transparent 42%),
+    linear-gradient(150deg, rgba(20, 42, 70, .72), rgba(6, 17, 32, .86));
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .18), inset 0 1px rgba(255, 255, 255, .045);
+}
+
+.awt-action-card:hover,
+.awt-action-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(94, 220, 255, .42);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, .25), 0 0 28px rgba(94, 220, 255, .07);
+}
+
+.awt-action-card.is-primary-mission {
+  background:
+    radial-gradient(circle at 4% 0, rgba(47, 231, 122, .2), transparent 44%),
+    linear-gradient(145deg, rgba(13, 55, 56, .88), rgba(7, 26, 50, .94));
+}
+
+.awt-action-icon {
+  border: 1px solid rgba(94, 220, 255, .15);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.is-advanced-zone {
+  border-color: rgba(139, 188, 226, .13);
+  background: rgba(255, 255, 255, .018);
+}
+
+.is-advanced-zone > summary {
+  padding: 4px;
+  color: #cad7e7;
+}
+
+.awt-workspace-toolbar {
+  padding: 16px clamp(16px, 2.5vw, 30px);
+  border-bottom-color: rgba(137, 192, 238, .15);
+  background: linear-gradient(90deg, rgba(94, 220, 255, .055), rgba(140, 104, 255, .035));
+}
+
+.awt-back-button {
+  border-radius: 14px;
+}
+
+.awt-control-shell :where(input, select, textarea):focus-visible,
+.awt-login-gate :where(input, select, textarea):focus-visible,
+.awt-control-shell :where(button, a):focus-visible,
+.awt-login-gate :where(button, a):focus-visible {
+  outline: 2px solid var(--awt-cyan);
+  outline-offset: 3px;
+  box-shadow: var(--awt-focus-ring);
+}
+
+@media (max-width: 960px) {
+  .awt-login-card:has(.awt-install-lines) {
+    width: min(760px, 100%);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "brand" "title" "lede" "steps" "actions" "install";
+  }
+
+  .awt-install-lines {
+    margin-top: 8px;
+  }
+
+  .awt-command-deck-head,
+  .awt-zone-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .awt-zone-head p {
+    justify-self: start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 680px) {
+  .awt-login-gate {
+    place-items: start stretch;
+    padding: 10px;
+  }
+
+  .awt-login-card {
+    gap: 15px;
+    padding: 22px 18px;
+    border-radius: 24px;
+  }
+
+  .awt-login-card h1 {
+    max-width: 12ch;
+    font-size: clamp(2.65rem, 14vw, 4.5rem);
+    line-height: .92;
+  }
+
+  .awt-gate-steps small {
+    display: none;
+  }
+
+  .awt-install-lines {
+    padding: 14px;
+    border-radius: 19px;
+  }
+
+  .awt-install-lines-head,
+  .awt-install-card-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .awt-transaction-badge {
+    white-space: normal;
+  }
+
+  .awt-login-actions > *,
+  .awt-install-card .awt-copy-command {
+    width: 100%;
+  }
+
+  .awt-dashboard {
+    padding: 18px 14px;
+    border-radius: 22px;
+  }
+
+  .awt-mission-hero h2 {
+    font-size: clamp(2.45rem, 13vw, 4.4rem);
+  }
+
+  .awt-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .awt-quick-action {
+    width: 100%;
+    padding-inline: 10px;
+  }
+
+  .awt-core-grid,
+  .awt-advanced-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .awt-action-card.is-primary-mission {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 390px) {
+  .awt-gate-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .awt-gate-brandline .awt-mini-kicker {
+    letter-spacing: .11em;
+  }
+
+  .awt-quick-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .awt-login-card,
+  .awt-dashboard,
+  .awt-workspace-stage,
+  .awt-action-card,
+  .awt-command-deck-card {
+    border-color: rgba(214, 238, 255, .48);
+  }
+
+  .awt-gate-lede,
+  .awt-install-lines > p,
+  .awt-zone-head p {
+    color: #e0e8f3;
+  }
+}

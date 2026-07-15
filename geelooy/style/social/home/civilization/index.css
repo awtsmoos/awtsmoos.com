@@ -1,15 +1,20 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Home civilization owns every active Home selector without historical layers.
+ *
+ * The Home civilization owns every active selector without historical layers.
+ * Its compact controls and composer travel with the page that renders them.
  */
-@import "./surfaces.css?v=home-fix-004";
-@import "./landing.css?v=home-fix-004";
-@import "./command.css?v=home-fix-004";
-@import "./metrics.css?v=home-fix-004";
-@import "./objects.css?v=home-fix-004";
-@import "./inspector.css?v=home-fix-004";
-@import "./feed.css?v=home-fix-004";
-@import "./states.css?v=home-fix-004";
-@import "./mobile-command.css?v=home-fix-004";
-@import "./responsive.css?v=home-fix-004";
+
+@import "./surfaces.css?v=home-acceptance-002";
+@import "./controls.css?v=home-acceptance-002";
+@import "./landing.css?v=home-acceptance-002";
+@import "./command.css?v=home-acceptance-002";
+@import "/style/geelooy-app/home/composer/index.css?v=home-acceptance-002";
+@import "./metrics.css?v=home-acceptance-002";
+@import "./objects.css?v=home-acceptance-002";
+@import "./inspector.css?v=home-acceptance-002";
+@import "./feed.css?v=home-acceptance-002";
+@import "./states.css?v=home-acceptance-002";
+@import "./mobile-command.css?v=home-acceptance-002";
+@import "./responsive.css?v=home-acceptance-002";

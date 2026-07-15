@@ -1,0 +1,94 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos hides complexity until it serves the writer. Advanced
+ * Awtsmoos.com destinations and verses stay compact, readable, and absent from
+ * layout until the user deliberately opens their vessel.
+ */
+
+.home-compose-advanced {
+	min-inline-size: 0;
+	border: 1px solid var(--home-line);
+	border-radius: .85rem;
+	background: #101925;
+	color: var(--home-text);
+}
+
+.home-compose-advanced > summary {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-block-size: 44px;
+	padding: .72rem .82rem;
+	border-radius: inherit;
+	color: #b8c6d9;
+	font: 780 .86rem/1.25 var(--font-ui);
+	cursor: pointer;
+	list-style: none;
+}
+
+.home-compose-advanced > summary::-webkit-details-marker {
+	display: none;
+}
+
+.home-compose-advanced > summary::before {
+	color: #75d2df;
+	content: "+";
+	font-size: 1.1rem;
+	font-weight: 900;
+}
+
+.home-compose-advanced[open] > summary {
+	border-bottom: 1px solid var(--home-line);
+	border-radius: .85rem .85rem 0 0;
+	background: #14202f;
+	color: var(--home-text);
+}
+
+.home-compose-advanced[open] > summary::before {
+	content: "−";
+}
+
+.home-destination-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .75rem;
+	padding: .85rem;
+}
+
+.home-destination-grid > button {
+	align-self: end;
+}
+
+.home-composer-verses {
+	display: grid;
+	gap: .75rem;
+	padding: 0 .85rem .85rem;
+}
+
+.home-compose-verse {
+	display: grid;
+	grid-template-columns: minmax(10rem, .38fr) minmax(0, 1fr);
+	gap: .75rem;
+	padding: .8rem;
+	border: 1px solid rgba(168, 115, 219, .28);
+	border-radius: .8rem;
+	background: rgba(168, 115, 219, .06);
+}
+
+.geelooy-home-composer .home-compose-verse textarea {
+	min-block-size: 5.5rem;
+	resize: vertical;
+}
+
+.home-compose-advanced:not([open]) > :not(summary) {
+	display: none !important;
+}
+
+@media (max-width: 680px) {
+	.home-destination-grid,
+	.home-compose-verse {
+		grid-template-columns: 1fr;
+	}
+}

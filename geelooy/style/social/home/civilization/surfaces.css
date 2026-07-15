@@ -1,8 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Every Home surface owns background, foreground, and the aliases its modules use.
+ *
+ * Every Home surface owns background, foreground, typography, and the aliases
+ * its modules use. The Awtsmoos gives Awtsmoos.com one readable voice instead
+ * of browser serif leaking through forms, cards, and navigation.
  */
+
 .geelooy-home-shell {
 	--home-panel: #111722;
 	--home-panel-soft: #171f2d;
@@ -29,19 +33,31 @@
 	--z-sticky: 20;
 	background: #080c13;
 	color: var(--home-text);
+	font-family: var(--font-ui);
+	font-size: var(--type-body);
+	line-height: var(--leading-body);
 }
+
+.geelooy-home-shell :where(button, input, select, textarea) {
+	font: inherit;
+}
+
 .geelooy-home-shell :where(.g-panel, .g-side-card, .home-feed-panel, .home-post-card) {
 	border: 1px solid var(--home-line);
 	background: var(--home-panel);
 	box-shadow: 0 .55rem 1.6rem rgba(0, 0, 0, .22);
 	color: var(--home-text);
 }
+
 .geelooy-home-shell :where(h1, h2, h3, strong, label) {
 	color: var(--home-text);
+	font-family: var(--font-ui);
 }
+
 .geelooy-home-shell :where(p, small, .g-kicker, .field-label) {
 	color: var(--home-muted);
 }
+
 .geelooy-home-shell :where(.field-label, .g-kicker) {
 	display: inline-flex;
 	align-items: center;
@@ -51,20 +67,23 @@
 	letter-spacing: .1em;
 	text-transform: uppercase;
 }
+
 .geelooy-home-shell :where(.field-label, .g-kicker)::before {
-	width: .42rem;
-	height: .42rem;
+	inline-size: .42rem;
+	block-size: .42rem;
 	border-radius: 50%;
 	background: var(--g-accent);
 	content: "";
 }
+
 .geelooy-home-shell a {
 	color: inherit;
 }
+
 .geelooy-home-shell .icon-only {
 	display: grid;
-	width: 2.75rem;
-	height: 2.75rem;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
 	place-items: center;
 	border: 1px solid var(--home-line);
 	border-radius: .75rem;
@@ -72,28 +91,25 @@
 	color: var(--home-text);
 	text-decoration: none;
 }
+
 .geelooy-home-shell .icon-only::before {
 	content: attr(data-icon);
 }
+
 .geelooy-home-shell .g-side-card {
 	padding: 1.15rem;
 	border-radius: 1rem;
 }
+
 .geelooy-home-shell .g-side-card > p:not(.field-label) {
 	color: var(--home-muted);
 }
+
 .geelooy-home-shell :where(.g-route-list, .g-trend-list) a {
 	border-bottom: 1px solid var(--home-line);
 	color: var(--home-text);
 }
-.geelooy-home-shell .g-route-list span,
-.geelooy-home-shell .g-trend-list span {
-	color: var(--home-text);
-}
-.geelooy-home-shell .g-route-list small,
-.geelooy-home-shell .g-trend-list small {
+
+.geelooy-home-shell :where(.g-route-list, .g-trend-list) small {
 	color: var(--home-faint);
-}
-.geelooy-home-shell :where(.g-route-list, .g-trend-list) a:is(:hover, :focus-visible) span {
-	color: #ffffff;
 }

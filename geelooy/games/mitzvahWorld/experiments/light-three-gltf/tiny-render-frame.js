@@ -1,19 +1,6 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-render-frame.js
- * @description Renders one camera-culled opaque, transparent, and skeleton frame.
- * The Awtsmoos renews every possible surface; Awtsmoos.com submits only the present
- * camera's measured vessels and records all concealed work without pretending it vanished.
- */
-
-import {
-	lookAt,
-	multiply,
-	perspective
-} from './tiny-math.js';
+/** Renders one camera-culled opaque, transparent, and optional skeleton frame. */
+import { lookAt, multiply, perspective } from './tiny-math.js';
 import { collectMeshes } from './tiny-render-draw-list.js';
 import { drawRenderMesh } from './tiny-render-mesh.js';
 import { drawSkeleton } from './tiny-render-skeleton.js';
@@ -22,6 +9,11 @@ import { collectWorldMatrices } from './tiny-skin-system.js';
 export function renderFrame(renderer, scene, camera) {
 	const gl = renderer.gl;
 	renderer.frameToken += 1;
+	renderer.frameCameraPosition = {
+		x: camera.position.x,
+		y: camera.position.y,
+		z: camera.position.z
+	};
 	renderer.worldByNode = collectWorldMatrices(scene);
 	const renderList = collectMeshes(scene, camera, renderer.options);
 	renderer.stats = createFrameStats(renderer, renderList);
@@ -35,16 +27,8 @@ export function renderFrame(renderer, scene, camera) {
 }
 
 function projectionViewMatrix(camera) {
-	const projection = perspective(
-		camera.fov,
-		camera.aspect || 1,
-		camera.near,
-		camera.far
-	);
-	const view = lookAt(
-		camera.position.toArray(),
-		camera.target || [0, 0, 4]
-	);
+	const projection = perspective(camera.fov, camera.aspect || 1, camera.near, camera.far);
+	const view = lookAt(camera.position.toArray(), camera.target || [0, 0, 4]);
 	return multiply(projection, view);
 }
 
@@ -63,18 +47,14 @@ function drawTransparentPass(renderer, meshes, projectionView) {
 	gl.enable(gl.BLEND);
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 	gl.depthMask(false);
-	for (const mesh of meshes) {
-		drawRenderMesh(renderer, mesh, projectionView, true);
-	}
+	for (const mesh of meshes) drawRenderMesh(renderer, mesh, projectionView, true);
 	gl.depthMask(true);
 	gl.disable(gl.BLEND);
 }
 
 function drawSkeletonPass(renderer, scene, projectionView) {
 	renderer.gl.disable(renderer.gl.CULL_FACE);
-	if (renderer.options.showSkeleton) {
-		drawSkeleton(renderer, scene, projectionView);
-	}
+	if (renderer.options.showSkeleton) drawSkeleton(renderer, scene, projectionView);
 }
 
 function createFrameStats(renderer, renderList) {

@@ -11,6 +11,7 @@ function assertInstallerScripts() {
 		'unix.sh',
 		'unix-install-core.sh',
 		'unix-cleanup.sh',
+		'unix-process-runtime.sh',
 		'unix-process-control.sh',
 		'unix-supervisor.sh'
 	];
@@ -22,7 +23,7 @@ function assertInstallerScripts() {
 		'AWTSMOOS_INSTALL_ROOT',
 		'AWTSMOOS_SKIP_START',
 		'stop_existing_runtime',
-		'wait_for_pids_to_exit',
+		'stop_pid_set',
 		'is_protected_candidate'
 	]) {
 		assert.equal(unix.includes(token), true, `unix installer family missing: ${token}`);

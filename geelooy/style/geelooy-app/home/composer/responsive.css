@@ -2,13 +2,13 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos keeps the composer whole while its vessels rearrange across
- * narrow phones, broad screens, safe areas, zoom, and reduced motion on
- * Awtsmoos.com.
+ * The Awtsmoos preserves one composer while its vessels rearrange across wide
+ * screens, tablets, narrow phones, safe areas, and zoom on Awtsmoos.com.
  */
-@media (max-width: 900px) {
+
+@media (max-width: 1100px) {
 	.home-compose-primary {
-		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-columns: 44px minmax(0, 1fr) auto;
 	}
 
 	.home-compose-title {
@@ -23,16 +23,20 @@
 
 @media (max-width: 680px) {
 	.geelooy-home-composer {
-		margin-inline: -0.2rem;
-		border-radius: 1.1rem 0.45rem 1.1rem 0.45rem;
+		margin-inline: 0;
+		border-radius: 1rem;
+	}
+
+	.geelooy-home-composer::before {
+		inset-block: .85rem;
 	}
 
 	.home-compose-form {
-		padding: 0.82rem;
+		padding: .85rem .85rem .85rem 1rem;
 	}
 
 	.home-compose-primary {
-		grid-template-columns: auto minmax(0, 1fr);
+		grid-template-columns: 44px minmax(0, 1fr);
 		align-items: center;
 	}
 
@@ -47,12 +51,7 @@
 
 	.home-compose-post {
 		grid-row: auto;
-		width: 100%;
-	}
-
-	.home-destination-grid,
-	.home-compose-verse {
-		grid-template-columns: 1fr;
+		inline-size: 100%;
 	}
 
 	.home-compose-tools {
@@ -62,11 +61,11 @@
 
 	.home-compose-tools button,
 	.home-destination-grid > button {
-		width: 100%;
+		inline-size: 100%;
 	}
 
 	.home-compose-editor {
-		min-height: 10rem;
+		min-block-size: 10rem;
 	}
 }
 
@@ -74,11 +73,15 @@
 	.home-compose-tools {
 		grid-template-columns: 1fr;
 	}
+
+	.home-compose-status {
+		font-size: .8rem;
+	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.home-compose-expanded {
-		transition-duration: 0.01ms;
+@media (max-height: 520px) and (orientation: landscape) {
+	.home-compose-editor {
+		min-block-size: 6rem;
 	}
 }
 

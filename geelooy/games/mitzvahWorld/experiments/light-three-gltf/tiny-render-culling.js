@@ -77,10 +77,11 @@ export function inheritedRenderMetadata(object) {
 }
 
 function renderDistance(metadata, camera, options) {
-	if (Number.isFinite(metadata.renderDistance)) return metadata.renderDistance;
-	if (Number.isFinite(FAMILY_DISTANCE[metadata.family])) return FAMILY_DISTANCE[metadata.family];
-	if (Number.isFinite(ROLE_DISTANCE[metadata.role])) return ROLE_DISTANCE[metadata.role];
-	return Math.min(camera.far || 1000, options.defaultRenderDistance || 520);
+	const scale = Math.max(0.45, Math.min(1.25, options.distanceScale ?? 1));
+	if (Number.isFinite(metadata.renderDistance)) return metadata.renderDistance * scale;
+	if (Number.isFinite(FAMILY_DISTANCE[metadata.family])) return FAMILY_DISTANCE[metadata.family] * scale;
+	if (Number.isFinite(ROLE_DISTANCE[metadata.role])) return ROLE_DISTANCE[metadata.role] * scale;
+	return Math.min(camera.far || 1000, options.defaultRenderDistance || 520) * scale;
 }
 
 function cameraBasis(camera) {

@@ -1,35 +1,42 @@
-// B\"H
+// B"H
 
 import { h } from "../ui/core/html.js";
 import { TUNNEL_MODES } from "./modes.js";
 
+const UNIX_COMMAND = "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash";
+const WINDOWS_COMMAND = "irm https://awtsmoos.com/api/tunnel/install/windows | iex";
+
 function modeCard(mode) {
-  const children = [
+  return h("article", { classes: ["awt-login-card", "awt-mode-card"], children: [
     h("div", { classes: ["awt-mini-kicker"], text: mode.id }),
     h("h3", { text: mode.title }),
     h("p", { text: mode.description }),
     h("button", { attrs: { type: "button", "data-tunnel-mode": mode.id }, text: mode.cta })
-  ];
-  return h("article", { classes: ["awt-login-card", "awt-mode-card"], children });
+  ] });
 }
 
 export function createNoTunnelView() {
   return h("section", {
-    classes: ["awt-login-gate"],
+    classes: ["awt-login-gate", "awt-no-tunnel-gate"],
+    attrs: { "aria-labelledby": "awt-no-tunnel-title" },
     children: [
-      h("div", {
-        classes: ["awt-login-card"],
-        children: [
-          h("div", { classes: ["awt-mini-kicker"], text: "Connect mode" }),
-          h("h1", { text: "Choose how AI_should connect" }),
-          h("p", { text: "Local agent is the full power path. Code Tab and Awtsmoos OS are zero-install options." }),
-          h("pre", { classes: ["awt-command-copy"], text: "irm https://awtsmoos.com/api/tunnel/install/windows | iex" }),
-          h("div", { classes: ["awt-login-actions"], children: [
-            h("button", { attrs: { type: "button", id: "awtCopyInstall" }, text: "Copy install command" }),
-            h("button", { attrs: { type: "button", id: "awtRefreshNoTunnel" }, text: "Refresh" })
+      h("div", { classes: ["awt-login-card", "awt-no-tunnel-card"], children: [
+        h("div", { classes: ["awt-gate-brandline"], children: [
+          h("span", { classes: ["awt-gate-mark"], attrs: { "aria-hidden": "true" }, text: "א" }),
+          h("div", { children: [
+            h("div", { classes: ["awt-mini-kicker"], text: "DEVICE DISCOVERY" }),
+            h("span", { classes: ["awt-gate-status", "is-waiting"], text: "No active tunnel found yet" })
           ] })
-        ]
-      }),
+        ] }),
+        h("h1", { attrs: { id: "awt-no-tunnel-title" }, text: "Choose how your AI agents connect" }),
+        h("p", { text: "The local agent gives the fullest workspace access. Code Tab and Awtsmoos OS remain zero-install options." }),
+        h("div", { classes: ["awt-command-shell"], children: [h("span", { text: "$" }), h("code", { text: UNIX_COMMAND })] }),
+        h("div", { classes: ["awt-login-actions"], children: [
+          h("button", { attrs: { type: "button", id: "awtCopyUnixInstall", class: "primary" }, text: "Copy macOS / Linux" }),
+          h("button", { attrs: { type: "button", id: "awtCopyWindowsInstall" }, text: "Copy Windows" }),
+          h("button", { attrs: { type: "button", id: "awtRefreshNoTunnel" }, text: "Check again" })
+        ] })
+      ] }),
       h("div", { classes: ["awt-mode-grid"], children: TUNNEL_MODES.map(modeCard) })
     ]
   });
@@ -41,14 +48,32 @@ export function showNoTunnelView() {
   document.body.append(createNoTunnelView());
 
   document.getElementById("awtRefreshNoTunnel")?.addEventListener("click", () => location.reload());
-  document.getElementById("awtCopyInstall")?.addEventListener("click", async () => {
-    await navigator.clipboard.writeText("irm https://awtsmoos.com/api/tunnel/install/windows | iex");
-  });
+  bindCopy("awtCopyUnixInstall", UNIX_COMMAND);
+  bindCopy("awtCopyWindowsInstall", WINDOWS_COMMAND);
 
   document.querySelectorAll("[data-tunnel-mode]").forEach(button => {
     button.addEventListener("click", () => {
-      const mode = TUNNEL_MODES.find(x => x.id === button.dataset.tunnelMode);
+      const mode = TUNNEL_MODES.find(item => item.id === button.dataset.tunnelMode);
       if (mode?.href) window.open(mode.href, "_blank", "noopener");
     });
+  });
+}
+
+function bindCopy(id, command) {
+  const button = document.getElementById(id);
+  button?.addEventListener("click", async () => {
+    const original = button.textContent;
+    try {
+      await navigator.clipboard.writeText(command);
+      button.textContent = "Copied — run it in Terminal";
+      button.dataset.state = "success";
+    } catch (_) {
+      button.textContent = "Copy unavailable — select the command";
+      button.dataset.state = "warning";
+    }
+    window.setTimeout(() => {
+      button.textContent = original;
+      delete button.dataset.state;
+    }, 2600);
   });
 }

@@ -4,7 +4,7 @@ const fs = require("fs");
 const http = require("http");
 const net = require("net");
 const path = require("path");
-const { spawn } = require("child_process");
+const { spawn, spawnSync } = require("child_process");
 
 const GEELOOY = path.resolve(__dirname, "../../../..");
 const REPO = path.dirname(GEELOOY);
@@ -19,14 +19,19 @@ function freePort() { return new Promise(resolve => { const s = net.createServer
 function manifestLines() { return read(path.join(AGENT, "manifest.txt")).split(/\r?\n/).map(x => x.trim()).filter(x => x && x !== 'B"H' && x !== '# B"H'); }
 function assertScripts() {
   const windows = read(path.join(DOWNLOADS, "windows.ps1"));
-  const unix = read(path.join(DOWNLOADS, "unix.sh"));
+  const unix = [
+    "unix.sh",
+    "unix-install-core.sh",
+    "unix-activation-state.sh",
+    "unix-process-runtime.sh"
+  ].map(file => read(path.join(DOWNLOADS, file))).join("\n");
   assert(windows.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(windows.includes("AWTSMOOS_SKIP_START"));
   assert(windows.includes("Stop-OldAwtsAgent $root $entry"));
   assert(unix.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(unix.includes("AWTSMOOS_SKIP_START"));
   assert(unix.includes("stop_existing_runtime"));
-  assert(unix.includes("wait_for_pids_to_exit"));
+  assert(unix.includes("stop_pid_set"));
 }
 function startStatic(root) {
   const server = http.createServer((req, res) => {
@@ -52,7 +57,13 @@ function runInstaller(env) {
   });
 }
 (async () => {
-  rmrf(TMP); mkdirp(TMP); assertScripts();
+  assertScripts();
+  const powershell = spawnSync("powershell", ["-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
+  if (powershell.error || powershell.status !== 0) {
+    console.log(JSON.stringify({ ok: true, suite: "isolated-install-only", skipped: "powershell_unavailable" }, null, 2));
+    return;
+  }
+  rmrf(TMP); mkdirp(TMP);
   const installRoot = path.join(TMP, "home", ".awtsmoos-tunnel");
   const projectRoot = path.join(TMP, "project");
   mkdirp(installRoot); mkdirp(projectRoot);

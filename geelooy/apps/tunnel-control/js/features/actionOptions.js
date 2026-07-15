@@ -13,6 +13,7 @@ export function buildOptions() {
   if (item?.defaults?.needsMissionGoal) Object.assign(opts, missionStartOptions());
   if (item?.defaults?.needsMissionId) opts.missionId = $("missionId")?.value || opts.missionId;
   if (item?.defaults?.needsMissionAutopilot) Object.assign(opts, missionAutopilotOptions(action));
+  if (item?.defaults?.needsMissionNote) Object.assign(opts, missionNoteOptions());
   if (item?.defaults?.needsMissionMail) Object.assign(opts, missionMailOptions());
   if (action === "tree") Object.assign(opts, { depth: $("treeDepth")?.value || 2, limit: $("treeLimit")?.value || 120 });
   if (action === "write") opts.content = $("writeContent").value;
@@ -37,6 +38,10 @@ function missionAutopilotOptions(action) {
 function missionMailOptions() {
   const note = $("missionAnswer")?.value || "";
   return { to: $("selfEmail")?.value || "", selfEmail: $("selfEmail")?.value || "", summary: note, body: note, includeLatest: true };
+}
+function missionNoteOptions() {
+  const note = $("missionAnswer")?.value || "";
+  return { note, answer: note, summary: note };
 }
 function parseBulkWrite() {
   try { return JSON.parse($("bulkWriteJson").value); }

@@ -6,6 +6,7 @@ const { scopeAllowed, enforceApiKeyRate } = require('../core/apiKeyStore.js');
 const { recordUsage } = require('../core/usageStore.js');
 const { autoCreatePreviewResult } = require('../preview/previewAutoCreate.js');
 const { resolveFsVessel } = require('./fsVessel/resolveFsVessel.js');
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const SESSION_SAFE_ACTIONS = new Set(['list', 'tree', 'read', 'readLines', 'readManyLines', 'readBytes', 'read64', 'md', 'stat', 'roots', 'rootBrowse', 'configGet', 'payloadEcho', 'actionSchemaTrace', 'actionHistoryList', 'actionHistoryGet', 'actionHistorySearch', 'actionHistoryExplain', 'actionHistoryDiff', 'chromeStatus', 'missionTimeline']);
 function responseBytes(obj) { try { return Buffer.byteLength(JSON.stringify(obj), 'utf8'); } catch { return 0; } }
 function mayUseSessionForDashboard(payload) { return SESSION_SAFE_ACTIONS.has(payload.action); }
@@ -37,6 +38,11 @@ async function protectedFs($i, vars) {
     return json($i, { BH:'B"H', ok:false, error:e.message, stack:e.stack }, e.status || 500);
   }
 }
-function boundedTunnelTimeout(value) { const n = Number(value || 30000); return Math.max(1000, Math.min(Number.isFinite(n) ? n : 30000, 120000)); }
-module.exports = { boundedTunnelTimeout, protectedFs, normalizeCarriers, withDefaultPreviewOff, explicitTrue };
+function boundedTunnelTimeout(value) {
+  const parsed = Number(value || 30000);
+  const timeout = Number.isFinite(parsed) ? parsed : 30000;
+  if (timeout > ONE_DAY_MS) throw new Error('timeout_too_large');
+  return Math.max(1000, Math.floor(timeout));
+}
+module.exports = { ONE_DAY_MS, boundedTunnelTimeout, protectedFs, normalizeCarriers, withDefaultPreviewOff, explicitTrue };
 /** B"H: previews are now opt-in at the route boundary; tunnel responses stay small by default. */

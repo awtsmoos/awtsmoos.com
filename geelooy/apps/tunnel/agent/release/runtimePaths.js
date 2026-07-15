@@ -4,16 +4,20 @@
 
 const WORKER_RUNTIME_FILES = require("./runtimeWorkerPaths.js");
 
+/**
+ * Production vessels that live outside the agent directory but are loaded by
+ * installed actions. Their paths are preserved in the ZIP so runtime resolution
+ * is identical in source and after installation.
+ */
 const EXTERNAL_DIRECTORIES = Object.freeze([
-	"ai/relay/split-browser"
+	"ai/relay/split-browser",
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"
 ]);
 
 /**
- * B"H
- *
- * Required startup paths are explicit roots of the release graph. The Awtsmoos
- * renews every imported chamber; Awtsmoos.com refuses a manifest that omits
- * transport, transactional sockets, worker reaping, or complete rollback identity.
+ * Critical startup paths remain explicit even though release generation now
+ * inventories the complete production tree. Installed candidates can therefore
+ * perform a compact contract check without having access to the source tree.
  */
 const REQUIRED_STARTUP_FILES = Object.freeze([
 	"main.js",
@@ -80,21 +84,31 @@ const REQUIRED_STARTUP_FILES = Object.freeze([
 	"ai/relay/split-browser/proxy.cjs"
 ]);
 
-/** Returns true only for files that belong in the production runtime vessel. */
+const FORBIDDEN_SEGMENTS = new Set([
+	"__MACOSX",
+	"coverage",
+	"node_modules",
+	"test",
+	"testing",
+	"tests"
+]);
+
+/** Returns true only for paths that belong in the production runtime vessel. */
 function isProductionPath(value) {
-	const normalized = String(value || "").replace(/\\/g, "/");
-	const forbidden = normalized.split("/").some(segment => (
+	const normalized = String(value || "").replace(/\\/g, "/").trim();
+	if (!normalized) return false;
+	const segments = normalized.split("/");
+	const forbidden = segments.some(segment => (
+		!segment ||
 		segment.startsWith(".") ||
-		segment === "testing" ||
-		segment === "test" ||
-		segment === "__MACOSX" ||
-		segment === ".DS_Store"
+		FORBIDDEN_SEGMENTS.has(segment)
 	));
-	return !forbidden && !/\.test\.|\.smoke-|smoke-server/i.test(normalized);
+	return !forbidden && !/(?:^|[._-])(?:test|spec)(?:[._-]|$)|\.smoke-|smoke-server/i.test(normalized);
 }
 
 module.exports = {
 	EXTERNAL_DIRECTORIES,
+	FORBIDDEN_SEGMENTS,
 	REQUIRED_STARTUP_FILES,
 	isProductionPath
 };

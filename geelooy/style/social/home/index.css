@@ -1,11 +1,13 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Home has one active ownership chain: foundation, product controls, civilization.
+ *
+ * Home has one active ownership chain: foundation, civilization, composer, and
+ * accessibility. Generic product and performance generations are intentionally
+ * absent because this route now owns the few controls it actually renders.
  */
-@import "/style/foundation/tokens/index.css?v=home-fix-004";
-@import "/style/foundation/reset/index.css?v=home-fix-004";
-@import "/style/social-system/product/index.css?v=home-fix-004";
-@import "./civilization/index.css?v=home-fix-004";
-@import "./accessibility.css?v=home-fix-004";
-@import "/style/geelooy-app/performance.css?v=home-fix-004";
+
+@import "/style/foundation/tokens/index.css?v=home-acceptance-002";
+@import "/style/foundation/reset/index.css?v=home-acceptance-002";
+@import "./civilization/index.css?v=home-acceptance-002";
+@import "./accessibility.css?v=home-acceptance-002";

@@ -22,15 +22,10 @@ function syncNav(pane) {
 }
 
 function announcePane(pane) {
-	document.dispatchEvent(new CustomEvent("awt:pane-change", {
-		detail: { pane }
-	}));
+	document.dispatchEvent(new CustomEvent("awt:pane-change", { detail: { pane } }));
 }
 
-/**
- * B"H — Pane changes are lifecycle events. Feature vessels may acquire timers,
- * sockets, or observers only while their pane is named active.
- */
+/** Activates one lifecycle pane and opens it from a predictable viewport top. */
 export function activatePane(pane) {
 	let found = false;
 	for (const node of panes()) {
@@ -38,7 +33,7 @@ export function activatePane(pane) {
 		node.classList.toggle("active", active);
 		if (active) found = true;
 	}
-	if (!found) return;
+	if (!found) return false;
 	syncNav(pane);
 	document.body.classList.remove("awt-home-mode");
 	document.body.classList.add("awt-workspace-mode");
@@ -46,6 +41,8 @@ export function activatePane(pane) {
 	emit("pane:opened", { pane });
 	pushActivity({ type: "pane", pane });
 	announcePane(pane);
+	scrollViewportTop();
+	return true;
 }
 
 export function showHome() {
@@ -54,4 +51,14 @@ export function showHome() {
 	document.body.classList.add("awt-home-mode");
 	document.body.classList.remove("awt-workspace-mode");
 	announcePane("");
+	scrollViewportTop();
+}
+
+export function scrollViewportTop() {
+	if (typeof globalThis.scrollTo === "function") {
+		globalThis.scrollTo({ top: 0, left: 0, behavior: "auto" });
+		return;
+	}
+	if (document.documentElement) document.documentElement.scrollTop = 0;
+	if (document.body) document.body.scrollTop = 0;
 }

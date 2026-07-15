@@ -11,11 +11,14 @@ const { buildWriteActions } = require('./actionGroups/writeActions.js');
 const { buildFileOpsActions } = require('./actionGroups/fileOpsActions.js');
 const { buildHttpActions } = require('./actionGroups/httpActionsGroup.js');
 const { buildCommandActions } = require('./actionGroups/commandActions.js');
+const { buildCommandPresetActions } = require('./actionGroups/commandPresetActions.js');
+const { buildCommandTreeActions } = require('./actionGroups/commandTreeActions.js');
 const { buildAsyncTaskActions } = require('./actionGroups/asyncTaskActions.js');
 const { buildStaticServerActions } = require('./actionGroups/staticServerActions.js');
 const { buildIsolatedActions } = require('./actionGroups/isolatedActions.js');
 const { buildWorkflowActions } = require('./actionGroups/workflowActions.js');
 const { buildPreviewActions } = require('./actionGroups/previewActions.js');
+const { buildEphemeralActions } = require('./actionGroups/ephemeralActions.js');
 const { buildShareActions } = require('./actionGroups/shareActions.js');
 const { buildRemoteDriveActions } = require('./actionGroups/remoteDriveActions.js');
 const { buildPreviewReceiptActions } = require('./actionGroups/previewReceiptActions.js');
@@ -23,9 +26,14 @@ const { buildFakeSshActions } = require('./actionGroups/fakeSshActions.js');
 const { buildRemoteNativeDesktopActions } = require('./actionGroups/remoteNativeDesktopActions.js');
 const { buildVirtualOsGraphActions } = require('./actionGroups/virtualOsGraphActions.js');
 const { buildRuntimeActions } = require('./actionGroups/runtimeActions.js');
+const { buildProcessActions } = require('./actionGroups/processActions.js');
 const { buildNodeDomActions } = require('./actionGroups/nodeDomActions.js');
+const { buildRenderLabActions } = require('./actionGroups/renderLabActions.js');
 const { buildOsSurfaceActions } = require('./actionGroups/osSurfaceActions.js');
 const { buildCognitionActions } = require('./actionGroups/cognitionActions.js');
+const { buildAiAgentActions } = require('./actionGroups/aiAgentActions.js');
+const { buildAiTemplateActions } = require('./actionGroups/aiTemplateActions.js');
+const { buildImageActions } = require('./actionGroups/imageActions.js');
 const { buildQualityActions } = require('./actionGroups/qualityActions.js');
 const { buildBatchAliasActions } = require('./actionGroups/batchAliasActions.js');
 const { buildActionHistoryActions } = require('./actionGroups/actionHistoryActions.js');
@@ -90,9 +98,22 @@ function jsonTail(line) { try { return JSON.parse(line.slice(line.indexOf('{')))
 function stateFrom(level) { if (level === 'panic') return 'lagging'; if (level === 'hard') return 'lagging'; if (level === 'soft') return 'degraded'; if (level === 'open') return 'alive'; return 'unknown'; }
 function recommend(level) { return level === 'panic' || level === 'hard' ? 'control_actions_only_until_lag_drops' : 'normal_actions_allowed'; }
 function addCommandAliases(actions) { if (actions.commandRun && !actions.command) actions.command = actions.commandRun; if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart; if (actions.commandStart && !actions.command) actions.command = actions.commandStart; return actions; }
+function specializedActionGroups(ctx) {
+  return {
+    ...buildProcessActions(ctx),
+    ...buildImageActions(ctx),
+    ...buildCommandTreeActions(ctx, buildActions),
+    ...buildCommandPresetActions(ctx, buildActions),
+    ...buildAiTemplateActions(ctx, buildActions),
+    ...buildEphemeralActions(ctx),
+    ...buildRenderLabActions(ctx),
+    ...buildAiAgentActions(ctx)
+  };
+}
 function buildActions(config, payload, ws, version) {
   const ctx = { config, payload, ws, version };
   const actions = addCommandAliases({ ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx), ...buildFileOpsActions(ctx), ...buildHttpActions(ctx), ...buildCommandActions(ctx), ...buildAsyncTaskActions(ctx), ...buildScanWorkerActions(ctx), ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx), ...buildWriteActions(ctx), ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildShareActions(ctx), ...buildRemoteDriveActions(ctx), ...buildPreviewReceiptActions(ctx), ...buildFakeSshActions(ctx), ...buildRemoteNativeDesktopActions(ctx), ...buildVirtualOsGraphActions(ctx), ...buildRuntimeActions(ctx), ...buildNodeDomActions(ctx), ...buildOsSurfaceActions(ctx), ...buildCognitionActions(ctx), ...buildQualityActions(ctx, buildActions), ...buildBatchAliasActions(ctx, buildActions), ...buildActionHistoryActions(ctx, buildActions), ...buildActionStreamActions(ctx), ...buildTaskRuntimeActions(ctx), ...buildMissionActions(ctx), ...buildMissionLedgerActions(ctx), ...buildMissionOperatingActions(ctx), ...buildMissionAwareActions(ctx), ...buildMissionEightStepActions(ctx), ...buildMissionDaemonActions(ctx, buildActions), ...buildMissionWatchdogActions(ctx, buildActions), ...buildMissionBootActions(ctx, buildActions), ...buildMissionMetaActions(ctx), ...buildMissionImprovementActions(ctx), ...buildContinuationActions(ctx, buildActions), ...buildChromeActions(ctx), ...buildChatGptActions(ctx), ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload), actionSchemaTrace: async () => actionSchemaTrace(payload), awtsmoosMyDevice: async () => awtsmoosMyDevice(config, version), agentSelfTest: async () => selfTest(version), agentVersionSkewCheck: async () => versionSkew(version), tunnelLivenessTimeline: async () => livenessTimeline(config) });
-  return wrapActions(actions, config, payload);
+  Object.assign(actions, specializedActionGroups(ctx));
+  return wrapActions(addCommandAliases(actions), config, payload);
 }
 module.exports = { buildActions, livenessTimeline };

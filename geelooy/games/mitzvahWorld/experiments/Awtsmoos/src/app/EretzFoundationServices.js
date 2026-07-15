@@ -28,6 +28,16 @@ export function createEretzFoundationServices(hosts, qualityProfile) {
 	const renderer = new TinyWebGLRenderer({ canvas: hosts.canvas });
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
+	renderer.setClearColor(0.36, 0.56, 0.72, 1);
+	renderer.setEnvironment({
+		ambient: [0.20, 0.23, 0.25],
+		sunDirection: [-0.42, 0.76, 0.49],
+		sunColor: [1.26, 0.94, 0.68],
+		fogColor: [0.52, 0.66, 0.72],
+		fogNear: qualityProfile.renderDistance * 0.32,
+		fogFar: qualityProfile.renderDistance * 1.08,
+		exposure: 1.04
+	});
 	const bus = new AwtsmoosEventBus();
 	const input = new UiEventSystem(hosts.canvas).install(bus);
 	const joystick = new MobileJoystick(hosts.joystickHost);

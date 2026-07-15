@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives Home its few shared controls directly. Awtsmoos.com no
+ * longer downloads an entire generic product library to render three chips,
+ * two buttons, and four route icons.
+ */
+
+.geelooy-home-shell .p-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	padding: .66rem .9rem;
+	border: 1px solid var(--home-line-strong);
+	border-radius: .72rem;
+	background: var(--home-panel-soft);
+	box-shadow: none;
+	color: var(--home-text);
+	font: 760 .9rem/1.2 var(--font-ui);
+	text-decoration: none;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.geelooy-home-shell .p-button-primary {
+	border-color: #58c7d8;
+	background: #58c7d8;
+	color: #061018;
+}
+
+.geelooy-home-shell .p-button:is(:hover, :focus-visible) {
+	border-color: #75d2df;
+	transform: translateY(-1px);
+}
+
+.geelooy-home-shell .p-button-primary:is(:hover, :focus-visible) {
+	background: #73d4e1;
+}
+
+.geelooy-home-shell .p-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: .42rem;
+	min-block-size: 32px;
+	padding: .36rem .62rem;
+	border: 1px solid var(--home-line);
+	border-radius: 999px;
+	background: var(--home-panel-soft);
+	color: var(--home-muted);
+	font: 760 .78rem/1.2 var(--font-ui);
+	text-decoration: none;
+}
+
+.geelooy-home-shell .p-chip::before {
+	inline-size: .4rem;
+	block-size: .4rem;
+	border-radius: 50%;
+	background: #58c7d8;
+	content: "";
+}
+
+.geelooy-home-shell .p-icon {
+	display: inline-grid;
+	inline-size: 1.45rem;
+	block-size: 1.45rem;
+	place-items: center;
+	font-size: 1.15rem;
+	line-height: 1;
+}
+
+@media (pointer: coarse) {
+	.geelooy-home-shell .p-button:hover {
+		transform: none;
+	}
+}

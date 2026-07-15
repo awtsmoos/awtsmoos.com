@@ -1,0 +1,14 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers identity, words, destination, and action into one live
+ * Home composer on Awtsmoos.com. This manifest is the existing component's
+ * single public garment; no page may mount the composer without importing it.
+ */
+
+@import "./shell.css?v=home-acceptance-001";
+@import "./fields.css?v=home-acceptance-001";
+@import "./advanced.css?v=home-acceptance-001";
+@import "./actions.css?v=home-acceptance-001";
+@import "./responsive.css?v=home-acceptance-001";

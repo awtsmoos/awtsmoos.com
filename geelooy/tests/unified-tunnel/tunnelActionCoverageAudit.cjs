@@ -7,6 +7,7 @@ const ROOT = path.resolve(__dirname, "../..");
 const files = {
   nativeCatalog: path.join(ROOT, "apps/tunnel/agent/lib/tool-schema-catalog.js"),
   nativeActions: path.join(ROOT, "apps/tunnel/agent/tools/fs/actions.js"),
+  nativeBuilders: path.join(ROOT, "apps/tunnel/agent/tools/fs/actionBuilders.js"),
   browserPackets: path.join(ROOT, "apps/code/js/tunnel/browser-agent-packets.js"),
   browserPacketTests: path.join(ROOT, "apps/code/js/tunnel/test/browserAgentPackets.test.mjs"),
   browserPacketStress: path.join(ROOT, "apps/code/js/tunnel/test/browserAgentPacketsStress.test.mjs"),
@@ -35,5 +36,6 @@ assert(text.processRecord.includes("createProcessRecord"));
 assert(text.tunnelPage.includes("BrowserStorageFsAdapter"), "/apps/tunnel executes shared BrowserStorage adapter");
 assert(text.browserPackets.includes("codeBrowserRegistrationPacket"), "code browser registration helper exists");
 assert(text.nativeCatalog.includes("schema"), "native tool schema catalog present");
-assert(text.nativeActions.includes("command") || text.nativeActions.includes("read"), "native fs action dispatcher present");
+assert(text.nativeActions.includes("buildActions"), "native fs action dispatcher present");
+assert(text.nativeBuilders.includes("buildReadActions") && text.nativeBuilders.includes("buildCommandActions"), "native read and command action groups registered");
 console.log(JSON.stringify({ ok: true, suite: "tunnel-action-coverage-audit", checked: Object.keys(files), requiredFs, browserCommands: ["pwd", "ls", "cat", "head", "tail", "grep", "tree"] }, null, 2));

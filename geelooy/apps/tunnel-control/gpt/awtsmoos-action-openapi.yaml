@@ -55,18 +55,34 @@ paths:
               - affectedComponents
               - affectedRoutes
               - affectedTests
+              - agent
               - agentActionStream
               - agentDoctor
               - agentSelfTest
               - agentVersionSkewCheck
+              - aiAgentConfigSet
+              - aiAgentList
+              - aiAgentMessage
+              - aiAgentRemoveProviderKey
+              - aiAgentSetProviderKey
+              - aiAgentSpawnNovel
+              - aiAgentSpawnTask
+              - aiAgentTaskList
+              - aiAgentTaskResult
+              - aiAgentTaskStatus
               - aiCommandBatch
               - aiContextPack
+              - aiTemplateGet
+              - aiTemplateList
+              - aiTemplateRender
+              - aiTemplateRun
               - aiWorkflowLang
               - aiWorkflowRun
               - apiContractCheck
               - apiContractDiscover
               - apiSmokeTest
               - applyPatch
+              - appModeMatrix
               - architectureScore
               - assertAction
               - astOutline
@@ -108,6 +124,13 @@ paths:
               - chatgptContinuationTick
               - chatgptContinueConversation
               - chatgptCurrentConversation
+              - chatgptHourLoopMenu
+              - chatgptHourLoopPromote
+              - chatgptHourLoopStart
+              - chatgptHourLoopStatus
+              - chatgptHourLoopStop
+              - chatgptHourLoopStress
+              - chatgptHourLoopTick
               - chatgptListConversations
               - chatgptListSessions
               - chatgptLogin
@@ -164,6 +187,11 @@ paths:
               - commandMemorySave
               - commandOutputPage
               - commandPoll
+              - commandPresetDelete
+              - commandPresetGet
+              - commandPresetList
+              - commandPresetRun
+              - commandPresetSave
               - commandRun
               - commandStart
               - commandStatus
@@ -211,6 +239,7 @@ paths:
               - detectDeadConcepts
               - docsGeneratedFreshness
               - doctorAll
+              - domDomRenderLab
               - duplicateBasenames
               - duplicateConceptScan
               - emptyDir
@@ -220,6 +249,11 @@ paths:
               - envDoctor
               - envFileAudit
               - environmentVirtualizer
+              - ephemeralDelete
+              - ephemeralList
+              - ephemeralMeta
+              - ephemeralPage
+              - ephemeralSearch
               - errorCluster
               - failedActionMemory
               - failingTestTriage
@@ -276,6 +310,7 @@ paths:
               - httpRequest
               - httpSessionClear
               - httpTrace
+              - imageWrite
               - importResolverExplain
               - inferArchitecture
               - inferBusinessRules
@@ -318,6 +353,7 @@ paths:
               - md
               - merkavaCommandTree
               - merkavaParserSmoke
+              - merkavaRenderLab
               - merkavaVsChromeDiff
               - merkavaWorkflowRun
               - microPatchPlanner
@@ -436,6 +472,7 @@ paths:
               - missionRefrigerate
               - missionRepeatBetter
               - missionReport
+              - missionResourceStatus
               - missionReviewNext8Step
               - missionRoleRotate
               - missionRoomAcceptSplit
@@ -502,6 +539,13 @@ paths:
               - missionThaw
               - missionTimeline
               - missionTransactionPlan
+              - missionTurnDrain
+              - missionTurnOnce
+              - missionTurnPause
+              - missionTurnResume
+              - missionTurnSet
+              - missionTurnStatus
+              - missionTurnStop
               - missionVerify
               - missionWatchdogRecover
               - missionWatchdogStatus
@@ -658,6 +702,7 @@ paths:
               - remoteNativeDesktopRfbStatus
               - remoteNativeDesktopRfbStop
               - remoteNativeDesktopSampleScene
+              - renderModeMatrix
               - repairPatchSuggester
               - replaceFunction
               - replaceFunctionBody
@@ -745,6 +790,12 @@ paths:
               - symbolOutline
               - symbolResolutionTrace
               - syntaxCheck
+              - taskAppendOutput
+              - taskComplete
+              - taskFail
+              - taskOutputPage
+              - taskStart
+              - taskStatus
               - templateFork
               - templateFromAction
               - templateFromHistory
@@ -777,7 +828,10 @@ paths:
               - tunnelLivenessTimeline
               - typecheckRunner
               - universalAppManifest
+              - uploadImage
               - virtualDomDiff
+              - virtualDomScreenshot
+              - virtualDomSnapshot
               - virtualDomTest
               - virtualOsGraphDelete
               - virtualOsGraphDiff
@@ -799,6 +853,7 @@ paths:
               - waitForPort
               - waitForUrl
               - watchTestOnce
+              - windowsExeSmokeTest
               - workerActionStream
               - workflowGet
               - workflowList
@@ -808,6 +863,7 @@ paths:
               - workspaceDoctor
               - write
               - writeIfHash
+              - writeImage
               - writePayloadSizer
               - yamlValidate
         - { name: p, in: query, schema: { type: string } }
@@ -840,6 +896,10 @@ paths:
         - { name: files64, in: query, schema: { type: string } }
         - { name: paths, in: query, schema: { type: string } }
         - { name: paths64, in: query, schema: { type: string } }
+        - { name: tree, in: query, schema: { type: string } }
+        - { name: tree64, in: query, schema: { type: string } }
+        - { name: vars, in: query, schema: { type: string } }
+        - { name: vars64, in: query, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
         - { name: conversationUrl, in: query, schema: { type: string } }
         - { name: chatgptUrl, in: query, schema: { type: string } }
@@ -850,6 +910,8 @@ paths:
         - { name: targetVessel, in: query, schema: { type: string } }
         - { name: vessel, in: query, schema: { type: string } }
         - { name: fallback, in: query, schema: { type: string } }
+        - { name: treeId, in: query, schema: { type: string } }
+        - { name: outputId, in: query, schema: { type: string } }
         - { name: jobId, in: query, schema: { type: string } }
         - { name: stream, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
@@ -879,12 +941,16 @@ paths:
         - { name: profile, in: query, schema: { type: string } }
         - { name: reason, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
+        - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: pageChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
+        - { name: budgetPerutas, in: query, schema: { type: integer, default: 0 } }
+        - { name: ttlSeconds, in: query, schema: { type: integer, default: 3600 } }
         - { name: page, in: query, schema: { type: integer, default: 1 } }
         - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
@@ -903,6 +969,10 @@ paths:
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
+        - { name: optional, in: query, schema: { type: boolean, default: false } }
+        - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
+        - { name: asyncCommand, in: query, schema: { type: boolean, default: false } }
+        - { name: background, in: query, schema: { type: boolean, default: false } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }

@@ -3,6 +3,7 @@ const assert = require("assert");
 const { cleanPath, splitPath } = require("../../api/tunnel/control/routes/osFs/path.js");
 const { publicUrlReport, classifyCandidateResult } = require("../../api/tunnel/control/routes/osFs/publicUrls.js");
 const { resolveFsVessel } = require("../../api/tunnel/control/routes/fsVessel/resolveFsVessel.js");
+const { VESSEL_TYPES } = require("../../api/tunnel/control/routes/fsVessel/vesselTypes.js");
 
 function client(tunnelName, extra = {}) {
   return { isTunnel: true, isAlive: true, tunnelName, registeredAt: Date.now() + Math.floor(Math.random() * 1000), ...extra };
@@ -39,10 +40,10 @@ function stressResolver() {
   const browser = client("browser-one", { browserAgent: true, vesselType: "browser-tab", allowWrite: true });
   for (let i = 0; i < 200; i++) {
     const $i = ctx(i % 2 ? [native, browser] : [browser, native]);
-    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "browser-one", payload: { targetVessel: "browser-tab" } }).kind, "browser-tab");
-    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "native" } }).kind, "native-tunnel");
-    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "virtual-os" } }).kind, "virtual-os");
-    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "auto", payload: {} }).kind, "browser-tab");
+    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "browser-one", payload: { targetVessel: "browser-tab" } }).kind, VESSEL_TYPES.BROWSER);
+    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "native" } }).kind, VESSEL_TYPES.NATIVE);
+    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "virtual-os" } }).kind, VESSEL_TYPES.VIRTUAL_OS);
+    assert.strictEqual(resolveFsVessel({ $i, userId: "u", tunnelName: "auto", payload: {} }).kind, VESSEL_TYPES.BROWSER);
   }
 }
 

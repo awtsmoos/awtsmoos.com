@@ -1,8 +1,8 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos orders every Awtsmoos.com visual vessel through explicit layers. */
-@layer awt.tokens, awt.reset, awt.frame, awt.surfaces, awt.views, awt.controls, awt.states, awt.motion, awt.responsive;
+/* One ordered cascade, with final product polish isolated from legacy repairs. */
+@layer awt.tokens, awt.reset, awt.frame, awt.surfaces, awt.views, awt.controls, awt.states, awt.motion, awt.responsive, awt.polish;
 @import url("./core/tokens.css") layer(awt.tokens);
 @import url("./core/reset.css") layer(awt.reset);
 @import url("./core/frame.css") layer(awt.frame);
@@ -45,3 +45,4 @@
 @import url("./views/dashboard/responsive.css") layer(awt.responsive);
 @import url("./views/agent-command-deck/responsive.css") layer(awt.responsive);
 @import url("./views/agent-controls/responsive.css") layer(awt.responsive);
+@import url("./visual-polish.css") layer(awt.polish);

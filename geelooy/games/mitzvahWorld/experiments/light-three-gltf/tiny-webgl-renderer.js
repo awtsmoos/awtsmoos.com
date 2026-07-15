@@ -1,14 +1,5 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-webgl-renderer.js
- * @description Owns the proven lightweight WebGL programs, immutable buffers,
- * material textures, and frame identity used by Mitzvah World. The Awtsmoos gives
- * every rendered vessel its present light; Awtsmoos.com keeps this renderer small,
- * explicit, and independent of a hidden third-party engine.
- */
+/** Owns the lightweight material-aware WebGL programs, immutable buffers, and frame identity. */
 import { identity } from './tiny-math.js';
 import { RenderBufferCache } from './tiny-render-buffers.js';
 import { renderFrame } from './tiny-render-frame.js';
@@ -18,29 +9,26 @@ import { MaterialTextureBinder } from './tiny-render-textures.js';
 
 export class TinyWebGLRenderer {
 	constructor({ canvas, alpha = true, antialias = true } = {}) {
-		if (!canvas) {
-			throw new Error('TinyWebGLRenderer requires a canvas.');
-		}
+		if (!canvas) throw new Error('TinyWebGLRenderer requires a canvas.');
 		this.canvas = canvas;
-		this.gl = canvas.getContext('webgl', {
-			alpha,
-			antialias,
-			premultipliedAlpha: true
-		});
-		if (!this.gl) {
-			throw new Error('WebGL is not available.');
-		}
+		this.gl = canvas.getContext('webgl', { alpha, antialias, premultipliedAlpha: true });
+		if (!this.gl) throw new Error('WebGL is not available.');
 		this.errors = [];
 		this.options = defaultRenderOptions();
 		this.identityMatrix = identity();
 		this.frameToken = 0;
-		this.clearColor = [0, 0, 0, 0];
+		this.clearColor = [0.36, 0.56, 0.72, 1];
 		this.interactor = { x: 0, y: 0, z: 0 };
+		this.frameCameraPosition = { x: 0, y: 0, z: 0 };
 		this.timeSeconds = 0;
 		this.environment = {
-			ambient: [0.46, 0.48, 0.44],
-			sunDirection: [0.35, 0.92, 0.18],
-			sunColor: [1, 0.95, 0.82]
+			ambient: [0.20, 0.23, 0.25],
+			sunDirection: [-0.42, 0.76, 0.49],
+			sunColor: [1.26, 0.94, 0.68],
+			fogColor: [0.52, 0.66, 0.72],
+			fogNear: 145,
+			fogFar: 560,
+			exposure: 1.04
 		};
 		initializeRendererPrograms(this);
 		this.buffers = new RenderBufferCache(this.gl);
@@ -67,15 +55,12 @@ export class TinyWebGLRenderer {
 		this.timeSeconds = timeSeconds;
 	}
 
-	setEnvironment({ ambient, sunDirection, sunColor } = {}) {
-		if (ambient) {
-			this.environment.ambient = [...ambient];
+	setEnvironment(values = {}) {
+		for (const key of ['ambient', 'sunDirection', 'sunColor', 'fogColor']) {
+			if (values[key]) this.environment[key] = [...values[key]];
 		}
-		if (sunDirection) {
-			this.environment.sunDirection = [...sunDirection];
-		}
-		if (sunColor) {
-			this.environment.sunColor = [...sunColor];
+		for (const key of ['fogNear', 'fogFar', 'exposure']) {
+			if (Number.isFinite(values[key])) this.environment[key] = values[key];
 		}
 	}
 
@@ -84,12 +69,8 @@ export class TinyWebGLRenderer {
 	}
 
 	dispose() {
-		for (const program of Object.values(this.programs || {})) {
-			this.gl.deleteProgram(program);
-		}
-		if (this.skinTexture) {
-			this.gl.deleteTexture(this.skinTexture);
-		}
+		for (const program of Object.values(this.programs || {})) this.gl.deleteProgram(program);
+		if (this.skinTexture) this.gl.deleteTexture(this.skinTexture);
 	}
 }
 

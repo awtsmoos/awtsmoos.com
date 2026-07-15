@@ -1,10 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module GeelooyHomeDashboardBoot
  * @description
- * One disciplined breath binds the real Home controls. Each module owns a
- * single behavior, while the Awtsmoos is revealed through their cooperation.
+ * The Awtsmoos reveals the usable Home before asking the network river to flow.
+ * Awtsmoos.com binds essential controls synchronously, then schedules feed and
+ * metric work after the first paint without a permanent pointer-effect listener.
  */
+
 import { bindSearchFocus } from './search.js';
 import { bindQuickActions } from './quickActions.js';
 import { bindFeedTabs } from './feedTabs.js';
@@ -15,21 +19,36 @@ import { bindViewportState } from './mobileViewport.js';
 import { bindSidebar } from './sidebar.js';
 import { loadFeedSafely } from './feedSafeLoader.js';
 import { bindMobileClickRepair } from './mobileClickRepair.js';
-import { bindHomeAmbientPointer } from '../beauty/ambientPointer.js';
 
-/** Binds Home behavior only when the real dashboard vessel is present. */
+/** Binds the immediately interactive Home and defers non-critical network work. */
 export function bootHomeDashboard() {
 	const root = document.querySelector('[data-home-dashboard-page]');
-	if (!root) return;
+	if (!root) {
+		return;
+	}
 	applyLegacyShield();
 	bindViewportState();
 	bindSidebar();
 	bindSearchFocus();
 	bindQuickActions();
 	bindFeedTabs();
-	hydrateFeedMetrics();
 	bindBottomDock();
 	bindMobileClickRepair();
-	bindHomeAmbientPointer();
-	loadFeedSafely();
+	scheduleAfterPaint(() => {
+		hydrateFeedMetrics();
+		loadFeedSafely();
+	});
+}
+
+/** Schedules non-critical work after first paint with a bounded fallback. */
+function scheduleAfterPaint(callback) {
+	requestAnimationFrame(() => {
+		requestAnimationFrame(() => {
+			if ('requestIdleCallback' in window) {
+				window.requestIdleCallback(callback, { timeout: 700 });
+				return;
+			}
+			window.setTimeout(callback, 0);
+		});
+	});
 }

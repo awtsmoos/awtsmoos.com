@@ -83,7 +83,16 @@ class Relay {
 			this.events.push({ event: 'frame', opcode: frame.opcode, bytes: frame.payload.length });
 			if (frame.opcode !== 1 && frame.opcode !== 2) continue;
 			try {
-				this.messages.push(JSON.parse(frame.payload.toString('utf8')));
+				const message = JSON.parse(frame.payload.toString('utf8'));
+				this.messages.push(message);
+				if (message.type === 'TUNNEL_REGISTER') {
+					this.send({
+						type: 'TUNNEL_ACK',
+						ok: true,
+						tunnelName: message.tunnelName || message.name,
+						serverTime: new Date().toISOString()
+					});
+				}
 			} catch (error) {
 				this.errors.push(`json:${error.message}:${frame.payload.toString('utf8').slice(0, 400)}`);
 			}

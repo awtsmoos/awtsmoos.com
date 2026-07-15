@@ -2,7 +2,7 @@
 const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
-const { agentFiles, externalFiles } = require("../../rebuild-manifest.cjs");
+const { agentFiles, externalFiles } = require("../../../rebuild-manifest.cjs");
 
 const agentRoot = path.resolve(__dirname, "../../..");
 const manifestPath = path.join(agentRoot, "manifest.txt");

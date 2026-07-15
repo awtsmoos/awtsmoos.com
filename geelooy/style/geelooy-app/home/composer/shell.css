@@ -2,97 +2,108 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos opens one compact posting chamber. Hidden detail contributes no
- * geometry, while bright borders and emoji preserve Geelooy without costly blur.
+ * The Awtsmoos opens one quiet writing chamber inside the living river. This
+ * Awtsmoos.com vessel owns its surface, rhythm, identity mark, and expansion
+ * without blur, animated fog, or browser-default geometry.
  */
+
 .geelooy-home-composer {
 	position: relative;
-	margin-block: 0.9rem;
-	padding: 1px;
-	border-radius: 1.25rem 0.55rem 1.25rem 0.55rem;
-	background: linear-gradient(120deg, #32d9ff, #805fff 52%, #ff4ec7);
-	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+	min-inline-size: 0;
+	margin-block: 1rem;
+	border: 1px solid var(--home-line-strong);
+	border-radius: 1.15rem;
+	background: #0d1420;
+	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .24);
+	color: var(--home-text);
 	contain: layout paint style;
+}
+
+.geelooy-home-composer::before {
+	position: absolute;
+	inset-block: 1rem;
+	inset-inline-start: 0;
+	inline-size: 3px;
+	border-radius: 0 999px 999px 0;
+	background: linear-gradient(#58c7d8, #a873db 58%, #d86aa8);
+	content: "";
 }
 
 .home-compose-form {
 	display: grid;
-	gap: 0.72rem;
-	padding: 0.9rem;
-	border-radius: inherit;
-	background: linear-gradient(155deg, #0b1730, #050a18 74%);
+	gap: .8rem;
+	padding: 1rem 1rem 1rem 1.15rem;
 }
 
 .home-compose-primary {
 	display: grid;
-	grid-template-columns: auto minmax(8rem, 0.42fr) minmax(12rem, 1fr) auto;
+	grid-template-columns: 44px minmax(9rem, .42fr) minmax(14rem, 1fr) auto;
 	align-items: end;
-	gap: 0.72rem;
+	gap: .75rem;
+	min-inline-size: 0;
 }
 
 .home-compose-avatar {
+	display: grid;
 	align-self: center;
+	inline-size: 44px;
+	block-size: 44px;
+	place-items: center;
+	border: 1px solid rgba(88, 199, 216, .42);
+	border-radius: .8rem;
+	background: #142231;
+	color: #8be2ed;
+	font: 900 1.25rem/1 var(--font-ui);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .06);
 }
 
 .home-compose-expanded {
 	display: none;
+	gap: .8rem;
+	padding-block-start: .15rem;
 }
 
 [data-compose-open="true"] .home-compose-expanded {
 	display: grid;
-	gap: 0.75rem;
-}
-
-.home-compose-advanced {
-	padding: 0.85rem;
-	border: 1px solid rgba(117, 211, 255, 0.22);
-	border-radius: 1rem 0.45rem 1rem 0.45rem;
-	background: #071020;
-}
-
-.home-compose-advanced summary {
-	cursor: pointer;
-	color: var(--g-cyan);
-	font-weight: 850;
-	letter-spacing: 0.02em;
-}
-
-.home-compose-advanced[open] summary {
-	margin-bottom: 0.85rem;
 }
 
 .home-compose-status {
 	margin: 0;
-	padding: 0.68rem 0.82rem;
-	border: 1px solid transparent;
-	border-radius: 0.78rem;
-	background: #11182a;
-	color: var(--g-muted);
-	font-size: 0.9rem;
-	line-height: 1.4;
+	padding: .65rem .8rem;
+	border: 1px solid var(--home-line);
+	border-radius: .75rem;
+	background: #111b29;
+	color: var(--home-muted);
+	font-size: .84rem;
+	line-height: 1.45;
 }
 
 .home-compose-status[data-tone="loading"] {
-	border-color: rgba(60, 236, 255, 0.38);
-	color: var(--g-cyan);
+	border-color: rgba(88, 199, 216, .42);
+	color: #a7edf5;
 }
 
 .home-compose-status[data-tone="success"] {
-	border-color: rgba(72, 240, 182, 0.42);
-	color: #82ffd3;
+	border-color: rgba(92, 211, 157, .42);
+	color: #a8f1cf;
 }
 
 .home-compose-status[data-tone="error"] {
-	border-color: rgba(255, 95, 143, 0.5);
-	color: #ffb2ca;
+	border-color: rgba(240, 104, 130, .48);
+	color: #ffc1cd;
 }
 
-@media (max-width: 680px) {
-	.geelooy-home-composer {
-		margin-block: 0.7rem;
-	}
+.geelooy-home-composer [hidden] {
+	display: none !important;
+}
 
-	.home-compose-form {
-		padding: 0.78rem;
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-home-composer *,
+	.geelooy-home-composer *::before,
+	.geelooy-home-composer *::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
 	}
 }

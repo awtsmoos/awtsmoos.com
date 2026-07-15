@@ -1,5 +1,6 @@
 // B"H
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
@@ -55,10 +56,23 @@ function compressWithPython(stagingRoot, zipPath) {
 
 function startStaticServer(root) {
 	const zipPath = createBundleZip(path.join(Paths.TEMP_ROOT, 'awtsmoos-agent.zip'));
+	const [version] = Paths.manifestLines();
+	const manifestPath = path.join(Paths.AGENT_ROOT, 'manifest.txt');
+	const descriptor = {
+		ok: true,
+		version,
+		manifestSha256: sha256(manifestPath),
+		bundles: [{
+			name: 'agent',
+			url: '/awtsmoos-agent.zip',
+			sha256: sha256(zipPath),
+			bytes: fs.statSync(zipPath).size
+		}]
+	};
 	const server = http.createServer((request, response) => {
 		const url = new URL(request.url, 'http://127.0.0.1');
 		if (url.searchParams.has('bundle') || url.pathname === '/api/tunnel/install/bundle-manifest') {
-			return sendJson(response, { bundles: [{ name: 'agent', url: '/awtsmoos-agent.zip' }] });
+			return sendJson(response, descriptor);
 		}
 		if (url.pathname === '/awtsmoos-agent.zip' || url.pathname === '/api/tunnel/install/agent.zip') {
 			response.writeHead(200, { 'content-type': 'application/zip' });
@@ -71,6 +85,10 @@ function startStaticServer(root) {
 			resolve({ server, origin: `http://127.0.0.1:${server.address().port}` });
 		});
 	});
+}
+
+function sha256(filePath) {
+	return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
 }
 
 function sendJson(response, value) {

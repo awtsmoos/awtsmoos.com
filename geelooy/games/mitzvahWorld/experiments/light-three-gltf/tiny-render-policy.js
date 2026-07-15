@@ -49,6 +49,7 @@ export function shouldRenderMode(mode, options = {}) {
 
 export function defaultRenderOptions() {
   return {
+	distanceScale: 1,
     showTriangles: true,
     showHelperLines: false,
     showHelperPoints: false,

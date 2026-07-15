@@ -8,6 +8,7 @@ uniform mat4 uMvp;
 uniform mat4 uModel;
 uniform float uPointSize;
 uniform int uGrassReactive;
+uniform int uWindMode;
 uniform vec3 uInteractor;
 uniform float uGrassRadius;
 uniform float uGrassWindStrength;
@@ -19,15 +20,20 @@ varying vec3 vWorld;
 void main(){
 	vec3 localPosition=aPosition;
 	vec4 baseWorld=uModel*vec4(aPosition,1.0);
+	float heightFactor=clamp(aUv.y,0.0,1.0);
 	if(uGrassReactive==1){
-		float heightFactor=clamp(aUv.y,0.0,1.0);
 		vec2 difference=baseWorld.xz-uInteractor.xz;
 		float distanceToPlayer=length(difference);
 		vec2 away=distanceToPlayer>0.001?difference/distanceToPlayer:vec2(1.0,0.0);
 		float influence=1.0-smoothstep(0.0,uGrassRadius,distanceToPlayer);
 		localPosition.xz+=away*influence*heightFactor*0.72;
-		float wind=sin(uTime*1.8+baseWorld.x*0.31+baseWorld.z*0.23);
-		localPosition.x+=wind*uGrassWindStrength*heightFactor*heightFactor;
+	}
+	if(uGrassReactive==1||uWindMode==1){
+		float phase=baseWorld.x*0.31+baseWorld.z*0.23+aPosition.y*0.17;
+		float wind=sin(uTime*1.35+phase)+sin(uTime*0.71+phase*1.83)*0.36;
+		float strength=uGrassReactive==1?uGrassWindStrength:0.055;
+		localPosition.x+=wind*strength*(0.32+heightFactor*heightFactor);
+		localPosition.z+=wind*strength*0.34*(0.25+heightFactor);
 	}
 	vec4 world=uModel*vec4(localPosition,1.0);
 	vWorld=world.xyz;

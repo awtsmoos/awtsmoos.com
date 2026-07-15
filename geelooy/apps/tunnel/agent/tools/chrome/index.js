@@ -1,88 +1,81 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
 
-const Actions = require("./actions.js");
+const chromeActions = require("./actions.js");
+const chromeExtras = require("./extras.js");
+const chromeSession = require("./session.js");
+const leaseActions = require("./leaseActions.js");
 const ActionQueue = require("./actionQueue.js");
-const Extras = require("./extras.js");
-const Native = require("./native.js");
-const Common = require("./common.js");
-
-const ACTIONS = Object.freeze({
-	chromeFind: Actions.chromeFind,
-	chromeLaunch: Actions.chromeLaunch,
-	chromeStatus: Actions.chromeStatus,
-	chromeTargets: Actions.chromeTargets,
-	chromeTargetSelector: Extras.chromeTargetSelector,
-	chromeNewPage: Actions.chromeNewPage,
-	chromeClosePage: Actions.chromeClosePage,
-	chromeCloseTabs: Actions.chromeCloseTabs,
-	chromeNavigate: Actions.chromeNavigate,
-	chromeWaitForSelector: Actions.chromeWaitForSelector,
-	chromeClick: Actions.chromeClick,
-	chromeType: Actions.chromeType,
-	chromeEval: Actions.chromeEval,
-	chromeLogs: Actions.chromeLogs,
-	chromeSnapshot: Actions.chromeSnapshot,
-	chromeScreenshot: Extras.chromeScreenshot,
-	chromeRunScript: Actions.chromeRunScript,
-	chromeNativeStatus: Native.chromeNativeStatus,
-	chromeNativeOpen: Native.chromeNativeOpen,
-	chromeNativeFocus: Native.chromeNativeFocus,
-	chromeNativeClose: Native.chromeNativeClose
-});
 
 const READ_ONLY_ACTIONS = new Set([
 	"chromeFind",
 	"chromeStatus",
 	"chromeTargets",
-	"chromeTargetSelector",
 	"chromeLogs",
-	"chromeNativeStatus"
+	"chromeNetwork",
+	"chromeCookies",
+	"chromeStorage"
 ]);
 
-/**
- * B"H
- *
- * Chrome actions enter one bounded mutation queue while read-only observations
- * remain concurrent. The Awtsmoos renews operation and deadline together;
- * Awtsmoos.com releases the queue when a stale CDP request stops answering.
- */
-async function handleChrome(config, payload = {}) {
+const ACTIONS = Object.freeze({
+	chromeFind: chromeActions.chromeFind,
+	chromeLaunch: chromeActions.chromeLaunch,
+	chromeStatus: chromeActions.chromeStatus,
+	chromeTargets: chromeActions.chromeTargets,
+	chromeTargetSelector: leaseActions.chromeTargetAcquire,
+	chromeTargetAcquire: leaseActions.chromeTargetAcquire,
+	chromeTargetRelease: leaseActions.chromeTargetRelease,
+	chromeNewPage: chromeActions.chromeNewPage,
+	chromeClosePage: chromeActions.chromeClosePage,
+	chromeCloseTabs: chromeActions.chromeCloseTabs,
+	chromeNavigate: chromeActions.chromeNavigate,
+	chromeEval: chromeActions.chromeEval,
+	chromeWaitForSelector: chromeActions.chromeWaitForSelector,
+	chromeClick: chromeActions.chromeClick,
+	chromeType: chromeActions.chromeType,
+	chromeLogs: chromeActions.chromeLogs,
+	chromeSnapshot: chromeActions.chromeSnapshot,
+	chromeRunScript: chromeActions.chromeRunScript,
+	chromeScreenshot: chromeExtras.chromeScreenshot,
+	chromeNetwork: chromeExtras.chromeNetwork,
+	chromeAccessibilitySnapshot: chromeExtras.chromeAccessibilitySnapshot,
+	chromeTestUrl: chromeExtras.chromeTestUrl,
+	chromeDoctor: chromeExtras.chromeDoctor,
+	browserDoctor: chromeExtras.chromeDoctor,
+	browserTrace: chromeExtras.chromeDoctor,
+	browserInspect: chromeExtras.chromeDoctor,
+	chromeCookies: chromeSession.chromeCookies,
+	chromeCookieSet: chromeSession.chromeCookieSet,
+	chromeCookieDelete: chromeSession.chromeCookieDelete,
+	chromeStorage: chromeSession.chromeStorage,
+	chromeStorageSet: chromeSession.chromeStorageSet,
+	chromeStorageDelete: chromeSession.chromeStorageDelete,
+	chromeSessionExport: chromeSession.chromeSessionExport,
+	chromeSessionImport: chromeSession.chromeSessionImport,
+	httpUseChromeCookies: chromeSession.httpUseChromeCookies,
+	chromeUseHttpCookies: chromeSession.chromeUseHttpCookies
+});
+
+/** Serializes mutating CDP actions and attaches observable queue evidence. */
+async function handleChrome(payload = {}) {
 	const action = String(payload.action || "");
-	const handler = ACTIONS[action];
-	if (!handler) {
+	const worker = ACTIONS[action];
+	if (!worker) {
 		return {
 			ok: false,
-			status: 400,
-			error: "unsupported_chrome_action",
 			action,
+			error: "unknown_chrome_action",
 			availableActions: Object.keys(ACTIONS)
 		};
 	}
-	const operation = () => handler({
-		...payload,
-		config
-	});
-	try {
-		return READ_ONLY_ACTIONS.has(action)
-			? await operation()
-			: await ActionQueue.run(operation, {
-				timeoutMs: Common.timeout(payload, 60000)
-			});
-	} catch (error) {
-		return {
-			ok: false,
-			status: error.code === "CHROME_ACTION_TIMEOUT" ? 504 : 500,
-			error: error.message || String(error),
-			action,
-			queue: ActionQueue.status()
-		};
-	}
+	const execute = async () => {
+		const result = await worker(payload);
+		return result && typeof result === "object"
+			? { ...result, chromeActionQueue: ActionQueue.snapshot() }
+			: result;
+	};
+	return READ_ONLY_ACTIONS.has(action)
+		? execute()
+		: ActionQueue.run(execute, { timeoutMs: payload.timeoutMs });
 }
 
-module.exports = {
-	ACTIONS,
-	READ_ONLY_ACTIONS,
-	handleChrome
-};
+module.exports = { ACTIONS, READ_ONLY_ACTIONS, handleChrome };

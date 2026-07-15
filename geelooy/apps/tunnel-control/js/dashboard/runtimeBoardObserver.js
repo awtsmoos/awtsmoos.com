@@ -6,42 +6,32 @@ import { subscribeRuntimeTelemetry } from "../runtime/runtimeTelemetry.js";
 import { refreshRuntimeFabric } from "./runtimeFabricPresenter.js";
 import { createLegacyPaneObserver, refreshLegacyPanes } from "./runtimeLegacyPanePresenter.js";
 
-/**
- * The Awtsmoos coordinates independent presenters without mixing their truth.
- * This lifecycle vessel keeps Awtsmoos.com subscriptions, observers, and timers
- * disposable when the dashboard is replaced.
- *
- * @param {HTMLElement} board Runtime board element.
- * @returns {void}
- */
+/** Coordinates telemetry, compatibility presenters, and disposable timers. */
 export function connectRuntimeBoard(board) {
-	if (!board || board.dataset.connected === "true") {
-		return;
-	}
+	if (!board || board.dataset.connected === "true") return;
 	board.dataset.connected = "true";
 	const documentRef = globalThis.document;
-	if (!documentRef || typeof documentRef.getElementById !== "function") {
-		return;
-	}
-	const unsubscribe = subscribeRuntimeTelemetry(refreshRuntimeFabric);
+	if (!documentRef || typeof documentRef.getElementById !== "function") return;
+
+	const unsubscribe = subscribeRuntimeTelemetry(function presentTelemetry() {
+		refreshRuntimeFabric(Date.now());
+	});
 	const paneObserver = createLegacyPaneObserver(refreshLegacyPanes);
 	refreshLegacyPanes();
 	const freshnessTimer = createFreshnessTimer();
 	board.awtDisconnectRuntimeBoard = function disconnectRuntimeBoard() {
 		unsubscribe();
 		paneObserver?.disconnect();
-		if (freshnessTimer) {
-			globalThis.clearInterval(freshnessTimer);
-		}
+		if (freshnessTimer) globalThis.clearInterval(freshnessTimer);
 	};
 }
 
 function createFreshnessTimer() {
-	if (typeof globalThis.setInterval !== "function") {
-		return null;
-	}
+	if (typeof globalThis.setInterval !== "function") return null;
 	return globalThis.setInterval(
-		refreshRuntimeFabric,
+		function refreshFreshnessLabel() {
+			refreshRuntimeFabric(Date.now());
+		},
 		5000
 	);
 }

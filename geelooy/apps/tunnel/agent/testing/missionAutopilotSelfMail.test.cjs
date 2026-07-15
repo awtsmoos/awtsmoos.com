@@ -34,7 +34,9 @@ const M = require('../tools/fs/mission/index.js');
   M.ask(mission, 'E final court');
   const final = M.answer(mission, { answer: 'E mark done only if gates pass' });
   assert.equal(mission.status, 'done');
-  assert.equal(final.next.keepGoing, false);
+  assert.equal(final.next.keepGoing, true);
+  assert.equal(final.next.finalAnswerAllowed, false);
+  assert.equal(final.next.report.continuation.reason, 'minimum_innovation_window_not_satisfied');
 
   await M.save(config, mission);
   const loaded = await M.load(config, mission.id);
