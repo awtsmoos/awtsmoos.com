@@ -7,35 +7,36 @@ const ResponseSocket = require("./main-response-socket.js");
 /**
  * B"H
  *
- * Completion and failure cross one correlation boundary. The Awtsmoos renews
- * result and doorway; Awtsmoos.com preserves terminal testimony through the
- * current registered generation when the admitting socket has already closed.
+ * Completion becomes durable before it crosses a socket. The Awtsmoos renews
+ * result and receipt together; Awtsmoos.com may lose the admitting connection,
+ * yet retry polling will still recover the exact persisted terminal testimony.
  */
 function completeRun(dependencies, context, result, advisoryOvertime) {
 	if (result && result.ok !== false) {
 		dependencies.state.lastSuccessfulActionAt = Date.now();
 	}
-	const completed = {
+	const candidate = {
 		...result,
 		lane: context.lane,
 		longLivedConnection: true,
 		advisoryOvertime
 	};
-	dependencies.retryControl.complete(
+	const persisted = dependencies.retryControl.complete(
 		context.data,
 		context.payload,
-		completed
+		candidate
 	);
+	const completed = persisted?.result || candidate;
 	dependencies.streamEvent(
-		result?.ok === false ? "action.error" : "action.completed",
+		completed?.ok === false ? "action.error" : "action.completed",
 		context.payload,
 		{
 			lane: context.lane,
-			ok: result?.ok !== false,
+			ok: completed?.ok !== false,
 			runtimeMs: Date.now() - context.startedAt,
-			result,
-			status: result?.status,
-			error: result?.error
+			result: completed,
+			status: completed?.status,
+			error: completed?.error
 		}
 	);
 	ResponseSocket.sendOrQueue(
@@ -53,7 +54,7 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 }
 
 function failRun(dependencies, context, error) {
-	const failed = {
+	const candidate = {
 		ok: false,
 		status: 500,
 		error: error.message,
@@ -61,11 +62,12 @@ function failRun(dependencies, context, error) {
 		lane: context.lane,
 		longLivedConnection: true
 	};
-	dependencies.retryControl.complete(
+	const persisted = dependencies.retryControl.complete(
 		context.data,
 		context.payload,
-		failed
+		candidate
 	);
+	const failed = persisted?.result || candidate;
 	dependencies.streamEvent("action.error", context.payload, {
 		...failed,
 		runtimeMs: Date.now() - context.startedAt

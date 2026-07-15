@@ -1,5 +1,5 @@
 B"H
-1.0.313
+1.0.314
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -856,9 +856,16 @@ lib/runtime/processIdentity.js
 lib/runtime/recovery-envelope.js
 lib/runtime/replacement-policy.js
 lib/runtime/request-retry-collection.js
+lib/runtime/request-retry-disk-collection.js
+lib/runtime/request-retry-disk-paths.js
+lib/runtime/request-retry-disk.js
 lib/runtime/request-retry-identity.js
+lib/runtime/request-retry-mutation.js
 lib/runtime/request-retry-policy.js
+lib/runtime/request-retry-reconcile-results.js
+lib/runtime/request-retry-reconcile.js
 lib/runtime/request-retry-record-map.js
+lib/runtime/request-retry-record-outcomes.js
 lib/runtime/request-retry-records.js
 lib/runtime/request-retry-registry.js
 lib/runtime/request-retry-shapes.js
@@ -1169,6 +1176,7 @@ tools/fs/actionRuntime.js
 tools/fs/actions.js
 tools/fs/agentThoughts/policy.js
 tools/fs/astOutline.js
+tools/fs/atomic-file-write.js
 tools/fs/autoAsync.js
 tools/fs/awdb/collections.js
 tools/fs/awdb/open.js
@@ -1255,6 +1263,7 @@ tools/fs/continuation/runner.js
 tools/fs/dependencyGraph.js
 tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
+tools/fs/file-hash.js
 tools/fs/fileOpsCopy.js
 tools/fs/fileOpsMoveDelete.js
 tools/fs/fileOpsPaths.js
@@ -1579,6 +1588,7 @@ tools/fs/preview/url.js
 tools/fs/previewRegistry.js
 tools/fs/projectInfo.js
 tools/fs/projectValidation.js
+tools/fs/read-write-shapes.js
 tools/fs/readWrite.js
 tools/fs/remoteDesktop/capabilities.js
 tools/fs/remoteDesktop/capture.js

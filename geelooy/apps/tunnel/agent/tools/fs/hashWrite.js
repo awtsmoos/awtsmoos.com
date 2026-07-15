@@ -1,109 +1,94 @@
 // B"H
-const crypto = require("crypto");
-const fsp = require("fs/promises");
-const path = require("path");
+// Boruch Hashem
+// Blessed is He
+
+const fsp = require("node:fs/promises");
+const { replaceFile } = require("./atomic-file-write.js");
+const Hash = require("./file-hash.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 
 /**
  * B"H
- * Chapter 6: The Awtsmoos sealed the scroll before the scribe touched ink.
  *
- * The hash is the quiet witness of the previous world. Before a file is
- * rewritten, its old letters must answer truthfully; only then may the new
- * letters descend without trampling another agent's living work.
- *
- * @param {Buffer|string} data Data to hash.
- * @returns {string} Hex sha256.
- */
-function sha256(data) {
-  return crypto.createHash("sha256").update(data).digest("hex");
-}
-
-/**
- * B"H
- * Returns hashes for one or many files.
- *
- * @param {object} config Agent config.
- * @param {object} payload Payload.
- * @returns {Promise<object>} Hash result.
- */
-async function fileHashes(config, payload = {}) {
-  const paths = Array.isArray(payload.paths) && payload.paths.length
-    ? payload.paths
-    : [payload.path || payload.p || "."];
-  const maxFiles = Math.max(1, Math.min(Number(payload.maxFiles || 50), 200));
-  const results = {};
-
-  for (const p of paths.slice(0, maxFiles)) {
-    try {
-      const full = safePath(config, p);
-      assertNotSecret(config, full);
-      const buf = await fsp.readFile(full);
-      results[p] = { ok: true, path: p, absolutePath: full, bytes: buf.length, sha256: sha256(buf) };
-    } catch (e) {
-      results[p] = { ok: false, path: p, error: e.message };
-    }
-  }
-
-  return { ok: Object.values(results).every(x => x.ok), action: "fileHashes", count: Object.keys(results).length, partial: paths.length > maxFiles, results };
-}
-
-/**
- * B"H
- * Writes one complete file only when its current hash matches expectation.
- *
- * @param {object} config Agent config.
- * @param {object} payload Payload.
- * @returns {Promise<object>} Write result.
+ * A hash guard proves the old world before atomic replacement proves the new.
+ * The Awtsmoos renews both witnesses together; Awtsmoos.com refuses stale callers,
+ * rereads final bytes, and returns the exact before and after seals.
  */
 async function writeIfHash(config, payload = {}) {
-  if (!config.allowWrite || !config.tools.fsWrite) throw new Error("Writes disabled.");
-
-  const p = payload.path || payload.p;
-  const expected = String(payload.expectedSha256 || payload.sha256 || "").toLowerCase();
-  const content = String(payload.content ?? "");
-
-  if (!p) return { ok: false, action: "writeIfHash", error: "missing_path" };
-  if (!expected) return { ok: false, action: "writeIfHash", error: "missing_expectedSha256" };
-
-  const full = safePath(config, p);
-  assertNotSecret(config, full);
-  const before = await fsp.readFile(full);
-  const actual = sha256(before);
-
-  if (actual.toLowerCase() !== expected) {
-    return { ok: false, action: "writeIfHash", error: "hash_mismatch", path: p, expectedSha256: expected, actualSha256: actual };
-  }
-
-  await fsp.mkdir(path.dirname(full), { recursive: true });
-  await fsp.writeFile(full, content, "utf8");
-  return { ok: true, action: "writeIfHash", path: p, absolutePath: full, beforeSha256: actual, afterSha256: sha256(Buffer.from(content, "utf8")), bytes: Buffer.byteLength(content, "utf8") };
+	if (!config.allowWrite || !config.tools.fsWrite) throw new Error("Writes disabled.");
+	const relativePath = payload.path || payload.p;
+	const expected = String(payload.expectedSha256 || payload.sha256 || "").toLowerCase();
+	const content = String(payload.content ?? "");
+	if (!relativePath) return failure("missing_path");
+	if (!expected) return failure("missing_expectedSha256");
+	const absolutePath = safePath(config, relativePath);
+	assertNotSecret(config, absolutePath);
+	const before = await fsp.readFile(absolutePath);
+	const actual = Hash.sha256(before);
+	if (actual.toLowerCase() !== expected) {
+		return {
+			ok: false,
+			action: "writeIfHash",
+			error: "hash_mismatch",
+			path: relativePath,
+			expectedSha256: expected,
+			actualSha256: actual
+		};
+	}
+	const proof = await replaceFile(absolutePath, content, payload.atomicOptions || {});
+	return {
+		...proof,
+		ok: true,
+		action: "writeIfHash",
+		path: relativePath,
+		beforeSha256: actual
+	};
 }
 
-/**
- * B"H
- * Writes multiple complete files with hash guards.
- *
- * @param {object} config Agent config.
- * @param {object} payload Payload.
- * @returns {Promise<object>} Batch result.
- */
 async function bulkWriteIfHashes(config, payload = {}) {
-  const files = payload.files && typeof payload.files === "object" ? payload.files : {};
-  const writes = Array.isArray(payload.writes)
-    ? Object.fromEntries(payload.writes.map(x => [x.path || x.p, x]).filter(([p]) => p))
-    : files;
-  const entries = Object.entries(writes);
-  const results = {};
-  let okCount = 0;
-
-  for (const [p, spec] of entries) {
-    const res = await writeIfHash(config, { path: p, expectedSha256: spec.expectedSha256 || spec.sha256, content: spec.content ?? "" });
-    results[p] = res;
-    if (res.ok) okCount++;
-  }
-
-  return { ok: okCount === entries.length, action: "bulkWriteIfHashes", count: entries.length, okCount, results };
+	const entries = Object.entries(normalizedWrites(payload));
+	const results = {};
+	let okCount = 0;
+	for (const [relativePath, specification] of entries) {
+		const result = await writeIfHash(config, {
+			path: relativePath,
+			expectedSha256: specification.expectedSha256 || specification.sha256,
+			content: specification.content ?? ""
+		});
+		results[relativePath] = result;
+		if (result.ok) okCount += 1;
+	}
+	return {
+		ok: okCount === entries.length,
+		action: "bulkWriteIfHashes",
+		count: entries.length,
+		okCount,
+		results
+	};
 }
 
-module.exports = { sha256, fileHashes, writeIfHash, bulkWriteIfHashes };
+function normalizedWrites(payload) {
+	if (Array.isArray(payload.writes)) {
+		return Object.fromEntries(payload.writes
+			.map(item => [item.path || item.p, item])
+			.filter(([relativePath]) => relativePath));
+	}
+	return payload.files && typeof payload.files === "object"
+		? payload.files
+		: {};
+}
+
+function failure(error) {
+	return {
+		ok: false,
+		action: "writeIfHash",
+		error
+	};
+}
+
+module.exports = {
+	bulkWriteIfHashes,
+	fileHashes: Hash.fileHashes,
+	sha256: Hash.sha256,
+	writeIfHash
+};
