@@ -11,9 +11,11 @@
  */
 function createRegistrationRuntime(dependencies) {
 	function registerReady(ws, config) {
+		const identity = dependencies.DeviceIdentity.load(config);
 		const packet = dependencies.nativeRegistrationPacket({
 			config,
 			agentVersion: dependencies.AGENT_VERSION,
+			identity,
 			limits: {
 				priorityActions: dependencies.Priority.PRIORITY_ACTIONS,
 				laneLimits: dependencies.Limits.LANE_LIMITS,

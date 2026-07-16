@@ -26,6 +26,7 @@ module.exports = {
 	AGENT_VERSION: require("../../tools/fs/actions.js").AGENT_VERSION,
 	inlineLimit: require("../response-size.js").inlineLimit,
 	nativeRegistrationPacket: require("../registration.js").nativeRegistrationPacket,
+	DeviceIdentity: require("../deviceIdentity/index.js"),
 	HistoryCleanup: require("./history-cleanup.js"),
 	ConnectionReceipt: require("./connection-receipt.js"),
 	Limits: require("./limits.js"),

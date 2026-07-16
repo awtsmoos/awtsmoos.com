@@ -4,7 +4,7 @@ const { HOME } = require('./config.js');
 const NATIVE_VESSEL_TYPE = 'native-local';
 const NATIVE_TARGET_VESSEL = 'local-tunnel';
 
-function nativeRegistrationPacket({ config, agentVersion, limits = {}, runtime = {} }) {
+function nativeRegistrationPacket({ config, agentVersion, identity = {}, limits = {}, runtime = {} }) {
   return {
     type: 'TUNNEL_REGISTER', protocolVersion: 'awtsmoos-tunnel-v2',
     name: config.tunnelName, tunnelName: config.tunnelName,
@@ -14,6 +14,15 @@ function nativeRegistrationPacket({ config, agentVersion, limits = {}, runtime =
     allowWrite: config.allowWrite, allowSecrets: config.allowSecrets,
     allowCommands: config.allowCommands, agentVersion, tools: config.tools,
     chrome: config.chrome, command: config.command,
+    ...(identity.ok === true ? {
+      deviceId: identity.deviceId,
+      tunnelId: identity.tunnelId,
+      deviceCredential: identity.deviceCredential,
+      credentialVersion: identity.credentialVersion
+    } : {
+      pairingState: identity.state || 'unpaired',
+      pairingError: identity.error || 'device_pairing_required'
+    }),
     capabilities: nativeCapabilities(config), limits, runtime
   };
 }

@@ -6,6 +6,7 @@ import { log, error } from "../logger.js";
 import { startActivitySession, stopActivitySession } from "../realtime/activitySession.js";
 import { resolveSession } from "../session/sessionClient.js";
 import { showLoginGate } from "../session/loginGate.js";
+import { showPairingApprovalIfRequested } from "../security/pairingApproval.js";
 import { mountShell } from "../shell/mountShell.js";
 import { resolveActiveTunnel } from "../tunnels/tunnelResolver.js";
 import { showNoTunnelView } from "../tunnels/noTunnelView.js";
@@ -36,6 +37,7 @@ export async function startTunnelControl() {
 			stopActivitySession();
 			return showLoginGate();
 		}
+		if (showPairingApprovalIfRequested()) return;
 		const activityRuntime = startActivitySession(session);
 		const tunnel = await resolveActiveTunnel();
 		if (!tunnel.ok) {

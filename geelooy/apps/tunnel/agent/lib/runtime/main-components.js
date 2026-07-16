@@ -51,6 +51,7 @@ function createMainComponents(D, callbacks) {
 	});
 	const registration = createRegistrationRuntime({
 		nativeRegistrationPacket: D.nativeRegistrationPacket,
+		DeviceIdentity: D.DeviceIdentity,
 		AGENT_VERSION: D.AGENT_VERSION,
 		workers: foundation.workers,
 		Priority: D.Priority,
@@ -81,6 +82,7 @@ function createMainComponents(D, callbacks) {
 		startLocalApiServer: D.startLocalApiServer,
 		Boot: D.Boot,
 		Updates: D.Updates,
+		DeviceIdentity: D.DeviceIdentity,
 		connection,
 		openHostedControl: D.openHostedControl,
 		shouldOpenControl: () => process.argv.includes("--open-control") &&

@@ -33,6 +33,7 @@ function createStartupRuntime(dependencies) {
 			log: dependencies.log,
 			reason: "startup_after_local_api"
 		});
+		const deviceIdentity = await ensureDeviceIdentity(dependencies, config);
 		const socket = dependencies.connection.connect();
 		const openedControl = dependencies.shouldOpenControl?.()
 			? Boolean(dependencies.openHostedControl(config))
@@ -48,6 +49,7 @@ function createStartupRuntime(dependencies) {
 			localApiStarted: Boolean(localApiServer),
 			bootResumeEnabled: Boolean(boot),
 			updateScheduled: update !== false,
+			deviceIdentity: dependencies.DeviceIdentity.publicStatus(config),
 			socketStarted: Boolean(socket),
 			openedControl
 		};
@@ -56,7 +58,19 @@ function createStartupRuntime(dependencies) {
 	return { main };
 }
 
+async function ensureDeviceIdentity(dependencies, config) {
+	const current = dependencies.DeviceIdentity.load(config);
+	if (current.ok) return current;
+	dependencies.log("warn", "B\"H device pairing is required before tunnel registration.");
+	return dependencies.DeviceIdentity.pair(config, {
+		log: dependencies.log,
+		openBrowser: process.env.AWTSMOOS_SKIP_PAIRING_BROWSER !== "1",
+		timeoutMs: Number(process.env.AWTSMOOS_PAIRING_TIMEOUT_MS || 10 * 60 * 1000)
+	});
+}
+
 module.exports = {
 	...Helpers,
+	ensureDeviceIdentity,
 	createStartupRuntime
 };
