@@ -71,6 +71,7 @@ function createLegacyMock() {
 
 function createContext(published) {
 	const request = new EventEmitter();
+	request.headers = {};
 	request.user = {
 		authorized: true,
 		info: {
