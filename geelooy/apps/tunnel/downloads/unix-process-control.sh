@@ -31,6 +31,77 @@ write_supervisor() {
 	write_supervisor_to "$ROOT"
 }
 
+launchd_label() {
+	printf '%s\n' "com.awtsmoos.tunnel"
+}
+
+launchd_plist_path() {
+	printf '%s\n' "$HOME/Library/LaunchAgents/$(launchd_label).plist"
+}
+
+launchd_available() {
+	[ "$(uname -s 2>/dev/null || true)" = "Darwin" ] &&
+		command -v launchctl >/dev/null 2>&1 && [ -n "${HOME:-}" ]
+}
+
+stop_launchd_service() {
+	launchd_available || return 0
+	local domain="gui/$(id -u)"
+	local label="$(launchd_label)"
+	local plist="$(launchd_plist_path)"
+	launchctl bootout "$domain/$label" >/dev/null 2>&1 ||
+		launchctl bootout "$domain" "$plist" >/dev/null 2>&1 || true
+}
+
+write_launchd_service() {
+	local plist="$(launchd_plist_path)"
+	mkdir -p "$(dirname "$plist")"
+	node - "$plist" "$ROOT" "${PATH:-/usr/local/bin:/usr/bin:/bin}" <<'NODE'
+const fs = require("node:fs");
+const [plist, root, pathValue] = process.argv.slice(2);
+const escape = value => String(value)
+	.replaceAll("&", "&amp;")
+	.replaceAll("<", "&lt;")
+	.replaceAll(">", "&gt;")
+	.replaceAll('"', "&quot;");
+const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.awtsmoos.tunnel</string>
+<key>ProgramArguments</key><array>
+<string>/bin/bash</string>
+<string>${escape(`${root}/awtsmoos-supervisor.sh`)}</string>
+<string>${escape(root)}</string>
+</array>
+<key>RunAtLoad</key><true/>
+<key>KeepAlive</key><true/>
+<key>ProcessType</key><string>Background</string>
+<key>EnvironmentVariables</key><dict>
+<key>HOME</key><string>${escape(process.env.HOME || "")}</string>
+<key>PATH</key><string>${escape(pathValue)}</string>
+</dict>
+<key>WorkingDirectory</key><string>${escape(process.env.HOME || root)}</string>
+<key>StandardOutPath</key><string>${escape(`${root}/launchd.out.log`)}</string>
+<key>StandardErrorPath</key><string>${escape(`${root}/launchd.err.log`)}</string>
+</dict></plist>
+`;
+fs.writeFileSync(plist, xml, { mode: 0o600 });
+NODE
+	chmod 600 "$plist"
+}
+
+start_launchd_supervisor() {
+	launchd_available || return 1
+	local domain="gui/$(id -u)"
+	local label="$(launchd_label)"
+	local plist="$(launchd_plist_path)"
+	stop_launchd_service
+	write_launchd_service
+	launchctl bootstrap "$domain" "$plist" >/dev/null 2>&1 || return 1
+	launchctl kickstart "$domain/$label" >/dev/null 2>&1 || true
+	return 0
+}
+
 start_supervisor() {
 	local recorded
 	write_supervisor
@@ -40,6 +111,13 @@ start_supervisor() {
 		return 0
 	fi
 	clear_connection_receipt
+	# macOS kills descendants when a Terminal, remote shell, or installer process
+	# group closes in several common launch paths. A per-user LaunchAgent owns the
+	# supervisor independently and also restores it after login or an agent crash.
+	if start_launchd_supervisor; then
+		return 0
+	fi
+	# Linux and other Unix hosts retain the portable detached supervisor.
 	nohup "$ROOT/awtsmoos-supervisor.sh" "$ROOT" \
 		>> "$ROOT/supervisor-stdout.log" 2>&1 </dev/null &
 }

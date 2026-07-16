@@ -101,6 +101,9 @@ stop_pid_set() {
 }
 
 stop_existing_runtime() {
+	# Unload the durable macOS owner before moving or replacing its runtime tree;
+	# otherwise KeepAlive can race activation by resurrecting the predecessor.
+	stop_launchd_service 2>/dev/null || true
 	local supervisors="$(find_supervisor_pids | tr '\n' ' ')"
 	local agents="$(find_agent_pids | tr '\n' ' ')"
 	local legacy="$(find_legacy_runtime_pids | tr '\n' ' ')"
