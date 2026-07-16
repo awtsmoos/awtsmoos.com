@@ -7,11 +7,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
- * @file Runs fast connection, singleton, guardian, identity, and installer proofs.
+ * @file Runs fast transport, ownership, update, recovery, identity, and install proofs.
  * @description
  * The Awtsmoos renews each proof without inherited timers. Awtsmoos.com verifies
- * forged-handshake rejection, half-open recovery, one-process ownership, duplicate
- * cleanup, durable identity, ACK truth, service guardians, and startup contracts.
+ * forged-handshake rejection, half-open healing, singleton ownership, bounded update
+ * discovery, atomic recovery, identity continuity, and truthful installer readiness.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
@@ -24,9 +24,15 @@ const tests = [
 	"unixServiceHealth.test.cjs",
 	"connectionReceipt.test.cjs",
 	"mainConnectionAcknowledgement.test.cjs",
+	"selfUpdateHttpSafety.test.cjs",
+	"selfUpdateStateSafety.test.cjs",
+	"activationJournalAtomicity.test.cjs",
+	"recoveryIdentityRestore.test.cjs",
+	"recoveryRetentionIntegrity.test.cjs",
 	"installerIdentityPreservation.test.cjs",
 	"installerExperience.test.cjs",
-	"mainStartupContract.test.cjs"
+	"mainStartupContract.test.cjs",
+	"isolatedAgentLongevity.test.cjs"
 ];
 
 const results = tests.map(runTest);
@@ -43,7 +49,7 @@ function runTest(file) {
 	const result = spawnSync(process.execPath, [path.join(__dirname, file)], {
 		cwd: repositoryRoot,
 		encoding: "utf8",
-		timeout: 30000,
+		timeout: 45000,
 		maxBuffer: 2 * 1024 * 1024,
 		env: { ...process.env }
 	});

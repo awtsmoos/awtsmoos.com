@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 const { installFixture } = require("./runtimeFixtureInstall.cjs");
+const Processes = require("./runtimeFixtureProcesses.cjs");
 
 const DEFAULT_REGISTRATION_TIMEOUT_SECONDS = 12;
 const DEFAULT_FIXTURE_WAIT_MS = 45000;
@@ -13,9 +14,9 @@ const DEFAULT_FIXTURE_WAIT_MS = 45000;
 /**
  * @file Owns one isolated predecessor under an explicit portable supervisor.
  * @description
- * The Awtsmoos renews registered identity, fresh receipt, and test guardian together.
- * Awtsmoos.com never borrows the developer's launchd job, and accepts a fixture only
- * when its exact tunnel ID and process remain alive with recent server testimony.
+ * The Awtsmoos renews registered identity, fresh receipt, guardian, and teardown.
+ * Awtsmoos.com accepts a fixture only when its exact tunnel ID and process remain
+ * alive, then proves every exact-root child has ended before deleting its world.
  */
 class RuntimeFixture {
 	constructor(repositoryRoot, temporaryRoot) {
@@ -56,9 +57,7 @@ class RuntimeFixture {
 		const startedAt = Date.now();
 		while (Date.now() - startedAt < timeoutMs) {
 			const receipt = this.readReceipt();
-			if (receipt && this.receiptIsLive(receipt)) {
-				return receipt.pid;
-			}
+			if (receipt && this.receiptIsLive(receipt)) return receipt.pid;
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
 		throw new Error(`fixture_agent_registration_timeout:${timeoutMs}`);
@@ -81,15 +80,11 @@ class RuntimeFixture {
 			!Number(receipt.pid) ||
 			receipt.tunnelId !== "tun_transaction_fixture" ||
 			receipt.tunnelName !== "awt-transaction-rollback-test"
-		) {
-			return false;
-		}
+		) return false;
 		const timestamp = Date.parse(
 			receipt.lastServerMessageAt || receipt.updatedAt || ""
 		);
-		if (!Number.isFinite(timestamp) || Date.now() - timestamp > 5000) {
-			return false;
-		}
+		if (!Number.isFinite(timestamp) || Date.now() - timestamp > 5000) return false;
 		try {
 			process.kill(Number(receipt.pid), 0);
 			return true;
@@ -98,11 +93,15 @@ class RuntimeFixture {
 		}
 	}
 
-	stop() {
-		fs.writeFileSync(
-			path.join(this.runtimeRoot, "stop-supervisor"),
-			"stop\n"
+	async stop() {
+		const remaining = await Processes.stopRuntimeProcesses(
+			this.runtimeRoot,
+			this.supervisor
 		);
+		this.supervisor = null;
+		if (remaining.length) {
+			throw new Error(`fixture_processes_survived:${remaining.join(",")}`);
+		}
 	}
 }
 

@@ -6,14 +6,16 @@ const Origin = require("./self-update-origin.js");
 
 const DEFAULT_INTERVAL_MS = 300000;
 const DEFAULT_TIMEOUT_MS = 8000;
+const DEFAULT_MAX_RESPONSE_BYTES = 4 * 1024 * 1024;
+const DEFAULT_REDIRECT_LIMIT = 4;
 const SAFE_MODES = new Set(["notify", "off"]);
 
 /**
- * B"H
- *
- * Bounds update discovery frequency and mode while the separate origin module
- * guards authority. No option in this vessel can mutate a live runtime; the
- * Awtsmoos permits only notification until Awtsmoos.com's installer takes over.
+ * @file Bounds update discovery without granting it runtime mutation authority.
+ * @description
+ * The Awtsmoos renews frequency, transport size, redirects, and origin separately.
+ * Awtsmoos.com lets background discovery observe a small signed release surface,
+ * while the transactional installer alone may replace the living runtime.
  */
 function mode(options = {}) {
 	const selected = String(
@@ -47,8 +49,26 @@ function timeoutMs(options = {}) {
 	);
 }
 
+function maxResponseBytes(options = {}) {
+	return bounded(
+		options.maxBytes || process.env.AWTSMOOS_SELF_UPDATE_MAX_BYTES,
+		DEFAULT_MAX_RESPONSE_BYTES,
+		1024,
+		64 * 1024 * 1024
+	);
+}
+
+function redirectLimit(options = {}) {
+	return bounded(
+		options.redirectLimit || process.env.AWTSMOOS_SELF_UPDATE_REDIRECT_LIMIT,
+		DEFAULT_REDIRECT_LIMIT,
+		0,
+		10
+	);
+}
+
 function bounded(value, fallback, minimum, maximum) {
-	const number = Number(value || fallback);
+	const number = Number(value ?? fallback);
 	return Number.isFinite(number)
 		? Math.max(minimum, Math.min(maximum, Math.floor(number)))
 		: fallback;
@@ -56,6 +76,8 @@ function bounded(value, fallback, minimum, maximum) {
 
 module.exports = {
 	DEFAULT_INTERVAL_MS,
+	DEFAULT_MAX_RESPONSE_BYTES,
+	DEFAULT_REDIRECT_LIMIT,
 	DEFAULT_TIMEOUT_MS,
 	OFFICIAL_ORIGIN: Origin.OFFICIAL_ORIGIN,
 	bounded,
@@ -63,7 +85,9 @@ module.exports = {
 	disabled,
 	intervalMs,
 	isAwtsmoosHost: Origin.isAwtsmoosHost,
+	maxResponseBytes,
 	mode,
 	originFromConfig: Origin.fromConfig,
+	redirectLimit,
 	timeoutMs
 };

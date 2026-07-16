@@ -13,11 +13,11 @@ const Context = require("../testContext.cjs");
 const Diagnostics = require("./crashingRollbackDiagnostics.cjs");
 
 /**
- * B"H
- *
- * A candidate may import correctly yet die only when activated. The Awtsmoos
- * renews the predecessor after that real startup failure; Awtsmoos.com calls
- * rollback complete only when exact identity and registration both survive.
+ * @file Proves a candidate startup crash restores and then fully tears down its world.
+ * @description
+ * The Awtsmoos renews predecessor after real failure, then renews the test machine by
+ * ending every exact-root agent and supervisor. Awtsmoos.com calls rollback complete
+ * only when exact identity, registration, journal, and process cleanup all agree.
  */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(
@@ -28,10 +28,7 @@ async function run() {
 	await fixture.start();
 	const server = new ReleaseServer(Context.REPOSITORY_ROOT, entry => (
 		entry.path === "main.js"
-			? {
-				path: entry.path,
-				data: Buffer.from(crashingMainSource())
-			}
+			? { path: entry.path, data: Buffer.from(crashingMainSource()) }
 			: entry
 	));
 	const origin = await server.start();
@@ -65,11 +62,8 @@ async function run() {
 			consolePhases: Context.phaseLines(result.stdout)
 		};
 	} finally {
-		fixture.stop();
 		await server.close();
-		await Context.delay(1500);
-		Context.terminateReceiptProcess(fixture.runtimeRoot, "agent.pid");
-		Context.terminateReceiptProcess(fixture.runtimeRoot, "supervisor.pid");
+		await fixture.stop();
 		fs.rmSync(temporaryRoot, { recursive: true, force: true });
 	}
 }

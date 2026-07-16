@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Candidate order is preference, never an idol. The Awtsmoos renews each older
-# world; Awtsmoos.com skips a bounded archive offset after failed registrations.
+# Candidate order is preference, never an idol. The Awtsmoos renews each older world;
+# Awtsmoos.com skips failed archives and overlays the latest validated configuration
+# and device identity before a recovered runtime may approach the live path.
 
 candidate_lines() {
 	node - "$RECOVERY_ROOT/versions" <<'NODE'
@@ -33,15 +34,14 @@ NODE
 }
 
 select_candidate() {
-	local tab
-	local directory
-	local version
-	local expected_sha
-	local archive
-	local actual_sha
+	local tab="$(printf '\t')"
+	local directory=""
+	local version=""
+	local expected_sha=""
+	local archive=""
+	local actual_sha=""
 	local healthy_index=0
 	local offset="${TIER:-0}"
-	tab="$(printf '\t')"
 	while IFS="$tab" read -r directory version expected_sha; do
 		[ -n "$directory" ] || continue
 		archive="$directory/runtime.tar"
@@ -65,7 +65,7 @@ select_candidate() {
 			log_recovery "rejected" "Recovery archive could not be extracted." "$directory"
 			continue
 		fi
-		[ -f "$ROOT/config.json" ] && cp -p "$ROOT/config.json" "$STAGE/config.json"
+		copy_recovery_mutable_state
 		if ! probe_recovery_runtime "$STAGE"; then
 			log_recovery "rejected" "Recovery candidate failed its startup probe." "$directory"
 			continue
@@ -75,4 +75,45 @@ select_candidate() {
 		return 0
 	done < <(candidate_lines)
 	return 1
+}
+
+copy_recovery_mutable_state() {
+	if [ -f "$ROOT/config.json" ] && [ ! -L "$ROOT/config.json" ]; then
+		cp -p "$ROOT/config.json" "$STAGE/config.json"
+	fi
+	local live="$ROOT/device-binding.json"
+	local backup="$RECOVERY_ROOT/state/device-binding.json"
+	local archived="$STAGE/device-binding.json"
+	local selected=""
+	for candidate in "$live" "$backup" "$archived"; do
+		if recovery_identity_valid "$candidate"; then
+			selected="$candidate"
+			break
+		fi
+	done
+	if [ -n "$selected" ]; then
+		local temporary="$STAGE/device-binding.json.tmp-$$"
+		cp -p "$selected" "$temporary"
+		chmod 600 "$temporary"
+		mv -f "$temporary" "$STAGE/device-binding.json"
+	else
+		rm -f "$STAGE/device-binding.json"
+	fi
+}
+
+recovery_identity_valid() {
+	local file="$1"
+	[ -f "$file" ] && [ ! -L "$file" ] || return 1
+	node - "$file" <<'NODE' >/dev/null 2>&1
+const fs = require("node:fs");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	const valid = String(value.deviceId || "").startsWith("dev_") &&
+		(!value.tunnelId || String(value.tunnelId).startsWith("tun_")) &&
+		(!value.publicKeyFingerprint || typeof value.publicKeyFingerprint === "string");
+	process.exit(valid ? 0 : 1);
+} catch {
+	process.exit(1);
+}
+NODE
 }

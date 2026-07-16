@@ -1,59 +1,73 @@
 // B"H
-const fs = require('node:fs');
-const fsp = require('node:fs/promises');
-const path = require('node:path');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Update state and lock ownership are explicit filesystem receipts. */
-function createState(root) {
-	return {
-		root,
-		versionPath: path.join(root, 'install-state.txt'),
-		hashPath: path.join(root, 'install-manifest.sha256'),
-		manifestPath: path.join(root, 'installed-manifest.txt'),
-		lockPath: path.join(root, '.self-update.lock')
-	};
-}
+const fsp = require("node:fs/promises");
+const Files = require("./self-update-state-files.js");
+const Owner = require("./self-update-state-owner.js");
 
-function readLocalState(state) {
-	return {
-		version: readTrim(state.versionPath),
-		hash: readTrim(state.hashPath),
-		manifest: readTrim(state.manifestPath)
-	};
-}
+const activeLocks = new Map();
+const DEFAULT_HEARTBEAT_MS = 15000;
 
-async function writeLocalState(state, manifest) {
-	await fsp.writeFile(state.versionPath, `${manifest.version}\n`, 'utf8');
-	await fsp.writeFile(state.hashPath, `${manifest.hash}\n`, 'utf8');
-	await fsp.writeFile(state.manifestPath, `${manifest.lines.join('\n')}\n`, 'utf8');
-}
-
-async function acquireLock(state) {
-	try {
-		await fsp.writeFile(state.lockPath, `${process.pid}\n${Date.now()}\n`, { flag: 'wx' });
-		return true;
-	} catch {
-		const age = Date.now() - Number(readTrim(state.lockPath).split(/\s+/)[1] || 0);
-		if (age <= 2 * 60 * 1000) return false;
-		await fsp.rm(state.lockPath, { force: true }).catch(() => {});
-		return acquireLock(state);
+/**
+ * @file Owns one exact-root update-discovery lock and delegates atomic state files.
+ * @description
+ * The Awtsmoos renews lock owner, token, heartbeat, and release without trusting age.
+ * Awtsmoos.com quarantines only dead owners, preserves initializing directories, and
+ * removes a lock only when the releasing process still owns the exact token.
+ */
+async function acquireLock(state, options = {}) {
+	if (activeLocks.has(state.lockPath)) return true;
+	for (let attempt = 0; attempt < 4; attempt += 1) {
+		try {
+			await fsp.mkdir(state.lockPath, { mode: 0o700 });
+			const owner = Owner.create(options.now || Date.now);
+			Owner.write(state.lockPath, owner);
+			rememberLock(state.lockPath, owner, options);
+			return true;
+		} catch (error) {
+			if (error.code !== "EEXIST") throw error;
+			const existing = Owner.read(state.lockPath);
+			if (Owner.alive(existing) || (!existing && Owner.initializing(state.lockPath))) {
+				return false;
+			}
+			Owner.quarantine(state.lockPath);
+		}
 	}
+	return false;
 }
 
 async function releaseLock(state) {
-	await fsp.rm(state.lockPath, { force: true }).catch(() => {});
+	const lease = activeLocks.get(state.lockPath);
+	if (!lease) return false;
+	clearInterval(lease.timer);
+	activeLocks.delete(state.lockPath);
+	if (Owner.read(state.lockPath)?.token !== lease.owner.token) return false;
+	await fsp.rm(state.lockPath, { recursive: true, force: true });
+	return true;
 }
 
-function readTrim(filePath) {
-	try { return fs.readFileSync(filePath, 'utf8').trim(); }
-	catch { return ''; }
+function rememberLock(lockPath, owner, options = {}) {
+	const interval = Number(options.heartbeatMs || DEFAULT_HEARTBEAT_MS);
+	const timer = setInterval(() => {
+		owner.updatedAt = new Date().toISOString();
+		try { Owner.write(lockPath, owner); } catch {}
+	}, interval);
+	timer.unref?.();
+	activeLocks.set(lockPath, { owner, timer });
+}
+
+function lockDetails(state) {
+	return {
+		active: activeLocks.has(state.lockPath),
+		owner: Owner.read(state.lockPath)
+	};
 }
 
 module.exports = {
+	...Files,
+	DEFAULT_HEARTBEAT_MS,
 	acquireLock,
-	createState,
-	readLocalState,
-	readTrim,
-	releaseLock,
-	writeLocalState
+	lockDetails,
+	releaseLock
 };

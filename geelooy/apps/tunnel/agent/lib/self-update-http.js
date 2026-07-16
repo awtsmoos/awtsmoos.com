@@ -1,45 +1,76 @@
 // B"H
-const fs = require('node:fs/promises');
-const http = require('node:http');
-const https = require('node:https');
-const Policy = require('./self-update-policy.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Update transport accepts only HTTP(S), follows bounded redirects. */
-function fetchBuffer(url, options = {}, redirects = 0) {
-	if (redirects > 5) return Promise.reject(new Error('self_update_redirect_limit'));
-	const parsed = new URL(url);
-	if (!['http:', 'https:'].includes(parsed.protocol)) {
-		return Promise.reject(new Error('self_update_protocol_rejected'));
+const fs = require("node:fs/promises");
+const path = require("node:path");
+const Policy = require("./self-update-http-policy.js");
+const Request = require("./self-update-http-request.js");
+const Response = require("./self-update-http-response.js");
+
+/**
+ * @file Fetches bounded update metadata and atomically writes optional downloads.
+ * @description
+ * The Awtsmoos renews URL, redirect generation, and output path without mixing them.
+ * Awtsmoos.com follows only approved authority, preserves existing files on failure,
+ * and renames a complete temporary artifact only after every byte is accepted.
+ */
+function fetchBuffer(value, options = {}, redirectState = 0) {
+	let current;
+	try {
+		current = Policy.parseUrl(value);
+	} catch (error) {
+		return Promise.reject(error);
 	}
-	const timeoutMs = Policy.timeoutMs(options);
-	return new Promise((resolve, reject) => {
-		const library = parsed.protocol === 'http:' ? http : https;
-		const request = library.get(parsed, response => {
-			if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
-				response.resume();
-				const next = new URL(response.headers.location, parsed).toString();
-				return resolve(fetchBuffer(next, options, redirects + 1));
-			}
-			if (response.statusCode !== 200) {
-				response.resume();
-				return reject(new Error(`http_${response.statusCode}_${parsed}`));
-			}
-			const chunks = [];
-			response.on('data', chunk => chunks.push(chunk));
-			response.on('end', () => resolve(Buffer.concat(chunks)));
-		});
-		request.setTimeout(timeoutMs, () => request.destroy(new Error('self_update_timeout')));
-		request.on('error', reject);
-	});
+	const state = normalizeRedirectState(current, redirectState);
+	if (state.redirects > Policy.redirectLimit(options)) {
+		return Promise.reject(Policy.codedError("self_update_redirect_limit"));
+	}
+	return Request.requestBuffer(
+		current,
+		options,
+		state,
+		(next, redirects) => fetchBuffer(next, options, {
+			initial: state.initial,
+			redirects
+		})
+	);
 }
 
 async function fetchText(url, options = {}) {
-	return (await fetchBuffer(url, options)).toString('utf8');
+	return (await fetchBuffer(url, options)).toString("utf8");
 }
 
 async function fetchFile(url, outputPath, options = {}) {
-	await fs.writeFile(outputPath, await fetchBuffer(url, options));
-	return outputPath;
+	const target = path.resolve(outputPath);
+	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
+	await fs.mkdir(path.dirname(target), { recursive: true });
+	try {
+		await fs.writeFile(temporary, await fetchBuffer(url, options), {
+			flag: "wx",
+			mode: 0o600
+		});
+		await fs.rename(temporary, target);
+		return target;
+	} catch (error) {
+		await fs.rm(temporary, { force: true }).catch(() => {});
+		throw error;
+	}
 }
 
-module.exports = { fetchBuffer, fetchFile, fetchText };
+function normalizeRedirectState(current, value) {
+	return value && typeof value === "object"
+		? {
+			initial: value.initial || current,
+			redirects: Number(value.redirects || 0)
+		}
+		: { initial: current, redirects: Number(value || 0) };
+}
+
+module.exports = {
+	collectResponse: Response.collect,
+	fetchBuffer,
+	fetchFile,
+	fetchText,
+	normalizeRedirectState
+};

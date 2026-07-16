@@ -1,5 +1,5 @@
 B"H
-1.0.341
+1.0.342
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -920,11 +920,17 @@ lib/runtime/worker-registry.js
 lib/runtime/worker-supervisor.js
 lib/self-update-bundles.js
 lib/self-update-descriptor.js
+lib/self-update-http-policy.js
+lib/self-update-http-request.js
+lib/self-update-http-response.js
 lib/self-update-http.js
+lib/self-update-manifest-files.js
 lib/self-update-manifest.js
 lib/self-update-origin.js
 lib/self-update-policy.js
 lib/self-update-process.js
+lib/self-update-state-files.js
+lib/self-update-state-owner.js
 lib/self-update-state.js
 lib/self-update.js
 lib/share/audit.js

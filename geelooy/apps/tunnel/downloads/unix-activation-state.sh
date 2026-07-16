@@ -3,9 +3,12 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation records package, registration, workspace, and guardian truth separately.
-# The Awtsmoos renews code and supervision each instant; Awtsmoos.com commits only
-# when launchd or the portable supervisor owns the exact registered process.
+AWTSMOOS_ACTIVATION_ID="${AWTSMOOS_ACTIVATION_ID:-activation-$(date -u +%Y%m%dT%H%M%SZ)-$$}"
+export AWTSMOOS_ACTIVATION_ID
+
+# The Awtsmoos renews package, identity, workspace, and guardian truth atomically.
+# Awtsmoos.com gives every activation one stable ID and fsyncs each journal before
+# rename, so interruption reveals either the former complete phase or the next one.
 
 skip_start_requested() {
 	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] ||
@@ -18,16 +21,34 @@ write_activation_journal() {
 	local rollback="${3:-}"
 	local journal="$RECOVERY_ROOT/transactions/install-current.json"
 	mkdir -p "$(dirname "$journal")"
-	node - "$journal" "$phase" "$candidate" "$rollback" "$CANDIDATE_VERSION" <<'NODE'
+	node - "$journal" "$phase" "$candidate" "$rollback" \
+		"$CANDIDATE_VERSION" "$AWTSMOOS_ACTIVATION_ID" <<'NODE'
 const fs = require("node:fs");
-const [file, phase, candidate, rollback, version] = process.argv.slice(2);
-fs.writeFileSync(file, `${JSON.stringify({
+const path = require("node:path");
+const [file, phase, candidate, rollback, version, activationId] = process.argv.slice(2);
+const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
+const value = {
+	schemaVersion: 2,
+	activationId,
 	at: new Date().toISOString(),
 	phase,
 	candidate,
 	rollback,
 	version
-}, null, 2)}\n`);
+};
+let descriptor;
+try {
+	descriptor = fs.openSync(temporary, "wx", 0o600);
+	fs.writeFileSync(descriptor, `${JSON.stringify(value, null, 2)}\n`);
+	fs.fsyncSync(descriptor);
+} finally {
+	if (descriptor !== undefined) fs.closeSync(descriptor);
+}
+fs.renameSync(temporary, file);
+try {
+	const directory = fs.openSync(path.dirname(file), "r");
+	try { fs.fsyncSync(directory); } finally { fs.closeSync(directory); }
+} catch {}
 NODE
 }
 
