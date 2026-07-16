@@ -20,7 +20,21 @@ const PAIRING_LIFETIME_MS = 10 * 60 * 1000;
 /** Creates an unauthenticated possession-bound pairing request. */
 function createPairingRequest(input = {}) {
 	if (!Secrets.validatePublicKey(input.devicePublicKey)) {
-		return { ok: false, error: "invalid_device_public_key" };
+		const publicKey = input.devicePublicKey;
+		return {
+			ok: false,
+			error: "invalid_device_public_key",
+			diagnostic: {
+				inputKeys: Object.keys(input || {}).sort().slice(0, 24),
+				publicKeyType: Buffer.isBuffer(publicKey) ? "buffer" : typeof publicKey,
+				publicKeyLength: publicKey == null ? 0 : String(publicKey).length,
+				publicKeyFormat: String(publicKey || "").startsWith("rsa-spki-base64url:")
+					? "rsa-spki-base64url"
+					: String(publicKey || "").includes("BEGIN PUBLIC KEY")
+						? "pem"
+						: "unknown"
+			}
+		};
 	}
 	const deviceId = Id.deviceId(input.deviceId);
 	const tunnelName = Id.tunnelName(input.tunnelName);
