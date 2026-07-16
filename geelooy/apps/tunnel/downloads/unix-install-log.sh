@@ -16,6 +16,11 @@ install_event() {
 	local detail="${4:-}"
 	local prefix="[Awtsmoos][$phase][$outcome]"
 
+	# A TTY progress bar intentionally has no trailing newline. Close it before
+	# durable events so status receipts never overwrite or concatenate with it.
+	if declare -F finish_install_progress_line >/dev/null 2>&1; then
+		finish_install_progress_line
+	fi
 	mkdir -p "$INSTALL_LOG_ROOT"
 	printf '%s %s\n' "$prefix" "$message"
 	if [ -n "$detail" ] && [ "$outcome" != "started" ]; then

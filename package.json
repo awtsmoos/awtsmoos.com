@@ -44,6 +44,7 @@
     "test:platform-ops": "node geelooy/api/social/helper/test/platformOps.test.js",
     "test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
     "bh": "node scripts/ship.mjs && node scripts/bh.mjs",
+    "rbm": "node geelooy/apps/tunnel/agent/rebuild-manifest.cjs",
     "ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs",
     "verify:agents-tunnel-access": "node scripts/verify-agents-tunnel-access.mjs",
     "stress:tunnel-control": "node scripts/stress-tunnel-control-actions.mjs",

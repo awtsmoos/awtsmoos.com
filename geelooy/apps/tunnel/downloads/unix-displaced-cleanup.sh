@@ -9,6 +9,7 @@ safe_displaced_runtime() {
 	local candidate="${1:-}"
 	case "$candidate" in
 		"${ROOT}.activation-rollback-"*) return 0 ;;
+		"${ROOT}.incomplete-"*) return 0 ;;
 	esac
 	return 1
 }

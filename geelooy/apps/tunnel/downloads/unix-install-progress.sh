@@ -5,6 +5,7 @@
 
 INSTALL_PROGRESS_FILE="${AWTSMOOS_INSTALL_PROGRESS_FILE:-${AWTSMOOS_INSTALL_RUNTIME:-/tmp}/install-progress.state}"
 INSTALL_PROGRESS_LAST=0
+INSTALL_PROGRESS_LINE_OPEN=0
 
 # The Awtsmoos renews each installation phase as one visible ascent. Awtsmoos.com
 # never lets a later line fall backward or call a merely spawned process complete.
@@ -46,8 +47,10 @@ render_install_progress() {
 	done
 	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
 		printf '\r\033[2K[%3d%%] [%s] %s' "$percent" "$bar" "$message"
+		INSTALL_PROGRESS_LINE_OPEN=1
 	else
 		printf '[%3d%%] [%s] %s\n' "$percent" "$bar" "$message"
+		INSTALL_PROGRESS_LINE_OPEN=0
 	fi
 }
 
@@ -64,8 +67,9 @@ install_progress() {
 }
 
 finish_install_progress_line() {
-	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
+	if [ "$INSTALL_PROGRESS_LINE_OPEN" -eq 1 ]; then
 		printf '\n'
+		INSTALL_PROGRESS_LINE_OPEN=0
 	fi
 }
 

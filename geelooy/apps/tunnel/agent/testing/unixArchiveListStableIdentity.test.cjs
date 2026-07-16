@@ -23,6 +23,14 @@ const policySource = path.join(
 	tunnelRoot,
 	"agent/recovery/archiveFilePolicy.js"
 );
+const metricsSource = path.join(
+	tunnelRoot,
+	"agent/recovery/archiveMetrics.js"
+);
+const transientPolicySource = path.join(
+	tunnelRoot,
+	"agent/recovery/archiveTransientPolicy.js"
+);
 const temporaryRoot = fs.mkdtempSync(
 	path.join(os.tmpdir(), "awts-unix-archive-list-")
 );
@@ -90,14 +98,19 @@ function writeRuntimeFixture() {
 }
 
 function installCandidatePolicy() {
-	const target = path.join(
+	const directory = path.join(
 		candidateRoot,
-		"recovery/archiveFilePolicy.js"
+		"recovery"
 	);
-	fs.mkdirSync(path.dirname(target), {
+	fs.mkdirSync(directory, {
 		recursive: true
 	});
-	fs.copyFileSync(policySource, target);
+	fs.copyFileSync(policySource, path.join(directory, "archiveFilePolicy.js"));
+	fs.copyFileSync(metricsSource, path.join(directory, "archiveMetrics.js"));
+	fs.copyFileSync(
+		transientPolicySource,
+		path.join(directory, "archiveTransientPolicy.js")
+	);
 }
 
 function write(relative, content) {
