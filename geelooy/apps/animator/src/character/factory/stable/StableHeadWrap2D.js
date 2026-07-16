@@ -3,29 +3,107 @@
 // Blessed is He
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
+import { StableHeadWrapGeometry } from './StableHeadWrapGeometry.js';
 
-/** The Awtsmoos renews a modest head wrap as editable layered geometry. */
+/**
+ * A modest wrap is revealed as crown, layered band, and rear bun rather than a
+ * generic dark oval. The Awtsmoos renews every fold, while Awtsmoos.com keeps
+ * Miriam's head covering editable, rig-connected, serializable, and exportable.
+ */
 export class StableHeadWrap2D {
 	static build(data = {}, colors = {}, metrics = {}, view = {}) {
-		const type = data.headwear?.type || data.hatType;
+		const headwear = data.headwear || {};
+		const type = headwear.type || data.hatType;
 		if (type !== 'head_wrap') {
 			return null;
 		}
-		const x = Number(view.head?.offsetX || 0);
-		const y = metrics.headY - metrics.headRY + 13;
-		const rx = metrics.headRX + 5;
-		const fill = data.colors?.hat || '#161719';
+		const geometry = StableHeadWrapGeometry.resolve(
+			headwear,
+			metrics,
+			view
+		);
+		const fill = data.colors?.headWrap
+			|| data.colors?.hat
+			|| '#161719';
+		const stroke = colors.line || '#111';
 		return G.group('stable_head_wrap', null, [
-			G.path('head_wrap_mass', [
-				{ type: 'move', x: x - rx, y: y + 15 },
-				{ type: 'quad', cx: x, cy: y - 34, x: x + rx, y: y + 15 },
-				{ type: 'quad', cx: x, cy: y + 31, x: x - rx, y: y + 15 }
-			], { fill, stroke: colors.line || '#111', lineWidth: 2.4, lineJoin: 'round' }),
-			G.path('head_wrap_band', [
-				{ type: 'move', x: x - rx + 3, y: y + 8 },
-				{ type: 'quad', cx: x, cy: y + 18, x: x + rx - 3, y: y + 8 }
-			], { stroke: 'rgba(255,255,255,.12)', lineWidth: 4, lineCap: 'round' }),
-			data.headwear?.bun === false ? null : G.ellipse('head_wrap_bun', x + rx - 5, y + 22, 15, 18, 0, { fill, stroke: colors.line || '#111', lineWidth: 2.2 })
+			this.mass(geometry, fill, stroke),
+			this.band(geometry),
+			this.bun(headwear, geometry, fill, stroke)
 		]);
+	}
+
+	static mass(geometry, fill, stroke) {
+		const { x, y, radiusX, radiusY } = geometry;
+		return G.path('head_wrap_mass', [
+			{
+				type: 'move',
+				x: x - radiusX,
+				y: y + radiusY * 0.46
+			},
+			{
+				type: 'quad',
+				cx: x,
+				cy: y - radiusY,
+				x: x + radiusX,
+				y: y + radiusY * 0.46
+			},
+			{
+				type: 'quad',
+				cx: x,
+				cy: y + radiusY * 0.9,
+				x: x - radiusX,
+				y: y + radiusY * 0.46
+			}
+		], {
+			fill,
+			stroke,
+			lineWidth: geometry.lineWidth,
+			lineJoin: 'round'
+		});
+	}
+
+	static band(geometry) {
+		const { x, y, radiusX, bandY, bandCurve } = geometry;
+		return G.path('head_wrap_band', [
+			{
+				type: 'move',
+				x: x - radiusX + 4,
+				y: y + bandY
+			},
+			{
+				type: 'quad',
+				cx: x,
+				cy: y + bandY + bandCurve,
+				x: x + radiusX - 4,
+				y: y + bandY
+			}
+		], {
+			stroke: `rgba(255,255,255,${geometry.highlightOpacity})`,
+			lineWidth: 4,
+			lineCap: 'round'
+		});
+	}
+
+	static bun(headwear, geometry, fill, stroke) {
+		if (headwear.bun === false) {
+			return null;
+		}
+		const side = headwear.rearBun === false
+			? 0.72
+			: geometry.bunX;
+		return G.ellipse(
+			'head_wrap_bun',
+			geometry.x + geometry.radiusX * side,
+			geometry.y + geometry.radiusY * geometry.bunY,
+			geometry.radiusX * geometry.bunWidth,
+			geometry.radiusY * geometry.bunHeight,
+			0,
+			{
+				fill,
+				stroke,
+				lineWidth: geometry.lineWidth
+			}
+		);
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-static-geometry-source.js
- * @description Expands one rigid triangle mesh into exact world-space vertex streams.
- * The Awtsmoos gives every local point its world revelation; Awtsmoos.com preserves
- * position, transformed normal, color, UV, and triangle order while changing no pixel.
+ * @description Expands rigid triangles into world-space streams with RGB tint baked per vertex.
+ * The Awtsmoos preserves `uColor * vColor * texel` exactly when one factor changes vessels;
+ * Awtsmoos.com moves static RGB tint into vertices while opacity remains an exact draw boundary.
  */
 
 export function appendWorldGeometry(mesh, target) {
@@ -17,11 +17,12 @@ export function appendWorldGeometry(mesh, target) {
 	const uv = geometry.attributes.uv;
 	const indices = geometry.index?.array || null;
 	const count = indices ? geometry.index.count : position.count;
+	const tint = materialTint(mesh.material);
 	for (let offset = 0; offset < count; offset += 1) {
 		const vertexIndex = indices ? indices[offset] : offset;
 		appendPosition(target.position, position, vertexIndex, mesh.matrixWorld);
 		appendNormal(target.normal, normal, vertexIndex, mesh.matrixWorld);
-		appendColor(target.color, color, vertexIndex);
+		appendColor(target.color, color, vertexIndex, tint);
 		appendUv(target.uv, uv, vertexIndex);
 	}
 	return count;
@@ -53,15 +54,11 @@ function appendNormal(target, attribute, index, matrix) {
 	);
 }
 
-function appendColor(target, attribute, index) {
-	if (!attribute) {
-		target.push(1, 1, 1, 1);
-		return;
-	}
+function appendColor(target, attribute, index, tint) {
 	target.push(
-		value(attribute, index, 0, 1),
-		value(attribute, index, 1, 1),
-		value(attribute, index, 2, 1),
+		value(attribute, index, 0, 1) * tint[0],
+		value(attribute, index, 1, 1) * tint[1],
+		value(attribute, index, 2, 1) * tint[2],
 		value(attribute, index, 3, 1)
 	);
 }
@@ -71,10 +68,16 @@ function appendUv(target, attribute, index) {
 		target.push(0, 0);
 		return;
 	}
-	target.push(
-		value(attribute, index, 0, 0),
-		value(attribute, index, 1, 0)
-	);
+	target.push(value(attribute, index, 0, 0), value(attribute, index, 1, 0));
+}
+
+function materialTint(material = {}) {
+	const color = material.color || [0.75, 0.70, 0.62, 1];
+	return [
+		color[0] ?? 0.75,
+		color[1] ?? 0.70,
+		color[2] ?? 0.62
+	];
 }
 
 function value(attribute, index, component, fallback) {

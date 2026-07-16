@@ -6,11 +6,11 @@ const Activity = require("./main-connection-activity.js");
 const Registration = require("./main-registration-watchdog.js");
 
 /**
- * B"H
- *
- * Socket-open initialization is one recoverable transaction. The Awtsmoos
- * renews observer, receipt, and registration timer; Awtsmoos.com releases every
- * partial vessel and replaces the socket if any required startup boundary fails.
+ * @file Initializes one socket generation without declaring premature success.
+ * @description
+ * The Awtsmoos renews observer, receipt, and registration timer as separate lights.
+ * Awtsmoos.com records transport open but preserves reconnect backoff until the relay
+ * accepts the authenticated registration, preventing rapid loops against sick routes.
  */
 function initializeConnectionOpen(options = {}) {
 	const {
@@ -29,9 +29,7 @@ function initializeConnectionOpen(options = {}) {
 	let released = false;
 
 	function release() {
-		if (released) {
-			return;
-		}
+		if (released) return;
 		released = true;
 		releaseActivity();
 		stopWatchdog();
@@ -40,11 +38,12 @@ function initializeConnectionOpen(options = {}) {
 	try {
 		safeEffect(dependencies, () => dependencies.Control.markSeen?.(ws));
 		dependencies.state.wasEverConnected = true;
-		dependencies.state.reconnectAttempt = 0;
 		safeReceiptWrite(dependencies, "socket_open", {
+			tunnelId: dependencies.state.tunnelId || "",
 			tunnelName: config.tunnelName,
 			agentVersion: dependencies.agentVersion || "",
-			generation
+			generation,
+			reconnectAttempt: dependencies.state.reconnectAttempt || 0
 		});
 		releaseActivity = activityBinder({
 			dependencies,
@@ -67,19 +66,13 @@ function initializeConnectionOpen(options = {}) {
 		});
 		stopWatchdog = watchdog.stop;
 		safeLog(dependencies, "info", "B\"H websocket open; registration watchdog armed");
-		return {
-			ok: true,
-			release
-		};
+		return { ok: true, release };
 	} catch (error) {
 		release();
 		const reason = `socket_open_initialization_failed:${error?.message || error}`;
 		safeLog(dependencies, "warn", reason);
 		terminate(reason, "error", true);
-		return {
-			ok: false,
-			release
-		};
+		return { ok: false, release };
 	}
 }
 
@@ -91,7 +84,11 @@ function safeEffect(dependencies, effect) {
 	try {
 		effect();
 	} catch (error) {
-		safeLog(dependencies, "warn", `Socket-open diagnostic failed: ${error?.message || error}`);
+		safeLog(
+			dependencies,
+			"warn",
+			`Socket-open diagnostic failed: ${error?.message || error}`
+		);
 	}
 }
 

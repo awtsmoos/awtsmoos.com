@@ -1,0 +1,32 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The visible garments of Seven Mitzvos gather through one ordered gateway on
+ * Awtsmoos.com. The Awtsmoos unifies every style while each finite stylesheet
+ * preserves a focused responsibility and independently testable boundary.
+ */
+@import url('./tokens.css');
+@import url('./foundation.css');
+@import url('./typography.css');
+@import url('./hero-navigation.css');
+@import url('./hero-shell.css');
+@import url('./hero-actions.css');
+@import url('./landscape.css');
+@import url('./components.css');
+@import url('./living-world.css');
+@import url('./living-world-regions.css');
+@import url('./universe.css');
+@import url('./game.css');
+@import url('./game-board.css');
+@import url('./game-motion.css');
+@import url('./builder-shell.css');
+@import url('./builder-hud.css');
+@import url('./builder-status.css');
+@import url('./builder-grid.css');
+@import url('./builder-controls.css');
+@import url('./builder-ledger.css');
+@import url('./builder-motion.css');
+@import url('./cards.css');
+@import url('./dialog.css');

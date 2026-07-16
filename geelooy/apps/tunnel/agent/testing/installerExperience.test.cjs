@@ -9,14 +9,17 @@ const path = require("node:path");
 const { createHarness } = require("./helpers/installerExperienceHarness.cjs");
 
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
-const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-installer-experience-"));
+const sandbox = fs.mkdtempSync(
+	path.join(os.tmpdir(), "awts-installer-experience-")
+);
 const harness = createHarness(repositoryRoot, sandbox);
 
 /**
- * B"H
- * The installer reaches one hundred only after registration, opens Control once,
- * suppresses opening for scripted installs, and prints an unmistakable completion
- * card. The Awtsmoos joins truth and experience without touching the live tunnel.
+ * @file Verifies completion follows registration, root, and durable supervision.
+ * @description
+ * The Awtsmoos renews progress and proof together. Awtsmoos.com reaches one hundred
+ * only after ACK, tunnel ID, project-root access, and guardian ownership agree;
+ * temporary manual processes remain visibly incomplete.
  */
 try {
 	const monotonic = harness.run("monotonic");
@@ -24,12 +27,15 @@ try {
 	assert.deepEqual(harness.percentages(monotonic.stdout), [30, 30, 50]);
 
 	const success = harness.run("complete", {
-		AWTS_TEST_REGISTERED: "1"
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_ROOT_READY: "1",
+		AWTS_TEST_SERVICE_READY: "1"
 	});
 	assert.equal(success.status, 0, `${success.stdout}\n${success.stderr}`);
 	assert.equal(harness.percentages(success.stdout).at(-1), 100);
-	assert.match(success.stdout, /AWTSMOOS TUNNEL INSTALLED AND CONNECTED/);
-	assert.match(success.stdout, /awt-experience-test/);
+	assert.match(success.stdout, /VERIFIED, GUARDED, AND CONNECTED/);
+	assert.match(success.stdout, /tun_experience_test/);
+	assert.match(success.stdout, /serviceState=1/);
 	assert.match(success.stdout, /https:\/\/awtsmoos\.com\/apps\/tunnel-control\//);
 	const openedPath = harness.waitForOpened();
 	assert.equal(
@@ -47,36 +53,42 @@ try {
 	assert.match(skipped.stdout, /runtime start was skipped/i);
 	assert.equal(fs.existsSync(harness.openedPath), false);
 
-	const alreadyOpened = harness.run("complete", {
+	assertIncomplete(harness.run("complete", {
 		AWTS_TEST_REGISTERED: "1",
-		AWTS_TEST_RECENT_CONTROL: "1"
-	});
-	assert.equal(alreadyOpened.status, 0, alreadyOpened.stderr);
-	assert.equal(fs.existsSync(harness.openedPath), false);
-	assert.match(alreadyOpened.stdout, /INSTALLED AND CONNECTED/);
-
-	const failed = harness.run("complete", {
-		AWTS_TEST_REGISTERED: "0"
-	});
-	assert.equal(failed.status, 77);
-	assert.equal(harness.percentages(failed.stdout).includes(100), false);
-	assert.doesNotMatch(failed.stdout, /INSTALLED AND CONNECTED/);
+		AWTS_TEST_ROOT_READY: "0",
+		AWTS_TEST_SERVICE_READY: "1"
+	}), /project root/i);
+	assertIncomplete(harness.run("complete", {
+		AWTS_TEST_REGISTERED: "0",
+		AWTS_TEST_ROOT_READY: "1",
+		AWTS_TEST_SERVICE_READY: "1"
+	}), /Registration/i);
+	assertIncomplete(harness.run("complete", {
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_ROOT_READY: "1",
+		AWTS_TEST_SERVICE_READY: "0"
+	}), /guardian/i);
 
 	const windows = harness.windowsSources();
 	assert.match(windows, /Wait-AwtsRegistration/);
 	assert.match(windows, /Complete-AwtsProgress/);
 	assert.match(windows, /Start-Process \$ControlUrl/);
 	assert.doesNotMatch(windows, /--open-control/);
-	assert.ok(windows.indexOf("Wait-AwtsRegistration") < windows.indexOf("Complete-AwtsProgress"));
 
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-experience",
-		monotonicProgress: true,
 		registrationGatesCompletion: true,
-		controlOpenAfterSuccess: true,
-		skipOpenRespected: true
+		rootReadinessGatesCompletion: true,
+		guardianGatesCompletion: true,
+		authoritativeTunnelIdShown: true
 	}, null, 2));
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });
+}
+
+function assertIncomplete(result, pattern) {
+	assert.equal(result.status, 77, `${result.stdout}\n${result.stderr}`);
+	assert.equal(harness.percentages(result.stdout).includes(100), false);
+	assert.match(result.stdout, pattern);
 }

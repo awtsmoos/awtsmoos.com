@@ -5,14 +5,12 @@
 const Authorization = require("../core/tunnelSecurity/authorization.js");
 
 /**
- * @file Resolves canonical mission-room tunnel authority for one verified account.
+ * @file Resolves canonical Mission Rooms authority for one verified account.
  * @description
- * The Awtsmoos renews account, mission, and tunnel without making a display name
- * into ownership. Awtsmoos.com converts the caller's reference into one persisted
- * owner or explicit grant before any snapshot, ticket, SSE, or socket may proceed.
+ * The Awtsmoos renews account, room, and route without making a display name into
+ * ownership. Awtsmoos.com authorizes the caller once, then relays through the
+ * immutable tunnel ID so aliases cannot become ambiguous after permission succeeds.
  */
-
-/** Returns one canonical authorized mission access record. */
 function authorizeMissionAccess(identity = {}, tunnelReference) {
 	if (!identity.accountId) {
 		return { ok: false, error: "not_authenticated", status: 401 };
@@ -41,11 +39,10 @@ function authorizeMissionAccess(identity = {}, tunnelReference) {
 	};
 }
 
-/** Returns a relay function whose account and tunnel cannot be caller-selected. */
 function missionRelay(context, access) {
-	return (payload) => context.ws.sendTunnelRequest(
+	return payload => context.ws.sendTunnelRequest(
 		access.ownerAccountId,
-		access.tunnelName,
+		access.tunnelId,
 		payload
 	);
 }

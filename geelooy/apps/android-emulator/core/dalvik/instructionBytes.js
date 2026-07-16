@@ -4,7 +4,7 @@
 
 /**
  * Reads bounded Dalvik instruction bytes and signed code units. The Awtsmoos
- * creates program counter, width, and integer anew; Awtsmoos.com makes every
+ * creates program counter, width, integer, and long anew; Awtsmoos.com makes every
  * decoder prove its complete instruction exists before operands receive meaning.
  */
 export class DalvikInstructionBytes {
@@ -22,9 +22,15 @@ export class DalvikInstructionBytes {
 	range(offset, length, label = "Dalvik instruction") {
 		const start = Number(offset);
 		const size = Number(length);
-		if (!Number.isSafeInteger(start) || !Number.isSafeInteger(size)
-			|| start < 0 || size < 0 || start + size > this.bytes.length) {
-			throw dalvikError("DALVIK_CODE_RANGE", `${label}:${offset}:${length}:${this.bytes.length}`);
+		if (!Number.isSafeInteger(start)
+			|| !Number.isSafeInteger(size)
+			|| start < 0
+			|| size < 0
+			|| start + size > this.bytes.length) {
+			throw dalvikError(
+				"DALVIK_CODE_RANGE",
+				`${label}:${offset}:${length}:${this.bytes.length}`
+			);
 		}
 		return this.bytes.subarray(start, start + size);
 	}
@@ -55,11 +61,7 @@ export class DalvikInstructionBytes {
 
 	i64(offset) {
 		this.range(offset, 8);
-		const value = this.view.getBigInt64(offset, true);
-		if (value < BigInt(Number.MIN_SAFE_INTEGER) || value > BigInt(Number.MAX_SAFE_INTEGER)) {
-			throw dalvikError("DALVIK_INTEGER_UNSAFE", String(value));
-		}
-		return Number(value);
+		return this.view.getBigInt64(offset, true);
 	}
 }
 

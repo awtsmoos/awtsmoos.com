@@ -9,19 +9,15 @@ const Permission = require("./permissions.js");
 const Provenance = require("./bindingProvenance.js");
 
 /**
- * @file Resolves possession-backed tunnel discovery and resource authorization.
+ * @file Resolves possession-backed, account-scoped tunnel authorization.
  * @description
- * The Awtsmoos creates all vessels from one source, yet no account may seize
- * another. Awtsmoos.com requires verified pairing provenance before ownership or
- * a grant can make any binding visible, addressable, or actionable.
+ * The Awtsmoos creates every account and vessel anew without mixing their names.
+ * Awtsmoos.com resolves immutable tunnel IDs before friendly aliases, reveals only
+ * proven ownership or explicit grants, and returns no cross-account existence clue.
  */
-
-/** Returns proven owned and explicitly shared bindings for one verified account. */
 function accessibleBindings(accountId, store = readStore()) {
 	const normalizedAccount = Id.accountId(accountId);
-	if (!normalizedAccount) {
-		return [];
-	}
+	if (!normalizedAccount) return [];
 	const bindings = Object.values(store.tunnelBindings)
 		.filter(Provenance.isTrustedBinding);
 	const activeGrants = Grant.activeGrantsFor(normalizedAccount, store);
@@ -38,35 +34,32 @@ function accessibleBindings(accountId, store = readStore()) {
 	});
 }
 
-/** Resolves one accessible tunnel by immutable ID or unambiguous display name. */
 function resolveAccessible(accountId, reference, store = readStore()) {
 	const normalizedReference = Id.normalizeIdentifier(reference);
-	const matches = accessibleBindings(accountId, store).filter((entry) => {
-		return entry.binding.tunnelId === normalizedReference ||
-			entry.binding.tunnelName === normalizedReference;
+	if (!normalizedReference) return missing();
+	const accessible = accessibleBindings(accountId, store);
+	const exactId = accessible.find((entry) => {
+		return entry.binding.tunnelId === normalizedReference;
 	});
-	if (matches.length !== 1) {
-		return {
-			ok: false,
-			error: matches.length ? "ambiguous_tunnel_reference" : "tunnel_not_found"
-		};
+	if (exactId) return { ok: true, ...exactId, matchedBy: "tunnelId" };
+	const nameMatches = accessible.filter((entry) => {
+		return entry.binding.tunnelName === normalizedReference;
+	});
+	if (nameMatches.length !== 1) {
+		return nameMatches.length
+			? { ok: false, error: "ambiguous_tunnel_reference" }
+			: missing();
 	}
-	return { ok: true, ...matches[0] };
+	return { ok: true, ...nameMatches[0], matchedBy: "tunnelName" };
 }
 
-/** Authorizes one permission before a resource is disclosed or touched. */
 function authorize(accountId, reference, permission, store = readStore()) {
 	const resolved = resolveAccessible(accountId, reference, store);
-	if (!resolved.ok || resolved.access === "owned") {
-		return resolved;
-	}
-	if (!Permission.includesPermission(resolved.grant, permission)) {
-		return { ok: false, error: "tunnel_not_found" };
-	}
+	if (!resolved.ok || resolved.access === "owned") return resolved;
+	if (!Permission.includesPermission(resolved.grant, permission)) return missing();
 	return resolved;
 }
 
-/** Returns a narrow public view of proven access without owner disclosure. */
 function publicAccess(entry) {
 	return {
 		tunnelId: entry.binding.tunnelId,
@@ -84,6 +77,10 @@ function publicAccess(entry) {
 		ownershipVerified: true,
 		pairingProofVersion: entry.binding.pairingProofVersion
 	};
+}
+
+function missing() {
+	return { ok: false, error: "tunnel_not_found" };
 }
 
 module.exports = {

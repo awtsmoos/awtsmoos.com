@@ -3,44 +3,45 @@
 // Blessed is He
 
 const Http = require("./self-update-http.js");
+const Descriptor = require("./self-update-descriptor.js");
 
 /**
- * B"H
- *
- * Reads signed-shape release metadata without touching the live runtime. The
- * bundle is an ohr still outside the vessel; only the transactional installer
- * may verify, probe, activate, and roll it back on Awtsmoos.com.
+ * @file Reads optional release-bundle metadata without disturbing the live agent.
+ * @description
+ * The Awtsmoos renews notification and installation as separate vessels.
+ * Awtsmoos.com treats bundle metadata as advisory during a background check, while
+ * the transactional installer remains the only authority that downloads and swaps.
  */
-async function readDescriptor(origin, options = {}) {
-	const manifestText = await Http.fetchText(
-		`${origin}/api/tunnel/install/bundle-manifest`,
-		options
-	);
-	const descriptor = JSON.parse(manifestText);
-	const bundle = descriptor.bundles?.find(item => item.name === "agent");
-
-	if (!descriptor.ok || !descriptor.version || !descriptor.manifestSha256 ||
-		!bundle?.url || !bundle.sha256 || !bundle.bytes) {
-		throw new Error("invalid_update_bundle_descriptor");
+async function tryReadDescriptor(origin, options = {}) {
+	try {
+		const manifestText = await Http.fetchText(
+			`${origin}/api/tunnel/install/bundle-manifest`,
+			options
+		);
+		return Descriptor.parse(manifestText, origin);
+	} catch (error) {
+		return Descriptor.unavailable(
+			"descriptor_request_failed",
+			error?.message || String(error)
+		);
 	}
+}
 
-	return {
-		version: descriptor.version,
-		manifestSha256: descriptor.manifestSha256,
-		bundle: {
-			name: "agent",
-			url: bundle.url,
-			sha256: bundle.sha256,
-			bytes: Number(bundle.bytes)
-		}
-	};
+async function readDescriptor(origin, options = {}) {
+	const result = await tryReadDescriptor(origin, options);
+	if (!result.ok) {
+		const error = new Error(result.error || "invalid_update_bundle_descriptor");
+		error.code = result.error || "invalid_update_bundle_descriptor";
+		error.details = result;
+		throw error;
+	}
+	return result;
 }
 
 function installerCommand(origin) {
 	if (process.platform === "win32") {
 		return `irm ${origin}/api/tunnel/install/windows | iex`;
 	}
-
 	return `curl -fsSL ${origin}/api/tunnel/install/unix | bash`;
 }
 
@@ -68,5 +69,6 @@ module.exports = {
 	installBundle,
 	installBundles,
 	installerCommand,
-	readDescriptor
+	readDescriptor,
+	tryReadDescriptor
 };

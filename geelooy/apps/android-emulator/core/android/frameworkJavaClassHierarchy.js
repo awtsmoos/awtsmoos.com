@@ -8,20 +8,52 @@ import {
 } from "./frameworkJavaClassValues.js";
 
 const OBJECT = "Ljava/lang/Object;";
-const SPECIAL_PARENTS = Object.freeze({
-	"Ljava/lang/Class;": [OBJECT],
-	"Ljava/lang/ClassLoader;": [OBJECT],
-	"Ljava/lang/String;": [OBJECT, "Ljava/lang/CharSequence;", "Ljava/io/Serializable;", "Ljava/lang/Comparable;"],
-	"Ljava/util/ArrayList;": ["Ljava/util/List;", OBJECT],
-	"Ljava/util/HashMap;": ["Ljava/util/Map;", OBJECT],
-	"Ljava/util/LinkedHashMap;": ["Ljava/util/Map;", OBJECT],
-	"Ljava/util/WeakHashMap;": ["Ljava/util/Map;", OBJECT]
+const SPECIAL_SUPERCLASSES = Object.freeze({
+	"Landroid/app/Activity;": "Landroid/view/ContextThemeWrapper;",
+	"Landroid/app/Application;": "Landroid/content/ContextWrapper;",
+	"Landroid/app/Service;": "Landroid/content/ContextWrapper;",
+	"Landroid/content/ContextWrapper;": "Landroid/content/Context;",
+	"Landroid/view/ContextThemeWrapper;": "Landroid/content/ContextWrapper;",
+	"Ljava/lang/Class;": OBJECT,
+	"Ljava/lang/ClassLoader;": OBJECT,
+	"Ljava/lang/String;": OBJECT,
+	"Ljava/util/AbstractCollection;": OBJECT,
+	"Ljava/util/AbstractExecutorService;": OBJECT,
+	"Ljava/util/ArrayList;": "Ljava/util/AbstractCollection;",
+	"Ljava/util/HashMap;": OBJECT,
+	"Ljava/util/HashSet;": OBJECT,
+	"Ljava/util/LinkedHashMap;": "Ljava/util/HashMap;",
+	"Ljava/util/LinkedHashSet;": "Ljava/util/HashSet;",
+	"Ljava/util/WeakHashMap;": OBJECT,
+	"Ljava/util/concurrent/CopyOnWriteArrayList;": OBJECT,
+	"Ljava/util/concurrent/CopyOnWriteArraySet;": OBJECT,
+	"Ljava/util/concurrent/FutureTask;": OBJECT,
+	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": "Ljava/util/concurrent/ThreadPoolExecutor;",
+	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/AbstractExecutorService;"
+});
+const SPECIAL_INTERFACES = Object.freeze({
+	"Ljava/lang/String;": ["Ljava/lang/CharSequence;", "Ljava/io/Serializable;", "Ljava/lang/Comparable;"],
+	"Ljava/util/AbstractCollection;": ["Ljava/util/Collection;"],
+	"Ljava/util/AbstractExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
+	"Ljava/util/ArrayList;": ["Ljava/util/List;"],
+	"Ljava/util/HashMap;": ["Ljava/util/Map;"],
+	"Ljava/util/HashSet;": ["Ljava/util/Set;"],
+	"Ljava/util/WeakHashMap;": ["Ljava/util/Map;"],
+	"Ljava/util/concurrent/CopyOnWriteArrayList;": ["Ljava/util/List;"],
+	"Ljava/util/concurrent/CopyOnWriteArraySet;": ["Ljava/util/Set;"],
+	"Ljava/util/concurrent/ExecutorService;": ["Ljava/util/concurrent/Executor;"],
+	"Ljava/util/concurrent/FutureTask;": ["Ljava/util/concurrent/RunnableFuture;", "Ljava/util/concurrent/Future;", "Ljava/lang/Runnable;"],
+	"Ljava/util/concurrent/RunnableFuture;": ["Ljava/lang/Runnable;", "Ljava/util/concurrent/Future;"],
+	"Ljava/util/concurrent/ScheduledExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
+	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": ["Ljava/util/concurrent/ScheduledExecutorService;"],
+	"Ljava/util/concurrent/locks/ReentrantLock;": ["Ljava/util/concurrent/locks/Lock;"],
+	"Ljava/util/concurrent/locks/ReentrantReadWriteLock;": ["Ljava/util/concurrent/locks/ReadWriteLock;"]
 });
 
 /**
- * Walks measured DEX superclass and interface testimony. The Awtsmoos creates
- * parent, interface road, array covenant, and assignability anew; Awtsmoos.com
- * adds only a small explicit platform hierarchy where Android's boot classes hide.
+ * Walks measured DEX hierarchy plus explicit boot-class testimony. The Awtsmoos
+ * creates superclass, interface road, array covenant, and assignability anew;
+ * Awtsmoos.com names platform edges without pretending interfaces are superclasses.
  */
 export function isClassAssignable(runtime, targetDescriptor, sourceDescriptor) {
 	const target = String(targetDescriptor);
@@ -47,7 +79,7 @@ export function directSuperclass(runtime, descriptor) {
 	if (isPrimitiveClassDescriptor(value) || value === OBJECT) return null;
 	if (value.startsWith("[")) return OBJECT;
 	return runtime.registry?.superType(value)
-		|| SPECIAL_PARENTS[value]?.find(parent => parent.startsWith("L") && parent !== value)
+		|| SPECIAL_SUPERCLASSES[value]
 		|| null;
 }
 
@@ -57,8 +89,7 @@ export function directInterfaces(runtime, descriptor) {
 		return ["Ljava/lang/Cloneable;", "Ljava/io/Serializable;"];
 	}
 	const measured = runtime.registry?.classDefinition(value)?.interfaces || [];
-	const special = SPECIAL_PARENTS[value] || [];
-	return [...new Set([...measured, ...special.filter(parent => parent !== OBJECT)])];
+	return [...new Set([...measured, ...(SPECIAL_INTERFACES[value] || [])])];
 }
 
 export function isKnownClassDescriptor(runtime, descriptor) {
@@ -68,10 +99,7 @@ export function isKnownClassDescriptor(runtime, descriptor) {
 		return isKnownClassDescriptor(runtime, componentClassDescriptor(value));
 	}
 	return Boolean(runtime.registry?.classDefinition(value))
-		|| value.startsWith("Ljava/")
-		|| value.startsWith("Ljavax/")
-		|| value.startsWith("Landroid/")
-		|| value.startsWith("Lkotlin/");
+		|| /^(?:Ljava|Ljavax|Landroid|Lkotlin|Lj\$)\//.test(value);
 }
 
 function directParents(runtime, descriptor) {
@@ -82,13 +110,7 @@ function directParents(runtime, descriptor) {
 }
 
 function arrayAssignable(runtime, target, source) {
-	if ([OBJECT, "Ljava/lang/Cloneable;", "Ljava/io/Serializable;"].includes(target)) {
-		return true;
-	}
+	if ([OBJECT, "Ljava/lang/Cloneable;", "Ljava/io/Serializable;"].includes(target)) return true;
 	if (!target.startsWith("[")) return false;
-	return isClassAssignable(
-		runtime,
-		componentClassDescriptor(target),
-		componentClassDescriptor(source)
-	);
+	return isClassAssignable(runtime, target.slice(1), source.slice(1));
 }

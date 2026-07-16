@@ -2,98 +2,74 @@
 // Boruch Hashem
 // Blessed is He
 
-/** @file WaterShaderRecipe.js @description Flowing Fresnel water with procedural normals and foam. */
-import { waterFirebaseMaterialRecipe } from './FirebaseMaterialRecipe.js';
+/**
+ * @file WaterShaderRecipe.js
+ * @description Declares deterministic alpine lake, stream, cascade, foam, and sun-glint layers.
+ * The Awtsmoos renews one connected water cycle through many visible scales; Awtsmoos.com
+ * keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests.
+ */
 
-const VERTEX_SHADER = `
-precision highp float;
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 uv;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform float time;
-uniform float waveAmplitude;
-varying vec3 vNormal;
-varying vec3 vViewPosition;
-varying vec2 vUv;
-varying float vWave;
-void main() {
-	float phaseX = position.x * 0.45 + time;
-	float phaseZ = position.z * 0.37 - time * 0.8;
-	float waveX = sin(phaseX) * waveAmplitude;
-	float waveZ = cos(phaseZ) * waveAmplitude * 0.6;
-	vec3 displaced = position;
-	displaced.y += waveX + waveZ;
-	vec3 waveNormal = normalize(vec3(
-		-cos(phaseX) * 0.45 * waveAmplitude,
-		1.0,
-		sin(phaseZ) * 0.37 * waveAmplitude * 0.6
-	));
-	vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
-	vNormal = normalize(normal + waveNormal - vec3(0.0, 1.0, 0.0));
-	vViewPosition = -viewPosition.xyz;
-	vUv = uv;
-	vWave = (waveX + waveZ) / max(waveAmplitude * 1.6, 0.0001);
-	gl_Position = projectionMatrix * viewPosition;
-}`;
+export { createWaterShaderRecipe } from './LegacyWaterShaderRecipe.js';
 
-const FRAGMENT_SHADER = `
-precision highp float;
-uniform sampler2D albedoMap;
-uniform vec3 deepColor;
-uniform vec3 shallowColor;
-uniform float opacity;
-uniform float time;
-uniform vec2 flowDirection;
-varying vec3 vNormal;
-varying vec3 vViewPosition;
-varying vec2 vUv;
-varying float vWave;
-void main() {
-	vec2 flowUv = vUv + flowDirection * time * 0.035;
-	float phaseA = (flowUv.x + flowUv.y) * 34.0 + time * 1.7;
-	float phaseB = (flowUv.x * 0.72 - flowUv.y) * 47.0 - time * 1.25;
-	float cosineA = cos(phaseA);
-	float sineB = sin(phaseB);
-	float slopeX = cosineA * 0.62 - sineB * 0.274;
-	float slopeY = cosineA * 0.62 + sineB * 0.38;
-	vec3 proceduralDetail = normalize(vec3(-slopeX * 0.42, 1.0, -slopeY * 0.42));
-	vec3 normalVector = normalize(vNormal + vec3(proceduralDetail.x, 0.0, proceduralDetail.z) * 0.5);
-	float fresnel = pow(1.0 - max(dot(normalize(vViewPosition), normalVector), 0.0), 3.0);
-	vec3 albedoA = texture2D(albedoMap, flowUv * 0.6).rgb;
-	vec3 albedoB = texture2D(albedoMap, flowUv * 0.44 + vec2(0.31, 0.17)).rgb;
-	vec3 albedo = mix(albedoA, albedoB, 0.34);
-	float microCrest = cosineA * 0.62 + sineB * 0.38;
-	float crest = smoothstep(0.48, 0.94, vWave * 0.62 + microCrest * 0.22 + 0.32);
-	float foam = crest * (0.22 + fresnel * 0.2);
-	vec3 water = mix(shallowColor * albedo, deepColor, 0.43 + fresnel * 0.42);
-	water = mix(water, vec3(0.92), foam);
-	gl_FragColor = vec4(water, opacity);
-}`;
-
-export function createWaterShaderRecipe(options = {}) {
-	return {
-		fragmentShader: FRAGMENT_SHADER,
-		material: waterFirebaseMaterialRecipe(),
-		channelPolicy: {
-			albedoMap: 'public-color-photograph-two-flow-samples',
-			normal: 'procedural-two-trig-wave-gradient-no-photo-map',
-			foam: 'procedural-wave-crest-no-photo-map'
-		},
-		transparent: true,
-		uniforms: {
-			deepColor: options.deepColor || [0.015, 0.16, 0.24],
-			flowDirection: options.flowDirection || [0.7, 0.25],
-			opacity: number(options.opacity, 0.86),
-			shallowColor: options.shallowColor || [0.12, 0.52, 0.58],
-			time: 0,
-			waveAmplitude: number(options.waveAmplitude, 0.055)
-		},
-		vertexShader: VERTEX_SHADER
-	};
+export function waterShaderRecipe(kind = 'lake', options = {}) {
+	const profile = WATER_PROFILES[kind] || WATER_PROFILES.lake;
+	return Object.freeze({
+		depth: Object.freeze({
+			deepColor: options.deepColor || profile.deepColor,
+			shallowColor: options.shallowColor || profile.shallowColor,
+			strength: bounded(options.depthStrength, profile.depthStrength)
+		}),
+		flow: Object.freeze(profile.flow.map(vector => Object.freeze([...vector]))),
+		foam: Object.freeze({
+			edge: bounded(options.edgeFoam, profile.edgeFoam),
+			noiseScale: positive(options.foamNoiseScale, profile.foamNoiseScale),
+			threshold: bounded(options.foamThreshold, profile.foamThreshold)
+		}),
+		kind: profile.kind,
+		reflection: Object.freeze({
+			fresnel: bounded(options.fresnel, profile.fresnel),
+			goldenSunGlint: positive(options.goldenSunGlint, profile.goldenSunGlint),
+			skyStrength: bounded(options.skyStrength, profile.skyStrength)
+		}),
+		refraction: bounded(options.refraction, profile.refraction),
+		ripples: Object.freeze({
+			macro: positive(options.macroRipple, profile.macroRipple),
+			micro: positive(options.microRipple, profile.microRipple)
+		}),
+		shader: 'alpine-dual-source-four-flow-physical-water'
+	});
 }
 
-function number(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
+const WATER_PROFILES = Object.freeze({
+	lake: Object.freeze({
+		deepColor: '#06384a', depthStrength: 0.78, edgeFoam: 0.26,
+		flow: [[0.018, 0.011], [-0.012, 0.021], [0.009, -0.014], [-0.006, -0.009]],
+		foamNoiseScale: 0.075, foamThreshold: 0.88, fresnel: 0.82,
+		goldenSunGlint: 1.72, kind: 'lake', macroRipple: 0.085,
+		microRipple: 0.018, refraction: 0.18, shallowColor: '#2d8796', skyStrength: 0.72
+	}),
+	stream: Object.freeze({
+		deepColor: '#075065', depthStrength: 0.52, edgeFoam: 0.58,
+		flow: [[0.032, 0.009], [-0.018, 0.027], [0.021, -0.008], [-0.011, -0.019]],
+		foamNoiseScale: 0.11, foamThreshold: 0.72, fresnel: 0.74,
+		goldenSunGlint: 1.48, kind: 'stream', macroRipple: 0.11,
+		microRipple: 0.026, refraction: 0.12, shallowColor: '#4bafbd', skyStrength: 0.58
+	}),
+	cascade: Object.freeze({
+		deepColor: '#2c8092', depthStrength: 0.34, edgeFoam: 0.82,
+		flow: [[0.051, 0.013], [-0.026, 0.041], [0.034, -0.012], [-0.017, -0.031]],
+		foamNoiseScale: 0.16, foamThreshold: 0.58, fresnel: 0.66,
+		goldenSunGlint: 1.31, kind: 'cascade', macroRipple: 0.16,
+		microRipple: 0.041, refraction: 0.08, shallowColor: '#9acfd3', skyStrength: 0.42
+	})
+});
+
+function bounded(value, fallback) {
+	const number = Number(value);
+	return Math.max(0, Math.min(1, Number.isFinite(number) ? number : fallback));
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Math.max(0, Number.isFinite(number) ? number : fallback);
 }

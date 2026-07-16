@@ -7,12 +7,13 @@
  * @description Coordinates the truthful overhead RPG frame outside the engine loop.
  *
  * The Awtsmoos continuously creates canvas, controls, quest, map, and fellowship
- * as one world. Awtsmoos.com refreshes only changed truth so the renderer remains
- * breathable and no interface vessel becomes a second simulation.
+ * as one world. Awtsmoos.com refreshes only changed and visible truth, preserving
+ * strength while the page is concealed.
  */
 import { RevelationEvents } from './RevelationEvents.js';
 import { renderRevelationDynamic } from './RevelationDynamicRenderer.js';
 import { createRevelationMarkup } from './RevelationMarkup.js';
+import { RevelationRefreshLifecycle } from './RevelationRefreshLifecycle.js';
 import { buildRevelationViewModel } from './RevelationViewModel.js';
 
 function setText(root, selector, value) {
@@ -22,9 +23,15 @@ function setText(root, selector, value) {
 	}
 }
 
+function boundedPercent(value) {
+	const numericValue = Number(value);
+	if (!Number.isFinite(numericValue)) return 0;
+	return Math.min(100, Math.max(0, numericValue));
+}
+
 export class RevelationShell {
 	static root = null;
-	static timer = null;
+	static refreshLifecycle = null;
 	static lastModelKey = '';
 	static mounted = false;
 
@@ -36,15 +43,10 @@ export class RevelationShell {
 		RevelationEvents.bind(this.root);
 		this.mounted = true;
 		this.update();
-		this.schedule();
-	}
-
-	static schedule() {
-		window.clearTimeout(this.timer);
-		this.timer = window.setTimeout(() => {
-			this.update();
-			this.schedule();
-		}, 180);
+		this.refreshLifecycle = new RevelationRefreshLifecycle({
+			callback: () => this.update()
+		});
+		this.refreshLifecycle.start();
 	}
 
 	static update() {
@@ -85,15 +87,17 @@ export class RevelationShell {
 
 	static setWidth(selector, value) {
 		const element = this.root?.querySelector(selector);
-		if (element) element.style.width = `${value}%`;
+		if (!element) return;
+		const width = `${boundedPercent(value)}%`;
+		if (element.style.width !== width) element.style.width = width;
 	}
 
 	static unmount() {
-		window.clearTimeout(this.timer);
+		this.refreshLifecycle?.stop();
 		RevelationEvents.unbind();
 		if (this.root) this.root.innerHTML = '';
 		this.root = null;
-		this.timer = null;
+		this.refreshLifecycle = null;
 		this.lastModelKey = '';
 		this.mounted = false;
 	}

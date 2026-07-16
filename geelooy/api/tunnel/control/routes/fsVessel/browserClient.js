@@ -2,46 +2,47 @@
 // Boruch Hashem
 // Blessed is He
 
-const { VESSEL_TYPES, isBrowserVesselDescriptor } = require("./vesselTypes.js");
+const {
+	VESSEL_TYPES,
+	isBrowserVesselDescriptor
+} = require("./vesselTypes.js");
 const { browserCapabilities } = require("./capabilities.js");
 const { verifyTunnelResponse } = require("./responseContract.js");
 
 /**
- * @file Projects browser tunnels only inside a verified account boundary.
+ * @file Projects browser tunnels only inside one authenticated account boundary.
  * @description
- * The Awtsmoos renews every tab without letting one account borrow another's
- * workspace. Awtsmoos.com filters by server-attached account identity before
- * selecting freshness, revealing metadata, or forwarding a filesystem deed.
+ * The Awtsmoos renews every tab, route ID, and readable label without confusion.
+ * Awtsmoos.com filters by server-attached account identity, deduplicates by stable
+ * route reference, and uses display names only after exact identity is selected.
  */
-
-/** Lists the newest browser socket for each name owned by one account. */
 function listBrowserTunnelClients($i, accountId) {
 	const latest = new Map();
-	if (!$i.ws?.clients || !accountId) {
-		return [];
-	}
+	if (!$i.ws?.clients || !accountId) return [];
 	for (const client of $i.ws.clients) {
-		if (!client.isTunnel || client.accountId !== accountId) {
-			continue;
-		}
-		if (!client.tunnelName || !isBrowserVesselDescriptor(client)) {
-			continue;
-		}
-		const previous = latest.get(client.tunnelName);
+		if (
+			!client.isTunnel ||
+			client.accountId !== accountId ||
+			!client.tunnelName ||
+			!isBrowserVesselDescriptor(client)
+		) continue;
+		const routeReference = client.tunnelId || client.tunnelName;
+		const previous = latest.get(routeReference);
 		if (!previous || Number(client.registeredAt || 0) >=
 			Number(previous.registeredAt || 0)) {
-			latest.set(client.tunnelName, client);
+			latest.set(routeReference, client);
 		}
 	}
 	return [...latest.values()];
 }
 
-/** Returns a disclosure-safe browser tunnel descriptor. */
 function publicBrowserTunnel(client = {}) {
+	const routeReference = client.tunnelId || client.tunnelName || "";
 	return {
 		connected: true,
 		tunnelId: client.tunnelId || "",
 		tunnelName: client.tunnelName || "",
+		routeReference,
 		deviceId: client.deviceId || "",
 		deviceName: client.deviceName || "Browser Tab",
 		root: client.root || "browser://workspace",
@@ -59,27 +60,34 @@ function publicBrowserTunnel(client = {}) {
 	};
 }
 
-/** Lists public browser tunnels for one account. */
 function listBrowserTunnels($i, accountId) {
-	return listBrowserTunnelClients($i, accountId)
-		.map(publicBrowserTunnel);
+	return listBrowserTunnelClients($i, accountId).map(publicBrowserTunnel);
 }
 
-/** Finds one browser tunnel inside one verified account. */
-function findBrowserTunnelClient($i, accountId, tunnelName) {
-	return listBrowserTunnelClients($i, accountId)
-		.find((client) => client.tunnelName === tunnelName) || null;
+function findBrowserTunnelClient($i, accountId, reference) {
+	const normalized = String(reference || "").trim();
+	const clients = listBrowserTunnelClients($i, accountId);
+	const exactId = clients.find((client) => client.tunnelId === normalized);
+	if (exactId) return exactId;
+	const names = clients.filter((client) => client.tunnelName === normalized);
+	return names.length === 1 ? names[0] : null;
 }
 
-/** Sends through the account-scoped relay key. */
-async function sendBrowserTunnel($i, accountId, tunnelName, payload, timeoutMs) {
+async function sendBrowserTunnel(
+	$i,
+	accountId,
+	routeReference,
+	payload,
+	timeoutMs,
+	displayName = routeReference
+) {
 	const result = await $i.ws.sendTunnelRequest(
 		accountId,
-		tunnelName,
+		routeReference,
 		payload,
 		timeoutMs
 	);
-	return verifyTunnelResponse(result, payload, tunnelName);
+	return verifyTunnelResponse(result, payload, displayName);
 }
 
 module.exports = {

@@ -2,9 +2,9 @@
 /*Boruch Hashem*/
 /*Blessed is He*/
 /*
-	The page rests on fast, opaque-enough vessels rather than costly repeated
-	blur. Awtsmoos.com remains luminous while the Awtsmoos teaches that clarity
-	and speed can dwell together without sacrificing beauty.
+	The page rests on calm, deliberate vessels. Awtsmoos.com removes every
+	accidental browser ornament so the Awtsmoos may be encountered through clear
+	hierarchy, generous touch targets, and links that belong to the interface.
 */
 * {
 	box-sizing: border-box;
@@ -22,7 +22,15 @@ body {
 	font-family: var(--sans);
 	line-height: 1.65;
 	background: transparent;
-	overflow-x: hidden;
+	overflow-x: clip;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+	color: inherit;
+	text-decoration: none;
 }
 
 button,
@@ -38,6 +46,12 @@ button:focus-visible,
 a:focus-visible {
 	outline: 3px solid var(--gold);
 	outline-offset: 4px;
+}
+
+img,
+svg,
+canvas {
+	max-width: 100%;
 }
 
 main,
@@ -72,8 +86,15 @@ footer p {
 }
 
 @media (max-width: 720px) {
+	.contentPanel {
+		width: calc(100% - 1rem);
+		border-radius: 1.25rem;
+	}
+
 	footer {
 		flex-direction: column;
+		width: calc(100% - 2rem);
+		margin-top: 3rem;
 	}
 }
 

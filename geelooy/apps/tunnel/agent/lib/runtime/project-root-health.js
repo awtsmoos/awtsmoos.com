@@ -4,47 +4,36 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const Guidance = require("./project-root-guidance.js");
 
 const FILE_NAME = "project-root-state.json";
 
 /**
  * @file Proves that the installed agent process can use its configured root.
  * @description
- * The Awtsmoos renews permission and path every instant; Awtsmoos.com therefore
+ * The Awtsmoos renews permission and path every instant. Awtsmoos.com therefore
  * records an observed filesystem covenant instead of mistaking a live socket for
- * a usable workspace. The receipt remains diagnostic even when macOS denies access.
+ * a usable workspace, even when the operating system blocks background access.
  */
 function probeProjectRoot(config = {}, installRoot = defaultInstallRoot()) {
 	const root = path.resolve(String(config.root || process.cwd()));
 	const allowWrite = config.allowWrite === true;
+	let receipt = createReceipt(root, allowWrite);
 	let sentinel = "";
-	let receipt = baseReceipt(root, allowWrite);
 
 	try {
-		const stat = fs.statSync(root);
-		if (!stat.isDirectory()) {
-			throw healthError("ENOTDIR", "Configured project root is not a directory.");
-		}
+		assertDirectory(root);
 		fs.readdirSync(root, { withFileTypes: true });
 		receipt.readable = true;
 		if (allowWrite) {
-			sentinel = path.join(
-				root,
-				`.awtsmoos-root-probe-${process.pid}-${Date.now()}`
-			);
-			const testimony = `B"H ${process.pid}\n`;
-			fs.writeFileSync(sentinel, testimony, { flag: "wx", mode: 0o600 });
-			if (fs.readFileSync(sentinel, "utf8") !== testimony) {
-				throw healthError("EVERIFY", "Project-root sentinel verification failed.");
-			}
-			fs.unlinkSync(sentinel);
-			sentinel = "";
+			sentinel = verifyWrite(root);
 			receipt.writable = true;
+			sentinel = "";
 		}
 		receipt.ok = true;
 		receipt.state = "ready";
 	} catch (error) {
-		receipt = failedReceipt(receipt, error);
+		receipt = createFailure(receipt, error);
 	} finally {
 		removeSentinel(sentinel);
 	}
@@ -53,7 +42,32 @@ function probeProjectRoot(config = {}, installRoot = defaultInstallRoot()) {
 	return receipt;
 }
 
-function baseReceipt(root, allowWrite) {
+function assertDirectory(root) {
+	const stat = fs.statSync(root);
+	if (!stat.isDirectory()) {
+		const error = new Error("Configured project root is not a directory.");
+		error.code = "ENOTDIR";
+		throw error;
+	}
+}
+
+function verifyWrite(root) {
+	const sentinel = path.join(
+		root,
+		`.awtsmoos-root-probe-${process.pid}-${Date.now()}`
+	);
+	const testimony = `B"H ${process.pid}\n`;
+	fs.writeFileSync(sentinel, testimony, { flag: "wx", mode: 0o600 });
+	if (fs.readFileSync(sentinel, "utf8") !== testimony) {
+		const error = new Error("Project-root sentinel verification failed.");
+		error.code = "EVERIFY";
+		throw error;
+	}
+	fs.unlinkSync(sentinel);
+	return "";
+}
+
+function createReceipt(root, allowWrite) {
 	return {
 		schemaVersion: 1,
 		state: "checking",
@@ -71,26 +85,16 @@ function baseReceipt(root, allowWrite) {
 	};
 }
 
-function failedReceipt(receipt, error) {
+function createFailure(receipt, error) {
 	const code = String(error?.code || "ROOT_CHECK_FAILED");
 	return {
 		...receipt,
 		state: "blocked",
 		code,
 		message: String(error?.message || "Project-root readiness failed."),
-		guidance: guidanceFor(code, receipt.root),
+		guidance: Guidance.guidanceFor(code, receipt.root, receipt),
 		updatedAt: new Date().toISOString()
 	};
-}
-
-function guidanceFor(code, root) {
-	if (process.platform === "darwin" && ["EPERM", "EACCES"].includes(code)) {
-		return `macOS denied ${root}. Grant the tunnel launcher access or choose a root outside Desktop, Documents, and Downloads.`;
-	}
-	if (code === "ENOENT") {
-		return `Create the configured project root or update config.json: ${root}`;
-	}
-	return `Verify that the installed agent process can read${" and write"} ${root}.`;
 }
 
 function writeReceipt(installRoot, receipt) {
@@ -106,12 +110,6 @@ function removeSentinel(sentinel) {
 	try {
 		fs.unlinkSync(sentinel);
 	} catch {}
-}
-
-function healthError(code, message) {
-	const error = new Error(message);
-	error.code = code;
-	return error;
 }
 
 function defaultInstallRoot() {

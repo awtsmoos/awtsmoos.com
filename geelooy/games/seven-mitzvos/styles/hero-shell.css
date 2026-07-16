@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The first chapter on Awtsmoos.com welcomes rather than overwhelms. The
+	Awtsmoos fills every world, while this vessel reveals one clear path at a time
+	through measured width, calm spacing, and mobile-safe typography.
+*/
+.heroSection {
+	min-height: min(100svh, 940px);
+	padding: 0 clamp(1rem, 4vw, 3rem) clamp(3.5rem, 8vw, 7rem);
+}
+
+.heroContent {
+	width: min(1180px, 100%);
+	min-width: 0;
+	margin: clamp(2.5rem, 8vh, 5.5rem) auto 0;
+}
+
+.heroContent h1 {
+	max-width: 11.5ch;
+	line-height: 0.94;
+}
+
+.heroContent h1 em {
+	max-width: 9.5ch;
+}
+
+.heroLead {
+	max-width: 62ch;
+	margin-bottom: 1.25rem;
+	color: var(--muted);
+	font-size: clamp(1rem, 1.8vw, 1.22rem);
+	line-height: 1.55;
+}
+
+.heroContent .eyebrow {
+	max-width: 80ch;
+	margin-bottom: 1rem;
+}
+
+@media (max-width: 760px) {
+	.heroSection {
+		min-height: auto;
+		padding-inline: 1rem;
+		padding-bottom: 3rem;
+	}
+
+	.heroContent {
+		margin-top: 1.8rem;
+	}
+
+	.heroContent h1 {
+		max-width: 8.4ch;
+		margin-bottom: 1rem;
+		font-size: clamp(2.55rem, 11.5vw, 4.5rem);
+		line-height: 0.92;
+	}
+
+	.heroContent h1 em {
+		max-width: 7.5ch;
+	}
+
+	.heroLead {
+		max-width: 36rem;
+		margin-bottom: 1rem;
+		font-size: 0.98rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.heroContent h1 {
+		font-size: 2.35rem;
+	}
+}

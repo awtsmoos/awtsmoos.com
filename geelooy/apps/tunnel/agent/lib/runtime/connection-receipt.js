@@ -6,15 +6,15 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { ROOT } = require("../config.js");
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 const FILE_NAME = "connection-state.json";
 
 /**
- * @file Persists server-acknowledged connection identity atomically.
+ * @file Persists authoritative connection and recovery state atomically.
  * @description
- * The Awtsmoos renews socket, name, and authoritative tunnel ID each instant.
- * Awtsmoos.com records both the friendly alias and stable route key so installers
- * and control surfaces never mistake an opened process for an accepted tunnel.
+ * The Awtsmoos renews route ID, generation, last inbound testimony, and reconnect
+ * pressure together. Awtsmoos.com lets installers and supervisors distinguish a
+ * healthy registered process from an opened, stale, or repeatedly failing socket.
  */
 function receiptPath(root = ROOT) {
 	return path.join(root, FILE_NAME);
@@ -88,8 +88,11 @@ function normalize(value = {}) {
 		tunnelName: String(value.tunnelName || ""),
 		agentVersion: String(value.agentVersion || ""),
 		generation: Number(value.generation || 0),
+		reconnectAttempt: Number(value.reconnectAttempt || 0),
+		reconnectDelayMs: Number(value.reconnectDelayMs || 0),
 		updatedAt: value.updatedAt || null,
 		registeredAt: value.registeredAt || null,
+		lastRegisteredAt: value.lastRegisteredAt || null,
 		lastServerMessageAt: value.lastServerMessageAt || null,
 		serverTime: value.serverTime || null,
 		reason: String(value.reason || "")
@@ -109,6 +112,7 @@ module.exports = {
 	clear,
 	markServerSeen,
 	matches,
+	normalize,
 	read,
 	receiptPath,
 	write

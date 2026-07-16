@@ -14,8 +14,8 @@ import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates content, hierarchy, network, files, graphics, heap, and logs anew;
- * Awtsmoos.com keeps every host capability explicit inside the virtual boundary.
+ * creates content, resources, hierarchy, network, files, graphics, heap, and logs
+ * anew; Awtsmoos.com keeps every host capability explicit inside the boundary.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
@@ -35,6 +35,7 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		processId: processIdentifier(options.processId),
 		registry: options.registry || null,
 		renderers: [],
+		resources: options.resources || null,
 		views: null
 	};
 	runtime.views = createAndroidViewState(heap);
@@ -89,8 +90,9 @@ export function createAndroidLaunchReport(input) {
 		}),
 		preferences: snapshotPreferenceState(runtime.preferences),
 		rendering,
+		resources: runtime.resources?.snapshot() || null,
 		vm: executor.snapshot(),
-		unsupportedBoundary: "Complete ART, Android framework, Binder, compiled resources, native libraries, complete preferences and databases, full java.net and java.io, pause-stop-destroy lifecycle, services, cookies, caching, audio, sensors, and full graphics remain unsupported."
+		unsupportedBoundary: "Complete ART, Binder, native ARM64/Dart AOT execution, complete databases and java.io, services, cookies, caching, audio, sensors, and full graphics remain unsupported."
 	});
 }
 

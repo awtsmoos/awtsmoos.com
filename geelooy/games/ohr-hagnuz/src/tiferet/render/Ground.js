@@ -1,77 +1,90 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- * @module Ground
+ * @file Ground.js
+ * @description Paints the active Projector's canonical ground with regional overhead truth.
  *
- * Chapter 66: The grass stopped shouting in rectangles.
- * The Awtsmoos has no body and no form; each tile now carries a calmer pixel
- * garden: broad coherent greens, small blades, rare flowers, and road dust that
- * supports the mockup instead of fighting it.
+ * The Awtsmoos renews one playable earth beneath every step. At Awtsmoos.com,
+ * region changes its garment, never its collision, quest, portal, or authority.
  */
-import { WORLD_COLORS as C, pick, seeded } from './world/WorldPalette.js';
-import { flower, glow, grassBlade, pixel, stone } from './world/WorldPrimitives.js';
+import { State } from '../../binah/State.js';
+import { resolveRegionVisualTheme } from '../../graphics/render/theme/RegionVisualTheme.js';
+import {
+	liveGroundChoice,
+	liveGroundSeed
+} from './world/LiveGroundSeed.js';
+import { RegionalGroundDetails } from './world/RegionalGroundDetails.js';
+
+const PATH_GLYPHS = new Set(['2', '⇧', '⇩', '⇦', '⇨']);
+const FLOOR_GLYPHS = new Set(['.', ' ']);
 
 export class Ground {
-  static draw(ctx, x, y, size, char, seed) {
-    const fx = Math.floor(x);
-    const fy = Math.floor(y);
-    const s = Math.max(8, Math.floor(size + 1));
-    if (char === '2' || ['⇧', '⇩', '⇦', '⇨'].includes(char)) this.drawPath(ctx, fx, fy, s, seed);
-    else if (char === '.' || char === ' ') this.drawFloor(ctx, fx, fy, s, seed);
-    else this.drawGrass(ctx, fx, fy, s, seed);
-  }
+	/**
+	 * Draws one visible tile while preserving the live Projector signature.
+	 *
+	 * @param {CanvasRenderingContext2D} context Background canvas context.
+	 * @param {number} x Tile screen x coordinate.
+	 * @param {number} y Tile screen y coordinate.
+	 * @param {number} size Tile size in pixels.
+	 * @param {string} groundGlyph Canonical ground glyph from TileLexicon.
+	 * @param {number} tileSeed Existing coordinate-derived deterministic seed.
+	 * @returns {void}
+	 */
+	static draw(context, x, y, size, groundGlyph, tileSeed) {
+		const mapId = String(State.MapId || '');
+		const theme = resolveRegionVisualTheme(mapId);
+		const bounds = {
+			x: Math.floor(x),
+			y: Math.floor(y),
+			size: Math.max(8, Math.floor(size + 1))
+		};
+		const regionSeed = liveGroundSeed(mapId, tileSeed, 7);
+		if (PATH_GLYPHS.has(groundGlyph)) {
+			this.drawRoad(context, bounds, theme, mapId, regionSeed);
+			return;
+		}
+		if (FLOOR_GLYPHS.has(groundGlyph)) {
+			this.drawFloor(context, bounds, theme, mapId, regionSeed);
+			return;
+		}
+		this.drawGrowth(context, bounds, theme, mapId, regionSeed);
+	}
 
-  static drawGrass(ctx, x, y, size, seed) {
-    pixel(ctx, x, y, size, size, pick(C.grass, seed));
-    this.softShade(ctx, x, y, size);
-    this.smallMoss(ctx, x, y, size, seed);
-    for (let i = 0; i < 4; i += 1) this.blade(ctx, x, y, size, seed + i * 13);
-    if (seeded(seed + 44) > .9) flower(ctx, x + size * .55, y + size * .6, size, seed);
-    if (seeded(seed + 77) > .965) glow(ctx, x + size * .55, y + size * .35, size * .22, 'rgba(255,236,130,.22)');
-  }
+	static drawGrowth(context, bounds, theme, mapId, tileSeed) {
+		this.fillBase(context, bounds, liveGroundChoice(theme.grass, mapId, tileSeed, 1));
+		this.drawEdgeLight(context, bounds, 'rgba(255,255,255,0.035)', 'rgba(0,0,0,0.11)');
+		RegionalGroundDetails.draw(context, bounds, '1', theme, mapId, tileSeed);
+	}
 
-  static drawFloor(ctx, x, y, size, seed) {
-    pixel(ctx, x, y, size, size, '#143125');
-    this.softShade(ctx, x, y, size);
-    for (let i = 0; i < 3; i += 1) this.smallMoss(ctx, x, y, size, seed + i * 7);
-    if (seeded(seed + 5) > .82) stone(ctx, x + size * .55, y + size * .58, size * .24, seed);
-  }
+	static drawRoad(context, bounds, theme, mapId, tileSeed) {
+		this.fillBase(context, bounds, liveGroundChoice(theme.road, mapId, tileSeed, 2));
+		this.drawEdgeLight(context, bounds, 'rgba(255,236,190,0.06)', 'rgba(45,28,18,0.13)');
+		RegionalGroundDetails.draw(context, bounds, '2', theme, mapId, tileSeed);
+	}
 
-  static drawPath(ctx, x, y, size, seed) {
-    pixel(ctx, x, y, size, size, C.path);
-    const g = ctx.createLinearGradient(x, y, x, y + size);
-    g.addColorStop(0, 'rgba(255,230,170,.12)');
-    g.addColorStop(.7, 'rgba(0,0,0,0)');
-    g.addColorStop(1, 'rgba(40,22,10,.18)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x, y, size, size);
-    for (let i = 0; i < 8; i += 1) {
-      const px = x + seeded(seed + i * 3) * size;
-      const py = y + seeded(seed + i * 5) * size;
-      pixel(ctx, px, py, 1 + (i % 2), 1 + (i % 3 === 0 ? 1 : 0), i % 2 ? C.pathDark : C.pathLight);
-    }
-  }
+	static drawFloor(context, bounds, theme, mapId, tileSeed) {
+		const isInterior = /House|Interior/i.test(mapId);
+		const palette = isInterior ? theme.props : theme.grass;
+		const color = liveGroundChoice(palette, mapId, tileSeed, 3);
+		this.fillBase(context, bounds, color);
+		this.drawEdgeLight(context, bounds, 'rgba(255,255,255,0.025)', 'rgba(0,0,0,0.14)');
+		RegionalGroundDetails.draw(context, bounds, '.', theme, mapId, tileSeed);
+	}
 
-  static softShade(ctx, x, y, size) {
-    const g = ctx.createLinearGradient(x, y, x + size, y + size);
-    g.addColorStop(0, 'rgba(255,255,255,.04)');
-    g.addColorStop(.65, 'rgba(0,0,0,0)');
-    g.addColorStop(1, 'rgba(0,0,0,.13)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x, y, size, size);
-  }
+	static fillBase(context, bounds, color) {
+		context.fillStyle = color || '#173a2f';
+		context.fillRect(bounds.x, bounds.y, bounds.size, bounds.size);
+	}
 
-  static smallMoss(ctx, x, y, size, seed) {
-    const w = size * (.12 + seeded(seed) * .12);
-    const h = size * (.08 + seeded(seed + 1) * .1);
-    const px = x + seeded(seed + 2) * (size - w);
-    const py = y + seeded(seed + 3) * (size - h);
-    ctx.fillStyle = seeded(seed + 4) > .5 ? 'rgba(90,150,82,.2)' : 'rgba(8,40,30,.16)';
-    ctx.fillRect(px, py, w, h);
-  }
-
-  static blade(ctx, x, y, size, seed) {
-    const bx = x + 7 + seeded(seed) * (size - 14);
-    const by = y + 10 + seeded(seed + 1) * (size - 14);
-    grassBlade(ctx, bx, by, 3 + seeded(seed + 2) * 5, seeded(seed + 3) > .5 ? C.leaf : C.leafLight);
-  }
+	static drawEdgeLight(context, bounds, lightColor, shadeColor) {
+		const { x, y, size } = bounds;
+		context.fillStyle = lightColor;
+		context.fillRect(x, y, size, 1);
+		context.fillRect(x, y, 1, size);
+		context.fillStyle = shadeColor;
+		context.fillRect(x, y + size - 2, size, 2);
+		context.fillRect(x + size - 2, y, 2, size);
+	}
 }

@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Navigation on Awtsmoos.com is an intentional doorway, never a browser-default
+	text fragment. The Awtsmoos gives every path its place while this vessel keeps
+	the opening bar quiet, touchable, and free from crowding.
+*/
+.topBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	width: min(1180px, 100%);
+	margin-inline: auto;
+	padding-block: 1rem;
+}
+
+.backLink,
+.backLink:link,
+.backLink:visited,
+.backLink:hover,
+.backLink:focus,
+.backLink:active {
+	color: var(--ink);
+	text-decoration: none;
+	text-decoration-line: none;
+}
+
+.backLink {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 0.55rem 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	font-size: 0.82rem;
+	font-weight: 800;
+	line-height: 1;
+	background: rgba(5, 15, 24, 0.76);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+	transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.backLink:hover {
+	border-color: rgba(241, 199, 109, 0.72);
+	background: rgba(12, 31, 42, 0.92);
+	transform: translateY(-1px);
+}
+
+.backLink:active {
+	transform: translateY(0);
+}
+
+.worldMark {
+	max-width: 34rem;
+	margin-left: auto;
+	text-align: right;
+}
+
+@media (max-width: 760px) {
+	.topBar {
+		padding-block: 0.7rem;
+	}
+
+	.worldMark {
+		display: none;
+	}
+
+	.backLink {
+		max-width: 100%;
+		padding-inline: 0.8rem;
+	}
+}

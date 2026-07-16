@@ -4,26 +4,38 @@
 
 /**
  * @file tiny-layered-terrain-shader.test.mjs
- * @description Proves six samplers, seven sequential mixes, zone flow, and mode isolation.
- * The Awtsmoos is one beneath every stacked garment; Awtsmoos.com verifies layered earth
- * receives its own mode while ordinary materials preserve the inexpensive historic path.
+ * @description Proves ten active samplers, ecological controls, and smaller-GPU compilation.
+ * The Awtsmoos is one beneath every stacked garment; Awtsmoos.com verifies rich earth
+ * without assuming every finite GPU owns the same number of sampler vessels.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { fragmentShader } from '../tiny-fragment-shader.js';
+import {
+	fragmentShader,
+	fragmentShaderForLayerCount
+} from '../tiny-fragment-shader.js';
 import { unifiedUniformVertexShader } from '../tiny-unified-shaders.js';
 import { materialModeCode } from '../tiny-render-webgl-utils.js';
 
-test('fragment shader contains six fixed terrain samplers and seven stacked mixes', () => {
-	for (let index = 0; index < 6; index += 1) {
+test('default fragment shader contains ten terrain samplers and eleven mixes', () => {
+	for (let index = 0; index < 10; index += 1) {
 		assert.match(fragmentShader, new RegExp(`sampler2D uTerrainLayer${index}`));
-		assert.match(fragmentShader, new RegExp(`uTerrainLayerStrength${index}`));
+		assert.match(fragmentShader, new RegExp(`uTerrainLayerZones${index}`));
+		assert.match(fragmentShader, new RegExp(`uTerrainLayerSlope${index}`));
+		assert.match(fragmentShader, new RegExp(`uTerrainLayerHeight${index}`));
+		assert.match(fragmentShader, new RegExp(`uTerrainLayerWetness${index}`));
 	}
-	assert.equal((fragmentShader.match(/result=mix\(result,/g) || []).length, 7);
-	assert.match(fragmentShader, /layeredTerrainTexel/);
-	assert.match(fragmentShader, /terrainUv/);
-	assert.match(fragmentShader, /vWorld\.xz/);
+	assert.equal((fragmentShader.match(/result=mix\(result,/g) || []).length, 11);
+	assert.match(fragmentShader, /terrainLayerMask/);
+	assert.match(fragmentShader, /terrainBand/);
+});
+
+test('a smaller shader contains only its measured layer capacity', () => {
+	const shader = fragmentShaderForLayerCount(4);
+	assert.match(shader, /sampler2D uTerrainLayer3/);
+	assert.doesNotMatch(shader, /sampler2D uTerrainLayer4/);
+	assert.equal((shader.match(/result=mix\(result,/g) || []).length, 5);
 });
 
 test('ecological zone weights travel from vertex input to fragment shader', () => {
@@ -31,14 +43,12 @@ test('ecological zone weights travel from vertex input to fragment shader', () =
 	assert.match(vertexShader, /attribute vec4 aZone/);
 	assert.match(vertexShader, /varying vec4 vZone/);
 	assert.match(vertexShader, /vZone=aZone/);
-	assert.match(fragmentShader, /varying vec4 vZone/);
-	assert.match(fragmentShader, /vZone\.x/);
-	assert.match(fragmentShader, /vZone\.y\+vZone\.z/);
+	assert.match(fragmentShader, /dot\(vZone,zones\)/);
 });
 
 test('only explicit layered terrain enters material mode five', () => {
 	assert.equal(materialModeCode({
-		material: { texturePolicy: { shader: 'terrain-layered-multi-mix' } }
+		material: { texturePolicy: { shader: 'terrain-layered-ten-stage-material-stack' } }
 	}), 5);
 	assert.equal(materialModeCode({ material: {} }), 0);
 });

@@ -10,19 +10,16 @@ const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js"
 const FixtureSource = require("./runtimeFixtureSource.cjs");
 
 /**
- * B"H
- *
- * The fixture installer assembles one complete registered predecessor. The
- * Awtsmoos renews source, supervisor, health memory, and legacy catalog so
- * rollback tests inhabit the same recovery vessel as production.
+ * @file Installs a complete synthetic predecessor for transactional rollback tests.
+ * @description
+ * The Awtsmoos renews runtime, singleton, guardian, receipt, and recovery together.
+ * Awtsmoos.com copies every production supervisor dependency so rollback cannot pass
+ * while silently lacking the modules that prevent duplicate agents and stale sockets.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
 	const entries = source.entries.map(entry => entry.path === "main.js"
-		? {
-			path: entry.path,
-			data: Buffer.from(FixtureSource.fixtureMainSource())
-		}
+		? { path: entry.path, data: Buffer.from(FixtureSource.fixtureMainSource()) }
 		: entry);
 	const zipPath = path.join(fixture.temporaryRoot, "older-runtime.zip");
 	fs.mkdirSync(fixture.runtimeRoot, { recursive: true });
@@ -34,14 +31,11 @@ function installFixture(fixture, version) {
 }
 
 function extractRuntime(zipPath, runtimeRoot) {
-	const extract = spawnSync("unzip", [
-		"-oq",
-		zipPath,
-		"-d",
-		runtimeRoot
-	], { encoding: "utf8" });
-	if (extract.status !== 0) {
-		throw new Error(extract.stderr || "fixture_extract_failed");
+	const result = spawnSync("unzip", ["-oq", zipPath, "-d", runtimeRoot], {
+		encoding: "utf8"
+	});
+	if (result.status !== 0) {
+		throw new Error(result.stderr || "fixture_extract_failed");
 	}
 }
 
@@ -54,10 +48,15 @@ function copySupervisorFiles(fixture) {
 		"unix-legacy-catalog.sh": "awtsmoos-legacy-catalog.sh",
 		"unix-supervisor.sh": "awtsmoos-supervisor.sh",
 		"unix-supervisor-runtime.sh": "awtsmoos-supervisor-runtime.sh",
+		"unix-supervisor-agents.sh": "awtsmoos-supervisor-agents.sh",
+		"unix-supervisor-guard.sh": "awtsmoos-supervisor-guard.sh",
 		"unix-supervisor-health-memory.sh": "awtsmoos-supervisor-health-memory.sh",
+		"unix-supervisor-receipt.sh": "awtsmoos-supervisor-receipt.sh",
 		"unix-supervisor-health.sh": "awtsmoos-supervisor-health.sh",
 		"unix-supervisor-recovery.sh": "awtsmoos-supervisor-recovery.sh",
 		"unix-supervisor-legacy.sh": "awtsmoos-supervisor-legacy.sh",
+		"unix-agent-singleton.cjs": "awtsmoos-agent-singleton.cjs",
+		"unix-agent-receipt.cjs": "awtsmoos-agent-receipt.cjs",
 		"unix-agent-launcher.cjs": "awtsmoos-agent-launcher.cjs"
 	};
 	for (const [source, target] of Object.entries(pairs)) {

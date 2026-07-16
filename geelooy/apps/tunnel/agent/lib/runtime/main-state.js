@@ -4,20 +4,21 @@
 
 const WorkerStats = require("./main-worker-stats.js");
 const LaneStats = require("./main-lane-stats.js");
+const Values = require("./main-state-values.js");
 
 /**
- * B"H
- *
- * Runtime truth is one bounded snapshot. The Awtsmoos renews lane, requester,
- * worker, and socket; Awtsmoos.com reports pressure without exposing private
- * scheduling identities or allowing an older connection to reclaim ownership.
+ * @file Exposes bounded runtime pressure and connection-recovery truth.
+ * @description
+ * The Awtsmoos renews lane, worker, route, and reconnect testimony as one report.
+ * Awtsmoos.com separates state creation from aggregation so every module remains
+ * small enough to audit while snapshots reveal health without requester secrets.
  */
 function createRuntimeState(dependencies) {
 	const lagMonitor = dependencies.Lag.createLagMonitor({
 		intervalMs: 2000,
 		windowMs: 30000
 	});
-	const state = createState(dependencies, lagMonitor);
+	const state = Values.createState(dependencies, lagMonitor);
 
 	function totalInflight() {
 		return LaneStats.totalInflight(dependencies, state);
@@ -31,7 +32,7 @@ function createRuntimeState(dependencies) {
 		state.eventLoopLag = lagMonitor.snapshot();
 		const lanes = LaneStats.laneStats(dependencies, state);
 		const rawWorkers = dependencies.workers.status();
-		const base = {
+		const circuitInput = {
 			lanes,
 			eventLoopLag: state.eventLoopLag,
 			workers: rawWorkers,
@@ -46,22 +47,21 @@ function createRuntimeState(dependencies) {
 			controlQueueLimit: dependencies.Limits.CONTROL_QUEUE_LIMIT,
 			lanes,
 			eventLoopLag: state.eventLoopLag,
-			circuit: dependencies.Circuit.snapshot(base),
+			circuit: dependencies.Circuit.snapshot(circuitInput),
 			workers: WorkerStats.workerStats(rawWorkers, options.workers !== false),
 			lastSuccessfulActionAt: state.lastSuccessfulActionAt,
-			replacementRequested: state.replacementRequested,
+			connection: Values.connectionSnapshot(state),
 			longLivedConnections: dependencies.Limits.LONG_LIVED_CONNECTIONS,
 			keepAliveMs: dependencies.Limits.KEEPALIVE_MS
 		};
 	}
 
 	function snapshot() {
-		const memoryState = {
-			inflight: new Set(Array(totalInflight()).fill(0)),
-			requestQueue: Array(totalQueued()).fill(0),
-			reconnectAttempt: state.reconnectAttempt,
-			wasEverConnected: state.wasEverConnected
-		};
+		const memoryState = Values.memorySnapshotState(
+			state,
+			totalInflight(),
+			totalQueued()
+		);
 		return {
 			...dependencies.Memory.snapshot(
 				memoryState,
@@ -83,24 +83,8 @@ function createRuntimeState(dependencies) {
 	};
 }
 
-function createState(dependencies, lagMonitor) {
-	return {
-		activeWs: null,
-		reconnectTimer: null,
-		watchdogTimer: null,
-		drainScheduled: false,
-		reconnectAttempt: 0,
-		wasEverConnected: false,
-		replacementRequested: false,
-		generation: 0,
-		lastSuccessfulActionAt: 0,
-		lanes: dependencies.Priority.makeLaneState(),
-		scheduler: dependencies.Priority.createSchedulerState(),
-		eventLoopLag: lagMonitor.snapshot()
-	};
-}
-
 module.exports = {
+	connectionSnapshot: Values.connectionSnapshot,
 	createRuntimeState,
-	createState
+	createState: Values.createState
 };

@@ -1,5 +1,5 @@
 B"H
-1.0.335
+1.0.341
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -833,6 +833,7 @@ lib/runtime/local-proxy.js
 lib/runtime/main-components-foundation.js
 lib/runtime/main-components.js
 lib/runtime/main-config.js
+lib/runtime/main-connection-acknowledgement.js
 lib/runtime/main-connection-activity.js
 lib/runtime/main-connection-messages.js
 lib/runtime/main-connection-open.js
@@ -844,9 +845,11 @@ lib/runtime/main-dispatch.js
 lib/runtime/main-events.js
 lib/runtime/main-lane-stats.js
 lib/runtime/main-payload.js
+lib/runtime/main-process.js
 lib/runtime/main-queue-progress.js
 lib/runtime/main-queue-rejection.js
 lib/runtime/main-queue.js
+lib/runtime/main-reconnect-policy.js
 lib/runtime/main-registration-effects.js
 lib/runtime/main-registration-timer.js
 lib/runtime/main-registration-watchdog.js
@@ -858,6 +861,7 @@ lib/runtime/main-run-request.js
 lib/runtime/main-run-result.js
 lib/runtime/main-startup-helpers.js
 lib/runtime/main-startup.js
+lib/runtime/main-state-values.js
 lib/runtime/main-state.js
 lib/runtime/main-worker-stats.js
 lib/runtime/memory.js
@@ -870,7 +874,11 @@ lib/runtime/priority/legacyQueue.js
 lib/runtime/priority/policy.js
 lib/runtime/priority/requester.js
 lib/runtime/priority/workSets.js
+lib/runtime/process-singleton-owner.js
+lib/runtime/process-singleton.js
 lib/runtime/processIdentity.js
+lib/runtime/project-root-guidance.js
+lib/runtime/project-root-health.js
 lib/runtime/recovery-envelope.js
 lib/runtime/replacement-policy.js
 lib/runtime/request-retry-collection.js
@@ -911,6 +919,7 @@ lib/runtime/worker-registry-store.js
 lib/runtime/worker-registry.js
 lib/runtime/worker-supervisor.js
 lib/self-update-bundles.js
+lib/self-update-descriptor.js
 lib/self-update-http.js
 lib/self-update-manifest.js
 lib/self-update-origin.js
@@ -956,6 +965,14 @@ lib/virtualOsGraph/watchers.js
 lib/workers/worker-protocol.js
 lib/workers/worker-receipts.js
 lib/ws.js
+lib/ws/client.js
+lib/ws/clientLifecycle.js
+lib/ws/clientSupport.js
+lib/ws/frameCodec.js
+lib/ws/frameStream.js
+lib/ws/handshake.js
+lib/ws/socketFactory.js
+lib/ws/transportLiveness.js
 next-runtime/command/activeRegistry.js
 next-runtime/command/admission.js
 next-runtime/command/atomicMeta.js
@@ -1019,6 +1036,10 @@ release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimePaths.js
 release/runtimeProbe.js
+release/runtimeRequiredCore.js
+release/runtimeRequiredFiles.js
+release/runtimeRequiredRecovery.js
+release/runtimeRequiredTransport.js
 release/runtimeWorkerPaths.js
 release/sourcePaths.js
 scripts/auto-manifest.cjs
@@ -1121,6 +1142,7 @@ tools/command/scriptSandbox.js
 tools/command/shells.js
 tools/fs.js
 tools/fs/actionBatch.js
+tools/fs/actionBatch/payload.js
 tools/fs/actionBuilders.js
 tools/fs/actionFinish.js
 tools/fs/actionGroups/actionHistoryActions.js
@@ -1304,6 +1326,7 @@ tools/fs/fileOpsPaths.js
 tools/fs/findFiles.js
 tools/fs/gitIgnoreHygiene.js
 tools/fs/hashWrite.js
+tools/fs/hashWriteBatch.js
 tools/fs/httpActions.js
 tools/fs/httpClient.js
 tools/fs/httpCookieJar.js
@@ -1671,7 +1694,11 @@ tools/fs/symbolOutline.js
 tools/fs/tree.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js
+tools/fs/writeBatchResults.js
+tools/fs/writeBatchSnapshot.js
+tools/fs/writeBatchTransaction.js
 tools/fs/writePayload.js
+tools/fs/writePayloadCarriers.js
 tools/fs/xmlWrites.js
 tools/relay/browserApi.js
 tools/relay/chatgptRelay.js

@@ -4,12 +4,15 @@
 
 /**
  * @file tiny-render-shaders.js
- * @description Names the shader garments used by the lossless village renderer.
+ * @description Exposes both default and measured-capacity shader garments.
  * The Awtsmoos shines through still stone and animated Chassid alike; Awtsmoos.com
- * preserves every historic export while revealing their unified rendering vessel.
+ * preserves historic exports while allowing the renderer to compile its lawful layer count.
  */
 
-export { fragmentShader } from './tiny-fragment-shader.js';
+export {
+	fragmentShader,
+	fragmentShaderForLayerCount
+} from './tiny-fragment-shader.js';
 export { rigidVertexShader } from './tiny-rigid-shader.js';
 export {
 	skinTextureVertexShader,

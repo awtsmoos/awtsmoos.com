@@ -7,26 +7,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#071321">
-	<meta name="description" content="Seven complete games, a Seven Provinces campaign, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
+	<meta name="description" content="Seven living regions, seven complete games, a Seven Provinces campaign, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
 	<title>Seven Mitzvos · Seven Worlds</title>
-	<link rel="stylesheet" href="./styles/tokens.css">
-	<link rel="stylesheet" href="./styles/foundation.css">
-	<link rel="stylesheet" href="./styles/typography.css">
-	<link rel="stylesheet" href="./styles/landscape.css">
-	<link rel="stylesheet" href="./styles/components.css">
-	<link rel="stylesheet" href="./styles/universe.css">
-	<link rel="stylesheet" href="./styles/game.css">
-	<link rel="stylesheet" href="./styles/game-board.css">
-	<link rel="stylesheet" href="./styles/game-motion.css">
-	<link rel="stylesheet" href="./styles/builder-shell.css">
-	<link rel="stylesheet" href="./styles/builder-hud.css">
-	<link rel="stylesheet" href="./styles/builder-status.css">
-	<link rel="stylesheet" href="./styles/builder-grid.css">
-	<link rel="stylesheet" href="./styles/builder-controls.css">
-	<link rel="stylesheet" href="./styles/builder-ledger.css">
-	<link rel="stylesheet" href="./styles/builder-motion.css">
-	<link rel="stylesheet" href="./styles/cards.css">
-	<link rel="stylesheet" href="./styles/dialog.css">
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+	<link rel="stylesheet" href="./styles/index.css" data-components="tokens.css foundation.css typography.css landscape.css components.css living-world.css living-world-regions.css universe.css game.css game-board.css game-motion.css builder-shell.css builder-hud.css builder-status.css builder-grid.css builder-controls.css builder-ledger.css builder-motion.css cards.css dialog.css">
 </head>
 <body>
 	<div class="livingWorld" aria-hidden="true">
@@ -41,9 +25,9 @@
 			<span class="worldMark">B"H · One humanity, seven foundations</span>
 		</nav>
 		<div class="heroContent">
-			<p class="eyebrow">Seven exact mitzvos · Seven independent games</p>
+			<p class="eyebrow">Seven exact mitzvos · Seven independent games · Seven living regions</p>
 			<h1>Learn every foundation.<br><em>Enter every world.</em></h1>
-			<p class="heroLead">Play deduction, rhythm, rescue, relationship strategy, trade, animal care, and courtroom judgment—then carry mastery into the preserved civilization builder.</p>
+			<p class="heroLead">Govern a persistent civic world of regions, households, markets, ecology, courts, travel, and history—then play deduction, rhythm, rescue, relationship strategy, trade, animal care, and courtroom judgment.</p>
 			<ol class="heroMitzvahStrip" aria-label="The Seven Mitzvos of Bnei Noach">
 				<li>Do not worship idols</li>
 				<li>Do not blaspheme</li>
@@ -54,6 +38,7 @@
 				<li>Establish courts of justice</li>
 			</ol>
 			<div class="heroActions">
+				<a class="primaryAction" href="#livingWorldMount">Govern the seven regions</a>
 				<a class="primaryAction" href="#campaignMount">Open the Seven Provinces</a>
 				<a class="primaryAction" href="#sevenWorlds">Choose one of seven games</a>
 				<button id="beginGame" class="primaryAction" type="button">Play Guard the World</button>
@@ -62,6 +47,7 @@
 		</div>
 	</header>
 	<main>
+		<div id="livingWorldMount"></div>
 		<div id="campaignMount"></div>
 		<div id="universeMount"></div>
 		<section id="gameSection" class="gameSection contentPanel" aria-labelledby="gameTitle">
@@ -110,8 +96,7 @@
 		<h3>The positive work</h3>
 		<p id="dialogPractice"></p>
 	</dialog>
-	<footer><span>B"H</span><p>Seven Provinces, seven worlds, two preserved shared games, and one clear learning path on Awtsmoos.com.</p></footer>
+	<footer><span>B"H</span><p>Seven living regions, Seven Provinces, seven worlds, two preserved shared games, and one clear learning path on Awtsmoos.com.</p></footer>
 	<script type="module" src="./js/main.js"></script>
-	<script src="/register.js"></script>
 </body>
 </html>

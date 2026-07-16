@@ -2,92 +2,106 @@
 //Boruch Hashem
 //Blessed is He
 
+import { isImmediateAndroidChild } from "./filesystemPaths.js";
+import {
+	deleteFilesystemNode,
+	nextFilesystemTempPath,
+	renameFilesystemNode,
+	writeFilesystemBytes
+} from "./filesystemMutations.js";
+import {
+	allFilesystemPaths,
+	createAndroidFilesystemState,
+	ensureFilesystemDirectory,
+	normalizedFilesystemPath,
+	recordFilesystemEvent
+} from "./filesystemState.js";
+
 /**
  * Creates a package-scoped virtual Android filesystem. The Awtsmoos creates path,
- * directory, bytes, and audit event anew; Awtsmoos.com permits no host-device write
- * unless a separate capability mount explicitly accepts the normalized guest path.
+ * directory, bytes, and audit event anew; Awtsmoos.com exposes only normalized
+ * guest operations and explicit capability synchronization.
  */
 export function createAndroidFilesystem(packageName, options = {}) {
-	const root = `/data/data/${normalizePackage(packageName)}`;
-	const files = new Map();
-	const audit = [];
-	const maximumBytes = Number(options.maximumFilesystemBytes || 128 * 1024 * 1024);
-	let usedBytes = 0;
+	const state = createAndroidFilesystemState(packageName, options);
 	return Object.freeze({
+		children(path = state.root) {
+			const parent = normalizedFilesystemPath(state, path);
+			return Object.freeze(allFilesystemPaths(state).filter(candidate => {
+				return isImmediateAndroidChild(parent, candidate);
+			}).sort());
+		},
 		delete(path) {
-			const normalized = normalizePath(path, root);
-			const previous = files.get(normalized);
-			if (!previous) return false;
-			usedBytes -= previous.length;
-			files.delete(normalized);
-			record("delete", normalized, 0);
-			return true;
+			return deleteFilesystemNode(state, path);
 		},
 		exists(path) {
-			return files.has(normalizePath(path, root));
+			const target = normalizedFilesystemPath(state, path);
+			return state.files.has(target) || state.directories.has(target);
 		},
-		list(prefix = root) {
-			const normalized = normalizePath(prefix, root);
-			return Object.freeze([...files.keys()].filter(path => path.startsWith(normalized)).sort());
+		isDirectory(path) {
+			return state.directories.has(normalizedFilesystemPath(state, path));
+		},
+		isFile(path) {
+			return state.files.has(normalizedFilesystemPath(state, path));
+		},
+		length(path) {
+			return state.files.get(normalizedFilesystemPath(state, path))?.length || 0;
+		},
+		list(prefix = state.root) {
+			const selected = normalizedFilesystemPath(state, prefix);
+			return Object.freeze(allFilesystemPaths(state).filter(path => {
+				return path === selected || path.startsWith(`${selected}/`);
+			}).sort());
+		},
+		mkdir(path, recursive = false) {
+			const target = normalizedFilesystemPath(state, path);
+			if (state.files.has(target) || state.directories.has(target)) return false;
+			if (recursive) ensureFilesystemDirectory(state, target);
+			else {
+				const parent = target.slice(0, target.lastIndexOf("/")) || "/";
+				if (!state.directories.has(parent)) return false;
+				state.directories.add(target);
+				recordFilesystemEvent(state, "mkdir", target, 0);
+			}
+			return true;
 		},
 		read(path) {
-			const normalized = normalizePath(path, root);
-			const bytes = files.get(normalized);
-			if (!bytes) throw filesystemError("ANDROID_FILE_MISSING", normalized);
-			record("read", normalized, bytes.length);
+			const target = normalizedFilesystemPath(state, path);
+			const bytes = state.files.get(target);
+			if (!bytes) throw filesystemError("ANDROID_FILE_MISSING", target);
+			recordFilesystemEvent(state, "read", target, bytes.length);
 			return bytes.slice();
 		},
-		root,
+		rename(source, destination) {
+			return renameFilesystemNode(state, source, destination);
+		},
+		root: state.root,
 		snapshot() {
 			return Object.freeze({
-				audit: Object.freeze(audit.slice()),
-				fileCount: files.size,
-				paths: Object.freeze([...files.keys()].sort()),
-				root,
-				usedBytes
+				audit: Object.freeze(state.audit.slice()),
+				directories: Object.freeze([...state.directories].sort()),
+				fileCount: state.files.size,
+				paths: Object.freeze([...state.files.keys()].sort()),
+				root: state.root,
+				usedBytes: state.usedBytes
 			});
 		},
 		async syncToCapability(capability) {
-			if (!capability?.write) throw filesystemError("ANDROID_HOST_WRITE_CAPABILITY_MISSING");
-			for (const [path, bytes] of files) await capability.write(path, bytes.slice());
-			record("sync", root, usedBytes);
+			if (!capability?.write) {
+				throw filesystemError("ANDROID_HOST_WRITE_CAPABILITY_MISSING");
+			}
+			for (const [path, bytes] of state.files) {
+				await capability.write(path, bytes.slice());
+			}
+			recordFilesystemEvent(state, "sync", state.root, state.usedBytes);
+		},
+		tempPath(directory, prefix, suffix) {
+			return nextFilesystemTempPath(state, directory, prefix, suffix);
 		},
 		write(path, input) {
-			const normalized = normalizePath(path, root);
-			const bytes = input instanceof Uint8Array ? input.slice() : new TextEncoder().encode(String(input));
-			const previous = files.get(normalized);
-			const nextUsed = usedBytes - (previous?.length || 0) + bytes.length;
-			if (nextUsed > maximumBytes) throw filesystemError("ANDROID_FILESYSTEM_LIMIT", String(nextUsed));
-			files.set(normalized, bytes);
-			usedBytes = nextUsed;
-			record("write", normalized, bytes.length);
-			return bytes.length;
+			return writeFilesystemBytes(state, path, input);
 		}
 	});
-
-	function record(operation, path, size) {
-		audit.push(Object.freeze({ operation, path, sequence: audit.length, size }));
-	}
-}
-
-function normalizePath(value, root) {
-	const input = String(value || "");
-	const absolute = input.startsWith("/") ? input : `${root}/${input}`;
-	const segments = absolute.split("/").filter(Boolean);
-	const normalized = `/${segments.join("/")}`;
-	if (!normalized.startsWith(`${root}/`) && normalized !== root) {
-		throw filesystemError("ANDROID_FILE_OUTSIDE_PACKAGE", normalized);
-	}
-	if (segments.some(segment => segment === "." || segment === "..")) {
-		throw filesystemError("ANDROID_FILE_TRAVERSAL", input);
-	}
-	return normalized;
-}
-
-function normalizePackage(value) {
-	const name = String(value || "");
-	if (!/^[A-Za-z][A-Za-z0-9_.]*$/.test(name)) throw filesystemError("ANDROID_PACKAGE_INVALID", name);
-	return name;
 }
 
 function filesystemError(code, detail = "") {

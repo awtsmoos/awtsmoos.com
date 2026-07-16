@@ -19,41 +19,32 @@ const RetryRequest = require("./retryRequest.js");
 const State = require("./state.js");
 
 /**
-* @file Routes every agent request through one account-scoped living lifecycle.
-* @description
-* The Awtsmoos renews request, progress, target, and answer as one deed.
-* Awtsmoos.com keeps dispatch, reuse, progress, response validation, and event
-* publication in focused vessels while this module conducts authorized requests.
-*/
-
-/** Sends one request to an account-scoped tunnel registration. */
-function sendTunnelRequest(context, accountId, name, payload = {}, timeoutMs) {
+ * @file Routes requests through one account plus immutable route reference.
+ * @description
+ * The Awtsmoos renews route ID, friendly name, request, and answer as one deed.
+ * Awtsmoos.com finds the socket by account and tunnel ID, then sends the canonical
+ * display name to the agent so stable routing never degrades response readability.
+ */
+function sendTunnelRequest(context, accountId, routeReference, payload = {}, timeoutMs) {
 	State.ensureStores(context);
 	State.cleanup(context);
-	const registrationKey = Id.registryKey(accountId, name);
-	if (!registrationKey) {
-		return Promise.resolve({
-			ok: false,
-			error: "invalid_tunnel_identity"
-		});
-	}
+	const registrationKey = Id.registryKey(accountId, routeReference);
+	if (!registrationKey) return invalidIdentity();
 	const cleaned = cleanRelayPayload(payload);
-	const waitMs = safeRelayWaitMs(
-		cleaned.relayWaitMs || cleaned.httpSafeWaitMs
-	);
+	const waitMs = safeRelayWaitMs(cleaned.relayWaitMs || cleaned.httpSafeWaitMs);
 	const retry = RetryRequest.describe(cleaned);
 	const localRetry = RetryRequest.resolveLocal(context, retry, waitMs);
-	if (localRetry?.handled) {
-		return localRetry.result;
-	}
+	if (localRetry?.handled) return localRetry.result;
 	const totalTimeoutMs = boundedTimeout(timeoutMs || cleaned.timeoutMs);
 	const plan = retry
 		? RetryRequest.forwardPlan(cleaned, retry)
 		: RequestPlan.ordinary(cleaned);
+	const tunnel = context.tunnels.get(registrationKey);
+	const canonicalName = tunnel?.tunnelName || routeReference;
 	const expected = RequestReuse.createExpectation(
 		plan,
 		registrationKey,
-		name,
+		canonicalName,
 		totalTimeoutMs
 	);
 	const prior = RequestReuse.priorResult(
@@ -63,15 +54,12 @@ function sendTunnelRequest(context, accountId, name, payload = {}, timeoutMs) {
 		expected,
 		waitMs
 	);
-	if (prior) {
-		return prior;
-	}
-	const tunnel = context.tunnels.get(registrationKey);
+	if (prior) return prior;
 	if (!tunnel) {
 		return RequestDispatch.missing(
 			context,
 			accountId,
-			name,
+			routeReference,
 			cleaned,
 			plan,
 			expected
@@ -80,7 +68,8 @@ function sendTunnelRequest(context, accountId, name, payload = {}, timeoutMs) {
 	return RequestDispatch.dispatch({
 		context,
 		accountId,
-		tunnelName: name,
+		tunnelName: canonicalName,
+		routeReference,
 		tunnel,
 		payload: cleaned,
 		plan,
@@ -88,6 +77,13 @@ function sendTunnelRequest(context, accountId, name, payload = {}, timeoutMs) {
 		totalTimeoutMs,
 		waitMs,
 		retry
+	});
+}
+
+function invalidIdentity() {
+	return Promise.resolve({
+		ok: false,
+		error: "invalid_tunnel_identity"
 	});
 }
 

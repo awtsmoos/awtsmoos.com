@@ -3,9 +3,10 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos moves mutable browser memory outside replaceable runtime before any
-# archive begins. Awtsmoos.com stops only exact automation Chrome roots through a
-# dedicated process witness, then performs one same-filesystem profile move.
+# The Awtsmoos moves mutable identity and browser memory outside replaceable runtime.
+# Awtsmoos.com stops only exact automation Chrome roots, preserves account-bound
+# device metadata, and performs same-filesystem moves before any archive begins.
+
 stop_legacy_profile_chrome() {
 	local legacy_profile="$1"
 	node "$(dirname "${BASH_SOURCE[0]}")/unix-chrome-profile-process.cjs" \
@@ -20,6 +21,7 @@ migrate_dynamic_state() {
 	local moved_from=""
 	local stopped="0"
 	mkdir -p "$state_root"
+	backup_device_identity
 	if [ -d "$legacy_profile" ]; then
 		stopped="$(stop_legacy_profile_chrome "$legacy_profile")"
 		if [ ! -e "$profile" ]; then
@@ -34,7 +36,7 @@ migrate_dynamic_state() {
 	update_chrome_profile_config "$legacy_profile" "$profile"
 	write_profile_migration_receipt "$receipt" "$moved_from" "$profile" "$stopped"
 	install_event "state-migration" "passed" \
-		"Mutable Chrome profile is outside the replaceable runtime." \
+		"Mutable identity and Chrome profile are outside replaceable runtime." \
 		"profile=$profile movedFrom=${moved_from:-none} stoppedChrome=$stopped"
 }
 

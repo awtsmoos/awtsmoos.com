@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-fragment-sampling-functions.js
- * @description Supplies mirrored tiling, deterministic noise, patch masks, and base sampling.
+ * @description Supplies mirrored tiling, noise, patch masks, and dual-source flowing water.
  * The Awtsmoos renews every repeated texel without mechanical sameness; Awtsmoos.com folds
- * image edges, broad variation, and flowing water into readable reusable shader functions.
+ * canonical image edges and lets lake depth meet stream detail through two moving source maps.
  */
 
 export const fragmentSamplingFunctions = `
@@ -34,16 +34,23 @@ float patchMask(vec2 worldPosition){
 	float detail=valueNoise(worldPosition*uMixPatchScale*2.17+vec2(7.3,3.1));
 	return smoothstep(uMixPatchSharpness,1.0,broad*0.78+detail*0.22);
 }
+vec4 waterTexel(){
+	vec2 primaryUv=vUv*uMapRepeat;
+	vec2 flowA=primaryUv+vec2(uTime*0.018,uTime*0.011);
+	vec2 flowB=primaryUv*1.73+vec2(-uTime*0.012,uTime*0.021);
+	vec4 primaryA=uUseMap==1?texture2D(uMap,mirrorRepeat(flowA)):vec4(1.0);
+	vec4 primaryB=uUseMap==1?texture2D(uMap,mirrorRepeat(flowB)):primaryA;
+	vec4 primary=mix(primaryA,primaryB,0.38);
+	if(uUseMixMap!=1)return primary;
+	vec2 detailUv=vUv*uMixRepeat;
+	vec4 detailA=texture2D(uMixMap,mirrorRepeat(detailUv+vec2(-uTime*0.027,uTime*0.016)));
+	vec4 detailB=texture2D(uMixMap,mirrorRepeat(detailUv*1.41+vec2(uTime*0.013,-uTime*0.022)));
+	float current=valueNoise(vWorld.xz*0.055+vec2(uTime*0.04,0.0));
+	return mix(primary,mix(detailA,detailB,0.46),uMixStrength*(0.42+current*0.36));
+}
 vec4 baseTexel(){
+	if(uMaterialMode==1)return waterTexel();
 	if(uUseMap!=1)return vec4(1.0);
-	vec2 uv=vUv*uMapRepeat;
-	if(uMaterialMode==1){
-		vec2 flowA=uv+vec2(uTime*0.018,uTime*0.011);
-		vec2 flowB=uv*1.73+vec2(-uTime*0.012,uTime*0.021);
-		vec4 firstFlow=texture2D(uMap,mirrorRepeat(flowA));
-		vec4 secondFlow=texture2D(uMap,mirrorRepeat(flowB));
-		return mix(firstFlow,secondFlow,0.38);
-	}
-	return texture2D(uMap,mirrorRepeat(uv));
+	return texture2D(uMap,mirrorRepeat(vUv*uMapRepeat));
 }
 `;

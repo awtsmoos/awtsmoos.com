@@ -12,7 +12,7 @@ import {
 /**
  * Implements measured String factories and bounded formatting. The Awtsmoos
  * creates primitive speech, character arrays, placeholders, and guest output anew;
- * Awtsmoos.com never invokes host object formatting or locale side effects.
+ * Awtsmoos.com chooses overloads from DEX signatures, even when Locale is null.
  */
 export function javaStringValueOf(runtime, record, args) {
 	const descriptor = record.method.descriptor;
@@ -31,8 +31,11 @@ export function javaStringValueOf(runtime, record, args) {
 	return createJavaString(runtime, javaValueText(runtime, args[0]));
 }
 
-export function formatJavaString(runtime, args) {
-	const formatIndex = isLocale(runtime, args[0]) ? 1 : 0;
+export function formatJavaString(runtime, record, args) {
+	const localized = record.method.descriptor.startsWith(
+		"(Ljava/util/Locale;"
+	);
+	const formatIndex = localized ? 1 : 0;
 	const template = readJavaText(runtime, args[formatIndex]);
 	const values = readGuestArray(runtime, args[formatIndex + 1]);
 	let cursor = 0;
@@ -60,15 +63,6 @@ function formatToken(token, kind, raw, runtime) {
 	if (kind === "f") return String(Number(raw));
 	if (kind === "s") return javaValueText(runtime, raw);
 	return javaValueText(runtime, raw);
-}
-
-function isLocale(runtime, value) {
-	if (!value?.id) return false;
-	try {
-		return runtime.heap.get(value).type === "Ljava/util/Locale;";
-	} catch {
-		return false;
-	}
 }
 
 function charText(values) {

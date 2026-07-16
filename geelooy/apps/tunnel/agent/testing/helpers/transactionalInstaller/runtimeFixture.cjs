@@ -11,11 +11,11 @@ const DEFAULT_REGISTRATION_TIMEOUT_SECONDS = 12;
 const DEFAULT_FIXTURE_WAIT_MS = 45000;
 
 /**
- * B"H
- *
- * The fixture waits for registered testimony, not a breathing child. The
- * Awtsmoos renews the isolated process; Awtsmoos.com gives loaded test machines
- * enough time to schedule the supervisor without weakening production policy.
+ * @file Owns one isolated predecessor under an explicit portable supervisor.
+ * @description
+ * The Awtsmoos renews registered identity, fresh receipt, and test guardian together.
+ * Awtsmoos.com never borrows the developer's launchd job, and accepts a fixture only
+ * when its exact tunnel ID and process remain alive with recent server testimony.
  */
 class RuntimeFixture {
 	constructor(repositoryRoot, temporaryRoot) {
@@ -39,6 +39,7 @@ class RuntimeFixture {
 					...process.env,
 					AWTSMOOS_INSTALL_ROOT: this.runtimeRoot,
 					AWTSMOOS_RECOVERY_ROOT: this.recoveryRoot,
+					AWTSMOOS_SERVICE_MODE: "portable",
 					AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: String(
 						DEFAULT_REGISTRATION_TIMEOUT_SECONDS
 					)
@@ -60,9 +61,7 @@ class RuntimeFixture {
 			}
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
-		throw new Error(
-			`fixture_agent_registration_timeout:${timeoutMs}`
-		);
+		throw new Error(`fixture_agent_registration_timeout:${timeoutMs}`);
 	}
 
 	readReceipt() {
@@ -77,12 +76,23 @@ class RuntimeFixture {
 	}
 
 	receiptIsLive(receipt) {
-		if (receipt.state !== "registered" || !Number(receipt.pid)) {
+		if (
+			receipt.state !== "registered" ||
+			!Number(receipt.pid) ||
+			receipt.tunnelId !== "tun_transaction_fixture" ||
+			receipt.tunnelName !== "awt-transaction-rollback-test"
+		) {
+			return false;
+		}
+		const timestamp = Date.parse(
+			receipt.lastServerMessageAt || receipt.updatedAt || ""
+		);
+		if (!Number.isFinite(timestamp) || Date.now() - timestamp > 5000) {
 			return false;
 		}
 		try {
 			process.kill(Number(receipt.pid), 0);
-			return receipt.tunnelName === "awt-transaction-rollback-test";
+			return true;
 		} catch {
 			return false;
 		}

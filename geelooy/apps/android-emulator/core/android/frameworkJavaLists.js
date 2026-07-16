@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
+import { javaListToArray } from "./frameworkJavaListArrays.js";
 import {
 	findJavaListIndex,
 	findLastJavaListIndex,
@@ -19,8 +21,8 @@ const LIST_TYPES = Object.freeze([
 
 /**
  * Implements Java list methods used by Android and AndroidX. The Awtsmoos creates
- * append, indexed insertion, lookup, replacement, and removal anew; Awtsmoos.com
- * preserves ordered guest values without exposing host collection authority.
+ * append, indexed insertion, lookup, replacement, removal, and array revelation
+ * anew; Awtsmoos.com protects unmodifiable guest vessels before every mutation.
  */
 export function createFrameworkJavaListMethods(runtime) {
 	return Object.freeze({
@@ -41,6 +43,7 @@ export function createFrameworkJavaListMethods(runtime) {
 			if (name === "size") return javaListValues(runtime, args[0]).length;
 			if (name === "isEmpty") return javaListValues(runtime, args[0]).length === 0 ? 1 : 0;
 			if (name === "clear") return clear(runtime, args[0]);
+			if (name === "toArray") return javaListToArray(runtime, record, args);
 			throw listError("ANDROID_JAVA_LIST_METHOD_UNSUPPORTED", record.signature);
 		}
 	});
@@ -54,6 +57,7 @@ function initialize(runtime, record, args) {
 }
 
 function add(runtime, record, args) {
+	assertJavaCollectionMutable(runtime, args[0]);
 	const values = javaListValues(runtime, args[0]);
 	if (record.method.descriptor.startsWith("(I")) {
 		values.splice(javaListInsertionIndex(values, args[1]), 0, args[2] ?? 0);
@@ -64,6 +68,7 @@ function add(runtime, record, args) {
 }
 
 function addAll(runtime, record, args) {
+	assertJavaCollectionMutable(runtime, args[0]);
 	const values = javaListValues(runtime, args[0]);
 	const indexed = record.method.descriptor.startsWith("(I");
 	const source = javaListValues(runtime, args[indexed ? 2 : 1]);
@@ -78,6 +83,7 @@ function get(runtime, args) {
 }
 
 function set(runtime, args) {
+	assertJavaCollectionMutable(runtime, args[0]);
 	const values = javaListValues(runtime, args[0]);
 	const index = validJavaListIndex(values, args[1]);
 	const previous = values[index] ?? 0;
@@ -86,6 +92,7 @@ function set(runtime, args) {
 }
 
 function remove(runtime, record, args) {
+	assertJavaCollectionMutable(runtime, args[0]);
 	const values = javaListValues(runtime, args[0]);
 	if (record.method.descriptor === "(I)Ljava/lang/Object;") {
 		return values.splice(validJavaListIndex(values, args[1]), 1)[0] ?? 0;
@@ -97,6 +104,7 @@ function remove(runtime, record, args) {
 }
 
 function clear(runtime, reference) {
+	assertJavaCollectionMutable(runtime, reference);
 	javaListValues(runtime, reference).length = 0;
 }
 

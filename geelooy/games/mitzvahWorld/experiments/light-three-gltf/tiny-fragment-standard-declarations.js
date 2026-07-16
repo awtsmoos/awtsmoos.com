@@ -4,20 +4,32 @@
 
 /**
  * @file tiny-fragment-standard-declarations.js
- * @description Declares ordinary lighting, texture, atmosphere, and terrain shader inputs.
- * The Awtsmoos gives every visible influence a named vessel; Awtsmoos.com joins light, fog,
- * water, two-map materials, and layered earth without hiding one declaration inside another.
+ * @description Generates ordinary lighting inputs around a hardware-sized terrain stack.
+ * The Awtsmoos gives every influence a named vessel; Awtsmoos.com joins atmosphere, water,
+ * two-map materials, and measured layered earth without exceeding the real sampler boundary.
  */
 
-import { terrainFragmentDeclarations } from './tiny-terrain-fragment-declarations.js';
+import {
+	terrainDeclarationsForLayerCount,
+	terrainFragmentDeclarations
+} from './tiny-terrain-fragment-declarations.js';
 
-export const standardFragmentDeclarations = `
+export const standardFragmentDeclarations = standardDeclarations(
+	terrainFragmentDeclarations
+);
+
+export function standardDeclarationsForLayerCount(layerCount) {
+	return standardDeclarations(terrainDeclarationsForLayerCount(layerCount));
+}
+
+function standardDeclarations(terrainDeclarations) {
+	return `
 precision highp float;
 varying vec3 vNormal;
 varying vec4 vColor;
 varying vec2 vUv;
 varying vec3 vWorld;
-${terrainFragmentDeclarations}
+${terrainDeclarations}
 uniform vec4 uColor;
 uniform float uAlphaCutoff;
 uniform int uAlphaMode;
@@ -43,3 +55,4 @@ uniform float uFogNear;
 uniform float uFogFar;
 uniform float uExposure;
 `;
+}

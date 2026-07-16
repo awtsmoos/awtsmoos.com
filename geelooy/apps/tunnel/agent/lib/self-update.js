@@ -13,27 +13,21 @@ let lastCheckAt = 0;
 let activeCheck = null;
 
 /**
- * B"H
- *
- * Discovers releases without mutating the living runtime. The update may shine
- * as information, but activation remains inside the transactional installer,
- * whose preflight, archive, atomic swap, and rollback form the proper keli.
+ * @file Discovers releases without allowing advisory metadata to crash the agent.
+ * @description
+ * The Awtsmoos renews manifest, bundle descriptor, and living socket separately.
+ * Awtsmoos.com trusts the manifest for notification, treats bundle metadata as
+ * optional evidence, and reserves all mutation for the transactional installer.
  */
 async function maybeSelfUpdate(options = {}) {
 	if (Policy.disabled(options)) {
 		return { ok: true, skipped: true, reason: "disabled" };
 	}
-
 	const now = Date.now();
-
 	if (!options.force && now - lastCheckAt < Policy.intervalMs(options)) {
 		return { ok: true, skipped: true, reason: "interval" };
 	}
-
-	if (activeCheck) {
-		return activeCheck;
-	}
-
+	if (activeCheck) return activeCheck;
 	activeCheck = runUpdateCheck(options).finally(() => {
 		activeCheck = null;
 	});
@@ -49,43 +43,52 @@ async function runUpdateCheck(options = {}) {
 		options
 	);
 	const remote = Manifest.parseManifest(manifestText);
-	const descriptor = await Bundles.readDescriptor(origin, options);
-
-	if (descriptor.version !== remote.version || descriptor.manifestSha256 !== remote.hash) {
-		throw new Error("release_manifest_descriptor_mismatch");
-	}
-
+	const descriptorState = await Bundles.tryReadDescriptor(origin, options);
+	const descriptorWarning = warningForDescriptor(remote, descriptorState);
 	const local = State.readLocalState(State.createState(root));
 	const complete = await Manifest.allManifestFilesExist(root, remote);
 	const updateAvailable = local.version !== remote.version ||
 		local.hash !== remote.hash ||
 		!complete;
-
-	if (!updateAvailable) {
-		return {
-			ok: true,
-			updated: false,
-			updateAvailable: false,
-			version: remote.version,
-			hash: remote.hash,
-			complete
-		};
-	}
-
-	return {
+	const shared = {
 		ok: true,
 		updated: false,
-		updateAvailable: true,
-		wouldUpdate: true,
-		activation: "transactional_installer_required",
+		updateAvailable,
 		version: remote.version,
 		hash: remote.hash,
-		local,
 		complete,
 		origin,
-		descriptor,
+		descriptorAvailable: descriptorState.ok === true,
+		descriptor: descriptorState.ok ? descriptorState : null,
+		descriptorWarning,
 		command: Bundles.installerCommand(origin)
 	};
+	if (!updateAvailable) return shared;
+	return {
+		...shared,
+		wouldUpdate: true,
+		activation: "transactional_installer_required",
+		local
+	};
+}
+
+function warningForDescriptor(remote, descriptorState = {}) {
+	if (!descriptorState.ok) {
+		return {
+			code: descriptorState.error || "descriptor_unavailable",
+			message: descriptorState.message || "Bundle metadata is temporarily unavailable."
+		};
+	}
+	if (
+		descriptorState.version !== remote.version ||
+		descriptorState.manifestSha256 !== remote.hash
+	) {
+		return {
+			code: "release_manifest_descriptor_mismatch",
+			message: "Release manifest and bundle descriptor are not yet synchronized."
+		};
+	}
+	return null;
 }
 
 function readLocalState(root = ROOT) {
@@ -108,5 +111,6 @@ module.exports = {
 	parseManifest: Manifest.parseManifest,
 	readLocalState,
 	restartIntoUpdatedAgent,
-	runUpdateCheck
+	runUpdateCheck,
+	warningForDescriptor
 };

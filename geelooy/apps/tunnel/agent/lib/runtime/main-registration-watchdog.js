@@ -9,112 +9,112 @@ const DEFAULT_RETRY_MS = 3000;
 const DEFAULT_MAXIMUM_ATTEMPTS = 6;
 
 /**
- * B"H
- *
- * Registration retry is armed before transport send. The Awtsmoos renews each
- * failed testimony; synchronous side effects cannot erase bounded recovery.
+ * @file Repeats registration testimony until ACK or bounded terminal recovery.
+ * @description
+ * The Awtsmoos renews every unsatisfied attempt without letting one lost packet
+ * become exile. Awtsmoos.com arms the timer before send, supports bounded operator
+ * tuning, and closes the generation only after every retry remains unanswered.
  */
 function startRegistrationWatchdog(options = {}) {
-	const {
-		dependencies,
-		ws,
-		config,
-		generation,
-		owns,
-		registerReady,
-		onTimeout
-	} = options;
-	const retryMs = boundedNumber(
-		options.retryMs ?? dependencies.registrationRetryMs,
-		250,
-		30000,
-		DEFAULT_RETRY_MS
-	);
-	const maximumAttempts = boundedNumber(
-		options.maximumAttempts ?? dependencies.registrationMaximumAttempts,
-		1,
-		20,
-		DEFAULT_MAXIMUM_ATTEMPTS
-	);
-	let attempts = 0;
-	let stopped = false;
+	const settings = watchdogSettings(options);
+	const state = { attempts: 0, stopped: false };
 	const timer = Timer.createRegistrationTimer({
 		setTimer: options.setTimer,
 		clearTimer: options.clearTimer,
-		retryMs,
-		onError(error) {
-			Effects.log(
-				dependencies,
-				"warn",
-				`Registration timer failed: ${error?.message || error}`
-			);
-			expire();
-		}
+		retryMs: settings.retryMs,
+		onError: error => handleTimerError(options, error, expire)
 	});
 
 	function stop() {
-		stopped = true;
+		state.stopped = true;
 		timer.clear();
 	}
 
 	function eligible() {
-		return !stopped &&
-			owns(ws, generation) &&
-			ws.opened === true &&
-			dependencies.state.registrationConfirmed !== true &&
-			dependencies.state.registrationRejected !== true &&
-			dependencies.state.replacementRequested !== true;
+		return !state.stopped &&
+			options.owns(options.ws, options.generation) &&
+			options.ws.opened === true &&
+			options.dependencies.state.registrationConfirmed !== true &&
+			options.dependencies.state.registrationRejected !== true &&
+			options.dependencies.state.replacementRequested !== true;
 	}
 
 	function attempt() {
-		if (!eligible()) {
-			stop();
-			return;
-		}
-		attempts += 1;
-		if (!timer.arm(attempts >= maximumAttempts ? expire : attempt)) {
-			return;
-		}
-		Effects.write(dependencies, config, generation, "registration_pending", {
-			attempt: attempts,
-			maximumAttempts
-		});
+		if (!eligible()) return stop();
+		state.attempts += 1;
+		const next = state.attempts >= settings.maximumAttempts ? expire : attempt;
+		if (!timer.arm(next)) return;
+		Effects.write(
+			options.dependencies,
+			options.config,
+			options.generation,
+			"registration_pending",
+			{ attempt: state.attempts, maximumAttempts: settings.maximumAttempts }
+		);
 		Effects.send({
-			dependencies,
-			config,
-			generation,
-			attempt: attempts,
-			registerReady,
-			ws
+			dependencies: options.dependencies,
+			config: options.config,
+			generation: options.generation,
+			attempt: state.attempts,
+			registerReady: options.registerReady,
+			ws: options.ws
 		});
 	}
 
 	function expire() {
 		timer.clear();
-		if (!eligible()) {
-			stop();
-			return;
-		}
+		if (!eligible()) return stop();
 		stop();
 		Effects.timeout({
-			dependencies,
-			config,
-			generation,
-			attempts,
-			onTimeout,
-			ws
+			dependencies: options.dependencies,
+			config: options.config,
+			generation: options.generation,
+			attempts: state.attempts,
+			onTimeout: options.onTimeout,
+			ws: options.ws
 		});
 	}
 
 	attempt();
 	return {
-		attempts: () => attempts,
+		attempts: () => state.attempts,
+		settings,
 		stop
 	};
+}
+
+function watchdogSettings(options = {}) {
+	const dependencies = options.dependencies || {};
+	return {
+		retryMs: boundedNumber(
+			options.retryMs ?? dependencies.registrationRetryMs ??
+				process.env.AWTSMOOS_REGISTRATION_RETRY_MS,
+			250,
+			30000,
+			DEFAULT_RETRY_MS
+		),
+		maximumAttempts: boundedNumber(
+			options.maximumAttempts ?? dependencies.registrationMaximumAttempts ??
+				process.env.AWTSMOOS_REGISTRATION_MAX_ATTEMPTS,
+			1,
+			20,
+			DEFAULT_MAXIMUM_ATTEMPTS
+		)
+	};
+}
+
+function handleTimerError(options, error, expire) {
+	Effects.log(
+		options.dependencies,
+		"warn",
+		`Registration timer failed: ${error?.message || error}`
+	);
+	expire();
 }
 
 module.exports = {
 	DEFAULT_MAXIMUM_ATTEMPTS,
 	DEFAULT_RETRY_MS,
-	startRegistrationWatchdog
+	startRegistrationWatchdog,
+	watchdogSettings
 };

@@ -4,26 +4,31 @@
 
 /**
  * @file HighestResolutionSurfaceCatalog.js
- * @description Names performance-qualified public surface garments for layered terrain.
- * The Awtsmoos hides infinite earth inside finite pixels; Awtsmoos.com uses licensed
- * power-of-two base tiles for continuous ground while preserving distinct full-source
- * mud, marsh, forest, stone, grass, and shore garments for ecological variation.
+ * @description Names canonical production surface garments for layered terrain.
+ * The Awtsmoos conceals boundless earth within finite pixels; Awtsmoos.com keeps geometry
+ * immediate while full-source grass, soil, marsh, stone, and shore arrive through bounded hydration.
  */
 
+import { assertProductionMaterialUrl } from './ProductionMaterialUrlPolicy.js';
 import { exactMaterialUrl } from './PublicMaterialResolver.js';
 import { TEXTURE_URLS } from './TextureCatalog.js';
 
-const chai512 = path => exactMaterialUrl(`awtsmoos-nature/chai-forest-half/${path}`);
+function chaiForestSource(path) {
+	return assertProductionMaterialUrl(
+		exactMaterialUrl(`awtsmoos-nature/chai-forest/${path}`),
+		`terrain source ${path}`
+	);
+}
 
 export const HIGHEST_RESOLUTION_SURFACES = Object.freeze({
-	baseGrass: chai512('textures/ground/grass.jpg'),
-	dirt: chai512('textures/ground/dirt_color.jpg'),
-	dryGrass: TEXTURE_URLS.terrain.grass6,
-	forestFloor: TEXTURE_URLS.terrain.darkForestFloor,
-	marsh: TEXTURE_URLS.terrain.marshGrass,
-	mud: TEXTURE_URLS.terrain.mud,
-	sand: TEXTURE_URLS.terrain.sand1,
-	stone: TEXTURE_URLS.stone.stone1
+	baseGrass: chaiForestSource('textures/ground/grass.jpg'),
+	dirt: chaiForestSource('textures/ground/dirt_color.jpg'),
+	dryGrass: assertProductionMaterialUrl(TEXTURE_URLS.terrain.grass6, 'dryGrass'),
+	forestFloor: assertProductionMaterialUrl(TEXTURE_URLS.terrain.darkForestFloor, 'forestFloor'),
+	marsh: assertProductionMaterialUrl(TEXTURE_URLS.terrain.marshGrass, 'marsh'),
+	mud: assertProductionMaterialUrl(TEXTURE_URLS.terrain.mud, 'mud'),
+	sand: assertProductionMaterialUrl(TEXTURE_URLS.terrain.sand1, 'sand'),
+	stone: assertProductionMaterialUrl(TEXTURE_URLS.stone.stone1, 'stone')
 });
 
 export function highestResolutionSurface(role) {
@@ -31,12 +36,14 @@ export function highestResolutionSurface(role) {
 	if (!url) {
 		throw new Error(`Unknown terrain surface role: ${role}`);
 	}
-	if (url.includes('/half-resolution/')) {
-		throw new Error(`Guessed half-resolution terrain source rejected for ${role}.`);
-	}
-	return url;
+	return assertProductionMaterialUrl(url, role);
 }
 
 export function highestResolutionSurfaceEntries() {
-	return Object.entries(HIGHEST_RESOLUTION_SURFACES).map(([role, url]) => ({ role, url }));
+	return Object.entries(HIGHEST_RESOLUTION_SURFACES).map(([role, url]) => {
+		return Object.freeze({
+			role,
+			url: assertProductionMaterialUrl(url, role)
+		});
+	});
 }

@@ -4,6 +4,8 @@
 
 import { CalmOrthodoxWomanPreset } from './CalmOrthodoxWomanPreset.js';
 import { CheerfulOrthodoxManPreset } from './CheerfulOrthodoxManPreset.js';
+import { ReferenceCharacterMigration } from './ReferenceCharacterMigration.js';
+import { ReferenceCharacterIds } from './specification/ReferenceCharacterIds.js';
 import { SkepticalOrthodoxManPreset } from './SkepticalOrthodoxManPreset.js';
 
 const PRESETS = [
@@ -14,8 +16,8 @@ const PRESETS = [
 
 /**
  * Many authored identities become one discoverable catalog. The Awtsmoos is
- * one beyond all multiplicity, while Awtsmoos.com lets each preset retain its
- * own proportions, garments, expression, rig metadata, and editable controls.
+ * one beyond multiplicity, while Awtsmoos.com preserves canonical IDs, legacy
+ * aliases, proportions, garments, rig controls, timelines, and saved edits.
  */
 export class ReferenceCharacterCatalog {
 	static list() {
@@ -28,12 +30,12 @@ export class ReferenceCharacterCatalog {
 	}
 
 	static character(id) {
-		const Preset = PRESETS.find(candidate => candidate.id === id);
+		const Preset = this.preset(id);
 		return Preset ? Preset.character() : null;
 	}
 
 	static design(id) {
-		const Preset = PRESETS.find(candidate => candidate.id === id);
+		const Preset = this.preset(id);
 		return Preset ? Preset.design() : null;
 	}
 
@@ -41,6 +43,28 @@ export class ReferenceCharacterCatalog {
 		return Object.fromEntries(
 			PRESETS.map(Preset => [Preset.id, Preset.character()])
 		);
+	}
+
+	static migrate(character = {}) {
+		const canonicalId = ReferenceCharacterIds.canonicalize(character.id);
+		return ReferenceCharacterMigration.migrate(
+			{ ...character, id: canonicalId },
+			this.character(canonicalId)
+		);
+	}
+
+	static migrateMap(characters = {}) {
+		return Object.fromEntries(
+			Object.values(characters || {}).map(character => {
+				const migrated = this.migrate(character);
+				return [migrated.id, migrated];
+			})
+		);
+	}
+
+	static preset(id) {
+		const canonicalId = ReferenceCharacterIds.canonicalize(id);
+		return PRESETS.find(candidate => candidate.id === canonicalId) || null;
 	}
 
 	static clone(value) {

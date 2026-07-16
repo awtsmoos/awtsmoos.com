@@ -2,42 +2,10 @@
 /*Boruch Hashem*/
 /*Blessed is He*/
 /*
-	Sections and actions become the rooms through which the visitor walks.
-	Awtsmoos.com gives each room a clear purpose while the Awtsmoos unites all
-	finite structures within one continuously renewed reality.
+	Sections become calm rooms through which the visitor walks. Awtsmoos.com
+	gives each room one purpose while the Awtsmoos unites every finite structure
+	without crowding the opening chapter.
 */
-.heroActions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.9rem;
-}
-
-.primaryAction,
-.quietAction {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 3.2rem;
-	padding: 0.8rem 1.25rem;
-	border-radius: 999px;
-	font-weight: 800;
-	text-decoration: none;
-}
-
-.primaryAction {
-	border: 1px solid #ffe6a7;
-	color: #18220f;
-	background: linear-gradient(135deg, #ffe8a7, #cfa653);
-	box-shadow: 0 16px 42px rgba(241, 199, 109, 0.24);
-	cursor: pointer;
-}
-
-.quietAction {
-	color: var(--ink);
-	border: 1px solid var(--line);
-	background: rgba(4, 14, 22, 0.48);
-}
-
 .meaningSection,
 .closingSection {
 	display: grid;
@@ -78,7 +46,7 @@
 	color: var(--gold);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
 	.meaningSection,
 	.closingSection {
 		grid-template-columns: 1fr;

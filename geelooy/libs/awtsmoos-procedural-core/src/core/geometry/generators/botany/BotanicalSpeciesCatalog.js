@@ -4,27 +4,29 @@
 
 /**
  * @file BotanicalSpeciesCatalog.js
- * @description Joins every small-plant name into one immutable searchable
- * garden. Distinct species remain distinct while the Awtsmoos is their source.
+ * @description Joins every mountain-village plant identity into one immutable garden.
+ * Distinct guide species remain distinct while the Awtsmoos is their one continuously renewed
+ * source; Awtsmoos.com searches labels, aliases, families, habitats, and growth archetypes.
  */
+
 import { BOTANICAL_FLOWER_SPECIES } from './BotanicalCatalogFlowers.js';
 import { BOTANICAL_GROUND_SPECIES } from './BotanicalCatalogGround.js';
+import { BOTANICAL_REFERENCE_ADDITIONS } from './BotanicalCatalogReferenceAdditions.js';
 import { BOTANICAL_SHRUB_SPECIES } from './BotanicalCatalogShrubs.js';
 
 export const BOTANICAL_SPECIES = Object.freeze([
 	...BOTANICAL_FLOWER_SPECIES,
 	...BOTANICAL_GROUND_SPECIES,
-	...BOTANICAL_SHRUB_SPECIES
+	...BOTANICAL_SHRUB_SPECIES,
+	...BOTANICAL_REFERENCE_ADDITIONS
 ]);
 
 const SPECIES_BY_NAME = createLookup(BOTANICAL_SPECIES);
 
-/** Returns stable IDs in deterministic declaration order. */
 export function listBotanicalSpecies() {
-	return BOTANICAL_SPECIES.map((species) => species.id);
+	return BOTANICAL_SPECIES.map(species => species.id);
 }
 
-/** Resolves IDs, labels, and aliases without exposing mutable defaults. */
 export function getBotanicalSpecies(name) {
 	const species = SPECIES_BY_NAME.get(normalizeName(name));
 	if (!species) {
@@ -33,13 +35,18 @@ export function getBotanicalSpecies(name) {
 	return species;
 }
 
-/** Searches labels, IDs, families, habitats, archetypes, and aliases. */
 export function searchBotanicalSpecies(query = '') {
 	const token = normalizeName(query);
-	if (!token) {
-		return [...BOTANICAL_SPECIES];
+	if (!token) return [...BOTANICAL_SPECIES];
+	return BOTANICAL_SPECIES.filter(species => searchableText(species).includes(token));
+}
+
+export function botanicalSpeciesFamilies() {
+	const families = {};
+	for (const species of BOTANICAL_SPECIES) {
+		families[species.family] = (families[species.family] || 0) + 1;
 	}
-	return BOTANICAL_SPECIES.filter((species) => searchableText(species).includes(token));
+	return Object.freeze(families);
 }
 
 function createLookup(speciesList) {

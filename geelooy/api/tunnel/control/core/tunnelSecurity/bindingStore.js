@@ -5,26 +5,23 @@
 const { readStore, mutateStore } = require("../store.js");
 const Audit = require("./audit.js");
 const Id = require("./identifiers.js");
+const Lifecycle = require("./bindingLifecycle.js");
 const Provenance = require("./bindingProvenance.js");
 const Secrets = require("./secrets.js");
 
 /**
- * @file Persists possession-backed tunnel ownership and verifies registrations.
+ * @file Persists possession-backed ownership and self-heals duplicate reinstall records.
  * @description
- * The Awtsmoos renews owner and device without allowing a name or legacy record
- * to become essence. Awtsmoos.com stores immutable identity only after versioned
- * pairing proof and later requires the same credential, device, tunnel, and name.
+ * The Awtsmoos renews owner and device without allowing a name or stale record to
+ * become essence. Awtsmoos.com requires versioned pairing proof, then supersedes
+ * only older bindings for the same account, device ID, and friendly tunnel name.
  */
-
-/** Creates one binding only from a verified pairing approval. */
 function createBinding(store, input = {}) {
 	const proof = Provenance.proofFields(input);
-	if (!proof) {
-		throw new Error("invalid_tunnel_ownership_proof");
-	}
-	const tunnelId = `tun_${Secrets.randomToken(18)}`;
+	if (!proof) throw new Error("invalid_tunnel_ownership_proof");
+	const now = new Date().toISOString();
 	const binding = {
-		tunnelId,
+		tunnelId: `tun_${Secrets.randomToken(18)}`,
 		tunnelName: Id.tunnelName(input.tunnelName),
 		deviceId: Id.deviceId(input.deviceId),
 		ownerAccountId: Id.accountId(input.ownerAccountId),
@@ -36,26 +33,25 @@ function createBinding(store, input = {}) {
 		keyVersion: 1,
 		permissionVersion: 1,
 		revocationVersion: 1,
-		createdAt: new Date().toISOString(),
+		createdAt: now,
 		lastAuthenticatedAt: null,
 		revokedAt: null
 	};
 	if (!Provenance.isTrustedBinding(binding)) {
 		throw new Error("invalid_tunnel_binding");
 	}
-	store.tunnelBindings[tunnelId] = binding;
+	binding.supersededTunnelIds = Lifecycle.supersedeDuplicates(store, binding, now);
+	store.tunnelBindings[binding.tunnelId] = binding;
 	return binding;
 }
 
-/** Returns one binding by immutable tunnel ID. */
 function bindingById(tunnelId, store = readStore()) {
 	return store.tunnelBindings[Id.normalizeIdentifier(tunnelId)] || null;
 }
 
-/** Verifies native registration and updates authentication testimony. */
 function verifyRegistration(input = {}) {
 	let result = { ok: false, error: "invalid_device_credential" };
-	mutateStore((store) => {
+	mutateStore(store => {
 		const binding = bindingById(input.tunnelId, store);
 		const suppliedDigest = Secrets.digest(input.credential);
 		const identityMatches = Provenance.isTrustedBinding(binding) &&
@@ -63,9 +59,7 @@ function verifyRegistration(input = {}) {
 			binding.tunnelName === Id.tunnelName(input.tunnelName);
 		const credentialMatches = identityMatches &&
 			Secrets.secureEqual(binding.credentialDigest, suppliedDigest);
-		if (!credentialMatches) {
-			return store;
-		}
+		if (!credentialMatches) return store;
 		binding.lastAuthenticatedAt = new Date().toISOString();
 		result = { ok: true, binding: { ...binding } };
 		return store;
@@ -73,14 +67,11 @@ function verifyRegistration(input = {}) {
 	return result;
 }
 
-/** Revokes one owned device binding and increments its revocation version. */
 function revokeBinding(tunnelId, accountId) {
 	let revoked = false;
-	mutateStore((store) => {
+	mutateStore(store => {
 		const binding = bindingById(tunnelId, store);
-		if (!binding || binding.ownerAccountId !== Id.accountId(accountId)) {
-			return store;
-		}
+		if (!binding || binding.ownerAccountId !== Id.accountId(accountId)) return store;
 		binding.revokedAt = new Date().toISOString();
 		binding.revocationVersion += 1;
 		revoked = true;

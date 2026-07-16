@@ -11,9 +11,11 @@ const Context = require("./accountBoundTestContext.cjs");
 const Fixture = require("./registrationTestFixtures.cjs");
 
 /**
- * The packet may lie about account, name, or credential, but relay memory accepts
- * only persisted truth. The Awtsmoos joins every vessel; Awtsmoos.com keeps Alice
- * and Bob distinct until an explicit grant—not a forged field—changes authority.
+ * @file Proves relay registration is account-scoped and keyed by tunnel ID.
+ * @description
+ * The Awtsmoos renews equal names without merging rightful owners. Awtsmoos.com
+ * accepts only persisted identity, stores account plus immutable ID, and rejects
+ * forged account fields, crossed credentials, revoked devices, and anonymous tabs.
  */
 function main() {
 	const context = Context.createContext();
@@ -38,12 +40,16 @@ function main() {
 		assert.equal(bobClient.accountId, "bob");
 		assert.equal(server.tunnels.size, 2);
 		assert.equal(
-			server.tunnels.get(Context.key("alice", "same-name")),
+			server.tunnels.get(Context.key("alice", alice.binding.tunnelId)),
 			aliceClient
 		);
 		assert.equal(
-			server.tunnels.get(Context.key("bob", "same-name")),
+			server.tunnels.get(Context.key("bob", bob.binding.tunnelId)),
 			bobClient
+		);
+		assert.equal(
+			server.tunnels.has(Context.key("alice", alice.binding.tunnelName)),
+			false
 		);
 
 		const wrongCredential = Fixture.socket("wrong-credential");
@@ -51,7 +57,10 @@ function main() {
 			...Context.nativePacket(alice),
 			deviceCredential: bob.credential
 		}), false);
-		assert.equal(Fixture.lastMessage(wrongCredential).error, "invalid_device_credential");
+		assert.equal(
+			Fixture.lastMessage(wrongCredential).error,
+			"invalid_device_credential"
+		);
 
 		const crossedBinding = Fixture.socket("crossed-binding");
 		assert.equal(handleTunnelRegister(server, crossedBinding, {
@@ -82,7 +91,11 @@ function main() {
 			accountId: "bob"
 		})), true);
 		assert.equal(browser.accountId, "alice");
-		console.log("BHY account-bound relay adversarial registration passed");
+		assert.equal(
+			server.tunnels.get(Context.key("alice", browser.tunnelId)),
+			browser
+		);
+		console.log("BHY account-bound immutable relay registration passed");
 	} finally {
 		context.cleanup();
 	}

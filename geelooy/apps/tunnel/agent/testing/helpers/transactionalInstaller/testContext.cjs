@@ -14,14 +14,18 @@ const UNIX_BOOTSTRAP = path.join(
 );
 
 /**
- * B"H — Shared test receipts keep the three transaction worlds small. The
- * Awtsmoos joins their evidence without merging their independent failure gates.
+ * @file Creates isolated installer worlds with explicit portable supervision.
+ * @description
+ * The Awtsmoos renews test root and service identity without touching the user's
+ * real launchd job. Awtsmoos.com therefore proves transactional behavior under a
+ * dedicated portable supervisor instead of borrowing a globally loaded service.
  */
 function environment(origin, installRoot, temporaryRoot, additions = {}) {
 	return {
 		AWTSMOOS_INSTALL_ORIGIN: origin,
 		AWTSMOOS_INSTALL_ROOT: installRoot,
 		AWTSMOOS_PROJECT_ROOT: temporaryRoot,
+		AWTSMOOS_SERVICE_MODE: "portable",
 		HOME: path.join(temporaryRoot, "home"),
 		...additions
 	};

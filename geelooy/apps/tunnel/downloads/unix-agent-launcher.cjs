@@ -7,110 +7,67 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * @file Adds structured ACK testimony to compatible archived agents.
+ * @file Launches one modern or archived agent beneath an install-root singleton.
  * @description
- * The Awtsmoos renews old code without erasing its identity. Awtsmoos.com observes
- * the relay through this narrow wrapper and preserves both the friendly tunnel name
- * and the authoritative tunnel ID for transactional health checks.
+ * The Awtsmoos renews compatibility without multiplying bodies. Awtsmoos.com
+ * acquires the process lease before importing runtime code, avoids duplicate modern
+ * receipt writers, and lets a second manual launch exit before opening any socket.
  */
 const root = path.resolve(
 	process.argv[2] || process.env.AWTSMOOS_INSTALL_ROOT || __dirname
 );
 process.env.AWTSMOOS_INSTALL_ROOT = root;
-const receiptPath = path.join(root, "connection-state.json");
-const config = readJson(path.join(root, "config.json"), {});
-let generation = 0;
 
-patchSocket();
-launch();
+const Singleton = require(firstExisting([
+	path.join(root, "awtsmoos-agent-singleton.cjs"),
+	path.join(__dirname, "unix-agent-singleton.cjs")
+]));
+const lease = Singleton.acquire(root);
 
-function patchSocket() {
-	const modulePath = path.join(root, "lib", "ws.js");
-	const WebSocket = require(modulePath).TinyWebSocket;
-	const originalEmit = WebSocket.prototype.emit;
-	WebSocket.prototype.emit = function patchedEmit(eventName, ...argumentsList) {
-		if (eventName === "open") {
-			generation += 1;
-			writeReceipt("socket_open");
-		}
-		if (eventName === "message") {
-			observeServerMessage(argumentsList[0]);
-		}
-		if (eventName === "close") {
-			writeReceipt("closed", { reason: "socket_closed" });
-		}
-		return originalEmit.call(this, eventName, ...argumentsList);
-	};
+if (!lease.ok) {
+	console.error(`B"H duplicate agent refused: ${JSON.stringify({
+		error: lease.error,
+		owner: publicOwner(lease.owner)
+	})}`);
+	process.exit(0);
 }
 
-function observeServerMessage(raw) {
-	const message = parseMessage(raw);
-	if (message?.type !== "TUNNEL_ACK") return;
-	writeReceipt(
-		message.ok === true ? "registered" : "registration_rejected",
-		{
-			tunnelId: message.tunnelId || "",
-			tunnelName: message.tunnelName || message.name || config.tunnelName || "",
-			serverTime: message.serverTime || null,
-			lastServerMessageAt: new Date().toISOString(),
-			reason: message.ok === true
-				? ""
-				: String(message.error || "registration_rejected")
-		}
-	);
-}
+const Receipt = require(firstExisting([
+	path.join(root, "awtsmoos-agent-receipt.cjs"),
+	path.join(__dirname, "unix-agent-receipt.cjs")
+]));
+const receipt = Receipt.attach(root);
+launch().catch(fail);
 
-function parseMessage(raw) {
-	try {
-		return typeof raw === "string" || Buffer.isBuffer(raw)
-			? JSON.parse(String(raw))
-			: raw;
-	} catch {
-		return null;
-	}
-}
-
-function launch() {
-	writeReceipt("launching");
+async function launch() {
+	receipt.write("launching");
 	const mainModule = require(path.join(root, "main.js"));
-	if (typeof mainModule?.main !== "function") return;
-	Promise.resolve(mainModule.main()).catch((error) => {
-		writeReceipt("error", { reason: error.message });
-		console.error(error.stack || error.message);
-		process.exit(1);
-	});
-}
-
-function writeReceipt(state, details = {}) {
-	const now = new Date().toISOString();
-	const existing = readJson(receiptPath, {});
-	const value = {
-		schemaVersion: 2,
-		state,
-		pid: process.pid,
-		tunnelId: details.tunnelId || existing.tunnelId || "",
-		tunnelName: details.tunnelName || existing.tunnelName || config.tunnelName || "",
-		agentVersion: existing.agentVersion || "compatibility-launcher",
-		generation,
-		updatedAt: now,
-		registeredAt: state === "registered" ? now : existing.registeredAt || null,
-		lastServerMessageAt: details.lastServerMessageAt || existing.lastServerMessageAt || null,
-		serverTime: details.serverTime || existing.serverTime || null,
-		reason: String(details.reason || "")
-	};
-	atomicWrite(receiptPath, value);
-}
-
-function readJson(file, fallback) {
-	try {
-		return JSON.parse(fs.readFileSync(file, "utf8"));
-	} catch {
-		return fallback;
+	if (typeof mainModule?.main !== "function") {
+		throw new Error("agent_main_function_missing");
+	}
+	const result = await mainModule.main();
+	if (result?.duplicate) {
+		console.error(`B"H duplicate agent refused by runtime: ${JSON.stringify(result)}`);
 	}
 }
 
-function atomicWrite(file, value) {
-	const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
-	fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-	fs.renameSync(temporary, file);
+function fail(error) {
+	receipt.write("error", { reason: error.message });
+	console.error(error.stack || error.message);
+	process.exit(1);
+}
+
+function firstExisting(candidates) {
+	const selected = candidates.find(candidate => fs.existsSync(candidate));
+	if (selected) return selected;
+	throw new Error(`required_launcher_helper_missing:${candidates.join(",")}`);
+}
+
+function publicOwner(owner = {}) {
+	return {
+		pid: Number(owner.pid || 0),
+		startedAt: owner.startedAt || null,
+		updatedAt: owner.updatedAt || null,
+		argv: Array.isArray(owner.argv) ? owner.argv.slice(0, 8) : []
+	};
 }

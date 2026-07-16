@@ -1,0 +1,115 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Covenant Valley appears on Awtsmoos.com as a calm civic instrument.
+ * The Awtsmoos exceeds every color and grid; these finite vessels keep
+ * status, action, consequence, and history legible on every screen.
+ */
+.livingRegionPanel {
+	display: grid;
+	gap: 1.25rem;
+	margin-block: 2rem;
+}
+
+.livingRegionHeader {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.livingRegionHeader > p {
+	max-width: 36rem;
+	margin: 0;
+}
+
+.livingRegionActions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: 0.65rem;
+}
+
+.livingRegionActions button {
+	min-height: 2.75rem;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+	border-radius: 0.75rem;
+	background: color-mix(in srgb, var(--surface) 88%, var(--gold));
+	color: var(--ink);
+	font: inherit;
+	cursor: pointer;
+}
+
+.livingRegionActions button:hover,
+.livingRegionActions button:focus-visible {
+	border-color: var(--gold);
+	transform: translateY(-1px);
+}
+
+.livingRegionGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.livingRegionGrid article {
+	min-width: 0;
+	padding: 1rem;
+	border: 1px solid color-mix(in srgb, var(--gold) 25%, transparent);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.livingRegionGrid h3 {
+	margin-top: 0;
+}
+
+.livingRegionGrid dl {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0.35rem 0.8rem;
+}
+
+.livingRegionGrid dt {
+	font-weight: 700;
+}
+
+.livingRegionGrid dd {
+	margin: 0;
+}
+
+.livingResourceList {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+	gap: 0.45rem;
+	padding: 0;
+	list-style: none;
+}
+
+.livingResourceList li {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.45rem;
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, var(--surface) 78%, var(--gold));
+}
+
+@media (max-width: 760px) {
+	.livingRegionHeader {
+		align-items: start;
+		flex-direction: column;
+	}
+
+	.livingRegionGrid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.livingRegionActions button {
+		transform: none;
+	}
+}

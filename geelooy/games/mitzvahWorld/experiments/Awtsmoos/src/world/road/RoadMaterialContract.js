@@ -4,52 +4,52 @@
 
 /**
  * @file RoadMaterialContract.js
- * @description Enforces one continuous full-resolution yellow-brick garment for every road.
- * RESPONSIBILITY: resolve the road image, sampler fields, and serializable quality evidence.
- * NON-RESPONSIBILITY: this module does not create routes, geometry, UVs, or collision triangles.
- * ARCHITECTURE: Hod names the garment while Yesod binds one decoded image to the road network.
- * OROS AND KEILIM: the golden path is ohr; URL, dimensions, anisotropy, and policy are keilim.
- * The Awtsmoos renews every brick without loss; Awtsmoos.com forbids a half-resolution road
- * substitution while preserving one continuous material vessel for the complete network.
+ * @description Binds ten cobble, stone, brick, earth, moss, grass, mud, and dust road layers.
+ * The Awtsmoos renews every traveled stone and softened seam; Awtsmoos.com keeps one continuous
+ * collision network while capable hardware reveals all ten full-source road garments together.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
-import { SURFACE_TEXTURE_FAMILIES } from '../../assets/SurfaceTextureFamilies.js';
 import { REPEAT_HOOKS } from '../../assets/TextureRepeat.js';
+import { bindMaterialStack } from '../materials/MaterialStackBinding.js';
+import { villageRoadStack } from '../materials/MountainVillageMaterialPresets.js';
 
-export const ROAD_YELLOW_BRICK_URL = SURFACE_TEXTURE_FAMILIES.bricks.yellow1;
+const ROAD_STACK = villageRoadStack();
+const YELLOW_BRICK_LAYER = ROAD_STACK.layers.find(layer => layer.role === 'road-yellow-brick');
+export const ROAD_YELLOW_BRICK_URL = YELLOW_BRICK_LAYER.url;
 
-/** Returns full-quality fields for the road's one shared rendering material. */
 export function roadMaterialFields(texture = null) {
-	const mapImage = validImage(texture)
-		? texture
-		: cachedTextureImage(ROAD_YELLOW_BRICK_URL);
-	return {
+	const primary = ROAD_STACK.layers[0];
+	const fields = {
 		anisotropy: 8,
-		mapImage: mapImage || null,
-		mapRepeat: [1, 1],
+		mapImage: validImage(texture) ? texture : cachedTextureImage(primary.url),
+		mapRepeat: primary.repeat,
 		texturePolicy: {
 			fallbackApplied: false,
 			fullResolution: true,
 			projection: 'world-planar-continuous-network',
 			repeatMode: 'mirror-pingpong',
-			role: 'road.yellowBrick',
+			role: 'road.mountainVillageCobble',
 			tileWorld: REPEAT_HOOKS.roadTileWorld
 		},
-		textureUrl: ROAD_YELLOW_BRICK_URL
+		textureUrl: primary.url
 	};
+	return bindMaterialStack(fields, ROAD_STACK, 10);
 }
 
-/** Returns browser-verifiable proof for the decoded full-resolution road texture. */
 export function roadMaterialEvidence(texture = null) {
 	const fields = roadMaterialFields(texture);
 	const image = fields.mapImage;
 	return {
+		activeLayers: fields.textureLayers.length,
 		anisotropy: fields.anisotropy,
-		decoded: !!image,
-		fallbackApplied: false,
-		fullResolution: fields.textureUrl.includes('/full-resolution/'),
+		decoded: Boolean(image),
+		fallbackApplied: fields.texturePolicy.fallbackApplied,
+		fullResolution: fields.textureLayers.every(layer => {
+			return !/half-resolution|quarter-resolution|chai-forest-half/.test(layer.url);
+		}),
 		height: image?.naturalHeight || 0,
+		logicalLayers: fields.materialStack.logicalLayerCount,
 		role: fields.texturePolicy.role,
 		url: fields.textureUrl,
 		width: image?.naturalWidth || 0
@@ -57,11 +57,7 @@ export function roadMaterialEvidence(texture = null) {
 }
 
 function validImage(image) {
-	if (!image) {
-		return false;
-	}
-	if (image.naturalWidth === undefined) {
-		return true;
-	}
+	if (!image) return false;
+	if (image.naturalWidth === undefined) return true;
 	return image.naturalWidth > 0 && image.naturalHeight > 0;
 }

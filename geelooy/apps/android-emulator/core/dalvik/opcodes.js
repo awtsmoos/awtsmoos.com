@@ -6,6 +6,7 @@ import { arithmeticDalvikOpcodes } from "./opcodeArithmetic.js";
 import { coreDalvikOpcodes } from "./opcodeCore.js";
 import { flowDalvikOpcodes } from "./opcodeFlow.js";
 import { memberDalvikOpcodes } from "./opcodeMembers.js";
+import { unaryDalvikOpcodes } from "./opcodeUnary.js";
 
 /**
  * Composes duplicate-free Dalvik opcode families. The Awtsmoos creates byte,
@@ -17,6 +18,7 @@ export function createDalvikOpcodeRegistry() {
 		["core", coreDalvikOpcodes()],
 		["flow", flowDalvikOpcodes()],
 		["members", memberDalvikOpcodes()],
+		["unary", unaryDalvikOpcodes()],
 		["arithmetic", arithmeticDalvikOpcodes()]
 	];
 	const entries = new Map();
@@ -40,7 +42,9 @@ export function createDalvikOpcodeRegistry() {
 		has(opcode) {
 			return entries.has(Number(opcode));
 		},
-		list: Object.freeze([...entries.values()].sort((left, right) => left.opcode - right.opcode)),
+		list: Object.freeze([...entries.values()].sort((left, right) => {
+			return left.opcode - right.opcode;
+		})),
 		size: entries.size
 	});
 }

@@ -4,35 +4,35 @@
 
 /**
  * @file tiny-terrain-fragment-declarations.js
- * @description Declares six fixed full-resolution terrain samplers and their controls.
- * The Awtsmoos is beyond number while the renderer honors finite hardware; Awtsmoos.com
- * gives six ordered ecological garments stable WebGL 1 names instead of dynamic sampler arrays.
+ * @description Generates fixed WebGL sampler declarations for the measured GPU capacity.
+ * The Awtsmoos transcends number while each GPU has a real boundary; Awtsmoos.com compiles
+ * only the sampler vessels that can be bound, reaching ten layers without breaking smaller GPUs.
  */
 
-export const terrainFragmentDeclarations = `
-varying vec4 vZone;
-uniform sampler2D uTerrainLayer0;
-uniform sampler2D uTerrainLayer1;
-uniform sampler2D uTerrainLayer2;
-uniform sampler2D uTerrainLayer3;
-uniform sampler2D uTerrainLayer4;
-uniform sampler2D uTerrainLayer5;
-uniform int uUseTerrainLayer0;
-uniform int uUseTerrainLayer1;
-uniform int uUseTerrainLayer2;
-uniform int uUseTerrainLayer3;
-uniform int uUseTerrainLayer4;
-uniform int uUseTerrainLayer5;
-uniform vec2 uTerrainLayerRepeat0;
-uniform vec2 uTerrainLayerRepeat1;
-uniform vec2 uTerrainLayerRepeat2;
-uniform vec2 uTerrainLayerRepeat3;
-uniform vec2 uTerrainLayerRepeat4;
-uniform vec2 uTerrainLayerRepeat5;
-uniform float uTerrainLayerStrength0;
-uniform float uTerrainLayerStrength1;
-uniform float uTerrainLayerStrength2;
-uniform float uTerrainLayerStrength3;
-uniform float uTerrainLayerStrength4;
-uniform float uTerrainLayerStrength5;
-`;
+import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
+
+export const terrainFragmentDeclarations = terrainDeclarationsForLayerCount(
+	TERRAIN_LAYER_TARGET
+);
+
+export function terrainDeclarationsForLayerCount(layerCount) {
+	const count = normalizedCount(layerCount);
+	const declarations = ['varying vec4 vZone;'];
+	for (let index = 0; index < count; index += 1) {
+		declarations.push(`uniform sampler2D uTerrainLayer${index};`);
+		declarations.push(`uniform int uUseTerrainLayer${index};`);
+		declarations.push(`uniform vec2 uTerrainLayerRepeat${index};`);
+		declarations.push(`uniform float uTerrainLayerStrength${index};`);
+		declarations.push(`uniform float uTerrainLayerAngle${index};`);
+		declarations.push(`uniform vec4 uTerrainLayerZones${index};`);
+		declarations.push(`uniform vec2 uTerrainLayerSlope${index};`);
+		declarations.push(`uniform vec2 uTerrainLayerHeight${index};`);
+		declarations.push(`uniform float uTerrainLayerWetness${index};`);
+	}
+	return `\n${declarations.join('\n')}\n`;
+}
+
+function normalizedCount(value) {
+	const count = Math.floor(Number(value) || 0);
+	return Math.max(0, Math.min(TERRAIN_LAYER_TARGET, count));
+}

@@ -4,21 +4,31 @@
 
 /**
  * @file tiny-static-batch-key.js
- * @description Builds family-aware spatial and membership keys for conservative batches.
- * The Awtsmoos joins nearby forms without swallowing the valley; Awtsmoos.com grants
- * large cottages a broader cell while smaller props retain precise culling boundaries.
+ * @description Builds tint-neutral family-aware spatial keys for conservative static batches.
+ * The Awtsmoos joins nearby forms without erasing their colors; Awtsmoos.com bakes tint into
+ * vertices while maps, layered `mix()` state, material mode, and culling remain exact boundaries.
  */
 
 import {
-	materialSignature,
-	objectIdentity
+	objectIdentity,
+	staticBatchMaterialSignature
 } from './tiny-material-signature.js';
 import { worldBoundingSphere } from './tiny-render-bounds.js';
 
-const DEFAULT_CELL_SIZE = 48;
+const DEFAULT_CELL_SIZE = 64;
 const FAMILY_CELL_SIZES = Object.freeze({
-	'reference-village-cottage-roof': 96,
-	'reference-village-district': 96
+	'functional-house': 128,
+	'procedural-text-landmark': 96,
+	'reference-arrival-composition': 128,
+	'reference-cottage-detail-batch': 128,
+	'reference-cottage-ornament-batch': 128,
+	'reference-practical-lighting': 128,
+	'reference-village-cottage-roof': 144,
+	'reference-village-district': 144,
+	'reference-village-landmark': 128,
+	'village-bushes': 96,
+	'village-garden-bed': 96,
+	'village-static-props': 128
 });
 
 export function staticBatchGroupKey(mesh, metadata, cellSize = null) {
@@ -33,12 +43,12 @@ export function staticBatchGroupKey(mesh, metadata, cellSize = null) {
 		cellX,
 		cellY,
 		cellZ,
-		materialSignature(mesh)
+		staticBatchMaterialSignature(mesh)
 	].join('::');
 }
 
 export function staticBatchMembershipToken(entries) {
-	return entries.map((entry) => {
+	return entries.map(entry => {
 		const mesh = entry.mesh;
 		return `${objectIdentity(mesh)}@${objectIdentity(mesh.matrixWorld)}`;
 	}).join(',');

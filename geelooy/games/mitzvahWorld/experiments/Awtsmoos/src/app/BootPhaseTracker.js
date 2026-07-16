@@ -4,10 +4,12 @@
 
 /**
  * @file BootPhaseTracker.js
- * @description Records startup phases, durations, degradation, and terminal failure.
- * The Awtsmoos renews each asynchronous threshold; Awtsmoos.com makes every wait
- * visible so optional light, texture, or model garments can never become a silent prison.
+ * @description Records startup phases, progress, degradation, readiness, and fatal failure.
+ * The Awtsmoos renews each asynchronous threshold; Awtsmoos.com makes geometry readiness,
+ * catalog discovery, texture streaming, and optional model enrichment distinct and visible.
  */
+
+import { renderBootProgress } from './BootProgressOverlay.js';
 
 export class BootPhaseTracker {
 	constructor(clock = () => performance.now()) {
@@ -16,7 +18,9 @@ export class BootPhaseTracker {
 		this.current = 'created';
 		this.currentStartedAt = null;
 		this.records = [];
+		this.progressRecords = [];
 		this.degraded = [];
+		this.failure = null;
 		this.publish();
 	}
 
@@ -28,11 +32,27 @@ export class BootPhaseTracker {
 		return this;
 	}
 
+	progress(name, current, total, detail = '', status = 'loading') {
+		const record = Object.freeze({
+			atMs: this.elapsed(),
+			current: boundedCount(current, total),
+			detail: String(detail || ''),
+			label: String(name || 'loading'),
+			status,
+			total: Math.max(0, Number(total) || 0)
+		});
+		const index = this.progressRecords.findIndex(item => item.label === record.label);
+		if (index >= 0) this.progressRecords[index] = record;
+		else this.progressRecords.push(record);
+		this.publish();
+		return this;
+	}
+
 	complete(name = this.current) {
 		if (name === this.current) this.finishCurrent();
 		this.current = 'ready';
 		this.currentStartedAt = this.clock();
-		this.publish();
+		this.progress('gameplay-ready', 1, 1, 'Movement enabled; textures continue streaming.', 'ready');
 		return this;
 	}
 
@@ -63,6 +83,7 @@ export class BootPhaseTracker {
 			degraded: structuredClone(this.degraded),
 			elapsedMs: this.elapsed(),
 			failure: this.failure ? { ...this.failure } : null,
+			progress: structuredClone(this.progressRecords),
 			records: structuredClone(this.records)
 		};
 	}
@@ -84,13 +105,15 @@ export class BootPhaseTracker {
 	}
 
 	publish() {
-		if (typeof window !== 'undefined') {
-			window.AwtsmoosBootPhases = this.snapshot();
-			document.documentElement.dataset.awtsmoosBootPhase = this.current;
-			const hud = document.getElementById('hud');
-			if (hud?.textContent.includes('loading')) {
-				hud.textContent = `B"H loading · ${this.current}`;
-			}
-		}
+		if (typeof window === 'undefined') return;
+		const snapshot = this.snapshot();
+		window.AwtsmoosBootPhases = snapshot;
+		document.documentElement.dataset.awtsmoosBootPhase = this.current;
+		renderBootProgress(snapshot);
 	}
+}
+
+function boundedCount(current, total) {
+	const maximum = Math.max(0, Number(total) || 0);
+	return Math.max(0, Math.min(maximum, Number(current) || 0));
 }

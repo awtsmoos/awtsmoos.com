@@ -3,5 +3,10 @@
 	"_poem": "Awtsmoos.com holds this module as a small vessel while the Awtsmoos renews every instant of its execution.",
 	"name": "awtsmoos-seven-mitzvos",
 	"private": true,
-	"type": "module"
+	"type": "module",
+	"scripts": {
+		"test": "node --test tests/*.test.mjs",
+		"test:living": "node --test tests/living-world-*.test.mjs",
+		"server:prototype": "node server/prototype/start.js"
+	}
 }

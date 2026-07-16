@@ -6,45 +6,50 @@ import { rememberTargetVessel } from "./targetMemory.js";
 import { VIRTUAL_OS_TUNNEL } from "./deviceTrust.js";
 
 /**
- * @file Owns the in-memory set of targets proven by the latest discovery response.
+ * @file Stores only account-verified targets from the latest discovery response.
  * @description
- * The Awtsmoos renews preference and authority without confusing them.
- * Awtsmoos.com lets persisted names request a choice, but only the current sanitized
- * registry may select or expose a tunnel name to actions, prompts, or API calls.
+ * The Awtsmoos renews remembered preference and present authority separately.
+ * Awtsmoos.com routes by stable reference, yet remembers the friendly display name
+ * so a reinstall can recover naturally without trusting an obsolete local alias.
  */
 const trustedTargets = new Map();
-let selectedName = VIRTUAL_OS_TUNNEL;
+let selectedReference = VIRTUAL_OS_TUNNEL;
 
 export function replaceTrustedTargets(vessels = [], preferred = "") {
 	trustedTargets.clear();
 	for (const vessel of vessels) {
-		if (isRegistryVessel(vessel)) {
-			trustedTargets.set(vessel.tunnelName, Object.freeze({ ...vessel }));
-		}
+		if (!isRegistryVessel(vessel)) continue;
+		trustedTargets.set(
+			vessel.routeReference,
+			Object.freeze({ ...vessel })
+		);
 	}
-	selectedName = chooseName(preferred);
-	rememberTargetVessel(selectedName);
+	selectedReference = chooseReference(preferred);
+	rememberSelection();
 	return currentTrustedVessel();
 }
 
-export function selectTrustedTarget(name) {
-	const normalized = String(name || "").trim();
-	if (trustedTargets.has(normalized)) {
-		selectedName = normalized;
+export function selectTrustedTarget(referenceOrName) {
+	const normalized = String(referenceOrName || "").trim();
+	const matching = findByReferenceOrName(normalized);
+	if (matching) selectedReference = matching.routeReference;
+	if (!trustedTargets.has(selectedReference)) {
+		selectedReference = chooseReference("");
 	}
-	if (!trustedTargets.has(selectedName)) {
-		selectedName = chooseName("");
-	}
-	rememberTargetVessel(selectedName);
+	rememberSelection();
 	return currentTrustedVessel();
 }
 
 export function currentTrustedTarget() {
+	return currentTrustedVessel()?.routeReference || VIRTUAL_OS_TUNNEL;
+}
+
+export function currentTrustedDisplayName() {
 	return currentTrustedVessel()?.tunnelName || VIRTUAL_OS_TUNNEL;
 }
 
 export function currentTrustedVessel() {
-	return trustedTargets.get(selectedName) ||
+	return trustedTargets.get(selectedReference) ||
 		trustedTargets.get(VIRTUAL_OS_TUNNEL) ||
 		null;
 }
@@ -55,27 +60,40 @@ export function trustedTargetList() {
 
 export function clearTrustedTargets() {
 	trustedTargets.clear();
-	selectedName = VIRTUAL_OS_TUNNEL;
+	selectedReference = VIRTUAL_OS_TUNNEL;
 	rememberTargetVessel("");
 }
 
-function chooseName(preferred) {
+function chooseReference(preferred) {
 	const wanted = String(preferred || "").trim();
-	if (trustedTargets.has(wanted)) {
-		return wanted;
-	}
+	const requested = findByReferenceOrName(wanted);
+	if (requested) return requested.routeReference;
 	const connected = [...trustedTargets.values()].find((vessel) => {
-		return vessel.connected !== false && vessel.tunnelName !== VIRTUAL_OS_TUNNEL;
+		return vessel.connected !== false &&
+			vessel.routeReference !== VIRTUAL_OS_TUNNEL;
 	});
-	return connected?.tunnelName ||
+	return connected?.routeReference ||
 		(trustedTargets.has(VIRTUAL_OS_TUNNEL) ? VIRTUAL_OS_TUNNEL : "");
 }
 
+function findByReferenceOrName(value) {
+	if (!value) return null;
+	if (trustedTargets.has(value)) return trustedTargets.get(value);
+	return [...trustedTargets.values()].find((vessel) => {
+		return vessel.tunnelName === value || vessel.tunnelId === value;
+	}) || null;
+}
+
+function rememberSelection() {
+	const vessel = currentTrustedVessel();
+	rememberTargetVessel(vessel?.tunnelName || "");
+}
+
 function isRegistryVessel(vessel = {}) {
-	return Boolean(vessel.tunnelName) &&
+	return Boolean(vessel.routeReference && vessel.tunnelName) &&
 		vessel.ownershipVerified === true &&
 		(
-			vessel.tunnelName === VIRTUAL_OS_TUNNEL ||
+			vessel.routeReference === VIRTUAL_OS_TUNNEL ||
 			["owned", "shared"].includes(vessel.access)
 		);
 }

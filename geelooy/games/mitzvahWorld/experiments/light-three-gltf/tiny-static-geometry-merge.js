@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-static-geometry-merge.js
- * @description Builds one world-space mesh from proven static triangle vessels.
- * The Awtsmoos reveals many stones as one village without erasing one edge; Awtsmoos.com
- * preserves every triangle, normal, color, and UV while reducing only submission count.
+ * @description Builds one world-space mesh with source tint baked and batch tint neutralized.
+ * The Awtsmoos reveals many stones as one village without erasing one hue; Awtsmoos.com
+ * preserves `uColor * vColor * texel` while reducing only draw and material-state submission.
  */
 
 import {
@@ -15,20 +15,19 @@ import {
 } from './tiny-geometry.js';
 import { identity } from './tiny-math.js';
 import { Mesh } from './tiny-mesh-object.js';
+import { createStaticBatchMaterial } from './tiny-static-batch-material.js';
 import { appendWorldGeometry } from './tiny-static-geometry-source.js';
 
 export function mergeStaticMeshes(meshes, metadata) {
 	if (!meshes?.length) return null;
 	const streams = {
-		position: [],
-		normal: [],
 		color: [],
+		normal: [],
+		position: [],
 		uv: []
 	};
 	let vertexCount = 0;
-	for (const mesh of meshes) {
-		vertexCount += appendWorldGeometry(mesh, streams);
-	}
+	for (const mesh of meshes) vertexCount += appendWorldGeometry(mesh, streams);
 	if (vertexCount < 3) return null;
 	const geometry = new BufferGeometry();
 	geometry.mode = 4;
@@ -38,9 +37,11 @@ export function mergeStaticMeshes(meshes, metadata) {
 	geometry.setAttribute('uv', floatAttribute(streams.uv, 2));
 	geometry.userData.AwtsmoosStaticBatch = {
 		memberCount: meshes.length,
+		tintBakedIntoVertexColor: true,
 		vertexCount
 	};
-	const batch = new Mesh(geometry, meshes[0].material);
+	const batchMaterial = createStaticBatchMaterial(meshes[0].material);
+	const batch = new Mesh(geometry, batchMaterial);
 	batch.name = `AwtsmoosStaticBatch:${metadata.family}:${meshes.length}`;
 	batch.matrix = identity();
 	batch.matrixWorld = identity();
@@ -49,6 +50,7 @@ export function mergeStaticMeshes(meshes, metadata) {
 		renderDistance: metadata.renderDistance,
 		AwtsmoosStaticBatch: {
 			memberCount: meshes.length,
+			tintBakedIntoVertexColor: true,
 			vertexCount
 		}
 	};

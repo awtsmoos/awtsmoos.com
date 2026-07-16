@@ -1,0 +1,96 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Actions on Awtsmoos.com form a calm decision path instead of a wall of equal
+	buttons. The Awtsmoos contains every possibility; the visitor receives one
+	primary invitation and quieter secondary doors.
+*/
+.heroActions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.7rem;
+	max-width: 1050px;
+}
+
+.primaryAction,
+.quietAction {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 0;
+	min-height: 3rem;
+	padding: 0.72rem 1rem;
+	border-radius: 0.9rem;
+	font-weight: 800;
+	line-height: 1.25;
+	text-align: center;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+	transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.primaryAction {
+	border: 1px solid var(--line);
+	color: var(--ink);
+	background: rgba(5, 15, 24, 0.76);
+	box-shadow: none;
+	cursor: pointer;
+}
+
+.primaryAction:visited {
+	color: var(--ink);
+}
+
+.heroActions > :first-child {
+	grid-column: span 2;
+	border-color: #ffe6a7;
+	color: #18220f;
+	background: linear-gradient(135deg, #ffe8a7, #cfa653);
+	box-shadow: 0 14px 34px rgba(241, 199, 109, 0.2);
+}
+
+.heroActions > :first-child:visited {
+	color: #18220f;
+}
+
+.primaryAction:hover,
+.quietAction:hover {
+	border-color: rgba(241, 199, 109, 0.72);
+	transform: translateY(-1px);
+}
+
+.primaryAction:active,
+.quietAction:active {
+	transform: translateY(0);
+}
+
+.quietAction {
+	color: var(--ink);
+	border: 1px solid var(--line);
+	background: rgba(4, 14, 22, 0.48);
+}
+
+@media (max-width: 760px) {
+	.heroActions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.55rem;
+	}
+
+	.heroActions > :first-child {
+		grid-column: 1 / -1;
+	}
+
+	.primaryAction,
+	.quietAction {
+		min-height: 44px;
+		padding: 0.62rem 0.7rem;
+		font-size: 0.82rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.heroActions {
+		grid-template-columns: 1fr;
+	}
+}

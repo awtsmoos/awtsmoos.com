@@ -1,0 +1,81 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Seven regional controls on Awtsmoos.com remain readable, keyboard reachable,
+ * and adaptable. The Awtsmoos fills every land; finite detail may reduce when
+ * measured frame cadence asks the browser to protect responsiveness.
+ */
+.livingRegionStrip {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: 0.55rem;
+}
+
+.livingRegionStrip button {
+	display: grid;
+	gap: 0.25rem;
+	min-height: 3.5rem;
+	padding: 0.7rem;
+	border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+	border-radius: 0.8rem;
+	background: color-mix(in srgb, var(--surface) 94%, transparent);
+	color: var(--ink);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.livingRegionStrip button[aria-pressed="true"] {
+	border-color: var(--gold);
+	background: color-mix(in srgb, var(--surface) 76%, var(--gold));
+}
+
+.livingRegionStrip button:hover,
+.livingRegionStrip button:focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--gold) 70%, transparent);
+	outline-offset: 2px;
+}
+
+.livingRegionStrip span {
+	font-size: 0.78rem;
+	opacity: 0.78;
+}
+
+.livingPerformance dd {
+	font-variant-numeric: tabular-nums;
+}
+
+[data-quality-tier="reduced"] .livingPerformance,
+[data-quality-tier="minimal"] .livingPerformance {
+	display: none;
+}
+
+[data-quality-tier="minimal"] .livingRegionStrip span {
+	display: none;
+}
+
+[data-quality-tier="minimal"] .livingRegionStrip button {
+	min-height: 2.75rem;
+}
+
+@media (max-width: 760px) {
+	.livingRegionStrip {
+		display: flex;
+		overflow-x: auto;
+		padding-block-end: 0.35rem;
+		scroll-snap-type: x proximity;
+	}
+
+	.livingRegionStrip button {
+		min-width: 10rem;
+		scroll-snap-align: start;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.livingRegionStrip {
+		scroll-behavior: auto;
+	}
+}

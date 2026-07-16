@@ -8,24 +8,19 @@ const { json } = require("../core/respond.js");
 const Discovery = require("./deviceDiscovery.js");
 
 /**
- * @file Selects the current account's requested or recommended authorized device.
+ * @file Selects one device only from the authenticated account's inventory.
  * @description
  * The Awtsmoos renews chooser and choice without permitting one soul to inherit
- * another's vessel. Awtsmoos.com recovers only from this account's inventory and
- * never from the number of globally connected relay clients.
+ * another's vessel. Awtsmoos.com returns the immutable route reference separately
+ * from the friendly name and never recovers from globally connected relay clients.
  */
-
-/** Returns one account-bound device selection for the control panel. */
 async function myDevice($i) {
 	const identity = currentIdentity($i);
 	if (!identity.ok) {
 		return json($i, response(false, "not_authenticated"), 401);
 	}
 	const parameters = query($i);
-	const reference = parameters.tunnelId ||
-		parameters.tunnelName ||
-		parameters.name ||
-		"";
+	const reference = requestedReference(parameters);
 	const currentState = Discovery.state($i, identity);
 	const selected = reference
 		? Discovery.find(currentState, reference)
@@ -33,15 +28,22 @@ async function myDevice($i) {
 	if (!selected) {
 		return json($i, {
 			...Discovery.responseBase(currentState),
-			...response(false, reference
-				? "tunnel_not_found"
-				: "multiple_authorized_tunnels")
+			...response(
+				false,
+				reference ? "tunnel_not_found" : "multiple_authorized_tunnels"
+			),
+			accountScope: identity.accountId
 		}, reference ? 404 : 409);
 	}
+	const routeReference = selected.routeReference ||
+		selected.tunnelId ||
+		selected.tunnelName;
 	return json($i, {
 		...Discovery.responseBase(currentState),
 		...response(true, ""),
 		recovered: !reference,
+		accountScope: identity.accountId,
+		routeReference,
 		tunnelId: selected.tunnelId || null,
 		tunnelName: selected.tunnelName,
 		connected: selected.connected !== false,
@@ -50,10 +52,25 @@ async function myDevice($i) {
 	});
 }
 
+function requestedReference(parameters = {}) {
+	return String(
+		parameters.tunnelId ||
+		parameters.routeReference ||
+		parameters.tunnelName ||
+		parameters.name ||
+		""
+	).trim();
+}
+
 function response(ok, error) {
-	return { BH: "B\"H", ok, error: error || undefined };
+	return {
+		BH: "B\"H",
+		ok,
+		error: error || undefined
+	};
 }
 
 module.exports = {
-	myDevice
+	myDevice,
+	requestedReference
 };

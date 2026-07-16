@@ -13,9 +13,9 @@ progress_file="$runtime_root/install-progress.state"
 mkdir -p "$(dirname "$install_root")" "$runtime_root"
 export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
 
-# The bootstrap reveals every helper download before transactional installation.
-# The Awtsmoos renews component and percentage together; Awtsmoos.com never leaves
-# migration, cleanup, or recovery helpers missing from the public installer vessel.
+# The Awtsmoos renews package, identity, singleton, and guardian as one covenant.
+# Awtsmoos.com downloads every helper before activation so partial bootstrap cannot
+# omit the guard, recovery witness, or account metadata needed for a stable reinstall.
 bootstrap_progress() {
 	local percent="$1"
 	local message="$2"
@@ -30,9 +30,7 @@ bootstrap_progress() {
 cleanup_bootstrap() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
-		if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
-			printf '\n'
-		fi
+		[ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ] && printf '\n'
 		printf '[FAILED] Awtsmoos Tunnel bootstrap stopped before completion.\n' >&2
 	fi
 	rm -rf "$runtime_root"
@@ -52,43 +50,23 @@ command -v curl >/dev/null 2>&1 || {
 bootstrap_progress 4 'Prerequisites verified'
 
 helpers=(
-	unix-install-core.sh
-	unix-install-log.sh
-	unix-install-progress.sh
-	unix-install-browser.sh
-	unix-install-success.sh
-	unix-install-lock.sh
-	unix-log-retention.sh
-	unix-state-migration.sh
-	unix-chrome-profile-process.cjs
-	unix-displaced-cleanup.sh
-	unix-package-io.sh
-	unix-package-config.sh
-	unix-package-stage.sh
-	unix-legacy-catalog.sh
-	unix-process-runtime.sh
-	unix-process-control.sh
-	unix-connection-health.sh
-	unix-legacy-fallback.sh
-	unix-agent-launcher.cjs
-	unix-recovery-archive-list.sh
-	unix-recovery-retention.sh
-	unix-recovery-store.sh
-	unix-recovery-validation.sh
-	unix-recovery-candidates.sh
-	unix-recovery-rescue.sh
-	unix-activation-state.sh
-	unix-activation-fresh.sh
-	unix-activation-rollback.sh
-	unix-activation.sh
-	unix-cleanup.sh
-	unix-supervisor-runtime.sh
-	unix-supervisor-health-memory.sh
-	unix-supervisor-health.sh
-	unix-supervisor-recovery.sh
-	unix-supervisor-legacy.sh
-	unix-supervisor.sh
-	awtsmoos-tunnel-client.js
+	unix-install-core.sh unix-install-log.sh unix-install-progress.sh
+	unix-install-browser.sh unix-install-success.sh unix-install-lock.sh
+	unix-log-retention.sh unix-device-identity-state.sh unix-state-migration.sh
+	unix-chrome-profile-process.cjs unix-displaced-cleanup.sh unix-package-io.sh
+	unix-package-config.sh unix-package-stage.sh unix-legacy-catalog.sh
+	unix-process-runtime.sh unix-process-control.sh unix-service-identity.sh
+	unix-service-manager.sh unix-supervisor-install.sh unix-connection-health.sh
+	unix-project-root-health.sh unix-service-health.sh unix-legacy-fallback.sh
+	unix-agent-singleton.cjs unix-agent-receipt.cjs unix-agent-launcher.cjs
+	unix-recovery-archive-list.sh unix-recovery-retention.sh unix-recovery-store.sh
+	unix-recovery-validation.sh unix-recovery-candidates.sh unix-recovery-rescue.sh
+	unix-activation-state.sh unix-activation-fresh.sh unix-activation-rollback.sh
+	unix-activation.sh unix-cleanup.sh unix-supervisor-runtime.sh
+	unix-supervisor-agents.sh unix-supervisor-guard.sh
+	unix-supervisor-health-memory.sh unix-supervisor-receipt.sh
+	unix-supervisor-health.sh unix-supervisor-recovery.sh
+	unix-supervisor-legacy.sh unix-supervisor.sh awtsmoos-tunnel-client.js
 )
 
 total="${#helpers[@]}"

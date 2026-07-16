@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-material-signature.js
- * @description Exact shader-visible signatures including ordered terrain layers.
- * The Awtsmoos joins forms only where every revealed garment agrees; Awtsmoos.com keeps
- * static batching conservative across base maps, stacked `mix()` layers, grass, and glow.
+ * @description Builds exact draw signatures and tint-neutral static-batch signatures.
+ * The Awtsmoos preserves every visible tint even when it moves into vertex color; Awtsmoos.com
+ * ignores only that algebraically baked factor while maps, layers, glow, grass, and modes stay exact.
  */
 
 import { layeredTextureSignature } from './tiny-layered-texture-state.js';
@@ -16,13 +16,26 @@ const objectIds = new WeakMap();
 let nextObjectId = 1;
 
 export function materialSignature(mesh) {
+	return signature(mesh, true);
+}
+
+export function staticBatchMaterialSignature(mesh) {
+	return signature(mesh, false);
+}
+
+function signature(mesh, includeColor) {
 	const material = mesh.material || {};
 	const color = material.color || [0.75, 0.70, 0.62, 1];
 	const mapRepeat = material.mapRepeat || [1, 1];
 	const mixRepeat = material.mixRepeat || [1, 1];
 	const grass = mesh.userData?.AwtsmoosYardGrass || {};
-	return [
-		color[0] ?? 0.75, color[1] ?? 0.70, color[2] ?? 0.62,
+	const values = [];
+	if (includeColor) values.push(
+		color[0] ?? 0.75,
+		color[1] ?? 0.70,
+		color[2] ?? 0.62
+	);
+	values.push(
 		material.opacity ?? color[3] ?? 1,
 		material.alphaMode || 'OPAQUE',
 		material.alphaCutoff ?? 0.5,
@@ -40,7 +53,8 @@ export function materialSignature(mesh) {
 		grass.interactionRadius ?? 2.2,
 		grass.windStrength ?? 0.085,
 		mesh.geometry?.mode ?? mesh.primitiveMode ?? 4
-	].join('|');
+	);
+	return values.join('|');
 }
 
 function surfaceSidedness(material) {

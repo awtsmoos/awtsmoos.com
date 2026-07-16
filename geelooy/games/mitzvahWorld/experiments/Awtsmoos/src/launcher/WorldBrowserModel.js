@@ -4,9 +4,9 @@
 
 /**
  * @file WorldBrowserModel.js
- * @description Converts authoritative census into safe single and multiplayer cards.
- * The Awtsmoos renews many worlds beneath one doorway; Awtsmoos.com never invents
- * population and marks every unavailable transport as unavailable instead of local.
+ * @description Converts authoritative census into safe local and multiplayer world cards.
+ * The Awtsmoos renews many worlds beneath one doorway; Awtsmoos.com never invents population
+ * and advertises the complete 123-species procedural garden that the running world can generate.
  */
 
 const LOCAL_WORLDS = Object.freeze([
@@ -14,7 +14,7 @@ const LOCAL_WORLDS = Object.freeze([
 		description: 'Study, explore, film, and fight with deterministic offline authority.',
 		id: 'local-reference-village',
 		mode: 'singlePlayer',
-		tags: Object.freeze(['offline', '113 plants', 'seven quests']),
+		tags: Object.freeze(['offline', '123 plants', 'seven quests']),
 		title: 'Reference Mountain Village'
 	})
 ]);

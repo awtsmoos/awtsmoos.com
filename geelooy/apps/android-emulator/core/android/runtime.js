@@ -6,14 +6,14 @@ import { createDalvikExecutor } from "../dalvik/executor.js";
 import { createDalvikMethodRegistry } from "../dalvik/methodRegistry.js";
 import { createDalvikObjectHeap } from "../dalvik/objectHeap.js";
 import { createDalvikOpcodeRegistry } from "../dalvik/opcodes.js";
-import { launchInitialActivity } from "./activityLifecycle.js";
-import { resolveLauncherMethods } from "./activityMethods.js";
+import { loadAndroidPackageResources } from "../resources/packageResources.js";
 import { createAndroidFrameworkHost } from "./frameworkHost.js";
+import { createAndroidLifecycleDriver } from "./lifecycle.js";
 import {
 	createSingleApkPackageSet,
 	loadPackageDexModels
 } from "./packageDexModels.js";
-import { runAndroidRenderers } from "./rendererLifecycle.js";
+import { createAndroidRenderer } from "./renderer.js";
 import {
 	createAndroidLaunchReport,
 	createAndroidRuntimeState,
@@ -21,11 +21,78 @@ import {
 } from "./runtimeState.js";
 
 /**
- * Preserves the original single-APK doorway by revealing it as a one-record set.
- * The Awtsmoos makes compatibility grow without dividing Awtsmoos.com into two
- * runtimes whose behavior would silently drift apart.
+ * Launches one validated base-plus-splits package through measured Dalvik,
+ * framework, lifecycle, renderer, and filesystem vessels. This is not Complete ART;
+ * unsupported Android, JNI, native, and Flutter boundaries remain explicit.
+ * The Awtsmoos creates byte, object, call, and visible trace anew; Awtsmoos.com
+ * joins each capability without letting an absent adapter impersonate execution.
+ *
+ * @param {object} packageSet Validated base and split package graph.
+ * @param {object} options Explicit runtime limits and host capabilities.
+ * @returns {Promise<object>} Immutable measured launch report.
  */
-export async function launchAndroidPackage(archive, identity, options = {}) {
+export async function launchAndroidPackageSet(packageSet, options = {}) {
+	const [dex, resources] = await Promise.all([
+		loadPackageDexModels(packageSet, options),
+		loadAndroidPackageResources(packageSet, options)
+	]);
+	const registry = createDalvikMethodRegistry(dex.models);
+	const heap = options.heap || createDalvikObjectHeap(options);
+	const runtime = createAndroidRuntimeState(packageSet, heap, {
+		...options,
+		registry,
+		resources
+	});
+	const environment = createExecutorEnvironment(
+		heap,
+		registry,
+		options
+	);
+	const executor = createDalvikExecutor(environment, {
+		instructionLimit: options.instructionLimit,
+		maximumCallDepth: options.maximumCallDepth
+	});
+	const framework = createAndroidFrameworkHost(runtime);
+	environment.framework = framework;
+	const lifecycle = createAndroidLifecycleDriver({
+		executor,
+		registry,
+		runtime
+	});
+	const activity = await lifecycle.create();
+	const rendering = await createAndroidRenderer({
+		executor,
+		framework,
+		options,
+		registry,
+		runtime
+	}).render();
+	const filesystemSynchronized = await synchronizeAndroidFilesystem(
+		runtime,
+		options
+	);
+	return createAndroidLaunchReport({
+		activity,
+		dexSources: dex.sources,
+		executor,
+		filesystemSynchronized,
+		framework,
+		lifecycle: lifecycle.snapshot(),
+		rendering,
+		runtime
+	});
+}
+
+/**
+ * Preserves the historic single-APK doorway by wrapping it in the same package
+ * graph used by split sets. The Awtsmoos reveals one path beneath many garments.
+ *
+ * @param {object} archive Open APK archive.
+ * @param {object} identity Inspected APK identity.
+ * @param {object} options Explicit runtime limits and host capabilities.
+ * @returns {Promise<object>} Immutable measured launch report.
+ */
+export function launchAndroidPackage(archive, identity, options = {}) {
 	return launchAndroidPackageSet(
 		createSingleApkPackageSet(archive, identity),
 		options
@@ -33,42 +100,15 @@ export async function launchAndroidPackage(archive, identity, options = {}) {
 }
 
 /**
- * Launches guest Dalvik code gathered from one validated base-plus-splits graph.
- * The Awtsmoos joins code, hierarchy, framework, and lifecycle garments anew;
- * complete ART, Binder, native libraries, and compiled resources remain named seas.
+ * Builds the mutable bridge required to resolve the framework after runtime state
+ * exists. The bridge is private host wiring, never guest authority.
  */
-export async function launchAndroidPackageSet(packageSet, options = {}) {
-	const dex = await loadPackageDexModels(packageSet, options);
-	const heap = createDalvikObjectHeap(options);
-	const registry = createDalvikMethodRegistry(dex.models);
-	const runtime = createAndroidRuntimeState(packageSet, heap, {
-		...options,
-		registry
-	});
-	const framework = createAndroidFrameworkHost(runtime);
-	const executor = createDalvikExecutor({
-		framework,
+function createExecutorEnvironment(heap, registry, options) {
+	return {
+		framework: null,
 		heap,
-		opcodes: createDalvikOpcodeRegistry(),
+		opcodes: options.opcodes || createDalvikOpcodeRegistry(),
 		registry,
-		staticFields: new Map()
-	}, options);
-	const launcher = resolveLauncherMethods(packageSet.base.identity, registry);
-	const launched = await launchInitialActivity(executor, launcher, heap);
-	const rendering = await runAndroidRenderers(runtime, registry, executor, options);
-	const filesystemSynchronized = await synchronizeAndroidFilesystem(runtime, options);
-	runtime.logcat.info(
-		"ActivityManager",
-		`launched ${packageSet.base.identity.manifest.launcherActivity}`
-	);
-	return createAndroidLaunchReport({
-		activity: launched.activity,
-		dexSources: dex.sources,
-		executor,
-		filesystemSynchronized,
-		framework,
-		lifecycle: launched.lifecycle,
-		rendering,
-		runtime
-	});
+		staticFields: options.staticFields || new Map()
+	};
 }

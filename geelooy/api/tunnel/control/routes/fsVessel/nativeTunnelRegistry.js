@@ -12,13 +12,12 @@ const {
 const { verifyTunnelResponse } = require("./responseContract.js");
 
 /**
- * @file Reads native relay sockets only through complete immutable identity.
+ * @file Reads and routes native sockets only through complete immutable identity.
  * @description
- * The Awtsmoos creates every messenger anew without erasing rightful borders.
- * Awtsmoos.com rejects name-only and account-only sockets; native discovery needs
- * server-authenticated account, tunnel ID, device ID, canonical name, and device kind.
+ * The Awtsmoos renews account, tunnel ID, device ID, and readable name together.
+ * Awtsmoos.com discovers exact proven sockets and sends by stable route reference,
+ * while preserving the friendly alias solely for response clarity and diagnostics.
  */
-
 function allTunnelClients(server = {}) {
 	const clients = [
 		...Array.from(server?.tunnelClients?.values?.() || []),
@@ -26,9 +25,7 @@ function allTunnelClients(server = {}) {
 	];
 	const unique = new Set();
 	return clients.filter((client) => {
-		if (!client || unique.has(client)) {
-			return false;
-		}
+		if (!client || unique.has(client)) return false;
 		unique.add(client);
 		return true;
 	});
@@ -42,7 +39,6 @@ function newestStamp(client = {}) {
 	);
 }
 
-/** Returns true only for a server-authenticated native device socket. */
 function isNativeTunnelClient(client = {}) {
 	if (
 		client.isTunnel !== true ||
@@ -51,12 +47,8 @@ function isNativeTunnelClient(client = {}) {
 		!Id.normalizeIdentifier(client.tunnelId) ||
 		!Id.deviceId(client.deviceId) ||
 		!Id.tunnelName(client.tunnelName)
-	) {
-		return false;
-	}
-	if (isBrowserVesselDescriptor(client)) {
-		return false;
-	}
+	) return false;
+	if (isBrowserVesselDescriptor(client)) return false;
 	const type = normalizeVesselType(
 		client.vesselType || client.kind || client.type
 	);
@@ -67,9 +59,7 @@ function listNativeTunnelClients($i, accountId) {
 	const normalizedAccount = Id.accountId(accountId);
 	const latest = new Map();
 	for (const client of allTunnelClients($i).filter(isNativeTunnelClient)) {
-		if (client.accountId !== normalizedAccount) {
-			continue;
-		}
+		if (client.accountId !== normalizedAccount) continue;
 		const previous = latest.get(client.tunnelId);
 		if (!previous || newestStamp(client) >= newestStamp(previous)) {
 			latest.set(client.tunnelId, client);
@@ -78,26 +68,35 @@ function listNativeTunnelClients($i, accountId) {
 	return [...latest.values()];
 }
 
-function findNativeTunnelClient($i, accountId, tunnelName) {
-	return listNativeTunnelClients($i, accountId).find((client) => {
-		return client.tunnelName === Id.tunnelName(tunnelName);
-	}) || null;
+function findNativeTunnelClient($i, accountId, reference) {
+	const normalized = Id.normalizeIdentifier(reference);
+	const clients = listNativeTunnelClients($i, accountId);
+	const exactId = clients.find((client) => client.tunnelId === normalized);
+	if (exactId) return exactId;
+	const nameMatches = clients.filter((client) => client.tunnelName === normalized);
+	return nameMatches.length === 1 ? nameMatches[0] : null;
 }
 
-/** Finds only the socket whose immutable identity matches a proven binding. */
 function findExactNativeTunnelClient($i, binding) {
 	return listNativeTunnelClients($i, binding?.ownerAccountId)
 		.find((client) => Provenance.sameLiveIdentity(binding, client)) || null;
 }
 
-async function sendNativeTunnel($i, accountId, tunnelName, payload, timeoutMs) {
+async function sendNativeTunnel(
+	$i,
+	accountId,
+	routeReference,
+	payload,
+	timeoutMs,
+	displayName = routeReference
+) {
 	const result = await $i.ws.sendTunnelRequest(
 		accountId,
-		tunnelName,
+		routeReference,
 		payload,
 		timeoutMs
 	);
-	return verifyTunnelResponse(result, payload, tunnelName);
+	return verifyTunnelResponse(result, payload, displayName);
 }
 
 module.exports = {

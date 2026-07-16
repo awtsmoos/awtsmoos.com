@@ -9,73 +9,98 @@ const { VESSEL_TYPES } = require("./vesselTypes.js");
 const { VIRTUAL_OS_TUNNEL_NAME } = require("./virtualNames.js");
 
 /**
- * @file Creates narrow filesystem vessels after authorization has succeeded.
+ * @file Creates narrow filesystem vessels after authorization succeeds.
  * @description
- * The Awtsmoos renews route and destination as one deed. Awtsmoos.com keeps
- * authorization outside these vessels, so they can carry only server-derived
- * owner accounts and canonical tunnel names into the relay.
+ * The Awtsmoos renews immutable route and readable destination as distinct lights.
+ * Awtsmoos.com sends native and browser work by server-issued tunnel ID, while
+ * responses retain canonical names and account authority never enters from payload.
  */
-
-/** Adds a known project root without accepting a foreign authority hint. */
 function withProjectRoot(payload = {}, device = {}) {
-	if (payload.projectRoot || !device.root) {
-		return payload;
-	}
-	return { ...payload, projectRoot: device.root };
+	if (payload.projectRoot || !device.root) return payload;
+	return {
+		...payload,
+		projectRoot: device.root
+	};
 }
 
-/** Creates an account-scoped native relay vessel. */
 function nativeVessel(options = {}) {
-	const { $i, ownerAccountId, tunnelName, payload, timeoutMs, device, reason } = options;
+	const {
+		$i,
+		ownerAccountId,
+		payload,
+		timeoutMs,
+		device,
+		reason
+	} = options;
+	const tunnelName = device.tunnelName;
+	const routeReference = device.routeReference || device.tunnelId;
 	return {
 		kind: VESSEL_TYPES.NATIVE,
 		tunnelName,
+		routeReference,
 		device,
 		reason,
 		async send() {
 			const result = await sendNativeTunnel(
 				$i,
 				ownerAccountId,
-				tunnelName,
+				routeReference,
 				withProjectRoot(payload, device),
-				timeoutMs
+				timeoutMs,
+				tunnelName
 			);
-			return { ...result, vessel: VESSEL_TYPES.NATIVE, tunnelName, routeReason: reason };
+			return response(result, VESSEL_TYPES.NATIVE, tunnelName, routeReference, reason);
 		}
 	};
 }
 
-/** Creates a same-account browser relay vessel. */
 function browserVessel(options = {}) {
-	const { $i, accountId, tunnelName, payload, timeoutMs, device, reason } = options;
+	const { $i, accountId, payload, timeoutMs, device, reason } = options;
+	const tunnelName = device.tunnelName;
+	const routeReference = device.routeReference || device.tunnelId || tunnelName;
 	return {
 		kind: VESSEL_TYPES.BROWSER,
 		tunnelName,
+		routeReference,
 		device,
 		reason,
 		async send() {
 			const result = await sendBrowserTunnel(
 				$i,
 				accountId,
-				tunnelName,
+				routeReference,
 				withProjectRoot(payload, device),
-				timeoutMs
+				timeoutMs,
+				tunnelName
 			);
-			return { ...result, vessel: VESSEL_TYPES.BROWSER, tunnelName, routeReason: reason };
+			return response(result, VESSEL_TYPES.BROWSER, tunnelName, routeReference, reason);
 		}
 	};
 }
 
-/** Creates the authenticated hosted Virtual OS vessel. */
 function virtualVessel($i, userId, payload, reason) {
 	return {
 		kind: VESSEL_TYPES.VIRTUAL_OS,
 		tunnelName: VIRTUAL_OS_TUNNEL_NAME,
+		routeReference: VIRTUAL_OS_TUNNEL_NAME,
 		reason,
 		async send() {
 			const result = await sendVirtualOs($i, userId, payload);
-			return { ...result, routeReason: reason };
+			return {
+				...result,
+				routeReason: reason
+			};
 		}
+	};
+}
+
+function response(result, vessel, tunnelName, routeReference, reason) {
+	return {
+		...result,
+		vessel,
+		tunnelName,
+		routeReference,
+		routeReason: reason
 	};
 }
 

@@ -10,14 +10,12 @@ const Id = require(
 );
 
 /**
- * @file Joins persisted device ownership to the WebSocket relay boundary.
+ * @file Joins persisted ownership to an immutable account-scoped relay identity.
  * @description
- * The Awtsmoos creates browser and native vessels through different paths while
- * Awtsmoos.com requires one account truth before either enters relay memory.
- * Native devices prove a credential; browser vessels inherit verified session identity.
+ * The Awtsmoos renews account, device, name, and route without confusing display
+ * with authority. Awtsmoos.com verifies native possession or browser session, then
+ * keys relay memory by account plus tunnel ID so renames never orphan a live vessel.
  */
-
-/** Determines whether a registration represents a browser-hosted vessel. */
 function isBrowserRegistration(data = {}) {
 	const vessel = String(
 		data.vesselType || data.targetVessel || data.kind || ""
@@ -25,26 +23,11 @@ function isBrowserRegistration(data = {}) {
 	return data.browserAgent === true || vessel.includes("browser");
 }
 
-/** Produces server-authoritative registration identity or a denial. */
 function authorizeRegistration(client, data = {}) {
 	const tunnelName = Id.tunnelName(data.tunnelName || data.name || data.id);
-	if (!tunnelName) {
-		return { ok: false, error: "invalid_tunnel_name" };
-	}
+	if (!tunnelName) return denial("invalid_tunnel_name");
 	if (isBrowserRegistration(data)) {
-		const accountId = Id.accountId(client?.identity?.accountId);
-		if (!accountId) {
-			return { ok: false, error: "browser_session_required" };
-		}
-		return {
-			ok: true,
-			accountId,
-			deviceId: `browser_${accountId}`,
-			tunnelId: Id.normalizeIdentifier(data.tunnelId) ||
-				`browser_${tunnelName}`,
-			tunnelName,
-			accessKind: "session"
-		};
+		return authorizeBrowser(client, data, tunnelName);
 	}
 	const verified = Binding.verifyRegistration({
 		tunnelId: data.tunnelId,
@@ -52,9 +35,7 @@ function authorizeRegistration(client, data = {}) {
 		deviceId: data.deviceId,
 		credential: data.deviceCredential
 	});
-	if (!verified.ok) {
-		return verified;
-	}
+	if (!verified.ok) return verified;
 	return {
 		ok: true,
 		accountId: verified.binding.ownerAccountId,
@@ -67,12 +48,32 @@ function authorizeRegistration(client, data = {}) {
 	};
 }
 
-/** Builds the only key permitted in the global relay map. */
-function registrationKey(identity) {
-	return Id.registryKey(identity.accountId, identity.tunnelName);
+function authorizeBrowser(client, data, tunnelName) {
+	const accountId = Id.accountId(client?.identity?.accountId);
+	if (!accountId) return denial("browser_session_required");
+	const tunnelId = Id.normalizeIdentifier(data.tunnelId) ||
+		Id.normalizeIdentifier(`browser_${tunnelName}`);
+	if (!tunnelId) return denial("invalid_browser_tunnel_id");
+	return {
+		ok: true,
+		accountId,
+		deviceId: Id.deviceId(data.deviceId) || `browser_${accountId}`,
+		tunnelId,
+		tunnelName,
+		accessKind: "session"
+	};
+}
+
+function registrationKey(identity = {}) {
+	return Id.registryKey(identity.accountId, identity.tunnelId);
+}
+
+function denial(error) {
+	return { ok: false, error };
 }
 
 module.exports = {
+	authorizeBrowser,
 	authorizeRegistration,
 	isBrowserRegistration,
 	registrationKey

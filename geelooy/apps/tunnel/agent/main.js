@@ -3,15 +3,21 @@
 // Boruch Hashem
 // Blessed is He
 
+const Config = require("./lib/config.js");
+const MainProcess = require("./lib/runtime/main-process.js");
+const Singleton = require("./lib/runtime/process-singleton.js");
+
+if (require.main === module) acquireBeforeImports();
+
 const D = require("./lib/runtime/main-dependencies.js");
 const { createMainComponents } = require("./lib/runtime/main-components.js");
 
 /**
- * B"H
- *
- * The main loop starts one fair request per event-loop turn. The Awtsmoos
- * renews every lane and requester; Awtsmoos.com yields between starts so a
- * large queue cannot monopolize JavaScript before control traffic is observed.
+ * @file Starts one leased tunnel agent and drains fair request lanes.
+ * @description
+ * The Awtsmoos renews process, connection, lane, and worker without duplication.
+ * Awtsmoos.com acquires the install-root lease before heavy imports, then starts
+ * metrics and sockets only for the one body permitted to embody this tunnel ID.
  */
 let components;
 
@@ -20,12 +26,7 @@ function nextLane() {
 }
 
 function scheduleDrain() {
-	if (components.runtime.state.drainScheduled) {
-		return;
-	}
-	if (!nextLane()) {
-		return;
-	}
+	if (components.runtime.state.drainScheduled || !nextLane()) return;
 	components.runtime.state.drainScheduled = true;
 	setImmediate(drainQueue);
 }
@@ -33,9 +34,7 @@ function scheduleDrain() {
 function drainQueue() {
 	components.runtime.state.drainScheduled = false;
 	const item = components.queue.takeNext();
-	if (!item) {
-		return;
-	}
+	if (!item) return;
 	components.queue.clearQueueKeepalive(item);
 	if (item.ws?.opened) {
 		components.runRequest(
@@ -57,46 +56,49 @@ function release(lane, requesterKey) {
 	components.queue.release(lane, requesterKey);
 }
 
-components = createMainComponents(D, {
-	release,
-	scheduleDrain
+components = createMainComponents(D, { release, scheduleDrain });
+const processRuntime = MainProcess.createProcessRuntime({
+	root: Config.ROOT,
+	log: components.log,
+	start: components.startup.main,
+	snapshot: components.runtime.snapshot,
+	lagMonitor: components.runtime.lagMonitor,
+	stopWorkers: signal => components.workers.stopAll(signal),
+	exitProcess: code => process.exit(code)
 });
 
-const memoryTimer = setInterval(() => {
-	components.log("info", `Memory: ${JSON.stringify(components.runtime.snapshot())}`);
-}, 60000);
-memoryTimer.unref?.();
-components.runtime.lagMonitor.start();
+function main() {
+	return processRuntime.main();
+}
 
-process.on("SIGINT", () => {
-	components.workers.stopAll("SIGTERM");
+function acquireBeforeImports() {
+	const result = Singleton.acquire(Config.ROOT);
+	if (result.ok) return;
+	console.error(MainProcess.duplicateMessage(result));
 	process.exit(0);
-});
-process.on("SIGTERM", () => {
-	components.workers.stopAll("SIGTERM");
-	process.exit(0);
-});
+}
 
 if (require.main === module) {
-	components.startup.main().catch(error => {
+	main().catch(error => {
 		components.log("error", error.stack || error.message);
 		process.exit(1);
 	});
 }
 
 module.exports = {
-	dispatch: components.dispatch,
-	runRequest: components.runRequest,
-	enqueueRequest: components.queue.enqueueRequest,
-	stats: components.runtime.stats,
-	snapshot: components.runtime.snapshot,
 	connect: components.connection.connect,
-	main: components.startup.main,
-	sendProgress: components.queue.sendProgress,
+	dispatch: components.dispatch,
+	drainQueue,
+	enqueueRequest: components.queue.enqueueRequest,
+	lagMonitor: components.runtime.lagMonitor,
+	main,
+	processRuntime,
 	requestPayload: components.payload.requestPayload,
 	routedData: components.payload.routedData,
+	runRequest: components.runRequest,
 	scheduleDrain,
-	drainQueue,
+	sendProgress: components.queue.sendProgress,
+	snapshot: components.runtime.snapshot,
 	state: components.runtime.state,
-	lagMonitor: components.runtime.lagMonitor
+	stats: components.runtime.stats
 };

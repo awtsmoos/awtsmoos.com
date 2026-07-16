@@ -1,12 +1,23 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file runtimeMaterialReality.test.mjs
+ * @description Proves that the playable material manifest uses canonical production sources.
+ * The Awtsmoos renews every visible surface from truth rather than a lighter imitation;
+ * Awtsmoos.com preserves preview derivatives for tools while gameplay remains full-source.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import {
 	RUNTIME_MATERIALS,
 	runtimeMaterialByRole
 } from '../../assets/RuntimeMaterialManifest.js';
 
-test('terrain, bark, and every forest leaf use the licensed POT Chai Forest half pack', () => {
+test('terrain, bark, and forest leaves use the canonical Chai Forest source pack', () => {
 	const roles = [
 		'terrain.grass',
 		'terrain.dirtMix',
@@ -19,12 +30,28 @@ test('terrain, bark, and every forest leaf use the licensed POT Chai Forest half
 	for (const role of roles) {
 		const material = runtimeMaterialByRole(role);
 		assert.ok(material, `${role} must exist`);
-		assert.match(material.primaryUrl, /\/awtsmoos-nature\/chai-forest-half\//);
+		assert.match(material.primaryUrl, /\/awtsmoos-nature\/chai-forest\//);
+		assert.doesNotMatch(material.primaryUrl, /chai-forest-half/);
 		assert.equal(Object.isFrozen(material), true);
 	}
 });
 
-test('architecture roles retain exact deployed docs-base texture paths', () => {
+test('every production primary and fallback URL satisfies the strict folder policy', () => {
+	for (const material of RUNTIME_MATERIALS) {
+		assert.equal(
+			assertProductionMaterialUrl(material.primaryUrl, material.role),
+			material.primaryUrl
+		);
+		for (const fallbackUrl of material.fallbackUrls) {
+			assert.equal(
+				assertProductionMaterialUrl(fallbackUrl, material.role),
+				fallbackUrl
+			);
+		}
+	}
+});
+
+test('architecture roles retain exact deployed full-resolution paths', () => {
 	const expected = {
 		'village.woodPlanks': 'wooden%20oak%20planks%201.png',
 		'stone.fieldstone': 'weathered%20fieldstone%20Rock%201.png',
@@ -40,7 +67,7 @@ test('architecture roles retain exact deployed docs-base texture paths', () => {
 	}
 });
 
-test('full-only marsh, mud, and water roles never invent half-resolution 404 fallbacks', () => {
+test('full-only marsh, mud, and water roles retain empty fallback chains', () => {
 	const roles = [
 		'terrain.marshGrass',
 		'terrain.mud',
@@ -54,5 +81,10 @@ test('full-only marsh, mud, and water roles never invent half-resolution 404 fal
 		assert.deepEqual(material.fallbackUrls, []);
 		assert.match(material.primaryUrl, /\/full-resolution\//);
 	}
-	assert.equal(new Set(RUNTIME_MATERIALS.map(material => material.role)).size, RUNTIME_MATERIALS.length);
+	assert.equal(
+		new Set(RUNTIME_MATERIALS.map((material) => {
+			return material.role;
+		})).size,
+		RUNTIME_MATERIALS.length
+	);
 });

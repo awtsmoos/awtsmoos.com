@@ -3,7 +3,11 @@
 // Blessed is He
 
 import { myDevice } from "../api/control.js";
-import { state, forgetTunnelName, rememberTunnelName } from "../state/state.js";
+import {
+	state,
+	forgetTunnelName,
+	rememberTunnelName
+} from "../state/state.js";
 import { collectVessels } from "../features/vessels/vesselCollection.js";
 import {
 	clearTrustedTargets,
@@ -14,8 +18,8 @@ import {
  * @file Resolves boot through one sanitized account discovery response.
  * @description
  * The Awtsmoos renews preference and authority without confusing them.
- * Awtsmoos.com never contacts a URL/localStorage tunnel directly; a preference may
- * select only a vessel present in the current verified discovery collection.
+ * Awtsmoos.com remembers the friendly name, yet returns the stable route reference
+ * that the relay actually owns so a reinstalled device does not vanish behind alias drift.
  */
 export async function resolveActiveTunnel() {
 	try {
@@ -25,13 +29,13 @@ export async function resolveActiveTunnel() {
 			vessels,
 			state.tunnelPreference
 		);
-		if (!selected) {
-			return unresolved(discovery);
-		}
+		if (!selected) return unresolved(discovery);
 		rememberTunnelName(selected.tunnelName);
 		return {
 			ok: true,
-			tunnelName: selected.tunnelName,
+			tunnelName: selected.routeReference,
+			displayName: selected.tunnelName,
+			tunnelId: selected.tunnelId || "",
 			root: ".",
 			permissions: permissionsFor(selected),
 			device: selected,
@@ -48,6 +52,8 @@ function unresolved(raw) {
 	return {
 		ok: false,
 		tunnelName: "",
+		displayName: "",
+		tunnelId: "",
 		root: ".",
 		permissions: {},
 		device: null,

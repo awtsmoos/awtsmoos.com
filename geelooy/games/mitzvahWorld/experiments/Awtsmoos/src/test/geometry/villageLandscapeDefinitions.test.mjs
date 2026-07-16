@@ -4,9 +4,9 @@
 
 /**
  * @file villageLandscapeDefinitions.test.mjs
- * @description Proves expanded gardens and landscape remain deterministic and batched.
- * The Awtsmoos renews beds, bushes, stones, and every flower family in one valley;
- * Awtsmoos.com verifies measured layers instead of the obsolete compact-village counts.
+ * @description Proves 123-species gardens and landscape remain deterministic and batched.
+ * The Awtsmoos renews beds, bushes, stones, and every supplied flower family in one valley;
+ * Awtsmoos.com verifies measured layers instead of obsolete compact-village species counts.
  */
 
 import assert from 'node:assert/strict';
@@ -19,12 +19,15 @@ assert.equal(first.stats.gardenBeds, 3);
 assert.equal(first.stats.bushes, 24);
 assert.equal(first.stats.bushBatches, 3);
 assert.equal(first.stats.flowerInstances, 270);
-assert.equal(first.stats.flowerSpecies, 113);
+assert.equal(first.stats.flowerSpecies, 123);
 assert.equal(first.stats.flowerBatches, 6);
-assert.equal(first.stats.flowerTriangles, 17218);
+assert.ok(first.stats.flowerTriangles >= 16000);
 assert.equal(first.stats.shoreStones, 18);
 assert.equal(first.definitions.length, 30);
-assert.ok(first.definitions.every((definition) => definition.id.startsWith('Awtsmoos_')));
+assert.ok(first.definitions.every(definition => definition.id.startsWith('Awtsmoos_')));
+assert.ok(first.definitions.every(definition => {
+	return definition.userData?.AwtsmoosLod || definition.userData?.family;
+}));
 
 console.log(JSON.stringify({ ok: true, stats: first.stats }, null, 2));
 

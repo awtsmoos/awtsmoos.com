@@ -11,13 +11,12 @@ const {
 } = require("./tunnelClient.js");
 
 /**
- * @file Builds discovery from proven bindings and exact live-socket identity.
+ * @file Builds one account's device inventory from proven bindings and live sockets.
  * @description
- * The Awtsmoos creates owner, guest, socket, and silence anew. Awtsmoos.com starts
- * with possession-backed authorization and joins live health only when account,
- * tunnel ID, device ID, and canonical name all match the persisted binding.
+ * The Awtsmoos renews owner, guest, alias, and immutable route without confusion.
+ * Awtsmoos.com publishes tunnel IDs as route references, keeps names for display,
+ * and never permits a same-named device from another account into this inventory.
  */
-
 function nativeDevice($i, entry) {
 	const access = Authorization.publicAccess(entry);
 	const client = findNativeTunnel($i, entry.binding);
@@ -26,7 +25,8 @@ function nativeDevice($i, entry) {
 		: offlineNative(entry.binding);
 	return {
 		...live,
-		...access
+		...access,
+		routeReference: entry.binding.tunnelId
 	};
 }
 
@@ -45,7 +45,8 @@ function offlineNative(binding) {
 		lastSeenAt: binding.lastAuthenticatedAt || null,
 		kind: "native",
 		vesselType: "native",
-		ownershipVerified: true
+		ownershipVerified: true,
+		routeReference: binding.tunnelId
 	};
 }
 
@@ -62,6 +63,7 @@ function emptyCapabilities() {
 function browserDevices($i, accountId) {
 	return listBrowserTunnels($i, accountId).map((device) => ({
 		...device,
+		routeReference: device.tunnelId || device.tunnelName,
 		access: "owned",
 		shared: false,
 		role: "session",
@@ -86,10 +88,13 @@ function inventory($i, accountId) {
 
 function resolveInventoryDevice(devices, reference) {
 	const normalized = String(reference || "").trim();
-	const matches = devices.filter((device) => {
-		return device.tunnelId === normalized || device.tunnelName === normalized;
+	if (!normalized) return null;
+	const exactId = devices.find((device) => device.tunnelId === normalized);
+	if (exactId) return exactId;
+	const nameMatches = devices.filter((device) => {
+		return device.tunnelName === normalized;
 	});
-	return matches.length === 1 ? matches[0] : null;
+	return nameMatches.length === 1 ? nameMatches[0] : null;
 }
 
 module.exports = {

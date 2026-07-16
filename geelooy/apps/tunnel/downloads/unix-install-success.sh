@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos calls installation complete only when the matching tunnel receipt
-# is alive. Awtsmoos.com then reveals the name, root, version, and control chamber.
+# The Awtsmoos calls installation complete only when relay, root, and guardian agree.
+# Awtsmoos.com refuses 100% for a temporary child, then reveals the stable route ID,
+# friendly name, project root, version, and durable service ownership.
 installer_config_value() {
 	local key="$1"
 	node - "$ROOT/config.json" "$key" <<'NODE'
@@ -17,15 +18,25 @@ try {
 NODE
 }
 
-registered_connection_verified() {
-	local modern_pid
-	local legacy_pid
-	modern_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	if runtime_pid_matches "$modern_pid" && runtime_registered "$modern_pid" 600000; then
-		return 0
-	fi
-	legacy_pid="$(cat "$RECOVERY_ROOT/legacy-agent.pid" 2>/dev/null || true)"
-	if is_alive "$legacy_pid" && legacy_log_registered; then
+connection_receipt_value() {
+	local key="$1"
+	node - "$ROOT/connection-state.json" "$key" <<'NODE'
+const fs = require("node:fs");
+const [file, key] = process.argv.slice(2);
+try {
+	const value = JSON.parse(fs.readFileSync(file, "utf8"));
+	process.stdout.write(String(value[key] ?? ""));
+} catch {}
+NODE
+}
+
+verified_agent_pid() {
+	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	if runtime_pid_matches "$pid" &&
+		runtime_registered "$pid" 600000 &&
+		project_root_ready "$pid" 600000 &&
+		service_supervision_ready "$pid"; then
+		printf '%s\n' "$pid"
 		return 0
 	fi
 	return 1
@@ -34,18 +45,19 @@ registered_connection_verified() {
 print_install_success_card() {
 	local version="$1"
 	local tunnel_name="$2"
-	local project_root="$3"
-	local control_url="$4"
-	printf '\n'
-	printf '%s\n' '============================================================'
-	printf '%s\n' 'B"H  AWTSMOOS TUNNEL INSTALLED AND CONNECTED'
+	local tunnel_id="$3"
+	local project_root="$4"
+	local control_url="$5"
+	printf '\n%s\n' '============================================================'
+	printf '%s\n' 'B"H  AWTSMOOS TUNNEL VERIFIED, GUARDED, AND CONNECTED'
 	printf '%s\n' '============================================================'
 	printf 'Tunnel name : %s\n' "$tunnel_name"
-	printf 'Project root: %s\n' "$project_root"
+	printf 'Tunnel ID   : %s\n' "$tunnel_id"
+	printf 'Project root: %s (read/write verified)\n' "$project_root"
+	printf 'Guardian    : %s\n' "$(service_health_summary)"
 	printf 'Version     : %s\n' "$version"
-	printf 'Control     : %s\n' "$control_url"
-	printf '\n'
-	printf '%s\n' 'The background agent is running. Keep it available while ChatGPT works.'
+	printf 'Control     : %s\n\n' "$control_url"
+	printf '%s\n' 'Socket watchdog, supervisor, and service manager are active.'
 	printf '%s\n' 'Refresh or repair at any time with:'
 	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash'
 	printf '%s\n' '============================================================'
@@ -55,8 +67,7 @@ print_skip_start_card() {
 	local version="$1"
 	local tunnel_name="$2"
 	local project_root="$3"
-	printf '\n'
-	printf '%s\n' 'B"H Awtsmoos Tunnel files verified; runtime start was skipped.'
+	printf '\n%s\n' 'B"H Awtsmoos Tunnel files verified; runtime start was skipped.'
 	printf 'Tunnel name : %s\n' "$tunnel_name"
 	printf 'Project root: %s\n' "$project_root"
 	printf 'Version     : %s\n' "$version"
@@ -64,33 +75,36 @@ print_skip_start_card() {
 
 complete_install_experience() {
 	local phase="${1:-unknown}"
-	local version
-	local tunnel_name
-	local project_root
-	local control_url
-	version="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf 'unknown')"
-	tunnel_name="$(installer_config_value tunnelName)"
-	project_root="$(installer_config_value root)"
-	control_url="$(installer_control_url)"
+	local version="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)"
+	local tunnel_name="$(installer_config_value tunnelName)"
+	local project_root="$(installer_config_value root)"
+	local control_url="$(installer_control_url)"
+	local tunnel_id=""
+	local agent_pid=""
 	if skip_start_requested; then
 		install_progress 72 "Files verified; runtime start skipped"
 		finish_install_progress_line
 		install_event "complete" "passed" \
-			"AWTSMOOS_SKIP_START set; files verified without starting the runtime." \
+			"Runtime start skipped by explicit request." \
 			"activeVersion=$version phase=$phase root=$ROOT"
 		print_skip_start_card "$version" "$tunnel_name" "$project_root"
 		return 0
 	fi
-	if ! registered_connection_verified; then
+	agent_pid="$(verified_agent_pid || true)"
+	if [ -z "$agent_pid" ]; then
 		install_fail "complete" \
-			"Final registration receipt was missing; refusing to claim success." \
-			"phase=$phase state=$(connection_state_name) root=$ROOT"
+			"Registration, project root, or durable guardian was missing." \
+			"phase=$phase state=$(connection_state_name) $(project_root_health_summary) $(service_health_summary)"
 	fi
-	install_progress 100 "Awtsmoos Tunnel is installed and connected"
+	tunnel_id="$(connection_receipt_value tunnelId)"
+	[ -n "$tunnel_id" ] || install_fail "complete" \
+		"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"
+	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
 	finish_install_progress_line
 	install_event "complete" "passed" \
-		"Awtsmoos Tunnel installation ended with a guarded registered connection." \
-		"activeVersion=$version phase=$phase root=$ROOT tunnelName=$tunnel_name"
-	print_install_success_card "$version" "$tunnel_name" "$project_root" "$control_url"
+		"Installation ended with relay, root, and guardian readiness." \
+		"version=$version phase=$phase pid=$agent_pid tunnelId=$tunnel_id"
+	print_install_success_card \
+		"$version" "$tunnel_name" "$tunnel_id" "$project_root" "$control_url"
 	open_tunnel_control "$control_url"
 }

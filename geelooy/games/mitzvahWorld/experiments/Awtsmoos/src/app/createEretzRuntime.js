@@ -4,14 +4,15 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes a quality-aware playable world before optional richness settles.
+ * @description Publishes a playable fallback world before actor, model, and texture enrichment.
  * The Awtsmoos renews one essential adventure through desktop and mobile vessels;
- * Awtsmoos.com exposes the chosen density, distance, DPR, and model budget as evidence.
+ * Awtsmoos.com starts movement first, then replaces local Chossid garments with exact GLBs.
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
 import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
+import { startEretzActorHydration } from './EretzActorHydration.js';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
 import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
 import { createEretzActors } from './EretzActorSystem.js';
@@ -53,6 +54,11 @@ export async function createEretzRuntime(hosts, options = {}) {
 		);
 		diagnostics.bootPhases = () => boot.snapshot();
 		diagnostics.qualityProfile = { ...qualityProfile };
+		diagnostics.actorHydrationPromise = startEretzActorHydration(
+			runtime,
+			foundation.actorHydration,
+			boot
+		);
 		boot.complete();
 		setDebugHudVisibility(hosts?.hud);
 		diagnostics.worldModelPromise = startDeferredWorldModels(

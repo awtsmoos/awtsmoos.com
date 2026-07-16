@@ -5,18 +5,39 @@
 /**
  * Executes Dalvik fixed and range invokes through guest code or the virtual Android
  * framework. The Awtsmoos creates argument words, dispatch kind, callee, and result
- * anew; Awtsmoos.com names every unresolved method instead of inventing success.
+ * anew; Awtsmoos.com preserves the complete nested register testimony on failure.
  */
 export async function executeInvokeOperation(instruction, frame, context) {
 	if (!instruction.name.startsWith("invoke-")) return null;
 	const record = context.registry.byIndex(context.model, instruction.index);
-	const argumentsToPass = frame.registers.getMany(instruction.registers || []);
+	const registerNumbers = instruction.registers || [];
+	const argumentsToPass = frame.registers.getMany(registerNumbers);
 	const dispatch = invocationKind(instruction.name);
 	let result;
-	if (record.code) {
-		result = await context.invokeGuest(record, argumentsToPass, dispatch);
-	} else {
-		result = await context.framework.invoke(record, argumentsToPass, dispatch, context);
+	try {
+		result = record.code
+			? await context.invokeGuest(record, argumentsToPass, dispatch)
+			: await context.framework.invoke(
+				record,
+				argumentsToPass,
+				dispatch,
+				context
+			);
+	} catch (error) {
+		const evidence = createInvokeEvidence(
+			instruction,
+			record,
+			registerNumbers,
+			argumentsToPass,
+			dispatch
+		);
+		if (!error.dalvikInvoke) error.dalvikInvoke = evidence;
+		const chain = Array.isArray(error.dalvikInvokeChain)
+			? [...error.dalvikInvokeChain]
+			: [];
+		chain.push(evidence);
+		error.dalvikInvokeChain = Object.freeze(chain);
+		throw error;
 	}
 	frame.pendingResult = result;
 	context.traceCall(Object.freeze({
@@ -26,6 +47,43 @@ export async function executeInvokeOperation(instruction, frame, context) {
 		signature: record.signature
 	}));
 	return Object.freeze({ handled: true });
+}
+
+function createInvokeEvidence(
+	instruction,
+	record,
+	registerNumbers,
+	argumentsToPass,
+	dispatch
+) {
+	return Object.freeze({
+		arguments: Object.freeze(argumentsToPass.map(summarizeValue)),
+		dispatch,
+		instructionName: instruction.name,
+		pc: instruction.pc,
+		registers: Object.freeze([...registerNumbers]),
+		signature: record.signature
+	});
+}
+
+function summarizeValue(value) {
+	if (typeof value === "bigint") {
+		return Object.freeze({
+			kind: "bigint",
+			value: value.toString()
+		});
+	}
+	if (value && typeof value === "object") {
+		return Object.freeze({
+			id: value.id ?? null,
+			kind: value.kind ?? "object",
+			type: value.type ?? null
+		});
+	}
+	return Object.freeze({
+		kind: typeof value,
+		value
+	});
 }
 
 function invocationKind(name) {

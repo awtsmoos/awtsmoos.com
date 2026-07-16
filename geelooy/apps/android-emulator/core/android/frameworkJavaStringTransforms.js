@@ -32,7 +32,7 @@ const TRANSFORM_NAMES = new Set([
 export function invokeJavaStringTransform(runtime, record, args) {
 	const name = record.method.name;
 	if (name === "valueOf") return javaStringValueOf(runtime, record, args);
-	if (name === "format") return formatJavaString(runtime, args);
+	if (name === "format") return formatJavaString(runtime, record, args);
 	const value = readJavaText(runtime, args[0]);
 	if (name === "concat") {
 		return string(runtime, value + readJavaText(runtime, args[1]));

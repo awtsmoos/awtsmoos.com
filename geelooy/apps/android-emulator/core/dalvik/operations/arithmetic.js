@@ -2,13 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
-const OPERATORS = Object.freeze({
+import { executeLongArithmetic } from "./longArithmetic.js";
+
+const NUMBER_OPERATORS = Object.freeze({
 	add: (left, right) => left + right,
 	and: (left, right) => left & right,
-	div: divide,
+	div: divideNumber,
 	mul: (left, right) => left * right,
 	or: (left, right) => left | right,
-	rem: remainder,
+	rem: remainderNumber,
 	shl: (left, right) => left << (right & 31),
 	shr: (left, right) => left >> (right & 31),
 	sub: (left, right) => left - right,
@@ -17,29 +19,39 @@ const OPERATORS = Object.freeze({
 });
 
 /**
- * Executes bounded Dalvik binary and literal arithmetic. The Awtsmoos creates
- * operation, wrapped integer, floating quotient, and divide boundary anew;
- * Awtsmoos.com derives behavior from instruction names rather than opcode guesses.
+ * Executes bounded Dalvik arithmetic by numeric kind. The Awtsmoos creates
+ * operator, int wrap, floating result, and signed long anew; Awtsmoos.com routes
+ * Java long through exact 64-bit BigInt instead of truncating it to host Number.
  */
 export function executeArithmeticOperation(instruction, frame) {
 	const parsed = parseArithmetic(instruction.name);
 	if (!parsed) return null;
-	const registers = frame.registers;
-	const operands = readOperands(instruction, registers, parsed);
-	const operator = OPERATORS[parsed.operator];
-	if (!operator) return null;
-	let value = operator(operands.left, operands.right);
-	if (parsed.integer) value = value | 0;
-	registers.set(instruction.a, value);
+	const operands = readOperands(instruction, frame.registers, parsed);
+	let value;
+	if (parsed.kind === "long") {
+		value = executeLongArithmetic(
+			parsed.operator,
+			operands.left,
+			operands.right
+		);
+	} else {
+		const operator = NUMBER_OPERATORS[parsed.operator];
+		if (!operator) return null;
+		value = operator(Number(operands.left), Number(operands.right));
+		if (parsed.kind === "int") value |= 0;
+	}
+	frame.registers.set(instruction.a, value);
 	return Object.freeze({ handled: true });
 }
 
 function parseArithmetic(name) {
-	const base = name.replace("/2addr", "").replace(/\/lit(?:8|16)$/, "");
+	const base = name
+		.replace("/2addr", "")
+		.replace(/\/lit(?:8|16)$/, "");
 	const match = /^(add|sub|rsub|mul|div|rem|and|or|xor|shl|shr|ushr)-(int|long|float|double)$/.exec(base);
 	if (!match) return null;
 	return Object.freeze({
-		integer: ["int", "long"].includes(match[2]),
+		kind: match[2],
 		literal: /\/lit/.test(name),
 		operator: match[1] === "rsub" ? "sub" : match[1],
 		reverse: match[1] === "rsub",
@@ -65,14 +77,14 @@ function readOperands(instruction, registers, parsed) {
 		: Object.freeze({ left, right });
 }
 
-function divide(left, right) {
+function divideNumber(left, right) {
 	if (right === 0) throw arithmeticError("DALVIK_DIVIDE_BY_ZERO");
 	return Number.isInteger(left) && Number.isInteger(right)
 		? Math.trunc(left / right)
 		: left / right;
 }
 
-function remainder(left, right) {
+function remainderNumber(left, right) {
 	if (right === 0) throw arithmeticError("DALVIK_DIVIDE_BY_ZERO");
 	return left % right;
 }

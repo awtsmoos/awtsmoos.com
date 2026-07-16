@@ -4,29 +4,21 @@
 
 /**
  * @file tiny-layered-texture-state.js
- * @description Captures only explicitly layered terrain state exactly as the shader observes it.
- * The Awtsmoos is unchanged while many textures pass through `mix()`; Awtsmoos.com leaves
- * ordinary cottages and Chassidim on their inexpensive two-map path without six empty slots.
+ * @description Captures ten shader-visible material-stack layers without taxing ordinary meshes.
+ * The Awtsmoos remains one while many textures pass through `mix()`; Awtsmoos.com records
+ * image, repeat, ecological weights, slope, height, rotation, strength, and wet response exactly.
  */
 
+import { TERRAIN_LAYER_TARGET, terrainLayerUnits } from './tiny-terrain-layer-policy.js';
 import { sourceReady } from './tiny-texture-source.js';
 
-export const TERRAIN_LAYER_COUNT = 6;
-export const TERRAIN_LAYER_UNITS = Object.freeze([3, 4, 5, 6, 7, 8]);
+export const TERRAIN_LAYER_COUNT = TERRAIN_LAYER_TARGET;
+export const TERRAIN_LAYER_UNITS = terrainLayerUnits(TERRAIN_LAYER_TARGET);
 
 export function layeredTextureState(material = {}) {
 	if (!Array.isArray(material.textureLayers)) return [];
 	return Array.from({ length: TERRAIN_LAYER_COUNT }, (_, index) => {
-		const layer = material.textureLayers[index] || {};
-		const repeat = layer.repeat || [1, 1];
-		return {
-			image: layer.image || null,
-			ready: sourceReady(layer.image),
-			repeat0: repeat[0],
-			repeat1: repeat[1],
-			role: layer.role || '',
-			strength: layer.strength ?? 0
-		};
+		return layerState(material.textureLayers[index] || {});
 	});
 }
 
@@ -42,8 +34,30 @@ export function layeredTextureSignature(material = {}, identity) {
 		layer.repeat0,
 		layer.repeat1,
 		layer.strength,
-		layer.role
+		layer.role,
+		layer.angle,
+		...layer.zones,
+		...layer.slope,
+		...layer.height,
+		layer.wetness
 	]);
+}
+
+function layerState(layer) {
+	const repeat = pair(layer.repeat, [1, 1]);
+	return {
+		angle: finite(layer.angle, 0),
+		height: pair(layer.height, [-10000, 10000]),
+		image: layer.image || null,
+		ready: sourceReady(layer.image),
+		repeat0: repeat[0],
+		repeat1: repeat[1],
+		role: layer.role || '',
+		slope: pair(layer.slope, [0, 1]),
+		strength: finite(layer.strength, 0),
+		wetness: finite(layer.wetness, 0),
+		zones: vector4(layer.zones)
+	};
 }
 
 function sameLayer(left, right) {
@@ -53,5 +67,27 @@ function sameLayer(left, right) {
 		&& left.repeat0 === right.repeat0
 		&& left.repeat1 === right.repeat1
 		&& left.strength === right.strength
-		&& left.role === right.role;
+		&& left.role === right.role
+		&& left.angle === right.angle
+		&& sameArray(left.zones, right.zones)
+		&& sameArray(left.slope, right.slope)
+		&& sameArray(left.height, right.height)
+		&& left.wetness === right.wetness;
+}
+
+function pair(value, fallback) {
+	if (!Array.isArray(value)) return [...fallback];
+	return [finite(value[0], fallback[0]), finite(value[1], fallback[1])];
+}
+
+function vector4(value) {
+	return Array.from({ length: 4 }, (_, index) => finite(value?.[index], 1));
+}
+
+function finite(value, fallback) {
+	return Number.isFinite(Number(value)) ? Number(value) : fallback;
+}
+
+function sameArray(left, right) {
+	return left.length === right.length && left.every((value, index) => value === right[index]);
 }

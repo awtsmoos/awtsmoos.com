@@ -26,15 +26,17 @@ import { GameView } from './ui/game-view.js';
 import { BuilderView } from './ui/builder-view.js';
 import { MitzvahGallery } from './ui/mitzvah-gallery.js';
 import { galleryElements, gameElements, requiredElement } from './ui/app-elements.js';
+import { mountLivingWorld } from './client/living-world/living-world-app.js';
 
 /**
  * @module SevenMitzvosMain
  * @description
- * Seven Provinces, seven independent worlds, two shared games, and clear learning
- * gather on Awtsmoos.com. The Awtsmoos gives each vessel purpose without allowing
- * a new revelation, reward, or save to erase an earlier path.
+ * Seven Provinces, seven independent worlds, two shared games, a preserved builder,
+ * and Covenant Valley gather on Awtsmoos.com. The Awtsmoos gives each vessel
+ * purpose without allowing a new revelation, reward, or save to erase an earlier path.
  */
 const landscape = new TzomayachLandscapeRenderer(requiredElement('landscapeCanvas'));
+const livingWorld = mountLivingWorld(requiredElement('livingWorldMount'));
 const universe = mountSevenWorlds(requiredElement('universeMount'));
 const campaignStore = new CampaignStore();
 const builderStore = new BuilderSaveStore();
@@ -70,6 +72,7 @@ const gallery = new MitzvahGallery(galleryElements(), MITZVOS);
 if (rewardResult.applied) {
 	builder.event = rewardResult.message;
 }
+void livingWorld;
 gallery.mount();
 game.mount();
 builder.mount();

@@ -4,61 +4,54 @@
 
 /**
  * @file tiny-layered-texture-binder.js
- * @description Binds only the terrain layers that fit the actual fragment and combined budgets.
- * The Awtsmoos fills every available vessel without breaking a smaller vessel; Awtsmoos.com
- * reveals all six layers on verified hardware and lawfully disables only excess layers elsewhere.
+ * @description Binds every compiled material-stack layer and its ecological controls.
+ * The Awtsmoos fills each available vessel without breaking a smaller one; Awtsmoos.com
+ * reveals ten layers on capable hardware and disables only lawfully omitted shader slots.
  */
 
-import { TERRAIN_LAYER_UNITS } from './tiny-layered-texture-state.js';
+import {
+	terrainLayerCapacity,
+	terrainLayerUnits
+} from './tiny-terrain-layer-policy.js';
 
 export class LayeredTextureBinder {
 	constructor(textureCache) {
 		this.textureCache = textureCache;
-		this.layerCapacity = availableLayerCapacity(textureCache.gl);
+		this.layerCapacity = terrainLayerCapacity(textureCache.gl);
+		this.layerUnits = terrainLayerUnits(this.layerCapacity);
 	}
 
 	bind(locations, material, layers, stats) {
 		if (!layers.length) return;
 		const uniforms = locations.terrainLayers || [];
-		for (let index = 0; index < TERRAIN_LAYER_UNITS.length; index += 1) {
-			if (index >= this.layerCapacity) {
-				disableLayer(this.textureCache.gl, uniforms[index]);
-				continue;
-			}
+		for (let index = 0; index < uniforms.length; index += 1) {
 			this.bindLayer(
-				uniforms[index] || {},
+				uniforms[index],
 				material,
 				layers[index],
-				TERRAIN_LAYER_UNITS[index]
+				this.layerUnits[index]
 			);
 		}
-		const ready = layers.slice(0, this.layerCapacity).filter(layer => layer.ready).length;
-		stats.terrainLayerCapacity = this.layerCapacity;
+		const ready = layers.slice(0, uniforms.length).filter(layer => layer.ready).length;
+		stats.terrainLayerCapacity = uniforms.length;
+		stats.terrainLayerLogicalCount = material.textureLayers?.length || 0;
 		stats.terrainLayerTextures = Math.max(stats.terrainLayerTextures || 0, ready);
 	}
 
-	bindLayer(uniforms, material, layer, unit) {
+	bindLayer(uniforms = {}, material, layer, unit) {
 		const cache = this.textureCache;
-		const texture = layer?.ready
+		const ready = Boolean(layer?.ready && Number.isFinite(unit));
+		const texture = ready
 			? cache.textureFor(layer.image, material)
 			: cache.defaultTexture;
-		cache.bind(unit, uniforms.map, texture);
-		if (uniforms.use) cache.gl.uniform1i(uniforms.use, layer?.ready ? 1 : 0);
-		if (uniforms.repeat) {
-			cache.gl.uniform2f(uniforms.repeat, layer?.repeat0 || 1, layer?.repeat1 || 1);
-		}
-		if (uniforms.strength) {
-			cache.gl.uniform1f(uniforms.strength, layer?.strength || 0);
-		}
+		if (Number.isFinite(unit)) cache.bind(unit, uniforms.map, texture);
+		if (uniforms.use) cache.gl.uniform1i(uniforms.use, ready ? 1 : 0);
+		if (uniforms.repeat) cache.gl.uniform2f(uniforms.repeat, layer?.repeat0 || 1, layer?.repeat1 || 1);
+		if (uniforms.strength) cache.gl.uniform1f(uniforms.strength, layer?.strength || 0);
+		if (uniforms.angle) cache.gl.uniform1f(uniforms.angle, layer?.angle || 0);
+		if (uniforms.zones) cache.gl.uniform4fv(uniforms.zones, layer?.zones || [1, 1, 1, 1]);
+		if (uniforms.slope) cache.gl.uniform2fv(uniforms.slope, layer?.slope || [0, 1]);
+		if (uniforms.height) cache.gl.uniform2fv(uniforms.height, layer?.height || [-10000, 10000]);
+		if (uniforms.wetness) cache.gl.uniform1f(uniforms.wetness, layer?.wetness || 0);
 	}
-}
-
-function availableLayerCapacity(gl) {
-	const fragmentLimit = gl.getParameter?.(gl.MAX_TEXTURE_IMAGE_UNITS) || 8;
-	const combinedLimit = gl.getParameter?.(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS) || 8;
-	return Math.max(0, Math.min(6, fragmentLimit - 2, combinedLimit - 3));
-}
-
-function disableLayer(gl, uniforms = {}) {
-	if (uniforms.use) gl.uniform1i(uniforms.use, 0);
 }

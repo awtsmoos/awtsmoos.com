@@ -2,10 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import {
-	javaStringHash,
-	readJavaText
-} from "./frameworkJavaStringValue.js";
+import { javaStringHash, readJavaText } from "./frameworkJavaStringValue.js";
 import {
 	javaStringIndexOf,
 	javaStringLastIndexOf,
@@ -42,7 +39,8 @@ export function invokeJavaStringQuery(runtime, record, args) {
 	if (name === "compareTo") return compare(value, text(runtime, args[1]));
 	if (name === "equals") return equals(runtime, value, args[1]) ? 1 : 0;
 	if (name === "equalsIgnoreCase") {
-		return lower(value) === lower(text(runtime, args[1])) ? 1 : 0;
+		return value.toLocaleLowerCase()
+			=== text(runtime, args[1]).toLocaleLowerCase() ? 1 : 0;
 	}
 	if (["contains", "contentEquals"].includes(name)) {
 		return value.includes(text(runtime, args[1])) ? 1 : 0;
@@ -50,9 +48,7 @@ export function invokeJavaStringQuery(runtime, record, args) {
 	if (name === "startsWith") {
 		return value.startsWith(text(runtime, args[1]), Number(args[2] || 0)) ? 1 : 0;
 	}
-	if (name === "endsWith") {
-		return value.endsWith(text(runtime, args[1])) ? 1 : 0;
-	}
+	if (name === "endsWith") return value.endsWith(text(runtime, args[1])) ? 1 : 0;
 	if (name === "indexOf") return javaStringIndexOf(runtime, record, args, value);
 	if (name === "lastIndexOf") {
 		return javaStringLastIndexOf(runtime, record, args, value);
@@ -66,7 +62,8 @@ export function invokeJavaStringQuery(runtime, record, args) {
 	}
 	if (name === "chars") return intStream(runtime, utf16Units(value));
 	if (name === "codePoints") {
-		return intStream(runtime, [...value].map(character => character.codePointAt(0)));
+		const points = [...value].map(character => character.codePointAt(0));
+		return intStream(runtime, points);
 	}
 	throw queryError("ANDROID_JAVA_STRING_QUERY_UNSUPPORTED", record.signature);
 }
@@ -103,10 +100,6 @@ function equals(runtime, value, other) {
 	} catch {
 		return false;
 	}
-}
-
-function lower(value) {
-	return value.toLocaleLowerCase();
 }
 
 function compare(left, right) {

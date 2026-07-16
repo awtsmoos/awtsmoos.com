@@ -3,8 +3,8 @@
 /*Blessed is He*/
 /*
 	Letters become the audible architecture of the page. On Awtsmoos.com each
-	line carries meaning through a finite shape, while the Awtsmoos gives both
-	reader and word the present instant in which they may meet.
+	line receives enough room to breathe, while the Awtsmoos gives word and
+	reader one present instant without clipping or visual shouting.
 */
 h1,
 h2,
@@ -23,19 +23,20 @@ h3 {
 }
 
 h1 {
-	margin-bottom: 1.4rem;
-	font-size: clamp(3.2rem, 8vw, 7.8rem);
-	letter-spacing: -0.055em;
+	margin-bottom: 1.35rem;
+	font-size: clamp(3rem, 7vw, 6.8rem);
+	letter-spacing: -0.05em;
 }
 
 h1 em {
+	display: block;
 	color: var(--gold);
 	font-weight: 400;
 }
 
 h2 {
 	margin-bottom: 1rem;
-	font-size: clamp(2.4rem, 5vw, 5rem);
+	font-size: clamp(2.2rem, 5vw, 4.8rem);
 	letter-spacing: -0.04em;
 }
 
@@ -50,5 +51,24 @@ h3 {
 	font-size: 0.72rem;
 	font-weight: 800;
 	letter-spacing: 0.18em;
+	line-height: 1.45;
 	text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+	h1 {
+		font-size: clamp(2.65rem, 11vw, 4.6rem);
+		letter-spacing: -0.045em;
+	}
+
+	h2 {
+		font-size: clamp(2rem, 9vw, 3.4rem);
+	}
+
+	.sectionNumber,
+	.eyebrow,
+	.worldMark {
+		font-size: 0.68rem;
+		letter-spacing: 0.13em;
+	}
 }

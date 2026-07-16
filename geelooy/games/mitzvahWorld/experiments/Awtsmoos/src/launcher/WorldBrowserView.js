@@ -5,8 +5,8 @@
 /**
  * @file WorldBrowserView.js
  * @description Renders local and authoritative multiplayer world cards safely.
- * The Awtsmoos renews every selectable valley beneath one honest status line;
- * Awtsmoos.com escapes public labels and never enables an unavailable world doorway.
+ * The Awtsmoos renews every selectable valley beneath one honest status line; Awtsmoos.com
+ * escapes public labels and presents the complete 123-species procedural garden truthfully.
  */
 
 import { populationLabel } from './WorldBrowserModel.js';
@@ -16,7 +16,7 @@ export function renderWorldBrowser(container, model, onChoose) {
 		<section class="Awtsmoos-menu-hero">
 			<h2>Enter the Mountain Village</h2>
 			<p>Study a deterministic world alone or join an authoritative shared valley with quests,
-				combat, private messages, channels, creatures, cinema, and all 113 plant species.</p>
+				combat, private messages, channels, creatures, cinema, and all 123 plant species.</p>
 			<label class="Awtsmoos-player-name">Player name
 				<input data-player-name maxlength="48" value="Mountain Shliach" autocomplete="nickname">
 			</label>

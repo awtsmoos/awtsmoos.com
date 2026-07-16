@@ -3,12 +3,12 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation state records package identity and registration truth separately.
-# The Awtsmoos renews code and connection; Awtsmoos.com commits only when the
-# same candidate identity exists both before and after sustained acknowledgement.
+# Activation records package, registration, workspace, and guardian truth separately.
+# The Awtsmoos renews code and supervision each instant; Awtsmoos.com commits only
+# when launchd or the portable supervisor owns the exact registered process.
 
 skip_start_requested() {
-	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] || \
+	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] ||
 		[ "${AWTSMOOS_SKIP_START:-}" = "true" ]
 }
 
@@ -41,18 +41,34 @@ current_release_is_complete() {
 candidate_is_stably_active() {
 	current_release_is_complete || return 1
 	local startup_timeout="${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}"
-	# A first secure install may wait for the owner to approve the one-time code.
-	# Existing paired devices retain the fast registration deadline.
-	if [ ! -f "$ROOT/device-binding.json" ] && [ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
+	local agent_pid=""
+	if [ ! -f "$ROOT/device-binding.json" ] &&
+		[ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
 		startup_timeout=600
 	fi
 	wait_for_runtime "$startup_timeout" || return 1
+	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	if ! project_root_ready "$agent_pid" 600000; then
+		install_event "startup" "failed" \
+			"Agent registered but could not prove project-root readiness." \
+			"pid=${agent_pid:-missing} $(project_root_health_summary)"
+		return 1
+	fi
+	if ! wait_for_service_supervision 30; then
+		install_event "startup" "failed" \
+			"Agent was temporary; durable supervisor ownership was not proven." \
+			"$(service_health_summary)"
+		return 1
+	fi
 	if ! current_release_is_complete; then
 		install_event "startup" "failed" \
-			"Runtime identity changed while waiting for candidate acknowledgement." \
+			"Runtime identity changed while waiting for candidate readiness." \
 			"expectedVersion=$CANDIDATE_VERSION actualVersion=$(cat "$ROOT/install-state.txt" 2>/dev/null || printf missing)"
 		return 1
 	fi
+	install_event "startup" "passed" \
+		"Candidate sustained registration, root, and guardian readiness." \
+		"pid=$agent_pid $(project_root_health_summary) $(service_health_summary)"
 	return 0
 }
 

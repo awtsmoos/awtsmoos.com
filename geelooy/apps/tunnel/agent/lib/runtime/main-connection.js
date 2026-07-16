@@ -3,20 +3,19 @@
 // Blessed is He
 
 const { createConnectionMessages } = require("./main-connection-messages.js");
+const Reconnect = require("./main-reconnect-policy.js");
 const { wireConnectionSocket } = require("./main-connection-socket.js");
 
 /**
- * B"H
- *
- * Connection orchestration owns generation, retry, and active-socket identity.
- * The Awtsmoos renews each attempt; Awtsmoos.com records registration truth
- * while stale generations are denied authority over the living connection.
+ * @file Owns socket generations and an immortal reconnect covenant.
+ * @description
+ * The Awtsmoos renews every failed path without letting a dead socket become king.
+ * Awtsmoos.com keeps the reconnect timer referenced, backs off across generations,
+ * and resets only after accepted registration rather than a merely opened transport.
  */
 function createConnectionRuntime(dependencies) {
 	function clearReconnectTimer() {
-		if (!dependencies.state.reconnectTimer) {
-			return;
-		}
+		if (!dependencies.state.reconnectTimer) return;
 		clearTimeout(dependencies.state.reconnectTimer);
 		dependencies.state.reconnectTimer = null;
 	}
@@ -24,33 +23,33 @@ function createConnectionRuntime(dependencies) {
 	function closeActiveSocket(force = true) {
 		const active = dependencies.state.activeWs;
 		dependencies.state.activeWs = null;
-		if (!active) {
-			return;
-		}
+		if (!active) return;
 		try {
 			active.close(force);
 		} catch {}
 	}
 
 	function scheduleReconnect(reason = "socket_closed") {
-		if (dependencies.state.replacementRequested) {
-			return null;
-		}
+		if (dependencies.state.replacementRequested) return null;
 		if (dependencies.state.reconnectTimer) {
 			return dependencies.state.reconnectTimer;
 		}
-		const attempt = dependencies.state.reconnectAttempt++;
-		const delay = Math.min(30000, 1000 * 2 ** Math.min(5, attempt));
+		const attempt = Reconnect.nextAttempt(dependencies.state);
+		const delay = Reconnect.delayForAttempt(attempt, {
+			random: dependencies.random
+		});
 		dependencies.Receipt?.write("reconnecting", {
+			tunnelId: dependencies.state.tunnelId || "",
 			tunnelName: dependencies.state.tunnelName || "",
 			generation: dependencies.state.generation,
-			reason
+			reason,
+			reconnectAttempt: attempt + 1,
+			reconnectDelayMs: delay
 		});
 		dependencies.state.reconnectTimer = setTimeout(() => {
 			dependencies.state.reconnectTimer = null;
 			connect();
 		}, delay);
-		dependencies.state.reconnectTimer.unref?.();
 		return dependencies.state.reconnectTimer;
 	}
 
@@ -65,15 +64,13 @@ function createConnectionRuntime(dependencies) {
 		dependencies.state.replacementRequested = false;
 		closeActiveSocket(true);
 		dependencies.Receipt?.write("connecting", {
+			tunnelId: dependencies.state.tunnelId || "",
 			tunnelName: config.tunnelName,
 			agentVersion: dependencies.agentVersion || "",
 			generation,
 			reason: ""
 		});
-		dependencies.log(
-			"info",
-			`B"H connecting to ${config.wsUrl} as ${config.tunnelName}`
-		);
+		dependencies.log("info", `B"H connecting to ${config.wsUrl} as ${config.tunnelName}`);
 		const ws = new dependencies.TinyWebSocket(config.wsUrl);
 		dependencies.state.activeWs = ws;
 		const messages = createConnectionMessages({

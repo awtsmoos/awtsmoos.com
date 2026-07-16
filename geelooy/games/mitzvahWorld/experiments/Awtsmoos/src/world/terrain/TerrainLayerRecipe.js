@@ -4,47 +4,36 @@
 
 /**
  * @file TerrainLayerRecipe.js
- * @description Orders six full-resolution ecological layers for sequential shader revelation.
- * The Awtsmoos is one ground appearing as meadow, worn earth, wet bank, shaded forest,
- * mountain stone, marsh, and shore; Awtsmoos.com gives every garment a measured strength.
+ * @description Selects bounded active layers from a sixteen-source alpine ground recipe.
+ * The Awtsmoos reveals one valley as many meadow grasses, transitions, earth, mud, stone,
+ * forest floor, and marsh; Awtsmoos.com preserves all logical garments while hardware sees ten.
  */
 
-import { highestResolutionSurface } from '../../assets/HighestResolutionSurfaceCatalog.js';
+import { MOUNTAIN_VILLAGE_SOURCES } from '../materials/MountainVillageMaterialSources.js';
+import { mountainTerrainStack } from '../materials/MountainVillageMaterialPresets.js';
+import { materialStackPage } from '../materials/MaterialStackRecipe.js';
 
-export const TERRAIN_LAYER_COUNT = 6;
-
-const LAYERS = Object.freeze([
-	layer('dryGrass', [24, 24], 0.46),
-	layer('mud', [18, 18], 0.82),
-	layer('forestFloor', [16, 16], 0.78),
-	layer('stone', [14, 14], 0.9),
-	layer('marsh', [22, 22], 0.72),
-	layer('sand', [19, 19], 0.86)
-]);
+export const TERRAIN_LAYER_COUNT = 16;
 
 const QUALITY_COUNTS = Object.freeze({
-	low: 1,
-	medium: 2,
-	high: 4,
-	cinematic: 6
+	cinematic: 16,
+	high: 10,
+	low: 3,
+	medium: 6
 });
 
 export function terrainLayerRecipe(quality = 'medium') {
+	const stack = mountainTerrainStack();
 	const count = QUALITY_COUNTS[quality] ?? QUALITY_COUNTS.medium;
+	const page = materialStackPage(stack, count, 0);
 	return Object.freeze({
-		baseUrl: highestResolutionSurface('baseGrass'),
-		dirtUrl: highestResolutionSurface('dirt'),
-		layers: Object.freeze(LAYERS.slice(0, count)),
+		baseUrl: MOUNTAIN_VILLAGE_SOURCES.grass,
+		dirtUrl: MOUNTAIN_VILLAGE_SOURCES.dirt,
+		layers: page.layers,
+		logicalLayerCount: stack.logicalLayerCount,
+		pageCount: page.pageCount,
 		quality,
-		shader: 'terrain-layered-six-stage-mix'
-	});
-}
-
-function layer(role, repeat, strength) {
-	return Object.freeze({
-		repeat: Object.freeze(repeat),
-		role,
-		strength,
-		url: highestResolutionSurface(role)
+		shader: 'terrain-layered-ten-stage-material-stack',
+		stack
 	});
 }
