@@ -24,6 +24,7 @@ import { createFrameworkJavaMapMethods } from "./frameworkJavaMaps.js";
 import { createFrameworkJavaObjectMethods } from "./frameworkJavaObjects.js";
 import { createFrameworkJavaReferenceMethods } from "./frameworkJavaReferences.js";
 import { createFrameworkJavaSetMethods } from "./frameworkJavaSets.js";
+import { createFrameworkJavaStringMethods } from "./frameworkJavaStrings.js";
 import { createFrameworkJavaThreadMethods } from "./frameworkJavaThreads.js";
 import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
 import { createFrameworkPackageMethods } from "./frameworkPackages.js";
@@ -41,6 +42,7 @@ export function createAndroidFrameworkHost(runtime) {
 		createFrameworkConstructors(runtime),
 		createFrameworkJavaObjectMethods(runtime),
 		createFrameworkJavaClassMethods(runtime),
+		createFrameworkJavaStringMethods(runtime),
 		createFrameworkAtomicReferenceMethods(runtime),
 		createFrameworkJavaMapMethods(runtime),
 		createFrameworkJavaListMethods(runtime),

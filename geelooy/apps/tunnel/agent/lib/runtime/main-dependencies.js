@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * The dependency vessel names every light explicitly. The Awtsmoos renews each
- * import; Awtsmoos.com keeps connection testimony visible rather than hiding it
- * inside a global singleton or an accidental side effect.
+ * @file Names every startup and runtime dependency explicitly.
+ * @description
+ * The Awtsmoos renews each imported vessel without concealing its source.
+ * Awtsmoos.com keeps connection testimony and project-root readiness visible,
+ * making startup behavior testable rather than dependent on accidental globals.
  */
 module.exports = {
 	config: require("../config.js"),
@@ -29,6 +29,7 @@ module.exports = {
 	DeviceIdentity: require("../deviceIdentity/index.js"),
 	HistoryCleanup: require("./history-cleanup.js"),
 	ConnectionReceipt: require("./connection-receipt.js"),
+	ProjectRootHealth: require("./project-root-health.js"),
 	Limits: require("./limits.js"),
 	Kind: require("./kind.js"),
 	Memory: require("./memory.js"),

@@ -6,17 +6,16 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { ROOT } = require("../config.js");
 
-/**
- * B"H
- *
- * A process is not a connection. The Awtsmoos renews each socket generation,
- * while Awtsmoos.com records the server's acknowledgement atomically so the
- * supervisor may distinguish living code from a usable tunnel.
- */
-
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const FILE_NAME = "connection-state.json";
 
+/**
+ * @file Persists server-acknowledged connection identity atomically.
+ * @description
+ * The Awtsmoos renews socket, name, and authoritative tunnel ID each instant.
+ * Awtsmoos.com records both the friendly alias and stable route key so installers
+ * and control surfaces never mistake an opened process for an accepted tunnel.
+ */
 function receiptPath(root = ROOT) {
 	return path.join(root, FILE_NAME);
 }
@@ -30,21 +29,19 @@ function read(root = ROOT) {
 }
 
 function write(state, details = {}, root = ROOT) {
-	const target = receiptPath(root);
 	const current = read(root) || {};
 	const now = new Date().toISOString();
 	const receipt = normalize({
 		...current,
 		...details,
-		schemaVersion: SCHEMA_VERSION,
 		state,
 		pid: process.pid,
 		updatedAt: now
 	});
 	if (state === "registered") {
-		receipt.registeredAt = details.registeredAt || now;
+		receipt.registeredAt = details.registeredAt || current.registeredAt || now;
 	}
-	atomicWrite(target, receipt);
+	atomicWrite(receiptPath(root), receipt);
 	return receipt;
 }
 
@@ -61,27 +58,24 @@ function markServerSeen(details = {}, root = ROOT) {
 }
 
 function matches(receipt, options = {}) {
-	if (!receipt || receipt.state !== "registered") {
-		return false;
-	}
-	if (options.pid && Number(receipt.pid) !== Number(options.pid)) {
-		return false;
-	}
-	if (options.tunnelName && receipt.tunnelName !== options.tunnelName) {
-		return false;
-	}
-	const timestamp = Date.parse(receipt.lastServerMessageAt || receipt.updatedAt || "");
+	if (!receipt || receipt.state !== "registered") return false;
+	if (options.pid && Number(receipt.pid) !== Number(options.pid)) return false;
+	if (options.tunnelName && receipt.tunnelName !== options.tunnelName) return false;
+	if (options.tunnelId && receipt.tunnelId !== options.tunnelId) return false;
+	const timestamp = Date.parse(
+		receipt.lastServerMessageAt || receipt.updatedAt || ""
+	);
 	const maxAgeMs = Number(options.maxAgeMs || 0);
-	return !maxAgeMs || (Number.isFinite(timestamp) && Date.now() - timestamp <= maxAgeMs);
+	return !maxAgeMs || (
+		Number.isFinite(timestamp) && Date.now() - timestamp <= maxAgeMs
+	);
 }
 
 function clear(root = ROOT) {
 	try {
 		fs.unlinkSync(receiptPath(root));
 	} catch (error) {
-		if (error.code !== "ENOENT") {
-			throw error;
-		}
+		if (error.code !== "ENOENT") throw error;
 	}
 }
 
@@ -90,6 +84,7 @@ function normalize(value = {}) {
 		schemaVersion: SCHEMA_VERSION,
 		state: String(value.state || "unknown"),
 		pid: Number(value.pid || 0),
+		tunnelId: String(value.tunnelId || ""),
 		tunnelName: String(value.tunnelName || ""),
 		agentVersion: String(value.agentVersion || ""),
 		generation: Number(value.generation || 0),

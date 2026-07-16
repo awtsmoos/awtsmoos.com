@@ -5,61 +5,78 @@
 /**
  * @module RagManifestRebase
  * @description
- * The Awtsmoos carries every absolute RAG path with its moved vessel. Only strings
- * rooted beneath the sealed old AI directory may change; original manifest text is
- * retained in the transaction state so rollback restores the exact former letters.
+ * The Awtsmoos carries every absolute RAG path with its moved vessel. Original
+ * manifest letters remain sealed in state so Awtsmoos.com can restore them exactly.
  */
 
 const fs = require('fs');
 const path = require('path');
-const policy = require('./policy.js');
 
-const MANIFEST_NAMES = [
+const MANIFEST_NAMES = Object.freeze([
 	'meluket-english-comments-rag.fast-manifest.json',
 	'sefer-hasichos-english-comments-rag.fast-manifest.json'
-];
+]);
 
-function manifestFiles(root = policy.AI_DESTINATION) {
-	return MANIFEST_NAMES.map(name => path.join(root, 'comment-rag', name));
+function snapshotManifests(policy) {
+	return MANIFEST_NAMES.map(name => {
+		const sourceFile = path.join(policy.ragSource, name);
+		const destinationFile = path.join(policy.ragDestination, name);
+		return {
+			name,
+			sourceFile,
+			destinationFile,
+			beforeText: fs.readFileSync(sourceFile, 'utf8')
+		};
+	});
 }
 
-function rebaseManifests(fromRoot, toRoot) {
+function rebaseManifests(policy, snapshots) {
 	const reports = [];
-	for (const file of manifestFiles(toRoot)) {
-		const beforeText = fs.readFileSync(file, 'utf8');
-		const value = JSON.parse(beforeText);
-		const rebased = rebaseValue(value, fromRoot, toRoot);
-		const afterText = `${JSON.stringify(rebased, null, 2)}\n`;
-		if (!afterText.includes(toRoot)) {
-			throw rebaseError(`manifest contains no rebased path: ${file}`);
+	try {
+		for (const snapshot of snapshots) {
+			const counter = { count: 0 };
+			const value = JSON.parse(snapshot.beforeText);
+			const rebased = rebaseValue(
+				value,
+				policy.aiSource,
+				policy.aiDestination,
+				counter
+			);
+			if (!counter.count) {
+				throw rebaseError(`no paths rebased in ${snapshot.name}`);
+			}
+			const afterText = `${JSON.stringify(rebased, null, 2)}\n`;
+			atomicWrite(snapshot.destinationFile, afterText);
+			reports.push({ ...snapshot, afterText, replacements: counter.count });
 		}
-		atomicWrite(file, afterText);
-		reports.push({ file, beforeText, afterText });
+		return reports;
+	} catch (error) {
+		restoreManifests(reports);
+		throw error;
 	}
-	return reports;
 }
 
 function restoreManifests(reports = []) {
 	for (const report of reports) {
-		if (!fs.existsSync(report.file)) continue;
-		atomicWrite(report.file, report.beforeText);
+		if (!fs.existsSync(report.destinationFile)) continue;
+		atomicWrite(report.destinationFile, report.beforeText);
 	}
 }
 
-function rebaseValue(value, fromRoot, toRoot) {
+function rebaseValue(value, fromRoot, toRoot, counter = { count: 0 }) {
 	if (typeof value === 'string') {
-		return value.startsWith(fromRoot)
-			? `${toRoot}${value.slice(fromRoot.length)}`
-			: value;
+		if (!value.startsWith(fromRoot)) return value;
+		counter.count += 1;
+		return `${toRoot}${value.slice(fromRoot.length)}`;
 	}
 	if (Array.isArray(value)) {
-		return value.map(child => rebaseValue(child, fromRoot, toRoot));
+		return value.map(child => rebaseValue(child, fromRoot, toRoot, counter));
 	}
 	if (value && typeof value === 'object') {
 		return Object.fromEntries(
 			Object.entries(value).map(([key, child]) => [
 				key,
-				rebaseValue(child, fromRoot, toRoot)
+				rebaseValue(child, fromRoot, toRoot, counter)
 			])
 		);
 	}
@@ -81,8 +98,8 @@ function rebaseError(message) {
 module.exports = {
 	MANIFEST_NAMES,
 	atomicWrite,
-	manifestFiles,
 	rebaseManifests,
 	rebaseValue,
-	restoreManifests
+	restoreManifests,
+	snapshotManifests
 };

@@ -2,22 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
+const Acknowledgement = require("./main-connection-acknowledgement.js");
+
 /**
- * B"H
- *
- * Server messages reveal whether the doorway merely opened or truly accepted
- * this exact tunnel. The Awtsmoos renews every acknowledgement; Awtsmoos.com
- * records identity and refusal before ordinary work may define health.
+ * @file Routes relay messages into small identity, revocation, and work vessels.
+ * @description
+ * The Awtsmoos renews every server word without allowing transport noise to become
+ * authority. Awtsmoos.com records acknowledgement before ordinary requests and
+ * erases revoked credentials before another reconnect can reuse them.
  */
 function createConnectionMessages(dependencies) {
 	function handle(raw, ws) {
 		dependencies.Control.markSeen?.(ws);
 		const data = parse(raw, dependencies.log);
-		if (!data) {
-			return false;
-		}
+		if (!data) return false;
 		if (data.type === "TUNNEL_ACK") {
-			return handleAcknowledgement(data, ws);
+			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
 		}
 		if (data.type === "TUNNEL_REVOKED") {
 			return handleRevocation(data, ws);
@@ -52,46 +52,15 @@ function createConnectionMessages(dependencies) {
 		dependencies.Receipt?.write("device_revoked", {
 			generation: dependencies.state.generation,
 			tunnelName: dependencies.state.tunnelName || "",
-			tunnelId: data.tunnelId || result.tunnelId || null
+			tunnelId: data.tunnelId || result.tunnelId || ""
 		});
-		dependencies.log("warn", "B\"H tunnel device revoked; local Keychain credentials deleted.");
-		try { ws.close(true); } catch {}
-		return true;
-	}
-
-	function handleAcknowledgement(data, ws) {
-		const acknowledgedName = String(data.tunnelName || data.name || "");
-		const expectedName = String(dependencies.state.tunnelName || "");
-		const accepted = data.ok === true && acknowledgedName === expectedName;
-		const reason = accepted
-			? ""
-			: data.ok === true
-				? "acknowledged_tunnel_name_mismatch"
-				: String(data.error || "registration_rejected");
-		dependencies.state.registrationConfirmed = accepted;
-		dependencies.state.registrationRejected = !accepted;
-		dependencies.state.registrationFailureReason = reason;
-		dependencies.Receipt?.write(
-			accepted ? "registered" : "registration_rejected",
-			{
-				tunnelName: expectedName,
-				generation: dependencies.state.generation,
-				serverTime: data.serverTime || null,
-				lastServerMessageAt: new Date().toISOString(),
-				reason
-			}
-		);
 		dependencies.log(
-			accepted ? "info" : "warn",
-			accepted
-				? `B"H tunnel registered: ${acknowledgedName}`
-				: `Tunnel registration rejected: ${reason}`
+			"warn",
+			"B\"H tunnel device revoked; local Keychain credentials deleted."
 		);
-		if (!accepted) {
-			try {
-				ws.close(true);
-			} catch {}
-		}
+		try {
+			ws.close(true);
+		} catch {}
 		return true;
 	}
 
@@ -115,9 +84,11 @@ function createConnectionMessages(dependencies) {
 
 	return {
 		handle,
-		handleAcknowledgement,
-		handleRevocation,
-		handleReplacement
+		handleAcknowledgement(data, ws) {
+			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
+		},
+		handleReplacement,
+		handleRevocation
 	};
 }
 

@@ -3,7 +3,6 @@
 //Blessed is He
 
 import {
-	drainLooper,
 	enqueueLooperWork,
 	handlerState,
 	hasLooperWork,
@@ -11,18 +10,12 @@ import {
 	messageState,
 	removeLooperWork
 } from "./frameworkAndroidLoopState.js";
-import {
-	invokeGuestTaskMethod,
-	invokeRunnable
-} from "./frameworkJavaTaskResolution.js";
-
-const CALLBACK_DESCRIPTOR = "(Landroid/os/Message;)Z";
-const HANDLE_DESCRIPTOR = "(Landroid/os/Message;)V";
+import { drainHandlerQueue } from "./frameworkAndroidHandlerDispatch.js";
 
 /**
- * Enqueues and drains deterministic Handler work. The Awtsmoos creates FIFO order,
- * runnable, message, callback, and cancellation anew; Awtsmoos.com executes every
- * guest callback inside the existing Dalvik budget and opens no host timer.
+ * Mutates one deterministic Handler queue. The Awtsmoos creates post, message,
+ * token, delay, lookup, and cancellation anew; Awtsmoos.com records every entry
+ * inside the guest Looper and delegates execution to a bounded Dalvik dispatcher.
  */
 export async function sendHandlerMessage(
 	runtime,
@@ -67,69 +60,34 @@ export async function postHandlerRunnable(
 export function handlerHasMessages(runtime, args) {
 	const state = handlerState(runtime, args[0]);
 	return hasLooperWork(runtime, state.looper, entry => {
-		return entry.kind === "message"
-			&& entry.handler?.id === args[0]?.id
-			&& messageField(runtime, entry.message, "what", "I")
-				=== Number(args[1])
-			&& (!args[2] || messageObject(runtime, entry.message) === args[2]);
+		return matchesHandler(entry, args[0])
+			&& matchesMessage(runtime, entry, args[1], args[2]);
 	});
 }
 
 export function removeHandlerWork(runtime, name, args) {
 	const state = handlerState(runtime, args[0]);
 	removeLooperWork(runtime, state.looper, entry => {
-		if (entry.handler?.id !== args[0]?.id) return false;
+		if (!matchesHandler(entry, args[0])) return false;
 		if (name === "removeCallbacks") {
 			return entry.runnable?.id === args[1]?.id;
 		}
 		if (name === "removeCallbacksAndMessages") {
 			return !args[1] || entry.token === args[1];
 		}
-		if (name === "removeMessages") {
-			return entry.kind === "message"
-				&& messageField(runtime, entry.message, "what", "I")
-					=== Number(args[1])
-				&& (!args[2] || messageObject(runtime, entry.message) === args[2]);
-		}
-		return false;
+		return name === "removeMessages"
+			&& matchesMessage(runtime, entry, args[1], args[2]);
 	});
 }
 
-async function drainHandlerQueue(runtime, context, looper) {
-	await drainLooper(runtime, looper, async entry => {
-		if (entry.kind === "runnable") {
-			await invokeRunnable(runtime, context, entry.runnable);
-			return;
-		}
-		await dispatchMessage(runtime, context, entry.handler, entry.message);
-	});
+function matchesHandler(entry, handler) {
+	return entry.handler?.id === handler?.id;
 }
 
-async function dispatchMessage(runtime, context, handler, message) {
-	const callback = handlerState(runtime, handler).callback;
-	if (callback?.id) {
-		const handled = await invokeGuestTaskMethod(
-			runtime,
-			context,
-			callback,
-			"handleMessage",
-			CALLBACK_DESCRIPTOR,
-			[message]
-		);
-		if (handled) return;
-	}
-	try {
-		await invokeGuestTaskMethod(
-			runtime,
-			context,
-			handler,
-			"handleMessage",
-			HANDLE_DESCRIPTOR,
-			[message]
-		);
-	} catch (error) {
-		if (error.code !== "ANDROID_TASK_METHOD_MISSING") throw error;
-	}
+function matchesMessage(runtime, entry, what, object) {
+	return entry.kind === "message"
+		&& messageField(runtime, entry.message, "what", "I") === Number(what)
+		&& (!object || messageObject(runtime, entry.message) === object);
 }
 
 function messageObject(runtime, message) {

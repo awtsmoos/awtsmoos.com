@@ -6,13 +6,12 @@
  * @module DayuhChadashCutoverInventory
  * @description
  * Before one byte moves, the Awtsmoos names every source, destination, inode, size,
- * and device. Explicit patterns may reveal corpus sidecars, but no unknown artifact
- * can enter the transaction and no cross-device copy can pretend to be atomic.
+ * and device. Awtsmoos.com receives an explicit allowlist rather than a broad delete.
  */
 
 const fs = require('fs');
 const path = require('path');
-const policy = require('./policy.js');
+const { destinationFor } = require('./policy.js');
 
 function evidence(file) {
 	const status = fs.statSync(file, { bigint: true });
@@ -27,43 +26,25 @@ function evidence(file) {
 	};
 }
 
-function derivedPackedEntries() {
+function derivedPackedEntries(policy) {
 	const entries = [];
-	for (const name of fs.readdirSync(policy.PACKED_ROOT)) {
-		if (policy.PACKED_NAMES.includes(name)
-			|| policy.PACKED_PATTERNS.some(pattern => pattern.test(name))) {
-			entries.push(path.join(policy.PACKED_ROOT, name));
-		}
+	for (const name of fs.readdirSync(policy.packedRoot)) {
+		const named = policy.packedNames.includes(name);
+		const patterned = policy.packedPatterns.some(pattern => pattern.test(name));
+		if (named || patterned) entries.push(path.join(policy.packedRoot, name));
 	}
 	return entries.sort();
 }
 
-function moveRecord(source, destination) {
-	if (!fs.existsSync(source)) return null;
-	if (fs.existsSync(destination)) {
-		throw cutoverError(`destination already exists: ${destination}`);
-	}
-	const sourceEvidence = evidence(source);
-	const parent = nearestExistingParent(destination);
-	const destinationDevice = String(fs.statSync(parent, { bigint: true }).dev);
-	if (sourceEvidence.device !== destinationDevice) {
-		throw cutoverError(`cross-device atomic move refused: ${source}`);
-	}
-	return { source, destination, before: sourceEvidence };
-}
-
-function buildInventory() {
-	const sources = [
-		policy.AI_SOURCE,
-		policy.rawSocialSource(),
-		...derivedPackedEntries()
-	];
-	const moves = sources.map(source => {
-		const destination = source === policy.AI_SOURCE
-			? policy.AI_DESTINATION
-			: policy.quarantinePath(source);
-		return moveRecord(source, destination);
-	}).filter(Boolean);
+function buildInventory(policy) {
+	const sources = unique([
+		policy.aiSource,
+		policy.rawSocialSource,
+		...derivedPackedEntries(policy)
+	]);
+	const moves = sources
+		.map(source => moveRecord(policy, source, destinationFor(policy, source)))
+		.filter(Boolean);
 	return {
 		format: 'awtsmoos-final-cutover-inventory-v1',
 		createdAt: new Date().toISOString(),
@@ -71,10 +52,37 @@ function buildInventory() {
 	};
 }
 
+function moveRecord(policy, source, destination) {
+	if (!fs.existsSync(source)) return null;
+	if (fs.existsSync(destination)) {
+		throw cutoverError(`destination already exists: ${destination}`);
+	}
+	const before = evidence(source);
+	const destinationParent = nearestExistingParent(destination);
+	const destinationDevice = String(
+		fs.statSync(destinationParent, { bigint: true }).dev
+	);
+	if (before.device !== destinationDevice) {
+		throw cutoverError(`cross-device atomic move refused: ${source}`);
+	}
+	if (!source.startsWith(`${policy.dataRoot}${path.sep}`)) {
+		throw cutoverError(`source escapes data root: ${source}`);
+	}
+	return { source, destination, before, moved: false };
+}
+
 function nearestExistingParent(target) {
 	let current = path.dirname(target);
-	while (!fs.existsSync(current)) current = path.dirname(current);
+	while (!fs.existsSync(current)) {
+		const parent = path.dirname(current);
+		if (parent === current) throw cutoverError(`no existing parent: ${target}`);
+		current = parent;
+	}
 	return current;
+}
+
+function unique(values) {
+	return [...new Set(values)];
 }
 
 function cutoverError(message) {
@@ -89,5 +97,6 @@ module.exports = {
 	derivedPackedEntries,
 	evidence,
 	moveRecord,
-	nearestExistingParent
+	nearestExistingParent,
+	unique
 };

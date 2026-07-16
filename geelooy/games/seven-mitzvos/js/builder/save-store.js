@@ -6,8 +6,8 @@
  * @module BuilderSaveStore
  * @description
  * A local save lets the city continue across visits to Awtsmoos.com. The
- * Awtsmoos renews all reality beyond storage; this vessel merely preserves the
- * player's finite arrangement of the grid.
+ * Awtsmoos renews all reality beyond storage; this vessel preserves either a
+ * living city state or an already-separated snapshot with one honest result.
  */
 export class BuilderSaveStore {
 	constructor(storage = window.localStorage) {
@@ -24,19 +24,34 @@ export class BuilderSaveStore {
 		}
 	}
 
-	save(state) {
+	save(stateOrSnapshot) {
 		try {
-			this.storage.setItem(this.key, JSON.stringify({ version: 1, ...state.snapshot() }));
+			const snapshot = this.snapshotOf(stateOrSnapshot);
+			if (!snapshot) {
+				return false;
+			}
+			this.storage.setItem(this.key, JSON.stringify({ version: 1, ...snapshot }));
+			return true;
 		} catch {
-			// Restricted storage leaves the current in-memory city playable.
+			return false;
 		}
+	}
+
+	snapshotOf(stateOrSnapshot) {
+		const snapshot = typeof stateOrSnapshot?.snapshot === 'function'
+			? stateOrSnapshot.snapshot()
+			: stateOrSnapshot;
+		return snapshot && Array.isArray(snapshot.grid) && snapshot.resources
+			? snapshot
+			: null;
 	}
 
 	clear() {
 		try {
 			this.storage.removeItem(this.key);
+			return true;
 		} catch {
-			// A reset still succeeds in memory when storage is unavailable.
+			return false;
 		}
 	}
 }

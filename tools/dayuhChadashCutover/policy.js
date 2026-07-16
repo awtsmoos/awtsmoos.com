@@ -5,69 +5,98 @@
 /**
  * @module DayuhChadashCutoverPolicy
  * @description
- * The Awtsmoos separates canonical social truth from recoverable shadows. This
- * allowlist names every vessel permitted to leave the one-gigabyte data root;
- * unknown files remain untouched, while the full raw tree survives in quarantine.
+ * The Awtsmoos reveals one portable boundary between canonical social truth,
+ * externally budgeted AI vessels, and recoverable quarantine for Awtsmoos.com.
  */
 
+const os = require('os');
 const path = require('path');
+const {
+	GIB,
+	PACKED_NAMES,
+	PACKED_PATTERNS,
+	REQUIRED_CANONICAL_NAMES
+} = require('./policyData.js');
 
-const DOCUMENTS = '/Users/awtsmoos/Documents';
-const DATA_ROOT = path.join(DOCUMENTS, 'awtsmoos/dayuhChadash');
-const PACKED_ROOT = path.join(DATA_ROOT, 'socialPacked');
-const RUNTIME_ROOT = path.join(DOCUMENTS, 'dayuhChadash-runtime');
-const AI_SOURCE = path.join(DATA_ROOT, 'ai');
-const AI_DESTINATION = path.join(RUNTIME_ROOT, 'ai');
-const QUARANTINE_ROOT = path.join(
-	DOCUMENTS,
-	'dayuhChadash-review/final-cutover-quarantine-20260716T0839Z'
-);
-
-const PACKED_NAMES = [
-	'commentShards',
-	'social.core.awtsocial',
-	'social.core..oiledawtsocial',
-	'social.audit.awtsocial',
-	'social.feed.awtsocial',
-	'comment-corpus-shards.manifest.json',
-	'comment-corpus-shards.v2.manifest.json',
-	'meluket-post-map.v1.json'
-];
-
-const PACKED_PATTERNS = [
-	/^social\.heichel\.ikar\.comments\.corpus\./
-];
-
-function packedEntries() {
-	return [
-		...PACKED_NAMES.map(name => path.join(PACKED_ROOT, name))
-	];
+function configuredPolicy(environment = process.env) {
+	const documentsRoot = resolve(
+		environment.AWTSMOOS_DOCUMENTS_ROOT,
+		path.join(os.homedir(), 'Documents')
+	);
+	const repositoryRoot = resolve(
+		environment.AWTSMOOS_REPOSITORY_ROOT,
+		path.resolve(__dirname, '../..')
+	);
+	const dataRoot = resolve(
+		environment.AWTSMOOS_DB_ROOT || environment.AWTS_DB_ROOT,
+		path.join(documentsRoot, 'awtsmoos/dayuhChadash')
+	);
+	const runtimeRoot = resolve(
+		environment.AWTSMOOS_RUNTIME_ROOT,
+		path.join(documentsRoot, 'dayuhChadash-runtime')
+	);
+	const reviewRoot = resolve(
+		environment.AWTSMOOS_REVIEW_ROOT,
+		path.join(documentsRoot, 'dayuhChadash-review')
+	);
+	const quarantineRoot = resolve(
+		environment.AWTSMOOS_CUTOVER_QUARANTINE_ROOT,
+		path.join(reviewRoot, 'final-cutover-quarantine-v1')
+	);
+	const packedRoot = path.join(dataRoot, 'socialPacked');
+	const aiSource = path.join(dataRoot, 'ai');
+	const aiDestination = path.join(runtimeRoot, 'ai');
+	return {
+		documentsRoot,
+		repositoryRoot,
+		dataRoot,
+		packedRoot,
+		runtimeRoot,
+		reviewRoot,
+		quarantineRoot,
+		aiSource,
+		aiDestination,
+		ragSource: path.join(aiSource, 'comment-rag'),
+		ragDestination: path.join(aiDestination, 'comment-rag'),
+		rawSocialSource: path.join(dataRoot, 'social'),
+		cutoverStateFile: path.join(quarantineRoot, 'cutover-state.json'),
+		packedNames: [...PACKED_NAMES],
+		packedPatterns: [...PACKED_PATTERNS],
+		requiredCanonicalNames: [...REQUIRED_CANONICAL_NAMES],
+		dataHardLimitBytes: number(
+			environment.AWTSMOOS_STORAGE_HARD_BYTES,
+			GIB
+		),
+		runtimeHardLimitBytes: number(
+			environment.AWTSMOOS_RUNTIME_ASSET_HARD_BYTES,
+			2 * GIB
+		),
+		port: number(environment.PORT, 8080)
+	};
 }
 
-function rawSocialSource() {
-	return path.join(DATA_ROOT, 'social');
+function quarantinePath(policy, source) {
+	const relative = path.relative(policy.dataRoot, source);
+	return path.join(policy.quarantineRoot, 'data-root', relative);
 }
 
-function quarantinePath(source) {
-	const relative = path.relative(DATA_ROOT, source);
-	return path.join(QUARANTINE_ROOT, 'data-root', relative);
+function destinationFor(policy, source) {
+	return source === policy.aiSource
+		? policy.aiDestination
+		: quarantinePath(policy, source);
 }
 
-function cutoverStateFile() {
-	return path.join(QUARANTINE_ROOT, 'cutover-state.json');
+function resolve(value, fallback) {
+	return path.resolve(value || fallback);
+}
+
+function number(value, fallback) {
+	const parsed = Number(value);
+	return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
 }
 
 module.exports = {
-	AI_DESTINATION,
-	AI_SOURCE,
-	DATA_ROOT,
-	PACKED_NAMES,
-	PACKED_PATTERNS,
-	PACKED_ROOT,
-	QUARANTINE_ROOT,
-	RUNTIME_ROOT,
-	cutoverStateFile,
-	packedEntries,
-	quarantinePath,
-	rawSocialSource
+	configuredPolicy,
+	destinationFor,
+	quarantinePath
 };

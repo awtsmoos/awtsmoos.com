@@ -5,46 +5,59 @@
 /**
  * @module DayuhChadashCutoverState
  * @description
- * The Awtsmoos remembers every renamed vessel and every manifest letter through one
- * atomic state seal. A tunnel or process may vanish, yet the next process can still
- * distinguish planned, installed, accepted, and rolled-back worlds without guessing.
+ * The Awtsmoos remembers every renamed vessel and manifest letter through one atomic
+ * seal, so Awtsmoos.com can recover after interruption without guessing history.
  */
 
 const fs = require('fs');
 const path = require('path');
-const policy = require('./policy.js');
 
-function readState() {
+function initialState() {
+	return {
+		version: 1,
+		status: 'idle',
+		moves: [],
+		manifests: []
+	};
+}
+
+function readState(policy) {
 	try {
-		return JSON.parse(fs.readFileSync(policy.cutoverStateFile(), 'utf8'));
+		return JSON.parse(fs.readFileSync(policy.cutoverStateFile, 'utf8'));
 	} catch {
-		return { version: 1, status: 'idle', moves: [], manifests: [] };
+		return initialState();
 	}
 }
 
-function writeState(value) {
-	fs.mkdirSync(path.dirname(policy.cutoverStateFile()), { recursive: true });
-	const file = policy.cutoverStateFile();
-	const temporary = `${file}.tmp`;
+function writeState(policy, value) {
+	fs.mkdirSync(path.dirname(policy.cutoverStateFile), { recursive: true });
+	const temporary = `${policy.cutoverStateFile}.tmp`;
 	const state = {
 		version: 1,
 		...value,
 		updatedAt: new Date().toISOString()
 	};
 	fs.writeFileSync(temporary, `${JSON.stringify(state, null, 2)}\n`);
-	fs.renameSync(temporary, file);
+	fs.renameSync(temporary, policy.cutoverStateFile);
 	return state;
 }
 
 function assertInstallable(state) {
-	if (state.status !== 'idle') {
-		throw stateError(`expected idle state, found ${state.status}`);
+	if (!['idle', 'rolled-back'].includes(state.status)) {
+		throw stateError(`expected idle or rolled-back, found ${state.status}`);
 	}
 }
 
 function assertRollbackable(state) {
-	if (!['installed', 'testing', 'failed'].includes(state.status)) {
+	const allowed = ['installing', 'installed', 'testing', 'failed', 'accepted'];
+	if (!allowed.includes(state.status)) {
 		throw stateError(`state is not rollbackable: ${state.status}`);
+	}
+}
+
+function assertAcceptable(state) {
+	if (!['installed', 'testing'].includes(state.status)) {
+		throw stateError(`state is not acceptable: ${state.status}`);
 	}
 }
 
@@ -55,8 +68,10 @@ function stateError(message) {
 }
 
 module.exports = {
+	assertAcceptable,
 	assertInstallable,
 	assertRollbackable,
+	initialState,
 	readState,
 	stateError,
 	writeState
