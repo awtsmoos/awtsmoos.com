@@ -36,7 +36,8 @@ function handleTunnelResponse(context, data = {}) {
 			reason: "correlation_mismatch",
 			data,
 			expected: record.expected,
-			validation
+			validation,
+			response: validation.response
 		});
 		return false;
 	}
@@ -69,8 +70,6 @@ function sendTunnelRequest(context, name, payload = {}, timeoutMs) {
 	const retry = RetryRequest.describe(cleaned);
 	const localRetry = RetryRequest.resolveLocal(context, retry, waitMs);
 	if (localRetry?.handled) return localRetry.result;
-	const tunnel = context.tunnels.get(name);
-	if (!tunnel) return Promise.resolve(Envelopes.missingTunnelEnvelope(name));
 	const totalTimeoutMs = boundedTimeout(timeoutMs || cleaned.timeoutMs);
 	const plan = retry
 		? RetryRequest.forwardPlan(cleaned, retry)
@@ -81,6 +80,8 @@ function sendTunnelRequest(context, name, payload = {}, timeoutMs) {
 		plan.expectationPayload,
 		totalTimeoutMs
 	);
+	const tunnel = context.tunnels.get(name);
+	if (!tunnel) return Promise.resolve(Envelopes.missingTunnelEnvelope(expected));
 	if (!retry) {
 		const completed = completedResult(context, plan.transportId, expected);
 		if (completed) return Promise.resolve(completed);
@@ -106,7 +107,7 @@ function sendTunnelRequest(context, name, payload = {}, timeoutMs) {
 			context,
 			plan.transportId,
 			record,
-			Envelopes.sendFailureEnvelope(error)
+			Envelopes.sendFailureEnvelope(plan.transportId, expected, error)
 		);
 	}
 	return waiting;

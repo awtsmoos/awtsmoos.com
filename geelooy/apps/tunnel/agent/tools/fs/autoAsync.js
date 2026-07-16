@@ -17,12 +17,20 @@ const HEAVY_ACTIONS = new Set([
   'isolatedHtmlTest', 'isolatedJsTest', 'isolatedNodeCheck', 'testRunner', 'testMatrixRunner', 'stressTest', 'agentSelfTest'
 ]);
 function truthy(v) { return v === true || v === 1 || ['true', '1', 'yes', 'on'].includes(String(v).toLowerCase()); }
-function syncRequested(payload = {}) { return truthy(payload.sync) || truthy(payload.inline) || truthy(payload.blocking) || truthy(payload.noAutoAsync); }
 function childMode() { return process.env.AWTSMOOS_ASYNC_CHILD === '1'; }
+function inlineOverrideAllowed() { return process.env.AWTSMOOS_ALLOW_INLINE_HEAVY === '1'; }
+function syncRequested(payload = {}) {
+  if (childMode()) return true;
+  return inlineOverrideAllowed() && (
+    truthy(payload.sync) || truthy(payload.inline) ||
+    truthy(payload.blocking) || truthy(payload.noAutoAsync)
+  );
+}
 function shouldOffload(action, payload = {}) {
-  if (!action || childMode() || syncRequested(payload)) return false;
-  if (truthy(payload.autoAsync)) return true;
-  return HEAVY_ACTIONS.has(String(action));
+	if (!action || childMode()) return false;
+	if (HEAVY_ACTIONS.has(String(action))) return !syncRequested(payload);
+	if (truthy(payload.autoAsync)) return true;
+	return false;
 }
 async function offload(config, payload = {}) {
   const action = String(payload.action || 'unknown');
@@ -53,4 +61,4 @@ async function offload(config, payload = {}) {
     childResultHint:'stdout contains one JSON object when the child completes.'
   };
 }
-module.exports = { HEAVY_ACTIONS, shouldOffload, offload, syncRequested };
+module.exports = { HEAVY_ACTIONS, childMode, inlineOverrideAllowed, shouldOffload, offload, syncRequested };
