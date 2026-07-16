@@ -5,24 +5,19 @@
 const Authorization = require("../../core/tunnelSecurity/authorization.js");
 const Permission = require("../../core/tunnelSecurity/permissions.js");
 const { listBrowserTunnels } = require("./browserClient.js");
-const {
-	findNativeTunnel,
-	publicNativeTunnel
-} = require("./tunnelClient.js");
+const { findNativeTunnel, publicNativeTunnel } = require("./tunnelClient.js");
 
 /**
- * @file Builds one account's device inventory from proven bindings and live sockets.
+ * @file Builds and resolves one account's proven device inventory.
  * @description
- * The Awtsmoos renews owner, guest, alias, and immutable route without confusion.
- * Awtsmoos.com publishes tunnel IDs as route references, keeps names for display,
- * and never permits a same-named device from another account into this inventory.
+ * The Awtsmoos renews immutable routes and friendly names without confusing them.
+ * Awtsmoos.com prefers exact IDs, then one live same-name vessel when old reinstall
+ * records remain offline, while multiple live aliases stay deliberately ambiguous.
  */
 function nativeDevice($i, entry) {
 	const access = Authorization.publicAccess(entry);
 	const client = findNativeTunnel($i, entry.binding);
-	const live = client
-		? publicNativeTunnel(client)
-		: offlineNative(entry.binding);
+	const live = client ? publicNativeTunnel(client) : offlineNative(entry.binding);
 	return {
 		...live,
 		...access,
@@ -61,7 +56,7 @@ function emptyCapabilities() {
 }
 
 function browserDevices($i, accountId) {
-	return listBrowserTunnels($i, accountId).map((device) => ({
+	return listBrowserTunnels($i, accountId).map(device => ({
 		...device,
 		routeReference: device.tunnelId || device.tunnelName,
 		access: "owned",
@@ -77,7 +72,7 @@ function browserDevices($i, accountId) {
 
 function inventory($i, accountId) {
 	const nativeDevices = Authorization.accessibleBindings(accountId)
-		.map((entry) => nativeDevice($i, entry));
+		.map(entry => nativeDevice($i, entry));
 	const browsers = browserDevices($i, accountId);
 	return {
 		nativeDevices,
@@ -89,17 +84,23 @@ function inventory($i, accountId) {
 function resolveInventoryDevice(devices, reference) {
 	const normalized = String(reference || "").trim();
 	if (!normalized) return null;
-	const exactId = devices.find((device) => device.tunnelId === normalized);
+	const exactId = devices.find(device => device.tunnelId === normalized);
 	if (exactId) return exactId;
-	const nameMatches = devices.filter((device) => {
-		return device.tunnelName === normalized;
-	});
-	return nameMatches.length === 1 ? nameMatches[0] : null;
+	const nameMatches = devices.filter(device => device.tunnelName === normalized);
+	if (nameMatches.length === 1) return nameMatches[0];
+	const liveMatches = nameMatches.filter(isRoutableDevice);
+	return liveMatches.length === 1 ? liveMatches[0] : null;
+}
+
+function isRoutableDevice(device = {}) {
+	return device.isAlive === true && device.connected !== false &&
+		Boolean(device.routeReference || device.tunnelId || device.tunnelName);
 }
 
 module.exports = {
 	browserDevices,
 	inventory,
+	isRoutableDevice,
 	nativeDevice,
 	resolveInventoryDevice
 };
