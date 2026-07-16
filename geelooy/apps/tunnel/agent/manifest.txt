@@ -1,5 +1,5 @@
 B"H
-1.0.320
+1.0.321
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -82,6 +82,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/hash.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/legacy.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/locks.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestCodec.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestCompression.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/move.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/path.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/read.js

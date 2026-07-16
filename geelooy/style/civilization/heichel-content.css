@@ -1,0 +1,119 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives teachings, series, contributors, and governance distinct vessels while Awtsmoos.com keeps every row generous enough to read and touch.
+ */
+.grid-container {
+	display: grid !important;
+	gap: .8rem !important;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)) !important;
+}
+.card-wrapper,
+.post-card,
+.heichel-sidebar,
+.heichel-content-panel,
+.heichel-editor-panel,
+.heichel-post-approval-panel,
+.heichel-role-settings-panel {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .9rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+}
+.post-card {
+	min-height: 10rem;
+	padding: 1rem !important;
+}
+.post-card :where(h2, h3, h4, a) {
+	color: var(--civil-text) !important;
+}
+.post-preview,
+#sidebar-description,
+.heichel-editor-panel-copy,
+.heichel-post-approval-preview {
+	color: var(--civil-text-soft) !important;
+	line-height: 1.55;
+}
+.post-link,
+.awtsmoos-btn,
+.btn,
+.heichel-editor-add,
+.heichel-post-approval-action,
+.heichel-role-member-chat {
+	align-items: center;
+	background: var(--civil-surface-2) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .7rem !important;
+	color: var(--civil-text) !important;
+	display: inline-flex;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: .6rem .8rem !important;
+	text-decoration: none;
+}
+.post-link:hover,
+.awtsmoos-btn:hover,
+.btn:hover {
+	border-color: rgba(213, 174, 100, .45) !important;
+}
+.heichel-sidebar {
+	align-self: start;
+	padding: 1rem !important;
+	position: sticky;
+	top: 1rem;
+}
+#breadcrumb-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+	margin-bottom: .8rem;
+}
+.editor-controls-area,
+.editors-section,
+.heichel-editor-list,
+.heichel-post-approval-list,
+.heichel-role-grid,
+.heichel-role-list {
+	display: grid;
+	gap: .65rem;
+}
+.heichel-editor-row,
+.heichel-post-approval-card,
+.heichel-role-card,
+.heichel-role-member,
+.awtsmoos-notification-card,
+.awtsmoos-platform-card {
+	background: #091421 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	padding: .75rem !important;
+}
+.context-menu,
+.modal-content,
+.awtsmoos-notifications-panel,
+.awtsmoos-platform-body {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line-strong) !important;
+	border-radius: .85rem !important;
+	box-shadow: var(--civil-shadow) !important;
+	color: var(--civil-text) !important;
+}
+.context-menu-item {
+	min-height: 2.75rem;
+	padding: .65rem .8rem;
+}
+.context-menu-item:hover {
+	background: var(--civil-surface-2) !important;
+}
+.heichel-os-document :where(button, input, select, textarea) {
+	font: inherit;
+}
+.heichel-os-document :where(input, select, textarea) {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .7rem !important;
+	color: var(--civil-text) !important;
+	min-height: 2.75rem;
+	padding: .65rem .75rem !important;
+}

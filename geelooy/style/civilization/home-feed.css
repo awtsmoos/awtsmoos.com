@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every post as a living encounter; Awtsmoos.com keeps the feed readable, honest, and fast enough to remain human.
+ */
+.home-feed-civilization {
+	padding: clamp(.8rem, 2vw, 1.25rem);
+}
+.home-section-heading {
+	align-items: end;
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	margin-bottom: .8rem;
+}
+.home-section-heading h2 {
+	font-size: clamp(1.35rem, 3vw, 2rem);
+	letter-spacing: -.035em;
+	margin: .15rem 0 0;
+}
+.home-feed-tabs {
+	background: rgba(255, 255, 255, .025);
+	border: 1px solid var(--civil-line);
+	border-radius: .8rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	margin-bottom: .9rem;
+	padding: .25rem;
+}
+.home-feed-tabs button {
+	background: transparent;
+	border: 0;
+	border-radius: .65rem;
+	color: var(--civil-text-soft);
+	font-weight: 750;
+}
+.home-feed-tabs button.active {
+	background: var(--civil-surface-2);
+	color: var(--civil-text);
+}
+.home-feed-list {
+	display: grid;
+	gap: .75rem;
+}
+.home-post-card,
+.geelooy-feed-card {
+	background: #0a1421 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .9rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	content-visibility: auto;
+	contain-intrinsic-size: 18rem;
+	min-width: 0;
+	padding: 1rem !important;
+}
+.home-post-card :where(p, small, time),
+.geelooy-feed-card :where(p, small, time) {
+	color: var(--civil-text-soft);
+}
+.home-discovery-list {
+	display: grid;
+	gap: .5rem;
+}
+.home-discovery-list a {
+	align-items: center;
+	border: 1px solid var(--civil-line);
+	border-radius: .75rem;
+	color: var(--civil-text);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	min-height: 3.5rem;
+	padding: .65rem .75rem;
+	text-decoration: none;
+}
+.home-discovery-list a:hover {
+	background: var(--civil-surface-2);
+}
+.home-discovery-list small {
+	color: var(--civil-text-faint);
+	grid-column: 1;
+}

@@ -5,16 +5,13 @@
 /**
  * @file EretzRuntimeLoop.js
  * @description Advances one measured multiplayer world frame with every visual system intact.
- * RESPONSIBILITY: run named systems, animate Chossid actors and horses, and record CPU costs.
- * NON-RESPONSIBILITY: this loop never invents frames, lowers resolution, or replaces models.
- * ARCHITECTURE: Netzach sustains motion while Binah measures costs and Tiferes rejoins the frame.
- * OROS AND KEILIM: world life is ohr; cadence, actors, and measured costs are disciplined keilim.
- * The Awtsmoos recreates every player, horse, leaf, and sampled instant; Awtsmoos.com removes
- * duplicate work rather than hiding the complete multiplayer world required by the student.
+ * The Awtsmoos recreates player, horse, leaf, and sampled instant; Awtsmoos.com measures
+ * each subsystem and animation family while refusing to lower resolution, density, or life.
  */
 
 import { hydrateSceneMaterialImages } from '../assets/PublicMaterialCache.js';
 import { RuntimeFrameCostSample } from '../performance/RuntimeFrameCostSample.js';
+import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
 import { EretzMovementController } from './EretzMovementController.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
@@ -32,7 +29,9 @@ export function startEretzRuntime(runtime, diagnostics) {
 		lastTime = now;
 		try {
 			costs.measure('streaming', () => updateStreaming(runtime, cadence, now));
-			costs.measure('animation', () => updateAnimation(runtime, deltaTime));
+			costs.measure('animation', () => {
+				updateEretzAnimationFrame(runtime, deltaTime, costs);
+			});
 			costs.measure('water', () => runtime.lava.update(
 				runtime.state,
 				runtime.ground,
@@ -52,13 +51,8 @@ export function startEretzRuntime(runtime, diagnostics) {
 				runtime.mover.octree,
 				deltaTime
 			));
-			costs.measure('render', () => {
-				runtime.renderer.setInteractor(runtime.state, now / 1000);
-				runtime.renderer.render(runtime.scene, runtime.camera);
-			});
-			if (cadence.due('hud', now)) {
-				refreshStatusHud(runtime);
-			}
+			costs.measure('render', () => renderWorld(runtime, now));
+			if (cadence.due('hud', now)) refreshStatusHud(runtime);
 			if (cadence.due('diagnostics', now)) {
 				refreshWorldDiagnostics(diagnostics, runtime);
 			}
@@ -73,37 +67,21 @@ export function startEretzRuntime(runtime, diagnostics) {
 	requestAnimationFrame(frame);
 	return movement;
 }
+
 function updateStreaming(runtime, cadence, now) {
-	if (cadence.due('chunks', now)) {
-		runtime.chunkRuntime?.update({ at: now });
-	}
+	if (cadence.due('chunks', now)) runtime.chunkRuntime?.update({ at: now });
 	if (cadence.due('materialHydration', now)) {
 		runtime.materialHydrationStats = hydrateSceneMaterialImages(runtime.scene);
 	}
 }
-function updateAnimation(runtime, deltaTime) {
-	for (const door of runtime.doors) {
-		door.update(deltaTime);
-	}
-	runtime.worldModels?.update(deltaTime, runtime.state);
-	if (runtime.friendlyNpcs) {
-		runtime.friendlyNpcs.update(deltaTime, runtime.state);
-	} else {
-		runtime.npc.update(deltaTime, runtime.state);
-	}
-	runtime.horses?.update(deltaTime);
-	runtime.model.updateWorldMatrix();
-}
+
 function updateGameplay(runtime, movement, cadence, deltaTime, now) {
 	movement.update(deltaTime);
 	runtime.multiplayerBridge?.update(deltaTime, runtime.state, now);
-	if (cadence.due('minimap', now)) {
-		runtime.gameplayUi?.updatePosition(runtime.state);
-	}
-	if (cadence.due('houseVisibility', now)) {
-		runtime.houseVisibility.update(runtime.state);
-	}
+	if (cadence.due('minimap', now)) runtime.gameplayUi?.updatePosition(runtime.state);
+	if (cadence.due('houseVisibility', now)) runtime.houseVisibility.update(runtime.state);
 }
+
 function updateShadows(runtime) {
 	runtime.shadows.update({
 		ground: runtime.ground,
@@ -112,6 +90,12 @@ function updateShadows(runtime) {
 		worldMode: runtime.worldMode
 	});
 }
+
+function renderWorld(runtime, now) {
+	runtime.renderer.setInteractor(runtime.state, now / 1000);
+	runtime.renderer.render(runtime.scene, runtime.camera);
+}
+
 function frameDelta(intervalMilliseconds) {
 	return Math.min(0.05, Math.max(0.001, intervalMilliseconds / 1000));
 }

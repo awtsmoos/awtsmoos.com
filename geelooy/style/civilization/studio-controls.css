@@ -1,0 +1,112 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every parameter a named vessel; Awtsmoos.com keeps local creative power readable and keyboard reachable.
+ */
+.caption-studio-document .studio-section {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .85rem;
+	min-width: 0;
+	overflow: clip;
+}
+.caption-studio-document .studio-section > summary {
+	align-items: center;
+	color: var(--civil-text);
+	cursor: pointer;
+	display: flex;
+	font-weight: 850;
+	justify-content: space-between;
+	list-style: none;
+	min-height: 3.25rem;
+	padding: .7rem .85rem;
+}
+.caption-studio-document .studio-section > summary::-webkit-details-marker {
+	display: none;
+}
+.caption-studio-document .studio-section > summary::after {
+	color: var(--civil-cyan);
+	content: "+";
+	font-size: 1.2rem;
+}
+.caption-studio-document .studio-section[open] > summary::after {
+	content: "−";
+}
+.caption-studio-document .studio-section fieldset {
+	border: 0 !important;
+	border-top: 1px solid var(--civil-line) !important;
+	margin: 0 !important;
+	padding: .85rem !important;
+}
+.caption-studio-document .studio-section legend {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+.caption-studio-document :where(input, select, textarea) {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	min-height: 2.85rem;
+	padding: .65rem .7rem !important;
+}
+.caption-studio-document textarea {
+	min-height: 7rem;
+	resize: vertical;
+}
+.caption-studio-document input[type="range"] {
+	accent-color: var(--civil-cyan);
+	min-height: 2.75rem;
+	padding: 0 !important;
+}
+.caption-studio-document input[type="color"] {
+	min-width: 4rem;
+	padding: .25rem !important;
+}
+.caption-studio-document :where(button, .icon-btn, .secondary-btn, .primary-btn) {
+	background: var(--civil-surface-2) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	color: var(--civil-text) !important;
+	font-weight: 750;
+	min-height: 2.75rem;
+	padding: .6rem .75rem !important;
+}
+.caption-studio-document .primary-btn {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
+	border-color: transparent !important;
+	color: #03101a !important;
+}
+.caption-studio-document .file-label {
+	background: rgba(86, 207, 229, .045) !important;
+	border: 1px dashed var(--civil-line-strong) !important;
+	border-radius: .7rem !important;
+	min-height: 3.25rem;
+	padding: .65rem !important;
+}
+.caption-studio-document .toggle-card {
+	background: rgba(255, 255, 255, .025) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	min-height: 3rem;
+}
+.caption-studio-document .toggle-card:has(input:checked) {
+	background: rgba(86, 207, 229, .1) !important;
+	border-color: var(--civil-line-strong) !important;
+}
+.caption-studio-document .tabs {
+	background: #07111d !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .7rem !important;
+	padding: .25rem !important;
+}
+.caption-studio-document .tab:has(input:checked) {
+	background: var(--civil-surface-2) !important;
+	color: var(--civil-text) !important;
+}

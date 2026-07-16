@@ -1,0 +1,94 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos carries one thought through identity, home, writing, and publication; Awtsmoos.com gives those stages a calm editorial frame.
+ */
+.composer-civilization-document {
+	background: var(--civil-bg);
+	color: var(--civil-text);
+}
+.composer-civilization-header {
+	align-items: center;
+	background: rgba(5, 8, 17, .97);
+	border-bottom: 1px solid var(--civil-line);
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	min-height: 5rem;
+	padding: max(.65rem, env(safe-area-inset-top)) clamp(.8rem, 3vw, 2rem) .65rem;
+	position: sticky;
+	top: 0;
+	z-index: 90;
+}
+.composer-title-group {
+	min-width: 0;
+	text-align: center;
+}
+.composer-title-group h1 {
+	font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+	letter-spacing: -.035em;
+	margin: 0;
+}
+.composer-title-group p {
+	color: var(--civil-green);
+	font-size: .82rem;
+	margin: .15rem 0 0;
+}
+.composerLayout {
+	display: grid !important;
+	gap: 1rem !important;
+	grid-template-columns: minmax(0, 1fr) minmax(21rem, 29rem) !important;
+	margin: 0 auto !important;
+	max-width: 96rem !important;
+	padding: clamp(.75rem, 2vw, 1.5rem) !important;
+}
+.composerColumn {
+	display: grid !important;
+	gap: .9rem !important;
+	min-width: 0;
+	padding-bottom: 6rem;
+}
+.previewColumn {
+	min-width: 0;
+}
+.composer-civilization-document .panel,
+.composer-civilization-document .previewSticky {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: var(--civil-radius) !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	padding: clamp(.9rem, 2vw, 1.25rem) !important;
+}
+.majorPanel > summary {
+	align-items: center;
+	display: flex;
+	gap: .75rem;
+	justify-content: space-between;
+	list-style: none;
+}
+.majorPanel > summary::-webkit-details-marker {
+	display: none;
+}
+.majorPanel > summary::after {
+	color: var(--civil-cyan);
+	content: "−";
+	font-size: 1.25rem;
+}
+.majorPanel:not([open]) > summary::after {
+	content: "+";
+}
+.majorPanelBody {
+	border-top: 1px solid var(--civil-line);
+	margin-top: .8rem;
+	padding-top: .8rem;
+}
+.previewSticky {
+	position: sticky;
+	top: 6rem;
+}
+.previewSheetHeader {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}

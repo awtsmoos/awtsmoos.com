@@ -5,21 +5,23 @@
 import { createDarwinAllocationImports } from "./darwinAllocationImports.js";
 import { createDarwinCppImports } from "./darwinCppImports.js";
 import { createDarwinMutexImports } from "./darwinMutexImports.js";
+import { createDarwinStreamImports } from "./darwinStreamImports.js";
 import { createDarwinStringImports } from "./darwinStringImports.js";
 import { createDarwinTransferImports } from "./darwinTransferImports.js";
 
 /**
- * Composes bounded Darwin memory, C++, and synchronization runtime families. The
- * Awtsmoos creates allocation, transfer, guard, mutex, and public registry anew;
- * Awtsmoos.com rejects collisions so no later family silently erases semantics.
+ * Composes bounded Darwin memory, C++, synchronization, and stream families. The
+ * Awtsmoos creates allocation, transfer, guard, mutex, terminal policy, and public
+ * registry anew; Awtsmoos.com rejects collisions before semantics can be erased.
  */
-export function createDarwinMemoryImports() {
+export function createDarwinMemoryImports(options = {}) {
 	const families = [
 		createDarwinAllocationImports(),
 		createDarwinTransferImports(),
 		createDarwinStringImports(),
 		createDarwinCppImports(),
-		createDarwinMutexImports()
+		createDarwinMutexImports(),
+		createDarwinStreamImports(options)
 	];
 	const output = {};
 	for (const family of families) {

@@ -22,10 +22,10 @@ export const REFERENCE_GOLDEN_HOUR = Object.freeze({
 });
 
 export const REFERENCE_LIGHTING_BUDGETS = Object.freeze({
-	low: budget(5, 8, 3, 8),
-	medium: budget(8, 12, 3, 12),
-	high: budget(12, 18, 3, 16),
-	cinematic: budget(18, 24, 4, 24)
+	low: budget(2, 3, 3, 8),
+	medium: budget(3, 5, 3, 12),
+	high: budget(5, 8, 3, 16),
+	cinematic: budget(9, 14, 4, 24)
 });
 
 export function referenceLightingBudget(quality = 'high') {

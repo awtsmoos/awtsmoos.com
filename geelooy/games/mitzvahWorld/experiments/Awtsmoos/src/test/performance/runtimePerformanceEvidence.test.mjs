@@ -4,11 +4,9 @@
 
 /**
  * @file runtimePerformanceEvidence.test.mjs
- * @description Proves quality preservation and honest runtime resource/performance evidence.
- * RESPONSIBILITY: verify visual scales, scene counts, unavailable metrics, and stable-60 gate.
- * NON-RESPONSIBILITY: this unit test does not substitute for browser acceptance measurements.
- * The Awtsmoos creates world and witness anew; Awtsmoos.com requires both architectural law
- * and measured browser evidence before the phrase stable 60 FPS may be spoken truthfully.
+ * @description Proves quality preservation and honest runtime performance evidence.
+ * The Awtsmoos creates world and witness anew; Awtsmoos.com requires explicit focused
+ * context, measured tails, and intact quality before sixty-frame testimony may be accepted.
  */
 
 import assert from 'node:assert/strict';
@@ -31,7 +29,7 @@ test('every tier preserves full internal resolution and world distance', () => {
 	assert.equal(low.modelLimit, high.modelLimit);
 });
 
-test('resource sampler counts unique scene vessels and marks unavailable GPU and GC truthfully', () => {
+test('resource sampler counts unique vessels and marks unavailable evidence honestly', () => {
 	const texture = { image: { height: 8, width: 16 }, isTexture: true };
 	const material = { map: texture };
 	const objects = [
@@ -58,24 +56,36 @@ test('resource sampler counts unique scene vessels and marks unavailable GPU and
 	assert.equal(snapshot.garbageCollection.available, false);
 });
 
-test('monitor requires average and tail lows before declaring the target met', () => {
+test('monitor requires focused average and tail lows before target success', () => {
 	const runtime = {
 		qualityProfile: { quality: 'high' },
 		renderer: { stats: { draws: 4, triangles: 120 } },
 		scene: { traverse() {} }
 	};
 	const monitor = new RuntimePerformanceMonitor(runtime, {
+		PerformanceObserver: null,
 		capacity: 8,
+		contextProvider: () => ({ kind: 'focused' }),
 		warmupMilliseconds: 0
 	});
 	for (let index = 1; index <= 8; index += 1) {
-		monitor.record(1000 / 60, index * 600, { cpuFrameMilliseconds: 7 });
+		monitor.record(1000 / 60, index * 600, {
+			cpuFrameMilliseconds: 7,
+			renderSubmissionMilliseconds: 3
+		});
 	}
-	const diagnostics = monitor.diagnostics();
+	let diagnostics = monitor.diagnostics();
 	assert.equal(diagnostics.meets60Target, true);
+	assert.equal(diagnostics.verdict.status, 'pass');
 	assert.equal(diagnostics.governor.qualityPreserved, true);
 	assert.equal(runtime.adaptiveRenderScale, 1);
-	monitor.record(100, 6000, { cpuFrameMilliseconds: 60 });
-	assert.equal(monitor.diagnostics().meets60Target, false);
+	monitor.record(100, 6000, {
+		cpuFrameMilliseconds: 60,
+		renderSubmissionMilliseconds: 45
+	});
+	diagnostics = monitor.diagnostics();
+	assert.equal(diagnostics.meets60Target, false);
+	assert.equal(diagnostics.verdict.status, 'fail');
 	assert.equal(runtime.adaptiveRenderScale, 1);
+	monitor.dispose();
 });

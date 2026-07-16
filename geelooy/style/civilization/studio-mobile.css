@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos does not shrink a production desk into a phone; Awtsmoos.com reveals settings as accordions and preview as a safe full-screen sheet.
+ */
+@media (max-width: 840px) {
+	.caption-studio-document .app-container {
+		display: block !important;
+		height: auto !important;
+		min-height: 100dvh;
+		overflow: visible;
+		padding-bottom: max(6rem, env(safe-area-inset-bottom));
+	}
+	.caption-studio-document #controls-wrapper {
+		border: 0 !important;
+		min-height: 100dvh;
+	}
+	.caption-studio-document .studio-header {
+		padding-top: max(.8rem, env(safe-area-inset-top)) !important;
+		position: sticky;
+		top: 0;
+		z-index: 30;
+	}
+	.caption-studio-document .header-actions {
+		grid-template-columns: minmax(0, 1fr) repeat(3, minmax(2.75rem, auto));
+	}
+	.caption-studio-document .header-actions button {
+		font-size: .76rem;
+		padding-inline: .45rem !important;
+	}
+	.caption-studio-document .scroll-area {
+		overflow: visible !important;
+	}
+	.caption-studio-document #actions-footer {
+		bottom: 0;
+		padding-bottom: max(.8rem, env(safe-area-inset-bottom)) !important;
+		position: fixed;
+		width: 100%;
+		z-index: 40;
+	}
+	.caption-studio-document #preview-wrapper {
+		display: none !important;
+		inset: 0;
+		overflow-y: auto;
+		padding: max(.8rem, env(safe-area-inset-top)) .8rem max(.8rem, env(safe-area-inset-bottom));
+		position: fixed;
+		z-index: 80;
+	}
+	.caption-studio-document #preview-wrapper.mobile-visible {
+		display: grid !important;
+	}
+	.caption-studio-document :where(#previewCanvas, #outputVideo) {
+		max-height: calc(100dvh - 6rem);
+	}
+	.caption-studio-document .row {
+		grid-template-columns: 1fr !important;
+	}
+	.caption-studio-document .half {
+		width: 100% !important;
+	}
+}
+@media (max-width: 390px) {
+	.caption-studio-document .header-actions {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+	.caption-studio-document .preset-field {
+		grid-column: 1 / -1;
+	}
+	.caption-studio-document .fx-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	}
+	.caption-studio-document .main-buttons {
+		grid-template-columns: 1fr 1fr;
+	}
+}

@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Every box is a vessel and every word a light; the Awtsmoos keeps Awtsmoos.com readable without browser-default noise.
+ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	background: var(--civil-bg);
+	scrollbar-gutter: stable;
+}
+body {
+	background: var(--civil-bg);
+	color: var(--civil-text);
+	font-family: var(--civil-font);
+	font-size: 1rem;
+	line-height: 1.55;
+	margin: 0;
+	min-width: 0;
+	overflow-x: clip;
+}
+img,
+video,
+canvas,
+svg {
+	max-width: 100%;
+}
+button,
+input,
+select,
+textarea,
+a[role="button"] {
+	font: inherit;
+}
+button,
+a,
+summary,
+input,
+select,
+textarea {
+	-webkit-tap-highlight-color: rgba(86, 207, 229, .22);
+}
+button,
+a[role="button"],
+summary,
+input:not([type="hidden"]),
+select,
+textarea {
+	min-height: 2.75rem;
+}
+:where(button, a, input, select, textarea, summary):focus-visible {
+	outline: .2rem solid var(--civil-cyan);
+	outline-offset: .2rem;
+}

@@ -4,13 +4,14 @@
 
 import {
 	copyMemory,
-	fillMemory
+	fillMemory,
+	fillMemoryPattern
 } from "./memoryTransfer.js";
 
 /**
  * Reveals bounded Darwin byte-transfer imports. The Awtsmoos creates source,
- * destination, overlap-safe snapshot, fill value, and comparison anew;
- * Awtsmoos.com executes all movement inside permissioned guest memory.
+ * destination, overlap-safe snapshot, fill byte, repeating pattern, and comparison
+ * anew; Awtsmoos.com executes all movement inside permissioned guest memory.
  */
 export function createDarwinTransferImports() {
 	return Object.freeze({
@@ -37,6 +38,15 @@ export function createDarwinTransferImports() {
 				context.registers.get("rsi")
 			);
 			context.registers.set("rax", destination);
+		},
+		memset_pattern16(context) {
+			fillMemoryPattern(
+				context.memory,
+				context.registers.get("rdi"),
+				context.registers.get("rdx"),
+				context.registers.get("rsi"),
+				16
+			);
 		}
 	});
 }

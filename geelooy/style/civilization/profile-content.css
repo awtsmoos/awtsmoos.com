@@ -1,0 +1,118 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals identity through relationships and contribution; Awtsmoos.com keeps every empty or unavailable path honest.
+ */
+.profile-stat-grid {
+	display: grid !important;
+	gap: .65rem !important;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin-top: 1rem;
+	position: relative;
+	z-index: 1;
+}
+.profile-stat-grid article,
+.profile-command-panel,
+.profile-path-card,
+.profile-graph-card,
+.profile-action-drawer {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .9rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+}
+.profile-stat-grid article {
+	padding: .8rem;
+}
+.profile-stat-grid strong {
+	font-size: 1.25rem;
+}
+.profile-stat-grid span,
+.profile-status,
+.profile-tab-panel p,
+.profile-path-card p,
+.profile-graph-card p {
+	color: var(--civil-text-soft) !important;
+}
+.profile-command-panel {
+	padding: clamp(.8rem, 2vw, 1.2rem) !important;
+}
+.profile-tabs {
+	background: #07111d !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	display: grid !important;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	padding: .25rem !important;
+}
+.profile-tabs button {
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: .6rem !important;
+	color: var(--civil-text-soft) !important;
+	min-height: 2.85rem;
+}
+.profile-tabs button.active {
+	background: var(--civil-surface-2) !important;
+	color: var(--civil-text) !important;
+}
+.profile-panel-body {
+	padding-top: .9rem;
+}
+.panel-title-row {
+	align-items: center;
+	display: flex;
+	gap: .75rem;
+	justify-content: space-between;
+}
+.social-card-list,
+.g-grid,
+.profile-living-grid {
+	display: grid !important;
+	gap: .75rem !important;
+}
+.profile-living-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.profile-path-card,
+.profile-graph-card {
+	min-height: 11rem;
+	padding: 1rem;
+}
+.profile-path-card h2,
+.profile-graph-card h2 {
+	font-size: 1.15rem;
+	margin: .2rem 0 .6rem;
+}
+.profile-graph-empty {
+	align-items: center;
+	background: radial-gradient(circle, rgba(86, 207, 229, .7) 0 .12rem, transparent .16rem);
+	background-size: 2.2rem 2.2rem;
+	border: 1px dashed var(--civil-line);
+	border-radius: .75rem;
+	display: grid;
+	min-height: 6rem;
+	padding: .75rem;
+	place-items: center;
+	text-align: center;
+}
+.profile-action-drawer {
+	padding: 1rem;
+}
+@media (max-width: 680px) {
+	.profile-identity-row {
+		grid-template-columns: auto minmax(0, 1fr) !important;
+	}
+	.profile-primary-action {
+		grid-column: 1 / -1;
+	}
+	.profile-inline-actions,
+	.profile-stat-grid,
+	.profile-living-grid {
+		grid-template-columns: 1fr;
+	}
+	.profile-tabs {
+		overflow-x: auto;
+	}
+}

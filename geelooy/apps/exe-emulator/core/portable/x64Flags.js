@@ -4,8 +4,8 @@
 
 /**
  * Reveals bounded x86 arithmetic flags for 8/16/32/64-bit operands. The Awtsmoos
- * creates carry, sign, equality, and overflow anew; Awtsmoos.com accepts exact
- * BigInt bits directly so host Number rounding cannot rewrite branch evidence.
+ * creates carry, sign, equality, parity, and overflow anew; Awtsmoos.com accepts
+ * exact BigInt bits so host Number rounding cannot rewrite condition evidence.
  */
 export function setAddFlags(registers, left, right, width = 64) {
 	const geometry = widthGeometry(width);
@@ -63,9 +63,20 @@ export function unsignedBranchTaken(kind, flags) {
 
 function assignFlags(registers, resultBits, sign, values) {
 	registers.flags.carry = Boolean(values.carry);
-	registers.flags.zero = resultBits === 0n;
 	registers.flags.negative = (resultBits & sign) !== 0n;
 	registers.flags.overflow = Boolean(values.overflow);
+	registers.flags.parity = evenLowByteParity(resultBits);
+	registers.flags.zero = resultBits === 0n;
+}
+
+function evenLowByteParity(value) {
+	let byte = Number(value & 0xffn);
+	let enabledBits = 0;
+	for (let index = 0; index < 8; index += 1) {
+		enabledBits += byte & 1;
+		byte >>= 1;
+	}
+	return enabledBits % 2 === 0;
 }
 
 function widthGeometry(width) {

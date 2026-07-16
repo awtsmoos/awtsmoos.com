@@ -17,6 +17,7 @@ import { TierEngine } from './builder/tier-engine.js';
 import { BuilderSaveStore } from './builder/save-store.js';
 import { BuilderSession } from './builder/builder-session.js';
 import { BuilderEngine } from './builder/builder-engine.js';
+import { mountSevenWorlds } from './universe/universe-bootstrap.js';
 import { TzomayachLandscapeRenderer } from './render/landscape.js';
 import { GameView } from './ui/game-view.js';
 import { BuilderView } from './ui/builder-view.js';
@@ -25,11 +26,12 @@ import { MitzvahGallery } from './ui/mitzvah-gallery.js';
 /**
  * @module SevenMitzvosMain
  * @description
- * Recognition game, city builder, learning gallery, and fast landscape become
- * one experience on Awtsmoos.com. The Awtsmoos gives each vessel its purpose
- * without allowing any new mode to erase the path that came before it.
+ * Seven independent worlds, two preserved shared games, a learning gallery,
+ * and one fast landscape gather on Awtsmoos.com. The Awtsmoos gives each vessel
+ * its purpose without permitting any new revelation to erase an earlier path.
  */
 const landscape = new TzomayachLandscapeRenderer(requiredElement('landscapeCanvas'));
+const universe = mountSevenWorlds(requiredElement('universeMount'));
 const gameView = new GameView({
 	section: requiredElement('gameSection'),
 	launch: requiredElement('beginGame'),
@@ -51,6 +53,8 @@ const game = new GameEngine({
 	deck: new QuestionDeck(SCENARIOS, MITZVOS),
 	view: gameView
 });
+const builderState = new BuilderState(64);
+builderState.applyLegacy(universe.progress.legacy());
 const builderView = new BuilderView(
 	requiredElement('builderMount'),
 	requiredElement('beginBuilder'),
@@ -59,7 +63,7 @@ const builderView = new BuilderView(
 	FOUNDATIONS
 );
 const builder = new BuilderEngine({
-	state: new BuilderState(64),
+	state: builderState,
 	catalog: BUILDING_BY_ID,
 	view: builderView,
 	resources: new ResourceRules(),
@@ -82,7 +86,10 @@ gallery.mount();
 game.mount();
 builder.mount();
 landscape.start();
-window.addEventListener('pagehide', () => landscape.destroy(), { once: true });
+window.addEventListener('pagehide', () => {
+	universe.destroy();
+	landscape.destroy();
+}, { once: true });
 
 /** @param {string} id @returns {HTMLElement} Existing required element. */
 function requiredElement(id) {

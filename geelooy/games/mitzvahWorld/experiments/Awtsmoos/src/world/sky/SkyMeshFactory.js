@@ -19,7 +19,7 @@ export function createSkyMesh(name, geometryData, materialData) {
 	const material = new MeshStandardMaterial({ name, color: materialData.color });
 	Object.assign(material, {
 		textureUrl: materialData.textureUrl,
-		mapImage: cachedTextureImage(materialData.textureUrl),
+		mapImage: materialData.mapImage || cachedTextureImage(materialData.textureUrl),
 		mapRepeat: materialData.mapRepeat || [1, 1],
 		transparent: alpha < 1,
 		opacity: alpha,
@@ -33,7 +33,7 @@ export function createSkyMesh(name, geometryData, materialData) {
 	return mesh;
 }
 /** Creates a camera-facing atmospheric rectangle with explicit UV coordinates. */
-export function createSkyQuad(name, center, size, color, textureUrl) {
+export function createSkyQuad(name, center, size, color, textureUrl = null, mapImage = null) {
 	const [x, y, z] = center;
 	const [width, height] = size;
 	const halfWidth = width / 2;
@@ -46,13 +46,18 @@ export function createSkyQuad(name, center, size, color, textureUrl) {
 			x - halfWidth, y + halfHeight, z
 		],
 		normals: repeatVector([0, 0, 1], 4),
-		colors: repeatVector(color, 4),
+		colors: repeatVector([1, 1, 1, 1], 4),
 		uvs: [0, 0, 1, 0, 1, 1, 0, 1],
 		indices: [0, 1, 2, 0, 2, 3]
-	}, { color, textureUrl });
+	}, {
+		color,
+		mapImage,
+		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
+		textureUrl
+	});
 }
 /** Creates one sun disc whose radial UVs preserve the luminous source texture. */
-export function createSkyDisc(name, center, radius, color, textureUrl) {
+export function createSkyDisc(name, center, radius, color, textureUrl = null, mapImage = null) {
 	const middle = v(...center);
 	const normal = normalize(v(-center[0], -center[1], -center[2]));
 	const right = normalize(v(normal.z, 0, -normal.x));
@@ -61,11 +66,16 @@ export function createSkyDisc(name, center, radius, color, textureUrl) {
 		normal.z * right.x - normal.x * right.z,
 		-normal.y * right.x
 	));
-	const data = discGeometry(middle, normal, right, up, radius, color);
-	return createSkyMesh(name, data, { color, textureUrl });
+	const data = discGeometry(middle, normal, right, up, radius, [1, 1, 1, 1]);
+	return createSkyMesh(name, data, {
+		color,
+		mapImage,
+		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
+		textureUrl
+	});
 }
 /** Creates one tapered golden ray with a cache-bound public material. */
-export function createSkyRay(name, center, angle, length, width, color, textureUrl) {
+export function createSkyRay(name, center, angle, length, width, color, textureUrl = null) {
 	const [x, y, z] = center;
 	const rayX = Math.cos(angle);
 	const rayY = Math.sin(angle);
@@ -79,10 +89,14 @@ export function createSkyRay(name, center, angle, length, width, color, textureU
 			x + rayX * length - upX * width * 0.18, y + rayY * length - upY * width * 0.18, z
 		],
 		normals: repeatVector([0, 0, 1], 4),
-		colors: [...color, ...color, color[0], color[1], color[2], 0, color[0], color[1], color[2], 0],
+		colors: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
 		uvs: [0, 0, 1, 0, 1, 1, 0, 1],
 		indices: [0, 1, 2, 0, 2, 3]
-	}, { color, textureUrl });
+	}, {
+		color,
+		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
+		textureUrl
+	});
 }
 function discGeometry(middle, normal, right, up, radius, color) {
 	const positions = [middle.x, middle.y, middle.z];

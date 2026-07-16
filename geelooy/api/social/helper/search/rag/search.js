@@ -5,53 +5,69 @@
 /**
  * @module SocialLibrarySearch
  * @description
- * One bounded query resolves one shard, chooses an explicit strategy, enriches
- * comments, and returns provenance that proves persisted HNSW served strict RAG.
+ * One bounded query proves canonical storage, resolves one shard, chooses one
+ * explicit strategy, enriches comments, and returns persisted-HNSW provenance.
+ * Only a final public no-comment response may enter bounded process memory.
  */
 
 const { resolveShard } = require('./shards.js');
 const { rowsForShard, searchShard } = require('./sourceSearch.js');
-const { publicHit, publicShard } = require('./resultShape.js');
 const { findSource } = require('./strategy.js');
 const { hydrateSearch } = require('./hydrate.js');
 const { emptyLibrary } = require('./emptyResult.js');
 const { now, timed } = require('./timer.js');
+const {
+	readCachedResponse,
+	rememberResponse
+} = require('./responseCache.js');
+const {
+	buildResponse,
+	cachedResponse,
+	codedError,
+	readinessError
+} = require('./searchResponse.js');
+const {
+	assertStorageUnchanged,
+	captureCanonicalStorage
+} = require('./storageInvariant.js');
 
 async function ragSearch(options = {}) {
 	const query = String(options.query || '').trim();
 	if (!query) throw codedError('MISSING_QUERY', 'Pass q or query.');
+	const request = { ...options, query };
 	const timings = {};
 	const totalStartedAt = now();
+	const storageBefore = captureCanonicalStorage(options.$i);
 	const shard = await timed('resolveShardMs', timings, () => resolveShard({
 		$i: options.$i,
 		lane: options.lane
 	}));
-	if (!shard && options.requireIndexed === true) {
-		throw readinessError(
-			'RAG_SHARD_UNAVAILABLE',
-			'No persisted indexed RAG shard is available.',
-			{ requestedLane: options.lane || null }
+	if (!shard) return missingShard(request, timings, totalStartedAt, storageBefore);
+	const cached = readCachedResponse(request, shard, storageBefore);
+	if (cached) {
+		assertStorageUnchanged(
+			storageBefore,
+			captureCanonicalStorage(options.$i)
 		);
+		return cachedResponse(cached, timings, totalStartedAt, now);
 	}
-	if (!shard) return emptyLibrary(query, timings, totalStartedAt, now);
 	const search = await findSource({
-		...options,
-		query,
+		...request,
 		shard,
 		timings
 	});
-	assertStrictIndexed(options, shard, search);
+	assertStrictIndexed(request, shard, search);
 	const comments = await hydrateSearch({
 		$i: options.$i,
 		hits: search.hits,
 		query,
 		limit: options.limit || 10,
-		includeComments: options.includeComments !== false,
+		includeComments: options.includeComments === true,
 		maxRows: options.maxCommentRows || 12,
 		timings
 	});
 	timings.totalMs = Number((now() - totalStartedAt).toFixed(3));
-	return response({
+	const result = buildResponse({
 		query,
 		shard,
 		search,
@@ -59,6 +75,23 @@ async function ragSearch(options = {}) {
 		commentHits: comments.commentHits,
 		timings
 	});
+	assertStorageUnchanged(storageBefore, captureCanonicalStorage(options.$i));
+	if (result.index.persisted === true) {
+		rememberResponse(request, shard, storageBefore, result);
+	}
+	return result;
+}
+
+function missingShard(options, timings, startedAt, storageBefore) {
+	if (options.requireIndexed === true) {
+		throw readinessError(
+			'RAG_SHARD_UNAVAILABLE',
+			'No persisted indexed RAG shard is available.',
+			{ requestedLane: options.lane || null }
+		);
+	}
+	assertStorageUnchanged(storageBefore, captureCanonicalStorage(options.$i));
+	return emptyLibrary(options.query, timings, startedAt, now);
 }
 
 function assertStrictIndexed(options, shard, search) {
@@ -77,34 +110,6 @@ function assertStrictIndexed(options, shard, search) {
 			index: search.index || null
 		}
 	);
-}
-
-function response(values) {
-	return {
-		BH: 'B"H',
-		query: values.query,
-		shard: publicShard(values.shard),
-		mode: values.search.mode,
-		strictIndexed: values.search.strictIndexed === true,
-		indexed: values.search.indexed === true,
-		index: values.search.index || { persisted: false },
-		message: values.search.message,
-		totalRows: values.search.totalRows,
-		vectorSource: values.search.source,
-		engine: values.search.engine,
-		timings: values.timings,
-		embedder: values.search.embedder,
-		hits: values.hits.map(publicHit),
-		commentHits: values.commentHits
-	};
-}
-
-function readinessError(code, message, readiness) {
-	return Object.assign(new Error(message), { code, readiness });
-}
-
-function codedError(code, message) {
-	return Object.assign(new Error(message), { code });
 }
 
 module.exports = {

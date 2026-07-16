@@ -2,9 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 
-import { setAddFlags, setLogicFlags, setSubtractFlags } from "./x64Flags.js";
-import { effectiveAddress } from "./x64EffectiveAddress.js";
 import { readByteRegister, writeByteRegister } from "./x64ByteRegisters.js";
+import { readByteTarget, writeByteTarget } from "./x64ByteTarget.js";
+import { setAddFlags, setLogicFlags, setSubtractFlags } from "./x64Flags.js";
 import { bitwiseWidth, wrapArithmetic } from "./x64Width.js";
 
 const BYTE_KINDS = new Set([
@@ -32,12 +32,12 @@ export function executeByteOperation(item, registers, memory) {
 		writeByteRegister(
 			registers,
 			item.destination,
-			readTarget(item.target, item, registers, memory)
+			readByteTarget(item.target, item, registers, memory)
 		);
 		return true;
 	}
 	if (item.kind === "mov_byte_to_target") {
-		writeTarget(
+		writeByteTarget(
 			item.target,
 			item,
 			registers,
@@ -47,10 +47,10 @@ export function executeByteOperation(item, registers, memory) {
 		return true;
 	}
 	if (item.kind === "mov_byte_imm") {
-		writeTarget(item.target, item, registers, memory, item.value);
+		writeByteTarget(item.target, item, registers, memory, item.value);
 		return true;
 	}
-	const left = readTarget(item.target, item, registers, memory);
+	const left = readByteTarget(item.target, item, registers, memory);
 	if (item.kind === "test_byte_target") {
 		const right = readByteRegister(registers, item.source);
 		setLogicFlags(registers, bitwiseWidth("and", left, right, 8), 8);
@@ -67,34 +67,19 @@ export function executeByteOperation(item, registers, memory) {
 	}
 	if (item.kind === "add_byte_imm") {
 		const result = wrapArithmetic(left + right, 8);
-		writeTarget(item.target, item, registers, memory, result);
+		writeByteTarget(item.target, item, registers, memory, result);
 		setAddFlags(registers, left, right, 8);
 		return true;
 	}
 	if (item.kind === "sub_byte_imm") {
 		const result = wrapArithmetic(left - right, 8);
-		writeTarget(item.target, item, registers, memory, result);
+		writeByteTarget(item.target, item, registers, memory, result);
 		setSubtractFlags(registers, left, right, 8);
 		return true;
 	}
 	const operator = item.kind.replace("_byte_imm", "");
 	const result = bitwiseWidth(operator, left, right, 8);
-	writeTarget(item.target, item, registers, memory, result);
+	writeByteTarget(item.target, item, registers, memory, result);
 	setLogicFlags(registers, result, 8);
 	return true;
-}
-
-function readTarget(target, item, registers, memory) {
-	if (target.kind === "register") {
-		return readByteRegister(registers, target.specification);
-	}
-	return memory.u8(effectiveAddress({ ...item, address: target.address }, registers));
-}
-
-function writeTarget(target, item, registers, memory, value) {
-	if (target.kind === "register") {
-		writeByteRegister(registers, target.specification, value);
-		return;
-	}
-	memory.write8(effectiveAddress({ ...item, address: target.address }, registers), value);
 }

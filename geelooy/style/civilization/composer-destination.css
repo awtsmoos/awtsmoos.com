@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * A post needs one true home and may echo elsewhere; the Awtsmoos lets Awtsmoos.com show that graph without confusing authorship.
+ */
+.destinationWorkspace {
+	display: grid;
+	gap: .75rem;
+	grid-template-columns: minmax(14rem, .85fr) minmax(0, 1.15fr);
+}
+.destinationResults,
+.seriesBrowser,
+#secondaryPlacements {
+	display: grid;
+	gap: .55rem;
+	min-width: 0;
+}
+.destinationResults > *,
+.seriesBrowser > *,
+.secondaryPlacementCard {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	color: var(--civil-text) !important;
+	min-height: 3.25rem;
+	padding: .7rem !important;
+}
+.destinationSummary,
+.publicationPlanView,
+.publicationPlanResult,
+#payloadInspector,
+#publishResult {
+	background: #050b14 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	color: #c7d7e7 !important;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: .78rem;
+	max-height: 22rem;
+	overflow: auto;
+	padding: .8rem !important;
+	white-space: pre-wrap;
+}
+.placementComposer,
+.sectionHeading,
+.blockHeader,
+.sectionHeader,
+.mediaActions {
+	align-items: center;
+	display: flex;
+	gap: .55rem;
+	justify-content: space-between;
+}
+.composer-civilization-document .notice,
+.composer-civilization-document .statusMessage {
+	background: rgba(232, 184, 93, .1);
+	border: 1px solid rgba(232, 184, 93, .35);
+	border-radius: .75rem;
+	color: var(--civil-text);
+	padding: .75rem;
+}

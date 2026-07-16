@@ -1,24 +1,20 @@
 <!--B"H-->
 <!--Boruch Hashem-->
 <!--Blessed is He-->
-<!--
-	Three paths now share one world on Awtsmoos.com: learn the exact Seven
-	Mitzvos, recognize them under pressure, and build a society they can defend.
-	The Awtsmoos gives every path its present possibility and purpose.
--->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#071321">
-	<meta name="description" content="Fast scenario play and a top-down society builder about the Seven Mitzvos of Bnei Noach.">
-	<title>Seven Mitzvos · Guard and Build the World</title>
+	<meta name="description" content="Seven complete games, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
+	<title>Seven Mitzvos · Seven Worlds</title>
 	<link rel="stylesheet" href="./styles/tokens.css">
 	<link rel="stylesheet" href="./styles/foundation.css">
 	<link rel="stylesheet" href="./styles/typography.css">
 	<link rel="stylesheet" href="./styles/landscape.css">
 	<link rel="stylesheet" href="./styles/components.css">
+	<link rel="stylesheet" href="./styles/universe.css">
 	<link rel="stylesheet" href="./styles/game.css">
 	<link rel="stylesheet" href="./styles/game-board.css">
 	<link rel="stylesheet" href="./styles/game-motion.css">
@@ -39,32 +35,36 @@
 		<div class="grainVeil"></div>
 		<div class="edgeVeil"></div>
 	</div>
-
 	<header class="heroSection">
 		<nav class="topBar" aria-label="Page navigation">
 			<a class="backLink" href="../">← Awtsmoos Games</a>
 			<span class="worldMark">B"H · One humanity, seven foundations</span>
 		</nav>
 		<div class="heroContent">
-			<p class="eyebrow">Learn · recognize · build · defend</p>
-			<h1>Guard the world.<br><em>Then build it stronger.</em></h1>
-			<p class="heroLead">
-				Master the exact Seven Mitzvos in rapid scenarios, then grow a top-down
-				settlement where farms sustain life and all seven foundations defend society.
-			</p>
+			<p class="eyebrow">Seven exact mitzvos · Seven independent games</p>
+			<h1>Learn every foundation.<br><em>Enter every world.</em></h1>
+			<p class="heroLead">Play deduction, rhythm, rescue, relationship strategy, trade, animal care, and courtroom judgment—then carry mastery into the preserved civilization builder.</p>
+			<ol class="heroMitzvahStrip" aria-label="The Seven Mitzvos of Bnei Noach">
+				<li>Do not worship idols</li>
+				<li>Do not blaspheme</li>
+				<li>Do not murder</li>
+				<li>Do not engage in forbidden relationships</li>
+				<li>Do not steal</li>
+				<li>Do not eat flesh taken from a living animal</li>
+				<li>Establish courts of justice</li>
+			</ol>
 			<div class="heroActions">
+				<a class="primaryAction" href="#sevenWorlds">Choose one of seven games</a>
 				<button id="beginGame" class="primaryAction" type="button">Play Guard the World</button>
 				<button id="beginBuilder" class="primaryAction builderLaunch" type="button">Build the Covenant</button>
-				<a class="quietAction" href="#mitzvos">Study all seven clearly</a>
 			</div>
 		</div>
-		<div class="scrollSignal" aria-hidden="true"><span></span><small>Two games. Seven unmistakable foundations.</small></div>
 	</header>
-
 	<main>
+		<div id="universeMount"></div>
 		<section id="gameSection" class="gameSection contentPanel" aria-labelledby="gameTitle">
 			<header class="gameHeader">
-				<div><p class="sectionNumber">01 · Recognize</p><h2 id="gameTitle">Guard the World</h2></div>
+				<div><p class="sectionNumber">02 · Recognize all seven</p><h2 id="gameTitle">Guard the World</h2></div>
 				<p>Choose with touch, mouse, or keys 1–3. Fast correct answers build larger combos.</p>
 			</header>
 			<div class="gameStats" aria-label="Game status">
@@ -88,19 +88,16 @@
 				<p>No lives, no waiting—just recognition, streaks, and replay.</p>
 			</div>
 		</section>
-
 		<div id="builderMount"></div>
-
 		<section id="mitzvos" class="mitzvosSection">
 			<header class="sectionHeader">
-				<p class="sectionNumber">03 · Learn clearly</p>
+				<p class="sectionNumber">04 · Learn clearly</p>
 				<h2>The Seven Mitzvos of Bnei Noach</h2>
 				<p>Every card states the commandment, its meaning, and its positive work in daily life.</p>
 			</header>
 			<div id="mitzvahGrid" class="mitzvahGrid" aria-live="polite"></div>
 		</section>
 	</main>
-
 	<dialog id="mitzvahDialog" class="mitzvahDialog" aria-labelledby="dialogTitle">
 		<button id="closeDialog" class="dialogClose" type="button" aria-label="Close details">×</button>
 		<p id="dialogNumber" class="dialogNumber"></p>
@@ -111,8 +108,7 @@
 		<h3>The positive work</h3>
 		<p id="dialogPractice"></p>
 	</dialog>
-
-	<footer><span>B"H</span><p>Two fast educational games on Awtsmoos.com.</p></footer>
+	<footer><span>B"H</span><p>Seven worlds, two preserved shared games, and one clear learning path on Awtsmoos.com.</p></footer>
 	<script type="module" src="./js/main.js"></script>
 	<script src="/register.js"></script>
 </body>

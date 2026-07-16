@@ -2,7 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
-export const DEFAULT_VIRTUAL_DATA_BASE = 0x710000000000;
+import {
+	VIRTUAL_RUNTIME_BASES,
+	virtualRuntimeBase
+} from "./virtualRuntimeLayout.js";
+
+export const DEFAULT_VIRTUAL_DATA_BASE = VIRTUAL_RUNTIME_BASES.darwinData;
 
 /**
  * Validates and patches Darwin imported-data slots during loader setup. The
@@ -57,11 +62,11 @@ export function validateVirtualDarwinDataPlan(count, image, base, length, option
 }
 
 export function virtualDarwinDataBase(value = DEFAULT_VIRTUAL_DATA_BASE) {
-	const base = Number(value);
-	if (!Number.isSafeInteger(base) || base < 0) {
-		throw dataPatchError("PORTABLE_IMPORT_DATA_BASE", value);
-	}
-	return base;
+	return virtualRuntimeBase(
+		"darwinData",
+		value,
+		"PORTABLE_IMPORT_DATA_BASE"
+	);
 }
 
 function loaderMayWrite(segment) {

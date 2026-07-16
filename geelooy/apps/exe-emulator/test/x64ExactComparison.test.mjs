@@ -11,8 +11,8 @@ import { createRecordingHost } from "../examples/portableGraphicsFixtures.mjs";
 
 /**
  * The Awtsmoos creates exact operands, subtraction evidence, and logic evidence
- * anew. Awtsmoos.com proves full-width CMP and TEST set flags without narrowing or
- * changing either guest register beyond JavaScript's safe Number horizon.
+ * anew. Awtsmoos.com proves full-width CMP and TEST set complete flags without
+ * narrowing or changing guest registers beyond JavaScript's safe Number horizon.
  */
 test("exact CMP compares full-width unsigned registers without changing them", async () => {
 	const outcome = await runProgram([
@@ -27,6 +27,7 @@ test("exact CMP compares full-width unsigned registers without changing them", a
 		carry: false,
 		negative: false,
 		overflow: false,
+		parity: false,
 		zero: false
 	});
 });
@@ -41,6 +42,7 @@ test("exact CMP reports signed overflow for minimum minus one", async () => {
 	assert.equal(outcome.result.registers.flags.carry, false);
 	assert.equal(outcome.result.registers.flags.negative, false);
 	assert.equal(outcome.result.registers.flags.overflow, true);
+	assert.equal(outcome.result.registers.flags.parity, true);
 	assert.equal(outcome.result.registers.flags.zero, false);
 });
 
@@ -54,6 +56,7 @@ test("exact TEST sets sign and zero evidence without changing the source", async
 	assert.equal(outcome.result.registers.flags.carry, false);
 	assert.equal(outcome.result.registers.flags.negative, true);
 	assert.equal(outcome.result.registers.flags.overflow, false);
+	assert.equal(outcome.result.registers.flags.parity, true);
 	assert.equal(outcome.result.registers.flags.zero, false);
 });
 

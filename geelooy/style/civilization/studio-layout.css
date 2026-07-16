@@ -1,0 +1,95 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers sound, text, image, and time; Awtsmoos.com gives the local studio a disciplined production floor.
+ */
+.caption-studio-document {
+	background: var(--civil-bg) !important;
+	color: var(--civil-text) !important;
+	font-family: var(--civil-font) !important;
+}
+.caption-studio-document .app-container {
+	display: grid !important;
+	grid-template-columns: minmax(22rem, 31rem) minmax(0, 1fr) !important;
+	height: 100dvh !important;
+	min-height: 36rem;
+	overflow: hidden;
+}
+.caption-studio-document #controls-wrapper {
+	background: var(--civil-bg-raised) !important;
+	border-inline-end: 1px solid var(--civil-line) !important;
+	display: grid !important;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-width: 0;
+}
+.caption-studio-document .studio-header {
+	background: rgba(5, 8, 17, .96) !important;
+	border-bottom: 1px solid var(--civil-line) !important;
+	display: grid !important;
+	gap: .85rem;
+	padding: 1rem !important;
+}
+.caption-studio-document .logo-area {
+	display: grid;
+	gap: .15rem;
+}
+.caption-studio-document .logo-area p,
+.caption-studio-document .logo-area h1 {
+	margin: 0;
+}
+.caption-studio-document .logo-area p {
+	color: var(--civil-cyan);
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.caption-studio-document .logo-area h1 {
+	font-size: 1.35rem;
+	letter-spacing: -.035em;
+}
+.caption-studio-document .version {
+	color: var(--civil-text-faint);
+	font-size: .72rem;
+}
+.caption-studio-document .header-actions {
+	display: grid !important;
+	gap: .45rem;
+	grid-template-columns: minmax(0, 1fr) repeat(3, auto);
+}
+.caption-studio-document .scroll-area {
+	display: grid !important;
+	gap: .7rem;
+	overflow-y: auto !important;
+	padding: .8rem !important;
+	scrollbar-gutter: stable;
+}
+.caption-studio-document #preview-wrapper {
+	background: radial-gradient(circle at 50% 45%, rgba(41, 118, 160, .15), transparent 25rem), #03060c !important;
+	display: grid !important;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	padding: 1rem;
+}
+.caption-studio-document #mobile-preview-header {
+	align-items: center;
+	display: flex !important;
+	justify-content: space-between;
+}
+.caption-studio-document #preview-container {
+	align-items: center;
+	display: grid !important;
+	justify-items: center;
+	min-height: 0;
+	overflow: hidden;
+	position: relative;
+}
+.caption-studio-document :where(#previewCanvas, #outputVideo) {
+	background: #000;
+	border: 1px solid var(--civil-line);
+	border-radius: .85rem;
+	box-shadow: var(--civil-shadow);
+	max-height: calc(100dvh - 7rem);
+	max-width: 100%;
+	object-fit: contain;
+}

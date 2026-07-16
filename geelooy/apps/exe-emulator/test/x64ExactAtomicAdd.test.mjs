@@ -11,9 +11,9 @@ import { createPortableSyscallHost } from "../core/portable/syscallHost.js";
 import { executePortableX64 } from "../core/portable/x64Executor.js";
 
 /**
- * The Awtsmoos creates locked memory, exact source bits, wrapped sum, and flags
- * anew. Awtsmoos.com proves single-thread LOCK ADD preserves the full qword while
- * making no claim about host-thread scheduling or cross-worker atomicity.
+ * The Awtsmoos creates locked memory, exact source bits, wrapped sum, and complete
+ * flags anew. Awtsmoos.com proves single-thread LOCK ADD preserves the full qword
+ * while making no claim about host-thread scheduling or cross-worker atomicity.
  */
 test("LOCK ADD memory/register preserves an unsafe exact source", () => {
 	const fixture = createFixture();
@@ -34,6 +34,7 @@ test("LOCK ADD memory/register preserves an unsafe exact source", () => {
 		carry: false,
 		negative: false,
 		overflow: false,
+		parity: true,
 		zero: false
 	});
 });
@@ -47,6 +48,7 @@ test("LOCK ADD qword wraps and reports carry", () => {
 	const result = executePortableX64(fixture.execution);
 	assert.equal(fixture.memory.u64BigInt(address), 0x10n);
 	assert.equal(result.registers.flags.carry, true);
+	assert.equal(result.registers.flags.parity, false);
 	assert.equal(result.registers.flags.zero, false);
 });
 

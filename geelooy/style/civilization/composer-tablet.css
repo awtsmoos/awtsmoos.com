@@ -1,0 +1,53 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns width into hierarchy; Awtsmoos.com keeps the editor efficient on tablets without compressing its controls.
+ */
+@media (max-width: 1080px) {
+	.composerLayout {
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, 23rem) !important;
+	}
+	.actionBar {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.actionBar .publishButton {
+		grid-column: span 2;
+	}
+}
+@media (max-width: 820px) {
+	.composer-civilization-header {
+		position: relative;
+	}
+	.composerLayout {
+		grid-template-columns: 1fr !important;
+		padding: .65rem !important;
+	}
+	.composerColumn {
+		padding-bottom: 1rem;
+	}
+	.destinationWorkspace {
+		grid-template-columns: 1fr;
+	}
+	.actionBar {
+		bottom: max(.35rem, env(safe-area-inset-bottom));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.actionBar .publishButton {
+		grid-column: 1 / -1;
+	}
+	.previewColumn {
+		display: none;
+	}
+	.previewColumn.is-open {
+		background: var(--civil-bg);
+		display: block;
+		inset: 0;
+		overflow-y: auto;
+		padding: max(.65rem, env(safe-area-inset-top)) .65rem max(.65rem, env(safe-area-inset-bottom));
+		position: fixed;
+		z-index: 120;
+	}
+	.previewColumn.is-open .previewSticky {
+		position: static;
+	}
+}

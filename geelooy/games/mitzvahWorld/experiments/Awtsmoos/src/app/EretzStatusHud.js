@@ -12,6 +12,9 @@ export function refreshStatusHud(runtime) {
 		`doors ${runtime.doors.map((door) => door.state).join('/')}`,
 		`camera ${runtime.orbit.currentDistance.toFixed(1)}m`,
 		`camera-hit ${runtime.orbit.stats.hitKind || 'clear'}`,
+		`draws ${runtime.renderer.stats.draws || 0}`,
+		`static-save ${runtime.renderer.stats.staticBatch?.savedDraws || 0}`,
+		`chossid-save ${runtime.assets.importedModelMaterials?.player?.consolidation?.savedDraws || 0}`,
 		`x ${runtime.state.x.toFixed(1)}`,
 		`z ${runtime.state.z.toFixed(1)}`
 	].join(' • ');

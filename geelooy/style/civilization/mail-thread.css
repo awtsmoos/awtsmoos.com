@@ -1,0 +1,138 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every reply a place in time; Awtsmoos.com keeps context, status, and attachments contained within the conversation.
+ */
+.mail-civilization-chat {
+	background: #050a12 !important;
+	display: grid !important;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-height: 0;
+	min-width: 0;
+	position: relative;
+}
+.chat-header {
+	align-items: center;
+	background: rgba(5, 8, 17, .97) !important;
+	border-bottom: 1px solid var(--civil-line) !important;
+	display: flex !important;
+	gap: .75rem;
+	justify-content: space-between;
+	min-height: 4.5rem;
+	padding: .7rem 1rem !important;
+}
+.chat-heading-lockup {
+	align-items: center;
+	display: flex !important;
+	gap: .65rem;
+	min-width: 0;
+}
+.chat-title {
+	color: var(--civil-text) !important;
+	font-size: 1.05rem !important;
+	margin: 0 !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.chat-kicker {
+	color: var(--civil-text-faint) !important;
+	font-size: .7rem !important;
+	font-weight: 850;
+	letter-spacing: .1em;
+	margin: 0 !important;
+	text-transform: uppercase;
+}
+.back-button,
+.tool-btn,
+.ctx-item {
+	background: var(--civil-surface-2) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	color: var(--civil-text) !important;
+	min-height: 2.75rem;
+	min-width: 2.75rem;
+}
+.context-menu {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line-strong) !important;
+	border-radius: .75rem !important;
+	box-shadow: var(--civil-shadow) !important;
+	padding: .35rem !important;
+}
+.messages-scroll {
+	display: flex !important;
+	flex-direction: column;
+	gap: .7rem;
+	overflow-y: auto !important;
+	padding: 1rem !important;
+	scrollbar-gutter: stable;
+}
+.void-logo {
+	align-self: center;
+	background: rgba(255, 255, 255, .018) !important;
+	border: 1px dashed var(--civil-line) !important;
+	border-radius: .9rem !important;
+	color: var(--civil-text-soft) !important;
+	display: grid !important;
+	gap: .4rem;
+	margin: auto;
+	max-width: 30rem;
+	padding: 1.4rem !important;
+	place-items: center;
+	text-align: center;
+}
+.void-logo h2,
+.void-logo p {
+	margin: 0;
+}
+.void-atom,
+.chat-frequency-light,
+.time-scrubber,
+#particleCanvas,
+.drop-portal {
+	display: none !important;
+}
+.message-wrap {
+	align-items: flex-end;
+	display: flex !important;
+	gap: .5rem;
+	max-width: min(48rem, 88%);
+}
+.message-wrap.own-message {
+	align-self: flex-end;
+	flex-direction: row-reverse;
+}
+.message-wrap.their-message {
+	align-self: flex-start;
+}
+.message-bubble {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .9rem .9rem .9rem .25rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	line-height: 1.5;
+	max-width: 100%;
+	overflow-wrap: anywhere;
+	padding: .75rem .85rem !important;
+}
+.own-message .message-bubble {
+	background: rgba(16, 71, 112, .62) !important;
+	border-color: rgba(86, 207, 229, .25) !important;
+	border-radius: .9rem .9rem .25rem .9rem !important;
+}
+.message-meta,
+.message-time {
+	color: var(--civil-text-faint) !important;
+	font-size: .76rem !important;
+}
+.message-attachment,
+.message-quote {
+	background: rgba(255, 255, 255, .03) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	max-width: 100%;
+	overflow: hidden;
+	padding: .65rem !important;
+}

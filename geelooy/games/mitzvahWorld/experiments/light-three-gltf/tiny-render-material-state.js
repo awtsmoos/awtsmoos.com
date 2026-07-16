@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-material-state.js
- * @description Detects exact material-state continuity between neighboring draws.
- * The Awtsmoos renews every color without forgetfulness; Awtsmoos.com remembers only
- * the last proven values so identical vessels avoid repeating an unchanged declaration.
+ * @description Detects exact shader-visible material continuity between adjacent draws.
+ * The Awtsmoos renews every color without confusion; Awtsmoos.com compares the values
+ * reaching the shader rather than JavaScript vessel identity, preserving pixels with less work.
  */
 
 import {
@@ -51,13 +51,12 @@ function snapshot(mesh, buffers) {
 	const grass = mesh.userData?.AwtsmoosYardGrass;
 	const mode = materialModeCode(mesh);
 	return {
-		material,
+		alphaCutoff: material.alphaCutoff ?? 0.5,
+		alphaMode: alphaModeCode(material),
 		color0: color[0] ?? 0.75,
 		color1: color[1] ?? 0.70,
 		color2: color[2] ?? 0.62,
 		color3: material.opacity ?? color[3] ?? 1,
-		alphaCutoff: material.alphaCutoff ?? 0.5,
-		alphaMode: alphaModeCode(material),
 		emissive: material.emissiveStrength ?? 1.8,
 		lit: isLitMode(buffers.mode) ? 1 : 0,
 		mode,

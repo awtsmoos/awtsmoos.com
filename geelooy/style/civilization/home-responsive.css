@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos does not squeeze the desktop into a phone; Awtsmoos.com changes rhythm while every path remains safe-area reachable.
+ */
+@media (max-width: 1050px) {
+	.home-civilization-main {
+		grid-template-columns: 1fr;
+	}
+	.home-discovery-rail {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.home-sync-card {
+		grid-column: 1 / -1;
+	}
+}
+@media (max-width: 760px) {
+	.geelooy-home-document {
+		padding-bottom: calc(4.25rem + env(safe-area-inset-bottom));
+	}
+	.home-civilization-main {
+		padding: .7rem;
+	}
+	.home-hero-civilization {
+		grid-template-columns: 1fr;
+		min-height: auto;
+		padding: 1.25rem;
+	}
+	.home-hero-civilization::after {
+		height: 9rem;
+		inset: auto 0 0 auto;
+		width: 58%;
+	}
+	.home-task-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.home-task-card {
+		min-height: 6.5rem;
+	}
+	.home-task-card:last-child {
+		grid-column: 1 / -1;
+	}
+	.home-discovery-rail {
+		grid-template-columns: 1fr;
+	}
+	.home-section-heading {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}
+@media (max-width: 380px) {
+	.home-task-grid {
+		grid-template-columns: 1fr;
+	}
+	.home-task-card:last-child {
+		grid-column: auto;
+	}
+	.home-hero-actions {
+		display: grid;
+	}
+}

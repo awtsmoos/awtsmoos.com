@@ -9,8 +9,11 @@
  * Awtsmoos.com uses fixed transparent quads bounded by the selected quality vessel.
  */
 
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { createSkyQuad } from '../sky/SkyMeshFactory.js';
+import {
+	proceduralCloudTexture,
+	proceduralHazeTexture
+} from '../sky/ProceduralAtmosphereTexture.js';
 import {
 	REFERENCE_GOLDEN_HOUR,
 	referenceLightingBudget
@@ -33,7 +36,8 @@ export function createReferenceSkyClouds(quality = 'high') {
 			warm
 				? REFERENCE_GOLDEN_HOUR.cloudColor
 				: [0.68, 0.77, 0.88, 0.14],
-			TEXTURE_URLS.water.bright
+			null,
+			proceduralCloudTexture()
 		);
 	});
 }
@@ -45,21 +49,24 @@ export function createReferenceHazeLayers() {
 			[0, 1, -190],
 			[620, 104],
 			REFERENCE_GOLDEN_HOUR.horizonColor,
-			TEXTURE_URLS.water.bright
+			null,
+			proceduralHazeTexture()
 		),
 		createSkyQuad(
 			'reference_cool_valley_haze',
 			[0, 18, -270],
 			[760, 146],
 			[0.42, 0.55, 0.72, 0.15],
-			TEXTURE_URLS.water.still
+			null,
+			proceduralHazeTexture()
 		),
 		createSkyQuad(
 			'reference_far_blue_air',
 			[0, 42, -420],
 			[980, 210],
 			[0.48, 0.61, 0.78, 0.1],
-			TEXTURE_URLS.water.bright
+			null,
+			proceduralHazeTexture()
 		)
 	];
 }

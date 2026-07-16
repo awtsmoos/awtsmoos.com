@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos makes every render stage visible; Awtsmoos.com never hides failure behind an endless glow.
+ */
+.caption-studio-document #actions-footer {
+	background: rgba(5, 8, 17, .97) !important;
+	border-top: 1px solid var(--civil-line) !important;
+	display: grid !important;
+	gap: .65rem;
+	padding: .8rem !important;
+}
+.caption-studio-document #status {
+	color: var(--civil-text-soft) !important;
+	font-size: .86rem;
+	margin: 0;
+	min-height: 1.35rem;
+}
+.caption-studio-document #status.success {
+	color: var(--civil-green) !important;
+}
+.caption-studio-document #status.warning {
+	color: var(--civil-amber) !important;
+}
+.caption-studio-document #status.error {
+	color: var(--civil-red) !important;
+}
+.caption-studio-document #progressContainer {
+	background: #07111d !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: 99rem !important;
+	height: .7rem;
+	overflow: hidden;
+}
+.caption-studio-document #progressBar {
+	background: linear-gradient(90deg, var(--civil-cyan), #2f8cff) !important;
+	height: 100%;
+	transition: width .18s linear;
+}
+.caption-studio-document .main-buttons {
+	display: grid !important;
+	gap: .55rem;
+	grid-template-columns: 1fr 1.35fr;
+}
+.caption-studio-document #render-overlay {
+	align-content: center;
+	background: rgba(3, 6, 12, .88) !important;
+	color: var(--civil-text);
+	display: none;
+	inset: 0;
+	justify-items: center;
+	padding: 1rem;
+	position: absolute;
+	text-align: center;
+}
+.caption-studio-document .rendering #render-overlay {
+	display: grid;
+}
+.caption-studio-document .render-mark {
+	color: var(--civil-cyan);
+	font-size: 1rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+}
+.caption-studio-document #preset-dialog {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line-strong) !important;
+	border-radius: 1rem;
+	box-shadow: var(--civil-shadow);
+	color: var(--civil-text) !important;
+	max-width: min(30rem, calc(100vw - 1.5rem));
+	padding: 1rem;
+}
+.caption-studio-document #preset-dialog::backdrop {
+	background: rgba(0, 0, 0, .76);
+}
+.caption-studio-document .dialog-actions {
+	display: flex;
+	gap: .55rem;
+	justify-content: flex-end;
+	margin-top: 1rem;
+}

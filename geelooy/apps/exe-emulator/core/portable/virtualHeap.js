@@ -2,7 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
-const HEAP_BASE = 0x600000000000;
+import { virtualRuntimeBase } from "./virtualRuntimeLayout.js";
+
 const HEAP_ALIGNMENT = 16;
 
 /**
@@ -11,6 +12,7 @@ const HEAP_ALIGNMENT = 16;
  * process memory without exposing the host allocator or pretending free reclaims.
  */
 export function createVirtualHeap(options = {}) {
+	const base = virtualRuntimeBase("processHeap", options.virtualHeapBase);
 	const size = boundedHeapSize(options);
 	const allocations = new Map();
 	let cursor = 0x1000;
@@ -21,14 +23,14 @@ export function createVirtualHeap(options = {}) {
 			if (cursor + aligned > size) {
 				throw heapError("PORTABLE_HEAP_EXHAUSTED", requested);
 			}
-			const address = HEAP_BASE + cursor;
+			const address = base + cursor;
 			allocations.set(address, Object.freeze({ size: requested }));
 			cursor += aligned;
 			return address;
 		},
-		base: HEAP_BASE,
+		base,
 		segment: Object.freeze({
-			address: HEAP_BASE,
+			address: base,
 			bytes: new Uint8Array(size),
 			flags: Object.freeze({ read: true, write: true }),
 			name: "virtual-process-heap"
@@ -41,7 +43,7 @@ export function createVirtualHeap(options = {}) {
 			return Object.freeze({
 				allocatedBytes: cursor - 0x1000,
 				allocationCount: allocations.size,
-				base: HEAP_BASE,
+				base,
 				size
 			});
 		}

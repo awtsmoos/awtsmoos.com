@@ -15,7 +15,7 @@ import { createEmptyVirtualDarwinDataImports } from "./virtualDarwinDataImports.
  */
 export function createDarwinImportHost(thunks, heap, options = {}) {
 	const dataImports = thunks.data || createEmptyVirtualDarwinDataImports();
-	const handlers = createDarwinMemoryImports();
+	const handlers = createDarwinMemoryImports(options);
 	const lifecycle = createDarwinLifecycleImports(options);
 	const pthread = createDarwinPthreadImports(options);
 	const time = createDarwinTimeImports(options);

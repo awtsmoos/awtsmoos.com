@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The small screen is a different vessel; the Awtsmoos lets Awtsmoos.com reveal one editorial decision at a time without hiding the path.
+ */
+@media (max-width: 620px) {
+	.composer-civilization-header {
+		gap: .45rem;
+		min-height: 4.25rem;
+		padding-inline: .55rem;
+	}
+	.composer-civilization-header .civilization-button {
+		font-size: .78rem;
+		min-width: 2.75rem;
+		padding-inline: .55rem;
+	}
+	.composer-title-group h1 {
+		font-size: 1.05rem;
+	}
+	.composer-title-group p {
+		font-size: .72rem;
+	}
+	.composer-civilization-document .panel,
+	.composer-civilization-document .previewSticky {
+		border-radius: .85rem !important;
+		padding: .75rem !important;
+	}
+	.majorPanel:not([open]) {
+		padding-bottom: .5rem !important;
+	}
+	.composer-civilization-document .twoColumns,
+	.composer-civilization-document .threeColumns,
+	.composer-civilization-document .creationGrid {
+		grid-template-columns: 1fr;
+	}
+	.headerStats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.placementComposer,
+	.sectionHeading,
+	.sectionHeader {
+		align-items: stretch;
+		flex-direction: column;
+	}
+	.blockHeader {
+		align-items: stretch;
+		flex-wrap: wrap;
+	}
+	.blockHeader select {
+		flex: 1 1 100%;
+	}
+	.subsectionEditor {
+		margin-inline-start: 0;
+	}
+	.markToolbar {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+	.markToolbar button {
+		font-size: .78rem;
+		padding-inline: .35rem;
+	}
+	.actionBar {
+		border-radius: .8rem !important;
+		grid-template-columns: 1fr 1fr;
+		padding: .4rem !important;
+	}
+	.actionBar button {
+		font-size: .8rem;
+		padding-inline: .35rem;
+	}
+	.publish-dialog-actions {
+		display: grid;
+	}
+}
+@media (max-width: 360px) {
+	.composer-civilization-header .civilization-button span {
+		display: none;
+	}
+	.markToolbar {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.actionBar {
+		grid-template-columns: 1fr;
+	}
+	.actionBar .publishButton {
+		grid-column: auto;
+	}
+}

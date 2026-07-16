@@ -1,0 +1,94 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos makes a Heichel more than a group page; Awtsmoos.com becomes a disciplined cultural institution whose data remains real.
+ */
+.heichel-os-document {
+	background: radial-gradient(circle at 50% 0, rgba(213, 174, 100, .11), transparent 34rem), var(--civil-bg) !important;
+	color: var(--civil-text) !important;
+	font-family: var(--civil-font) !important;
+}
+.heichel-shell-boot {
+	display: grid;
+	min-height: 70dvh;
+	padding: clamp(1rem, 4vw, 4rem);
+	place-items: center;
+}
+.heichel-shell-boot__panel {
+	background: linear-gradient(145deg, rgba(13, 23, 37, .96), rgba(8, 16, 26, .96));
+	border: 1px solid rgba(213, 174, 100, .28);
+	border-radius: 1rem;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: auto minmax(0, 1fr);
+	max-width: 44rem;
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+	width: 100%;
+}
+.heichel-shell-boot__seal {
+	background: rgba(213, 174, 100, .08);
+	border: 1px solid rgba(213, 174, 100, .3);
+	border-radius: 50%;
+	color: var(--civil-gold);
+	display: grid;
+	font-size: 1.6rem;
+	height: 4rem;
+	place-items: center;
+	width: 4rem;
+}
+.heichel-page-container {
+	margin-inline: auto !important;
+	max-width: 96rem;
+	padding: clamp(.7rem, 2vw, 1.5rem) !important;
+}
+.main-content-wrapper {
+	display: grid !important;
+	gap: 1rem !important;
+	grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem) !important;
+}
+.heichel-main-stage,
+.heichel-sidebar,
+.heichel-content-panel {
+	min-width: 0;
+}
+.heichel-header {
+	background: linear-gradient(135deg, rgba(13, 23, 37, .96), rgba(21, 28, 38, .96)) !important;
+	border: 1px solid rgba(213, 174, 100, .24) !important;
+	border-radius: 1rem !important;
+	padding: clamp(1rem, 3vw, 2rem) !important;
+}
+#heichel-main-title {
+	font-size: clamp(2rem, 5vw, 4rem) !important;
+	letter-spacing: -.055em;
+	line-height: 1.05;
+	margin: 0 0 1rem !important;
+}
+.heichel-search-wrapper input {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	color: var(--civil-text) !important;
+	min-height: 3rem;
+	padding: .7rem .85rem !important;
+	width: 100%;
+}
+.content-tabs {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .8rem !important;
+	display: grid !important;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin: .9rem 0 !important;
+	padding: .25rem !important;
+}
+.content-tabs .tab {
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: .65rem !important;
+	color: var(--civil-text-soft) !important;
+	min-height: 2.85rem;
+}
+.content-tabs .tab.Active {
+	background: var(--civil-surface-2) !important;
+	color: var(--civil-gold) !important;
+}

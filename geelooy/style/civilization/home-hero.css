@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos needs no giant monument; this hero gives Awtsmoos.com a controlled invitation where truth is stronger than telemetry.
+ */
+.home-hero-civilization {
+	background: linear-gradient(110deg, rgba(9, 17, 29, .98) 20%, rgba(9, 28, 46, .92)), var(--civil-surface);
+	display: grid;
+	gap: 1.25rem;
+	grid-template-columns: minmax(0, 1.45fr) minmax(15rem, .75fr);
+	min-height: 19rem;
+	overflow: hidden;
+	padding: clamp(1.25rem, 4vw, 3rem);
+	position: relative;
+}
+.home-hero-civilization::after {
+	background: radial-gradient(circle, rgba(86, 207, 229, .85) 0 .16rem, transparent .2rem), radial-gradient(circle at 50% 50%, transparent 0 34%, rgba(86, 207, 229, .18) 35% 35.5%, transparent 36% 51%, rgba(216, 103, 165, .18) 52% 52.5%, transparent 53%);
+	background-size: 4.5rem 4.5rem, 100% 100%;
+	content: "";
+	inset: 0 0 0 auto;
+	opacity: .62;
+	pointer-events: none;
+	position: absolute;
+	width: 42%;
+}
+.home-hero-copy {
+	align-self: center;
+	max-width: 47rem;
+	position: relative;
+	z-index: 1;
+}
+.home-hero-copy h1 {
+	font-size: clamp(2rem, 5vw, 4.2rem);
+	letter-spacing: -.055em;
+	line-height: 1.02;
+	margin: .55rem 0 1rem;
+	max-width: 13ch;
+	text-wrap: balance;
+}
+.home-hero-copy > p:not(.civilization-kicker) {
+	color: var(--civil-text-soft);
+	font-size: clamp(1rem, 1.8vw, 1.15rem);
+	max-width: 56ch;
+}
+.home-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .65rem;
+	margin-top: 1.25rem;
+}
+.home-truth-card {
+	align-self: end;
+	background: rgba(5, 8, 17, .58);
+	border: 1px solid var(--civil-line);
+	border-radius: .9rem;
+	display: grid;
+	gap: .5rem;
+	padding: 1rem;
+	position: relative;
+	z-index: 1;
+}

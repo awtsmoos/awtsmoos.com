@@ -9,7 +9,6 @@
  * transparent sky meshes so radiance appears without an unbounded post-process pass.
  */
 
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { createSkyRay } from '../sky/SkyMeshFactory.js';
 import {
 	REFERENCE_GOLDEN_HOUR,
@@ -30,8 +29,7 @@ export function createVolumetricSunShafts(quality = 'high') {
 			angle,
 			length,
 			width,
-			[1, 0.73, 0.28, alpha],
-			TEXTURE_URLS.metals.gold2
+			[1, 0.73, 0.28, alpha]
 		);
 	});
 }

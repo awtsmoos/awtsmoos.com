@@ -4,56 +4,57 @@
 
 /**
  * @file WorldDiagnostics.js
- * @description Installs the browser-visible evidence surface for terrain, materials,
- * forest, stairs, renderer, player, and streamed chunks. The Awtsmoos renews every
- * measured vessel; Awtsmoos.com exposes present runtime truth rather than memory.
+ * @description Publishes live terrain, renderer, streaming, player, and performance evidence.
+ * The Awtsmoos renews every measured vessel; Awtsmoos.com exposes present runtime truth
+ * so mountains, stairs, frames, and hidden costs remain inspectable rather than remembered.
  */
+
 import { inspectForestTree } from './WorldForestInspection.js';
 import { summarizeWorldStairs } from './WorldStairSummary.js';
 
-/** Installs and returns the live browser diagnostic API. */
 export function installWorldDiagnostics(runtime) {
 	const stairLayouts = runtime.terrain.worldMetadata.stairLayouts || [];
 	const octreeTriangles = runtime.mainOctree.all();
 	const api = {
-		terrainStats: runtime.terrain.stats,
-		materialDiagnostics: runtime.terrain.materialDiagnostics,
+		chunkStats: runtime.chunkRuntime?.diagnostics() || null,
 		forestStats: runtime.terrain.stats.forestStats,
-		worldStats: runtime.terrain.worldMetadata,
 		inspectForestTree: (presetName) => inspectForestTree(runtime, presetName),
-		inspectWorldHierarchy: () => inspectWorldHierarchy(
-			runtime,
-			stairLayouts,
-			octreeTriangles
-		),
 		inspectStair: (index = 0) => inspectStair(
 			stairLayouts,
 			octreeTriangles,
 			index
 		),
+		inspectWorldHierarchy: () => inspectWorldHierarchy(
+			runtime,
+			stairLayouts,
+			octreeTriangles
+		),
+		materialDiagnostics: runtime.terrain.materialDiagnostics,
+		performance: runtime.performanceMonitor?.diagnostics() || null,
 		rendererStats: runtime.renderer.stats,
-		state: runtime.state,
 		stairStats: summarizeWorldStairs(stairLayouts, octreeTriangles),
-		chunkStats: runtime.chunkRuntime?.diagnostics() || null
+		state: runtime.state,
+		terrainStats: runtime.terrain.stats,
+		worldStats: runtime.terrain.worldMetadata
 	};
 	window.Awtsmoos = api;
 	return api;
 }
 
-/** Refreshes volatile frame, player, and chunk evidence. */
 export function refreshWorldDiagnostics(api, runtime) {
+	api.chunkStats = runtime.chunkRuntime?.diagnostics() || null;
+	api.performance = runtime.performanceMonitor?.diagnostics() || null;
 	api.rendererStats = runtime.renderer.stats;
 	api.state = runtime.state;
-	api.chunkStats = runtime.chunkRuntime?.diagnostics() || null;
 }
 
 function inspectWorldHierarchy(runtime, stairLayouts, octreeTriangles) {
 	return {
-		terrain: runtime.terrain.group,
+		collisionTriangles: octreeTriangles.length,
 		houses: runtime.terrain.worldMetadata.houses || [],
-		stairs: stairLayouts,
 		octreeBounds: runtime.mainOctree.bounds.toJSON(),
-		collisionTriangles: octreeTriangles.length
+		stairs: stairLayouts,
+		terrain: runtime.terrain.group
 	};
 }
 
@@ -63,10 +64,10 @@ function inspectStair(stairLayouts, octreeTriangles, index) {
 		? `stair:${layout.houseId}:${layout.kind}`
 		: null;
 	return {
-		layout,
 		collisionKind,
 		collisionTriangles: collisionKind
 			? octreeTriangles.filter((triangle) => triangle.kind === collisionKind).length
-			: 0
+			: 0,
+		layout
 	};
 }

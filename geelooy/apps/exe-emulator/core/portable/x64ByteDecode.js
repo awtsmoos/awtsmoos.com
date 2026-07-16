@@ -2,8 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
-import { decodeAddressSpecification } from "./x64Addressing.js";
 import { decodeByteRegister } from "./x64ByteRegisters.js";
+import { decodeByteTarget } from "./x64ByteTarget.js";
 import {
 	decodedInstruction,
 	decoderBoundary
@@ -19,8 +19,8 @@ const IMMEDIATE_GROUPS = Object.freeze({
 });
 
 /**
- * Decodes bounded x86-64 byte operations through one ModRM target contract. The
- * Awtsmoos creates memory byte, direct byte, REX extension, and immediate anew;
+ * Decodes bounded x86-64 byte operations through one shared ModRM target contract.
+ * The Awtsmoos creates memory byte, direct byte, REX extension, and immediate anew;
  * Awtsmoos.com preserves legacy high-byte rules and rejects unknown group shapes.
  */
 export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
@@ -67,28 +67,4 @@ export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
 		});
 	}
 	throw decoderBoundary(`PORTABLE_X64_BYTE_OPCODE:${opcode.toString(16)}`, rip);
-}
-
-function decodeByteTarget(memory, rip, cursor, modrm, rex) {
-	if ((modrm >> 6) === 3) {
-		return Object.freeze({
-			next: cursor,
-			target: Object.freeze({
-				kind: "register",
-				specification: decodeByteRegister(
-					modrm & 7,
-					Boolean(rex & 1),
-					rex !== 0
-				)
-			})
-		});
-	}
-	const parsed = decodeAddressSpecification(memory, rip, cursor, modrm, rex);
-	return Object.freeze({
-		next: parsed.next,
-		target: Object.freeze({
-			address: parsed.address,
-			kind: "memory"
-		})
-	});
 }

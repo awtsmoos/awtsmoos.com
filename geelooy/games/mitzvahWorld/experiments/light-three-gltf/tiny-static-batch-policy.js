@@ -4,15 +4,16 @@
 
 /**
  * @file tiny-static-batch-policy.js
- * @description Explicitly permits only proven static opaque village families.
- * The Awtsmoos knows every hidden motion; Awtsmoos.com refuses to combine a vessel
- * unless its hierarchy, material mode, opacity, and family all testify to stillness.
+ * @description Permits only proven static opaque world and functional-house families.
+ * The Awtsmoos knows every hidden motion; Awtsmoos.com joins fixed walls and ornaments
+ * while doors, players, grass reactions, creatures, and uncertain vessels remain separate.
  */
 
 import { inheritedRenderMetadata } from './tiny-render-culling.js';
 import { materialModeCode } from './tiny-render-webgl-utils.js';
 
 const STATIC_FAMILIES = new Set([
+	'functional-house',
 	'lake-shore-stone',
 	'procedural-text-landmark',
 	'reference-arrival-composition',

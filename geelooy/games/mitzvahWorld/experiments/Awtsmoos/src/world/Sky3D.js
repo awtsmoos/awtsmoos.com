@@ -10,7 +10,6 @@
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
 import {
 	REFERENCE_GOLDEN_HOUR,
 	referenceLightingBudget
@@ -27,27 +26,25 @@ export function createSky3D(quality = 'high') {
 	const group = new Group();
 	const budget = referenceLightingBudget(quality);
 	group.name = `Awtsmoos_reference_golden_hour_sky_${quality}`;
-	group.add(createSkyDome(TEXTURE_URLS.water.bright));
+	group.add(createSkyDome(null));
 	for (const haze of createReferenceHazeLayers()) group.add(haze);
 	group.add(createSkyDisc(
 		'reference_sun_white_core',
 		REFERENCE_GOLDEN_HOUR.sunPosition,
 		6.4,
-		REFERENCE_GOLDEN_HOUR.sunCore,
-		TEXTURE_URLS.metals.gold2
+		REFERENCE_GOLDEN_HOUR.sunCore
 	));
 	group.add(createSkyDisc(
 		'reference_sun_warm_bloom',
 		REFERENCE_GOLDEN_HOUR.sunPosition,
 		21,
-		REFERENCE_GOLDEN_HOUR.sunGlow,
-		TEXTURE_URLS.metals.gold2
+		REFERENCE_GOLDEN_HOUR.sunGlow
 	));
 	for (const ray of createVolumetricSunShafts(quality)) group.add(ray);
 	for (const cloud of createReferenceSkyClouds(quality)) group.add(cloud);
 	group.userData.AwtsmoosSky = {
 		budget,
-		cloudTextureProxy: TEXTURE_URLS.water.bright,
+		cloudTextureProxy: 'procedural://awtsmoos-soft-cloud-alpha',
 		quality,
 		style: 'reference-golden-hour-atmospheric-depth',
 		sun: REFERENCE_GOLDEN_HOUR.sunPosition,

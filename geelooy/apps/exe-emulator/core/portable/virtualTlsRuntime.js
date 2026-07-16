@@ -3,9 +3,8 @@
 //Blessed is He
 
 import { inspectMachOTls } from "./machoTls.js";
+import { virtualRuntimeBase } from "./virtualRuntimeLayout.js";
 
-const TLS_BASE = 0x620000000000;
-const TLS_THUNK_BASE = 0x710000000000;
 const TLS_SYSCALL = 0x51000000;
 
 /**
@@ -16,6 +15,14 @@ const TLS_SYSCALL = 0x51000000;
 export function prepareVirtualTlsRuntime(bytes, image, options = {}) {
 	const tls = inspectMachOTls(bytes, image, options);
 	if (!tls.descriptors.length) return emptyTlsRuntime();
+	const storageBase = virtualRuntimeBase(
+		"threadStorage",
+		options.virtualTlsBase
+	);
+	const thunkBase = virtualRuntimeBase(
+		"tlvThunk",
+		options.virtualTlsThunkBase
+	);
 	for (const descriptor of tls.descriptors) {
 		if (descriptor.offset < 0 || descriptor.offset >= tls.storageSize) {
 			throw tlsRuntimeError(
@@ -23,7 +30,7 @@ export function prepareVirtualTlsRuntime(bytes, image, options = {}) {
 				descriptor.offset
 			);
 		}
-		patchDescriptor(image, descriptor.address, TLS_THUNK_BASE);
+		patchDescriptor(image, descriptor.address, thunkBase);
 	}
 	let calls = 0;
 	return Object.freeze({
@@ -35,13 +42,13 @@ export function prepareVirtualTlsRuntime(bytes, image, options = {}) {
 				if (offset < 0 || offset >= tls.storageSize) {
 					throw tlsRuntimeError("PORTABLE_TLS_OFFSET_RANGE", offset);
 				}
-				registers.set("rax", TLS_BASE + offset);
+				registers.set("rax", storageBase + offset);
 				calls += 1;
 				return true;
 			},
 			snapshot() {
 				return Object.freeze({
-					base: TLS_BASE,
+					base: storageBase,
 					callCount: calls,
 					descriptorCount: tls.descriptors.length,
 					storageSize: tls.storageSize
@@ -49,19 +56,20 @@ export function prepareVirtualTlsRuntime(bytes, image, options = {}) {
 			}
 		}),
 		metadata: Object.freeze({
-			base: TLS_BASE,
+			base: storageBase,
 			descriptorCount: tls.descriptors.length,
-			storageSize: tls.storageSize
+			storageSize: tls.storageSize,
+			thunkBase
 		}),
 		segments: Object.freeze([
 			Object.freeze({
-				address: TLS_BASE,
+				address: storageBase,
 				bytes: tls.storage,
 				flags: Object.freeze({ read: true, write: true }),
 				name: "virtual-thread-local-storage"
 			}),
 			Object.freeze({
-				address: TLS_THUNK_BASE,
+				address: thunkBase,
 				bytes: createTlsThunk(),
 				flags: Object.freeze({ execute: true, read: true }),
 				name: "virtual-tlv-get-addr"

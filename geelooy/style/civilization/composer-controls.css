@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos forms no cramped control; Awtsmoos.com gives every field a clear label, a visible state, and a generous path.
+ */
+.composer-civilization-document :where(h2, h3) {
+	color: var(--civil-text);
+	letter-spacing: -.025em;
+}
+.composer-civilization-document h2 {
+	font-size: 1.15rem;
+	margin: 0;
+}
+.composer-civilization-document h3 {
+	font-size: 1rem;
+	margin: 1.1rem 0 .6rem;
+}
+.composer-civilization-document :where(p, small) {
+	color: var(--civil-text-soft);
+}
+.composer-civilization-document label {
+	color: var(--civil-text-soft);
+	display: grid;
+	font-size: .86rem;
+	font-weight: 700;
+	gap: .4rem;
+	min-width: 0;
+}
+.composer-civilization-document :where(input, select, textarea) {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .72rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	min-height: 3rem;
+	padding: .7rem .8rem !important;
+	width: 100%;
+}
+.composer-civilization-document textarea {
+	min-height: 6rem;
+	resize: vertical;
+}
+.composer-civilization-document :where(input, textarea)::placeholder {
+	color: var(--civil-text-faint);
+}
+.composer-civilization-document :where(button, .primaryAction, .secondaryAction) {
+	background: var(--civil-surface-2);
+	border: 1px solid var(--civil-line);
+	border-radius: .72rem;
+	color: var(--civil-text);
+	cursor: pointer;
+	font-weight: 750;
+	min-height: 2.75rem;
+	padding: .65rem .85rem;
+}
+.composer-civilization-document :where(button, .primaryAction):hover {
+	border-color: var(--civil-line-strong);
+}
+.composer-civilization-document .primaryAction,
+.composer-civilization-document .publishButton {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
+	border-color: transparent !important;
+	color: #03101a !important;
+}
+.composer-civilization-document details:not(.majorPanel) {
+	background: rgba(255, 255, 255, .02);
+	border: 1px solid var(--civil-line);
+	border-radius: .8rem;
+	margin-top: .7rem;
+	padding: .25rem .75rem .75rem;
+}
+.composer-civilization-document details:not(.majorPanel) > summary {
+	align-items: center;
+	color: var(--civil-text);
+	cursor: pointer;
+	display: flex;
+	font-weight: 750;
+	justify-content: space-between;
+	list-style: none;
+	padding: .55rem 0;
+}
+.composer-civilization-document details:not(.majorPanel) > summary::after {
+	color: var(--civil-cyan);
+	content: "+";
+	font-size: 1.25rem;
+}
+.composer-civilization-document details[open]:not(.majorPanel) > summary::after {
+	content: "−";
+}
+.composer-civilization-document .twoColumns,
+.composer-civilization-document .threeColumns,
+.composer-civilization-document .creationGrid {
+	display: grid;
+	gap: .7rem;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.composer-civilization-document .threeColumns {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}

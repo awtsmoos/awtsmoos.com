@@ -2,6 +2,8 @@
 /** Reconciles authoritative participants into a bounded population of shared-resource chossid.glb actors. */
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { applyChossidOutfit } from '../assets/ChossidOutfitPalette.js';
+import { consolidateChossidMeshes } from '../assets/ChossidMeshConsolidator.js';
 import { PLAYER_MODEL_URL } from '../app/EretzConstants.js';
 import { PLAYER_SPAWN } from '../app/EretzPlayerStateFactory.js';
 import { RemoteChossidActor } from './RemoteChossidActor.js';
@@ -40,6 +42,8 @@ export class RemoteChossidPopulation {
 		this.pending.add(remote.id);
 		try {
 			const gltf = await loadIsolatedGltf(PLAYER_MODEL_URL, `remote-player-${remote.id}`);
+			applyChossidOutfit(gltf.scene, {});
+			consolidateChossidMeshes(gltf.scene);
 			if (this.actors.has(remote.id)) return;
 			const actor = new RemoteChossidActor(gltf, remote, this.ground, presentationOffset(remote.id));
 			this.actors.set(remote.id, actor);

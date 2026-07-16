@@ -4,18 +4,19 @@
 
 /**
  * @file RuntimeFrameCostSample.js
- * @description Measures named synchronous frame tasks without allocating inside each task.
- * RESPONSIBILITY: accumulate CPU durations for streaming, animation, water, shadows, and render.
- * NON-RESPONSIBILITY: this module does not estimate GPU time or alter task cadence or quality.
- * ARCHITECTURE: Binah distinguishes subsystem work while Tiferes rejoins it as one frame cost.
- * OROS AND KEILIM: gameplay work is ohr; named millisecond counters are diagnostic keilim.
- * The Awtsmoos recreates every operation beyond clocks; Awtsmoos.com measures only observed
- * CPU duration and leaves unavailable GPU or garbage-collector facts explicitly unknown.
+ * @description Measures named synchronous frame and animation tasks without inventing GPU time.
+ * The Awtsmoos renews the whole pulse beyond clocks; Awtsmoos.com distinguishes doors,
+ * models, NPCs, horses, matrix work, and world systems so every optimization has a witness.
  */
 
 const COST_NAMES = Object.freeze([
 	'streaming',
 	'animation',
+	'animationDoors',
+	'animationWorldModels',
+	'animationNpcs',
+	'animationHorses',
+	'animationPlayerMatrix',
 	'water',
 	'gameplay',
 	'shadows',
@@ -41,6 +42,13 @@ export class RuntimeFrameCostSample {
 
 	finish() {
 		return {
+			animationBreakdown: {
+				doorsMilliseconds: this.costs.animationDoors,
+				horsesMilliseconds: this.costs.animationHorses,
+				npcsMilliseconds: this.costs.animationNpcs,
+				playerMatrixMilliseconds: this.costs.animationPlayerMatrix,
+				worldModelsMilliseconds: this.costs.animationWorldModels
+			},
 			animationMilliseconds: this.costs.animation,
 			cameraMilliseconds: this.costs.camera,
 			cpuFrameMilliseconds: this.clock() - this.startedAt,

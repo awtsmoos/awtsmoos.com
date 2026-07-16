@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets a reply remain human instead of theatrical; Awtsmoos.com keeps the composer clear above keyboards and safe areas.
+ */
+.composer-area {
+	background: rgba(5, 8, 17, .97) !important;
+	border-top: 1px solid var(--civil-line) !important;
+	padding: .75rem !important;
+	padding-bottom: max(.75rem, env(safe-area-inset-bottom)) !important;
+}
+.composer-box {
+	background: var(--civil-surface) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .85rem !important;
+	box-shadow: none !important;
+	overflow: hidden;
+}
+.composer-topbar {
+	border-bottom: 1px solid var(--civil-line);
+	gap: .5rem;
+	padding: .45rem !important;
+}
+.composer-tabs {
+	background: #07111d !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	display: flex !important;
+	gap: .25rem;
+	padding: .2rem !important;
+}
+.mode-tab,
+.composer-window-controls button,
+.toolbar-btn {
+	background: transparent !important;
+	border: 1px solid transparent !important;
+	border-radius: .55rem !important;
+	color: var(--civil-text-soft) !important;
+	min-height: 2.75rem;
+	min-width: 2.75rem;
+}
+.mode-tab[aria-pressed="true"],
+.mode-tab.active,
+.composer-window-controls button:hover,
+.toolbar-btn:hover {
+	background: var(--civil-surface-2) !important;
+	border-color: var(--civil-line) !important;
+	color: var(--civil-text) !important;
+}
+.composer-content {
+	display: grid;
+	gap: .45rem;
+	padding: .55rem;
+}
+.subject-input,
+.message-input,
+.source-editor {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .65rem !important;
+	color: var(--civil-text) !important;
+	line-height: 1.5;
+	min-height: 3.2rem;
+	padding: .7rem .8rem !important;
+	width: 100%;
+}
+.visual-editor:empty::before {
+	color: var(--civil-text-faint);
+	content: "Write your message…";
+	pointer-events: none;
+}
+.composer-action-row {
+	display: flex !important;
+	justify-content: flex-end;
+}
+.send-btn {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
+	border: 0 !important;
+	border-radius: .65rem !important;
+	color: #03101a !important;
+	font-weight: 850;
+	min-height: 3rem;
+	padding: .65rem 1rem !important;
+}
+.message-failed {
+	border-color: rgba(244, 119, 130, .5) !important;
+}
+.message-pending {
+	opacity: .78;
+}
+.message-delivered .message-meta::after {
+	color: var(--civil-cyan);
+	content: " · Delivered";
+}
+.message-read .message-meta::after {
+	color: var(--civil-green);
+	content: " · Read";
+}
+.message-failed .message-meta::after {
+	color: var(--civil-red);
+	content: " · Failed";
+}

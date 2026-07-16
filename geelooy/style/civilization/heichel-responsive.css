@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos keeps community actions within reach at every width; Awtsmoos.com never hides its living chamber beyond the viewport.
+ */
+@media (max-width: 900px) {
+	.main-content-wrapper {
+		grid-template-columns: 1fr !important;
+	}
+	.heichel-sidebar {
+		position: static;
+	}
+	.sidebar-toggle {
+		display: none !important;
+	}
+}
+@media (max-width: 620px) {
+	.heichel-page-container {
+		padding: .65rem !important;
+		padding-bottom: max(5rem, env(safe-area-inset-bottom)) !important;
+	}
+	.heichel-header {
+		padding: 1rem !important;
+	}
+	#heichel-main-title {
+		font-size: 2rem !important;
+	}
+	.grid-container {
+		grid-template-columns: 1fr !important;
+	}
+	.post-card {
+		min-height: 0;
+	}
+	.content-tabs {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+	}
+	.heichel-shell-boot__panel {
+		grid-template-columns: 1fr;
+	}
+	.heichel-shell-boot__seal {
+		height: 3.25rem;
+		width: 3.25rem;
+	}
+	.modal-content,
+	.context-menu,
+	.awtsmoos-notifications-panel,
+	.awtsmoos-platform-body {
+		max-height: calc(100dvh - 1.5rem);
+		max-width: calc(100vw - 1.5rem);
+		overflow-y: auto;
+	}
+}

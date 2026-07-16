@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives mobile correspondence one clear place at a time; Awtsmoos.com preserves list position without offscreen geometry.
+ */
+@media (max-width: 820px) {
+	.geelooy-mail-document {
+		overflow: hidden;
+	}
+	.mail-civilization-shell {
+		height: 100dvh;
+	}
+	.mail-civilization-status {
+		min-height: 3.9rem;
+	}
+	.mail-civilization-frame {
+		display: block !important;
+		position: relative;
+	}
+	.mail-civilization-sidebar,
+	.mail-civilization-chat {
+		inset: 0;
+		position: absolute !important;
+	}
+	.mail-civilization-sidebar {
+		border: 0 !important;
+		visibility: visible;
+	}
+	.mail-civilization-chat {
+		transform: translateX(100%);
+		visibility: hidden;
+	}
+	.mail-civilization-frame.view-chat .mail-civilization-sidebar {
+		visibility: hidden;
+	}
+	.mail-civilization-frame.view-chat .mail-civilization-chat {
+		transform: translateX(0);
+		visibility: visible;
+	}
+	.chat-header {
+		padding-top: max(.65rem, env(safe-area-inset-top)) !important;
+	}
+	.messages-scroll {
+		padding: .75rem !important;
+	}
+	.message-wrap {
+		max-width: 94%;
+	}
+	.composer-area {
+		padding-bottom: max(.55rem, env(safe-area-inset-bottom)) !important;
+	}
+	.composer-topbar {
+		align-items: stretch !important;
+		flex-direction: column;
+	}
+	.composer-window-controls {
+		display: grid !important;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+	.mode-tab {
+		font-size: .72rem;
+	}
+}
+@media (max-width: 390px) {
+	.mail-civilization-status {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: .2rem;
+	}
+	.mail-civilization-sidebar {
+		padding: .6rem !important;
+	}
+	.mail-sender-category-grid,
+	.mail-folder-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.thread-item {
+		min-height: 4.85rem;
+	}
+	.composer-window-controls {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.composer-tabs {
+		display: grid !important;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.mail-civilization-chat {
+		transition: none !important;
+	}
+}

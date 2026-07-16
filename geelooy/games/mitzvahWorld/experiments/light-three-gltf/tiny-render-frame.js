@@ -4,7 +4,7 @@
 
 /**
  * @file tiny-render-frame.js
- * @description Renders one camera-culled frame and records lossless state continuity.
+ * @description Renders one camera-culled, exact-state-ordered frame with measured continuity.
  * The Awtsmoos recreates the whole view in one instant; Awtsmoos.com measures each
  * declaration so unchanged GPU state can rest while every visible form remains complete.
  */
@@ -58,14 +58,18 @@ function drawTransparentPass(renderer, meshes, projectionView) {
 	gl.enable(gl.BLEND);
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 	gl.depthMask(false);
-	for (const mesh of meshes) drawRenderMesh(renderer, mesh, projectionView, true);
+	for (const mesh of meshes) {
+		drawRenderMesh(renderer, mesh, projectionView, true);
+	}
 	gl.depthMask(true);
 	gl.disable(gl.BLEND);
 }
 
 function drawSkeletonPass(renderer, scene, projectionView) {
 	renderer.gl.disable(renderer.gl.CULL_FACE);
-	if (renderer.options.showSkeleton) drawSkeleton(renderer, scene, projectionView);
+	if (renderer.options.showSkeleton) {
+		drawSkeleton(renderer, scene, projectionView);
+	}
 }
 
 function createFrameStats(renderer, renderList) {
@@ -88,6 +92,7 @@ function createFrameStats(renderer, renderList) {
 		perMeshSkinUpdate: true,
 		programSwitches: 0,
 		reactiveGrassMeshes: 0,
+		renderOrder: renderList.renderOrder,
 		rigidMeshes: 0,
 		sharedSkinPaletteCache: true,
 		staticBatch: renderList.staticBatch || null,

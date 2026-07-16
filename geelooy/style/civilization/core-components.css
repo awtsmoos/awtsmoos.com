@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every action a measured vessel so Awtsmoos.com distinguishes invitation, status, and state without spectacle.
+ */
+.civilization-panel {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: var(--civil-radius);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .025);
+}
+.civilization-button {
+	align-items: center;
+	background: var(--civil-surface-2);
+	border: 1px solid var(--civil-line);
+	border-radius: .8rem;
+	color: var(--civil-text);
+	display: inline-flex;
+	font-weight: 750;
+	gap: .55rem;
+	justify-content: center;
+	min-height: 3rem;
+	padding: .7rem 1rem;
+	text-decoration: none;
+}
+.civilization-button:hover {
+	border-color: var(--civil-line-strong);
+	transform: translateY(-1px);
+}
+.civilization-button.primary {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff);
+	border-color: transparent;
+	color: #03101a;
+}
+.civilization-kicker {
+	color: var(--civil-cyan);
+	font-size: .75rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	margin: 0;
+	text-transform: uppercase;
+}
+.civilization-muted {
+	color: var(--civil-text-soft);
+}
+.civilization-state {
+	background: rgba(255, 255, 255, .025);
+	border: 1px dashed var(--civil-line);
+	border-radius: .85rem;
+	color: var(--civil-text-soft);
+	padding: 1rem;
+}
+.civilization-status {
+	align-items: center;
+	color: var(--civil-text-soft);
+	display: inline-flex;
+	font-size: .9rem;
+	gap: .5rem;
+}
+.civilization-status::before {
+	background: var(--civil-green);
+	border-radius: 50%;
+	content: "";
+	height: .55rem;
+	width: .55rem;
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+	}
+}
+@media (prefers-contrast: more) {
+	:root {
+		--civil-line: rgba(255, 255, 255, .48);
+		--civil-text-soft: #d9e2ec;
+	}
+}

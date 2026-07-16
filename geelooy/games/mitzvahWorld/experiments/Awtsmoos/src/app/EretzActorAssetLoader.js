@@ -18,6 +18,7 @@ import {
 	loadIsolatedGltf,
 	sharedGltfAssetStats
 } from '../assets/ModelAssetLoader.js';
+import { consolidateChossidMeshes } from '../assets/ChossidMeshConsolidator.js';
 import { friendlyNpcProfiles } from '../world/npc/FriendlyNpcProfiles.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
 
@@ -42,14 +43,22 @@ export async function loadEretzActorAssets(options = {}) {
 		return {
 			...bindImportedModelMaterials(gltf.scene),
 			...outfitStats,
+			consolidation: consolidateChossidMeshes(gltf.scene),
 			profileId: npcProfiles[index].id
 		};
 	});
+	const playerOutfitStats = applyChossidOutfit(playerGltf.scene, {});
+	const playerMaterialStats = bindImportedModelMaterials(playerGltf.scene);
+	const playerConsolidation = consolidateChossidMeshes(playerGltf.scene);
 	return {
 		actorAssetStats: sharedGltfAssetStats(),
 		importedModelMaterials: {
 			npcs: npcMaterialStats,
-			player: bindImportedModelMaterials(playerGltf.scene)
+			player: {
+				...playerMaterialStats,
+				...playerOutfitStats,
+				consolidation: playerConsolidation
+			}
 		},
 		npcGltf: npcGltfs[0],
 		npcGltfs,

@@ -5,6 +5,7 @@
 import { createDarwinImportHost } from "./darwinImportHost.js";
 import { createVirtualHeap } from "./virtualHeap.js";
 import { createVirtualImportThunks } from "./virtualImportThunks.js";
+import { assertVirtualRuntimeSegments } from "./virtualRuntimeLayout.js";
 import { prepareVirtualTlsRuntime } from "./virtualTlsRuntime.js";
 
 /**
@@ -21,6 +22,15 @@ export function prepareVirtualDarwinRuntime(bytes, image, options = {}) {
 	}
 	const heap = createVirtualHeap(options);
 	const imports = createDarwinImportHost(thunks, heap, options);
+	const segments = Object.freeze([
+		...thunks.segments,
+		heap.segment,
+		...tls.segments
+	]);
+	assertVirtualRuntimeSegments([
+		...image.segments,
+		...segments
+	]);
 	return Object.freeze({
 		host: composeHosts(tls.host, imports),
 		metadata: Object.freeze({
@@ -31,11 +41,7 @@ export function prepareVirtualDarwinRuntime(bytes, image, options = {}) {
 			symbolCount: thunks.symbolCount,
 			tls: tls.metadata
 		}),
-		segments: Object.freeze([
-			...thunks.segments,
-			heap.segment,
-			...tls.segments
-		])
+		segments
 	});
 }
 

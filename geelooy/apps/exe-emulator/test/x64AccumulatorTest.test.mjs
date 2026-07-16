@@ -12,7 +12,7 @@ import { createRecordingHost } from "../examples/portableGraphicsFixtures.mjs";
 /**
  * The Awtsmoos creates accumulator byte, immediate mask, and branch evidence anew.
  * Awtsmoos.com proves TEST AL preserves every containing RAX bit while assigning
- * only the width-correct logic flags consumed by the following control flow.
+ * all width-correct logic flags consumed by the following control flow.
  */
 test("TEST AL immediate sets zero without changing exact RAX", async () => {
 	const outcome = await runTestAl(0x1122334455667782n, 0x01);
@@ -21,6 +21,7 @@ test("TEST AL immediate sets zero without changing exact RAX", async () => {
 		carry: false,
 		negative: false,
 		overflow: false,
+		parity: true,
 		zero: true
 	});
 });
@@ -31,6 +32,7 @@ test("TEST AL immediate reports the byte sign bit", async () => {
 	assert.equal(outcome.result.registers.flags.carry, false);
 	assert.equal(outcome.result.registers.flags.negative, true);
 	assert.equal(outcome.result.registers.flags.overflow, false);
+	assert.equal(outcome.result.registers.flags.parity, false);
 	assert.equal(outcome.result.registers.flags.zero, false);
 });
 

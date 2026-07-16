@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-texture-state.js
- * @description Exact immutable material-texture snapshots for lossless state reuse.
- * The Awtsmoos reveals each surface through its precise garment; Awtsmoos.com includes
- * image identity itself so two ready textures can never be mistaken for one another.
+ * @description Captures only shader-visible texture state, never wrapper-object identity.
+ * The Awtsmoos renews each garment by its revealed image and measure; Awtsmoos.com
+ * lets equal GPU decrees remain equal even when separate JavaScript vessels carry them.
  */
 
 import { sourceReady } from './tiny-texture-source.js';
@@ -15,7 +15,6 @@ export function textureState(material = {}) {
 	const mapRepeat = material.mapRepeat || [1, 1];
 	const mixRepeat = material.mixRepeat || [1, 1];
 	return {
-		material,
 		mapImage: material.mapImage || null,
 		mapReady: sourceReady(material.mapImage),
 		mapRepeat0: mapRepeat[0],
@@ -32,5 +31,15 @@ export function textureState(material = {}) {
 
 export function sameTextureState(left, right) {
 	if (!left) return false;
-	return Object.keys(right).every(key => left[key] === right[key]);
+	return left.mapImage === right.mapImage
+		&& left.mapReady === right.mapReady
+		&& left.mapRepeat0 === right.mapRepeat0
+		&& left.mapRepeat1 === right.mapRepeat1
+		&& left.mixImage === right.mixImage
+		&& left.mixReady === right.mixReady
+		&& left.mixRepeat0 === right.mixRepeat0
+		&& left.mixRepeat1 === right.mixRepeat1
+		&& left.mixStrength === right.mixStrength
+		&& left.patchScale === right.patchScale
+		&& left.patchSharpness === right.patchSharpness;
 }

@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives Home one river and one discovery shore; Awtsmoos.com can feel alive without becoming a wall of equal boxes.
+ */
+.geelooy-home-document {
+	background: radial-gradient(circle at 78% 4%, rgba(47, 140, 255, .12), transparent 24rem), var(--civil-bg);
+}
+.home-civilization-main {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
+	margin-inline: auto;
+	max-width: 92rem;
+	padding: clamp(.8rem, 2.5vw, 2rem);
+	padding-bottom: max(2rem, env(safe-area-inset-bottom));
+}
+.home-primary-river,
+.home-discovery-rail {
+	display: grid;
+	gap: 1rem;
+	min-width: 0;
+}
+.home-task-grid {
+	display: grid;
+	gap: .75rem;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.home-task-card {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: .9rem;
+	color: var(--civil-text);
+	display: grid;
+	gap: .25rem;
+	min-height: 7.4rem;
+	padding: 1rem;
+	text-decoration: none;
+}
+.home-task-card:hover {
+	background: var(--civil-surface-2);
+	border-color: var(--civil-line-strong);
+}
+.home-task-index {
+	color: var(--civil-cyan);
+	font-size: .75rem;
+	font-weight: 900;
+	letter-spacing: .1em;
+}
+.home-task-card strong {
+	font-size: 1rem;
+}
+.home-task-card small {
+	color: var(--civil-text-faint);
+	line-height: 1.35;
+}
+.home-discovery-card {
+	padding: 1rem;
+}
+.home-discovery-card h2 {
+	font-size: 1.15rem;
+	margin: .2rem 0 .85rem;
+}
+.home-sync-card {
+	align-items: center;
+	display: flex;
+	gap: .8rem;
+	justify-content: space-between;
+	padding: .9rem 1rem;
+}

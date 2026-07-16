@@ -1,0 +1,91 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Words, verses, and media are garments of one intention; this file lets the Awtsmoos shine through a readable Awtsmoos.com canvas.
+ */
+.blockEditor,
+.sectionEditor,
+.subsectionEditor,
+.mediaCard {
+	background: #0a1523 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .85rem !important;
+	box-shadow: none !important;
+	margin-top: .65rem;
+	min-width: 0;
+	padding: .75rem !important;
+}
+.sectionEditor {
+	border-inline-start: .22rem solid var(--civil-magenta) !important;
+}
+.subsectionEditor {
+	background: #0c1929 !important;
+	margin-inline-start: 1rem;
+}
+.markToolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+	margin: .55rem 0;
+}
+.markToolbar button,
+.blockHeader button,
+.sectionHeader button,
+.mediaActions button {
+	min-height: 2.75rem !important;
+	min-width: 2.75rem;
+}
+.blockEditor textarea {
+	font-size: 1rem;
+	line-height: 1.7;
+	min-height: 8rem !important;
+}
+.mediaDrop {
+	align-items: center;
+	background: rgba(86, 207, 229, .055);
+	border: 1px dashed var(--civil-line-strong) !important;
+	border-radius: .8rem;
+	color: var(--civil-text-soft) !important;
+	cursor: pointer;
+	display: flex !important;
+	justify-content: center;
+	min-height: 5.5rem;
+	padding: 1rem;
+	text-align: center;
+}
+.mediaDrop input[type="file"] {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+.mediaGrid {
+	display: grid;
+	gap: .65rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+	margin-top: .65rem;
+}
+.mediaCard img,
+.mediaCard video {
+	aspect-ratio: 16 / 9;
+	background: #03070d;
+	border-radius: .65rem;
+	object-fit: cover;
+	width: 100%;
+}
+.mediaMeta {
+	display: grid;
+	gap: .55rem;
+	margin-top: .65rem;
+}
+.coordinate,
+.answerContext {
+	background: rgba(216, 103, 165, .08);
+	border-radius: .65rem;
+	color: var(--civil-text-soft);
+	font-size: .78rem;
+	padding: .55rem;
+}

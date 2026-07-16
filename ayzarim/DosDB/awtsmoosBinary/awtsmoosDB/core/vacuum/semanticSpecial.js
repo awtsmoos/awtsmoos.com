@@ -2,11 +2,15 @@
 
 /**
  * @file core/vacuum/semanticSpecial.js
- * @chapter Hidden Bodies Are Weighed By Content, Never By Address
+ * @chapter Meaning Is Weighed After Every Coordinate And Codec Falls Away
  * @description
- * Hashes ABLB, ATXT, and FS3 manifests by logical identity and body bytes while
- * excluding physical offsets.
+ * Hashes ordinary blobs and texts by body bytes. FS3 is different: its manifest
+ * contains physical body tokens, so the digest weighs canonical inode metadata and
+ * original file bytes while ignoring offsets, stored lengths, and compression.
  */
+
+const manifestCodec = require('../../api/fs/v3/manifestCodec.js');
+const blobValue = require('../../api/fs/v3/blobValue.js');
 
 function visitBlob(token, context, visit) {
 	context.writer.tag('blob');
@@ -34,16 +38,33 @@ function visitText(token, context, visit) {
 	}
 }
 
+function canonicalInode(inode) {
+	const output = { ...inode };
+	delete output.data;
+	return output;
+}
+
 function visitVirtualFs(token, context, visit) {
-	const blob = token.blob && token.blob.__resolve__ ? token.blob.__resolve__() : token.blob;
-	if (!blob || blob.__awtsmoosBlob !== true) throw new Error('B"H invalid FS3 manifest token');
-	const bytes = context.db.blob.read(blob, 0, Number(token.bytes || blob.length));
-	const manifest = JSON.parse(bytes.toString('utf8'));
-	context.writer.tag('virtual-fs-manifest');
-	visit(token.version, context);
-	visit(blob.id, context);
-	visit(blob.meta || {}, context);
-	visit(manifest, context);
+	const manifest = manifestCodec.normalizeManifest(
+		manifestCodec.decodeManifest(context.db, token)
+	);
+	const inodeIds = Object.keys(manifest.inodes).sort();
+	context.writer.tag('virtual-fs-manifest-logical-v1');
+	visit(manifest.version, context);
+	visit(manifest.nextInode, context);
+	visit(manifest.tx, context);
+	visit(manifest.paths, context);
+	visit(manifest.children, context);
+	context.writer.tag(`inodes:${inodeIds.length}`);
+	for (const inodeId of inodeIds) {
+		const inode = manifest.inodes[inodeId];
+		visit(inodeId, context);
+		visit(canonicalInode(inode), context);
+		if (inode?.type === 'file' && !inode.deleted) {
+			context.writer.tag('file-bytes');
+			context.writer.bytes(blobValue.readDataRecord(context.db, inode));
+		}
+	}
 }
 
 module.exports = {

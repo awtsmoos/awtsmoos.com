@@ -4,8 +4,8 @@
 
 import { inspectMachOImports } from "./machoImports.js";
 import { createVirtualDarwinDataImports } from "./virtualDarwinDataImports.js";
+import { virtualRuntimeBase } from "./virtualRuntimeLayout.js";
 
-const THUNK_BASE = 0x700000000000;
 const SYSCALL_BASE = 0x50000000;
 const THUNK_SIZE = 13;
 
@@ -24,18 +24,22 @@ export function createVirtualImportThunks(bytes, image, options = {}) {
 	if (!Number.isInteger(maximum) || maximum < 0 || functionSymbols.length > maximum) {
 		throw thunkError("PORTABLE_IMPORT_LIMIT", `${functionSymbols.length}:${maximum}`);
 	}
+	const thunkBase = virtualRuntimeBase(
+		"importThunks",
+		options.virtualImportThunkBase
+	);
 	const thunkBytes = new Uint8Array(functionSymbols.length * THUNK_SIZE);
 	const symbolByNumber = new Map();
 	const thunkBySymbol = new Map();
 	functionSymbols.forEach((symbol, index) => {
 		const number = SYSCALL_BASE + index;
-		const address = THUNK_BASE + index * THUNK_SIZE;
+		const address = thunkBase + index * THUNK_SIZE;
 		writeThunk(thunkBytes, index * THUNK_SIZE, number);
 		symbolByNumber.set(number, symbol);
 		thunkBySymbol.set(symbol, address);
 	});
 	const functionPatches = patchFunctionPointers(report, image, thunkBySymbol);
-	const segment = createThunkSegment(thunkBytes);
+	const segment = createThunkSegment(thunkBase, thunkBytes);
 	return Object.freeze({
 		data,
 		dataBindingCount: data.bindingCount,
@@ -77,9 +81,9 @@ function patchFunctionPointers(report, image, thunkBySymbol) {
 	return patches;
 }
 
-function createThunkSegment(bytes) {
+function createThunkSegment(address, bytes) {
 	return Object.freeze({
-		address: THUNK_BASE,
+		address,
 		bytes,
 		flags: Object.freeze({ execute: true, read: true, write: false }),
 		maximumFlags: Object.freeze({ execute: true, read: true, write: false }),

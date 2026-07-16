@@ -2,36 +2,53 @@
 
 /**
  * @file core/vacuum/virtualFsManifest.js
- * @chapter The Map Of Files Is Rewritten With New Coordinates
+ * @chapter Every Living File Crosses, And No Dead Chamber Follows
  * @description
- * Decodes the FS3 manifest body, recursively relocates every nested ABLB token,
- * and writes a new manifest blob whose internal coordinates belong only to the
- * destination database.
+ * Decodes one source FS3 manifest, reads every reachable file through its logical
+ * codec, creates one compact destination body, and writes one compact manifest.
+ * The source handle is read-only and its physical coordinates never cross over.
  */
 
-function cloneVirtualFsManifest(token, context, cloneValue) {
-	const sourceBlob = token.blob && token.blob.__resolve__ ? token.blob.__resolve__() : token.blob;
-	if (!sourceBlob || sourceBlob.__awtsmoosBlob !== true) {
-		const error = new Error('B"H invalid VirtualFs manifest blob token');
-		error.code = 'AWTSMOOS_DB_VACUUM_BAD_VIRTUAL_FS';
-		throw error;
+const codec = require('../../api/fs/v3/manifestCodec.js');
+const blobValue = require('../../api/fs/v3/blobValue.js');
+
+function cloneVirtualFsManifest(token, context) {
+	const manifest = codec.normalizeManifest(
+		codec.decodeManifest(context.source, token)
+	);
+	let logicalBytes = 0;
+	let storedBytes = 0;
+	let files = 0;
+
+	for (const inode of Object.values(manifest.inodes)) {
+		if (!inode || inode.type !== 'file' || inode.deleted) continue;
+		const bytes = blobValue.readDataRecord(context.source, inode);
+		const record = blobValue.makeDataRecord(
+			context.destination,
+			bytes,
+			{ path: inode.path, kind: 'fs3-file' }
+		);
+		const tokenValue = record.data?.__resolve__
+			? record.data.__resolve__()
+			: record.data;
+		inode.dataKind = record.kind;
+		inode.data = record.data;
+		inode.size = record.size;
+		logicalBytes += record.size;
+		storedBytes += Number(tokenValue?.length || record.size);
+		files++;
 	}
-	const sourceBytes = context.source.blob.read(sourceBlob, 0, Number(token.bytes || sourceBlob.length));
-	const manifest = JSON.parse(sourceBytes.toString('utf8'));
-	const relocated = cloneValue(manifest, context);
-	const destinationBytes = Buffer.from(JSON.stringify(relocated), 'utf8');
-	const destinationBlob = context.destination.blob.create(destinationBytes, sourceBlob.meta || {});
+
+	const encoded = codec.encodeManifest(context.destination, manifest);
 	context.stats.virtualFsManifests++;
-	return {
-		__fs3ManifestBlob: true,
-		version: token.version,
-		bytes: destinationBytes.length,
-		blob: {
-			...destinationBlob,
-			id: sourceBlob.id,
-			meta: cloneValue(sourceBlob.meta || {}, context)
-		}
-	};
+	context.stats.virtualFsFiles = (context.stats.virtualFsFiles || 0) + files;
+	context.stats.virtualFsLogicalBytes = (
+		context.stats.virtualFsLogicalBytes || 0
+	) + logicalBytes;
+	context.stats.virtualFsStoredBytes = (
+		context.stats.virtualFsStoredBytes || 0
+	) + storedBytes;
+	return encoded;
 }
 
 module.exports = cloneVirtualFsManifest;

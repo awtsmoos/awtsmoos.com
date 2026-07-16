@@ -1,0 +1,111 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns correspondence into relationship; Awtsmoos.com keeps folders, identities, and threads in one calm workspace.
+ */
+.geelooy-mail-document {
+	background: var(--civil-bg) !important;
+	color: var(--civil-text) !important;
+	font-family: var(--civil-font) !important;
+	overflow: hidden;
+}
+.mail-civilization-shell {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	height: 100dvh;
+	min-height: 36rem;
+}
+.mail-civilization-status {
+	align-items: center;
+	background: rgba(5, 8, 17, .97);
+	border-bottom: 1px solid var(--civil-line);
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	min-height: 4.25rem;
+	padding: max(.65rem, env(safe-area-inset-top)) clamp(.8rem, 2vw, 1.4rem) .65rem;
+}
+.mail-civilization-brand {
+	display: grid;
+	gap: .05rem;
+}
+.mail-civilization-brand strong {
+	font-size: 1.15rem;
+	letter-spacing: -.025em;
+}
+.mail-civilization-brand small,
+.mail-connection-state {
+	color: var(--civil-text-soft);
+}
+.mail-connection-state {
+	align-items: center;
+	display: inline-flex;
+	font-size: .82rem;
+	gap: .45rem;
+}
+.mail-connection-state::before {
+	background: var(--civil-green);
+	border-radius: 50%;
+	content: "";
+	height: .5rem;
+	width: .5rem;
+}
+.mail-civilization-frame {
+	display: grid !important;
+	grid-template-columns: minmax(20rem, 25rem) minmax(0, 1fr) !important;
+	height: 100% !important;
+	min-height: 0;
+	overflow: hidden;
+}
+.mail-civilization-sidebar {
+	background: var(--civil-bg-raised) !important;
+	border-inline-end: 1px solid var(--civil-line) !important;
+	display: grid !important;
+	grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
+	min-height: 0;
+	overflow: hidden;
+	padding: .8rem !important;
+}
+.mail-sidebar-header {
+	border: 0 !important;
+	padding: 0 0 .6rem !important;
+}
+.mail-sidebar-identity {
+	display: grid;
+	gap: .35rem;
+}
+.brand-title {
+	color: var(--civil-text) !important;
+	font-size: 1.15rem !important;
+	font-weight: 850;
+}
+.mail-sidebar-identity-summary {
+	color: var(--civil-text-soft);
+}
+.fab-compose {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
+	border: 0 !important;
+	border-radius: .75rem !important;
+	color: #03101a !important;
+	font-weight: 850 !important;
+	min-height: 3rem;
+	width: 100%;
+}
+.mail-search-panel {
+	display: grid;
+	gap: .35rem;
+	margin-top: .65rem;
+}
+.mail-search-panel label {
+	color: var(--civil-text-soft);
+	font-size: .8rem;
+	font-weight: 750;
+}
+.mail-search-panel input {
+	background: #081321 !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .7rem !important;
+	color: var(--civil-text) !important;
+	min-height: 2.85rem;
+	padding: .65rem .75rem !important;
+}

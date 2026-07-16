@@ -1,0 +1,103 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Publication is a doorway, not a decorative button; the Awtsmoos lets Awtsmoos.com make readiness visible and commitment deliberate.
+ */
+.publication-support-note {
+	background: rgba(232, 184, 93, .07);
+	border: 1px solid rgba(232, 184, 93, .24);
+	border-radius: .75rem;
+	color: var(--civil-text-soft);
+	padding: .75rem;
+}
+.publishing-checklist {
+	display: grid;
+	gap: .45rem;
+	margin: .8rem 0 0;
+	padding: 0;
+}
+.publishing-checklist li {
+	align-items: center;
+	background: rgba(255, 255, 255, .025);
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	color: var(--civil-text-soft);
+	display: grid;
+	gap: .5rem;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	list-style: none;
+	min-height: 3rem;
+	padding: .55rem .7rem;
+}
+.publishing-checklist li::before {
+	color: var(--civil-amber);
+	content: "○";
+	font-weight: 900;
+}
+.publishing-checklist li[data-complete="true"]::before {
+	color: var(--civil-green);
+	content: "●";
+}
+.publishing-checklist small {
+	color: var(--civil-text-faint);
+}
+.actionBar {
+	background: rgba(5, 8, 17, .97) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .9rem !important;
+	bottom: max(.5rem, env(safe-area-inset-bottom));
+	display: grid !important;
+	gap: .5rem;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	padding: .55rem !important;
+	position: sticky;
+	z-index: 70;
+}
+.actionBar button {
+	min-height: 3rem !important;
+}
+#publishConfirmDialog {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line-strong);
+	border-radius: 1rem;
+	box-shadow: var(--civil-shadow);
+	color: var(--civil-text);
+	max-width: min(32rem, calc(100vw - 1.5rem));
+	padding: 1rem;
+}
+#publishConfirmDialog::backdrop {
+	background: rgba(0, 0, 0, .72);
+}
+.publish-dialog-actions {
+	display: flex;
+	gap: .65rem;
+	justify-content: flex-end;
+	margin-top: 1rem;
+}
+.headerStats {
+	display: grid;
+	gap: .45rem;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	margin-top: .8rem;
+}
+.headerStats span {
+	background: rgba(255, 255, 255, .025);
+	border: 1px solid var(--civil-line);
+	border-radius: .65rem;
+	color: var(--civil-text-soft);
+	font-size: .76rem;
+	padding: .55rem;
+	text-align: center;
+}
+.headerStats b {
+	color: var(--civil-text);
+	display: block;
+	font-size: 1rem;
+}
+#postPreview {
+	background: #081321;
+	border: 1px solid var(--civil-line);
+	border-radius: .85rem;
+	min-height: 18rem;
+	padding: 1rem;
+}

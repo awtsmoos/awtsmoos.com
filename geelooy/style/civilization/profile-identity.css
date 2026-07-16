@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives a person many aliases without dividing the person; Awtsmoos.com keeps identity personal, truthful, and spacious.
+ */
+.geelooy-profile-shell {
+	display: grid !important;
+	gap: 1rem !important;
+	margin-inline: auto !important;
+	max-width: 88rem !important;
+	padding: clamp(.75rem, 2.5vw, 2rem) !important;
+	padding-bottom: max(5rem, env(safe-area-inset-bottom)) !important;
+}
+.profile-hero-card {
+	background: linear-gradient(135deg, rgba(13, 23, 37, .98), rgba(10, 28, 44, .95)) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: 1rem !important;
+	box-shadow: none !important;
+	color: var(--civil-text) !important;
+	overflow: hidden;
+	padding: clamp(1rem, 3vw, 2rem) !important;
+	position: relative;
+}
+.profile-hero-card::after {
+	background: radial-gradient(circle at 50% 50%, rgba(86, 207, 229, .2) 0 .16rem, transparent .2rem);
+	background-size: 3rem 3rem;
+	content: "";
+	inset: 0 0 0 auto;
+	opacity: .35;
+	pointer-events: none;
+	position: absolute;
+	width: 36%;
+}
+.profile-identity-row {
+	align-items: center !important;
+	display: grid !important;
+	gap: 1rem !important;
+	grid-template-columns: auto minmax(0, 1fr) auto !important;
+	position: relative;
+	z-index: 1;
+}
+.profile-avatar-orb {
+	background: linear-gradient(145deg, #102a3f, #1d4665) !important;
+	border: 2px solid var(--civil-line-strong) !important;
+	border-radius: 50% !important;
+	color: var(--civil-cyan) !important;
+	display: grid !important;
+	font-size: 2rem;
+	height: clamp(5rem, 11vw, 8rem) !important;
+	place-items: center;
+	width: clamp(5rem, 11vw, 8rem) !important;
+}
+.profile-identity-copy h1 {
+	font-size: clamp(1.9rem, 5vw, 3.8rem) !important;
+	letter-spacing: -.055em;
+	line-height: 1.05;
+	margin: .2rem 0 .65rem !important;
+}
+.profile-kicker {
+	color: var(--civil-cyan) !important;
+	font-size: .75rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.profile-primary-action,
+.profile-inline-actions :where(a, button),
+.geelooy-profile-shell .g-button {
+	align-items: center;
+	background: var(--civil-surface-2) !important;
+	border: 1px solid var(--civil-line) !important;
+	border-radius: .75rem !important;
+	color: var(--civil-text) !important;
+	display: inline-flex;
+	justify-content: center;
+	min-height: 3rem;
+	padding: .65rem .9rem !important;
+	text-decoration: none;
+}
+.profile-primary-action {
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
+	border-color: transparent !important;
+	color: #03101a !important;
+	font-weight: 850;
+}
+.profile-inline-actions {
+	display: grid !important;
+	gap: .65rem !important;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin-top: 1rem;
+	position: relative;
+	z-index: 1;
+}
+.profile-inline-actions small {
+	color: var(--civil-text-faint);
+	display: block;
+}

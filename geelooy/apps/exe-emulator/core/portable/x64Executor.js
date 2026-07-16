@@ -8,9 +8,11 @@ import { executeByteOperation } from "./x64ByteOperations.js";
 import { executeConditionalMove } from "./x64ConditionalMove.js";
 import { decodePortableX64 } from "./x64Decoder.js";
 import { executeIndirectControl } from "./x64IndirectExecution.js";
+import { executeMemoryImmediate } from "./x64MemoryImmediate.js";
 import { executeMemoryOperation } from "./x64MemoryOperations.js";
 import { executeMultiplyDivide } from "./x64MultiplyDivide.js";
 import { executeDataOperation } from "./x64Operations.js";
+import { executeSetCondition } from "./x64SetCondition.js";
 import { executeVectorOperation } from "./x64VectorOperations.js";
 
 /**
@@ -53,10 +55,12 @@ function executeInstruction(item, registers, memory, syscalls) {
 	if (item.kind === "nop") return false;
 	if (executeDataOperation(item, registers)) return false;
 	if (executeConditionalMove(item, registers)) return false;
+	if (executeSetCondition(item, registers, memory)) return false;
 	if (executeAtomicOperation(item, registers, memory)) return false;
 	if (executeVectorOperation(item, registers, memory)) return false;
 	if (executeByteOperation(item, registers, memory)) return false;
 	if (executeMultiplyDivide(item, registers)) return false;
+	if (executeMemoryImmediate(item, registers, memory)) return false;
 	if (executeMemoryOperation(item, registers, memory)) return false;
 	if (executeIndirectControl(item, registers, memory)) return false;
 	if (item.kind === "push") {

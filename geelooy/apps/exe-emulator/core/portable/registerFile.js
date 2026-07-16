@@ -2,10 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import {
-	REGISTER_NAMES,
-	registerIndex
-} from "./registerNames.js";
+import { REGISTER_NAMES, registerIndex } from "./registerNames.js";
 import { snapshotRegisterFile } from "./registerSnapshot.js";
 import {
 	popRegisterBigInt,
@@ -20,6 +17,7 @@ import {
 	signedRegisterBigInt,
 	unsignedRegisterBigInt
 } from "./registerValue.js";
+import { createX64FlagState } from "./x64FlagState.js";
 import { PortableVectorRegisters } from "./x64VectorRegisters.js";
 
 export { REGISTER_NAMES, registerIndex } from "./registerNames.js";
@@ -33,21 +31,10 @@ export class PortableRegisterFile {
 	constructor(entryPoint, options = {}) {
 		this.values = new BigUint64Array(REGISTER_NAMES.length);
 		this.vectors = new PortableVectorRegisters();
-		this.flags = {
-			carry: false,
-			negative: false,
-			overflow: false,
-			zero: false
-		};
+		this.flags = createX64FlagState();
 		this.memory = options.memory;
-		this.stackBase = safeRegisterAddress(
-			options.stackBase,
-			"stack base"
-		);
-		this.stackTop = safeRegisterAddress(
-			options.stackTop,
-			"stack top"
-		);
+		this.stackBase = safeRegisterAddress(options.stackBase, "stack base");
+		this.stackTop = safeRegisterAddress(options.stackTop, "stack top");
 		if (!this.memory || this.stackBase >= this.stackTop) {
 			throw registerFileError("PORTABLE_STACK_CONFIGURATION");
 		}
