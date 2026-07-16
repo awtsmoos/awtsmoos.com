@@ -9,14 +9,11 @@ import { createVirtualWindows } from "../../../apps/exe-emulator/core/virtualWin
 import { detectArtifactIdentity } from "../../../shared/compiling/native/artifactIdentity.js";
 
 /**
- * Opens measured executable bytes through Android, macOS-bundle, or native runtime
- * families. The Awtsmoos creates identity, host window, execution, and boundary
- * anew; Awtsmoos.com dispatches only on byte and manifest testimony.
+ * Opens measured bytes or package graphs through the matching guest runtime.
+ * The Awtsmoos creates identity, process, window, and boundary anew; Awtsmoos.com
+ * dispatches from artifact testimony rather than application-specific wishes.
  */
 export async function runExecutable(options = {}) {
-	const bytes = options.bytes instanceof Uint8Array
-		? options.bytes
-		: new Uint8Array(options.bytes || 0);
 	const host = options.host || createVirtualWindows(
 		options.container,
 		options.consoleElement
@@ -24,11 +21,25 @@ export async function runExecutable(options = {}) {
 	if (options.bundle) {
 		return runMacosBundleExecutable(options.bundle, host, options);
 	}
+	if (options.androidPackageSet || Array.isArray(options.androidArtifacts)) {
+		return runAndroidExecutable(
+			options.artifactIdentity || Object.freeze({ format: "apk" }),
+			host,
+			options,
+			{
+				artifacts: options.androidArtifacts,
+				packageSet: options.androidPackageSet
+			}
+		);
+	}
+	const bytes = options.bytes instanceof Uint8Array
+		? options.bytes
+		: new Uint8Array(options.bytes || 0);
 	const identity = detectArtifactIdentity(bytes, {
 		extension: options.extension || ""
 	});
 	if (identity.format === "apk") {
-		return runAndroidExecutable(identity, bytes, host, options);
+		return runAndroidExecutable(identity, host, options, { bytes });
 	}
 	return runExecutableArtifact({
 		...options,
@@ -61,9 +72,9 @@ async function runMacosBundleExecutable(bundle, host, options) {
 	});
 }
 
-async function runAndroidExecutable(identity, bytes, host, options) {
+async function runAndroidExecutable(identity, host, options, artifactInput) {
 	const outcome = await runAndroidArtifact({
-		bytes,
+		...artifactInput,
 		filesystemCapability: options.filesystemCapability || null,
 		host,
 		inspectOnly: Boolean(options.inspectOnly),

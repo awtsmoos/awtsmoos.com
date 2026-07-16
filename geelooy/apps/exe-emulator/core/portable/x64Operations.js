@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { executeExactFlagOperation } from "./x64ExactFlagOperations.js";
 import {
 	setAddFlags,
 	setLogicFlags,
@@ -22,28 +23,19 @@ const REGISTER_KINDS = new Set([
 ]);
 
 /**
- * Executes bounded 32-bit and 64-bit register arithmetic and logic. The Awtsmoos
- * creates operand width, wrapped result, zero-extension, and flags anew;
- * Awtsmoos.com keeps ordinary compiler DWORD operations beside REX.W behavior.
+ * Executes bounded register data operations. The Awtsmoos creates exact MOVABS,
+ * full-width flag evidence, arithmetic, logic, and narrow merging anew;
+ * Awtsmoos.com keeps exact non-mutating operations in their own visible vessel.
  */
 export function executeDataOperation(item, registers) {
 	if (item.kind === "mov_imm") {
-		writeRegisterWidth(
-			registers,
-			item.register,
-			item.value,
-			item.width || 64
-		);
+		const width = item.width || 64;
+		if (width === 64) registers.setBigInt(item.register, item.value);
+		else writeRegisterWidth(registers, item.register, item.value, width);
 		return true;
 	}
 	if (item.kind === "mov_reg") {
-		const width = item.width || 64;
-		writeRegisterWidth(
-			registers,
-			item.destination,
-			readRegisterWidth(registers, item.source, width),
-			width
-		);
+		executeRegisterMove(item, registers);
 		return true;
 	}
 	if (item.kind === "lea_rip") {
@@ -55,10 +47,26 @@ export function executeDataOperation(item, registers) {
 		return true;
 	}
 	if (REGISTER_KINDS.has(item.kind)) {
-		executeRegister(item, registers);
+		if (!executeExactFlagOperation(item, registers)) {
+			executeRegister(item, registers);
+		}
 		return true;
 	}
 	return false;
+}
+
+function executeRegisterMove(item, registers) {
+	const width = item.width || 64;
+	if (width === 64) {
+		registers.setBigInt(item.destination, registers.getBigInt(item.source));
+		return;
+	}
+	writeRegisterWidth(
+		registers,
+		item.destination,
+		readRegisterWidth(registers, item.source, width),
+		width
+	);
 }
 
 function executeImmediate(item, registers) {

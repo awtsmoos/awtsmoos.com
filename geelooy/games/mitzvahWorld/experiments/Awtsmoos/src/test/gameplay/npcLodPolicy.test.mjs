@@ -20,7 +20,7 @@ import {
 	friendlyNpcProfiles
 } from '../../world/npc/FriendlyNpcProfiles.js';
 
-test('distance resolves full, proxy, and dormant actor vessels', () => {
+test('distance changes skeletal cadence without substituting primitive proxy people', () => {
 	assert.deepEqual(resolveNpcLod(12), {
 		fullModel: true,
 		id: 'near',
@@ -28,7 +28,12 @@ test('distance resolves full, proxy, and dormant actor vessels', () => {
 		updateInterval: 1 / 30
 	});
 	assert.equal(resolveNpcLod(40).id, 'mid');
-	assert.equal(resolveNpcLod(90).id, 'proxy');
+	assert.deepEqual(resolveNpcLod(90), {
+		fullModel: true,
+		id: 'distant',
+		proxyModel: false,
+		updateInterval: 1 / 6
+	});
 	assert.equal(resolveNpcLod(170).id, 'dormant');
 });
 
@@ -47,11 +52,12 @@ test('distance uses only horizontal world separation', () => {
 });
 
 test('quality tiers bound named friendly actor counts', () => {
-	assert.equal(friendlyNpcProfiles('low').length, 3);
-	assert.equal(friendlyNpcProfiles('medium').length, 6);
-	assert.equal(friendlyNpcProfiles('high').length, 9);
+	assert.equal(friendlyNpcProfiles('low').length, 4);
+	assert.equal(friendlyNpcProfiles('medium').length, 8);
+	assert.equal(friendlyNpcProfiles('high').length, 12);
 	assert.equal(friendlyNpcProfiles('cinematic').length, 12);
 	assert.ok(allFriendlyNpcProfiles().length >= 12);
 	assert.equal(friendlyNpcProfiles('low')[0].id, 'reb-mendel');
 	assert.ok(friendlyNpcProfiles('medium').every(profile => profile.questId));
+	assert.ok(friendlyNpcProfiles('medium').slice(1).every(profile => profile.wanderRadius > 0));
 });

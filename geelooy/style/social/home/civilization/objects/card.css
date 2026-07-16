@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each Home object a source, face, metadata, and stable card
+ * surface. Awtsmoos.com cards remain readable, compact, and fully owned without
+ * browser-default type or anonymous debug chrome.
+ */
+
+.geelooy-home-shell .geelooy-feed-card {
+	display: grid;
+	gap: .9rem;
+	min-inline-size: 0;
+	padding: 1rem;
+	border: 1px solid var(--home-line);
+	border-radius: 1rem;
+	background: #101824;
+	box-shadow: 0 .55rem 1.45rem rgba(0, 0, 0, .2);
+	color: var(--home-text);
+}
+
+.geelooy-home-shell .geelooy-feed-card:is(:hover, :focus-within) {
+	border-color: var(--home-line-strong);
+	background: #121c29;
+}
+
+.home-post-card[data-object-type] {
+	cursor: pointer;
+}
+
+.home-post-card[data-object-type]:focus-visible {
+	outline: 3px solid var(--g-focus);
+	outline-offset: 3px;
+}
+
+.universal-object-card {
+	display: grid;
+	gap: var(--space-3);
+}
+
+.post-author {
+	display: grid;
+	grid-template-columns: 2.6rem minmax(0, 1fr);
+	align-items: center;
+	gap: .14rem .7rem;
+}
+
+.post-author > span {
+	display: grid;
+	grid-row: span 2;
+	inline-size: 2.6rem;
+	block-size: 2.6rem;
+	place-items: center;
+	border: 1px solid rgba(88, 199, 216, .34);
+	border-radius: .8rem;
+	background: #182637;
+	color: #89e0eb;
+	font-weight: 900;
+}
+
+.post-author > span::after {
+	content: "א";
+}
+
+.post-author strong,
+.post-author small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-author strong {
+	color: var(--home-text);
+	font-size: .98rem;
+}
+
+.post-author small {
+	color: var(--home-faint);
+	font-size: .78rem;
+}
+
+:where(.object-type-row, .object-action-row, .object-meta-grid) {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .42rem;
+	min-inline-size: 0;
+}
+
+.object-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: .32rem;
+	max-inline-size: 100%;
+	min-block-size: 1.9rem;
+	padding: .28rem .55rem;
+	overflow: hidden;
+	border: 1px solid var(--home-line);
+	border-radius: 999px;
+	background: #172231;
+	color: var(--home-muted);
+	font-size: .74rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.object-pill::before {
+	inline-size: .36rem;
+	block-size: .36rem;
+	border-radius: 50%;
+	background: var(--g-accent);
+	content: "";
+}

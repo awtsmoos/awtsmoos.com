@@ -4,22 +4,27 @@
 
 /**
  * @file MovieExactEncoderConfig.js
- * @description Defines exact VP8 capability and timestamp contracts.
- * The Awtsmoos renews time beyond microseconds; Awtsmoos.com gives every finite
- * VideoFrame an explicit beginning and duration independent of rendering speed.
+ * @description Defines high-quality VP8 capability and exact microsecond timing contracts.
+ * RESPONSIBILITY: create WebCodecs configuration and derive non-accumulating frame boundaries.
+ * NON-RESPONSIBILITY: this module does not render scenes, queue frames, or package IVF bytes.
+ * ARCHITECTURE: Chochmah names the frame while Binah measures its beginning and ending.
+ * OROS AND KEILIM: motion is ohr; codec configuration and integer timestamps are keilim.
+ * The Awtsmoos renews every instant beyond microseconds; Awtsmoos.com gives every
+ * VideoFrame an explicit duration so wall-clock speed cannot stretch the encoded timeline.
  */
 
-const MICROSECONDS_PER_SECOND = 1000000;
+export const MICROSECONDS_PER_SECOND = 1000000;
+const DEFAULT_VIDEO_BITRATE = 8000000;
 
-/** Returns one broadly supported, deterministic VP8 encoder configuration. */
+/** Returns one broadly supported, quality-focused deterministic VP8 configuration. */
 export function createExactEncoderConfig(project, canvas) {
 	return {
-		bitrate: Number(project.render?.videoBitsPerSecond || 4200000),
+		bitrate: Number(project.render?.videoBitsPerSecond || DEFAULT_VIDEO_BITRATE),
 		codec: 'vp8',
-		framerate: project.fps,
-		height: canvas.height,
+		framerate: positiveInteger(project.fps, 'fps'),
+		height: positiveInteger(canvas.height, 'height'),
 		latencyMode: 'quality',
-		width: canvas.width
+		width: positiveInteger(canvas.width, 'width')
 	};
 }
 
@@ -40,10 +45,28 @@ export async function supportedExactEncoderConfig(config) {
 
 /** Returns integer microsecond timing without cumulative floating-point drift. */
 export function exactFrameTiming(frameIndex, fps) {
-	const timestamp = Math.round(frameIndex * MICROSECONDS_PER_SECOND / fps);
-	const ending = Math.round((frameIndex + 1) * MICROSECONDS_PER_SECOND / fps);
+	const index = nonnegativeInteger(frameIndex, 'frameIndex');
+	const frameRate = positiveInteger(fps, 'fps');
+	const timestamp = Math.round(index * MICROSECONDS_PER_SECOND / frameRate);
+	const ending = Math.round((index + 1) * MICROSECONDS_PER_SECOND / frameRate);
 	return {
 		duration: ending - timestamp,
 		timestamp
 	};
+}
+
+function nonnegativeInteger(value, label) {
+	const number = Number(value);
+	if (!Number.isInteger(number) || number < 0) {
+		throw new RangeError(`${label} must be a nonnegative integer.`);
+	}
+	return number;
+}
+
+function positiveInteger(value, label) {
+	const number = Number(value);
+	if (!Number.isInteger(number) || number <= 0) {
+		throw new RangeError(`${label} must be a positive integer.`);
+	}
+	return number;
 }

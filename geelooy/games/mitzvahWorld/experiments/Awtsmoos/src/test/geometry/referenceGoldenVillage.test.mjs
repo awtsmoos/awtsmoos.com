@@ -18,9 +18,10 @@ import { createVillageWorldDefinitions } from '../../world/village/VillageWorldS
 const FIREBASE_ORIGIN = 'https://awtsmoos-docs-base.web.app/';
 const QUALITIES = ['low', 'medium', 'high', 'cinematic'];
 const WORLD_LAYERS = [
-	'mountains', 'water', 'props', 'districts',
+	'mountains', 'water', 'props', 'arrival-composition',
+	'districts',
 	'practical-lighting', 'landscape', 'forest-edge',
-	'npc-population', 'creatures'
+	'animated-chossid-population', 'creatures'
 ];
 
 test('reference golden-hour world stays deterministic and quality bounded', () => {
@@ -36,9 +37,10 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 		assert.equal(first.stats.mountains.belts, referenceLightingBudget(quality).mountainBelts);
 		assert.equal(first.stats.practicalLights.lamps, referenceLightingBudget(quality).practicalLamps);
 		assert.deepEqual(first.stats.layers, WORLD_LAYERS);
-		assert.ok(first.stats.forestEdge.trees >= 14);
-		assert.ok(first.stats.population.people >= 10);
-		assert.ok(first.stats.population.questGivers >= 10);
+		assert.equal(first.stats.forestEdge.primitiveTrees, 0);
+		assert.ok(first.stats.forestEdge.proceduralTreeSitesSupported >= 14);
+		assert.equal(first.stats.population.people, 0);
+		assert.equal(first.stats.population.visualPolicy, 'no-primitive-humans');
 		assertManualGeometry(first.definitions);
 		assertFirebaseMaterials(first.definitions);
 		assertSkyBudget(quality);
@@ -49,18 +51,20 @@ test('high reference tier keeps dense windows, forest, and people in batches', (
 	const world = createVillageWorldDefinitions(terrainSampler(), 'high');
 	assert.equal(world.stats.architecture.warmWindows, 56);
 	assert.ok(world.stats.architecture.pieces <= 90);
-	assert.equal(world.stats.forestEdge.trees, 34);
-	assert.equal(world.stats.population.people, 24);
-	assert.equal(world.stats.population.questGivers, 12);
-	assert.equal(world.definitions.length, 189);
+	assert.equal(world.stats.forestEdge.primitiveTrees, 0);
+	assert.equal(world.stats.forestEdge.proceduralTreeSitesSupported, 34);
+	assert.equal(world.stats.population.people, 0);
+	assert.equal(world.definitions.length, 190);
+	assert.equal(world.definitions.some(item => item.id === 'Awtsmoos_arrival-meadow-landmark'), false);
 	const cottageBatches = byFamily(world, 'reference-cottage-detail-batch');
 	assert.equal(cottageBatches.length, 3);
 	assert.ok(cottageBatches.every(definition => definition.userData.instances > 0));
+	assert.equal(byFamily(world, 'reference-cottage-ornament-batch').length, 5);
 	const lampBatches = byFamily(world, 'reference-practical-lighting');
 	assert.equal(lampBatches.length, 4);
 	assert.ok(lampBatches.every(definition => definition.userData.instances === 16));
-	assert.equal(byFamily(world, 'reference-forest-edge').length >= 8, true);
-	assert.equal(byFamily(world, 'village-npc-population').length, 7);
+	assert.equal(byFamily(world, 'reference-forest-edge').length >= 5, true);
+	assert.equal(byFamily(world, 'village-npc-population').length, 0);
 });
 
 function byFamily(world, family) {
@@ -99,6 +103,11 @@ function triangulateFace(face) {
 
 function assertFirebaseMaterials(definitions) {
 	for (const definition of definitions.filter(item => item.texturePolicy?.publicFirebase)) {
+		if (definition.texturePolicy.role === 'botanical-blossom') {
+			assert.equal(definition.textureUrl, null);
+			assert.equal(definition.texturePolicy.shader, 'petal-geometry-wind');
+			continue;
+		}
 		assert.ok(definition.textureUrl.startsWith(FIREBASE_ORIGIN), definition.textureUrl);
 	}
 }

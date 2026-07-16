@@ -1,0 +1,62 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Social Hub actions distinguish ordinary, primary, and destructive intent with
+ * final dark surfaces and full touch doorways throughout Awtsmoos.com.
+ */
+
+:where(button, .quickActionGrid > a, .fileButton) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .45rem;
+	min-inline-size: 44px;
+	min-block-size: 46px;
+	padding: .68rem .85rem;
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: .75rem;
+	background: #182536;
+	box-shadow: none;
+	color: #f5f7fb;
+	font-weight: 800;
+	text-decoration: none;
+	transition: none !important;
+}
+
+.routeNavigation button {
+	justify-content: start;
+	background: #131e2b;
+	color: #bac4d3;
+}
+
+.routeNavigation button[data-active="true"] {
+	border-color: rgba(88, 199, 216, .55);
+	background: rgba(88, 199, 216, .13);
+	color: #aef0f7;
+}
+
+:where(button, .quickActionGrid > a, .fileButton):is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .62);
+	background: #1d2c3e;
+	color: #b9f0f6;
+}
+
+:where(.primaryButton, #publishComment, #privacySave) {
+	border-color: #58c7d8;
+	background: #58c7d8;
+	color: #061018;
+	font-weight: 880;
+}
+
+.dangerButton {
+	border-color: rgba(255, 120, 148, .48);
+	background: rgba(255, 120, 148, .12);
+	color: #ffb6c4;
+}
+
+@media (max-width: 700px) {
+	:where(button, .quickActionGrid > a, .fileButton) {
+		inline-size: 100%;
+	}
+}

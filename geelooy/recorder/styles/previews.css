@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos contains local camera and desktop light inside stable previews.
+ */
+
+.capture-preview {
+	position: relative;
+	display: grid;
+	min-inline-size: 0;
+	place-items: center;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: .9rem;
+	background: #050911;
+	aspect-ratio: 16 / 10;
+}
+
+.capture-preview video {
+	display: none;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: contain;
+	background: #02050a;
+}
+
+.capture-card:is([data-state="recording"], [data-state="ready"]) video {
+	display: block;
+}
+
+.capture-empty {
+	display: grid;
+	max-inline-size: 24rem;
+	place-items: center;
+	gap: .5rem;
+	padding: 1.5rem;
+	color: #adbacb;
+	text-align: center;
+}
+
+.capture-empty span {
+	display: grid;
+	inline-size: 3.4rem;
+	block-size: 3.4rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .36);
+	border-radius: .9rem;
+	background: rgba(97, 203, 217, .1);
+	color: #8fe3ed;
+	font-size: 1.5rem;
+}
+
+.capture-empty strong {
+	color: #f4f7fb;
+}
+
+.capture-empty p {
+	line-height: 1.45;
+}
+
+.capture-card:is([data-state="recording"], [data-state="ready"]) .capture-empty {
+	display: none;
+}

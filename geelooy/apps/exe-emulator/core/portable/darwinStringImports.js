@@ -2,23 +2,29 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	boundedGuestStringLimit,
+	guestCStringLength,
+	MAXIMUM_GUEST_STRING_BYTES
+} from "./guestCString.js";
 import { writeMemorySlice } from "./memoryTransfer.js";
-
-const MAXIMUM_STRING_BYTES = 16 * 1024 * 1024;
 
 /**
  * Reveals bounded Darwin C-string imports. The Awtsmoos creates terminator,
- * comparison, duplicate, and measured length anew; Awtsmoos.com scans only guest
- * memory and rejects strings that exceed the explicit process boundary.
+ * comparison, duplicate, and measured length anew; Awtsmoos.com shares one scan
+ * law with formatting imports and never crosses the explicit string envelope.
  */
 export function createDarwinStringImports() {
 	return Object.freeze({
 		strcmp(context) {
-			context.registers.set("rax", compareStrings(context, MAXIMUM_STRING_BYTES));
+			context.registers.set(
+				"rax",
+				compareStrings(context, MAXIMUM_GUEST_STRING_BYTES)
+			);
 		},
 		strdup(context) {
 			const source = context.registers.get("rdi");
-			const length = stringLength(context.memory, source);
+			const length = guestCStringLength(context.memory, source);
 			const destination = context.heap.allocate(length + 1);
 			writeMemorySlice(
 				context.memory,
@@ -30,13 +36,19 @@ export function createDarwinStringImports() {
 		strlen(context) {
 			context.registers.set(
 				"rax",
-				stringLength(context.memory, context.registers.get("rdi"))
+				guestCStringLength(
+					context.memory,
+					context.registers.get("rdi")
+				)
 			);
 		},
 		strncmp(context) {
 			context.registers.set(
 				"rax",
-				compareStrings(context, boundedLimit(context.registers.get("rdx")))
+				compareStrings(
+					context,
+					boundedGuestStringLimit(context.registers.get("rdx"))
+				)
 			);
 		}
 	});
@@ -52,25 +64,4 @@ function compareStrings(context, limit) {
 		if (leftByte === 0) return 0;
 	}
 	return 0;
-}
-
-function stringLength(memory, address) {
-	for (let length = 0; length < MAXIMUM_STRING_BYTES; length += 1) {
-		if (memory.u8(address + length) === 0) return length;
-	}
-	throw stringError("PORTABLE_STRING_LIMIT", address);
-}
-
-function boundedLimit(value) {
-	const number = Number(value);
-	if (!Number.isSafeInteger(number) || number < 0) {
-		throw stringError("PORTABLE_STRING_LENGTH", value);
-	}
-	return Math.min(number, MAXIMUM_STRING_BYTES);
-}
-
-function stringError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
-	error.code = code;
-	return error;
 }

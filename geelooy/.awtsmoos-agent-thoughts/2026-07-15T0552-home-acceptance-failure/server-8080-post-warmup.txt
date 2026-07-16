@@ -1,0 +1,93 @@
+B"H
+--- pid files ---
+supervisor=30060
+child=2233
+--- process ---
+  PID  PPID STAT ELAPSED  %CPU %MEM COMMAND
+ 2233 30060 SN     01:28   0.0 20.4 /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node index.js
+--- listener ---
+COMMAND  PID     USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    2233 awtsmoos   12u  IPv6 0xd9fb5f222f5d687      0t0  TCP *:8080 (LISTEN)
+--- supervisor log tail ---
+Not an Awtsmoos JSON:   <Buffer 20>
+/Users/awtsmoos/Documents/dayuhChadash-review/awtsmoosdb-reclaim-20260712T010855-0700/tools/managed_production_server.sh: line 99: unexpected EOF while looking for matching `''
+/Users/awtsmoos/Documents/dayuhChadash-review/awtsmoosdb-reclaim-20260712T010855-0700/tools/managed_production_server.sh: line 105: syntax error: unexpected end of file
+B"H production child PID 27645
+B"H - Starting instance of email.
+Warning: Could not load DKIM file. Checking Env...
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H - HTTP listening on port 8080.
+Server running at http://127.0.0.1:8080/
+Time: 1784141667325
+B"H - Awtsmoos mail listening to you, port 25.
+B"H - Email server running on port 25.
+B"H production child PID 30064
+B"H - Starting instance of email.
+Warning: Could not load DKIM file. Checking Env...
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H - HTTP listening on port 8080.
+Server running at http://127.0.0.1:8080/
+Time: 1784142055541
+B"H - Awtsmoos mail listening to you, port 25.
+B"H - Email server running on port 25.
+B"H RAG comment source warm rows=202 elapsedMs=23879.221
+B"H six-stage production readiness passed on attempt 1
+Could not create or open file: /Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments Error: EISDIR: illegal operation on a directory, open '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments'
+    at Object.openSync (node:fs:561:18)
+    at getFileHandle (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js:518:29)
+    at stat (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js:565:18)
+    at new FileBuffer (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/fileBuffer.js:23:16)
+    at Object.getKeysFromBinary (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/get.js:24:17)
+    at DosDB.getObjectKeys (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/methods/obj.js:143:23)
+    at async routedLooksLikeBrokenCollection (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/index.js:129:26)
+    at async /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/index.js:181:26
+    at async safeKeys (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/api/social/helper/search/rag/richCommentRows.js:31:24)
+    at async richRowsForPost (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/api/social/helper/search/rag/richCommentRows.js:60:21) {
+  errno: -21,
+  code: 'EISDIR',
+  syscall: 'open',
+  path: '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments'
+}
+Could not create or open file: /Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments Error: EISDIR: illegal operation on a directory, open '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments'
+    at Object.openSync (node:fs:561:18)
+    at getFileHandle (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js:518:29)
+    at readFileBytesAtOffset (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js:438:24)
+    at Proxy.readBuffer (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/fileBuffer.js:130:18)
+    at Proxy.subarray (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/fileBuffer.js:208:15)
+    at Object.getKeysFromBinary (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/get.js:29:25)
+    at DosDB.getObjectKeys (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/methods/obj.js:143:23)
+    at async routedLooksLikeBrokenCollection (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/index.js:129:26)
+    at async /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/ayzarim/DosDB/index.js:181:26
+    at async safeKeys (/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/api/social/helper/search/rag/richCommentRows.js:31:24) {
+  errno: -21,
+  code: 'EISDIR',
+  syscall: 'open',
+  path: '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518915244_theRebbe_950/commentTree/comments'
+}
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+Not an Awtsmoos JSON:   <Buffer 20>
+B"H production child ended; recreating after two seconds
+B"H production child PID 2233
+B"H - Starting instance of email.
+Warning: Could not load DKIM file. Checking Env...
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H - HTTP listening on port 8080.
+Server running at http://127.0.0.1:8080/
+Time: 1784154385833
+B"H - Awtsmoos mail listening to you, port 25.
+B"H - Email server running on port 25.
+B"H RAG comment source warm rows=202 elapsedMs=37319.207
+B"H six-stage production readiness passed on attempt 1
+--- root probe ---
+http=200 bytes=7007 seconds=0.012751

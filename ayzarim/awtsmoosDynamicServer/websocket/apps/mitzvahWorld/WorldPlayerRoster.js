@@ -40,6 +40,7 @@ class WorldPlayerRoster {
 				'The session player no longer exists.'
 			);
 		}
+		player.connected = true;
 		this.clientPlayers.set(client, playerId);
 		return player;
 	}
@@ -49,6 +50,8 @@ class WorldPlayerRoster {
 		if (!playerId) {
 			return null;
 		}
+		const player = this.players.get(playerId);
+		if (player && player.kind !== 'bot') player.connected = false;
 		this.clientPlayers.delete(client);
 		return playerId;
 	}

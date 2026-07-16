@@ -1,0 +1,40 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos preserves camera access across narrow, landscape, and still vessels.
+ */
+
+@media (max-width: 38rem) {
+	.camera-header {
+		grid-template-columns: 1fr;
+	}
+
+	.camera-back {
+		inline-size: fit-content;
+	}
+
+	.camera-stage {
+		min-block-size: 56vh;
+	}
+
+	.camera-actions {
+		display: grid;
+	}
+
+	.camera-actions button {
+		inline-size: 100%;
+	}
+}
+
+@media (max-height: 32rem) and (orientation: landscape) {
+	.camera-stage {
+		min-block-size: 62vh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.camera-document * {
+		transition: none !important;
+	}
+}

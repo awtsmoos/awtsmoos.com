@@ -1,0 +1,109 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every studio field a dark owned surface and clear focus.
+ */
+input[type="text"],
+input[type="number"],
+input[type="color"],
+input[type="file"],
+select,
+textarea,
+#preset-name {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	padding: .72rem .78rem;
+	border: 1px solid var(--studio-line-strong);
+	border-radius: .72rem;
+	background: var(--studio-panel-soft);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: var(--studio-text);
+	font-size: max(16px, 1rem);
+	outline: 0;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+textarea {
+	min-block-size: 8rem;
+	resize: vertical;
+	line-height: 1.5;
+}
+input::placeholder,
+textarea::placeholder {
+	color: var(--studio-faint);
+	opacity: 1;
+}
+:is(input, select, textarea):focus-visible {
+	border-color: var(--studio-cyan);
+	background: var(--studio-panel-strong);
+	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
+}
+:is(input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: .55;
+}
+:is(input, select, textarea):user-invalid {
+	border-color: var(--studio-danger);
+}
+select {
+	appearance: none;
+	background-image: linear-gradient(45deg, transparent 50%, var(--studio-muted) 50%), linear-gradient(135deg, var(--studio-muted) 50%, transparent 50%);
+	background-position: calc(100% - 1rem) 52%, calc(100% - .72rem) 52%;
+	background-repeat: no-repeat;
+	background-size: .3rem .3rem;
+	padding-inline-end: 2.2rem;
+}
+input[type="file"] {
+	padding: .38rem;
+	font-size: .82rem;
+}
+input[type="file"]::file-selector-button {
+	min-block-size: 40px;
+	margin-inline-end: .6rem;
+	padding: .55rem .72rem;
+	border: 1px solid rgba(97, 203, 217, .38);
+	border-radius: .58rem;
+	background: var(--studio-cyan-soft);
+	color: #a7edf4;
+	font-weight: 800;
+	cursor: pointer;
+}
+input[type="color"] {
+	padding: .3rem;
+	cursor: pointer;
+}
+input[type="range"] {
+	inline-size: 100%;
+	min-block-size: 44px;
+	margin: 0;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+	block-size: .38rem;
+	border-radius: 999px;
+	background: #344457;
+}
+input[type="range"]::-webkit-slider-thumb {
+	inline-size: 1.45rem;
+	block-size: 1.45rem;
+	margin-block-start: -.53rem;
+	appearance: none;
+	border: 3px solid #0b121c;
+	border-radius: 50%;
+	background: var(--studio-cyan);
+	box-shadow: 0 0 0 2px rgba(97, 203, 217, .2);
+}
+input[type="range"]::-moz-range-track {
+	block-size: .38rem;
+	border-radius: 999px;
+	background: #344457;
+}
+input[type="range"]::-moz-range-thumb {
+	inline-size: 1.15rem;
+	block-size: 1.15rem;
+	border: 3px solid #0b121c;
+	border-radius: 50%;
+	background: var(--studio-cyan);
+}

@@ -9,6 +9,7 @@
  */
 
 import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
+import { exactMaterialUrl } from '../assets/PublicMaterialResolver.js';
 import { primitiveColliders } from './Box3D.js';
 import { houseRoadSystem } from './PathRoadSystem.js';
 import { createProceduralTextLandmark } from './proceduralText/ProceduralTextLandmarkSystem.js';
@@ -26,10 +27,12 @@ const HALF = 'https://awtsmoos-docs-base.web.app/half-resolution/';
 const FULL = 'https://awtsmoos-docs-base.web.app/full-resolution/';
 
 export const GRASS_URLS = [
+	exactMaterialUrl('awtsmoos-nature/chai-forest/textures/ground/grass.jpg'),
 	`${FULL}grass%201.png`,
 	`${HALF}grass%201.png`
 ];
 export const DIRT_URLS = [
+	exactMaterialUrl('awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg'),
 	TEXTURE_URLS.terrain.dirtGrass3,
 	TEXTURE_URLS.terrain.dirt1
 ];

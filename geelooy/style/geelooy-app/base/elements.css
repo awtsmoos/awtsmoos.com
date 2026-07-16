@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives links, media, and controls one universal physical law.
+ * Awtsmoos.com preserves route-specific art while eliminating accidental font,
+ * sizing, overflow, and hidden-text behavior from the browser default sheet.
+ */
+
+body.geelooy-app-shell a {
+	color: inherit;
+	text-underline-offset: .18em;
+}
+
+body.geelooy-app-shell :where(a[class], nav a) {
+	text-decoration: none;
+}
+
+body.geelooy-app-shell :is(button, input, select, textarea) {
+	font-family: inherit;
+}
+
+body.geelooy-app-shell :is(
+	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]),
+	select,
+	textarea
+) {
+	font-size: max(1rem, 16px);
+	line-height: 1.4;
+}
+
+body.geelooy-app-shell :is(img, picture, video, canvas, svg) {
+	display: block;
+	max-inline-size: 100%;
+}
+
+body.geelooy-app-shell :is(.sr-only, .g-sr-only) {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+body.geelooy-app-shell :where([hidden]) {
+	display: none !important;
+}
+
+body.geelooy-app-shell :where(button, [role="button"], summary) {
+	touch-action: manipulation;
+}

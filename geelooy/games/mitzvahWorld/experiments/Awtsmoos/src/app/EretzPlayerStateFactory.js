@@ -11,6 +11,8 @@
 
 import { FACE_HEIGHT } from './EretzConstants.js';
 
+export const PLAYER_SPAWN = Object.freeze({ x: 0, z: 72, facing: Math.PI });
+
 export function createEretzPlayerStats() {
 	return {
 		face: '🎩',
@@ -22,14 +24,14 @@ export function createEretzPlayerStats() {
 	};
 }
 
-export function createEretzPlayerState(initialY, feet, player) {
+export function createEretzPlayerState(initialY, feet, player, spawn = PLAYER_SPAWN) {
 	return {
 		airPhase: 'ground',
 		ceilingHit: null,
 		clip: '',
 		contacts: [],
 		faceHeight: FACE_HEIGHT,
-		facing: Math.PI,
+		facing: spawn.facing,
 		feet,
 		grounded: true,
 		jumpClock: 0,
@@ -42,8 +44,8 @@ export function createEretzPlayerState(initialY, feet, player) {
 		slopeState: 'walk',
 		stepState: 'flat',
 		velY: 0,
-		x: 0,
+		x: spawn.x,
 		y: initialY,
-		z: 4
+		z: spawn.z
 	};
 }

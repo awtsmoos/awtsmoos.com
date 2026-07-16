@@ -2,10 +2,17 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	normalizeSegmentFlags,
+	segmentPermissionString
+} from "./byteMemoryPermissions.js";
+
+export { hasSegmentPermission } from "./byteMemoryPermissions.js";
+
 /**
  * Normalizes and validates portable guest segments. The Awtsmoos creates address,
  * backing bytes, and permission anew; Awtsmoos.com preserves caller-owned byte
- * arrays when their mapped size is already exact so guest writes remain observable.
+ * arrays when their mapped size is exact and rejects overlap or excessive memory.
  */
 export function createMemorySegment(input = {}) {
 	const address = safeAddress(input.address ?? input.base ?? 0);
@@ -19,22 +26,27 @@ export function createMemorySegment(input = {}) {
 	const bytes = requestedSize === source.length
 		? source
 		: expandedBytes(source, requestedSize);
-	const flags = normalizeFlags(input);
+	const flags = normalizeSegmentFlags(input);
 	return {
 		address,
 		base: address,
 		bytes,
 		flags,
 		name: String(input.name || "segment"),
-		permissions: permissionString(flags)
+		permissions: segmentPermissionString(flags)
 	};
 }
 
 export function assertSegmentCanMap(segments, segment, maximumBytes) {
-	const total = segments.reduce((sum, item) => sum + item.bytes.length, 0)
-		+ segment.bytes.length;
+	const total = segments.reduce(
+		(sum, item) => sum + item.bytes.length,
+		segment.bytes.length
+	);
 	if (total > maximumBytes) {
-		throw segmentError("PORTABLE_MEMORY_LIMIT", `${total}:${maximumBytes}`);
+		throw segmentError(
+			"PORTABLE_MEMORY_LIMIT",
+			`${total}:${maximumBytes}`
+		);
 	}
 	const start = segment.address;
 	const end = start + segment.bytes.length;
@@ -50,11 +62,6 @@ export function assertSegmentCanMap(segments, segment, maximumBytes) {
 	}
 }
 
-export function hasSegmentPermission(segment, permission) {
-	const name = permissionName(permission);
-	return segment.flags[name] === true;
-}
-
 export function segmentSummary(segment) {
 	return Object.freeze({
 		address: segment.address,
@@ -65,33 +72,6 @@ export function segmentSummary(segment) {
 		name: segment.name,
 		permissions: segment.permissions
 	});
-}
-
-function normalizeFlags(input) {
-	if (input.flags) {
-		return {
-			execute: input.flags.execute === true,
-			read: input.flags.read !== false,
-			write: input.flags.write === true
-		};
-	}
-	const permissions = String(input.permissions || "r--");
-	return {
-		execute: permissions.includes("x"),
-		read: permissions.includes("r"),
-		write: permissions.includes("w")
-	};
-}
-
-function permissionName(permission) {
-	if (["r", "read"].includes(permission)) return "read";
-	if (["w", "write"].includes(permission)) return "write";
-	if (["x", "execute"].includes(permission)) return "execute";
-	return String(permission);
-}
-
-function permissionString(flags) {
-	return `${flags.read ? "r" : "-"}${flags.write ? "w" : "-"}${flags.execute ? "x" : "-"}`;
 }
 
 function expandedBytes(source, size) {

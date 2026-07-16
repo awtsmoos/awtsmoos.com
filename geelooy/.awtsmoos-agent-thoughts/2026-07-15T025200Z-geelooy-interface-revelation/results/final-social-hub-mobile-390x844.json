@@ -1,0 +1,147 @@
+{
+	"capturedAt": "2026-07-15T18:05:26.154Z",
+	"requestedUrl": "http://127.0.0.1:8080/social/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "6354B435F9FE6D46F85C40BA49A4F0A2",
+		"loaderId": "DC96DBBDB85D398CA7AFE55285B74765",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 3162
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/social/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Awtsmoos Social Hub",
+		"url": "http://127.0.0.1:8080/social/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 3162,
+			"clientWidth": 390
+		},
+		"overflow": [
+			{
+				"selector": "button",
+				"left": 358,
+				"right": 433,
+				"width": 75
+			},
+			{
+				"selector": "button",
+				"left": 439,
+				"right": 541,
+				"width": 102
+			},
+			{
+				"selector": "button",
+				"left": 547,
+				"right": 642,
+				"width": 95
+			},
+			{
+				"selector": "button",
+				"left": 648,
+				"right": 732,
+				"width": 83
+			},
+			{
+				"selector": "button",
+				"left": 738,
+				"right": 832,
+				"width": 94
+			},
+			{
+				"selector": "button",
+				"left": 838,
+				"right": 968,
+				"width": 130
+			},
+			{
+				"selector": "button",
+				"left": 975,
+				"right": 1098,
+				"width": 124
+			},
+			{
+				"selector": "button",
+				"left": 1105,
+				"right": 1216,
+				"width": 111
+			}
+		],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Hub"
+			},
+			{
+				"level": 2,
+				"text": "System overview"
+			},
+			{
+				"level": 3,
+				"text": "Request context"
+			},
+			{
+				"level": 3,
+				"text": "API Meta"
+			},
+			{
+				"level": 3,
+				"text": "OpenAPI"
+			},
+			{
+				"level": 3,
+				"text": "V2 Removed Probe"
+			},
+			{
+				"level": 3,
+				"text": "Route Health"
+			}
+		],
+		"landmarks": [
+			"aside.hub-rail",
+			"nav.hub-rail-tabs",
+			"main.hub-main",
+			"header.hub-hero",
+			"span.hub-status",
+			"header",
+			"header",
+			"header",
+			"header",
+			"aside#BH_PAGE_PRESENCE_BADGE.bh-page-presence-badge"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/style/social/hub/index.css?v=social-hub-002",
+			"http://127.0.0.1:8080/style/social/live/presence.css?v=social-hub-002"
+		],
+		"styleNodes": 0,
+		"animations": 19
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/final-social-hub-mobile-390x844.png"
+}

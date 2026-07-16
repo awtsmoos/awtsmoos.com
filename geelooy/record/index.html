@@ -1,47 +1,45 @@
-<!--B"H-->
-<!DOCTYPE html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens a camera only through deliberate human permission.
+-->
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fullscreen Camera</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: black;
-    }
-    #video {
-      display: none;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    #start-button {
-      background: #444;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    #start-button:hover {
-      background: #666;
-    }
-  </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Open a private local camera preview without uploading media.">
+	<meta name="theme-color" content="#070b12">
+	<title>Camera Preview — Geelooy</title>
+	<link rel="stylesheet" href="style.css?v=media-capture-001">
 </head>
-<body>
-  <button id="start-button">Start Camera</button>
-  <video id="video" autoplay playsinline></video>
-
-  <script src="script.js"></script>
+<body class="camera-document">
+	<main class="camera-shell" aria-labelledby="camera-title">
+		<header class="camera-header">
+			<a class="camera-back" href="/">← Home</a>
+			<div>
+				<p class="camera-kicker">Local media</p>
+				<h1 id="camera-title">Camera preview</h1>
+				<p>Your video stays inside this browser tab and is never uploaded.</p>
+			</div>
+		</header>
+		<section class="camera-stage" data-camera-state="idle" aria-describedby="camera-status">
+			<video id="camera-video" autoplay muted playsinline></video>
+			<div class="camera-empty" id="camera-empty">
+				<span aria-hidden="true">◉</span>
+				<strong>Camera is closed</strong>
+				<p>Start the preview to request permission from your browser.</p>
+			</div>
+			<div class="camera-live-mark" aria-hidden="true">Live preview</div>
+		</section>
+		<p id="camera-status" class="camera-status" role="status" aria-live="polite" data-tone="idle">Ready when you are.</p>
+		<div class="camera-actions" aria-label="Camera controls">
+			<button id="camera-start" class="camera-primary" type="button">Start camera</button>
+			<button id="camera-switch" type="button" disabled>Switch camera</button>
+			<button id="camera-stop" type="button" disabled>Stop preview</button>
+		</div>
+		<p class="camera-note">Permissions are controlled by your browser. Closing this page stops every active camera track.</p>
+	</main>
+	<script type="module" src="script.js?v=media-capture-001"></script>
 </body>
 </html>

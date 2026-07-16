@@ -1,0 +1,52 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Composer actions render in final dark and primary states immediately.
+ */
+
+:where(button, summary) {
+	min-block-size: 44px;
+	border: 1px solid var(--composer-line-strong);
+	border-radius: .75rem;
+	background: var(--composer-panel-soft);
+	box-shadow: none;
+	color: var(--composer-text);
+	font-weight: 780;
+	transition: none !important;
+}
+
+:where(button, summary):is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .58);
+	background: var(--composer-panel-raised);
+	color: #b9f0f6;
+}
+
+.publishButton,
+.primaryAction {
+	border-color: #58c7d8;
+	background: #58c7d8;
+	color: #061018;
+	font-weight: 880;
+}
+
+:where(details) {
+	margin-block: .75rem;
+	border: 1px solid var(--composer-line);
+	border-radius: .85rem;
+	background: #0d151f;
+}
+
+:where(details > summary) {
+	padding: .72rem .85rem;
+	list-style: none;
+}
+
+:where(details[open] > summary) {
+	border-radius: .82rem .82rem 0 0;
+	border-bottom-color: var(--composer-line);
+}
+
+:where(details > :not(summary)) {
+	margin-inline: .85rem;
+}

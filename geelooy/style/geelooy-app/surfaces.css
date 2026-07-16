@@ -2,20 +2,22 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers every shared surface into small ordered vessels.
- * Awtsmoos.com receives one coherent interaction language without a monolith.
+ * The Awtsmoos gathers every shared surface into small ordered vessels. The
+ * versioned manifest ensures repaired fields and controls replace cached visual
+ * generations immediately across every live Awtsmoos.com route.
  */
-@import "./surfaces/content.css";
-@import "./surfaces/links.css";
-@import "./surfaces/controls.css";
-@import "./surfaces/control-motion.css";
-@import "./surfaces/native-fields.css";
-@import "./surfaces/field-motion.css";
-@import "./surfaces/native-choices.css";
-@import "./surfaces/native-special-inputs.css";
-@import "./surfaces/native-disclosures.css";
-@import "./surfaces/native-status-controls.css";
-@import "./surfaces/native-editable.css";
-@import "./surfaces/native-feedback.css";
-@import "./surfaces/skip-links.css";
-@import "./surfaces/states.css";
+
+@import "./surfaces/content.css?v=surface-core-007";
+@import "./surfaces/links.css?v=surface-core-007";
+@import "./surfaces/controls.css?v=surface-core-007";
+@import "./surfaces/control-motion.css?v=surface-core-007";
+@import "./surfaces/native-fields.css?v=surface-core-007";
+@import "./surfaces/field-motion.css?v=surface-core-007";
+@import "./surfaces/native-choices.css?v=surface-core-007";
+@import "./surfaces/native-special-inputs.css?v=surface-core-007";
+@import "./surfaces/native-disclosures.css?v=surface-core-007";
+@import "./surfaces/native-status-controls.css?v=surface-core-007";
+@import "./surfaces/native-editable.css?v=surface-core-007";
+@import "./surfaces/native-feedback.css?v=surface-core-007";
+@import "./surfaces/skip-links.css?v=surface-core-007";
+@import "./surfaces/states.css?v=surface-core-007";

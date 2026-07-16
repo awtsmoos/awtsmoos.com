@@ -26,8 +26,9 @@ for (const quality of qualities) {
 }
 
 assert.equal(stats.high.catalogSpecies, 113);
-assert.equal(stats.high.placements, 220);
-assert.equal(stats.high.triangles, 11204);
+assert.equal(stats.medium.placements, 180);
+assert.equal(stats.high.placements, 270);
+assert.equal(stats.high.triangles, 17218);
 assert.ok(stats.low.triangles < stats.medium.triangles);
 assert.ok(stats.medium.triangles < stats.high.triangles);
 assert.ok(stats.high.triangles < stats.cinematic.triangles);

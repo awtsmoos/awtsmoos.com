@@ -4,46 +4,106 @@
 
 /**
  * @file MultiplayerEretzRuntime.js
- * @description Joins an authoritative world and binds it to the rendered village runtime.
- * The Awtsmoos renews local vision and shared truth without confusing their vessels;
- * Awtsmoos.com exposes reconnecting transport, chat, deltas, identity, and diagnostics.
+ * @description Connects the live Eretz runtime to local-tab or websocket authority.
+ * The Awtsmoos recreates every traveler and transport each instant; Awtsmoos.com lets
+ * localhost tabs share one village while public worlds retain their remote authority.
  */
 
-import { createEretzRuntime } from '../app/createEretzRuntime.js';
-import { MitzvahWorldManagedConnection } from './MitzvahWorldManagedConnection.js';
+import { AuthoritativeMultiplayerBridge } from './AuthoritativeMultiplayerBridge.js';
+import { createMultiplayerConnection } from './MultiplayerConnectionFactory.js';
 
-export async function createMultiplayerEretzRuntime(hosts, options) {
-	if (!options?.url || !options?.WebSocketClass) {
-		throw new Error('A realtime URL and WebSocket implementation are required.');
+export class MultiplayerEretzRuntime {
+	constructor(options = {}) {
+		this.runtime = options.runtime;
+		this.url = options.url;
+		this.displayName = options.displayName || 'Mountain Shliach';
+		this.worldId = options.worldId || 'main-village';
+		this.WebSocketClass = options.WebSocketClass;
+		this.location = options.location || globalThis.location;
+		this.localOptions = options.localOptions;
+		this.connection = null;
+		this.client = null;
+		this.bridge = null;
+		this.transport = 'none';
+		this.error = null;
 	}
-	const connection = new MitzvahWorldManagedConnection({
-		WebSocketClass: options.WebSocketClass,
-		url: options.url
-	});
-	try {
-		const client = await connection.start(
-			options.displayName || 'Mountain Shliach',
-			options.worldId || 'main-village'
-		);
-		const diagnostics = await createEretzRuntime(hosts, {
-			startLoop: options.startLoop !== false
-		});
-		const multiplayer = {
-			client,
-			connection,
-			playerAddress: client.playerAddress,
-			state: () => connection.state,
-			worldId: options.worldId || 'main-village'
+
+	async start() {
+		this.stop();
+		try {
+			this.connection = createMultiplayerConnection({
+				url: this.url,
+				WebSocketClass: this.WebSocketClass,
+				location: this.location,
+				localOptions: this.localOptions
+			});
+			this.transport = this.connection.transport || 'websocket';
+			this.client = await this.connection.start(this.displayName, this.worldId);
+			this.bridge = new AuthoritativeMultiplayerBridge({
+				client: this.client,
+				runtime: this.runtime,
+				transport: this.transport
+			});
+			this.error = null;
+			return this.bridge.start();
+		} catch (error) {
+			this.error = error;
+			console.warn('[MitzvahWorld] Multiplayer offline; continuing locally.', error);
+			this.stopConnection();
+			return null;
+		}
+	}
+
+	update(deltaSeconds) {
+		this.bridge?.update(deltaSeconds);
+	}
+
+	stop() {
+		this.bridge?.stop?.();
+		this.bridge = null;
+		this.stopConnection();
+	}
+
+	stopConnection() {
+		this.connection?.stop?.();
+		this.connection = null;
+		this.client = null;
+	}
+
+	diagnostics() {
+		return {
+			transport: this.transport,
+			state: this.connection?.state || (this.error ? 'error' : 'idle'),
+			worldId: this.worldId,
+			playerId: this.client?.playerId || null,
+			playerAddress: this.client?.playerAddress || null,
+			players: this.client?.world?.players?.length || 0,
+			bridge: this.bridge?.diagnostics?.() || null,
+			error: this.error?.message || null
 		};
-		diagnostics.authoritativeWorld = client.world;
-		diagnostics.multiplayer = multiplayer;
-		client.onWorld(world => {
-			diagnostics.authoritativeWorld = world;
-		});
-		if (typeof window !== 'undefined') window.AwtsmoosMultiplayer = multiplayer;
-		return diagnostics;
-	} catch (error) {
-		connection.stop();
-		throw error;
 	}
 }
+
+export async function createMultiplayerEretzRuntime(hosts, options = {}) {
+	const runtimeFactory = options.runtimeFactory
+		|| (await import('../app/createEretzRuntime.js')).createEretzRuntime;
+	const runtimeOptions = { ...options };
+	delete runtimeOptions.runtimeFactory;
+	const diagnostics = await runtimeFactory(hosts, runtimeOptions);
+	const runtime = diagnostics.runtime;
+	if (!runtime) {
+		throw new Error('Multiplayer runtime requires diagnostics.runtime.');
+	}
+	const multiplayer = new MultiplayerEretzRuntime({
+		...options,
+		runtime
+	});
+	runtime.multiplayerBridge = multiplayer;
+	const session = await multiplayer.start();
+	diagnostics.multiplayer = multiplayer;
+	diagnostics.multiplayerSession = session;
+	diagnostics.multiplayerDiagnostics = () => multiplayer.diagnostics();
+	return diagnostics;
+}
+
+export default createMultiplayerEretzRuntime;

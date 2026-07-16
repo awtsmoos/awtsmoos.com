@@ -1,201 +1,114 @@
-/* B"H */
-
-/* --- DESKTOP (Default) --- */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the caption studio a contained rail and honest preview.
+ */
+.caption-studio-document {
+	min-block-size: 100dvh;
+}
 .app-container {
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    height: 100vh; /* Fallback */
-    height: 100dvh; /* Mobile browser fix */
-    gap: 20px;
-    padding: 20px;
-    overflow: hidden;
+	display: grid;
+	grid-template-columns: minmax(20rem, 28rem) minmax(0, 1fr);
+	gap: 1rem;
+	inline-size: min(calc(100% - 1.5rem), 96rem);
+	min-block-size: 100dvh;
+	margin: 0 auto;
+	padding: .75rem 0;
 }
-
-/* Left Panel (Controls) */
-.glass-panel {
-    background: var(--bg-panel);
-    backdrop-filter: blur(10px);
-    border: var(--glass-border);
-    border-radius: var(--radius-lg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 2;
-    position: relative;
+.studio-panel {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-inline-size: 0;
+	max-block-size: calc(100dvh - 1.5rem);
+	overflow: hidden;
+	border: 1px solid var(--studio-line-strong);
+	border-radius: var(--studio-radius-l);
+	background: var(--studio-panel);
+	box-shadow: var(--studio-shadow);
 }
-
-header {
-    flex-shrink: 0;
-    padding: 15px 20px;
-    border-bottom: var(--glass-border);
-    background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.studio-header {
+	display: grid;
+	gap: .8rem;
+	padding: 1rem;
+	border-bottom: 1px solid var(--studio-line);
+	background: #111b28;
 }
-
+.logo-area {
+	position: relative;
+	min-inline-size: 0;
+}
+.logo-area p,
 .logo-area h1 {
-    margin: 0; font-family: var(--font-display); font-size: 2rem;
-    letter-spacing: 2px; color: var(--primary);
-    text-shadow: 0 0 10px var(--primary-dim);
-    display: inline-block;
+	margin: 0;
 }
-.version { font-size: 0.7rem; color: var(--accent); vertical-align: super; margin-left: 5px; }
-
+.logo-area p {
+	color: var(--studio-cyan);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.logo-area h1 {
+	margin-block-start: .22rem;
+	font-size: 1.55rem;
+	line-height: 1;
+	letter-spacing: -.035em;
+}
+.version {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-end: 0;
+	color: var(--studio-faint);
+	font-size: .7rem;
+	font-weight: 800;
+}
 .header-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) repeat(3, auto);
+	gap: .45rem;
+	align-items: end;
 }
-
 .scroll-area {
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px;
-    -webkit-overflow-scrolling: touch;
+	min-inline-size: 0;
+	padding: 1rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: thin;
 }
-
 #actions-footer {
-    flex-shrink: 0;
-    background: rgba(10, 10, 15, 0.95);
-    border-top: var(--glass-border);
-    padding: 15px 20px;
-    z-index: 10;
+	display: grid;
+	gap: .7rem;
+	padding: .9rem 1rem max(.9rem, env(safe-area-inset-bottom));
+	border-top: 1px solid var(--studio-line);
+	background: #0c141f;
 }
-
-/* Right Panel (Preview) */
 #preview-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.3);
-    border-radius: var(--radius-lg);
-    border: var(--glass-border);
-    position: relative;
-    overflow: hidden;
+	position: relative;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-inline-size: 0;
+	min-block-size: calc(100dvh - 1.5rem);
+	overflow: hidden;
+	border: 1px solid var(--studio-line-strong);
+	border-radius: var(--studio-radius-l);
+	background: #02050a;
+	box-shadow: var(--studio-shadow);
 }
-
-/* Desktop hides mobile header components */
-#mobile-preview-header { display: none; }
-
+#mobile-preview-header {
+	display: none;
+}
 #preview-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background: #000;
+	position: relative;
+	display: grid;
+	min-inline-size: 0;
+	min-block-size: 0;
+	place-items: center;
+	overflow: hidden;
+	background: #02050a;
 }
-
-#previewCanvas, #outputVideo {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-}
-#previewCanvas.hidden, #outputVideo.hidden {
-    display: none !important;
-}
-
-/* Grid Utils */
-.row { display: flex; gap: 10px; margin-bottom: 10px; }
-.half { flex: 1; }
-
-.fx-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
-    margin-bottom: 15px;
-}
-
-/* --- MOBILE LAYOUT --- */
-@media (max-width: 900px) {
-    .app-container {
-        display: block;
-        padding: 0;
-        height: 100dvh;
-        width: 100vw;
-    }
-
-    .glass-panel {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-        border: none;
-    }
-
-    .header-actions {
-        /* On very small screens, hide preset dropdown to save space */
-        gap: 5px;
-    }
-    #preset-select { width: 80px; }
-
-    .scroll-area {
-        padding: 15px;
-        padding-bottom: 20px; 
-    }
-
-    #actions-footer {
-        padding: 15px;
-        padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
-        background: #050508;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-    }
-
-    /* Sliding Preview Panel */
-    #preview-wrapper {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100dvh;
-        z-index: 100;
-        background: #000;
-        border-radius: 0;
-        border: none;
-        
-        transform: translateY(100%);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    #preview-wrapper.mobile-visible {
-        transform: translateY(0%);
-    }
-
-    /* Mobile Header Bar */
-    #mobile-preview-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        padding-top: calc(15px + env(safe-area-inset-top));
-        background: var(--bg-panel);
-        border-bottom: var(--glass-border);
-        width: 100%;
-        flex-shrink: 0;
-    }
-    
-    #mobile-preview-header h3 {
-        margin: 0;
-        font-family: var(--font-display);
-        color: var(--primary);
-        font-size: 1.5rem;
-    }
-
-    #mobile-close-btn {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: #fff;
-        width: 36px; height: 36px;
-        border-radius: 50%;
-        font-size: 1rem;
-        cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-    }
-
-    #preview-container {
-        flex-grow: 1;
-        padding: 20px;
-    }
+#previewCanvas,
+#outputVideo {
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	object-fit: contain;
 }

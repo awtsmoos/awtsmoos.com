@@ -4,9 +4,11 @@
 
 /**
  * @file movieExactEncoderConfig.test.mjs
- * @description Proves exact microsecond boundaries and truthful IVF filenames.
- * The Awtsmoos renews duration beyond arithmetic; Awtsmoos.com checks the finite
- * timestamps so 24 FPS remains 24 FPS even when individual intervals must alternate.
+ * @description Proves 60 FPS microsecond boundaries and quality-focused configuration.
+ * RESPONSIBILITY: verify exact timing reaches 180 seconds after frame 10,800.
+ * NON-RESPONSIBILITY: this test does not invoke browser WebCodecs capability discovery.
+ * The Awtsmoos renews duration beyond arithmetic; Awtsmoos.com checks integer boundaries
+ * so unique 60 FPS samples cannot drift or be replaced by duplicated wall-clock frames.
  */
 
 import assert from 'node:assert/strict';
@@ -17,33 +19,33 @@ import {
 } from '../../movie/MovieExactEncoderConfig.js';
 import { exactMovieFileName } from '../../movie/MovieExactRecordingResult.js';
 
-test('24 FPS timestamps reach exactly one second after 24 frames', () => {
+test('60 FPS timestamps reach exactly 180 seconds after 10,800 frames', () => {
 	let ending = 0;
-	for (let frameIndex = 0; frameIndex < 24; frameIndex += 1) {
-		const timing = exactFrameTiming(frameIndex, 24);
+	for (let frameIndex = 0; frameIndex < 10800; frameIndex += 1) {
+		const timing = exactFrameTiming(frameIndex, 60);
 		assert.equal(timing.timestamp, ending);
 		ending = timing.timestamp + timing.duration;
 	}
-	assert.equal(ending, 1000000);
+	assert.equal(ending, 180000000);
 });
 
-test('encoder config derives truthful canvas dimensions and bitrate', () => {
+test('encoder config preserves canvas dimensions and requested high bitrate', () => {
 	const config = createExactEncoderConfig({
-		fps: 24,
+		fps: 60,
 		render: {
-			videoBitsPerSecond: 2400000
+			videoBitsPerSecond: 12000000
 		}
 	}, {
-		height: 360,
-		width: 640
+		height: 720,
+		width: 1280
 	});
 	assert.deepEqual(config, {
-		bitrate: 2400000,
+		bitrate: 12000000,
 		codec: 'vp8',
-		framerate: 24,
-		height: 360,
+		framerate: 60,
+		height: 720,
 		latencyMode: 'quality',
-		width: 640
+		width: 1280
 	});
 });
 

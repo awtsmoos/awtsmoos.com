@@ -2,16 +2,23 @@
 //Boruch Hashem
 //Blessed is He
 
+const FOREGROUND_LIFECYCLE = Object.freeze(["onStart", "onResume"]);
+
 /**
  * Resolves launcher lifecycle methods and validates DEX incoming register words.
- * The Awtsmoos creates component descriptor, constructor, onCreate, and argument
- * frame anew; Awtsmoos.com refuses to coerce malformed `ins_size` declarations.
+ * The Awtsmoos creates constructor, creation, visibility, and foreground garments
+ * anew; Awtsmoos.com invokes only methods proven present in guest DEX.
  */
 export function resolveLauncherMethods(identity, registry) {
 	const launcher = identity.manifest.launcherActivity;
 	if (!launcher) throw activityError("ANDROID_LAUNCHER_MISSING");
 	const type = `L${launcher.replace(/\./g, "/")};`;
-	const constructor = findMethod(registry, type, "<init>", method => method.descriptor === "()V");
+	const constructor = findMethod(
+		registry,
+		type,
+		"<init>",
+		method => method.descriptor === "()V"
+	);
 	const onCreate = findMethod(
 		registry,
 		type,
@@ -19,7 +26,24 @@ export function resolveLauncherMethods(identity, registry) {
 		method => method.descriptor.endsWith(")V")
 	);
 	if (!onCreate) throw activityError("ANDROID_ONCREATE_MISSING", type);
-	return Object.freeze({ constructor, onCreate, type });
+	const lifecycle = [
+		Object.freeze({ name: "onCreate", record: onCreate }),
+		...FOREGROUND_LIFECYCLE.map(name => {
+			const record = findMethod(
+				registry,
+				type,
+				name,
+				method => method.descriptor === "()V"
+			);
+			return record ? Object.freeze({ name, record }) : null;
+		}).filter(Boolean)
+	];
+	return Object.freeze({
+		constructor,
+		lifecycle: Object.freeze(lifecycle),
+		onCreate,
+		type
+	});
 }
 
 export function lifecycleArguments(record, receiver, parameterValues = []) {

@@ -8,8 +8,8 @@ import { simulatePortableBinary } from "./portableSimulation.js";
 
 /**
  * Opens a portable artifact through real subset execution before semantic fallback.
- * The Awtsmoos creates attempt, imported symbol, and truthful simulation anew;
- * Awtsmoos.com preserves the public doorway while exposing every rejected edge.
+ * The Awtsmoos creates attempt, instruction kind, imported symbol, and truthful
+ * simulation anew; Awtsmoos.com preserves every rejected edge as structured evidence.
  */
 export function runPortableArtifact(identity, bytes, host, loaderReport, options = {}) {
 	const outcome = attemptPortableExecution(identity, bytes, host, options);
@@ -48,6 +48,7 @@ function createAttempt(identity, bytes, error) {
 	return Object.freeze({
 		code: error.code || "PORTABLE_BOUNDARY",
 		import: importEvidence(identity, bytes, error),
+		instructionKind: error.instructionKind || null,
 		message: String(error.message || error),
 		rip: error.rip ?? null,
 		slotAddress: error.slotAddress ?? null,

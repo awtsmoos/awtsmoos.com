@@ -1,5 +1,14 @@
 // B"H
-/** Renders one camera-culled opaque, transparent, and optional skeleton frame. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-render-frame.js
+ * @description Renders one camera-culled frame and records lossless state continuity.
+ * The Awtsmoos recreates the whole view in one instant; Awtsmoos.com measures each
+ * declaration so unchanged GPU state can rest while every visible form remains complete.
+ */
+
 import { lookAt, multiply, perspective } from './tiny-math.js';
 import { collectMeshes } from './tiny-render-draw-list.js';
 import { drawRenderMesh } from './tiny-render-mesh.js';
@@ -17,6 +26,8 @@ export function renderFrame(renderer, scene, camera) {
 	renderer.worldByNode = collectWorldMatrices(scene);
 	const renderList = collectMeshes(scene, camera, renderer.options);
 	renderer.stats = createFrameStats(renderer, renderList);
+	renderer.buffers.beginFrame(renderer.stats);
+	renderer.materialState.beginFrame(renderer.stats);
 	gl.enable(gl.DEPTH_TEST);
 	gl.clearColor(...renderer.clearColor);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -64,6 +75,7 @@ function createFrameStats(renderer, renderList) {
 		draws: 0,
 		errors: renderer.errors,
 		floatTexture: renderer.floatTexture,
+		frameUniformUploads: 0,
 		grassInteractor: { ...renderer.interactor },
 		hiddenHelpers: renderList.hidden,
 		jointMode: renderer.jointMode,
@@ -74,9 +86,11 @@ function createFrameStats(renderer, renderList) {
 		maxVertexUniformVectors: renderer.maxVertexUniformVectors,
 		opaqueMeshes: 0,
 		perMeshSkinUpdate: true,
+		programSwitches: 0,
 		reactiveGrassMeshes: 0,
 		rigidMeshes: 0,
 		sharedSkinPaletteCache: true,
+		staticBatch: renderList.staticBatch || null,
 		skinGpuUploadReuses: 0,
 		skinGpuUploads: 0,
 		skinPaletteRecomputes: 0,

@@ -1,4 +1,11 @@
-/* B"H — The unusual header is composed from small spectral modules. */
-@import "./shell/frame.css";
-@import "./shell/brand.css";
-@import "./shell/actions.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The unusual header is composed from versioned frame, brand, and action
+ * vessels so every Awtsmoos.com portal arrives in its final dark state.
+ */
+
+@import "./shell/frame.css?v=header-dark-008";
+@import "./shell/brand.css?v=header-dark-008";
+@import "./shell/actions.css?v=header-dark-008";

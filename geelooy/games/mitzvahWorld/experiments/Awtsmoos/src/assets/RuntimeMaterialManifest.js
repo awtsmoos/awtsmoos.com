@@ -1,66 +1,85 @@
 // B"H
-import { fullTextureUrl, halfTextureUrl } from './TextureCatalog.js';
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Creates one immutable runtime material role.
- * The Awtsmoos gives one texture many duties, yet each duty remains named and auditable.
- *
- * @param {string} role Stable semantic role used by diagnostics and world systems.
- * @param {string} label Human-readable diagnostic label.
- * @param {string} primaryUrl Preferred gameplay URL.
- * @param {object} [options] Fallback, criticality, and repeat policy.
- * @returns {Readonly<object>} Frozen material-role definition.
+ * @file RuntimeMaterialManifest.js
+ * @description Declares exact runtime textures and which full-resolution garments block play.
+ * RESPONSIBILITY: name semantic roles, URLs, fallbacks, repeat, and critical quality contracts.
+ * NON-RESPONSIBILITY: this manifest does not fetch images, bind samplers, or create geometry.
+ * ARCHITECTURE: Binah distinguishes required and optional vessels before the world is revealed.
+ * OROS AND KEILIM: visible richness is ohr; roles, URLs, repeat, and preload policy are keilim.
+ * The Awtsmoos renews road, horse, forest, stone, and water beyond every file; Awtsmoos.com
+ * requires truthful full-resolution road and horse garments rather than silent substitutions.
  */
+
+import {
+	exactMaterialUrl,
+	fullMaterialUrl,
+	halfMaterialUrl
+} from './PublicMaterialResolver.js';
+
 function materialRole(role, label, primaryUrl, options = {}) {
 	return Object.freeze({
-		role,
+		critical: options.critical !== false,
+		fallbackUrls: Object.freeze(options.fallbackUrls || []),
 		label,
 		primaryUrl,
-		fallbackUrls: Object.freeze(options.fallbackUrls || []),
-		critical: options.critical !== false,
-		repeat: Object.freeze(options.repeat || [1, 1])
+		repeat: Object.freeze(options.repeat || [1, 1]),
+		role
 	});
 }
 
-const halfWithFullFallback = (role, label, name, options = {}) => materialRole(
+const fullWithHalfFallback = (role, label, name, options = {}) => materialRole(
 	role,
 	label,
-	halfTextureUrl(name),
-	{ ...options, fallbackUrls: [fullTextureUrl(name)] }
+	fullMaterialUrl(name),
+	{ ...options, fallbackUrls: [halfMaterialUrl(name)] }
 );
+const chai = path => exactMaterialUrl(`awtsmoos-nature/chai-forest/${path}`);
 
-/**
- * Runtime material truth, ordered from first-frame terrain and water into optional detail.
- * Every half-resolution candidate below was verified against the local Firebase source tree.
- */
+/** Full-source road and horse roles are strict; mipmaps handle distance without source loss. */
 export const RUNTIME_MATERIALS = Object.freeze([
-	halfWithFullFallback('terrain.grass', 'terrain grass', 'grass 1', { repeat: [18, 18] }),
-	halfWithFullFallback('terrain.dirtMix', 'terrain dirt mix', 'dirt grass 3', { repeat: [15, 15] }),
-	halfWithFullFallback('vegetation.wildGrass', 'wild grass', 'grass 7', { critical: false, repeat: [10, 10] }),
-	materialRole('terrain.marshGrass', 'marsh grass', fullTextureUrl('marsh grass'), { critical: false, repeat: [12, 12] }),
-	materialRole('terrain.mud', 'mud', fullTextureUrl('mud'), { critical: false, repeat: [12, 12] }),
-	halfWithFullFallback('terrain.sandShore', 'sand shore', 'sand 1', { critical: false, repeat: [14, 14] }),
-	materialRole('water.lake', 'lake water', fullTextureUrl('seamless water brighter'), { repeat: [8, 8] }),
-	materialRole('water.stream', 'stream water', fullTextureUrl('shallow river water'), { repeat: [12, 4] }),
-	materialRole('water.still', 'still water', fullTextureUrl('seamless water'), { critical: false, repeat: [8, 8] }),
-	halfWithFullFallback('forest.bark', 'bark', 'tree bark 1', { repeat: [3, 8] }),
-	halfWithFullFallback('village.woodPlanks', 'wood planks', 'wooden oak planks 1', { repeat: [4, 4] }),
-	halfWithFullFallback('forest.oakLeafSpring', 'oak leaf spring', 'oak leaf spring'),
-	halfWithFullFallback('forest.oakLeafFall', 'oak leaf fall', 'oak leaf fall', { critical: false }),
-	halfWithFullFallback('forest.leafGeneric', 'leaf generic', 'leaf 1', { critical: false }),
-	halfWithFullFallback('stone.general', 'stone', 'stone 1', { repeat: [5, 5] }),
-	halfWithFullFallback('stone.fieldstone', 'fieldstone', 'weathered fieldstone Rock 1', { repeat: [4, 4] }),
-	halfWithFullFallback('roof.tile', 'roof tile', 'tiled roof 2', { repeat: [5, 3] }),
-	halfWithFullFallback('metal.gold', 'gold', 'gold 2', { critical: false }),
-	materialRole('metal.iron', 'iron', fullTextureUrl('rusty iron'), { critical: false }),
-	materialRole('sign.parchment', 'parchment sign', fullTextureUrl('parchment'), { critical: false }),
-	halfWithFullFallback('mezuzah.case', 'mezuzah case', 'gold 2', { critical: false })
+	materialRole('terrain.grass', 'natural forest grass', chai('textures/ground/grass.jpg'), {
+		fallbackUrls: [fullMaterialUrl('grass 1'), halfMaterialUrl('grass 1')], repeat: [18, 18]
+	}),
+	materialRole('terrain.dirtMix', 'natural forest dirt', chai('textures/ground/dirt_color.jpg'), {
+		fallbackUrls: [fullMaterialUrl('dirt grass 3'), halfMaterialUrl('dirt grass 3')], repeat: [15, 15]
+	}),
+	materialRole('road.yellowBrick', 'full yellow brick road', fullMaterialUrl('yellow brick 1'), {
+		repeat: [1, 1]
+	}),
+	materialRole('creature.horseFur', 'full horse fur', fullMaterialUrl('horse fur 1'), {
+		repeat: [3, 2]
+	}),
+	fullWithHalfFallback('vegetation.wildGrass', 'wild grass', 'grass 7', { critical: false, repeat: [10, 10] }),
+	fullWithHalfFallback('terrain.marshGrass', 'marsh grass', 'marsh grass', { critical: false, repeat: [12, 12] }),
+	fullWithHalfFallback('terrain.mud', 'mud', 'mud', { critical: false, repeat: [12, 12] }),
+	fullWithHalfFallback('terrain.sandShore', 'sand shore', 'sand 1', { critical: false, repeat: [14, 14] }),
+	fullWithHalfFallback('water.lake', 'lake water', 'seamless water brighter', { repeat: [8, 8] }),
+	fullWithHalfFallback('water.stream', 'stream water', 'shallow river water', { repeat: [12, 4] }),
+	fullWithHalfFallback('water.still', 'still water', 'seamless water', { critical: false, repeat: [8, 8] }),
+	materialRole('forest.bark', 'chai forest bark', chai('textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg'), {
+		fallbackUrls: [fullMaterialUrl('tree bark 1'), halfMaterialUrl('tree bark 1')], repeat: [3, 8]
+	}),
+	fullWithHalfFallback('village.woodPlanks', 'wood planks', 'wooden oak planks 1', { repeat: [4, 4] }),
+	materialRole('forest.chaiOak', 'chai oak leaf', chai('textures/leaves/oak.png'), { critical: false }),
+	materialRole('forest.chaiAsh', 'chai ash leaf', chai('textures/leaves/ash.png'), { critical: false }),
+	materialRole('forest.chaiAspen', 'chai aspen leaf', chai('textures/leaves/aspen.png'), { critical: false }),
+	materialRole('botany.petal', 'sakura petal atlas', exactMaterialUrl('awtsmoos-nature/ilanos/trees/sakura petal.png'), { critical: false }),
+	fullWithHalfFallback('stone.general', 'stone', 'stone 1', { critical: false, repeat: [5, 5] }),
+	fullWithHalfFallback('stone.fieldstone', 'fieldstone', 'weathered fieldstone Rock 1', { repeat: [4, 4] }),
+	fullWithHalfFallback('roof.tile', 'roof tile', 'tiled roof 2', { repeat: [5, 3] }),
+	fullWithHalfFallback('metal.gold', 'gold', 'gold 2', { critical: false }),
+	fullWithHalfFallback('metal.iron', 'iron', 'rusty iron', { critical: false }),
+	fullWithHalfFallback('sign.parchment', 'parchment sign', 'parchment', { critical: false }),
+	fullWithHalfFallback('mezuzah.case', 'mezuzah case', 'gold 2', { critical: false })
 ]);
 
 export const CRITICAL_RUNTIME_MATERIALS = Object.freeze(
-	RUNTIME_MATERIALS.filter((material) => material.critical)
+	RUNTIME_MATERIALS.filter(material => material.critical)
 );
 
 export function runtimeMaterialByRole(role) {
-	return RUNTIME_MATERIALS.find((material) => material.role === role) || null;
+	return RUNTIME_MATERIALS.find(material => material.role === role) || null;
 }

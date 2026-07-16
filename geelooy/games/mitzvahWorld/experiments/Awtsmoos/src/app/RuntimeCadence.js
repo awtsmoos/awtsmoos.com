@@ -14,7 +14,10 @@ const DEFAULT_INTERVALS = Object.freeze({
 	diagnostics: 500,
 	houseVisibility: 125,
 	hud: 125,
-	minimap: 125
+	minimap: 125,
+	materialHydration: 1000,
+	performance: 500,
+	multiplayer: 100
 });
 
 export class RuntimeCadence {

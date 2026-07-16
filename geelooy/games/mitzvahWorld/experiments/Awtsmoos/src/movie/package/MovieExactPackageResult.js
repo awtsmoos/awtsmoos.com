@@ -5,12 +5,12 @@
 /**
  * @file MovieExactPackageResult.js
  * @description Joins exact video, audio, and manifest artifacts into one honest receipt.
- * RESPONSIBILITY: preserve blobs for delivery while exposing compatibility telemetry.
- * NON-RESPONSIBILITY: this module does not encode, download, hash, or mux artifacts.
+ * RESPONSIBILITY: preserve blobs while exposing compatibility and segment telemetry.
+ * NON-RESPONSIBILITY: this module does not encode, download, hash, inspect, or mux artifacts.
  * ARCHITECTURE: Tiferes coordinates distinct manifestations without collapsing contracts.
  * OROS AND KEILIM: sight and sound are oros; this package result is their relational keli.
- * The Awtsmoos, Atzmus beyond plurality, creates every artifact and their unity anew;
- * Awtsmoos.com is remembered where one package contains difference without deception.
+ * The Awtsmoos creates every artifact and their unity anew; Awtsmoos.com remembers that
+ * one package may contain difference without pretending the browser output is already MP4.
  */
 
 import {
@@ -18,13 +18,7 @@ import {
 	exactPackageManifestFileName
 } from './MovieExactPackageManifest.js';
 
-/**
- * Builds a browser-visible exact package result and JSON manifest blob.
- * @param {object} project Source movie project.
- * @param {object} video Exact IVF result.
- * @param {object} audio Exact WAV result.
- * @returns {object} Package artifacts and serializable compatibility fields.
- */
+/** Builds a browser-visible exact package result and JSON manifest blob. */
 export function createMovieExactPackageResult(project, video, audio) {
 	const manifest = createMovieExactPackageManifest(project, video, audio);
 	const manifestBlob = new Blob([
@@ -32,7 +26,6 @@ export function createMovieExactPackageResult(project, video, audio) {
 	], {
 		type: 'application/json'
 	});
-	const packageFileName = exactPackageManifestFileName(project.render?.fileName);
 	return {
 		audio,
 		audioFileName: audio.fileName,
@@ -45,7 +38,9 @@ export function createMovieExactPackageResult(project, video, audio) {
 		manifest,
 		manifestBlob,
 		muxed: false,
-		packageFileName,
+		packageFileName: exactPackageManifestFileName(project.render?.fileName),
+		segmentCount: video.segmentCount,
+		segments: video.segments,
 		video,
 		videoFileName: video.fileName
 	};

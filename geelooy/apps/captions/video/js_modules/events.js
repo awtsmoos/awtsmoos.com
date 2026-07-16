@@ -1,75 +1,83 @@
-/* B"H */
-import { DOM } from './config.js';
-import { triggerRender, triggerPreview } from './actions.js';
-import { updateUI, hideMobilePreview, setStatus } from './ui.js';
-import { AppState } from './state.js';
-import { saveSettings, savePreset, deletePreset, applyPreset } from './storage.js';
-import { initWorker } from './worker_client.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @module CaptionStudioEvents
+ * @description
+ * The Awtsmoos binds one coherent core loop for rendering, settings, source
+ * choice, randomization, cancellation, and focused asynchronous operations.
+ */
+
+import { DOM } from "./config.js";
+import { AppState } from "./state.js";
+import { triggerPreview, triggerRender } from "./renderActions.js";
+import { hideMobilePreview, setStatus, updateUI } from "./ui.js";
+import { initWorker } from "./worker_client.js";
+import { saveSettings } from "./storage.js";
+import { randomizeAll, randomizeSection } from "./randomize.js";
+import {
+	cacheSrt,
+	chooseFolder,
+	deleteNamedPreset,
+	loadNamedPreset,
+	saveNamedPreset
+} from "./eventOperations.js";
 
 export function attachEvents() {
-    // --- Main Buttons ---
-    if(DOM.renderButton) DOM.renderButton.addEventListener('click', () => triggerRender());
-    if(DOM.previewButton) DOM.previewButton.addEventListener('click', () => triggerPreview(true));
-    
-    // --- Mobile Close ---
-    if(DOM.mobileCloseBtn) DOM.mobileCloseBtn.addEventListener('click', hideMobilePreview);
-    if(DOM.cancelButton) DOM.cancelButton.addEventListener('click', () => {
-        initWorker(); // Hard reset
-        hideMobilePreview();
-    });
+	DOM.renderButton?.addEventListener("click", triggerRender);
+	DOM.previewButton?.addEventListener("click", () => triggerPreview(true));
+	DOM.mobileCloseBtn?.addEventListener("click", hideMobilePreview);
+	DOM.cancelButton?.addEventListener("click", cancelRender);
+	DOM.controlsDiv?.addEventListener("input", handleInput);
+	DOM.controlsDiv?.addEventListener("change", handleChange);
+	DOM.selectDownloadFolderButton?.addEventListener("click", chooseFolder);
+	DOM.savePresetBtn?.addEventListener("click", saveNamedPreset);
+	DOM.deletePresetBtn?.addEventListener("click", deleteNamedPreset);
+	DOM.presetSelect?.addEventListener("change", loadNamedPreset);
+	DOM.randomizeAllBtn?.addEventListener("click", randomizeAll);
+	DOM.srtFile?.addEventListener("change", event => cacheSrt(event, "main"));
+	DOM.translationSrtFile?.addEventListener("change", event => cacheSrt(event, "trans"));
+	document.querySelectorAll(".fieldset-randomize").forEach(button => {
+		button.addEventListener("click", () => randomizeSection(button.closest("fieldset")));
+	});
+}
 
-    // --- Inputs Auto-Save & Auto-Preview ---
-    if(DOM.controlsDiv) {
-        DOM.controlsDiv.addEventListener('input', (e) => {
-            saveSettings(AppState);
-            
-            // Update Slider Text
-            if(e.target.type === 'range') {
-                const grp = e.target.closest('.control-group, .slider-group');
-                const val = grp?.querySelector('.value-display') || grp?.querySelector('span'); // fallback
-                // Only if it has an ID ending in Value usually
-                const specificDisplay = document.getElementById(e.target.id + 'Value');
-                if(specificDisplay) specificDisplay.textContent = e.target.value;
-            }
+function handleInput(event) {
+	updateValueDisplay(event.target);
+	saveSettings(AppState);
+	window.clearTimeout(AppState.previewTimer);
+	AppState.previewTimer = window.setTimeout(() => {
+		if (AppState.status === "IDLE") {
+			triggerPreview(false);
+		}
+	}, 400);
+}
 
-            // Debounce Preview
-            if(AppState.previewTimer) clearTimeout(AppState.previewTimer);
-            AppState.previewTimer = setTimeout(() => {
-                if(AppState.status === 'IDLE') triggerPreview(false);
-            }, 400);
-        });
+function handleChange(event) {
+	if (event.target.matches("[data-caption-source]")) {
+		DOM.captionSource.value = event.target.value;
+	}
+	saveSettings(AppState);
+	updateUI(AppState);
+	if (AppState.status === "IDLE") {
+		triggerPreview(false);
+	}
+}
 
-        DOM.controlsDiv.addEventListener('change', () => {
-            saveSettings(AppState);
-            updateUI(AppState);
-            if(AppState.status === 'IDLE') triggerPreview(false);
-        });
-    }
+function updateValueDisplay(control) {
+	if (control.type !== "range") {
+		return;
+	}
+	const display = document.getElementById(`${control.id}Value`);
+	if (display) {
+		display.textContent = control.value;
+	}
+}
 
-    // --- Directory Picker ---
-    if(DOM.selectDownloadFolderButton) {
-        DOM.selectDownloadFolderButton.addEventListener('click', async () => {
-            if('showDirectoryPicker' in window) {
-                try {
-                    AppState.dirHandle = await window.showDirectoryPicker();
-                    if(DOM.folderDisplay) DOM.folderDisplay.textContent = "Selected: " + AppState.dirHandle.name;
-                } catch(e) { /* Cancelled */ }
-            } else {
-                alert("Browser not supported.");
-            }
-        });
-    }
-
-    // --- Presets ---
-    if(DOM.savePresetBtn) DOM.savePresetBtn.addEventListener('click', () => savePreset(AppState));
-    if(DOM.deletePresetBtn) DOM.deletePresetBtn.addEventListener('click', () => deletePreset(AppState));
-    if(DOM.presetSelect) DOM.presetSelect.addEventListener('change', (e) => applyPreset(AppState, e.target.value));
-
-    // --- File Readers (Cache Text) ---
-    if(DOM.srtFile) DOM.srtFile.addEventListener('change', async (e) => {
-        if(e.target.files[0]) AppState.srtText.main = await e.target.files[0].text();
-    });
-    if(DOM.translationSrtFile) DOM.translationSrtFile.addEventListener('change', async (e) => {
-        if(e.target.files[0]) AppState.srtText.trans = await e.target.files[0].text();
-    });
+function cancelRender() {
+	initWorker();
+	AppState.status = "IDLE";
+	updateUI(AppState);
+	hideMobilePreview();
+	setStatus("Render cancelled. The local engine is ready again.", "warning");
 }

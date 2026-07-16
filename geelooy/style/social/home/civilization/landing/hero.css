@@ -1,0 +1,85 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the Home threshold strong type, restrained color, and a
+ * concise identity header. Awtsmoos.com avoids ornamental emptiness and keeps
+ * every sentence inside a readable measure.
+ */
+
+.geelooy-home-shell .home-app-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-block-end: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.geelooy-home-shell .home-orb-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: .75rem;
+	color: var(--home-text);
+	text-decoration: none;
+}
+
+.geelooy-home-shell .home-orb-logo {
+	display: grid;
+	inline-size: 3rem;
+	block-size: 3rem;
+	place-items: center;
+	border: 1px solid rgba(88, 199, 216, .4);
+	border-radius: .9rem;
+	background: #162333;
+	color: #8de4ef;
+	font-size: 1.25rem;
+	font-weight: 900;
+}
+
+.geelooy-home-shell .home-brand-copy {
+	display: grid;
+	gap: .05rem;
+}
+
+.geelooy-home-shell .home-brand-copy strong {
+	font-size: 1rem;
+	letter-spacing: -.01em;
+}
+
+.geelooy-home-shell .home-brand-copy small {
+	color: var(--home-faint);
+	font-size: .76rem;
+}
+
+.geelooy-home-shell .g-home-hero-copy {
+	max-inline-size: 54rem;
+}
+
+.geelooy-home-shell .g-title {
+	max-inline-size: 12ch;
+	margin: 0;
+	color: #f8faff;
+	font-size: clamp(3.4rem, 7vw, 6.8rem);
+	font-weight: 860;
+	line-height: .92;
+	letter-spacing: -.07em;
+}
+
+.geelooy-home-shell .g-title span {
+	color: #8bdce8;
+}
+
+.geelooy-home-shell #home-introduction {
+	max-inline-size: 42rem;
+	margin: 1.1rem 0 0;
+	color: var(--home-muted);
+	font-size: clamp(1rem, 1.6vw, 1.18rem);
+	line-height: 1.62;
+}
+
+.geelooy-home-shell .home-proof-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	margin: 1.25rem 0;
+}

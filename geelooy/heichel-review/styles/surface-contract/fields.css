@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Review filters, decision notes, assignments, invitations, and policy fields
+ * render as final dark instruments throughout Awtsmoos.com.
+ */
+
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+	min-block-size: 48px;
+	border: 1px solid rgba(255, 255, 255, .22) !important;
+	border-radius: .78rem !important;
+	background: #172333 !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
+	color: #f5f7fb !important;
+	font-size: max(16px, 1rem);
+	transition: none !important;
+}
+
+textarea {
+	min-block-size: 8rem;
+}
+
+:where(input, textarea)::placeholder {
+	color: #94a2b7 !important;
+	opacity: 1;
+}
+
+:where(input, textarea, select):focus-visible {
+	border-color: #58c7d8 !important;
+	background: #192738 !important;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16) !important;
+}
+
+:where(button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .45rem;
+	min-inline-size: 44px;
+	min-block-size: 46px;
+	padding: .68rem .85rem;
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: .75rem;
+	background: #182536;
+	box-shadow: none;
+	color: #f5f7fb;
+	font-weight: 800;
+	transition: none !important;
+}
+
+:where(button):is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .62);
+	background: #1d2c3e;
+	color: #b9f0f6;
+}

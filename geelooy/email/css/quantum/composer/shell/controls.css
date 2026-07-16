@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Mail mode tabs and window controls render as immediate filled actions with
+ * full touch doorways throughout Awtsmoos.com.
+ */
+
+.composer-topbar {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .55rem;
+	padding: .5rem .6rem;
+	border-bottom: 1px solid rgba(50, 231, 255, .12);
+	background: #101b28;
+}
+
+.composer-tabs,
+.composer-window-controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+.mode-tab,
+.icon-btn,
+.win-ctrl {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	padding: .62rem .72rem !important;
+	border: 1px solid rgba(255, 255, 255, .14) !important;
+	border-radius: .68rem !important;
+	background: #182536 !important;
+	box-shadow: none !important;
+	color: var(--mail-muted) !important;
+	font: 800 .76rem/1 var(--font-ui, Inter, ui-sans-serif, system-ui, sans-serif) !important;
+	letter-spacing: .035em;
+	cursor: pointer;
+	transition: none !important;
+}
+
+.icon-btn,
+.win-ctrl {
+	inline-size: 44px;
+	padding: 0 !important;
+	font-size: .92rem !important;
+}
+
+.mode-tab:is(:hover, :focus-visible),
+.mode-tab.active,
+.mode-tab[aria-pressed="true"],
+.icon-btn:is(:hover, :focus-visible),
+.win-ctrl:is(:hover, :focus-visible) {
+	border-color: rgba(50, 231, 255, .5) !important;
+	background: rgba(50, 231, 255, .12) !important;
+	color: var(--mail-cyan) !important;
+}
+
+@media (max-width: 620px) {
+	.composer-topbar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.composer-tabs,
+	.composer-window-controls {
+		overflow-x: auto;
+		flex-wrap: nowrap;
+		scrollbar-width: thin;
+	}
+}

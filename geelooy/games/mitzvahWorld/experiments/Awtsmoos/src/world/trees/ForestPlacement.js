@@ -3,6 +3,8 @@
  * @file ForestPlacement.js
  * @description Deterministic terrain placement against measured world truth.
  */
+import { VILLAGE_REFERENCE_CLEARINGS } from '../village/VillageReferenceComposition.js';
+
 const GOLDEN_TURN = .6180339887498949;
 
 function hash(index, seed, channel = 0) {
@@ -91,7 +93,7 @@ export function createForestPlacements(policies, options) {
 		let accepted = null;
 		for (let attempt = 0; attempt < 180 && !accepted; attempt += 1) {
 			const point = candidate(policy.index, attempt, seed, halfSize);
-			if (Math.hypot(point.x, point.z) < 32) { rejections.spawn += 1; continue; }
+			if (violatesVillageClearing(point)) { rejections.spawn += 1; continue; }
 			if (distanceToRoad(point, roadTriangles) < 5.4) { rejections.road += 1; continue; }
 			if (bounds.some((box) => distanceToBounds(point, box) < 4.8)) { rejections.obstacle += 1; continue; }
 			const sample = options.groundSampler.heightAt(point.x, point.z);
@@ -107,8 +109,17 @@ export function createForestPlacements(policies, options) {
 	return {
 		placements,
 		rejections,
-		sources: ['road-collider-triangles', 'obstacle-collider-bounds', 'terrain-normal', 'spawn-clearance']
+		sources: ['road-collider-triangles', 'obstacle-collider-bounds', 'terrain-normal', 'district-clearing-and-camera-clearance']
 	};
+}
+
+function violatesVillageClearing(point) {
+	if (Math.hypot(point.x, point.z) < 32) return true;
+	return VILLAGE_REFERENCE_CLEARINGS.some((clearing) => {
+		const cameraBuffer = clearing.id === 'arrival-spawn' ? 20 : 8;
+		return Math.hypot(point.x - clearing.x, point.z - clearing.z)
+			< clearing.radius + cameraBuffer;
+	});
 }
 
 export default createForestPlacements;

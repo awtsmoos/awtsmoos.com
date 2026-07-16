@@ -1,19 +1,24 @@
-/* B"H — shared Geelooy product system, now ending in the unified chamber law. */
-@import "/style/social-system/colors.css";
-@import "/style/social-system/spacing.css";
-@import "/style/social-system/typography.css";
-@import "/style/social-system/layout.css";
-@import "/style/social-system/grids.css";
-@import "/style/social-system/cards.css";
-@import "/style/social-system/buttons.css";
-@import "/style/social-system/forms.css";
-@import "/style/social-system/navigation.css";
-@import "/style/social-system/accessibility.css";
-@import "/style/social-system/utilities.css";
-@import "/style/social-system/animations.css";
-@import "/style/social-system/desktop.css";
-@import "/style/social-system/mobile.css";
-@import "/style/social-system/app-clean.css";
-@import "/style/social-system/future-surface.css";
-@import "/style/social-system/view-flow/index.css";
-@import "/style/geelooy-system/index.css?v=system-003";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers one focused social system for Awtsmoos.com. Historical
+ * future-surface, view-flow, and geelooy-system generations remain available to
+ * explicit owners, but no longer override every live social route by default.
+ */
+
+@import "/style/social-system/colors.css?v=social-core-006";
+@import "/style/social-system/spacing.css?v=social-core-006";
+@import "/style/social-system/typography.css?v=social-core-006";
+@import "/style/social-system/layout.css?v=social-core-006";
+@import "/style/social-system/grids.css?v=social-core-006";
+@import "/style/social-system/cards.css?v=social-core-006";
+@import "/style/social-system/buttons.css?v=social-core-006";
+@import "/style/social-system/forms.css?v=social-core-006";
+@import "/style/social-system/navigation.css?v=social-core-006";
+@import "/style/social-system/accessibility.css?v=social-core-006";
+@import "/style/social-system/utilities.css?v=social-core-006";
+@import "/style/social-system/animations.css?v=social-core-006";
+@import "/style/social-system/desktop.css?v=social-core-006";
+@import "/style/social-system/mobile.css?v=social-core-006";
+@import "/style/social-system/app-clean.css?v=social-core-006";

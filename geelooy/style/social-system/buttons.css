@@ -1,106 +1,96 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Shared actions become stable instruments with icon vessels and clear state.
+ *
+ * Every social action arrives in its final readable state without transparent
+ * frames, jumping hover motion, undefined tokens, or browser-gray controls.
  */
-a,
-button {
+
+:where(a, button, input[type="button"], input[type="submit"], input[type="reset"]) {
 	font: inherit;
 }
-:where(button, .btn, .button, .premium-button, .profile-primary-action, .spaces-create, .space-actions a, .home-empty-actions a, .profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a) {
+
+:where(.g-button, .p-button, .btn, .button, .premium-button, .profile-primary-action, .spaces-create, .space-actions a, .home-empty-actions a, .profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: .5rem;
-	min-width: 44px;
-	min-height: 44px;
-	padding: .66rem .9rem;
-	border: 1px solid var(--g-border);
-	border-radius: var(--radius-m);
-	background: var(--awt-surface);
-	box-shadow: none;
-	color: var(--g-text);
-	cursor: pointer;
-	font-weight: 750;
+	min-inline-size: 44px;
+	min-block-size: 46px;
+	padding: .68rem .92rem;
+	border: 1px solid var(--g-border-strong, rgba(255, 255, 255, .22));
+	border-radius: .75rem;
+	background-color: #182536;
+	box-shadow: 0 .45rem 1.15rem rgba(0, 0, 0, .18);
+	color: var(--g-text, #f5f7fb);
+	font-weight: 800;
 	line-height: 1.15;
+	text-align: center;
 	text-decoration: none;
+	text-shadow: none;
 	user-select: none;
-	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
+	cursor: pointer;
+	transition: none;
 }
-:where(.button-icon, [data-button-icon]) {
+
+:where(.button-icon, [data-button-icon], [data-icon])::before {
 	display: grid;
-	width: 1.45rem;
-	height: 1.45rem;
+	inline-size: 1.4rem;
+	block-size: 1.4rem;
 	place-items: center;
-	border-radius: .45rem;
-	background: color-mix(in srgb, currentColor 9%, transparent);
+	border-radius: .4rem;
+	background: rgba(255, 255, 255, .08);
+	content: attr(data-icon);
 	font-size: .9em;
 	flex: 0 0 auto;
 }
-:where([data-icon])::before {
-	display: grid;
-	width: 1.45rem;
-	height: 1.45rem;
-	place-items: center;
-	border-radius: .45rem;
-	background: color-mix(in srgb, currentColor 9%, transparent);
-	content: attr(data-icon);
-	font-size: .9em;
+
+:where(.g-button-primary, .p-button-primary, .is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary, .profile-primary-action, .spaces-create) {
+	border-color: #58c7d8;
+	background-color: #58c7d8;
+	box-shadow: 0 .55rem 1.35rem rgba(88, 199, 216, .18);
+	color: #061018;
+	font-weight: 880;
 }
-:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary, .profile-primary-action, .spaces-create) {
-	border-color: var(--g-accent);
-	background: var(--g-accent);
-	color: #fff;
-}
-:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary):not(.icon-only)::after {
-	content: "→";
-	font-weight: 900;
-	transition: transform var(--motion-fast) var(--ease-snap);
-}
-:where(.is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary):is(:hover, :focus-visible)::after {
-	transform: translateX(2px);
-}
+
 :where(.is-danger, .button-danger, [data-variant="danger"]) {
-	border-color: color-mix(in srgb, var(--awt-danger) 45%, transparent);
-	background: color-mix(in srgb, var(--awt-danger) 10%, var(--awt-surface));
-	color: var(--awt-danger);
+	border-color: rgba(255, 120, 148, .48);
+	background-color: rgba(255, 120, 148, .12);
+	color: #ffb6c4;
 }
-:where(button, .btn, .button, .premium-button, .profile-command-rail a, .space-actions a):is(:hover, :focus-visible) {
-	border-color: var(--g-border-strong);
-	box-shadow: var(--shadow-card);
-	transform: translateY(var(--motion-hover-lift));
-}
-:where(button, .btn, .button, .premium-button):active {
-	box-shadow: none;
-	transform: translateY(var(--motion-press-depth));
-}
-:where(button, .btn, .button, .premium-button):disabled,
-:where(.btn, .button, .premium-button)[aria-disabled="true"] {
-	cursor: not-allowed;
-	opacity: .5;
-	box-shadow: none;
-	transform: none;
-}
-:where(button, .btn, .button, .premium-button)[aria-busy="true"] {
-	cursor: progress;
-}
-:where(button, .btn, .button, .premium-button)[aria-busy="true"]::before {
-	width: .85rem;
-	height: .85rem;
-	border: 2px solid currentColor;
-	border-right-color: transparent;
-	border-radius: 50%;
-	content: "";
-	animation: awt-button-spin .7s linear infinite;
-}
-@keyframes awt-button-spin {
-	to {
-		transform: rotate(1turn);
+
+@media (hover: hover) {
+	:where(.g-button, .p-button, .btn, .button, .premium-button):hover:not(:disabled) {
+		border-color: rgba(88, 199, 216, .62);
+		background-color: #1d2c3e;
+		color: #b9f0f6;
+	}
+
+	:where(.g-button-primary, .p-button-primary, .is-primary, .button-primary):hover:not(:disabled) {
+		background-color: #73d4e1;
+		color: #061018;
 	}
 }
-@media (pointer: coarse) {
-	:where(button, .btn, .button, .premium-button):hover {
+
+:where(.g-button, .p-button, .btn, .button, .premium-button):focus-visible {
+	border-color: #7ed7e5;
+	box-shadow: 0 0 0 3px rgba(126, 215, 229, .18);
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
+}
+
+:where(.g-button, .p-button, .btn, .button, .premium-button):disabled,
+:where(.g-button, .p-button, .btn, .button, .premium-button)[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .55;
+	box-shadow: none;
+}
+
+@media (forced-colors: active) {
+	:where(.g-button, .p-button, .btn, .button, .premium-button) {
+		background: ButtonFace;
+		border: 1px solid ButtonText;
 		box-shadow: none;
-		transform: none;
+		color: ButtonText;
 	}
 }

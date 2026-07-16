@@ -1,0 +1,915 @@
+[
+  {
+    "file": "geelooy/apps/nesher-studio/index.html",
+    "total": 94,
+    "counts": {
+      "input": 17,
+      "textarea": 1,
+      "select": 7,
+      "button": 69
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/piano/index.html",
+    "total": 59,
+    "counts": {
+      "input": 37,
+      "textarea": 0,
+      "select": 11,
+      "button": 11
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/brick-blast/index.html",
+    "total": 48,
+    "counts": {
+      "input": 7,
+      "textarea": 1,
+      "select": 2,
+      "button": 38
+    },
+    "styles": [
+      "/index.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/captions/video/index.html",
+    "total": 47,
+    "counts": {
+      "input": 35,
+      "textarea": 2,
+      "select": 3,
+      "button": 7
+    },
+    "styles": [
+      "css/variables.css",
+      "css/layout.css",
+      "css/components.css",
+      "css/effects.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/scribe-journey/index.html",
+    "total": 46,
+    "counts": {
+      "input": 13,
+      "textarea": 0,
+      "select": 0,
+      "button": 33
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/captions/index.html",
+    "total": 36,
+    "counts": {
+      "input": 31,
+      "textarea": 2,
+      "select": 2,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/heichel-review/index.html",
+    "total": 31,
+    "counts": {
+      "input": 14,
+      "textarea": 1,
+      "select": 3,
+      "button": 13
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/rebbe/index.html",
+    "total": 29,
+    "counts": {
+      "input": 5,
+      "textarea": 0,
+      "select": 1,
+      "button": 23
+    },
+    "styles": [
+      "styles/core.css",
+      "styles/main.css",
+      "styles/ui.css",
+      "styles/studio.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/lyric-sync/index.html",
+    "total": 27,
+    "counts": {
+      "input": 22,
+      "textarea": 2,
+      "select": 1,
+      "button": 2
+    },
+    "styles": [
+      "style.css",
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/shema-strike/index.html",
+    "total": 24,
+    "counts": {
+      "input": 5,
+      "textarea": 0,
+      "select": 3,
+      "button": 16
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/emojis/index.html",
+    "total": 23,
+    "counts": {
+      "input": 4,
+      "textarea": 3,
+      "select": 0,
+      "button": 16
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/compiler/index.html",
+    "total": 22,
+    "counts": {
+      "input": 7,
+      "textarea": 1,
+      "select": 9,
+      "button": 5
+    },
+    "styles": [
+      "style.css",
+      "native.css",
+      "evidence.css",
+      "responsive.css",
+      "accessibility.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/mitzvah-pushkuh/index.html",
+    "total": 19,
+    "counts": {
+      "input": 3,
+      "textarea": 1,
+      "select": 3,
+      "button": 12
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/chess/index.html",
+    "total": 17,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 16
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/city-of-light/index.html",
+    "total": 17,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 17
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/sulam-ha-sod/index.html",
+    "total": 17,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 16
+    },
+    "styles": [
+      "./css/game.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/index-old.html",
+    "total": 15,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 2,
+      "button": 11
+    },
+    "styles": [
+      "styles.css?v=ui-total-polish-2026-06-19-01"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/index.html",
+    "total": 15,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 2,
+      "button": 11
+    },
+    "styles": [
+      "styles.css?v=ui-total-polish-2026-06-30-ai-chat-local-revelation-01"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/Merkava/index.html",
+    "total": 14,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 1,
+      "button": 11
+    },
+    "styles": [
+      "./styles/game.css?version=20260713-8"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/animation/index.html",
+    "total": 12,
+    "counts": {
+      "input": 2,
+      "textarea": 2,
+      "select": 0,
+      "button": 8
+    },
+    "styles": [
+      "../css/legacy-pages.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/code/index.html",
+    "total": 12,
+    "counts": {
+      "input": 2,
+      "textarea": 1,
+      "select": 0,
+      "button": 9
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/nitzotz-io/index.html",
+    "total": 12,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 11
+    },
+    "styles": [
+      "./style.css?v=20260714_shlichus_1"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/sefira-clash/coop.html",
+    "total": 11,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 2,
+      "button": 7
+    },
+    "styles": [
+      "./css/coop.css",
+      "./css/coop-layout.css",
+      "./css/coop-components.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/sefira-clash/index.html",
+    "total": 11,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 2,
+      "button": 9
+    },
+    "styles": [
+      "./style.css",
+      "./css/expedition.css",
+      "./css/expedition-components.css",
+      "./css/expedition-services.css",
+      "./css/expedition-weather.css",
+      "./css/expedition-sync.css",
+      "./css/open-world.css",
+      "./css/open-world-services.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/tunnel/index.html",
+    "total": 10,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 10
+    },
+    "styles": [
+      "./css/tunnel.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/db/console/index.html",
+    "total": 10,
+    "counts": {
+      "input": 10,
+      "textarea": 0,
+      "select": 0,
+      "button": 0
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/cards/index.html",
+    "total": 10,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 9
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/audio-editor/index.html",
+    "total": 9,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 0,
+      "button": 7
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/csv/index.html",
+    "total": 7,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 6
+    },
+    "styles": [
+      "css/style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/animation/a.html",
+    "total": 6,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "../css/legacy-pages.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/animation/code (1).html",
+    "total": 6,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "../css/legacy-pages.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/animation/code (4).html",
+    "total": 6,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "../css/legacy-pages.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ai/animation/coy.html",
+    "total": 6,
+    "counts": {
+      "input": 1,
+      "textarea": 1,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "../css/legacy-pages.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/archive-uploader/index.html",
+    "total": 6,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "styles.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/bookCoverMaker/index.html",
+    "total": 6,
+    "counts": {
+      "input": 5,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/connect4/index.html",
+    "total": 6,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 6
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/video-editor/simpleer.html",
+    "total": 5,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/ayin/index.html",
+    "total": 5,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 2,
+      "button": 3
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/index.html",
+    "total": 5,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "/style/social/home/index.css?v=home-acceptance-005",
+      "/style/geelooy-app/home/composer/index.css?v=home-acceptance-005"
+    ],
+    "shared": true
+  },
+  {
+    "file": "geelooy/apps/exe-emulator/index.html",
+    "total": 4,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 3
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/transcribe/index.html",
+    "total": 4,
+    "counts": {
+      "input": 3,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/video-editor/index.html",
+    "total": 4,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 3
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/wallet/index.html",
+    "total": 4,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 3
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/chess/pgn_validator.html",
+    "total": 4,
+    "counts": {
+      "input": 0,
+      "textarea": 2,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/seven-mitzvos/index.html",
+    "total": 4,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "./styles/tokens.css",
+      "./styles/foundation.css",
+      "./styles/typography.css",
+      "./styles/landscape.css",
+      "./styles/components.css",
+      "./styles/game.css",
+      "./styles/game-board.css",
+      "./styles/game-motion.css",
+      "./styles/builder-shell.css",
+      "./styles/builder-hud.css",
+      "./styles/builder-status.css",
+      "./styles/builder-grid.css",
+      "./styles/builder-controls.css",
+      "./styles/builder-ledger.css",
+      "./styles/builder-motion.css",
+      "./styles/cards.css",
+      "./styles/dialog.css"
+    ],
+    "shared": true
+  },
+  {
+    "file": "geelooy/games/tetris/index.html",
+    "total": 4,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 4
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/byteViewer/index.html",
+    "total": 3,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [
+      "styles.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/watermark-remover/index.html",
+    "total": 3,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/control/index.html",
+    "total": 3,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 3
+    },
+    "styles": [
+      "styles.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/chess/debug/index.html",
+    "total": 3,
+    "counts": {
+      "input": 2,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/migdol/index.html",
+    "total": 3,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 3
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/gpt-api-pulse-garden/index.html",
+    "total": 2,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/index.html",
+    "total": 2,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 1,
+      "button": 0
+    },
+    "styles": [
+      "/style/geelooy-app/index.css?v=extreme-005",
+      "/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005",
+      "./style.css?v=app-001"
+    ],
+    "shared": true
+  },
+  {
+    "file": "geelooy/apps/merkava-native-browser/samples/browser-shell.html",
+    "total": 2,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/pdf-to-img/index.html",
+    "total": 2,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/tunnel-control/index.html",
+    "total": 2,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [
+      "./css/app.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/virtual-os-stress-light-counter/index.html",
+    "total": 2,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/awtai-db/index.html",
+    "total": 2,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/dove/index.html",
+    "total": 2,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 2
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/merkava-native-browser/samples/frontend.html",
+    "total": 1,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/apps/nesher-studio/benchmarks/encoding-benchmark.html",
+    "total": 1,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/chess/magic.html",
+    "total": 1,
+    "counts": {
+      "input": 0,
+      "textarea": 1,
+      "select": 0,
+      "button": 0
+    },
+    "styles": [],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/index.html",
+    "total": 1,
+    "counts": {
+      "input": 1,
+      "textarea": 0,
+      "select": 0,
+      "button": 0
+    },
+    "styles": [
+      "./style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/KAVANAH/index.html",
+    "total": 1,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  },
+  {
+    "file": "geelooy/games/Nachash/index.html",
+    "total": 1,
+    "counts": {
+      "input": 0,
+      "textarea": 0,
+      "select": 0,
+      "button": 1
+    },
+    "styles": [
+      "style.css"
+    ],
+    "shared": false
+  }
+]

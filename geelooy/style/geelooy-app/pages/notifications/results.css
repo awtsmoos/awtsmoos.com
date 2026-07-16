@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Notification and search results own dark cards, provenance accents, actions,
+ * unread states, and readable summaries throughout Awtsmoos.com.
+ */
+
+.notifications-list,
+.g-search-results {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: 1rem;
+}
+
+.notification,
+.g-search-result {
+	position: relative;
+	display: grid;
+	gap: .75rem;
+	padding: 1.1rem;
+	overflow: hidden;
+	border: 1px solid var(--g-border);
+	border-radius: 1rem;
+	background: #111b29;
+	box-shadow: 0 .7rem 1.8rem rgba(0, 0, 0, .22);
+	color: var(--g-text);
+}
+
+.notification::before,
+.g-search-result::before {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	inline-size: 3px;
+	background: linear-gradient(#58c7d8, #8b5cff, #d968ae);
+	content: "";
+	opacity: .34;
+}
+
+.notification-row-actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .6rem;
+	margin-block-start: .2rem;
+}
+
+.notification-row-actions :is(button, a) {
+	min-block-size: 44px;
+	border: 1px solid var(--g-border-strong);
+	border-radius: .75rem;
+	background: #182536;
+	color: var(--g-text);
+	font-weight: 800;
+}
+
+.notifications-summary,
+.g-search-status {
+	padding: .85rem 1rem;
+	border: 1px solid rgba(88, 199, 216, .2);
+	border-radius: .8rem;
+	background: rgba(88, 199, 216, .08);
+	color: var(--g-text-2);
+	font-weight: 760;
+}
+
+.notification.unread {
+	border-color: rgba(139, 92, 255, .54);
+	box-shadow: inset 3px 0 0 #8b5cff, 0 .8rem 2rem rgba(0, 0, 0, .28);
+}
+
+.notification.unread::before {
+	opacity: 1;
+}

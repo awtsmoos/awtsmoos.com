@@ -1,0 +1,43 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Members, invitations, and bounded policy controls share one readable dark
+ * governance vessel throughout Awtsmoos.com.
+ */
+
+:where(.policyGrid label, .invitationForm label, .memberControls label) {
+	min-block-size: 48px;
+	border-color: rgba(255, 255, 255, .14);
+	background: #131e2b;
+	color: #c6d2e2;
+}
+
+:where(.policyGrid label) {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+}
+
+:where(input[type="checkbox"], input[type="radio"]) {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	accent-color: #58c7d8;
+	flex: 0 0 auto;
+	transition: none !important;
+}
+
+@media (max-width: 680px) {
+	.pageHeader {
+		align-items: stretch;
+	}
+
+	:where(.identityControls, .decisionFields, .decisionActions) {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	:where(button) {
+		inline-size: 100%;
+	}
+}

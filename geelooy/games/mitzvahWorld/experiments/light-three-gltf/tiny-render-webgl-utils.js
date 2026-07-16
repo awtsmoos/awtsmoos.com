@@ -119,7 +119,7 @@ export function materialModeCode(mesh) {
 	const identity = materialIdentity(mesh);
 	if (policy.shader?.includes('water') || /water|lake|stream/.test(identity)) return 1;
 	if (policy.proceduralSky || /world-sky|sky_dome|atmosphere_dome/.test(identity)) return 4;
-	if (policy.practicalLightProxy || /lamp-pane|window-glow|fire|ember|flame/.test(identity)) return 3;
+	if (policy.practicalLightProxy || /lamp-pane|window|fire|ember|flame/.test(identity)) return 3;
 	if (policy.shader?.includes('wind') || policy.alpha?.includes('cutout') || /leaves|botanical|flower|petal|fern|reed|bush/.test(identity)) return 2;
 	return 0;
 }

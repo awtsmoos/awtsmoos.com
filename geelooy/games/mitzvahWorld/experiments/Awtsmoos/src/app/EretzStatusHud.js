@@ -10,6 +10,8 @@ export function refreshStatusHud(runtime) {
 		runtime.state.clip,
 		runtime.state.level,
 		`doors ${runtime.doors.map((door) => door.state).join('/')}`,
+		`camera ${runtime.orbit.currentDistance.toFixed(1)}m`,
+		`camera-hit ${runtime.orbit.stats.hitKind || 'clear'}`,
 		`x ${runtime.state.x.toFixed(1)}`,
 		`z ${runtime.state.z.toFixed(1)}`
 	].join(' • ');

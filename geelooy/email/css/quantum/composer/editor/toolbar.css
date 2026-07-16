@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Mail formatting tools form one compact horizontal instrument with full touch
+ * targets and final dark states throughout Awtsmoos.com.
+ */
+
+.composer-content {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	gap: .55rem;
+	padding: .65rem;
+}
+
+.visual-toolbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .35rem;
+	padding: .35rem;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: .78rem;
+	background: #101a27;
+}
+
+.visual-toolbar button {
+	display: grid !important;
+	inline-size: 44px;
+	block-size: 44px;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	place-items: center;
+	padding: 0 !important;
+	border: 1px solid rgba(255, 255, 255, .12) !important;
+	border-radius: .65rem !important;
+	background: #182536 !important;
+	box-shadow: none !important;
+	color: var(--mail-muted) !important;
+	font-weight: 850;
+	cursor: pointer;
+	transition: none !important;
+}
+
+.visual-toolbar button:is(:hover, :focus-visible),
+.visual-toolbar button[aria-pressed="true"] {
+	border-color: rgba(50, 231, 255, .48) !important;
+	background: rgba(50, 231, 255, .12) !important;
+	color: var(--mail-cyan) !important;
+}
+
+@media (max-width: 620px) {
+	.visual-toolbar {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: thin;
+	}
+}

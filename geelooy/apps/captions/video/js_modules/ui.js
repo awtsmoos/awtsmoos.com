@@ -1,55 +1,64 @@
-/* B"H */
-import { DOM, CTX } from './config.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @module CaptionStudioUI
+ * @description
+ * The Awtsmoos translates renderer state into visible, announced, recoverable
+ * studio truth without blur, blocking dialogs, or hidden control ambiguity.
+ */
 
-export function setStatus(msg, type = '') {
-    if (DOM.status) {
-        DOM.status.textContent = msg;
-        DOM.status.className = type;
-    }
+import { DOM } from "./config.js";
+
+export function setStatus(message, type = "") {
+	if (!DOM.status) {
+		return;
+	}
+	DOM.status.textContent = message;
+	DOM.status.className = type;
 }
 
-export function toggleClass(el, className, force) {
-    if (el) el.classList.toggle(className, force);
+export function toggleClass(element, className, force) {
+	element?.classList.toggle(className, force);
 }
 
 export function updateUI(state) {
-    const isIdle = state.status === 'IDLE';
-    const isVideo = DOM.renderMode ? DOM.renderMode.value === 'video' : true;
-    const isSrt = DOM.captionSource ? DOM.captionSource.value === 'srt' : false;
-    const isDl = DOM.enableImageDownload ? DOM.enableImageDownload.checked : false;
+	const idle = state.status === "IDLE";
+	const videoMode = DOM.renderMode?.value === "video";
+	const srtMode = DOM.captionSource?.value === "srt";
+	const dual = Boolean(DOM.dualCaptionToggle?.checked);
+	const folderDownload = Boolean(DOM.enableImageDownload?.checked);
+	const busy = !idle;
 
-    // Main States
-    toggleClass(DOM.controlsWrapper, 'rendering', !isIdle);
-    if(DOM.renderButton) DOM.renderButton.disabled = !isIdle;
-    if(DOM.previewButton) DOM.previewButton.disabled = !isIdle;
+	toggleClass(DOM.controlsWrapper, "rendering", busy);
+	toggleClass(DOM.appContainer, "rendering", busy);
+	DOM.renderButton.disabled = busy;
+	DOM.previewButton.disabled = busy;
+	DOM.cancelButton.disabled = idle;
+	DOM.progressContainer.hidden = idle;
 
-    // Visibility Toggles
-    // Safe-checked via toggleClass helper
-    toggleClass(document.getElementById('timing-controls'), 'hidden-control', !isVideo);
-    toggleClass(DOM.dualCaptionContainer, 'hidden-control', !isVideo);
-    toggleClass(DOM.folderControls, 'hidden-control', !isDl);
-    
-    toggleClass(DOM.simpleControls, 'hidden-control', isSrt);
-    toggleClass(DOM.srtControls, 'hidden-control', !isSrt);
+	toggleClass(document.getElementById("timing-controls"), "hidden-control", !videoMode);
+	toggleClass(DOM.dualCaptionContainer, "hidden-control", !videoMode);
+	toggleClass(DOM.translationCaptionField, "hidden-control", !dual || !videoMode);
+	toggleClass(DOM.folderControls, "hidden-control", !folderDownload);
+	toggleClass(DOM.simpleControls, "hidden-control", srtMode);
+	toggleClass(DOM.srtControls, "hidden-control", !srtMode);
 }
 
 export function showMobilePreview() {
-    if (DOM.previewWrapper) DOM.previewWrapper.classList.add('mobile-visible');
+	DOM.previewWrapper?.classList.add("mobile-visible");
 }
 
 export function hideMobilePreview() {
-    if (DOM.previewWrapper) DOM.previewWrapper.classList.remove('mobile-visible');
-    if (DOM.outputVideo) DOM.outputVideo.pause();
+	DOM.previewWrapper?.classList.remove("mobile-visible");
+	DOM.outputVideo?.pause();
 }
 
 export function switchVisuals(mode) {
-    if (!DOM.previewCanvas || !DOM.outputVideo) return;
-    
-    if (mode === 'canvas') {
-        DOM.previewCanvas.classList.remove('hidden');
-        DOM.outputVideo.classList.add('hidden');
-    } else {
-        DOM.previewCanvas.classList.add('hidden');
-        DOM.outputVideo.classList.remove('hidden');
-    }
+	if (!DOM.previewCanvas || !DOM.outputVideo) {
+		return;
+	}
+	const showCanvas = mode === "canvas";
+	DOM.previewCanvas.classList.toggle("hidden", !showCanvas);
+	DOM.outputVideo.classList.toggle("hidden", showCanvas);
 }

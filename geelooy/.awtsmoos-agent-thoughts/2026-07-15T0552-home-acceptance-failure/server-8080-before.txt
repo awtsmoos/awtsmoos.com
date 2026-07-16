@@ -1,0 +1,51 @@
+B"H
+--- lsof listener ---
+COMMAND   PID     USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    30064 awtsmoos   12u  IPv6 0xd9fb5f221d22a87      0t0  TCP *:8080 (LISTEN)
+--- matching processes ---
+  353     1 Ss   03-12:27:15 /System/Library/CoreServices/appleeventsd --server
+  952     1 Ss   03-12:26:36 /System/Library/CoreServices/CrashReporterSupportHelper server-init
+  953     1 Ss   03-12:26:36 /System/Library/CoreServices/SubmitDiagInfo server-init
+ 1049 89719 S       12:34:26 /Applications/ChatGPT.app/Contents/Resources/codex app-server --listen stdio://
+12541     1 SNs  01-22:04:58 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4177 --bind 127.0.0.1
+13316     1 SN   03-11:27:48 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4199 --bind 127.0.0.1
+13663     1 SN   03-11:26:53 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4201 --bind 127.0.0.1
+14967     1 S    03-11:21:29 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4203 --bind 127.0.0.1
+15378     1 SN   03-11:18:13 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4205 --bind 127.0.0.1
+15435     1 SNs  01-21:57:19 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python /tmp/awtsmoos-verification/alias_server.py
+15856     1 SN   03-11:16:02 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4207 --bind 127.0.0.1
+16609     1 SN   01-17:46:46 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 8792 --bind 127.0.0.1
+17364     1 SN   03-11:11:32 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4209 --bind 127.0.0.1
+17704     1 SNs  01-21:51:30 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python /tmp/awtsmoos-verification/alias_server_final.py
+18483     1 SN   02-23:40:56 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4193 --bind 127.0.0.1
+18741     1 SN   03-11:08:09 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4211 --bind 127.0.0.1
+24868     1 SN   02-23:12:01 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4194 --bind 127.0.0.1
+25119     1 SN   03-10:41:16 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 8765 --directory /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/ohr-hagnuz
+27886     1 S    03-10:32:45 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 5184 --bind 127.0.0.1
+28854  9847 S          03:50 node /Users/awtsmoos/.awtsmoos-tunnel/awtsmoos-agent-launcher.cjs /Users/awtsmoos/.awtsmoos-tunnel
+30060 30027 SN         00:36 /bin/bash /Users/awtsmoos/Documents/dayuhChadash-review/awtsmoosdb-reclaim-20260712T010855-0700/tools/managed_production_server.sh
+30064 30060 RN         00:36 /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node index.js
+30164 30060 SN         00:27 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python /Users/awtsmoos/Documents/dayuhChadash-review/awtsmoosdb-reclaim-20260712T010855-0700/tools/warm_rag_readiness.py http://127.0.0.1:8080/api/social /Users/awtsmoos/Documents/dayuhChadash-review/awtsmoosdb-reclaim-20260712T010855-0700/evidence/managed-production-warmup-current.json
+30373 28854 SNs        00:02 /bin/sh -c set -u\012OUT='geelooy/.awtsmoos-agent-thoughts/2026-07-15T0552-home-acceptance-failure/server-8080-before.txt'\012{\012\011printf '%s\n' 'B"H'\012\011printf '%s\n' '--- lsof listener ---'\012\011lsof -nP -iTCP:8080 -sTCP:LISTEN || true\012\011printf '%s\n' '--- matching processes ---'\012\011ps -axo pid,ppid,stat,etime,command | grep -E '[8]080|http.server|serve|vite|webpack|node' || true\012\011printf '%s\n' '--- bounded root request ---'\012\011curl --max-time 3 -sS -D - -o /dev/null -w 'http=%{http_code} seconds=%{time_total}\n' 'http://127.0.0.1:8080/' || true\012\011printf '%s\n' '--- bounded worker request ---'\012\011curl --max-time 3 -sS -D - -o /dev/null -w 'http=%{http_code} seconds=%{time_total}\n' 'http://127.0.0.1:8080/apps/captions/video/ein_sof_worker.js?server-diagnostic=1' || true\012} > "$OUT" 2>&1\012printf '%s\n' "$OUT"
+30388 30373 SN         00:01 grep -E [8]080|http.server|serve|vite|webpack|node
+30389  9847 R          00:01 (node)
+30868     1 SN      21:30:09 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4187 --bind 127.0.0.1 --directory geelooy
+31436 89719 S       04:06:17 /Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node --experimental-vm-modules /var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/.tmpk8CCrv/kernel.js --session-id 8efe12409e6c4d0493ab7b38a040c3fa --working-dir /Users/awtsmoos/Documents/Codex/2026-07-14/b-h-fix-fps-must-be
+48108     1 SN   01-01:01:07 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 5181 --bind 127.0.0.1 --directory geelooy
+80931     1 SN   01-19:56:17 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 8791 --bind 127.0.0.1
+89438 87144 S       12:49:17 /Applications/ChatGPT.app/Contents/Resources/codex -c features.code_mode_host=true app-server --analytics-default-enabled
+89719 89438 S       12:48:29 /Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl
+89720 89438 S       12:48:29 node ./mcp/server.mjs
+96214     1 SN   03-03:12:14 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 5180 --bind 127.0.0.1
+96572     1 SN   01-23:38:46 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 4173 --bind 127.0.0.1
+98027 89438 S       01:20:55 node ./mcp/server.mjs
+98028 89438 S       01:20:55 /Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl
+99568     1 Ss      12:36:14 adb -L tcp:5037 fork-server server --reply-fd 4
+29513 89438 Ss+     07:38:03 node -e const socket=new WebSocket("ws://127.0.0.1:8080");let sequence=0;let revision=0;const send=(type,payload)=>socket.send(JSON.stringify({application:"mitzvah-world",protocol:"awtsmoos.realtime",version:1,requestId:`proof614-${++sequence}`,sequence,type,payload}));socket.addEventListener("open",()=>send("world.join",{displayName:"Browser Proof Shliach",joinKey:"614614614614614614614614614614614614614614614614",worldId:"codex-realism-proof-614"}));socket.addEventListener("message",event=>{const message=JSON.parse(event.data);revision=message.payload?.world?.revision??message.payload?.delta?.revision??revision;console.log(message.type,revision,message.payload?.world?.players?.map(p=>`${p.id}:${p.connected}`).join(","));if(message.type==="world.joined")setInterval(()=>send("world.heartbeat",{lastAcknowledgedRevision:revision}),4000)});setInterval(()=>{},60000)
+60790 89438 Ss+     02:52:06 /usr/local/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m http.server 8090 --bind 127.0.0.1
+--- bounded root request ---
+curl: (28) Operation timed out after 3013 milliseconds with 0 bytes received
+http=000 seconds=3.012298
+--- bounded worker request ---
+curl: (28) Operation timed out after 3010 milliseconds with 0 bytes received
+http=000 seconds=3.011000

@@ -1,8 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Performance policy ends every app manifest with effects, containment, and lean law.
+ *
+ * Performance policy ends the application manifest with bounded effects,
+ * containment, and a lean profile that disables motion outright instead of
+ * freezing controls at browser-default first frames on Awtsmoos.com.
  */
-@import "./performance/effects.css?v=unified-ui-001";
-@import "./performance/containment.css?v=unified-ui-001";
-@import "./performance/lean.css?v=unified-ui-001";
+
+@import "./performance/effects.css?v=performance-010";
+@import "./performance/containment.css?v=performance-010";
+@import "./performance/lean.css?v=performance-010";

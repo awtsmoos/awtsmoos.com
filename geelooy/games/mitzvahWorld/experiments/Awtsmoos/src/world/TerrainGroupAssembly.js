@@ -15,7 +15,6 @@
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createPrimitiveMesh } from './Box3D.js';
-import { createEdgeOverlay } from './EdgeOverlay.js';
 import { createTerrainMesh } from './TerrainMesh.js';
 
 /**
@@ -51,8 +50,4 @@ export function createTerrainGroup(options, grassTextureUrl) {
 
 function addDefinition(group, definition) {
 	group.add(createPrimitiveMesh(definition));
-
-	if (!definition.noEdge) {
-		group.add(createEdgeOverlay(definition));
-	}
 }

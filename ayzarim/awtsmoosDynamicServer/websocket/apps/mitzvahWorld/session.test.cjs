@@ -38,6 +38,7 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	);
 	const session = joined.payload.session;
 	const playerId = joined.payload.playerId;
+	assert.equal(joined.payload.world.players.find(player => player.id === playerId).connected, true);
 	assert.match(session.resumeToken, /^[A-Za-z0-9_-]{24,128}$/);
 	assert.equal(JSON.stringify(joined.payload.world).includes(session.resumeToken), false);
 
@@ -52,6 +53,11 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	};
 	await sendRequest(platform, first, 'quest.interact', interaction, 'objective-one', 3);
 	await platform.disconnect(first);
+	assert.equal(
+		directory.rooms.get('main-village').snapshot().players
+			.find(player => player.id === playerId).connected,
+		false
+	);
 
 	const mismatch = createClient('wrong-world');
 	await sendRequest(platform, mismatch, 'world.join', {
@@ -68,6 +74,7 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	assert.equal(resumed.payload.playerId, playerId);
 	assert.equal(resumed.payload.resumed, true);
 	assert.equal(resumed.payload.session.id, session.id);
+	assert.equal(resumed.payload.world.players.find(player => player.id === playerId).connected, true);
 
 	const duplicate = await sendRequest(
 		platform,

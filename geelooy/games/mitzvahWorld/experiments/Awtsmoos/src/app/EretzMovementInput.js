@@ -1,4 +1,18 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EretzMovementInput.js
+ * @description Converts standard first-person input into camera-relative player movement.
+ * RESPONSIBILITY: synchronize facing with view yaw and calculate normalized WASD/joystick deltas.
+ * NON-RESPONSIBILITY: this module does not resolve collision, animation, or rendering quality.
+ * ARCHITECTURE: Tiferes joins seeing and walking while Gevurah normalizes speed and slopes.
+ * OROS AND KEILIM: embodied direction is ohr; facing vectors and bounded deltas are keilim.
+ * The Awtsmoos creates sight and motion as one mission; Awtsmoos.com lets the shliach walk
+ * exactly where the first-person camera looks without removing legacy orbit compatibility.
+ */
+
 import {
 	MAX_SLOPE_NORMAL,
 	MAX_STEP,
@@ -8,20 +22,18 @@ import {
 	WALK_SPEED
 } from './EretzConstants.js';
 
-const KEYBOARD_TURN_SPEED = 2.85;
+const KEYBOARD_LOOK_SPEED = 2.85;
 
-/**
- * Converts input into player-relative movement.
- * A/D rotate the player vessel; Q/E strafe; both mouse buttons walk toward camera aim.
- */
 export function movementDelta(runtime, deltaTime) {
 	const axis = runtime.input.axis();
-	applyPlayerRotation(runtime, axis, deltaTime);
+	applyViewRotation(runtime, axis, deltaTime);
 	const joystick = runtime.joystick.vector;
-	const facing = playerFacing(runtime.state.facing);
-	const right = { x: Math.cos(runtime.state.facing), z: -Math.sin(runtime.state.facing) };
+	const facingYaw = movementFacing(runtime);
+	const facing = playerFacing(facingYaw);
+	const right = { x: Math.cos(facingYaw), z: -Math.sin(facingYaw) };
 	const forwardAmount = -(axis.y + joystick.y * joystick.magnitude);
-	const sideAmount = SIDE_SIGN * (axis.x + joystick.x * joystick.magnitude);
+	const sideAmount = movementSideSign(runtime)
+		* (axis.x + joystick.x * joystick.magnitude);
 	let x = right.x * sideAmount + facing.x * forwardAmount;
 	let z = right.z * sideAmount + facing.z * forwardAmount;
 	const length = Math.hypot(x, z);
@@ -30,11 +42,12 @@ export function movementDelta(runtime, deltaTime) {
 	}
 	x /= length;
 	z /= length;
-	if (Math.abs(forwardAmount) > 0.05 && Math.abs(sideAmount) < 0.05) {
-		runtime.state.facing = Math.atan2(x, z);
-	}
+	runtime.state.facing = facingYaw;
 	const speed = runtime.state.runMode ? RUN_SPEED : WALK_SPEED;
-	return { x: x * deltaTime * speed, z: z * deltaTime * speed };
+	return {
+		x: x * deltaTime * speed,
+		z: z * deltaTime * speed
+	};
 }
 
 export function stepStateFor(state, target, difference) {
@@ -53,18 +66,38 @@ export function stepStateFor(state, target, difference) {
 	return 'flat';
 }
 
-function applyPlayerRotation(runtime, axis, deltaTime) {
+function applyViewRotation(runtime, axis, deltaTime) {
+	const keyboardLook = axis.turn * KEYBOARD_LOOK_SPEED * deltaTime;
+	if (keyboardLook) {
+		runtime.orbit.yaw += keyboardLook;
+	}
+	if (!runtime.orbit.isFirstPerson?.()) {
+		applyLegacyPlayerRotation(runtime, axis, deltaTime);
+	}
+}
+
+function applyLegacyPlayerRotation(runtime, axis, deltaTime) {
 	const pointer = runtime.input.pointer || {};
 	const rightDragTurn = pointer.right && !pointer.bothMain
 		? -(pointer.movementX || 0) * 0.007
 		: 0;
-	const keyboardTurn = axis.turn * KEYBOARD_TURN_SPEED * deltaTime;
+	const keyboardTurn = axis.turn * KEYBOARD_LOOK_SPEED * deltaTime;
 	if (keyboardTurn || rightDragTurn) {
 		runtime.state.facing += keyboardTurn + rightDragTurn;
 	}
 	if (pointer.bothMain) {
 		runtime.state.facing = runtime.orbit.yaw;
 	}
+}
+
+function movementFacing(runtime) {
+	return runtime.orbit.isFirstPerson?.()
+		? runtime.orbit.yaw
+		: runtime.state.facing;
+}
+
+function movementSideSign(runtime) {
+	return runtime.orbit.isFirstPerson?.() ? 1 : SIDE_SIGN;
 }
 
 function playerFacing(yaw) {

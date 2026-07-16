@@ -1,16 +1,18 @@
 {
 	"version": 1,
-	"title": "Emerald Village \u2014 The Three Minute Shlichus",
+	"title": "Emerald Village — Three Minute Shlichus",
 	"duration": 180,
-	"fps": 24,
+	"fps": 60,
 	"resolution": {
-		"width": 1280,
-		"height": 720
+		"width": 1920,
+		"height": 1080
 	},
 	"seed": 613,
 	"render": {
 		"fileName": "emerald-village-shlichus-180s.mp4",
-		"videoBitsPerSecond": 6500000
+		"videoBitsPerSecond": 28000000,
+		"definition": "full-hd-1080p",
+		"viewMode": "thirdPersonGameplay"
 	},
 	"characters": [
 		{
@@ -1860,5 +1862,6 @@
 				}
 			]
 		}
-	]
+	],
+	"viewMode": "legacy"
 }

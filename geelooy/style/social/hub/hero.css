@@ -1,0 +1,118 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the Social Hub a truthful command header. Awtsmoos.com
+ * distinguishes identity, status, and execution without oversized decoration.
+ */
+.hub-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 1rem;
+	min-inline-size: 0;
+	padding: clamp(1rem, 3vw, 1.5rem);
+	border: 1px solid var(--hub-line-strong);
+	border-radius: var(--hub-radius-l);
+	background: linear-gradient(150deg, #121b28, #0f1722 66%, #17182a);
+	box-shadow: var(--hub-shadow);
+}
+.hub-hero-copy {
+	min-inline-size: 0;
+}
+.hub-kicker {
+	margin: 0;
+	color: var(--hub-cyan);
+	font-size: .76rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.hub-hero h2 {
+	max-inline-size: 20ch;
+	margin: .38rem 0 0;
+	color: var(--hub-text);
+	font-size: clamp(1.6rem, 4vw, 2.7rem);
+	line-height: 1.02;
+	letter-spacing: -.045em;
+}
+.hub-hero-copy > p:not(.hub-kicker) {
+	max-inline-size: 48rem;
+	margin: .65rem 0 0;
+	color: var(--hub-muted);
+	line-height: 1.55;
+}
+.hub-status {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	min-block-size: 32px;
+	margin-block-start: .75rem;
+	padding: .36rem .62rem;
+	border: 1px solid var(--hub-line);
+	border-radius: 999px;
+	background: #15202e;
+	color: var(--hub-muted);
+	font-size: .8rem;
+	font-weight: 760;
+}
+.hub-status::before {
+	inline-size: .45rem;
+	block-size: .45rem;
+	border-radius: 50%;
+	background: var(--hub-success);
+	content: "";
+}
+.hub-status[data-tone="busy"]::before {
+	background: var(--hub-warning);
+}
+.hub-status[data-tone="error"] {
+	border-color: rgba(255, 127, 156, .4);
+	color: #ffc2cf;
+}
+.hub-status[data-tone="error"]::before {
+	background: var(--hub-danger);
+}
+.hub-hero-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: .55rem;
+}
+.hub-hero button,
+.hub-live-actions button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-block-size: 46px;
+	padding: .68rem .9rem;
+	border: 1px solid var(--hub-line-strong);
+	border-radius: var(--hub-radius-s);
+	background: #192536;
+	box-shadow: none;
+	color: var(--hub-text);
+	font: 800 .86rem/1.15 var(--hub-font);
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+.hub-hero button[data-primary="true"] {
+	border-color: var(--hub-cyan);
+	background: var(--hub-cyan);
+	color: #061116;
+}
+.hub-hero button:is(:hover, :focus-visible),
+.hub-live-actions button:is(:hover, :focus-visible) {
+	border-color: var(--hub-cyan);
+	background: #203044;
+	transform: translateY(-1px);
+}
+.hub-hero button[data-primary="true"]:is(:hover, :focus-visible) {
+	background: #7ad9e5;
+}
+.hub-hero button:disabled,
+.hub-live-actions button:disabled {
+	cursor: not-allowed;
+	opacity: .55;
+	transform: none;
+}

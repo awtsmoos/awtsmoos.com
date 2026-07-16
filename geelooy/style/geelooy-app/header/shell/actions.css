@@ -1,35 +1,53 @@
-/* B"H — Mail, profile, search, and menu portals remain charged and reachable. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Mail, profile, search, and menu portals render in their final dark state.
+ * Awtsmoos.com header actions never animate from browser gray, rotate under a
+ * pointer, or depend on undefined glow and gradient tokens.
+ */
+
 .g-header-actions {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	gap: 0.42rem;
+	gap: .42rem;
 }
 
 .g-header-action {
 	display: inline-grid;
-	width: 2.85rem;
-	height: 2.85rem;
+	inline-size: 46px;
+	block-size: 46px;
+	min-inline-size: 46px;
+	min-block-size: 46px;
 	place-items: center;
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	border-radius: 1rem;
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
-	color: var(--g-text);
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .16);
+	border-radius: .9rem;
+	background-color: #172333;
+	background-image: none;
+	box-shadow: none;
+	color: var(--g-text, #f5f7fb);
 	font-size: 1.08rem;
 	cursor: pointer;
-	transition: 180ms var(--g-ease);
+	transition: none !important;
 }
 
-.g-header-action:hover,
+.g-header-action:is(:hover, :focus-visible),
 .g-header-action[aria-current="page"] {
-	border-color: rgba(60, 236, 255, 0.55);
-	background: var(--g-gradient-soft);
-	box-shadow: var(--g-glow);
-	transform: translateY(-2px) rotate(-2deg);
+	border-color: rgba(88, 199, 216, .62);
+	background-color: #1c2b3d;
+	color: #aef0f7;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .15);
+}
+
+.g-header-action:focus-visible {
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
 }
 
 .g-mail-portal {
-	color: var(--g-cyan);
+	color: #8be2ed;
 }
 
 .g-header-profile {

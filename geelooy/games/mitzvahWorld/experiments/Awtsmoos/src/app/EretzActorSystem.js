@@ -4,9 +4,13 @@
 
 /**
  * @file EretzActorSystem.js
- * @description Orchestrates player, friendly population, modes, shadows, and interiors.
- * The Awtsmoos conceals and reveals each world without dividing its living source;
- * Awtsmoos.com shares actor form while preserving independent motion and interaction.
+ * @description Orchestrates Chossid actors, animated horses, modes, shadows, and interiors.
+ * RESPONSIBILITY: assemble living runtime systems and preserve their world-mode visibility.
+ * NON-RESPONSIBILITY: this module does not advance frames or reduce model/material quality.
+ * ARCHITECTURE: Tiferes joins people, horses, doors, shadows, and movement in one world vessel.
+ * OROS AND KEILIM: village life is ohr; actors, herds, modes, and colliders are finite keilim.
+ * The Awtsmoos renews every Chossid and horse together; Awtsmoos.com preserves animated form,
+ * shared resources, and full garments while each actor keeps independent motion and purpose.
  */
 
 import { LavaLevel } from '../world/LavaLevel.js';
@@ -17,6 +21,7 @@ import {
 } from '../world/visibility/HouseVisibilitySystem.js';
 import {
 	createEretzDoors,
+	createEretzHorseHerd,
 	createEretzJumpPhysics,
 	createEretzMover,
 	createEretzNpcPopulation,
@@ -24,22 +29,27 @@ import {
 	createEretzPlayerStats
 } from './EretzActorFactories.js';
 import { createPlayerModel } from './EretzPlayerModel.js';
+import { PLAYER_SPAWN } from './EretzPlayerStateFactory.js';
 
 export function createEretzActors(foundation) {
 	const playerModel = createPlayerModel(
 		foundation.playerGltf,
 		foundation.scene
 	);
-	const initialY = foundation.groundSampler.heightAt(0, 4).y
-		+ playerModel.footOffset;
+	const initialY = foundation.groundSampler.heightAt(
+		PLAYER_SPAWN.x,
+		PLAYER_SPAWN.z
+	).y + playerModel.footOffset;
 	const playerStats = createEretzPlayerStats();
 	const state = createEretzPlayerState(
 		initialY,
 		playerModel.feet,
-		playerStats
+		playerStats,
+		PLAYER_SPAWN
 	);
 	const doors = createEretzDoors(foundation, state);
 	const friendlyNpcs = createEretzNpcPopulation(foundation);
+	const horses = createEretzHorseHerd(foundation);
 	const npc = friendlyNpcs.primary;
 	const lava = new LavaLevel(foundation.scene, foundation.assets);
 	const shadows = new SunShadowProjector(foundation.scene);
@@ -51,6 +61,7 @@ export function createEretzActors(foundation) {
 		footOffset: playerModel.footOffset,
 		foundation,
 		friendlyNpcs,
+		horses,
 		lava,
 		mover,
 		state
@@ -70,6 +81,7 @@ export function createEretzActors(foundation) {
 		...playerModel,
 		doors,
 		friendlyNpcs,
+		horses,
 		houseVisibility,
 		jumpPhysics,
 		lava,
@@ -91,6 +103,7 @@ function createWorldMode(options) {
 		mainGroup: options.foundation.terrain.group,
 		mainObjects: [
 			options.friendlyNpcs.group,
+			options.horses.group,
 			...options.doors.map(door => door.mesh)
 		],
 		mover: options.mover,

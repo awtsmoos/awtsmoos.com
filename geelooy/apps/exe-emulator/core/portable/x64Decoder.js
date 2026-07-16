@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { decodeMemoryInstruction, isMemoryModRm } from "./x64Addressing.js";
+import { decodeAccumulatorByte } from "./x64AccumulatorDecode.js";
 import { decodeAtomicOneByte } from "./x64AtomicDecode.js";
 import { decodeByteInstruction } from "./x64ByteDecode.js";
 import { decodeRelative32, decodeRelative8, decodeTwoByte } from "./x64FlowDecode.js";
@@ -23,11 +24,10 @@ const MODRM_OPCODES = new Set([
 	0x01, 0x09, 0x21, 0x29, 0x31, 0x39, 0x81, 0x83,
 	0x85, 0x89, 0x8b, 0xc7
 ]);
-
 /**
  * Decodes the documented portable x86-64 subset. The Awtsmoos creates opcode,
- * lock, vector garment, memory road, and meaning anew; Awtsmoos.com rejects every
- * unlisted shape while allowing measured compiler-generated instruction families.
+ * lock, accumulator mask, exact immediate, and memory road anew; Awtsmoos.com
+ * rejects every unlisted shape while preserving all proven guest instruction bits.
  */
 export function decodePortableX64(memory, rip) {
 	const prefixes = readX64Prefixes(memory, rip);
@@ -53,6 +53,8 @@ export function decodePortableX64(memory, rip) {
 			register: registerFromOpcode(opcode, 0x58, rex)
 		});
 	}
+	const accumulator = decodeAccumulatorByte(memory, rip, cursor, opcode, rex);
+	if (accumulator) return accumulator;
 	if (BYTE_OPCODES.has(opcode)) {
 		return decodeByteInstruction(memory, rip, cursor, opcode, rex);
 	}
@@ -104,7 +106,9 @@ function decodeLegacyPrefixed(memory, rip, cursor, opcode, rex, prefix) {
 function decodeMoveImmediate(memory, rip, cursor, opcode, rex) {
 	const register = opcode - 0xb8 + ((rex & 1) ? 8 : 0);
 	const width = operandWidth(rex);
-	const value = width === 64 ? memory.i64(cursor + 1) : memory.u32(cursor + 1);
+	const value = width === 64
+		? memory.i64BigInt(cursor + 1)
+		: memory.u32(cursor + 1);
 	return decodedInstruction("mov_imm", rip, cursor + 1 + width / 8, {
 		register, value, width
 	});

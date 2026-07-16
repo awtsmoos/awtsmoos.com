@@ -1,61 +1,75 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RoadStripGeometry.js
+ * @description Creates one continuous curved road with full-resolution yellow-brick material.
+ * RESPONSIBILITY: assemble visible/collision geometry and attach strict road quality evidence.
+ * NON-RESPONSIBILITY: this module does not plan routes, fetch images, or lower texture sources.
+ * ARCHITECTURE: Tiferes joins every route and junction while Hod preserves one golden garment.
+ * OROS AND KEILIM: the connecting path is ohr; vertices, UVs, collision, and material are keilim.
+ * The Awtsmoos renews every traveler and brick; Awtsmoos.com keeps the complete road in one
+ * draw-ready network without surrendering full-resolution texture or collision truth.
+ */
+
 import { REPEAT_HOOKS } from '../../assets/TextureRepeat.js';
 import { appendRoadJunctions } from './RoadJunctionGeometry.js';
+import {
+	roadMaterialEvidence,
+	roadMaterialFields
+} from './RoadMaterialContract.js';
 import { createRoadMesh } from './RoadMeshWriter.js';
 import { appendRoadRibbon } from './RoadRibbonGeometry.js';
 
 /** Creates one visible, solid, curved road network with covered junctions. */
 export function createRoadStrip(routes, sampler, texture, width = 6.2) {
 	const mesh = createRoadMesh(REPEAT_HOOKS.roadTileWorld);
-	const routeStats = routes.map((route) => (
+	const routeStats = routes.map(route => (
 		appendRoadRibbon(mesh, route, sampler, width)
 	));
 	const junctions = appendRoadJunctions(mesh, routes, sampler, width);
+	const material = roadMaterialFields(texture);
 	const network = {
-		id: 'Awtsmoos-curved-yellow-brick-road-network',
-		shape: 'manual',
-		solid: true,
-		walkable: true,
-		noEdge: true,
+		...material,
 		color: '#ffffff',
+		faces: mesh.faces,
+		id: 'Awtsmoos-curved-yellow-brick-road-network',
+		noEdge: true,
 		position: { x: 0, y: 0, z: 0 },
 		rotation: { y: 0 },
-		vertices: mesh.vertices,
-		faces: mesh.faces,
-		uvs: mesh.uvs,
-		mapImage: texture || null,
-		textureUrl: texture?.dataset?.publicUrl
-			|| texture?.dataset?.url
-			|| texture?.src
-			|| null,
-		mapRepeat: [1, 1],
-		anisotropy: 2,
-		texturePolicy: {
-			fullResolution: true,
-			projection: 'world-planar-continuous-network',
-			tileWorld: REPEAT_HOOKS.roadTileWorld,
-			repeatMode: 'mirror-pingpong'
-		},
+		shape: 'manual',
+		solid: true,
 		userData: {
+			AwtsmoosRoadMaterial: roadMaterialEvidence(texture),
 			AwtsmoosRoadSurface: {
-				topFaceIndices: mesh.topFaceIndices,
-				visibleEqualsCollision: true,
 				junctionCount: junctions.length,
-				routeCount: routes.length
-			}
-		}
+				routeCount: routes.length,
+				topFaceIndices: mesh.topFaceIndices,
+				visibleEqualsCollision: true
+			},
+			family: 'full-quality-road-network'
+		},
+		uvs: mesh.uvs,
+		vertices: mesh.vertices,
+		walkable: true
 	};
+	const visualSegments = routeStats.reduce(
+		(sum, route) => sum + route.segments,
+		0
+	);
 	const stats = {
-		visualSegments: routeStats.reduce((sum, route) => sum + route.segments, 0),
-		collisionSegments: routeStats.reduce((sum, route) => sum + route.segments, 0),
-		visibleEqualsCollision: true,
+		collisionSegments: visualSegments,
 		junctionCount: junctions.length,
+		material: roadMaterialEvidence(texture),
+		routes: routeStats,
 		topFaceCount: mesh.topFaceIndices.length,
-		routes: routeStats
+		visibleEqualsCollision: true,
+		visualSegments
 	};
 	return {
-		visual: network,
 		collider: network,
-		stats
+		stats,
+		visual: network
 	};
 }

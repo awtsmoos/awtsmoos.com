@@ -1,0 +1,115 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every Social Hub field a persistent name and owned dark
+ * surface. No Awtsmoos.com input may inherit native white, inset borders, or
+ * twenty-one-pixel geometry from the browser.
+ */
+
+.hub-input-section {
+	display: grid;
+	gap: .85rem;
+	min-inline-size: 0;
+	padding: 1rem;
+	border: 1px solid var(--hub-line);
+	border-radius: var(--hub-radius-l);
+	background: #0f1722;
+}
+
+.hub-input-heading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.hub-input-heading h3,
+.hub-input-heading p {
+	margin: 0;
+}
+
+.hub-input-heading h3 {
+	color: var(--hub-text);
+	font-size: 1rem;
+}
+
+.hub-input-heading p {
+	max-inline-size: 48rem;
+	color: var(--hub-faint);
+	font-size: .8rem;
+	line-height: 1.45;
+}
+
+.hub-inputs {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: .7rem;
+	min-inline-size: 0;
+}
+
+.hub-field {
+	display: grid;
+	gap: .38rem;
+	min-inline-size: 0;
+	color: var(--hub-muted);
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .03em;
+}
+
+.hub-field span {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+}
+
+.hub-field span::before {
+	inline-size: .38rem;
+	block-size: .38rem;
+	border-radius: 50%;
+	background: var(--hub-cyan);
+	content: "";
+}
+
+.hub-field input,
+.hub-field textarea,
+.hub-field select {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	padding: .74rem .82rem;
+	border: 1px solid var(--hub-line-strong);
+	border-radius: .76rem;
+	background: #172333;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: var(--hub-text);
+	font: 680 max(16px, 1rem)/1.35 var(--hub-font);
+	outline: 0;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.hub-field input::placeholder,
+.hub-field textarea::placeholder {
+	color: var(--hub-faint);
+	opacity: 1;
+}
+
+.hub-field :is(input, textarea, select):focus-visible {
+	border-color: var(--hub-cyan);
+	background: #1a293a;
+	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
+}
+
+.hub-field :is(input, textarea, select):disabled {
+	cursor: not-allowed;
+	opacity: .55;
+}
+
+.hub-field :is(input, textarea, select):user-invalid {
+	border-color: var(--hub-danger);
+}
+
+.hub-field-wide {
+	grid-column: span 2;
+}

@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets the alias vessel contract without becoming cramped. On
+ * Awtsmoos.com every narrow screen keeps full-width actions, safe spacing, and
+ * motion that yields immediately to the traveler's accessibility preference.
+ */
+
+@media (max-width: 32rem) {
+	.container {
+		inline-size: calc(100% - 1rem);
+		margin-block: .6rem;
+		padding: 1rem;
+		border-radius: 1rem;
+	}
+
+	.container h1 {
+		font-size: clamp(1.45rem, 8vw, 2rem);
+	}
+
+	.optional-id {
+		grid-template-columns: minmax(0, 1fr) 48px;
+	}
+
+	.form-btns {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.form-btns button {
+		inline-size: 100%;
+	}
+}
+
+@media (max-height: 34rem) and (orientation: landscape) {
+	.container {
+		margin-block: .5rem;
+	}
+
+	#alias-form textarea {
+		min-block-size: 6rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.container *,
+	.container *::before,
+	.container *::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

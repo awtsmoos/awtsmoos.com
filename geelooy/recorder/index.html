@@ -1,97 +1,50 @@
-<!--B"H-->
-<?Awtsmoos return await getT("bh.html") ?>
-<html lan="en">
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives local recording a truthful, private, recoverable vessel.
+-->
+<!doctype html>
+<html lang="en">
 <head>
-<style>
-.makom {
-	margin-top:106px;
-}
-</style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Record camera or desktop media locally and download the result.">
+	<meta name="theme-color" content="#070b12">
+	<title>Local Recorder — Geelooy</title>
+	<link rel="stylesheet" href="style.css?v=media-capture-001">
 </head>
-<body>
-<div class="makom">
-<button id="rec">Record webcam</button><br>
-<button id="recd">Record desktop</button>
-<video autoplay controls id="vid"><br>
-	<video autoplay controls id="vids"></video>
-<script>
-//B"H
-var userStream = null;
-var deskStream = null;
-recd.onclick = async () => {
-	if(!recd.started) {
-		recd.started = true;
-		navigator.mediaDevices.getDisplayMedia({
-		video:true,
-		audio:true
-		}).then(str => {
-			deskStream= str;
-			vids.srcObject = str;
-			recd.mr = new MediaRecorder(str);
-			recd.mr.ondataavailable = e => {
-				var a = document.createElement("a");
-				a.download = ("BH_"+Date.now()+
-				".mp4")
-				;
-				a.href = URL.createObjectURL(e.data);
-				a.click();
-				rec.innerHTML = "again?"
-			}
-			recd.innerHTML = "Stop and save?!"
-			recd.mr.start();
-		})
-	} else {
-		recd.started = false;
-		recd.mr.stop();
-		vid.srcObject=null;
-	}
-	
-};
-rec.onclick = async () => {
-	var canDoAudio = false;
-	var canDoVideo = false;
-	var dv = await navigator
-	.mediaDevices.enumerateDevices();
-	dv.forEach(w=> {
-		if(w.kind.includes("audioinput")) {
-			canDoAudio = true;
-		}
-
-		if(w.kind.includes("video")) {
-			canDoVideo = true;
-		}
-	})
-	if(!rec.started) {
-		rec.started = true;
-		navigator.mediaDevices.getUserMedia({
-			video: canDoVideo,
-			audio: canDoAudio
-		}).then(st => {
-			userStream = userStream;
-			console.log("Got",a=st)
-			vid.srcObject = st;
-			rec.mr = new MediaRecorder(st);
-			rec.mr.ondataavailable = e => {
-				var a = document.createElement("a");
-				a.download = ("BH_"+Date.now()+
-				".mp"  + canDoVideo?"4":canDoAudio?"3"
-				:"_awtsmoos_cant_do_anything_here_lol")
-				;
-				a.href = URL.createObjectURL(e.data);
-				a.click();
-				rec.innerHTML = "again?"
-			}
-			rec.innerHTML = "Stop and save?!"
-			rec.mr.start();
-		});
-	} else {
-		rec.started = true;
-		rec.mr.stop();
-		vid.srcObject=null;
-
-	}
-};
-</script>
-</div>
+<body class="recorder-document">
+	<main class="recorder-shell" aria-labelledby="recorder-title">
+		<header class="recorder-header">
+			<a href="/">← Home</a>
+			<div>
+				<p class="recorder-kicker">Private capture studio</p>
+				<h1 id="recorder-title">Record without uploading</h1>
+				<p>Camera and desktop recordings stay in this browser until you stop and save them.</p>
+			</div>
+		</header>
+		<section class="recorder-grid" aria-label="Recording sources">
+			<article class="capture-card" data-recorder-card="camera" data-state="idle">
+				<header><div><p>Camera + microphone</p><h2>Personal recorder</h2></div><span class="capture-state">Ready</span></header>
+				<div class="capture-preview">
+					<video id="camera-preview" autoplay muted playsinline controls></video>
+					<div class="capture-empty"><span aria-hidden="true">◉</span><strong>No camera recording yet</strong><p>Permission is requested only after you press start.</p></div>
+				</div>
+				<p class="capture-status" id="camera-status" role="status" aria-live="polite">Ready to request camera and microphone access.</p>
+				<div class="capture-actions"><button id="camera-record" class="capture-primary" type="button" aria-pressed="false">Start camera recording</button><button id="camera-stop" type="button" disabled>Stop and save</button></div>
+			</article>
+			<article class="capture-card" data-recorder-card="desktop" data-state="idle">
+				<header><div><p>Screen + optional system audio</p><h2>Desktop recorder</h2></div><span class="capture-state">Ready</span></header>
+				<div class="capture-preview">
+					<video id="desktop-preview" autoplay muted playsinline controls></video>
+					<div class="capture-empty"><span aria-hidden="true">▣</span><strong>No desktop recording yet</strong><p>Your browser lets you choose the window or screen.</p></div>
+				</div>
+				<p class="capture-status" id="desktop-status" role="status" aria-live="polite">Ready to choose a screen, window, or browser tab.</p>
+				<div class="capture-actions"><button id="desktop-record" class="capture-primary" type="button" aria-pressed="false">Start desktop recording</button><button id="desktop-stop" type="button" disabled>Stop and save</button></div>
+			</article>
+		</section>
+		<footer class="recorder-note"><strong>Private by default.</strong> No recording is sent to Awtsmoos.com. Downloads are created locally when recording stops.</footer>
+	</main>
+	<script type="module" src="recorder.js?v=media-capture-001"></script>
 </body>
 </html>

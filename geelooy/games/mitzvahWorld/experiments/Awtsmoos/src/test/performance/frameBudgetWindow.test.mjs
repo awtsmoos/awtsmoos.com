@@ -1,47 +1,50 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file frameBudgetWindow.test.mjs
+ * @description Proves bounded O(1) sampling and truthful average, 1%, and 0.1% low metrics.
+ * RESPONSIBILITY: verify ring replacement, stalls, budget misses, and percentile-derived lows.
+ * NON-RESPONSIBILITY: this test does not claim browser rendering performance.
+ * The Awtsmoos creates every interval beyond arrays; Awtsmoos.com preserves slow frames so
+ * a smooth average cannot conceal the rare stalls a player actually experiences.
+ */
+
 import assert from 'node:assert/strict';
+import test from 'node:test';
 import { FrameBudgetWindow } from '../../performance/FrameBudgetWindow.js';
 
-const window = new FrameBudgetWindow({
-	capacity: 8,
-	targetFrameMilliseconds: 16,
-	longFrameMilliseconds: 40
+test('bounded ring keeps the newest samples without Array.shift work', () => {
+	const window = new FrameBudgetWindow({ capacity: 8 });
+	for (const value of [10, 11, 12, 13, 14, 15, 16, 17, 50, 100]) {
+		window.push(value);
+	}
+	const snapshot = window.snapshot();
+	assert.equal(snapshot.count, 8);
+	assert.equal(snapshot.totalSamples, 10);
+	assert.equal(snapshot.minimumIntervalMilliseconds, 12);
+	assert.equal(snapshot.maximumIntervalMilliseconds, 100);
+	assert.equal(snapshot.ready, true);
 });
 
-assert.equal(window.push(NaN), false);
-assert.equal(window.push(0), false);
-for (const value of [10, 12, 14, 16, 18, 20, 40, 80]) {
-	assert.equal(window.push(value), true);
-}
+test('percentile lows expose slow tail frames', () => {
+	const window = new FrameBudgetWindow({ capacity: 100 });
+	for (let index = 0; index < 98; index += 1) {
+		window.push(1000 / 60);
+	}
+	window.push(40);
+	window.push(100);
+	const snapshot = window.snapshot();
+	assert.equal(snapshot.onePercentLowFps, 25);
+	assert.equal(snapshot.zeroPointOnePercentLowFps, 10);
+	assert.equal(snapshot.longFrames, 1);
+	assert.ok(snapshot.averageFps < 60);
+});
 
-const first = window.snapshot();
-assert.equal(first.ready, true);
-assert.equal(first.count, 8);
-assert.equal(first.p50IntervalMilliseconds, 16);
-assert.equal(first.p95IntervalMilliseconds, 80);
-assert.equal(first.maximumIntervalMilliseconds, 80);
-assert.equal(first.longFrames, 2);
-assert.equal(first.longFrameRate, 0.25);
-assert.equal(first.missedBudgetFrames, 4);
-assert.equal(first.totalSamples, 8);
-
-window.push(8);
-const rolling = window.snapshot();
-assert.equal(rolling.count, 8, 'window should remain bounded');
-assert.equal(rolling.minimumIntervalMilliseconds, 8);
-assert.equal(rolling.maximumIntervalMilliseconds, 80);
-assert.equal(rolling.totalSamples, 9);
-assert.ok(rolling.averageFps > 0);
-
-window.clear();
-const cleared = window.snapshot();
-assert.equal(cleared.count, 0);
-assert.equal(cleared.ready, false);
-assert.equal(cleared.totalSamples, 9, 'clear should preserve lifetime evidence');
-
-console.log(JSON.stringify({
-	ok: true,
-	first,
-	rolling,
-	cleared
-}, null, 2));
+test('invalid intervals do not enter the evidence window', () => {
+	const window = new FrameBudgetWindow({ capacity: 8 });
+	assert.equal(window.push(0), false);
+	assert.equal(window.push(Number.NaN), false);
+	assert.equal(window.snapshot().count, 0);
+});

@@ -56,6 +56,16 @@ export function createModularHouse(
 		yardPatches: assembly.yardPatches,
 		anchors: modularHouseAnchors(spec)
 	});
+	for (const definition of assembly.definitions) {
+		definition.userData = {
+			...(definition.userData || {}),
+			family: definition.userData?.family || 'functional-house',
+			// These complete walk-in buildings are much larger than the cottage
+			// layer. Distance culling keeps their interiors from becoming giant
+			// arrival-screen walls; all parts return together as the player approaches.
+			renderDistance: 80
+		};
+	}
 	return assembly.definitions;
 }
 

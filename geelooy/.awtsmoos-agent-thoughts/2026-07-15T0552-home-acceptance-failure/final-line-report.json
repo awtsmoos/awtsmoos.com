@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-07-15T15:07:15.090Z",
+  "count": 82,
+  "failures": [],
+  "max": [
+    {
+      "file": "geelooy/style/social/home/civilization/surfaces.css",
+      "lines": 116,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/social/home/civilization/objects/card.css",
+      "lines": 115,
+      "pass": true
+    },
+    {
+      "file": "geelooy/email/css/hypermail.css",
+      "lines": 111,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/home/composer/shell.css",
+      "lines": 110,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/home/composer/advanced.css",
+      "lines": 109,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/social-system/forms.css",
+      "lines": 109,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/home/composer/fields.css",
+      "lines": 108,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/social-system/app-clean.css",
+      "lines": 106,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/home/composer/actions.css",
+      "lines": 105,
+      "pass": true
+    },
+    {
+      "file": "geelooy/profile/index.html",
+      "lines": 105,
+      "pass": true
+    },
+    {
+      "file": "geelooy/scripts/awtsmoos/social/shell/boot.js",
+      "lines": 102,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/header/search/control.css",
+      "lines": 98,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/social-system/buttons.css",
+      "lines": 97,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/home/composer/responsive.css",
+      "lines": 93,
+      "pass": true
+    },
+    {
+      "file": "geelooy/index.html",
+      "lines": 88,
+      "pass": true
+    },
+    {
+      "file": "geelooy/profile/alias-manage/styles/help-actions.css",
+      "lines": 87,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/geelooy-app/pages/notifications/filters.css",
+      "lines": 83,
+      "pass": true
+    },
+    {
+      "file": "geelooy/email/css/quantum/composer/editor/fields.css",
+      "lines": 81,
+      "pass": true
+    },
+    {
+      "file": "geelooy/style/social/home/civilization/controls.css",
+      "lines": 79,
+      "pass": true
+    },
+    {
+      "file": "geelooy/email/css/quantum/composer/shell/controls.css",
+      "lines": 79,
+      "pass": true
+    }
+  ]
+}

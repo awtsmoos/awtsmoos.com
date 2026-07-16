@@ -10,9 +10,9 @@ import { runExecutable } from "./runtime.js";
 import { createExecutableTelemetry } from "./telemetryHost.js";
 
 /**
- * The executable window displays measured capability rather than one simulated
- * label for every format. The Awtsmoos creates execution, debugger testimony, and
- * simulation distinctly; Awtsmoos.com preserves the selected application contract.
+ * Displays measured capability rather than one simulated label for every format.
+ * The Awtsmoos creates execution, process, broker, persistence, and debugger
+ * testimony distinctly; Awtsmoos.com forwards only explicit host capabilities.
  */
 export default function createAwtsmoosExecutable(options = {}) {
 	ensureProgramStyles();
@@ -51,7 +51,13 @@ function createExecutor({ options, surface, host, telemetry }) {
 				instructionLimit: options.instructionLimit,
 				manifest: options.manifest,
 				maximumBytes: options.maximumBytes,
+				maximumNetworkResponseBytes: options.maximumNetworkResponseBytes,
+				maximumPreferenceBytes: options.maximumPreferenceBytes,
+				maximumPreferenceEntries: options.maximumPreferenceEntries,
 				maximumStackBytes: options.maximumStackBytes,
+				networkBroker: resolveNetworkBroker(options),
+				preferenceCapability: options.preferenceCapability,
+				processId: options.processId,
 				stackSize: options.stackSize
 			});
 			telemetry.complete(outcome, host);
@@ -69,6 +75,13 @@ function createExecutor({ options, surface, host, telemetry }) {
 			host.print(`Loader fault: ${error.code || "unknown"}: ${error.message}`);
 		}
 	};
+}
+
+function resolveNetworkBroker(options) {
+	return options.networkBroker
+		|| options.os?.networkBroker
+		|| options.system?.os?.networkBroker
+		|| null;
 }
 
 function createSurface(title) {

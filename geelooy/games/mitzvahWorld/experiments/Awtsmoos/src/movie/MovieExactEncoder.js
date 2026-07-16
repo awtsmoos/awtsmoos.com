@@ -4,28 +4,26 @@
 
 /**
  * @file MovieExactEncoder.js
- * @description Encodes every project frame with explicit timeline timestamps.
- * The Awtsmoos renews all motion beyond rendering speed; Awtsmoos.com samples the
- * real world once per intended frame without adding hidden wall-clock task delays.
+ * @description Coordinates bounded exact-frame segments and one merged VP8/IVF timeline.
+ * RESPONSIBILITY: validate cadence, plan ranges, render segments, merge, and report telemetry.
+ * NON-RESPONSIBILITY: this module does not synthesize audio or alter visual world quality.
+ * ARCHITECTURE: Tiferes unifies Gevurah-bounded segments into one continuous exact artifact.
+ * OROS AND KEILIM: the uninterrupted movie is ohr; segments and final IVF are layered keilim.
+ * The Awtsmoos renews all 10,800 intended states without fatigue; Awtsmoos.com preserves
+ * their global indexes while bounding encoder queues and copied payload collections.
  */
 
 import {
 	createExactEncoderConfig,
-	exactFrameTiming,
 	supportedExactEncoderConfig
 } from './MovieExactEncoderConfig.js';
-import {
-	createExactEncodedResult,
-	createExactProgress,
-	createExactVideoEncoder,
-	throwExactEncodingError
-} from './MovieExactEncoderSupport.js';
+import { createExactEncodedResult } from './MovieExactEncoderSupport.js';
+import { MovieExactSegmentEncoder } from './MovieExactSegmentEncoder.js';
+import { createExactSegmentPlan } from './MovieExactSegmentPlan.js';
 import { MovieFrameCadence } from './MovieFrameCadence.js';
-import { MovieIvfWriter } from './MovieIvfWriter.js';
+import { mergeMovieIvfSegments } from './MovieIvfSegmentMerger.js';
 
-const MAXIMUM_ENCODE_QUEUE = 8;
-
-/** Encodes a real MovieDirector into an exact VP8/IVF timeline. */
+/** Encodes a real MovieDirector into a bounded exact VP8/IVF timeline. */
 export class MovieExactEncoder {
 	constructor(director) {
 		this.director = director;
@@ -37,68 +35,38 @@ export class MovieExactEncoder {
 		const cadence = new MovieFrameCadence(
 			this.project.duration,
 			this.project.fps
-		);
+		).assertWholeFrameDuration();
 		const config = await supportedExactEncoderConfig(
 			createExactEncoderConfig(this.project, this.canvas)
 		);
-		const writer = new MovieIvfWriter({
+		const plan = createExactSegmentPlan(cadence, options);
+		const segmentEncoder = new MovieExactSegmentEncoder({
+			cadence,
+			canvas: this.canvas,
+			config,
+			director: this.director
+		});
+		const segments = [];
+		const startedAtMs = performance.now();
+		this.director.pause?.();
+		for (const range of plan) {
+			const segment = await segmentEncoder.render(range, options);
+			segments.push(segment);
+			options.onSegment?.(segment);
+		}
+		const merged = mergeMovieIvfSegments({
+			expectedFrames: cadence.expectedFrames,
 			fps: cadence.fps,
 			height: config.height,
+			segments,
 			width: config.width
 		});
-		const state = { error: null };
-		const encoder = createExactVideoEncoder(writer, state);
-		const startedAtMs = performance.now();
-		encoder.configure(config);
-		this.director.pause?.();
-
-		try {
-			for (
-				let frameIndex = 0;
-				frameIndex < cadence.expectedFrames;
-				frameIndex += 1
-			) {
-				throwExactEncodingError(state.error);
-				this.encodeFrame(encoder, cadence, frameIndex);
-				options.onProgress?.(
-					createExactProgress(cadence, frameIndex)
-				);
-				if (encoder.encodeQueueSize >= MAXIMUM_ENCODE_QUEUE) {
-					await encoder.flush();
-				}
-			}
-			await encoder.flush();
-			throwExactEncodingError(state.error);
-			return createExactEncodedResult(
-				writer,
-				config,
-				cadence,
-				performance.now() - startedAtMs
-			);
-		} finally {
-			if (encoder.state !== 'closed') encoder.close();
-		}
-	}
-
-	encodeFrame(encoder, cadence, frameIndex) {
-		const time = cadence.frameTime(frameIndex);
-		this.director.seek(time, 1 / cadence.fps);
-		const frame = new VideoFrame(
-			this.canvas,
-			exactFrameTiming(frameIndex, cadence.fps)
+		return createExactEncodedResult(
+			merged,
+			config,
+			cadence,
+			performance.now() - startedAtMs
 		);
-		try {
-			encoder.encode(frame, {
-				keyFrame: this.isKeyFrame(cadence, frameIndex)
-			});
-		} finally {
-			frame.close();
-		}
-	}
-
-	isKeyFrame(cadence, frameIndex) {
-		const interval = Math.max(1, Math.round(cadence.fps * 2));
-		return frameIndex % interval === 0;
 	}
 }
 

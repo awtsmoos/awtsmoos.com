@@ -4,11 +4,17 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances frame motion while NPCs and human-readable services self-throttle.
- * The Awtsmoos renews movement and image each frame; Awtsmoos.com grants every actor
- * a distance cadence while chunks, interiors, map, HUD, and diagnostics keep named rates.
+ * @description Advances one measured multiplayer world frame with every visual system intact.
+ * RESPONSIBILITY: run named systems, animate Chossid actors and horses, and record CPU costs.
+ * NON-RESPONSIBILITY: this loop never invents frames, lowers resolution, or replaces models.
+ * ARCHITECTURE: Netzach sustains motion while Binah measures costs and Tiferes rejoins the frame.
+ * OROS AND KEILIM: world life is ohr; cadence, actors, and measured costs are disciplined keilim.
+ * The Awtsmoos recreates every player, horse, leaf, and sampled instant; Awtsmoos.com removes
+ * duplicate work rather than hiding the complete multiplayer world required by the student.
  */
 
+import { hydrateSceneMaterialImages } from '../assets/PublicMaterialCache.js';
+import { RuntimeFrameCostSample } from '../performance/RuntimeFrameCostSample.js';
 import { EretzMovementController } from './EretzMovementController.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
@@ -20,60 +26,92 @@ export function startEretzRuntime(runtime, diagnostics) {
 	const cadence = new RuntimeCadence();
 	let lastTime = performance.now();
 	const frame = now => {
+		const intervalMilliseconds = Math.max(0.1, now - lastTime);
+		const deltaTime = frameDelta(intervalMilliseconds);
+		const costs = new RuntimeFrameCostSample();
+		lastTime = now;
 		try {
-			const deltaTime = frameDelta(now, lastTime);
-			lastTime = now;
-			if (cadence.due('chunks', now)) {
-				runtime.chunkRuntime?.update({ at: now });
-			}
-			for (const door of runtime.doors) door.update(deltaTime);
-			runtime.worldModels?.update(deltaTime, runtime.state);
-			runtime.lava.update(
+			costs.measure('streaming', () => updateStreaming(runtime, cadence, now));
+			costs.measure('animation', () => updateAnimation(runtime, deltaTime));
+			costs.measure('water', () => runtime.lava.update(
 				runtime.state,
 				runtime.ground,
 				runtime.footOffset
-			);
-			movement.update(deltaTime);
-			if (cadence.due('minimap', now)) {
-				runtime.gameplayUi?.updatePosition(runtime.state);
-			}
-			if (cadence.due('houseVisibility', now)) {
-				runtime.houseVisibility.update(runtime.state);
-			}
-			if (runtime.friendlyNpcs) {
-				runtime.friendlyNpcs.update(deltaTime, runtime.state);
-			} else {
-				runtime.npc.update(deltaTime, runtime.state);
-			}
-			runtime.model.updateWorldMatrix();
-			runtime.shadows.update({
-				ground: runtime.ground,
-				npc: runtime.npc,
-				state: runtime.state,
-				worldMode: runtime.worldMode
-			});
-			runtime.orbit.apply(
+			));
+			costs.measure('gameplay', () => updateGameplay(
+				runtime,
+				movement,
+				cadence,
+				deltaTime,
+				now
+			));
+			costs.measure('shadows', () => updateShadows(runtime));
+			costs.measure('camera', () => runtime.orbit.apply(
 				runtime.camera,
 				faceTarget(runtime.state),
 				runtime.mover.octree,
 				deltaTime
-			);
-			runtime.renderer.setInteractor(runtime.state, now / 1000);
-			runtime.renderer.render(runtime.scene, runtime.camera);
-			if (cadence.due('hud', now)) refreshStatusHud(runtime);
+			));
+			costs.measure('render', () => {
+				runtime.renderer.setInteractor(runtime.state, now / 1000);
+				runtime.renderer.render(runtime.scene, runtime.camera);
+			});
+			if (cadence.due('hud', now)) {
+				refreshStatusHud(runtime);
+			}
 			if (cadence.due('diagnostics', now)) {
 				refreshWorldDiagnostics(diagnostics, runtime);
 			}
 		} catch (error) {
 			window.AwtsmoosError = error?.stack || String(error);
+		} finally {
+			runtime.performanceMonitor?.record(intervalMilliseconds, now, costs.finish());
+			requestAnimationFrame(frame);
 		}
-		requestAnimationFrame(frame);
 	};
 	runtime.runtimeCadence = cadence;
 	requestAnimationFrame(frame);
 	return movement;
 }
-
-function frameDelta(now, lastTime) {
-	return Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
+function updateStreaming(runtime, cadence, now) {
+	if (cadence.due('chunks', now)) {
+		runtime.chunkRuntime?.update({ at: now });
+	}
+	if (cadence.due('materialHydration', now)) {
+		runtime.materialHydrationStats = hydrateSceneMaterialImages(runtime.scene);
+	}
+}
+function updateAnimation(runtime, deltaTime) {
+	for (const door of runtime.doors) {
+		door.update(deltaTime);
+	}
+	runtime.worldModels?.update(deltaTime, runtime.state);
+	if (runtime.friendlyNpcs) {
+		runtime.friendlyNpcs.update(deltaTime, runtime.state);
+	} else {
+		runtime.npc.update(deltaTime, runtime.state);
+	}
+	runtime.horses?.update(deltaTime);
+	runtime.model.updateWorldMatrix();
+}
+function updateGameplay(runtime, movement, cadence, deltaTime, now) {
+	movement.update(deltaTime);
+	runtime.multiplayerBridge?.update(deltaTime, runtime.state, now);
+	if (cadence.due('minimap', now)) {
+		runtime.gameplayUi?.updatePosition(runtime.state);
+	}
+	if (cadence.due('houseVisibility', now)) {
+		runtime.houseVisibility.update(runtime.state);
+	}
+}
+function updateShadows(runtime) {
+	runtime.shadows.update({
+		ground: runtime.ground,
+		npc: runtime.npc,
+		state: runtime.state,
+		worldMode: runtime.worldMode
+	});
+}
+function frameDelta(intervalMilliseconds) {
+	return Math.min(0.05, Math.max(0.001, intervalMilliseconds / 1000));
 }

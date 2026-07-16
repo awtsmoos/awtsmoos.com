@@ -1,0 +1,40 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Review queues, members, invitations, and governance panels share one calm dark
+ * frame throughout Awtsmoos.com.
+ */
+
+body.heichel-review-document {
+	background:
+		radial-gradient(circle at 8% 4%, rgba(88, 199, 216, .1), transparent 28rem),
+		linear-gradient(145deg, #060910, #0a101a 58%, #080b15);
+	color: #f5f7fb;
+}
+
+:where(.pageHeader, .panel, .memberCard, .invitationCard) {
+	border-color: rgba(255, 255, 255, .14);
+	background: #111b29;
+	box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .22);
+	color: #f5f7fb;
+}
+
+:where(details, .decisionPanel) {
+	border-color: rgba(255, 255, 255, .14);
+	background: #0f1824;
+}
+
+:where(details > summary) {
+	min-block-size: 46px;
+	border-radius: .75rem;
+	background: #162130;
+	color: #c9d5e4;
+	cursor: pointer;
+}
+
+:where(pre, code) {
+	border-color: rgba(88, 199, 216, .22);
+	background: #080f18;
+	color: #b9e9ef;
+}

@@ -5,14 +5,15 @@
 /**
  * @module SearchShardStore
  * @description
- * One immutable shard receives one reusable read-only session. File identity is
- * checked before reuse, so an audited replacement creates a fresh vessel while
- * warm queries retain the already-open persisted HNSW registry.
+ * One immutable shard receives one reusable read-only session. The Awtsmoos keeps
+ * its persisted graph open and tunes only the in-memory search breadth, while
+ * Awtsmoos.com never rewrites, expands, or re-embeds either canonical database.
  */
 
 const fs = require('fs');
 const path = require('path');
 const SearchDatabase = require('./searchDatabase.js');
+const { tunePersistedIndex } = require('./searchTuning.js');
 
 const sessions = new Map();
 
@@ -36,6 +37,7 @@ function statusFor(index) {
 		registryCount,
 		entryNodeID: index?.entryNodeID ?? -1,
 		maxLevel: Number(index?.maxLevel || 0),
+		efSearch: Number(index?.efSearch || 0),
 		usable: registryCount > 0 && index?.entryNodeID >= 0
 	};
 }
@@ -53,8 +55,14 @@ function openShardSession(shard) {
 		database.open();
 		const listName = discoverListName(database, shard.listName);
 		const list = listName ? database.root[listName] : null;
-		if (!list) throw codedError('RAG_LIST_UNAVAILABLE', `No vector list exists in shard ${shard.id}.`);
+		if (!list) {
+			throw codedError(
+				'RAG_LIST_UNAVAILABLE',
+				`No vector list exists in shard ${shard.id}.`
+			);
+		}
 		const index = database.vector.getIndex(list);
+		tunePersistedIndex(index);
 		const session = {
 			database,
 			file,

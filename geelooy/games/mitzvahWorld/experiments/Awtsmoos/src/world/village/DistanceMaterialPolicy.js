@@ -1,64 +1,34 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
+/** Full-resolution Firebase cottage materials with deterministic village variation. */
+import { fullTextureUrl } from '../../assets/TextureCatalog.js';
 
-/**
- * @file DistanceMaterialPolicy.js
- * @description Selects Firebase material resolution, repeat, and filtering by district.
- * The Awtsmoos renews detail where the eye can receive it; Awtsmoos.com keeps near
- * stone crisp while medium and far surfaces trade frequency for stable frame time.
- */
+const STONE = Object.freeze([
+	'weathered fieldstone Rock 1',
+	'limestone bricks 1',
+	'weathered Red bricks 1',
+	'white brick 1'
+]);
+const ROOF = Object.freeze([
+	'tiled roof 3 smaller tiles',
+	'tiled roof 2',
+	'tiled roof 4',
+	'oak wood 1'
+]);
+const WOOD = Object.freeze(['oak wood 3', 'oak wood 2', 'wooden oak planks 1']);
 
-import {
-	fullTextureUrl,
-	halfTextureUrl,
-	TEXTURE_URLS
-} from '../../assets/TextureCatalog.js';
-
-const MATERIAL_NAMES = Object.freeze({
-	fieldstone: 'weathered fieldstone Rock 1',
-	roof: 'tiled roof 3 smaller tiles',
-	wood: 'oak wood 3'
-});
-
-export function villageMaterialPolicy(detail = 'near') {
-	if (detail === 'far') {
-		return policy(
-			halfTextureUrl(MATERIAL_NAMES.fieldstone),
-			halfTextureUrl(MATERIAL_NAMES.roof),
-			halfTextureUrl(MATERIAL_NAMES.wood),
-			2,
-			3.4
-		);
-	}
-	if (detail === 'medium') {
-		return policy(
-			fullTextureUrl(MATERIAL_NAMES.fieldstone),
-			halfTextureUrl(MATERIAL_NAMES.roof),
-			TEXTURE_URLS.wood.oak2,
-			4,
-			2.1
-		);
-	}
-	return policy(
-		TEXTURE_URLS.bricks.fieldstone1,
-		TEXTURE_URLS.roof.tile3,
-		TEXTURE_URLS.wood.oak3,
-		7,
-		1.25
-	);
-}
-
-function policy(stone, roof, wood, anisotropy, tileWorld) {
+export function villageMaterialPolicy(detail = 'near', variant = 0) {
+	const safeVariant = Math.abs(Number(variant) || 0);
 	return Object.freeze({
-		anisotropy,
-		roof,
-		stone,
+		anisotropy: detail === 'near' ? 7 : detail === 'medium' ? 5 : 3,
+		roof: fullTextureUrl(ROOF[safeVariant % ROOF.length]),
+		stone: fullTextureUrl(STONE[safeVariant % STONE.length]),
+		wood: fullTextureUrl(WOOD[safeVariant % WOOD.length]),
 		texturePolicy: Object.freeze({
 			distanceSelected: true,
+			fullResolutionSource: true,
 			publicFirebase: true,
-			tileWorld
-		}),
-		wood
+			tileWorld: detail === 'near' ? 1.25 : detail === 'medium' ? 1.9 : 2.8,
+			variant: safeVariant
+		})
 	});
 }

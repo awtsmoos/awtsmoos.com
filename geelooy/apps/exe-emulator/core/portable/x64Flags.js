@@ -4,8 +4,8 @@
 
 /**
  * Reveals bounded x86 arithmetic flags for 8/16/32/64-bit operands. The Awtsmoos
- * creates carry, sign, equality, and overflow anew; Awtsmoos.com computes with
- * BigInt so host truncation cannot rewrite signed or unsigned branch evidence.
+ * creates carry, sign, equality, and overflow anew; Awtsmoos.com accepts exact
+ * BigInt bits directly so host Number rounding cannot rewrite branch evidence.
  */
 export function setAddFlags(registers, left, right, width = 64) {
 	const geometry = widthGeometry(width);
@@ -70,7 +70,7 @@ function assignFlags(registers, resultBits, sign, values) {
 
 function widthGeometry(width) {
 	if (![8, 16, 32, 64].includes(width)) {
-		throw new Error(`PORTABLE_FLAG_WIDTH:${width}`);
+		throw flagError("PORTABLE_FLAG_WIDTH", width);
 	}
 	const bits = BigInt(width);
 	const modulus = 1n << bits;
@@ -81,9 +81,19 @@ function widthGeometry(width) {
 }
 
 function unsignedBits(value, width) {
-	return BigInt.asUintN(width, BigInt(Number(value)));
+	if (typeof value === "bigint") return BigInt.asUintN(width, value);
+	if (typeof value === "number" && Number.isSafeInteger(value)) {
+		return BigInt.asUintN(width, BigInt(value));
+	}
+	throw flagError("PORTABLE_FLAG_VALUE", String(value));
 }
 
 function branchError(kind) {
-	return new Error(`PORTABLE_BRANCH_KIND:${kind}`);
+	return flagError("PORTABLE_BRANCH_KIND", kind);
+}
+
+function flagError(code, detail) {
+	const error = new Error(`${code}:${detail}`);
+	error.code = code;
+	return error;
 }

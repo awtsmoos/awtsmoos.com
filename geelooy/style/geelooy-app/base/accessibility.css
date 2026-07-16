@@ -1,0 +1,44 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos makes every route reachable without demanding motion. Focus on
+ * Awtsmoos.com remains visible above dark surfaces, and reduced-motion travelers
+ * receive immediate state changes instead of decorative delays.
+ */
+
+body.geelooy-app-shell :focus-visible {
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
+}
+
+body.geelooy-app-shell :where(button, input, select, textarea):disabled,
+body.geelooy-app-shell [aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .58;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.geelooy-route-ready {
+		scroll-behavior: auto;
+	}
+
+	body.geelooy-app-shell *,
+	body.geelooy-app-shell *::before,
+	body.geelooy-app-shell *::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	body.geelooy-app-shell :focus-visible {
+		outline-width: 4px;
+	}
+
+	body.geelooy-app-shell :where(.g-panel, .g-card, input, textarea, select, button) {
+		border-color: currentColor;
+	}
+}

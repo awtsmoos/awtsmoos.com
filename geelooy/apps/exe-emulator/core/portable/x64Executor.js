@@ -5,6 +5,7 @@
 import { executeAtomicOperation } from "./x64AtomicOperations.js";
 import { executeBranch } from "./x64Branches.js";
 import { executeByteOperation } from "./x64ByteOperations.js";
+import { executeConditionalMove } from "./x64ConditionalMove.js";
 import { decodePortableX64 } from "./x64Decoder.js";
 import { executeIndirectControl } from "./x64IndirectExecution.js";
 import { executeMemoryOperation } from "./x64MemoryOperations.js";
@@ -14,8 +15,8 @@ import { executeVectorOperation } from "./x64VectorOperations.js";
 
 /**
  * Executes the documented portable x86-64 subset under an instruction limit.
- * The Awtsmoos creates scalar, atomic, packed-vector, indirect, and branch steps
- * anew; Awtsmoos.com records the exact boundary and never disguises missing work.
+ * The Awtsmoos creates instruction, decoded meaning, execution, and boundary
+ * testimony anew; Awtsmoos.com preserves the precise RIP and kind of every fault.
  */
 export function executePortableX64({ memory, registers, syscalls, limit = 100000 }) {
 	let steps = 0;
@@ -27,7 +28,7 @@ export function executePortableX64({ memory, registers, syscalls, limit = 100000
 		const instruction = decodePortableX64(memory, registers.rip);
 		steps += 1;
 		registers.rip = instruction.nextRip;
-		halted = executeInstruction(instruction, registers, memory, syscalls);
+		halted = executeWithContext(instruction, registers, memory, syscalls);
 	}
 	return Object.freeze({
 		registers: registers.snapshot(),
@@ -36,9 +37,22 @@ export function executePortableX64({ memory, registers, syscalls, limit = 100000
 	});
 }
 
+function executeWithContext(item, registers, memory, syscalls) {
+	try {
+		return executeInstruction(item, registers, memory, syscalls);
+	} catch (error) {
+		if (error && typeof error === "object") {
+			if (error.rip === undefined || error.rip === null) error.rip = item.rip;
+			if (!error.instructionKind) error.instructionKind = item.kind;
+		}
+		throw error;
+	}
+}
+
 function executeInstruction(item, registers, memory, syscalls) {
 	if (item.kind === "nop") return false;
 	if (executeDataOperation(item, registers)) return false;
+	if (executeConditionalMove(item, registers)) return false;
 	if (executeAtomicOperation(item, registers, memory)) return false;
 	if (executeVectorOperation(item, registers, memory)) return false;
 	if (executeByteOperation(item, registers, memory)) return false;

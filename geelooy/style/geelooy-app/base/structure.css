@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every application route one still night sky. The subtle
+ * cyan and violet lights are painted once by the Awtsmoos.com document itself;
+ * no fixed blur, perspective grid, or infinite aurora is required.
+ */
+
+html.geelooy-route-ready {
+	min-inline-size: 20rem;
+	background: #060910;
+	scroll-behavior: smooth;
+}
+
+body.geelooy-app-shell {
+	min-inline-size: 20rem;
+	min-block-size: 100dvh;
+	margin: 0;
+	background:
+		radial-gradient(circle at 12% 8%, rgba(88, 199, 216, .1), transparent 28rem),
+		radial-gradient(circle at 88% 2%, rgba(139, 92, 255, .12), transparent 30rem),
+		linear-gradient(145deg, #060910, #0a101a 52%, #080b15);
+	background-attachment: scroll;
+	color: var(--g-text, #f5f7fb);
+	font-family: var(--g-font, Inter, ui-sans-serif, system-ui, sans-serif);
+	font-size: 16px;
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+body.geelooy-app-shell *,
+body.geelooy-app-shell *::before,
+body.geelooy-app-shell *::after {
+	box-sizing: border-box;
+}
+
+body.geelooy-app-shell :where(main, .geelooy-content-region) {
+	min-inline-size: 0;
+}
+
+body.geelooy-app-shell :where(.g-panel, .g-card, .home-panel) {
+	border-color: var(--g-border, rgba(255, 255, 255, .12));
+	background: var(--g-surface, #111722);
+	box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .22);
+	color: var(--g-text, #f5f7fb);
+}
+
+@media (forced-colors: active) {
+	html.geelooy-route-ready,
+	body.geelooy-app-shell {
+		background: Canvas;
+		color: CanvasText;
+	}
+}

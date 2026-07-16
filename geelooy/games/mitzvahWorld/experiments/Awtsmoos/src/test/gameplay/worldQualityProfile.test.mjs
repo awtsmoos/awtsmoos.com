@@ -73,14 +73,17 @@ test('option and URL overrides remain explicit and reproducible', () => {
 	assert.equal(high.explicit, true);
 });
 
-test('profiles preserve ordered density and bounded framebuffer scales', () => {
+test('gameplay profiles preserve full visual density while cinematic expands the horizon', () => {
 	const low = worldQualityProfile('low');
 	const medium = worldQualityProfile('medium');
 	const high = worldQualityProfile('high');
-	assert.ok(low.maxDpr < medium.maxDpr);
-	assert.ok(medium.maxDpr < high.maxDpr);
-	assert.ok(low.renderDistance < medium.renderDistance);
-	assert.ok(low.modelLimit < high.modelLimit);
+	const cinematic = worldQualityProfile('cinematic');
+	assert.equal(low.maxDpr, medium.maxDpr);
+	assert.equal(medium.maxDpr, high.maxDpr);
+	assert.equal(low.renderDistance, high.renderDistance);
+	assert.equal(low.modelLimit, high.modelLimit);
+	assert.ok(cinematic.maxDpr > high.maxDpr);
+	assert.ok(cinematic.renderDistance > high.renderDistance);
 });
 
 test('all tiers preserve the river village gameplay layer contract', () => {
@@ -89,8 +92,9 @@ test('all tiers preserve the river village gameplay layer contract', () => {
 		const world = createVillageWorldDefinitions(sampler(), quality);
 		counts[quality] = world.definitions.length;
 		assert.ok(world.stats.layers.includes('water'));
-		assert.ok(world.stats.layers.includes('npc-population'));
-		assert.ok(world.stats.population.questGivers >= 10);
+		assert.ok(world.stats.layers.includes('animated-chossid-population'));
+		assert.equal(world.stats.population.people, 0);
+		assert.equal(world.stats.population.visualPolicy, 'no-primitive-humans');
 	}
 	assert.ok(counts.low < counts.medium);
 	assert.ok(counts.medium < counts.high);

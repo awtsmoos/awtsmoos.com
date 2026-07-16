@@ -1,77 +1,54 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file frameBudgetGovernor.test.mjs
+ * @description Proves severe pressure produces diagnostics but never a quality downgrade.
+ * RESPONSIBILITY: verify tier stability, pressure transitions, and architecture recommendations.
+ * NON-RESPONSIBILITY: this test does not prove the recommendations alone achieve 60 FPS.
+ * Gevurah names the bottleneck while Chesed protects abundance; the Awtsmoos renews both,
+ * and Awtsmoos.com never makes the world blurrier to make a dashboard greener.
+ */
+
 import assert from 'node:assert/strict';
+import test from 'node:test';
 import { FrameBudgetGovernor } from '../../performance/FrameBudgetGovernor.js';
 
-const governor = new FrameBudgetGovernor({
-	initialTier: 'high',
-	maximumTier: 'high',
-	warmupMilliseconds: 0,
-	cooldownMilliseconds: 0,
-	badWindowsRequired: 2,
-	goodWindowsRequired: 2
-});
-
-const bad = snapshot({
-	averageFps: 34,
-	p95IntervalMilliseconds: 39,
-	longFrameRate: 0.12
-});
-const good = snapshot({
-	averageFps: 60,
-	p95IntervalMilliseconds: 16.7,
-	longFrameRate: 0
-});
-
-const firstPressure = governor.evaluate(bad, 0);
-assert.equal(firstPressure.changed, false);
-assert.equal(firstPressure.reason, 'collecting-pressure-evidence');
-
-const reduced = governor.evaluate(bad, 1);
-assert.equal(reduced.changed, true);
-assert.equal(reduced.previousTier, 'high');
-assert.equal(reduced.nextTier, 'medium');
-
-const firstHeadroom = governor.evaluate(good, 2);
-assert.equal(firstHeadroom.changed, false);
-assert.equal(firstHeadroom.reason, 'collecting-headroom-evidence');
-
-const restored = governor.evaluate(good, 3);
-assert.equal(restored.changed, true);
-assert.equal(restored.nextTier, 'high');
-
-const boundaryOne = governor.evaluate(good, 4);
-const boundaryTwo = governor.evaluate(good, 5);
-assert.equal(boundaryOne.changed, false);
-assert.equal(boundaryTwo.changed, false);
-assert.equal(boundaryTwo.reason, 'tier-boundary');
-assert.equal(governor.currentTier, 'high');
-assert.equal(governor.decisions.length, 2);
-
-const warming = new FrameBudgetGovernor({
-	initialTier: 'medium',
-	warmupMilliseconds: 1000,
-	cooldownMilliseconds: 0,
-	badWindowsRequired: 1
-});
-assert.equal(warming.evaluate(bad, 100).reason, 'warmup');
-assert.equal(warming.evaluate(bad, 1100).changed, true);
-assert.equal(warming.currentTier, 'low');
-
-const incomplete = governor.evaluate({ ...bad, ready: false }, 6);
-assert.equal(incomplete.reason, 'window-not-ready');
-
-console.log(JSON.stringify({
-	ok: true,
-	decisions: governor.decisions,
-	warmingTier: warming.currentTier
-}, null, 2));
-
-function snapshot(overrides) {
+function snapshot(overrides = {}) {
 	return {
-		ready: true,
 		averageFps: 60,
-		p95IntervalMilliseconds: 16.7,
 		longFrameRate: 0,
+		onePercentLowFps: 60,
+		p95IntervalMilliseconds: 1000 / 60,
+		ready: true,
 		...overrides
 	};
 }
+
+test('critical pressure preserves the selected tier', () => {
+	const governor = new FrameBudgetGovernor({
+		initialTier: 'cinematic',
+		maximumTier: 'cinematic',
+		warmupMilliseconds: 0
+	});
+	const decision = governor.evaluate(snapshot({
+		averageFps: 21,
+		longFrameRate: 0.3,
+		onePercentLowFps: 12,
+		p95IntervalMilliseconds: 70
+	}), 1000);
+	assert.equal(decision.changed, false);
+	assert.equal(decision.nextTier, 'cinematic');
+	assert.equal(decision.pressureState, 'critical');
+	assert.equal(decision.qualityPreserved, true);
+	assert.ok(decision.recommendations.includes('batch-and-instance'));
+});
+
+test('stable evidence remains stable without changing quality', () => {
+	const governor = new FrameBudgetGovernor({ warmupMilliseconds: 0 });
+	const decision = governor.evaluate(snapshot(), 1000);
+	assert.equal(decision.pressureState, 'stable');
+	assert.equal(decision.changed, false);
+	assert.deepEqual(decision.recommendations, []);
+});

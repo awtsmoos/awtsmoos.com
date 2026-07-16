@@ -2,74 +2,97 @@
 //Boruch Hashem
 //Blessed is He
 
-import { androidGraphicsToWebGl } from "./android/graphicsTrace.js";
-import { launchAndroidPackage } from "./android/runtime.js";
-import { openApkArchive } from "./apk/archive.js";
-import { inspectApkIdentity } from "./apk/identity.js";
+import {
+	normalizeApkArtifacts,
+	normalizeArtifactBytes
+} from "./apk/artifactBytes.js";
+import { inspectApkPackageSet } from "./apk/packageSet.js";
+import { launchAndroidPackageSet } from "./android/runtime.js";
 
 /**
- * Opens any supplied APK through one generic inspect-or-launch doorway. The
- * Awtsmoos creates archive, identity, Dalvik attempt, graphics trace, and boundary
- * anew; Awtsmoos.com never branches on package, filename, fixture, or application.
+ * Opens a raw APK, split set, or prevalidated package graph through one runtime.
+ * The Awtsmoos creates artifact representation, package identity, and execution
+ * anew; Awtsmoos.com never lets browser byte shape become a compatibility fork.
  */
-export async function runAndroidArtifact(input = {}) {
-	const archive = openApkArchive(input.bytes, input.options || {});
-	const identity = await inspectApkIdentity(archive, input.options || {});
-	if (input.inspectOnly) {
-		return Object.freeze({
-			execution: null,
-			executionClass: "apk-structural-inspection",
-			identity,
-			verdict: "inspected"
-		});
-	}
+export async function runAndroidArtifact(options = {}) {
+	const packageSet = await resolvePackageSet(options);
 	try {
-		const execution = await launchAndroidPackage(
-			archive,
-			identity,
-			{
-				...(input.options || {}),
-				filesystemCapability: input.filesystemCapability || null
-			}
-		);
-		const webgl = androidGraphicsToWebGl(execution.framework.graphics);
-		for (const operation of webgl) input.host?.draw?.(operation);
-		input.host?.openWindow?.(
-			identity.manifest.application?.label || identity.manifest.packageName,
-			execution.framework.contentView
-		);
-		input.host?.print?.(
-			`${identity.manifest.packageName} executed ${execution.vm.steps} Dalvik instructions.`
-		);
+		const result = await launchAndroidPackageSet(packageSet, options);
 		return Object.freeze({
-			execution,
-			executionClass: execution.executionClass,
-			identity,
-			verdict: "dalvik-subset-executed",
-			webgl
+			android: androidEvidence(packageSet, result, null),
+			result
 		});
 	} catch (error) {
-		if (!isAndroidBoundary(error)) throw error;
-		const boundary = Object.freeze({
-			code: error.code || error.name,
-			instruction: error.instruction || null,
-			message: String(error.message || error),
-			pc: error.pc ?? null,
-			signature: error.signature ?? null
-		});
-		input.host?.print?.(`Android execution boundary: ${boundary.message}`);
 		return Object.freeze({
-			boundary,
-			execution: null,
-			executionClass: "android-runtime-boundary",
-			identity,
-			verdict: "unsupported-runtime-boundary"
+			android: androidEvidence(packageSet, null, error),
+			result: null
 		});
 	}
 }
 
-function isAndroidBoundary(error) {
-	return /^(APK_|AXML_|DEX_|DALVIK_|ANDROID_)/.test(
-		String(error?.code || error?.message || "")
-	);
+async function resolvePackageSet(options) {
+	const prepared = options.androidPackageSet || options.packageSet;
+	if (prepared?.base && Array.isArray(prepared.records)) return prepared;
+	const artifacts = options.androidArtifacts || options.artifacts;
+	if (Array.isArray(artifacts) && artifacts.length) {
+		return inspectApkPackageSet(
+			await normalizeApkArtifacts(artifacts),
+			options
+		);
+	}
+	const source = firstArtifactSource(options);
+	const bytes = await normalizeArtifactBytes(source);
+	return inspectApkPackageSet([
+		Object.freeze({
+			bytes,
+			name: artifactName(options)
+		})
+	], options);
+}
+
+function firstArtifactSource(options) {
+	for (const value of [
+		options.bytes,
+		options.content,
+		options.artifactBytes,
+		options.artifact
+	]) {
+		if (value !== undefined && value !== null) return value;
+	}
+	return null;
+}
+
+function artifactName(options) {
+	const value = String(
+		options.fileName
+		|| options.name
+		|| options.artifactIdentity?.name
+		|| "base.apk"
+	).trim();
+	return value || "base.apk";
+}
+
+function androidEvidence(packageSet, result, error) {
+	return Object.freeze({
+		boundary: error ? boundaryEvidence(error) : null,
+		identity: packageSet.base.identity,
+		packageSet: result?.packageSet || packageSetEvidence(packageSet)
+	});
+}
+
+function packageSetEvidence(packageSet) {
+	return Object.freeze({
+		artifactCount: packageSet.records.length,
+		packageName: packageSet.packageName,
+		splitCount: packageSet.splits.length,
+		versionCode: packageSet.versionCode,
+		versionName: packageSet.versionName
+	});
+}
+
+function boundaryEvidence(error) {
+	return Object.freeze({
+		code: error?.code || "ANDROID_EXECUTION_FAILED",
+		message: error?.message || String(error)
+	});
 }

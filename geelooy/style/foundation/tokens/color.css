@@ -1,30 +1,38 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * One restrained palette gives every existing Geelooy surface a common source.
+ *
+ * One dark Geelooy palette gives every existing surface a stable source.
+ * Awtsmoos.com no longer changes field color according to operating-system
+ * preference or import timing; pages may opt into light parchment explicitly.
  */
+
 :root {
-	color-scheme: light dark;
-	--awt-bg-deep: #07090f;
-	--awt-bg-night: #0b0e16;
-	--awt-surface: #ffffff;
-	--awt-surface-soft: #f6f7f9;
-	--awt-surface-muted: #edf0f4;
-	--awt-vellum: #fbfaf7;
-	--awt-vellum-2: #f3efe6;
-	--awt-ink: #171a21;
-	--awt-ink-soft: #5d6572;
-	--awt-ink-faint: #828b99;
-	--awt-gold: #9b7437;
-	--awt-gold-light: #d7b36a;
-	--awt-accent: #236f73;
-	--awt-accent-soft: #d7eeee;
-	--awt-line: rgba(23, 26, 33, .12);
-	--awt-line-strong: rgba(23, 26, 33, .22);
+	color-scheme: dark;
+	--awt-bg-deep: #060910;
+	--awt-bg-night: #090d15;
+	--awt-surface: #111722;
+	--awt-surface-soft: #171f2d;
+	--awt-surface-muted: #202a39;
+	--awt-vellum: #131922;
+	--awt-vellum-2: #1a222e;
+	--awt-ink: #f5f7fb;
+	--awt-ink-soft: #bac4d3;
+	--awt-ink-faint: #94a2b7;
+	--awt-gold: #d7b36a;
+	--awt-gold-light: #f2d58f;
+	--awt-accent: #58c7d8;
+	--awt-accent-soft: rgba(88, 199, 216, .14);
+	--awt-line: rgba(255, 255, 255, .12);
+	--awt-line-strong: rgba(255, 255, 255, .22);
 	--awt-dark-line: rgba(255, 255, 255, .12);
-	--awt-danger: #a33b4a;
-	--awt-success: #2f7d58;
-	--awt-warning: #9a6a1f;
+	--awt-danger: #ff7894;
+	--awt-success: #61d5a1;
+	--awt-warning: #f0c96b;
+	--g-bg: var(--awt-bg-deep);
+	--g-bg-soft: var(--awt-bg-night);
+	--g-surface: var(--awt-surface);
+	--g-surface-2: var(--awt-surface-soft);
 	--g-text: var(--awt-ink);
 	--g-text-2: var(--awt-ink-soft);
 	--g-muted: var(--awt-ink-soft);
@@ -32,19 +40,6 @@
 	--g-border: var(--awt-line);
 	--g-border-strong: var(--awt-line-strong);
 	--g-accent: var(--awt-accent);
-	--g-focus: #268b91;
-}
-@media (prefers-color-scheme: dark) {
-	:root {
-		--awt-surface: #11151d;
-		--awt-surface-soft: #171c25;
-		--awt-surface-muted: #202733;
-		--awt-vellum: #12161e;
-		--awt-vellum-2: #1a202a;
-		--awt-ink: #f4f2ec;
-		--awt-ink-soft: #b3bac5;
-		--awt-ink-faint: #8b95a4;
-		--awt-line: rgba(255, 255, 255, .1);
-		--awt-line-strong: rgba(255, 255, 255, .2);
-	}
+	--g-danger: var(--awt-danger);
+	--g-focus: #7ed7e5;
 }

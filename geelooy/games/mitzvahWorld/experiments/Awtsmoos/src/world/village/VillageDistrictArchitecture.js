@@ -15,6 +15,11 @@ import {
 	createCottageDetailBatches,
 	createCottageDetailCollector
 } from './VillageCottageDetailBatch.js';
+import {
+	appendCottageOrnaments,
+	createCottageOrnamentBatches,
+	createCottageOrnamentCollector
+} from './VillageCottageOrnamentBatch.js';
 import { VILLAGE_DISTRICTS } from './VillageDistrictCatalog.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';
 import { villageMaterialPolicy } from './DistanceMaterialPolicy.js';
@@ -24,11 +29,13 @@ export function createVillageDistrictArchitecture(groundSampler, quality = 'high
 	const budget = villageWorldBudget(quality);
 	const districts = VILLAGE_DISTRICTS.slice(0, budget.districts);
 	const collector = createCottageDetailCollector();
+	const ornaments = createCottageOrnamentCollector();
 	const definitions = [];
 	for (const district of districts) {
-		appendDistrict(definitions, collector, district, groundSampler, quality);
+		appendDistrict(definitions, collector, ornaments, district, groundSampler, quality);
 	}
 	definitions.push(...createCottageDetailBatches(collector));
+	definitions.push(...createCottageOrnamentBatches(ornaments));
 	if (definitions.length > budget.architecturePieces) {
 		throw new Error(`Architecture budget ${budget.architecturePieces} is below ${definitions.length}.`);
 	}
@@ -42,32 +49,62 @@ export function createVillageDistrictArchitecture(groundSampler, quality = 'high
 	return definitions;
 }
 
-function appendDistrict(output, collector, district, groundSampler, quality) {
+function appendDistrict(output, collector, ornaments, district, groundSampler, quality) {
 	const policy = architectureDistrictPolicy(district, quality);
+	if (district.id === 'arrival-meadow') {
+		appendArrivalCottages(output, collector, ornaments, district, policy, groundSampler);
+		return;
+	}
 	for (let index = 0; index < policy.cottages; index += 1) {
 		const angle = district.phase + index / policy.cottages * Math.PI * 2;
 		const x = district.center[0] + Math.cos(angle) * district.radius[0] * 0.62;
 		const z = district.center[1] + Math.sin(angle) * district.radius[1] * 0.62;
-		appendCottage(output, collector, district, policy.detail, index, x, z, angle + Math.PI, groundSampler);
+		appendCottage(output, collector, ornaments, district, policy.detail, index, x, z, angle + Math.PI, groundSampler);
 	}
 	output.push(landmark(district, policy.detail, groundSampler));
 }
 
-function appendCottage(output, collector, district, detail, index, x, z, yaw, groundSampler) {
+function appendArrivalCottages(output, collector, ornaments, district, policy, groundSampler) {
+	const placements = [
+		[-12.5, 55, -0.18],
+		[13.0, 46, 0.22],
+		[-12.8, 35, -0.16],
+		[13.5, 25, 0.18],
+		[-13.8, 15, -0.12]
+	];
+	for (let index = 0; index < policy.cottages; index += 1) {
+		const [x, z, angle] = placements[index];
+		appendCottage(
+			output,
+			collector,
+			ornaments,
+			district,
+			policy.detail,
+			index,
+			x,
+			z,
+			x < 0 ? Math.PI / 2 + angle : -Math.PI / 2 + angle,
+			groundSampler
+		);
+	}
+}
+
+function appendCottage(output, collector, ornaments, district, detail, index, x, z, yaw, groundSampler) {
 	const base = villageGroundHeight(groundSampler, x, z);
 	const width = 6.4 + index % 2 * 1.2;
 	const depth = 5.4;
-	const materials = villageMaterialPolicy(detail);
+	const materials = villageMaterialPolicy(detail, index + Math.round(district.phase * 10));
 	const id = `${district.id}-cottage-${index}`;
 	output.push(
 		definition(id, 'box', x, base + 1.7, z, yaw, {
 			size: { x: width, y: 3.4, z: depth }
-		}, materials.stone, '#b79a72', materials, 'architecture'),
+		}, materials.stone, '#ded3c0', materials, 'architecture'),
 		definition(`${district.id}-roof-${index}`, 'triPrism', x, base + 4.2, z, yaw, {
 			size: { x: width + 0.7, y: 2.05, z: depth + 0.7 }
-		}, materials.roof, '#705044', materials, 'architecture')
+		}, materials.roof, '#b48772', materials, 'architecture')
 	);
 	appendCottageDetails(collector, { base, depth, detail, id, width, x, yaw, z });
+	appendCottageOrnaments(ornaments, { base, depth, detail, id, width, x, yaw, z });
 }
 
 function landmark(district, detail, groundSampler) {

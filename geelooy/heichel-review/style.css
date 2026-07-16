@@ -1,14 +1,19 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Review uses shared Geelooy controls first and its institutional layouts second.
+ *
+ * Institutional review uses the current Geelooy shell, focused review modules,
+ * and modular governance and action contracts. No stale interface or duplicate
+ * performance generation remains active on this Awtsmoos.com route.
  */
-@import url('/style/geelooy-app/index.css?v=unified-ui-001');
-@import url('/style/social-system/index.css?v=unified-ui-001');
-@import url('./styles/foundation.css?v=unified-ui-001');
-@import url('./styles/layout.css?v=unified-ui-001');
-@import url('./styles/queue.css?v=unified-ui-001');
-@import url('./styles/decisions.css?v=unified-ui-001');
-@import url('./styles/governance.css?v=unified-ui-001');
-@import url('./styles/responsive.css?v=unified-ui-001');
-@import url('/style/geelooy-app/performance.css?v=unified-ui-001');
+
+@import url('/style/geelooy-app/index.css?v=interface-dark-010');
+@import url('/style/social-system/index.css?v=social-core-006');
+@import url('./styles/foundation.css?v=review-dark-004');
+@import url('./styles/layout.css?v=review-dark-004');
+@import url('./styles/queue.css?v=review-dark-004');
+@import url('./styles/decisions.css?v=review-dark-004');
+@import url('./styles/governance.css?v=review-dark-004');
+@import url('./styles/responsive.css?v=review-dark-004');
+@import url('./styles/surface-contract.css?v=review-contract-004');
+@import url('./styles/action-contract.css?v=review-dark-004');

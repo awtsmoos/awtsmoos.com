@@ -10,6 +10,7 @@
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
+import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
 import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
@@ -36,6 +37,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const runtime = createEretzUi(actors, options.ui || {});
 		runtime.worldModels = null;
 		installViewport(runtime);
+		installRuntimePerformanceMonitor(runtime);
 		boot.begin('diagnostics-and-loop');
 		const diagnostics = installWorldDiagnostics(runtime);
 		const movement = options.startLoop === false
@@ -52,6 +54,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 		diagnostics.bootPhases = () => boot.snapshot();
 		diagnostics.qualityProfile = { ...qualityProfile };
 		boot.complete();
+		setDebugHudVisibility(hosts?.hud);
 		diagnostics.worldModelPromise = startDeferredWorldModels(
 			foundation,
 			runtime,
@@ -90,10 +93,17 @@ function exposeBootFailure(error, hosts) {
 	};
 	if (typeof window !== 'undefined') window.AwtsmoosBootError = failure;
 	if (hosts?.hud) {
+		hosts.hud.style.removeProperty('display');
 		hosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;
 	}
 	console.error('B"H Mitzvah World initialization failed.', error);
 	return failure;
+}
+
+function setDebugHudVisibility(hud) {
+	if (!hud || typeof location === 'undefined') return;
+	const showDebug = new URLSearchParams(location.search).get('debug') === '1';
+	hud.style.display = showDebug ? '' : 'none';
 }
 
 export default createEretzRuntime;

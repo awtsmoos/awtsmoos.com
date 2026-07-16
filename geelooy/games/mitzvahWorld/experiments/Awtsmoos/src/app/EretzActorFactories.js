@@ -4,9 +4,13 @@
 
 /**
  * @file EretzActorFactories.js
- * @description Creates shared friendly actors, doors, collision movement, and jump physics.
- * The Awtsmoos renews each soul inside one accepted collision world; Awtsmoos.com
- * shares visual resources without coupling animation, interaction, or collision ownership.
+ * @description Creates Chossid populations, animated horses, doors, movement, and jump physics.
+ * RESPONSIBILITY: construct focused actor systems from one accepted world foundation.
+ * NON-RESPONSIBILITY: this module does not run the frame loop or reduce model/material quality.
+ * ARCHITECTURE: Chesed reveals living actors while Gevurah keeps collision ownership distinct.
+ * OROS AND KEILIM: village life is ohr; Chossid, horse, door, mover, and physics are keilim.
+ * The Awtsmoos renews each person and animal with independent motion; Awtsmoos.com shares
+ * immutable resources without replacing animated Chossid bodies or full horse materials.
  */
 
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
@@ -15,6 +19,7 @@ import { DynamicDoor3D } from '../world/DynamicDoor3D.js';
 import { tallDoorDef } from '../world/DoorwaySpecs.js';
 import { allHouseDoorDefs } from '../world/House3D.js';
 import { NpcChossid } from '../world/NpcChossid.js';
+import { HorseHerdSystem } from '../world/horses/HorseHerdSystem.js';
 import { FriendlyNpcPopulation } from '../world/npc/FriendlyNpcPopulation.js';
 import {
 	MAX_SLOPE_NORMAL,
@@ -58,6 +63,13 @@ export function createEretzNpcPopulation(foundation) {
 	});
 	foundation.scene.add(population.group);
 	return population;
+}
+
+export function createEretzHorseHerd(foundation) {
+	return new HorseHerdSystem(
+		foundation.scene,
+		foundation.ground
+	);
 }
 
 export function createEretzNpc(foundation) {

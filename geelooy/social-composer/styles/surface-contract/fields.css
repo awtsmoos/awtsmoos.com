@@ -1,0 +1,45 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every composer field one durable dark vessel. Awtsmoos.com
+ * inputs, textareas, selects, placeholders, and focus states remain immediate,
+ * readable, and independent of shared import order.
+ */
+
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+	min-block-size: 48px;
+	border: 1px solid var(--composer-line-strong) !important;
+	border-radius: .8rem !important;
+	background: var(--composer-panel-soft) !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
+	color: var(--composer-text) !important;
+	font-size: max(16px, 1rem);
+	transition: none !important;
+}
+
+textarea {
+	min-block-size: 8rem;
+}
+
+:where(input, textarea)::placeholder {
+	color: var(--composer-faint) !important;
+	opacity: 1;
+}
+
+:where(input, textarea, select):focus-visible {
+	border-color: #58c7d8 !important;
+	background: #192738 !important;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16) !important;
+}
+
+:where(input[type="checkbox"], input[type="radio"]) {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	accent-color: #58c7d8;
+}
+
+:where(input, textarea, select):disabled {
+	cursor: not-allowed;
+	opacity: .55;
+}

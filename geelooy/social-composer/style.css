@@ -2,22 +2,22 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers the Composer through focused Awtsmoos.com vessels.
- * Shared Geelooy foundations remain first, route capabilities follow, and the
- * final accessibility covenant owns only names, focus, touch, and motion.
+ * The unified composer owns one lean route graph. Foundation tokens and reset
+ * arrive first; focused capabilities follow; the final modular surface contract
+ * prevents any shared rule from restoring white fields or plain controls.
  */
 
-@import url("/style/geelooy-app/index.css?v=unified-ui-001");
-@import url("/style/social-system/index.css?v=unified-ui-001");
-@import url("./styles/foundation.css?v=unified-ui-001");
-@import url("./styles/layout.css?v=unified-ui-001");
-@import url("./styles/identity.css?v=unified-ui-001");
-@import url("./styles/destinations.css?v=unified-ui-001");
-@import url("./styles/editor.css?v=unified-ui-001");
-@import url("./styles/media.css?v=unified-ui-001");
-@import url("./styles/publication.css?v=unified-ui-001");
-@import url("./styles/preview.css?v=unified-ui-001");
-@import url("./styles/actions.css?v=unified-ui-001");
-@import url("./styles/responsive.css?v=unified-ui-001");
-@import url("./styles/accessibility.css?v=unified-ui-002");
-@import url("/style/geelooy-app/performance.css?v=unified-ui-001");
+@import url("/style/foundation/tokens/index.css?v=composer-surface-004");
+@import url("/style/foundation/reset/index.css?v=composer-surface-004");
+@import url("./styles/foundation.css?v=composer-surface-004");
+@import url("./styles/layout.css?v=composer-surface-004");
+@import url("./styles/identity.css?v=composer-surface-004");
+@import url("./styles/destinations.css?v=composer-surface-004");
+@import url("./styles/editor.css?v=composer-surface-004");
+@import url("./styles/media.css?v=composer-surface-004");
+@import url("./styles/publication.css?v=composer-surface-004");
+@import url("./styles/preview.css?v=composer-surface-004");
+@import url("./styles/actions.css?v=composer-surface-004");
+@import url("./styles/responsive.css?v=composer-surface-004");
+@import url("./styles/accessibility.css?v=composer-surface-004");
+@import url("./styles/surface-contract.css?v=composer-contract-004");

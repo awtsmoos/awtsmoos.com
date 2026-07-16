@@ -3,19 +3,24 @@
  * Blessed is He
  *
  * The Awtsmoos gives the final shared shield one purpose: harmonize without
- * erasing the deliberate component vessels revealed earlier on Awtsmoos.com.
- * Text-entry controls retain a mobile-safe voice instead of inheriting labels.
+ * erasing deliberate route vessels. Every fallback resolves to a real dark
+ * Awtsmoos.com value instead of invalidating the whole declaration.
  */
-html,
+
+html {
+	background-color: var(--g-bg, #060910);
+	color: var(--g-text, #f5f7fb);
+}
+
 body {
-	background: var(--g-bg-soft) !important;
-	color: var(--g-text) !important;
+	background-color: var(--g-bg-soft, #090d15);
+	color: var(--g-text, #f5f7fb);
 }
 
 a {
 	color: inherit;
-	text-decoration-thickness: 0.08em;
-	text-underline-offset: 0.16em;
+	text-decoration-thickness: .08em;
+	text-underline-offset: .16em;
 }
 
 a[class],
@@ -24,13 +29,10 @@ nav a,
 .social-space-card a,
 .profile-command-rail a,
 .space-actions a {
-	text-decoration: none !important;
+	text-decoration: none;
 }
 
-button {
-	font: inherit;
-}
-
+button,
 input,
 textarea,
 select {
@@ -42,7 +44,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 textarea,
 select {
 	font-size: max(1rem, 16px);
-	line-height: 1.35;
+	line-height: 1.4;
 }
 
 .profile-banner-light,
@@ -55,21 +57,21 @@ select {
 .profile-avatar-orb,
 .space-seal {
 	display: inline-grid !important;
-	width: 40px;
-	height: 40px;
+	inline-size: 40px;
+	block-size: 40px;
 	flex: 0 0 40px;
 	place-items: center;
-	border: 1px solid var(--g-border) !important;
+	border: 1px solid var(--g-border, rgba(255, 255, 255, .12)) !important;
 	border-radius: 50% !important;
-	background: var(--g-surface-2) !important;
-	color: var(--g-text-2) !important;
+	background: var(--g-surface-2, #171f2d) !important;
+	color: var(--g-text-2, #bac4d3) !important;
 }
 
 .home-hero-copy,
 .profile-identity-copy,
 .space-copy {
 	display: grid;
-	gap: var(--g-2);
+	gap: .5rem;
 }
 
 .home-feed-tabs,
@@ -77,27 +79,27 @@ select {
 .spaces-state-row {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--g-2);
+	gap: .5rem;
 }
 
 .home-feed-tabs button.active,
 .profile-tabs .active {
-	border-color: var(--g-border-strong);
-	background: var(--g-surface-2);
+	border-color: var(--g-border-strong, rgba(255, 255, 255, .22));
+	background: var(--g-surface-2, #171f2d);
 }
 
 .sidebar,
 .chat-container,
 .mail-main,
 .thread-panel {
-	border-color: var(--g-border) !important;
-	background: var(--g-surface) !important;
+	border-color: var(--g-border, rgba(255, 255, 255, .12)) !important;
+	background: var(--g-surface, #111722) !important;
 	box-shadow: none !important;
 }
 
 .brand-title {
 	background: none !important;
-	color: var(--g-text) !important;
-	letter-spacing: -0.02em !important;
+	color: var(--g-text, #f5f7fb) !important;
+	letter-spacing: -.02em !important;
 	text-transform: none !important;
 }

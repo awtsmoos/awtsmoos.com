@@ -28,7 +28,7 @@ export const DETAIL_TEXTURE_FAMILIES = Object.freeze({
 		chaiPine: exactMaterialUrl('awtsmoos-nature/chai-forest/textures/leaves/pine.png')
 	}),
 	botany: freeze({
-		petalAtlas: transparentAspen
+		petalAtlas: exactMaterialUrl('awtsmoos-nature/ilanos/trees/sakura petal.png')
 	}),
 	metals: freeze({
 		gold2: fullMaterialUrl('gold 2'),

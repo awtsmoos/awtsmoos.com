@@ -2,10 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { readGuestText } from "./guestText.js";
+
 /**
- * Handles generic Android Activity, View, ViewGroup, and widget methods. The
- * Awtsmoos creates text, hierarchy, orientation, listener, and content root anew;
- * Awtsmoos.com records only calls actually made by guest bytecode.
+ * Handles Activity, View, ViewGroup, and widget methods. The Awtsmoos creates
+ * text, hierarchy, orientation, listener, and content root anew; Awtsmoos.com
+ * preserves every existing guest contract while revealing Java String values.
  */
 export function createFrameworkViewMethods(runtime) {
 	const handlers = new Map([
@@ -29,6 +31,7 @@ export function createFrameworkViewMethods(runtime) {
 
 function setContentView(args, runtime) {
 	runtime.contentView = args[1] || null;
+	runtime.heap.setField(args[0], "android:contentView", runtime.contentView);
 	runtime.logcat.info("Activity", "setContentView");
 }
 
@@ -49,7 +52,8 @@ function setOrientation(args, runtime) {
 }
 
 function setText(args, runtime) {
-	const text = args[1] === null || args[1] === undefined ? "" : String(args[1]);
+	const text = readGuestText(runtime, args[1]);
 	runtime.views.set(args[0], "text", text);
+	runtime.heap.setField(args[0], "android:text", text);
 	runtime.graphics.canvas({ kind: "text", text });
 }

@@ -2,10 +2,12 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The restored unusual header enters through versioned focused modules so its
- * frame, search, menu, and mobile identity arrive together on Awtsmoos.com.
+ * The shared header enters through focused versioned vessels. Frame, search,
+ * menu, and mobile identity render in their final dark state on Awtsmoos.com
+ * without stale gray controls or first-frame transition artifacts.
  */
-@import "./shell.css?v=magic-001";
-@import "./search.css?v=magic-001";
-@import "./menu.css?v=magic-001";
-@import "./mobile.css?v=magic-001";
+
+@import "./shell.css?v=header-dark-008";
+@import "./search.css?v=header-dark-008";
+@import "./menu.css?v=header-dark-008";
+@import "./mobile.css?v=header-dark-008";

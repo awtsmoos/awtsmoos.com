@@ -26,6 +26,7 @@ test('world texture roles are unique optional image records', () => {
 			`${material.role} must preload an image`
 		);
 		assert.equal(material.critical, false);
+		assert.equal(material.primaryUrl.includes('/half-resolution/'), false);
 		assert.equal(/\.glb(?:\?|$)/i.test(material.primaryUrl), false);
 		assert.equal(
 			material.primaryUrl.includes('/processed/botany/'),

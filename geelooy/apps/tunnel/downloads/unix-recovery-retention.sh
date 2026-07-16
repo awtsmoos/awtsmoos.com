@@ -3,47 +3,57 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H
-# Metadata and bounded retention give Netzach memory without unbounded disk use.
-write_archive_metadata() {
-	local temporary="$1"
-	local version="$2"
-	local reason="$3"
-	local archive_sha
-	local manifest_sha
-	archive_sha="$(sha256_file "$temporary/runtime.tar")"
-	manifest_sha="$(cat "$ROOT/install-manifest.sha256" 2>/dev/null | awk '{print $1}')"
+# Recovery retention favors a small, verified archive ladder and keeps inventory
+# metrics beside every artifact so Awtsmoos.com can prove archive cost before tar.
+prune_known_good_archives() {
+	local keep="${AWTSMOOS_ARCHIVE_KEEP:-5}"
+	local index=0
+	[ -d "$RECOVERY_ROOT/versions" ] || return 0
+	while IFS= read -r archive; do
+		index=$((index + 1))
+		if [ "$index" -gt "$keep" ]; then
+			rm -rf "$archive"
+		fi
+	done < <(archive_directories_newest)
+}
 
-	node - "$temporary/metadata.json" "$version" "$reason" \
-		"$archive_sha" "$manifest_sha" <<'NODE'
+write_archive_metadata() {
+	local archive_dir="$1"
+	local runtime_root="$2"
+	local version="$3"
+	local manifest_sha="$4"
+	local artifact_sha="$5"
+	local artifact_bytes="$6"
+	node - "$archive_dir/archive.json" "$archive_dir/inventory.json" \
+		"$runtime_root" "$version" "$manifest_sha" "$artifact_sha" \
+		"$artifact_bytes" <<'NODE'
 const fs = require("node:fs");
-const [file, version, reason, archiveSha256, manifestSha256] = process.argv.slice(2);
-fs.writeFileSync(file, `${JSON.stringify({
+const [file, inventoryFile, runtimeRoot, version, manifestSha256, artifactSha256, bytes] = process.argv.slice(2);
+let inventory = null;
+try {
+	inventory = JSON.parse(fs.readFileSync(inventoryFile, "utf8"));
+} catch {}
+const descriptor = {
+	kind: "awtsmoos-runtime-archive",
 	version,
 	createdAt: new Date().toISOString(),
-	reason,
-	archiveSha256,
-	manifestSha256
-}, null, 2)}\n`);
+	sourceRoot: runtimeRoot,
+	artifact: "runtime.tar",
+	artifactSha256,
+	artifactBytes: Number(bytes),
+	manifestSha256,
+	inventory,
+	state: "sealed"
+};
+fs.writeFileSync(file, `${JSON.stringify(descriptor, null, 2)}\n`);
 NODE
 }
 
-prune_recovery_versions() {
-	node - "$RECOVERY_ROOT/versions" "${AWTSMOOS_RECOVERY_KEEP:-5}" <<'NODE'
-const fs = require("node:fs");
-const path = require("node:path");
-const root = process.argv[2];
-const keep = Math.max(2, Number(process.argv[3] || 5));
-if (!fs.existsSync(root)) process.exit(0);
-
-const entries = fs.readdirSync(root, { withFileTypes: true })
-	.filter(entry => entry.isDirectory() && !entry.name.startsWith("."))
-	.map(entry => path.join(root, entry.name))
-	.sort()
-	.reverse();
-
-for (const directory of entries.slice(keep)) {
-	fs.rmSync(directory, { recursive: true, force: true });
-}
-NODE
+verify_archive_artifact() {
+	local archive_dir="$1"
+	local expected_sha
+	local actual_sha
+	expected_sha="$(node -e "const v=require(process.argv[1]);process.stdout.write(v.artifactSha256||'')" "$archive_dir/archive.json")"
+	actual_sha="$(sha256_file "$archive_dir/runtime.tar")"
+	[ -n "$expected_sha" ] && [ "$expected_sha" = "$actual_sha" ]
 }

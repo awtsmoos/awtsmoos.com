@@ -4,23 +4,35 @@
 
 /**
  * @file MovieProjectNormalizer.js
- * @description Supplies stable defaults to legacy and AI movie source documents.
- * The Awtsmoos renews incomplete intention as a named finite vessel; Awtsmoos.com
- * preserves old flat projects while making nested, crowd, rig, and graph arrays explicit.
+ * @description Supplies 60 FPS Full-HD defaults without confusing cadence and camera viewpoint.
+ * RESPONSIBILITY: clone source data and normalize bounded project, track, and clip fields.
+ * NON-RESPONSIBILITY: this module does not validate graph topology, compile, or render movies.
+ * ARCHITECTURE: Chesed supplies complete defaults while Gevurah bounds unsafe values.
+ * OROS AND KEILIM: authored intention is ohr; cadence, resolution, and view mode are distinct keilim.
+ * The Awtsmoos renews every frame and viewpoint independently; Awtsmoos.com keeps 60 FPS as
+ * sixty temporal images per second while third-person remains the ordinary camera default.
  */
 
-const DEFAULT_RESOLUTION = Object.freeze({ width: 960, height: 540 });
+const DEFAULT_FPS = 60;
+const DEFAULT_RESOLUTION = Object.freeze({
+	height: 1080,
+	width: 1920
+});
+const VALID_VIEW_MODES = new Set(['firstPerson', 'legacy']);
 
 export function normalizeMovieProject(source) {
 	const project = clone(source || {});
 	project.version = Number(project.version || 1);
 	project.title = String(project.title || 'Untitled Awtsmoos Movie');
 	project.duration = Math.max(0.1, Number(project.duration || 30));
-	project.fps = Math.max(1, Math.min(120, Number(project.fps || 24)));
+	project.fps = Math.max(1, Math.min(120, Number(project.fps || DEFAULT_FPS)));
 	project.resolution = {
 		...DEFAULT_RESOLUTION,
 		...(project.resolution || {})
 	};
+	project.viewMode = VALID_VIEW_MODES.has(project.viewMode)
+		? project.viewMode
+		: 'legacy';
 	project.seed = Number(project.seed || 613);
 	project.characters = array(project.characters);
 	project.cameraRigs = array(project.cameraRigs);

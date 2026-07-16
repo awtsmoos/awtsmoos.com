@@ -19,6 +19,7 @@ export class MitzvahWorldRealtimeClient {
 		this.listeners = new Set();
 		this.needsResync = false;
 		this.playerAddress = null;
+		this.playerId = null;
 		this.session = null;
 		this.world = null;
 		this.transport = new MitzvahWorldTransport(
@@ -91,12 +92,14 @@ export class MitzvahWorldRealtimeClient {
 		this.events.emit(message);
 		if (message.type === 'session.revoked') {
 			this.playerAddress = null;
+			this.playerId = null;
 			this.session = null;
 			this.world = null;
 			this.needsResync = false;
 			return;
 		}
 		if (message.payload?.playerAddress) this.playerAddress = message.payload.playerAddress;
+		if (message.payload?.playerId) this.playerId = message.payload.playerId;
 		if (message.payload?.session) this.session = { ...message.payload.session };
 		if (message.payload?.world) this.publishWorld(message.payload.world);
 		if (message.payload?.delta && this.world) {

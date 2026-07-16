@@ -2,12 +2,13 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers Mail's final authority from small quantum vessels.
- * Identity remains singular, touch remains generous, and spectacle remains
- * subordinate to truth and action throughout Awtsmoos.com.
+ * The Awtsmoos gathers Mail's final authority through focused identity and
+ * touch vessels. Every button, modal, state, and reduced-motion path remains
+ * readable and immediate throughout Awtsmoos.com.
  */
-@import "./quantum/identity-summary.css?v=mail-magic-003";
-@import "./quantum/touch-targets.css?v=mail-magic-003";
+
+@import "./quantum/identity-summary.css?v=mail-dark-004";
+@import "./quantum/touch-targets.css?v=mail-dark-004";
 
 .geelooy-mail-document :is(
 	.mail-quantum-frame,
@@ -21,24 +22,20 @@
 .geelooy-mail-document input::placeholder,
 .geelooy-mail-document textarea::placeholder {
 	color: var(--mail-dim);
+	opacity: 1;
 }
 
 .geelooy-mail-document button:disabled {
 	cursor: not-allowed;
-	opacity: 0.58;
+	opacity: .58;
 }
 
 .geelooy-mail-document .sentiment-danger {
-	border-color: rgba(255, 84, 112, 0.55) !important;
-	box-shadow: 0 0 28px rgba(255, 84, 112, 0.12) !important;
+	border-color: rgba(255, 84, 112, .55) !important;
 }
 
 .geelooy-mail-document .sentiment-positive {
-	border-color: rgba(66, 245, 179, 0.38) !important;
-}
-
-.geelooy-mail-document .sentiment-excited {
-	filter: saturate(1.12);
+	border-color: rgba(66, 245, 179, .38) !important;
 }
 
 .geelooy-mail-document .sentiment-curious {
@@ -47,8 +44,12 @@
 
 .geelooy-mail-document .identity-modal-card {
 	display: grid;
-	gap: 0.9rem;
-	max-width: min(92vw, 32rem);
+	gap: .9rem;
+	max-inline-size: min(92vw, 32rem);
+	border: 1px solid rgba(50, 231, 255, .22);
+	border-radius: 1rem;
+	background: #0e1824;
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .34);
 }
 
 .geelooy-mail-document .identity-modal-copy {
@@ -59,8 +60,8 @@
 
 .geelooy-mail-document .mail-sidebar-identity {
 	display: grid;
-	gap: 0.7rem;
-	width: 100%;
+	gap: .7rem;
+	inline-size: 100%;
 }
 
 .geelooy-mail-document .mail-sidebar-header {
@@ -68,8 +69,8 @@
 }
 
 body.geelooy-mail-document.geelooy-app-shell button {
-	min-width: 2.75rem !important;
-	min-height: 2.75rem !important;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
 }
 
 body.geelooy-mail-document.geelooy-app-shell :is(
@@ -78,9 +79,9 @@ body.geelooy-mail-document.geelooy-app-shell :is(
 	.mode-tab,
 	.ctx-item
 ) {
-	height: auto !important;
-	min-height: 2.75rem !important;
-	padding-block: 0.62rem;
+	block-size: auto !important;
+	min-block-size: 44px !important;
+	padding-block: .62rem;
 }
 
 body.geelooy-mail-document.geelooy-app-shell :is(
@@ -91,10 +92,10 @@ body.geelooy-mail-document.geelooy-app-shell :is(
 	.chat-header button,
 	.composer-actions button
 ) {
-	width: 2.75rem !important;
-	height: 2.75rem !important;
-	min-width: 2.75rem !important;
-	min-height: 2.75rem !important;
+	inline-size: 44px !important;
+	block-size: 44px !important;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
 	padding: 0;
 }
 
@@ -102,8 +103,8 @@ body.geelooy-mail-document.geelooy-app-shell :is(
 	.geelooy-mail-document *,
 	.geelooy-mail-document *::before,
 	.geelooy-mail-document *::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		animation: none !important;
+		scroll-behavior: auto !important;
+		transition: none !important;
 	}
 }

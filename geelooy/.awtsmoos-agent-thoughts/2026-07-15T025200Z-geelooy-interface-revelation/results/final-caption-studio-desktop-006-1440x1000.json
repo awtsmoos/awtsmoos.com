@@ -1,0 +1,69 @@
+{
+	"capturedAt": "2026-07-15T18:40:26.940Z",
+	"requestedUrl": "http://127.0.0.1:8080/apps/captions/video/",
+	"viewport": {
+		"width": 1440,
+		"height": 1000
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "3CE86734E8ED29BF8FAA64BDBDFD804C",
+		"loaderId": "BE93015FD7EC6E4BE14F50E54FBD30AB",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 1440,
+		"height": 1000
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/apps/captions/video/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Ein Sof Caption Studio — Geelooy",
+		"url": "http://127.0.0.1:8080/apps/captions/video/",
+		"viewport": {
+			"width": 1440,
+			"height": 1000
+		},
+		"document": {
+			"scrollWidth": 1440,
+			"scrollHeight": 1000,
+			"clientWidth": 1440
+		},
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ein Sof Studio"
+			}
+		],
+		"landmarks": [
+			"aside#controls-wrapper.studio-panel",
+			"header.studio-header",
+			"div.tabs",
+			"footer#actions-footer",
+			"p#status",
+			"main#preview-wrapper"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/apps/captions/video/style.css?v=caption-studio-006"
+		],
+		"styleNodes": 0,
+		"animations": 21
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/final-caption-studio-desktop-006-1440x1000.png"
+}

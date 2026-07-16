@@ -21,11 +21,14 @@
 	gap: .55rem;
 	min-block-size: 44px;
 	padding: .72rem .82rem;
-	border-radius: inherit;
-	color: #b8c6d9;
+	border: 1px solid rgba(88, 199, 216, .16);
+	border-radius: .82rem;
+	background: #131e2b;
+	color: #c8d4e4;
 	font: 780 .86rem/1.25 var(--font-ui);
 	cursor: pointer;
 	list-style: none;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
 }
 
 .home-compose-advanced > summary::-webkit-details-marker {
@@ -33,17 +36,28 @@
 }
 
 .home-compose-advanced > summary::before {
+	display: grid;
+	inline-size: 1.35rem;
+	block-size: 1.35rem;
+	place-items: center;
+	border: 1px solid rgba(88, 199, 216, .35);
+	border-radius: 50%;
+	background: rgba(88, 199, 216, .08);
 	color: #75d2df;
 	content: "+";
-	font-size: 1.1rem;
+	font-size: 1rem;
 	font-weight: 900;
 }
 
-.home-compose-advanced[open] > summary {
-	border-bottom: 1px solid var(--home-line);
-	border-radius: .85rem .85rem 0 0;
-	background: #14202f;
+.home-compose-advanced > summary:is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .5);
+	background: #172333;
 	color: var(--home-text);
+}
+
+.home-compose-advanced[open] > summary {
+	border-radius: .82rem .82rem 0 0;
+	background: #172333;
 }
 
 .home-compose-advanced[open] > summary::before {

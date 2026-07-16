@@ -2,21 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-const path = require("node:path");
-const { ROOT } = require("../../lib/config.js");
+const ProfileState = require("./profileState.js");
 
 const SAFE_START_URL = "data:text/html,%3Ctitle%3EAwtsmoos%20Browser%20Ready%3C%2Ftitle%3E%3Ch1%3EB%26quot%3BH%20Awtsmoos%20Browser%20Ready%3C%2Fh1%3E";
 
 /**
  * B"H
  *
- * Chrome launches into a named nonblank witness instead of the about:blank void.
- * The Awtsmoos renews profile, port, and first target together; Awtsmoos.com keeps
- * the launch argument builder pure so duplicate ownership can be tested separately.
+ * Chrome launches into a named nonblank witness and an external recovery profile.
+ * The Awtsmoos renews runtime and browser memory separately; Awtsmoos.com keeps
+ * profile state through reinstall without placing it inside recovery archives.
  */
 function chromeLaunchArgs(input = {}) {
 	const port = boundedPort(input.port);
-	const userDataDir = input.userDataDir || path.join(ROOT, "chrome-profile");
+	const userDataDir = ProfileState.normalizeConfigured(input.userDataDir);
 	const url = safeLaunchUrl(input.url);
 	const args = [
 		`--remote-debugging-port=${port}`,
@@ -31,9 +30,7 @@ function chromeLaunchArgs(input = {}) {
 			"--disable-gpu",
 			"--window-size=1440,1000"
 		);
-		if (process.platform !== "win32") {
-			args.push("--no-sandbox");
-		}
+		if (process.platform !== "win32") args.push("--no-sandbox");
 	}
 	args.push(url);
 	return args;

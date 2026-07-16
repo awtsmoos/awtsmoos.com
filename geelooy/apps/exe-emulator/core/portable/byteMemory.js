@@ -2,22 +2,26 @@
 //Boruch Hashem
 //Blessed is He
 
-import { ByteMemoryScalars } from "./byteMemoryScalars.js";
+import {
+	assertMemoryRange,
+	portableMemoryError
+} from "./byteMemoryRange.js";
 import {
 	assertSegmentCanMap,
 	createMemorySegment,
 	hasSegmentPermission,
 	segmentSummary
 } from "./byteMemorySegments.js";
+import { ByteMemoryText } from "./byteMemoryText.js";
 
 const DEFAULT_MAXIMUM_BYTES = 512 * 1024 * 1024;
 
 /**
- * Maps bounded guest segments with exact byte and scalar access. The Awtsmoos
- * creates address, permission, and mapped region anew; Awtsmoos.com preserves the
- * original constructor, backing-array, overlap, slice, and permission contracts.
+ * Maps bounded guest segments with exact scalar, byte, and text access. The
+ * Awtsmoos creates address, permission, and mapped region anew; Awtsmoos.com
+ * preserves caller-owned backing arrays and rejects overlap or hidden authority.
  */
-export class ByteMemory extends ByteMemoryScalars {
+export class ByteMemory extends ByteMemoryText {
 	constructor(segments = [], options = {}) {
 		super();
 		this.maximumBytes = Number(
@@ -62,13 +66,6 @@ export class ByteMemory extends ByteMemoryScalars {
 		segment.bytes.set(value, offset);
 	}
 
-	writeString(address, value) {
-		this.writeBytes(
-			address,
-			new TextEncoder().encode(String(value))
-		);
-	}
-
 	segmentMetadata() {
 		return this.segments.map(segmentSummary);
 	}
@@ -93,13 +90,13 @@ export class ByteMemory extends ByteMemoryScalars {
 				&& address + length <= item.address + item.bytes.length;
 		});
 		if (!segment) {
-			throw memoryError(
+			throw portableMemoryError(
 				"PORTABLE_MEMORY_UNMAPPED",
 				`0x${address.toString(16)}:${length}`
 			);
 		}
 		if (!hasSegmentPermission(segment, permission)) {
-			throw memoryError(
+			throw portableMemoryError(
 				"PORTABLE_MEMORY_PERMISSION",
 				`${segment.name}:${permission}`
 			);
@@ -112,21 +109,3 @@ export class ByteMemory extends ByteMemoryScalars {
 }
 
 export const PortableByteMemory = ByteMemory;
-
-function assertMemoryRange(address, length) {
-	if (!Number.isSafeInteger(address) || address < 0) {
-		throw memoryError("PORTABLE_MEMORY_ADDRESS", address);
-	}
-	if (!Number.isSafeInteger(length) || length < 0) {
-		throw memoryError("PORTABLE_MEMORY_LENGTH", length);
-	}
-	if (!Number.isSafeInteger(address + length)) {
-		throw memoryError("PORTABLE_MEMORY_RANGE", `${address}:${length}`);
-	}
-}
-
-function memoryError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
-	error.code = code;
-	return error;
-}

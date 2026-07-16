@@ -1,0 +1,66 @@
+{
+	"capturedAt": "2026-07-15T18:17:25.006Z",
+	"requestedUrl": "http://127.0.0.1:8080/record/",
+	"viewport": {
+		"width": 390,
+		"height": 844
+	},
+	"reducedMotion": false,
+	"bypassServiceWorker": true,
+	"navigation": {
+		"frameId": "03B099D0EC3427B272D17772AA79ACB5",
+		"loaderId": "BF87301E15E74E0B6BA190027E5C7637",
+		"isDownload": false
+	},
+	"contentSize": {
+		"x": 0,
+		"y": 0,
+		"width": 390,
+		"height": 986
+	},
+	"runtime": {
+		"documentResponses": [
+			{
+				"url": "http://127.0.0.1:8080/record/",
+				"status": 200,
+				"mimeType": "text/html"
+			}
+		],
+		"consoleErrors": [],
+		"exceptions": []
+	},
+	"probe": {
+		"title": "Camera Preview — Geelooy",
+		"url": "http://127.0.0.1:8080/record/",
+		"viewport": {
+			"width": 390,
+			"height": 844
+		},
+		"document": {
+			"scrollWidth": 390,
+			"scrollHeight": 986,
+			"clientWidth": 390
+		},
+		"overflow": [],
+		"smallTargets": [],
+		"unnamed": [],
+		"contrastFailures": [],
+		"headings": [
+			{
+				"level": 1,
+				"text": "Camera preview"
+			}
+		],
+		"landmarks": [
+			"main.camera-shell",
+			"header.camera-header",
+			"p#camera-status.camera-status"
+		],
+		"stylesheets": [
+			"http://127.0.0.1:8080/record/style.css?v=media-capture-001"
+		],
+		"styleNodes": 0,
+		"animations": 3
+	},
+	"screenshotPath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/.awtsmoos-agent-thoughts/2026-07-15T025200Z-geelooy-interface-revelation/screenshots/final-camera-viewer-mobile-390x844.png"
+}

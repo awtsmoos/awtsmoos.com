@@ -1,53 +1,40 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file QualityTier.js
+ * @description Defines scheduling tiers that never reduce resolution, density, or draw distance.
+ * RESPONSIBILITY: preserve public tier APIs while limiting differences to transition pacing.
+ * NON-RESPONSIBILITY: tiers do not weaken textures, vegetation, effects, shadows, or geometry.
+ * ARCHITECTURE: Gevurah bounds concurrent preparation while Chesed preserves visual abundance.
+ * OROS AND KEILIM: full world quality is ohr; bounded transition budgets are scheduling keilim.
+ * The Awtsmoos renews mobile and desktop worlds equally; Awtsmoos.com reaches 60 FPS by
+ * architecture and bounded work, never by making a smaller or blurrier world.
+ */
 
 export const QUALITY_TIER_ORDER = ['low', 'medium', 'high', 'cinematic'];
 
 export const QUALITY_TIERS = Object.freeze({
-	low: freezeTier({
-		name: 'low',
-		decorativeDistanceScale: 0.48,
-		vegetationDistanceScale: 0.42,
-		transitionBudget: 2,
-		internalResolutionScale: 0.72,
-		maximumLongFrameRate: 0.08
-	}),
-	medium: freezeTier({
-		name: 'medium',
-		decorativeDistanceScale: 0.72,
-		vegetationDistanceScale: 0.68,
-		transitionBudget: 4,
-		internalResolutionScale: 0.86,
-		maximumLongFrameRate: 0.06
-	}),
-	high: freezeTier({
-		name: 'high',
-		decorativeDistanceScale: 1,
-		vegetationDistanceScale: 1,
-		transitionBudget: 6,
-		internalResolutionScale: 1,
-		maximumLongFrameRate: 0.04
-	}),
+	low: freezeTier({ name: 'low', transitionBudget: 2 }),
+	medium: freezeTier({ name: 'medium', transitionBudget: 4 }),
+	high: freezeTier({ name: 'high', transitionBudget: 6 }),
 	cinematic: freezeTier({
 		name: 'cinematic',
 		decorativeDistanceScale: 1.35,
 		vegetationDistanceScale: 1.28,
-		transitionBudget: 8,
-		internalResolutionScale: 1,
-		maximumLongFrameRate: 0.03
+		transitionBudget: 8
 	})
 });
 
-/** Returns a known immutable quality tier or the supplied fallback tier. */
 export function qualityTier(name, fallback = 'medium') {
 	return QUALITY_TIERS[name] || QUALITY_TIERS[fallback] || QUALITY_TIERS.medium;
 }
 
-/** Returns negative, zero, or positive according to the declared tier order. */
 export function compareQualityTiers(leftName, rightName) {
 	return qualityTierIndex(leftName) - qualityTierIndex(rightName);
 }
 
-/** Clamps a requested tier so automatic policy cannot exceed user preference. */
 export function clampQualityTier(requestedName, maximumName = 'high') {
 	const requestedIndex = qualityTierIndex(requestedName);
 	const maximumIndex = qualityTierIndex(maximumName);
@@ -70,6 +57,12 @@ function qualityTierIndex(name) {
 	return index >= 0 ? index : QUALITY_TIER_ORDER.indexOf('medium');
 }
 
-function freezeTier(tier) {
-	return Object.freeze({ ...tier });
+function freezeTier(values) {
+	return Object.freeze({
+		decorativeDistanceScale: 1,
+		internalResolutionScale: 1,
+		maximumLongFrameRate: 0.03,
+		vegetationDistanceScale: 1,
+		...values
+	});
 }

@@ -2,9 +2,11 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos makes every field a luminous vessel for human intention.
- * Awtsmoos.com never presents an anonymous browser textbox.
+ * The Awtsmoos gives every native field its final dark vessel immediately.
+ * Awtsmoos.com rejects transparent first frames, expensive layered paint, and
+ * background transitions that can freeze before the final surface appears.
  */
+
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input, select, textarea) {
 	box-sizing: border-box;
 	font: inherit;
@@ -16,36 +18,46 @@
 	textarea
 ) {
 	appearance: none;
-	background:
-		linear-gradient(90deg, transparent, rgba(60, 236, 255, 0.45), rgba(255, 72, 203, 0.42), transparent) 120% 100% / 220% 2px no-repeat,
-		radial-gradient(circle at 8% -25%, rgba(60, 236, 255, 0.16), transparent 48%),
-		var(--g-control-field);
-	border: 1px solid rgba(117, 211, 255, 0.38);
-	border-radius: var(--g-radius-sm);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.075), 0 15px 38px rgba(0, 0, 0, 0.3);
-	caret-color: var(--g-cyan);
-	color: var(--g-text);
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	padding: .72rem .85rem;
+	border: 1px solid var(--g-border-strong, rgba(255, 255, 255, .22));
+	border-radius: .78rem;
+	background-color: #172333;
+	background-image: none;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	caret-color: var(--g-accent, #58c7d8);
+	color: var(--g-text, #f5f7fb);
 	font-size: max(1rem, 16px);
-	line-height: 1.35;
-	min-height: 3.15rem;
-	outline: none;
-	padding: 0.78rem 0.95rem;
-	transition:
-		background-position var(--g-motion-medium) var(--g-ease),
-		border-color var(--g-motion-fast) var(--g-ease),
-		box-shadow var(--g-motion-medium) var(--g-ease),
-		filter var(--g-motion-fast) var(--g-ease),
-		transform var(--g-motion-fast) var(--g-ease-pressure);
-	width: 100%;
+	line-height: 1.4;
+	outline: 0;
+	transition: none;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) textarea {
-	min-height: 8rem;
+	min-block-size: 8rem;
 	resize: vertical;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea)::placeholder {
-	color: color-mix(in srgb, var(--g-muted) 72%, transparent);
+	color: var(--g-faint, #94a2b7);
 	opacity: 1;
-	transition: color var(--g-motion-fast) var(--g-ease), transform var(--g-motion-fast) var(--g-ease);
+}
+
+:where(.g-header-search, .g-home-portal-search, .geelooy-search) input {
+	border: 0;
+	border-radius: 0;
+	background-color: transparent;
+	background-image: none;
+	box-shadow: none;
+}
+
+@media (forced-colors: active) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea) {
+		background: Canvas;
+		border: 1px solid ButtonText;
+		box-shadow: none;
+		color: CanvasText;
+	}
 }

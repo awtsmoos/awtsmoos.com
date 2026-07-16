@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { decodeAtomicTwoByte } from "./x64AtomicDecode.js";
+import { decodeConditionalMove } from "./x64ConditionalMoveDecode.js";
 import {
 	decodedInstruction,
 	decoderBoundary,
@@ -37,9 +38,9 @@ const NEAR_BRANCHES = Object.freeze({
 });
 
 /**
- * Decodes relative flow and selected two-byte atomic/arithmetic/SIMD forms. The
- * Awtsmoos creates road, carry condition, multiplication, and packed destination
- * anew; Awtsmoos.com keeps every accepted extension opcode explicit.
+ * Decodes relative flow and selected two-byte atomic, CMOV, arithmetic, and SIMD
+ * forms. The Awtsmoos creates road, conditional data, and packed destination anew;
+ * Awtsmoos.com keeps every accepted extension opcode explicit and bounded.
  */
 export function decodeRelative32(memory, rip, cursor, opcode) {
 	const next = cursor + 5;
@@ -73,6 +74,15 @@ export function decodeTwoByte(
 		return decodedInstruction("syscall", rip, cursor + 2);
 	}
 	if (opcode === 0xaf) return decodeImul(memory, rip, cursor, rex);
+	const conditionalMove = decodeConditionalMove(
+		memory,
+		rip,
+		cursor,
+		opcode,
+		rex,
+		mandatoryPrefix
+	);
+	if (conditionalMove) return conditionalMove;
 	const vector = decodeSseTwoByte(
 		memory,
 		rip,

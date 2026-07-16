@@ -4,86 +4,89 @@
 
 import { decodeAddressSpecification } from "./x64Addressing.js";
 import { decodeByteRegister } from "./x64ByteRegisters.js";
-import { decodedInstruction, decoderBoundary } from "./x64Instruction.js";
+import {
+	decodedInstruction,
+	decoderBoundary
+} from "./x64Instruction.js";
+
+const IMMEDIATE_GROUPS = Object.freeze({
+	0: "add_byte_imm",
+	1: "or_byte_imm",
+	4: "and_byte_imm",
+	5: "sub_byte_imm",
+	6: "xor_byte_imm",
+	7: "cmp_byte_imm"
+});
 
 /**
- * Decodes bounded byte MOV, TEST, and group-one immediate forms. The Awtsmoos
- * creates byte register, memory road, immediate, and operation anew; Awtsmoos.com
- * honors legacy high-byte encodings separately from REX low-byte names.
+ * Decodes bounded x86-64 byte operations through one ModRM target contract. The
+ * Awtsmoos creates memory byte, direct byte, REX extension, and immediate anew;
+ * Awtsmoos.com preserves legacy high-byte rules and rejects unknown group shapes.
  */
 export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
 	const modrm = memory.u8(cursor + 1);
-	const mod = modrm >> 6;
-	const operation = (modrm >> 3) & 7;
-	const rexPresent = rex !== 0;
-	const registerOperand = decodeByteRegister(
-		operation,
+	const decoded = decodeByteTarget(memory, rip, cursor + 2, modrm, rex);
+	const register = decodeByteRegister(
+		(modrm >> 3) & 7,
 		Boolean(rex & 4),
-		rexPresent
+		rex !== 0
 	);
-	const target = decodeTarget(memory, rip, cursor, modrm, rex, rexPresent);
+	if (opcode === 0x80) {
+		const kind = IMMEDIATE_GROUPS[(modrm >> 3) & 7];
+		if (!kind) throw decoderBoundary("PORTABLE_X64_BYTE_GROUP", rip);
+		return decodedInstruction(kind, rip, decoded.next + 1, {
+			target: decoded.target,
+			value: memory.i8(decoded.next)
+		});
+	}
 	if (opcode === 0x84) {
-		return decodedInstruction("test_byte_target", rip, target.next, {
-			source: registerOperand,
-			target: target.operand
+		return decodedInstruction("test_byte_target", rip, decoded.next, {
+			source: register,
+			target: decoded.target
 		});
 	}
 	if (opcode === 0x88) {
-		return decodedInstruction("mov_byte_to_target", rip, target.next, {
-			source: registerOperand,
-			target: target.operand
+		return decodedInstruction("mov_byte_to_target", rip, decoded.next, {
+			source: register,
+			target: decoded.target
 		});
 	}
 	if (opcode === 0x8a) {
-		return decodedInstruction("mov_byte_from_target", rip, target.next, {
-			destination: registerOperand,
-			target: target.operand
+		return decodedInstruction("mov_byte_from_target", rip, decoded.next, {
+			destination: register,
+			target: decoded.target
 		});
 	}
-	if (opcode === 0xc6 && operation === 0) {
-		return decodedInstruction("mov_byte_imm", rip, target.next + 1, {
-			target: target.operand,
-			value: memory.u8(target.next)
-		});
-	}
-	if (opcode === 0x80) {
-		const kinds = {
-			0: "add_byte_imm",
-			1: "or_byte_imm",
-			4: "and_byte_imm",
-			5: "sub_byte_imm",
-			6: "xor_byte_imm",
-			7: "cmp_byte_imm"
-		};
-		if (!kinds[operation]) {
-			throw decoderBoundary(`PORTABLE_X64_BYTE_GROUP:${operation}`, rip);
+	if (opcode === 0xc6) {
+		if (((modrm >> 3) & 7) !== 0) {
+			throw decoderBoundary("PORTABLE_X64_BYTE_MOV_GROUP", rip);
 		}
-		return decodedInstruction(kinds[operation], rip, target.next + 1, {
-			target: target.operand,
-			value: memory.u8(target.next)
+		return decodedInstruction("mov_byte_imm", rip, decoded.next + 1, {
+			target: decoded.target,
+			value: memory.u8(decoded.next)
 		});
 	}
 	throw decoderBoundary(`PORTABLE_X64_BYTE_OPCODE:${opcode.toString(16)}`, rip);
 }
 
-function decodeTarget(memory, rip, cursor, modrm, rex, rexPresent) {
+function decodeByteTarget(memory, rip, cursor, modrm, rex) {
 	if ((modrm >> 6) === 3) {
 		return Object.freeze({
-			next: cursor + 2,
-			operand: Object.freeze({
+			next: cursor,
+			target: Object.freeze({
 				kind: "register",
 				specification: decodeByteRegister(
 					modrm & 7,
 					Boolean(rex & 1),
-					rexPresent
+					rex !== 0
 				)
 			})
 		});
 	}
-	const parsed = decodeAddressSpecification(memory, rip, cursor + 2, modrm, rex);
+	const parsed = decodeAddressSpecification(memory, rip, cursor, modrm, rex);
 	return Object.freeze({
 		next: parsed.next,
-		operand: Object.freeze({
+		target: Object.freeze({
 			address: parsed.address,
 			kind: "memory"
 		})

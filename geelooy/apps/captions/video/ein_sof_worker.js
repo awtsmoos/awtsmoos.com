@@ -1,58 +1,85 @@
-/*
-ב"ה
-B"H
-*/
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos loads the lightweight renderer once, then waits for an explicit
+ * handshake so readiness can never race ahead of the page's message listener.
+ */
 
-self.exports = {};
+const workerVersion = "caption-studio-010";
+let bootError = null;
 
-const loadModule = (path) => {
-    try { importScripts(path); } 
-    catch (e) { throw new Error(`Load Failed [${path}]: ${e.message}`); }
-};
-
-try {
-    loadModule('/scripts/awtsmoos/video/mediabunny-library.js');
-
-    // Core
-    loadModule('modules/polyfills.js');
-    loadModule('modules/utils.js');
-    loadModule('modules/renderer_core.js');
-
-    // Background Sub-Modules
-    loadModule('modules/bg_deepspace.js');
-    loadModule('modules/bg_nebula.js');
-    loadModule('modules/bg_portals.js');
-    loadModule('modules/bg_orchestrator.js'); // Must come after sub-modules
-
-    // Elements
-    loadModule('modules/renderer_particles.js');
-    loadModule('modules/renderer_components.js');
-    loadModule('modules/renderer_text.js');
-
-    // FX Sub-Modules
-    loadModule('modules/fx_analog.js');
-    loadModule('modules/fx_optics.js');
-    loadModule('modules/fx_artistic.js');
-    loadModule('modules/fx_orchestrator.js'); // Must come after sub-modules
-
-    // Logic
-    loadModule('modules/tasks.js');
-
-} catch (e) {
-    self.postMessage({ type: 'FATAL_ERROR', payload: { message: e.message } });
+function loadModule(path) {
+	try {
+		importScripts(`${path}?v=${workerVersion}`);
+	} catch (error) {
+		throw new Error(`Load failed [${path}]: ${error.message}`);
+	}
 }
 
-self.onmessage = async (event) => {
-    /* ב"ה B"H */
-    try {
-        const { type, payload } = event.data;
-        if (!self.taskHandlers) throw new Error("Worker not initialized");
+try {
+	loadModule("modules/polyfills.js");
+	loadModule("modules/utils.js");
+	loadModule("modules/renderer_core.js");
+	loadModule("modules/bg_deepspace.js");
+	loadModule("modules/bg_nebula.js");
+	loadModule("modules/bg_portals.js");
+	loadModule("modules/bg_orchestrator.js");
+	loadModule("modules/renderer_particles.js");
+	loadModule("modules/renderer_components.js");
+	loadModule("modules/text_layout.js");
+	loadModule("modules/text_caption_box.js");
+	loadModule("modules/renderer_text.js");
+	loadModule("modules/fx_analog.js");
+	loadModule("modules/fx_optics.js");
+	loadModule("modules/fx_artistic.js");
+	loadModule("modules/fx_orchestrator.js");
+	loadModule("modules/task_trace.js");
+	loadModule("modules/task_scene.js");
+	loadModule("modules/task_frame.js");
+	loadModule("modules/video_encoder_loader.js");
+	loadModule("modules/task_video_sources.js");
+	loadModule("modules/task_video.js");
+	loadModule("modules/task_images.js");
+	loadModule("modules/tasks.js");
+} catch (error) {
+	bootError = error;
+}
 
-        if (type === 'START_RENDER') await self.taskHandlers.handleRender(payload);
-        else if (type === 'GENERATE_PREVIEW') await self.taskHandlers.handlePreview(payload);
-    } catch (err) {
-        self.postMessage({ type: 'FATAL_ERROR', payload: { message: err.message } });
-    }
+self.onmessage = async event => {
+	try {
+		const { type, payload } = event.data;
+		if (type === "INITIALIZE") {
+			reportInitialization();
+			return;
+		}
+		if (bootError) throw bootError;
+		if (!self.taskHandlers) throw new Error("Worker not initialized");
+		if (type === "START_RENDER") {
+			await self.taskHandlers.handleRender(payload);
+			return;
+		}
+		if (type === "GENERATE_PREVIEW") {
+			await self.taskHandlers.handlePreview(payload);
+		}
+	} catch (error) {
+		self.postMessage({
+			type: "FATAL_ERROR",
+			payload: { message: error.message }
+		});
+	}
 };
 
-self.postMessage({ type: 'WORKER_READY' });
+function reportInitialization() {
+	if (bootError) {
+		self.postMessage({
+			type: "FATAL_ERROR",
+			payload: { message: bootError.message }
+		});
+		return;
+	}
+	self.postMessage({
+		type: "WORKER_READY",
+		payload: { version: workerVersion }
+	});
+}

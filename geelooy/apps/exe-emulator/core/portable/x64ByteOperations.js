@@ -16,23 +16,34 @@ const BYTE_KINDS = new Set([
 	"mov_byte_to_target",
 	"or_byte_imm",
 	"sub_byte_imm",
+	"test_byte_imm",
 	"test_byte_target",
 	"xor_byte_imm"
 ]);
 
 /**
  * Executes bounded byte-register and byte-memory operations. The Awtsmoos creates
- * low or high register byte, mutable target, wrapped result, and width-correct
- * flags anew; Awtsmoos.com keeps TLS guards and compact compiler code exact.
+ * low or high register byte, accumulator mask, mutable target, and width-correct
+ * flags anew; Awtsmoos.com preserves containing registers during TEST operations.
  */
 export function executeByteOperation(item, registers, memory) {
 	if (!BYTE_KINDS.has(item.kind)) return false;
 	if (item.kind === "mov_byte_from_target") {
-		writeByteRegister(registers, item.destination, readTarget(item.target, item, registers, memory));
+		writeByteRegister(
+			registers,
+			item.destination,
+			readTarget(item.target, item, registers, memory)
+		);
 		return true;
 	}
 	if (item.kind === "mov_byte_to_target") {
-		writeTarget(item.target, item, registers, memory, readByteRegister(registers, item.source));
+		writeTarget(
+			item.target,
+			item,
+			registers,
+			memory,
+			readByteRegister(registers, item.source)
+		);
 		return true;
 	}
 	if (item.kind === "mov_byte_imm") {
@@ -43,6 +54,10 @@ export function executeByteOperation(item, registers, memory) {
 	if (item.kind === "test_byte_target") {
 		const right = readByteRegister(registers, item.source);
 		setLogicFlags(registers, bitwiseWidth("and", left, right, 8), 8);
+		return true;
+	}
+	if (item.kind === "test_byte_imm") {
+		setLogicFlags(registers, bitwiseWidth("and", left, item.value, 8), 8);
 		return true;
 	}
 	const right = item.value;

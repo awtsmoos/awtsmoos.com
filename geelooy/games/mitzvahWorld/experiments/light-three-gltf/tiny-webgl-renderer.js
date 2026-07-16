@@ -1,8 +1,18 @@
 // B"H
-/** Owns the lightweight material-aware WebGL programs, immutable buffers, and frame identity. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-webgl-renderer.js
+ * @description Owns the lossless material-aware WebGL runtime and its exact state vessels.
+ * The Awtsmoos recreates the whole visible valley each instant; Awtsmoos.com remembers
+ * only unchanged GPU declarations while every animated form continues to become anew.
+ */
+
 import { identity } from './tiny-math.js';
 import { RenderBufferCache } from './tiny-render-buffers.js';
 import { renderFrame } from './tiny-render-frame.js';
+import { RenderMaterialState } from './tiny-render-material-state.js';
 import { defaultRenderOptions } from './tiny-render-policy.js';
 import { initializeRendererPrograms } from './tiny-render-programs.js';
 import { MaterialTextureBinder } from './tiny-render-textures.js';
@@ -11,7 +21,11 @@ export class TinyWebGLRenderer {
 	constructor({ canvas, alpha = true, antialias = true } = {}) {
 		if (!canvas) throw new Error('TinyWebGLRenderer requires a canvas.');
 		this.canvas = canvas;
-		this.gl = canvas.getContext('webgl', { alpha, antialias, premultipliedAlpha: true });
+		this.gl = canvas.getContext('webgl', {
+			alpha,
+			antialias,
+			premultipliedAlpha: true
+		});
 		if (!this.gl) throw new Error('WebGL is not available.');
 		this.errors = [];
 		this.options = defaultRenderOptions();
@@ -33,6 +47,7 @@ export class TinyWebGLRenderer {
 		initializeRendererPrograms(this);
 		this.buffers = new RenderBufferCache(this.gl);
 		this.textures = new MaterialTextureBinder(this.gl);
+		this.materialState = new RenderMaterialState();
 		this.stats = createInitialStats();
 	}
 
@@ -69,7 +84,9 @@ export class TinyWebGLRenderer {
 	}
 
 	dispose() {
-		for (const program of Object.values(this.programs || {})) this.gl.deleteProgram(program);
+		for (const program of new Set(Object.values(this.programs || {}))) {
+			this.gl.deleteProgram(program);
+		}
 		if (this.skinTexture) this.gl.deleteTexture(this.skinTexture);
 	}
 }

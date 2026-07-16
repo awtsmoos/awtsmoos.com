@@ -3,79 +3,98 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation commits only after package identity and TUNNEL_ACK agree. The
-# Awtsmoos renews candidate and predecessor; Awtsmoos.com preserves connection
-# even when the newest verified files cannot register.
-
-activate_update() {
+# Activation keeps the predecessor until the candidate proves registration. After
+# commit, Awtsmoos.com schedules exact cleanup and returns success immediately.
+activate_fresh() {
+	mkdir -p "$(dirname "$ROOT")"
+	write_activation_journal "fresh_prepared" "" "$CANDIDATE_ROOT"
+	mv "$CANDIDATE_ROOT" "$ROOT"
+	CANDIDATE_ROOT=""
+	write_activation_journal "fresh_activated" "" "$ROOT"
+	install_event "activate" "passed" \
+		"Fresh candidate moved into the live path." "$ROOT"
 	if skip_start_requested; then
-		prepare_without_activation
 		return 0
 	fi
-	archive_known_good_runtime "before_update_to_${CANDIDATE_VERSION}" || install_fail \
-		"archive" "Refusing update without a verified recovery archive." "$ROOT"
-	stop_existing_runtime
-	local stamp
-	local rollback
-	local failed
-	stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-	rollback="${ROOT}.activation-rollback-${stamp}"
-	failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}"
-	write_activation_journal "prepared" "$CANDIDATE_ROOT" "$rollback"
-	if ! mv "$ROOT" "$rollback"; then
-		install_fail "activate" \
-			"Could not preserve the current runtime directory." "$rollback"
-	fi
-	if ! mv "$CANDIDATE_ROOT" "$ROOT"; then
-		mv "$rollback" "$ROOT"
-		start_supervisor
-		install_fail "activate" \
-			"Could not atomically activate the candidate." "$CANDIDATE_ROOT"
-	fi
-	write_activation_journal "candidate_active" "$ROOT" "$rollback"
+	install_progress 82 "Starting registered tunnel runtime"
 	start_supervisor
-	if ! candidate_is_stably_active; then
-		rollback_failed_activation "$rollback" "$failed"
+	if wait_for_runtime 45; then
+		write_activation_journal "committed" "" "$ROOT"
+		install_event "startup" "passed" \
+			"Fresh runtime registered successfully." "$ROOT"
 		return 0
 	fi
-	rm -rf "$rollback"
-	write_activation_journal "committed" "$ROOT" ""
-	install_event "startup" "passed" \
-		"New runtime matched release identity and received TUNNEL_ACK." \
-		"version=$CANDIDATE_VERSION"
+	remove_active_install
+	write_activation_journal "fresh_failed" "" "$ROOT"
+	install_fail "startup" \
+		"Fresh runtime failed registration and was removed." \
+		"state=$(connection_state_name)"
 }
 
-restart_matching_release() {
-	rm -rf "$CANDIDATE_ROOT"
-	if skip_start_requested; then
-		install_event "activate" "unchanged" \
-			"Current runtime matches the verified release; start was skipped." \
-			"$CANDIDATE_VERSION"
-		return 0
-	fi
+activate_update() {
+	local rollback="${ROOT}.activation-rollback-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+	install_progress 69 "Creating compact predecessor archive"
+	archive_known_good_runtime "$ROOT"
+	install_progress 74 "Switching to the verified release"
+	write_activation_journal "archive_verified" "$rollback" "$CANDIDATE_ROOT"
 	stop_existing_runtime
-	start_supervisor
-	if wait_for_runtime "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}"; then
-		install_event "activate" "restarted" \
-			"Matching release was exclusively restarted and acknowledged." \
-			"$CANDIDATE_VERSION"
+	mv "$ROOT" "$rollback"
+	write_activation_journal "predecessor_displaced" "$rollback" "$CANDIDATE_ROOT"
+	mv "$CANDIDATE_ROOT" "$ROOT"
+	CANDIDATE_ROOT=""
+	write_activation_journal "candidate_activated" "$rollback" "$ROOT"
+	install_event "activate" "passed" \
+		"Candidate moved into the live path." \
+		"root=$ROOT rollback=$rollback"
+	if skip_start_requested; then
+		schedule_displaced_cleanup "$rollback"
+		write_activation_journal "committed" "$rollback" "$ROOT"
 		return 0
 	fi
-	install_event "activate" "warning" \
-		"Matching release failed registration; entering recovery layers." \
+	install_progress 82 "Starting registered tunnel runtime"
+	start_supervisor
+	if wait_for_runtime 45; then
+		write_activation_journal "candidate_stable" "$rollback" "$ROOT"
+		schedule_displaced_cleanup "$rollback"
+		write_activation_journal "committed" "$rollback" "$ROOT"
+		install_event "startup" "passed" \
+			"Candidate registered; predecessor cleanup was detached." \
+			"root=$ROOT rollback=$rollback state=$(connection_state_name)"
+		return 0
+	fi
+	install_event "startup" "warning" \
+		"Candidate missed registration deadline; restoring predecessor." \
 		"state=$(connection_state_name)"
-	recover_without_predecessor
+	stop_existing_runtime
+	remove_active_install
+	mv "$rollback" "$ROOT"
+	write_activation_journal "predecessor_restored" "$rollback" "$ROOT"
+	start_supervisor
+	if wait_for_runtime 45; then
+		write_activation_journal "rollback_stable" "$rollback" "$ROOT"
+		install_fail "rollback" \
+			"Candidate failed; predecessor was restored and registered." \
+			"state=$(connection_state_name) root=$ROOT"
+	fi
+	install_event "rollback" "warning" \
+		"Immediate predecessor also failed registration; escalating through recovery tiers." \
+		"state=$(connection_state_name) root=$ROOT"
+	if recover_registered_runtime "post_activation_failure"; then
+		write_activation_journal "recovery_committed" "$rollback" "$ROOT"
+		install_fail "rollback" \
+			"Candidate failed; an archived runtime was restored and registered." \
+			"state=$(connection_state_name) root=$ROOT"
+	fi
+	write_activation_journal "recovery_failed" "$rollback" "$ROOT"
+	install_fail "rollback" \
+		"Candidate, predecessor, archives, and legacy fallback all failed registration." \
+		"state=$(connection_state_name) root=$ROOT"
 }
 
 activate_release_candidate() {
-	install_rescue_runtime
-	if current_release_is_complete; then
-		restart_matching_release
-		return $?
-	fi
-	if [ -f "$ROOT/main.js" ]; then
+	if [ -d "$ROOT" ]; then
 		activate_update
 	else
-		activate_fresh_install
+		activate_fresh
 	fi
 }

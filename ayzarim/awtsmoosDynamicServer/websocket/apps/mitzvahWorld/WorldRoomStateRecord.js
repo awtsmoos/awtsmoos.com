@@ -27,7 +27,7 @@ function captureRoomState(room) {
 		parties: room.parties.snapshotAll(),
 		players: [...room.players.values()]
 			.filter((player) => player.kind === 'human')
-			.map(clone),
+			.map(capturePlayer),
 		revision: room.revision
 	};
 }
@@ -55,6 +55,7 @@ function restorePlayer(record) {
 	return {
 		...defaults,
 		...clone(record),
+		connected: false,
 		adventureQuests: clone(record.adventureQuests || defaults.adventureQuests),
 		combat: restoreCombatState(record.combat || defaults.combat),
 		equipment: clone(record.equipment || defaults.equipment),
@@ -65,6 +66,12 @@ function restorePlayer(record) {
 		safePosition: clone(record.safePosition || defaults.safePosition),
 		wallet: clone(record.wallet || defaults.wallet)
 	};
+}
+
+function capturePlayer(player) {
+	const record = clone(player);
+	delete record.connected;
+	return record;
 }
 
 function clone(value) {

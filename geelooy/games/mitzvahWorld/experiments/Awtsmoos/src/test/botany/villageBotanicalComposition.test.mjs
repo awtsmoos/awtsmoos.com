@@ -23,9 +23,9 @@ const gardens = Object.fromEntries(qualities.map((quality) => [
 assert.deepEqual(gardens.high, createVillageBotanicalComposition(groundHeight, 'high'));
 assert.equal(gardens.high.stats.catalogSpecies, listBotanicalSpecies().length);
 assert.equal(gardens.high.stats.primarySpecies, 113);
-assert.equal(gardens.high.stats.repeatedPlacements, 107);
+assert.equal(gardens.high.stats.repeatedPlacements, 157);
 assert.equal(gardens.high.stats.districts, 10);
-assert.deepEqual(gardens.high.stats.lod, { near: 150, far: 30, medium: 40 });
+assert.deepEqual(gardens.high.stats.lod, { near: 195, far: 31, medium: 44 });
 assert.ok(gardens.high.stats.roles['color-mass'] >= 120);
 assert.ok(gardens.high.stats.roles['ground-tapestry'] >= 35);
 
@@ -38,7 +38,7 @@ for (const quality of qualities) {
 assert.ok(gardens.low.length < gardens.medium.length);
 assert.ok(gardens.medium.length < gardens.high.length);
 assert.ok(gardens.high.length < gardens.cinematic.length);
-assert.equal(gardens.high.length, 220);
+assert.equal(gardens.high.length, 270);
 
 console.log(JSON.stringify({
 	ok: true,

@@ -1,35 +1,75 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Lean, touch, narrow, and reduced-motion devices receive solid calm surfaces.
+ *
+ * Lean devices receive final visual states immediately. Awtsmoos.com disables
+ * motion rather than setting microscopic durations that can freeze at their
+ * browser-default starting frame when a tab is backgrounded or throttled.
  */
+
 html[data-g-performance="lean"] *,
 html[data-g-performance="lean"] *::before,
 html[data-g-performance="lean"] *::after {
-	animation-duration: .01ms !important;
-	animation-iteration-count: 1 !important;
+	animation: none !important;
 	scroll-behavior: auto !important;
-	transition-duration: .01ms !important;
+	transition: none !important;
 }
-html[data-g-performance="lean"] :where(.g-unusual-header, .g-dock, .g-context-ribbon, .g-constellation-menu, .g-panel, .geelooy-feed-card, .geelooy-home-composer, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel, .modal-content, .dropdown-menu) {
+
+html[data-g-performance="lean"] :where(
+	.g-unusual-header,
+	.g-dock,
+	.g-context-ribbon,
+	.g-constellation-menu,
+	.g-panel,
+	.geelooy-feed-card,
+	.geelooy-home-composer,
+	.desktopRail,
+	.mobileDock,
+	.composerShell,
+	.reviewShell,
+	.heichel-nav-panel,
+	.modal-content,
+	.dropdown-menu
+) {
 	filter: none !important;
 	backdrop-filter: none !important;
 	-webkit-backdrop-filter: none !important;
-	box-shadow: var(--shadow-paper) !important;
+	box-shadow: 0 .65rem 1.8rem rgba(0, 0, 0, .22) !important;
 }
-html[data-g-performance="lean"] :where(.premium-sky, .ambient-orb, .cosmic-field, .hero-orbit, .particle-field) {
+
+html[data-g-performance="lean"] :where(
+	.premium-sky,
+	.ambient-orb,
+	.cosmic-field,
+	.hero-orbit,
+	.particle-field
+) {
 	display: none !important;
 }
+
 @media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
-	:where(.g-unusual-header, .g-dock, .g-context-ribbon, .g-constellation-menu, .g-panel, .g-header-search, .awtsmoosDrop .dropdown-content, .awtsmoos-dropdown-backdrop, .g-home-portal-search, .g-home-action, .home-command-dock, .profile-bottom-nav, .geelooy-bottom-nav, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel, .modal-content, .dropdown-menu) {
+	:where(
+		.g-unusual-header,
+		.g-dock,
+		.g-context-ribbon,
+		.g-constellation-menu,
+		.g-panel,
+		.g-header-search,
+		.awtsmoosDrop .dropdown-content,
+		.awtsmoos-dropdown-backdrop,
+		.g-home-portal-search,
+		.modal-content,
+		.dropdown-menu
+	) {
 		backdrop-filter: none !important;
 		-webkit-backdrop-filter: none !important;
 	}
+
 	:where(.g-panel, .geelooy-feed-card, .home-post-card, .social-space-card, .card-wrapper, .post-card):is(:hover, :focus-within) {
-		box-shadow: var(--shadow-paper) !important;
 		transform: none !important;
 	}
 }
+
 @media (max-width: 34rem) {
 	:where(.g-page, .geelooy-main-stage, .social-spaces-shell, .composerShell, .reviewShell) {
 		padding-inline: .65rem !important;

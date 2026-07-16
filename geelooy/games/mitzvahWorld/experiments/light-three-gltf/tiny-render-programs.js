@@ -1,21 +1,29 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-render-programs.js
+ * @description Compiles one lossless shader program for rigid and skinned village forms.
+ * The Awtsmoos does not become two when a stone rests and a Chossid walks; Awtsmoos.com
+ * therefore gives both revelations one linked GPU vessel while preserving every uniform.
+ */
+
 import {
 	fragmentShader,
-	rigidVertexShader,
-	skinTextureVertexShader,
-	uniformSkinVertexShader
+	unifiedTextureVertexShader,
+	unifiedUniformVertexShader
 } from './tiny-render-shaders.js';
 import {
 	createProgram,
 	locations
 } from './tiny-render-webgl-utils.js';
 
-/** Compiles rigid and skin programs and records the hardware joint strategy. */
 export function initializeRendererPrograms(renderer) {
 	const gl = renderer.gl;
 	renderer.maxVertexUniformVectors = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS) || 128;
 	renderer.maxVertexTextures = gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) || 0;
-	renderer.floatTexture = !!gl.getExtension('OES_texture_float');
+	renderer.floatTexture = Boolean(gl.getExtension('OES_texture_float'));
 	renderer.maxUniformJoints = Math.max(
 		8,
 		Math.min(96, Math.floor((renderer.maxVertexUniformVectors - 32) / 4))
@@ -25,22 +33,25 @@ export function initializeRendererPrograms(renderer) {
 		: renderer.maxVertexTextures > 0 && renderer.floatTexture
 			? 'texture'
 			: 'uniform';
-	renderer.programs = {
-		rigid: createProgram(gl, rigidVertexShader, fragmentShader, 'rigid', renderer.errors)
-	};
-	const skinVertex = renderer.jointMode === 'texture'
-		? skinTextureVertexShader
-		: uniformSkinVertexShader(renderer.maxUniformJoints);
-	renderer.programs.skin = createProgram(
+	const vertexShader = renderer.jointMode === 'texture'
+		? unifiedTextureVertexShader
+		: unifiedUniformVertexShader(renderer.maxUniformJoints);
+	const program = createProgram(
 		gl,
-		skinVertex,
+		vertexShader,
 		fragmentShader,
-		`skin-${renderer.jointMode}`,
+		`unified-${renderer.jointMode}`,
 		renderer.errors
 	);
+	const sharedLocations = locations(gl, program);
+	sharedLocations.useSkin = gl.getUniformLocation(program, 'uUseSkin');
+	renderer.programs = {
+		rigid: program,
+		skin: program
+	};
 	renderer.loc = {
-		rigid: locations(gl, renderer.programs.rigid),
-		skin: locations(gl, renderer.programs.skin)
+		rigid: sharedLocations,
+		skin: sharedLocations
 	};
 	renderer.skinTexture = gl.createTexture();
 }

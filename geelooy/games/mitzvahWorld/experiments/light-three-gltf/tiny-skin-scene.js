@@ -1,55 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file tiny-skin-scene.js
- * @description Connects GLTF skins while skipping invisible render subtrees.
- * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com computes
- * only branches that may participate in this frame while preserving submitted skeletons.
+ * @description Updates visible world matrices while reusing unchanged transform vessels.
+ * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com recomputes
+ * only numerical transforms whose local truth or inherited parent matrix truly changed.
  */
+
+import { identity } from './tiny-math.js';
+import { bindSceneSkeletons } from './tiny-skin-binding.js';
 import {
-	identity,
-	multiply
-} from './tiny-math.js';
+	ROOT_WORLD_MATRIX,
+	updateCachedWorldMatrix
+} from './tiny-transform-cache.js';
+
+export { bindSceneSkeletons };
+
 export function collectWorldMatrices(root) {
 	const worldByNode = new Map();
 	const stats = {
+		reusedNodes: 0,
 		skippedSubtrees: 0,
 		updatedNodes: 0
 	};
-	updateVisibleBranch(root, identity(), worldByNode, stats, true);
+	updateVisibleBranch(root, ROOT_WORLD_MATRIX, worldByNode, stats, true);
 	worldByNode.stats = stats;
 	return worldByNode;
-}
-
-export function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
-	const nodeMap = root.userData?.nodeMap || new Map();
-	const skeletons = new Map();
-	let maxJoints = 0;
-	let missingJoints = 0;
-	for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
-		const skinDef = doc.skins[skinIndex] || {};
-		const inverseBindAccessor = skinDef.inverseBindMatrices === undefined
-			? null
-			: accessors[skinDef.inverseBindMatrices];
-		const skeleton = createSkeleton({
-			inverseBindAccessor,
-			nodeMap,
-			skinDef,
-			skinIndex
-		});
-		skeletons.set(skinIndex, skeleton);
-		maxJoints = Math.max(maxJoints, skeleton.jointCount);
-		missingJoints += skeleton.joints.filter(joint => !joint).length;
-	}
-	const meshStats = bindMeshes(root, skeletons);
-	root.userData.skeletons = skeletons;
-	return {
-		maxJoints,
-		missingJoints,
-		skeletonCount: skeletons.size,
-		...meshStats
-	};
 }
 
 export function updateTinySkeletons(root) {
@@ -89,32 +67,13 @@ function updateVisibleBranch(
 		stats.skippedSubtrees += 1;
 		return;
 	}
-	node.matrixWorld = multiply(parentWorld, node.localMatrix());
+	const changed = updateCachedWorldMatrix(node, parentWorld);
+	if (changed) stats.updatedNodes += 1;
+	else stats.reusedNodes += 1;
 	node.userData ||= {};
 	node.userData.worldMatrix = node.matrixWorld;
 	worldByNode.set(node, node.matrixWorld);
-	stats.updatedNodes += 1;
 	for (const child of node.children || []) {
 		updateVisibleBranch(child, node.matrixWorld, worldByNode, stats, visible);
 	}
-}
-
-function bindMeshes(root, skeletons) {
-	let rigidMeshes = 0;
-	let skinnedMeshes = 0;
-	root.traverse(node => {
-		if (!node.isMesh) return;
-		const hasAttributes = Boolean(
-			node.geometry?.attributes?.joints
-			&& node.geometry?.attributes?.weights
-		);
-		node.skeleton = skeletons.get(node.skinIndex) || null;
-		node.isSkinnedMesh = Boolean(node.skeleton && hasAttributes);
-		if (node.isSkinnedMesh) skinnedMeshes += 1;
-		else rigidMeshes += 1;
-	});
-	return {
-		rigidMeshes,
-		skinnedMeshes
-	};
 }

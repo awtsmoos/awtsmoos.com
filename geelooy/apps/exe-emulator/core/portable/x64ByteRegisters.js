@@ -4,8 +4,8 @@
 
 /**
  * Decodes and accesses x86-64 byte-register encodings. The Awtsmoos creates AL,
- * AH, SPL, R8B, preserved surrounding bits, and zero-width garment anew;
- * Awtsmoos.com distinguishes legacy high bytes from REX low-byte registers.
+ * AH, SPL, R8B, and preserved surrounding bits anew; Awtsmoos.com extracts and
+ * replaces only eight exact bits without narrowing the containing register.
  */
 export function decodeByteRegister(code, rexExtension, rexPresent) {
 	const normalized = Number(code) & 7;
@@ -22,27 +22,29 @@ export function decodeByteRegister(code, rexExtension, rexPresent) {
 }
 
 export function readByteRegister(registers, specification) {
-	const bits = BigInt.asUintN(64, BigInt(registers.get(specification.register)));
+	const bits = registers.getUnsignedBigInt(specification.register);
 	const shift = specification.high ? 8n : 0n;
 	return Number((bits >> shift) & 0xffn);
 }
 
 export function writeByteRegister(registers, specification, value) {
-	const original = BigInt.asUintN(64, BigInt(registers.get(specification.register)));
+	const original = registers.getUnsignedBigInt(specification.register);
 	const shift = specification.high ? 8n : 0n;
 	const mask = 0xffn << shift;
 	const replacement = (original & ~mask)
-		| ((BigInt(Number(value)) & 0xffn) << shift);
-	const signed = BigInt.asIntN(64, replacement);
-	if (signed < BigInt(Number.MIN_SAFE_INTEGER)
-		|| signed > BigInt(Number.MAX_SAFE_INTEGER)) {
-		throw byteRegisterError("PORTABLE_INTEGER_UNSAFE", signed);
-	}
-	registers.set(specification.register, Number(signed));
+		| (byteBits(value) << shift);
+	registers.setBigInt(
+		specification.register,
+		BigInt.asIntN(64, replacement)
+	);
 }
 
-function byteRegisterError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
-	error.code = code;
-	return error;
+function byteBits(value) {
+	if (typeof value === "bigint") return BigInt.asUintN(8, value);
+	if (typeof value === "number" && Number.isSafeInteger(value)) {
+		return BigInt.asUintN(8, BigInt(value));
+	}
+	const error = new Error(`PORTABLE_BYTE_REGISTER_VALUE:${value}`);
+	error.code = "PORTABLE_BYTE_REGISTER_VALUE";
+	throw error;
 }

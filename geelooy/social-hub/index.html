@@ -1,27 +1,43 @@
-<!--B"H-->
-<!--Boruch Hashem-->
-<!--Blessed is He-->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one connected social command center through exact identity, source, interaction, and privacy.
+-->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#070816">
-	<title>Awtsmoos Social Hub</title>
-	<link rel="stylesheet" href="./style.css">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Create, comment, reference, review, inspect activity, and control privacy from the Geelooy Social Hub.">
+	<meta name="theme-color" content="#07090f">
+	<title>Social Hub — Geelooy</title>
+	<link rel="stylesheet" href="./style.css?v=hub-dark-002">
 </head>
-<body>
-	<div class="cosmos" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+<body class="social-hub-document">
 	<header class="hubHeader">
-		<div class="brandCluster"><div class="brandSigil">א</div><div><p class="eyebrow">Awtsmoos.com · social reality command</p><h1>Social Hub</h1><p id="identityState">Verifying public aliases…</p></div></div>
-		<div class="identityCluster"><label>Act as<select id="hubAliasSelect"><option value="">Choose public alias</option></select></label><a id="loginLink" href="/login">Log in</a></div>
+		<div class="brandCluster">
+			<div class="brandSigil" aria-hidden="true">א</div>
+			<div><p class="eyebrow">Awtsmoos.com · social reality command</p><h1>Social Hub</h1><p id="identityState">Verifying public aliases…</p></div>
+		</div>
+		<div class="identityCluster">
+			<label>Act as<select id="hubAliasSelect"><option value="">Choose public alias</option></select></label>
+			<a id="loginLink" href="/login">Log in</a>
+		</div>
 	</header>
-	<div class="contextRibbon"><span id="activeAliasBadge">No alias</span><span id="activeDestinationBadge">No destination</span><span id="activePrivacyBadge">Private activity</span><strong id="workspaceTitle">Social pulse</strong></div>
+	<div class="contextRibbon">
+		<span id="activeAliasBadge">No alias</span><span id="activeDestinationBadge">No destination</span><span id="activePrivacyBadge">Private activity</span><strong id="workspaceTitle">Social pulse</strong>
+	</div>
 	<div class="hubShell">
-		<aside class="desktopRail"><div id="desktopNavigation" class="routeNavigation" aria-label="Social Hub navigation"></div><div class="railFooter"><a href="/legal/terms/">Terms</a><a href="/legal/privacy/">Privacy</a></div></aside>
+		<aside class="desktopRail">
+			<div id="desktopNavigation" class="routeNavigation" aria-label="Social Hub navigation"></div>
+			<div class="railFooter"><a href="/legal/terms/">Terms</a><a href="/legal/privacy/">Privacy</a></div>
+		</aside>
 		<main class="workspace">
 			<section data-panel="home" class="workspacePanel homePanel">
-				<div class="heroRift"><div id="pulseOrb" class="pulseOrb" data-active="false"><span></span><span></span><span></span></div><div><p class="eyebrow">Current social constellation</p><h2 tabindex="-1">Everything remains connected to its source.</h2><p id="pulseTarget">No target selected</p></div></div>
+				<div class="heroRift">
+					<div id="pulseOrb" class="pulseOrb" data-active="false"><span></span><span></span><span></span></div>
+					<div><p class="eyebrow">Current social constellation</p><h2 tabindex="-1">Everything remains connected to its source.</h2><p id="pulseTarget">No target selected</p></div>
+				</div>
 				<div class="pulseGrid"><article><strong id="pulseAlias">No alias</strong><span>Active identity</span></article><article><strong id="pulsePosts">0</strong><span>Posts</span></article><article><strong id="pulseComments">0</strong><span>Comments</span></article><article><strong id="pulseReferences">0</strong><span>References</span></article><article><strong id="pulseActivity">0</strong><span>Private events</span></article><article><strong id="pulsePrivacy">Private</strong><span>Activity default</span></article></div>
 				<div class="quickActionGrid"><a id="quickPost" data-quick-action="new-post">Create post</a><a id="quickQuestion" data-quick-action="new-question">Ask question</a><a id="quickReference" data-quick-action="add-to-heichel">Add to Heichel</a><a id="quickReview" data-quick-action="review-center">Review center</a><button id="openExactInteraction" type="button">Comment exactly here</button></div>
 			</section>
@@ -41,6 +57,6 @@
 	</div>
 	<nav id="mobileNavigation" class="mobileDock routeNavigation" aria-label="Mobile Social Hub navigation"></nav>
 	<p id="hubStatus" class="hubStatus" hidden aria-live="polite"></p>
-	<script type="module" src="./js/main.js"></script>
+	<script type="module" src="./js/main.js?v=hub-dark-002"></script>
 </body>
 </html>

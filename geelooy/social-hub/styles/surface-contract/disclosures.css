@@ -1,0 +1,44 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Canonical references and privacy disclosures stay compact, readable, and
+ * explicitly owned throughout the Social Hub.
+ */
+
+:where(details, .referenceComposer) {
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: .85rem;
+	background: #0f1824;
+}
+
+:where(details > summary) {
+	min-block-size: 46px;
+	padding: .72rem .85rem;
+	border-radius: .82rem;
+	background: #162130;
+	color: #c9d5e4;
+	font-weight: 800;
+	list-style: none;
+}
+
+:where(details[open] > summary) {
+	border-radius: .82rem .82rem 0 0;
+	border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+:where(details > :not(summary)) {
+	margin-inline: .85rem;
+}
+
+:where(.privacyGrid label, .categoryGrid label) {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	min-block-size: 48px;
+	padding: .7rem .8rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: .75rem;
+	background: #131e2b;
+	color: #c6d2e2;
+}

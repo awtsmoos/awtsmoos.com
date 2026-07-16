@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns every Home reaction into a full interaction doorway.
+ * Awtsmoos.com likes, comments, references, shares, and object actions own
+ * stable dark surfaces, clear focus, and readable metadata.
+ */
+
+.geelooy-home-shell .geelooy-reaction-bar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .45rem;
+	padding-block-start: .2rem;
+	border-top: 1px solid var(--home-line);
+}
+
+.geelooy-home-shell .geelooy-reaction-bar button,
+.object-action-row :where(a, button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .38rem;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	padding: .58rem .72rem;
+	border: 1px solid var(--home-line);
+	border-radius: .72rem;
+	background: #162130;
+	box-shadow: none;
+	color: #cbd7e6;
+	font: 760 .84rem/1.15 var(--font-ui);
+	text-decoration: none;
+	cursor: pointer;
+	transition: none;
+}
+
+.geelooy-home-shell .geelooy-reaction-bar button:is(:hover, :focus-visible),
+.object-action-row :where(a, button):is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .5);
+	background: rgba(88, 199, 216, .12);
+	color: #a9edf5;
+}
+
+.geelooy-home-shell .geelooy-reaction-bar button[aria-pressed="true"] {
+	border-color: rgba(168, 115, 219, .56);
+	background: rgba(168, 115, 219, .14);
+	color: #d8b8f3;
+}
+
+.geelooy-reaction-summary {
+	margin-inline-start: auto;
+	color: var(--home-faint);
+	font-size: .76rem;
+}
+
+@media (max-width: 520px) {
+	.geelooy-reaction-summary {
+		inline-size: 100%;
+		margin-inline-start: 0;
+	}
+}

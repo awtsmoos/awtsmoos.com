@@ -10,10 +10,10 @@
  */
 
 export const VILLAGE_WORLD_BUDGETS = Object.freeze({
-	low: budget(6, 72, 36, 10, 3200, 140),
-	medium: budget(8, 126, 60, 18, 6200, 200),
-	high: budget(10, 220, 90, 28, 11200, 280),
-	cinematic: budget(10, 310, 110, 40, 16800, 360)
+	low: budget(6, 96, 36, 10, 4600, 140),
+	medium: budget(8, 180, 60, 18, 8400, 200),
+	high: budget(10, 270, 90, 28, 16000, 280),
+	cinematic: budget(10, 370, 110, 40, 24000, 360)
 });
 
 export function villageWorldBudget(name = 'high') {

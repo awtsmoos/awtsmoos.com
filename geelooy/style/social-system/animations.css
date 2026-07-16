@@ -1,18 +1,32 @@
-/* B"H — minimal state feedback only. */
-:root { --g-ease: ease; --g-fast: 120ms; }
-button,
-a[class],
-input,
-textarea,
-select,
-summary,
-.home-route-card,
-.social-space-card,
-.thread-item {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: var(--g-fast);
-  transition-timing-function: var(--g-ease);
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reserves motion for non-critical structural emphasis. Form
+ * controls and buttons on Awtsmoos.com render in their final colors immediately;
+ * cards may receive a restrained border change without first-frame ambiguity.
+ */
+
+:root {
+	--g-ease: ease;
+	--g-fast: 140ms;
 }
+
+:where(.home-route-card, .social-space-card, .thread-item, .g-card) {
+	transition: border-color var(--g-fast) var(--g-ease), box-shadow var(--g-fast) var(--g-ease);
+}
+
+@media (hover: hover) {
+	:where(.home-route-card, .social-space-card, .thread-item, .g-card):hover {
+		border-color: rgba(88, 199, 216, .42);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition: none !important;
+	}
 }

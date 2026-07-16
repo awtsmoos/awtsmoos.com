@@ -4,82 +4,89 @@
 
 /**
  * @file tiny-render-draw-list.js
- * @description Collects visible surface meshes and records helper and camera culling.
- * The Awtsmoos renews both revealed and concealed form; Awtsmoos.com distinguishes
- * hidden helpers, invisible branches, distant vessels, and camera-excluded surfaces.
+ * @description Collects visible meshes and orders opaque work without changing pixels.
+ * The Awtsmoos renews every revealed surface in one indivisible act; Awtsmoos.com
+ * gathers equal shader vessels together so the same valley appears with fewer stalls.
  */
 
-import {
-	helperKind,
-	isSurfaceMode,
-	shouldRenderMode
-} from './tiny-render-policy.js';
+import { collectSceneMeshes } from './tiny-render-collection.js';
 import { meshCullingReason } from './tiny-render-culling.js';
+import {
+	isLitMode,
+	isTransparent,
+	pointSizeForMode,
+	triangleCountForMode
+} from './tiny-render-surface-policy.js';
+
+const materialOrder = new WeakMap();
+let nextMaterialOrder = 1;
 
 export function collectMeshes(root, camera = null, options = {}) {
+	const collected = collectSceneMeshes(root, options);
+	const batched = options.staticBatcher
+		? options.staticBatcher.resolve(collected.batchCandidates)
+		: {
+			meshes: [],
+			originals: collected.batchCandidates.map(entry => entry.mesh),
+			stats: null
+		};
 	const opaque = [];
 	const transparent = [];
-	const hidden = { line: 0, point: 0, other: 0 };
 	const culled = {
 		distance: 0,
 		frustum: 0,
-		invisibleSubtrees: 0
+		invisibleSubtrees: collected.invisibleSubtrees
 	};
-	visit(root, true, object => {
-		if (!object.isMesh) return;
-		const mode = object.geometry?.mode ?? object.primitiveMode ?? 4;
-		if (!shouldRenderMode(mode, options)) {
-			const kind = helperKind(mode);
-			hidden[kind] = (hidden[kind] || 0) + 1;
-			return;
-		}
-		const reason = meshCullingReason(object, camera, options);
-		if (reason) {
-			culled[reason] += 1;
-			return;
-		}
-		if (isTransparent(object)) transparent.push(object);
-		else opaque.push(object);
-	}, culled);
+	for (const mesh of [
+		...collected.opaque,
+		...batched.originals,
+		...batched.meshes
+	]) appendVisible(mesh, opaque, camera, options, culled);
+	for (const mesh of collected.transparent) {
+		appendVisible(mesh, transparent, camera, options, culled);
+	}
+	opaque.sort(compareOpaqueMeshes);
 	return {
 		culled,
-		hidden,
+		hidden: collected.hidden,
 		opaque,
+		staticBatch: batched.stats,
 		transparent
 	};
 }
 
-function visit(object, parentVisible, callback, culled) {
-	const visible = parentVisible && object.visible !== false;
-	if (!visible) {
-		culled.invisibleSubtrees += 1;
-		return;
+function appendVisible(mesh, output, camera, options, culled) {
+	const reason = meshCullingReason(mesh, camera, options);
+	if (reason) culled[reason] += 1;
+	else output.push(mesh);
+}
+
+function compareOpaqueMeshes(left, right) {
+	return programRank(left) - programRank(right)
+		|| cullRank(left) - cullRank(right)
+		|| objectOrder(left.material) - objectOrder(right.material);
+}
+
+function programRank(mesh) {
+	return mesh.isSkinnedMesh && mesh.skeleton ? 1 : 0;
+}
+
+function cullRank(mesh) {
+	return mesh.material?.backfaceCull ? 0 : 1;
+}
+
+function objectOrder(material) {
+	if (!material || typeof material !== 'object') return 0;
+	if (!materialOrder.has(material)) {
+		materialOrder.set(material, nextMaterialOrder);
+		nextMaterialOrder += 1;
 	}
-	callback(object);
-	for (const child of object.children || []) {
-		visit(child, visible, callback, culled);
-	}
+	return materialOrder.get(material);
 }
 
-export function isTransparent(mesh) {
-	const material = mesh.material;
-	return material?.transparent === true
-		|| material?.alphaMode === 'BLEND'
-		|| (material?.opacity ?? 1) < 1;
-}
-
-export function isLitMode(mode) {
-	return isSurfaceMode(mode ?? 4);
-}
-
-export function pointSizeForMode() {
-	return 1;
-}
-
-export function triangleCountForMode(mode, count) {
-	if ((mode ?? 4) === 4) return Math.floor(count / 3);
-	if ((mode ?? 4) === 5 || (mode ?? 4) === 6) {
-		return Math.max(0, count - 2);
-	}
-	return 0;
-}
+export {
+	isLitMode,
+	isTransparent,
+	pointSizeForMode,
+	triangleCountForMode
+};

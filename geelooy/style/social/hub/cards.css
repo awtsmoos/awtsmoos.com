@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets API truth remain dense without becoming a raw debug dump.
+ * Awtsmoos.com cards contain code, status, live actions, empty data, and errors
+ * inside readable dark surfaces that never widen the page.
+ */
+
+.hub-panel-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+	gap: .85rem;
+	min-inline-size: 0;
+}
+
+.hub-card {
+	display: grid;
+	grid-template-rows: auto minmax(8rem, 1fr);
+	gap: .75rem;
+	min-inline-size: 0;
+	min-block-size: 15rem;
+	padding: 1rem;
+	border: 1px solid var(--hub-line);
+	border-radius: var(--hub-radius-l);
+	background: #101925;
+	box-shadow: 0 .7rem 1.8rem rgba(0, 0, 0, .2);
+	color: var(--hub-text);
+}
+
+.hub-card header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: .8rem;
+	min-inline-size: 0;
+}
+
+.hub-card h3,
+.hub-card small {
+	margin: 0;
+}
+
+.hub-card h3 {
+	color: var(--hub-text);
+	font-size: 1rem;
+	line-height: 1.2;
+}
+
+.hub-card small {
+	max-inline-size: 48%;
+	padding: .3rem .5rem;
+	overflow: hidden;
+	border: 1px solid var(--hub-line);
+	border-radius: 999px;
+	background: #162130;
+	color: var(--hub-faint);
+	font-size: .72rem;
+	font-weight: 760;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hub-card pre {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	max-block-size: 24rem;
+	margin: 0;
+	padding: .82rem;
+	overflow: auto;
+	border: 1px solid rgba(97, 203, 217, .16);
+	border-radius: .75rem;
+	background: #09111b;
+	color: #c9d7e7;
+	font: 500 .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	overflow-wrap: anywhere;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.hub-card[data-state="error"] {
+	border-color: rgba(255, 127, 156, .4);
+}
+
+.hub-card[data-state="error"] small {
+	border-color: rgba(255, 127, 156, .35);
+	background: rgba(255, 127, 156, .08);
+	color: #ffc2cf;
+}
+
+.hub-card[data-state="ready"] small {
+	border-color: rgba(101, 214, 162, .3);
+	background: rgba(101, 214, 162, .08);
+	color: #a9edcd;
+}
+
+.hub-live-card {
+	grid-column: 1 / -1;
+}
+
+.hub-live-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+}
+
+.hub-live-card pre {
+	min-block-size: 10rem;
+}
+
+.hub-empty-copy {
+	color: var(--hub-faint);
+	font-style: italic;
+}

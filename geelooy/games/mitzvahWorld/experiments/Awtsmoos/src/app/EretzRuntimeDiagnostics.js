@@ -49,6 +49,8 @@ export function attachRuntimeDiagnostics(
 		octree: runtime.mover.octree,
 		orbit: runtime.orbit,
 		performancePolicy: performancePolicy(runtime),
+		performanceMonitor: runtime.performanceMonitor,
+		performanceMetrics: () => runtime.performanceMonitor?.diagnostics(),
 		player: runtime.player,
 		playerSource: runtime.playerGltf.scene.userData.isolatedModelLoad,
 		runtime,

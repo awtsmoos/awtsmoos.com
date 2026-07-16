@@ -9,7 +9,10 @@
  * unites their palette geometry into six bounded vessels for Awtsmoos.com rendering.
  */
 
-import { generateBotanicalPlant } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+import {
+	generateBotanicalCluster,
+	generateBotanicalPlant
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import {
 	assembleVillageBotanicalBatches,
 	botanicalBatchStats
@@ -19,10 +22,17 @@ import { createVillageGardenPlacements } from './VillageGardenZones.js';
 
 export function createVillageBotanicalBatchDefinitions(groundSampler, quality = 'high') {
 	const placements = createVillageGardenPlacements(groundSampler, quality);
-	const plants = placements.map((placement) => generateBotanicalPlant({
-		...placement,
-		quality: placement.geometryQuality
-	}));
+	const plants = placements.map((placement) => placement.clusterCount
+		? generateBotanicalCluster({
+			...placement,
+			count: placement.clusterCount,
+			quality: placement.geometryQuality,
+			radius: placement.clusterRadius
+		})
+		: generateBotanicalPlant({
+			...placement,
+			quality: placement.geometryQuality
+		}));
 	const definitions = assembleVillageBotanicalBatches(plants).map((definition) => ({
 		...definition,
 		userData: {

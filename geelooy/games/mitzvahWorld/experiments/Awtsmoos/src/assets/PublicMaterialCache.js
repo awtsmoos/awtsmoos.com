@@ -3,6 +3,7 @@ import {
 	CRITICAL_RUNTIME_MATERIALS,
 	RUNTIME_MATERIALS
 } from './RuntimeMaterialManifest.js';
+import { WORLD_TEXTURE_MATERIALS } from './WorldTextureManifest.js';
 import {
 	loadPublicMaterialImage,
 	serializableImageRecord
@@ -91,8 +92,34 @@ export async function preloadPublicMaterialImages(options = {}) {
 
 /** Starts noncritical hydration without making world startup wait for it. */
 export function progressivelyHydratePublicMaterials(options = {}) {
-	const optional = RUNTIME_MATERIALS.filter((material) => !material.critical);
+	const optional = [
+		...RUNTIME_MATERIALS.filter((material) => !material.critical),
+		...WORLD_TEXTURE_MATERIALS
+	];
 	return loadRuntimeMaterialRoles(optional, { concurrency: 2, timeoutMs: 9000, ...options });
+}
+
+/** Rebinds images downloaded after scene construction onto their existing material vessels. */
+export function hydrateSceneMaterialImages(root) {
+	const stats = { materials: 0, mapImagesBound: 0, mixImagesBound: 0, pending: 0 };
+	root?.traverse?.((object) => {
+		const material = object.material;
+		if (!material) return;
+		stats.materials += 1;
+		if (!material.mapImage && material.textureUrl) {
+			material.mapImage = cachedTextureImage(material.textureUrl);
+			if (material.mapImage) stats.mapImagesBound += 1;
+		}
+		if (!material.mixImage && material.mixTextureUrl) {
+			material.mixImage = cachedTextureImage(material.mixTextureUrl);
+			if (material.mixImage) stats.mixImagesBound += 1;
+		}
+		if (material.textureUrl && !material.mapImage) stats.pending += 1;
+		if (object.userData && material.mapImage) {
+			object.userData.AwtsmoosMaterialEnforcement = 'real-mapImage-bound-live';
+		}
+	});
+	return stats;
 }
 
 export function runtimeMaterialUrls() {

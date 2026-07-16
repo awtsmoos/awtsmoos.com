@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos separates ordinary, approving, warning, and destructive review
+ * actions visibly. These final declarations belong to the review route and may
+ * not be erased by a shared contrast or historical button generation.
+ */
+
+body.heichel-review-document :where(
+	.primaryAction,
+	[data-review-action="approve"],
+	[data-review-action="publish"],
+	[data-review-action="schedule"]
+) {
+	border-color: #58c7d8 !important;
+	background-color: #58c7d8 !important;
+	background-image: none !important;
+	box-shadow: 0 .55rem 1.35rem rgba(88, 199, 216, .18) !important;
+	color: #061018 !important;
+	font-weight: 880 !important;
+}
+
+body.heichel-review-document :where(
+	.dangerAction,
+	[data-review-action="reject"]
+) {
+	border-color: rgba(255, 120, 148, .5) !important;
+	background-color: rgba(255, 120, 148, .13) !important;
+	background-image: none !important;
+	color: #ffb6c4 !important;
+}
+
+body.heichel-review-document :where(
+	[data-review-action="triage"],
+	[data-review-action="changes"]
+) {
+	border-color: rgba(240, 201, 107, .48) !important;
+	background-color: rgba(240, 201, 107, .11) !important;
+	background-image: none !important;
+	color: #f4d88f !important;
+}
+
+body.heichel-review-document :where(input[type="checkbox"], input[type="radio"]) {
+	appearance: auto;
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	border: 0;
+	background: none;
+	accent-color: #58c7d8;
+	transition: none !important;
+}
+
+body.heichel-review-document :where(button, input, select, textarea, summary):focus-visible {
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+	body.heichel-review-document :where(.primaryAction, .dangerAction, button) {
+		background: ButtonFace !important;
+		border: 1px solid ButtonText !important;
+		box-shadow: none !important;
+		color: ButtonText !important;
+	}
+}

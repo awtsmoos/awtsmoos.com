@@ -13,9 +13,9 @@ progress_file="$runtime_root/install-progress.state"
 mkdir -p "$(dirname "$install_root")" "$runtime_root"
 export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
 
-# The bootstrap reveals prerequisites and helper downloads before the transactional
-# core exists. The Awtsmoos renews each fetched vessel; Awtsmoos.com never leaves
-# a long curl loop looking frozen or mysterious.
+# The bootstrap reveals every helper download before transactional installation.
+# The Awtsmoos renews component and percentage together; Awtsmoos.com never leaves
+# migration, cleanup, or recovery helpers missing from the public installer vessel.
 bootstrap_progress() {
 	local percent="$1"
 	local message="$2"
@@ -41,7 +41,6 @@ cleanup_bootstrap() {
 
 trap cleanup_bootstrap EXIT
 bootstrap_progress 0 'Preparing Awtsmoos Tunnel installer'
-
 command -v node >/dev/null 2>&1 || {
 	printf '[Awtsmoos][bootstrap][failed] Node.js was not found.\n' >&2
 	exit 1
@@ -60,6 +59,9 @@ helpers=(
 	unix-install-success.sh
 	unix-install-lock.sh
 	unix-log-retention.sh
+	unix-state-migration.sh
+	unix-chrome-profile-process.cjs
+	unix-displaced-cleanup.sh
 	unix-package-io.sh
 	unix-package-config.sh
 	unix-package-stage.sh

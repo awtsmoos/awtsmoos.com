@@ -1,102 +1,108 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Forms become clear instruments: designed captions, stable fields, and honest state.
+ *
+ * Social forms render as stable dark instruments immediately.
  */
+
 :where(.field, .form-field, [data-field]) {
 	display: grid;
-	gap: var(--space-2, .5rem);
-	min-width: 0;
+	gap: .5rem;
+	min-inline-size: 0;
 }
+
 :where(label[for], .field-label, .form-label, .input-label, .control-label):not(.sr-only) {
 	display: inline-flex;
 	align-items: center;
 	gap: .45rem;
-	width: fit-content;
-	color: var(--g-text-2);
-	font-size: var(--type-small, .84rem);
-	font-weight: 750;
+	inline-size: fit-content;
+	color: var(--g-text-2, #bac4d3);
+	font-size: .82rem;
+	font-weight: 780;
 	line-height: 1.25;
 }
+
 :where(label[for], .field-label, .form-label, .input-label, .control-label):not(.sr-only)::before {
-	width: .48rem;
-	height: .48rem;
-	border: 1px solid color-mix(in srgb, var(--g-accent) 52%, transparent);
+	inline-size: .44rem;
+	block-size: .44rem;
 	border-radius: 50%;
-	background: color-mix(in srgb, var(--g-accent) 16%, transparent);
+	background: var(--g-accent, #58c7d8);
 	content: "";
 	flex: 0 0 auto;
 }
+
 :where([data-required="true"], .is-required):not(.sr-only)::after {
 	padding: .15rem .38rem;
-	border-radius: var(--radius-pill);
-	background: color-mix(in srgb, var(--awt-danger) 12%, transparent);
-	color: var(--awt-danger);
+	border-radius: 999px;
+	background: rgba(255, 120, 148, .12);
+	color: var(--g-danger, #ff7894);
 	content: "Required";
-	font-size: var(--type-caption);
-	font-weight: 800;
+	font-size: .72rem;
+	font-weight: 820;
 }
+
 :where(.field-hint, .form-hint, .input-hint, [data-field-hint]) {
 	margin: 0;
-	color: var(--g-faint);
-	font-size: var(--type-small);
+	color: var(--g-faint, #94a2b7);
+	font-size: .82rem;
 	line-height: 1.45;
 }
+
 :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]), textarea, select) {
-	width: 100%;
-	min-width: 0;
-	min-height: 46px;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
 	padding: .72rem .85rem;
-	border: 1px solid var(--g-border);
-	border-radius: var(--radius-m);
-	background: var(--awt-surface);
-	box-shadow: none;
-	color: var(--g-text);
+	border: 1px solid var(--g-border-strong, rgba(255, 255, 255, .22));
+	border-radius: .78rem;
+	background-color: #172333;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: var(--g-text, #f5f7fb);
 	font: inherit;
-	font-size: max(16px, 1em);
+	font-size: max(16px, 1rem);
+	line-height: 1.4;
 	outline: 0;
-	transition: border-color var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
+	transition: none;
 }
-:where(textarea) {
-	min-height: 7.5rem;
+
+textarea {
+	min-block-size: 8rem;
 	line-height: 1.55;
 	resize: vertical;
 }
+
 :where(input, textarea)::placeholder {
-	color: var(--g-faint);
-	opacity: .9;
+	color: var(--g-faint, #94a2b7);
+	opacity: 1;
 }
-:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select):is(:focus, :focus-visible) {
-	border-color: var(--g-focus);
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-focus) 20%, transparent);
+
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select):focus-visible {
+	border-color: var(--g-focus, #7ed7e5);
+	background-color: #192738;
+	box-shadow: 0 0 0 3px rgba(126, 215, 229, .16);
 }
+
 :where(input, textarea, select):user-invalid {
-	border-color: var(--awt-danger);
+	border-color: var(--g-danger, #ff7894);
 }
-:where(input, textarea, select):disabled,
-:where(input, textarea, select)[aria-disabled="true"] {
+
+:where(input, textarea, select):disabled {
 	cursor: not-allowed;
 	opacity: .55;
 }
+
 :where(input[type="checkbox"], input[type="radio"]) {
-	width: 1.15rem;
-	height: 1.15rem;
+	inline-size: 1.2rem;
+	block-size: 1.2rem;
 	margin: 0;
-	accent-color: var(--g-accent);
+	accent-color: var(--g-accent, #58c7d8);
 }
+
 :where(input[type="file"]) {
-	max-width: 100%;
-	padding: .55rem;
-	border: 1px dashed var(--g-border-strong);
-	border-radius: var(--radius-m);
-	background: var(--awt-surface-soft);
-}
-.home-search-vessel {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: var(--space-2);
-	align-items: stretch;
-}
-.home-command-label {
-	margin-bottom: var(--space-2);
+	max-inline-size: 100%;
+	padding: .65rem;
+	border: 1px dashed var(--g-border-strong, rgba(255, 255, 255, .22));
+	border-radius: .78rem;
+	background: #121d2b;
+	color: var(--g-text-2, #bac4d3);
 }

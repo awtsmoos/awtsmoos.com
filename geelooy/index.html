@@ -11,8 +11,10 @@ The Awtsmoos reveals one fast Geelooy threshold through one sovereign Home syste
 	<meta name="description" content="Geelooy is a social graph for Torah, posts, Heichelos, identity, and mail.">
 	<meta name="theme-color" content="#07090f">
 	<title>Geelooy — Reveal, create, connect</title>
-	<link rel="stylesheet" href="/style/social/home/index.css?v=home-acceptance-001">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-acceptance-001">
+	<link rel="stylesheet" href="/style/social/home/index.css?v=home-acceptance-006">
+	<link rel="stylesheet" href="/style/geelooy-app/home/composer/index.css?v=home-acceptance-006">
+	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/dashboard/boot.js">
+	<link rel="modulepreload" href="/scripts/awtsmoos/social/feed/homeComposer.js">
 </head>
 <body class="geelooy-home-document geelooy-home-shell" data-home-dashboard-page data-home-dashboard data-home-reduced-motion-safe data-geelooy-route="home">
 	<a class="home-skip-link" href="#home-live-region">Skip to the live feed</a>
@@ -20,14 +22,21 @@ The Awtsmoos reveals one fast Geelooy threshold through one sovereign Home syste
 		<div class="g-home-main">
 			<section class="g-panel g-home-hero home-glance-panel" aria-describedby="home-introduction" data-enter>
 				<header class="home-app-header" aria-label="Home route identity">
-					<a class="home-orb-brand" href="/" aria-current="page"><span class="home-orb-logo" aria-hidden="true">א</span><span class="home-brand-copy"><strong>Geelooy</strong><small>Creation with a source.</small></span></a>
+					<a class="home-orb-brand" href="/" aria-current="page">
+						<span class="home-orb-logo" aria-hidden="true">א</span>
+						<span class="home-brand-copy"><strong>Geelooy</strong><small>Creation with a source.</small></span>
+					</a>
 					<a class="home-bell-button icon-only" href="/notifications" aria-label="Open signals" data-icon="🔔"></a>
 				</header>
 				<div class="g-home-hero-copy">
 					<p class="g-kicker field-label">The living social constellation</p>
 					<h1 id="home-title" class="g-title">Reveal what is hidden.<br><span>Make it travel.</span></h1>
 					<p id="home-introduction">Enter living Heichelos, publish real objects, search exact Torah sources, and keep every conversation connected to its birthplace.</p>
-					<div class="home-proof-row" aria-label="System qualities"><span class="p-chip">Network live</span><span class="p-chip">Source linked</span><span class="p-chip">Keyboard ready</span></div>
+					<div class="home-proof-row" aria-label="System qualities">
+						<span class="p-chip">Network live</span>
+						<span class="p-chip">Source linked</span>
+						<span class="p-chip">Keyboard ready</span>
+					</div>
 				</div>
 				<form class="g-home-portal-search geelooy-search home-command-galaxy" role="search" action="/mawgawl/sefarim" method="get" data-home-search>
 					<label class="home-command-label" for="home-global-search">Search the living graph</label>
@@ -42,13 +51,28 @@ The Awtsmoos reveals one fast Geelooy threshold through one sovereign Home syste
 					<a class="g-home-action" href="/social-hub/" data-intent="connect"><span class="p-icon">◎</span><strong>Social Hub</strong><small>Comments, references, and activity.</small></a>
 				</nav>
 			</section>
-			<nav class="home-command-dock home-task-dock" aria-label="Common next actions"><a href="/heichelos/ikar">🏛️ Ikar</a><a href="/heichelos/submit">✍️ Create</a><a href="/heichelos">◌ Heichelos</a><a href="/email">✉ Mail</a><a href="/profile">◎ Profile</a></nav>
+			<nav class="home-command-dock home-task-dock" aria-label="Common next actions">
+				<a href="/heichelos/ikar">🏛️ Ikar</a>
+				<a href="/heichelos/submit">✍️ Create</a>
+				<a href="/heichelos">◌ Heichelos</a>
+				<a href="/email">✉ Mail</a>
+				<a href="/profile">◎ Profile</a>
+			</nav>
 			<section id="home-live-region" class="g-panel g-feed home-feed-panel" aria-labelledby="home-feed-title" data-object-inspector>
-				<header class="g-feed-head"><div><p class="g-kicker field-label">Live network</p><h2 id="home-feed-title">The feed river</h2></div><a class="p-chip" href="/profile">Tune identity</a></header>
-				<nav class="home-feed-tabs g-feed-tabs" aria-label="Feed views"><button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button><button type="button" data-feed-mode="following" aria-pressed="false">Following</button><button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button></nav>
+				<header class="g-feed-head">
+					<div><p class="g-kicker field-label">Live network</p><h2 id="home-feed-title">The feed river</h2></div>
+					<a class="p-chip" href="/profile">Tune identity</a>
+				</header>
+				<nav class="home-feed-tabs g-feed-tabs" aria-label="Feed views">
+					<button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button>
+					<button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
+					<button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button>
+				</nav>
 				<div class="home-state-row" data-home-empty-state hidden><h3>The river is quiet.</h3><p>Explore a Heichel or create the first visible object.</p></div>
 				<div class="home-state-row" data-home-error-state hidden><h3>The river could not open.</h3><p>Refresh or continue through Heichel discovery.</p></div>
-				<section class="home-feed-list g-feed-list" data-home-feed aria-live="polite" aria-busy="true"><article class="home-post-card geelooy-feed-card loading-state"><h3>Opening the live river…</h3><p class="geelooy-feed-summary">Connecting to real Geelooy posts and Heichelos.</p></article></section>
+				<section class="home-feed-list g-feed-list" data-home-feed aria-live="polite" aria-busy="true">
+					<article class="home-post-card geelooy-feed-card loading-state"><h3>Opening the live river…</h3><p class="geelooy-feed-summary">Connecting to real Geelooy posts and Heichelos.</p></article>
+				</section>
 			</section>
 		</div>
 		<aside class="g-home-aside" aria-label="Geelooy signal chambers" data-home-sidebar>
@@ -57,7 +81,7 @@ The Awtsmoos reveals one fast Geelooy threshold through one sovereign Home syste
 			<section class="g-panel g-side-card"><p class="field-label">One next action</p><h2>Do not only scroll.</h2><p>Turn the river into a real object.</p><a class="p-button p-button-primary" href="/heichelos/submit" data-icon="✍️">Create a post</a></section>
 		</aside>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-acceptance-001"></script>
-	<script src="/register.js?v=home-acceptance-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-acceptance-006"></script>
+	<script src="/register.js?v=home-acceptance-006"></script>
 </body>
 </html>

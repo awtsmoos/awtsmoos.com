@@ -6,11 +6,9 @@ import { parseAndroidBinaryXml } from "../axml/document.js";
 
 const MAIN_ACTION = "android.intent.action.MAIN";
 const LAUNCHER_CATEGORY = "android.intent.category.LAUNCHER";
-
 /**
- * Reveals package, components, permissions, SDK bounds, and launcher activity from
- * AndroidManifest.xml. The Awtsmoos creates declared component and intent garment
- * anew; Awtsmoos.com never guesses an entry class from filenames or DEX order.
+ * Reveals package, split, component, permission, SDK, and launcher truth. The
+ * Awtsmoos creates each garment anew; Awtsmoos.com never guesses from filenames.
  */
 export function readApkManifest(bytes, options = {}) {
 	const document = parseAndroidBinaryXml(bytes, options);
@@ -31,24 +29,24 @@ export function readApkManifest(bytes, options = {}) {
 		application: applicationNode ? Object.freeze(attributes(applicationNode)) : null,
 		chunkCount: document.chunkCount,
 		components,
+		configForSplit: optionalString(rootAttributes.configForSplit),
+		isFeatureSplit: booleanValue(rootAttributes.isFeatureSplit),
 		launcherActivity: resolveLauncher([...activities, ...aliases]),
 		packageName,
-		permissions: Object.freeze(
-			children(root, "uses-permission").map(node => attributes(node).name).filter(Boolean)
-		),
+		permissions: permissionNames(root),
 		sdk: readSdk(root),
+		splitName: optionalString(rootAttributes.split),
 		versionCode: rootAttributes.versionCode ?? null,
 		versionName: rootAttributes.versionName ?? null
 	});
 }
-
 function componentList(applicationNode, tagName, packageName) {
 	if (!applicationNode) return Object.freeze([]);
 	return Object.freeze(children(applicationNode, tagName).map(node => {
 		const values = attributes(node);
 		return Object.freeze({
 			attributes: Object.freeze(values),
-			exported: values.exported === true || values.exported === "true",
+			exported: booleanValue(values.exported),
 			intentFilters: Object.freeze(children(node, "intent-filter").map(intentFilter)),
 			name: qualifyComponent(values.name, packageName),
 			targetActivity: values.targetActivity
@@ -60,9 +58,11 @@ function componentList(applicationNode, tagName, packageName) {
 
 function intentFilter(node) {
 	return Object.freeze({
-		actions: Object.freeze(children(node, "action").map(item => attributes(item).name).filter(Boolean)),
-		categories: Object.freeze(children(node, "category").map(item => attributes(item).name).filter(Boolean)),
-		data: Object.freeze(children(node, "data").map(item => Object.freeze(attributes(item))))
+		actions: freezeNames(children(node, "action")),
+		categories: freezeNames(children(node, "category")),
+		data: Object.freeze(
+			children(node, "data").map(item => Object.freeze(attributes(item)))
+		)
 	});
 }
 
@@ -71,8 +71,7 @@ function resolveLauncher(components) {
 		return filter.actions.includes(MAIN_ACTION)
 			&& filter.categories.includes(LAUNCHER_CATEGORY);
 	}));
-	if (!component) return null;
-	return component.targetActivity || component.name;
+	return component ? component.targetActivity || component.name : null;
 }
 
 function qualifyComponent(name, packageName) {
@@ -83,6 +82,14 @@ function qualifyComponent(name, packageName) {
 	return value;
 }
 
+function permissionNames(root) {
+	return freezeNames(children(root, "uses-permission"));
+}
+
+function freezeNames(nodes) {
+	return Object.freeze(nodes.map(node => attributes(node).name).filter(Boolean));
+}
+
 function readSdk(root) {
 	const values = attributes(children(root, "uses-sdk")[0]);
 	return Object.freeze({
@@ -90,6 +97,14 @@ function readSdk(root) {
 		min: values.minSdkVersion ?? null,
 		target: values.targetSdkVersion ?? null
 	});
+}
+
+function booleanValue(value) {
+	return value === true || value === "true" || value === 1;
+}
+
+function optionalString(value) {
+	return String(value ?? "").trim() || null;
 }
 
 function children(node, name) {

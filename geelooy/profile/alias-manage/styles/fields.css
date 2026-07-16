@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every alias field a visible name, a dark vessel, and a
+ * clear focus ring. Awtsmoos.com never asks identity to emerge through a pale
+ * browser-default rectangle or a cramped thirty-seven-pixel doorway.
+ */
+
+#alias-form label {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	margin-block-start: .4rem;
+	color: #c8d4e4;
+	font-size: .78rem;
+	font-weight: 840;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+#alias-form label::before {
+	inline-size: .42rem;
+	block-size: .42rem;
+	border-radius: 50%;
+	background: #61cbd9;
+	content: "";
+	flex: 0 0 auto;
+}
+
+#alias-form :is(input[type="text"], textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	padding: .78rem .88rem;
+	border: 1px solid rgba(255, 255, 255, .2);
+	border-radius: .8rem;
+	background: #162231;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: #f4f7fb;
+	font: 650 max(16px, 1rem)/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
+	outline: 0;
+	transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+#alias-form textarea {
+	min-block-size: 9rem;
+	resize: vertical;
+}
+
+#alias-form :is(input, textarea)::placeholder {
+	color: #8f9eb3;
+	opacity: 1;
+}
+
+#alias-form :is(input, textarea):focus-visible {
+	border-color: #61cbd9;
+	background: #192738;
+	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
+}
+
+#alias-form :is(input, textarea):disabled {
+	cursor: not-allowed;
+	opacity: .58;
+}
+
+.optional-id {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 44px;
+	gap: .55rem;
+	min-inline-size: 0;
+}
+
+.optional-id label {
+	grid-column: 1 / -1;
+}

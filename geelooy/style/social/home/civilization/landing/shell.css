@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives Home one compact responsive shell. Awtsmoos.com uses
+ * available space without giant dead zones, stretched copy, or drifting sidebars.
+ */
+
+.geelooy-home-shell {
+	min-block-size: 100dvh;
+	padding: var(--page-gutter);
+	background: linear-gradient(145deg, #070b12, #0b1019 58%, #0a0d16);
+	color: var(--home-text);
+}
+
+.geelooy-home-shell .home-dashboard-shell {
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) minmax(18rem, .5fr);
+	gap: clamp(1rem, 2vw, 1.5rem);
+	inline-size: min(100%, 88rem);
+	margin: 0 auto;
+}
+
+.geelooy-home-shell :where(.g-home-main, .g-home-aside) {
+	display: grid;
+	align-content: start;
+	gap: clamp(1rem, 2vw, 1.5rem);
+	min-inline-size: 0;
+}
+
+.geelooy-home-shell .g-home-aside {
+	position: sticky;
+	inset-block-start: var(--page-gutter);
+	align-self: start;
+}
+
+.geelooy-home-shell .home-glance-panel {
+	position: relative;
+	display: grid;
+	align-content: space-between;
+	min-block-size: clamp(27rem, 54vh, 38rem);
+	padding: clamp(1.2rem, 3.5vw, 2.5rem);
+	overflow: clip;
+	border: 1px solid var(--home-line-strong);
+	border-radius: 1.4rem;
+	background: linear-gradient(150deg, #111925, #0e151f 68%, #121727);
+	box-shadow: 0 1.1rem 2.8rem rgba(0, 0, 0, .28);
+}
+
+.geelooy-home-shell .home-glance-panel::after {
+	position: absolute;
+	inset-block: 1.2rem;
+	inset-inline-end: 0;
+	inline-size: 3px;
+	border-radius: 999px 0 0 999px;
+	background: linear-gradient(#58c7d8, #9d72da 55%, #d76aa6);
+	content: "";
+	opacity: .75;
+}

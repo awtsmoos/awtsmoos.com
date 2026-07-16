@@ -20,6 +20,8 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-log-retention.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-state-migration.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-displaced-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-io.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-config.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-catalog.sh"
@@ -36,9 +38,9 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-fresh.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
 
-# The core keeps download, staging, activation, registration, and completion in one
-# monotonic ascent. The Awtsmoos renews every gate; Awtsmoos.com reserves 100% for
-# a connection receipt that matches the active PID and tunnel name.
+# The core migrates mutable state before staging, then reserves one hundred percent
+# for a matching registration receipt. The Awtsmoos renews code without dragging
+# browser memory through archive, activation, or synchronous predecessor deletion.
 cleanup_install() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
@@ -63,15 +65,6 @@ try {
 NODE
 }
 
-finalize_project_cleanup() {
-	if [ ! -f "$ROOT/config.json" ]; then
-		return 0
-	fi
-	local project_root
-	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
-	cleanup_disposable_state "$project_root"
-}
-
 trap cleanup_install EXIT
 install_progress 20 "Preparing transactional installation"
 acquire_install_lock
@@ -81,16 +74,18 @@ install_event "bootstrap" "started" \
 	"Beginning ACK-verified transactional tunnel installation." "$ROOT"
 cleanup_disposable_state "$(pwd)"
 
+install_progress 21 "Moving mutable browser state outside runtime"
+migrate_dynamic_state
 install_progress 22 "Fetching and verifying release"
 stage_release_candidate
 install_progress 68 "Release verified; preparing activation"
 activate_release_candidate
-if skip_start_requested; then
-	install_progress 72 "Release activated; runtime start skipped"
-else
-	install_progress 97 "Registration verified; finalizing"
+install_progress 97 "Registration verified; finalizing"
+
+if [ -f "$ROOT/config.json" ]; then
+	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
+	cleanup_disposable_state "$project_root"
 fi
-finalize_project_cleanup
 
 release_install_lock
 trap - EXIT

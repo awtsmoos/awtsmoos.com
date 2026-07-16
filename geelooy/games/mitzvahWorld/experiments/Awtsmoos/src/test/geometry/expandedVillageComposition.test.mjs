@@ -26,8 +26,9 @@ assert.equal(VILLAGE_DISTRICTS.length, 10);
 assert.equal(new Set(VILLAGE_DISTRICTS.map(district => district.id)).size, 10);
 assert.equal(budget.radius, 280);
 assert.equal(architecture.stats.districts, 10);
-assert.equal(architecture.stats.pieces, 75);
+assert.equal(architecture.stats.pieces, 79);
 assert.equal(architecture.stats.warmWindows, 56);
+assert.equal(architecture.some(item => item.id === 'Awtsmoos_arrival-meadow-landmark'), false);
 assert.ok(architecture.length <= budget.architecturePieces);
 assert.equal(creatures.stats.creatures, 11);
 assert.equal(creatures.stats.definitions, 11);
@@ -36,25 +37,30 @@ assert.deepEqual(world.stats.layers, [
 	'mountains',
 	'water',
 	'props',
+	'arrival-composition',
 	'districts',
 	'practical-lighting',
 	'landscape',
 	'forest-edge',
-	'npc-population',
+	'animated-chossid-population',
 	'creatures'
 ]);
 assert.equal(world.stats.budget.radius, 280);
-assert.equal(world.stats.architecture.pieces, 75);
+assert.equal(world.stats.arrival.drawDefinitions, 4);
+assert.equal(world.stats.arrival.featuredBotanicals, 24);
+assert.equal(world.stats.arrival.waterSections, 11);
+assert.equal(world.stats.architecture.pieces, 79);
 assert.equal(world.stats.mountains.nearestRadius, 420);
 assert.equal(world.stats.practicalLights.definitions, 4);
-assert.equal(world.stats.forestEdge.trees, 34);
+assert.equal(world.stats.forestEdge.primitiveTrees, 0);
+assert.equal(world.stats.forestEdge.proceduralTreeSitesSupported, 34);
 assert.equal(world.stats.forestEdge.fallenLogs, 6);
-assert.equal(world.stats.population.people, 24);
-assert.equal(world.stats.population.questGivers, 12);
-assert.equal(world.stats.population.realtimeAnimations, 0);
+assert.equal(world.stats.population.people, 0);
+assert.equal(world.stats.population.visualPolicy, 'no-primitive-humans');
+assert.equal(world.stats.population.realtimeAnimations, 'skeletal-chossid.glb-runtime-population');
 assert.equal(world.stats.creatures.definitions, 11);
 assert.equal(world.definitions.length, world.stats.definitionCount);
-assert.equal(world.definitions.length, 189);
+assert.equal(world.definitions.length, 190);
 
 console.log(JSON.stringify({
 	architecture: architecture.stats,

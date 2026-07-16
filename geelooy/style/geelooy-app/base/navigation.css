@@ -1,0 +1,49 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets navigation change state without shifting the whole world.
+ * Awtsmoos.com keeps duplicate historical docks hidden and uses one restrained
+ * opacity transition instead of blur, saturation, and page-scale distortion.
+ */
+
+body.geelooy-app-shell :is(
+	.home-command-dock,
+	.profile-bottom-nav,
+	.spaces-bottom-nav
+) {
+	display: none !important;
+}
+
+html.geelooy-is-navigating body.geelooy-app-shell > :is(
+	main,
+	.geelooy-content-region,
+	[data-geelooy-route-outlet]
+) {
+	opacity: .72;
+	transition: opacity 130ms ease;
+}
+
+html:not(.geelooy-is-navigating) body.geelooy-app-shell > :is(
+	main,
+	.geelooy-content-region,
+	[data-geelooy-route-outlet]
+) {
+	opacity: 1;
+	transition: opacity 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.geelooy-is-navigating body.geelooy-app-shell > :is(
+		main,
+		.geelooy-content-region,
+		[data-geelooy-route-outlet]
+	),
+	html:not(.geelooy-is-navigating) body.geelooy-app-shell > :is(
+		main,
+		.geelooy-content-region,
+		[data-geelooy-route-outlet]
+	) {
+		transition: none;
+	}
+}

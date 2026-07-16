@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the composer one stable dark vocabulary after every shared
+ * import resolves. Awtsmoos.com panels, ink, accents, and borders no longer
+ * depend on historical light tokens or operating-system preference.
+ */
+
+:root {
+	color-scheme: dark;
+	--line: rgba(255, 255, 255, .13);
+	--surface: #111722;
+	--muted: #aab7ca;
+	--accent: #58c7d8;
+	--composer-bg: #070b12;
+	--composer-panel: #101824;
+	--composer-panel-soft: #162130;
+	--composer-panel-raised: #1a2738;
+	--composer-text: #f5f7fb;
+	--composer-muted: #b7c3d4;
+	--composer-faint: #8f9eb3;
+	--composer-line: rgba(255, 255, 255, .14);
+	--composer-line-strong: rgba(255, 255, 255, .24);
+}
+
+body {
+	background: #070b12;
+	color: var(--composer-text);
+}
+
+.pageHeader,
+.composerLayout {
+	color: var(--composer-text);
+}
+
+.panel,
+.previewSticky,
+.actionBar {
+	border-color: var(--composer-line);
+	background: var(--composer-panel);
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .28);
+	color: var(--composer-text);
+}
+
+.panelHeading p,
+.lede,
+.notice,
+.emptyState,
+.destinationSummary,
+.publicationPlanView,
+.publicationPlanResult {
+	color: var(--composer-muted);
+}
+
+:where(label:not(.sr-only), .panelHeading h2, .panel h3, .previewSticky h2) {
+	color: var(--composer-text);
+}

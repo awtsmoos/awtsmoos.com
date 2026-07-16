@@ -5,18 +5,18 @@
 /**
  * @module RagRichCommentRows
  * @description
- * Reads canonical rich comments without consulting a stale packed manifest. The
- * Awtsmoos reveals each stored voice directly, and Awtsmoos.com keeps exact-ID
- * hydration fast enough that vector results need not scan an entire post tree.
+ * Lists canonical comment folders once, then reads their bodies directly in small
+ * batches. The Awtsmoos reveals every root and reply without recursive wandering,
+ * and Awtsmoos.com never opens a packed corpus when rich truth already exists.
  */
 
 const richPaths = require('../../comments/richCommentPaths.js');
-const richStore = require('../../comments/richCommentStore.js');
 const {
 	filterContext,
-	flattenTree,
 	normalizeComment
 } = require('./commentRowShape.js');
+
+const READ_BATCH_SIZE = 32;
 
 async function safeGet($i, target) {
 	try {
@@ -24,6 +24,25 @@ async function safeGet($i, target) {
 	} catch {
 		return null;
 	}
+}
+
+async function safeKeys($i, target) {
+	try {
+		return normalizeKeys(await $i.db.getObjectKeys(target));
+	} catch {
+		return [];
+	}
+}
+
+function normalizeKeys(value) {
+	const values = Array.isArray(value)
+		? value
+		: value && typeof value === 'object'
+			? Object.keys(value)
+			: [];
+	return [...new Set(values
+		.map(name => String(name).replace(/\.awtsmoosJSON$/i, ''))
+		.filter(Boolean))];
 }
 
 async function directRichComment(context, commentId) {
@@ -38,21 +57,22 @@ async function directRichComment(context, commentId) {
 
 async function richRowsForPost(context) {
 	if (!context.postId) return [];
-	const result = await richStore.getTree({
-		$i: context.$i,
+	const commentIds = await safeKeys(context.$i, richPaths.commentsRoot({
 		heichelId: context.heichelId || 'ikar',
-		postId: context.postId,
-		verseSection: '',
-		subsectionId: '',
-		includeDeleted: false
-	});
-	const normalized = flattenTree(result?.success)
-		.map(row => normalizeComment(row, context))
-		.filter(Boolean);
-	return filterContext(normalized, context);
+		postId: context.postId
+	}));
+	const rows = [];
+	for (let offset = 0; offset < commentIds.length; offset += READ_BATCH_SIZE) {
+		const batch = commentIds.slice(offset, offset + READ_BATCH_SIZE);
+		rows.push(...await Promise.all(
+			batch.map(commentId => directRichComment(context, commentId))
+		));
+	}
+	return filterContext(rows.filter(Boolean), context);
 }
 
 module.exports = {
 	directRichComment,
+	normalizeKeys,
 	richRowsForPost
 };

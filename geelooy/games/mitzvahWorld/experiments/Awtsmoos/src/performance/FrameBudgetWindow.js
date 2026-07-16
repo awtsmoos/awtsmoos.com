@@ -1,19 +1,26 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Holds a bounded window of real frame intervals. The window preserves stalls
- * rather than averaging them away, because one long silence is part of play.
+ * @file FrameBudgetWindow.js
+ * @description Stores bounded frame evidence in an allocation-free ring between snapshots.
+ * RESPONSIBILITY: accept real intervals and report percentiles, lows, stalls, and budget misses.
+ * NON-RESPONSIBILITY: this module does not change quality, schedule frames, or hide outliers.
+ * ARCHITECTURE: Gevurah bounds memory while Hod preserves each measured interval as testimony.
+ * OROS AND KEILIM: continuous play is ohr; finite frame samples are accountable keilim.
+ * The Awtsmoos recreates every instant beyond arrays; Awtsmoos.com retains stalls honestly
+ * without an `Array.shift()` allocation tax inside the render loop.
  */
+
 export class FrameBudgetWindow {
-	constructor({
-		capacity = 180,
-		targetFrameMilliseconds = 1000 / 60,
-		longFrameMilliseconds = 50
-	} = {}) {
-		this.capacity = Math.max(8, capacity | 0);
-		this.targetFrameMilliseconds = targetFrameMilliseconds;
-		this.longFrameMilliseconds = longFrameMilliseconds;
-		this.values = [];
+	constructor(options = {}) {
+		this.capacity = Math.max(8, Math.trunc(options.capacity || 600));
+		this.targetFrameMilliseconds = options.targetFrameMilliseconds || 1000 / 60;
+		this.longFrameMilliseconds = options.longFrameMilliseconds || 50;
+		this.values = new Float64Array(this.capacity);
+		this.count = 0;
+		this.cursor = 0;
 		this.totalSamples = 0;
 	}
 
@@ -21,64 +28,79 @@ export class FrameBudgetWindow {
 		if (!Number.isFinite(intervalMilliseconds) || intervalMilliseconds <= 0) {
 			return false;
 		}
-		this.values.push(intervalMilliseconds);
+		this.values[this.cursor] = intervalMilliseconds;
+		this.cursor = (this.cursor + 1) % this.capacity;
+		this.count = Math.min(this.capacity, this.count + 1);
 		this.totalSamples += 1;
-		while (this.values.length > this.capacity) this.values.shift();
 		return true;
 	}
 
 	clear() {
-		this.values.length = 0;
+		this.count = 0;
+		this.cursor = 0;
 	}
 
 	get ready() {
-		return this.values.length >= this.capacity;
+		return this.count >= this.capacity;
 	}
 
 	snapshot() {
-		const ordered = [...this.values].sort((left, right) => left - right);
-		const count = ordered.length;
-		const elapsedMilliseconds = sum(ordered);
-		const longFrames = ordered.filter(
-			(value) => value >= this.longFrameMilliseconds
-		).length;
-		const missedBudgetFrames = ordered.filter(
-			(value) => value > this.targetFrameMilliseconds
-		).length;
+		const ordered = Array.from(this.values.subarray(0, this.count))
+			.sort((left, right) => left - right);
+		const elapsedMilliseconds = ordered.reduce((total, value) => total + value, 0);
+		const longFrames = countAbove(ordered, this.longFrameMilliseconds, true);
+		const missedBudgetFrames = countAbove(ordered, this.targetFrameMilliseconds, false);
+		const p99 = percentile(ordered, 0.99);
+		const p999 = percentile(ordered, 0.999);
 		return {
-			count,
+			averageFps: fpsFromElapsed(this.count, elapsedMilliseconds),
+			averageIntervalMilliseconds: average(elapsedMilliseconds, this.count),
 			capacity: this.capacity,
-			ready: this.ready,
-			totalSamples: this.totalSamples,
-			averageIntervalMilliseconds: count ? elapsedMilliseconds / count : 0,
-			averageFps: elapsedMilliseconds > 0 ? count * 1000 / elapsedMilliseconds : 0,
-			p50IntervalMilliseconds: percentile(ordered, 0.5),
-			p95IntervalMilliseconds: percentile(ordered, 0.95),
-			p99IntervalMilliseconds: percentile(ordered, 0.99),
+			count: this.count,
+			longFrameMilliseconds: this.longFrameMilliseconds,
+			longFrameRate: ratio(longFrames, this.count),
+			longFrames,
 			maximumIntervalMilliseconds: ordered.at(-1) || 0,
 			minimumIntervalMilliseconds: ordered[0] || 0,
-			longFrames,
-			longFrameRate: count ? longFrames / count : 0,
 			missedBudgetFrames,
-			missedBudgetRate: count ? missedBudgetFrames / count : 0,
+			missedBudgetRate: ratio(missedBudgetFrames, this.count),
+			onePercentLowFps: fpsFromInterval(p99),
+			p50IntervalMilliseconds: percentile(ordered, 0.5),
+			p95IntervalMilliseconds: percentile(ordered, 0.95),
+			p99IntervalMilliseconds: p99,
+			p999IntervalMilliseconds: p999,
+			ready: this.ready,
 			targetFrameMilliseconds: this.targetFrameMilliseconds,
-			longFrameMilliseconds: this.longFrameMilliseconds
+			totalSamples: this.totalSamples,
+			zeroPointOnePercentLowFps: fpsFromInterval(p999)
 		};
 	}
 }
 
-function percentile(orderedValues, ratio) {
-	if (!orderedValues.length) return 0;
-	const index = Math.max(
-		0,
-		Math.min(
-			orderedValues.length - 1,
-			Math.ceil(orderedValues.length * ratio) - 1
-		)
-	);
-	return orderedValues[index];
+function percentile(values, ratioValue) {
+	if (!values.length) {
+		return 0;
+	}
+	const index = Math.min(values.length - 1, Math.ceil(values.length * ratioValue) - 1);
+	return values[Math.max(0, index)];
 }
 
-function sum(values) {
-	return values.reduce((total, value) => total + value, 0);
+function countAbove(values, threshold, inclusive) {
+	return values.filter(value => inclusive ? value >= threshold : value > threshold).length;
+}
+
+function average(total, count) {
+	return count ? total / count : 0;
+}
+
+function ratio(value, count) {
+	return count ? value / count : 0;
+}
+
+function fpsFromElapsed(count, elapsedMilliseconds) {
+	return elapsedMilliseconds > 0 ? count * 1000 / elapsedMilliseconds : 0;
+}
+
+function fpsFromInterval(intervalMilliseconds) {
+	return intervalMilliseconds > 0 ? 1000 / intervalMilliseconds : 0;
 }

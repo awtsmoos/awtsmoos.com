@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Signal and search filters own labels, dark fields, focus, primary actions, and
+ * responsive stacking throughout Awtsmoos.com.
+ */
+
+.notifications-console,
+.g-search-form,
+.g-app-filter {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	gap: .85rem;
+	padding: 1rem;
+	border: 1px solid rgba(88, 199, 216, .28);
+	border-radius: 1rem;
+	background: #0e1723;
+	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .22);
+}
+
+.notifications-console label,
+.g-search-form label {
+	display: grid;
+	gap: .4rem;
+	color: #c6d2e2;
+	font-size: .78rem;
+	font-weight: 820;
+	letter-spacing: .055em;
+	text-transform: uppercase;
+}
+
+.notifications-console :is(input, select, textarea),
+.g-search-form :is(input, select, textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	padding: .72rem .82rem;
+	border: 1px solid var(--g-border-strong);
+	border-radius: .78rem;
+	background: #172333;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: var(--g-text);
+	font-size: max(1rem, 16px);
+	font-weight: 650;
+	outline: 0;
+	transition: none;
+}
+
+.notifications-console :is(input, textarea)::placeholder,
+.g-search-form :is(input, textarea)::placeholder {
+	color: #8f9eb3;
+	opacity: 1;
+}
+
+.notifications-console :is(input, select, textarea):focus-visible,
+.g-search-form :is(input, select, textarea):focus-visible {
+	border-color: #58c7d8;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
+}
+
+.notifications-console button,
+.g-search-form button {
+	align-self: end;
+	min-block-size: 48px;
+}
+
+.notifications-console .g-button-primary,
+.g-search-form .g-button-primary {
+	border-color: #58c7d8;
+	background: #58c7d8;
+	color: #061018;
+}
+
+@media (max-width: 680px) {
+	.notifications-console,
+	.g-search-form,
+	.g-app-filter {
+		grid-template-columns: 1fr;
+		padding: .85rem;
+	}
+}

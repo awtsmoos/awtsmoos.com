@@ -1,0 +1,111 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns the Social Hub rail into understandable navigation. Every
+ * Awtsmoos.com tab owns active, hover, focus, and touch states without pale pills.
+ */
+.hub-rail {
+	position: sticky;
+	inset-block-start: 1rem;
+	display: grid;
+	align-content: start;
+	gap: .75rem;
+	min-inline-size: 0;
+	max-block-size: calc(100dvh - 2rem);
+	padding: 1rem;
+	overflow-y: auto;
+	border: 1px solid var(--hub-line-strong);
+	border-radius: var(--hub-radius-l);
+	background: #0f1722;
+	box-shadow: var(--hub-shadow);
+}
+.hub-rail-head {
+	display: grid;
+	grid-template-columns: 3rem minmax(0, 1fr);
+	align-items: center;
+	gap: .75rem;
+	padding-block-end: .75rem;
+	border-bottom: 1px solid var(--hub-line);
+}
+.hub-seal {
+	display: grid;
+	inline-size: 3rem;
+	block-size: 3rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .4);
+	border-radius: .9rem;
+	background: #172536;
+	color: var(--hub-cyan);
+	font-weight: 900;
+}
+.hub-rail-copy h1,
+.hub-rail-copy p {
+	margin: 0;
+}
+.hub-rail-copy h1 {
+	color: var(--hub-text);
+	font-size: 1.12rem;
+	letter-spacing: -.025em;
+}
+.hub-rail-copy p {
+	margin-block-start: .18rem;
+	color: var(--hub-faint);
+	font-size: .76rem;
+	line-height: 1.35;
+}
+.hub-rail-tabs {
+	display: grid;
+	gap: .38rem;
+}
+.hub-rail button,
+.hub-mail-tag {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: .55rem;
+	inline-size: 100%;
+	min-block-size: 46px;
+	padding: .65rem .75rem;
+	border: 1px solid transparent;
+	border-radius: .72rem;
+	background: transparent;
+	box-shadow: none;
+	color: var(--hub-muted);
+	font: 760 .86rem/1.15 var(--hub-font);
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+.hub-rail button::before {
+	inline-size: .42rem;
+	block-size: .42rem;
+	border-radius: 50%;
+	background: var(--hub-faint);
+	content: "";
+	flex: 0 0 auto;
+}
+.hub-rail button:is(:hover, :focus-visible),
+.hub-mail-tag:is(:hover, :focus-visible) {
+	border-color: rgba(97, 203, 217, .3);
+	background: #172333;
+	color: var(--hub-text);
+}
+.hub-rail button.active,
+.hub-rail button[aria-pressed="true"] {
+	border-color: rgba(97, 203, 217, .5);
+	background: var(--hub-cyan-soft);
+	color: #a7edf4;
+}
+.hub-rail button.active::before,
+.hub-rail button[aria-pressed="true"]::before {
+	background: var(--hub-cyan);
+	box-shadow: 0 0 0 4px rgba(97, 203, 217, .12);
+}
+.hub-mail-tag {
+	margin-block-start: .2rem;
+	border-color: var(--hub-line);
+	background: #121d2a;
+	color: #d3deec;
+}

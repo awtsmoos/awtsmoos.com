@@ -3,11 +3,11 @@
  * Blessed is He
  *
  * Home has one active ownership chain: foundation, civilization, composer, and
- * accessibility. Generic product and performance generations are intentionally
- * absent because this route now owns the few controls it actually renders.
+ * accessibility. Every manifest is versioned so renewed Awtsmoos.com controls
+ * replace cached plain or conflicting generations immediately.
  */
 
-@import "/style/foundation/tokens/index.css?v=home-acceptance-002";
-@import "/style/foundation/reset/index.css?v=home-acceptance-002";
-@import "./civilization/index.css?v=home-acceptance-002";
-@import "./accessibility.css?v=home-acceptance-002";
+@import "/style/foundation/tokens/index.css?v=home-acceptance-006";
+@import "/style/foundation/reset/index.css?v=home-acceptance-006";
+@import "./civilization/index.css?v=home-acceptance-006";
+@import "./accessibility.css?v=home-acceptance-006";

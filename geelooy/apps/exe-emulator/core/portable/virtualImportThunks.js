@@ -3,49 +3,50 @@
 //Blessed is He
 
 import { inspectMachOImports } from "./machoImports.js";
+import { createVirtualDarwinDataImports } from "./virtualDarwinDataImports.js";
 
 const THUNK_BASE = 0x700000000000;
 const SYSCALL_BASE = 0x50000000;
 const THUNK_SIZE = 13;
 
 /**
- * Eagerly binds Mach-O function pointers to deterministic synthetic syscall thunks.
- * The Awtsmoos creates imported symbol, loader-stage patch, and executable doorway
- * anew; Awtsmoos.com restores final read-only permissions after prebinding bytes.
+ * Creates executable virtual import thunks and guest-owned data imports from one
+ * Mach-O import graph. The Awtsmoos creates function road, global cell, patch,
+ * and symbol number anew; Awtsmoos.com keeps callable and data identities distinct.
  */
 export function createVirtualImportThunks(bytes, image, options = {}) {
 	const report = inspectMachOImports(bytes, options);
-	const functionSymbols = new Set(
-		report.imports
-			.filter(item => item.kind === "symbol-stub")
-			.map(item => item.symbol)
-	);
-	const symbols = [...functionSymbols].sort();
-	const maximumSymbols = Number(options.maximumVirtualImports || 100000);
-	if (symbols.length > maximumSymbols) {
-		throw thunkError("PORTABLE_IMPORT_LIMIT", symbols.length);
+	const data = createVirtualDarwinDataImports(report, image, options);
+	const functionSymbols = [...new Set(report.imports
+		.filter(item => item.kind === "symbol-stub")
+		.map(item => item.symbol))].sort();
+	const maximum = Number(options.maximumVirtualImports ?? 4096);
+	if (!Number.isInteger(maximum) || maximum < 0 || functionSymbols.length > maximum) {
+		throw thunkError("PORTABLE_IMPORT_LIMIT", `${functionSymbols.length}:${maximum}`);
 	}
-	const thunkBytes = new Uint8Array(symbols.length * THUNK_SIZE);
+	const thunkBytes = new Uint8Array(functionSymbols.length * THUNK_SIZE);
 	const symbolByNumber = new Map();
 	const thunkBySymbol = new Map();
-	for (let index = 0; index < symbols.length; index += 1) {
+	functionSymbols.forEach((symbol, index) => {
 		const number = SYSCALL_BASE + index;
 		const address = THUNK_BASE + index * THUNK_SIZE;
 		writeThunk(thunkBytes, index * THUNK_SIZE, number);
-		symbolByNumber.set(number, symbols[index]);
-		thunkBySymbol.set(symbols[index], address);
-	}
-	const patches = patchFunctionPointers(report, image, thunkBySymbol);
+		symbolByNumber.set(number, symbol);
+		thunkBySymbol.set(symbol, address);
+	});
+	const functionPatches = patchFunctionPointers(report, image, thunkBySymbol);
+	const segment = createThunkSegment(thunkBytes);
 	return Object.freeze({
-		patches: Object.freeze(patches),
-		segment: Object.freeze({
-			address: THUNK_BASE,
-			bytes: thunkBytes,
-			flags: Object.freeze({ execute: true, read: true }),
-			name: "virtual-import-thunks"
-		}),
+		data,
+		dataBindingCount: data.bindingCount,
+		patches: Object.freeze([...functionPatches, ...data.patches]),
+		segment,
+		segments: Object.freeze([
+			...(thunkBytes.length ? [segment] : []),
+			...(data.segment ? [data.segment] : [])
+		]),
 		symbolByNumber,
-		symbolCount: symbols.length,
+		symbolCount: functionSymbols.length,
 		thunkBySymbol
 	});
 }
@@ -54,39 +55,54 @@ function patchFunctionPointers(report, image, thunkBySymbol) {
 	const patches = [];
 	for (const binding of report.imports) {
 		if (binding.kind === "symbol-stub") continue;
-		const thunkAddress = thunkBySymbol.get(binding.symbol);
-		if (!thunkAddress) continue;
-		const segment = image.segments.find(candidate => {
-			return binding.address >= candidate.address
-				&& binding.address + 8 <= candidate.address + candidate.bytes.length;
+		const pointer = thunkBySymbol.get(binding.symbol);
+		if (!pointer) continue;
+		const segment = image.segments.find(item => {
+			return binding.address >= item.address
+				&& binding.address + 8 <= item.address + item.bytes.length;
 		});
 		if (!segment || !loaderMayWrite(segment)) continue;
-		const offset = binding.address - segment.address;
 		new DataView(
 			segment.bytes.buffer,
-			segment.bytes.byteOffset + offset,
+			segment.bytes.byteOffset + binding.address - segment.address,
 			8
-		).setBigUint64(0, BigInt(thunkAddress), true);
+		).setBigUint64(0, BigInt(pointer), true);
 		patches.push(Object.freeze({
 			address: binding.address,
-			finalWritable: segment.flags.write,
-			kind: binding.kind,
-			symbol: binding.symbol,
-			thunkAddress
+			kind: "function-pointer",
+			pointer,
+			symbol: binding.symbol
 		}));
 	}
 	return patches;
 }
 
-function loaderMayWrite(segment) {
-	return Boolean(segment.flags.write || segment.maximumFlags?.write);
+function createThunkSegment(bytes) {
+	return Object.freeze({
+		address: THUNK_BASE,
+		bytes,
+		flags: Object.freeze({ execute: true, read: true, write: false }),
+		maximumFlags: Object.freeze({ execute: true, read: true, write: false }),
+		name: "virtual-import-thunks",
+		permissions: "r-x"
+	});
 }
 
-function writeThunk(bytes, offset, syscallNumber) {
-	bytes.set([0x48, 0xb8], offset);
-	new DataView(bytes.buffer, offset + 2, 8)
-		.setBigUint64(0, BigInt(syscallNumber), true);
-	bytes.set([0x0f, 0x05, 0xc3], offset + 10);
+function writeThunk(bytes, offset, number) {
+	bytes[offset] = 0x48;
+	bytes[offset + 1] = 0xc7;
+	bytes[offset + 2] = 0xc0;
+	new DataView(bytes.buffer).setInt32(offset + 3, number, true);
+	bytes[offset + 7] = 0x0f;
+	bytes[offset + 8] = 0x05;
+	bytes[offset + 9] = 0xc3;
+	bytes[offset + 10] = 0x90;
+	bytes[offset + 11] = 0x90;
+	bytes[offset + 12] = 0x90;
+}
+
+function loaderMayWrite(segment) {
+	return segment.maximumFlags?.write === true || segment.flags?.write === true;
 }
 
 function thunkError(code, detail) {

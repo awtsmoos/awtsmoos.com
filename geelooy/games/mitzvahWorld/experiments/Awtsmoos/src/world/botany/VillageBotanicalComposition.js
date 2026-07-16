@@ -13,7 +13,11 @@ import {
 	getBotanicalSpecies,
 	listBotanicalSpecies
 } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
-import { referenceDistrictsForHabitat } from '../village/VillageReferenceComposition.js';
+import {
+	referenceDistrictsForHabitat,
+	VILLAGE_REFERENCE_DISTRICTS
+} from '../village/VillageReferenceComposition.js';
+import { villageGroundHeight } from '../village/VillageGroundSampling.js';
 import { summarizeVillageBotanicalPlacements } from './VillageBotanicalDiagnostics.js';
 import { createReferenceBotanicalPlacement } from './VillageBotanicalPlacement.js';
 import { villageBotanicalQuality } from './VillageBotanicalQuality.js';
@@ -26,6 +30,7 @@ export function createVillageBotanicalComposition(groundSampler, quality = 'high
 	const repeatIds = referenceRepeatSpecies(allSpecies, policy.repeatBudget);
 	const placements = [];
 	appendPlacements(placements, primaryIds, groundSampler, quality, false);
+	appendFeaturedArrivalPlacements(placements, repeatIds.slice(0, 24), groundSampler, quality);
 	appendPlacements(placements, repeatIds, groundSampler, quality, true);
 	placements.length = Math.min(placements.length, policy.maxPlacements);
 	placements.stats = {
@@ -34,6 +39,35 @@ export function createVillageBotanicalComposition(groundSampler, quality = 'high
 		lod: countBy(placements, 'lodClass')
 	};
 	return placements;
+}
+
+function appendFeaturedArrivalPlacements(output, speciesIds, groundSampler, quality) {
+	const district = VILLAGE_REFERENCE_DISTRICTS.find((item) => item.id === 'arrival-meadow');
+	for (let index = 0; index < speciesIds.length; index += 1) {
+		const species = getBotanicalSpecies(speciesIds[index]);
+		const placement = createReferenceBotanicalPlacement({
+			district,
+			groundSampler,
+			ordinal: 900 + index,
+			repeated: true,
+			requestedQuality: quality,
+			species
+		});
+		const row = Math.floor(index / 2);
+		const side = index % 2 === 0 ? -1 : 1;
+		const z = 83 - row * 2.15;
+		const clearingOffset = z - 72;
+		const clearingSafeX = Math.sqrt(Math.max(0, 11 * 11 - clearingOffset * clearingOffset));
+		const x = side * Math.max(4.85 + row % 3 * 0.58, clearingSafeX);
+		placement.clusterRadius = 0.38;
+		placement.clusterCount = quality === 'low' ? 3 : 4;
+		placement.districtId = district.id;
+		placement.geometryQuality = quality === 'low' ? 'low' : 'medium';
+		placement.lodClass = 'near';
+		placement.position = { x, y: villageGroundHeight(groundSampler, x, z), z };
+		placement.scale *= 1.78;
+		output.push(placement);
+	}
 }
 
 function appendPlacements(output, speciesIds, groundSampler, quality, repeated) {

@@ -2,29 +2,46 @@
 //Boruch Hashem
 //Blessed is He
 
-import { openDexModel } from "../dex/model.js";
 import { createDalvikExecutor } from "../dalvik/executor.js";
 import { createDalvikMethodRegistry } from "../dalvik/methodRegistry.js";
 import { createDalvikObjectHeap } from "../dalvik/objectHeap.js";
 import { createDalvikOpcodeRegistry } from "../dalvik/opcodes.js";
-import { lifecycleArguments, resolveLauncherMethods } from "./activityMethods.js";
-import { createAndroidFilesystem } from "./filesystem.js";
+import { launchInitialActivity } from "./activityLifecycle.js";
+import { resolveLauncherMethods } from "./activityMethods.js";
 import { createAndroidFrameworkHost } from "./frameworkHost.js";
-import { createAndroidGraphicsTrace } from "./graphicsTrace.js";
-import { createAndroidLogcat } from "./logcat.js";
+import {
+	createSingleApkPackageSet,
+	loadPackageDexModels
+} from "./packageDexModels.js";
 import { runAndroidRenderers } from "./rendererLifecycle.js";
-import { createAndroidViewState } from "./viewState.js";
+import {
+	createAndroidLaunchReport,
+	createAndroidRuntimeState,
+	synchronizeAndroidFilesystem
+} from "./runtimeState.js";
 
 /**
- * Creates and launches one bounded virtual Android process from validated APK
- * identity and DEX bytes. The Awtsmoos creates activity, renderer, UI, storage,
- * and VM evidence anew; Awtsmoos.com never invokes host ART or native app code.
+ * Preserves the original single-APK doorway by revealing it as a one-record set.
+ * The Awtsmoos makes compatibility grow without dividing Awtsmoos.com into two
+ * runtimes whose behavior would silently drift apart.
  */
 export async function launchAndroidPackage(archive, identity, options = {}) {
-	const models = await loadDexModels(archive, identity, options);
+	return launchAndroidPackageSet(
+		createSingleApkPackageSet(archive, identity),
+		options
+	);
+}
+
+/**
+ * Launches guest Dalvik code gathered from one validated base-plus-splits graph.
+ * The Awtsmoos joins code and lifecycle garments while each source is measured.
+ * Complete ART, split resources, and native libraries remain unsupported seas.
+ */
+export async function launchAndroidPackageSet(packageSet, options = {}) {
+	const dex = await loadPackageDexModels(packageSet, options);
 	const heap = createDalvikObjectHeap(options);
-	const registry = createDalvikMethodRegistry(models);
-	const runtime = createRuntimeState(identity, heap, options);
+	const registry = createDalvikMethodRegistry(dex.models);
+	const runtime = createAndroidRuntimeState(packageSet, heap, options);
 	const framework = createAndroidFrameworkHost(runtime);
 	const executor = createDalvikExecutor({
 		framework,
@@ -33,76 +50,22 @@ export async function launchAndroidPackage(archive, identity, options = {}) {
 		registry,
 		staticFields: new Map()
 	}, options);
-	const launcher = resolveLauncherMethods(identity, registry);
-	const activity = heap.allocate(launcher.type);
-	const bundle = heap.allocate("Landroid/os/Bundle;");
-	if (launcher.constructor?.code) {
-		await executor.invoke(
-			launcher.constructor,
-			lifecycleArguments(launcher.constructor, activity)
-		);
-	}
-	await executor.invoke(
-		launcher.onCreate,
-		lifecycleArguments(launcher.onCreate, activity, [bundle])
-	);
+	const launcher = resolveLauncherMethods(packageSet.base.identity, registry);
+	const launched = await launchInitialActivity(executor, launcher, heap);
 	const rendering = await runAndroidRenderers(runtime, registry, executor, options);
-	const filesystemSynchronized = await synchronizeFilesystem(runtime, options);
-	runtime.logcat.info("ActivityManager", `launched ${identity.manifest.launcherActivity}`);
-	return createLaunchReport(
-		identity,
-		activity,
-		executor,
-		framework,
-		runtime,
-		rendering,
-		filesystemSynchronized
+	const filesystemSynchronized = await synchronizeAndroidFilesystem(runtime, options);
+	runtime.logcat.info(
+		"ActivityManager",
+		`launched ${packageSet.base.identity.manifest.launcherActivity}`
 	);
-}
-
-async function loadDexModels(archive, identity, options) {
-	const models = [];
-	for (const dexFile of identity.dexFiles) {
-		models.push(await openDexModel(await archive.read(dexFile.name), options));
-	}
-	return models;
-}
-
-function createRuntimeState(identity, heap, options) {
-	const runtime = {
-		contentView: null,
-		filesystem: createAndroidFilesystem(identity.manifest.packageName, options),
-		graphics: createAndroidGraphicsTrace(options),
-		heap,
-		identity,
-		logcat: createAndroidLogcat(options),
-		renderers: [],
-		views: null
-	};
-	runtime.views = createAndroidViewState(heap);
-	for (const [path, value] of Object.entries(options.initialFiles || {})) {
-		runtime.filesystem.write(path, value);
-	}
-	return runtime;
-}
-
-async function synchronizeFilesystem(runtime, options) {
-	if (!options.filesystemCapability) return false;
-	await runtime.filesystem.syncToCapability(options.filesystemCapability);
-	return true;
-}
-
-function createLaunchReport(identity, activity, executor, framework, runtime, rendering, synchronized) {
-	return Object.freeze({
-		activity,
-		executionClass: "dalvik-subset-execution",
-		filesystem: runtime.filesystem.snapshot(),
-		filesystemSynchronized: synchronized,
-		framework: framework.snapshot(),
-		identity,
-		mode: "virtual-android-subset",
+	return createAndroidLaunchReport({
+		activity: launched.activity,
+		dexSources: dex.sources,
+		executor,
+		filesystemSynchronized,
+		framework,
+		lifecycle: launched.lifecycle,
 		rendering,
-		vm: executor.snapshot(),
-		unsupportedBoundary: "Complete ART, Android framework, Binder, resources, native libraries, threads, services, networking, audio, sensors, and full graphics remain unsupported."
+		runtime
 	});
 }

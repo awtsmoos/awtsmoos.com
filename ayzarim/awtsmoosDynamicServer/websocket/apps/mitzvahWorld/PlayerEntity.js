@@ -23,6 +23,7 @@ function createPlayer(options) {
 	return {
 		...createPlayerState(position),
 		accountId: options.accountId || null,
+		connected: options.connected !== false,
 		displayName: options.displayName,
 		facing: 0,
 		id: options.id,
@@ -57,6 +58,7 @@ function snapshotPlayer(player) {
 	return clone({
 		adventureQuests: player.adventureQuests || {},
 		combat: combatSnapshot(player.combat),
+		connected: player.kind === 'bot' || player.connected !== false,
 		displayName: player.displayName,
 		equipment: player.equipment || {},
 		facing: player.facing,

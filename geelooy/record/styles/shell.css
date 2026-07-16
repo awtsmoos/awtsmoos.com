@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the camera viewer one readable shell and route identity.
+ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	color-scheme: dark;
+}
+
+body {
+	min-block-size: 100dvh;
+	margin: 0;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	background: linear-gradient(145deg, #060a11, #0c121d 62%, #111323);
+	color: #f4f7fb;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.camera-shell {
+	display: grid;
+	gap: 1rem;
+	inline-size: min(100%, 68rem);
+	margin: 0 auto;
+}
+
+.camera-header {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: start;
+	gap: 1rem;
+}
+
+.camera-back {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 44px;
+	padding: .58rem .78rem;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: .72rem;
+	background: #141f2e;
+	color: #a7e8f1;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.camera-header h1,
+.camera-header p {
+	margin: 0;
+}
+
+.camera-header h1 {
+	font-size: clamp(1.7rem, 5vw, 3rem);
+	line-height: 1;
+	letter-spacing: -.045em;
+}
+
+.camera-header > div > p:last-child {
+	max-inline-size: 46rem;
+	margin-block-start: .55rem;
+	color: #b4c0d1;
+	line-height: 1.55;
+}
+
+.camera-kicker {
+	margin-block-end: .35rem !important;
+	color: #61cbd9;
+	font-size: .76rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+}
+
+.camera-status,
+.camera-note {
+	margin: 0;
+	color: #aebccd;
+	line-height: 1.45;
+}
+
+.camera-status {
+	padding: .72rem .82rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: .78rem;
+	background: #121c29;
+}
+
+.camera-status[data-tone="error"] {
+	border-color: rgba(255, 127, 156, .42);
+	color: #ffc4d0;
+}
+
+.camera-note {
+	font-size: .82rem;
+}

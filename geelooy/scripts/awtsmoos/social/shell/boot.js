@@ -4,12 +4,11 @@
 /**
  * @module GeelooyUnifiedShellBoot
  * @description
- * The Awtsmoos reveals one fast Horizon around eligible Awtsmoos.com routes.
- * Performance is classified before decorative systems awaken, while sovereign
- * pages retain their real content and native fallback.
+ * The Awtsmoos reveals one immediate dark horizon around eligible routes.
+ * Awtsmoos.com injects the current shell once, preserves sovereign content, and
+ * omits pointer-following light and page-scale transition systems from startup.
  */
-import { startNativePageTransitions } from '../navigation/nativePageTransitions.js';
-import { bindAmbientField } from './ambientField.js';
+
 import { bindAppCommand } from './appCommand.js';
 import { currentAppRoute } from './appRoutes.js';
 import { ensureAppShell } from './appShell.js';
@@ -18,11 +17,11 @@ import { applyPerformanceProfile } from './performanceProfile.js';
 import { isShellEligible } from './routeEligibility.js';
 import { bindScrollMemory } from './scrollMemory.js';
 
-const STYLE_HREF = '/style/geelooy-app/index.css?v=speed-001';
+const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-010';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 const ROUTE_OUTLET_SELECTOR = '[data-geelooy-route-outlet]';
 
-/** Boots shared identity without replacing sovereign route content. */
+/** Boots shared identity without replacing route content. */
 export function bootGeelooyShell(root = document) {
 	if (!root.documentElement || !root.body || !isShellEligible(root.location?.pathname)) {
 		return null;
@@ -31,18 +30,17 @@ export function bootGeelooyShell(root = document) {
 	ensureStylesheet(root);
 	applyRouteIdentity(root);
 	root.documentElement.classList.add('geelooy-route-ready');
-	root.body.classList.add('geelooy-app-shell', 'geelooy-spectral-shell');
+	root.body.classList.add('geelooy-app-shell');
+	root.body.classList.remove('geelooy-spectral-shell');
 	const shell = ensureAppShell(root);
-	bindAmbientField(root);
 	bindAppCommand(root);
 	bindScrollMemory();
 	ensureToastRegion();
-	startNativePageTransitions(root);
 	startOptionalNavigation(root);
 	return shell;
 }
 
-/** Loads proven hybrid navigation without making it a shell prerequisite. */
+/** Loads proven hybrid navigation only when a route outlet explicitly exists. */
 async function startOptionalNavigation(root) {
 	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) {
 		return null;

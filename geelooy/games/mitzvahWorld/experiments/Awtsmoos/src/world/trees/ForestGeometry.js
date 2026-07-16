@@ -114,6 +114,7 @@ function forestMaterials() {
 		transparent: true,
 		texturePolicy: {
 			publicFirebase: true,
+			shader: 'leaf-cluster-alpha-wind',
 			realMapImage: !!cachedTextureImage(leafUrls[0]),
 			candidates: leafUrls,
 			fallbackMaskOnlyIfImageMissing: true,

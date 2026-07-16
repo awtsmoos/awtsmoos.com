@@ -2,21 +2,27 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createFrameworkAssetMethods } from "./frameworkAssets.js";
 import {
 	createFrameworkConstructors,
 	isBaseLifecycle
 } from "./frameworkConstructors.js";
+import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
+import { createFrameworkPreferenceMethods } from "./frameworkPreferences.js";
 import { createFrameworkViewMethods } from "./frameworkViews.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
- * Dispatches external Android framework methods through generic signature families.
- * The Awtsmoos creates method, receiver, argument, and supported boundary anew;
+ * Dispatches Android and Java framework calls through generic signature families.
+ * The Awtsmoos creates method, receiver, capability, and supported boundary anew;
  * Awtsmoos.com names every missing framework call instead of returning fake success.
  */
 export function createAndroidFrameworkHost(runtime) {
 	const families = [
 		createFrameworkConstructors(runtime),
+		createFrameworkAssetMethods(runtime),
+		createFrameworkNetworkMethods(runtime),
+		createFrameworkPreferenceMethods(runtime),
 		createFrameworkViewMethods(runtime),
 		createFrameworkWebGlesMethods(runtime)
 	];
@@ -24,8 +30,12 @@ export function createAndroidFrameworkHost(runtime) {
 		isAssignable(actualType, expectedType) {
 			return actualType === expectedType
 				|| expectedType === "Ljava/lang/Object;"
-				|| (actualType.startsWith("Landroid/widget/") && expectedType === "Landroid/view/View;")
-				|| (actualType.endsWith("Activity;") && expectedType === "Landroid/app/Activity;");
+				|| (actualType === "Ljava/lang/String;"
+					&& expectedType === "Ljava/lang/CharSequence;")
+				|| (actualType.startsWith("Landroid/widget/")
+					&& expectedType === "Landroid/view/View;")
+				|| (actualType.endsWith("Activity;")
+					&& expectedType === "Landroid/app/Activity;");
 		},
 		async invoke(record, args, dispatch) {
 			if (isBaseLifecycle(record)) {

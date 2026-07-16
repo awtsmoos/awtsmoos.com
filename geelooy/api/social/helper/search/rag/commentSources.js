@@ -5,11 +5,15 @@
 /**
  * @module RagCommentSources
  * @description
- * Resolves canonical rich comments before historical packed/imported fallbacks.
- * The Awtsmoos lets no stale manifest conceal a living comment, and Awtsmoos.com
- * opens an older corpus only when current rich storage has no matching truth.
+ * Resolves the authoritative DosDB comment path first, then rich comments, then
+ * imported history. The Awtsmoos preserves one truth through several vessels,
+ * and Awtsmoos.com never scans an older ocean while the living path answers.
  */
 
+const {
+	authoritativeAliases,
+	authoritativeRows
+} = require('./authoritativeCommentRows.js');
 const { legacyRows } = require('./legacyCommentRows.js');
 const {
 	directRichComment,
@@ -17,26 +21,40 @@ const {
 } = require('./richCommentRows.js');
 
 async function findCommentsForPostAlias(context) {
+	const authoritative = await authoritativeRows(context);
+	if (authoritative.length) return authoritative;
 	const richRows = await richRowsForPost(context);
 	if (richRows.length) return richRows;
 	return legacyRows(context);
 }
 
 async function findAliasesForPost(context) {
-	const rows = await findCommentsForPostAlias({ ...context, aliasId: '' });
+	const authoritative = await authoritativeAliases(context);
+	if (authoritative.length) return authoritative;
+	const rows = await richRowsForPost({ ...context, aliasId: '' });
+	if (rows.length) return uniqueAliases(rows);
+	return uniqueAliases(await legacyRows({ ...context, aliasId: '' }));
+}
+
+function uniqueAliases(rows) {
 	return [...new Set(rows.map(row => row.aliasId).filter(Boolean))];
 }
 
 async function findCommentById(context) {
+	const rows = await findCommentsForPostAlias(context);
+	const comment = rows.find(row => String(row.id) === String(context.commentId));
+	if (comment) {
+		return {
+			success: comment,
+			source: comment.ragCommentSource || 'awtsmoosDbCommentSource'
+		};
+	}
 	const rich = await directRichComment(context, context.commentId);
 	if (rich) return { success: rich, source: 'commentTree' };
-	const imported = (await legacyRows(context))
-		.find(row => String(row.id) === String(context.commentId));
-	if (imported) return { success: imported, source: 'imported' };
 	return {
 		error: {
 			code: 'COMMENT_NOT_FOUND',
-			message: 'Comment not found in CommentTree or imported corpus.'
+			message: 'Comment not found in authoritative, rich, or imported sources.'
 		}
 	};
 }
@@ -44,5 +62,6 @@ async function findCommentById(context) {
 module.exports = {
 	findAliasesForPost,
 	findCommentById,
-	findCommentsForPostAlias
+	findCommentsForPostAlias,
+	uniqueAliases
 };

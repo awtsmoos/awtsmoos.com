@@ -9,6 +9,8 @@
  * spellings, and immutable strict-RAG overrides that callers cannot downgrade.
  */
 
+process.env.AWTS_RAG_STARTUP_WARMUP = '0';
+
 const assert = require('node:assert/strict');
 const { cleanRow, unavailableIndex } = require('../sourceSearch.js');
 const { publicShard, publicHit } = require('../resultShape.js');

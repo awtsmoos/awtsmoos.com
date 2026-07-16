@@ -4,16 +4,17 @@
 
 /**
  * @module RagShardManifest
- * @chapter A Canonical Corpus Keeps Every Historical Door Without Losing Its Name
  * @description
- * Converts complete fast manifests into bounded shard descriptions. The manifest ID
- * is canonical, while the database filename slug and declared aliases remain stable
- * compatibility names so published cutovers never break existing clients or probes.
+ * Converts the two canonical fast manifests into bounded shard descriptions. The
+ * Awtsmoos caches unchanged JSON by filesystem identity, while Awtsmoos.com refuses
+ * to publish a third database merely because an old experiment once existed.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { ragRoot, existingJson, stat } = require('./paths.js');
+const { CANONICAL_SHARD_FILES } = require('./canonicalShards.js');
+const { readManifest } = require('./manifestCache.js');
+const { ragRoot, stat } = require('./paths.js');
 
 function slug(name) {
 	return path.basename(name, '.awtsdb')
@@ -28,27 +29,34 @@ function label(value) {
 
 function aliases(id, fileSlug = id, declared = []) {
 	const values = [id, fileSlug, ...normalizeAliases(declared)];
-	if (id.includes('meluket') || fileSlug.includes('meluket')) {
+	if (containsEither(id, fileSlug, 'meluket')) {
 		values.push('meluket', 'maamar-meluket');
 	}
-	if (id.includes('hasichos') || fileSlug.includes('hasichos')) {
+	if (containsEither(id, fileSlug, 'hasichos')) {
 		values.push('sefer-hasichos', 'dvar-hasichos', 'dr-hasichos');
 	}
-	if (id.includes('likkutei') || fileSlug.includes('likkutei')) {
+	if (containsEither(id, fileSlug, 'likkutei')) {
 		values.push('likkutei-sichos', 'likutei-sichos', 'ls');
 	}
-	if (id.includes('sichos-kodesh') || fileSlug.includes('sichos-kodesh')) {
-		values.push('sichos-kodesh', 'sichos-kodesh-english', 'sk');
-	}
-	return [...new Set(values.filter(Boolean).map(value => String(value).toLowerCase()))];
+	return [...new Set(
+		values.filter(Boolean).map(value => String(value).toLowerCase())
+	)];
+}
+
+function containsEither(left, right, fragment) {
+	return left.includes(fragment) || right.includes(fragment);
 }
 
 function normalizeAliases(value) {
 	return Array.isArray(value) ? value : [];
 }
 
+function manifestPath(file) {
+	return file.replace(/\.awtsdb$/, '.fast-manifest.json');
+}
+
 function manifestFor(file) {
-	return existingJson(file.replace(/\.awtsdb$/, '.fast-manifest.json'));
+	return readManifest(manifestPath(file));
 }
 
 function isPublishable(manifest) {
@@ -59,6 +67,17 @@ function isPublishable(manifest) {
 		&& Number(manifest.records || manifest.listLength) > 0
 		&& Number(manifest.dimensions) > 0
 	);
+}
+
+function textFileFor(file, manifest) {
+	const candidates = [
+		manifest.textFile,
+		file.replace(/\.awtsdb$/, '.fast-meta.jsonl'),
+		manifest.metadataSidecar,
+		manifest.metadata,
+		file.replace(/\.awtsdb$/, '.meta.jsonl')
+	];
+	return candidates.find(candidate => candidate && stat(candidate)) || null;
 }
 
 function describeFile(file) {
@@ -74,16 +93,17 @@ function describeFile(file) {
 		count: Number(manifest.records || manifest.listLength || 0),
 		dimensions: Number(manifest.dimensions || 0),
 		vectorEnabled: false,
-		bytes: stat(file)?.size || 0
+		bytes: stat(file)?.size || 0,
+		textFile: textFileFor(file, manifest)
 	};
 }
 
 function shardFiles($i) {
 	const root = ragRoot($i);
 	if (!fs.existsSync(root)) return [];
-	return fs.readdirSync(root)
-		.filter(name => name.endsWith('.awtsdb'))
+	return CANONICAL_SHARD_FILES
 		.map(name => path.join(root, name))
+		.filter(file => fs.existsSync(file))
 		.filter(file => isPublishable(manifestFor(file)));
 }
 
@@ -91,6 +111,9 @@ module.exports = {
 	aliases,
 	describeFile,
 	isPublishable,
+	manifestFor,
+	manifestPath,
 	shardFiles,
-	slug
+	slug,
+	textFileFor
 };

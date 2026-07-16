@@ -25,14 +25,11 @@ const LOG_POINTS = Object.freeze([[77, -105], [87, -118], [104, -132], [118, -10
 
 export function createForestEdgeDefinitions(groundSampler, quality = 'high') {
 	const treeLimit = quality === 'low' ? 14 : quality === 'medium' ? 24 : TREE_POINTS.length;
-	const parts = { broadleaf: [], ferns: [], logs: [], moss: [], pine: [], trunks: [] };
+	const parts = { ferns: [], logs: [], moss: [] };
 	TREE_POINTS.slice(0, treeLimit).forEach((point, index) => appendTree(parts, point, index, groundSampler));
 	LOG_POINTS.slice(0, quality === 'low' ? 2 : LOG_POINTS.length).forEach(point => appendLog(parts, point, groundSampler));
 	const definitions = [
 		...floorDefinitions(groundSampler, quality),
-		batch('forest-trunks', parts.trunks, '#4d3425', FOREST_MATERIALS.bark, 'tree-trunk'),
-		batch('forest-broadleaf', parts.broadleaf, '#315d32', FOREST_MATERIALS.broadleaf, 'tree-canopy'),
-		batch('forest-pine', parts.pine, '#244c34', FOREST_MATERIALS.pine, 'tree-canopy'),
 		batch('forest-ferns', parts.ferns, '#3f6a3d', FOREST_MATERIALS.fern, 'undergrowth'),
 		batch('forest-moss', parts.moss, '#527345', FOREST_MATERIALS.moss, 'undergrowth'),
 		batch('forest-fallen-logs', parts.logs, '#59402e', FOREST_MATERIALS.roots, 'fallen-wood')
@@ -42,7 +39,8 @@ export function createForestEdgeDefinitions(groundSampler, quality = 'high') {
 		fallenLogs: parts.logs.length,
 		floorPatches: quality === 'low' ? 2 : FLOOR_PATCHES.length,
 		forestRadius: 160,
-		trees: treeLimit,
+		primitiveTrees: 0,
+		proceduralTreeSitesSupported: treeLimit,
 		undergrowthClusters: parts.ferns.length + parts.moss.length
 	};
 	return definitions;
@@ -69,10 +67,6 @@ function floorDefinitions(groundSampler, quality) {
 function appendTree(parts, point, index, groundSampler) {
 	const [x, z] = point;
 	const y = villageGroundHeight(groundSampler, x, z);
-	const height = 7 + index % 5 * 1.4;
-	parts.trunks.push(box(x, y + height / 2, z, 0.65, height, 0.65));
-	const canopy = box(x, y + height + 2.4, z, 5 + index % 3, 5.5, 5 + (index + 1) % 3);
-	parts[index % 4 === 0 ? 'pine' : 'broadleaf'].push(canopy);
 	parts.ferns.push(box(x + Math.sin(index) * 2, y + 0.32, z + Math.cos(index) * 2, 2.4, 0.6, 2.4));
 	parts.moss.push(box(x - Math.cos(index) * 1.7, y + 0.09, z + Math.sin(index) * 1.7, 2.8, 0.16, 2.8));
 }

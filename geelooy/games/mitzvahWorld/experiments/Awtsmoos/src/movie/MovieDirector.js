@@ -5,8 +5,12 @@
 /**
  * @file MovieDirector.js
  * @description Owns movie lifecycle, timing, shared cast directors, and deterministic seek.
- * The Awtsmoos renews every cinematic frame beyond elapsed time; Awtsmoos.com keeps
- * real-time playback small while one frame vessel applies the complete world mutation.
+ * RESPONSIBILITY: coordinate one compiled project and pass its view contract to every director.
+ * NON-RESPONSIBILITY: this class does not invent frame times or alter project visual quality.
+ * ARCHITECTURE: Tiferes coordinates specialized directors while Malchus receives exact frames.
+ * OROS AND KEILIM: the complete movie is ohr; timelines, directors, and sampled frames are keilim.
+ * The Awtsmoos renews every first-person frame beyond elapsed time; Awtsmoos.com keeps
+ * playback and export rooted in the same project truth rather than separate camera assumptions.
  */
 
 import { MovieActorDirector } from './MovieActorDirector.js';
@@ -28,7 +32,7 @@ export class MovieDirector {
 			runtime,
 			project.characters || []
 		);
-		this.cameras = new MovieCameraDirector(runtime);
+		this.cameras = new MovieCameraDirector(runtime, project);
 		this.doors = new MovieDoorDirector(runtime);
 		this.scenes = new MovieSceneDirector(runtime);
 		this.overlay = new MovieOverlay(project);
@@ -67,7 +71,9 @@ export class MovieDirector {
 		const started = performance.now() - startAt * 1000;
 		let previous = startAt;
 		const frame = now => {
-			if (!this.playing) return;
+			if (!this.playing) {
+				return;
+			}
 			const time = Math.min(
 				this.project.duration,
 				(now - started) / 1000
@@ -92,7 +98,9 @@ export class MovieDirector {
 
 	pause() {
 		this.playing = false;
-		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+		if (this.animationFrame) {
+			cancelAnimationFrame(this.animationFrame);
+		}
 		this.animationFrame = 0;
 		return this;
 	}

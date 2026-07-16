@@ -1,6 +1,96 @@
-.live-presence { display: inline-flex; align-items: center; gap: .45rem; min-height: 2rem; padding: .25rem .55rem; border: 1px solid #dfe6ee; border-radius: 999px; background: #fff; color: #0f172a; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
-.live-presence-dot { width: .6rem; height: .6rem; border-radius: 999px; background: #16a34a; }
-.live-presence[data-state="away"] .live-presence-dot { background: #f59e0b; }
-.live-presence[data-state="offline"] .live-presence-dot { background: #94a3b8; }
-.live-presence-label { color: #64748b; font-size: .82rem; font-weight: 750; }
-.live-presence-avatar { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 999px; background: #f1f5f9; border: 1px solid #dfe6ee; color: #0f172a; font-weight: 800; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals shared presence as a calm signal rather than a floating
+ * white badge. Awtsmoos.com owns count, status, avatar, safe-area placement,
+ * contrast, and reduced motion for both presence components.
+ */
+
+.live-presence,
+.bh-page-presence-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: .58rem;
+	min-block-size: 44px;
+	padding: .45rem .65rem;
+	border: 1px solid rgba(97, 203, 217, .32);
+	border-radius: 999px;
+	background: #111c29;
+	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .28);
+	color: #f3f7fb;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.bh-page-presence-badge {
+	position: fixed;
+	z-index: 70;
+	inset-inline-end: max(.75rem, env(safe-area-inset-right));
+	inset-block-end: max(.75rem, env(safe-area-inset-bottom));
+	max-inline-size: min(24rem, calc(100vw - 1.5rem));
+}
+
+.live-presence-dot {
+	inline-size: .62rem;
+	block-size: .62rem;
+	border-radius: 50%;
+	background: #65d6a2;
+	box-shadow: 0 0 0 4px rgba(101, 214, 162, .12);
+}
+
+.live-presence[data-state="away"] .live-presence-dot {
+	background: #f0bd68;
+	box-shadow: 0 0 0 4px rgba(240, 189, 104, .12);
+}
+
+.live-presence[data-state="offline"] .live-presence-dot {
+	background: #7f8da2;
+	box-shadow: none;
+}
+
+.live-presence-label,
+.bh-page-presence-copy span {
+	color: #aebccd;
+	font-size: .78rem;
+	font-weight: 680;
+}
+
+.live-presence-avatar,
+.bh-page-presence-orb {
+	display: grid;
+	inline-size: 2rem;
+	block-size: 2rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .38);
+	border-radius: 50%;
+	background: rgba(97, 203, 217, .12);
+	color: #9be8f1;
+	font-size: .78rem;
+	font-weight: 900;
+	flex: 0 0 auto;
+}
+
+.bh-page-presence-copy {
+	display: grid;
+	gap: .08rem;
+	min-inline-size: 0;
+}
+
+.bh-page-presence-copy strong,
+.bh-page-presence-copy span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.bh-page-presence-copy strong {
+	color: #f3f7fb;
+	font-size: .82rem;
+}
+
+@media (max-width: 32rem) {
+	.bh-page-presence-badge {
+		inset-inline: .55rem;
+		justify-content: center;
+	}
+}

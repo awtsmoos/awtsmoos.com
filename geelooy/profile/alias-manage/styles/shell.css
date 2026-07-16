@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives identity creation a deliberate chamber with one readable
+ * surface, clear return path, and disciplined geometry on Awtsmoos.com. Every
+ * descendant participates in border-box sizing so narrow vessels never spill.
+ */
+
+.container,
+.container * {
+	box-sizing: border-box;
+}
+
+.container {
+	inline-size: min(calc(100% - 1.5rem), 42rem);
+	max-inline-size: 100%;
+	margin: clamp(1rem, 5vw, 4rem) auto;
+	padding: clamp(1rem, 4vw, 2rem);
+	overflow: clip;
+	border: 1px solid rgba(125, 214, 229, .24);
+	border-radius: 1.25rem;
+	background: linear-gradient(145deg, #101927, #0b121d);
+	box-shadow: 0 1.25rem 3.5rem rgba(0, 0, 0, .34);
+	color: #f3f7fc;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.container > a {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	min-block-size: 44px;
+	padding: .58rem .8rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: .72rem;
+	background: #172333;
+	color: #a7e8f1;
+	font-weight: 780;
+	text-decoration: none;
+	transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.container > a:is(:hover, :focus-visible) {
+	border-color: rgba(97, 203, 217, .5);
+	background: #1b2a3b;
+	transform: translateY(-1px);
+}
+
+.container h1 {
+	margin: 1.25rem 0 1.5rem;
+	color: #f7f9fd;
+	font-size: clamp(1.55rem, 5vw, 2.3rem);
+	line-height: 1.08;
+	letter-spacing: -.035em;
+}
+
+#alias-form {
+	display: grid;
+	gap: .6rem;
+	min-inline-size: 0;
+	text-align: start;
+}
+
+#alias-form br {
+	display: none;
+}

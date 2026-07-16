@@ -4,86 +4,111 @@
 
 /**
  * @file MovieIvfWriter.js
- * @description Packages exact VP8 chunks into a small auditable IVF container.
- * The Awtsmoos renews every encoded spark beyond its bytes; Awtsmoos.com places
- * each finite frame in an honest vessel whose count and timebase can be inspected.
+ * @description Collects one bounded VP8 segment and emits auditable IVF body bytes.
+ * RESPONSIBILITY: copy recyclable chunks, preserve global timestamps, and release segments.
+ * NON-RESPONSIBILITY: this module does not configure encoders or join multiple segments.
+ * ARCHITECTURE: Yesod gathers encoded sparks before Malchus manifests a bounded blob.
+ * OROS AND KEILIM: VP8 payloads are oros; frame records and segment receipts are keilim.
+ * The Awtsmoos renews every encoded spark beyond storage; Awtsmoos.com keeps global
+ * indexes intact when a long movie is divided into smaller memory-safe vessels.
  */
 
-const FILE_HEADER_BYTES = 32;
-const FRAME_HEADER_BYTES = 12;
+import {
+	createIvfFileHeader,
+	createIvfFrameHeader
+} from './MovieIvfHeader.js';
 
-/** Collects VP8 chunks and emits deterministic IVF bytes. */
+const MICROSECONDS_PER_SECOND = 1000000;
+
+/** Collects VP8 chunks for one exact frame range. */
 export class MovieIvfWriter {
 	constructor(options) {
 		this.fps = positiveInteger(options.fps, 'fps');
 		this.height = positiveInteger(options.height, 'height');
+		this.startFrame = nonnegativeInteger(options.startFrame || 0, 'startFrame');
 		this.width = positiveInteger(options.width, 'width');
 		this.frames = [];
 	}
 
-	/** Copies one encoded chunk before the browser recycles its backing storage. */
+	/** Copies one encoded chunk before the browser recycles its storage. */
 	addChunk(chunk) {
 		const data = new Uint8Array(chunk.byteLength);
 		chunk.copyTo(data);
 		this.frames.push({
 			data,
-			timestamp: BigInt(this.frames.length)
+			timestamp: BigInt(this.resolveFrameIndex(chunk)),
+			type: String(chunk.type || 'unknown')
 		});
 	}
 
-	/** Returns one exact video-only IVF blob. */
+	/** Returns one complete single-segment IVF blob. */
 	toBlob() {
-		return new Blob(this.parts(), {
+		return new Blob([
+			createIvfFileHeader(this.headerOptions(this.frames.length)),
+			...this.bodyParts()
+		], {
 			type: 'video/x-ivf'
 		});
 	}
 
-	parts() {
-		const parts = [this.fileHeader()];
-		for (const frame of this.frames) {
-			parts.push(this.frameHeader(frame));
-			parts.push(frame.data);
+	/** Releases a body-only segment and clears copied frame payload references. */
+	releaseSegment(range) {
+		const encodedFrames = range.endFrameExclusive - range.startFrame;
+		if (this.frames.length !== encodedFrames) {
+			throw new RangeError(`Segment expected ${encodedFrames} chunks but received ${this.frames.length}.`);
 		}
-		return parts;
+		const segment = {
+			blob: new Blob(this.bodyParts(), { type: 'application/octet-stream' }),
+			encodedFrames,
+			endFrameExclusive: range.endFrameExclusive,
+			firstTimestamp: Number(this.frames[0]?.timestamp ?? range.startFrame),
+			lastTimestamp: Number(this.frames.at(-1)?.timestamp ?? range.startFrame),
+			segmentIndex: range.segmentIndex,
+			startFrame: range.startFrame,
+			startsWithKeyFrame: this.frames[0]?.type === 'key'
+		};
+		this.frames = [];
+		return segment;
 	}
 
-	fileHeader() {
-		const bytes = new Uint8Array(FILE_HEADER_BYTES);
-		const view = new DataView(bytes.buffer);
-		writeAscii(bytes, 0, 'DKIF');
-		view.setUint16(4, 0, true);
-		view.setUint16(6, FILE_HEADER_BYTES, true);
-		writeAscii(bytes, 8, 'VP80');
-		view.setUint16(12, this.width, true);
-		view.setUint16(14, this.height, true);
-		view.setUint32(16, this.fps, true);
-		view.setUint32(20, 1, true);
-		view.setUint32(24, this.frames.length, true);
-		view.setUint32(28, 0, true);
-		return bytes;
+	bodyParts() {
+		return this.frames.flatMap(frame => [
+			createIvfFrameHeader(frame.data.byteLength, frame.timestamp),
+			frame.data
+		]);
 	}
 
-	frameHeader(frame) {
-		const bytes = new Uint8Array(FRAME_HEADER_BYTES);
-		const view = new DataView(bytes.buffer);
-		view.setUint32(0, frame.data.byteLength, true);
-		view.setBigUint64(4, frame.timestamp, true);
-		return bytes;
+	headerOptions(frameCount) {
+		return {
+			fps: this.fps,
+			frameCount,
+			height: this.height,
+			width: this.width
+		};
+	}
+
+	resolveFrameIndex(chunk) {
+		if (chunk.timestamp == null) {
+			return this.startFrame + this.frames.length;
+		}
+		return Math.round(Number(chunk.timestamp) * this.fps / MICROSECONDS_PER_SECOND);
 	}
 }
 
 function positiveInteger(value, label) {
-	const number = Math.trunc(Number(value));
-	if (!Number.isFinite(number) || number <= 0) {
-		throw new RangeError(`${label} must be a positive integer.`);
+	const number = nonnegativeInteger(value, label);
+	if (number === 0) {
+		throw new RangeError(`${label} must be greater than zero.`);
 	}
 	return number;
 }
 
-function writeAscii(bytes, offset, text) {
-	for (let index = 0; index < text.length; index += 1) {
-		bytes[offset + index] = text.charCodeAt(index);
+function nonnegativeInteger(value, label) {
+	const number = Number(value);
+	if (!Number.isInteger(number) || number < 0) {
+		throw new RangeError(`${label} must be a nonnegative integer.`);
 	}
+	return number;
 }
 
 export default MovieIvfWriter;

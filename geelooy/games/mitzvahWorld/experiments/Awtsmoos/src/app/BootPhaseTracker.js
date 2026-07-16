@@ -86,6 +86,11 @@ export class BootPhaseTracker {
 	publish() {
 		if (typeof window !== 'undefined') {
 			window.AwtsmoosBootPhases = this.snapshot();
+			document.documentElement.dataset.awtsmoosBootPhase = this.current;
+			const hud = document.getElementById('hud');
+			if (hud?.textContent.includes('loading')) {
+				hud.textContent = `B"H loading · ${this.current}`;
+			}
 		}
 	}
 }

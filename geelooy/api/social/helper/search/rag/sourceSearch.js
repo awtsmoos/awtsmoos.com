@@ -5,9 +5,9 @@
 /**
  * @module SourceSearch
  * @description
- * A selected shard remains open read-only across warm queries. Strict RAG accepts
- * only its persisted HNSW graph; exact vector ranking remains an explicit generic
- * library mode and can never masquerade as indexed retrieval.
+ * A selected shard remains open read-only across warm queries. The Awtsmoos walks
+ * only the measured faithful breadth through persisted HNSW, while Awtsmoos.com
+ * reports that breadth and never lets exact ranking masquerade as indexed search.
  */
 
 const corpusReader = require('../../../../../../ayzarim/DosDB/aiSearch/vectorCorpus/reader.js');
@@ -65,6 +65,7 @@ function indexed(session, queryVector, limit) {
 			registryCount: session.status.registryCount,
 			entryNodeID: session.status.entryNodeID,
 			maxLevel: session.status.maxLevel,
+			efSearch: session.status.efSearch,
 			sessionReused: session.reused
 		}
 	};
@@ -96,6 +97,7 @@ function unavailableIndex(shard, status) {
 		registryCount: status.registryCount,
 		entryNodeID: status.entryNodeID,
 		maxLevel: status.maxLevel,
+		efSearch: status.efSearch,
 		vectorEnabled: shard.vectorEnabled === true
 	};
 	return error;

@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives recording start and stop actions explicit physical states.
+ */
+
+.capture-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .6rem;
+}
+
+.capture-actions button {
+	min-block-size: 48px;
+	padding: .72rem .9rem;
+	border: 1px solid rgba(255, 255, 255, .2);
+	border-radius: .78rem;
+	background: #172435;
+	box-shadow: none;
+	color: #f4f7fb;
+	font: 820 .9rem/1 Inter, ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.capture-actions .capture-primary {
+	border-color: #61cbd9;
+	background: #61cbd9;
+	color: #061116;
+}
+
+.capture-card[data-state="recording"] .capture-primary {
+	border-color: rgba(255, 127, 156, .52);
+	background: rgba(255, 127, 156, .14);
+	color: #ffc2cf;
+}
+
+.capture-actions button:is(:hover, :focus-visible):not(:disabled) {
+	border-color: #82e2ed;
+	background: #203247;
+	transform: translateY(-1px);
+}
+
+.capture-actions .capture-primary:is(:hover, :focus-visible):not(:disabled) {
+	background: #7ad9e5;
+	color: #061116;
+}
+
+.capture-actions button:disabled {
+	cursor: not-allowed;
+	opacity: .5;
+	transform: none;
+}
+
+.capture-actions button:focus-visible {
+	outline: 3px solid #82e2ed;
+	outline-offset: 3px;
+}

@@ -1,5 +1,5 @@
 B"H
-1.0.314
+1.0.316
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -756,6 +756,10 @@ docs/helper-skeletons/android/README.md
 docs/helper-skeletons/desktop/main.ts
 docs/helper-skeletons/desktop/README.md
 docs/REMOTE_DESKTOP_TUNNEL.md
+lib/config-ai-normalizers.js
+lib/config-defaults.js
+lib/config-normalizers.js
+lib/config-value-normalizers.js
 lib/config.js
 lib/envelopeCompiler/compiler.js
 lib/envelopeCompiler/index.js
@@ -980,9 +984,11 @@ next-runtime/transport/retryShapes.js
 rebuild-manifest.cjs
 recovery/archiveArtifact.js
 recovery/archiveFilePolicy.js
+recovery/archiveMetrics.js
 recovery/archiveRestore.js
 recovery/archiveSafety.js
 recovery/archiveStore.js
+recovery/archiveTransientPolicy.js
 recovery/candidateSelector.js
 recovery/controller.js
 recovery/crashPolicy.js
@@ -1087,6 +1093,7 @@ tools/chrome/index.js
 tools/chrome/launchArgs.js
 tools/chrome/leaseActions.js
 tools/chrome/logs.js
+tools/chrome/profileState.js
 tools/chrome/scopePolicy.js
 tools/chrome/session.js
 tools/chrome/snapshot.js

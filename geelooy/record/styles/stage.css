@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos contains live camera light inside a deliberate preview stage.
+ */
+
+.camera-stage {
+	position: relative;
+	display: grid;
+	min-block-size: min(66vh, 42rem);
+	place-items: center;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: 1.15rem;
+	background: #050911;
+	box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, .34);
+}
+
+.camera-stage video {
+	display: none;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.camera-stage[data-camera-state="live"] video {
+	display: block;
+}
+
+.camera-empty {
+	display: grid;
+	max-inline-size: 28rem;
+	place-items: center;
+	gap: .55rem;
+	padding: 2rem;
+	color: #b6c2d2;
+	text-align: center;
+}
+
+.camera-empty span {
+	display: grid;
+	inline-size: 4rem;
+	block-size: 4rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .38);
+	border-radius: 1rem;
+	background: rgba(97, 203, 217, .1);
+	color: #8fe3ed;
+	font-size: 1.8rem;
+}
+
+.camera-empty strong {
+	color: #f4f7fb;
+	font-size: 1.1rem;
+}
+
+.camera-empty p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+.camera-stage[data-camera-state="live"] .camera-empty {
+	display: none;
+}
+
+.camera-live-mark {
+	position: absolute;
+	inset-block-start: .8rem;
+	inset-inline-start: .8rem;
+	display: none;
+	padding: .38rem .58rem;
+	border-radius: 999px;
+	background: rgba(7, 12, 20, .82);
+	color: #a9edcd;
+	font-size: .75rem;
+	font-weight: 850;
+}
+
+.camera-stage[data-camera-state="live"] .camera-live-mark {
+	display: inline-flex;
+}

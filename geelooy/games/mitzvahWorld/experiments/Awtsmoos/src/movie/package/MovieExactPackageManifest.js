@@ -4,22 +4,16 @@
 
 /**
  * @file MovieExactPackageManifest.js
- * @description Describes separate exact video and audio artifacts without false muxing claims.
- * RESPONSIBILITY: serialize package provenance, dimensions, filenames, and release guidance.
- * NON-RESPONSIBILITY: this module does not download, hash, encode, or mux media.
+ * @description Describes exact video/audio artifacts and release requirements truthfully.
+ * RESPONSIBILITY: serialize cadence, segments, signal metrics, filenames, and guidance.
+ * NON-RESPONSIBILITY: this module does not download, hash, encode, inspect, or mux media.
  * ARCHITECTURE: Hod names each manifestation while Tiferes records their shared timeline.
  * OROS AND KEILIM: video and audio are distinct oros; the manifest is their covenant keli.
  * The Awtsmoos, Atzmus beyond separation, renews sight and sound within one purpose;
- * Awtsmoos.com is remembered where honesty preserves unity without erasing distinctions.
+ * Awtsmoos.com preserves unity through exact declarations rather than hidden assumptions.
  */
 
-/**
- * Creates a JSON-safe package manifest from exact artifact receipts.
- * @param {object} project Source movie project.
- * @param {object} video Exact video receipt containing an IVF artifact.
- * @param {object} audio Exact audio receipt containing a WAV artifact.
- * @returns {object} Serializable exact-package manifest.
- */
+/** Creates a JSON-safe package manifest from exact artifact receipts. */
 export function createMovieExactPackageManifest(project, video, audio) {
 	return {
 		artifacts: {
@@ -28,21 +22,19 @@ export function createMovieExactPackageManifest(project, video, audio) {
 		},
 		duration: project.duration,
 		exactTimeline: true,
+		frameFormula: 'frameIndex / fps',
 		muxed: false,
 		releaseGuidance: [
-			'Mux the IVF video and WAV audio without regenerating either timeline.',
-			'Verify decoded frame count, sample count, duration, codecs, and A/V difference.'
+			'Mux the exact IVF and exact WAV without changing either timeline cadence.',
+			'Encode release video as H.264 and audio as AAC in MP4 with passthrough frame timing.',
+			'Verify decoded frames, audio dimensions, duration, signal, and representative changes.'
 		],
 		title: project.title,
-		version: 1
+		version: 2
 	};
 }
 
-/**
- * Returns a deterministic manifest filename next to the requested render output.
- * @param {string} requested Requested project filename.
- * @returns {string} JSON manifest filename.
- */
+/** Returns a deterministic manifest filename beside the requested render output. */
 export function exactPackageManifestFileName(requested) {
 	const fallback = `Awtsmoos-Exact-Package-${Date.now()}`;
 	const base = String(requested || fallback)
@@ -55,11 +47,13 @@ function audioSummary(audio) {
 		bytes: audio.bytes,
 		channels: audio.channels,
 		clipCount: audio.clipCount,
+		clippedSamples: audio.clippedSamples,
 		container: audio.container,
 		duration: audio.duration,
 		fileName: audio.fileName,
 		peak: audio.peak,
 		rms: audio.rms,
+		sampleCount: audio.sampleCount,
 		sampleFrames: audio.sampleFrames,
 		sampleRate: audio.sampleRate
 	};
@@ -76,6 +70,8 @@ function videoSummary(video) {
 		fileName: video.fileName,
 		fps: video.fps,
 		height: video.height,
+		segmentCount: video.segmentCount,
+		segments: video.segments,
 		width: video.width
 	};
 }

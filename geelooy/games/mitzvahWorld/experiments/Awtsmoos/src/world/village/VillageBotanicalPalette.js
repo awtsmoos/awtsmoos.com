@@ -44,12 +44,15 @@ export function botanicalPaletteMaterial(key) {
 	const foliage = key === 'foliage';
 	return {
 		color: BOTANICAL_PALETTES[key],
-		textureUrl: foliage
-			? DETAIL_TEXTURE_FAMILIES.leaves.chaiAspen
-			: DETAIL_TEXTURE_FAMILIES.botany.petalAtlas,
+		// The public "sakura petal" file is an opaque leaf photograph. Applying it
+		// to every generated petal produced the colored square cards seen in the
+		// failed village. Generated blossom geometry already carries its silhouette.
+		textureUrl: foliage ? DETAIL_TEXTURE_FAMILIES.leaves.chaiAspen : null,
 		mapRepeat: [1, 1],
+		alphaMode: foliage ? 'MASK' : 'OPAQUE',
 		role: foliage ? 'botanical-foliage' : 'botanical-blossom',
-		shader: foliage ? 'leaf-cluster-alpha-wind' : 'petal-cutout-wind'
+		shader: foliage ? 'leaf-cluster-alpha-wind' : 'petal-geometry-wind',
+		transparent: foliage
 	};
 }
 

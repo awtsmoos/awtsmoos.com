@@ -1,0 +1,33 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Editor blocks, destinations, previews, plans, and source text share one final
+ * readable content vessel throughout the Awtsmoos.com composer.
+ */
+
+.blockEditor,
+.sectionEditor,
+.subsectionEditor,
+.destinationResults,
+.seriesBrowser,
+.inlineCreation,
+.previewColumn article,
+.publicationPlanView,
+.publicationPlanResult {
+	border-color: var(--composer-line);
+	background: #0e1722;
+	color: var(--composer-text);
+}
+
+:where(pre, code) {
+	color: #c9e7eb;
+}
+
+@media (max-width: 700px) {
+	.panel,
+	.previewSticky {
+		padding: .9rem;
+		border-radius: 1rem;
+	}
+}

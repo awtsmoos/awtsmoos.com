@@ -1,0 +1,46 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos preserves recording across phones, tablets, landscape, and rest.
+ */
+
+@media (max-width: 54rem) {
+	.recorder-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 38rem) {
+	.recorder-header {
+		grid-template-columns: 1fr;
+	}
+
+	.recorder-header > a {
+		inline-size: fit-content;
+	}
+
+	.capture-card {
+		grid-template-rows: auto auto auto auto;
+	}
+
+	.capture-actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.capture-actions button {
+		inline-size: 100%;
+	}
+}
+
+@media (max-height: 34rem) and (orientation: landscape) {
+	.capture-preview {
+		max-block-size: 58vh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.recorder-document * {
+		transition: none !important;
+	}
+}

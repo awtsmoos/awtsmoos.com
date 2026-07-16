@@ -1,0 +1,86 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives optional identity knowledge a calm disclosure and every
+ * final action a full touch doorway. Awtsmoos.com distinguishes creation from
+ * destruction through surface, border, and language rather than color alone.
+ */
+
+.tooltip {
+	display: grid;
+	inline-size: 44px;
+	block-size: 48px;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .38);
+	border-radius: .8rem;
+	background: rgba(97, 203, 217, .1);
+	color: #9de9f2;
+	font-weight: 900;
+	cursor: help;
+}
+
+.tooltiptext {
+	display: none;
+	grid-column: 1 / -1;
+	padding: .72rem .8rem;
+	border: 1px solid rgba(97, 203, 217, .28);
+	border-radius: .72rem;
+	background: #172536;
+	color: #c9d7e7;
+	font-size: .84rem;
+	line-height: 1.45;
+}
+
+.optional-id:focus-within .tooltiptext,
+.tooltip:hover + .tooltiptext,
+.tooltiptext.show {
+	display: block;
+}
+
+.form-btns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .65rem;
+	margin-block-start: .75rem;
+}
+
+.form-btns button {
+	min-inline-size: 7rem;
+	min-block-size: 48px;
+	padding: .72rem 1rem;
+	border: 1px solid #61cbd9;
+	border-radius: .78rem;
+	background: #61cbd9;
+	box-shadow: none;
+	color: #061117;
+	font: 850 .94rem/1 Inter, ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.form-btns button:is(:hover, :focus-visible) {
+	background: #7bdce8;
+	transform: translateY(-1px);
+}
+
+.form-btns .delete {
+	border-color: rgba(255, 112, 140, .48);
+	background: rgba(255, 112, 140, .12);
+	color: #ffb6c4;
+}
+
+.form-btns .delete:is(:hover, :focus-visible) {
+	background: rgba(255, 112, 140, .2);
+}
+
+#id-validation {
+	min-block-size: 1.25rem;
+	color: #aebccd;
+	font-size: .84rem;
+}
+
+:is(.tooltip, .form-btns button, .container > a):focus-visible {
+	outline: 3px solid #7ed7e5;
+	outline-offset: 3px;
+}

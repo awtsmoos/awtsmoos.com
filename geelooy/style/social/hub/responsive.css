@@ -1,0 +1,105 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos preserves one Social Hub across workstations, tablets, phones,
+ * landscape vessels, safe areas, zoom, and reduced motion.
+ */
+@media (max-width: 72rem) {
+	.hub-inputs {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.hub-field-wide {
+		grid-column: span 2;
+	}
+}
+@media (max-width: 52rem) {
+	.hub-shell {
+		grid-template-columns: minmax(0, 1fr);
+		inline-size: min(calc(100% - 1rem), 52rem);
+		padding-block-start: .5rem;
+	}
+	.hub-rail {
+		position: static;
+		max-block-size: none;
+		overflow: visible;
+	}
+	.hub-rail-tabs {
+		display: flex;
+		gap: .4rem;
+		overflow-x: auto;
+		padding-block-end: .25rem;
+		overscroll-behavior-inline: contain;
+		scrollbar-width: thin;
+	}
+	.hub-rail button {
+		inline-size: auto;
+		min-inline-size: max-content;
+	}
+	.hub-mail-tag {
+		inline-size: fit-content;
+	}
+}
+@media (max-width: 42rem) {
+	.hub-hero {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.hub-hero-actions {
+		justify-content: stretch;
+	}
+	.hub-hero-actions button {
+		flex: 1 1 10rem;
+	}
+	.hub-input-heading {
+		display: grid;
+	}
+	.hub-inputs {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.hub-field-wide {
+		grid-column: auto;
+	}
+	.hub-panel-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+@media (max-width: 28rem) {
+	.hub-shell {
+		inline-size: min(calc(100% - .7rem), 32rem);
+	}
+	.hub-rail,
+	.hub-hero,
+	.hub-input-section,
+	.hub-card {
+		border-radius: .9rem;
+	}
+	.hub-hero-actions,
+	.hub-live-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.hub-hero-actions button,
+	.hub-live-actions button {
+		inline-size: 100%;
+	}
+	.hub-card header {
+		display: grid;
+	}
+	.hub-card small {
+		max-inline-size: 100%;
+		inline-size: fit-content;
+	}
+}
+@media (max-height: 34rem) and (orientation: landscape) {
+	.hub-card pre {
+		max-block-size: 14rem;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document * {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

@@ -1,19 +1,28 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Social pages share the same dark Geelooy palette as the application shell.
+ * This file is an alias bridge, not a competing generation: it maps historical
+ * social tokens onto the canonical Awtsmoos.com foundation tokens.
+ */
+
 :root {
-  --g-bg: #ffffff;
-  --g-bg-soft: #fafafa;
-  --g-surface: #ffffff;
-  --g-surface-2: #f5f7fa;
-  --g-border: #e4e8ee;
-  --g-border-strong: #dbe3ea;
-  --g-text: #0f172a;
-  --g-text-2: #334155;
-  --g-muted: #64748b;
-  --g-faint: #94a3b8;
-  --g-accent: #0ea5a4;
-  --g-accent-2: #d6a11d;
-  --g-danger: #dc2626;
-  --g-focus: #2563eb;
-  --g-shadow-sm: 0 2px 8px rgba(15, 23, 42, .06);
-  --g-shadow-md: 0 6px 20px rgba(15, 23, 42, .08);
+	color-scheme: dark;
+	--g-bg: var(--awt-bg-deep, #060910);
+	--g-bg-soft: var(--awt-bg-night, #090d15);
+	--g-surface: var(--awt-surface, #111722);
+	--g-surface-2: var(--awt-surface-soft, #171f2d);
+	--g-border: var(--awt-line, rgba(255, 255, 255, .12));
+	--g-border-strong: var(--awt-line-strong, rgba(255, 255, 255, .22));
+	--g-text: var(--awt-ink, #f5f7fb);
+	--g-text-2: var(--awt-ink-soft, #bac4d3);
+	--g-muted: var(--awt-ink-soft, #bac4d3);
+	--g-faint: var(--awt-ink-faint, #94a2b7);
+	--g-accent: var(--awt-accent, #58c7d8);
+	--g-accent-2: var(--awt-gold, #d7b36a);
+	--g-danger: var(--awt-danger, #ff7894);
+	--g-focus: #7ed7e5;
+	--g-shadow-sm: 0 .55rem 1.5rem rgba(0, 0, 0, .22);
+	--g-shadow-md: 0 1rem 2.8rem rgba(0, 0, 0, .3);
 }

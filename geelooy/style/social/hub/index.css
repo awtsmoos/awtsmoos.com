@@ -1,13 +1,15 @@
-:root { --hub-bg:#f6f8fb; --hub-panel:#fff; --hub-line:#dfe6ee; --hub-text:#0f172a; --hub-muted:#64748b; }
-body { margin: 0; min-height: 100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--hub-text); background: var(--hub-bg); }
-.hub-shell { width: min(72rem, calc(100vw - 1rem)); margin: 0 auto; display: grid; gap: 1rem; padding: 1rem; }
-.hub-seal { width: 3rem; height: 3rem; display: grid; place-items: center; border-radius: 1rem; background: #f1f5f9; border: 1px solid var(--hub-line); color: var(--hub-text); font-weight: 850; }
-.hub-rail { display: flex; flex-wrap: wrap; gap: .45rem; }
-.hub-rail button { border: 1px solid var(--hub-line); border-radius: 999px; background: #fff; color: var(--hub-muted); min-height: 40px; padding: .55rem .85rem; font-weight: 750; }
-.hub-rail button.active, .hub-rail button:hover { background: var(--hub-text); color: #fff; border-color: var(--hub-text); }
-.hub-hero { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem; border: 1px solid var(--hub-line); border-radius: 1.25rem; background: #fff; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
-.hub-hero h1 { margin: 0; color: var(--hub-text); letter-spacing: -.05em; }
-.hub-hero p { color: var(--hub-muted); }
-.hub-hero button { border: 1px solid var(--hub-text); border-radius: 999px; min-height: 2.8rem; padding: 0 1rem; color: #fff; background: var(--hub-text); font-weight: 800; cursor: pointer; }
-.hub-card { min-height: 16rem; border: 1px solid var(--hub-line); border-radius: 1.25rem; padding: 1rem; background: #fff; box-shadow: 0 2px 10px rgba(15,23,42,.06); overflow: hidden; }
-.hub-card p { color: var(--hub-muted); line-height: 1.6; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers the existing Social Hub through focused visual vessels.
+ * Awtsmoos.com loads one route manifest; each module owns one exact layer.
+ */
+
+@import "./tokens.css?v=social-hub-002";
+@import "./shell.css?v=social-hub-002";
+@import "./rail.css?v=social-hub-002";
+@import "./hero.css?v=social-hub-002";
+@import "./forms.css?v=social-hub-002";
+@import "./cards.css?v=social-hub-002";
+@import "./responsive.css?v=social-hub-002";

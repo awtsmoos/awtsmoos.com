@@ -1,0 +1,81 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each recording source an independent state and status card.
+ */
+
+.capture-card {
+	display: grid;
+	grid-template-rows: auto minmax(16rem, 1fr) auto auto;
+	gap: .85rem;
+	min-inline-size: 0;
+	padding: 1rem;
+	border: 1px solid rgba(255, 255, 255, .16);
+	border-radius: 1.1rem;
+	background: linear-gradient(145deg, #111a27, #0d151f);
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .28);
+}
+
+.capture-card > header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: .8rem;
+}
+
+.capture-card h2,
+.capture-card p {
+	margin: 0;
+}
+
+.capture-card header p {
+	color: #61cbd9;
+	font-size: .74rem;
+	font-weight: 900;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.capture-card h2 {
+	margin-block-start: .25rem;
+	font-size: 1.2rem;
+	letter-spacing: -.025em;
+}
+
+.capture-state {
+	padding: .34rem .55rem;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: 999px;
+	background: #172333;
+	color: #aebccd;
+	font-size: .75rem;
+	font-weight: 800;
+}
+
+.capture-card[data-state="recording"] .capture-state {
+	border-color: rgba(255, 127, 156, .4);
+	background: rgba(255, 127, 156, .1);
+	color: #ffc1ce;
+}
+
+.capture-card[data-state="ready"] .capture-state {
+	border-color: rgba(101, 214, 162, .35);
+	background: rgba(101, 214, 162, .08);
+	color: #a9edcd;
+}
+
+.capture-status {
+	min-block-size: 3rem;
+	padding: .7rem .78rem;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: .72rem;
+	background: #121c29;
+	color: #aebccd;
+	line-height: 1.45;
+}
+
+.capture-card[data-state="error"] .capture-status {
+	border-color: rgba(255, 127, 156, .42);
+	color: #ffc4d0;
+}

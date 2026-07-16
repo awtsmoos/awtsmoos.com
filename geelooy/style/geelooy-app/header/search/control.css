@@ -2,9 +2,9 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos opens search as a calm portal rather than an endless flare.
- * Awtsmoos.com preserves the same search contract while every field and action
- * owns readable color, a 44-pixel doorway, and restrained high-speed motion.
+ * The Awtsmoos opens search as a calm, immediate portal. Awtsmoos.com renders
+ * lens, field, and submit action in their final state on the first frame, with
+ * explicit surfaces rather than transparent browser-like inputs.
  */
 
 .g-header-search,
@@ -17,12 +17,11 @@
 	min-inline-size: 0;
 	min-block-size: 3.55rem;
 	padding: .38rem .42rem .38rem .48rem;
-	border: 1px solid rgba(124, 226, 240, .32);
+	border: 1px solid rgba(124, 226, 240, .34);
 	border-radius: 999px;
-	background: linear-gradient(135deg, rgba(14, 28, 47, .96), rgba(28, 20, 56, .96));
-	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 .75rem 2rem rgba(0, 0, 0, .24);
-	color: var(--g-text);
-	transition: border-color 180ms var(--g-ease), box-shadow 180ms var(--g-ease), transform 180ms var(--g-ease);
+	background: linear-gradient(135deg, #0e1c2f, #1c1438);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 .7rem 1.8rem rgba(0, 0, 0, .22);
+	color: var(--g-text, #f5f7fb);
 }
 
 .g-header-search::before {
@@ -30,35 +29,42 @@
 	inset: -1px;
 	z-index: -1;
 	border-radius: inherit;
-	background: linear-gradient(100deg, rgba(60, 236, 255, .42), transparent 34%, rgba(255, 72, 203, .36));
+	background: linear-gradient(100deg, rgba(60, 236, 255, .36), transparent 34%, rgba(255, 72, 203, .3));
 	content: "";
-	opacity: .48;
+	opacity: .42;
 }
 
 .g-header-search[data-open="true"],
 .g-header-search:focus-within {
-	border-color: rgba(124, 226, 240, .72);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 0 0 3px rgba(60, 236, 255, .14), 0 1rem 2.5rem rgba(0, 0, 0, .28);
-	transform: translateY(-1px);
+	border-color: rgba(124, 226, 240, .74);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 0 3px rgba(60, 236, 255, .14), 0 .9rem 2rem rgba(0, 0, 0, .26);
 }
 
 .g-header-search input {
 	inline-size: 100%;
 	min-inline-size: 0;
 	min-block-size: 44px;
-	padding-inline: .25rem;
-	border: 0 !important;
-	background: transparent !important;
-	box-shadow: none !important;
-	color: var(--g-text);
+	padding: .65rem .8rem;
+	border: 1px solid rgba(255, 255, 255, .12) !important;
+	border-radius: 999px !important;
+	background: rgba(4, 13, 25, .58) !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
+	color: var(--g-text, #f5f7fb);
 	font-size: max(1rem, 16px);
 	font-weight: 700;
 	outline: 0;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
 }
 
 .g-header-search input::placeholder {
 	color: #b8c5da;
 	opacity: 1;
+}
+
+.g-header-search input:focus-visible {
+	border-color: rgba(124, 226, 240, .72) !important;
+	background: rgba(9, 23, 39, .9) !important;
+	box-shadow: 0 0 0 3px rgba(124, 226, 240, .14) !important;
 }
 
 .g-search-orb,
@@ -72,42 +78,34 @@
 	padding: 0;
 	border: 1px solid rgba(255, 255, 255, .2) !important;
 	border-radius: 50% !important;
+	box-shadow: none;
+	font-weight: 900;
 	cursor: pointer;
-	transition: transform 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
 }
 
 .g-search-orb {
-	background: linear-gradient(145deg, #e95bbb, #7258e8) !important;
-	box-shadow: 0 .5rem 1.4rem rgba(118, 77, 224, .38);
+	background: linear-gradient(145deg, #d95ab2, #7057df) !important;
 	color: #fff !important;
 }
 
 .g-search-submit {
-	background: rgba(124, 226, 240, .1) !important;
+	background: rgba(124, 226, 240, .12) !important;
 	color: #91eff7 !important;
 }
 
-.g-search-orb:focus-visible,
-.g-search-submit:focus-visible {
+.g-search-orb:is(:hover, :focus-visible),
+.g-search-submit:is(:hover, :focus-visible) {
+	border-color: #7ce2f0 !important;
+	box-shadow: 0 0 0 3px rgba(124, 226, 240, .16);
 	outline: 3px solid #7ce2f0;
 	outline-offset: 3px;
 }
 
-@media (hover: hover) {
-	.g-search-orb:hover,
-	.g-search-submit:hover {
-		transform: translateY(-1px);
-	}
-
-	.g-search-submit:hover {
-		background: rgba(124, 226, 240, .18) !important;
-	}
-}
-
 @media (prefers-reduced-motion: reduce) {
-	.g-header-search,
+	.g-header-search input,
 	.g-search-orb,
 	.g-search-submit {
-		transition: none;
+		transition: none !important;
 	}
 }

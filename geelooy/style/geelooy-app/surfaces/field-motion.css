@@ -2,27 +2,19 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos answers attention with light. Fields on Awtsmoos.com become
- * visibly alive exactly when a person approaches, focuses, or writes.
+ * The Awtsmoos answers attention with a restrained border and focus halo.
+ * Awtsmoos.com fields never jump, scale, saturate, or cast giant shadows while
+ * a person is trying to read, type, zoom, or move through a form.
  */
+
 @media (hover: hover) {
 	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
 		input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]),
 		select,
 		textarea
 	):hover:not(:disabled) {
-		border-color: rgba(60, 236, 255, 0.68);
-		box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 18px 44px rgba(0, 0, 0, 0.38), 0 0 28px rgba(60, 236, 255, 0.14);
-		filter: saturate(1.14) brightness(1.06);
-		transform: translateY(-1px);
-	}
-
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="number"], input[type="tel"], textarea):hover:not(:disabled) {
-		background-position: 70% 100%, 0 0, 0 0;
-	}
-
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) select:hover:not(:disabled) {
-		background-position: calc(100% - 1.1rem) 52%, calc(100% - 0.78rem) 52%, 70% 100%, 0 0;
+		border-color: rgba(88, 199, 216, .58);
+		background-color: #192738;
 	}
 }
 
@@ -30,45 +22,29 @@
 	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]),
 	select,
 	textarea
-):focus {
-	border-color: var(--g-cyan);
-	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.96), 0 0 0 6px rgba(60, 236, 255, 0.72), 0 0 44px rgba(139, 92, 255, 0.3), inset 0 0 30px rgba(60, 236, 255, 0.07);
-	filter: saturate(1.22) brightness(1.08);
-	transform: translateY(-2px) scale(1.006);
+):focus-visible {
+	border-color: var(--g-accent, #58c7d8);
+	background-color: #192738;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="number"], input[type="tel"], textarea):focus {
-	background-position: 0 100%, 0 0, 0 0;
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea):focus-visible::placeholder {
+	color: #a7b5c8;
 }
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) select:focus {
-	background-position: calc(100% - 1.1rem) 52%, calc(100% - 0.78rem) 52%, 0 100%, 0 0;
-}
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea):focus::placeholder { color: color-mix(in srgb, var(--g-cyan) 58%, var(--g-muted)); }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea):disabled {
 	cursor: not-allowed;
-	filter: grayscale(0.45) saturate(0.35);
-	opacity: 0.5;
-	transform: none;
+	opacity: .55;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) input:-webkit-autofill {
-	-webkit-text-fill-color: var(--g-text);
-	box-shadow: 0 0 0 1000px rgba(8, 16, 33, 0.98) inset, 0 0 34px rgba(60, 236, 255, 0.2);
-	caret-color: var(--g-cyan);
+	-webkit-text-fill-color: var(--g-text, #f5f7fb);
+	box-shadow: 0 0 0 1000px #172333 inset;
+	caret-color: var(--g-accent, #58c7d8);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea) { transform: none !important; }
-}
-
-@media (forced-colors: active) {
 	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea) {
-		background: Canvas;
-		border: 1px solid ButtonText;
-		box-shadow: none;
-		color: CanvasText;
+		transition: none;
 	}
 }

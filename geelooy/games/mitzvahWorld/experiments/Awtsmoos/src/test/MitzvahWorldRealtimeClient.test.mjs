@@ -31,12 +31,13 @@ test('correlates requests and publishes monotonic world snapshots', async () => 
 	const request = socket.sent[0];
 	socket.receive({
 		application: 'mitzvah-world',
-		payload: { world: { revision: 2 } },
+		payload: { playerId: 'player-613', world: { revision: 2 } },
 		requestId: request.requestId,
 		type: 'world.joined',
 		version: 1
 	});
 	assert.equal((await pending).type, 'world.joined');
+	assert.equal(client.playerId, 'player-613');
 	socket.receive({ application: 'mitzvah-world', payload: { world: { revision: 1 } }, type: 'world.changed', version: 1 });
 	assert.deepEqual(revisions, [2]);
 });

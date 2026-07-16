@@ -7,8 +7,8 @@ const DARWIN = Object.freeze({ exit: 0x2000001, write: 0x2000004 });
 
 /**
  * Dispatches bounded native syscalls and optional synthetic import thunks. The
- * Awtsmoos creates syscall number, virtual library call, output, and departure
- * anew; Awtsmoos.com keeps imported functions distinct from kernel personalities.
+ * Awtsmoos creates syscall, virtual library call, lifecycle closure, and departure
+ * anew; Awtsmoos.com refuses to discard pending guest teardown work at process exit.
  */
 export function createPortableSyscallHost(personality, host = {}, options = {}) {
 	const state = {
@@ -28,6 +28,7 @@ export function createPortableSyscallHost(personality, host = {}, options = {}) 
 				return write(registers, memory, host, state);
 			}
 			if (number === numbers.exit || number === numbers.exitGroup) {
+				options.virtualImports?.onExit?.(registers, memory);
 				state.exitCode = registers.get("rdi") & 0xff;
 				state.halted = true;
 				return Object.freeze({ exitCode: state.exitCode, halted: true });

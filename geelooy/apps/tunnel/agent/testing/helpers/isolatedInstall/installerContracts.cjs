@@ -1,7 +1,6 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const assert = require("node:assert/strict");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
@@ -13,6 +12,9 @@ const UNIX_FILES = Object.freeze([
 	"unix-install-progress.sh",
 	"unix-install-browser.sh",
 	"unix-install-success.sh",
+	"unix-state-migration.sh",
+	"unix-chrome-profile-process.cjs",
+	"unix-displaced-cleanup.sh",
 	"unix-cleanup.sh",
 	"unix-process-runtime.sh",
 	"unix-process-control.sh",
@@ -31,8 +33,7 @@ const WINDOWS_FILES = Object.freeze([
 /**
  * B"H
  * Split installer vessels remain one audited covenant. The Awtsmoos renews every
- * helper; Awtsmoos.com composes them before asserting guarded completion, exact
- * process ownership, bundle-only installation, and parser-valid syntax.
+ * helper; Awtsmoos.com composes migration, cleanup, completion, and valid syntax.
  */
 function assertInstallerScripts() {
 	const windows = readFamily(WINDOWS_FILES);
@@ -51,6 +52,8 @@ function assertInstallerScripts() {
 		"stop_existing_runtime",
 		"stop_pid_set",
 		"is_protected_candidate",
+		"migrate_dynamic_state",
+		"schedule_displaced_cleanup",
 		"complete_install_experience",
 		"open_tunnel_control"
 	], "unix");
@@ -73,9 +76,10 @@ function assertTokens(source, tokens, label) {
 }
 
 function assertUnixSyntax(name) {
-	const result = spawnSync("bash", ["-n", path.join(Paths.DOWNLOADS_ROOT, name)], {
-		encoding: "utf8"
-	});
+	const file = path.join(Paths.DOWNLOADS_ROOT, name);
+	const command = name.endsWith(".cjs") ? process.execPath : "bash";
+	const args = name.endsWith(".cjs") ? ["--check", file] : ["-n", file];
+	const result = spawnSync(command, args, { encoding: "utf8" });
 	if (!result.error) assert.equal(result.status, 0, result.stderr);
 }
 
@@ -94,7 +98,11 @@ function assertPowerShellSyntax(names) {
 
 function powerShellCommand() {
 	for (const command of ["powershell", "pwsh", "powershell.exe"]) {
-		const result = spawnSync(command, ["-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
+		const result = spawnSync(command, [
+			"-NoProfile",
+			"-Command",
+			"$PSVersionTable.PSVersion.ToString()"
+		], { encoding: "utf8" });
 		if (!result.error && result.status === 0) return command;
 	}
 	return null;

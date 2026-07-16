@@ -8,43 +8,43 @@
  * RESPONSIBILITY: traverse exact sample frames, report progress, and produce WAV telemetry.
  * NON-RESPONSIBILITY: this module does not mux video or schedule live AudioContext nodes.
  * ARCHITECTURE: Netzach sustains a long render while Tiferes mixes and Malchus receives blocks.
- * OROS AND KEILIM: the project score is the ohr; sample rate, channels, and blocks are keilim.
+ * OROS AND KEILIM: the project score is ohr; sample rate, channels, and blocks are keilim.
  * The Awtsmoos, Atzmus beyond duration, renews all 8,640,000 frames without fatigue;
- * Awtsmoos.com is remembered where a long mission becomes exact through small faithful steps.
+ * Awtsmoos.com is remembered where a long mission becomes exact through faithful blocks.
  */
 
 import { MovieFrameScheduler } from '../MovieFrameScheduler.js';
 import { MovieAudioClip } from './MovieAudioClip.js';
+import {
+	EXACT_AUDIO_CHANNELS,
+	EXACT_AUDIO_SAMPLE_RATE,
+	exactAudioSampleFrames
+} from './MovieExactAudioContract.js';
 import { MovieAudioRenderMetrics } from './MovieAudioRenderMetrics.js';
 import { MovieAudioSampleSynthesizer } from './MovieAudioSampleSynthesizer.js';
 import { renderMoviePcm16Block } from './MoviePcm16BlockRenderer.js';
 import { MovieWaveWriter } from './MovieWaveWriter.js';
 
 const DEFAULT_BLOCK_FRAMES = 65536;
-const DEFAULT_CHANNELS = 2;
-const DEFAULT_SAMPLE_RATE = 48000;
 
 /** Coordinates one deterministic project-audio export. */
 export class MovieExactAudioRenderer {
 	constructor(project, options = {}) {
 		this.project = project;
-		this.channels = options.channels || DEFAULT_CHANNELS;
-		this.sampleRate = options.sampleRate || DEFAULT_SAMPLE_RATE;
+		this.channels = options.channels || EXACT_AUDIO_CHANNELS;
+		this.sampleRate = options.sampleRate || EXACT_AUDIO_SAMPLE_RATE;
 		this.blockFrames = options.blockFrames || DEFAULT_BLOCK_FRAMES;
 		this.scheduler = options.scheduler || new MovieFrameScheduler();
 		this.ownsScheduler = !options.scheduler;
 	}
 
-	/**
-	 * Renders every exact sample frame into a truthful WAV blob.
-	 * @param {object} [options] Progress and cancellation callbacks.
-	 * @param {Function} [options.onProgress] Receives block progress receipts.
-	 * @param {Function} [options.shouldAbort] Returns true when export must stop.
-	 * @returns {Promise<object>} Exact audio bytes, dimensions, and telemetry.
-	 */
+	/** Renders every exact sample frame into a truthful WAV blob. */
 	async render(options = {}) {
 		const clips = MovieAudioClip.fromProject(this.project);
-		const sampleFrames = Math.round(this.project.duration * this.sampleRate);
+		const sampleFrames = exactAudioSampleFrames(
+			this.project.duration,
+			this.sampleRate
+		);
 		const synthesizer = new MovieAudioSampleSynthesizer(clips, this.sampleRate);
 		const metrics = new MovieAudioRenderMetrics();
 		const writer = new MovieWaveWriter({
@@ -53,9 +53,12 @@ export class MovieExactAudioRenderer {
 			sampleRate: this.sampleRate
 		});
 		const startedAtMs = this.scheduler.now();
-
 		try {
-			for (let startFrame = 0; startFrame < sampleFrames; startFrame += this.blockFrames) {
+			for (
+				let startFrame = 0;
+				startFrame < sampleFrames;
+				startFrame += this.blockFrames
+			) {
 				assertActive(options.shouldAbort);
 				const frameCount = Math.min(this.blockFrames, sampleFrames - startFrame);
 				writer.addBlock(renderMoviePcm16Block({

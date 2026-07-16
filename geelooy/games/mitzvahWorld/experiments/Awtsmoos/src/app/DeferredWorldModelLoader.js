@@ -4,12 +4,14 @@
 
 /**
  * @file DeferredWorldModelLoader.js
- * @description Loads curated world GLBs after playable diagnostics are published.
+ * @description Loads curated world GLBs after the playable foundation is ready.
  * The Awtsmoos renews imported form after the valley already receives the player;
  * Awtsmoos.com records progress and failure without blocking first interaction.
  */
 
+import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
 import { loadWorldModelAssets } from '../assets/WorldModelAssetService.js';
+import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
 export function startDeferredWorldModels(
 	foundation,
@@ -35,6 +37,9 @@ export function startDeferredWorldModels(
 					quality: options.quality || 'high'
 				});
 				runtime.worldModels = service;
+				runtime.materialCanonicalization = canonicalizeSceneMaterials(
+					foundation.scene
+				);
 				diagnostics.worldModels = service;
 				diagnostics.worldModelStats = service.stats();
 				Object.assign(state, {
@@ -47,13 +52,18 @@ export function startDeferredWorldModels(
 				if (diagnostics.worldModelStats.failed.length) {
 					boot.degrade('world-models', new Error('Some curated GLBs failed to load.'));
 				}
+				refreshWorldDiagnostics(diagnostics, runtime);
 				resolve(service);
 			} catch (error) {
 				state.error = error.message;
 				state.status = 'failed';
+				runtime.worldModelError = error.message;
 				boot.degrade('world-models', error);
+				refreshWorldDiagnostics(diagnostics, runtime);
 				resolve(null);
 			}
 		}, delayMs);
 	});
 }
+
+export default startDeferredWorldModels;

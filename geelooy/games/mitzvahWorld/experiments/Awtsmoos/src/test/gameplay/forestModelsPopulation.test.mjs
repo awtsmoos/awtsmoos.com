@@ -37,7 +37,8 @@ test('high forest edge is deterministic, layered, and batched', () => {
 	const first = createForestEdgeDefinitions(sampler(), 'high');
 	const second = createForestEdgeDefinitions(sampler(), 'high');
 	assert.deepEqual(first, second);
-	assert.equal(first.stats.trees, 34);
+	assert.equal(first.stats.primitiveTrees, 0);
+	assert.equal(first.stats.proceduralTreeSitesSupported, 34);
 	assert.equal(first.stats.fallenLogs, 6);
 	assert.ok(first.stats.undergrowthClusters >= 68);
 	assert.ok(first.length <= 11);
@@ -51,13 +52,12 @@ test('verified forest materials use the public Firebase origin', () => {
 	}
 });
 
-test('village population batches people and golden quest markers', () => {
+test('village definition layer forbids primitive people in favor of runtime chossid.glb actors', () => {
 	const population = createVillageNpcPopulationDefinitions(sampler(), 'high');
-	assert.equal(population.stats.people, 24);
-	assert.equal(population.stats.questGivers, 12);
-	assert.equal(population.stats.realtimeAnimations, 0);
-	assert.equal(population.length, 7);
-	assert.ok(population.filter(item => item.userData?.part === 'quest-marker').length === 2);
+	assert.equal(population.stats.people, 0);
+	assert.equal(population.stats.realtimeAnimations, 'provided-by-FriendlyNpcPopulation');
+	assert.equal(population.stats.visualPolicy, 'chossid.glb-only-no-stick-figures');
+	assert.equal(population.length, 0);
 });
 
 test('curated model pack is bounded and every copied file exists', () => {

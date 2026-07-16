@@ -14,14 +14,15 @@ export function createWaterBodyDefinitions(groundSampler) {
 
 function lakeDefinition(groundSampler) {
 	const lake = villageLandmarks().lake;
-	const vertices = [[lake.x, waterY(groundSampler, lake.x, lake.z), lake.z]];
+	const level = waterY(groundSampler, lake.x, lake.z);
+	const vertices = [[lake.x, level, lake.z]];
 	const faces = [];
 	const uvs = [0.5, 0.5];
 	for (let index = 0; index < 64; index += 1) {
 		const angle = index / 64 * Math.PI * 2;
 		const x = lake.x + Math.cos(angle) * lake.radiusX;
 		const z = lake.z + Math.sin(angle) * lake.radiusZ;
-		vertices.push([x, waterY(groundSampler, x, z), z]);
+		vertices.push([x, level, z]);
 		uvs.push(0.5 + Math.cos(angle) * 0.5, 0.5 + Math.sin(angle) * 0.5);
 	}
 	for (let index = 0; index < 64; index += 1) {
@@ -80,6 +81,8 @@ function waterManual(id, vertices, faces, uvs, textureUrl, mapRepeat, color) {
 		color,
 		textureUrl,
 		mapRepeat,
+		alphaMode: 'BLEND',
+		opacity: 0.88,
 		transparent: true,
 		doubleSided: true,
 		solid: false,

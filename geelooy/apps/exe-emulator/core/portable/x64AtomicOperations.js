@@ -11,37 +11,50 @@ import {
 	writeRegisterWidth
 } from "./x64Width.js";
 
+const ATOMIC_KINDS = new Set([
+	"atomic_add_mem_imm",
+	"atomic_add_mem_reg",
+	"atomic_xadd_mem_reg"
+]);
+
 /**
- * Executes LOCK ADD and LOCK XADD with exact single-thread memory semantics. The
- * Awtsmoos creates old value, wrapped sum, exchanged register, and flags anew;
- * Awtsmoos.com does not claim host-thread atomicity or scheduler compatibility.
+ * Executes deterministic single-thread LOCK arithmetic. The Awtsmoos creates old
+ * memory, exact source bits, wrapped sum, exchanged register, and flags anew;
+ * Awtsmoos.com claims guest instruction order, not host-thread atomicity.
  */
 export function executeAtomicOperation(item, registers, memory) {
-	if (!["atomic_add_mem_imm", "atomic_xadd_mem_reg"].includes(item.kind)) {
-		return false;
-	}
+	if (!ATOMIC_KINDS.has(item.kind)) return false;
 	const address = effectiveAddress(item, registers);
-	const left = readMemory(memory, address, item.width);
-	const right = item.kind === "atomic_add_mem_imm"
-		? item.value
-		: readRegisterWidth(registers, item.source, item.width);
-	const result = wrapArithmetic(left + right, item.width);
-	writeMemory(memory, address, result, item.width);
-	if (item.kind === "atomic_xadd_mem_reg") {
-		writeRegisterWidth(registers, item.source, left, item.width);
+	if (item.width === 64) {
+		executeAtomic64(item, registers, memory, address);
+		return true;
 	}
-	setAddFlags(registers, left, right, item.width);
+	executeAtomic32(item, registers, memory, address);
 	return true;
 }
 
-function readMemory(memory, address, width) {
-	return width === 32 ? memory.u32(address) : memory.i64(address);
+function executeAtomic64(item, registers, memory, address) {
+	const left = memory.i64BigInt(address);
+	const right = item.kind === "atomic_add_mem_imm"
+		? BigInt(item.value)
+		: registers.getBigInt(item.source);
+	const result = BigInt.asIntN(64, left + right);
+	memory.write64BigInt(address, BigInt.asUintN(64, result));
+	if (item.kind === "atomic_xadd_mem_reg") {
+		registers.setBigInt(item.source, left);
+	}
+	setAddFlags(registers, left, right, 64);
 }
 
-function writeMemory(memory, address, value, width) {
-	if (width === 32) {
-		memory.write32(address, signed32ForMemory(value));
-		return;
+function executeAtomic32(item, registers, memory, address) {
+	const left = memory.u32(address);
+	const right = item.kind === "atomic_add_mem_imm"
+		? item.value
+		: readRegisterWidth(registers, item.source, 32);
+	const result = wrapArithmetic(left + right, 32);
+	memory.write32(address, signed32ForMemory(result));
+	if (item.kind === "atomic_xadd_mem_reg") {
+		writeRegisterWidth(registers, item.source, left, 32);
 	}
-	memory.write64(address, value);
+	setAddFlags(registers, left, right, 32);
 }

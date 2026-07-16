@@ -10,10 +10,10 @@
  */
 
 export const VILLAGE_BOTANICAL_QUALITY = Object.freeze({
-	low: policy(0.36, 31, 'low', 72, 3200),
-	medium: policy(0.52, 55, 'low', 126, 5600),
-	high: policy(1, 107, 'low', 220, 12000),
-	cinematic: policy(1, 197, 'medium', 310, 18000)
+	low: policy(0.42, 46, 'low', 96, 5600),
+	medium: policy(0.72, 92, 'low', 180, 11200),
+	high: policy(1, 147, 'medium', 270, 18000),
+	cinematic: policy(1, 247, 'medium', 370, 24000)
 });
 
 export function villageBotanicalQuality(name = 'high') {

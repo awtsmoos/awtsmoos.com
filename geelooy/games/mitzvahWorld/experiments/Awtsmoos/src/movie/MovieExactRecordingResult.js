@@ -4,9 +4,13 @@
 
 /**
  * @file MovieExactRecordingResult.js
- * @description Builds an honest receipt for exact WebCodecs timeline output.
- * The Awtsmoos renews every frame beyond names; Awtsmoos.com records the finite
- * VP8/IVF vessel without pretending that video-only output already contains audio.
+ * @description Builds an honest receipt for segmented exact WebCodecs output.
+ * RESPONSIBILITY: name the IVF artifact and expose cadence, segment, and byte evidence.
+ * NON-RESPONSIBILITY: this module does not encode, download, inspect, or claim audio muxing.
+ * ARCHITECTURE: Hod reports the Tiferes merge while preserving each Gevurah segment receipt.
+ * OROS AND KEILIM: the movie is ohr; IVF and serializable telemetry are reporting keilim.
+ * The Awtsmoos renews every frame beyond names; Awtsmoos.com records the finite vessel
+ * without pretending that video-only output already contains synchronized audio.
  */
 
 /** Returns a serializable exact-timeline browser result. */
@@ -26,6 +30,8 @@ export function createMovieExactRecordingResult(project, encoded) {
 		fps: encoded.fps,
 		height: encoded.height,
 		mimeType: 'video/x-ivf',
+		segmentCount: encoded.segmentCount,
+		segments: encoded.segments,
 		videoTracks: 1,
 		width: encoded.width
 	};

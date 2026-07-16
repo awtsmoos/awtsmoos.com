@@ -1,48 +1,95 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals progress without blur, glow loops, or ornamental delay.
+ */
 
-/* Progress Bar */
+#status {
+	min-block-size: 1.35rem;
+	margin: 0;
+	color: var(--studio-muted);
+	font-size: .82rem;
+	font-weight: 760;
+	line-height: 1.4;
+}
+
+#status.success {
+	color: var(--studio-success);
+}
+
+#status.warning {
+	color: var(--studio-warning);
+}
+
+#status.error {
+	color: #ffc2cf;
+}
+
 #progressContainer {
-    width: 100%; height: 4px; background: #222; margin-top: 5px;
-    overflow: hidden; border-radius: 2px;
+	inline-size: 100%;
+	block-size: .45rem;
+	overflow: hidden;
+	border: 1px solid var(--studio-line);
+	border-radius: 999px;
+	background: #1a2635;
 }
+
+#progressContainer[hidden] {
+	display: none;
+}
+
 #progressBar {
-    width: 0%; height: 100%;
-    background: linear-gradient(90deg, var(--secondary), var(--primary));
-    box-shadow: 0 0 10px var(--primary);
-    transition: width 0.2s;
+	inline-size: 0;
+	block-size: 100%;
+	background: linear-gradient(90deg, var(--studio-cyan), var(--studio-magenta));
+	transition: width 180ms linear;
 }
 
-/* Loading Spinner */
-.loader {
-    width: 50px; height: 50px;
-    border: 5px solid rgba(0, 242, 234, 0.3);
-    border-radius: 50%;
-    border-top-color: var(--primary);
-    animation: spin 1s ease-in-out infinite;
-    margin-bottom: 20px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Render Overlay */
 #render-overlay {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(5px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+	position: absolute;
+	inset: 0;
+	display: none;
+	place-content: center;
+	place-items: center;
+	gap: .8rem;
+	padding: 1rem;
+	background: rgba(2, 5, 10, .9);
+	color: var(--studio-text);
+	text-align: center;
+	z-index: 10;
 }
-.app-container.rendering #render-overlay { display: flex; }
-.app-container.rendering #controls { opacity: 0.5; pointer-events: none; }
 
-/* Randomize Button Animation */
-.fieldset-randomize {
-    position: absolute; top: 10px; right: 10px;
-    cursor: pointer; opacity: 0.5; font-size: 1.2rem;
-    transition: 0.3s;
+#controls-wrapper.rendering + #preview-wrapper #render-overlay,
+.app-container.rendering #render-overlay,
+#controls-wrapper.rendering #render-overlay {
+	display: grid;
 }
-.fieldset-randomize:hover {
-    opacity: 1; transform: rotate(180deg) scale(1.2);
+
+#controls-wrapper.rendering #controls {
+	pointer-events: none;
+	opacity: .55;
+}
+
+.render-mark {
+	display: grid;
+	inline-size: 4rem;
+	block-size: 4rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .42);
+	border-radius: 1rem;
+	background: var(--studio-cyan-soft);
+	color: #a7edf4;
+	font-weight: 900;
+}
+
+#render-overlay p {
+	margin: 0;
+	color: var(--studio-muted);
+	font-weight: 780;
+}
+
+#previewCanvas.hidden,
+#outputVideo.hidden {
+	display: none !important;
 }

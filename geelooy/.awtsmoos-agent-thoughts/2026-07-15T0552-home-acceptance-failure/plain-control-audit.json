@@ -1,0 +1,370 @@
+[
+	{
+		"routeName": "home",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/",
+		"title": "Geelooy — Reveal, create, connect",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 8,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "home",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/",
+		"title": "Geelooy — Reveal, create, connect",
+		"documentWidth": 1425,
+		"clientWidth": 1425,
+		"controlCount": 8,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "search",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"title": "Search the Living Library — Geelooy",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "search",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/mawgawl/sefarim/",
+		"title": "Search the Living Library — Geelooy",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "heichelos",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/heichelos/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 4,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "heichelos",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/heichelos/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 7,
+		"plain": [
+			{
+				"tag": "input",
+				"text": "",
+				"className": "",
+				"background": "rgba(0, 0, 0, 0)",
+				"border": "0px none rgb(245, 247, 251)",
+				"borderRadius": "0px",
+				"fontFamily": "Inter, ui-sans-serif, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+				"width": 654,
+				"height": 45
+			}
+		],
+		"undersized": []
+	},
+	{
+		"routeName": "ikar",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"title": "Geelooy Heichel",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 26,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "ikar",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/heichelos/ikar?view=series",
+		"title": "Geelooy Heichel",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 29,
+		"plain": [
+			{
+				"tag": "input",
+				"text": "",
+				"className": "",
+				"background": "rgba(0, 0, 0, 0)",
+				"border": "0px none rgb(32, 21, 8)",
+				"borderRadius": "0px",
+				"fontFamily": "Inter, ui-sans-serif, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+				"width": 654,
+				"height": 45
+			}
+		],
+		"undersized": []
+	},
+	{
+		"routeName": "composer",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/social-composer/",
+		"title": "Geelooy Unified Social Composer",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 59,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "composer",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/social-composer/",
+		"title": "Geelooy Unified Social Composer",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 59,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "profile",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/profile/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 2,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "profile",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/profile/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 5,
+		"plain": [
+			{
+				"tag": "input",
+				"text": "",
+				"className": "",
+				"background": "rgba(0, 0, 0, 0)",
+				"border": "0px none rgb(251, 252, 255)",
+				"borderRadius": "0px",
+				"fontFamily": "Inter, ui-sans-serif, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+				"width": 654,
+				"height": 45
+			}
+		],
+		"undersized": []
+	},
+	{
+		"routeName": "aliases",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/profile/alias-manage/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 413,
+		"clientWidth": 390,
+		"controlCount": 7,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "aliases",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/profile/alias-manage/",
+		"title": "Awtsmoos | עצמות",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 7,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "notifications",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/notifications/",
+		"title": "Signals — Geelooy",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 7,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "notifications",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/notifications/",
+		"title": "Signals — Geelooy",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 10,
+		"plain": [
+			{
+				"tag": "input",
+				"text": "",
+				"className": "",
+				"background": "rgba(0, 0, 0, 0)",
+				"border": "0px none rgb(245, 247, 251)",
+				"borderRadius": "0px",
+				"fontFamily": "Inter, ui-sans-serif, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+				"width": 654,
+				"height": 45
+			}
+		],
+		"undersized": []
+	},
+	{
+		"routeName": "mail",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/email/",
+		"title": "Awtsmoos Quantum Mail — Geelooy",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 23,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "mail",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/email/",
+		"title": "Awtsmoos Quantum Mail — Geelooy",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 40,
+		"plain": [
+			{
+				"tag": "input",
+				"text": "",
+				"className": "",
+				"background": "rgba(0, 0, 0, 0)",
+				"border": "0px none rgb(251, 252, 255)",
+				"borderRadius": "0px",
+				"fontFamily": "Inter, ui-sans-serif, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+				"width": 654,
+				"height": 45
+			}
+		],
+		"undersized": []
+	},
+	{
+		"routeName": "login",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/login/",
+		"title": "Login with Awtsmoos",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "login",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/login/",
+		"title": "Login with Awtsmoos",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "register",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/register/",
+		"title": "Create Awtsmoos Account",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "register",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/register/",
+		"title": "Create Awtsmoos Account",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 3,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "social-hub",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/social-hub/",
+		"title": "Social pulse · Awtsmoos Social Hub",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 8,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "social-hub",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/social-hub/",
+		"title": "Social pulse · Awtsmoos Social Hub",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 8,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "review",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/heichel-review/",
+		"title": "Heichel Review and Governance Center",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 19,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "review",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/heichel-review/",
+		"title": "Heichel Review and Governance Center",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 19,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "community-settings",
+		"viewportName": "mobile",
+		"url": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"title": "Community Settings",
+		"documentWidth": 390,
+		"clientWidth": 390,
+		"controlCount": 15,
+		"plain": [],
+		"undersized": []
+	},
+	{
+		"routeName": "community-settings",
+		"viewportName": "desktop",
+		"url": "http://127.0.0.1:8080/heichelos/settings/community/",
+		"title": "Community Settings",
+		"documentWidth": 1440,
+		"clientWidth": 1440,
+		"controlCount": 15,
+		"plain": [],
+		"undersized": []
+	}
+]
