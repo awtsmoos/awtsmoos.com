@@ -50,7 +50,8 @@ stop_launchd_service() {
 	local label="$(launchd_label)"
 	local plist="$(launchd_plist_path)"
 	launchctl bootout "$domain/$label" >/dev/null 2>&1 ||
-		launchctl bootout "$domain" "$plist" >/dev/null 2>&1 || true
+		launchctl bootout "$domain" "$plist" >/dev/null 2>&1 ||
+		launchctl unload -w "$plist" >/dev/null 2>&1 || true
 }
 
 write_launchd_service() {
@@ -75,7 +76,6 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 </array>
 <key>RunAtLoad</key><true/>
 <key>KeepAlive</key><true/>
-<key>ProcessType</key><string>Background</string>
 <key>EnvironmentVariables</key><dict>
 <key>HOME</key><string>${escape(process.env.HOME || "")}</string>
 <key>PATH</key><string>${escape(pathValue)}</string>
@@ -97,7 +97,8 @@ start_launchd_supervisor() {
 	local plist="$(launchd_plist_path)"
 	stop_launchd_service
 	write_launchd_service
-	launchctl bootstrap "$domain" "$plist" >/dev/null 2>&1 || return 1
+	launchctl bootstrap "$domain" "$plist" >/dev/null 2>&1 ||
+		launchctl load -w "$plist" >/dev/null 2>&1 || return 1
 	launchctl kickstart "$domain/$label" >/dev/null 2>&1 || true
 	return 0
 }

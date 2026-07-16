@@ -14,7 +14,9 @@ assert.match(control, /<key>KeepAlive<\/key><true\/>/);
 assert.match(control, /<key>RunAtLoad<\/key><true\/>/);
 assert.match(control, /awtsmoos-supervisor\.sh/);
 assert.match(control, /launchctl bootstrap/);
+assert.match(control, /launchctl load -w/);
 assert.match(control, /launchctl kickstart/);
+assert.doesNotMatch(control, /<key>ProcessType<\/key>/);
 assert.match(control, /if start_launchd_supervisor; then[\s\S]*return 0/);
 assert.match(control, /nohup "\$ROOT\/awtsmoos-supervisor\.sh"/);
 assert.match(
