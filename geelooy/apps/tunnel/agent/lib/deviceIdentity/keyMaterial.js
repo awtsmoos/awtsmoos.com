@@ -22,6 +22,13 @@ function fingerprint(publicKey) {
 		.digest("base64url");
 }
 
+/** Encodes an RSA SPKI key as verifier-safe base64url for the HTTPS boundary. */
+function wirePublicKey(publicKey) {
+	const key = crypto.createPublicKey(String(publicKey || ""));
+	const der = key.export({ format: "der", type: "spki" });
+	return `rsa-spki-base64url:${der.toString("base64url")}`;
+}
+
 /** Returns existing key material or creates a protected RSA key pair. */
 function ensure(config = {}) {
 	const metadata = Metadata.loadOrCreate(config);
@@ -71,5 +78,6 @@ function decryptCredential(privateKey, envelope) {
 module.exports = {
 	decryptCredential,
 	ensure,
-	fingerprint
+	fingerprint,
+	wirePublicKey
 };

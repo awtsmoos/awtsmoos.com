@@ -39,7 +39,7 @@ function secureEqual(left, right) {
 function encryptForDevice(publicKey, credential) {
 	const encrypted = crypto.publicEncrypt(
 		{
-			key: publicKey,
+			key: parseDevicePublicKey(publicKey),
 			oaepHash: "sha256",
 			padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
 		},
@@ -51,16 +51,31 @@ function encryptForDevice(publicKey, credential) {
 /** Validates that a PEM value is an RSA public key suitable for pairing. */
 function validatePublicKey(publicKey) {
 	try {
-		const key = crypto.createPublicKey(String(publicKey || ""));
+		const key = parseDevicePublicKey(publicKey);
 		return key.asymmetricKeyType === "rsa";
 	} catch {
 		return false;
 	}
 }
 
+/** Parses PEM or the request-verifier-safe SPKI base64url representation. */
+function parseDevicePublicKey(publicKey) {
+	const text = String(publicKey || "");
+	const prefix = "rsa-spki-base64url:";
+	if (text.startsWith(prefix)) {
+		return crypto.createPublicKey({
+			key: Buffer.from(text.slice(prefix.length), "base64url"),
+			format: "der",
+			type: "spki"
+		});
+	}
+	return crypto.createPublicKey(text);
+}
+
 module.exports = {
 	digest,
 	encryptForDevice,
+	parseDevicePublicKey,
 	randomToken,
 	secureEqual,
 	validatePublicKey

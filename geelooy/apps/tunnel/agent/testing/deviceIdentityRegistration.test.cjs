@@ -2,6 +2,9 @@
 
 const assert = require("node:assert/strict");
 const { nativeRegistrationPacket } = require("../lib/registration.js");
+const crypto = require("node:crypto");
+const KeyMaterial = require("../lib/deviceIdentity/keyMaterial.js");
+const Secrets = require("../../../../api/tunnel/control/core/tunnelSecurity/secrets.js");
 const { createRegistrationRuntime } = require("../lib/runtime/main-registration.js");
 const { ensureDeviceIdentity } = require("../lib/runtime/main-startup.js");
 
@@ -27,6 +30,21 @@ const unpaired = nativeRegistrationPacket({
 });
 assert.equal(unpaired.deviceCredential, undefined);
 assert.equal(unpaired.pairingState, "unpaired");
+
+const keys = crypto.generateKeyPairSync("rsa", {
+	modulusLength: 2048,
+	publicKeyEncoding: { format: "pem", type: "spki" },
+	privateKeyEncoding: { format: "pem", type: "pkcs8" }
+});
+const wireKey = KeyMaterial.wirePublicKey(keys.publicKey);
+assert.match(wireKey, /^rsa-spki-base64url:[A-Za-z0-9_-]+$/);
+assert.equal(Secrets.validatePublicKey(wireKey), true);
+const envelope = Secrets.encryptForDevice(wireKey, "credential-test");
+assert.equal(crypto.privateDecrypt({
+	key: keys.privateKey,
+	oaepHash: "sha256",
+	padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+}, Buffer.from(envelope, "base64")).toString("utf8"), "credential-test");
 
 let sent;
 createRegistrationRuntime({

@@ -49,6 +49,9 @@ NODE
 
 wait_child_registration() {
 	local timeout_seconds="${AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS:-45}"
+	if device_pairing_pending && [ -z "${AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS:-}" ]; then
+		timeout_seconds=600
+	fi
 	local stability_seconds="$(registration_stability_seconds "$timeout_seconds")"
 	local elapsed=0
 	reset_registration_stability
@@ -73,6 +76,18 @@ wait_child_registration() {
 	supervisor_log "registration_timeout" \
 		"pid=$CHILD_PID state=$(supervisor_receipt_state)"
 	return 1
+}
+
+device_pairing_pending() {
+	node - "$ROOT/device-binding.json" <<'NODE'
+const fs = require("node:fs");
+try {
+	const identity = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	process.exit(identity?.deviceId && !identity?.tunnelId ? 0 : 1);
+} catch {
+	process.exit(0);
+}
+NODE
 }
 
 monitor_registered_child() {

@@ -27,7 +27,7 @@ async function pair(config = {}, options = {}) {
 		tunnelName: config.tunnelName,
 		deviceName: config.deviceName || os.hostname(),
 		platform: `${process.platform}-${process.arch}`,
-		devicePublicKey: keys.publicKey
+		devicePublicKey: KeyMaterial.wirePublicKey(keys.publicKey)
 	});
 	const approval = PairingClient.approvalUrl(
 		config,
