@@ -41,9 +41,13 @@ function createBinding(accountId, tunnelName, suffix) {
 			ownerAccountId: accountId,
 			tunnelName,
 			deviceId: `device-${suffix}`,
+			devicePublicKey: `test-public-key-${suffix}`,
 			deviceName: `Device ${suffix}`,
 			platform: "test",
-			credential
+			credential,
+			pairingId: `pair_${suffix}`,
+			ownershipVerifiedAt: new Date().toISOString(),
+			pairingProofVersion: 1
 		});
 		return store;
 	});

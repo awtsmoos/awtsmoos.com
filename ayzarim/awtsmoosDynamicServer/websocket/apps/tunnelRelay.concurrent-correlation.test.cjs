@@ -5,6 +5,7 @@
 const assert = require("node:assert/strict");
 const Relay = require("./tunnelRelay.js");
 const Fixture = require("./tunnelRelay.correlationFixtures.cjs");
+const Constants = require("./tunnelRelay/constants.js");
 
 /**
  * Hundreds of callers may share one request without sharing another account's
@@ -13,7 +14,7 @@ const Fixture = require("./tunnelRelay.correlationFixtures.cjs");
  */
 async function main() {
 	const test = Fixture.createContext();
-	const count = 200;
+	const count = Math.max(1, Number(process.env.AWTSMOOS_RELAY_STRESS_COUNT || 200));
 	const promises = createDuplicateCallers(test, count);
 	assert.equal(test.sent.length, count);
 
@@ -43,8 +44,14 @@ async function main() {
 	assert(results.every(result => result.ok === true));
 	assert(results.every(result => result.content.startsWith("valid:")));
 	assert.equal(test.context.pendingTunnelRequests.size, 0);
-	assert.equal(test.context.completedTunnelRequests.size, count);
-	assert.equal(test.context.tunnelResponseQuarantine.length, count);
+	assert.equal(
+		test.context.completedTunnelRequests.size,
+		Math.min(count, Constants.COMPLETED_LIMIT)
+	);
+	assert.equal(
+		test.context.tunnelResponseQuarantine.length,
+		Math.min(count, Constants.QUARANTINE_LIMIT)
+	);
 	console.log(JSON.stringify({
 		ok: true,
 		requests: count,

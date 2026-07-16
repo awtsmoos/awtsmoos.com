@@ -68,7 +68,14 @@ function dispatch(options = {}) {
 		tunnel.send({
 			type: "TUNNEL_REQUEST",
 			id: plan.transportId,
-			payload: plan.tunnelPayload
+			// Selection already resolved the authorized, account-scoped live name.
+			// Do not let a database tunnel id or stale caller alias overwrite the
+			// transport identity that the agent must echo in its response.
+			payload: {
+				...plan.tunnelPayload,
+				tunnelName,
+				requestedTunnelName: tunnelName
+			}
 		});
 		Activity.dispatched(context, record);
 	} catch (error) {

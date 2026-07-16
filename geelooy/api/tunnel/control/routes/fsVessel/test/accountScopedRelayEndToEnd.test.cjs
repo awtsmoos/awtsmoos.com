@@ -32,6 +32,8 @@ const { resolveFsVessel } = require("../resolveFsVessel.js");
 			vesselType: "native",
 			registeredAt: Date.now(),
 			send(frame) {
+				assert.equal(frame.payload.tunnelName, binding.tunnelName);
+				assert.equal(frame.payload.requestedTunnelName, binding.tunnelName);
 				queueMicrotask(() => Relay.handleTunnelResponse(server, client, {
 					type: "TUNNEL_RESPONSE",
 					id: frame.id,
@@ -58,7 +60,9 @@ const { resolveFsVessel } = require("../resolveFsVessel.js");
 			$i: server,
 			identity: { userId: "asdf", accountId: "asdf" },
 			tunnelName: binding.tunnelName,
-			payload: { action: "list", path: "." },
+			// The device inventory historically supplied its database id here.
+			// Relay dispatch must replace it with the selected public registration.
+			payload: { action: "list", path: ".", tunnelName: binding.tunnelId },
 			timeoutMs: 1000
 		});
 		const result = await vessel.send();

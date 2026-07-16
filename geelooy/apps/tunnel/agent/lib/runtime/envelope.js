@@ -7,6 +7,11 @@ const Compact = require('./envelope-compact.js');
 const Surface = require('./response-surface.js');
 function responseEnvelope(data = {}, payload = {}, result, enqueuedAt, stats) {
   const safe = normalizeResult(result);
+  // The relay payload may carry a database tunnel id (tun_...) in a historical
+  // `tunnelName` field. Transport identity is owned by this registered runtime,
+  // never by caller-controlled action data. Returning the payload value makes a
+  // valid completion look as though it came from a foreign tunnel.
+  const configuredTunnelName = String(loadConfig().tunnelName || '');
   const identity = R.normalizeActionIdentity({ ...payload, action: payload.action || safe.requestAction || safe.action });
   const requestAction = identity.requestAction;
   preventMissionHijack(safe, requestAction);
@@ -14,7 +19,7 @@ function responseEnvelope(data = {}, payload = {}, result, enqueuedAt, stats) {
   const actualAction = String(safe.actualAction || identity.actualAction || finalAction || requestAction || '');
   const actionMismatch = Boolean(requestAction && finalAction && requestAction !== finalAction && !A.allowed(requestAction, finalAction));
   const compact = Compact.compactMissionSurface(stripTransportFields(safe), payload);
-  const full = { ...compact, type:'TUNNEL_RESPONSE', id:data.id, ...C.fields({ ...payload, tunnelName:payload.tunnelName || loadConfig().tunnelName, requestedTunnelName:payload.requestedTunnelName || payload.tunnelName || '' }), action:finalAction, requestAction, actualAction, actionMismatch, queuedMs:Math.max(0, Date.now()-enqueuedAt), queueStats:stats() };
+  const full = { ...compact, type:'TUNNEL_RESPONSE', id:data.id, ...C.fields({ ...payload, tunnelName:configuredTunnelName || payload.tunnelName, requestedTunnelName:payload.requestedTunnelName || configuredTunnelName || '' }), action:finalAction, requestAction, actualAction, actionMismatch, queuedMs:Math.max(0, Date.now()-enqueuedAt), queueStats:stats() };
   return Surface.publicEnvelope(full, payload, safe);
 }
 function normalizeResult(result){return result&&typeof result==='object'?{...result}:{ok:true,value:result};}
