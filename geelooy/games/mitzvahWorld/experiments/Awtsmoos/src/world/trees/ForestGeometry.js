@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file ForestGeometry.js
- * @description Merges every tree into fast bark and transparent leaf vessels.
+ * @description Merges every tree into fast bark and opaque-pass MASK leaf vessels.
  */
 import {
 	BufferAttribute,
@@ -11,8 +11,18 @@ import {
 	MeshStandardMaterial
 } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
-import { WORLD_MATERIAL_PRESETS } from '../../assets/TextureCatalog.js';
-import { createForestLeafTexture } from './ForestLeafTexture.js';
+import { runtimeMaterialByRole } from '../../assets/RuntimeMaterialManifest.js';
+import {
+	createForestLeafPublicTexture,
+	createForestLeafTexture
+} from './ForestLeafTexture.js';
+
+const FOREST_LEAF_ROLES = Object.freeze([
+	'forest.chaiOak',
+	'forest.chaiAsh',
+	'forest.chaiAspen',
+	'forest.chaiPine'
+]);
 
 function rgba(value) {
 	if (Array.isArray(value)) return [value[0] ?? 1, value[1] ?? 1, value[2] ?? 1, value[3] ?? 1];
@@ -77,11 +87,20 @@ function emptyBuilder() {
 	return { positions: [], normals: [], uvs: [], colors: [], indices: [] };
 }
 
+function materialUrls(role) {
+	const material = runtimeMaterialByRole(role);
+	return material ? [material.primaryUrl, ...material.fallbackUrls] : [];
+}
+
 function forestMaterials() {
-	const barkUrls = WORLD_MATERIAL_PRESETS.forestBark;
-	const leafUrls = WORLD_MATERIAL_PRESETS.forestLeaves;
+	const barkRole = runtimeMaterialByRole('forest.bark');
+	const barkUrls = materialUrls('forest.bark');
+	const leafUrls = [...new Set(FOREST_LEAF_ROLES.flatMap(materialUrls))];
 	const barkMap = cachedTextureImage(barkUrls[0]);
-	const leafMap = cachedTextureImage(leafUrls[0]) || createForestLeafTexture();
+	const publicLeafSource = cachedTextureImage(leafUrls[0]);
+	const realLeafMap = createForestLeafPublicTexture(publicLeafSource);
+	const proceduralLeafMap = realLeafMap ? null : createForestLeafTexture();
+	const leafMap = realLeafMap || proceduralLeafMap;
 	const bark = new MeshStandardMaterial({
 		name: 'Awtsmoos_forest_bark_real_public_firebase_fast',
 		color: [1, 1, 1, 1]
@@ -89,40 +108,66 @@ function forestMaterials() {
 	Object.assign(bark, {
 		mapImage: barkMap,
 		textureUrl: barkUrls[0],
-		mapRepeat: [4, 9],
+		mapRepeat: barkRole?.repeat || [3, 8],
 		anisotropy: 4,
 		texturePolicy: {
 			publicFirebase: true,
 			realMapImage: !!barkMap,
 			candidates: barkUrls,
-			fastLighting: 'single-merged-bark-draw-call-with-real-public-texture'
+			fastLighting: 'single-merged-bark-draw-call-with-licensed-pot-public-texture'
 		},
-		userData: { AwtsmoosForestMaterial: { layer: 'bark', merged: true, drawCalls: 1, realMapImage: !!barkMap, publicUrls: barkUrls } }
+		userData: {
+			AwtsmoosForestMaterial: {
+				layer: 'bark',
+				merged: true,
+				drawCalls: 1,
+				realMapImage: !!barkMap,
+				publicUrls: barkUrls
+			}
+		}
 	});
 	const leaves = new MeshStandardMaterial({
-		name: 'Awtsmoos_forest_leaves_real_transparent_public_firebase_fast',
+		name: 'Awtsmoos_forest_leaves_real_mask_public_firebase_fast',
 		color: [1, 1, 1, 1],
 		alphaMode: 'MASK',
-		alphaCutoff: 0.2,
+		alphaCutoff: 0.22,
+		transparent: false,
 		doubleSided: true
 	});
 	Object.assign(leaves, {
 		mapImage: leafMap,
+		mapImageFallback: !realLeafMap && !!proceduralLeafMap,
 		textureUrl: leafUrls[0],
 		mapRepeat: [1, 1],
 		anisotropy: 4,
-		transparent: true,
+		depthWrite: true,
 		texturePolicy: {
 			publicFirebase: true,
 			shader: 'leaf-cluster-alpha-wind',
-			realMapImage: !!cachedTextureImage(leafUrls[0]),
+			realMapImage: !!realLeafMap,
 			candidates: leafUrls,
 			fallbackMaskOnlyIfImageMissing: true,
-			alpha: 'transparent-cropped-cutout-required'
+			proceduralFallbackActive: !realLeafMap && !!proceduralLeafMap,
+			hydrateMapImage: createForestLeafPublicTexture,
+			publicTextureTransform: 'chai-leaf-background-to-alpha-mask',
+			publicLeafBackgroundRgb: [72, 108, 85],
+			alpha: 'mask-cutout-opaque-pass-depth-writing'
 		},
-		userData: { AwtsmoosForestMaterial: { layer: 'leaves', merged: true, drawCalls: 1, transparent: true, realMapImage: !!cachedTextureImage(leafUrls[0]), publicUrls: leafUrls } }
+		userData: {
+			AwtsmoosForestMaterial: {
+				layer: 'leaves',
+				merged: true,
+				drawCalls: 1,
+				transparent: false,
+				depthWrite: true,
+				realMapImage: !!realLeafMap,
+				proceduralFallback: !realLeafMap && !!proceduralLeafMap,
+				publicTextureTransform: 'chai-leaf-background-to-alpha-mask',
+				publicUrls: leafUrls
+			}
+		}
 	});
-	return { bark, leaves };
+	return { bark, leaves, barkUrls, leafUrls, realLeafMap, proceduralLeafMap };
 }
 
 export function createMergedForestGeometry(records) {
@@ -136,7 +181,7 @@ export function createMergedForestGeometry(records) {
 	const group = new Group();
 	group.name = 'Awtsmoos_procedural_forest_all_presets_real_public_materials';
 	group.add(meshFromBuilder('Awtsmoos_forest_merged_real_bark', branches, materials.bark));
-	group.add(meshFromBuilder('Awtsmoos_forest_merged_real_transparent_leaves', leaves, materials.leaves));
+	group.add(meshFromBuilder('Awtsmoos_forest_merged_real_mask_leaves', leaves, materials.leaves));
 	return {
 		group,
 		stats: {
@@ -145,12 +190,14 @@ export function createMergedForestGeometry(records) {
 			leafVertices: leaves.positions.length / 3,
 			triangles: (branches.indices.length + leaves.indices.length) / 3,
 			alphaCutout: true,
-			transparentLeaves: true,
+			transparentLeaves: false,
+			depthWritingLeaves: true,
 			publicFirebaseMaterials: true,
 			realBarkMapImage: !!materials.bark.mapImage,
-			realLeafMapImage: !!cachedTextureImage(WORLD_MATERIAL_PRESETS.forestLeaves[0]),
-			leafTextureCandidates: WORLD_MATERIAL_PRESETS.forestLeaves,
-			barkTextureCandidates: WORLD_MATERIAL_PRESETS.forestBark
+			realLeafMapImage: !!materials.realLeafMap,
+			proceduralLeafFallback: !!materials.proceduralLeafMap,
+			leafTextureCandidates: materials.leafUrls,
+			barkTextureCandidates: materials.barkUrls
 		}
 	};
 }

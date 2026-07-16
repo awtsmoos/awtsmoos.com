@@ -38,7 +38,7 @@ export function sphereMesh({ radius = 1, rings = 8, segments = 16, color = WHITE
     const b = y * cols + ((x + 1) % cols);
     const c = (y + 1) * cols + ((x + 1) % cols);
     const d = (y + 1) * cols + x;
-    i.push(a, d, c, a, c, b);
+    i.push(a, c, d, a, b, c);
   }
   return mesh(p, i, color);
 }

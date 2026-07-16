@@ -29,7 +29,9 @@ test('all dynamic human systems bind the canonical chossid GLB and forbid primit
 	assert.equal(PLAYER_MODEL_URL, 'https://models-3122d.web.app/chossid.glb');
 	const remote = source('../../network/RemoteChossidPopulation.js');
 	const village = source('../../world/village/VillageNpcPopulationSystem.js');
-	assert.match(remote, /loadIsolatedGltf\(PLAYER_MODEL_URL/);
+	assert.match(remote, /this\.assetUrl = options\.assetUrl \|\| PLAYER_MODEL_URL/);
+	assert.match(remote, /this\.loadGltf = options\.loadGltf \|\| loadIsolatedGltf/);
+	assert.match(remote, /this\.loadGltf\(this\.assetUrl/);
 	assert.match(village, /chossid\.glb-only-no-stick-figures/);
 	assert.doesNotMatch(village, /createVillageBoxBatch|appendPerson|npc-heads/);
 });

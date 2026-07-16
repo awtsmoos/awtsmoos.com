@@ -76,8 +76,8 @@ export class ManualGeometryBuilder {
 	connectRings(first, second) {
 		for (let index = 0; index < first.length; index += 1) {
 			const next = (index + 1) % first.length;
-			this.indices.push(first[index], second[index], second[next]);
-			this.indices.push(first[index], second[next], first[next]);
+			this.indices.push(first[index], second[next], second[index]);
+			this.indices.push(first[index], first[next], second[next]);
 		}
 	}
 

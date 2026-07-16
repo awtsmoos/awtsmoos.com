@@ -5,7 +5,7 @@ import { skeletonLinePositions } from './tiny-skin-system.js';
 export function drawSkeleton(renderer, scene, projectionView) {
 	const gl = renderer.gl;
 	const points = skeletonLinePositions(scene);
-	if (!points.length) return;
+	if (!points.length) return false;
 	if (!renderer.skeletonBuffer) renderer.skeletonBuffer = gl.createBuffer();
 	const locations = renderer.loc.rigid;
 	gl.useProgram(renderer.programs.rigid);
@@ -26,4 +26,5 @@ export function drawSkeleton(renderer, scene, projectionView) {
 	renderer.textures.bind(locations, null, renderer.stats);
 	gl.drawArrays(gl.LINES, 0, points.length / 3);
 	renderer.stats.skeletonSegments = points.length / 6;
+	return true;
 }

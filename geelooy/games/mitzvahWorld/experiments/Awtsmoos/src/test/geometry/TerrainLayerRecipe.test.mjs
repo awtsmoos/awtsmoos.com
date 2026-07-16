@@ -4,9 +4,7 @@
 
 /**
  * @file TerrainLayerRecipe.test.mjs
- * @description Proves full-resolution sources, ordered layers, quality limits, and zone geometry.
- * The Awtsmoos reveals one earth through many lawful garments; Awtsmoos.com refuses half copies,
- * missing zones, duplicate roles, or a terrain material that cannot describe its own revelation.
+ * @description Proves POT ground bases, distinct ecological layers, quality limits, and zones.
  */
 
 import assert from 'node:assert/strict';
@@ -15,13 +13,21 @@ import { highestResolutionSurfaceEntries } from '../../assets/HighestResolutionS
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
 import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
 
-test('all semantic terrain sources are full-resolution public URLs', () => {
-	const entries = highestResolutionSurfaceEntries();
-	assert.equal(entries.length, 8);
-	assert.equal(new Set(entries.map(entry => entry.role)).size, entries.length);
-	for (const entry of entries) {
-		assert.doesNotMatch(entry.url, /half-resolution/);
-		assert.match(entry.url, /^https:\/\//);
+test('continuous grass and dirt use exact licensed Chai POT public URLs', () => {
+	const entries = Object.fromEntries(
+		highestResolutionSurfaceEntries().map(entry => [entry.role, entry.url])
+	);
+	assert.equal(Object.keys(entries).length, 8);
+	assert.equal(
+		entries.baseGrass,
+		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest-half/textures/ground/grass.jpg'
+	);
+	assert.equal(
+		entries.dirt,
+		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest-half/textures/ground/dirt_color.jpg'
+	);
+	for (const role of ['dryGrass', 'forestFloor', 'marsh', 'mud', 'sand', 'stone']) {
+		assert.match(entries[role], /\/full-resolution\//, `${role} must remain ecologically distinct`);
 	}
 });
 
@@ -39,10 +45,12 @@ test('quality recipes preserve ordered layers and bounded counts', () => {
 		'sand'
 	]);
 	assert.ok(medium.layers.every(layer => layer.strength > 0 && layer.strength <= 1));
+	assert.match(medium.baseUrl, /\/chai-forest-half\/textures\/ground\/grass\.jpg$/);
+	assert.match(medium.dirtUrl, /\/chai-forest-half\/textures\/ground\/dirt_color\.jpg$/);
 });
 
 test('terrain mesh carries four ecological zones and six layered textures', () => {
-	const image = completeImage('https://awtsmoos-docs-base.web.app/full-resolution/grass.png');
+	const image = completeImage('https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest-half/textures/ground/grass.jpg');
 	const mesh = createTerrainMesh(terrainData(), image, image, image.src, 'medium');
 	const zones = Array.from(mesh.geometry.attributes.zone.array);
 	assert.equal(mesh.geometry.attributes.zone.itemSize, 4);
@@ -58,7 +66,7 @@ test('terrain mesh carries four ecological zones and six layered textures', () =
 });
 
 function completeImage(src) {
-	return { complete: true, naturalHeight: 4096, naturalWidth: 4096, src };
+	return { complete: true, naturalHeight: 512, naturalWidth: 512, src };
 }
 
 function terrainData() {

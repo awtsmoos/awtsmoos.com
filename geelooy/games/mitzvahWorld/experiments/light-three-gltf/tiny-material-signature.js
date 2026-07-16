@@ -26,7 +26,7 @@ export function materialSignature(mesh) {
 		material.opacity ?? color[3] ?? 1,
 		material.alphaMode || 'OPAQUE',
 		material.alphaCutoff ?? 0.5,
-		material.backfaceCull ? 1 : 0,
+		surfaceSidedness(material),
 		material.emissiveStrength ?? 1.8,
 		materialModeCode(mesh),
 		objectId(material.mapImage), mapRepeat[0], mapRepeat[1],
@@ -41,6 +41,12 @@ export function materialSignature(mesh) {
 		grass.windStrength ?? 0.085,
 		mesh.geometry?.mode ?? mesh.primitiveMode ?? 4
 	].join('|');
+}
+
+function surfaceSidedness(material) {
+	if (material.doubleSided === true) return 'double-sided';
+	if (material.backfaceCull === false) return 'culling-disabled';
+	return 'backface-culling';
 }
 
 export function objectIdentity(object) {

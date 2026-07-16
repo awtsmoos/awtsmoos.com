@@ -25,8 +25,8 @@
 		{ "id": "lanternRise", "fromOffset": { "x": -5, "y": 2.4, "z": 9 }, "toOffset": { "x": 8, "y": 18, "z": 24 }, "target": { "x": 0, "y": 3, "z": 0 }, "easing": "easeInOutCubic" }
 	],
 	"materialGraphs": [
-		{ "id": "golden-windows", "nodes": [{ "id": "c", "type": "color", "value": "#ffd276" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/materials/FULL%20SIZE/gold%202.png" }, { "id": "o", "type": "output", "value": { "mix": 0.8 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }] },
-		{ "id": "wet-stone", "nodes": [{ "id": "c", "type": "color", "value": "#76756d" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/materials/FULL%20SIZE/weathered%20fieldstone%20Rock%201.png" }, { "id": "r", "type": "repeat", "x": 5, "y": 5 }, { "id": "o", "type": "output", "value": { "mix": 0.64 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }, { "from": "r", "to": "o", "input": "repeat" }] }
+		{ "id": "golden-windows", "nodes": [{ "id": "c", "type": "color", "value": "#ffd276" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/full-resolution/gold%202.png" }, { "id": "o", "type": "output", "value": { "mix": 0.8 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }] },
+		{ "id": "wet-stone", "nodes": [{ "id": "c", "type": "color", "value": "#76756d" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/full-resolution/weathered%20fieldstone%20Rock%201.png" }, { "id": "r", "type": "repeat", "x": 5, "y": 5 }, { "id": "o", "type": "output", "value": { "mix": 0.64 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }, { "from": "r", "to": "o", "input": "repeat" }] }
 	],
 	"sequences": [
 		{ "id": "pasture-awakening", "tracks": [

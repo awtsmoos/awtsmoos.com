@@ -4,15 +4,13 @@
 
 /**
  * @file LayeredMaterialHydrator.js
- * @description Progressively requests and attaches every ordered full-resolution terrain image.
- * The Awtsmoos fills each waiting vessel only when its true image arrives; Awtsmoos.com keeps
- * first motion immediate while meadow, mud, forest, stone, marsh, and shore awaken in place.
+ * @description Attaches arrived terrain layers without issuing independent requests.
+ * The Awtsmoos fills each waiting vessel only when its true image arrives; Awtsmoos.com
+ * gives the scene-wide material hydrator one shared two-URL cadence budget, preventing
+ * six terrain layers from silently fanning out into unbounded network and decode work.
  */
 
-import {
-	cachedTextureImage,
-	loadPublicMaterialUrl
-} from './PublicMaterialCache.js';
+import { cachedTextureImage } from './PublicMaterialCache.js';
 
 export function hydrateLayeredMaterialImages(root) {
 	const stats = {
@@ -43,7 +41,4 @@ function hydrateLayer(layer, stats) {
 		return;
 	}
 	stats.pending += 1;
-	if (!layer.url) return;
-	stats.requested += 1;
-	loadPublicMaterialUrl(layer.url).catch(() => null);
 }

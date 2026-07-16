@@ -51,10 +51,10 @@ test('distance uses only horizontal world separation', () => {
 	assert.equal(distance, 5);
 });
 
-test('quality tiers bound named friendly actor counts', () => {
-	assert.equal(friendlyNpcProfiles('low').length, 4);
-	assert.equal(friendlyNpcProfiles('medium').length, 8);
-	assert.equal(friendlyNpcProfiles('high').length, 12);
+test('quality tiers bound named friendly actor counts without primitive substitutes', () => {
+	assert.equal(friendlyNpcProfiles('low').length, 3);
+	assert.equal(friendlyNpcProfiles('medium').length, 4);
+	assert.equal(friendlyNpcProfiles('high').length, 7);
 	assert.equal(friendlyNpcProfiles('cinematic').length, 12);
 	assert.ok(allFriendlyNpcProfiles().length >= 12);
 	assert.equal(friendlyNpcProfiles('low')[0].id, 'reb-mendel');

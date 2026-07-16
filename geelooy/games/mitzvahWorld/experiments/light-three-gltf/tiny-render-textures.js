@@ -22,6 +22,10 @@ export class MaterialTextureBinder {
 		this.previous = null;
 	}
 
+	invalidate() {
+		this.previous = null;
+	}
+
 	bind(locations, material = {}, stats) {
 		const state = textureState(material);
 		if (state.mapReady) addMapStats(material, stats);

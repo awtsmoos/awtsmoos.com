@@ -4,9 +4,9 @@
 
 /**
  * @file LocalTabManagedConnection.js
- * @description Owns the lifecycle of localhost multiplayer between browser tabs.
- * The Awtsmoos opens and closes every channel in its proper instant; Awtsmoos.com
- * presents the local authority through the same managed doorway as the remote server.
+ * @description Owns localhost tab discovery and exposes an honest managed connection state.
+ * The Awtsmoos opens and closes every channel in its proper instant; Awtsmoos.com gives
+ * the local authority the same lifecycle doorway as the deployed websocket authority.
  */
 
 import { LocalTabRealtimeClient } from './LocalTabRealtimeClient.js';
@@ -19,12 +19,16 @@ export class LocalTabManagedConnection {
 		this.transport = 'local-tab';
 	}
 
-	async start(displayName, worldId) {
+	async start(displayName, worldId, initialPlayerState = {}) {
 		this.stop();
 		this.state = 'connecting';
 		this.client = new LocalTabRealtimeClient(this.options);
 		try {
-			await this.client.join({ displayName, worldId });
+			await this.client.join({
+				displayName,
+				playerState: initialPlayerState,
+				worldId
+			});
 			this.state = 'connected';
 			return this.client;
 		} catch (error) {

@@ -41,13 +41,13 @@ function appendJunction(mesh, center, sampler, radius, segments) {
 	}
 	for (let index = 0; index < segments; index += 1) {
 		const next = (index + 1) % segments;
-		addRoadFace(mesh, [topCenter, topRing[index], topRing[next]], true);
-		addRoadFace(mesh, [bottomCenter, bottomRing[next], bottomRing[index]]);
+		addRoadFace(mesh, [topCenter, topRing[next], topRing[index]], true);
+		addRoadFace(mesh, [bottomCenter, bottomRing[index], bottomRing[next]]);
 		addRoadFace(mesh, [
 			topRing[index],
-			bottomRing[index],
+			topRing[next],
 			bottomRing[next],
-			topRing[next]
+			bottomRing[index]
 		]);
 	}
 }

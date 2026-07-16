@@ -4,10 +4,12 @@
 
 /**
  * @file VillagePropFactory.js
- * @description Creates consistent primitive definitions for practical village objects.
- * The Awtsmoos renews every measured edge; Awtsmoos.com lets one small factory
- * carry shared texture, collision, and placement laws into many inhabited vessels.
+ * @description Creates consistently tagged, batchable primitives for practical village objects.
+ * The Awtsmoos renews every measured edge; Awtsmoos.com lets one small factory carry shared
+ * texture, collision, placement, and immutable-render laws into many inhabited vessels.
  */
+
+const STATIC_PROP_FAMILY = 'village-static-props';
 
 export function villageBox(
 	id,
@@ -37,7 +39,7 @@ export function villageBox(
 			...(options.texturePolicy || {})
 		},
 		textureUrl,
-		userData: options.userData || {}
+		userData: staticPropMetadata(options.userData)
 	};
 }
 
@@ -62,9 +64,13 @@ export function villageCylinder(
 		segments: options.segments || 14,
 		shape: 'cylinder',
 		solid: options.solid ?? true,
-		texturePolicy: { publicFirebase: true, villageProp: true },
+		texturePolicy: {
+			publicFirebase: !textureUrl.startsWith('data:'),
+			villageProp: true,
+			...(options.texturePolicy || {})
+		},
 		textureUrl,
-		userData: options.userData || {}
+		userData: staticPropMetadata(options.userData)
 	};
 }
 
@@ -80,4 +86,11 @@ export function villageRing(count, radius, zOffset = 2) {
 			z: Math.sin(angle) * radius + zOffset
 		};
 	});
+}
+
+function staticPropMetadata(userData = {}) {
+	return {
+		family: userData.family || STATIC_PROP_FAMILY,
+		...userData
+	};
 }

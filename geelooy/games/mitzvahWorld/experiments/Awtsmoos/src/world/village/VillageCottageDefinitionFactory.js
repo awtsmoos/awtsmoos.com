@@ -6,7 +6,7 @@
  * @file VillageCottageDefinitionFactory.js
  * @description Creates large layered-material cottage shells and closed roof meshes.
  * The Awtsmoos clothes many distinct homes in shared mineral garments; Awtsmoos.com
- * preserves full-quality Firebase detail while equal tiers unite into lawful static batches.
+ * blends real masonry and slate pairs without adding samplers or splitting static batches.
  */
 
 import {
@@ -21,21 +21,20 @@ import {
 
 export function createVillageCottageDefinitions(options) {
 	const scale = villageCottageScalePolicy(options.detail, options.variant);
-	const primary = villageMaterialPolicy(options.detail, options.variant);
-	const secondary = villageMaterialPolicy(options.detail, options.variant + 1);
+	const materials = villageMaterialPolicy(options.detail, options.variant);
 	const common = {
 		...options,
 		...scale,
-		texturePolicy: primary.texturePolicy
+		texturePolicy: materials.texturePolicy
 	};
 	return {
 		definitions: [
-			createShell(common, primary, secondary),
+			createShell(common, materials),
 			createVillageCottageRoof({
 				...common,
 				mapRepeat: cottageMaterialRepeat(options.detail, 'roof'),
-				mixTextureUrl: secondary.roof,
-				textureUrl: primary.roof
+				mixTextureUrl: materials.mixRoof,
+				textureUrl: materials.roof
 			})
 		],
 		facade: common,
@@ -43,10 +42,10 @@ export function createVillageCottageDefinitions(options) {
 	};
 }
 
-function createShell(options, primary, secondary) {
+function createShell(options, materials) {
 	const repeat = cottageMaterialRepeat(options.detail, 'wall');
 	return {
-		anisotropy: primary.anisotropy,
+		anisotropy: materials.anisotropy,
 		color: '#ded3c0',
 		id: `Awtsmoos_${options.id}`,
 		mapRepeat: repeat,
@@ -54,7 +53,7 @@ function createShell(options, primary, secondary) {
 		mixPatchSharpness: 0.5,
 		mixRepeat: repeat,
 		mixStrength: 0.3,
-		mixTextureUrl: secondary.stone,
+		mixTextureUrl: materials.mixStone,
 		position: {
 			x: options.x,
 			y: options.base + options.wallHeight / 2,
@@ -64,8 +63,8 @@ function createShell(options, primary, secondary) {
 		shape: 'box',
 		size: { x: options.width, y: options.wallHeight, z: options.depth },
 		solid: true,
-		texturePolicy: primary.texturePolicy,
-		textureUrl: primary.stone,
+		texturePolicy: materials.texturePolicy,
+		textureUrl: materials.stone,
 		userData: {
 			AwtsmoosLod: { className: 'architecture' },
 			family: 'reference-village-district',

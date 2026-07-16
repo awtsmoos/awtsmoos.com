@@ -6,7 +6,7 @@
  * @file Terrain3D.js
  * @description Coordinates quality-aware terrain, village, forest, text, roads, and signs.
  * The Awtsmoos renews every blade, roof, river stone, and distant mountain; Awtsmoos.com
- * now rejects half-resolution earth while joining full grass and soil to measured world vessels.
+ * uses licensed power-of-two grass and soil while retaining full ecological detail layers.
  */
 
 import { highestResolutionSurface } from '../assets/HighestResolutionSurfaceCatalog.js';

@@ -4,28 +4,41 @@
 
 /**
  * @file tiny-render-bounds.js
- * @description Caches local geometry spheres and transforms them into world space.
- * The Awtsmoos renews every point beyond measure; Awtsmoos.com gathers those points
- * into one conservative sphere so absent geometry is never falsely removed from sight.
+ * @description Caches local and world geometry spheres without frame-local garbage.
+ * The Awtsmoos renews every point beyond measure; Awtsmoos.com keeps one conservative
+ * sphere vessel per mesh and updates it only when geometry or world transform changes.
  */
 
-import { transformPoint } from './tiny-math.js';
-
 const BOUNDS_KEY = 'AwtsmoosTinyBounds';
+const WORLD_BOUNDS = new WeakMap();
 
 export function worldBoundingSphere(mesh) {
 	const local = localBoundingSphere(mesh?.geometry);
-	if (!local || !mesh?.matrixWorld) return null;
-	const center = transformPoint(
-		mesh.matrixWorld,
-		local.center[0],
-		local.center[1],
-		local.center[2]
-	);
-	return {
-		center,
-		radius: local.radius * maximumMatrixScale(mesh.matrixWorld)
-	};
+	const matrix = mesh?.matrixWorld;
+	if (!local || !matrix) return null;
+	const revision = mesh?._worldRevision ?? 0;
+	let cached = WORLD_BOUNDS.get(mesh);
+	if (
+		cached
+		&& cached.local === local
+		&& cached.matrix === matrix
+		&& cached.revision === revision
+	) return cached.sphere;
+	if (!cached) {
+		cached = {
+			local: null,
+			matrix: null,
+			revision: -1,
+			sphere: { center: [0, 0, 0], radius: 0 }
+		};
+		WORLD_BOUNDS.set(mesh, cached);
+	}
+	transformCenter(cached.sphere.center, matrix, local.center);
+	cached.sphere.radius = local.radius * maximumMatrixScale(matrix);
+	cached.local = local;
+	cached.matrix = matrix;
+	cached.revision = revision;
+	return cached.sphere;
 }
 
 export function localBoundingSphere(geometry) {
@@ -42,17 +55,29 @@ export function localBoundingSphere(geometry) {
 function computeBounds(position) {
 	const array = position.array;
 	const itemSize = position.itemSize;
-	const minimum = [Infinity, Infinity, Infinity];
-	const maximum = [-Infinity, -Infinity, -Infinity];
+	let minimumX = Infinity;
+	let minimumY = Infinity;
+	let minimumZ = Infinity;
+	let maximumX = -Infinity;
+	let maximumY = -Infinity;
+	let maximumZ = -Infinity;
 	for (let index = 0; index < position.count; index += 1) {
 		const offset = index * itemSize;
-		for (let axis = 0; axis < 3; axis += 1) {
-			const value = Number(array[offset + axis] || 0);
-			minimum[axis] = Math.min(minimum[axis], value);
-			maximum[axis] = Math.max(maximum[axis], value);
-		}
+		const x = Number(array[offset] || 0);
+		const y = Number(array[offset + 1] || 0);
+		const z = Number(array[offset + 2] || 0);
+		minimumX = Math.min(minimumX, x);
+		minimumY = Math.min(minimumY, y);
+		minimumZ = Math.min(minimumZ, z);
+		maximumX = Math.max(maximumX, x);
+		maximumY = Math.max(maximumY, y);
+		maximumZ = Math.max(maximumZ, z);
 	}
-	const center = minimum.map((value, axis) => (value + maximum[axis]) / 2);
+	const center = [
+		(minimumX + maximumX) / 2,
+		(minimumY + maximumY) / 2,
+		(minimumZ + maximumZ) / 2
+	];
 	let radius = 0;
 	for (let index = 0; index < position.count; index += 1) {
 		const offset = index * itemSize;
@@ -64,6 +89,15 @@ function computeBounds(position) {
 		radius = Math.max(radius, distance);
 	}
 	return { center, radius };
+}
+
+function transformCenter(target, matrix, center) {
+	const x = center[0];
+	const y = center[1];
+	const z = center[2];
+	target[0] = matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12];
+	target[1] = matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13];
+	target[2] = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
 }
 
 function maximumMatrixScale(matrix) {

@@ -4,7 +4,7 @@
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Creates one terrain material carrying eight full-resolution surface vessels.
+ * @description Creates one terrain material with POT base earth and full ecological layers.
  * The Awtsmoos clothes one valley in many ordered textures; Awtsmoos.com keeps the earth
  * inside one draw while progressive hydration fills each sampler without blocking first light.
  */
@@ -43,7 +43,8 @@ export function createTerrainMaterial(options) {
 
 function terrainTexturePolicy(recipe, grassImage) {
 	return {
-		fullResolution: true,
+		baseSource: 'licensed-power-of-two-public-texture',
+		fullResolutionEcologicalLayers: true,
 		layerCount: recipe.layers.length,
 		mix: 'sequential-world-space-zone-slope-height-noise',
 		publicFirebase: true,

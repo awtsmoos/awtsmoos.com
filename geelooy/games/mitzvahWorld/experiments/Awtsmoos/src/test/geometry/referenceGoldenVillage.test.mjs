@@ -4,9 +4,9 @@
 
 /**
  * @file referenceGoldenVillage.test.mjs
- * @description Proves sky, mountains, Firebase materials, forest, population, facades, and lamps.
- * The Awtsmoos renews visual abundance within measured tiers; Awtsmoos.com verifies
- * depth, batching, manual geometry, materials, undergrowth, people, and sky budgets.
+ * @description Proves sky, alpine depth, Firebase materials, forest, facades, and baked light.
+ * The Awtsmoos renews visual abundance within measured tiers; Awtsmoos.com verifies depth,
+ * batching, snow caps, grounding shadows, materials, undergrowth, people, and sky budgets.
  */
 
 import assert from 'node:assert/strict';
@@ -32,9 +32,13 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 		assert.deepEqual(first, second);
 		assert.ok(first.stats.mountains.nearestRadius > first.stats.budget.radius);
 		assert.ok(first.stats.architecture.pieces <= first.stats.budget.architecturePieces);
+		assert.equal(first.stats.architecture.shadowDraws, 1);
+		assert.ok(first.stats.architecture.shadowedCottages > 0);
 		assert.equal(first.stats.practicalLights.definitions, 4);
 		assert.equal(first.stats.practicalLights.realtimeLights, 0);
 		assert.equal(first.stats.mountains.belts, referenceLightingBudget(quality).mountainBelts);
+		assert.equal(first.stats.mountains.snowCaps, first.stats.mountains.belts);
+		assert.equal(first.stats.mountains.definitions, first.stats.mountains.belts * 2);
 		assert.equal(first.stats.practicalLights.lamps, referenceLightingBudget(quality).practicalLamps);
 		assert.deepEqual(first.stats.layers, WORLD_LAYERS);
 		assert.equal(first.stats.forestEdge.primitiveTrees, 0);
@@ -47,19 +51,27 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 	}
 });
 
-test('high reference tier keeps dense windows, forest, and people in batches', () => {
+test('high reference tier keeps dense windows, forest, snow, and grounded cottages in batches', () => {
 	const world = createVillageWorldDefinitions(terrainSampler(), 'high');
-	assert.equal(world.stats.architecture.warmWindows, 56);
+	assert.equal(world.stats.architecture.warmWindows, 118);
 	assert.ok(world.stats.architecture.pieces <= 90);
+	assert.equal(world.stats.architecture.shadowedCottages, 31);
 	assert.equal(world.stats.forestEdge.primitiveTrees, 0);
 	assert.equal(world.stats.forestEdge.proceduralTreeSitesSupported, 34);
 	assert.equal(world.stats.population.people, 0);
-	assert.equal(world.definitions.length, 190);
+	assert.equal(world.definitions.length, 194);
+	assert.equal(world.definitions.length, world.stats.definitionCount);
 	assert.equal(world.definitions.some(item => item.id === 'Awtsmoos_arrival-meadow-landmark'), false);
 	const cottageBatches = byFamily(world, 'reference-cottage-detail-batch');
 	assert.equal(cottageBatches.length, 3);
 	assert.ok(cottageBatches.every(definition => definition.userData.instances > 0));
 	assert.equal(byFamily(world, 'reference-cottage-ornament-batch').length, 5);
+	const shadows = byFamily(world, 'reference-cottage-sun-shadows');
+	assert.equal(shadows.length, 1);
+	assert.equal(shadows[0].userData.instances, 31);
+	assert.equal(shadows[0].alphaMode, 'BLEND');
+	assert.equal(shadows[0].opacity, 0.17);
+	assert.equal(byFamily(world, 'reference-atmospheric-mountain-snow').length, 3);
 	const lampBatches = byFamily(world, 'reference-practical-lighting');
 	assert.equal(lampBatches.length, 4);
 	assert.ok(lampBatches.every(definition => definition.userData.instances === 16));

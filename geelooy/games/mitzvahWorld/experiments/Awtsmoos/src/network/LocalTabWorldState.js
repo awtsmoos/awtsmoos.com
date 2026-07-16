@@ -4,63 +4,105 @@
 
 /**
  * @file LocalTabWorldState.js
- * @description Maintains one bounded peer map and authoritative-looking world snapshot.
- * The Awtsmoos creates every traveler and interval anew; Awtsmoos.com integrates only
- * measured input while stale vessels depart cleanly from the shared local village.
+ * @description Maintains exact world-space tab snapshots with bounded stale-peer cleanup.
+ * The Awtsmoos creates every measured position anew; Awtsmoos.com carries actual runtime
+ * x/y/z/facing/moving values and never integrates input or invents presentation offsets.
  */
 
-const MOVE_SPEED = 4.6;
-const MAX_STEP_SECONDS = 0.2;
-const STALE_AFTER_MS = 6500;
+export const LOCAL_TAB_STALE_AFTER_MS = 6500;
 
 export class LocalTabWorldState {
-	constructor({ playerId, displayName, worldId, now = () => Date.now() }) {
+	constructor({
+		playerId,
+		displayName,
+		worldId,
+		initialPlayerState = {},
+		now = () => Date.now(),
+		staleAfterMs = LOCAL_TAB_STALE_AFTER_MS
+	}) {
 		this.playerId = playerId;
 		this.worldId = worldId;
 		this.now = now;
+		this.staleAfterMs = staleAfterMs;
 		this.revision = 0;
 		this.players = new Map();
-		this.upsert(createPlayer(playerId, displayName, this.now()));
+		this.lastSeenAt = new Map();
+		this.upsertLocal({
+			...initialPlayerState,
+			displayName,
+			id: playerId
+		});
 	}
 
-	applyInput({ forward = 0, strafe = 0, facing = 0 } = {}) {
+	applyTransform(transform = {}) {
+		const current = this.players.get(this.playerId);
+		if (!current) return null;
+		const updatedAt = this.now();
+		const position = exactPosition(transform, current.position);
+		const elapsedSeconds = Math.max(0.001, (updatedAt - current.updatedAt) / 1000);
+		const derivedVelocity = {
+			x: (position.x - current.position.x) / elapsedSeconds,
+			y: (position.y - current.position.y) / elapsedSeconds,
+			z: (position.z - current.position.z) / elapsedSeconds
+		};
+		return this.upsertLocal({
+			...current,
+			...transform,
+			facing: finite(transform.facing, current.facing),
+			moving: typeof transform.moving === 'boolean'
+				? transform.moving
+				: vectorMagnitude(transform.velocity || derivedVelocity) > 0.001,
+			position,
+			updatedAt,
+			velocity: exactVelocity(transform.velocity, derivedVelocity)
+		});
+	}
+
+	touchLocal() {
 		const player = this.players.get(this.playerId);
-		const currentTime = this.now();
-		const deltaSeconds = Math.min(MAX_STEP_SECONDS, Math.max(0, (currentTime - player.updatedAt) / 1000));
-		const forwardX = Math.sin(facing);
-		const forwardZ = Math.cos(facing);
-		const rightX = Math.cos(facing);
-		const rightZ = -Math.sin(facing);
-		const velocityX = (forwardX * forward + rightX * strafe) * MOVE_SPEED;
-		const velocityZ = (forwardZ * forward + rightZ * strafe) * MOVE_SPEED;
-		player.position.x += velocityX * deltaSeconds;
-		player.position.z += velocityZ * deltaSeconds;
-		player.velocity = { x: velocityX, y: 0, z: velocityZ };
-		player.facing = facing;
-		player.updatedAt = currentTime;
-		this.revision += 1;
-		return clonePlayer(player);
+		if (!player) return null;
+		return this.upsertLocal({ ...player, updatedAt: this.now() });
 	}
 
 	upsert(player) {
-		if (!player?.id) return false;
-		this.players.set(player.id, clonePlayer(player));
+		if (!player?.id || player.id === this.playerId) return false;
+		const current = this.players.get(player.id);
+		const normalized = normalizePlayer(player, current, this.now());
+		this.players.set(player.id, normalized);
+		this.lastSeenAt.set(player.id, this.now());
 		this.revision += 1;
 		return true;
+	}
+
+	upsertLocal(player) {
+		const current = this.players.get(this.playerId);
+		const normalized = normalizePlayer({
+			...player,
+			connected: true,
+			coordinateSpace: 'world',
+			id: this.playerId,
+			kind: 'human'
+		}, current, this.now());
+		this.players.set(this.playerId, normalized);
+		this.lastSeenAt.set(this.playerId, this.now());
+		this.revision += 1;
+		return clonePlayer(normalized);
 	}
 
 	remove(playerId) {
 		if (playerId === this.playerId) return false;
 		const removed = this.players.delete(playerId);
+		this.lastSeenAt.delete(playerId);
 		if (removed) this.revision += 1;
 		return removed;
 	}
 
 	prune() {
-		const threshold = this.now() - STALE_AFTER_MS;
-		for (const [playerId, player] of this.players) {
-			if (playerId === this.playerId || player.updatedAt >= threshold) continue;
+		const threshold = this.now() - this.staleAfterMs;
+		for (const [playerId, seenAt] of this.lastSeenAt) {
+			if (playerId === this.playerId || seenAt >= threshold) continue;
 			this.players.delete(playerId);
+			this.lastSeenAt.delete(playerId);
 			this.revision += 1;
 		}
 	}
@@ -71,25 +113,76 @@ export class LocalTabWorldState {
 
 	snapshot() {
 		this.prune();
+		const players = [...this.players.values()]
+			.sort((left, right) => {
+				if (left.id === this.playerId) return -1;
+				if (right.id === this.playerId) return 1;
+				return String(left.id).localeCompare(String(right.id));
+			})
+			.map(clonePlayer);
 		return {
-			worldId: this.worldId,
+			connected: true,
+			peerCount: Math.max(0, players.length - 1),
+			players,
 			revision: this.revision,
-			players: [...this.players.values()].map(clonePlayer)
+			transport: 'local-tab',
+			worldId: this.worldId
 		};
 	}
 }
 
-function createPlayer(id, displayName, updatedAt) {
-	return {
-		id,
-		displayName,
-		kind: 'human',
-		connected: true,
-		position: { x: 0, y: 0, z: 0 },
-		velocity: { x: 0, y: 0, z: 0 },
+function normalizePlayer(player, current, now) {
+	const fallback = current || {
+		displayName: 'Mountain Shliach',
 		facing: 0,
-		updatedAt
+		moving: false,
+		position: { x: 0, y: 0, z: 0 },
+		velocity: { x: 0, y: 0, z: 0 }
 	};
+	return {
+		...fallback,
+		...player,
+		connected: player.connected !== false,
+		coordinateSpace: player.coordinateSpace || fallback.coordinateSpace || 'world',
+		displayName: String(player.displayName || fallback.displayName || 'Mountain Shliach'),
+		facing: finite(player.facing, fallback.facing),
+		moving: typeof player.moving === 'boolean'
+			? player.moving
+			: vectorMagnitude(player.velocity || fallback.velocity) > 0.001,
+		position: exactPosition(player, fallback.position),
+		updatedAt: finite(player.updatedAt, now),
+		velocity: exactVelocity(player.velocity, fallback.velocity)
+	};
+}
+
+function exactPosition(source, fallback) {
+	const position = source?.position || source || {};
+	return {
+		x: finite(position.x, fallback.x),
+		y: finite(position.y, fallback.y),
+		z: finite(position.z, fallback.z)
+	};
+}
+
+function exactVelocity(source, fallback) {
+	return {
+		x: finite(source?.x, fallback.x),
+		y: finite(source?.y, fallback.y),
+		z: finite(source?.z, fallback.z)
+	};
+}
+
+function vectorMagnitude(vector) {
+	return Math.hypot(
+		finite(vector?.x, 0),
+		finite(vector?.y, 0),
+		finite(vector?.z, 0)
+	);
+}
+
+function finite(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : Number(fallback) || 0;
 }
 
 function clonePlayer(player) {

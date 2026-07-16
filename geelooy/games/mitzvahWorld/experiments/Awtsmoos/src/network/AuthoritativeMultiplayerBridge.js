@@ -4,15 +4,15 @@
 
 /**
  * @file AuthoritativeMultiplayerBridge.js
- * @description Bridges normalized authority snapshots into animated remote Chassidim.
- * The Awtsmoos gives every distant traveler one present form; Awtsmoos.com carries
- * local or server authority through the same bounded input and interpolation vessel.
+ * @description Bridges runtime truth into local-tab or server-authoritative remote Chassidim.
+ * The Awtsmoos gives every distant traveler one present form; Awtsmoos.com publishes exact
+ * world transforms where supported and preserves input authority for deployed servers.
  */
 
 import { RemoteChossidPopulation } from './RemoteChossidPopulation.js';
 
-const INPUT_INTERVAL_SECONDS = 1 / 12;
-const HEARTBEAT_INTERVAL_SECONDS = 5;
+const STATE_INTERVAL_SECONDS = 1 / 15;
+const SERVER_HEARTBEAT_INTERVAL_SECONDS = 5;
 
 export class AuthoritativeMultiplayerBridge {
 	constructor({ client, runtime, transport = 'websocket' }) {
@@ -21,7 +21,7 @@ export class AuthoritativeMultiplayerBridge {
 		this.transport = transport;
 		this.population = null;
 		this.unsubscribe = null;
-		this.inputElapsed = 0;
+		this.stateElapsed = 0;
 		this.heartbeatElapsed = 0;
 		this.lastRevision = 0;
 	}
@@ -32,12 +32,11 @@ export class AuthoritativeMultiplayerBridge {
 			localPlayerId: this.client.playerId,
 			scene: this.runtime.scene
 		});
-		this.unsubscribe = this.client.onWorld(world => {
-			this.lastRevision = world?.revision || this.lastRevision;
-			this.population.sync(world?.players || []);
-			this.runtime.state.multiplayer = world;
-		});
-		this.population.sync(this.client.world?.players || []);
+		this.unsubscribe = this.client.onWorld(world => this.applyWorld(world));
+		if (this.client.world && this.runtime.state.multiplayer !== this.client.world) {
+			this.applyWorld(this.client.world);
+		}
+		this.publishRuntimeState();
 		return {
 			client: this.client,
 			playerAddress: this.client.playerAddress,
@@ -46,49 +45,79 @@ export class AuthoritativeMultiplayerBridge {
 		};
 	}
 
+	applyWorld(world) {
+		this.lastRevision = world?.revision ?? this.lastRevision;
+		this.population?.sync(world?.players || []);
+		this.runtime.state.multiplayer = world;
+	}
+
 	update(deltaSeconds) {
 		if (!this.population) return;
-		this.inputElapsed += deltaSeconds;
+		this.stateElapsed += deltaSeconds;
 		this.heartbeatElapsed += deltaSeconds;
 		this.population.update(deltaSeconds);
-		if (this.inputElapsed >= INPUT_INTERVAL_SECONDS) {
-			this.sendInput();
-			this.inputElapsed = 0;
+		if (this.stateElapsed >= STATE_INTERVAL_SECONDS) {
+			this.publishRuntimeState();
+			this.stateElapsed %= STATE_INTERVAL_SECONDS;
 		}
-		if (this.heartbeatElapsed >= HEARTBEAT_INTERVAL_SECONDS) {
+		if (
+			this.transport !== 'local-tab'
+			&& this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS
+		) {
 			this.client.heartbeat().catch(() => {});
-			this.heartbeatElapsed = 0;
+			this.heartbeatElapsed %= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 		}
 	}
 
-	sendInput() {
+	publishRuntimeState() {
+		const snapshot = runtimePlayerSnapshot(this.runtime);
+		if (typeof this.client.updatePlayerState === 'function') {
+			return this.client.updatePlayerState(snapshot).catch(() => {});
+		}
 		const input = currentMovementIntent(this.runtime);
-		this.client.input(
+		return this.client.input(
 			input.forward,
 			input.strafe,
-			this.runtime.state.facing
+			snapshot.facing
 		).catch(() => {});
 	}
 
 	stop() {
 		this.unsubscribe?.();
 		this.unsubscribe = null;
-		if (this.population?.group?.parent) {
-			this.population.group.parent.remove(this.population.group);
-		}
+		this.population?.dispose?.();
 		this.population = null;
 	}
 
 	diagnostics() {
+		const players = this.client.world?.players?.length || 0;
 		return {
-			transport: this.transport,
+			assetUrl: this.population?.assetUrl || null,
 			playerId: this.client.playerId,
-			revision: this.client.world?.revision || this.lastRevision,
-			players: this.client.world?.players?.length || 0,
+			players,
 			remoteActors: this.population?.actors?.size || 0,
-			assetUrl: this.population?.assetUrl || null
+			remotePeers: Math.max(0, players - 1),
+			revision: this.client.world?.revision ?? this.lastRevision,
+			transport: this.transport
 		};
 	}
+}
+
+export function runtimePlayerSnapshot(runtime) {
+	const state = runtime?.state || {};
+	return {
+		clip: String(state.clip || ''),
+		coordinateSpace: 'world',
+		facing: finite(state.facing),
+		level: String(state.level || 'eretz'),
+		moving: Boolean(state.moving),
+		position: {
+			x: finite(state.x),
+			y: finite(state.y),
+			z: finite(state.z)
+		},
+		runMode: Boolean(state.runMode)
+	};
 }
 
 function currentMovementIntent(runtime) {
@@ -99,4 +128,9 @@ function currentMovementIntent(runtime) {
 	const length = Math.hypot(forward, strafe);
 	if (length <= 1) return { forward, strafe };
 	return { forward: forward / length, strafe: strafe / length };
+}
+
+function finite(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : 0;
 }

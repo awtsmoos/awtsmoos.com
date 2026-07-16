@@ -25,16 +25,21 @@ export function createFirebaseMaterialRecipe(options = {}) {
 }
 
 export function waterFirebaseMaterialRecipe() {
-	return createFirebaseMaterialRecipe({
-		id: 'firebase-water-flow',
-		paths: {
-			albedo: 'full-resolution/shallow river water.png',
-			normal: 'full-resolution/seamless water.png',
-			foam: 'full-resolution/seamless water brighter.png'
-		},
-		roughness: 0.16,
-		uv: { mode: 'planar', scale: 0.12 }
-	});
+	return {
+		...createFirebaseMaterialRecipe({
+			id: 'firebase-water-flow',
+			paths: {
+				albedo: 'full-resolution/shallow river water.png'
+			},
+			roughness: 0.16,
+			uv: { mode: 'planar', scale: 0.12 }
+		}),
+		channelSemantics: {
+			albedo: 'public-srgb-color-photograph',
+			normal: 'procedural-wave-gradient',
+			foam: 'procedural-wave-crest-mask'
+		}
+	};
 }
 
 function number(value, fallback) {

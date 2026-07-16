@@ -39,6 +39,7 @@ for (const definition of definitions) {
 			&& index >= 0
 			&& index < definition.vertices.length
 		)));
+		assert.ok(outwardFaceDot(definition, face) > 0, 'every culled bush face must point outward');
 	}
 }
 
@@ -50,4 +51,29 @@ console.log(JSON.stringify({
 
 function groundHeight(x, z) {
 	return 1.2 + x * 0.003 - z * 0.002;
+}
+
+function outwardFaceDot(definition, face) {
+	const lobeStart = Math.floor(Math.min(...face) / 6) * 6;
+	const top = definition.vertices[lobeStart];
+	const bottom = definition.vertices[lobeStart + 5];
+	const radius = (top[1] - bottom[1]) / 1.72;
+	const center = [top[0], top[1] - radius, top[2]];
+	const points = face.map(index => definition.vertices[index]);
+	const [a, b, c] = points;
+	const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+	const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+	const normal = [
+		ab[1] * ac[2] - ab[2] * ac[1],
+		ab[2] * ac[0] - ab[0] * ac[2],
+		ab[0] * ac[1] - ab[1] * ac[0]
+	];
+	const faceCenter = points.reduce((sum, point) => [
+		sum[0] + point[0] / 3,
+		sum[1] + point[1] / 3,
+		sum[2] + point[2] / 3
+	], [0, 0, 0]);
+	return normal[0] * (faceCenter[0] - center[0])
+		+ normal[1] * (faceCenter[1] - center[1])
+		+ normal[2] * (faceCenter[2] - center[2]);
 }

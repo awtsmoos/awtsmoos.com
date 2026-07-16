@@ -30,8 +30,10 @@ assert.equal(
 );
 
 assert.equal(lodMaximumDistance('actor', 'low'), Infinity);
-assert.ok(lodMaximumDistance('grass', 'low') < lodMaximumDistance('grass', 'high'));
-assert.ok(lodMaximumDistance('detail', 'medium') < lodMaximumDistance('detail', 'high'));
+assert.equal(lodMaximumDistance('grass', 'low'), lodMaximumDistance('grass', 'high'));
+assert.equal(lodMaximumDistance('detail', 'medium'), lodMaximumDistance('detail', 'high'));
+assert.ok(lodMaximumDistance('grass', 'cinematic') > lodMaximumDistance('grass', 'high'));
+assert.ok(lodMaximumDistance('detail', 'cinematic') > lodMaximumDistance('detail', 'high'));
 
 const protectedLandmark = evaluateLodVisibility({
 	className: 'landmark',

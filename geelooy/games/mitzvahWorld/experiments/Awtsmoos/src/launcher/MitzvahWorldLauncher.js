@@ -1,12 +1,23 @@
 // B"H
-/** Routes local tools and makes the normal village URL a same-origin shared world by default. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MitzvahWorldLauncher.js
+ * @description Routes tools while making ?mode=world a real shared world by default.
+ * The Awtsmoos gives solo and shared play distinct vessels; Awtsmoos.com never silently
+ * relabels a requested multiplayer village as single-player when its transport is unavailable.
+ */
+
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
 import { launchMaterialDiagnostic } from '../diagnostics/MaterialDiagnosticMode.js';
 import { createMovieStudio } from '../movie/MovieStudio.js';
 import { hasMovieRequest, loadRequestedMovie } from '../movie/MovieProject.js';
 import { createMultiplayerEretzRuntime } from '../network/MultiplayerEretzRuntime.js';
+import { installSinglePlayerStatusBadge } from '../network/MultiplayerStatusBadge.js';
 import { launchPlatformShowcase } from '../world/platform/PlatformShowcaseMode.js';
 import { setGameHostsVisible, showMainMenu } from './MainMenu.js';
+import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 const VILLAGE_MOVIE_URL = './movies/projects/reference-village-60s.json';
 
@@ -17,13 +28,26 @@ export async function launchMitzvahWorld(hosts, search = location.search) {
 		|| inferRealtimeUrl(globalThis.location);
 	const openSinglePlayer = async () => {
 		setGameHostsVisible(hosts, true);
-		return createEretzRuntime(hosts, { quality: params.get('quality'), startLoop: true });
+		const diagnostics = await createEretzRuntime(hosts, {
+			quality: params.get('quality'),
+			startLoop: true
+		});
+		diagnostics.connectionBadge = installSinglePlayerStatusBadge();
+		diagnostics.sessionMode = 'singleplayer';
+		diagnostics.sessionDiagnostics = () => ({
+			mode: 'singleplayer',
+			peerCount: 0,
+			state: 'singleplayer',
+			transport: 'none'
+		});
+		return diagnostics;
 	};
-	const openMultiplayer = async selection => {
+	const openMultiplayer = async (selection = {}) => {
 		setGameHostsVisible(hosts, true);
 		return createMultiplayerEretzRuntime(hosts, {
 			WebSocketClass: globalThis.WebSocket,
 			displayName: selection.playerName || params.get('displayName') || uniqueDisplayName(),
+			location: globalThis.location,
 			quality: params.get('quality'),
 			startLoop: true,
 			url: realtimeUrl,
@@ -41,14 +65,17 @@ export async function launchMitzvahWorld(hosts, search = location.search) {
 			autoRender: new URLSearchParams(movieSearch).get('autoRender') === '1'
 		});
 	};
-	const openVillageMovie = () => openMovie(`?mode=movie&movieUrl=${encodeURIComponent(VILLAGE_MOVIE_URL)}`);
+	const openVillageMovie = () => openMovie(
+		`?mode=movie&movieUrl=${encodeURIComponent(VILLAGE_MOVIE_URL)}`
+	);
 	if (params.get('mode') === 'materials') {
 		setGameHostsVisible(hosts, false);
 		return launchMaterialDiagnostic(hosts);
 	}
 	if (params.get('mode') === 'world') {
-		if (params.get('session') === 'singleplayer' || !realtimeUrl || !globalThis.WebSocket) return openSinglePlayer();
-		return openMultiplayer({});
+		return mitzvahWorldSessionMode(params) === 'singleplayer'
+			? openSinglePlayer()
+			: openMultiplayer();
 	}
 	if (params.get('mode') === 'platform') return openPlatform();
 	if (params.get('mode') === 'mission-movie') return openVillageMovie();
@@ -61,8 +88,8 @@ export async function launchMitzvahWorld(hosts, search = location.search) {
 		platform: openPlatform,
 		singlePlayer: openSinglePlayer
 	}, {
-		realtimeUrl,
-		WebSocketClass: globalThis.WebSocket
+		WebSocketClass: globalThis.WebSocket,
+		realtimeUrl
 	});
 }
 
@@ -74,13 +101,13 @@ export function inferRealtimeUrl(locationValue = globalThis.location) {
 function uniqueDisplayName() {
 	const key = 'AwtsmoosMitzvahWorldTabName';
 	try {
-		const existing = sessionStorage.getItem(key);
+		const existing = globalThis.sessionStorage?.getItem(key);
 		if (existing) return existing;
 		const created = `Mountain Shliach ${Math.floor(100 + Math.random() * 900)}`;
-		sessionStorage.setItem(key, created);
+		globalThis.sessionStorage?.setItem(key, created);
 		return created;
 	} catch {
-		return 'Mountain Shliach';
+		return `Mountain Shliach ${Math.floor(100 + Math.random() * 900)}`;
 	}
 }
 

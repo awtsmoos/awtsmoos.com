@@ -88,7 +88,7 @@ function texture(material, fallbackColor) {
 		textureUrl: material.textureUrl || material.mapImage?.dataset?.url || material.mapImage?.src || null,
 		mapRepeat: material.mapRepeat || [1, 1],
 		anisotropy: material.anisotropy ?? 2,
-		backfaceCull: !!material.backfaceCull,
+		backfaceCull: material.backfaceCull,
 		texturePolicy: material.texturePolicy || null
 	};
 }

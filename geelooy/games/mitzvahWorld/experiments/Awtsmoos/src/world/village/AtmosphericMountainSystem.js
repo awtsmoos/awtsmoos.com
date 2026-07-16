@@ -4,9 +4,9 @@
 
 /**
  * @file AtmosphericMountainSystem.js
- * @description Builds layered textured mountain belts beyond every playable valley tier.
- * The Awtsmoos renews depth beyond reachable paths; Awtsmoos.com places the nearest
- * belt outside cinematic gameplay and progressively lowers frequency and contrast.
+ * @description Builds towering textured alpine belts and snow caps around the playable valley.
+ * The Awtsmoos renews depth beyond reachable paths; Awtsmoos.com spends only two static
+ * draws per belt while preserving the steep silhouettes required by the reference view.
  */
 
 import {
@@ -16,78 +16,136 @@ import {
 import { referenceLightingBudget } from '../lighting/ReferenceGoldenHourPreset.js';
 
 const BELTS = Object.freeze([
-	belt(420, 92, 84, '#6d7558', TEXTURE_URLS.bricks.fieldstone1, 72),
-	belt(610, 138, 62, '#667387', halfTextureUrl('grass 6'), 56),
-	belt(860, 184, 46, '#71809a', halfTextureUrl('stone 1'), 40),
-	belt(1160, 228, 32, '#8490a5', halfTextureUrl('bluestone 1'), 32)
+	belt(420, 224, 96, '#515c50', TEXTURE_URLS.bricks.fieldstone1, 84),
+	belt(610, 306, 82, '#526174', halfTextureUrl('grass 6'), 68),
+	belt(860, 384, 68, '#5e6f87', halfTextureUrl('stone 1'), 52),
+	belt(1160, 468, 54, '#718199', halfTextureUrl('bluestone 1'), 40)
 ]);
 
 export function createAtmosphericMountainDefinitions(quality = 'high') {
 	const count = referenceLightingBudget(quality).mountainBelts;
-	const definitions = BELTS.slice(0, count).map((options, index) => {
-		const geometry = mountainGeometry(options, index);
-		return {
-			...geometry,
-			backfaceCull: false,
-			color: options.color,
-			doubleSided: true,
-			id: `Awtsmoos_atmospheric_mountain_belt_${index}`,
-			mapRepeat: [10 - index * 2, 3],
-			noEdge: true,
-			position: { x: 0, y: -18 + index * 5, z: 0 },
-			shape: 'manual',
-			solid: false,
-			texturePolicy: {
-				atmosphericDepth: index,
-				distanceSelected: true,
-				publicFirebase: true,
-				tileWorld: 20 + index * 18
-			},
-			textureUrl: options.textureUrl,
-			userData: {
-				AwtsmoosLod: { className: 'mountain', quality },
-				family: 'reference-atmospheric-mountains'
-			}
-		};
-	});
+	const definitions = [];
+	for (const [index, options] of BELTS.slice(0, count).entries()) {
+		definitions.push(mountainDefinition(options, index, quality));
+		definitions.push(snowDefinition(options, index, quality));
+	}
 	definitions.stats = {
-		belts: definitions.length,
+		belts: count,
+		definitions: definitions.length,
 		nearestRadius: BELTS[0].radius,
+		snowCaps: count,
 		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0)
 	};
 	return definitions;
 }
 
+function mountainDefinition(options, index, quality) {
+	return definition(
+		`Awtsmoos_atmospheric_mountain_belt_${index}`,
+		mountainGeometry(options, index),
+		options.color,
+		options.textureUrl,
+		'reference-atmospheric-mountains',
+		quality,
+		index,
+		[12 - index * 2, 4]
+	);
+}
+
+function snowDefinition(options, index, quality) {
+	return definition(
+		`Awtsmoos_atmospheric_mountain_snow_${index}`,
+		snowGeometry(options, index),
+		index === 0 ? '#d9d7cf' : '#cbd4df',
+		halfTextureUrl('stone 1'),
+		'reference-atmospheric-mountain-snow',
+		quality,
+		index,
+		[8 - index, 2]
+	);
+}
+
+function definition(id, geometry, color, textureUrl, family, quality, depth, mapRepeat) {
+	return {
+		...geometry,
+		backfaceCull: true,
+		color,
+		doubleSided: false,
+		id,
+		mapRepeat,
+		noEdge: true,
+		position: { x: 0, y: -16 + depth * 4, z: 0 },
+		shape: 'manual',
+		solid: false,
+		texturePolicy: {
+			atmosphericDepth: depth,
+			distanceSelected: true,
+			publicFirebase: true,
+			tileWorld: 18 + depth * 14
+		},
+		textureUrl,
+		userData: {
+			AwtsmoosLod: { className: 'mountain', quality },
+			family
+		}
+	};
+}
+
 function mountainGeometry(options, beltIndex) {
-	const vertices = [];
-	const uvs = [];
-	const indices = [];
+	const geometry = emptyGeometry();
 	for (let segment = 0; segment < options.segments; segment += 1) {
 		const angle = segment / options.segments * Math.PI * 2;
 		const wave = ridgeWave(segment, beltIndex);
-		appendVertex(vertices, uvs, angle, options.radius, 0, segment, options.segments);
-		appendVertex(vertices, uvs, angle, options.radius + options.depth * 0.42, options.height * wave, segment, options.segments);
-		appendVertex(vertices, uvs, angle, options.radius + options.depth, -8, segment, options.segments);
+		appendVertex(geometry, angle, options.radius, -10, segment, options.segments);
+		appendVertex(geometry, angle, options.radius + options.depth * 0.2, options.height * 0.42 * wave, segment, options.segments);
+		appendVertex(geometry, angle, options.radius + options.depth * 0.48, options.height * wave, segment, options.segments);
+		appendVertex(geometry, angle, options.radius + options.depth, -18, segment, options.segments);
 	}
-	for (let segment = 0; segment < options.segments; segment += 1) {
-		const next = (segment + 1) % options.segments;
-		const base = segment * 3;
-		const nextBase = next * 3;
-		indices.push(base, nextBase, base + 1, nextBase, nextBase + 1, base + 1);
-		indices.push(base + 1, nextBase + 1, base + 2, nextBase + 1, nextBase + 2, base + 2);
-	}
-	return { indices, uvs, vertices };
+	connectRows(geometry.indices, options.segments, 4, 0, 1);
+	connectRows(geometry.indices, options.segments, 4, 1, 2);
+	connectRows(geometry.indices, options.segments, 4, 2, 3);
+	return geometry;
 }
 
-function appendVertex(vertices, uvs, angle, radius, y, segment, segments) {
-	vertices.push([Math.cos(angle) * radius, y, Math.sin(angle) * radius]);
-	uvs.push(segment / segments * 8, y / 80 + 0.5);
+function snowGeometry(options, beltIndex) {
+	const geometry = emptyGeometry();
+	for (let segment = 0; segment < options.segments; segment += 1) {
+		const angle = segment / options.segments * Math.PI * 2;
+		const wave = ridgeWave(segment, beltIndex);
+		appendVertex(geometry, angle, options.radius + options.depth * 0.34, options.height * wave * 0.72, segment, options.segments);
+		appendVertex(geometry, angle, options.radius + options.depth * 0.48, options.height * wave + 0.8, segment, options.segments);
+		appendVertex(geometry, angle, options.radius + options.depth * 0.61, options.height * wave * 0.69, segment, options.segments);
+	}
+	connectRows(geometry.indices, options.segments, 3, 0, 1);
+	connectRows(geometry.indices, options.segments, 3, 1, 2);
+	return geometry;
+}
+
+function connectRows(indices, segments, stride, lower, upper) {
+	for (let segment = 0; segment < segments; segment += 1) {
+		const next = (segment + 1) % segments;
+		const a = segment * stride + lower;
+		const b = next * stride + lower;
+		const c = segment * stride + upper;
+		const d = next * stride + upper;
+		indices.push(a, b, c, b, d, c);
+	}
+}
+
+function appendVertex(geometry, angle, radius, y, segment, segments) {
+	geometry.vertices.push([Math.cos(angle) * radius, y, Math.sin(angle) * radius]);
+	geometry.uvs.push(segment / segments * 8, y / 120 + 0.5);
 }
 
 function ridgeWave(segment, beltIndex) {
-	return 0.55
-		+ Math.sin(segment * 1.37 + beltIndex) * 0.2
-		+ Math.sin(segment * 0.43 + beltIndex * 2.1) * 0.18;
+	return 0.62
+		+ Math.sin(segment * 1.37 + beltIndex) * 0.18
+		+ Math.sin(segment * 0.43 + beltIndex * 2.1) * 0.16
+		+ Math.sin(segment * 2.61 + beltIndex * 0.7) * 0.08;
+}
+
+function emptyGeometry() {
+	return { indices: [], uvs: [], vertices: [] };
 }
 
 function belt(radius, height, depth, color, textureUrl, segments) {

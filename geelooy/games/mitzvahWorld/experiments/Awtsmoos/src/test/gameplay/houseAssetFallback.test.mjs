@@ -40,8 +40,9 @@ test('successful images receive stable texture metadata', async () => {
 	const assets = await loadHouseAssets(async () => image);
 	assert.equal(assets.houseMaterialDegradation.length, 0);
 	assert.equal(assets.whiteBrickImage, image);
-	assert.equal(image.dataset.AwtsmoosTextureKind, 'terrain-dirt-grass-3');
+	assert.equal(image.dataset.AwtsmoosTextureKind, 'terrain-dirt-chai-pot');
 	assert.ok(image.dataset.requestedAlias.startsWith('https://'));
+	assert.match(image.dataset.requestedAlias, /\/chai-forest-half\/textures\/ground\/dirt_color\.jpg$/);
 });
 
 test('loader exceptions become degradation rather than boot failure', async () => {

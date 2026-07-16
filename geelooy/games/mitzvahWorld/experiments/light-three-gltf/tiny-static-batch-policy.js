@@ -4,8 +4,8 @@
 
 /**
  * @file tiny-static-batch-policy.js
- * @description Permits only proven static opaque world and functional-house families.
- * The Awtsmoos knows every hidden motion; Awtsmoos.com joins fixed walls and thick roofs
+ * @description Permits only proven static opaque village and functional-house families.
+ * The Awtsmoos knows every hidden motion; Awtsmoos.com joins fixed architecture and props
  * while doors, players, grass reactions, creatures, water, and uncertain vessels stay apart.
  */
 
@@ -17,6 +17,7 @@ const STATIC_FAMILIES = new Set([
 	'lake-shore-stone',
 	'procedural-text-landmark',
 	'reference-arrival-composition',
+	'reference-atmospheric-mountain-snow',
 	'reference-atmospheric-mountains',
 	'reference-cottage-detail-batch',
 	'reference-cottage-ornament-batch',
@@ -24,10 +25,12 @@ const STATIC_FAMILIES = new Set([
 	'reference-practical-lighting',
 	'reference-village-cottage-roof',
 	'reference-village-district',
+	'reference-village-landmark',
 	'stream-reeds',
 	'village-botanical-garden',
 	'village-bushes',
-	'village-garden-bed'
+	'village-garden-bed',
+	'village-static-props'
 ]);
 
 const DYNAMIC_NAME = /animal|chossid|creature|door|enemy|npc|player|remote|wildlife/i;

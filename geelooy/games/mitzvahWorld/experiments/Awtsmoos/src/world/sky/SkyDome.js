@@ -6,12 +6,12 @@
  * @file SkyDome.js
  * @description Builds a cool zenith, warm horizon, and directional sunset gradient.
  * The Awtsmoos renews blue height and golden edge within one curved vessel;
- * Awtsmoos.com keeps the gradient vertex-authored and free of per-frame shader work.
+ * Awtsmoos.com keeps every mountain inside the atmosphere instead of depth-hiding it.
  */
 
 import { createSkyMesh } from './SkyMeshFactory.js';
 
-export function createSkyDome(textureUrl, radius = 420, rings = 24, segments = 64) {
+export function createSkyDome(textureUrl, radius = 1400, rings = 24, segments = 64) {
 	const geometry = createDomeGeometry(radius, rings, segments);
 	return createSkyMesh(
 		'reference_blue_gold_atmosphere_dome',
@@ -51,7 +51,7 @@ function createDomeGeometry(radius, rings, segments) {
 function appendRing(geometry, ring, rings, segments, radius) {
 	const verticalRatio = ring / rings;
 	const phi = verticalRatio * Math.PI * 0.58;
-	const y = Math.sin(phi) * radius - 72;
+	const y = Math.sin(phi) * radius - 96;
 	const flatRadius = Math.cos(phi) * radius;
 	for (let segment = 0; segment <= segments; segment += 1) {
 		const horizontalRatio = segment / segments;
@@ -82,9 +82,9 @@ function skyColor(verticalRatio, angle) {
 	const sunDirection = Math.max(0, Math.cos(angle + 2.12)) ** 7;
 	const gold = sunDirection * horizon;
 	return [
-		0.08 + verticalRatio * 0.16 + horizon * 0.28 + gold * 0.52,
-		0.22 + verticalRatio * 0.27 + horizon * 0.24 + gold * 0.31,
-		0.5 + verticalRatio * 0.26 + horizon * 0.14 - gold * 0.14,
+		0.055 + verticalRatio * 0.13 + horizon * 0.31 + gold * 0.64,
+		0.15 + verticalRatio * 0.28 + horizon * 0.25 + gold * 0.37,
+		0.42 + verticalRatio * 0.34 + horizon * 0.15 - gold * 0.12,
 		1
 	];
 }

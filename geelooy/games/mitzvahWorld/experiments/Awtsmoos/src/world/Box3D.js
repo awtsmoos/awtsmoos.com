@@ -69,7 +69,7 @@ function materialProps(definition) {
 		mapRepeat: definition.mapRepeat || [1, 1],
 		mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
 		anisotropy: definition.anisotropy ?? 3,
-		backfaceCull: !!definition.backfaceCull,
+		backfaceCull: definition.backfaceCull,
 		transparent: !!definition.transparent,
 		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
 		alphaCutoff: definition.alphaCutoff ?? 0.5,

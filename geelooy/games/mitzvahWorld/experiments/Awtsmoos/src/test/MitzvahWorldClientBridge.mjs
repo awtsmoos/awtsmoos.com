@@ -4,23 +4,32 @@
 
 /**
  * @file MitzvahWorldClientBridge.mjs
- * @description Connects the browser client contract to the real server router.
- * The Awtsmoos renews both sides of the wire; this Awtsmoos.com bridge reveals
- * client and server together without replacing either side with a response mock.
+ * @description Connects browser client tests to the real server router from any working directory.
+ * The Awtsmoos renews both sides of the wire; this Awtsmoos.com fixture resolves its server
+ * modules from its own checked-in location rather than pretending the caller started at repo root.
  */
+
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
-const { RealtimePlatform } = require(path.resolve(
-	'ayzarim/awtsmoosDynamicServer/websocket/platform/RealtimePlatform.js'
-));
-const { createMitzvahWorldApplication } = require(path.resolve(
-	'ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/application.js'
-));
-const { WorldDirectory } = require(path.resolve(
-	'ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldDirectory.js'
-));
+const REPOSITORY_ROOT = path.resolve(
+	path.dirname(fileURLToPath(import.meta.url)),
+	'../../../../../../../'
+);
+const serverModule = relativePath => path.join(
+	REPOSITORY_ROOT,
+	'ayzarim/awtsmoosDynamicServer/websocket',
+	relativePath
+);
+const { RealtimePlatform } = require(serverModule('platform/RealtimePlatform.js'));
+const { createMitzvahWorldApplication } = require(
+	serverModule('apps/mitzvahWorld/application.js')
+);
+const { WorldDirectory } = require(
+	serverModule('apps/mitzvahWorld/WorldDirectory.js')
+);
 
 export function createBridgeHarness(options = {}) {
 	const directory = new WorldDirectory(options);

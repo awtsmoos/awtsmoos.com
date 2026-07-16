@@ -1,6 +1,6 @@
 // B"H
-import { cubeMesh } from '/libs/awtsmoos-procedural/src/mesh/primitives/box.js';
-import { sphereMesh } from '/libs/awtsmoos-procedural/src/mesh/primitives/round.js';
+import { cubeMesh } from '../../../../../../../libs/awtsmoos-procedural/src/mesh/primitives/box.js';
+import { sphereMesh } from '../../../../../../../libs/awtsmoos-procedural/src/mesh/primitives/round.js';
 import { createBooleanDoorwayMesh } from './BooleanDoorwayGeometry.js';
 import { v } from '../math/Geometry3D.js';
 

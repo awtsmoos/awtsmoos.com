@@ -5,7 +5,7 @@
 /**
  * @file horseAndRoadQuality.test.mjs
  * @description Proves independent horse motion and strict full-resolution road/horse garments.
- * RESPONSIBILITY: verify shared resources, animation transforms, URLs, and quality policy.
+ * RESPONSIBILITY: verify shared resources, prepared ground, animation transforms, URLs, and policy.
  * NON-RESPONSIBILITY: this test does not claim browser FPS or replace visual acceptance.
  * The Awtsmoos renews every hoof and brick while immutable vessels remain shared;
  * Awtsmoos.com checks that performance reuse never becomes a lower-quality substitution.
@@ -14,6 +14,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { AnimatedHorse } from '../../world/horses/AnimatedHorse.js';
+import { HorseGroundProfile } from '../../world/horses/HorseGroundProfile.js';
 import {
 	HORSE_FUR_TEXTURE_URL,
 	horseMaterialFields
@@ -36,7 +37,7 @@ function route(id, phase) {
 	};
 }
 
-test('horses share immutable resources but keep independent animated transforms', () => {
+test('horses share immutable resources but keep independent prepared-ground transforms', () => {
 	const geometry = { id: 'shared-horse-geometry' };
 	const material = { name: 'shared-full-horse-fur' };
 	const template = {
@@ -45,8 +46,18 @@ test('horses share immutable resources but keep independent animated transforms'
 		userData: { modelSource: 'shared-project-horse-geometry' }
 	};
 	const ground = { heightAt: () => ({ y: 2 }) };
-	const first = new AnimatedHorse(template, ground, route('first', 0));
-	const second = new AnimatedHorse(template, ground, route('second', Math.PI));
+	const firstRoute = route('first', 0);
+	const secondRoute = route('second', Math.PI);
+	const first = new AnimatedHorse(
+		template,
+		new HorseGroundProfile(ground, firstRoute),
+		firstRoute
+	);
+	const second = new AnimatedHorse(
+		template,
+		new HorseGroundProfile(ground, secondRoute),
+		secondRoute
+	);
 	const before = first.mesh.position.x;
 	first.update(1);
 	second.update(1);
@@ -55,6 +66,7 @@ test('horses share immutable resources but keep independent animated transforms'
 	assert.notEqual(first.mesh.position.x, before);
 	assert.notEqual(first.mesh.position.x, second.mesh.position.x);
 	assert.equal(first.stats().animated, true);
+	assert.equal(first.stats().groundProfile.interpolation, 'cyclic-linear-no-overshoot');
 });
 
 test('horse and road contracts require full-resolution sources without fallback', () => {

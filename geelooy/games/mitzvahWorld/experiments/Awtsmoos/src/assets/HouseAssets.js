@@ -13,6 +13,7 @@ import {
 	TEXTURE_PURPOSES,
 	TEXTURE_URLS
 } from './TextureCatalog.js';
+import { highestResolutionSurface } from './HighestResolutionSurfaceCatalog.js';
 
 const HOUSE_IMAGE_ENTRIES = Object.freeze([
 	entry('whiteBrickImage', TEXTURE_PURPOSES.houseWall, 'white-brick-house-wall'),
@@ -27,7 +28,7 @@ const HOUSE_IMAGE_ENTRIES = Object.freeze([
 	entry('dirt2Image', TEXTURE_URLS.terrain.dirt2, 'terrain-dirt-2'),
 	entry('dirtGrass1Image', TEXTURE_URLS.terrain.dirtGrass1, 'terrain-dirt-grass-1'),
 	entry('dirtGrass2Image', TEXTURE_URLS.terrain.dirtGrass2, 'terrain-dirt-grass-2'),
-	entry('terrainMixImage', TEXTURE_URLS.terrain.dirtGrass3, 'terrain-dirt-grass-3')
+	entry('terrainMixImage', highestResolutionSurface('dirt'), 'terrain-dirt-chai-pot')
 ]);
 
 export async function loadHouseAssets(loadFirstImage) {
