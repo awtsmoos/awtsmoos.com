@@ -4,6 +4,7 @@
 
 const Environment = require("./environment.js");
 const Macos = require("./macosStore.js");
+const TestStore = require("./testStore.js");
 
 /**
  * @file Selects fail-closed platform secure storage for device secrets.
@@ -19,6 +20,7 @@ const ADAPTERS = Object.freeze({
 
 /** Returns the supported platform adapter or throws. */
 function adapter() {
+	if (Environment.isTestMode()) return TestStore;
 	const selected = ADAPTERS[process.platform];
 	if (!selected) {
 		throw new Error(`unsupported_secure_storage_platform:${process.platform}`);

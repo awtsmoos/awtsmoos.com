@@ -2,6 +2,10 @@
 // B"H
 // /api/tunnel
 
+const { currentIdentity } = require("./control/core/auth.js");
+const Authorization = require("./control/core/tunnelSecurity/authorization.js");
+const FsPolicy = require("./control/routes/protectedFsPolicy.js");
+
 /**
  * B"H
  * Decodes base64 UTF-8 text.
@@ -93,6 +97,23 @@ function buildFsPayload(url) {
   };
 }
 
+/** Resolves an old route name into a verified account-owned relay destination. */
+function authorizeRelay(info, tunnelReference, permission) {
+  const identity = currentIdentity(info);
+  if (!identity.ok) return { ok: false, error: "not_authenticated", status: 401 };
+  const authorized = Authorization.authorize(
+    identity.accountId,
+    tunnelReference,
+    permission
+  );
+  if (!authorized.ok) return { ok: false, error: "tunnel_not_found", status: 404 };
+  return {
+    ok: true,
+    ownerAccountId: authorized.binding.ownerAccountId,
+    tunnelName: authorized.binding.tunnelName
+  };
+}
+
 module.exports = {
   dynamicRoutes: async info => {
     const { request, response, ws } = info;
@@ -135,16 +156,25 @@ module.exports = {
 
     await info.use("request/:tunnelName", async vars => {
       try {
+        const authority = authorizeRelay(info, vars.tunnelName, "tunnel.preview");
+        if (!authority.ok) {
+          response.statusCode = authority.status;
+          return sendJson(authority);
+        }
         const url = getUrl(request);
         const tunnelUrl = url.searchParams.get("url") || "/";
 
-        const result = await ws.sendTunnelRequest(vars.tunnelName, {
+        const result = await ws.sendTunnelRequest(
+          authority.ownerAccountId,
+          authority.tunnelName,
+          {
           kind: "http",
           method: request.method,
           url: tunnelUrl,
           headers: request.headers,
           body: null
-        });
+          }
+        );
 
         response.statusCode = result.status || 200;
 
@@ -173,8 +203,21 @@ module.exports = {
       try {
         const url = getUrl(request);
         const payload = buildFsPayload(url);
+        const authority = authorizeRelay(
+          info,
+          vars.tunnelName,
+          FsPolicy.requiredPermission(payload.action)
+        );
+        if (!authority.ok) {
+          response.statusCode = authority.status;
+          return sendJson(authority);
+        }
 
-        const result = await ws.sendTunnelRequest(vars.tunnelName, payload);
+        const result = await ws.sendTunnelRequest(
+          authority.ownerAccountId,
+          authority.tunnelName,
+          payload
+        );
 
         if (result.status) {
           response.statusCode = result.status;

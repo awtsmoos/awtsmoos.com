@@ -98,9 +98,16 @@ function closeLiveBinding($i, binding) {
 	try {
 		client.send?.({ type: "TUNNEL_REVOKED", tunnelId: binding.tunnelId });
 	} catch {}
-	try {
-		client.close?.(4003, "Device revoked");
-	} catch {}
+	const close = () => {
+		try {
+			if (typeof client.close === "function") client.close(4003, "Device revoked");
+			else client.socket?.end?.();
+		} catch {
+			try { client.socket?.destroy?.(); } catch {}
+		}
+	};
+	const timer = setTimeout(close, 50);
+	timer.unref?.();
 }
 
 function denial(error) {

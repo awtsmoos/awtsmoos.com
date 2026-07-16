@@ -49,6 +49,16 @@ export async function bootstrap() {
 	return getJson("/api/tunnel/control/bootstrap", credentials());
 }
 
+/** Revokes an owned device and causes its agent to erase local credentials. */
+export async function revokeDevice(tunnelId) {
+	return getJson("/api/tunnel/control/tunnels/devices/revoke", {
+		...credentials(),
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ tunnelId })
+	});
+}
+
 function credentials() {
 	return { credentials: "include" };
 }

@@ -82,10 +82,23 @@ function update(config, patch = {}) {
 	});
 }
 
+/** Removes the local nonsecret binding record without following symlinks. */
+function remove(config = {}) {
+	const target = metadataPath(config);
+	try {
+		fs.unlinkSync(target);
+		return true;
+	} catch (error) {
+		if (error?.code === "ENOENT") return false;
+		throw error;
+	}
+}
+
 module.exports = {
 	loadOrCreate,
 	metadataPath,
 	read,
+	remove,
 	update,
 	write
 };

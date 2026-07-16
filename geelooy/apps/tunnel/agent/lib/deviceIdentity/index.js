@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Environment = require("./environment.js");
+const Forget = require("./forget.js");
 const Identity = require("./identity.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
@@ -19,12 +20,14 @@ const SecureStore = require("./secureStore.js");
 
 module.exports = {
 	Environment,
+	Forget,
 	Identity,
 	KeyMaterial,
 	Metadata,
 	Pairing,
 	SecureStore,
 	load: Identity.load,
+	forget: Forget.forget,
 	pair: Pairing.pair,
 	publicStatus: Identity.publicStatus
 };

@@ -5,6 +5,7 @@ const path = require('node:path');
 const AgentProcess = require('./agentProcess.cjs');
 const CommandSmoke = require('./commandSmoke.cjs');
 const CrashRestart = require('./crashRestartSmoke.cjs');
+const IdentityFixture = require('./identityFixture.cjs');
 const Paths = require('./paths.cjs');
 const Requests = require('./requests.cjs');
 const Soak = require('./soak.cjs');
@@ -25,6 +26,8 @@ function verifyInstall(installRoot) {
 
 async function smokeInstalled(options) {
 	fs.writeFileSync(path.join(options.projectRoot, 'seed.txt'), 'BHY seed');
+	const identity = IdentityFixture.provision(options.installRoot);
+	options.identityEnvironment = identity.environment;
 	let processRecord = AgentProcess.start(options);
 	try {
 		const registration = await AgentProcess.waitForRegistration(
@@ -56,6 +59,7 @@ async function smokeInstalled(options) {
 		};
 	} finally {
 		await AgentProcess.stop(processRecord);
+		identity.cleanup();
 	}
 }
 

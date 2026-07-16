@@ -47,6 +47,14 @@ try {
 	assert.match(skipped.stdout, /runtime start was skipped/i);
 	assert.equal(fs.existsSync(harness.openedPath), false);
 
+	const alreadyOpened = harness.run("complete", {
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_RECENT_CONTROL: "1"
+	});
+	assert.equal(alreadyOpened.status, 0, alreadyOpened.stderr);
+	assert.equal(fs.existsSync(harness.openedPath), false);
+	assert.match(alreadyOpened.stdout, /INSTALLED AND CONNECTED/);
+
 	const failed = harness.run("complete", {
 		AWTS_TEST_REGISTERED: "0"
 	});

@@ -1,5 +1,5 @@
 B"H
-1.0.326
+1.0.330
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -764,6 +764,7 @@ lib/config-value-normalizers.js
 lib/config.js
 lib/deviceIdentity/command.js
 lib/deviceIdentity/environment.js
+lib/deviceIdentity/forget.js
 lib/deviceIdentity/httpJson.js
 lib/deviceIdentity/identity.js
 lib/deviceIdentity/index.js
@@ -773,6 +774,7 @@ lib/deviceIdentity/metadata.js
 lib/deviceIdentity/pairingClient.js
 lib/deviceIdentity/pairingWorkflow.js
 lib/deviceIdentity/secureStore.js
+lib/deviceIdentity/testStore.js
 lib/envelopeCompiler/compiler.js
 lib/envelopeCompiler/index.js
 lib/fakeSsh/auth.js
@@ -1022,6 +1024,7 @@ release/sourcePaths.js
 scripts/auto-manifest.cjs
 scripts/cleanup-state.cjs
 scripts/connection-status.cjs
+scripts/device-identity.cjs
 scripts/install-probe.cjs
 scripts/recovery-control.cjs
 scripts/recovery-restore.cjs

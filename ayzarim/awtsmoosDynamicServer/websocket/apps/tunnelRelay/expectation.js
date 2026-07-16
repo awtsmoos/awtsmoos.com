@@ -3,6 +3,7 @@
 const path = require("path");
 
 const IDENTITY_KEYS = [
+	"registrationKey",
 	"tunnelName",
 	"requestedTunnelName",
 	"requestedAction",

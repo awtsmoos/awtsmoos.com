@@ -20,15 +20,18 @@ const State = require("./state.js");
 
 /** Creates the complete correlation expectation for one transport request. */
 function createExpectation(plan, registrationKey, name, timeoutMs) {
-	return requestExpectation(
+	const expectation = requestExpectation(
 		plan.expectationId,
-		registrationKey,
+		name,
 		{
 			...plan.expectationPayload,
 			requestedTunnelName: name
 		},
 		timeoutMs
 	);
+	// The account-scoped registry key fences the socket record; it is never the
+	// public tunnel identity returned by the agent or exposed in retry payloads.
+	return { ...expectation, registrationKey };
 }
 
 /** Returns prior matching work or null when a new dispatch is required. */

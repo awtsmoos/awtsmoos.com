@@ -12,6 +12,33 @@ skip_control_open() {
 	return 1
 }
 
+control_was_recently_opened() {
+	[ -f "${ROOT:-}/device-binding.json" ] || return 1
+	node - "${ROOT}/device-binding.json" <<'NODE'
+const fs = require("node:fs");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	const stamp = Date.parse(value.lastControlOpenedAt || "");
+	process.exit(Number.isFinite(stamp) && Date.now() - stamp < 10 * 60 * 1000 ? 0 : 1);
+} catch { process.exit(1); }
+NODE
+}
+
+mark_control_opened() {
+	[ -f "${ROOT:-}/device-binding.json" ] || return 0
+	node - "${ROOT}/device-binding.json" <<'NODE'
+const fs = require("node:fs");
+const file = process.argv[2];
+try {
+	const value = JSON.parse(fs.readFileSync(file, "utf8"));
+	value.lastControlOpenedAt = new Date().toISOString();
+	const temporary = `${file}.${process.pid}.tmp`;
+	fs.writeFileSync(temporary, JSON.stringify(value, null, 2), { mode: 0o600 });
+	fs.renameSync(temporary, file);
+} catch {}
+NODE
+}
+
 installer_control_url() {
 	if [ -n "${AWTSMOOS_CONTROL_URL:-}" ]; then
 		printf '%s\n' "$AWTSMOOS_CONTROL_URL"
@@ -53,7 +80,13 @@ open_tunnel_control() {
 			"Automatic Tunnel Control opening was disabled." "$url"
 		return 0
 	fi
+	if control_was_recently_opened; then
+		install_event "control" "skipped" \
+			"Tunnel Control is already open from this pairing/install transaction." "$url"
+		return 0
+	fi
 	if run_browser_opener "$url"; then
+		mark_control_opened
 		install_event "control" "passed" \
 			"Opened Tunnel Control in the default browser." "$url"
 		return 0

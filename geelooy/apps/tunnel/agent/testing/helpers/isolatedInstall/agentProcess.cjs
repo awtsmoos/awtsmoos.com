@@ -9,6 +9,8 @@ function start(options) {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		env: {
 			...process.env,
+			...(options.identityEnvironment || {}),
+			AWTSMOOS_INSTALL_ROOT: options.installRoot,
 			USERPROFILE: options.tempHome,
 			HOME: options.tempHome,
 			AWTSMOOS_MAX_INFLIGHT: '4',

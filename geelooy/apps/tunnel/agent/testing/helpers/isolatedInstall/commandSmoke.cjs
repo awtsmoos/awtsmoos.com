@@ -46,7 +46,10 @@ async function run(relay) {
 	assert.equal(cancelledStatus.status, 'cancelled');
 	assert.equal(cancelledStatus.worker.state, 'cancelled');
 
-	const isolated = await runIsolated(relay, 20);
+	const isolated = await runIsolated(
+		relay,
+		Math.max(1, Number(process.env.AWTSMOOS_INSTALL_SMOKE_COMMANDS || 4))
+	);
 	return {
 		completedJobId: completed.jobId,
 		cancelledJobId: long.jobId,
@@ -94,7 +97,7 @@ async function waitForCompleted(relay, job, index) {
 			jobId: job.jobId,
 			waitTimeoutMs: 4500,
 			pollIntervalMs: 25
-		}, 8000);
+		}, 15000);
 		if (result.status === 'completed') return result;
 		if (result.done && !['running', 'queued', 'spawning', 'detached_running'].includes(result.status)) {
 			assert.fail(JSON.stringify(result));

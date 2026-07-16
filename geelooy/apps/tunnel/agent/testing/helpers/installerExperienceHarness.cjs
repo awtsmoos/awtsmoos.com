@@ -19,6 +19,12 @@ function createHarness(repositoryRoot, sandbox) {
 	function run(mode, environment = {}) {
 		invocation += 1;
 		prepareFixture();
+		if (environment.AWTS_TEST_RECENT_CONTROL === "1") {
+			fs.writeFileSync(
+				path.join(sandbox, "root", "device-binding.json"),
+				JSON.stringify({ lastControlOpenedAt: new Date().toISOString() })
+			);
+		}
 		const progressFile = path.join(sandbox, `${mode}-${invocation}.progress`);
 		return spawnSync("bash", ["-c", script(mode)], {
 			encoding: "utf8",
@@ -49,7 +55,7 @@ function createHarness(repositoryRoot, sandbox) {
 	}
 
 	function openerScript() {
-		return `#!/usr/bin/env bash\nprintf '%s\\n' "$1" > ${shellQuote(path.join(sandbox, "opened.txt"))}\n`;
+		return `#!${process.execPath}\nrequire("node:fs").writeFileSync(${JSON.stringify(path.join(sandbox, "opened.txt"))}, String(process.argv[2] || "") + "\\n");\n`;
 	}
 
 	function script(mode) {
@@ -69,6 +75,7 @@ legacy_log_registered(){ return 1; }
 connection_state_name(){ printf disconnected; }
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
+run_browser_opener(){ printf '%s\\n' "$1" > ${shellQuote(path.join(sandbox, "opened.txt"))}; }
 ${action}`;
 	}
 

@@ -26,7 +26,12 @@ export function account() {
         h("button", { id: "refreshDeviceBtn", text: "Refresh device" }),
         h("div", { id: "deviceSummary", className: "notice", text: "Checking agent..." }),
         out("deviceBox", "No device response yet."),
-        out("miniStatus", "No mini status yet.")
+        out("miniStatus", "No mini status yet."),
+        h("div", { className: "button-row" }, [
+          h("button", { id: "revokeDeviceBtn", text: "Revoke and forget this device" }),
+          h("button", { id: "logoutBtn", text: "Log out of Tunnel Control" })
+        ]),
+        h("p", { className: "notice", text: "Revoking closes the tunnel and instructs the Mac agent to delete its credential and private key from Keychain. Logging out only ends this browser session." })
       ])
     ])
   ]);

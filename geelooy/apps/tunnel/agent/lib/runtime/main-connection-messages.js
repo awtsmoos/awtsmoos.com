@@ -19,6 +19,9 @@ function createConnectionMessages(dependencies) {
 		if (data.type === "TUNNEL_ACK") {
 			return handleAcknowledgement(data, ws);
 		}
+		if (data.type === "TUNNEL_REVOKED") {
+			return handleRevocation(data, ws);
+		}
 		if (dependencies.Replacement.isReplacementMessage(data)) {
 			return handleReplacement(data, ws);
 		}
@@ -38,6 +41,22 @@ function createConnectionMessages(dependencies) {
 			return true;
 		}
 		return false;
+	}
+
+	function handleRevocation(data, ws) {
+		const config = dependencies.loadConfig();
+		const result = dependencies.DeviceIdentity.forget(config);
+		dependencies.state.replacementRequested = true;
+		dependencies.state.registrationRejected = true;
+		dependencies.state.registrationFailureReason = "device_revoked";
+		dependencies.Receipt?.write("device_revoked", {
+			generation: dependencies.state.generation,
+			tunnelName: dependencies.state.tunnelName || "",
+			tunnelId: data.tunnelId || result.tunnelId || null
+		});
+		dependencies.log("warn", "B\"H tunnel device revoked; local Keychain credentials deleted.");
+		try { ws.close(true); } catch {}
+		return true;
 	}
 
 	function handleAcknowledgement(data, ws) {
@@ -97,6 +116,7 @@ function createConnectionMessages(dependencies) {
 	return {
 		handle,
 		handleAcknowledgement,
+		handleRevocation,
 		handleReplacement
 	};
 }

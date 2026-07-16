@@ -19,6 +19,8 @@ export {
 	myDevice
 } from "./controlDevices.js";
 
+export { revokeDevice } from "./controlDevices.js";
+
 export {
 	apiKeys,
 	createApiKey,

@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+import { myDevice, revokeDevice } from "../api/control.js";
 import { refreshDevice } from "../features/status.js";
 import {
 	stopActivitySession
@@ -18,6 +19,7 @@ import { watchSession } from "./sessionWatch.js";
 
 /** Mounts authenticated timers and returns one idempotent disposal function. */
 export function mountAuthenticatedLifecycle(session, getTunnelName) {
+	mountAccountActions(getTunnelName);
 	const stopWatching = watchSession(session);
 	const deviceTimer = setInterval(
 		() => refreshDevice(getTunnelName),
@@ -35,4 +37,38 @@ export function mountAuthenticatedLifecycle(session, getTunnelName) {
 	};
 	window.addEventListener("pagehide", dispose, { once: true });
 	return dispose;
+}
+
+function mountAccountActions(getTunnelName) {
+	const logout = document.getElementById("logoutBtn");
+	if (logout && logout.dataset.awtBound !== "true") {
+		logout.dataset.awtBound = "true";
+		logout.addEventListener("click", () => {
+			stopActivitySession();
+			location.assign(`/logout?next=${encodeURIComponent("/apps/tunnel-control/")}`);
+		});
+	}
+	const revoke = document.getElementById("revokeDeviceBtn");
+	if (!revoke || revoke.dataset.awtBound === "true") return;
+	revoke.dataset.awtBound = "true";
+	revoke.addEventListener("click", async () => {
+		const tunnelName = getTunnelName();
+		if (!tunnelName || !confirm(`Revoke ${tunnelName} and delete its Mac credentials?`)) return;
+		revoke.disabled = true;
+		try {
+			const discovery = await myDevice();
+			const devices = [
+				...(discovery.nativeDevices || []),
+				...(discovery.devices || [])
+			];
+			const device = devices.find((entry) => entry.tunnelName === tunnelName);
+			if (!device?.tunnelId) throw new Error("verified_device_not_found");
+			const result = await revokeDevice(device.tunnelId);
+			if (result.ok === false) throw new Error(result.error || "device_revoke_failed");
+			location.reload();
+		} catch (error) {
+			revoke.textContent = `Revoke failed: ${error.message}`;
+			revoke.disabled = false;
+		}
+	});
 }
