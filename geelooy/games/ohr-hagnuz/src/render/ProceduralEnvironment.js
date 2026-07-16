@@ -1,83 +1,59 @@
-
-import { OakWeaver } from '../graphics/render/flora/OakWeaver.js';
-import { PineWeaver } from '../graphics/render/flora/PineWeaver.js';
-import { CactusWeaver } from '../graphics/render/flora/CactusWeaver.js';
-import { PalmWeaver } from '../graphics/render/flora/PalmWeaver.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @class ProceduralEnvironment
- * @chapter The Breath of the Earth (Deshe)
+ * @file ProceduralEnvironment.js
+ * @description Coordinates strict-overhead trees and encounter vegetation.
+ *
+ * The Awtsmoos renews root and crown as one living form. Awtsmoos.com now shows
+ * each tree from above, preserving tile identity while removing upright silhouettes.
  */
+import { CactusWeaver } from '../graphics/render/flora/CactusWeaver.js';
+import { OakWeaver } from '../graphics/render/flora/OakWeaver.js';
+import { PalmWeaver } from '../graphics/render/flora/PalmWeaver.js';
+import { PineWeaver } from '../graphics/render/flora/PineWeaver.js';
+
 export class ProceduralEnvironment {
-    
-    static drawTree(ctx, x, y, size, type = 'OAK') {
-        ctx.save();
-        ctx.translate(x + size / 2, y + size / 2);
+	static drawTree(context, x, y, size, type = 'OAK', theme) {
+		context.save();
+		context.translate(x + size / 2, y + size / 2);
+		const drawers = {
+			CACTUS: () => CactusWeaver.draw(context, size, theme),
+			PINE: () => PineWeaver.draw(context, size, false, theme),
+			SNOW: () => PineWeaver.draw(context, size, true, theme),
+			PALM: () => PalmWeaver.draw(context, size, theme),
+			GOLD: () => OakWeaver.draw(context, size, ['#8a5d13', '#c28b1c', '#f0bf43']),
+			CRYSTAL: () => OakWeaver.draw(context, size, ['#315a67', '#55a0ae', '#a6e8df']),
+			OAK: () => OakWeaver.draw(context, size, theme?.tree)
+		};
+		(drawers[type] || drawers.OAK)();
+		context.restore();
+	}
 
-        const Weavers = {
-            'CACTUS': () => CactusWeaver.draw(ctx, size),
-            'PINE':   () => PineWeaver.draw(ctx, size, false),
-            'SNOW':   () => PineWeaver.draw(ctx, size, true),
-            'PALM':   () => PalmWeaver.draw(ctx, size),
-            'GOLD':   () => OakWeaver.draw(ctx, size, '#ffb300', '#ffd54f', '#ffca28'),
-            'OAK':    () => OakWeaver.draw(ctx, size, '#1b5e20', '#2e7d32', '#388e3c')
-        };
-
-        const drawFn = Weavers[type] || Weavers['OAK'];
-        drawFn();
-
-        ctx.restore();
-    }
-
-    /**
-     * @description Tall Grass is now a volumetric entity with multiple levels of density.
-     */
-    static drawTallGrass(ctx, x, y, size) {
-        ctx.save();
-        ctx.translate(x, y);
-        
-        const seed = (x * 7 + y * 11) % 100;
-
-        // Level 1: Deep inner darkness (The hidden void where sparks rest)
-        ctx.fillStyle = 'rgba(10, 40, 15, 0.7)';
-        ctx.beginPath();
-        ctx.ellipse(size/2, size*0.7, size*0.4, size*0.25, 0, 0, Math.PI*2);
-        ctx.fill();
-
-        // Level 2: Mid-ground thick blades
-        ctx.strokeStyle = '#1b5e20';
-        ctx.lineWidth = 4;
-        ctx.lineCap = 'round';
-        
-        for (let i = 0; i < 8; i++) {
-            const startX = (size / 8) * i + (seed % 8);
-            const startY = size * 0.9;
-            const height = size * 0.6 + ((seed * i) % (size * 0.3));
-            const lean = ((seed + i) % 3 === 0) ? -8 : 8;
-            
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.quadraticCurveTo(startX + lean, startY - height/2, startX + lean*2, startY - height);
-            ctx.stroke();
-        }
-
-        // Level 3: Foreground bright highlights (The light escaping the Klipot)
-        ctx.strokeStyle = '#4caf50';
-        ctx.lineWidth = 2.5;
-        
-        for (let i = 0; i < 10; i++) {
-            const startX = (size / 10) * i + ((seed*2) % 6);
-            const startY = size * 0.95;
-            const height = size * 0.5 + ((seed * i * 3) % (size * 0.4));
-            const lean = ((seed + i) % 2 === 0) ? 6 : -6;
-            
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.quadraticCurveTo(startX + lean*1.5, startY - height/2, startX + lean, startY - height);
-            ctx.stroke();
-        }
-        
-        ctx.restore();
-    }
+	static drawTallGrass(context, x, y, size) {
+		context.save();
+		context.translate(x + size / 2, y + size / 2);
+		context.fillStyle = 'rgba(7,28,14,0.44)';
+		context.beginPath();
+		context.ellipse(0, 2, size * 0.34, size * 0.22, 0, 0, Math.PI * 2);
+		context.fill();
+		context.lineCap = 'round';
+		for (let index = 0; index < 16; index += 1) {
+			const angle = Math.PI * 2 * index / 16;
+			const length = size * (0.24 + (index % 5) * 0.025);
+			context.strokeStyle = index % 2 ? '#1b5e20' : '#4f8c45';
+			context.lineWidth = index % 3 === 0 ? 3 : 2;
+			context.beginPath();
+			context.moveTo(0, 0);
+			context.quadraticCurveTo(
+				Math.cos(angle + 0.12) * length * 0.6,
+				Math.sin(angle + 0.12) * length * 0.6,
+				Math.cos(angle) * length,
+				Math.sin(angle) * length
+			);
+			context.stroke();
+		}
+		context.restore();
+	}
 }

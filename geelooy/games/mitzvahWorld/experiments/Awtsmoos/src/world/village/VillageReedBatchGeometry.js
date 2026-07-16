@@ -1,65 +1,69 @@
 // B"H
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
-import { sampleStream } from './VillageCurves.js';
-import { villageGroundHeight } from './VillageGroundSampling.js';
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Holds sixty-four stream reeds inside one crossed-quad geometry batch.
- * Deterministic lean keeps the bank alive without sixty-four separate draw submissions.
+ * @file VillageReedBatchGeometry.js
+ * @description Roots one crossed-quad reed batch beside the hydrologically correct banks.
+ * The Awtsmoos causes growth where water truly passes; Awtsmoos.com no longer plants
+ * moisture-loving silhouettes beside an obsolete ribbon disconnected from the lake.
  */
-export function createReedBatchDefinition(groundSampler) {
-	const geometry = { vertices: [], faces: [] };
-	const streamPoints = sampleStream(64);
+
+import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { createRiverHydrology } from './VillageRiverHydrology.js';
+
+export function createReedBatchDefinition(groundSampler, hydrology = null) {
+	const profile = hydrology || createRiverHydrology(groundSampler, 64);
+	const geometry = { faces: [], vertices: [] };
 	for (let index = 0; index < 64; index += 1) {
-		const point = reedPoint(index, streamPoints, groundSampler);
-		appendCrossedReed(geometry, point);
+		appendCrossedReed(geometry, reedPoint(index, profile));
 	}
 	return {
-		id: 'Awtsmoos_stream_reeds_batch',
-		shape: 'manual',
-		...geometry,
-		color: '#7f9f55',
-		textureUrl: TEXTURE_URLS.terrain.marshGrass,
+		color: '#769756',
 		doubleSided: true,
-		solid: false,
+		...geometry,
+		id: 'Awtsmoos_stream_reeds_batch',
 		noEdge: true,
+		shape: 'manual',
+		solid: false,
 		texturePolicy: {
-			role: 'stream-reed-batch',
 			publicFirebase: true,
-			realMaterialRequired: true
+			realMaterialRequired: true,
+			role: 'connected-river-reed-batch'
 		},
-		userData: { staticBatch: true, family: 'stream-reeds', instances: 64 }
+		textureUrl: TEXTURE_URLS.terrain.marshGrass,
+		userData: { family: 'stream-reeds', instances: 64, staticBatch: true }
 	};
 }
 
-function reedPoint(index, streamPoints, groundSampler) {
-	const streamPoint = streamPoints[index];
+function reedPoint(index, profile) {
+	const ratio = index / 63;
+	const sampleIndex = Math.min(profile.points.length - 1, Math.round(ratio * (profile.points.length - 1)));
+	const point = profile.points[sampleIndex];
 	const side = index % 2 ? -1 : 1;
-	const x = streamPoint.x + side * (streamPoint.width + 0.75);
-	const z = streamPoint.z + Math.sin(index * 1.7) * 0.55;
+	const distance = point.width + 0.55 + Math.sin(index * 1.7) * 0.28;
 	return {
-		x,
-		y: villageGroundHeight(groundSampler, x, z) + 0.18,
-		z,
-		height: 0.85 + (index % 5) * 0.09,
+		height: 0.8 + index % 5 * 0.1,
 		leanX: Math.sin(index * 0.91) * 0.09,
-		leanZ: Math.cos(index * 0.73) * 0.09
+		leanZ: Math.cos(index * 0.73) * 0.09,
+		x: point.x + point.normal.x * distance * side,
+		y: point.y + 0.08,
+		z: point.z + point.normal.z * distance * side
 	};
 }
 
 function appendCrossedReed(geometry, point) {
-	const width = 0.045;
-	const bottom = point.y;
+	const width = 0.05;
 	const top = point.y + point.height;
 	appendQuad(geometry, [
-		[point.x - width, bottom, point.z],
-		[point.x + width, bottom, point.z],
+		[point.x - width, point.y, point.z],
+		[point.x + width, point.y, point.z],
 		[point.x + width + point.leanX, top, point.z + point.leanZ],
 		[point.x - width + point.leanX, top, point.z + point.leanZ]
 	]);
 	appendQuad(geometry, [
-		[point.x, bottom, point.z - width],
-		[point.x, bottom, point.z + width],
+		[point.x, point.y, point.z - width],
+		[point.x, point.y, point.z + width],
 		[point.x + point.leanX, top, point.z + width + point.leanZ],
 		[point.x + point.leanX, top, point.z - width + point.leanZ]
 	]);

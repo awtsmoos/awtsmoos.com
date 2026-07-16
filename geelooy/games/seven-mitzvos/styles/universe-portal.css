@@ -1,0 +1,111 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The active portal keeps commandment and meaning above every score and action.
+	Awtsmoos.com gives each game room to become distinct, while the Awtsmoos keeps
+	all seven worlds inside one accessible and reversible shell.
+*/
+.worldPortal {
+	margin-block: 2rem 8rem;
+	padding: clamp(1rem, 3vw, 2.4rem);
+	background: linear-gradient(145deg, #071b24, #07131b);
+}
+
+.worldPortal[hidden] {
+	display: none;
+}
+
+.portalHeader {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 1rem;
+	align-items: start;
+}
+
+.portalHeader h2 {
+	margin: 0.15rem 0 0.2rem;
+	font-size: clamp(2.2rem, 5vw, 4.8rem);
+}
+
+.portalHeader p {
+	margin: 0;
+	color: var(--muted);
+}
+
+.portalMitzvah {
+	color: var(--gold) !important;
+	font-weight: 900;
+}
+
+.portalBack,
+.portalMode {
+	min-height: 44px;
+	padding: 0.65rem 0.85rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--ink);
+	background: #0d2a34;
+}
+
+.portalBack {
+	cursor: pointer;
+}
+
+.portalHud {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+	gap: 0.45rem;
+	margin-top: 1rem;
+}
+
+.portalStat {
+	padding: 0.55rem 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+	background: #0a252f;
+}
+
+.portalStat span {
+	display: block;
+	color: var(--muted);
+	font-size: 0.62rem;
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+.portalStat strong {
+	font-family: var(--serif);
+	font-size: 1.15rem;
+}
+
+.portalStatus {
+	min-height: 3rem;
+	margin: 0.65rem 0;
+	padding: 0.7rem 0.85rem;
+	border-left: 3px solid var(--gold);
+	color: var(--muted);
+	background: #0b222b;
+}
+
+.portalStatus[data-tone="good"] {
+	border-color: #74d7ae;
+}
+
+.portalStatus[data-tone="warn"] {
+	border-color: #e68f7d;
+}
+
+.portalBody {
+	min-height: 350px;
+}
+
+@media (max-width: 680px) {
+	.portalHeader {
+		grid-template-columns: 1fr;
+	}
+
+	.portalMode {
+		justify-self: start;
+	}
+}

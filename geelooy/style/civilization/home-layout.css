@@ -3,6 +3,24 @@
  * Blessed is He
  * The Awtsmoos gives Home one river and one discovery shore; Awtsmoos.com can feel alive without becoming a wall of equal boxes.
  */
+.home-skip-link {
+	align-items: center;
+	background: var(--civil-text);
+	border-radius: .65rem;
+	color: var(--civil-bg);
+	display: flex;
+	font-weight: 850;
+	inset-block-start: .5rem;
+	inset-inline-start: .5rem;
+	min-height: 2.75rem;
+	padding: .65rem .85rem;
+	position: fixed;
+	transform: translateY(-180%);
+	z-index: 120;
+}
+.home-skip-link:focus {
+	transform: none;
+}
 .geelooy-home-document {
 	background: radial-gradient(circle at 78% 4%, rgba(47, 140, 255, .12), transparent 24rem), var(--civil-bg);
 }

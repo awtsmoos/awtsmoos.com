@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos keeps the overhead world full-screen and seven doors touchable. */
+@media (max-width: 720px) {
+	:root {
+		--ohr-topbar-height: 58px;
+		--ohr-dock-height: 58px;
+	}
+
+	body {
+		padding: 0;
+	}
+
+	#game-shell {
+		width: 100vw;
+		height: 100dvh;
+		min-height: 0;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.revelation-topbar {
+		grid-template-columns: minmax(116px, 1fr) auto;
+		gap: 5px;
+		padding: 7px 8px;
+	}
+
+	.revelation-brand {
+		gap: 6px;
+	}
+
+	.revelation-brand-mark {
+		width: 34px;
+		height: 34px;
+		font-size: 20px;
+	}
+
+	.revelation-brand strong {
+		font-size: 15px;
+	}
+
+	.revelation-resources {
+		gap: 3px;
+	}
+
+	.revelation-resources span {
+		min-width: 43px;
+		padding: 4px;
+		border-radius: 8px;
+	}
+
+	.revelation-resources i {
+		font-size: 6px;
+	}
+
+	.revelation-resources b {
+		font-size: 10px;
+	}
+
+	.revelation-dock {
+		grid-template-columns: repeat(7, 1fr);
+		gap: 3px;
+		padding: 5px 6px;
+	}
+
+	.revelation-nav-button {
+		display: grid;
+		grid-template-columns: 1fr;
+		place-items: center;
+		gap: 0;
+		padding: 4px 1px;
+		border-radius: 9px;
+	}
+
+	.revelation-nav-button span {
+		font-size: 16px;
+	}
+
+	.revelation-nav-button b {
+		font-size: 7px;
+		text-align: center;
+	}
+}

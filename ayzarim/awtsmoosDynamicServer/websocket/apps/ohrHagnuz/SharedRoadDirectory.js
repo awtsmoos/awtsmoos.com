@@ -4,57 +4,71 @@
 
 /**
  * @file SharedRoadDirectory.js
- * @description Owns application rooms and connection membership.
- * The Awtsmoos renews every gathering without placing it inside the transport;
- * Awtsmoos.com keeps this game's state private to its registered application.
+ * @description Owns rooms, clients, and exclusive durable character presence.
+ * The Awtsmoos renews every gathering without duplicating one soul into two;
+ * Awtsmoos.com permits one active socket vessel for each online character.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
+const { SharedRoadPlayer } = require('./SharedRoadPlayer.js');
 const { SharedRoadRoom } = require('./SharedRoadRoom.js');
 
 class SharedRoadDirectory {
-	constructor(createId) {
-		this.createId = createId;
+	constructor(dependencies = {}) {
+		this.dependencies = typeof dependencies === 'function'
+			? { createId: dependencies }
+			: dependencies;
 		this.rooms = new Map();
 		this.roomByClient = new Map();
+		this.clientByCharacter = new Map();
 	}
 
 	join(client, profile) {
+		const player = new SharedRoadPlayer(profile, this.dependencies.createId);
+		return this.attach(client, player, profile.roadId);
+	}
+
+	attach(client, player, roadId) {
 		if (this.roomByClient.has(client)) {
 			throw new RealtimeError('ALREADY_JOINED', 'This connection already joined a road.');
 		}
-		const room = this.room(profile.roadId);
-		const player = room.join(client, profile);
+		if (this.clientByCharacter.has(player.id)) {
+			throw new RealtimeError(
+				'CHARACTER_ALREADY_ACTIVE',
+				'This online character is active in another connection.'
+			);
+		}
+		const room = this.room(roadId);
+		room.join(client, player);
 		this.roomByClient.set(client, room);
+		this.clientByCharacter.set(player.id, client);
 		return { player, room };
 	}
 
 	room(roadId) {
 		if (!this.rooms.has(roadId)) {
-			this.rooms.set(roadId, new SharedRoadRoom(roadId, this.createId));
+			this.rooms.set(
+				roadId,
+				new SharedRoadRoom(roadId, this.dependencies)
+			);
 		}
 		return this.rooms.get(roadId);
 	}
 
 	forClient(client) {
 		const room = this.roomByClient.get(client);
-		if (!room) {
-			throw new RealtimeError('NOT_JOINED', 'Join the shared road first.');
-		}
+		if (!room) throw new RealtimeError('NOT_JOINED', 'Join the shared road first.');
 		return room;
 	}
 
 	leave(client) {
 		const room = this.roomByClient.get(client);
-		if (!room) {
-			return null;
-		}
-		room.leave(client);
+		if (!room) return null;
+		const player = room.leave(client);
 		this.roomByClient.delete(client);
-		if (room.isEmpty()) {
-			this.rooms.delete(room.id);
-		}
-		return room;
+		if (player) this.clientByCharacter.delete(player.id);
+		if (room.isEmpty()) this.rooms.delete(room.id);
+		return { player, room };
 	}
 
 	disconnect(client) {
@@ -62,6 +76,4 @@ class SharedRoadDirectory {
 	}
 }
 
-module.exports = {
-	SharedRoadDirectory
-};
+module.exports = { SharedRoadDirectory };

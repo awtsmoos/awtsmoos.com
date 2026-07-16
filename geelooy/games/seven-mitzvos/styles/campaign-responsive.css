@@ -1,0 +1,71 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The Seven Provinces change vessels without losing meaning on Awtsmoos.com.
+	The Awtsmoos fills desktop, tablet, and mobile equally; this responsive law
+	prevents horizontal exile while keeping every primary action large enough.
+*/
+@media (max-width: 1100px) {
+	.campaignProvinceGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 700px) {
+	.campaignShell {
+		width: min(100% - 16px, 1440px);
+		margin-top: 16px;
+		padding: 16px;
+		border-radius: 18px;
+	}
+
+	.campaignProvinceGrid,
+	.campaignSummaryGrid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.campaignControls {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.campaignStageHeader {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.campaignStageClose {
+		grid-row: auto;
+	}
+
+	.campaignStageHud {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.strategyGrid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.campaignShell *,
+	.campaignStage * {
+		scroll-behavior: auto !important;
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+.campaignShell *,
+.campaignStage * {
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.campaignShell button:focus-visible,
+.campaignShell summary:focus-visible,
+.campaignShell input:focus-visible,
+.campaignShell select:focus-visible {
+	outline: 3px solid #ffd166;
+	outline-offset: 3px;
+}

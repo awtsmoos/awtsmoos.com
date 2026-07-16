@@ -2,35 +2,36 @@
 // Boruch Hashem
 // Blessed is He
 
-const assert = require("assert");
+const assert = require("node:assert/strict");
 const Relay = require("./tunnelRelay.js");
-const ResponseStart = require("../../../../geelooy/apps/tunnel/agent/tools/fs/commandJob/responseStart.js");
+const Fixture = require("./tunnelRelay.retryFixtures.cjs");
+const ResponseStart = require(
+	"../../../../geelooy/apps/tunnel/agent/tools/fs/commandJob/responseStart.js"
+);
 
 /**
- * B"H
- * A queued worker may not yet have a PID, but the Awtsmoos keeps its command
- * and directory visible so Awtsmoos.com can reject crossed agent receipts.
+ * A queued worker may not yet have a PID, but the Awtsmoos keeps command and
+ * directory visible. Awtsmoos.com binds that receipt to the authenticated tunnel
+ * socket so a crossed shell command cannot satisfy another caller's expectation.
  */
-(async () => {
-	const sent = [];
-	const context = {
-		tunnels: new Map([["awt-shell", { send: message => sent.push(message) }]]),
-		pendingTunnelRequests: new Map()
-	};
+async function main() {
+	const test = Fixture.fixture();
 	const payload = {
+		...Fixture.payload("shell-control"),
 		action: "shellCommand",
 		command: "printf tunnel-safe",
 		cwd: "/repo",
-		projectRoot: "/repo",
-		controlRequestId: "shell-control",
-		clientRequestId: "shell-client",
-		agentSessionId: "shell-session",
-		logicalAgentId: "shell-agent",
-		nonce: "shell-nonce",
 		relayWaitMs: 2000
 	};
-	const waiting = Relay.sendTunnelRequest(context, "awt-shell", payload, 5000);
-	assert.equal(sent.length, 1);
+	const waiting = Relay.sendTunnelRequest(
+		test.context,
+		test.accountId,
+		test.tunnelName,
+		payload,
+		5000
+	);
+	assert.equal(test.sent.length, 1);
+
 	const receipt = ResponseStart.start("job-shell", {
 		meta: {
 			status: "queued",
@@ -45,10 +46,10 @@ const ResponseStart = require("../../../../geelooy/apps/tunnel/agent/tools/fs/co
 	});
 	assert.equal(receipt.command, payload.command);
 	assert.equal(receipt.cwd, payload.cwd);
+
 	const base = {
 		...receipt,
-		id: sent[0].id,
-		tunnelName: "awt-shell",
+		id: test.sent[0].id,
 		controlRequestId: payload.controlRequestId,
 		clientRequestId: payload.clientRequestId,
 		agentSessionId: payload.agentSessionId,
@@ -56,25 +57,33 @@ const ResponseStart = require("../../../../geelooy/apps/tunnel/agent/tools/fs/co
 		projectRoot: payload.projectRoot,
 		nonce: payload.nonce
 	};
-	assert.equal(Relay.handleTunnelResponse(context, {
-		...base,
-		command: "printf crossed"
-	}), false);
-	assert.equal(context.pendingTunnelRequests.size, 1);
-	assert.equal(Relay.handleTunnelResponse(context, base), true);
+	assert.equal(Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		{ ...base, command: "printf crossed" }
+	), false);
+	assert.equal(test.context.pendingTunnelRequests.size, 1);
+	assert.equal(Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		base
+	), true);
+
 	const result = await waiting;
 	assert.equal(result.actualAction, "commandStart");
 	assert.equal(result.jobId, "job-shell");
 	assert.equal(result.queued, true);
-	assert.equal(context.pendingTunnelRequests.size, 0);
-	assert.equal(context.tunnelResponseQuarantine.length, 1);
+	assert.equal(test.context.pendingTunnelRequests.size, 0);
+	assert.equal(test.context.tunnelResponseQuarantine.length, 1);
 	console.log(JSON.stringify({
 		ok: true,
 		requestedAction: "shellCommand",
 		servedBy: "commandStart",
 		queuedIdentityComplete: true
-	}, null, 2));
-})().catch(error => {
+	}));
+}
+
+main().catch(error => {
 	console.error(error.stack || error.message);
-	process.exit(1);
+	process.exitCode = 1;
 });

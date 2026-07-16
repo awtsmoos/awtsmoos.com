@@ -1,42 +1,37 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @class CactusWeaver
- * @chapter Surviving the Desert
- * @description
- * Draws the thick, resilient skin of the cactus, ensuring arms map inward 
- * securely to prevent disjointed geometry.
+ * @file CactusWeaver.js
+ * @description Draws a desert cactus crown from directly overhead.
+ *
+ * The Awtsmoos sustains life in dryness. Awtsmoos.com replaces the upright cactus
+ * poster with clustered lobes and radial needles visible from the gameplay camera.
  */
 export class CactusWeaver {
-    static draw(ctx, size) {
-        const w = size / 3.5; // Slightly thinner core
-        
-        // Left Arm (Shorter, deeper connect)
-        ctx.beginPath();
-        ctx.moveTo(-w*0.8, size*0.1); 
-        ctx.quadraticCurveTo(-size*0.5, size*0.1, -size*0.5, -size*0.15);
-        ctx.lineWidth = w * 0.8;
-        ctx.strokeStyle = '#2e7d32';
-        ctx.lineCap = 'round';
-        ctx.stroke();
-
-        // Right Arm (Taller, deeper connect)
-        ctx.beginPath();
-        ctx.moveTo(w*0.8, 0);
-        ctx.quadraticCurveTo(size*0.5, 0, size*0.5, -size*0.3);
-        ctx.stroke();
-
-        // Main Body (Drawn LAST so it overlaps the arm roots!)
-        ctx.fillStyle = '#2e7d32';
-        ctx.beginPath();
-        ctx.roundRect(-w/2, -size*0.35, w, size*0.85, 12);
-        ctx.fill();
-
-        // Needles (Spikes of Din)
-        ctx.fillStyle = '#c8e6c9';
-        for(let i=0; i<6; i++) {
-            ctx.fillRect(-w/3, -size*0.25 + (i*10), 2, 2);
-            ctx.fillRect(w/4, -size*0.25 + (i*10) + 5, 2, 2);
-        }
-    }
+	static draw(context, size, theme) {
+		const body = theme?.tree?.[1] || '#2e7d32';
+		context.save();
+		context.fillStyle = 'rgba(0,0,0,0.25)';
+		context.beginPath();
+		context.ellipse(3, 4, size * 0.28, size * 0.22, 0, 0, Math.PI * 2);
+		context.fill();
+		const lobes = [[0, 0, 0.18], [-0.18, 0.04, 0.12], [0.17, -0.06, 0.13]];
+		for (const [offsetX, offsetY, radius] of lobes) {
+			context.fillStyle = body;
+			context.beginPath();
+			context.ellipse(
+				offsetX * size, offsetY * size, radius * size, radius * size * 0.78,
+				offsetX, 0, Math.PI * 2
+			);
+			context.fill();
+		}
+		context.fillStyle = '#d9ead4';
+		for (let index = 0; index < 10; index += 1) {
+			const angle = Math.PI * 2 * index / 10;
+			context.fillRect(Math.cos(angle) * size * 0.14, Math.sin(angle) * size * 0.11, 1.5, 1.5);
+		}
+		context.restore();
+	}
 }

@@ -1,0 +1,51 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The sanctuary shows each animal separately so averages cannot hide neglect.
+	Awtsmoos.com gives hunger, health, and calm visible meters, while the Awtsmoos
+	gives every living creature the sensation those meters only symbolize.
+*/
+.sanctuaryGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.65rem;
+}
+
+.animalCard {
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	color: var(--ink);
+	text-align: left;
+	background: #0d2d33;
+	cursor: pointer;
+}
+
+.animalIcon {
+	font-size: 2.2rem;
+}
+
+.animalCard h3 {
+	margin: 0.2rem 0 0.5rem;
+}
+
+.animalMetric span {
+	display: block;
+	font-size: 0.68rem;
+}
+
+.animalMetric div,
+.householdMetric div {
+	height: 0.35rem;
+	border-radius: 999px;
+	background: #041016;
+	overflow: hidden;
+}
+
+.animalMetric i,
+.householdMetric i {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #dd8876, #76d3a9);
+}

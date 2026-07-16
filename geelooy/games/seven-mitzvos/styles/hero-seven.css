@@ -1,0 +1,60 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The opening hero states all seven mitzvos before any game or scroll choice.
+	Awtsmoos.com places exact language in the first visible chapter, while the
+	Awtsmoos gives every commandment one clear number and one shared human world.
+*/
+.heroMitzvahStrip {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.45rem;
+	max-width: 1050px;
+	margin: 1.2rem 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: mitzvah;
+}
+
+.heroMitzvahStrip li {
+	counter-increment: mitzvah;
+	min-height: 58px;
+	padding: 0.65rem;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 0.8rem;
+	color: var(--ink);
+	font-size: 0.76rem;
+	font-weight: 800;
+	line-height: 1.25;
+	background: rgba(5, 20, 29, 0.82);
+}
+
+.heroMitzvahStrip li::before {
+	content: counter(mitzvah, decimal-leading-zero) " · ";
+	color: var(--gold);
+}
+
+.heroMitzvahStrip li:last-child {
+	grid-column: span 2;
+}
+
+@media (max-width: 820px) {
+	.heroMitzvahStrip {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.heroMitzvahStrip li:last-child {
+		grid-column: span 2;
+	}
+}
+
+@media (max-width: 480px) {
+	.heroMitzvahStrip {
+		grid-template-columns: 1fr;
+	}
+
+	.heroMitzvahStrip li:last-child {
+		grid-column: auto;
+	}
+}

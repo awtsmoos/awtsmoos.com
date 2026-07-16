@@ -2,65 +2,103 @@
 // Boruch Hashem
 // Blessed is He
 
+const { publishConnection } = require("../tunnelActivity/publisher.js");
 const { sendJson } = require("../wsUtilities.js");
-const { cleanId } = require("./normalizers.js");
-const { isValidTunnelName } = require("./validation.js");
-const Authority = require("./registrationAuthority.js");
-const Transfer = require("./registrationTransfer.js");
 const { ensureServerState } = require("../../platform/ServerState.js");
+const Authority = require("./registrationAuthority.js");
+const Security = require("./securityBridge.js");
+const Transfer = require("./registrationTransfer.js");
 
 /**
- * B"H
- *
- * Registration is a guarded transfer of authority, not newest-packet-wins.
- * The Awtsmoos renews incumbent and contender; Awtsmoos.com preserves healthy
- * modern ownership while allowing equal restarts, upgrades, and stale recovery.
+ * @file Admits account-bound devices and publishes their living connection state.
+ * @description
+ * The Awtsmoos renews contender and incumbent, yet Awtsmoos.com first proves the
+ * owner account, then lets protocol authority choose within that account, and only
+ * afterward reveals registration or replacement to the rightful realtime stream.
  */
-function handleTunnelRegister(server, client, data = {}) {
-	const tunnelName = cleanId(data.tunnelName || data.name || data.id);
-	if (!isValidTunnelName(tunnelName)) {
-		sendJson(client, {
-			type: "TUNNEL_ACK",
-			ok: false,
-			error: "invalid_tunnel_name"
-		});
-		return false;
-	}
 
+/** Authenticates, scopes, registers, and announces one tunnel WebSocket. */
+function handleTunnelRegister(server, client, data = {}) {
+	const identity = Security.authorizeRegistration(client, data);
+	if (!identity.ok) {
+		return Transfer.rejectSecurity(server, client, identity.error);
+	}
+	const registrationKey = Security.registrationKey(identity);
+	if (!registrationKey) {
+		return Transfer.rejectSecurity(server, client, "invalid_registry_identity");
+	}
 	const state = ensureServerState(server);
-	const previous = state.tunnels.get(tunnelName);
-	const decision = Authority.decide(previous, contenderDescriptor(client, data));
+	const previous = state.tunnels.get(registrationKey);
+	const decision = Authority.decide(
+		previous,
+		contenderDescriptor(client, data)
+	);
 	if (decision.action === "fence") {
 		return Transfer.reject(
 			server,
 			client,
-			tunnelName,
+			identity.tunnelName,
 			decision,
 			previous
 		);
 	}
-
 	const replaced = decision.action === "replace"
-		? Transfer.closePrevious(server, tunnelName, client)
+		? Transfer.closePrevious(
+			server,
+			registrationKey,
+			client,
+			identity.tunnelName
+		)
 		: null;
-	const descriptor = Transfer.apply(server, client, data, tunnelName);
-	state.tunnels.set(tunnelName, client);
-	state.tunnelRegistrations.set(tunnelName, descriptor);
+	const descriptor = Transfer.apply(
+		server,
+		client,
+		data,
+		identity,
+		registrationKey
+	);
+	state.tunnels.set(registrationKey, client);
+	state.tunnelRegistrations.set(registrationKey, descriptor);
 	state.clients.add(client);
+	sendAcknowledgement(client, identity, descriptor, replaced);
+	publishRegistration(server, client, descriptor, replaced);
+	return true;
+}
+
+function sendAcknowledgement(client, identity, descriptor, replaced) {
 	sendJson(client, {
 		type: "TUNNEL_ACK",
 		ok: true,
-		name: tunnelName,
-		tunnelName,
+		accountBound: true,
+		tunnelId: identity.tunnelId,
+		tunnelName: identity.tunnelName,
 		replacedOlderConnection: Boolean(replaced),
 		vesselType: descriptor.vesselType,
 		protocolVersion: descriptor.protocolVersion,
 		registrationGeneration: client.registrationGeneration,
 		serverTime: new Date().toISOString()
 	});
-	return true;
 }
 
+function publishRegistration(server, client, descriptor, replaced) {
+	publishConnection(server, client, "connection.registered", {
+		state: "connected",
+		summary: `${client.deviceName || client.tunnelName} connected`,
+		vesselType: descriptor.vesselType,
+		protocolVersion: descriptor.protocolVersion,
+		agentVersion: client.agentVersion,
+		replacedConnectionId: replaced?.id || ""
+	});
+	if (replaced) {
+		publishConnection(server, replaced, "connection.replaced", {
+			state: "replaced",
+			severity: "notice",
+			summary: `${replaced.deviceName || replaced.tunnelName} was replaced`
+		});
+	}
+}
+
+/** Builds protocol precedence without granting security authority. */
 function contenderDescriptor(client, data) {
 	return {
 		client,

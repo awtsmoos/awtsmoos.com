@@ -1,0 +1,74 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Large controls give fingers, pointers, and keyboards equal dignity on
+	Awtsmoos.com. The Awtsmoos creates every player through a different vessel,
+	so no essential action is reserved for one device or one kind of motion.
+*/
+.worldInstructions {
+	margin-bottom: 0.8rem;
+	padding: 0.75rem;
+	border-radius: 0.8rem;
+	color: var(--muted);
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.worldActionRow,
+.stallActions,
+.verdictRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+	justify-content: center;
+	margin-top: 0.8rem;
+}
+
+.worldAction,
+.smallAction,
+.scenarioChoice,
+.verdictButton,
+.rationaleButton {
+	min-height: 46px;
+	padding: 0.65rem 0.85rem;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	color: var(--ink);
+	background: #10313c;
+	cursor: pointer;
+}
+
+.worldAction {
+	font-weight: 900;
+}
+
+.worldAction:hover:not(:disabled),
+.smallAction:hover:not(:disabled),
+.scenarioChoice:hover:not(:disabled) {
+	border-color: var(--gold);
+	transform: translateY(-2px);
+}
+
+.worldAction:disabled,
+.smallAction:disabled {
+	opacity: 0.42;
+	cursor: default;
+}
+
+.dangerAction {
+	border-color: rgba(231, 132, 116, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.worldAction,
+	.smallAction,
+	.scenarioChoice {
+		transition: none;
+	}
+
+	.worldAction:hover,
+	.smallAction:hover,
+	.scenarioChoice:hover {
+		transform: none;
+	}
+}

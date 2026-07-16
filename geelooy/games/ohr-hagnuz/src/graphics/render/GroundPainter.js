@@ -1,63 +1,73 @@
-
-import { GrassPainter } from './ground/GrassPainter.js';
-import { SandPainter } from './ground/SandPainter.js';
-import { WaterPainter } from './ground/WaterPainter.js';
-import { SnowPainter } from './ground/SnowPainter.js';
-import { MountainPainter } from './ground/MountainPainter.js';
-import { CrystalPainter } from './ground/CrystalPainter.js';
-import { LavaPainter } from './ground/LavaPainter.js';
-import { VoidPainter } from './ground/VoidPainter.js';
-import { ParchmentPainter } from './ground/ParchmentPainter.js';
-import { OhrPainter } from './ground/OhrPainter.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @class GroundPainter
- * @description
- * Pure router directing the Divine Will into specific physical ground textures.
+ * @file GroundPainter.js
+ * @description Routes canonical glyphs through regional overhead ground painters.
+ *
+ * The Awtsmoos gives each terrain its garment while remaining one. Awtsmoos.com
+ * adds only visual accents after the established ground identity has been drawn.
  */
-export class GroundPainter {
-    static draw(ctx, x, y, size, tile) {
-        const seed = (tile.x * 13 + tile.y * 7);
-        const char = tile.char;
-        
-        const Routers = {
-            '1': () => GrassPainter.draw(ctx, x, y, size, seed, false),
-            '🌿': () => GrassPainter.draw(ctx, x, y, size, seed, true),
-            '.': () => SandPainter.draw(ctx, x, y, size, seed),
-            '~': () => WaterPainter.draw(ctx, x, y, size, seed),
-            '*': () => SnowPainter.draw(ctx, x, y, size, seed),
-            '^': () => MountainPainter.draw(ctx, x, y, size, seed),
-            '✧': () => CrystalPainter.draw(ctx, x, y, size, seed),
-            '☁': () => {
-                ctx.fillStyle = '#ffffff'; 
-                ctx.globalAlpha = 0.6;
-                ctx.beginPath(); ctx.arc(x + size/2, y + size/2, size/1.5, 0, Math.PI*2); ctx.fill();
-                ctx.globalAlpha = 1.0;
-            },
-            '✨': () => {
-                CrystalPainter.draw(ctx, x, y, size, seed); 
-                ctx.fillStyle = '#ffeb3b';
-                ctx.shadowBlur = 15; ctx.shadowColor = '#fff';
-                ctx.beginPath(); ctx.arc(x + size/2, y + size/2, 4, 0, Math.PI*2); ctx.fill();
-                ctx.shadowBlur = 0;
-            },
-            '☰': () => ParchmentPainter.draw(ctx, x, y, size, seed),
-            '☼': () => OhrPainter.draw(ctx, x, y, size, seed),
-            '♨': () => LavaPainter.draw(ctx, x, y, size, seed),
-            '⬣': () => VoidPainter.draw(ctx, x, y, size, seed),
-            '≈': () => {
-                WaterPainter.draw(ctx, x, y, size, seed);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-                ctx.fillRect(x, y, size, size);
-                if (seed % 3 === 0) {
-                    ctx.fillStyle = '#fff';
-                    ctx.beginPath(); ctx.arc(x + size/2, y + size/2, 2, 0, Math.PI*2); ctx.fill();
-                }
-            }
-        };
+import { TerrainAccentPainter } from './detail/TerrainAccentPainter.js';
+import { CrystalPainter } from './ground/CrystalPainter.js';
+import { GrassPainter } from './ground/GrassPainter.js';
+import { LavaPainter } from './ground/LavaPainter.js';
+import { MountainPainter } from './ground/MountainPainter.js';
+import { OhrPainter } from './ground/OhrPainter.js';
+import { ParchmentPainter } from './ground/ParchmentPainter.js';
+import { SandPainter } from './ground/SandPainter.js';
+import { SnowPainter } from './ground/SnowPainter.js';
+import { VoidPainter } from './ground/VoidPainter.js';
+import { WaterPainter } from './ground/WaterPainter.js';
 
-        const drawFn = Routers[char] || Routers['1'];
-        drawFn();
-    }
+export class GroundPainter {
+	static draw(context, x, y, size, tile, theme) {
+		const seed = tile.x * 13 + tile.y * 7;
+		const routers = {
+			'1': () => GrassPainter.draw(context, x, y, size, seed, false, theme),
+			'🌿': () => GrassPainter.draw(context, x, y, size, seed, true, theme),
+			'.': () => SandPainter.draw(context, x, y, size, seed),
+			'~': () => WaterPainter.draw(context, x, y, size, seed, theme),
+			'*': () => SnowPainter.draw(context, x, y, size, seed),
+			'^': () => MountainPainter.draw(context, x, y, size, seed),
+			'✧': () => CrystalPainter.draw(context, x, y, size, seed),
+			'☁': () => this.drawMist(context, x, y, size),
+			'✨': () => this.drawSparkTile(context, x, y, size, seed),
+			'☰': () => ParchmentPainter.draw(context, x, y, size, seed),
+			'☼': () => OhrPainter.draw(context, x, y, size, seed),
+			'♨': () => LavaPainter.draw(context, x, y, size, seed),
+			'⬣': () => VoidPainter.draw(context, x, y, size, seed),
+			'≈': () => this.drawBrightWater(context, x, y, size, seed, theme)
+		};
+		(routers[tile.char] || routers['1'])();
+		TerrainAccentPainter.draw(context, x, y, size, tile, theme);
+	}
+
+	static drawMist(context, x, y, size) {
+		context.save();
+		context.fillStyle = 'rgba(255,255,255,0.6)';
+		context.beginPath();
+		context.arc(x + size / 2, y + size / 2, size / 1.5, 0, Math.PI * 2);
+		context.fill();
+		context.restore();
+	}
+
+	static drawSparkTile(context, x, y, size, seed) {
+		CrystalPainter.draw(context, x, y, size, seed);
+		context.save();
+		context.fillStyle = '#ffeb3b';
+		context.shadowBlur = 15;
+		context.shadowColor = '#fff';
+		context.beginPath();
+		context.arc(x + size / 2, y + size / 2, 4, 0, Math.PI * 2);
+		context.fill();
+		context.restore();
+	}
+
+	static drawBrightWater(context, x, y, size, seed, theme) {
+		WaterPainter.draw(context, x, y, size, seed, theme);
+		context.fillStyle = 'rgba(255,255,255,0.16)';
+		context.fillRect(x, y, size, size);
+	}
 }

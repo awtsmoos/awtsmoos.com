@@ -1,98 +1,86 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-export const VIRTUAL_OS_TUNNEL = "awtsmoos-virtual-os";
-export const TARGET_VESSEL_MEMORY = "awtTargetVesselName";
+import {
+	collectVessels,
+	labelForVessel,
+	normalizeVessel
+} from "./vesselCollection.js";
+import {
+	readStoredTarget,
+	rememberTargetVessel,
+	TARGET_VESSEL_MEMORY
+} from "./targetMemory.js";
+import { VIRTUAL_OS_TUNNEL } from "./deviceTrust.js";
 
 /**
- * B"H
- * Chapter: The Cup Learns Which River It Drinks From.
- *
- * Native tunnel, browser tab, and hosted Virtual OS are not rivals. They are
- * vessels. This module makes one small covenant: every action may ask, with
- * clean deterministic logic, which vessel is currently selected.
+ * @file Selects only sanitized account vessels and the fixed Virtual OS.
+ * @description
+ * The Awtsmoos renews remembered names and living authority without confusing them.
+ * Awtsmoos.com revalidates every preference against the current sanitized discovery
+ * set, so stale foreign recommendations and raw endpoint objects can never be chosen.
  */
-export function normalizeVessel(device = {}, fallbackType = "vessel") {
-  const tunnelName = device.tunnelName || device.name || device.id || "";
-  if (!tunnelName) return null;
-  const vesselType = device.vesselType || device.kind || fallbackType;
-  return {
-    ...device,
-    tunnelName,
-    name: tunnelName,
-    vesselType,
-    kind: vesselType,
-    label: labelForVessel({ ...device, tunnelName, vesselType })
-  };
-}
-
-export function labelForVessel(vessel = {}) {
-  const name = vessel.tunnelName || vessel.name || VIRTUAL_OS_TUNNEL;
-  const type = vessel.vesselType || vessel.kind || "vessel";
-  if (name === VIRTUAL_OS_TUNNEL || type === "virtual-os") return `${name} — Hosted Virtual OS`;
-  if (type === "browser-tab") return `${name} — Browser tab`;
-  if (type === "native-tunnel") return `${name} — Native tunnel`;
-  return `${name} — ${type}`;
-}
-
-function pushUnique(out, seen, item) {
-  const vessel = normalizeVessel(item);
-  if (!vessel || seen.has(vessel.tunnelName)) return;
-  seen.add(vessel.tunnelName);
-  out.push(vessel);
-}
-
-export function collectVessels(got = {}) {
-  const out = [];
-  const seen = new Set();
-  for (const device of got.browserDevices || []) pushUnique(out, seen, { ...device, vesselType: device.vesselType || "browser-tab" });
-  for (const device of got.nativeDevices || got.tunnels || []) pushUnique(out, seen, { ...device, vesselType: device.vesselType || "native-tunnel" });
-  if (got.device) pushUnique(out, seen, got.device);
-  if (got.tunnel) pushUnique(out, seen, got.tunnel);
-  if (got.recommended) pushUnique(out, seen, got.recommended);
-  pushUnique(out, seen, got.virtualDevice || { tunnelName: VIRTUAL_OS_TUNNEL, vesselType: "virtual-os", allowWrite: true });
-  return out;
-}
-
-export function readStoredTarget(storage = globalThis.localStorage) {
-  try { return storage?.getItem(TARGET_VESSEL_MEMORY) || ""; }
-  catch { return ""; }
-}
-
-export function rememberTargetVessel(name, storage = globalThis.localStorage) {
-  const value = String(name || "").trim() || VIRTUAL_OS_TUNNEL;
-  try { storage?.setItem(TARGET_VESSEL_MEMORY, value); } catch {}
-  return value;
-}
-
-export function chooseTargetVessel(got = {}, preferred = "") {
-  const vessels = collectVessels(got);
-  const wanted = String(preferred || readStoredTarget() || got.recommended?.tunnelName || got.tunnelName || "").trim();
-  const match = vessels.find(vessel => vessel.tunnelName === wanted);
-  if (match) return match;
-  return vessels.find(vessel => vessel.tunnelName !== VIRTUAL_OS_TUNNEL) || vessels[0] || normalizeVessel({ tunnelName: VIRTUAL_OS_TUNNEL, vesselType: "virtual-os" });
+export function chooseTargetVessel(discovery = {}, preferred = "") {
+	const vessels = collectVessels(discovery);
+	const wanted = String(
+		preferred || readStoredTarget() || discovery.recommended?.tunnelName || ""
+	).trim();
+	return vessels.find((vessel) => vessel.tunnelName === wanted) ||
+		vessels.find((vessel) => vessel.connected &&
+			vessel.tunnelName !== VIRTUAL_OS_TUNNEL) ||
+		vessels.find((vessel) => vessel.tunnelName === VIRTUAL_OS_TUNNEL) ||
+		null;
 }
 
 export function currentTargetVesselName(fallback = "") {
-  return String(readStoredTarget() || fallback || VIRTUAL_OS_TUNNEL).trim();
+	return String(
+		readStoredTarget() || fallback || VIRTUAL_OS_TUNNEL
+	).trim();
 }
 
-export function renderTargetOptions(select, got = {}, preferred = "") {
-  if (!select) return chooseTargetVessel(got, preferred);
-  const vessels = collectVessels(got);
-  const selected = chooseTargetVessel(got, preferred);
-  select.replaceChildren(...vessels.map(vessel => {
-    const option = document.createElement("option");
-    option.value = vessel.tunnelName;
-    option.textContent = vessel.label;
-    option.dataset.vesselType = vessel.vesselType || "vessel";
-    return option;
-  }));
-  select.value = selected.tunnelName;
-  rememberTargetVessel(selected.tunnelName);
-  return selected;
+export function renderTargetOptions(select, discovery = {}, preferred = "") {
+	const vessels = collectVessels(discovery);
+	const selected = chooseTargetVessel(discovery, preferred);
+	if (!select) {
+		return selected;
+	}
+	select.replaceChildren(...vessels.map(createOption));
+	if (selected) {
+		select.value = selected.tunnelName;
+		rememberTargetVessel(selected.tunnelName);
+	} else {
+		rememberTargetVessel("");
+	}
+	return selected;
 }
 
 export function bindTargetSelect(select, onChange = () => {}) {
-  if (!select) return;
-  select.addEventListener("change", () => onChange(rememberTargetVessel(select.value)));
+	if (!select || select.dataset.awtTargetBound === "true") {
+		return;
+	}
+	select.dataset.awtTargetBound = "true";
+	select.addEventListener("change", () => {
+		onChange(rememberTargetVessel(select.value));
+	});
 }
+
+function createOption(vessel) {
+	const option = document.createElement("option");
+	option.value = vessel.tunnelName;
+	option.textContent = vessel.label;
+	option.dataset.vesselType = vessel.vesselType || "vessel";
+	option.dataset.access = vessel.access || "owned";
+	option.dataset.verified = String(vessel.ownershipVerified === true);
+	return option;
+}
+
+export {
+	collectVessels,
+	labelForVessel,
+	normalizeVessel,
+	readStoredTarget,
+	rememberTargetVessel,
+	TARGET_VESSEL_MEMORY,
+	VIRTUAL_OS_TUNNEL
+};

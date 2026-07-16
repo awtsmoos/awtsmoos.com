@@ -1,14 +1,4 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The living library owns one small style graph with no global application cascade.
+ * Deprecated compatibility vessel.
+ * The living library now loads its focused civilization modules directly from index.html to avoid an @import waterfall.
  */
-@import "/style/foundation/tokens/index.css?v=library-fix-002";
-@import "/style/foundation/reset/index.css?v=library-fix-002";
-@import "/style/social-system/product/index.css?v=library-fix-002";
-@import "./styles/layout.css?v=library-fix-002";
-@import "./styles/form.css?v=library-fix-002";
-@import "./styles/results.css?v=library-fix-002";
-@import "./styles/comments.css?v=library-fix-002";
-@import "./styles/responsive.css?v=library-fix-002";
-@import "/style/geelooy-app/performance.css?v=library-fix-002";

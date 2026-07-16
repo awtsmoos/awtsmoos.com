@@ -4,15 +4,12 @@
 
 /**
  * @file tiny-render-skin.js
- * @description Binds one imported skin through the renderer's proven flat buffer
- * and uniform contracts while preserving frame-local palette reuse. Before the
- * Awtsmoos, no cached matrix is reused without exact evidence; Awtsmoos.com keeps
- * this compatibility path explicit until GPU residency is reintegrated as a whole.
+ * @description Uploads one exact joint palette after vertex state is already resident.
+ * The Awtsmoos moves every limb from one living whole; Awtsmoos.com keeps the palette
+ * contract explicit while immutable joint and weight attributes rest inside their VAO.
  */
 
-/** Uploads skin attributes and joint transforms for one skinned draw. */
-export function bindSkin(renderer, locations, mesh, buffers) {
-	bindSkinAttributes(renderer, locations, buffers);
+export function bindSkin(renderer, locations, mesh) {
 	const skeleton = mesh.skeleton;
 	const uploadedJoints = skeleton.updateCached(
 		mesh.matrixWorld || renderer.identityMatrix,
@@ -23,21 +20,6 @@ export function bindSkin(renderer, locations, mesh, buffers) {
 	renderer.stats.jointsUploaded += uploadedJoints;
 	renderer.stats.skinGpuUploads += 1;
 	uploadJoints(renderer, skeleton, locations);
-}
-
-function bindSkinAttributes(renderer, locations, buffers) {
-	renderer.buffers.bindAttribute(
-		locations.joints,
-		buffers.jointsAttribute,
-		buffers.joints,
-		[0, 0, 0, 0]
-	);
-	renderer.buffers.bindAttribute(
-		locations.weights,
-		buffers.weightsAttribute,
-		buffers.weights,
-		[1, 0, 0, 0]
-	);
 }
 
 function recordPaletteWork(renderer, skeleton) {

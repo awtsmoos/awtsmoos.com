@@ -1,82 +1,54 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const { json } = require("../core/respond.js");
+const { currentIdentity } = require("../core/auth.js");
 const { query } = require("../core/request.js");
-
-function publicTunnel(client) {
-  return {
-    connected: true,
-    tunnelName: client.tunnelName,
-    deviceName: client.deviceName || null,
-    root: client.root || null,
-    allowWrite: !!client.allowWrite,
-    allowSecrets: !!client.allowSecrets,
-    isAlive: !!client.isAlive,
-    agentVersion: client.agentVersion || null
-  };
-}
-
-function listTunnels($i) {
-  const out = [];
-
-  if (!$i.ws?.clients) return out;
-
-  for (const client of $i.ws.clients) {
-    if (!client.isTunnel) continue;
-    out.push(publicTunnel(client));
-  }
-
-  return out;
-}
+const { json } = require("../core/respond.js");
+const Discovery = require("./deviceDiscovery.js");
 
 /**
- * B"H
- * Returns requested tunnel status.
- *
- * If tunnelName is missing and exactly one agent is connected, return that one.
- * This lets the hosted control panel recover after it opens without query params.
+ * @file Returns one device only from the current account's authorized inventory.
+ * @description
+ * The Awtsmoos renews name and named thing without making them identical.
+ * Awtsmoos.com resolves immutable IDs or unambiguous display names only after
+ * account scoping, so a guessed foreign name receives the ordinary missing shape.
  */
+
+/** Returns one authorized device or a disclosure-safe absence. */
 async function device($i) {
-  const q = query($i);
-  const tunnelName = q.tunnelName || q.name || "";
-  const tunnels = listTunnels($i);
-
-  if (!tunnelName) {
-    if (tunnels.length === 1) {
-      const found = tunnels[0];
-
-      return json($i, {
-        BH: "B\"H",
-        ok: true,
-        recovered: true,
-        tunnelName: found.tunnelName,
-        connected: true,
-        device: found
-      });
-    }
-
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: "missing_tunnelName",
-      connectedTunnels: tunnels.length,
-      hint: "Open the control panel with ?tunnelName=awt-... or connect exactly one agent."
-    }, 400);
-  }
-
-  const found = tunnels.find(t => t.tunnelName === tunnelName) || null;
-
-  return json($i, {
-    BH: "B\"H",
-    ok: true,
-    tunnelName,
-    connected: !!found,
-    device: found || {
-      connected: false,
-      tunnelName
-    }
-  });
+	const identity = currentIdentity($i);
+	if (!identity.ok) {
+		return json($i, denial("not_authenticated"), 401);
+	}
+	const parameters = query($i);
+	const reference = parameters.tunnelId ||
+		parameters.tunnelName ||
+		parameters.name ||
+		"";
+	const currentState = Discovery.state($i, identity);
+	const found = reference
+		? Discovery.find(currentState, reference)
+		: Discovery.recommend(currentState);
+	if (!found) {
+		return json($i, denial(
+			reference ? "tunnel_not_found" : "ambiguous_authorized_tunnels"
+		), reference ? 404 : 409);
+	}
+	return json($i, {
+		BH: "B\"H",
+		ok: true,
+		connected: found.connected !== false,
+		tunnelId: found.tunnelId || null,
+		tunnelName: found.tunnelName,
+		device: found
+	});
 }
 
-module.exports = { device };
+function denial(error) {
+	return { BH: "B\"H", ok: false, error };
+}
+
+module.exports = {
+	device
+};

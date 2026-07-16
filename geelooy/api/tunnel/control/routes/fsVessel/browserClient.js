@@ -1,57 +1,91 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const { VESSEL_TYPES, isBrowserVesselDescriptor } = require("./vesselTypes.js");
 const { browserCapabilities } = require("./capabilities.js");
 const { verifyTunnelResponse } = require("./responseContract.js");
 
 /**
- * B"H
- * Chapter 10 and 811: The browser tab entered honestly, and its replies now
- * must wear the same request seal as native tunnel replies.
+ * @file Projects browser tunnels only inside a verified account boundary.
+ * @description
+ * The Awtsmoos renews every tab without letting one account borrow another's
+ * workspace. Awtsmoos.com filters by server-attached account identity before
+ * selecting freshness, revealing metadata, or forwarding a filesystem deed.
  */
-function listBrowserTunnelClients($i) {
-  const latest = new Map();
-  if (!$i.ws?.clients) return [];
-  for (const client of $i.ws.clients) {
-    if (!client.isTunnel || !client.tunnelName) continue;
-    if (!isBrowserVesselDescriptor(client)) continue;
-    const old = latest.get(client.tunnelName);
-    if (!old || (client.registeredAt || 0) >= (old.registeredAt || 0)) latest.set(client.tunnelName, client);
-  }
-  return [...latest.values()];
+
+/** Lists the newest browser socket for each name owned by one account. */
+function listBrowserTunnelClients($i, accountId) {
+	const latest = new Map();
+	if (!$i.ws?.clients || !accountId) {
+		return [];
+	}
+	for (const client of $i.ws.clients) {
+		if (!client.isTunnel || client.accountId !== accountId) {
+			continue;
+		}
+		if (!client.tunnelName || !isBrowserVesselDescriptor(client)) {
+			continue;
+		}
+		const previous = latest.get(client.tunnelName);
+		if (!previous || Number(client.registeredAt || 0) >=
+			Number(previous.registeredAt || 0)) {
+			latest.set(client.tunnelName, client);
+		}
+	}
+	return [...latest.values()];
 }
 
-function publicBrowserTunnel(client) {
-  return {
-    connected: true,
-    tunnelName: client.tunnelName,
-    deviceName: client.deviceName || "Browser Tab",
-    root: client.root || "browser://workspace",
-    allowWrite: client.allowWrite !== false,
-    allowSecrets: false,
-    allowCommands: false,
-    commandMode: "simulated",
-    isAlive: !!client.isAlive,
-    agentVersion: client.agentVersion || null,
-    tools: client.tools || null,
-    capabilities: browserCapabilities(client),
-    registeredAt: client.registeredAt || null,
-    kind: VESSEL_TYPES.BROWSER,
-    vesselType: VESSEL_TYPES.BROWSER
-  };
+/** Returns a disclosure-safe browser tunnel descriptor. */
+function publicBrowserTunnel(client = {}) {
+	return {
+		connected: true,
+		tunnelId: client.tunnelId || "",
+		tunnelName: client.tunnelName || "",
+		deviceId: client.deviceId || "",
+		deviceName: client.deviceName || "Browser Tab",
+		root: client.root || "browser://workspace",
+		allowWrite: client.allowWrite !== false,
+		allowSecrets: false,
+		allowCommands: false,
+		commandMode: "simulated",
+		isAlive: client.isAlive !== false,
+		agentVersion: client.agentVersion || null,
+		tools: client.tools || null,
+		capabilities: browserCapabilities(client),
+		registeredAt: client.registeredAt || null,
+		kind: VESSEL_TYPES.BROWSER,
+		vesselType: VESSEL_TYPES.BROWSER
+	};
 }
 
-function listBrowserTunnels($i) {
-  return listBrowserTunnelClients($i).map(publicBrowserTunnel);
+/** Lists public browser tunnels for one account. */
+function listBrowserTunnels($i, accountId) {
+	return listBrowserTunnelClients($i, accountId)
+		.map(publicBrowserTunnel);
 }
 
-function findBrowserTunnelClient($i, tunnelName) {
-  return listBrowserTunnelClients($i).find(client => client.tunnelName === tunnelName) || null;
+/** Finds one browser tunnel inside one verified account. */
+function findBrowserTunnelClient($i, accountId, tunnelName) {
+	return listBrowserTunnelClients($i, accountId)
+		.find((client) => client.tunnelName === tunnelName) || null;
 }
 
-async function sendBrowserTunnel($i, tunnelName, payload, timeoutMs) {
-  const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
-  return verifyTunnelResponse(result, payload, tunnelName);
+/** Sends through the account-scoped relay key. */
+async function sendBrowserTunnel($i, accountId, tunnelName, payload, timeoutMs) {
+	const result = await $i.ws.sendTunnelRequest(
+		accountId,
+		tunnelName,
+		payload,
+		timeoutMs
+	);
+	return verifyTunnelResponse(result, payload, tunnelName);
 }
 
-module.exports = { findBrowserTunnelClient, listBrowserTunnelClients, listBrowserTunnels, publicBrowserTunnel, sendBrowserTunnel };
+module.exports = {
+	findBrowserTunnelClient,
+	listBrowserTunnelClients,
+	listBrowserTunnels,
+	publicBrowserTunnel,
+	sendBrowserTunnel
+};

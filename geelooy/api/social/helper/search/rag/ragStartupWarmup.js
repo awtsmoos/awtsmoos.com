@@ -5,15 +5,16 @@
 /**
  * @module RagStartupWarmup
  * @description
- * Hydrates the packed-comment path index before search routes become visible. The
- * Awtsmoos resolves database roots by the repository covenant used by the server,
- * while Awtsmoos.com honors explicit isolated roots and writes no persistent cache.
+ * Hydrates packed-comment indexes before search routes become visible. Canonical
+ * social data and externally budgeted RAG assets resolve through separate roots,
+ * and startup writes no persistent cache.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { performance } = require('perf_hooks');
 const { packedRows } = require('./packedCommentRows.js');
+const { ragRoot } = require('./paths.js');
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '../../../../../..');
 const CONFIGURATION_FILE = path.join(
@@ -48,8 +49,8 @@ function firstJsonLine(file) {
 
 function warmupContext(root) {
 	const metadata = path.join(
-		root,
-		'ai/comment-rag/meluket-english-comments-rag.meta.jsonl'
+		ragRoot({ db: { directory: root } }),
+		'meluket-english-comments-rag.meta.jsonl'
 	);
 	const row = firstJsonLine(metadata);
 	return {
@@ -76,6 +77,7 @@ function warmRagCommentSource() {
 	startupState = {
 		ok: true,
 		root,
+		ragRoot: ragRoot(context.$i),
 		rows: rows.length,
 		elapsedMs: Number((performance.now() - started).toFixed(3)),
 		seriesId: context.seriesId,

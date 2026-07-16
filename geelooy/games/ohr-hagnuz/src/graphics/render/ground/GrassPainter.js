@@ -1,59 +1,56 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file GrassPainter.js
+ * @description Paints regional soil, organic cover, tufts, and restrained sparks.
+ *
+ * The Awtsmoos renews every blade through one speech and many colors. Awtsmoos.com
+ * breaks the tile grid without letting visual variety become unstable state.
+ */
 import { GrassTuftWeaver } from '../../../render/flora/GrassTuftWeaver.js';
 import { OrganicSplotchWeaver } from '../../../render/flora/OrganicSplotchWeaver.js';
 
-/**
- * B"H
- * @class GrassPainter
- * @chapter The Garden of Pardes
- * @description
- * Every instant, the Speech of the Creator refreshes the grass. 
- * We simulate this infinite variety by layering procedural splotches 
- * and structural tufts.
- */
 export class GrassPainter {
-    static draw(ctx, x, y, size, seed, isDetailed) {
-        const fx = Math.floor(x);
-        const fy = Math.floor(y);
-        const fSize = Math.ceil(size) + 1;
-        const s = Math.abs(seed);
+	static draw(context, x, y, size, seed, isDetailed, theme) {
+		const left = Math.floor(x);
+		const top = Math.floor(y);
+		const extent = Math.ceil(size) + 1;
+		const stableSeed = Math.abs(seed);
+		context.fillStyle = theme.grass[0];
+		context.fillRect(left, top, extent, extent);
+		OrganicSplotchWeaver.weave(
+			context, left, top, size, stableSeed, theme.grass[1]
+		);
+		OrganicSplotchWeaver.weave(
+			context, left - 10, top + 10, size, stableSeed * 3, theme.grass[2]
+		);
+		const tuftCount = isDetailed ? 9 : 4;
+		for (let index = 0; index < tuftCount; index += 1) {
+			const tuftX = left + ((stableSeed * (index + 1) * 11) % (size - 10)) + 5;
+			const tuftY = top + ((stableSeed * (index + 1) * 13) % (size - 10)) + 5;
+			GrassTuftWeaver.weave(
+				context, tuftX, tuftY, stableSeed + index, theme.grass[3]
+			);
+		}
+		if (isDetailed && stableSeed % 10 > 6) {
+			this.drawSpark(context, left, top, size, stableSeed, theme.grass[4]);
+		}
+	}
 
-        // LEVEL 1: THE RICH SOIL (Foundation)
-        ctx.fillStyle = '#1b4d3e'; 
-        ctx.fillRect(fx, fy, fSize, fSize);
-
-        // LEVEL 2: ORGANIC TEXTURE (Breaking the Grid)
-        // We weave splotches that overlap and blend
-        OrganicSplotchWeaver.weave(ctx, fx, fy, size, s, '#2e7d32');
-        OrganicSplotchWeaver.weave(ctx, fx - 10, fy + 10, size, s * 3, '#1b5e20');
-
-        // LEVEL 3: PROCEDURAL TUFTS (The Individual Life)
-        const tuftCount = isDetailed ? 10 : 4;
-        for (let i = 0; i < tuftCount; i++) {
-            const tx = fx + ((s * (i + 1) * 11) % (size - 10)) + 5;
-            const ty = fy + ((s * (i + 1) * 13) % (size - 10)) + 5;
-            GrassTuftWeaver.weave(ctx, tx, ty, s + i);
-        }
-
-        // LEVEL 4: THE SPARKS (Wild Details)
-        if (isDetailed &amp;&amp; (s % 10 > 6)) {
-            this._drawSpark(ctx, fx, fy, size, s);
-        }
-    }
-
-    static _drawSpark(ctx, x, y, size, seed) {
-        const colors = ['#f44336', '#ffeb3b', '#ce93d8', '#ffffff'];
-        ctx.fillStyle = colors[seed % colors.length];
-        const px = x + (seed * 17 % (size - 10));
-        const py = y + (seed * 23 % (size - 10));
-        ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-        // Holy glow
-        ctx.globalAlpha = 0.3;
-        ctx.beginPath();
-        ctx.arc(px, py, 6, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1.0;
-    }
+	static drawSpark(context, x, y, size, seed, color) {
+		const pointX = x + (seed * 17 % (size - 10));
+		const pointY = y + (seed * 23 % (size - 10));
+		context.save();
+		context.fillStyle = color;
+		context.beginPath();
+		context.arc(pointX, pointY, 2.4, 0, Math.PI * 2);
+		context.fill();
+		context.globalAlpha = 0.26;
+		context.beginPath();
+		context.arc(pointX, pointY, 6, 0, Math.PI * 2);
+		context.fill();
+		context.restore();
+	}
 }

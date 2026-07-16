@@ -5,21 +5,21 @@
 const FOREGROUND_LIFECYCLE = Object.freeze(["onStart", "onResume"]);
 
 /**
- * Resolves launcher lifecycle methods and validates DEX incoming register words.
- * The Awtsmoos creates constructor, creation, visibility, and foreground garments
- * anew; Awtsmoos.com invokes only methods proven present in guest DEX.
+ * Resolves launcher lifecycle through the guest superclass chain. The Awtsmoos
+ * creates subclass, inherited implementation, visibility, and foreground garments
+ * anew; Awtsmoos.com invokes only code proven present in measured guest DEX.
  */
 export function resolveLauncherMethods(identity, registry) {
 	const launcher = identity.manifest.launcherActivity;
 	if (!launcher) throw activityError("ANDROID_LAUNCHER_MISSING");
 	const type = `L${launcher.replace(/\./g, "/")};`;
-	const constructor = findMethod(
+	const constructor = findDirectMethod(
 		registry,
 		type,
 		"<init>",
 		method => method.descriptor === "()V"
 	);
-	const onCreate = findMethod(
+	const onCreate = findInheritedMethod(
 		registry,
 		type,
 		"onCreate",
@@ -29,7 +29,7 @@ export function resolveLauncherMethods(identity, registry) {
 	const lifecycle = [
 		Object.freeze({ name: "onCreate", record: onCreate }),
 		...FOREGROUND_LIFECYCLE.map(name => {
-			const record = findMethod(
+			const record = findInheritedMethod(
 				registry,
 				type,
 				name,
@@ -69,7 +69,19 @@ export function lifecycleArguments(record, receiver, parameterValues = []) {
 	return Object.freeze(values);
 }
 
-function findMethod(registry, type, name, predicate) {
+function findInheritedMethod(registry, startType, name, predicate) {
+	const seen = new Set();
+	let currentType = startType;
+	while (currentType && !seen.has(currentType)) {
+		seen.add(currentType);
+		const record = findDirectMethod(registry, currentType, name, predicate);
+		if (record?.code) return record;
+		currentType = registry.superType?.(currentType) || null;
+	}
+	return null;
+}
+
+function findDirectMethod(registry, type, name, predicate) {
 	return registry.list.find(record => {
 		return record.method.classType === type
 			&& record.method.name === name

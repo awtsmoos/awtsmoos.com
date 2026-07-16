@@ -2,118 +2,97 @@
 // Boruch Hashem
 // Blessed is He
 
-const { boundedTimeout, cleanRelayPayload, safeRelayWaitMs } = require("./normalizers.js");
-const { requestExpectation, sameExpectation } = require("./expectation.js");
-const Envelopes = require("./envelopes.js");
-const Lifecycle = require("./lifecycle.js");
+const Id = require(
+	"../../../../../geelooy/api/tunnel/control/core/tunnelSecurity/identifiers.js"
+);
+const {
+	boundedTimeout,
+	cleanRelayPayload,
+	safeRelayWaitMs
+} = require("./normalizers.js");
+const ProgressHandler = require("./progressHandler.js");
+const RequestDispatch = require("./requestDispatch.js");
 const RequestPlan = require("./requestPlan.js");
+const RequestReuse = require("./requestReuse.js");
+const ResponseHandler = require("./responseHandler.js");
 const RetryRequest = require("./retryRequest.js");
 const State = require("./state.js");
-const Validation = require("./validation.js");
 
 /**
- * B"H
- * A response may outlive its first HTTP window, yet the Awtsmoos keeps one
- * identity. Awtsmoos.com quarantines crossed answers while retries join the
- * original deed instead of creating a duplicate command.
- */
-function handleTunnelResponse(context, data = {}) {
+* @file Routes every agent request through one account-scoped living lifecycle.
+* @description
+* The Awtsmoos renews request, progress, target, and answer as one deed.
+* Awtsmoos.com keeps dispatch, reuse, progress, response validation, and event
+* publication in focused vessels while this module conducts authorized requests.
+*/
+
+/** Sends one request to an account-scoped tunnel registration. */
+function sendTunnelRequest(context, accountId, name, payload = {}, timeoutMs) {
 	State.ensureStores(context);
 	State.cleanup(context);
-	const id = String(data.id || "");
-	const record = context.pendingTunnelRequests.get(id);
-	if (!record) {
-		State.quarantine(context, {
-			reason: "unsolicited_response",
-			data,
-			expected: null
+	const registrationKey = Id.registryKey(accountId, name);
+	if (!registrationKey) {
+		return Promise.resolve({
+			ok: false,
+			error: "invalid_tunnel_identity"
 		});
-		return false;
 	}
-	const validation = Validation.validateTunnelResponse(record.expected, data);
-	if (!validation.ok) {
-		State.quarantine(context, {
-			reason: "correlation_mismatch",
-			data,
-			expected: record.expected,
-			validation,
-			response: validation.response
-		});
-		return false;
-	}
-	RetryRequest.rememberCompletion(context, record, data);
-	return Lifecycle.finishPending(context, id, record, data);
-}
-
-function completedResult(context, id, expected) {
-	const completed = State.completed(context, id);
-	if (!completed) return null;
-	return sameExpectation(completed.expected, expected)
-		? completed.data
-		: Envelopes.conflictEnvelope(completed.expected, expected);
-}
-
-function existingResult(context, id, expected, waitMs) {
-	const existing = context.pendingTunnelRequests.get(id);
-	if (!existing) return null;
-	return sameExpectation(existing.expected, expected)
-		? Lifecycle.attachWaiter(existing, waitMs)
-		: Promise.resolve(Envelopes.conflictEnvelope(existing.expected, expected));
-}
-
-/** @returns {Promise<object>} Tunnel response, pending receipt, or conflict. */
-function sendTunnelRequest(context, name, payload = {}, timeoutMs) {
-	State.ensureStores(context);
-	State.cleanup(context);
 	const cleaned = cleanRelayPayload(payload);
-	const waitMs = safeRelayWaitMs(cleaned.relayWaitMs || cleaned.httpSafeWaitMs);
+	const waitMs = safeRelayWaitMs(
+		cleaned.relayWaitMs || cleaned.httpSafeWaitMs
+	);
 	const retry = RetryRequest.describe(cleaned);
 	const localRetry = RetryRequest.resolveLocal(context, retry, waitMs);
-	if (localRetry?.handled) return localRetry.result;
+	if (localRetry?.handled) {
+		return localRetry.result;
+	}
 	const totalTimeoutMs = boundedTimeout(timeoutMs || cleaned.timeoutMs);
 	const plan = retry
 		? RetryRequest.forwardPlan(cleaned, retry)
 		: RequestPlan.ordinary(cleaned);
-	const expected = requestExpectation(
-		plan.expectationId,
+	const expected = RequestReuse.createExpectation(
+		plan,
+		registrationKey,
 		name,
-		plan.expectationPayload,
 		totalTimeoutMs
 	);
-	const tunnel = context.tunnels.get(name);
-	if (!tunnel) return Promise.resolve(Envelopes.missingTunnelEnvelope(expected));
-	if (!retry) {
-		const completed = completedResult(context, plan.transportId, expected);
-		if (completed) return Promise.resolve(completed);
-		const existing = existingResult(context, plan.transportId, expected, waitMs);
-		if (existing) return existing;
-	}
-	const record = Lifecycle.createRecord(
+	const prior = RequestReuse.priorResult(
 		context,
-		plan.transportId,
+		retry,
+		plan,
 		expected,
-		totalTimeoutMs
+		waitMs
 	);
-	if (retry) RetryRequest.decorate(record, retry);
-	const waiting = Lifecycle.attachWaiter(record, waitMs);
-	try {
-		tunnel.send({
-			type: "TUNNEL_REQUEST",
-			id: plan.transportId,
-			payload: plan.tunnelPayload
-		});
-	} catch (error) {
-		Lifecycle.finishPending(
+	if (prior) {
+		return prior;
+	}
+	const tunnel = context.tunnels.get(registrationKey);
+	if (!tunnel) {
+		return RequestDispatch.missing(
 			context,
-			plan.transportId,
-			record,
-			Envelopes.sendFailureEnvelope(plan.transportId, expected, error)
+			accountId,
+			name,
+			cleaned,
+			plan,
+			expected
 		);
 	}
-	return waiting;
+	return RequestDispatch.dispatch({
+		context,
+		accountId,
+		tunnelName: name,
+		tunnel,
+		payload: cleaned,
+		plan,
+		expected,
+		totalTimeoutMs,
+		waitMs,
+		retry
+	});
 }
 
 module.exports = {
-	handleTunnelResponse,
+	handleTunnelProgress: ProgressHandler.handleTunnelProgress,
+	handleTunnelResponse: ResponseHandler.handleTunnelResponse,
 	sendTunnelRequest
 };

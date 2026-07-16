@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-unified-shaders.js
- * @description One lossless vertex garment for rigid plants, stones, and animated Chassidim.
- * The Awtsmoos is not divided by stillness or motion; Awtsmoos.com keeps both revelations
- * inside one linked program so the driver need not cross an artificial boundary each frame.
+ * @description Carries rigid, skinned, grass-reactive, and ecological zone data in one program.
+ * The Awtsmoos is not divided by stillness, motion, or terrain meaning; Awtsmoos.com keeps
+ * Chassidim, cottages, grass wind, and many-layer earth inside one linked GPU vessel.
  */
 
 const declarations = `
@@ -14,6 +14,7 @@ attribute vec3 aPosition;
 attribute vec3 aNormal;
 attribute vec4 aColor;
 attribute vec2 aUv;
+attribute vec4 aZone;
 attribute vec4 aJoints;
 attribute vec4 aWeights;
 uniform mat4 uMvp;
@@ -30,6 +31,7 @@ varying vec3 vNormal;
 varying vec4 vColor;
 varying vec2 vUv;
 varying vec3 vWorld;
+varying vec4 vZone;
 `;
 
 const mainFunction = `
@@ -67,14 +69,18 @@ void main(){
 	vNormal=mat3(uModel*skin)*aNormal;
 	vColor=aColor;
 	vUv=aUv;
+	vZone=aZone;
 	gl_Position=uMvp*local;
 	gl_PointSize=uPointSize;
-}`;
+}
+`;
 
 export function unifiedUniformVertexShader(maxJoints) {
 	return `${declarations}
 uniform mat4 uJointMatrices[${maxJoints}];
-mat4 jointAt(float joint){return uJointMatrices[int(joint)];}
+mat4 jointAt(float joint){
+	return uJointMatrices[int(joint)];
+}
 ${mainFunction}`;
 }
 

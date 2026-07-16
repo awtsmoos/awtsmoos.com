@@ -11,9 +11,8 @@ import { CharacterDesignOptions } from './CharacterDesignOptions.js';
 import { CharacterDesignSchema } from './CharacterDesignSchema.js';
 
 /**
- * The Character Lab reveals one complete original person from authored choices
- * or an honest AI proposal. The Awtsmoos renews each field while Awtsmoos.com
- * keeps JSON, preview, library, and real scene state bound to one identity.
+ * The Awtsmoos renews every click and every preview. Awtsmoos.com binds the
+ * reference presets, JSON editor, library, and live scene to one honest state.
  */
 export class CharacterCustomizerPanel {
 	static install(app) {
@@ -22,18 +21,11 @@ export class CharacterCustomizerPanel {
 		}
 		this.styles();
 		const host = document.getElementById('hud-overlay') || document.body;
-		host.insertAdjacentHTML(
-			'beforeend',
-			CharacterCustomizerTemplate.panel()
-		);
+		host.insertAdjacentHTML('beforeend', CharacterCustomizerTemplate.panel());
 		const root = document.getElementById('character-customizer');
-		root.__design = CharacterDesignSchema.create(
-			CharacterDesignOptions.defaults()
-		);
+		root.__design = CharacterDesignSchema.create(CharacterDesignOptions.defaults());
 		root.__store = new CharacterCustomizerStore(app);
-		root.__preview = new CharacterCustomizerPreview(
-			root.querySelector('canvas')
-		);
+		root.__preview = new CharacterCustomizerPreview(root.querySelector('canvas'));
 		this.bind(root);
 		this.render(root);
 	}
@@ -46,32 +38,29 @@ export class CharacterCustomizerPanel {
 		root.querySelector('[data-character-close]').onclick = () => {
 			root.dataset.open = 'false';
 		};
-		this.action(root, 'propose', () => (
-			CharacterCustomizerActions.propose(root, rerender)
-		));
-		this.action(root, 'apply', () => (
-			CharacterCustomizerActions.apply(root)
-		));
-		this.action(root, 'save', () => (
-			CharacterCustomizerActions.save(root)
-		));
-		this.action(root, 'json-apply', () => (
-			CharacterCustomizerActions.applyJson(root, rerender)
-		));
-		this.action(root, 'export', () => (
-			CharacterCustomizerActions.export(root)
-		));
-		root.querySelector('[data-character-library]').onchange = event => (
-			CharacterCustomizerActions.load(
+		this.action(root, 'propose', () => CharacterCustomizerActions.propose(root, rerender));
+		this.action(root, 'apply', () => CharacterCustomizerActions.apply(root));
+		this.action(root, 'save', () => CharacterCustomizerActions.save(root));
+		this.action(root, 'json-apply', () => CharacterCustomizerActions.applyJson(root, rerender));
+		this.action(root, 'export', () => CharacterCustomizerActions.export(root));
+		this.action(root, 'trio', () => CharacterCustomizerActions.trio(root));
+		root.querySelectorAll('[data-character-preset]').forEach(button => {
+			button.onclick = () => CharacterCustomizerActions.preset(
 				root,
-				event.target.value,
+				button.dataset.characterPreset,
 				rerender
-			)
-		);
+			);
+		});
+		root.querySelector('[data-character-library]').onchange = event => {
+			CharacterCustomizerActions.load(root, event.target.value, rerender);
+		};
 	}
 
 	static action(root, name, handler) {
-		root.querySelector(`[data-character-${name}]`).onclick = handler;
+		const control = root.querySelector(`[data-character-${name}]`);
+		if (control) {
+			control.onclick = handler;
+		}
 	}
 
 	static render(root) {
@@ -90,11 +79,7 @@ export class CharacterCustomizerPanel {
 
 	static refresh(root) {
 		root.__preview.draw(root.__design);
-		root.querySelector('[data-character-json]').value = JSON.stringify(
-			root.__design,
-			null,
-			2
-		);
+		root.querySelector('[data-character-json]').value = JSON.stringify(root.__design, null, 2);
 	}
 
 	static styles() {

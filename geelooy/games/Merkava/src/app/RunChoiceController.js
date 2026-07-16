@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Checkpoints and blessings interrupt speed so one decision can reshape the run.
+ * Routes, checkpoints, and blessings interrupt speed so decisions can reshape the run.
  * The Awtsmoos is beyond choosing while Awtsmoos.com reveals consequence and return.
  */
 import { PermanentUpgradeController } from './PermanentUpgradeController.js';
@@ -23,9 +23,34 @@ export class RunChoiceController {
 		this.activeToken = state.transitionRequest;
 		if (state.transitionRequest === 'shop') {
 			this.openCheckpoint();
+		} else if (state.transitionRequest === 'route') {
+			this.showRouteChoice();
 		} else {
 			this.showBlessing(state.transitionRequest === 'major-blessing');
 		}
+	}
+
+	showRouteChoice() {
+		const state = this.systems.state;
+		this.hud.choice.show({
+			title: 'CHOOSE THE NEXT ROAD',
+			subtitle: `RUN SEED ${state.runSeed} · EVERY ROAD HAS CONSEQUENCE`,
+			choices: this.systems.routes.prepare(state),
+			onChoose: choice => this.resolveRoute(choice)
+		});
+	}
+
+	resolveRoute(choice) {
+		const state = this.systems.state;
+		const result = this.systems.routes.choose(state, choice.id);
+		this.hud.notify(result.message);
+		if (!result.ok) {
+			this.showRouteChoice();
+			return;
+		}
+		state.transitionRequest = 'blessing';
+		this.activeToken = 'blessing';
+		this.showBlessing(false);
 	}
 
 	openCheckpoint() {

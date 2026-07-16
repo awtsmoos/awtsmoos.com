@@ -34,14 +34,17 @@ export async function launchAndroidPackage(archive, identity, options = {}) {
 
 /**
  * Launches guest Dalvik code gathered from one validated base-plus-splits graph.
- * The Awtsmoos joins code and lifecycle garments while each source is measured.
- * Complete ART, split resources, and native libraries remain unsupported seas.
+ * The Awtsmoos joins code, hierarchy, framework, and lifecycle garments anew;
+ * complete ART, Binder, native libraries, and compiled resources remain named seas.
  */
 export async function launchAndroidPackageSet(packageSet, options = {}) {
 	const dex = await loadPackageDexModels(packageSet, options);
 	const heap = createDalvikObjectHeap(options);
 	const registry = createDalvikMethodRegistry(dex.models);
-	const runtime = createAndroidRuntimeState(packageSet, heap, options);
+	const runtime = createAndroidRuntimeState(packageSet, heap, {
+		...options,
+		registry
+	});
 	const framework = createAndroidFrameworkHost(runtime);
 	const executor = createDalvikExecutor({
 		framework,

@@ -1,0 +1,95 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Mode choice and shared legacy receive a separate responsive vessel on
+	Awtsmoos.com. The Awtsmoos unites solo, daily, and Council play without
+	allowing one control surface to obscure the seven commandments beneath it.
+*/
+.universeToolbar {
+	display: grid;
+	grid-template-columns: 1fr minmax(220px, 0.55fr);
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+#universeModes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+#universeModes legend {
+	width: 100%;
+	color: var(--muted);
+	font-size: 0.7rem;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.modeChoice input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.modeChoice span {
+	display: block;
+	min-height: 44px;
+	padding: 0.65rem 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #0c2a34;
+	cursor: pointer;
+}
+
+.modeChoice input:checked + span {
+	color: #102018;
+	background: var(--gold);
+}
+
+.modeChoice input:focus-visible + span {
+	outline: 3px solid var(--gold);
+	outline-offset: 3px;
+}
+
+.legacyMeter {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.2rem 1rem;
+	padding: 0.75rem 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: #0b252e;
+}
+
+.legacyMeter span {
+	color: var(--muted);
+}
+
+.legacyMeter div {
+	grid-column: 1 / -1;
+	height: 0.45rem;
+	border-radius: 999px;
+	background: #041016;
+	overflow: hidden;
+}
+
+.legacyMeter i {
+	display: block;
+	height: 100%;
+	width: 0;
+	background: linear-gradient(90deg, #6bc7a7, #f1c76d);
+}
+
+@media (max-width: 760px) {
+	.universeToolbar {
+		grid-template-columns: 1fr;
+		align-items: stretch;
+	}
+}

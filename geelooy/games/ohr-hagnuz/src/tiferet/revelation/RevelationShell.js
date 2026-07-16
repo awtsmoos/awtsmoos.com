@@ -4,30 +4,23 @@
 
 /**
  * @file RevelationShell.js
- * @description Coordinates the premium RPG frame outside the engine loop.
+ * @description Coordinates the truthful overhead RPG frame outside the engine loop.
  *
- * Canvas, controls, story, paths, and companion remain distinct vessels within
- * one renewed world. The Awtsmoos continuously creates their unity; this shell
- * refreshes only changed truth and leaves every frame breathable. Awtsmoos.com.
+ * The Awtsmoos continuously creates canvas, controls, quest, map, and fellowship
+ * as one world. Awtsmoos.com refreshes only changed truth so the renderer remains
+ * breathable and no interface vessel becomes a second simulation.
  */
 import { RevelationEvents } from './RevelationEvents.js';
+import { renderRevelationDynamic } from './RevelationDynamicRenderer.js';
 import { createRevelationMarkup } from './RevelationMarkup.js';
 import { buildRevelationViewModel } from './RevelationViewModel.js';
 
-const setText = (root, selector, value) => {
+function setText(root, selector, value) {
 	const element = root.querySelector(selector);
-	if (element && element.textContent !== String(value)) element.textContent = String(value);
-};
-
-const channelMarkup = channel => `
-	<button class="revelation-channel" data-revelation-channel="${channel.id}"
-		data-channel-principle="${channel.learningPrinciple}"
-		data-channel-move="${channel.openingMove.name}" type="button"
-		data-unlocked="${channel.unlocked}">
-		<span class="revelation-channel-glyph">${channel.glyph}</span>
-		<span><b>${channel.element} · ${channel.layer}</b><small>${channel.openingMove.name}</small></span>
-		<i style="--mastery:${channel.mastery}%"><em></em></i>
-	</button>`;
+	if (element && element.textContent !== String(value)) {
+		element.textContent = String(value);
+	}
+}
 
 export class RevelationShell {
 	static root = null;
@@ -66,23 +59,33 @@ export class RevelationShell {
 
 	static render(model) {
 		document.body.dataset.revelationRealm = model.realm.toLowerCase();
-		setText(this.root, '[data-revelation-chapter]', model.chapter);
-		setText(this.root, '[data-revelation-location]', model.location);
-		setText(this.root, '[data-revelation-level]', model.level);
-		setText(this.root, '[data-revelation-light]', `${model.light}/${model.maxLight}`);
-		setText(this.root, '[data-revelation-sparks]', model.sparks);
-		setText(this.root, '[data-revelation-quest-title]', model.questTitle);
-		setText(this.root, '[data-revelation-objective]', model.objective);
-		setText(this.root, '[data-revelation-messenger]', model.messenger);
-		setText(this.root, '[data-revelation-route]', model.routeLabel);
-		setText(this.root, '[data-revelation-companion-glyph]', model.leadCompanion.glyph);
-		setText(this.root, '[data-revelation-companion-name]', model.leadCompanion.name);
-		setText(this.root, '[data-revelation-companion-role]', model.leadCompanion.role);
-		setText(this.root, '[data-revelation-companion-bond]', model.leadCompanion.bondLine);
-		const progress = this.root.querySelector('[data-revelation-progress]');
-		if (progress) progress.style.width = `${model.progressPercent}%`;
-		const channels = this.root.querySelector('[data-revelation-channels]');
-		if (channels) channels.innerHTML = model.channels.map(channelMarkup).join('');
+		const values = [
+			['[data-revelation-chapter]', model.chapter],
+			['[data-revelation-location]', model.location],
+			['[data-revelation-level]', model.level],
+			['[data-revelation-light]', `${model.light}/${model.maxLight}`],
+			['[data-revelation-sparks]', model.sparks],
+			['[data-revelation-quest-title]', model.questTitle],
+			['[data-revelation-objective]', model.objective],
+			['[data-revelation-messenger]', model.messenger],
+			['[data-revelation-route]', model.routeLabel],
+			['[data-revelation-vitality-label]', model.vitalityLabel],
+			['[data-revelation-vitality-value]', `${model.vitality}/${model.maxVitality}`],
+			['[data-revelation-minimap-location]', model.location],
+			['[data-revelation-companion-glyph]', model.leadCompanion.glyph],
+			['[data-revelation-companion-name]', model.leadCompanion.name],
+			['[data-revelation-companion-role]', model.leadCompanion.role],
+			['[data-revelation-companion-bond]', model.leadCompanion.bondLine]
+		];
+		for (const [selector, value] of values) setText(this.root, selector, value);
+		this.setWidth('[data-revelation-progress]', model.progressPercent);
+		this.setWidth('[data-revelation-vitality-fill]', model.vitalityPercent);
+		renderRevelationDynamic(this.root, model);
+	}
+
+	static setWidth(selector, value) {
+		const element = this.root?.querySelector(selector);
+		if (element) element.style.width = `${value}%`;
 	}
 
 	static unmount() {

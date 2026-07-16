@@ -1,36 +1,81 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The living library reveals stored Torah source text through one stable search vessel.
+The Awtsmoos reveals each stored source through a truthful search chamber in the living Geelooy civilization.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Search indexed Torah text and open its precise source-comment window.">
-	<meta name="theme-color" content="#080c13">
+	<meta name="description" content="Search indexed Torah source text, inspect provenance, and reopen precise source-comment windows.">
+	<meta name="theme-color" content="#050811">
 	<title>Search the Living Library — Geelooy</title>
-	<link rel="stylesheet" href="./styles.css?v=library-fix-002">
+	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=living-search-002">
+	<link rel="stylesheet" href="/style/civilization/core-base.css?v=living-search-002">
+	<link rel="stylesheet" href="/style/civilization/core-components.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/shell.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/hero.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/layout.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/form.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/discovery.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/results.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/comments.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/responsive.css?v=living-search-002">
+	<link rel="stylesheet" href="./styles/mobile.css?v=living-search-002">
 </head>
-<body data-sefarim-search-page>
+<body data-sefarim-search-page data-geelooy-route="search">
+	<a class="search-skip-link" href="#searchForm">Skip to search</a>
+	<header class="library-app-header">
+		<a class="library-brand" href="/" aria-label="Geelooy Home"><span aria-hidden="true">ג</span><strong>Geelooy</strong><small>awtsmoos.com</small></a>
+		<nav class="library-primary-nav" aria-label="Primary navigation">
+			<a href="/">Home</a>
+			<a class="is-current" href="/mawgawl/sefarim/" aria-current="page">Search</a>
+			<a href="/heichelos">Communities</a>
+			<a href="/email/">Mail</a>
+			<a href="/profile/">Profile</a>
+		</nav>
+	</header>
 	<main class="library-page" aria-labelledby="search-title">
 		<section class="library-hero">
-			<div>
-				<p class="library-kicker">Living library</p>
+			<div class="library-hero-copy">
+				<p class="library-kicker">Living source graph</p>
 				<h1 id="search-title">Find the exact source.</h1>
-				<p>Ask in ordinary language. Geelooy returns readable stored text, its source identity, and any linked comment window.</p>
+				<p>Search the real indexed library in ordinary language. Every result keeps its source identity, relevance, stored text, and linked comment window.</p>
+				<div class="library-truth-row" aria-label="Search guarantees">
+					<span>Stored text only</span><span>Real provenance</span><span>No invented rankings</span>
+				</div>
 			</div>
-			<a class="p-button" href="/heichelos/ikar?view=series" data-icon="📚">Browse Sefarim</a>
+			<div class="library-hero-mark" aria-hidden="true"><span>א</span><i></i><i></i><i></i></div>
 		</section>
 		<form id="searchForm" class="library-search-form" role="search" action="/mawgawl/sefarim" method="get">
-			<label for="query"><span>Question or source phrase</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the Rebbe say about…?"></label>
+			<label class="library-query-field" for="query"><span>Question or source phrase</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the source say about…?"></label>
 			<label for="series"><span>Search lane</span><select id="series" name="lane"><option value="">Best available library</option></select></label>
-			<button class="p-button p-button-primary" type="submit" data-icon="⌕">Search sources</button>
+			<button class="library-search-button" type="submit"><span aria-hidden="true">⌕</span><span class="library-search-label">Search sources</span></button>
 		</form>
-		<p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
-		<section id="results" class="library-results" aria-live="polite" aria-label="Search results"></section>
+		<nav class="library-scope-nav" aria-label="Search and discovery scopes">
+			<a class="is-active" href="/mawgawl/sefarim/" aria-current="page">Sources</a>
+			<a href="/heichelos">Heichelos</a>
+			<a href="/?view=feed">Posts</a>
+			<a href="/profile/">Aliases</a>
+			<a href="/heichelos/ikar?view=series">Series</a>
+		</nav>
+		<div class="library-workspace">
+			<section class="library-result-column" aria-labelledby="results-title">
+				<header class="library-section-heading"><div><p>Search results</p><h2 id="results-title">Sources worth opening</h2></div><a href="/heichelos/ikar?view=series">Browse library</a></header>
+				<p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
+				<section id="results" class="library-results" aria-live="polite" aria-label="Search results">
+					<article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library will reveal only results supplied by the live search index.</p></div></article>
+				</section>
+			</section>
+			<aside class="library-discovery-rail" aria-label="Search context">
+				<section class="library-rail-card"><header><div><p>Available libraries</p><h2>Indexed lanes</h2></div><span id="laneCount" aria-live="polite">Loading</span></header><div id="laneDirectory" class="library-lane-directory" aria-live="polite"></div></section>
+				<section class="library-rail-card"><header><div><p>Your browser</p><h2>Recently explored</h2></div><button id="clearHistory" type="button">Clear</button></header><div id="recentSearches" class="library-recent-searches"><p>No local searches yet.</p></div></section>
+				<section class="library-rail-card library-tip-card"><p>Search with context</p><h2>Ask for a teaching, phrase, or idea.</h2><ul><li>Use Hebrew or English.</li><li>Choose a lane for a narrower source set.</li><li>Open linked comments to continue in the real Heichel.</li></ul></section>
+			</aside>
+		</div>
 	</main>
-	<script type="module" src="./script.js?v=library-fix-002"></script>
+	<nav class="library-mobile-nav" aria-label="Mobile navigation"><a href="/">Home</a><a class="is-current" href="/mawgawl/sefarim/" aria-current="page">Search</a><a href="/social-composer/">Create</a><a href="/email/">Mail</a><a href="/profile/">Profile</a></nav>
+	<script type="module" src="./script.js?v=living-search-002"></script>
 </body>
 </html>

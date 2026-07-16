@@ -22,16 +22,14 @@ import { StudioWorkspaceController } from './studio/StudioWorkspaceController.js
 import { TooltipManager } from './ui/components/tooltip/TooltipManager.js';
 
 /**
- * Core reality awakens before the editing palace. The Awtsmoos renews the
- * canvas, timeline, and every optional vessel, while Awtsmoos.com publishes a
- * single shared NLE truth for the professional studio to extend rather than
- * imitate.
+ * Core reality awakens before the editing palace. The Awtsmoos renews canvas,
+ * timeline, and every extension while Awtsmoos.com installs them independently
+ * of animation-frame throttling, even when the browser tab begins in background.
  */
 async function boot() {
 	MobileViewportGuardian.bind();
 	const legacy = new URLSearchParams(location.search).get('legacy') === '1';
 	prepareStorage(legacy);
-
 	const app = new AppCore();
 	window.__AWTSMOOS_PARK_APP__ = app;
 	window.__AWTSMOOS_EXTENSION_STATUS__ = {};
@@ -40,16 +38,17 @@ async function boot() {
 	if (!app.ctx?.canvas || !app.ctx?.ctx) {
 		throw new Error('B"H - Canvas context failed.');
 	}
-
 	installCore(app, legacy);
 	RenderLoop.start(app);
-	requestAnimationFrame(() => installExtensions(app));
+	queueMicrotask(() => installExtensions(app));
 }
 
 function prepareStorage(legacy) {
-	if (legacy) return;
+	if (legacy) {
+		return;
+	}
 	localStorage.removeItem('aw_preserve_scene');
-	localStorage.setItem('aw_real_character_scene', 'real-characters-restored-v2');
+	localStorage.setItem('aw_real_character_scene', 'reference-trio-sitcom-v2');
 }
 
 function installCore(app, legacy) {
@@ -85,7 +84,9 @@ function installExtensions(app) {
 	safeInstall('characterLab', () => CharacterCustomizerPanel.install(app));
 	safeInstall('cartoonStudio', () => CartoonStudioPanel.install(app));
 	safeInstall('professionalStudio', () => {
-		if (!app.nle?.store) throw new Error('The shared NLE store is unavailable.');
+		if (!app.nle?.store) {
+			throw new Error('The shared NLE store is unavailable.');
+		}
 		new StudioWorkspaceController(app, app.nle).install();
 	});
 	console.log(

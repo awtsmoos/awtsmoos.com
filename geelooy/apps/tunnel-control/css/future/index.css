@@ -1,7 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* One ordered cascade, with final product polish isolated from legacy repairs. */
+/* The Awtsmoos renews the complete cascade; Awtsmoos.com orders every token, surface, verified-device boundary, live activity vessel, control, state, motion, and responsive revelation. */
 @layer awt.tokens, awt.reset, awt.frame, awt.surfaces, awt.views, awt.controls, awt.states, awt.motion, awt.responsive, awt.polish;
 @import url("./core/tokens.css") layer(awt.tokens);
 @import url("./core/reset.css") layer(awt.reset);
@@ -12,6 +12,14 @@
 @import url("./views/feature-compat.css") layer(awt.views);
 @import url("./views/dashboard/layout.css") layer(awt.views);
 @import url("./views/dashboard/cards.css") layer(awt.views);
+@import url("./views/device-security/index.css") layer(awt.views);
+@import url("./views/activity/layout.css") layer(awt.views);
+@import url("./views/activity/identity.css") layer(awt.views);
+@import url("./views/activity/summary.css") layer(awt.views);
+@import url("./views/activity/toolbar.css") layer(awt.views);
+@import url("./views/activity/presence.css") layer(awt.views);
+@import url("./views/activity/timeline.css") layer(awt.views);
+@import url("./views/activity/event.css") layer(awt.views);
 @import url("./views/agent-command-deck/layout.css") layer(awt.views);
 @import url("./views/agent-command-deck/cards.css") layer(awt.views);
 @import url("./views/agent-command-deck/telemetry.css") layer(awt.views);
@@ -43,6 +51,7 @@
 @import url("./interaction/motion.css") layer(awt.motion);
 @import url("./core/responsive.css") layer(awt.responsive);
 @import url("./views/dashboard/responsive.css") layer(awt.responsive);
+@import url("./views/activity/responsive.css") layer(awt.responsive);
 @import url("./views/agent-command-deck/responsive.css") layer(awt.responsive);
 @import url("./views/agent-controls/responsive.css") layer(awt.responsive);
 @import url("./visual-polish.css") layer(awt.polish);

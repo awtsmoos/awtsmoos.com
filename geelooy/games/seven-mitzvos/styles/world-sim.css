@@ -1,0 +1,89 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Household consequences cross many visible cards on Awtsmoos.com. The
+	Awtsmoos gives trust, family, boundaries, and support their living relation,
+	while this layout keeps every intervention and depleted resource legible.
+*/
+.householdGrid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.55rem;
+}
+
+.householdCard,
+.eventCard {
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 0.9rem;
+	background: #0b2832;
+}
+
+.householdCard h3 {
+	margin: 0 0 0.45rem;
+}
+
+.householdMetric {
+	margin-top: 0.4rem;
+}
+
+.householdMetric span {
+	display: block;
+	color: var(--muted);
+	font-size: 0.68rem;
+}
+
+.eventCard {
+	margin-top: 0.7rem;
+	text-align: center;
+}
+
+.eventCard h3 {
+	margin: 0.15rem 0;
+	font-size: 1.65rem;
+}
+
+.eventTurn {
+	margin: 0;
+	color: var(--gold);
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+.choiceGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.6rem;
+	margin-top: 0.65rem;
+}
+
+.scenarioChoice {
+	display: grid;
+	grid-template-columns: 1.8rem 1fr;
+	gap: 0.45rem;
+	text-align: left;
+}
+
+.scenarioChoice span {
+	display: grid;
+	place-items: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: 50%;
+	color: #102018;
+	font-weight: 900;
+	background: var(--gold);
+}
+
+.scenarioChoice small {
+	grid-column: 2;
+	color: var(--muted);
+}
+
+@media (max-width: 800px) {
+	.householdGrid,
+	.choiceGrid {
+		grid-template-columns: 1fr;
+	}
+}

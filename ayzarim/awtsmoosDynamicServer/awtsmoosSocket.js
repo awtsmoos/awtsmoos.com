@@ -2,38 +2,38 @@
 // Boruch Hashem
 // Blessed is He
 
-const { writeHandshake } = require('./websocket/core/handshake.js');
-const { sendFrame } = require('./websocket/core/frameWriter.js');
+const { sendFrame } = require("./websocket/core/frameWriter.js");
 const {
-	attachSocketClient,
 	collectClientMessage,
 	createSocketClient,
 	handleClientFrame,
 	processClientBuffer
-} = require('./websocket/core/clientSession.js');
-const { resolveUpgradeIdentity } = require('./websocket/core/upgradeIdentity.js');
+} = require("./websocket/core/clientSession.js");
 const {
 	heartbeatSocketClients,
 	removeAlias,
 	removeSocketClient
-} = require('./websocket/core/serverLifecycle.js');
-const { sendToAlias } = require('./websocket/apps/aliasRouting.js');
-const { sendTunnelRequest } = require('./websocket/apps/tunnelRelay.js');
+} = require("./websocket/core/serverLifecycle.js");
+const { handleSocketUpgrade } = require("./websocket/core/socketUpgrade.js");
+const { sendToAlias } = require("./websocket/apps/aliasRouting.js");
 const {
-	authorizeMissionRoomUpgrade,
-	rejectMissionRoomUpgrade
-} = require('./websocket/apps/missionRooms/upgradePolicy.js');
-const { startMissionRoomChannel } = require('./websocket/apps/missionRooms/channel.js');
-const { ensureServerState } = require('./websocket/platform/ServerState.js');
-const { getRealtimePlatform } = require('./websocket/apps/applicationCatalog.js');
+	publishActivity
+} = require("./websocket/apps/tunnelActivity/publisher.js");
+const { sendTunnelRequest } = require("./websocket/apps/tunnelRelay.js");
+const {
+	ensureServerState
+} = require("./websocket/platform/ServerState.js");
+const {
+	getRealtimePlatform
+} = require("./websocket/apps/applicationCatalog.js");
 
 /**
- * @file Conducts the shared socket transport and trusted upgrade identity boundary.
- * @description The Awtsmoos renews every client and application without mixture.
- * Awtsmoos.com preserves the root handshake and historical routes while signed HTTP
- * identity crosses once as a sanitized immutable socket-session attribute.
- */
-
+* @file Owns shared realtime server state and delegates focused socket lifecycles.
+* @description
+* The Awtsmoos renews transport, application, alias, tunnel, and account event
+* without mixture. Awtsmoos.com keeps this class as a narrow conductor while
+* admission, cleanup, relay, and publication remain in focused supporting vessels.
+*/
 class AwtsmoosSocket {
 	constructor(database) {
 		this.db = database;
@@ -51,20 +51,7 @@ class AwtsmoosSocket {
 	}
 
 	handleUpgrade(request, socket, head) {
-		const decision = authorizeMissionRoomUpgrade(request);
-		if (decision.handled && !decision.ok) {
-			rejectMissionRoomUpgrade(socket, decision);
-			return;
-		}
-		const identity = resolveUpgradeIdentity(this, request);
-		if (!writeHandshake(request, socket)) return;
-		const client = this.makeClient(socket, { identity });
-		this.clients.add(client);
-		attachSocketClient(this, client, head);
-		if (decision.ticket) {
-			startMissionRoomChannel(this, client, decision.ticket);
-		}
-		console.log('B"H - Socket Connected:', client.id);
+		handleSocketUpgrade(this, request, socket, head);
 	}
 
 	makeClient(socket, metadata = {}) {
@@ -95,8 +82,12 @@ class AwtsmoosSocket {
 		heartbeatSocketClients(this);
 	}
 
-	sendTunnelRequest(name, payload, timeout) {
-		return sendTunnelRequest(this, name, payload, timeout);
+	publishActivity(input) {
+		return publishActivity(this, input);
+	}
+
+	sendTunnelRequest(accountId, name, payload, timeout) {
+		return sendTunnelRequest(this, accountId, name, payload, timeout);
 	}
 
 	sendToAlias(targetAlias, data) {
@@ -104,7 +95,9 @@ class AwtsmoosSocket {
 	}
 
 	broadcastAll(data) {
-		for (const client of this.clients) client.send(data);
+		for (const client of this.clients) {
+			client.send(data);
+		}
 	}
 
 	sendFrame(socket, data, opcode = 0x1) {

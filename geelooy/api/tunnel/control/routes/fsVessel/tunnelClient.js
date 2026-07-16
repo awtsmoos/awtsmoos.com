@@ -1,71 +1,72 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const { capabilityFor } = require("./capabilities.js");
-const NativeRegistry = require("./nativeTunnelRegistry.js");
-const { VESSEL_TYPES, vesselTypeFor } = require("./vesselTypes.js");
+const {
+	findExactNativeTunnelClient,
+	listNativeTunnelClients,
+	newestStamp
+} = require("./nativeTunnelRegistry.js");
+const { nativeCapabilities } = require("./capabilities.js");
+const { VESSEL_TYPES } = require("./vesselTypes.js");
 
 /**
- * B"H
- * Public tunnel testimony reveals capability without exposing a live socket. The
- * Awtsmoos creates observer and vessel together; Awtsmoos.com projects only the
- * bounded fields needed for routing, diagnosis, and user choice.
+ * @file Projects proven native sockets into a narrow public device view.
+ * @description
+ * The Awtsmoos renews power and concealment together. Awtsmoos.com reveals only
+ * coarse operational ability and bounded identity after exact immutable matching;
+ * roots, tools, limits, worker state, profiles, and secret permissions stay hidden.
  */
-function publicTunnelClient(client = {}) {
-	const vesselType = vesselTypeFor(client);
 
+/** Returns a disclosure-safe native tunnel record. */
+function publicNativeTunnel(client = {}) {
+	const live = client.isAlive !== false && client.connected !== false;
 	return {
-		actions: Array.isArray(client.actions) ? [...client.actions] : [],
-		agentVersion: client.agentVersion || "unknown",
-		allowCommands: client.allowCommands === true,
-		allowSecrets: client.allowSecrets === true,
-		allowWrite: client.allowWrite === true,
-		browserAgent: client.browserAgent === true,
-		capabilities: capabilityFor(vesselType, client),
-		capabilityProfile: client.capabilityProfile || null,
-		declaredCapabilities: client.capabilities || {},
-		deviceName: client.deviceName || "Tunnel Device",
-		hostedVirtualOs: client.hostedVirtualOs === true,
-		limits: client.limits || {},
-		protocolVersion: client.protocolVersion || "",
-		registeredAt: client.tunnelRegisteredAt || client.registeredAt || "",
-		root: client.root || "",
-		runtime: client.runtime || {},
-		targetVessel: client.targetVessel || vesselType,
-		tools: client.tools || {},
-		tunnelName: client.tunnelName || "",
-		vesselType,
-		virtualOs: client.virtualOs === true,
-		workspaceId: client.workspaceId || ""
-	};
-}
-
-function publicTunnelClients(server) {
-	return NativeRegistry.allTunnelClients(server)
-		.filter(client => client?.isTunnel)
-		.map(publicTunnelClient)
-		.sort((first, second) => first.tunnelName.localeCompare(second.tunnelName));
-}
-
-function publicNativeTunnel(client) {
-	return {
-		...publicTunnelClient(client),
-		connected: true,
-		isAlive: client.isAlive !== false,
+		connected: live,
+		isAlive: live,
+		tunnelId: String(client.tunnelId || ""),
+		tunnelName: String(client.tunnelName || ""),
+		deviceId: String(client.deviceId || ""),
+		deviceName: String(client.deviceName || "Tunnel Device").slice(0, 160),
+		platform: String(client.platform || "unknown").slice(0, 80),
+		agentVersion: safeVersion(client.agentVersion),
+		capabilities: safeCapabilities(client),
+		registeredAt: client.registeredAt || null,
+		lastSeenAt: client.lastSeenAt || newestStamp(client) || null,
 		kind: VESSEL_TYPES.NATIVE,
-		vesselType: VESSEL_TYPES.NATIVE
+		vesselType: VESSEL_TYPES.NATIVE,
+		ownershipVerified: true
 	};
 }
 
-function listNativeTunnels($i) {
-	return NativeRegistry.listNativeTunnelClients($i).map(publicNativeTunnel);
+function safeCapabilities(client) {
+	const capabilities = nativeCapabilities(client);
+	return {
+		browserControl: Boolean(capabilities.chrome),
+		commandRun: Boolean(capabilities.commandRun),
+		fsRead: capabilities.fsRead !== false,
+		fsWrite: Boolean(capabilities.fsWrite),
+		runtime: Boolean(capabilities.runtime)
+	};
+}
+
+function safeVersion(value) {
+	const normalized = String(value || "").trim();
+	return normalized ? normalized.slice(0, 40) : null;
+}
+
+function listNativeTunnels($i, accountId) {
+	return listNativeTunnelClients($i, accountId).map(publicNativeTunnel);
+}
+
+/** Finds the live native socket matching every immutable binding field. */
+function findNativeTunnel($i, binding) {
+	return findExactNativeTunnelClient($i, binding);
 }
 
 module.exports = {
-	...NativeRegistry,
+	findNativeTunnel,
 	listNativeTunnels,
 	publicNativeTunnel,
-	publicTunnelClient,
-	publicTunnelClients
+	safeCapabilities
 };

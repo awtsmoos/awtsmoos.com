@@ -23,6 +23,7 @@
 	font-weight: 850;
 	gap: .7rem;
 	letter-spacing: -.02em;
+	min-height: 2.75rem;
 	text-decoration: none;
 }
 .civilization-brand-mark {
@@ -31,9 +32,9 @@
 	color: #03101a;
 	display: grid;
 	font-size: 1.25rem;
-	height: 2.7rem;
+	height: 2.75rem;
 	place-items: center;
-	width: 2.7rem;
+	width: 2.75rem;
 }
 .civilization-nav {
 	display: flex;

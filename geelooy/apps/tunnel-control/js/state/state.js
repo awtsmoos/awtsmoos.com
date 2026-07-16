@@ -1,61 +1,65 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const params = new URLSearchParams(location.search);
-const savedTunnelName = localStorage.getItem("awtsmoos:tunnelName") || "";
-const savedProjectPath = localStorage.getItem("awtsmoos:projectPath") || ".";
+const parameters = new URLSearchParams(globalThis.location?.search || "");
+const savedPreference = readStorage("awtsmoos:tunnelName", "");
+const savedProjectPath = readStorage("awtsmoos:projectPath", ".");
 
 /**
- * B"H
- * The small memory vessel of the control panel.
- *
- * The normal path should be:
- *   /apps/tunnel-control/
- *
- * A tunnelName query remains only as a developer override, not as the main
- * user flow. After the page discovers a tunnel from login/session, it stores
- * the selected tunnel locally without polluting the URL.
+ * @file Stores preferences that must never be confused with active authorization.
+ * @description
+ * The Awtsmoos renews memory and authority through separate vessels.
+ * Awtsmoos.com remembers a requested tunnel name only as a preference; the trusted
+ * target registry must revalidate it against current account discovery before use.
  */
 export const state = {
-  tunnelName: params.get("tunnelName") || savedTunnelName,
-  projectPath: savedProjectPath,
-  explorerPath: ".",
-  urlTunnelOverride: params.get("tunnelName") || ""
+	tunnelPreference: clean(
+		parameters.get("tunnelName") || savedPreference
+	),
+	projectPath: clean(savedProjectPath) || ".",
+	explorerPath: "."
 };
 
-/**
- * B"H
- * Remembers the active tunnel without forcing it into the URL.
- *
- * @param {string} tunnelName Active tunnel name.
- * @returns {void}
- */
 export function rememberTunnelName(tunnelName) {
-  state.tunnelName = String(tunnelName || "").trim();
-  if (state.tunnelName) {
-    localStorage.setItem("awtsmoos:tunnelName", state.tunnelName);
-  }
+	state.tunnelPreference = clean(tunnelName);
+	writeStorage("awtsmoos:tunnelName", state.tunnelPreference);
 }
 
-/**
- * B"H
- * Clears tunnel memory when the user is logged out or no agent exists.
- *
- * @returns {void}
- */
 export function forgetTunnelName() {
-  state.tunnelName = "";
-  localStorage.removeItem("awtsmoos:tunnelName");
+	state.tunnelPreference = "";
+	removeStorage("awtsmoos:tunnelName");
 }
 
-/**
- * B"H
- * Remembers the visible project path.
- *
- * @param {string} projectPath Project path.
- * @returns {void}
- */
 export function rememberProjectPath(projectPath) {
-  state.projectPath = String(projectPath || ".").trim() || ".";
-  localStorage.setItem("awtsmoos:projectPath", state.projectPath);
+	state.projectPath = clean(projectPath) || ".";
+	writeStorage("awtsmoos:projectPath", state.projectPath);
+}
+
+function clean(value) {
+	return String(value || "").trim().slice(0, 180);
+}
+
+function readStorage(key, fallback) {
+	try {
+		return globalThis.localStorage?.getItem(key) || fallback;
+	} catch {
+		return fallback;
+	}
+}
+
+function writeStorage(key, value) {
+	try {
+		if (value) {
+			globalThis.localStorage?.setItem(key, value);
+		} else {
+			globalThis.localStorage?.removeItem(key);
+		}
+	} catch {}
+}
+
+function removeStorage(key) {
+	try {
+		globalThis.localStorage?.removeItem(key);
+	} catch {}
 }

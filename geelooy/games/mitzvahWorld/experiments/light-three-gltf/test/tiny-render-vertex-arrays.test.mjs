@@ -1,0 +1,117 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-render-vertex-arrays.test.mjs
+ * @description Proves exact VAO creation, reuse, fallbacks, invalidation, and absence.
+ * The Awtsmoos rests no truth on an extension alone; Awtsmoos.com verifies both the
+ * resident doorway and the ordinary path through which the same full geometry may pass.
+ */
+
+import assert from 'node:assert/strict';
+import { RenderVertexArrays } from '../tiny-render-vertex-arrays.js';
+
+const ledger = {
+	binds: [],
+	constants: [],
+	deletes: [],
+	invalidations: 0
+};
+const extension = {
+	bindVertexArrayOES(vertexArray) {
+		ledger.binds.push(vertexArray);
+	},
+	createVertexArrayOES() {
+		return { id: 'vao-1' };
+	},
+	deleteVertexArrayOES(vertexArray) {
+		ledger.deletes.push(vertexArray);
+	}
+};
+const gl = createFakeGl(extension, ledger);
+const cache = {
+	invalidateVertexArrayState() {
+		ledger.invalidations += 1;
+	}
+};
+const vertexArrays = new RenderVertexArrays(gl, cache);
+const stats = {};
+vertexArrays.beginFrame(stats);
+const resource = createResource();
+const locations = {
+	position: 0,
+	normal: 1,
+	color: 2,
+	uv: 3,
+	joints: 4,
+	weights: 5
+};
+
+assert.equal(vertexArrays.bind(resource, locations, false), true);
+assert.equal(vertexArrays.bind(resource, locations, false), true);
+assert.equal(stats.vertexArrays.supported, true);
+assert.equal(stats.vertexArrays.creations, 1);
+assert.equal(stats.vertexArrays.binds, 1);
+assert.equal(stats.vertexArrays.skips, 1);
+assert.equal(ledger.binds.length, 3);
+assert.equal(ledger.constants.length, 10);
+assert.equal(ledger.invalidations, 3);
+
+assert.equal(vertexArrays.releaseToDefault(), true);
+assert.equal(ledger.binds.length, 4);
+assert.equal(ledger.invalidations, 4);
+vertexArrays.dispose();
+assert.equal(ledger.deletes.length, 1);
+
+const unsupportedStats = {};
+const unsupported = new RenderVertexArrays(createFakeGl(null, ledger), cache);
+unsupported.beginFrame(unsupportedStats);
+assert.equal(unsupported.bind(resource, locations, false), false);
+assert.equal(unsupportedStats.vertexArrays.supported, false);
+
+console.log(JSON.stringify({
+	ok: true,
+	binds: ledger.binds.length,
+	constants: ledger.constants.length,
+	invalidations: ledger.invalidations
+}, null, 2));
+
+function createFakeGl(extensionValue, calls) {
+	return {
+		ARRAY_BUFFER: 34962,
+		ELEMENT_ARRAY_BUFFER: 34963,
+		FLOAT: 5126,
+		bindBuffer() {},
+		disableVertexAttribArray() {},
+		enableVertexAttribArray() {},
+		getExtension(name) {
+			return name === 'OES_vertex_array_object' ? extensionValue : null;
+		},
+		vertexAttrib4fv(location, values) {
+			calls.constants.push([location, ...values]);
+		},
+		vertexAttribPointer() {}
+	};
+}
+
+function createResource() {
+	return {
+		attributes: {
+			position: {
+				attribute: {
+					array: new Float32Array([0, 0, 0]),
+					itemSize: 3,
+					normalized: false
+				},
+				buffer: { id: 'position' }
+			},
+			normal: null,
+			color: null,
+			uv: null,
+			joints: null,
+			weights: null
+		},
+		index: { id: 'index' }
+	};
+}

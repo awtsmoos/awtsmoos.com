@@ -5,9 +5,9 @@
 /**
  * @module PackedIndexStore
  * @description
- * A single initialized writable AwtsmoosDB instance serves both profile reads and
- * comment writes. The Awtsmoos needs no allocator while Awtsmoos.com avoids opening
- * an empty packed file in strict read-only mode before its metadata exists.
+ * One bounded writable index serves profile reads and comment writes. The Awtsmoos
+ * compresses FS3 bodies, reuses verifier-proven free ranges, disables WAL and
+ * version history, and reopens only when atomic replacement changes the inode.
  */
 
 const fs = require('fs');
@@ -27,19 +27,31 @@ function dbFile($i) {
 	return path.join(dbRoot($i), 'socialPacked', FILE);
 }
 
+function fingerprint(file) {
+	if (!fs.existsSync(file)) return 'missing';
+	const status = fs.statSync(file);
+	return `${status.dev}:${status.ino}`;
+}
+
 function open($i) {
 	const file = dbFile($i);
 	fs.mkdirSync(path.dirname(file), { recursive: true });
-	if (cache.has(file)) return cache.get(file);
+	const mark = fingerprint(file);
+	const current = cache.get(file);
+	if (current?.mark === mark) return current.db;
+	try { current?.db?.close(); } catch {}
 	const db = new AwtsmoosDB(file, {
 		debug: false,
 		readOnly: false,
+		reuseFreedSpace: 'verified',
+		versions: false,
+		virtualFsCompression: true,
 		wal: false,
 		processLockMode: 'exclusive',
 		lockMode: 'exclusive'
 	});
 	db.open();
-	cache.set(file, db);
+	cache.set(file, { db, mark: fingerprint(file) });
 	return db;
 }
 
@@ -52,9 +64,9 @@ function list(db, target) {
 }
 
 function readRaw(db, target, fallback = []) {
-	const stat = db.fs.stat(target);
-	if (!stat?.exists || stat.type !== 'file') return fallback;
-	return awts.deserializeBinary(db.fs.readRange(target, 0, stat.size));
+	const status = db.fs.stat(target);
+	if (!status?.exists || status.type !== 'file') return fallback;
+	return awts.deserializeBinary(db.fs.readRange(target, 0, status.size));
 }
 
 function writeRaw(db, target, value) {
@@ -64,11 +76,19 @@ function writeRaw(db, target, value) {
 	db.fs.write(target, binary);
 }
 
+function closeAll() {
+	for (const entry of cache.values()) try { entry.db.close(); } catch {}
+	cache.clear();
+}
+
+process.once('exit', closeAll);
+
 module.exports = {
 	FILE,
+	closeAll,
 	dbFile,
-	open,
 	list,
+	open,
 	readRaw,
 	writeRaw
 };

@@ -11,12 +11,12 @@ import { BuilderHud } from './builder-hud.js';
 /**
  * @module BuilderView
  * @description
- * The city, economy, and exact Seven Mitzvos gather into one strategy surface
- * on Awtsmoos.com. The Awtsmoos gives every layer one purpose, so this view
- * keeps construction, defense, and learning visibly connected.
+ * City, economy, exact mitzvos, and earned monument gather on Awtsmoos.com. The
+ * Awtsmoos gives every layer one purpose, so this view preserves construction,
+ * defense, learning, and visible campaign unlock state without merging their logic.
  */
 export class BuilderView {
-	constructor(mount, launch, buildings, catalog, foundations) {
+	constructor(mount, launch, buildings, catalog, foundations, campaignUnlocks = []) {
 		mount.innerHTML = builderTemplate();
 		this.section = mount.querySelector('#builderSection');
 		this.launch = launch;
@@ -25,15 +25,25 @@ export class BuilderView {
 		this.advance = mount.querySelector('#advanceDay');
 		this.reset = mount.querySelector('#resetCity');
 		this.grid = new BuilderGrid(mount.querySelector('#builderGrid'), catalog);
-		this.palette = new BuilderPalette(mount.querySelector('#builderPalette'), buildings);
-		this.ledger = new FoundationLedger(mount.querySelector('#foundationLedger'), foundations);
+		this.palette = new BuilderPalette(
+			mount.querySelector('#builderPalette'),
+			buildings,
+			campaignUnlocks
+		);
+		this.ledger = new FoundationLedger(
+			mount.querySelector('#foundationLedger'),
+			foundations
+		);
 		this.hud = new BuilderHud(mount.querySelector('#builderHud'));
 		this.catalog = catalog;
 	}
 
 	bind(actions) {
 		this.launch.addEventListener('click', () => {
-			this.section.scrollIntoView({ behavior: this.motionBehavior(), block: 'start' });
+			this.section.scrollIntoView({
+				behavior: this.motionBehavior(),
+				block: 'start'
+			});
 		});
 		this.advance.addEventListener('click', actions.advance);
 		this.reset.addEventListener('click', actions.reset);
@@ -70,6 +80,8 @@ export class BuilderView {
 	}
 
 	motionBehavior() {
-		return matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+		return matchMedia('(prefers-reduced-motion: reduce)').matches
+			? 'auto'
+			: 'smooth';
 	}
 }

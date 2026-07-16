@@ -7,6 +7,10 @@
  */
 import { applyEndlessCycle } from '../modes/EndlessRules.js';
 import { validateCheckpoint } from './CheckpointValidation.js';
+import {
+	applyRouteCheckpoint,
+	createRouteCheckpoint
+} from './RouteCheckpoint.js';
 
 const RULE_FIELDS = Object.freeze([
 	'damageMultiplier',
@@ -35,6 +39,7 @@ export function createRunCheckpoint(state) {
 	return validateCheckpoint({
 		runMode: state.runMode,
 		endlessCycle: state.endlessCycle,
+		...createRouteCheckpoint(state),
 		worldIndex: state.worldIndex,
 		levelIndex: state.levelIndex,
 		troops: state.troops,
@@ -101,6 +106,7 @@ export function applyRunCheckpoint(state, candidate) {
 		hazardClock: 3.5,
 		boss: null
 	});
+	applyRouteCheckpoint(state, checkpoint);
 	applyEndlessCycle(state, checkpoint.endlessCycle);
 	return true;
 }

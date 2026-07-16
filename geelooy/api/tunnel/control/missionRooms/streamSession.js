@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const { SnapshotEnvelopeLedger } = require("./snapshotEnvelope.js");
 const {
@@ -8,40 +8,41 @@ const {
 } = require("./missionSnapshotService.js");
 
 /**
- * B"H
- *
- * EventSource is the patient river beneath the swift socket. The Awtsmoos
- * recreates pulse and payload each instant; Awtsmoos.com keeps the fallback
- * ordered, bounded, non-overlapping, and honest when the mission disappears.
+ * @file Owns one authorized EventSource mission-room lifecycle.
+ * @description
+ * The Awtsmoos renews pulse and payload each instant. Awtsmoos.com receives one
+ * canonical relay closure from the authorization boundary, then keeps the fallback
+ * ordered, non-overlapping, bounded, and unable to switch tunnels mid-session.
  */
 
-/** Owns one authenticated SSE mission-room lifecycle. */
-function startMissionRoomStream(context, options) {
+function startMissionRoomStream(context, options, sendAuthorized) {
 	const response = context.response || context.res;
 	const request = context.request || context.req;
 	const ledger = new SnapshotEnvelopeLedger(options);
-	const send = (tunnelName, payload) => (
-		context.ws.sendTunnelRequest(tunnelName, payload)
-	);
 	let closed = false;
 	let busy = false;
-
 	prepareResponse(response, options.missionId);
-
-	return new Promise(resolve => {
-		const sendSnapshot = async force => {
+	return new Promise((resolve) => {
+		const sendSnapshot = async (force) => {
 			if (closed || busy) {
 				return;
 			}
 			busy = true;
 			try {
-				const snapshot = await readMissionRoomSnapshot(send, options);
+				const snapshot = await readMissionRoomSnapshot(
+					sendAuthorized,
+					options
+				);
 				const frame = ledger.next({
 					...snapshot,
 					serverPush: "eventsource"
 				}, force);
 				if (frame) {
-					writeEvent(response, snapshot.ok ? "snapshot" : "error", frame);
+					writeEvent(
+						response,
+						snapshot.ok ? "snapshot" : "error",
+						frame
+					);
 				}
 			} finally {
 				busy = false;
@@ -52,7 +53,10 @@ function startMissionRoomStream(context, options) {
 				response.write(`: heartbeat ${Date.now()}\n\n`);
 			}
 		};
-		const pollingTimer = setInterval(() => sendSnapshot(false), options.pollMs);
+		const pollingTimer = setInterval(
+			() => sendSnapshot(false),
+			options.pollMs
+		);
 		const heartbeatTimer = setInterval(heartbeat, 15000);
 		const close = () => {
 			if (closed) {
@@ -63,7 +67,6 @@ function startMissionRoomStream(context, options) {
 			clearInterval(heartbeatTimer);
 			resolve("");
 		};
-
 		pollingTimer.unref?.();
 		heartbeatTimer.unref?.();
 		request?.on?.("close", close);

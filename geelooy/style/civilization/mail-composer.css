@@ -1,11 +1,11 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos lets a reply remain human instead of theatrical; Awtsmoos.com keeps the composer clear above keyboards and safe areas.
+ * The Awtsmoos lets a reply remain human; Awtsmoos.com keeps modes,
+ * tools, content, and delivery inside one measured vessel.
  */
 .composer-area {
 	background: rgba(5, 8, 17, .97) !important;
 	border-top: 1px solid var(--civil-line) !important;
+	min-width: 0;
 	padding: .75rem !important;
 	padding-bottom: max(.75rem, env(safe-area-inset-bottom)) !important;
 }
@@ -14,20 +14,35 @@
 	border: 1px solid var(--civil-line) !important;
 	border-radius: .85rem !important;
 	box-shadow: none !important;
+	min-width: 0;
 	overflow: hidden;
 }
 .composer-topbar {
+	align-items: center !important;
 	border-bottom: 1px solid var(--civil-line);
+	display: grid !important;
 	gap: .5rem;
+	grid-template-columns: minmax(0, 1fr) auto;
+	min-width: 0;
+	overflow: hidden;
 	padding: .45rem !important;
 }
 .composer-tabs {
 	background: #07111d !important;
 	border: 1px solid var(--civil-line) !important;
 	border-radius: .65rem !important;
-	display: flex !important;
+	display: grid !important;
 	gap: .25rem;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	min-width: 0;
 	padding: .2rem !important;
+}
+.composer-window-controls {
+	display: grid !important;
+	gap: .25rem;
+	grid-template-columns: repeat(4, minmax(2.75rem, auto));
+	min-width: 0;
+	overflow: hidden;
 }
 .mode-tab,
 .composer-window-controls button,
@@ -38,6 +53,8 @@
 	color: var(--civil-text-soft) !important;
 	min-height: 2.75rem;
 	min-width: 2.75rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .mode-tab[aria-pressed="true"],
 .mode-tab.active,
@@ -50,6 +67,7 @@
 .composer-content {
 	display: grid;
 	gap: .45rem;
+	min-width: 0;
 	padding: .55rem;
 }
 .subject-input,
@@ -61,6 +79,7 @@
 	color: var(--civil-text) !important;
 	line-height: 1.5;
 	min-height: 3.2rem;
+	min-width: 0;
 	padding: .7rem .8rem !important;
 	width: 100%;
 }
@@ -82,12 +101,8 @@
 	min-height: 3rem;
 	padding: .65rem 1rem !important;
 }
-.message-failed {
-	border-color: rgba(244, 119, 130, .5) !important;
-}
-.message-pending {
-	opacity: .78;
-}
+.message-failed { border-color: rgba(244, 119, 130, .5) !important; }
+.message-pending { opacity: .78; }
 .message-delivered .message-meta::after {
 	color: var(--civil-cyan);
 	content: " · Delivered";

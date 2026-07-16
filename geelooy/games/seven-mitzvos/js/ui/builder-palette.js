@@ -5,14 +5,15 @@
 /**
  * @module BuilderPalette
  * @description
- * Economy and covenant buildings stand side by side on Awtsmoos.com. The
- * Awtsmoos gives material growth its proper boundary: every resource must
- * ultimately help protect life, trust, family, creatures, reverence, and law.
+ * Economy, covenant, and earned monuments stand together on Awtsmoos.com. The
+ * Awtsmoos gives material growth its boundary; campaign structures remain visibly
+ * named yet unusable until the exact accountable chapter has unlocked them.
  */
 export class BuilderPalette {
-	constructor(element, buildings) {
+	constructor(element, buildings, campaignUnlocks = []) {
 		this.element = element;
 		this.buildings = buildings;
+		this.campaignUnlocks = new Set(campaignUnlocks);
 		this.onSelect = () => {};
 	}
 
@@ -29,25 +30,44 @@ export class BuilderPalette {
 
 	createButton(building, tier, selected, resources) {
 		const button = document.createElement('button');
-		const locked = building.tier > tier;
-		const affordable = Object.entries(building.cost).every(([key, value]) => resources[key] >= value);
+		const tierLocked = building.tier > tier;
+		const campaignLocked = Boolean(building.campaignUnlock)
+			&& !this.campaignUnlocks.has(building.campaignUnlock);
+		const affordable = Object.entries(building.cost).every(([key, value]) => {
+			return resources[key] >= value;
+		});
 		button.type = 'button';
 		button.className = 'buildChoice';
 		button.classList.toggle('isSelected', building.id === selected);
-		button.classList.toggle('isLocked', locked);
+		button.classList.toggle('isLocked', tierLocked || campaignLocked);
 		button.classList.toggle('cannotAfford', !affordable);
 		button.setAttribute('aria-pressed', String(building.id === selected));
-		button.addEventListener('click', () => this.onSelect(building.id));
-
-		const exact = building.exact ? `<small>${building.exact}</small>` : '';
-		button.innerHTML = `
-			<span class="buildIcon">${building.icon}</span>
-			<span class="buildCopy"><strong>${building.name}</strong>${exact}<em>${this.cost(building.cost)}</em></span>
-			<span class="tierBadge">T${building.tier}</span>`;
+		button.disabled = campaignLocked;
+		button.addEventListener('click', () => {
+			this.onSelect(building.id);
+		});
+		button.innerHTML = this.buttonMarkup(building, campaignLocked);
 		return button;
 	}
 
+	buttonMarkup(building, campaignLocked) {
+		const exact = building.exact
+			? `<small>${building.exact}</small>`
+			: '';
+		const campaign = campaignLocked
+			? '<small>Complete The Broken Measure to unlock</small>'
+			: building.campaignUnlock
+				? '<small>Campaign monument unlocked</small>'
+				: '';
+		return `
+			<span class="buildIcon">${building.icon}</span>
+			<span class="buildCopy"><strong>${building.name}</strong>${exact}${campaign}<em>${this.cost(building.cost)}</em></span>
+			<span class="tierBadge">T${building.tier}</span>`;
+	}
+
 	cost(cost) {
-		return Object.entries(cost).map(([key, value]) => `${value} ${key}`).join(' · ');
+		return Object.entries(cost).map(([key, value]) => {
+			return `${value} ${key}`;
+		}).join(' · ');
 	}
 }

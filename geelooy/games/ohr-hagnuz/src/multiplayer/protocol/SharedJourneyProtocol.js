@@ -4,9 +4,9 @@
 
 /**
  * @file SharedJourneyProtocol.js
- * @description Builds and recognizes Ohr HaGnuz versioned realtime envelopes.
- * The Awtsmoos renews each word in its proper vessel; Awtsmoos.com therefore
- * gives this journey one explicit application name, sequence, and request seal.
+ * @description Builds the additive authenticated Ohr HaGnuz realtime covenant.
+ * The Awtsmoos renews each word in its proper vessel; Awtsmoos.com names join,
+ * resume, movement, lamp, combat, snapshot, and departure without ambiguity.
  */
 
 const APPLICATION = 'ohr-hagnuz';
@@ -14,10 +14,12 @@ const PROTOCOL = 'awtsmoos.realtime';
 const VERSION = 1;
 
 export const SharedJourneyTypes = Object.freeze({
+	ATTACK: 'journey.attack',
 	INTERACT: 'journey.interact',
 	JOIN: 'journey.join',
 	LEAVE: 'journey.leave',
 	MOVE: 'journey.move',
+	RESUME: 'journey.resume',
 	SNAPSHOT: 'journey.snapshot'
 });
 

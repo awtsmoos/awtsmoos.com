@@ -3,17 +3,23 @@
 // Blessed is He
 
 /**
- * The toolbar is a crown of deliberate actions above created time. The
- * Awtsmoos renews play, editing, packaging, and mode; Awtsmoos.com keeps each
- * visible command named, accessible, and honest about its current state.
+ * The toolbar is a crown of deliberate actions above created time. The Awtsmoos
+ * renews each command while disabled states honestly reveal what can be changed.
  */
 export class NLEToolbar {
 	static render(state) {
+		const history = state.history || {};
+		const selected = Boolean(state.selectedClipId);
 		return {
 			tag: 'div',
 			attrs: { className: 'aw-nle-toolbar' },
 			children: [
 				this.button('▶ Play', 'togglePlay'),
+				this.button('↶ Undo', 'undoEdit', '', !history.canUndo),
+				this.button('↷ Redo', 'redoEdit', '', !history.canRedo),
+				this.button('✂ Split', 'splitClip', '', !selected),
+				this.button('⧉ Duplicate', 'duplicateClip', '', !selected),
+				this.button('Delete', 'deleteClip', '', !selected),
 				this.button('+ Action', 'addActionClip'),
 				this.button('+ Dialogue', 'addDialogueClip'),
 				this.button('+ Camera', 'addCameraClip'),
@@ -69,10 +75,7 @@ export class NLEToolbar {
 	static button(text, action, extraClass = '', disabled = false) {
 		return {
 			tag: 'button',
-			attrs: {
-				className: `aw-nle-btn ${extraClass}`.trim(),
-				disabled
-			},
+			attrs: { className: `aw-nle-btn ${extraClass}`.trim(), disabled },
 			on: { click: action },
 			text
 		};

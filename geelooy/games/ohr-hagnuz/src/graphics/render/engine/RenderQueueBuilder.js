@@ -1,77 +1,90 @@
-
-import { StateRegister } from '../../../binah/StateRegister.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @class RenderQueueBuilder
- * @chapter The Seder of Projection
- * @description
- * Gathers all entities, walls, trees, and the Tzaddik into a single array, 
- * calculating their `sortY` to ensure objects closer to the bottom of the screen 
- * are drawn last, perfectly occluding objects behind them.
+ * @file RenderQueueBuilder.js
+ * @description Builds the existing Y-sorted projection queue plus visual-only detail.
+ *
+ * The Awtsmoos orders every form without confusing essence and garment. Awtsmoos.com
+ * places reeds and ruins into projection while gameplay authority remains elsewhere.
  */
+import { StateRegister } from '../../../binah/StateRegister.js';
+import { WorldDetailPlanner } from '../detail/WorldDetailPlanner.js';
+
 export class RenderQueueBuilder {
-    
-    /**
-     * @description Evaluates a physical tile and adds it to the queue if it has vertical presence.
-     */
-    static enqueueTile(queue, tile, sx, sy, RES) {
-        if (tile.t.startsWith('G_TREE')) {
-            let tType = 'OAK';
-            if (tile.char === '🌵') tType = 'CACTUS';
-            else if (tile.char === '🌲') tType = 'PINE';
-            else if (tile.char === '🌳') tType = 'GOLD';
-            else if (tile.char === '🌴') tType = 'PALM';
-            else if (tile.char === '🎄') tType = 'SNOW';
-            else if (tile.char === '💎') tType = 'CRYSTAL';
-            
-            queue.push({ type: 'TREE', treeType: tType, x: sx, y: sy, sortY: sy + RES });
-        }
-        else if (tile.t.startsWith('G_WALL')) {
-            queue.push({ type: 'WALL', x: sx, y: sy, sortY: sy + RES, tile: tile });
-        }
-        else if (tile.t === 'G_SCROLL') {
-            queue.push({ type: 'SCROLL_WALL', x: sx, y: sy, sortY: sy + RES, seed: tile.x * 17 + tile.y * 31 });
-        }
-        else if (tile.isPortal && tile.t === 'G_DOOR_WOOD') {
-            // Doors are slightly offset so they don't fight with walls
-            queue.push({ type: 'DOOR', x: sx, y: sy, sortY: sy + RES + 0.1 });
-        }
-        else if (tile.encounter) {
-            queue.push({ type: 'TALL_GRASS', x: sx, y: sy, sortY: sy + RES + 10 });
-        }
-        else if (tile.isSoul) {
-            queue.push({ 
-                type: (tile.isEnemy ? 'ANIMAL' : 'NPC'), 
-                x: sx, 
-                y: sy, 
-                sortY: sy + RES, 
-                dir: tile.dir, 
-                color: tile.color 
-            });
-        }
-    }
+	static enqueueTile(queue, tile, x, y, resolution, theme) {
+		this.enqueueDetails(queue, tile, x, y, resolution, theme);
+		if (tile.t.startsWith('G_TREE')) {
+			queue.push({
+				type: 'TREE',
+				treeType: this.treeType(tile.char),
+				x, y, theme,
+				sortY: y + resolution
+			});
+			return;
+		}
+		if (tile.t.startsWith('G_WALL')) {
+			queue.push({ type: 'WALL', x, y, sortY: y + resolution, tile });
+			return;
+		}
+		if (tile.t === 'G_SCROLL') {
+			queue.push({
+				type: 'SCROLL_WALL', x, y, sortY: y + resolution,
+				seed: tile.x * 17 + tile.y * 31
+			});
+			return;
+		}
+		if (tile.isPortal && tile.t === 'G_DOOR_WOOD') {
+			queue.push({ type: 'DOOR', x, y, sortY: y + resolution + 0.1 });
+			return;
+		}
+		if (tile.encounter) {
+			queue.push({ type: 'TALL_GRASS', x, y, sortY: y + resolution + 10 });
+			return;
+		}
+		if (tile.isSoul) {
+			queue.push({
+				type: tile.isEnemy ? 'ANIMAL' : 'NPC',
+				x, y, sortY: y + resolution, dir: tile.dir, color: tile.color
+			});
+		}
+	}
 
-    /**
-     * @description Inserts the Tzaddik into the spatial matrix.
-     */
-    static enqueueHero(queue, midX, midY, RES) {
-        const HR = StateRegister.HeroPos;
-        queue.push({ 
-            type: 'HERO', 
-            x: midX - RES / 2, 
-            y: midY - RES / 2, 
-            sortY: midY + RES / 2, 
-            progress: HR.moving ? (HR.stepTick / RES) : 0, 
-            dir: HR.dir 
-        });
-    }
+	static enqueueDetails(queue, tile, x, y, resolution, theme) {
+		for (const detail of WorldDetailPlanner.plan(tile, theme)) {
+			queue.push({
+				type: 'WORLD_DETAIL',
+				detailKind: detail.kind,
+				seed: detail.seed,
+				theme: detail.theme,
+				x, y,
+				sortY: y + resolution + this.detailOffset(detail.kind)
+			});
+		}
+	}
 
-    /**
-     * @description Resolves the queue based on Y-coordinate.
-     * @returns {Array} Sorted queue.
-     */
-    static sort(queue) {
-        return queue.sort((a, b) => a.sortY - b.sortY);
-    }
+	static enqueueHero(queue, midX, midY, resolution) {
+		const hero = StateRegister.HeroPos;
+		queue.push({
+			type: 'HERO',
+			x: midX - resolution / 2,
+			y: midY - resolution / 2,
+			sortY: midY + resolution / 2,
+			progress: hero.moving ? hero.stepTick / resolution : 0,
+			dir: hero.dir
+		});
+	}
+
+	static treeType(char) {
+		return ({ '🌵': 'CACTUS', '🌲': 'PINE', '🌳': 'GOLD', '🌴': 'PALM', '🎄': 'SNOW', '💎': 'CRYSTAL' })[char] || 'OAK';
+	}
+
+	static detailOffset(kind) {
+		return ({ MOSS_ROCK: 0.3, RUIN_FRAGMENT: 0.4, SHRUB: 2, REEDS: 4 })[kind] || 1;
+	}
+
+	static sort(queue) {
+		return queue.sort((left, right) => left.sortY - right.sortY);
+	}
 }

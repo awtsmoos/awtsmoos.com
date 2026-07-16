@@ -1,0 +1,107 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Seven exact mitzvos become seven readable province cards on Awtsmoos.com. The
+	Awtsmoos is beyond stable and crisis alike; each finite condition therefore
+	speaks with text and symbol, never color alone.
+*/
+.campaignProvinceGrid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+	align-items: stretch;
+}
+
+.provinceCard {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 10px;
+	padding: 20px;
+	border: 1px solid hsla(var(--province-hue), 70%, 70%, 0.24);
+	border-radius: 20px;
+	background: linear-gradient(160deg, hsla(var(--province-hue), 65%, 32%, 0.18), rgba(8, 22, 37, 0.92));
+}
+
+.provinceTopline {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	align-items: center;
+}
+
+.provinceNumber,
+.provinceStatus {
+	font-size: 0.78rem;
+	font-weight: 850;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.provinceStatus {
+	padding: 5px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.provinceSymbol {
+	font-size: 2.2rem;
+}
+
+.provinceCard h3,
+.provinceCard p,
+.provinceCard dl {
+	margin: 0;
+}
+
+.provinceMeaning,
+.provinceGame,
+.provinceObjective {
+	line-height: 1.55;
+}
+
+.provinceMeaning,
+.provinceGame {
+	color: #c2d8e8;
+}
+
+.provinceObjective {
+	font-weight: 680;
+}
+
+.provinceStats {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 6px 12px;
+	padding: 12px;
+	border-radius: 12px;
+	background: rgba(0, 0, 0, 0.18);
+}
+
+.provinceStats dt,
+.provinceStats dd {
+	margin: 0;
+}
+
+.provinceStats dd {
+	font-weight: 800;
+	text-align: right;
+}
+
+.provinceAction {
+	width: 100%;
+	margin-top: auto;
+}
+
+.advancedMissionCard {
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.advancedMissionCard ol {
+	padding-left: 22px;
+}
+
+.province-crisis {
+	border-style: double;
+}

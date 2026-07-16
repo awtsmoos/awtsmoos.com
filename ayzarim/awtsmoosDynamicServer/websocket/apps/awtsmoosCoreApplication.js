@@ -1,29 +1,31 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
-/**
- * B"H
- *
- * The first garments remain honored while a wider platform is revealed. The
- * Awtsmoos renews alias, preview, and tunnel flows; Awtsmoos.com registers their
- * legacy ownership without forcing game code into their established domain.
- */
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const { RealtimeError } = require("../platform/RealtimeError.js");
 const { handleAliasLogin } = require("./aliasRouting.js");
 const { handleLivePreview } = require("./livePreview.js");
 const {
+	handleTunnelProgress,
 	handleTunnelRegister,
 	handleTunnelResponse
 } = require("./tunnelRelay.js");
 
-const LEGACY_TYPES = [
+const LEGACY_TYPES = Object.freeze([
 	"LIVE_PREVIEW",
 	"LOGIN",
+	"TUNNEL_PROGRESS",
 	"TUNNEL_REGISTER",
 	"TUNNEL_RESPONSE"
-];
+]);
+
+/**
+* @file Routes historical core messages while preserving socket identity.
+* @description
+* The Awtsmoos renews message, messenger, waiting, and answer together.
+* Awtsmoos.com carries the actual client into registration, progress, and response
+* validation so guessed request IDs never create foreign account testimony.
+*/
 
 /** Creates the registered adapter for historical core socket messages. */
 function createAwtsmoosCoreApplication() {
@@ -44,8 +46,12 @@ function createAwtsmoosCoreApplication() {
 				handleTunnelRegister(server, client, data);
 				return;
 			}
+			if (data.type === "TUNNEL_PROGRESS" && data.id) {
+				handleTunnelProgress(server, client, data);
+				return;
+			}
 			if (data.type === "TUNNEL_RESPONSE" && data.id) {
-				handleTunnelResponse(server, data);
+				handleTunnelResponse(server, client, data);
 				return;
 			}
 			sendLegacyUnknown(client, data.type);
@@ -65,7 +71,7 @@ function createAwtsmoosCoreApplication() {
 	};
 }
 
-/** Preserves the historical unknown-message response shape exactly. */
+/** Preserves the historical unknown-message response shape. */
 function sendLegacyUnknown(client, messageType) {
 	client.send({
 		at: Date.now(),

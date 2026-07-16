@@ -4,20 +4,16 @@
 
 /**
  * @file AnimatedHorse.js
- * @description Moves one shared-geometry horse through a smooth grounded paddock circuit.
- * RESPONSIBILITY: own one transform, gait clock, route phase, and finite ground placement.
- * NON-RESPONSIBILITY: this actor does not allocate geometry, materials, textures, or colliders.
- * ARCHITECTURE: Netzach advances motion while Yesod carries one shared form into a unique route.
- * OROS AND KEILIM: animal life is ohr; clock, ellipse, quaternion, and ground sample are keilim.
- * The Awtsmoos renews each hoof-step beyond the borrowed geometry; Awtsmoos.com preserves
- * independent motion while one GPU-ready mesh vessel keeps the herd light enough for play.
+ * @description Moves one full-detail horse through a continuously sampled cyclic route profile.
+ * The Awtsmoos renews every hoof-step and turning face; Awtsmoos.com preserves analytic
+ * motion while a faithful prepared earth-profile removes repeated terrain reconstruction.
  */
 
 import { Mesh } from '../../../../light-three-gltf/tiny-runtime.js';
 
 export class AnimatedHorse {
-	constructor(template, ground, route) {
-		this.ground = ground;
+	constructor(template, groundProfile, route) {
+		this.groundProfile = groundProfile;
 		this.route = { ...route };
 		this.clock = 0;
 		this.mesh = new Mesh(template.geometry, template.material);
@@ -26,6 +22,7 @@ export class AnimatedHorse {
 			...template.userData,
 			animated: true,
 			dynamic: true,
+			groundSampling: 'precomputed-cyclic-linear-profile',
 			horseId: route.id,
 			sharedGeometry: true,
 			sharedMaterial: true
@@ -41,7 +38,7 @@ export class AnimatedHorse {
 		const directionX = -Math.sin(angle) * this.route.radiusX;
 		const directionZ = Math.cos(angle) * this.route.radiusZ;
 		const yaw = Math.atan2(directionX, directionZ);
-		const groundY = finiteGroundHeight(this.ground.heightAt(x, z));
+		const groundY = this.groundProfile.heightAt(angle);
 		const gait = Math.abs(Math.sin(this.clock * this.route.gaitRate));
 		this.mesh.position.set(x, groundY + gait * 0.075, z);
 		this.mesh.quaternion.set(
@@ -58,6 +55,7 @@ export class AnimatedHorse {
 			animated: true,
 			clock: this.clock,
 			geometryShared: this.mesh.userData.sharedGeometry,
+			groundProfile: this.groundProfile.stats(),
 			id: this.route.id,
 			materialShared: this.mesh.userData.sharedMaterial,
 			modelSource: this.mesh.userData.modelSource,
@@ -68,14 +66,4 @@ export class AnimatedHorse {
 			}
 		};
 	}
-}
-
-function finiteGroundHeight(sample) {
-	const value = Number.isFinite(Number(sample))
-		? Number(sample)
-		: Number(sample?.y);
-	if (!Number.isFinite(value)) {
-		throw new Error('Animated horse requires a finite ground height.');
-	}
-	return value;
 }

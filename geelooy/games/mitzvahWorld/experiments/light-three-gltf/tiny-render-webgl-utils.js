@@ -1,5 +1,14 @@
 // B"H
-/** WebGL utility vessels: types explicit, uniforms named, no hidden engine. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-render-webgl-utils.js
+ * @description Holds explicit WebGL types, compilation, and material-mode classification.
+ * The Awtsmoos shines through every mode without confusion; Awtsmoos.com distinguishes
+ * water, foliage, light, sky, and many-layer earth before the shader receives its garment.
+ */
+
 export function drawMode(gl, mode) {
 	return {
 		0: gl.POINTS,
@@ -48,62 +57,13 @@ export function createProgram(gl, vertexSource, fragmentSource, label, errors) {
 	return program;
 }
 
-export function locations(gl, program) {
-	const attribute = (name) => gl.getAttribLocation(program, name);
-	const uniform = (name) => gl.getUniformLocation(program, name);
-	return {
-		position: attribute('aPosition'),
-		normal: attribute('aNormal'),
-		color: attribute('aColor'),
-		uv: attribute('aUv'),
-		joints: attribute('aJoints'),
-		weights: attribute('aWeights'),
-		mvp: uniform('uMvp'),
-		model: uniform('uModel'),
-		colorUniform: uniform('uColor'),
-		alphaCutoff: uniform('uAlphaCutoff'),
-		alphaMode: uniform('uAlphaMode'),
-		lit: uniform('uLit'),
-		pointSize: uniform('uPointSize'),
-		map: uniform('uMap'),
-		useMap: uniform('uUseMap'),
-		mapRepeat: uniform('uMapRepeat'),
-		mixMap: uniform('uMixMap'),
-		useMixMap: uniform('uUseMixMap'),
-		mixRepeat: uniform('uMixRepeat'),
-		mixStrength: uniform('uMixStrength'),
-		mixPatchScale: uniform('uMixPatchScale'),
-		mixPatchSharpness: uniform('uMixPatchSharpness'),
-		materialMode: uniform('uMaterialMode'),
-		emissiveStrength: uniform('uEmissiveStrength'),
-		ambient: uniform('uAmbient'),
-		sunDirection: uniform('uSunDirection'),
-		sunColor: uniform('uSunColor'),
-		cameraPosition: uniform('uCameraPosition'),
-		fogColor: uniform('uFogColor'),
-		fogNear: uniform('uFogNear'),
-		fogFar: uniform('uFogFar'),
-		exposure: uniform('uExposure'),
-		grassReactive: uniform('uGrassReactive'),
-		windMode: uniform('uWindMode'),
-		interactor: uniform('uInteractor'),
-		grassRadius: uniform('uGrassRadius'),
-		grassWindStrength: uniform('uGrassWindStrength'),
-		time: uniform('uTime'),
-		jointMatrices: uniform('uJointMatrices[0]'),
-		jointTexture: uniform('uJointTexture'),
-		jointTextureHeight: uniform('uJointTextureHeight')
-	};
-}
-
 export function materialColor(material) {
 	const color = material?.color || [0.75, 0.70, 0.62, 1];
-	const opacity = material?.opacity ?? color[3] ?? 1;
 	return new Float32Array([
 		color[0] ?? 0.75,
 		color[1] ?? 0.70,
 		color[2] ?? 0.62,
-		opacity
+		material?.opacity ?? color[3] ?? 1
 	]);
 }
 
@@ -117,10 +77,12 @@ export function materialModeCode(mesh) {
 	const material = mesh.material || {};
 	const policy = material.texturePolicy || {};
 	const identity = materialIdentity(mesh);
+	if (policy.shader?.includes('terrain-layered')) return 5;
 	if (policy.shader?.includes('water') || /water|lake|stream/.test(identity)) return 1;
 	if (policy.proceduralSky || /world-sky|sky_dome|atmosphere_dome/.test(identity)) return 4;
 	if (policy.practicalLightProxy || /lamp-pane|window|fire|ember|flame/.test(identity)) return 3;
-	if (policy.shader?.includes('wind') || policy.alpha?.includes('cutout') || /leaves|botanical|flower|petal|fern|reed|bush/.test(identity)) return 2;
+	if (policy.shader?.includes('wind') || policy.alpha?.includes('cutout')
+		|| /leaves|botanical|flower|petal|fern|reed|bush/.test(identity)) return 2;
 	return 0;
 }
 

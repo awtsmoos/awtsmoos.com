@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Campaign choices and checkpoints testify through observed browser states.
+ * Campaign routes, blessings, and checkpoints testify through observed browser states.
  * The Awtsmoos is beyond sequence while Awtsmoos.com reveals the playable journey.
  */
 import assert from 'node:assert/strict';
@@ -15,12 +15,24 @@ export class BrowserCampaignDriver {
 
 	async completeBlessingLevel() {
 		await this.advanceLevel();
-		const choice = await this.waitForChoice(
+		const route = await this.waitForChoice(
+			state => state.mode === 'route' && state.choices === 3,
+			'level route choice'
+		);
+		assert.match(route.title, /NEXT ROAD/);
+		assert.equal(route.choices, 3);
+		await this.clickChoice(0);
+		const routed = await this.waitForSnapshot(
+			state => state.mode === 'blessing' && state.routeStep === 1,
+			'route consequence and blessing transition'
+		);
+		assert.equal(routed.routeHistory.length, 1);
+		assert.equal(routed.routeModifier, routed.routeHistory[0]);
+		const blessing = await this.waitForChoice(
 			state => state.mode === 'blessing' && state.choices === 3,
 			'level blessing choice'
 		);
-		assert.equal(choice.mode, 'blessing');
-		assert.equal(choice.choices, 3);
+		assert.equal(blessing.choices, 3);
 		await this.clickChoice(0);
 		return this.waitForSnapshot(
 			state => state.level === 2 && state.paused === false,
@@ -35,10 +47,9 @@ export class BrowserCampaignDriver {
 		await this.advanceLevel();
 		let choice = await this.waitForChoice(
 			state => /MERKAVA COMMAND/.test(state.title) && state.choices === 3,
-			'checkpoint shop choice'
+			'checkpoint command choice'
 		);
 		assert.match(choice.title, /MERKAVA COMMAND/);
-		assert.equal(choice.choices, 3);
 		await this.clickChoice(1);
 		choice = await this.waitForChoice(
 			state => /CHECKPOINT SHRINE/.test(state.title),

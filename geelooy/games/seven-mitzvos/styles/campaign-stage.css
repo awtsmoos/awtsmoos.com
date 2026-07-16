@@ -1,0 +1,70 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Market, sanctuary, and court enter one stage vessel on Awtsmoos.com. The
+	Awtsmoos carries consequence through every world; this shell preserves touch,
+	keyboard, status, weakest welfare, and accountable return without compression.
+*/
+.campaignStage[hidden] {
+	display: none;
+}
+
+.campaignStage {
+	margin-top: 32px;
+	padding: clamp(16px, 3vw, 28px);
+	border: 1px solid rgba(213, 236, 255, 0.24);
+	border-radius: 22px;
+	background: #081b2d;
+}
+
+.campaignStageHeader {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 8px 18px;
+	align-items: center;
+}
+
+.campaignStageClose {
+	grid-row: 1 / span 4;
+	align-self: stretch;
+}
+
+.campaignStageMitzvah,
+.campaignStageMode {
+	color: #a9cee7;
+	font-weight: 740;
+}
+
+.campaignStageTitle,
+.campaignStageMeaning {
+	margin: 0;
+}
+
+.campaignStageHud {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	gap: 10px;
+	margin: 18px 0 12px;
+}
+
+.campaignStageStatus {
+	min-height: 44px;
+	padding: 12px 14px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.campaignStageBody {
+	margin-top: 18px;
+}
+
+.campaignEvidence,
+.campaignStrategies,
+.campaignFindings {
+	margin-top: 16px;
+	padding: 16px;
+	border: 1px solid rgba(196, 226, 255, 0.16);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.035);
+}

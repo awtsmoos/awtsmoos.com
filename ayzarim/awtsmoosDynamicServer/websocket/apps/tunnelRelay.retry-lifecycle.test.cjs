@@ -2,114 +2,95 @@
 // Boruch Hashem
 // Blessed is He
 
-const assert = require("assert");
+const assert = require("node:assert/strict");
 const Relay = require("./tunnelRelay.js");
+const Fixture = require("./tunnelRelay.retryFixtures.cjs");
 
-function fixture() {
-	const sent = [];
-	return {
-		sent,
-		context: {
-			tunnels: new Map([["awt-one", { send: message => sent.push(message) }]]),
-			pendingTunnelRequests: new Map()
-		}
-	};
-}
-
-function payload(id, path = "project/file.js") {
-	return {
-		action: "read",
-		path,
-		projectRoot: "/repo",
-		controlRequestId: id,
-		clientRequestId: `client-${id}`,
-		agentSessionId: `session-${id}`,
-		logicalAgentId: `agent-${id}`,
-		nonce: `nonce-${id}`,
-		relayWaitMs: 100
-	};
-}
-
-function valid(message, content = "late but correct") {
-	const request = message.payload;
-	return {
-		id: message.id,
-		ok: true,
-		action: request.action === "retryAction" ? request.requestedAction : request.action,
-		actualAction: request.action === "retryAction" ? request.requestedAction : request.action,
-		tunnelName: "awt-one",
-		controlRequestId: request.controlRequestId,
-		clientRequestId: request.clientRequestId,
-		agentSessionId: request.agentSessionId,
-		logicalAgentId: request.logicalAgentId,
-		projectRoot: request.projectRoot,
-		nonce: request.nonce,
-		path: request.path,
-		content
-	};
-}
-
-function pending(message) {
-	return {
-		id: message.id,
-		ok: false,
-		status: 202,
-		action: "tunnelRequestPending",
-		actualAction: "tunnelRequestPending",
-		pending: true,
-		controlRequestId: message.payload.controlRequestId,
-		requestedAction: message.payload.requestedAction
-	};
-}
-
+/**
+ * A retry keeps logical identity while transport identity changes. The Awtsmoos
+ * renews every attempt; Awtsmoos.com joins local waiters, recovers orphaned relay
+ * work, caches terminal truth, and refuses conflicting control request reuse.
+ */
 async function localRetryLifecycle() {
-	const test = fixture();
-	const first = await Relay.sendTunnelRequest(test.context, "awt-one", payload("local"), 2000);
+	const test = Fixture.fixture();
+	const first = await send(test, Fixture.payload("local"), 2000);
 	assert.equal(first.pending, true);
-	const retryWaiting = Relay.sendTunnelRequest(test.context, "awt-one", first.retryPayload, 2000);
-	assert.equal(test.sent.length, 1, "retry must join the original relay request");
-	Relay.handleTunnelResponse(test.context, valid(test.sent[0]));
+	const retryWaiting = send(test, first.retryPayload, 2000);
+	assert.equal(test.sent.length, 1);
+	Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		Fixture.valid(test.sent[0])
+	);
 	assert.equal((await retryWaiting).content, "late but correct");
-	const completed = await Relay.sendTunnelRequest(test.context, "awt-one", first.retryPayload, 2000);
+	const completed = await send(test, first.retryPayload, 2000);
 	assert.equal(completed.content, "late but correct");
-	assert.equal(test.sent.length, 1, "completed retry must not resend");
+	assert.equal(test.sent.length, 1);
 }
 
 async function recoveredRelayLifecycle() {
-	const test = fixture();
+	const test = Fixture.fixture();
 	const retry = {
 		action: "retryAction",
 		controlRequestId: "orphan",
 		requestedAction: "read",
 		relayWaitMs: 1000
 	};
-	const first = Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
-	assert.notEqual(test.sent[0].id, "orphan", "retry transport must be fresh");
-	Relay.handleTunnelResponse(test.context, pending(test.sent[0]));
+	const first = send(test, retry, 2000);
+	assert.notEqual(test.sent[0].id, "orphan");
+	Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		Fixture.pending(test.sent[0])
+	);
 	assert.equal((await first).pending, true);
-	const second = Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
-	Relay.handleTunnelResponse(test.context, valid(test.sent[1], "recovered result"));
+
+	const second = send(test, retry, 2000);
+	Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		Fixture.valid(test.sent[1], "recovered result")
+	);
 	assert.equal((await second).content, "recovered result");
-	const cached = await Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
+	const cached = await send(test, retry, 2000);
 	assert.equal(cached.content, "recovered result");
-	assert.equal(test.sent.length, 2, "terminal retry must be cached by original identity");
+	assert.equal(test.sent.length, 2);
 }
 
 async function conflictLifecycle() {
-	const test = fixture();
-	const original = Relay.sendTunnelRequest(test.context, "awt-one", payload("same", "one.js"), 2000);
-	const conflict = await Relay.sendTunnelRequest(test.context, "awt-one", payload("same", "two.js"), 2000);
+	const test = Fixture.fixture();
+	const original = send(test, Fixture.payload("same", "one.js"), 2000);
+	const conflict = await send(test, Fixture.payload("same", "two.js"), 2000);
 	assert.equal(conflict.error, "control_request_id_conflict");
-	Relay.handleTunnelResponse(test.context, valid(test.sent[0]));
+	Relay.handleTunnelResponse(
+		test.context,
+		test.tunnel,
+		Fixture.valid(test.sent[0])
+	);
 	await original;
 }
 
-(async () => {
+function send(test, payload, timeoutMs) {
+	return Relay.sendTunnelRequest(
+		test.context,
+		test.accountId,
+		test.tunnelName,
+		payload,
+		timeoutMs
+	);
+}
+
+async function main() {
 	await localRetryLifecycle();
 	await recoveredRelayLifecycle();
 	await conflictLifecycle();
-	console.log(JSON.stringify({ ok: true, checks: ["local-retry", "recovered-relay", "conflict"] }, null, 2));
-})().catch(error => {
+	console.log(JSON.stringify({
+		ok: true,
+		checks: ["local-retry", "recovered-relay", "conflict"]
+	}));
+}
+
+main().catch(error => {
 	console.error(error.stack || error.message);
-	process.exit(1);
+	process.exitCode = 1;
 });

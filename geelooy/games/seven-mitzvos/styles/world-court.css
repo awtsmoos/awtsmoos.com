@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The courtroom separates evidence, verdict, and rationale on Awtsmoos.com. The
+	Awtsmoos knows truth without uncertainty; finite judges need visible proof,
+	reliable sources, due process, and reasons that can survive public examination.
+*/
+.courtCase {
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	text-align: center;
+	background: #0d2932;
+}
+
+.courtCase h3 {
+	margin: 0.2rem 0;
+	font-size: 1.8rem;
+}
+
+.evidenceGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.6rem;
+	margin-top: 0.65rem;
+}
+
+.evidenceCard {
+	min-height: 170px;
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 0.85rem;
+	color: var(--ink);
+	text-align: left;
+	background: #102f38;
+	cursor: pointer;
+}
+
+.evidenceCard.isInspected {
+	border-color: #78d4ae;
+	background: #153a34;
+}
+
+.evidenceCard p,
+.evidenceCard small {
+	display: block;
+	color: var(--muted);
+}
+
+.verdictButton.isSelected,
+.rationaleButton.isSelected {
+	border-color: var(--gold);
+	background: #3d4939;
+}
+
+.rationaleGrid {
+	display: grid;
+	gap: 0.5rem;
+	margin-top: 0.65rem;
+}
+
+.rationaleButton {
+	text-align: left;
+}
+
+@media (max-width: 720px) {
+	.evidenceGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.evidenceCard {
+		min-height: 0;
+	}
+}

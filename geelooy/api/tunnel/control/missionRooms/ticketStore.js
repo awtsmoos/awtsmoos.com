@@ -1,78 +1,66 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 
 /**
- * B"H
- *
- * A ticket is a brief permission-vessel, never a durable identity. The Awtsmoos
- * recreates holder and gate each instant; Awtsmoos.com binds each token to one
- * mission, tunnel, origin, protocol, expiration, and single consumption.
+ * @file Stores one-use mission-room tickets bound to account and room intent.
+ * @description
+ * The Awtsmoos renews gate and traveler each instant. Awtsmoos.com makes a token
+ * a brief account/session/origin covenant; immutable tunnel and permission records
+ * remain inside the ticket and are re-authorized server-side when the gate opens.
  */
 
 const tickets = new Map();
 const DEFAULT_TTL_MS = 20000;
+const CLAIM_BINDINGS = Object.freeze([
+	"origin",
+	"accountId",
+	"sessionId",
+	"tunnelName",
+	"missionId",
+	"protocolVersion"
+]);
 
-/** Issues one cryptographically random, short-lived socket ticket. */
 function issueTicket(record, dependencies = {}) {
 	const clock = dependencies.clock || Date.now;
 	const randomBytes = dependencies.randomBytes || crypto.randomBytes;
-	const ttlMs = boundedTtl(record.ttlMs);
 	const issuedAt = clock();
 	const token = randomBytes(32).toString("base64url");
 	const stored = {
 		...record,
 		token,
 		issuedAt,
-		expiresAt: issuedAt + ttlMs
+		expiresAt: issuedAt + boundedTtl(record.ttlMs)
 	};
-
-	cleanupExpired(clock());
+	cleanupExpired(issuedAt);
 	tickets.set(token, stored);
-
-	return {
-		token,
-		expiresAt: stored.expiresAt
-	};
+	return { token, expiresAt: stored.expiresAt };
 }
 
-/** Consumes a ticket exactly once and validates every protected binding. */
 function consumeTicket(token, claims = {}, dependencies = {}) {
 	const clock = dependencies.clock || Date.now;
 	cleanupExpired(clock());
 	const stored = tickets.get(String(token || ""));
-
 	if (!stored) {
 		return failure("ticket_missing_or_used");
 	}
-
 	tickets.delete(stored.token);
 	if (stored.expiresAt <= clock()) {
 		return failure("ticket_expired");
 	}
-
-	const bindings = [
-		["origin", claims.origin],
-		["tunnelName", claims.tunnelName],
-		["missionId", claims.missionId],
-		["protocolVersion", Number(claims.protocolVersion)]
-	];
-
-	for (const [name, value] of bindings) {
-		if (stored[name] !== value) {
+	for (const name of CLAIM_BINDINGS) {
+		const expected = name === "protocolVersion"
+			? Number(claims[name])
+			: String(claims[name] || "");
+		if (stored[name] !== expected) {
 			return failure(`ticket_${name}_mismatch`);
 		}
 	}
-
-	return {
-		ok: true,
-		ticket: stored
-	};
+	return { ok: true, ticket: stored };
 }
 
-/** Removes expired tickets without extending any credential lifetime. */
 function cleanupExpired(now = Date.now()) {
 	for (const [token, record] of tickets) {
 		if (record.expiresAt <= now) {
@@ -81,32 +69,27 @@ function cleanupExpired(now = Date.now()) {
 	}
 }
 
-/** Clears isolated ticket state for deterministic tests. */
 function clearTickets() {
 	tickets.clear();
 }
 
-/** Returns the current bounded in-process ticket count. */
 function ticketCount() {
 	return tickets.size;
 }
 
 function boundedTtl(value) {
 	const number = Number(value);
-	if (!Number.isFinite(number)) {
-		return DEFAULT_TTL_MS;
-	}
-	return Math.max(5000, Math.min(Math.floor(number), 60000));
+	return Number.isFinite(number)
+		? Math.max(5000, Math.min(Math.floor(number), 60000))
+		: DEFAULT_TTL_MS;
 }
 
 function failure(error) {
-	return {
-		ok: false,
-		error
-	};
+	return { ok: false, error };
 }
 
 module.exports = {
+	CLAIM_BINDINGS,
 	clearTickets,
 	cleanupExpired,
 	consumeTicket,

@@ -1,0 +1,35 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The end of one run becomes a clear doorway back into the Seven Worlds.
+	Awtsmoos.com gives victory, failure, replay, and Council handoff one honest
+	place, while the Awtsmoos remains beyond every finite score and star.
+*/
+.portalResult {
+	display: grid;
+	place-items: center;
+	margin-top: 1rem;
+	padding: 2rem;
+	border: 1px solid var(--gold);
+	border-radius: 1.2rem;
+	text-align: center;
+	background: #102c34;
+}
+
+.portalResult[hidden] {
+	display: none;
+}
+
+.resultKicker {
+	color: var(--gold);
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+.resultActions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.7rem;
+}

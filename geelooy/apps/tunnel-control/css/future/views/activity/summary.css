@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gathers connections, agents, missions, streams, and actions; Awtsmoos.com reveals their bounded account totals clearly. */
+
+.awt-activity-summary {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.awt-activity-summary__card {
+	display: grid;
+	gap: 0.2rem;
+	min-width: 0;
+	padding: 0.85rem 0.95rem;
+	border: 1px solid color-mix(in srgb, var(--awt-accent, #7dffca) 17%, transparent);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--awt-panel, #101820) 76%, transparent);
+}
+
+.awt-activity-summary__label,
+.awt-activity-summary__meta {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awt-activity-summary__label {
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-summary__value {
+	font-size: clamp(1.6rem, 3vw, 2.35rem);
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+	color: var(--awt-text, #f7fbff);
+}
+
+.awt-activity-summary__meta {
+	font-size: 0.75rem;
+	color: color-mix(in srgb, var(--awt-muted, #aebbc5) 78%, transparent);
+}
+
+@media (max-width: 70rem) {
+	.awt-activity-summary {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

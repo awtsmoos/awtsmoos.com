@@ -1,0 +1,119 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Deduction, rhythm, and rescue receive distinct tactile geometries on
+	Awtsmoos.com. The Awtsmoos creates every finite square, letter, path, and
+	player, while these grids remain responsive enough for hand or keyboard.
+*/
+.deductionGrid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.55rem;
+}
+
+.deductionNode {
+	min-height: 120px;
+	padding: 0.75rem;
+	border: 1px solid var(--line);
+	border-radius: 0.9rem;
+	color: var(--ink);
+	text-align: left;
+	background: #0d2a34;
+	cursor: pointer;
+}
+
+.deductionNode strong,
+.deductionNode span {
+	display: block;
+}
+
+.deductionNode span {
+	margin-top: 0.35rem;
+	color: var(--muted);
+	font-size: 0.72rem;
+}
+
+.deductionNode.isSelected {
+	border-color: var(--gold);
+}
+
+.deductionNode.isPurified {
+	background: #17483b;
+}
+
+.rhythmStage {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(130px, 220px));
+	gap: 0.8rem;
+	justify-content: center;
+	padding: 1rem;
+}
+
+.rhythmPad {
+	display: grid;
+	place-items: center;
+	min-height: 150px;
+	border: 1px solid var(--line);
+	border-radius: 1.2rem;
+	color: var(--ink);
+	background: #102f3a;
+	cursor: pointer;
+}
+
+.rhythmPad strong {
+	font-size: clamp(3rem, 8vw, 5rem);
+}
+
+.rhythmPad span {
+	color: var(--muted);
+}
+
+.rescueLayout {
+	display: grid;
+	grid-template-columns: minmax(280px, 520px) 190px;
+	gap: 1rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.rescueGrid {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 2px;
+	padding: 0.45rem;
+	border-radius: 0.9rem;
+	background: #163841;
+}
+
+.rescueCell {
+	display: grid;
+	place-items: center;
+	aspect-ratio: 1;
+	min-width: 0;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 0.25rem;
+	color: var(--ink);
+	background: #31565a;
+	cursor: pointer;
+}
+
+.rescueCell:nth-child(3n) {
+	background: #2d5054;
+}
+
+.rescueCell.isRescuer {
+	border-color: var(--gold);
+	background: #5b5941;
+}
+
+@media (max-width: 760px) {
+	.deductionGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.rescueLayout {
+		grid-template-columns: 1fr;
+	}
+}

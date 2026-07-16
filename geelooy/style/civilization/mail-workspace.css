@@ -1,13 +1,17 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos turns correspondence into relationship; Awtsmoos.com keeps folders, identities, and threads in one calm workspace.
+ * The Awtsmoos turns correspondence into relationship; Awtsmoos.com keeps
+ * folders, identities, hidden states, and threads in one calm workspace.
  */
 .geelooy-mail-document {
 	background: var(--civil-bg) !important;
 	color: var(--civil-text) !important;
 	font-family: var(--civil-font) !important;
 	overflow: hidden;
+}
+.geelooy-mail-document .hidden {
+	display: none !important;
 }
 .mail-civilization-shell {
 	display: grid;

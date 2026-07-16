@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const {
 	scopedPayload,
@@ -8,41 +8,30 @@ const {
 } = require("./roomSummary.js");
 
 /**
- * B"H
- *
- * A snapshot may never glow green while its mission is absent. The Awtsmoos
- * recreates source and witness together; Awtsmoos.com therefore distinguishes
- * reachable state, partial warnings, and failure before any frame is emitted.
+ * @file Reads a mission-room snapshot through an already authorized relay closure.
+ * @description
+ * The Awtsmoos renews mission and witness together. Awtsmoos.com accepts no
+ * tunnel name at this layer: the caller supplies one server-derived relay vessel,
+ * preventing snapshot, timeline, or history requests from widening authority.
  */
 
-/**
- * Reads one real mission-room snapshot through the selected tunnel.
- *
- * @param {Function} sendTunnelRequest
- * 	The authenticated server relay function.
- * @param {object} options
- * 	The normalized mission-room request values.
- * @returns {Promise<object>}
- * 	A truthful snapshot or a structured unreachable result.
- */
-async function readMissionRoomSnapshot(sendTunnelRequest, options) {
+async function readMissionRoomSnapshot(sendAuthorized, options) {
 	const scope = scopedPayload(options);
 	const [status, timelineResult, historyResult] = await Promise.all([
-		requestAction(sendTunnelRequest, options, {
+		requestAction(sendAuthorized, {
 			action: "missionProjectStatus",
 			missionId: options.missionId
 		}),
-		requestAction(sendTunnelRequest, options, {
+		requestAction(sendAuthorized, {
 			action: "missionTimeline",
 			missionId: options.missionId
 		}),
-		requestAction(sendTunnelRequest, options, {
+		requestAction(sendAuthorized, {
 			action: "actionHistoryList",
 			limit: options.historyLimit,
 			...scope
 		})
 	]);
-
 	if (!status || status.ok === false || status.error) {
 		return packet(false, {
 			error: "mission_unreachable",
@@ -50,18 +39,16 @@ async function readMissionRoomSnapshot(sendTunnelRequest, options) {
 			status: status || null
 		});
 	}
-
 	const timeline = Array.isArray(timelineResult?.timeline)
 		? timelineResult.timeline
 		: [];
 	const history = Array.isArray(historyResult?.history)
 		? historyResult.history
 		: [];
-
 	return packet(true, {
 		kind: "mission-room-snapshot",
 		missionId: options.missionId,
-		roomId: options.missionId,
+		roomId: options.roomId || options.missionId,
 		scopedHistory: scope,
 		at: Date.now(),
 		status,
@@ -72,9 +59,9 @@ async function readMissionRoomSnapshot(sendTunnelRequest, options) {
 	});
 }
 
-async function requestAction(sendTunnelRequest, options, payload) {
+async function requestAction(sendAuthorized, payload) {
 	try {
-		return await sendTunnelRequest(options.tunnelName, {
+		return await sendAuthorized({
 			targetVessel: "native-tunnel",
 			p: ".",
 			...payload
@@ -89,22 +76,18 @@ async function requestAction(sendTunnelRequest, options, payload) {
 }
 
 function warningList(timelineResult, historyResult) {
-	const warnings = [];
-	if (timelineResult?.ok === false || timelineResult?.error) {
-		warnings.push("timeline_unavailable");
-	}
-	if (historyResult?.ok === false || historyResult?.error) {
-		warnings.push("history_unavailable");
-	}
-	return warnings;
+	return [
+		timelineResult?.ok === false || timelineResult?.error
+			? "timeline_unavailable"
+			: "",
+		historyResult?.ok === false || historyResult?.error
+			? "history_unavailable"
+			: ""
+	].filter(Boolean);
 }
 
 function packet(ok, extra = {}) {
-	return {
-		BH: "B\"H",
-		ok,
-		...extra
-	};
+	return { BH: "B\"H", ok, ...extra };
 }
 
 module.exports = {

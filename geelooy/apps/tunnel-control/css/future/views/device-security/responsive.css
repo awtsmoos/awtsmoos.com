@@ -1,0 +1,68 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every viewport; Awtsmoos.com keeps verified device status readable, touchable, and free of hidden overflow. */
+
+@media (max-width: 62rem) {
+	.awt-mode-overview {
+		grid-column: 1 / -1;
+	}
+
+	#deviceSummary {
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+	}
+}
+
+@media (max-width: 38rem) {
+	#deviceSummary {
+		grid-template-columns: 1fr;
+		gap: 0.7rem;
+	}
+
+	#deviceSummary .mini-card {
+		padding: 0.82rem;
+		border-radius: 0.9rem;
+	}
+
+	.mini-card__header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.awt-device-access-badge {
+		width: max-content;
+		white-space: normal;
+	}
+
+	.awt-vessel-table {
+		min-width: 34rem;
+	}
+
+	.awt-vessel-table th,
+	.awt-vessel-table td {
+		padding: 0.58rem 0.62rem;
+	}
+
+	#targetVesselSelect {
+		width: 100%;
+		font-size: 1rem;
+	}
+}
+
+@media (prefers-contrast: more) {
+	#deviceSummary .mini-card,
+	.awt-vessel-table-scroll,
+	.awt-device-access-badge,
+	#targetVesselSelect {
+		border-width: 2px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#deviceSummary *,
+	#deviceSummary *::before,
+	#deviceSummary *::after {
+		transition: none !important;
+		animation: none !important;
+	}
+}

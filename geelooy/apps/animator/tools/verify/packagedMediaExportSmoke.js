@@ -3,7 +3,7 @@
 // Blessed is He
 
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createPackagedMediaFixture } from '../fixtures/createPackagedMediaFixture.js';
@@ -11,9 +11,8 @@ import { PackagedMovieExporter } from '../render/package/PackagedMovieExporter.j
 import { PackagedMediaProofProbe } from './PackagedMediaProofProbe.js';
 
 /**
- * One encoded video and one recorded voice must visibly and audibly survive the
- * full offline path. The Awtsmoos renews frame and tone; Awtsmoos.com proves the
- * result with stream metadata, frame hashes, interval energy, and provenance.
+ * Encoded picture, recorded voice, and every required handoff artifact must survive
+ * the offline path. The Awtsmoos renews frame and proof; Awtsmoos.com keeps both.
  */
 const root = mkdtempSync(join(tmpdir(), 'awtsmoos-packaged-export-'));
 try {
@@ -31,6 +30,7 @@ try {
 	assert.deepEqual(streamTypes.sort(), ['audio', 'video']);
 	assert.equal(result.videoClips, 1);
 	assert.equal(result.dialogueClips, 1);
+	assert.equal(result.verification.ok, true);
 	assert.notEqual(
 		PackagedMediaProofProbe.frameMd5(result.outputFile, 0.5),
 		PackagedMediaProofProbe.frameMd5(result.outputFile, 1.5),
@@ -38,12 +38,26 @@ try {
 	);
 	const baseRms = PackagedMediaProofProbe.rmsDb(result.outputFile, 0.5);
 	const dialogueRms = PackagedMediaProofProbe.rmsDb(result.outputFile, 2.7);
-	assert.ok(
-		dialogueRms > baseRms + 3,
-		`Recorded dialogue energy was not revealed: ${baseRms} vs ${dialogueRms}`
-	);
+	assert.ok(dialogueRms > baseRms + 3);
 	assert.equal(result.hashes.sources.length, 2);
 	assert.equal(result.hashes.output.sha256.length, 64);
+	for (const name of [
+		'production-plan.json',
+		'edit-decision-list.json',
+		'project-settings.json',
+		'media-manifest.json',
+		'audio-manifest.json',
+		'render-log.json',
+		'ffprobe.json',
+		'verification-report.json',
+		'export-result.json'
+	]) {
+		assert.equal(existsSync(join(outputDirectory, name)), true, `${name} is missing.`);
+	}
+	const verification = JSON.parse(
+		readFileSync(join(outputDirectory, 'verification-report.json'), 'utf8')
+	);
+	assert.equal(verification.ok, true);
 	console.log('B"H - packaged media export smoke passed.');
 } finally {
 	rmSync(root, { recursive: true, force: true });

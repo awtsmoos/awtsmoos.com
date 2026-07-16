@@ -9,6 +9,7 @@ import { GAME } from '../config/gameConfig.js';
 import { clamp } from '../game/GameRules.js';
 import { endlessValues } from '../modes/EndlessRules.js';
 import { validateRunMode } from '../modes/RunModeCatalog.js';
+import { validateRouteCheckpoint } from './RouteCheckpoint.js';
 
 const ABILITIES = new Set([
 	'lightBurst',
@@ -26,6 +27,7 @@ export function validateCheckpoint(candidate) {
 		version: GAME.saveVersion,
 		runMode,
 		endlessCycle,
+		...validateRouteCheckpoint(candidate),
 		worldIndex: clamp(candidate.worldIndex, 0, 4),
 		levelIndex: clamp(candidate.levelIndex, 0, 4),
 		troops: clamp(candidate.troops, 1, GAME.maximumTroops),

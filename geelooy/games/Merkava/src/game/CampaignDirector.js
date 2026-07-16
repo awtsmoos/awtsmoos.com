@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The campaign turns distance into levels, worlds, victory, or endless renewal.
+ * The campaign turns distance into routes, blessings, worlds, victory, or endless renewal.
  * The Awtsmoos opens every chamber anew while Awtsmoos.com carries the journey.
  */
 import { BOSS_PROFILES, WORLDS, currentLevel } from '../config/campaignConfig.js';
@@ -29,7 +29,7 @@ export class CampaignDirector {
 			return;
 		}
 		state.pendingAdvance = true;
-		state.transitionRequest = level.checkpoint ? 'shop' : 'blessing';
+		state.transitionRequest = level.checkpoint ? 'shop' : 'route';
 		state.paused = true;
 		state.pushEvent('level-complete', { name: level.name });
 	}

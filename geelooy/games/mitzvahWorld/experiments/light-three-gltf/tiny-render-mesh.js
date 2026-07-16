@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-mesh.js
- * @description Draws one visible mesh while retaining exact adjacent GPU state.
+ * @description Draws one visible mesh through resident vertex and exact material state.
  * The Awtsmoos recreates each object without repeating an unchanged decree; Awtsmoos.com
- * keeps all transforms, textures, materials, grass, water, and Chossid animation alive.
+ * keeps every transform, texture, surface, grass blade, water ripple, and Chossid alive.
  */
 
 import { multiply } from './tiny-math.js';
@@ -20,28 +20,33 @@ import {
 import { drawMode } from './tiny-render-webgl-utils.js';
 
 export function drawRenderMesh(renderer, mesh, projectionView, transparent) {
-	const buffers = renderer.buffers.forMesh(mesh);
-	if (!buffers) return;
+	const resource = renderer.buffers.forMesh(mesh);
+	if (!resource) return;
 	const skinned = Boolean(
 		mesh.isSkinnedMesh
 		&& mesh.skeleton
-		&& buffers.joints
-		&& buffers.weights
+		&& resource.attributes.joints
+		&& resource.attributes.weights
 	);
 	const kind = skinned ? 'skin' : 'rigid';
 	const locations = renderer.loc[kind];
 	const model = mesh.matrixWorld || renderer.identityMatrix;
 	applyCull(renderer, mesh, transparent);
 	activateProgram(renderer, kind, locations);
-	bindCommonAttributes(renderer, locations, buffers);
-	bindSkinBranch(renderer, locations, mesh, buffers, skinned);
-	uploadObjectUniforms(renderer, locations, model, multiply(projectionView, model));
-	if (renderer.materialState.needsUpload(mesh, buffers)) {
-		uploadMaterialUniforms(renderer, locations, mesh, buffers);
+	renderer.buffers.bindMesh(resource, locations, skinned);
+	bindSkinBranch(renderer, locations, mesh, skinned);
+	uploadObjectUniforms(
+		renderer,
+		locations,
+		model,
+		multiply(projectionView, model)
+	);
+	if (renderer.materialState.needsUpload(mesh, resource)) {
+		uploadMaterialUniforms(renderer, locations, mesh, resource);
 	}
 	renderer.textures.bind(locations, mesh.material, renderer.stats);
-	issueDraw(renderer, buffers);
-	recordDraw(renderer, mesh, buffers, skinned, transparent);
+	issueDraw(renderer, resource);
+	recordDraw(renderer, mesh, resource, skinned, transparent);
 }
 
 function activateProgram(renderer, kind, locations) {
@@ -57,47 +62,16 @@ function activateProgram(renderer, kind, locations) {
 	renderer.stats.frameUniformUploads += 1;
 }
 
-function bindSkinBranch(renderer, locations, mesh, buffers, skinned) {
+function bindSkinBranch(renderer, locations, mesh, skinned) {
 	if (renderer.activeSkinBranch !== skinned) {
-		if (locations.useSkin) renderer.gl.uniform1i(locations.useSkin, skinned ? 1 : 0);
+		if (locations.useSkin) {
+			renderer.gl.uniform1i(locations.useSkin, skinned ? 1 : 0);
+		}
 		renderer.activeSkinBranch = skinned;
 	}
 	if (skinned) {
-		bindSkin(renderer, locations, mesh, buffers);
-		renderer.skinAttributesActive = true;
-		return;
+		bindSkin(renderer, locations, mesh);
 	}
-	if (renderer.skinAttributesActive === false) return;
-	renderer.buffers.bindAttribute(locations.joints, null, null, [0, 0, 0, 0]);
-	renderer.buffers.bindAttribute(locations.weights, null, null, [1, 0, 0, 0]);
-	renderer.skinAttributesActive = false;
-}
-
-function bindCommonAttributes(renderer, locations, buffers) {
-	renderer.buffers.bindAttribute(
-		locations.position,
-		buffers.positionAttribute,
-		buffers.position,
-		[0, 0, 0, 1]
-	);
-	renderer.buffers.bindAttribute(
-		locations.normal,
-		buffers.normalAttribute,
-		buffers.normal,
-		[0, 1, 0, 0]
-	);
-	renderer.buffers.bindAttribute(
-		locations.color,
-		buffers.colorAttribute,
-		buffers.color,
-		[1, 1, 1, 1]
-	);
-	renderer.buffers.bindAttribute(
-		locations.uv,
-		buffers.uvAttribute,
-		buffers.uv,
-		[0, 0, 0, 1]
-	);
 }
 
 function applyCull(renderer, mesh, transparent) {
@@ -110,20 +84,22 @@ function applyCull(renderer, mesh, transparent) {
 	renderer.gl.disable(renderer.gl.CULL_FACE);
 }
 
-function issueDraw(renderer, buffers) {
+function issueDraw(renderer, resource) {
 	const gl = renderer.gl;
-	const mode = drawMode(gl, buffers.mode);
-	if (buffers.index) {
-		renderer.buffers.bindElementBuffer(buffers.index);
-		gl.drawElements(mode, buffers.count, buffers.indexType, 0);
+	const mode = drawMode(gl, resource.mode);
+	if (resource.index) {
+		gl.drawElements(mode, resource.count, resource.indexType, 0);
 		return;
 	}
-	gl.drawArrays(mode, 0, buffers.count);
+	gl.drawArrays(mode, 0, resource.count);
 }
 
-function recordDraw(renderer, mesh, buffers, skinned, transparent) {
+function recordDraw(renderer, mesh, resource, skinned, transparent) {
 	renderer.stats.draws += 1;
-	renderer.stats.triangles += triangleCountForMode(buffers.mode, buffers.count);
+	renderer.stats.triangles += triangleCountForMode(
+		resource.mode,
+		resource.count
+	);
 	if (!skinned) renderer.stats.rigidMeshes += 1;
 	if (transparent) renderer.stats.transparentMeshes += 1;
 	if (mesh.userData?.AwtsmoosYardGrass?.reactsToPlayer) {

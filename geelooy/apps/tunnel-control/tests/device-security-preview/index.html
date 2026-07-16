@@ -1,0 +1,59 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews the visible boundary; Awtsmoos.com proves foreign device metadata cannot enter the rendered control room. -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Verified Device Security Preview</title>
+	<link rel="stylesheet" href="../../css/app.css">
+	<style>
+		body {
+			min-height: 100vh;
+			margin: 0;
+			padding: clamp(1rem, 3vw, 3rem);
+			background: #071015;
+			color: #f7fbff;
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+		}
+		main {
+			max-width: 88rem;
+			margin-inline: auto;
+		}
+		.fixture-toolbar {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.75rem;
+			align-items: end;
+			margin-bottom: 1rem;
+		}
+		.fixture-toolbar label {
+			display: grid;
+			gap: 0.35rem;
+		}
+	</style>
+</head>
+<body class="awt-pro-ready awt-no-side-rails">
+	<main>
+		<header>
+			<p class="awt-activity-eyebrow">Account-bound discovery proof</p>
+			<h1>Verified device security</h1>
+			<p>Foreign and unproven records must disappear before selection or rendering.</p>
+		</header>
+		<section class="fixture-toolbar">
+			<label>
+				<span>Target vessel</span>
+				<select id="targetVesselSelect"></select>
+			</label>
+			<strong id="selectedTargetVessel">Loading</strong>
+		</section>
+		<div id="connectionPill"><span id="connectionText"></span></div>
+		<p>Active: <strong id="miniAgent"></strong></p>
+		<section id="deviceSummary"></section>
+		<pre id="fixtureResult" aria-live="polite"></pre>
+	</main>
+	<script type="module" src="./fixture.js"></script>
+</body>
+</html>

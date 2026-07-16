@@ -1,0 +1,118 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Seven cards speak the exact mitzvah before the entertainment built around it.
+	Awtsmoos.com refuses to hide law beneath genre, while the Awtsmoos gives each
+	color, symbol, score, and doorway one transparent purpose.
+*/
+.universeGrid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.8rem;
+}
+
+.universeCard {
+	display: flex;
+	flex-direction: column;
+	min-height: 410px;
+	padding: 1rem;
+	border: 1px solid hsl(var(--world-hue) 55% 65% / 0.36);
+	border-radius: 1.2rem;
+	background:
+		radial-gradient(circle at 90% 5%, hsl(var(--world-hue) 80% 60% / 0.22), transparent 34%),
+		linear-gradient(150deg, #0d2832, #07161e);
+	box-shadow: 0 18px 42px rgba(0, 0, 0, 0.25);
+}
+
+.universeCardTop {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.universeNumber,
+.universeGenre {
+	color: hsl(var(--world-hue) 72% 79%);
+	font-size: 0.7rem;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.universeSymbol {
+	font-size: 1.55rem;
+}
+
+.universeCard h3 {
+	margin: 1rem 0 0.55rem;
+	font-size: 1.55rem;
+	line-height: 1.1;
+}
+
+.universeMeaning {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.86rem;
+}
+
+.universeGameName {
+	display: grid;
+	gap: 0.2rem;
+	margin-top: 1rem;
+	padding-top: 0.85rem;
+	border-top: 1px solid var(--line);
+}
+
+.universeGameName strong {
+	color: hsl(var(--world-hue) 75% 80%);
+	font-family: var(--serif);
+	font-size: 1.25rem;
+}
+
+.universeGameName span,
+.universeControls {
+	color: var(--muted);
+	font-size: 0.78rem;
+}
+
+.universeControls {
+	flex-grow: 1;
+}
+
+.universeProgress {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0.3rem;
+	margin-bottom: 0.7rem;
+	font-size: 0.68rem;
+}
+
+.universePlay {
+	min-height: 48px;
+	padding: 0.75rem;
+	border: 0;
+	border-radius: 0.85rem;
+	color: #102018;
+	font-weight: 900;
+	background: hsl(var(--world-hue) 72% 72%);
+	cursor: pointer;
+}
+
+@media (max-width: 1080px) {
+	.universeGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.universeGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.universeCard {
+		min-height: 0;
+	}
+}

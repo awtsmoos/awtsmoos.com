@@ -4,9 +4,9 @@
 
 /**
  * @file expandedVillageComposition.test.mjs
- * @description Proves districts, facades, forest, population, mountains, lamps, and creatures.
- * The Awtsmoos renews one valley through layered neighborhoods; Awtsmoos.com verifies
- * the measured radius, golden markers, undergrowth, and complete world package.
+ * @description Proves large cottages, layered roofs, districts, forest, lights, and creatures.
+ * The Awtsmoos renews one valley through monumental inhabited vessels; Awtsmoos.com
+ * verifies the radius, material mixing, roof closure, warm chambers, and total world budget.
  */
 
 import assert from 'node:assert/strict';
@@ -21,15 +21,22 @@ const budget = villageWorldBudget('high');
 const architecture = createVillageDistrictArchitecture(sampler, 'high');
 const creatures = createVillageCreatureDefinitions(sampler, 'high');
 const world = createVillageWorldDefinitions(sampler, 'high');
+const cottageShells = architecture.filter((item) => item.userData?.family === 'reference-village-district');
+const cottageRoofs = architecture.filter((item) => item.userData?.family === 'reference-village-cottage-roof');
 
 assert.equal(VILLAGE_DISTRICTS.length, 10);
-assert.equal(new Set(VILLAGE_DISTRICTS.map(district => district.id)).size, 10);
+assert.equal(new Set(VILLAGE_DISTRICTS.map((district) => district.id)).size, 10);
 assert.equal(budget.radius, 280);
 assert.equal(architecture.stats.districts, 10);
 assert.equal(architecture.stats.pieces, 79);
-assert.equal(architecture.stats.warmWindows, 56);
-assert.equal(architecture.some(item => item.id === 'Awtsmoos_arrival-meadow-landmark'), false);
+assert.ok(architecture.stats.warmWindows >= 100);
+assert.equal(architecture.some((item) => item.id === 'Awtsmoos_arrival-meadow-landmark'), false);
 assert.ok(architecture.length <= budget.architecturePieces);
+assert.equal(cottageShells.length, 31);
+assert.equal(cottageRoofs.length, 31);
+assert.ok(cottageShells.every((item) => item.userData.volumeRatio >= 100));
+assert.ok(cottageShells.every((item) => item.mixTextureUrl && item.mixStrength > 0));
+assert.ok(cottageRoofs.every((item) => item.shape === 'manual' && item.faces.length === 9));
 assert.equal(creatures.stats.creatures, 11);
 assert.equal(creatures.stats.definitions, 11);
 assert.ok(creatures.stats.triangles <= 4200);
@@ -65,10 +72,10 @@ assert.equal(world.definitions.length, 190);
 console.log(JSON.stringify({
 	architecture: architecture.stats,
 	budget,
+	cottageRoofs: cottageRoofs.length,
+	cottageShells: cottageShells.length,
 	creatures: creatures.stats,
-	forestEdge: world.stats.forestEdge,
 	ok: true,
-	population: world.stats.population,
 	world: world.stats
 }, null, 2));
 

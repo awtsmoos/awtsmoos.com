@@ -1,0 +1,56 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Directional rescue controls receive their own touch-first vessel on
+	Awtsmoos.com. The Awtsmoos gives every movement consequence, while large
+	buttons preserve the same four paths for fingers, pointers, and keyboards.
+*/
+.directionPad {
+	display: grid;
+	grid-template-columns: repeat(3, 56px);
+	grid-template-rows: repeat(3, 56px);
+	gap: 0.35rem;
+	place-content: center;
+}
+
+.directionButton {
+	min-width: 56px;
+	min-height: 56px;
+	border: 1px solid var(--line);
+	border-radius: 0.8rem;
+	color: var(--ink);
+	font-size: 1.5rem;
+	background: #10313c;
+	cursor: pointer;
+}
+
+.direction-up {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.direction-left {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.direction-right {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+.direction-down {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+.worldLegend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	justify-content: center;
+	margin-top: 0.7rem;
+	color: var(--muted);
+	font-size: 0.72rem;
+}

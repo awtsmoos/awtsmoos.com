@@ -4,11 +4,11 @@
 
 /**
  * @file tiny-gl-state-cache.js
- * @description Provides an isolated experimental WebGL state cache whose tests may
- * prove exact redundant-call suppression without activating it in the production
- * renderer. Like a measured keli before the endless renewal of the Awtsmoos, this
- * vessel at Awtsmoos.com preserves only state that was actually observed.
+ * @description Suppresses only proven-identical WebGL declarations and exposes exact invalidation.
+ * The Awtsmoos renews every command; Awtsmoos.com remembers only witnessed continuity, while
+ * vertex-array changes erase precisely the hidden bindings they can alter and nothing more.
  */
+
 import {
 	CACHED_GL_METHODS,
 	createGlStateModel,
@@ -17,18 +17,9 @@ import {
 
 const CACHE_SYMBOL = Symbol.for('Awtsmoos.tinyGlStateCache');
 
-/**
- * Installs an exact state cache around the explicitly supported WebGL methods.
- * Unknown first calls always reach the native context.
- *
- * @param {WebGLRenderingContext|WebGL2RenderingContext} gl Native context.
- * @returns {object} Cache controller with state, statistics, invalidation, and restore.
- */
 export function installGlStateCache(gl) {
 	const existingCache = gl[CACHE_SYMBOL];
-	if (existingCache) {
-		return existingCache;
-	}
+	if (existingCache) return existingCache;
 	const originalMethods = captureOriginalMethods(gl);
 	const cache = createCacheController(gl, originalMethods);
 	installCachedMethods(gl, cache, originalMethods);
@@ -37,7 +28,7 @@ export function installGlStateCache(gl) {
 }
 
 function captureOriginalMethods(gl) {
-	return new Map(CACHED_GL_METHODS.map((methodName) => [
+	return new Map(CACHED_GL_METHODS.map(methodName => [
 		methodName,
 		gl[methodName]
 	]));
@@ -50,6 +41,12 @@ function createCacheController(gl, originalMethods) {
 		invalidate() {
 			cache.state = createGlStateModel();
 			cache.stats.invalidations += 1;
+		},
+		invalidateVertexArrayState() {
+			cache.state.buffers.clear();
+			cache.state.attributes.clear();
+			cache.state.pointers.clear();
+			cache.stats.vertexArrayInvalidations += 1;
 		},
 		restore() {
 			for (const [methodName, originalMethod] of originalMethods) {
@@ -84,7 +81,7 @@ function installCachedMethods(gl, cache, originalMethods) {
 }
 
 function createStats() {
-	const methods = CACHED_GL_METHODS.map((methodName) => [
+	const methods = CACHED_GL_METHODS.map(methodName => [
 		methodName,
 		{
 			calls: 0,
@@ -93,6 +90,7 @@ function createStats() {
 	]);
 	return {
 		invalidations: 0,
+		vertexArrayInvalidations: 0,
 		methods: Object.fromEntries(methods)
 	};
 }

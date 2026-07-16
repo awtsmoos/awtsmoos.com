@@ -1,19 +1,27 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const Envelopes = require("./envelopes.js");
+const Activity = require("./requestActivity.js");
 const State = require("./state.js");
 
 /**
- * B"H — Every HTTP waiter is a window into one durable request, never the
- * owner of that request. A window may time out while the tunnel keeps carrying
- * the message, and a later window may receive the completed answer.
+ * @file Resolves durable relay requests and publishes every terminal transition.
+ * @description
+ * The Awtsmoos renews request, waiter, completion, and expiration without mixture.
+ * Awtsmoos.com lets an HTTP window close while the agent deed continues, yet the
+ * account stream still receives one authoritative completed, failed, or expired event.
  */
+
 function attachWaiter(record, waitMs) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let settled = false;
 		const waiter = {
 			resolve(data) {
-				if (settled) return;
+				if (settled) {
+					return;
+				}
 				settled = true;
 				clearTimeout(waiter.timer);
 				record.waiters.delete(waiter);
@@ -21,29 +29,51 @@ function attachWaiter(record, waitMs) {
 			}
 		};
 		waiter.timer = setTimeout(() => {
-			waiter.resolve(Envelopes.timeoutEnvelope(record.expected, waitMs, record.expected.timeoutMs));
+			waiter.resolve(Envelopes.timeoutEnvelope(
+				record.expected,
+				waitMs,
+				record.expected.timeoutMs
+			));
 		}, waitMs);
 		record.waiters.add(waiter);
 	});
 }
 
 function finishPending(context, id, record, data) {
-	if (context.pendingTunnelRequests.get(id) !== record) return false;
+	if (context.pendingTunnelRequests.get(id) !== record) {
+		return false;
+	}
 	clearTimeout(record.expiryTimer);
 	context.pendingTunnelRequests.delete(id);
 	State.rememberCompleted(context, id, data, record.expected);
-	for (const waiter of [...record.waiters]) waiter.resolve(data);
+	for (const waiter of [...record.waiters]) {
+		waiter.resolve(data);
+	}
+	Activity.terminal(
+		context,
+		record,
+		data,
+		data?.ok === false ? "action.failed" : "action.completed"
+	);
 	return true;
 }
 
 function rejectPending(context, id, record, error) {
-	return finishPending(context, id, record, Envelopes.relayErrorEnvelope(id, record.expected, error));
+	const envelope = Envelopes.relayErrorEnvelope(id, record.expected, error);
+	Activity.terminal(context, record, envelope, "action.rejected");
+	return finishWithoutDuplicateActivity(context, id, record, envelope);
 }
 
 function expirePending(context, id, record) {
-	if (context.pendingTunnelRequests.get(id) !== record) return;
+	if (context.pendingTunnelRequests.get(id) !== record) {
+		return;
+	}
 	context.pendingTunnelRequests.delete(id);
-	for (const waiter of [...record.waiters]) waiter.resolve(Envelopes.expiredEnvelope(record));
+	const envelope = Envelopes.expiredEnvelope(record);
+	for (const waiter of [...record.waiters]) {
+		waiter.resolve(envelope);
+	}
+	Activity.terminal(context, record, envelope, "action.expired");
 }
 
 function createRecord(context, id, expected, timeoutMs) {
@@ -52,12 +82,34 @@ function createRecord(context, id, expected, timeoutMs) {
 		waiters: new Set(),
 		mismatchCount: 0,
 		createdAt: Date.now(),
-		expiryTimer: null
+		expiryTimer: null,
+		activityContext: null
 	};
 	context.pendingTunnelRequests.set(id, record);
-	record.expiryTimer = setTimeout(() => expirePending(context, id, record), timeoutMs);
+	record.expiryTimer = setTimeout(() => {
+		expirePending(context, id, record);
+	}, timeoutMs);
 	record.expiryTimer.unref?.();
 	return record;
 }
 
-module.exports = { attachWaiter, createRecord, expirePending, finishPending, rejectPending };
+function finishWithoutDuplicateActivity(context, id, record, data) {
+	if (context.pendingTunnelRequests.get(id) !== record) {
+		return false;
+	}
+	clearTimeout(record.expiryTimer);
+	context.pendingTunnelRequests.delete(id);
+	State.rememberCompleted(context, id, data, record.expected);
+	for (const waiter of [...record.waiters]) {
+		waiter.resolve(data);
+	}
+	return true;
+}
+
+module.exports = {
+	attachWaiter,
+	createRecord,
+	expirePending,
+	finishPending,
+	rejectPending
+};

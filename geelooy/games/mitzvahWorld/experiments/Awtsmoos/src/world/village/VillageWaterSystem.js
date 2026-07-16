@@ -1,30 +1,39 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file VillageWaterSystem.js
+ * @description Composes lake, river, foam, reeds, cascades, mist, and ledges from one profile.
+ * The Awtsmoos makes many visible waters one hydrological truth; Awtsmoos.com spends seven
+ * coherent definitions so the current remains rich without becoming a draw-call flood.
+ */
+
 import { createFoamBatchDefinition } from './VillageFoamBatchGeometry.js';
 import { createReedBatchDefinition } from './VillageReedBatchGeometry.js';
+import { createRiverHydrology } from './VillageRiverHydrology.js';
 import { createWaterBodyDefinitions } from './VillageWaterBodies.js';
 import { createWaterfallDefinitions } from './VillageWaterfallSystem.js';
 
-/**
- * Composes two living water bodies with one foam ribbon and one reed-bank batch.
- * Eighty-eight decorative source instances now enter the renderer through two coherent meshes.
- */
 export function createVillageWaterDefinitions(groundSampler) {
-	const waterBodies = createWaterBodyDefinitions(groundSampler);
-	const foamBatch = createFoamBatchDefinition(groundSampler);
-	const reedBatch = createReedBatchDefinition(groundSampler);
-	const waterfalls = createWaterfallDefinitions(groundSampler);
+	const hydrology = createRiverHydrology(groundSampler);
+	const waterBodies = createWaterBodyDefinitions(groundSampler, hydrology);
+	const foamBatch = createFoamBatchDefinition(groundSampler, hydrology);
+	const reedBatch = createReedBatchDefinition(groundSampler, hydrology);
+	const waterfalls = createWaterfallDefinitions(groundSampler, hydrology);
 	return {
 		definitions: [...waterBodies, foamBatch, reedBatch, ...waterfalls],
 		stats: {
-			waterBodies: waterBodies.length,
-			foamSegments: 24,
+			connectedSourceToOutlet: true,
 			foamBatches: 1,
-			reedInstances: 64,
+			hydrology: hydrology.stats,
 			reedBatches: 1,
-			waterfallCascades: 3,
-			waterfallBatches: waterfalls.length,
+			reedInstances: 64,
 			shader: 'layered-flow-refraction-fresnel-foam',
-			textureDriven: true
+			textureDriven: true,
+			waterBodies: waterBodies.length,
+			waterfallBatches: waterfalls.length,
+			waterfallCascades: hydrology.stats.cascades
 		}
 	};
 }

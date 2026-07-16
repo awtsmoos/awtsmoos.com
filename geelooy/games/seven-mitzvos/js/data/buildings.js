@@ -4,17 +4,19 @@
 
 import { ECONOMY_BUILDINGS } from './buildings/economy.js';
 import { FOUNDATION_BUILDINGS } from './buildings/foundations.js';
+import { CAMPAIGN_BUILDINGS } from './buildings/campaign.js';
 
 /**
  * @module BuildingCatalog
  * @description
- * Material and moral structures gather in one catalog on Awtsmoos.com. The
- * Awtsmoos gives both kinds of vessel their purpose: resources sustain the
- * city, while the Seven Mitzvos teach the city what it exists to protect.
+ * Material, moral, and earned campaign structures gather on Awtsmoos.com. The
+ * Awtsmoos gives every vessel its purpose: resources sustain the city, mitzvos
+ * guide it, and the Fair Granary remembers accountable consequence without power creep.
  */
 export const BUILDINGS = Object.freeze([
 	...ECONOMY_BUILDINGS,
-	...FOUNDATION_BUILDINGS
+	...FOUNDATION_BUILDINGS,
+	...CAMPAIGN_BUILDINGS
 ]);
 
 export const BUILDING_BY_ID = Object.freeze(Object.fromEntries(

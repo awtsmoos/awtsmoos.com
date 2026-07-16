@@ -1,0 +1,122 @@
+/* B"H
+ * The Awtsmoos gives handheld search its own composition: content first, full touch paths, and a safe navigation edge.
+ */
+@media (max-width: 42rem) {
+	.library-app-header {
+		min-height: 3.85rem;
+		padding-block: max(.55rem, env(safe-area-inset-top)) .55rem;
+	}
+	.library-page {
+		padding: .55rem .55rem calc(5rem + env(safe-area-inset-bottom));
+	}
+	.library-hero {
+		grid-template-columns: 1fr;
+		min-height: 0;
+		padding: 1.15rem;
+	}
+	.library-hero-mark {
+		display: none;
+	}
+	.library-hero h1 {
+		font-size: clamp(2.25rem, 13vw, 3.8rem);
+	}
+	.library-truth-row {
+		gap: .4rem;
+		margin-top: 1rem;
+	}
+	.library-truth-row span {
+		font-size: .72rem;
+	}
+	.library-search-form {
+		grid-template-columns: 1fr;
+		padding: .7rem;
+	}
+	.library-search-button {
+		grid-column: auto;
+	}
+	.library-scope-nav {
+		display: flex;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	.library-scope-nav::-webkit-scrollbar {
+		display: none;
+	}
+	.library-scope-nav a {
+		flex: 0 0 7rem;
+	}
+	.library-section-heading {
+		align-items: start;
+		flex-direction: column;
+		gap: .25rem;
+	}
+	.library-section-heading a {
+		align-items: center;
+		display: flex;
+		padding-inline: 0;
+	}
+	.library-discovery-rail {
+		grid-template-columns: 1fr;
+	}
+	.library-tip-card {
+		grid-column: auto;
+	}
+	.resultTop {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+	}
+	.score {
+		grid-column: 1 / -1;
+		justify-self: start;
+	}
+	.rangeComment {
+		grid-template-columns: 1fr auto;
+	}
+	.commentCoord {
+		grid-column: 1 / -1;
+	}
+	.library-mobile-nav {
+		background: rgba(5, 8, 17, .98);
+		border-top: 1px solid rgba(151, 178, 205, .16);
+		bottom: 0;
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		left: 0;
+		padding: .4rem .3rem max(.4rem, env(safe-area-inset-bottom));
+		position: fixed;
+		right: 0;
+		z-index: 60;
+	}
+	.library-mobile-nav a {
+		align-items: center;
+		border-radius: .55rem;
+		color: #8495a9;
+		display: flex;
+		font-size: .72rem;
+		justify-content: center;
+		min-height: 2.9rem;
+		text-decoration: none;
+	}
+	.library-mobile-nav .is-current {
+		background: #0d1723;
+		color: #62d4e8;
+	}
+}
+@media (max-width: 22rem) {
+	.library-brand small {
+		display: none;
+	}
+	.library-hero-copy > p:not(.library-kicker) {
+		font-size: .95rem;
+	}
+	.library-truth-row span {
+		width: 100%;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+	}
+}

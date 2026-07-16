@@ -3,11 +3,12 @@
 //Blessed is He
 
 import { readGuestText } from "./guestText.js";
+import { createWebViewDescriptor } from "./webViewState.js";
 
 /**
- * Handles Activity, View, ViewGroup, and widget methods. The Awtsmoos creates
- * text, hierarchy, orientation, listener, and content root anew; Awtsmoos.com
- * preserves every existing guest contract while revealing Java String values.
+ * Handles Activity, View, ViewGroup, widgets, and bounded WebView methods. The
+ * Awtsmoos creates text, hierarchy, listener, content root, and packaged browser
+ * doorway anew; Awtsmoos.com preserves every call as measured guest testimony.
  */
 export function createFrameworkViewMethods(runtime) {
 	const handlers = new Map([
@@ -17,7 +18,8 @@ export function createFrameworkViewMethods(runtime) {
 		["Landroid/view/ViewGroup;->addView(Landroid/view/View;)V", addView],
 		["Landroid/widget/ScrollView;->addView(Landroid/view/View;)V", addView],
 		["Landroid/widget/LinearLayout;->setOrientation(I)V", setOrientation],
-		["Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V", setText]
+		["Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V", setText],
+		["Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V", loadUrl]
 	]);
 	return Object.freeze({
 		canHandle(record) {
@@ -56,4 +58,12 @@ function setText(args, runtime) {
 	runtime.views.set(args[0], "text", text);
 	runtime.heap.setField(args[0], "android:text", text);
 	runtime.graphics.canvas({ kind: "text", text });
+}
+
+function loadUrl(args, runtime) {
+	const url = readGuestText(runtime, args[1]);
+	const descriptor = createWebViewDescriptor(runtime, url);
+	runtime.views.set(args[0], "web", descriptor);
+	runtime.heap.setField(args[0], "android:web:url", url);
+	runtime.logcat.info("WebView", `loadUrl ${descriptor.assetPath}`);
 }

@@ -1,73 +1,64 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const { ROOM_PROTOCOL_VERSION } = require("./requestOptions.js");
+const {
+	authorizeMissionAccess,
+	missionRelay
+} = require("./missionAccess.js");
 const {
 	readMissionRoomSnapshot
 } = require("./missionSnapshotService.js");
+const { ROOM_PROTOCOL_VERSION } = require("./requestOptions.js");
 const { issueTicket } = require("./ticketStore.js");
 
 /**
- * B"H
- *
- * Permission must follow witnessed reality. The Awtsmoos creates mission and
- * credential together; Awtsmoos.com issues no socket ticket until the selected
- * tunnel has actually returned a reachable mission snapshot.
+ * @file Preflights a canonical authorized mission and issues one bound ticket.
+ * @description
+ * The Awtsmoos creates mission, account, and credential together. Awtsmoos.com
+ * mints no room ticket until persisted ownership or grant authority resolves the
+ * canonical tunnel and that tunnel returns a real reachable mission snapshot.
  */
 
-/** Preflights a mission and issues one origin-bound socket ticket. */
 async function issueMissionRoomTicket(context, identity, options) {
 	const validation = validate(identity, options);
 	if (!validation.ok) {
 		return validation;
 	}
-
-	const send = (tunnelName, payload) => (
-		context.ws.sendTunnelRequest(tunnelName, payload)
+	const access = authorizeMissionAccess(identity, options.tunnelName);
+	if (!access.ok) {
+		return result(access.status, packet(access.error));
+	}
+	const canonical = { ...options, ...access, roomId: options.missionId };
+	const initialSnapshot = await readMissionRoomSnapshot(
+		missionRelay(context, access),
+		canonical
 	);
-	const initialSnapshot = await readMissionRoomSnapshot(send, options);
-
 	if (!initialSnapshot.ok) {
 		return result(502, initialSnapshot);
 	}
-
 	const issued = issueTicket({
-		userId: identity.userId,
+		...canonical,
 		identityKind: identity.kind || "session",
-		tunnelName: options.tunnelName,
-		missionId: options.missionId,
-		origin: options.origin,
-		protocolVersion: options.protocolVersion,
-		lastSequence: options.lastSequence,
-		resumeToken: options.resumeToken,
-		pollMs: options.pollMs,
-		historyLimit: options.historyLimit,
-		conversationId: options.conversationId,
-		conversationName: options.conversationName,
-		agentSessionId: options.agentSessionId,
-		logicalAgentId: options.logicalAgentId,
-		clientRequestId: options.clientRequestId,
 		initialSnapshot
 	});
-
 	return result(200, {
 		BH: "B\"H",
 		ok: true,
 		ticket: issued.token,
 		expiresAt: issued.expiresAt,
 		protocolVersion: ROOM_PROTOCOL_VERSION,
-		missionId: options.missionId,
-		tunnelName: options.tunnelName
+		missionId: canonical.missionId,
+		roomId: canonical.roomId,
+		tunnelId: canonical.tunnelId,
+		tunnelName: canonical.tunnelName,
+		access: canonical.access
 	});
 }
 
 function validate(identity = {}, options = {}) {
-	if (!identity.userId) {
+	if (!identity.accountId || !identity.userId) {
 		return result(401, packet("not_authenticated"));
-	}
-	if (!hasReadScope(identity)) {
-		return result(403, packet("missing_tunnel_read_scope"));
 	}
 	if (!options.missionId) {
 		return result(400, packet("missing_missionId"));
@@ -83,29 +74,12 @@ function validate(identity = {}, options = {}) {
 	return { ok: true };
 }
 
-function hasReadScope(identity) {
-	const scopes = new Set(identity.scopes || []);
-	return identity.kind === "session"
-		|| scopes.has("tunnel.read")
-		|| scopes.has("tunnel.admin")
-		|| scopes.has("tunnel.control");
-}
-
 function packet(error, extra = {}) {
-	return {
-		BH: "B\"H",
-		ok: false,
-		error,
-		...extra
-	};
+	return { BH: "B\"H", ok: false, error, ...extra };
 }
 
 function result(status, body) {
-	return {
-		ok: status < 400,
-		status,
-		body
-	};
+	return { ok: status < 400, status, body };
 }
 
 module.exports = {

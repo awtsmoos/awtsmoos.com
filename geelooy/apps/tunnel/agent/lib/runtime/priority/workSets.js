@@ -1,18 +1,44 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+const ASYNC_TASK_CONTROL_ACTIONS = new Set([
+	"asyncTaskStatus",
+	"asyncTaskOutputPage",
+	"asyncTaskWait",
+	"asyncTaskCancel"
+]);
 
 const PAGE_ACTIONS = new Set([
-	"commandJobOutputPage", "commandOutputPage", "treePage", "treeStream",
-	"treeSummary", "rgPage", "rgStream", "rgSummary"
+	"commandJobOutputPage",
+	"commandOutputPage",
+	"treePage",
+	"treeStream",
+	"treeSummary",
+	"rgPage",
+	"rgStream",
+	"rgSummary"
 ]);
 
 const HISTORY_ACTIONS = new Set([
-	"actionHistoryGet", "actionHistoryList", "actionHistorySearch", "actionTimeline",
-	"actionStream", "agentActionStream", "missionActionStream", "roomActionStream",
-	"workerActionStream", "browserActionStream", "fsActionStream"
+	"actionHistoryGet",
+	"actionHistoryList",
+	"actionHistorySearch",
+	"actionTimeline",
+	"actionStream",
+	"agentActionStream",
+	"missionActionStream",
+	"roomActionStream",
+	"workerActionStream",
+	"browserActionStream",
+	"fsActionStream"
 ]);
 
 const WAIT_ACTIONS = new Set([
-	"commandWait", "commandJobWait", "waitForJob", "jobWait"
+	"commandWait",
+	"commandJobWait",
+	"waitForJob",
+	"jobWait"
 ]);
 
 const BULK_ACTIONS = new Set([
@@ -27,4 +53,10 @@ const BULK_ACTIONS = new Set([
 	"previewLiveCommand", "chromeSnapshot", "chromeSnapshotScoped", "chromeFind"
 ]);
 
-module.exports = { BULK_ACTIONS, HISTORY_ACTIONS, PAGE_ACTIONS, WAIT_ACTIONS };
+module.exports = {
+	ASYNC_TASK_CONTROL_ACTIONS,
+	BULK_ACTIONS,
+	HISTORY_ACTIONS,
+	PAGE_ACTIONS,
+	WAIT_ACTIONS
+};

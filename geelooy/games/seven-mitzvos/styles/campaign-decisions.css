@@ -1,0 +1,64 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Visible choices become measured vessels on Awtsmoos.com. The Awtsmoos knows
+	all consequence before selection; these strategy and finding controls preserve
+	lawful options, clear focus, and reasoned judgment for finite hands and voices.
+*/
+.strategyGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: 12px;
+}
+
+.strategyCard {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px;
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.strategyCard.isUnavailable {
+	opacity: 0.62;
+}
+
+.campaignStrategy,
+.findingRow label,
+.rationaleButton {
+	min-height: 44px;
+}
+
+.campaignStrategy {
+	padding: 10px;
+	border: 1px solid rgba(196, 226, 255, 0.24);
+	border-radius: 10px;
+	background: #143653;
+	color: white;
+	font: inherit;
+}
+
+.findingRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 18px;
+	margin: 12px 0;
+	border: 0;
+}
+
+.findingRow legend {
+	width: 100%;
+	font-weight: 760;
+}
+
+.findingRow label {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.nextRevelation {
+	margin-top: 24px;
+}

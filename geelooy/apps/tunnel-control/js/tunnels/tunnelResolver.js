@@ -1,63 +1,68 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-import { myDevice, device } from "../api/control.js";
-import { state, rememberTunnelName, forgetTunnelName } from "../state/state.js";
-import { extractTunnelName, extractRoot, extractPermissions } from "./extractTunnel.js";
+import { myDevice } from "../api/control.js";
+import { state, forgetTunnelName, rememberTunnelName } from "../state/state.js";
+import { collectVessels } from "../features/vessels/vesselCollection.js";
+import {
+	clearTrustedTargets,
+	replaceTrustedTargets
+} from "../features/vessels/trustedTargetRegistry.js";
 
 /**
- * B"H
- * Resolves the active tunnel.
- *
- * Normal flow:
- * /apps/tunnel-control/ -> OAuth/session -> /my-device -> tunnel.
- *
- * Query tunnelName remains only as a backward-compatible dev override.
- *
- * @returns {Promise<object>} Normalized tunnel result.
+ * @file Resolves boot through one sanitized account discovery response.
+ * @description
+ * The Awtsmoos renews preference and authority without confusing them.
+ * Awtsmoos.com never contacts a URL/localStorage tunnel directly; a preference may
+ * select only a vessel present in the current verified discovery collection.
  */
 export async function resolveActiveTunnel() {
-  const attempts = [];
+	try {
+		const discovery = await myDevice();
+		const vessels = collectVessels(discovery);
+		const selected = replaceTrustedTargets(
+			vessels,
+			state.tunnelPreference
+		);
+		if (!selected) {
+			return unresolved(discovery);
+		}
+		rememberTunnelName(selected.tunnelName);
+		return {
+			ok: true,
+			tunnelName: selected.tunnelName,
+			root: ".",
+			permissions: permissionsFor(selected),
+			device: selected,
+			raw: discovery
+		};
+	} catch {
+		return unresolved(null);
+	}
+}
 
-  if (state.urlTunnelOverride) {
-    attempts.push(() => device(state.urlTunnelOverride));
-  }
+function unresolved(raw) {
+	clearTrustedTargets();
+	forgetTunnelName();
+	return {
+		ok: false,
+		tunnelName: "",
+		root: ".",
+		permissions: {},
+		device: null,
+		raw
+	};
+}
 
-  attempts.push(() => myDevice());
-
-  if (state.tunnelName && state.tunnelName !== state.urlTunnelOverride) {
-    attempts.push(() => device(state.tunnelName));
-  }
-
-  for (const attempt of attempts) {
-    try {
-      const raw = await attempt();
-      if (!raw || raw.ok === false) continue;
-
-      const tunnelName = extractTunnelName(raw);
-      if (!tunnelName) continue;
-
-      rememberTunnelName(tunnelName);
-
-      return {
-        ok: true,
-        tunnelName,
-        root: extractRoot(raw),
-        permissions: extractPermissions(raw),
-        raw
-      };
-    } catch (e) {
-      continue;
-    }
-  }
-
-  forgetTunnelName();
-
-  return {
-    ok: false,
-    tunnelName: "",
-    root: ".",
-    permissions: {},
-    raw: null
-  };
+function permissionsFor(vessel = {}) {
+	const permissions = new Set(vessel.permissions || []);
+	const capabilities = vessel.capabilities || {};
+	return {
+		allowWrite: permissions.has("tunnel.write") || capabilities.fsWrite === true,
+		allowCommands: permissions.has("tunnel.command") ||
+			capabilities.commandRun === true,
+		allowBrowser: capabilities.browserControl === true,
+		allowHttpProxy: permissions.has("tunnel.preview")
+	};
 }

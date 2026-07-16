@@ -1,28 +1,38 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * @class OakWeaver
+ * @file OakWeaver.js
+ * @description Draws a broadleaf crown from directly overhead.
+ *
+ * The Awtsmoos conceals trunk beneath crown and many leaves inside one canopy.
+ * Awtsmoos.com abandons the upright poster-tree for a radial gameplay silhouette.
  */
 export class OakWeaver {
-    static draw(ctx, size, color1, color2, color3) {
-        ctx.fillStyle = '#4e342e';
-        const trunkW = size / 4;
-        const trunkH = size / 2;
-        ctx.fillRect(-trunkW / 2, size / 10, trunkW, trunkH);
-
-        const layers = [
-            { r: size * 0.7, c: color1, oy: -size / 4 },
-            { r: size * 0.55, c: color2, oy: -size / 2 },
-            { r: size * 0.4, c: color3, oy: -size * 0.75 }
-        ];
-
-        layers.forEach(l => {
-            ctx.fillStyle = l.c;
-            ctx.beginPath();
-            ctx.arc(0, l.oy, l.r, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-            ctx.stroke();
-        });
-    }
+	static draw(context, size, colors = ['#173d24', '#28633a', '#3e814b']) {
+		context.save();
+		context.fillStyle = 'rgba(0,0,0,0.3)';
+		context.beginPath();
+		context.ellipse(4, 6, size * 0.42, size * 0.34, 0.2, 0, Math.PI * 2);
+		context.fill();
+		context.fillStyle = '#4e342e';
+		context.beginPath();
+		context.arc(0, 0, size * 0.11, 0, Math.PI * 2);
+		context.fill();
+		for (let index = 0; index < 9; index += 1) {
+			const angle = Math.PI * 2 * index / 9;
+			const ring = index % 3 === 0 ? size * 0.2 : size * 0.27;
+			const radius = size * (0.22 + (index % 2) * 0.035);
+			context.fillStyle = colors[index % colors.length];
+			context.beginPath();
+			context.arc(Math.cos(angle) * ring, Math.sin(angle) * ring, radius, 0, Math.PI * 2);
+			context.fill();
+		}
+		context.fillStyle = colors[colors.length - 1];
+		context.beginPath();
+		context.arc(-size * 0.08, -size * 0.08, size * 0.24, 0, Math.PI * 2);
+		context.fill();
+		context.restore();
+	}
 }

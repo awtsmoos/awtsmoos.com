@@ -1,5 +1,5 @@
 B"H
-1.0.321
+1.0.322
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -762,6 +762,17 @@ lib/config-defaults.js
 lib/config-normalizers.js
 lib/config-value-normalizers.js
 lib/config.js
+lib/deviceIdentity/command.js
+lib/deviceIdentity/environment.js
+lib/deviceIdentity/httpJson.js
+lib/deviceIdentity/identity.js
+lib/deviceIdentity/index.js
+lib/deviceIdentity/keyMaterial.js
+lib/deviceIdentity/macosStore.js
+lib/deviceIdentity/metadata.js
+lib/deviceIdentity/pairingClient.js
+lib/deviceIdentity/pairingWorkflow.js
+lib/deviceIdentity/secureStore.js
 lib/envelopeCompiler/compiler.js
 lib/envelopeCompiler/index.js
 lib/fakeSsh/auth.js
@@ -1125,6 +1136,8 @@ tools/fs/actionGroups/aiAgents/taskStore.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
 tools/fs/actionGroups/asyncTaskActions.js
+tools/fs/actionGroups/asyncTaskPolicy.js
+tools/fs/actionGroups/asyncTaskResponses.js
 tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
 tools/fs/actionGroups/cognitionActions.js
@@ -1158,6 +1171,14 @@ tools/fs/actionGroups/osSurfaceActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js
+tools/fs/actionGroups/processAdapter.js
+tools/fs/actionGroups/processExecutable.js
+tools/fs/actionGroups/processLimits.js
+tools/fs/actionGroups/processPayload.js
+tools/fs/actionGroups/processRunner.js
+tools/fs/actionGroups/processSelection.js
+tools/fs/actionGroups/processUnix.js
+tools/fs/actionGroups/processWindows.js
 tools/fs/actionGroups/projectActions.js
 tools/fs/actionGroups/qualityActions.js
 tools/fs/actionGroups/readActions.js
@@ -1231,6 +1252,7 @@ tools/fs/commandJob/ownership.js
 tools/fs/commandJob/pathJson.js
 tools/fs/commandJob/paths.js
 tools/fs/commandJob/policy.js
+tools/fs/commandJob/pollingGuidance.js
 tools/fs/commandJob/process.js
 tools/fs/commandJob/processCleanup.js
 tools/fs/commandJob/processGroup.js
@@ -1257,6 +1279,7 @@ tools/fs/commandJob/startResults.js
 tools/fs/commandJob/stateRoots.js
 tools/fs/commandJob/status.js
 tools/fs/commandJob/wait.js
+tools/fs/commandJob/writeSnapshot.js
 tools/fs/commandJobStore.js
 tools/fs/commandOutputStore.js
 tools/fs/connectedFiles.js

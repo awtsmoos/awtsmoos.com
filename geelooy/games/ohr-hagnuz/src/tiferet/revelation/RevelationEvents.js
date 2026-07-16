@@ -4,55 +4,51 @@
 
 /**
  * @file RevelationEvents.js
- * @description Connects the revealed shell to canonical actions and deliberate passage reading.
+ * @description Connects the overhead HUD to existing canonical actions.
  *
- * The Awtsmoos gives every vessel its boundary. Awtsmoos.com keeps navigation,
- * collapse behavior, learning prompts, and reading mastery outside the renderer
- * so the interface never becomes the hidden owner of game state.
+ * The Awtsmoos gives every vessel its boundary. Awtsmoos.com lets buttons pulse
+ * established A and B intents or open established panels without moving gameplay
+ * authority into the interface.
  */
 import { State } from '../../binah/State.js';
-import {
-	passageEntries,
-	readPassage
-} from '../../yesod/codex/PassageCollectionRuntime.js';
+import { passageEntries, readPassage } from '../../yesod/codex/PassageCollectionRuntime.js';
 
 const SHORTCUT_PANELS = Object.freeze({
-	c: 'codex',
-	i: 'items',
-	j: 'journal',
-	k: 'craft',
-	m: 'map',
-	p: 'party'
+	c: 'codex', i: 'items', j: 'journal', k: 'craft', m: 'map', p: 'party'
 });
 
-const isTypingTarget = target => {
+function isTypingTarget(target) {
 	const tagName = String(target?.tagName || '').toLowerCase();
-	return target?.isContentEditable
-		|| ['input', 'textarea', 'select'].includes(tagName);
-};
+	return target?.isContentEditable || ['input', 'textarea', 'select'].includes(tagName);
+}
 
-const markPassageRead = panel => {
+function markPassageRead(panel) {
 	if (panel !== 'codex' || State.UiPanel === 'codex') return;
 	const firstPassage = passageEntries()[0];
-	if (firstPassage) {
-		readPassage(firstPassage.id);
-	}
-};
+	if (firstPassage) readPassage(firstPassage.id);
+}
 
-const openPanel = panel => {
+function openPanel(panel) {
 	if (!panel) return;
 	markPassageRead(panel);
 	State.openPanel(panel);
-};
+}
 
-const describeChannel = target => {
+function pulseIntent(intent) {
+	if (!['A', 'B'].includes(intent)) return;
+	globalThis.AwtsmoosIntents ||= { U: 0, D: 0, L: 0, R: 0, A: 0, B: 0 };
+	globalThis.AwtsmoosIntents[intent] = 1;
+	window.setTimeout(() => {
+		globalThis.AwtsmoosIntents[intent] = 0;
+	}, 90);
+}
+
+function describeChannel(target) {
 	const principle = target.dataset.channelPrinciple;
 	const move = target.dataset.channelMove;
-	if (!principle) return;
-	State.say(`${move}: ${principle}`, 720);
-};
+	if (principle) State.say(`${move}: ${principle}`, 720);
+}
 
-/** Owns shell-only browser events without intercepting movement controls. */
 export class RevelationEvents {
 	static root = null;
 	static bound = false;
@@ -70,18 +66,21 @@ export class RevelationEvents {
 	}
 
 	static handleClick(event) {
+		const intentButton = event.target.closest('[data-revelation-intent]');
+		if (intentButton) {
+			pulseIntent(intentButton.dataset.revelationIntent);
+			return;
+		}
 		const panelButton = event.target.closest('[data-revelation-panel]');
 		if (panelButton) {
 			openPanel(panelButton.dataset.revelationPanel);
 			return;
 		}
-
 		const channelButton = event.target.closest('[data-revelation-channel]');
 		if (channelButton) {
 			describeChannel(channelButton);
 			return;
 		}
-
 		if (event.target.closest('[data-revelation-collapse]')) {
 			document.body.dataset.hudCollapsed = document.body.dataset.hudCollapsed === 'true'
 				? 'false'
@@ -101,6 +100,7 @@ export class RevelationEvents {
 			event.preventDefault();
 			State.openPanel(State.UiPanel);
 		}
+
 	}
 
 	static unbind() {

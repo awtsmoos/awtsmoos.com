@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos maps only the real local terrain surrounding the current traveler. */
+.revelation-minimap {
+	position: absolute;
+	right: 16px;
+	top: calc(var(--ohr-topbar-height) + 16px);
+	z-index: 46;
+	width: 236px;
+	padding: 10px;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-md);
+	background: var(--ohr-panel);
+	box-shadow: var(--ohr-glow);
+	backdrop-filter: blur(12px);
+}
+
+.revelation-minimap header {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 8px;
+	font-size: 9px;
+	letter-spacing: 0.1em;
+}
+
+.revelation-minimap header b {
+	overflow: hidden;
+	color: var(--ohr-gold);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+[data-revelation-minimap] {
+	display: grid;
+	grid-template-columns: repeat(var(--map-columns), 1fr);
+	gap: 2px;
+	padding: 5px;
+	border: 1px solid rgba(244, 201, 107, 0.18);
+	background: rgba(2, 7, 8, 0.74);
+}
+
+.revelation-map-cell {
+	aspect-ratio: 1;
+	min-width: 0;
+	border-radius: 2px;
+	background: #27382d;
+}
+
+.revelation-map-cell--unknown { background: #090e0d; }
+.revelation-map-cell--road { background: #8b7458; }
+.revelation-map-cell--water { background: #245b61; }
+.revelation-map-cell--solid { background: #15241b; }
+.revelation-map-cell--portal { background: #d0aa55; }
+.revelation-map-cell--danger { background: #8f4056; }
+
+.revelation-map-cell--hero {
+	box-shadow: 0 0 0 2px #fff4c4, 0 0 8px #ffd568;
+	background: #ffd568;
+}
+
+body[data-hud-collapsed="true"] .revelation-minimap {
+	opacity: 0;
+	visibility: hidden;
+}

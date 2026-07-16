@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers existing intents and inventories into one action vessel.
+ * Awtsmoos.com keeps every button connected to the same canonical controls.
+ */
+.revelation-action-bar {
+	position: absolute;
+	left: 50%;
+	bottom: calc(var(--ohr-dock-height) + 16px);
+	z-index: 48;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(82px, 118px));
+	gap: 8px;
+	transform: translateX(-50%);
+	pointer-events: auto;
+}
+
+.revelation-action {
+	position: relative;
+	display: grid;
+	grid-template-columns: 25px 1fr;
+	align-items: center;
+	gap: 7px;
+	min-height: 46px;
+	padding: 7px 9px;
+	border: 1px solid var(--ohr-line);
+	border-radius: 11px;
+	background: linear-gradient(180deg, rgba(22, 30, 38, 0.96), rgba(8, 13, 18, 0.96));
+	color: #edf2f4;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+	cursor: pointer;
+}
+
+.revelation-action:hover {
+	border-color: var(--ohr-gold);
+	background: linear-gradient(180deg, rgba(40, 44, 42, 0.98), rgba(13, 17, 20, 0.98));
+}
+
+.revelation-action:active {
+	transform: translateY(1px);
+}
+
+.revelation-action kbd {
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.08);
+	font: 800 10px/1 system-ui, sans-serif;
+}
+
+.revelation-action span {
+	overflow: hidden;
+	font-size: 10px;
+	font-weight: 750;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.revelation-action small {
+	position: absolute;
+	right: 6px;
+	top: 4px;
+	color: var(--ohr-gold-bright);
+	font-size: 9px;
+}
+
+body[data-hud-collapsed="true"] .revelation-action-bar {
+	opacity: 0;
+	visibility: hidden;
+}

@@ -4,34 +4,45 @@
 
 import { createVirtualWindows } from "../../../apps/exe-emulator/core/virtualWindows.js";
 import { ensureProgramStyles } from "../shared/programStyles.js";
+import { mountAndroidWebSurface } from "./androidWebSurface.js";
 import { executableBytes } from "./content.js";
 import { executionLabel, executionReport } from "./executionReport.js";
+import { createExecutionOptions } from "./executionOptions.js";
 import { runExecutable } from "./runtime.js";
+import { createExecutableSurface } from "./surface.js";
 import { createExecutableTelemetry } from "./telemetryHost.js";
+import { visibleExecutionReport } from "./visibleReport.js";
 
 /**
- * Displays measured capability rather than one simulated label for every format.
- * The Awtsmoos creates execution, process, broker, persistence, and debugger
- * testimony distinctly; Awtsmoos.com forwards only explicit host capabilities.
+ * Displays measured capability and visible package content distinctly. The
+ * Awtsmoos creates execution, browser surface, broker, persistence, and debugger
+ * testimony anew; Awtsmoos.com mounts only content chosen by Android lifecycle.
  */
 export default function createAwtsmoosExecutable(options = {}) {
 	ensureProgramStyles();
-	const surface = createSurface(options.title || options.fileName || "Executable");
+	const surface = createExecutableSurface(
+		options.title || options.fileName || "Executable"
+	);
 	const host = createVirtualWindows(surface.desktop, surface.consoleElement);
 	const telemetry = createExecutableTelemetry(options);
-	const execute = createExecutor({ options, surface, host, telemetry });
+	const state = { webSurface: null };
+	const execute = createExecutor({ host, options, state, surface, telemetry });
 	surface.runButton.addEventListener("click", execute);
 	queueMicrotask(execute);
 	return {
 		div: surface.root,
 		onclose() {
+			state.webSurface?.dispose();
 			surface.runButton.removeEventListener("click", execute);
 		}
 	};
 }
 
-function createExecutor({ options, surface, host, telemetry }) {
+function createExecutor(context) {
 	return async function executeArtifact() {
+		const { host, options, state, surface, telemetry } = context;
+		state.webSurface?.dispose();
+		state.webSurface = null;
 		host.clear();
 		surface.report.textContent = options.bundle
 			? "Resolving application bundle…"
@@ -39,71 +50,38 @@ function createExecutor({ options, surface, host, telemetry }) {
 		try {
 			const bytes = await executableBytes(options.content);
 			telemetry.begin(bytes);
-			const outcome = await runExecutable({
-				arguments: options.arguments,
-				artifactIdentity: options.artifactIdentity,
-				bundle: options.bundle,
+			const outcome = await runExecutable(
+				createExecutionOptions(options, host, bytes)
+			);
+			state.webSurface = await mountAndroidWebSurface({
 				bytes,
-				extension: options.extension,
-				host,
-				importObject: options.importObject,
-				inspectOnly: options.inspectOnly,
-				instructionLimit: options.instructionLimit,
-				manifest: options.manifest,
-				maximumBytes: options.maximumBytes,
-				maximumNetworkResponseBytes: options.maximumNetworkResponseBytes,
-				maximumPreferenceBytes: options.maximumPreferenceBytes,
-				maximumPreferenceEntries: options.maximumPreferenceEntries,
-				maximumStackBytes: options.maximumStackBytes,
-				networkBroker: resolveNetworkBroker(options),
-				preferenceCapability: options.preferenceCapability,
-				processId: options.processId,
-				stackSize: options.stackSize
+				container: surface.desktop,
+				outcome
 			});
 			telemetry.complete(outcome, host);
-			surface.heading.textContent = executionLabel(outcome, options.artifactIdentity);
-			surface.report.textContent = executionReport(outcome);
+			surface.heading.textContent = executionLabel(
+				outcome,
+				options.artifactIdentity
+			);
+			surface.report.textContent = visibleExecutionReport(
+				outcome,
+				state.webSurface
+			);
 		} catch (error) {
-			telemetry.fail(error, host);
-			surface.heading.textContent = "Artifact rejected";
-			surface.report.textContent = executionReport({
-				architecture: options.detectedArchitecture || null,
-				code: error.code || "EXECUTABLE_HOST_FAILED",
-				format: options.detectedFormat || null,
-				message: error.message
-			});
-			host.print(`Loader fault: ${error.code || "unknown"}: ${error.message}`);
+			showExecutionError(error, context);
 		}
 	};
 }
 
-function resolveNetworkBroker(options) {
-	return options.networkBroker
-		|| options.os?.networkBroker
-		|| options.system?.os?.networkBroker
-		|| null;
-}
-
-function createSurface(title) {
-	const root = document.createElement("section");
-	root.className = "awtsmoos-program-host awtsmoos-executable-host";
-	const toolbar = document.createElement("header");
-	toolbar.className = "awtsmoos-program-toolbar";
-	const heading = document.createElement("strong");
-	heading.textContent = `Artifact host · ${title}`;
-	const runButton = document.createElement("button");
-	runButton.type = "button";
-	runButton.textContent = "Restart";
-	const report = document.createElement("pre");
-	report.className = "awtsmoos-program-report";
-	toolbar.append(heading, runButton);
-	const grid = document.createElement("div");
-	grid.className = "awtsmoos-executable-grid";
-	const desktop = document.createElement("div");
-	desktop.className = "awtsmoos-executable-desktop";
-	const consoleElement = document.createElement("pre");
-	consoleElement.className = "awtsmoos-executable-console";
-	grid.append(desktop, consoleElement);
-	root.append(toolbar, report, grid);
-	return { root, desktop, consoleElement, report, runButton, heading };
+function showExecutionError(error, context) {
+	const { host, options, surface, telemetry } = context;
+	telemetry.fail(error, host);
+	surface.heading.textContent = "Artifact rejected";
+	surface.report.textContent = executionReport({
+		architecture: options.detectedArchitecture || null,
+		code: error.code || "EXECUTABLE_HOST_FAILED",
+		format: options.detectedFormat || null,
+		message: error.message
+	});
+	host.print(`Loader fault: ${error.code || "unknown"}: ${error.message}`);
 }

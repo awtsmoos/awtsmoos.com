@@ -3,16 +3,17 @@
 // Blessed is He
 
 import { EmotionBlendShape } from './EmotionBlendShape.js';
-import { FacialMicroExpression } from './FacialMicroExpression.js';
+import { FaceRigEvaluator } from './FaceRigEvaluator.js';
+import { FaceRigPresetVocabulary } from './FaceRigPresetVocabulary.js';
 import { VisemeLibrary } from './VisemeLibrary.js';
 
 /**
- * The face is a layered theater rather than one symmetrical mask. The Awtsmoos
- * renews speech, emotion, attention, blink, breath, tension, and asymmetry each
- * instant while Awtsmoos.com preserves every channel as editable state.
+ * The face is a layered theater rather than a swapped mask. The Awtsmoos renews
+ * intention while this rig keeps emotion, gaze, speech, blink, and identity editable.
  */
-export class FaceRig {
+export class FaceRig extends FaceRigPresetVocabulary {
 	constructor(options = {}) {
+		super();
 		this.identity = options.identity || 'anonymous-face';
 		this.emotion = typeof options.emotion === 'string'
 			? EmotionBlendShape.fromPreset(options.emotion)
@@ -33,6 +34,7 @@ export class FaceRig {
 		this.visemes = [];
 	}
 
+	/** Blends a preset or channel object without erasing the previous emotion. */
 	setEmotion(emotion, weight = 1) {
 		const source = typeof emotion === 'string'
 			? EmotionBlendShape.fromPreset(emotion)
@@ -44,73 +46,35 @@ export class FaceRig {
 		return this;
 	}
 
+	/** Sets clamped two-dimensional attention. */
 	setGaze(x = 0, y = 0) {
 		this.gaze = { x: this.signed(x), y: this.signed(y) };
 		return this;
 	}
 
+	/** Overrides inner and outer brow intention independently. */
 	setBrows(inner = null, outer = null) {
 		this.browOverride = { inner, outer };
 		return this;
 	}
 
+	/** Generates a viseme timeline while preserving all emotional channels. */
 	setDialogue(text = '', durationMs = 1000) {
 		this.visemes = VisemeLibrary.timeline(text, durationMs);
 		return this;
 	}
 
+	/** Evaluates the complete layered face at one time. */
 	evaluate(timeMs = 0) {
-		const channels = EmotionBlendShape.toFaceChannels(this.emotion);
-		const micro = FacialMicroExpression.evaluate(
-			this.identity,
-			this.emotion,
-			timeMs,
-			{ exertion: this.exertion }
-		);
-		const blink = this.blinkAmount(timeMs);
-		const viseme = VisemeLibrary.at(this.visemes, timeMs);
-		const lidOpen = channels.lidOpen * (1 - blink);
-		return {
-			emotion: { ...this.emotion },
-			brows: {
-				inner: this.browOverride.inner ?? channels.browInner,
-				outer: this.browOverride.outer ?? channels.browOuter,
-				leftBias: micro.leftBrowBias * this.intensity,
-				rightBias: micro.rightBrowBias * this.intensity
-			},
-			eyes: {
-				gazeX: this.signed(this.gaze.x + micro.saccadeX),
-				gazeY: this.signed(this.gaze.y + micro.saccadeY),
-				leftLidOpen: this.clamp(lidOpen - micro.leftLidBias),
-				rightLidOpen: this.clamp(lidOpen - micro.rightLidBias),
-				lidOpen,
-				blink,
-				pupilDilation: micro.pupilDilation,
-				tearShine: micro.tearShine,
-				lashes: { ...this.lashes }
-			},
-			mouth: {
-				...viseme.shape,
-				viseme: viseme.name,
-				smile: channels.mouthSmile,
-				frown: channels.mouthFrown,
-				jawOpen: Math.max(channels.jawOpen, viseme.shape.open),
-				jawTension: micro.jawTension,
-				lipPress: micro.lipPress,
-				skew: micro.mouthSkew
-			},
-			cheekLift: channels.cheekLift,
-			cheekCompression: micro.cheekCompression,
-			noseWrinkle: channels.noseWrinkle,
-			nostrilFlare: micro.nostrilFlare,
-			breath: micro.breath,
-			headDrift: micro.headDrift
-		};
+		return FaceRigEvaluator.evaluate(this, timeMs);
 	}
 
+	/** Produces a smooth deterministic blink amount. */
 	blinkAmount(timeMs) {
 		const phase = (timeMs + this.blink.offsetMs) % this.blink.intervalMs;
-		if (phase >= this.blink.durationMs) return 0;
+		if (phase >= this.blink.durationMs) {
+			return 0;
+		}
 		return Math.sin((phase / this.blink.durationMs) * Math.PI);
 	}
 

@@ -1,77 +1,85 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The library page is a calm reading surface with explicit foreground ownership.
+ * The Awtsmoos arranges source, context, and action as one mature library rather than a generic search box.
  */
-body[data-sefarim-search-page] {
-	min-height: 100dvh;
-	margin: 0;
-	background: #080c13;
-	color: #f5f7fb;
-	font-family: var(--font-ui);
-}
 .library-page {
 	display: grid;
-	gap: var(--space-4);
-	width: min(calc(100% - 1.25rem), 72rem);
+	gap: 1rem;
 	margin: 0 auto;
-	padding: clamp(.75rem, 3vw, 2rem) 0 5rem;
+	padding: clamp(.75rem, 2vw, 1.5rem) clamp(.65rem, 2vw, 1.5rem) 5rem;
+	width: min(100%, 92rem);
 }
-.library-hero {
+.library-workspace {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 1rem;
+	grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem);
+}
+.library-result-column,
+.library-discovery-rail { min-width: 0; }
+.library-result-column {
+	align-content: start;
+	display: grid;
+	gap: .75rem;
+}
+.library-section-heading {
 	align-items: end;
-	gap: var(--space-5);
-	padding: clamp(1.25rem, 4vw, 2.75rem);
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: var(--radius-xl);
-	background: #111722;
-	box-shadow: 0 .65rem 1.8rem rgba(0, 0, 0, .24);
-	color: #f5f7fb;
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	padding: .35rem .2rem;
 }
-.library-hero h1 {
-	max-width: 12ch;
-	margin: .25rem 0 0;
-	font-size: clamp(2.6rem, 8vw, 5.75rem);
-	line-height: .94;
-	letter-spacing: -.06em;
-	color: #f5f7fb;
+.library-section-heading h2 {
+	font-size: 1.35rem;
+	margin: .2rem 0 0;
 }
-.library-hero p:not(.library-kicker) {
-	max-width: 44rem;
-	margin: 1rem 0 0;
-	color: #bac4d3;
-	font-size: clamp(1rem, 2vw, 1.2rem);
-	line-height: 1.65;
-}
-.library-kicker {
-	display: inline-flex;
-	align-items: center;
-	gap: .45rem;
-	margin: 0;
-	color: #7ed7e5;
-	font-size: .76rem;
-	font-weight: 850;
-	letter-spacing: .11em;
-	text-transform: uppercase;
-}
-.library-kicker::before {
-	width: .42rem;
-	height: .42rem;
-	border-radius: 50%;
-	background: currentColor;
-	content: "";
+.library-section-heading a {
+	color: #67d6ea;
+	min-height: 2.75rem;
+	padding: .65rem;
+	text-decoration: none;
 }
 .library-status {
-	min-height: 3rem;
+	background: #0a111c;
+	border: 1px solid rgba(151, 178, 205, .14);
+	border-radius: .8rem;
+	color: #aebdce;
 	margin: 0;
-	padding: .8rem 1rem;
-	border: 1px solid rgba(255, 255, 255, .1);
-	border-radius: var(--radius-m);
-	background: #111722;
-	color: #c4cedc;
+	min-height: 3rem;
+	padding: .8rem .95rem;
 }
 .library-results {
 	display: grid;
-	gap: var(--space-3);
+	gap: .75rem;
 }
+.library-empty,
+.library-error {
+	align-items: center;
+	background: #0a111c;
+	border: 1px dashed rgba(151, 178, 205, .24);
+	border-radius: .9rem;
+	color: #cbd6e3;
+	display: grid;
+	gap: .8rem;
+	grid-template-columns: 2.8rem minmax(0, 1fr);
+	min-height: 8rem;
+	padding: 1rem;
+}
+.library-empty > span,
+.library-error > span {
+	align-items: center;
+	background: #101c29;
+	border-radius: .75rem;
+	color: #64d5e9;
+	display: flex;
+	font-size: 1.25rem;
+	height: 2.8rem;
+	justify-content: center;
+	width: 2.8rem;
+}
+.library-empty strong,
+.library-error strong { color: #f4f1e8; }
+.library-empty p,
+.library-error p { margin: .2rem 0 0; }
+.library-error {
+	border-color: rgba(244, 119, 130, .35);
+}
+.library-error > span { color: #f47782; }

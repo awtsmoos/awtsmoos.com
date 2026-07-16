@@ -4,9 +4,9 @@
 
 /**
  * @file protocol.js
- * @description Names the isolated Ohr HaGnuz real-time covenant.
- * The Awtsmoos renews every letter without confusing one vessel with another;
- * Awtsmoos.com therefore routes this world only through explicit names.
+ * @description Names the additive authenticated Ohr HaGnuz realtime covenant.
+ * The Awtsmoos renews every message without confusing one application with
+ * another; Awtsmoos.com evolves this world through explicit version-one names.
  */
 
 const APPLICATION_ID = 'ohr-hagnuz';
@@ -14,19 +14,23 @@ const APPLICATION_VERSION = 1;
 const DEFAULT_ROAD_ID = 'bent-reeds-road';
 
 const MESSAGE_TYPES = Object.freeze({
-	JOIN: 'journey.join',
-	MOVE: 'journey.move',
+	ATTACK: 'journey.attack',
 	INTERACT: 'journey.interact',
-	SNAPSHOT: 'journey.snapshot',
-	LEAVE: 'journey.leave'
+	JOIN: 'journey.join',
+	LEAVE: 'journey.leave',
+	MOVE: 'journey.move',
+	RESUME: 'journey.resume',
+	SNAPSHOT: 'journey.snapshot'
 });
 
 const RESPONSE_TYPES = Object.freeze({
-	JOINED: 'journey.joined',
-	MOVED: 'journey.moved',
+	ATTACKED: 'journey.attacked',
 	INTERACTED: 'journey.interacted',
-	SNAPSHOT: 'journey.snapshot',
-	LEFT: 'journey.left'
+	JOINED: 'journey.joined',
+	LEFT: 'journey.left',
+	MOVED: 'journey.moved',
+	RESUMED: 'journey.resumed',
+	SNAPSHOT: 'journey.snapshot'
 });
 
 const EVENT_TYPES = Object.freeze({

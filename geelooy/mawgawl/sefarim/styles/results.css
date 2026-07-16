@@ -1,95 +1,111 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Every result reveals readable source text, rank, and provenance on a solid surface.
+ * The Awtsmoos gives every returned segment rank, provenance, relevance, and a calm reading surface.
  */
 .result {
-	display: grid;
-	gap: .9rem;
-	padding: 1.15rem;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: var(--radius-l);
-	background: #111722;
-	box-shadow: 0 .45rem 1.4rem rgba(0, 0, 0, .2);
-	color: #f5f7fb;
+	background: #0a111c;
+	border: 1px solid rgba(151, 178, 205, .15);
+	border-radius: .9rem;
+	color: #f4f1e8;
 	contain: layout paint style;
 	content-visibility: auto;
-	contain-intrinsic-size: auto 18rem;
+	display: grid;
+	gap: .85rem;
+	padding: 1rem;
+}
+.result:is(:hover, :focus-within) {
+	border-color: rgba(85, 208, 231, .26);
 }
 .resultTop {
-	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: .8rem;
+	display: grid;
+	gap: .75rem;
+	grid-template-columns: 2.75rem minmax(0, 1fr) auto;
 }
 .rank {
-	display: grid;
-	width: 2.7rem;
-	height: 2.7rem;
-	place-items: center;
-	border: 1px solid rgba(126, 215, 229, .35);
-	border-radius: .75rem;
-	background: #172433;
-	color: #9ce6f1;
+	align-items: center;
+	background: #101d2b;
+	border: 1px solid rgba(85, 208, 231, .25);
+	border-radius: .72rem;
+	color: #7ee0f0;
+	display: flex;
 	font-weight: 900;
+	height: 2.75rem;
+	justify-content: center;
+	width: 2.75rem;
 }
 .result .eyebrow {
-	margin: 0;
-	color: #8ed9e6;
-	font-size: .73rem;
+	color: #6ed8ea;
+	font-size: .7rem;
 	font-weight: 850;
 	letter-spacing: .08em;
+	margin: 0;
 	text-transform: uppercase;
 }
 .result h2 {
-	margin: .15rem 0 0;
-	color: #f5f7fb;
-	font-size: clamp(1.1rem, 2vw, 1.45rem);
-	line-height: 1.2;
+	font-size: clamp(1.05rem, 2vw, 1.35rem);
+	line-height: 1.25;
+	margin: .18rem 0 0;
 	overflow-wrap: anywhere;
 }
 .score {
-	color: #c5cfdd;
-	font-size: .82rem;
+	background: rgba(216, 185, 109, .07);
+	border: 1px solid rgba(216, 185, 109, .16);
+	border-radius: 999px;
+	color: #e0c986;
+	font-size: .76rem;
+	padding: .36rem .52rem;
 	white-space: nowrap;
 }
 .meter {
-	overflow: hidden;
-	height: .35rem;
+	background: rgba(151, 178, 205, .1);
 	border-radius: 999px;
-	background: rgba(255, 255, 255, .08);
+	height: .3rem;
+	overflow: hidden;
 }
 .meter i {
-	display: block;
-	width: var(--relevance);
-	height: 100%;
+	background: linear-gradient(90deg, #43c9e2, #76dfbb);
 	border-radius: inherit;
-	background: #58c7d8;
+	display: block;
+	height: 100%;
+	width: var(--relevance);
 }
 .rangePreview {
+	color: #e7edf5;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.02rem, 2vw, 1.16rem);
+	line-height: 1.78;
 	margin: 0;
-	color: #eef2f8;
-	font-size: clamp(1rem, 2vw, 1.12rem);
-	line-height: 1.72;
 	white-space: pre-wrap;
 }
+.rangePreview mark {
+	background: rgba(216, 185, 109, .16);
+	border-radius: .2rem;
+	color: #f6e4ae;
+	padding: 0 .12rem;
+}
 .rangeMeta {
-	padding: .75rem;
-	border-radius: .75rem;
-	background: #0c121c;
-	color: #aeb9c9;
-	font-size: .8rem;
+	background: #070d16;
+	border: 1px solid rgba(151, 178, 205, .1);
+	border-radius: .7rem;
+	color: #8fa0b4;
+	font-size: .76rem;
 	line-height: 1.5;
+	padding: .7rem;
 }
-.library-empty,
-.library-error {
-	padding: 1.25rem;
-	border: 1px dashed rgba(255, 255, 255, .2);
-	border-radius: var(--radius-l);
-	background: #111722;
-	color: #dce3ed;
+.library-load-more {
+	background: #0e1a27;
+	border: 1px solid rgba(85, 208, 231, .24);
+	border-radius: .8rem;
+	color: #8be4f2;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 800;
+	min-height: 3.25rem;
+	padding: .75rem 1rem;
+	width: 100%;
 }
-.library-error {
-	border-color: rgba(255, 127, 145, .45);
-	color: #ffd9de;
+.library-load-more:is(:hover, :focus-visible) {
+	background: #132334;
+	border-color: rgba(85, 208, 231, .5);
+	outline: 0;
 }

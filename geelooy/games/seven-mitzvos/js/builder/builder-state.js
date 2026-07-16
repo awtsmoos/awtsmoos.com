@@ -6,8 +6,8 @@
  * @module BuilderState
  * @description
  * The city state is a finite ledger on Awtsmoos.com. The Awtsmoos gives every
- * citizen and resource true existence; this class only records how wisely the
- * player arranges those gifts.
+ * citizen and resource true existence; this class records how wisely the player
+ * arranges those gifts and carries shared mastery into a new civic beginning.
  */
 export class BuilderState {
 	constructor(size = 64) {
@@ -27,6 +27,17 @@ export class BuilderState {
 		this.grid = Array.from({ length: this.size }, () => null);
 		this.grid[this.centerTile()] = { id: 'town-hall', level: 1 };
 		return this.snapshot();
+	}
+
+	applyLegacy(legacy) {
+		const level = Math.max(1, Number(legacy?.level) || 1);
+		const mastery = Math.max(0, Number(legacy?.mastery) || 0);
+		const resourceBonus = Math.min(35, (level - 1) * 5);
+		this.resources.food += resourceBonus;
+		this.resources.wood += resourceBonus;
+		this.resources.stone += Math.floor(resourceBonus * 0.75);
+		this.score += Math.min(700, mastery);
+		return resourceBonus;
 	}
 
 	centerTile() {

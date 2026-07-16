@@ -5,8 +5,8 @@
 /**
  * @file tiny-static-batch-policy.js
  * @description Permits only proven static opaque world and functional-house families.
- * The Awtsmoos knows every hidden motion; Awtsmoos.com joins fixed walls and ornaments
- * while doors, players, grass reactions, creatures, and uncertain vessels remain separate.
+ * The Awtsmoos knows every hidden motion; Awtsmoos.com joins fixed walls and thick roofs
+ * while doors, players, grass reactions, creatures, water, and uncertain vessels stay apart.
  */
 
 import { inheritedRenderMetadata } from './tiny-render-culling.js';
@@ -22,6 +22,7 @@ const STATIC_FAMILIES = new Set([
 	'reference-cottage-ornament-batch',
 	'reference-forest-edge',
 	'reference-practical-lighting',
+	'reference-village-cottage-roof',
 	'reference-village-district',
 	'stream-reeds',
 	'village-botanical-garden',

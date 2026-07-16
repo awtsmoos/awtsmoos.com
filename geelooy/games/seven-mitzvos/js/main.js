@@ -18,49 +18,43 @@ import { BuilderSaveStore } from './builder/save-store.js';
 import { BuilderSession } from './builder/builder-session.js';
 import { BuilderEngine } from './builder/builder-engine.js';
 import { mountSevenWorlds } from './universe/universe-bootstrap.js';
+import { CampaignStore } from './campaign/campaign-store.js';
+import { CampaignEngine } from './campaign/campaign-engine.js';
+import { CampaignRewardApplicator } from './campaign/rewards/reward-applicator.js';
 import { TzomayachLandscapeRenderer } from './render/landscape.js';
 import { GameView } from './ui/game-view.js';
 import { BuilderView } from './ui/builder-view.js';
 import { MitzvahGallery } from './ui/mitzvah-gallery.js';
+import { galleryElements, gameElements, requiredElement } from './ui/app-elements.js';
 
 /**
  * @module SevenMitzvosMain
  * @description
- * Seven independent worlds, two preserved shared games, a learning gallery,
- * and one fast landscape gather on Awtsmoos.com. The Awtsmoos gives each vessel
- * its purpose without permitting any new revelation to erase an earlier path.
+ * Seven Provinces, seven independent worlds, two shared games, and clear learning
+ * gather on Awtsmoos.com. The Awtsmoos gives each vessel purpose without allowing
+ * a new revelation, reward, or save to erase an earlier path.
  */
 const landscape = new TzomayachLandscapeRenderer(requiredElement('landscapeCanvas'));
 const universe = mountSevenWorlds(requiredElement('universeMount'));
-const gameView = new GameView({
-	section: requiredElement('gameSection'),
-	launch: requiredElement('beginGame'),
-	start: requiredElement('startGame'),
-	board: requiredElement('gameBoard'),
-	prompt: requiredElement('gamePrompt'),
-	answers: requiredElement('answerGrid'),
-	feedback: requiredElement('gameFeedback'),
-	score: requiredElement('gameScore'),
-	streak: requiredElement('gameStreak'),
-	round: requiredElement('gameRound'),
-	best: requiredElement('gameBest'),
-	light: requiredElement('lightFill'),
-	progress: requiredElement('roundFill'),
-	time: requiredElement('timeFill')
-});
+const campaignStore = new CampaignStore();
+const builderStore = new BuilderSaveStore();
+const builderState = new BuilderState(64);
+builderState.applyLegacy(universe.progress.legacy());
+const rewardApplicator = new CampaignRewardApplicator(campaignStore);
+const rewardResult = rewardApplicator.applyToEligibleNewCity(builderState, builderStore);
+const campaign = new CampaignEngine(requiredElement('campaignMount'), campaignStore);
 const game = new GameEngine({
 	state: new GameState(12),
 	deck: new QuestionDeck(SCENARIOS, MITZVOS),
-	view: gameView
+	view: new GameView(gameElements())
 });
-const builderState = new BuilderState(64);
-builderState.applyLegacy(universe.progress.legacy());
 const builderView = new BuilderView(
 	requiredElement('builderMount'),
 	requiredElement('beginBuilder'),
 	BUILDINGS,
 	BUILDING_BY_ID,
-	FOUNDATIONS
+	FOUNDATIONS,
+	rewardApplicator.permanentUnlocks()
 );
 const builder = new BuilderEngine({
 	state: builderState,
@@ -69,33 +63,19 @@ const builder = new BuilderEngine({
 	resources: new ResourceRules(),
 	crises: new CrisisEngine(CRISES, FOUNDATIONS),
 	tiers: new TierEngine(),
-	session: new BuilderSession(new BuilderSaveStore())
+	session: new BuilderSession(builderStore)
 });
-const gallery = new MitzvahGallery({
-	grid: requiredElement('mitzvahGrid'),
-	dialog: requiredElement('mitzvahDialog'),
-	close: requiredElement('closeDialog'),
-	number: requiredElement('dialogNumber'),
-	symbol: requiredElement('dialogSymbol'),
-	title: requiredElement('dialogTitle'),
-	summary: requiredElement('dialogSummary'),
-	practice: requiredElement('dialogPractice')
-}, MITZVOS);
+const gallery = new MitzvahGallery(galleryElements(), MITZVOS);
 
+if (rewardResult.applied) {
+	builder.event = rewardResult.message;
+}
 gallery.mount();
 game.mount();
 builder.mount();
 landscape.start();
 window.addEventListener('pagehide', () => {
+	campaign.destroy();
 	universe.destroy();
 	landscape.destroy();
 }, { once: true });
-
-/** @param {string} id @returns {HTMLElement} Existing required element. */
-function requiredElement(id) {
-	const element = document.getElementById(id);
-	if (!element) {
-		throw new Error(`Missing required element: ${id}`);
-	}
-	return element;
-}

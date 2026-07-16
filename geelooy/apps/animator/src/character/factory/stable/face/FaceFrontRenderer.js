@@ -1,72 +1,109 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 import { StableShapeKit as S } from '../StableShapeKit.js';
 import { EyeRenderer } from './EyeRenderer.js';
-import { NoseRenderer } from './NoseRenderer.js';
 import { MouthRenderer } from './MouthRenderer.js';
+import { NoseRenderer } from './NoseRenderer.js';
+import { StableBrowRenderer } from './StableBrowRenderer.js';
+import { StableFaceShape2D } from './StableFaceShape2D.js';
 
-/** Front face with visible facePose consumption. */
+/**
+ * The Awtsmoos renews a frontal face as a living arrangement of measured cheeks,
+ * eyes, brows, nose, and mouth. Awtsmoos.com preserves expression and likeness
+ * through the same rig and performance state instead of a fixed illustration.
+ */
 export class FaceFrontRenderer {
-  static build(kind, data, c, m, view, beard) {
-    const mood = this.mood(data);
-    const blink = this.blink(data);
-    return S.group(`${kind}_face_front`, { x: view.head.offsetX, scaleX: view.head.scaleX }, [
-      G.ellipse(`${kind}_head`, 0, m.headY, m.headRX, m.headRY, 0, { fill: c.skin, stroke: c.line, lineWidth: 4 }),
-      G.ellipse(`${kind}_ear_l`, -m.headRX, m.headY, 7, 12, 0, { fill: c.skinDark, stroke: c.line, lineWidth: 2.2 }),
-      G.ellipse(`${kind}_ear_r`, m.headRX, m.headY, 7, 12, 0, { fill: c.skinDark, stroke: c.line, lineWidth: 2.2 }),
-      ...EyeRenderer.build(kind, c, m, view, mood, blink, data),
-      ...this.brows(kind, c, m, view, mood),
-      NoseRenderer.build(kind, c, m, view),
-      this.cheeks(kind, c, m, mood),
-      MouthRenderer.build(kind, data, c, m, view, mood),
-      beard ? this.beard(kind, c, m) : null
-    ]);
-  }
+	static build(kind, data, colors, metrics, view, beard) {
+		const mood = this.mood(data);
+		const blink = this.blink(data);
+		return S.group(`${kind}_face_front`, {
+			x: view.head.offsetX,
+			scaleX: view.head.scaleX
+		}, [
+			StableFaceShape2D.build(kind, data, colors, metrics, view),
+			...this.ears(kind, data, colors, metrics),
+			...EyeRenderer.build(kind, colors, metrics, view, mood, blink, data),
+			...StableBrowRenderer.build(kind, data, colors, metrics, view, mood),
+			NoseRenderer.build(kind, colors, metrics, view, data),
+			this.cheeks(kind, data, colors, metrics, mood),
+			MouthRenderer.build(kind, data, colors, metrics, view, mood),
+			beard ? this.beard(kind, colors, metrics) : null
+		]);
+	}
 
-  static mood(data = {}) {
-    const face = data._stablePose?.face || {};
-    const rp = data.renderPerformance?.face || {};
-    if (Object.keys(face).length || Object.keys(rp).length) {
-      return {
-        brow: Number(face.browOuter ?? rp.browOuter ?? 0) * -18,
-        browInner: Number(face.browInner ?? rp.browInner ?? 0),
-        browPinch: Number(face.browPinch ?? rp.browSqueeze ?? 0),
-        smile: Number(face.mouthSmile ?? rp.mouthSmileAmount ?? 0),
-        squint: Number(face.squint ?? rp.squintAmount ?? (1 - Number(face.eyeOpen ?? rp.eyeOpenAmount ?? 1))),
-        mouthOpen: Number(face.mouthOpen ?? rp.mouthOpenAmount ?? 0),
-        cheekLift: Number(face.cheekLift ?? rp.cheekRaiseAmount ?? 0),
-        blush: Number(rp.blushAmount || 0)
-      };
-    }
-    const map = { happy: { brow: -4, smile: 1, squint: 0.05 }, excited: { brow: -7, smile: 0.85, squint: 0 }, focused: { brow: 3, smile: 0, squint: 0.15 }, surprised: { brow: -8, smile: 0.2, squint: -0.08 }, neutral: { brow: 0, smile: 0.05, squint: 0 } };
-    return map[data.emotion] || map.neutral;
-  }
+	static ears(kind, data, colors, metrics) {
+		const scale = Number(data.faceStyle?.earScale || 1);
+		return [-1, 1].map(side => G.ellipse(
+			`${kind}_ear_${side}`,
+			side * metrics.headRX,
+			metrics.headY,
+			7 * scale,
+			12 * scale,
+			0,
+			{ fill: colors.skinDark, stroke: colors.line, lineWidth: 2.2 }
+		));
+	}
 
-  static blink(data = {}) {
-    const rp = data.renderPerformance?.face || {};
-    if (Number(rp.blinkAmount || 0) > 0) return Number(rp.blinkAmount);
-    const time = Number(data._renderTime || 0);
-    return ((time * 0.0017 + Number(data._index || 0)) % 5.4) < 0.11 ? 0.82 : 0;
-  }
+	static mood(data = {}) {
+		const pose = data._stablePose?.face || {};
+		const face = data.renderPerformance?.face || {};
+		if (Object.keys(pose).length || Object.keys(face).length) {
+			return {
+				brow: Number(pose.browOuter ?? face.browOuter ?? 0) * -18,
+				browInner: Number(pose.browInner ?? face.browInner ?? 0),
+				browPinch: Number(pose.browPinch ?? face.browSqueeze ?? 0),
+				smile: Number(pose.mouthSmile ?? face.mouthSmileAmount ?? 0),
+				squint: Number(pose.squint ?? face.squintAmount ?? (1 - Number(pose.eyeOpen ?? face.eyeOpenAmount ?? 1))),
+				mouthOpen: Number(pose.mouthOpen ?? face.mouthOpenAmount ?? 0),
+				cheekLift: Number(pose.cheekLift ?? face.cheekRaiseAmount ?? 0),
+				blush: Number(face.blushAmount || 0)
+			};
+		}
+		const map = {
+			happy: { brow: -4, smile: 1, squint: 0.05, cheekLift: 0.45 },
+			skeptical: { brow: 2.8, smile: -0.45, squint: 0.2, browPinch: 0.38 },
+			calm: { brow: -0.6, smile: 0.22, squint: 0.04, cheekLift: 0.08 },
+			excited: { brow: -7, smile: 0.85, squint: 0 },
+			focused: { brow: 3, smile: 0, squint: 0.15 },
+			surprised: { brow: -8, smile: 0.2, squint: -0.08 },
+			neutral: { brow: 0, smile: 0.05, squint: 0 }
+		};
+		return map[data.emotion] || map.neutral;
+	}
 
-  static brows(kind, c, m, view, mood) {
-    return [-1, 1].map(side => {
-      const pinch = Number(mood.browPinch || 0) * (side < 0 ? 1 : -1) * 2.3;
-      const inner = Number(mood.browInner || 0) * -5;
-      return G.path(`${kind}_brow_${side}`, [
-        { type: 'move', x: side * view.head.eyeSpread - side * 8 + pinch, y: m.headY - 25 + side * mood.brow * 0.22 + inner },
-        { type: 'line', x: side * view.head.eyeSpread + side * 8, y: m.headY - 27 - side * mood.brow * 0.22 }
-      ], { stroke: c.line, lineWidth: 3.5, lineCap: 'round' });
-    });
-  }
+	static blink(data = {}) {
+		const face = data.renderPerformance?.face || {};
+		if (Number(face.blinkAmount || 0) > 0) {
+			return Number(face.blinkAmount);
+		}
+		const time = Number(data._renderTime || 0);
+		return ((time * 0.0017 + Number(data._index || 0)) % 5.4) < 0.11 ? 0.82 : 0;
+	}
 
-  static cheeks(kind, c, m, mood = {}) {
-    const lift = Math.max(0.1, Number(mood.cheekLift || 0));
-    const alpha = Math.min(0.45, 0.14 + lift * 0.38 + Number(mood.blush || 0) * 0.25);
-    return S.group(`${kind}_cheeks`, null, [-1, 1].map(side => G.ellipse(`${kind}_cheek_${side}`, side * 19, m.headY + 11 - lift * 2, 6 + lift * 2, 4 + lift, 0, { fill: c.blush || `rgba(255,120,120,${alpha})`, stroke: 'rgba(0,0,0,0)', lineWidth: 0 })));
-  }
+	static cheeks(kind, data, colors, metrics, mood = {}) {
+		const lift = Math.max(0.05, Number(mood.cheekLift || 0));
+		const style = data.faceStyle || {};
+		const alpha = Math.min(0.42, 0.08 + lift * 0.32 + Number(mood.blush || 0) * 0.25);
+		return S.group(`${kind}_cheeks`, null, [-1, 1].map(side => G.ellipse(
+			`${kind}_cheek_${side}`,
+			side * Number(style.cheekX || 19),
+			metrics.headY + Number(style.cheekY || 11) - lift * 2,
+			Number(style.cheekRX || 6) + lift * 2,
+			Number(style.cheekRY || 4) + lift,
+			0,
+			{ fill: colors.blush || `rgba(255,120,120,${alpha})`, stroke: 'rgba(0,0,0,0)', lineWidth: 0 }
+		)));
+	}
 
-  static beard(kind, c, m) {
-    return G.path(`${kind}_beard`, [{ type: 'move', x: -27, y: m.headY + 23 }, { type: 'quad', cx: -18, cy: m.headY + 72, x: 0, y: m.beardBottomY }, { type: 'quad', cx: 18, cy: m.headY + 72, x: 27, y: m.headY + 23 }, { type: 'quad', cx: 0, cy: m.headY + 42, x: -27, y: m.headY + 23 }], { fill: c.beard, stroke: c.line, lineWidth: 3.2, lineJoin: 'round' });
-  }
+	static beard(kind, colors, metrics) {
+		return G.path(`${kind}_beard`, [
+			{ type: 'move', x: -27, y: metrics.headY + 23 },
+			{ type: 'quad', cx: -18, cy: metrics.headY + 72, x: 0, y: metrics.beardBottomY },
+			{ type: 'quad', cx: 18, cy: metrics.headY + 72, x: 27, y: metrics.headY + 23 },
+			{ type: 'quad', cx: 0, cy: metrics.headY + 42, x: -27, y: metrics.headY + 23 }
+		], { fill: colors.beard, stroke: colors.line, lineWidth: 3.2, lineJoin: 'round' });
+	}
 }

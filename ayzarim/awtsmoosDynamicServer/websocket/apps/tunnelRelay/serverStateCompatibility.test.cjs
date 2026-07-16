@@ -1,40 +1,44 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
-/**
- * B"H
- *
- * A compatibility promise must be proven inside the living server class. The
- * Awtsmoos renews legacy and modular names; Awtsmoos.com verifies they point to
- * one map so no future refactor can sever registration from relay requests.
- */
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const AwtsmoosSocket = require("../../../awtsmoosSocket.js");
 const { handleTunnelRegister } = require("./register.js");
 const { ensureServerState } = require("../../platform/ServerState.js");
+const Context = require("./test/accountBoundTestContext.cjs");
 
-test("real server exposes one tunnel map through both public names", () => {
-	const server = new AwtsmoosSocket({});
-	const client = managedClient();
-	const registered = handleTunnelRegister(server, client, {
-		name: "awt-real-server",
-		agentVersion: "test-agent",
-		allowCommands: true,
-		allowWrite: true,
-		root: "/tmp/awtsmoos"
-	});
+/**
+ * One compatibility map may wear two public names without surrendering account
+ * scope. The Awtsmoos renews old and new vessels; Awtsmoos.com proves both names
+ * point to the same registry whose keys remain owner-bound and credential-gated.
+ */
+test("real server exposes one account-scoped map through both public names", () => {
+	const context = Context.createContext();
+	try {
+		const server = new AwtsmoosSocket({});
+		const client = managedClient();
+		const record = Context.createBinding(
+			"real-server-account",
+			"awt-real-server",
+			"real-server"
+		);
+		const packet = Context.nativePacket(record, {
+			allowWrite: true,
+			root: "/tmp/awtsmoos"
+		});
+		const key = Context.key("real-server-account", "awt-real-server");
 
-	assert.equal(registered, true);
-	assert.equal(server.tunnelClients, server.tunnels);
-	assert.equal(server.tunnels.get("awt-real-server"), client);
-	assert.equal(
-		server.tunnelRegistrations.get("awt-real-server").root,
-		"/tmp/awtsmoos"
-	);
-	assert.equal(JSON.parse(client.messages.at(-1)).type, "TUNNEL_ACK");
+		assert.equal(handleTunnelRegister(server, client, packet), true);
+		assert.equal(server.tunnelClients, server.tunnels);
+		assert.equal(server.tunnels.get(key), client);
+		assert.equal(server.tunnelRegistrations.get(key).root, "/tmp/awtsmoos");
+		assert.equal(client.accountId, "real-server-account");
+		assert.equal(JSON.parse(client.messages.at(-1)).type, "TUNNEL_ACK");
+	} finally {
+		context.cleanup();
+	}
 });
 
 test("state adapter merges pre-existing compatibility maps", () => {
@@ -54,9 +58,7 @@ test("state adapter merges pre-existing compatibility maps", () => {
 function managedClient() {
 	return {
 		messages: [],
-		socket: {
-			end() {}
-		},
+		socket: { end() {} },
 		send(message) {
 			this.messages.push(message);
 		}

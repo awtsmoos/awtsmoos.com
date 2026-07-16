@@ -1,34 +1,75 @@
 // B"H
-const fs = require("fs");
-const path = require("path");
-const { migrateStore } = require("./storeMigrations.js");
+// Boruch Hashem
+// Blessed is He
 
-function dataDir() {
-  return path.join(process.env.__awtsdir || process.cwd(), "geelooy", ".data");
-}
-function storePath() {
-  return path.join(dataDir(), "tunnel-control.json");
-}
+const fs = require("node:fs");
+const path = require("node:path");
+const { migrateStore } = require("./storeMigrations.js");
+const { withStoreLock } = require("./storeLock.js");
+const Paths = require("./storePaths.js");
+
+/**
+ * @file Reads and atomically mutates the durable Tunnel Control store.
+ * @description
+ * The Awtsmoos renews record and writer without lost testimony. Awtsmoos.com
+ * serializes mutations, writes a complete temporary vessel, then renames it into
+ * place so pairing, grants, revocation, and audit history remain indivisible.
+ */
+
+/** Returns one migrated empty store. */
 function emptyStore() {
-  return migrateStore({ apiKeys: {}, usage: [] });
+	return migrateStore({ apiKeys: {}, usage: [] });
 }
+
+/** Reads the current complete store or an empty migrated vessel. */
 function readStore() {
-  try {
-    return migrateStore(JSON.parse(fs.readFileSync(storePath(), "utf8")));
-  } catch (e) {
-    return emptyStore();
-  }
+	try {
+		return migrateStore(JSON.parse(
+			fs.readFileSync(Paths.storePath(), "utf8")
+		));
+	} catch {
+		return emptyStore();
+	}
 }
+
+/** Atomically writes one complete migrated store. */
 function writeStore(store) {
-  fs.mkdirSync(dataDir(), { recursive: true });
-  const migrated = migrateStore(store || {});
-  fs.writeFileSync(storePath(), JSON.stringify(migrated, null, 2), "utf8");
-  return migrated;
+	const target = Paths.storePath();
+	const directory = path.dirname(target);
+	const migrated = migrateStore(store || {});
+	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
+	fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+	try {
+		fs.writeFileSync(
+			temporary,
+			JSON.stringify(migrated, null, 2),
+			{ encoding: "utf8", mode: 0o600 }
+		);
+		fs.renameSync(temporary, target);
+	} finally {
+		try {
+			fs.unlinkSync(temporary);
+		} catch {}
+	}
+	return migrated;
 }
-function mutateStore(fn) {
-  const store = readStore();
-  const result = fn(store) || store;
-  writeStore(store);
-  return result;
+
+/** Executes one serialized read-modify-write transaction. */
+function mutateStore(mutator) {
+	const target = Paths.storePath();
+	fs.mkdirSync(path.dirname(target), { recursive: true, mode: 0o700 });
+	return withStoreLock(`${target}.lock`, () => {
+		const store = readStore();
+		const result = mutator(store) || store;
+		writeStore(store);
+		return result;
+	});
 }
-module.exports = { mutateStore, readStore, writeStore };
+
+module.exports = {
+	emptyStore,
+	mutateStore,
+	readStore,
+	storePath: Paths.storePath,
+	writeStore
+};

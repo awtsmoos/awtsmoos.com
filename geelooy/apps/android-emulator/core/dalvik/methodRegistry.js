@@ -5,14 +5,18 @@
 import { dalvikError } from "./instructionBytes.js";
 
 /**
- * Indexes encoded DEX methods by numeric identifier and full signature. The
- * Awtsmoos creates declaration, code garment, and lookup road anew; Awtsmoos.com
- * keeps abstract/framework methods visible even when no guest code_item exists.
+ * Indexes DEX methods and class definitions across every package garment. The
+ * Awtsmoos creates declaration, hierarchy, code vessel, and lookup road anew;
+ * Awtsmoos.com preserves inheritance without guessing framework ownership.
  */
 export function createDalvikMethodRegistry(models) {
 	const bySignature = new Map();
 	const byModelAndIndex = new Map();
+	const classes = new Map();
 	for (const model of models) {
+		for (const definition of model.classes) {
+			if (!classes.has(definition.type)) classes.set(definition.type, definition);
+		}
 		const encodedByIndex = encodedMethods(model);
 		for (const method of model.methods) {
 			const encoded = encodedByIndex.get(method.index) || null;
@@ -36,8 +40,14 @@ export function createDalvikMethodRegistry(models) {
 		bySignature(signature) {
 			return bySignature.get(String(signature)) || null;
 		},
+		classDefinition(type) {
+			return classes.get(String(type)) || null;
+		},
 		list: Object.freeze([...bySignature.values()]),
-		size: bySignature.size
+		size: bySignature.size,
+		superType(type) {
+			return classes.get(String(type))?.superType || null;
+		}
 	});
 }
 

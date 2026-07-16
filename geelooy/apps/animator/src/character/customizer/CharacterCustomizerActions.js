@@ -2,13 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+import { ReferenceCharacterCatalog } from '../reference/ReferenceCharacterCatalog.js';
+import { ReferenceTrioInstaller } from '../reference/ReferenceTrioInstaller.js';
 import { CharacterDesignProposalService } from './CharacterDesignProposalService.js';
 import { CharacterDesignSchema } from './CharacterDesignSchema.js';
 
 /**
- * User intent becomes explicit actions here. The Awtsmoos renews proposal,
- * approval, save, load, JSON validation, and export while Awtsmoos.com keeps the
- * panel coordinator small and every side effect plainly inspectable.
+ * The Awtsmoos turns intention into explicit state transitions. Awtsmoos.com
+ * keeps reference selection, approval, persistence, and export inspectable.
  */
 export class CharacterCustomizerActions {
 	static async propose(root, rerender) {
@@ -18,18 +19,40 @@ export class CharacterCustomizerActions {
 			root.__design
 		);
 		rerender();
-		this.status(
-			root,
-			`Proposal ready via ${root.__design.ai.provider}. Review before applying.`
-		);
+		this.status(root, `Proposal ready via ${root.__design.ai.provider}. Review before applying.`);
+	}
+
+	static preset(root, id, rerender) {
+		const design = ReferenceCharacterCatalog.design(id);
+		if (!design) {
+			this.status(root, `Unknown reference preset: ${id}`);
+			return;
+		}
+		root.__design = CharacterDesignSchema.create(design);
+		rerender();
+		this.status(root, `${root.__design.name} loaded as editable JSON.`);
+	}
+
+	static trio(root) {
+		const sequence = ReferenceTrioInstaller.install(root.__store?.app, {
+			force: true
+		});
+		this.status(root, sequence
+			? 'All three dynamic reference characters loaded into the real scene.'
+			: 'The live application state was unavailable.');
 	}
 
 	static apply(root) {
+		const referenceCharacter = ReferenceCharacterCatalog.character(root.__design.id);
+		if (referenceCharacter) {
+			ReferenceTrioInstaller.addCharacter(root.__store?.app, referenceCharacter.id);
+			root.__store.save(root.__design);
+			this.status(root, `${referenceCharacter.name} added with the complete reference rig.`);
+			this.library(root);
+			return;
+		}
 		const character = root.__store.apply(root.__design);
-		this.status(
-			root,
-			`${character.name} added to the real scene and local library.`
-		);
+		this.status(root, `${character.name} added to the real scene and local library.`);
 		this.library(root);
 	}
 
@@ -72,10 +95,9 @@ export class CharacterCustomizerActions {
 	}
 
 	static export(root) {
-		const blob = new Blob(
-			[JSON.stringify(root.__design, null, 2)],
-			{ type: 'application/json' }
-		);
+		const blob = new Blob([
+			JSON.stringify(root.__design, null, 2)
+		], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
 		const anchor = Object.assign(document.createElement('a'), {
 			href: url,

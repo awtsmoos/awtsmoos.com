@@ -22,14 +22,14 @@ test('campaign contains five worlds with five named levels each', () => {
 	}
 });
 
-test('ordinary level completion pauses for its configured transition', () => {
-	const state = new GameState();
+test('ordinary level completion pauses for a route before blessing', () => {
+	const state = new GameState({}, 1234);
 	const campaign = new CampaignDirector();
 	state.running = true;
 	state.levelProgress = GAME.levelDistance;
 	campaign.update(state);
 	assert.equal(state.paused, true);
-	assert.equal(state.transitionRequest, 'blessing');
+	assert.equal(state.transitionRequest, 'route');
 	assert.equal(state.pendingAdvance, true);
 });
 

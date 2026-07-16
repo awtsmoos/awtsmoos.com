@@ -4,17 +4,22 @@
 
 /**
  * @file tiny-texture-state.js
- * @description Captures only shader-visible texture state, never wrapper-object identity.
- * The Awtsmoos renews each garment by its revealed image and measure; Awtsmoos.com
- * lets equal GPU decrees remain equal even when separate JavaScript vessels carry them.
+ * @description Captures base, secondary, and ordered terrain texture state.
+ * The Awtsmoos renews one garment through many revealed layers; Awtsmoos.com skips a GPU
+ * declaration only when every base image, stacked mix image, repeat, and strength is unchanged.
  */
 
+import {
+	layeredTextureState,
+	sameLayeredTextureState
+} from './tiny-layered-texture-state.js';
 import { sourceReady } from './tiny-texture-source.js';
 
 export function textureState(material = {}) {
 	const mapRepeat = material.mapRepeat || [1, 1];
 	const mixRepeat = material.mixRepeat || [1, 1];
 	return {
+		layers: layeredTextureState(material),
 		mapImage: material.mapImage || null,
 		mapReady: sourceReady(material.mapImage),
 		mapRepeat0: mapRepeat[0],
@@ -41,5 +46,6 @@ export function sameTextureState(left, right) {
 		&& left.mixRepeat1 === right.mixRepeat1
 		&& left.mixStrength === right.mixStrength
 		&& left.patchScale === right.patchScale
-		&& left.patchSharpness === right.patchSharpness;
+		&& left.patchSharpness === right.patchSharpness
+		&& sameLayeredTextureState(left.layers, right.layers);
 }

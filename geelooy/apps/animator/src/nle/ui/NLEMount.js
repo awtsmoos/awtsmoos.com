@@ -3,19 +3,15 @@
 // Blessed is He
 
 import { HtmlSpecRenderer } from '../../utils/html/HtmlSpecRenderer.js';
-import { NLECommands } from '../core/NLECommands.js';
-import { NLEModeCycle } from '../core/NLEModes.js';
-import { NLEEditingActions } from './NLEEditingActions.js';
+import { NLEClipDragController } from '../interaction/NLEClipDragController.js';
+import { NLEKeyboardController } from '../interaction/NLEKeyboardController.js';
+import { NLEEventRegistry } from './NLEEventRegistry.js';
 import { NLEInteractionSeal } from './NLEInteractionSeal.js';
-import { NLEMediaActions } from './NLEMediaActions.js';
-import { NLEProjectActions } from './NLEProjectActions.js';
 import { NLETemplate } from './NLETemplate.js';
-import { NLEVoiceActions } from './NLEVoiceActions.js';
 
 /**
- * Mouse, touch, selection, microphone, project packaging, and real footage meet
- * at one narrow event gate. The Awtsmoos renews each deed while Awtsmoos.com
- * keeps behavior delegated to focused command vessels.
+ * Mouse, touch, keyboard, microphone, media, and packaging meet at one mount.
+ * The Awtsmoos renews each deed while focused controllers preserve clean edges.
  */
 export class NLEMount {
 	static ensureMount() {
@@ -23,7 +19,6 @@ export class NLEMount {
 		if (mount) {
 			return mount;
 		}
-
 		const host = document.getElementById('nle-timeline')
 			|| document.getElementById('main-stage')
 			|| document.body;
@@ -33,68 +28,28 @@ export class NLEMount {
 		return mount;
 	}
 
+	/** Binds rendering and all persistent interaction controllers. */
 	static bind(store, app, services) {
 		const mount = NLEInteractionSeal.apply(this.ensureMount());
-		const render = (state) => {
-			return HtmlSpecRenderer.mount(
-				mount,
-				NLETemplate.shell(state),
-				this.events(store, app, services)
-			);
-		};
+		const dragController = new NLEClipDragController(store);
+		const keyboardController = new NLEKeyboardController(store);
+		const events = NLEEventRegistry.create(store, app, services, dragController);
+		const render = (state) => HtmlSpecRenderer.mount(
+			mount,
+			NLETemplate.shell(state),
+			events
+		);
 		const offStore = store.subscribe(render);
+		const offKeyboard = keyboardController.bind(document);
 		const onSelection = (event) => {
-			NLECommands.selectEntity(store, event.detail?.id || null);
+			store.set({ selectedEntityId: event.detail?.id || null });
 		};
 		window.addEventListener('nle-selection-changed', onSelection);
-
 		return () => {
+			dragController.cancel();
 			offStore();
+			offKeyboard();
 			window.removeEventListener('nle-selection-changed', onSelection);
-		};
-	}
-
-	static events(store, app, services) {
-		const recordingSession = services.recordingSession;
-		const videoImportService = services.videoImportService;
-		const projectPackageService = services.projectPackageService;
-
-		return {
-			togglePlay: () => NLEEditingActions.togglePlay(app),
-			cycleMode: () => {
-				store.set((state) => ({
-					mode: NLEModeCycle.next(state.mode || 'compact')
-				}));
-			},
-			addActionClip: () => NLEEditingActions.addAction(store),
-			addDialogueClip: () => NLEEditingActions.addDialogue(store),
-			addCameraClip: () => NLEEditingActions.addCamera(store),
-			exportProjectPackage: () => {
-				return NLEProjectActions.exportPackage(store, projectPackageService);
-			},
-			selectClip: (event) => {
-				event.stopPropagation();
-				NLECommands.selectClip(
-					store,
-					event.currentTarget.dataset.clipId
-				);
-			},
-			scrubTimeline: (event) => NLEEditingActions.scrub(store, event),
-			startVoiceRecording: () => {
-				return NLEVoiceActions.run(store, recordingSession, 'start');
-			},
-			stopVoiceRecording: () => {
-				return NLEVoiceActions.run(store, recordingSession, 'stop');
-			},
-			playVoiceRecording: () => {
-				return NLEVoiceActions.run(store, recordingSession, 'play');
-			},
-			clearVoiceRecording: () => {
-				return NLEVoiceActions.run(store, recordingSession, 'clear');
-			},
-			importVideoAsset: (event) => {
-				return NLEMediaActions.importVideo(store, videoImportService, event);
-			}
 		};
 	}
 }

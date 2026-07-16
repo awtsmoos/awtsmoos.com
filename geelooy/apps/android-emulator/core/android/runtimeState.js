@@ -14,7 +14,7 @@ import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates content, network, preferences, files, graphics, heap, and logs anew;
+ * creates content, hierarchy, network, files, graphics, heap, and logs anew;
  * Awtsmoos.com keeps every host capability explicit inside the virtual boundary.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
@@ -33,6 +33,7 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		packageSet,
 		preferences: createPreferenceState(options),
 		processId: processIdentifier(options.processId),
+		registry: options.registry || null,
 		renderers: [],
 		views: null
 	};

@@ -4,104 +4,56 @@
 
 /**
  * @file sharedJourneyBrowserVerification.mjs
- * @description Proves Solo preservation and two-browser authoritative fellowship.
- * The Awtsmoos recreates each traveler and one shared lamp every instant;
- * Awtsmoos.com receives screenshots and measured truth rather than hopeful claims.
+ * @description Coordinates strict two-browser persistence and combat evidence.
+ * The Awtsmoos recreates each traveler beyond every record; Awtsmoos.com accepts
+ * this chapter only when browser, repository, ticket ledger, and screenshots agree.
  */
 
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import {
-	browserErrors,
-	chooseShared,
-	chooseSolo,
-	closeJourneyBrowser,
-	createJourneyBrowser,
-	journeyState,
-	lightSharedLamp,
-	moveEast
-} from './SharedJourneyBrowserActions.mjs';
-import { startSharedJourneyTestServer } from './SharedJourneyTestServer.mjs';
+	runAuthenticatedSharedJourney
+} from './AuthenticatedSharedJourneyScenario.mjs';
+import {
+	startSharedJourneyTestServer
+} from './SharedJourneyTestServer.mjs';
 
-const EVIDENCE_ROOT = 'ai-thoughts/2026-07-13-1917-edt-shared-world-revelation';
+const EVIDENCE_ROOT = 'ai-thoughts/2026-07-16-0013-edt-authenticated-shared-world';
 const screenshotPath = name => path.resolve(EVIDENCE_ROOT, name);
-const playerState = client => client.evaluate(`(()=>{
-	const state=OhrHaGnuz.journey.store.snapshot();
-	return state.road.players.find(player=>player.id===state.playerId);
-})()`);
-
-async function assertNoBrowserErrors(browser) {
-	const captured = await browser.client.evaluate(`globalThis.__OHR_TEST_ERRORS__||[]`);
-	assert.deepEqual(captured, []);
-	assert.deepEqual(browserErrors(browser.client), []);
-}
 
 async function run() {
 	const server = await startSharedJourneyTestServer();
-	const url = `${server.url}/geelooy/games/ohr-hagnuz/?verify=shared-road-${Date.now()}`;
-	let first;
-	let second;
 	try {
-		first = await createJourneyBrowser(url);
-		const initial = await first.client.evaluate(`({
-			offline:OhrHaGnuz.journey.store.snapshot().connection,
-			socket:OhrHaGnuz.journey.connection.socket,
-			gate:Boolean(document.querySelector('#journey-mode-root'))
-		})`);
-		assert.deepEqual(initial, { offline: 'offline', socket: null, gate: true });
-		await first.client.screenshot(screenshotPath('browser-desktop-journey-choice.png'));
-
-		const solo = await chooseSolo(first.client);
-		assert.deepEqual(solo, { shell: true, ignited: true, socket: null });
-		const firstJoined = await chooseShared(first.client, 'Neriah');
-		assert.equal(firstJoined.road.players.length, 1);
-
-		second = await createJourneyBrowser(url);
-		await chooseShared(second.client, 'Taliah');
-		await first.client.waitFor(`OhrHaGnuz.journey.store.snapshot().road.players.length===2`);
-		await second.client.waitFor(`OhrHaGnuz.journey.store.snapshot().road.players.length===2`);
-		await first.client.screenshot(screenshotPath('browser-desktop-two-travelers.png'));
-
-		await moveEast(first.client, 5);
-		await first.client.waitFor(`(()=>{
-			const state=OhrHaGnuz.journey.store.snapshot();
-			return state.road.players.find(player=>player.id===state.playerId)?.x===7;
-		})()`);
-		await lightSharedLamp(first.client);
-		await first.client.waitFor(`OhrHaGnuz.journey.store.snapshot().road.lamp.lit===true`);
-		await second.client.waitFor(`OhrHaGnuz.journey.store.snapshot().road.lamp.lit===true`);
-		const litPlayer = await playerState(first.client);
-		assert.equal(litPlayer.sharedLight, 1);
-		await lightSharedLamp(first.client);
-		await new Promise(resolve => setTimeout(resolve, 150));
-		assert.equal((await playerState(first.client)).sharedLight, 1);
-		await first.client.screenshot(screenshotPath('browser-desktop-shared-lamp.png'));
-
-		await first.client.send('Emulation.setDeviceMetricsOverride', {
-			width: 390,
-			height: 844,
-			deviceScaleFactor: 1,
-			mobile: true
-		});
-		await first.client.screenshot(screenshotPath('browser-mobile-shared-road.png'));
-		await chooseSolo(first.client);
-		await second.client.waitFor(`OhrHaGnuz.journey.store.snapshot().road.players.length===1`);
-		assert.equal((await journeyState(second.client)).road.players[0].displayName, 'Taliah');
-		await assertNoBrowserErrors(first);
-		await assertNoBrowserErrors(second);
-
+		const browser = await runAuthenticatedSharedJourney(
+			server,
+			screenshotPath
+		);
+		const neriah = await server.repository.load(
+			'browser-test-account',
+			'neriah'
+		);
+		const taliah = await server.repository.load(
+			'browser-test-account',
+			'taliah'
+		);
+		assert.equal(neriah.x, 9);
+		assert.equal(neriah.passageShards, 1);
+		assert.equal(neriah.sharedLight, 3);
+		assert.equal(taliah.x, 9);
+		assert.equal(taliah.passageShards, 1);
+		assert.equal(taliah.sharedLight, 2);
+		assert.equal(server.ticketCount('neriah'), 1);
+		assert.equal(server.ticketCount('taliah'), 1);
 		const result = {
-			firstJoined: firstJoined.playerId,
-			lampLit: (await journeyState(second.client)).road.lamp.lit,
-			remainingTraveler: 'Taliah',
-			soloPreserved: solo.shell && solo.ignited,
-			twoTravelers: true
+			browser,
+			characterIds: [neriah.characterId, taliah.characterId],
+			persistent: true,
+			tickets: { neriah: 1, taliah: 1 },
+			wispDefeated: true
 		};
 		console.log(JSON.stringify(result, null, 2));
-		console.log('BH_SHARED_JOURNEY_BROWSER_PASS');
+		console.log('BH_AUTHENTICATED_SHARED_JOURNEY_BROWSER_PASS');
 	} finally {
-		if (first) await closeJourneyBrowser(first);
-		if (second) await closeJourneyBrowser(second);
 		await server.close();
 	}
 }

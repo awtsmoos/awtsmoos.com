@@ -18,9 +18,7 @@ export async function runExecutable(options = {}) {
 		options.container,
 		options.consoleElement
 	);
-	if (options.bundle) {
-		return runMacosBundleExecutable(options.bundle, host, options);
-	}
+	if (options.bundle) return runMacosBundleExecutable(options.bundle, host, options);
 	if (options.androidPackageSet || Array.isArray(options.androidArtifacts)) {
 		return runAndroidExecutable(
 			options.artifactIdentity || Object.freeze({ format: "apk" }),
@@ -41,11 +39,7 @@ export async function runExecutable(options = {}) {
 	if (identity.format === "apk") {
 		return runAndroidExecutable(identity, host, options, { bytes });
 	}
-	return runExecutableArtifact({
-		...options,
-		bytes,
-		host
-	});
+	return runExecutableArtifact({ ...options, bytes, host });
 }
 
 async function runMacosBundleExecutable(bundle, host, options) {
@@ -77,16 +71,24 @@ async function runAndroidExecutable(identity, host, options, artifactInput) {
 		...artifactInput,
 		filesystemCapability: options.filesystemCapability || null,
 		host,
+		initialFiles: options.initialFiles,
 		inspectOnly: Boolean(options.inspectOnly),
-		options
+		instructionLimit: options.instructionLimit,
+		maximumBytes: options.maximumBytes,
+		maximumNetworkResponseBytes: options.maximumNetworkResponseBytes,
+		maximumPreferenceBytes: options.maximumPreferenceBytes,
+		maximumPreferenceEntries: options.maximumPreferenceEntries,
+		networkBroker: options.networkBroker,
+		preferenceCapability: options.preferenceCapability,
+		processId: options.processId
 	});
 	return Object.freeze({
-		android: outcome,
+		android: outcome.android,
 		identity,
-		result: outcome.execution || Object.freeze({
-			boundary: outcome.boundary || null,
-			executionClass: outcome.executionClass,
-			mode: outcome.verdict
+		result: outcome.result || Object.freeze({
+			boundary: outcome.android?.boundary || null,
+			executionClass: outcome.android?.executionClass || "apk-inspection",
+			mode: outcome.android?.verdict || "inspection"
 		})
 	});
 }

@@ -1,8 +1,4 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos gives every reply a place in time; Awtsmoos.com keeps context, status, and attachments contained within the conversation.
- */
+/* B"H — The Awtsmoos keeps each Awtsmoos.com conversation contained. */
 .mail-civilization-chat {
 	background: #050a12 !important;
 	display: grid !important;
@@ -21,12 +17,7 @@
 	min-height: 4.5rem;
 	padding: .7rem 1rem !important;
 }
-.chat-heading-lockup {
-	align-items: center;
-	display: flex !important;
-	gap: .65rem;
-	min-width: 0;
-}
+.chat-heading-lockup { align-items: center; display: flex !important; gap: .65rem; min-width: 0; }
 .chat-title {
 	color: var(--civil-text) !important;
 	font-size: 1.05rem !important;
@@ -82,30 +73,20 @@
 	place-items: center;
 	text-align: center;
 }
-.void-logo h2,
-.void-logo p {
-	margin: 0;
-}
+.void-logo :where(h2, p) { margin: 0; }
 .void-atom,
 .chat-frequency-light,
 .time-scrubber,
 #particleCanvas,
-.drop-portal {
-	display: none !important;
-}
+.drop-portal { display: none !important; }
 .message-wrap {
 	align-items: flex-end;
 	display: flex !important;
 	gap: .5rem;
 	max-width: min(48rem, 88%);
 }
-.message-wrap.own-message {
-	align-self: flex-end;
-	flex-direction: row-reverse;
-}
-.message-wrap.their-message {
-	align-self: flex-start;
-}
+.message-wrap.own-message { align-self: flex-end; flex-direction: row-reverse; }
+.message-wrap.their-message { align-self: flex-start; }
 .message-bubble {
 	background: var(--civil-surface) !important;
 	border: 1px solid var(--civil-line) !important;
@@ -123,10 +104,7 @@
 	border-radius: .9rem .9rem .25rem .9rem !important;
 }
 .message-meta,
-.message-time {
-	color: var(--civil-text-faint) !important;
-	font-size: .76rem !important;
-}
+.message-time { color: var(--civil-text-faint) !important; font-size: .76rem !important; }
 .message-attachment,
 .message-quote {
 	background: rgba(255, 255, 255, .03) !important;

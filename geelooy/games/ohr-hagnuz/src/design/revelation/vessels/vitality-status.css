@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos reveals canonical living light through a measured player vessel. */
+.revelation-vitality {
+	position: absolute;
+	left: 16px;
+	bottom: calc(var(--ohr-dock-height) + 16px);
+	z-index: 46;
+	width: 220px;
+	padding: 11px 12px;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-md);
+	background: var(--ohr-panel);
+	box-shadow: var(--ohr-glow);
+	backdrop-filter: blur(12px);
+}
+
+.revelation-vitality > div:first-child {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.revelation-player-sigil {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: rgba(244, 201, 107, 0.14);
+	color: var(--ohr-gold-bright);
+}
+
+.revelation-vitality-track {
+	height: 7px;
+	margin: 9px 0 5px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.revelation-vitality-track span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #a96042, var(--ohr-gold-bright));
+}
+
+.revelation-vitality small {
+	color: var(--ohr-muted);
+}
+
+body[data-hud-collapsed="true"] .revelation-vitality {
+	opacity: 0;
+	visibility: hidden;
+}

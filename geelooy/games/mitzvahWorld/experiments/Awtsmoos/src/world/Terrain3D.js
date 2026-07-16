@@ -3,39 +3,34 @@
 // Blessed is He
 
 /**
- * @fileoverview Coordinates quality-aware terrain, village, forest, text, and signs.
- * The Awtsmoos renews every blade, roof, river stone, letter, and distant mountain;
- * Awtsmoos.com joins those oros to measured keilim without hiding gameplay paths.
+ * @file Terrain3D.js
+ * @description Coordinates quality-aware terrain, village, forest, text, roads, and signs.
+ * The Awtsmoos renews every blade, roof, river stone, and distant mountain; Awtsmoos.com
+ * now rejects half-resolution earth while joining full grass and soil to measured world vessels.
  */
 
+import { highestResolutionSurface } from '../assets/HighestResolutionSurfaceCatalog.js';
 import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
-import { exactMaterialUrl } from '../assets/PublicMaterialResolver.js';
 import { primitiveColliders } from './Box3D.js';
 import { houseRoadSystem } from './PathRoadSystem.js';
 import { createProceduralTextLandmark } from './proceduralText/ProceduralTextLandmarkSystem.js';
 import { createTerrainGroup } from './TerrainGroupAssembly.js';
-import {
-	createTerrainGeometry,
-	terrainHeightAt
-} from './TerrainGeometry.js';
+import { createTerrainGeometry, terrainHeightAt } from './TerrainGeometry.js';
 import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
 import { createProceduralForest } from './trees/ProceduralForestSystem.js';
 import { preloadVillageSignTextures } from './village/VillageSignTexture.js';
 import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js';
 
-const HALF = 'https://awtsmoos-docs-base.web.app/half-resolution/';
-const FULL = 'https://awtsmoos-docs-base.web.app/full-resolution/';
-
-export const GRASS_URLS = [
-	exactMaterialUrl('awtsmoos-nature/chai-forest/textures/ground/grass.jpg'),
-	`${FULL}grass%201.png`,
-	`${HALF}grass%201.png`
-];
-export const DIRT_URLS = [
-	exactMaterialUrl('awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg'),
-	TEXTURE_URLS.terrain.dirtGrass3,
-	TEXTURE_URLS.terrain.dirt1
-];
+export const GRASS_URLS = Object.freeze([
+	highestResolutionSurface('baseGrass'),
+	TEXTURE_URLS.terrain.grass4,
+	TEXTURE_URLS.terrain.grass5
+]);
+export const DIRT_URLS = Object.freeze([
+	highestResolutionSurface('dirt'),
+	TEXTURE_URLS.terrain.dirt1,
+	TEXTURE_URLS.terrain.dirt5
+]);
 export const REAL_GRASS_URL = GRASS_URLS[0];
 export const heightAt = terrainHeightAt;
 
@@ -48,11 +43,7 @@ export async function createTerrainPackage(
 ) {
 	const quality = options.quality || 'medium';
 	const terrain = createTerrainGeometry();
-	const road = houseRoadSystem(
-		obstacles.assets || {},
-		groundSampler,
-		obstacles
-	);
+	const road = houseRoadSystem(obstacles.assets || {}, groundSampler, obstacles);
 	const roadColliders = primitiveColliders(road.visual);
 	const obstacleColliders = obstacles.flatMap(primitiveColliders);
 	const signTextures = await preloadVillageSignTextures();

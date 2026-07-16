@@ -4,95 +4,92 @@
 
 /**
  * @file SharedJourneyConnection.js
- * @description Opens only an explicitly requested Shared Journey connection.
- * The Awtsmoos sustains connection without compelling it; Awtsmoos.com keeps
- * Solo Journey silent while this vessel sequences every chosen online command.
+ * @description Composes admission, transport, commands, and server reconciliation.
+ * The Awtsmoos sustains continuity without compelling connection; Awtsmoos.com
+ * keeps each authority boundary small, explicit, and resistant to stale attempts.
  */
 
-import {
-	SharedJourneyTypes,
-	createSharedJourneyEnvelope,
-	defaultSharedJourneyUrl,
-	parseSharedJourneyMessage
-} from '../protocol/SharedJourneyProtocol.js';
-
-const OPEN_SOCKET_STATE = 1;
+import { ReconnectTokenStore } from '../auth/ReconnectTokenStore.js';
+import { SharedJourneyTicketClient } from '../auth/SharedJourneyTicketClient.js';
+import { SharedJourneyTypes } from '../protocol/SharedJourneyProtocol.js';
+import { SharedJourneyAdmission } from './SharedJourneyAdmission.js';
+import { SharedJourneyCommandSender } from './SharedJourneyCommandSender.js';
+import { SharedJourneyMessageReceiver } from './SharedJourneyMessageReceiver.js';
+import { SharedJourneySocketLifecycle } from './SharedJourneySocketLifecycle.js';
 
 export class SharedJourneyConnection {
-	constructor(store, socketFactory = url => new WebSocket(url)) {
+	constructor(store, options = {}) {
+		const settings = typeof options === 'function'
+			? { socketFactory: options }
+			: options;
 		this.store = store;
-		this.socketFactory = socketFactory;
+		this.ticketClient = settings.ticketClient || new SharedJourneyTicketClient();
+		this.tokenStore = settings.tokenStore || new ReconnectTokenStore();
+		this.lifecycle = new SharedJourneySocketLifecycle(this, settings);
+		this.admission = new SharedJourneyAdmission(this);
+		this.commands = new SharedJourneyCommandSender(this);
+		this.receiver = new SharedJourneyMessageReceiver(this);
+		this.types = SharedJourneyTypes;
 		this.socket = null;
+		this.profile = null;
+		this.url = null;
 		this.sequence = 0;
 		this.movementSequence = 0;
+		this.attackSequence = 0;
+		this.reconnectAttempts = 0;
+		this.connectionGeneration = 0;
+		this.shouldReconnect = false;
 	}
 
-	connect(profile, url = defaultSharedJourneyUrl()) {
-		this.disconnect(false);
-		this.store.setConnection('connecting');
-		this.socket = this.socketFactory(url);
-		this.socket.addEventListener('open', () => {
-			this.store.setConnection('connected');
-			this.send(SharedJourneyTypes.JOIN, profile);
-		});
-		this.socket.addEventListener('message', event => this.receive(event.data));
-		this.socket.addEventListener('error', () => {
-			this.store.setConnection('error', 'Shared road unavailable.');
-		});
-		this.socket.addEventListener('close', () => {
-			this.store.setConnection('offline');
-		});
+	connect(profile, url) {
+		return this.admission.connect(profile, url);
+	}
+
+	isCurrentGeneration(generation) {
+		return this.shouldReconnect
+			&& Boolean(this.profile)
+			&& generation === this.connectionGeneration;
+	}
+
+	restartWithoutReconnectToken() {
+		this.admission.restartWithoutReconnectToken();
 	}
 
 	move(dx, dy) {
-		this.movementSequence += 1;
-		this.send(SharedJourneyTypes.MOVE, {
-			dx,
-			dy,
-			movementSequence: this.movementSequence
-		});
+		return this.commands.move(dx, dy);
+	}
+
+	attack(targetId) {
+		return this.commands.attack(targetId);
 	}
 
 	interact() {
-		this.send(SharedJourneyTypes.INTERACT, { targetId: 'road-lamp' });
+		return this.commands.interact();
 	}
 
 	requestSnapshot() {
-		this.send(SharedJourneyTypes.SNAPSHOT, {});
-	}
-
-	disconnect(sendLeave = true) {
-		if (!this.socket) return;
-		if (sendLeave && this.socket.readyState === OPEN_SOCKET_STATE) {
-			this.send(SharedJourneyTypes.LEAVE, {});
-		}
-		this.socket.close();
-		this.socket = null;
+		return this.commands.requestSnapshot();
 	}
 
 	send(type, payload) {
-		if (!this.socket || this.socket.readyState !== OPEN_SOCKET_STATE) return false;
-		this.sequence += 1;
-		const requestId = `journey-${Date.now()}-${this.sequence}`;
-		const envelope = createSharedJourneyEnvelope(
-			type,
-			payload,
-			this.sequence,
-			requestId
-		);
-		this.socket.send(JSON.stringify(envelope));
-		return true;
+		return this.commands.send(type, payload);
 	}
 
 	receive(rawMessage) {
-		try {
-			const message = parseSharedJourneyMessage(rawMessage);
-			if (message) this.store.applyMessage(message);
-		} catch (error) {
-			this.store.setConnection(
-				'error',
-				'The shared road sent an unreadable message.'
-			);
-		}
+		this.receiver.receive(rawMessage);
+	}
+
+	disconnect(sendLeave = true) {
+		this.connectionGeneration += 1;
+		this.shouldReconnect = false;
+		this.profile = null;
+		this.lifecycle.close(sendLeave);
+	}
+
+	fail(error) {
+		this.store.setConnection(
+			'error',
+			error?.message || 'Shared Journey failed.'
+		);
 	}
 }

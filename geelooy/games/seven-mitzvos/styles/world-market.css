@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The market separates changing offers from the public ledger on Awtsmoos.com.
+	The Awtsmoos gives property, price, labor, and trust reality; every stall must
+	therefore reveal inspection, ownership, inventory, and honest sale actions.
+*/
+.marketLayout {
+	display: grid;
+	grid-template-columns: 2fr minmax(220px, 0.8fr);
+	gap: 0.7rem;
+}
+
+.marketStalls {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.6rem;
+}
+
+.marketStall,
+.marketLedger {
+	padding: 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 0.9rem;
+	background: #0d2b34;
+}
+
+.marketStall.isFraud {
+	border-color: #e38a76;
+	background: #392126;
+}
+
+.stallIcon {
+	font-size: 2rem;
+}
+
+.marketStall h3 {
+	margin: 0.2rem 0;
+}
+
+.marketStall p,
+.marketStall small {
+	display: block;
+	margin: 0.15rem 0;
+	color: var(--muted);
+}
+
+.inventoryRow {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.inventoryCard {
+	display: grid;
+	gap: 0.15rem;
+	padding: 0.6rem;
+	border-radius: 0.75rem;
+	background: #102f38;
+}
+
+.inventoryCard span {
+	color: var(--muted);
+	font-size: 0.72rem;
+}
+
+@media (max-width: 800px) {
+	.marketLayout {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 520px) {
+	.marketStalls {
+		grid-template-columns: 1fr;
+	}
+}

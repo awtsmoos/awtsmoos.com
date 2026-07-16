@@ -4,89 +4,96 @@
 
 /**
  * @file sharedJourneyClient.test.mjs
- * @description Verifies opt-in networking and authoritative client projection.
- * The Awtsmoos recreates choice before connection; Awtsmoos.com therefore proves
- * that Solo Journey creates no socket and Shared Journey speaks one named protocol.
+ * @description Proves ticketed join, session reconnect, and sequence continuity.
+ * The Awtsmoos renews choice before connection; Awtsmoos.com requires evidence
+ * that Solo opens nothing and resumed combat never repeats a stale command.
  */
 
 import assert from 'node:assert/strict';
+import { SharedCombatController } from '../../src/multiplayer/combat/SharedCombatController.js';
 import { SharedJourneyConnection } from '../../src/multiplayer/connection/SharedJourneyConnection.js';
-import {
-	SharedJourneyTypes,
-	createSharedJourneyEnvelope,
-	defaultSharedJourneyUrl,
-	parseSharedJourneyMessage
-} from '../../src/multiplayer/protocol/SharedJourneyProtocol.js';
 import { SharedJourneyStore } from '../../src/multiplayer/state/SharedJourneyStore.js';
+import {
+	FakeSocket,
+	FakeTokenStore,
+	joinedMessage
+} from './SharedJourneyClientFixture.mjs';
 
-class FakeSocket {
-	constructor(url) {
-		this.url = url;
-		this.readyState = 0;
-		this.listeners = new Map();
-		this.sent = [];
-	}
-
-	addEventListener(type, listener) {
-		this.listeners.set(type, listener);
-	}
-
-	emit(type, payload = {}) {
-		this.listeners.get(type)?.(payload);
-	}
-
-	send(message) {
-		this.sent.push(JSON.parse(message));
-	}
-
-	close() {
-		this.readyState = 3;
-		this.emit('close');
-	}
-}
-
-const envelope = createSharedJourneyEnvelope(
-	SharedJourneyTypes.JOIN,
-	{ displayName: 'Neriah', glyph: 'נ' },
-	1,
-	'join-1'
-);
-assert.equal(parseSharedJourneyMessage(envelope)?.application, 'ohr-hagnuz');
-assert.equal(parseSharedJourneyMessage({ protocol: 'other' }), null);
-assert.equal(
-	defaultSharedJourneyUrl({ protocol: 'https:', host: 'awtsmoos.com' }),
-	'wss://awtsmoos.com'
-);
-
-const store = new SharedJourneyStore();
 const sockets = [];
-const connection = new SharedJourneyConnection(store, url => {
+let ticketCalls = 0;
+const tokenStore = new FakeTokenStore();
+const ticketClient = {
+	async issue(slot) {
+		ticketCalls += 1;
+		return {
+			origin: 'https://awtsmoos.com',
+			slot,
+			ticket: 'one-use-ticket'
+		};
+	}
+};
+const socketFactory = url => {
 	const socket = new FakeSocket(url);
 	sockets.push(socket);
 	return socket;
-});
-assert.equal(sockets.length, 0);
+};
 
-connection.connect({ displayName: 'Neriah', glyph: 'נ' }, 'ws://example.test');
+const store = new SharedJourneyStore();
+const connection = new SharedJourneyConnection(store, {
+	socketFactory,
+	ticketClient,
+	tokenStore
+});
+const combat = new SharedCombatController(connection);
+assert.equal(sockets.length, 0);
+assert.equal(ticketCalls, 0);
+
+await connection.connect(
+	{ displayName: 'Neriah', glyph: 'נ', slot: 'neriah' },
+	'ws://example.test'
+);
+assert.equal(ticketCalls, 1);
 assert.equal(sockets.length, 1);
 sockets[0].readyState = 1;
 sockets[0].emit('open');
-assert.equal(sockets[0].sent[0].type, SharedJourneyTypes.JOIN);
+assert.equal(sockets[0].sent[0].type, 'journey.join');
+assert.equal(sockets[0].sent[0].payload.ticket, 'one-use-ticket');
 
-sockets[0].emit('message', {
-	data: JSON.stringify({
-		application: 'ohr-hagnuz',
-		payload: {
-			playerId: 'traveler-1',
-			road: { lamp: { lit: false }, players: [] }
-		},
-		protocol: 'awtsmoos.realtime',
-		type: 'journey.joined',
-		version: 1
+sockets[0].emit('message', { data: joinedMessage() });
+assert.equal(store.snapshot().playerId, 'traveler-1');
+assert.equal(connection.movementSequence, 3);
+assert.equal(connection.attackSequence, 0);
+connection.move(1, 0);
+assert.equal(sockets[0].sent.at(-1).payload.movementSequence, 4);
+combat.attackVeilWisp();
+assert.equal(sockets[0].sent.at(-1).payload.attackSequence, 1);
+connection.disconnect(false);
+
+const resumedStore = new SharedJourneyStore();
+const resumed = new SharedJourneyConnection(resumedStore, {
+	socketFactory,
+	ticketClient,
+	tokenStore
+});
+const resumedCombat = new SharedCombatController(resumed);
+await resumed.connect(
+	{ displayName: 'Neriah', glyph: 'נ', slot: 'neriah' },
+	'ws://example.test'
+);
+assert.equal(ticketCalls, 1);
+assert.equal(sockets.length, 2);
+sockets[1].readyState = 1;
+sockets[1].emit('open');
+assert.equal(sockets[1].sent[0].type, 'journey.resume');
+sockets[1].emit('message', {
+	data: joinedMessage({
+		attackSequence: 2,
+		movementSequence: 7,
+		type: 'journey.resumed'
 	})
 });
-assert.equal(store.snapshot().playerId, 'traveler-1');
-assert.equal(store.snapshot().road.lamp.lit, false);
-connection.disconnect();
-assert.equal(store.snapshot().connection, 'offline');
-console.log('BH_SHARED_JOURNEY_CLIENT_PASS');
+assert.equal(resumed.attackSequence, 2);
+assert.equal(resumed.movementSequence, 7);
+resumedCombat.attackVeilWisp();
+assert.equal(sockets[1].sent.at(-1).payload.attackSequence, 3);
+console.log('BH_AUTHENTICATED_SHARED_CLIENT_PASS');

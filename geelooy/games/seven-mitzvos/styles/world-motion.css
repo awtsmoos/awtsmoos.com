@@ -1,0 +1,48 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	Only active feedback moves, and every motion ends. Awtsmoos.com preserves
+	energy and attention, while the Awtsmoos gives each flash, rescue, judgment,
+	and building of memory its measured moment before returning the world to rest.
+*/
+.rhythmPad.isLit {
+	animation: letterPulse 260ms ease;
+	border-color: var(--gold);
+	background: #3f634f;
+}
+
+.deductionNode.isPurified,
+.evidenceCard.isInspected,
+.marketStall.isFraud {
+	animation: revealPulse 280ms ease;
+}
+
+.animalCard.isSelected,
+.verdictButton.isSelected,
+.rationaleButton.isSelected {
+	box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+@keyframes letterPulse {
+	50% {
+		transform: scale(1.06);
+		box-shadow: 0 0 35px rgba(241, 199, 109, 0.35);
+	}
+}
+
+@keyframes revealPulse {
+	from {
+		opacity: 0.45;
+		transform: translateY(5px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rhythmPad.isLit,
+	.deductionNode.isPurified,
+	.evidenceCard.isInspected,
+	.marketStall.isFraud {
+		animation: none;
+	}
+}

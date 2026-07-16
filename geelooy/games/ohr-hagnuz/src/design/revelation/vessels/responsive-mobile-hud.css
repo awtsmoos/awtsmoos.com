@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos keeps quest, map, vitality, and actions readable on a phone. */
+@media (max-width: 720px) {
+	.revelation-quest-card {
+		left: 7px;
+		top: calc(var(--ohr-topbar-height) + 7px);
+		width: min(218px, 56vw);
+		padding: 9px 10px;
+	}
+
+	.revelation-quest-card h1 {
+		font-size: 15px;
+	}
+
+	.revelation-quest-card p {
+		display: -webkit-box;
+		overflow: hidden;
+		font-size: 10px;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.revelation-minimap {
+		right: 7px;
+		top: calc(var(--ohr-topbar-height) + 7px);
+		width: min(142px, 37vw);
+		padding: 7px;
+	}
+
+	.revelation-minimap header b {
+		display: none;
+	}
+
+	[data-revelation-minimap] {
+		gap: 1px;
+		padding: 3px;
+	}
+
+	.revelation-pardes,
+	.revelation-event-log,
+	.revelation-companions {
+		display: none;
+	}
+
+	.revelation-vitality {
+		left: 7px;
+		bottom: calc(var(--ohr-dock-height) + 61px);
+		width: 155px;
+		padding: 7px 8px;
+	}
+
+	.revelation-action-bar {
+		bottom: calc(var(--ohr-dock-height) + 7px);
+		grid-template-columns: repeat(4, minmax(58px, 1fr));
+		gap: 3px;
+		width: calc(100% - 14px);
+	}
+
+	.revelation-action {
+		grid-template-columns: 20px 1fr;
+		gap: 4px;
+		min-height: 42px;
+		padding: 5px;
+	}
+
+	.revelation-action kbd {
+		width: 19px;
+		height: 19px;
+	}
+
+	.revelation-action span {
+		font-size: 8px;
+	}
+}

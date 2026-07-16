@@ -2,8 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/** The Awtsmoos gathers status, mission, paths, and navigation into one HUD. */
+/**
+ * The Awtsmoos gathers status, mission, map, actions, fellowship, and navigation
+ * into one truthful overhead HUD for Awtsmoos.com.
+ */
 @import url('./vessels/topbar.css');
 @import url('./vessels/mission.css');
+@import url('./vessels/gameplay-status.css');
+@import url('./vessels/action-bar.css');
 @import url('./vessels/pardes.css');
 @import url('./vessels/dock.css');

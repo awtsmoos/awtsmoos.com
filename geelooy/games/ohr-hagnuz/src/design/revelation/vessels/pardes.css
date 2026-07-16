@@ -2,9 +2,22 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/** The Awtsmoos lets four paths remain distinct without becoming separate worlds. */
-.revelation-pardes { right: 16px; top: calc(var(--ohr-topbar-height) + 16px); width: min(280px, 27vw); padding: 13px; }
-.revelation-pardes [data-revelation-channels] { display: grid; gap: 7px; margin-top: 9px; }
+/**
+ * The Awtsmoos lets four paths remain distinct without becoming separate worlds.
+ * Awtsmoos.com places them beneath the active mission, away from the minimap.
+ */
+.revelation-pardes {
+	left: 16px;
+	top: calc(var(--ohr-topbar-height) + 238px);
+	width: min(280px, 27vw);
+	padding: 13px;
+}
+
+.revelation-pardes [data-revelation-channels] {
+	display: grid;
+	gap: 7px;
+	margin-top: 9px;
+}
 
 .revelation-channel {
 	display: grid;
@@ -16,15 +29,42 @@
 	border: 1px solid var(--ohr-line-soft);
 	border-radius: 10px;
 	background: rgba(255, 255, 255, 0.035);
+	color: inherit;
 	text-align: left;
 	pointer-events: auto;
 	cursor: pointer;
 }
 
-.revelation-channel[data-unlocked="false"] { opacity: 0.48; filter: grayscale(0.7); }
-.revelation-channel-glyph { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(244, 201, 107, 0.1); color: var(--ohr-gold-bright); }
-.revelation-channel b, .revelation-channel small { display: block; }
-.revelation-channel b { font-size: 11px; }
-.revelation-channel small { margin-top: 2px; color: var(--ohr-muted); font-size: 9px; }
-.revelation-channel i { height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
-.revelation-channel i em { display: block; width: var(--mastery); height: 100%; background: var(--ohr-gold); }
+.revelation-channel[data-unlocked="false"] {
+	opacity: 0.48;
+	filter: grayscale(0.7);
+}
+
+.revelation-channel-glyph {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: rgba(244, 201, 107, 0.1);
+	color: var(--ohr-gold-bright);
+}
+
+.revelation-channel > span:nth-child(2) {
+	font-size: 9px;
+	line-height: 1.25;
+}
+
+.revelation-channel i {
+	height: 4px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.revelation-channel i em {
+	display: block;
+	width: var(--mastery);
+	height: 100%;
+	background: var(--ohr-gold);
+}

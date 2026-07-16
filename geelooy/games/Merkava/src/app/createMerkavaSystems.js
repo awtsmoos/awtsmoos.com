@@ -24,6 +24,7 @@ import { SaveRepository } from '../persistence/SaveRepository.js';
 import { registerMerkavaMeshes } from '../render/MeshRegistry.js';
 import { RawWebGLRenderer } from '../render/RawWebGLRenderer.js';
 import { RenderScene } from '../render/RenderScene.js';
+import { RouteSystem } from '../routes/RouteSystem.js';
 
 export function createMerkavaSystems(canvas) {
 	const saves = new SaveRepository();
@@ -45,6 +46,7 @@ export function createMerkavaSystems(canvas) {
 		boss,
 		prutahs,
 		relics,
+		routes: new RouteSystem(),
 		collision: new CollisionSystem(campaign, boss, prutahs, relics),
 		director: new EncounterDirector(),
 		enemies: new EnemyBehaviors(),

@@ -5,10 +5,10 @@
 import { maps } from '../../../data/maps.js';
 
 /**
- * @file Resolves the authored place of a pending quest relationship.
- * @description The Awtsmoos renews person, place, road, and purpose together.
- * Awtsmoos.com is remembered here as the Chronicle may reveal where a named
- * relationship lives without mistaking a later echo for the canonical vessel.
+ * @file Resolves the authored place and relationship of a pending quest deed.
+ * @description The Awtsmoos renews person, object, map, and road together.
+ * Awtsmoos.com is remembered as an explicit map must constrain the search for
+ * the named relationship, never erase that relationship into a generic corner.
  */
 
 const SOLID = new Set([
@@ -20,31 +20,26 @@ function pendingObjective(quest) {
 	return quest?.objectives?.find((objective) => !objective.completed) || null;
 }
 
-function findExactKey(targetId) {
+function matchingEntity(map, targetId) {
+	if (!map || !targetId) {
+		return null;
+	}
+	if (map.interactables?.[targetId]) {
+		return map.interactables[targetId];
+	}
+	return Object.values(map.interactables || {}).find((entity) =>
+		entity?.id === targetId
+	) || null;
+}
+
+function findEntity(targetId) {
 	for (const [mapId, map] of Object.entries(maps)) {
-		const entity = map.interactables?.[targetId];
+		const entity = matchingEntity(map, targetId);
 		if (entity) {
 			return { mapId, map, entity };
 		}
 	}
-
 	return null;
-}
-
-function findEntityId(targetId) {
-	for (const [mapId, map] of Object.entries(maps)) {
-		for (const entity of Object.values(map.interactables || {})) {
-			if (entity?.id === targetId) {
-				return { mapId, map, entity };
-			}
-		}
-	}
-
-	return null;
-}
-
-function findEntity(targetId) {
-	return findExactKey(targetId) || findEntityId(targetId);
 }
 
 function walkable(map, x, y) {
@@ -56,14 +51,12 @@ function adjacentLanding(map, entity) {
 	if (!Number.isFinite(entity?.x) || !Number.isFinite(entity?.y)) {
 		return null;
 	}
-
 	const candidates = [
 		{ x: entity.x, y: entity.y + 1, direction: 'up' },
 		{ x: entity.x - 1, y: entity.y, direction: 'right' },
 		{ x: entity.x + 1, y: entity.y, direction: 'left' },
 		{ x: entity.x, y: entity.y - 1, direction: 'down' }
 	];
-
 	return candidates.find((candidate) =>
 		walkable(map, candidate.x, candidate.y)
 	) || null;
@@ -77,8 +70,17 @@ function firstWalkable(map) {
 			}
 		}
 	}
-
 	return { x: 1, y: 1, direction: 'down' };
+}
+
+function destinationWithEntity(objective, mapId, map, entity) {
+	return {
+		objective,
+		mapId,
+		map,
+		entity,
+		landing: adjacentLanding(map, entity) || firstWalkable(map)
+	};
 }
 
 export function resolveQuestDestination(quest) {
@@ -86,25 +88,20 @@ export function resolveQuestDestination(quest) {
 	if (!objective) {
 		return null;
 	}
-
 	const explicitMapId = objective.mapIds?.[0];
 	if (explicitMapId && maps[explicitMapId]) {
+		const map = maps[explicitMapId];
+		const entity = matchingEntity(map, objective.targetId);
+		if (entity) {
+			return destinationWithEntity(objective, explicitMapId, map, entity);
+		}
 		return {
 			objective,
 			mapId: explicitMapId,
-			map: maps[explicitMapId],
-			landing: firstWalkable(maps[explicitMapId])
+			map,
+			landing: firstWalkable(map)
 		};
 	}
-
 	const found = findEntity(objective.targetId);
-	if (!found) {
-		return null;
-	}
-
-	return {
-		objective,
-		...found,
-		landing: adjacentLanding(found.map, found.entity) || firstWalkable(found.map)
-	};
+	return found ? destinationWithEntity(objective, found.mapId, found.map, found.entity) : null;
 }

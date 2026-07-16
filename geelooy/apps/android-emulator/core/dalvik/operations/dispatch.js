@@ -7,6 +7,7 @@ import { executeControlOperation } from "./control.js";
 import { executeFieldOperation } from "./fields.js";
 import { executeInvokeOperation } from "./invokes.js";
 import { executeObjectOperation } from "./objects.js";
+import { executeSwitchOperation } from "./switches.js";
 import { executeValueOperation } from "./values.js";
 
 /**
@@ -17,6 +18,7 @@ import { executeValueOperation } from "./values.js";
 export async function executeDalvikOperation(instruction, frame, context) {
 	const handlers = [
 		executeValueOperation,
+		executeSwitchOperation,
 		executeControlOperation,
 		executeObjectOperation,
 		executeFieldOperation,

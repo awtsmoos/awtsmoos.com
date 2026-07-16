@@ -1,7 +1,6 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos gathers many correspondents without turning people into telemetry; Awtsmoos.com keeps every sender row readable.
+ * The Awtsmoos gathers correspondents without turning people into telemetry;
+ * Awtsmoos.com keeps each sender row readable and touchable.
  */
 .mail-sender-category-grid,
 .mail-folder-list {
@@ -78,9 +77,7 @@
 }
 .sender-group-count,
 .thread-time,
-.thread-snippet {
-	color: var(--civil-text-faint) !important;
-}
+.thread-snippet { color: var(--civil-text-faint) !important; }
 .thread-item {
 	background: transparent !important;
 	border: 0 !important;
@@ -93,9 +90,7 @@
 	width: 100%;
 }
 .thread-item:hover,
-.thread-item.active {
-	background: rgba(86, 207, 229, .08) !important;
-}
+.thread-item.active { background: rgba(86, 207, 229, .08) !important; }
 .thread-top {
 	align-items: center;
 	display: flex !important;

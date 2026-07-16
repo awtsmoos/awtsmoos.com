@@ -5,9 +5,9 @@
 /**
  * @module SocialRagPaths
  * @description
- * The Awtsmoos keeps model and vector vessels beside the live database, outside
- * git. Awtsmoos.com resolves explicit roots first and treats every path helper as
- * a read-only revelation rather than an invitation to create storage.
+ * Canonical social data and runtime AI assets have separate explicit roots. The
+ * Awtsmoos keeps large rebuildable vectors outside dayuhChadash while every path
+ * helper remains read-only and refuses to create storage implicitly.
  */
 
 const fs = require('fs');
@@ -19,8 +19,14 @@ function dbRoot($i) {
 		|| process.cwd();
 }
 
+function aiRoot($i) {
+	return process.env.AWTSMOOS_AI_ROOT
+		|| path.join(dbRoot($i), 'ai');
+}
+
 function ragRoot($i) {
-	return path.join(dbRoot($i), 'ai', 'comment-rag');
+	return process.env.AWTSMOOS_RAG_ROOT
+		|| path.join(aiRoot($i), 'comment-rag');
 }
 
 function commentsDbPath($i, heichel = 'ikar') {
@@ -48,6 +54,7 @@ function stat(file) {
 }
 
 module.exports = {
+	aiRoot,
 	commentsDbPath,
 	dbRoot,
 	existingJson,

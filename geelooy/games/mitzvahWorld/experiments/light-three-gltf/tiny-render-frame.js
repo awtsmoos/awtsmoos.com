@@ -11,6 +11,7 @@
 
 import { lookAt, multiply, perspective } from './tiny-math.js';
 import { collectMeshes } from './tiny-render-draw-list.js';
+import { recordGlStateCacheStats } from './tiny-render-gl-state-stats.js';
 import { drawRenderMesh } from './tiny-render-mesh.js';
 import { drawSkeleton } from './tiny-render-skeleton.js';
 import { collectWorldMatrices } from './tiny-skin-system.js';
@@ -35,6 +36,7 @@ export function renderFrame(renderer, scene, camera) {
 	drawOpaquePass(renderer, renderList.opaque, projectionView);
 	drawTransparentPass(renderer, renderList.transparent, projectionView);
 	drawSkeletonPass(renderer, scene, projectionView);
+	recordGlStateCacheStats(renderer);
 }
 
 function projectionViewMatrix(camera) {

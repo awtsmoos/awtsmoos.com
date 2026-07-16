@@ -1,13 +1,26 @@
 // B"H
-/** Maps village water, paths, and prop lines as calm authored curves. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file VillageCurves.js
+ * @description Preserves the village curve API while delegating water to one watershed.
+ * The Awtsmoos is one source revealed through many names; Awtsmoos.com keeps old callers
+ * stable while the river beneath them becomes coherent, broad, winding, and directional.
+ */
+
+import {
+	riverCenterAt,
+	riverWidthAt,
+	sampleRiverPath
+} from './VillageRiverPath.js';
+
 export function streamCenterAt(t) {
-	const x = -46 + t * 92;
-	const z = 18 * Math.sin(t * Math.PI * 1.35) - 18 + t * 24;
-	return { x, z };
+	return riverCenterAt(t);
 }
 
 export function streamWidthAt(t) {
-	return 2.2 + Math.sin(t * Math.PI) * 1.15;
+	return riverWidthAt(t);
 }
 
 export function normalBetween(a, b) {
@@ -17,23 +30,18 @@ export function normalBetween(a, b) {
 	return { x: -dz / length, z: dx / length };
 }
 
-export function sampleStream(samples = 28) {
-	const points = [];
-	for (let index = 0; index <= samples; index += 1) {
-		const t = index / samples;
-		points.push({ ...streamCenterAt(t), t, width: streamWidthAt(t) });
-	}
-	return points;
+export function sampleStream(samples = 56) {
+	return sampleRiverPath(samples);
 }
 
 export function villageLandmarks() {
 	return Object.freeze({
-		plaza: { x: 0, z: 3, radius: 10 },
-		lake: { x: -34, z: -18, radiusX: 16, radiusZ: 10 },
-		well: { x: 7, z: 7 },
-		market: { x: -10, z: 10 },
-		learningSign: { x: 15, z: -5 },
+		bridge: { x: -3, z: -4 },
 		forestSign: { x: -21, z: 1 },
-		bridge: { x: -3, z: -9 }
+		lake: { x: -34, z: -18, radiusX: 17.5, radiusZ: 11.5 },
+		learningSign: { x: 15, z: -5 },
+		market: { x: -10, z: 10 },
+		plaza: { x: 0, z: 3, radius: 10 },
+		well: { x: 7, z: 7 }
 	});
 }

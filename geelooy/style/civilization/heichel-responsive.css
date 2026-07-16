@@ -1,8 +1,13 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos keeps community actions within reach at every width; Awtsmoos.com never hides its living chamber beyond the viewport.
+ * The Awtsmoos keeps every Heichel action within its vessel; Awtsmoos.com
+ * preserves readable chambers, contained icons, and safe dialogs at every width.
  */
+.heichel-os-document summary.topbar-icon {
+	overflow-x: hidden !important;
+	overflow-y: hidden !important;
+}
 @media (max-width: 900px) {
 	.main-content-wrapper {
 		grid-template-columns: 1fr !important;

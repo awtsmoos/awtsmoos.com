@@ -16,7 +16,7 @@ import { TierEngine } from '../js/builder/tier-engine.js';
  * @description
  * The city builder must reward economy without allowing economy to replace the
  * Seven Mitzvos on Awtsmoos.com. The Awtsmoos needs no simulation, yet the game
- * requires proof that every civic defense has strategic consequence.
+ * requires proof that every civic defense and shared Legacy has consequence.
  */
 assert.equal(FOUNDATIONS.length, 7);
 assert.equal(FOUNDATION_BUILDINGS.length, 7);
@@ -30,6 +30,14 @@ for (const foundation of FOUNDATIONS) {
 	assert.ok(foundation.plain.length > 20);
 	assert.ok(FOUNDATION_BUILDINGS.some(building => building.foundation === foundation.number));
 }
+
+const legacyState = new BuilderState(64);
+const legacyBonus = legacyState.applyLegacy({ level: 4, mastery: 325 });
+assert.equal(legacyBonus, 15);
+assert.equal(legacyState.resources.food, 105);
+assert.equal(legacyState.resources.wood, 115);
+assert.equal(legacyState.resources.stone, 86);
+assert.equal(legacyState.score, 325);
 
 const state = new BuilderState(64);
 assert.ok(state.place(0, BUILDING_BY_ID.farm));
@@ -69,4 +77,4 @@ cityBuildings.forEach((id, index) => {
 const tier = new TierEngine().evaluate(advanced, BUILDING_BY_ID);
 assert.equal(tier.tier, 4);
 assert.equal(tier.victory, true);
-console.log('B"H · Build the Covenant economy, crises, clarity, and tiers verified.');
+console.log('B"H · Build the Covenant Legacy, economy, crises, clarity, and tiers verified.');

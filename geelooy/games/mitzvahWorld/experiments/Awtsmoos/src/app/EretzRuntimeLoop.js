@@ -4,11 +4,12 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances one measured multiplayer world frame with every visual system intact.
- * The Awtsmoos recreates player, horse, leaf, and sampled instant; Awtsmoos.com measures
- * each subsystem and animation family while refusing to lower resolution, density, or life.
+ * @description Advances one measured world while progressively hydrating every material layer.
+ * The Awtsmoos recreates player, river, grass, and texture each instant; Awtsmoos.com measures
+ * every subsystem while full-resolution terrain garments arrive without blocking first motion.
  */
 
+import { hydrateLayeredMaterialImages } from '../assets/LayeredMaterialHydrator.js';
 import { hydrateSceneMaterialImages } from '../assets/PublicMaterialCache.js';
 import { RuntimeFrameCostSample } from '../performance/RuntimeFrameCostSample.js';
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
@@ -29,21 +30,13 @@ export function startEretzRuntime(runtime, diagnostics) {
 		lastTime = now;
 		try {
 			costs.measure('streaming', () => updateStreaming(runtime, cadence, now));
-			costs.measure('animation', () => {
-				updateEretzAnimationFrame(runtime, deltaTime, costs);
-			});
+			costs.measure('animation', () => updateEretzAnimationFrame(runtime, deltaTime, costs));
 			costs.measure('water', () => runtime.lava.update(
 				runtime.state,
 				runtime.ground,
 				runtime.footOffset
 			));
-			costs.measure('gameplay', () => updateGameplay(
-				runtime,
-				movement,
-				cadence,
-				deltaTime,
-				now
-			));
+			costs.measure('gameplay', () => updateGameplay(runtime, movement, cadence, deltaTime, now));
 			costs.measure('shadows', () => updateShadows(runtime));
 			costs.measure('camera', () => runtime.orbit.apply(
 				runtime.camera,
@@ -53,9 +46,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 			));
 			costs.measure('render', () => renderWorld(runtime, now));
 			if (cadence.due('hud', now)) refreshStatusHud(runtime);
-			if (cadence.due('diagnostics', now)) {
-				refreshWorldDiagnostics(diagnostics, runtime);
-			}
+			if (cadence.due('diagnostics', now)) refreshWorldDiagnostics(diagnostics, runtime);
 		} catch (error) {
 			window.AwtsmoosError = error?.stack || String(error);
 		} finally {
@@ -70,9 +61,11 @@ export function startEretzRuntime(runtime, diagnostics) {
 
 function updateStreaming(runtime, cadence, now) {
 	if (cadence.due('chunks', now)) runtime.chunkRuntime?.update({ at: now });
-	if (cadence.due('materialHydration', now)) {
-		runtime.materialHydrationStats = hydrateSceneMaterialImages(runtime.scene);
-	}
+	if (!cadence.due('materialHydration', now)) return;
+	runtime.materialHydrationStats = {
+		layered: hydrateLayeredMaterialImages(runtime.scene),
+		standard: hydrateSceneMaterialImages(runtime.scene)
+	};
 }
 
 function updateGameplay(runtime, movement, cadence, deltaTime, now) {

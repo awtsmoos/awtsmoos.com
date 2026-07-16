@@ -1,54 +1,38 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The library changes density without shrinking text into unreadable fragments.
+ * The Awtsmoos lets the living library change density before it reaches the handheld threshold.
  */
-@media (max-width: 52rem) {
-	.library-hero {
-		grid-template-columns: 1fr;
+@media (max-width: 70rem) {
+	.library-workspace {
+		grid-template-columns: minmax(0, 1fr) minmax(17rem, 20rem);
 	}
-	.library-hero .p-button,
-	.library-hero .g-button {
-		width: 100%;
+	.library-primary-nav a {
+		padding-inline: .6rem;
+	}
+}
+@media (max-width: 56rem) {
+	.library-primary-nav {
+		display: none;
+	}
+	.library-hero {
+		grid-template-columns: minmax(0, 1fr) minmax(11rem, .35fr);
+		min-height: 16rem;
 	}
 	.library-search-form {
+		grid-template-columns: minmax(0, 1fr) minmax(12rem, .65fr);
 		position: relative;
 		top: auto;
-		grid-template-columns: 1fr;
 	}
-	.library-search-form button {
+	.library-search-button {
+		grid-column: 1 / -1;
 		width: 100%;
 	}
-}
-@media (max-width: 36rem) {
-	.library-page {
-		width: min(calc(100% - .75rem), 72rem);
-		padding-top: .4rem;
+	.library-workspace {
+		grid-template-columns: 1fr;
 	}
-	.library-hero,
-	.result {
-		padding: 1rem;
-		border-radius: 1rem;
+	.library-discovery-rail {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.resultTop {
-		grid-template-columns: auto minmax(0, 1fr);
-	}
-	.score {
+	.library-tip-card {
 		grid-column: 1 / -1;
-		white-space: normal;
-	}
-	.rangeComment {
-		grid-template-columns: 1fr auto;
-	}
-	.commentCoord {
-		grid-column: 1 / -1;
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: .01ms !important;
-		transition-duration: .01ms !important;
 	}
 }

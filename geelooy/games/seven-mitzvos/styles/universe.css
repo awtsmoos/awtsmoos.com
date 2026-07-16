@@ -2,15 +2,26 @@
 /*Boruch Hashem*/
 /*Blessed is He*/
 /*
-	One manifest gathers the Seven Worlds without burdening the opening document.
-	Awtsmoos.com receives many small vessels, while the Awtsmoos unites their
-	separate layouts into one clear and responsive covenant universe.
+	One manifest gathers the Seven Worlds and Seven Provinces without burdening
+	the opening document. Awtsmoos.com receives many small vessels, while the
+	Awtsmoos unites their responsive layouts into one preserved covenant universe.
 */
+@import url('./hero-seven.css');
 @import url('./universe-shell.css');
+@import url('./universe-toolbar.css');
 @import url('./universe-cards.css');
 @import url('./universe-portal.css');
+@import url('./universe-result.css');
 @import url('./world-grid.css');
+@import url('./world-care.css');
 @import url('./world-sim.css');
+@import url('./world-market.css');
 @import url('./world-court.css');
 @import url('./world-controls.css');
+@import url('./world-direction.css');
 @import url('./world-motion.css');
+@import url('./campaign-shell.css');
+@import url('./campaign-cards.css');
+@import url('./campaign-stage.css');
+@import url('./campaign-decisions.css');
+@import url('./campaign-responsive.css');

@@ -1,0 +1,122 @@
+/* B"H
+ * The Awtsmoos lets real lane metadata and local memory form a quiet discovery rail without counterfeit trends.
+ */
+.library-discovery-rail {
+	align-content: start;
+	display: grid;
+	gap: .75rem;
+}
+.library-rail-card {
+	background: #0a111c;
+	border: 1px solid rgba(151, 178, 205, .14);
+	border-radius: .9rem;
+	display: grid;
+	gap: .75rem;
+	padding: .9rem;
+}
+.library-rail-card header {
+	align-items: end;
+	display: flex;
+	gap: .75rem;
+	justify-content: space-between;
+}
+.library-rail-card h2 {
+	font-size: 1.08rem;
+	margin: .18rem 0 0;
+}
+.library-rail-card header > span {
+	background: rgba(67, 197, 225, .08);
+	border: 1px solid rgba(67, 197, 225, .16);
+	border-radius: 999px;
+	color: #86deed;
+	font-size: .72rem;
+	padding: .3rem .5rem;
+}
+.library-rail-card header button {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: .55rem;
+	color: #6ed8ea;
+	cursor: pointer;
+	min-height: 2.75rem;
+	padding: .55rem .65rem;
+}
+.library-rail-card header button:is(:hover, :focus-visible) {
+	background: #101b28;
+	border-color: rgba(126, 215, 229, .2);
+	outline: 0;
+}
+.library-rail-card header button:disabled {
+	cursor: default;
+	opacity: .45;
+}
+.library-lane-directory,
+.library-recent-searches {
+	display: grid;
+	gap: .4rem;
+}
+.library-lane-card,
+.library-recent-search {
+	align-items: center;
+	background: #070d16;
+	border: 1px solid rgba(151, 178, 205, .12);
+	border-radius: .72rem;
+	color: #f4f1e8;
+	cursor: pointer;
+	display: grid;
+	font: inherit;
+	gap: .65rem;
+	min-height: 3.7rem;
+	padding: .65rem;
+	text-align: start;
+	width: 100%;
+}
+.library-lane-card {
+	grid-template-columns: 2rem minmax(0, 1fr) auto;
+}
+.library-lane-card:is(:hover, :focus-visible),
+.library-recent-search:is(:hover, :focus-visible) {
+	background: #101b28;
+	border-color: rgba(85, 208, 231, .25);
+	outline: 0;
+}
+.library-lane-index {
+	color: #d8b96d;
+	font-family: Georgia, serif;
+	font-size: 1rem;
+}
+.library-lane-copy,
+.library-recent-search {
+	min-width: 0;
+}
+.library-lane-copy strong,
+.library-recent-search strong {
+	display: block;
+	overflow-wrap: anywhere;
+}
+.library-lane-copy small,
+.library-recent-search small {
+	color: #899aaf;
+	display: block;
+	font-size: .74rem;
+	margin-top: .15rem;
+}
+.library-lane-arrow {
+	color: #5ed4e9;
+}
+.library-recent-search {
+	grid-template-columns: 1fr;
+}
+.library-rail-message {
+	color: #8fa0b4;
+	line-height: 1.55;
+	margin: 0;
+}
+.library-tip-card ul {
+	color: #a9b7c7;
+	display: grid;
+	gap: .5rem;
+	line-height: 1.5;
+	margin: 0;
+	padding-inline-start: 1.2rem;
+}
