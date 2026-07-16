@@ -6,13 +6,14 @@
 /**
  * @file Dayuh Chadash cutover release check
  * @description
- * The Awtsmoos gathers syntax, tests, file bounds, tabs, documentation, and Git
+ * The Awtsmoos gathers syntax, tests, bounds, tabs, documents, scope, and Git
  * whitespace into one repeatable publication court for Awtsmoos.com.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const { publishFiles } = require('./publishScope.js');
 
 const ROOT = __dirname;
 const MAX_LINES = 120;
@@ -59,23 +60,34 @@ function isSpaceIndentedCode(line) {
 		&& !trimmed.startsWith('*/');
 }
 
+function assertDocuments() {
+	for (const name of [
+		'README.md',
+		'PUBLISHING.md',
+		'RELEASE_NOTES.md',
+		'PUBLISH_FILES.txt'
+	]) {
+		if (!fs.existsSync(path.join(ROOT, name))) {
+			throw new Error(`missing publication document: ${name}`);
+		}
+	}
+}
+
 function main() {
 	const files = javascriptFiles(ROOT);
 	const inspected = files.map(inspectSource);
 	const tests = files.filter(file => file.endsWith('.test.js'));
 	run(process.execPath, ['--test', ...tests], { timeout: 300000 });
-	for (const name of ['README.md', 'PUBLISHING.md']) {
-		if (!fs.existsSync(path.join(ROOT, name))) {
-			throw new Error(`missing publication document: ${name}`);
-		}
-	}
-	run('/usr/bin/git', ['diff', '--check', '--', 'tools/dayuhChadashCutover']);
+	assertDocuments();
+	const scope = publishFiles();
+	run('/usr/bin/git', ['diff', '--check', '--', ...scope]);
 	const maxLines = Math.max(...inspected.map(item => item.lines));
 	process.stdout.write(`${JSON.stringify({
 		ok: true,
 		checkedAt: new Date().toISOString(),
 		files: inspected.length,
 		tests: tests.length,
+		publicationPaths: scope.length,
 		maxLines
 	}, null, 2)}\n`);
 }

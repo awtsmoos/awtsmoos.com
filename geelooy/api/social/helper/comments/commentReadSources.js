@@ -4,7 +4,9 @@
 
 /**
  * @module CommentReadSources
- * @description Canonical compressed FS3 answers first; derived shards are fallback.
+ * @description
+ * Canonical compressed FS3 answers first, the DosDB contract preserves immediate
+ * visibility, and derived shards remain a temporary final fallback for Awtsmoos.com.
  */
 
 const {
@@ -27,6 +29,7 @@ function paths(filePath, values = {}) {
 	return {
 		awtsmoosDbFsPath: filePath,
 		canonicalFs3Preferred: true,
+		dosDbContractFallback: true,
 		derivedShardFallback: true,
 		duplicateMirrorDisabled: true,
 		...values
@@ -63,13 +66,13 @@ async function readCommentsWithSource(context) {
 		return readAllCommentsOfAliasWithSource(context);
 	}
 	const filePath = getAliasCommentFilePath(context);
-	const primary = core.readAuthorVerse(context, filePath, verseSection);
+	const primary = await core.readAuthorVerse(context, filePath, verseSection);
 	return commentsResponse(context, primary, paths(filePath, { verseSection }));
 }
 
 async function readAllCommentsOfAliasWithSource(context) {
 	const filePath = getAliasCommentFilePath(context);
-	const primary = core.readAuthorAll(context, filePath);
+	const primary = await core.readAuthorAll(context, filePath);
 	return commentsResponse(context, primary, paths(filePath, {
 		allVerseSections: true
 	}));
@@ -89,7 +92,7 @@ function namesResponse(primary, readPaths) {
 async function readVerseSectionsWithSource(context) {
 	const filePath = getAliasCommentFilePath(context);
 	return namesResponse(
-		core.readSections(context, filePath),
+		await core.readSections(context, filePath),
 		paths(filePath)
 	);
 }
@@ -98,7 +101,7 @@ async function readAuthorsWithSource(context) {
 	const verseSection = resolveVerseSection(context.$i, context.verseSection);
 	const basePath = getParentCommentsBasePath(context);
 	return namesResponse(
-		core.readAuthors(context, basePath, verseSection),
+		await core.readAuthors(context, basePath, verseSection),
 		paths(basePath, { verseSection })
 	);
 }

@@ -5,16 +5,23 @@
 /**
  * @module CommentReadCore
  * @description
- * Canonical compressed FS3 answers first. Derived shards are temporary fallback
- * only, making their eventual quarantine observable and safe.
+ * The Awtsmoos asks compressed FS3 first, the caller's DosDB contract second, and
+ * derived shards last. Awtsmoos.com therefore preserves read-after-write truth while
+ * quarantine can remove historical fallback stores without changing public APIs.
  */
 
 const canonical = require('./canonicalCommentSource.js');
+const database = require('./databaseCommentSource.js');
 const shards = require('./commentShardBridge.js');
 const { OLD_SOURCE, attempt } = require('./commentReadReport.js');
 
-function canonicalAttempt(data) {
-	return attempt({ ok: true, source: OLD_SOURCE, data });
+function authoritativeAttempt(data, pathKind) {
+	return attempt({
+		ok: true,
+		source: OLD_SOURCE,
+		data,
+		paths: { pathKind }
+	});
 }
 
 function shardAttempt(hit) {
@@ -31,40 +38,52 @@ function shardAttempt(hit) {
 	});
 }
 
-function readAuthorVerse(context, filePath, verseSection) {
-	const direct = canonicalAttempt(canonical.readVerse(
-		context,
-		filePath,
-		verseSection
-	));
+async function choose(canonicalData, databaseReader, shardReader) {
+	const direct = authoritativeAttempt(canonicalData, 'compressed-fs3');
 	if (direct.count) return direct;
-	return shardAttempt(shards.readAliasSection(context, verseSection)) || direct;
+	const compatible = authoritativeAttempt(
+		await databaseReader(),
+		'dosdb-contract'
+	);
+	if (compatible.count) return compatible;
+	return shardAttempt(shardReader()) || direct;
 }
 
-function readAuthorAll(context, filePath) {
-	const direct = canonicalAttempt(canonical.readAll(context, filePath));
-	if (direct.count) return direct;
-	return shardAttempt(shards.readAliasAll(context)) || direct;
+async function readAuthorVerse(context, filePath, verseSection) {
+	return choose(
+		canonical.readVerse(context, filePath, verseSection),
+		() => database.readVerse(context, filePath, verseSection),
+		() => shards.readAliasSection(context, verseSection)
+	);
 }
 
-function readSections(context, filePath) {
-	const direct = canonicalAttempt(canonical.readSections(context, filePath));
-	if (direct.count) return direct;
-	return shardAttempt(shards.readAliasSections(context)) || direct;
+async function readAuthorAll(context, filePath) {
+	return choose(
+		canonical.readAll(context, filePath),
+		() => database.readAll(context, filePath),
+		() => shards.readAliasAll(context)
+	);
 }
 
-function readAuthors(context, basePath, verseSection) {
-	const direct = canonicalAttempt(canonical.readAuthors(
-		context,
-		basePath,
-		verseSection
-	));
-	if (direct.count) return direct;
-	return shardAttempt(shards.readAuthors(context, verseSection)) || direct;
+async function readSections(context, filePath) {
+	return choose(
+		canonical.readSections(context, filePath),
+		() => database.readSections(context, filePath),
+		() => shards.readAliasSections(context)
+	);
+}
+
+async function readAuthors(context, basePath, verseSection) {
+	return choose(
+		canonical.readAuthors(context, basePath, verseSection),
+		() => database.readAuthors(context, basePath, verseSection),
+		() => shards.readAuthors(context, verseSection)
+	);
 }
 
 module.exports = {
-	canonicalAttempt,
+	authoritativeAttempt,
+	choose,
 	readAuthorAll,
 	readAuthors,
 	readAuthorVerse,

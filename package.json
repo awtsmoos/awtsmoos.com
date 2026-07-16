@@ -14,7 +14,7 @@
     "bh:ssh:set-password": "node scripts/bh.mjs --set-password",
     "bh:ssh:forget-password": "node scripts/bh.mjs --forget-password",
     "bh:ssh:info": "node scripts/bh.mjs --credential-info",
-    "test": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client",
+    "test": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover",
     "test:treasury": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs",
     "test:treasury:full": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs",
     "test:ai": "node geelooy/ai/tests/harness/run.cjs all",
@@ -53,7 +53,12 @@
     "stress:root-search": "node scripts/stress-root-search.mjs",
     "stress:mission-engine": "node scripts/stress-mission-engine.mjs",
     "test:mission-continuity-actions": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs",
-    "test:virtual-os": "node geelooy/tests/virtual-os/run-smokes.cjs"
+    "test:virtual-os": "node geelooy/tests/virtual-os/run-smokes.cjs",
+    "test:dayuh-cutover": "node tools/dayuhChadashCutover/releaseCheck.js",
+    "dayuh:cutover:plan": "node tools/dayuhChadashCutover/cli.js plan",
+    "dayuh:cutover:state": "node tools/dayuhChadashCutover/cli.js state",
+    "dayuh:cutover:verify": "node tools/dayuhChadashCutover/cli.js verify",
+    "test:dayuh-release": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
   },
   "author": "",
   "license": "ISC"
