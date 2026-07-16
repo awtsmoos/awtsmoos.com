@@ -5,6 +5,7 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
+const { ROOT: DEFAULT_INSTALL_ROOT } = require("../config.js");
 const Environment = require("./environment.js");
 
 /**
@@ -18,7 +19,9 @@ const Environment = require("./environment.js");
 /** Returns the nonsecret metadata path beneath the selected install root. */
 function metadataPath(config = {}) {
 	const root = Environment.assertSafeInstallRoot(
-		process.env.AWTSMOOS_INSTALL_ROOT || config.installRoot || config.root
+		process.env.AWTSMOOS_INSTALL_ROOT ||
+		config.installRoot ||
+		DEFAULT_INSTALL_ROOT
 	);
 	return path.join(root, "device-binding.json");
 }

@@ -30,5 +30,11 @@ assert.equal(DeviceIdentity.publicStatus({ installRoot: root }).state, "unpaired
 assert.equal(DeviceIdentity.Metadata.read({ installRoot: root }), null);
 assert.equal(DeviceIdentity.SecureStore.read(metadata.deviceId, "credential"), null);
 assert.equal(DeviceIdentity.SecureStore.read(metadata.deviceId, "private-key"), null);
+delete process.env.AWTSMOOS_INSTALL_ROOT;
+assert.equal(
+	DeviceIdentity.Metadata.metadataPath({ root: path.join(root, "project") }),
+	path.join(root, "device-binding.json"),
+	"project roots must never replace the install-root identity vessel"
+);
 fs.rmSync(root, { recursive: true, force: true });
 console.log(JSON.stringify({ ok: true, suite: "device-identity-forget" }));

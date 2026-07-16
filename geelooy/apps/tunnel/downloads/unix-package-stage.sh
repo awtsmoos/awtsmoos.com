@@ -62,6 +62,7 @@ stage_release_candidate() {
 	printf '%s\n' "$CANDIDATE_VERSION" > "$CANDIDATE_ROOT/install-state.txt"
 	printf '%s\n' "$MANIFEST_SHA" > "$CANDIDATE_ROOT/install-manifest.sha256"
 	create_candidate_config "$CANDIDATE_ROOT"
+	copy_candidate_identity "$CANDIDATE_ROOT"
 	write_supervisor_to "$CANDIDATE_ROOT"
 
 	install_progress 58 "Probing startup dependencies"

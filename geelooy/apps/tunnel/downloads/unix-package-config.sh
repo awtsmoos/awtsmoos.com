@@ -37,3 +37,23 @@ const config = {
 fs.writeFileSync(file, `${JSON.stringify(config, null, 2)}\n`);
 NODE
 }
+
+# Device identity metadata is nonsecret but inseparable from the Keychain secret.
+# Every update carries it forward atomically so an authenticated Mac never pairs again.
+copy_candidate_identity() {
+	local candidate="$1"
+	local source="$ROOT/device-binding.json"
+	local destination="$candidate/device-binding.json"
+	[ -f "$source" ] && [ ! -L "$source" ] || return 0
+	node - "$source" <<'NODE'
+const fs = require("node:fs");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	if (!value || typeof value !== "object" || !String(value.deviceId || "").startsWith("dev_")) {
+		process.exit(1);
+	}
+} catch { process.exit(1); }
+NODE
+	cp -p "$source" "$destination"
+	chmod 600 "$destination"
+}
