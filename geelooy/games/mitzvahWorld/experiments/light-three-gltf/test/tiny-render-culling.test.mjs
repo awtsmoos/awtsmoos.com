@@ -24,7 +24,10 @@ import {
 	localBoundingSphere,
 	worldBoundingSphere
 } from '../tiny-render-bounds.js';
-import { meshCullingReason } from '../tiny-render-culling.js';
+import {
+	cameraCullContext,
+	meshCullingReason
+} from '../tiny-render-culling.js';
 import { collectMeshes } from '../tiny-render-draw-list.js';
 import { collectWorldMatrices } from '../tiny-skin-scene.js';
 
@@ -89,6 +92,24 @@ test('explicit mountains remain visible and missing bounds fail open', () => {
 	collectWorldMatrices(scene);
 	assert.equal(meshCullingReason(mountain, camera()), null);
 	assert.equal(meshCullingReason(unknown, camera()), null);
+});
+
+test('one reusable camera context preserves exact culling decisions', () => {
+	const activeCamera = camera();
+	const context = cameraCullContext(activeCamera);
+	for (const mesh of [
+		triangleMesh(0, 0, -12),
+		triangleMesh(100, 0, -12),
+		triangleMesh(0, 0, 1200)
+	]) {
+		const scene = new Scene();
+		scene.add(mesh);
+		collectWorldMatrices(scene);
+		assert.equal(
+			meshCullingReason(mesh, activeCamera, {}, context),
+			meshCullingReason(mesh, activeCamera)
+		);
+	}
 });
 
 test('invisible subtrees do not receive frame matrices or draw entries', () => {

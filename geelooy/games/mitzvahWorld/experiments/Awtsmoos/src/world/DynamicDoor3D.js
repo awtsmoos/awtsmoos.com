@@ -51,7 +51,9 @@ export class DynamicDoor3D {
 
 	update(deltaTime) {
 		const direction = this.state === 'opening' ? 1 : this.state === 'closing' ? -1 : 0;
-		this.t = Math.max(0, Math.min(1, this.t + direction * deltaTime * 2.15));
+		if (direction === 0) return;
+		const previousProgress = this.t;
+		this.t = Math.max(0, Math.min(1, previousProgress + direction * deltaTime * 2.15));
 		if (this.t >= 1) {
 			this.t = 1;
 			this.state = 'open';
@@ -59,6 +61,7 @@ export class DynamicDoor3D {
 			this.t = 0;
 			this.state = 'closed';
 		}
+		if (this.t === previousProgress) return;
 		this.setPose();
 	}
 

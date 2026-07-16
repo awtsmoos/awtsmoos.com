@@ -36,26 +36,76 @@ const ALWAYS_VISIBLE = new Set([
 	'world-sky'
 ]);
 
-export function meshCullingReason(mesh, camera, options = {}) {
+export function meshCullingReason(mesh, camera, options = {}, context = null) {
 	if (!camera || options.culling === false) return null;
 	const metadata = inheritedRenderMetadata(mesh);
 	if (metadata.alwaysVisible || ALWAYS_VISIBLE.has(metadata.family)) return null;
 	const sphere = worldBoundingSphere(mesh);
 	if (!sphere) return null;
-	const basis = cameraBasis(camera);
+	const basis = context || cameraCullContext(camera);
 	const distanceLimit = renderDistance(metadata, camera, options);
-	const relative = subtract(sphere.center, basis.eye);
-	const distance = Math.hypot(relative[0], relative[1], relative[2]);
+	const relativeX = sphere.center[0] - basis.eyeX;
+	const relativeY = sphere.center[1] - basis.eyeY;
+	const relativeZ = sphere.center[2] - basis.eyeZ;
+	const distance = Math.hypot(relativeX, relativeY, relativeZ);
 	if (distance - sphere.radius > distanceLimit) return 'distance';
-	const depth = dot(relative, basis.forward);
+	const depth = relativeX * basis.forwardX
+		+ relativeY * basis.forwardY
+		+ relativeZ * basis.forwardZ;
 	if (depth + sphere.radius < camera.near) return 'frustum';
 	if (depth - sphere.radius > camera.far) return 'frustum';
 	if (depth <= -sphere.radius) return 'frustum';
 	const verticalLimit = Math.max(0, depth) * basis.tangent + sphere.radius;
 	const horizontalLimit = verticalLimit * (camera.aspect || 1);
-	if (Math.abs(dot(relative, basis.right)) > horizontalLimit) return 'frustum';
-	if (Math.abs(dot(relative, basis.up)) > verticalLimit) return 'frustum';
+	const horizontal = relativeX * basis.rightX
+		+ relativeY * basis.rightY
+		+ relativeZ * basis.rightZ;
+	if (Math.abs(horizontal) > horizontalLimit) return 'frustum';
+	const vertical = relativeX * basis.upX
+		+ relativeY * basis.upY
+		+ relativeZ * basis.upZ;
+	if (Math.abs(vertical) > verticalLimit) return 'frustum';
 	return null;
+}
+
+/** Computes immutable camera-space scalars once for every culling pass. */
+export function cameraCullContext(camera) {
+	if (!camera) return null;
+	const eyeX = camera.position.x;
+	const eyeY = camera.position.y;
+	const eyeZ = camera.position.z;
+	const target = camera.target || [0, 0, 4];
+	let forwardX = target[0] - eyeX;
+	let forwardY = target[1] - eyeY;
+	let forwardZ = target[2] - eyeZ;
+	const inverseForward = 1 / (Math.hypot(forwardX, forwardY, forwardZ) || 1);
+	forwardX *= inverseForward;
+	forwardY *= inverseForward;
+	forwardZ *= inverseForward;
+	let rightX = -forwardZ;
+	const rightY = 0;
+	let rightZ = forwardX;
+	const inverseRight = 1 / (Math.hypot(rightX, rightZ) || 1);
+	rightX *= inverseRight;
+	rightZ *= inverseRight;
+	const upX = rightY * forwardZ - rightZ * forwardY;
+	const upY = rightZ * forwardX - rightX * forwardZ;
+	const upZ = rightX * forwardY - rightY * forwardX;
+	return {
+		eyeX,
+		eyeY,
+		eyeZ,
+		forwardX,
+		forwardY,
+		forwardZ,
+		rightX,
+		rightY,
+		rightZ,
+		tangent: Math.tan((camera.fov || 45) * Math.PI / 360),
+		upX,
+		upY,
+		upZ
+	};
 }
 
 export function inheritedRenderMetadata(object) {
@@ -82,40 +132,4 @@ function renderDistance(metadata, camera, options) {
 	if (Number.isFinite(FAMILY_DISTANCE[metadata.family])) return FAMILY_DISTANCE[metadata.family] * scale;
 	if (Number.isFinite(ROLE_DISTANCE[metadata.role])) return ROLE_DISTANCE[metadata.role] * scale;
 	return Math.min(camera.far || 1000, options.defaultRenderDistance || 520) * scale;
-}
-
-function cameraBasis(camera) {
-	const eye = camera.position.toArray();
-	const target = camera.target || [0, 0, 4];
-	const forward = normalize(subtract(target, eye));
-	const right = normalize(cross(forward, [0, 1, 0]));
-	const up = normalize(cross(right, forward));
-	return {
-		eye,
-		forward,
-		right,
-		tangent: Math.tan((camera.fov || 45) * Math.PI / 360),
-		up
-	};
-}
-
-function subtract(left, right) {
-	return [left[0] - right[0], left[1] - right[1], left[2] - right[2]];
-}
-
-function dot(left, right) {
-	return left[0] * right[0] + left[1] * right[1] + left[2] * right[2];
-}
-
-function cross(left, right) {
-	return [
-		left[1] * right[2] - left[2] * right[1],
-		left[2] * right[0] - left[0] * right[2],
-		left[0] * right[1] - left[1] * right[0]
-	];
-}
-
-function normalize(vector) {
-	const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
-	return vector.map(value => value / length);
 }

@@ -28,7 +28,7 @@ const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 export function createEretzFoundationServices(hosts, qualityProfile) {
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(
-		60,
+		54,
 		innerWidth / innerHeight,
 		0.05,
 		1600
@@ -48,12 +48,12 @@ export function createEretzFoundationServices(hosts, qualityProfile) {
 	const joystick = new MobileJoystick(hosts.joystickHost);
 	const jumpButton = new JumpButton(hosts.jumpHost);
 	const orbit = new CameraOrbitController(hosts.canvas, {
-		distance: 6.75,
-		eyeForward: 0.32,
+		distance: 5.1,
+		eyeForward: 0.24,
 		max: 42,
 		min: 1.65,
 		mode: 'orbit',
-		pitch: 0.29,
+		pitch: 0.2,
 		yaw: Math.PI + 0.08
 	});
 	return {

@@ -45,7 +45,7 @@ assert.equal(first.stats.treeCount, 54);
 assert.equal(first.stats.presetCount, 36);
 assert.equal(first.stats.allPresetsPresent, true);
 assert.equal(first.stats.rendering.drawCalls, 2);
-assert.ok(first.stats.rendering.triangles < 100000, 'Mobile forest triangle budget exceeded.');
+assert.ok(first.stats.rendering.triangles < 18000, 'Mobile forest triangle budget exceeded.');
 assert.ok(first.stats.collision.triangles > 0, 'Visible trunks must collide.');
 assert.equal(first.stats.collision.proxyShapes, 0);
 assert.equal(first.stats.collision.canopyColliders, 0);

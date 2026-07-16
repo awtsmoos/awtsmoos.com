@@ -9,20 +9,20 @@
 import { getTreePreset } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 
 const NEAR_CAPS = Object.freeze({
-	children: [6, 4, 3, 2],
-	sections: [8, 6, 4, 3],
-	segments: [8, 6, 4, 3],
-	leaves: 9,
-	branches: 160,
-	levels: 3
-});
-const FAR_CAPS = Object.freeze({
-	children: [5, 3, 2],
+	children: [4, 3, 2],
 	sections: [6, 4, 3],
 	segments: [6, 4, 3],
 	leaves: 5,
 	branches: 72,
 	levels: 2
+});
+const FAR_CAPS = Object.freeze({
+	children: [3, 2],
+	sections: [4, 3],
+	segments: [4, 3],
+	leaves: 3,
+	branches: 28,
+	levels: 1
 });
 
 function cappedRecord(record = {}, caps) {
@@ -53,6 +53,7 @@ export function createForestPolicy(name, index) {
 	config.branch.sections = cappedRecord(config.branch.sections, caps.sections);
 	config.branch.segments = cappedRecord(config.branch.segments, caps.segments);
 	config.leaves.count = Math.min(Number(config.leaves.count || 0), caps.leaves);
+	config.leaves.size = Number(config.leaves.size || 1) * (near ? 1.18 : 1.42);
 	const height = targetHeight(name, near, index);
 	return {
 		name,

@@ -13,11 +13,17 @@ export function createVillageCottageRoof(options) {
 	const halfWidth = (options.width + 1.45) / 2;
 	const halfDepth = (options.depth + 1.35) / 2;
 	const thickness = 0.34;
-	const localVertices = roofVertices(halfWidth, halfDepth, options.roofRise, thickness);
+	const geometry = roofGeometry(
+		halfWidth,
+		halfDepth,
+		options.roofRise,
+		thickness,
+		options.texturePolicy?.tileWorld
+	);
 	return {
 		color: '#9e6f58',
 		doubleSided: true,
-		faces: roofFaces(),
+		faces: geometry.faces,
 		id: `Awtsmoos_${options.id}-roof`,
 		mapRepeat: options.mapRepeat,
 		mixPatchScale: 0.055,
@@ -36,28 +42,61 @@ export function createVillageCottageRoof(options) {
 			part: 'closed-ridge-roof',
 			roofThickness: thickness
 		},
-		vertices: localVertices.map((point) => worldPoint(point, options))
+		uvs: geometry.uvs,
+		vertices: geometry.vertices.map((point) => worldPoint(point, options))
 	};
 }
 
-function roofVertices(width, depth, rise, thickness) {
-	return [
-		[-width, 0, -depth], [width, 0, -depth],
-		[-width, 0, depth], [width, 0, depth],
-		[0, rise, -depth], [0, rise, depth],
-		[-width, -thickness, -depth], [width, -thickness, -depth],
-		[-width, -thickness, depth], [width, -thickness, depth]
-	];
+function roofGeometry(width, depth, rise, thickness, tileWorld) {
+	const tile = Math.max(0.25, tileWorld || 4);
+	const slope = Math.hypot(width, rise);
+	const mesh = { faces: [], uvs: [], vertices: [] };
+	const point = {
+		backLeft: [-width, 0, -depth],
+		backRight: [width, 0, -depth],
+		backRidge: [0, rise, -depth],
+		frontLeft: [-width, 0, depth],
+		frontRight: [width, 0, depth],
+		frontRidge: [0, rise, depth],
+		lowerBackLeft: [-width, -thickness, -depth],
+		lowerBackRight: [width, -thickness, -depth],
+		lowerFrontLeft: [-width, -thickness, depth],
+		lowerFrontRight: [width, -thickness, depth]
+	};
+	appendFace(mesh, [point.backLeft, point.frontLeft, point.frontRidge, point.backRidge], tile,
+		([x, y, z]) => [z, (x * width + y * rise) / slope]);
+	appendFace(mesh, [point.backRidge, point.frontRidge, point.frontRight, point.backRight], tile,
+		([x, y, z]) => [z, (x * width - y * rise) / slope]);
+	appendFace(mesh, [point.backLeft, point.backRidge, point.backRight], tile,
+		([x, y]) => [x, y]);
+	appendFace(mesh, [point.frontLeft, point.frontRight, point.frontRidge], tile,
+		([x, y]) => [x, y]);
+	appendFace(mesh, [point.lowerBackLeft, point.lowerBackRight, point.lowerFrontRight, point.lowerFrontLeft], tile,
+		([x, _y, z]) => [x, z]);
+	appendFace(mesh, [point.backLeft, point.backRight, point.lowerBackRight, point.lowerBackLeft], tile,
+		([x, y]) => [x, y]);
+	appendFace(mesh, [point.frontLeft, point.lowerFrontLeft, point.lowerFrontRight, point.frontRight], tile,
+		([x, y]) => [x, y]);
+	appendFace(mesh, [point.backLeft, point.lowerBackLeft, point.lowerFrontLeft, point.frontLeft], tile,
+		([_x, y, z]) => [z, y]);
+	appendFace(mesh, [point.backRight, point.frontRight, point.lowerFrontRight, point.lowerBackRight], tile,
+		([_x, y, z]) => [z, y]);
+	return mesh;
 }
 
-function roofFaces() {
-	return [
-		[0, 4, 5, 2], [4, 1, 3, 5],
-		[0, 1, 4], [2, 5, 3],
-		[6, 8, 9, 7], [0, 6, 7, 1],
-		[2, 3, 9, 8], [0, 2, 8, 6],
-		[1, 7, 9, 3]
-	];
+function appendFace(mesh, points, tile, project) {
+	const first = mesh.vertices.length;
+	const projected = points.map(project);
+	const minU = Math.min(...projected.map(([u]) => u));
+	const minV = Math.min(...projected.map(([, value]) => value));
+	for (let index = 0; index < points.length; index += 1) {
+		mesh.vertices.push(points[index]);
+		mesh.uvs.push(
+			(projected[index][0] - minU) / tile,
+			(projected[index][1] - minV) / tile
+		);
+	}
+	mesh.faces.push(points.map((_point, index) => first + index));
 }
 
 function worldPoint(point, options) {

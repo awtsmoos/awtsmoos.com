@@ -13,14 +13,14 @@
  * accessibility or world fidelity for a favorable performance label.
  */
 
-const PRESERVED_DPR = 1.15;
+const PRESERVED_DPR = 1;
 const PRESERVED_DISTANCE = 520;
 const PRESERVED_MODELS = 11;
 const PROFILES = Object.freeze({
 	low: profile('low', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'mobile-quality-preserved'),
 	medium: profile('medium', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'quality-preserved'),
 	high: profile('high', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'desktop-quality'),
-	cinematic: profile('cinematic', 1.35, 760, PRESERVED_MODELS, 'cinematic-expanded')
+	cinematic: profile('cinematic', 1.25, 760, PRESERVED_MODELS, 'cinematic-expanded')
 });
 const VALID = new Set(Object.keys(PROFILES));
 

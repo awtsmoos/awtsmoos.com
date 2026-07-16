@@ -23,9 +23,9 @@ const LAYERS = Object.freeze([
 ]);
 
 const QUALITY_COUNTS = Object.freeze({
-	low: 3,
-	medium: 6,
-	high: 6,
+	low: 1,
+	medium: 2,
+	high: 4,
 	cinematic: 6
 });
 

@@ -54,8 +54,10 @@ assert.equal(stats.vertexArrays.supported, true);
 assert.equal(stats.vertexArrays.creations, 1);
 assert.equal(stats.vertexArrays.binds, 1);
 assert.equal(stats.vertexArrays.skips, 1);
+assert.equal(stats.vertexArrays.fallbackUploads, 5);
+assert.equal(stats.vertexArrays.fallbackSkips, 5);
 assert.equal(ledger.binds.length, 3);
-assert.equal(ledger.constants.length, 10);
+assert.equal(ledger.constants.length, 5);
 assert.equal(ledger.invalidations, 3);
 
 assert.equal(vertexArrays.releaseToDefault(), true);

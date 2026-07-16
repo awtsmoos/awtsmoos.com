@@ -46,7 +46,8 @@ assert.ok(shell.mixTextureUrl);
 assert.equal(shell.mixStrength, 0.3);
 assert.equal(roof.shape, 'manual');
 assert.equal(roof.faces.length, 9);
-assert.equal(roof.vertices.length, 10);
+assert.equal(roof.vertices.length, 34);
+assert.equal(roof.uvs.length, roof.vertices.length * 2);
 assert.ok(roof.mixTextureUrl);
 assert.equal(roof.solid, true);
 

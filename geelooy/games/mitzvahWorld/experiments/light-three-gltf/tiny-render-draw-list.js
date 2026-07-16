@@ -11,7 +11,10 @@
 
 import { worldBoundingSphere } from './tiny-render-bounds.js';
 import { collectSceneMeshes } from './tiny-render-collection.js';
-import { meshCullingReason } from './tiny-render-culling.js';
+import {
+	cameraCullContext,
+	meshCullingReason
+} from './tiny-render-culling.js';
 import { orderOpaqueMeshes } from './tiny-render-order.js';
 import {
 	isAlphaBlend,
@@ -35,10 +38,11 @@ export function collectMeshes(root, camera = null, options = {}) {
 		frustum: 0,
 		invisibleSubtrees: collected.invisibleSubtrees
 	};
-	appendVisibleMeshes(collected.opaque, opaque, camera, options, culled);
-	appendVisibleMeshes(batched.originals, opaque, camera, options, culled);
-	appendVisibleMeshes(batched.meshes, opaque, camera, options, culled);
-	appendVisibleMeshes(collected.transparent, transparent, camera, options, culled);
+	const cullingContext = cameraCullContext(camera);
+	appendVisibleMeshes(collected.opaque, opaque, camera, options, culled, cullingContext);
+	appendVisibleMeshes(batched.originals, opaque, camera, options, culled, cullingContext);
+	appendVisibleMeshes(batched.meshes, opaque, camera, options, culled, cullingContext);
+	appendVisibleMeshes(collected.transparent, transparent, camera, options, culled, cullingContext);
 	const ordered = orderOpaqueMeshes(opaque);
 	sortTransparentMeshes(transparent, camera);
 	return {
@@ -68,9 +72,9 @@ function unbatched(candidates) {
 	};
 }
 
-function appendVisibleMeshes(meshes, output, camera, options, culled) {
+function appendVisibleMeshes(meshes, output, camera, options, culled, cullingContext) {
 	for (const mesh of meshes) {
-		const reason = meshCullingReason(mesh, camera, options);
+		const reason = meshCullingReason(mesh, camera, options, cullingContext);
 		if (reason) {
 			culled[reason] += 1;
 			continue;

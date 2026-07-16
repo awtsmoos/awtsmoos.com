@@ -63,6 +63,23 @@ test('static batches stay spatially partitioned for effective frustum culling', 
 	assert.equal(result.culled.frustum, 1);
 });
 
+test('unchanged static membership reuses the prepared grouping result', () => {
+	const scene = new Scene();
+	const material = new MeshStandardMaterial({ color: [0.7, 0.6, 0.5, 1] });
+	scene.add(triangle(material, 1, 'reference-village-district'));
+	scene.add(triangle(material, 2, 'reference-village-district'));
+	scene.updateWorldMatrix();
+	const camera = new PerspectiveCamera(60, 1, 0.1, 100);
+	camera.position.set(0, 2, 8);
+	camera.target = [0, 0, 0];
+	const staticBatcher = new StaticOpaqueBatcher();
+	const options = { staticBatcher };
+	const first = collectMeshes(scene, camera, options);
+	const second = collectMeshes(scene, camera, options);
+	assert.equal(second.staticBatch, first.staticBatch);
+	assert.equal(second.opaque[0], first.opaque[0]);
+});
+
 function triangle(material, x, family) {
 	const geometry = new BufferGeometry();
 	geometry.setAttribute('position', new BufferAttribute(new Float32Array([

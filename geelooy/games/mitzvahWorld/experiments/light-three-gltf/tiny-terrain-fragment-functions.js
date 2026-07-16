@@ -18,9 +18,7 @@ vec2 terrainUv(vec2 repeatValue,float angle){
 	return mirrorRepeat(rotation*world*repeatValue);
 }
 float terrainMacro(vec2 offset){
-	float broad=valueNoise(vWorld.xz*0.012+offset);
-	float detail=valueNoise(vWorld.xz*0.031+offset*2.7);
-	return clamp(broad*0.72+detail*0.28,0.0,1.0);
+	return valueNoise(vWorld.xz*0.015+offset);
 }
 vec4 layeredTerrainTexel(vec3 surfaceNormal){
 	vec4 result=uUseMap==1

@@ -18,6 +18,7 @@ export class RenderVertexArrays {
 		this.extension = gl.getExtension('OES_vertex_array_object');
 		this.cache = new WeakMap();
 		this.entries = new Set();
+		this.fallbackValues = new Map();
 		this.current = null;
 		this.creations = 0;
 		this.failures = 0;
@@ -29,6 +30,8 @@ export class RenderVertexArrays {
 		stats.vertexArrays = {
 			binds: 0,
 			creations: this.creations,
+			fallbackSkips: 0,
+			fallbackUploads: 0,
 			failures: this.failures,
 			skips: 0,
 			supported: Boolean(this.extension)
@@ -55,7 +58,13 @@ export class RenderVertexArrays {
 			this.stats.vertexArrays.skips += 1;
 		}
 		for (const fallback of entry.fallbacks) {
+			if (sameValues(this.fallbackValues.get(fallback.location), fallback.values)) {
+				this.stats.vertexArrays.fallbackSkips += 1;
+				continue;
+			}
 			this.gl.vertexAttrib4fv(fallback.location, fallback.values);
+			this.fallbackValues.set(fallback.location, fallback.values);
+			this.stats.vertexArrays.fallbackUploads += 1;
 		}
 		return true;
 	}
@@ -105,4 +114,10 @@ export class RenderVertexArrays {
 	invalidateHiddenState() {
 		this.glStateCache?.invalidateVertexArrayState?.();
 	}
+}
+
+function sameValues(left, right) {
+	return Boolean(left)
+		&& left.length === right.length
+		&& left.every((value, index) => value === right[index]);
 }

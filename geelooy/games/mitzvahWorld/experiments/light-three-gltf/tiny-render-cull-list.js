@@ -9,12 +9,16 @@
  * present camera-visible vessels while recording every lawful rejection.
  */
 
-import { meshCullingReason } from './tiny-render-culling.js';
+import {
+	cameraCullContext,
+	meshCullingReason
+} from './tiny-render-culling.js';
 
 export function cullMeshList(meshes, camera, options, stats) {
 	const visible = [];
+	const context = cameraCullContext(camera);
 	for (const mesh of meshes) {
-		const reason = meshCullingReason(mesh, camera, options);
+		const reason = meshCullingReason(mesh, camera, options, context);
 		if (reason) {
 			stats[reason] += 1;
 			continue;

@@ -16,10 +16,11 @@ const PROCEDURAL = ['manual', 'doorway', 'cylinder', 'sphere', 'triPrism'];
 /** Every primitive becomes textured geometry; URL and real mapImage are both preserved. */
 export function createPrimitiveMesh(definition) {
 	const data = primitiveData(definition);
+	const normals = vertexNormals(data);
 	const geometry = new BufferGeometry();
 	geometry.setAttribute('position', new BufferAttribute(new Float32Array(flat(data.vertices)), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(vertexNormals(data)), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs || projectedUvs(data.vertices, definition)), 2));
+	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
+	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs || projectedUvs(data.vertices, normals, definition)), 2));
 	geometry.setIndex(new BufferAttribute(indexArray(data.indices), 1));
 	const materialSource = materialProps(definition);
 	const material = new MeshStandardMaterial({
@@ -134,12 +135,13 @@ function face(mesh, points, uSpan, vSpan) {
 	mesh.indices.push(indices[0], indices[1], indices[2], indices[0], indices[2], indices[3]);
 }
 
-function projectedUvs(vertices, definition) {
+function projectedUvs(vertices, normals, definition) {
 	const tile = Math.max(0.25, definition.texturePolicy?.tileWorld || 4);
-	return vertices.flatMap((point) => {
-		const ax = Math.abs(point.x);
-		const ay = Math.abs(point.y);
-		const az = Math.abs(point.z);
+	return vertices.flatMap((point, index) => {
+		const offset = index * 3;
+		const ax = Math.abs(normals[offset]);
+		const ay = Math.abs(normals[offset + 1]);
+		const az = Math.abs(normals[offset + 2]);
 		if (ay >= ax && ay >= az) return [point.x / tile, point.z / tile];
 		if (ax >= az) return [point.z / tile, point.y / tile];
 		return [point.x / tile, point.y / tile];

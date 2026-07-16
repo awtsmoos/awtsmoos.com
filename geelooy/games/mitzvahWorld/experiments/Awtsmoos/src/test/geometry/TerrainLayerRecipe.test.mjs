@@ -34,9 +34,14 @@ test('continuous grass and dirt use exact licensed Chai POT public URLs', () => 
 test('quality recipes preserve ordered layers and bounded counts', () => {
 	const medium = terrainLayerRecipe('medium');
 	const low = terrainLayerRecipe('low');
-	assert.equal(medium.layers.length, 6);
-	assert.equal(low.layers.length, 3);
+	const cinematic = terrainLayerRecipe('cinematic');
+	assert.equal(medium.layers.length, 2);
+	assert.equal(low.layers.length, 1);
 	assert.deepEqual(medium.layers.map(layer => layer.role), [
+		'dryGrass',
+		'mud'
+	]);
+	assert.deepEqual(cinematic.layers.map(layer => layer.role), [
 		'dryGrass',
 		'mud',
 		'forestFloor',
@@ -49,7 +54,7 @@ test('quality recipes preserve ordered layers and bounded counts', () => {
 	assert.match(medium.dirtUrl, /\/chai-forest-half\/textures\/ground\/dirt_color\.jpg$/);
 });
 
-test('terrain mesh carries four ecological zones and six layered textures', () => {
+test('medium terrain carries four ecological zones and two layered textures', () => {
 	const image = completeImage('https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest-half/textures/ground/grass.jpg');
 	const mesh = createTerrainMesh(terrainData(), image, image, image.src, 'medium');
 	const zones = Array.from(mesh.geometry.attributes.zone.array);
@@ -60,9 +65,9 @@ test('terrain mesh carries four ecological zones and six layered textures', () =
 		0, 1, 0, 0,
 		0, 0, 1, 0
 	]);
-	assert.equal(mesh.material.textureLayers.length, 6);
+	assert.equal(mesh.material.textureLayers.length, 2);
 	assert.equal(mesh.material.texturePolicy.shader, 'terrain-layered-multi-mix');
-	assert.equal(mesh.userData.AwtsmoosTerrainValley.layerCount, 6);
+	assert.equal(mesh.userData.AwtsmoosTerrainValley.layerCount, 2);
 });
 
 function completeImage(src) {

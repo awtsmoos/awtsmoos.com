@@ -13,7 +13,7 @@
     const hosts={canvas:AwtsmoosCanvas,joystickHost:joy,jumpHost:jump,hud,actionHost:actions,inventoryHost:inventory,npcHost:npcTarget,dialogueHost:npcDialogue};
     const showFailure=error=>{hud.textContent=`B\"H startup failed: ${error?.message||error}`;hud.dataset.bootFailure=error?.stack||String(error);console.error(error)};
     addEventListener('unhandledrejection',event=>showFailure(event.reason));
-    try{const module=await import('./experiments/Awtsmoos/src/app/createEretz3DDemo.js?v=20260715-realism-pass');await module.createEretz3DDemo(hosts)}catch(error){showFailure(error)}
+    try{const module=await import('./experiments/Awtsmoos/src/app/createEretz3DDemo.js?v=20260716-hyperreal-pass');await module.createEretz3DDemo(hosts)}catch(error){showFailure(error)}
   </script>
 </body>
 </html>

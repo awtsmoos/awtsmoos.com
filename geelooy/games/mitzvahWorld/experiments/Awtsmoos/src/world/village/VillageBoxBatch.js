@@ -10,7 +10,7 @@
  */
 
 export function createVillageBoxBatch(id, boxes, options) {
-	const geometry = batchGeometry(boxes);
+	const geometry = batchGeometry(boxes, options.texturePolicy?.tileWorld);
 	return {
 		...geometry,
 		color: options.color,
@@ -34,28 +34,58 @@ export function createVillageBoxBatch(id, boxes, options) {
 	};
 }
 
-function batchGeometry(boxes) {
+function batchGeometry(boxes, tileWorld) {
 	const vertices = [];
+	const uvs = [];
 	const indices = [];
-	for (const box of boxes) appendBox(vertices, indices, box);
-	return { indices, vertices };
+	for (const box of boxes) appendBox(vertices, uvs, indices, box, tileWorld);
+	return { indices, uvs, vertices };
 }
 
-function appendBox(vertices, indices, box) {
-	const first = vertices.length;
+function appendBox(vertices, uvs, indices, box, tileWorld) {
 	const half = {
 		x: box.size.x / 2,
 		y: box.size.y / 2,
 		z: box.size.z / 2
 	};
-	const corners = [
-		[-half.x, -half.y, -half.z], [half.x, -half.y, -half.z],
-		[half.x, half.y, -half.z], [-half.x, half.y, -half.z],
+	const tile = Math.max(0.25, tileWorld || 4);
+	appendFace(vertices, uvs, indices, box, [
 		[-half.x, -half.y, half.z], [half.x, -half.y, half.z],
 		[half.x, half.y, half.z], [-half.x, half.y, half.z]
-	];
-	for (const corner of corners) vertices.push(worldPoint(corner, box));
-	for (const index of BOX_INDICES) indices.push(first + index);
+	], box.size.x / tile, box.size.y / tile);
+	appendFace(vertices, uvs, indices, box, [
+		[half.x, -half.y, -half.z], [-half.x, -half.y, -half.z],
+		[-half.x, half.y, -half.z], [half.x, half.y, -half.z]
+	], box.size.x / tile, box.size.y / tile);
+	appendFace(vertices, uvs, indices, box, [
+		[-half.x, -half.y, -half.z], [-half.x, -half.y, half.z],
+		[-half.x, half.y, half.z], [-half.x, half.y, -half.z]
+	], box.size.z / tile, box.size.y / tile);
+	appendFace(vertices, uvs, indices, box, [
+		[half.x, -half.y, half.z], [half.x, -half.y, -half.z],
+		[half.x, half.y, -half.z], [half.x, half.y, half.z]
+	], box.size.z / tile, box.size.y / tile);
+	appendFace(vertices, uvs, indices, box, [
+		[-half.x, half.y, half.z], [half.x, half.y, half.z],
+		[half.x, half.y, -half.z], [-half.x, half.y, -half.z]
+	], box.size.x / tile, box.size.z / tile);
+	appendFace(vertices, uvs, indices, box, [
+		[-half.x, -half.y, -half.z], [half.x, -half.y, -half.z],
+		[half.x, -half.y, half.z], [-half.x, -half.y, half.z]
+	], box.size.x / tile, box.size.z / tile);
+}
+
+function appendFace(vertices, uvs, indices, box, corners, uSpan, vSpan) {
+	const first = vertices.length;
+	const faceUvs = [[0, 0], [uSpan, 0], [uSpan, vSpan], [0, vSpan]];
+	for (let index = 0; index < corners.length; index += 1) {
+		vertices.push(worldPoint(corners[index], box));
+		uvs.push(...faceUvs[index]);
+	}
+	indices.push(
+		first, first + 1, first + 2,
+		first, first + 2, first + 3
+	);
 }
 
 function worldPoint(corner, box) {
@@ -68,12 +98,3 @@ function worldPoint(corner, box) {
 		box.position.z - corner[0] * sine + corner[2] * cosine
 	];
 }
-
-const BOX_INDICES = Object.freeze([
-	0, 2, 1, 0, 3, 2,
-	4, 5, 6, 4, 6, 7,
-	0, 1, 5, 0, 5, 4,
-	3, 7, 6, 3, 6, 2,
-	1, 2, 6, 1, 6, 5,
-	0, 4, 7, 0, 7, 3
-]);

@@ -31,8 +31,10 @@ export class LocalTabRealtimeClient {
 		this.connectionId = options.connectionId || connectionToken(this.playerId);
 		this.staleAfterMs = options.staleAfterMs;
 		this.heartbeatIntervalMs = options.heartbeatIntervalMs ?? DEFAULT_HEARTBEAT_MS;
-		this.scheduleHeartbeat = options.scheduleHeartbeat || globalThis.setInterval;
-		this.cancelHeartbeat = options.cancelHeartbeat || globalThis.clearInterval;
+		this.scheduleHeartbeat = options.scheduleHeartbeat
+			|| globalThis.setInterval?.bind(globalThis);
+		this.cancelHeartbeat = options.cancelHeartbeat
+			|| globalThis.clearInterval?.bind(globalThis);
 		this.listeners = new Set();
 		this.activeConnectionBySender = new Map();
 		this.closedConnections = new Set();

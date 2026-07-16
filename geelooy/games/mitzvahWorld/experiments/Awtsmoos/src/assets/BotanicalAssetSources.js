@@ -4,25 +4,27 @@
 
 /**
  * @file BotanicalAssetSources.js
- * @description Records models and unpublished purification sources without
- * placing them in the critical image preload. Distinct vessels await Awtsmoos.
+ * @description Records exact published botanical models and purification
+ * sources without inventing a model-quality tier beneath the Awtsmoos.
  */
 import { exactMaterialUrl } from './PublicMaterialResolver.js';
+
+const flowerModels = Object.freeze({
+	blue: exactMaterialUrl(
+		'awtsmoos-nature/chai-forest/models/flower_blue.glb'
+	),
+	white: exactMaterialUrl(
+		'awtsmoos-nature/chai-forest/models/flower_white.glb'
+	),
+	yellow: exactMaterialUrl(
+		'awtsmoos-nature/chai-forest/models/flower_yellow.glb'
+	)
+});
 
 export const BOTANICAL_ASSET_SOURCES = Object.freeze({
 	futurePetalAtlas: exactMaterialUrl('processed/botany/petal-soft.svg'),
 	opaqueSakuraSheet: exactMaterialUrl(
 		'awtsmoos-nature/ilanos/trees/sakura petal.png'
 	),
-	flowerModels: Object.freeze({
-		pink: exactMaterialUrl(
-			'awtsmoos-nature/chai-forest/models/Flowers_Pink.glb'
-		),
-		white: exactMaterialUrl(
-			'awtsmoos-nature/chai-forest/models/Flowers_White.glb'
-		),
-		purple: exactMaterialUrl(
-			'awtsmoos-nature/chai-forest/models/Flowers_Purple.glb'
-		)
-	})
+	flowerModels
 });

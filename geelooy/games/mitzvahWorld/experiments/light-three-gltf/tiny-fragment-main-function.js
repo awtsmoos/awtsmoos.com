@@ -22,7 +22,8 @@ void main(){
 	vec4 mixedColor=uColor*vColor*texel;
 	if(uAlphaMode==1&&mixedColor.a<uAlphaCutoff)discard;
 	if(mixedColor.a<=0.003)discard;
-	vec3 textureLinear=pow(max(mixedColor.rgb,vec3(0.0)),vec3(2.2));
+	vec3 encoded=max(mixedColor.rgb,vec3(0.0));
+	vec3 textureLinear=encoded*encoded;
 	vec3 rgb=textureLinear;
 	if(uMaterialMode==4){
 		rgb=textureLinear*uExposure;
@@ -37,10 +38,11 @@ void main(){
 			rgb+=textureLinear*uSunColor*back*0.22;
 		}
 	}
-	float distanceToCamera=distance(uCameraPosition,vWorld);
-	float fog=smoothstep(uFogNear,uFogFar,distanceToCamera);
+	vec3 cameraDelta=uCameraPosition-vWorld;
+	float distanceSquared=dot(cameraDelta,cameraDelta);
+	float fog=smoothstep(uFogNear*uFogNear,uFogFar*uFogFar,distanceSquared);
 	if(uMaterialMode!=4){
-		rgb=mix(rgb,pow(uFogColor,vec3(2.2)),fog*0.88);
+		rgb=mix(rgb,uFogColor*uFogColor,fog*0.88);
 	}
 	gl_FragColor=vec4(toneMap(rgb),mixedColor.a);
 }
