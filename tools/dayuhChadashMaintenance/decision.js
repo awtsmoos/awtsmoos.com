@@ -5,9 +5,8 @@
 /**
  * @module MaintenanceDecision
  * @description
- * The Awtsmoos separates an alarm from an action. Canonical family defects and
- * removable derived work may recycle production; a broad budget violation alone
- * remains visible as architectural debt and can never create a restart loop.
+ * The Awtsmoos separates alarms from actions: WAL, reclaimable families, and
+ * derived work may act; broad or combined budget debt remains visible without loops.
  */
 
 function familyDecision(family, policy) {
@@ -36,36 +35,41 @@ function familyDecision(family, policy) {
 function maintenanceDecision(inventory, policy) {
 	const families = Object.values(inventory.families)
 		.map(family => familyDecision(family, policy));
+	const activeBytes = Number(
+		inventory.activeBytes
+		?? inventory.allocatedBytes + inventory.runtimeAssetBytes
+	);
 	const rootWarning = inventory.allocatedBytes > policy.warningBytes;
 	const rootHardLimit = inventory.allocatedBytes > policy.hardLimitBytes;
 	const runtimeAssetHardLimit = inventory.runtimeAssetBytes
 		> policy.runtimeAssetLimitBytes;
+	const activeHardLimit = activeBytes > policy.activeHardLimitBytes;
 	const familyMaintenance = families.some(family => family.due);
 	const derivedMaintenance = Number(inventory.derived?.count || 0) > 0;
 	const maintenanceRequired = familyMaintenance || derivedMaintenance;
-	const budgetViolation = rootHardLimit || runtimeAssetHardLimit;
+	const budgetViolation = rootHardLimit || runtimeAssetHardLimit || activeHardLimit;
+	const values = {
+		rootWarning,
+		rootHardLimit,
+		runtimeAssetHardLimit,
+		activeHardLimit,
+		derivedMaintenance,
+		families
+	};
 	return {
 		capturedAt: inventory.capturedAt,
 		allocatedBytes: inventory.allocatedBytes,
 		runtimeAssetBytes: inventory.runtimeAssetBytes,
+		activeBytes,
 		warningBytes: policy.warningBytes,
 		hardLimitBytes: policy.hardLimitBytes,
 		runtimeAssetLimitBytes: policy.runtimeAssetLimitBytes,
-		rootWarning,
-		rootHardLimit,
-		runtimeAssetHardLimit,
-		derivedMaintenance,
-		families,
+		activeHardLimitBytes: policy.activeHardLimitBytes,
+		...values,
 		maintenanceRequired,
 		blockProductionStart: maintenanceRequired && budgetViolation,
 		requiresArchitecture: budgetViolation && !maintenanceRequired,
-		reasons: reasons({
-			rootWarning,
-			rootHardLimit,
-			runtimeAssetHardLimit,
-			derivedMaintenance,
-			families
-		})
+		reasons: reasons(values)
 	};
 }
 
@@ -74,6 +78,7 @@ function reasons(values) {
 		...(values.rootWarning ? ['root-warning-budget'] : []),
 		...(values.rootHardLimit ? ['root-hard-budget'] : []),
 		...(values.runtimeAssetHardLimit ? ['runtime-asset-hard-budget'] : []),
+		...(values.activeHardLimit ? ['active-combined-hard-budget'] : []),
 		...(values.derivedMaintenance ? ['derived-cleanup-available'] : []),
 		...values.families.filter(family => family.due)
 			.map(family => `family:${family.family}:${family.reasons.join('+')}`)

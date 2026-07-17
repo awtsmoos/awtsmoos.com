@@ -52,6 +52,7 @@ function publicPolicy(policy) {
 		quarantineRoot: policy.quarantineRoot,
 		dataHardLimitBytes: policy.dataHardLimitBytes,
 		runtimeHardLimitBytes: policy.runtimeHardLimitBytes,
+		activeHardLimitBytes: policy.activeHardLimitBytes,
 		port: policy.port
 	};
 }

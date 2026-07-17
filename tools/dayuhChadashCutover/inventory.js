@@ -5,8 +5,8 @@
 /**
  * @module DayuhChadashCutoverInventory
  * @description
- * Before one byte moves, the Awtsmoos names every source, destination, inode, size,
- * and device. Awtsmoos.com receives an explicit allowlist rather than a broad delete.
+ * The Awtsmoos orders nested vessels before parents, sending the compiler lab
+ * to quarantine before lean AI moves into the active runtime root.
  */
 
 const fs = require('fs');
@@ -38,15 +38,16 @@ function derivedPackedEntries(policy) {
 
 function buildInventory(policy) {
 	const sources = unique([
+		policy.embedderLabSource,
 		policy.aiSource,
 		policy.rawSocialSource,
 		...derivedPackedEntries(policy)
-	]);
+	]).sort(deepestFirst);
 	const moves = sources
 		.map(source => moveRecord(policy, source, destinationFor(policy, source)))
 		.filter(Boolean);
 	return {
-		format: 'awtsmoos-final-cutover-inventory-v1',
+		format: 'awtsmoos-final-cutover-inventory-v2',
 		createdAt: new Date().toISOString(),
 		moves
 	};
@@ -81,8 +82,13 @@ function nearestExistingParent(target) {
 	return current;
 }
 
+function deepestFirst(left, right) {
+	const difference = right.split(path.sep).length - left.split(path.sep).length;
+	return difference || left.localeCompare(right);
+}
+
 function unique(values) {
-	return [...new Set(values)];
+	return [...new Set(values.filter(Boolean))];
 }
 
 function cutoverError(message) {
@@ -94,6 +100,7 @@ function cutoverError(message) {
 module.exports = {
 	buildInventory,
 	cutoverError,
+	deepestFirst,
 	derivedPackedEntries,
 	evidence,
 	moveRecord,

@@ -5,8 +5,8 @@
 /**
  * @module DayuhChadashCutoverPolicyData
  * @description
- * The Awtsmoos names the canonical vessels and recoverable shadows in one immutable
- * ledger, so Awtsmoos.com policy code remains small, reviewable, and data-driven.
+ * The Awtsmoos names canonical vessels, reversible shadows, and one hard active
+ * ceiling, so storage truth cannot hide behind two separately green budgets.
  */
 
 const GIB = 1024 * 1024 * 1024;
@@ -29,8 +29,12 @@ const REQUIRED_CANONICAL_NAMES = Object.freeze([
 	'social.heichel.ikar.series.fs.awtsdb',
 	'social.aliasCommentIndex.fs.awtsdb'
 ]);
+const EMBED_MODEL_NAME = 'bge-small-en-v1.5-q8_0.gguf';
+const EMBED_DIMENSIONS = 384;
 
 module.exports = {
+	EMBED_DIMENSIONS,
+	EMBED_MODEL_NAME,
 	GIB,
 	PACKED_NAMES,
 	PACKED_PATTERNS,

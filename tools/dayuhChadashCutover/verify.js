@@ -5,17 +5,18 @@
 /**
  * @module DayuhChadashCutoverVerifier
  * @description
- * The Awtsmoos verifies canonical vessels, renamed inode identity, manifest roots,
- * and both storage budgets before Awtsmoos.com may accept a cutover generation.
+ * The Awtsmoos verifies canonical vessels, inode-preserving moves, manifest roots,
+ * a working compact embedder, and one combined active storage ceiling.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
-const { readState } = require('./state.js');
 const { MANIFEST_NAMES } = require('./manifestRebase.js');
+const { verifyRuntime } = require('./runtimeVerification.js');
+const { activeUsage, allocatedBytes } = require('./storageUsage.js');
+const { readState } = require('./state.js');
 
-function verifyInstalled(policy, state = readState(policy)) {
+function verifyInstalled(policy, state = readState(policy), options = {}) {
 	const checks = [];
 	checks.push(check(
 		'state-installed',
@@ -28,21 +29,26 @@ function verifyInstalled(policy, state = readState(policy)) {
 	}
 	for (const move of state.moves || []) checks.push(verifyMove(move));
 	for (const name of MANIFEST_NAMES) checks.push(verifyManifest(policy, name));
-	const dataBytes = allocatedBytes(policy.dataRoot);
-	const runtimeBytes = allocatedBytes(policy.runtimeRoot);
-	checks.push(check('data-budget', dataBytes <= policy.dataHardLimitBytes, {
-		actualBytes: dataBytes,
+	checks.push(verifyRuntime(policy, options));
+	const usage = activeUsage(policy, options);
+	checks.push(check('data-budget', usage.dataBytes <= policy.dataHardLimitBytes, {
+		actualBytes: usage.dataBytes,
 		limitBytes: policy.dataHardLimitBytes
 	}));
-	checks.push(check('runtime-budget', runtimeBytes <= policy.runtimeHardLimitBytes, {
-		actualBytes: runtimeBytes,
+	checks.push(check('runtime-budget', usage.runtimeBytes <= policy.runtimeHardLimitBytes, {
+		actualBytes: usage.runtimeBytes,
 		limitBytes: policy.runtimeHardLimitBytes
+	}));
+	checks.push(check('active-combined-budget', (
+		usage.activeBytes <= policy.activeHardLimitBytes
+	), {
+		actualBytes: usage.activeBytes,
+		limitBytes: policy.activeHardLimitBytes
 	}));
 	return {
 		ok: checks.every(result => result.ok),
 		checkedAt: new Date().toISOString(),
-		dataBytes,
-		runtimeBytes,
+		...usage,
 		checks
 	};
 }
@@ -71,16 +77,6 @@ function verifyManifest(policy, name) {
 		pointsToDestination,
 		pointsToSource
 	});
-}
-
-function allocatedBytes(root) {
-	if (!fs.existsSync(root)) return 0;
-	const output = execFileSync('/usr/bin/du', ['-sk', root], {
-		encoding: 'utf8',
-		stdio: ['ignore', 'pipe', 'pipe'],
-		timeout: 120000
-	});
-	return Number(output.trim().split(/\s+/)[0]) * 1024;
 }
 
 function check(name, ok, details = {}) {

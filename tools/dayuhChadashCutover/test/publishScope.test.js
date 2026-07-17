@@ -5,8 +5,8 @@
 /**
  * @file publishScope.test.js
  * @description
- * The Awtsmoos proves that the exact Awtsmoos.com release vessel includes storage,
- * social compatibility, and cross-surface account repair without runtime debris.
+ * The Awtsmoos proves that the exact release vessel includes compact runtime,
+ * canonical API bridges, real mutation courts, and no runtime debris.
  */
 
 const test = require('node:test');
@@ -17,20 +17,29 @@ const {
 	validatePath
 } = require('../publishScope.js');
 
+const EXPECTED_COUNT = 66;
 const REQUIRED = [
-	'package.json',
-	'geelooy/api/social/helper/comments/databaseCommentSource.js',
-	'geelooy/apps/code/js/session/account-panel.js',
-	'geelooy/apps/code/js/session/account-panel-markup.js',
+	'ayzarim/DosDB/aiSearch/modelRootResolver.js',
+	'ayzarim/awtsmoosDynamicServer/response/dynamicResponseShape.js',
+	'ayzarim/awtsmoosDynamicServer/server/initDb.js',
+	'geelooy/api/social/_awtsmoos.content.js',
+	'geelooy/api/social/_awtsmoos.posts.js',
+	'geelooy/api/social/helper/contentCanonicalBridge.js',
+	'geelooy/api/social/helper/contentCanonicalDb.js',
+	'geelooy/api/social/helper/contentRouteSupport.js',
+	'geelooy/api/social/helper/postCanonicalRoute.js',
+	'geelooy/api/social/helper/postCompatibilitySupport.js',
+	'tools/dayuhChadashCutover/runtimeBundle.js',
+	'tools/dayuhChadashCutover/test/apiJourney.test.js',
 	'tools/dayuhChadashCutover/PUBLISH_FILES.txt'
 ];
 
-test('publication manifest is unique, present, and runtime-free', () => {
+test('publication manifest is exact, unique, present, and runtime-free', () => {
 	const files = publishFiles();
 	for (const required of REQUIRED) {
 		assert(files.includes(required), `publication scope missing ${required}`);
 	}
-	assert.equal(files.length, 28);
+	assert.equal(files.length, EXPECTED_COUNT);
 	assert.equal(files.length, new Set(files).size);
 });
 

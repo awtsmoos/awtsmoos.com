@@ -6,12 +6,14 @@
  * @module DayuhChadashCutoverPolicy
  * @description
  * The Awtsmoos reveals one portable boundary between canonical social truth,
- * externally budgeted AI vessels, and recoverable quarantine for Awtsmoos.com.
+ * lean AI runtime vessels, and reversible quarantine for Awtsmoos.com.
  */
 
 const os = require('os');
 const path = require('path');
 const {
+	EMBED_DIMENSIONS,
+	EMBED_MODEL_NAME,
 	GIB,
 	PACKED_NAMES,
 	PACKED_PATTERNS,
@@ -46,6 +48,9 @@ function configuredPolicy(environment = process.env) {
 	const packedRoot = path.join(dataRoot, 'socialPacked');
 	const aiSource = path.join(dataRoot, 'ai');
 	const aiDestination = path.join(runtimeRoot, 'ai');
+	const ragSource = path.join(aiSource, 'comment-rag');
+	const ragDestination = path.join(aiDestination, 'comment-rag');
+	const runtimeRelative = 'runtime/llama/bin';
 	return {
 		documentsRoot,
 		repositoryRoot,
@@ -56,21 +61,25 @@ function configuredPolicy(environment = process.env) {
 		quarantineRoot,
 		aiSource,
 		aiDestination,
-		ragSource: path.join(aiSource, 'comment-rag'),
-		ragDestination: path.join(aiDestination, 'comment-rag'),
+		ragSource,
+		ragDestination,
+		embedderLabSource: path.join(ragSource, 'embedder-lab'),
+		llamaBuildBin: path.join(ragSource, 'embedder-lab/llama.cpp/build/bin'),
+		llamaRuntimeSource: path.join(ragSource, runtimeRelative),
+		llamaRuntimeDestination: path.join(ragDestination, runtimeRelative),
+		llamaRuntimeBinarySource: path.join(ragSource, runtimeRelative, 'llama-embedding'),
+		llamaRuntimeBinaryDestination: path.join(ragDestination, runtimeRelative, 'llama-embedding'),
+		embedModelSource: path.join(ragSource, 'models', EMBED_MODEL_NAME),
+		embedModelDestination: path.join(ragDestination, 'models', EMBED_MODEL_NAME),
+		embedDimensions: EMBED_DIMENSIONS,
 		rawSocialSource: path.join(dataRoot, 'social'),
 		cutoverStateFile: path.join(quarantineRoot, 'cutover-state.json'),
 		packedNames: [...PACKED_NAMES],
 		packedPatterns: [...PACKED_PATTERNS],
 		requiredCanonicalNames: [...REQUIRED_CANONICAL_NAMES],
-		dataHardLimitBytes: number(
-			environment.AWTSMOOS_STORAGE_HARD_BYTES,
-			GIB
-		),
-		runtimeHardLimitBytes: number(
-			environment.AWTSMOOS_RUNTIME_ASSET_HARD_BYTES,
-			2 * GIB
-		),
+		dataHardLimitBytes: number(environment.AWTSMOOS_STORAGE_HARD_BYTES, GIB),
+		runtimeHardLimitBytes: number(environment.AWTSMOOS_RUNTIME_ASSET_HARD_BYTES, GIB),
+		activeHardLimitBytes: number(environment.AWTSMOOS_ACTIVE_HARD_BYTES, 2 * GIB),
 		port: number(environment.PORT, 8080)
 	};
 }
