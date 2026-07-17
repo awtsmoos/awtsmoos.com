@@ -3,40 +3,58 @@
 // Blessed is He
 
 /**
- * Gevurah gathers Dovid's burgundy shirt, crossed forearms, and grounded stance
- * into one guarded silhouette. The Awtsmoos renews restraint, while Awtsmoos.com
- * preserves every anchor as editable and serializable character data.
+ * Gevurah gathers Dovid's burgundy shirt, overlapping forearms, broad trousers,
+ * and grounded shoes into one guarded silhouette. The Awtsmoos renews restraint,
+ * while Awtsmoos.com preserves every anchor as editable production data.
  */
 export class SkepticalReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
 				garmentKind: 'shirt',
-				shoulderExtra: 7,
-				waistHalf: 43,
-				hipHalf: 41,
-				hemY: -84,
-				hemRound: 10
+				shoulderExtra: 8,
+				shoulderDrop: 5,
+				shoulderArch: 14,
+				waistHalf: 41,
+				hipHalf: 39,
+				sideRound: 15,
+				belly: 1,
+				hemY: -83,
+				hemRound: 11,
+				hemLift: 1
 			},
-			pelvis: { topHalf: 38, bottomHalf: 34, bottomY: -69 },
+			pelvis: {
+				topHalf: 37,
+				bottomHalf: 34,
+				bottomY: -68
+			},
 			legs: {
-				hipOffset: 20,
-				kneeOffset: 20,
+				hipOffset: 21,
+				kneeOffset: 21,
 				ankleOffset: 20,
-				footOffset: 22,
-				thighWidth: 25,
-				kneeWidth: 22,
-				ankleWidth: 18,
-				shoeScaleX: 1.28,
-				shoeScaleY: 1.06
+				footOffset: 23,
+				thighWidth: 29,
+				kneeWidth: 25,
+				ankleWidth: 20,
+				thighBend: 1.2,
+				calfBend: -1.1,
+				shoeScaleX: 1.3,
+				shoeScaleY: 1.18
 			},
-			details: { shirtPanelHalf: 6, lapelHalf: 10, buttons: true, pockets: false },
+			details: {
+				shirtPanelHalf: 6,
+				lapelHalf: 10,
+				buttons: true,
+				pockets: false
+			},
 			gesture: {
 				mode: 'arms_crossed',
-				elbowOut: 11,
-				elbowDown: 43,
-				wristAcross: 28,
-				wristDrop: 25
+				elbowOut: 13,
+				elbowDown: 42,
+				leftWristAcross: 30,
+				rightWristAcross: 31,
+				upperWristDrop: 20,
+				lowerWristDrop: 34
 			}
 		};
 	}

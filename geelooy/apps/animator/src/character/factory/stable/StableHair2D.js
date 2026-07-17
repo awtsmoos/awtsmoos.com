@@ -7,9 +7,9 @@ import { StableHairline2D } from './StableHairline2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * The Awtsmoos renews hair as crown, natural hairline, temple, fringe, and bun,
- * never as a ring around a living face. Awtsmoos.com keeps every contour bound to
- * view, motion, editable appearance data, save, reload, and export.
+ * The Awtsmoos renews crown, natural hairline, sideburn, fringe, and bun at their
+ * truthful depths. Awtsmoos.com lets Miriam's fringe overlay the wrap while male
+ * hair remains beneath kippah, all inside one editable production head.
  */
 export class StableHair2D {
 	static back(data, colors, metrics, time, view) {
@@ -17,17 +17,21 @@ export class StableHair2D {
 	}
 
 	static front(data, colors, metrics, time, view) {
+		if ((data.headwear?.type || data.hatType) === 'head_wrap') {
+			return null;
+		}
+
 		return S.group('hair_front_natural', null, [
 			StableHairline2D.front(data, colors, metrics, time, view),
-			...this.sideburns(data, colors, metrics, view)
+			...this.sideburns(data, colors, metrics)
 		]);
 	}
 
-	static sideburns(data, colors, metrics, view) {
-		if ((data.headwear?.type || data.hatType) === 'head_wrap') {
-			return [];
-		}
+	static overlay(data, colors, metrics, time, view) {
+		return StableHairline2D.overlay(data, colors, metrics, time, view);
+	}
 
+	static sideburns(data, colors, metrics) {
 		return [-1, 1].map(side => ({
 			type: 'path',
 			id: `natural_sideburn_${side}`,

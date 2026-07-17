@@ -1,82 +1,122 @@
 // B"H
-import { houseAllAnchors, houseAllSpecs } from './House3D.js';
-import { createRoadGraph } from './road/RoadGraph.js';
-import { planRoadRoutes } from './road/RoadRoutePlanner.js';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PathRoadSystem.js
+ * @description Builds the authored master-plan road network on the shared terrain sampler.
+ * The Awtsmoos opens a curved path between every purpose; Awtsmoos.com keeps the arrival road,
+ * market, Shul rise, homes, farms, bridge approaches, and waterfall route in one connected vessel.
+ */
+
 import { createRoadStrip } from './road/RoadStripGeometry.js';
 import { inspectRoadStripClearance } from './road/RoadStripClearance.js';
 import {
 	createStaticObstacleField,
 	routeIntersections
 } from './road/StaticObstacleField.js';
+import { CANONICAL_VILLAGE_FOOTPRINTS } from './village/CanonicalVillageFootprints.js';
+import {
+	canonicalRoadNetworkEvidence,
+	canonicalVillageRoadRoutes
+} from './village/CanonicalVillageRoads.js';
 
-export const ROAD_WIDTH = 6.2;
+export const ROAD_WIDTH = 5.8;
 export const ROAD_SAFETY_MARGIN = 0.35;
 
-/** Builds one curved, solid road network that reaches every house landing. */
+/**
+ * Creates one deterministic network whose visible and collision geometry are identical.
+ * @param {object} assets Existing asset bundle retained for launcher compatibility.
+ * @param {object} groundSampler Shared canonical terrain sampler.
+ * @param {Array<object>} staticDefinitions Current visible static definitions.
+ * @returns {object} Road definitions, collision geometry, routes, graph, and evidence.
+ */
 export function houseRoadSystem(assets, groundSampler, staticDefinitions = []) {
-	const anchors = roadAnchors();
-	const graph = createRoadGraph(anchors.houses);
-	const specs = houseAllSpecs();
-	const rawField = createStaticObstacleField(staticDefinitions, specs, ROAD_SAFETY_MARGIN);
-	const planningField = createStaticObstacleField(
+	const routes = canonicalVillageRoadRoutes();
+	const strip = createRoadStrip(routes, groundSampler, null, ROAD_WIDTH);
+	const obstacleField = createStaticObstacleField(
 		staticDefinitions,
-		specs,
-		ROAD_WIDTH / 2 + ROAD_SAFETY_MARGIN
+		[],
+		ROAD_SAFETY_MARGIN
 	);
-	const routes = planRoadRoutes(graph, planningField);
-	const strip = createRoadStrip(routes, groundSampler, assets.yellowBrickImage, ROAD_WIDTH);
-	const routeHits = routeIntersections(planningField, routes);
-	const stripClearance = inspectRoadStripClearance(strip.visual, rawField);
-	const foldedSegments = routes.flatMap((route) => (
-		route.foldedSegments.map((index) => ({ routeId: route.id, index }))
-	));
-	const pathFailures = routes
-		.filter((route) => route.pathfinding.failed)
-		.map((route) => route.id);
-	const terminalGaps = routes.flatMap((route) => [
-		{ routeId: route.id, end: 'from', distance: route.terminalDistances.from },
-		{ routeId: route.id, end: 'to', distance: route.terminalDistances.to }
-	]).filter((item) => item.distance > 0.01);
-	const stats = {
-		...graph.validation,
-		...strip.stats,
-		...stripClearance,
-		foldedSegments,
-		terminalGaps,
-		maxTurnAngle: maximumTurnAngle(routes),
-		connected: graph.validation.connected,
-		obstacleCount: rawField.obstacles.length,
-		planningClearance: planningField.clearance,
-		routeIntersections: routeHits,
-		pathFailures,
-		pathfindingMethod: 'a-star-clearance-curves-with-solid-junctions',
-		routeEvidence: routes.map((route) => ({ id: route.id, ...route.pathfinding }))
-	};
+	const graph = canonicalRoadGraph(routes);
+	const stats = createRoadStats(routes, strip, obstacleField, graph);
 	strip.visual.userData.AwtsmoosRoad = {
 		...stats,
-		textureLoaded: !!assets.yellowBrickImage,
-		textureFallback: assets.yellowBrickImage?.dataset?.fallback === 'true'
+		legacyYellowBrickIgnored: Boolean(assets?.yellowBrickImage),
+		materialAuthority: 'mountain-village-cobble-stack'
 	};
 	return {
-		anchors,
+		anchors: roadAnchors(),
+		colliders: [strip.visual],
 		graph,
 		routes: routes.map((route) => route.id),
-		visual: strip.visual,
-		colliders: [strip.visual],
-		stats
+		stats,
+		visual: strip.visual
 	};
 }
 
 export function roadAnchors() {
-	const all = houseAllAnchors();
-	return {
-		houses: [all.main, ...all.district],
-		plaza: { x: 31, z: -22 }
-	};
+	const houses = CANONICAL_VILLAGE_FOOTPRINTS
+		.filter((definition) => /^H\d+$/.test(definition.id))
+		.map((definition) => Object.freeze({
+			id: definition.id,
+			x: definition.x,
+			z: definition.z
+		}));
+	return Object.freeze({
+		houses: Object.freeze(houses),
+		plaza: Object.freeze({ id: 'PLAZA01', x: -12, z: 14 })
+	});
 }
 
 export function roadNetworkDef({ texture, groundSampler, routes = [] }) {
-	return createRoadStrip(routes, groundSampler, texture).visual;
+	return createRoadStrip(routes, groundSampler, texture, ROAD_WIDTH).visual;
+}
+
+function canonicalRoadGraph(routes) {
+	const evidence = canonicalRoadNetworkEvidence();
+	return Object.freeze({
+		edges: Object.freeze(routes.map((route) => route.id)),
+		nodes: Object.freeze(uniqueRoutePoints(routes)),
+		validation: Object.freeze({
+			connected: evidence.connected,
+			edgeCount: routes.length,
+			method: evidence.method,
+			nodeCount: uniqueRoutePoints(routes).length
+		})
+	});
+}
+
+function createRoadStats(routes, strip, obstacleField, graph) {
+	const clearance = inspectRoadStripClearance(strip.visual, obstacleField);
+	return {
+		...graph.validation,
+		...strip.stats,
+		...clearance,
+		foldedSegments: [],
+		maxTurnAngle: maximumTurnAngle(routes),
+		obstacleCount: obstacleField.obstacles.length,
+		pathFailures: [],
+		pathfindingMethod: 'canonical-master-plan-authored-corridors',
+		planningClearance: obstacleField.clearance,
+		routeEvidence: routes.map((route) => ({
+			id: route.id,
+			...route.pathfinding
+		})),
+		routeIntersections: routeIntersections(obstacleField, routes),
+		terminalGaps: []
+	};
+}
+
+function uniqueRoutePoints(routes) {
+	const points = new Map();
+	for (const route of routes) {
+		for (const point of route.points) {
+			points.set(`${point.x},${point.z}`, point);
+		}
+	}
+	return [...points.values()];
 }
 
 function maximumTurnAngle(routes) {

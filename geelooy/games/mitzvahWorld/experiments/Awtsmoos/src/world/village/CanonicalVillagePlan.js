@@ -4,47 +4,43 @@
 
 /**
  * @file CanonicalVillagePlan.js
- * @description Holds the principal top-down contract for one alpine Jewish valley.
- * The Awtsmoos unifies Shul, Market, Beis Chabad, bridge, farms, portal, homes, and arrival;
- * Awtsmoos.com lets every procedural subsystem drink from one measured and camera-safe plan.
+ * @description Publishes the single measured contract consumed by every village subsystem.
+ * The Awtsmoos unites holy gathering, commerce, homes, water, earth, roads, and living growth;
+ * Awtsmoos.com prevents each procedural vessel from inventing a different valley in isolation.
  */
 
+import { CANONICAL_VILLAGE_BIOMES } from './CanonicalVillageBiomes.js';
+import { CANONICAL_VILLAGE_CAMERAS } from './CanonicalVillageCameras.js';
+import { CANONICAL_VILLAGE_FOOTPRINTS } from './CanonicalVillageFootprints.js';
 import { CANONICAL_VILLAGE_HOUSES } from './CanonicalVillageHouses.js';
-import {
-	VILLAGE_ARRIVAL_CLEARINGS,
-	VILLAGE_ARRIVAL_ENTRANCE
-} from './VillageArrivalContract.js';
+import { CANONICAL_VILLAGE_IDS } from './CanonicalVillageIdentifiers.js';
 import {
 	CANONICAL_RIVER_CASCADES,
 	CANONICAL_RIVER_CONTROL_POINTS,
 	CANONICAL_RIVER_LAKE_INDEX
 } from './CanonicalVillageHydrology.js';
+import {
+	canonicalRoadNetworkEvidence,
+	canonicalVillageRoadRoutes
+} from './CanonicalVillageRoads.js';
+import {
+	VILLAGE_ARRIVAL_CLEARINGS,
+	VILLAGE_ARRIVAL_ENTRANCE
+} from './VillageArrivalContract.js';
 
 export const CANONICAL_VILLAGE_LANDMARKS = Object.freeze({
-	beisChabad: marker(-35, 45),
-	bridge: marker(18, 7),
-	entrance: marker(
-		VILLAGE_ARRIVAL_ENTRANCE.x,
-		VILLAGE_ARRIVAL_ENTRANCE.z
-	),
-	forestSign: marker(-8, 52),
-	lake: Object.freeze({
-		radiusX: 12.5,
-		radiusZ: 25,
-		x: 15,
-		z: 62
-	}),
-	learningSign: marker(-7, 48),
-	market: marker(-26, 12),
-	plaza: Object.freeze({
-		radius: 10,
-		x: -12,
-		z: 14
-	}),
-	portal: marker(56, -49),
-	shul: marker(-34, -24),
-	waterfall: marker(49, -42),
-	well: marker(-8, 20)
+	beisChabad: marker(-35, 45, 'BEIS01'),
+	bridge: marker(18, 7, 'BRIDGE01'),
+	entrance: marker(VILLAGE_ARRIVAL_ENTRANCE.x, VILLAGE_ARRIVAL_ENTRANCE.z, 'ENTR01'),
+	forestSign: marker(-8, 52, 'FOREST_SIGN'),
+	lake: Object.freeze({ id: 'LAKE01', radiusX: 12.5, radiusZ: 25, x: 15, z: 62 }),
+	learningSign: marker(-7, 48, 'LEARNING_SIGN'),
+	market: marker(-26, 12, 'MARKET01'),
+	plaza: Object.freeze({ id: 'PLAZA01', radius: 10, x: -12, z: 14 }),
+	portal: marker(56, -49, 'PORTAL01'),
+	shul: marker(-34, -24, 'SHUL01'),
+	waterfall: marker(49, -42, 'WATERFALL01'),
+	well: marker(-8, 20, 'WELL01')
 });
 
 export const CANONICAL_VILLAGE_DISTRICTS = Object.freeze([
@@ -72,48 +68,38 @@ export const CANONICAL_VILLAGE_CLEARINGS = Object.freeze([
 ]);
 
 export const CANONICAL_VILLAGE_PLAN = Object.freeze({
+	biomes: CANONICAL_VILLAGE_BIOMES,
+	cameras: CANONICAL_VILLAGE_CAMERAS,
 	clearings: CANONICAL_VILLAGE_CLEARINGS,
 	districts: CANONICAL_VILLAGE_DISTRICTS,
+	footprints: CANONICAL_VILLAGE_FOOTPRINTS,
 	houses: CANONICAL_VILLAGE_HOUSES,
+	identifiers: CANONICAL_VILLAGE_IDS,
 	landmarks: CANONICAL_VILLAGE_LANDMARKS,
 	river: Object.freeze({
 		cascades: CANONICAL_RIVER_CASCADES,
 		controlPoints: CANONICAL_RIVER_CONTROL_POINTS,
 		lakeIndex: CANONICAL_RIVER_LAKE_INDEX
-	})
+	}),
+	roads: Object.freeze({
+		evidence: canonicalRoadNetworkEvidence(),
+		routes: Object.freeze(canonicalVillageRoadRoutes())
+	}),
+	version: '2026.07-canonical-alpine-village'
 });
 
-function district(
-	id,
-	habitat,
-	center,
-	radius,
-	detail,
-	phase,
-	houseIds,
-	landmarkId = null
-) {
+function district(id, habitat, center, radius, detail, phase, houseIds, landmarkId = null) {
 	return Object.freeze({
-		center: Object.freeze(center),
-		detail,
-		habitat,
-		houseIds: Object.freeze(houseIds),
-		id,
-		landmarkId,
-		phase,
+		center: Object.freeze(center), detail, habitat,
+		houseIds: Object.freeze(houseIds), id, landmarkId, phase,
 		radius: Object.freeze(radius)
 	});
 }
 
 function clearing(id, x, z, radius) {
-	return Object.freeze({
-		id,
-		radius,
-		x,
-		z
-	});
+	return Object.freeze({ id, radius, x, z });
 }
 
-function marker(x, z) {
-	return Object.freeze({ x, z });
+function marker(x, z, id) {
+	return Object.freeze({ id, x, z });
 }

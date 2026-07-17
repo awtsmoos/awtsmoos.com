@@ -4,12 +4,13 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances gameplay while a ranked three-worker residency queue enriches materials.
- * The Awtsmoos recreates player, river, grass, and texture each instant; Awtsmoos.com grants
- * nearby terrain, road, water, cottage, and forest garments priority without blocking movement.
+ * @description Advances gameplay while ranked textures and structured village logs settle.
+ * The Awtsmoos recreates player, river, light, and garment each instant; Awtsmoos.com keeps
+ * rendering continuous while bounded workers hydrate materials and logs expose the real state.
  */
 
 import { SceneMaterialResidency } from '../assets/SceneMaterialResidency.js';
+import { VillageLifeRuntimeLogger } from '../diagnostics/VillageLifeRuntimeLogger.js';
 import { RuntimeFrameCostSample } from '../performance/RuntimeFrameCostSample.js';
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
 import { EretzMovementController } from './EretzMovementController.js';
@@ -21,10 +22,8 @@ import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 export function startEretzRuntime(runtime, diagnostics) {
 	const movement = new EretzMovementController(runtime);
 	const cadence = new RuntimeCadence();
-	const residency = new SceneMaterialResidency({
-		concurrency: 3,
-		timeoutMs: 30000
-	});
+	const residency = new SceneMaterialResidency({ concurrency: 3, timeoutMs: 30000 });
+	const villageLifeLogger = new VillageLifeRuntimeLogger();
 	let lastTime = performance.now();
 	const frame = now => {
 		const intervalMilliseconds = Math.max(0.1, now - lastTime);
@@ -50,6 +49,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 			costs.measure('render', () => renderWorld(runtime, now));
 			if (cadence.due('hud', now)) refreshStatusHud(runtime);
 			if (cadence.due('diagnostics', now)) refreshWorldDiagnostics(diagnostics, runtime);
+			if (cadence.due('villageLifeLogs', now)) villageLifeLogger.update(runtime, now);
 		} catch (error) {
 			window.AwtsmoosError = error?.stack || String(error);
 		} finally {
@@ -59,6 +59,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 	};
 	runtime.runtimeCadence = cadence;
 	runtime.materialResidency = residency;
+	runtime.villageLifeLogger = villageLifeLogger;
 	requestAnimationFrame(frame);
 	return movement;
 }

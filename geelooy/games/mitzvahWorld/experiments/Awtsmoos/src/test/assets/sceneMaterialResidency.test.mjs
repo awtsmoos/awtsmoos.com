@@ -4,9 +4,9 @@
 
 /**
  * @file sceneMaterialResidency.test.mjs
- * @description Proves scene-value ranking, URL deduplication, and bounded decode concurrency.
- * The Awtsmoos fills repeated walls through one image; Awtsmoos.com starts terrain, road,
- * water, and cottage garments first while a fixed worker count protects the running frame.
+ * @description Proves inhabited surfaces hydrate before optional terrain detail.
+ * The Awtsmoos clothes the home before polishing a distant blade of grass; Awtsmoos.com
+ * preserves URL deduplication and bounded workers while preventing first-frame white cottages.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,7 @@ import {
 	rankedSceneUrls
 } from '../../assets/SceneMaterialResidency.js';
 
-test('ranks terrain layers ahead of roads, houses, and decoration', () => {
+test('ranks cottage maps ahead of roads and optional terrain layers', () => {
 	const rows = rankedSceneUrls(scene([
 		object('decorative-lantern', material('https://example.test/gold.png')),
 		object('cottage-wall', material('https://example.test/stone.png')),
@@ -26,11 +26,9 @@ test('ranks terrain layers ahead of roads, houses, and decoration', () => {
 			'https://example.test/grass-b.png'
 		]))
 	]));
-	assert.deepEqual(rows.slice(0, 2).map(row => row.url), [
-		'https://example.test/grass-a.png',
-		'https://example.test/grass-b.png'
-	]);
-	assert.ok(indexOf(rows, 'road.png') < indexOf(rows, 'stone.png'));
+	assert.equal(rows[0].url, 'https://example.test/stone.png');
+	assert.ok(indexOf(rows, 'road.png') < indexOf(rows, 'grass-a.png'));
+	assert.ok(indexOf(rows, 'grass-a.png') < indexOf(rows, 'gold.png'));
 });
 
 test('starts only three unique URLs and performs a bind-only hydration pass', async () => {
@@ -46,14 +44,14 @@ test('starts only three unique URLs and performs a bind-only hydration pass', as
 		loadUrl: url => new Promise(resolve => deferred.push({ resolve, url }))
 	});
 	const root = scene([
+		object('cottage-wall', material('https://example.test/stone.png')),
+		object('cottage-roof', material('https://example.test/slate.png')),
 		object('terrain-ground', layered([
 			'https://example.test/grass-a.png',
 			'https://example.test/grass-b.png',
-			'https://example.test/grass-c.png',
-			'https://example.test/grass-d.png'
+			'https://example.test/grass-c.png'
 		])),
-		object('road-cobble', material('https://example.test/road.png')),
-		object('another-road', material('https://example.test/road.png'))
+		object('another-cottage', material('https://example.test/stone.png'))
 	]);
 	const first = residency.update(root);
 	assert.equal(first.started, 3);
@@ -61,12 +59,13 @@ test('starts only three unique URLs and performs a bind-only hydration pass', as
 	assert.equal(deferred.length, 3);
 	assert.equal(new Set(deferred.map(item => item.url)).size, 3);
 	assert.equal(hydrationOptions[0].requestLimit, 0);
+	assert.equal(first.topCandidates[0].url, 'https://example.test/stone.png');
 	for (const item of deferred.splice(0)) item.resolve({ ok: true });
 	await Promise.all([...residency.active.values()]);
-	assert.equal(residency.active.size, 0);
 	const second = residency.update(root);
-	assert.equal(second.started, 3);
+	assert.equal(residency.active.size, 2);
 	assert.equal(residency.completed, 3);
+	assert.equal(second.started, 2);
 });
 
 function scene(objects) {

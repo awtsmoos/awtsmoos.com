@@ -5,9 +5,9 @@
 import { MouthPhonemeModel } from './MouthPhonemeModel.js';
 
 /**
- * Speech descends from intention into visible articulation. This class keeps
- * the old `fromSpeech` gate while revealing richer mouth controls so every
- * silent or audible line in Awtsmoos.com can visibly live.
+ * Speech descends from intention into visible articulation. The Awtsmoos joins
+ * jaw, lips, teeth, tongue, closure, release, emotion, and breath, while
+ * Awtsmoos.com preserves one rich editable mouth pose for every frame.
  */
 export class MouthPerformance {
 	static fromSpeech(input = {}) {
@@ -25,8 +25,22 @@ export class MouthPerformance {
 			round: pose.round,
 			press: pose.press,
 			teeth: pose.teeth,
+			tongue: pose.tongue,
+			tongueTip: pose.tongueTip,
+			bite: pose.bite,
+			closure: pose.closure,
+			release: pose.release,
+			cornerLift: pose.cornerLift,
+			upperLift: pose.upperLift,
+			lowerDrop: pose.lowerDrop,
+			asymmetry: pose.asymmetry,
+			envelope: pose.envelope,
 			shape: pose.shape,
-			symbol: pose.symbol,
+			viseme: pose.viseme,
+			phoneme: pose.phoneme,
+			cueIndex: pose.cueIndex,
+			cueCount: pose.cueCount,
+			phase: pose.phase,
 			isPause: pose.isPause
 		};
 	}

@@ -12,9 +12,9 @@ import { StableLimbs2D } from './StableLimbs2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Every visual vessel keeps its rightful depth without losing one connected
+ * Every visual vessel keeps its truthful depth without losing one connected
  * skeleton. The Awtsmoos is one beyond front and back, while Awtsmoos.com lets
- * authored gesture, body, face, hair, clothing, and accessories remain alive.
+ * wrap, fringe, face, gesture, clothing, and accessories remain alive together.
  */
 export class StableCharacterLayers {
 	static build(data, colors, metrics, sage, prefix) {
@@ -24,9 +24,16 @@ export class StableCharacterLayers {
 			data._skeleton,
 			data._stablePose.body || {}
 		);
+
 		return [
 			this.backHead(data, colors, metrics, prefix, headTransform),
-			StableLimbs2D.legs(data, colors, metrics, prefix, data._stableView),
+			StableLimbs2D.legs(
+				data,
+				colors,
+				metrics,
+				prefix,
+				data._stableView
+			),
 			StableGestureArms2D.backArm(
 				data,
 				colors,
@@ -37,7 +44,14 @@ export class StableCharacterLayers {
 			sage
 				? StableBody2D.sage(data, colors, metrics)
 				: StableBody2D.human(data, colors, metrics),
-			this.frontHead(data, colors, metrics, sage, prefix, headTransform),
+			this.frontHead(
+				data,
+				colors,
+				metrics,
+				sage,
+				prefix,
+				headTransform
+			),
 			StableGestureArms2D.frontArm(
 				data,
 				colors,
@@ -76,6 +90,13 @@ export class StableCharacterLayers {
 				data,
 				colors,
 				metrics,
+				data._stableView
+			),
+			StableHair2D.overlay(
+				data,
+				colors,
+				metrics,
+				data._renderTime,
 				data._stableView
 			)
 		]);

@@ -4,22 +4,39 @@
 
 /**
  * @file VillageArrivalComposition.js
- * @description Composes the canonical ENTR01 road, blended shoulders, and restrained fence.
+ * @description Composes ENTR01 as one terrain-conforming lane with blended shoulders.
  * The Awtsmoos opens the valley instead of filling sight with cubes; Awtsmoos.com lets stone,
- * soil, grass, water, bridge, and distant village become one readable arrival composition.
+ * soil, grass, water, bridge, and distant village become one grounded arrival composition.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { createArrivalFence } from './VillageArrivalFence.js';
 import { sampleArrivalPath } from './VillageArrivalPath.js';
-import { createVillageSurfaceRibbon, offsetVillageRibbon } from './VillageSurfaceRibbon.js';
+import {
+	createVillageSurfaceRibbon,
+	offsetVillageRibbon
+} from './VillageSurfaceRibbon.js';
 
+/**
+ * Creates the complete canonical arrival composition.
+ *
+ * @param {object} groundSampler Shared terrain sampling authority.
+ * @returns {object[]} Arrival definitions with attached statistics.
+ */
 export function createVillageArrivalComposition(groundSampler) {
 	const points = sampleArrivalPath(groundSampler);
 	const definitions = [
-		roadDefinition(points),
-		shoulderDefinition('left', offsetVillageRibbon(points, -1, 5.8, 9.4)),
-		shoulderDefinition('right', offsetVillageRibbon(points, 1, 5.8, 9.4)),
+		roadDefinition(points, groundSampler),
+		shoulderDefinition(
+			'left',
+			offsetVillageRibbon(points, -1, 5.8, 9.4),
+			groundSampler
+		),
+		shoulderDefinition(
+			'right',
+			offsetVillageRibbon(points, 1, 5.8, 9.4),
+			groundSampler
+		),
 		createArrivalFence(points, groundSampler)
 	];
 	definitions.stats = {
@@ -33,27 +50,35 @@ export function createVillageArrivalComposition(groundSampler) {
 	return definitions;
 }
 
-function roadDefinition(points) {
+function roadDefinition(points, groundSampler) {
 	return createVillageSurfaceRibbon('arrival-cobblestone-lane', points, {
 		color: '#756652',
 		family: 'canonical-arrival-composition',
+		groundSampler,
 		mapRepeat: [3.5, 18],
 		part: 'curved-cobbled-lane',
+		surfaceLift: 0.07,
 		texturePolicy: {
 			role: 'arrival-cobblestone',
 			shader: 'rough-stone-detail',
 			tileWorld: 0.74
 		},
-		textureUrl: TEXTURE_URLS.stone.floor2
+		textureUrl: TEXTURE_URLS.stone.floor2,
+		userData: {
+			canonicalId: 'ENTR01',
+			infrastructureId: 'ENTR01'
+		}
 	});
 }
 
-function shoulderDefinition(side, points) {
+function shoulderDefinition(side, points, groundSampler) {
 	return createVillageSurfaceRibbon(`arrival-${side}-soil-shoulder`, points, {
 		color: side === 'left' ? '#5a4a32' : '#4f5030',
 		family: 'canonical-arrival-composition',
+		groundSampler,
 		mapRepeat: [2.2, 15],
 		part: `${side}-blended-road-shoulder`,
+		surfaceLift: 0.035,
 		texturePolicy: {
 			role: 'road-shoulder-earth-grass',
 			shader: 'soil-grass-transition',

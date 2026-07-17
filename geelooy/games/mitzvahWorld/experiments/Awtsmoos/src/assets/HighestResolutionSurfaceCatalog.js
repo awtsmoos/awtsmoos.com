@@ -4,9 +4,9 @@
 
 /**
  * @file HighestResolutionSurfaceCatalog.js
- * @description Names canonical production surface garments for layered terrain.
- * The Awtsmoos conceals boundless earth within finite pixels; Awtsmoos.com keeps geometry
- * immediate while full-source grass, soil, marsh, stone, and shore arrive through bounded hydration.
+ * @description Names verified production surface garments for layered alpine terrain.
+ * The Awtsmoos conceals boundless earth within finite pixels; Awtsmoos.com chooses deployed
+ * source images for every role so unavailable grass or mud filenames never break the living valley.
  */
 
 import { assertProductionMaterialUrl } from './ProductionMaterialUrlPolicy.js';
@@ -23,14 +23,19 @@ function chaiForestSource(path) {
 export const HIGHEST_RESOLUTION_SURFACES = Object.freeze({
 	baseGrass: chaiForestSource('textures/ground/grass.jpg'),
 	dirt: chaiForestSource('textures/ground/dirt_color.jpg'),
-	dryGrass: assertProductionMaterialUrl(TEXTURE_URLS.terrain.grass6, 'dryGrass'),
+	dryGrass: assertProductionMaterialUrl(TEXTURE_URLS.terrain.dirt1, 'dry meadow substrate'),
 	forestFloor: assertProductionMaterialUrl(TEXTURE_URLS.terrain.darkForestFloor, 'forestFloor'),
 	marsh: assertProductionMaterialUrl(TEXTURE_URLS.terrain.marshGrass, 'marsh'),
-	mud: assertProductionMaterialUrl(TEXTURE_URLS.terrain.mud, 'mud'),
+	mud: assertProductionMaterialUrl(TEXTURE_URLS.terrain.dirt2, 'damp soil substitute'),
 	sand: assertProductionMaterialUrl(TEXTURE_URLS.terrain.sand1, 'sand'),
 	stone: assertProductionMaterialUrl(TEXTURE_URLS.stone.stone1, 'stone')
 });
 
+/**
+ * Resolves one required terrain source by semantic role.
+ * @param {string} role Surface role.
+ * @returns {string} Verified production URL.
+ */
 export function highestResolutionSurface(role) {
 	const url = HIGHEST_RESOLUTION_SURFACES[role];
 	if (!url) {

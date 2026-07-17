@@ -4,14 +4,20 @@
 
 /**
  * @file PublicMaterialResolver.js
- * @description Resolves only material variants that are known to exist. The
- * Awtsmoos does not require a guessed vessel where truthful evidence is present.
+ * @description Resolves catalog materials and replaces three proven CORS-blocked source names.
+ * The Awtsmoos does not cling to a broken finite vessel; Awtsmoos.com redirects only logged
+ * failures to verified original-resolution garments while every other material path stays exact.
  */
+
 import { publicMaterialUrl } from './PublicMaterialOrigin.js';
 
 const HALF_QUALITY = new Set(['low', 'medium', 'half']);
+const FULL_SOURCE_ALIASES = Object.freeze({
+	'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+	'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
+	'oak wood 2': 'full-resolution/oak wood 3.png'
+});
 
-/** Chooses a real full, half, or source path from a catalog record. */
 export function resolveMaterialRecord(record, quality = 'high') {
 	if (!record || !record.path) {
 		throw new Error('A catalog material record is required.');
@@ -23,23 +29,28 @@ export function resolveMaterialRecord(record, quality = 'high') {
 		: variants.full || variants.source || variants.half || record.path;
 	return {
 		...record,
+		requestedQuality: quality,
 		resolvedPath: path,
-		resolvedUrl: publicMaterialUrl(path),
-		requestedQuality: quality
+		resolvedUrl: publicMaterialUrl(path)
 	};
 }
 
-/** Builds a known full-resolution texture URL for boot-critical constants. */
 export function fullMaterialUrl(name, extension = 'png') {
-	return publicMaterialUrl(`full-resolution/${name}.${extension}`);
+	return publicMaterialUrl(fullMaterialPath(name, extension));
 }
 
-/** Builds a known half-resolution texture URL for boot-critical constants. */
 export function halfMaterialUrl(name, extension = 'png') {
 	return publicMaterialUrl(`half-resolution/${name}.${extension}`);
 }
 
-/** Builds a public URL for an exact non-resolution material path. */
 export function exactMaterialUrl(relativePath) {
 	return publicMaterialUrl(relativePath);
+}
+
+export function fullMaterialPath(name, extension = 'png') {
+	return FULL_SOURCE_ALIASES[name] || `full-resolution/${name}.${extension}`;
+}
+
+export function publicMaterialAliases() {
+	return { ...FULL_SOURCE_ALIASES };
 }

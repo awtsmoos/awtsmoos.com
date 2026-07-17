@@ -3,34 +3,49 @@
 // Blessed is He
 
 /**
- * Malchus receives Miriam's olive overshirt, quiet pocket, long skirt, and modest
- * shoes as one calm silhouette. The Awtsmoos renews each fold, while Awtsmoos.com
- * keeps the pose alive as plain geometry rather than a frozen painted shortcut.
+ * Malchus receives Miriam's olive overshirt, curved pocket arm, weighted skirt,
+ * and small planted flats as one calm silhouette. The Awtsmoos renews each fold,
+ * while Awtsmoos.com keeps the pose alive as plain editable production geometry.
  */
 export class CalmReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
 				garmentKind: 'overshirt',
-				shoulderExtra: 5,
+				shoulderExtra: 6,
+				shoulderDrop: 5,
+				shoulderArch: 13,
 				waistHalf: 35,
-				hipHalf: 37,
-				hemY: -91,
-				hemRound: 8
+				hipHalf: 38,
+				sideRound: 14,
+				belly: 0,
+				hemY: -90,
+				hemRound: 9,
+				hemLift: 1
 			},
-			skirt: { topHalf: 37, bottomHalf: 43, hemY: -11 },
+			skirt: {
+				topHalf: 37,
+				bottomHalf: 46,
+				hemY: -10
+			},
 			legs: {
 				footOffset: 18,
-				shoeScaleX: 1.1,
-				shoeScaleY: 0.94
+				footDrop: 0,
+				shoeScaleX: 1.08,
+				shoeScaleY: 1.05
 			},
-			details: { shirtPanelHalf: 13, lapelHalf: 13, buttons: false, pockets: true },
+			details: {
+				shirtPanelHalf: 14,
+				lapelHalf: 13,
+				buttons: false,
+				pockets: true
+			},
 			gesture: {
 				mode: 'right_hand_in_pocket',
-				elbowOut: 9,
-				elbowDown: 43,
-				pocketX: 27,
-				pocketDrop: 10
+				elbowOut: 14,
+				elbowDown: 39,
+				pocketX: 25,
+				pocketDrop: 8
 			}
 		};
 	}

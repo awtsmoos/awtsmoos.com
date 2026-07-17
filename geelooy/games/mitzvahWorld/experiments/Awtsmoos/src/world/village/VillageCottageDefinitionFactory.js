@@ -4,11 +4,12 @@
 
 /**
  * @file VillageCottageDefinitionFactory.js
- * @description Creates large layered-material cottage shells and closed roof meshes.
- * The Awtsmoos clothes many distinct homes in shared mineral garments; Awtsmoos.com
- * blends real masonry and slate pairs without adding samplers or splitting static batches.
+ * @description Creates layered cottage shells and one exact identity anchor per authored home.
+ * The Awtsmoos clothes every dwelling in truthful mineral garments; Awtsmoos.com preserves
+ * physical texture scale while H10-H27 remain discoverable through deterministic metadata.
  */
 
+import { isCanonicalVillageId } from './CanonicalVillageIdentifiers.js';
 import {
 	cottageMaterialRepeat,
 	villageMaterialPolicy
@@ -19,6 +20,12 @@ import {
 	villageCottageScalePolicy
 } from './VillageCottageScalePolicy.js';
 
+/**
+ * Creates the shell and closed roof for one village cottage.
+ *
+ * @param {object} options Placement, quality, and cottage identity options.
+ * @returns {{definitions: object[], facade: object, scale: object}} Cottage result.
+ */
 export function createVillageCottageDefinitions(options) {
 	const scale = villageCottageScalePolicy(options.detail, options.variant);
 	const materials = villageMaterialPolicy(options.detail, options.variant);
@@ -27,12 +34,18 @@ export function createVillageCottageDefinitions(options) {
 		...scale,
 		texturePolicy: materials.texturePolicy
 	};
+	const roofRepeat = cottageMaterialRepeat(
+		options.detail,
+		'roof',
+		common
+	);
 	return {
 		definitions: [
 			createShell(common, materials),
 			createVillageCottageRoof({
 				...common,
-				mapRepeat: cottageMaterialRepeat(options.detail, 'roof'),
+				mapRepeat: roofRepeat,
+				mixRepeat: roofRepeat,
 				mixTextureUrl: materials.mixRoof,
 				textureUrl: materials.roof
 			})
@@ -42,8 +55,19 @@ export function createVillageCottageDefinitions(options) {
 	};
 }
 
+/**
+ * Creates the solid cottage shell and its single canonical identity anchor.
+ *
+ * @param {object} options Resolved cottage options.
+ * @param {object} materials Resolved material policy.
+ * @returns {object} Shell definition.
+ */
 function createShell(options, materials) {
-	const repeat = cottageMaterialRepeat(options.detail, 'wall');
+	const repeat = cottageMaterialRepeat(
+		options.detail,
+		'wall',
+		options
+	);
 	return {
 		anisotropy: materials.anisotropy,
 		color: '#ded3c0',
@@ -59,18 +83,44 @@ function createShell(options, materials) {
 			y: options.base + options.wallHeight / 2,
 			z: options.z
 		},
-		rotation: { y: options.yaw },
+		rotation: {
+			y: options.yaw
+		},
 		shape: 'box',
-		size: { x: options.width, y: options.wallHeight, z: options.depth },
+		size: {
+			x: options.width,
+			y: options.wallHeight,
+			z: options.depth
+		},
 		solid: true,
 		texturePolicy: materials.texturePolicy,
 		textureUrl: materials.stone,
 		userData: {
-			AwtsmoosLod: { className: 'architecture' },
+			AwtsmoosLod: {
+				className: 'architecture'
+			},
+			...canonicalIdentity(options.id),
 			family: 'reference-village-district',
+			physicalTextureRepeat: repeat,
 			roomCapacity: cottageRoomCapacity(options),
 			stories: options.stories,
 			volumeRatio: Number(options.volumeRatio.toFixed(1))
 		}
+	};
+}
+
+/**
+ * Returns metadata only for a stable canonical identity.
+ *
+ * @param {string} id Cottage identifier.
+ * @returns {object} Canonical metadata or an empty object for procedural infill.
+ */
+function canonicalIdentity(id) {
+	if (!isCanonicalVillageId(id)) {
+		return {};
+	}
+	return {
+		canonicalId: id,
+		houseId: id
 	};
 }

@@ -1,37 +1,45 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file SceneMaterialResidency.js
- * @description Decodes valuable shared scene URLs with bounded background concurrency.
- * The Awtsmoos fills many meshes through one cached image; Awtsmoos.com ranks terrain, road,
- * water, cottage, and forest garments while three workers protect frame responsiveness.
+ * @description Hydrates shared cottage and village textures through bounded background workers.
+ * The Awtsmoos clothes inhabited homes before distant ornament; Awtsmoos.com deduplicates
+ * every successful source and quarantines a failed URL so it cannot starve all later garments.
  */
+
 import {
 	cachedTextureImage,
 	hydrateSceneMaterialImages,
 	loadPublicMaterialUrl
 } from './PublicMaterialCache.js';
+import { rankedSceneUrls } from './SceneMaterialPriority.js';
+
+export { rankedSceneUrls } from './SceneMaterialPriority.js';
 
 export class SceneMaterialResidency {
 	constructor(options = {}) {
 		this.active = new Map();
+		this.completed = 0;
 		this.concurrency = Math.max(1, Math.min(6, options.concurrency ?? 3));
+		this.failed = new Map();
+		this.loaded = new Set();
 		this.timeoutMs = options.timeoutMs ?? 30000;
 		this.cachedImage = options.cachedImage || cachedTextureImage;
 		this.hydrate = options.hydrate || hydrateSceneMaterialImages;
 		this.loadUrl = options.loadUrl || loadPublicMaterialUrl;
-		this.completed = 0;
-		this.failed = new Map();
 	}
 
 	update(root) {
 		const binding = this.hydrate(root, {
 			requestLimit: 0,
-			retryFailed: true,
+			retryFailed: false,
 			timeoutMs: this.timeoutMs
 		});
 		const candidates = rankedSceneUrls(root)
+			.filter(candidate => !this.loaded.has(candidate.url))
+			.filter(candidate => !this.failed.has(candidate.url))
 			.filter(candidate => !this.cachedImage(candidate.url))
 			.filter(candidate => !this.active.has(candidate.url));
 		const available = Math.max(0, this.concurrency - this.active.size);
@@ -42,71 +50,64 @@ export class SceneMaterialResidency {
 			completed: this.completed,
 			failed: this.failed.size,
 			pendingCandidates: candidates.length,
-			started: Math.min(available, candidates.length)
+			started: Math.min(available, candidates.length),
+			topCandidates: candidates.slice(0, 8).map(candidateEvidence)
 		};
 	}
 
 	start(candidate) {
 		const promise = this.loadUrl(candidate.url, this.timeoutMs)
-			.then(record => {
-				if (record.ok) {
-					this.completed += 1;
-					this.failed.delete(candidate.url);
-				} else this.failed.set(candidate.url, evidence(candidate, record));
-				return record;
-			})
-			.catch(error => {
-				this.failed.set(candidate.url, {
-					error: error?.message || String(error),
-					role: candidate.role,
-					url: candidate.url
-				});
-				return null;
-			})
+			.then(record => this.record(candidate, record))
+			.catch(error => this.recordFailure(candidate, error))
 			.finally(() => this.active.delete(candidate.url));
 		this.active.set(candidate.url, promise);
 	}
-}
 
-export function rankedSceneUrls(root) {
-	const records = new Map();
-	root?.traverse?.(object => {
-		const materials = Array.isArray(object.material)
-			? object.material
-			: object.material ? [object.material] : [];
-		for (const material of materials) collectMaterial(records, object, material);
-	});
-	return [...records.values()].sort((left, right) => {
-		return right.score - left.score || left.url.localeCompare(right.url);
-	});
-}
+	record(candidate, record) {
+		if (record.ok) {
+			this.completed += 1;
+			this.failed.delete(candidate.url);
+			this.loaded.add(candidate.url);
+		} else {
+			this.failed.set(candidate.url, failedEvidence(candidate, record));
+		}
+		return record;
+	}
 
-function collectMaterial(records, object, material) {
-	const role = `${object.name || ''} ${material.name || ''}`.toLowerCase();
-	add(records, material.textureUrl, role, roleScore(role) + 30);
-	add(records, material.mixTextureUrl, role, roleScore(role) + 24);
-	for (const [index, layer] of (material.textureLayers || []).entries()) {
-		add(records, layer.url, `${role} ${layer.role || ''}`, roleScore(role) + 50 - index);
+	recordFailure(candidate, error) {
+		this.failed.set(candidate.url, {
+			error: error?.message || String(error),
+			role: candidate.role,
+			url: candidate.url
+		});
+		return null;
+	}
+
+	retryFailures() {
+		this.failed.clear();
+	}
+
+	diagnostics() {
+		return {
+			active: [...this.active.keys()],
+			completed: this.completed,
+			concurrency: this.concurrency,
+			failed: [...this.failed.values()],
+			loaded: this.loaded.size
+		};
 	}
 }
 
-function add(records, url, role, score) {
-	if (!/^https?:\/\//i.test(String(url || ''))) return;
-	const existing = records.get(url);
-	if (existing) existing.score += 2;
-	else records.set(url, { role, score, url });
+function candidateEvidence(candidate) {
+	return {
+		references: candidate.references,
+		role: candidate.role,
+		score: candidate.score,
+		url: candidate.url
+	};
 }
 
-function roleScore(role) {
-	if (/terrain|grass|ground/.test(role)) return 100;
-	if (/road|cobble|path/.test(role)) return 90;
-	if (/water|lake|stream|river/.test(role)) return 85;
-	if (/house|cottage|roof|wall|stone|wood/.test(role)) return 75;
-	if (/forest|tree|bark|leaf/.test(role)) return 55;
-	return 20;
-}
-
-function evidence(candidate, record) {
+function failedEvidence(candidate, record) {
 	return {
 		error: record.error || 'unavailable',
 		method: record.method || null,

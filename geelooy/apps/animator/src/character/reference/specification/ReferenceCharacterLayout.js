@@ -6,25 +6,25 @@ import { ReferenceCharacterIds } from './ReferenceCharacterIds.js';
 
 const LAYOUTS = {
 	[ReferenceCharacterIds.cheerful]: {
-		x: -402,
-		y: 284,
+		x: -370,
+		y: 294,
 		scale: 2.4,
-		scaleX: 1.933,
-		scaleY: 2.064
+		scaleX: 1.67,
+		scaleY: 2.115
 	},
 	[ReferenceCharacterIds.skeptical]: {
-		x: 0,
-		y: 307,
+		x: 0.75,
+		y: 305,
 		scale: 2.4,
-		scaleX: 1.837,
-		scaleY: 2.025
+		scaleX: 1.764,
+		scaleY: 2.076
 	},
 	[ReferenceCharacterIds.calm]: {
-		x: 462,
-		y: 299,
+		x: 456.5,
+		y: 310,
 		scale: 2.4,
-		scaleX: 1.805,
-		scaleY: 1.973
+		scaleX: 1.711,
+		scaleY: 1.971
 	}
 };
 
@@ -56,6 +56,8 @@ export class ReferenceCharacterLayout {
 	}
 
 	static all() {
-		return Object.fromEntries(ReferenceCharacterIds.all().map(id => [id, this.position(id)]));
+		return Object.fromEntries(
+			ReferenceCharacterIds.all().map(id => [id, this.position(id)])
+		);
 	}
 }

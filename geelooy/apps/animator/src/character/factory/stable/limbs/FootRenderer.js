@@ -6,9 +6,9 @@ import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 import { StableShapeKit as S } from '../StableShapeKit.js';
 
 /**
- * The Awtsmoos plants each shoe as a rounded grounded vessel. Awtsmoos.com keeps
- * legacy gait unchanged while allowing authored reference feet to scale through
- * plain serializable values rather than a separate or flattened renderer.
+ * The Awtsmoos plants each shoe through heel, upper, toe, sole, and soft shadow.
+ * Awtsmoos.com keeps stance, scale, lift, view depth, and foot tilt bound to the
+ * editable character instead of flattening footwear into an oval.
  */
 export class FootRenderer {
 	static build(spec = {}) {
@@ -20,23 +20,55 @@ export class FootRenderer {
 		const scaleY = Number(spec.scaleY || 1);
 		const tilt = Number(leg.footTilt || 0)
 			+ (far ? view.feet.farAngle : view.feet.nearAngle);
-		const width = (planted ? 34 : 29) * (far ? 0.86 : 1) * scaleX;
-		const height = (planted ? 10 : 9) * (far ? 0.88 : 1) * scaleY;
-		const toe = direction * width * 0.5;
+		const width = (planted ? 35 : 30) * (far ? 0.86 : 1) * scaleX;
+		const height = (planted ? 13 : 10) * (far ? 0.9 : 1) * scaleY;
+		const toe = direction * width * 0.52;
 		const heel = -direction * width * 0.38;
+		const fill = c.shoe || '#050507';
+		const line = c.line || '#060606';
+
 		return S.group(id, { x, y: y + lift, rotation: tilt }, [
-			G.ellipse(`${id}_contact_shadow`, 0, planted ? 9 : 13, planted ? width * 0.82 : width * 0.42, planted ? 3.8 : 2.2, 0, { fill: planted ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.13)', stroke: 'rgba(0,0,0,0)', lineWidth: 0 }),
-			G.path(`${id}_shoe`, [
-				{ type: 'move', x: heel, y: -height * 0.55 },
-				{ type: 'quad', cx: 0, cy: -height * 1.35, x: toe, y: -height * 0.52 },
-				{ type: 'quad', cx: toe + direction * 9 * scaleX, cy: 0, x: toe, y: height * 0.72 },
-				{ type: 'quad', cx: 0, cy: height * 1.15, x: heel, y: height * 0.52 },
-				{ type: 'quad', cx: heel - direction * 5 * scaleX, cy: 0, x: heel, y: -height * 0.55 }
-			], { fill: c.shoe || '#050507', stroke: c.line || '#060606', lineWidth: far ? 2 : 3, lineJoin: 'round' }),
-			G.path(`${id}_toe_highlight`, [
-				{ type: 'move', x: -direction * 2, y: -2 },
-				{ type: 'quad', cx: direction * 8 * scaleX, cy: -4, x: toe - direction * 5, y: 1 }
-			], { stroke: 'rgba(255,255,255,0.16)', lineWidth: 1.3, lineCap: 'round' })
+			G.ellipse(
+				`${id}_contact_shadow`,
+				direction * width * 0.08,
+				planted ? height * 0.92 : height * 1.2,
+				planted ? width * 0.76 : width * 0.42,
+				planted ? 3.6 : 2.2,
+				0,
+				{
+					fill: planted ? 'rgba(0,0,0,0.22)' : 'rgba(0,0,0,0.12)',
+					stroke: 'rgba(0,0,0,0)',
+					lineWidth: 0
+				}
+			),
+			G.path(`${id}_shoe_upper`, [
+				{ type: 'move', x: heel, y: height * 0.35 },
+				{ type: 'quad', cx: heel - direction * width * 0.08, cy: -height * 0.45, x: heel + direction * width * 0.14, y: -height * 0.72 },
+				{ type: 'quad', cx: direction * width * 0.1, cy: -height * 1.05, x: toe - direction * width * 0.08, y: -height * 0.5 },
+				{ type: 'quad', cx: toe + direction * width * 0.16, cy: -height * 0.15, x: toe + direction * width * 0.11, y: height * 0.34 },
+				{ type: 'quad', cx: direction * width * 0.12, cy: height * 0.72, x: heel, y: height * 0.35 }
+			], {
+				fill,
+				stroke: line,
+				lineWidth: far ? 2 : 2.7,
+				lineJoin: 'round'
+			}),
+			G.path(`${id}_sole`, [
+				{ type: 'move', x: heel - direction * width * 0.02, y: height * 0.45 },
+				{ type: 'quad', cx: direction * width * 0.08, cy: height * 0.9, x: toe + direction * width * 0.09, y: height * 0.42 }
+			], {
+				stroke: line,
+				lineWidth: far ? 2.1 : 3,
+				lineCap: 'round'
+			}),
+			G.path(`${id}_upper_seam`, [
+				{ type: 'move', x: heel + direction * width * 0.18, y: -height * 0.35 },
+				{ type: 'quad', cx: direction * width * 0.08, cy: -height * 0.55, x: toe - direction * width * 0.22, y: -height * 0.22 }
+			], {
+				stroke: 'rgba(255,255,255,0.12)',
+				lineWidth: 1.1,
+				lineCap: 'round'
+			})
 		]);
 	}
 }

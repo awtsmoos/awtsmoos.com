@@ -3,34 +3,63 @@
 // Blessed is He
 
 /**
- * Chesed opens Ari's broad navy silhouette from shoulder to planted shoe. The
- * Awtsmoos renews cuff, palm, trouser, and hem, while Awtsmoos.com stores only
- * plain geometry so every authored proportion survives save, reload, and export.
+ * Chesed opens Ari's broad navy silhouette through rounded shoulders, generous
+ * hands, broad trousers, and planted shoes. The Awtsmoos renews every proportion,
+ * while Awtsmoos.com stores only editable and serializable production geometry.
  */
 export class CheerfulReferenceBodyGeometry {
 	static create() {
 		return {
-			torso: { garmentKind: 'jacket', shoulderExtra: 8, waistHalf: 42, hipHalf: 40, hemY: -83, hemRound: 12 },
-			pelvis: { topHalf: 38, bottomHalf: 34, bottomY: -68 },
-			legs: {
-				hipOffset: 21,
-				kneeOffset: 21,
-				ankleOffset: 21,
-				footOffset: 24,
-				thighWidth: 27,
-				kneeWidth: 23,
-				ankleWidth: 19,
-				shoeScaleX: 1.34,
-				shoeScaleY: 1.08
+			torso: {
+				garmentKind: 'jacket',
+				shoulderExtra: 10,
+				shoulderDrop: 5,
+				shoulderArch: 16,
+				waistHalf: 44,
+				waistDrop: 1,
+				hipHalf: 42,
+				sideRound: 17,
+				belly: 4,
+				hemY: -82,
+				hemRound: 13,
+				hemLift: 2
 			},
-			details: { shirtPanelHalf: 15, lapelHalf: 15, buttons: true, pockets: true },
+			pelvis: {
+				topHalf: 40,
+				bottomHalf: 37,
+				bottomY: -66
+			},
+			legs: {
+				hipOffset: 22,
+				kneeOffset: 23,
+				ankleOffset: 22,
+				footOffset: 27,
+				thighWidth: 32,
+				kneeWidth: 27,
+				ankleWidth: 21,
+				thighBend: 1.8,
+				calfBend: -1.4,
+				shoeScaleX: 1.38,
+				shoeScaleY: 1.22
+			},
+			details: {
+				shirtPanelHalf: 16,
+				lapelHalf: 15,
+				buttons: true,
+				pockets: true
+			},
 			gesture: {
 				mode: 'open_palm_left',
-				elbowOut: 28,
-				elbowDown: 34,
-				wristOut: 33,
-				wristDown: 10,
-				palmScale: 1.02
+				elbowOut: 30,
+				elbowDown: 31,
+				wristOut: 39,
+				wristDown: 2,
+				palmScale: 1.3,
+				fistElbowOut: 17,
+				fistElbowDown: 39,
+				fistX: 28,
+				fistDrop: 23,
+				fistScale: 1.18
 			}
 		};
 	}

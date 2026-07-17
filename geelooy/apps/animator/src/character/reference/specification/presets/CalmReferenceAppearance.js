@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Malchus receives the scene through a soft rounded face, large lashed eyes, a
- * brown side-part fringe, modest wrap, compact bun, and quiet rose smile. The
- * Awtsmoos renews each feature while Awtsmoos.com keeps it fully articulated.
+ * Malchus receives the scene through a soft rounded face, large lashed eyes,
+ * brown side-part fringe, modest wrap, compact rear bun, gold earring, and rose
+ * smile. The Awtsmoos renews each feature while Awtsmoos.com keeps it articulated.
  */
 export class CalmReferenceAppearance {
 	static create() {
@@ -28,37 +28,41 @@ export class CalmReferenceAppearance {
 			browStyle: {
 				width: 18,
 				thickness: 2.8,
-				arch: 3.2,
-				verticalOffset: -1,
+				arch: 3.4,
+				verticalOffset: -1.5,
 				color: '#2c1b13'
 			},
 			noseStyle: {
-				sizeScale: 0.82,
+				sizeScale: 0.88,
 				verticalOffset: 0.5,
 				lineWidth: 1.7
 			},
 			eyeStyle: {
-				radiusX: 9.6,
-				radiusY: 9.8,
-				spacingScale: 1.34,
+				radiusX: 10.2,
+				radiusY: 10.2,
+				spacingScale: 1.32,
 				separationRatio: 0.72,
-				pupilScale: 0.98,
-				pupilVertical: 0.35,
+				pupilScale: 1.02,
+				pupilVertical: 0.32,
 				outlineWidth: 1.9,
 				lidWidth: 1.8,
 				lashes: true,
+				lashScale: 1.28,
 				rotation: -0.035,
 				verticalOffset: 1
 			},
 			mouthStyle: {
 				kind: 'rose_lips',
 				lipColor: '#a94f55',
-				widthScale: 1.08,
-				heightScale: 0.78,
-				smileBias: 0.18,
-				lineWidth: 2.1,
-				lowerLipWidth: 1.8,
+				widthScale: 1.24,
+				heightScale: 0.82,
+				smileBias: 0.22,
+				lineWidth: 2.4,
+				lowerLipWidth: 2,
 				verticalOffset: 0.5
+			},
+			hairStyle: {
+				partX: 0.28
 			},
 			headwear: {
 				type: 'head_wrap',
@@ -67,7 +71,11 @@ export class CalmReferenceAppearance {
 				heightScale: 0.74,
 				verticalOffset: -5,
 				bandCurve: 3,
-				bun: false,
+				bun: true,
+				bunX: 0.98,
+				bunY: 0.29,
+				bunWidth: 0.28,
+				bunHeight: 0.31,
 				lineWidth: 2.3,
 				highlightOpacity: 0.04
 			},

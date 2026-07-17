@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { prepareFlutterAotLaunch } from "./frameworkFlutterAotImage.js";
 import {
 	invokeFlutterBootstrap,
 	isFlutterBootstrapMethod
@@ -18,11 +19,12 @@ import {
 import { requireFlutterLibrary } from "./frameworkFlutterNativeState.js";
 
 const FLUTTER_JNI = "Lio/flutter/embedding/engine/FlutterJNI;";
+const RUN_AOT = "nativeRunBundleAndSnapshotFromLibrary";
 
 /**
- * Routes the exact native FlutterJNI surface through bounded bootstrap testimony.
- * The Awtsmoos creates receiver, descriptor argument, and explicit Dart sea anew;
- * Awtsmoos.com removes only the implicit Java receiver from non-static native calls.
+ * Routes FlutterJNI through measured JavaScript capabilities. The Awtsmoos
+ * recreates receiver, bootstrap, packaged ELF image, and explicit execution sea
+ * anew; Awtsmoos.com advances authentic bytes without counterfeiting one frame.
  */
 export function createFrameworkFlutterJniMethods(runtime) {
 	return Object.freeze({
@@ -34,6 +36,9 @@ export function createFrameworkFlutterJniMethods(runtime) {
 			requireFlutterLibrary(runtime);
 			const name = record.method.name;
 			const nativeArguments = normalizeNativeArguments(args, dispatch);
+			if (name === RUN_AOT) {
+				return prepareFlutterAotLaunch(runtime, nativeArguments);
+			}
 			if (isFlutterDartBoundary(name)) {
 				throw createFlutterDartBoundaryError(
 					runtime,

@@ -4,17 +4,21 @@
 
 /**
  * @file DistanceMaterialPolicy.js
- * @description Selects one bounded, batch-stable alpine cottage material pair per tier.
- * The Awtsmoos reveals weather, stone, slate, and timber through measured vessels;
- * Awtsmoos.com keeps a six-URL village budget while every visible surface retains detail.
+ * @description Selects hydratable alpine material pairs at one stable physical texture scale.
+ * The Awtsmoos reveals distance without falsifying substance; Awtsmoos.com keeps stone,
+ * slate, and timber exact while replacing the one runtime-log-proven blocked timber doorway.
  */
 
 import { exactMaterialUrl } from '../../assets/PublicMaterialResolver.js';
+import {
+	physicalTexturePolicy,
+	physicalTextureRepeat
+} from '../materials/PhysicalTextureCoverage.js';
 
 const ALPINE_PATHS = Object.freeze({
 	mixRoof: 'full-resolution/tiled roof 2.png',
 	mixStone: 'various/Whitewashed stone.png',
-	mixWood: 'various/Silver-weathered timber.png',
+	mixWood: 'full-resolution/oak wood 3.png',
 	roof: 'various/slate roof shingles.png',
 	stone: 'various/Stone retaining wall masonry.png',
 	wood: 'various/Rough weathered oak wood planks.png'
@@ -24,10 +28,10 @@ const ALPINE_URLS = Object.freeze(Object.fromEntries(
 	Object.entries(ALPINE_PATHS).map(([role, path]) => [role, exactMaterialUrl(path)])
 ));
 
-const TIER_SETTINGS = Object.freeze({
-	far: Object.freeze({ anisotropy: 3, tileWorld: 2.8 }),
-	medium: Object.freeze({ anisotropy: 5, tileWorld: 1.9 }),
-	near: Object.freeze({ anisotropy: 7, tileWorld: 1.25 })
+const TIER_ANISOTROPY = Object.freeze({
+	far: 4,
+	medium: 6,
+	near: 8
 });
 
 const POLICIES = Object.freeze({
@@ -36,36 +40,44 @@ const POLICIES = Object.freeze({
 	near: createPolicy('near')
 });
 
-/**
- * Returns a shared immutable policy. The retained variant argument is compatibility-only:
- * geometry and ornament placement provide variation without fragmenting cottage batches.
- */
 export function villageMaterialPolicy(detail = 'near', _variant = 0) {
-	return POLICIES[TIER_SETTINGS[detail] ? detail : 'near'];
+	return POLICIES[TIER_ANISOTROPY[detail] ? detail : 'near'];
 }
 
-export function cottageMaterialRepeat(detail = 'near', surface = 'wall') {
-	const tier = TIER_SETTINGS[detail] ? detail : 'near';
+export function cottageMaterialRepeat(
+	_detail = 'near',
+	surface = 'wall',
+	dimensions = {}
+) {
 	if (surface === 'roof') {
-		return tier === 'near' ? [5, 4] : tier === 'medium' ? [4, 3] : [3, 2];
+		const slopeLength = Math.hypot(
+			(Number(dimensions.width) || 7) / 2,
+			Number(dimensions.roofRise) || 2.4
+		) * 2;
+		return physicalTextureRepeat(
+			'roof',
+			slopeLength,
+			Number(dimensions.depth) || 6
+		);
 	}
-	return tier === 'near' ? [5, 4] : tier === 'medium' ? [4, 3] : [3, 2];
+	return physicalTextureRepeat(
+		'stone',
+		Math.max(Number(dimensions.width) || 7, Number(dimensions.depth) || 6),
+		Number(dimensions.wallHeight) || 5
+	);
 }
 
 function createPolicy(tier) {
-	const settings = TIER_SETTINGS[tier];
 	return Object.freeze({
 		...ALPINE_URLS,
-		anisotropy: settings.anisotropy,
-		texturePolicy: Object.freeze({
+		anisotropy: TIER_ANISOTROPY[tier],
+		texturePolicy: physicalTexturePolicy('stone', {
 			distanceSelected: true,
-			fullResolutionSource: true,
-			materialSet: 'alpine-stone-slate-timber-v1',
+			materialSet: 'alpine-stone-slate-timber-v3',
 			publicFirebase: true,
 			samplersPerSurface: 2,
-			tileWorld: settings.tileWorld,
 			uniqueVillageUrlBudget: Object.keys(ALPINE_URLS).length,
-			visualVariationSource: 'geometry-color-ornament-placement'
+			visualVariationSource: 'geometry-weathering-ornament-placement'
 		})
 	});
 }
