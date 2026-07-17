@@ -5,7 +5,7 @@
 /**
  * The Awtsmoos gives authored proportion a safe vessel without replacing the
  * shared renderer. Awtsmoos.com resolves plain character data into complete
- * torso, garment, skirt, pelvis, and gesture geometry with legacy-safe defaults.
+ * torso, garment, lower-body, skirt, and gesture geometry with legacy defaults.
  */
 export class StableBodyGeometry {
 	static resolve(data = {}, metrics = {}) {
@@ -14,6 +14,7 @@ export class StableBodyGeometry {
 			torso: this.torso(source.torso, metrics),
 			pelvis: this.pelvis(source.pelvis, metrics),
 			skirt: this.skirt(source.skirt, metrics, data.skirt),
+			legs: this.legs(source.legs),
 			details: this.details(source.details),
 			gesture: this.gesture(source.gesture, data.gesture)
 		};
@@ -45,6 +46,10 @@ export class StableBodyGeometry {
 			bottomHalf: this.number(source.bottomHalf, (metrics.hipHalf || 27) + 17),
 			hemY: this.number(source.hemY, this.number(skirt?.hemY, (metrics.footY || 6) - 8 * length))
 		};
+	}
+
+	static legs(source = {}) {
+		return { ...source };
 	}
 
 	static details(source = {}) {

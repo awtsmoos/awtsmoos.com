@@ -19,9 +19,7 @@ export class SkepticalReferenceSpecification {
 			id: ReferenceCharacterIds.skeptical,
 			name: 'Dovid — Skeptical Observer',
 			genderPresentation: 'masculine',
-			position: ReferenceCharacterLayout.position(
-				ReferenceCharacterIds.skeptical
-			),
+			position: ReferenceCharacterLayout.position(ReferenceCharacterIds.skeptical),
 			referenceBox: {
 				x: 626,
 				y: 60,
@@ -34,8 +32,8 @@ export class SkepticalReferenceSpecification {
 			...SkepticalReferenceAppearance.create(),
 			renderPerformance: {
 				face: {
-					eyeOpenAmount: 0.58,
-					squintAmount: 0.2,
+					eyeOpenAmount: 0.72,
+					squintAmount: 0.08,
 					pupilOffsetX: -0.78,
 					pupilOffsetY: 0.05,
 					mouthSmileAmount: -0.48,
@@ -52,9 +50,7 @@ export class SkepticalReferenceSpecification {
 			name: 'Dovid — Skeptical Observer',
 			genderPresentation: 'masculine',
 			...SkepticalReferenceDesign.create(),
-			...ReferenceCharacterLayout.design(
-				ReferenceCharacterIds.skeptical
-			),
+			...ReferenceCharacterLayout.design(ReferenceCharacterIds.skeptical),
 			facing: 'left'
 		};
 	}

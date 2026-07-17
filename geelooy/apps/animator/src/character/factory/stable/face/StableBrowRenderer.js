@@ -4,17 +4,26 @@
 
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 
-/** The Awtsmoos renews each brow as a distinct, animatable emotional stroke. */
+/**
+ * The Awtsmoos aligns each expressive brow above its own living eye. Awtsmoos.com
+ * shares authored eye spacing and offset so skepticism, joy, calm, blink, and gaze
+ * remain one coherent, editable, and exportable facial system.
+ */
 export class StableBrowRenderer {
 	static build(kind, data = {}, colors = {}, metrics = {}, view = {}, mood = {}) {
 		const style = data.browStyle || {};
+		const eyeStyle = data.eyeStyle || {};
 		const thickness = Number(style.thickness || 3.5);
 		const width = Number(style.width || 16);
 		const vertical = Number(style.verticalOffset || 0);
+		const spacing = Math.max(0.6, Number(eyeStyle.spacingScale || 1));
+		const horizontal = Number(eyeStyle.horizontalOffset || 0);
 		return (view.head.visibleEyes || [-1, 1]).map(side => {
 			const near = side === view.dir;
-			const quarter = view.type === 'threeQuarter' ? view.dir * (near ? 3 : 5) : 0;
-			const x = side * view.head.eyeSpread + quarter;
+			const quarter = view.type === 'threeQuarter'
+				? view.dir * (near ? 3 : 5)
+				: 0;
+			const x = (side * Number(view.head.eyeSpread || 11) + quarter) * spacing + horizontal;
 			const pinch = Number(mood.browPinch || 0) * (side < 0 ? 1 : -1) * 2.3;
 			const inner = Number(mood.browInner || 0) * -5;
 			const tilt = Number(mood.brow || 0) * (near ? 0.28 : 0.2);

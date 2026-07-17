@@ -20,11 +20,17 @@ import { drawCombatantShowcase } from './battle/BattleCombatants.js';
 import { animatedBattleHealth } from './battle/BattleHealthAnimation.js';
 import { drawBattleIntentCard } from './battle/BattleIntentCard.js';
 import { drawMoveCard, drawMovePrompt } from './battle/BattleMoveCards.js';
-import { drawBattleHints, drawBattleLog, drawBusyPrompt, drawPhaseBanner } from './battle/BattleOverlay.js';
+import {
+	drawBattleHints,
+	drawBattleLog,
+	drawBusyPrompt,
+	drawPhaseBanner
+} from './battle/BattleOverlay.js';
 import { drawBattleStage } from './battle/BattleStage.js';
 import { BATTLE_THEME as T } from './battle/BattleTheme.js';
+import { readCanvasViewport } from './canvas/CanvasViewport.js';
 
-const canvasSize = ctx => ({ w: ctx.canvas?.width || 390, h: ctx.canvas?.height || 844 });
+const canvasSize = context => readCanvasViewport(context);
 const enemyName = () => State.Debate.enemy?.name || 'Wandering Spark';
 
 const playerCard = (layout, stats, animated) => ({
@@ -47,33 +53,36 @@ const enemyCard = (layout, animated) => ({
 	sub: State.Debate.enemy?.kind || 'Living Encounter'
 });
 
-const drawCommands = (ctx, layout, busy) => {
-	if (busy) return drawBusyPrompt(ctx, layout);
-	drawMovePrompt(ctx, layout.prompt);
+const drawCommands = (context, layout, busy) => {
+	if (busy) {
+		drawBusyPrompt(context, layout);
+		return;
+	}
+	drawMovePrompt(context, layout.prompt);
 	State.Debate.moves.forEach((move, index) => {
-		drawMoveCard(ctx, move, layout.rects[index], index === State.Debate.cursor);
+		drawMoveCard(context, move, layout.rects[index], index === State.Debate.cursor);
 	});
 };
 
-export const renderBattle = ctx => {
+export const renderBattle = context => {
 	const stats = resolveStats();
 	const animated = animatedBattleHealth();
-	const size = canvasSize(ctx);
+	const size = canvasSize(context);
 	const layout = battleMoveLayout(size.w, size.h);
 	const busy = isBattleBusy();
-	ctx.save();
+	context.save();
 	const shake = battleShake();
-	ctx.translate(shake.x, shake.y);
-	drawBattleStage(ctx, layout);
-	drawBattleEffects(ctx, 'back');
-	drawStatCard(ctx, playerCard(layout, stats, animated));
-	drawStatCard(ctx, enemyCard(layout, animated));
-	drawCombatantShowcase(ctx, layout, stats, State.Debate.enemy);
-	drawBattleIntentCard(ctx, layout);
-	drawBattleEffects(ctx, 'front');
-	drawBattleLog(ctx, layout);
-	drawPhaseBanner(ctx, layout, busy);
-	ctx.restore();
-	drawCommands(ctx, layout, busy);
-	drawBattleHints(ctx, layout, busy);
+	context.translate(shake.x, shake.y);
+	drawBattleStage(context, layout);
+	drawBattleEffects(context, 'back');
+	drawStatCard(context, playerCard(layout, stats, animated));
+	drawStatCard(context, enemyCard(layout, animated));
+	drawCombatantShowcase(context, layout, stats, State.Debate.enemy);
+	drawBattleIntentCard(context, layout);
+	drawBattleEffects(context, 'front');
+	drawBattleLog(context, layout);
+	drawPhaseBanner(context, layout, busy);
+	context.restore();
+	drawCommands(context, layout, busy);
+	drawBattleHints(context, layout, busy);
 };

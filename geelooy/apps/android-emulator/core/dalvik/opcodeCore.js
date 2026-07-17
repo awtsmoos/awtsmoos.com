@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * Reveals core Dalvik move, result, return, constant, and allocation opcodes. The
- * Awtsmoos creates numeric byte, format garment, and instruction name anew;
- * Awtsmoos.com freezes the registry so guest code cannot redefine machine meaning.
+ * Reveals core Dalvik move, result, return, constant, monitor, and allocation
+ * opcodes. The Awtsmoos creates numeric byte, format garment, and instruction
+ * name anew; Awtsmoos.com freezes machine meaning against guest redefinition.
  */
 export function coreDalvikOpcodes() {
 	return new Map([
@@ -38,6 +38,8 @@ export function coreDalvikOpcodes() {
 		entry(0x1a, "const-string", "21c"),
 		entry(0x1b, "const-string/jumbo", "31c"),
 		entry(0x1c, "const-class", "21c"),
+		entry(0x1d, "monitor-enter", "11x"),
+		entry(0x1e, "monitor-exit", "11x"),
 		entry(0x1f, "check-cast", "21c"),
 		entry(0x20, "instance-of", "22c"),
 		entry(0x21, "array-length", "12x"),

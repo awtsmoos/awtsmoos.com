@@ -7,10 +7,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#071321">
-	<meta name="description" content="Seven living regions, seven complete games, a Seven Provinces campaign, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
+	<meta name="description" content="Seven living regions, seven games, a campaign, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
 	<title>Seven Mitzvos · Seven Worlds</title>
 	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
-	<link rel="stylesheet" href="./styles/index.css" data-components="tokens.css foundation.css typography.css landscape.css components.css living-world.css living-world-regions.css universe.css game.css game-board.css game-motion.css builder-shell.css builder-hud.css builder-status.css builder-grid.css builder-controls.css builder-ledger.css builder-motion.css cards.css dialog.css">
+	<link rel="stylesheet" href="./styles/index.css" data-components="tokens.css foundation.css typography.css hero-navigation.css hero-shell.css hero-actions.css hero-disclosure.css hero-seven.css landscape.css components.css living-world.css living-world-regions.css universe.css game.css game-board.css game-motion.css builder-shell.css builder-hud.css builder-status.css builder-grid.css builder-controls.css builder-ledger.css builder-motion.css cards.css dialog.css">
 </head>
 <body>
 	<div class="livingWorld" aria-hidden="true">
@@ -25,24 +25,34 @@
 			<span class="worldMark">B"H · One humanity, seven foundations</span>
 		</nav>
 		<div class="heroContent">
-			<p class="eyebrow">Seven exact mitzvos · Seven independent games · Seven living regions</p>
+			<p class="eyebrow">Seven living regions · Seven exact mitzvos</p>
 			<h1>Learn every foundation.<br><em>Enter every world.</em></h1>
-			<p class="heroLead">Govern a persistent civic world of regions, households, markets, ecology, courts, travel, and history—then play deduction, rhythm, rescue, relationship strategy, trade, animal care, and courtroom judgment.</p>
-			<ol class="heroMitzvahStrip" aria-label="The Seven Mitzvos of Bnei Noach">
-				<li>Do not worship idols</li>
-				<li>Do not blaspheme</li>
-				<li>Do not murder</li>
-				<li>Do not engage in forbidden relationships</li>
-				<li>Do not steal</li>
-				<li>Do not eat flesh taken from a living animal</li>
-				<li>Establish courts of justice</li>
-			</ol>
-			<div class="heroActions">
-				<a class="primaryAction" href="#livingWorldMount">Govern the seven regions</a>
-				<a class="primaryAction" href="#campaignMount">Open the Seven Provinces</a>
-				<a class="primaryAction" href="#sevenWorlds">Choose one of seven games</a>
-				<button id="beginGame" class="primaryAction" type="button">Play Guard the World</button>
-				<button id="beginBuilder" class="primaryAction builderLaunch" type="button">Build the Covenant</button>
+			<p class="heroLead">Govern a persistent civic world shaped by households, markets, ecology, courts, travel, and remembered choices.</p>
+			<div class="heroActionStack">
+				<a class="primaryAction heroPrimary" href="#livingWorldMount">Govern the seven regions</a>
+				<div class="heroDisclosureGroup">
+					<details class="heroDisclosure heroExplore">
+						<summary>More ways to explore <span>4</span></summary>
+						<div class="secondaryActionGrid">
+							<a class="primaryAction" href="#campaignMount" aria-label="Open the Seven Provinces">Seven Provinces</a>
+							<a class="primaryAction" href="#sevenWorlds">Seven games</a>
+							<button id="beginGame" class="primaryAction" type="button">Guard the World</button>
+							<button id="beginBuilder" class="primaryAction builderLaunch" type="button">Build the Covenant</button>
+						</div>
+					</details>
+					<details class="heroDisclosure heroReference">
+						<summary>View the seven mitzvos <span>7</span></summary>
+						<ol class="heroMitzvahStrip" aria-label="The Seven Mitzvos of Bnei Noach">
+							<li>Do not worship idols</li>
+							<li>Do not blaspheme</li>
+							<li>Do not murder</li>
+							<li>Do not engage in forbidden relationships</li>
+							<li>Do not steal</li>
+							<li>Do not eat flesh taken from a living animal</li>
+							<li>Establish courts of justice</li>
+						</ol>
+					</details>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -96,7 +106,7 @@
 		<h3>The positive work</h3>
 		<p id="dialogPractice"></p>
 	</dialog>
-	<footer><span>B"H</span><p>Seven living regions, Seven Provinces, seven worlds, two preserved shared games, and one clear learning path on Awtsmoos.com.</p></footer>
+	<footer><span>B"H</span><p>Seven living regions, seven games, and one clear learning path on Awtsmoos.com.</p></footer>
 	<script type="module" src="./js/main.js"></script>
 </body>
 </html>

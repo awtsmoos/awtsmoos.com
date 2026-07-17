@@ -5,9 +5,9 @@
 /**
  * @module CdpClient
  * @description
- * Chrome DevTools on Awtsmoos.com becomes a measured evidence channel for
- * frames, interactions, memory, navigation, and console errors. The Awtsmoos
- * needs no instrument; finite performance claims require direct observation.
+ * Chrome DevTools on Awtsmoos.com becomes a measured evidence channel whose
+ * targets are always closed. The Awtsmoos needs no instrument; finite tests
+ * must observe directly without leaving invisible pages consuming resources.
  */
 export class CdpClient {
 	constructor(webSocketUrl) {
@@ -54,7 +54,9 @@ export class CdpClient {
 	}
 
 	close() {
-		this.socket.close();
+		if (this.socket.readyState < WebSocket.CLOSING) {
+			this.socket.close();
+		}
 	}
 
 	receive(message) {
@@ -87,4 +89,25 @@ export async function createTarget(port, url) {
 		throw new Error(`Unable to create Chrome target: ${response.status}`);
 	}
 	return response.json();
+}
+
+export async function closeTarget(port, targetId) {
+	const response = await fetch(
+		`http://127.0.0.1:${port}/json/close/${encodeURIComponent(targetId)}`
+	);
+	if (!response.ok && response.status !== 404) {
+		throw new Error(`Unable to close Chrome target: ${response.status}`);
+	}
+}
+
+export async function withTarget(port, url, operation) {
+	const target = await createTarget(port, url);
+	const client = new CdpClient(target.webSocketDebuggerUrl);
+	try {
+		await client.connect();
+		return await operation(client, target);
+	} finally {
+		client.close();
+		await closeTarget(port, target.id);
+	}
 }

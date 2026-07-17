@@ -16,7 +16,7 @@ import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSpar
 import { createFrameworkAndroidSystemClockMethods } from "./frameworkAndroidSystemClock.js";
 import { createFrameworkAndroidTraceMethods } from "./frameworkAndroidTrace.js";
 import { createFrameworkAssetMethods } from "./frameworkAssets.js";
-import { createFrameworkAtomicReferenceMethods } from "./frameworkAtomicReference.js";
+import { createFrameworkAtomicMethods } from "./frameworkAtomics.js";
 import { createFrameworkBundleMethods } from "./frameworkBundles.js";
 import { createFrameworkComponentMethods } from "./frameworkComponents.js";
 import { createFrameworkConstructors } from "./frameworkConstructors.js";
@@ -68,7 +68,7 @@ export function createAndroidFrameworkFamilies(runtime) {
 		createFrameworkJavaDesugarObjectMethods(runtime),
 		createFrameworkJavaSystemMethods(runtime),
 		createFrameworkFlutterJniMethods(runtime),
-		createFrameworkAtomicReferenceMethods(runtime),
+		createFrameworkAtomicMethods(runtime),
 		createFrameworkJavaMapMethods(runtime),
 		createFrameworkJavaPriorityQueueMethods(runtime),
 		createFrameworkJavaListMethods(runtime),

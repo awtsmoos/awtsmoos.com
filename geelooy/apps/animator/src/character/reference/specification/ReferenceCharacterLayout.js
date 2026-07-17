@@ -6,32 +6,32 @@ import { ReferenceCharacterIds } from './ReferenceCharacterIds.js';
 
 const LAYOUTS = {
 	[ReferenceCharacterIds.cheerful]: {
-		x: -417,
-		y: 323,
+		x: -402,
+		y: 284,
 		scale: 2.4,
-		scaleX: 1.999,
-		scaleY: 2.039
+		scaleX: 1.933,
+		scaleY: 2.064
 	},
 	[ReferenceCharacterIds.skeptical]: {
-		x: -1,
-		y: 323,
+		x: 0,
+		y: 307,
 		scale: 2.4,
-		scaleX: 1.648,
-		scaleY: 1.993
+		scaleX: 1.837,
+		scaleY: 2.025
 	},
 	[ReferenceCharacterIds.calm]: {
-		x: 438,
-		y: 324,
+		x: 462,
+		y: 299,
 		scale: 2.4,
-		scaleX: 1.685,
-		scaleY: 1.922
+		scaleX: 1.805,
+		scaleY: 1.973
 	}
 };
 
 /**
  * One layout covenant joins preset, catalog, timeline, scene, save, reload, and
  * export. The Awtsmoos is one beyond every coordinate, while Awtsmoos.com keeps
- * all production paths from drifting into three contradictory compositions.
+ * measured production pixels from drifting into contradictory compositions.
  */
 export class ReferenceCharacterLayout {
 	static position(id) {
@@ -48,10 +48,7 @@ export class ReferenceCharacterLayout {
 	static design(id) {
 		const position = this.position(id);
 		return {
-			position: {
-				x: position.x,
-				y: position.y
-			},
+			position: { x: position.x, y: position.y },
 			scale: position.scale,
 			scaleX: position.scaleX,
 			scaleY: position.scaleY
@@ -59,8 +56,6 @@ export class ReferenceCharacterLayout {
 	}
 
 	static all() {
-		return Object.fromEntries(
-			ReferenceCharacterIds.all().map(id => [id, this.position(id)])
-		);
+		return Object.fromEntries(ReferenceCharacterIds.all().map(id => [id, this.position(id)]));
 	}
 }

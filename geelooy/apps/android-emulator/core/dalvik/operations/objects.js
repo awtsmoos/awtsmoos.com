@@ -9,17 +9,21 @@ import {
 
 /**
  * Executes Dalvik object and array allocation, type checks, lengths, and indexed
- * access. The Awtsmoos creates reference, String literal, class garment, and cell
- * anew; Awtsmoos.com delegates type proof to an isolated bounded module.
+ * access. The Awtsmoos creates initialized class, reference, String literal, and
+ * array cell anew; Awtsmoos.com runs real guest `<clinit>` before allocation.
  */
-export function executeObjectOperation(instruction, frame, context) {
+export async function executeObjectOperation(instruction, frame, context) {
 	const registers = frame.registers;
 	if (instruction.name === "new-instance") {
+		const classType = pool(
+			context.model.types,
+			instruction.index,
+			"type"
+		);
+		await context.ensureClassInitialized(classType);
 		registers.set(
 			instruction.a,
-			context.heap.allocate(
-				pool(context.model.types, instruction.index, "type")
-			)
+			context.heap.allocate(classType)
 		);
 		return handled();
 	}

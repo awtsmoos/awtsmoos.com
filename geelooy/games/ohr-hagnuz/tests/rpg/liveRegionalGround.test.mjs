@@ -4,10 +4,11 @@
 
 /**
  * @file liveRegionalGround.test.mjs
- * @description Proves that the active Projector receives deterministic regional ground.
+ * @description Proves deterministic regional ground remains on the active Projector path.
  *
  * The Awtsmoos renews the visible road through the real runtime vessel. This
- * Awtsmoos.com guard rejects a beautiful orphan renderer that never reaches play.
+ * Awtsmoos.com guard follows the modular production chain rather than demanding
+ * that every revelation remain crowded inside one coordinator file.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -15,14 +16,12 @@ import { fileURLToPath } from 'node:url';
 import { State } from '../../src/binah/State.js';
 import { Ground } from '../../src/tiferet/render/Ground.js';
 
-function readSource(relativePath) {
-	return readFileSync(
-		fileURLToPath(new URL(relativePath, import.meta.url)),
-		'utf8'
-	);
-}
+const readSource = relativePath => readFileSync(
+	fileURLToPath(new URL(relativePath, import.meta.url)),
+	'utf8'
+);
 
-function createRecordingContext() {
+const createRecordingContext = () => {
 	const operations = [];
 	let fillStyle = '';
 	return {
@@ -38,14 +37,14 @@ function createRecordingContext() {
 			operations.push(['fillRect', fillStyle, x, y, width, height]);
 		}
 	};
-}
+};
 
-function renderMapGround(mapId, glyph = '1') {
+const renderMapGround = (mapId, glyph = '1') => {
 	State.MapId = mapId;
 	const context = createRecordingContext();
 	Ground.draw(context, 0, 0, 64, glyph, 37);
 	return context.operations;
-}
+};
 
 const originalMapId = State.MapId;
 try {
@@ -65,7 +64,9 @@ try {
 
 	const groundSource = readSource('../../src/tiferet/render/Ground.js');
 	const projectorSource = readSource('../../src/tiferet/Projector.js');
-	assert.match(projectorSource, /Ground\.draw\(/);
+	const worldSource = readSource('../../src/tiferet/render/world/WorldProjectionRenderer.js');
+	assert.match(projectorSource, /WorldProjectionRenderer\.draw\(/);
+	assert.match(worldSource, /Ground\.draw\(/);
 	assert.match(groundSource, /resolveRegionVisualTheme/);
 	assert.match(groundSource, /RegionalGroundDetails/);
 	assert.doesNotMatch(groundSource, /Math\.random|requestAnimationFrame|setInterval/);

@@ -2,35 +2,49 @@
 //Boruch Hashem
 //Blessed is He
 
+import { resolveDalvikInvocation } from "../methodDispatch.js";
+import { createDalvikInvokeEvidence } from "./invokeEvidence.js";
+
 /**
- * Executes Dalvik fixed and range invokes through guest code or the virtual Android
- * framework. The Awtsmoos creates argument words, dispatch kind, callee, and result
- * anew; Awtsmoos.com preserves the complete nested register testimony on failure.
+ * Executes fixed and range invokes through initialized static classes,
+ * receiver-resolved guest code, or the explicit Android framework. The Awtsmoos
+ * creates declaration, class awakening, override, call word, and result anew;
+ * Awtsmoos.com preserves both declared and resolved roads.
  */
 export async function executeInvokeOperation(instruction, frame, context) {
 	if (!instruction.name.startsWith("invoke-")) return null;
-	const record = context.registry.byIndex(context.model, instruction.index);
+	const declared = context.registry.byIndex(context.model, instruction.index);
 	const registerNumbers = instruction.registers || [];
 	const argumentsToPass = frame.registers.getMany(registerNumbers);
 	const dispatch = invocationKind(instruction.name);
+	let resolved = null;
 	let result;
 	try {
-		result = record.code
-			? await context.invokeGuest(record, argumentsToPass, dispatch)
-			: await context.framework.invoke(
-				record,
-				argumentsToPass,
-				dispatch,
-				context
-			);
-	} catch (error) {
-		const evidence = createInvokeEvidence(
-			instruction,
-			record,
-			registerNumbers,
+		if (dispatch === "static") {
+			await context.ensureClassInitialized(declared.method.classType);
+		}
+		resolved = resolveDalvikInvocation(
+			declared,
 			argumentsToPass,
-			dispatch
+			dispatch,
+			context
 		);
+		result = await invokeResolved(
+			resolved.record,
+			argumentsToPass,
+			dispatch,
+			context
+		);
+	} catch (error) {
+		const evidence = createDalvikInvokeEvidence({
+			argumentsToPass,
+			context,
+			declared,
+			dispatch,
+			instruction,
+			registerNumbers,
+			resolved
+		});
 		if (!error.dalvikInvoke) error.dalvikInvoke = evidence;
 		const chain = Array.isArray(error.dalvikInvokeChain)
 			? [...error.dalvikInvokeChain]
@@ -42,55 +56,37 @@ export async function executeInvokeOperation(instruction, frame, context) {
 	frame.pendingResult = result;
 	context.traceCall(Object.freeze({
 		argumentCount: argumentsToPass.length,
+		declaredSignature: declared.signature,
 		dispatch,
-		guestCode: Boolean(record.code),
-		signature: record.signature
+		guestCode: Boolean(resolved.record.code),
+		receiverType: resolved.receiverType,
+		resolution: resolved.reason,
+		resolvedSignature: resolved.record.signature
 	}));
 	return Object.freeze({ handled: true });
 }
 
-function createInvokeEvidence(
-	instruction,
-	record,
-	registerNumbers,
-	argumentsToPass,
-	dispatch
-) {
-	return Object.freeze({
-		arguments: Object.freeze(argumentsToPass.map(summarizeValue)),
+async function invokeResolved(record, args, dispatch, context) {
+	if (record.code) {
+		return context.invokeGuest(record, args, dispatch);
+	}
+	return context.framework.invoke(
+		record,
+		args,
 		dispatch,
-		instructionName: instruction.name,
-		pc: instruction.pc,
-		registers: Object.freeze([...registerNumbers]),
-		signature: record.signature
-	});
-}
-
-function summarizeValue(value) {
-	if (typeof value === "bigint") {
-		return Object.freeze({
-			kind: "bigint",
-			value: value.toString()
-		});
-	}
-	if (value && typeof value === "object") {
-		return Object.freeze({
-			id: value.id ?? null,
-			kind: value.kind ?? "object",
-			type: value.type ?? null
-		});
-	}
-	return Object.freeze({
-		kind: typeof value,
-		value
-	});
+		context
+	);
 }
 
 function invocationKind(name) {
-	if (name.startsWith("invoke-virtual")) return "virtual";
-	if (name.startsWith("invoke-super")) return "super";
-	if (name.startsWith("invoke-direct")) return "direct";
-	if (name.startsWith("invoke-static")) return "static";
-	if (name.startsWith("invoke-interface")) return "interface";
+	for (const kind of [
+		"virtual",
+		"super",
+		"direct",
+		"static",
+		"interface"
+	]) {
+		if (name.startsWith(`invoke-${kind}`)) return kind;
+	}
 	return "unknown";
 }

@@ -4,10 +4,11 @@
 
 /**
  * @file RegionalGroundDetails.js
- * @description Paints bounded, non-blocking overhead accents for the live world.
+ * @description Paints bounded curved accents for the live overhead world.
  *
- * The Awtsmoos dresses one earth in marsh reed-shadow, desert grain, frost,
- * ember, and light. Awtsmoos.com keeps every mark flat, honest, and walkable.
+ * The Awtsmoos dresses one earth in reed, grain, frost, ember, and light.
+ * Awtsmoos.com keeps each mark smooth, deterministic, flat, and walkable,
+ * revealing material without ever claiming collision authority.
  */
 import {
 	liveGroundChoice,
@@ -15,17 +16,6 @@ import {
 } from './LiveGroundSeed.js';
 
 export class RegionalGroundDetails {
-	/**
-	 * Paints a small fixed budget of visual accents without changing collision.
-	 *
-	 * @param {CanvasRenderingContext2D} context Live background context.
-	 * @param {{x:number,y:number,size:number}} bounds Tile screen bounds.
-	 * @param {string} groundGlyph Canonical ground role.
-	 * @param {object} theme Resolved regional visual theme.
-	 * @param {string} mapId Canonical map identity.
-	 * @param {number} tileSeed Stable tile-coordinate seed.
-	 * @returns {void}
-	 */
 	static draw(context, bounds, groundGlyph, theme, mapId, tileSeed) {
 		if (groundGlyph === '2') {
 			this.drawRoad(context, bounds, theme, mapId, tileSeed);
@@ -40,58 +30,86 @@ export class RegionalGroundDetails {
 
 	static drawGrowth(context, bounds, theme, mapId, tileSeed) {
 		const { x, y, size } = bounds;
+		context.save();
+		context.lineCap = 'round';
 		for (let index = 0; index < 3; index += 1) {
 			const offset = index * 11;
-			const bladeX = x + size * (.16 + liveGroundUnit(mapId, tileSeed, offset) * .68);
-			const bladeY = y + size * (.24 + liveGroundUnit(mapId, tileSeed, offset + 1) * .58);
-			context.fillStyle = liveGroundChoice(theme.tree, mapId, tileSeed, offset + 2);
-			context.fillRect(Math.floor(bladeX), Math.floor(bladeY), 2, 3 + index);
+			const bladeX = x + size * (0.16 + liveGroundUnit(mapId, tileSeed, offset) * 0.68);
+			const bladeY = y + size * (0.38 + liveGroundUnit(mapId, tileSeed, offset + 1) * 0.44);
+			context.strokeStyle = liveGroundChoice(theme.tree, mapId, tileSeed, offset + 2);
+			context.globalAlpha = 0.28 + index * 0.06;
+			context.lineWidth = Math.max(0.8, size * 0.018);
+			context.beginPath();
+			context.moveTo(bladeX, bladeY + size * 0.09);
+			context.quadraticCurveTo(
+				bladeX + size * 0.05,
+				bladeY,
+				bladeX + size * 0.02,
+				bladeY - size * (0.08 + index * 0.025)
+			);
+			context.stroke();
 		}
+		context.restore();
 		this.drawRegionalMark(context, bounds, theme, mapId, tileSeed);
 	}
 
 	static drawRoad(context, bounds, theme, mapId, tileSeed) {
 		const { x, y, size } = bounds;
-		for (let index = 0; index < 5; index += 1) {
+		context.save();
+		context.globalAlpha = 0.18;
+		for (let index = 0; index < 4; index += 1) {
 			const offset = 40 + index * 7;
 			const pebbleX = x + liveGroundUnit(mapId, tileSeed, offset) * size;
 			const pebbleY = y + liveGroundUnit(mapId, tileSeed, offset + 1) * size;
-			context.fillStyle = liveGroundChoice(theme.road, mapId, tileSeed, offset + 2);
-			context.fillRect(Math.floor(pebbleX), Math.floor(pebbleY), 2, 1 + index % 2);
+			context.fillStyle = liveGroundChoice(
+				theme.props || theme.road,
+				mapId,
+				tileSeed,
+				offset + 2
+			);
+			context.beginPath();
+			context.ellipse(pebbleX, pebbleY, size * 0.035, size * 0.022, offset, 0, Math.PI * 2);
+			context.fill();
 		}
+		context.restore();
 	}
 
 	static drawFloor(context, bounds, theme, mapId, tileSeed) {
 		const { x, y, size } = bounds;
-		context.fillStyle = 'rgba(255,255,255,0.035)';
-		context.fillRect(x + 1, y + 1, size - 2, 1);
-		if (liveGroundUnit(mapId, tileSeed, 80) > .72) {
+		context.save();
+		context.strokeStyle = 'rgba(255,255,255,.045)';
+		context.lineWidth = 0.75;
+		context.beginPath();
+		context.moveTo(x + size * 0.08, y + size * 0.18);
+		context.quadraticCurveTo(x + size * 0.5, y + size * 0.12, x + size * 0.92, y + size * 0.2);
+		context.stroke();
+		if (liveGroundUnit(mapId, tileSeed, 80) > 0.72) {
 			context.fillStyle = liveGroundChoice(theme.props, mapId, tileSeed, 81);
-			context.fillRect(x + size * .62, y + size * .66, 3, 2);
+			context.globalAlpha = 0.18;
+			context.beginPath();
+			context.ellipse(x + size * 0.67, y + size * 0.7, size * 0.05, size * 0.025, 0.4, 0, Math.PI * 2);
+			context.fill();
 		}
+		context.restore();
 	}
 
 	static drawRegionalMark(context, bounds, theme, mapId, tileSeed) {
+		const marks = {
+			marsh: ['rgba(120,190,178,.18)', 0.3, 0.72],
+			desert: ['rgba(242,202,120,.2)', 0.28, 0.48],
+			frost: ['rgba(220,245,240,.28)', 0.76, 0.24],
+			luminous: ['rgba(255,226,135,.32)', 0.52, 0.34],
+			ember: ['rgba(232,130,78,.26)', 0.7, 0.74]
+		};
+		const mark = marks[theme.id];
+		if (!mark) return;
 		const { x, y, size } = bounds;
-		if (theme.id === 'marsh' && liveGroundUnit(mapId, tileSeed, 90) > .48) {
-			context.fillStyle = 'rgba(120,190,178,0.13)';
-			context.fillRect(x + size * .18, y + size * .68, size * .36, 2);
-		}
-		if (theme.id === 'desert') {
-			context.fillStyle = 'rgba(230,190,105,0.18)';
-			context.fillRect(x + size * .12, y + size * .42, size * .26, 1);
-		}
-		if (theme.id === 'frost') {
-			context.fillStyle = 'rgba(220,245,240,0.25)';
-			context.fillRect(x + size * .74, y + size * .18, 2, 2);
-		}
-		if (theme.id === 'luminous') {
-			context.fillStyle = 'rgba(255,226,135,0.35)';
-			context.fillRect(x + size * .48, y + size * .3, 2, 2);
-		}
-		if (theme.id === 'ember') {
-			context.fillStyle = 'rgba(215,115,70,0.24)';
-			context.fillRect(x + size * .68, y + size * .72, 2, 2);
-		}
+		const radius = size * (0.035 + liveGroundUnit(mapId, tileSeed, 91) * 0.035);
+		context.save();
+		context.fillStyle = mark[0];
+		context.beginPath();
+		context.ellipse(x + size * mark[1], y + size * mark[2], radius * 1.8, radius, 0.25, 0, Math.PI * 2);
+		context.fill();
+		context.restore();
 	}
 }

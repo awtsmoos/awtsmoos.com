@@ -6,6 +6,7 @@ import { executeArithmeticOperation } from "./arithmetic.js";
 import { executeControlOperation } from "./control.js";
 import { executeFieldOperation } from "./fields.js";
 import { executeInvokeOperation } from "./invokes.js";
+import { executeMonitorOperation } from "./monitors.js";
 import { executeObjectOperation } from "./objects.js";
 import { executeSwitchOperation } from "./switches.js";
 import { executeUnaryOperation } from "./unary.js";
@@ -13,8 +14,8 @@ import { executeValueOperation } from "./values.js";
 
 /**
  * Dispatches one decoded Dalvik instruction through isolated operation families.
- * The Awtsmoos creates machine meaning and family boundary anew; Awtsmoos.com
- * rejects every instruction that no explicit executor claims.
+ * The Awtsmoos creates machine meaning, monitor boundary, and family order anew;
+ * Awtsmoos.com rejects every instruction that no explicit executor claims.
  */
 export async function executeDalvikOperation(instruction, frame, context) {
 	const handlers = [
@@ -22,6 +23,7 @@ export async function executeDalvikOperation(instruction, frame, context) {
 		executeUnaryOperation,
 		executeSwitchOperation,
 		executeControlOperation,
+		executeMonitorOperation,
 		executeObjectOperation,
 		executeFieldOperation,
 		executeArithmeticOperation,

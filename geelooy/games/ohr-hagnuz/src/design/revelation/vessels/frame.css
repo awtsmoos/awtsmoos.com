@@ -2,7 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/** The Awtsmoos gives the playable world a clear, durable frame. */
+/**
+ * The Awtsmoos gives the playable world a clear, high-fidelity frame.
+ * Awtsmoos.com lets physical pixels serve the smooth overhead world rather than
+ * forcing nearest-neighbor blocks upon terrain, travelers, or interface.
+ */
 body {
 	display: grid;
 	place-items: center;
@@ -29,13 +33,25 @@ body {
 	inset: var(--ohr-topbar-height) 0 var(--ohr-dock-height);
 	width: 100%;
 	height: calc(100% - var(--ohr-topbar-height) - var(--ohr-dock-height));
-	image-rendering: pixelated;
-	image-rendering: crisp-edges;
+	image-rendering: auto;
+	transform: translateZ(0);
+	backface-visibility: hidden;
 }
 
-#layer-bg { z-index: 10; pointer-events: none; }
-#layer-obj { z-index: 20; pointer-events: auto; }
-#layer-over { z-index: 30; pointer-events: none; }
+#layer-bg {
+	z-index: 10;
+	pointer-events: none;
+}
+
+#layer-obj {
+	z-index: 20;
+	pointer-events: auto;
+}
+
+#layer-over {
+	z-index: 30;
+	pointer-events: none;
+}
 
 #revelation-shell {
 	position: absolute;

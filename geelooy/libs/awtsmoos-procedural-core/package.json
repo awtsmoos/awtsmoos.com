@@ -1,20 +1,24 @@
 {
 	"name": "@awtsmoos/procedural-core",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"type": "module",
 	"private": true,
-	"description": "B\"H - Production reusable Awtsmoos procedural geometry, safe anatomical recipes, rigging, animation, physics, WebGL material, and adapters.",
+	"description": "B\"H - Renderer-neutral safe procedural recipes for arbitrary geometry, objects, animals, rigs, animation, simulation intent, and trusted adapters.",
 	"scripts": {
-		"test": "node test/treePresets.test.mjs && node test/meshText.test.mjs && node test/botanicalComplete.test.mjs && npm run test:animal-mesh",
-		"test:animal-mesh": "node test/animalMeshRecipe.test.mjs && node test/animalMeshCompiler.test.mjs && node test/animalMeshPatch.test.mjs && node test/animalMeshApi.test.mjs"
+		"test": "node test/treePresets.test.mjs && node test/meshText.test.mjs && node test/botanicalComplete.test.mjs && npm run test:animal-mesh && npm run test:procedural-object",
+		"test:animal-mesh": "node test/animalMeshRecipe.test.mjs && node test/animalMeshCompiler.test.mjs && node test/animalMeshPatch.test.mjs && node test/animalMeshApi.test.mjs",
+		"test:procedural-object": "node test/proceduralObjectRecipe.test.mjs && node test/proceduralObjectArtifact.test.mjs && node test/proceduralObjectCompiler.test.mjs && node test/proceduralObjectDataBlocks.test.mjs && node test/proceduralObjectPatch.test.mjs && node test/proceduralObjectApi.test.mjs"
 	},
 	"exports": {
 		".": "./src/index.js",
+		"./awtsmoos": "./src/adapters/awtsmoos/index.js",
 		"./three": "./src/adapters/three/index.js",
 		"./animal-mesh": "./src/core/animalMesh/index.js",
+		"./procedural-object": "./src/core/proceduralObject/index.js",
 		"./blender": "./src/adapters/blender/index.js",
 		"./core/*": "./src/core/*",
-		"./schema": "./src/core/animalMesh/schema/index.js"
+		"./schema": "./src/core/animalMesh/schema/index.js",
+		"./object-schema": "./src/core/proceduralObject/schema/index.js"
 	},
 	"sideEffects": false
 }

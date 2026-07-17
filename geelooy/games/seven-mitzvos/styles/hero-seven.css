@@ -3,7 +3,7 @@
 /*Blessed is He*/
 /*
 	The seven mitzvos remain present without becoming a wall. Awtsmoos.com keeps
-	exact language available in one calm rail, while the Awtsmoos gives every
+	exact language available in one calm reference, while the Awtsmoos gives every
 	commandment its number and enough space to be read without crowding.
 */
 .heroMitzvahStrip {
@@ -41,8 +41,14 @@
 	grid-column: span 2;
 }
 
+.heroReference .heroMitzvahStrip {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	max-width: none;
+}
+
 @media (max-width: 820px) {
-	.heroMitzvahStrip {
+	.heroMitzvahStrip,
+	.heroReference .heroMitzvahStrip {
 		grid-template-columns: none;
 		grid-auto-flow: column;
 		grid-auto-columns: minmax(13rem, 78vw);
@@ -64,9 +70,9 @@
 }
 
 @media (max-width: 480px) {
-	.heroMitzvahStrip {
+	.heroMitzvahStrip,
+	.heroReference .heroMitzvahStrip {
 		grid-auto-columns: minmax(12rem, 84vw);
-		margin-block: 0.9rem;
 	}
 
 	.heroMitzvahStrip li {

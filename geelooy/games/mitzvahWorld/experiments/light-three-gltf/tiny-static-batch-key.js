@@ -4,9 +4,10 @@
 
 /**
  * @file tiny-static-batch-key.js
- * @description Builds tint-neutral family-aware spatial keys for conservative static batches.
- * The Awtsmoos joins nearby forms without erasing their colors; Awtsmoos.com bakes tint into
- * vertices while maps, layered `mix()` state, material mode, and culling remain exact boundaries.
+ * @description Builds tint-neutral spatial keys centered on the village rather than a zero seam.
+ * The Awtsmoos joins nearby static forms whose pixels obey one covenant; Awtsmoos.com keeps
+ * texture layers, `mix()`, culling, distance, alpha, and material mode exact while the central
+ * reference village occupies one coherent cell instead of splitting at positive and negative zero.
  */
 
 import {
@@ -15,31 +16,20 @@ import {
 } from './tiny-material-signature.js';
 import { worldBoundingSphere } from './tiny-render-bounds.js';
 
-const DEFAULT_CELL_SIZE = 64;
-const FAMILY_CELL_SIZES = Object.freeze({
-	'functional-house': 128,
-	'procedural-text-landmark': 96,
-	'reference-arrival-composition': 128,
-	'reference-cottage-detail-batch': 128,
-	'reference-cottage-ornament-batch': 128,
-	'reference-practical-lighting': 128,
-	'reference-village-cottage-roof': 144,
-	'reference-village-district': 144,
-	'reference-village-landmark': 128,
-	'village-bushes': 96,
-	'village-garden-bed': 96,
-	'village-static-props': 128
-});
+const STATIC_CELL_SIZE = 384;
+const DISTANCE_BUCKET_SIZE = 64;
 
-export function staticBatchGroupKey(mesh, metadata, cellSize = null) {
-	const resolvedCellSize = cellSize || FAMILY_CELL_SIZES[metadata.family] || DEFAULT_CELL_SIZE;
+export function staticBatchGroupKey(mesh, metadata) {
 	const center = worldBoundingSphere(mesh)?.center || [0, 0, 0];
-	const cellX = Math.floor(center[0] / resolvedCellSize);
-	const cellY = Math.floor(center[1] / resolvedCellSize);
-	const cellZ = Math.floor(center[2] / resolvedCellSize);
+	const cellX = Math.round(center[0] / STATIC_CELL_SIZE);
+	const cellY = Math.round(center[1] / STATIC_CELL_SIZE);
+	const cellZ = Math.round(center[2] / STATIC_CELL_SIZE);
+	const distanceBucket = Math.ceil(
+		Math.max(0, Number(metadata.renderDistance) || 0) / DISTANCE_BUCKET_SIZE
+	) * DISTANCE_BUCKET_SIZE;
 	return [
-		metadata.family,
-		resolvedCellSize,
+		STATIC_CELL_SIZE,
+		distanceBucket,
 		cellX,
 		cellY,
 		cellZ,

@@ -1,14 +1,13 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file Projector.js
  * @description Coordinates one DPR-aware strict-overhead production renderer.
  *
  * The Awtsmoos recreates ground, traveler, and interface in one indivisible
- * instant. Awtsmoos.com lets this coordinator preserve that unity: one camera,
- * three existing layers, one animation loop, and no invented game state.
+ * instant. Awtsmoos.com preserves that unity through one camera, three existing
+ * layers, one animation loop, and no invented game state.
  */
 import { State } from '../binah/State.js';
 import { renderBattle } from './render/BattleRenderer.js';
@@ -35,7 +34,6 @@ export class Projector {
 		};
 		this.resizeCanvases(true);
 	}
-
 	static resizeCanvases(force = false) {
 		if (!this.Layers) return false;
 		const changed = this.Layers.resize(force);
@@ -44,11 +42,9 @@ export class Projector {
 		if (changed || force) this.staticKey = '';
 		return changed;
 	}
-
 	static size(context) {
 		return readCanvasViewport(context);
 	}
-
 	static camera(view = { w: 390, h: 844 }) {
 		const resolution = State.Resolution;
 		const rawX = State.Hero.dx - view.w / 2 + resolution / 2;
@@ -59,7 +55,6 @@ export class Projector {
 			...view
 		};
 	}
-
 	static project() {
 		if (!this.Layers) return;
 		this.resizeCanvases(false);
@@ -72,7 +67,6 @@ export class Projector {
 		this.drawStaticIfNeeded(contexts.bg, contexts.obj, camera);
 		this.drawDynamic(contexts.over, camera);
 	}
-
 	static drawBattle(background, objects, overlay) {
 		this.Layers.clearAll();
 		const viewport = this.Layers.viewport();
@@ -81,7 +75,6 @@ export class Projector {
 		renderBattle(overlay);
 		this.staticKey = '';
 	}
-
 	static drawStaticIfNeeded(background, objects, camera) {
 		const key = `${State.MapId}:${camera.x}:${camera.y}:${camera.w}:${camera.h}`;
 		if (key === this.staticKey) return;
@@ -92,31 +85,24 @@ export class Projector {
 		this.Layers.clear('obj');
 		WorldProjectionRenderer.draw(background, objects, camera);
 	}
-
 	static drawDynamic(context, camera) {
 		DynamicProjectionRenderer.draw(context, camera);
 	}
-
 	static drawHero(context, camera) {
 		DynamicProjectionRenderer.drawHero(context, camera);
 	}
-
 	static drawWorld(background, objects, queue, camera) {
 		WorldProjectionRenderer.draw(background, objects, camera);
 	}
-
 	static visibleTileBounds(map, camera, resolution) {
 		return WorldProjectionRenderer.visibleBounds(map, camera, resolution);
 	}
-
 	static drawTile(background, objects, queue, camera, tile) {
 		WorldProjectionRenderer.drawTile(background, objects, queue, camera, tile);
 	}
-
 	static pathTarget(context, camera) {
 		DynamicProjectionRenderer.drawPathTarget(context, camera);
 	}
-
 	static portal(context, x, y, size, edge) {
 		WorldProjectionRenderer.drawPortal(context, x, y, size, edge);
 	}

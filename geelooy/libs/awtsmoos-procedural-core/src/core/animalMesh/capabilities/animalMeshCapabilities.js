@@ -8,26 +8,22 @@
  */
 
 import {
-	ANIMAL_MESH_SCHEMA_VERSION,
-	CORE_EXECUTABLE_OPERATIONS
-} from "../constants/animalMeshContract.js";
+	listAnimalArchetypes
+} from "../archetypes/AnimalArchetypeRegistry.js";
 import {
 	createDefaultAnimalMeshOperationRegistry
 } from "../compiler/createDefaultOperationRegistry.js";
 import {
-	listAnimalArchetypes
-} from "../archetypes/AnimalArchetypeRegistry.js";
+	ANIMAL_MESH_SCHEMA_VERSION,
+	CORE_EXECUTABLE_OPERATIONS
+} from "../constants/animalMeshContract.js";
 
 export function getAnimalMeshCapabilities() {
 	const registry = createDefaultAnimalMeshOperationRegistry();
 	return {
-		schema_versions: [
-			ANIMAL_MESH_SCHEMA_VERSION
-		],
+		schema_versions: [ANIMAL_MESH_SCHEMA_VERSION],
 		archetypes: listAnimalArchetypes().map((archetype) => archetype.id),
-		core_executable_operations: [
-			...CORE_EXECUTABLE_OPERATIONS
-		],
+		core_executable_operations: [...CORE_EXECUTABLE_OPERATIONS],
 		operations: registry.list().map((definition) => ({
 			op: definition.operation,
 			executor: definition.executor,
@@ -39,8 +35,11 @@ export function getAnimalMeshCapabilities() {
 			old_value_guard: true
 		},
 		outputs: {
-			core_render_data: true,
-			three_group: true,
+			legacy_animal_parts: true,
+			universal_procedural_artifact: true,
+			arbitrary_named_attributes: true,
+			renderer_neutral_runtime: true,
+			three_group: "optional_adapter",
 			blender_execution_plan: true,
 			glb_export: "adapter_required"
 		},

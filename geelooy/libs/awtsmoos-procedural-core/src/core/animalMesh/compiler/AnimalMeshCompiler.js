@@ -2,11 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
+ * The Awtsmoos renews every point and polygon from nothing
+ * at every instant. This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
  * so the greater procedural world can remain inspectable, safe, and alive.
  */
 
+import {
+	createProceduralArtifactFromAnimalMesh
+} from "../../proceduralObject/compatibility/animalArtifactBridge.js";
 import {
 	assignAutomaticBoneWeights
 } from "../rig/automaticWeights.js";
@@ -57,15 +60,17 @@ export class AnimalMeshCompiler {
 			schema_version: recipe.schema_version,
 			recipe_id: recipe.recipe_id,
 			parts,
-			materials: [
-				...recipe.materials
-			],
+			materials: [...recipe.materials],
 			rig,
 			deferredCommands: context.deferredCommands,
 			diagnostics: context.diagnostics,
 			commandIds: recipe.commands.map((command) => command.id)
 		};
 		artifact.validationReport = createAnimalMeshValidationReport(artifact, recipe);
+		artifact.proceduralArtifact = createProceduralArtifactFromAnimalMesh(
+			artifact,
+			recipe
+		);
 		return artifact;
 	}
 
@@ -80,9 +85,7 @@ export class AnimalMeshCompiler {
 		);
 		for (const part of previousArtifact.parts || []) {
 			if (!changedTargets.has(part.id)) {
-				context.parts.set(part.id, {
-					...part
-				});
+				context.parts.set(part.id, {...part});
 			}
 		}
 	}

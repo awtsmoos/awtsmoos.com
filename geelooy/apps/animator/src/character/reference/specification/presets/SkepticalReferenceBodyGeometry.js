@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * Gevurah gathers Dovid's burgundy shirt and crossed forearms into one guarded
- * silhouette. The Awtsmoos renews restraint without rigidity, while Awtsmoos.com
+ * Gevurah gathers Dovid's burgundy shirt, crossed forearms, and grounded stance
+ * into one guarded silhouette. The Awtsmoos renews restraint, while Awtsmoos.com
  * preserves every anchor as editable and serializable character data.
  */
 export class SkepticalReferenceBodyGeometry {
@@ -12,30 +12,31 @@ export class SkepticalReferenceBodyGeometry {
 		return {
 			torso: {
 				garmentKind: 'shirt',
-				shoulderExtra: 6,
-				waistHalf: 41,
-				hipHalf: 39,
+				shoulderExtra: 7,
+				waistHalf: 43,
+				hipHalf: 41,
 				hemY: -84,
-				hemRound: 9
+				hemRound: 10
 			},
-			pelvis: {
-				topHalf: 36,
-				bottomHalf: 33,
-				bottomY: -69
+			pelvis: { topHalf: 38, bottomHalf: 34, bottomY: -69 },
+			legs: {
+				hipOffset: 20,
+				kneeOffset: 20,
+				ankleOffset: 20,
+				footOffset: 22,
+				thighWidth: 25,
+				kneeWidth: 22,
+				ankleWidth: 18,
+				shoeScaleX: 1.28,
+				shoeScaleY: 1.06
 			},
-			details: {
-				shirtPanelHalf: 6,
-				lapelHalf: 10,
-				buttons: true,
-				pockets: false
-			},
+			details: { shirtPanelHalf: 6, lapelHalf: 10, buttons: true, pockets: false },
 			gesture: {
 				mode: 'arms_crossed',
-				elbowOut: 9,
-				elbowDown: 42,
-				wristAcross: 29,
-				wristDrop: 27,
-				handScale: 0.86
+				elbowOut: 11,
+				elbowDown: 43,
+				wristAcross: 28,
+				wristDrop: 25
 			}
 		};
 	}

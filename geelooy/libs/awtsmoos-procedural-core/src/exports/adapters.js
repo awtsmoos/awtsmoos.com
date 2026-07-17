@@ -2,9 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
- * so the greater procedural world can remain inspectable, safe, and alive.
+ * The Awtsmoos renews every attribute, index, object, and world from nothing
+ * at every instant. This Awtsmoos.com vessel keeps one responsibility bounded
+ * so limitless procedural form remains inspectable, deterministic, and safe.
  */
 
 export {
@@ -26,5 +26,16 @@ export {
 	createAnimalThreeGroup
 } from "../adapters/three/animalMeshGroupFactory.js";
 export {
-	createBlenderExecutionPlan
-} from "../adapters/blender/BlenderExecutionPlan.js";
+	createThreeGeometryFromArtifact
+} from "../adapters/three/proceduralObjectGeometryFactory.js";
+
+export {
+	createAwtsmoosComponentArray,
+	createAwtsmoosObjectRuntime,
+	materializeGeometryArtifact
+} from "../adapters/awtsmoos/index.js";
+
+export {
+	createBlenderExecutionPlan,
+	createBlenderObjectExecutionPlan
+} from "../adapters/blender/index.js";

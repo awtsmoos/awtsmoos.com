@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createGuestString, readGuestText } from "./guestText.js";
+import { createInstalledPackageContext } from "./frameworkPackageContexts.js";
 import {
 	APPLICATION_INFO,
 	installedApplicationInfo,
@@ -16,8 +17,9 @@ const PACKAGE_MANAGER = "Landroid/content/pm/PackageManager;";
 const SIGNATURES = Object.freeze({
 	applicationContext: "Landroid/content/Context;->getApplicationContext()Landroid/content/Context;",
 	applicationInfo: `Landroid/content/Context;->getApplicationInfo()${APPLICATION_INFO}`,
-	applicationLabel: `${PACKAGE_MANAGER}->getApplicationLabel(${APPLICATION_INFO})Ljava/lang/CharSequence;`,
 	applicationInfoByName: `${PACKAGE_MANAGER}->getApplicationInfo(Ljava/lang/String;I)${APPLICATION_INFO}`,
+	applicationLabel: `${PACKAGE_MANAGER}->getApplicationLabel(${APPLICATION_INFO})Ljava/lang/CharSequence;`,
+	createPackageContext: "Landroid/content/Context;->createPackageContext(Ljava/lang/String;I)Landroid/content/Context;",
 	getPackageManager: `Landroid/content/Context;->getPackageManager()${PACKAGE_MANAGER}`,
 	getPackageName: "Landroid/content/Context;->getPackageName()Ljava/lang/String;",
 	installer: `${PACKAGE_MANAGER}->getInstallerPackageName(Ljava/lang/String;)Ljava/lang/String;`,
@@ -28,9 +30,9 @@ const SIGNATURES = Object.freeze({
 });
 
 /**
- * Reveals installed package identity through Android framework methods. The
- * Awtsmoos creates lookup, label, application, and version answers anew;
- * Awtsmoos.com recognizes only the package proven by the installed XAPK set.
+ * Reveals installed package identity and package-scoped contexts. The Awtsmoos
+ * creates lookup, label, application, version, and context anew; Awtsmoos.com
+ * recognizes only the package proven by the installed XAPK set.
  */
 export function createFrameworkPackageMethods(runtime) {
 	return Object.freeze({
@@ -42,7 +44,17 @@ export function createFrameworkPackageMethods(runtime) {
 			if (signature === SIGNATURES.getPackageManager) return packageManager(runtime);
 			if (signature === SIGNATURES.getPackageName) return guestPackageName(runtime);
 			if (signature === SIGNATURES.applicationContext) return args[0];
-			if (signature === SIGNATURES.applicationInfo) return installedApplicationInfo(runtime);
+			if (signature === SIGNATURES.createPackageContext) {
+				return createInstalledPackageContext(
+					runtime,
+					args[0],
+					args[1],
+					args[2]
+				);
+			}
+			if (signature === SIGNATURES.applicationInfo) {
+				return installedApplicationInfo(runtime);
+			}
 			if (signature === SIGNATURES.applicationInfoByName) {
 				requireInstalledPackage(runtime, args[1]);
 				return installedApplicationInfo(runtime);
@@ -62,7 +74,9 @@ export function createFrameworkPackageMethods(runtime) {
 }
 
 function packageManager(runtime) {
-	if (!runtime.packageManager) runtime.packageManager = runtime.heap.allocate(PACKAGE_MANAGER);
+	if (!runtime.packageManager) {
+		runtime.packageManager = runtime.heap.allocate(PACKAGE_MANAGER);
+	}
 	return runtime.packageManager;
 }
 

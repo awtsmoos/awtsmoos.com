@@ -2,19 +2,45 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createDalvikFieldEvidence } from "./fieldEvidence.js";
+
 const FIELD_PREFIXES = Object.freeze(["iget", "iput", "sget", "sput"]);
 
 /**
- * Executes Dalvik instance and static field operations. The Awtsmoos creates owner,
- * field signature, stored value, and retrieved value anew; Awtsmoos.com resolves
- * a pool index only after the instruction proves it belongs to the field family.
+ * Executes Dalvik instance and static field operations. The Awtsmoos creates class
+ * initialization, owner, field signature, stored value, and retrieved value anew;
+ * Awtsmoos.com runs real `<clinit>` before active static-field use.
  */
-export function executeFieldOperation(instruction, frame, context) {
+export async function executeFieldOperation(instruction, frame, context) {
 	if (!FIELD_PREFIXES.some(prefix => instruction.name.startsWith(prefix))) {
 		return null;
 	}
-	const field = fieldAt(context.model, instruction.index);
-	const key = `${field.classType}->${field.name}:${field.type}`;
+	let field = null;
+	try {
+		field = fieldAt(context.model, instruction.index);
+		if (isStaticFieldOperation(instruction.name)) {
+			await context.ensureClassInitialized(field.classType);
+		}
+		return executeResolvedField(instruction, field, frame, context);
+	} catch (error) {
+		if (!error.dalvikField) {
+			error.dalvikField = createDalvikFieldEvidence(
+				instruction,
+				field,
+				frame,
+				context
+			);
+		}
+		if (error.pc === undefined) error.pc = instruction.pc;
+		if (!error.signature) {
+			error.signature = context.currentRecord?.signature || null;
+		}
+		throw error;
+	}
+}
+
+function executeResolvedField(instruction, field, frame, context) {
+	const key = fieldSignature(field);
 	const registers = frame.registers;
 	if (instruction.name.startsWith("iget")) {
 		registers.set(
@@ -32,7 +58,10 @@ export function executeFieldOperation(instruction, frame, context) {
 		return handled();
 	}
 	if (instruction.name.startsWith("sget")) {
-		registers.set(instruction.a, context.staticFields.get(key) ?? 0);
+		registers.set(
+			instruction.a,
+			context.staticFields.get(key) ?? 0
+		);
 		return handled();
 	}
 	context.staticFields.set(key, registers.get(instruction.a));
@@ -46,6 +75,14 @@ function fieldAt(model, index) {
 		throw error;
 	}
 	return model.fields[index];
+}
+
+function fieldSignature(field) {
+	return `${field.classType}->${field.name}:${field.type}`;
+}
+
+function isStaticFieldOperation(name) {
+	return name.startsWith("sget") || name.startsWith("sput");
 }
 
 function handled() {
