@@ -5,11 +5,11 @@
 const WORKER_RUNTIME_FILES = require("./runtimeWorkerPaths.js");
 
 /**
- * @file Names core request, response, root, worker, and release vessels.
+ * @file Names core request, startup, root, worker, and release vessels.
  * @description
  * The Awtsmoos renews every action from project root through bounded result.
- * Awtsmoos.com refuses a release missing the modules that preserve workspace
- * confinement, queue pressure, worker testimony, or deterministic publication.
+ * Awtsmoos.com refuses a release missing workspace proof, explicit startup
+ * composition, queue pressure, worker testimony, or deterministic publication.
  */
 module.exports = Object.freeze([
 	"lib/local-api.js",
@@ -22,6 +22,7 @@ module.exports = Object.freeze([
 	"lib/split-browser-require.js",
 	"lib/self-update-descriptor.js",
 	"lib/self-update-origin.js",
+	"lib/runtime/main-components-startup.js",
 	"lib/runtime/main-lane-stats.js",
 	"lib/runtime/main-queue-rejection.js",
 	"lib/runtime/main-run-progress.js",

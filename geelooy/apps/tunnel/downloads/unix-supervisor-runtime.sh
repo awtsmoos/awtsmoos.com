@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews one supervisor log, one exact-root child, and one exit record.
-# Awtsmoos.com keeps primitive process truth here while atomic guards and duplicate
-# reconciliation live in separate small modules that can be tested independently.
+# The Awtsmoos renews one supervisor log, one canonical child, and one exit record.
+# Awtsmoos.com rechecks the exact-root census immediately before spawn, adopting a
+# racing healthy child instead of creating another body beside it.
 
 supervisor_log() {
 	local event="$1"
@@ -38,10 +38,11 @@ finish_supervisor() {
 }
 
 clear_child_receipt() {
-	rm -f "$ROOT/connection-state.json"
+	rm -f "$ROOT/connection-state.json" "$ROOT/project-root-state.json"
 }
 
 start_new_agent() {
+	local existing=""
 	export AWTSMOOS_SELF_UPDATE_MODE="notify"
 	export AWTSMOOS_COMMAND_TIER
 	if [ -n "${AWTSMOOS_COMMAND_MAX_ACTIVE:-}" ]; then
@@ -50,7 +51,15 @@ start_new_agent() {
 		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
 	fi
 	stop_supervisor_legacy_processes
-	remove_agent_duplicates ""
+	existing="$(reconcile_agent_processes)"
+	if supervisor_agent_command "$existing"; then
+		CHILD_PID="$existing"
+		CHILD_OWNED=0
+		CHILD_KIND="modern"
+		printf '%s\n' "$CHILD_PID" > "$PID_FILE"
+		supervisor_log "agent_adopted_before_spawn" "pid=$CHILD_PID"
+		return 0
+	fi
 	clear_child_receipt
 	node "$ROOT/awtsmoos-agent-launcher.cjs" "$ROOT" >> "$ROOT/agent.log" 2>&1 &
 	CHILD_PID=$!
@@ -58,7 +67,7 @@ start_new_agent() {
 	CHILD_KIND="modern"
 	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
 	supervisor_log "agent_started" \
-		"pid=$CHILD_PID recoveryTier=${AWTSMOOS_RECOVERY_TIER:-5}"
+		"pid=$CHILD_PID recoveryTier=${AWTSMOOS_RECOVERY_TIER:-5} node=$AWTSMOOS_NODE_BIN"
 }
 
 record_child_exit() {

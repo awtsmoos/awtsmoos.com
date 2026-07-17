@@ -17,11 +17,18 @@ MAX_BACKOFF_SECONDS=30
 CHILD_PID=""
 CHILD_OWNED=0
 CHILD_KIND="modern"
+export AWTSMOOS_INSTALL_ROOT="$ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT"
 
-# The Awtsmoos renews guard, child census, receipt, health, and recovery separately.
-# Awtsmoos.com first acquires one atomic supervisor body, then reconciles every
-# exact-root launcher before permitting one account-scoped tunnel to remain alive.
+# The Awtsmoos renews Node, guard, child census, receipt, and recovery separately.
+# Awtsmoos.com resolves the remembered Node binary before any helper runs, then
+# acquires one atomic supervisor body and permits one exact-root agent to remain.
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
+source "$ROOT/awtsmoos-node-runtime.sh"
+if ! activate_node_runtime "$ROOT"; then
+	printf '%s event=node_runtime_missing root=%s\n' \
+		"$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$ROOT" >> "$LOG"
+	exit 78
+fi
 source "$ROOT/awtsmoos-legacy-catalog.sh"
 source "$ROOT/awtsmoos-supervisor-runtime.sh"
 source "$ROOT/awtsmoos-supervisor-agents.sh"
@@ -52,11 +59,11 @@ while true; do
 				if start_legacy_bridge; then
 					monitor_legacy_bridge || true
 					stop_managed_child
-					sleep 2
+					sleep 1
 					continue
 				fi
-				supervisor_log "all_recovery_failed" "sleep=30"
-				sleep 30
+				supervisor_log "all_recovery_failed" "sleep=10"
+				sleep 10
 				continue
 			fi
 		fi
@@ -68,8 +75,7 @@ while true; do
 		stop_managed_child
 		record_child_exit "$START_SECONDS" 70
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
-			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 		sleep "$BACKOFF_SECONDS"
 		continue
 	fi
@@ -96,8 +102,7 @@ while true; do
 		BACKOFF_SECONDS=1
 	else
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
-			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 	fi
 	sleep "$BACKOFF_SECONDS"
 done

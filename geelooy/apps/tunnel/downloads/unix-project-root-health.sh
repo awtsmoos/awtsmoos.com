@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos distinguishes a registered doorway from a usable workspace.
-# Awtsmoos.com accepts this receipt only when the candidate process itself proved
-# the exact configured root recently, including mutation when writes are enabled.
+# Awtsmoos.com samples quickly through initialization, binds the receipt to the exact
+# process, and accepts only fresh proof of the configured root and write requirement.
 
 project_root_receipt_path() {
 	printf '%s\n' "$ROOT/project-root-state.json"
@@ -24,8 +24,7 @@ try {
 	const receipt = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
 	const expectedRoot = path.resolve(String(config.root || process.cwd()));
 	const age = Date.now() - Date.parse(receipt.updatedAt || "");
-	const valid = receipt.ok === true &&
-		receipt.state === "ready" &&
+	const valid = receipt.ok === true && receipt.state === "ready" &&
 		Number(receipt.pid) === Number(expectedPid) &&
 		path.resolve(String(receipt.root || "")) === expectedRoot &&
 		receipt.readable === true &&
@@ -36,6 +35,24 @@ try {
 	process.exit(1);
 }
 NODE
+}
+
+wait_for_project_root_readiness() {
+	local pid="$1"
+	local timeout_seconds="${2:-30}"
+	local max_age_ms="${3:-600000}"
+	local maximum_samples=$(( timeout_seconds * 4 ))
+	local sample=0
+	while [ "$sample" -lt "$maximum_samples" ]; do
+		project_root_ready "$pid" "$max_age_ms" && return 0
+		runtime_pid_matches "$pid" || return 1
+		case "$(project_root_health_state)" in
+			blocked|probe_error) return 1 ;;
+		esac
+		sleep 0.25
+		sample=$(( sample + 1 ))
+	done
+	return 1
 }
 
 project_root_health_state() {
@@ -57,6 +74,7 @@ try {
 	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 	process.stdout.write([
 		`state=${value.state || "unknown"}`,
+		`pid=${value.pid || "unknown"}`,
 		`root=${value.root || "unknown"}`,
 		`code=${value.code || "none"}`,
 		`guidance=${value.guidance || "none"}`

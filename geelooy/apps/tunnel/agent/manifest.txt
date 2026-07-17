@@ -1,5 +1,5 @@
 B"H
-1.0.343
+1.0.348
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -831,6 +831,7 @@ lib/runtime/limits.js
 lib/runtime/liveness-status.js
 lib/runtime/local-proxy.js
 lib/runtime/main-components-foundation.js
+lib/runtime/main-components-startup.js
 lib/runtime/main-components.js
 lib/runtime/main-config.js
 lib/runtime/main-connection-acknowledgement.js

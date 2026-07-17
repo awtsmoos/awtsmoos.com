@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos renews each installed root under a distinct service identity.
-# Awtsmoos.com migrates only a legacy plist that proves it belongs to this exact root,
-# then gives launchd durable ownership without disturbing another account or test.
+# Awtsmoos.com gives launchd the exact remembered Node binary and PATH, migrates only
+# a legacy job proven to own this root, and never depends on an interactive shell.
 
 if ! command -v service_mode >/dev/null 2>&1; then
 	source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-identity.sh"
@@ -14,8 +14,7 @@ fi
 launchd_available() {
 	[ "$(service_mode)" = "launchd" ] &&
 		[ "$(uname -s 2>/dev/null || true)" = "Darwin" ] &&
-		command -v launchctl >/dev/null 2>&1 &&
-		[ -n "${HOME:-}" ]
+		command -v launchctl >/dev/null 2>&1 && [ -n "${HOME:-}" ]
 }
 
 stop_launchd_service() {
@@ -39,11 +38,11 @@ stop_launchd_service() {
 write_launchd_service() {
 	local plist="$(launchd_plist_path)"
 	local label="$(launchd_label)"
+	local path_value="$(dirname "$AWTSMOOS_NODE_BIN"):${PATH:-/usr/local/bin:/usr/bin:/bin}"
 	mkdir -p "$(dirname "$plist")"
-	node - "$plist" "$ROOT" "$label" \
-		"${PATH:-/usr/local/bin:/usr/bin:/bin}" <<'NODE'
+	node - "$plist" "$ROOT" "$label" "$path_value" "$AWTSMOOS_NODE_BIN" <<'NODE'
 const fs = require("node:fs");
-const [plist, root, label, pathValue] = process.argv.slice(2);
+const [plist, root, label, pathValue, nodeBin] = process.argv.slice(2);
 const escape = value => String(value)
 	.replaceAll("&", "&amp;")
 	.replaceAll("<", "&lt;")
@@ -60,10 +59,11 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 </array>
 <key>RunAtLoad</key><true/>
 <key>KeepAlive</key><true/>
-<key>ThrottleInterval</key><integer>5</integer>
+<key>ThrottleInterval</key><integer>2</integer>
 <key>EnvironmentVariables</key><dict>
 <key>HOME</key><string>${escape(process.env.HOME || "")}</string>
 <key>PATH</key><string>${escape(pathValue)}</string>
+<key>AWTSMOOS_NODE_BIN</key><string>${escape(nodeBin)}</string>
 <key>AWTSMOOS_INSTALL_ROOT</key><string>${escape(root)}</string>
 </dict>
 <key>WorkingDirectory</key><string>${escape(process.env.HOME || root)}</string>
@@ -71,7 +71,9 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <key>StandardErrorPath</key><string>${escape(`${root}/launchd.err.log`)}</string>
 </dict></plist>
 `;
-fs.writeFileSync(plist, xml, { mode: 0o600 });
+const temporary = `${plist}.${process.pid}.tmp`;
+fs.writeFileSync(temporary, xml, { mode: 0o600 });
+fs.renameSync(temporary, plist);
 NODE
 	chmod 600 "$plist"
 }

@@ -8,11 +8,12 @@ const { spawnSync } = require("node:child_process");
 const Script = require("./installerExperienceScript.cjs");
 
 /**
- * @file Builds disposable installer worlds without touching a living tunnel.
+ * @file Builds disposable installer worlds without inheriting live-agent policy.
  * @description
- * The Awtsmoos renews registration, root readiness, guardian ownership, and visible
- * completion separately. Awtsmoos.com exercises exact public helpers while every
- * process, service, and browser effect remains a bounded fixture.
+ * The Awtsmoos renews registration, root readiness, guardian ownership, and browser
+ * testimony separately. Awtsmoos.com explicitly resets every installer-facing option
+ * that a foreground rescue agent may export, so isolated proof cannot be skipped by
+ * the machine environment it is meant to test.
  */
 function createHarness(repositoryRoot, sandbox) {
 	const downloads = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
@@ -25,22 +26,30 @@ function createHarness(repositoryRoot, sandbox) {
 		const progressFile = path.join(sandbox, `${mode}-${invocation}.progress`);
 		return spawnSync("bash", ["-c", Script.buildScript(downloads, sandbox, mode)], {
 			encoding: "utf8",
-			env: {
-				...process.env,
-				...environment,
-				ROOT: path.join(sandbox, "root"),
-				RECOVERY_ROOT: path.join(sandbox, "recovery"),
-				AWTSMOOS_INSTALL_RUNTIME: downloads,
-				AWTSMOOS_INSTALL_PROGRESS_FILE: progressFile,
-				AWTSMOOS_PROGRESS_MODE: "plain",
-				AWTSMOOS_BROWSER_OPENER: path.join(sandbox, "opener")
-			}
+			env: isolatedEnvironment(environment, progressFile)
 		});
+	}
+
+	function isolatedEnvironment(environment, progressFile) {
+		return {
+			...process.env,
+			...environment,
+			ROOT: path.join(sandbox, "root"),
+			RECOVERY_ROOT: path.join(sandbox, "recovery"),
+			AWTSMOOS_INSTALL_RUNTIME: downloads,
+			AWTSMOOS_INSTALL_PROGRESS_FILE: progressFile,
+			AWTSMOOS_PROGRESS_MODE: "plain",
+			AWTSMOOS_BROWSER_OPENER: path.join(sandbox, "opener"),
+			AWTSMOOS_SKIP_OPEN_CONTROL:
+				environment.AWTSMOOS_SKIP_OPEN_CONTROL ?? "0",
+			AWTSMOOS_CONTROL_URL: environment.AWTSMOOS_CONTROL_URL ?? ""
+		};
 	}
 
 	function prepareFixture() {
 		const root = path.join(sandbox, "root");
 		fs.mkdirSync(root, { recursive: true });
+		fs.rmSync(path.join(root, "device-binding.json"), { force: true });
 		fs.writeFileSync(path.join(root, "config.json"), JSON.stringify({
 			tunnelName: "awt-experience-test",
 			root: "/tmp/awts-project",
@@ -78,7 +87,7 @@ function createHarness(repositoryRoot, sandbox) {
 			"windows-core.ps1",
 			"windows-health.ps1",
 			"windows-success.ps1"
-		].map((name) => fs.readFileSync(path.join(downloads, name), "utf8")).join("\n");
+		].map(name => fs.readFileSync(path.join(downloads, name), "utf8")).join("\n");
 	}
 
 	function waitForOpened(timeoutMs = 2000) {
@@ -101,7 +110,7 @@ function createHarness(repositoryRoot, sandbox) {
 }
 
 function percentages(text) {
-	return [...text.matchAll(/\[\s*(\d+)%\]/g)].map((match) => Number(match[1]));
+	return [...text.matchAll(/\[\s*(\d+)%\]/g)].map(match => Number(match[1]));
 }
 
 module.exports = { createHarness };

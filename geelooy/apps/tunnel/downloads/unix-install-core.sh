@@ -13,6 +13,8 @@ CANDIDATE_VERSION=""
 MANIFEST_SHA=""
 export ROOT RECOVERY_ROOT
 
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
+activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-log.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-progress.sh"
@@ -24,14 +26,18 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-identity-state.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-state-migration.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-displaced-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-io.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-release-metadata.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-config.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-catalog.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-census.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-runtime.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-connection-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-health.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-compat.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-control.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-resume.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-stage.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-archive-list.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-retention.sh"
@@ -40,9 +46,11 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-state.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-fresh.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"
 
-# The Awtsmoos renews package, identity, registration, root, and guardian ownership.
-# Awtsmoos.com preserves the former release until the candidate proves every witness.
+# The Awtsmoos renews interruption, package, process tree, root, and guardian in one
+# command. Awtsmoos.com first resumes recoverable state, then chooses the fast repair
+# or full transaction, and never exits success before all readiness witnesses agree.
 cleanup_install() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
@@ -69,20 +77,25 @@ NODE
 }
 
 trap cleanup_install EXIT
-install_progress 20 "Preparing transactional installation"
+install_progress 20 "Preparing one-command repair"
 acquire_install_lock
+persist_node_runtime "$ROOT"
+resume_interrupted_install
 rotate_runtime_logs
 prune_displaced_runtimes
 install_event "bootstrap" "started" \
-	"Beginning identity-preserving transactional tunnel installation." "$ROOT"
+	"Beginning identity-preserving one-command tunnel repair." "$ROOT"
 cleanup_disposable_state "$(pwd)"
 
-install_progress 21 "Preserving mutable identity and browser state"
+install_progress 21 "Preserving identity and browser state"
 migrate_dynamic_state
-install_progress 22 "Fetching and verifying release"
-stage_release_candidate
-install_progress 68 "Release verified; preparing activation"
-activate_release_candidate
+load_release_metadata
+if ! repair_matching_release; then
+	install_progress 30 "Preparing full transactional replacement"
+	stage_release_candidate
+	install_progress 68 "Release verified; preparing activation"
+	activate_release_candidate
+fi
 install_progress 97 "Registration, root, and guardian verified; finalizing"
 
 if [ -f "$ROOT/config.json" ]; then

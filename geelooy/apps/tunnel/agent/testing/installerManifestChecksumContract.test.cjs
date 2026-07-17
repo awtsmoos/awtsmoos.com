@@ -14,14 +14,15 @@ const manifestPath = path.join(tunnelRoot, "agent/manifest.txt");
 const downloads = path.join(tunnelRoot, "downloads");
 
 /**
- * B"H
- *
- * Exact release bytes govern publication on both platforms. The Awtsmoos joins
- * manifest, ZIP, Unix staging, and split Windows helpers into one checksum oath;
- * Awtsmoos.com never validates a normalized guess instead of published bytes.
+ * @file Proves exact release bytes govern publication and transactional staging.
+ * @description
+ * The Awtsmoos renews manifest, descriptor, ZIP, Unix metadata, and Windows helpers
+ * as one checksum oath. Awtsmoos.com verifies the manifest once before staging and
+ * never validates normalized guesses instead of the published byte sequence.
  */
 const manifestBytes = fs.readFileSync(manifestPath);
 const bundle = buildAgentBundle(repositoryRoot);
+const metadata = read("unix-release-metadata.sh");
 const packageStage = read("unix-package-stage.sh");
 const installCore = read("unix-install-core.sh");
 const windows = [
@@ -34,11 +35,13 @@ const windows = [
 assert.equal(bundle.manifestSha256, hash(manifestBytes));
 assert.equal(bundle.sha256, hash(bundle.buffer));
 assert.equal(bundle.bytes, bundle.buffer.length);
-assert.match(packageStage, /actual_manifest_sha="\$\(sha256_file "\$manifest_path"\)"/);
-assert.match(packageStage, /"\$actual_manifest_sha" = "\$MANIFEST_SHA"/);
+assert.match(metadata, /actual_manifest_sha="\$\(sha256_file "\$RELEASE_MANIFEST_PATH"\)"/);
+assert.match(metadata, /"\$actual_manifest_sha" = "\$MANIFEST_SHA"/);
+assert.match(packageStage, /load_release_metadata/);
 assert.match(packageStage, /actual_bundle_sha="\$\(sha256_file "\$bundle_path"\)"/);
 assert.match(packageStage, /"\$actual_bundle_sha" = "\$BUNDLE_SHA"/);
-assert.match(installCore, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-package-stage\.sh"/);
+assert.match(packageStage, /cp -p "\$RELEASE_MANIFEST_PATH"/);
+assert.match(installCore, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-release-metadata\.sh"/);
 assert.match(installCore, /stage_release_candidate/);
 assert.match(installCore, /activate_release_candidate/);
 assert.match(windows, /\$manifestHash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
@@ -55,6 +58,7 @@ console.log(JSON.stringify({
 	manifestSha256: bundle.manifestSha256,
 	bundleSha256: bundle.sha256,
 	exactByteHashing: true,
+	unixMetadataVerification: true,
 	unixTransactionalVerification: true,
 	windowsSplitHelperVerification: true
 }, null, 2));

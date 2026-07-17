@@ -4,23 +4,17 @@
 # Blessed is He
 
 # The Awtsmoos renews agent, supervisor, and outer service as distinct witnesses.
-# Awtsmoos.com accepts completion only when the exact installed root owns all required
-# processes and the configured service mode proves the expected guardian is present.
+# Awtsmoos.com accepts completion only when exactly one agent and one supervisor own
+# this root and the configured outer service proves durable guardianship.
 
 if ! command -v service_mode >/dev/null 2>&1; then
 	if [ -n "${AWTSMOOS_INSTALL_RUNTIME:-}" ] &&
 		[ -f "$AWTSMOOS_INSTALL_RUNTIME/unix-service-identity.sh" ]; then
 		source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-identity.sh"
 	else
-		service_mode() {
-			printf '%s\n' "${AWTSMOOS_SERVICE_MODE:-portable}"
-		}
-		launchd_label() {
-			printf '%s\n' "com.awtsmoos.tunnel"
-		}
-		launchd_domain() {
-			printf 'gui/%s\n' "$(id -u)"
-		}
+		service_mode() { printf '%s\n' "${AWTSMOOS_SERVICE_MODE:-portable}"; }
+		launchd_label() { printf '%s\n' "com.awtsmoos.tunnel"; }
+		launchd_domain() { printf 'gui/%s\n' "$(id -u)"; }
 		launchd_loaded() {
 			launchctl print "$(launchd_domain)/$(launchd_label)" >/dev/null 2>&1
 		}
@@ -33,6 +27,8 @@ service_supervision_ready() {
 	service_process_matches "$agent_pid" "$ROOT/awtsmoos-agent-launcher.cjs" ||
 		service_process_matches "$agent_pid" "$ROOT/main.js" || return 1
 	service_process_matches "$supervisor_pid" "$ROOT/awtsmoos-supervisor.sh" || return 1
+	[ "$(find_agent_pids | awk 'NF { count += 1 } END { print count + 0 }')" -eq 1 ] || return 1
+	[ "$(find_supervisor_pids | awk 'NF { count += 1 } END { print count + 0 }')" -eq 1 ] || return 1
 	if [ "$(service_mode)" = "launchd" ]; then
 		launchd_loaded || return 1
 	fi
@@ -51,6 +47,8 @@ service_health_summary() {
 	local supervisor_pid="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	local mode="$(service_mode)"
 	local outer_state="portable_supervisor"
+	local agent_count="$(find_agent_pids | awk 'NF { count += 1 } END { print count + 0 }')"
+	local supervisor_count="$(find_supervisor_pids | awk 'NF { count += 1 } END { print count + 0 }')"
 	if [ "$mode" = "launchd" ]; then
 		if launchd_loaded; then
 			outer_state="launchd_loaded:$(launchd_label)"
@@ -58,18 +56,19 @@ service_health_summary() {
 			outer_state="launchd_missing:$(launchd_label)"
 		fi
 	fi
-	printf 'mode=%s outer=%s supervisorPid=%s agentPid=%s' \
-		"$mode" "$outer_state" \
-		"${supervisor_pid:-missing}" "${agent_pid:-missing}"
+	printf 'mode=%s outer=%s supervisorPid=%s agentPid=%s supervisors=%s agents=%s' \
+		"$mode" "$outer_state" "${supervisor_pid:-missing}" \
+		"${agent_pid:-missing}" "$supervisor_count" "$agent_count"
 }
 
 wait_for_service_supervision() {
 	local timeout_seconds="${1:-30}"
-	local elapsed=0
-	while [ "$elapsed" -lt "$timeout_seconds" ]; do
+	local maximum_samples=$(( timeout_seconds * 4 ))
+	local sample=0
+	while [ "$sample" -lt "$maximum_samples" ]; do
 		service_supervision_ready && return 0
-		sleep 1
-		elapsed=$(( elapsed + 1 ))
+		sleep 0.25
+		sample=$(( sample + 1 ))
 	done
 	return 1
 }

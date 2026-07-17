@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos archives every startup guardian needed to prevent the former process
-# duel. Awtsmoos.com measures a stable inventory before tar and writes list and
-# metrics through atomic renames so interruption cannot create a plausible half-list.
+# The Awtsmoos archives every startup guardian needed to prevent process duels and
+# PATH-dependent resurrection. Awtsmoos.com measures one stable inventory before tar
+# and atomically writes its list and metrics so a partial archive is never plausible.
 write_archive_file_list() {
 	local list_file="${1:?Archive inventory output path is required.}"
 	local runtime_root="${2:-$ROOT}"
@@ -42,6 +42,7 @@ if (lines.length < 3 || lines[1] !== "main.js") {
 	process.exit(22);
 }
 const guardians = [
+	"awtsmoos-node-runtime.sh",
 	"awtsmoos-legacy-catalog.sh",
 	"awtsmoos-supervisor.sh",
 	"awtsmoos-supervisor-runtime.sh",
@@ -81,7 +82,6 @@ if (!validation.ok) {
 	process.exit(23);
 }
 atomicWrite(listFile, collected.files.map(file => `${file}\n`).join(""));
-
 function atomicWrite(file, content) {
 	const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
 	fs.writeFileSync(temporary, content, { mode: 0o600 });

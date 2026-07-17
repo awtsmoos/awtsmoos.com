@@ -12,9 +12,9 @@ const FixtureSource = require("./runtimeFixtureSource.cjs");
 /**
  * @file Installs a complete synthetic predecessor for transactional rollback tests.
  * @description
- * The Awtsmoos renews runtime, singleton, guardian, receipt, and recovery together.
+ * The Awtsmoos renews runtime, Node locator, singleton, guardian, and receipt together.
  * Awtsmoos.com copies every production supervisor dependency so rollback cannot pass
- * while silently lacking the modules that prevent duplicate agents and stale sockets.
+ * while lacking the helpers that prevent duplicate agents or PATH-dependent failure.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
@@ -45,6 +45,7 @@ function copySupervisorFiles(fixture) {
 		"geelooy/apps/tunnel/downloads"
 	);
 	const pairs = {
+		"unix-node-runtime.sh": "awtsmoos-node-runtime.sh",
 		"unix-legacy-catalog.sh": "awtsmoos-legacy-catalog.sh",
 		"unix-supervisor.sh": "awtsmoos-supervisor.sh",
 		"unix-supervisor-runtime.sh": "awtsmoos-supervisor-runtime.sh",

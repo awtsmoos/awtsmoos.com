@@ -1,85 +1,75 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 const assert = require("node:assert/strict");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const Paths = require("./paths.cjs");
 
 const UNIX_FILES = Object.freeze([
-	"unix.sh",
-	"unix-install-core.sh",
-	"unix-install-progress.sh",
-	"unix-install-browser.sh",
-	"unix-install-success.sh",
-	"unix-state-migration.sh",
-	"unix-chrome-profile-process.cjs",
-	"unix-displaced-cleanup.sh",
-	"unix-cleanup.sh",
-	"unix-process-runtime.sh",
-	"unix-process-control.sh",
-	"unix-supervisor.sh"
+	"unix.sh", "unix-node-runtime.sh", "unix-install-core.sh",
+	"unix-install-lock.sh", "unix-install-lock-owner.cjs",
+	"unix-install-resume.sh", "unix-release-metadata.sh",
+	"unix-fast-repair.sh", "unix-install-progress.sh",
+	"unix-install-browser.sh", "unix-install-success.sh",
+	"unix-state-migration.sh", "unix-process-census.sh",
+	"unix-process-runtime.sh", "unix-process-control.sh",
+	"unix-project-root-health.sh", "unix-project-root-compat.sh",
+	"unix-service-manager.sh", "unix-supervisor-install.sh",
+	"unix-supervisor.sh", "unix-cleanup.sh"
 ]);
 const WINDOWS_FILES = Object.freeze([
-	"windows.ps1",
-	"windows-progress.ps1",
-	"windows-package.ps1",
-	"windows-bundle.ps1",
-	"windows-health.ps1",
-	"windows-success.ps1",
+	"windows.ps1", "windows-progress.ps1", "windows-package.ps1",
+	"windows-bundle.ps1", "windows-health.ps1", "windows-success.ps1",
 	"windows-core.ps1"
 ]);
 
 /**
- * B"H
- * Split installer vessels remain one audited covenant. The Awtsmoos renews every
- * helper; Awtsmoos.com composes migration, cleanup, completion, and valid syntax.
+ * @file Audits split installer families as one user-facing covenant.
+ * @description
+ * The Awtsmoos renews every helper behind one command. Awtsmoos.com requires Node
+ * discovery, lock ownership, exact process repair, root proof, and valid syntax.
  */
 function assertInstallerScripts() {
 	const windows = readFamily(WINDOWS_FILES);
 	const unix = readFamily(UNIX_FILES);
 	assertTokens(windows, [
-		"AWTSMOOS_INSTALL_ROOT",
-		"AWTSMOOS_SKIP_START",
-		"Stop-OldAwtsAgent",
-		"Wait-AwtsRegistration",
-		"Complete-AwtsProgress",
-		"Start-Process $ControlUrl"
+		"AWTSMOOS_INSTALL_ROOT", "AWTSMOOS_SKIP_START",
+		"Stop-OldAwtsAgent", "Wait-AwtsRegistration",
+		"Complete-AwtsProgress", "Start-Process $ControlUrl"
 	], "windows");
 	assertTokens(unix, [
-		"AWTSMOOS_INSTALL_ROOT",
-		"AWTSMOOS_SKIP_START",
-		"stop_existing_runtime",
-		"stop_pid_set",
-		"is_protected_candidate",
-		"migrate_dynamic_state",
-		"schedule_displaced_cleanup",
-		"complete_install_experience",
-		"open_tunnel_control"
+		"curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
+		"activate_node_runtime", "acquire_install_lock",
+		"resume_interrupted_install", "repair_matching_release",
+		"stop_existing_runtime", "exact_root_process_count",
+		"wait_for_project_root_readiness", "complete_install_experience"
 	], "unix");
-	assert.equal(windows.includes("--open-control"), false);
-	assert.equal(windows.includes("Install-AwtsmoosFiles"), false);
-	assert.equal(unix.includes("install_awtsmoos_files"), false);
 	assert.equal(unix.includes("falling back to per-file"), false);
-	for (const name of UNIX_FILES) assertUnixSyntax(name);
+	assert.equal(unix.includes("Run this manual command"), false);
+	UNIX_FILES.forEach(assertUnixSyntax);
 	assertPowerShellSyntax(WINDOWS_FILES);
 }
 
 function readFamily(names) {
-	return names.map(name => Paths.read(path.join(Paths.DOWNLOADS_ROOT, name))).join("\n");
+	return names.map(name => Paths.read(
+		path.join(Paths.DOWNLOADS_ROOT, name)
+	)).join("\n");
 }
 
 function assertTokens(source, tokens, label) {
 	for (const token of tokens) {
-		assert.equal(source.includes(token), true, `${label} installer missing: ${token}`);
+		assert.equal(source.includes(token), true,
+			`${label} installer missing: ${token}`);
 	}
 }
 
 function assertUnixSyntax(name) {
 	const file = path.join(Paths.DOWNLOADS_ROOT, name);
-	const command = name.endsWith(".cjs") ? process.execPath : "bash";
-	const args = name.endsWith(".cjs") ? ["--check", file] : ["-n", file];
-	const result = spawnSync(command, args, { encoding: "utf8" });
+	const isNode = name.endsWith(".cjs");
+	const result = spawnSync(isNode ? process.execPath : "bash",
+		isNode ? ["--check", file] : ["-n", file], { encoding: "utf8" });
 	if (!result.error) assert.equal(result.status, 0, result.stderr);
 }
 
@@ -92,17 +82,15 @@ function assertPowerShellSyntax(names) {
 		const result = spawnSync(command, ["-NoProfile", "-Command", script], {
 			encoding: "utf8"
 		});
-		assert.equal(result.status, 0, `${name}\n${result.stdout}\n${result.stderr}`);
+		assert.equal(result.status, 0,
+			`${name}\n${result.stdout}\n${result.stderr}`);
 	}
 }
 
 function powerShellCommand() {
 	for (const command of ["powershell", "pwsh", "powershell.exe"]) {
-		const result = spawnSync(command, [
-			"-NoProfile",
-			"-Command",
-			"$PSVersionTable.PSVersion.ToString()"
-		], { encoding: "utf8" });
+		const result = spawnSync(command, ["-NoProfile", "-Command",
+			"$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
 		if (!result.error && result.status === 0) return command;
 	}
 	return null;

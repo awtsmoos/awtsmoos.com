@@ -9,11 +9,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
- * @file Proves exact-root service ownership gates Unix installer completion.
+ * @file Proves exact-root service ownership and singleton counts gate completion.
  * @description
- * The Awtsmoos renews child, supervisor, portable mode, and root-specific launchd
- * identity without confusion. Awtsmoos.com rejects a missing guardian and never
- * borrows the legacy global label or another installation's loaded service.
+ * The Awtsmoos renews child, supervisor, and outer service without confusion.
+ * Awtsmoos.com accepts one agent and one guardian, rejects missing or duplicate bodies,
+ * and never borrows the legacy global launchd label from another installation.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const downloads = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
@@ -29,13 +29,20 @@ try {
 	assertReady(launchd);
 	assert.match(launchd.stdout, /com\.awtsmoos\.tunnel\.[a-f0-9]{12}/);
 	assert.doesNotMatch(launchd.stdout, /outer=launchd_loaded:com\.awtsmoos\.tunnel\s/);
-	assertBlocked(run("launchd", "missing_launchd"));
-	assertBlocked(run("portable", "missing_supervisor"));
+	for (const scenario of [
+		"missing_launchd",
+		"missing_supervisor",
+		"duplicate_agent",
+		"duplicate_supervisor"
+	]) {
+		assertBlocked(run(scenario === "missing_launchd" ? "launchd" : "portable", scenario));
+	}
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "unix-service-health",
 		portableGuardianVerified: true,
 		rootSpecificLaunchdVerified: true,
+		duplicateProcessesRejected: true,
 		legacyGlobalLabelRejected: true
 	}, null, 2));
 } finally {
@@ -58,29 +65,31 @@ function run(mode, scenario) {
 function script() {
 	return `set -u
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-identity.sh"
-source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
+find_agent_pids(){
+	printf '4242\\n'
+	[ "$AWTS_TEST_SCENARIO" = duplicate_agent ] && printf '4243\\n'
+}
+find_supervisor_pids(){
+	printf '4343\\n'
+	[ "$AWTS_TEST_SCENARIO" = duplicate_supervisor ] && printf '4344\\n'
+}
 kill(){ return 0; }
 ps(){
 	local pid=""
 	while [ "$#" -gt 0 ]; do
-		if [ "$1" = "-p" ]; then pid="$2"; shift; fi
+		[ "$1" = "-p" ] && pid="$2" && shift
 		shift
 	done
-	if [ "$pid" = 4242 ]; then
-		printf '%s\\n' "$ROOT/awtsmoos-agent-launcher.cjs"
-		return 0
-	fi
+	[ "$pid" = 4242 ] && printf '%s\\n' "$ROOT/awtsmoos-agent-launcher.cjs" && return 0
 	if [ "$pid" = 4343 ]; then
-		[ "$AWTS_TEST_SCENARIO" = "missing_supervisor" ] && return 1
+		[ "$AWTS_TEST_SCENARIO" = missing_supervisor ] && return 1
 		printf '%s\\n' "$ROOT/awtsmoos-supervisor.sh"
 		return 0
 	fi
 	return 1
 }
-launchctl(){
-	[ "$AWTS_TEST_SCENARIO" = "missing_launchd" ] && return 1
-	return 0
-}
+launchctl(){ [ "$AWTS_TEST_SCENARIO" != missing_launchd ]; }
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
 if service_supervision_ready; then
 	echo READY
 	service_health_summary

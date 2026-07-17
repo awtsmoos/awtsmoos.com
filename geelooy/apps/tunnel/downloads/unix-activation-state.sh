@@ -7,8 +7,8 @@ AWTSMOOS_ACTIVATION_ID="${AWTSMOOS_ACTIVATION_ID:-activation-$(date -u +%Y%m%dT%
 export AWTSMOOS_ACTIVATION_ID
 
 # The Awtsmoos renews package, identity, workspace, and guardian truth atomically.
-# Awtsmoos.com gives every activation one stable ID and fsyncs each journal before
-# rename, so interruption reveals either the former complete phase or the next one.
+# Awtsmoos.com gives every activation one stable ID and waits for the candidate's
+# exact root receipt before deciding that registration is durable enough to commit.
 
 skip_start_requested() {
 	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] ||
@@ -62,6 +62,7 @@ current_release_is_complete() {
 candidate_is_stably_active() {
 	current_release_is_complete || return 1
 	local startup_timeout="${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}"
+	local root_timeout="${AWTSMOOS_PROJECT_ROOT_TIMEOUT_SECONDS:-30}"
 	local agent_pid=""
 	if [ ! -f "$ROOT/device-binding.json" ] &&
 		[ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
@@ -69,7 +70,7 @@ candidate_is_stably_active() {
 	fi
 	wait_for_runtime "$startup_timeout" || return 1
 	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	if ! project_root_ready "$agent_pid" 600000; then
+	if ! wait_for_project_root_readiness "$agent_pid" "$root_timeout" 600000; then
 		install_event "startup" "failed" \
 			"Agent registered but could not prove project-root readiness." \
 			"pid=${agent_pid:-missing} $(project_root_health_summary)"

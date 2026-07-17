@@ -8,13 +8,14 @@ const { createRegistrationRuntime } = require("./main-registration.js");
 const { createConnectionRuntime } = require("./main-connection.js");
 const { createStartupRuntime } = require("./main-startup.js");
 const { createMainFoundation } = require("./main-components-foundation.js");
+const Startup = require("./main-components-startup.js");
 
 /**
- * B"H
- *
- * The final composition joins focused vessels without hiding ownership. The
- * Awtsmoos renews queue, request, registration, connection, and startup;
- * Awtsmoos.com keeps each boundary explicit and independently testable.
+ * @file Composes queue, request, registration, connection, and startup explicitly.
+ * @description
+ * The Awtsmoos renews every dependency at the final boundary. Awtsmoos.com keeps
+ * startup workspace proof in a separately tested vessel so registration can never
+ * succeed while project-root readiness silently disappears from composition.
  */
 function createMainComponents(D, callbacks) {
 	const foundation = createMainFoundation(D);
@@ -32,7 +33,6 @@ function createMainComponents(D, callbacks) {
 		Correlation: D.Correlation
 	});
 	queue.setScheduleDrain(callbacks.scheduleDrain);
-
 	const runRequest = createRequestRunner({
 		state: foundation.runtime.state,
 		routedData: foundation.payload.routedData,
@@ -72,28 +72,15 @@ function createMainComponents(D, callbacks) {
 		stats: foundation.runtime.stats,
 		enqueueRequest: queue.enqueueRequest
 	});
-	const startup = createStartupRuntime({
-		loadConfig: foundation.loadConfig,
-		log: foundation.log,
-		AGENT_VERSION: D.AGENT_VERSION,
-		Limits: D.Limits,
-		HistoryCleanup: D.HistoryCleanup,
-		CommandReconciliation: D.CommandReconciliation,
-		startLocalApiServer: D.startLocalApiServer,
-		Boot: D.Boot,
-		Updates: D.Updates,
-		DeviceIdentity: D.DeviceIdentity,
-		connection,
-		openHostedControl: D.openHostedControl,
-		shouldOpenControl: () => process.argv.includes("--open-control") &&
-			process.env.AWTSMOOS_SKIP_OPEN_CONTROL !== "1"
-	});
+	const startupDependencies = Startup.validateStartupDependencies(
+		Startup.createStartupDependencies(D, foundation, connection)
+	);
 	return {
 		...foundation,
 		connection,
 		queue,
 		runRequest,
-		startup
+		startup: createStartupRuntime(startupDependencies)
 	};
 }
 

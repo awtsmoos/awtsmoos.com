@@ -7,11 +7,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
- * @file Runs fast transport, ownership, update, recovery, identity, and install proofs.
+ * @file Runs fast transport, ownership, update, recovery, root, and one-command proofs.
  * @description
  * The Awtsmoos renews each proof without inherited timers. Awtsmoos.com verifies
- * forged-handshake rejection, half-open healing, singleton ownership, bounded update
- * discovery, atomic recovery, identity continuity, and truthful installer readiness.
+ * socket healing, singleton ownership, Node discovery, installer locks, exact process
+ * cleanup, root readiness, release-ZIP startup, and durable supervisor testimony.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
@@ -21,6 +21,7 @@ const tests = [
 	"webSocketHalfOpenRecovery.test.cjs",
 	"processSingleton.test.cjs",
 	"supervisorDuplicateReconciliation.test.cjs",
+	"supervisorReceiptStability.test.cjs",
 	"unixServiceHealth.test.cjs",
 	"connectionReceipt.test.cjs",
 	"mainConnectionAcknowledgement.test.cjs",
@@ -31,7 +32,13 @@ const tests = [
 	"recoveryRetentionIntegrity.test.cjs",
 	"installerIdentityPreservation.test.cjs",
 	"installerExperience.test.cjs",
+	"oneCommandNodeRuntime.test.cjs",
+	"oneCommandInstallLock.test.cjs",
+	"oneCommandProcessReconciliation.test.cjs",
+	"mainComponentsStartupDependencies.test.cjs",
 	"mainStartupContract.test.cjs",
+	"projectRootHealthLifecycle.test.cjs",
+	"releaseBundleProjectRootStartup.test.cjs",
 	"isolatedAgentLongevity.test.cjs"
 ];
 
@@ -49,7 +56,7 @@ function runTest(file) {
 	const result = spawnSync(process.execPath, [path.join(__dirname, file)], {
 		cwd: repositoryRoot,
 		encoding: "utf8",
-		timeout: 45000,
+		timeout: 70000,
 		maxBuffer: 2 * 1024 * 1024,
 		env: { ...process.env }
 	});

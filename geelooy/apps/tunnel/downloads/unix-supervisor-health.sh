@@ -5,7 +5,7 @@
 
 # The Awtsmoos renews inner socket healing before outer process replacement.
 # Awtsmoos.com waits for fresh exact receipts, grants bounded reconnect time, then
-# restarts only when the child remains alive but can no longer prove relay identity.
+# records exact mismatch testimony before restarting a child that cannot prove identity.
 
 wait_child_registration() {
 	local timeout_seconds="${AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS:-45}"
@@ -34,7 +34,7 @@ wait_child_registration() {
 		elapsed=$(( elapsed + 1 ))
 	done
 	supervisor_log "registration_timeout" \
-		"pid=$CHILD_PID receipt=$(supervisor_receipt_state)"
+		"pid=$CHILD_PID $(supervisor_receipt_summary "$CHILD_PID")"
 	return 1
 }
 
@@ -50,7 +50,7 @@ monitor_registered_child() {
 			[ "$disconnected_at" -gt 0 ] || disconnected_at="$(date +%s)"
 			if [ $(( $(date +%s) - disconnected_at )) -ge "$grace_seconds" ]; then
 				supervisor_log "registration_lost" \
-					"pid=$CHILD_PID graceSeconds=$grace_seconds receipt=$(supervisor_receipt_state)"
+					"pid=$CHILD_PID graceSeconds=$grace_seconds $(supervisor_receipt_summary "$CHILD_PID")"
 				return 2
 			fi
 		fi

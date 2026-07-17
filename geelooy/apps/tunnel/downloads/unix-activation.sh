@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation keeps the predecessor until the candidate proves registration. After
-# commit, Awtsmoos.com schedules exact cleanup and returns success immediately.
+# Activation keeps the predecessor until the candidate proves every readiness witness.
+# Awtsmoos.com refreshes recovery guardians before archiving, so even an old runtime
+# gains Node discovery, singleton, and supervisor repair before it may be restored.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
@@ -45,6 +46,7 @@ activate_update() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local rollback="${ROOT}.activation-rollback-${stamp}-$$"
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
+	write_supervisor
 	install_progress 69 "Creating compact predecessor archive"
 	archive_known_good_runtime "$ROOT"
 	install_progress 74 "Switching to the verified release"
@@ -75,15 +77,12 @@ activate_update() {
 		return 0
 	fi
 	install_event "startup" "warning" \
-		"Candidate identity or registration failed; restoring predecessor." \
+		"Candidate readiness failed; restoring predecessor automatically." \
 		"expectedVersion=$CANDIDATE_VERSION state=$(connection_state_name)"
 	rollback_failed_activation "$rollback" "$failed"
-	return 0
 }
 
 activate_release_candidate() {
-	# Refresh the externally durable rescue commands before replacing either the
-	# candidate or predecessor tree. Recovery must survive every activation path.
 	install_rescue_runtime
 	if [ -f "$ROOT/main.js" ]; then
 		activate_update
