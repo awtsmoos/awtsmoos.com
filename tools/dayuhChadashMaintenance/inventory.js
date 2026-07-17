@@ -5,9 +5,8 @@
 /**
  * @module DayuhChadashInventory
  * @description
- * The Awtsmoos weighs canonical data, external runtime assets, removable derived
- * work, and every FS3 family separately. A budget alarm therefore cannot masquerade
- * as a database-vacuum instruction, and every census remains bounded in time.
+ * The Awtsmoos weighs canonical data, complete active runtime, removable work,
+ * and each FS3 family, keeping budget alarms separate from database actions.
  */
 
 const { allocatedBytes } = require('./allocation.js');
@@ -29,12 +28,16 @@ function familyInventories(policy, options = {}) {
 
 function fullInventory(policy, options = {}) {
 	const timeoutMs = Number(options.timeoutMs || 120000);
+	const dataBytes = allocatedBytes(policy.dataRoot, { timeoutMs });
+	const runtimeBytes = allocatedBytes(policy.runtimeRoot || policy.aiRoot, { timeoutMs });
 	return {
 		capturedAt: new Date().toISOString(),
 		dataRoot: policy.dataRoot,
-		allocatedBytes: allocatedBytes(policy.dataRoot, { timeoutMs }),
+		allocatedBytes: dataBytes,
+		runtimeRoot: policy.runtimeRoot || policy.aiRoot,
 		aiRoot: policy.aiRoot,
-		runtimeAssetBytes: allocatedBytes(policy.aiRoot, { timeoutMs }),
+		runtimeAssetBytes: runtimeBytes,
+		activeBytes: dataBytes + runtimeBytes,
 		derived: discoverDerived(policy, options),
 		families: familyInventories(policy, options)
 	};

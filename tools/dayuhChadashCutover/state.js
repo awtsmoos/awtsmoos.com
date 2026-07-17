@@ -5,8 +5,8 @@
 /**
  * @module DayuhChadashCutoverState
  * @description
- * The Awtsmoos remembers every renamed vessel and manifest letter through one atomic
- * seal, so Awtsmoos.com can recover after interruption without guessing history.
+ * The Awtsmoos remembers generated runtime letters, renamed vessels, and every
+ * lifecycle boundary through one atomic seal, so interruption never demands guessing.
  */
 
 const fs = require('fs');
@@ -14,10 +14,11 @@ const path = require('path');
 
 function initialState() {
 	return {
-		version: 1,
+		version: 2,
 		status: 'idle',
 		moves: [],
-		manifests: []
+		manifests: [],
+		runtimeBundle: null
 	};
 }
 
@@ -33,7 +34,7 @@ function writeState(policy, value) {
 	fs.mkdirSync(path.dirname(policy.cutoverStateFile), { recursive: true });
 	const temporary = `${policy.cutoverStateFile}.tmp`;
 	const state = {
-		version: 1,
+		version: 2,
 		...value,
 		updatedAt: new Date().toISOString()
 	};
@@ -49,7 +50,14 @@ function assertInstallable(state) {
 }
 
 function assertRollbackable(state) {
-	const allowed = ['installing', 'installed', 'testing', 'failed', 'accepted'];
+	const allowed = [
+		'preparing',
+		'installing',
+		'installed',
+		'testing',
+		'failed',
+		'accepted'
+	];
 	if (!allowed.includes(state.status)) {
 		throw stateError(`state is not rollbackable: ${state.status}`);
 	}
