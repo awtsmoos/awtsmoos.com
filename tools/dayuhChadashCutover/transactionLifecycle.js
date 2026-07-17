@@ -5,14 +5,15 @@
 /**
  * @module DayuhChadashCutoverLifecycle
  * @description
- * The Awtsmoos governs testing, acceptance, interruption recovery, and reverse
- * renames as one focused lifecycle vessel for Awtsmoos.com publication.
+ * The Awtsmoos reverses manifests, atomic moves, and generated runtime letters
+ * in exact order, leaving quarantine untouched until a later retention court.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { cutoverError } = require('./inventory.js');
 const { restoreManifests } = require('./manifestRebase.js');
+const { removeRuntimeBundle } = require('./runtimeBundle.js');
 const {
 	assertAcceptable,
 	assertRollbackable,
@@ -23,7 +24,7 @@ const {
 function rollback(policy) {
 	let state = readState(policy);
 	assertRollbackable(state);
-	restoreManifests(state.manifests);
+	restoreManifests(state.manifests || []);
 	for (let index = state.moves.length - 1; index >= 0; index--) {
 		const move = state.moves[index];
 		if (!move.moved) continue;
@@ -38,9 +39,13 @@ function rollback(policy) {
 		state.moves[index] = { ...move, moved: false };
 		state = writeState(policy, state);
 	}
+	const removedRuntime = removeRuntimeBundle(policy);
 	return writeState(policy, {
 		...state,
 		status: 'rolled-back',
+		runtimeBundle: state.runtimeBundle
+			? { ...state.runtimeBundle, removedRuntime }
+			: null,
 		rolledBackAt: new Date().toISOString()
 	});
 }
@@ -69,7 +74,7 @@ function accept(policy, verification) {
 
 function recover(policy) {
 	const state = readState(policy);
-	return ['installing', 'failed'].includes(state.status)
+	return ['preparing', 'installing', 'failed'].includes(state.status)
 		? rollback(policy)
 		: state;
 }
