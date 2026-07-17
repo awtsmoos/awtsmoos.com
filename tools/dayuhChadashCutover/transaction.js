@@ -5,42 +5,48 @@
 /**
  * @module DayuhChadashCutoverTransaction
  * @description
- * The Awtsmoos moves each sealed vessel by atomic rename and records every completed
- * step, while lifecycle reversal remains a separate Awtsmoos.com module.
+ * The Awtsmoos first seals a compact embedding runtime, then moves each named
+ * vessel by atomic rename while persisting every completed boundary.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { buildInventory, evidence } = require('./inventory.js');
 const { assertOffline } = require('./offlineGate.js');
-const {
-	rebaseManifests,
-	snapshotManifests
-} = require('./manifestRebase.js');
+const { rebaseManifests, snapshotManifests } = require('./manifestRebase.js');
+const { prepareRuntimeBundle } = require('./runtimeBundle.js');
 const { assertInstallable, readState, writeState } = require('./state.js');
 const lifecycle = require('./transactionLifecycle.js');
 
 function install(policy, options = {}) {
 	assertInstallable(readState(policy));
 	const offline = (options.assertOffline || assertOffline)(policy, options);
-	const inventory = buildInventory(policy);
-	const manifests = snapshotManifests(policy);
 	let state = writeState(policy, {
-		status: 'installing',
+		status: 'preparing',
 		startedAt: new Date().toISOString(),
 		offline,
-		moves: inventory.moves,
-		manifests
+		moves: [],
+		manifests: snapshotManifests(policy),
+		runtimeBundle: null
 	});
 	try {
+		const prepare = options.prepareRuntimeBundle || prepareRuntimeBundle;
+		const runtimeBundle = prepare(policy, options);
+		state = writeState(policy, { ...state, runtimeBundle });
+		const inventory = buildInventory(policy);
+		state = writeState(policy, {
+			...state,
+			status: 'installing',
+			moves: inventory.moves
+		});
 		for (let index = 0; index < state.moves.length; index++) {
 			state = moveOne(policy, state, index);
 		}
-		const rebased = rebaseManifests(policy, manifests);
+		const manifests = rebaseManifests(policy, state.manifests);
 		return writeState(policy, {
 			...state,
 			status: 'installed',
-			manifests: rebased,
+			manifests,
 			installedAt: new Date().toISOString()
 		});
 	} catch (error) {

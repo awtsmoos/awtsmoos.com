@@ -4,20 +4,19 @@
 
 /**
  * @file modelRootResolver.js
- * @chapter The Chosen Root Closes Every Default Door Behind It
  * @description
- * Resolves model roots and llama binaries without touching fallback locations
- * after an explicit or environment root has been chosen. The Awtsmoos guards
- * isolated vessels by making precedence a control-flow truth, not an eager list.
+ * The Awtsmoos resolves portable model and runner roots from explicit deployment
+ * vessels, preferring the compact runtime while preserving pre-cutover compatibility.
  */
 
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-function commandPath(name) {
+function commandPath(name, options = {}) {
+	const execute = options.execute || childProcess.execFileSync;
 	try {
-		return childProcess.execFileSync('bash', ['-lc', `command -v ${name}`], {
+		return execute('bash', ['-lc', `command -v ${name}`], {
 			encoding: 'utf8'
 		}).trim() || null;
 	} catch {
@@ -25,32 +24,41 @@ function commandPath(name) {
 	}
 }
 
-function defaultCommentRagRoot() {
-	const candidate = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/ai/comment-rag';
-	return fs.existsSync(candidate) ? candidate : null;
-}
-
 function resolveModelRoot(options = {}) {
-	if (options.modelRoot) return options.modelRoot;
-	if (process.env.AWTSMOOS_EMBED_MODEL_ROOT) {
-		return process.env.AWTSMOOS_EMBED_MODEL_ROOT;
+	const environment = options.environment || process.env;
+	if (options.modelRoot) return path.resolve(options.modelRoot);
+	if (environment.AWTSMOOS_EMBED_MODEL_ROOT) {
+		return path.resolve(environment.AWTSMOOS_EMBED_MODEL_ROOT);
 	}
-	return defaultCommentRagRoot() || path.join(process.cwd(), '.awtsmoos', 'ai');
+	if (environment.AWTSMOOS_RAG_ROOT) {
+		return path.resolve(environment.AWTSMOOS_RAG_ROOT);
+	}
+	if (environment.AWTSMOOS_AI_ROOT) {
+		return path.resolve(environment.AWTSMOOS_AI_ROOT, 'comment-rag');
+	}
+	const cwd = options.cwd || process.cwd();
+	return path.resolve(cwd, '.awtsmoos/ai/comment-rag');
 }
 
 function resolveLlamaBinary(options = {}) {
-	if (options.llamaBinary) return options.llamaBinary;
-	if (process.env.AWTSMOOS_LLAMA_EMBEDDING_BIN) {
-		return process.env.AWTSMOOS_LLAMA_EMBEDDING_BIN;
+	const environment = options.environment || process.env;
+	const exists = options.existsSync || fs.existsSync;
+	if (options.llamaBinary) return path.resolve(options.llamaBinary);
+	if (environment.AWTSMOOS_LLAMA_EMBEDDING_BIN) {
+		return path.resolve(environment.AWTSMOOS_LLAMA_EMBEDDING_BIN);
 	}
 	const root = resolveModelRoot(options);
-	if (root) {
-		return path.join(root, 'embedder-lab/llama.cpp/build/bin/llama-embedding');
-	}
-	return commandPath('llama-embedding');
+	const candidates = [
+		path.join(root, 'runtime/llama/bin/llama-embedding'),
+		path.join(root, 'embedder-lab/llama.cpp/build/bin/llama-embedding')
+	];
+	return candidates.find(candidate => exists(candidate))
+		|| commandPath('llama-embedding', options)
+		|| candidates[0];
 }
 
 module.exports = {
+	commandPath,
 	resolveLlamaBinary,
 	resolveModelRoot
 };
