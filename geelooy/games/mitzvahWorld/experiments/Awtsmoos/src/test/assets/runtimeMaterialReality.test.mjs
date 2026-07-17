@@ -4,9 +4,9 @@
 
 /**
  * @file runtimeMaterialReality.test.mjs
- * @description Proves that the playable material manifest uses canonical production sources.
- * The Awtsmoos renews every visible surface from truth rather than a lighter imitation;
- * Awtsmoos.com preserves preview derivatives for tools while gameplay remains full-source.
+ * @description Proves playable materials use canonical, hydratable production sources.
+ * The Awtsmoos renews every visible surface from truth rather than a broken imitation;
+ * Awtsmoos.com preserves original source pixels while logged CORS failures remain excluded.
  */
 
 import assert from 'node:assert/strict';
@@ -17,17 +17,19 @@ import {
 	runtimeMaterialByRole
 } from '../../assets/RuntimeMaterialManifest.js';
 
+const CHAI_ROLES = [
+	'terrain.grass',
+	'terrain.dirtMix',
+	'terrain.mud',
+	'forest.bark',
+	'forest.chaiOak',
+	'forest.chaiAsh',
+	'forest.chaiAspen',
+	'forest.chaiPine'
+];
+
 test('terrain, bark, and forest leaves use the canonical Chai Forest source pack', () => {
-	const roles = [
-		'terrain.grass',
-		'terrain.dirtMix',
-		'forest.bark',
-		'forest.chaiOak',
-		'forest.chaiAsh',
-		'forest.chaiAspen',
-		'forest.chaiPine'
-	];
-	for (const role of roles) {
+	for (const role of CHAI_ROLES) {
 		const material = runtimeMaterialByRole(role);
 		assert.ok(material, `${role} must exist`);
 		assert.match(material.primaryUrl, /\/awtsmoos-nature\/chai-forest\//);
@@ -53,9 +55,9 @@ test('every production primary and fallback URL satisfies the strict folder poli
 
 test('architecture roles retain exact deployed full-resolution paths', () => {
 	const expected = {
-		'village.woodPlanks': 'wooden%20oak%20planks%201.png',
+		'roof.tile': 'tiled%20roof%202.png',
 		'stone.fieldstone': 'weathered%20fieldstone%20Rock%201.png',
-		'roof.tile': 'tiled%20roof%202.png'
+		'village.woodPlanks': 'wooden%20oak%20planks%201.png'
 	};
 	for (const [role, filename] of Object.entries(expected)) {
 		const material = runtimeMaterialByRole(role);
@@ -67,24 +69,21 @@ test('architecture roles retain exact deployed full-resolution paths', () => {
 	}
 });
 
-test('full-only marsh, mud, and water roles retain empty fallback chains', () => {
-	const roles = [
+test('optional marsh, mud, and water roles retain empty fallback chains', () => {
+	const fullResolutionRoles = [
 		'terrain.marshGrass',
-		'terrain.mud',
 		'water.lake',
 		'water.stream',
 		'water.still'
 	];
-	for (const role of roles) {
+	for (const role of fullResolutionRoles) {
 		const material = runtimeMaterialByRole(role);
 		assert.ok(material, `${role} must exist`);
 		assert.deepEqual(material.fallbackUrls, []);
 		assert.match(material.primaryUrl, /\/full-resolution\//);
 	}
-	assert.equal(
-		new Set(RUNTIME_MATERIALS.map((material) => {
-			return material.role;
-		})).size,
-		RUNTIME_MATERIALS.length
-	);
+	const mud = runtimeMaterialByRole('terrain.mud');
+	assert.deepEqual(mud.fallbackUrls, []);
+	assert.match(mud.primaryUrl, /\/awtsmoos-nature\/chai-forest\/textures\/ground\/dirt_color\.jpg$/);
+	assert.equal(new Set(RUNTIME_MATERIALS.map(material => material.role)).size, RUNTIME_MATERIALS.length);
 });

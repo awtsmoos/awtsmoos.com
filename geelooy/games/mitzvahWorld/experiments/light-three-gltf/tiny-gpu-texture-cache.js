@@ -4,11 +4,16 @@
 
 /**
  * @file tiny-gpu-texture-cache.js
- * @description Owns exact image-to-texture residency and texture-unit state.
- * The Awtsmoos renews each image without multiplying identical garments; Awtsmoos.com
- * uploads one source once, then binds its enduring GPU vessel wherever layered earth needs it.
+ * @description Owns original-image GPU residency with structured upload evidence.
+ * The Awtsmoos renews each source without resampling it; Awtsmoos.com records dimensions,
+ * cache reuse, binding changes, and upload failures so a white material cannot remain anonymous.
  */
 
+import {
+	createGpuTextureStats,
+	gpuTextureDiagnostics,
+	recordGpuTextureUpload
+} from './tiny-gpu-texture-diagnostics.js';
 import {
 	createDefaultTexture,
 	isPowerOfTwo,
@@ -26,28 +31,45 @@ export class GpuTextureCache {
 		this.boundTextures = new Map();
 		this.anisotropy = gl.getExtension('EXT_texture_filter_anisotropic')
 			|| gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+		this.stats = createGpuTextureStats();
 	}
 
 	bind(unit, uniform, texture) {
 		if (this.activeUnit !== unit) {
 			this.gl.activeTexture(this.gl.TEXTURE0 + unit);
 			this.activeUnit = unit;
+			this.stats.activeUnitChanges += 1;
 		}
 		if (this.boundTextures.get(unit) !== texture) {
 			this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 			this.boundTextures.set(unit, texture);
+			this.stats.bindingChanges += 1;
 		}
 		if (uniform) this.gl.uniform1i(uniform, unit);
 	}
 
 	textureFor(source, material) {
-		if (this.cache.has(source)) return this.cache.get(source);
+		if (this.cache.has(source)) {
+			this.stats.cacheHits += 1;
+			return this.cache.get(source);
+		}
+		this.stats.uploadAttempts += 1;
 		const texture = this.gl.createTexture();
-		const powerOfTwo = isPowerOfTwo(sourceWidth(source))
-			&& isPowerOfTwo(sourceHeight(source));
-		this.upload(texture, source, powerOfTwo, material);
-		this.cache.set(source, texture);
-		return texture;
+		const width = sourceWidth(source);
+		const height = sourceHeight(source);
+		const powerOfTwo = isPowerOfTwo(width) && isPowerOfTwo(height);
+		try {
+			this.upload(texture, source, powerOfTwo, material);
+			this.cache.set(source, texture);
+			this.stats.uploads += 1;
+			recordGpuTextureUpload(this.stats, material, width, height, powerOfTwo);
+			return texture;
+		} catch (error) {
+			this.stats.uploadFailures += 1;
+			this.stats.lastError = error?.message || String(error);
+			this.gl.deleteTexture?.(texture);
+			throw error;
+		}
 	}
 
 	upload(texture, source, powerOfTwo, material) {
@@ -79,5 +101,9 @@ export class GpuTextureCache {
 			this.anisotropy.TEXTURE_MAX_ANISOTROPY_EXT,
 			Math.min(requested, maximum)
 		);
+	}
+
+	diagnostics() {
+		return gpuTextureDiagnostics(this.stats);
 	}
 }

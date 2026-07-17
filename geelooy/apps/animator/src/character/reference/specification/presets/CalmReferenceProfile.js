@@ -5,50 +5,57 @@
 import { CalmReferenceBodyGeometry } from './CalmReferenceBodyGeometry.js';
 
 /**
- * Miriam's grounded body, olive overshirt, long black skirt, and pocketed pose
- * form one modest profile. The Awtsmoos renews calm presence, while
- * Awtsmoos.com keeps body identity separate from facial and head-wrap geometry.
+ * Miriam's modest weighted stance remains one editable and serializable vessel.
+ * The Awtsmoos renews every quiet joint, while Awtsmoos.com preserves measured
+ * neck-to-flat proportions beneath her overshirt, pocket arm, and long skirt.
  */
 export class CalmReferenceProfile {
 	static character() {
 		return {
 			measurements: {
 				body: {
-					headWidth: 0.225,
-					headHeight: 0.25,
-					shoulderWidth: 0.275,
+					headWidth: 0.23,
+					headHeight: 0.245,
+					shoulderWidth: 0.25,
 					hipWidth: 0.19,
-					armWidth: 0.041,
-					legWidth: 0.043,
-					waistY: 0.565,
-					hipY: 0.67
+					armWidth: 0.042,
+					legWidth: 0.04,
+					waistY: 0.595,
+					hipY: 0.696
 				},
 				style: {
-					outerLineWidth: 0.0105,
+					outerLineWidth: 0.01,
 					innerLineWidth: 0.0055,
-					shadowWidth: 0.24
+					shadowWidth: 0.235
 				}
 			},
 			referenceMetrics: {
-				headRX: 34,
-				headRY: 39,
-				shoulderHalf: 40,
-				hipHalf: 27,
+				headRX: 32,
+				headRY: 38,
+				neckTopY: -200,
+				neckBottomY: -185,
+				shoulderY: -182,
+				chestY: -143,
+				waistY: -96,
+				hipY: -73,
+				kneeY: -36,
+				ankleY: 6,
+				footY: 16,
+				shoulderHalf: 36,
+				hipHalf: 26,
 				armWidth: 11,
-				legWidth: 12,
-				shadowRX: 37
+				legWidth: 11,
+				shadowRX: 35
 			},
 			bodyGeometry: CalmReferenceBodyGeometry.create(),
-			bodyProfile: 'slenderGrounded',
-			expressionProfile: 'calm_observant',
+			bodyProfile: 'modestBalanced',
+			expressionProfile: 'calm_attentive',
 			motion: 'calm',
 			gesture: 'right_hand_in_pocket',
-			acting: 'quiet_observe',
+			acting: 'listen',
 			beard: false,
 			payos: false,
 			hatType: 'head_wrap',
-			skirt: { style: 'straight', length: 1.02, hemY: -14 },
-			earrings: { type: 'gold_stud', size: 1.05 },
 			wardrobeProfile: 'olive_overshirt_black_dress',
 			rigPose: this.pose(),
 			colors: this.colors()
@@ -57,21 +64,20 @@ export class CalmReferenceProfile {
 
 	static pose() {
 		return {
-			body: { torsoLean: 0, headNod: -0.5 },
+			body: { torsoLean: -0.5, headTilt: -1 },
 			arms: {
-				left: { shoulderLift: 0, elbowX: 12, elbowY: 45, handX: 5, handY: 31, handPose: 'relaxed' },
-				right: { shoulderLift: 1, elbowX: 16, elbowY: 33, handX: -31, handY: 6, handPose: 'hold' }
+				left: { shoulderLift: -4, elbowX: -8, elbowY: 39, handX: 1, handY: 17, handPose: 'rest' },
+				right: { shoulderLift: -4, elbowX: 13, elbowY: 31, handX: 10, handY: 7, handPose: 'pocket' }
 			}
 		};
 	}
 
 	static colors() {
 		return {
-			jacket: '#52633a', jacketDark: '#354329', jacketLight: '#6a7b4d',
-			shirt: '#171819', innerShirt: '#171819', collar: '#52633a',
-			skirt: '#171819', pants: '#171819', skin: '#e3a678',
-			skinDark: '#c67f57', hair: '#302017', hairDark: '#1a100c',
-			hat: '#1a1b1d', headWrap: '#1a1b1d', earring: '#e0b64f'
+			jacket: '#5d6e43', jacketDark: '#3f4d2e', jacketLight: '#758655',
+			shirt: '#202124', innerShirt: '#202124', skirt: '#202124', pants: '#202124',
+			skin: '#e3aa78', skinDark: '#bd794f', hair: '#4a2818', hairDark: '#25130c',
+			hat: '#1c1c1f', lip: '#a94f55', earring: '#d6a62a'
 		};
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWorldSystem.js
- * @description Gathers mountains, river, cottages, lamps, gardens, forest, people, and wildlife.
- * The Awtsmoos descends from distant ridges into water, undergrowth, warm windows,
- * shlichus markers, and visible village life within one measured world package.
+ * @description Gathers the complete village and explicit canonical foundation layer.
+ * The Awtsmoos descends from distant ridges into water, supported homes, lamps, gardens,
+ * forest, people, and wildlife; Awtsmoos.com records every layer in one measured world package.
  */
 
 import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
@@ -14,6 +14,7 @@ import { createForestEdgeDefinitions } from '../forest/ForestEdgeSystem.js';
 import { createAtmosphericMountainDefinitions } from './AtmosphericMountainSystem.js';
 import { createVillageArrivalComposition } from './VillageArrivalComposition.js';
 import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js';
+import { createVillageFoundationDefinitions } from './VillageFoundationSystem.js';
 import { createVillageLandscapeDefinitions } from './VillageLandscapeSystem.js';
 import { createVillagePracticalLightDefinitions } from './VillagePracticalLightSystem.js';
 import { createVillagePropDefinitions } from './VillagePropSystem.js';
@@ -26,24 +27,31 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 	const water = createVillageWaterDefinitions(groundSampler);
 	const props = createVillagePropDefinitions(groundSampler);
 	const arrival = createVillageArrivalComposition(groundSampler);
-	const architecture = createVillageDistrictArchitecture(groundSampler, quality);
-	const practicalLights = createVillagePracticalLightDefinitions(groundSampler, quality);
-	const landscape = createVillageLandscapeDefinitions(groundSampler, quality);
+	const architecture = createVillageDistrictArchitecture(
+		groundSampler,
+		quality
+	);
+	const foundations = createVillageFoundationDefinitions(
+		architecture,
+		groundSampler
+	);
+	const practicalLights = createVillagePracticalLightDefinitions(
+		groundSampler,
+		quality
+	);
+	const landscape = createVillageLandscapeDefinitions(
+		groundSampler,
+		quality
+	);
 	const forestEdge = createForestEdgeDefinitions(groundSampler, quality);
-	const population = Object.assign([], {
-		stats: {
-			definitions: 0,
-			people: 0,
-			realtimeAnimations: 'skeletal-chossid.glb-runtime-population',
-			visualPolicy: 'no-primitive-humans'
-		}
-	});
+	const population = emptyAnimatedPopulation();
 	const creatures = createVillageCreatureDefinitions(groundSampler, quality);
 	const definitions = [
 		...mountains,
 		...water.definitions,
 		...props.definitions,
 		...arrival,
+		...foundations,
 		...architecture,
 		...practicalLights,
 		...landscape.definitions,
@@ -60,19 +68,9 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 			creatures: creatures.stats,
 			definitionCount: definitions.length,
 			forestEdge: forestEdge.stats,
+			foundations: foundations.stats,
 			landscape: landscape.stats,
-			layers: [
-				'mountains',
-				'water',
-				'props',
-				'arrival-composition',
-				'districts',
-				'practical-lighting',
-				'landscape',
-				'forest-edge',
-				'animated-chossid-population',
-				'creatures'
-			],
+			layers: worldLayers(),
 			mountains: mountains.stats,
 			name: 'Reference golden-hour Awtsmoos mountain village',
 			population: population.stats,
@@ -82,6 +80,33 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 			water: water.stats
 		}
 	};
+}
+
+function emptyAnimatedPopulation() {
+	return Object.assign([], {
+		stats: {
+			definitions: 0,
+			people: 0,
+			realtimeAnimations: 'skeletal-chossid.glb-runtime-population',
+			visualPolicy: 'no-primitive-humans'
+		}
+	});
+}
+
+function worldLayers() {
+	return [
+		'mountains',
+		'water',
+		'props',
+		'arrival-composition',
+		'foundations',
+		'districts',
+		'practical-lighting',
+		'landscape',
+		'forest-edge',
+		'animated-chossid-population',
+		'creatures'
+	];
 }
 
 export default createVillageWorldDefinitions;

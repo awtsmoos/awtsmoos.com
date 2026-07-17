@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Gevurah shapes Dovid's guarded head through hooded eyes, a skeptical brow, and a
+ * Gevurah shapes Dovid through hooded sideways eyes, an asymmetric brow, and a
  * tapered rounded beard. The Awtsmoos renews attention, while Awtsmoos.com keeps
- * every feature editable through the living production timeline.
+ * every guarded feature editable through the living production timeline.
  */
 export class SkepticalReferenceAppearance {
 	static create() {
@@ -28,7 +28,7 @@ export class SkepticalReferenceAppearance {
 			browStyle: {
 				width: 20,
 				thickness: 4.2,
-				arch: -1.5,
+				arch: -2.2,
 				verticalOffset: 0.5
 			},
 			noseStyle: {
@@ -37,48 +37,52 @@ export class SkepticalReferenceAppearance {
 				lineWidth: 1.9
 			},
 			eyeStyle: {
-				radiusX: 10.4,
-				radiusY: 7.2,
-				spacingScale: 1.34,
-				separationRatio: 0.75,
+				kind: 'skeptical',
+				radiusX: 11.6,
+				radiusY: 7.4,
+				spacingScale: 1.3,
+				separationRatio: 0.8,
 				pupilScale: 0.94,
-				pupilVertical: 0.1,
+				pupilVertical: 0.22,
 				outlineWidth: 2,
-				lidWidth: 2.3,
-				lidDrop: 0.22,
+				lidWidth: 2.5,
+				lidDrop: 0.32,
 				verticalOffset: 1.2,
-				maxAspect: 0.72
+				maxAspect: 0.7
 			},
 			mouthStyle: {
-				widthScale: 1.08,
-				heightScale: 0.72,
-				smileBias: -0.34,
-				lineWidth: 2.5,
-				verticalOffset: 0.5,
+				widthScale: 1.22,
+				heightScale: 0.76,
+				smileBias: -0.42,
+				lineWidth: 2.6,
+				verticalOffset: 0,
 				lowerLipWidth: 1
 			},
 			beardGeometry: {
 				massStyle: 'continuous',
 				cheekScale: 0.78,
 				topOffset: 7,
-				mouthClearance: 11,
-				openingHeight: 9.5,
+				mouthVerticalOffset: -5,
+				mouthClearance: 12,
+				openingHeight: 10,
 				moustacheHalf: 9.5,
-				moustacheWidth: 4.1,
-				lengthScale: 0.48,
-				chinWidth: 20,
-				bottomRoundness: 0.8,
+				moustacheWidth: 4,
+				lengthScale: 0.22,
+				chinWidth: 21,
+				taper: 0.62,
+				bottomRoundness: 0.82,
 				lineWidth: 2.4,
 				strandOpacity: 0.05
 			},
 			payosGeometry: {
+				rootScaleX: 0.89,
 				rootOffsetX: -1,
 				rootOffsetY: 1,
-				amplitude: 9,
-				secondAmplitude: 7,
-				terminalCurl: 6,
-				lengthScale: 0.66,
-				lineWidth: 3.2
+				amplitude: 6,
+				secondAmplitude: 4,
+				terminalCurl: 5,
+				lengthScale: 0.58,
+				lineWidth: 3
 			},
 			headwear: {
 				type: 'kippah',

@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageOrnamentBatch.js
- * @description Coordinates five shared ornament draws for every large district cottage.
- * The Awtsmoos binds timber, shutters, blossoms, and thresholds into measured vessels;
- * Awtsmoos.com keeps the village richly inhabited without one draw per ornament.
+ * @description Coordinates shared timber, shutter, blossom, flower-box, and threshold draws.
+ * The Awtsmoos binds many intimate details into measured vessels; Awtsmoos.com uses a verified
+ * oak source so every shutter remains textured without repeatedly requesting a missing filename.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
@@ -25,7 +25,7 @@ export function appendCottageOrnaments(collector, cottage) {
 export function createCottageOrnamentBatches(collector) {
 	return [
 		batch('cottage-timber-frame-batch', collector.beams, '#4a2e1d', TEXTURE_URLS.wood.oak3, 'timber-frame'),
-		batch('cottage-shutter-batch', collector.shutters, '#385b52', TEXTURE_URLS.wood.oak2, 'shutters'),
+		batch('cottage-shutter-batch', collector.shutters, '#385b52', TEXTURE_URLS.wood.oak3, 'shutters'),
 		batch('cottage-flower-box-batch', collector.flowerBoxes, '#5a3620', TEXTURE_URLS.wood.planks1, 'flower-box'),
 		createCottageBlossomBatch(collector.blossoms),
 		batch('cottage-entry-step-batch', collector.steps, '#8c8274', TEXTURE_URLS.bricks.fieldstone1, 'entry-step')

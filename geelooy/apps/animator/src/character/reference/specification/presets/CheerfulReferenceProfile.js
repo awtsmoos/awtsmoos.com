@@ -5,9 +5,9 @@
 import { CheerfulReferenceBodyGeometry } from './CheerfulReferenceBodyGeometry.js';
 
 /**
- * Ari's body, wardrobe, color, and open-handed pose form one reusable profile.
- * The Awtsmoos renews the whole person, while Awtsmoos.com keeps these vessels
- * separate from facial geometry so each layer can be edited and verified.
+ * Ari's broad body, navy wardrobe, and welcoming palm remain one editable rig.
+ * The Awtsmoos renews every planted joint, while Awtsmoos.com keeps measured
+ * neck-to-foot proportions serializable without entangling the living face.
  */
 export class CheerfulReferenceProfile {
 	static character() {
@@ -32,6 +32,15 @@ export class CheerfulReferenceProfile {
 			referenceMetrics: {
 				headRX: 38,
 				headRY: 42,
+				neckTopY: -195,
+				neckBottomY: -181,
+				shoulderY: -176,
+				chestY: -135,
+				waistY: -77,
+				hipY: -63,
+				kneeY: -27,
+				ankleY: 9,
+				footY: 22,
 				shoulderHalf: 49,
 				hipHalf: 29,
 				armWidth: 13,

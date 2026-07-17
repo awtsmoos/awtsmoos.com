@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * The Awtsmoos joins inward intention to outward form. This projector keeps
- * the director's durable character state aligned with the richer face and
- * body performance generated for every line in Awtsmoos.com.
+ * The Awtsmoos joins inward intention to outward form. Awtsmoos.com keeps durable
+ * character state aligned with rich coarticulated lips, tongue, teeth, jaw, face,
+ * body, attention, cue timing, persistence, and export.
  */
 export class SpeechStateProjector {
 	static character(current, event, context) {
@@ -16,7 +16,8 @@ export class SpeechStateProjector {
 			position: { ...(current.position || {}) },
 			speech: context.speech,
 			isTalking: Boolean(context.speech),
-			silentMode: event.silentMode === true || current.silentMode === true,
+			silentMode: event.silentMode === true
+				|| current.silentMode === true,
 			speechStyle: context.speechStyle,
 			speechEnergy: Number.isFinite(event.speechEnergy)
 				? event.speechEnergy
@@ -24,19 +25,23 @@ export class SpeechStateProjector {
 			speechLocalTime: context.localTime,
 			speechDuration: context.duration,
 			speechEmphasis: context.emphasis,
-			mouthOpen: mouth.open,
-			mouthSmile: mouth.smile,
-			mouthShape: mouth.shape,
-			mouthRound: mouth.round,
-			mouthWidth: mouth.width,
+			lipSyncCues: context.lipSyncCues || current.lipSyncCues,
+			phonemeCues: event.phonemeCues || current.phonemeCues,
+			audioEnvelope: event.audioEnvelope ?? current.audioEnvelope,
+			mouthPerformance: { ...mouth },
+			...this.mouthFields(mouth),
 			facePose: context.performance.face,
 			performancePose: body,
 			attentionTarget: context.attention.target,
 			blinkNow: context.attention.blink,
 			eyeDart: context.attention.dart,
 			gesture: event.gesture || current.gesture || 'explain',
-			acting: event.acting || event.gesture || (context.speech ? 'talk' : current.acting || 'listen_idle'),
-			upperBody: context.speech ? 'talking_emphasis' : current.upperBody,
+			acting: event.acting
+				|| event.gesture
+				|| (context.speech ? 'talk' : current.acting || 'listen_idle'),
+			upperBody: context.speech
+				? 'talking_emphasis'
+				: current.upperBody,
 			headNod: body.headNod,
 			headTilt: body.headTilt,
 			shoulderMotion: body.shoulder,
@@ -44,12 +49,40 @@ export class SpeechStateProjector {
 			breathMotion: body.breath,
 			weightShift: body.weight,
 			emotion: event.emotion || current.emotion || 'focused',
-			lookAt: event.lookAt || event.listener || current.lookAt || null,
-			dialogueMode: event.dialogueMode || event.mode || current.dialogueMode || 'subtitle'
+			lookAt: event.lookAt
+				|| event.listener
+				|| current.lookAt
+				|| null,
+			dialogueMode: event.dialogueMode
+				|| event.mode
+				|| current.dialogueMode
+				|| 'subtitle'
 		};
 
 		this.applyTimedActions(next, event, context.progress);
 		return next;
+	}
+
+	static mouthFields(mouth) {
+		return {
+			mouthOpen: mouth.open,
+			mouthJaw: mouth.jaw,
+			mouthSmile: mouth.smile,
+			mouthShape: mouth.shape,
+			mouthViseme: mouth.viseme,
+			mouthPhoneme: mouth.phoneme,
+			mouthRound: mouth.round,
+			mouthWidth: mouth.width,
+			mouthPress: mouth.press,
+			mouthTeeth: mouth.teeth,
+			mouthTongue: mouth.tongue,
+			mouthTongueTip: mouth.tongueTip,
+			mouthBite: mouth.bite,
+			mouthClosure: mouth.closure,
+			mouthRelease: mouth.release,
+			mouthCueIndex: mouth.cueIndex,
+			mouthCueCount: mouth.cueCount
+		};
 	}
 
 	static dialogue(characterId, next, event, progress) {
@@ -71,12 +104,10 @@ export class SpeechStateProjector {
 		if (!Array.isArray(event.actions)) {
 			return;
 		}
-
 		for (const action of event.actions) {
 			if (progress < Number(action.at || 0) || !action.key) {
 				continue;
 			}
-
 			if (action.key === 'acting') {
 				next.gesture = action.value;
 			} else {

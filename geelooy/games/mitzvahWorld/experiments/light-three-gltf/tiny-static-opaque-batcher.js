@@ -4,14 +4,15 @@
 
 /**
  * @file tiny-static-opaque-batcher.js
- * @description Caches conservative spatial batches and reveals every merge opportunity.
- * The Awtsmoos joins many village vessels without erasing one identity; Awtsmoos.com
- * measures singleton and mergeable families so batching expands only through real evidence.
+ * @description Rebuilds conservative static batches when hydrated material state changes.
+ * The Awtsmoos joins many houses without trapping them in first-frame whiteness; Awtsmoos.com
+ * lets arriving stone and slate invalidate only the exact cached village vessels that need renewal.
  */
 
 import {
 	staticBatchGroupKey,
-	staticBatchMembershipToken
+	staticBatchMembershipToken,
+	staticBatchSequenceToken
 } from './tiny-static-batch-key.js';
 import {
 	createStaticBatchStats,
@@ -23,14 +24,18 @@ import { mergeStaticMeshes } from './tiny-static-geometry-merge.js';
 export class StaticOpaqueBatcher {
 	constructor() {
 		this.cache = new Map();
-		this.previousEntries = [];
+		this.cacheBuilds = 0;
 		this.previousResult = null;
+		this.previousToken = '';
+		this.sequenceReuses = 0;
 		this.stats = createStaticBatchStats();
 	}
 
 	resolve(entries) {
-		if (sameEntrySequence(entries, this.previousEntries)) {
-			this.stats = this.previousResult.stats;
+		const sequenceToken = staticBatchSequenceToken(entries);
+		if (sequenceToken && sequenceToken === this.previousToken) {
+			this.sequenceReuses += 1;
+			this.previousResult.stats.sequenceReuses = this.sequenceReuses;
 			return this.previousResult;
 		}
 		const groups = groupEntries(entries);
@@ -46,16 +51,17 @@ export class StaticOpaqueBatcher {
 				continue;
 			}
 			const batch = this.resolveBatch(key, members);
-			if (!batch) {
-				originals.push(...members.map(member => member.mesh));
-				continue;
+			if (!batch) originals.push(...members.map(member => member.mesh));
+			else {
+				meshes.push(batch);
+				recordStaticBatchSuccess(stats, members, batch);
 			}
-			meshes.push(batch);
-			recordStaticBatchSuccess(stats, members, batch);
 		}
 		this.removeInactive(activeKeys);
+		stats.cacheBuilds = this.cacheBuilds;
+		stats.sequenceReuses = this.sequenceReuses;
 		this.stats = stats;
-		this.previousEntries = entries.map(entry => entry.mesh);
+		this.previousToken = sequenceToken;
 		this.previousResult = { meshes, originals, stats };
 		return this.previousResult;
 	}
@@ -69,7 +75,8 @@ export class StaticOpaqueBatcher {
 			members[0].metadata
 		);
 		if (!mesh) return null;
-		this.cache.set(key, { token, mesh });
+		this.cacheBuilds += 1;
+		this.cache.set(key, { mesh, token });
 		return mesh;
 	}
 
@@ -78,14 +85,6 @@ export class StaticOpaqueBatcher {
 			if (!activeKeys.has(key)) this.cache.delete(key);
 		}
 	}
-}
-
-function sameEntrySequence(entries, previous) {
-	if (!previous || entries.length !== previous.length) return false;
-	for (let index = 0; index < entries.length; index += 1) {
-		if (entries[index].mesh !== previous[index]) return false;
-	}
-	return entries.length > 0;
 }
 
 function groupEntries(entries) {

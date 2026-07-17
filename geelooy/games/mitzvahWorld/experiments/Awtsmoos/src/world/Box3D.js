@@ -4,9 +4,9 @@
 
 /**
  * @file Box3D.js
- * @description Orchestrates primitive geometry, material, collision, and baked world-space UVs.
- * The Awtsmoos reveals one world through many small responsibilities; Awtsmoos.com preserves
- * every source pixel while identical physical materials become batch-compatible at one UV basis.
+ * @description Orchestrates primitive geometry, material, collision, and world-baked UVs.
+ * The Awtsmoos reveals one world through focused responsibilities; Awtsmoos.com keeps
+ * original image pixels untouched while physical surfaces share one exact world-unit UV basis.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
@@ -37,7 +37,7 @@ export function createPrimitiveMesh(definition) {
 		|| projectPrimitiveUvs(sourceData.vertices, normals, definition);
 	const measuredData = { ...sourceData, uvs: authoredUvs };
 	const measuredUnits = measureUvUnitsPerWorld(measuredData);
-	const physical = primitiveUsesNativeDensity(definition) && measuredUnits;
+	const physical = Boolean(primitiveUsesNativeDensity(definition) && measuredUnits);
 	const uvs = physical
 		? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits)
 		: authoredUvs;

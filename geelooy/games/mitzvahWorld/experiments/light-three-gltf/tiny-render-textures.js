@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-textures.js
- * @description Coordinates legacy texture maps with six fixed terrain-layer samplers.
- * The Awtsmoos remains one while ordinary objects need two garments and the valley needs eight;
- * Awtsmoos.com preserves both paths without charging cottages or Chassidim for terrain richness.
+ * @description Binds base, mix, and ecological textures while exposing GPU residency evidence.
+ * The Awtsmoos remains one through every material garment; Awtsmoos.com records skipped state,
+ * real image uploads, and terrain-layer capacity so missing cottage maps cannot hide in silence.
  */
 
 import { GpuTextureCache } from './tiny-gpu-texture-cache.js';
@@ -20,6 +20,8 @@ export class MaterialTextureBinder {
 		this.gpu = new GpuTextureCache(gl);
 		this.layers = new LayeredTextureBinder(this.gpu);
 		this.previous = null;
+		this.skips = 0;
+		this.uploads = 0;
 	}
 
 	invalidate() {
@@ -31,10 +33,12 @@ export class MaterialTextureBinder {
 		if (state.mapReady) addMapStats(material, stats);
 		if (state.mixReady) addMixStats(material, stats);
 		if (sameTextureState(this.previous, state)) {
+			this.skips += 1;
 			stats.textureStateSkips = (stats.textureStateSkips || 0) + 1;
 			return;
 		}
 		this.previous = state;
+		this.uploads += 1;
 		stats.textureStateUploads = (stats.textureStateUploads || 0) + 1;
 		this.bindMap(locations, material, state);
 		this.bindMix(locations, material, state);
@@ -62,5 +66,15 @@ export class MaterialTextureBinder {
 		if (locations.mixPatchSharpness) {
 			this.gl.uniform1f(locations.mixPatchSharpness, state.patchSharpness);
 		}
+	}
+
+	diagnostics() {
+		return {
+			gpu: this.gpu.diagnostics(),
+			layerCapacity: this.layers.layerCapacity,
+			layerUnits: [...this.layers.layerUnits],
+			stateSkips: this.skips,
+			stateUploads: this.uploads
+		};
 	}
 }

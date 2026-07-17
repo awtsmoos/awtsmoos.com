@@ -28,8 +28,8 @@ export class CheerfulReferenceAppearance {
 			browStyle: {
 				width: 20,
 				thickness: 4.2,
-				arch: 3.8,
-				verticalOffset: -1.5
+				arch: 4.2,
+				verticalOffset: -2
 			},
 			noseStyle: {
 				sizeScale: 1.08,
@@ -37,9 +37,9 @@ export class CheerfulReferenceAppearance {
 				lineWidth: 1.9
 			},
 			eyeStyle: {
-				radiusX: 10.4,
-				radiusY: 10.6,
-				spacingScale: 1.42,
+				radiusX: 10.8,
+				radiusY: 11,
+				spacingScale: 1.38,
 				separationRatio: 0.72,
 				pupilScale: 1.08,
 				pupilVertical: 0.4,
@@ -48,37 +48,40 @@ export class CheerfulReferenceAppearance {
 				verticalOffset: 1
 			},
 			mouthStyle: {
-				widthScale: 1.42,
-				heightScale: 1.28,
-				smileBias: 0.42,
-				minimumOpen: 0.56,
-				teeth: 0.9,
+				widthScale: 1.82,
+				heightScale: 1.55,
+				smileBias: 0.52,
+				minimumOpen: 0.78,
+				teeth: 0.94,
 				tongue: true,
-				lineWidth: 2.6,
-				verticalOffset: 0
+				lineWidth: 2.7,
+				verticalOffset: -1
 			},
 			beardGeometry: {
 				massStyle: 'continuous',
 				cheekScale: 0.9,
 				topOffset: 7,
-				mouthClearance: 14,
-				openingHeight: 12,
+				mouthVerticalOffset: -5,
+				mouthClearance: 15,
+				openingHeight: 13,
 				moustacheHalf: 12,
-				moustacheWidth: 4.6,
-				lengthScale: 0.5,
-				chinWidth: 27,
-				bottomRoundness: 1.3,
+				moustacheWidth: 4.4,
+				lengthScale: 0.24,
+				chinWidth: 28,
+				taper: 1.05,
+				bottomRoundness: 1.28,
 				lineWidth: 2.5,
 				strandOpacity: 0.06
 			},
 			payosGeometry: {
+				rootScaleX: 0.88,
 				rootOffsetX: -1,
 				rootOffsetY: 0,
-				amplitude: 13,
-				secondAmplitude: 10,
-				terminalCurl: 8,
-				lengthScale: 0.78,
-				lineWidth: 3.6
+				amplitude: 8,
+				secondAmplitude: 5,
+				terminalCurl: 6,
+				lengthScale: 0.72,
+				lineWidth: 3.2
 			},
 			headwear: {
 				type: 'kippah',

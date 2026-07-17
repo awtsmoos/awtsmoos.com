@@ -4,9 +4,9 @@
 
 /**
  * @file publicMaterialImageLoader.test.mjs
- * @description Proves blob decoding, direct fallback, typed evidence, and object URL cleanup.
- * The Awtsmoos reveals pixels through more than one finite doorway; Awtsmoos.com verifies a
- * transient fetch or decode failure cannot erase a canonical full-source texture permanently.
+ * @description Proves direct-first decoding, blob fallback, typed evidence, and cleanup.
+ * The Awtsmoos reveals cottage pixels through the fastest truthful doorway; Awtsmoos.com
+ * verifies fetch latency cannot delay visible stone while robust fallback remains available.
  */
 
 import assert from 'node:assert/strict';
@@ -16,10 +16,28 @@ import {
 	serializableImageRecord
 } from '../../assets/PublicMaterialImageLoader.js';
 
-test('fetches an image blob and decodes it through a revoked object URL', async () => {
+test('decodes the canonical URL directly before attempting a fetch', async () => {
+	let fetches = 0;
+	const record = await loadPublicMaterialImage('https://example.test/stone.jpg', 1000, {
+		ImageClass: successfulImageClass(),
+		fetchFunction: async () => {
+			fetches += 1;
+			return response('image/png');
+		},
+		now: tickingClock()
+	});
+	assert.equal(record.ok, true);
+	assert.equal(record.method, 'direct-image-url');
+	assert.equal(record.width, 2048);
+	assert.equal(record.height, 1024);
+	assert.equal(fetches, 0);
+	assert.deepEqual(record.attempts.map(item => item.stage), ['decoded']);
+});
+
+test('falls back to fetched blob decoding and revokes its object URL', async () => {
 	const revoked = [];
 	const record = await loadPublicMaterialImage('https://example.test/grass.png', 1000, {
-		ImageClass: successfulImageClass(),
+		ImageClass: directFailsBlobSucceedsImageClass(),
 		UrlApi: {
 			createObjectURL: () => 'blob:grass',
 			revokeObjectURL: value => revoked.push(value)
@@ -29,22 +47,12 @@ test('fetches an image blob and decodes it through a revoked object URL', async 
 	});
 	assert.equal(record.ok, true);
 	assert.equal(record.method, 'blob-object-url');
-	assert.equal(record.width, 2048);
-	assert.equal(record.height, 1024);
 	assert.deepEqual(revoked, ['blob:grass']);
-	assert.deepEqual(record.attempts.map(item => item.stage), ['fetched', 'decoded']);
-});
-
-test('uses the canonical URL directly when fetch is unavailable', async () => {
-	const record = await loadPublicMaterialImage('https://example.test/stone.jpg', 1000, {
-		ImageClass: successfulImageClass(),
-		fetchFunction: null,
-		now: tickingClock()
-	});
-	assert.equal(record.ok, true);
-	assert.equal(record.method, 'direct-image-url');
-	assert.equal(record.attempts[0].error, 'fetch-unavailable');
-	assert.equal(record.attempts.at(-1).ok, true);
+	assert.deepEqual(record.attempts.map(item => item.stage), [
+		'decode',
+		'fetched',
+		'decoded'
+	]);
 });
 
 test('serializable evidence preserves stage, status, method, and attempts', async () => {
@@ -55,9 +63,9 @@ test('serializable evidence preserves stage, status, method, and attempts', asyn
 	});
 	const evidence = serializableImageRecord(record);
 	assert.equal(evidence.ok, false);
-	assert.equal(evidence.stage, 'decode');
-	assert.equal(evidence.attempts[0].stage, 'content-type');
-	assert.equal(evidence.attempts.at(-1).method, 'direct-image-url');
+	assert.equal(evidence.stage, 'content-type');
+	assert.equal(evidence.attempts[0].method, 'direct-image-url');
+	assert.equal(evidence.attempts.at(-1).error, 'non-image-content-type');
 });
 
 function response(contentType) {
@@ -79,6 +87,20 @@ function successfulImageClass() {
 		set src(value) {
 			this.value = value;
 			queueMicrotask(() => this.onload?.());
+		}
+	};
+}
+
+function directFailsBlobSucceedsImageClass() {
+	return class FakeImage {
+		constructor() {
+			this.dataset = {};
+			this.naturalHeight = 1024;
+			this.naturalWidth = 2048;
+		}
+		set src(value) {
+			this.value = value;
+			queueMicrotask(() => value.startsWith('blob:') ? this.onload?.() : this.onerror?.());
 		}
 	};
 }

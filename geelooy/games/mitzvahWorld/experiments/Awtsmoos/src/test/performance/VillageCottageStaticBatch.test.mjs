@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageStaticBatch.test.mjs
- * @description Proves realistic cottage pairs remain exact, bounded, and batch-stable.
- * The Awtsmoos preserves every house while reducing only repeated declarations;
- * Awtsmoos.com tests real Firebase masonry and roofs without extra surface samplers.
+ * @description Proves realistic cottage pairs remain exact, hydratable, and batch-stable.
+ * The Awtsmoos preserves every house while reducing repeated declarations; Awtsmoos.com
+ * tests deployed masonry, slate, and timber sources without a blocked material consuming workers.
  */
 
 import assert from 'node:assert/strict';
@@ -25,7 +25,7 @@ test('cottage policy resolves the curated alpine Firebase material set exactly',
 	assert.equal(policy.roof, `${ORIGIN}/various/slate%20roof%20shingles.png`);
 	assert.equal(policy.mixRoof, `${ORIGIN}/full-resolution/tiled%20roof%202.png`);
 	assert.equal(policy.wood, `${ORIGIN}/various/Rough%20weathered%20oak%20wood%20planks.png`);
-	assert.equal(policy.mixWood, `${ORIGIN}/various/Silver-weathered%20timber.png`);
+	assert.equal(policy.mixWood, `${ORIGIN}/full-resolution/oak%20wood%203.png`);
 	assert.equal(policy.texturePolicy.samplersPerSurface, 2);
 	assert.equal(policy.texturePolicy.uniqueVillageUrlBudget, 6);
 });

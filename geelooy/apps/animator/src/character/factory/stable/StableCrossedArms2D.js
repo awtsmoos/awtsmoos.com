@@ -4,52 +4,103 @@
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { LineArtStyle } from '../../style/LineArtStyle.js';
+import { StableReferenceCrossedHands2D } from './StableReferenceCrossedHands2D.js';
+import { StableReferenceLimbPath2D } from './StableReferenceLimbPath2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Gevurah gathers Dovid's forearms into weight-bearing overlap rather than a thin
- * decorative X. The Awtsmoos renews both guarded hands, while Awtsmoos.com keeps
- * shoulder, elbow, wrist, expression, and timeline inside one editable character.
+ * Gevurah gathers Dovid's arms into weight-bearing overlap rather than a rigid X.
+ * The Awtsmoos renews sleeve, elbow, cuff, palm, and resting fingers, while
+ * Awtsmoos.com keeps the guarded pose editable in the shared production graph.
  */
 export class StableCrossedArms2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
 		const skeleton = data._skeleton;
-		const y = metrics.chestY + Number(gesture.wristDrop || 25);
-		const style = LineArtStyle.outer(data, colors.jacket);
+		const upperY = metrics.chestY + Number(gesture.upperWristDrop || 20);
+		const lowerY = metrics.chestY + Number(gesture.lowerWristDrop || 34);
 		const leftElbow = {
-			x: skeleton.leftShoulder.x - Number(gesture.elbowOut || 11),
-			y: skeleton.leftShoulder.y + Number(gesture.elbowDown || 43)
+			x: skeleton.leftShoulder.x - Number(gesture.elbowOut || 13),
+			y: skeleton.leftShoulder.y + Number(gesture.elbowDown || 42)
 		};
 		const rightElbow = {
-			x: skeleton.rightShoulder.x + Number(gesture.elbowOut || 11),
-			y: skeleton.rightShoulder.y + Number(gesture.elbowDown || 43)
+			x: skeleton.rightShoulder.x + Number(gesture.elbowOut || 13),
+			y: skeleton.rightShoulder.y + Number(gesture.elbowDown || 42)
 		};
-		const leftWrist = { x: Number(gesture.wristAcross || 28), y: y - 3 };
-		const rightWrist = { x: -Number(gesture.wristAcross || 28), y: y + 4 };
+		const leftWrist = {
+			x: Number(gesture.leftWristAcross || 30),
+			y: lowerY
+		};
+		const rightWrist = {
+			x: -Number(gesture.rightWristAcross || 31),
+			y: upperY
+		};
+		const sleeve = LineArtStyle.outer(data, colors.jacket);
+
 		return S.group(`${prefix}_crossed_arms`, null, [
-			this.arm(`${prefix}_crossed_left`, skeleton.leftShoulder, leftElbow, leftWrist, style, colors, 1),
-			this.arm(`${prefix}_crossed_right`, skeleton.rightShoulder, rightElbow, rightWrist, style, colors, -1)
+			this.arm(
+				`${prefix}_crossed_left`,
+				skeleton.leftShoulder,
+				leftElbow,
+				leftWrist,
+				sleeve,
+				colors,
+				1,
+				0.98
+			),
+			this.arm(
+				`${prefix}_crossed_right`,
+				skeleton.rightShoulder,
+				rightElbow,
+				rightWrist,
+				sleeve,
+				colors,
+				-1,
+				1.04
+			)
 		]);
 	}
 
-	static arm(id, shoulder, elbow, wrist, style, colors, side) {
+	static arm(id, shoulderSource, elbow, wrist, style, colors, side, handScale) {
+		const shoulder = { x: shoulderSource.x, y: shoulderSource.y + 7 };
 		return S.group(id, null, [
-			G.ellipse(`${id}_shoulder`, shoulder.x, shoulder.y + 7, 12, 10, 0, style),
-			S.tapered(`${id}_upper`, shoulder, elbow, 24, 20, style),
-			S.tapered(`${id}_fore`, elbow, wrist, 21, 16, style),
-			G.ellipse(`${id}_elbow`, elbow.x, elbow.y, 6, 4.2, 0, style),
-			G.ellipse(`${id}_cuff`, wrist.x - side * 4, wrist.y, 6.5, 4, side * 0.12, { fill: colors.jacketDark || colors.jacket, stroke: colors.line, lineWidth: 1.2 }),
-			this.restingHand(id, wrist, colors, side)
-		]);
-	}
-
-	static restingHand(id, wrist, colors, side) {
-		return S.group(`${id}_resting_hand`, null, [
-			G.ellipse(`${id}_palm`, wrist.x + side * 5, wrist.y + 1, 7.2, 5.2, side * 0.18, { fill: colors.skin, stroke: colors.line, lineWidth: 1.5 }),
-			G.path(`${id}_fingers`, [
-				{ type: 'move', x: wrist.x + side * 4, y: wrist.y - 3 },
-				{ type: 'quad', cx: wrist.x + side * 12, cy: wrist.y - 5, x: wrist.x + side * 16, y: wrist.y - 1 }
-			], { stroke: colors.skin, lineWidth: 4.2, lineCap: 'round' })
+			StableReferenceLimbPath2D.build(
+				`${id}_upper`,
+				shoulder,
+				elbow,
+				27,
+				22,
+				style,
+				side * -2
+			),
+			StableReferenceLimbPath2D.build(
+				`${id}_fore`,
+				elbow,
+				wrist,
+				22,
+				17,
+				style,
+				side * 3
+			),
+			G.ellipse(
+				`${id}_cuff`,
+				wrist.x - side * 3,
+				wrist.y,
+				7,
+				4.4,
+				side * 0.15,
+				{
+					fill: colors.jacketDark || colors.jacket,
+					stroke: colors.line,
+					lineWidth: 1.2
+				}
+			),
+			StableReferenceCrossedHands2D.build(
+				id,
+				wrist,
+				colors,
+				side,
+				handScale
+			)
 		]);
 	}
 }

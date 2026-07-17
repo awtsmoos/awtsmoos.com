@@ -4,12 +4,13 @@
 
 /**
  * @file tiny-static-batch-key.js
- * @description Builds tint-neutral spatial keys in broad, still-cullable valley cells.
- * The Awtsmoos joins nearby static vessels without fusing every horizon into one burden;
- * Awtsmoos.com keeps texture scale, culling, distance, alpha, and material mode exact.
+ * @description Builds spatial batch keys and hydration-sensitive refresh tokens.
+ * The Awtsmoos joins fixed forms without freezing an empty garment; Awtsmoos.com rebuilds
+ * a static village batch whenever real texture, tint, repeat, or shader-visible state arrives.
  */
 
 import {
+	materialSignature,
 	objectIdentity,
 	staticBatchMaterialSignature
 } from './tiny-material-signature.js';
@@ -20,25 +21,34 @@ const DISTANCE_BUCKET_SIZE = 64;
 
 export function staticBatchGroupKey(mesh, metadata) {
 	const center = worldBoundingSphere(mesh)?.center || [0, 0, 0];
-	const cellX = Math.round(center[0] / STATIC_CELL_SIZE);
-	const cellY = Math.round(center[1] / STATIC_CELL_SIZE);
-	const cellZ = Math.round(center[2] / STATIC_CELL_SIZE);
+	const cell = center.map(value => Math.round(value / STATIC_CELL_SIZE));
 	const distanceBucket = Math.ceil(
 		Math.max(0, Number(metadata.renderDistance) || 0) / DISTANCE_BUCKET_SIZE
 	) * DISTANCE_BUCKET_SIZE;
 	return [
 		STATIC_CELL_SIZE,
 		distanceBucket,
-		cellX,
-		cellY,
-		cellZ,
+		...cell,
 		staticBatchMaterialSignature(mesh)
 	].join('::');
 }
 
 export function staticBatchMembershipToken(entries) {
-	return entries.map(entry => {
-		const mesh = entry.mesh;
-		return `${objectIdentity(mesh)}@${objectIdentity(mesh.matrixWorld)}`;
-	}).join(',');
+	return entries.map(entry => entryToken(entry)).join(',');
+}
+
+export function staticBatchSequenceToken(entries) {
+	return entries.map(entry => [
+		entryToken(entry),
+		staticBatchGroupKey(entry.mesh, entry.metadata)
+	].join('#')).join(',');
+}
+
+function entryToken(entry) {
+	const mesh = entry.mesh;
+	return [
+		objectIdentity(mesh),
+		objectIdentity(mesh.matrixWorld),
+		materialSignature(mesh)
+	].join('@');
 }
