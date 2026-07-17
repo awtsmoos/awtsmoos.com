@@ -4,13 +4,17 @@
 
 /**
  * @file VillageBoxBatch.js
- * @description Merges many oriented village boxes into one indexed material definition.
- * The Awtsmoos renews many panes and posts inside one renderer vessel; Awtsmoos.com
- * preserves visible density while refusing one draw definition for every small detail.
+ * @description Merges oriented village boxes while preserving measured physical texture scale.
+ * The Awtsmoos gathers posts, panes, stones, and beams into one renderer vessel; Awtsmoos.com
+ * repeats untouched source pixels according to each face's real dimensions, never stretched art.
  */
 
+const DEFAULT_TILE_WORLD = 4;
+const DEFAULT_TEXELS_PER_WORLD = 96;
+
 export function createVillageBoxBatch(id, boxes, options) {
-	const geometry = batchGeometry(boxes, options.texturePolicy?.tileWorld);
+	const tileWorld = positive(options.texturePolicy?.tileWorld, DEFAULT_TILE_WORLD);
+	const geometry = batchGeometry(boxes, tileWorld);
 	return {
 		...geometry,
 		color: options.color,
@@ -22,7 +26,10 @@ export function createVillageBoxBatch(id, boxes, options) {
 		solid: false,
 		texturePolicy: {
 			batchedVillageDetail: true,
+			nativeTexelDensity: true,
 			publicFirebase: true,
+			texelsPerWorld: DEFAULT_TEXELS_PER_WORLD,
+			tileWorld,
 			...(options.texturePolicy || {})
 		},
 		textureUrl: options.textureUrl,
@@ -42,13 +49,12 @@ function batchGeometry(boxes, tileWorld) {
 	return { indices, uvs, vertices };
 }
 
-function appendBox(vertices, uvs, indices, box, tileWorld) {
+function appendBox(vertices, uvs, indices, box, tile) {
 	const half = {
 		x: box.size.x / 2,
 		y: box.size.y / 2,
 		z: box.size.z / 2
 	};
-	const tile = Math.max(0.25, tileWorld || 4);
 	appendFace(vertices, uvs, indices, box, [
 		[-half.x, -half.y, half.z], [half.x, -half.y, half.z],
 		[half.x, half.y, half.z], [-half.x, half.y, half.z]
@@ -82,10 +88,7 @@ function appendFace(vertices, uvs, indices, box, corners, uSpan, vSpan) {
 		vertices.push(worldPoint(corners[index], box));
 		uvs.push(...faceUvs[index]);
 	}
-	indices.push(
-		first, first + 1, first + 2,
-		first, first + 2, first + 3
-	);
+	indices.push(first, first + 1, first + 2, first, first + 2, first + 3);
 }
 
 function worldPoint(corner, box) {
@@ -97,4 +100,9 @@ function worldPoint(corner, box) {
 		box.position.y + corner[1],
 		box.position.z - corner[0] * sine + corner[2] * cosine
 	];
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
 }

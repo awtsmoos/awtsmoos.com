@@ -4,33 +4,41 @@
 
 /**
  * @file VillageSignCatalog.js
- * @description Declares four immutable boards carrying nine bilingual destinations.
- * The Awtsmoos renews every path before the traveler chooses it; Awtsmoos.com
- * gathers English and Hebrew into small wooden keilim that keep the valley legible.
+ * @description Places bilingual wayfinding boards along the canonical curved road network.
+ * The Awtsmoos precedes every direction while granting a traveler a real choice; Awtsmoos.com
+ * puts the first timber sign in the flowered foreground without covering bridge, water, or Shul.
  */
 
+import { VILLAGE_ARRIVAL_SIGN } from './VillageArrivalContract.js';
+
 export const VILLAGE_SIGN_GROUPS = Object.freeze([
-	signGroup('forest', -21, 1, 0.25, [
+	signGroup(
+		'arrival',
+		VILLAGE_ARRIVAL_SIGN.x,
+		VILLAGE_ARRIVAL_SIGN.z,
+		VILLAGE_ARRIVAL_SIGN.yaw,
+		[
+			destination('shul', 'Shul', 'בית כנסת'),
+			destination('market', 'Market', 'שוק'),
+			destination('beis-chabad', 'Beis Chabad', 'בית חב״ד'),
+			destination('lake', 'Lake', 'אגם')
+		]
+	),
+	signGroup('bridge', 8, 15, -0.18, [
+		destination('river', 'River', 'נהר'),
+		destination('waterfall', 'Waterfall', 'מפל')
+	]),
+	signGroup('upper-village', -16, -18, 0.58, [
+		destination('homes', 'Upper Homes', 'בתי ההר'),
 		destination('forest', 'Forest', 'יער')
 	]),
-	signGroup('waterside', -15, -8, -0.2, [
-		destination('lake', 'Lake', 'אגם'),
-		destination('river', 'River', 'נהר'),
-		destination('gardens', 'Gardens', 'גנים')
-	]),
-	signGroup('village-heart', 15, -5, 0.7, [
-		destination('shul', 'Shul', 'בית כנסת'),
-		destination('market', 'Market', 'שוק'),
-		destination('beis-chabad', 'Beis Chabad', 'בית חב״ד')
-	]),
-	signGroup('mitzvah-work', -8, 13, -0.75, [
-		destination('workshop', 'Workshop', 'בית מלאכה'),
-		destination('mitzvah-missions', 'Mitzvah Missions', 'משימות מצווה')
+	signGroup('portal-route', 39, -20, -0.62, [
+		destination('portal', 'Portal', 'שער')
 	])
 ]);
 
 export const VILLAGE_DESTINATIONS = Object.freeze(
-	VILLAGE_SIGN_GROUPS.flatMap((group) => group.destinations)
+	VILLAGE_SIGN_GROUPS.flatMap(group => group.destinations)
 );
 
 function signGroup(id, x, z, yaw, destinations) {

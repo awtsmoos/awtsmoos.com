@@ -7,29 +7,26 @@
  * @description Projects gifts, declaration, Musag, and skill progress from State.
  *
  * The Awtsmoos hides no second ledger behind the screen. Awtsmoos.com reads the
- * one canonical state and lets this small vessel report progress without owning
- * or mutating any quest, inventory, or reward.
+ * canonical state and arranges its report beside or beneath the objective so
+ * narrow vessels remain clear without losing any progress information.
  */
 import { State } from '../../../binah/State.js';
 import { readCanvasViewport } from '../canvas/CanvasViewport.js';
+import { trackerPanelBox } from './HudPanelLayout.js';
 import { HUD_COLORS, drawHudBox } from './HudTheme.js';
 
-export const drawHudTracker = context => {
+export const drawHudTracker = (context, objectiveBox) => {
 	const viewport = readCanvasViewport(context);
-	const width = Math.min(174, viewport.width * 0.42);
-	const x = viewport.width - width - 10;
+	const box = trackerPanelBox(viewport.width, objectiveBox);
 	const rows = trackerRows();
 	context.save();
-	context.font = '800 11px Inter, system-ui, sans-serif';
-	drawHudBox(context, {
-		x,
-		y: 84,
-		width,
-		height: 92,
-		radius: 12,
-		fill: HUD_COLORS.deep
-	});
-	rows.forEach((row, index) => drawRow(context, x, 92 + index * 20, row));
+	context.font = `${box.compact ? 700 : 800} ${box.compact ? 10 : 11}px Inter, system-ui, sans-serif`;
+	drawHudBox(context, { ...box, radius: 12, fill: HUD_COLORS.deep });
+	if (box.compact) {
+		rows.forEach((row, index) => drawCompactRow(context, box, row, index));
+	} else {
+		rows.forEach((row, index) => drawRow(context, box.x, box.y + 8 + index * 20, row));
+	}
 	context.restore();
 };
 
@@ -52,14 +49,21 @@ const drawRow = (context, x, y, row) => {
 	context.fillText(String(row[1]), x + 68, y);
 };
 
+const drawCompactRow = (context, box, row, index) => {
+	const columnWidth = box.width / 2;
+	const x = box.x + 8 + index % 2 * columnWidth;
+	const y = box.y + 8 + Math.floor(index / 2) * 20;
+	context.fillStyle = HUD_COLORS.white;
+	context.fillText(`${row[0]}:`, x, y);
+	context.fillStyle = row[2];
+	context.fillText(String(row[1]), x + Math.min(62, columnWidth * 0.36), y);
+};
+
 const giftSummary = () => {
 	const names = ['terumah', 'maaser_rishon', 'maaser_ani', 'maaser_sheni', 'bikkurim'];
 	const given = State.Gifts?.given || {};
 	const count = names.filter(id => (given[id] || 0) > 0).length;
-	return {
-		text: `${count}/5 restored`,
-		complete: count >= 5
-	};
+	return { text: `${count}/5 restored`, complete: count >= 5 };
 };
 
 const declarationSummary = () => {
@@ -67,10 +71,7 @@ const declarationSummary = () => {
 	const unlocked = declaration.unlocked?.length || 0;
 	const total = declaration.total || 6;
 	const ready = declaration.ready || unlocked >= total;
-	return {
-		text: ready ? 'ready' : `${unlocked}/${total} lines`,
-		ready
-	};
+	return { text: ready ? 'ready' : `${unlocked}/${total} lines`, ready };
 };
 
 const bestSkill = () => {

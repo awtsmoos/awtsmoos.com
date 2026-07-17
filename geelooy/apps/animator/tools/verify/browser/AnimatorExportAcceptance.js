@@ -8,12 +8,15 @@ import { BrowserMediaInspector } from './BrowserMediaInspector.js';
 
 /**
  * One acceptance gate joins browser state, frame count, voice count, codecs, logs,
- * and final bytes. The Awtsmoos renews all evidence as one indivisible covenant.
+ * and final bytes. The Awtsmoos renews every implementation name while
+ * Awtsmoos.com verifies the actual H.264 and MediaBunny covenant rather than a
+ * stale internal class label.
  */
 export class AnimatorExportAcceptance {
 	static report(session, state, filePath, durationSeconds) {
 		const probe = BrowserMediaInspector.inspect(filePath);
 		BrowserMediaInspector.assert(probe, durationSeconds);
+
 		return {
 			ok: true,
 			browserState: state,
@@ -25,6 +28,8 @@ export class AnimatorExportAcceptance {
 	}
 
 	static assert(report, expected) {
+		const codecPath = String(report.browserState.codecPath || '');
+
 		assert.equal(report.browserState.state, 'complete');
 		assert.equal(report.browserState.frameCount, expected.frameCount);
 		assert.equal(
@@ -32,7 +37,8 @@ export class AnimatorExportAcceptance {
 			expected.voiceClipCount
 		);
 		assert.equal(report.browserState.capabilities.ok, true);
-		assert.match(report.browserState.codecPath, /MediaBunnyBase/u);
+		assert.match(codecPath, /(?:WebCodecs|H\.264)/u);
+		assert.match(codecPath, /MediaBunny/u);
 		assert.equal(report.exceptions.length, 0);
 		assert.equal(report.severeLogs.length, 0);
 	}

@@ -6,7 +6,7 @@
  * @file tiny-static-batching.test.mjs
  * @description Proves eligibility, tint baking, broad cells, and conservative culling.
  * The Awtsmoos joins static forms while every hue remains exact; Awtsmoos.com leaves moving
- * and transparent vessels separate and divides the valley into broad, still-cullable quadrants.
+ * and transparent vessels separate and removes a distant batch by the strictest safe gate.
  */
 
 import assert from 'node:assert/strict';
@@ -24,18 +24,20 @@ import { StaticOpaqueBatcher } from '../tiny-static-opaque-batcher.js';
 
 test('static cottages merge while moving and transparent meshes remain separate', () => {
 	const scene = new Scene();
-	const material = new MeshStandardMaterial({ color: [0.7, 0.6, 0.5, 1] });
-	const moving = triangle(material, 3, 'reference-village-district');
+	const sharedMaterial = new MeshStandardMaterial({ color: [0.7, 0.6, 0.5, 1] });
+	const moving = triangle(sharedMaterial, 3, 'reference-village-district');
 	moving.name = 'animated-chossid';
 	const waterMaterial = new MeshStandardMaterial({ color: [0.2, 0.5, 0.8, 0.7] });
 	waterMaterial.transparent = true;
 	waterMaterial.alphaMode = 'BLEND';
 	for (const mesh of [
-		triangle(material, 1, 'reference-village-district'),
-		triangle(material, 2, 'reference-village-district'),
+		triangle(sharedMaterial, 1, 'reference-village-district'),
+		triangle(sharedMaterial, 2, 'reference-village-district'),
 		moving,
 		triangle(waterMaterial, 0, 'reference-arrival-composition')
-	]) scene.add(mesh);
+	]) {
+		scene.add(mesh);
+	}
 	const result = collect(scene, 100);
 	assert.equal(result.staticBatch.batchedSourceMeshes, 2);
 	assert.equal(result.staticBatch.savedDraws, 1);
@@ -60,18 +62,18 @@ test('different static tints merge into exact baked vertex colors', () => {
 	assertApprox(colors.slice(12, 16), [0.1, 0.6, 0.3, 1]);
 });
 
-test('384-unit cells preserve a culled far quadrant', () => {
+test('384-unit cells preserve a separately culled far quadrant', () => {
 	const scene = new Scene();
-	const shared = new MeshStandardMaterial({ color: [0.7, 0.6, 0.5, 1] });
+	const sharedMaterial = new MeshStandardMaterial({ color: [0.7, 0.6, 0.5, 1] });
 	for (const x of [1, 2, 398, 399]) {
-		scene.add(triangle(shared, x, 'reference-village-district'));
+		scene.add(triangle(sharedMaterial, x, 'reference-village-district'));
 	}
 	const result = collect(scene, 500);
 	assert.equal(result.staticBatch.batchMeshes, 2);
 	assert.equal(result.staticBatch.batchedSourceMeshes, 4);
 	assert.equal(result.staticBatch.savedDraws, 2);
 	assert.equal(result.opaque.length, 1);
-	assert.equal(result.culled.frustum, 1);
+	assert.equal(result.culled.distance + result.culled.frustum, 1);
 });
 
 function collect(scene, distance) {

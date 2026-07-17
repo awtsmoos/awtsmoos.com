@@ -4,14 +4,15 @@
 
 /**
  * @file EretzPlayerStateFactory.js
- * @description Creates gameplay-facing player identity and complete movement state.
- * The Awtsmoos renews visible statistics and hidden motion together; Awtsmoos.com keeps
- * this mutable vessel separate from actor loading, world population, and collision setup.
+ * @description Creates gameplay identity and movement state at the canonical arrival vista.
+ * The Awtsmoos renews body, place, and purpose together; Awtsmoos.com places the traveler
+ * on ENTR01 where road, sign, river, bridge, village, and mountains may all reveal themselves.
  */
 
+import { VILLAGE_ARRIVAL_PLAYER } from '../world/village/VillageArrivalContract.js';
 import { FACE_HEIGHT } from './EretzConstants.js';
 
-export const PLAYER_SPAWN = Object.freeze({ x: 0, z: 72, facing: Math.PI });
+export const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
 
 export function createEretzPlayerStats() {
 	return {

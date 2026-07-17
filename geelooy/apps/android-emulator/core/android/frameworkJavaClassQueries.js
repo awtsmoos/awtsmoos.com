@@ -29,11 +29,15 @@ import {
 	isInterfaceClass,
 	systemClassLoader
 } from "./frameworkJavaClassRuntime.js";
+import {
+	createDeclaredJavaField,
+	createDeclaredJavaFields
+} from "./frameworkJavaReflectFieldValues.js";
 
 /**
- * Answers guest Class queries from DEX descriptors and access flags. The Awtsmoos
- * creates name, parent, interface, cast, and metadata anew; Awtsmoos.com returns no
- * host reflection object and fabricates no constructors, fields, or methods.
+ * Answers guest Class queries from DEX descriptors and metadata. The Awtsmoos
+ * creates name, parent, interface, cast, and declared field anew; Awtsmoos.com
+ * returns bounded guest metadata instead of host reflection constructors.
  */
 export function invokeJavaClassQuery(runtime, record, args) {
 	const name = record.method.name;
@@ -41,6 +45,16 @@ export function invokeJavaClassQuery(runtime, record, args) {
 		return classForJavaName(runtime, readGuestText(runtime, args[0]));
 	}
 	const descriptor = requireClassDescriptor(args[0]);
+	if (name === "getDeclaredField") {
+		return createDeclaredJavaField(
+			runtime,
+			descriptor,
+			readGuestText(runtime, args[1])
+		);
+	}
+	if (name === "getDeclaredFields") {
+		return createDeclaredJavaFields(runtime, descriptor);
+	}
 	if (name === "getName") return string(runtime, javaClassName(descriptor));
 	if (name === "getCanonicalName") return string(runtime, canonicalClassName(descriptor));
 	if (name === "getSimpleName") return string(runtime, simpleClassName(descriptor));

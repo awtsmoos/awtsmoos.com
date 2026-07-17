@@ -4,20 +4,27 @@
 
 /**
  * @file tiny-texture-state.js
- * @description Captures base, secondary, and ordered terrain texture state.
- * The Awtsmoos renews one garment through many revealed layers; Awtsmoos.com skips a GPU
- * declaration only when every base image, stacked mix image, repeat, and strength is unchanged.
+ * @description Captures image identity and dimension-derived base and mix repeat state.
+ * The Awtsmoos renews each garment without resizing its pixels; Awtsmoos.com recalculates
+ * exact physical repetition when hydration reveals the original source dimensions.
  */
 
-import {
-	layeredTextureState,
-	sameLayeredTextureState
-} from './tiny-layered-texture-state.js';
+import { layeredTextureState, sameLayeredTextureState } from './tiny-layered-texture-state.js';
+import { resolveNativeTextureRepeat } from './tiny-native-texture-density.js';
 import { sourceReady } from './tiny-texture-source.js';
 
 export function textureState(material = {}) {
-	const mapRepeat = material.mapRepeat || [1, 1];
-	const mixRepeat = material.mixRepeat || [1, 1];
+	const mapRepeat = resolveNativeTextureRepeat(
+		material.mapImage,
+		material.mapRepeat || [1, 1],
+		material.texturePolicy
+	);
+	const mixRepeat = resolveNativeTextureRepeat(
+		material.mixImage,
+		material.mixRepeat || [1, 1],
+		material.texturePolicy,
+		material.mixTexturePolicy
+	);
 	return {
 		layers: layeredTextureState(material),
 		mapImage: material.mapImage || null,

@@ -5,12 +5,12 @@
 /**
  * @file HorseGroundProfile.js
  * @description Samples one immutable cyclic terrain profile for a fixed elliptical horse route.
- * The Awtsmoos renews earth beneath every hoof; Awtsmoos.com gathers sixty-four faithful
- * witnesses once so continuous animal motion no longer repeats an expensive terrain search.
+ * The Awtsmoos renews earth beneath every hoof; Awtsmoos.com gathers a dense ring of witnesses
+ * once, then uses smooth cyclic interpolation without repeating terrain work during animation.
  */
 
 const TWO_PI = Math.PI * 2;
-export const HORSE_GROUND_SAMPLE_COUNT = 64;
+export const HORSE_GROUND_SAMPLE_COUNT = 2048;
 
 export class HorseGroundProfile {
 	constructor(ground, route, options = {}) {
@@ -28,18 +28,21 @@ export class HorseGroundProfile {
 	}
 
 	heightAt(angle) {
-		const normalized = normalizeAngle(angle);
-		const scaled = normalized / TWO_PI * this.sampleCount;
-		const lowerIndex = Math.floor(scaled) % this.sampleCount;
-		const upperIndex = (lowerIndex + 1) % this.sampleCount;
-		const blend = scaled - Math.floor(scaled);
-		const lower = this.heights[lowerIndex];
-		return lower + (this.heights[upperIndex] - lower) * blend;
+		const scaled = normalizeAngle(angle) / TWO_PI * this.sampleCount;
+		const base = Math.floor(scaled);
+		const amount = scaled - base;
+		return cyclicCatmullRom(
+			this.heights[wrap(base - 1, this.sampleCount)],
+			this.heights[wrap(base, this.sampleCount)],
+			this.heights[wrap(base + 1, this.sampleCount)],
+			this.heights[wrap(base + 2, this.sampleCount)],
+			amount
+		);
 	}
 
 	stats() {
 		return {
-			interpolation: 'cyclic-linear-no-overshoot',
+			interpolation: 'cyclic-catmull-rom',
 			maximumAdjacentDelta: this.maximumAdjacentDelta,
 			maximumHeight: this.maximumHeight,
 			minimumHeight: this.minimumHeight,
@@ -66,15 +69,32 @@ export class HorseGroundProfile {
 	measureAdjacentDelta() {
 		for (let index = 0; index < this.sampleCount; index += 1) {
 			const next = (index + 1) % this.sampleCount;
-			const delta = Math.abs(this.heights[next] - this.heights[index]);
-			this.maximumAdjacentDelta = Math.max(this.maximumAdjacentDelta, delta);
+			this.maximumAdjacentDelta = Math.max(
+				this.maximumAdjacentDelta,
+				Math.abs(this.heights[next] - this.heights[index])
+			);
 		}
 	}
+}
+
+function cyclicCatmullRom(a, b, c, d, amount) {
+	const squared = amount * amount;
+	const cubed = squared * amount;
+	return 0.5 * (
+		2 * b
+		+ (-a + c) * amount
+		+ (2 * a - 5 * b + 4 * c - d) * squared
+		+ (-a + 3 * b - 3 * c + d) * cubed
+	);
 }
 
 function normalizeAngle(angle) {
 	const finite = Number.isFinite(Number(angle)) ? Number(angle) : 0;
 	return ((finite % TWO_PI) + TWO_PI) % TWO_PI;
+}
+
+function wrap(index, count) {
+	return ((index % count) + count) % count;
 }
 
 function validatedSampleCount(value) {
@@ -86,9 +106,7 @@ function validatedSampleCount(value) {
 }
 
 function finiteGroundHeight(sample) {
-	const value = Number.isFinite(Number(sample))
-		? Number(sample)
-		: Number(sample?.y);
+	const value = Number.isFinite(Number(sample)) ? Number(sample) : Number(sample?.y);
 	if (!Number.isFinite(value)) {
 		throw new Error('Horse ground profile requires a finite terrain height.');
 	}

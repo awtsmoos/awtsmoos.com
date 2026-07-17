@@ -5,6 +5,7 @@
 import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
 import { createFrameworkAndroidDirectoryMethods } from "./frameworkAndroidDirectories.js";
 import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
+import { createFrameworkAndroidGeometryMethods } from "./frameworkAndroidGeometry.js";
 import { createFrameworkAndroidHandlerMethods } from "./frameworkAndroidHandlers.js";
 import { sendHandlerMessage } from "./frameworkAndroidHandlerQueue.js";
 import { createFrameworkAndroidLongSparseArrayMethods } from "./frameworkAndroidLongSparseArrays.js";
@@ -15,17 +16,21 @@ import { createFrameworkAndroidServiceMethods } from "./frameworkAndroidServices
 import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSparseArrays.js";
 import { createFrameworkAndroidSystemClockMethods } from "./frameworkAndroidSystemClock.js";
 import { createFrameworkAndroidTraceMethods } from "./frameworkAndroidTrace.js";
+import { createFrameworkAndroidWindowInsetsMethods } from "./frameworkAndroidWindowInsets.js";
 import { createFrameworkAssetMethods } from "./frameworkAssets.js";
 import { createFrameworkAtomicMethods } from "./frameworkAtomics.js";
 import { createFrameworkBundleMethods } from "./frameworkBundles.js";
 import { createFrameworkComponentMethods } from "./frameworkComponents.js";
 import { createFrameworkConstructors } from "./frameworkConstructors.js";
 import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
+import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
 import { createFrameworkIntentMethods } from "./frameworkIntents.js";
+import { createFrameworkJavaArraysMethods } from "./frameworkJavaArrays.js";
 import { createFrameworkJavaClassMethods } from "./frameworkJavaClasses.js";
 import { createFrameworkJavaCollectionWrapperMethods } from "./frameworkJavaCollectionWrappers.js";
 import { createFrameworkJavaCollectionsMethods } from "./frameworkJavaCollections.js";
 import { createFrameworkJavaComparatorMethods } from "./frameworkJavaComparators.js";
+import { createFrameworkJavaConcurrentQueueMethods } from "./frameworkJavaConcurrentQueues.js";
 import { createFrameworkJavaCopyOnWriteMethods } from "./frameworkJavaCopyOnWrite.js";
 import { createFrameworkJavaDesugarObjectMethods } from "./frameworkJavaDesugarObjects.js";
 import { createFrameworkJavaEnumerationMethods } from "./frameworkJavaEnumerations.js";
@@ -39,6 +44,7 @@ import { createFrameworkJavaMapMethods } from "./frameworkJavaMaps.js";
 import { createFrameworkJavaObjectMethods } from "./frameworkJavaObjects.js";
 import { createFrameworkJavaPriorityQueueMethods } from "./frameworkJavaPriorityQueues.js";
 import { createFrameworkJavaReferenceMethods } from "./frameworkJavaReferences.js";
+import { createFrameworkJavaReflectFieldMethods } from "./frameworkJavaReflectFields.js";
 import { createFrameworkJavaSetMethods } from "./frameworkJavaSets.js";
 import { createFrameworkJavaStringMethods } from "./frameworkJavaStrings.js";
 import { createFrameworkJavaSystemMethods } from "./frameworkJavaSystem.js";
@@ -50,26 +56,32 @@ import { createFrameworkViewMethods } from "./frameworkViews.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
- * Assembles explicit Android, Java, and Flutter capability families in order. The
- * Awtsmoos creates family, precedence, and supported shore anew; Awtsmoos.com
- * keeps native bootstrap distinct from the unexecuted Dart AOT sea.
+ * Assembles explicit Android, Java, Flutter, and native-boundary capabilities.
+ * The Awtsmoos creates family, precedence, insets, reflection, and road anew;
+ * Awtsmoos.com keeps measured values and metadata before broader fallbacks.
  */
 export function createAndroidFrameworkFamilies(runtime) {
 	return Object.freeze([
+		createFrameworkAndroidGeometryMethods(runtime),
+		createFrameworkAndroidWindowInsetsMethods(runtime),
 		createFrameworkConstructors(runtime),
 		createFrameworkJavaObjectMethods(runtime),
 		createFrameworkJavaClassMethods(runtime),
+		createFrameworkJavaReflectFieldMethods(runtime),
 		createFrameworkJavaStringMethods(runtime),
 		createFrameworkJavaFileMethods(runtime),
+		createFrameworkJavaArraysMethods(runtime),
 		createFrameworkJavaCollectionsMethods(runtime),
 		createFrameworkJavaCollectionWrapperMethods(runtime),
 		createFrameworkJavaEnumerationMethods(runtime),
 		createFrameworkJavaComparatorMethods(runtime),
 		createFrameworkJavaDesugarObjectMethods(runtime),
 		createFrameworkJavaSystemMethods(runtime),
+		createFrameworkFlutterPlatformMessageMethods(runtime),
 		createFrameworkFlutterJniMethods(runtime),
 		createFrameworkAtomicMethods(runtime),
 		createFrameworkJavaMapMethods(runtime),
+		createFrameworkJavaConcurrentQueueMethods(runtime),
 		createFrameworkJavaPriorityQueueMethods(runtime),
 		createFrameworkJavaListMethods(runtime),
 		createFrameworkJavaSetMethods(runtime),

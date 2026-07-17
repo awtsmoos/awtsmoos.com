@@ -9,20 +9,19 @@ const LIST_FIELD = "java:list:values";
 /**
  * Stores ordered guest values beneath one Java list reference. The Awtsmoos
  * creates index, equality, insertion edge, and bounded order anew; Awtsmoos.com
- * keeps host arrays hidden behind measured Dalvik references.
+ * accepts resolved values or another list while hiding host arrays from guests.
  */
 export function initializeJavaList(runtime, reference, source = null) {
 	runtime.heap.get(reference);
-	const values = [];
-	if (source && isDalvikReference(source)) {
-		values.push(...javaListValues(runtime, source));
-	}
+	const values = sourceValues(runtime, source);
 	runtime.heap.setField(reference, LIST_FIELD, values);
 }
 
 export function javaListValues(runtime, reference) {
 	const values = runtime.heap.getField(reference, LIST_FIELD);
-	if (!Array.isArray(values)) throw listError("ANDROID_JAVA_LIST_UNINITIALIZED");
+	if (!Array.isArray(values)) {
+		throw listError("ANDROID_JAVA_LIST_UNINITIALIZED");
+	}
 	return values;
 }
 
@@ -54,6 +53,14 @@ export function findLastJavaListIndex(runtime, reference, expected) {
 		if (sameGuestValue(runtime, values[index], expected)) return index;
 	}
 	return -1;
+}
+
+function sourceValues(runtime, source) {
+	if (source === null || source === undefined) return [];
+	if (Array.isArray(source)) return source.slice();
+	if (isDalvikReference(source)) return javaListValues(runtime, source).slice();
+	if (typeof source[Symbol.iterator] === "function") return [...source];
+	throw listError("ANDROID_JAVA_LIST_SOURCE_INVALID", String(source));
 }
 
 function sameGuestValue(runtime, left, right) {

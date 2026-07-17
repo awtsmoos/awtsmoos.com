@@ -2,8 +2,9 @@
 Boruch Hashem
 Blessed is He
 
-MediaBunny names the track abstractly as AVC; WebCodecs receives a full codec
-string. The Awtsmoos renews both names without confusing packet type and encoder.
+MediaBunny names the track abstractly as AVC while WebCodecs receives a complete
+profile and level. The Awtsmoos renews small and HD vessels alike, and
+Awtsmoos.com accepts only configurations the browser itself confirms.
 */
 self.AnimatorVideo = self.AnimatorVideo || {};
 
@@ -19,6 +20,7 @@ AnimatorVideo.createDirectEncoder = async function createDirectEncoder(session) 
 			session.encoderError ||= error;
 		}
 	});
+
 	encoder.configure(support.config);
 	session.webCodec = support.config.codec;
 	return encoder;
@@ -28,13 +30,8 @@ AnimatorVideo.directEncoderSupport = async function directEncoderSupport(session
 	const { width, height } = session.config.resolution;
 	const fps = session.config.outputFormat.fps;
 	const bitrate = AnimatorVideo.directBitrate(session.config.outputFormat);
-	const candidates = [
-		'avc1.42001f',
-		'avc1.42001e',
-		'avc1.4d401e',
-		'avc1.64001e'
-	];
-	for (const codec of candidates) {
+
+	for (const codec of AnimatorVideo.directCodecCandidates(width, height)) {
 		const requested = {
 			codec,
 			width,
@@ -50,16 +47,43 @@ AnimatorVideo.directEncoderSupport = async function directEncoderSupport(session
 			return support;
 		}
 	}
-	throw new Error('No direct H.264 WebCodecs configuration is supported.');
+
+	throw new Error(
+		`No direct H.264 WebCodecs configuration is supported for ${width}x${height} at ${fps} fps.`
+	);
+};
+
+AnimatorVideo.directCodecCandidates = function directCodecCandidates(width, height) {
+	const hd = width > 1280 || height > 720;
+	const higherLevels = hd
+		? [
+			'avc1.420029',
+			'avc1.4d4029',
+			'avc1.640029',
+			'avc1.420028',
+			'avc1.4d4028',
+			'avc1.640028'
+		]
+		: [];
+
+	return [
+		...higherLevels,
+		'avc1.42001f',
+		'avc1.42001e',
+		'avc1.4d401e',
+		'avc1.64001e'
+	];
 };
 
 AnimatorVideo.directBitrate = function directBitrate(outputFormat) {
 	if (Number.isFinite(outputFormat.bitrate)) {
 		return outputFormat.bitrate;
 	}
+
 	const quality = Number.isFinite(outputFormat.quality)
 		? outputFormat.quality
 		: 0.72;
+
 	return Math.round(
 		Math.max(900000, Math.min(4500000, quality * 4800000))
 	);

@@ -3,48 +3,47 @@
 // Blessed is He
 
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
+import { StableReferenceBeardLayer2D } from '../StableReferenceBeardLayer2D.js';
 import { StableShapeKit as S } from '../StableShapeKit.js';
 import { EyeRenderer } from './EyeRenderer.js';
 import { MouthRenderer } from './MouthRenderer.js';
 import { NoseRenderer } from './NoseRenderer.js';
 import { StableBrowRenderer } from './StableBrowRenderer.js';
 import { StableFaceShape2D } from './StableFaceShape2D.js';
+import { StableReferenceEars2D } from './StableReferenceEars2D.js';
 
 /**
- * The Awtsmoos renews a frontal face as a living arrangement of measured cheeks,
- * eyes, brows, nose, and mouth. Awtsmoos.com preserves expression and likeness
- * through the same rig and performance state instead of a fixed illustration.
+ * The Awtsmoos arranges face, ear, eye, brow, nose, beard, and speaking mouth in
+ * truthful depth. Awtsmoos.com keeps the beard beneath speech while every feature
+ * remains driven by the same editable rig and production performance state.
  */
 export class FaceFrontRenderer {
-	static build(kind, data, colors, metrics, view, beard) {
+	static build(kind, data, colors, metrics, view, legacyBeard) {
 		const mood = this.mood(data);
 		const blink = this.blink(data);
+		const authoredBeard = StableReferenceBeardLayer2D.build(
+			data,
+			colors,
+			metrics,
+			view
+		);
+
 		return S.group(`${kind}_face_front`, {
 			x: view.head.offsetX,
 			scaleX: view.head.scaleX
 		}, [
 			StableFaceShape2D.build(kind, data, colors, metrics, view),
-			...this.ears(kind, data, colors, metrics),
+			...StableReferenceEars2D.build(kind, data, colors, metrics, view),
 			...EyeRenderer.build(kind, colors, metrics, view, mood, blink, data),
 			...StableBrowRenderer.build(kind, data, colors, metrics, view, mood),
 			NoseRenderer.build(kind, colors, metrics, view, data),
 			this.cheeks(kind, data, colors, metrics, mood),
+			authoredBeard,
 			MouthRenderer.build(kind, data, colors, metrics, view, mood),
-			beard ? this.beard(kind, colors, metrics) : null
+			legacyBeard && !authoredBeard
+				? this.legacyBeard(kind, colors, metrics)
+				: null
 		]);
-	}
-
-	static ears(kind, data, colors, metrics) {
-		const scale = Number(data.faceStyle?.earScale || 1);
-		return [-1, 1].map(side => G.ellipse(
-			`${kind}_ear_${side}`,
-			side * metrics.headRX,
-			metrics.headY,
-			7 * scale,
-			12 * scale,
-			0,
-			{ fill: colors.skinDark, stroke: colors.line, lineWidth: 2.2 }
-		));
 	}
 
 	static mood(data = {}) {
@@ -62,16 +61,14 @@ export class FaceFrontRenderer {
 				blush: Number(face.blushAmount || 0)
 			};
 		}
-		const map = {
+
+		const moods = {
 			happy: { brow: -4, smile: 1, squint: 0.05, cheekLift: 0.45 },
 			skeptical: { brow: 2.8, smile: -0.45, squint: 0.2, browPinch: 0.38 },
 			calm: { brow: -0.6, smile: 0.22, squint: 0.04, cheekLift: 0.08 },
-			excited: { brow: -7, smile: 0.85, squint: 0 },
-			focused: { brow: 3, smile: 0, squint: 0.15 },
-			surprised: { brow: -8, smile: 0.2, squint: -0.08 },
 			neutral: { brow: 0, smile: 0.05, squint: 0 }
 		};
-		return map[data.emotion] || map.neutral;
+		return moods[data.emotion] || moods.neutral;
 	}
 
 	static blink(data = {}) {
@@ -80,13 +77,18 @@ export class FaceFrontRenderer {
 			return Number(face.blinkAmount);
 		}
 		const time = Number(data._renderTime || 0);
-		return ((time * 0.0017 + Number(data._index || 0)) % 5.4) < 0.11 ? 0.82 : 0;
+		return ((time * 0.0017 + Number(data._index || 0)) % 5.4) < 0.11
+			? 0.82
+			: 0;
 	}
 
 	static cheeks(kind, data, colors, metrics, mood = {}) {
 		const lift = Math.max(0.05, Number(mood.cheekLift || 0));
 		const style = data.faceStyle || {};
-		const alpha = Math.min(0.42, 0.08 + lift * 0.32 + Number(mood.blush || 0) * 0.25);
+		const alpha = Math.min(
+			0.35,
+			0.06 + lift * 0.24 + Number(mood.blush || 0) * 0.2
+		);
 		return S.group(`${kind}_cheeks`, null, [-1, 1].map(side => G.ellipse(
 			`${kind}_cheek_${side}`,
 			side * Number(style.cheekX || 19),
@@ -94,16 +96,23 @@ export class FaceFrontRenderer {
 			Number(style.cheekRX || 6) + lift * 2,
 			Number(style.cheekRY || 4) + lift,
 			0,
-			{ fill: colors.blush || `rgba(255,120,120,${alpha})`, stroke: 'rgba(0,0,0,0)', lineWidth: 0 }
+			{
+				fill: colors.blush || `rgba(255,120,120,${alpha})`,
+				stroke: 'rgba(0,0,0,0)',
+				lineWidth: 0
+			}
 		)));
 	}
 
-	static beard(kind, colors, metrics) {
-		return G.path(`${kind}_beard`, [
-			{ type: 'move', x: -27, y: metrics.headY + 23 },
-			{ type: 'quad', cx: -18, cy: metrics.headY + 72, x: 0, y: metrics.beardBottomY },
-			{ type: 'quad', cx: 18, cy: metrics.headY + 72, x: 27, y: metrics.headY + 23 },
-			{ type: 'quad', cx: 0, cy: metrics.headY + 42, x: -27, y: metrics.headY + 23 }
-		], { fill: colors.beard, stroke: colors.line, lineWidth: 3.2, lineJoin: 'round' });
+	static legacyBeard(kind, colors, metrics) {
+		return G.ellipse(
+			`${kind}_legacy_beard`,
+			0,
+			metrics.headY + 43,
+			27,
+			30,
+			0,
+			{ fill: colors.beard, stroke: colors.line, lineWidth: 3 }
+		);
 	}
 }

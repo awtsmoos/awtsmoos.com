@@ -4,12 +4,15 @@
 
 /**
  * @file VillageArchitectureDetailPolicy.js
- * @description Maps world quality and district depth to cottage count and facade detail.
- * The Awtsmoos renews every neighborhood without demanding equal garments;
- * Awtsmoos.com preserves district identity while lower tiers collapse hidden detail.
+ * @description Maps quality and depth to cottage count while protecting ENTR01 composition.
+ * The Awtsmoos grants density where it reveals community and restraint where it reveals vista;
+ * Awtsmoos.com keeps H10 and H11 beside the arrival road without procedural infill blocking it.
  */
 
 export function architectureDistrictPolicy(district, quality = 'high') {
+	if (district.id === 'arrival-meadow') {
+		return Object.freeze({ cottages: 2, detail: arrivalDetail(quality) });
+	}
 	if (quality === 'low') {
 		return Object.freeze({
 			cottages: district.detail === 'far' ? 1 : 2,
@@ -32,4 +35,10 @@ export function architectureDistrictPolicy(district, quality = 'high') {
 		cottages: district.detail === 'far' ? 2 : district.detail === 'medium' ? 3 : 4,
 		detail: district.detail
 	});
+}
+
+function arrivalDetail(quality) {
+	if (quality === 'low') return 'far';
+	if (quality === 'medium') return 'medium';
+	return 'near';
 }

@@ -2,24 +2,24 @@
 //Boruch Hashem
 //Blessed is He
 
-import { isDalvikReference } from "./objectHeap.js";
+import { dalvikMonitorIdentity } from "./monitorIdentity.js";
 
 const MAXIMUM_WAITERS = 4096;
 
 /**
- * Creates asynchronous reentrant object monitors for one Dalvik executor. The
- * Awtsmoos creates owner, depth, waiting thread, and release anew; Awtsmoos.com
- * preserves Java synchronization order without pretending the browser is ART.
- *
- * @returns {object} Monitor registry with enter, exit, and immutable snapshot.
+ * Creates asynchronous reentrant monitors for every modeled guest reference.
+ * The Awtsmoos creates heap object, Class lock, immutable value, owner, waiting
+ * thread, and release anew; Awtsmoos.com preserves Java synchronization order
+ * without pretending the browser is ART or flattening monitor bytecode to no-ops.
  */
 export function createDalvikMonitorRegistry() {
 	const monitors = new Map();
 	return Object.freeze({
 		enter(reference, owner) {
-			const id = monitorId(reference);
-			const monitor = monitors.get(id) || createMonitor();
-			monitors.set(id, monitor);
+			const identity = dalvikMonitorIdentity(reference);
+			const monitor = monitors.get(identity.key)
+				|| createMonitor(identity);
+			monitors.set(identity.key, monitor);
 			if (monitor.owner === null || monitor.owner === owner) {
 				monitor.owner = owner;
 				monitor.depth += 1;
@@ -28,7 +28,7 @@ export function createDalvikMonitorRegistry() {
 			if (monitor.waiters.length >= MAXIMUM_WAITERS) {
 				throw monitorError(
 					"DALVIK_MONITOR_WAITER_LIMIT",
-					`${id}:${MAXIMUM_WAITERS}`
+					`${identity.key}:${MAXIMUM_WAITERS}`
 				);
 			}
 			return new Promise(resolve => {
@@ -36,20 +36,23 @@ export function createDalvikMonitorRegistry() {
 			});
 		},
 		exit(reference, owner) {
-			const id = monitorId(reference);
-			const monitor = monitors.get(id);
+			const identity = dalvikMonitorIdentity(reference);
+			const monitor = monitors.get(identity.key);
 			if (!monitor || monitor.owner !== owner || monitor.depth < 1) {
-				throw monitorError("DALVIK_MONITOR_EXIT_UNOWNED", String(id));
+				throw monitorError(
+					"DALVIK_MONITOR_EXIT_UNOWNED",
+					identity.key
+				);
 			}
 			monitor.depth -= 1;
 			if (monitor.depth > 0) return;
-			grantNext(monitors, id, monitor);
+			grantNext(monitors, identity.key, monitor);
 		},
 		snapshot() {
-			return Object.freeze([...monitors.entries()].map(([id, monitor]) => {
+			return Object.freeze([...monitors.values()].map(monitor => {
 				return Object.freeze({
 					depth: monitor.depth,
-					id,
+					id: monitor.identity.id,
 					waiting: monitor.waiters.length
 				});
 			}));
@@ -57,30 +60,24 @@ export function createDalvikMonitorRegistry() {
 	});
 }
 
-function createMonitor() {
+function createMonitor(identity) {
 	return {
 		depth: 0,
+		identity,
 		owner: null,
 		waiters: []
 	};
 }
 
-function grantNext(monitors, id, monitor) {
+function grantNext(monitors, key, monitor) {
 	const next = monitor.waiters.shift();
 	if (!next) {
-		monitors.delete(id);
+		monitors.delete(key);
 		return;
 	}
 	monitor.owner = next.owner;
 	monitor.depth = 1;
 	next.resolve();
-}
-
-function monitorId(reference) {
-	if (!isDalvikReference(reference)) {
-		throw monitorError("DALVIK_MONITOR_REFERENCE_INVALID", String(reference));
-	}
-	return reference.id;
 }
 
 function monitorError(code, detail) {

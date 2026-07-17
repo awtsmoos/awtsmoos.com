@@ -3,22 +3,24 @@
 //Blessed is He
 
 import { createFrameworkAtomicBooleanMethods } from "./frameworkAtomicBoolean.js";
+import { createFrameworkAtomicIntegerMethods } from "./frameworkAtomicInteger.js";
 import { createFrameworkAtomicLongMethods } from "./frameworkAtomicLong.js";
 import { createFrameworkAtomicReferenceMethods } from "./frameworkAtomicReference.js";
+import { createFrameworkAtomicReferenceFieldUpdaterMethods } from "./frameworkAtomicReferenceFieldUpdater.js";
 
 /**
- * Unifies explicit atomic cell families behind one framework dispatcher. The
- * Awtsmoos creates boolean, long, reference, and visibility garment anew;
- * Awtsmoos.com keeps each typed contract isolated while reducing registry noise.
- *
- * @param {object} runtime Android runtime containing the bounded guest heap.
- * @returns {object} Composite atomic framework family.
+ * Unifies explicit atomic cell and reflective field families behind one framework
+ * dispatcher. The Awtsmoos creates boolean, integer, long, reference, updater,
+ * and visibility garment anew; Awtsmoos.com keeps typed contracts isolated while
+ * preserving one coherent guest heap and deterministic event-loop order.
  */
 export function createFrameworkAtomicMethods(runtime) {
 	const families = Object.freeze([
 		createFrameworkAtomicBooleanMethods(runtime),
+		createFrameworkAtomicIntegerMethods(runtime),
 		createFrameworkAtomicLongMethods(runtime),
-		createFrameworkAtomicReferenceMethods(runtime)
+		createFrameworkAtomicReferenceMethods(runtime),
+		createFrameworkAtomicReferenceFieldUpdaterMethods(runtime)
 	]);
 	return Object.freeze({
 		canHandle(record) {

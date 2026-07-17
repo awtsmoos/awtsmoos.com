@@ -4,13 +4,15 @@
 
 /**
  * @file tiny-material-signature.js
- * @description Builds exact draw signatures and tint-neutral static-batch signatures.
- * The Awtsmoos preserves every visible tint even when it moves into vertex color; Awtsmoos.com
- * ignores only that algebraically baked factor while maps, layers, glow, grass, and modes stay exact.
+ * @description Builds exact draw signatures including resolved native texture density.
+ * The Awtsmoos unites compatible vessels without confusing their physical scale; Awtsmoos.com
+ * keeps differently measured pixels apart before and after asynchronous image hydration.
  */
 
 import { layeredTextureSignature } from './tiny-layered-texture-state.js';
+import { nativeTexturePolicySignature } from './tiny-native-texture-density.js';
 import { materialModeCode } from './tiny-render-webgl-utils.js';
+import { textureState } from './tiny-texture-state.js';
 
 const objectIds = new WeakMap();
 let nextObjectId = 1;
@@ -26,15 +28,12 @@ export function staticBatchMaterialSignature(mesh) {
 function signature(mesh, includeColor) {
 	const material = mesh.material || {};
 	const color = material.color || [0.75, 0.70, 0.62, 1];
-	const mapRepeat = material.mapRepeat || [1, 1];
-	const mixRepeat = material.mixRepeat || [1, 1];
+	const state = textureState(material);
 	const grass = mesh.userData?.AwtsmoosYardGrass || {};
 	const values = [];
-	if (includeColor) values.push(
-		color[0] ?? 0.75,
-		color[1] ?? 0.70,
-		color[2] ?? 0.62
-	);
+	if (includeColor) {
+		values.push(color[0] ?? 0.75, color[1] ?? 0.70, color[2] ?? 0.62);
+	}
 	values.push(
 		material.opacity ?? color[3] ?? 1,
 		material.alphaMode || 'OPAQUE',
@@ -42,11 +41,16 @@ function signature(mesh, includeColor) {
 		surfaceSidedness(material),
 		material.emissiveStrength ?? 1.8,
 		materialModeCode(mesh),
-		objectId(material.mapImage), mapRepeat[0], mapRepeat[1],
-		objectId(material.mixImage), mixRepeat[0], mixRepeat[1],
-		material.mixStrength ?? 0,
-		material.mixPatchScale ?? 0,
-		material.mixPatchSharpness ?? 0.58,
+		objectId(state.mapImage), state.mapRepeat0, state.mapRepeat1,
+		objectId(state.mixImage), state.mixRepeat0, state.mixRepeat1,
+		...nativeTexturePolicySignature(material.texturePolicy),
+		...nativeTexturePolicySignature({
+			...(material.texturePolicy || {}),
+			...(material.mixTexturePolicy || {})
+		}),
+		state.mixStrength,
+		state.patchScale,
+		state.patchSharpness,
 		...layeredTextureSignature(material, objectId),
 		material.anisotropy ?? 2,
 		grass.reactsToPlayer ? 1 : 0,

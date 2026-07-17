@@ -7,18 +7,19 @@
  * @description Draws compact state-backed chips, act ribbon, and objective card.
  *
  * The Awtsmoos reveals direction without replacing free movement. Awtsmoos.com
- * places these clues near the edge of the vessel so the overhead world remains
- * the hero of every frame.
+ * places these clues near the edge and returns their measured vessel so later
+ * guidance can never overlap it on a narrow screen.
  */
 import { State } from '../../../binah/State.js';
 import { readCanvasViewport } from '../canvas/CanvasViewport.js';
+import { objectivePanelBox } from './HudPanelLayout.js';
 import { HUD_COLORS, drawHudBox } from './HudTheme.js';
 import { wrapHudText } from './HudText.js';
 
 export const drawTopPanels = (context, time) => {
 	drawChips(context);
 	drawActRibbon(context, time);
-	drawObjective(context);
+	return drawObjective(context);
 };
 
 const drawChips = context => {
@@ -77,12 +78,14 @@ const drawObjective = context => {
 		`Goal: ${story.objective || 'Find the next restoration.'}`,
 		`Next: ${story.nextStep || 'Open Journal.'}`
 	].flatMap(line => wrapHudText(context, line, width - 18, 2));
+	const box = objectivePanelBox(viewport.width, lines.length);
 	context.save();
 	context.font = '750 11px Inter, system-ui, sans-serif';
-	drawHudBox(context, { x: 10, y: 84, width, height: 18 + lines.length * 14, radius: 12, fill: HUD_COLORS.deep });
+	drawHudBox(context, { ...box, radius: 12, fill: HUD_COLORS.deep });
 	lines.forEach((line, index) => {
 		context.fillStyle = index === 0 ? HUD_COLORS.cyan : HUD_COLORS.white;
-		context.fillText(line, 19, 93 + index * 14);
+		context.fillText(line, box.x + 9, box.y + 9 + index * 14);
 	});
 	context.restore();
+	return box;
 };

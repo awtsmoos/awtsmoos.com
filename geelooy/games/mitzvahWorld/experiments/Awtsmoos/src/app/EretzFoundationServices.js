@@ -4,13 +4,9 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates the close third-person camera and reference-lit renderer services.
- * RESPONSIBILITY: establish the default world view and lossless rendering services.
- * NON-RESPONSIBILITY: this module never changes FPS, lowers fidelity, or owns camera switching UI.
- * ARCHITECTURE: Malchus receives camera and renderer while Tiferes preserves equivalent forms.
- * OROS AND KEILIM: immersive play is ohr; orbit, canvas, controls, and batches are keilim.
- * The Awtsmoos recreates the whole valley each instant; Awtsmoos.com keeps the player near
- * the eye while one preset sun illuminates sky, haze, stone, water, and practical warmth.
+ * @description Creates an authored wide-arrival camera and reference-lit renderer services.
+ * The Awtsmoos recreates observer and valley each instant; Awtsmoos.com frames the traveler
+ * as a participant inside water, bridge, cottages, forest, and mountains rather than the subject.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -22,18 +18,35 @@ import { MobileJoystick } from '../input/MobileJoystick.js';
 import { UiEventSystem } from '../input/UiEventSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
+import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
 export function createEretzFoundationServices(hosts, qualityProfile) {
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(
-		54,
+		VILLAGE_ARRIVAL_CAMERA.fov,
 		innerWidth / innerHeight,
-		0.05,
+		0.08,
 		1600
 	);
-	const renderer = new TinyWebGLRenderer({ canvas: hosts.canvas });
+	const renderer = createRenderer(hosts.canvas, qualityProfile);
+	const bus = new AwtsmoosEventBus();
+	const input = new UiEventSystem(hosts.canvas).install(bus);
+	return {
+		bus,
+		camera,
+		input,
+		joystick: new MobileJoystick(hosts.joystickHost),
+		jumpButton: new JumpButton(hosts.jumpHost),
+		orbit: createArrivalOrbit(hosts.canvas),
+		renderer,
+		scene
+	};
+}
+
+function createRenderer(canvas, qualityProfile) {
+	const renderer = new TinyWebGLRenderer({ canvas });
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
 	renderer.options.staticBatcher = new StaticOpaqueBatcher();
@@ -43,29 +56,19 @@ export function createEretzFoundationServices(hosts, qualityProfile) {
 		fogFar: qualityProfile.renderDistance * 1.08,
 		fogNear: qualityProfile.renderDistance * 0.34
 	});
-	const bus = new AwtsmoosEventBus();
-	const input = new UiEventSystem(hosts.canvas).install(bus);
-	const joystick = new MobileJoystick(hosts.joystickHost);
-	const jumpButton = new JumpButton(hosts.jumpHost);
-	const orbit = new CameraOrbitController(hosts.canvas, {
-		distance: 5.1,
+	return renderer;
+}
+
+function createArrivalOrbit(canvas) {
+	return new CameraOrbitController(canvas, {
+		distance: VILLAGE_ARRIVAL_CAMERA.distance,
 		eyeForward: 0.24,
-		max: 42,
-		min: 1.65,
+		max: VILLAGE_ARRIVAL_CAMERA.maxDistance,
+		min: VILLAGE_ARRIVAL_CAMERA.minDistance,
 		mode: 'orbit',
-		pitch: 0.2,
-		yaw: Math.PI + 0.08
+		pitch: VILLAGE_ARRIVAL_CAMERA.pitch,
+		yaw: VILLAGE_ARRIVAL_CAMERA.yaw
 	});
-	return {
-		bus,
-		camera,
-		input,
-		joystick,
-		jumpButton,
-		orbit,
-		renderer,
-		scene
-	};
 }
 
 function referenceEnvironment(reference) {
@@ -73,22 +76,14 @@ function referenceEnvironment(reference) {
 	const horizon = reference.horizonColor;
 	const sun = reference.sunCore;
 	return Object.freeze({
-		ambient: Object.freeze([
-			cool[0] * 0.66,
-			cool[1] * 0.62,
-			cool[2] * 0.58
-		]),
+		ambient: Object.freeze([cool[0] * 0.66, cool[1] * 0.62, cool[2] * 0.58]),
 		exposure: 1.1,
 		fogColor: Object.freeze([
 			cool[0] * 0.55 + horizon[0] * 0.45,
 			cool[1] * 0.55 + horizon[1] * 0.45,
 			cool[2] * 0.55 + horizon[2] * 0.45
 		]),
-		sunColor: Object.freeze([
-			sun[0] * 1.32,
-			sun[1] * 1.32,
-			sun[2] * 1.32
-		]),
+		sunColor: Object.freeze([sun[0] * 1.32, sun[1] * 1.32, sun[2] * 1.32]),
 		sunDirection: Object.freeze(normalized(reference.sunPosition))
 	});
 }

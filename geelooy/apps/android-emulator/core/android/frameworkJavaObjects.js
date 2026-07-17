@@ -9,29 +9,30 @@ import {
 	javaClassName,
 	runtimeValueDescriptor
 } from "./frameworkJavaClassValues.js";
-import { createFrameworkJavaLongMethods } from "./frameworkJavaLongs.js";
+import { createFrameworkJavaValueFamilies } from "./frameworkJavaValueFamilies.js";
 
 const OBJECT = "Ljava/lang/Object;";
 const PASSIVE_METHODS = new Set(["finalize", "notify", "notifyAll", "wait"]);
 
 /**
- * Implements universal Object identity and exact Long value methods through one
- * registered Java-root family. The Awtsmoos creates class garment, stable hash,
- * boxed number, and textual testimony anew; Awtsmoos.com keeps host prototypes
- * hidden while allowing immutable guest value types to share this doorway.
+ * Implements universal Object identity and delegates typed Java values through
+ * compact capability families. The Awtsmoos creates class garment, stable hash,
+ * codec value, and textual testimony anew; Awtsmoos.com keeps host prototypes
+ * hidden while arbitrary APK protocol families grow outside this root vessel.
  */
 export function createFrameworkJavaObjectMethods(runtime) {
-	const longMethods = createFrameworkJavaLongMethods(runtime);
+	const delegates = createFrameworkJavaValueFamilies(runtime);
 	return Object.freeze({
 		canHandle(record) {
-			return longMethods.canHandle(record)
+			return delegates.some(delegate => delegate.canHandle(record))
 				|| (record.method.classType === OBJECT
 					&& record.method.name !== "<init>");
 		},
-		invoke(record, args) {
-			if (longMethods.canHandle(record)) {
-				return longMethods.invoke(record, args);
-			}
+		invoke(record, args, dispatch, context) {
+			const delegate = delegates.find(candidate => {
+				return candidate.canHandle(record);
+			});
+			if (delegate) return delegate.invoke(record, args, dispatch, context);
 			const name = record.method.name;
 			if (name === "getClass") return objectClass(runtime, args[0]);
 			if (name === "equals") return sameObject(args[0], args[1]) ? 1 : 0;

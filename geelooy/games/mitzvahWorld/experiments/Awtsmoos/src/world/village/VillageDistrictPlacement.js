@@ -4,33 +4,32 @@
 
 /**
  * @file VillageDistrictPlacement.js
- * @description Places large cottages around clear roads, courtyards, and landmark sightlines.
- * The Awtsmoos gives every home breathing room without dissolving the village;
- * Awtsmoos.com arranges winding density around traversable public space.
+ * @description Places H10-H27 first, then bounded infill that follows each terrace.
+ * The Awtsmoos grants every home a remembered place; Awtsmoos.com prevents random rings
+ * from replacing the canonical village while retaining quality-scaled cottage budgets.
  */
 
-const ARRIVAL_PLACEMENTS = Object.freeze([
-	Object.freeze({ x: -17.2, z: 55, yaw: Math.PI / 2 - 0.18 }),
-	Object.freeze({ x: 17.8, z: 39, yaw: -Math.PI / 2 + 0.22 }),
-	Object.freeze({ x: -18.1, z: 23, yaw: Math.PI / 2 - 0.16 }),
-	Object.freeze({ x: 18.4, z: 7, yaw: -Math.PI / 2 + 0.18 }),
-	Object.freeze({ x: -18.8, z: -9, yaw: Math.PI / 2 - 0.12 })
-]);
+import { CANONICAL_HOUSES_BY_ID } from './CanonicalVillageHouses.js';
 
 export function villageDistrictPlacements(district, cottageCount) {
-	if (district.id === 'arrival-meadow') {
-		return ARRIVAL_PLACEMENTS.slice(0, cottageCount);
-	}
-	const placements = [];
-	for (let index = 0; index < cottageCount; index += 1) {
-		const angle = district.phase + index / cottageCount * Math.PI * 2;
-		const x = district.center[0] + Math.cos(angle) * district.radius[0] * 0.78;
-		const z = district.center[1] + Math.sin(angle) * district.radius[1] * 0.78;
-		placements.push(Object.freeze({
-			x,
-			yaw: angle + Math.PI,
-			z
-		}));
+	const explicit = district.houseIds
+		.map((houseId) => CANONICAL_HOUSES_BY_ID[houseId])
+		.filter(Boolean)
+		.map(({ id, x, yaw, z }) => Object.freeze({ houseId: id, x, yaw, z }));
+	const placements = explicit.slice(0, cottageCount);
+	for (let index = placements.length; index < cottageCount; index += 1) {
+		placements.push(infillPlacement(district, index, cottageCount));
 	}
 	return placements;
+}
+
+function infillPlacement(district, index, count) {
+	const angle = district.phase + index / Math.max(1, count) * Math.PI * 2;
+	const radialScale = index % 2 === 0 ? 0.58 : 0.82;
+	return Object.freeze({
+		houseId: null,
+		x: district.center[0] + Math.cos(angle) * district.radius[0] * radialScale,
+		yaw: angle + Math.PI,
+		z: district.center[1] + Math.sin(angle) * district.radius[1] * radialScale
+	});
 }

@@ -3,40 +3,100 @@
 // Blessed is He
 
 /**
- * Chesed rounds Ari's cheeks, separates large friendly eyes, and gathers a broad
- * beard beneath a living smile. The Awtsmoos renews each curve, while
- * Awtsmoos.com keeps likeness editable through production geometry and motion.
+ * Chesed rounds Ari's cheeks, opens enormous friendly eyes, and gathers a broad
+ * beard around a living laugh. The Awtsmoos renews each curve, while Awtsmoos.com
+ * keeps likeness editable through production geometry and motion.
  */
 export class CheerfulReferenceAppearance {
 	static create() {
 		return {
-			faceStyle: { widthScale: 1.28, heightScale: 0.98, cheekScale: 1.18, jawScale: 0.96, chinScale: 0.8, lineWidth: 3.1 },
-			browStyle: { width: 18, thickness: 4.2, arch: 1.8, verticalOffset: -1 },
-			noseStyle: { sizeScale: 1.08, verticalOffset: 0.5, lineWidth: 2 },
+			faceStyle: {
+				widthScale: 1.15,
+				heightScale: 1,
+				foreheadScale: 0.74,
+				templeScale: 0.96,
+				cheekScale: 1.02,
+				cheekYScale: 0.28,
+				jawScale: 0.83,
+				jawYScale: 0.73,
+				chinScale: 0.46,
+				earXScale: 0.97,
+				earRX: 5.2,
+				earRY: 8.7,
+				lineWidth: 3
+			},
+			browStyle: {
+				width: 20,
+				thickness: 4.2,
+				arch: 3.8,
+				verticalOffset: -1.5
+			},
+			noseStyle: {
+				sizeScale: 1.08,
+				verticalOffset: 0.5,
+				lineWidth: 1.9
+			},
 			eyeStyle: {
-				widthScale: 1.02,
-				heightScale: 1.22,
+				radiusX: 10.4,
+				radiusY: 10.6,
 				spacingScale: 1.42,
-				pupilScale: 1.04,
-				outlineWidth: 2.2,
-				lidWidth: 1.8,
-				verticalOffset: 1.5
+				separationRatio: 0.72,
+				pupilScale: 1.08,
+				pupilVertical: 0.4,
+				outlineWidth: 2,
+				lidWidth: 1.6,
+				verticalOffset: 1
 			},
-			mouthStyle: { widthScale: 1.34, heightScale: 1.2, smileBias: 0.34, minimumOpen: 0.52, teeth: 0.86, tongue: true, lineWidth: 2.7, verticalOffset: 0 },
-			beardGeometry: {
-				cheekScale: 0.84,
-				topOffset: 8,
-				mouthClearance: 13,
-				lengthScale: 0.48,
-				chinWidth: 28,
-				taper: 1.02,
-				bottomRoundness: 1.35,
+			mouthStyle: {
+				widthScale: 1.42,
+				heightScale: 1.28,
+				smileBias: 0.42,
+				minimumOpen: 0.56,
+				teeth: 0.9,
+				tongue: true,
 				lineWidth: 2.6,
-				strandOpacity: 0.08
+				verticalOffset: 0
 			},
-			payosGeometry: { rootOffsetX: 2, rootOffsetY: -1, amplitude: 15, secondAmplitude: 11, terminalCurl: 9, lengthScale: 0.82, lineWidth: 3.8 },
-			headwear: { type: 'kippah', size: 1.03, widthScale: 1.1, heightScale: 0.78, verticalOffset: -2, curvature: 0.62, tilt: -0.035, lineWidth: 2.4, highlightOpacity: 0.08 },
-			headTransform: { x: -1, y: -2, scaleX: 1.12, scaleY: 1.02 }
+			beardGeometry: {
+				massStyle: 'continuous',
+				cheekScale: 0.9,
+				topOffset: 7,
+				mouthClearance: 14,
+				openingHeight: 12,
+				moustacheHalf: 12,
+				moustacheWidth: 4.6,
+				lengthScale: 0.5,
+				chinWidth: 27,
+				bottomRoundness: 1.3,
+				lineWidth: 2.5,
+				strandOpacity: 0.06
+			},
+			payosGeometry: {
+				rootOffsetX: -1,
+				rootOffsetY: 0,
+				amplitude: 13,
+				secondAmplitude: 10,
+				terminalCurl: 8,
+				lengthScale: 0.78,
+				lineWidth: 3.6
+			},
+			headwear: {
+				type: 'kippah',
+				size: 1.02,
+				widthScale: 1.04,
+				heightScale: 0.72,
+				verticalOffset: -3,
+				curvature: 0.62,
+				tilt: -0.035,
+				lineWidth: 2.3,
+				highlightOpacity: 0.04
+			},
+			headTransform: {
+				x: -1,
+				y: -2,
+				scaleX: 1.08,
+				scaleY: 1.02
+			}
 		};
 	}
 }

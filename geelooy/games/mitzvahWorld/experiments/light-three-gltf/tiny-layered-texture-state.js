@@ -4,11 +4,15 @@
 
 /**
  * @file tiny-layered-texture-state.js
- * @description Captures ten shader-visible material-stack layers without taxing ordinary meshes.
- * The Awtsmoos remains one while many textures pass through `mix()`; Awtsmoos.com records
- * image, repeat, ecological weights, slope, height, rotation, strength, and wet response exactly.
+ * @description Captures ten ecological layers with per-image native texel density.
+ * The Awtsmoos reveals one terrain through many untouched images; Awtsmoos.com lets every
+ * layer keep its own original dimensions while sharing one measured world-space scale.
  */
 
+import {
+	nativeTexturePolicySignature,
+	resolveNativeTextureRepeat
+} from './tiny-native-texture-density.js';
 import { TERRAIN_LAYER_TARGET, terrainLayerUnits } from './tiny-terrain-layer-policy.js';
 import { sourceReady } from './tiny-texture-source.js';
 
@@ -17,9 +21,9 @@ export const TERRAIN_LAYER_UNITS = terrainLayerUnits(TERRAIN_LAYER_TARGET);
 
 export function layeredTextureState(material = {}) {
 	if (!Array.isArray(material.textureLayers)) return [];
-	return Array.from({ length: TERRAIN_LAYER_COUNT }, (_, index) => {
-		return layerState(material.textureLayers[index] || {});
-	});
+	return Array.from({ length: TERRAIN_LAYER_COUNT }, (_, index) => (
+		layerState(material.textureLayers[index] || {}, material)
+	));
 }
 
 export function sameLayeredTextureState(left = [], right = []) {
@@ -36,6 +40,7 @@ export function layeredTextureSignature(material = {}, identity) {
 		layer.strength,
 		layer.role,
 		layer.angle,
+		...layer.policySignature,
 		...layer.zones,
 		...layer.slope,
 		...layer.height,
@@ -43,12 +48,14 @@ export function layeredTextureSignature(material = {}, identity) {
 	]);
 }
 
-function layerState(layer) {
-	const repeat = pair(layer.repeat, [1, 1]);
+function layerState(layer, material) {
+	const policy = { ...(material.texturePolicy || {}), ...(layer.texturePolicy || {}) };
+	const repeat = resolveNativeTextureRepeat(layer.image, layer.repeat || [1, 1], policy);
 	return {
 		angle: finite(layer.angle, 0),
 		height: pair(layer.height, [-10000, 10000]),
 		image: layer.image || null,
+		policySignature: nativeTexturePolicySignature(policy),
 		ready: sourceReady(layer.image),
 		repeat0: repeat[0],
 		repeat1: repeat[1],
@@ -69,6 +76,7 @@ function sameLayer(left, right) {
 		&& left.strength === right.strength
 		&& left.role === right.role
 		&& left.angle === right.angle
+		&& sameArray(left.policySignature, right.policySignature)
 		&& sameArray(left.zones, right.zones)
 		&& sameArray(left.slope, right.slope)
 		&& sameArray(left.height, right.height)

@@ -4,10 +4,9 @@
 
 /**
  * @file tiny-static-batch-key.js
- * @description Builds tint-neutral spatial keys centered on the village rather than a zero seam.
- * The Awtsmoos joins nearby static forms whose pixels obey one covenant; Awtsmoos.com keeps
- * texture layers, `mix()`, culling, distance, alpha, and material mode exact while the central
- * reference village occupies one coherent cell instead of splitting at positive and negative zero.
+ * @description Builds tint-neutral spatial keys in broad, still-cullable valley cells.
+ * The Awtsmoos joins nearby static vessels without fusing every horizon into one burden;
+ * Awtsmoos.com keeps texture scale, culling, distance, alpha, and material mode exact.
  */
 
 import {

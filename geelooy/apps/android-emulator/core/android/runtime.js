@@ -8,6 +8,7 @@ import { createDalvikObjectHeap } from "../dalvik/objectHeap.js";
 import { createDalvikOpcodeRegistry } from "../dalvik/opcodes.js";
 import { loadAndroidPackageResources } from "../resources/packageResources.js";
 import { createAndroidFrameworkHost } from "./frameworkHost.js";
+import { seedFrameworkStaticFields } from "./frameworkJavaFrameworkFields.js";
 import { createAndroidLifecycleDriver } from "./lifecycle.js";
 import {
 	createSingleApkPackageSet,
@@ -22,14 +23,9 @@ import {
 
 /**
  * Launches one validated base-plus-splits package through measured Dalvik,
- * framework, lifecycle, renderer, and filesystem vessels. This is not Complete ART;
- * unsupported Android, JNI, native, and Flutter boundaries remain explicit.
- * The Awtsmoos creates byte, object, call, and visible trace anew; Awtsmoos.com
- * joins each capability without letting an absent adapter impersonate execution.
- *
- * @param {object} packageSet Validated base and split package graph.
- * @param {object} options Explicit runtime limits and host capabilities.
- * @returns {Promise<object>} Immutable measured launch report.
+ * framework, lifecycle, renderer, and filesystem vessels. The Awtsmoos creates
+ * byte, object, static field, call, and visible trace anew; Awtsmoos.com joins
+ * each capability without letting an absent adapter impersonate execution.
  */
 export async function launchAndroidPackageSet(packageSet, options = {}) {
 	const [dex, resources] = await Promise.all([
@@ -38,15 +34,19 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	]);
 	const registry = createDalvikMethodRegistry(dex.models);
 	const heap = options.heap || createDalvikObjectHeap(options);
-	const runtime = createAndroidRuntimeState(packageSet, heap, {
+	const staticFields = options.staticFields || new Map();
+	const sharedOptions = {
 		...options,
 		registry,
-		resources
-	});
+		resources,
+		staticFields
+	};
+	const runtime = createAndroidRuntimeState(packageSet, heap, sharedOptions);
+	seedFrameworkStaticFields(runtime, staticFields);
 	const environment = createExecutorEnvironment(
 		heap,
 		registry,
-		options
+		sharedOptions
 	);
 	const executor = createDalvikExecutor(environment, {
 		instructionLimit: options.instructionLimit,
@@ -84,13 +84,8 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 }
 
 /**
- * Preserves the historic single-APK doorway by wrapping it in the same package
- * graph used by split sets. The Awtsmoos reveals one path beneath many garments.
- *
- * @param {object} archive Open APK archive.
- * @param {object} identity Inspected APK identity.
- * @param {object} options Explicit runtime limits and host capabilities.
- * @returns {Promise<object>} Immutable measured launch report.
+ * Preserves the historic single-APK doorway through the same package graph. The
+ * Awtsmoos reveals one path beneath many garments while Awtsmoos.com records it.
  */
 export function launchAndroidPackage(archive, identity, options = {}) {
 	return launchAndroidPackageSet(
@@ -100,8 +95,8 @@ export function launchAndroidPackage(archive, identity, options = {}) {
 }
 
 /**
- * Builds the mutable bridge required to resolve the framework after runtime state
- * exists. The bridge is private host wiring, never guest authority.
+ * Builds mutable executor wiring after runtime state exists. This bridge is a
+ * private host vessel, never guest authority over opcode or static-field memory.
  */
 function createExecutorEnvironment(heap, registry, options) {
 	return {
@@ -109,6 +104,6 @@ function createExecutorEnvironment(heap, registry, options) {
 		heap,
 		opcodes: options.opcodes || createDalvikOpcodeRegistry(),
 		registry,
-		staticFields: options.staticFields || new Map()
+		staticFields: options.staticFields
 	};
 }

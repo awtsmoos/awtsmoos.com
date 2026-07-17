@@ -11,10 +11,10 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createVillageCottageDefinitions } from '../../world/village/VillageCottageDefinitionFactory.js';
 import { villageMaterialPolicy } from '../../world/village/DistanceMaterialPolicy.js';
-import { staticBatchMetadata } from '../../../../light-three-gltf/tiny-static-batch-policy.js';
 import { staticBatchGroupKey } from '../../../../light-three-gltf/tiny-static-batch-key.js';
+import { staticBatchMetadata } from '../../../../light-three-gltf/tiny-static-batch-policy.js';
+import { definitionsAt, mockCottageMesh } from './VillageCottageStaticBatchFixtures.mjs';
 
 const ORIGIN = 'https://awtsmoos-docs-base.web.app';
 
@@ -34,16 +34,13 @@ test('equal detail tiers expose batch-stable but visibly distinct material pairs
 	for (const detail of ['near', 'medium', 'far']) {
 		const first = definitionsAt(1, detail);
 		const second = definitionsAt(7, detail);
-		assert.deepEqual(first[0].mapRepeat, second[0].mapRepeat);
-		assert.equal(first[0].textureUrl, second[0].textureUrl);
-		assert.equal(first[0].mixTextureUrl, second[0].mixTextureUrl);
-		assert.notEqual(first[0].textureUrl, first[0].mixTextureUrl);
-		assert.deepEqual(first[1].mapRepeat, second[1].mapRepeat);
-		assert.equal(first[1].textureUrl, second[1].textureUrl);
-		assert.equal(first[1].mixTextureUrl, second[1].mixTextureUrl);
-		assert.notEqual(first[1].textureUrl, first[1].mixTextureUrl);
-		assert.strictEqual(first[0].texturePolicy, second[0].texturePolicy);
-		assert.strictEqual(first[1].texturePolicy, second[1].texturePolicy);
+		for (const surfaceIndex of [0, 1]) {
+			assert.deepEqual(first[surfaceIndex].mapRepeat, second[surfaceIndex].mapRepeat);
+			assert.equal(first[surfaceIndex].textureUrl, second[surfaceIndex].textureUrl);
+			assert.equal(first[surfaceIndex].mixTextureUrl, second[surfaceIndex].mixTextureUrl);
+			assert.notEqual(first[surfaceIndex].textureUrl, first[surfaceIndex].mixTextureUrl);
+			assert.strictEqual(first[surfaceIndex].texturePolicy, second[surfaceIndex].texturePolicy);
+		}
 	}
 });
 
@@ -56,67 +53,30 @@ test('each cottage surface retains the existing two-URL sampler contract', () =>
 	}
 });
 
-test('opaque cottage roofs are certified while transparent and interactive roofs are excluded', () => {
-	const roof = mockMesh('reference-village-cottage-roof');
+test('opaque cottage roofs are certified while unsafe roofs are excluded', () => {
+	const roof = mockCottageMesh('reference-village-cottage-roof');
 	assert.equal(staticBatchMetadata(roof).family, 'reference-village-cottage-roof');
-	assert.equal(staticBatchMetadata(mockMesh('reference-village-cottage-roof', { transparent: true })), null);
-	assert.equal(staticBatchMetadata(mockMesh('reference-village-cottage-roof', { interactive: true })), null);
+	assert.equal(staticBatchMetadata(mockCottageMesh(
+		'reference-village-cottage-roof',
+		{ transparent: true }
+	)), null);
+	assert.equal(staticBatchMetadata(mockCottageMesh(
+		'reference-village-cottage-roof',
+		{ interactive: true }
+	)), null);
 });
 
-test('cottage families use a ninety-six meter batching cell', () => {
-	const first = mockMesh('reference-village-district', { x: 4 });
-	const second = mockMesh('reference-village-district', { x: 70 });
-	const third = mockMesh('reference-village-district', { x: 102 });
+test('cottage families use broad three-hundred-eighty-four-meter batching cells', () => {
 	const metadata = { family: 'reference-village-district' };
-	assert.equal(staticBatchGroupKey(first, metadata), staticBatchGroupKey(second, metadata));
-	assert.notEqual(staticBatchGroupKey(first, metadata), staticBatchGroupKey(third, metadata));
+	const first = mockCottageMesh(metadata.family, { x: 4 });
+	for (const x of [70, 102]) {
+		assert.equal(
+			staticBatchGroupKey(first, metadata),
+			staticBatchGroupKey(mockCottageMesh(metadata.family, { x }), metadata)
+		);
+	}
+	assert.notEqual(
+		staticBatchGroupKey(first, metadata),
+		staticBatchGroupKey(mockCottageMesh(metadata.family, { x: 398 }), metadata)
+	);
 });
-
-function definitionsAt(variant, detail) {
-	return createVillageCottageDefinitions({
-		base: 0,
-		detail,
-		id: `test-${variant}`,
-		variant,
-		x: variant * 3,
-		yaw: variant * 0.1,
-		z: variant * 2
-	}).definitions;
-}
-
-function mockMesh(family, options = {}) {
-	return {
-		geometry: {
-			attributes: {
-				position: {
-					array: new Float32Array([-1, -1, -1, 1, 1, 1]),
-					count: 2,
-					itemSize: 3
-				}
-			},
-			mode: 4,
-			userData: {}
-		},
-		isSkinnedMesh: false,
-		material: {
-			opacity: 1,
-			transparent: options.transparent || false
-		},
-		matrixWorld: translationMatrix(options.x || 0),
-		name: 'AwtsmoosCottageSurface',
-		parent: null,
-		userData: {
-			family,
-			interactive: options.interactive || false
-		}
-	};
-}
-
-function translationMatrix(x) {
-	return new Float32Array([
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		x, 0, 0, 1
-	]);
-}
