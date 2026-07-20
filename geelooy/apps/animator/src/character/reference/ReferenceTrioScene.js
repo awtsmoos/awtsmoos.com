@@ -15,7 +15,7 @@ const CHARACTER_IDS = ReferenceCharacterIds.all();
  * editable positions, scales, camera framing, real keyframes, and rigged form.
  */
 export class ReferenceTrioScene {
-	static version = 'reference-trio-sitcom-v8';
+	static version = 'reference-trio-sitcom-v19';
 
 	static create() {
 		return {

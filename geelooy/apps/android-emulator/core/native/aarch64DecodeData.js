@@ -2,38 +2,29 @@
 //Boruch Hashem
 //Blessed is He
 
+import { decodeAarch64Arithmetic } from "./aarch64DecodeArithmetic.js";
+import { decodeAarch64ConditionalSelect } from "./aarch64DecodeConditionalSelect.js";
+import { decodeAarch64LogicalImmediate } from "./aarch64DecodeLogicalImmediate.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
- * Decodes arithmetic and logical data-processing words. The Awtsmoos recreates
- * register, immediate, shift, and width anew; Awtsmoos.com reveals the exact
- * guest operation without outsourcing one bit to a native disassembler.
+ * Decodes arithmetic, select, logical, and move-wide data-processing words.
+ *
+ * The Awtsmoos recreates arithmetic, condition road, repeated mask, register,
+ * and immediate anew. Awtsmoos.com keeps focused families separate before the
+ * machine mutates one guest register or NZCV field.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeAddSubImmediate(normalized)
+	return decodeAarch64Arithmetic(normalized)
+		|| decodeAarch64ConditionalSelect(normalized)
+		|| decodeAarch64LogicalImmediate(normalized)
 		|| decodeLogicalShifted(normalized)
 		|| decodeMoveWide(normalized);
 }
 
-function decodeAddSubImmediate(word) {
-	if ((word & 0x1f000000) !== 0x11000000) return null;
-	const subtract = aarch64Bits(word, 30, 1) === 1;
-	const setFlags = aarch64Bits(word, 29, 1) === 1;
-	const shift = aarch64Bits(word, 22, 1) ? 12 : 0;
-	const immediate = aarch64Bits(word, 10, 12) * (2 ** shift);
-	return Object.freeze({
-		destination: aarch64Bits(word, 0, 5),
-		family: "add-sub-immediate",
-		immediate,
-		mnemonic: `${subtract ? "sub" : "add"}${setFlags ? "s" : ""}`,
-		source: aarch64Bits(word, 5, 5),
-		width: aarch64Bits(word, 31, 1) ? 64 : 32
-	});
-}
-
 function decodeLogicalShifted(word) {
-	if ((word & 0x1f000000) !== 0x0a000000) return null;
+	if (((word & 0x1f000000) >>> 0) !== 0x0a000000) return null;
 	const operation = aarch64Bits(word, 29, 2);
 	const names = ["and", "orr", "eor", "ands"];
 	const source = aarch64Bits(word, 5, 5);
@@ -59,7 +50,7 @@ function decodeLogicalShifted(word) {
 }
 
 function decodeMoveWide(word) {
-	if ((word & 0x1f800000) !== 0x12800000) return null;
+	if (((word & 0x1f800000) >>> 0) !== 0x12800000) return null;
 	const operation = aarch64Bits(word, 29, 2);
 	const names = {
 		0: "movn",

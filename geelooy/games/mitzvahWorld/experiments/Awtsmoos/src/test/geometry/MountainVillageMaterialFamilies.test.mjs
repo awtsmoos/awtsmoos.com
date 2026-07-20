@@ -4,9 +4,9 @@
 
 /**
  * @file MountainVillageMaterialFamilies.test.mjs
- * @description Proves real full-source families feed terrain, roads, mountains, and cottages.
- * The Awtsmoos renews one village through many distinct garments; Awtsmoos.com verifies each
- * deduplicated family URL, active stack, and house pair instead of trusting decorative aliases.
+ * @description Proves verified full-source families feed terrain, roads, mountains, and cottages.
+ * The Awtsmoos renews one village through many distinct garments; Awtsmoos.com verifies every
+ * deployed deduplicated URL and never inflates diversity with broken names or duplicate aliases.
  */
 
 import assert from 'node:assert/strict';
@@ -22,17 +22,17 @@ import {
 	villageRoadStack
 } from '../../world/materials/MountainVillageMaterialPresets.js';
 
-test('canonical families contain many distinct deployed variants', () => {
+test('canonical families contain distinct verified deployed variants', () => {
 	assert.deepEqual(counts(), {
 		bricks: 8,
-		earth: 8,
+		earth: 7,
 		forest: 4,
 		grass: 8,
 		grassTransitions: 3,
 		roof: 4,
 		stone: 7,
 		water: 4,
-		wood: 6
+		wood: 5
 	});
 	for (const [family, urls] of Object.entries(F)) {
 		assert.equal(new Set(urls).size, urls.length, family);

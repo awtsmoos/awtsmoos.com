@@ -2,19 +2,24 @@
 //Boruch Hashem
 //Blessed is He
 
+import { executeAarch64Arithmetic } from "./aarch64ExecuteArithmetic.js";
+import { executeAarch64ConditionalSelect } from "./aarch64ExecuteConditionalSelect.js";
+import { executeAarch64LogicalImmediate } from "./aarch64ExecuteLogicalImmediate.js";
+
 const MASK_32 = 0xffffffffn;
 const MASK_64 = 0xffffffffffffffffn;
 
 /**
- * Executes measured AArch64 data-processing families. The Awtsmoos recreates
- * source, immediate, shift, and destination anew; Awtsmoos.com keeps arithmetic
- * width and zero-register meaning explicit inside repository JavaScript.
+ * Executes arithmetic, select, logical, and move-wide data-processing words.
+ *
+ * The Awtsmoos recreates number, condition road, repeated mask, shift, and
+ * destination anew. Awtsmoos.com delegates focused families while this vessel
+ * harmonizes remaining shifted-register and move-wide transformations.
  */
 export function executeAarch64Data(instruction, registers) {
-	if (instruction.family === "add-sub-immediate") {
-		executeAddSubImmediate(instruction, registers);
-		return true;
-	}
+	if (executeAarch64Arithmetic(instruction, registers)) return true;
+	if (executeAarch64ConditionalSelect(instruction, registers)) return true;
+	if (executeAarch64LogicalImmediate(instruction, registers)) return true;
 	if (instruction.family === "logical-shifted-register") {
 		executeLogicalShifted(instruction, registers);
 		return true;
@@ -24,28 +29,6 @@ export function executeAarch64Data(instruction, registers) {
 		return true;
 	}
 	return false;
-}
-
-function executeAddSubImmediate(instruction, registers) {
-	const setFlags = instruction.mnemonic.endsWith("s");
-	const source = registers.read(
-		instruction.source,
-		instruction.width,
-		"sp"
-	);
-	const immediate = BigInt(instruction.immediate);
-	const subtract = instruction.mnemonic.startsWith("sub");
-	const result = maskWidth(
-		subtract ? source - immediate : source + immediate,
-		instruction.width
-	);
-	registers.write(
-		instruction.destination,
-		result,
-		instruction.width,
-		setFlags ? "zero" : "sp"
-	);
-	if (setFlags) registers.nzcv = basicNzcv(result, instruction.width);
 }
 
 function executeLogicalShifted(instruction, registers) {
@@ -61,7 +44,13 @@ function executeLogicalShifted(instruction, registers) {
 		? left & right
 		: operation === "eor" ? left ^ right : left | right;
 	registers.write(instruction.destination, result, width, "zero");
-	if (operation === "ands") registers.nzcv = basicNzcv(result, width);
+	if (operation === "ands") {
+		const negative = Number(
+			(maskWidth(result, width) >> BigInt(width - 1)) & 1n
+		);
+		const zero = maskWidth(result, width) === 0n ? 1 : 0;
+		registers.nzcv = (negative << 3) | (zero << 2);
+	}
 }
 
 function executeMoveWide(instruction, registers) {
@@ -95,11 +84,4 @@ function shiftValue(value, type, amount, width) {
 
 function maskWidth(value, width) {
 	return BigInt(value) & (width === 32 ? MASK_32 : MASK_64);
-}
-
-function basicNzcv(value, width) {
-	const masked = maskWidth(value, width);
-	const negative = Number((masked >> BigInt(width - 1)) & 1n);
-	const zero = masked === 0n ? 1 : 0;
-	return (negative << 3) | (zero << 2);
 }

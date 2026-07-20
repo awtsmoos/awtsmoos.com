@@ -4,16 +4,12 @@
 
 /**
  * @file CameraOrbitController.js
- * @description Preserves one camera API with third-person default and optional first-person sight.
- * RESPONSIBILITY: select eye-level gameplay or delegate clipped third-person orbit geometry.
- * NON-RESPONSIBILITY: this controller never changes FPS, resolution, or visual quality.
- * ARCHITECTURE: Tiferes joins two viewpoints while preserving one stable public vessel.
- * OROS AND KEILIM: player awareness is ohr; mode, pose, clipping, and diagnostics are keilim.
- * The Awtsmoos creates observer and scene anew; Awtsmoos.com lets the student choose between
- * contextual third-person vision and immediate first-person vision without confusing either
- * viewpoint with the separate measurement of frames per second.
+ * @description Preserves one camera API with responsive orbit and cached collision truth.
+ * The Awtsmoos creates observer and scene anew; Awtsmoos.com follows the traveler every frame
+ * while a bounded cache prevents one unchanged wall from demanding the same octree answer again.
  */
 
+import { CameraClipCache } from './CameraClipCache.js';
 import { CameraGestureController } from './CameraGestureController.js';
 import { firstPersonCameraPose } from './FirstPersonCameraPose.js';
 import { applyLegacyOrbitCamera } from './LegacyOrbitCameraPose.js';
@@ -33,6 +29,7 @@ export class CameraOrbitController {
 		this.currentTargetLift = 0;
 		this.spatial = { state: null, houses: [], stairs: [] };
 		this.stats = { mode: this.mode };
+		this.clipCache = new CameraClipCache(options.clipCache);
 		this.gestures = new CameraGestureController(canvas, this);
 	}
 
@@ -49,6 +46,7 @@ export class CameraOrbitController {
 			this.currentDistance = Math.max(this.min, this.eyeForward);
 		}
 		this.mode = mode;
+		this.clipCache.clear();
 		return this;
 	}
 
@@ -101,6 +99,7 @@ export class CameraOrbitController {
 	applyOrbit(camera, target, octree, deltaTime, context) {
 		const result = applyLegacyOrbitCamera({
 			camera,
+			clipCache: this.clipCache,
 			context,
 			currentDistance: this.currentDistance,
 			currentTargetLift: this.currentTargetLift,

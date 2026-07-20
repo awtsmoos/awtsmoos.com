@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-gpu-texture-cache.js
- * @description Owns original-image GPU residency with structured upload evidence.
- * The Awtsmoos renews each source without resampling it; Awtsmoos.com records dimensions,
- * cache reuse, binding changes, and upload failures so a white material cannot remain anonymous.
+ * @description Owns original-image GPU residency with unit-aware binding reuse.
+ * The Awtsmoos renews each source without resampling it; Awtsmoos.com changes the active unit
+ * only when that unit truly needs a different texture, avoiding empty WebGL state oscillation.
  */
 
 import {
@@ -27,25 +27,34 @@ export class GpuTextureCache {
 		this.gl = gl;
 		this.cache = new WeakMap();
 		this.defaultTexture = createDefaultTexture(gl);
-		this.activeUnit = null;
-		this.boundTextures = new Map();
+		this.activeUnit = 0;
+		this.boundTextures = new Map([[0, this.defaultTexture]]);
 		this.anisotropy = gl.getExtension('EXT_texture_filter_anisotropic')
 			|| gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
 		this.stats = createGpuTextureStats();
 	}
 
 	bind(unit, uniform, texture) {
-		if (this.activeUnit !== unit) {
-			this.gl.activeTexture(this.gl.TEXTURE0 + unit);
-			this.activeUnit = unit;
-			this.stats.activeUnitChanges += 1;
-		}
 		if (this.boundTextures.get(unit) !== texture) {
+			this.activateUnit(unit);
 			this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 			this.boundTextures.set(unit, texture);
 			this.stats.bindingChanges += 1;
+		} else {
+			this.stats.bindingSkips += 1;
+			this.stats.activeUnitSkips += 1;
 		}
 		if (uniform) this.gl.uniform1i(uniform, unit);
+	}
+
+	activateUnit(unit) {
+		if (this.activeUnit === unit) {
+			this.stats.activeUnitSkips += 1;
+			return;
+		}
+		this.gl.activeTexture(this.gl.TEXTURE0 + unit);
+		this.activeUnit = unit;
+		this.stats.activeUnitChanges += 1;
 	}
 
 	textureFor(source, material) {
@@ -74,8 +83,7 @@ export class GpuTextureCache {
 
 	upload(texture, source, powerOfTwo, material) {
 		const gl = this.gl;
-		gl.activeTexture(gl.TEXTURE0);
-		this.activeUnit = 0;
+		this.activateUnit(0);
 		gl.bindTexture(gl.TEXTURE_2D, texture);
 		this.boundTextures.set(0, texture);
 		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);

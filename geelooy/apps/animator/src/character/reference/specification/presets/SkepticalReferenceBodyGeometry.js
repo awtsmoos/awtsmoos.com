@@ -15,6 +15,7 @@ export class SkepticalReferenceBodyGeometry {
 				shoulderExtra: 8,
 				shoulderDrop: 5,
 				shoulderArch: 14,
+				waistCenterX: 2.06,
 				waistHalf: 41,
 				hipHalf: 39,
 				sideRound: 15,
@@ -23,16 +24,24 @@ export class SkepticalReferenceBodyGeometry {
 				hemRound: 11,
 				hemLift: 1
 			},
+			shoulders: {
+				centerX: -2.1,
+				halfWidthOffset: 2.77,
+				leftYOffset: -1.37,
+				rightYOffset: -1.38
+			},
 			pelvis: {
+				centerX: 2.06,
 				topHalf: 37,
 				bottomHalf: 34,
 				bottomY: -68
 			},
 			legs: {
+				centerOffsetX: -3.35,
 				hipOffset: 21,
 				kneeOffset: 21,
 				ankleOffset: 20,
-				footOffset: 23,
+				footOffset: 30.32,
 				thighWidth: 29,
 				kneeWidth: 25,
 				ankleWidth: 20,
@@ -49,12 +58,14 @@ export class SkepticalReferenceBodyGeometry {
 			},
 			gesture: {
 				mode: 'arms_crossed',
-				elbowOut: 13,
-				elbowDown: 42,
-				leftWristAcross: 30,
-				rightWristAcross: 31,
-				upperWristDrop: 20,
-				lowerWristDrop: 34
+				leftElbowOut: 8.14,
+				rightElbowOut: 12.33,
+				leftElbowDown: 43.37,
+				rightElbowDown: 43.38,
+				leftWristAcross: 22.6,
+				rightWristAcross: 2.2,
+				upperWristDrop: -4.1,
+				lowerWristDrop: -1.7
 			}
 		};
 	}

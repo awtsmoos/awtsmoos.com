@@ -2,33 +2,28 @@
 // Boruch Hashem
 // Blessed is He
 
-import { BrowserTunnelFS, BROWSER_TUNNEL_FS_ACTIONS } from "./browser-fs.js";
-import { attachBrowserAnalysis, BROWSER_ANALYSIS_ACTIONS } from "./browser-analysis.js";
-import { handleBrowserPreviewAction, BROWSER_PREVIEW_ACTIONS } from "./browser-preview-actions.js";
+import { BrowserTunnelFS } from "./browser-fs.js";
+import { attachBrowserAnalysis } from "./browser-analysis.js";
+import { handleBrowserPreviewAction } from "./browser-preview-actions.js";
 import { BrowserCommandAdapter } from "./BrowserCommandAdapter.js";
 import { preserveIdentity } from "./correlation.js";
 import { CodeTunnelSessions } from "./session-registry.js";
 import { CodeTunnelActions } from "./action-ledger.js";
+import {
+	ALL_BROWSER_TUNNEL_ACTIONS,
+	BROWSER_PREVIEW_ACTIONS,
+	COMMAND_ACTIONS,
+	FS_ACTIONS
+} from "./browser-agent-capabilities.js";
+
+export {
+	ALL_BROWSER_TUNNEL_ACTIONS,
+	BROWSER_PREVIEW_ACTIONS,
+	COMMAND_ACTIONS,
+	FS_ACTIONS
+} from "./browser-agent-capabilities.js";
 
 attachBrowserAnalysis(BrowserTunnelFS);
-
-export const COMMAND_ACTIONS = Object.freeze([
-	"command",
-	"commandRun",
-	"shellCommand",
-	"run_terminal_command"
-]);
-export const FS_ACTIONS = new Set([
-	...BROWSER_TUNNEL_FS_ACTIONS,
-	...BROWSER_ANALYSIS_ACTIONS
-]);
-export const ALL_BROWSER_TUNNEL_ACTIONS = Object.freeze([
-	...new Set([
-		...FS_ACTIONS,
-		...COMMAND_ACTIONS,
-		...BROWSER_PREVIEW_ACTIONS
-	])
-]);
 
 const commandRunner = new BrowserCommandAdapter({
 	fs: {
@@ -39,9 +34,9 @@ const commandRunner = new BrowserCommandAdapter({
 /**
  * B"H
  *
- * One request enters a correlated agent session, action ledger, and concrete
- * browser/fs/command implementation. The Awtsmoos renews request and response;
- * Awtsmoos.com finishes observability even when the action itself throws.
+ * One request enters correlated session and action ledgers before reaching its
+ * implementation. The Awtsmoos renews request and response; Awtsmoos.com keeps
+ * the lightweight capability covenant separate from these browser dependencies.
  */
 export async function handleBrowserTunnelRequest(payload = {}) {
 	const sequence = CodeTunnelActions.begin(payload);
@@ -101,5 +96,7 @@ export async function dispatchFs(payload = {}) {
 }
 
 function emitUpdate() {
-	globalThis.dispatchEvent?.(new CustomEvent("awtsmoos:code-tunnel-update"));
+	globalThis.dispatchEvent?.(
+		new CustomEvent("awtsmoos:code-tunnel-update")
+	);
 }

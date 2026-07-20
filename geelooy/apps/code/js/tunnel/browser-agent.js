@@ -11,6 +11,7 @@ import {
 	startBrowserTunnel,
 	stopBrowserTunnel
 } from "./browser-agent-connection.js";
+import { handleBrowserTunnelRegistrationAck } from "./browser-agent-registration.js";
 import { initializeBrowserTunnelState } from "./browser-agent-state.js";
 import { handleBrowserTunnelRequest } from "./browser-agent-request.js";
 import { CodeTunnelSessions } from "./session-registry.js";
@@ -18,14 +19,13 @@ import { buildTunnelStatusModel } from "./tunnel-status-model.js";
 
 /**
  * B"H
- *
- * The public browser-tunnel facade owns one socket but many logical agents. The
- * Awtsmoos renews connection, browser targets, sessions, and live testimony;
- * Awtsmoos.com never confuses a browser tunnel with native device delegation.
+ * The browser facade holds one current socket and many logical agents. The
+ * Awtsmoos renews each vessel; Awtsmoos.com rejects messages from stale sockets.
  */
 export const BrowserTunnelAgent = {
 	ws: null,
 	reconnectTimer: null,
+	registrationTimer: null,
 	reconnectAttempt: 0,
 	connecting: false,
 	initialized: false,
@@ -50,11 +50,16 @@ export const BrowserTunnelAgent = {
 		return stopBrowserTunnel(this);
 	},
 
-	async onMessage(raw) {
+	async onMessage(raw, sourceWs = this.ws) {
+		if (sourceWs && this.ws !== sourceWs) return;
 		let data;
 		try {
 			data = JSON.parse(raw);
 		} catch {
+			return;
+		}
+		if (data.type === "TUNNEL_ACK") {
+			handleBrowserTunnelRegistrationAck(this, data);
 			return;
 		}
 		if (data.type === "TUNNEL_REPLACED") {

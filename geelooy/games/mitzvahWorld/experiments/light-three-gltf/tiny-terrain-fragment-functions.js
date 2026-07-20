@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-terrain-fragment-functions.js
- * @description Generates multi-scale ecological masks and repeated `mix()` texture revelation.
- * The Awtsmoos reveals one earth through ten simultaneous garments; Awtsmoos.com lets broad
- * meadow patches, medium transitions, fine breakup, slope, height, wetness, and distance agree.
+ * @description Generates ecological masks and repeated texture revelation for six diverse roles.
+ * The Awtsmoos reveals one earth through meadow, soil, wet bank, rock, forest, and shore;
+ * Awtsmoos.com keeps slope, height, wetness, distance, and native-resolution repetition coherent.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
@@ -17,6 +17,9 @@ export const terrainFragmentFunctions = terrainFunctionsForLayerCount(
 
 export function terrainFunctionsForLayerCount(layerCount) {
 	const count = normalizedCount(layerCount);
+	const lineBreak = String.fromCharCode(10);
+	const layerMixes = Array.from({ length: count }, (_, index) => layerMix(index))
+		.join(lineBreak);
 	return `
 vec2 terrainUv(vec2 repeatValue,float angle){
 	vec2 world=vWorld.xz*0.035;
@@ -44,13 +47,8 @@ float terrainBand(float value,vec2 rangeValue){
 	return clamp(enters*leaves,0.0,1.0);
 }
 float terrainLayerMask(
-	vec4 zones,
-	vec2 slopeRange,
-	vec2 heightRange,
-	float strength,
-	float wetness,
-	float seed,
-	vec3 surfaceNormal
+	vec4 zones,vec2 slopeRange,vec2 heightRange,float strength,
+	float wetness,float seed,vec3 surfaceNormal
 ){
 	float slope=1.0-clamp(surfaceNormal.y,0.0,1.0);
 	float zoneWeight=clamp(dot(vZone,zones),0.0,1.0);
@@ -72,7 +70,7 @@ vec4 layeredTerrainTexel(vec3 surfaceNormal){
 		float wear=clamp((0.12+terrainPatch(2.7)*0.68)*vZone.x,0.0,1.0);
 		result=mix(result,dirt,wear*uMixStrength);
 	}
-${Array.from({ length: count }, (_, index) => layerMix(index)).join('\n')}
+${layerMixes}
 	return result;
 }
 `;

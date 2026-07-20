@@ -4,9 +4,9 @@
 
 /**
  * @file AnimatedHorse.js
- * @description Moves one full-detail horse through a continuously sampled cyclic route profile.
- * The Awtsmoos renews every hoof-step and turning face; Awtsmoos.com preserves analytic
- * motion while a faithful prepared earth-profile removes repeated terrain reconstruction.
+ * @description Moves one full-detail horse across an immutable cyclic Catmull–Rom ground profile.
+ * The Awtsmoos renews hoof, earth, and turning face each instant; Awtsmoos.com shares real model
+ * resources while smooth prepared terrain removes repeated ground queries from live animation.
  */
 
 import { Mesh } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -22,7 +22,7 @@ export class AnimatedHorse {
 			...template.userData,
 			animated: true,
 			dynamic: true,
-			groundSampling: 'precomputed-cyclic-linear-profile',
+			groundSampling: 'precomputed-cyclic-catmull-rom-profile',
 			horseId: route.id,
 			sharedGeometry: true,
 			sharedMaterial: true
@@ -56,6 +56,7 @@ export class AnimatedHorse {
 			clock: this.clock,
 			geometryShared: this.mesh.userData.sharedGeometry,
 			groundProfile: this.groundProfile.stats(),
+			groundSampling: this.mesh.userData.groundSampling,
 			id: this.route.id,
 			materialShared: this.mesh.userData.sharedMaterial,
 			modelSource: this.mesh.userData.modelSource,

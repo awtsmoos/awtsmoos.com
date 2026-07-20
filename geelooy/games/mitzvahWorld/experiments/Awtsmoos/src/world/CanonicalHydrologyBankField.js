@@ -4,82 +4,61 @@
 
 /**
  * @file CanonicalHydrologyBankField.js
- * @description Measures every nearby river reach when raising canonical containment banks.
- * The Awtsmoos knows the higher bend and lower bend at once; Awtsmoos.com refuses to let a
- * nearest-segment shortcut bury one reach merely because another reach passes nearby in plan.
+ * @description Raises containment banks against every segment of the canonical river covenant.
+ * The Awtsmoos carries upper and lower bends in one current; Awtsmoos.com reads the immutable
+ * village hydrology source directly so terrain boot, banks, water, and bridge never drift apart.
  */
 
 import {
-	CANONICAL_RIVER_POINTS,
 	canonicalRiverElevation,
 	canonicalRiverTerrainSample
 } from './CanonicalTerrainHydrology.js';
+import { CANONICAL_RIVER_CONTROL_POINTS } from './village/CanonicalVillageHydrology.js';
 
 const BANK_CLEARANCE = 0.65;
 const BANK_FULL_MARGIN = 2;
 const BANK_SOFT_MARGIN = 6;
 
-/**
- * Raises terrain to satisfy every nearby canonical river bank requirement.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @param {number} terrainHeight Incoming terrain height.
- * @returns {number} Conservatively banked terrain height.
- */
 export function canonicalHydrologyBankHeightAt(x, z, terrainHeight) {
 	let bankedHeight = terrainHeight;
-	for (let index = 1; index < CANONICAL_RIVER_POINTS.length; index += 1) {
-		const first = CANONICAL_RIVER_POINTS[index - 1];
-		const second = CANONICAL_RIVER_POINTS[index];
-		const sample = segmentBankSample(first, second, x, z);
-		if (sample.influence <= 0) {
-			continue;
-		}
-		const candidate = raiseToAtLeast(
-			terrainHeight,
-			sample.targetHeight,
-			sample.influence
+	for (let index = 1; index < CANONICAL_RIVER_CONTROL_POINTS.length; index += 1) {
+		const sample = segmentBankSample(
+			CANONICAL_RIVER_CONTROL_POINTS[index - 1],
+			CANONICAL_RIVER_CONTROL_POINTS[index],
+			x,
+			z
 		);
-		bankedHeight = Math.max(bankedHeight, candidate);
+		if (sample.influence <= 0) continue;
+		bankedHeight = Math.max(
+			bankedHeight,
+			raiseToAtLeast(terrainHeight, sample.targetHeight, sample.influence)
+		);
 	}
 	return bankedHeight;
 }
 
-/**
- * Returns the minimum intended bank clearance above canonical water.
- *
- * @returns {number} Bank clearance in world units.
- */
 export function canonicalMinimumBankClearance() {
 	return BANK_CLEARANCE;
 }
 
 function segmentBankSample(first, second, x, z) {
 	const projection = segmentProjection(first, second, x, z);
-	const center = canonicalRiverTerrainSample(
-		projection.x,
-		projection.z
-	);
-	const influence = bankRingInfluence(
-		projection.distance,
-		center.width
-	);
+	const center = canonicalRiverTerrainSample(projection.x, projection.z);
 	return {
-		influence,
+		influence: bankRingInfluence(projection.distance, center.width),
 		targetHeight: canonicalRiverElevation(center.t) + BANK_CLEARANCE
 	};
 }
 
 function segmentProjection(first, second, x, z) {
-	const dx = second.x - first.x;
-	const dz = second.z - first.z;
+	const firstX = first[0];
+	const firstZ = first[1];
+	const dx = second[0] - firstX;
+	const dz = second[1] - firstZ;
 	const lengthSquared = dx * dx + dz * dz || 1;
-	const amount = clamp(
-		((x - first.x) * dx + (z - first.z) * dz) / lengthSquared
-	);
-	const projectedX = first.x + dx * amount;
-	const projectedZ = first.z + dz * amount;
+	const amount = clamp(((x - firstX) * dx + (z - firstZ) * dz) / lengthSquared);
+	const projectedX = firstX + dx * amount;
+	const projectedZ = firstZ + dz * amount;
 	return {
 		distance: Math.hypot(x - projectedX, z - projectedZ),
 		x: projectedX,
@@ -98,10 +77,7 @@ function bankRingInfluence(distance, width) {
 }
 
 function raiseToAtLeast(current, target, influence) {
-	if (current >= target) {
-		return current;
-	}
-	return mix(current, target, influence);
+	return current >= target ? current : mix(current, target, influence);
 }
 
 function smooth(edge0, edge1, value) {

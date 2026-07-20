@@ -10,32 +10,37 @@ import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
  * Gevurah gathers Dovid's arms into weight-bearing overlap rather than a rigid X.
- * The Awtsmoos renews sleeve, elbow, cuff, palm, and resting fingers, while
- * Awtsmoos.com keeps the guarded pose editable in the shared production graph.
+ * The Awtsmoos renews each side distinctly, while Awtsmoos.com keeps elbows,
+ * wrists, cuffs, and resting hands editable in one production graph.
  */
 export class StableCrossedArms2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
 		const skeleton = data._skeleton;
-		const upperY = metrics.chestY + Number(gesture.upperWristDrop || 20);
-		const lowerY = metrics.chestY + Number(gesture.lowerWristDrop || 34);
+		const upperY = metrics.chestY
+			+ this.number(gesture.upperWristDrop, 20);
+		const lowerY = metrics.chestY
+			+ this.number(gesture.lowerWristDrop, 34);
 		const leftElbow = {
-			x: skeleton.leftShoulder.x - Number(gesture.elbowOut || 13),
-			y: skeleton.leftShoulder.y + Number(gesture.elbowDown || 42)
+			x: skeleton.leftShoulder.x
+				- this.number(gesture.leftElbowOut, this.number(gesture.elbowOut, 13)),
+			y: skeleton.leftShoulder.y
+				+ this.number(gesture.leftElbowDown, this.number(gesture.elbowDown, 42))
 		};
 		const rightElbow = {
-			x: skeleton.rightShoulder.x + Number(gesture.elbowOut || 13),
-			y: skeleton.rightShoulder.y + Number(gesture.elbowDown || 42)
+			x: skeleton.rightShoulder.x
+				+ this.number(gesture.rightElbowOut, this.number(gesture.elbowOut, 13)),
+			y: skeleton.rightShoulder.y
+				+ this.number(gesture.rightElbowDown, this.number(gesture.elbowDown, 42))
 		};
 		const leftWrist = {
-			x: Number(gesture.leftWristAcross || 30),
+			x: this.number(gesture.leftWristAcross, 30),
 			y: lowerY
 		};
 		const rightWrist = {
-			x: -Number(gesture.rightWristAcross || 31),
+			x: -this.number(gesture.rightWristAcross, 31),
 			y: upperY
 		};
 		const sleeve = LineArtStyle.outer(data, colors.jacket);
-
 		return S.group(`${prefix}_crossed_arms`, null, [
 			this.arm(
 				`${prefix}_crossed_left`,
@@ -102,5 +107,9 @@ export class StableCrossedArms2D {
 				handScale
 			)
 		]);
+	}
+
+	static number(value, fallback) {
+		return Number.isFinite(value) ? value : fallback;
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-fragment-shader.js
- * @description Assembles one shader matched to the measured terrain sampler capacity.
- * The Awtsmoos is indivisible while declarations, sampling, terrain, lighting, and final color
- * remain clear keilim; Awtsmoos.com composes ten rich layers without breaking smaller vessels.
+ * @description Assembles one shader matched to the bounded terrain sampler capacity.
+ * The Awtsmoos is indivisible while sampling, terrain, lighting, and final color remain clear
+ * vessels; Awtsmoos.com composes six distinct ecological roles without redundant grass work.
  */
 
 import { fragmentLightingFunctions } from './tiny-fragment-lighting-functions.js';

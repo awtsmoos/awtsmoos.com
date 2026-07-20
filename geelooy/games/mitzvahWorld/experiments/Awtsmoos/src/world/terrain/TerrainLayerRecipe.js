@@ -4,36 +4,67 @@
 
 /**
  * @file TerrainLayerRecipe.js
- * @description Selects bounded active layers from a sixteen-source alpine ground recipe.
- * The Awtsmoos reveals one valley as many meadow grasses, transitions, earth, mud, stone,
- * forest floor, and marsh; Awtsmoos.com preserves all logical garments while hardware sees ten.
+ * @description Selects biome-diverse active roles from a sixteen-source alpine ground covenant.
+ * The Awtsmoos reveals one valley through meadow, earth, wet bank, rock, forest, and shore;
+ * Awtsmoos.com keeps every logical source while gameplay samples only non-redundant garments.
  */
 
 import { MOUNTAIN_VILLAGE_SOURCES } from '../materials/MountainVillageMaterialSources.js';
 import { mountainTerrainStack } from '../materials/MountainVillageMaterialPresets.js';
-import { materialStackPage } from '../materials/MaterialStackRecipe.js';
 
 export const TERRAIN_LAYER_COUNT = 16;
 
-const QUALITY_COUNTS = Object.freeze({
-	cinematic: 16,
-	high: 10,
-	low: 3,
-	medium: 6
+const QUALITY_ROLES = Object.freeze({
+	low: Object.freeze([
+		'meadow-source-grass',
+		'worn-earth',
+		'mountain-stone'
+	]),
+	medium: Object.freeze([
+		'meadow-wet-grass',
+		'worn-earth',
+		'stream-bank-mud',
+		'mountain-stone',
+		'forest-leaf-floor'
+	]),
+	high: Object.freeze([
+		'meadow-wet-grass',
+		'worn-earth',
+		'stream-bank-mud',
+		'mountain-stone',
+		'forest-leaf-floor',
+		'shore-sand'
+	]),
+	cinematic: Object.freeze([
+		'meadow-wet-grass',
+		'worn-earth',
+		'stream-bank-mud',
+		'mountain-stone',
+		'forest-leaf-floor',
+		'shore-sand'
+	])
 });
 
 export function terrainLayerRecipe(quality = 'medium') {
 	const stack = mountainTerrainStack();
-	const count = QUALITY_COUNTS[quality] ?? QUALITY_COUNTS.medium;
-	const page = materialStackPage(stack, count, 0);
+	const activeRoles = QUALITY_ROLES[quality] || QUALITY_ROLES.medium;
+	const layers = activeRoles.map(role => requiredLayer(stack, role));
 	return Object.freeze({
+		activeLayerCount: layers.length,
+		activeRoles,
 		baseUrl: MOUNTAIN_VILLAGE_SOURCES.grass,
 		dirtUrl: MOUNTAIN_VILLAGE_SOURCES.dirt,
-		layers: page.layers,
+		layers: Object.freeze(layers),
 		logicalLayerCount: stack.logicalLayerCount,
-		pageCount: page.pageCount,
+		pageCount: Math.ceil(stack.logicalLayerCount / layers.length),
 		quality,
-		shader: 'terrain-layered-ten-stage-material-stack',
+		shader: 'terrain-layered-six-stage-material-stack',
 		stack
 	});
+}
+
+function requiredLayer(stack, role) {
+	const layer = stack.layers.find(candidate => candidate.role === role);
+	if (!layer) throw new Error(`Missing canonical terrain role: ${role}`);
+	return layer;
 }

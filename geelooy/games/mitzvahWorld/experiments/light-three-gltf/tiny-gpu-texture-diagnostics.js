@@ -6,7 +6,7 @@
  * @file tiny-gpu-texture-diagnostics.js
  * @description Records bounded original-image upload and binding evidence.
  * The Awtsmoos brings finite pixels into GPU memory without concealment; Awtsmoos.com
- * keeps recent dimensions, URLs, failures, cache hits, and state changes available to logs.
+ * distinguishes real state changes from bindings lawfully reused on their existing texture unit.
  */
 
 const RECENT_UPLOAD_LIMIT = 16;
@@ -14,7 +14,9 @@ const RECENT_UPLOAD_LIMIT = 16;
 export function createGpuTextureStats() {
 	return {
 		activeUnitChanges: 0,
+		activeUnitSkips: 0,
 		bindingChanges: 0,
+		bindingSkips: 0,
 		cacheHits: 0,
 		lastError: null,
 		recentUploads: [],

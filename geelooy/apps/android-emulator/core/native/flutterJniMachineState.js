@@ -5,83 +5,84 @@
 import { createAarch64Registers } from "./aarch64Registers.js";
 import { createAarch64SystemRegisters } from "./aarch64SystemRegisters.js";
 import { initializeFlutterJavaVmTable } from "./flutterJavaVmTable.js";
-import { createNativeAnonymousMemory } from "./nativeAnonymousMemory.js";
-import { createNativeCompositeMemory } from "./nativeCompositeMemory.js";
+import { initializeFlutterJniEnvironment } from "./flutterJniEnvironment.js";
+import { createFlutterNativeMemoryState } from "./flutterNativeMemoryState.js";
+import { createJniGuestReferences } from "./jniGuestReferences.js";
+import { createJniMethodIds } from "./jniMethodIds.js";
+import { createJniNativeMethodRegistry } from "./jniNativeMethodRegistry.js";
+import { createJniPendingException } from "./jniPendingException.js";
 import { createNativeImportAddressSpace } from "./nativeImportAddressSpace.js";
 
-const STACK_START = 0x6fff00000000n;
-const STACK_SIZE = 1024 * 1024;
-const THREAD_START = 0x6fffe0000000n;
-const THREAD_SIZE = 64 * 1024;
-const JNI_START = 0x6ffff0000000n;
-const JNI_SIZE = 4096;
-const JNI_TABLE_OFFSET = 256n;
+const JAVA_VM_TABLE_OFFSET = 256n;
+const JNI_ENVIRONMENT_OFFSET = 1024n;
+const JNI_NATIVE_TABLE_OFFSET = 1280n;
 const RETURN_SENTINEL = 0x6fffffff0000n;
 
 /**
- * Creates the bounded native state presented to Flutter's JNI_OnLoad. The
- * Awtsmoos recreates stack, thread pointer, JavaVM table, and return shore anew;
- * Awtsmoos.com keeps every synthetic platform vessel visible and finite.
+ * Creates the bounded native state presented to Flutter's JNI_OnLoad.
+ *
+ * The Awtsmoos recreates CPU, heap, stack, thread pointer, JavaVM, JNIEnv,
+ * class universe, method IDs, pending exception, bindings, and return shore.
+ * Awtsmoos.com joins these finite vessels only through explicit guest identity.
  */
 export function createFlutterJniMachineState(
 	imageMemory,
 	entryPoint,
 	options = {}
 ) {
-	const stack = createNativeAnonymousMemory(
-		STACK_START,
-		STACK_SIZE,
-		"aarch64-stack"
-	);
-	const thread = createNativeAnonymousMemory(
-		THREAD_START,
-		THREAD_SIZE,
-		"aarch64-thread-local"
-	);
-	const jni = createNativeAnonymousMemory(JNI_START, JNI_SIZE, "java-vm");
-	const memory = createNativeCompositeMemory(
-		imageMemory,
-		[stack, thread, jni]
-	);
+	const nativeMemory = createFlutterNativeMemoryState(imageMemory, options);
 	const imports = options.imports || createNativeImportAddressSpace();
+	const jniReferences = options.jniReferences || createJniGuestReferences();
+	const jniMethodIds = options.jniMethodIds || createJniMethodIds();
+	const jniNativeMethods = options.jniNativeMethods
+		|| createJniNativeMethodRegistry();
+	const jniPendingException = options.jniPendingException
+		|| createJniPendingException();
+	const resolveClass = typeof options.resolveClass === "function"
+		? options.resolveClass
+		: () => null;
+	const resolveMethod = typeof options.resolveMethod === "function"
+		? options.resolveMethod
+		: () => null;
 	const javaVm = initializeFlutterJavaVmTable(
-		memory,
+		nativeMemory.memory,
 		imports,
-		JNI_START,
-		JNI_START + JNI_TABLE_OFFSET
+		nativeMemory.jniStart,
+		nativeMemory.jniStart + JAVA_VM_TABLE_OFFSET
 	);
-	const stackTop = alignDown(STACK_START + BigInt(STACK_SIZE), 16n);
+	const jniEnvironment = initializeFlutterJniEnvironment(
+		nativeMemory.memory,
+		imports,
+		nativeMemory.jniStart + JNI_ENVIRONMENT_OFFSET,
+		nativeMemory.jniStart + JNI_NATIVE_TABLE_OFFSET
+	);
 	const registers = createAarch64Registers({
 		programCounter: entryPoint,
-		stackPointer: stackTop
+		stackPointer: nativeMemory.stackTop
 	});
 	const systemRegisters = createAarch64SystemRegisters({
-		TPIDR_EL0: THREAD_START
+		TPIDR_EL0: nativeMemory.threadStart
 	});
-	registers.write(0, JNI_START, 64, "zero");
+	registers.write(0, nativeMemory.jniStart, 64, "zero");
 	registers.write(1, 0n, 64, "zero");
 	registers.write(30, RETURN_SENTINEL, 64, "zero");
 	return Object.freeze({
 		imports,
 		javaVm,
-		javaVmAddress: JNI_START,
-		memory,
+		javaVmAddress: nativeMemory.jniStart,
+		jniEnvironment,
+		jniMethodIds,
+		jniNativeMethods,
+		jniPendingException,
+		jniReferences,
+		memory: nativeMemory.memory,
+		nativeHeap: nativeMemory.nativeHeap,
 		registers,
+		resolveClass,
+		resolveMethod,
 		returnAddress: RETURN_SENTINEL,
-		stack: regionEvidence(stack, stackTop),
+		stack: nativeMemory.stack,
 		systemRegisters,
-		thread: regionEvidence(thread, THREAD_START)
+		thread: nativeMemory.thread
 	});
-}
-
-function regionEvidence(region, pointer) {
-	return Object.freeze({
-		end: region.end.toString(),
-		pointer: pointer.toString(),
-		start: region.start.toString()
-	});
-}
-
-function alignDown(value, alignment) {
-	return value - (value % alignment);
 }

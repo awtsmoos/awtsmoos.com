@@ -5,8 +5,8 @@
 /**
  * @file VillageRiverHydrology.test.mjs
  * @description Proves one descending source, three drops, lake waterline, and outlet.
- * The Awtsmoos measures every descent before the water shines; Awtsmoos.com refuses
- * disconnected waterfall cards, uphill current, missing depth, or unbounded draw vessels.
+ * The Awtsmoos measures every descent before water shines; Awtsmoos.com refuses disconnected
+ * waterfall cards, uphill current, missing depth, or an unbounded collection of draw vessels.
  */
 
 import assert from 'node:assert/strict';
@@ -28,7 +28,7 @@ const bodies = createWaterBodyDefinitions(sampler, hydrology);
 const waterfalls = createWaterfallDefinitions(sampler, hydrology);
 const system = createVillageWaterDefinitions(sampler);
 
-assert.equal(hydrology.points.length, 57);
+assert.equal(hydrology.points.length, 65);
 assert.equal(hydrology.stats.cascades, 3);
 assert.ok(hydrology.stats.sourceY > hydrology.lakeLevel);
 assert.ok(hydrology.lakeLevel > hydrology.stats.outletY);
@@ -36,12 +36,13 @@ assert.ok(hydrology.stats.totalDrop > 4);
 for (let index = 1; index < hydrology.points.length; index += 1) {
 	assert.ok(hydrology.points[index].y < hydrology.points[index - 1].y);
 }
-const drops = hydrology.points.slice(1).map((point, index) => hydrology.points[index].y - point.y);
-assert.ok(drops.filter((drop) => drop > 0.8).length >= 3);
+const drops = hydrology.points.slice(1).map((point, index) => {
+	return hydrology.points[index].y - point.y;
+});
+assert.ok(drops.filter(drop => drop > 0.8).length >= 3);
 assert.equal(bodies.length, 2);
-assert.equal(bodies[0].shape, 'manual');
-assert.equal(bodies[1].shape, 'manual');
-assert.ok(bodies.every((definition) => definition.mixTextureUrl));
+assert.ok(bodies.every(definition => definition.shape === 'manual'));
+assert.ok(bodies.every(definition => definition.mixTextureUrl));
 assert.ok(bodies[1].vertices.length > 200);
 assert.ok(bodies[1].faces.length > 200);
 assert.equal(waterfalls.length, 3);
