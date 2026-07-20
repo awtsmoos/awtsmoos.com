@@ -51,6 +51,27 @@
 			window.__AWTSMOOS_BROWSER_EXPORT__ = { ...window.__AWTSMOOS_BROWSER_EXPORT__, ...value, durationMs };
 		}
 
+		function downloadBlob(blob, fileName) {
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = fileName;
+			link.click();
+			setTimeout(() => URL.revokeObjectURL(link.href), 2000);
+		}
+
+		async function savePreview(frameSource) {
+			await frameSource.prepare(1536, 864);
+			const bitmap = await frameSource.capture(0, 1536, 864);
+			const canvas = document.createElement('canvas');
+			canvas.width = 1536;
+			canvas.height = 864;
+			canvas.getContext('2d').drawImage(bitmap, 0, 0);
+			bitmap.close();
+			const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+			downloadBlob(blob, 'reference-trio-preview-frame-000.png');
+			return blob.size;
+		}
+
 		async function waitForProduction() {
 			for (let attempt = 0; attempt < 300; attempt += 1) {
 				if (frame.contentWindow?.__AWTSMOOS_PARK_APP__?.director && frame.contentDocument?.querySelector('#character-canvas')) {
@@ -69,9 +90,10 @@
 			start.disabled = true;
 			updateState({ state: 'rendering', percent: 0, completedFrames: 0 });
 			try {
+				const frameSource = new AnimatorProductionFrameSource(frame.contentWindow);
+				const previewBytes = await savePreview(frameSource);
 				const result = await AnimatorBrowserExportController.export(ReferenceTrioMovie.create(), {
-					durationMs,
-					frameSource: new AnimatorProductionFrameSource(frame.contentWindow),
+					durationMs, frameSource,
 					fileName: durationMs < 120000 ? 'reference-trio-browser-proof.mp4' : 'reference-trio-browser.mp4',
 					onStatus: message => { status.textContent = message; updateState({ statusMessage: message }); },
 					onProgress: value => { progress.value = value.percent; updateState({ state: 'rendering', ...value }); }
@@ -79,7 +101,7 @@
 				progress.value = 100;
 				status.className = 'status ok';
 				status.textContent = `Complete: ${result.blob.size.toLocaleString()} production MP4 bytes.`;
-				updateState({ state: 'complete', percent: 100, bytes: result.blob.size, type: result.blob.type, fileName: result.fileName, durationSeconds: result.durationSeconds, frameCount: result.frameCount, voiceClipCount: result.voiceClips.length, capabilities: result.capabilities, codecPath: result.codecPath });
+				updateState({ state: 'complete', percent: 100, previewBytes, bytes: result.blob.size, type: result.blob.type, fileName: result.fileName, durationSeconds: result.durationSeconds, frameCount: result.frameCount, voiceClipCount: result.voiceClips.length, capabilities: result.capabilities, codecPath: result.codecPath });
 			} catch (error) {
 				status.className = 'status error';
 				status.textContent = error.stack || error.message;
