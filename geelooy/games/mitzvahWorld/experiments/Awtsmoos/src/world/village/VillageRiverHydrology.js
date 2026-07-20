@@ -26,13 +26,16 @@ export function createRiverHydrology(groundSampler, samples = 64) {
 		const point = points[index];
 		const next = points[index + 1];
 		const ground = villageGroundHeight(groundSampler, point.x, point.z) + 0.16;
-		point.y = Math.max(ground, next.y + 0.04 + cascadeDrop(point.t, next.t));
+		const cascade = cascadeDrop(point.t, next.t);
+		const preferred = Math.max(ground, next.y + 0.04 + cascade);
+		point.y = Math.min(preferred, next.y + 0.18 + cascade);
 	}
 	for (let index = lakeIndex + 1; index < points.length; index += 1) {
 		const point = points[index];
 		const previous = points[index - 1];
 		const ground = villageGroundHeight(groundSampler, point.x, point.z) + 0.14;
-		point.y = Math.min(ground, previous.y - 0.04);
+		const preferred = Math.min(ground, previous.y - 0.04);
+		point.y = Math.max(preferred, previous.y - 0.18);
 	}
 	appendFrames(points);
 	return {

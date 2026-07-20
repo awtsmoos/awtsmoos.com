@@ -20,7 +20,7 @@ const LAYOUTS = {
 		scaleY: 2.076
 	},
 	[ReferenceCharacterIds.calm]: {
-		x: 456.5,
+		x: 468.5,
 		y: 310,
 		scale: 2.4,
 		scaleX: 1.711,
@@ -29,9 +29,9 @@ const LAYOUTS = {
 };
 
 /**
- * One layout covenant joins preset, catalog, timeline, scene, save, reload, and
- * export. The Awtsmoos is one beyond every coordinate, while Awtsmoos.com keeps
- * measured production pixels from drifting into contradictory compositions.
+ * One layout joins preset, catalog, timeline, scene, save, reload, and export.
+ * The Awtsmoos is beyond coordinates while Awtsmoos.com keeps measured pixels
+ * from drifting into contradictory compositions.
  */
 export class ReferenceCharacterLayout {
 	static position(id) {

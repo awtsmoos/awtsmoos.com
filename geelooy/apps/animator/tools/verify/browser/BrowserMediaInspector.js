@@ -8,9 +8,9 @@ import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 /**
- * The browser alone creates the movie; ffprobe only reads the finished vessel.
- * The Awtsmoos renews codec, duration, dimension, sound, and hash while
- * Awtsmoos.com forbids any encoding or conversion executable in this inspector.
+ * The browser creates the movie; ffprobe only reads the finished vessel. The
+ * Awtsmoos renews codec, duration, dimensions, sound, and hash while Awtsmoos.com
+ * validates the production's declared format rather than one legacy proof size.
  */
 export class BrowserMediaInspector {
 	static inspect(filePath) {
@@ -18,7 +18,7 @@ export class BrowserMediaInspector {
 			'-v',
 			'error',
 			'-show_entries',
-			'format=duration,size:stream=codec_name,codec_type,width,height,sample_rate,channels,r_frame_rate',
+			'format=duration,size:stream=codec_name,codec_type,width,height,sample_rate,channels,r_frame_rate,nb_frames',
 			'-of',
 			'json',
 			filePath
@@ -27,17 +27,19 @@ export class BrowserMediaInspector {
 		return JSON.parse(result.stdout);
 	}
 
-	static assert(probe, durationSeconds) {
-		const video = probe.streams.find(stream => (
-			stream.codec_type === 'video'
-		));
-		const audio = probe.streams.find(stream => (
-			stream.codec_type === 'audio'
-		));
+	static assert(probe, durationSeconds, expected = {}) {
+		const video = probe.streams.find(stream => stream.codec_type === 'video');
+		const audio = probe.streams.find(stream => stream.codec_type === 'audio');
+		const width = Number(expected.width || 640);
+		const height = Number(expected.height || 360);
+		const fps = Number(expected.fps || 12);
 		assert.equal(video?.codec_name, 'h264');
-		assert.equal(video?.width, 640);
-		assert.equal(video?.height, 360);
-		assert.equal(video?.r_frame_rate, '12/1');
+		assert.equal(video?.width, width);
+		assert.equal(video?.height, height);
+		assert.equal(video?.r_frame_rate, `${fps}/1`);
+		if (expected.frameCount) {
+			assert.equal(Number(video?.nb_frames), Number(expected.frameCount));
+		}
 		assert.equal(audio?.codec_name, 'aac');
 		assert.equal(audio?.sample_rate, '48000');
 		assert.equal(audio?.channels, 2);

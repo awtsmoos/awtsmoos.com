@@ -3,10 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews Node discovery, guardian modules, singleton, and receipts as one
-# installed covenant. Awtsmoos.com copies every required helper together so launchd,
-# portable fallback, and rollback never depend on the user's interactive shell PATH.
-
+# Candidate start installs its matching guardian. Restored runtimes start their own
+# preserved guardian so rollback never mutates the predecessor before verification.
 write_supervisor_to() {
 	local destination="$1"
 	mkdir -p "$destination"
@@ -37,21 +35,46 @@ write_supervisor() {
 	persist_node_runtime "$ROOT"
 }
 
-start_supervisor() {
-	local recorded=""
-	write_supervisor
+start_detached_portable_supervisor() {
+	AWTSMOOS_NODE_BIN="$AWTSMOOS_NODE_BIN" node - "$ROOT" <<'NODE'
+const fs = require("node:fs");
+const { spawn } = require("node:child_process");
+const path = require("node:path");
+const root = path.resolve(process.argv[2]);
+const log = fs.openSync(path.join(root, "supervisor-stdout.log"), "a", 0o600);
+try {
+	const child = spawn("/bin/bash", [path.join(root, "awtsmoos-supervisor.sh"), root], {
+		cwd: root,
+		detached: true,
+		env: process.env,
+		stdio: ["ignore", log, log]
+	});
+	child.unref();
+} finally {
+	fs.closeSync(log);
+}
+NODE
+}
+
+start_supervisor_process() {
+	local recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	rm -f "$ROOT/stop-supervisor"
-	recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
-	if command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh"; then
-		return 0
-	fi
+	command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh" && return 0
 	clear_connection_receipt
-	if start_launchd_supervisor; then
-		return 0
-	fi
-	AWTSMOOS_NODE_BIN="$AWTSMOOS_NODE_BIN" \
-		nohup "$ROOT/awtsmoos-supervisor.sh" "$ROOT" \
-		>> "$ROOT/supervisor-stdout.log" 2>&1 </dev/null &
+	clear_project_root_receipt 2>/dev/null || true
+	export AWTSMOOS_RUNTIME_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)"
+	start_launchd_supervisor && return 0
+	start_detached_portable_supervisor
+}
+
+start_supervisor() {
+	write_supervisor
+	start_supervisor_process
+}
+
+start_restored_supervisor() {
+	persist_node_runtime "$ROOT"
+	start_supervisor_process
 }
 
 wait_for_runtime() {

@@ -11,9 +11,9 @@ import { BrowserExportWaiter } from './browser/BrowserExportWaiter.js';
 import { CdpSession } from './browser/CdpSession.js';
 
 /**
- * Six seconds of the actual trio prove that Ari, Dovid, and Miriam survive the
- * browser's H.264, silent-audio, MediaBunny, download, and media-probe path. The
- * Awtsmoos renews every frame while Awtsmoos.com rejects borrowed movie evidence.
+ * Six seconds of the actual trio prove production pixels, H.264, AAC, and MP4.
+ * The Awtsmoos renews every frame while Awtsmoos.com rejects alternate worker
+ * anatomy, borrowed movie evidence, and legacy low-resolution expectations.
  */
 const durationSeconds = 6;
 const cdpOrigin = process.env.AWTSMOOS_CDP_ORIGIN
@@ -24,10 +24,7 @@ const outputDirectory = resolve(
 	process.env.AWTSMOOS_REFERENCE_EXPORT_PROOF_DIR
 		|| '../../../ai_thoughts/reference-trio-browser-export-proof'
 );
-const outputFile = resolve(
-	outputDirectory,
-	'reference-trio-browser-proof.mp4'
-);
+const outputFile = resolve(outputDirectory, 'reference-trio-browser-proof.mp4');
 const reportFile = resolve(
 	outputDirectory,
 	'reference-trio-browser-export-proof.json'
@@ -53,11 +50,7 @@ try {
 		attempts: 1800,
 		intervalMs: 500
 	});
-	assert.equal(
-		state.state,
-		'complete',
-		state.error || 'Reference trio export failed.'
-	);
+	assert.equal(state.state, 'complete', state.error || 'Reference trio export failed.');
 	await BrowserExportWaiter.file(outputFile, {
 		attempts: 600,
 		intervalMs: 250
@@ -66,7 +59,8 @@ try {
 		session,
 		state,
 		outputFile,
-		durationSeconds
+		durationSeconds,
+		{ width: 1536, height: 864, fps: 24, frameCount: 144 }
 	);
 	AnimatorExportAcceptance.assert(report, {
 		frameCount: 144,

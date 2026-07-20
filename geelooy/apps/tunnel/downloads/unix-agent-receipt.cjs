@@ -2,42 +2,29 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const fs = require("node:fs");
 const path = require("node:path");
 
-/**
- * @file Adds health receipts only to legacy agents lacking native schema-3 support.
- * @description
- * The Awtsmoos renews old and new testimony without allowing two writers to compete.
- * Awtsmoos.com leaves modern receipts untouched, while archived agents gain fresh
- * inbound-message, authoritative tunnel-ID, and terminal-state evidence.
- */
+/** Adds schema-4 health receipts only to agents lacking native support. */
 function attach(root) {
 	if (nativeReceiptSupported(root)) return { native: true, write() {} };
 	const state = createState(root);
 	patchSocket(root, state);
-	return {
-		native: false,
-		write: (name, details) => writeReceipt(state, name, details)
-	};
+	return { native: false, write: (name, details) => writeReceipt(state, name, details) };
 }
 
 function nativeReceiptSupported(root) {
 	try {
 		const receipt = require(path.join(root, "lib/runtime/connection-receipt.js"));
-		return Number(receipt.SCHEMA_VERSION || 0) >= 3;
-	} catch {
-		return false;
-	}
+		return Number(receipt.SCHEMA_VERSION || 0) >= 4;
+	} catch { return false; }
 }
 
 function createState(root) {
 	return {
-		root,
-		file: path.join(root, "connection-state.json"),
+		root, file: path.join(root, "connection-state.json"),
 		config: readJson(path.join(root, "config.json"), {}),
-		generation: 0
+		identity: readJson(path.join(root, "device-binding.json"), {}), generation: 0
 	};
 }
 
@@ -48,15 +35,14 @@ function patchSocket(root, state) {
 	WebSocket.prototype[marker] = true;
 	const originalEmit = WebSocket.prototype.emit;
 	WebSocket.prototype.emit = function patchedEmit(eventName, ...argumentsList) {
+		const result = originalEmit.call(this, eventName, ...argumentsList);
 		if (eventName === "open") {
 			state.generation += 1;
 			writeReceipt(state, "socket_open");
 		}
 		if (eventName === "message") observeMessage(state, argumentsList[0]);
-		if (eventName === "close") {
-			writeReceipt(state, "closed", { reason: "socket_closed" });
-		}
-		return originalEmit.call(this, eventName, ...argumentsList);
+		if (eventName === "close") writeReceipt(state, "closed", { reason: "socket_closed" });
+		return result;
 	};
 }
 
@@ -65,10 +51,9 @@ function observeMessage(state, raw) {
 	const message = parseMessage(raw);
 	if (message?.type === "TUNNEL_ACK") {
 		writeReceipt(state, message.ok === true ? "registered" : "registration_rejected", {
-			tunnelId: message.tunnelId || "",
+			tunnelId: message.tunnelId || state.identity.tunnelId || "",
 			tunnelName: message.tunnelName || message.name || "",
-			serverTime: message.serverTime || null,
-			lastServerMessageAt: now,
+			serverTime: message.serverTime || null, lastServerMessageAt: now,
 			reason: message.ok === true ? "" : String(message.error || "registration_rejected")
 		});
 		return;
@@ -83,14 +68,13 @@ function writeReceipt(state, name, details = {}) {
 	const now = new Date().toISOString();
 	const existing = readJson(state.file, {});
 	const value = {
-		schemaVersion: 3,
-		state: name,
-		pid: process.pid,
-		tunnelId: details.tunnelId || existing.tunnelId || "",
+		schemaVersion: 4, state: name, pid: process.pid,
+		tunnelId: details.tunnelId || existing.tunnelId || state.identity.tunnelId || "",
 		tunnelName: details.tunnelName || existing.tunnelName || state.config.tunnelName || "",
 		agentVersion: existing.agentVersion || "compatibility-launcher",
-		generation: state.generation,
-		reconnectAttempt: Number(existing.reconnectAttempt || 0),
+		activationId: process.env.AWTSMOOS_ACTIVATION_ID || "",
+		runtimeVersion: process.env.AWTSMOOS_RUNTIME_VERSION || "unknown",
+		generation: state.generation, reconnectAttempt: Number(existing.reconnectAttempt || 0),
 		updatedAt: now,
 		registeredAt: name === "registered" ? existing.registeredAt || now : existing.registeredAt || null,
 		lastServerMessageAt: details.lastServerMessageAt || existing.lastServerMessageAt || null,
@@ -112,7 +96,7 @@ function readJson(file, fallback) {
 
 function atomicWrite(file, value) {
 	const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
-	fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+	fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600 });
 	fs.renameSync(temporary, file);
 }
 

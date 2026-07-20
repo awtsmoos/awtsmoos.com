@@ -3,44 +3,64 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos preserves the owner's chosen workspace and account-bound device.
-# Awtsmoos.com gives a fresh install a deterministic root, while every update restores
-# validated identity metadata from live runtime or the external recovery state.
-
+# Identity is preserved while an explicit root always wins and a discovered Git root
+# narrows only an existing ancestor workspace. Unrelated owner choices remain intact.
 create_candidate_config() {
 	local candidate="$1"
-	local config_path="$candidate/config.json"
-	if [ -f "$ROOT/config.json" ] && [ ! -L "$ROOT/config.json" ]; then
-		cp -p "$ROOT/config.json" "$config_path"
-		return 0
-	fi
-	node - "$config_path" <<'NODE'
+	local existing="$ROOT/config.json"
+	local destination="$candidate/config.json"
+	node - "$existing" "$destination" <<'NODE'
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const file = process.argv[2];
+const [source, destination] = process.argv.slice(2);
+
+function readExisting() {
+	try {
+		if (fs.lstatSync(source).isSymbolicLink()) return {};
+		return JSON.parse(fs.readFileSync(source, "utf8"));
+	} catch {
+		return {};
+	}
+}
+
+function discoveredRoot(configuredRoot) {
+	const discovered = process.env.AWTSMOOS_DISCOVERED_PROJECT_ROOT;
+	if (!discovered) return "";
+	if (!configuredRoot) return discovered;
+	const relative = path.relative(path.resolve(configuredRoot), path.resolve(discovered));
+	return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative))
+		? discovered
+		: "";
+}
+
+const config = readExisting();
 const random = Math.floor(Math.random() * 90000) + 10000;
-const projectRoot = path.resolve(
-	process.env.AWTSMOOS_PROJECT_ROOT ||
-	path.join(os.homedir(), "AwtsmoosWorkspace")
-);
-fs.mkdirSync(projectRoot, { recursive: true });
-const config = {
-	relay: process.env.AWTSMOOS_RELAY || "wss://awtsmoos.com",
-	tunnelName: process.env.AWTSMOOS_TUNNEL_NAME ||
+const requestedRoot = process.env.AWTSMOOS_PROJECT_ROOT ||
+	discoveredRoot(config.root) || config.root || path.join(os.homedir(), "AwtsmoosWorkspace");
+const projectRoot = path.resolve(requestedRoot);
+if (!config.root && !process.env.AWTSMOOS_DISCOVERED_PROJECT_ROOT) {
+	fs.mkdirSync(projectRoot, { recursive: true });
+}
+const value = {
+	relay: process.env.AWTSMOOS_RELAY || config.relay || "wss://awtsmoos.com",
+	tunnelName: process.env.AWTSMOOS_TUNNEL_NAME || config.tunnelName ||
 		`awt-${process.env.USER || "user"}-${random}`,
-	local: process.env.AWTSMOOS_LOCAL || "http://localhost:3000",
-	root: projectRoot,
-	allowWrite: true,
-	allowSecrets: false,
-	enableLocalHttpProxy: true,
-	localApi: {
+	local: process.env.AWTSMOOS_LOCAL || config.local || "http://localhost:3000",
+	...config,
+	root: projectRoot
+};
+if (!config.localApi) {
+	value.localApi = {
 		enabled: true,
 		host: "127.0.0.1",
 		port: Number(process.env.AWTSMOOS_LOCAL_API_PORT || 3977)
-	}
-};
-fs.writeFileSync(file, `${JSON.stringify(config, null, 2)}\n`);
+	};
+}
+if (config.allowWrite === undefined) value.allowWrite = true;
+if (config.allowSecrets === undefined) value.allowSecrets = false;
+if (config.enableLocalHttpProxy === undefined) value.enableLocalHttpProxy = true;
+fs.writeFileSync(destination, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600 });
 NODE
 }
 

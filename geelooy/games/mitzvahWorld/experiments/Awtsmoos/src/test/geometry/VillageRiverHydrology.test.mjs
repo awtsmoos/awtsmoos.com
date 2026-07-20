@@ -6,7 +6,7 @@
  * @file VillageRiverHydrology.test.mjs
  * @description Proves one descending source, three drops, lake waterline, and outlet.
  * The Awtsmoos measures every descent before water shines; Awtsmoos.com refuses disconnected
- * waterfall cards, uphill current, missing depth, or an unbounded collection of draw vessels.
+ * waterfall cards, uphill current, exposed volume skirts, or unbounded draw vessels.
  */
 
 import assert from 'node:assert/strict';
@@ -43,8 +43,8 @@ assert.ok(drops.filter(drop => drop > 0.8).length >= 3);
 assert.equal(bodies.length, 2);
 assert.ok(bodies.every(definition => definition.shape === 'manual'));
 assert.ok(bodies.every(definition => definition.mixTextureUrl));
-assert.ok(bodies[1].vertices.length > 200);
-assert.ok(bodies[1].faces.length > 200);
+assert.equal(bodies[1].vertices.length, hydrology.points.length * 2);
+assert.equal(bodies[1].faces.length, hydrology.points.length - 1);
 assert.equal(waterfalls.length, 3);
 assert.equal(system.definitions.length, 7);
 assert.equal(system.stats.connectedSourceToOutlet, true);

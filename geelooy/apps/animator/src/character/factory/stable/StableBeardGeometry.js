@@ -2,14 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
+
 /**
- * Measurements become a beard without losing the mouth beneath it. The
- * Awtsmoos renews every length and fullness, while Awtsmoos.com stores broad or
- * tapered identity as plain serializable character data.
+ * Beard breadth follows the authored cheek shell while the mouth keeps its own
+ * fast articulation axis. The Awtsmoos joins identity and speech; Awtsmoos.com
+ * preserves every width, opening, taper, and reaction as serializable data.
  */
 export class StableBeardGeometry {
-	static resolve(data = {}, metrics = {}) {
+	static resolve(data = {}, metrics = {}, view = {}) {
 		const authored = data.beardGeometry || {};
+		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
 		const length = Number(data.beardLength || 0.72)
 			* Number(authored.lengthScale || 1);
 		const mouthY = metrics.headY
@@ -17,8 +20,7 @@ export class StableBeardGeometry {
 			+ Number(authored.mouthVerticalOffset || 0);
 		const topY = metrics.headY + Number(authored.topOffset ?? 6);
 		const bottomY = metrics.headY + 50 + 28 * length;
-		const width = metrics.headRX * Number(authored.cheekScale || 0.68);
-
+		const width = shell.radiusX * Number(authored.cheekScale || 0.68);
 		return {
 			massStyle: authored.massStyle || 'segmented',
 			centerX: Number(authored.centerX || 0),

@@ -1,75 +1,53 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const fs = require("node:fs");
 const path = require("node:path");
 
-/**
- * @file Builds a synthetic predecessor that emits production-grade health receipts.
- * @description
- * The Awtsmoos renews registration, tunnel ID, root readiness, and timestamp together.
- * Awtsmoos.com therefore tests rollback against a genuinely healthy predecessor rather
- * than a bare process whose stale file accidentally resembles successful installation.
- */
+/** Builds a synthetic predecessor with production identity-bound receipts. */
 function fixtureMainSource() {
 	return `// B"H
 const fs = require("node:fs");
 const path = require("node:path");
 
 async function main() {
-\tconst root = process.env.AWTSMOOS_INSTALL_ROOT || __dirname;
-\tconst config = JSON.parse(
-\t\tfs.readFileSync(path.join(root, "config.json"), "utf8")
-\t);
-\tconst tunnelId = "tun_transaction_fixture";
+	const root = process.env.AWTSMOOS_INSTALL_ROOT || __dirname;
+	const config = JSON.parse(fs.readFileSync(path.join(root, "config.json"), "utf8"));
+	const runtimeVersion = fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
+	const activationId = process.env.AWTSMOOS_ACTIVATION_ID || "";
+	const tunnelId = "tun_transaction_fixture";
 
-\tfunction writeJson(name, value) {
-\t\tconst target = path.join(root, name);
-\t\tconst temporary = target + "." + process.pid + ".tmp";
-\t\tfs.writeFileSync(
-\t\t\ttemporary,
-\t\t\tJSON.stringify(value, null, 2) + "\\n"
-\t\t);
-\t\tfs.renameSync(temporary, target);
-\t}
+	function writeJson(name, value) {
+		const target = path.join(root, name);
+		const temporary = target + "." + process.pid + ".tmp";
+		fs.writeFileSync(temporary, JSON.stringify(value, null, 2) + "\\n");
+		fs.renameSync(temporary, target);
+	}
 
-\tfunction writeHealth() {
-\t\tconst now = new Date().toISOString();
-\t\twriteJson("connection-state.json", {
-\t\t\tschemaVersion: 3,
-\t\t\tstate: "registered",
-\t\t\tpid: process.pid,
-\t\t\ttunnelId,
-\t\t\ttunnelName: config.tunnelName,
-\t\t\tagentVersion: "fixture-agent",
-\t\t\tgeneration: 1,
-\t\t\treconnectAttempt: 0,
-\t\t\tupdatedAt: now,
-\t\t\tregisteredAt: now,
-\t\t\tlastServerMessageAt: now,
-\t\t\tserverTime: now,
-\t\t\treason: ""
-\t\t});
-\t\twriteJson("project-root-state.json", {
-\t\t\tok: true,
-\t\t\tstate: "ready",
-\t\t\tpid: process.pid,
-\t\t\troot: config.root,
-\t\t\treadable: true,
-\t\t\twritable: true,
-\t\t\tupdatedAt: now,
-\t\t\tcode: "fixture_root_ready"
-\t\t});
-\t}
+	function writeHealth() {
+		const now = new Date().toISOString();
+		writeJson("connection-state.json", {
+			schemaVersion: 4, state: "registered", pid: process.pid, tunnelId,
+			tunnelName: config.tunnelName, agentVersion: "fixture-agent",
+			activationId, runtimeVersion, generation: 1, reconnectAttempt: 0,
+			updatedAt: now, registeredAt: now, lastServerMessageAt: now,
+			serverTime: now, reason: ""
+		});
+		writeJson("project-root-state.json", {
+			schemaVersion: 2, ok: true, state: "ready", pid: process.pid,
+			activationId, runtimeVersion, root: config.root,
+			canonicalRoot: fs.realpathSync(config.root), allowWrite: true,
+			readable: true, writable: true,
+			request: { action: "projectRootProbe", root: config.root, read: true, write: true },
+			response: { ok: true, code: "", message: "", fixture: true },
+			updatedAt: now, code: "fixture_root_ready"
+		});
+	}
 
-\tfunction stop() {
-\t\tprocess.exit(0);
-\t}
-
-\twriteHealth();
-\tsetInterval(writeHealth, 1000);
-\tprocess.on("SIGTERM", stop);
+	function stop() { process.exit(0); }
+	writeHealth();
+	setInterval(writeHealth, 1000);
+	process.on("SIGTERM", stop);
 }
 
 module.exports = { main };
@@ -81,34 +59,19 @@ function writeRuntimeMetadata(fixture, source, version) {
 		fixture.repositoryRoot,
 		"geelooy/apps/tunnel/agent/manifest.txt"
 	));
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "installed-manifest.txt"),
-		manifest
-	);
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "install-state.txt"),
-		`${version}\n`
-	);
+	fs.writeFileSync(path.join(fixture.runtimeRoot, "installed-manifest.txt"), manifest);
+	fs.writeFileSync(path.join(fixture.runtimeRoot, "install-state.txt"), `${version}\n`);
 	fs.writeFileSync(
 		path.join(fixture.runtimeRoot, "install-manifest.sha256"),
 		`${source.manifestSha256}\n`
 	);
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "config.json"),
-		`${JSON.stringify({
-			tunnelName: "awt-transaction-rollback-test",
-			root: fixture.temporaryRoot,
-			allowWrite: true,
-			localApi: { enabled: false }
-		}, null, 2)}\n`
-	);
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "sentinel.txt"),
-		"older-runtime\n"
-	);
+	fs.writeFileSync(path.join(fixture.runtimeRoot, "config.json"), `${JSON.stringify({
+		tunnelName: "awt-transaction-rollback-test",
+		root: fixture.temporaryRoot,
+		allowWrite: true,
+		localApi: { enabled: false }
+	}, null, 2)}\n`);
+	fs.writeFileSync(path.join(fixture.runtimeRoot, "sentinel.txt"), "older-runtime\n");
 }
 
-module.exports = {
-	fixtureMainSource,
-	writeRuntimeMetadata
-};
+module.exports = { fixtureMainSource, writeRuntimeMetadata };

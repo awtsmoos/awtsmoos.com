@@ -6,13 +6,10 @@
 AWTSMOOS_ACTIVATION_ID="${AWTSMOOS_ACTIVATION_ID:-activation-$(date -u +%Y%m%dT%H%M%SZ)-$$}"
 export AWTSMOOS_ACTIVATION_ID
 
-# The Awtsmoos renews package, identity, workspace, and guardian truth atomically.
-# Awtsmoos.com gives every activation one stable ID and waits for the candidate's
-# exact root receipt before deciding that registration is durable enough to commit.
-
+# Every activation carries one stable identity through connection, root, and guardian
+# proof. A stale process or receipt cannot satisfy a later transaction.
 skip_start_requested() {
-	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] ||
-		[ "${AWTSMOOS_SKIP_START:-}" = "true" ]
+	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]
 }
 
 write_activation_journal() {
@@ -27,23 +24,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const [file, phase, candidate, rollback, version, activationId] = process.argv.slice(2);
 const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
-const value = {
-	schemaVersion: 2,
-	activationId,
-	at: new Date().toISOString(),
-	phase,
-	candidate,
-	rollback,
-	version
-};
+const value = { schemaVersion: 2, activationId, at: new Date().toISOString(), phase, candidate, rollback, version };
 let descriptor;
 try {
 	descriptor = fs.openSync(temporary, "wx", 0o600);
 	fs.writeFileSync(descriptor, `${JSON.stringify(value, null, 2)}\n`);
 	fs.fsyncSync(descriptor);
-} finally {
-	if (descriptor !== undefined) fs.closeSync(descriptor);
-}
+} finally { if (descriptor !== undefined) fs.closeSync(descriptor); }
 fs.renameSync(temporary, file);
 try {
 	const directory = fs.openSync(path.dirname(file), "r");
@@ -59,23 +46,38 @@ current_release_is_complete() {
 	runtime_probe_compatible "$ROOT"
 }
 
+candidate_root_ready() {
+	local startup_timeout="$1"
+	local root_timeout="$2"
+	local agent_pid=""
+	wait_for_runtime "$startup_timeout" || return 1
+	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	wait_for_project_root_readiness "$agent_pid" "$root_timeout" 600000 && return 0
+	if retry_portable_supervisor_for_project_root; then
+		wait_for_runtime "$startup_timeout" || return 1
+		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+		wait_for_project_root_readiness "$agent_pid" "$root_timeout" 600000
+		return $?
+	fi
+	return 1
+}
+
 candidate_is_stably_active() {
 	current_release_is_complete || return 1
 	local startup_timeout="${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}"
 	local root_timeout="${AWTSMOOS_PROJECT_ROOT_TIMEOUT_SECONDS:-30}"
 	local agent_pid=""
-	if [ ! -f "$ROOT/device-binding.json" ] &&
-		[ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
+	if [ ! -f "$ROOT/device-binding.json" ] && [ -z "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-}" ]; then
 		startup_timeout=600
 	fi
-	wait_for_runtime "$startup_timeout" || return 1
-	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	if ! wait_for_project_root_readiness "$agent_pid" "$root_timeout" 600000; then
+	if ! candidate_root_ready "$startup_timeout" "$root_timeout"; then
+		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 		install_event "startup" "failed" \
 			"Agent registered but could not prove project-root readiness." \
-			"pid=${agent_pid:-missing} $(project_root_health_summary)"
+			"$(project_root_failure_detail "$agent_pid")"
 		return 1
 	fi
+	agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	if ! wait_for_service_supervision 30; then
 		install_event "startup" "failed" \
 			"Agent was temporary; durable supervisor ownership was not proven." \
@@ -90,7 +92,7 @@ candidate_is_stably_active() {
 	fi
 	install_event "startup" "passed" \
 		"Candidate sustained registration, root, and guardian readiness." \
-		"pid=$agent_pid $(project_root_health_summary) $(service_health_summary)"
+		"pid=$agent_pid $(project_root_health_summary "$agent_pid") $(service_health_summary)"
 	return 0
 }
 

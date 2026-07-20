@@ -18,7 +18,7 @@ import { createVillageCottageRoof } from './VillageCottageRoofGeometry.js';
 import {
 	cottageRoomCapacity,
 	villageCottageScalePolicy
-} from './VillageCottageScalePolicy.js';
+} from './VillageCottageScalePolicy.js?v=20260720-canonical-valley-pass-04';
 
 /**
  * Creates the shell and closed roof for one village cottage.
@@ -70,7 +70,7 @@ function createShell(options, materials) {
 	);
 	return {
 		anisotropy: materials.anisotropy,
-		color: '#ded3c0',
+		color: '#b8aa91',
 		id: `Awtsmoos_${options.id}`,
 		mapRepeat: repeat,
 		mixPatchScale: 0.07,

@@ -1,16 +1,10 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 
-/**
- * B"H
- * Temporary roots reveal activation without touching a living installation.
- * The Awtsmoos renews predecessor and candidate; Awtsmoos.com proves that a
- * Termux-shaped update advances and a failed candidate restores its predecessor.
- */
+/** Termux-shaped activation advances, while failure restarts its predecessor. */
 function runScenario(name, script) {
 	const result = spawnSync("bash", ["-c", script], {
 		cwd: process.cwd(),
@@ -51,9 +45,7 @@ connection_state_name() { printf 'isolated'; }
 const termuxOutput = runScenario("termux archive warning", String.raw`
 ${shared}
 archive_known_good_runtime() { return 1; }
-schedule_displaced_cleanup() {
-	printf '%s\n' "$1" > "$TMP/rollback-path"
-}
+schedule_displaced_cleanup() { printf '%s\n' "$1" > "$TMP/rollback-path"; }
 skip_start_requested() { return 0; }
 source geelooy/apps/tunnel/downloads/unix-activation.sh
 activate_update
@@ -73,8 +65,9 @@ source geelooy/apps/tunnel/downloads/unix-activation.sh
 archive_known_good_runtime() { return 0; }
 skip_start_requested() { return 1; }
 start_supervisor() { :; }
+start_restored_supervisor() { printf 'restarted\n' > "$TMP/restarted"; }
 candidate_is_stably_active() { return 1; }
-restored_runtime_ready() { return 0; }
+restored_runtime_ready() { test -f "$TMP/restarted"; }
 mark_runtime_restored() { :; }
 restore_archive_layers() { return 1; }
 restore_legacy_layer() { return 1; }
@@ -84,6 +77,7 @@ test "$(cat "$ROOT/main.js")" = "old"
 FAILED="$(find "$TMP" -maxdepth 1 -type d -name 'live.failed-*' | head -n 1)"
 test -n "$FAILED"
 test "$(cat "$FAILED/main.js")" = "new"
+test "$(cat "$TMP/restarted")" = "restarted"
 printf 'rollback-passed\n'
 `);
 assert.match(rollbackOutput, /rollback-passed/);
@@ -92,5 +86,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-activation-isolation",
 	termuxShapedUpdate: true,
-	failedCandidateRolledBack: true
+	failedCandidateRolledBack: true,
+	predecessorRestarted: true
 }, null, 2));

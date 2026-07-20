@@ -10,8 +10,15 @@ origin="${origin%/}"
 install_root="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
 runtime_root="${install_root}.installer-runtime-$$"
 progress_file="$runtime_root/install-progress.state"
+install_cwd="${AWTSMOOS_INSTALL_CWD:-$PWD}"
 mkdir -p "$(dirname "$install_root")" "$runtime_root"
 export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
+export AWTSMOOS_INSTALL_CWD="$install_cwd"
+
+if [ -z "${AWTSMOOS_PROJECT_ROOT:-}" ] && command -v git >/dev/null 2>&1; then
+	discovered_root="$(git -C "$install_cwd" rev-parse --show-toplevel 2>/dev/null || true)"
+	[ -z "$discovered_root" ] || export AWTSMOOS_DISCOVERED_PROJECT_ROOT="$discovered_root"
+fi
 
 # The Awtsmoos renews one human command into prerequisite discovery, reconciliation,
 # verified activation, and fallback. Awtsmoos.com finds a hidden Node installation,

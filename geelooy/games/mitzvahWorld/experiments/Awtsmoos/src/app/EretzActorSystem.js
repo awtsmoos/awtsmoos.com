@@ -27,7 +27,7 @@ import {
 	createEretzNpcPopulation,
 	createEretzPlayerState,
 	createEretzPlayerStats
-} from './EretzActorFactories.js';
+} from './EretzActorFactories.js?v=20260720-canonical-valley-pass-04';
 import { createPlayerModel } from './EretzPlayerModel.js';
 import { PLAYER_SPAWN } from './EretzPlayerStateFactory.js';
 

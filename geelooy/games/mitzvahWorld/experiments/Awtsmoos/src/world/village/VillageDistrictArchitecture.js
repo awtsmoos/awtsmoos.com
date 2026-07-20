@@ -21,7 +21,7 @@ import {
 	createCottageShadowBatch,
 	createCottageShadowCollector
 } from './VillageCottageShadowBatch.js';
-import { appendVillageDistrict } from './VillageDistrictConstruction.js';
+import { appendVillageDistrict } from './VillageDistrictConstruction.js?v=20260720-canonical-valley-pass-04';
 import { VILLAGE_DISTRICTS } from './VillageDistrictCatalog.js';
 import { selectVillageDistricts } from './VillageDistrictSelection.js';
 import { villageWorldBudget } from './VillageWorldBudget.js';

@@ -9,7 +9,7 @@
  * relabels a requested multiplayer village as single-player when its transport is unavailable.
  */
 
-import { createEretzRuntime } from '../app/createEretzRuntime.js';
+import { createEretzRuntime } from '../app/createEretzRuntime.js?v=20260720-canonical-valley-pass-04';
 import { launchMaterialDiagnostic } from '../diagnostics/MaterialDiagnosticMode.js';
 import { createMovieStudio } from '../movie/MovieStudio.js';
 import { hasMovieRequest, loadRequestedMovie } from '../movie/MovieProject.js';

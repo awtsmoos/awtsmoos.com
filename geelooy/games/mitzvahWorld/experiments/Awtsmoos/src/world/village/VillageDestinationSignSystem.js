@@ -48,10 +48,10 @@ function createSignGroup(group, groundSampler) {
 	const post = villageCylinder(
 		`Awtsmoos_destination_sign_post_${group.id}`,
 		x,
-		y + 1.15,
+		y + 1.55,
 		z,
-		0.075,
-		2.3,
+		0.11,
+		3.1,
 		'#5d3b1f',
 		TEXTURE_URLS.wood.bark1,
 		{ userData: metadata }
@@ -59,11 +59,11 @@ function createSignGroup(group, groundSampler) {
 	const board = villageBox(
 		`Awtsmoos_destination_sign_board_${group.id}`,
 		x,
-		y + 1.82,
+		y + 2.35,
 		z,
-		3.25,
-		1.3,
-		0.12,
+		4.6,
+		1.85,
+		0.16,
 		'#ffffff',
 		createVillageSignTextureUrl(group),
 		{

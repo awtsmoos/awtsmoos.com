@@ -10,7 +10,7 @@
  */
 
 export const CANONICAL_VILLAGE_CAMERAS = Object.freeze([
-	camera('arrival-hero', [0, 5.2, 113], [6, 7, 27], 64),
+	camera('arrival-hero', [-5, 5.2, 121], [9, 7, 27], 62),
 	camera('master-top-down', [4, 245, 24], [4, 0, 24], 48),
 	camera('north', [4, 118, -205], [4, 8, 20], 48),
 	camera('northeast', [165, 118, -160], [4, 8, 20], 48),

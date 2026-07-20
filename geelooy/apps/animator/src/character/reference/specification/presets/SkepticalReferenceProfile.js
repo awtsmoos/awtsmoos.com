@@ -5,65 +5,33 @@
 import { SkepticalReferenceBodyGeometry } from './SkepticalReferenceBodyGeometry.js';
 
 /**
- * Dovid's guarded shoulders and crossed arms remain one editable production rig.
- * The Awtsmoos renews every measured joint, while Awtsmoos.com preserves his
- * skeptical weight through serializable neck-to-foot proportions.
+ * Dovid's guarded rig carries colors measured from the authority image. The
+ * Awtsmoos renews restraint while Awtsmoos.com preserves editable production data.
  */
 export class SkepticalReferenceProfile {
 	static character() {
 		return {
 			measurements: {
 				body: {
-					headWidth: 0.238,
-					headHeight: 0.255,
-					shoulderWidth: 0.298,
-					hipWidth: 0.19,
-					armWidth: 0.048,
-					legWidth: 0.05,
-					waistY: 0.585,
-					hipY: 0.688
+					headWidth: 0.238, headHeight: 0.255, shoulderWidth: 0.298,
+					hipWidth: 0.19, armWidth: 0.048, legWidth: 0.05,
+					waistY: 0.585, hipY: 0.688
 				},
-				style: {
-					outerLineWidth: 0.011,
-					innerLineWidth: 0.006,
-					shadowWidth: 0.27
-				}
+				style: { outerLineWidth: 0.011, innerLineWidth: 0.006, shadowWidth: 0.27 }
 			},
 			referenceMetrics: {
-				headRX: 34,
-				headRY: 40,
-				neckTopY: -198,
-				neckBottomY: -184,
-				shoulderY: -181,
-				chestY: -138,
-				waistY: -91.18,
-				hipY: -63,
-				kneeY: -37.99,
-				ankleY: 2.52,
-				footY: 12.74,
-				shoulderHalf: 42,
-				hipHalf: 27,
-				armWidth: 12,
-				legWidth: 13,
-				shadowRX: 40
+				headRX: 34, headRY: 40, neckTopY: -198, neckBottomY: -184,
+				shoulderY: -186, chestY: -138, waistY: -91, hipY: -79,
+				kneeY: -42, ankleY: -3, footY: 5, shoulderHalf: 42,
+				hipHalf: 27, armWidth: 12, legWidth: 13, shadowRX: 40
 			},
 			bodyGeometry: SkepticalReferenceBodyGeometry.create(),
-			bodyProfile: 'guardedSlim',
-			expressionProfile: 'skeptical_side_glance',
-			motion: 'skeptical',
-			gesture: 'arms_crossed',
-			acting: 'listen',
-			beard: true,
-			beardStyle: 'tapered_rounded',
-			beardLength: 0.66,
-			payos: true,
-			payosLength: 0.84,
-			payosCurl: 0.68,
-			payosThickness: 0.9,
-			hatType: 'kippah',
-			wardrobeProfile: 'burgundy_collared_shirt',
-			rigPose: this.pose(),
-			colors: this.colors()
+			bodyProfile: 'guardedSlim', expressionProfile: 'skeptical_side_glance',
+			motion: 'skeptical', gesture: 'arms_crossed', acting: 'listen',
+			beard: true, beardStyle: 'tapered_rounded', beardLength: 0.66,
+			payos: true, payosLength: 0.84, payosCurl: 0.68, payosThickness: 0.9,
+			hatType: 'kippah', wardrobeProfile: 'burgundy_collared_shirt',
+			rigPose: this.pose(), colors: this.colors()
 		};
 	}
 
@@ -79,10 +47,10 @@ export class SkepticalReferenceProfile {
 
 	static colors() {
 		return {
-			shirt: '#8b3528', shirtDark: '#68241d', shirtLight: '#a94b3b',
-			jacket: '#8b3528', jacketDark: '#68241d', jacketLight: '#a94b3b',
-			pants: '#292a2d', skin: '#e0a16f', skinDark: '#bd744d',
-			hair: '#4c2a15', hairDark: '#24140b', beard: '#4c2a15',
+			shirt: '#7f2f20', shirtDark: '#5d2118', shirtLight: '#9d4635',
+			jacket: '#7f2f20', jacketDark: '#5d2118', jacketLight: '#9d4635',
+			pants: '#292a2d', skin: '#f6c493', skinDark: '#d38b5c',
+			hair: '#3b2710', hairDark: '#24140b', beard: '#3b2710',
 			beardDark: '#24140b', hat: '#171719'
 		};
 	}

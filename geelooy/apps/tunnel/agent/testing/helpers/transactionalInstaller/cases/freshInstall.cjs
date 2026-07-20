@@ -3,19 +3,19 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const { runInstaller } = require("../installerProcess.cjs");
+const { runHttpInstaller } = require("../installerProcess.cjs");
 const { ReleaseServer } = require("../releaseServer.cjs");
 const Context = require("../testContext.cjs");
 
-/** B"H — A complete artifact must install, probe, and remain unstarted on request. */
+/** The exact HTTP curl-pipe-bash flow installs and probes a complete artifact. */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-install-fresh-"));
 	const installRoot = path.join(temporaryRoot, "home", ".awtsmoos-tunnel");
 	const server = new ReleaseServer(Context.REPOSITORY_ROOT);
 	const origin = await server.start();
 	try {
-		const result = await runInstaller(
-			Context.UNIX_BOOTSTRAP,
+		const result = await runHttpInstaller(
+			origin,
 			Context.environment(origin, installRoot, temporaryRoot, {
 				AWTSMOOS_SKIP_START: "1"
 			}),
@@ -37,8 +37,11 @@ async function run() {
 		assert.equal(fs.existsSync(path.join(installRoot, "agent.pid")), false);
 		Context.assertProbePasses(installRoot);
 		return {
-			case: "fresh_install",
-			version: fs.readFileSync(path.join(installRoot, "install-state.txt"), "utf8").trim(),
+			case: "fresh_http_curl_pipe_bash_install",
+			version: fs.readFileSync(
+				path.join(installRoot, "install-state.txt"),
+				"utf8"
+			).trim(),
 			consolePhases: Context.phaseLines(result.stdout)
 		};
 	} finally {

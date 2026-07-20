@@ -12,7 +12,7 @@
 import { createFoamBatchDefinition } from './VillageFoamBatchGeometry.js';
 import { createReedBatchDefinition } from './VillageReedBatchGeometry.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
-import { createWaterBodyDefinitions } from './VillageWaterBodies.js';
+import { createWaterBodyDefinitions } from './VillageWaterBodies.js?v=20260720-canonical-valley-pass-04';
 import { createWaterfallDefinitions } from './VillageWaterfallSystem.js';
 
 export function createVillageWaterDefinitions(groundSampler) {

@@ -21,7 +21,7 @@ export function createVillageCottageRoof(options) {
 		options.texturePolicy?.tileWorld
 	);
 	return {
-		color: '#9e6f58',
+		color: '#4f4a43',
 		doubleSided: true,
 		faces: geometry.faces,
 		id: `Awtsmoos_${options.id}-roof`,

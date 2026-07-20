@@ -18,7 +18,7 @@ import { MobileJoystick } from '../input/MobileJoystick.js';
 import { UiEventSystem } from '../input/UiEventSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
-import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js';
+import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js?v=20260720-canonical-valley-pass-04';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
@@ -66,17 +66,17 @@ function referenceEnvironment(reference) {
 	const sun = reference.sunCore;
 	return Object.freeze({
 		ambient: Object.freeze([
-			cool[0] * 0.75 + 0.1,
-			cool[1] * 0.72 + 0.05,
-			cool[2] * 0.62 + 0.03
+			cool[0] * 0.72 + 0.13,
+			cool[1] * 0.7 + 0.1,
+			cool[2] * 0.66 + 0.08
 		]),
-		exposure: 1.18,
+		exposure: 0.96,
 		fogColor: Object.freeze([
-			cool[0] * 0.48 + horizon[0] * 0.52,
-			cool[1] * 0.48 + horizon[1] * 0.52,
-			cool[2] * 0.48 + horizon[2] * 0.52
+			cool[0] * 0.66 + horizon[0] * 0.34,
+			cool[1] * 0.68 + horizon[1] * 0.32,
+			cool[2] * 0.74 + horizon[2] * 0.26
 		]),
-		sunColor: Object.freeze([sun[0] * 1.38, sun[1] * 1.38, sun[2] * 1.38]),
+		sunColor: Object.freeze([sun[0] * 1.18, sun[1] * 1.02, sun[2] * 0.82]),
 		sunDirection: Object.freeze(normalized(reference.sunPosition))
 	});
 }

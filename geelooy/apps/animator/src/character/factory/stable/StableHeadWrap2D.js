@@ -6,9 +6,9 @@ import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { StableHeadWrapGeometry } from './StableHeadWrapGeometry.js';
 
 /**
- * A modest wrap crowns Miriam without becoming a visor across her living face.
- * The Awtsmoos renews crown, shallow band, and restrained rear bun, while
- * Awtsmoos.com keeps every fold editable, rig-connected, and exportable.
+ * A layered wrap crowns Miriam without becoming a visor. The Awtsmoos renews
+ * every fold and compact bun, while Awtsmoos.com keeps them editable, rigged,
+ * serializable, and identical across production preview and export.
  */
 export class StableHeadWrap2D {
 	static build(data = {}, colors = {}, metrics = {}, view = {}) {
@@ -16,13 +16,18 @@ export class StableHeadWrap2D {
 		if ((headwear.type || data.hatType) !== 'head_wrap') {
 			return null;
 		}
-		const geometry = StableHeadWrapGeometry.resolve(headwear, metrics, view);
+		const geometry = StableHeadWrapGeometry.resolve(
+			data,
+			headwear,
+			metrics,
+			view
+		);
 		const fill = data.colors?.headWrap || data.colors?.hat || '#161719';
 		const stroke = colors.line || '#111';
 		return G.group('stable_head_wrap', null, [
 			this.bun(headwear, geometry, fill, stroke),
 			this.mass(geometry, fill, stroke),
-			this.band(geometry)
+			...this.folds(geometry)
 		]);
 	}
 
@@ -30,18 +35,30 @@ export class StableHeadWrap2D {
 		const { x, baselineY, radiusX, crownHeight } = geometry;
 		return G.path('head_wrap_crown', [
 			{ type: 'move', x: x - radiusX, y: baselineY },
-			{ type: 'quad', cx: x - radiusX * 0.55, cy: baselineY - crownHeight * 0.92, x, y: baselineY - crownHeight },
-			{ type: 'quad', cx: x + radiusX * 0.58, cy: baselineY - crownHeight * 0.9, x: x + radiusX, y: baselineY },
-			{ type: 'quad', cx: x, cy: baselineY + 4, x: x - radiusX, y: baselineY }
-		], { fill, stroke, lineWidth: geometry.lineWidth, lineJoin: 'round' });
+			{ type: 'bezier', c1x: x - radiusX * 0.82, c1y: baselineY - crownHeight * 0.8, c2x: x - radiusX * 0.35, c2y: baselineY - crownHeight, x, y: baselineY - crownHeight },
+			{ type: 'bezier', c1x: x + radiusX * 0.38, c1y: baselineY - crownHeight, c2x: x + radiusX * 0.82, c2y: baselineY - crownHeight * 0.76, x: x + radiusX, y: baselineY },
+			{ type: 'quad', cx: x, cy: baselineY + 5, x: x - radiusX, y: baselineY }
+		], {
+			fill,
+			stroke,
+			lineWidth: geometry.lineWidth,
+			lineJoin: 'round'
+		});
 	}
 
-	static band(geometry) {
-		const { x, baselineY, radiusX, bandCurve } = geometry;
-		return G.path('head_wrap_band', [
-			{ type: 'move', x: x - radiusX + 4, y: baselineY - 2 },
-			{ type: 'quad', cx: x, cy: baselineY + bandCurve, x: x + radiusX - 4, y: baselineY - 2 }
-		], { stroke: `rgba(255,255,255,${geometry.highlightOpacity})`, lineWidth: 3.2, lineCap: 'round' });
+	static folds(geometry) {
+		const { x, baselineY, radiusX, crownHeight } = geometry;
+		const stroke = `rgba(255,255,255,${geometry.highlightOpacity})`;
+		return [
+			G.path('head_wrap_band', [
+				{ type: 'move', x: x - radiusX + 5, y: baselineY - 2 },
+				{ type: 'quad', cx: x, cy: baselineY + geometry.bandCurve, x: x + radiusX - 5, y: baselineY - 2 }
+			], { stroke, lineWidth: 2.5, lineCap: 'round' }),
+			G.path('head_wrap_fold', [
+				{ type: 'move', x: x + radiusX * 0.18, y: baselineY - crownHeight * 0.9 },
+				{ type: 'quad', cx: x + radiusX * 0.5, cy: baselineY - crownHeight * 0.48, x: x + radiusX * 0.68, y: baselineY - 3 }
+			], { stroke, lineWidth: 1.4, lineCap: 'round' })
+		];
 	}
 
 	static bun(headwear, geometry, fill, stroke) {
@@ -54,7 +71,7 @@ export class StableHeadWrap2D {
 			geometry.baselineY + geometry.crownHeight * geometry.bunY,
 			geometry.radiusX * geometry.bunWidth,
 			geometry.crownHeight * geometry.bunHeight,
-			0,
+			0.05,
 			{ fill, stroke, lineWidth: geometry.lineWidth }
 		);
 	}

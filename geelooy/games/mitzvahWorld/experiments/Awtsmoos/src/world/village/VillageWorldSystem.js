@@ -11,14 +11,17 @@
 
 import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
 import { createForestEdgeDefinitions } from '../forest/ForestEdgeSystem.js';
-import { createAtmosphericMountainDefinitions } from './AtmosphericMountainSystem.js';
+import { createAtmosphericMountainDefinitions } from './AtmosphericMountainSystem.js?v=20260720-canonical-valley-pass-04';
+import { createHeroCottageCraftDefinitions } from './HeroCottageCraftSystem.js';
+import { createHeroValleyGardenDefinitions } from './HeroValleyGardenSystem.js';
+import { createHeroValleyTreeDefinitions } from './HeroValleyTreeSystem.js?v=20260720-canonical-valley-pass-04';
 import { createVillageArrivalComposition } from './VillageArrivalComposition.js';
-import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js';
+import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js?v=20260720-canonical-valley-pass-04';
 import { createVillageFoundationDefinitions } from './VillageFoundationSystem.js';
 import { createVillageLandscapeDefinitions } from './VillageLandscapeSystem.js';
 import { createVillagePracticalLightDefinitions } from './VillagePracticalLightSystem.js';
-import { createVillagePropDefinitions } from './VillagePropSystem.js';
-import { createVillageWaterDefinitions } from './VillageWaterSystem.js';
+import { createVillagePropDefinitions } from './VillagePropSystem.js?v=20260720-canonical-valley-pass-04';
+import { createVillageWaterDefinitions } from './VillageWaterSystem.js?v=20260720-canonical-valley-pass-04';
 import { villageWorldBudget } from './VillageWorldBudget.js';
 
 export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
@@ -43,6 +46,9 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 		groundSampler,
 		quality
 	);
+	const cottageCraft = createHeroCottageCraftDefinitions(groundSampler);
+	const heroGardens = createHeroValleyGardenDefinitions(groundSampler);
+	const heroTrees = createHeroValleyTreeDefinitions(groundSampler);
 	const forestEdge = createForestEdgeDefinitions(groundSampler, quality);
 	const population = emptyAnimatedPopulation();
 	const creatures = createVillageCreatureDefinitions(groundSampler, quality);
@@ -55,6 +61,9 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 		...architecture,
 		...practicalLights,
 		...landscape.definitions,
+		...cottageCraft,
+		...heroGardens,
+		...heroTrees,
 		...forestEdge,
 		...population,
 		...creatures
@@ -69,6 +78,9 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 			definitionCount: definitions.length,
 			forestEdge: forestEdge.stats,
 			foundations: foundations.stats,
+			heroCraftDefinitions: cottageCraft.length,
+			heroGardenDefinitions: heroGardens.length,
+			heroTreeDefinitions: heroTrees.length,
 			landscape: landscape.stats,
 			layers: worldLayers(),
 			mountains: mountains.stats,
@@ -103,6 +115,9 @@ function worldLayers() {
 		'districts',
 		'practical-lighting',
 		'landscape',
+		'hero-cottage-craft',
+		'hero-gardens',
+		'hero-trees',
 		'forest-edge',
 		'animated-chossid-population',
 		'creatures'

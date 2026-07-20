@@ -7,9 +7,8 @@ import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Crown hair follows the same organic skull as skin and headwear. The Awtsmoos
- * renews every root, while Awtsmoos.com keeps crown, temple, wrap, and bun depth
- * editable and shared by the authoritative production renderer.
+ * Crown hair follows one organic skull beneath cap or wrap. The Awtsmoos renews
+ * every root while Awtsmoos.com keeps temple and rear-bun depth editable.
  */
 export class StableHairCrown2D {
 	static back(data, colors, metrics, view) {
@@ -46,21 +45,17 @@ export class StableHairCrown2D {
 		return G.path(id, [
 			{ type: 'move', x, y: shell.centerY - shell.radiusY * 0.46 },
 			{ type: 'quad', cx: x + side * shell.radiusX * 0.08, cy: shell.centerY - 2, x: x - side * 2, y: shell.centerY + shell.radiusY * 0.18 }
-		], {
-			stroke: colors.hairDark,
-			lineWidth: 6,
-			lineCap: 'round'
-		});
+		], { stroke: colors.hairDark, lineWidth: 6, lineCap: 'round' });
 	}
 
 	static feminineBack(colors, shell) {
 		return S.group('feminine_hair_back', null, [
 			G.ellipse(
 				'feminine_rear_bun',
-				shell.centerX + shell.radiusX * 0.93,
-				shell.centerY - shell.radiusY * 0.02,
-				shell.radiusX * 0.31,
-				shell.radiusY * 0.23,
+				shell.centerX + shell.radiusX * 0.7,
+				shell.centerY + shell.radiusY * 0.45,
+				shell.radiusX * 0.3,
+				shell.radiusY * 0.42,
 				0.08,
 				{ fill: colors.hairDark, stroke: colors.line, lineWidth: 2.1 }
 			)

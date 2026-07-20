@@ -3,9 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation keeps the predecessor until the candidate proves every readiness witness.
-# The Awtsmoos renews recovery and release as distinct vessels; Awtsmoos.com does
-# not let a non-archivable predecessor prevent a verified replacement from living.
+# Activation keeps the untouched predecessor until the candidate proves readiness.
+# Failure to archive an incompatible predecessor remains nonfatal.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
@@ -18,8 +17,7 @@ activate_fresh() {
 	mv "$CANDIDATE_ROOT" "$ROOT"
 	CANDIDATE_ROOT=""
 	write_activation_journal "fresh_activated" "$ROOT" "$displaced"
-	install_event "activate" "passed" \
-		"Fresh candidate moved into the live path." "$ROOT"
+	install_event "activate" "passed" "Fresh candidate moved into the live path." "$ROOT"
 	if skip_start_requested; then
 		[ -n "$displaced" ] && schedule_displaced_cleanup "$displaced"
 		write_activation_journal "committed" "$ROOT" "$displaced"
@@ -30,15 +28,13 @@ activate_fresh() {
 	if candidate_is_stably_active; then
 		[ -n "$displaced" ] && schedule_displaced_cleanup "$displaced"
 		write_activation_journal "committed" "$ROOT" "$displaced"
-		install_event "startup" "passed" \
-			"Fresh runtime registered successfully." "$ROOT"
+		install_event "startup" "passed" "Fresh runtime registered successfully." "$ROOT"
 		return 0
 	fi
 	remove_active_install
 	[ -n "$displaced" ] && [ -e "$displaced" ] && mv "$displaced" "$ROOT"
 	write_activation_journal "fresh_failed" "$ROOT" "$displaced"
-	install_fail "startup" \
-		"Fresh runtime failed registration and was removed." \
+	install_fail "startup" "Fresh runtime failed registration and was removed." \
 		"state=$(connection_state_name)"
 }
 
@@ -46,7 +42,6 @@ activate_update() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local rollback="${ROOT}.activation-rollback-${stamp}-$$"
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
-	write_supervisor
 	install_progress 69 "Creating compact predecessor archive"
 	if ! archive_known_good_runtime "known_good_before_activation"; then
 		install_event "archive" "warning" \
@@ -61,8 +56,7 @@ activate_update() {
 	mv "$CANDIDATE_ROOT" "$ROOT"
 	CANDIDATE_ROOT=""
 	write_activation_journal "candidate_activated" "$rollback" "$ROOT"
-	install_event "activate" "passed" \
-		"Candidate moved into the live path." \
+	install_event "activate" "passed" "Candidate moved into the live path." \
 		"root=$ROOT rollback=$rollback"
 	if skip_start_requested; then
 		schedule_displaced_cleanup "$rollback"
@@ -88,9 +82,5 @@ activate_update() {
 
 activate_release_candidate() {
 	install_rescue_runtime
-	if [ -f "$ROOT/main.js" ]; then
-		activate_update
-	else
-		activate_fresh
-	fi
+	if [ -f "$ROOT/main.js" ]; then activate_update; else activate_fresh; fi
 }

@@ -8,40 +8,29 @@ import { StableAuthoredTorsoMass2D } from './StableAuthoredTorsoMass2D.js';
 import { StableLegacyTorsoMass2D } from './StableLegacyTorsoMass2D.js';
 
 /**
- * The Awtsmoos is one beyond authored and inherited form. Awtsmoos.com dispatches
- * each torso to its rightful vessel while pelvis, rig, motion, save, reload, and
- * export remain one production character.
+ * The Awtsmoos joins garment and stance without a gap. Awtsmoos.com honors the
+ * serialized pelvis center within the same editable production character.
  */
 export class StableTorsoMass2D {
 	static human(data, colors, metrics, geometry) {
-		if (data.bodyGeometry?.torso) {
-			return StableAuthoredTorsoMass2D.build(
-				data,
-				colors,
-				metrics,
-				geometry
-			);
-		}
-
-		return StableLegacyTorsoMass2D.build(
-			data,
-			colors,
-			metrics,
-			geometry
-		);
+		return data.bodyGeometry?.torso
+			? StableAuthoredTorsoMass2D.build(data, colors, metrics, geometry)
+			: StableLegacyTorsoMass2D.build(data, colors, metrics, geometry);
 	}
 
 	static pelvis(data, colors, metrics, geometry) {
 		const pelvis = geometry.pelvis;
-		const centerX = data._skeleton.hips.x;
-		const topY = metrics.hipY - 9;
-
+		const centerX = Number.isFinite(pelvis.centerX)
+			? pelvis.centerX
+			: data._skeleton.hips.x;
+		const topY = geometry.torso?.hemY ?? metrics.hipY - 9;
+		const upperHalf = Math.max(pelvis.topHalf, geometry.torso?.hipHalf || 0);
 		return G.path('pelvis_connected', [
-			{ type: 'move', x: centerX - pelvis.topHalf, y: topY },
-			{ type: 'quad', cx: centerX, cy: topY - 9, x: centerX + pelvis.topHalf, y: topY },
-			{ type: 'quad', cx: centerX + pelvis.bottomHalf + 3, cy: pelvis.bottomY - 6, x: centerX + pelvis.bottomHalf, y: pelvis.bottomY },
-			{ type: 'quad', cx: centerX, cy: pelvis.bottomY + 9, x: centerX - pelvis.bottomHalf, y: pelvis.bottomY },
-			{ type: 'quad', cx: centerX - pelvis.bottomHalf - 3, cy: pelvis.bottomY - 6, x: centerX - pelvis.topHalf, y: topY }
+			{ type: 'move', x: centerX - upperHalf, y: topY - 2 },
+			{ type: 'quad', cx: centerX, cy: topY + 3, x: centerX + upperHalf, y: topY - 2 },
+			{ type: 'quad', cx: centerX + pelvis.bottomHalf + 2, cy: pelvis.bottomY - 7, x: centerX + pelvis.bottomHalf, y: pelvis.bottomY },
+			{ type: 'quad', cx: centerX, cy: pelvis.bottomY + 5, x: centerX - pelvis.bottomHalf, y: pelvis.bottomY },
+			{ type: 'quad', cx: centerX - pelvis.bottomHalf - 2, cy: pelvis.bottomY - 7, x: centerX - upperHalf, y: topY - 2 }
 		], LineArtStyle.outer(data, colors.pants));
 	}
 }
