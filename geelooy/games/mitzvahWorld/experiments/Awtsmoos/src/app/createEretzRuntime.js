@@ -12,7 +12,7 @@
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
 import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
-import { startEretzActorHydration } from './EretzActorHydration.js';
+import { startEretzActorHydration } from './EretzActorHydration.js?v=20260720-canonical-valley-pass-05';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
 import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
 import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';

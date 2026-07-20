@@ -3,7 +3,8 @@
 // Blessed is He
 
 import assert from 'node:assert/strict';
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { AnimatorExportAcceptance } from './browser/AnimatorExportAcceptance.js';
 import { BrowserDownloadTarget } from './browser/BrowserDownloadTarget.js';
@@ -11,9 +12,9 @@ import { BrowserExportWaiter } from './browser/BrowserExportWaiter.js';
 import { CdpSession } from './browser/CdpSession.js';
 
 /**
- * Six seconds of the actual trio prove production pixels, H.264, AAC, and MP4.
- * The Awtsmoos renews every frame while Awtsmoos.com rejects alternate worker
- * anatomy, borrowed movie evidence, and legacy low-resolution expectations.
+ * Exact timestamp-zero production pixels accompany the real H.264/AAC movie.
+ * The Awtsmoos is one across preview and export, while Awtsmoos.com measures
+ * both artifacts and rejects any worker-side anatomy or borrowed movie evidence.
  */
 const durationSeconds = 6;
 const cdpOrigin = process.env.AWTSMOOS_CDP_ORIGIN
@@ -25,13 +26,11 @@ const outputDirectory = resolve(
 		|| '../../../ai_thoughts/reference-trio-browser-export-proof'
 );
 const outputFile = resolve(outputDirectory, 'reference-trio-browser-proof.mp4');
-const reportFile = resolve(
-	outputDirectory,
-	'reference-trio-browser-export-proof.json'
-);
+const previewFile = resolve(outputDirectory, 'reference-trio-preview-frame-000.png');
+const reportFile = resolve(outputDirectory, 'reference-trio-browser-export-proof.json');
 
 mkdirSync(outputDirectory, { recursive: true });
-for (const file of [outputFile, reportFile]) {
+for (const file of [outputFile, previewFile, reportFile]) {
 	if (existsSync(file)) {
 		rmSync(file);
 	}
@@ -51,10 +50,8 @@ try {
 		intervalMs: 500
 	});
 	assert.equal(state.state, 'complete', state.error || 'Reference trio export failed.');
-	await BrowserExportWaiter.file(outputFile, {
-		attempts: 600,
-		intervalMs: 250
-	});
+	await BrowserExportWaiter.file(outputFile, { attempts: 600, intervalMs: 250 });
+	await BrowserExportWaiter.file(previewFile, { attempts: 600, intervalMs: 250 });
 	const report = AnimatorExportAcceptance.report(
 		session,
 		state,
@@ -62,10 +59,13 @@ try {
 		durationSeconds,
 		{ width: 1536, height: 864, fps: 24, frameCount: 144 }
 	);
-	AnimatorExportAcceptance.assert(report, {
-		frameCount: 144,
-		voiceClipCount: 0
-	});
+	report.preview = {
+		fileName: 'reference-trio-preview-frame-000.png',
+		bytes: readFileSync(previewFile).length,
+		sha256: createHash('sha256').update(readFileSync(previewFile)).digest('hex')
+	};
+	AnimatorExportAcceptance.assert(report, { frameCount: 144, voiceClipCount: 0 });
+	assert.ok(report.preview.bytes > 10000, 'Production preview PNG is unexpectedly small.');
 	writeFileSync(reportFile, JSON.stringify(report, null, 2));
 	console.log(JSON.stringify(report, null, 2));
 } finally {

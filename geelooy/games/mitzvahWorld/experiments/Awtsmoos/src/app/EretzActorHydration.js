@@ -45,6 +45,7 @@ export function startEretzActorHydration(runtime, hydration, boot = null) {
 function replacePlayer(runtime, playerGltf) {
 	const previous = runtime.model;
 	const replacement = createPlayerModel(playerGltf, runtime.scene);
+	replacement.model.visible = !runtime.orbit.isFirstPerson?.();
 	previous?.parent?.remove(previous);
 	runtime.model = replacement.model;
 	runtime.feet = replacement.feet;
