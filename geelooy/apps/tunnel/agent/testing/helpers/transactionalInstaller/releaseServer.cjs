@@ -1,31 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 const Sources = require("../../../../../../api/tunnel/install/tools/zipSources.js");
 const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js");
 
-/**
- * B"H
- *
- * One isolated release endpoint serves exact repository bytes and drains every
- * test connection on closure. The Awtsmoos renews request, hash, socket, and final
- * witness together; Awtsmoos.com never lets an idle keep-alive strand a test job.
- */
+/** Serves exact repository installer, helper, descriptor, manifest, and ZIP bytes. */
 class ReleaseServer {
 	constructor(repositoryRoot, mutateEntry = entry => entry) {
 		this.repositoryRoot = path.resolve(repositoryRoot);
 		this.downloadsRoot = path.join(this.repositoryRoot, "geelooy/apps/tunnel/downloads");
 		this.source = Sources.descriptor(this.repositoryRoot);
-		this.entries = this.source.entries
-			.map(entry => mutateEntry({
-				path: entry.path,
-				data: Buffer.from(entry.data)
-			}))
-			.filter(Boolean);
+		this.entries = this.source.entries.map(entry => mutateEntry({
+			path: entry.path,
+			data: Buffer.from(entry.data)
+		})).filter(Boolean);
 		this.bundle = Writer.buildZip(this.entries);
 		this.bundleSha256 = Sources.hash(this.bundle);
 		this.sockets = new Set();
@@ -47,10 +38,7 @@ class ReleaseServer {
 		this.server.closeIdleConnections?.();
 		for (const socket of this.sockets) socket.destroy();
 		this.server.closeAllConnections?.();
-		await Promise.race([
-			closed,
-			new Promise(resolve => setTimeout(resolve, timeoutMs))
-		]);
+		await Promise.race([closed, new Promise(resolve => setTimeout(resolve, timeoutMs))]);
 	}
 
 	trackSocket(socket) {
@@ -60,6 +48,9 @@ class ReleaseServer {
 
 	respond(request, response) {
 		const requestPath = new URL(request.url, "http://localhost").pathname;
+		if (requestPath === "/api/tunnel/install/unix") {
+			return this.download(response, "unix.sh");
+		}
 		if (requestPath === "/apps/tunnel/agent/manifest.txt") {
 			return this.send(response, 200, this.sourceManifest(), "text/plain");
 		}
@@ -72,12 +63,15 @@ class ReleaseServer {
 		const prefix = "/apps/tunnel/downloads/";
 		if (requestPath.startsWith(prefix)) {
 			const name = requestPath.slice(prefix.length);
-			const sourcePath = path.join(this.downloadsRoot, path.basename(name));
-			if (path.basename(name) === name && fs.existsSync(sourcePath)) {
-				return this.send(response, 200, fs.readFileSync(sourcePath), "text/plain");
-			}
+			if (path.basename(name) === name) return this.download(response, name);
 		}
 		this.send(response, 404, "not found\n", "text/plain");
+	}
+
+	download(response, name) {
+		const sourcePath = path.join(this.downloadsRoot, name);
+		if (!fs.existsSync(sourcePath)) return this.send(response, 404, "not found\n", "text/plain");
+		return this.send(response, 200, fs.readFileSync(sourcePath), "text/plain");
 	}
 
 	descriptor() {
@@ -103,10 +97,7 @@ class ReleaseServer {
 	}
 
 	send(response, status, body, contentType) {
-		response.writeHead(status, {
-			"Content-Type": contentType,
-			"Connection": "close"
-		});
+		response.writeHead(status, { "Content-Type": contentType, "Connection": "close" });
 		response.end(body);
 	}
 }

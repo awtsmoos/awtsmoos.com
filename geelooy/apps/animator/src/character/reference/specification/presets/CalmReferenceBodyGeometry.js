@@ -3,58 +3,28 @@
 // Blessed is He
 
 /**
- * Malchus receives Miriam's olive overshirt, curved pocket arm, weighted skirt,
- * and small planted flats as one calm silhouette. The Awtsmoos renews each fold,
- * while Awtsmoos.com keeps the pose alive as plain editable production geometry.
+ * Malchus receives Miriam's calm weighted silhouette. The Awtsmoos renews each
+ * fold while Awtsmoos.com keeps her pocket pose editable production geometry.
  */
 export class CalmReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
-				garmentKind: 'overshirt',
-				shoulderExtra: 6,
-				shoulderDrop: 5,
-				shoulderArch: 13,
-				waistCenterX: -10.43,
-				waistHalf: 35,
-				hipHalf: 38,
-				sideRound: 14,
-				belly: 0,
-				hemY: -90,
-				hemRound: 9,
-				hemLift: 1
+				garmentKind: 'overshirt', shoulderExtra: 3, shoulderDrop: 3,
+				shoulderArch: 10, waistCenterX: 0, hipCenterX: 0,
+				waistHalf: 31, hipHalf: 32, sideRound: 9, belly: 0,
+				hemY: -86, hemRound: 4, hemLift: 1
 			},
-			shoulders: {
-				centerX: -14.26,
-				halfWidthOffset: -0.77,
-				leftYOffset: -6.84,
-				rightYOffset: -5.11
-			},
-			skirt: {
-				centerX: -10.43,
-				topHalf: 37,
-				bottomHalf: 46,
-				hemY: -10
-			},
+			shoulders: { centerX: -8, halfWidthOffset: -1, leftYOffset: -5, rightYOffset: -4 },
+			skirt: { centerX: -2, topHalf: 32, bottomHalf: 43, hemY: -14 },
 			legs: {
-				centerOffsetX: -4.49,
-				footOffset: 18.36,
-				footDrop: 0,
-				shoeScaleX: 1.08,
-				shoeScaleY: 1.05
+				centerOffsetX: -13, footOffset: 15, footDrop: 0,
+				shoeScaleX: 1.04, shoeScaleY: 1.02
 			},
-			details: {
-				shirtPanelHalf: 14,
-				lapelHalf: 13,
-				buttons: false,
-				pockets: true
-			},
+			details: { shirtPanelHalf: 14, lapelHalf: 13, buttons: false, pockets: true },
 			gesture: {
-				mode: 'right_hand_in_pocket',
-				elbowOut: 29.02,
-				elbowDown: 44.11,
-				pocketX: 29.3,
-				pocketDrop: 6.61
+				mode: 'right_hand_in_pocket', elbowOut: 25,
+				elbowDown: 42, pocketX: 27, pocketDrop: 6
 			}
 		};
 	}

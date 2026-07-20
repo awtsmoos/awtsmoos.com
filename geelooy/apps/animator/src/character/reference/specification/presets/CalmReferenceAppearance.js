@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Malchus receives the scene through a soft rounded face, large lashed eyes,
- * brown side-part fringe, modest wrap, compact rear bun, gold earring, and rose
- * smile. The Awtsmoos renews each feature while Awtsmoos.com keeps it articulated.
+ * Malchus receives the scene through a soft face, leftward lashed gaze, brown
+ * fringe, layered wrap, compact bun, gold earring, and rose lips. The Awtsmoos
+ * renews each feature while Awtsmoos.com keeps it articulated and editable.
  */
 export class CalmReferenceAppearance {
 	static create() {
@@ -13,86 +13,74 @@ export class CalmReferenceAppearance {
 			faceStyle: {
 				widthScale: 1.06,
 				heightScale: 1,
-				foreheadScale: 0.72,
-				templeScale: 0.94,
+				foreheadScale: 0.88,
+				templeScale: 0.98,
 				cheekScale: 1,
 				cheekYScale: 0.29,
-				jawScale: 0.73,
-				jawYScale: 0.75,
-				chinScale: 0.36,
-				earXScale: 0.98,
+				jawScale: 0.82,
+				jawYScale: 0.76,
+				chinScale: 0.52,
+				earXScale: 0.95,
+				earYScale: 0.01,
 				earRX: 4.8,
 				earRY: 8.2,
 				shellScaleX: 1.5131,
 				shellScaleY: 1.5282,
 				shellOffsetX: 2.7765,
 				shellOffsetY: 10.7679,
-				featureOffsetX: -16,
+				featureOffsetX: 1,
 				featureOffsetY: 27,
-				featureScaleX: 1,
-				featureScaleY: 1,
-				lineWidth: 2.8
+				lineWidth: 2.15
 			},
 			browStyle: {
-				width: 18,
-				thickness: 2.8,
-				arch: 3.4,
-				verticalOffset: -1.5,
+				width: 17,
+				thickness: 2.4,
+				arch: 3.6,
+				verticalOffset: -2,
 				color: '#2c1b13'
 			},
-			noseStyle: {
-				sizeScale: 0.88,
-				verticalOffset: 0.5,
-				lineWidth: 1.7
-			},
+			noseStyle: { sizeScale: 0.98, verticalOffset: 0.5, lineWidth: 1.55 },
 			eyeStyle: {
-				radiusX: 11.8,
-				radiusY: 11.6,
-				spacingScale: 0.97,
-				separationRatio: 0.9,
-				pupilScale: 0.82,
-				pupilVertical: 0.3,
-				outlineWidth: 1.9,
-				lidWidth: 1.8,
+				radiusX: 11.4,
+				radiusY: 11.7,
+				spacingScale: 0.99,
+				separationRatio: 0.8,
+				pupilScale: 0.68,
+				pupilVertical: 0.24,
+				outlineWidth: 1.55,
+				lidWidth: 1.5,
 				lashes: true,
-				lashScale: 1.28,
+				lashScale: 1.16,
 				rotation: -0.035,
 				verticalOffset: 1
 			},
 			mouthStyle: {
 				kind: 'rose_lips',
 				lipColor: '#a94f55',
-				widthScale: 1.35,
-				heightScale: 0.9,
-				smileBias: 0.24,
-				lineWidth: 2.4,
-				lowerLipWidth: 2,
+				widthScale: 1.28,
+				heightScale: 0.76,
+				smileBias: 0.2,
+				lineWidth: 1.8,
+				lowerLipWidth: 1.7,
 				verticalOffset: 0.5
 			},
-			hairStyle: {
-				partX: 0.28
-			},
+			hairStyle: { partX: 0.28 },
 			headwear: {
 				type: 'head_wrap',
 				size: 0.96,
-				widthScale: 1.02,
-				heightScale: 0.74,
-				verticalOffset: -5,
+				widthScale: 1,
+				heightScale: 0.92,
+				verticalOffset: -2,
 				bandCurve: 3,
-				bun: true,
-				bunX: 0.98,
-				bunY: 0.29,
-				bunWidth: 0.28,
-				bunHeight: 0.31,
-				lineWidth: 2.3,
+				bun: false,
+				bunX: 0.88,
+				bunY: 0.34,
+				bunWidth: 0.24,
+				bunHeight: 0.34,
+				lineWidth: 1.9,
 				highlightOpacity: 0.04
 			},
-			headTransform: {
-				x: 0,
-				y: -3,
-				scaleX: 1.06,
-				scaleY: 1.02
-			}
+			headTransform: { x: 0, y: -3, scaleX: 1.06, scaleY: 1.02 }
 		};
 	}
 }

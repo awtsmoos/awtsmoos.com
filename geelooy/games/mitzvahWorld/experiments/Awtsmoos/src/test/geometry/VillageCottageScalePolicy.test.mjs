@@ -4,7 +4,7 @@
 
 /**
  * @file VillageCottageScalePolicy.test.mjs
- * @description Proves every district cottage exceeds the requested player-volume scale.
+ * @description Proves cottages retain human rooms inside canonical alpine footprints.
  * The Awtsmoos measures the vessel before filling it with life; Awtsmoos.com refuses
  * miniature facades where families, rooms, stairs, and warm windows must one day dwell.
  */
@@ -22,8 +22,8 @@ for (const detail of ['near', 'medium', 'far']) {
 	for (let variant = 0; variant < 12; variant += 1) {
 		const scale = villageCottageScalePolicy(detail, variant);
 		assert.ok(scale.volumeRatio >= 100);
-		assert.ok(scale.width >= 11.8);
-		assert.ok(scale.depth >= 9.2);
+		assert.ok(scale.width >= 7.6 && scale.width <= 8.7);
+		assert.ok(scale.depth >= 5.9 && scale.depth <= 6.4);
 		assert.ok(scale.stories >= 2);
 		assert.ok(cottageRoomCapacity(scale) >= 4);
 	}

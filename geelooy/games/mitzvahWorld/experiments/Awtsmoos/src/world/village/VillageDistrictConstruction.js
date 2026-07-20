@@ -12,10 +12,10 @@
 import { architectureDistrictPolicy } from './VillageArchitectureDetailPolicy.js';
 import { canonicalFoundationTopHeight } from './CanonicalFoundationSampling.js';
 import { createCanonicalLandmarkDefinitions } from './CanonicalLandmarkDefinitions.js';
-import { createVillageCottageDefinitions } from './VillageCottageDefinitionFactory.js';
+import { createVillageCottageDefinitions } from './VillageCottageDefinitionFactory.js?v=20260720-canonical-valley-pass-04';
 import { appendCottageDetails } from './VillageCottageDetailBatch.js';
 import { appendCottageOrnaments } from './VillageCottageOrnamentBatch.js';
-import { villageCottageScalePolicy } from './VillageCottageScalePolicy.js';
+import { villageCottageScalePolicy } from './VillageCottageScalePolicy.js?v=20260720-canonical-valley-pass-04';
 import { appendCottageShadow } from './VillageCottageShadowBatch.js';
 import { villageDistrictPlacements } from './VillageDistrictPlacement.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';

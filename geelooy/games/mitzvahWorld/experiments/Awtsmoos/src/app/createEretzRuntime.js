@@ -15,12 +15,12 @@ import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
 import { startEretzActorHydration } from './EretzActorHydration.js';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
 import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
-import { createEretzActors } from './EretzActorSystem.js';
+import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';
 import { attachRuntimeDiagnostics } from './EretzRuntimeDiagnostics.js';
 import { startEretzRuntime } from './EretzRuntimeLoop.js';
 import { createEretzUi } from './EretzUiSystem.js';
 import { installViewport } from './EretzViewport.js';
-import { createEretzWorldFoundation } from './EretzWorldFoundation.js';
+import { createEretzWorldFoundation } from './EretzWorldFoundation.js?v=20260720-canonical-valley-pass-04';
 import { installWorldDiagnostics } from './WorldDiagnostics.js';
 
 export async function createEretzRuntime(hosts, options = {}) {

@@ -55,6 +55,15 @@ function responsiveCss() {
 		.Awtsmoos-panel-message { min-height: 22px; color: #ffca76; }
 		.Awtsmoos-wallet { padding: 10px; border-radius: 10px; background: #3b2a12; color: #ffe2a2; font-weight: 800; }
 		.Awtsmoos-action-bar button { min-width: 50px; min-height: 50px; }
+		.Awtsmoos-status-dock { transform: scale(.78); transform-origin: top left; opacity: .88; }
+		.Awtsmoos-realtime-status { transform: scale(.76); transform-origin: top right; opacity: .84; }
+		.Awtsmoos-camera-mode-toggle { transform: scale(.78); transform-origin: bottom right; opacity: .82; }
+		.Awtsmoos-minimap { width: 154px; opacity: .82; }
+		.Awtsmoos-minimap header { padding: 5px 7px; font-size: 11px; }
+		.Awtsmoos-minimap header button { min-height: 28px; padding: 4px 7px; }
+		.Awtsmoos-action-host { transform: translateX(-50%) scale(.8); transform-origin: bottom center; opacity: .86; }
+		#joy { transform: scale(.72); transform-origin: bottom left; opacity: .52; }
+		#jump { transform: scale(.72); transform-origin: bottom right; opacity: .52; }
 		@media (max-width: 700px) {
 			.Awtsmoos-sheet { top: auto; right: 0; bottom: 0; left: 0; width: auto; max-height: min(78vh, 720px); padding: 14px max(14px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); border-radius: 20px 20px 0 0; }
 			.Awtsmoos-status-ribbon { top: max(6px, env(safe-area-inset-top)); max-width: 96vw; gap: 7px; padding: 6px 9px; }

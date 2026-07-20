@@ -20,11 +20,11 @@ import { createSky3D } from '../world/Sky3D.js';
 import {
 	createTerrainPackage,
 	heightAt
-} from '../world/Terrain3D.js';
+} from '../world/Terrain3D.js?v=20260720-canonical-valley-pass-04';
 import { WorldGround } from '../world/WorldGround.js';
 import { createWorldChunkRuntime } from '../world/streaming/WorldChunkRuntime.js';
 import { loadEretzAssets } from './EretzAssetLoader.js';
-import { createEretzFoundationServices } from './EretzFoundationServices.js';
+import { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260720-canonical-valley-pass-04';
 import { buildWorldCollisionOctree } from './WorldCollisionOctree.js';
 
 export async function createEretzWorldFoundation(hosts, options = {}) {

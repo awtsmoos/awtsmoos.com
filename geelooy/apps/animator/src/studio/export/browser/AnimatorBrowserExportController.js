@@ -7,40 +7,42 @@ import { AnimatorBrowserExportCapabilities } from './AnimatorBrowserExportCapabi
 import { AnimatorBrowserExportDownload } from './AnimatorBrowserExportDownload.js';
 import { AnimatorBrowserExportPlan } from './AnimatorBrowserExportPlan.js';
 import { AnimatorBrowserWorkerSession } from './AnimatorBrowserWorkerSession.js';
+import { AnimatorProductionFrameSource } from './AnimatorProductionFrameSource.js';
 
 /**
- * One browser-only covenant joins plan, sound, frames, H.264, AAC, MP4, and
- * download. The Awtsmoos renews every stage while Piano's proven eight-frame
- * rhythm gives WebCodecs enough air to drain without an external encoder.
+ * One production canvas serves preview, timeline, and export. The Awtsmoos
+ * renews its finished pixels while Awtsmoos.com gives Piano's MediaBunny worker
+ * only ImageBitmaps, timing, and audio—never a second character renderer.
  */
 export class AnimatorBrowserExportController {
 	static async export(plan, options = {}) {
-		options.onStatus?.('Checking browser H.264/AAC capability...');
+		options.onStatus?.('Checking browser MP4 capability...');
 		const capabilities = await AnimatorBrowserExportCapabilities.assert();
 		const exportPlan = AnimatorBrowserExportPlan.create(
 			plan,
 			options.durationMs || plan.duration
 		);
+		const width = Number(options.width || exportPlan.settings.width);
+		const height = Number(options.height || exportPlan.settings.height);
+		const fps = Number(options.fps || exportPlan.settings.fps);
+		const frameSource = options.frameSource
+			|| new AnimatorProductionFrameSource(globalThis.window);
 
-		options.onStatus?.('Decoding voices and rendering browser audio mix...');
+		options.onStatus?.('Rendering the production soundtrack...');
 		const audio = await AnimatorBrowserExportAudio.render(exportPlan, options);
-		options.onStatus?.(
-			`Decoded ${audio.voices.length} original dialogue clips.`
-		);
-
 		const fileName = options.fileName || this.fileName(exportPlan);
+		options.onStatus?.('Transferring production-canvas frames to MediaBunny...');
 		const result = await AnimatorBrowserWorkerSession.render({
-			plan: exportPlan,
 			audioBufferShim: audio.shim,
-			width: options.width || exportPlan.settings.width,
-			height: options.height || exportPlan.settings.height,
-			fps: options.fps || exportPlan.settings.fps,
-			quality: options.quality || 0.72,
-			maxCacheFrames: options.maxCacheFrames || 8,
-			renderBatchFrames: options.renderBatchFrames || 8,
+			durationSeconds: exportPlan.duration / 1000,
+			width,
+			height,
+			fps,
+			quality: Number(options.quality || 0.72),
+			maxCacheFrames: Number(options.maxCacheFrames || 8),
+			frameSource,
 			fileName
 		}, options);
-
 		const download = options.download === false
 			? null
 			: AnimatorBrowserExportDownload.save(result.blob, result.fileName);
@@ -55,6 +57,6 @@ export class AnimatorBrowserExportController {
 
 	static fileName(plan) {
 		const proof = plan.duration < 240000 ? '-proof' : '';
-		return `the-forecast-that-stole-tuesday-browser${proof}.mp4`;
+		return `${plan.id}${proof}.mp4`;
 	}
 }

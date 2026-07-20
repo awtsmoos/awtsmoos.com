@@ -19,7 +19,7 @@ import { createTerrainGeometry, terrainHeightAt } from './TerrainGeometry.js';
 import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
 import { createProceduralForest } from './trees/ProceduralForestSystem.js';
 import { preloadVillageSignTextures } from './village/VillageSignTexture.js';
-import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js';
+import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js?v=20260720-canonical-valley-pass-04';
 
 export const GRASS_URLS = Object.freeze([
 	highestResolutionSurface('baseGrass'),

@@ -16,14 +16,14 @@ import { mountainRockStack } from '../materials/MountainVillageMaterialPresets.j
 import {
 	mountainGeometry,
 	snowGeometry
-} from './AtmosphericMountainGeometry.js';
+} from './AtmosphericMountainGeometry.js?v=20260720-canonical-valley-pass-04';
 
 const MOUNTAIN_STACK = mountainRockStack();
 const BELTS = Object.freeze([
-	belt(420, 224, 96, '#515c50', 84),
-	belt(610, 306, 82, '#526174', 68),
-	belt(860, 384, 68, '#5e6f87', 52),
-	belt(1160, 468, 54, '#718199', 40)
+	belt(390, 188, 142, '#34433d', 152),
+	belt(590, 254, 126, '#3f5260', 128),
+	belt(820, 318, 110, '#52677a', 104),
+	belt(1120, 382, 96, '#6c7d91', 88)
 ]);
 
 export function createAtmosphericMountainDefinitions(quality = 'high') {
@@ -59,7 +59,7 @@ function snowDefinition(options, index, quality) {
 	return definition(
 		`Awtsmoos_atmospheric_mountain_snow_${index}`,
 		snowGeometry(options, index),
-		index === 0 ? '#d9d7cf' : '#cbd4df',
+		index === 0 ? '#b8c2c3' : '#c6d0da',
 		'reference-atmospheric-mountain-snow',
 		quality,
 		index
@@ -77,7 +77,7 @@ function definition(id, geometry, color, family, quality, depth) {
 		mapImage: cachedTextureImage(primary.url),
 		mapRepeat: primary.repeat,
 		noEdge: true,
-		position: { x: 0, y: -16 + depth * 4, z: 0 },
+		position: { x: 0, y: -28 + depth * 5, z: 0 },
 		shape: 'manual',
 		solid: false,
 		texturePolicy: {

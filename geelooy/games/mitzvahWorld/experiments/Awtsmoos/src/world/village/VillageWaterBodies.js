@@ -14,28 +14,28 @@ import { MOUNTAIN_VILLAGE_SOURCES as S } from '../materials/MountainVillageMater
 import { villageLandmarks } from './VillageCurves.js';
 import { createLakeGeometry } from './VillageLakeGeometry.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
-import { createRiverSurfaceGeometry } from './VillageRiverSurfaceGeometry.js';
+import { createRiverSurfaceGeometry } from './VillageRiverSurfaceGeometry.js?v=20260720-canonical-valley-pass-04';
 
 export function createWaterBodyDefinitions(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
 	const lake = villageLandmarks().lake;
 	const definitions = [
 		waterManual({
-			color: '#4f93ad',
+			color: '#1f6470',
 			geometry: createLakeGeometry(lake, profile.lakeLevel),
 			id: 'Awtsmoos_lake_basin_alpine_reflection_water',
 			mapRepeat: [6.8, 5.2],
-			mixStrength: 0.48,
+			mixStrength: 0.16,
 			mixTextureUrl: S.waterStream,
 			textureUrl: S.waterLake,
 			waterClass: 'lake'
 		}),
 		waterManual({
-			color: '#58a7bd',
+			color: '#286d77',
 			geometry: createRiverSurfaceGeometry(profile),
 			id: 'Awtsmoos_flowing_stream_alpine_current_water',
 			mapRepeat: [22, 2.6],
-			mixStrength: 0.62,
+			mixStrength: 0.18,
 			mixTextureUrl: S.waterLake,
 			textureUrl: S.waterStream,
 			waterClass: 'stream'
@@ -80,7 +80,7 @@ function waterManual(options) {
 		mixStrength: options.mixStrength,
 		mixTextureUrl: options.mixTextureUrl,
 		noEdge: true,
-		opacity: options.waterClass === 'lake' ? 0.91 : 0.87,
+		opacity: options.waterClass === 'lake' ? 0.68 : 0.64,
 		shape: 'manual',
 		solid: false,
 		texturePolicy: {

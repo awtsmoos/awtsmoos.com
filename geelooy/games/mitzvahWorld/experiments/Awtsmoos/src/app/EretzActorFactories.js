@@ -30,7 +30,7 @@ import {
 export {
 	createEretzPlayerState,
 	createEretzPlayerStats
-} from './EretzPlayerStateFactory.js';
+} from './EretzPlayerStateFactory.js?v=20260720-canonical-valley-pass-04';
 
 export function createEretzDoors(foundation, state) {
 	const definitions = [

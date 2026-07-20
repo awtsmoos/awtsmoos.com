@@ -15,12 +15,12 @@ const MINIMUM_VOLUME_RATIO = 100;
 
 export function villageCottageScalePolicy(detail = 'near', variant = 0) {
 	const safeVariant = Math.abs(Number(variant) || 0);
-	const width = 11.8 + safeVariant % 3 * 1.15;
-	const depth = 9.2 + safeVariant % 2 * 0.9;
-	const stories = detail === 'far' ? 2 : safeVariant % 4 === 0 ? 3 : 2;
-	const storyHeight = 3.05;
+	const width = 7.6 + safeVariant % 3 * 0.55;
+	const depth = 5.9 + safeVariant % 2 * 0.5;
+	const stories = 2;
+	const storyHeight = detail === 'far' ? 2.65 : 2.75;
 	const wallHeight = stories * storyHeight;
-	const roofRise = 3.25 + safeVariant % 3 * 0.28;
+	const roofRise = 2.15 + safeVariant % 3 * 0.18;
 	const volume = width * depth * wallHeight;
 	const volumeRatio = volume / playerReferenceVolume();
 	if (volumeRatio < MINIMUM_VOLUME_RATIO) {

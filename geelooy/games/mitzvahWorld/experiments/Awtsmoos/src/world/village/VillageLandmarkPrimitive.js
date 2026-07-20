@@ -67,7 +67,7 @@ function landmarkPrimitive(shape, options) {
 function materialFields(materials, role) {
 	const roleMap = {
 		roof: ['roof', 'mixRoof', '#5b5149'],
-		stone: ['stone', 'mixStone', '#c9bca8'],
+		stone: ['stone', 'mixStone', '#aa9c86'],
 		wood: ['wood', 'mixWood', '#765239']
 	};
 	const [primary, secondary, color] = roleMap[role] || roleMap.stone;

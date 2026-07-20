@@ -9,7 +9,7 @@
  * keeps furniture and language modular while their shared village remains whole.
  */
 
-import { createVillageDestinationSignDefinitions } from './VillageDestinationSignSystem.js';
+import { createVillageDestinationSignDefinitions } from './VillageDestinationSignSystem.js?v=20260720-canonical-valley-pass-04';
 import { createVillageFurnitureDefinitions } from './VillageFurnitureDefinitions.js';
 
 export function createVillagePropDefinitions(groundSampler) {

@@ -3,10 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# Rollback renews predecessor, archive, and legacy bridge as separate layers.
-# Awtsmoos.com accepts a modern restoration only after registration, compatible root
-# proof, and durable guardian ownership all agree for the exact restored process.
-
+# Rollback starts each predecessor with its preserved supervisor contract, then
+# accepts success only after registration, root proof, and guardianship agree.
 mark_runtime_restored() {
 	local version="${1:-unknown}"
 	local source="${2:-rollback}"
@@ -31,7 +29,7 @@ restore_exact_predecessor() {
 	[ -e "$ROOT" ] && mv "$ROOT" "$failed"
 	[ -e "$rollback" ] || return 1
 	mv "$rollback" "$ROOT" || return 1
-	start_supervisor
+	start_restored_supervisor || return 1
 	restored_runtime_ready "${AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS:-45}" || return 1
 	mark_runtime_restored \
 		"$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)" \
@@ -46,17 +44,15 @@ restore_archive_layers() {
 	[ -x "$rescue" ] || return 1
 	while [ "$offset" -lt "$attempts" ]; do
 		stop_existing_runtime || true
-		install_event "rollback" "attempt" \
-			"Trying verified recovery archive." "offset=$offset"
+		install_event "rollback" "attempt" "Trying verified recovery archive." "offset=$offset"
 		if "$rescue" "$ROOT" "$RECOVERY_ROOT" "$offset"; then
-			write_supervisor
-			start_supervisor
-			if restored_runtime_ready "${AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS:-45}"; then
+			if start_restored_supervisor &&
+				restored_runtime_ready "${AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS:-45}"; then
 				mark_runtime_restored \
 					"$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)" \
 					"archive_offset_$offset"
 				install_event "rollback" "passed" \
-					"Verified archive registered and proved workspace readiness." \
+					"Verified archive restarted and proved workspace readiness." \
 					"offset=$offset"
 				return 0
 			fi
@@ -86,8 +82,7 @@ recover_without_predecessor() {
 		write_activation_journal "fallback_connected" "$ROOT" ""
 		return 0
 	fi
-	install_fail "rollback" \
-		"No modern archive or legacy bridge could register." "$RECOVERY_ROOT"
+	install_fail "rollback" "No modern archive or legacy bridge could register." "$RECOVERY_ROOT"
 }
 
 rollback_failed_activation() {
@@ -96,7 +91,7 @@ rollback_failed_activation() {
 	if restore_exact_predecessor "$rollback" "$failed"; then
 		write_activation_journal "rolled_back" "$failed" "$ROOT"
 		install_event "rollback" "passed" \
-			"Exact predecessor registered with root and guardian readiness." "$ROOT"
+			"Exact predecessor restarted with root and guardian readiness." "$ROOT"
 		return 0
 	fi
 	install_event "rollback" "warning" \

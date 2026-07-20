@@ -8,14 +8,13 @@ import { StableFaceShape2D } from './StableFaceShape2D.js';
 import { StableReferenceEars2D } from './StableReferenceEars2D.js';
 
 /**
- * The head shell remains stable while the living features share one measured
- * inner composition. The Awtsmoos is one beyond shell and expression, while
- * Awtsmoos.com keeps both editable, rigged, deterministic, and production-bound.
+ * The head shell remains stable while its living features share one measured
+ * composition. The Awtsmoos renews expression while Awtsmoos.com keeps every
+ * blink deterministic without sacrificing the neutral identity frame.
  */
 export class FaceFrontRenderer {
 	static build(kind, data, colors, metrics, view, legacyBeard) {
 		const mood = this.mood(data);
-		const blink = this.blink(data);
 		return S.group(`${kind}_face_front`, {
 			x: view.head.offsetX,
 			scaleX: view.head.scaleX
@@ -29,7 +28,7 @@ export class FaceFrontRenderer {
 				metrics,
 				view,
 				mood,
-				blink,
+				this.blink(data),
 				legacyBeard
 			)
 		]);
@@ -55,24 +54,9 @@ export class FaceFrontRenderer {
 			};
 		}
 		const moods = {
-			happy: {
-				brow: -4,
-				smile: 1,
-				squint: 0.05,
-				cheekLift: 0.45
-			},
-			skeptical: {
-				brow: 2.8,
-				smile: -0.45,
-				squint: 0.2,
-				browPinch: 0.38
-			},
-			calm: {
-				brow: -0.6,
-				smile: 0.22,
-				squint: 0.04,
-				cheekLift: 0.08
-			},
+			happy: { brow: -4, smile: 1, squint: 0.05, cheekLift: 0.45 },
+			skeptical: { brow: 2.8, smile: -0.45, squint: 0.2, browPinch: 0.38 },
+			calm: { brow: -0.6, smile: 0.22, squint: 0.04, cheekLift: 0.08 },
 			neutral: { brow: 0, smile: 0.05, squint: 0 }
 		};
 		return moods[data.emotion] || moods.neutral;
@@ -84,8 +68,11 @@ export class FaceFrontRenderer {
 			return amount;
 		}
 		const time = Number(data._renderTime || 0);
-		return ((time * 0.0017 + Number(data._index || 0)) % 5.4) < 0.11
-			? 0.82
-			: 0;
+		const phase = (
+			time * 0.0017
+			+ 0.72
+			+ Number(data._index || 0) * 1.61
+		) % 5.4;
+		return phase < 0.11 ? 0.82 : 0;
 	}
 }

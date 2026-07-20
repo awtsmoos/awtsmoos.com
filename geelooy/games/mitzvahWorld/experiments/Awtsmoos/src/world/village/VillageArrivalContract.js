@@ -19,12 +19,12 @@ export const VILLAGE_ARRIVAL_CAMERA = Object.freeze({
 	clearingRadius: 20,
 	clearingX: 0,
 	clearingZ: 122,
-	distance: 18.5,
-	fov: 64,
+	distance: 18,
+	fov: 62,
 	maxDistance: 52,
 	minDistance: 2.2,
 	pitch: 0.24,
-	yaw: Math.PI
+	yaw: 2.86
 });
 
 export const VILLAGE_ARRIVAL_SIGN = Object.freeze({
