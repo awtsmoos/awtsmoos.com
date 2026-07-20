@@ -4,9 +4,9 @@
 
 /**
  * @file VillageMaterialDiagnostics.js
- * @description Audits live visible physical materials without counting intentional cards.
- * The Awtsmoos clothes every finite village vessel; Awtsmoos.com records hydrated stone,
- * timber, slate, and plaster while shadows, masks, labels, and procedural text remain exempt.
+ * @description Audits live texture residency and lighting-weighted physical readability.
+ * The Awtsmoos clothes every finite village vessel; Awtsmoos.com records hydrated stone, timber,
+ * slate, plaster, and terrain while proving that real textures are not hidden beneath dark tints.
  */
 
 import {
@@ -18,28 +18,52 @@ import {
 	unresolvedMaterialRecord,
 	usableMaterialImage
 } from './VillageMaterialDiagnosticHelpers.js';
+import {
+	createReadabilityLedger,
+	recordMaterialReadability,
+	summarizeMaterialReadability
+} from './VillageMaterialReadability.js';
 
-export function inspectVillageMaterials(root) {
+export function inspectVillageMaterials(root, lighting = null) {
 	const summary = emptyMaterialSummary();
 	const families = {};
 	const unresolved = [];
-	root?.traverse?.(object => inspectObject(object, summary, families, unresolved));
+	const readabilityLedger = createReadabilityLedger();
+	root?.traverse?.(object => inspectObject(
+		object,
+		summary,
+		families,
+		unresolved,
+		readabilityLedger,
+		lighting
+	));
 	return {
 		families,
+		readability: summarizeMaterialReadability(readabilityLedger),
 		summary,
 		unresolved: unresolved.slice(0, 60)
 	};
 }
 
-function inspectObject(object, summary, families, unresolved) {
+function inspectObject(object, summary, families, unresolved, ledger, lighting) {
 	if (object?.visible === false || !object?.material) return;
-	const materials = Array.isArray(object.material) ? object.material : [object.material];
+	const materials = Array.isArray(object.material)
+		? object.material
+		: [object.material];
 	for (const material of materials) {
-		inspectMaterial(object, material, summary, families, unresolved);
+		inspectMaterial(
+			object,
+			material,
+			summary,
+			families,
+			unresolved,
+			ledger,
+			lighting
+		);
 	}
 }
 
-function inspectMaterial(object, material, summary, families, unresolved) {
+function inspectMaterial(object, material, summary, families, unresolved, ledger, lighting) {
 	const identity = materialIdentity(object, material);
 	const classification = materialClassification(identity, material);
 	const mapReady = usableMaterialImage(material.mapImage);
@@ -49,12 +73,10 @@ function inspectMaterial(object, material, summary, families, unresolved) {
 	const family = families[familyName] || emptyMaterialFamily();
 	summary.materialSlots += 1;
 	family.materialSlots += 1;
-	if (classification.exempt) {
-		summary.exemptSurfaces += 1;
-		family.exemptSurfaces += 1;
-	}
+	if (classification.exempt) recordExempt(summary, family);
 	if (classification.physical) {
 		recordPhysical(summary, family, material, url, mapReady);
+		recordMaterialReadability(ledger, identity, material, lighting, mapReady);
 	}
 	if (classification.cottage) recordCottage(summary, family, mapReady);
 	if (mapReady) summary.readyMaps += 1;
@@ -64,6 +86,11 @@ function inspectMaterial(object, material, summary, families, unresolved) {
 		unresolved.push(unresolvedMaterialRecord(object, material, url, familyName));
 	}
 	families[familyName] = family;
+}
+
+function recordExempt(summary, family) {
+	summary.exemptSurfaces += 1;
+	family.exemptSurfaces += 1;
 }
 
 function recordPhysical(summary, family, material, url, mapReady) {
@@ -76,7 +103,9 @@ function recordPhysical(summary, family, material, url, mapReady) {
 		summary.pendingPhysicalMaps += 1;
 		family.pendingPhysicalMaps += 1;
 	}
-	if (!mapReady && nearWhiteMaterial(material.color)) summary.whiteUntextured += 1;
+	if (!mapReady && nearWhiteMaterial(material.color)) {
+		summary.whiteUntextured += 1;
+	}
 }
 
 function recordCottage(summary, family, mapReady) {
@@ -85,8 +114,8 @@ function recordCottage(summary, family, mapReady) {
 	if (mapReady) {
 		summary.cottageReady += 1;
 		family.cottageReady += 1;
-	} else {
-		summary.cottagePending += 1;
-		family.cottagePending += 1;
+		return;
 	}
+	summary.cottagePending += 1;
+	family.cottagePending += 1;
 }

@@ -8,9 +8,9 @@ const Context = require("./accountBoundTestContext.cjs");
 const Fixture = require("./registrationTestFixtures.cjs");
 
 /**
- * Registration fencing now stands inside an account-bound vessel. The Awtsmoos
- * renews browser, native owner, restart, and fallback; Awtsmoos.com first proves
- * session or device identity, then compares protocol authority within that key.
+ * Registration fencing stands inside an immutable account-bound vessel. The
+ * Awtsmoos renews browser, native owner, restart, and fallback; Awtsmoos.com
+ * verifies identity first and compares protocol authority only inside that key.
  */
 function main() {
 	const context = Context.createContext();
@@ -26,28 +26,25 @@ function main() {
 
 function testBrowserReplacement() {
 	const accountId = "browser-account";
-	const key = Context.key(accountId, "browser-one");
 	const server = { clients: new Set(), tunnels: new Map() };
-	const previous = Fixture.socket("legacy", accountId);
-	Object.assign(previous, {
-		isTunnel: true,
-		tunnelName: "browser-one",
-		registrationKey: key
-	});
-	server.tunnels.set(key, previous);
+	const previous = Fixture.socket("legacy-browser", accountId);
+	const packet = Fixture.browserPacket();
+	assert.equal(handleTunnelRegister(server, previous, packet), true);
+	const key = previous.registrationKey;
+	assert.equal(server.tunnels.get(key), previous);
 
-	const browser = Fixture.socket("browser", accountId);
-	assert.equal(
-		handleTunnelRegister(server, browser, Fixture.browserPacket()),
-		true
-	);
+	const browser = Fixture.socket("browser-restart", accountId);
+	assert.equal(handleTunnelRegister(server, browser, packet), true);
 	assert.equal(previous.closed.code, 4001);
 	assert.equal(server.tunnels.get(key), browser);
 	assert.equal(server.tunnelClients, server.tunnels);
 	assert.equal(browser.accountId, accountId);
 	assert.equal(browser.vesselType, "browser-tunnel");
 	assert.equal(browser.allowCommands, true);
-	assert.equal(browser.capabilityProfile.implementation, "apps-code-browser-agent");
+	assert.equal(
+		browser.capabilityProfile.implementation,
+		"apps-code-browser-agent"
+	);
 	assert.equal(server.tunnelRegistrations.get(key).root, "awtsmoos://code");
 	assert.equal(Fixture.lastMessage(browser).accountBound, true);
 }
@@ -55,7 +52,7 @@ function testBrowserReplacement() {
 function testNativeFencing() {
 	const server = { clients: new Set(), tunnels: new Map() };
 	const record = Context.createBinding("native-account", "native-one", "native");
-	const key = Context.key("native-account", "native-one");
+	const key = Context.key("native-account", record.binding.tunnelId);
 	const modern = Fixture.socket("modern");
 	assert.equal(
 		handleTunnelRegister(server, modern, Context.nativePacket(record)),

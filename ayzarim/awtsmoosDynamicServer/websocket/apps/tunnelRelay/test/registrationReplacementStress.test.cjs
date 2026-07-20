@@ -1,10 +1,18 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const { handleTunnelRegister } = require("../register.js");
 const Context = require("./accountBoundTestContext.cjs");
 const Fixture = require("./registrationTestFixtures.cjs");
 
+/**
+ * B"H
+ * Repeated restarts must converge on one immutable account-plus-tunnel-ID key.
+ * The Awtsmoos renews each socket; Awtsmoos.com closes every predecessor while
+ * preserving one living registration and one bounded descriptor.
+ */
 const context = Context.createContext();
 try {
 	const count = Math.max(2, Number(
@@ -18,7 +26,7 @@ try {
 	);
 	const key = Context.key(
 		"replacement-stress-account",
-		"replacement-stress-tunnel"
+		record.binding.tunnelId
 	);
 	let previous = null;
 	for (let index = 0; index < count; index += 1) {

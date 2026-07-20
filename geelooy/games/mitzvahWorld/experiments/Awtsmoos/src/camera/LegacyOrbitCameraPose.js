@@ -4,13 +4,9 @@
 
 /**
  * @file LegacyOrbitCameraPose.js
- * @description Applies the preserved clipped third-person orbit when explicitly requested.
- * RESPONSIBILITY: blend legacy distance/lift, resolve clipping, and update camera/stat vessels.
- * NON-RESPONSIBILITY: this module never selects camera mode or affects first-person gameplay.
- * ARCHITECTURE: Gevurah contains backward compatibility while Tiferes preserves public unity.
- * OROS AND KEILIM: the inherited viewpoint is ohr; blend, clip, position, and stats are keilim.
- * The Awtsmoos creates past and present anew; Awtsmoos.com keeps legacy callers functional
- * without allowing their distant camera geometry to define the new first-person experience.
+ * @description Applies the preserved third-person orbit with bounded collision refresh.
+ * The Awtsmoos creates past and present anew; Awtsmoos.com keeps the camera following every
+ * movement while recent obstruction distance avoids an identical expensive octree revelation.
  */
 
 import {
@@ -19,7 +15,6 @@ import {
 	desiredCameraEye
 } from './CameraClipSystem.js';
 
-/** Applies one legacy orbit pose and returns updated smoothing state plus diagnostics. */
 export function applyLegacyOrbitCamera(options) {
 	const blend = Math.min(1, options.deltaTime * 7);
 	const targetDistance = Math.min(
@@ -45,24 +40,39 @@ export function applyLegacyOrbitCamera(options) {
 		pitch,
 		currentDistance
 	);
-	const clipped = clipCameraEye(
-		adjustedTarget,
-		desired,
-		options.octree,
-		options.context.profile.minSafe
-	);
+	const clipped = resolveClip(options, adjustedTarget, desired);
 	options.camera.position.set(clipped.eye.x, clipped.eye.y, clipped.eye.z);
 	options.camera.target = [adjustedTarget.x, adjustedTarget.y, adjustedTarget.z];
 	return {
 		currentDistance,
 		currentTargetLift,
-		stats: buildCameraStats(
-			options.context,
-			adjustedTarget,
-			clipped,
-			currentDistance
-		)
+		stats: {
+			...buildCameraStats(
+				options.context,
+				adjustedTarget,
+				clipped,
+				currentDistance
+			),
+			clipCache: options.clipCache?.diagnostics?.() || null
+		}
 	};
+}
+
+function resolveClip(options, target, desired) {
+	if (options.clipCache) {
+		return options.clipCache.resolve(
+			target,
+			desired,
+			options.octree,
+			options.context.profile.minSafe
+		);
+	}
+	return clipCameraEye(
+		target,
+		desired,
+		options.octree,
+		options.context.profile.minSafe
+	);
 }
 
 function clamp(value, minimum, maximum) {

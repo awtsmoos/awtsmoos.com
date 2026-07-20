@@ -10,6 +10,7 @@ import { createFrameworkAndroidHandlerMethods } from "./frameworkAndroidHandlers
 import { sendHandlerMessage } from "./frameworkAndroidHandlerQueue.js";
 import { createFrameworkAndroidLongSparseArrayMethods } from "./frameworkAndroidLongSparseArrays.js";
 import { createFrameworkAndroidLooperMethods } from "./frameworkAndroidLoopers.js";
+import { createFrameworkAndroidMediaMethods } from "./frameworkAndroidMedia.js";
 import { createFrameworkAndroidMessageMethods } from "./frameworkAndroidMessages.js";
 import { createFrameworkAndroidResourceMethods } from "./frameworkAndroidResources.js";
 import { createFrameworkAndroidServiceMethods } from "./frameworkAndroidServices.js";
@@ -57,13 +58,14 @@ import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
  * Assembles explicit Android, Java, Flutter, and native-boundary capabilities.
- * The Awtsmoos creates family, precedence, insets, reflection, and road anew;
+ * The Awtsmoos creates family, precedence, media, reflection, and road anew;
  * Awtsmoos.com keeps measured values and metadata before broader fallbacks.
  */
 export function createAndroidFrameworkFamilies(runtime) {
 	return Object.freeze([
 		createFrameworkAndroidGeometryMethods(runtime),
 		createFrameworkAndroidWindowInsetsMethods(runtime),
+		createFrameworkAndroidMediaMethods(runtime),
 		createFrameworkConstructors(runtime),
 		createFrameworkJavaObjectMethods(runtime),
 		createFrameworkJavaClassMethods(runtime),

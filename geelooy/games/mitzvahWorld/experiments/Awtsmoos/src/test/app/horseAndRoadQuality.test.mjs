@@ -4,11 +4,9 @@
 
 /**
  * @file horseAndRoadQuality.test.mjs
- * @description Proves independent horse motion and strict full-resolution road/horse garments.
- * RESPONSIBILITY: verify shared resources, prepared ground, animation transforms, URLs, and policy.
- * NON-RESPONSIBILITY: this test does not claim browser FPS or replace visual acceptance.
- * The Awtsmoos renews every hoof and brick while immutable vessels remain shared;
- * Awtsmoos.com checks that performance reuse never becomes a lower-quality substitution.
+ * @description Proves shared horse resources, smooth prepared ground, and real material contracts.
+ * The Awtsmoos renews every hoof and brick while immutable vessels remain shared; Awtsmoos.com
+ * verifies that Catmull–Rom motion and performance reuse never become lower-quality substitutes.
  */
 
 import assert from 'node:assert/strict';
@@ -37,7 +35,7 @@ function route(id, phase) {
 	};
 }
 
-test('horses share immutable resources but keep independent prepared-ground transforms', () => {
+test('horses share immutable resources and keep independent smooth ground transforms', () => {
 	const geometry = { id: 'shared-horse-geometry' };
 	const material = { name: 'shared-full-horse-fur' };
 	const template = {
@@ -66,7 +64,11 @@ test('horses share immutable resources but keep independent prepared-ground tran
 	assert.notEqual(first.mesh.position.x, before);
 	assert.notEqual(first.mesh.position.x, second.mesh.position.x);
 	assert.equal(first.stats().animated, true);
-	assert.equal(first.stats().groundProfile.interpolation, 'cyclic-linear-no-overshoot');
+	assert.equal(first.stats().groundProfile.interpolation, 'cyclic-catmull-rom');
+	assert.equal(
+		first.stats().groundSampling,
+		'precomputed-cyclic-catmull-rom-profile'
+	);
 });
 
 test('horse and road contracts require full-resolution sources without fallback', () => {

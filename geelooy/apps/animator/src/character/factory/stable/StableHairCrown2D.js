@@ -3,82 +3,66 @@
 // Blessed is He
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
+import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * The Awtsmoos crowns a face with hair without imprisoning it inside a dark ring.
- * Awtsmoos.com keeps crown, temples, feminine bun, and side part attached to the
- * same editable head and production timeline.
+ * Crown hair follows the same organic skull as skin and headwear. The Awtsmoos
+ * renews every root, while Awtsmoos.com keeps crown, temple, wrap, and bun depth
+ * editable and shared by the authoritative production renderer.
  */
 export class StableHairCrown2D {
 	static back(data, colors, metrics, view) {
-		const type = data.headwear?.type || data.hatType;
-		if (type === 'head_wrap') {
-			return this.feminineBack(colors, metrics, view);
-		}
-
-		return this.maleBack(colors, metrics, view);
+		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
+		return (data.headwear?.type || data.hatType) === 'head_wrap'
+			? this.feminineBack(colors, shell)
+			: this.maleBack(colors, shell);
 	}
 
-	static maleBack(colors, metrics, view) {
-		const centerX = Number(view.head?.offsetX || 0) * 0.45;
-		const radiusX = metrics.headRX * 1.02;
-		const topY = metrics.headY - metrics.headRY * 1.02;
-		const templeY = metrics.headY - metrics.headRY * 0.18;
-
+	static maleBack(colors, shell) {
+		const x = shell.centerX;
+		const radiusX = shell.radiusX * 1.015;
+		const topY = shell.centerY - shell.radiusY * 1.015;
+		const templeY = shell.centerY - shell.radiusY * 0.08;
 		return S.group('natural_male_hair_back', null, [
 			G.path('natural_male_crown', [
-				{ type: 'move', x: centerX - radiusX, y: templeY },
-				{ type: 'quad', cx: centerX - radiusX * 0.82, cy: topY + 7, x: centerX, y: topY },
-				{ type: 'quad', cx: centerX + radiusX * 0.82, cy: topY + 7, x: centerX + radiusX, y: templeY },
-				{ type: 'quad', cx: centerX, cy: metrics.headY - metrics.headRY * 0.48, x: centerX - radiusX, y: templeY }
+				{ type: 'move', x: x - radiusX, y: templeY },
+				{ type: 'quad', cx: x - radiusX * 0.78, cy: topY + 5, x, y: topY },
+				{ type: 'quad', cx: x + radiusX * 0.8, cy: topY + 5, x: x + radiusX, y: templeY },
+				{ type: 'quad', cx: x, cy: shell.centerY - shell.radiusY * 0.52, x: x - radiusX, y: templeY }
 			], {
 				fill: colors.hair,
 				stroke: colors.hairDark,
-				lineWidth: 2.3,
+				lineWidth: 2.2,
 				lineJoin: 'round'
 			}),
-			this.temple('male_temple_left', -1, centerX, colors, metrics),
-			this.temple('male_temple_right', 1, centerX, colors, metrics)
+			this.temple('male_temple_left', -1, colors, shell),
+			this.temple('male_temple_right', 1, colors, shell)
 		]);
 	}
 
-	static temple(id, side, centerX, colors, metrics) {
+	static temple(id, side, colors, shell) {
+		const x = shell.centerX + side * shell.radiusX * 0.96;
 		return G.path(id, [
-			{
-				type: 'move',
-				x: centerX + side * metrics.headRX * 0.92,
-				y: metrics.headY - metrics.headRY * 0.52
-			},
-			{
-				type: 'quad',
-				cx: centerX + side * metrics.headRX * 1.05,
-				cy: metrics.headY - 2,
-				x: centerX + side * metrics.headRX * 0.9,
-				y: metrics.headY + 10
-			}
+			{ type: 'move', x, y: shell.centerY - shell.radiusY * 0.46 },
+			{ type: 'quad', cx: x + side * shell.radiusX * 0.08, cy: shell.centerY - 2, x: x - side * 2, y: shell.centerY + shell.radiusY * 0.18 }
 		], {
 			stroke: colors.hairDark,
-			lineWidth: 7,
+			lineWidth: 6,
 			lineCap: 'round'
 		});
 	}
 
-	static feminineBack(colors, metrics, view) {
-		const centerX = Number(view.head?.offsetX || 0);
+	static feminineBack(colors, shell) {
 		return S.group('feminine_hair_back', null, [
 			G.ellipse(
 				'feminine_rear_bun',
-				centerX + metrics.headRX * 0.9,
-				metrics.headY - metrics.headRY * 0.12,
-				metrics.headRX * 0.34,
-				metrics.headRY * 0.3,
-				0.12,
-				{
-					fill: colors.hairDark,
-					stroke: colors.line,
-					lineWidth: 2.2
-				}
+				shell.centerX + shell.radiusX * 0.93,
+				shell.centerY - shell.radiusY * 0.02,
+				shell.radiusX * 0.31,
+				shell.radiusY * 0.23,
+				0.08,
+				{ fill: colors.hairDark, stroke: colors.line, lineWidth: 2.1 }
 			)
 		]);
 	}

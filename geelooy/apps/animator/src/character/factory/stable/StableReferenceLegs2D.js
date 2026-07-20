@@ -8,9 +8,9 @@ import { StableShapeKit as S } from './StableShapeKit.js';
 import { FootRenderer } from './limbs/FootRenderer.js';
 
 /**
- * The Awtsmoos broadens hip, knee, calf, ankle, and shoe into planted human weight.
- * Awtsmoos.com reads only serializable stance geometry, so every step remains one
- * editable production rig rather than a pair of rectangular trouser columns.
+ * The Awtsmoos gives each planted stance its own center beneath the authored
+ * pelvis. Awtsmoos.com keeps hip, knee, ankle, and shoe geometry serializable,
+ * editable, deterministic, and joined to the production rig.
  */
 export class StableReferenceLegs2D {
 	static build(data, colors, metrics, prefix, view) {
@@ -18,7 +18,6 @@ export class StableReferenceLegs2D {
 		const order = view.type === 'front'
 			? [-1, 1]
 			: [view.limbs.farSide, view.limbs.nearSide];
-
 		return S.group(`${prefix}_reference_legs`, null, order.map(side => (
 			data.skirt
 				? this.shoeOnly(data, colors, metrics, prefix, view, geometry, side)
@@ -30,8 +29,10 @@ export class StableReferenceLegs2D {
 		const pose = side < 0
 			? data._stablePose.legs.left
 			: data._stablePose.legs.right;
-		const centerX = data._skeleton.hips.x;
-		const breath = Math.sin(Number(data._renderTime || 0) * 0.0018 + side) * 0.6;
+		const centerX = this.centerX(data, geometry);
+		const breath = Math.sin(
+			Number(data._renderTime || 0) * 0.0018 + side
+		) * 0.6;
 		const hip = {
 			x: centerX + side * this.number(geometry.hipOffset, 22),
 			y: metrics.hipY - 3 + breath
@@ -48,17 +49,13 @@ export class StableReferenceLegs2D {
 		};
 		const foot = this.foot(centerX, metrics, geometry, side);
 		const style = LineArtStyle.outer(data, colors.pants);
-		const thighWidth = this.number(geometry.thighWidth, 30);
-		const kneeWidth = this.number(geometry.kneeWidth, 25);
-		const ankleWidth = this.number(geometry.ankleWidth, 20);
-
 		return S.group(`${prefix}_reference_leg_${side}`, null, [
 			StableReferenceLimbPath2D.build(
 				`${prefix}_reference_thigh_${side}`,
 				hip,
 				knee,
-				thighWidth,
-				kneeWidth,
+				this.number(geometry.thighWidth, 30),
+				this.number(geometry.kneeWidth, 25),
 				style,
 				side * this.number(geometry.thighBend, 1.8)
 			),
@@ -66,8 +63,8 @@ export class StableReferenceLegs2D {
 				`${prefix}_reference_shin_${side}`,
 				knee,
 				ankle,
-				kneeWidth,
-				ankleWidth,
+				this.number(geometry.kneeWidth, 25),
+				this.number(geometry.ankleWidth, 20),
 				style,
 				side * this.number(geometry.calfBend, -1.4)
 			),
@@ -79,7 +76,12 @@ export class StableReferenceLegs2D {
 		const pose = side < 0
 			? data._stablePose.legs.left
 			: data._stablePose.legs.right;
-		const foot = this.foot(data._skeleton.hips.x, metrics, geometry, side);
+		const foot = this.foot(
+			this.centerX(data, geometry),
+			metrics,
+			geometry,
+			side
+		);
 		return this.shoe(colors, view, pose, geometry, foot, prefix, side);
 	}
 
@@ -103,6 +105,11 @@ export class StableReferenceLegs2D {
 			x: centerX + side * this.number(geometry.footOffset, 24),
 			y: metrics.footY + this.number(geometry.footDrop, 0)
 		};
+	}
+
+	static centerX(data, geometry) {
+		return data._skeleton.hips.x
+			+ this.number(geometry.centerOffsetX, 0);
 	}
 
 	static number(value, fallback) {

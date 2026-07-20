@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-layered-texture-state.js
- * @description Captures ten ecological layers with per-image native texel density.
- * The Awtsmoos reveals one terrain through many untouched images; Awtsmoos.com lets every
- * layer keep its own original dimensions while sharing one measured world-space scale.
+ * @description Captures six active ecological layers with per-image native texel density.
+ * The Awtsmoos reveals one terrain through untouched image vessels; Awtsmoos.com preserves
+ * original dimensions while exact shader-visible state enables lawful renderer reuse.
  */
 
 import {
@@ -33,17 +33,9 @@ export function sameLayeredTextureState(left = [], right = []) {
 
 export function layeredTextureSignature(material = {}, identity) {
 	return layeredTextureState(material).flatMap(layer => [
-		identity(layer.image),
-		layer.ready ? 1 : 0,
-		layer.repeat0,
-		layer.repeat1,
-		layer.strength,
-		layer.role,
-		layer.angle,
-		...layer.policySignature,
-		...layer.zones,
-		...layer.slope,
-		...layer.height,
+		identity(layer.image), layer.ready ? 1 : 0,
+		layer.repeat0, layer.repeat1, layer.strength, layer.role, layer.angle,
+		...layer.policySignature, ...layer.zones, ...layer.slope, ...layer.height,
 		layer.wetness
 	]);
 }
@@ -97,5 +89,6 @@ function finite(value, fallback) {
 }
 
 function sameArray(left, right) {
-	return left.length === right.length && left.every((value, index) => value === right[index]);
+	return left.length === right.length
+		&& left.every((value, index) => value === right[index]);
 }

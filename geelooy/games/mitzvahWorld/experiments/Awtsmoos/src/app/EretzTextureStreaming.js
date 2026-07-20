@@ -4,25 +4,23 @@
 
 /**
  * @file EretzTextureStreaming.js
- * @description Warms organized catalogs and canonical full-source surfaces after play begins.
- * The Awtsmoos reveals form before pigment; Awtsmoos.com gives multi-megabyte grass, stone,
- * water, roof, and timber enough background time while only two semantic workers decode at once.
+ * @description Hydrates canonical surfaces without requiring remote discovery catalogs.
+ * The Awtsmoos reveals the known village garments directly; Awtsmoos.com keeps optional editor
+ * metadata outside ordinary play while two bounded workers warm stone, roof, timber, road, and grass.
  */
 
-import { houseImageEntries } from '../assets/HouseAssets.js';
 import { loadOrganizedAssetCatalog } from '../assets/OrganizedAssetCatalog.js';
+import { publicMaterialCacheStats } from '../assets/PublicMaterialCache.js';
 import {
-	loadPublicMaterialUrl,
-	preloadPublicMaterialImages,
-	publicMaterialCacheStats
-} from '../assets/PublicMaterialCache.js';
-import { GRASS_URLS } from '../world/Terrain3D.js';
-
-const BACKGROUND_TEXTURE_TIMEOUT_MS = 30000;
+	preloadCanonicalPhysicalMaterials,
+	warmCanonicalTextureUrls
+} from './EretzTextureWarmup.js';
+import { textureStreamingCatalogPolicy } from './TextureStreamingCatalogPolicy.js';
 
 export function scheduleEretzTextureStreaming(assets, options = {}, boot = null) {
 	const state = {
 		catalog: null,
+		catalogStatus: 'pending',
 		completed: 0,
 		error: null,
 		startedAt: null,
@@ -33,21 +31,17 @@ export function scheduleEretzTextureStreaming(assets, options = {}, boot = null)
 	state.promise = new Promise(resolve => {
 		setTimeout(async () => {
 			state.startedAt = now();
-			state.status = 'catalog';
-			boot?.progress('texture-stream', 0, state.total, 'Indexing organized Firebase categories');
-			await loadCatalog(state, options, boot);
+			state.status = 'catalog-policy';
+			boot?.progress('texture-stream', 0, state.total, 'Resolving deterministic material registry');
+			Object.assign(state, await resolveStreamingCatalog(options, boot));
 			state.completed = 1;
 			state.status = 'critical-nearby';
 			boot?.progress('texture-stream', 1, state.total, 'Decoding nearby canonical surfaces');
-			assets.publicMaterialPreload = await preloadPublicMaterialImages({
-				concurrency: 2,
-				onSettled: record => recordSettled(boot, record),
-				timeoutMs: textureTimeout(options)
-			}).catch(error => degraded(boot, 'texture-preload', error));
+			assets.publicMaterialPreload = await preloadCanonicalPhysicalMaterials(options, boot);
 			state.completed = 2;
 			state.status = 'semantic-warmup';
 			boot?.progress('texture-stream', 2, state.total, 'Streaming grass, houses, roads, and water');
-			await warmSemanticUrls(options, boot);
+			await warmCanonicalTextureUrls(options, boot);
 			state.completed = 3;
 			state.status = 'scene-cadence';
 			assets.publicMaterialCache = publicMaterialCacheStats();
@@ -65,49 +59,32 @@ export function scheduleEretzTextureStreaming(assets, options = {}, boot = null)
 	return state;
 }
 
-async function loadCatalog(state, options, boot) {
-	try {
-		state.catalog = await loadOrganizedAssetCatalog(options.fetchFunction);
-	} catch (error) {
-		state.error = error.message;
-		boot?.degrade('organized-asset-catalog', error);
+export async function resolveStreamingCatalog(options = {}, boot = null) {
+	const policy = textureStreamingCatalogPolicy(options);
+	if (!policy.enabled) {
+		return {
+			catalog: null,
+			catalogPolicy: policy.reason,
+			catalogStatus: 'disabled-by-default',
+			error: null
+		};
 	}
-}
-
-async function warmSemanticUrls(options, boot) {
-	const urls = [...new Set([
-		...GRASS_URLS,
-		...houseImageEntries().map(entry => entry.url)
-	])];
-	let cursor = 0;
-	const worker = async () => {
-		while (cursor < urls.length) {
-			const index = cursor++;
-			const record = await loadPublicMaterialUrl(urls[index], textureTimeout(options));
-			if (!record.ok) boot?.degrade('canonical-texture', directTextureError(urls[index], record));
-		}
-	};
-	await Promise.all([worker(), worker()]);
-}
-
-function recordSettled(boot, record) {
-	if (record.loaded) return;
-	const attempt = record.attempts?.at(-1) || {};
-	const detail = `${attempt.stage || 'load'}:${record.error || attempt.error || 'unavailable'}`;
-	boot?.degrade(record.role || 'runtime-material', new Error(`${detail}:${record.primaryUrl}`));
-}
-
-function directTextureError(url, record) {
-	return new Error(`${record.stage || 'load'}:${record.error || 'unavailable'}:${url}`);
-}
-
-function degraded(boot, system, error) {
-	boot?.degrade(system, error);
-	return { failed: 1, loaded: 0, ok: false, records: [] };
-}
-
-function textureTimeout(options) {
-	return options.textureTimeoutMs || BACKGROUND_TEXTURE_TIMEOUT_MS;
+	try {
+		return {
+			catalog: await loadOrganizedAssetCatalog(options.fetchFunction),
+			catalogPolicy: policy.reason,
+			catalogStatus: 'ready',
+			error: null
+		};
+	} catch (error) {
+		boot?.degrade('organized-asset-catalog', error);
+		return {
+			catalog: null,
+			catalogPolicy: policy.reason,
+			catalogStatus: 'failed',
+			error: error.message
+		};
+	}
 }
 
 function now() {

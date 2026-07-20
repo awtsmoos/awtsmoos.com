@@ -23,6 +23,14 @@ export class CalmReferenceAppearance {
 				earXScale: 0.98,
 				earRX: 4.8,
 				earRY: 8.2,
+				shellScaleX: 1.5131,
+				shellScaleY: 1.5282,
+				shellOffsetX: 2.7765,
+				shellOffsetY: 10.7679,
+				featureOffsetX: -16,
+				featureOffsetY: 27,
+				featureScaleX: 1,
+				featureScaleY: 1,
 				lineWidth: 2.8
 			},
 			browStyle: {
@@ -38,12 +46,12 @@ export class CalmReferenceAppearance {
 				lineWidth: 1.7
 			},
 			eyeStyle: {
-				radiusX: 10.2,
-				radiusY: 10.2,
-				spacingScale: 1.32,
-				separationRatio: 0.72,
-				pupilScale: 1.02,
-				pupilVertical: 0.32,
+				radiusX: 11.8,
+				radiusY: 11.6,
+				spacingScale: 0.97,
+				separationRatio: 0.9,
+				pupilScale: 0.82,
+				pupilVertical: 0.3,
 				outlineWidth: 1.9,
 				lidWidth: 1.8,
 				lashes: true,
@@ -54,9 +62,9 @@ export class CalmReferenceAppearance {
 			mouthStyle: {
 				kind: 'rose_lips',
 				lipColor: '#a94f55',
-				widthScale: 1.24,
-				heightScale: 0.82,
-				smileBias: 0.22,
+				widthScale: 1.35,
+				heightScale: 0.9,
+				smileBias: 0.24,
 				lineWidth: 2.4,
 				lowerLipWidth: 2,
 				verticalOffset: 0.5

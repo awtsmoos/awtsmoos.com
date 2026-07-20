@@ -36,11 +36,11 @@ export class CalmReferenceProfile {
 				neckBottomY: -185,
 				shoulderY: -182,
 				chestY: -143,
-				waistY: -96,
+				waistY: -108.71,
 				hipY: -73,
-				kneeY: -36,
-				ankleY: 6,
-				footY: 16,
+				kneeY: -44.94,
+				ankleY: 3.32,
+				footY: 12.15,
 				shoulderHalf: 36,
 				hipHalf: 26,
 				armWidth: 11,
@@ -53,6 +53,8 @@ export class CalmReferenceProfile {
 			motion: 'calm',
 			gesture: 'right_hand_in_pocket',
 			acting: 'listen',
+			skirt: true,
+			earrings: true,
 			beard: false,
 			payos: false,
 			hatType: 'head_wrap',
@@ -66,18 +68,42 @@ export class CalmReferenceProfile {
 		return {
 			body: { torsoLean: -0.5, headTilt: -1 },
 			arms: {
-				left: { shoulderLift: -4, elbowX: -8, elbowY: 39, handX: 1, handY: 17, handPose: 'rest' },
-				right: { shoulderLift: -4, elbowX: 13, elbowY: 31, handX: 10, handY: 7, handPose: 'pocket' }
+				left: {
+					shoulderLift: -4,
+					elbowX: -21.49,
+					elbowY: 45.84,
+					handX: 11.4,
+					handY: 43.6,
+					handPose: 'rest'
+				},
+				right: {
+					shoulderLift: -4,
+					elbowX: 13,
+					elbowY: 31,
+					handX: 10,
+					handY: 7,
+					handPose: 'pocket'
+				}
 			}
 		};
 	}
 
 	static colors() {
 		return {
-			jacket: '#5d6e43', jacketDark: '#3f4d2e', jacketLight: '#758655',
-			shirt: '#202124', innerShirt: '#202124', skirt: '#202124', pants: '#202124',
-			skin: '#e3aa78', skinDark: '#bd794f', hair: '#4a2818', hairDark: '#25130c',
-			hat: '#1c1c1f', lip: '#a94f55', earring: '#d6a62a'
+			jacket: '#5d6e43',
+			jacketDark: '#3f4d2e',
+			jacketLight: '#758655',
+			shirt: '#202124',
+			innerShirt: '#202124',
+			skirt: '#202124',
+			pants: '#202124',
+			skin: '#e3aa78',
+			skinDark: '#bd794f',
+			hair: '#4a2818',
+			hairDark: '#25130c',
+			hat: '#1c1c1f',
+			lip: '#a94f55',
+			earring: '#d6a62a'
 		};
 	}
 }

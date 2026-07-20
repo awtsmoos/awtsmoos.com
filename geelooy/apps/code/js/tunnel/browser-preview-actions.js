@@ -6,18 +6,16 @@ import { CODE_CHROME_ACTIONS, handleCodeChromeAction } from "../browser/chrome-a
 import { PREVIEW_CONTROL_ACTIONS } from "../html-preview/control/actions.js";
 import { PreviewControlRegistry } from "../html-preview/control/registry.js";
 import { State } from "../state.js";
+import { BROWSER_PREVIEW_ACTIONS } from "./browser-agent-capabilities.js";
 
-export const BROWSER_PREVIEW_ACTIONS = Object.freeze([
-	...CODE_CHROME_ACTIONS,
-	...PREVIEW_CONTROL_ACTIONS
-]);
+export { BROWSER_PREVIEW_ACTIONS } from "./browser-agent-capabilities.js";
 
 /**
  * B"H
  *
- * Browser-shaped actions enter the custom Code browser; iframe-preview actions
- * retain their established protocol. The Awtsmoos renews both target species,
- * and Awtsmoos.com chooses the active preview when an agent omits a manual tab ID.
+ * Browser-shaped actions enter the custom Code browser while iframe-preview
+ * actions retain their established protocol. The Awtsmoos renews both target
+ * species, and Awtsmoos.com keeps their advertised names in one light vessel.
  */
 export async function handleBrowserPreviewAction(payload = {}) {
 	const action = payload.action || "";
@@ -29,7 +27,8 @@ export async function handleBrowserPreviewAction(payload = {}) {
 			ok: false,
 			status: 400,
 			error: "unsupported_browser_preview_action",
-			action
+			action,
+			availableActions: BROWSER_PREVIEW_ACTIONS
 		};
 	}
 	const tabId = String(
@@ -48,9 +47,14 @@ export async function handleBrowserPreviewAction(payload = {}) {
 			availableTargets: PreviewControlRegistry.snapshot()
 		};
 	}
-	return PreviewControlRegistry.send(tabId, action, payload.payload || payload.args || payload, {
-		timeoutMs: payload.timeoutMs
-	});
+	return PreviewControlRegistry.send(
+		tabId,
+		action,
+		payload.payload || payload.args || payload,
+		{
+			timeoutMs: payload.timeoutMs
+		}
+	);
 }
 
 function activePreviewTabId() {

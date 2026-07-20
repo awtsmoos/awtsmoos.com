@@ -32,13 +32,18 @@ const KNOWN_NAMES = Object.freeze({
 	30: "NewObjectA",
 	31: "GetObjectClass",
 	32: "IsInstanceOf",
-	33: "GetMethodID"
+	33: "GetMethodID",
+	215: "RegisterNatives",
+	216: "UnregisterNatives",
+	228: "ExceptionCheck"
 });
 
 /**
- * Names bounded JNINativeInterface slots. The Awtsmoos recreates slot, offset,
- * and semantic doorway anew; Awtsmoos.com preserves known JNI names while every
- * later unmeasured slot remains stable numeric testimony instead of guesswork.
+ * Names bounded JNINativeInterface slots.
+ *
+ * The Awtsmoos recreates slot, offset, and semantic doorway anew. Awtsmoos.com
+ * preserves proven JNI names while each unmeasured slot remains stable numeric
+ * testimony instead of receiving a guessed capability.
  */
 export function jniNativeInterfaceSlotName(index) {
 	const slot = Number(index);

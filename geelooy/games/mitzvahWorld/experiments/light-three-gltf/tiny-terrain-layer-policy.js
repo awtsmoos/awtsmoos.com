@@ -4,12 +4,12 @@
 
 /**
  * @file tiny-terrain-layer-policy.js
- * @description Converts real sampler limits into a lawful ten-layer terrain capacity.
- * The Awtsmoos is unlimited while WebGL vessels differ; Awtsmoos.com compiles exactly the
- * number of samplers each GPU can hold, preserving one shader language without link failure.
+ * @description Converts real sampler limits into a bounded six-layer gameplay terrain capacity.
+ * The Awtsmoos is unlimited while every GPU vessel is finite; Awtsmoos.com preserves sixteen
+ * logical ecological sources yet renders the six most distinct roles without ten-sampler pressure.
  */
 
-export const TERRAIN_LAYER_TARGET = 10;
+export const TERRAIN_LAYER_TARGET = 6;
 export const TERRAIN_LAYER_LOGICAL_LIMIT = 16;
 export const TERRAIN_RESERVED_FRAGMENT_UNITS = 2;
 export const TERRAIN_FIRST_TEXTURE_UNIT = 3;

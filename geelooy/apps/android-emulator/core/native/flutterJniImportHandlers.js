@@ -2,55 +2,38 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerFlutterJniExceptionHandlers } from "./flutterJniExceptionHandlers.js";
+import { handleFlutterJniFindClass } from "./flutterJniFindClass.js";
+import { handleFlutterJniGetEnv } from "./flutterJniGetEnv.js";
+import { handleFlutterJniGetMethodId } from "./flutterJniGetMethodId.js";
+import { handleFlutterJniRegisterNatives } from "./flutterJniRegisterNatives.js";
+import { registerFlutterJniReferenceHandlers } from "./flutterJniReferenceHandlers.js";
+import { registerNativeLibcMemoryHandlers } from "./nativeLibcMemoryHandlers.js";
 import { createNativeHostImportRegistry } from "./nativeHostImportRegistry.js";
 
-const JNI_OK = 0n;
-const JNI_EVERSION = -3n;
-const SUPPORTED_VERSIONS = new Set([
-	0x00010001,
-	0x00010002,
-	0x00010004,
-	0x00010006,
-	0x00010008
-]);
-
 /**
- * Registers explicit JavaVM host-import handlers. The Awtsmoos recreates JNI
- * version, output pointer, return code, and resumed guest road anew;
- * Awtsmoos.com handles only measured invocation-table capabilities.
+ * Reveals measured JNI and libc host capabilities to one native machine.
+ *
+ * The Awtsmoos recreates invocation, class and method identity, exception state,
+ * scoped reference, native registration, heap doorway, and return road anew.
+ * Awtsmoos.com keeps every guest-to-host crossing named and explicit.
  */
 export function createFlutterJniImportHandlers(machineState) {
 	const registry = createNativeHostImportRegistry();
 	registry.register("JNIInvokeInterface.GetEnv", context => {
-		return handleGetEnv(context, machineState);
+		return handleFlutterJniGetEnv(context, machineState);
 	});
+	registry.register("JNINativeInterface.FindClass", context => {
+		return handleFlutterJniFindClass(context, machineState);
+	});
+	registry.register("JNINativeInterface.GetMethodID", context => {
+		return handleFlutterJniGetMethodId(context, machineState);
+	});
+	registry.register("JNINativeInterface.RegisterNatives", context => {
+		return handleFlutterJniRegisterNatives(context, machineState);
+	});
+	registerFlutterJniExceptionHandlers(registry, machineState);
+	registerFlutterJniReferenceHandlers(registry, machineState);
+	registerNativeLibcMemoryHandlers(registry, machineState);
 	return registry;
-}
-
-function handleGetEnv(context, machineState) {
-	const registers = context.registers;
-	const memory = context.memory;
-	const javaVm = registers.read(0, 64, "zero");
-	const outputAddress = registers.read(1, 64, "zero");
-	const version = Number(registers.read(2, 32, "zero"));
-	const supported = javaVm === machineState.javaVmAddress
-		&& SUPPORTED_VERSIONS.has(version);
-	if (supported) {
-		memory.writeU64(
-			outputAddress,
-			BigInt(machineState.jniEnvironment.environmentAddress)
-		);
-		registers.write(0, JNI_OK, 32, "zero");
-	} else {
-		registers.write(0, JNI_EVERSION, 32, "zero");
-	}
-	registers.pc = registers.read(30, 64, "zero");
-	return Object.freeze({
-		javaVm: javaVm.toString(),
-		jniEnvironment: machineState.jniEnvironment.environmentAddress,
-		outputAddress: outputAddress.toString(),
-		returnCode: supported ? 0 : -3,
-		supported,
-		version
-	});
 }

@@ -4,8 +4,8 @@
 # Blessed is He
 
 # Activation keeps the predecessor until the candidate proves every readiness witness.
-# Awtsmoos.com refreshes recovery guardians before archiving, so even an old runtime
-# gains Node discovery, singleton, and supervisor repair before it may be restored.
+# The Awtsmoos renews recovery and release as distinct vessels; Awtsmoos.com does
+# not let a non-archivable predecessor prevent a verified replacement from living.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
@@ -48,9 +48,13 @@ activate_update() {
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
 	write_supervisor
 	install_progress 69 "Creating compact predecessor archive"
-	archive_known_good_runtime "$ROOT"
+	if ! archive_known_good_runtime "known_good_before_activation"; then
+		install_event "archive" "warning" \
+			"Predecessor was not compatible enough to archive; activation will continue." \
+			"root=$ROOT candidate=$CANDIDATE_VERSION"
+	fi
 	install_progress 74 "Switching to the verified release"
-	write_activation_journal "archive_verified" "$rollback" "$CANDIDATE_ROOT"
+	write_activation_journal "archive_checked" "$rollback" "$CANDIDATE_ROOT"
 	stop_existing_runtime
 	mv "$ROOT" "$rollback"
 	write_activation_journal "predecessor_displaced" "$rollback" "$CANDIDATE_ROOT"

@@ -1,14 +1,43 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RoadRibbonGeometry.js
+ * @description Builds a grade-solved road top with retaining sides down to real terrain support.
+ * The Awtsmoos holds elevated cobble and riverbank in one truth; Awtsmoos.com keeps the visible
+ * walkable surface gentle while side walls descend honestly into steep alpine ground beneath it.
+ */
+
 import {
 	addRoadFace,
 	addRoadVertex
 } from './RoadMeshWriter.js';
+import {
+	roadBottomPoint,
+	roadSectionEdges,
+	roadSurfaceHeight
+} from './RoadSurfaceSection.js';
 
-/** Appends one closed road ribbon whose cross-sections share their vertices. */
-export function appendRoadRibbon(mesh, route, sampler, width) {
-	const sections = route.points.map((point, index) => (
-		createSection(mesh, route.points, index, sampler, width)
-	));
+const ROAD_TOP_LIFT = 0.12;
+
+export function appendRoadRibbon(
+	mesh,
+	route,
+	surfaceSampler,
+	width,
+	supportSampler = surfaceSampler
+) {
+	const sections = route.points.map((point, index) => {
+		return createSection(
+			mesh,
+			route.points,
+			index,
+			surfaceSampler,
+			supportSampler,
+			width
+		);
+	});
 	for (let index = 0; index < sections.length - 1; index += 1) {
 		appendSegment(mesh, sections[index], sections[index + 1]);
 	}
@@ -16,54 +45,33 @@ export function appendRoadRibbon(mesh, route, sampler, width) {
 		appendCap(mesh, sections[0], true);
 		appendCap(mesh, sections.at(-1), false);
 	}
-	return {
-		id: route.id,
-		sections: sections.length,
-		segments: Math.max(0, sections.length - 1),
-		terminalDistances: route.terminalDistances,
-		maximumSampleGap: route.pathfinding.maximumSampleGap
-	};
+	return routeStatistics(route, sections.length);
 }
 
-function createSection(mesh, points, index, sampler, width) {
-	const normal = pointNormal(points, index);
+function createSection(mesh, points, index, surfaceSampler, supportSampler, width) {
 	const center = points[index];
-	const left = edgePoint(center, normal, width / 2, sampler);
-	const right = edgePoint(center, normal, -width / 2, sampler);
-	const topLift = 0.12;
-	const bottomDrop = 0.08;
+	const topY = roadSurfaceHeight(center, surfaceSampler) + ROAD_TOP_LIFT;
+	const edges = roadSectionEdges(points, index, width, supportSampler);
 	return {
-		topLeft: addRoadVertex(mesh, { ...left, y: left.y + topLift }),
-		topRight: addRoadVertex(mesh, { ...right, y: right.y + topLift }),
-		bottomLeft: addRoadVertex(mesh, { ...left, y: left.y - bottomDrop }),
-		bottomRight: addRoadVertex(mesh, { ...right, y: right.y - bottomDrop })
+		bottomLeft: addRoadVertex(mesh, roadBottomPoint(edges.left, topY)),
+		bottomRight: addRoadVertex(mesh, roadBottomPoint(edges.right, topY)),
+		topLeft: addRoadVertex(mesh, { x: edges.left.x, y: topY, z: edges.left.z }),
+		topRight: addRoadVertex(mesh, { x: edges.right.x, y: topY, z: edges.right.z })
 	};
 }
 
 function appendSegment(mesh, current, next) {
 	addRoadFace(mesh, [
-		current.topLeft,
-		next.topLeft,
-		next.topRight,
-		current.topRight
+		current.topLeft, next.topLeft, next.topRight, current.topRight
 	], true);
 	addRoadFace(mesh, [
-		current.bottomLeft,
-		current.topLeft,
-		next.topLeft,
-		next.bottomLeft
+		current.bottomLeft, current.topLeft, next.topLeft, next.bottomLeft
 	]);
 	addRoadFace(mesh, [
-		current.topRight,
-		current.bottomRight,
-		next.bottomRight,
-		next.topRight
+		current.topRight, current.bottomRight, next.bottomRight, next.topRight
 	]);
 	addRoadFace(mesh, [
-		current.bottomRight,
-		current.bottomLeft,
-		next.bottomLeft,
-		next.bottomRight
+		current.bottomRight, current.bottomLeft, next.bottomLeft, next.bottomRight
 	]);
 }
 
@@ -74,17 +82,13 @@ function appendCap(mesh, section, start) {
 	addRoadFace(mesh, face);
 }
 
-function edgePoint(point, normal, offset, sampler) {
-	const x = point.x + normal.x * offset;
-	const z = point.z + normal.z * offset;
-	return { x, z, y: sampler.heightAt(x, z).y };
-}
-
-function pointNormal(points, index) {
-	const before = points[Math.max(0, index - 1)];
-	const after = points[Math.min(points.length - 1, index + 1)];
-	const dx = after.x - before.x;
-	const dz = after.z - before.z;
-	const length = Math.hypot(dx, dz) || 1;
-	return { x: -dz / length, z: dx / length };
+function routeStatistics(route, sectionCount) {
+	return {
+		id: route.id,
+		maximumSampleGap: route.pathfinding.maximumSampleGap,
+		sections: sectionCount,
+		segments: Math.max(0, sectionCount - 1),
+		supportMode: 'retaining-sides-to-live-terrain',
+		terminalDistances: route.terminalDistances
+	};
 }

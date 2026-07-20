@@ -46,6 +46,7 @@ export class ReferenceCharacterLandmarks {
 			rootMatrix: probe.matrix(`stable_character_${id}`),
 			fullGraphBox: probe.bounds(`stable_character_${id}`),
 			headBox: this.headBounds(probe, prefix),
+			faceShellBox: probe.bounds(`${prefix}_organic_head`),
 			leftEye: probe.point(`${prefix}_eye_-1`),
 			rightEye: probe.point(`${prefix}_eye_1`),
 			mouth: probe.center(`${prefix}_mouth_cavity`),

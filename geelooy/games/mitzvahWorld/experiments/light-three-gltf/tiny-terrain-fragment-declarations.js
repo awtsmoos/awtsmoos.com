@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-terrain-fragment-declarations.js
- * @description Generates fixed WebGL sampler declarations for the measured GPU capacity.
- * The Awtsmoos transcends number while each GPU has a real boundary; Awtsmoos.com compiles
- * only the sampler vessels that can be bound, reaching ten layers without breaking smaller GPUs.
+ * @description Generates fixed WebGL sampler declarations for the bounded terrain capacity.
+ * The Awtsmoos transcends number while each GPU has a measurable boundary; Awtsmoos.com
+ * declares only six diverse ecological garments and leaves redundant logical sources off-frame.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
@@ -29,7 +29,8 @@ export function terrainDeclarationsForLayerCount(layerCount) {
 		declarations.push(`uniform vec2 uTerrainLayerHeight${index};`);
 		declarations.push(`uniform float uTerrainLayerWetness${index};`);
 	}
-	return `\n${declarations.join('\n')}\n`;
+	const lineBreak = String.fromCharCode(10);
+	return [lineBreak, declarations.join(lineBreak), lineBreak].join('');
 }
 
 function normalizedCount(value) {

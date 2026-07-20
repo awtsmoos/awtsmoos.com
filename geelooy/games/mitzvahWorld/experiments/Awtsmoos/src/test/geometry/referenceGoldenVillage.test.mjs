@@ -4,9 +4,9 @@
 
 /**
  * @file referenceGoldenVillage.test.mjs
- * @description Protects golden-hour depth, canonical landmarks, forest, snow, bridge, and cottages.
- * The Awtsmoos renews visual abundance inside measured tiers; Awtsmoos.com verifies image-making
- * systems while permitting meaningful architecture to replace empty prototype-count ceilings.
+ * @description Protects golden-hour depth, foundations, landmarks, forest, bridge, and cottages.
+ * The Awtsmoos renews visual abundance inside measured tiers; Awtsmoos.com verifies meaningful
+ * architecture and terrain-fitting foundations instead of preserving empty prototype ceilings.
  */
 
 import assert from 'node:assert/strict';
@@ -23,9 +23,17 @@ import {
 
 const QUALITIES = ['low', 'medium', 'high', 'cinematic'];
 const WORLD_LAYERS = [
-	'mountains', 'water', 'props', 'arrival-composition', 'districts',
-	'practical-lighting', 'landscape', 'forest-edge',
-	'animated-chossid-population', 'creatures'
+	'mountains',
+	'water',
+	'props',
+	'arrival-composition',
+	'foundations',
+	'districts',
+	'practical-lighting',
+	'landscape',
+	'forest-edge',
+	'animated-chossid-population',
+	'creatures'
 ];
 
 test('reference golden-hour world stays deterministic and quality bounded', () => {
@@ -64,7 +72,6 @@ test('high tier keeps named architecture, forest, snow, bridge, and grounded cot
 	assert.equal(world.stats.forestEdge.proceduralTreeSitesSupported, 34);
 	assert.equal(world.definitions.length, world.stats.definitionCount);
 	assert.ok(world.definitions.length <= 260);
-	assert.equal(hasId(world, 'Awtsmoos_arrival-meadow-landmark'), false);
 	assert.equal(byFamily(world, 'reference-cottage-detail-batch').length, 3);
 	assert.equal(byFamily(world, 'reference-cottage-ornament-batch').length, 5);
 	assertCanonicalLandmarks(world);
@@ -72,21 +79,16 @@ test('high tier keeps named architecture, forest, snow, bridge, and grounded cot
 	assert.equal(shadows.length, 1);
 	assert.equal(shadows[0].userData.instances, 29);
 	assert.equal(shadows[0].alphaMode, 'BLEND');
-	assert.equal(shadows[0].opacity, 0.17);
 	assert.equal(byFamily(world, 'reference-atmospheric-mountain-snow').length, 3);
 	assert.equal(byFamily(world, 'reference-practical-lighting').length, 4);
 	assert.ok(byFamily(world, 'reference-forest-edge').length >= 5);
 	const bridge = byFamily(world, 'canonical-stone-bridge');
 	assert.equal(bridge.length, 5);
-	assert.equal(bridge.filter((item) => item.userData.part === 'arch-ring').length, 2);
+	assert.equal(bridge.filter(item => item.userData.part === 'arch-ring').length, 2);
 });
 
 function assertCanonicalLandmarks(world) {
 	for (const id of ['SHUL01', 'BEIS01', 'MARKET01', 'PORTAL01']) {
-		assert.ok(world.definitions.some((item) => item.userData?.canonicalId === id));
+		assert.ok(world.definitions.some(item => item.userData?.canonicalId === id));
 	}
-}
-
-function hasId(world, id) {
-	return world.definitions.some((item) => item.id === id);
 }

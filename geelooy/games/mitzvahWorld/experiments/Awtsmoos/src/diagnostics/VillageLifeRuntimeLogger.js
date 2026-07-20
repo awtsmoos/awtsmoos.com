@@ -4,9 +4,9 @@
 
 /**
  * @file VillageLifeRuntimeLogger.js
- * @description Publishes bounded material, light, texture, batching, and frame evidence.
- * The Awtsmoos renews the village beyond visual guesswork; Awtsmoos.com gives every
- * white wall, dark surface, stalled texture, and costly draw a structured name in the log.
+ * @description Publishes bounded residency, readability, GPU, batching, and frame evidence.
+ * The Awtsmoos renews village life beyond appearance; Awtsmoos.com gives every white wall,
+ * dark material family, stalled texture, costly draw, and weak light a structured log identity.
  */
 
 import { publicMaterialCacheStats } from '../assets/PublicMaterialCache.js';
@@ -62,17 +62,20 @@ export class VillageLifeRuntimeLogger {
 		if (!snapshot.lighting.readable) {
 			this.console?.warn?.(`${prefix}[LightingGate]`, snapshot.lighting);
 		}
+		if (!snapshot.materials.readability.readable) {
+			this.console?.warn?.(`${prefix}[MaterialReadabilityGate]`, snapshot.materials.readability);
+		}
 	}
 }
 
 function createSnapshot(runtime, now, label) {
+	const lighting = inspectVillageLighting(runtime.renderer);
 	return {
 		atMilliseconds: Math.round(now),
 		cache: publicMaterialCacheStats(),
 		hydration: runtime.materialHydrationStats || null,
-		label,
-		lighting: inspectVillageLighting(runtime.renderer),
-		materials: inspectVillageMaterials(runtime.scene),
+		label, lighting,
+		materials: inspectVillageMaterials(runtime.scene, lighting),
 		performance: runtime.performanceMonitor?.diagnostics?.() || null,
 		renderer: runtime.renderer?.stats || null,
 		textureGpu: runtime.renderer?.textures?.diagnostics?.() || null
@@ -84,21 +87,15 @@ function snapshotKey(snapshot) {
 	const hydration = snapshot.hydration || {};
 	const renderer = snapshot.renderer || {};
 	return [
-		materials.cottagePending,
-		materials.whiteUntextured,
-		materials.pendingPhysicalMaps,
-		hydration.active,
-		hydration.completed,
-		hydration.failed,
-		renderer.draws,
-		renderer.triangles
+		materials.cottagePending, materials.whiteUntextured, materials.pendingPhysicalMaps,
+		snapshot.lighting.readable, snapshot.materials.readability.readable,
+		hydration.active, hydration.completed, hydration.failed,
+		renderer.draws, renderer.triangles
 	].join('|');
 }
 
 function structuredCloneSafe(value) {
 	try {
 		return globalThis.structuredClone ? structuredClone(value) : JSON.parse(JSON.stringify(value));
-	} catch {
-		return value;
-	}
+	} catch { return value; }
 }

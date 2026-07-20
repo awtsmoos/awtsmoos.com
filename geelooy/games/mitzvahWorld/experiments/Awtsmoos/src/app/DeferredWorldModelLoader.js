@@ -4,14 +4,15 @@
 
 /**
  * @file DeferredWorldModelLoader.js
- * @description Loads curated world GLBs after the playable foundation is ready.
- * The Awtsmoos renews imported form after the valley already receives the player;
- * Awtsmoos.com records progress and failure without blocking first interaction.
+ * @description Loads optional curated GLBs only after explicit caller consent.
+ * The Awtsmoos renews a complete procedural valley before imported decoration; Awtsmoos.com
+ * keeps ordinary gameplay free of failed oversized requests while preserving a deliberate opt-in.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
 import { loadWorldModelAssets } from '../assets/WorldModelAssetService.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
+import { worldModelLoadingPolicy } from './WorldModelLoadingPolicy.js';
 
 export function startDeferredWorldModels(
 	foundation,
@@ -20,49 +21,69 @@ export function startDeferredWorldModels(
 	options,
 	boot
 ) {
-	const state = {
+	const policy = worldModelLoadingPolicy(options);
+	const state = createState(policy);
+	diagnostics.worldModelStatus = state;
+	if (!policy.enabled) return Promise.resolve(null);
+	return new Promise(resolve => {
+		setTimeout(() => loadModels({
+			boot,
+			diagnostics,
+			foundation,
+			policy,
+			resolve,
+			runtime,
+			state
+		}), policy.delayMs);
+	});
+}
+
+async function loadModels(context) {
+	context.state.status = 'loading';
+	try {
+		const service = await loadWorldModelAssets(context.foundation, {
+			quality: context.policy.quality
+		});
+		context.runtime.worldModels = service;
+		context.runtime.materialCanonicalization = canonicalizeSceneMaterials(
+			context.foundation.scene
+		);
+		context.diagnostics.worldModels = service;
+		context.diagnostics.worldModelStats = service.stats();
+		applyServiceState(context.state, context.diagnostics.worldModelStats);
+		if (context.diagnostics.worldModelStats.failed.length) {
+			context.boot.degrade(
+				'world-models',
+				new Error('Some explicitly requested curated GLBs failed to load.')
+			);
+		}
+		refreshWorldDiagnostics(context.diagnostics, context.runtime);
+		context.resolve(service);
+	} catch (error) {
+		context.state.error = error.message;
+		context.state.status = 'failed';
+		context.runtime.worldModelError = error.message;
+		context.boot.degrade('world-models', error);
+		refreshWorldDiagnostics(context.diagnostics, context.runtime);
+		context.resolve(null);
+	}
+}
+
+function createState(policy) {
+	return {
 		error: null,
 		loaded: 0,
+		policy: policy.reason,
 		requested: 0,
-		status: options.worldModels === false ? 'disabled' : 'scheduled'
+		status: policy.enabled ? 'scheduled' : 'disabled-by-default'
 	};
-	diagnostics.worldModelStatus = state;
-	if (options.worldModels === false) return Promise.resolve(null);
-	const delayMs = options.worldModelDelayMs ?? 1000;
-	return new Promise(resolve => {
-		setTimeout(async () => {
-			state.status = 'loading';
-			try {
-				const service = await loadWorldModelAssets(foundation, {
-					quality: options.quality || 'high'
-				});
-				runtime.worldModels = service;
-				runtime.materialCanonicalization = canonicalizeSceneMaterials(
-					foundation.scene
-				);
-				diagnostics.worldModels = service;
-				diagnostics.worldModelStats = service.stats();
-				Object.assign(state, {
-					loaded: diagnostics.worldModelStats.loaded,
-					requested: diagnostics.worldModelStats.requested,
-					status: diagnostics.worldModelStats.failed.length
-						? 'degraded'
-						: 'ready'
-				});
-				if (diagnostics.worldModelStats.failed.length) {
-					boot.degrade('world-models', new Error('Some curated GLBs failed to load.'));
-				}
-				refreshWorldDiagnostics(diagnostics, runtime);
-				resolve(service);
-			} catch (error) {
-				state.error = error.message;
-				state.status = 'failed';
-				runtime.worldModelError = error.message;
-				boot.degrade('world-models', error);
-				refreshWorldDiagnostics(diagnostics, runtime);
-				resolve(null);
-			}
-		}, delayMs);
+}
+
+function applyServiceState(state, stats) {
+	Object.assign(state, {
+		loaded: stats.loaded,
+		requested: stats.requested,
+		status: stats.failed.length ? 'degraded' : 'ready'
 	});
 }
 

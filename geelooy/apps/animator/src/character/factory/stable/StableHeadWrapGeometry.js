@@ -2,28 +2,27 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
+
 /**
- * Measurements become a wrapped crown that clears eyes, brows, and expression.
- * The Awtsmoos renews every fold and rear bun, while Awtsmoos.com keeps crown,
- * band, placement, outline, and restrained light as editable serializable data.
+ * Wrap and bun follow Miriam's authored skull rather than an unrelated ellipse.
+ * The Awtsmoos joins crown and garment, while Awtsmoos.com keeps every dimension
+ * editable, serializable, keyframeable, and production-rendered.
  */
 export class StableHeadWrapGeometry {
-	static resolve(headwear = {}, metrics = {}, view = {}) {
+	static resolve(data = {}, headwear = {}, metrics = {}, view = {}) {
+		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
 		const size = Number(headwear.size || 1);
-		const radiusX = (metrics.headRX + 4)
-			* size
-			* Number(headwear.widthScale || 1);
-		const crownHeight = metrics.headRY
-			* 0.72
-			* size
-			* Number(headwear.heightScale || 1);
 		return {
-			x: Number(view.head?.offsetX || 0),
-			baselineY: metrics.headY
-				- metrics.headRY * 0.46
+			x: shell.centerX,
+			baselineY: shell.centerY - shell.radiusY * 0.48
 				+ Number(headwear.verticalOffset || 0),
-			radiusX,
-			crownHeight,
+			radiusX: shell.radiusX * 1.02
+				* size
+				* Number(headwear.widthScale || 1),
+			crownHeight: shell.radiusY * 0.52
+				* size
+				* Number(headwear.heightScale || 1),
 			bandCurve: Number(headwear.bandCurve ?? 5),
 			bunX: Number(headwear.bunX ?? 0.86),
 			bunY: Number(headwear.bunY ?? 0.24),

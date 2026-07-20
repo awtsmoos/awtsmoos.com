@@ -4,78 +4,87 @@
 
 /**
  * @file tiny-material-signature.js
- * @description Builds exact draw signatures including resolved native texture density.
- * The Awtsmoos unites compatible vessels without confusing their physical scale; Awtsmoos.com
- * keeps differently measured pixels apart before and after asynchronous image hydration.
+ * @description Caches exact full and static-batch draw signatures until observed state changes.
+ * The Awtsmoos joins equal vessels without repeating their entire decree; Awtsmoos.com preserves
+ * color, culling, native texture density, ecology, wind, and primitive truth with bounded CPU work.
  */
 
-import { layeredTextureSignature } from './tiny-layered-texture-state.js';
-import { nativeTexturePolicySignature } from './tiny-native-texture-density.js';
-import { materialModeCode } from './tiny-render-webgl-utils.js';
+import {
+	captureMaterialSignatureState,
+	sameMaterialSignatureState
+} from './tiny-material-signature-state.js';
+import { appendTextureSignature } from './tiny-material-texture-signature.js';
 import { textureState } from './tiny-texture-state.js';
 
+const cache = new WeakMap();
 const objectIds = new WeakMap();
+const diagnostics = { hits: 0, invalidations: 0, misses: 0 };
 let nextObjectId = 1;
 
 export function materialSignature(mesh) {
-	return signature(mesh, true);
+	return cachedSignatures(mesh).full;
 }
 
 export function staticBatchMaterialSignature(mesh) {
-	return signature(mesh, false);
+	return cachedSignatures(mesh).batch;
 }
 
-function signature(mesh, includeColor) {
-	const material = mesh.material || {};
-	const color = material.color || [0.75, 0.70, 0.62, 1];
-	const state = textureState(material);
-	const grass = mesh.userData?.AwtsmoosYardGrass || {};
-	const values = [];
-	if (includeColor) {
-		values.push(color[0] ?? 0.75, color[1] ?? 0.70, color[2] ?? 0.62);
-	}
-	values.push(
-		material.opacity ?? color[3] ?? 1,
-		material.alphaMode || 'OPAQUE',
-		material.alphaCutoff ?? 0.5,
-		surfaceSidedness(material),
-		material.emissiveStrength ?? 1.8,
-		materialModeCode(mesh),
-		objectId(state.mapImage), state.mapRepeat0, state.mapRepeat1,
-		objectId(state.mixImage), state.mixRepeat0, state.mixRepeat1,
-		...nativeTexturePolicySignature(material.texturePolicy),
-		...nativeTexturePolicySignature({
-			...(material.texturePolicy || {}),
-			...(material.mixTexturePolicy || {})
-		}),
-		state.mixStrength,
-		state.patchScale,
-		state.patchSharpness,
-		...layeredTextureSignature(material, objectId),
-		material.anisotropy ?? 2,
-		grass.reactsToPlayer ? 1 : 0,
-		grass.interactionRadius ?? 2.2,
-		grass.windStrength ?? 0.085,
-		mesh.geometry?.mode ?? mesh.primitiveMode ?? 4
-	);
-	return values.join('|');
-}
-
-function surfaceSidedness(material) {
-	if (material.doubleSided === true) return 'double-sided';
-	if (material.backfaceCull === false) return 'culling-disabled';
-	return 'backface-culling';
+export function materialSignatureCacheDiagnostics() {
+	return { ...diagnostics };
 }
 
 export function objectIdentity(object) {
-	return objectId(object);
-}
-
-function objectId(object) {
 	if (!object || typeof object !== 'object') return 0;
 	if (!objectIds.has(object)) {
 		objectIds.set(object, nextObjectId);
 		nextObjectId += 1;
 	}
 	return objectIds.get(object);
+}
+
+function cachedSignatures(mesh) {
+	const textures = textureState(mesh.material || {});
+	const cached = cache.get(mesh);
+	if (cached && sameMaterialSignatureState(cached.observed, mesh, textures)) {
+		diagnostics.hits += 1;
+		return cached;
+	}
+	if (cached) diagnostics.invalidations += 1;
+	else diagnostics.misses += 1;
+	const observed = captureMaterialSignatureState(mesh, textures);
+	const signatures = Object.freeze({
+		batch: buildSignature(observed, false),
+		full: buildSignature(observed, true),
+		observed
+	});
+	cache.set(mesh, signatures);
+	return signatures;
+}
+
+function buildSignature(state, includeColor) {
+	const values = [];
+	if (includeColor) values.push(state.color0, state.color1, state.color2);
+	values.push(
+		state.opacity,
+		state.alphaMode,
+		state.alphaCutoff,
+		surfaceSidedness(state),
+		state.emissiveStrength,
+		state.materialMode
+	);
+	appendTextureSignature(values, state.textureState, objectIdentity);
+	values.push(
+		state.anisotropy,
+		state.grassReactive ? 1 : 0,
+		state.grassRadius,
+		state.grassWind,
+		state.geometryMode
+	);
+	return values.join('|');
+}
+
+function surfaceSidedness(state) {
+	if (state.doubleSided) return 'double-sided';
+	if (state.cullingDisabled) return 'culling-disabled';
+	return 'backface-culling';
 }
