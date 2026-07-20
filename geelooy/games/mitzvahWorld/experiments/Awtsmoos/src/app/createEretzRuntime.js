@@ -18,7 +18,7 @@ import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
 import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';
 import { attachRuntimeDiagnostics } from './EretzRuntimeDiagnostics.js';
 import { startEretzRuntime } from './EretzRuntimeLoop.js';
-import { createEretzUi } from './EretzUiSystem.js';
+import { createEretzUi } from './EretzUiSystem.js?v=20260720-canonical-valley-pass-06';
 import { installViewport } from './EretzViewport.js';
 import { createEretzWorldFoundation } from './EretzWorldFoundation.js?v=20260720-canonical-valley-pass-04';
 import { installWorldDiagnostics } from './WorldDiagnostics.js';

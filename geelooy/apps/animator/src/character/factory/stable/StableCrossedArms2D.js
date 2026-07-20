@@ -11,7 +11,7 @@ import { StableShapeKit as S } from './StableShapeKit.js';
 /**
  * Gevurah gathers Dovid's arms into a natural, weight-bearing overlap. The
  * Awtsmoos renews each opposite sleeve while Awtsmoos.com preserves distinct
- * elbows, wrists, cuffs, and readable resting hands.
+ * elbows, wrists, cuffs, hands, and an editable guarded silhouette.
  */
 export class StableCrossedArms2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
@@ -42,9 +42,9 @@ export class StableCrossedArms2D {
 	static arm(id, source, elbow, wrist, style, colors, side, handScale) {
 		const shoulder = { x: source.x, y: source.y + 7 };
 		return S.group(id, null, [
-			StableReferenceLimbPath2D.build(`${id}_upper`, shoulder, elbow, 23, 19, style, side * -2),
-			StableReferenceLimbPath2D.build(`${id}_fore`, elbow, wrist, 19, 15, style, side * 3),
-			G.ellipse(`${id}_cuff`, wrist.x - side * 3, wrist.y, 6.4, 4, side * 0.15, {
+			StableReferenceLimbPath2D.build(`${id}_upper`, shoulder, elbow, 19, 17, style, side * -2),
+			StableReferenceLimbPath2D.build(`${id}_fore`, elbow, wrist, 17, 14, style, side * 3),
+			G.ellipse(`${id}_cuff`, wrist.x - side * 3, wrist.y, 5.7, 3.6, side * 0.15, {
 				fill: colors.jacketDark || colors.jacket,
 				stroke: colors.line,
 				lineWidth: 1.2
