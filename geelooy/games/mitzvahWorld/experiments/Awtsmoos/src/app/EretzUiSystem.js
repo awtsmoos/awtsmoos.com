@@ -49,8 +49,7 @@ export function createEretzUi(runtime, options = {}) {
 	);
 	wireWorldEvents(runtime);
 	const cameraModeToggle = createCameraModeToggle(runtime, options);
-	return {
-		...runtime,
+	return Object.assign(runtime, {
 		actionBar,
 		cameraModeToggle,
 		equipment,
@@ -59,7 +58,7 @@ export function createEretzUi(runtime, options = {}) {
 		inventoryStore,
 		npcHud,
 		profileStore: gameplayUi.profile
-	};
+	});
 }
 
 function createCameraModeToggle(runtime, options) {

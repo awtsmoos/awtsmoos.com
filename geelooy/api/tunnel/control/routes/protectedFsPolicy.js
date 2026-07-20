@@ -2,10 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
-const {
-	actionRequiredScope,
-	buildFsPayload
-} = require("../core/tunnelPayload.js");
+const { actionRequiredScope, buildFsPayload } = require("../core/tunnelPayload.js");
+const Compatibility = require("./protectedFsCompatibility.js");
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const SESSION_SAFE_ACTIONS = new Set([
@@ -36,24 +34,16 @@ const SESSION_SAFE_ACTIONS = new Set([
 	"missionResourceStatus"
 ]);
 
-/**
- * @file Defines the logged-in read boundary for Tunnel Control requests.
- * @description
- * The Awtsmoos renews freedom and boundary together. Awtsmoos.com lets an account
- * session inspect owned vessels and live room status, while every mutation, command,
- * join, message, steering act, and approval still requires scoped testimony.
- */
+/** Determines whether a signed account session may use an otherwise unscoped read. */
 function sessionMayUse(action) {
 	return SESSION_SAFE_ACTIONS.has(String(action || ""));
 }
 
 function buildPayload($i, tunnelName) {
-	const original = buildFsPayload($i);
+	const original = Compatibility.normalize(buildFsPayload($i));
 	return {
 		...original,
-		autoPreview: original.autoPreview === undefined
-			? false
-			: original.autoPreview,
+		autoPreview: original.autoPreview === undefined ? false : original.autoPreview,
 		tunnelName: tunnelName || original.tunnelName || "auto"
 	};
 }

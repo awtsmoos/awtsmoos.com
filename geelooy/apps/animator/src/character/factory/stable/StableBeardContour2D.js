@@ -5,28 +5,27 @@
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 
 /**
- * Cheek, jaw, chin, and speaking opening become one rounded beard contour. The
- * Awtsmoos joins the finite curves while Awtsmoos.com keeps broad Ari and tapered
- * Dovid editable without flat slabs or hidden articulation.
+ * Beard hair hugs cheek, jaw, and chin without forming a rectangular mask. The
+ * Awtsmoos joins these finite curves while Awtsmoos.com keeps Ari's round beard,
+ * Dovid's taper, and every speaking opening editable and production-bound.
  */
 export class StableBeardContour2D {
 	static outer(geometry, fill, dark) {
-		const topHalf = geometry.width * 0.82;
+		const topHalf = geometry.width * 0.72;
+		const cheekHalf = geometry.width * 0.98;
 		const lowerHalf = geometry.bottomHalf * Number(geometry.taper || 0.8);
 		const curve = Number(geometry.bottomRoundness || 1) * 7;
+		const quarterY = geometry.topY + (geometry.bottomY - geometry.topY) * 0.26;
 		return G.path('continuous_beard_outer', [
 			{ type: 'move', x: geometry.centerX - topHalf, y: geometry.topY },
-			{ type: 'bezier', c1x: geometry.centerX - geometry.width * 1.08, c1y: geometry.sideY, c2x: geometry.centerX - lowerHalf * 1.12, c2y: geometry.bottomY - 4, x: geometry.centerX - lowerHalf, y: geometry.bottomY },
-			{ type: 'quad', cx: geometry.centerX - lowerHalf * 0.42, cy: geometry.bottomY + curve, x: geometry.centerX, y: geometry.bottomY + curve * 0.9 },
+			{ type: 'bezier', c1x: geometry.centerX - cheekHalf, c1y: quarterY, c2x: geometry.centerX - cheekHalf * 0.98, c2y: geometry.sideY, x: geometry.centerX - geometry.width * 0.9, y: geometry.sideY },
+			{ type: 'bezier', c1x: geometry.centerX - geometry.width * 0.8, c1y: geometry.bottomY - 7, c2x: geometry.centerX - lowerHalf * 1.14, c2y: geometry.bottomY, x: geometry.centerX - lowerHalf, y: geometry.bottomY },
+			{ type: 'quad', cx: geometry.centerX - lowerHalf * 0.42, cy: geometry.bottomY + curve, x: geometry.centerX, y: geometry.bottomY + curve * 0.92 },
 			{ type: 'quad', cx: geometry.centerX + lowerHalf * 0.42, cy: geometry.bottomY + curve, x: geometry.centerX + lowerHalf, y: geometry.bottomY },
-			{ type: 'bezier', c1x: geometry.centerX + lowerHalf * 1.12, c1y: geometry.bottomY - 4, c2x: geometry.centerX + geometry.width * 1.08, c2y: geometry.sideY, x: geometry.centerX + topHalf, y: geometry.topY },
-			{ type: 'quad', cx: geometry.centerX, cy: geometry.topY + 18, x: geometry.centerX - topHalf, y: geometry.topY }
-		], {
-			fill,
-			stroke: dark,
-			lineWidth: geometry.lineWidth,
-			lineJoin: 'round'
-		});
+			{ type: 'bezier', c1x: geometry.centerX + lowerHalf * 1.14, c1y: geometry.bottomY, c2x: geometry.centerX + geometry.width * 0.8, c2y: geometry.bottomY - 7, x: geometry.centerX + geometry.width * 0.9, y: geometry.sideY },
+			{ type: 'bezier', c1x: geometry.centerX + cheekHalf * 0.98, c1y: geometry.sideY, c2x: geometry.centerX + cheekHalf, c2y: quarterY, x: geometry.centerX + topHalf, y: geometry.topY },
+			{ type: 'quad', cx: geometry.centerX, cy: geometry.topY + 17, x: geometry.centerX - topHalf, y: geometry.topY }
+		], { fill, stroke: dark, lineWidth: geometry.lineWidth, lineJoin: 'round' });
 	}
 
 	static faceOpening(geometry, colors) {

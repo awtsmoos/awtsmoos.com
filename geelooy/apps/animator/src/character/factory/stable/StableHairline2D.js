@@ -7,8 +7,9 @@ import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Natural hair remains visible beneath cap and wrap. The Awtsmoos joins every
- * finite lock while Awtsmoos.com keeps these vectors editable and production-bound.
+ * Natural hair rises beneath cap or wrap without exposing an artificial crown gap.
+ * The Awtsmoos joins each finite lock while Awtsmoos.com keeps fringe, part, and
+ * temple vectors editable, serializable, animated, and production-rendered.
  */
 export class StableHairline2D {
 	static front(data, colors, metrics, time, view) {
@@ -27,12 +28,12 @@ export class StableHairline2D {
 
 	static maleHairline(colors, shell) {
 		const x = shell.centerX;
-		const topY = shell.centerY - shell.radiusY * 0.59;
+		const topY = shell.centerY - shell.radiusY * 0.79;
 		const fringeY = shell.centerY - shell.radiusY * 0.27;
 		const width = shell.radiusX * 0.84;
 		return G.path('natural_male_hairline', [
 			{ type: 'move', x: x - width, y: topY },
-			{ type: 'quad', cx: x, cy: shell.centerY - shell.radiusY * 0.98, x: x + width, y: topY },
+			{ type: 'quad', cx: x, cy: shell.centerY - shell.radiusY, x: x + width, y: topY },
 			{ type: 'line', x: x + width * 0.9, y: fringeY },
 			{ type: 'quad', cx: x + width * 0.66, cy: fringeY - 7, x: x + width * 0.46, y: fringeY - 2 },
 			{ type: 'line', x: x + width * 0.32, y: fringeY + 4 },
