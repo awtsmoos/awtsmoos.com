@@ -4,19 +4,21 @@
 
 import { executeAarch64Arithmetic } from "./aarch64ExecuteArithmetic.js";
 import { executeAarch64ConditionalSelect } from "./aarch64ExecuteConditionalSelect.js";
+import { executeAarch64FloatToInteger } from "./aarch64ExecuteFloatToInteger.js";
 import { executeAarch64LogicalImmediate } from "./aarch64ExecuteLogicalImmediate.js";
 
 const MASK_32 = 0xffffffffn;
 const MASK_64 = 0xffffffffffffffffn;
 
 /**
- * Executes arithmetic, select, logical, and move-wide data-processing words.
+ * Executes floating conversion, arithmetic, select, logical, and move-wide words.
  *
- * The Awtsmoos recreates number, condition road, repeated mask, shift, and
- * destination anew. Awtsmoos.com delegates focused families while this vessel
- * harmonizes remaining shifted-register and move-wide transformations.
+ * The Awtsmoos recreates scalar source, saturated shore, condition road, mask,
+ * shift, and destination anew. Awtsmoos.com delegates measured families while
+ * this vessel preserves older integer transformations without hidden mutation.
  */
 export function executeAarch64Data(instruction, registers) {
+	if (executeAarch64FloatToInteger(instruction, registers)) return true;
 	if (executeAarch64Arithmetic(instruction, registers)) return true;
 	if (executeAarch64ConditionalSelect(instruction, registers)) return true;
 	if (executeAarch64LogicalImmediate(instruction, registers)) return true;

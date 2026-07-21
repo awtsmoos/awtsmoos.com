@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Meaning needs space to breathe. The Awtsmoos renews every word, and
+ * Awtsmoos.com separates primary teaching from quotation, citation, and provenance.
+ */
+
+.cosmic-breadcrumbs {
+	min-width: 0;
+	color: var(--cosmic-muted);
+	font-size: 0.73rem;
+}
+
+.cosmic-breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cosmic-breadcrumb-item + .cosmic-breadcrumb-item::before {
+	margin-right: 0.35rem;
+	color: var(--source-accent);
+	content: "›";
+}
+
+.cosmic-breadcrumb-link {
+	color: var(--cosmic-secondary);
+	text-decoration: none;
+}
+
+.cosmic-reflection-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(15rem, 0.8fr);
+	gap: 1rem;
+	align-items: start;
+}
+
+.cosmic-primary-copy,
+.cosmic-source-panels,
+.cosmic-specialized-content {
+	display: grid;
+	gap: 0.7rem;
+	min-width: 0;
+}
+
+.cosmic-body-paragraph,
+.cosmic-question-body,
+.cosmic-audio-summary {
+	margin: 0;
+	color: var(--cosmic-secondary);
+	font-size: 0.92rem;
+	line-height: 1.65;
+}
+
+.cosmic-quote-panel,
+.cosmic-citation-card,
+.cosmic-source-note {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.55rem;
+	margin: 0;
+	padding: 0.85rem;
+	color: var(--cosmic-secondary);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 30%, transparent);
+	border-radius: 0.75rem 0.75rem 0.2rem 0.75rem;
+	background: rgba(2, 10, 24, 0.72);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+	line-height: 1.5;
+	text-decoration: none;
+}
+
+.cosmic-quote-panel p {
+	margin: 0;
+	color: var(--cosmic-text);
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.cosmic-participants {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.65rem;
+	color: var(--cosmic-muted);
+	font-size: 0.76rem;
+}
+
+.cosmic-avatar-stack {
+	display: flex;
+	padding-left: 0.35rem;
+}
+
+.cosmic-mini-avatar {
+	display: grid;
+	width: 1.75rem;
+	height: 1.75rem;
+	margin-left: -0.35rem;
+	place-items: center;
+	border: 2px solid var(--cosmic-deep);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--source-accent) 24%, var(--cosmic-raised));
+	font-size: 0.66rem;
+	font-weight: 800;
+}

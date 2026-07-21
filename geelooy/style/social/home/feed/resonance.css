@@ -1,0 +1,122 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Meaning does not merely sit inside a card: it alters the field around it.
+ * The Awtsmoos renews each response; Awtsmoos.com keeps the effect restrained.
+ */
+
+.cosmic-post-card {
+	transition:
+		transform 220ms ease,
+		border-color 220ms ease,
+		box-shadow 220ms ease;
+}
+
+.cosmic-post-card::after {
+	position: absolute;
+	top: -1px;
+	right: 1.2rem;
+	left: 6.4rem;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--source-accent), transparent);
+	box-shadow: 0 0 0.9rem color-mix(in srgb, var(--source-accent) 72%, transparent);
+	content: "";
+	opacity: 0.52;
+	pointer-events: none;
+}
+
+.cosmic-post-card[data-resonance="active"] {
+	border-color: color-mix(in srgb, var(--source-accent) 82%, white 6%);
+	box-shadow:
+		0 1.65rem 5rem rgba(0, 0, 0, 0.48),
+		0 0 2.8rem color-mix(in srgb, var(--source-accent) 24%, transparent),
+		inset 0 1px rgba(255, 255, 255, 0.08);
+	transform: translateY(-2px);
+}
+
+.cosmic-post-card[data-resonance="pulse"] {
+	animation: cosmic-card-pulse 760ms ease-out both;
+}
+
+.cosmic-post-card[data-resonance="pulse"]::after {
+	animation: cosmic-energy-sweep 760ms ease-out both;
+}
+
+.cosmic-source-sigil {
+	position: relative;
+	isolation: isolate;
+}
+
+.cosmic-source-sigil::before,
+.cosmic-source-sigil::after {
+	position: absolute;
+	inset: -0.4rem;
+	z-index: -1;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 44%, transparent);
+	border-radius: 50%;
+	content: "";
+	opacity: 0.45;
+	pointer-events: none;
+}
+
+.cosmic-source-sigil::after {
+	inset: -0.75rem;
+	border-style: dashed;
+	animation: cosmic-sigil-orbit 14s linear infinite;
+	opacity: 0.24;
+}
+
+.cosmic-post-card[data-resonance] .cosmic-lineage-line {
+	animation: cosmic-lineage-pulse 1.4s ease-in-out infinite alternate;
+}
+
+.cosmic-action,
+.cosmic-utility-button {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.cosmic-action::after,
+.cosmic-utility-button::after {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(105deg, transparent 15%, rgba(255, 255, 255, 0.12), transparent 75%);
+	content: "";
+	opacity: 0;
+	transform: translateX(-110%);
+}
+
+.cosmic-action[aria-pressed="true"]::after,
+.cosmic-action[aria-busy="true"]::after,
+.cosmic-utility-button[aria-busy="true"]::after {
+	animation: cosmic-action-current 1.35s ease-in-out infinite;
+	opacity: 1;
+}
+
+@keyframes cosmic-card-pulse {
+	0% { transform: translateY(0) scale(1); }
+	42% { transform: translateY(-3px) scale(1.002); }
+	100% { transform: translateY(-1px) scale(1); }
+}
+
+@keyframes cosmic-energy-sweep {
+	0% { opacity: 0.2; transform: scaleX(0.1); }
+	45% { opacity: 1; transform: scaleX(1); }
+	100% { opacity: 0.45; transform: scaleX(0.72); }
+}
+
+@keyframes cosmic-sigil-orbit {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes cosmic-lineage-pulse {
+	to { box-shadow: 0 0 1.05rem var(--source-accent); opacity: 0.72; }
+}
+
+@keyframes cosmic-action-current {
+	0% { transform: translateX(-110%); }
+	58%, 100% { transform: translateX(110%); }
+}

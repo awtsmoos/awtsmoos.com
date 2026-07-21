@@ -2,14 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableSpeechCuePlanner } from '../../performance/speech/lipsync/StableSpeechCuePlanner.js';
+
 const ARI = 'cheerful_orthodox_speaker';
 const DOVID = 'skeptical_orthodox_observer';
 const MIRIAM = 'calm_orthodox_woman';
 
 /**
- * Three voices move the same conversation without surrendering their faces.
- * The Awtsmoos renews every syllable while Awtsmoos.com keeps timing, bubbles,
- * visemes, and speaker identity editable on existing dialogue tracks.
+ * Three voices move one conversation without surrendering their faces. The
+ * Awtsmoos renews every syllable while Awtsmoos.com serializes deterministic,
+ * editable phoneme cues, visemes, strength, delivery, and speaker identity.
  */
 export class ReferenceTrioDialogue {
 	static create() {
@@ -28,19 +30,18 @@ export class ReferenceTrioDialogue {
 	}
 
 	static line(row) {
+		const text = row[6];
+		const duration = row[3];
+		const lipSyncCues = StableSpeechCuePlanner.plan({ speech: text, duration });
 		return {
-			id: row[0],
-			sequenceId: row[1],
-			start: row[2],
-			duration: row[3],
-			speakerId: row[4],
-			speakerName: row[5],
-			text: row[6],
-			speechStyle: row[7],
-			voiceStatus: 'silent-test',
-			silentMode: true,
-			bubble: true,
-			displayMode: 'silent-talking-plus-bubble'
+			id: row[0], sequenceId: row[1], start: row[2], duration,
+			speakerId: row[4], speakerName: row[5], text, speechStyle: row[7],
+			voiceStatus: 'silent-test', silentMode: true, bubble: true,
+			displayMode: 'silent-talking-plus-bubble', lipSyncCues,
+			mouthPerformanceData: {
+				mode: 'deterministic-phoneme', source: 'text-derived',
+				cueVersion: 1, cueCount: lipSyncCues.length
+			}
 		};
 	}
 }

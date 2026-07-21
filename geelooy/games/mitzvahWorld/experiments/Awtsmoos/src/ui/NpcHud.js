@@ -1,26 +1,28 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file NpcHud.js
- * @description Shows player/target status and a quest, training, or travel dialogue.
- * The Awtsmoos renews meeting before mission; Awtsmoos.com lets the player inspect
- * and choose a shlichus before the AdventureStore records acceptance or refusal.
+ * @description Coordinates player status, target status, and friendly dialogue.
+ * The Awtsmoos renews meeting and challenge beneath one visible truth; Awtsmoos.com
+ * reveals whether a target offers shlichus or conceals light without confusing either.
  */
+
+import {
+	npcDialogueMarkup,
+	npcPlayerCard,
+	npcTargetCard
+} from './NpcHudMarkup.js';
+
 const DEFAULT_QUEST = 'sparks-at-east-gate';
+
 export class NpcHud {
 	constructor(targetHost, dialogueHost, bus) {
 		this.host = targetHost || makeHost('npcTarget');
 		this.dialogueHost = dialogueHost || makeHost('npcDialogue');
 		this.bus = bus;
-		this.player = {
-			face: '🎩',
-			health: 100,
-			level: 1,
-			name: 'Chossid',
-			xp: 0,
-			xpMax: 100
-		};
+		this.player = defaultPlayer();
 		this.target = null;
 		this.unsubscribers = [];
 		this.build();
@@ -33,6 +35,9 @@ export class NpcHud {
 		this.unsubscribers.push(this.bus.on('npc:target', data => this.showTarget(data)));
 		this.unsubscribers.push(this.bus.on('npc:dialogue', data => this.showDialogue(data)));
 		this.unsubscribers.push(this.bus.on('npc:clear', () => this.clearTarget()));
+		this.unsubscribers.push(this.bus.on('enemy:attack', data => {
+			this.updatePlayer({ health: data.playerHealth });
+		}));
 		this.dialogueHost.addEventListener('click', event => this.click(event));
 		this.render();
 	}
@@ -54,21 +59,16 @@ export class NpcHud {
 	}
 
 	showDialogue(data) {
+		if (data.faction === 'hostile') return;
 		this.showTarget(data);
 		const questId = data.questId || DEFAULT_QUEST;
 		this.dialogueHost.dataset.open = 'true';
-		this.dialogueHost.innerHTML = `
-			<section>
-				<header><b>${escapeHtml(data.face || '🧔')} ${escapeHtml(data.name)}</b><button data-close>×</button></header>
-				<p>B"H. Read the shlichus before deciding, train nearby, or continue exploring.</p>
-				<button data-quest="${escapeHtml(questId)}">✨ View Golden Shlichus</button>
-				<button data-level="lava">🔥 Training Course</button>
-				<button data-level="stay">Continue Exploring</button>
-			</section>`;
+		this.dialogueHost.innerHTML = npcDialogueMarkup(data, questId);
 	}
 
 	render() {
-		this.host.innerHTML = `${playerCard(this.player)}${this.target ? targetCard(this.target) : ''}`;
+		const targetMarkup = this.target ? npcTargetCard(this.target) : '';
+		this.host.innerHTML = `${npcPlayerCard(this.player)}${targetMarkup}`;
 		this.host.dataset.hasTarget = String(Boolean(this.target));
 	}
 
@@ -98,12 +98,15 @@ export class NpcHud {
 	}
 }
 
-function playerCard(player) {
-	return `<article class="status-card player-card"><div class="status-face">${escapeHtml(player.face)}</div><div><b>${escapeHtml(player.name)}</b><small>Level ${player.level} · Health ${player.health}</small><meter min="0" max="100" value="${player.health}"></meter><label>⭐ XP ${player.xp}/${player.xpMax}</label><progress max="${player.xpMax}" value="${player.xp}"></progress></div><strong>${player.level}</strong></article>`;
-}
-
-function targetCard(target) {
-	return `<article class="status-card target-card"><div class="status-face">${escapeHtml(target.face || '🧔')}</div><div><b>${escapeHtml(target.name)}</b><small>Quest giver</small><meter min="0" max="100" value="${target.health || 100}"></meter></div><strong>!</strong></article>`;
+function defaultPlayer() {
+	return {
+		face: '🎩',
+		health: 100,
+		level: 1,
+		name: 'Chossid',
+		xp: 0,
+		xpMax: 100
+	};
 }
 
 function makeHost(id) {
@@ -111,10 +114,4 @@ function makeHost(id) {
 	element.id = id;
 	document.body.appendChild(element);
 	return element;
-}
-
-function escapeHtml(value) {
-	return String(value ?? '').replace(/[&<>"']/g, character => ({
-		'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-	})[character]);
 }

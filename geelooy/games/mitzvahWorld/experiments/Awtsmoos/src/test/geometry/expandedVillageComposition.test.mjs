@@ -4,9 +4,9 @@
 
 /**
  * @file expandedVillageComposition.test.mjs
- * @description Protects canonical districts, foundations, landmarks, cottages, arrival, and bridge.
- * The Awtsmoos renews one inhabited valley through measured vessels; Awtsmoos.com verifies that
- * every added definition discloses required visible meaning instead of obsolete prototype counts.
+ * @description Protects canonical districts, foundations, landmarks, bridge, and actor accounting.
+ * The Awtsmoos renews one inhabited valley through measured vessels; Awtsmoos.com verifies
+ * static wildlife and live hostile actors without preserving obsolete untargetable doubles.
  */
 
 import assert from 'node:assert/strict';
@@ -43,9 +43,14 @@ assert.ok(cottageShells.every(item => item.userData.volumeRatio >= 100));
 assert.ok(cottageShells.every(item => item.mixTextureUrl && item.mixStrength > 0));
 assert.ok(cottageRoofs.every(item => item.shape === 'manual' && item.faces.length === 9));
 assertCanonicalLandmarks(architecture);
-assert.equal(creatures.stats.creatures, 11);
-assert.ok(creatures.stats.triangles <= 4200);
+assert.equal(creatures.stats.creatures, 8);
+assert.equal(creatures.stats.liveHostiles, 3);
+assert.equal(creatures.stats.totalActors, 11);
+assert.ok(creatures.stats.triangles <= 3200);
 assert.deepEqual(world.stats.layers, expectedLayers());
+assert.ok(world.stats.heroCraftDefinitions > 0);
+assert.ok(world.stats.heroGardenDefinitions > 0);
+assert.ok(world.stats.heroTreeDefinitions > 0);
 assert.equal(world.stats.arrival.drawDefinitions, 4);
 assert.equal(world.stats.arrival.stoneBorderPieces, 0);
 assert.equal(world.stats.arrival.waterSections, 0);
@@ -65,6 +70,7 @@ console.log(JSON.stringify({
 	architecture: architecture.stats,
 	arrival: world.stats.arrival,
 	bridgeDefinitions: bridge.length,
+	creatures: creatures.stats,
 	definitionCount: world.definitions.length,
 	ok: true
 }, null, 2));
@@ -82,7 +88,8 @@ function byFamily(definitions, family) {
 function expectedLayers() {
 	return [
 		'mountains', 'water', 'props', 'arrival-composition', 'foundations',
-		'districts', 'practical-lighting', 'landscape', 'forest-edge',
+		'districts', 'practical-lighting', 'landscape', 'hero-cottage-craft',
+		'hero-gardens', 'hero-trees', 'forest-edge',
 		'animated-chossid-population', 'creatures'
 	];
 }

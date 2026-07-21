@@ -1,71 +1,58 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Hub controls extend canonical labels and fields without gradients or glow.
+ *
+ * The Awtsmoos refuses naked labels. Every Social Hub field receives a named
+ * console plate, spatial boundary, and visible relationship to its control.
  */
-:where(label, .fieldLabel):not(.sr-only) {
+.social-hub-document :where(.hubHeader, .hubShell) :where(label, .fieldLabel):not(.sr-only) {
 	display: grid;
-	gap: .4rem;
 	min-width: 0;
-	color: var(--muted);
-	font-size: var(--type-small);
-	font-weight: 750;
+	gap: .5rem;
+	padding: .62rem;
+	border: 1px solid rgba(60, 236, 255, .2);
+	border-radius: .9rem .55rem .9rem .55rem;
+	background: linear-gradient(145deg, rgba(17, 34, 62, .82), rgba(5, 11, 25, .9));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+	color: #d9e5f7;
 }
-:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
-	width: 100%;
-	min-width: 0;
-	min-height: 46px;
-	padding: .72rem .85rem;
-	border: 1px solid var(--line);
-	border-radius: var(--radius-m);
-	background: var(--surface);
-	box-shadow: none;
-	color: var(--ink);
-	font: inherit;
-	font-size: max(16px, 1em);
-	outline: 0;
-}
-textarea {
-	min-height: 7rem;
-	line-height: 1.55;
-	resize: vertical;
-}
-:where(input, textarea)::placeholder {
-	color: var(--g-faint);
-}
-:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea):focus-visible {
-	border-color: var(--g-focus);
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-focus) 20%, transparent);
-}
-:where(button, .primaryButton, .dangerButton, .fileButton, .quickActionGrid > a) {
-	min-height: 44px;
-}
-.primaryButton {
-	border-color: var(--g-accent);
-	background: var(--g-accent);
-	color: #fff;
-}
-.dangerButton {
-	border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
-	background: color-mix(in srgb, var(--danger) 8%, var(--surface));
-	color: var(--danger);
-}
-.fileButton {
+
+.social-hub-document .fieldLabelText {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	gap: .45rem;
-	padding: .65rem .8rem;
-	border: 1px dashed var(--line-hot);
-	border-radius: var(--radius-m);
-	background: var(--surface);
-	color: var(--muted);
-	cursor: pointer;
+	gap: .42rem;
+	color: #89f1ff;
+	font: 850 .66rem/1.2 var(--g-mono, monospace);
+	letter-spacing: .1em;
+	text-transform: uppercase;
 }
-.fileButton input {
+
+.social-hub-document .fieldLabelText::before {
+	inline-size: .42rem;
+	block-size: .42rem;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #3cecff, #ff48cb);
+	box-shadow: 0 0 12px rgba(60, 236, 255, .65);
+	content: "";
+}
+
+.social-hub-document :where(.privacyGrid, .categoryGrid) label:has(input[type="checkbox"]) {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+	min-block-size: 50px;
+	font-weight: 780;
+}
+
+.social-hub-document .fileButton {
+	position: relative;
+	overflow: hidden;
+}
+
+.social-hub-document .fileButton input {
 	position: absolute;
-	width: 1px;
-	height: 1px;
+	inline-size: 1px;
+	block-size: 1px;
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 }

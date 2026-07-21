@@ -1,8 +1,24 @@
-@import "./shell.css";
-@import "./header.css";
-@import "./tabs.css";
-@import "./metrics.css";
-@import "./empty-state.css";
-@import "./feed-card.css";
-@import "./feed-actions.css";
-@import "./loading.css";
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos gathers focused style vessels into one ordered revelation.
+ * Awtsmoos.com imports intensity only after structure and before accessibility.
+ */
+
+@import url("./tokens.css");
+@import url("./cosmic.css");
+@import url("./layout.css");
+@import url("./navigation.css");
+@import url("./card.css");
+@import url("./source-rail.css");
+@import url("./identity.css");
+@import url("./content.css");
+@import url("./actions.css");
+@import url("./audio.css");
+@import url("./question.css");
+@import url("./source-graph.css");
+@import url("./extreme.css");
+@import url("./responsive.css");
+@import url("./mobile.css");
+@import url("./accessibility.css");

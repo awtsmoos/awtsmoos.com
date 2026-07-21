@@ -4,9 +4,9 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances gameplay while ranked textures and structured village logs settle.
+ * @description Advances gameplay, residency, diagnostics, and rendering without hidden work.
  * The Awtsmoos recreates player, river, light, and garment each instant; Awtsmoos.com keeps
- * rendering continuous while bounded workers hydrate materials and logs expose the real state.
+ * rendering continuous while bounded systems hydrate, measure, and report verified truth.
  */
 
 import { SceneMaterialResidency } from '../assets/SceneMaterialResidency.js';

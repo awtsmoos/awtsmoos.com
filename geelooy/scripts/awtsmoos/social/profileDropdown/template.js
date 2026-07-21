@@ -21,7 +21,7 @@ export function buildProfileDropdown(container, prefix) {
 	container.innerHTML = /*html*/`
 		<button class="awtsmoos-dropdown-backdrop" data-profile-ref="dropdownBackdrop" type="button" tabindex="-1" aria-label="Close identity menu" hidden></button>
 		<section class="notLoggedIn" data-profile-ref="notLoggedIn" aria-label="Account access" hidden>
-			<button class="profile-trigger" data-profile-ref="signinButton" type="button" aria-expanded="false" aria-controls="${id('signin-panel')}">
+			<button class="profile-trigger" data-profile-ref="signinButton" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="${id('signin-panel')}">
 				<span class="profile-trigger-crest">${profileIcon('login')}</span>
 				<span class="profile-trigger-copy"><small>Identity access</small><strong>Sign in</strong></span>
 				${profileIcon('chevron', 'profile-chevron')}
@@ -49,7 +49,7 @@ export function buildProfileDropdown(container, prefix) {
 			</div>
 		</section>
 		<section class="loggedIn" data-profile-ref="loggedIn" aria-label="Identity menu" hidden>
-			<button class="profile-trigger" data-profile-ref="dropdownProfile" type="button" aria-expanded="false" aria-controls="${id('profile-panel')}">
+			<button class="profile-trigger" data-profile-ref="dropdownProfile" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="${id('profile-panel')}">
 				<span class="profile-trigger-crest">${profileIcon('alias')}</span>
 				<span class="profile-trigger-copy"><small>Active alias</small><strong class="currentAliasName">Profile</strong></span>
 				${profileIcon('chevron', 'profile-chevron')}

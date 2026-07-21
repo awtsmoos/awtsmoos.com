@@ -4,24 +4,26 @@
 
 /**
  * @file tiny-render-vertex-arrays.js
- * @description Reuses exact immutable WebGL vertex-array declarations between draws.
- * The Awtsmoos renews each visible form without repeating its identity; Awtsmoos.com
- * binds one proven vessel while every source attribute and fallback remains unchanged.
+ * @description Reuses immutable WebGL vertex arrays without erasing valid manual default state.
+ * The Awtsmoos renews every visible form through one proven vessel; Awtsmoos.com invalidates the
+ * manual cache only when VAO construction changes global buffer truth, never on ordinary switches.
  */
 
 import { createVertexArrayEntry } from './tiny-render-vertex-array-builder.js';
+import { bindVertexArrayFallbacks } from './tiny-render-vertex-array-fallbacks.js';
 
 export class RenderVertexArrays {
 	constructor(gl, glStateCache = null) {
+		this.cache = new WeakMap();
+		this.creations = 0;
+		this.current = null;
+		this.entries = new Set();
+		this.extension = gl.getExtension('OES_vertex_array_object');
+		this.failures = 0;
+		this.fallbackValues = new Map();
 		this.gl = gl;
 		this.glStateCache = glStateCache;
-		this.extension = gl.getExtension('OES_vertex_array_object');
-		this.cache = new WeakMap();
-		this.entries = new Set();
-		this.fallbackValues = new Map();
-		this.current = null;
-		this.creations = 0;
-		this.failures = 0;
+		this.invalidations = 0;
 		this.stats = null;
 	}
 
@@ -33,6 +35,7 @@ export class RenderVertexArrays {
 			fallbackSkips: 0,
 			fallbackUploads: 0,
 			failures: this.failures,
+			invalidations: this.invalidations,
 			skips: 0,
 			supported: Boolean(this.extension)
 		};
@@ -43,37 +46,31 @@ export class RenderVertexArrays {
 		let entry;
 		try {
 			entry = this.entryFor(resource, locations, skinned);
-		} catch (error) {
+		} catch {
 			this.failures += 1;
 			this.stats.vertexArrays.failures = this.failures;
 			this.releaseToDefault();
 			return false;
 		}
-		if (this.current !== entry.vertexArray) {
-			this.extension.bindVertexArrayOES(entry.vertexArray);
-			this.current = entry.vertexArray;
-			this.invalidateHiddenState();
-			this.stats.vertexArrays.binds += 1;
-		} else {
-			this.stats.vertexArrays.skips += 1;
-		}
-		for (const fallback of entry.fallbacks) {
-			if (sameValues(this.fallbackValues.get(fallback.location), fallback.values)) {
-				this.stats.vertexArrays.fallbackSkips += 1;
-				continue;
-			}
-			this.gl.vertexAttrib4fv(fallback.location, fallback.values);
-			this.fallbackValues.set(fallback.location, fallback.values);
-			this.stats.vertexArrays.fallbackUploads += 1;
-		}
+		this.bindEntry(entry);
+		bindVertexArrayFallbacks(this, entry);
 		return true;
+	}
+
+	bindEntry(entry) {
+		if (this.current === entry.vertexArray) {
+			this.stats.vertexArrays.skips += 1;
+			return;
+		}
+		this.extension.bindVertexArrayOES(entry.vertexArray);
+		this.current = entry.vertexArray;
+		this.stats.vertexArrays.binds += 1;
 	}
 
 	releaseToDefault() {
 		if (!this.extension || this.current === null) return false;
 		this.extension.bindVertexArrayOES(null);
 		this.current = null;
-		this.invalidateHiddenState();
 		return true;
 	}
 
@@ -112,12 +109,10 @@ export class RenderVertexArrays {
 	}
 
 	invalidateHiddenState() {
+		this.invalidations += 1;
 		this.glStateCache?.invalidateVertexArrayState?.();
+		if (this.stats) {
+			this.stats.vertexArrays.invalidations = this.invalidations;
+		}
 	}
-}
-
-function sameValues(left, right) {
-	return Boolean(left)
-		&& left.length === right.length
-		&& left.every((value, index) => value === right[index]);
 }

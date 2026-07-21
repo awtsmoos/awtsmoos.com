@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos gives the infinite a readable center. Awtsmoos.com lets cosmic
+ * energy remain in the gutters while the living feed holds a calm, measured width.
+ */
+
+.geelooy-home-document .home-dashboard-page,
+.geelooy-home-document [data-home-dashboard-page] {
+	position: relative;
+	z-index: 1;
+	display: block;
+	width: min(100%, calc(var(--cosmic-feed-width) + 3rem));
+	margin-inline: auto;
+	padding:
+		calc(var(--cosmic-header-offset) + 1.25rem)
+		clamp(0.75rem, 3vw, 1.5rem)
+		5rem;
+}
+
+.geelooy-home-document .home-dashboard-hero,
+.geelooy-home-document .home-task-grid,
+.geelooy-home-document .home-discovery-panel,
+.geelooy-home-document .home-sidebar,
+.geelooy-home-document [data-home-sidebar],
+.geelooy-home-document [data-home-discovery] {
+	display: none !important;
+}
+
+.geelooy-home-document .home-feed-section,
+.geelooy-home-document [data-home-feed-section] {
+	width: 100%;
+	margin: 0;
+}
+
+.geelooy-home-document .home-feed-list,
+.geelooy-home-document [data-home-feed] {
+	display: grid;
+	gap: 0.85rem;
+	width: 100%;
+	max-width: var(--cosmic-feed-width);
+	margin-inline: auto;
+	padding: 0;
+}
+
+.cosmic-feed-intro {
+	display: grid;
+	gap: 0.55rem;
+	max-width: var(--cosmic-feed-width);
+	margin: 0 auto 1rem;
+	padding: 0 0.5rem;
+}
+
+.cosmic-feed-kicker {
+	margin: 0;
+	color: var(--cosmic-cyan);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.cosmic-feed-intro h1 {
+	max-width: 48rem;
+	margin: 0;
+	font-size: clamp(1.6rem, 3.6vw, 2.75rem);
+	line-height: 1.05;
+}
+
+.cosmic-feed-intro p {
+	max-width: 44rem;
+	margin: 0;
+	color: var(--cosmic-secondary);
+	font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+	line-height: 1.6;
+}
+

@@ -1,12 +1,16 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos stacks the inner command masthead beneath the shared mobile
+ * crown while the active profile remains visible above Awtsmoos.com.
+ */
 @media (max-width: 999px) {
 	.hubHeader {
 		align-items: stretch;
 		flex-direction: column;
-		padding: 0.9rem 1rem;
+		margin-inline: .65rem;
+		padding: .9rem;
 	}
 
 	.brandCluster {
@@ -14,7 +18,8 @@
 	}
 
 	.brandSigil {
-		width: 2.8rem;
+		inline-size: 2.8rem;
+		block-size: 2.8rem;
 	}
 
 	.identityCluster {
@@ -26,10 +31,11 @@
 	}
 
 	.contextRibbon {
-		top: 0;
+		top: calc(var(--g-header-h) + .85rem);
 		justify-content: flex-start;
 		overflow-x: auto;
 		flex-wrap: nowrap;
+		margin-inline: .65rem;
 		scrollbar-width: none;
 	}
 

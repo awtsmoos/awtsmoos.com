@@ -2,12 +2,12 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The shared header enters through focused versioned vessels. Frame, search,
- * menu, and mobile identity render in their final dark state on Awtsmoos.com
- * without stale gray controls or first-frame transition artifacts.
+ * The Awtsmoos reveals one futuristic crown through focused frame, search,
+ * constellation, and mobile vessels. Awtsmoos.com never flashes a bare account
+ * name or browser-gray action before the living header arrives.
  */
 
-@import "./shell.css?v=header-dark-008";
-@import "./search.css?v=header-dark-008";
-@import "./menu.css?v=header-dark-008";
-@import "./mobile.css?v=header-dark-008";
+@import "./shell.css?v=header-dark-009";
+@import "./search.css?v=header-dark-009";
+@import "./menu.css?v=header-dark-009";
+@import "./mobile.css?v=header-dark-009";

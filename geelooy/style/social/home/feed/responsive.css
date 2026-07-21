@@ -1,0 +1,133 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos reveals one source lineage through every width. Awtsmoos.com
+ * compresses geometry, never meaning, from wide civilization to narrow vessel.
+ */
+
+@media (max-width: 74rem) {
+	.cosmic-post-layout--split,
+	.cosmic-question-layout,
+	.cosmic-source-graph-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cosmic-post-secondary {
+		order: 2;
+	}
+}
+
+@media (max-width: 52rem) {
+	.cosmic-post-card {
+		grid-template-columns: 4rem minmax(0, 1fr);
+		border-radius: 1rem 1rem 1rem 0.3rem;
+	}
+
+	.cosmic-source-rail {
+		padding-inline: 0.5rem;
+	}
+
+	.cosmic-post-shell {
+		padding: 0.9rem 0.8rem 0.9rem 0;
+	}
+
+	.cosmic-post-actions,
+	.cosmic-audio-controls,
+	.cosmic-chapter-list {
+		flex-wrap: wrap;
+	}
+
+	.cosmic-principle-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 30rem) {
+	.cosmic-post-card {
+		grid-template-columns: 3.25rem minmax(0, 1fr);
+		contain-intrinsic-size: auto 40rem;
+	}
+
+	.cosmic-source-label {
+		font-size: 0.66rem;
+		letter-spacing: 0.04em;
+		writing-mode: vertical-rl;
+	}
+
+	.cosmic-source-sigil {
+		width: 2.1rem;
+		height: 2.1rem;
+	}
+
+	.cosmic-post-topline,
+	.cosmic-post-identity,
+	.cosmic-audio-meta {
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.cosmic-post-actions > *,
+	.cosmic-audio-controls > * {
+		flex: 1 1 8.5rem;
+		min-width: 0;
+	}
+
+	.cosmic-principle-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cosmic-source-node,
+	.cosmic-post-breadcrumbs,
+	.cosmic-profile-link,
+	.cosmic-post-title,
+	.cosmic-post-body,
+	.cosmic-poll-label {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+}
+
+@media (max-width: 24.375rem) {
+	.cosmic-feed-shell {
+		padding-inline: 0.45rem;
+	}
+
+	.cosmic-post-card {
+		grid-template-columns: 2.85rem minmax(0, 1fr);
+	}
+
+	.cosmic-post-shell {
+		padding: 0.75rem 0.62rem 0.8rem 0;
+	}
+
+	.cosmic-post-actions > *,
+	.cosmic-audio-controls > * {
+		flex-basis: 100%;
+		width: 100%;
+	}
+
+	.cosmic-participant-stack,
+	.cosmic-post-metadata {
+		max-width: 100%;
+		overflow: hidden;
+	}
+}
+
+@media (max-width: 20rem) {
+	.cosmic-post-card {
+		grid-template-columns: 2.55rem minmax(0, 1fr);
+	}
+
+	.cosmic-source-label {
+		font-size: 0.6rem;
+	}
+
+	.cosmic-post-shell {
+		padding-right: 0.5rem;
+	}
+
+	.cosmic-post-title {
+		font-size: 1rem;
+	}
+}

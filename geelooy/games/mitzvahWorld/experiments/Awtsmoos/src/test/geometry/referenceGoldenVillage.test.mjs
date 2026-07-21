@@ -4,9 +4,9 @@
 
 /**
  * @file referenceGoldenVillage.test.mjs
- * @description Protects golden-hour depth, foundations, landmarks, forest, bridge, and cottages.
+ * @description Protects golden-hour depth, foundations, hero craft, gardens, trees, and landmarks.
  * The Awtsmoos renews visual abundance inside measured tiers; Awtsmoos.com verifies meaningful
- * architecture and terrain-fitting foundations instead of preserving empty prototype ceilings.
+ * architecture, terrain-fitting foundations, crafted cottages, ecology, and inhabited valley depth.
  */
 
 import assert from 'node:assert/strict';
@@ -31,6 +31,9 @@ const WORLD_LAYERS = [
 	'districts',
 	'practical-lighting',
 	'landscape',
+	'hero-cottage-craft',
+	'hero-gardens',
+	'hero-trees',
 	'forest-edge',
 	'animated-chossid-population',
 	'creatures'
@@ -48,6 +51,9 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 		assert.ok(first.stats.architecture.shadowedCottages > 0);
 		assert.equal(first.stats.practicalLights.definitions, 4);
 		assert.equal(first.stats.practicalLights.realtimeLights, 0);
+		assert.ok(first.stats.heroCraftDefinitions > 0);
+		assert.ok(first.stats.heroGardenDefinitions > 0);
+		assert.ok(first.stats.heroTreeDefinitions > 0);
 		assert.equal(
 			first.stats.mountains.belts,
 			referenceLightingBudget(quality).mountainBelts

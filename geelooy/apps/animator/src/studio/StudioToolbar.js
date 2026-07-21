@@ -5,7 +5,7 @@
 /**
  * A filmmaker needs immediate orientation: current time, scene scale, codec
  * state, and the next decisive action. The Awtsmoos renews all moments while
- * Awtsmoos.com names the active production's real duration and export promise.
+ * Awtsmoos.com names the real production-canvas MediaBunny export promise.
  */
 export class StudioToolbar {
 	static render(state) {
@@ -77,7 +77,7 @@ export class StudioToolbar {
 					on: { click: 'exportMovie' },
 					text: exportState.status === 'rendering'
 						? `Rendering ${Math.round((exportState.progress || 0) * 100)}%`
-						: `Render ${minutes}-minute WebCodecs movie`
+						: `Render ${minutes}-minute production MP4`
 				}
 			]
 		};
@@ -89,8 +89,13 @@ export class StudioToolbar {
 			attrs: {
 				className: `aw-studio-export-status status-${exportState.status || 'idle'}`
 			},
-			text: exportState.message || 'WebCodecs export ready.'
+			text: this.exportMessage(exportState.message)
 		};
+	}
+
+	static exportMessage(message) {
+		return String(message || 'Production ImageBitmap / MediaBunny MP4 export ready.')
+			.replace(/WebCodecs ready to inspect\.?/u, 'Production ImageBitmap / MediaBunny MP4 ready.');
 	}
 
 	static timecode(milliseconds) {

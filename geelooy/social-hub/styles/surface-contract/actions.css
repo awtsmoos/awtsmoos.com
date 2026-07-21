@@ -2,61 +2,62 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Social Hub actions distinguish ordinary, primary, and destructive intent with
- * final dark surfaces and full touch doorways throughout Awtsmoos.com.
+ * Social Hub actions become deliberate energy gates. The Awtsmoos distinguishes
+ * ordinary, primary, active, and destructive intent throughout Awtsmoos.com.
  */
-
-:where(button, .quickActionGrid > a, .fileButton) {
+.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton) {
 	display: inline-flex;
+	min-inline-size: 44px;
+	min-block-size: 48px;
 	align-items: center;
 	justify-content: center;
-	gap: .45rem;
-	min-inline-size: 44px;
-	min-block-size: 46px;
-	padding: .68rem .85rem;
-	border: 1px solid rgba(255, 255, 255, .18);
-	border-radius: .75rem;
-	background: #182536;
-	box-shadow: none;
+	gap: .48rem;
+	padding: .7rem .9rem;
+	border: 1px solid rgba(60, 236, 255, .28);
+	border-radius: .82rem .48rem .82rem .48rem;
+	background: linear-gradient(145deg, #173052, #080f20 72%);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .09), 0 12px 28px rgba(0, 0, 0, .28);
 	color: #f5f7fb;
-	font-weight: 800;
+	font-weight: 840;
 	text-decoration: none;
-	transition: none !important;
+	cursor: pointer;
 }
 
-.routeNavigation button {
+.social-hub-document .routeNavigation button {
 	justify-content: start;
-	background: #131e2b;
-	color: #bac4d3;
+	background: linear-gradient(145deg, #111f35, #070d19);
+	color: #bac8dc;
 }
 
-.routeNavigation button[data-active="true"] {
-	border-color: rgba(88, 199, 216, .55);
-	background: rgba(88, 199, 216, .13);
-	color: #aef0f7;
+.social-hub-document .routeNavigation button[data-active="true"] {
+	border-color: rgba(255, 72, 203, .62);
+	background: linear-gradient(125deg, rgba(60, 236, 255, .18), rgba(139, 92, 255, .22), rgba(255, 72, 203, .16));
+	color: #ffffff;
+	box-shadow: 0 0 24px rgba(60, 236, 255, .14);
 }
 
-:where(button, .quickActionGrid > a, .fileButton):is(:hover, :focus-visible) {
-	border-color: rgba(88, 199, 216, .62);
-	background: #1d2c3e;
-	color: #b9f0f6;
+.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton):is(:hover, :focus-visible) {
+	border-color: rgba(255, 72, 203, .62);
+	background: linear-gradient(145deg, #20416a, #191032);
+	color: #ffffff;
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .13), 0 0 30px rgba(255, 72, 203, .2);
 }
 
-:where(.primaryButton, #publishComment, #privacySave) {
-	border-color: #58c7d8;
-	background: #58c7d8;
-	color: #061018;
-	font-weight: 880;
+.social-hub-document :where(.primaryButton, #publishComment, #privacySave) {
+	border-color: #7af2ff;
+	background: linear-gradient(115deg, #3cecff, #7565ff 55%, #ff48cb);
+	color: #02050d;
+	font-weight: 950;
 }
 
-.dangerButton {
-	border-color: rgba(255, 120, 148, .48);
-	background: rgba(255, 120, 148, .12);
-	color: #ffb6c4;
+.social-hub-document .dangerButton {
+	border-color: rgba(255, 95, 143, .58);
+	background: linear-gradient(145deg, rgba(255, 95, 143, .18), #1b0b17);
+	color: #ffc0d2;
 }
 
 @media (max-width: 700px) {
-	:where(button, .quickActionGrid > a, .fileButton) {
+	.social-hub-document :where(.hubHeader, .hubShell) :where(button, .quickActionGrid > a, .fileButton) {
 		inline-size: 100%;
 	}
 }

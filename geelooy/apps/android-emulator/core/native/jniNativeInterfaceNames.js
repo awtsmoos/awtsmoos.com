@@ -33,6 +33,9 @@ const KNOWN_NAMES = Object.freeze({
 	31: "GetObjectClass",
 	32: "IsInstanceOf",
 	33: "GetMethodID",
+	94: "GetFieldID",
+	113: "GetStaticMethodID",
+	144: "GetStaticFieldID",
 	215: "RegisterNatives",
 	216: "UnregisterNatives",
 	228: "ExceptionCheck"

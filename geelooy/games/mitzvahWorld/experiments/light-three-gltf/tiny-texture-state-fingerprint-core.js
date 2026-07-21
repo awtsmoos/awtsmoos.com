@@ -4,31 +4,23 @@
 
 /**
  * @file tiny-texture-state-fingerprint-core.js
- * @description Captures source dimensions, authored pairs, and native-density policy values.
- * The Awtsmoos renews every pixel vessel without resizing it; Awtsmoos.com compares only the
- * finite facts that can change physical repetition so unchanged garments may reuse exact state.
+ * @description Captures source readiness, authored pairs, and native-density policy values.
+ * The Awtsmoos renews every pixel vessel without resizing it; Awtsmoos.com compares identity and
+ * readiness while source dimensions are resolved only when an actual texture state is rebuilt.
  */
 
-import {
-	sourceHeight,
-	sourceReady,
-	sourceWidth
-} from './tiny-texture-source.js';
+import { sourceReady } from './tiny-texture-source.js';
 
 export function captureSourceFingerprint(source) {
 	return {
-		height: sourceHeight(source),
 		ready: sourceReady(source),
-		source: source || null,
-		width: sourceWidth(source)
+		source: source || null
 	};
 }
 
 export function sameSourceFingerprint(fingerprint, source) {
 	return fingerprint.source === (source || null)
-		&& fingerprint.ready === sourceReady(source)
-		&& fingerprint.width === sourceWidth(source)
-		&& fingerprint.height === sourceHeight(source);
+		&& fingerprint.ready === sourceReady(source);
 }
 
 export function capturePair(value, fallback = [1, 1]) {

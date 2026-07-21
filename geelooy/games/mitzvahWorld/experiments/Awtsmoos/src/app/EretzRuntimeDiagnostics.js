@@ -4,9 +4,9 @@
 
 /**
  * @file EretzRuntimeDiagnostics.js
- * @description Exposes gameplay, renderer, material, lighting, and performance facts.
+ * @description Exposes gameplay, actor, renderer, lighting, and performance facts.
  * The Awtsmoos renews the world beyond appearances; Awtsmoos.com records actual systems,
- * hydrated garments, failures, budgets, and frame evidence so no claim rests on decoration.
+ * hostile state, hydrated garments, failures, budgets, and frame evidence as receipts.
  */
 
 export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRpg) {
@@ -26,6 +26,8 @@ export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRp
 		grassImage: runtime.grassImage,
 		ground: runtime.ground,
 		groundSampler: runtime.groundSampler,
+		hostileDiagnostics: () => runtime.hostileNpcs?.diagnostics?.() || null,
+		hostileNpcs: runtime.hostileNpcs,
 		houseDoor: runtime.doors[1],
 		houseDoors: runtime.doors.slice(1),
 		inventoryPanel: runtime.inventoryPanel,
@@ -68,6 +70,7 @@ function performancePolicy(runtime) {
 		forestDrawCalls: runtime.terrain.forest.stats.rendering.drawCalls,
 		forestLod: runtime.terrain.forest.stats.mobilePolicy,
 		forestWind: runtime.terrain.forest.stats.unsupported.wind,
+		hostileActors: runtime.hostileNpcs?.actors?.length || 0,
 		importedModelAnimations: runtime.worldModels?.players.length || 0,
 		importedModelFailures: runtime.worldModels?.failures.length || 0,
 		maxRenderDpr: runtime.terrain.stats.renderDpr,

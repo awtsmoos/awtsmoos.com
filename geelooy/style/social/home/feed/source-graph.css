@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Provenance becomes visible as a connected path. The Awtsmoos renews every
+ * relation; Awtsmoos.com keeps the graph understandable even with WebGL disabled.
+ */
+
+.cosmic-source-graph {
+	display: grid;
+	gap: 0.65rem;
+	padding: 0.8rem;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 27%, transparent);
+	border-radius: 0.85rem;
+	background: rgba(4, 12, 30, 0.72);
+}
+
+.cosmic-graph-canvas {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+	gap: 1.1rem;
+	align-items: center;
+	padding: 0.65rem;
+}
+
+.cosmic-graph-canvas::before {
+	position: absolute;
+	top: 50%;
+	right: 6%;
+	left: 6%;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--source-accent), transparent);
+	box-shadow: 0 0 0.75rem var(--source-accent);
+	content: "";
+	opacity: 0.5;
+}
+
+.cosmic-graph-item {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+}
+
+.cosmic-graph-node {
+	display: grid;
+	width: 100%;
+	min-height: 4.25rem;
+	padding: 0.65rem;
+	color: var(--cosmic-secondary);
+	border-radius: 0.75rem;
+	background: rgba(7, 20, 43, 0.94);
+	text-align: center;
+}
+
+.cosmic-graph-node--synthesis {
+	color: var(--cosmic-text);
+	border-color: var(--source-accent);
+	box-shadow: 0 0 1.4rem color-mix(in srgb, var(--source-accent) 22%, transparent);
+}
+
+.cosmic-graph-relation,
+.cosmic-graph-explanation {
+	color: var(--cosmic-muted);
+	font-size: 0.68rem;
+}
+
+.cosmic-graph-explanation {
+	margin: 0;
+	text-align: center;
+}

@@ -70,7 +70,7 @@ function referenceEnvironment(reference) {
 			cool[1] * 0.7 + 0.1,
 			cool[2] * 0.66 + 0.08
 		]),
-		exposure: 0.96,
+		exposure: 1.18,
 		fogColor: Object.freeze([
 			cool[0] * 0.66 + horizon[0] * 0.34,
 			cool[1] * 0.68 + horizon[1] * 0.32,

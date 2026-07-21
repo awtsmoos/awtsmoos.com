@@ -2,39 +2,49 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives every Social Hub field a stable dark vessel and immediate
- * focus state throughout Awtsmoos.com.
+ * The Awtsmoos gives every Social Hub input a luminous instrument panel while
+ * the shared profile dropdown keeps sovereign styling of its own.
  */
-
-:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
-	min-block-size: 48px;
-	border: 1px solid rgba(255, 255, 255, .22) !important;
-	border-radius: .78rem !important;
-	background: #172333 !important;
-	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
-	color: #f5f7fb !important;
-	font-size: max(16px, 1rem);
-	transition: none !important;
+.social-hub-document :where(.hubHeader, .hubShell) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 50px;
+	margin: 0;
+	padding: .76rem .88rem;
+	border: 1px solid rgba(60, 236, 255, .34);
+	border-radius: .78rem;
+	background: linear-gradient(145deg, #13233f, #050b18 72%);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 9px 24px rgba(0, 0, 0, .26);
+	color: #f8fbff;
+	font: 720 max(16px, 1rem)/1.35 var(--g-font, sans-serif);
+	outline: 0;
 }
 
-textarea {
-	min-block-size: 8rem;
+.social-hub-document .hubShell textarea {
+	min-block-size: 8.5rem;
+	resize: vertical;
 }
 
-:where(input, textarea)::placeholder {
-	color: #94a2b7 !important;
+.social-hub-document .hubShell :where(input, textarea)::placeholder {
+	color: #8d9db8;
 	opacity: 1;
 }
 
-:where(input, textarea, select):focus-visible {
-	border-color: #58c7d8 !important;
-	background: #192738 !important;
-	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16) !important;
+.social-hub-document :where(.hubHeader, .hubShell) :where(input, textarea, select):focus-visible {
+	border-color: #ff71d8;
+	background: linear-gradient(145deg, #182d51, #090d22);
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .16), 0 0 34px rgba(255, 72, 203, .2);
 }
 
-:where(input[type="checkbox"], input[type="radio"]) {
-	inline-size: 1.25rem;
-	block-size: 1.25rem;
-	accent-color: #58c7d8;
+.social-hub-document .hubShell :where(input[type="checkbox"], input[type="radio"]) {
+	inline-size: 1.3rem;
+	block-size: 1.3rem;
+	margin: 0;
+	accent-color: #3cecff;
 	flex: 0 0 auto;
+}
+
+.social-hub-document :where(.hubHeader, .hubShell) :where(input, textarea, select):disabled {
+	opacity: .52;
+	cursor: not-allowed;
 }

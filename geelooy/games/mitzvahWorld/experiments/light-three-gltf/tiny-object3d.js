@@ -4,25 +4,19 @@
 
 /**
  * @file tiny-object3d.js
- * @description Cached scene hierarchy for static and animated Mitzvah World forms.
- * The Awtsmoos recreates every parent and child together; Awtsmoos.com recomputes a
- * world matrix exactly when its local truth or inherited parent vessel truly changes.
+ * @description Cached scene hierarchy with structural and visibility revision evidence.
+ * The Awtsmoos recreates every parent and child together; Awtsmoos.com marks real hierarchy
+ * changes so settled material and renderer systems stop rediscovering an unchanged village tree.
  */
 
-import {
-	copyMat4,
-	identity
-} from './tiny-math.js';
+import { copyMat4, identity } from './tiny-math.js';
 import {
 	cachedLocalMatrix,
 	invalidateTransformCache,
 	ROOT_WORLD_MATRIX,
 	updateCachedWorldMatrix
 } from './tiny-transform-cache.js';
-import {
-	Quaternion,
-	Vector3
-} from './tiny-vector.js';
+import { Quaternion, Vector3 } from './tiny-vector.js';
 
 export class Object3D {
 	constructor() {
@@ -34,9 +28,21 @@ export class Object3D {
 		this.matrix = null;
 		this.matrixWorld = identity();
 		this.name = '';
-		this.visible = true;
+		this._visible = true;
+		this._sceneGraphRevision = 0;
 		this.userData = {};
 		this.isBone = false;
+	}
+
+	get visible() {
+		return this._visible;
+	}
+
+	set visible(value) {
+		const next = value !== false;
+		if (this._visible === next) return;
+		this._visible = next;
+		markSceneGraphChanged(this);
 	}
 
 	add(object) {
@@ -45,6 +51,7 @@ export class Object3D {
 		object.parent = this;
 		invalidateTransformCache(object);
 		this.children.push(object);
+		markSceneGraphChanged(this);
 		return this;
 	}
 
@@ -52,6 +59,7 @@ export class Object3D {
 		const index = this.children.indexOf(object);
 		if (index < 0) return this;
 		this.children.splice(index, 1);
+		markSceneGraphChanged(this);
 		object.parent = null;
 		invalidateTransformCache(object);
 		return this;
@@ -111,4 +119,10 @@ export class Bone extends Object3D {
 		super();
 		this.isBone = true;
 	}
+}
+
+function markSceneGraphChanged(object) {
+	let root = object;
+	while (root.parent) root = root.parent;
+	root._sceneGraphRevision = Number(root._sceneGraphRevision || 0) + 1;
 }

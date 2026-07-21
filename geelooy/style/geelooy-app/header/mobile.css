@@ -2,9 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos condenses the constellation without shrinking its doorways.
- * Awtsmoos.com keeps the compact header calm, while search opens as a full
- * portal and duplicate Mail access remains in the shared bottom navigation.
+ * The Awtsmoos condenses the crown without erasing the active name. Search,
+ * profile, and constellation remain full touch instruments on Awtsmoos.com.
  */
 @media (max-width: 66rem) {
 	.geelooy-app-shell {
@@ -25,13 +24,8 @@
 		transform: none;
 	}
 
-	.geelooy-app-shell .g-brand-lockup,
 	.geelooy-app-shell .g-header-brand {
-		max-inline-size: min(42vw, 13rem);
-	}
-
-	.geelooy-app-shell :is(.g-header-context, .g-header-utility) {
-		display: none;
+		max-inline-size: min(34vw, 11rem);
 	}
 
 	.geelooy-app-shell .g-header-search {
@@ -60,14 +54,17 @@
 		min-block-size: 44px;
 	}
 
-	.geelooy-app-shell .g-header-action-label,
+	.geelooy-app-shell .g-mobile-search-button {
+		display: inline-grid;
+	}
+
 	.geelooy-app-shell .g-mail-portal {
 		display: none;
 	}
 
-	.geelooy-app-shell .g-rail,
-	.geelooy-app-shell .g-context-panel {
-		display: none;
+	.geelooy-app-shell .g-header-profile {
+		min-inline-size: 7.2rem;
+		max-inline-size: 9rem;
 	}
 
 	.geelooy-app-shell .g-content-region {
@@ -84,16 +81,6 @@
 		padding: .35rem;
 		border-radius: 1.2rem 1.75rem 1.2rem 1.75rem;
 	}
-
-	.geelooy-app-shell .g-dock-item {
-		min-inline-size: 0;
-		min-block-size: 3.5rem;
-		padding: .35rem .2rem;
-	}
-
-	.geelooy-app-shell .g-dock-label {
-		font-size: .6rem;
-	}
 }
 
 @media (max-width: 30rem) {
@@ -101,17 +88,23 @@
 		inset-inline: .35rem;
 	}
 
-	.geelooy-app-shell .g-header-brand-copy small {
+	.geelooy-app-shell .g-header-brand-copy {
 		display: none;
-	}
-
-	.geelooy-app-shell .g-header-brand-copy strong {
-		font-size: .82rem;
 	}
 
 	.geelooy-app-shell .g-bh-jewel {
 		inline-size: 2.5rem;
 		block-size: 2.5rem;
+		flex-basis: 2.5rem;
+	}
+
+	.geelooy-app-shell .g-header-profile {
+		min-inline-size: 6.35rem;
+		max-inline-size: 7rem;
+	}
+
+	.geelooy-app-shell .g-header-actions {
+		gap: .25rem;
 	}
 
 	.geelooy-app-shell .g-dock-label {

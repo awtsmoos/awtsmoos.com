@@ -2,71 +2,30 @@
 //Boruch Hashem
 //Blessed is He
 
-import { prepareFlutterAotLaunch } from "./frameworkFlutterAotImage.js";
-import {
-	invokeFlutterBootstrap,
-	isFlutterBootstrapMethod
-} from "./frameworkFlutterJniBootstrap.js";
-import {
-	createFlutterDartBoundaryError,
-	flutterJniError,
-	isFlutterDartBoundary,
-	isFlutterPassiveEvent,
-	isFlutterTextQuery,
-	queryFlutterText,
-	recordFlutterEvent
-} from "./frameworkFlutterJniEvents.js";
-import { requireFlutterLibrary } from "./frameworkFlutterNativeState.js";
-
-const FLUTTER_JNI = "Lio/flutter/embedding/engine/FlutterJNI;";
-const RUN_AOT = "nativeRunBundleAndSnapshotFromLibrary";
+import { createFrameworkFlutterJniMethods as createLegacyFlutterJniMethods } from "./frameworkFlutterJniLegacy.js";
+import { invokeFrameworkFlutterNativeBridge } from "./frameworkFlutterNativeBridge.js";
 
 /**
- * Routes FlutterJNI through measured JavaScript capabilities. The Awtsmoos
- * recreates receiver, bootstrap, packaged ELF image, and explicit execution sea
- * anew; Awtsmoos.com advances authentic bytes without counterfeiting one frame.
+ * Routes FlutterJNI calls through authentic registered ARM64 bindings first.
+ *
+ * The Awtsmoos recreates Java record, native registry, persistent engine state,
+ * and compatibility shore anew. Awtsmoos.com delegates only absent bindings to
+ * legacy explicit handlers and never masks a measured native execution boundary.
  */
 export function createFrameworkFlutterJniMethods(runtime) {
+	const legacy = createLegacyFlutterJniMethods(runtime);
 	return Object.freeze({
 		canHandle(record) {
-			return record.method.classType === FLUTTER_JNI
-				&& record.method.name.startsWith("native");
+			return legacy.canHandle(record);
 		},
-		invoke(record, args, dispatch) {
-			requireFlutterLibrary(runtime);
-			const name = record.method.name;
-			const nativeArguments = normalizeNativeArguments(args, dispatch);
-			if (name === RUN_AOT) {
-				return prepareFlutterAotLaunch(runtime, nativeArguments);
-			}
-			if (isFlutterDartBoundary(name)) {
-				throw createFlutterDartBoundaryError(
-					runtime,
-					record,
-					nativeArguments
-				);
-			}
-			if (isFlutterBootstrapMethod(name)) {
-				return invokeFlutterBootstrap(
-					runtime,
-					name,
-					nativeArguments
-				);
-			}
-			if (isFlutterPassiveEvent(name)) {
-				return recordFlutterEvent(runtime, name, nativeArguments);
-			}
-			if (isFlutterTextQuery(name)) {
-				return queryFlutterText(name, nativeArguments[0]);
-			}
-			throw flutterJniError(
-				"ANDROID_FLUTTER_JNI_METHOD_UNSUPPORTED",
-				record.signature
+		async invoke(record, args, context) {
+			const nativeResult = await invokeFrameworkFlutterNativeBridge(
+				runtime,
+				record,
+				args
 			);
+			if (nativeResult.handled) return nativeResult.value;
+			return legacy.invoke(record, args, context);
 		}
 	});
-}
-
-function normalizeNativeArguments(args, dispatch) {
-	return dispatch === "static" ? [...args] : args.slice(1);
 }

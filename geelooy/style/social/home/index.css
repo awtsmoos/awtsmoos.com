@@ -1,13 +1,13 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * Home has one active ownership chain: foundation, civilization, composer, and
- * accessibility. Every manifest is versioned so renewed Awtsmoos.com controls
- * replace cached plain or conflicting generations immediately.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos renews the home surface through ordered layers. Awtsmoos.com
+ * preserves the established foundation while revealing the new living feed last.
  */
 
-@import "/style/foundation/tokens/index.css?v=home-acceptance-006";
-@import "/style/foundation/reset/index.css?v=home-acceptance-006";
-@import "./civilization/index.css?v=home-acceptance-006";
-@import "./accessibility.css?v=home-acceptance-006";
+@import url("../foundation/tokens.css");
+@import url("../foundation/reset.css");
+@import url("./civilization/index.css");
+@import url("./accessibility.css");
+@import url("./feed/index.css");

@@ -4,9 +4,9 @@
 
 /**
  * @file SceneMaterialResidency.js
- * @description Hydrates shared cottage and village textures through bounded background workers.
- * The Awtsmoos clothes inhabited homes before distant ornament; Awtsmoos.com deduplicates
- * every successful source and quarantines a failed URL so it cannot starve all later garments.
+ * @description Hydrates ranked materials once, then sleeps until the scene graph changes.
+ * The Awtsmoos clothes every visible vessel without repeating a successful decree; Awtsmoos.com
+ * quarantines failed URLs, remembers completed ones, and wakes only for new world structure.
  */
 
 import {
@@ -14,106 +14,107 @@ import {
 	hydrateSceneMaterialImages,
 	loadPublicMaterialUrl
 } from './PublicMaterialCache.js';
-import { rankedSceneUrls } from './SceneMaterialPriority.js';
+import {
+	createResidencyStats,
+	residencyStatsSettled
+} from './SceneMaterialResidencyStats.js';
+import {
+	rankedSceneUrls,
+	sceneMaterialRevision
+} from './SceneMaterialResidencyUrls.js';
 
-export { rankedSceneUrls } from './SceneMaterialPriority.js';
+const DEFAULT_CONCURRENCY = 3;
+
+export { rankedSceneUrls } from './SceneMaterialResidencyUrls.js';
 
 export class SceneMaterialResidency {
 	constructor(options = {}) {
 		this.active = new Map();
-		this.completed = 0;
-		this.concurrency = Math.max(1, Math.min(6, options.concurrency ?? 3));
-		this.failed = new Map();
-		this.loaded = new Set();
-		this.timeoutMs = options.timeoutMs ?? 30000;
 		this.cachedImage = options.cachedImage || cachedTextureImage;
+		this.completed = 0;
+		this.concurrency = options.concurrency || DEFAULT_CONCURRENCY;
+		this.failed = new Map();
 		this.hydrate = options.hydrate || hydrateSceneMaterialImages;
+		this.lastStats = null;
 		this.loadUrl = options.loadUrl || loadPublicMaterialUrl;
+		this.resolved = new Set();
+		this.scanSkips = 0;
+		this.settledRevision = -1;
+		this.started = 0;
 	}
 
 	update(root) {
-		const binding = this.hydrate(root, {
-			requestLimit: 0,
-			retryFailed: false,
-			timeoutMs: this.timeoutMs
-		});
-		const candidates = rankedSceneUrls(root)
-			.filter(candidate => !this.loaded.has(candidate.url))
-			.filter(candidate => !this.failed.has(candidate.url))
-			.filter(candidate => !this.cachedImage(candidate.url))
-			.filter(candidate => !this.active.has(candidate.url));
-		const available = Math.max(0, this.concurrency - this.active.size);
-		for (const candidate of candidates.slice(0, available)) this.start(candidate);
-		return {
-			active: this.active.size,
-			binding,
-			completed: this.completed,
-			failed: this.failed.size,
-			pendingCandidates: candidates.length,
-			started: Math.min(available, candidates.length),
-			topCandidates: candidates.slice(0, 8).map(candidateEvidence)
-		};
-	}
-
-	start(candidate) {
-		const promise = this.loadUrl(candidate.url, this.timeoutMs)
-			.then(record => this.record(candidate, record))
-			.catch(error => this.recordFailure(candidate, error))
-			.finally(() => this.active.delete(candidate.url));
-		this.active.set(candidate.url, promise);
-	}
-
-	record(candidate, record) {
-		if (record.ok) {
-			this.completed += 1;
-			this.failed.delete(candidate.url);
-			this.loaded.add(candidate.url);
-		} else {
-			this.failed.set(candidate.url, failedEvidence(candidate, record));
+		const revision = sceneMaterialRevision(root);
+		if (this.canReuseSettled(revision)) return this.reuseSettled(revision);
+		const binding = this.hydrate(root, { requestLimit: 0, requestMissing: false });
+		const rankedCandidates = this.pendingCandidates(root);
+		const candidates = [...rankedCandidates];
+		let startedNow = 0;
+		while (this.active.size < this.concurrency && candidates.length) {
+			this.start(candidates.shift());
+			startedNow += 1;
 		}
-		return record;
-	}
-
-	recordFailure(candidate, error) {
-		this.failed.set(candidate.url, {
-			error: error?.message || String(error),
-			role: candidate.role,
-			url: candidate.url
+		const stats = createResidencyStats({
+			active: this.active, binding, candidates, completed: this.completed,
+			concurrency: this.concurrency, failed: this.failed, rankedCandidates, revision,
+			scanSkipped: false, scanSkips: this.scanSkips, startedNow,
+			startedTotal: this.started
 		});
-		return null;
+		this.settledRevision = residencyStatsSettled(stats) ? revision : -1;
+		this.lastStats = stats;
+		return stats;
 	}
 
 	retryFailures() {
+		const count = this.failed.size;
 		this.failed.clear();
+		this.settledRevision = -1;
+		return count;
 	}
 
-	diagnostics() {
-		return {
-			active: [...this.active.keys()],
-			completed: this.completed,
-			concurrency: this.concurrency,
-			failed: [...this.failed.values()],
-			loaded: this.loaded.size
+	pendingCandidates(root) {
+		return rankedSceneUrls(root).filter(entry => {
+			return !this.active.has(entry.url)
+				&& !this.failed.has(entry.url)
+				&& !this.resolved.has(entry.url)
+				&& !this.cachedImage(entry.url);
+		});
+	}
+
+	canReuseSettled(revision) {
+		return Boolean(this.lastStats)
+			&& this.active.size === 0
+			&& this.settledRevision === revision;
+	}
+
+	reuseSettled(revision) {
+		this.scanSkips += 1;
+		this.lastStats = {
+			...this.lastStats,
+			scanSkipped: true,
+			scanSkips: this.scanSkips,
+			sceneRevision: revision,
+			started: 0
 		};
+		return this.lastStats;
 	}
-}
 
-function candidateEvidence(candidate) {
-	return {
-		references: candidate.references,
-		role: candidate.role,
-		score: candidate.score,
-		url: candidate.url
-	};
-}
+	start(entry) {
+		this.started += 1;
+		const promise = Promise.resolve(this.loadUrl(entry.url))
+			.then(result => this.finish(entry, result))
+			.catch(error => this.finish(entry, { error: error?.message || String(error), ok: false }))
+			.finally(() => this.active.delete(entry.url));
+		this.active.set(entry.url, promise);
+	}
 
-function failedEvidence(candidate, record) {
-	return {
-		error: record.error || 'unavailable',
-		method: record.method || null,
-		role: candidate.role,
-		stage: record.stage || null,
-		status: record.status || 0,
-		url: candidate.url
-	};
+	finish(entry, result) {
+		if (result?.ok === false || result?.error) {
+			this.failed.set(entry.url, { entry, result });
+			return result;
+		}
+		this.completed += 1;
+		this.resolved.add(entry.url);
+		return result;
+	}
 }

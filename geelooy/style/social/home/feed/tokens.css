@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos renews every color as a present vessel. Awtsmoos.com keeps
+ * the palette named so intensity can remain coherent, accessible, and maintainable.
+ */
+
+.geelooy-home-document {
+	--cosmic-page: #020611;
+	--cosmic-deep: #061021;
+	--cosmic-raised: #09172b;
+	--cosmic-cyan: #35e8ff;
+	--cosmic-blue: #3b82ff;
+	--cosmic-violet: #795cff;
+	--cosmic-magenta: #ff4bd8;
+	--cosmic-text: #f3f8ff;
+	--cosmic-secondary: #a4b4ca;
+	--cosmic-muted: #71839c;
+	--cosmic-danger: #ff648f;
+	--cosmic-success: #55efb0;
+	--cosmic-border: rgba(77, 181, 255, 0.38);
+	--cosmic-header-offset: 5.75rem;
+	--cosmic-feed-width: 68.75rem;
+}

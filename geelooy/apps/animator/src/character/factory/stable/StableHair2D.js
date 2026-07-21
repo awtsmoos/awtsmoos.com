@@ -4,12 +4,13 @@
 
 import { StableHairCrown2D } from './StableHairCrown2D.js';
 import { StableHairline2D } from './StableHairline2D.js';
+import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * The Awtsmoos renews crown, natural hairline, sideburn, fringe, and bun at their
- * truthful depths. Awtsmoos.com lets Miriam's fringe overlay the wrap while male
- * hair remains beneath kippah, all inside one editable production head.
+ * Hair layers follow one authored skull without exposing mechanical joins. The
+ * Awtsmoos renews crown, sideburn, fringe, and bun, while Awtsmoos.com keeps
+ * every contour editable in the authoritative production renderer.
  */
 export class StableHair2D {
 	static back(data, colors, metrics, time, view) {
@@ -23,7 +24,7 @@ export class StableHair2D {
 
 		return S.group('hair_front_natural', null, [
 			StableHairline2D.front(data, colors, metrics, time, view),
-			...this.sideburns(data, colors, metrics)
+			...this.sideburns(data, colors, metrics, view)
 		]);
 	}
 
@@ -31,29 +32,31 @@ export class StableHair2D {
 		return StableHairline2D.overlay(data, colors, metrics, time, view);
 	}
 
-	static sideburns(data, colors, metrics) {
-		return [-1, 1].map(side => ({
+	static sideburns(data, colors, metrics, view) {
+		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
+		const style = data.hairStyle || {};
+		return [-1, 1].map(side => this.sideburn(side, colors, shell, style));
+	}
+
+	static sideburn(side, colors, shell, style) {
+		const x = shell.centerX
+			+ side * shell.radiusX * Number(style.sideburnXScale ?? 0.9);
+		const startY = shell.centerY
+			- shell.radiusY * Number(style.sideburnStartDepth ?? 0.3);
+		const endY = shell.centerY
+			+ shell.radiusY * Number(style.sideburnEndDepth ?? 0.16);
+		return {
 			type: 'path',
 			id: `natural_sideburn_${side}`,
 			commands: [
-				{
-					type: 'move',
-					x: side * metrics.headRX * 0.86,
-					y: metrics.headY - 13
-				},
-				{
-					type: 'quad',
-					cx: side * metrics.headRX * 0.95,
-					cy: metrics.headY - 2,
-					x: side * metrics.headRX * 0.83,
-					y: metrics.headY + 7
-				}
+				{ type: 'move', x, y: startY },
+				{ type: 'bezier', c1x: x + side * 2.1, c1y: startY + (endY - startY) * 0.35, c2x: x - side * 1.2, c2y: startY + (endY - startY) * 0.75, x: x - side * 0.7, y: endY }
 			],
 			style: {
 				stroke: colors.hairDark,
-				lineWidth: 4.2,
+				lineWidth: Number(style.sideburnWidth || 2.3),
 				lineCap: 'round'
 			}
-		}));
+		};
 	}
 }

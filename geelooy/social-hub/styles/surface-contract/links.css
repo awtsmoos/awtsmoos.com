@@ -1,0 +1,35 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * No Social Hub link remains naked text. The Awtsmoos gives every legal, profile,
+ * activity, and identity path a visible doorway without disturbing shell links.
+ */
+.social-hub-document :where(.identityPortal, .railFooter a, .legalLinks a, .cardGrid a, .referenceMap a, .activityTimeline a) {
+	display: inline-flex;
+	min-block-size: 42px;
+	align-items: center;
+	justify-content: center;
+	gap: .45rem;
+	padding: .58rem .75rem;
+	border: 1px solid rgba(60, 236, 255, .28);
+	border-radius: .75rem .45rem .75rem .45rem;
+	background: linear-gradient(145deg, rgba(21, 43, 75, .9), rgba(7, 13, 28, .96));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .07);
+	color: #bdf7ff;
+	font-weight: 820;
+	text-decoration: none;
+}
+
+.social-hub-document :where(.identityPortal, .railFooter a, .legalLinks a, .cardGrid a, .referenceMap a, .activityTimeline a):is(:hover, :focus-visible) {
+	border-color: rgba(255, 72, 203, .58);
+	background: linear-gradient(145deg, #1c3961, #16102e);
+	color: #ffffff;
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .12), 0 0 28px rgba(255, 72, 203, .18);
+}
+
+.social-hub-document .legalLinks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .6rem;
+}

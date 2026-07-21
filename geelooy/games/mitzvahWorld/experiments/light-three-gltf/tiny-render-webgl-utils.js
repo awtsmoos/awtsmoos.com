@@ -4,10 +4,12 @@
 
 /**
  * @file tiny-render-webgl-utils.js
- * @description Holds explicit WebGL types, compilation, and material-mode classification.
- * The Awtsmoos shines through every mode without confusion; Awtsmoos.com distinguishes
- * water, foliage, light, sky, and many-layer earth before the shader receives its garment.
+ * @description Holds WebGL types, compilation, and cached material-mode classification.
+ * The Awtsmoos shines through every mode without confusion; Awtsmoos.com classifies water,
+ * foliage, light, sky, and layered earth once until a visible classification fact changes.
  */
+
+const materialModeCache = new WeakMap();
 
 export function drawMode(gl, mode) {
 	return {
@@ -76,6 +78,18 @@ export function alphaModeCode(material) {
 export function materialModeCode(mesh) {
 	const material = mesh.material || {};
 	const policy = material.texturePolicy || {};
+	const cached = materialModeCache.get(mesh);
+	if (cached && sameModeFacts(cached, mesh, material, policy)) return cached.code;
+	const code = classifyMaterialMode(mesh, policy);
+	materialModeCache.set(mesh, captureModeFacts(mesh, material, policy, code));
+	return code;
+}
+
+export function invalidateMaterialModeCode(mesh) {
+	return materialModeCache.delete(mesh);
+}
+
+function classifyMaterialMode(mesh, policy) {
 	const identity = materialIdentity(mesh);
 	if (policy.shader?.includes('terrain-layered')) return 5;
 	if (policy.shader?.includes('water') || /water|lake|stream/.test(identity)) return 1;
@@ -84,6 +98,25 @@ export function materialModeCode(mesh) {
 	if (policy.shader?.includes('wind') || policy.alpha?.includes('cutout')
 		|| /leaves|botanical|flower|petal|fern|reed|bush/.test(identity)) return 2;
 	return 0;
+}
+
+function captureModeFacts(mesh, material, policy, code) {
+	return {
+		alpha: policy.alpha, code, family: mesh.userData?.family, material,
+		materialName: material.name, meshName: mesh.name, parent: mesh.parent,
+		parentFamily: mesh.parent?.userData?.family, policy, practicalLightProxy: policy.practicalLightProxy,
+		proceduralSky: policy.proceduralSky, shader: policy.shader
+	};
+}
+
+function sameModeFacts(value, mesh, material, policy) {
+	return value.material === material && value.policy === policy
+		&& value.meshName === mesh.name && value.materialName === material.name
+		&& value.family === mesh.userData?.family && value.parent === mesh.parent
+		&& value.parentFamily === mesh.parent?.userData?.family
+		&& value.shader === policy.shader && value.alpha === policy.alpha
+		&& value.proceduralSky === policy.proceduralSky
+		&& value.practicalLightProxy === policy.practicalLightProxy;
 }
 
 function materialIdentity(mesh) {

@@ -2,43 +2,42 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Canonical references and privacy disclosures stay compact, readable, and
- * explicitly owned throughout the Social Hub.
+ * Canonical references and privacy disclosures become visible chambers. The
+ * Awtsmoos lets summaries look operable and every choice remain inspectable.
  */
-
-:where(details, .referenceComposer) {
-	border: 1px solid rgba(255, 255, 255, .14);
-	border-radius: .85rem;
-	background: #0f1824;
+.social-hub-document .hubShell :where(details, .referenceComposer) {
+	border: 1px solid rgba(60, 236, 255, .24);
+	border-radius: 1rem .62rem 1rem .62rem;
+	background: linear-gradient(145deg, #0d1b30, #050a15);
+	box-shadow: 0 18px 46px rgba(0, 0, 0, .28);
 }
 
-:where(details > summary) {
-	min-block-size: 46px;
-	padding: .72rem .85rem;
-	border-radius: .82rem;
-	background: #162130;
-	color: #c9d5e4;
-	font-weight: 800;
+.social-hub-document .hubShell details > summary {
+	min-block-size: 48px;
+	padding: .78rem .9rem;
+	border-radius: inherit;
+	background: linear-gradient(125deg, rgba(60, 236, 255, .13), rgba(139, 92, 255, .14));
+	color: #d9faff;
+	font-weight: 850;
 	list-style: none;
 }
 
-:where(details[open] > summary) {
-	border-radius: .82rem .82rem 0 0;
-	border-bottom: 1px solid rgba(255, 255, 255, .14);
+.social-hub-document .hubShell details > summary::before {
+	margin-inline-end: .55rem;
+	color: #ff71d8;
+	content: "◇";
 }
 
-:where(details > :not(summary)) {
-	margin-inline: .85rem;
+.social-hub-document .hubShell details[open] > summary {
+	border-radius: .95rem .58rem 0 0;
+	border-bottom: 1px solid rgba(60, 236, 255, .2);
 }
 
-:where(.privacyGrid label, .categoryGrid label) {
-	display: flex;
-	align-items: center;
-	gap: .65rem;
-	min-block-size: 48px;
-	padding: .7rem .8rem;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: .75rem;
-	background: #131e2b;
-	color: #c6d2e2;
+.social-hub-document .hubShell details > :not(summary) {
+	margin-inline: .9rem;
+}
+
+.social-hub-document :where(.privacyGrid, .categoryGrid) label {
+	border-color: rgba(139, 92, 255, .28);
+	background: linear-gradient(145deg, rgba(20, 35, 61, .94), rgba(8, 13, 28, .96));
 }

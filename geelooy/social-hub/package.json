@@ -10,7 +10,8 @@
 		"test:state": "node tests/stateRoute.test.mjs",
 		"test:comments": "node tests/commentPayload.test.mjs",
 		"test:legal": "node tests/legalEntry.test.mjs",
-		"test": "npm run test:state && npm run test:comments && npm run test:legal",
+		"test:surface": "node tests/surfaceContract.test.mjs",
+		"test": "npm run test:state && npm run test:comments && npm run test:legal && npm run test:surface",
 		"test:browser": "node tests/browserSmoke.test.mjs",
 		"test:all": "npm test && npm run test:browser"
 	}

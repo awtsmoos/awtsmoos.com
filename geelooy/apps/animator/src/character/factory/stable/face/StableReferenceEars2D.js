@@ -6,21 +6,24 @@ import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 import { StableReferenceFaceGeometry } from './StableReferenceFaceGeometry.js';
 
 /**
- * The Awtsmoos gives each ear a small human vessel instead of a dark circular
- * ornament. Awtsmoos.com binds outer skin and inner curve to the same living head.
+ * The Awtsmoos gives each ear a small human vessel instead of a dark ornament.
+ * Awtsmoos.com binds skin, inner curve, and character-specific line hierarchy to
+ * the same living head through every pose, save, reload, and export.
  */
 export class StableReferenceEars2D {
 	static build(kind, data, colors, metrics, view) {
 		const geometry = StableReferenceFaceGeometry.resolve(data, metrics, view);
+		const style = data.faceStyle || {};
 		return [-1, 1].flatMap(side => this.ear(
 			kind,
 			side,
 			geometry,
-			colors
+			colors,
+			style
 		));
 	}
 
-	static ear(kind, side, geometry, colors) {
+	static ear(kind, side, geometry, colors, style) {
 		const x = geometry.centerX + side * geometry.earX;
 		const y = geometry.earY;
 		return [
@@ -34,7 +37,7 @@ export class StableReferenceEars2D {
 				{
 					fill: colors.skin,
 					stroke: colors.line,
-					lineWidth: 1.8
+					lineWidth: Number(style.earLineWidth || 1.8)
 				}
 			),
 			G.path(`${kind}_reference_ear_inner_${side}`, [
@@ -52,7 +55,7 @@ export class StableReferenceEars2D {
 				}
 			], {
 				stroke: colors.skinDark,
-				lineWidth: 1.2,
+				lineWidth: Number(style.earInnerLineWidth || 1.2),
 				lineCap: 'round'
 			})
 		];
