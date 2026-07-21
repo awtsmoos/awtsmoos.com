@@ -1,0 +1,85 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos unfolds clips upon measured lanes while remaining beyond every measure; Awtsmoos.com constrains ruler, headers, lanes, and clips to the visible editor field.
+*/
+.timeline-real {
+	position: relative;
+	width: 100%;
+	min-width: 0 !important;
+	height: 100%;
+	min-height: 0;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: #050a14;
+	overflow: hidden !important;
+}
+
+.timeline-ruler,
+.timeline-markers {
+	position: relative;
+	width: 100%;
+	min-width: 0 !important;
+	height: 28px;
+	border-bottom: 1px solid var(--line);
+	overflow: hidden;
+}
+
+.timeline-ruler span {
+	position: absolute;
+	top: 6px;
+	color: var(--muted);
+	font-size: .58rem;
+	transform: translateX(-50%);
+}
+
+.timeline-track {
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr);
+	gap: 5px;
+	width: 100%;
+	min-width: 0 !important;
+	padding: 4px;
+	border-bottom: 1px solid var(--line);
+	overflow: hidden;
+}
+
+.timeline-track header {
+	padding: 6px;
+	border-radius: 9px;
+	background: #101b31;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.timeline-lane,
+.clip-lane {
+	position: relative;
+	min-width: 0 !important;
+	height: 42px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 8%), #050a14;
+	overflow: hidden !important;
+}
+
+.clip {
+	position: absolute;
+	top: 4px;
+	height: 34px;
+	min-width: 42px;
+	max-width: 100%;
+	padding: 4px 7px;
+	color: white;
+	text-align: left;
+	background: linear-gradient(135deg, #315fd5, #7ba4ff);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.clip.active {
+	color: #02110f;
+	background: linear-gradient(135deg, var(--cyan), #e3fff8);
+}

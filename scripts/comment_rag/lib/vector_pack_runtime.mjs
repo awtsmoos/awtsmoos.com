@@ -22,6 +22,18 @@ import {
 const require = createRequire(import.meta.url);
 const AwtsmoosDB = require('../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 
+function normalizeWalSize(value) {
+	return value == null ? 0 : Number(value);
+}
+
+function assertLiveWalUnchanged(before, after) {
+	const normalizedBefore = normalizeWalSize(before);
+	const normalizedAfter = normalizeWalSize(after);
+	if (normalizedBefore !== 0 || normalizedAfter !== 0) {
+		throw new Error(`live WAL changed ${before}->${after}`);
+	}
+}
+
 export async function runVectorPack(configuration) {
 	const liveWalBefore = walSize(configuration.liveWalPath);
 	const allRows = readJsonLines(configuration.vectorsPath, configuration.validate);
@@ -65,9 +77,7 @@ export async function runVectorPack(configuration) {
 		metadataRecord: configuration.metadataRecord
 	});
 	const liveWalAfter = walSize(configuration.liveWalPath);
-	if (liveWalBefore !== 0 || liveWalAfter !== 0) {
-		throw new Error(`live WAL changed ${liveWalBefore}->${liveWalAfter}`);
-	}
+	assertLiveWalUnchanged(liveWalBefore, liveWalAfter);
 	const common = {
 		BH: 'B"H',
 		shard: configuration.shardPath,
@@ -93,3 +103,8 @@ export async function runVectorPack(configuration) {
 	console.log(JSON.stringify(summary, null, 2));
 	return summary;
 }
+
+export const vectorPackRuntimeInternals = {
+	normalizeWalSize,
+	assertLiveWalUnchanged
+};

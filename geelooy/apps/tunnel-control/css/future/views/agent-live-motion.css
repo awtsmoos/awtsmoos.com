@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every visible state without theatrical noise.
+ * Awtsmoos.com uses bounded pulse, reveal, and light travel only where motion
+ * communicates life, selection, or transmission.
+ */
+@layer awt.motion {
+	.awt-agent-channel {
+		animation: awt-agent-reveal 420ms both;
+		animation-delay: calc(var(--awt-agent-order, 0) * 45ms);
+	}
+
+	.awt-agent-socket-pulse,
+	.awt-agent-avatar-presence,
+	.awt-agent-direct-transport i {
+		animation: awt-agent-pulse 2.2s ease-in-out infinite;
+	}
+
+	.awt-agent-live-console::after {
+		animation: awt-agent-scan 8s linear infinite;
+	}
+
+	.awt-agent-channel.is-selected::after {
+		animation: awt-agent-selection 2.8s ease-in-out infinite;
+	}
+
+	.awt-agent-send:not(:disabled)::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, .18), transparent 75%);
+		transform: translateX(-130%);
+		animation: awt-agent-send-light 4.2s ease-in-out infinite;
+		pointer-events: none;
+	}
+
+	@keyframes awt-agent-reveal {
+		from {
+			opacity: 0;
+			transform: translateY(10px) scale(.985);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	@keyframes awt-agent-pulse {
+		0%, 100% { opacity: .7; transform: scale(.9); }
+		50% { opacity: 1; transform: scale(1.12); }
+	}
+
+	@keyframes awt-agent-scan {
+		0% { transform: translateX(-35%); opacity: .25; }
+		45%, 100% { transform: translateX(35%); opacity: .7; }
+	}
+
+	@keyframes awt-agent-selection {
+		0%, 100% { opacity: .45; transform: scaleX(.72); }
+		50% { opacity: 1; transform: scaleX(1); }
+	}
+
+	@keyframes awt-agent-send-light {
+		0%, 72% { transform: translateX(-130%); }
+		100% { transform: translateX(130%); }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.awt-agent-channel,
+		.awt-agent-socket-pulse,
+		.awt-agent-avatar-presence,
+		.awt-agent-direct-transport i,
+		.awt-agent-live-console::after,
+		.awt-agent-channel.is-selected::after,
+		.awt-agent-send::after {
+			animation: none !important;
+		}
+
+		.awt-agent-channel,
+		.awt-agent-open-channel,
+		.awt-agent-direct-input,
+		.awt-agent-send {
+			transition: none !important;
+		}
+	}
+}

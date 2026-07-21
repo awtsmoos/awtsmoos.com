@@ -2,97 +2,64 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos reveals one account current and one focused room current through
- * clear agent cards. Awtsmoos.com shows working presence and transport truth
- * without multiplying sockets or disturbing the tunnel that carries the stream.
+ * The Awtsmoos reveals the realtime fleet inside one radiant operational field.
+ * Awtsmoos.com lets depth, light, and structure testify to connection without
+ * obscuring the exact transport and agent truth beneath the surface.
  */
 @layer awt.views {
 	.awt-agent-live-console {
+		--agent-cyan: 83 226 255;
+		--agent-violet: 150 119 255;
+		--agent-green: 77 255 162;
+		--agent-gold: 255 200 105;
+		position: relative;
 		display: grid;
-		gap: 12px;
+		gap: clamp(14px, 2vw, 22px);
+		padding: clamp(16px, 2.4vw, 28px);
+		border: 1px solid rgb(var(--agent-cyan) / .16);
+		border-radius: 28px;
+		isolation: isolate;
+		overflow: hidden;
+		background:
+			radial-gradient(circle at 12% 0%, rgb(var(--agent-violet) / .16), transparent 34%),
+			radial-gradient(circle at 92% 14%, rgb(var(--agent-cyan) / .13), transparent 28%),
+			linear-gradient(145deg, rgba(4, 12, 27, .97), rgba(7, 18, 38, .9));
+		box-shadow:
+			0 32px 80px rgba(0, 0, 0, .38),
+			inset 0 1px 0 rgba(255, 255, 255, .07),
+			inset 0 0 60px rgb(var(--agent-cyan) / .035);
 	}
 
-	.awt-agent-live-heading {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 10px;
-		flex-wrap: wrap;
+	.awt-agent-live-console::before,
+	.awt-agent-live-console::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: -1;
 	}
 
-	.awt-agent-live-heading h3 {
-		margin: 0;
+	.awt-agent-live-console::before {
+		background-image:
+			linear-gradient(rgb(var(--agent-cyan) / .035) 1px, transparent 1px),
+			linear-gradient(90deg, rgb(var(--agent-cyan) / .035) 1px, transparent 1px);
+		background-size: 36px 36px;
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .9), transparent 78%);
 	}
 
-	.awt-agent-socket {
-		display: inline-flex;
-		align-items: center;
-		padding: 6px 10px;
-		border: 1px solid rgba(255, 255, 255, .1);
-		border-radius: 999px;
-		font-size: .76rem;
-		background: rgba(255, 255, 255, .05);
-	}
-
-	.awt-agent-socket.is-websocket {
-		border-color: rgba(83, 255, 172, .42);
-		background: rgba(31, 170, 91, .14);
-	}
-
-	.awt-agent-channel-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-		gap: 8px;
-	}
-
-	.awt-agent-channel {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
-		gap: 4px 8px;
-		align-items: start;
-		padding: 11px;
-		border: 1px solid rgba(255, 255, 255, .09);
-		border-radius: 15px;
-		background: rgba(255, 255, 255, .035);
-		color: inherit;
-		text-align: left;
-	}
-
-	.awt-agent-channel strong,
-	.awt-agent-channel small {
-		min-width: 0;
-		overflow-wrap: anywhere;
-	}
-
-	.awt-agent-channel small {
-		grid-column: 2;
-		opacity: .7;
-	}
-
-	.awt-agent-channel.is-selected {
-		border-color: rgba(113, 214, 255, .52);
-		background: rgba(40, 124, 255, .13);
-	}
-
-	.awt-agent-presence-dot {
-		grid-row: 1 / span 3;
-		color: #ffca62;
-	}
-
-	.awt-agent-channel.is-working .awt-agent-presence-dot,
-	.awt-agent-channel.is-websocket .awt-agent-presence-dot {
-		color: #55ff9a;
-		text-shadow: 0 0 14px currentColor;
+	.awt-agent-live-console::after {
+		inset: 1px;
+		border-radius: 27px;
+		background: linear-gradient(
+			115deg,
+			transparent 35%,
+			rgba(255, 255, 255, .045),
+			transparent 64%
+		);
 	}
 
 	.awt-agent-empty {
-		color: var(--awt-muted);
+		color: rgba(205, 225, 245, .52);
 		font-size: .82rem;
-	}
-
-	@media (max-width: 760px) {
-		.awt-agent-channel-grid {
-			grid-template-columns: 1fr;
-		}
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-animation-player.test.mjs
- * @description Proves exact looping, crossfade continuity, and bind-pose restoration.
- * The Awtsmoos contains beginning and completion at once; Awtsmoos.com measures the
- * finite path so faster sampling never changes the visible journey of one bone.
+ * @description Proves first-clip activation, exact looping, crossfade, and bind restoration.
+ * The Awtsmoos gives motion to clip zero before any clock has passed; Awtsmoos.com verifies
+ * that idle begins alive, continues without reset, and yields cleanly to every later gesture.
  */
 
 import assert from 'node:assert/strict';
@@ -16,38 +16,41 @@ import { TinyAnimationPlayer } from '../tiny-animation.js';
 const root = new Group();
 const bone = new Group();
 bone.name = 'AnimatedBone';
-bone.position.set(0, 2, 0);
+bone.position.set(7, 2, 0);
 bone.setBaseTransform();
 root.add(bone);
 
-const clipA = createTranslationClip('walk', bone, [0, 10]);
-const clipB = createTranslationClip('serve', bone, [10, 20]);
-const player = new TinyAnimationPlayer(root, [clipA, clipB]);
+const idle = createTranslationClip('idle', bone, [0, 4]);
+const serve = createTranslationClip('serve', bone, [10, 20]);
+const player = new TinyAnimationPlayer(root, [idle, serve]);
+
+assert.equal(player.diagnostics().currentAnimation, 'idle');
+assert.equal(player.diagnostics().time, 0);
+player.play('idle');
+assertNear(bone.position.x, 0, 'first clip applies at time zero');
+assert.equal(player.diagnostics().currentAnimation, 'idle');
 
 player.update(0.5);
-assertNear(bone.position.x, 5, 'linear translation');
-assert.equal(bone.position.y, 2);
+assertNear(bone.position.x, 2, 'idle advances');
+assert.equal(player.diagnostics().time, 0.5);
+player.play('idle');
+assert.equal(player.diagnostics().time, 0.5, 'repeated play does not reset');
 
 player.update(0.75);
-assertNear(bone.position.x, 2.5, 'looped translation');
-
+assertNear(bone.position.x, 1, 'idle loops');
 player.play('serve');
-assertNear(bone.position.x, 2.5, 'crossfade begins at current pose');
-player.update(0.09);
-assertNear(bone.position.x, 6.7, 'crossfade midpoint');
-player.update(0.09);
+assertNear(bone.position.x, 1, 'crossfade begins at current pose');
+player.update(0.18);
 assertNear(bone.position.x, 11.8, 'crossfade completes at sampled pose');
-assert.equal(player.diagnostics().fade, 0);
 
 player.setBindPose(true);
-assertNear(bone.position.x, 0, 'bind pose x');
-assertNear(bone.position.y, 2, 'bind pose y');
+assertNear(bone.position.x, 7, 'bind pose restored');
 player.update(1);
-assertNear(bone.position.x, 0, 'bind pose remains stable');
+assertNear(bone.position.x, 7, 'bind pose remains stable');
 
 console.log(JSON.stringify({
 	ok: true,
-	tests: ['linear', 'loop', 'crossfade', 'bind-pose']
+	tests: ['first-clip', 'idle-advance', 'no-reset', 'loop', 'crossfade', 'bind-pose']
 }, null, 2));
 
 function createTranslationClip(name, node, xValues) {

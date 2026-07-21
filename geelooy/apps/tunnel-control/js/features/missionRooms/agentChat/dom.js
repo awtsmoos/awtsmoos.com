@@ -4,9 +4,9 @@
 
 /**
  * B"H
- * The Awtsmoos clothes live testimony in simple DOM vessels. Awtsmoos.com keeps
- * creation, connection language, selection classes, and render signatures in one
- * small place so each visible agent panel remains readable and deterministic.
+ * The Awtsmoos clothes invisible realtime currents in precise DOM vessels.
+ * Awtsmoos.com keeps identity, connection language, visual state, and render
+ * signatures deterministic so beauty never obscures operational truth.
  */
 
 /** Creates one text-safe DOM node with an optional class name. */
@@ -17,13 +17,25 @@ export function node(tag, className = "", text = "") {
 	return element;
 }
 
+/** Reduces a human or logical agent name to a compact two-letter glyph. */
+export function agentInitials(value = "") {
+	const parts = String(value)
+		.trim()
+		.split(/[\s._-]+/)
+		.filter(Boolean);
+	if (!parts.length) return "AI";
+	if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+	return `${parts[0][0]}${parts.at(-1)[0]}`.toUpperCase();
+}
+
 /** Returns the complete visual state class for one agent channel. */
 export function channelClass(channel, selectedAgentId) {
 	return [
 		"awt-agent-channel",
 		channel.agentId === selectedAgentId ? "is-selected" : "",
-		channel.isWorking ? "is-working" : "",
-		channel.webSocketConnected ? "is-websocket" : ""
+		channel.isWorking ? "is-working" : "is-observing",
+		channel.webSocketConnected ? "is-websocket" : "",
+		channel.failures ? "has-failures" : ""
 	].filter(Boolean).join(" ");
 }
 
@@ -55,6 +67,8 @@ export function renderSignature(state, channels, selectedAgentId) {
 			channel.agentId,
 			channel.lastAt,
 			channel.activityCount,
+			channel.failures,
+			channel.isWorking,
 			channel.connectionLabel
 		])
 	});

@@ -4,9 +4,9 @@
 
 /**
  * @file runtimePerformanceEvidence.test.mjs
- * @description Proves quality preservation and honest runtime performance evidence.
- * The Awtsmoos creates world and witness anew; Awtsmoos.com requires explicit focused
- * context, measured tails, and intact quality before sixty-frame testimony may be accepted.
+ * @description Proves quality preservation and honest adaptive runtime performance evidence.
+ * The Awtsmoos creates world and witness anew; Awtsmoos.com requires focused tails, intact
+ * geometry, and a deliberately lighter framebuffer before sixty-frame testimony is accepted.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,7 @@ import { RuntimePerformanceMonitor } from '../../performance/RuntimePerformanceM
 import { RuntimeResourceSnapshot } from '../../performance/RuntimeResourceSnapshot.js';
 import { worldQualityProfile } from '../../performance/WorldQualityProfile.js';
 
-test('every tier preserves full internal resolution and world distance', () => {
+test('every tier preserves world distance and authored geometry', () => {
 	for (const tier of Object.values(QUALITY_TIERS)) {
 		assert.ok(tier.internalResolutionScale >= 1);
 		assert.ok(tier.decorativeDistanceScale >= 1);
@@ -78,7 +78,7 @@ test('monitor requires focused average and tail lows before target success', () 
 	assert.equal(diagnostics.meets60Target, true);
 	assert.equal(diagnostics.verdict.status, 'pass');
 	assert.equal(diagnostics.governor.qualityPreserved, true);
-	assert.equal(runtime.adaptiveRenderScale, 1);
+	assert.equal(runtime.adaptiveRenderScale, 0.66);
 	monitor.record(100, 6000, {
 		cpuFrameMilliseconds: 60,
 		renderSubmissionMilliseconds: 45
@@ -86,6 +86,6 @@ test('monitor requires focused average and tail lows before target success', () 
 	diagnostics = monitor.diagnostics();
 	assert.equal(diagnostics.meets60Target, false);
 	assert.equal(diagnostics.verdict.status, 'fail');
-	assert.equal(runtime.adaptiveRenderScale, 1);
+	assert.ok(runtime.adaptiveRenderScale < 0.66);
 	monitor.dispose();
 });

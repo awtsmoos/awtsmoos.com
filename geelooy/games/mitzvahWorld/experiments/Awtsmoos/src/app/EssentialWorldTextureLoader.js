@@ -4,9 +4,9 @@
 
 /**
  * @file EssentialWorldTextureLoader.js
- * @description Loads local terrain first, then attempts optional remote world enrichment.
- * The Awtsmoos reveals ground before ornament; Awtsmoos.com never lets failed house, mountain,
- * bark, or leaf networks erase the earth beneath the player's feet.
+ * @description Preloads every first-view local material before the village becomes visible.
+ * The Awtsmoos reveals earth, home, mountain, bark, and leaf in one clothed first moment;
+ * Awtsmoos.com no longer mistakes same-origin paths for absent remote enrichment.
  */
 
 import {
@@ -19,37 +19,32 @@ import { treeSemanticTextureUrls } from '../world/trees/TreeSemanticMaterialCata
 import { villageMaterialPolicy } from '../world/village/DistanceMaterialPolicy.js';
 
 export async function loadEssentialWorldTextures(options = {}) {
-	const terrain = await loadTextureSet(localTerrainTextureUrls(), options, true);
-	const optionalUrls = optionalWorldTextureUrls();
-	const optional = loadTextureSet(optionalUrls, options, false);
+	const urls = essentialWorldTextureUrls();
+	const result = await loadTextureSet(urls, options);
 	return {
 		cache: publicMaterialCacheStats(),
-		failed: terrain.failed,
-		loaded: terrain.loaded,
-		ok: terrain.ok,
-		optional,
-		records: terrain.records,
-		requested: terrain.requested,
-		strategy: 'blocking-local-terrain-deferred-remote-enrichment'
+		failed: result.failed,
+		loaded: result.loaded,
+		ok: result.ok,
+		records: result.records,
+		requested: result.requested,
+		strategy: 'blocking-optimized-local-first-view-materials'
 	};
 }
 
 export function essentialWorldTextureUrls() {
-	return localTerrainTextureUrls();
-}
-
-function optionalWorldTextureUrls() {
+	const terrain = localTerrainTextureUrls();
 	const mountain = mountainRockStack().layers.map(layer => layer.url);
-	const house = Object.values(villageMaterialPolicy('near'))
-		.filter(value => typeof value === 'string' && /^https?:\/\//.test(value));
+	const house = materialUrls(villageMaterialPolicy('near'));
 	return Object.freeze([...new Set([
+		...terrain,
 		...mountain,
 		...house,
 		...treeSemanticTextureUrls()
 	])]);
 }
 
-async function loadTextureSet(urls, options, required) {
+async function loadTextureSet(urls, options) {
 	const records = new Array(urls.length);
 	let cursor = 0;
 	const worker = async () => {
@@ -57,11 +52,14 @@ async function loadTextureSet(urls, options, required) {
 			const index = cursor++;
 			records[index] = await loadPublicMaterialUrl(
 				urls[index],
-				options.timeoutMs ?? (required ? 15000 : 8000)
+				options.timeoutMs ?? 15000
 			);
 		}
 	};
-	const concurrency = Math.max(1, Math.min(options.textureConcurrency ?? 6, urls.length || 1));
+	const concurrency = Math.max(1, Math.min(
+		options.textureConcurrency ?? 8,
+		urls.length || 1
+	));
 	await Promise.all(Array.from({ length: concurrency }, worker));
 	const loaded = records.filter(record => record?.ok).length;
 	return {
@@ -69,7 +67,13 @@ async function loadTextureSet(urls, options, required) {
 		loaded,
 		ok: loaded === urls.length,
 		records,
-		requested: urls.length,
-		required
+		requested: urls.length
 	};
+}
+
+function materialUrls(policy) {
+	return Object.values(policy).filter(value => {
+		return typeof value === 'string'
+			&& /\.(?:png|jpe?g|webp)(?:$|[?#])/i.test(value);
+	});
 }

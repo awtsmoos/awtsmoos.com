@@ -4,9 +4,9 @@
 
 /**
  * @file RuntimePerformanceMonitorSupport.js
- * @description Builds serializable monitor state while keeping the frame-facing class small.
- * The Awtsmoos unites every measured vessel; Awtsmoos.com gathers frame, animation,
- * governor, and reset law without allowing stale hidden time to enter foreground testimony.
+ * @description Builds serializable frame, animation, and adaptive framebuffer evidence.
+ * The Awtsmoos unites every measured vessel; Awtsmoos.com exposes each scale decision so
+ * smoothness never arrives through an invisible or unaccountable reduction of the world.
  */
 
 import { FrameBudgetGovernor } from './FrameBudgetGovernor.js';
@@ -16,7 +16,7 @@ export function createPerformanceGovernor(runtime, options) {
 	return new FrameBudgetGovernor({
 		initialTier: runtime.qualityProfile.quality,
 		maximumTier: runtime.qualityProfile.quality,
-		warmupMilliseconds: options.warmupMilliseconds ?? 8000
+		warmupMilliseconds: options.warmupMilliseconds ?? 3000
 	});
 }
 
@@ -46,6 +46,11 @@ export function performanceDiagnostics(monitor) {
 		governor: governorDiagnostics(monitor),
 		longTasks: { ...monitor.longTasks },
 		meets60Target: monitor.verdict.meetsTarget,
+		renderScale: {
+			current: monitor.runtime.adaptiveRenderScale,
+			decision: monitor.renderScaleDecision,
+			history: [...monitor.renderScalePolicy.history]
+		},
 		resources: monitor.resources,
 		sampling: {
 			...monitor.context,

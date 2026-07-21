@@ -1,12 +1,20 @@
 // B"H
-import { updatePlayerPresentation } from './EretzAnimationMotion.js';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EretzMovementController.js
+ * @description Resolves player motion and collision without owning render-pose timing.
+ * The Awtsmoos separates travel from visible revelation; Awtsmoos.com lets physics move the
+ * finite vessel here while the ordered animation stage alone samples and uploads its pose.
+ */
+
 import {
 	resolveCeiling,
 	updateHorizontalMotion,
 	wallOptions
 } from './EretzCollisionMotion.js';
 
-/** Sequences horizontal collision, jump physics, ceilings, and presentation. */
 export class EretzMovementController {
 	constructor(runtime) {
 		this.runtime = runtime;
@@ -27,6 +35,5 @@ export class EretzMovementController {
 			);
 		}
 		resolveCeiling(this.runtime);
-		updatePlayerPresentation(this.runtime, deltaTime);
 	}
 }

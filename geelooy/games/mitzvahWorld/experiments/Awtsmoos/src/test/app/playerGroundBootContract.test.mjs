@@ -4,9 +4,9 @@
 
 /**
  * @file playerGroundBootContract.test.mjs
- * @description Proves the canonical player animates immediately above always-visible terrain.
- * The Awtsmoos reveals person and earth together; Awtsmoos.com starts the embedded neutral clip
- * before optional motion enrichment and keeps the untextured valley opaque during hydration.
+ * @description Proves the canonical player begins a dynamic stand above always-visible terrain.
+ * The Awtsmoos reveals person and earth together; Awtsmoos.com rejects frozen neutral naming
+ * and chooses a living stand before the first rendered matrix reaches the finite screen vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -16,23 +16,24 @@ import { createPlayerModel } from '../../app/EretzPlayerModel.js';
 import { createTerrainGeometry } from '../../world/TerrainGeometry.js';
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
 
-test('player model is visible and begins its embedded neutral animation', () => {
+test('player model is visible and begins its animated stand', () => {
 	const scene = new Group();
 	const model = new Group();
 	const gltf = {
 		animations: [
-			{ channels: [], duration: 1, name: 'walk_Armature' },
-			{ channels: [], duration: 2, name: 'neutral_Armature' }
+			{ channels: [], duration: 0, name: 'neutral_Armature' },
+			{ channels: [], duration: 5.03, name: 'stand_Armature' },
+			{ channels: [], duration: 0.83, name: 'walk_Armature' }
 		],
 		scene: model
 	};
 	const result = createPlayerModel(gltf, scene);
 	assert.equal(result.model.visible, true);
 	assert.equal(scene.children.includes(result.model), true);
-	assert.equal(result.defaultClip, 'neutral_Armature');
-	assert.equal(result.player.diagnostics().currentAnimation, 'neutral_Armature');
+	assert.equal(result.defaultClip, 'stand_Armature');
+	assert.equal(result.player.diagnostics().currentAnimation, 'stand_Armature');
+	assert.equal(result.model.userData.AwtsmoosCanonicalPlayer.measuredAnimatedIdle, true);
 	assert.equal(result.model.userData.AwtsmoosCanonicalPlayer.modelSource, 'chossid.glb');
-	assert.equal(result.model.userData.AwtsmoosCanonicalPlayer.optionalAnimationsDeferred, true);
 });
 
 test('terrain remains visible and opaque before source images hydrate', () => {

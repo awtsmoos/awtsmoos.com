@@ -1,0 +1,94 @@
+{
+  "state": {
+    "ready": "complete",
+    "pages": 7,
+    "options": 10,
+    "presets": 10,
+    "status": "Studio home ready.",
+    "title": "\ud83e\udd85 Nesher Studio"
+  },
+  "console": [],
+  "exceptions": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/customVisualizer.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/visualizerHelpers.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/audioMix.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/webmBlob.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/webmCodecString.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/local/localWebmMuxer.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/core/EncoderBackpressureController.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/core/EncodeQueueSampler.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/core/EncodingTelemetry.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/video/clock.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/video/keyframePolicy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/audioFeatures.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/hebrewLetters.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/hebrewLightningModel.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/hebrewRiverModel.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/visualizer/screenSpeedModel.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/webmTarget.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/local/webmElements.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/local/bytes.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/modules/recording/container/local/ebml.js",
+      "status": 200
+    }
+  ]
+}

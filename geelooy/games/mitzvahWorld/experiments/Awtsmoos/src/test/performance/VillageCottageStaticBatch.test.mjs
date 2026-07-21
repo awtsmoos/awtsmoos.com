@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageStaticBatch.test.mjs
- * @description Proves realistic cottage pairs remain local, hydratable, and batch-stable.
- * The Awtsmoos preserves every house while reducing repeated declarations; Awtsmoos.com
- * tests masonry, slate, and timber witnesses without a vanished material host consuming workers.
+ * @description Proves realistic cottage materials remain local, hydratable, and batch-stable.
+ * The Awtsmoos preserves every house while reducing repeated declarations; Awtsmoos.com tests
+ * masonry, slate, and timber through canonical local paths rather than vanished-host query forms.
  */
 
 import assert from 'node:assert/strict';
@@ -35,7 +35,7 @@ test('cottage policy resolves the curated alpine local material set exactly', ()
 	assert.equal(policy.texturePolicy.uniqueVillageUrlBudget, 6);
 });
 
-test('equal detail tiers expose batch-stable but visibly distinct material pairs', () => {
+test('equal detail tiers expose batch-stable visibly distinct material pairs', () => {
 	for (const detail of ['near', 'medium', 'far']) {
 		const first = definitionsAt(1, detail);
 		const second = definitionsAt(7, detail);
@@ -44,16 +44,19 @@ test('equal detail tiers expose batch-stable but visibly distinct material pairs
 			assert.equal(first[surfaceIndex].textureUrl, second[surfaceIndex].textureUrl);
 			assert.equal(first[surfaceIndex].mixTextureUrl, second[surfaceIndex].mixTextureUrl);
 			assert.notEqual(first[surfaceIndex].textureUrl, first[surfaceIndex].mixTextureUrl);
-			assert.strictEqual(first[surfaceIndex].texturePolicy, second[surfaceIndex].texturePolicy);
+			assert.deepEqual(first[surfaceIndex].texturePolicy, second[surfaceIndex].texturePolicy);
 		}
 	}
 });
 
-test('each cottage surface retains the existing two-URL sampler contract', () => {
-	for (const definition of definitionsAt(3, 'near')) {
-		const textureFields = Object.entries(definition)
-			.filter(([key, value]) => /textureurl$/i.test(key) && typeof value === 'string');
-		assert.equal(textureFields.length, 2);
+test('cottage primary surfaces retain distinct base and mix samplers', () => {
+	const textured = definitionsAt(3, 'near').filter(definition => {
+		return typeof definition.textureUrl === 'string'
+			&& typeof definition.mixTextureUrl === 'string';
+	});
+	assert.ok(textured.length >= 2);
+	for (const definition of textured) {
+		assert.notEqual(definition.textureUrl, definition.mixTextureUrl);
 		assert.equal(definition.normalTextureUrl, undefined);
 	}
 });

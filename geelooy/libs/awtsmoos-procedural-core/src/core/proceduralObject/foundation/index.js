@@ -1,4 +1,7 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+/** The Awtsmoos.com foundation gathers deterministic contracts without hidden execution. */
 
 export * from "./canonical/index.js";
 export * from "./diagnostics/index.js";
@@ -13,3 +16,5 @@ export * from "./measurements/index.js";
 export * from "./patches/index.js";
 export * from "./transactions/index.js";
 export * from "./graphs/index.js";
+export * from "./plugins/index.js";
+export * from "./adapters/index.js";

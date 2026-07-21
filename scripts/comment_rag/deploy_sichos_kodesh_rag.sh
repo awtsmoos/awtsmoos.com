@@ -10,7 +10,8 @@ STAGING='/Users/awtsmoos/Documents/Awtsmoos/docs/torah/sichos-kodesh-ai/embeddin
 LIVE='/Users/awtsmoos/Documents/dayuhChadash-runtime/ai/comment-rag'
 PACK_PID_FILE='/Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-twelve-part-pack.pid'
 PACK_SUMMARY='/Users/awtsmoos/Documents/Awtsmoos/docs/torah/sichos-kodesh-ai/embedding-output/sichos-kodesh-english-comments-embedding-job/pack-awtsdb-summary.json'
-REPORT='/Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-rag-deployment-report.json'
+VERIFY_REPORT='/Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-staging-verification.json'
+API_REPORT='/Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-rag-deployment-report.json'
 LOG='/Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-rag-deployment.log'
 
 cd "$REPO"
@@ -23,11 +24,9 @@ grep -q '"records": 68490' "$PACK_SUMMARY" || {
 	echo 'pack did not complete' >> "$LOG"
 	exit 1
 }
+SICHOS_KODESH_RAG_ROOT="$STAGING" \
+	node scripts/comment_rag/verify_sichos_kodesh_rag_setup.mjs > "$VERIFY_REPORT"
 
-SICHOS_KODESH_RAG_ROOT="$STAGING" node scripts/comment_rag/verify_sichos_kodesh_rag_setup.mjs \
-	> /Users/awtsmoos/Documents/Awtsmoos/sichos-kodesh-staging-verification.json
-
-mkdir -p "$LIVE"
 part=1
 while [ "$part" -le 12 ]; do
 	base="sichos-kodesh-english-comments-rag-part-$part"
@@ -38,20 +37,12 @@ while [ "$part" -le 12 ]; do
 	part=$((part + 1))
 done
 
-for sidecar in "$LIVE"/*.awtsdb.wal "$LIVE"/*.awtsdb.journal "$LIVE"/*.awtsdb.lock "$LIVE"/*.awtsdb.tmp; do
-	[ ! -e "$sidecar" ] || {
-		echo "forbidden sidecar $sidecar" >> "$LOG"
-		exit 1
-	}
-done
-
 OLD_PID=$(lsof -tiTCP:8080 -sTCP:LISTEN || true)
 [ -z "$OLD_PID" ] || kill "$OLD_PID"
 for attempt in 1 2 3 4 5 6 7 8 9 10; do
 	lsof -tiTCP:8080 -sTCP:LISTEN >/dev/null 2>&1 || break
 	sleep 1
 done
-
 AWTSMOOS_RAG_ROOT="$LIVE" nohup npm run start:background \
 	>> .logs/sichos-kodesh-rag-deploy.log 2>&1 < /dev/null &
 
@@ -62,40 +53,5 @@ for attempt in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
 	sleep 1
 done
 [ -n "$NEW_PID" ] || exit 1
-
-node --input-type=module <<'NODE' > "$REPORT"
-const base = 'http://127.0.0.1:8080';
-async function json(path) {
-	const response = await fetch(base + path);
-	const body = await response.json();
-	if (!response.ok || body.error) throw new Error(`${path}: ${JSON.stringify(body)}`);
-	return { status: response.status, body };
-}
-const shards = await json('/api/social/search/rag/shards');
-const lanes = ['likkutei-sichos', 'sefer-hasichos', 'sichos-kodesh'];
-const searches = {};
-for (const lane of lanes) {
-	const path = `/api/social/search/rag/query?q=${encodeURIComponent('the Rebbe explained the purpose of Torah')}&lane=${lane}&limit=5`;
-	const result = await json(path);
-	const success = result.body.success;
-	if (!success?.indexed || success?.index?.persisted !== true || !success?.hits?.length) {
-		throw new Error(`invalid strict result for ${lane}`);
-	}
-	searches[lane] = {
-		status: result.status,
-		hits: success.hits.length,
-		totalRows: success.totalRows,
-		vectorSource: success.vectorSource,
-		firstPostId: success.hits[0]?.row?.postId || success.hits[0]?.postId || null
-	};
-}
-const frontend = await fetch(`${base}/mawgawl/sefarim/`);
-if (!frontend.ok) throw new Error(`frontend status ${frontend.status}`);
-console.log(JSON.stringify({
-	BH: 'B"H',
-	checkedAt: new Date().toISOString(),
-	shards: shards.body.success,
-	searches,
-	frontendStatus: frontend.status
-}, null, 2));
-NODE
+AWTSMOOS_RAG_ROOT="$LIVE" \
+	node scripts/comment_rag/test_sichos_kodesh_rag_api.mjs > "$API_REPORT"

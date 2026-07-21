@@ -23,6 +23,7 @@ import { initializeJavaSet } from "./frameworkJavaSetStorage.js";
 
 const SET_TYPES = new Set([
 	"Ljava/lang/Iterable;",
+	"Ljava/util/AbstractCollection;",
 	"Ljava/util/Collection;",
 	"Ljava/util/HashSet;",
 	"Ljava/util/LinkedHashSet;",
@@ -31,8 +32,8 @@ const SET_TYPES = new Set([
 
 /**
  * Dispatches the measured Java Set and Collection surface. The Awtsmoos creates
- * constructor, uniqueness, iterator, and relation anew; Awtsmoos.com protects
- * immutable guest collections before every mutation.
+ * constructor, inherited declaration, uniqueness, and relation anew;
+ * Awtsmoos.com protects each bounded guest collection before mutation.
  */
 export function createFrameworkJavaSetMethods(runtime) {
 	return Object.freeze({
@@ -54,9 +55,15 @@ export function createFrameworkJavaSetMethods(runtime) {
 				assertJavaCollectionMutable(runtime, args[0]);
 				return clearCollection(runtime, args[0]);
 			}
-			if (name === "contains") return containsCollectionValue(runtime, args[0], args[1]) ? 1 : 0;
-			if (name === "containsAll") return setContainsAll(runtime, args[0], args[1]);
-			if (name === "isEmpty") return collectionValues(runtime, args[0]).length ? 0 : 1;
+			if (name === "contains") {
+				return containsCollectionValue(runtime, args[0], args[1]) ? 1 : 0;
+			}
+			if (name === "containsAll") {
+				return setContainsAll(runtime, args[0], args[1]);
+			}
+			if (name === "isEmpty") {
+				return collectionValues(runtime, args[0]).length ? 0 : 1;
+			}
 			if (name === "iterator") return createJavaIterator(runtime, args[0]);
 			if (name === "remove") {
 				assertJavaCollectionMutable(runtime, args[0]);

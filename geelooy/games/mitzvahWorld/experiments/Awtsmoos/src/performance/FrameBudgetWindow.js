@@ -4,19 +4,18 @@
 
 /**
  * @file FrameBudgetWindow.js
- * @description Stores bounded frame evidence in an allocation-free ring between snapshots.
- * RESPONSIBILITY: accept real intervals and report percentiles, lows, stalls, and budget misses.
- * NON-RESPONSIBILITY: this module does not change quality, schedule frames, or hide outliers.
- * ARCHITECTURE: Gevurah bounds memory while Hod preserves each measured interval as testimony.
- * OROS AND KEILIM: continuous play is ohr; finite frame samples are accountable keilim.
- * The Awtsmoos recreates every instant beyond arrays; Awtsmoos.com retains stalls honestly
- * without an `Array.shift()` allocation tax inside the render loop.
+ * @description Stores exact bounded witnesses of the seventeen-millisecond frame covenant.
+ * The Awtsmoos creates every frame anew; Awtsmoos.com honors each caller's chosen finite vessel,
+ * while the runtime defaults to ninety recent intervals and never conceals a hard-budget breach.
  */
+
+const HARD_FRAME_MILLISECONDS = 17;
 
 export class FrameBudgetWindow {
 	constructor(options = {}) {
-		this.capacity = Math.max(8, Math.trunc(options.capacity || 600));
+		this.capacity = Math.max(1, Math.trunc(options.capacity || 90));
 		this.targetFrameMilliseconds = options.targetFrameMilliseconds || 1000 / 60;
+		this.hardFrameMilliseconds = options.hardFrameMilliseconds || HARD_FRAME_MILLISECONDS;
 		this.longFrameMilliseconds = options.longFrameMilliseconds || 50;
 		this.values = new Float64Array(this.capacity);
 		this.count = 0;
@@ -45,11 +44,11 @@ export class FrameBudgetWindow {
 	}
 
 	snapshot() {
-		const ordered = Array.from(this.values.subarray(0, this.count))
-			.sort((left, right) => left - right);
+		const ordered = this.orderedValues();
 		const elapsedMilliseconds = ordered.reduce((total, value) => total + value, 0);
-		const longFrames = countAbove(ordered, this.longFrameMilliseconds, true);
-		const missedBudgetFrames = countAbove(ordered, this.targetFrameMilliseconds, false);
+		const hardMisses = countAbove(ordered, this.hardFrameMilliseconds);
+		const longFrames = countAbove(ordered, this.longFrameMilliseconds);
+		const missedBudgetFrames = countAbove(ordered, this.targetFrameMilliseconds);
 		const p99 = percentile(ordered, 0.99);
 		const p999 = percentile(ordered, 0.999);
 		return {
@@ -57,6 +56,9 @@ export class FrameBudgetWindow {
 			averageIntervalMilliseconds: average(elapsedMilliseconds, this.count),
 			capacity: this.capacity,
 			count: this.count,
+			hardFrameMilliseconds: this.hardFrameMilliseconds,
+			hardMissRate: ratio(hardMisses, this.count),
+			hardMisses,
 			longFrameMilliseconds: this.longFrameMilliseconds,
 			longFrameRate: ratio(longFrames, this.count),
 			longFrames,
@@ -75,18 +77,27 @@ export class FrameBudgetWindow {
 			zeroPointOnePercentLowFps: fpsFromInterval(p999)
 		};
 	}
+
+	orderedValues() {
+		if (this.count < this.capacity) {
+			return Array.from(this.values.subarray(0, this.count)).sort(numberOrder);
+		}
+		const values = [];
+		for (let index = 0; index < this.count; index += 1) {
+			values.push(this.values[(this.cursor + index) % this.capacity]);
+		}
+		return values.sort(numberOrder);
+	}
 }
 
 function percentile(values, ratioValue) {
-	if (!values.length) {
-		return 0;
-	}
+	if (!values.length) return 0;
 	const index = Math.min(values.length - 1, Math.ceil(values.length * ratioValue) - 1);
 	return values[Math.max(0, index)];
 }
 
-function countAbove(values, threshold, inclusive) {
-	return values.filter(value => inclusive ? value >= threshold : value > threshold).length;
+function countAbove(values, threshold) {
+	return values.filter(value => value > threshold).length;
 }
 
 function average(total, count) {
@@ -103,4 +114,8 @@ function fpsFromElapsed(count, elapsedMilliseconds) {
 
 function fpsFromInterval(intervalMilliseconds) {
 	return intervalMilliseconds > 0 ? 1000 / intervalMilliseconds : 0;
+}
+
+function numberOrder(left, right) {
+	return left - right;
 }

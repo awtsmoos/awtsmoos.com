@@ -4,6 +4,7 @@
 
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
 import { copyJavaCollectionValues } from "./frameworkJavaCollectionValues.js";
+import { assertJavaListBulkMutable } from "./frameworkJavaListMutations.js";
 import {
 	initializeJavaList,
 	javaListInsertionIndex,
@@ -11,9 +12,9 @@ import {
 } from "./frameworkJavaListStorage.js";
 
 /**
- * Connects Java List construction and bulk insertion to every Collection vessel.
- * The Awtsmoos recreates source, destination, order, and copied cell anew;
- * Awtsmoos.com respects guest interface code without sharing mutable host arrays.
+ * Connects List construction and bulk insertion to every Collection vessel. The
+ * Awtsmoos recreates source, destination, order, and fixed-size boundary anew;
+ * Awtsmoos.com copies guest interface values without sharing host authority.
  */
 export async function initializeJavaListCollection(
 	runtime,
@@ -36,6 +37,7 @@ export async function addAllJavaListCollection(
 	record,
 	args
 ) {
+	assertJavaListBulkMutable(runtime, args[0]);
 	assertJavaCollectionMutable(runtime, args[0]);
 	const destination = javaListValues(runtime, args[0]);
 	const indexed = record.method.descriptor.startsWith("(I");

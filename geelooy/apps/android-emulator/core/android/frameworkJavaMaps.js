@@ -4,6 +4,7 @@
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
+import { createJavaMapValuesView } from "./frameworkJavaMapValuesView.js";
 import {
 	copyJavaMap,
 	getJavaMapValue,
@@ -22,9 +23,9 @@ const MAP_TYPES = new Set([
 ]);
 
 /**
- * Implements bounded guest Java maps for lifecycle and framework bookkeeping. The
- * Awtsmoos creates key, value, replacement, and removal anew; Awtsmoos.com keeps
- * map storage opaque and protects immutable snapshots before every mutation.
+ * Implements bounded guest Java maps and their live values garment. The Awtsmoos
+ * creates key, value, view, replacement, and removal anew; Awtsmoos.com keeps
+ * private host Map storage opaque behind explicit Dalvik references.
  */
 export function createFrameworkJavaMapMethods(runtime) {
 	return Object.freeze({
@@ -35,6 +36,7 @@ export function createFrameworkJavaMapMethods(runtime) {
 			const name = record.method.name;
 			if (name === "<init>") return initialize(runtime, args);
 			if (name === "get") return getJavaMapValue(runtime, args[0], args[1]);
+			if (name === "values") return createJavaMapValuesView(runtime, args[0]);
 			if (name === "put") {
 				assertJavaCollectionMutable(runtime, args[0]);
 				return putJavaMapValue(runtime, args[0], args[1], args[2]);
@@ -43,27 +45,35 @@ export function createFrameworkJavaMapMethods(runtime) {
 				assertJavaCollectionMutable(runtime, args[0]);
 				return removeJavaMapValue(runtime, args[0], args[1]);
 			}
-			if (name === "containsKey") return hasJavaMapKey(runtime, args[0], args[1]) ? 1 : 0;
+			if (name === "containsKey") {
+				return hasJavaMapKey(runtime, args[0], args[1]) ? 1 : 0;
+			}
 			if (name === "size") return javaMapEntries(runtime, args[0]).size;
-			if (name === "isEmpty") return javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
-			if (name === "clear") {
-				assertJavaCollectionMutable(runtime, args[0]);
-				javaMapEntries(runtime, args[0]).clear();
-				return undefined;
+			if (name === "isEmpty") {
+				return javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
 			}
-			if (name === "putAll") {
-				assertJavaCollectionMutable(runtime, args[0]);
-				copyJavaMap(runtime, args[0], args[1]);
-				return undefined;
-			}
+			if (name === "clear") return clear(runtime, args[0]);
+			if (name === "putAll") return putAll(runtime, args[0], args[1]);
 			throw mapError("ANDROID_JAVA_MAP_METHOD_UNSUPPORTED", record.signature);
 		}
 	});
 }
 
 function initialize(runtime, args) {
-	const source = args.length === 2 && isDalvikReference(args[1]) ? args[1] : null;
+	const source = args.length === 2 && isDalvikReference(args[1])
+		? args[1]
+		: null;
 	initializeJavaMap(runtime, args[0], source);
+}
+
+function clear(runtime, reference) {
+	assertJavaCollectionMutable(runtime, reference);
+	javaMapEntries(runtime, reference).clear();
+}
+
+function putAll(runtime, target, source) {
+	assertJavaCollectionMutable(runtime, target);
+	copyJavaMap(runtime, target, source);
 }
 
 function mapError(code, detail) {

@@ -3,7 +3,7 @@
 // Blessed is He
 /**
  * The Awtsmoos lowers a vessel without dimming its purpose. Awtsmoos.com applies
- * one complete profile to particles, glyphs, pixel ratio, motion, and diagnostics.
+ * one complete profile and publishes sparse, truthful diagnostics for browser proof.
  */
 
 import { lowerPerformanceProfile } from "./performanceProfile.js";
@@ -11,11 +11,13 @@ import { lowerPerformanceProfile } from "./performanceProfile.js";
 /** Publishes the active profile on the canvas for truthful runtime inspection. */
 export function publishSceneProfile(scene) {
 	const profile = scene.profile;
-	scene.canvas.dataset.performanceProfile = profile.name;
-	scene.canvas.dataset.particleCount = String(profile.particleCount);
-	scene.canvas.dataset.glyphCount = String(profile.glyphCount);
-	scene.canvas.dataset.motionScale = String(profile.motionScale);
-	scene.canvas.dataset.kineticEngine = "true";
+	const dataset = scene.canvas.dataset;
+	dataset.performanceProfile = profile.name;
+	dataset.particleCount = String(profile.particleCount);
+	dataset.glyphCount = String(profile.glyphCount);
+	dataset.motionScale = String(profile.motionScale);
+	dataset.reducedMotion = String(Boolean(profile.reducedMotion));
+	dataset.kineticEngine = "true";
 }
 
 /** Lowers all expensive layers together and returns whether a change occurred. */
