@@ -4,19 +4,21 @@
 
 import { decodeAarch64Arithmetic } from "./aarch64DecodeArithmetic.js";
 import { decodeAarch64ConditionalSelect } from "./aarch64DecodeConditionalSelect.js";
+import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64LogicalImmediate } from "./aarch64DecodeLogicalImmediate.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
- * Decodes arithmetic, select, logical, and move-wide data-processing words.
+ * Decodes floating conversion, arithmetic, select, logical, and move-wide words.
  *
- * The Awtsmoos recreates arithmetic, condition road, repeated mask, register,
- * and immediate anew. Awtsmoos.com keeps focused families separate before the
- * machine mutates one guest register or NZCV field.
+ * The Awtsmoos recreates S/D source, W/X shore, arithmetic, condition road,
+ * repeated mask, register, and immediate anew. Awtsmoos.com delegates each
+ * measured family before one guest register or NZCV field can be mutated.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeAarch64Arithmetic(normalized)
+	return decodeAarch64FloatToInteger(normalized)
+		|| decodeAarch64Arithmetic(normalized)
 		|| decodeAarch64ConditionalSelect(normalized)
 		|| decodeAarch64LogicalImmediate(normalized)
 		|| decodeLogicalShifted(normalized)

@@ -5,9 +5,9 @@
 import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 
 /**
- * Beard breadth follows the authored cheek shell while the mouth keeps its own
- * fast articulation axis. The Awtsmoos joins identity and speech; Awtsmoos.com
- * preserves every width, opening, taper, and reaction as serializable data.
+ * Beard breadth follows the authored cheek shell while speech keeps its own axis.
+ * The Awtsmoos joins identity and motion; Awtsmoos.com preserves each asymmetric
+ * cheek, opening, taper, and chin as editable and serializable production data.
  */
 export class StableBeardGeometry {
 	static resolve(data = {}, metrics = {}, view = {}) {
@@ -15,6 +15,7 @@ export class StableBeardGeometry {
 		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
 		const length = Number(data.beardLength || 0.72)
 			* Number(authored.lengthScale || 1);
+		const centerX = Number(authored.centerX || 0);
 		const mouthY = metrics.headY
 			+ 28
 			+ Number(authored.mouthVerticalOffset || 0);
@@ -23,7 +24,9 @@ export class StableBeardGeometry {
 		const width = shell.radiusX * Number(authored.cheekScale || 0.68);
 		return {
 			massStyle: authored.massStyle || 'segmented',
-			centerX: Number(authored.centerX || 0),
+			centerX,
+			chinCenterX: centerX + Number(authored.chinOffsetX || 0),
+			openingCenterX: centerX + Number(authored.openingOffsetX || 0),
 			top: topY,
 			topY,
 			mouthY,
@@ -32,6 +35,8 @@ export class StableBeardGeometry {
 			sideY: topY + (bottomY - topY) * 0.5,
 			cheek: width,
 			width,
+			leftWidth: width * Number(authored.leftCheekScale || 1),
+			rightWidth: width * Number(authored.rightCheekScale || 1),
 			mouthClearance: Number(authored.mouthClearance || 11),
 			openingHalf: Number(authored.mouthClearance || 11),
 			openingHeight: Number(authored.openingHeight || 10),

@@ -51,7 +51,7 @@ test("guest URL GET is brokered under the originating process", async () => {
 		processId: process.pid
 	});
 	assert.equal(outcome.result.framework.contentView.text, body);
-	const calls = outcome.result.vm.calls.map(call => call.signature);
+	const calls = outcome.result.vm.calls.map(call => call.resolvedSignature || call.declaredSignature || call.signature);
 	assert.ok(calls.includes("Ljava/net/URL;-><init>(Ljava/lang/String;)V"));
 	assert.ok(calls.includes("Ljava/net/URL;->openStream()Ljava/io/InputStream;"));
 	const record = manager.get(process.pid).telemetry.network.records[0];

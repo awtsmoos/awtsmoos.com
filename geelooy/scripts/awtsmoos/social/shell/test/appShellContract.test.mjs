@@ -4,8 +4,9 @@
 /**
  * @module AppShellContractTest
  * @description
- * The Awtsmoos verifies one fast emoji Horizon, Ikar-centered dock, search
- * lens, profile doorway, and constellation across Awtsmoos.com.
+ * The Awtsmoos verifies one profile-bearing horizon, Ikar-centered dock, search
+ * lens, identity doorway, and constellation across Awtsmoos.com without a
+ * second static Home header competing beneath it.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -27,7 +28,8 @@ for (const token of ['createUnusualHeader', 'createContextRibbon', 'g-dock', 'ar
 assert.match(shell, /data\.mainRoute|dataset\.mainRoute/);
 assert.match(shell, /g-route-icon/);
 assert.match(shell, /g-route-label/);
-assert.ok(shell.includes("a[data-g-route-link]"), 'current state must stay inside shell route links');
+assert.ok(shell.includes('a[data-g-route-link]'), 'current state must stay inside shell route links');
+
 for (const token of ['isCanonicalRouteLink', 'normalizeRoutePath', 'linkUrl.origin']) {
 	assert.ok(routeState.includes(token), `route current-state rule missing ${token}`);
 }
@@ -52,9 +54,11 @@ for (const token of ['ensureAppShell', 'applyPerformanceProfile', 'speed-001', '
 for (const token of ['deviceMemory', 'hardwareConcurrency', 'saveData', 'g-performance-lean']) {
 	assert.ok(profile.includes(token), `performance profile missing ${token}`);
 }
-for (const token of ['/heichelos/ikar', '🏛️', 'data-home-feed']) {
-	assert.ok(home.includes(token), `Home missing Ikar token ${token}`);
+for (const token of ['/heichelos/ikar', 'data-home-feed', 'geelooy-social-surface', 'social/shell/boot.js']) {
+	assert.ok(home.includes(token), `Home missing unified-shell token ${token}`);
 }
+assert.doesNotMatch(home, /class="civilization-header"/, 'Home must not restore a duplicate global header');
+
 for (const [name, source] of Object.entries({ shell, routeState, ribbon, header, menu, boot, profile })) {
 	assert.ok(source.split('\n').length <= 120, `${name} must stay within 120 lines`);
 }

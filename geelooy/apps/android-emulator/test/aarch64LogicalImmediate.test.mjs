@@ -13,11 +13,11 @@ import {
 } from "./aarch64LogicalImmediateFixture.mjs";
 
 /**
- * Proves the authentic TST word, aliases, zero-register semantics, and flags.
- * The Awtsmoos recreates W0, low-byte mask, discarded result, Z flag, and MOV
- * alias anew; Awtsmoos.com needs no APK, JNI state, memory image, or host CPU.
+ * Proves authentic TST, all canonical operations, aliases, widths, and flags.
+ * The Awtsmoos recreates source, repeated mask, result, zero-register shore, and
+ * NZCV anew; Awtsmoos.com needs no APK, ELF, JNI, native memory, or browser.
  */
-test("authentic TST W0, #0xff decodes and sets Z on zero", () => {
+test("authentic TST W0, #0xff decodes and updates Z", () => {
 	const instruction = decodeAarch64Instruction(0x72001c1f, 4923748n);
 	assert.deepEqual(logicalImmediateShape(instruction), {
 		destination: 31,
@@ -33,37 +33,83 @@ test("authentic TST W0, #0xff decodes and sets Z on zero", () => {
 		supported: true,
 		width: 32
 	});
-	const registers = createAarch64Registers({ nzcv: 0b1111 });
-	registers.write(0, 0n, 32);
+	const registers = createAarch64Registers();
+	registers.write(0, 0x100n, 32);
+	registers.nzcv = 0xf;
 	assert.equal(executeAarch64Data(instruction, registers), true);
-	assert.equal(registers.read(0, 32), 0n);
-	assert.equal(registers.read(31), 0n);
-	assert.equal(registers.nzcv, 0b0100);
+	assert.equal(registers.read(31, 32, "zero"), 0n);
+	assert.equal(registers.nzcv, 0x4);
 });
 
-test("TST updates flags while discarding a nonzero result", () => {
-	const instruction = decodeAarch64Instruction(0x72001c1f);
-	const registers = createAarch64Registers({ nzcv: 0b1111 });
-	registers.write(0, 0x101n, 32);
+test("AND ORR EOR and ANDS execute exact 32-bit values", () => {
+	const expected = [0x0fn, 0xffn, 0xf0n, 0x0fn];
+	for (let operation = 0; operation < 4; operation += 1) {
+		const word = encodeLogicalImmediate({
+			destination: 1,
+			immr: 0,
+			imms: 7,
+			n: 0,
+			operation,
+			source: 0,
+			width: 32
+		});
+		const instruction = decodeAarch64Instruction(word);
+		const registers = createAarch64Registers();
+		registers.write(0, 0x0fn, 32);
+		registers.nzcv = 0x9;
+		executeAarch64Data(instruction, registers);
+		assert.equal(registers.read(1), expected[operation]);
+		assert.equal(registers.nzcv, operation === 3 ? 0 : 0x9);
+	}
+});
+
+test("ORR Xd, XZR, immediate exposes MOV alias at 64 bits", () => {
+	const word = encodeLogicalImmediate({
+		destination: 5,
+		immr: 0,
+		imms: 7,
+		n: 1,
+		operation: 1,
+		source: 31,
+		width: 64
+	});
+	const instruction = decodeAarch64Instruction(word);
+	assert.equal(instruction.mnemonic, "mov");
+	assert.equal(instruction.immediate, "255");
+	const registers = createAarch64Registers();
+	registers.nzcv = 0xa;
 	executeAarch64Data(instruction, registers);
-	assert.equal(registers.read(0, 32), 0x101n);
-	assert.equal(registers.nzcv, 0);
+	assert.equal(registers.read(5), 0xffn);
+	assert.equal(registers.nzcv, 0xa);
 });
 
-test("ORR from WZR exposes MOV alias and writes immediate mask", () => {
-	const instruction = decodeAarch64Instruction(encodeLogicalImmediate({
+test("rotated masks and invalid encodings preserve architectural boundaries", () => {
+	const rotated = decodeAarch64Instruction(encodeLogicalImmediate({
+		destination: 3,
+		immr: 4,
+		imms: 7,
+		n: 0,
+		operation: 2,
+		source: 2,
+		width: 32
+	}));
+	const registers = createAarch64Registers();
+	registers.write(2, 0xffffffffn, 32);
+	executeAarch64Data(rotated, registers);
+	assert.equal(registers.read(3), 0x0ffffff0n);
+	const invalid = decodeAarch64Instruction(encodeLogicalImmediate({
 		destination: 4,
 		immr: 0,
 		imms: 7,
-		n: 0,
-		operation: 1,
-		source: 31,
+		n: 1,
+		operation: 0,
+		source: 2,
 		width: 32
 	}));
-	assert.equal(instruction.mnemonic, "mov");
-	assert.equal(instruction.operationName, "orr");
-	const registers = createAarch64Registers({ nzcv: 0b1010 });
-	executeAarch64Data(instruction, registers);
-	assert.equal(registers.read(4), 0xffn);
-	assert.equal(registers.nzcv, 0b1010);
+	registers.write(4, 0x1234n);
+	registers.nzcv = 0xb;
+	assert.equal(invalid.supported, false);
+	assert.equal(executeAarch64Data(invalid, registers), false);
+	assert.equal(registers.read(4), 0x1234n);
+	assert.equal(registers.nzcv, 0xb);
 });

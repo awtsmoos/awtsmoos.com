@@ -4,11 +4,12 @@
 
 /**
  * @file VillageMaterialReadability.js
- * @description Converts physical material tint and live lighting into family readability evidence.
+ * @description Converts live material tint and light into named family readability evidence.
  * The Awtsmoos reveals stone, timber, roof, road, water, and meadow through distinct darkness;
- * Awtsmoos.com permits rich shadow yet names any whole material family that falls below legibility.
+ * Awtsmoos.com preserves rich shadow while naming the exact vessels that fall below legibility.
  */
 
+const LOWEST_RECORD_LIMIT = 6;
 const TEXTURE_SHADOW_FACTOR = 0.62;
 
 export function createReadabilityLedger() {
@@ -23,29 +24,33 @@ export function recordMaterialReadability(ledger, identity, material, lighting, 
 		* Number(lighting.diffuseFloor || 0)
 		* (mapReady ? TEXTURE_SHADOW_FACTOR : 1);
 	const record = Object.freeze({
+		color: Object.freeze([...(material.color || [1, 1, 1, 1])]),
 		effectiveFloor,
 		family,
+		identity: String(identity || 'unnamed-physical-material'),
 		mapReady,
 		minimum: minimumFor(family),
 		tintLuminance
 	});
 	ledger.records.push(record);
-	const values = ledger.families.get(family) || [];
-	values.push(effectiveFloor);
-	ledger.families.set(family, values);
+	const records = ledger.families.get(family) || [];
+	records.push(record);
+	ledger.families.set(family, records);
 }
 
 export function summarizeMaterialReadability(ledger) {
 	const families = {};
 	const warnings = [];
-	for (const [name, values] of ledger.families.entries()) {
-		const ordered = [...values].sort((left, right) => left - right);
+	for (const [name, records] of ledger.families.entries()) {
+		const ordered = [...records].sort(compareEffectiveFloor);
+		const values = ordered.map(record => record.effectiveFloor);
 		const minimum = minimumFor(name);
-		const p10 = percentile(ordered, 0.1);
+		const p10 = percentile(values, 0.1);
 		families[name] = Object.freeze({
 			count: ordered.length,
-			maximum: ordered.at(-1) || 0,
-			median: percentile(ordered, 0.5),
+			lowest: Object.freeze(ordered.slice(0, LOWEST_RECORD_LIMIT)),
+			maximum: values.at(-1) || 0,
+			median: percentile(values, 0.5),
 			minimum,
 			p10,
 			readable: p10 >= minimum
@@ -87,4 +92,8 @@ function colorLuminance(color = []) {
 function percentile(values, fraction) {
 	if (!values.length) return 0;
 	return values[Math.min(values.length - 1, Math.floor((values.length - 1) * fraction))];
+}
+
+function compareEffectiveFloor(left, right) {
+	return left.effectiveFloor - right.effectiveFloor;
 }

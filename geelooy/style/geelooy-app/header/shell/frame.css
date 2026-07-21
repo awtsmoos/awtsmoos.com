@@ -1,22 +1,29 @@
-/* B"H — The floating roof remains a luminous physical object. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos bends a river of cyan, violet, and rose around one calm roof for Awtsmoos.com.
+ */
 .g-unusual-header,
 .awtsmoosificationalisticaticalism {
 	position: fixed;
 	z-index: 3000;
-	top: max(0.7rem, env(safe-area-inset-top));
+	top: max(.7rem, env(safe-area-inset-top));
 	left: 50%;
 	display: grid;
-	width: min(calc(100% - 1.4rem), 78rem);
+	width: min(calc(100% - 1.4rem), 82rem);
 	min-height: var(--g-header-h);
 	grid-template-columns: auto minmax(18rem, 1fr) auto;
 	align-items: center;
-	gap: 0.75rem;
-	padding: 0.55rem 0.65rem;
-	border: 1px solid rgba(60, 236, 255, 0.3);
-	border-radius: 1.65rem;
-	background: linear-gradient(180deg, rgba(12, 24, 47, 0.92), rgba(3, 8, 18, 0.96));
-	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(139, 92, 255, 0.11) inset, 0 0 46px rgba(60, 236, 255, 0.12);
-	backdrop-filter: blur(28px) saturate(145%);
+	gap: .75rem;
+	padding: .55rem .65rem;
+	overflow: visible;
+	border: 1px solid rgba(60, 236, 255, .42);
+	border-radius: 1.75rem .95rem 1.75rem .95rem;
+	background:
+		linear-gradient(180deg, rgba(13, 26, 53, .96), rgba(2, 7, 18, .98)),
+		radial-gradient(circle at 85% 0, rgba(255, 72, 203, .24), transparent 18rem);
+	box-shadow: 0 28px 90px rgba(0, 0, 0, .64), 0 0 0 1px rgba(139, 92, 255, .18) inset, 0 0 54px rgba(60, 236, 255, .18);
+	backdrop-filter: blur(28px) saturate(155%);
 	transform: translateX(-50%);
 	isolation: isolate;
 }
@@ -27,9 +34,19 @@
 	inset: -1px;
 	padding: 1px;
 	border-radius: inherit;
-	background: linear-gradient(110deg, rgba(60, 236, 255, 0.75), transparent 27%, rgba(139, 92, 255, 0.58) 58%, rgba(255, 72, 203, 0.62), transparent 92%);
+	background: linear-gradient(110deg, #3cecff, transparent 25%, #8b5cff 55%, #ff48cb 78%, transparent 96%);
 	content: "";
 	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
 	mask-composite: exclude;
+	pointer-events: none;
+}
+
+.g-unusual-header::after {
+	position: absolute;
+	inset: auto 12% -1px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, #3cecff, #ff48cb, transparent);
+	box-shadow: 0 0 22px rgba(60, 236, 255, .7);
+	content: "";
 	pointer-events: none;
 }

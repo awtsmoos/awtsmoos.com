@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWorldSystem.js
- * @description Gathers the complete village and explicit canonical foundation layer.
- * The Awtsmoos descends from distant ridges into water, supported homes, lamps, gardens,
- * forest, people, and wildlife; Awtsmoos.com records every layer in one measured world package.
+ * @description Gathers the complete village from mountain scale to household causality.
+ * The Awtsmoos descends from ridges into water, supported homes, thresholds, gardens,
+ * forest, people, and wildlife; Awtsmoos.com records every layer in one measured package.
  */
 
 import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
@@ -18,6 +18,7 @@ import { createHeroValleyTreeDefinitions } from './HeroValleyTreeSystem.js?v=202
 import { createVillageArrivalComposition } from './VillageArrivalComposition.js';
 import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js?v=20260720-canonical-valley-pass-04';
 import { createVillageFoundationDefinitions } from './VillageFoundationSystem.js';
+import { createVillageHouseBubbleDefinitions } from './VillageHouseBubbleSystem.js';
 import { createVillageLandscapeDefinitions } from './VillageLandscapeSystem.js';
 import { createVillagePracticalLightDefinitions } from './VillagePracticalLightSystem.js';
 import { createVillagePropDefinitions } from './VillagePropSystem.js?v=20260720-canonical-valley-pass-04';
@@ -25,72 +26,78 @@ import { createVillageWaterDefinitions } from './VillageWaterSystem.js?v=2026072
 import { villageWorldBudget } from './VillageWorldBudget.js';
 
 export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
-	const budget = villageWorldBudget(quality);
-	const mountains = createAtmosphericMountainDefinitions(quality);
-	const water = createVillageWaterDefinitions(groundSampler);
-	const props = createVillagePropDefinitions(groundSampler);
-	const arrival = createVillageArrivalComposition(groundSampler);
-	const architecture = createVillageDistrictArchitecture(
-		groundSampler,
-		quality
-	);
-	const foundations = createVillageFoundationDefinitions(
-		architecture,
-		groundSampler
-	);
-	const practicalLights = createVillagePracticalLightDefinitions(
-		groundSampler,
-		quality
-	);
-	const landscape = createVillageLandscapeDefinitions(
-		groundSampler,
-		quality
-	);
-	const cottageCraft = createHeroCottageCraftDefinitions(groundSampler);
-	const heroGardens = createHeroValleyGardenDefinitions(groundSampler);
-	const heroTrees = createHeroValleyTreeDefinitions(groundSampler);
-	const forestEdge = createForestEdgeDefinitions(groundSampler, quality);
-	const population = emptyAnimatedPopulation();
-	const creatures = createVillageCreatureDefinitions(groundSampler, quality);
-	const definitions = [
-		...mountains,
-		...water.definitions,
-		...props.definitions,
-		...arrival,
-		...foundations,
-		...architecture,
-		...practicalLights,
-		...landscape.definitions,
-		...cottageCraft,
-		...heroGardens,
-		...heroTrees,
-		...forestEdge,
-		...population,
-		...creatures
-	];
+	const systems = createSystems(groundSampler, quality);
+	const definitions = flattenSystems(systems);
 	return {
 		definitions,
-		stats: {
-			architecture: architecture.stats,
-			arrival: arrival.stats,
-			budget,
-			creatures: creatures.stats,
-			definitionCount: definitions.length,
-			forestEdge: forestEdge.stats,
-			foundations: foundations.stats,
-			heroCraftDefinitions: cottageCraft.length,
-			heroGardenDefinitions: heroGardens.length,
-			heroTreeDefinitions: heroTrees.length,
-			landscape: landscape.stats,
-			layers: worldLayers(),
-			mountains: mountains.stats,
-			name: 'Reference golden-hour Awtsmoos mountain village',
-			population: population.stats,
-			practicalLights: practicalLights.stats,
-			props: props.stats,
-			quality,
-			water: water.stats
-		}
+		stats: createStats(systems, definitions, quality)
+	};
+}
+
+function createSystems(groundSampler, quality) {
+	const architecture = createVillageDistrictArchitecture(groundSampler, quality);
+	return {
+		architecture,
+		arrival: createVillageArrivalComposition(groundSampler),
+		budget: villageWorldBudget(quality),
+		cottageCraft: createHeroCottageCraftDefinitions(groundSampler),
+		creatures: createVillageCreatureDefinitions(groundSampler, quality),
+		forestEdge: createForestEdgeDefinitions(groundSampler, quality),
+		foundations: createVillageFoundationDefinitions(architecture, groundSampler),
+		heroGardens: createHeroValleyGardenDefinitions(groundSampler),
+		heroTrees: createHeroValleyTreeDefinitions(groundSampler),
+		houseBubbles: createVillageHouseBubbleDefinitions(groundSampler, quality),
+		landscape: createVillageLandscapeDefinitions(groundSampler, quality),
+		mountains: createAtmosphericMountainDefinitions(quality),
+		population: emptyAnimatedPopulation(),
+		practicalLights: createVillagePracticalLightDefinitions(groundSampler, quality),
+		props: createVillagePropDefinitions(groundSampler),
+		water: createVillageWaterDefinitions(groundSampler)
+	};
+}
+
+function flattenSystems(s) {
+	return [
+		...s.mountains,
+		...s.water.definitions,
+		...s.props.definitions,
+		...s.arrival,
+		...s.foundations,
+		...s.architecture,
+		...s.houseBubbles,
+		...s.practicalLights,
+		...s.landscape.definitions,
+		...s.cottageCraft,
+		...s.heroGardens,
+		...s.heroTrees,
+		...s.forestEdge,
+		...s.population,
+		...s.creatures
+	];
+}
+
+function createStats(s, definitions, quality) {
+	return {
+		architecture: s.architecture.stats,
+		arrival: s.arrival.stats,
+		budget: s.budget,
+		creatures: s.creatures.stats,
+		definitionCount: definitions.length,
+		forestEdge: s.forestEdge.stats,
+		foundations: s.foundations.stats,
+		heroCraftDefinitions: s.cottageCraft.length,
+		heroGardenDefinitions: s.heroGardens.length,
+		heroTreeDefinitions: s.heroTrees.length,
+		houseBubbles: s.houseBubbles.stats,
+		landscape: s.landscape.stats,
+		layers: worldLayers(),
+		mountains: s.mountains.stats,
+		name: 'Reference golden-hour Awtsmoos mountain village',
+		population: s.population.stats,
+		practicalLights: s.practicalLights.stats,
+		props: s.props.stats,
+		quality,
+		water: s.water.stats
 	};
 }
 
@@ -107,20 +114,10 @@ function emptyAnimatedPopulation() {
 
 function worldLayers() {
 	return [
-		'mountains',
-		'water',
-		'props',
-		'arrival-composition',
-		'foundations',
-		'districts',
-		'practical-lighting',
-		'landscape',
-		'hero-cottage-craft',
-		'hero-gardens',
-		'hero-trees',
-		'forest-edge',
-		'animated-chossid-population',
-		'creatures'
+		'mountains', 'water', 'props', 'arrival-composition', 'foundations',
+		'districts', 'house-bubbles', 'practical-lighting', 'landscape',
+		'hero-cottage-craft', 'hero-gardens', 'hero-trees', 'forest-edge',
+		'animated-chossid-population', 'creatures'
 	];
 }
 

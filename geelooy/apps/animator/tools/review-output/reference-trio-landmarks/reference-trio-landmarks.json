@@ -1,0 +1,257 @@
+{
+  "cheerful-orthodox-speaker": {
+    "renderScale": 1.28,
+    "rootMatrix": {
+      "a": 1.97,
+      "b": 0,
+      "c": 0,
+      "d": 2.49,
+      "e": 427.6,
+      "f": 759.12
+    },
+    "fullGraphBox": {
+      "left": 111.35,
+      "right": 534.16,
+      "top": 55.24,
+      "bottom": 822.13
+    },
+    "headBox": {
+      "left": 282.8,
+      "right": 501.97,
+      "top": 55.24,
+      "bottom": 353.16
+    },
+    "faceShellBox": {
+      "left": 282.8,
+      "right": 501.97,
+      "top": 65.02,
+      "bottom": 297.57
+    },
+    "leftEye": {
+      "x": 380.56,
+      "y": 195.44
+    },
+    "rightEye": {
+      "x": 460.21,
+      "y": 194.42
+    },
+    "mouth": {
+      "x": 414.03,
+      "y": 274.33
+    },
+    "leftShoulder": {
+      "x": 318.18,
+      "y": 310.84
+    },
+    "rightShoulder": {
+      "x": 487.31,
+      "y": 310.79
+    },
+    "leftHand": {
+      "x": 166,
+      "y": 387.64
+    },
+    "rightHand": {
+      "x": 464.85,
+      "y": 435.78
+    },
+    "waist": {
+      "x": 405.93,
+      "y": 552.4
+    },
+    "leftKnee": {
+      "x": 353.86,
+      "y": 679.42
+    },
+    "rightKnee": {
+      "x": 452.19,
+      "y": 679.42
+    },
+    "leftAnkle": {
+      "x": 353.86,
+      "y": 764.1
+    },
+    "rightAnkle": {
+      "x": 452.19,
+      "y": 764.1
+    },
+    "leftFoot": {
+      "x": 353.86,
+      "y": 786.54
+    },
+    "rightFoot": {
+      "x": 452.19,
+      "y": 786.51
+    }
+  },
+  "skeptical-orthodox-observer": {
+    "renderScale": 1.28,
+    "rootMatrix": {
+      "a": 2.08,
+      "b": 0,
+      "c": 0,
+      "d": 2.44,
+      "e": 768.69,
+      "f": 769.24
+    },
+    "fullGraphBox": {
+      "left": 632.1,
+      "right": 899.31,
+      "top": 67.96,
+      "bottom": 825.46
+    },
+    "headBox": {
+      "left": 691.9,
+      "right": 899.31,
+      "top": 67.96,
+      "bottom": 376.17
+    },
+    "faceShellBox": {
+      "left": 712.96,
+      "right": 880.29,
+      "top": 74.87,
+      "bottom": 303.73
+    },
+    "leftEye": {
+      "x": 722.41,
+      "y": 227.73
+    },
+    "rightEye": {
+      "x": 801.83,
+      "y": 227.97
+    },
+    "mouth": {
+      "x": 762.11,
+      "y": 291.64
+    },
+    "leftShoulder": {
+      "x": 673.8,
+      "y": 313.23
+    },
+    "rightShoulder": {
+      "x": 856.6,
+      "y": 313.25
+    },
+    "leftHand": {
+      "x": 815.15,
+      "y": 435.53
+    },
+    "rightHand": {
+      "x": 721.36,
+      "y": 425.59
+    },
+    "waist": {
+      "x": 770.79,
+      "y": 550.37
+    },
+    "leftKnee": {
+      "x": 708.45,
+      "y": 670.16
+    },
+    "rightKnee": {
+      "x": 820.62,
+      "y": 670.16
+    },
+    "leftAnkle": {
+      "x": 708.45,
+      "y": 765.51
+    },
+    "rightAnkle": {
+      "x": 820.62,
+      "y": 765.51
+    },
+    "leftFoot": {
+      "x": 708.45,
+      "y": 785.06
+    },
+    "rightFoot": {
+      "x": 820.62,
+      "y": 785.07
+    }
+  },
+  "calm-orthodox-woman": {
+    "renderScale": 1.28,
+    "rootMatrix": {
+      "a": 2.01,
+      "b": 0,
+      "c": 0,
+      "d": 2.32,
+      "e": 1199.02,
+      "f": 773.84
+    },
+    "fullGraphBox": {
+      "left": 1075.49,
+      "right": 1318.55,
+      "top": 115.01,
+      "bottom": 823.45
+    },
+    "headBox": {
+      "left": 1106.02,
+      "right": 1301.45,
+      "top": 115.01,
+      "bottom": 328.81
+    },
+    "faceShellBox": {
+      "left": 1116.26,
+      "right": 1286.81,
+      "top": 116.38,
+      "bottom": 328.81
+    },
+    "leftEye": {
+      "x": 1163.44,
+      "y": 234.71
+    },
+    "rightEye": {
+      "x": 1239.05,
+      "y": 233.5
+    },
+    "mouth": {
+      "x": 1201.23,
+      "y": 299.69
+    },
+    "leftShoulder": {
+      "x": 1112.06,
+      "y": 339.62
+    },
+    "rightShoulder": {
+      "x": 1253.1,
+      "y": 341.94
+    },
+    "leftHand": {
+      "x": 1098.06,
+      "y": 551.97
+    },
+    "rightHand": {
+      "x": 1249.38,
+      "y": 553.15
+    },
+    "waist": {
+      "x": 1194.98,
+      "y": 525.3
+    },
+    "leftKnee": {
+      "x": 1138.57,
+      "y": 669.21
+    },
+    "rightKnee": {
+      "x": 1199.02,
+      "y": 669.21
+    },
+    "leftAnkle": {
+      "x": 1138.57,
+      "y": 773.65
+    },
+    "rightAnkle": {
+      "x": 1199.02,
+      "y": 773.65
+    },
+    "leftFoot": {
+      "x": 1138.57,
+      "y": 794.55
+    },
+    "rightFoot": {
+      "x": 1199.02,
+      "y": 794.54
+    }
+  }
+}

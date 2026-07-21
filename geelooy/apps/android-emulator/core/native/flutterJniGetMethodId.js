@@ -5,13 +5,26 @@
 import { readNativeCString } from "./nativeCString.js";
 
 /**
- * Resolves one instance JNI method ID through the injected DEX method universe.
+ * Registers stable JNI instance and static method-ID lookup capabilities.
  *
- * The Awtsmoos recreates declaring class, Java name, descriptor, hidden code
- * target, and stable jmethodID anew. Awtsmoos.com keeps method identity separate
- * from jobject lifetimes while the guest resumes through its own link register.
+ * The Awtsmoos recreates declaring class, Java name, descriptor, static garment,
+ * hidden implementation, and opaque jmethodID anew. Awtsmoos.com keeps method
+ * identity separate from jobject lifetimes and returns through guest X30.
  */
+export function registerFlutterJniMethodIdHandlers(registry, machineState) {
+	registry.register("JNINativeInterface.GetMethodID", context => {
+		return handleMethodId(context, machineState, false);
+	});
+	registry.register("JNINativeInterface.GetStaticMethodID", context => {
+		return handleMethodId(context, machineState, true);
+	});
+}
+
 export function handleFlutterJniGetMethodId(context, machineState) {
+	return handleMethodId(context, machineState, false);
+}
+
+function handleMethodId(context, machineState, staticMethod) {
 	const registers = context.registers;
 	validateEnvironment(registers, machineState);
 	const classHandle = registers.read(1, 64, "zero");
@@ -25,7 +38,7 @@ export function handleFlutterJniGetMethodId(context, machineState) {
 		classTarget: classReference.target,
 		name,
 		signature,
-		static: false
+		static: staticMethod
 	});
 	const target = machineState.resolveMethod(request);
 	const metadata = methodMetadata(target);
@@ -35,7 +48,7 @@ export function handleFlutterJniGetMethodId(context, machineState) {
 			metadata,
 			name,
 			signature,
-			static: false,
+			static: staticMethod,
 			target
 		})
 		: 0n;
@@ -51,7 +64,7 @@ export function handleFlutterJniGetMethodId(context, machineState) {
 		nameAddress: nameAddress.toString(),
 		signature,
 		signatureAddress: signatureAddress.toString(),
-		static: false
+		static: staticMethod
 	});
 }
 

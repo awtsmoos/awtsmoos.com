@@ -4,22 +4,18 @@
 
 /**
  * @file VillageDestinationSignSystem.js
- * @description Turns the bilingual catalog into four textured boards and four posts.
- * The Awtsmoos is beyond every direction, yet Awtsmoos.com reveals a merciful path
- * through signs whose words, placement, texture, and collision all agree.
+ * @description Turns the bilingual catalog into four readable textured boards and timber posts.
+ * The Awtsmoos is beyond every direction, yet Awtsmoos.com reveals a merciful path through signs
+ * whose words, warm timber, placement, original texture density, and collision all agree.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { VILLAGE_DESTINATIONS, VILLAGE_SIGN_GROUPS } from './VillageSignCatalog.js';
 import { createVillageSignTextureUrl } from './VillageSignTexture.js';
-import {
-	villageBox,
-	villageCylinder,
-	villageGroundY
-} from './VillagePropFactory.js';
+import { villageBox, villageCylinder, villageGroundY } from './VillagePropFactory.js';
 
 export function createVillageDestinationSignDefinitions(groundSampler) {
-	const definitions = VILLAGE_SIGN_GROUPS.flatMap((group) => {
+	const definitions = VILLAGE_SIGN_GROUPS.flatMap(group => {
 		return createSignGroup(group, groundSampler);
 	});
 	return {
@@ -52,7 +48,7 @@ function createSignGroup(group, groundSampler) {
 		z,
 		0.11,
 		3.1,
-		'#5d3b1f',
+		'#78502c',
 		TEXTURE_URLS.wood.bark1,
 		{ userData: metadata }
 	);

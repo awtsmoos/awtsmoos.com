@@ -1,0 +1,115 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The question remains open without becoming vague. The Awtsmoos renews
+ * every choice, while Awtsmoos.com uses native controls and explicit percentages.
+ */
+
+.cosmic-question {
+	display: grid;
+	gap: 0.8rem;
+}
+
+.cosmic-principle-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+.cosmic-principle-tile {
+	display: grid;
+	min-height: 3.5rem;
+	place-items: center;
+	padding: 0.55rem;
+	color: var(--cosmic-secondary);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 25%, transparent);
+	border-radius: 0.65rem;
+	background: rgba(5, 20, 38, 0.72);
+	font-size: 0.74rem;
+	font-weight: 700;
+	text-align: center;
+}
+
+.cosmic-poll {
+	display: grid;
+	gap: 0.55rem;
+	min-width: 0;
+	margin: 0;
+	padding: 0.85rem;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 28%, transparent);
+	border-radius: 0.8rem;
+	background: rgba(3, 15, 30, 0.74);
+}
+
+.cosmic-poll-question {
+	padding: 0 0.25rem;
+	color: var(--cosmic-text);
+	font-weight: 800;
+}
+
+.cosmic-poll-option {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 0.65rem;
+	align-items: center;
+	min-height: 2.75rem;
+	cursor: pointer;
+}
+
+.cosmic-poll-input {
+	width: 1.1rem;
+	height: 1.1rem;
+	margin: 0;
+	accent-color: var(--source-accent);
+}
+
+.cosmic-poll-copy {
+	display: grid;
+	grid-template-columns: minmax(7rem, 0.55fr) minmax(6rem, 1fr) auto;
+	gap: 0.65rem;
+	align-items: center;
+	color: var(--cosmic-secondary);
+	font-size: 0.78rem;
+}
+
+.cosmic-poll-track {
+	height: 0.48rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(69, 109, 157, 0.16);
+}
+
+.cosmic-poll-fill {
+	display: block;
+	width: var(--poll-value);
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
+}
+
+.cosmic-poll-status {
+	margin: 0.2rem 0 0;
+	color: var(--cosmic-muted);
+	font-size: 0.72rem;
+}
+
+.cosmic-expert-responses {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.55rem;
+}
+
+.cosmic-expert-response {
+	display: grid;
+	justify-items: start;
+	min-height: 4rem;
+	border-radius: 0.7rem;
+	text-align: left;
+}
+
+.cosmic-expert-response span {
+	color: var(--cosmic-muted);
+	font-size: 0.72rem;
+}

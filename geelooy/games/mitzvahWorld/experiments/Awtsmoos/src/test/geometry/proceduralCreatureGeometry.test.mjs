@@ -4,9 +4,9 @@
 
 /**
  * @file proceduralCreatureGeometry.test.mjs
- * @description Proves every procedural animal and spirit is one valid indexed mesh.
+ * @description Proves static wildlife geometry and live-hostile population accounting.
  * The Awtsmoos renews anatomy through finite proportions; Awtsmoos.com verifies
- * deterministic silhouettes, legal indices, bounded triangles, and one draw definition.
+ * deterministic silhouettes while targetable shadows remain outside static geometry.
  */
 
 import assert from 'node:assert/strict';
@@ -26,8 +26,8 @@ for (const speciesId of Object.keys(CREATURE_VISUALS)) {
 	assert.ok(definition.vertices.length > 100);
 	assert.ok(definition.indices.length > 300);
 	assert.equal(definition.indices.length % 3, 0);
-	assert.ok(definition.vertices.every((vertex) => vertex.every(Number.isFinite)));
-	assert.ok(definition.indices.every((index) => (
+	assert.ok(definition.vertices.every(vertex => vertex.every(Number.isFinite)));
+	assert.ok(definition.indices.every(index => (
 		Number.isInteger(index) && index >= 0 && index < definition.vertices.length
 	)));
 	speciesStats.push({
@@ -38,12 +38,17 @@ for (const speciesId of Object.keys(CREATURE_VISUALS)) {
 }
 
 const village = createVillageCreatureDefinitions(groundHeight, 'high');
-assert.equal(village.stats.creatures, 11);
-assert.equal(village.stats.definitions, 11);
-assert.equal(village.stats.species, 10);
-assert.equal(village.length, 11);
-assert.ok(village.stats.triangles <= 4200);
-assert.ok(village.every((definition) => definition.shape === 'manual'));
+assert.equal(village.stats.creatures, 8);
+assert.equal(village.stats.definitions, 8);
+assert.equal(village.stats.liveHostiles, 3);
+assert.equal(village.stats.totalActors, 11);
+assert.equal(village.stats.species, 7);
+assert.equal(village.length, 8);
+assert.ok(village.stats.triangles <= 3200);
+assert.ok(village.every(definition => definition.shape === 'manual'));
+assert.equal(village.some(definition => (
+	definition.userData?.speciesId === 'dybbuk-shade'
+)), false);
 
 console.log(JSON.stringify({
 	ok: true,

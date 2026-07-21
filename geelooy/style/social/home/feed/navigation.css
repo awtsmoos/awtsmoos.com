@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Paths and feed modes become deliberate controls before the Awtsmoos.
+ * Awtsmoos.com gives each one a tactile luminous vessel without a dashboard rail.
+ */
+
+.cosmic-quick-paths,
+.home-feed-tabs,
+.cosmic-feed-heading {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.55rem;
+	max-width: var(--cosmic-feed-width);
+	margin-inline: auto;
+}
+
+.cosmic-quick-paths {
+	margin-bottom: 1rem;
+	padding-inline: 0.5rem;
+}
+
+.cosmic-quick-paths a,
+.home-feed-tabs button,
+.cosmic-feed-heading .civilization-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: 0.55rem 0.85rem;
+	color: var(--cosmic-secondary);
+	border: 1px solid rgba(132, 170, 220, 0.25);
+	border-radius: 999px;
+	background: rgba(5, 16, 34, 0.76);
+	font: inherit;
+	font-size: 0.78rem;
+	font-weight: 750;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.cosmic-feed-heading {
+	justify-content: space-between;
+	margin-bottom: 0.7rem;
+}
+
+.cosmic-feed-heading h2 {
+	margin: 0.15rem 0 0;
+	font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+}
+
+.home-feed-tabs {
+	margin-bottom: 0.85rem;
+}
+
+.home-feed-tabs button[aria-pressed="true"] {
+	color: var(--cosmic-text);
+	border-color: var(--cosmic-cyan);
+	background: rgba(16, 75, 102, 0.5);
+	box-shadow: 0 0 1.1rem rgba(53, 232, 255, 0.13);
+}

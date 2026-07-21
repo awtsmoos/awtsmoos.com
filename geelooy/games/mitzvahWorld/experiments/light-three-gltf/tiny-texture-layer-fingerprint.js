@@ -20,12 +20,13 @@ import {
 	sameVector
 } from './tiny-texture-state-fingerprint-core.js';
 
+const EMPTY_LAYERS = Object.freeze([]);
 const HEIGHT_DEFAULT = [-10000, 10000];
 const SLOPE_DEFAULT = [0, 1];
 const ZONE_DEFAULT = [1, 1, 1, 1];
 
 export function captureLayerFingerprints(material = {}) {
-	const layers = material.textureLayers || [];
+	const layers = material.textureLayers || EMPTY_LAYERS;
 	return {
 		layers,
 		records: layers.map(layer => captureLayer(layer))
@@ -33,10 +34,9 @@ export function captureLayerFingerprints(material = {}) {
 }
 
 export function sameLayerFingerprints(fingerprint, material = {}) {
-	const layers = material.textureLayers || [];
-	if (fingerprint.layers !== layers || fingerprint.records.length !== layers.length) {
-		return false;
-	}
+	const layers = material.textureLayers || EMPTY_LAYERS;
+	if (fingerprint.layers !== layers) return false;
+	if (fingerprint.records.length !== layers.length) return false;
 	return fingerprint.records.every((record, index) => {
 		return sameLayer(record, layers[index] || {});
 	});

@@ -4,9 +4,9 @@
 
 /**
  * @file EretzAnimationFrame.js
- * @description Advances every animated world family while preserving measured ownership.
- * The Awtsmoos renews door, traveler, horse, and player skeleton in one pulse; Awtsmoos.com
- * distinguishes their finite costs so animation may be intensified without hidden waste.
+ * @description Advances every animated family while preserving measured ownership.
+ * The Awtsmoos renews door, traveler, shadow, horse, and player in one pulse;
+ * Awtsmoos.com separates each finite cost so challenge never hides inside rendering.
  */
 
 export function updateEretzAnimationFrame(runtime, deltaTime, costs) {
@@ -15,6 +15,9 @@ export function updateEretzAnimationFrame(runtime, deltaTime, costs) {
 		runtime.worldModels?.update(deltaTime, runtime.state);
 	});
 	costs.measure('animationNpcs', () => updateNpcs(runtime, deltaTime));
+	costs.measure('animationHostiles', () => {
+		runtime.hostileNpcs?.update(deltaTime, runtime.state);
+	});
 	costs.measure('animationHorses', () => {
 		runtime.horses?.update(deltaTime);
 	});
@@ -24,9 +27,7 @@ export function updateEretzAnimationFrame(runtime, deltaTime, costs) {
 }
 
 function updateDoors(runtime, deltaTime) {
-	for (const door of runtime.doors) {
-		door.update(deltaTime);
-	}
+	for (const door of runtime.doors) door.update(deltaTime);
 }
 
 function updateNpcs(runtime, deltaTime) {

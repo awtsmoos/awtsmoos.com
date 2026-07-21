@@ -2,32 +2,41 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives Social Hub one calm dark horizon and readable content
- * vocabulary after every shared Awtsmoos.com import resolves.
+ * The Awtsmoos gives Social Hub a cosmic floor beneath the global crown. Light
+ * is bounded inside readable vessels; no route content remains an accidental
+ * browser default on Awtsmoos.com.
  */
-
-body {
+body.social-hub-document {
 	background:
-		radial-gradient(circle at 10% 4%, rgba(88, 199, 216, .1), transparent 28rem),
-		linear-gradient(145deg, #060910, #0a101a 58%, #080b15);
+		radial-gradient(circle at 8% 2%, rgba(60, 236, 255, .14), transparent 26rem),
+		radial-gradient(circle at 92% 12%, rgba(255, 72, 203, .12), transparent 28rem),
+		linear-gradient(145deg, #02050d, #07101f 58%, #090714);
 	color: #f5f7fb;
 }
 
-:where(.hubHeader, .contextRibbon, .desktopRail, .workspacePanel, .riftCard, .panelIntro) {
+body.social-hub-document.geelooy-app-shell {
+	--g-dock-h: 0px;
+	padding-top: calc(var(--g-header-h) + 2rem);
+}
+
+.social-hub-document .g-dock {
+	display: none;
+}
+
+.social-hub-document :where(.hubHeader, .contextRibbon, .desktopRail, .workspacePanel, .riftCard, .panelIntro) {
 	color: #f5f7fb;
 }
 
-:where(pre, code) {
-	border-color: rgba(88, 199, 216, .22);
-	background: #080f18;
-	color: #b9e9ef;
+.social-hub-document :where(pre, code) {
+	border: 1px solid rgba(60, 236, 255, .24);
+	border-radius: .72rem;
+	background: #030a14;
+	box-shadow: inset 0 0 24px rgba(60, 236, 255, .05);
+	color: #b9f5fb;
 }
 
 @media (max-width: 700px) {
-	.identityCluster,
-	.filterRow,
-	.actionRow,
-	.mediaActions {
+	.social-hub-document :where(.identityCluster, .filterRow, .actionRow, .mediaActions) {
 		align-items: stretch;
 		flex-direction: column;
 	}

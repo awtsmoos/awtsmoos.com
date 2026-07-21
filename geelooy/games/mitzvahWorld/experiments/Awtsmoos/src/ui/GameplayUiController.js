@@ -4,12 +4,13 @@
 
 /**
  * @file GameplayUiController.js
- * @description Coordinates stores, responsive panels, world events, and action gateways.
+ * @description Coordinates stores, panels, world events, actions, and transactional Torah combat.
  * The Awtsmoos renews quest, learning, commerce, and strength beneath one event vessel;
- * Awtsmoos.com keeps transport selection outside panels and world rendering outside state.
+ * Awtsmoos.com keeps world impact outside panels and canonical ability truth outside buttons.
  */
 
 import { AdventureStore } from '../gameplay/AdventureStore.js';
+import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { ShliachProfileStore } from '../gameplay/ShliachProfileStore.js';
 import { GameplayActionGateway } from './GameplayActionGateway.js';
@@ -32,6 +33,13 @@ export class GameplayUiController {
 			inventory: this.inventory,
 			profile: this.profile
 		});
+		this.combat = options.combat || new TorahCombatController({
+			bus,
+			clock: options.clock,
+			focus: options.focus,
+			inventory: this.inventory,
+			profile: this.profile
+		});
 		this.panels = new GameplayPanelSuite({
 			adventures: this.adventures,
 			inventory: this.inventory,
@@ -39,7 +47,7 @@ export class GameplayUiController {
 			onActivatePowerup: id => this.gateway.activatePowerup(id),
 			onAllocateAttribute: (id, points) => this.gateway.allocateAttribute(id, points),
 			onBuyItem: (id, quantity) => this.gateway.buyItem(id, quantity),
-			onUsePassage: passage => this.usePassage(passage),
+			onUsePassage: passage => this.combat.usePassage(passage),
 			profile: this.profile
 		});
 		this.unsubscribers = [];
@@ -72,11 +80,6 @@ export class GameplayUiController {
 		this.unsubscribers.push(this.bus.on(type, listener));
 	}
 
-	usePassage(passage) {
-		this.bus.emit('torah:use', passage);
-		this.inventory.markPassageUsed(passage.id);
-	}
-
 	updatePosition(position) {
 		this.panels.updatePosition(position);
 	}
@@ -84,6 +87,7 @@ export class GameplayUiController {
 	snapshot() {
 		return {
 			adventures: this.adventures.snapshot(),
+			combat: this.combat.snapshot(),
 			inventory: this.inventory.snapshot(),
 			profile: this.profile.snapshot()
 		};
@@ -91,6 +95,7 @@ export class GameplayUiController {
 
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
+		this.combat.destroy();
 		this.panels.destroy();
 		this.profile.destroy();
 	}

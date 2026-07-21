@@ -16,7 +16,7 @@ import { ReferenceGraphProbe } from './ReferenceGraphProbe.js';
 /**
  * One hydrated person becomes a constellation of editable rig landmarks. The
  * Awtsmoos is undivided beyond every joint, while Awtsmoos.com reads the same
- * production graph that paints the face, hands, garments, and planted feet.
+ * production graph that paints open speech, closed lips, garments, and feet.
  */
 export class ReferenceCharacterLandmarks {
 	static create(id, data, cameraMatrix) {
@@ -35,7 +35,6 @@ export class ReferenceCharacterLandmarks {
 		const probe = new ReferenceGraphProbe(graph, cameraMatrix);
 		return this.extract(id, data, prefix, metrics, skeleton, probe);
 	}
-
 	static extract(id, data, prefix, metrics, skeleton, probe) {
 		const bodyMatrix = probe.matrix(`${prefix}_connected_body_axis`);
 		const leftFoot = probe.point(`${prefix}_reference_foot_-1`);
@@ -49,7 +48,7 @@ export class ReferenceCharacterLandmarks {
 			faceShellBox: probe.bounds(`${prefix}_organic_head`),
 			leftEye: probe.point(`${prefix}_eye_-1`),
 			rightEye: probe.point(`${prefix}_eye_1`),
-			mouth: probe.center(`${prefix}_mouth_cavity`),
+			mouth: this.mouthCenter(probe, prefix),
 			leftShoulder: Matrix.point(bodyMatrix, skeleton.leftShoulder),
 			rightShoulder: Matrix.point(bodyMatrix, skeleton.rightShoulder),
 			leftHand: probe.center(hands.left),
@@ -66,14 +65,16 @@ export class ReferenceCharacterLandmarks {
 			rightFoot
 		});
 	}
-
+	static mouthCenter(probe, prefix) {
+		return probe.center(`${prefix}_mouth_cavity`)
+			|| probe.center(`${prefix}_mouth`);
+	}
 	static headBounds(probe, prefix) {
 		return probe.union([
 			probe.bounds(`${prefix}_head_back_axis`),
 			probe.bounds(`${prefix}_head_front_axis`)
 		].filter(Boolean));
 	}
-
 	static levelPoint(foot, matrix, localY) {
 		if (!foot || !matrix) {
 			return null;
@@ -83,7 +84,6 @@ export class ReferenceCharacterLandmarks {
 			y: Matrix.point(matrix, { x: 0, y: localY }).y
 		};
 	}
-
 	static handIds(id, prefix) {
 		if (id === ReferenceCharacterIds.cheerful) {
 			return {
@@ -102,7 +102,6 @@ export class ReferenceCharacterLandmarks {
 			right: `${prefix}_right_pocket_hidden_hand`
 		};
 	}
-
 	static round(value) {
 		if (value && typeof value === 'object') {
 			return Object.fromEntries(

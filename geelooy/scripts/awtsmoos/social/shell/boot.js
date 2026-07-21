@@ -4,9 +4,9 @@
 /**
  * @module GeelooyUnifiedShellBoot
  * @description
- * The Awtsmoos reveals one immediate dark horizon around eligible routes.
- * Awtsmoos.com injects the current shell once, preserves sovereign content, and
- * omits pointer-following light and page-scale transition systems from startup.
+ * The Awtsmoos reveals one immediate jeweled horizon around eligible routes.
+ * Awtsmoos.com receives the current profile crown, route constellation, and
+ * native content without duplicate shells or heavy page-scale animation.
  */
 
 import { bindAppCommand } from './appCommand.js';
@@ -17,11 +17,16 @@ import { applyPerformanceProfile } from './performanceProfile.js';
 import { isShellEligible } from './routeEligibility.js';
 import { bindScrollMemory } from './scrollMemory.js';
 
-const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-010';
+const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-011';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 const ROUTE_OUTLET_SELECTOR = '[data-geelooy-route-outlet]';
+const SHELL_GENERATION = 'speed-001';
 
-/** Boots shared identity without replacing route content. */
+/**
+ * Boots shared identity without replacing route content.
+ * @param {Document} root Active route document.
+ * @returns {HTMLElement|null} Mounted shell or null for an ineligible route.
+ */
 export function bootGeelooyShell(root = document) {
 	if (!root.documentElement || !root.body || !isShellEligible(root.location?.pathname)) {
 		return null;
@@ -30,6 +35,7 @@ export function bootGeelooyShell(root = document) {
 	ensureStylesheet(root);
 	applyRouteIdentity(root);
 	root.documentElement.classList.add('geelooy-route-ready');
+	root.documentElement.dataset.geelooyShellGeneration = SHELL_GENERATION;
 	root.body.classList.add('geelooy-app-shell');
 	root.body.classList.remove('geelooy-spectral-shell');
 	const shell = ensureAppShell(root);

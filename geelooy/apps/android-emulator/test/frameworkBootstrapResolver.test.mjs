@@ -7,24 +7,24 @@ import test from "node:test";
 import { createFrameworkBootstrapResolver } from "../core/native/frameworkBootstrapResolver.js";
 
 /**
- * Proves the implemented bootstrap class universe and Java reference methods.
+ * Proves the implemented bootstrap class universe and inherited reference roads.
  *
- * The Awtsmoos recreates class identity, constructor, inherited road, queue,
- * media addition, and static fence anew. Awtsmoos.com admits only capabilities
- * represented by emulator source modules.
+ * The Awtsmoos recreates class identity, media, pixel vessel, inheritance, and
+ * static fence anew. Awtsmoos.com admits only capabilities represented by
+ * explicit emulator source modules.
  */
-test("framework bootstrap catalog contains exactly 149 implemented classes", () => {
+test("framework bootstrap catalog contains exactly 151 implemented classes", () => {
 	const resolver = createFrameworkBootstrapResolver();
 	const snapshot = resolver.snapshot();
-	assert.equal(snapshot.classes.length, 149);
-	assert.equal(new Set(snapshot.classes.map(record => record.descriptor)).size, 149);
+	assert.equal(snapshot.classes.length, 151);
+	assert.equal(new Set(snapshot.classes.map(record => record.descriptor)).size, 151);
 	for (const descriptor of [
 		"Ljava/lang/ref/WeakReference;",
-		"Ljava/lang/ref/Reference;",
-		"Ljava/lang/ref/ReferenceQueue;",
 		"Ljava/util/ArrayList;",
 		"Landroid/content/Context;",
-		"Landroid/media/Image;"
+		"Landroid/media/Image;",
+		"Landroid/graphics/Bitmap;",
+		"Landroid/graphics/Bitmap$Config;"
 	]) {
 		const resolved = resolver.resolveClass(descriptor);
 		assert.equal(resolved?.descriptor, descriptor);

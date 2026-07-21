@@ -1,0 +1,124 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Every card is a source-bearing chamber. The Awtsmoos renews its perimeter,
+ * while Awtsmoos.com keeps the interior still, legible, and semantically whole.
+ */
+
+.cosmic-post-card {
+	--source-accent: var(--cosmic-blue);
+	position: relative;
+	display: grid;
+	grid-template-columns: 5.25rem minmax(0, 1fr);
+	overflow: visible;
+	min-width: 0;
+	color: var(--cosmic-text);
+	background:
+		linear-gradient(135deg, rgba(11, 31, 57, 0.96), rgba(4, 13, 29, 0.94));
+	border: 1px solid color-mix(in srgb, var(--source-accent) 42%, transparent);
+	border-radius: 1.15rem 1.15rem 1.15rem 0.35rem;
+	box-shadow:
+		0 1.25rem 4rem rgba(0, 0, 0, 0.38),
+		0 0 2rem color-mix(in srgb, var(--source-accent) 10%, transparent),
+		inset 0 1px rgba(255, 255, 255, 0.05);
+	isolation: isolate;
+	content-visibility: auto;
+	contain: layout paint style;
+	contain-intrinsic-size: auto 34rem;
+	transition:
+		border-color 180ms ease,
+		box-shadow 220ms ease,
+		transform 220ms ease;
+}
+
+.cosmic-post-card::before,
+.cosmic-post-card::after {
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	content: "";
+	pointer-events: none;
+}
+
+.cosmic-post-card::before {
+	border: 1px solid color-mix(in srgb, var(--source-accent) 28%, transparent);
+	clip-path: polygon(0 0, calc(100% - 1.2rem) 0, 100% 1.2rem, 100% 100%, 1.1rem 100%, 0 calc(100% - 1.1rem));
+}
+
+.cosmic-post-card::after {
+	inset: -0.55rem;
+	opacity: 0;
+	background:
+		radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--source-accent) 24%, transparent), transparent 44%),
+		radial-gradient(circle at 82% 88%, color-mix(in srgb, var(--source-accent) 13%, transparent), transparent 48%);
+	filter: blur(1rem);
+	transition: opacity 220ms ease;
+}
+
+.cosmic-post-card[data-source-type="reflection"],
+.cosmic-post-card[data-source-type="question"] {
+	--source-accent: var(--cosmic-cyan);
+}
+
+.cosmic-post-card[data-source-type="audio"] {
+	--source-accent: var(--cosmic-magenta);
+}
+
+.cosmic-post-card[data-source-type="graph"] {
+	--source-accent: var(--cosmic-violet);
+}
+
+.cosmic-post-card[data-cosmic-active],
+.cosmic-post-card:focus-within {
+	border-color: color-mix(in srgb, var(--source-accent) 78%, white 8%);
+	box-shadow:
+		0 1.65rem 5rem rgba(0, 0, 0, 0.48),
+		0 0 2.7rem color-mix(in srgb, var(--source-accent) 23%, transparent),
+		inset 0 1px rgba(255, 255, 255, 0.08);
+	transform: translateY(-2px);
+}
+
+.cosmic-post-card[data-cosmic-active]::after,
+.cosmic-post-card:focus-within::after {
+	opacity: 1;
+}
+
+.cosmic-post-shell {
+	min-width: 0;
+	padding: 1rem 1rem 1rem 0;
+}
+
+.cosmic-post-topline {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.cosmic-post-content {
+	display: grid;
+	gap: 0.8rem;
+	min-width: 0;
+	padding-left: 0.15rem;
+}
+
+.cosmic-post-title {
+	margin: 0;
+	color: var(--cosmic-text);
+	font-size: clamp(1.08rem, 2vw, 1.35rem);
+	line-height: 1.25;
+	overflow-wrap: anywhere;
+}
+
+.cosmic-post-title-link,
+.cosmic-post-title-text {
+	color: inherit;
+	font: inherit;
+	text-decoration: none;
+}
+
+.cosmic-post-title-link:hover {
+	color: color-mix(in srgb, var(--source-accent) 70%, white);
+}

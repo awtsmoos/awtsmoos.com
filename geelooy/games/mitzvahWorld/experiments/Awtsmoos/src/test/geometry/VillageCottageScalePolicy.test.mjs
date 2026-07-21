@@ -1,12 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+// B"H // Boruch Hashem // Blessed is He
 
 /**
  * @file VillageCottageScalePolicy.test.mjs
- * @description Proves cottages retain human rooms inside canonical alpine footprints.
+ * @description Proves cottages retain human rooms inside canonical authored envelopes.
  * The Awtsmoos measures the vessel before filling it with life; Awtsmoos.com refuses
- * miniature facades where families, rooms, stairs, and warm windows must one day dwell.
+ * miniature facades and refuses a textured cube where a mountain family must dwell.
  */
 
 import assert from 'node:assert/strict';
@@ -32,18 +30,28 @@ for (const detail of ['near', 'medium', 'far']) {
 const cottage = createVillageCottageDefinitions({
 	base: 1.2,
 	detail: 'near',
-	id: 'test-cottage',
+	id: 'H10',
 	variant: 3,
 	x: 8,
 	yaw: 0.4,
 	z: -4
 });
-const [shell, roof] = cottage.definitions;
-assert.equal(shell.shape, 'box');
-assert.ok(shell.userData.volumeRatio >= 100);
-assert.ok(shell.userData.roomCapacity >= 4);
-assert.ok(shell.mixTextureUrl);
-assert.equal(shell.mixStrength, 0.3);
+const [envelope, roof] = cottage.definitions;
+
+assert.equal(cottage.definitions.length, 2);
+assert.equal(envelope.shape, 'manual');
+assert.equal(envelope.solid, true);
+assert.equal(envelope.vertices.length, 48);
+assert.equal(envelope.faces.length, 32);
+assert.equal(envelope.userData.canonicalId, 'H10');
+assert.equal(envelope.userData.houseId, 'H10');
+assert.equal(envelope.userData.part, 'stone-plinth-and-recessed-wall-envelope');
+assert.ok(envelope.userData.recessDepth > 0);
+assert.ok(envelope.userData.foundationHeight > 0);
+assert.ok(envelope.userData.volumeRatio >= 100);
+assert.ok(envelope.userData.roomCapacity >= 4);
+assert.ok(envelope.mixTextureUrl);
+assert.equal(envelope.mixStrength, 0.3);
 assert.equal(roof.shape, 'manual');
 assert.equal(roof.faces.length, 9);
 assert.equal(roof.vertices.length, 34);
@@ -52,8 +60,10 @@ assert.ok(roof.mixTextureUrl);
 assert.equal(roof.solid, true);
 
 console.log(JSON.stringify({
+	envelopeFaces: envelope.faces.length,
+	envelopeVertices: envelope.vertices.length,
 	ok: true,
 	playerVolume: playerReferenceVolume(),
-	roomCapacity: shell.userData.roomCapacity,
-	volumeRatio: shell.userData.volumeRatio
+	roomCapacity: envelope.userData.roomCapacity,
+	volumeRatio: envelope.userData.volumeRatio
 }, null, 2));

@@ -1,0 +1,90 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Every control is a real vessel of choice. The Awtsmoos renews intention;
+ * Awtsmoos.com supplies visible focus, pressed state, loading room, and honest labels.
+ */
+
+.cosmic-post-actions {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+	padding-top: 0.2rem;
+}
+
+.cosmic-action,
+.cosmic-utility-button,
+.cosmic-expert-response,
+.cosmic-graph-node,
+.cosmic-chapter-marker,
+.cosmic-overflow-item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: 0.48rem 0.72rem;
+	color: var(--cosmic-secondary);
+	border: 1px solid rgba(132, 170, 220, 0.24);
+	border-radius: 999px;
+	background: rgba(5, 16, 34, 0.74);
+	font: inherit;
+	font-size: 0.76rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		border-color 160ms ease,
+		background-color 160ms ease,
+		color 160ms ease,
+		transform 160ms ease;
+}
+
+.cosmic-action:hover,
+.cosmic-utility-button:hover,
+.cosmic-action[aria-pressed="true"] {
+	color: var(--cosmic-text);
+	border-color: color-mix(in srgb, var(--source-accent) 62%, transparent);
+	background: color-mix(in srgb, var(--source-accent) 11%, var(--cosmic-deep));
+	transform: translateY(-1px);
+}
+
+.cosmic-action[aria-pressed="true"] .cosmic-icon {
+	color: var(--source-accent);
+}
+
+.cosmic-action:disabled,
+.cosmic-utility-button:disabled {
+	opacity: 0.48;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.cosmic-overflow-trigger {
+	margin-left: auto;
+	padding-inline: 0.7rem;
+}
+
+.cosmic-overflow-menu {
+	position: absolute;
+	right: 0;
+	bottom: calc(100% + 0.4rem);
+	z-index: 8;
+	display: grid;
+	gap: 0.25rem;
+	min-width: 12rem;
+	padding: 0.4rem;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 38%, transparent);
+	border-radius: 0.75rem;
+	background: rgba(4, 13, 29, 0.98);
+	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.48);
+}
+
+.cosmic-overflow-item {
+	justify-content: flex-start;
+	width: 100%;
+	border-radius: 0.55rem;
+}

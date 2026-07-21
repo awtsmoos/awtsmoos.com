@@ -3,22 +3,24 @@
 //Blessed is He
 
 import { FRAMEWORK_BOOTSTRAP_ANDROID_CLASSES } from "./frameworkBootstrapAndroidClasses.js";
+import { FRAMEWORK_BOOTSTRAP_GRAPHICS_CLASSES } from "./frameworkBootstrapGraphicsClasses.js";
 import { FRAMEWORK_BOOTSTRAP_JAVA_CLASSES } from "./frameworkBootstrapJavaClasses.js";
 import { FRAMEWORK_BOOTSTRAP_MEDIA_CLASSES } from "./frameworkBootstrapMediaClasses.js";
 import { FRAMEWORK_BOOTSTRAP_OTHER_CLASSES } from "./frameworkBootstrapOtherClasses.js";
 
 /**
- * Combines measured and newly implemented framework descriptors into identities.
+ * Combines measured and implemented framework descriptors into identities.
  *
- * The Awtsmoos recreates descriptor, framework source, and bootstrap vessel
- * anew. Awtsmoos.com admits only classes represented by emulator code, while
- * duplicate or unknown identities remain explicit instead of fabricated.
+ * The Awtsmoos recreates descriptor, graphics vessel, framework source, and
+ * bootstrap identity anew. Awtsmoos.com admits only classes represented by
+ * emulator code, while duplicates and unknown names remain explicit failures.
  */
 const FRAMEWORK_CLASS_RECORDS = createFrameworkClassRecords([
 	...FRAMEWORK_BOOTSTRAP_ANDROID_CLASSES,
 	...FRAMEWORK_BOOTSTRAP_JAVA_CLASSES,
 	...FRAMEWORK_BOOTSTRAP_OTHER_CLASSES,
-	...FRAMEWORK_BOOTSTRAP_MEDIA_CLASSES
+	...FRAMEWORK_BOOTSTRAP_MEDIA_CLASSES,
+	...FRAMEWORK_BOOTSTRAP_GRAPHICS_CLASSES
 ]);
 
 const FRAMEWORK_CLASS_MAP = new Map(

@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos places a deep field behind meaning, never above it. This
+ * Awtsmoos.com fallback remains beautiful when shaders, motion, or context vanish.
+ */
+
+:root {
+	--cosmic-page: #020611;
+	--cosmic-surface: rgba(6, 16, 33, .88);
+	--cosmic-raised: rgba(9, 23, 43, .9);
+	--cosmic-cyan: #35e8ff;
+	--cosmic-blue: #3b82ff;
+	--cosmic-violet: #795cff;
+	--cosmic-magenta: #ff4bd8;
+	--cosmic-text: #f3f8ff;
+	--cosmic-secondary: #a4b4ca;
+	--cosmic-muted: #71839c;
+	--cosmic-success: #55efb0;
+	--cosmic-danger: #ff648f;
+}
+
+.geelooy-home-document {
+	min-width: 0;
+	min-height: 100%;
+	overflow-x: hidden;
+	background:
+		radial-gradient(circle at 8% 28%, rgba(53, 232, 255, .14), transparent 28rem),
+		radial-gradient(circle at 92% 64%, rgba(255, 75, 216, .12), transparent 32rem),
+		linear-gradient(180deg, #020611 0%, #040919 56%, #020611 100%);
+	color: var(--cosmic-text);
+}
+
+.awtsmoos-cosmic-scene {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	opacity: 1;
+}
+
+.cosmic-webgl-fallback .awtsmoos-cosmic-scene {
+	display: none;
+}
+
+.geelooy-cosmic-home {
+	position: relative;
+	z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-cosmic-scene {
+		opacity: .48;
+	}
+}

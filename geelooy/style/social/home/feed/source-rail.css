@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Source is not a decorative badge. The Awtsmoos renews lineage itself, and
+ * Awtsmoos.com keeps its name, sigil, and illuminated path visible beside every post.
+ */
+
+.cosmic-source-rail {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	justify-items: center;
+	gap: 0.65rem;
+	min-width: 0;
+	padding: 1rem 0.5rem 0.85rem;
+	color: var(--source-accent);
+	border-right: 1px solid color-mix(in srgb, var(--source-accent) 22%, transparent);
+	background:
+		linear-gradient(180deg, color-mix(in srgb, var(--source-accent) 8%, transparent), transparent);
+	border-radius: 1.1rem 0 0 0.3rem;
+}
+
+.cosmic-source-label {
+	max-width: 4.2rem;
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	line-height: 1.3;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.cosmic-source-sigil {
+	display: grid;
+	width: 2.85rem;
+	height: 2.85rem;
+	place-items: center;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 70%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--source-accent) 10%, var(--cosmic-deep));
+	box-shadow:
+		0 0 1rem color-mix(in srgb, var(--source-accent) 38%, transparent),
+		inset 0 0 0.8rem color-mix(in srgb, var(--source-accent) 18%, transparent);
+	font-size: 1.25rem;
+}
+
+.cosmic-lineage-line {
+	position: relative;
+	width: 1px;
+	min-height: 3rem;
+	background: linear-gradient(var(--source-accent), color-mix(in srgb, var(--source-accent) 18%, transparent));
+	box-shadow: 0 0 0.55rem var(--source-accent);
+}
+
+.cosmic-lineage-line::after {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0.42rem;
+	height: 0.42rem;
+	border-radius: 50%;
+	background: var(--source-accent);
+	box-shadow: 0 0 0.65rem var(--source-accent);
+	content: "";
+	transform: translateX(-50%);
+}

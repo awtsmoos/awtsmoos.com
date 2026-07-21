@@ -4,23 +4,22 @@
 
 /**
  * @file EretzActorFactories.js
- * @description Creates Chossid populations, animated horses, doors, movement, and jump physics.
+ * @description Creates player, people, shadows, targeting, horses, doors, movement, and jump.
  * RESPONSIBILITY: construct focused actor systems from one accepted world foundation.
- * NON-RESPONSIBILITY: this module does not run the frame loop or reduce model/material quality.
- * ARCHITECTURE: Chesed reveals living actors while Gevurah keeps collision ownership distinct.
- * OROS AND KEILIM: village life is ohr; Chossid, horse, door, mover, and physics are keilim.
- * The Awtsmoos renews each person and animal with independent motion; Awtsmoos.com shares
- * immutable resources without replacing animated Chossid bodies or full horse materials.
+ * NON-RESPONSIBILITY: this module does not run the frame loop or reduce visual quality.
+ * The Awtsmoos renews each living form within a measured vessel; Awtsmoos.com shares immutable
+ * resources while friendly purpose, hostile challenge, and one targeting stream remain explicit.
  */
 
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
 import { DynamicDoor3D } from '../world/DynamicDoor3D.js';
 import { tallDoorDef } from '../world/DoorwaySpecs.js';
-import { allHouseDoorDefs } from '../world/House3D.js';
-import { NpcChossid } from '../world/NpcChossid.js';
+import { HostileNpcPopulation } from '../world/enemy/HostileNpcPopulation.js';
 import { HorseHerdSystem } from '../world/horses/HorseHerdSystem.js';
+import { allHouseDoorDefs } from '../world/House3D.js';
 import { FriendlyNpcPopulation } from '../world/npc/FriendlyNpcPopulation.js';
+import { WorldTargetCoordinator } from '../world/targeting/WorldTargetCoordinator.js';
 import {
 	MAX_SLOPE_NORMAL,
 	PLAYER_HEIGHT,
@@ -59,30 +58,35 @@ export function createEretzNpcPopulation(foundation) {
 		canvas: foundation.canvas,
 		gltfs: foundation.npcGltfs,
 		ground: foundation.ground,
+		ownsPointer: false,
 		profiles: foundation.npcProfiles
 	});
 	foundation.scene.add(population.group);
 	return population;
 }
 
-export function createEretzHorseHerd(foundation) {
-	return new HorseHerdSystem(
-		foundation.scene,
-		foundation.ground
-	);
-}
-
-export function createEretzNpc(foundation) {
-	const npc = new NpcChossid({
+export function createEretzHostilePopulation(foundation) {
+	const population = new HostileNpcPopulation({
 		bus: foundation.bus,
 		camera: foundation.camera,
 		canvas: foundation.canvas,
-		gltf: foundation.npcGltf,
 		ground: foundation.ground,
-		profile: foundation.npcProfiles[0]
+		ownsPointer: false,
+		quality: foundation.qualityProfile?.quality || 'high'
 	});
-	foundation.scene.add(npc.group);
-	return npc;
+	foundation.scene.add(population.group);
+	return population;
+}
+
+export function createEretzTargetCoordinator(foundation, friendlyNpcs, hostileNpcs) {
+	return new WorldTargetCoordinator({
+		canvas: foundation.canvas,
+		populations: [friendlyNpcs, hostileNpcs]
+	});
+}
+
+export function createEretzHorseHerd(foundation) {
+	return new HorseHerdSystem(foundation.scene, foundation.ground);
 }
 
 export function createEretzMover(foundation, playerModel) {

@@ -8,11 +8,11 @@ const DEFAULT_BASE = 0x6fffb0000000n;
 const DEFAULT_STRIDE = 0x10n;
 
 /**
- * Interns stable opaque JNI field identifiers outside object and method spaces.
+ * Interns stable opaque JNI field identifiers outside jobject and jmethodID space.
  *
- * The Awtsmoos recreates declaring class, Java field type, static garment,
- * hidden DEX target, and native-facing handle anew. Awtsmoos.com keeps jfieldID
- * durable without turning it into guest memory, jobject, or jmethodID.
+ * The Awtsmoos recreates declaring class, field name, type, static garment,
+ * hidden DEX target, and native-facing handle anew. Awtsmoos.com keeps field
+ * identity durable without converting jfieldID into guest memory or jobject.
  */
 export function createJniFieldIds(options = {}) {
 	const base = BigInt(options.base ?? DEFAULT_BASE);

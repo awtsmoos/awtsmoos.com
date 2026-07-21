@@ -10,29 +10,37 @@ import {
 	createPreferenceState,
 	snapshotPreferenceState
 } from "./preferenceState.js";
+import {
+	createAndroidRuntimeNetwork,
+	snapshotAndroidRuntimeNetwork
+} from "./runtimeNetwork.js";
 import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates content, resources, hierarchy, network, static fields, files, graphics,
- * heap, and logs anew; Awtsmoos.com keeps every host capability explicit.
+ * creates content, network testimony, native bridge, files, graphics, heap, and
+ * logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
+	const network = createAndroidRuntimeNetwork(options);
 	const runtime = {
 		assetManager: null,
 		content: createPackageContent(packageSet, options),
 		contentView: null,
 		filesystem: createAndroidFilesystem(packageSet.packageName, options),
+		flutterNativeCallEvidence: [],
+		flutterNativeSessionPromise: null,
 		graphics: createAndroidGraphicsTrace(options),
 		heap,
 		identity,
 		logcat: createAndroidLogcat(options),
-		maximumNetworkResponseBytes: networkLimit(options.maximumNetworkResponseBytes),
-		networkBroker: options.networkBroker || null,
+		maximumNetworkResponseBytes: network.maximumResponseBytes,
+		networkBroker: network.broker,
+		networkTrace: network.trace,
 		packageSet,
 		preferences: createPreferenceState(options),
-		processId: processIdentifier(options.processId),
+		processId: network.processId,
 		registry: options.registry || null,
 		renderers: [],
 		resources: options.resources || null,
@@ -58,7 +66,7 @@ export async function synchronizeAndroidFilesystem(runtime, options = {}) {
 
 /**
  * Freezes measured launch testimony while naming unsupported seas. A spark of
- * executed Dalvik is never exaggerated into complete Android compatibility.
+ * executed Dalvik or ARM64 is never exaggerated into complete Android support.
  */
 export function createAndroidLaunchReport(input) {
 	const {
@@ -74,13 +82,18 @@ export function createAndroidLaunchReport(input) {
 	return Object.freeze({
 		activity,
 		content: runtime.content.snapshot(),
-		executionClass: "dalvik-subset-execution",
+		executionClass: "dalvik-and-native-subset-execution",
 		filesystem: runtime.filesystem.snapshot(),
 		filesystemSynchronized,
 		framework: framework.snapshot(),
 		identity: runtime.identity,
 		lifecycle,
 		mode: "virtual-android-subset",
+		native: Object.freeze({
+			flutterCalls: Object.freeze([...runtime.flutterNativeCallEvidence]),
+			sessionInitialized: Boolean(runtime.flutterNativeSessionPromise)
+		}),
+		network: snapshotAndroidRuntimeNetwork(runtime),
 		packageSet: Object.freeze({
 			artifactCount: runtime.packageSet.records.length,
 			dexSources,
@@ -93,21 +106,6 @@ export function createAndroidLaunchReport(input) {
 		rendering,
 		resources: runtime.resources?.snapshot() || null,
 		vm: executor.snapshot(),
-		unsupportedBoundary: "Complete ART, Binder, native ARM64/Dart AOT execution, complete databases and java.io, services, cookies, caching, audio, sensors, and full graphics remain unsupported."
+		unsupportedBoundary: "Complete ART, Binder, Dart AOT, databases, java.io, services, cookies, caching, audio, sensors, and full graphics remain unsupported."
 	});
-}
-
-function networkLimit(value) {
-	const limit = Number(value ?? 8 * 1024 * 1024);
-	if (!Number.isInteger(limit) || limit < 0) {
-		const error = new Error(`ANDROID_NETWORK_LIMIT_INVALID:${value}`);
-		error.code = "ANDROID_NETWORK_LIMIT_INVALID";
-		throw error;
-	}
-	return limit;
-}
-
-function processIdentifier(value) {
-	const identifier = String(value ?? "").trim();
-	return identifier || null;
 }

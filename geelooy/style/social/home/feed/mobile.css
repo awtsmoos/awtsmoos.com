@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * On the narrowest vessels the Awtsmoos preserves lineage without clipping
+ * meaning. Awtsmoos.com keeps every control reachable at three hundred twenty pixels.
+ */
+
+@media (max-width: 34rem) {
+	.geelooy-home-document .home-dashboard-page,
+	.geelooy-home-document [data-home-dashboard-page] {
+		max-width: 100vw;
+		padding-inline: 0.4rem;
+		overflow-x: clip;
+	}
+
+	.cosmic-post-card {
+		grid-template-columns: 3.35rem minmax(0, 1fr);
+		border-radius: 0.8rem 0.8rem 0.8rem 0.2rem;
+	}
+
+	.cosmic-post-shell {
+		padding: 0.8rem 0.65rem 0.85rem 0;
+	}
+
+	.cosmic-source-rail {
+		padding-inline: 0.25rem;
+	}
+
+	.cosmic-source-label {
+		max-width: 2.9rem;
+		word-break: normal;
+	}
+
+	.cosmic-source-sigil {
+		width: 2.25rem;
+		height: 2.25rem;
+	}
+
+	.cosmic-avatar {
+		width: 2.55rem;
+		height: 2.55rem;
+	}
+
+	.cosmic-action-label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	.cosmic-action {
+		flex: 1 1 2.8rem;
+		padding-inline: 0.55rem;
+	}
+
+	.cosmic-overflow-trigger {
+		flex: 0 0 2.8rem;
+		margin-left: 0;
+	}
+
+	.cosmic-poll-copy {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.cosmic-poll-track {
+		grid-column: 1 / -1;
+	}
+
+	.cosmic-expert-responses,
+	.cosmic-graph-canvas {
+		grid-template-columns: 1fr;
+	}
+
+	.cosmic-graph-canvas::before {
+		top: 6%;
+		bottom: 6%;
+		left: 50%;
+		width: 1px;
+		height: auto;
+	}
+
+	.cosmic-volume-control {
+		flex: 1 1 100%;
+	}
+
+	.cosmic-feed-heading {
+		align-items: flex-start;
+	}
+
+	.cosmic-feed-heading .civilization-button {
+		width: 100%;
+	}
+}

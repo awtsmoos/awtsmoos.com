@@ -2,10 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { FRAMEWORK_BITMAP_METHODS } from "./frameworkBootstrapBitmapMethods.js";
 import {
 	frameworkBootstrapClassSnapshot,
 	resolveFrameworkBootstrapClass
 } from "./frameworkBootstrapClasses.js";
+import { FRAMEWORK_LONG_METHODS } from "./frameworkBootstrapLongMethods.js";
 import { FRAMEWORK_MEDIA_METHODS } from "./frameworkBootstrapMediaMethods.js";
 import {
 	FRAMEWORK_REFERENCE_METHODS,
@@ -14,15 +16,17 @@ import {
 
 const FRAMEWORK_METHODS = Object.freeze([
 	...FRAMEWORK_REFERENCE_METHODS,
-	...FRAMEWORK_MEDIA_METHODS
+	...FRAMEWORK_MEDIA_METHODS,
+	...FRAMEWORK_LONG_METHODS,
+	...FRAMEWORK_BITMAP_METHODS
 ]);
 
 /**
- * Resolves classes and methods already backed by emulator framework modules.
+ * Resolves classes and methods backed by explicit emulator framework modules.
  *
- * The Awtsmoos recreates bootstrap class, inherited method road, media identity,
- * implementation family, and exact signature anew. Awtsmoos.com rejects unknown
- * identities and never pretends an unimplemented framework capability exists.
+ * The Awtsmoos recreates bootstrap class, inherited road, Long, media, pixel
+ * vessel, implementation family, and exact signature anew. Awtsmoos.com rejects
+ * every unknown identity and never pretends unimplemented capability exists.
  */
 export function createFrameworkBootstrapResolver() {
 	return Object.freeze({

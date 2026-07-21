@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-vertex-arrays.test.mjs
- * @description Proves exact VAO creation, reuse, fallbacks, invalidation, and absence.
- * The Awtsmoos rests no truth on an extension alone; Awtsmoos.com verifies both the
- * resident doorway and the ordinary path through which the same full geometry may pass.
+ * @description Proves exact VAO creation, switching, fallback constants, and bounded invalidation.
+ * The Awtsmoos rests no truth on an extension alone; Awtsmoos.com verifies resident and manual
+ * doorways while ordinary VAO switches never erase the preserved default-array state.
  */
 
 import assert from 'node:assert/strict';
@@ -15,6 +15,7 @@ import { RenderVertexArrays } from '../tiny-render-vertex-arrays.js';
 const ledger = {
 	binds: [],
 	constants: [],
+	creates: 0,
 	deletes: [],
 	invalidations: 0
 };
@@ -23,7 +24,8 @@ const extension = {
 		ledger.binds.push(vertexArray);
 	},
 	createVertexArrayOES() {
-		return { id: 'vao-1' };
+		ledger.creates += 1;
+		return { id: `vao-${ledger.creates}` };
 	},
 	deleteVertexArrayOES(vertexArray) {
 		ledger.deletes.push(vertexArray);
@@ -38,7 +40,8 @@ const cache = {
 const vertexArrays = new RenderVertexArrays(gl, cache);
 const stats = {};
 vertexArrays.beginFrame(stats);
-const resource = createResource();
+const first = createResource('first');
+const second = createResource('second');
 const locations = {
 	position: 0,
 	normal: 1,
@@ -48,36 +51,32 @@ const locations = {
 	weights: 5
 };
 
-assert.equal(vertexArrays.bind(resource, locations, false), true);
-assert.equal(vertexArrays.bind(resource, locations, false), true);
+assert.equal(vertexArrays.bind(first, locations, false), true);
+assert.equal(vertexArrays.bind(first, locations, false), true);
+assert.equal(vertexArrays.bind(second, locations, false), true);
+assert.equal(vertexArrays.bind(first, locations, false), true);
 assert.equal(stats.vertexArrays.supported, true);
-assert.equal(stats.vertexArrays.creations, 1);
-assert.equal(stats.vertexArrays.binds, 1);
+assert.equal(stats.vertexArrays.creations, 2);
+assert.equal(stats.vertexArrays.binds, 3);
 assert.equal(stats.vertexArrays.skips, 1);
 assert.equal(stats.vertexArrays.fallbackUploads, 5);
-assert.equal(stats.vertexArrays.fallbackSkips, 5);
-assert.equal(ledger.binds.length, 3);
+assert.equal(stats.vertexArrays.fallbackSkips, 15);
+assert.equal(stats.vertexArrays.invalidations, 2);
+assert.equal(ledger.invalidations, 2);
+assert.equal(ledger.binds.length, 8);
 assert.equal(ledger.constants.length, 5);
-assert.equal(ledger.invalidations, 3);
 
 assert.equal(vertexArrays.releaseToDefault(), true);
-assert.equal(ledger.binds.length, 4);
-assert.equal(ledger.invalidations, 4);
+assert.equal(ledger.binds.length, 9);
+assert.equal(ledger.invalidations, 2);
 vertexArrays.dispose();
-assert.equal(ledger.deletes.length, 1);
+assert.equal(ledger.deletes.length, 2);
 
 const unsupportedStats = {};
 const unsupported = new RenderVertexArrays(createFakeGl(null, ledger), cache);
 unsupported.beginFrame(unsupportedStats);
-assert.equal(unsupported.bind(resource, locations, false), false);
+assert.equal(unsupported.bind(first, locations, false), false);
 assert.equal(unsupportedStats.vertexArrays.supported, false);
-
-console.log(JSON.stringify({
-	ok: true,
-	binds: ledger.binds.length,
-	constants: ledger.constants.length,
-	invalidations: ledger.invalidations
-}, null, 2));
 
 function createFakeGl(extensionValue, calls) {
 	return {
@@ -97,7 +96,7 @@ function createFakeGl(extensionValue, calls) {
 	};
 }
 
-function createResource() {
+function createResource(id) {
 	return {
 		attributes: {
 			position: {
@@ -106,7 +105,7 @@ function createResource() {
 					itemSize: 3,
 					normalized: false
 				},
-				buffer: { id: 'position' }
+				buffer: { id: `position-${id}` }
 			},
 			normal: null,
 			color: null,
@@ -114,6 +113,6 @@ function createResource() {
 			joints: null,
 			weights: null
 		},
-		index: { id: 'index' }
+		index: { id: `index-${id}` }
 	};
 }

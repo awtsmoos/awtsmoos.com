@@ -2,9 +2,9 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Mail, profile, search, and menu portals render in their final dark state.
- * Awtsmoos.com header actions never animate from browser gray, rotate under a
- * pointer, or depend on undefined glow and gradient tokens.
+ * Search, Mail, profile, and constellation become jeweled instruments instead
+ * of plain links. The Awtsmoos lets the active name shine in the Awtsmoos.com
+ * crown while every focus ring remains unmistakable.
  */
 
 .g-header-actions {
@@ -22,23 +22,22 @@
 	min-block-size: 46px;
 	place-items: center;
 	padding: 0;
-	border: 1px solid rgba(255, 255, 255, .16);
-	border-radius: .9rem;
-	background-color: #172333;
-	background-image: none;
-	box-shadow: none;
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: .95rem .55rem .95rem .55rem;
+	background: linear-gradient(145deg, #17294a, #080f20 70%);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 10px 28px rgba(0, 0, 0, .36);
 	color: var(--g-text, #f5f7fb);
 	font-size: 1.08rem;
+	text-decoration: none;
 	cursor: pointer;
-	transition: none !important;
 }
 
 .g-header-action:is(:hover, :focus-visible),
 .g-header-action[aria-current="page"] {
-	border-color: rgba(88, 199, 216, .62);
-	background-color: #1c2b3d;
-	color: #aef0f7;
-	box-shadow: 0 0 0 3px rgba(88, 199, 216, .15);
+	border-color: rgba(60, 236, 255, .72);
+	background: linear-gradient(145deg, #1d355e, #11132c);
+	color: #c9fbff;
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .14), 0 0 28px rgba(139, 92, 255, .25);
 }
 
 .g-header-action:focus-visible {
@@ -53,6 +52,20 @@
 .g-header-profile {
 	position: relative;
 	z-index: 4;
+	min-inline-size: 10rem;
+}
+
+.g-header-profile .profile-trigger {
+	inline-size: 100%;
+	min-block-size: 46px;
+	border-color: rgba(60, 236, 255, .48);
+	background: linear-gradient(125deg, rgba(60, 236, 255, .16), rgba(10, 19, 42, .98) 42%, rgba(255, 72, 203, .14));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 0 26px rgba(60, 236, 255, .12);
+}
+
+.g-header-profile .profile-trigger:hover {
+	border-color: rgba(255, 72, 203, .58);
+	box-shadow: 0 0 0 3px rgba(139, 92, 255, .13), 0 0 34px rgba(60, 236, 255, .2);
 }
 
 .g-mobile-search-button {

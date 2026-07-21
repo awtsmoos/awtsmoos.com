@@ -1,0 +1,617 @@
+{
+  "cheerful-orthodox-speaker": {
+    "headBox": {
+      "actual": {
+        "left": 282.8,
+        "right": 501.97,
+        "top": 55.24,
+        "bottom": 353.16
+      },
+      "target": {
+        "left": 279,
+        "top": 47,
+        "right": 505,
+        "bottom": 350
+      },
+      "edges": {
+        "left": 3.8,
+        "top": 8.24,
+        "right": -3.03,
+        "bottom": 3.16
+      },
+      "meanAbsoluteEdgeError": 4.56
+    },
+    "leftEye": {
+      "actual": {
+        "x": 380.56,
+        "y": 195.44
+      },
+      "target": {
+        "x": 386,
+        "y": 190
+      },
+      "dx": -5.44,
+      "dy": 5.44,
+      "distance": 7.69
+    },
+    "rightEye": {
+      "actual": {
+        "x": 460.21,
+        "y": 194.42
+      },
+      "target": {
+        "x": 444,
+        "y": 190
+      },
+      "dx": 16.21,
+      "dy": 4.42,
+      "distance": 16.8
+    },
+    "mouth": {
+      "actual": {
+        "x": 414.03,
+        "y": 274.33
+      },
+      "target": {
+        "x": 408,
+        "y": 280
+      },
+      "dx": 6.03,
+      "dy": -5.67,
+      "distance": 8.28
+    },
+    "leftShoulder": {
+      "actual": {
+        "x": 318.18,
+        "y": 310.84
+      },
+      "target": {
+        "x": 292,
+        "y": 327
+      },
+      "dx": 26.18,
+      "dy": -16.16,
+      "distance": 30.77
+    },
+    "rightShoulder": {
+      "actual": {
+        "x": 487.31,
+        "y": 310.79
+      },
+      "target": {
+        "x": 500,
+        "y": 327
+      },
+      "dx": -12.69,
+      "dy": -16.21,
+      "distance": 20.59
+    },
+    "leftHand": {
+      "actual": {
+        "x": 166,
+        "y": 387.64
+      },
+      "target": {
+        "x": 139,
+        "y": 397
+      },
+      "dx": 27,
+      "dy": -9.36,
+      "distance": 28.58
+    },
+    "rightHand": {
+      "actual": {
+        "x": 464.85,
+        "y": 435.78
+      },
+      "target": {
+        "x": 483,
+        "y": 438
+      },
+      "dx": -18.15,
+      "dy": -2.22,
+      "distance": 18.29
+    },
+    "waist": {
+      "actual": {
+        "x": 405.93,
+        "y": 552.4
+      },
+      "target": {
+        "x": 408,
+        "y": 552
+      },
+      "dx": -2.07,
+      "dy": 0.4,
+      "distance": 2.11
+    },
+    "leftKnee": {
+      "actual": {
+        "x": 353.86,
+        "y": 679.42
+      },
+      "target": {
+        "x": 355,
+        "y": 682
+      },
+      "dx": -1.14,
+      "dy": -2.58,
+      "distance": 2.82
+    },
+    "rightKnee": {
+      "actual": {
+        "x": 452.19,
+        "y": 679.42
+      },
+      "target": {
+        "x": 456,
+        "y": 682
+      },
+      "dx": -3.81,
+      "dy": -2.58,
+      "distance": 4.6
+    },
+    "leftAnkle": {
+      "actual": {
+        "x": 353.86,
+        "y": 764.1
+      },
+      "target": {
+        "x": 352,
+        "y": 778
+      },
+      "dx": 1.86,
+      "dy": -13.9,
+      "distance": 14.02
+    },
+    "rightAnkle": {
+      "actual": {
+        "x": 452.19,
+        "y": 764.1
+      },
+      "target": {
+        "x": 451,
+        "y": 778
+      },
+      "dx": 1.19,
+      "dy": -13.9,
+      "distance": 13.95
+    },
+    "leftFoot": {
+      "actual": {
+        "x": 353.86,
+        "y": 786.54
+      },
+      "target": {
+        "x": 351,
+        "y": 803
+      },
+      "dx": 2.86,
+      "dy": -16.46,
+      "distance": 16.71
+    },
+    "rightFoot": {
+      "actual": {
+        "x": 452.19,
+        "y": 786.51
+      },
+      "target": {
+        "x": 459,
+        "y": 803
+      },
+      "dx": -6.81,
+      "dy": -16.49,
+      "distance": 17.84
+    }
+  },
+  "skeptical-orthodox-observer": {
+    "headBox": {
+      "actual": {
+        "left": 691.9,
+        "right": 899.31,
+        "top": 67.96,
+        "bottom": 376.17
+      },
+      "target": {
+        "left": 690,
+        "top": 60,
+        "right": 915,
+        "bottom": 345
+      },
+      "edges": {
+        "left": 1.9,
+        "top": 7.96,
+        "right": -15.69,
+        "bottom": 31.17
+      },
+      "meanAbsoluteEdgeError": 14.18
+    },
+    "leftEye": {
+      "actual": {
+        "x": 722.41,
+        "y": 227.73
+      },
+      "target": {
+        "x": 730,
+        "y": 209
+      },
+      "dx": -7.59,
+      "dy": 18.73,
+      "distance": 20.21
+    },
+    "rightEye": {
+      "actual": {
+        "x": 801.83,
+        "y": 227.97
+      },
+      "target": {
+        "x": 796,
+        "y": 215
+      },
+      "dx": 5.83,
+      "dy": 12.97,
+      "distance": 14.22
+    },
+    "mouth": {
+      "actual": {
+        "x": 762.11,
+        "y": 291.64
+      },
+      "target": {
+        "x": 760,
+        "y": 280
+      },
+      "dx": 2.11,
+      "dy": 11.64,
+      "distance": 11.83
+    },
+    "leftShoulder": {
+      "actual": {
+        "x": 673.8,
+        "y": 313.23
+      },
+      "target": {
+        "x": 672,
+        "y": 327
+      },
+      "dx": 1.8,
+      "dy": -13.77,
+      "distance": 13.89
+    },
+    "rightShoulder": {
+      "actual": {
+        "x": 856.6,
+        "y": 313.25
+      },
+      "target": {
+        "x": 858,
+        "y": 327
+      },
+      "dx": -1.4,
+      "dy": -13.75,
+      "distance": 13.82
+    },
+    "leftHand": {
+      "actual": {
+        "x": 815.15,
+        "y": 435.53
+      },
+      "target": {
+        "x": 831,
+        "y": 429
+      },
+      "dx": -15.85,
+      "dy": 6.53,
+      "distance": 17.14
+    },
+    "rightHand": {
+      "actual": {
+        "x": 721.36,
+        "y": 425.59
+      },
+      "target": {
+        "x": 748,
+        "y": 423
+      },
+      "dx": -26.64,
+      "dy": 2.59,
+      "distance": 26.77
+    },
+    "waist": {
+      "actual": {
+        "x": 770.79,
+        "y": 550.37
+      },
+      "target": {
+        "x": 773,
+        "y": 550
+      },
+      "dx": -2.21,
+      "dy": 0.37,
+      "distance": 2.24
+    },
+    "leftKnee": {
+      "actual": {
+        "x": 708.45,
+        "y": 670.16
+      },
+      "target": {
+        "x": 715,
+        "y": 680
+      },
+      "dx": -6.55,
+      "dy": -9.84,
+      "distance": 11.82
+    },
+    "rightKnee": {
+      "actual": {
+        "x": 820.62,
+        "y": 670.16
+      },
+      "target": {
+        "x": 831,
+        "y": 680
+      },
+      "dx": -10.38,
+      "dy": -9.84,
+      "distance": 14.3
+    },
+    "leftAnkle": {
+      "actual": {
+        "x": 708.45,
+        "y": 765.51
+      },
+      "target": {
+        "x": 707,
+        "y": 779
+      },
+      "dx": 1.45,
+      "dy": -13.49,
+      "distance": 13.57
+    },
+    "rightAnkle": {
+      "actual": {
+        "x": 820.62,
+        "y": 765.51
+      },
+      "target": {
+        "x": 835,
+        "y": 779
+      },
+      "dx": -14.38,
+      "dy": -13.49,
+      "distance": 19.72
+    },
+    "leftFoot": {
+      "actual": {
+        "x": 708.45,
+        "y": 785.06
+      },
+      "target": {
+        "x": 703,
+        "y": 804
+      },
+      "dx": 5.45,
+      "dy": -18.94,
+      "distance": 19.71
+    },
+    "rightFoot": {
+      "actual": {
+        "x": 820.62,
+        "y": 785.07
+      },
+      "target": {
+        "x": 829,
+        "y": 804
+      },
+      "dx": -8.38,
+      "dy": -18.93,
+      "distance": 20.7
+    }
+  },
+  "calm-orthodox-woman": {
+    "headBox": {
+      "actual": {
+        "left": 1106.02,
+        "right": 1301.45,
+        "top": 115.01,
+        "bottom": 328.81
+      },
+      "target": {
+        "left": 1080,
+        "top": 95,
+        "right": 1308,
+        "bottom": 340
+      },
+      "edges": {
+        "left": 26.02,
+        "top": 20.01,
+        "right": -6.55,
+        "bottom": -11.19
+      },
+      "meanAbsoluteEdgeError": 15.94
+    },
+    "leftEye": {
+      "actual": {
+        "x": 1163.44,
+        "y": 234.71
+      },
+      "target": {
+        "x": 1120,
+        "y": 229
+      },
+      "dx": 43.44,
+      "dy": 5.71,
+      "distance": 43.81
+    },
+    "rightEye": {
+      "actual": {
+        "x": 1239.05,
+        "y": 233.5
+      },
+      "target": {
+        "x": 1182,
+        "y": 233
+      },
+      "dx": 57.05,
+      "dy": 0.5,
+      "distance": 57.05
+    },
+    "mouth": {
+      "actual": {
+        "x": 1201.23,
+        "y": 299.69
+      },
+      "target": {
+        "x": 1158,
+        "y": 300
+      },
+      "dx": 43.23,
+      "dy": -0.31,
+      "distance": 43.23
+    },
+    "leftShoulder": {
+      "actual": {
+        "x": 1112.06,
+        "y": 339.62
+      },
+      "target": {
+        "x": 1088,
+        "y": 340
+      },
+      "dx": 24.06,
+      "dy": -0.38,
+      "distance": 24.06
+    },
+    "rightShoulder": {
+      "actual": {
+        "x": 1253.1,
+        "y": 341.94
+      },
+      "target": {
+        "x": 1230,
+        "y": 344
+      },
+      "dx": 23.1,
+      "dy": -2.06,
+      "distance": 23.19
+    },
+    "leftHand": {
+      "actual": {
+        "x": 1098.06,
+        "y": 551.97
+      },
+      "target": {
+        "x": 1107,
+        "y": 558
+      },
+      "dx": -8.94,
+      "dy": -6.03,
+      "distance": 10.78
+    },
+    "rightHand": {
+      "actual": {
+        "x": 1249.38,
+        "y": 553.15
+      },
+      "target": {
+        "x": 1243,
+        "y": 532
+      },
+      "dx": 6.38,
+      "dy": 21.15,
+      "distance": 22.09
+    },
+    "waist": {
+      "actual": {
+        "x": 1194.98,
+        "y": 525.3
+      },
+      "target": {
+        "x": 1167,
+        "y": 526
+      },
+      "dx": 27.98,
+      "dy": -0.7,
+      "distance": 27.99
+    },
+    "leftKnee": {
+      "actual": {
+        "x": 1138.57,
+        "y": 669.21
+      },
+      "target": {
+        "x": 1138,
+        "y": 674
+      },
+      "dx": 0.57,
+      "dy": -4.79,
+      "distance": 4.82
+    },
+    "rightKnee": {
+      "actual": {
+        "x": 1199.02,
+        "y": 669.21
+      },
+      "target": {
+        "x": 1191,
+        "y": 674
+      },
+      "dx": 8.02,
+      "dy": -4.79,
+      "distance": 9.34
+    },
+    "leftAnkle": {
+      "actual": {
+        "x": 1138.57,
+        "y": 773.65
+      },
+      "target": {
+        "x": 1131,
+        "y": 786
+      },
+      "dx": 7.57,
+      "dy": -12.35,
+      "distance": 14.49
+    },
+    "rightAnkle": {
+      "actual": {
+        "x": 1199.02,
+        "y": 773.65
+      },
+      "target": {
+        "x": 1197,
+        "y": 786
+      },
+      "dx": 2.02,
+      "dy": -12.35,
+      "distance": 12.51
+    },
+    "leftFoot": {
+      "actual": {
+        "x": 1138.57,
+        "y": 794.55
+      },
+      "target": {
+        "x": 1121,
+        "y": 806
+      },
+      "dx": 17.57,
+      "dy": -11.45,
+      "distance": 20.97
+    },
+    "rightFoot": {
+      "actual": {
+        "x": 1199.02,
+        "y": 794.54
+      },
+      "target": {
+        "x": 1195,
+        "y": 807
+      },
+      "dx": 4.02,
+      "dy": -12.46,
+      "distance": 13.09
+    }
+  }
+}

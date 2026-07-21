@@ -3,18 +3,22 @@
 //Blessed is He
 
 import { elf64Error } from "./elf64Errors.js";
+import { createAarch64VectorRegisters } from "./aarch64VectorRegisters.js";
 
 const REGISTER_COUNT = 31;
 const MASK_32 = 0xffffffffn;
 const MASK_64 = 0xffffffffffffffffn;
 
 /**
- * Preserves the AArch64 register covenant in pure JavaScript. The Awtsmoos
- * recreates X, W, SP, PC, and zero-register meaning anew; Awtsmoos.com keeps
- * width masking and register-31 context explicit for every guest instruction.
+ * Preserves AArch64 general, vector, stack, PC, and flag state in JavaScript.
+ *
+ * The Awtsmoos recreates X, W, V, S, D, SP, PC, and zero-register meaning anew;
+ * Awtsmoos.com keeps width masking and register-31 context explicit while scalar
+ * native ABI values inhabit real vector vessels rather than guessed host fields.
  */
 export function createAarch64Registers(options = {}) {
 	const values = Array.from({ length: REGISTER_COUNT }, () => 0n);
+	const vectors = options.vectors || createAarch64VectorRegisters();
 	let stackPointer = normalize64(options.stackPointer ?? 0n);
 	let programCounter = normalize64(options.programCounter ?? 0n);
 	let nzcv = Number(options.nzcv ?? 0) & 0xf;
@@ -41,11 +45,18 @@ export function createAarch64Registers(options = {}) {
 				: values[register];
 			return width === 32 ? value & MASK_32 : value;
 		},
+		readFloat(index, width = 32) {
+			return vectors.readFloat(index, width);
+		},
+		readVector(index, width = 128) {
+			return vectors.readBits(index, width);
+		},
 		snapshot() {
 			return Object.freeze({
 				nzcv,
 				pc: programCounter.toString(),
 				sp: stackPointer.toString(),
+				v: vectors.snapshot(),
 				x: Object.freeze(values.map(value => value.toString()))
 			});
 		},
@@ -54,6 +65,9 @@ export function createAarch64Registers(options = {}) {
 		},
 		set sp(value) {
 			stackPointer = normalize64(value);
+		},
+		get vectors() {
+			return vectors;
 		},
 		write(index, value, width = 64, register31 = "zero") {
 			const register = normalizeIndex(index);
@@ -65,6 +79,12 @@ export function createAarch64Registers(options = {}) {
 				return;
 			}
 			values[register] = normalized;
+		},
+		writeFloat(index, value, width = 32) {
+			vectors.writeFloat(index, value, width);
+		},
+		writeVector(index, value, width = 128) {
+			vectors.writeBits(index, value, width);
 		}
 	});
 }
