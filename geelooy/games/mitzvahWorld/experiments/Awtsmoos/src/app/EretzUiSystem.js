@@ -4,17 +4,12 @@
 
 /**
  * @file EretzUiSystem.js
- * @description Installs gameplay panels, dialogue, action controls, and camera perspective choice.
- * RESPONSIBILITY: compose visible UI systems and connect their events to runtime state.
- * NON-RESPONSIBILITY: this module does not render the 3D scene or define frame cadence.
- * ARCHITECTURE: Malchus reveals controls while Yesod carries their intent into the world.
- * OROS AND KEILIM: student choice is ohr; inventory, dialogue, and camera buttons are keilim.
- * The Awtsmoos renews every interface and viewpoint; Awtsmoos.com lets the student move freely
- * between third-person context and first-person immersion without confusing either with FPS.
+ * @description Composes visible panels, navigation controls, combat actions, and camera choice.
  */
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { ActionBar } from '../ui/ActionBar.js';
+import { ActionBarHud } from '../ui/ActionBarHud.js';
 import { CameraModeToggle } from '../ui/CameraModeToggle.js';
 import { nextCameraMode } from '../ui/CameraModePresentation.js';
 import { GameplayUiController } from '../ui/GameplayUiController.js';
@@ -24,6 +19,7 @@ import { createEquipment } from './EretzPlayerModel.js';
 
 export function createEretzUi(runtime, options = {}) {
 	const equipment = createEquipment(runtime.model);
+	const gameplayClock = options.clock || (() => performance.now());
 	const inventoryStore = options.inventoryStore || new InventoryStore();
 	const inventoryPanel = new InventoryPanel(
 		runtime.inventoryHost,
@@ -31,10 +27,14 @@ export function createEretzUi(runtime, options = {}) {
 		{ store: inventoryStore }
 	);
 	const gameplayUi = new GameplayUiController(runtime.bus, {
+		actionBarPersistence: options.actionBarPersistence,
+		actionBarPersistenceOptions: options.actionBarPersistenceOptions,
 		actions: options.gameplayActions,
 		adventures: options.adventures,
+		clock: gameplayClock,
 		inventory: inventoryStore,
 		inventoryPanel,
+		playerId: options.playerId,
 		profile: options.profile
 	});
 	const actionBar = new ActionBar(
@@ -42,6 +42,11 @@ export function createEretzUi(runtime, options = {}) {
 		runtime.bus,
 		runtime.state
 	);
+	const combatActionBar = new ActionBarHud(gameplayUi.actionBar, runtime.bus, {
+		clock: gameplayClock,
+		host: options.combatActionBarHost,
+		playerId: options.playerId
+	});
 	const npcHud = new NpcHud(
 		runtime.npcHost,
 		runtime.dialogueHost,
@@ -52,6 +57,7 @@ export function createEretzUi(runtime, options = {}) {
 	return Object.assign(runtime, {
 		actionBar,
 		cameraModeToggle,
+		combatActionBar,
 		equipment,
 		gameplayUi,
 		inventoryPanel,
@@ -73,9 +79,7 @@ function createCameraModeToggle(runtime, options) {
 function wireWorldEvents(runtime) {
 	runtime.bus.on('mode:toggle-run', () => {
 		runtime.state.runMode = !runtime.state.runMode;
-		runtime.bus.emit('mode:changed', {
-			runMode: runtime.state.runMode
-		});
+		runtime.bus.emit('mode:changed', { runMode: runtime.state.runMode });
 	});
 	runtime.bus.on('camera:toggle', () => {
 		const mode = nextCameraMode(runtime.orbit.mode);

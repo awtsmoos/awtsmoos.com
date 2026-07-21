@@ -57,7 +57,7 @@ export class CheerfulReferenceFaceIdentity {
 				width: 19.5,
 				thickness: 3.2,
 				arch: 4.2,
-				verticalOffset: -4.8,
+				verticalOffset: 5.5,
 				leftArch: 4.5,
 				rightArch: 4
 			},

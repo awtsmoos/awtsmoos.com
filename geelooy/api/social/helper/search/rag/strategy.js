@@ -5,13 +5,11 @@
 /**
  * @module LibrarySearchStrategy
  * @description
- * Strict RAG follows one road only: a real query embedding into a persisted HNSW
- * graph. Generic library search may choose text or explicit exact ranking, but no
- * fallback can borrow the name or provenance of indexed retrieval.
+ * Text search walks only the text road. Llama embeddings and persisted HNSW
+ * modules remain sealed until a vector request explicitly asks for them, so a
+ * lightweight query cannot pay the model-loading cost or stall unrelated APIs.
  */
 
-const { embedQuery } = require('./llama.js');
-const { searchShard } = require('./sourceSearch.js');
 const { textSearchShard } = require('./textSearch.js');
 const { timed } = require('./timer.js');
 
@@ -30,6 +28,8 @@ async function findSource(options) {
 }
 
 async function vectorSource(options) {
+	const { embedQuery } = require('./llama.js');
+	const { searchShard } = require('./sourceSearch.js');
 	const embedding = await timed(
 		'embeddingMs',
 		options.timings,

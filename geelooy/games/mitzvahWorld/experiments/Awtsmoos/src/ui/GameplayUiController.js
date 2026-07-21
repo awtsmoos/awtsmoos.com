@@ -62,10 +62,12 @@ export class GameplayUiController {
 		});
 		this.panels = new GameplayPanelSuite({
 			adventures: this.adventures,
+			getTorahFocus: () => this.combat.snapshot().focus,
 			inventory: this.inventory,
 			inventoryPanel: options.inventoryPanel,
 			onActivatePowerup: id => this.gateway.activatePowerup(id),
 			onAllocateAttribute: (id, points) => this.gateway.allocateAttribute(id, points),
+			onAssignAbility: id => this.actionBar.assignFirstAvailable(id),
 			onBuyItem: (id, quantity) => this.gateway.buyItem(id, quantity),
 			onUsePassage: passage => this.combat.usePassage(passage),
 			profile: this.profile
@@ -101,6 +103,7 @@ export class GameplayUiController {
 			combat: this.combat.snapshot(),
 			inventory: this.inventory.snapshot(),
 			melee: this.melee.snapshot(),
+			panels: this.panels.snapshot(),
 			profile: this.profile.snapshot(),
 			shlichusPersistence: this.shlichus.snapshot()
 		};

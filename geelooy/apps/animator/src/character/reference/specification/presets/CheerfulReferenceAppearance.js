@@ -6,8 +6,8 @@ import { CheerfulReferenceFaceIdentity } from './CheerfulReferenceFaceIdentity.j
 import { CheerfulReferenceHeadStyle } from './CheerfulReferenceHeadStyle.js';
 
 /**
- * Chesed joins Ari's round face, living crown, organic beard, and broad laugh.
- * The Awtsmoos renews each finite control, while Awtsmoos.com preserves a single
+ * Chesed joins Ari's round face, cheek-grown beard, and generous living laugh.
+ * The Awtsmoos renews each finite control, while Awtsmoos.com preserves one
  * editable, keyframeable, serializable production identity.
  */
 export class CheerfulReferenceAppearance {
@@ -16,39 +16,50 @@ export class CheerfulReferenceAppearance {
 			...CheerfulReferenceFaceIdentity.create(),
 			...CheerfulReferenceHeadStyle.create(),
 			mouthStyle: {
-				widthScale: 1.48,
-				heightScale: 1.42,
-				openScale: 1.05,
-				jawScale: 1.05,
-				cavityWidthScale: 0.95,
+				widthScale: 1.44,
+				heightScale: 1.38,
+				openScale: 1.08,
+				jawScale: 1.08,
+				cavityWidthScale: 0.98,
 				cavityHeightScale: 1,
-				smileBias: 0.68,
-				minimumOpen: 0.7,
-				minimumJaw: 0.62,
-				minimumTeeth: 0.82,
-				minimumTongue: 0.35,
-				lineWidth: 1.55,
+				smileBias: 0.72,
+				minimumOpen: 0.74,
+				minimumJaw: 0.7,
+				minimumTeeth: 0.86,
+				minimumTongue: 0.42,
+				lineWidth: 1.42,
 				horizontalOffset: -3,
-				verticalOffset: 11
+				verticalOffset: 9
 			},
 			beardGeometry: {
 				massStyle: 'continuous',
-				cheekScale: 0.62,
+				cheekScale: 0.63,
 				leftCheekScale: 1.04,
 				rightCheekScale: 0.96,
-				topOffset: 31,
-				mouthVerticalOffset: 6,
-				mouthClearance: 14.5,
-				openingHeight: 12.8,
-				moustacheHalf: 10,
-				moustacheWidth: 2.3,
+				topOffset: 12,
+				topInset: 0.8,
+				bridgeDrop: 24,
+				bridgeGap: 0.4,
+				bridgeValley: 2.8,
+				openingWidthScale: 0.96,
+				openingPaddingX: 1.6,
+				openingPaddingTop: 2,
+				openingPaddingBottom: 2.6,
+				openingRoundness: 0.86,
+				moustacheScale: 0.72,
+				moustacheLift: 1.5,
+				moustacheWidth: 3,
+				moustacheArch: 2.2,
+				moustacheDrop: 1.2,
+				moustacheGap: 0.8,
+				moustacheAsymmetry: 0.25,
 				lengthScale: 0.64,
-				chinWidth: 20,
+				chinWidth: 22,
 				chinOffsetX: -1.4,
-				taper: 0.82,
-				bottomRoundness: 1.1,
-				lineWidth: 1.55,
-				strandOpacity: 0.04
+				taper: 0.86,
+				bottomRoundness: 1.08,
+				lineWidth: 1.35,
+				strandOpacity: 0.035
 			}
 		};
 	}

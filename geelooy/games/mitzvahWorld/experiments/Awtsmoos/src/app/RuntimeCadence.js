@@ -5,12 +5,11 @@
 /**
  * @file RuntimeCadence.js
  * @description Schedules gameplay services and structured evidence below render frequency.
- * The Awtsmoos renews motion each frame while Awtsmoos.com keeps diagnostics, hydration,
- * village-life logs, interface, and streaming on named independently testable cadences.
  */
 
 const DEFAULT_INTERVALS = Object.freeze({
 	chunks: 100,
+	combatHud: 50,
 	diagnostics: 500,
 	houseVisibility: 125,
 	hud: 125,

@@ -5,9 +5,9 @@
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 
 /**
- * A skin aperture follows the exact production mouth instead of exposing a
- * static mechanism. The Awtsmoos reveals speech through concealment, while
- * Awtsmoos.com keeps the opening editable and phoneme-responsive.
+ * A cheek-colored aperture follows the speaking lips without becoming a mask.
+ * The Awtsmoos reveals voice within concealment, while Awtsmoos.com keeps the
+ * organic opening bound to the same editable and deterministic articulation.
  */
 export class StableBeardOpening2D {
 	static build(geometry, colors) {
@@ -17,15 +17,14 @@ export class StableBeardOpening2D {
 		const topY = geometry.openingTopY;
 		const bottomY = geometry.openingBottomY;
 		const roundness = geometry.openingRoundness;
-
 		return G.path('continuous_beard_face_opening', [
-			{ type: 'move', x: x - half, y: middleY },
+			{ type: 'move', x: x - half, y: middleY + 0.4 },
 			{
 				type: 'bezier',
 				c1x: x - half * roundness,
 				c1y: topY,
-				c2x: x + half * roundness,
-				c2y: topY,
+				c2x: x + half * roundness * 0.92,
+				c2y: topY - 0.3,
 				x: x + half,
 				y: middleY
 			},
@@ -33,10 +32,10 @@ export class StableBeardOpening2D {
 				type: 'bezier',
 				c1x: x + half * roundness,
 				c1y: bottomY,
-				c2x: x - half * roundness,
-				c2y: bottomY,
+				c2x: x - half * roundness * 0.94,
+				c2y: bottomY + 0.4,
 				x: x - half,
-				y: middleY
+				y: middleY + 0.4
 			},
 			{ type: 'close' }
 		], {
