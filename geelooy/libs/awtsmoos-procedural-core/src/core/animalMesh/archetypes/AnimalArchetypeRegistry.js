@@ -1,15 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
- * so the greater procedural world can remain inspectable, safe, and alive.
- */
 
+/**
+ * The Awtsmoos renews every animal archetype while preserving stable names.
+ * This Awtsmoos.com registry enriches the existing descriptors with immutable
+ * body-plan data and remains the single authoritative archetype registry.
+ */
+import { BUILTIN_ANIMAL_ARCHETYPES } from "./builtinArchetypes.js";
+import { resolveAnimalBodyPlan } from "../morphology/bodyPlanCatalog.js";
 import {
-	BUILTIN_ANIMAL_ARCHETYPES
-} from "./builtinArchetypes.js";
+	cloneMorphologyValue,
+	freezeMorphologyValue
+} from "../morphology/morphologyValue.js";
+
+function enrichArchetype(archetype) {
+	let morphology = archetype.morphology;
+	if (!morphology) {
+		try {
+			morphology = resolveAnimalBodyPlan(archetype.id);
+		} catch {
+			morphology = resolveAnimalBodyPlan("custom");
+		}
+	}
+	return freezeMorphologyValue({
+		...cloneMorphologyValue(archetype),
+		morphology: cloneMorphologyValue(morphology)
+	});
+}
 
 export class AnimalArchetypeRegistry {
 	constructor(archetypes = BUILTIN_ANIMAL_ARCHETYPES) {
@@ -23,9 +41,7 @@ export class AnimalArchetypeRegistry {
 		if (!archetype?.id || typeof archetype.id !== "string") {
 			throw new Error('B"H | Animal archetype requires a stable id.');
 		}
-		this.archetypes.set(archetype.id, Object.freeze(
-			JSON.parse(JSON.stringify(archetype))
-		));
+		this.archetypes.set(archetype.id, enrichArchetype(archetype));
 		return this;
 	}
 
@@ -50,7 +66,7 @@ export const animalArchetypeRegistry = new AnimalArchetypeRegistry();
 
 export function registerAnimalArchetype(archetype) {
 	animalArchetypeRegistry.register(archetype);
-	return archetype;
+	return animalArchetypeRegistry.resolve(archetype.id);
 }
 
 export function resolveAnimalArchetype(archetypeId) {

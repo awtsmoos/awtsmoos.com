@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives every real card a semantic source rail and luminous shell. */
+
+.heichel-os-document .nav-card {
+	--source-accent: var(--heichel-cosmic-cyan-core);
+	position: relative;
+	display: grid !important;
+	grid-template-columns: 4.35rem minmax(0, 1fr) auto !important;
+	gap: .7rem !important;
+	align-items: center;
+	min-width: 0;
+	min-height: 8.3rem;
+	padding: 2.05rem .7rem .7rem !important;
+	overflow: hidden;
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 58%, transparent) !important;
+	border-radius: .78rem !important;
+	background: linear-gradient(105deg, color-mix(in srgb, var(--source-accent) 9%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 68%, var(--heichel-cosmic-deep)) !important;
+	box-shadow: 0 .85rem 2.2rem rgba(0, 0, 0, .42), 0 0 1.2rem color-mix(in srgb, var(--source-accent) 13%, transparent) !important;
+	clip-path: polygon(0 0, calc(100% - .7rem) 0, 100% .7rem, 100% 100%, .55rem 100%, 0 calc(100% - .55rem));
+	contain: layout paint style;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 9rem;
+}
+
+.heichel-os-document .nav-card[data-source-type="audio"] {
+	--source-accent: var(--heichel-cosmic-magenta-core);
+}
+
+.heichel-os-document .nav-card[data-source-type="question"] {
+	--source-accent: var(--heichel-cosmic-aqua);
+}
+
+.heichel-os-document .nav-card[data-source-type="graph"] {
+	--source-accent: var(--heichel-cosmic-violet-core);
+}
+
+.heichel-os-document .nav-card::before {
+	position: absolute;
+	top: .52rem;
+	left: .72rem;
+	color: var(--source-accent);
+	font-size: .58rem;
+	font-weight: 950;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+	content: "Source teaching";
+}
+
+.heichel-os-document .nav-card[data-source-type="audio"]::before {
+	content: "Audio teaching";
+}
+
+.heichel-os-document .nav-card[data-source-type="question"]::before {
+	content: "Open question";
+}
+
+.heichel-os-document .nav-card[data-source-type="graph"]::before {
+	content: "Source graph";
+}
+
+.heichel-os-document .nav-card::after {
+	position: absolute;
+	top: 1.7rem;
+	bottom: .72rem;
+	left: 2.45rem;
+	width: 1px;
+	background: linear-gradient(var(--source-accent), transparent 94%);
+	box-shadow: 0 0 .75rem var(--source-accent);
+	content: "";
+	pointer-events: none;
+}
+
+.heichel-os-document .nav-card:hover,
+.heichel-os-document .nav-card:focus-within {
+	border-color: var(--source-accent) !important;
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .48), 0 0 2rem color-mix(in srgb, var(--source-accent) 28%, transparent) !important;
+	transform: translateY(-1px);
+}
+
+.heichel-os-document .nav-card-media {
+	position: relative;
+	z-index: 1;
+	display: grid !important;
+	grid-column: 1;
+	width: 3.25rem !important;
+	height: 3.25rem !important;
+	place-items: center;
+	margin: 0 !important;
+	border: 1px solid var(--source-accent) !important;
+	border-radius: 50% !important;
+	background: radial-gradient(circle, color-mix(in srgb, var(--source-accent) 24%, var(--heichel-cosmic-panel)), var(--heichel-cosmic-void) 72%) !important;
+	box-shadow: 0 0 1rem color-mix(in srgb, var(--source-accent) 42%, transparent) !important;
+}
+
+.heichel-os-document .nav-card-media span {
+	color: var(--heichel-cosmic-text) !important;
+	font-size: 1rem;
+	font-weight: 900;
+}

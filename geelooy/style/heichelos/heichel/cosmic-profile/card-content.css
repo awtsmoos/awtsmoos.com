@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives every semantic shell a readable title, body, and source metadata. */
+
+.heichel-os-document .nav-card-body {
+	grid-column: 2;
+	min-width: 0;
+}
+
+.heichel-os-document .nav-card-title-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: .45rem;
+}
+
+.heichel-os-document .nav-card-title-row h2 {
+	margin: 0 !important;
+	color: var(--heichel-cosmic-text) !important;
+	font-size: clamp(.98rem, 1.8vw, 1.22rem) !important;
+	line-height: 1.2 !important;
+}
+
+.heichel-os-document .nav-card-chevron {
+	color: var(--source-accent) !important;
+	font-size: 1.25rem;
+}
+
+.heichel-os-document .nav-card-body > p {
+	margin: .38rem 0 !important;
+	color: var(--heichel-cosmic-secondary) !important;
+	font-size: .79rem !important;
+	line-height: 1.45 !important;
+}
+
+.heichel-os-document .nav-card-meta {
+	display: flex !important;
+	flex-wrap: wrap;
+	gap: .32rem !important;
+	margin: .45rem 0 0 !important;
+}
+
+.heichel-os-document .nav-card-meta span {
+	padding: .18rem .45rem;
+	color: color-mix(in srgb, var(--source-accent) 72%, var(--heichel-cosmic-text)) !important;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 28%, transparent);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--source-accent) 7%, transparent);
+	font-size: .62rem;
+}
+
+.heichel-os-document .nav-card-actions {
+	position: relative;
+	z-index: 2;
+	grid-column: 3;
+	align-self: start;
+}
+
+.heichel-os-document .card-menu-trigger,
+.heichel-os-document .series-expand-toggle {
+	width: 2rem !important;
+	height: 2rem !important;
+	color: var(--heichel-cosmic-secondary) !important;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 24%, transparent) !important;
+	border-radius: 50% !important;
+	background: rgba(4, 12, 28, .8) !important;
+}
+
+.heichel-os-document .card-menu-panel {
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 32%, transparent) !important;
+	background: var(--heichel-cosmic-void) !important;
+}
+
+.heichel-os-document .card-menu-action {
+	color: var(--heichel-cosmic-text) !important;
+	background: var(--heichel-cosmic-raised) !important;
+}
+
+.heichel-os-document .series-children-well {
+	grid-column: 1 / -1;
+	margin-top: .45rem;
+	padding-left: .55rem;
+	border-left: 1px solid color-mix(in srgb, var(--source-accent) 36%, transparent);
+}
+
+.heichel-os-document .series-branch-loading,
+.heichel-os-document .series-branch-empty,
+.heichel-os-document .series-branch-error {
+	color: var(--heichel-cosmic-secondary) !important;
+}

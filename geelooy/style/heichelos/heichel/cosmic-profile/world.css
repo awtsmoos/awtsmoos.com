@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos keeps the deep district console below the public profile feed. */
+
+.heichel-os-document .heichel-os-world-panel {
+	display: grid;
+	gap: .65rem;
+	margin-top: .75rem;
+	padding: .8rem;
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid rgba(163, 90, 255, .28) !important;
+	border-radius: var(--heichel-cosmic-radius) !important;
+	background: rgba(4, 12, 28, .78) !important;
+	box-shadow: var(--heichel-cosmic-shadow) !important;
+}
+
+.heichel-os-document .heichel-os-district-dock {
+	display: grid;
+	grid-template-columns: minmax(12rem, .55fr) minmax(0, 1fr);
+	gap: .75rem;
+	align-items: center;
+}
+
+.heichel-os-document .heichel-os-world-heading h2 {
+	margin: .15rem 0 !important;
+	color: var(--heichel-cosmic-text) !important;
+	font-size: clamp(1.15rem, 2.5vw, 1.65rem) !important;
+}
+
+.heichel-os-document .heichel-os-world-heading p {
+	color: var(--heichel-cosmic-secondary) !important;
+}
+
+.heichel-os-document .heichel-os-district-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+.heichel-os-document .heichel-os-district-buttons button {
+	min-height: 2rem;
+	padding: .28rem .58rem;
+	color: var(--heichel-cosmic-secondary) !important;
+	border: 1px solid rgba(163, 90, 255, .22) !important;
+	border-radius: 999px !important;
+	background: rgba(12, 20, 36, .72) !important;
+	font-size: .64rem;
+}
+
+.heichel-os-document .heichel-os-district-buttons button.active {
+	color: var(--heichel-cosmic-text) !important;
+	border-color: var(--heichel-cosmic-violet-core) !important;
+	background: rgba(150, 67, 195, .18) !important;
+}
+
+.heichel-os-document .heichel-os-status-grid {
+	display: grid !important;
+	grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+	gap: .45rem !important;
+}
+
+.heichel-os-document .heichel-os-status-card,
+.heichel-os-document .heichel-os-district-viewport {
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid rgba(80, 215, 255, .18) !important;
+	background: rgba(12, 20, 36, .68) !important;
+	box-shadow: none !important;
+}
+
+.heichel-os-document .heichel-os-status-card strong {
+	color: var(--heichel-cosmic-cyan-core) !important;
+}
+
+.heichel-os-document .heichel-os-status-card small,
+.heichel-os-document .heichel-os-district-viewport p {
+	color: var(--heichel-cosmic-secondary) !important;
+}
+
+.heichel-os-document .heichel-os-district-viewport h3 {
+	color: var(--heichel-cosmic-text) !important;
+}

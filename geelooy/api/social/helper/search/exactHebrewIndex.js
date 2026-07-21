@@ -5,14 +5,14 @@
 /**
  * @module ExactHebrewIndex
  * @description
- * This public façade reveals the worker-backed exact search without exposing
+ * This public façade reveals worker-backed v3 exact search without exposing
  * lifecycle machinery to routes. Warm-up remains asynchronous and read-only.
  */
 
 const {
 	ROOTS,
 	normalizeWord
-} = require('./exactHebrewRecords.js');
+} = require('./exactHebrewShape.js');
 const workerClient = require('./exactHebrewWorkerClient.js');
 
 function dbPath() {

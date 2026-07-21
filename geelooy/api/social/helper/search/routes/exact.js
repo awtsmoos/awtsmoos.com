@@ -5,9 +5,8 @@
 /**
  * @module ExactSearchRoutes
  * @description
- * Exact Hebrew lookup awaits a persistent read-only worker. Corpus opening and
- * direct record reads never monopolize the social HTTP event loop, while route
- * metadata reveals readiness without forcing a synchronous database load.
+ * Exact Hebrew lookup awaits a persistent read-only worker. Corpus opening,
+ * gzip inflation, bucket lookup, and reference shaping remain outside HTTP.
  */
 
 const { er } = require('../../general.js');
@@ -37,7 +36,7 @@ function exactMetadata() {
 			dbPath: dbPath(),
 			corpora: ROOTS,
 			worker: exactHebrewStatus(),
-			storageMode: 'direct-word-and-reference-records',
+			storageMode: 'worker-cached-gzip-bucketed-v3',
 			searchTypes: [
 				'exactWord',
 				'libraryText',

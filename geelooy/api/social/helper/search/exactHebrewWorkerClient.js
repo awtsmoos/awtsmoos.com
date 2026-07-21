@@ -6,7 +6,7 @@
  * @module ExactHebrewWorkerClient
  * @description
  * One read-only worker opens the canonical exact index. HTTP stays responsive
- * while bounded requests cross the worker boundary.
+ * while a cold corpus may be inflated once and warm bucket requests stay fast.
  */
 
 const path = require('path');
@@ -14,7 +14,7 @@ const { Worker } = require('worker_threads');
 const pending = require('./exactHebrewPending.js');
 
 const DEFAULT_DB = '/Users/awtsmoos/Documents/awtsmoos-jobs/tanach-hebrew-word-index/exact-hebrew-indexes.awtsmoosdb';
-const REQUEST_TIMEOUT_MS = 20_000;
+const REQUEST_TIMEOUT_MS = 40_000;
 
 let worker = null;
 let readyPromise = null;

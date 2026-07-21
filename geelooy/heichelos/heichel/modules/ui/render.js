@@ -1,13 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module SovereignUIArchitect
  * @description
- * The rendering entry connects the blueprint, drawer, filters, districts, and mail.
+ * The rendering entry connects blueprint, drawer, filters, districts, and mail.
  */
-
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import {
@@ -39,8 +37,8 @@ export function manifestWorld(navigator, mountPoint = document.body) {
 	const rootVessel = ScribeOfManifestation.speakElement(
 		getFullLayoutBlueprint(actions)
 	);
-	const mount = mountPoint.querySelector('.main') || mountPoint;
-	mount.replaceChildren(rootVessel);
+	const target = mountPoint.querySelector('.main') || mountPoint;
+	target.replaceChildren(rootVessel);
 }
 
 function createActions(navigator) {

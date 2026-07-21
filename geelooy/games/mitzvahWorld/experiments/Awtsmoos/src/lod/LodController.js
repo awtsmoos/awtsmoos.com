@@ -1,4 +1,13 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LodController.js
+ * @description Applies event-bounded distance visibility through a transition queue.
+ * The Awtsmoos renews the whole valley in one instant; Awtsmoos.com changes only the
+ * finite garments whose spatial, camera, quality, or streaming truth actually changed.
+ */
 import { qualityTier } from '../performance/QualityTier.js';
 import {
 	createInitialLodStats,
@@ -8,16 +17,9 @@ import {
 	lodTransitionPriority
 } from './LodControllerMath.js';
 import { lodMaximumDistance } from './LodPolicy.js';
-import {
-	lodSpatialKey,
-	lodSpatialKeyString
-} from './LodSpatialKey.js';
+import { lodSpatialKey, lodSpatialKeyString } from './LodSpatialKey.js';
 import { LodTransitionQueue } from './LodTransitionQueue.js';
 
-/**
- * Reconsiders registered detail only after a spatial, camera-sector, or quality
- * event. Visibility changes then cross a bounded queue instead of one hard cut.
- */
 export class LodController {
 	constructor({ cellSize = 12, sectorCount = 16, hysteresis = 0.12 } = {}) {
 		this.cellSize = cellSize;
@@ -28,7 +30,6 @@ export class LodController {
 		this.previousEventKey = null;
 		this.stats = createInitialLodStats();
 	}
-
 	register({ id, node, className, center, radius = 0, alwaysVisible = false }) {
 		if (!id || !node || !center || this.entries.has(id)) return false;
 		const originalVisible = node.visible !== false;
@@ -45,7 +46,10 @@ export class LodController {
 		this.stats.registered = this.entries.size;
 		return true;
 	}
-
+	/** Forces the next update to evaluate newly streamed registrations. */
+	invalidate() {
+		this.previousEventKey = null;
+	}
 	update({ position, yaw = 0, tierName = 'high' }) {
 		const eventKey = this.eventKey(position, yaw, tierName);
 		if (eventKey !== this.previousEventKey) {
@@ -66,7 +70,6 @@ export class LodController {
 			stats: { ...this.stats }
 		};
 	}
-
 	eventKey(position, yaw, tierName) {
 		const spatial = lodSpatialKey({
 			position,
@@ -76,14 +79,12 @@ export class LodController {
 		});
 		return `${lodSpatialKeyString(spatial)}:${tierName}`;
 	}
-
 	evaluateEntries(position, tierName) {
 		for (const entry of this.entries.values()) {
 			this.stats.evaluations += 1;
 			this.evaluateEntry(entry, position, tierName);
 		}
 	}
-
 	evaluateEntry(entry, position, tierName) {
 		const distance = lodSphereDistance(position, entry.center, entry.radius);
 		const maximumDistance = lodMaximumDistance(entry.className, tierName);
@@ -103,13 +104,12 @@ export class LodController {
 			metadata: { visible, distance, maximumDistance }
 		});
 	}
-
 	restore() {
 		this.queue.clear();
 		for (const entry of this.entries.values()) {
 			entry.node.visible = entry.originalVisible;
 			entry.desiredVisible = entry.originalVisible;
 		}
-		this.previousEventKey = null;
+		this.invalidate();
 	}
 }

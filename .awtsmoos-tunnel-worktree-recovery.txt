@@ -1,0 +1,63 @@
+source=/Users/awtsmoos/Documents/Awtsmoos/.ai-worktrees/tunnel-stability-installer-20260721T081000Z
+target=/Users/awtsmoos/Documents/Awtsmoos/.ai-worktrees/tunnel-stability-final-20260721T212000Z
+branch=ai/tunnel-stability-final-20260721T212000Z
+--- copied ---
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/io.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/heartbeatPersistence.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/heartbeat.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/liveLifecycle.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/writeSnapshot.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/launchLease.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/metaFactory.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/launcher.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/finalizationLease.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/normalFinalization.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/reapArbitration.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/reap.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/outputRetention.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/outputWriteTracking.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/policy.js
+COPIED geelooy/apps/tunnel/agent/tools/fs/commandJob/forceFinalization.js
+COPIED geelooy/apps/tunnel/agent/lib/runtime/main-process.js
+COPIED geelooy/apps/tunnel/agent/lib/runtime/main-state.js
+COPIED geelooy/apps/tunnel/agent/testing/commandOutputWriteTracking.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/workerHeartbeatSingleFlight.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/runtimeDiagnosticsCompact.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/commandQueueExecutionLease.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/commandExitedBeforeReap.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/commandThousandQueueStatus.test.cjs
+COPIED geelooy/apps/tunnel/agent/testing/commandOutputTrimBatching.test.cjs
+COPIED_FOLDER geelooy/apps/tunnel/ai_thoughts/20260721T081000Z-tunnel-stability-installer
+COPIED_FOLDER geelooy/apps/tunnel/ai_thoughts/20260721T164900Z-queue-lease-reaper-arbitration
+COPIED_FOLDER geelooy/apps/tunnel/ai_thoughts/20260721T174500Z-noisy-worker-retention
+--- target identity ---
+## ai/tunnel-stability-final-20260721T212000Z...origin/main
+ M geelooy/apps/tunnel/agent/lib/runtime/main-process.js
+ M geelooy/apps/tunnel/agent/lib/runtime/main-state.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/forceFinalization.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/heartbeat.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/io.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/launcher.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/liveLifecycle.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/metaFactory.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/normalFinalization.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/policy.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/reap.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/writeSnapshot.js
+?? geelooy/apps/tunnel/agent/testing/commandExitedBeforeReap.test.cjs
+?? geelooy/apps/tunnel/agent/testing/commandOutputTrimBatching.test.cjs
+?? geelooy/apps/tunnel/agent/testing/commandOutputWriteTracking.test.cjs
+?? geelooy/apps/tunnel/agent/testing/commandQueueExecutionLease.test.cjs
+?? geelooy/apps/tunnel/agent/testing/commandThousandQueueStatus.test.cjs
+?? geelooy/apps/tunnel/agent/testing/runtimeDiagnosticsCompact.test.cjs
+?? geelooy/apps/tunnel/agent/testing/workerHeartbeatSingleFlight.test.cjs
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/finalizationLease.js
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/heartbeatPersistence.js
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/launchLease.js
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/outputRetention.js
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/outputWriteTracking.js
+?? geelooy/apps/tunnel/agent/tools/fs/commandJob/reapArbitration.js
+head=a68b8dd2c9a7f645bb5458486dc9be69ae4cd263
+origin_main=a68b8dd2c9a7f645bb5458486dc9be69ae4cd263
+top=/Users/awtsmoos/Documents/awtsmoos/.ai-worktrees/tunnel-stability-final-20260721T212000Z
+--- diff check ---

@@ -2,7 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-/** @file ActionBarSlotView.js @description Builds slots and updates readiness/cooldown in place. */
+/**
+ * @file ActionBarSlotView.js
+ * @description Builds stable ability slots and applies only changed readiness or cooldown presentation.
+ * From the unchanging unity of the Awtsmoos arise measured visible states; this vessel remembers the
+ * last garment it revealed so the browser is not asked to recreate what already exists on Awtsmoos.com.
+ */
 
 import { actionBarKeyLabel } from '../gameplay/actionbar/ActionBarBindingRules.js';
 import { torahAbilityDefinition } from '../gameplay/combat/TorahAbilityCatalog.js';
@@ -27,7 +32,22 @@ export function updateActionSlotReadiness(button, decision) {
 }
 
 export function updateActionSlotCooldown(button, definition, state) {
-	if (!definition || !state) return;
+	if (!definition || !state) return false;
+	const presentation = cooldownPresentation(definition, state);
+	if (button.dataset.cooldownSignature === presentation.signature) return false;
+	button.dataset.cooldownSignature = presentation.signature;
+	button.style.setProperty('--cooldown-ratio', presentation.ratio);
+	const time = button.querySelector('.Mitzvah-slot-cooldown-time');
+	if (time.textContent !== presentation.label) time.textContent = presentation.label;
+	const charge = button.querySelector('.Mitzvah-slot-charge');
+	charge.hidden = presentation.chargeHidden;
+	if (!charge.hidden && charge.textContent !== presentation.chargeLabel) {
+		charge.textContent = presentation.chargeLabel;
+	}
+	return true;
+}
+
+function cooldownPresentation(definition, state) {
 	const localRemaining = state.cooldownRemainingMilliseconds;
 	const globalRemaining = state.globalCooldownRemainingMilliseconds;
 	const remaining = Math.max(localRemaining, globalRemaining);
@@ -37,14 +57,17 @@ export function updateActionSlotCooldown(button, definition, state) {
 	const duration = globalRemaining > localRemaining
 		? definition.globalCooldownMilliseconds
 		: localDuration;
-	const ratio = duration ? Math.min(1, remaining / duration) : 0;
-	button.style.setProperty('--cooldown-ratio', ratio.toFixed(3));
-	const time = button.querySelector('.Mitzvah-slot-cooldown-time');
+	const ratio = duration ? Math.min(1, remaining / duration).toFixed(3) : '0.000';
 	const label = remaining > 0 ? cooldownLabel(remaining) : '';
-	if (time.textContent !== label) time.textContent = label;
-	const charge = button.querySelector('.Mitzvah-slot-charge');
-	charge.hidden = state.maximumCharges < 2;
-	if (!charge.hidden) charge.textContent = state.charges;
+	const chargeHidden = state.maximumCharges < 2;
+	const chargeLabel = chargeHidden ? '' : String(state.charges);
+	return {
+		chargeHidden,
+		chargeLabel,
+		label,
+		ratio,
+		signature: `${ratio}|${label}|${chargeHidden ? 0 : 1}|${chargeLabel}`
+	};
 }
 
 function createActionSlot(slotIndex, abilityId) {
@@ -56,7 +79,10 @@ function createActionSlot(slotIndex, abilityId) {
 	button.draggable = Boolean(definition);
 	button.type = 'button';
 	button.setAttribute('aria-describedby', 'Mitzvah-ability-tooltip');
-	button.setAttribute('aria-label', definition ? `${definition.title}, slot ${slotIndex + 1}` : `Empty slot ${slotIndex + 1}`);
+	button.setAttribute(
+		'aria-label',
+		definition ? `${definition.title}, slot ${slotIndex + 1}` : `Empty slot ${slotIndex + 1}`
+	);
 	if (definition) {
 		button.dataset.abilityId = definition.id;
 		button.dataset.tone = presentation.tone;

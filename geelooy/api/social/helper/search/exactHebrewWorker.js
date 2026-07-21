@@ -5,69 +5,92 @@
 /**
  * @module ExactHebrewWorker
  * @description
- * The canonical database opens once in a separate thread. HTTP remains free to
- * answer Ikar and health while exact letters are revealed through direct,
- * read-only word and reference records.
+ * The canonical v3 gzip shard is inflated only in this worker thread. One
+ * corpus is cached at a time, preventing multi-corpus memory accumulation while
+ * repeated queries remain warm and HTTP stays free and responsive.
  */
 
 const { parentPort, workerData } = require('worker_threads');
 const { performance } = require('perf_hooks');
-const AwtsmoosDB = require('../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
-const { searchRecords } = require('./exactHebrewRecords.js');
+const {
+	ROOTS,
+	corpusList
+} = require('./exactHebrewShape.js');
+const {
+	loadShard,
+	searchShard
+} = require('./exactHebrewV3.js');
+const {
+	buildResponse
+} = require('./exactHebrewResponse.js');
+const {
+	serializable
+} = require('./exactHebrewSerializable.js');
+const {
+	closeDatabase,
+	openDatabase
+} = require('./exactHebrewWorkerDb.js');
 
-let database;
+const opened = openDatabase(workerData.dbPath);
+const shardCache = new Map();
 
-function openDatabase() {
-	const startedAt = performance.now();
-	database = new AwtsmoosDB(workerData.dbPath, { readOnly: true });
-	database.open();
-	return Number((performance.now() - startedAt).toFixed(3));
+function cachedShard(corpus) {
+	if (!ROOTS[corpus]) {
+		const error = new Error(`Unknown exact corpus: ${corpus}`);
+		error.code = 'UNKNOWN_EXACT_CORPUS';
+		throw error;
+	}
+	if (!shardCache.has(corpus)) {
+		shardCache.clear();
+		shardCache.set(corpus, loadShard(opened.database, corpus));
+	}
+	return shardCache.get(corpus);
 }
 
-function closeDatabase() {
-	try {
-		database?.close();
-	} catch {
-		// The process is already ending; storage remains read-only.
+function execute(request) {
+	let loadMs = 0;
+	let queryMs = 0;
+	const results = [];
+	for (const corpus of corpusList(request.corpus)) {
+		const loadStartedAt = performance.now();
+		const shard = cachedShard(corpus);
+		loadMs += performance.now() - loadStartedAt;
+		const queryStartedAt = performance.now();
+		results.push(searchShard(shard, corpus, request));
+		queryMs += performance.now() - queryStartedAt;
 	}
+	return {
+		result: serializable(buildResponse(request, results)),
+		loadMs: Number(loadMs.toFixed(3)),
+		queryMs: Number(queryMs.toFixed(3)),
+		cachedCorpora: [...shardCache.keys()]
+	};
+}
+
+function errorShape(error) {
+	return {
+		code: error.code || 'EXACT_SEARCH_FAILED',
+		message: error.message,
+		stack: error.stack
+	};
 }
 
 function reply(message) {
-	const startedAt = performance.now();
 	try {
-		const result = searchRecords(database, message.request);
 		parentPort.postMessage({
 			id: message.id,
 			ok: true,
-			result,
-			queryMs: Number((performance.now() - startedAt).toFixed(3))
+			...execute(message.request)
 		});
 	} catch (error) {
 		parentPort.postMessage({
 			id: message.id,
 			ok: false,
-			error: {
-				code: error.code || 'EXACT_SEARCH_FAILED',
-				message: error.message,
-				stack: error.stack
-			}
+			error: errorShape(error)
 		});
 	}
 }
 
-try {
-	const openMs = openDatabase();
-	parentPort.postMessage({ type: 'ready', openMs });
-	parentPort.on('message', reply);
-	process.on('exit', closeDatabase);
-} catch (error) {
-	parentPort.postMessage({
-		type: 'startup-error',
-		error: {
-			code: error.code || 'EXACT_INDEX_OPEN_FAILED',
-			message: error.message,
-			stack: error.stack
-		}
-	});
-	process.exitCode = 1;
-}
+parentPort.postMessage({ type: 'ready', openMs: opened.openMs });
+parentPort.on('message', reply);
+process.on('exit', () => closeDatabase(opened.database));

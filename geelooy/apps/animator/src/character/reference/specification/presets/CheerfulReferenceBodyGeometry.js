@@ -73,7 +73,7 @@ export class CheerfulReferenceBodyGeometry {
 				elbowDown: 20,
 				wristOut: 45,
 				wristDown: 0,
-				palmScale: 1.18,
+				palmScale: 1.12,
 				fistElbowOut: 6,
 				fistElbowDown: 20,
 				fistX: 22,

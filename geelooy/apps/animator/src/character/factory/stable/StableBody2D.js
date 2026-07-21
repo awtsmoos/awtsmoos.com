@@ -11,9 +11,9 @@ import { StableTorsoDetails2D } from './StableTorsoDetails2D.js';
 import { StableTorsoMass2D } from './StableTorsoMass2D.js';
 
 /**
- * The Awtsmoos joins neck, authored torso, garment details, pelvis, and skirt to
- * one skeleton. Awtsmoos.com keeps every mass editable and animated through the
- * production graph rather than replacing the character with a painted shortcut.
+ * The Awtsmoos joins head, tapered neck, garment, pelvis, and skirt without a
+ * visible construction block. Awtsmoos.com keeps the living silhouette editable
+ * and animated through the production graph rather than a painted shortcut.
  */
 export class StableBody2D {
 	static human(data, colors, metrics) {
@@ -40,13 +40,33 @@ export class StableBody2D {
 	}
 
 	static neck(data, colors, metrics) {
-		const skeleton = data._skeleton;
-		return S.poly('neck_connected', [
-			[skeleton.neck.x - 7, metrics.neckBottomY],
-			[skeleton.neck.x + 7, metrics.neckBottomY],
-			[skeleton.neck.x + 6, metrics.neckTopY],
-			[skeleton.neck.x - 6, metrics.neckTopY]
-		], LineArtStyle.outer(data, colors.skin));
+		const centerX = data._skeleton.neck.x;
+		const topY = Math.min(metrics.neckTopY, metrics.neckBottomY);
+		const bottomY = Math.max(metrics.neckTopY, metrics.neckBottomY);
+		const line = LineArtStyle.forCharacter(data);
+		const sideStyle = {
+			stroke: line.stroke,
+			lineWidth: line.medium,
+			lineCap: 'round',
+			lineJoin: 'round'
+		};
+		return S.group('neck_connected', null, [
+			G.path('neck_skin_mass', [
+				{ type: 'move', x: centerX - 5.6, y: topY },
+				{ type: 'line', x: centerX + 5.6, y: topY },
+				{ type: 'quad', cx: centerX + 7.5, cy: bottomY - 3, x: centerX + 7.8, y: bottomY },
+				{ type: 'line', x: centerX - 7.8, y: bottomY },
+				{ type: 'quad', cx: centerX - 7.5, cy: bottomY - 3, x: centerX - 5.6, y: topY }
+			], { fill: colors.skin }),
+			G.path('neck_left_contour', [
+				{ type: 'move', x: centerX - 5.6, y: topY + 1 },
+				{ type: 'quad', cx: centerX - 7.5, cy: bottomY - 3, x: centerX - 7.8, y: bottomY - 1 }
+			], sideStyle),
+			G.path('neck_right_contour', [
+				{ type: 'move', x: centerX + 5.6, y: topY + 1 },
+				{ type: 'quad', cx: centerX + 7.5, cy: bottomY - 3, x: centerX + 7.8, y: bottomY - 1 }
+			], sideStyle)
+		]);
 	}
 
 	static robe(data, colors, metrics) {

@@ -1,18 +1,82 @@
 // B"H
-/** @file treeGrowthSystem.js @description Seeded tree growth with ez-tree-style stratified leaves. */
-import { Vec3 } from '../../../math/vec3.js';
-import { Quat } from '../../../math/quat.js';
-const n=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d, val=(o,l,d)=>o?.[l] ?? o?.[String(l)] ?? d;
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * The Awtsmoos renews one botanical plan before geometry clothes it.
+ * This established Awtsmoos.com orchestrator delegates focused branch and canopy
+ * work while preserving one queue, one seed, one builder, and one public system.
+ */
+import { Quat } from "../../../math/quat.js";
+import { emitTreeBranch, planTreeBranch } from "./treeBranchPlanner.js";
+import { spawnTreeChildren, spawnTreeLeaves } from "./treeCanopyPlanner.js";
+import {
+	treeNumber,
+	treeSkeletonSignature,
+	treeValueAt
+} from "./treeGrowthMath.js";
+import { normalizeTreeDetailProfile } from "./treeDetailProfiles.js";
+
 export class TreeGrowthSystem {
-  constructor(config,rng,geometry){ this.config=config; this.rng=rng; this.geo=geometry; this.queue=[]; this.maxBranches=Number(config.maxBranches||1800); this.branchCount=0; }
-  generate(){ const b=this.config.branch; this.queue.push({ pos:[0,0,0], rot:Quat.identity(), len:n(val(b.length,0,20),20), rad:n(val(b.radius,0,1),1), level:0 }); while(this.queue.length && this.branchCount<this.maxBranches){ const t=this.queue.shift(); this.growBranch(t.pos,t.rot,t.len,t.rad,t.level); } }
-  get(group,level,def){ return n(val(this.config.branch[group]||{},level,def),def); }
-  growBranch(startPos,startRot,length,radius,level){ this.branchCount++; const sections=Math.max(1,Math.floor(this.get('sections',level,6))), radial=Math.max(3,Math.floor(this.get('segments',level,5))), taper=this.get('taper',level,.7), gnarl=this.get('gnarliness',level,.05); let pos=[...startPos], rot=[...startRot], dir=Quat.applyToVec3([0,1,0],rot), prev=-1, spine=[], v=0; const segLen=length/sections;
-    for(let i=0;i<=sections;i++){ const t=i/sections, rad=Math.max(.008,radius*(1-taper*t)); const ring=this.geo.addBranchSection(pos,rot,rad,radial,v); if(prev>=0)this.geo.stitch(prev,ring,radial); prev=ring; spine.push({ pos:[...pos], rot:[...rot], dir:[...dir], radius:rad, t }); if(i<sections){ dir=this.nextDir(dir,gnarl,rad); rot=Quat.slerp(rot,Quat.setFromUnitVectors([0,1,0],dir),.35); pos=Vec3.add(pos,Vec3.scale(dir,segLen)); v+=segLen; } }
-    this.geo.addCap(pos,rot,prev,radial,v); const max=Math.max(0,Math.floor(n(this.config.branch.levels,3))); if(level<max)this.spawnChildren(spine,length,level); if(level>=max || (this.config.type==='evergreen'&&level>0) || this.config.type==='palm')this.spawnLeaves(spine,level,max); }
-  nextDir(dir,gnarl,rad){ let out=[...dir]; if(gnarl) out=Vec3.add(out,[this.rng.random(-gnarl,gnarl),this.rng.random(-gnarl*.25,gnarl*.25),this.rng.random(-gnarl,gnarl)]); const f=this.config.branch.force; if(f?.direction&&f.strength) out=Vec3.add(out,Vec3.scale([n(f.direction.x),n(f.direction.y,1),n(f.direction.z)],n(f.strength)/Math.max(.15,rad))); return Vec3.normalize(out); }
-  spawnChildren(spine,parentLen,level){ const count=Math.max(0,Math.floor(this.get('children',level,0))); if(!count)return; const start=Math.max(0,Math.min(.98,this.get('start',level+1,.2))), available=spine.length-1, golden=2.3999632297, offset=this.rng.random(0,Math.PI*2); for(let i=0;i<count;i++){ const t=start+(1-start)*((i+this.rng.random())/count), idx=Math.min(available,Math.max(0,Math.floor(t*available))), node=spine[idx], angle=this.get('angle',level+1,45)*Math.PI/180, radial=this.radial(node.dir,offset+i*golden); const childDir=Vec3.normalize(Vec3.add(Vec3.scale(node.dir,Math.cos(angle)),Vec3.scale(radial,Math.sin(angle)))); const lenBase=this.get('length',level+1,parentLen*.55), evergreen=this.config.type==='evergreen'?Math.max(.18,1-t):1, childLen=lenBase*evergreen*this.rng.random(.86,1.14), childRad=Math.max(.015,node.radius*this.rng.random(.52,.82)); this.queue.push({ pos:node.pos, rot:Quat.setFromUnitVectors([0,1,0],childDir), len:childLen, rad:childRad, level:level+1 }); } }
-  radial(dir,theta){ let up=Math.abs(Vec3.dot(dir,[0,1,0]))>.92?[1,0,0]:[0,1,0], right=Vec3.normalize(Vec3.cross(dir,up)), forward=Vec3.normalize(Vec3.cross(right,dir)); return Vec3.normalize(Vec3.add(Vec3.scale(right,Math.cos(theta)),Vec3.scale(forward,Math.sin(theta)))); }
-  spawnLeaves(spine,level,max){ const l=this.config.leaves||{}; const count=Math.max(0,Math.floor(n(l.count,0))); if(!count)return; const defaultStart=level>=max ? .12 : .3, start=Math.max(0,Math.min(.98,n(l.start,defaultStart))), available=spine.length-1, golden=2.3999632297, offset=this.rng.random(0,Math.PI*2); for(let i=0;i<count;i++){ const t=start+(1-start)*((i+this.rng.random())/count), idx=Math.min(available,Math.max(0,Math.floor(t*available))), node=spine[idx], radial=this.radial(node.dir,offset+i*golden), out=Vec3.add(Vec3.scale(radial,node.radius*1.4),Vec3.scale(node.dir,n(l.size,.8)*.22)), pos=Vec3.add(node.pos,out), yaw=Math.atan2(radial[0],radial[2]), pitch=(n(l.angle,12)*Math.PI/180)+this.rng.random(-.25,.25), roll=this.rng.random(-.45,.45), size=n(l.size,1)*this.rng.random(1-n(l.sizeVariance,.35),1+n(l.sizeVariance,.35)), color=l.tint||l.color||[.25,.65,.22,1]; this.geo.addLeaf(pos,Math.max(.03,size),[pitch,yaw,roll],color,{ billboard:l.billboard, aspect:l.aspect }); } }
+	constructor(config, rng, geometry, detail = "high") {
+		this.config = config;
+		this.rng = rng;
+		this.geo = geometry;
+		this.detail = normalizeTreeDetailProfile(detail);
+		this.maxBranches = Math.max(1, Number(config.maxBranches) || 1800);
+		this.queue = [];
+		this.branchRecords = [];
+		this.branchCount = 0;
+	}
+
+	generate() {
+		this.queue.length = 0;
+		this.branchRecords.length = 0;
+		this.branchCount = 0;
+		const branch = this.config.branch;
+		this.queue.push({
+			position: [0, 0, 0],
+			rotation: Quat.identity(),
+			length: treeNumber(treeValueAt(branch.length, 0, 20), 20),
+			radius: treeNumber(treeValueAt(branch.radius, 0, 1), 1),
+			level: 0
+		});
+		while (this.queue.length && this.branchCount < this.maxBranches) {
+			this.growBranch(this.queue.shift());
+		}
+	}
+
+	get(group, level, fallback) {
+		return treeNumber(treeValueAt(this.config.branch[group] || {}, level, fallback), fallback);
+	}
+
+	growBranch(task) {
+		this.branchCount += 1;
+		const sections = Math.max(1, Math.floor(this.get("sections", task.level, 6)));
+		const segments = Math.max(3, Math.round(
+			this.get("segments", task.level, 5) * this.detail.segmentFactor
+		));
+		const spine = planTreeBranch(this, task, sections);
+		emitTreeBranch(this, spine, segments);
+		this.branchRecords.push({
+			level: task.level,
+			start: spine[0].position,
+			end: spine.at(-1).position
+		});
+		const maximumLevel = Math.max(0, Math.floor(treeNumber(this.config.branch.levels, 3)));
+		if (task.level < maximumLevel) {
+			spawnTreeChildren(this, spine, task.length, task.level);
+		}
+		const terminal = task.level >= maximumLevel;
+		const evergreen = this.config.type === "evergreen" && task.level > 0;
+		if (terminal || evergreen || this.config.type === "palm") {
+			spawnTreeLeaves(this, spine, task.level, maximumLevel);
+		}
+	}
+
+	skeletonSignature() {
+		return treeSkeletonSignature(this.branchRecords);
+	}
 }
+
 export default TreeGrowthSystem;

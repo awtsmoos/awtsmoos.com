@@ -1,6 +1,21 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LodPolicy.js
+ * @description Normalizes scene semantics and resolves conservative distance visibility.
+ * The Awtsmoos contains mountain, cottage, creature, and garden in one indivisible truth;
+ * Awtsmoos.com gives each renderer name its proper vessel before any object may disappear.
+ */
+
 import { qualityTier } from '../performance/QualityTier.js';
 
+const CLASS_ALIASES = Object.freeze({
+	architecture: 'building',
+	creature: 'actor',
+	mountain: 'terrain'
+});
 const CLASS_POLICIES = Object.freeze({
 	actor: policy(Infinity, 100, true),
 	terrain: policy(Infinity, 100, true),
@@ -15,13 +30,21 @@ const CLASS_POLICIES = Object.freeze({
 	other: policy(145, 45, false)
 });
 
+/** Returns the canonical policy class for metadata emitted across world systems. */
+export function normalizeLodClass(className = 'other') {
+	const normalized = CLASS_ALIASES[className] || className;
+	return CLASS_POLICIES[normalized] ? normalized : 'other';
+}
+
 /** Infers a conservative semantic class from metadata and full scene lineage. */
 export function inferLodClass(name = '', metadata = {}) {
-	if (metadata?.AwtsmoosLod?.className) return metadata.AwtsmoosLod.className;
+	if (metadata?.AwtsmoosLod?.className) {
+		return normalizeLodClass(metadata.AwtsmoosLod.className);
+	}
 	if (metadata?.AwtsmoosYardGrass) return 'grass';
 	if (metadata?.AwtsmoosFence) return 'edge';
 	const text = String(name).toLowerCase();
-	if (matches(text, /(visible_player|clickable_chossid|player|npc|actor|armature|skeleton|bone)/)) return 'actor';
+	if (matches(text, /(visible_player|clickable_chossid|player|npc|actor|creature|armature|skeleton|bone)/)) return 'actor';
 	if (matches(text, /(terrain|ground|mountain|valley|road|path)/)) return 'terrain';
 	if (matches(text, /(water|stream|lake|river|foam|reed)/)) return 'water';
 	if (matches(text, /(sky|sun|cloud|horizon|atmosphere)/)) return 'sky';
@@ -35,21 +58,22 @@ export function inferLodClass(name = '', metadata = {}) {
 }
 
 export function lodClassPolicy(className) {
-	return CLASS_POLICIES[className] || CLASS_POLICIES.other;
+	return CLASS_POLICIES[normalizeLodClass(className)];
 }
 
 /** Returns the exact maximum distance for one class and quality tier. */
 export function lodMaximumDistance(className, tierName = 'high') {
-	const classPolicy = lodClassPolicy(className);
+	const normalizedClass = normalizeLodClass(className);
+	const classPolicy = lodClassPolicy(normalizedClass);
 	if (classPolicy.protected || classPolicy.maximumDistance === Infinity) return Infinity;
 	const tier = qualityTier(tierName);
-	const scale = className === 'vegetation' || className === 'grass'
+	const scale = normalizedClass === 'vegetation' || normalizedClass === 'grass'
 		? tier.vegetationDistanceScale
 		: tier.decorativeDistanceScale;
 	return classPolicy.maximumDistance * scale;
 }
 
-/** Evaluates visibility without changing the node. */
+/** Evaluates visibility without mutating a scene node. */
 export function evaluateLodVisibility({
 	className,
 	distance,
@@ -57,23 +81,18 @@ export function evaluateLodVisibility({
 	alwaysVisible = false,
 	geometryValid = true
 }) {
-	const classPolicy = lodClassPolicy(className);
-	const maximumDistance = lodMaximumDistance(className, tierName);
+	const normalizedClass = normalizeLodClass(className);
+	const classPolicy = lodClassPolicy(normalizedClass);
+	const maximumDistance = lodMaximumDistance(normalizedClass, tierName);
 	const protectedObject = alwaysVisible || classPolicy.protected || !geometryValid;
 	return {
-		className,
+		className: normalizedClass,
 		tierName,
 		maximumDistance,
 		importance: classPolicy.importance,
 		protected: protectedObject,
 		visible: protectedObject || distance <= maximumDistance,
-		reason: !geometryValid
-			? 'invalid-geometry-protected'
-			: protectedObject
-				? 'protected'
-				: distance <= maximumDistance
-					? 'within-distance'
-					: 'beyond-distance'
+		reason: visibilityReason({ geometryValid, protectedObject, distance, maximumDistance })
 	};
 }
 
@@ -87,4 +106,10 @@ function policy(maximumDistance, importance, protectedObject) {
 
 function matches(text, pattern) {
 	return pattern.test(text);
+}
+
+function visibilityReason({ geometryValid, protectedObject, distance, maximumDistance }) {
+	if (!geometryValid) return 'invalid-geometry-protected';
+	if (protectedObject) return 'protected';
+	return distance <= maximumDistance ? 'within-distance' : 'beyond-distance';
 }

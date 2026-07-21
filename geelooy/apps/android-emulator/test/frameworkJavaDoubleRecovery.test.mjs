@@ -35,10 +35,13 @@ test("Double comparison, equality, and bit conversion preserve edge cases", () =
 	const fixture = createFixture();
 	assert.equal(fixture.call("compare", "(DD)I", [-0, 0, +0, 0]), -1);
 	assert.equal(fixture.call("compare", "(DD)I", [Number.NaN, 0, Infinity, 0]), 1);
-	const payload = 0x7ff0000000000001n;
-	const nan = fixture.call("longBitsToDouble", "(J)D", [payload]);
+	const quietPayload = 0x7ff8000000000001n;
+	const nan = fixture.call("longBitsToDouble", "(J)D", [quietPayload]);
 	assert.equal(Number.isNaN(nan), true);
-	assert.equal(fixture.call("doubleToRawLongBits", "(D)J", [nan]), payload);
+	assert.equal(
+		fixture.call("doubleToRawLongBits", "(D)J", [nan]),
+		quietPayload
+	);
 	assert.equal(
 		fixture.call("doubleToLongBits", "(D)J", [nan]),
 		0x7ff8000000000000n

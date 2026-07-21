@@ -1,0 +1,172 @@
+{
+  "capturedAt": "2026-07-21T21:12:29.319Z",
+  "canvas": {
+    "width": 1536,
+    "height": 864
+  },
+  "characterIds": [
+    "cheerful-orthodox-speaker",
+    "skeptical-orthodox-observer",
+    "calm-orthodox-woman"
+  ],
+  "cropPlan": [
+    {
+      "id": "cheerful-orthodox-speaker",
+      "slug": "ari",
+      "fullBody": {
+        "x": 72,
+        "y": 25,
+        "width": 529,
+        "height": 819
+      },
+      "head": {
+        "x": 265,
+        "y": 35,
+        "width": 260,
+        "height": 330
+      }
+    },
+    {
+      "id": "skeptical-orthodox-observer",
+      "slug": "dovid",
+      "fullBody": {
+        "x": 606,
+        "y": 40,
+        "width": 327,
+        "height": 804
+      },
+      "head": {
+        "x": 675,
+        "y": 45,
+        "width": 265,
+        "height": 325
+      }
+    },
+    {
+      "id": "calm-orthodox-woman",
+      "slug": "miriam",
+      "fullBody": {
+        "x": 1028,
+        "y": 73,
+        "width": 311,
+        "height": 770
+      },
+      "head": {
+        "x": 1065,
+        "y": 80,
+        "width": 265,
+        "height": 285
+      }
+    }
+  ],
+  "individualBoxes": {
+    "cheerful-orthodox-speaker": {
+      "x": 0.0546875,
+      "y": 0.05555555555555555,
+      "width": 0.2838541666666667,
+      "height": 0.8981481481481481,
+      "occupancy": 0.09094087577160494
+    },
+    "skeptical-orthodox-observer": {
+      "x": 0.4166666666666667,
+      "y": 0.05555555555555555,
+      "width": 0.16145833333333334,
+      "height": 0.8888888888888888,
+      "occupancy": 0.0861545138888889
+    },
+    "calm-orthodox-woman": {
+      "x": 0.6953125,
+      "y": 0.1111111111111111,
+      "width": 0.1484375,
+      "height": 0.8472222222222222,
+      "occupancy": 0.07681086033950617
+    }
+  },
+  "artifacts": {
+    "trio": {
+      "fileName": "reference-trio.png",
+      "bytes": 255578,
+      "sha256": "6aa0006616c92bc70cf421ba68ceb8df3274f6d01b80339138cab24683286517"
+    },
+    "crops": [
+      {
+        "id": "cheerful-orthodox-speaker",
+        "kind": "fullBody",
+        "rect": {
+          "x": 72,
+          "y": 25,
+          "width": 529,
+          "height": 819
+        },
+        "fileName": "ari-full-body.png",
+        "bytes": 102259,
+        "sha256": "c45c5d3e68c03156f16192b0fa96a4e7c7cf9e8ac0f7eb70e7ad6db4802b1f5e"
+      },
+      {
+        "id": "cheerful-orthodox-speaker",
+        "kind": "head",
+        "rect": {
+          "x": 265,
+          "y": 35,
+          "width": 260,
+          "height": 330
+        },
+        "fileName": "ari-head.png",
+        "bytes": 45544,
+        "sha256": "076d12852f689d7fb31ef6056cb54587f9045a653284a33fd132e3fd33212472"
+      },
+      {
+        "id": "skeptical-orthodox-observer",
+        "kind": "fullBody",
+        "rect": {
+          "x": 606,
+          "y": 40,
+          "width": 327,
+          "height": 804
+        },
+        "fileName": "dovid-full-body.png",
+        "bytes": 73990,
+        "sha256": "24850de72b76c7fb7088726643e1a9839036e5f170c69d1de7784e36a1352f86"
+      },
+      {
+        "id": "skeptical-orthodox-observer",
+        "kind": "head",
+        "rect": {
+          "x": 675,
+          "y": 45,
+          "width": 265,
+          "height": 325
+        },
+        "fileName": "dovid-head.png",
+        "bytes": 35385,
+        "sha256": "af3cc1502f3b7fc40e5e061e5d2b081ea7a6f7ca189946bc9125681496f104ff"
+      },
+      {
+        "id": "calm-orthodox-woman",
+        "kind": "fullBody",
+        "rect": {
+          "x": 1028,
+          "y": 73,
+          "width": 311,
+          "height": 770
+        },
+        "fileName": "miriam-full-body.png",
+        "bytes": 66369,
+        "sha256": "39c0a6589edb4d920776ae7c9e22faa34350f0724a1e21e7fdf8d4e1a915ac85"
+      },
+      {
+        "id": "calm-orthodox-woman",
+        "kind": "head",
+        "rect": {
+          "x": 1065,
+          "y": 80,
+          "width": 265,
+          "height": 285
+        },
+        "fileName": "miriam-head.png",
+        "bytes": 28394,
+        "sha256": "db45c9bbd7fc434ba6e4424c0371c73e3023d366fa0a7b4dcf89def061525703"
+      }
+    ]
+  }
+}

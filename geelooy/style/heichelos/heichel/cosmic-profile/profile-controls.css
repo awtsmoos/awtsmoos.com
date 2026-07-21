@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives identity measurable life, deliberate action, and clear paths. */
+
+.heichel-os-document .heichel-profile-stats {
+	display: grid !important;
+	grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+	gap: 0 !important;
+	width: auto !important;
+	margin: .85rem clamp(1rem, 3vw, 2rem) 0 !important;
+	padding: .75rem 0 !important;
+	border-block: 1px solid rgba(80, 215, 255, .15) !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.heichel-profile-stat {
+	display: grid;
+	gap: .15rem;
+	place-items: center;
+	min-width: 0;
+	padding: .15rem .6rem;
+	border-right: 1px solid rgba(80, 215, 255, .16);
+}
+
+.heichel-profile-stat:last-child {
+	border-right: 0;
+}
+
+.heichel-profile-stat strong {
+	color: var(--heichel-cosmic-text);
+	font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+	font-variant-numeric: tabular-nums;
+}
+
+.heichel-profile-stat small {
+	color: var(--heichel-cosmic-secondary);
+	font-size: .68rem;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.heichel-profile-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+	gap: .65rem;
+	padding: .85rem clamp(1rem, 3vw, 2rem);
+}
+
+.heichel-profile-action {
+	display: grid;
+	min-height: 2.8rem;
+	place-items: center;
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid rgba(80, 215, 255, .35);
+	background: rgba(12, 20, 36, .8);
+	font-weight: 850;
+	text-decoration: none;
+	clip-path: polygon(0 0, calc(100% - .6rem) 0, 100% .6rem, 100% 100%, .5rem 100%, 0 calc(100% - .5rem));
+}
+
+.heichel-profile-action--primary {
+	border-color: var(--heichel-cosmic-cyan-core);
+	background: linear-gradient(135deg, var(--heichel-cosmic-blue-core), var(--heichel-cosmic-cyan));
+	box-shadow: 0 0 1.2rem rgba(80, 215, 255, .3);
+}
+
+.heichel-profile-tabs {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	border-top: 1px solid rgba(80, 215, 255, .18);
+	background: rgba(4, 4, 12, .5);
+}
+
+.heichel-profile-tabs a {
+	position: relative;
+	display: grid;
+	min-height: 3.2rem;
+	place-items: center;
+	color: var(--heichel-cosmic-secondary) !important;
+	font-size: .75rem;
+	font-weight: 760;
+	text-decoration: none;
+}
+
+.heichel-profile-tabs a:first-child {
+	color: var(--heichel-cosmic-cyan-core) !important;
+}
+
+.heichel-profile-tabs a:first-child::after {
+	position: absolute;
+	right: 15%;
+	bottom: 0;
+	left: 15%;
+	height: 2px;
+	background: linear-gradient(90deg, var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
+	box-shadow: 0 0 .7rem var(--heichel-cosmic-cyan-core);
+	content: "";
+}

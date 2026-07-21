@@ -4,15 +4,16 @@
 
 /**
  * @file VillageWaterBodies.js
- * @description Creates one lake and one river with explicit live GPU water variants.
+ * @description Composes lake, static riverbed depth, and one animated river surface.
  * The Awtsmoos joins mountain source, waterfall, bridge, river, and lake without a seam;
- * Awtsmoos.com gives basin and current distinct motion through two shared texture fetches.
+ * Awtsmoos.com reveals the concealed stone vessel beneath the current with one bounded draw.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { MOUNTAIN_VILLAGE_SOURCES as S } from '../materials/MountainVillageMaterialSources.js';
 import { villageLandmarks } from './VillageCurves.js';
 import { createLakeGeometry } from './VillageLakeGeometry.js';
+import { createRiverBedGeometry } from './VillageRiverBedGeometry.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
 import { createRiverSurfaceGeometry } from './VillageRiverSurfaceGeometry.js?v=20260720-canonical-valley-pass-04';
 
@@ -31,6 +32,7 @@ export function createWaterBodyDefinitions(groundSampler, hydrology = null) {
 			textureUrl: S.waterLake,
 			waterVariant: 'lake'
 		}),
+		riverBedManual(profile),
 		waterManual({
 			color: '#286d77',
 			geometry: createRiverSurfaceGeometry(profile),
@@ -55,6 +57,35 @@ export function waterShaderPolicy(waterVariant = 'lake') {
 		textureDriven: true,
 		waterClass: waterVariant === 'river' ? 'stream' : waterVariant,
 		waterVariant
+	};
+}
+
+function riverBedManual(profile) {
+	return {
+		color: '#394843',
+		doubleSided: true,
+		...createRiverBedGeometry(profile),
+		id: 'Awtsmoos_river_bed_thalweg_wet_fieldstone',
+		mapImage: cachedTextureImage(S.fieldstone),
+		mapRepeat: [20, 3.4],
+		noEdge: true,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: {
+			fallbackFirst: true,
+			publicFirebase: true,
+			realMaterialRequired: true,
+			role: 'wet-river-stone',
+			shader: 'terrain-transition',
+			tileWorld: 0.92
+		},
+		textureUrl: S.fieldstone,
+		transparent: false,
+		userData: {
+			family: 'connected-alpine-village-hydrology',
+			part: 'river-bed-channel',
+			staticGeometry: true
+		}
 	};
 }
 

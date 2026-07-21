@@ -3,7 +3,9 @@
 // Blessed is He
 /**
  * @module HeichelApp
- * @description The Awtsmoos opens the real Heichel through one idempotent boot promise. The first microtask begins creation even when a late module misses DOMContentLoaded; the event listener remains as a second safe gate.
+ * @description
+ * The Awtsmoos opens the real Heichel through one idempotent boot promise.
+ * A first microtask begins creation while one event gate protects late modules.
  */
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
@@ -12,7 +14,7 @@ import { runHeichelVisualDiagnostics } from './modules/visual/index.js';
 import { runHeichelBeauty } from './modules/beauty/index.js';
 import { runHeichelLegend } from './modules/legend/index.js';
 
-const bootKey = '__awtsmoosHeichelBoot';
+const BOOT_KEY = '__awtsmoosHeichelBoot';
 
 function readHeichelId() {
 	const segments = window.location.pathname.split('/').filter(Boolean);
@@ -60,11 +62,11 @@ function refreshVesselHealth() {
 }
 
 async function boot() {
-	if (window[bootKey]?.started) {
-		return window[bootKey].promise;
+	if (window[BOOT_KEY]?.started) {
+		return window[BOOT_KEY].promise;
 	}
 	const state = { started: true, ready: false, error: null, promise: null };
-	window[bootKey] = state;
+	window[BOOT_KEY] = state;
 	state.promise = (async () => {
 		try {
 			const heichelId = readHeichelId();

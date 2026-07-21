@@ -4,39 +4,47 @@
 
 /**
  * @file NpcChossidMotion.js
- * @description Advances routes while selecting animated body, proxy, cadence, and facing.
- * The Awtsmoos renews one neighbor through every distance; Awtsmoos.com spends bones only
- * where eyes can receive them while route, marker, identity, and ground remain continuous.
+ * @description Advances road-bound schedules while preserving relevance and animation cadence.
+ * The Awtsmoos renews one neighbor through distance, duty, and return; Awtsmoos.com keeps
+ * logical life continuous while bones, ground samples, and visible vessels obey the frame budget.
  */
 
-import {
-	faceNpcModelAlongPath,
-	faceNpcModelToPlayer
-} from './NpcChossidVisual.js';
 import { npcDistanceToPlayer, resolveNpcLod } from './NpcLodPolicy.js';
 import { setNpcMarkerState } from './NpcQuestMarker.js';
+import { faceNpcScheduledActor } from './NpcScheduleFacing.js';
+import { applyNpcScheduleJourney } from './NpcScheduleJourney.js';
 
-export function updateNpcChossidMotion(actor, deltaTime, playerState) {
-	const distance = npcDistanceToPlayer(
-		{ x: actor.worldX, z: actor.worldZ },
-		playerState
+const DUTY_WANDER_SCALE = Object.freeze({
+	'join-village-gathering': 0.68,
+	'pray-shacharis': 0.32,
+	'rest-at-home': 0.16
+});
+
+export function updateNpcChossidMotion(actor, deltaTime, playerState, worldHour) {
+	applyNpcScheduleJourney(actor, worldHour);
+	updateLogicalRoute(actor);
+	const previousLodId = actor.lod?.id;
+	actor.lod = resolveNpcLod(
+		npcDistanceToPlayer({ x: actor.worldX, z: actor.worldZ }, playerState),
+		{ questFocused: actor.dialogueOpen, selected: actor.selected }
 	);
-	actor.lod = resolveNpcLod(distance, {
-		questFocused: actor.dialogueOpen,
-		selected: actor.selected
-	});
 	applyVisibility(actor);
 	const motionDelta = actor.motionCadence.advance(
 		deltaTime,
 		actor.lod.updateInterval,
 		actor.lod.minimumFrames
 	);
-	if ((!actor.lod.fullModel && !actor.lod.proxyModel) || motionDelta <= 0) return;
-	actor.elapsed += motionDelta * (actor.profile.motionSpeed || 0);
-	updateRoute(actor);
+	if (!actor.lod.fullModel && !actor.lod.proxyModel) return;
+	const becameVisible = previousLodId === 'dormant' && actor.lod.id !== 'dormant';
+	const appliedDelta = motionDelta > 0
+		? motionDelta
+		: becameVisible ? Math.max(deltaTime, 1 / 60) : 0;
+	if (appliedDelta <= 0) return;
+	actor.elapsed += appliedDelta * (actor.profile.motionSpeed || 0);
+	updateLogicalRoute(actor);
 	updateGround(actor);
 	moveMarker(actor);
-	if (actor.lod.fullModel) updateFullModel(actor, motionDelta, playerState);
+	if (actor.lod.fullModel) updateFullModel(actor, appliedDelta, playerState);
 	if (actor.lod.proxyModel) updateProxy(actor);
 }
 
@@ -49,6 +57,20 @@ function applyVisibility(actor) {
 	});
 }
 
+function updateLogicalRoute(actor) {
+	const radius = localWanderRadius(actor);
+	const phase = actor.profile.motionPhase || 0;
+	actor.worldX = actor.routeCenterX + Math.cos(actor.elapsed + phase) * radius;
+	actor.worldZ = actor.routeCenterZ
+		+ Math.sin((actor.elapsed + phase) * 0.83) * radius * 0.72;
+}
+
+function localWanderRadius(actor) {
+	if (actor.isTravelling) return 0;
+	const scale = DUTY_WANDER_SCALE[actor.activeScheduleAction] ?? 0.52;
+	return (actor.profile.wanderRadius || 0) * scale;
+}
+
 function updateFullModel(actor, motionDelta, playerState) {
 	const animationDelta = actor.animationCadence.advance(
 		motionDelta,
@@ -56,7 +78,7 @@ function updateFullModel(actor, motionDelta, playerState) {
 	);
 	if (animationDelta > 0) actor.player.update(animationDelta);
 	actor.model.position.set(actor.worldX, actor.worldY, actor.worldZ);
-	faceActor(actor.model, actor, playerState);
+	faceNpcScheduledActor(actor.model, actor, playerState);
 }
 
 function updateProxy(actor) {
@@ -65,24 +87,12 @@ function updateProxy(actor) {
 		actor.worldY - actor.footOffset,
 		actor.worldZ
 	);
-	faceNpcModelAlongPath(
-		actor.proxy,
-		actor.elapsed,
-		actor.profile.motionPhase || 0
-	);
+	faceNpcScheduledActor(actor.proxy, actor, null);
 }
 
 function updateGround(actor) {
 	actor.worldY = actor.ground.heightAt(actor.worldX, actor.worldZ)
 		+ actor.footOffset;
-}
-
-function updateRoute(actor) {
-	const radius = actor.profile.wanderRadius || 0;
-	const phase = actor.profile.motionPhase || 0;
-	actor.worldX = actor.profile.x + Math.cos(actor.elapsed + phase) * radius;
-	actor.worldZ = actor.profile.z
-		+ Math.sin((actor.elapsed + phase) * 0.83) * radius * 0.72;
 }
 
 function moveMarker(actor) {
@@ -91,16 +101,4 @@ function moveMarker(actor) {
 		actor.worldY - (actor.groundY + actor.footOffset),
 		actor.worldZ - actor.profile.z
 	);
-}
-
-function faceActor(model, actor, playerState) {
-	if (actor.selected || !actor.profile.wanderRadius) {
-		faceNpcModelToPlayer(
-			model,
-			{ x: actor.worldX, z: actor.worldZ },
-			playerState
-		);
-		return;
-	}
-	faceNpcModelAlongPath(model, actor.elapsed, actor.profile.motionPhase || 0);
 }

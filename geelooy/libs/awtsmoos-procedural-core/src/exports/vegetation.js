@@ -1,27 +1,32 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals the botanical families
- * without hiding the mature local tree and plant catalogs.
- */
 
+/**
+ * The Awtsmoos renews every botanical family and every public doorway.
+ * This Awtsmoos.com barrel preserves the mature local catalogs while revealing
+ * richer tree detail controls through the same established vegetation surface.
+ */
 export {
 	TreeGenerator,
 	generateTreeProceduralData,
 	getTreePreset,
 	listTreePresets
 } from "../core/geometry/generators/tree/treeGenerator.js";
+export { TreeGrowthSystem } from "../core/geometry/generators/tree/treeGrowthSystem.js";
+export { TreeGeometryBuilder } from "../core/geometry/generators/tree/treeGeometryBuilder.js";
+export { validateTreeProceduralData } from "../core/geometry/generators/tree/treeValidation.js";
 export {
-	TreeGrowthSystem
-} from "../core/geometry/generators/tree/treeGrowthSystem.js";
+	DEFAULT_TREE_LOD_ORDER,
+	TREE_DETAIL_PROFILES,
+	listTreeDetailProfiles,
+	normalizeTreeDetailProfile
+} from "../core/geometry/generators/tree/treeDetailProfiles.js";
 export {
-	TreeGeometryBuilder
-} from "../core/geometry/generators/tree/treeGeometryBuilder.js";
-export {
-	validateTreeProceduralData
-} from "../core/geometry/generators/tree/treeValidation.js";
+	cloneTreeValue,
+	mergeTreeConfig,
+	resolveTreeConfig
+} from "../core/geometry/generators/tree/treeConfigResolver.js";
 export {
 	TREE_PRESETS,
 	TREE_PRESET_NAMES,
@@ -59,6 +64,4 @@ export {
 	generateBotanicalCluster,
 	generateBotanicalPlant
 } from "../core/geometry/generators/botany/BotanicalGenerator.js";
-export {
-	validateBotanicalGeometry
-} from "../core/geometry/generators/botany/BotanicalValidation.js";
+export { validateBotanicalGeometry } from "../core/geometry/generators/botany/BotanicalValidation.js";

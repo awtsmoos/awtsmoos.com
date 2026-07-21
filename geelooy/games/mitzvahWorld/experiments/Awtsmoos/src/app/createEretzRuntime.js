@@ -4,15 +4,16 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes a playable fallback world before actor and texture enrichment.
+ * @description Publishes a playable valley before botanical and model enrichment.
  * The Awtsmoos renews one essential adventure through desktop and mobile vessels;
- * Awtsmoos.com starts movement and renders the valley before background detail begins.
+ * Awtsmoos.com starts movement before optional petals, models, and textures finish arriving.
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
 import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
 import { startEretzActorHydration } from './EretzActorHydration.js?v=20260720-canonical-valley-pass-05';
+import { startEretzBotanicalStreaming } from './EretzBotanicalStreaming.js';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
 import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
 import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';
@@ -59,6 +60,14 @@ export async function createEretzRuntime(hosts, options = {}) {
 		diagnostics.textureStreamingScheduled = movement
 			? startGameplayTextureStreaming(foundation.assets, options.scheduleFrame)
 			: false;
+		if (movement) {
+			startEretzBotanicalStreaming(
+				foundation,
+				diagnostics,
+				qualityProfile,
+				options
+			);
+		}
 		diagnostics.worldModelPromise = startDeferredWorldModels(
 			foundation,
 			runtime,

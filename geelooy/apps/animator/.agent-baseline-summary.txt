@@ -1,0 +1,22 @@
+RUN imports
+imports EXIT 0
+RUN trio-smoke
+trio-smoke EXIT 0
+RUN durability
+durability EXIT 0
+RUN lip-sync
+lip-sync EXIT 0
+RUN body
+body EXIT 1
+RUN garment
+garment EXIT 1
+RUN style
+style EXIT 0
+RUN beard-mouth
+beard-mouth EXIT 0
+RUN fast
+fast EXIT 0
+RUN static-proof
+static-proof EXIT 0
+RUN landmark-proof
+landmark-proof EXIT 0

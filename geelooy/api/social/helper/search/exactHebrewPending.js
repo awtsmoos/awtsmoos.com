@@ -6,7 +6,7 @@
  * @module ExactHebrewPending
  * @description
  * Every worker request receives one finite identity, one timeout, and one
- * resolution. No abandoned promise may linger after a worker failure.
+ * resolution. Timings reveal opening, one-time shard loading, and pure lookup.
  */
 
 let sequence = 0;
@@ -44,8 +44,10 @@ function resolveMessage(message, openMs) {
 		...message.result,
 		timings: {
 			workerOpenMs: openMs,
+			workerLoadMs: message.loadMs,
 			workerQueryMs: message.queryMs
-		}
+		},
+		cachedCorpora: message.cachedCorpora || []
 	});
 	return true;
 }

@@ -1,11 +1,34 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * The Awtsmoos unites every naming dialect; this contract proves Awtsmoos.com cannot
+ * hide a mountain as anonymous detail or treat a living creature as disposable scenery.
+ */
+
 import assert from 'node:assert/strict';
 import {
 	evaluateLodVisibility,
 	inferLodClass,
 	lodMaximumDistance,
-	lodPolicyClasses
+	lodPolicyClasses,
+	normalizeLodClass
 } from '../../lod/LodPolicy.js';
+
+assert.equal(normalizeLodClass('architecture'), 'building');
+assert.equal(normalizeLodClass('mountain'), 'terrain');
+assert.equal(normalizeLodClass('creature'), 'actor');
+assert.equal(normalizeLodClass('unknown-producer-name'), 'other');
+assert.equal(inferLodClass('anything', {
+	AwtsmoosLod: { className: 'architecture' }
+}), 'building');
+assert.equal(inferLodClass('anything', {
+	AwtsmoosLod: { className: 'mountain' }
+}), 'terrain');
+assert.equal(inferLodClass('anything', {
+	AwtsmoosLod: { className: 'creature' }
+}), 'actor');
 
 assert.equal(inferLodClass('Awtsmoos_visible_player / Cube.002'), 'actor');
 assert.equal(inferLodClass('Awtsmoos_flowing_stream_real_water'), 'water');
@@ -16,20 +39,16 @@ assert.equal(inferLodClass('Awtsmoos_dynamic_yard_grass'), 'grass');
 assert.equal(inferLodClass('Awtsmoos_edge_overlay'), 'edge');
 assert.equal(inferLodClass('Awtsmoos_lantern_prop'), 'detail');
 assert.equal(inferLodClass('mystery'), 'other');
-assert.equal(
-	inferLodClass('house-prefix', { AwtsmoosYardGrass: { reactsToPlayer: true } }),
-	'grass'
-);
-assert.equal(
-	inferLodClass('house-prefix', { AwtsmoosFence: { posts: 12 } }),
-	'edge'
-);
-assert.equal(
-	inferLodClass('anything', { AwtsmoosLod: { className: 'detail' } }),
-	'detail'
-);
+assert.equal(inferLodClass('house-prefix', {
+	AwtsmoosYardGrass: { reactsToPlayer: true }
+}), 'grass');
+assert.equal(inferLodClass('house-prefix', {
+	AwtsmoosFence: { posts: 12 }
+}), 'edge');
 
 assert.equal(lodMaximumDistance('actor', 'low'), Infinity);
+assert.equal(lodMaximumDistance('mountain', 'low'), Infinity);
+assert.equal(lodMaximumDistance('creature', 'low'), Infinity);
 assert.equal(lodMaximumDistance('grass', 'low'), lodMaximumDistance('grass', 'high'));
 assert.equal(lodMaximumDistance('detail', 'medium'), lodMaximumDistance('detail', 'high'));
 assert.ok(lodMaximumDistance('grass', 'cinematic') > lodMaximumDistance('grass', 'high'));
