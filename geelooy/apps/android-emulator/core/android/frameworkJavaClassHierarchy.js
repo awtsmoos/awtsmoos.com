@@ -36,6 +36,7 @@ const SPECIAL_INTERFACES = Object.freeze({
 	"Ljava/util/AbstractCollection;": ["Ljava/util/Collection;"],
 	"Ljava/util/AbstractExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
 	"Ljava/util/ArrayList;": ["Ljava/util/List;"],
+	"Ljava/util/HashMap$Node;": ["Ljava/util/Map$Entry;"],
 	"Ljava/util/HashMap;": ["Ljava/util/Map;"],
 	"Ljava/util/HashSet;": ["Ljava/util/Set;"],
 	"Ljava/util/WeakHashMap;": ["Ljava/util/Map;"],

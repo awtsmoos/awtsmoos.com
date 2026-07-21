@@ -2,10 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 
+import { formatAudioSize } from "./audioFormatting.js";
 import {
 	appendAudioChunk,
-	finalizeAudioState,
-	formatAudioSize
+	finalizeAudioState
 } from "./audioPlayerState.js";
 import { appendSourceBuffer } from "./audioMediaSource.js";
 import { syncAudioPlayer } from "./audioPlayerView.js";

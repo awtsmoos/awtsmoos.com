@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { ReferenceCanvasMetrics } from './ReferenceCanvasMetrics.js';
+import { ReferenceCanvasBounds } from './ReferenceCanvasBounds.js';
 
 /**
  * One soul is revealed at a time so overlapping silhouettes cannot lie. The
@@ -15,9 +15,9 @@ export class ReferenceCharacterIsolation {
 		for (const characterId of characterIds) {
 			await this.setVisibility(chrome, characterId);
 			await this.delay(140);
-			result[characterId] = (
-				await chrome.client.evaluate(ReferenceCanvasMetrics.expression())
-			).fullBox;
+			result[characterId] = await chrome.client.evaluate(
+				ReferenceCanvasBounds.expression()
+			);
 		}
 		await this.setVisibility(chrome, null);
 		await this.delay(140);
