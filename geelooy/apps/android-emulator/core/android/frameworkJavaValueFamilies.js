@@ -2,29 +2,39 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createFrameworkJavaBigIntegerMethods } from "./frameworkJavaBigIntegers.js";
 import { createFrameworkJavaByteBufferMethods } from "./frameworkJavaByteBuffers.js";
-import { createFrameworkJavaByteOrderMethods } from "./frameworkJavaByteOrders.js";
-import { createFrameworkJavaCharsetMethods } from "./frameworkJavaCharsets.js";
+import { createFrameworkJavaByteOrderMethods } from "./frameworkJavaByteOrder.js";
+import { createFrameworkJavaDoubleMethods } from "./frameworkJavaDoubles.js";
 import { createFrameworkJavaEnumMethods } from "./frameworkJavaEnums.js";
 import { createFrameworkJavaIntegerMethods } from "./frameworkJavaIntegers.js";
+import { createFrameworkJavaJsonMethods } from "./frameworkJavaJson.js";
 import { createFrameworkJavaLocaleMethods } from "./frameworkJavaLocales.js";
-import { createFrameworkJavaLongMethods } from "./frameworkJavaLongs.js";
-import { createFrameworkJsonMethods } from "./frameworkJsonObjects.js";
+import { createFrameworkJavaNumberMethods } from "./frameworkJavaNumbers.js";
+import { createFrameworkJavaObjectStreamFieldMethods } from "./frameworkJavaObjectStreamFields.js";
+import { createFrameworkJavaShortMethods } from "./frameworkJavaShorts.js";
+import { createFrameworkJavaStringBuilderMethods } from "./frameworkJavaStringBuilder.js";
+import { createFrameworkKotlinIntrinsicsMethods } from "./frameworkKotlinIntrinsics.js";
 
 /**
- * Assembles compact Java value and codec families behind the Object doorway. The
- * Awtsmoos creates buffer, endian order, charset, locale, enum, integer, long,
- * and JSON vessels anew; Awtsmoos.com keeps arbitrary APK capabilities modular.
+ * Reveals typed Java value families behind one Object doorway. The Awtsmoos
+ * recreates number, text, byte order, serialization metadata, locale, and enum
+ * anew; Awtsmoos.com keeps each bounded law in its own explicit vessel.
  */
 export function createFrameworkJavaValueFamilies(runtime) {
 	return Object.freeze([
+		createFrameworkJavaStringBuilderMethods(runtime),
+		createFrameworkKotlinIntrinsicsMethods(runtime),
+		createFrameworkJavaBigIntegerMethods(runtime),
+		createFrameworkJavaIntegerMethods(runtime),
+		createFrameworkJavaDoubleMethods(runtime),
+		createFrameworkJavaShortMethods(runtime),
+		createFrameworkJavaNumberMethods(runtime),
 		createFrameworkJavaByteBufferMethods(runtime),
 		createFrameworkJavaByteOrderMethods(runtime),
-		createFrameworkJavaCharsetMethods(runtime),
-		createFrameworkJavaEnumMethods(runtime),
-		createFrameworkJavaIntegerMethods(runtime),
 		createFrameworkJavaLocaleMethods(runtime),
-		createFrameworkJavaLongMethods(runtime),
-		createFrameworkJsonMethods(runtime)
+		createFrameworkJavaEnumMethods(runtime),
+		createFrameworkJavaObjectStreamFieldMethods(runtime),
+		createFrameworkJavaJsonMethods(runtime)
 	]);
 }

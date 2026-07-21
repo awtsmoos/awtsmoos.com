@@ -18,6 +18,7 @@ function createStartupDependencies(D, foundation, connection) {
 		Limits: D.Limits,
 		ProjectRootHealth: D.ProjectRootHealth,
 		HistoryCleanup: D.HistoryCleanup,
+		FsExecutor: D.FsExecutor,
 		CommandReconciliation: D.CommandReconciliation,
 		startLocalApiServer: D.startLocalApiServer,
 		Boot: D.Boot,

@@ -1,0 +1,94 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the visible sound chamber glass, horizon, atmosphere, and depth while remaining beyond every surface; Awtsmoos.com frames the GPU river without adding DOM or scroll.
+*/
+.audio-canvas-card {
+	isolation: isolate;
+	outline: 1px solid rgba(255, 255, 255, .025);
+	outline-offset: -2px;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, .08),
+		inset 0 -32px 80px rgba(0, 0, 0, .44),
+		inset 0 0 110px rgba(var(--audio-secondary), .11),
+		0 24px 70px rgba(0, 0, 0, .42),
+		0 0 48px rgba(var(--audio-primary), .11);
+}
+
+.audio-canvas-card::after {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	content: "";
+	border-radius: inherit;
+	background:
+		linear-gradient(110deg, rgba(255, 255, 255, .07), transparent 16% 78%, rgba(var(--audio-primary), .07)),
+		radial-gradient(ellipse at 50% 54%, transparent 28%, rgba(0, 3, 12, .2) 64%, rgba(0, 2, 8, .72) 100%);
+	box-shadow:
+		inset 0 0 0 1px rgba(var(--audio-primary), .08),
+		inset 0 0 34px rgba(0, 0, 0, .38);
+	pointer-events: none;
+}
+
+.audio-canvas-stack {
+	z-index: 1;
+	background:
+		radial-gradient(circle at 50% 46%, rgba(var(--audio-primary), .07), transparent 34%),
+		linear-gradient(180deg, rgba(10, 20, 42, .08), rgba(0, 2, 9, .42));
+	transform: translateZ(0);
+}
+
+.audio-canvas-stack::before,
+.audio-canvas-stack::after {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	content: "";
+	pointer-events: none;
+}
+
+.audio-canvas-stack::before {
+	background:
+		repeating-linear-gradient(0deg, transparent 0 5px, rgba(164, 224, 255, .024) 5px 6px),
+		repeating-linear-gradient(90deg, transparent 0 9%, rgba(var(--audio-primary), .035) 9% calc(9% + 1px));
+	mask-image: linear-gradient(to bottom, transparent 4%, black 28% 82%, transparent 98%);
+	opacity: .72;
+}
+
+.audio-canvas-stack::after {
+	inset: 48% -18% -34%;
+	background:
+		linear-gradient(rgba(var(--audio-primary), .13) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(var(--audio-primary), .1) 1px, transparent 1px);
+	background-size: 100% 18px, 38px 100%;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent 82%);
+	opacity: .22;
+	transform: perspective(360px) rotateX(62deg) scaleX(1.18);
+	transform-origin: center top;
+}
+
+#audioLabCanvas {
+	filter: saturate(1.18) contrast(1.08) brightness(1.04);
+	transform: translateZ(0);
+}
+
+#audioGlyphCanvas {
+	z-index: 3;
+	opacity: .78;
+	mix-blend-mode: screen;
+	filter: drop-shadow(0 0 8px rgba(var(--audio-primary), .22));
+}
+
+#audioLabSection.is-immersive .audio-canvas-card {
+	border-color: rgba(var(--audio-primary), .66);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, .1),
+		inset 0 0 140px rgba(var(--audio-secondary), .13),
+		0 0 80px rgba(var(--audio-primary), .15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.audio-canvas-card::before {
+		animation: none;
+	}
+}

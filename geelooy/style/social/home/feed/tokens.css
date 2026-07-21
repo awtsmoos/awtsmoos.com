@@ -2,25 +2,37 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * The Awtsmoos names every luminous measure before form appears. Awtsmoos.com
- * keeps reference intensity coherent across cards, gutters, controls, and depth.
+ * The Awtsmoos names every measured luminous value before form appears.
+ * Awtsmoos.com shares one exact reference palette across cards, particles,
+ * waveforms, source rails, graph nodes, and the protected reading corridor.
  */
 
 .geelooy-home-document {
-	--cosmic-page: #01040c;
-	--cosmic-deep: #04101f;
-	--cosmic-raised: #08192e;
-	--cosmic-panel: #061326;
-	--cosmic-cyan: #35e8ff;
-	--cosmic-blue: #3b82ff;
-	--cosmic-violet: #795cff;
-	--cosmic-magenta: #ff4bd8;
-	--cosmic-text: #f3f8ff;
-	--cosmic-secondary: #a4b4ca;
-	--cosmic-muted: #71839c;
-	--cosmic-danger: #ff648f;
-	--cosmic-success: #55efb0;
-	--cosmic-border: rgba(77, 181, 255, 0.48);
+	--cosmic-void: #04040C;
+	--cosmic-page: #040C1C;
+	--cosmic-deep: #040C24;
+	--cosmic-panel: #041424;
+	--cosmic-raised: #0C1424;
+	--cosmic-elevated: #0C1C2C;
+	--cosmic-dust-cyan: #0C2C5C;
+	--cosmic-dust-violet: #241C5C;
+	--cosmic-cyan: #01A1E6;
+	--cosmic-cyan-core: #50D7FF;
+	--cosmic-blue: #2466BA;
+	--cosmic-blue-core: #349BFF;
+	--cosmic-indigo: #543AA5;
+	--cosmic-indigo-core: #8575FF;
+	--cosmic-violet: #9643C3;
+	--cosmic-violet-core: #A35AFF;
+	--cosmic-magenta: #CB52B1;
+	--cosmic-magenta-core: #DA61C2;
+	--cosmic-aqua: #2AA29E;
+	--cosmic-text: #F6F8FF;
+	--cosmic-secondary: #949CA4;
+	--cosmic-muted: #71839C;
+	--cosmic-danger: #FF648F;
+	--cosmic-success: #55EFB0;
+	--cosmic-border: color-mix(in srgb, var(--cosmic-cyan-core) 48%, transparent);
 	--cosmic-header-offset: 5.15rem;
 	--cosmic-feed-width: 66rem;
 	--cosmic-feed-gap: 0.58rem;

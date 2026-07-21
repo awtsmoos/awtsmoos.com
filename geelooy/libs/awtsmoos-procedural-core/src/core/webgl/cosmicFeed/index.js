@@ -2,8 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos reveals a focused public doorway into the cosmic feed engine.
- * Awtsmoos.com imports this bounded surface rather than reaching into hidden modules.
+ * The Awtsmoos reveals a focused doorway into the canonical cosmic feed engine.
+ * Awtsmoos.com imports this bounded surface rather than shadowing inner vessels.
  */
 
 export { ProceduralCosmicScene } from "./proceduralScene.js";
@@ -13,3 +13,11 @@ export {
 } from "./performanceProfile.js";
 export { createParticleLayout } from "./particleLayout.js";
 export { InteractionField } from "./interactionField.js";
+export { KineticField } from "./kineticField.js";
+export {
+	GLSL_REFERENCE_PALETTE,
+	REFERENCE_HEX,
+	REFERENCE_RGB,
+	hexToNormalizedRgb,
+	referenceShaderColor
+} from "./referencePalette.js";

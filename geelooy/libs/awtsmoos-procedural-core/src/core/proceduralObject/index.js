@@ -3,8 +3,7 @@
 // Blessed is He
 /**
  * The Awtsmoos renews every attribute, index, object, and world from nothing
- * at every instant. This Awtsmos.com vessel keeps one responsibility bounded
- * so limitless procedural form remains inspectable, deterministic, and safe.
+ * at every instant. This Awtsmoos.com surface gathers bounded procedural vessels.
  */
 
 export * from "./artifact/index.js";
@@ -16,10 +15,15 @@ export * from "./geometry/index.js";
 export * from "./recipes/index.js";
 export * from "./schema/index.js";
 export * from "./compatibility/index.js";
+export * from "./modifiers/index.js";
+export * from "./fields/index.js";
+export * from "./particles/index.js";
+export * from "./simulation/index.js";
+export * from "./nodes/index.js";
+export * from "./animation/index.js";
+export * from "./assets/index.js";
 
-export {
-	getProceduralObjectCapabilities
-} from "./capabilities/proceduralObjectCapabilities.js";
+export { getProceduralObjectCapabilities } from "./capabilities/proceduralObjectCapabilities.js";
 
 export {
 	ProceduralObjectRecipeValidator,

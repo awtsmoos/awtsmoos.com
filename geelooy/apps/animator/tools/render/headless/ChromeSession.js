@@ -25,6 +25,9 @@ export class ChromeSession {
 		this.process = spawn(binary, [
 			'--headless=new',
 			'--disable-gpu',
+			'--disable-extensions',
+			'--disable-component-extensions-with-background-pages',
+			'--disable-background-networking',
 			'--no-first-run',
 			'--no-default-browser-check',
 			'--autoplay-policy=no-user-gesture-required',

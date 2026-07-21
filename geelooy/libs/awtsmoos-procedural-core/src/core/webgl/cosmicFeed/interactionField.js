@@ -8,13 +8,12 @@
  * Awtsmoos blends them without erasing their names, while Awtsmoos.com exposes
  * one restrained shader anchor so text always remains sovereign.
  */
+import { REFERENCE_RGB } from "./referencePalette.js";
 
 const MAXIMUM_CHANNELS = 8;
-const DEFAULT_COLOR = Object.freeze([0.21, 0.91, 1]);
+const DEFAULT_COLOR = REFERENCE_RGB.cyanCore;
 
-/**
- * Stores bounded independently expiring interaction channels.
- */
+/** Stores bounded independently expiring interaction channels. */
 export class InteractionField {
 	constructor() {
 		this.channels = new Map();
@@ -23,10 +22,7 @@ export class InteractionField {
 		this.targetColor = [...DEFAULT_COLOR];
 	}
 
-	/**
-	 * Preserves the original one-anchor API through a named legacy channel.
-	 * @param {{x:number,y:number,strength?:number,color?:number[]}|null} anchor Anchor.
-	 */
+	/** Preserves the original one-anchor API through a named legacy channel. */
 	set(anchor) {
 		if (anchor) {
 			this.setChannel("legacy", anchor);
@@ -35,12 +31,7 @@ export class InteractionField {
 		}
 	}
 
-	/**
-	 * Creates or refreshes one semantic resonance channel.
-	 * @param {string} name Stable channel name.
-	 * @param {{x:number,y:number,strength?:number,color?:number[]}} anchor Anchor.
-	 * @param {{priority?:number,duration?:number}} options Channel policy.
-	 */
+	/** Creates or refreshes one semantic resonance channel. */
 	setChannel(name, anchor, options = {}) {
 		if (!name || !anchor) {
 			return;
@@ -59,20 +50,12 @@ export class InteractionField {
 		});
 	}
 
-	/**
-	 * Removes one named resonance channel.
-	 * @param {string} name Stable channel name.
-	 */
+	/** Removes one named resonance channel. */
 	clearChannel(name) {
 		this.channels.delete(name);
 	}
 
-	/**
-	 * Blends active channels and advances shader-facing smooth state.
-	 * @param {number} easing Smoothing factor.
-	 * @param {number} now Current time.
-	 * @returns {number[]} Normalized x, y, strength, and ambient energy.
-	 */
+	/** Blends active channels and advances shader-facing smooth state. */
 	update(easing = 0.08, now = performance.now()) {
 		const target = this.blend(now);
 		for (let index = 0; index < 4; index += 1) {

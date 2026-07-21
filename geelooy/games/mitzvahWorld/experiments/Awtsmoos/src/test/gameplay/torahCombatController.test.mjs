@@ -51,6 +51,48 @@ test('rejected impact leaves focus and cooldown untouched', () => {
 	controller.destroy();
 });
 
+test('action timeline receives the structured synchronous world rejection', () => {
+	const bus = new AwtsmoosEventBus();
+	const marked = [];
+	const controller = createController(bus, () => 3000, marked);
+	bus.on('torah:use', () => {
+		bus.emit('combat:ability', { results: [{ accepted: false, reason: 'TARGET_OUT_OF_RANGE' }] });
+	});
+	bus.emit('npc:target', { attackable: true, id: 'shadow-husk-east' });
+	const result = controller.usePassage({ id: 'modeh-ani' }, {
+		requestId: 'torah-cast-1',
+		returnResult: true,
+		skipPassageCooldown: true
+	});
+	assert.equal(result.ok, false);
+	assert.equal(result.reason, 'TARGET_OUT_OF_RANGE');
+	assert.equal(result.requestId, 'torah-cast-1');
+	assert.deepEqual(marked, []);
+	controller.destroy();
+});
+
+test('targetless support transaction spends focus without hostile world dispatch', () => {
+	const bus = new AwtsmoosEventBus();
+	const marked = [];
+	let hostileDispatches = 0;
+	bus.on('torah:use', () => { hostileDispatches += 1; });
+	const controller = createController(bus, () => 4000, marked);
+	const result = controller.usePassage({ id: 'modeh-ani' }, {
+		requestId: 'torah-cast-2',
+		returnResult: true,
+		skipPassageCooldown: true,
+		targetRequired: false,
+		worldImpactRequired: false
+	});
+	assert.equal(result.ok, true);
+	assert.equal(result.kind, 'support');
+	assert.equal(result.requestId, 'torah-cast-2');
+	assert.equal(controller.snapshot().focus.current, 16);
+	assert.equal(hostileDispatches, 0);
+	assert.deepEqual(marked, [{ id: 'modeh-ani', usedAt: 4000 }]);
+	controller.destroy();
+});
+
 function createController(bus, clock, marked) {
 	return new TorahCombatController({
 		bus,

@@ -78,19 +78,28 @@ test("Firebase diagnostic executes inherited ContentProvider lifecycle", async (
 	assert.equal(state.stage, "complete");
 });
 
-test("Firebase diagnostic report preserves invoke evidence without runtime", () => {
+test("Firebase diagnostic report preserves invoke and cast evidence", () => {
 	const state = createFirebaseDiagnosticState();
 	state.stage = "onCreate";
 	const error = new Error("measured failure");
 	error.code = "MEASURED_FAILURE";
 	error.dalvikInvoke = Object.freeze({ signature: "Lguest/A;->b()V" });
 	error.dalvikInvokeChain = Object.freeze([error.dalvikInvoke]);
+	error.dalvikCast = Object.freeze({
+		expectedType: "Ljava/util/Collection;",
+		pc: 71,
+		register: 4,
+		source: Object.freeze({ type: "Ljava/util/HashSet;" })
+	});
 	const report = createFirebaseDiagnosticReport(state, error);
 	assert.equal(report.error.code, error.code);
+	assert.deepEqual(report.error.cast, error.dalvikCast);
 	assert.deepEqual(report.error.invoke, error.dalvikInvoke);
 	assert.deepEqual(report.error.invokeChain, [error.dalvikInvoke]);
 	assert.equal(report.network, null);
 	assert.equal(report.stage, "onCreate");
+	const plain = createFirebaseDiagnosticReport(state, new Error("plain"));
+	assert.equal(plain.error.cast, null);
 });
 
 function record(classType, name, descriptor) {

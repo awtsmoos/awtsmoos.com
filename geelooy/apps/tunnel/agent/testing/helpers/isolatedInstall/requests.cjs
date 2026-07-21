@@ -14,7 +14,7 @@ function terminalResponse(relay, id, timeoutMs = 15000) {
 
 function sendPing(relay, timeoutMs = 5000) {
 	const previous = relay.messages.filter(message => message.type === 'TUNNEL_PONG').length;
-	relay.send({ type: 'TUNNEL_PING' });
+	relay.send({ type: 'TUNNEL_PING', includeStats: true });
 	return relay.waitFor((_message) => {
 		return relay.messages.filter(message => message.type === 'TUNNEL_PONG').length > previous;
 	}, timeoutMs).then(() => relay.messages.filter(message => message.type === 'TUNNEL_PONG').at(-1));

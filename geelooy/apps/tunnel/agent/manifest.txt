@@ -1,5 +1,5 @@
 B"H
-1.0.364
+1.0.365
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -25,6 +25,7 @@ ai/relay/split-browser/logger.cjs
 ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
+ai/relay/split-browser/proxyLog.cjs
 ai/relay/split-browser/relayApi.cjs
 ai/relay/split-browser/responseStream.cjs
 ai/relay/split-browser/rewriteHtml.cjs
@@ -811,6 +812,7 @@ lib/runtime/async-task-process.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
 lib/runtime/circuit-breaker.js
+lib/runtime/connection-receipt-async.js
 lib/runtime/connection-receipt.js
 lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js
@@ -845,6 +847,7 @@ lib/runtime/main-connection.js
 lib/runtime/main-dependencies.js
 lib/runtime/main-dispatch.js
 lib/runtime/main-events.js
+lib/runtime/main-inbound-dispatch.js
 lib/runtime/main-lane-stats.js
 lib/runtime/main-payload.js
 lib/runtime/main-process.js
@@ -884,7 +887,9 @@ lib/runtime/project-root-health.js
 lib/runtime/recovery-envelope.js
 lib/runtime/replacement-policy.js
 lib/runtime/request-retry-collection.js
+lib/runtime/request-retry-disk-collection-loop.js
 lib/runtime/request-retry-disk-collection.js
+lib/runtime/request-retry-disk-collector-child.cjs
 lib/runtime/request-retry-disk-paths.js
 lib/runtime/request-retry-disk.js
 lib/runtime/request-retry-identity.js
@@ -1327,6 +1332,13 @@ tools/fs/continuation/runner.js
 tools/fs/dependencyGraph.js
 tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
+tools/fs/executor/index.js
+tools/fs/executor/policy.js
+tools/fs/executor/pool-state.js
+tools/fs/executor/pool.js
+tools/fs/executor/requester.js
+tools/fs/executor/worker-child.cjs
+tools/fs/executor/worker.js
 tools/fs/file-hash.js
 tools/fs/fileOpsCopy.js
 tools/fs/fileOpsMoveDelete.js
@@ -1716,6 +1728,8 @@ tools/relay/browserCookieSync.js
 tools/relay/browserFetchPageSource.js
 tools/relay/browserFetchRuntime.js
 tools/relay/chatgptRelay.js
+tools/relay/chatgptRelayFetch.js
+tools/relay/chatgptRelayHeaders.js
 tools/relay/chromeCookies.js
 tools/relay/index.js
 tools/relay/isolatedCookieJar.js
@@ -1725,6 +1739,7 @@ tools/relay/isolatedResponse.js
 tools/relay/jsonRelay.js
 tools/relay/requestPolicy.js
 tools/relay/settings.js
+tools/relay/streamLifecycle.js
 tools/relay/streamReadActions.js
 tools/relay/streams.js
 tools/relay/streamStorage.js

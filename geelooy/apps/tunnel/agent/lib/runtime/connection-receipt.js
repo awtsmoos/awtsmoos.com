@@ -1,13 +1,10 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
 
 const fs = require("node:fs");
 const path = require("node:path");
+const Async = require("./connection-receipt-async.js");
 const { ROOT } = require("../config.js");
-
-const SCHEMA_VERSION = 4;
-const FILE_NAME = "connection-state.json";
+const SCHEMA_VERSION = 4, FILE_NAME = "connection-state.json";
 
 /** Persists exact process, route, activation, version, and liveness testimony. */
 function receiptPath(root = ROOT) {
@@ -15,8 +12,11 @@ function receiptPath(root = ROOT) {
 }
 
 function read(root = ROOT) {
-	try { return normalize(JSON.parse(fs.readFileSync(receiptPath(root), "utf8"))); }
-	catch { return null; }
+	try {
+		return normalize(JSON.parse(fs.readFileSync(receiptPath(root), "utf8")));
+	} catch {
+		return null;
+	}
 }
 
 function write(state, details = {}, root = ROOT) {
@@ -50,6 +50,10 @@ function markServerSeen(details = {}, root = ROOT) {
 	}, root);
 }
 
+function markServerSeenAsync(details = {}, root = ROOT) {
+	return Async.markServerSeen(root, FILE_NAME, details);
+}
+
 function matches(receipt, options = {}) {
 	if (!receipt || receipt.state !== "registered") return false;
 	if (options.pid && Number(receipt.pid) !== Number(options.pid)) return false;
@@ -66,8 +70,11 @@ function matches(receipt, options = {}) {
 }
 
 function clear(root = ROOT) {
-	try { fs.unlinkSync(receiptPath(root)); }
-	catch (error) { if (error.code !== "ENOENT") throw error; }
+	try {
+		fs.unlinkSync(receiptPath(root));
+	} catch (error) {
+		if (error.code !== "ENOENT") throw error;
+	}
 }
 
 function normalize(value = {}) {
@@ -104,6 +111,7 @@ module.exports = {
 	SCHEMA_VERSION,
 	clear,
 	markServerSeen,
+	markServerSeenAsync,
 	matches,
 	normalize,
 	read,

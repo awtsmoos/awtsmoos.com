@@ -31,7 +31,7 @@ try {
 		serverTime: "server-time",
 		lastServerMessageAt: new Date().toISOString()
 	}, root);
-	assert.equal(written.schemaVersion, 3);
+	assert.equal(written.schemaVersion, 4);
 	assert.equal(written.pid, process.pid);
 	assert.equal(written.tunnelId, "tun_test_identity");
 	assert.equal(written.reconnectAttempt, 4);
@@ -66,7 +66,7 @@ try {
 		pid: process.pid,
 		tunnelName: "legacy"
 	});
-	assert.equal(old.schemaVersion, 3);
+	assert.equal(old.schemaVersion, 4);
 	assert.equal(old.reconnectAttempt, 0);
 	assert.equal(old.tunnelId, "");
 

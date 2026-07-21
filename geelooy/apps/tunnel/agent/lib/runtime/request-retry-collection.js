@@ -3,7 +3,7 @@
 // Blessed is He
 
 const Disk = require("./request-retry-disk.js");
-const DiskCollection = require("./request-retry-disk-collection.js");
+const DiskCollectionLoop = require("./request-retry-disk-collection-loop.js");
 const Store = require("./request-retry-record-map.js");
 const Policy = require("./request-retry-policy.js");
 
@@ -26,7 +26,7 @@ function collect(time = Date.now()) {
 		removed += 1;
 	}
 	if (time - lastDiskCollectionAt >= DISK_COLLECTION_INTERVAL_MS) {
-		removed += DiskCollection.collect(time).removed;
+		DiskCollectionLoop.schedule(time);
 		lastDiskCollectionAt = time;
 	}
 	return removed;

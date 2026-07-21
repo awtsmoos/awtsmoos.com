@@ -33,6 +33,9 @@
 @import url("./views/agent-direct-chat.css") layer(awt.views);
 @import url("./views/agent-direct-messages.css") layer(awt.views);
 @import url("./views/agent-direct-composer.css") layer(awt.views);
+@import url("./views/agent-spectral-depth.css") layer(awt.views);
+@import url("./views/agent-constellation-interaction.css") layer(awt.views);
+@import url("./views/agent-command-layout.css") layer(awt.views);
 @import url("./views/agent-controls/layout.css") layer(awt.views);
 @import url("./views/agent-controls/policy.css") layer(awt.views);
 @import url("./views/agent-controls/resources.css") layer(awt.views);
@@ -56,6 +59,7 @@
 @import url("./views/beauty.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);
 @import url("./interaction/states.css") layer(awt.states);
+@import url("./views/agent-live-accessibility.css") layer(awt.states);
 @import url("./interaction/motion.css") layer(awt.motion);
 @import url("./views/agent-live-motion.css") layer(awt.motion);
 @import url("./core/responsive.css") layer(awt.responsive);

@@ -7,7 +7,6 @@ const {
 	mergedCookieHeader,
 	storeCookies
 } = require("./cookieJar.cjs");
-const { log } = require("./logger.cjs");
 const {
 	toUpstream,
 	toLocal
@@ -22,12 +21,15 @@ const {
 	shouldTransformBody,
 	streamRawResponse
 } = require("./responseStream.cjs");
+const {
+	logProxyRequest,
+	logProxyResponse
+} = require("./proxyLog.cjs");
 
 /**
- * The proxy remains a witness rather than an author. HTML and JavaScript may
- * require a local-origin transformation, while audio, ranges, conversations,
- * and every raw body flow continuously from ChatGPT with backpressure and all
- * byte-defining headers intact.
+ * HTML and JavaScript may require a local-origin transformation, while audio,
+ * ranges, conversations, and other raw bodies flow continuously. The Awtsmoos
+ * remains the one source beyond transformed and untouched vessels alike.
  */
 async function proxyChatGpt(request, response, config) {
 	const local = new URL(request.url, "http://127.0.0.1");
@@ -42,7 +44,14 @@ async function proxyChatGpt(request, response, config) {
 		new URL(target).origin,
 		cookie
 	);
-	logRequest(config, request, local, target, body, headers, cookie);
+	logProxyRequest(config, {
+		request,
+		local,
+		target,
+		body,
+		headers,
+		cookie
+	});
 	const upstream = await fetch(target, {
 		method: request.method,
 		headers,
@@ -54,18 +63,18 @@ async function proxyChatGpt(request, response, config) {
 	const type = upstream.headers.get("content-type")
 		|| "application/octet-stream";
 	const transform = shouldTransformBody(local, type);
-	const responseHeaderBag = responseHeaders(upstream.headers, type, {
+	const localHeaders = responseHeaders(upstream.headers, type, {
 		preserveBodyHeaders: !transform
 	});
-	mapRedirect(upstream, responseHeaderBag, config);
+	mapRedirect(upstream, localHeaders, config);
 	if (!transform) {
-		const byteCount = await streamRawResponse(
+		const bytes = await streamRawResponse(
 			upstream,
 			response,
-			responseHeaderBag
+			localHeaders
 		);
-		logResponse(config, upstream, type, responseHeaderBag, {
-			bytes: byteCount,
+		logProxyResponse(config, upstream, type, localHeaders, {
+			bytes,
 			rewrite: false,
 			mode: "raw-stream"
 		});
@@ -78,54 +87,20 @@ async function proxyChatGpt(request, response, config) {
 		local,
 		new URL(target).origin
 	);
-	logResponse(config, upstream, type, responseHeaderBag, {
+	logProxyResponse(config, upstream, type, localHeaders, {
 		bytes: bytes.length,
 		rewrite: transformed.rewrite,
 		mode: transformed.mode
 	});
-	send(
-		response,
-		upstream.status,
-		transformed.body,
-		responseHeaderBag
-	);
+	send(response, upstream.status, transformed.body, localHeaders);
 }
 
 function mapRedirect(upstream, headers, config) {
-	if (upstream.status < 300 || upstream.status >= 400) {
-		return;
-	}
+	if (upstream.status < 300 || upstream.status >= 400) return;
 	headers.location = toLocal(
 		upstream.headers.get("location"),
 		config
 	);
-}
-
-function logRequest(config, request, local, target, body, headers, cookie) {
-	log(config, "proxy:request", {
-		method: request.method,
-		local: local.pathname + local.search,
-		target,
-		bodyBytes: body ? body.length : 0,
-		requestHeaderNames: Object.keys(request.headers || {}).sort(),
-		upstreamHeaderNames: Object.keys(headers || {}).sort(),
-		contentType: request.headers["content-type"] || "",
-		hasCookie: Boolean(cookie),
-		dataRoute: local.searchParams.get("_data") || ""
-	});
-}
-
-function logResponse(config, upstream, type, headers, details) {
-	log(config, "proxy:response", {
-		status: upstream.status,
-		type,
-		bytes: details.bytes,
-		url: upstream.url,
-		location: headers.location || "",
-		responseHeaderNames: [...upstream.headers.keys()].sort(),
-		rewrite: details.rewrite,
-		mode: details.mode
-	});
 }
 
 module.exports = {

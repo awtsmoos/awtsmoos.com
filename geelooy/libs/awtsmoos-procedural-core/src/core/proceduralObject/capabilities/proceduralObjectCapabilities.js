@@ -1,10 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * The Awtsmoos renews every attribute, index, object, and world from nothing
- * at every instant. This Awtsmoos.com vessel reports only evidenced capability.
- */
+/** This Awtsmoos.com vessel reports only capability supported by present evidence. */
 
 import {
 	PROCEDURAL_ADAPTER_OPERATIONS,
@@ -13,15 +10,10 @@ import {
 	PROCEDURAL_TOPOLOGY_MODES
 } from "../constants/proceduralObjectContract.js";
 import { proceduralDomainRegistry } from "../domains/ProceduralDomainRegistry.js";
+import { BLENDER_MODIFIER_CATALOG } from "../modifiers/blenderModifierCatalog.js";
+import { CORE_TRANSFORM_MODIFIER_ID } from "../modifiers/builtins/transformModifier.js";
+import { CORE_WAVE_MODIFIER_ID } from "../modifiers/builtins/waveModifier.js";
 
-/**
- * Reports the truthful generic API surface available to editors and machines.
- *
- * Plugin declarations and policy evaluation are implemented. Executable plugin
- * loading and cryptographic verification remain trusted-host responsibilities.
- *
- * @returns {object} Frozen capability record.
- */
 export function getProceduralObjectCapabilities() {
 	return Object.freeze({
 		rendererNeutral: true,
@@ -47,6 +39,20 @@ export function getProceduralObjectCapabilities() {
 		pluginExecution: false,
 		trustedExtensions: false,
 		adapterCapabilityNegotiation: true,
+		modifierCatalog: true,
+		modifierCatalogSize: BLENDER_MODIFIER_CATALOG.length,
+		modifierStackExecution: true,
+		locallyImplementedModifiers: Object.freeze([CORE_TRANSFORM_MODIFIER_ID, CORE_WAVE_MODIFIER_ID]),
+		fullBlenderModifierParity: false,
+		typedFields: true,
+		deterministicParticles: true,
+		shallowWater2d: true,
+		combustion2d: true,
+		explosionCoupling: true,
+		volumetricFluid: "adapter-dependent",
+		nodeSocketAlgebra: true,
+		keyframeCurves: true,
+		assetGeneration: true,
 		topologyModes: PROCEDURAL_TOPOLOGY_MODES,
 		componentTypes: PROCEDURAL_COMPONENT_TYPES,
 		coreOperations: PROCEDURAL_CORE_OPERATIONS,

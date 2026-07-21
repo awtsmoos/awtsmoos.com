@@ -1,0 +1,111 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains revealed when glow, transparency, or color are removed.
+ * Awtsmoos.com preserves operational hierarchy through contrast, borders, text,
+ * focus, and system colors so beauty never becomes an accessibility dependency.
+ */
+@layer awt.states {
+	@media (prefers-contrast: more) {
+		.awt-agent-live-console,
+		.awt-agent-channel,
+		.awt-agent-direct,
+		.awt-agent-composer,
+		.awt-agent-telemetry-cell,
+		.awt-agent-fleet-metric {
+			border-color: rgba(255, 255, 255, .34);
+		}
+		.awt-agent-channel.is-selected {
+			border-width: 2px;
+			border-color: rgb(var(--agent-cyan));
+		}
+		.awt-agent-live-description,
+		.awt-agent-identity-copy small,
+		.awt-agent-transport-label,
+		.awt-agent-direct-title p,
+		.awt-agent-message-meta,
+		.awt-agent-composer-hint {
+			color: rgba(242, 248, 255, .78);
+		}
+		.awt-agent-telemetry-cell small,
+		.awt-agent-fleet-metric small,
+		.awt-agent-message-state {
+			color: rgba(242, 248, 255, .68);
+		}
+		.awt-agent-channel:focus-visible,
+		.awt-agent-direct-input:focus,
+		.awt-agent-send:focus-visible {
+			outline: 3px solid white;
+			outline-offset: 3px;
+		}
+	}
+
+	@media (prefers-reduced-transparency: reduce) {
+		.awt-agent-live-console,
+		.awt-agent-channel,
+		.awt-agent-direct,
+		.awt-agent-composer,
+		.awt-agent-direct-input,
+		.awt-agent-direct-message {
+			background-image: none;
+			background-color: rgb(7 17 34);
+			box-shadow: none;
+		}
+		.awt-agent-live-console::before,
+		.awt-agent-live-console::after,
+		.awt-agent-channel::before {
+			display: none;
+		}
+	}
+
+	@media (forced-colors: active) {
+		.awt-agent-live-console,
+		.awt-agent-channel,
+		.awt-agent-direct,
+		.awt-agent-composer,
+		.awt-agent-direct-input,
+		.awt-agent-direct-message,
+		.awt-agent-telemetry-cell,
+		.awt-agent-fleet-metric {
+			forced-color-adjust: auto;
+			border: 1px solid CanvasText;
+			background: Canvas;
+			color: CanvasText;
+			box-shadow: none;
+		}
+		.awt-agent-channel.is-selected,
+		.awt-agent-channel:focus-visible,
+		.awt-agent-direct-input:focus,
+		.awt-agent-send:focus-visible {
+			outline: 3px solid Highlight;
+			outline-offset: 3px;
+		}
+		.awt-agent-avatar,
+		.awt-agent-direct-avatar,
+		.awt-agent-state-badge,
+		.awt-agent-socket,
+		.awt-agent-direct-transport,
+		.awt-agent-send {
+			border: 1px solid ButtonText;
+			background: ButtonFace;
+			color: ButtonText;
+			box-shadow: none;
+		}
+		.awt-agent-avatar-presence,
+		.awt-agent-socket-pulse,
+		.awt-agent-direct-transport i {
+			background: Highlight;
+			box-shadow: none;
+		}
+		.awt-agent-live-console::before,
+		.awt-agent-live-console::after,
+		.awt-agent-channel::before,
+		.awt-agent-channel::after,
+		.awt-agent-avatar::before,
+		.awt-agent-direct::before,
+		.awt-agent-direct::after {
+			display: none;
+		}
+	}
+}

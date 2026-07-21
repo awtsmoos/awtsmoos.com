@@ -4,16 +4,16 @@
 
 /**
  * @file GameplayUiController.js
- * @description Coordinates stores, panels, Shlichus events, Torah abilities, and physical attacks.
- * The Awtsmoos renews quest, learning, commerce, and strength beneath one event vessel;
- * Awtsmoos.com keeps both Torah-light and staff strikes transactional, bounded, and directly known.
+ * @description Owns durable Shlichus, action-bar combat, panels, and physical attacks.
  */
 
 import { AdventureStore } from '../gameplay/AdventureStore.js';
+import { ActionBarRuntimeCoordinator } from '../gameplay/actionbar/ActionBarRuntimeCoordinator.js';
 import { PlayerMeleeController } from '../gameplay/combat/PlayerMeleeController.js';
 import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { ShliachProfileStore } from '../gameplay/ShliachProfileStore.js';
+import { ShlichusRuntimeCoordinator } from '../gameplay/ShlichusRuntimeCoordinator.js';
 import { GameplayActionGateway } from './GameplayActionGateway.js';
 import { GameplayPanelSuite } from './GameplayPanelSuite.js';
 import { installGameplayUiStyles } from './GameplayUiStyles.js';
@@ -26,8 +26,13 @@ export class GameplayUiController {
 		this.bus = bus;
 		this.adventures = options.adventures || new AdventureStore();
 		this.inventory = options.inventory || new InventoryStore();
-		this.profile = options.profile || new ShliachProfileStore({
-			inventory: this.inventory
+		this.profile = options.profile || new ShliachProfileStore({ inventory: this.inventory });
+		this.shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
+			adventures: this.adventures,
+			bus,
+			persistence: options.shlichusPersistence,
+			persistenceOptions: options.shlichusPersistenceOptions,
+			profile: this.profile
 		});
 		this.gateway = new GameplayActionGateway({
 			actions: options.actions,
@@ -40,6 +45,15 @@ export class GameplayUiController {
 			focus: options.focus,
 			inventory: this.inventory,
 			profile: this.profile
+		});
+		this.actionBar = options.actionBar || new ActionBarRuntimeCoordinator({
+			bus,
+			clock: options.clock,
+			combat: this.combat,
+			inventory: this.inventory,
+			persistence: options.actionBarPersistence,
+			persistenceOptions: options.actionBarPersistenceOptions,
+			playerId: options.playerId
 		});
 		this.melee = options.melee || new PlayerMeleeController({
 			attack: options.meleeAttack,
@@ -64,22 +78,12 @@ export class GameplayUiController {
 		for (const [eventType, panelId] of Object.entries(PANEL_EVENTS)) {
 			this.listen(eventType, () => this.panels.toggle(panelId));
 		}
-		this.listen('inventory:state', detail => {
-			this.panels.notifyInventory(detail.open);
-		});
-		this.listen('quest:offer', detail => {
-			this.panels.questOffer.open(detail.questId);
-		});
+		this.listen('inventory:state', detail => this.panels.notifyInventory(detail.open));
+		this.listen('quest:offer', detail => this.panels.questOffer.open(detail.questId));
 		this.listen('quest:event', event => this.adventures.recordEvent(event));
-		this.listen('inventory:add', detail => {
-			this.inventory.add(detail.itemId, detail.quantity);
-		});
-		this.listen('inventory:equip', detail => {
-			this.inventory.equip(detail.itemId);
-		});
-		this.listen('profile:synchronize', detail => {
-			this.profile.synchronize(detail);
-		});
+		this.listen('inventory:add', detail => this.inventory.add(detail.itemId, detail.quantity));
+		this.listen('inventory:equip', detail => this.inventory.equip(detail.itemId));
+		this.listen('profile:synchronize', detail => this.profile.synchronize(detail));
 	}
 
 	listen(type, listener) {
@@ -92,16 +96,20 @@ export class GameplayUiController {
 
 	snapshot() {
 		return {
+			actionBar: this.actionBar.snapshot(),
 			adventures: this.adventures.snapshot(),
 			combat: this.combat.snapshot(),
 			inventory: this.inventory.snapshot(),
 			melee: this.melee.snapshot(),
-			profile: this.profile.snapshot()
+			profile: this.profile.snapshot(),
+			shlichusPersistence: this.shlichus.snapshot()
 		};
 	}
 
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
+		this.actionBar.destroy();
+		this.shlichus.destroy();
 		this.combat.destroy();
 		this.melee.destroy();
 		this.panels.destroy();

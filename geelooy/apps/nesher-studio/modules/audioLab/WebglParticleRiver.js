@@ -11,7 +11,6 @@ import {
 	readParticleUniforms,
 	releaseParticleResources
 } from './webglParticleState.js';
-
 export class WebglParticleRiver {
 	constructor(canvas) {
 		this.canvas = canvas;
@@ -28,11 +27,9 @@ export class WebglParticleRiver {
 		canvas.addEventListener('webglcontextrestored', this.onContextRestored, false);
 		if (this.gl) this.initialize();
 	}
-
 	get available() {
 		return Boolean(this.gl && this.program && !this.contextLost);
 	}
-
 	initialize() {
 		if (!this.gl) return;
 		this.releaseResources();
@@ -52,7 +49,6 @@ export class WebglParticleRiver {
 			this.releaseResources();
 		}
 	}
-
 	resize(width, height, pixelRatio) {
 		const deviceWidth = Math.max(1, Math.round(width * pixelRatio));
 		const deviceHeight = Math.max(1, Math.round(height * pixelRatio));
@@ -63,7 +59,6 @@ export class WebglParticleRiver {
 		}
 		this.gl?.viewport(0, 0, deviceWidth, deviceHeight);
 	}
-
 	render(frame, configuration, timeSeconds, particleCount, quality) {
 		if (!this.available) return false;
 		const gl = this.gl;
@@ -80,7 +75,6 @@ export class WebglParticleRiver {
 		gl.bindVertexArray(null);
 		return true;
 	}
-
 	setFloatUniforms(frame, configuration, timeSeconds, quality) {
 		const values = {
 			time: timeSeconds,
@@ -97,7 +91,6 @@ export class WebglParticleRiver {
 			this.gl.uniform1f(this.uniforms[name], value);
 		});
 	}
-
 	handleContextLost(event) {
 		event.preventDefault();
 		this.contextLost = true;
@@ -106,12 +99,10 @@ export class WebglParticleRiver {
 		this.vertexArray = null;
 		this.uniforms = {};
 	}
-
 	handleContextRestored() {
 		this.initialize();
 		this.gl?.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
-
 	releaseResources() {
 		releaseParticleResources(this.gl, this, this.contextLost);
 		this.vertexArray = null;

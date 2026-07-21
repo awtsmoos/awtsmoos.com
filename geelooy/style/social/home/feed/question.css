@@ -24,8 +24,13 @@
 	padding: 0.45rem;
 	color: var(--cosmic-secondary);
 	border: 1px solid color-mix(in srgb, var(--source-accent) 42%, transparent);
-	background: linear-gradient(135deg, color-mix(in srgb, var(--source-accent) 8%, transparent), rgba(3, 15, 31, 0.84));
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+	background:
+		linear-gradient(
+			135deg,
+			color-mix(in srgb, var(--source-accent) 8%, transparent),
+			color-mix(in srgb, var(--cosmic-deep) 92%, transparent)
+		);
+	box-shadow: inset 0 1px color-mix(in srgb, var(--cosmic-text) 4%, transparent);
 	clip-path: polygon(0 0, calc(100% - 0.45rem) 0, 100% 0.45rem, 100% 100%, 0 100%);
 	font-size: 0.68rem;
 	font-weight: 760;
@@ -39,7 +44,7 @@
 	margin: 0;
 	padding: 0.65rem;
 	border: 1px solid color-mix(in srgb, var(--source-accent) 46%, transparent);
-	background: rgba(2, 13, 28, 0.86);
+	background: color-mix(in srgb, var(--cosmic-page) 90%, transparent);
 	box-shadow: 0 0 1rem color-mix(in srgb, var(--source-accent) 9%, transparent);
 	clip-path: polygon(0 0, calc(100% - 0.65rem) 0, 100% 0.65rem, 100% 100%, 0.55rem 100%, 0 calc(100% - 0.55rem));
 }
@@ -80,9 +85,9 @@
 .cosmic-poll-track {
 	height: 0.52rem;
 	overflow: hidden;
-	border: 1px solid rgba(76, 142, 204, 0.16);
+	border: 1px solid color-mix(in srgb, var(--cosmic-blue) 18%, transparent);
 	border-radius: 999px;
-	background: rgba(25, 68, 111, 0.22);
+	background: color-mix(in srgb, var(--cosmic-dust-cyan) 28%, transparent);
 }
 
 .cosmic-poll-fill {
@@ -90,8 +95,8 @@
 	width: var(--poll-value);
 	height: 100%;
 	border-radius: inherit;
-	background: linear-gradient(90deg, var(--cosmic-blue), var(--cosmic-cyan));
-	box-shadow: 0 0 0.75rem var(--cosmic-cyan);
+	background: linear-gradient(90deg, var(--cosmic-blue-core), var(--cosmic-aqua), var(--cosmic-cyan-core));
+	box-shadow: 0 0 0.75rem color-mix(in srgb, var(--cosmic-cyan-core) 78%, transparent);
 }
 
 .cosmic-poll-status {

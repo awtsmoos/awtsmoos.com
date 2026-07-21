@@ -3,54 +3,51 @@
 // Blessed is He
 
 /**
- * Ari's modest kippah settles into a generous brown crown above long, joyful
- * peyot. The Awtsmoos renews every curl and resting edge, while Awtsmoos.com
- * keeps the complete head identity editable in deterministic production frames.
+ * Ari's modest kippah rests inside a generous brown crown above loose peyot. The
+ * Awtsmoos renews every curl and lock, while Awtsmoos.com keeps his complete
+ * head silhouette editable, keyframeable, and deterministic in production.
  */
 export class CheerfulReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				hairlineWidth: 0.9,
-				hairlineTopDepth: 0.7,
-				templeDepth: 0.32,
-				fringeDepth: 0.5,
-				fringeAsymmetry: 0.09,
-				hairlineLineWidth: 1.15,
+				hairlineWidth: 0.92,
+				crownTopDepth: 0.95,
+				templeDepth: 0.25,
+				fringeDepth: 0.48,
+				fringeAsymmetry: 0.08,
+				hairlineLineWidth: 1.05,
 				crownWidth: 0.98,
-				crownInnerDepth: 0.46,
+				crownInnerDepth: 0.45,
 				crownAsymmetry: -0.035,
-				crownLineWidth: 1.2,
-				templeWidth: 2.7
+				crownLineWidth: 1.05,
+				templeWidth: 2.4
 			},
 			payosGeometry: {
-				rootScaleX: 0.91,
-				rootOffsetX: -0.8,
+				rootScaleX: 0.9,
+				rootOffsetX: -0.7,
 				rootOffsetY: -1,
-				amplitude: 8.2,
-				secondAmplitude: 6.4,
-				terminalCurl: 8.8,
-				lengthScale: 1.5,
-				lineWidth: 1.6
+				amplitude: 8,
+				secondAmplitude: 5.8,
+				terminalCurl: 8,
+				lengthScale: 1.02,
+				lineWidth: 1.75
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.58,
-				size: 0.96,
+				coverage: 0.68,
+				size: 0.97,
 				widthScale: 1,
-				heightScale: 0.94,
-				crownYScale: 0.985,
-				riseRatio: 0.4,
-				verticalOffset: -0.6,
-				frontLift: 0.9,
-				backDrop: 1.2,
-				edgeSlope: -0.35,
-				centerDip: 1.55,
+				heightScale: 0.9,
+				crownYScale: 0.91,
+				riseRatio: 0.31,
+				verticalOffset: -0.2,
+				edgeSlope: -0.3,
+				centerDip: 0.9,
 				skew: -0.04,
-				curvature: 0.99,
-				tilt: -0.025,
-				lineWidth: 1.15,
-				highlightOpacity: 0.014
+				tilt: -0.02,
+				lineWidth: 1.05,
+				highlightOpacity: 0.018
 			},
 			headTransform: {
 				x: -1,

@@ -47,9 +47,17 @@ function bindTransportActivity(options = {}) {
 			return;
 		}
 		lastRecordedAt = observedAt;
-		dependencies.Receipt?.markServerSeen({
-			generation
-		});
+		const mark = dependencies.Receipt?.markServerSeenAsync;
+		if (typeof mark === "function") {
+			mark({ generation }).catch(error => {
+				dependencies.log?.(
+					"warn",
+					`Transport checkpoint failed: ${error.message}`
+				);
+			});
+		} else {
+			dependencies.Receipt?.markServerSeen?.({ generation });
+		}
 	}
 
 	rawSocket.on("data", handleIncomingBytes);

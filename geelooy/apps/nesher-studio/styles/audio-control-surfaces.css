@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the control chamber hierarchy, surface, and measured response while remaining beyond every interface; Awtsmoos.com keeps rack and deck structure clear without enlarging the viewport.
+*/
+.audio-control-rack {
+	border-color: rgba(var(--audio-primary), .18);
+	background:
+		linear-gradient(145deg, rgba(13, 27, 51, .92), rgba(4, 10, 23, .9)),
+		radial-gradient(circle at 80% 0%, rgba(var(--audio-secondary), .16), transparent 42%);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, .06),
+		inset 0 0 34px rgba(var(--audio-secondary), .05),
+		0 16px 46px rgba(0, 0, 0, .28);
+}
+
+.audio-control-rack > .deck-tabs {
+	border-color: rgba(var(--audio-primary), .12);
+	background: rgba(1, 6, 16, .58);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035);
+}
+
+.audio-control-rack .deck-tabs button {
+	color: var(--muted);
+	text-shadow: 0 1px 10px rgba(0, 0, 0, .6);
+	transition:
+		color var(--transition),
+		background var(--transition),
+		box-shadow var(--transition),
+		transform var(--transition);
+}
+
+.audio-control-rack .deck-tabs button.active,
+.audio-control-rack .deck-tabs button[aria-selected="true"] {
+	color: rgb(var(--audio-primary));
+	background: linear-gradient(
+		135deg,
+		rgba(var(--audio-primary), .17),
+		rgba(var(--audio-secondary), .1)
+	);
+	box-shadow:
+		inset 0 0 0 1px rgba(var(--audio-primary), .2),
+		0 5px 16px rgba(0, 0, 0, .18);
+}
+
+.audio-control-rack .deck-panel {
+	border-radius: 13px;
+	background: linear-gradient(
+		160deg,
+		rgba(13, 25, 46, .44),
+		rgba(2, 7, 17, .28)
+	);
+}
+
+.audio-control-rack output {
+	padding: 2px 6px;
+	border: 1px solid rgba(var(--audio-primary), .16);
+	border-radius: 999px;
+	background: rgba(var(--audio-primary), .07);
+	font-variant-numeric: tabular-nums;
+}
+
+.audio-control-rack button:focus-visible,
+.audio-control-rack input:focus-visible {
+	outline: 2px solid rgb(var(--audio-primary));
+	outline-offset: 2px;
+}
+
+@media (hover: hover) {
+	.audio-control-rack .deck-tabs button:hover {
+		color: var(--ink);
+		transform: translateY(-1px);
+	}
+}

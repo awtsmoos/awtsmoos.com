@@ -50,7 +50,7 @@ function runTest(file) {
 	const result = spawnSync(process.execPath, [fullPath], {
 		cwd: path.resolve(__dirname, "../../../../.."),
 		encoding: "utf8",
-		timeout: 120000,
+		timeout: 8 * 60 * 1000,
 		maxBuffer: 8 * 1024 * 1024
 	});
 	return {

@@ -12,8 +12,9 @@ const STORAGE_DIRECTORY = path.join(
 );
 
 /**
- * When a bounded stream outgrows memory, the Awtsmoos gives it a quieter
- * vessel: one append-only temporary file whose offsets preserve exact order.
+ * When a bounded stream outgrows memory, the Awtsmoos gives it one append-only
+ * temporary file. Completion seals the write handle so finished streams cannot
+ * keep Node alive, while cursor reads reopen a short-lived read handle.
  */
 async function spillStoreToDisk(store) {
 	await fs.mkdir(STORAGE_DIRECTORY, { recursive: true });
@@ -33,6 +34,9 @@ async function spillStoreToDisk(store) {
 }
 
 async function appendDiskChunk(store, chunk) {
+	if (!store.fileHandle) {
+		throw new Error("Disk stream store is already sealed.");
+	}
 	const offset = store.totalBytes;
 	await store.fileHandle.write(chunk, 0, chunk.length, offset);
 	store.offsets.push(offset);
@@ -40,19 +44,21 @@ async function appendDiskChunk(store, chunk) {
 	store.totalBytes += chunk.length;
 }
 
+async function finalizeDiskStore(store) {
+	if (!store.fileHandle) return;
+	await store.fileHandle.sync();
+	await store.fileHandle.close();
+	store.fileHandle = null;
+}
+
 async function readDiskChunk(store, index) {
 	const length = store.lengths[index];
-	if (!Number.isFinite(length)) {
-		return null;
-	}
-	const output = Buffer.allocUnsafe(length);
-	await store.fileHandle.read(
-		output,
-		0,
-		length,
-		store.offsets[index]
-	);
-	return output;
+	if (!Number.isFinite(length)) return null;
+	return await withReadHandle(store, async handle => {
+		const output = Buffer.allocUnsafe(length);
+		await handle.read(output, 0, length, store.offsets[index]);
+		return output;
+	});
 }
 
 async function readDiskStore(store) {
@@ -60,12 +66,19 @@ async function readDiskStore(store) {
 }
 
 async function cleanupDiskStore(store) {
-	try {
-		await store.fileHandle?.close?.();
-	} catch {}
-	store.fileHandle = null;
+	await finalizeDiskStore(store).catch(() => undefined);
 	if (store.filePath) {
 		await fs.rm(store.filePath, { force: true }).catch(() => undefined);
+	}
+}
+
+async function withReadHandle(store, action) {
+	if (store.fileHandle) return await action(store.fileHandle);
+	const handle = await fs.open(store.filePath, "r");
+	try {
+		return await action(handle);
+	} finally {
+		await handle.close();
 	}
 }
 
@@ -76,6 +89,7 @@ function safeName(value) {
 module.exports = {
 	appendDiskChunk,
 	cleanupDiskStore,
+	finalizeDiskStore,
 	readDiskChunk,
 	readDiskStore,
 	spillStoreToDisk
