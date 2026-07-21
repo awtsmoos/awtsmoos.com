@@ -1,0 +1,106 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets attention move through the constellation without erasing any
+ * agent. Awtsmoos.com uses spatial focus, sibling quieting, tactile activation,
+ * and composer resonance to make the live field feel operationally alive.
+ */
+@layer awt.views {
+	.awt-agent-channel,
+	.awt-agent-channel-identity,
+	.awt-agent-telemetry-cell,
+	.awt-agent-fleet-metric,
+	.awt-agent-composer {
+		transition:
+			transform 220ms ease,
+			opacity 220ms ease,
+			border-color 220ms ease,
+			box-shadow 220ms ease,
+			background 220ms ease;
+	}
+
+	@supports selector(:has(*)) {
+		.awt-agent-channel-grid:has(.awt-agent-channel:hover) .awt-agent-channel:not(:hover):not(.is-selected) {
+			opacity: .68;
+			transform: scale(.985);
+			filter: saturate(.78);
+		}
+
+		.awt-agent-live-console:has(.awt-agent-composer:focus-within) .awt-agent-direct {
+			border-color: rgb(var(--agent-cyan) / .34);
+			box-shadow:
+				0 26px 58px rgba(0, 0, 0, .32),
+				0 0 42px rgb(var(--agent-cyan) / .08),
+				inset 0 1px 0 rgba(255, 255, 255, .07);
+		}
+	}
+
+	.awt-agent-channel:hover .awt-agent-channel-identity,
+	.awt-agent-channel.is-selected .awt-agent-channel-identity {
+		transform: translateY(-1px);
+	}
+
+	.awt-agent-channel:hover .awt-agent-telemetry-cell {
+		border-color: rgb(var(--agent-card-rgb) / .12);
+		background: rgb(var(--agent-card-rgb) / .035);
+	}
+
+	.awt-agent-channel:active {
+		transform: translateY(-1px) scale(.992);
+	}
+
+	.awt-agent-fleet-metric:hover {
+		transform: translateY(-2px);
+		border-color: rgb(var(--agent-cyan) / .16);
+		background: rgb(var(--agent-cyan) / .04);
+	}
+
+	.awt-agent-fleet-metric:hover strong {
+		text-shadow: 0 0 18px rgb(var(--agent-cyan) / .28);
+	}
+
+	.awt-agent-composer:focus-within {
+		border-color: rgb(var(--agent-cyan) / .22);
+		background: rgb(var(--agent-cyan) / .028);
+		box-shadow:
+			0 14px 32px rgba(0, 0, 0, .2),
+			inset 0 1px 0 rgba(255, 255, 255, .06);
+	}
+
+	.awt-agent-direct-message:hover {
+		border-color: rgb(var(--agent-violet) / .18);
+		box-shadow: 0 10px 24px rgba(0, 0, 0, .14);
+	}
+
+	.awt-agent-direct-message.is-outgoing:hover {
+		border-color: rgb(var(--agent-cyan) / .24);
+	}
+
+	.awt-agent-open-channel::after {
+		content: "";
+		display: inline-block;
+		width: 0;
+		height: 1px;
+		margin-left: 5px;
+		vertical-align: middle;
+		background: currentColor;
+		transition: width 180ms ease;
+	}
+
+	.awt-agent-channel:hover .awt-agent-open-channel::after,
+	.awt-agent-channel.is-selected .awt-agent-open-channel::after {
+		width: 14px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.awt-agent-channel,
+		.awt-agent-channel-identity,
+		.awt-agent-telemetry-cell,
+		.awt-agent-fleet-metric,
+		.awt-agent-composer,
+		.awt-agent-open-channel::after {
+			transition: none !important;
+		}
+	}
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file AdventureStore.js
- * @description Coordinates offered, active, pinned, completed, and declined quests.
- * The Awtsmoos renews free acceptance and measured progress inside one store vessel;
- * Awtsmoos.com delegates objective law to pure rules and publishes immutable snapshots.
+ * @description Coordinates quest offers, progress, pins, completion, serialization, and restoration.
+ * The Awtsmoos renews each mission while memory crosses reloads; Awtsmoos.com persists only
+ * mutable record state, then reunites it with the canonical catalog instead of duplicating truth.
  */
 
 import { ADVENTURE_CATALOG } from './AdventureCatalog.js';
@@ -56,8 +56,7 @@ export class AdventureStore {
 
 	abandon(questId) {
 		return this.change(questId, record => {
-			if (record.status !== 'active') return;
-			this.records.set(questId, resetAdventureRecord(record));
+			if (record.status === 'active') this.records.set(questId, resetAdventureRecord(record));
 		});
 	}
 
@@ -69,9 +68,7 @@ export class AdventureStore {
 				return;
 			}
 			const pinned = [...this.records.values()].filter(item => item.pinned).length;
-			if (pinned >= MAX_PINNED) {
-				throw new Error(`Only ${MAX_PINNED} quests may be pinned.`);
-			}
+			if (pinned >= MAX_PINNED) throw new Error(`Only ${MAX_PINNED} quests may be pinned.`);
 			record.pinned = true;
 		});
 	}
@@ -87,13 +84,40 @@ export class AdventureStore {
 
 	synchronize(questId, progress) {
 		return this.change(questId, record => {
-			record.status = progress?.status === 'complete'
-				? 'completed'
-				: progress?.status || 'available';
+			record.status = progress?.status === 'complete' ? 'completed' : progress?.status || 'available';
 			record.objectiveIndex = Number(progress?.objectiveIndex || 0);
 			const objective = record.objectives[record.objectiveIndex];
 			if (objective) objective.progress = Number(progress?.count || 0);
 		});
+	}
+
+	serialize() {
+		return [...this.records.values()].map(record => ({
+			acceptedAt: record.acceptedAt || null,
+			completedAt: record.completedAt || null,
+			id: record.definition.id,
+			objectiveIndex: record.objectiveIndex,
+			objectives: record.objectives.map(objective => ({ progress: objective.progress })),
+			pinned: Boolean(record.pinned),
+			status: record.status
+		}));
+	}
+
+	restore(records) {
+		for (const saved of records || []) {
+			const record = this.records.get(saved.id);
+			if (!record) continue;
+			record.acceptedAt = saved.acceptedAt || null;
+			record.completedAt = saved.completedAt || null;
+			record.objectiveIndex = Number(saved.objectiveIndex || 0);
+			record.pinned = Boolean(saved.pinned);
+			record.status = saved.status || 'available';
+			for (let index = 0; index < record.objectives.length; index += 1) {
+				record.objectives[index].progress = Number(saved.objectives?.[index]?.progress || 0);
+			}
+		}
+		this.publish();
+		return this.snapshot();
 	}
 
 	get(questId) {

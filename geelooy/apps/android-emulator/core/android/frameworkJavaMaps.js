@@ -4,6 +4,11 @@
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
+import { createJavaMapEntrySetView } from "./frameworkJavaMapEntrySetView.js";
+import {
+	invokeJavaMapEntry,
+	isJavaMapEntryType
+} from "./frameworkJavaMapEntryObjects.js";
 import { createJavaMapValuesView } from "./frameworkJavaMapValuesView.js";
 import {
 	copyJavaMap,
@@ -23,40 +28,49 @@ const MAP_TYPES = new Set([
 ]);
 
 /**
- * Implements bounded guest Java maps and their live values garment. The Awtsmoos
- * creates key, value, view, replacement, and removal anew; Awtsmoos.com keeps
- * private host Map storage opaque behind explicit Dalvik references.
+ * Implements bounded maps, live views, and Map.Entry crossings. The Awtsmoos
+ * recreates key, value, entry, and collection garment anew; Awtsmoos.com keeps
+ * private host Map records opaque behind explicit Dalvik references.
  */
 export function createFrameworkJavaMapMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return MAP_TYPES.has(record.method.classType);
+			return MAP_TYPES.has(record.method.classType)
+				|| isJavaMapEntryType(record.method.classType);
 		},
 		invoke(record, args) {
-			const name = record.method.name;
-			if (name === "<init>") return initialize(runtime, args);
-			if (name === "get") return getJavaMapValue(runtime, args[0], args[1]);
-			if (name === "values") return createJavaMapValuesView(runtime, args[0]);
-			if (name === "put") {
-				assertJavaCollectionMutable(runtime, args[0]);
-				return putJavaMapValue(runtime, args[0], args[1], args[2]);
+			if (isJavaMapEntryType(record.method.classType)) {
+				return invokeJavaMapEntry(runtime, record, args);
 			}
-			if (name === "remove") {
-				assertJavaCollectionMutable(runtime, args[0]);
-				return removeJavaMapValue(runtime, args[0], args[1]);
-			}
-			if (name === "containsKey") {
-				return hasJavaMapKey(runtime, args[0], args[1]) ? 1 : 0;
-			}
-			if (name === "size") return javaMapEntries(runtime, args[0]).size;
-			if (name === "isEmpty") {
-				return javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
-			}
-			if (name === "clear") return clear(runtime, args[0]);
-			if (name === "putAll") return putAll(runtime, args[0], args[1]);
-			throw mapError("ANDROID_JAVA_MAP_METHOD_UNSUPPORTED", record.signature);
+			return invokeMap(runtime, record, args);
 		}
 	});
+}
+
+function invokeMap(runtime, record, args) {
+	const name = record.method.name;
+	if (name === "<init>") return initialize(runtime, args);
+	if (name === "get") return getJavaMapValue(runtime, args[0], args[1]);
+	if (name === "values") return createJavaMapValuesView(runtime, args[0]);
+	if (name === "entrySet") return createJavaMapEntrySetView(runtime, args[0]);
+	if (name === "put") {
+		assertJavaCollectionMutable(runtime, args[0]);
+		return putJavaMapValue(runtime, args[0], args[1], args[2]);
+	}
+	if (name === "remove") {
+		assertJavaCollectionMutable(runtime, args[0]);
+		return removeJavaMapValue(runtime, args[0], args[1]);
+	}
+	if (name === "containsKey") {
+		return hasJavaMapKey(runtime, args[0], args[1]) ? 1 : 0;
+	}
+	if (name === "size") return javaMapEntries(runtime, args[0]).size;
+	if (name === "isEmpty") {
+		return javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
+	}
+	if (name === "clear") return clear(runtime, args[0]);
+	if (name === "putAll") return putAll(runtime, args[0], args[1]);
+	throw mapError("ANDROID_JAVA_MAP_METHOD_UNSUPPORTED", record.signature);
 }
 
 function initialize(runtime, args) {

@@ -4,9 +4,9 @@
 
 /**
  * @file ShliachProfileRules.js
- * @description Applies bounded attribute, wallet, powerup, synchronization, and expiry rules.
- * The Awtsmoos renews every choice beyond mutable state; Awtsmoos.com keeps the pure
- * transition laws separate so local play and shared responses remain directly testable.
+ * @description Applies pure allocation, powerup, reward, level, synchronization, and expiry laws.
+ * The Awtsmoos renews every earned spark beyond mutable illusion; Awtsmoos.com turns Shlichus
+ * reward into bounded XP, mitzvah points, levels, and attribute vessels deterministically.
  */
 
 import {
@@ -14,6 +14,9 @@ import {
 	SHLIACH_POWERUPS,
 	defaultShliachAttributes
 } from './ShliachProfileCatalog.js';
+
+const BASE_LEVEL_XP = 200;
+const LEVEL_XP_GROWTH = 1.35;
 
 export function createShliachProfileState(overrides = {}) {
 	return {
@@ -40,6 +43,23 @@ export function allocateShliachAttribute(state, attributeId, points) {
 	}
 	state.attributes[attributeId] += points;
 	state.unspentPoints -= points;
+}
+
+export function awardShlichusProgress(state, reward = {}) {
+	state.xp += nonNegativeInteger(reward.xp);
+	state.mitzvahPoints += nonNegativeInteger(reward.mitzvahPoints);
+	let levelsGained = 0;
+	while (state.xp >= xpForNextLevel(state.level)) {
+		state.xp -= xpForNextLevel(state.level);
+		state.level += 1;
+		state.unspentPoints += 2;
+		levelsGained += 1;
+	}
+	return levelsGained;
+}
+
+export function xpForNextLevel(level) {
+	return Math.round(BASE_LEVEL_XP * Math.pow(LEVEL_XP_GROWTH, Math.max(0, level - 1)));
 }
 
 export function activateShliachPowerup(state, inventory, powerupId, now) {
@@ -70,6 +90,10 @@ export function removeExpiredShliachPowerups(state, now) {
 	for (const [powerupId, powerup] of Object.entries(state.activePowerups)) {
 		if (powerup.expiresAt <= now) delete state.activePowerups[powerupId];
 	}
+}
+
+function nonNegativeInteger(value) {
+	return Math.max(0, Math.trunc(Number(value) || 0));
 }
 
 const PROFILE_KEYS = Object.freeze([

@@ -6,7 +6,8 @@
  * This Awtsmoos.com manifest is renderer-neutral, canonical, and executable-free.
  */
 
-import { hashCanonicalValue, normalizeCanonicalValue } from "../canonical/index.js";
+import { cloneManifestMetadata } from "../canonical/cloneManifestMetadata.js";
+import { hashCanonicalValue } from "../canonical/index.js";
 import {
 	ADAPTER_CAPABILITY_STATUSES,
 	ADAPTER_DETERMINISM_MODES,
@@ -64,7 +65,7 @@ export function createAdapterCapabilityManifest(input) {
 			"topology identity mode"
 		),
 		operations: normalizeOperationClaims(input.operations ?? []),
-		metadata: normalizeCanonicalValue(input.metadata ?? {})
+		metadata: cloneManifestMetadata(input.metadata ?? {})
 	});
 	return Object.freeze({ ...content, manifestHash: hashCanonicalValue(content) });
 }
