@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWaterBodies.js
- * @description Creates one lake and one stream using two independently animated canonical maps.
- * The Awtsmoos joins mountain source, waterfall, river, bridge, and lake without a seam;
- * Awtsmoos.com combines deep reflection and shallow current in two coherent draw vessels.
+ * @description Creates one lake and one river with explicit live GPU water variants.
+ * The Awtsmoos joins mountain source, waterfall, bridge, river, and lake without a seam;
+ * Awtsmoos.com gives basin and current distinct motion through two shared texture fetches.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
@@ -25,42 +25,36 @@ export function createWaterBodyDefinitions(groundSampler, hydrology = null) {
 			geometry: createLakeGeometry(lake, profile.lakeLevel),
 			id: 'Awtsmoos_lake_basin_alpine_reflection_water',
 			mapRepeat: [6.8, 5.2],
-			mixStrength: 0.16,
+			mixStrength: 0.18,
 			mixTextureUrl: S.waterStream,
+			opacity: 0.7,
 			textureUrl: S.waterLake,
-			waterClass: 'lake'
+			waterVariant: 'lake'
 		}),
 		waterManual({
 			color: '#286d77',
 			geometry: createRiverSurfaceGeometry(profile),
 			id: 'Awtsmoos_flowing_stream_alpine_current_water',
 			mapRepeat: [22, 2.6],
-			mixStrength: 0.18,
+			mixStrength: 0.22,
 			mixTextureUrl: S.waterLake,
+			opacity: 0.67,
 			textureUrl: S.waterStream,
-			waterClass: 'stream'
+			waterVariant: 'river'
 		})
 	];
 	definitions.hydrology = profile;
 	return definitions;
 }
 
-export function waterShaderPolicy(waterClass = 'lake') {
+export function waterShaderPolicy(waterVariant = 'lake') {
 	return {
 		animated: true,
-		depthTint: waterClass === 'lake' ? 0.78 : 0.52,
-		edgeFoam: waterClass === 'lake' ? 0.26 : 0.58,
-		flowLayers: 4,
-		flowScroll: waterClass === 'lake'
-			? [[0.018, 0.011], [-0.012, 0.021]]
-			: [[0.032, 0.009], [-0.018, 0.027]],
-		fresnel: 0.82,
-		goldenSunGlint: 1.72,
-		microRipples: true,
-		refraction: waterClass === 'lake' ? 0.18 : 0.12,
-		shader: 'alpine-dual-flow-refraction-fresnel-foam-water',
+		flowLayers: 2,
+		shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
 		textureDriven: true,
-		waterClass
+		waterClass: waterVariant === 'river' ? 'stream' : waterVariant,
+		waterVariant
 	};
 }
 
@@ -80,17 +74,21 @@ function waterManual(options) {
 		mixStrength: options.mixStrength,
 		mixTextureUrl: options.mixTextureUrl,
 		noEdge: true,
-		opacity: options.waterClass === 'lake' ? 0.68 : 0.64,
+		opacity: options.opacity,
 		shape: 'manual',
 		solid: false,
 		texturePolicy: {
-			...waterShaderPolicy(options.waterClass),
+			...waterShaderPolicy(options.waterVariant),
 			fallbackFirst: true,
 			publicFirebase: true,
 			realMaterialRequired: true
 		},
 		textureUrl: options.textureUrl,
 		transparent: true,
-		userData: { family: 'connected-alpine-village-hydrology', waterClass: options.waterClass }
+		userData: {
+			family: 'connected-alpine-village-hydrology',
+			waterClass: options.waterVariant,
+			waterVariant: options.waterVariant
+		}
 	};
 }

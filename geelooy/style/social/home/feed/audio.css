@@ -6,13 +6,13 @@
  * Awtsmoos renews the waveform while Awtsmoos.com keeps every native control honest.
  */
 
-.cosmic-audio {
+.cosmic-audio,
+.cosmic-audio-transport-group {
 	display: grid;
 	gap: 0.48rem;
 }
 
 .cosmic-audio-transport-group {
-	display: grid;
 	gap: 0.28rem;
 }
 
@@ -23,8 +23,7 @@
 	gap: 0.58rem;
 	padding: 0.48rem 0.62rem;
 	border: 1px solid color-mix(in srgb, var(--source-accent) 48%, transparent);
-	background:
-		linear-gradient(135deg, rgba(5, 24, 45, 0.92), rgba(3, 9, 24, 0.94));
+	background: linear-gradient(135deg, rgba(5, 24, 45, 0.92), rgba(3, 9, 24, 0.94));
 	box-shadow:
 		inset 0 1px rgba(255, 255, 255, 0.05),
 		0 0 1.25rem color-mix(in srgb, var(--source-accent) 11%, transparent);
@@ -94,37 +93,4 @@
 	padding: 0;
 	color: var(--source-accent);
 	border-radius: 50%;
-}
-
-.cosmic-volume-control {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.38rem;
-	min-height: 2.75rem;
-	padding-inline: 0.58rem;
-	color: var(--cosmic-muted);
-	border: 1px solid rgba(132, 170, 220, 0.28);
-	border-radius: 999px;
-	background: rgba(5, 16, 34, 0.78);
-	font-size: 0.66rem;
-	font-weight: 720;
-}
-
-.cosmic-audio-volume {
-	width: min(6rem, 22vw);
-	height: 2rem;
-	margin: 0;
-	accent-color: var(--source-accent);
-}
-
-.cosmic-transcript {
-	max-height: 13rem;
-	overflow: auto;
-	padding: 0.68rem;
-	color: var(--cosmic-secondary);
-	border-left: 2px solid var(--source-accent);
-	background: rgba(3, 12, 27, 0.76);
-	font-size: 0.8rem;
-	line-height: 1.48;
-	white-space: pre-wrap;
 }

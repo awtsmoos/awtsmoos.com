@@ -7,18 +7,38 @@
  */
 import { appendChildren, createElement, safeHref, toDomToken } from "../dom.js";
 
+function principleDescriptor(value) {
+	if (value && typeof value === "object") {
+		return {
+			icon: String(value.icon || value.glyph || "✦"),
+			label: String(value.label || value.title || value.text || "Principle")
+		};
+	}
+	return { icon: "✦", label: String(value || "Principle") };
+}
+
 function principleTiles(documentRef, model) {
 	const supplied = Array.isArray(model.raw?.principles) ? model.raw.principles : [];
-	const labels = supplied.length ? supplied.slice(0, 4).map(String) :
-		model.pollOptions.slice(0, 4).map((option) => option.label);
-	if (!labels.length) {
+	const values = supplied.length ? supplied.slice(0, 4) : model.pollOptions.slice(0, 4);
+	if (!values.length) {
 		return null;
 	}
 	const grid = createElement(documentRef, "div", "cosmic-principle-grid", {
 		"aria-label": "Question principles"
 	});
-	for (const label of labels) {
-		grid.append(createElement(documentRef, "div", "cosmic-principle-tile", { text: label }));
+	for (const value of values) {
+		const principle = principleDescriptor(value);
+		const tile = createElement(documentRef, "div", "cosmic-principle-tile");
+		appendChildren(
+			tile,
+			createElement(documentRef, "span", "cosmic-principle-icon", {
+				"aria-hidden": "true", text: principle.icon
+			}),
+			createElement(documentRef, "span", "cosmic-principle-label", {
+				text: principle.label
+			})
+		);
+		grid.append(tile);
 	}
 	return grid;
 }

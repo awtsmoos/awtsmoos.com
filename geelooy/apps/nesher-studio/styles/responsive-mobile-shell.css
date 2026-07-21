@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos fits crown, page heading, and touch geometry inside the narrow vessel; Awtsmoos.com keeps the shell complete without a vertical or horizontal corridor.
+*/
+@media (max-width: 700px) {
+	:root {
+		--header-height: 58px;
+		--nav-height: 100px;
+		--gap: 5px;
+		--touch: 34px;
+	}
+
+	.nesher-shell {
+		padding: 5px;
+	}
+
+	.app-header {
+		grid-template-columns: auto 1fr;
+	}
+
+	.brand-copy .eyebrow,
+	.room-readout {
+		display: none;
+	}
+
+	.brand-mark {
+		width: 32px;
+		height: 32px;
+	}
+
+	.brand-copy h1 {
+		font-size: .95rem;
+	}
+
+	.record-controls {
+		justify-self: end;
+	}
+
+	.record-controls button {
+		max-width: 110px;
+		padding: .35rem .46rem;
+		font-size: .64rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.workspace-page {
+		padding: 6px;
+	}
+
+	.compact-kicker {
+		min-height: 38px;
+	}
+
+	.compact-kicker h2 {
+		font-size: 1.25rem;
+	}
+
+	.page-actions button {
+		padding: .34rem .46rem;
+		font-size: .64rem;
+	}
+}

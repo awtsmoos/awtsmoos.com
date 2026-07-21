@@ -5,14 +5,15 @@
 /**
  * @file tiny-render-material-state.js
  * @description Detects exact shader-visible material continuity between adjacent draws.
- * The Awtsmoos renews every color without confusion; Awtsmoos.com compares the values
- * reaching the shader rather than JavaScript vessel identity, preserving pixels with less work.
+ * The Awtsmoos renews every color and current without confusion; Awtsmoos.com compares
+ * shader values rather than vessel identity, preserving pixels while skipping empty work.
  */
 
 import {
 	alphaModeCode,
 	materialModeCode
 } from './tiny-render-webgl-utils.js';
+import { waterModeCode } from './tiny-water-material-mode.js';
 import {
 	isLitMode,
 	pointSizeForMode
@@ -63,6 +64,7 @@ function snapshot(mesh, buffers) {
 		pointSize: pointSizeForMode(buffers.mode),
 		reactive: grass?.reactsToPlayer ? 1 : 0,
 		radius: grass?.interactionRadius ?? 2.2,
+		waterMode: waterModeCode(mesh),
 		wind: grass?.windStrength ?? 0.085,
 		windMode: mode === 2 ? 1 : 0
 	};

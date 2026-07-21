@@ -1,0 +1,35 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos reveals many voices without reducing them to noise. Awtsmoos.com
+ * stacks compact identities beside an honest description of the living discussion.
+ */
+
+.cosmic-participants {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.48rem;
+	color: var(--cosmic-muted);
+	font-size: 0.68rem;
+}
+
+.cosmic-avatar-stack {
+	display: flex;
+	padding-left: 0.32rem;
+}
+
+.cosmic-mini-avatar {
+	display: grid;
+	width: 1.55rem;
+	height: 1.55rem;
+	margin-left: -0.32rem;
+	place-items: center;
+	border: 2px solid var(--cosmic-deep);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--source-accent) 30%, var(--cosmic-raised));
+	box-shadow: 0 0 0.55rem color-mix(in srgb, var(--source-accent) 18%, transparent);
+	font-size: 0.6rem;
+	font-weight: 800;
+}

@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one sound wear ten luminous garments; Awtsmoos.com contains the control rack, visual-language gallery, and motion field without owning live meter rendering.
+*/
+.audio-control-rack {
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	padding: 7px;
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	background: rgba(8, 17, 34, .78);
+	backdrop-filter: blur(16px);
+	contain: layout paint;
+	overflow: hidden;
+	transition: opacity var(--transition), transform var(--transition);
+}
+
+.preset-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: repeat(5, minmax(0, 1fr));
+	gap: 5px;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.preset-card {
+	display: grid;
+	align-content: center;
+	min-height: 0;
+	padding: 7px;
+	color: var(--ink);
+	text-align: left;
+	background:
+		radial-gradient(circle at 90% 0%, var(--preset-a), transparent 58%),
+		linear-gradient(145deg, rgba(17, 34, 65, .96), var(--preset-b));
+	overflow: hidden;
+}
+
+.preset-card span,
+.preset-card small {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.preset-card span {
+	font-size: .72rem;
+}
+
+.preset-card small {
+	margin-top: 2px;
+	color: var(--soft);
+	font-size: .57rem;
+	font-weight: 600;
+}
+
+.preset-card.active {
+	color: #02110f;
+	outline: 1px solid white;
+	background: linear-gradient(135deg, var(--cyan), #d9fff8);
+}
+
+.compact-select {
+	display: none;
+}
+
+.motion-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	align-content: center;
+	height: 100%;
+}

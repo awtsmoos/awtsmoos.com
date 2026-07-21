@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos condenses a civilization without crushing it. Awtsmoos.com keeps
+ * each archetype horizontally rich when landscape width can carry its relationships.
+ */
+
+@media (min-width: 68rem) {
+	.cosmic-post-card[data-post-archetype="reflection"] .cosmic-specialized-content {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+
+	.cosmic-post-card[data-post-archetype="reflection"] .cosmic-participants {
+		justify-content: end;
+		white-space: nowrap;
+	}
+
+	.cosmic-post-card[data-post-archetype="audio"] .cosmic-audio {
+		grid-template-columns: minmax(0, 1.5fr) minmax(13rem, 0.68fr);
+		grid-template-areas:
+			"transport utility"
+			"transport summary";
+		align-items: center;
+		column-gap: 0.65rem;
+	}
+
+	.cosmic-audio-transport-group {
+		grid-area: transport;
+	}
+
+	.cosmic-audio-utility {
+		grid-area: utility;
+		align-self: end;
+	}
+
+	.cosmic-audio-summary {
+		grid-area: summary;
+		align-self: start;
+	}
+
+	.cosmic-transcript {
+		grid-column: 1 / -1;
+	}
+
+	.cosmic-waveform {
+		height: 3.15rem;
+	}
+
+	.cosmic-post-card[data-post-archetype="question"] .cosmic-question {
+		grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
+		grid-template-areas:
+			"principles poll"
+			"body poll"
+			"responses poll";
+		align-items: start;
+		column-gap: 0.62rem;
+	}
+
+	.cosmic-question .cosmic-principle-grid {
+		grid-area: principles;
+	}
+
+	.cosmic-question .cosmic-question-body {
+		grid-area: body;
+	}
+
+	.cosmic-question .cosmic-poll {
+		grid-area: poll;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.cosmic-question .cosmic-poll-question,
+	.cosmic-question .cosmic-poll-status {
+		grid-column: 1 / -1;
+	}
+
+	.cosmic-question .cosmic-expert-responses {
+		grid-area: responses;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cosmic-question .cosmic-poll-option {
+		min-height: 2.55rem;
+	}
+
+	.cosmic-post-card[data-post-archetype="source-graph"] .cosmic-graph-canvas {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.45rem;
+	}
+
+	.cosmic-post-card[data-post-archetype="source-graph"] .cosmic-graph-node {
+		min-height: 3.25rem;
+	}
+}
+
+.cosmic-principle-icon {
+	color: var(--source-accent);
+	font-size: 0.92rem;
+	filter: drop-shadow(0 0 0.4rem var(--source-accent));
+}

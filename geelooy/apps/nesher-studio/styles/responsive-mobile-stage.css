@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps the canvas dominant while every tool remains one tap away; Awtsmoos.com compresses Stage decks and paged lists without making them scroll.
+*/
+@media (max-width: 700px) {
+	.stage-workspace {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 56%) minmax(0, 44%);
+	}
+
+	.stage-hud {
+		left: 5px;
+		right: 5px;
+		bottom: 5px;
+		font-size: .55rem;
+	}
+
+	.stage-dock {
+		grid-template-rows: auto minmax(0, 1fr);
+		padding: 5px;
+	}
+
+	.dock-heading {
+		display: none;
+	}
+
+	.deck-tabs {
+		padding: 3px;
+		gap: 3px;
+	}
+
+	.deck-tabs button {
+		min-height: 29px;
+		padding: .25rem;
+		font-size: .58rem;
+	}
+
+	.deck-panel {
+		gap: 4px;
+		padding: 4px 2px 1px;
+	}
+
+	.compact-list li,
+	#sceneList li,
+	#sourceList li,
+	#nleBin li {
+		padding: 4px 6px;
+		font-size: .64rem;
+	}
+
+	.list-pager {
+		grid-template-columns: 32px 1fr 32px;
+	}
+
+	.list-pager button {
+		min-height: 28px;
+	}
+
+	.layer-buttons {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

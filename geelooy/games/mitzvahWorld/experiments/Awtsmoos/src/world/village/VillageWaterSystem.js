@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWaterSystem.js
- * @description Composes lake, river, foam, reeds, cascades, mist, and ledges from one profile.
- * The Awtsmoos makes many visible waters one hydrological truth; Awtsmoos.com spends seven
- * coherent definitions so the current remains rich without becoming a draw-call flood.
+ * @description Composes lake, river, foam, reeds, waterfalls, impact, mist, and ledges.
+ * The Awtsmoos makes many visible waters one hydrological truth; Awtsmoos.com spends
+ * eight coherent definitions and five water draws so intensity does not become a flood.
  */
 
 import { createFoamBatchDefinition } from './VillageFoamBatchGeometry.js';
@@ -25,13 +25,15 @@ export function createVillageWaterDefinitions(groundSampler) {
 		definitions: [...waterBodies, foamBatch, reedBatch, ...waterfalls],
 		stats: {
 			connectedSourceToOutlet: true,
-			foamBatches: 1,
+			foamBatches: 2,
 			hydrology: hydrology.stats,
+			mistBatches: 1,
 			reedBatches: 1,
 			reedInstances: 64,
-			shader: 'layered-flow-refraction-fresnel-foam',
+			shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
 			textureDriven: true,
 			waterBodies: waterBodies.length,
+			waterDraws: 5,
 			waterfallBatches: waterfalls.length,
 			waterfallCascades: hydrology.stats.cascades
 		}

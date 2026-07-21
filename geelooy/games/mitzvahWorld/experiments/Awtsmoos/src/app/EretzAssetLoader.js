@@ -4,9 +4,9 @@
 
 /**
  * @file EretzAssetLoader.js
- * @description Returns actors and authored fallback materials without awaiting remote textures.
- * The Awtsmoos renews form before pigment; Awtsmoos.com makes the shared actor template the
- * only awaited asset while catalog and canonical textures stream after the world can move.
+ * @description Awaits the canonical player and all first-view high-resolution world materials.
+ * The Awtsmoos reveals body, earth, mountain, home, bark, and leaf in one first moment;
+ * Awtsmoos.com defers optional enrichment only after the visible world is genuinely clothed.
  */
 
 import { loadHouseAssets } from '../assets/HouseAssets.js';
@@ -17,27 +17,32 @@ import {
 } from '../assets/PublicMaterialCache.js';
 import { GRASS_URLS } from '../world/Terrain3D.js';
 import { loadEretzActorAssets } from './EretzActorAssetLoader.js';
+import { loadEssentialWorldTextures } from './EssentialWorldTextureLoader.js';
 import { scheduleEretzTextureStreaming } from './EretzTextureStreaming.js';
 
 export async function loadEretzAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
 	const actorLoader = options.actorLoader || loadEretzActorAssets;
 	const houseLoader = options.houseLoader || loadHouseAssets;
+	const essentialLoader = options.essentialTextureLoader || loadEssentialWorldTextures;
 	const textureScheduler = options.textureScheduler || scheduleEretzTextureStreaming;
-	boot?.begin('actors-and-solid-materials');
-	boot?.progress('shared-actor', 0, 1, 'Loading one reusable animated actor template');
-	const [actors, assets] = await Promise.all([
+	boot?.begin('actors-and-high-resolution-world-materials');
+	boot?.progress('visible-world-assets', 0, 3, 'Loading player and visible world textures');
+	const [actors, essential] = await Promise.all([
 		actorLoader(options),
-		houseLoader(async () => null)
+		essentialLoader(options)
 	]);
-	boot?.progress('shared-actor', 1, 1, 'Actor template ready; geometry may begin', 'ready');
+	boot?.progress('visible-world-assets', 2, 3, 'Ground, houses, mountains, and trees are textured');
+	const assets = await houseLoader(loadFirstImage);
+	boot?.progress('visible-world-assets', 3, 3, 'Visible world is ready', 'ready');
 	assets.actorAssets = actors.actorAssetStats;
+	assets.essentialWorldTextures = essential;
 	assets.importedModelMaterials = actors.importedModelMaterials;
 	assets.publicMaterialCache = publicMaterialCacheStats();
 	assets.publicMaterialPolicy = Object.freeze({
-		blockingTextureRequests: 0,
-		fallbackFirst: true,
-		strategy: 'solid-first-scene-referenced-canonical-streaming'
+		blockingTextureRequests: essential.requested,
+		fallbackFirst: false,
+		strategy: 'high-resolution-visible-world-first'
 	});
 	assets.publicMaterialStreaming = textureScheduler(assets, options, boot);
 	assets.publicMaterialHydration = assets.publicMaterialStreaming;
@@ -48,7 +53,7 @@ export async function loadEretzAssets(options = {}) {
 	};
 }
 
-export async function loadFirstImage(urls, timeoutMs = 7000) {
+export async function loadFirstImage(urls, timeoutMs = 15000) {
 	for (const url of urls) {
 		const cached = cachedTextureImage(url);
 		if (cached) return cached;

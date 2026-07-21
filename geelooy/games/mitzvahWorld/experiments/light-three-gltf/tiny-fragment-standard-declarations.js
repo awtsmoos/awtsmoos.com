@@ -44,6 +44,7 @@ uniform float uMixStrength;
 uniform float uMixPatchScale;
 uniform float uMixPatchSharpness;
 uniform int uMaterialMode;
+uniform int uWaterMode;
 uniform float uEmissiveStrength;
 uniform float uTime;
 uniform vec3 uAmbient;

@@ -1,7 +1,10 @@
 // B"H
 
 import { createGeometryArtifact } from "../../artifact/createGeometryArtifact.js";
-import { assertIndexedTriangleGeometry } from "./triangleGeometry.js";
+import {
+	assertCompactionPlan,
+	createCompactionPlan
+} from "./plans/createCompactionPlan.js";
 
 function remapAttribute(attribute, retainedVertices) {
 	if (attribute.domain !== "vertex") {
@@ -31,26 +34,24 @@ function remapMorphTargets(morphTargets, retainedVertices) {
 
 /**
  * Removes unreferenced vertices while remapping every vertex attribute and morph.
- * The Awtsmoos gathers each surviving strand, while stale bounds are released
- * rather than allowed to testify about vertices that no longer inhabit the form.
+ * The immutable plan names every survivor before the Awtsmoos contracts the form.
  */
-export function compactGeometryVertices(geometryInput, options = {}) {
-	const geometry = assertIndexedTriangleGeometry(geometryInput);
-	const retainedVertices = [...new Set(geometry.indices.array)]
-		.sort((left, right) => left - right);
-	const vertexMap = new Map(retainedVertices.map((vertex, index) => [vertex, index]));
-	const indices = geometry.indices.array.map(vertex => vertexMap.get(vertex));
+export function compactGeometryVertices(geometry, options = {}) {
+	const plan = assertCompactionPlan(
+		geometry,
+		options.plan ?? createCompactionPlan(geometry)
+	);
 	return createGeometryArtifact({
 		...geometry,
 		id: options.id ?? geometry.id,
-		attributes: remapAttributes(geometry.attributes, retainedVertices),
-		morphTargets: remapMorphTargets(geometry.morphTargets, retainedVertices),
-		indices: { ...geometry.indices, array: indices },
-		drawRange: { start: 0, count: indices.length },
+		attributes: remapAttributes(geometry.attributes, plan.retainedVertices),
+		morphTargets: remapMorphTargets(geometry.morphTargets, plan.retainedVertices),
+		indices: { ...geometry.indices, array: plan.indices },
+		drawRange: { start: 0, count: plan.indices.length },
 		bounds: null,
 		metadata: {
 			...geometry.metadata,
-			compactedVertexCount: geometry.attributes.position.count - retainedVertices.length
+			compactedVertexCount: plan.removedVertices.length
 		}
 	});
 }

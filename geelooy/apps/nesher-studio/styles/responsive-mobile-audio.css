@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos stacks the river above its compact controls; Awtsmoos.com preserves ten visual languages, motion settings, and readable HUD data inside one phone scene.
+*/
+@media (max-width: 700px) {
+	.audio-lab-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 58%) minmax(0, 42%);
+	}
+
+	.audio-control-rack {
+		padding: 5px;
+	}
+
+	.preset-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(0, 1fr));
+	}
+
+	.preset-card {
+		padding: 4px;
+	}
+
+	.preset-card span {
+		font-size: .56rem;
+	}
+
+	.preset-card small {
+		display: none;
+	}
+
+	.audio-hud span {
+		padding: 4px 6px;
+		font-size: .54rem;
+	}
+
+	.audio-mode-badge {
+		padding: 5px 7px;
+	}
+
+	.motion-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 3px;
+	}
+
+	.motion-grid label {
+		gap: 2px;
+		font-size: .58rem;
+	}
+
+	.audio-control-rack input[type="range"] {
+		min-height: 22px;
+	}
+}

@@ -37,13 +37,13 @@ const block = rootApi.createTypedGraphDataBlock(graph, {
 	name: "Typed Graph",
 	metadata: { owner: "wave-three" }
 });
-assert.equal(block.kind, "node_graph");
+assert.equal(block.type, "node_graph");
 assert.equal(block.id, "typed_graph_block");
-assert.equal(block.data.typedGraph.contentHash, graph.contentHash);
+assert.equal(block.properties.typedGraph.contentHash, graph.contentHash);
 assert.equal(block.metadata.typedGraphHash, graph.contentHash);
 assert.equal(block.metadata.typedGraphVersion, "1.0.0");
 assert.equal(block.metadata.owner, "wave-three");
-assert.equal(Object.isFrozen(block.data.typedGraph), true);
-assert.equal(rootApi.validateTypedGraph(block.data.typedGraph).ok, true);
+assert.equal(Object.isFrozen(block.properties.typedGraph), true);
+assert.equal(rootApi.validateTypedGraph(block.properties.typedGraph).ok, true);
 
 console.log('B"H | proceduralObjectGraphIntegration.test passed');

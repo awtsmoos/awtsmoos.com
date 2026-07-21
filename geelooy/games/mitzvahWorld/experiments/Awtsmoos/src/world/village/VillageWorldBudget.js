@@ -4,59 +4,44 @@
 
 /**
  * @file VillageWorldBudget.js
- * @description Holds full-scene quality budgets without deleting canonical districts.
- * The Awtsmoos renews the same village through every vessel; Awtsmoos.com lowers repeated
- * detail and ecology density while all ten authored districts remain present and identifiable.
+ * @description Holds scene budgets that preserve ten districts and three-part inhabitable homes.
+ * The Awtsmoos renews one village through every quality vessel; Awtsmoos.com lowers repeated
+ * ecology and ornament while shells, interiors, roofs, and canonical district identity remain.
  */
 
 export const VILLAGE_WORLD_BUDGETS = Object.freeze({
-	low: budget(10, 96, 90, 10, 9000, 140),
-	medium: budget(10, 180, 150, 18, 18000, 200),
-	high: budget(10, 270, 240, 28, 36000, 280),
-	cinematic: budget(10, 370, 340, 40, 56000, 360)
+	low: budget(10, 96, 120, 10, 9000, 140),
+	medium: budget(10, 180, 170, 18, 18000, 200),
+	high: budget(10, 270, 260, 28, 36000, 280),
+	cinematic: budget(10, 370, 360, 40, 56000, 360)
 });
 
 /**
  * Returns the immutable budget for a named quality tier.
  *
  * @param {string} [name='high'] Requested quality tier.
- * @returns {Readonly<object>} The matching world budget.
+ * @returns {Readonly<object>} Matching world budget.
  */
 export function villageWorldBudget(name = 'high') {
 	return VILLAGE_WORLD_BUDGETS[name] || VILLAGE_WORLD_BUDGETS.high;
 }
 
 /**
- * Resolves geometry detail while preserving district identity.
+ * Resolves district geometry detail without deleting authored neighborhoods.
  *
  * @param {string} detail District distance class.
  * @param {string} [requestedQuality='high'] Requested quality tier.
  * @returns {string} Geometry quality name.
  */
 export function districtGeometryQuality(detail, requestedQuality = 'high') {
-	if (requestedQuality === 'low') {
-		return 'low';
-	}
-	if (detail === 'far') {
-		return 'low';
-	}
+	if (requestedQuality === 'low') return 'low';
+	if (detail === 'far') return 'low';
 	if (detail === 'medium') {
 		return requestedQuality === 'cinematic' ? 'medium' : 'low';
 	}
 	return requestedQuality === 'cinematic' ? 'high' : requestedQuality;
 }
 
-/**
- * Creates one frozen budget record.
- *
- * @param {number} districts Canonical district count.
- * @param {number} botanicalPlacements Botanical placement ceiling.
- * @param {number} architecturePieces Architecture definition ceiling.
- * @param {number} creatures Creature ceiling.
- * @param {number} triangles Triangle target.
- * @param {number} radius Active world radius.
- * @returns {Readonly<object>} Frozen budget record.
- */
 function budget(
 	districts,
 	botanicalPlacements,

@@ -2,10 +2,9 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews one authenticated room-current and lets every agent shine
- * as a distinct vessel within it. Awtsmoos.com gives the human a clear place to
- * see working presence, transport truth, and direct conversation without ever
- * disturbing the tunnel whose hidden current carries the living events.
+ * The Awtsmoos reveals one account current and one focused room current through
+ * clear agent cards. Awtsmoos.com shows working presence and transport truth
+ * without multiplying sockets or disturbing the tunnel that carries the stream.
  */
 @layer awt.views {
 	.awt-agent-live-console {
@@ -75,59 +74,20 @@
 		background: rgba(40, 124, 255, .13);
 	}
 
+	.awt-agent-presence-dot {
+		grid-row: 1 / span 3;
+		color: #ffca62;
+	}
+
 	.awt-agent-channel.is-working .awt-agent-presence-dot,
 	.awt-agent-channel.is-websocket .awt-agent-presence-dot {
 		color: #55ff9a;
 		text-shadow: 0 0 14px currentColor;
 	}
 
-	.awt-agent-presence-dot {
-		grid-row: 1 / span 3;
-		color: #ffca62;
-	}
-
-	.awt-agent-direct {
-		display: grid;
-		gap: 8px;
-		padding: 12px;
-		border: 1px solid rgba(113, 214, 255, .15);
-		border-radius: 16px;
-		background: rgba(0, 0, 0, .18);
-	}
-
-	.awt-agent-direct h4,
-	.awt-agent-direct p {
-		margin: 0;
-	}
-
-	.awt-agent-direct-note,
 	.awt-agent-empty {
 		color: var(--awt-muted);
 		font-size: .82rem;
-	}
-
-	.awt-agent-direct-log {
-		display: grid;
-		gap: 6px;
-		max-height: 230px;
-		overflow: auto;
-	}
-
-	.awt-agent-direct-message {
-		padding: 8px 10px;
-		border-radius: 12px;
-		background: rgba(255, 255, 255, .05);
-		overflow-wrap: anywhere;
-	}
-
-	.awt-agent-direct-input {
-		min-height: 82px;
-		resize: vertical;
-		border-radius: 13px;
-	}
-
-	.awt-agent-chat-error {
-		color: #ff9d9d;
 	}
 
 	@media (max-width: 760px) {
