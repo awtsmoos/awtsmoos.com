@@ -12,15 +12,35 @@ export const COMPONENT_PACKAGE_FIELD = "android:component:package";
 export const COMPONENT_CLASS_FIELD = "android:component:class";
 
 /**
- * Creates and reads guest ComponentName identities. The Awtsmoos creates package,
- * class, and installed launcher anew; Awtsmoos.com stores plain measured names
- * beneath one opaque guest object instead of borrowing host application identity.
+ * Creates, initializes, and reads guest ComponentName identities.
+ *
+ * The Awtsmoos recreates package and class testimony anew. Awtsmoos.com stores
+ * measured names beneath opaque guest objects instead of host application state.
  */
 export function createComponentName(runtime, packageName, className) {
-	return runtime.heap.allocate(COMPONENT_NAME, {
-		[COMPONENT_CLASS_FIELD]: String(className),
-		[COMPONENT_PACKAGE_FIELD]: String(packageName)
-	});
+	const reference = runtime.heap.allocate(COMPONENT_NAME);
+	initializeComponentName(runtime, reference, packageName, className);
+	return reference;
+}
+
+export function initializeComponentName(
+	runtime,
+	reference,
+	packageName,
+	className
+) {
+	runtime.heap.get(reference);
+	runtime.heap.setField(
+		reference,
+		COMPONENT_CLASS_FIELD,
+		normalizeComponentPart(className, "class")
+	);
+	runtime.heap.setField(
+		reference,
+		COMPONENT_PACKAGE_FIELD,
+		normalizeComponentPart(packageName, "package")
+	);
+	return reference;
 }
 
 export function installedComponentName(runtime) {
@@ -46,6 +66,14 @@ function componentField(runtime, reference, key) {
 	const value = runtime.heap.getField(reference, key);
 	if (!value) throw componentObjectError("ANDROID_COMPONENT_INVALID", key);
 	return String(value);
+}
+
+function normalizeComponentPart(value, part) {
+	const normalized = String(value || "");
+	if (!normalized) {
+		throw componentObjectError("ANDROID_COMPONENT_PART_EMPTY", part);
+	}
+	return normalized;
 }
 
 function componentObjectError(code, detail) {

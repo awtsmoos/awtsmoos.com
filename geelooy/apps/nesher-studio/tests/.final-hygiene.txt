@@ -1,0 +1,36 @@
+B"H scoped hygiene
+--- status ---
+ M geelooy/apps/nesher-studio/styles/base.css
+ M geelooy/apps/nesher-studio/tests/066_style_visual_contract_smoke.mjs
+?? geelooy/apps/nesher-studio/styles/base-controls.css
+?? geelooy/apps/nesher-studio/styles/base-foundation.css
+?? geelooy/apps/nesher-studio/styles/base-type.css
+?? geelooy/apps/nesher-studio/tests/.client-check.txt
+?? geelooy/apps/nesher-studio/tests/.final-hygiene.txt
+?? geelooy/apps/nesher-studio/tests/.post-base-gates.txt
+--- diff stat ---
+ geelooy/apps/nesher-studio/styles/base.css         | 58 ++--------------------
+ .../tests/066_style_visual_contract_smoke.mjs      |  3 +-
+ 2 files changed, 6 insertions(+), 55 deletions(-)
+--- longest active source ---
+ 114 geelooy/apps/nesher-studio/modules/app/PageTransitionController.js
+ 112 geelooy/apps/nesher-studio/modules/audioLab/CanvasHebrewOverlay.js
+ 111 geelooy/apps/nesher-studio/modules/audioLab/AudioInputBridge.js
+ 109 geelooy/apps/nesher-studio/modules/audioLab/shaders.js
+ 104 geelooy/apps/nesher-studio/modules/audioLab/AudioLabRenderer.js
+  94 geelooy/apps/nesher-studio/modules/recording/sizeControls.js
+  94 geelooy/apps/nesher-studio/modules/audioLab/AudioLabController.js
+  94 geelooy/apps/nesher-studio/modules/app/navigationBindings.js
+  90 geelooy/apps/nesher-studio/styles/deck-content.css
+  90 geelooy/apps/nesher-studio/modules/audioLab/WebglParticleRiver.js
+  89 geelooy/apps/nesher-studio/styles/transitions.css
+  83 geelooy/apps/nesher-studio/tests/066_style_visual_contract_smoke.mjs
+  81 geelooy/apps/nesher-studio/tests/run_confidence_layer.mjs
+  79 geelooy/apps/nesher-studio/modules/project/Project.js
+  76 geelooy/apps/nesher-studio/tests/browserDomElement.mjs
+  76 geelooy/apps/nesher-studio/styles/audio-presets.css
+  75 geelooy/apps/nesher-studio/modules/recorder.js
+  70 geelooy/apps/nesher-studio/styles/audio-field.css
+  69 geelooy/apps/nesher-studio/modules/app/genericHlsController.js
+  68 geelooy/apps/nesher-studio/modules/app/bootNesherStudio.js
+targets=444 max=114

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/nesher_target_audit.py", line 54, in <module>
+    report = {'desktop': audit_viewport('desktop', 9404, 1200, 683, False), 'mobile': audit_viewport('mobile', 9405, 390, 844, True)}
+                         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nesher_target_audit.py", line 35, in audit_viewport
+    wait_ready(devtools)
+    ~~~~~~~~~~^^^^^^^^^^
+  File "/tmp/nesher_target_audit.py", line 14, in wait_ready
+    raise RuntimeError('Nesher Studio did not boot.')
+RuntimeError: Nesher Studio did not boot.

@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainLayerRecipe.test.mjs
- * @description Proves sixteen logical sources and a biome-diverse bounded gameplay subset.
- * The Awtsmoos gives one valley many possible garments; Awtsmoos.com accepts generated or public
- * production sources while shader work stays bounded across meadow, earth, bank, rock, and shore.
+ * @description Proves sixteen logical sources and six packaged first-view terrain maps.
+ * The Awtsmoos gives one valley many garments; Awtsmoos.com serves the visible six locally
+ * while preserving the complete authored public stack for semantic material provenance.
  */
 
 import assert from 'node:assert/strict';
@@ -49,20 +49,24 @@ test('logical terrain family retains eight grass maps and three transitions', ()
 	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
 });
 
-test('every logical stack URL remains a canonical production source', () => {
+test('visible maps are trusted local assets with public provenance', () => {
 	const recipe = terrainLayerRecipe('cinematic');
-	assert.match(recipe.baseUrl, /(?:ground\/grass|ground-grass)/i);
-	assert.match(recipe.dirtUrl, /(?:ground\/dirt_color|ground-dirt-color)/i);
-	for (const layer of recipe.stack.layers) {
+	assert.match(recipe.baseUrl, /assets\/materials\/local\/terrain\/meadow-wet-grass\.png$/);
+	assert.match(recipe.dirtUrl, /assets\/materials\/local\/terrain\/worn-earth\.jpg$/);
+	for (const layer of recipe.layers) {
 		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
-		assert.equal(Object.isFrozen(layer), true);
+		assert.match(layer.publicUrl, /^https:\/\//);
 		assert.equal(layer.zones.length, 4);
 		assert.equal(layer.slope.length, 2);
 	}
+	for (const layer of recipe.stack.layers) {
+		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
+		assert.equal(Object.isFrozen(layer), true);
+	}
 });
 
-test('medium terrain carries four zones and five hydrated ecological slots', () => {
-	const image = completeImage('https://materials.test/ground/grass.jpg');
+test('medium terrain carries four zones and five ecological slots', () => {
+	const image = completeImage('./assets/materials/local/terrain/meadow-wet-grass.png');
 	const mesh = createTerrainMesh(terrainData(), image, image, image.src, 'medium');
 	const zones = Array.from(mesh.geometry.attributes.zone.array);
 	assert.equal(mesh.geometry.attributes.zone.itemSize, 4);

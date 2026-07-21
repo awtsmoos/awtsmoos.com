@@ -31,7 +31,8 @@ const ids = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map((match) => match
 assertStyleFiles();
 assertImportGraph();
 assert.equal(/overflow(?:-[xy])?\s*:\s*(?:auto|scroll)/i.test(css), false, 'CSS must not restore scrollbars');
-assertTokens(['html, body, #appRoot', 'height: 100dvh', '.nav-dock', '.workspace-page', '.deck-tabs', '.list-pager', '.stage-workspace', '.audio-lab-grid', '.nle-deck', '@media (max-width: 700px)'], css, 'viewport style');
+assert.ok(/html\s*,\s*body\s*,\s*#appRoot\s*\{/.test(css), 'viewport style must lock html, body, and #appRoot together');
+assertTokens(['height: 100dvh', '.nav-dock', '.workspace-page', '.deck-tabs', '.list-pager', '.stage-workspace', '.audio-lab-grid', '.nle-deck', '@media (max-width: 700px)'], css, 'viewport style');
 assertTokens(['transform var(--transition)', 'opacity var(--transition)', 'will-change: transform, opacity', 'prefers-reduced-motion'], css, 'transition style');
 assertTokens(['PageTransitionController', 'bindGestureNavigation', 'controller.activate', 'data-page-target'], navigation, 'navigation behavior');
 assertTokens(['is-entering', 'is-leaving', 'from-right', 'to-left', 'nesher:pagechange'], transitions, 'page transition behavior');

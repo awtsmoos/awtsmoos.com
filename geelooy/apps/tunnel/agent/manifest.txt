@@ -1,5 +1,5 @@
 B"H
-1.0.360
+1.0.361
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -26,6 +26,7 @@ ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
 ai/relay/split-browser/relayApi.cjs
+ai/relay/split-browser/responseStream.cjs
 ai/relay/split-browser/rewriteHtml.cjs
 ai/relay/split-browser/rewriteText.cjs
 ai/relay/split-browser/routeNormalize.cjs

@@ -1,11 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * The Awtsmoos renews every attribute, index, object, and world from nothing
- * at every instant. This Awtsmoos.com vessel keeps one responsibility bounded
- * so limitless procedural form remains inspectable, deterministic, and safe.
- */
+/** Every whitelisted operation is an explicit trusted name in the Awtsmoos vessel. */
 
 export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"create_indexed_geometry",
@@ -30,7 +26,14 @@ export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"compact_geometry",
 	"weld_geometry",
 	"repair_geometry",
-	"assign_face_materials"
+	"assign_face_materials",
+	"create_topology_identity",
+	"compact_geometry_with_identity",
+	"weld_geometry_with_identity",
+	"repair_geometry_with_identity",
+	"create_topology_selection",
+	"remap_topology_selection",
+	"compose_topology_remaps"
 ]);
 
 export const PROCEDURAL_CORE_SCENE_OPERATIONS = Object.freeze([

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-audit="fail"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Nesher Geometry Audit</title>
+	<link rel="stylesheet" href="./style.css">
+<style>*,*::before,*::after{transition:none!important;animation:none!important}</style></head>
+<body>
+	<div id="appRoot">
+		<main class="nesher-shell">
+			
+		<header class="app-header">
+			<div class="brand-lockup">
+				<span class="brand-mark" aria-hidden="true">🦅</span>
+				<div class="brand-copy">
+					<p class="eyebrow">B"H · realtime creation</p>
+					<h1>Nesher Studio</h1>
+				</div>
+			</div>
+			<div class="room-readout" aria-live="polite">
+				<span class="room-pulse" aria-hidden="true"></span>
+				<div><small>Current room</small><strong id="currentRoomLabel">Home</strong></div>
+			</div>
+			<div class="record-controls">
+				<button id="recordButton">Start Recording</button>
+				<button id="fmp4StreamButton" class="secondary-button">Start Generic HLS</button>
+			</div>
+		</header>
+	
+			<section id="studioPage" class="workspace-stack" aria-live="polite">
+				
+		<section id="homeSection" class="workspace-page home-page" data-studio-page="home" hidden="" inert="">
+			<div class="home-aurora" aria-hidden="true"><span>א</span><span>ו</span><span>ר</span></div>
+			<header class="page-hero">
+				<div><p class="eyebrow">One runtime · seven focused scenes</p><h2>Build in the moment.</h2><p>Every room fills the viewport, shares live state, and changes without a page reload.</p></div>
+			</header>
+			<div class="studio-home" aria-label="Studio room grid"><button class="home-tile" data-accent="stage" data-page-target="stage"><span class="tile-number">01</span><span class="tile-copy"><strong>Stage</strong><em>Compose scenes, layers, transforms, and crops.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button><button class="home-tile" data-accent="audio" data-page-target="audio"><span class="tile-number">02</span><span class="tile-copy"><strong>Audio Lab</strong><em>Shape GPU rivers, Hebrew currents, and particles.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button><button class="home-tile" data-accent="sources" data-page-target="sources"><span class="tile-number">03</span><span class="tile-copy"><strong>Sources</strong><em>Bring cameras, screens, files, and browser worlds.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button><button class="home-tile" data-accent="live" data-page-target="live"><span class="tile-number">04</span><span class="tile-copy"><strong>Live</strong><em>Watch provider health, segments, and uploaded bytes.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button><button class="home-tile" data-accent="nle" data-page-target="nle"><span class="tile-number">05</span><span class="tile-copy"><strong>Timeline</strong><em>Arrange clips, markers, tracks, and exports.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button><button class="home-tile" data-accent="setup" data-page-target="setup"><span class="tile-number">06</span><span class="tile-copy"><strong>Setup</strong><em>Choose canvas, profile, frame rate, and provider.</em></span><span class="tile-arrow" aria-hidden="true">↗</span></button></div>
+			<section class="metric-strip" aria-label="Recording status">
+				<div><span>Recording</span><strong id="recordPhase">Idle</strong></div>
+				<div><span>Elapsed</span><strong id="recordElapsed">00:00</strong></div>
+				<div><span>Frames</span><strong id="recordFrames">0</strong></div>
+				<div><span>Errors</span><strong id="recordErrors">0</strong></div>
+				<p id="recordNote">Manual WebCodecs recorder is idle.</p>
+			</section>
+		</section>
+	
+				
+		<section id="stageSection" class="workspace-page stage-page" data-studio-page="stage" hidden="" inert="">
+			<header class="page-kicker compact-kicker">
+				<div><p class="eyebrow">Live composition</p><h2>Stage</h2></div>
+				<div class="page-actions"><button class="secondary-button" data-page-target="sources">Add Source</button><button data-page-target="audio">Audio Lab</button></div>
+			</header>
+			<div class="stage-workspace">
+				<div class="stage-canvas-zone" data-no-swipe="">
+					<div class="stage-wrap"><canvas id="stage" width="1280" height="720"></canvas></div>
+					<div class="stage-hud"><span id="status">Studio home ready.</span><span>Drag · resize · crop · record</span></div>
+				</div>
+				<aside class="stage-dock workspace-deck" data-workspace-deck="stageTools" data-no-swipe="">
+					<header class="dock-heading"><div><p class="eyebrow">Selected source</p><h3 id="inspectorName">No source selected</h3></div><p id="inspectorMeta">Click a source, or click empty canvas to deselect.</p></header>
+					<nav class="deck-tabs stage-tabs" data-deck-tabs="">
+						<button class="" data-deck-target="scenes" aria-selected="false">Scenes</button><button data-deck-target="layers" aria-selected="false">Layers</button>
+						<button data-deck-target="transform" aria-selected="false" class="">Move</button><button data-deck-target="crop" aria-selected="false" class="">Crop</button>
+						<button data-deck-target="visual" aria-selected="false" class="">Visual</button><button data-deck-target="output" aria-selected="true" class="active">Output</button>
+					</nav>
+					<div class="deck-stack" data-deck-stack="">
+						<section class="deck-panel" data-deck-panel="scenes" hidden="" inert="">
+							<ol id="sceneList" class="compact-list"><li class="active">Scene 1</li></ol>
+							<div class="list-pager" data-list-pager="sceneList" data-page-size="4"><button data-page-action="previous" disabled="">←</button><span data-page-label="">1 / 1</span><button data-page-action="next" disabled="">→</button></div>
+							<div class="button-grid"><button id="addScene">New Scene</button><button id="duplicateScene">Duplicate</button></div>
+						</section>
+						<section class="deck-panel" data-deck-panel="layers" hidden="" inert="">
+							<ol id="sourceList" class="compact-list"></ol>
+							<div class="list-pager" data-list-pager="sourceList" data-page-size="4"><button data-page-action="previous" disabled="">←</button><span data-page-label="">1 / 1</span><button data-page-action="next" disabled="">→</button></div>
+							<div class="layer-buttons"><button id="layerTop">Top</button><button id="layerUp">Up</button><button id="layerDown">Down</button><button id="layerBottom">Bottom</button><button id="duplicateSource">Duplicate</button><button id="removeSource" class="danger-button">Remove</button></div>
+						</section>
+						<section class="deck-panel" data-deck-panel="transform" hidden="" inert="">
+							<div id="transformControls" class="tool-panel">
+								<div class="tool-pills"><button id="stageToolTransform" disabled="" class="active">Transform</button><button id="stageToolCrop" disabled="">Crop Tool</button></div>
+								<div class="compact-form"><label class="check-row"><input id="sourceLockAspect" type="checkbox" checked="" disabled=""> Keep aspect</label><label>Scale % <input id="sourceScale" type="number" min="5" max="500" value="100" disabled=""></label></div>
+								<div class="quick-actions"><button id="fitSource" disabled="">Fit</button><button id="fillSource" disabled="">Fill</button><button id="centerSource" disabled="">Center</button><button id="resetTransform" disabled="">Reset</button></div>
+							</div>
+						</section>
+						<section class="deck-panel" data-deck-panel="crop" hidden="" inert="">
+							<div id="cropControls" class="crop-grid"><label>L <input id="cropLeft" type="number" min="0" max="90" value="0" disabled=""></label><label>T <input id="cropTop" type="number" min="0" max="90" value="0" disabled=""></label><label>R <input id="cropRight" type="number" min="0" max="90" value="0" disabled=""></label><label>B <input id="cropBottom" type="number" min="0" max="90" value="0" disabled=""></label><div class="quick-actions span-all"><button id="cropWide" disabled="">16:9</button><button id="cropVertical" disabled="">9:16</button><button id="cropSquare" disabled="">1:1</button><button id="cropCenterSafe" disabled="">Safe</button><button id="cropClear" disabled="">Clear</button><button id="cropReset" disabled="">Reset</button></div></div>
+						</section>
+						<section class="deck-panel" data-deck-panel="visual" hidden="" inert="">
+							<div id="visualizerControls" class="visualizer-panel" hidden=""><div class="compact-form"><label>Preset <select id="visualizerPreset"></select></label><label>Input <select id="visualizerInput"></select></label><label>Sensitivity <input id="visualizerSensitivity" type="range" min="0.2" max="4" step="0.05"></label><label>Bars <input id="visualizerBars" type="number" min="8" max="96"></label></div><label>Hebrew Text <input id="visualizerText"></label><label>Custom JS <textarea id="visualizerCustomJs" rows="3"></textarea></label><button id="visualizerReset">Reset Visualizer</button></div>
+						</section>
+						<section class="deck-panel active" data-deck-panel="output"><div id="downloadList" class="download-list"><p>Finished files appear here.</p></div></section>
+					</div>
+				</aside>
+			</div>
+		</section>
+	
+				
+		<section id="audioLabSection" class="workspace-page audio-lab-page is-active is-immersive" data-studio-page="audio" style="--audio-primary: 31, 255, 199; --audio-secondary: 97, 77, 255;">
+			<header class="page-kicker compact-kicker audio-kicker">
+				<div><p class="eyebrow">Realtime GPU field</p><h2>Audio Lab</h2></div>
+				<div class="page-actions"><button id="audioLabImmersive" class="secondary-button" aria-pressed="true">Show Controls</button><button id="audioLabAddStage">Add to Stage</button><button class="secondary-button" data-page-target="stage">Stage</button></div>
+			</header>
+			<div class="audio-lab-grid">
+				<section class="audio-canvas-card" data-no-swipe="">
+					<div class="audio-canvas-stack"><canvas id="audioLabCanvas" width="1153" height="325"></canvas><canvas id="audioGlyphCanvas" width="1153" height="325"></canvas></div>
+					<div class="audio-mode-badge"><span>Visual language</span><strong id="audioLabModeName">Hebrew River</strong></div>
+					<div class="audio-hud"><span id="audioLabStatus">Demo current active</span><span><b id="audioLabFps">0</b> FPS</span><span><b id="audioLabParticles">0</b> particles</span><span><b id="audioLabQuality">100%</b> quality</span></div>
+				</section>
+				<aside class="audio-control-rack workspace-deck" data-workspace-deck="audioControls" data-no-swipe="">
+					<nav class="deck-tabs audio-tabs" data-deck-tabs=""><button class="" data-deck-target="looks" aria-selected="false">Looks</button><button data-deck-target="motion" aria-selected="false" class="">Motion</button><button data-deck-target="input" aria-selected="true" class="active">Input</button></nav>
+					<div class="deck-stack" data-deck-stack="">
+						<section class="deck-panel" data-deck-panel="looks" hidden="" inert=""><label class="compact-select">Visual language <select id="audioLabPreset"><option value="hebrewRiver">Hebrew River</option><option value="particleGalaxy">Particle Galaxy</option><option value="auroraVeil">Aurora Veil</option><option value="pulseTunnel">Pulse Tunnel</option><option value="lightningScript">Lightning Script</option><option value="frequencyBloom">Frequency Bloom</option><option value="crownVortex">Crown Vortex</option><option value="letterFountain">Letter Fountain</option><option value="spectrumCathedral">Spectrum Cathedral</option><option value="bassNebula">Bass Nebula</option></select></label><div id="audioLabPresetGrid" class="preset-grid"><button class="preset-card active" data-preset-id="hebrewRiver" style="--preset-a: rgba(31, 255, 199, 0.78); --preset-b: rgba(97, 77, 255, 0.48);"><span>Hebrew River</span><small>Layered glyph currents</small></button><button class="preset-card" data-preset-id="particleGalaxy" style="--preset-a: rgba(71, 158, 255, 0.78); --preset-b: rgba(235, 71, 255, 0.48);"><span>Particle Galaxy</span><small>Bass-driven spiral field</small></button><button class="preset-card" data-preset-id="auroraVeil" style="--preset-a: rgba(15, 245, 173, 0.78); --preset-b: rgba(31, 107, 255, 0.48);"><span>Aurora Veil</span><small>Wide spectral curtains</small></button><button class="preset-card" data-preset-id="pulseTunnel" style="--preset-a: rgba(255, 77, 148, 0.78); --preset-b: rgba(71, 184, 255, 0.48);"><span>Pulse Tunnel</span><small>Beat-reactive depth</small></button><button class="preset-card" data-preset-id="lightningScript" style="--preset-a: rgba(189, 235, 255, 0.78); --preset-b: rgba(92, 56, 255, 0.48);"><span>Lightning Script</span><small>Treble fractures and sparks</small></button><button class="preset-card" data-preset-id="frequencyBloom" style="--preset-a: rgba(255, 184, 51, 0.78); --preset-b: rgba(255, 46, 143, 0.48);"><span>Frequency Bloom</span><small>Radial harmonic petals</small></button><button class="preset-card" data-preset-id="crownVortex" style="--preset-a: rgba(255, 224, 117, 0.78); --preset-b: rgba(128, 61, 255, 0.48);"><span>Crown Vortex</span><small>Rotating tenfold halo</small></button><button class="preset-card" data-preset-id="letterFountain" style="--preset-a: rgba(51, 255, 224, 0.78); --preset-b: rgba(31, 138, 255, 0.48);"><span>Letter Fountain</span><small>Rising luminous speech</small></button><button class="preset-card" data-preset-id="spectrumCathedral" style="--preset-a: rgba(77, 184, 255, 0.78); --preset-b: rgba(255, 92, 189, 0.48);"><span>Spectrum Cathedral</span><small>Harmonic columns of light</small></button><button class="preset-card" data-preset-id="bassNebula" style="--preset-a: rgba(184, 61, 255, 0.78); --preset-b: rgba(15, 209, 255, 0.48);"><span>Bass Nebula</span><small>Slow clouds with violent cores</small></button></div></section>
+						<section class="deck-panel" data-deck-panel="motion" hidden="" inert=""><div class="motion-grid"><label>Particle density <output id="audioLabDensityValue">72%</output><input id="audioLabDensity" type="range" min="10" max="100" value="72"></label><label>Sensitivity <output id="audioLabSensitivityValue">1.35</output><input id="audioLabSensitivity" type="range" min="0.35" max="3" step="0.05" value="1.35"></label><label>River speed <output id="audioLabFlowValue">1.00</output><input id="audioLabFlow" type="range" min="0.2" max="2.4" step="0.05" value="1"></label><label class="span-all">Hebrew current <input id="audioLabText" dir="rtl" value="אין עוד מלבדו אור חיים אמת שלום"></label></div></section>
+						<section class="deck-panel active" data-deck-panel="input"><label>Audio source <select id="audioLabInput"><option value="demo">Procedural demo</option><option value="microphone">Microphone</option></select></label><div class="button-grid"><button id="audioLabDemo" class="secondary-button">Demo Energy</button><button id="audioLabStartMic">Use Microphone</button></div><div class="frequency-meters"><div><span>Bass</span><i id="audioLabBassMeter"></i></div><div><span>Mid</span><i id="audioLabMidMeter"></i></div><div><span>Treble</span><i id="audioLabTrebleMeter"></i></div><div><span>Energy</span><i id="audioLabEnergyMeter"></i></div></div></section>
+					</div>
+				</aside>
+			</div>
+		</section>
+	
+				
+		<section id="sourcesSection" class="workspace-page sources-page" data-studio-page="sources" hidden="" inert="">
+			<header class="page-kicker compact-kicker"><div><p class="eyebrow">Input chamber</p><h2>Sources</h2></div><button data-page-target="stage">Return to Stage</button></header>
+			<div class="source-deck workspace-deck" data-workspace-deck="sources">
+				<nav class="deck-tabs source-tabs" data-deck-tabs=""><button class="" data-deck-target="capture" aria-selected="false">Capture</button><button data-deck-target="audio" aria-selected="false" class="">Audio</button><button data-deck-target="generated" aria-selected="false" class="">Generated</button><button data-deck-target="files" aria-selected="true" class="active">Files</button></nav>
+				<div class="deck-stack" data-deck-stack="">
+					<section class="source-card deck-panel" data-deck-panel="capture" hidden="" inert=""><div class="card-orb">◉</div><p class="eyebrow">Screen + camera</p><h3>Capture the living moment</h3><p>Choose a combined source or a precise video/audio stream.</p><div class="source-toolbar"><button id="addMonitor">Monitor + Audio</button><button id="addDisplay">Tab/Window + Audio</button><button id="addDisplayVideo">Display Video</button><button id="addDisplayAudio">Display Audio</button><button id="addWebcam">Webcam + Mic</button><button id="addWebcamVideo">Webcam Video</button><button id="addMic">Mic Audio</button></div></section>
+					<section class="source-card deck-panel" data-deck-panel="audio" hidden="" inert=""><div class="card-orb">〽</div><p class="eyebrow">Sound becomes light</p><h3>Audio visualization</h3><p>Add a classic Stage source or enter the high-performance GPU laboratory.</p><div class="source-toolbar"><button id="addAudioVisualizer">Default Visualizer</button><label>Family <select id="visualizerFamily"><option value="hebrew-orbit">Hebrew Orbit Visualizer</option><option value="hebrew-river">Hebrew Letters River</option><option value="hebrew-lightning">Hebrew Lightning</option><option value="screen-speed">Realtime Screen Speed</option><option value="spectrum-bars">Spectrum Bars Visualizer</option><option value="circular-wave">Circular Wave Visualizer</option><option value="hebrew-rain">Hebrew Rain Visualizer</option><option value="particle-galaxy">Particle Galaxy Visualizer</option></select></label><button id="addVisualizerFamily">Add Family</button><button class="secondary-button" data-page-target="audio">Open Audio Lab</button></div></section>
+					<section class="source-card deck-panel" data-deck-panel="generated" hidden="" inert=""><div class="card-orb">◇</div><p class="eyebrow">Procedural + web</p><h3>Generate a world</h3><p>Bring in a drawing surface, browser capture, or embedded experience.</p><div class="source-toolbar"><button id="addCanvas">2D Canvas</button><button id="addBrowser">Browser</button><button id="addIframe">Iframe</button></div><label>Browser URL <input id="iframeUrl" value="https://awtsmoos.com"></label></section>
+					<section class="source-card deck-panel active" data-deck-panel="files"><div class="card-orb">▣</div><p class="eyebrow">Local media</p><h3>Open prepared material</h3><p>Images, video, and audio remain local until the browser grants access.</p><div class="source-toolbar"><button id="addImage">Image</button><button id="addVideoFile">Video File</button><button id="addAudioFile">Audio File</button></div><input id="imageFile" type="file" accept="image/*" hidden=""><input id="videoFile" type="file" accept="video/*" hidden=""><input id="audioFile" type="file" accept="audio/*" hidden=""></section>
+				</div>
+			</div>
+		</section>
+	
+				
+		<section id="streamSection" class="workspace-page live-page" data-studio-page="live" hidden="" inert="">
+			<header class="page-kicker"><div><p class="eyebrow">Broadcast room</p><h2>Live Health</h2></div><p id="providerNote">Any endpoint accepting HLS media playlists + TS segments.</p></header>
+			<section class="metric-grid" aria-label="Streaming health">
+				<div><span>Provider</span><strong id="streamProviderName">Generic HLS</strong></div><div><span>Codec path</span><strong id="streamCodec">H.264 / AVC + AAC-LC 48 kHz in MPEG-TS HLS</strong></div>
+				<div><span>State</span><strong id="streamState">Idle</strong></div><div><span>Session</span><strong id="streamSession">—</strong></div>
+				<div><span>Frames</span><strong id="streamFrames">0</strong></div><div><span>Segments</span><strong id="streamSegments">0</strong></div>
+				<div><span>Uploaded</span><strong id="streamUploaded">0 B</strong></div><div><span>Errors</span><strong id="streamErrors">0</strong></div>
+			</section>
+			<section class="live-console"><div><span class="signal-dot"></span><strong>Provider route</strong><p>Streaming uses the same project state as the Stage, but this room isolates monitoring from composition.</p></div><button data-page-target="setup">Configure Provider</button></section>
+		</section>
+	
+				
+		<section id="studioSettings" class="workspace-page setup-page" data-studio-page="setup" hidden="" inert="">
+			<header class="page-kicker"><div><p class="eyebrow">Project vessel</p><h2>Studio Setup</h2></div><p>Change the canvas once, then return to creation.</p></header>
+			<section class="control-grid">
+				<label>Manual Profile <select id="recordingProfile"><option value="speed-vp8">Speed · VP8 realtime</option><option value="balanced-vp8">Balanced · VP8 crisp</option><option value="balanced-vp9">Balanced · VP9 realtime</option><option value="quality-vp9">Quality · VP9</option></select></label><label>Resolution <select id="resolutionPreset"><option value="hd">HD 720p</option><option value="full-hd">Full HD 1080p</option><option value="qhd">QHD 1440p</option><option value="uhd">4K UHD</option><option value="square">Square 1080×1080</option><option value="vertical">Vertical 1080×1920</option><option value="custom">Custom</option></select></label><label>Aspect <select id="aspectRatio"><option value="16:9">16:9 Landscape</option><option value="9:16">9:16 Vertical</option><option value="1:1">1:1 Square</option><option value="4:3">4:3 Classic</option><option value="21:9">21:9 Cinema</option><option value="custom">Custom/current</option></select></label>
+				<label class="check-row"><input id="aspectLock" type="checkbox" checked=""> Lock canvas aspect</label><label>Width <input id="canvasWidth" type="number" value="1280" min="320" step="16"></label><label>Height <input id="canvasHeight" type="number" value="720" min="240" step="16"></label>
+				<label>FPS <input id="fps" type="number" value="30" min="1" max="60"></label><label>Provider <select id="streamProvider"><option value="generic-hls">Generic HLS</option><option value="youtube">YouTube</option><option value="twitch">Twitch</option><option value="facebook">Facebook Live</option><option value="steam">Steam Broadcast</option><option value="awtsmoos">Awtsmoos Relay</option><option value="custom">Custom Provider</option></select></label><button id="applySize">Apply Size</button><button id="swapSize" class="secondary-button">Swap W/H</button>
+			</section>
+			<div class="setup-shortcuts"><button data-page-target="stage">Open Stage</button><button class="secondary-button" data-page-target="live">Open Live Health</button></div>
+		</section>
+	
+				
+		<section id="nleSection" class="workspace-page nle-page" data-studio-page="nle" hidden="" inert="">
+			<header class="page-kicker compact-kicker"><div><p class="eyebrow">Nonlinear time</p><h2>Timeline Editor</h2></div><button id="backToStudio">Back Home</button></header>
+			<div class="nle-deck workspace-deck" data-workspace-deck="nleMain">
+				<nav class="deck-tabs nle-main-tabs" data-deck-tabs=""><button data-deck-target="media" aria-selected="false" class="">Media</button><button class="" data-deck-target="timeline" aria-selected="false">Timeline</button><button data-deck-target="export" aria-selected="false" class="">Export</button><button data-deck-target="benchmark" aria-selected="true" class="active">Bench</button></nav>
+				<div class="deck-stack" data-deck-stack="">
+					<section id="nleMediaPanel" class="deck-panel nle-card" data-deck-panel="media" hidden="" inert=""><p class="eyebrow">Media bin</p><ol id="nleBin" class="compact-list"><li data-asset-id="asset-canvas" class="active"><strong>Canvas capture</strong><span>canvas · 12s · asset-canvas</span></li><li data-asset-id="asset-stream" class=""><strong>Live stream capture</strong><span>stream · 12s · asset-stream</span></li></ol><div class="list-pager" data-list-pager="nleBin" data-page-size="5"><button data-page-action="previous" disabled="">←</button><span data-page-label="">1 / 1</span><button data-page-action="next" disabled="">→</button></div><button id="addBinAsset">Add Generated Asset</button></section>
+					<section id="nleTimelinePanel" class="deck-panel timeline-section" data-deck-panel="timeline" hidden="" inert=""><ol id="nleTimeline"><div class="timeline-real" style="--zoom:1"><div class="timeline-ruler"><span style="left:0%">0s</span><span style="left:12.5%">2s</span><span style="left:25%">4s</span><span style="left:37.5%">6s</span><span style="left:50%">8s</span><span style="left:62.5%">10s</span><span style="left:75%">12s</span><span style="left:87.5%">14s</span><span style="left:100%">16s</span></div><div class="timeline-markers"><strong>Markers</strong><div class="timeline-lane"><em>No markers yet</em></div></div><section class="timeline-track" data-track-id="video-1"><header><b>Video 1</b><small>video · 2 clips</small></header><div class="timeline-lane"><button data-clip-id="clip-dc50100a-c9ea-4369-be38-a9b5328fbded" class="clip    " style="left:0%;width:25%" title="Opening scene: 0.0-4.0s fade 0/0"><span>Opening scene</span><small>0.0-4.0s</small></button><button data-clip-id="clip-a4cfc1af-af91-4ba1-be2f-e3f995220d76" class="clip active   " style="left:25%;width:25%" title="Opening scene: 4.0-8.0s fade 0/0"><span>Opening scene</span><small>4.0-8.0s</small></button></div></section><section class="timeline-track" data-track-id="audio-1"><header><b>Audio 1</b><small>audio · 0 clips</small></header><div class="timeline-lane"></div></section><i class="playhead" style="left:25%"></i></div></ol><p id="nleSelectionSummary">Opening scene: 4.0-8.0s (4.0s) on video-1; enabled, audible; fade 0.0 in / 0.0 out; markers 0; history 1</p><div class="command-deck workspace-deck" data-workspace-deck="nleCommands"><nav class="deck-tabs command-tabs" data-deck-tabs=""><button class="" data-deck-target="transport" aria-selected="false">Transport</button><button data-deck-target="edit" aria-selected="false" class="">Edit</button><button data-deck-target="arrange" aria-selected="false" class="">Arrange</button><button data-deck-target="state" aria-selected="true" class="active">State</button></nav><div class="deck-stack" data-deck-stack=""><div class="deck-panel nle-actions" data-deck-panel="transport" hidden="" inert=""><button id="nleJumpStart">⏮ Start</button><button id="nlePlayheadBack">◀ 1s</button><button id="nlePlayheadForward">1s ▶</button><button id="nleJumpEnd">End ⏭</button><button id="nleZoomOut">Zoom −</button><button id="nleZoomIn">Zoom +</button></div><div class="deck-panel nle-actions" data-deck-panel="edit" hidden="" inert=""><button id="addTimelineClip">Add Selected</button><button id="splitClip">Split</button><button id="trimClipShorter">Trim -1s</button><button id="duplicateClip">Duplicate</button><button id="rippleDeleteClip" class="danger-button">Ripple Delete</button></div><div class="deck-panel nle-actions" data-deck-panel="arrange" hidden="" inert=""><button id="nudgeClipLeft">Nudge -1s</button><button id="nudgeClipRight">Nudge +1s</button><button id="moveClipTrack">Move Track</button><button id="snapClipPrev">Snap Prev</button><button id="snapClipNext">Snap Next</button></div><div class="deck-panel nle-actions active" data-deck-panel="state"><button id="fadeClip">Fade</button><button id="toggleClipMute">Mute</button><button id="toggleClipDisabled">Disable</button><button id="addMarker">Marker</button></div></div></div></section>
+					<section id="nleExportPanel" class="deck-panel nle-card" data-deck-panel="export" hidden="" inert=""><p class="eyebrow">WebCodecs export</p><h3>Render the arranged timeline</h3><p id="nleExport">WebCodecs: vp8 + opus, 1280×720@30, webm | timeline: 2 clips / 16s · playhead 4s · zoom 1×</p><button id="prepareExport">Render MP4 Preview</button></section>
+					<section id="benchmarkCard" class="deck-panel nle-card active" data-deck-panel="benchmark"><p class="eyebrow">Encoding benchmark</p><h3>Measure before committing</h3><div class="button-grid"><button id="runSmokeEncodingBenchmark">Fast Smoke</button><button id="runEncodingBenchmark">Full Run</button></div><pre id="encodingBenchmarkOutput">No benchmark yet.</pre></section>
+				</div>
+			</div>
+		</section>
+	
+			</section>
+			<nav id="topNav" class="nav-dock" aria-label="Studio rooms"><button id="navHome" data-nav-page="home" class="active"><span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Home</span></button><button id="navStage" data-nav-page="stage"><span class="nav-icon" aria-hidden="true">◫</span><span class="nav-label">Stage</span></button><button id="navAudio" data-nav-page="audio"><span class="nav-icon" aria-hidden="true">〽</span><span class="nav-label">Audio</span></button><button id="navSources" data-nav-page="sources"><span class="nav-icon" aria-hidden="true">＋</span><span class="nav-label">Sources</span></button><button id="navLive" data-nav-page="live"><span class="nav-icon" aria-hidden="true">●</span><span class="nav-label">Live</span></button><button id="navSetup" data-nav-page="setup"><span class="nav-icon" aria-hidden="true">⚙</span><span class="nav-label">Setup</span></button><button id="navNle" data-nav-page="nle"><span class="nav-icon" aria-hidden="true">≋</span><span class="nav-label">NLE</span></button><button id="navBenchmark" data-nav-page="nle"><span class="nav-icon" aria-hidden="true">⌁</span><span class="nav-label">Bench</span></button></nav>
+		</main>
+	</div>
+	<pre id="auditResult" hidden="">{"passed":false,"report":{"viewport":[1200,540],"pages":[{"pageName":"home","activeCount":1,"pageOverflow":[],"deckOverflow":[]},{"pageName":"stage","activeCount":1,"pageOverflow":[],"deckOverflow":[]},{"pageName":"audio","activeCount":1,"pageOverflow":[],"deckOverflow":[]},{"pageName":"sources","activeCount":1,"pageOverflow":[],"deckOverflow":["sources/capture","sources/audio","sources/generated","sources/files"]},{"pageName":"live","activeCount":1,"pageOverflow":[],"deckOverflow":[]},{"pageName":"setup","activeCount":1,"pageOverflow":[],"deckOverflow":[]},{"pageName":"nle","activeCount":1,"pageOverflow":["timeline-real"],"deckOverflow":[]}],"rootOverflow":[],"scrollbarElements":[],"immersive":{"active":true,"gridOverflow":false,"rackWidth":0,"opacity":"0","pointerEvents":"none"}}}</pre>
+	<script type="module" src="./main.js?v=nesher-gpu-river"></script>
+	<script type="module">
+		const output = document.querySelector('#auditResult');
+		const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+		const waitForBoot = async () => {
+			for (let attempt = 0; attempt < 240; attempt += 1) {
+				if (document.querySelectorAll('[data-studio-page]').length === 7) return;
+				await wait(25);
+			}
+			throw new Error('Nesher Studio did not boot.');
+		};
+		const boxOverflows = (element) => Boolean(element) && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1);
+		const normalizePage = (pageName) => {
+			const classes = ['is-active', 'is-entering', 'is-leaving', 'from-left', 'from-right', 'to-left', 'to-right'];
+			document.querySelectorAll('[data-studio-page]').forEach((page) => {
+				page.classList.remove(...classes);
+				const active = page.dataset.studioPage === pageName;
+				page.hidden = !active;
+				page.inert = !active;
+				if (active) page.classList.add('is-active');
+			});
+		};
+		try {
+			await waitForBoot();
+			const noMotion = document.createElement('style');
+			noMotion.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}';
+			document.head.append(noMotion);
+			const reports = [];
+			for (const pageName of ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle']) {
+				normalizePage(pageName);
+				await wait(20);
+				const page = document.querySelector(`[data-studio-page="${pageName}"]`);
+				const critical = [page, ...page.querySelectorAll('.stage-workspace,.audio-lab-grid,.source-deck,.nle-deck,.timeline-real')];
+				const pageOverflow = critical.filter(boxOverflows).map((element) => element.id || String(element.className));
+				const deckOverflow = [];
+				for (const deck of page.querySelectorAll('[data-workspace-deck]')) {
+					for (const button of deck.querySelectorAll(':scope > [data-deck-tabs] [data-deck-target]')) {
+						button.click();
+						await wait(5);
+						const stack = deck.querySelector(':scope > [data-deck-stack]');
+						const panel = stack?.querySelector('.deck-panel.active');
+						if ([deck, stack, panel].some(boxOverflows)) deckOverflow.push(`${deck.dataset.workspaceDeck}/${button.dataset.deckTarget}`);
+					}
+				}
+				reports.push({ pageName, activeCount: document.querySelectorAll('.workspace-page.is-active').length, pageOverflow, deckOverflow });
+			}
+			normalizePage('audio');
+			await wait(20);
+			const immersiveButton = document.querySelector('#audioLabImmersive');
+			if (!document.querySelector('#audioLabSection').classList.contains('is-immersive')) immersiveButton.click();
+			await wait(20);
+			const rack = document.querySelector('.audio-control-rack');
+			const rackStyle = getComputedStyle(rack);
+			const roots = [document.documentElement, document.body, document.querySelector('#appRoot'), document.querySelector('.nesher-shell'), document.querySelector('#studioPage'), document.querySelector('#topNav')];
+			const scrollbarElements = [...document.querySelectorAll('*')].filter((element) => {
+				const style = getComputedStyle(element);
+				return ['auto', 'scroll'].includes(style.overflowX) || ['auto', 'scroll'].includes(style.overflowY);
+			}).map((element) => element.id || String(element.className));
+			const report = {
+				viewport: [innerWidth, innerHeight],
+				pages: reports,
+				rootOverflow: roots.filter(boxOverflows).map((element) => element.id || String(element.className)),
+				scrollbarElements,
+				immersive: {
+					active: document.querySelector('#audioLabSection').classList.contains('is-immersive'),
+					gridOverflow: boxOverflows(document.querySelector('.audio-lab-grid')),
+					rackWidth: rack.getBoundingClientRect().width,
+					opacity: rackStyle.opacity,
+					pointerEvents: rackStyle.pointerEvents
+				}
+			};
+			const failures = reports.filter((page) => page.activeCount !== 1 || page.pageOverflow.length || page.deckOverflow.length);
+			const passed = !failures.length && !report.rootOverflow.length && !scrollbarElements.length && report.immersive.active && !report.immersive.gridOverflow && report.immersive.rackWidth <= 1 && report.immersive.opacity === '0' && report.immersive.pointerEvents === 'none';
+			output.textContent = JSON.stringify({ passed, report });
+			document.documentElement.dataset.audit = passed ? 'pass' : 'fail';
+		} catch (error) {
+			output.textContent = JSON.stringify({ passed: false, error: String(error?.stack || error) });
+			document.documentElement.dataset.audit = 'error';
+		}
+	</script>
+
+
+</body></html>

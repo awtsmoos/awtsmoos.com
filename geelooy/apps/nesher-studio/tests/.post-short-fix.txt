@@ -1,0 +1,39 @@
+      55 styles/responsive-short-shell.css
+      49 styles/responsive-short-sources.css
+      63 styles/responsive-short-timeline.css
+       8 styles/responsive-short.css
+     105 styles/workspace-pages.css
+     119 styles/timeline.css
+     399 total
+B"H recursive no-scroll style contract passed across 37 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+{"ok":true,"assets":1,"scenes":2,"sequences":2}
+B"H timeline model smoke passed
+B"H export queue smoke passed
+B"H project serializer smoke passed
+B"H timeline editing smoke passed
+B"H nle timeline commands smoke passed
+B"H nle render smoke passed
+B"H export negotiator smoke passed
+B"H audio visualizer smoke passed
+B"H visualizer routing and features smoke passed
+B"H encoding benchmark smoke passed
+B"H visualizer source family smoke passed
+B"H visualizer audio features smoke passed
+B"H live stream health smoke passed
+B"H NLE track commands smoke passed
+B"H encoding recommendation smoke passed
+B"H active no forbidden recorder guard passed
+B"H browser confidence layer smoke passed
+B"H mocked generic HLS controller smoke passed
+B"H benchmark compact view smoke passed
+B"H Hebrew visualizer models smoke passed
+B"H NLE advanced commands smoke passed
+B"H encoding smoke mode compact smoke passed
+B"H stage crop transform smoke passed
+B"H NLE UI commands smoke passed
+B"H fixed viewport recording, deck, and audio DOM contract passed
+B"H recording state machine smoke passed
+B"H recursive no-scroll style contract passed across 37 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+B"H Nesher confidence layer passed 29 smokes and all line gates

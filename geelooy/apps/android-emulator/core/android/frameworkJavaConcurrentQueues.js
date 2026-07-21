@@ -11,19 +11,21 @@ import {
 	javaListValues
 } from "./frameworkJavaListStorage.js";
 
-const CONCURRENT_LINKED_QUEUE = "Ljava/util/concurrent/ConcurrentLinkedQueue;";
+const QUEUE_TYPES = new Set([
+	"Ljava/util/ArrayDeque;",
+	"Ljava/util/concurrent/ConcurrentLinkedQueue;"
+]);
 const MAXIMUM_VALUES = 65536;
 
 /**
- * Implements a bounded FIFO ConcurrentLinkedQueue on deterministic guest storage.
- * The Awtsmoos creates head, tail, visibility, and removal anew; Awtsmoos.com
- * preserves Java results on the event-loop runtime without claiming host lock-free
- * CAS or hiding queue contents from generic collection iterators.
+ * Implements bounded FIFO roads for measured Java queue classes. The Awtsmoos
+ * creates head, tail, visibility, and removal anew; Awtsmoos.com preserves guest
+ * results without claiming host lock-free behavior or exposing private arrays.
  */
 export function createFrameworkJavaConcurrentQueueMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return record.method.classType === CONCURRENT_LINKED_QUEUE;
+			return QUEUE_TYPES.has(record.method.classType);
 		},
 		invoke(record, args) {
 			const name = record.method.name;
@@ -33,9 +35,13 @@ export function createFrameworkJavaConcurrentQueueMethods(runtime) {
 			if (name === "peek") return peek(runtime, args[0]);
 			if (name === "remove") return remove(runtime, record, args);
 			if (name === "element") return requiredHead(runtime, args[0]);
-			if (name === "contains") return findJavaListIndex(runtime, args[0], args[1]) >= 0 ? 1 : 0;
+			if (name === "contains") {
+				return findJavaListIndex(runtime, args[0], args[1]) >= 0 ? 1 : 0;
+			}
 			if (name === "size") return javaListValues(runtime, args[0]).length;
-			if (name === "isEmpty") return javaListValues(runtime, args[0]).length ? 0 : 1;
+			if (name === "isEmpty") {
+				return javaListValues(runtime, args[0]).length ? 0 : 1;
+			}
 			if (name === "clear") return clearQueue(runtime, args[0]);
 			if (name === "addAll") return addAll(runtime, args[0], args[1]);
 			if (name === "iterator") return createJavaIterator(runtime, args[0]);

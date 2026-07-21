@@ -46,7 +46,8 @@ float fbm(vec2 point) {
 	return value;
 }
 
-vec2 warp(vec2 point, float drift) {
+// Layered domain warp bends the procedural rivers without a texture asset.
+vec2 domainWarp(vec2 point, float drift) {
 	vec2 first = vec2(
 		fbm(point * 1.55 + vec2(drift, -drift)),
 		fbm(point * 1.8 + vec2(-drift, drift))
@@ -69,7 +70,7 @@ void main() {
 	vec2 aspect = vec2(uResolution.x / max(uResolution.y, 1.0), 1.0);
 	vec2 point = (uv - 0.5) * aspect;
 	float drift = uTime * 0.014 * uMotionScale;
-	vec2 folded = warp(point, drift);
+	vec2 folded = domainWarp(point, drift);
 	float density = fbm(point * 2.0 + folded * 2.25 + uScroll * 0.00018);
 	float filament = 1.0 - abs(fbm(point * 4.6 - folded * 1.45) * 2.0 - 1.0);
 	filament = smoothstep(0.62, 0.97, filament) * smoothstep(0.26, 0.84, density);

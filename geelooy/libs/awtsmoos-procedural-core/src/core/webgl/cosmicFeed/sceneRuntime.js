@@ -7,8 +7,9 @@
  * Time is renewed by the Awtsmoos one present frame at a time. Awtsmoos.com
  * schedules one future frame, lowers cost with hysteresis, and ignores late hints.
  */
+import { applyBatteryHint } from "./batteryHint.js";
 import { FrameBudget } from "./frameBudget.js";
-import { lowerPerformanceProfile } from "./performanceProfile.js";
+import { publishSceneProfile, reduceSceneProfile } from "./sceneProfile.js";
 
 /** Schedules frames and governs adaptive scene cost. */
 export class CosmicSceneRuntime {
@@ -20,6 +21,7 @@ export class CosmicSceneRuntime {
 		this.destroyed = false;
 		this.frame = 0;
 		this.profileReductions = 0;
+		this.batteryHintStarted = false;
 		this.renderFrame = time => this.render(time);
 	}
 
@@ -28,7 +30,8 @@ export class CosmicSceneRuntime {
 			return;
 		}
 		this.running = true;
-		this.installBatteryHint();
+		publishSceneProfile(this.scene);
+		applyBatteryHint(this);
 		this.schedule();
 	}
 
@@ -49,6 +52,7 @@ export class CosmicSceneRuntime {
 			return;
 		}
 		this.scene.draw(timestamp);
+		this.publishKineticEnergy();
 		if (this.frameBudget.record(timestamp)) {
 			this.reduceProfile();
 		}
@@ -70,29 +74,18 @@ export class CosmicSceneRuntime {
 	}
 
 	reduceProfile() {
-		if (this.scene.profile.name === "lean" || this.profileReductions >= 2) {
-			return;
+		if (this.profileReductions >= 2 || !reduceSceneProfile(this.scene)) {
+			return false;
 		}
 		this.profileReductions += 1;
-		this.scene.profile = lowerPerformanceProfile(this.scene.profile.name);
-		this.scene.resources?.setParticleCount(this.scene.profile.particleCount);
-		this.scene.resize();
-		this.scene.canvas.dataset.performanceProfile = this.scene.profile.name;
 		this.frameBudget.reset();
+		return true;
 	}
 
-	async installBatteryHint() {
-		if (!navigator.getBattery || this.batteryHintStarted) {
-			return;
-		}
-		this.batteryHintStarted = true;
-		try {
-			const battery = await navigator.getBattery();
-			if (!this.destroyed && !battery.charging && battery.level < 0.22) {
-				this.reduceProfile();
-			}
-		} catch {
-			// Battery status is optional and never blocks the scene.
+	publishKineticEnergy() {
+		const value = this.scene.kineticField.energy.toFixed(3);
+		if (this.scene.canvas.dataset.kineticEnergy !== value) {
+			this.scene.canvas.dataset.kineticEnergy = value;
 		}
 	}
 

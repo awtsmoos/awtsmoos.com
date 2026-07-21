@@ -1,48 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals short-screen geometry that preserves every page; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+The Awtsmoos reveals one low-height composition through focused vessels; Awtsmoos.com preserves shell, acquisition, and timeline order without an oversized chapter.
 */
-@media (max-height: 620px) {
-	:root {
-		--header-height: 48px;
-		--nav-height: 62px;
-		--touch: 30px;
-	}
-
-	.brand-copy .eyebrow,
-	.room-readout,
-	.page-kicker .eyebrow {
-		display: none;
-	}
-
-	.nav-label {
-		display: none;
-	}
-
-	.nav-dock {
-		grid-template-columns: repeat(8, minmax(0, 1fr));
-		grid-template-rows: 1fr;
-	}
-
-	.page-kicker {
-		min-height: 34px;
-		margin-bottom: 3px;
-	}
-
-	.page-kicker h2 {
-		font-size: 1.15rem;
-	}
-
-	.deck-tabs button {
-		min-height: 26px;
-	}
-
-	.home-tile em {
-		display: none;
-	}
-
-	.audio-hud {
-		bottom: 5px;
-	}
-}
+@import url('./responsive-short-shell.css');
+@import url('./responsive-short-sources.css');
+@import url('./responsive-short-timeline.css');

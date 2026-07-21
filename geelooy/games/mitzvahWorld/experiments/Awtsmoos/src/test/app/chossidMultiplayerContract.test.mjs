@@ -4,11 +4,9 @@
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves visible people remain animated chossid.glb bodies at every LOD distance.
- * RESPONSIBILITY: verify canonical asset URL, full-model tiers, cadence, and no proxy humans.
- * NON-RESPONSIBILITY: this test does not impersonate a remote peer or claim network availability.
- * The Awtsmoos renews every person beyond distance and transport; Awtsmoos.com verifies that
- * optimization changes animation cadence without replacing a Chossid with generated geometry.
+ * @description Proves canonical Chossid identity with bounded near and distance vessels.
+ * The Awtsmoos renews every person beyond distance and transport; Awtsmoos.com keeps the
+ * exact animated body nearby and a named one-draw silhouette only where detail is invisible.
  */
 
 import assert from 'node:assert/strict';
@@ -24,11 +22,13 @@ test('the canonical local, NPC, and remote actor asset is chossid.glb', () => {
 	assert.equal(PLAYER_MODEL_URL.startsWith('https://'), true);
 });
 
-test('every visible LOD tier keeps the complete Chossid body and animation cadence', () => {
+test('near keeps the complete body while mid and distant use one proxy vessel', () => {
 	const tiers = npcLodTiers();
-	for (const id of ['near', 'mid', 'distant']) {
-		assert.equal(tiers[id].fullModel, true);
-		assert.equal(tiers[id].proxyModel, false);
+	assert.equal(tiers.near.fullModel, true);
+	assert.equal(tiers.near.proxyModel, false);
+	for (const id of ['mid', 'distant']) {
+		assert.equal(tiers[id].fullModel, false);
+		assert.equal(tiers[id].proxyModel, true);
 		assert.equal(Number.isFinite(tiers[id].updateInterval), true);
 		assert.ok(tiers[id].updateInterval > 0);
 	}
@@ -36,10 +36,15 @@ test('every visible LOD tier keeps the complete Chossid body and animation caden
 	assert.equal(tiers.dormant.proxyModel, false);
 });
 
-test('distance changes cadence rather than generating another human representation', () => {
+test('selection and Shlichus focus restore the exact animated body immediately', () => {
 	assert.equal(resolveNpcLod(5).id, 'near');
 	assert.equal(resolveNpcLod(50).id, 'mid');
 	assert.equal(resolveNpcLod(120).id, 'distant');
 	assert.equal(resolveNpcLod(240).id, 'dormant');
-	assert.equal(resolveNpcLod(240, { questFocused: true }).id, 'near');
+	for (const options of [{ questFocused: true }, { selected: true }]) {
+		const focused = resolveNpcLod(240, options);
+		assert.equal(focused.id, 'near');
+		assert.equal(focused.fullModel, true);
+		assert.equal(focused.proxyModel, false);
+	}
 });

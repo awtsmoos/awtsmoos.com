@@ -1,15 +1,25 @@
 // B"H
-/** Builds one exact chossid.glb NPC, its independent animation player, and quest marker. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NpcChossidVisual.js
+ * @description Builds one animated Chossid, quest marker, and one-draw distance vessel.
+ * The Awtsmoos renews one complete person through near and distant garments; Awtsmoos.com
+ * preserves animated human detail nearby while a named silhouette carries identity afar.
+ */
+
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { TinyAnimationPlayer } from '../../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../GroundRay.js';
+import { createNpcFarProxy } from './NpcFarProxy.js';
 import { createNpcQuestMarker } from './NpcQuestMarker.js';
 
 export function createNpcChossidVisual(profile, gltf, ground) {
 	const group = new Group();
 	group.name = `Awtsmoos_friendly_npc_${profile.id}`;
 	group.userData.family = 'animated-chossid-npc';
-	group.userData.renderDistance = profile.primary ? 125 : 88;
+	group.userData.renderDistance = profile.primary ? 170 : 155;
 	const model = gltf.scene;
 	model.scale.set(1.38, 1.38, 1.38);
 	model.position.set(profile.x, 0, profile.z);
@@ -23,12 +33,11 @@ export function createNpcChossidVisual(profile, gltf, ground) {
 	const clips = npcAnimationClips(player.names);
 	player.play(profile.wanderRadius ? clips.walk : clips.idle);
 	const marker = createNpcQuestMarker(profile, groundY);
-	const proxy = new Group();
-	proxy.name = `Awtsmoos_no_primitive_proxy_${profile.id}`;
-	proxy.visible = false;
+	const proxy = createNpcFarProxy(profile, ground);
 	group.add(model);
+	group.add(proxy);
 	group.add(marker);
-	return { group, marker, model, player, proxy, clips, footOffset, groundY };
+	return { clips, footOffset, groundY, group, marker, model, player, proxy };
 }
 
 export function faceNpcModelToPlayer(model, actorPosition, playerState) {

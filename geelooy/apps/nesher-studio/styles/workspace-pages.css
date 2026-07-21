@@ -1,17 +1,105 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals source, live, and setup rooms without scroll; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+The Awtsmoos reveals source, live, and setup rooms without scroll; Awtsmoos.com keeps every acquisition gate and project control inside a bounded vessel.
 */
-.sources-page, .live-page, .setup-page { grid-template-rows: auto minmax(0,1fr); }
-.source-deck { grid-template-rows: auto minmax(0,1fr); }
-.source-card { place-content: center; justify-items: start; padding: clamp(16px, 3vw, 42px); border-radius: 18px; background: radial-gradient(circle at 90% 0%, rgba(181,140,255,.2), transparent 38%), linear-gradient(145deg, rgba(20,39,72,.94), rgba(6,14,29,.94)); }
-.source-card h3 { margin-bottom: .35rem; font-size: clamp(1.4rem, 3vw, 2.6rem); }
-.source-card > p:not(.eyebrow) { max-width: 680px; color: var(--soft); }
-.card-orb { display: grid; width: clamp(52px, 7vw, 88px); height: clamp(52px, 7vw, 88px); place-items: center; margin-bottom: 12px; border-radius: 50%; color: var(--cyan); font-size: clamp(1.5rem, 3vw, 2.8rem); background: rgba(117,255,229,.09); box-shadow: inset 0 0 28px rgba(117,255,229,.12), 0 0 40px rgba(107,157,255,.15); }
-.source-toolbar { display: flex; flex-wrap: wrap; gap: 7px; max-width: 880px; }
-.live-page .metric-grid { grid-template-columns: repeat(4, minmax(0,1fr)); align-content: center; }
-.live-console { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); overflow: hidden; }
-.signal-dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 16px var(--green); }
-.control-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); align-content: center; gap: 8px; min-width: 0; min-height: 0; padding: clamp(10px, 2vw, 24px); border: 1px solid var(--line); border-radius: 18px; background: var(--card); overflow: hidden; }
-.setup-shortcuts { display: flex; justify-content: flex-end; gap: 7px; }
+.sources-page,
+.live-page,
+.setup-page {
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+.source-deck {
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+.source-card {
+	place-content: center;
+	justify-items: start;
+	min-width: 0;
+	min-height: 0;
+	padding: clamp(16px, 3vw, 42px);
+	border-radius: 18px;
+	background:
+		radial-gradient(circle at 90% 0%, rgba(181, 140, 255, .2), transparent 38%),
+		linear-gradient(145deg, rgba(20, 39, 72, .94), rgba(6, 14, 29, .94));
+	overflow: hidden;
+}
+
+.source-card h3 {
+	margin-bottom: .35rem;
+	font-size: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.source-card > p:not(.eyebrow) {
+	max-width: 680px;
+	color: var(--soft);
+}
+
+.card-orb {
+	display: grid;
+	width: clamp(52px, 7vw, 88px);
+	height: clamp(52px, 7vw, 88px);
+	place-items: center;
+	margin-bottom: 12px;
+	border-radius: 50%;
+	color: var(--cyan);
+	font-size: clamp(1.5rem, 3vw, 2.8rem);
+	background: rgba(117, 255, 229, .09);
+	box-shadow: inset 0 0 28px rgba(117, 255, 229, .12), 0 0 40px rgba(107, 157, 255, .15);
+}
+
+.source-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	max-width: 880px;
+}
+
+.live-page .metric-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	align-content: center;
+}
+
+.live-console {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-top: 8px;
+	padding: 12px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--card);
+	overflow: hidden;
+}
+
+.signal-dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 7px;
+	border-radius: 50%;
+	background: var(--green);
+	box-shadow: 0 0 16px var(--green);
+}
+
+.control-grid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	align-content: center;
+	gap: 8px;
+	min-width: 0;
+	min-height: 0;
+	padding: clamp(10px, 2vw, 24px);
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	background: var(--card);
+	overflow: hidden;
+}
+
+.setup-shortcuts {
+	display: flex;
+	justify-content: flex-end;
+	gap: 7px;
+}

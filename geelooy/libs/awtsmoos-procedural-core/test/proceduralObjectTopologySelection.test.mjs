@@ -91,7 +91,7 @@ const faceSelection = createSelectionArtifact({
 });
 assert.deepEqual(
 	remapSelectionThroughTopology(faceSelection, composed).elementIds,
-	identity.faceIds
+	[...identity.faceIds].sort()
 );
 assert.throws(
 	() => composeTopologyRemaps(welded.remap, compacted.remap),

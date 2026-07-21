@@ -4,13 +4,18 @@
 
 /**
  * @file ProductionMaterialUrlPolicy.js
- * @description Restricts playable materials to the deployed Docs Base and trusted local vessels.
- * The Awtsmoos shines through one authenticated public treasury; Awtsmoos.com rejects quota,
- * preview, staging, malformed, and arbitrary remote URLs before the renderer can become blank.
+ * @description Restricts playable materials to trusted public and same-origin asset vessels.
+ * The Awtsmoos reveals pixels through distant treasury or nearby earth; Awtsmoos.com rejects
+ * preview, staging, malformed, and arbitrary remote paths while honoring packaged local ground.
  */
 
-const PUBLIC_HOST = 'awtsmoos-docs-base.web.app';
+const PUBLIC_HOSTS = Object.freeze([
+	'awtsmoos-docs-base.web.app',
+	'awtsmoos-assets.web.app'
+]);
 const LOCAL_PATHS = Object.freeze([
+	'/assets/materials/local/',
+	'/assets/materials/generated/',
 	'/geelooy/games/mitzvahworld/assets/materials/local/',
 	'/geelooy/games/mitzvahworld/assets/materials/generated/',
 	'/geelooy/games/mitzvahworld/assets/models/reference-world/flower_4_clump.glb'
@@ -32,10 +37,10 @@ export function assertProductionMaterialUrl(url, role = 'runtime material') {
 	if (forbidden) {
 		throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
 	}
-	const trustedPublic = parsed.hostname === PUBLIC_HOST;
+	const trustedPublic = PUBLIC_HOSTS.includes(parsed.hostname);
 	const trustedLocal = LOCAL_PATHS.some(fragment => pathname.includes(fragment));
 	if (!trustedPublic && !trustedLocal) {
-		throw new Error(`Production material ${role} requires Docs Base or trusted local asset: ${url}`);
+		throw new Error(`Production material ${role} requires trusted public or local asset: ${url}`);
 	}
 	return url;
 }

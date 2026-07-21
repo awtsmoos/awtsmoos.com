@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every control a bounded and accessible garment; Awtsmoos.com keeps taps fluid, focus visible, and even textareas free from hidden scroll corridors.
+*/
+button,
+input,
+select,
+textarea {
+	min-width: 0;
+	min-height: var(--touch);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	padding: .48rem .68rem;
+	color: var(--ink);
+	background: rgba(4, 11, 24, .92);
+	font: inherit;
+}
+
+button {
+	cursor: pointer;
+	color: #02110f;
+	font-weight: 850;
+	border-color: var(--line-hot);
+	background: linear-gradient(135deg, var(--cyan), var(--blue));
+	transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease;
+}
+
+button:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.08);
+}
+
+button:active {
+	transform: translateY(0) scale(.985);
+}
+
+button:disabled {
+	opacity: .42;
+	cursor: default;
+	transform: none;
+}
+
+button:focus-visible,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(117, 255, 229, .23);
+}
+
+input,
+select,
+textarea {
+	width: 100%;
+}
+
+textarea {
+	resize: none;
+	overflow: hidden;
+}
