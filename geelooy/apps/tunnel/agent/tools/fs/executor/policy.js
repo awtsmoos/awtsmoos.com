@@ -13,11 +13,8 @@ function bounded(value, fallback, minimum, maximum) {
 }
 
 module.exports = {
-	IDLE_SHUTDOWN_MS: bounded(
-		process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS,
-		30000,
-		1000,
-		300000
+	IDLE_SHUTDOWN_MS: idleShutdownMs(
+		process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS
 	),
 	JOB_TIMEOUT_MS: bounded(
 		process.env.AWTSMOOS_FS_EXECUTOR_TIMEOUT_MS,
@@ -45,3 +42,10 @@ module.exports = {
 	),
 	bounded
 };
+
+/** Zero keeps prewarmed workers alive until graceful runtime shutdown. */
+function idleShutdownMs(value) {
+	const text = String(value ?? "").trim().toLowerCase();
+	if (!text || text === "0" || text === "never") return 0;
+	return bounded(text, 0, 1000, 24 * 60 * 60 * 1000);
+}

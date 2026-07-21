@@ -11,13 +11,13 @@ export class CalmReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				partX: 0.4,
-				fringeLeftReach: 0.82,
-				fringeRightReach: 0.38,
-				fringeTipX: 0.5,
-				fringeCrownDepth: 0.72,
-				fringeSideDepth: 0.28,
-				fringeTipDepth: 0.2,
+				partX: 0.38,
+				fringeLeftReach: 0.78,
+				fringeRightReach: 0.3,
+				fringeTipX: 0.38,
+				fringeCrownDepth: 0.74,
+				fringeSideDepth: 0.42,
+				fringeTipDepth: 0.46,
 				fringeLineWidth: 0.95
 			},
 			headwear: {
@@ -36,9 +36,9 @@ export class CalmReferenceHeadStyle {
 				rearDepth: 0.74,
 				bun: true,
 				bunX: 1,
-				bunY: 2.12,
-				bunWidth: 0.38,
-				bunHeight: 0.62,
+				bunY: 2.08,
+				bunWidth: 0.35,
+				bunHeight: 0.48,
 				lineWidth: 1,
 				highlightOpacity: 0.016
 			},

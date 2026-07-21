@@ -11,10 +11,13 @@ import { ActionBarRuntimeCoordinator } from '../../gameplay/actionbar/ActionBarR
 test('runtime separates restored catalog validity from learned readiness', () => {
 	const learned = ['modeh-ani'];
 	const runtime = createRuntime({ learned });
-	runtime.store.assign(1, 'light-against-concealment');
+	assert.equal(runtime.assignFirstAvailable('light-against-concealment').ok, true);
+	assert.equal(runtime.store.snapshot().slots[1], 'light-against-concealment');
 	assert.equal(runtime.readinessForSlot(1, { now: 0 }).reason, 'not-unlocked');
 	learned.push('creation-light');
 	assert.equal(runtime.readinessForSlot(1, { now: 0 }).ok, true);
+	runtime.store.setLocked(true);
+	assert.equal(runtime.assignFirstAvailable('shield-of-trust').reason, 'layout-locked');
 	runtime.destroy();
 });
 

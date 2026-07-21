@@ -90,6 +90,7 @@ function createPool(options = {}) {
 	}
 
 	function scheduleIdle() {
+		if (policy.IDLE_SHUTDOWN_MS <= 0) return;
 		if (state.queue.length || state.workers.some(worker => worker.busy)) return;
 		state.idleTimer = setTimeout(shutdown, policy.IDLE_SHUTDOWN_MS);
 		state.idleTimer.unref?.();
@@ -104,7 +105,6 @@ function createPool(options = {}) {
 	}
 
 	const stats = () => State.stats(state, policy);
-
 	function warm() {
 		ensureWorkers(policy.WORKERS);
 		return stats();

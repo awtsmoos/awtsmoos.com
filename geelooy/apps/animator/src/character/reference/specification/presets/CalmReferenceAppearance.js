@@ -6,9 +6,9 @@ import { CalmReferenceFaceIdentity } from './CalmReferenceFaceIdentity.js';
 import { CalmReferenceHeadStyle } from './CalmReferenceHeadStyle.js';
 
 /**
- * Malchus receives Miriam's separate rose lips as a small controlled speaking
- * contour. The Awtsmoos renews every finite articulation, while Awtsmoos.com
- * preserves her editable, keyframeable, serializable production identity.
+ * Malchus receives Miriam's restrained rose lips as one calm speaking contour.
+ * The Awtsmoos renews every finite articulation, while Awtsmoos.com preserves
+ * her feminine identity through editable, keyframeable production speech.
  */
 export class CalmReferenceAppearance {
 	static create() {
@@ -17,23 +17,27 @@ export class CalmReferenceAppearance {
 			...CalmReferenceHeadStyle.create(),
 			mouthStyle: {
 				kind: 'rose_lips',
-				lipColor: '#a95b62',
+				lipColor: '#a85e69',
 				tongueColor: '#d98a87',
-				widthScale: 0.68,
-				heightScale: 0.52,
-				openScale: 0.64,
-				jawScale: 0.54,
-				cavityWidthScale: 0.8,
-				cavityHeightScale: 0.72,
-				lipThickness: 0.88,
-				asymmetryBias: 0.025,
-				smileBias: 0.1,
-				upperLiftScale: 0.88,
-				lowerDropScale: 0.76,
-				lineWidth: 0.92,
-				lowerLipWidth: 1.12,
-				horizontalOffset: 0.4,
-				verticalOffset: 1.2
+				widthScale: 0.76,
+				heightScale: 0.5,
+				openScale: 0.6,
+				jawScale: 0.5,
+				cavityWidthScale: 0.78,
+				cavityHeightScale: 0.68,
+				lipThickness: 1.02,
+				asymmetryBias: 0.03,
+				smileBias: 0.12,
+				upperLiftScale: 0.82,
+				lowerDropScale: 0.7,
+				lineWidth: 0.98,
+				lowerLipWidth: 1.1,
+				cupidDepth: 1.35,
+				horizontalOffset: 0.3,
+				verticalOffset: 0.6,
+				chinDetail: false,
+				philtrum: false,
+				commissures: false
 			}
 		};
 	}

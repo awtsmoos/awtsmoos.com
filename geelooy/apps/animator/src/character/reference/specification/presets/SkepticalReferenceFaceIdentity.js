@@ -60,8 +60,8 @@ export class SkepticalReferenceFaceIdentity {
 			browStyle: {
 				width: 18.4,
 				thickness: 2.8,
-				leftVerticalOffset: -2.4,
-				rightVerticalOffset: -0.9,
+				leftVerticalOffset: 1,
+				rightVerticalOffset: 5,
 				leftArch: 0.8,
 				rightArch: -0.2,
 				leftTilt: 0.18,

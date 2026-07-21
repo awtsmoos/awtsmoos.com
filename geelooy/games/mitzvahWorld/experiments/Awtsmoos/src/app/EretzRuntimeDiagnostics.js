@@ -4,19 +4,20 @@
 
 /**
  * @file EretzRuntimeDiagnostics.js
- * @description Exposes gameplay, actor, renderer, lighting, and performance facts.
- * The Awtsmoos renews the world beyond appearances; Awtsmoos.com records actual systems,
- * hostile state, hydrated garments, failures, budgets, and frame evidence as receipts.
+ * @description Exposes gameplay, actor, renderer, UI, and performance facts as receipts.
  */
 
 export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRpg) {
 	Object.assign(diagnostics, {
 		actionBar: runtime.actionBar,
+		actionBarRuntime: runtime.gameplayUi.actionBar,
 		animationDiagnostics: runtime.player.diagnostics(),
 		animationNames: runtime.player.names,
 		assets: runtime.assets,
 		bus: runtime.bus,
 		clips: runtime.clips,
+		combatActionBar: runtime.combatActionBar,
+		combatActionBarState: () => runtime.combatActionBar?.snapshot(),
 		door: runtime.doors[0],
 		equipment: runtime.equipment,
 		forest: runtime.terrain.forest,
@@ -67,6 +68,7 @@ export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRp
 
 function performancePolicy(runtime) {
 	return {
+		combatHudUpdateMilliseconds: 50,
 		forestDrawCalls: runtime.terrain.forest.stats.rendering.drawCalls,
 		forestLod: runtime.terrain.forest.stats.mobilePolicy,
 		forestWind: runtime.terrain.forest.stats.unsupported.wind,
@@ -77,6 +79,7 @@ function performancePolicy(runtime) {
 		minimapPolicy: 'movement-threshold-updates',
 		roadCollision: 'shared-manual-strip',
 		staticArchitecture: true,
-		structuredVillageLogging: true
+		structuredVillageLogging: true,
+		uiReconstructionPolicy: 'state-transitions-only'
 	};
 }
