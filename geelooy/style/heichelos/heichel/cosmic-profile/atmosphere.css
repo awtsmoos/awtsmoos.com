@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos places one living cosmic field behind the real Heichel route. */
+
+.heichel-os-document,
+.heichel-os-document body {
+	min-width: 0;
+	min-height: 100%;
+	color: var(--heichel-cosmic-text) !important;
+	background:
+		radial-gradient(circle at 3% 28%, rgba(1, 161, 230, .2), transparent 24rem),
+		radial-gradient(circle at 97% 70%, rgba(163, 90, 255, .22), transparent 27rem),
+		linear-gradient(180deg, var(--heichel-cosmic-void), var(--heichel-cosmic-page) 54%, var(--heichel-cosmic-void)) !important;
+}
+
+.heichel-os-document body::before,
+.heichel-os-document body::after {
+	position: fixed;
+	inset-block: 0;
+	z-index: 0;
+	width: min(29vw, 31rem);
+	content: "";
+	pointer-events: none;
+	filter: blur(1.2rem);
+	opacity: .72;
+}
+
+.heichel-os-document body::before {
+	left: 0;
+	background:
+		radial-gradient(ellipse at left 18%, rgba(80, 215, 255, .22), transparent 56%),
+		radial-gradient(ellipse at 18% 72%, rgba(52, 155, 255, .18), transparent 58%);
+}
+
+.heichel-os-document body::after {
+	right: 0;
+	background:
+		radial-gradient(ellipse at right 31%, rgba(163, 90, 255, .23), transparent 57%),
+		radial-gradient(ellipse at 82% 78%, rgba(218, 97, 194, .17), transparent 60%);
+}
+
+.heichel-os-document .awtsmoos-cosmic-canvas {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.heichel-os-document[data-cosmic-fallback="true"] .awtsmoos-cosmic-canvas,
+.heichel-os-document .awtsmoos-cosmic-canvas[hidden] {
+	display: none;
+}
+
+.heichel-os-document .all,
+.heichel-os-document .heichel-mobile-navigation,
+.heichel-os-document .geelooy-main-stage {
+	position: relative;
+	z-index: 1;
+}
+
+.heichel-os-document .heichel-page-container,
+.heichel-os-document .heichel-mobile-navigation {
+	max-width: none !important;
+	padding: 0 !important;
+	background: transparent !important;
+}
+
+.heichel-os-document .geelooy-main-stage {
+	width: min(calc(100% - 2rem), var(--heichel-profile-width));
+	margin-inline: auto;
+	padding: 5.35rem 0 6rem;
+}

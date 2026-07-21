@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos names one exact palette for the living Heichel profile. */
+
+.heichel-os-document {
+	--heichel-cosmic-void: #04040C;
+	--heichel-cosmic-page: #040C1C;
+	--heichel-cosmic-deep: #040C24;
+	--heichel-cosmic-panel: #041424;
+	--heichel-cosmic-raised: #0C1424;
+	--heichel-cosmic-elevated: #0C1C2C;
+	--heichel-cosmic-cyan: #01A1E6;
+	--heichel-cosmic-cyan-core: #50D7FF;
+	--heichel-cosmic-blue: #2466BA;
+	--heichel-cosmic-blue-core: #349BFF;
+	--heichel-cosmic-indigo: #543AA5;
+	--heichel-cosmic-indigo-core: #8575FF;
+	--heichel-cosmic-violet: #9643C3;
+	--heichel-cosmic-violet-core: #A35AFF;
+	--heichel-cosmic-magenta: #CB52B1;
+	--heichel-cosmic-magenta-core: #DA61C2;
+	--heichel-cosmic-aqua: #2AA29E;
+	--heichel-cosmic-text: #F6F8FF;
+	--heichel-cosmic-secondary: #949CA4;
+	--heichel-cosmic-muted: #71839C;
+	--heichel-cosmic-line: rgba(80, 215, 255, .23);
+	--heichel-cosmic-line-strong: rgba(80, 215, 255, .58);
+	--heichel-cosmic-shadow: 0 1.4rem 3.8rem rgba(0, 0, 0, .52);
+	--heichel-cosmic-radius: 1rem;
+	--heichel-cosmic-cut: .85rem;
+	--heichel-profile-width: 66rem;
+}

@@ -15,7 +15,7 @@ import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
 import { DynamicDoor3D } from '../world/DynamicDoor3D.js';
 import { tallDoorDef } from '../world/DoorwaySpecs.js';
-import { HostileNpcPopulation } from '../world/enemy/HostileNpcPopulation.js';
+import { HostileNpcPopulation } from '../world/enemy/HostileNpcPopulation.js?v=20260721-spatial-targeting-01';
 import { HorseHerdSystem } from '../world/horses/HorseHerdSystem.js';
 import { allHouseDoorDefs } from '../world/House3D.js';
 import { FriendlyNpcPopulation } from '../world/npc/FriendlyNpcPopulation.js';

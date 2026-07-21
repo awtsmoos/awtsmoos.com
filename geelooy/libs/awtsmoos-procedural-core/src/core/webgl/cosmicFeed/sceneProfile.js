@@ -16,6 +16,7 @@ export function publishSceneProfile(scene) {
 	dataset.particleCount = String(profile.particleCount);
 	dataset.glyphCount = String(profile.glyphCount);
 	dataset.motionScale = String(profile.motionScale);
+	dataset.targetFps = String(Math.round(1000 / profile.frameInterval));
 	dataset.reducedMotion = String(Boolean(profile.reducedMotion));
 	dataset.kineticEngine = "true";
 }

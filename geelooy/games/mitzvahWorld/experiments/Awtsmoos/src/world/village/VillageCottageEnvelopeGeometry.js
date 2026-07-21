@@ -1,11 +1,10 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file VillageCottageEnvelopeGeometry.js
- * @description Builds one authored cottage envelope with a stone plinth, chamfered corners,
- * a set-back upper wall, and a recessed public entrance without increasing draw count.
- * The Awtsmoos renews shelter as more than a sealed cube: foundation receives the mountain,
- * threshold receives the traveler, and every measured face becomes a vessel on Awtsmoos.com.
+ * @description Builds a chamfered stone cottage envelope with a real recessed entrance.
  */
 
 export function createVillageCottageEnvelope(options, materials, userData) {
@@ -29,8 +28,9 @@ export function createVillageCottageEnvelope(options, materials, userData) {
 		textureUrl: materials.stone,
 		userData: {
 			...userData,
+			entranceOpening: geometry.entranceOpening,
 			foundationHeight: geometry.foundationHeight,
-			part: 'stone-plinth-and-recessed-wall-envelope',
+			part: 'stone-plinth-and-open-recessed-wall-envelope',
 			recessDepth: geometry.recessDepth
 		},
 		vertices: geometry.vertices
@@ -46,59 +46,59 @@ export function createEnvelopeGeometry(options) {
 	const wallWidth = halfWidth - 0.14;
 	const wallDepth = halfDepth - 0.1;
 	const doorwayHalf = Math.min(0.86, wallWidth * 0.2);
+	const doorHeight = Math.min(2.35, options.storyHeight ? options.storyHeight * 0.73 : 2.25);
 	appendPrism(mesh, chamferedRing(halfWidth + 0.22, halfDepth + 0.22, 0.34), 0, foundationHeight, options);
-	appendPrism(mesh, chamferedRing(wallWidth, wallDepth - recessDepth, 0.4), foundationHeight, options.wallHeight, options);
+	appendPrism(
+		mesh,
+		chamferedRing(wallWidth, wallDepth - recessDepth, 0.4),
+		foundationHeight,
+		options.wallHeight,
+		options,
+		4
+	);
 	appendFrontPier(mesh, -wallWidth, -doorwayHalf, wallDepth, recessDepth, foundationHeight, options);
 	appendFrontPier(mesh, doorwayHalf, wallWidth, wallDepth, recessDepth, foundationHeight, options);
+	appendFrontLintel(mesh, doorwayHalf, wallDepth, recessDepth, foundationHeight + doorHeight, options);
 	return {
 		...mesh,
+		entranceOpening: Object.freeze({ height: doorHeight, width: doorwayHalf * 2 }),
 		foundationHeight,
 		recessDepth
 	};
 }
 
 function appendFrontPier(mesh, startX, endX, frontZ, depth, bottom, options) {
-	const ring = [
-		[startX, frontZ - depth],
-		[endX, frontZ - depth],
-		[endX, frontZ],
-		[startX, frontZ]
-	];
-	appendPrism(mesh, ring, bottom, options.wallHeight, options);
+	appendPrism(mesh, rectangle(startX, endX, frontZ - depth, frontZ), bottom, options.wallHeight, options);
+}
+
+function appendFrontLintel(mesh, halfWidth, frontZ, depth, bottom, options) {
+	appendPrism(mesh, rectangle(-halfWidth, halfWidth, frontZ - depth, frontZ), bottom, options.wallHeight, options);
+}
+
+function rectangle(startX, endX, backZ, frontZ) {
+	return [[startX, backZ], [endX, backZ], [endX, frontZ], [startX, frontZ]];
 }
 
 function chamferedRing(width, depth, chamfer) {
 	return [
-		[-width + chamfer, -depth],
-		[width - chamfer, -depth],
-		[width, -depth + chamfer],
-		[width, depth - chamfer],
-		[width - chamfer, depth],
-		[-width + chamfer, depth],
-		[-width, depth - chamfer],
-		[-width, -depth + chamfer]
+		[-width + chamfer, -depth], [width - chamfer, -depth],
+		[width, -depth + chamfer], [width, depth - chamfer],
+		[width - chamfer, depth], [-width + chamfer, depth],
+		[-width, depth - chamfer], [-width, -depth + chamfer]
 	];
 }
 
-function appendPrism(mesh, ring, bottom, top, options) {
+function appendPrism(mesh, ring, bottom, top, options, skippedSide = -1) {
 	const first = mesh.vertices.length;
-	for (const [x, z] of ring) {
-		mesh.vertices.push(worldPoint(x, bottom, z, options));
-	}
-	for (const [x, z] of ring) {
-		mesh.vertices.push(worldPoint(x, top, z, options));
-	}
+	for (const [x, z] of ring) mesh.vertices.push(worldPoint(x, bottom, z, options));
+	for (const [x, z] of ring) mesh.vertices.push(worldPoint(x, top, z, options));
 	const count = ring.length;
 	mesh.faces.push(Array.from({ length: count }, (_value, index) => first + count - index - 1));
 	mesh.faces.push(Array.from({ length: count }, (_value, index) => first + count + index));
 	for (let index = 0; index < count; index += 1) {
+		if (index === skippedSide) continue;
 		const next = (index + 1) % count;
-		mesh.faces.push([
-			first + index,
-			first + next,
-			first + count + next,
-			first + count + index
-		]);
+		mesh.faces.push([first + index, first + next, first + count + next, first + count + index]);
 	}
 }
 

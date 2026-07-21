@@ -30,6 +30,7 @@ export class GameplayUiController {
 		this.shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
 			adventures: this.adventures,
 			bus,
+			inventory: this.inventory,
 			persistence: options.shlichusPersistence,
 			persistenceOptions: options.shlichusPersistenceOptions,
 			profile: this.profile

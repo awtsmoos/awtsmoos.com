@@ -2,10 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Every point receives a stable place and motion from the Awtsmoos. This
- * Awtsmoos.com layout forms four luminous species around a protected reading river.
+ * Every point receives a stable place and motion from the Awtsmoos. Awtsmoos.com
+ * composes three celestial side rivers around a protected reading corridor.
  */
-
 import {
 	chooseParticleFamily,
 	particleFamilyColor,
@@ -14,12 +13,11 @@ import {
 } from "./particleFamilies.js";
 import { SeededRandom } from "./seededRandom.js";
 
-/**
- * Creates deterministic particle attribute arrays.
- * @param {number} count Particle count.
- * @param {string} seed Stable seed.
- * @returns {{positionPhase:Float32Array,motionFamily:Float32Array,color:Float32Array}}
- */
+const TWO_PI = Math.PI * 2;
+const BAND_CENTERS = [0.43, 0.66, 0.9];
+const BAND_WIDTHS = [0.07, 0.1, 0.08];
+
+/** Creates deterministic particle attribute arrays. */
 export function createParticleLayout(count, seed = "awtsmoos-cosmic-feed") {
 	const random = new SeededRandom(seed);
 	const positionPhase = new Float32Array(count * 4);
@@ -32,32 +30,54 @@ export function createParticleLayout(count, seed = "awtsmoos-cosmic-feed") {
 }
 
 function writeParticle(random, index, positionPhase, motionFamily, color) {
-	const positionOffset = index * 4;
+	const offset = index * 4;
 	const colorOffset = index * 3;
 	const family = chooseParticleFamily(random);
 	const config = particleFamilyConfig(family);
-	const sideBias = random.next() < config.sideProbability;
 	const side = random.next() < 0.5 ? -1 : 1;
-	const horizontal = sideBias ? side * riverDistance(random, family) : random.range(-0.94, 0.94);
-	positionPhase[positionOffset] = horizontal;
-	positionPhase[positionOffset + 1] = random.range(-1.12, 1.12);
-	positionPhase[positionOffset + 2] = familyDepth(random, family);
-	positionPhase[positionOffset + 3] = random.range(0, Math.PI * 2);
-	motionFamily[positionOffset] = random.range(-config.speedX, config.speedX);
-	motionFamily[positionOffset + 1] = random.range(-config.speedY, config.speedY);
-	motionFamily[positionOffset + 2] = random.next();
-	motionFamily[positionOffset + 3] = particleFamilyValue(family);
-	color.set(particleFamilyColor(family, side, random), colorOffset);
+	const phase = random.range(0, TWO_PI);
+	const vertical = random.range(-1.12, 1.12);
+	const sideBias = random.next() < config.sideProbability;
+	positionPhase[offset] = sideBias
+		? side * composedRiverDistance(random, family, vertical, phase)
+		: ambientDistance(random, side);
+	positionPhase[offset + 1] = vertical;
+	positionPhase[offset + 2] = familyDepth(random, family);
+	positionPhase[offset + 3] = phase;
+	writeMotion(random, family, config, phase, offset, motionFamily);
+	color.set(particleFamilyColor(family, side), colorOffset);
 }
 
-function riverDistance(random, family) {
-	const inner = 0.34 + family * 0.025;
-	const outer = family === 2 ? 1.08 : 1.02;
-	const curve = family === 0 ? 1.6 : family === 2 ? 0.72 : 1.05;
-	return inner + Math.pow(random.next(), curve) * (outer - inner);
+function composedRiverDistance(random, family, vertical, phase) {
+	const band = chooseBand(random, family);
+	const braid = Math.sin(vertical * (4.2 + band) + phase) * BAND_WIDTHS[band];
+	const familyOffset = [0.015, 0.03, 0.055, 0.075][family];
+	const jitter = random.range(-BAND_WIDTHS[band], BAND_WIDTHS[band]) * 0.55;
+	return Math.min(1.08, BAND_CENTERS[band] + familyOffset + braid + jitter);
+}
+
+function chooseBand(random, family) {
+	const value = random.next();
+	if (family === 3) return value < 0.55 ? 1 : 2;
+	if (family === 2) return value < 0.2 ? 0 : value < 0.72 ? 1 : 2;
+	if (family === 1) return value < 0.46 ? 0 : value < 0.82 ? 1 : 2;
+	return value < 0.58 ? 0 : value < 0.86 ? 1 : 2;
+}
+
+function ambientDistance(random, side) {
+	const distance = 0.31 + Math.pow(random.next(), 0.72) * 0.73;
+	return side * distance;
+}
+
+function writeMotion(random, family, config, phase, offset, motionFamily) {
+	const braidDirection = Math.sin(phase + family * 1.7) < 0 ? -1 : 1;
+	motionFamily[offset] = random.range(0.35, 1) * config.speedX * braidDirection;
+	motionFamily[offset + 1] = random.range(-config.speedY, config.speedY);
+	motionFamily[offset + 2] = random.next();
+	motionFamily[offset + 3] = particleFamilyValue(family);
 }
 
 function familyDepth(random, family) {
-	const exponent = [1.45, 0.86, 0.64, 0.42][family];
+	const exponent = [1.7, 0.92, 0.58, 0.34][family];
 	return Math.pow(random.next(), exponent) * 0.92 + 0.08;
 }

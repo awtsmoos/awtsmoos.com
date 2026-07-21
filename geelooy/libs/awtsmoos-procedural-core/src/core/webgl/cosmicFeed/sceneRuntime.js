@@ -5,14 +5,15 @@
  * @module CosmicSceneRuntime
  * @description
  * Time is renewed by the Awtsmoos one present frame at a time. Awtsmoos.com
- * schedules one future frame, lowers cost with hysteresis, and publishes sparse
- * diagnostics so the DOM never competes with the GPU for every instant.
+ * schedules one future frame, lowers cost with hysteresis, and skips expensive
+ * draws according to the active vessel without creating a second animation loop.
  */
 import { applyBatteryHint } from "./batteryHint.js";
 import { FrameBudget } from "./frameBudget.js";
 import { publishSceneProfile, reduceSceneProfile } from "./sceneProfile.js";
 
 const DIAGNOSTIC_INTERVAL = 15;
+const CADENCE_TOLERANCE = 0.75;
 
 /** Schedules frames and governs adaptive scene cost. */
 export class CosmicSceneRuntime {
@@ -26,6 +27,7 @@ export class CosmicSceneRuntime {
 		this.diagnosticFrame = 0;
 		this.frameSequence = 0;
 		this.profileReductions = 0;
+		this.lastRenderedAt = null;
 		this.batteryHintStarted = false;
 		this.renderFrame = time => this.render(time);
 	}
@@ -51,16 +53,26 @@ export class CosmicSceneRuntime {
 	render(timestamp) {
 		this.frame = 0;
 		if (!this.running || this.paused || this.destroyed) return;
-		this.scene.draw(timestamp);
-		this.publishDiagnostics(false);
 		if (this.frameBudget.record(timestamp)) this.reduceProfile();
+		if (this.shouldRender(timestamp)) {
+			this.scene.draw(timestamp);
+			this.lastRenderedAt = timestamp;
+			this.publishDiagnostics(false);
+		}
 		this.schedule();
+	}
+
+	shouldRender(timestamp) {
+		if (this.lastRenderedAt === null) return true;
+		const interval = Number(this.scene.profile.frameInterval) || 0;
+		return timestamp - this.lastRenderedAt >= interval - CADENCE_TOLERANCE;
 	}
 
 	setPaused(paused) {
 		const next = Boolean(paused);
 		if (this.paused === next || this.destroyed) return;
 		this.paused = next;
+		this.lastRenderedAt = null;
 		this.frameBudget.reset();
 		this.cancelFrame();
 		if (!next) this.schedule();
@@ -69,6 +81,7 @@ export class CosmicSceneRuntime {
 	reduceProfile() {
 		if (this.profileReductions >= 2 || !reduceSceneProfile(this.scene)) return false;
 		this.profileReductions += 1;
+		this.lastRenderedAt = null;
 		this.frameBudget.reset();
 		return true;
 	}

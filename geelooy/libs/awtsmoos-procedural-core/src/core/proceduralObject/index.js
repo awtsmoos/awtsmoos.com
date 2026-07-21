@@ -19,7 +19,10 @@ export * from "./modifiers/index.js";
 export * from "./fields/index.js";
 export * from "./particles/index.js";
 export * from "./simulation/index.js";
+export * from "./simulation3d/index.js";
+export * from "./volumes/index.js";
 export * from "./nodes/index.js";
+export * from "./nodeSystem/index.js";
 export * from "./animation/index.js";
 export * from "./assets/index.js";
 

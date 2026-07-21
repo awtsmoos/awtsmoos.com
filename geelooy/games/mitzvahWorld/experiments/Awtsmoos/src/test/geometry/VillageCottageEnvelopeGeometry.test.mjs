@@ -31,15 +31,34 @@ const OPTIONS = {
 
 test('cottage envelope preserves one convex-faced authored mesh', () => {
 	const geometry = createEnvelopeGeometry(OPTIONS);
-	assert.equal(geometry.vertices.length, 48);
-	assert.equal(geometry.faces.length, 32);
+	assert.equal(geometry.vertices.length, 56);
+	assert.equal(geometry.faces.length, 37);
 	assert.equal(geometry.foundationHeight, 0.9);
 	assert.equal(geometry.recessDepth, 0.56);
+	assert.deepEqual(geometry.entranceOpening, { height: 2.25, width: 1.72 });
 	for (const face of geometry.faces) {
 		assert.ok(face.length >= 4);
 		assert.equal(new Set(face).size, face.length);
 		assert.ok(isConvexFace(face.map(index => geometry.vertices[index])));
 	}
+});
+
+test('recessed entrance has no blocking face inside the doorway bounds', () => {
+	const geometry = createEnvelopeGeometry(OPTIONS);
+	const recessedZ = OPTIONS.z + OPTIONS.depth / 2 - 0.1 - geometry.recessDepth;
+	const openingBottom = OPTIONS.base + geometry.foundationHeight;
+	const openingTop = openingBottom + geometry.entranceOpening.height;
+	const blocked = geometry.faces.some(face => {
+		const points = face.map(index => geometry.vertices[index]);
+		if (!points.every(([, , z]) => Math.abs(z - recessedZ) < 0.001)) return false;
+		const xs = points.map(([x]) => x);
+		const ys = points.map(([, y]) => y);
+		return Math.min(...xs) < OPTIONS.x + geometry.entranceOpening.width / 2
+			&& Math.max(...xs) > OPTIONS.x - geometry.entranceOpening.width / 2
+			&& Math.min(...ys) < openingTop
+			&& Math.max(...ys) > openingBottom;
+	});
+	assert.equal(blocked, false);
 });
 
 test('cottage foundation is wider and its entrance visibly recedes', () => {

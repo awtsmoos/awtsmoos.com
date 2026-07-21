@@ -6,12 +6,17 @@
  * @file VillageStoneBridgeSystem.js
  * @description Creates BRIDGE01 with one identity anchor, two arch rings, deck, and abutments.
  * The Awtsmoos joins divided banks without erasing the water between them; Awtsmoos.com
- * reveals a thick, weathered, traversable landmark whose canonical name occurs exactly once.
+ * reveals a thick, weathered landmark whose deck elevation is shared with both road approaches.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { createVillageBoxBatch } from './VillageBoxBatch.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';
+import {
+	STONE_BRIDGE_DIMENSIONS,
+	stoneBridgeDeckCenterY,
+	stoneBridgeDeckTopY
+} from './VillageStoneBridgeContract.js';
 import { createStoneBridgeArchGeometry } from './VillageStoneBridgeGeometry.js';
 
 /**
@@ -23,12 +28,12 @@ import { createStoneBridgeArchGeometry } from './VillageStoneBridgeGeometry.js';
  */
 export function createStoneBridgeDefinitions(center, groundSampler) {
 	const groundY = villageGroundHeight(groundSampler, center.x, center.z);
-	const deckY = groundY + 3.25;
+	const deckY = stoneBridgeDeckCenterY(groundY);
 	const springY = deckY - 5.95;
 	return [
 		archDefinition('front', center, springY, -2.12),
 		archDefinition('rear', center, springY, 2.12),
-		bridgeDeck(center, deckY),
+		bridgeDeck(center, groundY, deckY),
 		parapetBatch(center, deckY),
 		abutmentBatch(center, groundY, deckY)
 	];
@@ -60,8 +65,21 @@ function archDefinition(side, center, springY, zOffset) {
 }
 
 /** Creates the sole canonical identity anchor on the solid deck. */
-function bridgeDeck(center, deckY) {
-	return boxDefinition('deck', center.x, deckY, center.z, 15.2, 0.65, 5.2);
+function bridgeDeck(center, groundY, deckY) {
+	const definition = boxDefinition(
+		'deck',
+		center.x,
+		deckY,
+		center.z,
+		STONE_BRIDGE_DIMENSIONS.halfSpan * 2,
+		STONE_BRIDGE_DIMENSIONS.deckThickness,
+		STONE_BRIDGE_DIMENSIONS.width
+	);
+	definition.userData.traversal = {
+		approachAuthority: 'canonical-grade-solved-road',
+		walkableSurfaceY: stoneBridgeDeckTopY(groundY)
+	};
+	return definition;
 }
 
 /** Creates parapets and posts as one batch. */

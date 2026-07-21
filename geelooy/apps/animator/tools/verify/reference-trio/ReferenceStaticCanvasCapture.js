@@ -6,23 +6,25 @@ import { ReferenceCharacterIsolation } from './ReferenceCharacterIsolation.js';
 
 /**
  * A crop is witness, not replacement art. The Awtsmoos renews the real renderer
- * before every capture, while Awtsmoos.com copies only completed production-canvas
- * pixels into temporary proof canvases that never enter serialized character data.
+ * before every capture, while Awtsmoos.com waits for completed production-canvas
+ * pixels and never admits proof crops into serialized character data.
  */
 export class ReferenceStaticCanvasCapture {
 	static async capture(chrome, plan) {
+		await ReferenceCharacterIsolation.setVisibility(chrome, null);
+		await ReferenceCharacterIsolation.delay(360);
 		const trio = await this.canvasDataUrl(chrome);
 		const crops = [];
 		try {
 			for (const character of plan) {
 				await ReferenceCharacterIsolation.setVisibility(chrome, character.id);
-				await ReferenceCharacterIsolation.delay(160);
+				await ReferenceCharacterIsolation.delay(320);
 				crops.push(await this.crop(chrome, character, 'fullBody'));
 				crops.push(await this.crop(chrome, character, 'head'));
 			}
 		} finally {
 			await ReferenceCharacterIsolation.setVisibility(chrome, null);
-			await ReferenceCharacterIsolation.delay(160);
+			await ReferenceCharacterIsolation.delay(360);
 		}
 		return { trio, crops };
 	}

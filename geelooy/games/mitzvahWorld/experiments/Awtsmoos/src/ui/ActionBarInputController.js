@@ -71,8 +71,7 @@ export class ActionBarInputController {
 	}
 
 	activate(slotIndex, source) {
-		const result = this.runtime.activateSlot(slotIndex, { source });
-		this.onResult(result);
+		return this.runtime.activateSlot(slotIndex, { source });
 	}
 
 	dragStart(event) {

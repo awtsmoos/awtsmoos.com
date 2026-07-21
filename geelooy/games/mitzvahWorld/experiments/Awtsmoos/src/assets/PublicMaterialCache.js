@@ -7,6 +7,7 @@ import {
 	loadPublicMaterialImage,
 	serializableImageRecord
 } from './PublicMaterialImageLoader.js';
+import { isSceneMaterialUrl } from './SceneMaterialPriority.js';
 
 export const SCENE_MATERIAL_HYDRATION_URL_LIMIT = 2;
 
@@ -212,7 +213,7 @@ function hydrateMaterialSlots(object, material, stats, referenced, ready, pendin
 }
 
 function hydrateSlot(slot, stats, referenced, ready, pending) {
-	if (!hydratableUrl(slot.url)) return;
+	if (!isSceneMaterialUrl(slot.url)) return;
 	referenced.add(slot.url);
 	let current = slot.holder?.[slot.imageKey];
 	const replaceable = slot.kind === 'map' && replaceableMapImage(slot.material, current);
@@ -294,10 +295,6 @@ function emptySceneHydrationStats(options = {}) {
 		loadingUrls: 0,
 		failedUrls: 0
 	};
-}
-
-function hydratableUrl(url) {
-	return /^https?:\/\//i.test(String(url || ''));
 }
 
 function usableImage(image) {

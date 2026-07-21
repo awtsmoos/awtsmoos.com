@@ -5,9 +5,18 @@
 
 import { assertNodeSocketType, unwrapFieldSocketType } from "./socketTypes.js";
 
-const NUMERIC_TYPES = new Set(["boolean", "integer", "float", "angle", "distance", "factor"]);
-const VECTOR_TYPES = new Set(["vector", "normal", "point", "direction", "color"]);
-const CLOSURE_PREFIX = "shader.";
+const NUMERIC_TYPES = new Set([
+	"boolean", "integer", "float", "angle", "distance", "factor",
+	"time", "frequency", "wavelength", "temperature"
+]);
+const VECTOR_TYPES = new Set([
+	"vector", "normal", "point", "direction", "translation",
+	"velocity", "rotation", "quaternion", "color"
+]);
+const EXACT_TYPES = new Set([
+	"string", "menu", "image", "texture", "object", "collection",
+	"material", "geometry", "volume", "bundle", "closure", "opaque"
+]);
 
 function result(compatible, conversion = null, lossiness = "none", reason = null) {
 	return Object.freeze({ compatible, conversion, lossiness, reason });
@@ -15,8 +24,14 @@ function result(compatible, conversion = null, lossiness = "none", reason = null
 
 function planBaseConnection(outputType, inputType) {
 	if (outputType === inputType) return result(true);
-	if (outputType.startsWith(CLOSURE_PREFIX) || inputType.startsWith(CLOSURE_PREFIX)) {
-		return result(false, null, "incompatible", "Shader closures require exact socket types.");
+	if (outputType.startsWith("shader") || inputType.startsWith("shader")) {
+		if (outputType === "shader" && inputType.startsWith("shader.")) {
+			return result(true, `shader-to-${inputType}`, "contextual");
+		}
+		return result(false, null, "incompatible", "Shader closures require exact compatible families.");
+	}
+	if (EXACT_TYPES.has(outputType) || EXACT_TYPES.has(inputType)) {
+		return result(false, null, "incompatible", `Cannot connect ${outputType} to ${inputType}.`);
 	}
 	if (NUMERIC_TYPES.has(outputType) && NUMERIC_TYPES.has(inputType)) {
 		const lossy = outputType === "float" && ["integer", "boolean"].includes(inputType);

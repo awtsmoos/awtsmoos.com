@@ -4,9 +4,7 @@
 
 /**
  * @file InventoryStore.js
- * @description Coordinates stacks, equipment, learning, passage use, and purchases.
- * The Awtsmoos renews possession beneath measured slots and free learning;
- * Awtsmoos.com delegates quantity, pinning, statistics, and snapshots to pure rules.
+ * @description Coordinates inventory, equipment, Torah learning, and compact restoration.
  */
 
 import { STARTER_INVENTORY, inventoryDefinition } from './InventoryCatalog.js';
@@ -17,6 +15,10 @@ import {
 	toggleInventoryPassage
 } from './InventoryLearningRules.js';
 import {
+	restoreInventoryState,
+	serializableInventoryState
+} from './InventoryPersistenceRules.js';
+import {
 	addInventoryItem,
 	inventorySnapshot,
 	removeInventoryItem
@@ -25,17 +27,11 @@ import {
 export class InventoryStore {
 	constructor(options = {}) {
 		this.items = structuredClone(options.items || STARTER_INVENTORY);
-		this.equipment = {
-			...(options.equipment || {
-				coat: 'black-coat',
-				hand: 'wooden-staff',
-				tool: 'chalaf'
-			})
-		};
+		this.equipment = { ...(options.equipment || DEFAULT_EQUIPMENT) };
 		this.learned = [...(options.learned || ['modeh-ani'])];
 		this.pinnedBooks = [...(options.pinnedBooks || ['siddur'])];
 		this.pinnedPassages = [...(options.pinnedPassages || ['modeh-ani'])];
-		this.lastUsedAt = {};
+		this.lastUsedAt = { ...(options.lastUsedAt || {}) };
 		this.listeners = new Set();
 	}
 
@@ -102,6 +98,15 @@ export class InventoryStore {
 		return Boolean(this.items.find(item => item.itemId === itemId && item.quantity > 0));
 	}
 
+	restore(saved) {
+		restoreInventoryState(this, saved);
+		return this.publish();
+	}
+
+	serializableState() {
+		return serializableInventoryState(this);
+	}
+
 	snapshot() {
 		return inventorySnapshot(this);
 	}
@@ -118,3 +123,9 @@ function requireItem(itemId) {
 	if (!definition) throw new Error(`Unknown inventory item: ${itemId}`);
 	return definition;
 }
+
+const DEFAULT_EQUIPMENT = Object.freeze({
+	coat: 'black-coat',
+	hand: 'wooden-staff',
+	tool: 'chalaf'
+});

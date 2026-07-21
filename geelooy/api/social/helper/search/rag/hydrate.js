@@ -5,31 +5,31 @@
 /**
  * @module LibrarySearchHydration
  * @description
- * Comment windows enrich source hits when available, yet comment storage failure
- * never erases readable search results already found in the library.
+ * Comment storage remains sealed unless a caller explicitly requests comment
+ * enrichment. Plain source search therefore pays no comment-database import,
+ * ranking, or hydration cost, while failures still preserve readable hits.
  */
 
-const { joinComments } = require('./comments.js');
-const { buildCommentHits } = require('./commentRelevance.js');
 const { timed } = require('./timer.js');
 
 async function hydrateSearch(options) {
+	if (!options.includeComments) {
+		return {
+			hydrated: options.hits,
+			commentHits: []
+		};
+	}
 	const hydrated = await hydrateSafely(options);
-	const commentHits = options.includeComments
-		? await rankCommentsSafely({
-			...options,
-			hits: hydrated
-		})
-		: [];
-	return {
-		hydrated,
-		commentHits
-	};
+	const commentHits = await rankCommentsSafely({
+		...options,
+		hits: hydrated
+	});
+	return { hydrated, commentHits };
 }
 
 async function hydrateSafely(options) {
-	if (!options.includeComments) return options.hits;
 	try {
+		const { joinComments } = require('./comments.js');
 		return await timed(
 			'hydrateCommentsMs',
 			options.timings,
@@ -43,6 +43,7 @@ async function hydrateSafely(options) {
 
 async function rankCommentsSafely(options) {
 	try {
+		const { buildCommentHits } = require('./commentRelevance.js');
 		return await timed(
 			'rankCommentsMs',
 			options.timings,

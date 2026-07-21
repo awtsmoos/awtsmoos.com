@@ -4,17 +4,19 @@
 
 /**
  * @module ExactSearchRoutes
- * @chapter Exact Words Also Belong To One Immutable Request
  * @description
- * Exact Hebrew lookup consumes the same pre-await request snapshot as vector search,
- * preventing corpus, term, limit, or offset values from crossing concurrent requests.
+ * Exact Hebrew lookup awaits a persistent read-only worker. Corpus opening and
+ * direct record reads never monopolize the social HTTP event loop, while route
+ * metadata reveals readiness without forcing a synchronous database load.
  */
 
 const { er } = require('../../general.js');
 const {
-	searchExactHebrewWord,
 	ROOTS,
-	dbPath
+	dbPath,
+	exactHebrewStatus,
+	searchExactHebrewWord,
+	warmExactHebrewIndex
 } = require('../exactHebrewIndex.js');
 const {
 	intValue,
@@ -24,21 +26,28 @@ const {
 function exactRoutes(context) {
 	return {
 		'/search/exact/hebrew': async () => exactSearch(context),
-		'/search/exact/hebrew/meta': async () => ({
-			success: {
-				dbPath: dbPath(),
-				corpora: ROOTS,
-				searchTypes: [
-					'exactWord',
-					'libraryText',
-					'localRagVector'
-				]
-			}
-		})
+		'/search/exact/hebrew/meta': async () => exactMetadata()
 	};
 }
 
-function exactSearch(context) {
+function exactMetadata() {
+	warmExactHebrewIndex().catch(() => {});
+	return {
+		success: {
+			dbPath: dbPath(),
+			corpora: ROOTS,
+			worker: exactHebrewStatus(),
+			storageMode: 'direct-word-and-reference-records',
+			searchTypes: [
+				'exactWord',
+				'libraryText',
+				'localRagVector'
+			]
+		}
+	};
+}
+
+async function exactSearch(context) {
 	const values = query(context);
 	const word = values.word || values.q || values.term;
 	if (!word) {
@@ -47,14 +56,22 @@ function exactSearch(context) {
 			message: 'Pass ?word=אמר'
 		});
 	}
-	return {
-		success: searchExactHebrewWord({
-			word,
-			corpus: values.corpus || 'tanach',
-			limit: intValue(values.limit, 25, 200),
-			offset: intValue(values.offset, 0, 1000000)
-		})
-	};
+	try {
+		return {
+			success: await searchExactHebrewWord({
+				word,
+				corpus: values.corpus || 'tanach',
+				limit: intValue(values.limit, 25, 200),
+				offset: intValue(values.offset, 0, 1000000)
+			})
+		};
+	} catch (error) {
+		return er({
+			code: error.code || 'EXACT_SEARCH_FAILED',
+			message: error.message,
+			details: { worker: exactHebrewStatus() }
+		});
+	}
 }
 
 module.exports = {

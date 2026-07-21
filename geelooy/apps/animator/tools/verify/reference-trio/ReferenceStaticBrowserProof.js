@@ -3,9 +3,9 @@
 // Blessed is He
 
 import assert from 'node:assert/strict';
-import { ChromeSession } from '../../render/headless/ChromeSession.js';
 import { StaticFileServer } from '../../render/headless/StaticFileServer.js';
 import { ReferenceCharacterIsolation } from './ReferenceCharacterIsolation.js';
+import { ReferenceProofChromeSession } from './ReferenceProofChromeSession.js';
 import { ReferenceProofStage } from './ReferenceProofStage.js';
 import { ReferenceStaticArtifacts } from './ReferenceStaticArtifacts.js';
 import { ReferenceStaticCanvasCapture } from './ReferenceStaticCanvasCapture.js';
@@ -19,7 +19,7 @@ import { ReferenceStaticCropPlan } from './ReferenceStaticCropPlan.js';
 export class ReferenceStaticBrowserProof {
 	constructor(projectRoot, outputDirectory) {
 		this.server = new StaticFileServer(projectRoot, 4194);
-		this.chrome = new ChromeSession(9338);
+		this.chrome = new ReferenceProofChromeSession();
 		this.artifacts = new ReferenceStaticArtifacts(outputDirectory);
 	}
 
@@ -79,9 +79,7 @@ export class ReferenceStaticBrowserProof {
 				return Boolean(canvas?.width && Object.keys(
 					app?.state?.get?.('characters') || {}
 				).length === 3);
-			})()`)) {
-				return;
-			}
+			})()`)) return;
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
 		throw new Error('Reference trio did not become ready for direct static proof.');

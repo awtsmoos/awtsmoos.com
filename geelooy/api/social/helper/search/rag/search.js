@@ -6,12 +6,11 @@
  * @module SocialLibrarySearch
  * @description
  * One bounded query proves canonical storage, resolves one shard, chooses one
- * explicit strategy, enriches comments, and returns persisted-HNSW provenance.
- * Only a final public no-comment response may enter bounded process memory.
+ * explicit strategy, optionally enriches comments, and returns provenance.
+ * Vector helpers remain sealed until a caller explicitly invokes them.
  */
 
 const { resolveShard } = require('./shards.js');
-const { rowsForShard, searchShard } = require('./sourceSearch.js');
 const { findSource } = require('./strategy.js');
 const { hydrateSearch } = require('./hydrate.js');
 const { emptyLibrary } = require('./emptyResult.js');
@@ -45,17 +44,10 @@ async function ragSearch(options = {}) {
 	if (!shard) return missingShard(request, timings, totalStartedAt, storageBefore);
 	const cached = readCachedResponse(request, shard, storageBefore);
 	if (cached) {
-		assertStorageUnchanged(
-			storageBefore,
-			captureCanonicalStorage(options.$i)
-		);
+		assertStorageUnchanged(storageBefore, captureCanonicalStorage(options.$i));
 		return cachedResponse(cached, timings, totalStartedAt, now);
 	}
-	const search = await findSource({
-		...request,
-		shard,
-		timings
-	});
+	const search = await findSource({ ...request, shard, timings });
 	assertStrictIndexed(request, shard, search);
 	const comments = await hydrateSearch({
 		$i: options.$i,
@@ -110,6 +102,14 @@ function assertStrictIndexed(options, shard, search) {
 			index: search.index || null
 		}
 	);
+}
+
+function rowsForShard(...argumentsList) {
+	return require('./sourceSearch.js').rowsForShard(...argumentsList);
+}
+
+function searchShard(...argumentsList) {
+	return require('./sourceSearch.js').searchShard(...argumentsList);
 }
 
 module.exports = {
