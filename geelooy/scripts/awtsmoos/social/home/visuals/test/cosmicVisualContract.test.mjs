@@ -56,7 +56,8 @@ assert.match(particleShader, /pulseRadius/, "particles receive resonance waves")
 assert.match(interaction, /expiresAt/, "interaction channels decay by explicit expiry");
 assert.match(interaction, /index < 4/, "interaction field advances all four components");
 assert.match(interaction, /weight \/ 2/, "channel weight contributes ambient pulse energy");
-assert.match(nebula, /domainWarp/, "nebula uses layered domain warping");
+assert.match(nebula, /vec2 domainWarp\(/, "nebula declares layered domain warping");
+assert.match(nebula, /folded\s*=\s*domainWarp\(/, "nebula applies domain warping");
 assert.match(nebula, /starBand/, "nebula includes multiple star depth bands");
 assert.match(nebula, /uFeedBounds/, "nebula protects the readable feed region");
 assert.match(resonance, /dataset\.cosmicActive/, "DOM exposes the active resonance channel");
@@ -68,10 +69,10 @@ const moduleNames = await readdir(coreRoot);
 assert.ok(moduleNames.length >= 10, "procedural core remains split into focused modules");
 console.log('B"H cosmic visual contracts pass.');
 
-async function readVisual(path) {
-	return readFile(new URL(path, visualsRoot), "utf8");
+async function readVisual(relativePath) {
+	return readFile(new URL(relativePath, visualsRoot), "utf8");
 }
 
-async function readCore(path) {
-	return readFile(new URL(path, coreRoot), "utf8");
+async function readCore(relativePath) {
+	return readFile(new URL(relativePath, coreRoot), "utf8");
 }

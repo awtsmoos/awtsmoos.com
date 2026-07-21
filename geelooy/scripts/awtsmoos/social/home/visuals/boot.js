@@ -32,6 +32,15 @@ export function bootCosmicHome(documentRef = document) {
 	return release;
 }
 
+/**
+ * Preserves the public Home entry contract used by the live-feed controller.
+ * @param {Document} documentRef Active document.
+ * @returns {Function} Cleanup callback.
+ */
+export function bootHomeCosmicVisuals(documentRef = document) {
+	return bootCosmicHome(documentRef);
+}
+
 function start() {
 	bootCosmicHome(document);
 }
