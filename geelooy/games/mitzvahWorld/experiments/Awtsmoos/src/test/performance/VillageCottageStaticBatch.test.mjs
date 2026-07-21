@@ -4,28 +4,33 @@
 
 /**
  * @file VillageCottageStaticBatch.test.mjs
- * @description Proves realistic cottage pairs remain exact, hydratable, and batch-stable.
+ * @description Proves realistic cottage pairs remain local, hydratable, and batch-stable.
  * The Awtsmoos preserves every house while reducing repeated declarations; Awtsmoos.com
- * tests deployed masonry, slate, and timber sources without a blocked material consuming workers.
+ * tests masonry, slate, and timber witnesses without a vanished material host consuming workers.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { villageMaterialPolicy } from '../../world/village/DistanceMaterialPolicy.js';
+import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 import { staticBatchGroupKey } from '../../../../light-three-gltf/tiny-static-batch-key.js';
 import { staticBatchMetadata } from '../../../../light-three-gltf/tiny-static-batch-policy.js';
 import { definitionsAt, mockCottageMesh } from './VillageCottageStaticBatchFixtures.mjs';
 
-const ORIGIN = 'https://awtsmoos-docs-base.web.app';
+const COTTAGE_SOURCES = Object.freeze({
+	mixRoof: '/full-resolution/tiled roof 2.png',
+	mixStone: '/various/Whitewashed stone.png',
+	mixWood: '/full-resolution/oak wood 3.png',
+	roof: '/various/slate roof shingles.png',
+	stone: '/various/Stone retaining wall masonry.png',
+	wood: '/various/Rough weathered oak wood planks.png'
+});
 
-test('cottage policy resolves the curated alpine Firebase material set exactly', () => {
+test('cottage policy resolves the curated alpine local material set exactly', () => {
 	const policy = villageMaterialPolicy('near', 11);
-	assert.equal(policy.stone, `${ORIGIN}/various/Stone%20retaining%20wall%20masonry.png`);
-	assert.equal(policy.mixStone, `${ORIGIN}/various/Whitewashed%20stone.png`);
-	assert.equal(policy.roof, `${ORIGIN}/various/slate%20roof%20shingles.png`);
-	assert.equal(policy.mixRoof, `${ORIGIN}/full-resolution/tiled%20roof%202.png`);
-	assert.equal(policy.wood, `${ORIGIN}/various/Rough%20weathered%20oak%20wood%20planks.png`);
-	assert.equal(policy.mixWood, `${ORIGIN}/full-resolution/oak%20wood%203.png`);
+	for (const [role, sourcePath] of Object.entries(COTTAGE_SOURCES)) {
+		assertLocalMaterialUrl(assert, policy[role], sourcePath);
+	}
 	assert.equal(policy.texturePolicy.samplersPerSurface, 2);
 	assert.equal(policy.texturePolicy.uniqueVillageUrlBudget, 6);
 });

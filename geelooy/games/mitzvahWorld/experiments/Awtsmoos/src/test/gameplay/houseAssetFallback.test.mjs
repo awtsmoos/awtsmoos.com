@@ -4,9 +4,9 @@
 
 /**
  * @file houseAssetFallback.test.mjs
- * @description Proves promoted remote house materials degrade into authored color fallbacks.
- * The Awtsmoos renews every wall beyond fetched pigment; Awtsmoos.com keeps canonical
- * provenance and diagnostics while refusing to imprison boot behind the network.
+ * @description Proves production house materials degrade into authored color fallbacks safely.
+ * The Awtsmoos renews every wall beyond fetched pigment; Awtsmoos.com preserves canonical
+ * aliases and diagnostics for verified local or remote sources without blocking world boot.
  */
 
 import assert from 'node:assert/strict';
@@ -17,7 +17,7 @@ import {
 	loadHouseAssets
 } from '../../assets/HouseAssets.js';
 
-test('missing remote materials preserve aliases and structured degradation', async () => {
+test('missing materials preserve aliases and structured degradation', async () => {
 	const assets = await loadHouseAssets(async () => null);
 	const entries = houseImageEntries();
 	assert.equal(entries.length, 13);
@@ -26,9 +26,7 @@ test('missing remote materials preserve aliases and structured degradation', asy
 	assert.equal(assets.brickImage, null);
 	assert.equal(assets.lavaImage, null);
 	assert.equal(assets.terrainDirtImages.length, 5);
-	assert.ok(assets.terrainDirtImages.every((image) => {
-		return image === null;
-	}));
+	assert.ok(assets.terrainDirtImages.every(image => image === null));
 	for (const entry of entries) {
 		assert.equal(assets.publicUrls[entry.kind], entry.url);
 		assert.equal(assertProductionMaterialUrl(entry.url, entry.kind), entry.url);
@@ -45,11 +43,11 @@ test('successful images receive stable canonical texture metadata', async () => 
 	assert.equal(assets.houseMaterialDegradation.length, 0);
 	assert.equal(assets.whiteBrickImage, image);
 	assert.equal(image.dataset.AwtsmoosTextureKind, 'terrain-dirt-chai-pot');
-	assert.ok(image.dataset.requestedAlias.startsWith('https://'));
-	assert.match(
-		image.dataset.requestedAlias,
-		/\/chai-forest\/textures\/ground\/dirt_color\.jpg$/
+	assert.ok(
+		image.dataset.requestedAlias.startsWith('https://')
+		|| image.dataset.requestedAlias.startsWith('file://')
 	);
+	assert.match(image.dataset.requestedAlias, /(?:ground\/dirt_color|ground-dirt-color)/i);
 	assert.equal(
 		assertProductionMaterialUrl(image.dataset.requestedAlias, 'terrain-dirt-chai-pot'),
 		image.dataset.requestedAlias
@@ -61,7 +59,5 @@ test('loader exceptions become degradation rather than boot failure', async () =
 		throw new Error('offline');
 	});
 	assert.equal(assets.houseMaterialDegradation.length, 13);
-	assert.ok(assets.houseMaterialDegradation.every((item) => {
-		return item.error === 'offline';
-	}));
+	assert.ok(assets.houseMaterialDegradation.every(item => item.error === 'offline'));
 });

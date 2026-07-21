@@ -1,10 +1,12 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file VillageCottageScalePolicy.test.mjs
- * @description Proves cottages retain human rooms inside canonical authored envelopes.
- * The Awtsmoos measures the vessel before filling it with life; Awtsmoos.com refuses
- * miniature facades and refuses a textured cube where a mountain family must dwell.
+ * @description Proves every cottage tier remains a full inhabitable alpine household.
+ * The Awtsmoos measures each vessel before filling it with life; Awtsmoos.com refuses
+ * miniature facades and preserves rooms, stories, roof, identity, and tenfold volume.
  */
 
 import assert from 'node:assert/strict';
@@ -19,11 +21,12 @@ assert.ok(playerReferenceVolume() > 0);
 for (const detail of ['near', 'medium', 'far']) {
 	for (let variant = 0; variant < 12; variant += 1) {
 		const scale = villageCottageScalePolicy(detail, variant);
+		assert.ok(scale.expansionRatio >= scale.minimumExpansion);
 		assert.ok(scale.volumeRatio >= 100);
-		assert.ok(scale.width >= 7.6 && scale.width <= 8.7);
-		assert.ok(scale.depth >= 5.9 && scale.depth <= 6.4);
-		assert.ok(scale.stories >= 2);
-		assert.ok(cottageRoomCapacity(scale) >= 4);
+		assert.ok(scale.width >= 18.8 && scale.width <= 21);
+		assert.ok(scale.depth >= 14.2 && scale.depth <= 15.25);
+		assert.equal(scale.stories, 3);
+		assert.ok(cottageRoomCapacity(scale) >= 26);
 	}
 }
 
@@ -48,8 +51,9 @@ assert.equal(envelope.userData.houseId, 'H10');
 assert.equal(envelope.userData.part, 'stone-plinth-and-recessed-wall-envelope');
 assert.ok(envelope.userData.recessDepth > 0);
 assert.ok(envelope.userData.foundationHeight > 0);
+assert.ok(envelope.userData.expansionRatio >= 10);
 assert.ok(envelope.userData.volumeRatio >= 100);
-assert.ok(envelope.userData.roomCapacity >= 4);
+assert.ok(envelope.userData.roomCapacity >= 26);
 assert.ok(envelope.mixTextureUrl);
 assert.equal(envelope.mixStrength, 0.3);
 assert.equal(roof.shape, 'manual');
@@ -60,8 +64,7 @@ assert.ok(roof.mixTextureUrl);
 assert.equal(roof.solid, true);
 
 console.log(JSON.stringify({
-	envelopeFaces: envelope.faces.length,
-	envelopeVertices: envelope.vertices.length,
+	expansionRatio: envelope.userData.expansionRatio,
 	ok: true,
 	playerVolume: playerReferenceVolume(),
 	roomCapacity: envelope.userData.roomCapacity,

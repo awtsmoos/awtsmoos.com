@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<defs>
+	<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="4" seed="923"/><feColorMatrix type="saturate" values=".3"/><feBlend mode="multiply" in2="SourceGraphic"/></filter>
+	<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b3b0a6"/><stop offset=".5" stop-color="#73726b"/><stop offset="1" stop-color="#484944"/></linearGradient>
+</defs>
+<rect width="256" height="256" fill="#73726b"/>
+<rect width="256" height="256" filter="url(#grain)" opacity=".52"/>
+<g fill="#b3b0a6" stroke="#484944" stroke-width="4" opacity=".64">
+	<path d="M-8 24L41 3l39 28-8 45-56 4zM80 6l57-9 21 42-30 39-51-8zM160 3l74 3 31 38-33 39-67-11zM-12 91l61-17 41 34-20 49-73 4zM86 86l71-9 25 50-43 43-63-17zM181 87l62-8 27 48-22 47-73-8zM-5 170l72-8 25 54-42 42-61-13zM92 171l65-6 34 42-20 52-76 5zM184 176l61-4 23 44-18 47-72-5z"/>
+	</g>
+</svg>

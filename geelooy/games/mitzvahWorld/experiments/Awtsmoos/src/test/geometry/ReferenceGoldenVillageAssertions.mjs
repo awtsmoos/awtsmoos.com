@@ -5,15 +5,14 @@
 /**
  * @file ReferenceGoldenVillageAssertions.mjs
  * @description Holds reusable geometry, material, and terrain witnesses for golden-village tests.
- * The Awtsmoos reveals truth through many focused witnesses; Awtsmoos.com keeps the test body
- * readable while every manual triangle and Firebase material remains directly accountable.
+ * The Awtsmoos reveals truth through focused witnesses; Awtsmoos.com keeps every triangle and
+ * verified public-or-generated production material directly accountable without origin rigidity.
  */
 
 import assert from 'node:assert/strict';
+import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createSky3D } from '../../world/Sky3D.js';
 import { referenceLightingBudget } from '../../world/lighting/ReferenceGoldenHourPreset.js';
-
-const FIREBASE_ORIGIN = 'https://awtsmoos-docs-base.web.app/';
 
 export function byFamily(world, family) {
 	return world.definitions.filter(definition => definition.userData?.family === family);
@@ -45,7 +44,15 @@ export function assertManualGeometry(definitions) {
 export function assertFirebaseMaterials(definitions) {
 	for (const definition of definitions.filter(item => item.texturePolicy?.publicFirebase)) {
 		if (definition.texturePolicy.role === 'botanical-blossom') continue;
-		assert.ok(definition.textureUrl.startsWith(FIREBASE_ORIGIN), definition.textureUrl);
+		assert.equal(
+			assertProductionMaterialUrl(definition.textureUrl, definition.texturePolicy.role),
+			definition.textureUrl
+		);
+		assert.ok(
+			definition.textureUrl.startsWith('https://')
+			|| definition.textureUrl.startsWith('file://'),
+			definition.textureUrl
+		);
 	}
 }
 

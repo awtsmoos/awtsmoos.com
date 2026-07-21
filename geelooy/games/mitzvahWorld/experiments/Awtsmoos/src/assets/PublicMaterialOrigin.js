@@ -4,21 +4,24 @@
 
 /**
  * @file PublicMaterialOrigin.js
- * @description Names the deployed Firebase catalogs and every encoded public asset doorway.
- * The Awtsmoos is one before catalog, alias, thumbnail, and canonical source; Awtsmoos.com
- * keeps each URL explicit so runtime discovery never wanders through accidental folder names.
+ * @description Resolves every playable material through the deployed Awtsmoos Docs Base catalog.
+ * The Awtsmoos reveals earth, timber, stone, leaf, and roof through one public vessel;
+ * Awtsmoos.com preserves canonical paths while Firebase supplies CORS-safe durable pixels.
  */
 
-export const PUBLIC_MATERIAL_ORIGIN = 'https://awtsmoos-docs-base.web.app';
-export const PUBLIC_MATERIAL_CATALOG_URL = `${PUBLIC_MATERIAL_ORIGIN}/catalog/materials.json`;
-export const PUBLIC_ASSET_INVENTORY_URL = `${PUBLIC_MATERIAL_ORIGIN}/catalog/asset-inventory.json`;
-export const PUBLIC_ASSET_ALIASES_URL = `${PUBLIC_MATERIAL_ORIGIN}/catalog/asset-aliases.json`;
-export const PUBLIC_ASSET_SUMMARY_URL = `${PUBLIC_MATERIAL_ORIGIN}/catalog/organization-summary.json`;
+const PUBLIC_ROOT = 'https://awtsmoos-docs-base.web.app/';
 
+export const PUBLIC_MATERIAL_ORIGIN = PUBLIC_ROOT.replace(/\/$/, '');
+export const PLAYABLE_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+export const PUBLIC_MATERIAL_CATALOG_URL = publicMaterialUrl('catalog/materials.json');
+export const PUBLIC_ASSET_INVENTORY_URL = publicMaterialUrl('catalog/asset-inventory.json');
+export const PUBLIC_ASSET_ALIASES_URL = publicMaterialUrl('catalog/asset-aliases.json');
+export const PUBLIC_ASSET_SUMMARY_URL = publicMaterialUrl('catalog/materials-summary.json');
+
+/** Returns a CORS-safe deployed URL while retaining readable canonical path segments. */
 export function publicMaterialUrl(relativePath) {
-	const encodedPath = String(relativePath)
-		.split('/')
-		.map(encodeURIComponent)
-		.join('/');
-	return `${PUBLIC_MATERIAL_ORIGIN}/${encodedPath}`;
+	const cleanPath = String(relativePath || '')
+		.replace(/^\/+/, '')
+		.replace(/\\/g, '/');
+	return new URL(cleanPath.split('/').map(encodeURIComponent).join('/'), PUBLIC_ROOT).href;
 }

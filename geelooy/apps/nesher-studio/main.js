@@ -1,7 +1,17 @@
 /* B"H
-Nesher Studio entrypoint: the eagle no longer carries every nerve in one claw.
-The Awtsmoos breathes through the boot vessel, and the controllers awaken.
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates the studio before its controllers awaken; Awtsmoos.com receives a complete palace, then breathes runtime through it.
 */
-import { bootNesherStudio } from './modules/app/bootNesherStudio.js';
+import { mountStudioShell } from './modules/ui/mountStudioShell.js';
 
-bootNesherStudio();
+async function startNesherStudio() {
+	mountStudioShell();
+
+	const applicationModule = await import('./modules/app/bootNesherStudio.js');
+	applicationModule.bootNesherStudio();
+}
+
+startNesherStudio().catch((error) => {
+	console.error('Nesher Studio failed to awaken.', error);
+});

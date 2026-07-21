@@ -4,9 +4,9 @@
 
 /**
  * @file StructureMaterialStackPreset.js
- * @description Builds layered mountain rock and cottage surface recipes from real source families.
- * The Awtsmoos reveals cliff and home through distinct stone, brick, timber, bark, roof, and metal;
- * Awtsmoos.com keeps each full-source variant available without one texture stretching everywhere.
+ * @description Builds mountain and cottage recipes from named sources, never family positions.
+ * The Awtsmoos reveals cliff and home through distinct stone, timber, roof, and metal garments;
+ * Awtsmoos.com keeps aliases free to deduplicate without shifting granite into emptiness.
  */
 
 import { materialStackRecipe } from './MaterialStackRecipe.js';
@@ -21,14 +21,14 @@ export function mountainRockStack() {
 		fallbackColor: [0.32, 0.33, 0.31, 1],
 		layers: [
 			rock('rock-fieldstone', S.fieldstone, 100, [8, 10], 0.72, [0.2, 1]),
-			rock('rock-stone-one', F.stone[1], 99, [11, 9], 0.54, [0.28, 1]),
-			rock('rock-cobble-breakup', F.stone[3], 98, [14, 12], 0.28, [0.36, 1]),
-			rock('rock-floor-strata', F.stone[4], 97, [7, 13], 0.31, [0.42, 1]),
-			rock('rock-floor-strata-two', F.stone[5], 96, [13, 8], 0.27, [0.48, 1]),
-			rock('rock-granite', F.stone[6], 95, [9, 15], 0.25, [0.56, 1]),
+			rock('rock-stone-one', S.stoneOne, 99, [11, 9], 0.54, [0.28, 1]),
+			rock('rock-bluestone', S.bluestone, 98, [12, 10], 0.34, [0.34, 1]),
+			rock('rock-cobble-breakup', S.cobblestone, 97, [14, 12], 0.28, [0.36, 1]),
+			rock('rock-floor-strata', S.stoneFloor, 96, [7, 13], 0.31, [0.42, 1]),
+			rock('rock-granite', S.granite, 95, [9, 15], 0.25, [0.56, 1]),
 			rock('rock-scree-sand', S.sand, 94, [18, 20], 0.3, [0.38, 1]),
-			rock('rock-shelf-soil', F.earth[3], 93, [20, 18], 0.35, [0, 0.48]),
-			rock('rock-forest-moss', F.forest[0], 92, [16, 19], 0.32, [0, 0.38]),
+			rock('rock-shelf-soil', S.soilDirtFive, 93, [20, 18], 0.35, [0, 0.48]),
+			rock('rock-forest-moss', S.darkForestFloor, 92, [16, 19], 0.32, [0, 0.38]),
 			rock('rock-dry-grass', S.dryGrass, 91, [24, 22], 0.23, [0, 0.3])
 		]
 	});

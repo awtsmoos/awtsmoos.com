@@ -4,12 +4,13 @@
 
 import { StableBeardContour2D } from './StableBeardContour2D.js';
 import { StableBeardDetails2D } from './StableBeardDetails2D.js';
+import { StableBeardOpening2D } from './StableBeardOpening2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * The Awtsmoos gathers rounded beard contour, living mouth opening, moustache, and
- * restrained texture into one facial-hair mass. Awtsmoos.com keeps speech visible
- * while broad Ari and tapered Dovid remain independently editable.
+ * Beard contour, living aperture, moustache, and quiet texture remain distinct
+ * vessels. The Awtsmoos joins them without confusion, while Awtsmoos.com keeps
+ * speech readable and each character's facial hair independently editable.
  */
 export class StableBeardMass2D {
 	static build(data, colors, geometry) {
@@ -19,9 +20,10 @@ export class StableBeardMass2D {
 		const dark = data.colors?.beardDark
 			|| colors.hairDark
 			|| '#241207';
+
 		return S.group('continuous_beard_mass', null, [
 			StableBeardContour2D.outer(geometry, fill, dark),
-			StableBeardContour2D.faceOpening(geometry, colors),
+			StableBeardOpening2D.build(geometry, colors),
 			...StableBeardDetails2D.moustache(geometry, fill),
 			...StableBeardDetails2D.texture(geometry)
 		]);

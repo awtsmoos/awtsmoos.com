@@ -1,0 +1,952 @@
+{
+  "desktop": {
+    "viewport": [
+      1200,
+      683
+    ],
+    "roots": [
+      {
+        "id": "",
+        "clientWidth": 1200,
+        "clientHeight": 683,
+        "scrollWidth": 1200,
+        "scrollHeight": 683,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "",
+        "clientWidth": 1200,
+        "clientHeight": 683,
+        "scrollWidth": 1200,
+        "scrollHeight": 683,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "appRoot",
+        "clientWidth": 1200,
+        "clientHeight": 683,
+        "scrollWidth": 1200,
+        "scrollHeight": 683,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "nesher-shell",
+        "clientWidth": 1200,
+        "clientHeight": 683,
+        "scrollWidth": 1200,
+        "scrollHeight": 683,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "studioPage",
+        "clientWidth": 1181,
+        "clientHeight": 533,
+        "scrollWidth": 1181,
+        "scrollHeight": 533,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "topNav",
+        "clientWidth": 1179,
+        "clientHeight": 56,
+        "scrollWidth": 1179,
+        "scrollHeight": 56,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      }
+    ],
+    "rootOverflow": [],
+    "pages": [
+      {
+        "page": "home",
+        "activeCount": 1,
+        "label": "Home",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "stage",
+        "activeCount": 1,
+        "label": "Stage",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "stageTools",
+            "box": {
+              "id": "stage-dock workspace-deck",
+              "clientWidth": 322,
+              "clientHeight": 448,
+              "scrollWidth": 322,
+              "scrollHeight": 448,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "scenes",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "layers",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "transform",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "crop",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "visual",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "output",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 308,
+                  "clientHeight": 360,
+                  "scrollWidth": 308,
+                  "scrollHeight": 360,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "audio",
+        "activeCount": 1,
+        "label": "Audio Lab",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "audioControls",
+            "box": {
+              "id": "audio-control-rack workspace-deck",
+              "clientWidth": 298,
+              "clientHeight": 448,
+              "scrollWidth": 298,
+              "scrollHeight": 448,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "looks",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 284,
+                  "clientHeight": 390,
+                  "scrollWidth": 284,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "motion",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 284,
+                  "clientHeight": 390,
+                  "scrollWidth": 284,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "input",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 284,
+                  "clientHeight": 390,
+                  "scrollWidth": 284,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "sources",
+        "activeCount": 1,
+        "label": "Sources",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "sources",
+            "box": {
+              "id": "source-deck workspace-deck",
+              "clientWidth": 1153,
+              "clientHeight": 448,
+              "scrollWidth": 1153,
+              "scrollHeight": 448,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "capture",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "audio",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "generated",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 392,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "files",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "live",
+        "activeCount": 1,
+        "label": "Live Health",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "setup",
+        "activeCount": 1,
+        "label": "Studio Setup",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "nle",
+        "activeCount": 1,
+        "label": "Timeline Editor",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "nleMain",
+            "box": {
+              "id": "nle-deck workspace-deck",
+              "clientWidth": 1153,
+              "clientHeight": 448,
+              "scrollWidth": 1153,
+              "scrollHeight": 448,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "media",
+                "box": {
+                  "id": "nleMediaPanel",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "timeline",
+                "box": {
+                  "id": "nleTimelinePanel",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "export",
+                "box": {
+                  "id": "nleExportPanel",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "benchmark",
+                "box": {
+                  "id": "benchmarkCard",
+                  "clientWidth": 1139,
+                  "clientHeight": 390,
+                  "scrollWidth": 1139,
+                  "scrollHeight": 390,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          },
+          {
+            "name": "nleCommands",
+            "box": {
+              "id": "command-deck workspace-deck",
+              "clientWidth": 0,
+              "clientHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "transport",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "edit",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "arrange",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "state",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "webgl2": true,
+    "presetCount": 10,
+    "uniqueModeNames": [
+      "Hebrew River",
+      "Particle Galaxy",
+      "Aurora Veil",
+      "Pulse Tunnel",
+      "Lightning Script",
+      "Frequency Bloom",
+      "Crown Vortex",
+      "Letter Fountain",
+      "Spectrum Cathedral",
+      "Bass Nebula"
+    ],
+    "immersive": {
+      "active": true,
+      "grid": {
+        "id": "audio-lab-grid",
+        "clientWidth": 1155,
+        "clientHeight": 450,
+        "scrollWidth": 1155,
+        "scrollHeight": 450,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      "controls": {
+        "id": "audio-control-rack workspace-deck",
+        "clientWidth": 0,
+        "clientHeight": 450,
+        "scrollWidth": 12,
+        "scrollHeight": 450,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      }
+    }
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "roots": [
+      {
+        "id": "",
+        "clientWidth": 390,
+        "clientHeight": 844,
+        "scrollWidth": 390,
+        "scrollHeight": 844,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "",
+        "clientWidth": 390,
+        "clientHeight": 844,
+        "scrollWidth": 390,
+        "scrollHeight": 844,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "appRoot",
+        "clientWidth": 390,
+        "clientHeight": 844,
+        "scrollWidth": 390,
+        "scrollHeight": 844,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "nesher-shell",
+        "clientWidth": 390,
+        "clientHeight": 844,
+        "scrollWidth": 390,
+        "scrollHeight": 844,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "studioPage",
+        "clientWidth": 380,
+        "clientHeight": 666,
+        "scrollWidth": 380,
+        "scrollHeight": 666,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      {
+        "id": "topNav",
+        "clientWidth": 378,
+        "clientHeight": 98,
+        "scrollWidth": 378,
+        "scrollHeight": 98,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      }
+    ],
+    "rootOverflow": [],
+    "pages": [
+      {
+        "page": "home",
+        "activeCount": 1,
+        "label": "Home",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "stage",
+        "activeCount": 1,
+        "label": "Stage",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "stageTools",
+            "box": {
+              "id": "stage-dock workspace-deck",
+              "clientWidth": 364,
+              "clientHeight": 266,
+              "scrollWidth": 364,
+              "scrollHeight": 266,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "scenes",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "layers",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "transform",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "crop",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "visual",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "output",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 219,
+                  "scrollWidth": 354,
+                  "scrollHeight": 219,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "audio",
+        "activeCount": 1,
+        "label": "Audio Lab",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "audioControls",
+            "box": {
+              "id": "audio-control-rack workspace-deck",
+              "clientWidth": 364,
+              "clientHeight": 250,
+              "scrollWidth": 364,
+              "scrollHeight": 250,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "looks",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 203,
+                  "scrollWidth": 354,
+                  "scrollHeight": 203,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "motion",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 203,
+                  "scrollWidth": 354,
+                  "scrollHeight": 203,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "input",
+                "box": {
+                  "id": "deck-panel active",
+                  "clientWidth": 354,
+                  "clientHeight": 203,
+                  "scrollWidth": 354,
+                  "scrollHeight": 203,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "sources",
+        "activeCount": 1,
+        "label": "Sources",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "sources",
+            "box": {
+              "id": "source-deck workspace-deck",
+              "clientWidth": 364,
+              "clientHeight": 606,
+              "scrollWidth": 364,
+              "scrollHeight": 606,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "capture",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "audio",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "generated",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "files",
+                "box": {
+                  "id": "source-card deck-panel active",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page": "live",
+        "activeCount": 1,
+        "label": "Live Health",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "setup",
+        "activeCount": 1,
+        "label": "Studio Setup",
+        "overflow": [],
+        "decks": []
+      },
+      {
+        "page": "nle",
+        "activeCount": 1,
+        "label": "Timeline Editor",
+        "overflow": [],
+        "decks": [
+          {
+            "name": "nleMain",
+            "box": {
+              "id": "nle-deck workspace-deck",
+              "clientWidth": 364,
+              "clientHeight": 606,
+              "scrollWidth": 364,
+              "scrollHeight": 606,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "media",
+                "box": {
+                  "id": "nleMediaPanel",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "timeline",
+                "box": {
+                  "id": "nleTimelinePanel",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "export",
+                "box": {
+                  "id": "nleExportPanel",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "benchmark",
+                "box": {
+                  "id": "benchmarkCard",
+                  "clientWidth": 350,
+                  "clientHeight": 555,
+                  "scrollWidth": 350,
+                  "scrollHeight": 555,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          },
+          {
+            "name": "nleCommands",
+            "box": {
+              "id": "command-deck workspace-deck",
+              "clientWidth": 0,
+              "clientHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0,
+              "overflowX": "hidden",
+              "overflowY": "hidden"
+            },
+            "panels": [
+              {
+                "name": "transport",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "edit",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "arrange",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              },
+              {
+                "name": "state",
+                "box": {
+                  "id": "deck-panel nle-actions active",
+                  "clientWidth": 0,
+                  "clientHeight": 0,
+                  "scrollWidth": 0,
+                  "scrollHeight": 0,
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "webgl2": true,
+    "presetCount": 10,
+    "uniqueModeNames": [
+      "Hebrew River",
+      "Particle Galaxy",
+      "Aurora Veil",
+      "Pulse Tunnel",
+      "Lightning Script",
+      "Frequency Bloom",
+      "Crown Vortex",
+      "Letter Fountain",
+      "Spectrum Cathedral",
+      "Bass Nebula"
+    ],
+    "immersive": {
+      "active": true,
+      "grid": {
+        "id": "audio-lab-grid",
+        "clientWidth": 366,
+        "clientHeight": 599,
+        "scrollWidth": 366,
+        "scrollHeight": 599,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      },
+      "controls": {
+        "id": "audio-control-rack workspace-deck",
+        "clientWidth": 0,
+        "clientHeight": 347,
+        "scrollWidth": 8,
+        "scrollHeight": 347,
+        "overflowX": "hidden",
+        "overflowY": "hidden"
+      }
+    }
+  }
+}

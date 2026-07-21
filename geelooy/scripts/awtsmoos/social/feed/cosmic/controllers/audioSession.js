@@ -4,8 +4,8 @@
 /**
  * @module CosmicAudioSession
  * @description
- * The Awtsmoos sustains sound, listener, analyser, and frame without leaking a
- * ghost. Awtsmoos.com binds one real source to one accessible transport.
+ * The Awtsmoos renews sound before analysis: one user gesture opens the audible
+ * vessel, while Awtsmoos.com rolls its hopeful view back if the browser refuses.
  */
 import { RESONANCE_CHANNELS, dispatchCosmicResonance } from "../resonanceEvents.js";
 import { AudioSessionAnalyser } from "./audioSessionAnalyser.js";
@@ -13,7 +13,7 @@ import { bindAudioSession } from "./audioSessionBindings.js";
 import { AudioSessionPainter } from "./audioSessionPainter.js";
 import { AudioSessionView } from "./audioSessionView.js";
 
-/** Owns playback and analyser state for one audio post. */
+/** Owns playback, analyser state, and complete teardown for one audio post. */
 export class AudioSession {
 	constructor(root, audioContext) {
 		this.root = root;
@@ -49,6 +49,7 @@ export class AudioSession {
 		this.emit(true, 0.9, 1200);
 	}
 
+	/** Begins media in the gesture and rolls back its optimistic view on refusal. */
 	async toggle() {
 		if (!this.audio) {
 			return;
@@ -58,13 +59,28 @@ export class AudioSession {
 			this.setPlaying(false);
 			return;
 		}
-		await this.audioContext?.resume();
-		this.graph?.connect();
+		delete this.root.dataset.audioError;
+		const playback = this.audio.play();
+		this.setPlaying(!this.audio.paused);
+		const analysis = this.resumeAnalysis();
 		try {
-			await this.audio.play();
-			this.setPlaying(true);
-		} catch {
+			await playback;
+			this.setPlaying(!this.audio.paused);
+			await analysis;
+		} catch (error) {
+			this.root.dataset.audioError = error?.name || "playback-unavailable";
 			this.setPlaying(false);
+		}
+	}
+
+	/** Enables waveform analysis without turning analyser failure into media failure. */
+	async resumeAnalysis() {
+		try {
+			await this.audioContext?.resume();
+			this.graph?.connect();
+			delete this.root.dataset.audioAnalysis;
+		} catch {
+			this.root.dataset.audioAnalysis = "unavailable";
 		}
 	}
 

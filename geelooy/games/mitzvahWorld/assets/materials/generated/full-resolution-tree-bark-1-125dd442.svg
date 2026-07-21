@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<defs>
+	<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="4" seed="250"/><feColorMatrix type="saturate" values=".3"/><feBlend mode="multiply" in2="SourceGraphic"/></filter>
+	<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#aa7e55"/><stop offset=".5" stop-color="#715038"/><stop offset="1" stop-color="#412e25"/></linearGradient>
+</defs>
+<rect width="256" height="256" fill="#715038"/>
+<rect width="256" height="256" filter="url(#grain)" opacity=".52"/>
+<g fill="none" stroke="#412e25" stroke-width="3" opacity=".55"><path d="M-8 0C48 -10 78 14 140 0S220 -8 270 4"/><path d="M-8 24C48 14 78 38 140 24S220 16 270 28"/><path d="M-8 48C48 38 78 62 140 48S220 40 270 52"/><path d="M-8 63C48 53 78 77 140 63S220 55 270 67"/><path d="M-8 87C48 77 78 101 140 87S220 79 270 91"/><path d="M-8 111C48 101 78 125 140 111S220 103 270 115"/><path d="M-8 126C48 116 78 140 140 126S220 118 270 130"/><path d="M-8 150C48 140 78 164 140 150S220 142 270 154"/><path d="M-8 174C48 164 78 188 140 174S220 166 270 178"/><path d="M-8 189C48 179 78 203 140 189S220 181 270 193"/><path d="M-8 213C48 203 78 227 140 213S220 205 270 217"/><path d="M-8 237C48 227 78 251 140 237S220 229 270 241"/><path d="M-8 252C48 242 78 266 140 252S220 244 270 256"/><ellipse cx="74" cy="92" rx="19" ry="9"/><ellipse cx="196" cy="186" rx="15" ry="7"/></g>
+</svg>

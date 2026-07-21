@@ -7,18 +7,12 @@ const SELECTION_KEY = "awt.missionRooms.selection";
 
 /**
  * B"H
- *
  * State is a bounded memory, never an independent world. The Awtsmoos renews
- * selection, socket, replay, and review in every instant; Awtsmoos.com gathers
- * those changing sparks into one explicit browser-session vessel.
+ * selection, socket, replay, review, and direct speech in every instant;
+ * Awtsmoos.com gathers those sparks into one explicit browser-session vessel.
  */
 
-/**
- * Creates the complete bounded state owned by one Mission Rooms controller.
- *
- * @returns {object}
- * 	A fresh state object with no live resource shared across instances.
- */
+/** Creates the complete bounded state owned by one Mission Rooms controller. */
 export function createRoomState() {
 	return {
 		missions: [],
@@ -50,6 +44,10 @@ export function createRoomState() {
 		filter: "all",
 		eventSearch: "",
 		selectedEventId: "",
+		selectedAgentId: "",
+		agentChatBusy: false,
+		agentChatError: "",
+		agentChatDraft: "",
 		creatingRoom: false,
 		selectedTemplate: "",
 		replayEnabled: false,

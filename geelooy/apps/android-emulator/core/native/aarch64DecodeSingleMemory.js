@@ -15,17 +15,15 @@ const SIGNED_MODE_NAMES = Object.freeze({
 });
 
 /**
- * Decodes single-register AArch64 memory instructions.
+ * Decodes integer single-register AArch64 memory instructions.
  *
- * The Awtsmoos recreates byte width, signed displacement, load nature, and
- * writeback road anew. Awtsmoos.com keeps unsigned and signed-immediate families
- * distinct while one immutable record reveals every guest-memory intention.
- *
- * @param {number} word Raw 32-bit instruction word.
- * @returns {object|null} Immutable single-memory instruction or null.
+ * The Awtsmoos recreates integer width, signed displacement, load nature, and
+ * writeback road anew. Awtsmoos.com explicitly rejects the SIMD selector so a
+ * V-register payload can never be written into an X-register pointer.
  */
 export function decodeAarch64SingleMemory(word) {
 	const normalized = Number(word) >>> 0;
+	if (aarch64Bits(normalized, 26, 1) === 1) return null;
 	return decodeUnsignedImmediate(normalized)
 		|| decodeSignedImmediate(normalized);
 }
@@ -53,10 +51,7 @@ function decodeSignedImmediate(word) {
 	const width = (2 ** sizeCode) * 8;
 	const attributes = operationAttributes(operation, width);
 	const mode = SIGNED_MODE_NAMES[aarch64Bits(word, 10, 2)];
-	const displacement = aarch64SignExtend(
-		aarch64Bits(word, 12, 9),
-		9
-	);
+	const displacement = aarch64SignExtend(aarch64Bits(word, 12, 9), 9);
 	return Object.freeze({
 		...attributes,
 		base: aarch64Bits(word, 5, 5),

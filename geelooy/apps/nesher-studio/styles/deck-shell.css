@@ -1,0 +1,60 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the shared tab and deck geometry; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+.workspace-deck {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.deck-tabs {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(0, 1fr);
+	gap: 5px;
+	min-width: 0;
+	padding: 5px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(4, 10, 22, .76);
+	overflow: hidden;
+}
+
+.deck-tabs button {
+	min-height: 32px;
+	padding: .35rem .45rem;
+	color: var(--muted);
+	border-color: transparent;
+	background: transparent;
+	font-size: .72rem;
+}
+
+.deck-tabs button.active {
+	color: #02110f;
+	background: linear-gradient(135deg, var(--cyan), #d9fff8);
+	box-shadow: 0 0 18px rgba(117, 255, 229, .16);
+}
+
+.deck-stack {
+	position: relative;
+	display: grid;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.deck-panel {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	align-content: start;
+	gap: 8px;
+	min-width: 0;
+	min-height: 0;
+	padding: 8px 2px 2px;
+	overflow: hidden;
+}

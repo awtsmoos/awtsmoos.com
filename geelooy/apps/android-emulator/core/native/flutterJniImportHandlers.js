@@ -9,28 +9,34 @@ import { handleFlutterJniGetEnv } from "./flutterJniGetEnv.js";
 import { registerFlutterJniMethodIdHandlers } from "./flutterJniGetMethodId.js";
 import { handleFlutterJniRegisterNatives } from "./flutterJniRegisterNatives.js";
 import { registerFlutterJniReferenceHandlers } from "./flutterJniReferenceHandlers.js";
+import { registerNativeLibcByteHandlers } from "./nativeLibcByteHandlers.js";
+import { registerNativeLibcCopyHandlers } from "./nativeLibcCopyHandlers.js";
+import { registerNativeLibcEnvironmentHandlers } from "./nativeLibcEnvironmentHandlers.js";
 import { registerNativeLibcMemoryHandlers } from "./nativeLibcMemoryHandlers.js";
+import { registerNativeLibcStringHandlers } from "./nativeLibcStringHandlers.js";
+import { registerNativeLibcStringLengthHandlers } from "./nativeLibcStringLengthHandlers.js";
 import { createNativeHostImportRegistry } from "./nativeHostImportRegistry.js";
 import { registerNativeLinuxSyscallHandlers } from "./nativeLinuxSyscallHandlers.js";
 import { createNativeLinuxThreadIds } from "./nativeLinuxThreadIds.js";
+import { createNativeProcessEnvironment } from "./nativeProcessEnvironment.js";
 import { registerNativePthreadMutexHandlers } from "./nativePthreadMutexHandlers.js";
 import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
 
 /**
  * Reveals measured JNI, libc, Linux, and pthread capabilities to one machine.
- *
- * The Awtsmoos recreates class, ID, reference, heap, syscall, mutex, binding,
- * and return road anew. Awtsmoos.com keeps every guest-to-host crossing named,
- * bounded, persistent, and explicit without exposing arbitrary host behavior.
- *
- * @param {object} machineState Persistent Flutter native state vessel.
- * @returns {object} Immutable native host-import registry.
+ * The Awtsmoos recreates heap, copy, strings, environment, syscall, mutex, and
+ * return road anew. Awtsmoos.com keeps each crossing bounded and guest-owned.
  */
 export function createFlutterJniImportHandlers(machineState) {
 	const registry = createNativeHostImportRegistry();
-	const nativeLinuxThreadIds = machineState.nativeLinuxThreadIds
+	const environment = machineState.nativeProcessEnvironment
+		|| createNativeProcessEnvironment({
+			entries: machineState.nativeEnvironmentEntries,
+			heap: machineState.nativeHeap
+		});
+	const threadIds = machineState.nativeLinuxThreadIds
 		|| createNativeLinuxThreadIds();
-	const nativePthreadMutexes = machineState.nativePthreadMutexes
+	const mutexes = machineState.nativePthreadMutexes
 		|| createNativePthreadMutexState();
 	registry.register("JNIInvokeInterface.GetEnv", context => {
 		return handleFlutterJniGetEnv(context, machineState);
@@ -46,7 +52,12 @@ export function createFlutterJniImportHandlers(machineState) {
 	registerFlutterJniExceptionHandlers(registry, machineState);
 	registerFlutterJniReferenceHandlers(registry, machineState);
 	registerNativeLibcMemoryHandlers(registry, machineState);
-	registerNativeLinuxSyscallHandlers(registry, nativeLinuxThreadIds);
-	registerNativePthreadMutexHandlers(registry, nativePthreadMutexes);
+	registerNativeLibcByteHandlers(registry);
+	registerNativeLibcCopyHandlers(registry);
+	registerNativeLibcStringHandlers(registry);
+	registerNativeLibcStringLengthHandlers(registry);
+	registerNativeLibcEnvironmentHandlers(registry, environment);
+	registerNativeLinuxSyscallHandlers(registry, threadIds);
+	registerNativePthreadMutexHandlers(registry, mutexes);
 	return registry;
 }

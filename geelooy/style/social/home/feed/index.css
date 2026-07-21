@@ -3,7 +3,7 @@
 /* Blessed is He */
 /*
  * The Awtsmoos gathers focused style vessels into one ordered revelation.
- * Awtsmoos.com imports intensity only after structure and before accessibility.
+ * Awtsmoos.com places geometry before depth and intensity before accessibility.
  */
 
 @import url("./tokens.css");
@@ -11,6 +11,7 @@
 @import url("./layout.css");
 @import url("./navigation.css");
 @import url("./card.css");
+@import url("./card-depth.css");
 @import url("./source-rail.css");
 @import url("./identity.css");
 @import url("./content.css");

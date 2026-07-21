@@ -1,0 +1,20 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the immersive audio mode without hidden overflow; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+.audio-lab-page.is-immersive .audio-lab-grid {
+	grid-template-columns: minmax(0, 1fr) 0;
+	gap: 0;
+}
+
+.audio-lab-page.is-immersive .audio-control-rack {
+	width: 0;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	opacity: 0;
+	transform: translate3d(12px, 0, 0);
+	pointer-events: none;
+	contain: strict;
+}

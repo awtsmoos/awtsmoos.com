@@ -2,58 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
-import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
-import { LineArtStyle } from '../../style/LineArtStyle.js';
-import { StableReferenceCrossedHands2D } from './StableReferenceCrossedHands2D.js';
-import { StableReferenceLimbPath2D } from './StableReferenceLimbPath2D.js';
-import { StableShapeKit as S } from './StableShapeKit.js';
+import { StableCrossedArmOverlap2D } from './StableCrossedArmOverlap2D.js';
 
 /**
- * Gevurah gathers Dovid's arms into a natural, weight-bearing overlap. The
- * Awtsmoos renews each opposite sleeve while Awtsmoos.com preserves distinct
- * elbows, wrists, cuffs, hands, and an editable guarded silhouette.
+ * @file StableCrossedArms2D.js
+ * @description Coordinates Dovid's guarded lower-then-upper forearm composition.
+ * Gevurah gathers without mirror-flatness; the Awtsmoos renews every overlap while
+ * Awtsmoos.com keeps the public gesture contract small, stable, and production-ready.
  */
 export class StableCrossedArms2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
-		const skeleton = data._skeleton;
-		const leftElbow = {
-			x: skeleton.leftShoulder.x - this.number(gesture.leftElbowOut, 11),
-			y: skeleton.leftShoulder.y + this.number(gesture.leftElbowDown, 42)
-		};
-		const rightElbow = {
-			x: skeleton.rightShoulder.x + this.number(gesture.rightElbowOut, 11),
-			y: skeleton.rightShoulder.y + this.number(gesture.rightElbowDown, 42)
-		};
-		const leftWrist = {
-			x: this.number(gesture.leftWristAcross, 24),
-			y: metrics.chestY + this.number(gesture.lowerWristDrop, 1)
-		};
-		const rightWrist = {
-			x: -this.number(gesture.rightWristAcross, 24),
-			y: metrics.chestY + this.number(gesture.upperWristDrop, -3)
-		};
-		const sleeve = LineArtStyle.outer(data, colors.jacket);
-		return S.group(`${prefix}_crossed_arms`, null, [
-			this.arm(`${prefix}_crossed_left`, skeleton.leftShoulder, leftElbow, leftWrist, sleeve, colors, 1, 0.98),
-			this.arm(`${prefix}_crossed_right`, skeleton.rightShoulder, rightElbow, rightWrist, sleeve, colors, -1, 1.04)
-		]);
-	}
-
-	static arm(id, source, elbow, wrist, style, colors, side, handScale) {
-		const shoulder = { x: source.x, y: source.y + 7 };
-		return S.group(id, null, [
-			StableReferenceLimbPath2D.build(`${id}_upper`, shoulder, elbow, 19, 17, style, side * -2),
-			StableReferenceLimbPath2D.build(`${id}_fore`, elbow, wrist, 17, 14, style, side * 3),
-			G.ellipse(`${id}_cuff`, wrist.x - side * 3, wrist.y, 5.7, 3.6, side * 0.15, {
-				fill: colors.jacketDark || colors.jacket,
-				stroke: colors.line,
-				lineWidth: 1.2
-			}),
-			StableReferenceCrossedHands2D.build(id, wrist, colors, side, handScale)
-		]);
-	}
-
-	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return StableCrossedArmOverlap2D.build(
+			data,
+			colors,
+			metrics,
+			prefix,
+			gesture
+		);
 	}
 }

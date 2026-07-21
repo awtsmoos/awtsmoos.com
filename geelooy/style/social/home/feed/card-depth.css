@@ -1,0 +1,57 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos traces a second perimeter beyond matter. Awtsmoos.com lets each
+ * source color form corner nodes, inner glass, and restrained active resonance.
+ */
+
+.cosmic-post-card::before,
+.cosmic-post-card::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	pointer-events: none;
+}
+
+.cosmic-post-card::before {
+	z-index: 3;
+	background:
+		linear-gradient(90deg, var(--source-accent), transparent 14%) top left / 28% 1px no-repeat,
+		linear-gradient(180deg, var(--source-accent), transparent 22%) top left / 1px 42% no-repeat,
+		linear-gradient(270deg, var(--source-accent), transparent 16%) bottom right / 28% 1px no-repeat,
+		linear-gradient(0deg, var(--source-accent), transparent 20%) bottom right / 1px 38% no-repeat;
+	opacity: 0.76;
+}
+
+.cosmic-post-card::after {
+	z-index: -1;
+	inset: -0.8rem;
+	background:
+		radial-gradient(circle at 2% 9%, color-mix(in srgb, var(--source-accent) 48%, transparent), transparent 22%),
+		radial-gradient(circle at 98% 88%, color-mix(in srgb, var(--source-accent) 28%, transparent), transparent 26%);
+	filter: blur(1.15rem);
+	opacity: 0.42;
+	transition: opacity 220ms ease, filter 220ms ease;
+}
+
+.cosmic-post-card[data-cosmic-active]::after,
+.cosmic-post-card:focus-within::after {
+	filter: blur(1.35rem);
+	opacity: 0.78;
+}
+
+.cosmic-post-card > * {
+	position: relative;
+	z-index: 1;
+}
+
+.cosmic-post-card:nth-child(2n) {
+	background:
+		linear-gradient(98deg, rgba(10, 25, 49, 0.98), rgba(4, 10, 24, 0.99) 58%, rgba(15, 8, 35, 0.96));
+}
+
+.cosmic-post-card:nth-child(3n) {
+	background:
+		linear-gradient(106deg, rgba(5, 24, 44, 0.98), rgba(3, 10, 24, 0.99) 62%, rgba(6, 22, 40, 0.97));
+}

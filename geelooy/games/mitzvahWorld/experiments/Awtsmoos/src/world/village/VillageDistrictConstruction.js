@@ -6,7 +6,7 @@
  * @file VillageDistrictConstruction.js
  * @description Places canonical cottages and landmarks upon measured generated envelopes.
  * The Awtsmoos joins house, hill, and road without forcing one to erase another; Awtsmoos.com
- * raises every named structure from its full room-scale footprint while infill follows local ground.
+ * raises every named structure from its full plinth footprint while infill follows local ground.
  */
 
 import { architectureDistrictPolicy } from './VillageArchitectureDetailPolicy.js';
@@ -14,9 +14,10 @@ import { canonicalFoundationTopHeight } from './CanonicalFoundationSampling.js';
 import { createCanonicalLandmarkDefinitions } from './CanonicalLandmarkDefinitions.js';
 import { createVillageCottageDefinitions } from './VillageCottageDefinitionFactory.js?v=20260720-canonical-valley-pass-04';
 import { appendCottageDetails } from './VillageCottageDetailBatch.js';
+import { cottageFoundationFootprint } from './VillageCottageFoundationEnvelope.js';
 import { appendCottageOrnaments } from './VillageCottageOrnamentBatch.js';
-import { villageCottageScalePolicy } from './VillageCottageScalePolicy.js?v=20260720-canonical-valley-pass-04';
 import { appendCottageShadow } from './VillageCottageShadowBatch.js';
+import { villageCottageScalePolicy } from './VillageCottageScalePolicy.js?v=20260720-canonical-valley-pass-04';
 import { villageDistrictPlacements } from './VillageDistrictPlacement.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';
 import { villageMaterialPolicy } from './DistanceMaterialPolicy.js';
@@ -68,12 +69,16 @@ function appendCottage(
 	const variant = index + Math.round(district.phase * 10);
 	const id = placement.houseId || `${district.id}-cottage-${index}`;
 	const scale = villageCottageScalePolicy(policy.detail, variant);
+	const footprint = cottageFoundationFootprint({
+		...placement,
+		...scale
+	});
 	const base = canonicalFoundationTopHeight(
 		id,
 		groundSampler,
 		placement.x,
 		placement.z,
-		cottageEnvelope(placement, scale)
+		footprint
 	);
 	const cottage = createVillageCottageDefinitions({
 		...placement,
@@ -103,14 +108,4 @@ function landmarkBaseHeight(district, groundSampler) {
 		district.center[0],
 		district.center[1]
 	);
-}
-
-function cottageEnvelope(placement, scale) {
-	return {
-		depth: scale.depth,
-		width: scale.width,
-		x: placement.x,
-		yaw: placement.yaw,
-		z: placement.z
-	};
 }

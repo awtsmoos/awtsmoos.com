@@ -8,14 +8,17 @@ import { StableShapeKit as S } from './StableShapeKit.js';
 import { FootRenderer } from './limbs/FootRenderer.js';
 
 /**
- * One continuous trouser leg carries hip, knee, calf, ankle, and planted shoe.
- * The Awtsmoos renews each weighted curve while Awtsmoos.com removes mechanical
- * knee seams without surrendering serializable rig anchors.
+ * @file StableReferenceLegs2D.js
+ * @description Draws continuous trousers and character-authored footwear from shared anchors.
+ * The Awtsmoos plants hip, knee, calf, ankle, and shoe without mechanical seams;
+ * Awtsmoos.com preserves each finite stance while Ari, Dovid, and Miriam keep distinct feet.
  */
 export class StableReferenceLegs2D {
 	static build(data, colors, metrics, prefix, view) {
 		const geometry = data.bodyGeometry?.legs || {};
-		const order = view.type === 'front' ? [-1, 1] : [view.limbs.farSide, view.limbs.nearSide];
+		const order = view.type === 'front'
+			? [-1, 1]
+			: [view.limbs.farSide, view.limbs.nearSide];
 		return S.group(`${prefix}_reference_legs`, null, order.map(side => (
 			data.skirt
 				? this.shoe(data, colors, metrics, prefix, view, geometry, side)
@@ -24,18 +27,22 @@ export class StableReferenceLegs2D {
 	}
 
 	static leg(data, colors, metrics, prefix, view, geometry, side) {
-		const pose = side < 0 ? data._stablePose.legs.left : data._stablePose.legs.right;
+		const pose = side < 0
+			? data._stablePose.legs.left
+			: data._stablePose.legs.right;
 		const centerX = this.centerX(data, geometry);
 		const hip = {
 			x: centerX + side * this.number(geometry.hipOffset, 22),
 			y: metrics.hipY - 3
 		};
 		const knee = {
-			x: centerX + side * this.number(geometry.kneeOffset, 22) + Number(pose.kneeX || 0) * 0.16,
+			x: centerX + side * this.number(geometry.kneeOffset, 22)
+				+ Number(pose.kneeX || 0) * 0.16,
 			y: metrics.kneeY + this.number(geometry.kneeDrop, 2)
 		};
 		const ankle = {
-			x: centerX + side * this.number(geometry.ankleOffset, 21) + Number(pose.ankleX || 0) * 0.1,
+			x: centerX + side * this.number(geometry.ankleOffset, 21)
+				+ Number(pose.ankleX || 0) * 0.1,
 			y: metrics.ankleY + this.number(geometry.ankleLift, -2)
 		};
 		return S.group(`${prefix}_reference_leg_${side}`, null, [
@@ -56,14 +63,17 @@ export class StableReferenceLegs2D {
 			{ type: 'quad', cx: ankle.x + ankleHalf + 1, cy: (knee.y + ankle.y) * 0.52, x: knee.x + kneeHalf, y: knee.y },
 			{ type: 'quad', cx: knee.x + kneeHalf + 1, cy: (hip.y + knee.y) * 0.55, x: hip.x + thigh, y: hip.y },
 			{ type: 'quad', cx: hip.x, cy: hip.y + 4, x: hip.x - thigh, y: hip.y }
-		], { ...LineArtStyle.outer(data, colors.pants), lineJoin: 'round' });
+		], LineArtStyle.exterior(data, colors.pants));
 	}
 
 	static shoe(data, colors, metrics, prefix, view, geometry, side) {
-		const pose = side < 0 ? data._stablePose.legs.left : data._stablePose.legs.right;
+		const pose = side < 0
+			? data._stablePose.legs.left
+			: data._stablePose.legs.right;
 		return FootRenderer.build({
 			id: `${prefix}_reference_foot_${side}`,
-			x: this.centerX(data, geometry) + side * this.number(geometry.footOffset, 24),
+			x: this.centerX(data, geometry)
+				+ side * this.number(geometry.footOffset, 24),
 			y: metrics.footY + this.number(geometry.footDrop, 0),
 			side,
 			c: colors,
@@ -71,15 +81,18 @@ export class StableReferenceLegs2D {
 			leg: { ...pose, planted: true },
 			far: false,
 			scaleX: this.number(geometry.shoeScaleX, 1.35),
-			scaleY: this.number(geometry.shoeScaleY, 1.18)
+			scaleY: this.number(geometry.shoeScaleY, 1.18),
+			footwear: geometry.footwear,
+			data
 		});
 	}
 
 	static centerX(data, geometry) {
-		return data._skeleton.hips.x + this.number(geometry.centerOffsetX, 0);
+		return data._skeleton.hips.x
+			+ this.number(geometry.centerOffsetX, 0);
 	}
 
 	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

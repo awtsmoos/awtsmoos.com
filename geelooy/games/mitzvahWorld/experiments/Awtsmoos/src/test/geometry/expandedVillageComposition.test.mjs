@@ -4,9 +4,9 @@
 
 /**
  * @file expandedVillageComposition.test.mjs
- * @description Protects canonical districts, foundations, landmarks, bridge, and actor accounting.
+ * @description Protects districts, foundations, house seams, landmarks, bridge, and actors.
  * The Awtsmoos renews one inhabited valley through measured vessels; Awtsmoos.com verifies
- * static wildlife and live hostile actors without preserving obsolete untargetable doubles.
+ * architecture, terrain continuity, livelihood, history, wildlife, and live hostiles.
  */
 
 import assert from 'node:assert/strict';
@@ -14,6 +14,7 @@ import { createVillageCreatureDefinitions } from '../../world/creatures/VillageC
 import { createVillageDistrictArchitecture } from '../../world/village/VillageDistrictArchitecture.js';
 import { VILLAGE_DISTRICTS } from '../../world/village/VillageDistrictCatalog.js';
 import { createVillageWorldDefinitions } from '../../world/village/VillageWorldSystem.js';
+import { VILLAGE_WORLD_LAYERS } from '../../world/village/VillageWorldLayers.js';
 import { villageWorldBudget } from '../../world/village/VillageWorldBudget.js';
 
 const sampler = terrainSampler();
@@ -42,15 +43,25 @@ assert.equal(cottageShadows[0].userData.instances, cottageShells.length);
 assert.ok(cottageShells.every(item => item.userData.volumeRatio >= 100));
 assert.ok(cottageShells.every(item => item.mixTextureUrl && item.mixStrength > 0));
 assert.ok(cottageRoofs.every(item => item.shape === 'manual' && item.faces.length === 9));
+assert.ok(cottageRoofs.every(item => item.userData.roofAge >= 0.25));
 assertCanonicalLandmarks(architecture);
 assert.equal(creatures.stats.creatures, 8);
 assert.equal(creatures.stats.liveHostiles, 3);
 assert.equal(creatures.stats.totalActors, 11);
 assert.ok(creatures.stats.triangles <= 3200);
-assert.deepEqual(world.stats.layers, expectedLayers());
-assert.ok(world.stats.heroCraftDefinitions > 0);
-assert.ok(world.stats.heroGardenDefinitions > 0);
-assert.ok(world.stats.heroTreeDefinitions > 0);
+assert.deepEqual(world.stats.layers, VILLAGE_WORLD_LAYERS);
+assert.equal(world.stats.houseBubbles.houses, 18);
+assert.equal(world.stats.houseBubbles.batches, 7);
+assert.ok(world.stats.houseBubbles.totalDetails > 150);
+assert.equal(world.stats.life.housePrograms, 18);
+assert.equal(world.stats.life.dailyCheckpoints, 60);
+assert.equal(world.stats.props.districtDressing.batches, 4);
+assert.equal(world.stats.props.environmentalHistory.batches, 4);
+assert.equal(world.stats.props.streetHierarchy.batches, 3);
+assert.equal(world.stats.props.terrainBlend.batches, 2);
+assert.equal(world.stats.props.terrainBlend.houses, 18);
+assert.equal(world.stats.props.pedestrianWear.batches, 2);
+assert.equal(world.stats.props.pedestrianWear.shortcuts, 7);
 assert.equal(world.stats.arrival.drawDefinitions, 4);
 assert.equal(world.stats.arrival.stoneBorderPieces, 0);
 assert.equal(world.stats.arrival.waterSections, 0);
@@ -64,14 +75,14 @@ assert.equal(world.stats.practicalLights.definitions, 4);
 assert.equal(world.stats.forestEdge.primitiveTrees, 0);
 assert.equal(world.stats.population.visualPolicy, 'no-primitive-humans');
 assert.equal(world.definitions.length, world.stats.definitionCount);
-assert.ok(world.definitions.length <= 260);
+assert.equal(world.definitions.length, 278);
 
 console.log(JSON.stringify({
 	architecture: architecture.stats,
-	arrival: world.stats.arrival,
 	bridgeDefinitions: bridge.length,
 	creatures: creatures.stats,
 	definitionCount: world.definitions.length,
+	houseBubbles: world.stats.houseBubbles,
 	ok: true
 }, null, 2));
 
@@ -83,15 +94,6 @@ function assertCanonicalLandmarks(definitions) {
 
 function byFamily(definitions, family) {
 	return definitions.filter(item => item.userData?.family === family);
-}
-
-function expectedLayers() {
-	return [
-		'mountains', 'water', 'props', 'arrival-composition', 'foundations',
-		'districts', 'practical-lighting', 'landscape', 'hero-cottage-craft',
-		'hero-gardens', 'hero-trees', 'forest-edge',
-		'animated-chossid-population', 'creatures'
-	];
 }
 
 function terrainSampler() {

@@ -4,7 +4,7 @@
 
 /**
  * @file villageBotanicalComposition.test.mjs
- * @description Proves all 113 species span ten deterministic LOD-aware districts.
+ * @description Proves all 123 species span ten deterministic LOD-aware districts.
  * The Awtsmoos renews abundance without clutter; Awtsmoos.com keeps paths clear,
  * wind finite, quality ordered, and every high-quality species visibly represented.
  */
@@ -22,10 +22,10 @@ const gardens = Object.fromEntries(qualities.map((quality) => [
 
 assert.deepEqual(gardens.high, createVillageBotanicalComposition(groundHeight, 'high'));
 assert.equal(gardens.high.stats.catalogSpecies, listBotanicalSpecies().length);
-assert.equal(gardens.high.stats.primarySpecies, 113);
-assert.equal(gardens.high.stats.repeatedPlacements, 157);
+assert.equal(gardens.high.stats.primarySpecies, 123);
+assert.equal(gardens.high.stats.repeatedPlacements, 147);
 assert.equal(gardens.high.stats.districts, 10);
-assert.deepEqual(gardens.high.stats.lod, { near: 195, far: 31, medium: 44 });
+assert.deepEqual(gardens.high.stats.lod, { near: 90, medium: 124, far: 56 });
 assert.ok(gardens.high.stats.roles['color-mass'] >= 120);
 assert.ok(gardens.high.stats.roles['ground-tapestry'] >= 35);
 

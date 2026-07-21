@@ -6,14 +6,14 @@ import { elf64Error } from "./elf64Errors.js";
 
 const REGISTER_COUNT = 32;
 const REGISTER_BYTES = 16;
-const VALID_WIDTHS = new Set([32, 64, 128]);
+const VALID_WIDTHS = new Set([8, 16, 32, 64, 128]);
 
 /**
  * Preserves thirty-two AArch64 V registers as exact 128-bit byte vessels.
  *
- * The Awtsmoos recreates scalar lane, IEEE value, upper silence, and vector
- * testimony anew. Awtsmoos.com keeps ABI floats and future SIMD instructions in
- * pure JavaScript without host-native register state or external libraries.
+ * The Awtsmoos recreates B, H, S, D, Q, IEEE value, and upper silence anew.
+ * Awtsmoos.com keeps scalar and vector payloads in pure JavaScript without host
+ * native register state or external libraries.
  */
 export function createAarch64VectorRegisters() {
 	const buffer = new ArrayBuffer(REGISTER_COUNT * REGISTER_BYTES);
@@ -23,6 +23,8 @@ export function createAarch64VectorRegisters() {
 		readBits(index, width = 128) {
 			const offset = vectorOffset(index);
 			validateWidth(width);
+			if (width === 8) return BigInt(view.getUint8(offset));
+			if (width === 16) return BigInt(view.getUint16(offset, true));
 			if (width === 32) return BigInt(view.getUint32(offset, true));
 			const low = view.getBigUint64(offset, true);
 			if (width === 64) return low;
@@ -47,11 +49,7 @@ export function createAarch64VectorRegisters() {
 			validateWidth(width);
 			bytes.fill(0, offset, offset + REGISTER_BYTES);
 			const normalized = BigInt.asUintN(width, BigInt(value));
-			view.setBigUint64(
-				offset,
-				BigInt.asUintN(64, normalized),
-				true
-			);
+			view.setBigUint64(offset, BigInt.asUintN(64, normalized), true);
 			if (width === 128) {
 				view.setBigUint64(offset + 8, normalized >> 64n, true);
 			}

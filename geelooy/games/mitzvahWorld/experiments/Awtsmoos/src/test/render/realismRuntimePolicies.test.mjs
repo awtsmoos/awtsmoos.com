@@ -1,11 +1,22 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file realismRuntimePolicies.test.mjs
+ * @description Proves lightweight realism modes, local materials, and canonical people.
+ * The Awtsmoos joins shader restraint with truthful assets; Awtsmoos.com keeps
+ * every runtime pigment local and every human vessel bound to the audited chossid model.
+ */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import { RUNTIME_MATERIALS } from '../../assets/RuntimeMaterialManifest.js';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
-import { materialModeCode } from '../../../../light-three-gltf/tiny-render-webgl-utils.js';
+import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 import { fragmentShader } from '../../../../light-three-gltf/tiny-fragment-shader.js';
+import { materialModeCode } from '../../../../light-three-gltf/tiny-render-webgl-utils.js';
 
 test('renderer selects explicit lightweight realism modes', () => {
 	assert.equal(materialModeCode(mesh('lake', { shader: 'layered-flow-refraction-fresnel-foam' })), 1);
@@ -17,15 +28,16 @@ test('renderer selects explicit lightweight realism modes', () => {
 	}
 });
 
-test('runtime roles prefer full public sources and preserve lower-resolution fallback only', () => {
+test('runtime roles use local generated sources without half-resolution debt', () => {
 	assert.ok(RUNTIME_MATERIALS.length >= 20);
 	for (const material of RUNTIME_MATERIALS) {
-		assert.match(material.primaryUrl, /^https:\/\/awtsmoos-docs-base\.web\.app\//);
+		assertLocalMaterialUrl(assert, material.primaryUrl);
 		assert.equal(material.primaryUrl.includes('/half-resolution/'), false, material.role);
+		assert.doesNotMatch(material.primaryUrl, /awtsmoos-docs-base/);
 	}
 });
 
-test('all dynamic human systems bind the canonical chossid GLB and forbid primitive people', () => {
+test('all dynamic human systems bind the canonical chossid GLB', () => {
 	assert.equal(PLAYER_MODEL_URL, 'https://models-3122d.web.app/chossid.glb');
 	const remote = source('../../network/RemoteChossidPopulation.js');
 	const village = source('../../world/village/VillageNpcPopulationSystem.js');
@@ -37,7 +49,7 @@ test('all dynamic human systems bind the canonical chossid GLB and forbid primit
 });
 
 function mesh(name, texturePolicy = {}) {
-	return { name, material: { name, texturePolicy }, parent: null };
+	return { material: { name, texturePolicy }, name, parent: null };
 }
 
 function source(relativePath) {

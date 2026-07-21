@@ -1,0 +1,282 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals mobile geometry that never restores scrolling; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+@media (max-width: 700px) {
+	:root {
+		--header-height: 58px;
+		--nav-height: 100px;
+		--gap: 5px;
+		--touch: 34px;
+	}
+
+	.nesher-shell {
+		padding: 5px;
+	}
+
+	.app-header {
+		grid-template-columns: auto 1fr;
+	}
+
+	.brand-copy .eyebrow,
+	.room-readout {
+		display: none;
+	}
+
+	.brand-mark {
+		width: 32px;
+		height: 32px;
+	}
+
+	.brand-copy h1 {
+		font-size: .95rem;
+	}
+
+	.record-controls {
+		justify-self: end;
+	}
+
+	.record-controls button {
+		max-width: 110px;
+		padding: .35rem .46rem;
+		font-size: .64rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.workspace-page {
+		padding: 6px;
+	}
+
+	.compact-kicker {
+		min-height: 38px;
+	}
+
+	.compact-kicker h2 {
+		font-size: 1.25rem;
+	}
+
+	.page-actions button {
+		padding: .34rem .46rem;
+		font-size: .64rem;
+	}
+
+	.page-hero {
+		padding: 7px 10px;
+	}
+
+	.page-hero h2 {
+		font-size: 1.55rem;
+	}
+
+	.page-hero p {
+		font-size: .66rem;
+	}
+
+	.home-aurora {
+		display: none;
+	}
+
+	.studio-home {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(3, minmax(0, 1fr));
+		gap: 5px;
+	}
+
+	.home-tile {
+		padding: 7px;
+		gap: 5px;
+	}
+
+	.tile-copy strong {
+		font-size: .9rem;
+	}
+
+	.tile-copy em {
+		font-size: .57rem;
+		line-height: 1.15;
+	}
+
+	.metric-strip {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 4px;
+	}
+
+	.metric-strip div {
+		padding: 4px 5px;
+	}
+
+	.metric-strip span {
+		font-size: .48rem;
+	}
+
+	.metric-strip strong {
+		font-size: .72rem;
+	}
+
+	.metric-strip p {
+		display: none;
+	}
+
+	.stage-workspace {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 56%) minmax(0, 44%);
+	}
+
+	.stage-hud {
+		left: 5px;
+		right: 5px;
+		bottom: 5px;
+		font-size: .55rem;
+	}
+
+	.stage-dock {
+		grid-template-rows: auto minmax(0, 1fr);
+		padding: 5px;
+	}
+
+	.dock-heading {
+		display: none;
+	}
+
+	.deck-tabs {
+		padding: 3px;
+		gap: 3px;
+	}
+
+	.deck-tabs button {
+		min-height: 29px;
+		padding: .25rem;
+		font-size: .58rem;
+	}
+
+	.deck-panel {
+		gap: 4px;
+		padding: 4px 2px 1px;
+	}
+
+	.compact-list li,
+	#sceneList li,
+	#sourceList li,
+	#nleBin li {
+		padding: 4px 6px;
+		font-size: .64rem;
+	}
+
+	.list-pager {
+		grid-template-columns: 32px 1fr 32px;
+	}
+
+	.list-pager button {
+		min-height: 28px;
+	}
+
+	.layer-buttons {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.source-card {
+		padding: 12px;
+	}
+
+	.source-card h3 {
+		font-size: 1.35rem;
+	}
+
+	.source-card > p:not(.eyebrow) {
+		font-size: .68rem;
+	}
+
+	.card-orb {
+		width: 48px;
+		height: 48px;
+		margin-bottom: 6px;
+	}
+
+	.source-toolbar {
+		gap: 5px;
+	}
+
+	.source-toolbar button,
+	.source-toolbar label {
+		font-size: .64rem;
+	}
+
+	.audio-lab-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 58%) minmax(0, 42%);
+	}
+
+	.audio-control-rack {
+		padding: 5px;
+	}
+
+	.preset-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(0, 1fr));
+	}
+
+	.preset-card {
+		padding: 4px;
+	}
+
+	.preset-card span {
+		font-size: .56rem;
+	}
+
+	.preset-card small {
+		display: none;
+	}
+
+	.audio-hud span {
+		padding: 4px 6px;
+		font-size: .54rem;
+	}
+
+	.audio-mode-badge {
+		padding: 5px 7px;
+	}
+
+	.motion-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 3px;
+	}
+
+	.motion-grid label {
+		gap: 2px;
+		font-size: .58rem;
+	}
+
+	.audio-control-rack input[type="range"] {
+		min-height: 22px;
+	}
+
+	.live-page .metric-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.live-console {
+		padding: 7px;
+		font-size: .66rem;
+	}
+
+	.control-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 5px;
+		padding: 8px;
+	}
+
+	.nle-actions {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.command-deck {
+		min-height: 86px;
+	}
+
+	.timeline-track {
+		grid-template-columns: 52px minmax(0, 1fr);
+	}
+}

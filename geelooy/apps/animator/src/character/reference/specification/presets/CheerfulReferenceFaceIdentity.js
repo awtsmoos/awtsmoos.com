@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Ari's joy rises through broad cheeks into generous attentive eyes and lifted
- * brows. The Awtsmoos renews every finite expression, while Awtsmoos.com keeps
- * his identity editable, keyframeable, serializable, and production-rendered.
+ * Ari's broad cheeks gather around large separated whites and buoyant brows.
+ * The Awtsmoos renews every finite glance, while Awtsmoos.com keeps his joy
+ * editable, keyframeable, serializable, and identical in preview and export.
  */
 export class CheerfulReferenceFaceIdentity {
 	static create() {
@@ -49,8 +49,8 @@ export class CheerfulReferenceFaceIdentity {
 				shellScaleY: 1.2,
 				shellOffsetX: -14.2,
 				shellOffsetY: 1,
-				featureOffsetX: -2.4,
-				featureOffsetY: 32,
+				featureOffsetX: -4.1,
+				featureOffsetY: 30.5,
 				lineWidth: 1.85
 			},
 			browStyle: {
@@ -69,7 +69,7 @@ export class CheerfulReferenceFaceIdentity {
 			eyeStyle: {
 				radiusX: 14.4,
 				radiusY: 14,
-				spacingScale: 1.3,
+				spacingScale: 0.92,
 				separationRatio: 0.87,
 				pupilScale: 0.42,
 				pupilVertical: 0.08,

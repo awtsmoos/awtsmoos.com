@@ -4,9 +4,9 @@
 
 /**
  * @file organizedAssetCatalog.test.mjs
- * @description Proves deployed-schema validation, categories, previews, aliases, and caching.
- * The Awtsmoos is one before many imperfect filenames; Awtsmoos.com finds semantic texture
- * families through stable records instead of walking accidental Firebase folders at runtime.
+ * @description Proves schema validation, categories, previews, aliases, and caching.
+ * The Awtsmoos is one before many imperfect filenames; Awtsmoos.com finds semantic
+ * texture families through stable local records instead of walking a remote folder tree.
  */
 
 import assert from 'node:assert/strict';
@@ -25,7 +25,7 @@ const inventory = {
 		asset('full-resolution/lake-water.png', ['water']),
 		asset('Way/old-bark.png', ['bark'], true, 'full-resolution/oak-bark.png')
 	],
-	origin: 'https://awtsmoos-docs-base.web.app',
+	origin: 'http://127.0.0.1/local-materials',
 	schema: 'awtsmoos-asset-organization/v1'
 };
 const aliases = {
@@ -42,8 +42,8 @@ test('categories and preview URLs are derived from canonical records', async () 
 	resetOrganizedAssetCatalog();
 	const fetchFunction = fakeFetch();
 	const records = await searchOrganizedAssetCatalog('oak', {
-		category: 'botany',
 		canonicalOnly: true,
+		category: 'botany',
 		fetchFunction
 	});
 	assert.equal(records.length, 1);
@@ -59,7 +59,7 @@ test('aliases resolve once and the loaded catalog promise is reused', async () =
 	let requests = 0;
 	const fetchFunction = async url => {
 		requests += 1;
-		return response(url.includes('asset-inventory') ? inventory : aliases);
+		return response(isInventoryUrl(url) ? inventory : aliases);
 	};
 	const first = await loadOrganizedAssetCatalog(fetchFunction);
 	const second = await loadOrganizedAssetCatalog(fetchFunction);
@@ -70,7 +70,11 @@ test('aliases resolve once and the loaded catalog promise is reused', async () =
 });
 
 function fakeFetch() {
-	return async url => response(url.includes('asset-inventory') ? inventory : aliases);
+	return async url => response(isInventoryUrl(url) ? inventory : aliases);
+}
+
+function isInventoryUrl(url) {
+	return /inventory(?:\.json)?(?:\?|$)/.test(String(url));
 }
 
 function response(value) {
@@ -92,6 +96,6 @@ function asset(path, tags, legacy = false, canonicalPath = path) {
 		root: path.split('/')[0],
 		sha256: 'hash',
 		tags,
-		url: `https://example.test/${path}`
+		url: `http://127.0.0.1/local-materials/${path}`
 	};
 }

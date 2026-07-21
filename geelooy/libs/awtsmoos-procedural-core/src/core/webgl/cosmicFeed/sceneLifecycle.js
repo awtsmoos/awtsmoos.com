@@ -2,33 +2,42 @@
 // Boruch Hashem
 // Blessed is He
 /**
+ * @module CosmicSceneLifecycle
+ * @description
  * Context, visibility, and motion are renewed by the Awtsmoos each instant.
- * This Awtsmoos.com lifecycle keeps browser events outside the rendering heart.
+ * Awtsmoos.com listens for human preference and verifies it with a quiet fallback.
  */
+import { applyMotionPreference } from "./motionPreference.js";
 
-/**
- * Binds browser lifecycle signals to one procedural scene.
- */
+const MOTION_SYNC_INTERVAL = 1000;
+
+/** Binds browser lifecycle signals to one procedural scene. */
 export class CosmicSceneLifecycle {
-	/**
-	 * @param {Record<string, Function>} scene Procedural scene owner.
-	 */
+	/** Creates a lifecycle owner around one canonical scene. */
 	constructor(scene) {
 		this.scene = scene;
 		this.started = false;
+		this.motionTimer = 0;
+		this.motionPreference = globalThis.matchMedia?.(
+			"(prefers-reduced-motion: reduce)"
+		) || null;
 		this.onResize = () => scene.resize();
 		this.onScroll = () => scene.setScroll(window.scrollY);
 		this.onVisibility = () => scene.setPaused(document.hidden);
-		this.onContextLost = (event) => {
+		this.onMotionPreference = event => applyMotionPreference(scene, event.matches);
+		this.syncMotionPreference = () => {
+			if (this.motionPreference) {
+				applyMotionPreference(scene, this.motionPreference.matches);
+			}
+		};
+		this.onContextLost = event => {
 			event.preventDefault();
 			scene.suspendForContextLoss();
 		};
 		this.onContextRestored = () => scene.restoreContext();
 	}
 
-	/**
-	 * Installs browser observers once.
-	 */
+	/** Installs browser observers once. */
 	start() {
 		if (this.started) {
 			return;
@@ -39,11 +48,15 @@ export class CosmicSceneLifecycle {
 		document.addEventListener("visibilitychange", this.onVisibility);
 		this.scene.canvas.addEventListener("webglcontextlost", this.onContextLost);
 		this.scene.canvas.addEventListener("webglcontextrestored", this.onContextRestored);
+		bindMotionPreference(this.motionPreference, this.onMotionPreference);
+		this.syncMotionPreference();
+		this.motionTimer = globalThis.setInterval?.(
+			this.syncMotionPreference,
+			MOTION_SYNC_INTERVAL
+		) || 0;
 	}
 
-	/**
-	 * Removes every installed observer.
-	 */
+	/** Removes every installed observer and preference fallback. */
 	destroy() {
 		if (!this.started) {
 			return;
@@ -54,5 +67,24 @@ export class CosmicSceneLifecycle {
 		document.removeEventListener("visibilitychange", this.onVisibility);
 		this.scene.canvas.removeEventListener("webglcontextlost", this.onContextLost);
 		this.scene.canvas.removeEventListener("webglcontextrestored", this.onContextRestored);
+		releaseMotionPreference(this.motionPreference, this.onMotionPreference);
+		globalThis.clearInterval?.(this.motionTimer);
+		this.motionTimer = 0;
+	}
+}
+
+function bindMotionPreference(preference, listener) {
+	if (preference?.addEventListener) {
+		preference.addEventListener("change", listener);
+	} else {
+		preference?.addListener?.(listener);
+	}
+}
+
+function releaseMotionPreference(preference, listener) {
+	if (preference?.removeEventListener) {
+		preference.removeEventListener("change", listener);
+	} else {
+		preference?.removeListener?.(listener);
 	}
 }

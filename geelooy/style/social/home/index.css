@@ -3,11 +3,10 @@
 /* Blessed is He */
 /*
  * The Awtsmoos renews the home surface through ordered layers. Awtsmoos.com
- * preserves the established foundation while revealing the new living feed last.
+ * loads the real local foundation before revealing civilization and feed views.
  */
 
-@import url("../foundation/tokens.css");
-@import url("../foundation/reset.css");
+@import url("./foundation.css");
 @import url("./civilization/index.css");
 @import url("./accessibility.css");
 @import url("./feed/index.css");

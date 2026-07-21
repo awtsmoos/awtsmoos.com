@@ -4,15 +4,16 @@
 
 /**
  * @file referenceGoldenVillage.test.mjs
- * @description Protects golden-hour depth, foundations, hero craft, gardens, trees, and landmarks.
+ * @description Protects golden-hour depth, terrain continuity, livelihood, history, and ecology.
  * The Awtsmoos renews visual abundance inside measured tiers; Awtsmoos.com verifies meaningful
- * architecture, terrain-fitting foundations, crafted cottages, ecology, and inhabited valley depth.
+ * architecture, terrain-fitting homes, paths, weathered roofs, gardens, streets, trees, and life.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { referenceLightingBudget } from '../../world/lighting/ReferenceGoldenHourPreset.js';
 import { createVillageWorldDefinitions } from '../../world/village/VillageWorldSystem.js';
+import { VILLAGE_WORLD_LAYERS } from '../../world/village/VillageWorldLayers.js';
 import {
 	assertFirebaseMaterials,
 	assertManualGeometry,
@@ -22,22 +23,12 @@ import {
 } from './ReferenceGoldenVillageAssertions.mjs';
 
 const QUALITIES = ['low', 'medium', 'high', 'cinematic'];
-const WORLD_LAYERS = [
-	'mountains',
-	'water',
-	'props',
-	'arrival-composition',
-	'foundations',
-	'districts',
-	'practical-lighting',
-	'landscape',
-	'hero-cottage-craft',
-	'hero-gardens',
-	'hero-trees',
-	'forest-edge',
-	'animated-chossid-population',
-	'creatures'
-];
+const EXPECTED_DEFINITION_COUNTS = Object.freeze({
+	cinematic: 298,
+	high: 278,
+	low: 247,
+	medium: 264
+});
 
 test('reference golden-hour world stays deterministic and quality bounded', () => {
 	const sampler = terrainSampler();
@@ -45,6 +36,7 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 		const first = createVillageWorldDefinitions(sampler, quality);
 		const second = createVillageWorldDefinitions(sampler, quality);
 		assert.deepEqual(first, second);
+		assert.equal(first.definitions.length, EXPECTED_DEFINITION_COUNTS[quality]);
 		assert.ok(first.stats.mountains.nearestRadius > first.stats.budget.radius);
 		assert.ok(first.stats.architecture.pieces <= first.stats.budget.architecturePieces);
 		assert.equal(first.stats.architecture.shadowDraws, 1);
@@ -54,13 +46,17 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 		assert.ok(first.stats.heroCraftDefinitions > 0);
 		assert.ok(first.stats.heroGardenDefinitions > 0);
 		assert.ok(first.stats.heroTreeDefinitions > 0);
+		assert.ok(first.stats.houseBubbles.totalDetails > 0);
+		assert.ok(first.stats.life.housePrograms > 0);
+		assert.equal(first.stats.props.terrainBlend.batches, 2);
+		assert.equal(first.stats.props.pedestrianWear.batches, 2);
 		assert.equal(
 			first.stats.mountains.belts,
 			referenceLightingBudget(quality).mountainBelts
 		);
 		assert.equal(first.stats.mountains.snowCaps, first.stats.mountains.belts);
 		assert.equal(first.stats.mountains.definitions, first.stats.mountains.belts * 2);
-		assert.deepEqual(first.stats.layers, WORLD_LAYERS);
+		assert.deepEqual(first.stats.layers, VILLAGE_WORLD_LAYERS);
 		assert.equal(first.stats.forestEdge.primitiveTrees, 0);
 		assert.equal(first.stats.population.visualPolicy, 'no-primitive-humans');
 		assertManualGeometry(first.definitions);
@@ -69,18 +65,30 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 	}
 });
 
-test('high tier keeps named architecture, forest, snow, bridge, and grounded cottages', () => {
+test('high tier keeps named architecture, terrain life, forest, snow, and bridge', () => {
 	const world = createVillageWorldDefinitions(terrainSampler(), 'high');
 	assert.ok(world.stats.architecture.warmWindows >= 90);
 	assert.ok(world.stats.architecture.pieces <= world.stats.budget.architecturePieces);
 	assert.ok(world.stats.architecture.landmarkPieces >= 30);
 	assert.equal(world.stats.architecture.shadowedCottages, 29);
+	assert.equal(world.stats.houseBubbles.houses, 18);
+	assert.equal(world.stats.houseBubbles.batches, 7);
+	assert.equal(world.stats.life.housePrograms, 18);
 	assert.equal(world.stats.forestEdge.proceduralTreeSitesSupported, 34);
 	assert.equal(world.definitions.length, world.stats.definitionCount);
-	assert.ok(world.definitions.length <= 260);
+	assert.equal(world.definitions.length, 278);
 	assert.equal(byFamily(world, 'reference-cottage-detail-batch').length, 3);
 	assert.equal(byFamily(world, 'reference-cottage-ornament-batch').length, 5);
+	assert.equal(byFamily(world, 'canonical-house-bubble').length, 7);
+	assert.equal(byFamily(world, 'canonical-district-dressing').length, 4);
+	assert.equal(byFamily(world, 'canonical-environmental-history').length, 4);
+	assert.equal(byFamily(world, 'canonical-street-hierarchy').length, 3);
+	assert.equal(byFamily(world, 'canonical-terrain-blend').length, 2);
+	assert.equal(byFamily(world, 'canonical-pedestrian-wear').length, 2);
 	assertCanonicalLandmarks(world);
+	const roofs = byFamily(world, 'reference-village-cottage-roof');
+	assert.ok(roofs.every(roof => roof.userData.roofAge >= 0.25));
+	assert.ok(new Set(roofs.map(roof => roof.mixStrength)).size >= 8);
 	const shadows = byFamily(world, 'reference-cottage-sun-shadows');
 	assert.equal(shadows.length, 1);
 	assert.equal(shadows[0].userData.instances, 29);

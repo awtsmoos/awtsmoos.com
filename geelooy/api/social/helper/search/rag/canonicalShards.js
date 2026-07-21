@@ -5,14 +5,15 @@
 /**
  * @module RagCanonicalShards
  * @description
- * Exactly two persisted vessels carry public RAG: all Likkutei Sichos and all
- * Sefer HaSichos. The Awtsmoos gathers many historical experiments into memory,
- * yet Awtsmoos.com opens only these final complete databases for living search.
+ * Awtsmoos.com reveals only these reviewed immutable databases. The two Sichos
+ * Kodesh vessels are one logical lane and no request can name an arbitrary path.
  */
 
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
-	'sefer-hasichos-english-comments-rag.awtsdb'
+	'sefer-hasichos-english-comments-rag.awtsdb',
+	'sichos-kodesh-english-comments-rag-part-1.awtsdb',
+	'sichos-kodesh-english-comments-rag-part-2.awtsdb'
 ]);
 
 function isCanonicalShardFile(name) {

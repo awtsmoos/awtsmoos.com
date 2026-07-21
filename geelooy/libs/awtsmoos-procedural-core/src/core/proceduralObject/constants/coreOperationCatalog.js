@@ -26,7 +26,11 @@ export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"set_draw_range",
 	"set_material_slots",
 	"set_morph_target",
-	"set_geometry_metadata"
+	"set_geometry_metadata",
+	"compact_geometry",
+	"weld_geometry",
+	"repair_geometry",
+	"assign_face_materials"
 ]);
 
 export const PROCEDURAL_CORE_SCENE_OPERATIONS = Object.freeze([

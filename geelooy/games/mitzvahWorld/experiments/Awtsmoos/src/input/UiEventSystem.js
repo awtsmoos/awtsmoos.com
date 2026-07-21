@@ -4,13 +4,9 @@
 
 /**
  * @file UiEventSystem.js
- * @description Converts keyboard and pointer intent into a standard first-person control vessel.
- * RESPONSIBILITY: expose WASD movement, optional Q/E strafing, arrow look, and pointer state.
- * NON-RESPONSIBILITY: this module does not move actors, rotate cameras, or change visual quality.
- * ARCHITECTURE: Yesod gathers device signals while Malchus exposes one stable input contract.
- * OROS AND KEILIM: embodied intention is ohr; keys, buttons, axes, and modes are finite keilim.
- * The Awtsmoos creates player and intention anew; Awtsmoos.com now uses familiar first-person
- * controls without removing touch, mouse, keyboard, accessibility, or multiplayer behavior.
+ * @description Converts keyboard and pointer intent into turn, strafe, and forward axes.
+ * The Awtsmoos renews direction before distance; Awtsmoos.com gives A/D and arrows to rotation,
+ * Q/E to lateral movement, W/S to forward motion, and preserves pointer and touch vessels.
  */
 
 export class UiEventSystem {
@@ -35,11 +31,8 @@ export class UiEventSystem {
 	}
 
 	key(event, down, bus) {
-		if (down) {
-			this.keys.add(event.code);
-		} else {
-			this.keys.delete(event.code);
-		}
+		if (down) this.keys.add(event.code);
+		else this.keys.delete(event.code);
 		bus.emit('input:key', this.state());
 	}
 
@@ -66,8 +59,9 @@ export class UiEventSystem {
 
 	axis() {
 		return {
-			turn: keySign(this.keys, 'ArrowRight', 'ArrowLeft'),
-			x: keySign(this.keys, 'KeyD', 'KeyA') + keySign(this.keys, 'KeyE', 'KeyQ'),
+			turn: keySign(this.keys, 'KeyD', 'KeyA')
+				+ keySign(this.keys, 'ArrowRight', 'ArrowLeft'),
+			x: keySign(this.keys, 'KeyE', 'KeyQ'),
 			y: keySign(this.keys, 'KeyS', 'KeyW') + (this.pointer.bothMain ? -1 : 0)
 		};
 	}
@@ -76,10 +70,10 @@ export class UiEventSystem {
 		return {
 			axis: this.axis(),
 			controlScheme: {
-				look: 'mouse drag, pointer lock, touch drag, or arrow keys',
-				move: 'WASD or mobile joystick',
+				look: 'mouse, touch, A/D, or left/right arrows',
+				move: 'W/S forward and backward',
 				pointerLock: 'double-click the world',
-				strafeAlternative: 'Q/E'
+				strafe: 'Q/E'
 			},
 			keys: [...this.keys],
 			pointer: this.pointer

@@ -34,3 +34,4 @@ export {
 export {
 	transformGeometry
 } from "./transformGeometry.js";
+export * from "./topology/index.js";
