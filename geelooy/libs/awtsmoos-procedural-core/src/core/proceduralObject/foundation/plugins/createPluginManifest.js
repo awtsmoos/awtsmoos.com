@@ -7,7 +7,8 @@
  */
 
 import { normalizeResourceBudget } from "../budgets/index.js";
-import { hashCanonicalValue, normalizeCanonicalValue } from "../canonical/index.js";
+import { cloneManifestMetadata } from "../canonical/cloneManifestMetadata.js";
+import { hashCanonicalValue } from "../canonical/index.js";
 import { createOperationDefinition } from "../operations/index.js";
 import {
 	PLUGIN_EXECUTION_MODES,
@@ -66,7 +67,7 @@ export function createPluginManifest(input) {
 		capabilities: normalizePluginIdentifiers(input.capabilities ?? [], "Plugin capabilities"),
 		permissions: normalizePluginIdentifiers(input.permissions ?? [], "Plugin permissions"),
 		resourceBudget: normalizeResourceBudget(input.resourceBudget ?? {}),
-		metadata: normalizeCanonicalValue(input.metadata ?? {})
+		metadata: cloneManifestMetadata(input.metadata ?? {})
 	});
 	return Object.freeze({
 		...content,

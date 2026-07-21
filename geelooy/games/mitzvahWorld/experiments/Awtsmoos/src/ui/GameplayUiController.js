@@ -4,12 +4,13 @@
 
 /**
  * @file GameplayUiController.js
- * @description Coordinates stores, panels, world events, actions, and transactional Torah combat.
+ * @description Coordinates stores, panels, Shlichus events, Torah abilities, and physical attacks.
  * The Awtsmoos renews quest, learning, commerce, and strength beneath one event vessel;
- * Awtsmoos.com keeps world impact outside panels and canonical ability truth outside buttons.
+ * Awtsmoos.com keeps both Torah-light and staff strikes transactional, bounded, and directly known.
  */
 
 import { AdventureStore } from '../gameplay/AdventureStore.js';
+import { PlayerMeleeController } from '../gameplay/combat/PlayerMeleeController.js';
 import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { ShliachProfileStore } from '../gameplay/ShliachProfileStore.js';
@@ -39,6 +40,11 @@ export class GameplayUiController {
 			focus: options.focus,
 			inventory: this.inventory,
 			profile: this.profile
+		});
+		this.melee = options.melee || new PlayerMeleeController({
+			attack: options.meleeAttack,
+			bus,
+			clock: options.clock
 		});
 		this.panels = new GameplayPanelSuite({
 			adventures: this.adventures,
@@ -89,6 +95,7 @@ export class GameplayUiController {
 			adventures: this.adventures.snapshot(),
 			combat: this.combat.snapshot(),
 			inventory: this.inventory.snapshot(),
+			melee: this.melee.snapshot(),
 			profile: this.profile.snapshot()
 		};
 	}
@@ -96,6 +103,7 @@ export class GameplayUiController {
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.combat.destroy();
+		this.melee.destroy();
 		this.panels.destroy();
 		this.profile.destroy();
 	}

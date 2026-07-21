@@ -4,9 +4,9 @@
 
 /**
  * @file ShliachProfileStore.js
- * @description Coordinates local profile rules, wallet observation, derived stats, and sync.
- * The Awtsmoos renews mutable state beneath pure laws; Awtsmoos.com keeps one small
- * coordinator while allocation, activation, expiry, and remote replacement stay testable.
+ * @description Coordinates local profile rules, rewards, wallet observation, derived stats, and sync.
+ * The Awtsmoos renews mutable progress beneath pure law; Awtsmoos.com grants each verified
+ * Shlichus reward through one explicit store method and exposes a compact persistence vessel.
  */
 
 import {
@@ -18,6 +18,7 @@ import {
 import {
 	activateShliachPowerup,
 	allocateShliachAttribute,
+	awardShlichusProgress,
 	createShliachProfileState,
 	removeExpiredShliachPowerups,
 	synchronizeShliachProfile
@@ -45,13 +46,17 @@ export class ShliachProfileStore {
 	}
 
 	activate(powerupId) {
-		activateShliachPowerup(
-			this.state,
-			this.inventory,
-			powerupId,
-			this.clock()
-		);
+		activateShliachPowerup(this.state, this.inventory, powerupId, this.clock());
 		return this.publish();
+	}
+
+	award(reward, sourceId = null) {
+		const levelsGained = awardShlichusProgress(this.state, reward);
+		return {
+			levelsGained,
+			sourceId,
+			state: this.publish()
+		};
 	}
 
 	synchronize(payload) {
@@ -59,19 +64,17 @@ export class ShliachProfileStore {
 		return this.publish();
 	}
 
-	snapshot() {
+	serializableState() {
 		removeExpiredShliachPowerups(this.state, this.clock());
-		const base = deriveShliachStats(
-			this.state.attributes,
-			this.state.level
-		);
+		return structuredClone(this.state);
+	}
+
+	snapshot() {
+		const base = deriveShliachStats(this.state.attributes, this.state.level);
 		return structuredClone({
-			...this.state,
+			...this.serializableState(),
 			attributesCatalog: SHLIACH_ATTRIBUTES,
-			derived: applyShliachPowerups(
-				base,
-				this.state.activePowerups
-			),
+			derived: applyShliachPowerups(base, this.state.activePowerups),
 			perutas: this.perutas(),
 			powerupsCatalog: SHLIACH_POWERUPS
 		});
@@ -79,9 +82,7 @@ export class ShliachProfileStore {
 
 	perutas() {
 		if (Number.isFinite(this.state.perutas)) return this.state.perutas;
-		const stack = this.inventory?.snapshot().items.find(item => (
-			item.itemId === 'perutas'
-		));
+		const stack = this.inventory?.snapshot().items.find(item => item.itemId === 'perutas');
 		return stack?.quantity || 0;
 	}
 

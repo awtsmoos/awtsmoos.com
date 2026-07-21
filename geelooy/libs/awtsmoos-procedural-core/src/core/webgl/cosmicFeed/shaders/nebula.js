@@ -2,10 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * From no borrowed image, the Awtsmoos renews star depth, side rivers, and
- * kinetic source resonance. Awtsmoos.com protects the reading column while space lives.
+ * Twin rivers, eddies, stars, and source pulses emerge without borrowed imagery.
+ * The Awtsmoos renews the field while Awtsmoos.com protects the reading corridor.
  */
-
 export const NEBULA_FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 in vec2 vUv;
@@ -20,13 +19,11 @@ uniform vec4 uInteraction;
 uniform vec3 uInteractionColor;
 uniform vec2 uFeedBounds;
 uniform float uMotionScale;
-
 float hash21(vec2 point) {
 	point = fract(point * vec2(123.34, 456.21));
 	point += dot(point, point + 45.32);
 	return fract(point.x * point.y);
 }
-
 float noise(vec2 point) {
 	vec2 cell = floor(point);
 	vec2 local = fract(point);
@@ -37,75 +34,84 @@ float noise(vec2 point) {
 	float d = hash21(cell + vec2(1.0));
 	return mix(mix(a, b, local.x), mix(c, d, local.x), local.y);
 }
-
 float fbm(vec2 point) {
 	float value = 0.0;
-	float amplitude = 0.52;
-	for (int octave = 0; octave < 5; octave++) {
+	float amplitude = 0.54;
+	for (int octave = 0; octave < 4; octave++) {
 		value += amplitude * noise(point);
-		point = point * 2.04 + vec2(17.1, 9.2);
-		amplitude *= 0.5;
+		point = point * 2.06 + vec2(17.1, 9.2);
+		amplitude *= 0.49;
 	}
 	return value;
 }
-
 vec2 domainWarp(vec2 point, float drift) {
 	vec2 first = vec2(
-		fbm(point * 1.55 + vec2(drift, -drift)),
-		fbm(point * 1.8 + vec2(-drift, drift))
+		fbm(point * 1.45 + vec2(drift, -drift)),
+		fbm(point * 1.72 + vec2(-drift, drift))
 	);
-	return vec2(
-		fbm(point * 2.0 + first * 2.2 + 4.7),
-		fbm(point * 2.15 - first * 1.9 - 7.3)
+	vec2 second = vec2(
+		fbm(point * 2.05 + first * 2.1 + 4.7),
+		fbm(point * 2.2 - first * 1.8 - 7.3)
 	);
+	return mix(first, second, 0.58);
 }
-
 float starBand(vec2 uv, float scale, float threshold, float speed) {
 	vec2 cell = floor(uv * uResolution / scale);
 	float seed = hash21(cell);
-	float twinkle = 0.68 + 0.32 * sin(uTime * speed + seed * 31.0);
+	float twinkle = 0.66 + 0.34 * sin(uTime * speed + seed * 31.0);
 	return step(threshold, seed) * pow(hash21(cell + 8.4), 9.0) * twinkle;
 }
-
+float ribbon(float axis, float focus) {
+	return exp(-axis * axis * focus);
+}
 void main() {
 	vec2 uv = vUv;
 	vec2 aspect = vec2(uResolution.x / max(uResolution.y, 1.0), 1.0);
 	vec2 point = (uv - 0.5) * aspect;
-	float velocity = length(uPointerVelocity) + abs(uScrollVelocity) * 0.42;
-	float drift = uTime * (0.014 + velocity * 0.006) * uMotionScale;
-	point -= uPointerVelocity * 0.055 * (0.35 + abs(point.x));
-	point.y += uScrollVelocity * 0.035;
+	float pointerSpeed = length(uPointerVelocity);
+	float velocity = pointerSpeed + abs(uScrollVelocity) * 0.44;
+	float drift = uTime * (0.016 + velocity * 0.008) * uMotionScale;
+	point -= uPointerVelocity * 0.065 * (0.35 + abs(point.x));
+	point.y += uScrollVelocity * 0.045 + uScroll * 0.000035;
 	vec2 folded = domainWarp(point, drift);
-	float density = fbm(point * 2.0 + folded * 2.25 + uScroll * 0.00018);
-	float filament = 1.0 - abs(fbm(point * 4.6 - folded * 1.45) * 2.0 - 1.0);
-	filament = smoothstep(0.62, 0.97, filament) * smoothstep(0.26, 0.84, density);
 	float horizontal = uv.x * 2.0 - 1.0;
-	float side = smoothstep(0.12, 0.58, abs(horizontal));
-	float riverAxis = abs(horizontal) - 0.72 + sin(point.y * 5.0 + folded.y * 4.0) * 0.09;
-	float river = exp(-riverAxis * riverAxis * 46.0) * (0.5 + density * 0.8);
-	float outerMist = smoothstep(0.34, 0.88, density) * pow(side, 1.4);
-	vec3 cyan = vec3(0.04, 0.76, 1.0);
-	vec3 blue = vec3(0.12, 0.34, 1.0);
-	vec3 violet = vec3(0.48, 0.18, 1.0);
-	vec3 magenta = vec3(1.0, 0.12, 0.76);
-	vec3 leftColor = mix(cyan, blue, smoothstep(0.15, 0.9, uv.y));
-	vec3 rightColor = mix(violet, magenta, smoothstep(0.45, 0.95, uv.y));
-	vec3 nebula = mix(leftColor, rightColor, smoothstep(0.42, 0.58, uv.x));
-	float stars = starBand(uv, 4.0, 0.9981, 1.1);
-	stars += starBand(uv + 0.19, 9.0, 0.9962, 0.72) * 0.65;
-	stars += starBand(uv + 0.47, 21.0, 0.9928, 0.43) * 0.34;
+	float side = smoothstep(0.18, 0.54, abs(horizontal));
+	float braid = sin(point.y * 6.2 + folded.y * 5.0 + drift * 48.0);
+	float innerAxis = abs(horizontal) - (0.7 + braid * 0.07);
+	float outerAxis = abs(horizontal) - (0.91 + cos(point.y * 8.0 - folded.x * 4.0) * 0.035);
+	float river = ribbon(innerAxis, 62.0) + ribbon(outerAxis, 105.0) * 0.62;
+	float density = fbm(point * 2.15 + folded * 2.3);
+	float eddy = smoothstep(0.48, 0.86, density) * side;
+	float filament = 1.0 - abs(fbm(point * 4.8 - folded * 1.5) * 2.0 - 1.0);
+	filament = smoothstep(0.67, 0.97, filament) * side;
+	vec3 cyan = vec3(0.03, 0.78, 1.0);
+	vec3 blue = vec3(0.12, 0.32, 1.0);
+	vec3 violet = vec3(0.49, 0.16, 1.0);
+	vec3 magenta = vec3(1.0, 0.1, 0.76);
+	vec3 leftColor = mix(cyan, blue, smoothstep(0.08, 0.92, uv.y));
+	vec3 rightColor = mix(violet, magenta, smoothstep(0.35, 0.96, uv.y));
+	vec3 nebula = mix(leftColor, rightColor, smoothstep(0.43, 0.57, uv.x));
+	float stars = starBand(uv, 4.0, 0.9982, 1.18);
+	stars += starBand(uv + 0.19, 10.0, 0.9964, 0.74) * 0.67;
+	stars += starBand(uv + 0.47, 23.0, 0.9931, 0.41) * 0.36;
 	float interactionDistance = distance(uv, uInteraction.xy);
-	float resonance = exp(-interactionDistance * 9.0) * uInteraction.z;
-	float pulseRadius = 0.035 + (1.0 - uInteraction.w) * 0.28;
-	float pulse = exp(-abs(interactionDistance - pulseRadius) * 38.0) * uInteraction.w;
-	vec3 color = vec3(0.002, 0.006, 0.024);
-	color += nebula * (outerMist * 0.42 + river * (0.72 + uKineticEnergy * 0.24));
-	color += mix(cyan, magenta, uv.y) * filament * side * 0.24;
-	color += vec3(0.56, 0.78, 1.0) * stars * (0.18 + side * 1.15 + velocity * 0.25);
-	color += uInteractionColor * (resonance * 0.34 + pulse * 0.28) * (0.26 + side);
-	float leftEdge = smoothstep(uFeedBounds.x - 0.12, uFeedBounds.x + 0.05, horizontal);
-	float rightEdge = 1.0 - smoothstep(uFeedBounds.y - 0.05, uFeedBounds.y + 0.12, horizontal);
-	color *= 1.0 - leftEdge * rightEdge * 0.7;
+	float resonance = exp(-interactionDistance * 8.5) * uInteraction.z;
+	float pulseRadius = 0.04 + (1.0 - uInteraction.w) * 0.31;
+	float pulse = exp(-abs(interactionDistance - pulseRadius) * 34.0) * uInteraction.w;
+	vec2 pointerDirection = normalize(uPointerVelocity + vec2(0.0001));
+	float wakeAxis = abs(dot(point, vec2(-pointerDirection.y, pointerDirection.x)));
+	float kineticWake = exp(-wakeAxis * 10.0) * pointerSpeed * side;
+	vec3 color = vec3(0.0015, 0.005, 0.021);
+	color += nebula * (river * (0.82 + uKineticEnergy * 0.3) + eddy * 0.31);
+	color += mix(cyan, magenta, uv.y) * filament * (0.18 + river * 0.2);
+	color += vec3(0.62, 0.82, 1.0) * stars * (0.15 + side * 1.28 + velocity * 0.22);
+	color += nebula * kineticWake * 0.28;
+	color += uInteractionColor * (resonance * 0.42 + pulse * 0.34) * (0.2 + side);
+	float insideLeft = smoothstep(uFeedBounds.x - 0.1, uFeedBounds.x + 0.04, horizontal);
+	float insideRight = 1.0 - smoothstep(uFeedBounds.y - 0.04, uFeedBounds.y + 0.1, horizontal);
+	float corridor = insideLeft * insideRight;
+	color *= 1.0 - corridor * 0.82;
+	color *= 0.92 + 0.08 * smoothstep(0.15, 0.95, 1.0 - distance(uv, vec2(0.5)));
 	outColor = vec4(color, 1.0);
 }
 `;

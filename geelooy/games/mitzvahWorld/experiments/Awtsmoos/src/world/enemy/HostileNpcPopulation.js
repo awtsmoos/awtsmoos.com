@@ -4,9 +4,9 @@
 
 /**
  * @file HostileNpcPopulation.js
- * @description Owns hostile actors, selection contracts, defense, quest evidence, and diagnostics.
+ * @description Owns hostile actors, targeting, physical strikes, Torah defense, and quest evidence.
  * The Awtsmoos joins many finite adversaries without multiplying world listeners; Awtsmoos.com
- * gives shared targeting the pointer while this vessel owns challenge, ability impact, and return.
+ * resolves one selected melee target in constant time while cadence still bounds all idle updates.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -34,8 +34,10 @@ export class HostileNpcPopulation {
 		this.abilitySystem.actors = this.actors;
 		for (const actor of this.actors) this.group.add(actor.group);
 		this.selected = null;
+		this.playerState = null;
 		this.unsubscribers = [
 			this.bus.on('torah:use', passage => this.abilitySystem.apply(passage, this.selected)),
+			this.bus.on('combat:melee', request => this.applyMelee(request)),
 			this.bus.on('target:cycle', () => this.cycleTarget()),
 			this.bus.on('npc:target', payload => this.clearDifferentTarget(payload)),
 			this.bus.on('enemy:defeated', payload => this.publishAdventureEvent(payload))
@@ -43,10 +45,19 @@ export class HostileNpcPopulation {
 	}
 
 	update(deltaTime, playerState) {
+		this.playerState = playerState;
 		this.abilitySystem.setPlayerState(playerState);
 		const now = performance.now() / 1000;
 		for (const actor of this.actors) actor.update(deltaTime, playerState, now);
 		if (this.selected?.state === ENEMY_STATE.DEFEATED) this.selected = null;
+	}
+
+	applyMelee(request) {
+		const result = this.selected
+			? this.selected.applyMelee(request, this.playerState)
+			: rejection(request, 'TARGET_REQUIRED');
+		this.bus.emit('combat:melee-result', result);
+		return result;
 	}
 
 	candidateFromPointer(event) {
@@ -101,6 +112,7 @@ export class HostileNpcPopulation {
 		return {
 			active: actors.filter(actor => actor.state !== ENEMY_STATE.DEFEATED).length,
 			actors,
+			playerContextReady: Boolean(this.playerState),
 			selectedId: this.selected?.profile.id || null
 		};
 	}
@@ -109,6 +121,15 @@ export class HostileNpcPopulation {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.group.parent?.remove(this.group);
 	}
+}
+
+function rejection(request, reason) {
+	return {
+		accepted: false,
+		attackId: request?.attack?.id || null,
+		reason,
+		targetId: null
+	};
 }
 
 function distanceFromCamera(actor, camera) {

@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals distinct spectra without dividing the one current.
+ * Awtsmoos.com gives each agent a recognizable luminous frequency while
+ * transport, selection, working state, and failure remain operationally honest.
+ */
+@layer awt.views {
+	.awt-agent-channel {
+		--agent-card-rgb: var(--agent-cyan);
+		--agent-card-secondary: var(--agent-violet);
+	}
+
+	.awt-agent-channel:nth-child(3n + 2) {
+		--agent-card-rgb: 168 123 255;
+		--agent-card-secondary: 255 113 206;
+	}
+
+	.awt-agent-channel:nth-child(3n + 3) {
+		--agent-card-rgb: 255 190 92;
+		--agent-card-secondary: 255 108 116;
+	}
+
+	.awt-agent-channel::before {
+		background:
+			radial-gradient(circle at 12% 0%, rgb(var(--agent-card-rgb) / .17), transparent 43%),
+			radial-gradient(circle at 100% 100%, rgb(var(--agent-card-secondary) / .08), transparent 38%),
+			linear-gradient(120deg, transparent 34%, rgba(255, 255, 255, .045), transparent 66%);
+	}
+
+	.awt-agent-channel:hover,
+	.awt-agent-channel.is-selected {
+		border-color: rgb(var(--agent-card-rgb) / .48);
+		box-shadow:
+			0 26px 62px rgba(0, 0, 0, .4),
+			0 0 38px rgb(var(--agent-card-rgb) / .11),
+			inset 0 1px 0 rgba(255, 255, 255, .08);
+	}
+
+	.awt-agent-avatar {
+		border-color: rgb(var(--agent-card-rgb) / .38);
+		background:
+			radial-gradient(circle at 34% 24%, rgba(255, 255, 255, .18), transparent 30%),
+			linear-gradient(145deg, rgb(var(--agent-card-secondary) / .3), rgb(var(--agent-card-rgb) / .18));
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, .12),
+			0 0 24px rgb(var(--agent-card-rgb) / .08);
+	}
+
+	.awt-agent-avatar::before {
+		content: "";
+		position: absolute;
+		inset: -5px;
+		padding: 1px;
+		border-radius: 19px;
+		background: conic-gradient(
+			from 210deg,
+			transparent,
+			rgb(var(--agent-card-rgb) / .22),
+			rgb(var(--agent-card-rgb) / .9),
+			transparent 68%
+		);
+		-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+	}
+
+	.awt-agent-channel.is-selected .awt-agent-avatar::before {
+		filter: drop-shadow(0 0 7px rgb(var(--agent-card-rgb) / .7));
+	}
+
+	.awt-agent-channel.is-selected::after {
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgb(var(--agent-card-rgb)),
+			rgb(var(--agent-card-secondary)),
+			transparent
+		);
+		box-shadow: 0 0 18px rgb(var(--agent-card-rgb));
+	}
+
+	.awt-agent-channel:not(.is-working) .awt-agent-state-badge {
+		border-color: rgb(var(--agent-card-rgb) / .24);
+		color: rgb(var(--agent-card-rgb));
+	}
+
+	.awt-agent-channel[data-transport="dual"] .awt-agent-channel-footer {
+		padding: 8px 9px;
+		border: 1px solid rgb(var(--agent-card-rgb) / .09);
+		border-radius: 10px;
+		background: linear-gradient(90deg, rgb(var(--agent-card-rgb) / .045), transparent);
+	}
+
+	.awt-agent-channel.has-failures {
+		--agent-card-rgb: 255 166 79;
+		--agent-card-secondary: 255 87 113;
+	}
+}

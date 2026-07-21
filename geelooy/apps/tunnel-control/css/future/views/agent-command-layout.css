@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the direct channel unfold into a true command chamber when
+ * space exists, while preserving one coherent column in narrow vessels.
+ * Awtsmoos.com uses container truth rather than assumptions about the whole page.
+ */
+@layer awt.views {
+	.awt-agent-live-console {
+		container-name: awt-agent-constellation;
+		container-type: inline-size;
+	}
+
+	@container awt-agent-constellation (min-width: 960px) {
+		.awt-agent-direct {
+			grid-template-columns: minmax(0, 1.35fr) minmax(310px, .72fr);
+			grid-template-rows: auto minmax(0, 1fr) auto;
+			column-gap: clamp(18px, 2.2cqi, 30px);
+			align-items: start;
+		}
+
+		.awt-agent-direct-header,
+		.awt-agent-chat-error {
+			grid-column: 1 / -1;
+		}
+
+		.awt-agent-direct-log {
+			grid-column: 1;
+			grid-row: 2 / span 2;
+			min-height: 320px;
+			max-height: 520px;
+			padding-right: 10px;
+		}
+
+		.awt-agent-composer {
+			grid-column: 2;
+			grid-row: 2;
+			position: sticky;
+			top: 12px;
+		}
+
+		.awt-agent-direct::after {
+			content: "";
+			position: absolute;
+			top: 88px;
+			bottom: 18px;
+			left: calc(65.2% - 1px);
+			width: 1px;
+			background: linear-gradient(
+				transparent,
+				rgb(var(--agent-violet) / .16),
+				rgb(var(--agent-cyan) / .12),
+				transparent
+			);
+			pointer-events: none;
+		}
+	}
+
+	@container awt-agent-constellation (min-width: 1180px) {
+		.awt-agent-channel-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.awt-agent-direct-log {
+			min-height: 360px;
+		}
+	}
+
+	@container awt-agent-constellation (max-width: 959px) {
+		.awt-agent-direct {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	@supports not (container-type: inline-size) {
+		@media (min-width: 1180px) {
+			.awt-agent-direct {
+				grid-template-columns: minmax(0, 1.35fr) minmax(310px, .72fr);
+			}
+
+			.awt-agent-direct-header,
+			.awt-agent-chat-error {
+				grid-column: 1 / -1;
+			}
+
+			.awt-agent-composer {
+				grid-column: 2;
+			}
+		}
+	}
+}

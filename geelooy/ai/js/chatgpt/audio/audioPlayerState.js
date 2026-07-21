@@ -2,16 +2,20 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	createAudioChunkStore,
+	downloadAudioStore
+} from "./audioChunkStore.js";
+
 /**
- * The Awtsmoos continuously creates every byte, while this state vessel counts
- * each one and refuses to call a declared-length stream complete when bytes are
- * missing. The counter becomes evidence rather than hope.
+ * The Awtsmoos continuously creates every byte, while this state counts each
+ * one without demanding that hours of completed sound remain in JavaScript RAM.
+ * Persistent storage opens only when the first streamed byte arrives.
  */
 export function createAudioState(options = {}) {
 	return {
-		signature: options.signature || "",
+		signature: options.signature || "audio",
 		mode: options.mode || "idle",
-		chunks: [],
 		bytes: 0,
 		expectedBytes: Number(options.expectedBytes || 0),
 		mime: options.mime || "audio/mpeg",
@@ -19,18 +23,29 @@ export function createAudioState(options = {}) {
 		done: false,
 		promise: null,
 		cancel: null,
-		startedAt: Date.now()
+		startedAt: Date.now(),
+		storePromise: null
 	};
 }
 
 export function resetAudioState(root) {
 	const audio = root.querySelector("audio");
+	const previous = root.__awtsmoosAudio;
 	try {
-		root.__awtsmoosAudio?.cancel?.();
+		previous?.cancel?.();
 	} catch {}
+	void cleanupAudioState(previous);
 	revokeAudioSource(audio);
 	root.__awtsmoosAudio = createAudioState();
 	return root.__awtsmoosAudio;
+}
+
+export async function cleanupAudioState(state) {
+	if (!state?.storePromise) return;
+	try {
+		const store = await state.storePromise;
+		await store.cleanup();
+	} catch {}
 }
 
 export function revokeAudioSource(audio) {
@@ -39,9 +54,7 @@ export function revokeAudioSource(audio) {
 		URL.revokeObjectURL(objectUrl);
 	}
 	audio?.removeAttribute?.("src");
-	if (audio?.dataset) {
-		delete audio.dataset.objectUrl;
-	}
+	if (audio?.dataset) delete audio.dataset.objectUrl;
 	try {
 		audio?.load?.();
 	} catch {}
@@ -58,20 +71,23 @@ export function audioSignature(options = {}) {
 
 export function expectedAudioBytes(response) {
 	const encoding = response?.headers?.get?.("content-encoding");
-	if (encoding && encoding !== "identity") {
-		return 0;
-	}
+	if (encoding && encoding !== "identity") return 0;
 	const length = Number(response?.headers?.get?.("content-length") || 0);
 	return Number.isFinite(length) && length > 0 ? length : 0;
 }
 
-export function appendAudioChunk(state, value) {
-	const owned = value?.slice
-		? value.slice()
-		: new Uint8Array(value || 0);
-	state.chunks.push(owned);
+export async function appendAudioChunk(state, value) {
+	const store = await ensureAudioStore(state);
+	const owned = await store.append(value);
 	state.bytes += owned.byteLength;
 	return owned;
+}
+
+export async function finalizeAudioState(state) {
+	const store = await ensureAudioStore(state);
+	await store.finalize();
+	state.done = true;
+	return verifyAudioState(state);
 }
 
 export function verifyAudioState(state) {
@@ -86,33 +102,16 @@ export function verifyAudioState(state) {
 	return state;
 }
 
-export function downloadAudioState(state, format = "mp3") {
+export async function downloadAudioState(state, format = "mp3") {
 	verifyAudioState(state);
-	const blob = new Blob(state.chunks, {
-		type: state.mime || "audio/mpeg"
+	const store = await ensureAudioStore(state);
+	return await downloadAudioStore(store, {
+		mime: state.mime || "audio/mpeg",
+		format
 	});
-	if (blob.size !== state.bytes) {
-		throw new Error(
-			`Audio assembly produced ${blob.size} of ${state.bytes} received bytes.`
-		);
-	}
-	const href = URL.createObjectURL(blob);
-	const anchor = document.createElement("a");
-	anchor.href = href;
-	anchor.download = `BH_awtsmoosAudio_${Date.now()}.${format}`;
-	anchor.click();
-	setTimeout(() => URL.revokeObjectURL(href), 30000);
 }
 
-export function formatAudioSize(size) {
-	return size
-		? ` (${(size / 1024 / 1024).toFixed(2)} MB)`
-		: "";
-}
-
-export function formatAudioTime(seconds) {
-	const safeSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
-	const minutes = Math.floor(safeSeconds / 60);
-	const remainder = String(safeSeconds % 60).padStart(2, "0");
-	return `${minutes}:${remainder}`;
+function ensureAudioStore(state) {
+	state.storePromise ||= createAudioChunkStore(state.signature);
+	return state.storePromise;
 }

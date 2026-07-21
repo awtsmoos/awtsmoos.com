@@ -6,7 +6,7 @@
  * @file ShadowDemonActor.js
  * @description Coordinates one targetable shadow through state, motion, combat, and cadence.
  * The Awtsmoos recreates every finite trial without division; Awtsmoos.com joins explicit
- * contracts while visual form, terrain law, targeting, and damage remain separate vessels.
+ * contracts while visual form, terrain law, targeting, and physical or Torah damage stay bounded.
  */
 
 import { npcPointerHits } from '../npc/NpcPointerRay.js';
@@ -19,6 +19,7 @@ import {
 import { enemyTargetContract } from './EnemyTargetContract.js';
 import { EnemyUpdateCadence } from './EnemyUpdateCadence.js';
 import { applyTorahLight, attackPlayerFromShadow, updateShadowRespawn } from './ShadowDemonCombat.js';
+import { applyMeleeStrike } from './ShadowDemonMelee.js';
 import { resolveEnemyState } from './EnemyStatePolicy.js';
 import { ENEMY_STATE } from './EnemyStates.js';
 import { compileEnemyWanderPath } from './EnemyWanderPath.js';
@@ -123,7 +124,7 @@ export class ShadowDemonActor {
 
 	hitPointer(event) {
 		return this.state !== ENEMY_STATE.DEFEATED
-		&& npcPointerHits(event, this.camera, this.canvas, this.targetHint());
+			&& npcPointerHits(event, this.camera, this.canvas, this.targetHint());
 	}
 
 	target() {
@@ -140,6 +141,10 @@ export class ShadowDemonActor {
 		return applyTorahLight(this, passage, playerState, now);
 	}
 
+	applyMelee(request, playerState, now = performance.now() / 1000) {
+		return applyMeleeStrike(this, request, playerState, now);
+	}
+
 	payload() {
 		return {
 			...enemyTargetContract(this),
@@ -152,6 +157,10 @@ export class ShadowDemonActor {
 	}
 
 	targetHint() {
-		return { x: this.group.position.x, y: this.group.position.y + 1.3, z: this.group.position.z };
+		return {
+			x: this.group.position.x,
+			y: this.group.position.y + 1.3,
+			z: this.group.position.z
+		};
 	}
 }

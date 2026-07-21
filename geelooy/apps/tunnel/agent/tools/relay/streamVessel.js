@@ -2,19 +2,21 @@
 //Boruch Hashem
 //Blessed is He
 
-const CHUNK_BYTES = 256 * 1024;
+const {
+	CHUNK_BYTES,
+	createChunkStore
+} = require("./streamStorage.js");
 
 /**
- * The Awtsmoos continuously creates the river, yet the relay reveals it through
- * small measured vessels. These helpers own chunk boundaries and waiting only;
- * routing and response semantics remain outside this focused module.
+ * The Awtsmoos continuously creates the river, while this vessel gives it an
+ * identity, a bounded store, and listeners that awaken only when bytes arrive.
  */
-
 function createRelayStream() {
+	const id = nextStreamId();
 	const now = Date.now();
 	return {
-		id: nextStreamId(),
-		chunks: [],
+		id,
+		store: createChunkStore(id),
 		done: false,
 		error: null,
 		waiters: [],
@@ -23,17 +25,8 @@ function createRelayStream() {
 	};
 }
 
-function appendBounded(stream, value) {
-	const bytes = Buffer.from(value || []);
-	for (let offset = 0; offset < bytes.length; offset += CHUNK_BYTES) {
-		stream.chunks.push(
-			Buffer.from(bytes.subarray(offset, offset + CHUNK_BYTES))
-		);
-	}
-}
-
 function waitForChunk(stream, cursor, timeoutMs = 45000) {
-	if (stream.chunks[cursor] || stream.done || stream.error) {
+	if (stream.store.lengths[cursor] || stream.done || stream.error) {
 		return Promise.resolve("ready");
 	}
 	return new Promise(resolve => {
@@ -51,8 +44,7 @@ function waitForChunk(stream, cursor, timeoutMs = 45000) {
 }
 
 function wakeStream(stream) {
-	const waiters = stream.waiters.splice(0);
-	for (const resolve of waiters) {
+	for (const resolve of stream.waiters.splice(0)) {
 		resolve();
 	}
 }
@@ -67,7 +59,6 @@ function nextStreamId() {
 
 module.exports = {
 	CHUNK_BYTES,
-	appendBounded,
 	createRelayStream,
 	encodeDataUrl,
 	waitForChunk,
