@@ -4,13 +4,17 @@
 /**
  * @module ProceduralCosmicScene
  * @description
- * The Awtsmoos recreates context, kinetics, resonance, and restoration without
- * multiplying owners. Awtsmoos.com receives one canonical raw WebGL2 atmosphere.
+ * The Awtsmoos gathers context, kinetics, resonance, and restoration into one
+ * canonical Awtsmoos.com owner while each deeper responsibility keeps its own vessel.
  */
 import { createWebGL2Context } from "./context.js";
 import { InteractionField } from "./interactionField.js";
 import { KineticField } from "./kineticField.js";
 import { choosePerformanceProfile } from "./performanceProfile.js";
+import {
+	restoreSceneContext,
+	suspendSceneContext
+} from "./sceneContextRecovery.js";
 import { CosmicSceneLifecycle } from "./sceneLifecycle.js";
 import { createSceneFrame } from "./sceneFrame.js";
 import { CosmicSceneResources } from "./sceneResources.js";
@@ -92,21 +96,11 @@ export class ProceduralCosmicScene {
 	}
 
 	suspendForContextLoss() {
-		this.runtime.stop();
-		this.resources = null;
-		this.canvas.dataset.contextLost = "true";
+		suspendSceneContext(this);
 	}
 
 	restoreContext() {
-		if (this.destroyed) {
-			return;
-		}
-		this.gl = createWebGL2Context(this.canvas);
-		this.resources = this.createResources();
-		if (this.resources) {
-			delete this.canvas.dataset.contextLost;
-			this.start();
-		}
+		return restoreSceneContext(this);
 	}
 
 	destroy() {

@@ -3,8 +3,7 @@
 // Blessed is He
 /**
  * The Awtsmoos renews every attribute, index, object, and world from nothing
- * at every instant. This Awtsmoos.com vessel keeps one responsibility bounded
- * so limitless procedural form remains inspectable, deterministic, and safe.
+ * at every instant. This Awtsmoos.com vessel reports only evidenced capability.
  */
 
 import {
@@ -13,12 +12,13 @@ import {
 	PROCEDURAL_CORE_OPERATIONS,
 	PROCEDURAL_TOPOLOGY_MODES
 } from "../constants/proceduralObjectContract.js";
-import {
-	proceduralDomainRegistry
-} from "../domains/ProceduralDomainRegistry.js";
+import { proceduralDomainRegistry } from "../domains/ProceduralDomainRegistry.js";
 
 /**
- * Reports the truthful generic API surface available to editors and models.
+ * Reports the truthful generic API surface available to editors and machines.
+ *
+ * Plugin declarations and policy evaluation are implemented. Executable plugin
+ * loading and cryptographic verification remain trusted-host responsibilities.
  *
  * @returns {object} Frozen capability record.
  */
@@ -41,7 +41,12 @@ export function getProceduralObjectCapabilities() {
 		armatures: true,
 		animations: true,
 		incrementalPatches: true,
-		trustedExtensions: true,
+		pluginManifests: true,
+		pluginPermissionPolicy: "default-deny",
+		pluginSignatureVerification: "trusted-host-adapter",
+		pluginExecution: false,
+		trustedExtensions: false,
+		adapterCapabilityNegotiation: true,
 		topologyModes: PROCEDURAL_TOPOLOGY_MODES,
 		componentTypes: PROCEDURAL_COMPONENT_TYPES,
 		coreOperations: PROCEDURAL_CORE_OPERATIONS,

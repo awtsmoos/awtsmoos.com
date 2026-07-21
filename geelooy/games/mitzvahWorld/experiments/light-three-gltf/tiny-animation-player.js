@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-animation-player.js
- * @description Advances imported clips through exact looping and crossfade contracts.
- * The Awtsmoos renews every Chossid as one whole person; Awtsmoos.com preserves elapsed
- * motion while this player restores and samples only properties animation truly owns.
+ * @description Advances imported clips through exact first-play, looping, and crossfade laws.
+ * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
+ * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
  */
 
 import {
@@ -21,11 +21,11 @@ export class TinyAnimationPlayer {
 		this.root = root;
 		this.clips = clips;
 		this.bindings = createAnimationBindings(clips);
-		this.currentIndex = 0;
+		this.currentIndex = clips.length ? 0 : -1;
 		this.time = 0;
 		this.playing = true;
 		this.bindPose = false;
-		this.lastApplied = 'bind';
+		this.lastApplied = null;
 		this.fadeDuration = 0.18;
 		this.fadeTime = 0;
 		this.fadePose = null;
@@ -42,12 +42,19 @@ export class TinyAnimationPlayer {
 	play(indexOrName) {
 		const index = resolveClipIndex(this.clips, indexOrName);
 		if (index < 0) return this.current;
-		if (index === this.currentIndex && !this.bindPose) return this.current;
-		this.fadePose = captureClipPose(this.clips[index]);
-		this.fadeTime = 0;
+		const target = this.clips[index];
+		const alreadyApplied = this.lastApplied === target?.name;
+		if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
+			this.playing = true;
+			return this.current;
+		}
+		const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
+		this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
+		this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
 		this.currentIndex = index;
 		this.time = 0;
 		this.bindPose = false;
+		this.playing = true;
 		this.apply(0);
 		return this.current;
 	}
@@ -61,13 +68,14 @@ export class TinyAnimationPlayer {
 		this.time = 0;
 		this.fadePose = null;
 		resetAnimationBindings(this.bindings);
-		this.lastApplied = this.bindPose ? 'bind' : 'reset';
+		this.lastApplied = this.bindPose ? 'bind' : null;
 	}
 
 	update(deltaTime) {
 		if (this.bindPose || !this.current) return;
-		if (this.playing) this.time += Math.max(0, Number(deltaTime) || 0);
-		if (this.fadePose) this.fadeTime += Math.max(0, Number(deltaTime) || 0);
+		const delta = Math.max(0, Number(deltaTime) || 0);
+		if (this.playing) this.time += delta;
+		if (this.fadePose) this.fadeTime += delta;
 		const duration = this.current.duration || 1;
 		this.apply(duration ? this.time % duration : 0);
 	}

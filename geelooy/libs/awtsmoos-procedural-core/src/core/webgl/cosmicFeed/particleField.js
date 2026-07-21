@@ -20,25 +20,30 @@ function createAttribute(gl, data, location, size) {
 
 /** Draws the deterministic GPU point field. */
 export class ParticleField {
-	/**
-	 * @param {WebGL2RenderingContext} gl WebGL context.
-	 * @param {number} count Initial particle count.
-	 */
 	constructor(gl, count) {
 		this.gl = gl;
 		this.program = createProgram(gl, PARTICLE_VERTEX_SHADER, PARTICLE_FRAGMENT_SHADER);
-		this.uniforms = {
-			time: requiredUniform(gl, this.program, "uTime"),
-			scroll: requiredUniform(gl, this.program, "uScroll"),
-			pointer: requiredUniform(gl, this.program, "uPointer"),
-			interaction: requiredUniform(gl, this.program, "uInteraction"),
-			interactionColor: requiredUniform(gl, this.program, "uInteractionColor"),
-			feedBounds: requiredUniform(gl, this.program, "uFeedBounds"),
-			motionScale: requiredUniform(gl, this.program, "uMotionScale")
-		};
+		this.uniforms = this.createUniforms();
 		this.vertexArray = gl.createVertexArray();
 		this.buffers = [];
 		this.setCount(count);
+	}
+
+	createUniforms() {
+		const gl = this.gl;
+		const program = this.program;
+		return {
+			time: requiredUniform(gl, program, "uTime"),
+			scroll: requiredUniform(gl, program, "uScroll"),
+			scrollVelocity: requiredUniform(gl, program, "uScrollVelocity"),
+			kineticEnergy: requiredUniform(gl, program, "uKineticEnergy"),
+			pointer: requiredUniform(gl, program, "uPointer"),
+			pointerVelocity: requiredUniform(gl, program, "uPointerVelocity"),
+			interaction: requiredUniform(gl, program, "uInteraction"),
+			interactionColor: requiredUniform(gl, program, "uInteractionColor"),
+			feedBounds: requiredUniform(gl, program, "uFeedBounds"),
+			motionScale: requiredUniform(gl, program, "uMotionScale")
+		};
 	}
 
 	/** Rebuilds particle attributes for a changed profile. */
@@ -57,7 +62,7 @@ export class ParticleField {
 		gl.bindVertexArray(null);
 	}
 
-	/** Draws one particle frame. */
+	/** Draws one particle frame with GPU-only motion. */
 	draw(state) {
 		const gl = this.gl;
 		if (!this.count) {
@@ -69,7 +74,10 @@ export class ParticleField {
 		gl.bindVertexArray(this.vertexArray);
 		gl.uniform1f(this.uniforms.time, state.time);
 		gl.uniform1f(this.uniforms.scroll, state.scroll);
+		gl.uniform1f(this.uniforms.scrollVelocity, state.scrollVelocity);
+		gl.uniform1f(this.uniforms.kineticEnergy, state.kineticEnergy);
 		gl.uniform2fv(this.uniforms.pointer, state.pointer);
+		gl.uniform2fv(this.uniforms.pointerVelocity, state.pointerVelocity);
 		gl.uniform4fv(this.uniforms.interaction, state.interaction);
 		gl.uniform3fv(this.uniforms.interactionColor, state.interactionColor);
 		gl.uniform2fv(this.uniforms.feedBounds, state.feedBounds);

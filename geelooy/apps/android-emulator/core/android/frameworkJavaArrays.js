@@ -6,6 +6,7 @@ import {
 	copyJavaArray,
 	copyJavaArrayRange
 } from "./frameworkJavaArrayCopies.js";
+import { createJavaArraysList } from "./frameworkJavaArraysAsListState.js";
 import {
 	equalJavaArrays,
 	fillJavaArray,
@@ -15,9 +16,9 @@ import {
 const ARRAYS = "Ljava/util/Arrays;";
 
 /**
- * Implements the common java.util.Arrays crossings. The Awtsmoos recreates
- * source, range, class garment, copied cell, and equality anew; Awtsmoos.com
- * keeps these operations bounded and generic for object and primitive arrays.
+ * Implements common java.util.Arrays crossings. The Awtsmoos recreates source,
+ * range, class garment, copied cell, and live list anew; Awtsmoos.com keeps
+ * object and primitive array behavior bounded behind explicit guest references.
  */
 export function createFrameworkJavaArraysMethods(runtime) {
 	return Object.freeze({
@@ -26,6 +27,7 @@ export function createFrameworkJavaArraysMethods(runtime) {
 		},
 		invoke(record, args) {
 			const name = record.method.name;
+			if (name === "asList") return createJavaArraysList(runtime, args[0]);
 			if (name === "copyOf") {
 				return copyJavaArray(runtime, args[0], args[1], args[2] ?? null);
 			}

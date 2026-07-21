@@ -38,31 +38,35 @@ const recipe = createProceduralObjectRecipe({
 	]
 });
 const first = proceduralObjectCompiler.compile(recipe);
+const seeded = createCompilerContext(recipe, {
+	previousArtifact: first,
+	commandIds: []
+});
+assert.equal(seeded.geometries.get("mesh"), first.geometries.mesh);
+assert.equal(seeded.topologyIdentities.get("identity"),
+	first.topologyIdentities.identity);
+assert.equal(seeded.selections.get("selection"), first.selections.selection);
+
 const reused = proceduralObjectCompiler.compile(recipe, {
 	previousArtifact: first,
 	commandIds: []
 });
-
-assert.equal(reused.geometries.mesh, first.geometries.mesh);
-assert.equal(reused.topologyIdentities.identity,
+assert.deepEqual(reused.geometries.mesh, first.geometries.mesh);
+assert.deepEqual(reused.topologyIdentities.identity,
 	first.topologyIdentities.identity);
-assert.equal(reused.selections.selection, first.selections.selection);
+assert.deepEqual(reused.selections.selection, first.selections.selection);
 assert.deepEqual(reused.topologyRemaps, {});
 
-const context = createCompilerContext(recipe, {
-	previousArtifact: first,
-	commandIds: []
-});
-context.topologyIdentities.set("shared", first.topologyIdentities.identity);
-context.topologyRemaps.set("shared", { id: "shared" });
-context.selections.set("shared", first.selections.selection);
-context.geometries.set("shared", first.geometries.mesh);
-clearCompilerTarget(context, "shared");
-assert.equal(context.topologyIdentities.has("shared"), false);
-assert.equal(context.topologyRemaps.has("shared"), false);
-assert.equal(context.selections.has("shared"), false);
-assert.equal(context.geometries.has("shared"), false);
-assert.equal(context.topologyIdentities.has("identity"), true);
-assert.equal(context.selections.has("selection"), true);
+seeded.topologyIdentities.set("shared", first.topologyIdentities.identity);
+seeded.topologyRemaps.set("shared", { id: "shared" });
+seeded.selections.set("shared", first.selections.selection);
+seeded.geometries.set("shared", first.geometries.mesh);
+clearCompilerTarget(seeded, "shared");
+assert.equal(seeded.topologyIdentities.has("shared"), false);
+assert.equal(seeded.topologyRemaps.has("shared"), false);
+assert.equal(seeded.selections.has("shared"), false);
+assert.equal(seeded.geometries.has("shared"), false);
+assert.equal(seeded.topologyIdentities.has("identity"), true);
+assert.equal(seeded.selections.has("selection"), true);
 
 console.log('B"H | proceduralObjectTopologyIncremental.test passed');

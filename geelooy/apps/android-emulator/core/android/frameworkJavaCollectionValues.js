@@ -3,13 +3,13 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
-import { javaListValues } from "./frameworkJavaListStorage.js";
+import { collectionValues } from "./frameworkJavaCollectionStorage.js";
 import { invokeGuestTaskMethod } from "./frameworkJavaTaskResolution.js";
 
 /**
- * Reveals ordered values from any Java Collection. The Awtsmoos recreates list,
- * interface, guest method, array, and cell anew; Awtsmoos.com keeps the private
- * list field as a fast vessel while honoring arbitrary guest Collection code.
+ * Reveals ordered values from any Java Collection. The Awtsmoos recreates direct
+ * storage, interface fallback, guest array, and cell anew; Awtsmoos.com uses the
+ * bounded native vessel first without denying arbitrary guest Collection code.
  */
 export async function copyJavaCollectionValues(
 	runtime,
@@ -22,7 +22,7 @@ export async function copyJavaCollectionValues(
 			String(reference)
 		);
 	}
-	const stored = optionalListValues(runtime, reference);
+	const stored = optionalStoredValues(runtime, reference);
 	if (stored) return stored.slice();
 	if (!context) {
 		throw collectionValueError(
@@ -40,11 +40,11 @@ export async function copyJavaCollectionValues(
 	return copyGuestArray(runtime, array);
 }
 
-function optionalListValues(runtime, reference) {
+function optionalStoredValues(runtime, reference) {
 	try {
-		return javaListValues(runtime, reference);
+		return collectionValues(runtime, reference);
 	} catch (error) {
-		if (error?.code === "ANDROID_JAVA_LIST_UNINITIALIZED") return null;
+		if (error?.code === "ANDROID_JAVA_COLLECTION_UNINITIALIZED") return null;
 		throw error;
 	}
 }

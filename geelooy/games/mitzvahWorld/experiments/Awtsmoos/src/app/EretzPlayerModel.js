@@ -4,9 +4,9 @@
 
 /**
  * @file EretzPlayerModel.js
- * @description Mounts the canonical Chossid and starts its embedded default animation immediately.
- * The Awtsmoos reveals a living person before optional motions arrive; Awtsmoos.com plays the
- * first embedded idle-safe clip at creation and lets walk, run, jump, and extra clips resolve later.
+ * @description Mounts the canonical Chossid and selects a genuinely animated idle clip.
+ * The Awtsmoos reveals living stillness rather than frozen neutrality; Awtsmoos.com measures
+ * the embedded covenant and chooses the breathing stand before any zero-duration neutral pose.
  */
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
@@ -23,13 +23,16 @@ export function createPlayerModel(playerGltf, scene) {
 	const feet = alignModelFeetToGround(model, 0);
 	const footOffset = model.position.y;
 	const player = new TinyAnimationPlayer(model, playerGltf.animations || []);
-	const clips = createClipMap(player.names);
+	const clips = createClipMap(playerGltf.animations || []);
 	const defaultClip = clips.stand || player.names[0] || '';
-	if (defaultClip) player.play(defaultClip);
+	if (defaultClip) {
+		player.play(defaultClip);
+	}
 	model.userData.AwtsmoosCanonicalPlayer = {
 		animationCount: player.names.length,
 		defaultClip,
 		modelSource: 'chossid.glb',
+		measuredAnimatedIdle: defaultClip === 'stand_Armature',
 		optionalAnimationsDeferred: true
 	};
 	return { clips, defaultClip, feet, footOffset, model, player };
@@ -52,7 +55,7 @@ export function createEquipment(model) {
 export function toggleEquipmentMaterial(model, name, enabled) {
 	model.traverse(object => {
 		if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
-			object.visible = !!enabled;
+			object.visible = Boolean(enabled);
 		}
 	});
 }
@@ -66,11 +69,28 @@ export function faceTarget(state) {
 	return { x: state.x, y: state.renderY + state.faceHeight, z: state.z };
 }
 
-function createClipMap(names) {
-	const pick = (expression, fallback) => names.find(name => expression.test(name)) || fallback;
-	const stand = pick(/stand|idle|neutral/i, names[0] || '');
-	const walk = pick(/walk|step|stroll/i, stand);
-	const run = pick(/run|jog/i, walk);
-	const jump = pick(/jump|leap/i, stand);
-	return { fall: pick(/fall|air|drop/i, jump), jump, run, stand, walk };
+export function createClipMap(animations) {
+	const clips = animations.map(clip => ({
+		duration: Number(clip.duration || 0),
+		name: clip.name || ''
+	}));
+	const names = clips.map(clip => clip.name);
+	const animated = expression => clips.find(clip => expression.test(clip.name) && clip.duration > 0)?.name;
+	const named = expression => names.find(name => expression.test(name));
+	const stand = animated(/^stand_Armature$/i)
+		|| animated(/^stand 2_Armature$/i)
+		|| animated(/stand|idle/i)
+		|| named(/neutral/i)
+		|| names[0]
+		|| '';
+	const walk = animated(/walk|step|stroll/i) || stand;
+	const run = animated(/run|jog/i) || walk;
+	const jump = animated(/jump|leap/i) || stand;
+	return {
+		fall: animated(/fall|air|drop/i) || jump,
+		jump,
+		run,
+		stand,
+		walk
+	};
 }

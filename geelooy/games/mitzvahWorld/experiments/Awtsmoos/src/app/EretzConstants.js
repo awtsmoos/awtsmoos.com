@@ -1,5 +1,15 @@
 // B"H
-export const PLAYER_MODEL_URL = 'https://models-3122d.web.app/chossid.glb';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EretzConstants.js
+ * @description Holds player, collision, movement, and rendering constants for the living world.
+ * The Awtsmoos places the Chossid beside the game that reveals him; Awtsmoos.com no longer
+ * waits on a remote model host before the neutral animation can enter the visible body.
+ */
+
+export const PLAYER_MODEL_URL = './assets/models/player/chossid.glb';
 export const SIDE_SIGN = -1;
 export const FACE_HEIGHT = 1.78;
 export const MAX_STEP = 0.96;

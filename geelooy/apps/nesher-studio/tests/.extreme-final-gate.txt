@@ -1,0 +1,311 @@
+B"H EXTREME FINAL GATE
+--- syntax ---
+syntax=PASS
+--- focused contracts ---
+B"H fixed viewport recording, deck, and audio DOM contract passed
+B"H recursive no-scroll style contract passed across 37 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+--- confidence ---
+{"ok":true,"assets":1,"scenes":2,"sequences":2}
+B"H timeline model smoke passed
+B"H export queue smoke passed
+B"H project serializer smoke passed
+B"H timeline editing smoke passed
+B"H nle timeline commands smoke passed
+B"H nle render smoke passed
+B"H export negotiator smoke passed
+B"H audio visualizer smoke passed
+B"H visualizer routing and features smoke passed
+B"H encoding benchmark smoke passed
+B"H visualizer source family smoke passed
+B"H visualizer audio features smoke passed
+B"H live stream health smoke passed
+B"H NLE track commands smoke passed
+B"H encoding recommendation smoke passed
+B"H active no forbidden recorder guard passed
+B"H browser confidence layer smoke passed
+B"H mocked generic HLS controller smoke passed
+B"H benchmark compact view smoke passed
+B"H Hebrew visualizer models smoke passed
+B"H NLE advanced commands smoke passed
+B"H encoding smoke mode compact smoke passed
+B"H stage crop transform smoke passed
+B"H NLE UI commands smoke passed
+B"H fixed viewport recording, deck, and audio DOM contract passed
+B"H recording state machine smoke passed
+B"H recursive no-scroll style contract passed across 37 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+B"H Nesher confidence layer passed 29 smokes and all line gates
+--- complete numbered sweep ---
+PASS 011_project_model_smoke.mjs
+PASS 012_source_render_timeline_smoke.mjs
+PASS 013_audio_graph_smoke.mjs
+PASS 014_bin_effects_color_titles_smoke.mjs
+PASS 015_export_stream_responsive_smoke.mjs
+PASS 016_webcodecs_managers_smoke.mjs
+PASS 017_hls_ffprobe_cleanup_smoke.mjs
+PASS 018_bounded_stress_suite.mjs
+PASS 019_resolution_presets_smoke.mjs
+PASS 020_recording_audio_sources_smoke.mjs
+PASS 021_manual_profiles_smoke.mjs
+PASS 022_aspect_ratio_controls_smoke.mjs
+PASS 023_manual_audio_source_smoke.mjs
+PASS 024_layer_and_crop_smoke.mjs
+PASS 025_sefiros_and_container_smoke.mjs
+PASS 026_mediabunny_hls_split_smoke.mjs
+PASS 027_timeline_model_smoke.mjs
+PASS 028_bin_asset_model_smoke.mjs
+PASS 029_export_queue_smoke.mjs
+PASS 030_project_serializer_smoke.mjs
+PASS 031_public_api_compat_smoke.mjs
+PASS 032_no_forbidden_recorder_guard.mjs
+PASS 033_audio_drift_tracker_smoke.mjs
+PASS 034_export_presets_smoke.mjs
+PASS 035_recording_core_smoke.mjs
+PASS 036_worker_messages_smoke.mjs
+PASS 037_audio_encoding_profiles_smoke.mjs
+PASS 038_container_support_smoke.mjs
+PASS 039_timeline_editing_smoke.mjs
+PASS 040_ui_inspector_smoke.mjs
+PASS 041_video_frame_pump_import_smoke.mjs
+PASS 042_nle_timeline_commands_smoke.mjs
+PASS 043_nle_render_smoke.mjs
+PASS 044_export_negotiator_smoke.mjs
+PASS 045_audio_visualizer_smoke.mjs
+PASS 045_recording_runtime_plan_smoke.mjs
+PASS 046_visualizer_routing_features_smoke.mjs
+PASS 047_encoding_benchmark_smoke.mjs
+PASS 048_visualizer_source_family_smoke.mjs
+PASS 049_visualizer_audio_features_smoke.mjs
+PASS 050_live_stream_health_smoke.mjs
+PASS 051_nle_tracks_commands_smoke.mjs
+PASS 052_encoding_recommendation_smoke.mjs
+PASS 053_no_media_recorder_guard_smoke.mjs
+PASS 054_browser_confidence_layer_smoke.mjs
+PASS 055_mock_generic_hls_controller_smoke.mjs
+PASS 056_benchmark_compact_view_smoke.mjs
+PASS 057_hebrew_visualizer_models_smoke.mjs
+PASS 058_nle_advanced_commands_smoke.mjs
+PASS 059_encoding_smoke_mode_compact_smoke.mjs
+PASS 060_stage_crop_transform_smoke.mjs
+PASS 061_nle_ui_commands_smoke.mjs
+PASS 062_recording_dom_contract_smoke.mjs
+PASS 063_recording_state_machine_smoke.mjs
+PASS 064_local_webm_muxer_stress.mjs
+PASS 065_local_webm_real_ffprobe_smoke.mjs
+PASS 066_style_visual_contract_smoke.mjs
+PASS 067_gpu_audio_lab_smoke.mjs
+SUMMARY total=58 passed=58 failed=0 timeout=0
+--- source constitution ---
+targets=447 line_violations=0 leading_space_files=211 missing_bh=0
+SPACE modules/apiContract.js 5
+SPACE modules/app/canvasBindings.js 10
+SPACE modules/app/genericHlsController.js 10
+SPACE modules/app/layerBindings.js 8
+SPACE modules/app/nleBindings.js 2
+SPACE modules/app/nleState.js 10
+SPACE modules/app/providerBindings.js 8
+SPACE modules/app/recordingBindings.js 9
+SPACE modules/app/sourceBindings.js 11
+SPACE modules/audio/AudioBus.js 6
+SPACE modules/audio/AudioGraph.js 8
+SPACE modules/audio/AudioMeter.js 4
+SPACE modules/audio/AudioMixer.js 10
+SPACE modules/audio/sync/audioDriftTracker.js 6
+SPACE modules/audioCapture.js 7
+SPACE modules/audioPackets.js 8
+SPACE modules/bin/AssetDatabase.js 6
+SPACE modules/bin/SearchEngine.js 7
+SPACE modules/dom/element.js 2
+SPACE modules/dom/inspectorDom.js 2
+SPACE modules/dom/nleDom.js 2
+SPACE modules/dom/sourceDom.js 2
+SPACE modules/dom/streamDom.js 2
+SPACE modules/download.js 8
+SPACE modules/encodingBenchmark/benchmarkCapability.js 5
+SPACE modules/encodingBenchmark/benchmarkCompactView.js 5
+SPACE modules/encodingBenchmark/benchmarkGrade.js 5
+SPACE modules/encodingBenchmark/benchmarkMatrix.js 10
+SPACE modules/encodingBenchmark/benchmarkPanel.js 11
+SPACE modules/encodingBenchmark/benchmarkRecommendation.js 6
+SPACE modules/encodingBenchmark/benchmarkReport.js 10
+SPACE modules/encodingBenchmark/benchmarkScenarios.js 5
+SPACE modules/encodingBenchmark/bouncingBallFrame.js 5
+SPACE modules/encodingBenchmark/webCodecsBallBenchmark.js 8
+SPACE modules/export/ExportJob.js 6
+SPACE modules/export/ExportPipeline.js 13
+SPACE modules/export/containers/ContainerSupportProbe.js 5
+SPACE modules/export/containers/MediabunnyPacketBridge.experimental.js 6
+SPACE modules/export/pipeline/ExportNegotiator.js 8
+SPACE modules/export/presets/QualityPresets.js 5
+SPACE modules/export/presets/SocialPresets.js 5
+SPACE modules/graph/sceneGraph.js 11
+SPACE modules/graph/sourceNode.js 6
+SPACE modules/inspector/cropInspector.js 2
+SPACE modules/inspector/metaInspector.js 2
+SPACE modules/inspector/transformInspector.js 2
+SPACE modules/inspector.js 2
+SPACE modules/layers.js 14
+SPACE modules/live/liveStreamHealth.js 8
+SPACE modules/live/streamStatsFormat.js 5
+SPACE modules/mediabunny/guards.js 6
+SPACE modules/mediabunny/hlsCapture.js 5
+SPACE modules/mediabunny/hlsOutput.js 6
+SPACE modules/mediabunny/hlsPump.js 5
+SPACE modules/mediabunny/hlsStop.js 5
+SPACE modules/nle/advancedTimelineCommands.js 6
+SPACE modules/nle/bin.js 5
+SPACE modules/nle/browserExport.js 8
+SPACE modules/nle/clipSummary.js 6
+SPACE modules/nle/exportPlan.js 7
+SPACE modules/nle/renderNle.js 2
+SPACE modules/nle/timeline.js 2
+SPACE modules/nle/timelineCommands.js 2
+SPACE modules/nle/timelineMarkup.js 2
+SPACE modules/nle/timelineScale.js 2
+SPACE modules/nle/timelineViewModel.js 2
+SPACE modules/project/Asset.js 4
+SPACE modules/project/Clip.js 9
+SPACE modules/project/Folder.js 4
+SPACE modules/project/Marker.js 4
+SPACE modules/project/Project.js 13
+SPACE modules/project/ProjectValidation.js 5
+SPACE modules/project/Scene.js 4
+SPACE modules/project/Sequence.js 5
+SPACE modules/project/Source.js 4
+SPACE modules/project/Track.js 4
+SPACE modules/project/ids.js 6
+SPACE modules/providers/streamProviders.js 5
+SPACE modules/recorder.js 15
+SPACE modules/recording/aspectRatio.js 7
+SPACE modules/recording/audio/audioEncoderFactory.js 6
+SPACE modules/recording/audio/opusProfiles.js 5
+SPACE modules/recording/audioEncoder.js 8
+SPACE modules/recording/audioMix.js 8
+SPACE modules/recording/container/local/bytes.js 2
+SPACE modules/recording/container/local/ebml.js 2
+SPACE modules/recording/container/local/localWebmMuxer.js 2
+SPACE modules/recording/container/local/webmElements.js 2
+SPACE modules/recording/container/webmTarget.js 6
+SPACE modules/recording/core/EncodeQueueSampler.js 6
+SPACE modules/recording/core/EncoderBackpressureController.js 5
+SPACE modules/recording/core/EncoderRuntimeSupport.js 6
+SPACE modules/recording/core/EncodingTelemetry.js 5
+SPACE modules/recording/core/WebCodecsFeatureGate.js 5
+SPACE modules/recording/manualAudioSource.js 9
+SPACE modules/recording/manualRecordingProfile.js 7
+SPACE modules/recording/profiles/bitrateModel.js 7
+SPACE modules/recording/profiles/codecProbe.js 6
+SPACE modules/recording/profiles/profileRegistry.js 8
+SPACE modules/recording/profiles/qualityModel.js 5
+SPACE modules/recording/recorderGuards.js 6
+SPACE modules/recording/resolutionPresets.js 8
+SPACE modules/recording/session/RecordingRuntimePlan.js 6
+SPACE modules/recording/session/RecordingSessionState.js 2
+SPACE modules/recording/session/RecordingUi.js 2
+SPACE modules/recording/sizeControls.js 9
+SPACE modules/recording/sourceAudio.js 6
+SPACE modules/recording/video/clock.js 5
+SPACE modules/recording/video/keyframePolicy.js 5
+SPACE modules/recording/videoFramePump.js 14
+SPACE modules/recording/worker/recordingWorker.js 8
+SPACE modules/recording/worker/workerClient.js 6
+SPACE modules/recording/worker/workerMuxBridge.js 5
+SPACE modules/recording/worker/workerState.js 6
+SPACE modules/renderers/sceneRenderer.js 9
+SPACE modules/renderers/sourceOverlay.js 2
+SPACE modules/renderers/sourceOverlayBounds.js 2
+SPACE modules/renderers/sourceOverlayCrop.js 2
+SPACE modules/renderers/sourceRenderers.js 8
+SPACE modules/rendergraph/CompositeRenderer.js 5
+SPACE modules/rendergraph/FrameScheduler.js 6
+SPACE modules/rendergraph/RenderGraph.js 8
+SPACE modules/rendergraph/RenderNode.js 6
+SPACE modules/rendergraph/RenderStats.js 6
+SPACE modules/rendergraph/SceneRenderer.js 8
+SPACE modules/rendergraph/SourceRenderer.js 6
+SPACE modules/scenes.js 9
+SPACE modules/silentAudio.js 3
+SPACE modules/sources/AudioFileSource.js 4
+SPACE modules/sources/AudioInputSource.js 4
+SPACE modules/sources/BaseSource.js 7
+SPACE modules/sources/BrowserSource.js 4
+SPACE modules/sources/CanvasSource.js 4
+SPACE modules/sources/ColorSource.js 4
+SPACE modules/sources/IframeSource.js 4
+SPACE modules/sources/ImageSource.js 4
+SPACE modules/sources/MediaFileSource.js 4
+SPACE modules/sources/MonitorSource.js 4
+SPACE modules/sources/SceneSource.js 4
+SPACE modules/sources/TabSource.js 4
+SPACE modules/sources/TextSource.js 4
+SPACE modules/sources/WebcamSource.js 4
+SPACE modules/sources/WindowSource.js 4
+SPACE modules/sources.js 9
+SPACE modules/stage/stageCropPresets.js 2
+SPACE modules/stage/stageDrag.js 9
+SPACE modules/stage/stageGeometry.js 2
+SPACE modules/stage/stageSourceRows.js 9
+SPACE modules/stage/stageTransformCommands.js 10
+SPACE modules/stage.js 15
+SPACE modules/state.js 13
+SPACE modules/streaming/connectors/catalog.js 3
+SPACE modules/streaming/hlsTunnelSession.js 7
+SPACE modules/streaming/hlsUploader.js 5
+SPACE modules/streaming/localTunnelStreaming.js 4
+SPACE modules/streaming/mediabunnyFmp4Stream.js 7
+SPACE modules/streaming/segmentQueue.js 5
+SPACE modules/streaming/streamPipeline.js 7
+SPACE modules/streaming/streamingControl.js 5
+SPACE modules/streaming/webCodecsPlan.js 5
+SPACE modules/streaming/youtubeControl.js 7
+SPACE modules/tabCaptureIdeas.js 5
+SPACE modules/timeline/MulticamEngine.js 6
+SPACE modules/timeline/RollEdit.js 6
+SPACE modules/timeline/SequenceNesting.js 6
+SPACE modules/timeline/SlideEdit.js 6
+SPACE modules/timeline/SlipEdit.js 6
+SPACE modules/timeline/Timeline.js 9
+SPACE modules/timeline/TimelineClip.js 6
+SPACE modules/timeline/TimelineHistory.js 6
+SPACE modules/timeline/TimelineSelection.js 6
+SPACE modules/timeline/TimelineSplit.js 5
+SPACE modules/visualizer/audioFeatures.js 5
+SPACE modules/visualizer/audioFrame.js 7
+SPACE modules/visualizer/audioVisualizerSource.js 12
+SPACE modules/visualizer/customVisualizer.js 6
+SPACE modules/visualizer/hebrewLetters.js 6
+SPACE modules/visualizer/hebrewLightningModel.js 7
+SPACE modules/visualizer/hebrewRiverModel.js 7
+SPACE modules/visualizer/presets/circularWavePreset.js 5
+SPACE modules/visualizer/presets/hebrewLightningPreset.js 5
+SPACE modules/visualizer/presets/hebrewOrbitPreset.js 5
+SPACE modules/visualizer/presets/hebrewRainPreset.js 5
+SPACE modules/visualizer/presets/hebrewRiverPreset.js 5
+SPACE modules/visualizer/presets/particleGalaxyPreset.js 5
+SPACE modules/visualizer/presets/screenSpeedPreset.js 5
+SPACE modules/visualizer/presets/spectrumBarsPreset.js 5
+SPACE modules/visualizer/renderAudioVisualizer.js 10
+SPACE modules/visualizer/screenSpeedModel.js 5
+SPACE modules/visualizer/sourceFamilyLabel.js 8
+SPACE modules/visualizer/sourceFamilyRegistry.js 6
+SPACE modules/visualizer/visualizerDefaults.js 5
+SPACE modules/visualizer/visualizerInspector.js 11
+SPACE modules/visualizer/visualizerRouting.js 5
+SPACE modules/webcodecs/CodecCapabilities.js 6
+SPACE modules/webcodecs/hlsTsStreamer.js 14
+SPACE modules/webcodecs/webmRecorder.js 13
+SPACE modules/webcodecs/webmStreamer.js 10
+SPACE modules/youtube/hlsMpegTsStreamer.js 9
+SPACE tests/012_source_render_timeline_smoke.mjs 46
+SPACE tests/017_hls_ffprobe_cleanup_smoke.mjs 15
+SPACE tests/020_recording_audio_sources_smoke.mjs 9
+SPACE tests/048_visualizer_source_family_smoke.mjs 8
+SPACE tests/052_encoding_recommendation_smoke.mjs 7
+SPACE tests/053_no_media_recorder_guard_smoke.mjs 16
+SPACE tests/054_browser_confidence_layer_smoke.mjs 26
+SPACE tests/055_mock_generic_hls_controller_smoke.mjs 8
+SPACE tests/056_benchmark_compact_view_smoke.mjs 6
+SPACE tests/064_local_webm_muxer_stress.mjs 12
+SPACE tests/065_local_webm_real_ffprobe_smoke.mjs 13
+SPACE tests/stressHarness.mjs 16

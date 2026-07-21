@@ -4,6 +4,10 @@ Blessed is He
 The Awtsmoos compresses nonlinear time without severing a track or command; Awtsmoos.com gives ruler, lanes, clips, summary, and command deck exact low-height measures.
 */
 @media (max-height: 620px) {
+	.timeline-section {
+		grid-template-rows: minmax(0, 1fr) auto 82px;
+	}
+
 	.timeline-ruler,
 	.timeline-markers {
 		height: 19px;
@@ -25,7 +29,8 @@ The Awtsmoos compresses nonlinear time without severing a track or command; Awts
 		font-size: .56rem;
 	}
 
-	.timeline-track header small {
+	.timeline-track header small,
+	.clip small {
 		display: none;
 	}
 
@@ -42,22 +47,29 @@ The Awtsmoos compresses nonlinear time without severing a track or command; Awts
 		font-size: .56rem;
 	}
 
-	.clip small {
-		display: none;
-	}
-
 	#nleSelectionSummary {
-		margin: 2px 0;
-		font-size: .56rem;
+		margin: 1px 0;
+		font-size: .54rem;
 	}
 
 	.command-deck {
-		min-height: 70px;
+		grid-template-rows: 28px minmax(0, 1fr);
+		height: 82px;
+	}
+
+	.command-deck > .deck-tabs button {
+		min-height: 22px;
+		padding: .1rem .2rem;
+		font-size: .54rem;
+	}
+
+	.command-deck > .deck-stack > .deck-panel {
+		gap: 3px;
+		padding-top: 3px;
 	}
 
 	.nle-actions button {
-		min-height: 25px;
-		padding: .2rem;
-		font-size: .56rem;
+		padding: .08rem .2rem;
+		font-size: .52rem;
 	}
 }

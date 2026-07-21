@@ -1,0 +1,104 @@
+/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruvsjd7_b8e764780ff5/meta.json
+/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruvsjd7_b8e764780ff5/stderr.txt
+--- CONTENTS ---
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruvsjd7_b8e764780ff5/stderr.txt
+Traceback (most recent call last):
+  File "/tmp/nesher_cdp_final.py", line 230, in <module>
+    raise RuntimeError(f'{name}: {json.dumps(report)}')
+RuntimeError: desktop: {"viewport": [1200, 683], "pages": [{"name": "home", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "stage", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "audio", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "sources", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "live", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "setup", "activeCount": 1, "pageOverflow": [], "deckOverflow": []}, {"name": "nle", "activeCount": 1, "pageOverflow": [], "deckOverflow": ["nleCommands/transport", "nleCommands/edit", "nleCommands/arrange", "nleCommands/state"]}], "rootOverflow": [], "scrollbars": [], "presetCount": 0, "canvasBox": [845, 448], "immersive": {"active": false, "gridOverflow": false, "rackWidth": 300, "opacity": "1", "pointerEvents": "auto"}, "runtimeErrors": []}
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruvsjd7_b8e764780ff5/meta.json
+{
+  "schemaVersion": 2,
+  "revision": 3,
+  "jobId": "cmdjob_mruvsjd7_b8e764780ff5",
+  "workerId": "worker_mruvsjd8_65f90bb50f",
+  "receiptId": "receipt_mruvsjd8_7a9e6a787f",
+  "command": "set -eu\nAPP='/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio'\nPORT=8785\nCHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\ncd \"$APP\"\ncat > _cdp_audit.html <<'EOF'\n<!doctype html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"utf-8\" />\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t<title>Nesher CDP Audit</title>\n\t<link rel=\"stylesheet\" href=\"./style.css\" />\n\t<style>*,*::before,*::after{transition:none!important;animation:none!important}</style>\n\t<script>\n\t\twindow.__auditErrors = [];\n\t\twindow.requestAnimationFrame = () => 0;\n\t\twindow.cancelAnimationFrame = () => {};\n\t\twindow.addEventListener('error', (event) => window.__auditErrors.push(String(event.message || event.error || 'error')), true);\n\t\twindow.addEventListener('unhandledrejection', (event) => window.__auditErrors.push(String(event.reason || 'rejection')));\n\t</script>\n</head>\n<body>\n\t<div id=\"appRoot\"></div>\n\t<script type=\"module\" src=\"./main.js?v=cdp-final\"></script>\n</body>\n</html>\nEOF\npython3 -m http.server \"$PORT\" --bind 127.0.0.1 > tests/.cdp-audit-server.log 2>&1 &\nSERVER_PID=$!\ncleanup() {\n\tkill \"$SERVER_PID\" 2>/dev/null || true\n\tpkill -f 'user-data-dir=/tmp/nesher-cdp-final-' 2>/dev/null || true\n\tpkill -f 'http.server 8785' 2>/dev/null || true\n\trm -rf /tmp/nesher-cdp-final-* _cdp_audit.html /tmp/nesher_cdp_final.py\n}\ntrap cleanup EXIT INT TERM\nfor attempt in $(seq 1 100); do curl -fsS \"http://127.0.0.1:$PORT/_cdp_audit.html\" >/dev/null 2>&1 && break; sleep .1; done\ncat > /tmp/nesher_cdp_final.py <<'PY'\nimport base64\nimport json\nimport os\nimport secrets\nimport signal\nimport socket\nimport struct\nimport subprocess\nimport time\nimport urllib.parse\nimport urllib.request\nfrom pathlib import Path\n\nclass WebSocket:\n\tdef __init__(self, url):\n\t\tparsed = urllib.parse.urlsplit(url)\n\t\tself.socket = socket.create_connection((parsed.hostname, parsed.port), timeout=20)\n\t\tself.buffer = b''\n\t\tkey = base64.b64encode(secrets.token_bytes(16)).decode()\n\t\tquery = f'?{parsed.query}' if parsed.query else ''\n\t\trequest = (\n\t\t\tf'GET {parsed.path}{query} HTTP/1.1\\r\\n'\n\t\t\tf'Host: {parsed.hostname}:{parsed.port}\\r\\n'\n\t\t\t'Upgrade: websocket\\r\\n'\n\t\t\t'Connection: Upgrade\\r\\n'\n\t\t\tf'Sec-WebSocket-Key: {key}\\r\\n'\n\t\t\t'Sec-WebSocket-Version: 13\\r\\n'\n\t\t\t'Origin: http://127.0.0.1\\r\\n\\r\\n'\n\t\t)\n\t\tself.socket.sendall(request.encode())\n\t\tresponse = b''\n\t\twhile b'\\r\\n\\r\\n' not in response:\n\t\t\tchunk = self.socket.recv(4096)\n\t\t\tif not chunk:\n\t\t\t\traise RuntimeError('WebSocket closed during handshake.')\n\t\t\tresponse += chunk\n\t\theaders, remainder = response.split(b'\\r\\n\\r\\n', 1)\n\t\tif b' 101 ' not in headers.split(b'\\r\\n', 1)[0]:\n\t\t\traise RuntimeError(f'WebSocket upgrade failed: {headers[:300]!r}')\n\t\tself.buffer = remainder\n\n\tdef read_exact(self, length):\n\t\twhile len(self.buffer) < length:\n\t\t\tchunk = self.socket.recv(max(4096, length - len(self.buffer)))\n\t\t\tif not chunk:\n\t\t\t\traise RuntimeError('WebSocket closed unexpectedly.')\n\t\t\tself.buffer += chunk\n\t\tdata = self.buffer[:length]\n\t\tself.buffer = self.buffer[length:]\n\t\treturn data\n\n\tdef send_frame(self, opcode, payload=b''):\n\t\tmask = secrets.token_bytes(4)\n\t\theader = bytearray([0x80 | opcode])\n\t\tlength = len(payload)\n\t\tif length < 126:\n\t\t\theader.append(0x80 | length)\n\t\telif length < 65536:\n\t\t\theader.append(0xFE)\n\t\t\theader.extend(struct.pack('!H', length))\n\t\telse:\n\t\t\theader.append(0xFF)\n\t\t\theader.extend(struct.pack('!Q', length))\n\t\tmasked = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\tself.socket.sendall(bytes(header) + mask + masked)\n\n\tdef send_text(self, text):\n\t\tself.send_frame(1, text.encode())\n\n\tdef receive_text(self):\n\t\tfragments = []\n\t\twhile True:\n\t\t\tfirst, second = self.read_exact(2)\n\t\t\topcode = first & 15\n\t\t\tfinal = bool(first & 128)\n\t\t\tlength = second & 127\n\t\t\tif length == 126:\n\t\t\t\tlength = struct.unpack('!H', self.read_exact(2))[0]\n\t\t\telif length == 127:\n\t\t\t\tlength = struct.unpack('!Q', self.read_exact(8))[0]\n\t\t\tmask = self.read_exact(4) if second & 128 else None\n\t\t\tpayload = self.read_exact(length)\n\t\t\tif mask:\n\t\t\t\tpayload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\t\tif opcode == 8:\n\t\t\t\traise RuntimeError('Chrome closed the WebSocket.')\n\t\t\tif opcode == 9:\n\t\t\t\tself.send_frame(10, payload)\n\t\t\t\tcontinue\n\t\t\tif opcode == 10:\n\t\t\t\tcontinue\n\t\t\tif opcode in (0, 1):\n\t\t\t\tfragments.append(payload)\n\t\t\t\tif final:\n\t\t\t\t\treturn b''.join(fragments).decode()\n\nclass DevTools:\n\tdef __init__(self, port):\n\t\tdeadline = time.time() + 15\n\t\ttarget = None\n\t\twhile time.time() < deadline:\n\t\t\ttry:\n\t\t\t\ttargets = json.load(urllib.request.urlopen(f'http://127.0.0.1:{port}/json/list', timeout=2))\n\t\t\t\ttarget = next((item for item in targets if item.get('type') == 'page' and '_cdp_audit.html' in item.get('url', '')), None)\n\t\t\t\tif target:\n\t\t\t\t\tbreak\n\t\t\texcept Exception:\n\t\t\t\tpass\n\t\t\ttime.sleep(.1)\n\t\tif not target:\n\t\t\traise RuntimeError(f'Chrome page target not found on {port}.')\n\t\tself.websocket = WebSocket(target['webSocketDebuggerUrl'])\n\t\tself.sequence = 0\n\t\tself.events = []\n\n\tdef call(self, method, params=None):\n\t\tself.sequence += 1\n\t\tidentifier = self.sequence\n\t\tself.websocket.send_text(json.dumps({'id': identifier, 'method': method, 'params': params or {}}))\n\t\tdeadline = time.time() + 20\n\t\twhile time.time() < deadline:\n\t\t\tmessage = json.loads(self.websocket.receive_text())\n\t\t\tif message.get('id') == identifier:\n\t\t\t\tif 'error' in message:\n\t\t\t\t\traise RuntimeError(message['error'])\n\t\t\t\treturn message.get('result', {})\n\t\t\tself.events.append(message)\n\t\traise TimeoutError(f'CDP call timed out: {method}')\n\n\tdef evaluate(self, expression):\n\t\tresult = self.call('Runtime.evaluate', {'expression': expression, 'returnByValue': True, 'userGesture': True})\n\t\tif result.get('exceptionDetails'):\n\t\t\traise RuntimeError(result['exceptionDetails'])\n\t\treturn result['result'].get('value')\n\nAUDIT = r'''(() => {\n\tconst classes=['is-active','is-entering','is-leaving','from-left','from-right','to-left','to-right'];\n\tconst overflow=e=>Boolean(e)&&(e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1);\n\tconst normalize=name=>document.querySelectorAll('[data-studio-page]').forEach(page=>{\n\t\tpage.classList.remove(...classes);\n\t\tconst active=page.dataset.studioPage===name;\n\t\tpage.hidden=!active;\n\t\tpage.inert=!active;\n\t\tif(active)page.classList.add('is-active');\n\t});\n\tconst pages=['home','stage','audio','sources','live','setup','nle'].map(name=>{\n\t\tnormalize(name);\n\t\tconst page=document.querySelector(`[data-studio-page=\"${name}\"]`);\n\t\tconst critical=[page,...page.querySelectorAll('.stage-workspace,.audio-lab-grid,.source-deck,.nle-deck,.timeline-real')];\n\t\tconst pageOverflow=critical.filter(overflow).map(e=>e.id||String(e.className));\n\t\tconst deckOverflow=[];\n\t\tfor(const deck of page.querySelectorAll('[data-workspace-deck]')){\n\t\t\tfor(const button of deck.querySelectorAll(':scope > [data-deck-tabs] [data-deck-target]')){\n\t\t\t\tbutton.click();\n\t\t\t\tconst stack=deck.querySelector(':scope > [data-deck-stack]');\n\t\t\t\tconst panel=stack?.querySelector('.deck-panel.active');\n\t\t\t\tif([deck,stack,panel].some(overflow))deckOverflow.push(`${deck.dataset.workspaceDeck}/${button.dataset.deckTarget}`);\n\t\t\t}\n\t\t}\n\t\treturn{name,activeCount:document.querySelectorAll('.workspace-page.is-active').length,pageOverflow,deckOverflow};\n\t});\n\tnormalize('audio');\n\tconst immersiveButton=document.querySelector('#audioLabImmersive');\n\tif(!document.querySelector('#audioLabSection').classList.contains('is-immersive'))immersiveButton.click();\n\tconst rack=document.querySelector('.audio-control-rack');\n\tconst rackStyle=getComputedStyle(rack);\n\tconst roots=[document.documentElement,document.body,document.querySelector('#appRoot'),document.querySelector('.nesher-shell'),document.querySelector('#studioPage'),document.querySelector('#topNav')];\n\tconst scrollbars=[...document.querySelectorAll('*')].filter(e=>{const s=getComputedStyle(e);return['auto','scroll'].includes(s.overflowX)||['auto','scroll'].includes(s.overflowY)}).map(e=>e.id||String(e.className));\n\tconst canvas=document.querySelector('#audioLabCanvas');\n\treturn{\n\t\tviewport:[innerWidth,innerHeight],\n\t\tpages,\n\t\trootOverflow:roots.filter(overflow).map(e=>e.id||String(e.className)),\n\t\tscrollbars,\n\t\tpresetCount:document.querySelectorAll('.preset-card').length,\n\t\tcanvasBox:[canvas.clientWidth,canvas.clientHeight],\n\t\timmersive:{active:document.querySelector('#audioLabSection').classList.contains('is-immersive'),gridOverflow:overflow(document.querySelector('.audio-lab-grid')),rackWidth:rack.getBoundingClientRect().width,opacity:rackStyle.opacity,pointerEvents:rackStyle.pointerEvents},\n\t\truntimeErrors:window.__auditErrors\n\t};\n})()'''\n\napp = Path(os.environ['APP'])\nchrome = os.environ['CHROME']\nviewports = [\n\t('desktop', 1200, 683, False),\n\t('phone_portrait', 390, 844, True),\n\t('phone_landscape', 844, 390, True),\n\t('short_desktop', 1024, 600, False),\n]\nsummary = {}\nfor index, (name, width, height, mobile) in enumerate(viewports):\n\tport = 9420 + index\n\tprofile = f'/tmp/nesher-cdp-final-{name}'\n\tcommand = [\n\t\tchrome,\n\t\t'--headless=new',\n\t\t'--no-first-run',\n\t\t'--no-default-browser-check',\n\t\t'--disable-gpu',\n\t\t'--disable-background-networking',\n\t\t'--disable-background-timer-throttling',\n\t\t'--disable-backgrounding-occluded-windows',\n\t\t'--disable-renderer-backgrounding',\n\t\t'--disable-default-apps',\n\t\t'--disable-extensions',\n\t\t'--disable-sync',\n\t\t'--remote-allow-origins=*',\n\t\t'--remote-debugging-address=127.0.0.1',\n\t\tf'--remote-debugging-port={port}',\n\t\tf'--window-size={width},{height}',\n\t\tf'--user-data-dir={profile}',\n\t\t'http://127.0.0.1:8785/_cdp_audit.html',\n\t]\n\tprocess = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, start_new_session=True)\n\ttry:\n\t\tdevtools = DevTools(port)\n\t\tdevtools.call('Runtime.enable')\n\t\tdevtools.call('Emulation.setDeviceMetricsOverride', {'width': width, 'height': height, 'deviceScaleFactor': 1, 'mobile': mobile, 'screenWidth': width, 'screenHeight': height})\n\t\tdeadline = time.time() + 20\n\t\twhile time.time() < deadline:\n\t\t\tif devtools.evaluate(\"document.readyState==='complete'&&document.querySelectorAll('[data-studio-page]').length===7\"):\n\t\t\t\tbreak\n\t\t\ttime.sleep(.05)\n\t\telse:\n\t\t\traise RuntimeError(f'{name}: app did not boot')\n\t\treport = devtools.evaluate(AUDIT)\n\t\tfailed_pages = [page for page in report['pages'] if page['activeCount'] != 1 or page['pageOverflow'] or page['deckOverflow']]\n\t\tpassed = not failed_pages and not report['rootOverflow'] and not report['scrollbars'] and report['presetCount'] == 10 and all(value > 0 for value in report['canvasBox']) and report['immersive']['active'] and not report['immersive']['gridOverflow'] and report['immersive']['rackWidth'] <= 1 and report['immersive']['opacity'] == '0' and report['immersive']['pointerEvents'] == 'none' and not report['runtimeErrors']\n\t\tif not passed:\n\t\t\traise RuntimeError(f'{name}: {json.dumps(report)}')\n\t\tsummary[name] = {\n\t\t\t'viewport': report['viewport'],\n\t\t\t'pages': len(report['pages']),\n\t\t\t'pageFailures': 0,\n\t\t\t'rootOverflow': 0,\n\t\t\t'scrollbars': [],\n\t\t\t'presets': report['presetCount'],\n\t\t\t'canvasBox': report['canvasBox'],\n\t\t\t'immersiveRackWidth': report['immersive']['rackWidth'],\n\t\t\t'runtimeErrors': [],\n\t\t}\n\tfinally:\n\t\ttry:\n\t\t\tos.killpg(process.pid, signal.SIGTERM)\n\t\texcept ProcessLookupError:\n\t\t\tpass\n\t\ttry:\n\t\t\tprocess.wait(timeout=3)\n\t\texcept subprocess.TimeoutExpired:\n\t\t\tos.killpg(process.pid, signal.SIGKILL)\n\t\t\tprocess.wait(timeout=3)\n(app / 'tests/.cdp-browser-audit.txt').write_text('B\"H CDP BROWSER AUDIT\\n' + json.dumps(summary, indent=2) + '\\n', encoding='utf-8')\nprint(json.dumps(summary, indent=2))\nPY\nAPP=\"$APP\" CHROME=\"$CHROME\" python3 /tmp/nesher_cdp_final.py\ncat tests/.cdp-browser-audit.txt",
+  "cwd": "/Users/awtsmoos/Documents",
+  "shell": "/bin/sh",
+  "timeoutMs": 240000,
+  "deadlineAt": "2026-07-21T16:45:58.029Z",
+  "leaseExpiresAt": "2026-07-21T16:45:58.029Z",
+  "status": "failed",
+  "startedAt": "2026-07-21T16:41:58.029Z",
+  "updatedAt": "2026-07-21T16:42:11.470Z",
+  "stdoutChars": 0,
+  "stderrChars": 1048,
+  "processIdentity": {
+    "pid": 73721,
+    "processGroupId": 73721,
+    "birthToken": "77859c8eedc35355548843f86665575049964681cae5fe3db4a7ea924ce94780",
+    "platform": "darwin",
+    "observedAt": "2026-07-21T16:41:58.085Z"
+  },
+  "cleanup": null,
+  "correlation": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "controlRequestId": "req_1784652118440_58yhn07gwbd"
+  },
+  "worker": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "workerId": "worker_mruvsjd8_65f90bb50f",
+    "jobId": "cmdjob_mruvsjd7_b8e764780ff5",
+    "controlRequestId": "req_1784652118440_58yhn07gwbd",
+    "startedAt": "2026-07-21T16:41:58.029Z",
+    "protocol": "awtsmoos-worker-v1",
+    "kind": "subprocess",
+    "state": "failed",
+    "pid": 73721,
+    "processGroupId": 73721,
+    "birthToken": "77859c8eedc35355548843f86665575049964681cae5fe3db4a7ea924ce94780",
+    "platform": "darwin",
+    "isolation": "process-group-stdio-stream-files",
+    "timeoutMs": 240000,
+    "heartbeatAt": "2026-07-21T16:42:11.470Z",
+    "finishedAt": "2026-07-21T16:42:11.469Z",
+    "exitCode": 1,
+    "detached": false,
+    "cancelable": true
+  },
+  "receipt": {
+    "receiptId": "receipt_mruvsjd8_7a9e6a787f",
+    "jobId": "cmdjob_mruvsjd7_b8e764780ff5",
+    "workerId": "worker_mruvsjd8_65f90bb50f",
+    "action": "commandStart",
+    "requestAction": "commandRun",
+    "actualAction": "commandStart",
+    "controlRequestId": "req_1784652118440_58yhn07gwbd",
+    "state": "failed",
+    "createdAt": "2026-07-21T16:41:58.029Z",
+    "safeToReplay": false,
+    "updatedAt": "2026-07-21T16:42:11.470Z",
+    "pid": 73721,
+    "processGroupId": 73721,
+    "birthToken": "77859c8eedc35355548843f86665575049964681cae5fe3db4a7ea924ce94780",
+    "heartbeatAt": "2026-07-21T16:41:58.029Z",
+    "exitCode": 1,
+    "signal": null
+  },
+  "storage": {
+    "backend": "device-file",
+    "outsideProject": true,
+    "folder": "/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruvsjd7_b8e764780ff5"
+  },
+  "ownerId": "req_1784652118440_58yhn07gwbd",
+  "commandHash": "1d68540d44de3b8027a4473ce558d4811fbbe6ce4a6b48e3534b6d9c2e6b128a",
+  "queue": {
+    "ownerId": "req_1784652118440_58yhn07gwbd",
+    "queuedAt": "2026-07-21T16:41:58.029Z"
+  },
+  "pid": 73721,
+  "processGroupId": 73721,
+  "platform": "darwin",
+  "birthToken": "77859c8eedc35355548843f86665575049964681cae5fe3db4a7ea924ce94780",
+  "heartbeatAt": "2026-07-21T16:42:10.871Z",
+  "exitCode": 1,
+  "signal": null,
+  "finishedAt": "2026-07-21T16:42:11.469Z",
+  "cost": {
+    "wallMs": 13440,
+    "outputBytes": 0
+  }
+}

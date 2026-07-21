@@ -1,0 +1,120 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains whole in every viewport. Awtsmoos.com lets the living
+ * constellation collapse gracefully from command wall to handheld chamber
+ * without hiding transport truth, identity, telemetry, or direct speech.
+ */
+@layer awt.responsive {
+	@media (max-width: 880px) {
+		.awt-agent-live-heading {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-agent-live-rail {
+			justify-content: flex-start;
+		}
+
+		.awt-agent-channel-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 620px) {
+		.awt-agent-live-console {
+			gap: 14px;
+			padding: 14px;
+			border-radius: 21px;
+		}
+
+		.awt-agent-live-console::after {
+			border-radius: 20px;
+		}
+
+		.awt-agent-live-intro h3 {
+			font-size: 1.65rem;
+		}
+
+		.awt-agent-live-description {
+			font-size: .8rem;
+		}
+
+		.awt-agent-socket {
+			width: 100%;
+			justify-content: center;
+		}
+
+		.awt-agent-fleet-metric {
+			display: grid;
+			gap: 2px;
+			justify-content: initial;
+		}
+
+		.awt-agent-channel-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-agent-channel {
+			padding: 14px;
+			border-radius: 17px;
+		}
+
+		.awt-agent-channel-identity {
+			grid-template-columns: auto minmax(0, 1fr);
+		}
+
+		.awt-agent-state-badge {
+			grid-column: 2;
+			justify-self: start;
+		}
+
+		.awt-agent-telemetry {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.awt-agent-telemetry-cell:last-child {
+			grid-column: 1 / -1;
+		}
+
+		.awt-agent-channel-footer,
+		.awt-agent-direct-header,
+		.awt-agent-composer-footer {
+			align-items: stretch;
+			flex-direction: column;
+		}
+
+		.awt-agent-transport-label {
+			max-width: none;
+		}
+
+		.awt-agent-direct {
+			padding: 14px;
+			border-radius: 18px;
+		}
+
+		.awt-agent-direct-transport {
+			align-self: flex-start;
+		}
+
+		.awt-agent-direct-message {
+			max-width: 96%;
+		}
+
+		.awt-agent-send {
+			width: 100%;
+		}
+	}
+
+	@media (hover: none) and (pointer: coarse) {
+		.awt-agent-channel:hover {
+			transform: none;
+		}
+
+		.awt-agent-channel,
+		.awt-agent-send,
+		.awt-agent-direct-input {
+			min-height: 44px;
+		}
+	}
+}

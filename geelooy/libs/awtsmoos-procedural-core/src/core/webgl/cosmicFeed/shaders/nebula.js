@@ -2,8 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * From no downloaded image, the Awtsmoos renews star depth, side rivers, and
- * source resonance. Awtsmoos.com keeps the reading column dark while gutters live.
+ * From no borrowed image, the Awtsmoos renews star depth, side rivers, and
+ * kinetic source resonance. Awtsmoos.com protects the reading column while space lives.
  */
 
 export const NEBULA_FRAGMENT_SHADER = `#version 300 es
@@ -13,6 +13,9 @@ out vec4 outColor;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uScroll;
+uniform float uScrollVelocity;
+uniform float uKineticEnergy;
+uniform vec2 uPointerVelocity;
 uniform vec4 uInteraction;
 uniform vec3 uInteractionColor;
 uniform vec2 uFeedBounds;
@@ -46,7 +49,6 @@ float fbm(vec2 point) {
 	return value;
 }
 
-// Layered domain warp bends the procedural rivers without a texture asset.
 vec2 domainWarp(vec2 point, float drift) {
 	vec2 first = vec2(
 		fbm(point * 1.55 + vec2(drift, -drift)),
@@ -69,7 +71,10 @@ void main() {
 	vec2 uv = vUv;
 	vec2 aspect = vec2(uResolution.x / max(uResolution.y, 1.0), 1.0);
 	vec2 point = (uv - 0.5) * aspect;
-	float drift = uTime * 0.014 * uMotionScale;
+	float velocity = length(uPointerVelocity) + abs(uScrollVelocity) * 0.42;
+	float drift = uTime * (0.014 + velocity * 0.006) * uMotionScale;
+	point -= uPointerVelocity * 0.055 * (0.35 + abs(point.x));
+	point.y += uScrollVelocity * 0.035;
 	vec2 folded = domainWarp(point, drift);
 	float density = fbm(point * 2.0 + folded * 2.25 + uScroll * 0.00018);
 	float filament = 1.0 - abs(fbm(point * 4.6 - folded * 1.45) * 2.0 - 1.0);
@@ -89,14 +94,14 @@ void main() {
 	float stars = starBand(uv, 4.0, 0.9981, 1.1);
 	stars += starBand(uv + 0.19, 9.0, 0.9962, 0.72) * 0.65;
 	stars += starBand(uv + 0.47, 21.0, 0.9928, 0.43) * 0.34;
-	float distanceToInteraction = distance(uv, uInteraction.xy);
-	float resonance = exp(-distanceToInteraction * 9.0) * uInteraction.z;
+	float interactionDistance = distance(uv, uInteraction.xy);
+	float resonance = exp(-interactionDistance * 9.0) * uInteraction.z;
 	float pulseRadius = 0.035 + (1.0 - uInteraction.w) * 0.28;
-	float pulse = exp(-abs(distanceToInteraction - pulseRadius) * 38.0) * uInteraction.w;
+	float pulse = exp(-abs(interactionDistance - pulseRadius) * 38.0) * uInteraction.w;
 	vec3 color = vec3(0.002, 0.006, 0.024);
-	color += nebula * (outerMist * 0.42 + river * 0.72);
+	color += nebula * (outerMist * 0.42 + river * (0.72 + uKineticEnergy * 0.24));
 	color += mix(cyan, magenta, uv.y) * filament * side * 0.24;
-	color += vec3(0.56, 0.78, 1.0) * stars * (0.18 + side * 1.15);
+	color += vec3(0.56, 0.78, 1.0) * stars * (0.18 + side * 1.15 + velocity * 0.25);
 	color += uInteractionColor * (resonance * 0.34 + pulse * 0.28) * (0.26 + side);
 	float leftEdge = smoothstep(uFeedBounds.x - 0.12, uFeedBounds.x + 0.05, horizontal);
 	float rightEdge = 1.0 - smoothstep(uFeedBounds.y - 0.05, uFeedBounds.y + 0.12, horizontal);

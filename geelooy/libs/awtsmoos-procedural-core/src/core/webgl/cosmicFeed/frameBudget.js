@@ -2,29 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Time is itself renewed by the Awtsmoos. This Awtsmoos.com governor measures
- * frame cost and asks the scene to become gentler before usability is sacrificed.
+ * Time is renewed by the Awtsmoos, yet responsiveness must be guarded. This
+ * Awtsmoos.com governor detects sustained slowdown quickly without reacting to one spike.
  */
 
-/**
- * Tracks rolling frame time and signals sustained overruns.
- */
+const AVERAGE_WEIGHT = 0.12;
+const OVERRUN_MULTIPLIER = 1.24;
+const REQUIRED_OVERRUNS = 42;
+
+/** Tracks rolling frame duration and signals a measured profile reduction. */
 export class FrameBudget {
-	/**
-	 * @param {number} targetMilliseconds Desired frame duration.
-	 */
-	constructor(targetMilliseconds = 18) {
+	constructor(targetMilliseconds = 16.9) {
 		this.target = targetMilliseconds;
-		this.average = targetMilliseconds;
-		this.overrunFrames = 0;
-		this.lastTime = 0;
+		this.reset();
 	}
 
-	/**
-	 * Records a frame timestamp.
-	 * @param {number} timestamp RAF timestamp.
-	 * @returns {boolean} True when profile reduction is warranted.
-	 */
+	/** Records one RAF timestamp and returns true after sustained slowdown. */
 	record(timestamp) {
 		if (!this.lastTime) {
 			this.lastTime = timestamp;
@@ -32,22 +25,22 @@ export class FrameBudget {
 		}
 		const duration = Math.min(100, timestamp - this.lastTime);
 		this.lastTime = timestamp;
-		this.average = this.average * 0.92 + duration * 0.08;
-		if (this.average > this.target * 1.35) {
+		this.average =
+			this.average * (1 - AVERAGE_WEIGHT) +
+			duration * AVERAGE_WEIGHT;
+		if (this.average > this.target * OVERRUN_MULTIPLIER) {
 			this.overrunFrames += 1;
 		} else {
-			this.overrunFrames = Math.max(0, this.overrunFrames - 2);
+			this.overrunFrames = Math.max(0, this.overrunFrames - 3);
 		}
-		if (this.overrunFrames > 90) {
+		if (this.overrunFrames >= REQUIRED_OVERRUNS) {
 			this.overrunFrames = 0;
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * Resets timing after visibility changes.
-	 */
+	/** Resets timing after visibility or profile changes. */
 	reset() {
 		this.average = this.target;
 		this.overrunFrames = 0;

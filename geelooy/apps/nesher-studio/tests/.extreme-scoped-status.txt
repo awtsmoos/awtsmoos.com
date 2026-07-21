@@ -1,0 +1,4 @@
+B"H SCOPED STATUS
+?? geelooy/apps/nesher-studio/tests/.extreme-final-gate.txt
+?? geelooy/apps/nesher-studio/tests/.extreme-scoped-status.txt
+--- changed source paths ---

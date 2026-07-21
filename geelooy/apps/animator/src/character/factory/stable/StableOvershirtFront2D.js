@@ -8,14 +8,14 @@ import { StablePocketFront2D } from './StablePocketFront2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Miriam's olive fronts hang softly around one clean black inner dress. The
- * Awtsmoos renews modest overlap without angular armor, while Awtsmoos.com keeps
- * hem, opening, and pocket editable in the production renderer.
+ * Miriam's olive fronts fall around one clear charcoal dress with rounded weight.
+ * The Awtsmoos renews modest overlap without armor, while Awtsmoos.com keeps hem,
+ * opening, and pocket editable in the authoritative production renderer.
  */
 export class StableOvershirtFront2D {
 	static build(data, colors, metrics, geometry) {
-		const centerX = data._skeleton.chest.x;
-		const inner = data.colors?.innerShirt || data.colors?.shirt || '#202122';
+		const centerX = Number(geometry.torso.waistCenterX);
+		const inner = data.colors?.innerShirt || data.colors?.shirt || '#272729';
 		return S.group('authored_olive_overshirt_front', null, [
 			this.innerPanel(data, centerX, inner, metrics, geometry),
 			this.frontEdge(data, 'overshirt_left_front', -1, centerX, colors, metrics, geometry),
@@ -27,26 +27,26 @@ export class StableOvershirtFront2D {
 
 	static innerPanel(data, centerX, fill, metrics, geometry) {
 		return G.path('overshirt_black_inner_panel', [
-			{ type: 'move', x: centerX - 8, y: metrics.neckBottomY + 3 },
-			{ type: 'quad', cx: centerX - 18, cy: metrics.chestY + 25, x: centerX - 20, y: geometry.torso.hemY - 1 },
-			{ type: 'line', x: centerX + 20, y: geometry.torso.hemY - 1 },
-			{ type: 'quad', cx: centerX + 18, cy: metrics.chestY + 25, x: centerX + 8, y: metrics.neckBottomY + 3 },
-			{ type: 'quad', cx: centerX, cy: metrics.neckBottomY + 9, x: centerX - 8, y: metrics.neckBottomY + 3 }
-		], LineArtStyle.medium(data, fill, 'rgba(0,0,0,0.2)'));
+			{ type: 'move', x: centerX - 8, y: metrics.neckBottomY + 4 },
+			{ type: 'quad', cx: centerX - 16, cy: metrics.chestY + 24, x: centerX - 18, y: geometry.torso.hemY - 1 },
+			{ type: 'quad', cx: centerX, cy: geometry.torso.hemY + 1, x: centerX + 18, y: geometry.torso.hemY - 1 },
+			{ type: 'quad', cx: centerX + 16, cy: metrics.chestY + 24, x: centerX + 8, y: metrics.neckBottomY + 4 },
+			{ type: 'quad', cx: centerX, cy: metrics.neckBottomY + 10, x: centerX - 8, y: metrics.neckBottomY + 4 }
+		], LineArtStyle.medium(data, fill, 'rgba(0,0,0,0.18)'));
 	}
 
 	static frontEdge(data, id, side, centerX, colors, metrics, geometry) {
 		return G.path(id, [
-			{ type: 'move', x: centerX + side * 7, y: metrics.neckBottomY + 2 },
-			{ type: 'quad', cx: centerX + side * 19, cy: metrics.chestY + 17, x: centerX + side * 21, y: metrics.chestY + 28 },
-			{ type: 'quad', cx: centerX + side * 19, cy: metrics.waistY, x: centerX + side * 22, y: geometry.torso.hemY - 1 }
+			{ type: 'move', x: centerX + side * 7, y: metrics.neckBottomY + 3 },
+			{ type: 'quad', cx: centerX + side * 17, cy: metrics.chestY + 16, x: centerX + side * 19, y: metrics.chestY + 29 },
+			{ type: 'quad', cx: centerX + side * 17, cy: metrics.waistY, x: centerX + side * 20, y: geometry.torso.hemY - 1 }
 		], LineArtStyle.seam(data, side < 0 ? colors.jacketDark : colors.jacketLight));
 	}
 
 	static hem(data, centerX, colors, geometry) {
 		return G.path('overshirt_weighted_hem', [
-			{ type: 'move', x: centerX - geometry.torso.hipHalf * 0.7, y: geometry.torso.hemY - 2 },
-			{ type: 'quad', cx: centerX, cy: geometry.torso.hemY + 2.5, x: centerX + geometry.torso.hipHalf * 0.71, y: geometry.torso.hemY - 1 }
+			{ type: 'move', x: centerX - geometry.torso.hipHalf * 0.72, y: geometry.torso.hemY - 2 },
+			{ type: 'quad', cx: centerX, cy: geometry.torso.hemY + 3, x: centerX + geometry.torso.hipHalf * 0.72, y: geometry.torso.hemY - 1 }
 		], LineArtStyle.interior(data, colors.jacketDark));
 	}
 }

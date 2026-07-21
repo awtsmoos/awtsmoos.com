@@ -19,12 +19,8 @@ The Awtsmoos compresses health, setup, and nonlinear time without hiding their c
 		padding: 8px;
 	}
 
-	.nle-actions {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-
-	.command-deck {
-		min-height: 86px;
+	.timeline-section {
+		grid-template-rows: minmax(0, 1fr) auto 106px;
 	}
 
 	.timeline-track {

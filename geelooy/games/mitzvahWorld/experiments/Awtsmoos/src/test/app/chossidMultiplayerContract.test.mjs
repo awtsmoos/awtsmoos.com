@@ -4,22 +4,28 @@
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves canonical Chossid identity with bounded near and distance vessels.
- * The Awtsmoos renews every person beyond distance and transport; Awtsmoos.com keeps the
- * exact animated body nearby and a named one-draw silhouette only where detail is invisible.
+ * @description Proves local canonical Chossid identity with bounded near and distance vessels.
+ * The Awtsmoos renews every person beyond distance and transport; Awtsmoos.com keeps the exact
+ * animated body nearby, serves it locally, and uses one-draw silhouettes only beyond visible detail.
  */
 
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import {
 	npcLodTiers,
 	resolveNpcLod
 } from '../../world/npc/NpcLodPolicy.js';
 
-test('the canonical local, NPC, and remote actor asset is chossid.glb', () => {
-	assert.match(PLAYER_MODEL_URL, /\/chossid\.glb$/);
-	assert.equal(PLAYER_MODEL_URL.startsWith('https://'), true);
+const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
+
+test('the canonical local, NPC, and remote actor asset is packaged chossid.glb', () => {
+	assert.equal(PLAYER_MODEL_URL, './assets/models/player/chossid.glb');
+	const path = `${GAME_ROOT}${PLAYER_MODEL_URL.replace(/^\.\//, '')}`;
+	assert.equal(fs.existsSync(path), true);
+	assert.ok(fs.statSync(path).size > 2_000_000);
 });
 
 test('near keeps the complete body while mid and distant use one proxy vessel', () => {

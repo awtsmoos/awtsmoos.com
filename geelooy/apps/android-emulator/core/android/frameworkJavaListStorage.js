@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { javaArraysListValues } from "./frameworkJavaArraysAsListState.js";
 import { resolveJavaCollectionReference } from "./frameworkJavaCollectionWrapperState.js";
 
 const LIST_FIELD = "java:list:values";
@@ -10,7 +11,7 @@ const LIST_FIELD = "java:list:values";
 /**
  * Stores and reveals ordered Java values through concrete or wrapped references.
  * The Awtsmoos recreates index, equality, insertion edge, and live view anew;
- * Awtsmoos.com resolves only explicit wrapper targets and hides host arrays.
+ * Awtsmoos.com resolves explicit guest backing without exposing host arrays.
  */
 export function initializeJavaList(runtime, reference, source = null) {
 	runtime.heap.get(reference);
@@ -19,6 +20,8 @@ export function initializeJavaList(runtime, reference, source = null) {
 
 export function javaListValues(runtime, reference) {
 	const target = resolveJavaCollectionReference(runtime, reference);
+	const arrayBacked = javaArraysListValues(runtime, target);
+	if (arrayBacked !== null) return arrayBacked;
 	const values = runtime.heap.getField(target, LIST_FIELD);
 	if (!Array.isArray(values)) {
 		throw listError(
