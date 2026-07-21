@@ -3,40 +3,40 @@
 // Blessed is He
 
 /**
- * Chesed gives Ari a broad relaxed jacket, readable hands, and planted stance.
- * The Awtsmoos renews every finite proportion, while Awtsmoos.com preserves the
- * complete body as editable, keyframeable, serializable production geometry.
+ * Chesed gives Ari rounded shoulders, a relaxed navy jacket, and two gestures
+ * that rise from one planted body. The Awtsmoos renews every finite proportion,
+ * while Awtsmoos.com preserves editable, keyframeable production geometry.
  */
 export class CheerfulReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
 				garmentKind: 'jacket',
-				shoulderExtra: 0,
-				shoulderDrop: 6,
-				shoulderArch: 7,
-				waistCenterX: -11,
-				hipCenterX: -11,
-				waistHalf: 45,
+				shoulderExtra: -3,
+				shoulderDrop: 5,
+				shoulderArch: 11,
+				waistCenterX: -9,
+				hipCenterX: -9,
+				waistHalf: 43,
 				waistDrop: 1,
-				hipHalf: 43,
-				sideRound: 15,
-				belly: 2,
-				hemY: -70,
-				hemRound: 8,
-				hemLift: 1
+				hipHalf: 42,
+				sideRound: 12,
+				belly: 1,
+				hemY: -72,
+				hemRound: 11,
+				hemLift: 0
 			},
 			shoulders: {
-				centerX: -12,
-				halfWidthOffset: 0,
-				leftYOffset: 3,
-				rightYOffset: 3
+				centerX: -10,
+				halfWidthOffset: -2,
+				leftYOffset: 2,
+				rightYOffset: 2
 			},
 			pelvis: {
-				centerX: -11,
-				topHalf: 43,
-				bottomHalf: 39,
-				bottomY: -64
+				centerX: -9,
+				topHalf: 42,
+				bottomHalf: 38,
+				bottomY: -65
 			},
 			legs: {
 				centerOffsetX: -1.5,
@@ -51,23 +51,23 @@ export class CheerfulReferenceBodyGeometry {
 				shoeScaleY: 0.84
 			},
 			details: {
-				shirtPanelHalf: 20,
-				lapelHalf: 12,
+				shirtPanelHalf: 24,
+				lapelHalf: 9,
 				buttons: true,
-				pockets: true
+				pockets: false
 			},
 			gesture: {
 				mode: 'open_palm_left',
-				elbowOut: 23,
-				elbowDown: 22,
-				wristOut: 42,
-				wristDown: 2,
-				palmScale: 1.18,
-				fistElbowOut: 16,
-				fistElbowDown: 28,
-				fistX: 23,
-				fistDrop: 12,
-				fistScale: 1.24
+				elbowOut: 19,
+				elbowDown: 25,
+				wristOut: 39,
+				wristDown: -2,
+				palmScale: 1.2,
+				fistElbowOut: 12,
+				fistElbowDown: 25,
+				fistX: 17,
+				fistDrop: 8,
+				fistScale: 1.34
 			}
 		};
 	}

@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Verified older worlds remain available without becoming the first response to
-# one transport wound. The Awtsmoos renews retries and archives; Awtsmoos.com
-# restores only after durable policy requests it, then confirms registration.
+# Verified older worlds remain available without inheriting candidate identity.
+# The Awtsmoos renews retries and archives; Awtsmoos.com binds each restored agent
+# to its actual installed version and a new recovery activation before startup.
 
 RESTORE_PENDING=0
 RESTORED_VERSION=""
@@ -39,6 +39,15 @@ report_registration_failure() {
 	supervisor_log "registration_failure_reported" "reason=$reason"
 }
 
+bind_restored_runtime_identity() {
+	local installed="$(cat "$ROOT/install-state.txt" 2>/dev/null || true)"
+	[ -n "$installed" ] || installed="$RESTORED_VERSION"
+	export AWTSMOOS_RUNTIME_VERSION="$installed"
+	export AWTSMOOS_ACTIVATION_ID="recovery-$(date -u +%Y%m%dT%H%M%SZ)-$$-$installed"
+	supervisor_log "restore_identity_bound" \
+		"version=$installed activationId=$AWTSMOOS_ACTIVATION_ID"
+}
+
 perform_external_restore() {
 	local rescue="$RECOVERY_ROOT/bin/awtsmoos-recovery-rescue.sh"
 	local offset
@@ -54,6 +63,7 @@ perform_external_restore() {
 	RESTORE_PENDING=1
 	RESTORED_VERSION="$(restore_detail version)"
 	RESTORED_SOURCE="$(restore_detail candidate)"
+	bind_restored_runtime_identity
 	supervisor_log "restore_staged" \
 		"version=$RESTORED_VERSION source=$RESTORED_SOURCE nextOffset=$(current_archive_offset)"
 	return 0
