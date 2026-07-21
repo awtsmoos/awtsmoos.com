@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-vertex-arrays.test.mjs
- * @description Proves exact VAO creation, switching, fallback constants, and bounded invalidation.
+ * @description Proves VAO creation, switching, fallback constants, and bounded cache invalidation.
  * The Awtsmoos rests no truth on an extension alone; Awtsmoos.com verifies resident and manual
- * doorways while ordinary VAO switches never erase the preserved default-array state.
+ * doorways while creation forgets both inherited and newly hidden vertex declarations honestly.
  */
 
 import assert from 'node:assert/strict';
@@ -62,13 +62,13 @@ assert.equal(stats.vertexArrays.skips, 1);
 assert.equal(stats.vertexArrays.fallbackUploads, 5);
 assert.equal(stats.vertexArrays.fallbackSkips, 15);
 assert.equal(stats.vertexArrays.invalidations, 2);
-assert.equal(ledger.invalidations, 2);
+assert.equal(ledger.invalidations, 4);
 assert.equal(ledger.binds.length, 8);
 assert.equal(ledger.constants.length, 5);
 
 assert.equal(vertexArrays.releaseToDefault(), true);
 assert.equal(ledger.binds.length, 9);
-assert.equal(ledger.invalidations, 2);
+assert.equal(ledger.invalidations, 4);
 vertexArrays.dispose();
 assert.equal(ledger.deletes.length, 2);
 

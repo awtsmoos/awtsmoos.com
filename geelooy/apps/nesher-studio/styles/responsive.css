@@ -1,0 +1,8 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals responsive geometries through three focused media vessels; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+@import url('./responsive-tablet.css');
+@import url('./responsive-mobile.css');
+@import url('./responsive-short.css');

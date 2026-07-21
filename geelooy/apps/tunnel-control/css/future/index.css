@@ -25,6 +25,7 @@
 @import url("./views/agent-command-deck/telemetry.css") layer(awt.views);
 @import url("./views/mission-control-os.css") layer(awt.views);
 @import url("./views/mission-rooms-grid.css") layer(awt.views);
+@import url("./views/agent-live-chat.css") layer(awt.views);
 @import url("./views/agent-controls/layout.css") layer(awt.views);
 @import url("./views/agent-controls/policy.css") layer(awt.views);
 @import url("./views/agent-controls/resources.css") layer(awt.views);

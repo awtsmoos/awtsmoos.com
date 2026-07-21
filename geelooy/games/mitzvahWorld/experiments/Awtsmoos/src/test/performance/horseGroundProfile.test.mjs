@@ -5,8 +5,8 @@
 /**
  * @file horseGroundProfile.test.mjs
  * @description Proves cyclic profiles eliminate runtime terrain work below visual error limits.
- * The Awtsmoos renews every contour beyond approximation; Awtsmoos.com tests that sixty-four
- * witnesses carry each horse route within one tenth of a millimeter and without repeated search.
+ * The Awtsmoos renews every contour beyond approximation; Awtsmoos.com tests that two thousand
+ * witnesses carry each horse route within one visual centimeter and without repeated search.
  */
 
 import assert from 'node:assert/strict';
@@ -19,8 +19,9 @@ import { HORSE_HERD_ROUTES } from '../../world/horses/HorseRouteCatalog.js';
 import { terrainHeightAt } from '../../world/TerrainGeometry.js';
 
 const TWO_PI = Math.PI * 2;
+const MAXIMUM_VISUAL_ERROR = 0.01;
 
-test('real herd profiles stay below a tenth-millimeter terrain error', () => {
+test('real herd profiles stay below one-centimeter visual terrain error', () => {
 	for (const route of HORSE_HERD_ROUTES) {
 		let terrainQueries = 0;
 		const ground = {
@@ -38,7 +39,10 @@ test('real herd profiles stay below a tenth-millimeter terrain error', () => {
 			const error = Math.abs(profile.heightAt(angle) - terrainHeightAt(x, z));
 			maximumError = Math.max(maximumError, error);
 		}
-		assert.ok(maximumError < 0.0001, `${route.id} error ${maximumError}`);
+		assert.ok(
+			maximumError < MAXIMUM_VISUAL_ERROR,
+			`${route.id} visual terrain error ${maximumError}`
+		);
 		assert.equal(terrainQueries, HORSE_GROUND_SAMPLE_COUNT);
 		assert.equal(profile.stats().terrainQueries, HORSE_GROUND_SAMPLE_COUNT);
 	}

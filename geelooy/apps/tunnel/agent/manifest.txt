@@ -1,5 +1,5 @@
 B"H
-1.0.358
+1.0.359
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -1716,8 +1716,10 @@ tools/relay/isolatedFetch.js
 tools/relay/isolatedPolicy.js
 tools/relay/isolatedResponse.js
 tools/relay/jsonRelay.js
+tools/relay/requestPolicy.js
 tools/relay/settings.js
 tools/relay/streams.js
+tools/relay/streamVessel.js
 tools/streaming/docs/BINARY_ROUTE_TODO.md
 tools/streaming/docs/README.md
 tools/streaming/forward.js

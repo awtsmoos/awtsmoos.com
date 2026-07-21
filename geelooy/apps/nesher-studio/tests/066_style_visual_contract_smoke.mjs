@@ -1,106 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos clothes seven fixed rooms in one coherent light; Awtsmoos.com verifies no-scroll geometry, composited transitions, compact decks, and the adaptive GPU chamber.
+*/
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
+import { audioLabView } from '../modules/ui/views/audioLabView.js';
+import { headerView } from '../modules/ui/views/headerView.js';
+import { homeView } from '../modules/ui/views/homeView.js';
+import { liveView } from '../modules/ui/views/liveView.js';
+import { navigationView } from '../modules/ui/views/navigationView.js';
+import { nleView } from '../modules/ui/views/nleView.js';
+import { setupView } from '../modules/ui/views/setupView.js';
+import { sourcesView } from '../modules/ui/views/sourcesView.js';
+import { stageView } from '../modules/ui/views/stageView.js';
 
-const css = readFileSync(new URL('../style.css', import.meta.url), 'utf8');
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const nav = readFileSync(new URL('../modules/app/navigationBindings.js', import.meta.url), 'utf8');
-const timeline = readFileSync(new URL('../modules/nle/timelineMarkup.js', import.meta.url), 'utf8');
-const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]));
-const lines = css.trimEnd().split('\n');
+const appUrl = new URL('../', import.meta.url);
+const styleHub = read('style.css');
+const cssFiles = readdirSync(new URL('styles/', appUrl)).filter((name) => name.endsWith('.css'));
+const css = cssFiles.map((name) => read(`styles/${name}`)).join('\n');
+const navigation = read('modules/app/navigationBindings.js');
+const transitions = read('modules/app/PageTransitionController.js');
+const renderer = read('modules/audioLab/AudioLabRenderer.js');
+const shaders = read('modules/audioLab/shaders.js');
+const presets = read('modules/audioLab/presets.js');
+const rooms = [homeView(), stageView(), audioLabView(), sourcesView(), liveView(), setupView(), nleView()].join('\n');
+const markup = `${headerView()}<section id="studioPage">${rooms}</section>${navigationView()}`;
+const ids = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
 
-assertTokens(requiredTokens(), css, 'required style token');
-assertTokens(compactHomeTokens(), css + html + nav, 'compact dashboard token');
-assertTokens(nlePageTokens(), css + html + nav, 'NLE page token');
-assertTokens(timelineClasses(), css + timeline, 'timeline class');
-assertTokens(operationalSelectors(), css, 'operational selector');
-assertIdsExist(selectorIds(css), ids, 'CSS');
-assertDomMapsExist(ids);
-assertCompactDesktopContract(css, html, nav);
-assertMaintainableCss(lines, css);
+assertImports();
+assertNoScrolling();
+assertTokens(['html, body, #appRoot', 'height: 100dvh', '.nav-dock', '.workspace-page', '.deck-tabs', '.list-pager', '.stage-workspace', '.audio-lab-grid', '.nle-deck', '@media (max-width: 700px)'], css, 'fixed viewport style');
+assertTokens(['transform var(--transition)', 'opacity var(--transition)', 'will-change: transform, opacity', 'prefers-reduced-motion'], css, 'transition style');
+assertTokens(['PageTransitionController', 'bindGestureNavigation', 'controller.activate', 'data-page-target'], navigation, 'navigation behavior');
+assertTokens(['is-entering', 'is-leaving', 'from-right', 'to-left', 'nesher:pagechange'], transitions, 'page transition behavior');
+assertTokens(['AdaptiveParticleBudget', 'AudioCanvasLayout', 'lastOverlayTime', 'lastHudTime'], renderer, 'adaptive renderer');
+assertTokens(['u_pulse', 'u_aspect', 'u_quality', 'u_mode == 9', 'gl_VertexID'], shaders, 'GPU shader behavior');
+assert.equal((presets.match(/^\tpreset\('/gm) || []).length, 10);
+assertTokens(['data-workspace-deck="stageTools"', 'data-workspace-deck="audioControls"', 'data-workspace-deck="nleMain"', 'audioLabImmersive', 'audioLabQuality'], markup, 'generated viewport control');
+assertDomMapsExist();
+assert.equal([...markup.matchAll(/data-studio-page=/g)].length, 7);
+assert.ok(cssFiles.length >= 9, 'visual responsibilities must remain split across at least nine CSS modules');
+console.log(`B"H fixed no-scroll transition and GPU style contract passed across ${cssFiles.length} CSS modules`);
 
-console.log(`B"H NLE page style contract passed: ${lines.length} readable lines`);
+function read(relativePath) {
+	return readFileSync(new URL(relativePath, appUrl), 'utf8');
+}
+
+function assertImports() {
+	const required = ['tokens.css', 'base.css', 'shell.css', 'transitions.css', 'decks.css', 'studio.css', 'audio-lab.css', 'timeline.css', 'responsive.css'];
+	assertTokens(required, styleHub, 'style import');
+}
+
+function assertNoScrolling() {
+	assert.equal(/overflow(?:-[xy])?\s*:\s*(?:auto|scroll)/i.test(css), false, 'CSS must not restore automatic or forced scrollbars');
+}
 
 function assertTokens(tokens, source, label) {
-  for (const token of tokens) assert.ok(source.includes(token), `${label}: ${token}`);
+	tokens.forEach((token) => assert.ok(source.includes(token), `${label}: ${token}`));
 }
 
-function requiredTokens() {
-  return [
-    ':root', '--nesher-bg', 'backdrop-filter', '.hero', '.studio-grid', '.stage-wrap', '#stage',
-    '.stream-health', '.record-controls', '.source-toolbar', '.nle-panel', '.visualizer-panel',
-    ':focus-visible', '[hidden]', '@media (max-width: 1320px)', '@media (max-width: 1080px)',
-    '@media (max-width: 900px)', '@media (max-width: 720px)',
-    '@media (prefers-reduced-motion: reduce)'
-  ];
-}
-
-function compactHomeTokens() {
-  return [
-    'id="homeSection"', 'id="studioPage"', 'class="studio-home"', 'class="home-tile',
-    'id="studioSettings"', '<details id="sourcesSection"', '<details id="streamSection"',
-    '.studio-drawer', '.home-tile', '.nav-rail'
-  ];
-}
-
-function nlePageTokens() {
-  return [
-    'class="nle-page nle-panel"', 'id="backToStudio"', 'data-page-target="nle"',
-    'Dedicated NLE page', '.nle-page', '.page-kicker', '#backToStudio', 'showPage',
-    'pages.studio.hidden', 'pages.nle.hidden', 'openInitialHash'
-  ];
-}
-
-function timelineClasses() {
-  return [
-    '.timeline-real', '.timeline-ruler', '.timeline-markers', '.timeline-lane', '.timeline-track',
-    '.clip', '.clip.active', '.clip.muted', '.clip.disabled', '.clip.faded', '.marker', '.playhead'
-  ];
-}
-
-function operationalSelectors() {
-  return [
-    '.record-controls button:first-child', '#fmp4StreamButton', '#recordPhase', '#recordErrors',
-    '#recordNote', '#streamState', '#streamErrors', '#providerNote', '#addMonitor', '#addDisplayAudio',
-    '#addMic', '#addAudioVisualizer', '.visualizer-panel[hidden]', '#visualizerCustomJs', '#nleExport',
-    '#nleSelectionSummary', '#encodingBenchmarkOutput', '#removeSource', '#rippleDeleteClip'
-  ];
-}
-
-function selectorIds(source) {
-  const found = [];
-  for (const match of source.matchAll(/(?:^|})\s*([^{}]+)\{/g)) {
-    for (const id of match[1].matchAll(/#([A-Za-z][\w-]*)/g)) found.push(id[1]);
-  }
-  return found;
-}
-
-function assertDomMapsExist(htmlIds) {
-  const domDir = new URL('../modules/dom/', import.meta.url);
-  for (const file of readdirSync(domDir).filter(name => name.endsWith('.js'))) {
-    const source = readFileSync(new URL(file, domDir), 'utf8');
-    const mapped = [...source.matchAll(/'([A-Za-z][\w-]*)'/g)].map(match => match[1]);
-    assertIdsExist(mapped, htmlIds, `modules/dom/${file}`);
-  }
-}
-
-function assertIdsExist(found, htmlIds, label) {
-  for (const id of found) assert.ok(htmlIds.has(id), `${label} references missing id #${id}`);
-}
-
-function assertCompactDesktopContract(source, markup, navSource) {
-  assert.ok(source.includes('button {\n  width: auto;'), 'desktop buttons must not be globally full-width');
-  assert.ok(source.includes('@media (max-width: 1080px)'), 'desktop collapse must wait until 1080px');
-  assert.ok(source.includes('grid-template-columns: repeat(6'), 'home grid starts as a real desktop grid');
-  assert.ok(markup.includes('<section id="nleSection" class="nle-page nle-panel"'), 'NLE must be its own page');
-  assert.ok(markup.includes('hidden>'), 'NLE page must start hidden from the studio scroll');
-  assert.ok(navSource.includes('pages.nle.hidden = page !=='), 'nav must switch NLE page visibility');
-}
-
-function assertMaintainableCss(cssLines, source) {
-  const maxLine = Math.max(...cssLines.map(line => line.length));
-  assert.ok(cssLines.length > 380, `CSS is too thin for compact studio contract: ${cssLines.length}`);
-  assert.ok(cssLines.length < 1250, `CSS is too sprawling: ${cssLines.length}`);
-  assert.ok(maxLine < 155, `CSS contains an unreadable line: ${maxLine}`);
-  assert.ok((source.match(/\{/g) || []).length > 95, 'CSS needs many readable rule blocks');
-  assert.ok(!source.includes('fallback recorder token'), 'Style contract contains banned recorder text');
+function assertDomMapsExist() {
+	const domDirectory = new URL('modules/dom/', appUrl);
+	const domFiles = readdirSync(domDirectory).filter((name) => name.endsWith('Dom.js'));
+	domFiles.forEach((fileName) => {
+		const source = readFileSync(new URL(fileName, domDirectory), 'utf8');
+		const mappedIds = [...source.matchAll(/'([A-Za-z][\w-]*)'/g)].map((match) => match[1]);
+		mappedIds.forEach((id) => assert.ok(ids.has(id), `${fileName} references missing generated id #${id}`));
+	});
 }

@@ -3,9 +3,10 @@
 // Blessed is He
 
 /**
- * The Awtsmoos gives authored proportion a safe vessel without replacing the
- * shared renderer. Awtsmoos.com resolves serializable torso, pelvis, skirt, leg,
- * detail, gesture, and horizontal weight controls with complete legacy defaults.
+ * @file StableBodyGeometry.js
+ * @description Resolves authored torso, pelvis, skirt, legs, footwear, garment, pocket, and gesture data.
+ * The Awtsmoos gives every proportion a safe vessel without replacing the shared renderer;
+ * Awtsmoos.com preserves complete legacy defaults while focused modules reveal new identity.
  */
 export class StableBodyGeometry {
 	static resolve(data = {}, metrics = {}) {
@@ -14,8 +15,9 @@ export class StableBodyGeometry {
 			torso: this.torso(source.torso, metrics),
 			pelvis: this.pelvis(source.pelvis, metrics),
 			skirt: this.skirt(source.skirt, metrics, data.skirt),
-			legs: { ...(source.legs || {}) },
+			legs: this.legs(source.legs),
 			details: this.details(source.details),
+			pocket: this.pocket(source.pocket),
 			gesture: this.gesture(source.gesture, data.gesture)
 		};
 	}
@@ -54,10 +56,17 @@ export class StableBodyGeometry {
 			centerX: this.number(source.centerX, 0),
 			topHalf: this.number(source.topHalf, (metrics.hipHalf || 27) + 10),
 			bottomHalf: this.number(source.bottomHalf, (metrics.hipHalf || 27) + 17),
-			hemY: this.number(
-				source.hemY,
-				this.number(skirt?.hemY, (metrics.footY || 6) - 8 * length)
-			)
+			hemY: this.number(source.hemY, this.number(skirt?.hemY, (metrics.footY || 6) - 8 * length)),
+			sway: this.number(source.sway, 1.1),
+			leftHemDrop: this.number(source.leftHemDrop, 0),
+			rightHemLift: this.number(source.rightHemLift, 0)
+		};
+	}
+
+	static legs(source = {}) {
+		return {
+			...source,
+			footwear: { ...(source.footwear || {}) }
 		};
 	}
 
@@ -65,9 +74,15 @@ export class StableBodyGeometry {
 		return {
 			shirtPanelHalf: this.number(source.shirtPanelHalf, 14),
 			lapelHalf: this.number(source.lapelHalf, 14),
+			collarSpread: this.number(source.collarSpread, 17),
+			collarDrop: this.number(source.collarDrop, 14),
 			buttons: source.buttons !== false,
 			pockets: source.pockets !== false
 		};
+	}
+
+	static pocket(source = {}) {
+		return { ...source };
 	}
 
 	static gesture(source = {}, fallback = '') {
@@ -75,6 +90,6 @@ export class StableBodyGeometry {
 	}
 
 	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainMesh.js
- * @description Creates one zoned terrain draw for canonical grass, bank, terrace, and rock.
- * The Awtsmoos clothes one continuous earth in changing ecological garments; Awtsmoos.com
- * preserves legacy zone names while the canonical valley carries richer measured weights.
+ * @description Creates one always-visible zoned terrain draw before texture hydration completes.
+ * The Awtsmoos reveals earth before pigment; Awtsmoos.com guarantees geometry, material, color,
+ * visibility, bounds, and diagnostics first, while grass, bank, terrace, and rock pixels stream.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
@@ -15,7 +15,7 @@ import { createTerrainMaterial } from './terrain/TerrainMaterialFactory.js';
 export function createTerrainMesh(data, grassImage, dirtImage, fallbackUrl, quality = 'medium') {
 	const geometry = new BufferGeometry();
 	geometry.setAttribute('position', new BufferAttribute(new Float32Array(
-		data.vertices.flatMap((point) => [point.x, point.y, point.z])
+		data.vertices.flatMap(point => [point.x, point.y, point.z])
 	), 3));
 	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(data.normals), 3));
 	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
@@ -28,12 +28,20 @@ export function createTerrainMesh(data, grassImage, dirtImage, fallbackUrl, qual
 		quality,
 		size: data.size
 	});
+	material.visible = true;
+	material.transparent = false;
+	material.opacity = 1;
 	const mesh = new Mesh(geometry, material);
 	mesh.name = 'Awtsmoos_canonical_alpine_valley_terrain';
+	mesh.visible = true;
+	mesh.frustumCulled = false;
 	mesh.userData.AwtsmoosTerrainValley = {
 		...data.AwtsmoosTerrainValley,
+		indexCount: data.indices.length,
 		layerCount: material.textureLayers.length,
-		shader: material.texturePolicy.shader
+		shader: material.texturePolicy.shader,
+		visibleAtBoot: true,
+		vertexCount: data.vertices.length
 	};
 	mesh.setBaseTransform();
 	return mesh;
@@ -54,9 +62,7 @@ function zoneToWeight(zone) {
 }
 
 function indexArray(indices) {
-	return dataMaximum(indices) > 65535
-		? new Uint32Array(indices)
-		: new Uint16Array(indices);
+	return dataMaximum(indices) > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
 }
 
 function dataMaximum(indices) {

@@ -2,59 +2,42 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * Every card is a source-bearing chamber. The Awtsmoos renews its perimeter,
- * while Awtsmoos.com keeps the interior still, legible, and semantically whole.
+ * Every post is an angular chamber of source and meaning. The Awtsmoos renews
+ * its dark interior while Awtsmoos.com gives lineage a decisive luminous perimeter.
  */
 
 .cosmic-post-card {
 	--source-accent: var(--cosmic-blue);
 	position: relative;
 	display: grid;
-	grid-template-columns: 5.25rem minmax(0, 1fr);
-	overflow: visible;
+	grid-template-columns: 5.1rem minmax(0, 1fr);
+	overflow: hidden;
 	min-width: 0;
 	color: var(--cosmic-text);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 66%, transparent);
 	background:
-		linear-gradient(135deg, rgba(11, 31, 57, 0.96), rgba(4, 13, 29, 0.94));
-	border: 1px solid color-mix(in srgb, var(--source-accent) 42%, transparent);
-	border-radius: 1.15rem 1.15rem 1.15rem 0.35rem;
+		linear-gradient(102deg, rgba(9, 29, 53, 0.98), rgba(3, 11, 25, 0.985) 64%, rgba(8, 18, 38, 0.98));
 	box-shadow:
-		0 1.25rem 4rem rgba(0, 0, 0, 0.38),
-		0 0 2rem color-mix(in srgb, var(--source-accent) 10%, transparent),
-		inset 0 1px rgba(255, 255, 255, 0.05);
+		0 1rem 3rem rgba(0, 0, 0, 0.58),
+		0 0 1.65rem color-mix(in srgb, var(--source-accent) 17%, transparent),
+		inset 0 1px rgba(255, 255, 255, 0.07);
+	clip-path: polygon(
+		0 0,
+		calc(100% - var(--cosmic-card-cut)) 0,
+		100% var(--cosmic-card-cut),
+		100% calc(100% - 0.72rem),
+		calc(100% - 0.72rem) 100%,
+		1.05rem 100%,
+		0 calc(100% - 1.05rem)
+	);
 	isolation: isolate;
 	content-visibility: auto;
 	contain: layout paint style;
-	contain-intrinsic-size: auto 34rem;
+	contain-intrinsic-size: auto 27rem;
 	transition:
 		border-color 180ms ease,
 		box-shadow 220ms ease,
 		transform 220ms ease;
-}
-
-.cosmic-post-card::before,
-.cosmic-post-card::after {
-	position: absolute;
-	inset: -1px;
-	z-index: -1;
-	border-radius: inherit;
-	content: "";
-	pointer-events: none;
-}
-
-.cosmic-post-card::before {
-	border: 1px solid color-mix(in srgb, var(--source-accent) 28%, transparent);
-	clip-path: polygon(0 0, calc(100% - 1.2rem) 0, 100% 1.2rem, 100% 100%, 1.1rem 100%, 0 calc(100% - 1.1rem));
-}
-
-.cosmic-post-card::after {
-	inset: -0.55rem;
-	opacity: 0;
-	background:
-		radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--source-accent) 24%, transparent), transparent 44%),
-		radial-gradient(circle at 82% 88%, color-mix(in srgb, var(--source-accent) 13%, transparent), transparent 48%);
-	filter: blur(1rem);
-	transition: opacity 220ms ease;
 }
 
 .cosmic-post-card[data-source-type="reflection"],
@@ -72,43 +55,40 @@
 
 .cosmic-post-card[data-cosmic-active],
 .cosmic-post-card:focus-within {
-	border-color: color-mix(in srgb, var(--source-accent) 78%, white 8%);
+	border-color: color-mix(in srgb, var(--source-accent) 84%, white 12%);
 	box-shadow:
-		0 1.65rem 5rem rgba(0, 0, 0, 0.48),
-		0 0 2.7rem color-mix(in srgb, var(--source-accent) 23%, transparent),
-		inset 0 1px rgba(255, 255, 255, 0.08);
-	transform: translateY(-2px);
-}
-
-.cosmic-post-card[data-cosmic-active]::after,
-.cosmic-post-card:focus-within::after {
-	opacity: 1;
+		0 1.35rem 4rem rgba(0, 0, 0, 0.64),
+		0 0 2.6rem color-mix(in srgb, var(--source-accent) 34%, transparent),
+		inset 0 0 1.2rem color-mix(in srgb, var(--source-accent) 7%, transparent);
+	transform: translateY(-1px);
 }
 
 .cosmic-post-shell {
 	min-width: 0;
-	padding: 1rem 1rem 1rem 0;
+	padding: var(--cosmic-card-padding) 0.85rem 0.72rem 0;
 }
 
 .cosmic-post-topline {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
-	gap: 0.75rem;
+	gap: 0.55rem;
 }
 
 .cosmic-post-content {
 	display: grid;
-	gap: 0.8rem;
+	gap: 0.56rem;
 	min-width: 0;
-	padding-left: 0.15rem;
+	padding-left: 0.12rem;
 }
 
 .cosmic-post-title {
 	margin: 0;
 	color: var(--cosmic-text);
-	font-size: clamp(1.08rem, 2vw, 1.35rem);
-	line-height: 1.25;
+	font-size: clamp(1.02rem, 1.55vw, 1.24rem);
+	font-weight: 780;
+	letter-spacing: -0.012em;
+	line-height: 1.22;
 	overflow-wrap: anywhere;
 }
 
@@ -120,5 +100,5 @@
 }
 
 .cosmic-post-title-link:hover {
-	color: color-mix(in srgb, var(--source-accent) 70%, white);
+	color: color-mix(in srgb, var(--source-accent) 72%, white);
 }

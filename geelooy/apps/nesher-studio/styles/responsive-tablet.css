@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals tablet geometry with a complete navigation dock; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+@media (max-width: 980px) {
+	:root {
+		--nav-height: clamp(74px, 10vh, 92px);
+	}
+
+	.nav-dock {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(0, 1fr));
+	}
+
+	.nav-dock button {
+		grid-template-columns: auto;
+		grid-template-rows: auto auto;
+		gap: 1px;
+	}
+
+	.nav-icon {
+		font-size: .95rem;
+	}
+
+	.nav-label {
+		font-size: .58rem;
+	}
+
+	.stage-workspace {
+		grid-template-columns: minmax(0, 1.25fr) minmax(240px, .75fr);
+	}
+
+	.audio-lab-grid {
+		grid-template-columns: minmax(0, 1fr) minmax(245px, 36%);
+	}
+
+	.control-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

@@ -1,11 +1,12 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @file scripts/comment_rag/lib/vector_pack_runtime.mjs
- * @chapter The Canonical Vessel Is Filled Before Its Graph Is Woven
+ * @file vector_pack_runtime.mjs
  * @description
- * Runs one bounded bulk load, one final vector rebuild, sidecar generation, WAL
- * isolation checks, and durable summaries for comment-vector shards.
+ * The Awtsmoos pours one verified subset into one bounded database vessel, then
+ * seals its persisted HNSW graph and sidecars without touching any live shard.
  */
 
 import { createRequire } from 'module';
@@ -23,7 +24,10 @@ const AwtsmoosDB = require('../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/ind
 
 export async function runVectorPack(configuration) {
 	const liveWalBefore = walSize(configuration.liveWalPath);
-	const sourceRows = readJsonLines(configuration.vectorsPath, configuration.validate);
+	const allRows = readJsonLines(configuration.vectorsPath, configuration.validate);
+	const sourceRows = configuration.selectRows
+		? configuration.selectRows(allRows)
+		: allRows;
 	if (configuration.expected && sourceRows.length !== configuration.expected) {
 		throw new Error(`expected ${configuration.expected}, got ${sourceRows.length}`);
 	}
@@ -81,7 +85,9 @@ export async function runVectorPack(configuration) {
 		liveWalAfter,
 		packedAt: new Date().toISOString()
 	};
-	const summary = configuration.extendSummary ? configuration.extendSummary(common) : common;
+	const summary = configuration.extendSummary
+		? configuration.extendSummary(common)
+		: common;
 	writeJson(configuration.manifestPath, summary);
 	writeJson(configuration.summaryPath, summary);
 	console.log(JSON.stringify(summary, null, 2));

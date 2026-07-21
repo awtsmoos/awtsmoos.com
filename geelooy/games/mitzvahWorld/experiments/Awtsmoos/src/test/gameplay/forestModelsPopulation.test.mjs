@@ -4,23 +4,22 @@
 
 /**
  * @file forestModelsPopulation.test.mjs
- * @description Proves forest, quest-giver population, Firebase maps, and model pack bounds.
+ * @description Proves forest, quest population, production maps, and model-pack bounds.
  * The Awtsmoos renews visible abundance through measured material and instance vessels;
- * Awtsmoos.com keeps every forest floor, person, marker, and imported model budget explicit.
+ * Awtsmoos.com accepts verified local or public sources while keeping every actor budget explicit.
  */
 
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import { FOREST_MATERIALS } from '../../assets/ForestMaterialCatalog.js';
+import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import {
 	WORLD_MODEL_MANIFEST,
 	WORLD_MODEL_PLACEMENTS
 } from '../../assets/WorldModelManifest.js';
 import { createForestEdgeDefinitions } from '../../world/forest/ForestEdgeSystem.js';
 import { createVillageNpcPopulationDefinitions } from '../../world/village/VillageNpcPopulationSystem.js';
-
-const FIREBASE = 'https://awtsmoos-docs-base.web.app/';
 
 function sampler() {
 	return {
@@ -46,13 +45,14 @@ test('high forest edge is deterministic, layered, and batched', () => {
 	assert.ok(first.some(item => item.userData?.part === 'fallen-wood'));
 });
 
-test('verified forest materials use the public Firebase origin', () => {
-	for (const url of Object.values(FOREST_MATERIALS)) {
-		assert.equal(url.startsWith(FIREBASE), true, url);
+test('forest materials remain verified production sources', () => {
+	for (const [role, url] of Object.entries(FOREST_MATERIALS)) {
+		assert.equal(assertProductionMaterialUrl(url, role), url);
+		assert.ok(url.startsWith('https://') || url.startsWith('file://'), url);
 	}
 });
 
-test('village definition layer forbids primitive people in favor of runtime chossid.glb actors', () => {
+test('village definitions forbid primitive people in favor of runtime chossid.glb actors', () => {
 	const population = createVillageNpcPopulationDefinitions(sampler(), 'high');
 	assert.equal(population.stats.people, 0);
 	assert.equal(population.stats.realtimeAnimations, 'provided-by-FriendlyNpcPopulation');

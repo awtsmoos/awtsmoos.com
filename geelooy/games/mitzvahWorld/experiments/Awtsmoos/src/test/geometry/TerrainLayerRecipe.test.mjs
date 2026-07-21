@@ -5,8 +5,8 @@
 /**
  * @file TerrainLayerRecipe.test.mjs
  * @description Proves sixteen logical sources and a biome-diverse bounded gameplay subset.
- * The Awtsmoos gives one valley many possible garments; Awtsmoos.com keeps every source
- * canonical while shader work stays limited to meadow, earth, wet bank, rock, forest, and shore.
+ * The Awtsmoos gives one valley many possible garments; Awtsmoos.com accepts generated or public
+ * production sources while shader work stays bounded across meadow, earth, bank, rock, and shore.
  */
 
 import assert from 'node:assert/strict';
@@ -51,8 +51,8 @@ test('logical terrain family retains eight grass maps and three transitions', ()
 
 test('every logical stack URL remains a canonical production source', () => {
 	const recipe = terrainLayerRecipe('cinematic');
-	assert.match(recipe.baseUrl, /\/chai-forest\/textures\/ground\/grass\.jpg$/);
-	assert.match(recipe.dirtUrl, /\/chai-forest\/textures\/ground\/dirt_color\.jpg$/);
+	assert.match(recipe.baseUrl, /(?:ground\/grass|ground-grass)/i);
+	assert.match(recipe.dirtUrl, /(?:ground\/dirt_color|ground-dirt-color)/i);
 	for (const layer of recipe.stack.layers) {
 		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
 		assert.equal(Object.isFrozen(layer), true);
@@ -62,9 +62,7 @@ test('every logical stack URL remains a canonical production source', () => {
 });
 
 test('medium terrain carries four zones and five hydrated ecological slots', () => {
-	const image = completeImage(
-		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
-	);
+	const image = completeImage('https://materials.test/ground/grass.jpg');
 	const mesh = createTerrainMesh(terrainData(), image, image, image.src, 'medium');
 	const zones = Array.from(mesh.geometry.attributes.zone.array);
 	assert.equal(mesh.geometry.attributes.zone.itemSize, 4);

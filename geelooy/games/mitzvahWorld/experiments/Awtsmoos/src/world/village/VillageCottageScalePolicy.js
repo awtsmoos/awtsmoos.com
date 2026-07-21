@@ -4,36 +4,42 @@
 
 /**
  * @file VillageCottageScalePolicy.js
- * @description Enforces room-scale alpine cottages whose gross volume dwarfs the player.
- * The Awtsmoos renews a home as more than a painted shell: broad rooms, tall stories,
- * deep roofs, and human clearances become measurable vessels inside Awtsmoos.com.
+ * @description Enforces genuinely inhabitable alpine houses above ten times former volume.
+ * The Awtsmoos expands shelter into halls, chambers, stairs, and workshops; Awtsmoos.com
+ * keeps even the farthest cottage room-scale instead of shrinking families into scenery.
  */
 
 const PLAYER_RADIUS = 0.38;
 const PLAYER_HEIGHT = 1.72;
-const MINIMUM_VOLUME_RATIO = 100;
+const FORMER_BASE_VOLUME = 7.6 * 5.9 * 5.5;
+const MINIMUM_EXPANSION = 10;
+const BASE_WIDTH = 19.2;
+const BASE_DEPTH = 15.4;
+const STORIES = 3;
 
 export function villageCottageScalePolicy(detail = 'near', variant = 0) {
 	const safeVariant = Math.abs(Number(variant) || 0);
-	const width = 7.6 + safeVariant % 3 * 0.55;
-	const depth = 5.9 + safeVariant % 2 * 0.5;
-	const stories = 2;
-	const storyHeight = detail === 'far' ? 2.65 : 2.75;
-	const wallHeight = stories * storyHeight;
-	const roofRise = 2.15 + safeVariant % 3 * 0.18;
+	const width = BASE_WIDTH + safeVariant % 3 * 1.2;
+	const depth = BASE_DEPTH + safeVariant % 2 * 1.1;
+	const storyHeight = detail === 'far' ? 3.15 : 3.3;
+	const wallHeight = STORIES * storyHeight;
+	const roofRise = 5.1 + safeVariant % 3 * 0.35;
 	const volume = width * depth * wallHeight;
-	const volumeRatio = volume / playerReferenceVolume();
-	if (volumeRatio < MINIMUM_VOLUME_RATIO) {
-		throw new Error(`Cottage volume ratio ${volumeRatio.toFixed(1)} is below ${MINIMUM_VOLUME_RATIO}.`);
+	const expansionRatio = volume / FORMER_BASE_VOLUME;
+	if (expansionRatio < MINIMUM_EXPANSION) {
+		throw new Error(
+			`Cottage expansion ${expansionRatio.toFixed(1)}x is below ${MINIMUM_EXPANSION}x.`
+		);
 	}
 	return Object.freeze({
 		depth,
-		minimumVolumeRatio: MINIMUM_VOLUME_RATIO,
+		expansionRatio,
+		minimumExpansion: MINIMUM_EXPANSION,
 		roofRise,
-		stories,
+		stories: STORIES,
 		storyHeight,
 		volume,
-		volumeRatio,
+		volumeRatio: volume / playerReferenceVolume(),
 		wallHeight,
 		width
 	});
@@ -47,7 +53,7 @@ export function playerReferenceVolume() {
 }
 
 export function cottageRoomCapacity(scale) {
-	const roomArea = 18;
-	const usableArea = scale.width * scale.depth * 0.68 * scale.stories;
-	return Math.max(4, Math.floor(usableArea / roomArea));
+	const roomArea = 22;
+	const usableArea = scale.width * scale.depth * 0.72 * scale.stories;
+	return Math.max(12, Math.floor(usableArea / roomArea));
 }

@@ -2,27 +2,27 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * Meaning needs space to breathe. The Awtsmoos renews every word, and
- * Awtsmoos.com separates primary teaching from quotation, citation, and provenance.
+ * Meaning fills a dense chamber without losing breath. The Awtsmoos renews every
+ * word while Awtsmoos.com separates teaching, quotation, citation, and provenance.
  */
 
 .cosmic-breadcrumbs {
 	min-width: 0;
 	color: var(--cosmic-muted);
-	font-size: 0.73rem;
+	font-size: 0.66rem;
 }
 
 .cosmic-breadcrumb-list {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.35rem;
+	gap: 0.25rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 .cosmic-breadcrumb-item + .cosmic-breadcrumb-item::before {
-	margin-right: 0.35rem;
+	margin-right: 0.25rem;
 	color: var(--source-accent);
 	content: "›";
 }
@@ -34,8 +34,8 @@
 
 .cosmic-reflection-layout {
 	display: grid;
-	grid-template-columns: minmax(0, 1.6fr) minmax(15rem, 0.8fr);
-	gap: 1rem;
+	grid-template-columns: minmax(0, 1.45fr) minmax(14.5rem, 0.72fr);
+	gap: 0.72rem;
 	align-items: start;
 }
 
@@ -43,7 +43,7 @@
 .cosmic-source-panels,
 .cosmic-specialized-content {
 	display: grid;
-	gap: 0.7rem;
+	gap: 0.52rem;
 	min-width: 0;
 }
 
@@ -52,8 +52,8 @@
 .cosmic-audio-summary {
 	margin: 0;
 	color: var(--cosmic-secondary);
-	font-size: 0.92rem;
-	line-height: 1.65;
+	font-size: 0.84rem;
+	line-height: 1.48;
 }
 
 .cosmic-quote-panel,
@@ -62,49 +62,61 @@
 	position: relative;
 	display: grid;
 	grid-template-columns: auto 1fr;
-	gap: 0.55rem;
+	gap: 0.45rem;
 	margin: 0;
-	padding: 0.85rem;
+	padding: 0.68rem;
 	color: var(--cosmic-secondary);
-	border: 1px solid color-mix(in srgb, var(--source-accent) 30%, transparent);
-	border-radius: 0.75rem 0.75rem 0.2rem 0.75rem;
-	background: rgba(2, 10, 24, 0.72);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
-	line-height: 1.5;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 42%, transparent);
+	background:
+		linear-gradient(135deg, color-mix(in srgb, var(--source-accent) 8%, transparent), rgba(2, 9, 22, 0.9));
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, 0.05),
+		0 0 1rem color-mix(in srgb, var(--source-accent) 9%, transparent);
+	clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 0.7rem, 100% 100%, 0.55rem 100%, 0 calc(100% - 0.55rem));
+	font-size: 0.78rem;
+	line-height: 1.42;
 	text-decoration: none;
+}
+
+.cosmic-quote-panel::before {
+	color: var(--source-accent);
+	content: "❝";
+	font-size: 1.15rem;
+	line-height: 1;
 }
 
 .cosmic-quote-panel p {
 	margin: 0;
 	color: var(--cosmic-text);
 	font-family: Georgia, "Times New Roman", serif;
-	font-size: 1rem;
-	line-height: 1.5;
+	font-size: 0.9rem;
+	line-height: 1.42;
 }
 
 .cosmic-participants {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.65rem;
+	gap: 0.48rem;
 	color: var(--cosmic-muted);
-	font-size: 0.76rem;
+	font-size: 0.68rem;
 }
 
 .cosmic-avatar-stack {
 	display: flex;
-	padding-left: 0.35rem;
+	padding-left: 0.32rem;
 }
 
 .cosmic-mini-avatar {
 	display: grid;
-	width: 1.75rem;
-	height: 1.75rem;
-	margin-left: -0.35rem;
+	width: 1.55rem;
+	height: 1.55rem;
+	margin-left: -0.32rem;
 	place-items: center;
 	border: 2px solid var(--cosmic-deep);
 	border-radius: 50%;
-	background: color-mix(in srgb, var(--source-accent) 24%, var(--cosmic-raised));
-	font-size: 0.66rem;
+	background: color-mix(in srgb, var(--source-accent) 30%, var(--cosmic-raised));
+	box-shadow: 0 0 0.55rem color-mix(in srgb, var(--source-accent) 18%, transparent);
+	font-size: 0.6rem;
 	font-weight: 800;
 }

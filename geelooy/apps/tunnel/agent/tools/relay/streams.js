@@ -1,98 +1,145 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 const { STREAM_TTL_MS } = require("./settings.js");
+const {
+	CHUNK_BYTES,
+	appendBounded,
+	createRelayStream,
+	encodeDataUrl,
+	waitForChunk,
+	wakeStream
+} = require("./streamVessel.js");
 
 const streams = new Map();
 
 /**
- * Chapter 19: A Finished Browser Body Still Became A River.
- *
- * Node fetch gives a native stream. Browser Runtime fetch gives a completed
- * body. The Awtsmoos lets both become the same relay stream shape so callers can
- * read, resume, text, json, or blob without caring which world answered.
- *
- * @param {Response} response Fetch response with optional body stream.
- * @returns {object} Metadata containing id, headers, and status.
+ * Native and browser responses become the same bounded relay river. The
+ * Awtsmoos creates every byte continuously; this store refuses to hide a long
+ * audio file inside one giant JSON or base64 value.
  */
 function rememberResponse(response) {
-  sweepStreams();
-  const id = nextId();
-  const stream = { id, chunks: [], done: false, error: null, waiters: [], createdAt: Date.now(), lastReadAt: Date.now() };
-  streams.set(id, stream);
-  pump(stream, response.body);
-  return { status: response.status, ok: response.ok, headers: Array.from(response.headers.entries()), url: response.url, redirected: response.redirected, streamId: id, id };
+	sweepStreams();
+	const stream = createRelayStream();
+	streams.set(stream.id, stream);
+	pumpResponse(stream, response.body);
+	return responseMetadata(response, stream.id);
 }
 
-/**
- * B"H — Stores an already-read browser body as one completed stream chunk.
- * @param {object} metadata Response metadata.
- * @param {string|Buffer} body Body bytes/text.
- * @returns {object} Fetch-like relay metadata.
- */
 function rememberStaticResponse(metadata = {}, body = "") {
-  sweepStreams();
-  const id = nextId();
-  const chunk = Buffer.isBuffer(body) ? body : Buffer.from(String(body || ""), "utf8");
-  streams.set(id, { id, chunks: [chunk], done: true, error: null, waiters: [], createdAt: Date.now(), lastReadAt: Date.now() });
-  return { status: metadata.status || 200, ok: metadata.ok !== false, headers: metadata.headers || [], url: metadata.url || "", redirected: !!metadata.redirected, streamId: id, id };
+	sweepStreams();
+	const stream = createRelayStream();
+	appendBounded(
+		stream,
+		Buffer.isBuffer(body) ? body : Buffer.from(String(body || ""), "utf8")
+	);
+	stream.done = true;
+	streams.set(stream.id, stream);
+	return responseMetadata(metadata, stream.id);
 }
 
 async function readRelayBody({ id, bodyAction, cursor = 0 }) {
-  const stream = streams.get(id);
-  if (!stream) throw new Error("Response not found or already consumed.");
-  stream.lastReadAt = Date.now();
-  if (bodyAction === "read") return await chunkAt(stream, Number(cursor));
-  if (bodyAction === "resume") return resumeFrom(stream, Number(cursor));
-  if (["text", "json", "blob"].includes(bodyAction)) return await whole(stream, bodyAction);
-  throw new Error("Unknown body action: " + bodyAction);
+	const stream = streams.get(id);
+	if (!stream) {
+		throw new Error("Response not found or already consumed.");
+	}
+	stream.lastReadAt = Date.now();
+	if (bodyAction === "read") {
+		return await readChunk(stream, Number(cursor));
+	}
+	if (bodyAction === "resume") {
+		return resumeChunks(stream, Number(cursor));
+	}
+	if (["text", "json", "blob"].includes(bodyAction)) {
+		return await readWholeBody(stream, bodyAction);
+	}
+	throw new Error(`Unknown body action: ${bodyAction}`);
 }
 
-async function pump(stream, body) {
-  try {
-    if (!body) return void (stream.done = true, wake(stream));
-    for await (const chunk of body) { stream.chunks.push(Buffer.from(chunk)); wake(stream); }
-    stream.done = true;
-  } catch (error) { stream.error = error; stream.done = true; }
-  finally { wake(stream); }
+async function pumpResponse(stream, body) {
+	try {
+		if (body) {
+			for await (const chunk of body) {
+				appendBounded(stream, chunk);
+				wakeStream(stream);
+			}
+		}
+		stream.done = true;
+	} catch (error) {
+		stream.error = error;
+		stream.done = true;
+	} finally {
+		wakeStream(stream);
+	}
 }
 
-async function chunkAt(stream, cursor) {
-  const ready = await waitFor(stream, cursor, 45000);
-  if (ready === "pending") return { pending: true, retryAfter: 700 };
-  if (stream.error) throw stream.error;
-  const chunk = stream.chunks[cursor];
-  if (!chunk) return { chunk: null, index: cursor, done: true };
-  return { chunk: dataUrl(chunk), index: cursor, done: false };
+async function readChunk(stream, cursor) {
+	const readiness = await waitForChunk(stream, cursor);
+	if (readiness === "pending") {
+		return { pending: true, retryAfter: 700 };
+	}
+	if (stream.error) {
+		throw stream.error;
+	}
+	const chunk = stream.chunks[cursor];
+	if (!chunk) {
+		return { chunk: null, index: cursor, done: true };
+	}
+	return { chunk: encodeDataUrl(chunk), index: cursor, done: false };
 }
 
-function resumeFrom(stream, cursor) {
-  const chunks = [];
-  for (let i = cursor; i < stream.chunks.length; i++) chunks.push({ index: i, chunk: dataUrl(stream.chunks[i]) });
-  return { chunks, done: stream.done, error: stream.error?.stack || null };
+function resumeChunks(stream, cursor) {
+	const chunks = [];
+	for (let index = cursor; index < stream.chunks.length; index += 1) {
+		chunks.push({ index, chunk: encodeDataUrl(stream.chunks[index]) });
+	}
+	return { chunks, done: stream.done, error: stream.error?.stack || null };
 }
 
-async function whole(stream, action) {
-  while (!stream.done && !stream.error) await new Promise(resolve => stream.waiters.push(resolve));
-  if (stream.error) throw stream.error;
-  const bytes = Buffer.concat(stream.chunks);
-  const text = bytes.toString("utf8");
-  if (action === "json") return JSON.parse(text);
-  if (action === "blob") return dataUrl(bytes);
-  return text;
+async function readWholeBody(stream, action) {
+	while (!stream.done && !stream.error) {
+		await new Promise(resolve => stream.waiters.push(resolve));
+	}
+	if (stream.error) {
+		throw stream.error;
+	}
+	const bytes = Buffer.concat(stream.chunks);
+	if (action === "blob") {
+		return encodeDataUrl(bytes);
+	}
+	const text = bytes.toString("utf8");
+	return action === "json" ? JSON.parse(text) : text;
 }
 
-function waitFor(stream, cursor, ms) {
-  if (stream.chunks[cursor] || stream.done || stream.error) return Promise.resolve("ready");
-  return new Promise(resolve => {
-    const timer = setTimeout(() => cleanup("pending"), ms);
-    const waiter = () => cleanup("ready");
-    function cleanup(value) { clearTimeout(timer); stream.waiters = stream.waiters.filter(w => w !== waiter); resolve(value); }
-    stream.waiters.push(waiter);
-  });
+function responseMetadata(source, streamId) {
+	const headers = source.headers instanceof Headers
+		? Array.from(source.headers.entries())
+		: source.headers || [];
+	return {
+		status: source.status || 200,
+		ok: source.ok !== false,
+		headers,
+		url: source.url || "",
+		redirected: Boolean(source.redirected),
+		streamId,
+		id: streamId
+	};
 }
 
-function sweepStreams() { const now = Date.now(); for (const [id, s] of streams) if (s.done && now - s.lastReadAt > STREAM_TTL_MS) streams.delete(id); }
-function wake(stream) { stream.waiters.splice(0).forEach(fn => fn()); }
-function dataUrl(buf) { return `data:application/octet-stream;base64,${Buffer.from(buf).toString("base64")}`; }
-function nextId() { return `BH_TUNNEL_RELAY_${Date.now()}_${Math.random().toString(36).slice(2)}`; }
+function sweepStreams() {
+	const now = Date.now();
+	for (const [id, stream] of streams) {
+		if (stream.done && now - stream.lastReadAt > STREAM_TTL_MS) {
+			streams.delete(id);
+		}
+	}
+}
 
-module.exports = { rememberResponse, rememberStaticResponse, readRelayBody, streams };
+module.exports = {
+	CHUNK_BYTES,
+	rememberResponse,
+	rememberStaticResponse,
+	readRelayBody,
+	streams
+};

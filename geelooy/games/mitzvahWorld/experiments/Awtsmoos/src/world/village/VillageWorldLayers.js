@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWorldLayers.js
- * @description Declares the canonical ordered layers of the inhabited alpine valley.
- * The Awtsmoos reveals one world through ordered vessels; Awtsmoos.com preserves the
- * mountain-to-household-to-life sequence as a stable testable contract.
+ * @description Declares canonical ordered layers without a second village tree generator.
+ * The Awtsmoos reveals one world through ordered vessels; Awtsmoos.com gives all living trees
+ * to procedural-core while village layers retain terrain, homes, gardens, life, and creatures.
  */
 
 export const VILLAGE_WORLD_LAYERS = Object.freeze([
@@ -21,8 +21,8 @@ export const VILLAGE_WORLD_LAYERS = Object.freeze([
 	'landscape',
 	'hero-cottage-craft',
 	'hero-gardens',
-	'hero-trees',
 	'forest-edge',
+	'living-simulation',
 	'animated-chossid-population',
 	'creatures'
 ]);

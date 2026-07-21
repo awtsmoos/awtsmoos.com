@@ -3,71 +3,81 @@
 // Blessed is He
 
 /**
- * Chesed gives Ari rounded shoulders, a relaxed navy jacket, and two gestures
- * that rise from one planted body. The Awtsmoos renews every finite proportion,
- * while Awtsmoos.com preserves editable, keyframeable production geometry.
+ * Ari's rounded navy jacket opens through a generous palm and gathers a fist
+ * beside his heart. The Awtsmoos renews every finite anchor, while Awtsmoos.com
+ * preserves the whole gesture as editable, serializable production geometry.
  */
 export class CheerfulReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
 				garmentKind: 'jacket',
-				shoulderExtra: -3,
-				shoulderDrop: 5,
-				shoulderArch: 11,
+				shoulderExtra: 1,
+				shoulderDrop: 12,
+				shoulderArch: 12,
 				waistCenterX: -9,
 				hipCenterX: -9,
 				waistHalf: 43,
-				waistDrop: 1,
 				hipHalf: 42,
-				sideRound: 12,
-				belly: 1,
-				hemY: -72,
-				hemRound: 11,
+				sideRound: 14,
+				belly: 3,
+				hemY: -70,
+				hemRound: 9,
 				hemLift: 0
 			},
 			shoulders: {
-				centerX: -10,
-				halfWidthOffset: -2,
-				leftYOffset: 2,
-				rightYOffset: 2
+				centerX: -15.5,
+				halfWidthOffset: 10,
+				leftYOffset: 9.5,
+				rightYOffset: 9.5
 			},
 			pelvis: {
 				centerX: -9,
-				topHalf: 42,
+				topHalf: 40,
 				bottomHalf: 38,
-				bottomY: -65
+				bottomY: -62
 			},
 			legs: {
-				centerOffsetX: -1.5,
-				hipOffset: 19,
-				kneeOffset: 18,
-				ankleOffset: 21,
-				footOffset: 25,
-				thighWidth: 44,
-				kneeWidth: 40,
-				ankleWidth: 28,
-				shoeScaleX: 0.96,
-				shoeScaleY: 0.84
+				centerOffsetX: -8,
+				hipOffset: 20,
+				kneeOffset: 20,
+				ankleOffset: 22,
+				footOffset: 26,
+				thighWidth: 40,
+				kneeWidth: 37,
+				ankleWidth: 27,
+				shoeScaleX: 0.74,
+				shoeScaleY: 0.62,
+				footwear: {
+					kind: 'grounded',
+					toeLength: 0.39,
+					vampHeight: 0.64,
+					soleDepth: 2.2,
+					heelHeight: 0.12,
+					openingDepth: 0.58
+				}
 			},
 			details: {
-				shirtPanelHalf: 24,
-				lapelHalf: 9,
+				shirtPanelHalf: 21,
+				lapelHalf: 8,
 				buttons: true,
-				pockets: false
+				pockets: false,
+				foldOffsets: [-15, 13],
+				foldOpacity: 0.055,
+				foldWidth: 0.62
 			},
 			gesture: {
 				mode: 'open_palm_left',
-				elbowOut: 19,
-				elbowDown: 25,
-				wristOut: 39,
-				wristDown: -2,
-				palmScale: 1.2,
-				fistElbowOut: 12,
-				fistElbowDown: 25,
-				fistX: 17,
-				fistDrop: 8,
-				fistScale: 1.34
+				elbowOut: 25,
+				elbowDown: 20,
+				wristOut: 44,
+				wristDown: 1,
+				palmScale: 1.1,
+				fistElbowOut: 15,
+				fistElbowDown: 26,
+				fistX: 32,
+				fistDrop: 12.5,
+				fistScale: 1.12
 			}
 		};
 	}

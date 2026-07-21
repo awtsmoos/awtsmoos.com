@@ -17,23 +17,23 @@ export class CalmReferenceAppearance {
 			...CalmReferenceHeadStyle.create(),
 			mouthStyle: {
 				kind: 'rose_lips',
-				lipColor: '#a9555b',
-				tongueColor: '#d98382',
-				widthScale: 0.72,
-				heightScale: 0.56,
-				openScale: 0.68,
-				jawScale: 0.58,
-				cavityWidthScale: 0.82,
-				cavityHeightScale: 0.74,
-				lipThickness: 1,
+				lipColor: '#a95b62',
+				tongueColor: '#d98a87',
+				widthScale: 0.68,
+				heightScale: 0.52,
+				openScale: 0.64,
+				jawScale: 0.54,
+				cavityWidthScale: 0.8,
+				cavityHeightScale: 0.72,
+				lipThickness: 0.88,
 				asymmetryBias: 0.025,
-				smileBias: 0.12,
-				upperLiftScale: 0.9,
-				lowerDropScale: 0.8,
-				lineWidth: 1.05,
-				lowerLipWidth: 1.2,
+				smileBias: 0.1,
+				upperLiftScale: 0.88,
+				lowerDropScale: 0.76,
+				lineWidth: 0.92,
+				lowerLipWidth: 1.12,
 				horizontalOffset: 0.4,
-				verticalOffset: 1.4
+				verticalOffset: 1.2
 			}
 		};
 	}

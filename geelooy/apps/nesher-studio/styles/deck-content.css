@@ -1,0 +1,90 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals paged lists, compact forms, crops, and action grids; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+.compact-list {
+	display: grid;
+	align-content: start;
+	gap: 5px;
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+}
+
+.compact-list li,
+#sceneList li,
+#sourceList li,
+#nleBin li {
+	min-width: 0;
+	margin: 0;
+	padding: 7px 9px;
+	border: 1px solid var(--line);
+	border-radius: 11px;
+	background: rgba(7, 16, 32, .88);
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.list-pager {
+	display: grid;
+	grid-template-columns: 38px 1fr 38px;
+	align-items: center;
+	gap: 6px;
+}
+
+.list-pager button {
+	min-height: 32px;
+	padding: .25rem;
+}
+
+.list-pager span {
+	text-align: center;
+	color: var(--muted);
+	font-size: .68rem;
+	font-weight: 800;
+}
+
+.button-grid,
+.layer-buttons,
+.quick-actions,
+.tool-pills {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.layer-buttons {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.compact-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.check-row {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.check-row input {
+	width: auto;
+}
+
+.crop-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.span-all {
+	grid-column: 1 / -1;
+}

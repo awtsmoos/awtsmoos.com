@@ -4,13 +4,14 @@
 
 /**
  * @file horseAndRoadQuality.test.mjs
- * @description Proves shared horse resources, smooth prepared ground, and real material contracts.
+ * @description Proves shared horse resources, smooth ground, and verified full material contracts.
  * The Awtsmoos renews every hoof and brick while immutable vessels remain shared; Awtsmoos.com
- * verifies that Catmull–Rom motion and performance reuse never become lower-quality substitutes.
+ * accepts public or generated full sources without permitting preview fallback or quality loss.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { AnimatedHorse } from '../../world/horses/AnimatedHorse.js';
 import { HorseGroundProfile } from '../../world/horses/HorseGroundProfile.js';
 import {
@@ -71,11 +72,13 @@ test('horses share immutable resources and keep independent smooth ground transf
 	);
 });
 
-test('horse and road contracts require full-resolution sources without fallback', () => {
+test('horse and road contracts require verified full sources without fallback', () => {
 	const horse = horseMaterialFields();
 	const road = roadMaterialFields();
-	assert.match(HORSE_FUR_TEXTURE_URL, /\/full-resolution\//);
-	assert.match(ROAD_YELLOW_BRICK_URL, /\/full-resolution\//);
+	assert.equal(assertProductionMaterialUrl(HORSE_FUR_TEXTURE_URL, 'horse fur'), HORSE_FUR_TEXTURE_URL);
+	assert.equal(assertProductionMaterialUrl(ROAD_YELLOW_BRICK_URL, 'road brick'), ROAD_YELLOW_BRICK_URL);
+	assert.match(HORSE_FUR_TEXTURE_URL, /horse(?:%20|-| )fur/i);
+	assert.match(ROAD_YELLOW_BRICK_URL, /yellow(?:%20|-| )brick/i);
 	assert.equal(horse.texturePolicy.fullResolution, true);
 	assert.equal(horse.texturePolicy.fallbackApplied, false);
 	assert.ok(horse.anisotropy >= 8);

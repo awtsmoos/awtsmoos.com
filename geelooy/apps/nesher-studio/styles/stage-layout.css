@@ -1,0 +1,19 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the canvas-first stage and compact tool dock; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
+*/
+.stage-page { grid-template-rows: auto minmax(0,1fr); }
+.stage-workspace { display: grid; grid-template-columns: minmax(0,1fr) clamp(270px, 27vw, 390px); gap: 8px; min-width: 0; min-height: 0; overflow: hidden; }
+.stage-canvas-zone { position: relative; display: grid; min-width: 0; min-height: 0; overflow: hidden; }
+.stage-wrap { display: grid; place-items: center; min-width: 0; min-height: 0; border: 1px solid rgba(117,255,229,.28); border-radius: 18px; background: radial-gradient(circle at center, #17294f, #040813 72%); overflow: hidden; }
+#stage { display: block; max-width: 100%; max-height: 100%; border: 1px solid var(--line-hot); border-radius: 10px; background: #111; }
+.stage-hud { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; justify-content: space-between; gap: 8px; padding: 6px 9px; border: 1px solid rgba(117,255,229,.2); border-radius: 999px; color: var(--soft); background: rgba(2,8,18,.72); backdrop-filter: blur(10px); font-size: .66rem; overflow: hidden; }
+.stage-hud span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stage-dock, .source-deck, .nle-deck { min-width: 0; min-height: 0; padding: 7px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); overflow: hidden; }
+.stage-dock { grid-template-rows: auto auto minmax(0,1fr); }
+.dock-heading { display: flex; justify-content: space-between; gap: 8px; min-width: 0; }
+.dock-heading h3 { margin: 0; font-size: 1rem; }
+.dock-heading p { max-width: 48%; margin: 0; color: var(--muted); font-size: .65rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.visualizer-panel, .tool-panel { display: grid; gap: 7px; min-height: 0; overflow: hidden; }
+.download-list { min-height: 0; overflow: hidden; }

@@ -1,0 +1,209 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import {
+	copyAudioMessage,
+	createAudioOffer,
+	saveAudioSettings,
+	setAudioBusy,
+	statusNode,
+	toggleAudioSettings
+} from "./audioOfferView.js";
+import {
+	bindAudioPlayer,
+	loadBlobAudioPlayer,
+	toggleAudioPlayback
+} from "./audioPlayerView.js";
+import {
+	audioSignature,
+	downloadAudioState,
+	resetAudioState
+} from "./audioPlayerState.js";
+import { tryStreamToAudioPlayer } from "./audioStreamPlayback.js";
+
+/**
+ * The Awtsmoos unifies many focused vessels into one human action: copy,
+ * configure, hear, or download. This coordinator knows intentions and delegates
+ * transport, state, settings, and player details to their smaller modules.
+ */
+export function mountAwtsmoosAudioOffer(options = {}) {
+	const {
+		shell,
+		aiHandler,
+		conversationId = null,
+		messageId = null,
+		copyText = ""
+	} = options;
+	if (!canMount(shell, conversationId)) {
+		return null;
+	}
+	const text = assistantText(shell, copyText);
+	if (!text) {
+		return null;
+	}
+	const root = createAudioOffer(text);
+	bindAudioPlayer(root);
+	root.addEventListener("change", () => saveAudioSettings(root));
+	root.addEventListener("click", event => {
+		handleAudioClick(event, {
+			root,
+			aiHandler,
+			conversationId,
+			messageId
+		});
+	});
+	shell.append(root);
+	return root;
+}
+
+async function handleAudioClick(event, context) {
+	const button = event.target?.closest?.("[data-audio-action]");
+	const action = button?.dataset?.audioAction;
+	if (!action) {
+		return;
+	}
+	event.preventDefault();
+	if (action === "copy") {
+		await copyMessage(context.root);
+		return;
+	}
+	if (action === "settings") {
+		toggleAudioSettings(context.root, button);
+		return;
+	}
+	if (action === "toggle") {
+		await toggleAudioPlayback(context.root);
+		return;
+	}
+	const settings = saveAudioSettings(context.root);
+	if (action === "play") {
+		await synthesizeForPlay(context, settings);
+	}
+	if (action === "download") {
+		await synthesizeForDownload(context, settings);
+	}
+}
+
+async function copyMessage(root) {
+	try {
+		await copyAudioMessage(root);
+		statusNode(root).textContent = "Copied message text.";
+	} catch (error) {
+		statusNode(root).textContent = `Copy failed: ${error?.message || error}`;
+	}
+}
+
+async function synthesizeForPlay(context, settings) {
+	const { root, aiHandler, conversationId, messageId } = context;
+	const signature = audioSignature({
+		conversationId,
+		messageId,
+		voice: settings.voice,
+		format: "mp3"
+	});
+	const existing = root.__awtsmoosAudio;
+	if (existing?.signature === signature && existing.mode !== "idle") {
+		statusNode(root).textContent = existing.done
+			? "Reusing completed streamed MP3."
+			: "Stream already running.";
+		root.querySelector(".player-play").disabled = false;
+		await root.querySelector("audio")?.play?.().catch(() => undefined);
+		return;
+	}
+	try {
+		resetAudioState(root);
+		setAudioBusy(root, true, { allowDownload: true });
+		statusNode(root).textContent = "Opening streaming MP3…";
+		const service = await aiHandler?.getActiveService?.();
+		if (!service) {
+			throw new Error("No active ChatGPT service was found.");
+		}
+		const request = {
+			message_id: messageId,
+			conversation_id: conversationId,
+			voice: settings.voice,
+			format: "mp3",
+			signature
+		};
+		const streamed = await tryStreamToAudioPlayer(root, service, request);
+		if (streamed) {
+			return;
+		}
+		statusNode(root).textContent =
+			"Progressive playback unavailable; preparing complete MP3…";
+		const result = await service.getAwtsmoosAudio({
+			...request,
+			download: false
+		});
+		await loadBlobAudioPlayer(root, result, signature);
+	} catch (error) {
+		root.querySelector(".player-play").disabled = true;
+		statusNode(root).textContent = `Audio failed: ${error?.message || error}`;
+	} finally {
+		setAudioBusy(root, false);
+	}
+}
+
+async function synthesizeForDownload(context, settings) {
+	const { root, aiHandler, conversationId, messageId } = context;
+	const mp3Signature = audioSignature({
+		conversationId,
+		messageId,
+		voice: settings.voice,
+		format: "mp3"
+	});
+	try {
+		const state = root.__awtsmoosAudio;
+		if (
+			settings.format === "mp3"
+			&& state?.signature === mp3Signature
+			&& state.mode === "streaming"
+		) {
+			setAudioBusy(root, true, { allowPlay: true });
+			statusNode(root).textContent = state.done
+				? "Downloading verified streamed MP3…"
+				: "Waiting for the full stream before downloading…";
+			await state.promise;
+			downloadAudioState(state, "mp3");
+			statusNode(root).textContent = "Downloaded complete streamed MP3.";
+			return;
+		}
+		setAudioBusy(root, true);
+		statusNode(root).textContent = "Preparing complete download…";
+		const service = await aiHandler?.getActiveService?.();
+		if (!service) {
+			throw new Error("No active ChatGPT service was found.");
+		}
+		await service.getAwtsmoosAudio({
+			message_id: messageId,
+			conversation_id: conversationId,
+			voice: settings.voice,
+			format: settings.format,
+			download: true
+		});
+		statusNode(root).textContent =
+			`Downloaded ${settings.format.toUpperCase()} audio.`;
+	} catch (error) {
+		statusNode(root).textContent = `Download failed: ${error?.message || error}`;
+	} finally {
+		setAudioBusy(root, false);
+	}
+}
+
+function canMount(shell, conversationId) {
+	return Boolean(
+		shell
+		&& conversationId
+		&& !shell.querySelector?.(":scope > .awtsmoos-audio-offer")
+		&& !shell.querySelector?.(":scope > .message.is-loading")
+	);
+}
+
+function assistantText(shell, copyText) {
+	return String(
+		copyText
+		|| shell.querySelector?.(":scope > .message:not(.is-loading)")?.textContent
+		|| ""
+	).trim();
+}

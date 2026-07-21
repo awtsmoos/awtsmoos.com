@@ -2,14 +2,15 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * The Awtsmoos renews every color as a present vessel. Awtsmoos.com keeps
- * the palette named so intensity can remain coherent, accessible, and maintainable.
+ * The Awtsmoos names every luminous measure before form appears. Awtsmoos.com
+ * keeps reference intensity coherent across cards, gutters, controls, and depth.
  */
 
 .geelooy-home-document {
-	--cosmic-page: #020611;
-	--cosmic-deep: #061021;
-	--cosmic-raised: #09172b;
+	--cosmic-page: #01040c;
+	--cosmic-deep: #04101f;
+	--cosmic-raised: #08192e;
+	--cosmic-panel: #061326;
 	--cosmic-cyan: #35e8ff;
 	--cosmic-blue: #3b82ff;
 	--cosmic-violet: #795cff;
@@ -19,7 +20,10 @@
 	--cosmic-muted: #71839c;
 	--cosmic-danger: #ff648f;
 	--cosmic-success: #55efb0;
-	--cosmic-border: rgba(77, 181, 255, 0.38);
-	--cosmic-header-offset: 5.75rem;
-	--cosmic-feed-width: 68.75rem;
+	--cosmic-border: rgba(77, 181, 255, 0.48);
+	--cosmic-header-offset: 5.15rem;
+	--cosmic-feed-width: 66rem;
+	--cosmic-feed-gap: 0.58rem;
+	--cosmic-card-cut: 1.15rem;
+	--cosmic-card-padding: 0.78rem;
 }

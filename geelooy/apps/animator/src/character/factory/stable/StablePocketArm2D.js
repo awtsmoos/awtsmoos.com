@@ -4,52 +4,63 @@
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { LineArtStyle } from '../../style/LineArtStyle.js';
+import { StablePocketGeometry } from './StablePocketGeometry.js';
 import { StableReferenceLimbPath2D } from './StableReferenceLimbPath2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Malchus lets Miriam's right sleeve curve naturally into a true pocket opening.
- * The Awtsmoos renews shoulder, elbow, forearm, and hidden hand while Awtsmoos.com
- * preserves every anchor as serializable, keyframeable production geometry.
+ * Miriam's relaxed shoulder flows through one soft elbow into a real pocket. The
+ * Awtsmoos renews arm and cloth together, while Awtsmoos.com keeps the hidden
+ * hand, cuff, and entry aligned in editable production geometry.
  */
 export class StablePocketArm2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
-		const shoulder = { x: data._skeleton.rightShoulder.x, y: data._skeleton.rightShoulder.y + 7 };
+		const shoulder = {
+			x: data._skeleton.rightShoulder.x,
+			y: data._skeleton.rightShoulder.y + Number(gesture.shoulderDrop || 9)
+		};
 		const elbow = {
-			x: shoulder.x + Number(gesture.elbowOut || 14),
+			x: shoulder.x + Number(gesture.elbowOut || 15),
 			y: shoulder.y + Number(gesture.elbowDown || 39)
 		};
-		const pocket = {
-			x: Number(gesture.pocketX || 25),
-			y: metrics.waistY + Number(gesture.pocketDrop || 8)
-		};
-		const sleeve = LineArtStyle.outer(data, colors.jacket);
+		const pocket = StablePocketGeometry.resolve(data, metrics, { gesture });
+		const entry = { x: pocket.entryX, y: pocket.entryY };
+		const sleeve = LineArtStyle.exterior(data, colors.jacket);
 		return S.group(`${prefix}_right_pocket_arm`, null, [
-			StableReferenceLimbPath2D.build(`${prefix}_right_pocket_upper`, shoulder, elbow, metrics.armWidth + 9, metrics.armWidth + 6, sleeve, -2),
-			StableReferenceLimbPath2D.build(`${prefix}_right_pocket_fore`, elbow, pocket, metrics.armWidth + 6, metrics.armWidth + 1, sleeve, 3),
-			G.ellipse(`${prefix}_right_pocket_cuff`, pocket.x - 3, pocket.y - 1, 5.7, 3.6, -0.22, {
-				fill: colors.jacketDark || colors.jacket,
-				stroke: colors.line,
-				lineWidth: 1.2
-			}),
-			this.pocketOpening(data, colors, pocket, prefix),
-			this.hiddenHand(colors, pocket, prefix)
+			StableReferenceLimbPath2D.build(
+				`${prefix}_right_pocket_upper`,
+				shoulder,
+				elbow,
+				metrics.armWidth + 7,
+				metrics.armWidth + 4,
+				sleeve,
+				-1
+			),
+			StableReferenceLimbPath2D.build(
+				`${prefix}_right_pocket_fore`,
+				elbow,
+				entry,
+				metrics.armWidth + 4,
+				metrics.armWidth,
+				sleeve,
+				2
+			),
+			this.cuff(data, colors, entry, prefix),
+			pocket.visibleHand ? this.hiddenHand(colors, pocket, prefix) : null
 		]);
 	}
 
-	static pocketOpening(data, colors, pocket, prefix) {
-		return G.path(`${prefix}_right_pocket_rim`, [
-			{ type: 'move', x: pocket.x - 12, y: pocket.y - 5 },
-			{ type: 'quad', cx: pocket.x, cy: pocket.y + 1, x: pocket.x + 11, y: pocket.y - 1 }
-		], { ...LineArtStyle.inner(data, colors.jacketDark), lineWidth: 1.8, lineCap: 'round' });
+	static cuff(data, colors, entry, prefix) {
+		return G.ellipse(`${prefix}_right_pocket_cuff`, entry.x - 2.5, entry.y - 1, 5, 3, -0.18, LineArtStyle.medium(data, colors.jacketDark || colors.jacket));
 	}
 
 	static hiddenHand(colors, pocket, prefix) {
+		const depth = pocket.handDepth;
 		return G.path(`${prefix}_right_pocket_hidden_hand`, [
-			{ type: 'move', x: pocket.x - 7, y: pocket.y - 4 },
-			{ type: 'quad', cx: pocket.x - 2, cy: pocket.y - 8, x: pocket.x + 4, y: pocket.y - 4 },
-			{ type: 'quad', cx: pocket.x + 2, cy: pocket.y, x: pocket.x - 4, y: pocket.y },
-			{ type: 'quad', cx: pocket.x - 8, cy: pocket.y - 1, x: pocket.x - 7, y: pocket.y - 4 }
-		], { fill: colors.skin, stroke: colors.line, lineWidth: 1.25, lineJoin: 'round' });
+			{ type: 'move', x: pocket.entryX - 4.5 * depth, y: pocket.entryY - 2.8 * depth },
+			{ type: 'quad', cx: pocket.entryX, cy: pocket.entryY - 5.2 * depth, x: pocket.entryX + 3.2 * depth, y: pocket.entryY - 2.4 * depth },
+			{ type: 'quad', cx: pocket.entryX + 1.5 * depth, cy: pocket.entryY, x: pocket.entryX - 3.2 * depth, y: pocket.entryY },
+			{ type: 'close' }
+		], { fill: colors.skin, stroke: colors.line, lineWidth: 1, lineJoin: 'round' });
 	}
 }

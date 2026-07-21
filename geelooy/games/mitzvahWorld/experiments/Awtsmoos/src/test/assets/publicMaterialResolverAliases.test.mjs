@@ -4,9 +4,9 @@
 
 /**
  * @file publicMaterialResolverAliases.test.mjs
- * @description Protects the three runtime-log-proven replacements for blocked source names.
- * The Awtsmoos preserves material meaning while changing a broken finite doorway; Awtsmoos.com
- * verifies the village receives original source pixels from URLs that can actually hydrate.
+ * @description Protects canonical aliases while proving their generated local byte vessels.
+ * The Awtsmoos preserves material meaning when a finite doorway disappears; Awtsmoos.com
+ * verifies every alias keeps its source identity and hydrates without the dead public host.
  */
 
 import assert from 'node:assert/strict';
@@ -16,10 +16,12 @@ import {
 	fullMaterialUrl,
 	publicMaterialAliases
 } from '../../assets/PublicMaterialResolver.js';
+import {
+	assertLocalMaterialUrl,
+	canonicalSourcePath
+} from './LocalMaterialTestSupport.mjs';
 
-const ORIGIN = 'https://awtsmoos-docs-base.web.app/';
-
-test('redirects the logged CORS failures to verified source paths', () => {
+test('redirects logged source failures to verified canonical identities', () => {
 	assert.equal(
 		fullMaterialPath('grass 6'),
 		'awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
@@ -29,21 +31,23 @@ test('redirects the logged CORS failures to verified source paths', () => {
 		'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg'
 	);
 	assert.equal(fullMaterialPath('oak wood 2'), 'full-resolution/oak wood 3.png');
-	assert.equal(
-		fullMaterialUrl('mud'),
-		`${ORIGIN}awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg`
+	assert.equal(fullMaterialPath('stone floor'), 'full-resolution/stone floor 2.png');
+	assertLocalMaterialUrl(
+		assert,
+		fullMaterialUrl('stone floor'),
+		'/full-resolution/stone floor 2.png'
 	);
 });
 
-test('keeps all unproven material names on their exact full-resolution path', () => {
+test('unproven names keep exact canonical paths inside local URLs', () => {
 	assert.equal(fullMaterialPath('stone 1'), 'full-resolution/stone 1.png');
-	assert.equal(
-		fullMaterialUrl('stone 1'),
-		`${ORIGIN}full-resolution/stone%201.png`
-	);
+	const stoneUrl = fullMaterialUrl('stone 1');
+	assertLocalMaterialUrl(assert, stoneUrl, '/full-resolution/stone 1.png');
+	assert.equal(canonicalSourcePath(stoneUrl), '/full-resolution/stone 1.png');
 	assert.deepEqual(Object.keys(publicMaterialAliases()).sort(), [
 		'grass 6',
 		'mud',
-		'oak wood 2'
+		'oak wood 2',
+		'stone floor'
 	]);
 });

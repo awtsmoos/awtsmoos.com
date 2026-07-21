@@ -57,3 +57,13 @@ export class SeededRandom {
 		return minimum + (maximum - minimum) * this.next();
 	}
 }
+
+/**
+ * Creates the callable random contract consumed by visual renderers.
+ * @param {number|string} seed Stable content identity.
+ * @returns {() => number} Reproducible value generator in [0, 1).
+ */
+export function createSeededRandom(seed) {
+	const generator = new SeededRandom(seed);
+	return () => generator.next();
+}

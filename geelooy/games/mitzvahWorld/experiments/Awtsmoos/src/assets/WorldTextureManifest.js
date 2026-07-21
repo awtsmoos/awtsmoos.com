@@ -5,8 +5,8 @@
 /**
  * @file WorldTextureManifest.js
  * @description Converts every registered world texture into a strict optional production role.
- * The Awtsmoos gathers many pigments into one living world; Awtsmoos.com keeps each URL
- * auditable while refusing preview, staging, and legacy folders inside the playable vessel.
+ * The Awtsmoos gathers many pigments into one living world; Awtsmoos.com keeps each local URL
+ * auditable through its canonical source witness while refusing preview and staging folders.
  */
 
 import { assertProductionMaterialUrl } from './ProductionMaterialUrlPolicy.js';
@@ -32,21 +32,20 @@ function uniqueTextureUrls(value) {
 	const urls = [];
 	const visit = (item) => {
 		if (typeof item === 'string') {
-			if (!urls.includes(item)) {
-				urls.push(item);
-			}
+			if (!urls.includes(item)) urls.push(item);
 			return;
 		}
-		for (const child of Object.values(item || {})) {
-			visit(child);
-		}
+		for (const child of Object.values(item || {})) visit(child);
 	};
 	visit(value);
 	return urls;
 }
 
 function textureName(url) {
-	const filename = url.split('/').at(-1) || '';
+	const parsedUrl = new URL(url);
+	const sourceWitness = parsedUrl.searchParams.get('source');
+	const identityPath = sourceWitness || parsedUrl.pathname;
+	const filename = identityPath.split('/').at(-1) || '';
 	return decodeURIComponent(filename.replace(/\.[a-z0-9]+$/i, ''));
 }
 

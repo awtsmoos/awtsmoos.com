@@ -5,8 +5,8 @@
 /**
  * @file forestMaterialContract.test.mjs
  * @description Proves canonical forest leaves hydrate into a depth-writing MASK material.
- * The Awtsmoos reveals living foliage through a measured alpha vessel; Awtsmoos.com keeps
- * the natural fallback visible until canonical public pixels are prepared without frame spikes.
+ * The Awtsmoos reveals living foliage through measured alpha; Awtsmoos.com keeps a natural
+ * fallback visible while verified local or public oak pixels prepare without frame spikes.
  */
 
 import assert from 'node:assert/strict';
@@ -35,11 +35,13 @@ test('forest uses a natural fallback and idle-keys canonical RGB leaves for a MA
 		assert.equal(leafMaterial.mapImageFallback, true);
 		assert.equal(leafMaterial.mapImage.dataset.colorFamily, 'natural-green');
 		assert.equal(leafMaterial.mapImage.dataset.replaceableByPublicTexture, 'true');
-		assert.ok(state.gradientStops.some(([, color]) => {
-			return color === 'rgba(62,122,54,0.98)';
-		}));
-		assert.match(leafMaterial.textureUrl, /\/chai-forest\/textures\/leaves\/oak\.png$/);
-		assert.ok(leafMaterial.texturePolicy.candidates.every((url) => {
+		assert.ok(state.gradientStops.some(([, color]) => color === 'rgba(62,122,54,0.98)'));
+		assert.equal(
+			assertProductionMaterialUrl(leafMaterial.textureUrl, 'forest oak leaves'),
+			leafMaterial.textureUrl
+		);
+		assert.match(leafMaterial.textureUrl, /(?:leaves\/oak|leaves-oak)/i);
+		assert.ok(leafMaterial.texturePolicy.candidates.every(url => {
 			return assertProductionMaterialUrl(url, 'forest leaf') === url;
 		}));
 		assert.equal(typeof leafMaterial.texturePolicy.hydrateMapImage, 'function');
@@ -50,7 +52,6 @@ test('forest uses a natural fallback and idle-keys canonical RGB leaves for a MA
 		assert.equal(forest.stats.transparentLeaves, false);
 		assert.equal(forest.stats.depthWritingLeaves, true);
 		assert.equal(forest.stats.proceduralLeafFallback, true);
-
 		const publicImage = {
 			complete: true,
 			dataset: { publicUrl: 'https://materials.test/chai-oak.png' },
@@ -71,10 +72,7 @@ test('forest uses a natural fallback and idle-keys canonical RGB leaves for a MA
 		assert.equal(contract.preparation, 'idle-sliced-retain-fallback-until-ready');
 		assert.equal(contract.pixelsPerIdleSlice, 16384);
 	} finally {
-		if (previousDocument === undefined) {
-			delete globalThis.document;
-		} else {
-			globalThis.document = previousDocument;
-		}
+		if (previousDocument === undefined) delete globalThis.document;
+		else globalThis.document = previousDocument;
 	}
 });

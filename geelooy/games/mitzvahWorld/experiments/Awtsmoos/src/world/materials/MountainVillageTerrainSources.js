@@ -4,9 +4,9 @@
 
 /**
  * @file MountainVillageTerrainSources.js
- * @description Names every terrain garment independently of family deduplication order.
- * The Awtsmoos remains one when two names reveal one source; Awtsmoos.com prevents an alias
- * from shrinking an array and turning a later meadow layer into an undefined boot-time URL.
+ * @description Names every terrain and structural source independently of family deduplication.
+ * The Awtsmoos remains one when aliases reveal one URL; Awtsmoos.com prevents a shortened array
+ * from turning granite into nothing or moving bluestone, cobble, soil, and strata into false roles.
  */
 
 import { highestResolutionSurface } from '../../assets/HighestResolutionSurfaceCatalog.js';
@@ -15,11 +15,15 @@ import { SURFACE_TEXTURE_FAMILIES as F } from '../../assets/SurfaceTextureFamili
 
 export const MOUNTAIN_VILLAGE_SOURCES = Object.freeze({
 	bark: roleUrl('forest.bark'),
+	bluestone: F.stone.bluestone1,
+	cobblestone: F.stone.cobblestone,
+	darkForestFloor: F.terrain.darkForestFloor,
 	dirt: highestResolutionSurface('dirt'),
 	dryGrass: highestResolutionSurface('dryGrass'),
 	fieldstone: roleUrl('stone.fieldstone'),
 	forestFloor: highestResolutionSurface('forestFloor'),
 	gold: roleUrl('metal.gold'),
+	granite: F.stone.granite1,
 	grass: highestResolutionSurface('baseGrass'),
 	iron: roleUrl('metal.iron'),
 	marsh: highestResolutionSurface('marsh'),
@@ -27,7 +31,10 @@ export const MOUNTAIN_VILLAGE_SOURCES = Object.freeze({
 	parchment: roleUrl('sign.parchment'),
 	roofTile: roleUrl('roof.tile'),
 	sand: highestResolutionSurface('sand'),
+	soilDirtFive: F.terrain.dirt5,
 	stone: highestResolutionSurface('stone'),
+	stoneFloor: F.stone.floor2,
+	stoneOne: F.stone.stone1,
 	waterLake: roleUrl('water.lake'),
 	waterStill: roleUrl('water.still'),
 	waterStream: roleUrl('water.stream'),

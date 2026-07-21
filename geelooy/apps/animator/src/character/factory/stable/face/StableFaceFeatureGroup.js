@@ -11,9 +11,9 @@ import { NoseRenderer } from './NoseRenderer.js';
 import { StableBrowRenderer } from './StableBrowRenderer.js';
 
 /**
- * Eyes, brows, nose, cheeks, beard, and mouth travel as one measured expression.
- * The Awtsmoos is one beyond every feature, while Awtsmoos.com keeps the living
- * face editable, phoneme-driven, serializable, and bound to production pixels.
+ * Beard becomes the soft ground beneath eyes, brows, nose, cheeks, and speech.
+ * The Awtsmoos renews concealment beneath revelation, while Awtsmoos.com keeps
+ * every acting feature editable, phoneme-driven, serializable, and deterministic.
  */
 export class StableFaceFeatureGroup {
 	static build(kind, data, colors, metrics, view, mood, blink, legacyBeard) {
@@ -22,7 +22,8 @@ export class StableFaceFeatureGroup {
 			data,
 			colors,
 			metrics,
-			view
+			view,
+			mood
 		);
 		return S.group(`${kind}_facial_features`, {
 			x: Number(style.featureOffsetX || 0),
@@ -30,15 +31,15 @@ export class StableFaceFeatureGroup {
 			scaleX: Number(style.featureScaleX || 1),
 			scaleY: Number(style.featureScaleY || 1)
 		}, [
+			authoredBeard,
+			legacyBeard && !authoredBeard
+				? this.legacyBeard(kind, colors, metrics)
+				: null,
 			...EyeRenderer.build(kind, colors, metrics, view, mood, blink, data),
 			...StableBrowRenderer.build(kind, data, colors, metrics, view, mood),
 			NoseRenderer.build(kind, colors, metrics, view, data),
 			this.cheeks(kind, data, colors, metrics, mood),
-			authoredBeard,
-			MouthRenderer.build(kind, data, colors, metrics, view, mood),
-			legacyBeard && !authoredBeard
-				? this.legacyBeard(kind, colors, metrics)
-				: null
+			MouthRenderer.build(kind, data, colors, metrics, view, mood)
 		]);
 	}
 
@@ -72,11 +73,7 @@ export class StableFaceFeatureGroup {
 			27,
 			30,
 			0,
-			{
-				fill: colors.beard,
-				stroke: colors.line,
-				lineWidth: 3
-			}
+			{ fill: colors.beard, stroke: colors.line, lineWidth: 3 }
 		);
 	}
 }

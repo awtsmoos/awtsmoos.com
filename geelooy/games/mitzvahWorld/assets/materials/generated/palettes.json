@@ -1,0 +1,11 @@
+{
+  "palettes": [
+    "earth",
+    "foliage",
+    "metal",
+    "stone",
+    "timber",
+    "water"
+  ],
+  "schema": "awtsmoos-local-material-palettes/v1"
+}

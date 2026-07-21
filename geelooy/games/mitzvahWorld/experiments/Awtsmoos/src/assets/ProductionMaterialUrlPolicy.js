@@ -4,74 +4,63 @@
 
 /**
  * @file ProductionMaterialUrlPolicy.js
- * @description Guards the playable world from preview, staging, and legacy asset folders.
- * The Awtsmoos renews the visible garment from its truthful source; Awtsmoos.com therefore
- * lets editor previews remain light while every production vessel points toward canonical light.
+ * @description Restricts playable materials to the deployed Docs Base and trusted local vessels.
+ * The Awtsmoos shines through one authenticated public treasury; Awtsmoos.com rejects quota,
+ * preview, staging, malformed, and arbitrary remote URLs before the renderer can become blank.
  */
 
+const PUBLIC_HOST = 'awtsmoos-docs-base.web.app';
+const LOCAL_PATHS = Object.freeze([
+	'/geelooy/games/mitzvahworld/assets/materials/local/',
+	'/geelooy/games/mitzvahworld/assets/materials/generated/',
+	'/geelooy/games/mitzvahworld/assets/models/reference-world/flower_4_clump.glb'
+]);
 const FORBIDDEN_SEGMENTS = Object.freeze([
 	'half-resolution',
 	'quarter-resolution',
 	'chai-forest-half',
-	'way',
-	'even',
-	'various',
 	'staging'
 ]);
 
 export const PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = FORBIDDEN_SEGMENTS;
 
-/**
- * Verifies one production material URL and returns it unchanged for fluent declarations.
- * @param {string} url Canonical public URL proposed for gameplay.
- * @param {string} role Semantic material role used in actionable failures.
- * @returns {string} The verified URL.
- */
 export function assertProductionMaterialUrl(url, role = 'runtime material') {
-	const segments = normalizedPathSegments(url);
-	const forbiddenSegment = FORBIDDEN_SEGMENTS.find((segment) => {
-		return segments.includes(segment);
-	});
-	if (forbiddenSegment) {
-		throw new Error(
-			`Production material ${role} uses forbidden folder ${forbiddenSegment}: ${url}`
-		);
+	const parsed = parsedUrl(url, role);
+	const pathname = decodedPathname(parsed, url, role);
+	const segments = pathname.split('/').filter(Boolean);
+	const forbidden = FORBIDDEN_SEGMENTS.find(segment => segments.includes(segment));
+	if (forbidden) {
+		throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
+	}
+	const trustedPublic = parsed.hostname === PUBLIC_HOST;
+	const trustedLocal = LOCAL_PATHS.some(fragment => pathname.includes(fragment));
+	if (!trustedPublic && !trustedLocal) {
+		throw new Error(`Production material ${role} requires Docs Base or trusted local asset: ${url}`);
 	}
 	return url;
 }
 
-/**
- * Verifies every URL in a production fallback chain.
- * @param {string[]} urls Ordered canonical alternatives.
- * @param {string} role Semantic role shared by the chain.
- * @returns {ReadonlyArray<string>} Immutable verified alternatives.
- */
 export function productionMaterialFallbacks(urls = [], role = 'runtime material') {
-	const verified = urls.map((url, index) => {
+	return Object.freeze(urls.map((url, index) => {
 		return assertProductionMaterialUrl(url, `${role} fallback ${index + 1}`);
-	});
-	return Object.freeze(verified);
+	}));
 }
 
-function normalizedPathSegments(url) {
+function parsedUrl(url, role) {
 	if (typeof url !== 'string' || url.trim() === '') {
-		throw new Error('A non-empty production material URL is required.');
+		throw new Error(`Production material ${role} requires a non-empty URL.`);
 	}
-	let pathname;
 	try {
-		pathname = new URL(url, 'https://awtsmoos.com').pathname;
+		return new URL(url, 'https://awtsmoos.com');
 	} catch (error) {
-		throw new Error(`Invalid production material URL: ${url}`, { cause: error });
+		throw new Error(`Invalid production material URL for ${role}: ${url}`, { cause: error });
 	}
+}
+
+function decodedPathname(parsed, url, role) {
 	try {
-		pathname = decodeURIComponent(pathname);
+		return decodeURIComponent(parsed.pathname).toLowerCase();
 	} catch {
-		throw new Error(`Invalid encoded production material URL: ${url}`);
+		throw new Error(`Invalid encoded production material URL for ${role}: ${url}`);
 	}
-	return pathname
-		.toLowerCase()
-		.split('/')
-		.filter((segment) => {
-			return segment.length > 0;
-		});
 }

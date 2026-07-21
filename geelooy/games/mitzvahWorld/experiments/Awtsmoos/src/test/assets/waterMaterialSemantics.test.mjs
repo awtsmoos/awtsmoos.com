@@ -1,13 +1,24 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file waterMaterialSemantics.test.mjs
+ * @description Proves water uses one canonical photograph plus procedural detail.
+ * The Awtsmoos flows through color without multiplying costly texture channels;
+ * Awtsmoos.com preserves the source witness while waves and foam arise in shader law.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { canonicalSourcePath } from './LocalMaterialTestSupport.mjs';
 import { waterFirebaseMaterialRecipe } from '../../world/proceduralApi/FirebaseMaterialRecipe.js';
 import { createWaterShaderRecipe } from '../../world/proceduralApi/WaterShaderRecipe.js';
 
 test('the public water photograph is color only while normals and foam are procedural', () => {
 	const material = waterFirebaseMaterialRecipe();
 	assert.deepEqual(Object.keys(material.textures), ['albedo']);
-	assert.match(material.textures.albedo, /shallow%20river%20water\.png$/);
+	assert.equal(canonicalSourcePath(material.textures.albedo), '/full-resolution/shallow river water.png');
 	assert.equal(material.textures.normal, undefined);
 	assert.equal(material.textures.foam, undefined);
 	assert.equal(material.channelSemantics.normal, 'procedural-wave-gradient');

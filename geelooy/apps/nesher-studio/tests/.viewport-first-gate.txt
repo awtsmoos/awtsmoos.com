@@ -1,0 +1,58 @@
+B"H viewport first gate
+syntax_failures=0
+longest:
+ 114 modules/app/PageTransitionController.js
+ 112 modules/audioLab/CanvasHebrewOverlay.js
+ 111 modules/audioLab/AudioInputBridge.js
+ 109 modules/audioLab/shaders.js
+  94 modules/audioLab/AudioLabController.js
+  94 modules/app/navigationBindings.js
+  90 modules/audioLab/WebglParticleRiver.js
+  88 modules/audioLab/AudioLabRenderer.js
+  69 modules/app/genericHlsController.js
+  68 modules/app/bootNesherStudio.js
+  55 modules/ui/views/stageView.js
+  54 modules/audioLab/AudioCanvasLayout.js
+  53 modules/app/CompactListPager.js
+  50 modules/app/nleBindings.js
+  48 modules/audioLab/AdaptiveParticleBudget.js
+  47 modules/app/WorkspaceDeckController.js
+  45 modules/audioLab/AudioLabPresetGallery.js
+  40 modules/ui/mountStudioShell.js
+  40 modules/app/viewportBindings.js
+  39 modules/app/sourceBindings.js
+  38 modules/audioLab/webglProgram.js
+  36 modules/ui/views/homeView.js
+  35 modules/audioLab/AudioLabHud.js
+  34 modules/app/gestureNavigation.js
+  30 modules/ui/views/audioLabView.js
+  30 modules/audioLab/presets.js
+  26 modules/ui/views/headerView.js
+  26 modules/app/providerBindings.js
+  23 modules/ui/views/navigationView.js
+  21 modules/ui/views/sourcesView.js
+  21 modules/ui/views/nleView.js
+  20 modules/app/layerBindings.js
+  19 modules/ui/views/liveView.js
+  19 modules/dom/coreDom.js
+  18 modules/ui/views/setupView.js
+  18 modules/dom/audioLabDom.js
+  18 modules/audioLab/audioLabStageSource.js
+  15 modules/app/recordingBindings.js
+  15 modules/app/canvasBindings.js
+  14 modules/dom/element.js
+forbidden_scroll_tokens=0
+style_imports=/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos clothes one fixed viewport in many focused garments; Awtsmoos.com imports small style vessels for shell, motion, decks, rooms, audio, timeline, and responsive revelation.
+*/
+@import url('./styles/tokens.css');
+@import url('./styles/base.css');
+@import url('./styles/shell.css');
+@import url('./styles/transitions.css');
+@import url('./styles/decks.css');
+@import url('./styles/studio.css');
+@import url('./styles/audio-lab.css');
+@import url('./styles/timeline.css');
+@import url('./styles/responsive.css');

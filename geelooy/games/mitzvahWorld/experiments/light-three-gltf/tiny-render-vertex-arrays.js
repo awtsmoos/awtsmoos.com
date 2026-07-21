@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-vertex-arrays.js
- * @description Reuses immutable WebGL vertex arrays without erasing valid manual default state.
- * The Awtsmoos renews every visible form through one proven vessel; Awtsmoos.com invalidates the
- * manual cache only when VAO construction changes global buffer truth, never on ordinary switches.
+ * @description Reuses immutable WebGL vertex arrays without confusing VAO-local buffer truth.
+ * The Awtsmoos renews identical declarations inside distinct vessels; Awtsmoos.com therefore
+ * clears cached vertex claims before recording each VAO and again after returning to default.
  */
 
 import { createVertexArrayEntry } from './tiny-render-vertex-array-builder.js';
@@ -93,6 +93,7 @@ export class RenderVertexArrays {
 		let entry = branches.get(key);
 		if (entry) return entry;
 		this.releaseToDefault();
+		this.prepareRecording();
 		entry = createVertexArrayEntry({
 			extension: this.extension,
 			gl: this.gl,
@@ -106,6 +107,10 @@ export class RenderVertexArrays {
 		this.creations += 1;
 		this.stats.vertexArrays.creations = this.creations;
 		return entry;
+	}
+
+	prepareRecording() {
+		this.glStateCache?.invalidateVertexArrayState?.();
 	}
 
 	invalidateHiddenState() {

@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos changes rooms without changing the single living runtime; Awtsmoos.com moves only composited transforms and opacity for a swift reveal.
+*/
+.workspace-page {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	display: grid;
+	min-width: 0;
+	min-height: 0;
+	padding: clamp(8px, 1vw, 14px);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background:
+		radial-gradient(circle at 88% 6%, rgba(181, 140, 255, .11), transparent 28%),
+		linear-gradient(180deg, var(--panel), rgba(3, 8, 18, .95));
+	box-shadow: var(--shadow);
+	overflow: hidden;
+	opacity: 0;
+	transform: translate3d(0, 0, 0) scale(.985);
+	pointer-events: none;
+	will-change: transform, opacity;
+	transition: transform var(--transition), opacity var(--transition);
+}
+
+.workspace-page.is-active {
+	z-index: 2;
+	opacity: 1;
+	transform: translate3d(0, 0, 0) scale(1);
+	pointer-events: auto;
+}
+
+.workspace-page.is-leaving {
+	z-index: 1;
+	pointer-events: none;
+}
+
+.workspace-page.from-right {
+	opacity: 0;
+	transform: translate3d(5%, 0, 0) scale(.985);
+}
+
+.workspace-page.from-left {
+	opacity: 0;
+	transform: translate3d(-5%, 0, 0) scale(.985);
+}
+
+.workspace-page.to-left {
+	opacity: 0;
+	transform: translate3d(-4%, 0, 0) scale(.99);
+}
+
+.workspace-page.to-right {
+	opacity: 0;
+	transform: translate3d(4%, 0, 0) scale(.99);
+}
+
+.deck-panel {
+	opacity: 1;
+	transform: translate3d(0, 0, 0) scale(1);
+	transform-origin: center;
+	transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.deck-panel.active {
+	animation: deck-reveal 220ms ease both;
+}
+
+@keyframes deck-reveal {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 0, 0) scale(.992);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.workspace-page,
+	.deck-panel,
+	button {
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+	}
+}

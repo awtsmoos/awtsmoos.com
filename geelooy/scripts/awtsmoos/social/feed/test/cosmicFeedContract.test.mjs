@@ -59,21 +59,27 @@ test("audio sessions delegate painting and release every observed vessel", () =>
 	assert.match(controller, /unobserve\(session\.canvas\)/);
 });
 
-test("source graph and audio remain understandable without WebGL", () => {
+test("source graph and modular audio remain understandable without WebGL", () => {
 	const graph = read("renderers/sourceGraph.js");
 	const audio = read("renderers/audio.js");
+	const transport = read("renderers/audioTransport.js");
+	const transcript = read("renderers/audioTranscript.js");
 	assert.match(graph, /role:\s*"list"/);
 	assert.match(graph, /relation/);
 	assert.match(audio, /aria-label/);
-	assert.match(audio, /audioSeek/);
-	assert.match(audio, /Transcript/);
+	assert.match(transport, /audioSeek/);
+	assert.match(transcript, /Transcript/);
+	assert.match(transcript, /role:\s*"region"/);
 });
 
 test("cosmic feed imports stay local and modules stay focused", () => {
 	for (const filePath of modules) {
 		const source = readFileSync(filePath, "utf8");
 		const lines = source.split(/\r?\n/);
-		assert.ok(lines.length <= 120 || source.includes("cosmic-long-file-ok"), `${filePath} has ${lines.length} lines`);
+		assert.ok(
+			lines.length <= 120 || source.includes("cosmic-long-file-ok"),
+			`${filePath} has ${lines.length} lines`
+		);
 		for (const match of source.matchAll(/from\s+["']([^"']+)["']/g)) {
 			assert.ok(match[1].startsWith("."), `${filePath} imports external ${match[1]}`);
 		}

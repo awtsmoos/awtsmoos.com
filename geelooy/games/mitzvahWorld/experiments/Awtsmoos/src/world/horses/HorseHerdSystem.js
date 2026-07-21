@@ -27,7 +27,7 @@ export class HorseHerdSystem {
 			animated: true,
 			dynamic: true,
 			family: 'animated-horse-herd',
-			groundSampling: 'precomputed-cyclic-linear-profile'
+			groundSampling: 'precomputed-cyclic-catmull-rom-profile'
 		};
 		const template = sharedHorseTemplate();
 		this.groundProfiles = HORSE_HERD_ROUTES.map(route => (

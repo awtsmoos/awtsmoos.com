@@ -4,32 +4,43 @@
 
 /**
  * @file mountainTerrainStackSources.test.mjs
- * @description Proves all sixteen terrain layers retain named non-empty production sources.
- * The Awtsmoos remains whole when duplicate URLs are deduplicated elsewhere; Awtsmoos.com
- * verifies no family-array index can silently become an undefined world-stopping material.
+ * @description Proves sixteen terrain layers keep distinct canonical identities in local URLs.
+ * The Awtsmoos remains whole when source families share generated vessels; Awtsmoos.com
+ * verifies every named meadow and mountain layer hydrates locally without identity loss.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mountainTerrainStack } from '../../world/materials/TerrainMaterialStackPreset.js';
 import { MOUNTAIN_VILLAGE_TERRAIN_VARIANTS as T } from '../../world/materials/MountainVillageTerrainSources.js';
+import {
+	assertLocalMaterialUrl,
+	canonicalSourcePath
+} from '../assets/LocalMaterialTestSupport.mjs';
 
-test('terrain recipe has sixteen named layers with valid production URLs', () => {
+test('terrain recipe has sixteen named local production layers', () => {
 	const stack = mountainTerrainStack();
 	assert.equal(stack.layers.length, 16);
 	assert.equal(new Set(stack.layers.map(layer => layer.role)).size, 16);
 	for (const layer of stack.layers) {
-		assert.match(layer.url, /^https:\/\/awtsmoos-docs-base\.web\.app\//);
-		assert.ok(layer.url.length > 50, layer.role);
+		assertLocalMaterialUrl(assert, layer.url);
+		assert.ok(canonicalSourcePath(layer.url)?.length > 10, layer.role);
 	}
 });
 
-test('deduplicated base grass does not erase named meadow variants', () => {
-	assert.equal(
+test('base grass and named meadow variants retain distinct witnesses', () => {
+	assertLocalMaterialUrl(
+		assert,
 		T.baseGrass,
-		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
+		'/awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
 	);
-	assert.match(T.grassEight, /grass%208\.png$/);
-	assert.match(T.marshGrass, /marsh%20grass\.png$/);
-	assert.match(T.dirtGrassThree, /dirt%20grass%203\.png$/);
+	assert.equal(canonicalSourcePath(T.grassEight), '/full-resolution/grass 8.png');
+	assert.equal(canonicalSourcePath(T.marshGrass), '/full-resolution/marsh grass.png');
+	assert.equal(canonicalSourcePath(T.dirtGrassThree), '/full-resolution/dirt grass 3.png');
+	assert.equal(new Set([
+		T.baseGrass,
+		T.grassEight,
+		T.marshGrass,
+		T.dirtGrassThree
+	]).size, 4);
 });

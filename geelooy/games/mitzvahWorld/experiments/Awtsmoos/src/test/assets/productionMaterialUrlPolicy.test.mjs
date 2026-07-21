@@ -4,58 +4,50 @@
 
 /**
  * @file productionMaterialUrlPolicy.test.mjs
- * @description Proves that production light never descends into preview or staging vessels.
- * The Awtsmoos is one while folders are many; Awtsmoos.com keeps gameplay canonical and
- * reserves lighter derivatives for editor thumbnails that are tested through separate contracts.
+ * @description Proves repository, public-route, and owned-production material vessels.
+ * The Awtsmoos opens truthful nearby gates; Awtsmoos.com rejects remote lookalikes,
+ * preview, staging, traversal, and empty pathways before the renderer depends on them.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { localPublicAssetUrl } from '../../assets/LocalMaterialAssetPolicy.js';
+import { localPhotographicMaterialUrl } from '../../assets/PhotographicMaterialAssetPolicy.js';
 import {
 	assertProductionMaterialUrl,
 	productionMaterialFallbacks
 } from '../../assets/ProductionMaterialUrlPolicy.js';
+import { flowerModelUrl } from '../../assets/PublicMaterialResolver.js';
 
-test('canonical full and source URLs are accepted unchanged', () => {
-	const urls = [
+const PHOTO_URL = localPhotographicMaterialUrl('full-resolution/weathered fieldstone Rock 1.png');
+const GENERATED_URL = localPublicAssetUrl('full-resolution/weathered fieldstone Rock 1.png');
+const PUBLIC_ROUTE = 'http://127.0.0.1:8080/games/mitzvahWorld/assets/materials/local/stone.png';
+const DEPLOYED_ROUTE = 'https://awtsmoos.com/games/mitzvahWorld/assets/materials/generated/stone.svg';
+
+test('verified local and Awtsmoos production vessels are accepted unchanged', () => {
+	for (const url of [
+		PHOTO_URL,
+		GENERATED_URL,
+		flowerModelUrl(),
+		PUBLIC_ROUTE,
+		DEPLOYED_ROUTE
+	]) {
+		assert.equal(assertProductionMaterialUrl(url, 'verified'), url);
+	}
+	assert.deepEqual(productionMaterialFallbacks([GENERATED_URL], 'stone'), [GENERATED_URL]);
+});
+
+test('remote lookalikes and invalid material routes are rejected', () => {
+	const rejected = [
 		'https://awtsmoos-docs-base.web.app/full-resolution/stone.png',
-		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/chai-forest/textures/leaves/oak.png',
-		'https://awtsmoos-docs-base.web.app/awtsmoos-nature/ilanos/trees/petal.png'
+		'https://evil.example/games/mitzvahWorld/assets/materials/local/stone.png',
+		'https://awtsmoos.com/preview/material.png',
+		'https://awtsmoos.com/staging/material.png',
+		'https://awtsmoos.com/games/mitzvahWorld/assets/materials/half-resolution/a.png',
+		'',
+		'not a valid local material'
 	];
-	for (const url of urls) {
-		assert.equal(assertProductionMaterialUrl(url, 'test'), url);
+	for (const url of rejected) {
+		assert.throws(() => assertProductionMaterialUrl(url, 'rejected'), /Production material|Invalid/);
 	}
-});
-
-test('preview, staging, and legacy folder URLs are rejected case-insensitively', () => {
-	const forbiddenUrls = [
-		'https://example.test/half-resolution/stone.png',
-		'https://example.test/quarter-resolution/stone.png',
-		'https://example.test/awtsmoos-nature/chai-forest-half/grass.jpg',
-		'https://example.test/Way/stone.png',
-		'https://example.test/way/stone.png',
-		'https://example.test/even/stone.png',
-		'https://example.test/various/stone.png',
-		'https://example.test/staging/stone.png'
-	];
-	for (const url of forbiddenUrls) {
-		assert.throws(() => {
-			assertProductionMaterialUrl(url, 'forbidden test');
-		}, /forbidden folder/);
-	}
-});
-
-test('fallback chains are frozen and validated at declaration time', () => {
-	const fallbacks = productionMaterialFallbacks([
-		'https://example.test/full-resolution/grass.png'
-	], 'terrain.grass');
-	assert.equal(Object.isFrozen(fallbacks), true);
-	assert.deepEqual(fallbacks, [
-		'https://example.test/full-resolution/grass.png'
-	]);
-	assert.throws(() => {
-		productionMaterialFallbacks([
-			'https://example.test/half-resolution/grass.png'
-		], 'terrain.grass');
-	}, /forbidden folder/);
 });

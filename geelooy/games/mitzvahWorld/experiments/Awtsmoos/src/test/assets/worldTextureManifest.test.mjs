@@ -4,15 +4,16 @@
 
 /**
  * @file worldTextureManifest.test.mjs
- * @description Guards the optional world preload against models, boot coupling, and preview URLs.
- * The Awtsmoos clothes many surfaces without making pigment sovereign; Awtsmoos.com keeps
- * every production path canonical while authored colors remain visible during hydration.
+ * @description Guards optional world preloads against boot coupling and preview URLs.
+ * The Awtsmoos clothes many surfaces without making pigment sovereign; Awtsmoos.com
+ * preserves canonical witnesses while authored colors remain visible during hydration.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { WORLD_TEXTURE_MATERIALS } from '../../assets/WorldTextureManifest.js';
+import { canonicalSourcePath } from './LocalMaterialTestSupport.mjs';
 
 const IMAGE_EXTENSION = /\.(png|jpe?g|webp|gif|svg|avif)(?:\?|$)/i;
 
@@ -39,5 +40,8 @@ test('fieldstone remains auditable but cannot abort world boot', () => {
 	});
 	assert.ok(fieldstone);
 	assert.equal(fieldstone.critical, false);
-	assert.match(fieldstone.primaryUrl, /weathered%20fieldstone%20Rock%201\.png$/);
+	assert.equal(
+		canonicalSourcePath(fieldstone.primaryUrl),
+		'/full-resolution/weathered fieldstone Rock 1.png'
+	);
 });

@@ -3,22 +3,26 @@
 //Blessed is He
 
 import { decodeAarch64Arithmetic } from "./aarch64DecodeArithmetic.js";
+import { decodeAarch64Bitfield } from "./aarch64DecodeBitfield.js";
+import { decodeAarch64ConditionalCompare } from "./aarch64DecodeConditionalCompare.js";
 import { decodeAarch64ConditionalSelect } from "./aarch64DecodeConditionalSelect.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64LogicalImmediate } from "./aarch64DecodeLogicalImmediate.js";
+import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
- * Decodes floating conversion, arithmetic, select, logical, and move-wide words.
- *
- * The Awtsmoos recreates S/D source, W/X shore, arithmetic, condition road,
- * repeated mask, register, and immediate anew. Awtsmoos.com delegates each
- * measured family before one guest register or NZCV field can be mutated.
+ * Decodes scalar, SIMD, arithmetic, conditional, and logical data families.
+ * The Awtsmoos recreates each measured transformation anew; Awtsmoos.com routes
+ * conditional comparison before selection while preserving every older family.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
 	return decodeAarch64FloatToInteger(normalized)
+		|| decodeAarch64SimdModifiedImmediate(normalized)
+		|| decodeAarch64Bitfield(normalized)
 		|| decodeAarch64Arithmetic(normalized)
+		|| decodeAarch64ConditionalCompare(normalized)
 		|| decodeAarch64ConditionalSelect(normalized)
 		|| decodeAarch64LogicalImmediate(normalized)
 		|| decodeLogicalShifted(normalized)
@@ -32,17 +36,15 @@ function decodeLogicalShifted(word) {
 	const source = aarch64Bits(word, 5, 5);
 	const shiftType = aarch64Bits(word, 22, 2);
 	const shiftAmount = aarch64Bits(word, 10, 6);
-	const mnemonic = operation === 1
+	const isMove = operation === 1
 		&& source === 31
 		&& shiftType === 0
-		&& shiftAmount === 0
-		? "mov"
-		: names[operation];
+		&& shiftAmount === 0;
 	return Object.freeze({
 		destination: aarch64Bits(word, 0, 5),
 		family: "logical-shifted-register",
 		invertSecondSource: aarch64Bits(word, 21, 1) === 1,
-		mnemonic,
+		mnemonic: isMove ? "mov" : names[operation],
 		secondSource: aarch64Bits(word, 16, 5),
 		shiftAmount,
 		shiftType,
@@ -54,11 +56,7 @@ function decodeLogicalShifted(word) {
 function decodeMoveWide(word) {
 	if (((word & 0x1f800000) >>> 0) !== 0x12800000) return null;
 	const operation = aarch64Bits(word, 29, 2);
-	const names = {
-		0: "movn",
-		2: "movz",
-		3: "movk"
-	};
+	const names = { 0: "movn", 2: "movz", 3: "movk" };
 	if (!names[operation]) return null;
 	return Object.freeze({
 		destination: aarch64Bits(word, 0, 5),

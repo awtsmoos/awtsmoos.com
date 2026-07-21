@@ -2,38 +2,56 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * Provenance becomes visible as a connected path. The Awtsmoos renews every
- * relation; Awtsmoos.com keeps the graph understandable even with WebGL disabled.
+ * Provenance appears as a visible constellation. The Awtsmoos renews every
+ * relation while Awtsmoos.com keeps each node understandable without the canvas.
  */
 
 .cosmic-source-graph {
 	display: grid;
-	gap: 0.65rem;
-	padding: 0.8rem;
-	border: 1px solid color-mix(in srgb, var(--source-accent) 27%, transparent);
-	border-radius: 0.85rem;
-	background: rgba(4, 12, 30, 0.72);
+	gap: 0.48rem;
+	padding: 0.62rem;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 46%, transparent);
+	background:
+		radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--source-accent) 12%, transparent), transparent 38%),
+		rgba(3, 10, 27, 0.84);
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, 0.04),
+		0 0 1.15rem color-mix(in srgb, var(--source-accent) 12%, transparent);
+	clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 0.7rem, 100% 100%, 0.6rem 100%, 0 calc(100% - 0.6rem));
 }
 
 .cosmic-graph-canvas {
 	position: relative;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-	gap: 1.1rem;
+	grid-template-columns: repeat(auto-fit, minmax(7.4rem, 1fr));
+	gap: 0.72rem;
 	align-items: center;
-	padding: 0.65rem;
+	padding: 0.5rem;
+}
+
+.cosmic-graph-canvas::before,
+.cosmic-graph-canvas::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
 }
 
 .cosmic-graph-canvas::before {
-	position: absolute;
 	top: 50%;
-	right: 6%;
-	left: 6%;
+	right: 4%;
+	left: 4%;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, var(--source-accent), transparent);
-	box-shadow: 0 0 0.75rem var(--source-accent);
-	content: "";
-	opacity: 0.5;
+	background: linear-gradient(90deg, transparent, var(--cosmic-cyan), var(--source-accent), var(--cosmic-magenta), transparent);
+	box-shadow: 0 0 0.9rem var(--source-accent);
+	opacity: 0.76;
+}
+
+.cosmic-graph-canvas::after {
+	inset: 15% 12%;
+	border: 1px solid color-mix(in srgb, var(--source-accent) 18%, transparent);
+	border-radius: 50%;
+	filter: drop-shadow(0 0 0.55rem var(--source-accent));
+	opacity: 0.45;
 }
 
 .cosmic-graph-item {
@@ -43,27 +61,44 @@
 	place-items: center;
 }
 
+.cosmic-graph-item::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0.36rem;
+	height: 0.36rem;
+	border-radius: 50%;
+	background: var(--source-accent);
+	box-shadow: 0 0 0.8rem var(--source-accent);
+	content: "";
+	transform: translate(-50%, -50%);
+}
+
 .cosmic-graph-node {
+	position: relative;
 	display: grid;
 	width: 100%;
-	min-height: 4.25rem;
-	padding: 0.65rem;
+	min-height: 3.8rem;
+	padding: 0.55rem;
 	color: var(--cosmic-secondary);
-	border-radius: 0.75rem;
-	background: rgba(7, 20, 43, 0.94);
+	border-radius: 0.35rem;
+	background: rgba(7, 20, 43, 0.96);
 	text-align: center;
 }
 
 .cosmic-graph-node--synthesis {
 	color: var(--cosmic-text);
 	border-color: var(--source-accent);
-	box-shadow: 0 0 1.4rem color-mix(in srgb, var(--source-accent) 22%, transparent);
+	background: color-mix(in srgb, var(--source-accent) 15%, rgba(7, 20, 43, 0.96));
+	box-shadow:
+		0 0 1.5rem color-mix(in srgb, var(--source-accent) 36%, transparent),
+		inset 0 0 0.85rem color-mix(in srgb, var(--source-accent) 12%, transparent);
 }
 
 .cosmic-graph-relation,
 .cosmic-graph-explanation {
 	color: var(--cosmic-muted);
-	font-size: 0.68rem;
+	font-size: 0.62rem;
 }
 
 .cosmic-graph-explanation {
