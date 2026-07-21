@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos preserves one profile language across wide and narrow vessels. */
+
+@media (min-width: 70rem) {
+	.heichel-os-document .geelooy-bottom-nav {
+		display: none !important;
+	}
+
+	.heichel-os-document .geelooy-main-stage {
+		padding-bottom: 2rem;
+	}
+}
+
+@media (max-width: 55rem) {
+	.heichel-os-document .geelooy-main-stage {
+		width: min(calc(100% - 1rem), var(--heichel-profile-width));
+		padding-top: 4.85rem;
+		padding-bottom: 5.4rem;
+	}
+
+	.heichel-os-document .cosmic-heichel-topbar {
+		grid-template-columns: auto minmax(0, 1fr) auto auto auto !important;
+		min-height: 4.1rem !important;
+		padding-inline: .62rem !important;
+	}
+
+	.heichel-profile-cover {
+		height: 8.6rem;
+	}
+
+	.heichel-profile-identity {
+		gap: .75rem;
+		margin-top: -2.55rem;
+		padding-inline: .85rem;
+	}
+
+	.heichel-os-document .heichel-seal {
+		width: 5.25rem !important;
+		height: 5.25rem !important;
+	}
+
+	.heichel-os-document #heichel-main-title {
+		font-size: clamp(1.85rem, 8vw, 2.75rem) !important;
+	}
+
+	.heichel-os-document .hero-description {
+		font-size: .88rem !important;
+		line-height: 1.42 !important;
+	}
+
+	.heichel-os-document .heichel-profile-stats,
+	.heichel-profile-actions {
+		margin-inline: .85rem !important;
+		padding-inline: 0 !important;
+	}
+
+	.heichel-os-document .heichel-nav-panel {
+		padding: .62rem;
+	}
+
+	.heichel-os-document .heichel-os-district-dock {
+		grid-template-columns: 1fr;
+	}
+
+	.heichel-os-document .heichel-os-status-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	}
+
+	.heichel-os-document .nav-card {
+		grid-template-columns: 3.8rem minmax(0, 1fr) auto !important;
+		gap: .5rem !important;
+		min-height: 7.6rem;
+		padding: 1.9rem .55rem .62rem !important;
+	}
+
+	.heichel-os-document .nav-card-media {
+		width: 2.9rem !important;
+		height: 2.9rem !important;
+	}
+}

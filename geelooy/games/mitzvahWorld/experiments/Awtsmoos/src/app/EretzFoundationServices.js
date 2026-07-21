@@ -4,9 +4,9 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates a wide-arrival camera and material-readable golden-hour environment.
- * The Awtsmoos recreates observer, warm sun, and cool return each instant; Awtsmoos.com keeps
- * stone texture, dark timber, slate roofs, vegetation, and roads readable without flattening shade.
+ * @description Creates camera, renderer, input, scene, and one scene-LOD owner.
+ * The Awtsmoos recreates observer, warm sun, cool return, and every distant garment;
+ * Awtsmoos.com gives the finite renderer one measured vessel for beauty without duplication.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -16,6 +16,7 @@ import { CameraOrbitController } from '../camera/CameraOrbitController.js';
 import { JumpButton } from '../input/JumpButton.js';
 import { MobileJoystick } from '../input/MobileJoystick.js';
 import { UiEventSystem } from '../input/UiEventSystem.js';
+import { SceneLodRuntime } from '../lod/SceneLodRuntime.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js?v=20260720-canonical-valley-pass-04';
@@ -25,16 +26,24 @@ const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 export function createEretzFoundationServices(hosts, qualityProfile) {
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(
-		VILLAGE_ARRIVAL_CAMERA.fov, innerWidth / innerHeight, 0.08, 1600
+		VILLAGE_ARRIVAL_CAMERA.fov,
+		innerWidth / innerHeight,
+		0.08,
+		1600
 	);
 	const renderer = createRenderer(hosts.canvas, qualityProfile);
 	const bus = new AwtsmoosEventBus();
 	const input = new UiEventSystem(hosts.canvas).install(bus);
 	return {
-		bus, camera, input,
+		bus,
+		camera,
+		input,
 		joystick: new MobileJoystick(hosts.joystickHost),
 		jumpButton: new JumpButton(hosts.jumpHost),
-		orbit: createArrivalOrbit(hosts.canvas), renderer, scene
+		orbit: createArrivalOrbit(hosts.canvas),
+		renderer,
+		scene,
+		sceneLod: new SceneLodRuntime({ scene })
 	};
 }
 
@@ -54,9 +63,13 @@ function createRenderer(canvas, qualityProfile) {
 
 function createArrivalOrbit(canvas) {
 	return new CameraOrbitController(canvas, {
-		distance: VILLAGE_ARRIVAL_CAMERA.distance, eyeForward: 0.24,
-		max: VILLAGE_ARRIVAL_CAMERA.maxDistance, min: VILLAGE_ARRIVAL_CAMERA.minDistance,
-		mode: 'orbit', pitch: VILLAGE_ARRIVAL_CAMERA.pitch, yaw: VILLAGE_ARRIVAL_CAMERA.yaw
+		distance: VILLAGE_ARRIVAL_CAMERA.distance,
+		eyeForward: 0.24,
+		max: VILLAGE_ARRIVAL_CAMERA.maxDistance,
+		min: VILLAGE_ARRIVAL_CAMERA.minDistance,
+		mode: 'orbit',
+		pitch: VILLAGE_ARRIVAL_CAMERA.pitch,
+		yaw: VILLAGE_ARRIVAL_CAMERA.yaw
 	});
 }
 
@@ -76,7 +89,11 @@ function referenceEnvironment(reference) {
 			cool[1] * 0.68 + horizon[1] * 0.32,
 			cool[2] * 0.74 + horizon[2] * 0.26
 		]),
-		sunColor: Object.freeze([sun[0] * 1.18, sun[1] * 1.02, sun[2] * 0.82]),
+		sunColor: Object.freeze([
+			sun[0] * 1.18,
+			sun[1] * 1.02,
+			sun[2] * 0.82
+		]),
 		sunDirection: Object.freeze(normalized(reference.sunPosition))
 	});
 }

@@ -1,21 +1,79 @@
 // B"H
-/** @file treeGenerator.js @description Public two-draw-call procedural tree generator. */
-import { TreeRNG } from './rng.js';
-import { TreeGeometryBuilder } from './treeGeometryBuilder.js';
-import { TreeGrowthSystem } from './treeGrowthSystem.js';
-import TREE_PRESETS, { getTreePreset, listTreePresets } from './treePresets.js';
+// Boruch Hashem
+// Blessed is He
 
-function clone(value){ return typeof structuredClone === 'function' ? structuredClone(value) : JSON.parse(JSON.stringify(value)); }
-function resolveConfig(config = 'Oak Medium') { return typeof config === 'string' ? getTreePreset(config) : { ...getTreePreset(config.preset || config.name || 'Oak Medium'), ...clone(config) }; }
-function arrays(geo){ return { positions:geo.verts, normals:geo.normals, uvs:geo.uvs, indices:geo.indices }; }
-function leafArrays(geo){ return { positions:geo.leafVerts, normals:geo.leafNorms, uvs:geo.leafUVs, indices:geo.leafIndices, colors:geo.leafColors }; }
+/**
+ * The Awtsmoos recreates the tree at every invocation, never accumulating an
+ * old vessel into a new one. This Awtsmoos.com public facade preserves the
+ * legacy two-draw-call result while exposing raw geometry and coherent LODs.
+ */
+import { TreeRNG } from "./rng.js";
+import { TreeGeometryBuilder } from "./treeGeometryBuilder.js";
+import { TreeGrowthSystem } from "./treeGrowthSystem.js";
+import { createTreeOutput } from "./treeOutputReport.js";
+import { resolveTreeConfig } from "./treeConfigResolver.js";
+import {
+	DEFAULT_TREE_LOD_ORDER,
+	normalizeTreeDetailProfile
+} from "./treeDetailProfiles.js";
+import TREE_PRESETS, { getTreePreset, listTreePresets } from "./treePresets.js";
 
 export class TreeGenerator {
-  constructor(config = 'Oak Medium') { this.config = resolveConfig(config); this.rng = new TreeRNG(this.config.seed); this.builder = new TreeGeometryBuilder(); this.system = new TreeGrowthSystem(this.config, this.rng, this.builder); }
-  generate() { this.system.generate(); return { preset:this.config.name, drawCalls:2, branches:{ ...arrays(this.builder), material:this.config.bark }, leaves:{ ...leafArrays(this.builder), material:this.config.leaves }, materials:this.config.materials, stats:this.stats() }; }
-  stats() { return { branchVertices:this.builder.verts.length/3, leafVertices:this.builder.leafVerts.length/3, branchTriangles:this.builder.indices.length/3, leafTriangles:this.builder.leafIndices.length/3, generatedBranches:this.system.branchCount, drawCalls:2 }; }
+	constructor(config = "Oak Medium") {
+		this.config = resolveTreeConfig(config);
+		this.lastResult = null;
+	}
+
+	setConfig(config) {
+		this.config = resolveTreeConfig(config);
+		this.lastResult = null;
+		return this;
+	}
+
+	build(detail = "high") {
+		const profile = normalizeTreeDetailProfile(detail);
+		const builder = new TreeGeometryBuilder();
+		const rng = new TreeRNG(this.config.seed);
+		const system = new TreeGrowthSystem(this.config, rng, builder, profile);
+		system.generate();
+		this.lastResult = createTreeOutput(this.config, builder, system, profile);
+		return this.lastResult;
+	}
+
+	generate(detail = "high") {
+		return this.build(detail);
+	}
+
+	createGeometry(detail = "high") {
+		return this.build(detail);
+	}
+
+	generateLODs(details = DEFAULT_TREE_LOD_ORDER) {
+		if (!Array.isArray(details) || details.length === 0) {
+			throw new TypeError('B"H | Tree LOD details must be a non-empty array.');
+		}
+		return details.map((detail, index) => {
+			const profile = normalizeTreeDetailProfile(detail);
+			return {
+				...this.build(profile),
+				lod: {
+					index,
+					profile: profile.name,
+					distance: profile.distance,
+					hysteresis: profile.hysteresis
+				}
+			};
+		});
+	}
+
+	stats() {
+		return this.lastResult?.stats || this.build().stats;
+	}
 }
 
-export function generateTreeProceduralData(config) { return new TreeGenerator(config).generate(); }
+export function generateTreeProceduralData(config, detail = "high") {
+	return new TreeGenerator(config).generate(detail);
+}
+
 export { TREE_PRESETS, getTreePreset, listTreePresets };
 export default TreeGenerator;

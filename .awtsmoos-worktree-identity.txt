@@ -1,0 +1,6 @@
+pwd=/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com
+top=/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com
+branch=main
+git_dir=.git
+--- dotgit ---
+drwxr-xr-x  18 awtsmoos  staff  576 Jul 21 14:15 .git

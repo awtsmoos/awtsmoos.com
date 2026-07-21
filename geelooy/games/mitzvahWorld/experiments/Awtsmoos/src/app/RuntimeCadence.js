@@ -4,15 +4,18 @@
 
 /**
  * @file RuntimeCadence.js
- * @description Schedules gameplay services and structured evidence below render frequency.
+ * @description Grants each runtime service a deterministic bounded update rhythm.
+ * The Awtsmoos renews all reality continuously; Awtsmoos.com lets finite systems awaken
+ * only when their cadence arrives, preserving responsive movement and the 16.67 ms frame.
  */
 
-const DEFAULT_INTERVALS = Object.freeze({
+export const RUNTIME_CADENCE_INTERVALS = Object.freeze({
 	chunks: 100,
 	combatHud: 50,
 	diagnostics: 500,
 	houseVisibility: 125,
 	hud: 125,
+	lod: 100,
 	materialHydration: 1000,
 	minimap: 125,
 	multiplayer: 100,
@@ -22,26 +25,37 @@ const DEFAULT_INTERVALS = Object.freeze({
 
 export class RuntimeCadence {
 	constructor(options = {}) {
+		const intervals = options?.intervals || options || {};
 		this.intervals = {
-			...DEFAULT_INTERVALS,
-			...(options.intervals || {})
+			...RUNTIME_CADENCE_INTERVALS,
+			...intervals
 		};
-		this.last = new Map();
+		this.previous = new Map();
 	}
 
-	due(name, now) {
-		const interval = this.intervals[name];
-		if (!Number.isFinite(interval)) return true;
-		const previous = this.last.get(name);
-		if (previous != null && now - previous < interval) return false;
-		this.last.set(name, now);
-		return true;
+	/** Returns true exactly when one named service is due. */
+	due(name, nowMilliseconds) {
+		const interval = Math.max(0, Number(this.intervals[name]) || 0);
+		const previous = this.previous.get(name);
+		if (previous == null || nowMilliseconds - previous >= interval) {
+			this.previous.set(name, nowMilliseconds);
+			return true;
+		}
+		return false;
 	}
 
-	reset(name) {
-		if (name) this.last.delete(name);
-		else this.last.clear();
+	reset(name = null) {
+		if (name == null) {
+			this.previous.clear();
+			return;
+		}
+		this.previous.delete(name);
+	}
+
+	snapshot() {
+		return {
+			intervals: { ...this.intervals },
+			previous: Object.fromEntries(this.previous)
+		};
 	}
 }
-
-export const RUNTIME_CADENCE_INTERVALS = DEFAULT_INTERVALS;

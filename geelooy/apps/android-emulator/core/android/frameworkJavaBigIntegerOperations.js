@@ -31,7 +31,7 @@ const BINARY_OPERATIONS = Object.freeze({
  * keeps arithmetic separate from method routing and never mutates a guest value.
  */
 export function invokeJavaBigIntegerOperation(runtime, name, args) {
-	if (BINARY_OPERATIONS[name]) {
+	if (Object.hasOwn(BINARY_OPERATIONS, name)) {
 		const left = readJavaBigInteger(runtime, args[0]);
 		const right = readJavaBigInteger(runtime, args[1]);
 		return createJavaBigInteger(
@@ -51,7 +51,7 @@ export function invokeJavaBigIntegerOperation(runtime, name, args) {
 }
 
 export function isJavaBigIntegerOperation(name) {
-	return Boolean(BINARY_OPERATIONS[name])
+	return Object.hasOwn(BINARY_OPERATIONS, name)
 		|| ["negate", "shiftLeft", "equals"].includes(name);
 }
 

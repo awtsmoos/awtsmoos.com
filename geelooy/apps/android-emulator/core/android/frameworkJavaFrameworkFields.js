@@ -15,6 +15,11 @@ import {
 	initializeJavaPrimitiveTypeStaticField,
 	JAVA_PRIMITIVE_TYPE_FIELD_GROUPS
 } from "./frameworkJavaPrimitiveTypeFields.js";
+import {
+	initializeJavaUnsafeStaticField,
+	SUN_MISC_UNSAFE,
+	SUN_MISC_UNSAFE_FIELDS
+} from "./frameworkJavaUnsafeValues.js";
 
 const WINDOW_INSETS_CONSUMED = Object.freeze({
 	accessFlags: 0x19,
@@ -28,6 +33,7 @@ const WINDOW_INSETS_CONSUMED = Object.freeze({
 const FRAMEWORK_FIELDS = new Map([
 	[ANDROID_BUILD, ANDROID_BUILD_FIELDS],
 	...JAVA_PRIMITIVE_TYPE_FIELD_GROUPS,
+	[SUN_MISC_UNSAFE, SUN_MISC_UNSAFE_FIELDS],
 	[ANDROID_WINDOW_INSETS, Object.freeze([WINDOW_INSETS_CONSUMED])]
 ]);
 
@@ -45,6 +51,8 @@ export function initializeFrameworkStaticField(runtime, metadata) {
 	if (build.supported) return build;
 	const primitive = initializeJavaPrimitiveTypeStaticField(metadata);
 	if (primitive.supported) return primitive;
+	const unsafe = initializeJavaUnsafeStaticField(runtime, metadata);
+	if (unsafe.supported) return unsafe;
 	if (metadata.frameworkInitializer === "window-insets-consumed") {
 		return Object.freeze({
 			supported: true,

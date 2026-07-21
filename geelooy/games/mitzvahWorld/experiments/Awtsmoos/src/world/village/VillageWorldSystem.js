@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWorldSystem.js
- * @description Gathers the complete village from mountain scale to household causality.
- * The Awtsmoos descends from ridges into water, supported homes, thresholds, gardens,
- * forest, inward life, people, and wildlife; Awtsmoos.com measures the complete package.
+ * @description Builds the complete movement-ready village while procedural botany streams later.
+ * The Awtsmoos descends from ridge to water, bridge, home, road, and rooted soil first;
+ * Awtsmoos.com lets petals multiply after the shliach already walks through a coherent valley.
  */
 
 import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
@@ -16,9 +16,9 @@ import { createHeroCottageCraftDefinitions } from './HeroCottageCraftSystem.js';
 import { createHeroValleyGardenDefinitions } from './HeroValleyGardenSystem.js';
 import { createVillageArrivalComposition } from './VillageArrivalComposition.js';
 import { createVillageDistrictArchitecture } from './VillageDistrictArchitecture.js?v=20260720-canonical-valley-pass-04';
+import { createVillageEssentialLandscapeDefinitions } from './VillageEssentialLandscapeSystem.js';
 import { createVillageFoundationDefinitions } from './VillageFoundationSystem.js';
 import { createVillageHouseBubbleDefinitions } from './VillageHouseBubbleSystem.js';
-import { createVillageLandscapeDefinitions } from './VillageLandscapeSystem.js';
 import { createVillageLifeContracts } from './VillageLifeSystem.js';
 import { createVillagePracticalLightDefinitions } from './VillagePracticalLightSystem.js';
 import { createVillagePropDefinitions } from './VillagePropSystem.js?v=20260720-canonical-valley-pass-04';
@@ -29,7 +29,10 @@ import { VILLAGE_WORLD_LAYERS } from './VillageWorldLayers.js';
 export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 	const systems = createSystems(groundSampler, quality);
 	const definitions = flattenSystems(systems);
-	return { definitions, stats: createStats(systems, definitions, quality) };
+	return {
+		definitions,
+		stats: createStats(systems, definitions, quality)
+	};
 }
 
 function createSystems(groundSampler, quality) {
@@ -44,7 +47,7 @@ function createSystems(groundSampler, quality) {
 		foundations: createVillageFoundationDefinitions(architecture, groundSampler),
 		heroGardens: createHeroValleyGardenDefinitions(groundSampler),
 		houseBubbles: createVillageHouseBubbleDefinitions(groundSampler, quality),
-		landscape: createVillageLandscapeDefinitions(groundSampler, quality),
+		landscape: createVillageEssentialLandscapeDefinitions(groundSampler, quality),
 		life: createVillageLifeContracts(quality),
 		mountains: createAtmosphericMountainDefinitions(quality),
 		population: emptyAnimatedPopulation(),
@@ -54,12 +57,22 @@ function createSystems(groundSampler, quality) {
 	};
 }
 
-function flattenSystems(s) {
+function flattenSystems(systems) {
 	return [
-		...s.mountains, ...s.water.definitions, ...s.props.definitions, ...s.arrival,
-		...s.foundations, ...s.architecture, ...s.houseBubbles, ...s.practicalLights,
-		...s.landscape.definitions, ...s.cottageCraft, ...s.heroGardens,
-		...s.forestEdge, ...s.population, ...s.creatures
+		...systems.mountains,
+		...systems.water.definitions,
+		...systems.props.definitions,
+		...systems.arrival,
+		...systems.foundations,
+		...systems.architecture,
+		...systems.houseBubbles,
+		...systems.practicalLights,
+		...systems.landscape.definitions,
+		...systems.cottageCraft,
+		...systems.heroGardens,
+		...systems.forestEdge,
+		...systems.population,
+		...systems.creatures
 	];
 }
 
@@ -67,6 +80,7 @@ function createStats(s, definitions, quality) {
 	return {
 		architecture: s.architecture.stats,
 		arrival: s.arrival.stats,
+		botanicalEnrichment: 'deferred-after-movement',
 		budget: s.budget,
 		creatures: s.creatures.stats,
 		definitionCount: definitions.length,
@@ -89,12 +103,14 @@ function createStats(s, definitions, quality) {
 }
 
 function emptyAnimatedPopulation() {
-	return Object.assign([], { stats: {
-		definitions: 0,
-		people: 0,
-		realtimeAnimations: 'skeletal-chossid.glb-runtime-population',
-		visualPolicy: 'no-primitive-humans'
-	} });
+	return Object.assign([], {
+		stats: {
+			definitions: 0,
+			people: 0,
+			realtimeAnimations: 'skeletal-chossid.glb-runtime-population',
+			visualPolicy: 'no-primitive-humans'
+		}
+	});
 }
 
 export default createVillageWorldDefinitions;

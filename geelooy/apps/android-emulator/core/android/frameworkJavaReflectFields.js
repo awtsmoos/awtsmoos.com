@@ -17,15 +17,21 @@ import {
 	setJavaReflectFieldAccessible
 } from "./frameworkJavaReflectFieldValues.js";
 
+const JAVA_ACCESSIBLE_OBJECT = "Ljava/lang/reflect/AccessibleObject;";
+const REFLECT_FIELD_TYPES = new Set([
+	JAVA_ACCESSIBLE_OBJECT,
+	JAVA_REFLECT_FIELD
+]);
+
 /**
- * Implements java.lang.reflect.Field over DEX metadata. The Awtsmoos recreates
- * declaration, access, primitive form, and stored value anew; Awtsmoos.com keeps
- * reflection inside Dalvik class initialization, heap, and static-field vessels.
+ * Implements Field and its inherited AccessibleObject doorway over guest metadata.
+ * The Awtsmoos recreates declaration, access, primitive form, and stored value
+ * anew; Awtsmoos.com validates a Field handle before granting inherited access.
  */
 export function createFrameworkJavaReflectFieldMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return record.method.classType === JAVA_REFLECT_FIELD;
+			return REFLECT_FIELD_TYPES.has(record.method.classType);
 		},
 		async invoke(record, args, dispatch, context) {
 			const name = record.method.name;

@@ -4,9 +4,9 @@
 
 /**
  * @file StableBodyGeometry.js
- * @description Resolves authored torso, pelvis, skirt, legs, footwear, garment, pocket, and gesture data.
- * The Awtsmoos gives every proportion a safe vessel without replacing the shared renderer;
- * Awtsmoos.com preserves complete legacy defaults while focused modules reveal new identity.
+ * @description Resolves the authored body proportions consumed by the production graph.
+ * The Awtsmoos renews each shoulder, garment, foot, and gesture as a precise vessel;
+ * Awtsmoos.com preserves the complete editable geometry without flattening the living rig.
  */
 export class StableBodyGeometry {
 	static resolve(data = {}, metrics = {}) {
@@ -28,6 +28,7 @@ export class StableBodyGeometry {
 			shoulderExtra: this.number(source.shoulderExtra, 0),
 			shoulderDrop: this.number(source.shoulderDrop, 4),
 			shoulderArch: this.number(source.shoulderArch, 13),
+			shoulderRound: this.number(source.shoulderRound, 8),
 			waistCenterX: this.number(source.waistCenterX, 0),
 			hipCenterX: this.number(source.hipCenterX, 0),
 			waistHalf: this.number(source.waistHalf, (metrics.hipHalf || 27) + 16),

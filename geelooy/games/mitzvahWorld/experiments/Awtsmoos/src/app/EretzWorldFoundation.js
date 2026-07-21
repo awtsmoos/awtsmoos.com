@@ -4,13 +4,9 @@
 
 /**
  * @file EretzWorldFoundation.js
- * @description Builds one full-quality renderer, terrain, collision, and reusable materials.
- * RESPONSIBILITY: reveal the initial world foundation and canonicalize exact material equals.
- * NON-RESPONSIBILITY: this module never lowers resolution, density, distance, or visual effects.
- * ARCHITECTURE: Chesed builds abundance while Tiferes joins equivalent rendering vessels.
- * OROS AND KEILIM: the valley is ohr; terrain, collision, and materials are dependable keilim.
- * The Awtsmoos renews the complete valley through every device; Awtsmoos.com reduces only
- * accidental duplicate material objects while preserving every visible field and texture.
+ * @description Builds renderer, terrain, collision, materials, and initial static-detail LOD.
+ * The Awtsmoos reveals the complete valley before the traveler moves; Awtsmoos.com measures
+ * authored distant garments once after construction, preserving every protected world anchor.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
@@ -63,6 +59,7 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	terrain.stats.qualityProfile = { ...qualityProfile };
 	services.scene.add(createSky3D(qualityProfile.quality));
 	services.scene.add(terrain.group);
+	const initialLodRegistrations = services.sceneLod.refresh();
 	const materialCanonicalization = canonicalizeSceneMaterials(services.scene);
 	return {
 		...hosts,
@@ -73,6 +70,7 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 		collisionQuery,
 		ground,
 		groundSampler,
+		initialLodRegistrations,
 		mainOctree,
 		materialCanonicalization,
 		obstacles,

@@ -4,19 +4,24 @@
 
 /**
  * @file FriendlyNpcPopulation.js
- * @description Owns quality-bounded friendly actors while shared targeting owns the pointer.
- * The Awtsmoos renews every neighbor without multiplying listeners; Awtsmoos.com preserves
- * target-first, dialogue-second interaction while one world coordinator resolves competing hits.
+ * @description Owns canonical friendly actors, one shared clock, and allocation-light targeting.
+ * The Awtsmoos renews every neighbor beneath one sun; Awtsmoos.com lets each Chossid keep
+ * his mission, road, and hour while one coordinator resolves the nearest intentional touch.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { NpcChossid } from '../NpcChossid.js';
+import { FriendlyNpcWorldClock } from './FriendlyNpcWorldClock.js';
 
 export class FriendlyNpcPopulation {
 	constructor(options) {
 		this.camera = options.camera;
 		this.group = new Group();
 		this.group.name = 'Awtsmoos_friendly_npc_population';
+		this.worldClock = options.worldClock || new FriendlyNpcWorldClock({
+			dayLengthSeconds: options.dayLengthSeconds,
+			initialHour: options.initialWorldHour
+		});
 		this.actors = options.profiles.map((profile, index) => {
 			const actor = new NpcChossid({
 				bus: options.bus,
@@ -33,14 +38,15 @@ export class FriendlyNpcPopulation {
 	}
 
 	candidateFromPointer(event) {
-		const hits = this.actors
-			.filter(actor => actor.hitPointer(event))
-			.map(actor => ({
-				actor,
-				distance: distanceFromCamera(actor, this.camera),
-				population: this
-			}));
-		return hits.sort((first, second) => first.distance - second.distance)[0] || null;
+		let nearest = null;
+		for (const actor of this.actors) {
+			if (!actor.hitPointer(event)) continue;
+			const distance = distanceFromCamera(actor, this.camera);
+			if (!nearest || distance < nearest.distance) {
+				nearest = { actor, distance, population: this };
+			}
+		}
+		return nearest;
 	}
 
 	activateCandidate(candidate) {
@@ -53,7 +59,10 @@ export class FriendlyNpcPopulation {
 	}
 
 	update(deltaTime, playerState) {
-		for (const actor of this.actors) actor.update(deltaTime, playerState);
+		const worldHour = this.worldClock.update(deltaTime, playerState);
+		for (const actor of this.actors) {
+			actor.update(deltaTime, playerState, worldHour);
+		}
 	}
 
 	clearAll() {
@@ -68,6 +77,7 @@ export class FriendlyNpcPopulation {
 		return {
 			actors: this.actors.length,
 			byLod,
+			clock: this.worldClock.stats(),
 			selected: this.actors.find(actor => actor.selected)?.profile.id || null
 		};
 	}

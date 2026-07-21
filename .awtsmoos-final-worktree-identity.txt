@@ -1,0 +1,6 @@
+pwd=/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com
+top=/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com
+branch=main
+head=a68b8dd2c9a7f645bb5458486dc9be69ae4cd263
+origin_main=a68b8dd2c9a7f645bb5458486dc9be69ae4cd263
+--- tunnel diff ---
