@@ -5,8 +5,8 @@
 /**
  * @file CanonicalTerrainHeight.js
  * @description Orchestrates hydrology-safe terrain and graph-constrained road corridors.
- * The Awtsmoos joins valley, passage, and water in one elevation authority; Awtsmoos.com lets
- * roads grade the land while canonical hydrology remains the final authority inside its banks.
+ * The Awtsmoos joins valley, passage, and water in one elevation authority; Awtsmoos.com
+ * reuses an already measured elevation when classifying the same terrain vertex.
  */
 
 import { canonicalHydrologyTerrainHeightAt } from './CanonicalHydrologyTerrain.js';
@@ -15,13 +15,7 @@ import { canonicalTerrainBaseHeightAt } from './CanonicalTerrainBase.js';
 import { canonicalRiverTerrainSample } from './CanonicalTerrainHydrology.js';
 import { canonicalTerraceSample } from './CanonicalTerrainTerraces.js';
 
-/**
- * Returns the complete canonical terrain height.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @returns {number} Canonical terrain elevation.
- */
+/** Returns the complete canonical terrain height. */
 export function canonicalTerrainHeightAt(x, z) {
 	const baseHeight = canonicalTerrainBaseHeightAt(x, z);
 	const roadHeight = canonicalRoadCorridorSampleAt(
@@ -34,16 +28,18 @@ export function canonicalTerrainHeightAt(x, z) {
 }
 
 /**
- * Classifies the final canonical terrain surface.
- *
+ * Classifies the final canonical surface without repeating a supplied height sample.
  * @param {number} x World x coordinate.
  * @param {number} z World z coordinate.
+ * @param {number|null} measuredElevation Existing elevation for this exact coordinate.
  * @returns {string} Semantic terrain zone.
  */
-export function canonicalTerrainZoneAt(x, z) {
+export function canonicalTerrainZoneAt(x, z, measuredElevation = null) {
 	const river = canonicalRiverTerrainSample(x, z);
 	const terrace = canonicalTerraceSample(x, z);
-	const elevation = canonicalTerrainHeightAt(x, z);
+	const elevation = Number.isFinite(measuredElevation)
+		? measuredElevation
+		: canonicalTerrainHeightAt(x, z);
 	if (river.distance < river.width * 0.78) {
 		return 'stream-channel';
 	}

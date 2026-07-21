@@ -12,21 +12,24 @@ const PROFILES = Object.freeze({
 		maximumPixelRatio: 1.45,
 		particleCount: 15000,
 		glyphCount: 24,
-		motionScale: 1
+		motionScale: 1,
+		frameInterval: 1000 / 60
 	}),
 	balanced: Object.freeze({
 		name: "balanced",
 		maximumPixelRatio: 1.22,
 		particleCount: 6500,
 		glyphCount: 10,
-		motionScale: 0.78
+		motionScale: 0.78,
+		frameInterval: 1000 / 45
 	}),
 	lean: Object.freeze({
 		name: "lean",
 		maximumPixelRatio: 1,
 		particleCount: 1600,
 		glyphCount: 0,
-		motionScale: 0.28
+		motionScale: 0.28,
+		frameInterval: 1000 / 30
 	})
 });
 

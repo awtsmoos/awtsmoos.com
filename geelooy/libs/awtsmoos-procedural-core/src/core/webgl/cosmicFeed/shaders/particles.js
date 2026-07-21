@@ -25,9 +25,8 @@ out vec3 vColor;
 out float vAlpha;
 out float vCore;
 out float vStreak;
-out float vAngle;
+out vec2 vDirection;
 out float vFlare;
-
 void main() {
 	vec2 base = aPositionPhase.xy;
 	float depth = aPositionPhase.z;
@@ -78,7 +77,8 @@ void main() {
 	vAlpha = mix(familyAlpha * (0.55 + sideStrength * 0.55), 0.01 + flare * 0.015, inFeed) * (0.5 + depth * 0.55);
 	vCore = spark * 0.35 + filament * 0.2 + flare + pulse * 0.5;
 	vStreak = clamp(abs(uScrollVelocity) * (spark * 0.45 + filament * 1.35 + flare * 0.3) + pointerWake * (spark * 0.8 + filament * 0.65 + flare * 1.2), 0.0, 1.0);
-	vAngle = atan(uPointerVelocity.y - uScrollVelocity * (0.5 + filament), uPointerVelocity.x + 0.001);
+	vec2 flow = uPointerVelocity + vec2(0.001, -uScrollVelocity * (0.5 + filament));
+	vDirection = flow / max(length(flow), 0.001);
 	vFlare = flare + pulse * 0.35;
 	vColor = mix(aColor, uInteractionColor, min(0.78, resonance * (spark * 0.3 + filament * 0.55 + flare * 0.8) + pulse * 0.65));
 }
@@ -90,22 +90,21 @@ in vec3 vColor;
 in float vAlpha;
 in float vCore;
 in float vStreak;
-in float vAngle;
+in vec2 vDirection;
 in float vFlare;
 out vec4 outColor;
-
 void main() {
 	vec2 point = gl_PointCoord * 2.0 - 1.0;
-	float cosine = cos(vAngle);
-	float sine = sin(vAngle);
-	vec2 rotated = mat2(cosine, -sine, sine, cosine) * point;
+	vec2 rotated = mat2(vDirection.x, -vDirection.y, vDirection.y, vDirection.x) * point;
 	rotated.y *= mix(1.0, 3.4, vStreak);
 	float radius = dot(rotated, rotated);
 	if (radius > 1.0) discard;
-	float halo = pow(1.0 - radius, 2.0);
+	float halo = (1.0 - radius) * (1.0 - radius);
 	float core = smoothstep(0.24, 0.0, radius) * (0.3 + vCore * 0.7);
-	float cross = (exp(-abs(rotated.x) * 14.0) + exp(-abs(rotated.y) * 14.0)) * exp(-radius * 2.5) * vFlare;
-	vec3 color = vColor * (halo * 0.9 + core * 1.5 + cross * 0.55);
-	outColor = vec4(color, vAlpha * max(max(halo, core), cross * 0.35));
+	float horizontal = smoothstep(0.1, 0.0, abs(rotated.y));
+	float vertical = smoothstep(0.1, 0.0, abs(rotated.x));
+	float cross = (horizontal + vertical) * smoothstep(1.0, 0.0, radius) * vFlare;
+	vec3 color = vColor * (halo * 0.9 + core * 1.5 + cross * 0.62);
+	outColor = vec4(color, vAlpha * max(max(halo, core), cross * 0.4));
 }
 `;

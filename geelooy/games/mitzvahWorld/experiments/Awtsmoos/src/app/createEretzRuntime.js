@@ -4,9 +4,9 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes a playable fallback world before actor, model, and texture enrichment.
+ * @description Publishes a playable fallback world before actor and texture enrichment.
  * The Awtsmoos renews one essential adventure through desktop and mobile vessels;
- * Awtsmoos.com starts movement first, then replaces local Chossid garments with exact GLBs.
+ * Awtsmoos.com starts movement and renders the valley before background detail begins.
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
@@ -46,12 +46,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 			: startEretzRuntime(runtime, diagnostics);
 		const localRpg = options.localRpg
 			|| new MitzvahWorldLocalRpgSession(options);
-		attachRuntimeDiagnostics(
-			diagnostics,
-			runtime,
-			movement,
-			localRpg
-		);
+		attachRuntimeDiagnostics(diagnostics, runtime, movement, localRpg);
 		diagnostics.bootPhases = () => boot.snapshot();
 		diagnostics.qualityProfile = { ...qualityProfile };
 		diagnostics.actorHydrationPromise = startEretzActorHydration(
@@ -61,14 +56,14 @@ export async function createEretzRuntime(hosts, options = {}) {
 		);
 		boot.complete();
 		setDebugHudVisibility(hosts?.hud);
+		diagnostics.textureStreamingScheduled = movement
+			? startGameplayTextureStreaming(foundation.assets, options.scheduleFrame)
+			: false;
 		diagnostics.worldModelPromise = startDeferredWorldModels(
 			foundation,
 			runtime,
 			diagnostics,
-			{
-				...options,
-				quality: qualityProfile.quality
-			},
+			{ ...options, quality: qualityProfile.quality },
 			boot
 		);
 		publishRuntime(diagnostics);
@@ -82,6 +77,14 @@ export async function createEretzRuntime(hosts, options = {}) {
 			globalThis.AwtsmoosBootTracker = null;
 		}
 	}
+}
+
+/** Starts texture enrichment only after the playable frame and overlay handoff. */
+export function startGameplayTextureStreaming(assets, scheduleFrame = frameScheduler) {
+	const stream = assets?.publicMaterialStreaming;
+	if (typeof stream?.start !== 'function') return false;
+	scheduleFrame(() => scheduleFrame(() => stream.start()));
+	return true;
 }
 
 function publishRuntime(diagnostics) {
@@ -110,6 +113,11 @@ function setDebugHudVisibility(hud) {
 	if (!hud || typeof location === 'undefined') return;
 	const showDebug = new URLSearchParams(location.search).get('debug') === '1';
 	hud.style.display = showDebug ? '' : 'none';
+}
+
+function frameScheduler(callback) {
+	if (typeof requestAnimationFrame === 'function') return requestAnimationFrame(callback);
+	return setTimeout(callback, 0);
 }
 
 export default createEretzRuntime;

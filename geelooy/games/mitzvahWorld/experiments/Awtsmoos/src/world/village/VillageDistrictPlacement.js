@@ -4,18 +4,16 @@
 
 /**
  * @file VillageDistrictPlacement.js
- * @description Places H10-H27 first, then bounded infill that follows each terrace.
- * The Awtsmoos grants every home a remembered place; Awtsmoos.com prevents random rings
- * from replacing the canonical village while retaining quality-scaled cottage budgets.
+ * @description Places canonical authored houses first, followed by bounded terrace infill.
  */
 
 import { CANONICAL_HOUSES_BY_ID } from './CanonicalVillageHouses.js';
 
 export function villageDistrictPlacements(district, cottageCount) {
 	const explicit = district.houseIds
-		.map((houseId) => CANONICAL_HOUSES_BY_ID[houseId])
+		.map(houseId => CANONICAL_HOUSES_BY_ID[houseId])
 		.filter(Boolean)
-		.map(({ id, x, yaw, z }) => Object.freeze({ houseId: id, x, yaw, z }));
+		.map(house => Object.freeze({ ...house, houseId: house.id }));
 	const placements = explicit.slice(0, cottageCount);
 	for (let index = placements.length; index < cottageCount; index += 1) {
 		placements.push(infillPlacement(district, index, cottageCount));

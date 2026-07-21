@@ -35,7 +35,9 @@ test('cottage factory emits shell, textured interior, and roof', () => {
 	assert.ok(shell.userData.expansionRatio >= 10);
 	assert.ok(shell.userData.roomCapacity >= 12);
 	assert.equal(shell.userData.stories, 3);
-	assert.ok(interior.userData.rooms >= 12);
+	assert.equal(interior.userData.roomCount, 12);
+	assert.equal(interior.userData.rooms.length, 12);
+	assert.ok(interior.userData.rooms.every(room => room.id && room.purpose));
 	assert.equal(interior.userData.doorOpenings, 12);
-	assert.match(interior.textureUrl, /^https:\/\/awtsmoos-docs-base\.web\.app\//);
+	assert.match(interior.textureUrl, /^\.\/assets\/materials\//);
 });

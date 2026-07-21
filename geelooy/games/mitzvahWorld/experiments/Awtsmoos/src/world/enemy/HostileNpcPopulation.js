@@ -4,15 +4,13 @@
 
 /**
  * @file HostileNpcPopulation.js
- * @description Owns hostile actors, targeting, physical strikes, Torah defense, and quest evidence.
- * The Awtsmoos joins many finite adversaries without multiplying world listeners; Awtsmoos.com
- * resolves one selected melee target in constant time while cadence still bounds all idle updates.
+ * @description Owns hostile actors, indexed Torah targeting, melee, and quest evidence.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { enemyDefeatAdventureEvent } from './EnemyAdventureEvent.js';
 import { ENEMY_STATE } from './EnemyStates.js';
-import { HostileTorahAbilitySystem } from './HostileTorahAbilitySystem.js';
+import { HostileTorahAbilitySystem } from './HostileTorahAbilitySystem.js?v=20260721-spatial-targeting-01';
 import { ShadowDemonActor } from './ShadowDemonActor.js';
 import { shadowDemonProfiles } from './ShadowDemonProfiles.js';
 
@@ -31,12 +29,12 @@ export class HostileNpcPopulation {
 			ground: options.ground,
 			profile
 		}));
-		this.abilitySystem.actors = this.actors;
+		this.abilitySystem.setActors(this.actors);
 		for (const actor of this.actors) this.group.add(actor.group);
 		this.selected = null;
 		this.playerState = null;
 		this.unsubscribers = [
-			this.bus.on('torah:use', passage => this.abilitySystem.apply(passage, this.selected)),
+			this.bus.on('torah:use', passage => this.applyTorahPassage(passage)),
 			this.bus.on('combat:melee', request => this.applyMelee(request)),
 			this.bus.on('target:cycle', () => this.cycleTarget()),
 			this.bus.on('npc:target', payload => this.clearDifferentTarget(payload)),
@@ -48,8 +46,15 @@ export class HostileNpcPopulation {
 		this.playerState = playerState;
 		this.abilitySystem.setPlayerState(playerState);
 		const now = performance.now() / 1000;
-		for (const actor of this.actors) actor.update(deltaTime, playerState, now);
+		for (const actor of this.actors) {
+			actor.update(deltaTime, playerState, now);
+			this.abilitySystem.updateActor(actor);
+		}
 		if (this.selected?.state === ENEMY_STATE.DEFEATED) this.selected = null;
+	}
+
+	applyTorahPassage(passage) {
+		return this.abilitySystem.apply(passage, this.selected?.profile?.id || null);
 	}
 
 	applyMelee(request) {
@@ -102,6 +107,7 @@ export class HostileNpcPopulation {
 	}
 
 	publishAdventureEvent(payload) {
+		this.abilitySystem.removeActor(payload?.id);
 		if (payload?.id === this.selected?.profile.id) this.selected = null;
 		const event = enemyDefeatAdventureEvent(payload);
 		if (event) this.bus.emit('quest:event', event);
@@ -113,23 +119,20 @@ export class HostileNpcPopulation {
 			active: actors.filter(actor => actor.state !== ENEMY_STATE.DEFEATED).length,
 			actors,
 			playerContextReady: Boolean(this.playerState),
-			selectedId: this.selected?.profile.id || null
+			selectedId: this.selected?.profile.id || null,
+			torahTargeting: this.abilitySystem.diagnostics().targeting
 		};
 	}
 
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
+		this.abilitySystem.spatialIndex.clear();
 		this.group.parent?.remove(this.group);
 	}
 }
 
 function rejection(request, reason) {
-	return {
-		accepted: false,
-		attackId: request?.attack?.id || null,
-		reason,
-		targetId: null
-	};
+	return { accepted: false, attackId: request?.attack?.id || null, reason, targetId: null };
 }
 
 function distanceFromCamera(actor, camera) {

@@ -12,72 +12,73 @@ export class CheerfulReferenceBodyGeometry {
 		return {
 			torso: {
 				garmentKind: 'jacket',
-				shoulderExtra: 1,
-				shoulderDrop: 12,
-				shoulderArch: 12,
-				waistCenterX: -9,
-				hipCenterX: -9,
-				waistHalf: 43,
-				hipHalf: 42,
-				sideRound: 14,
+				shoulderExtra: 0,
+				shoulderDrop: 10,
+				shoulderArch: 7,
+				shoulderRound: 10,
+				waistCenterX: -8,
+				hipCenterX: -8,
+				waistHalf: 40,
+				hipHalf: 39,
+				sideRound: 10,
 				belly: 3,
 				hemY: -70,
-				hemRound: 9,
+				hemRound: 7,
 				hemLift: 0
 			},
 			shoulders: {
 				centerX: -15.5,
-				halfWidthOffset: 10,
-				leftYOffset: 9.5,
-				rightYOffset: 9.5
+				halfWidthOffset: 8,
+				leftYOffset: 9,
+				rightYOffset: 9
 			},
 			pelvis: {
-				centerX: -9,
-				topHalf: 40,
-				bottomHalf: 38,
+				centerX: -8,
+				topHalf: 38,
+				bottomHalf: 36,
 				bottomY: -62
 			},
 			legs: {
 				centerOffsetX: -8,
-				hipOffset: 20,
+				hipOffset: 19,
 				kneeOffset: 20,
-				ankleOffset: 22,
-				footOffset: 26,
-				thighWidth: 40,
-				kneeWidth: 37,
-				ankleWidth: 27,
-				shoeScaleX: 0.74,
-				shoeScaleY: 0.62,
+				ankleOffset: 21,
+				footOffset: 25,
+				thighWidth: 38,
+				kneeWidth: 34,
+				ankleWidth: 24,
+				shoeScaleX: 0.7,
+				shoeScaleY: 0.57,
 				footwear: {
 					kind: 'grounded',
-					toeLength: 0.39,
-					vampHeight: 0.64,
-					soleDepth: 2.2,
-					heelHeight: 0.12,
-					openingDepth: 0.58
+					toeLength: 0.42,
+					vampHeight: 0.6,
+					soleDepth: 2,
+					heelHeight: 0.1,
+					openingDepth: 0.54
 				}
 			},
 			details: {
-				shirtPanelHalf: 21,
-				lapelHalf: 8,
+				shirtPanelHalf: 20,
+				lapelHalf: 6,
 				buttons: true,
 				pockets: false,
 				foldOffsets: [-15, 13],
-				foldOpacity: 0.055,
-				foldWidth: 0.62
+				foldOpacity: 0.04,
+				foldWidth: 0.58
 			},
 			gesture: {
 				mode: 'open_palm_left',
 				elbowOut: 25,
 				elbowDown: 20,
-				wristOut: 44,
-				wristDown: 1,
-				palmScale: 1.1,
-				fistElbowOut: 15,
-				fistElbowDown: 26,
-				fistX: 32,
-				fistDrop: 12.5,
-				fistScale: 1.12
+				wristOut: 45,
+				wristDown: 0,
+				palmScale: 1.18,
+				fistElbowOut: 6,
+				fistElbowDown: 20,
+				fistX: 22,
+				fistDrop: 10,
+				fistScale: 1.18
 			}
 		};
 	}

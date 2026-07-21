@@ -3,7 +3,7 @@
 // Blessed is He
 
 import { LineArtStyle } from '../../style/LineArtStyle.js';
-import { StableReferenceLimbPath2D } from './StableReferenceLimbPath2D.js';
+import { StableOrganicSleevePath2D } from './StableOrganicSleevePath2D.js';
 import { StableReferenceOpenHand2D } from './StableReferenceOpenHand2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
@@ -26,25 +26,21 @@ export class StableOpenPalm2D {
 			x: elbow.x - Number(gesture.wristOut || 42),
 			y: elbow.y + Number(gesture.wristDown || 2)
 		};
-		const sleeve = LineArtStyle.outer(data, colors.jacket);
+		const widths = {
+			shoulder: metrics.armWidth + 9,
+			elbow: metrics.armWidth + 5,
+			wrist: metrics.armWidth - 1
+		};
 		return S.group(`${prefix}_open_left_arm`, null, [
-			StableReferenceLimbPath2D.build(
-				`${prefix}_open_left_upper`,
+			S.group(`${prefix}_open_left_upper`, { x: shoulder.x, y: shoulder.y }, []),
+			S.group(`${prefix}_open_left_fore`, { x: elbow.x, y: elbow.y }, []),
+			StableOrganicSleevePath2D.build(
+				`${prefix}_open_left_sleeve`,
 				shoulder,
 				elbow,
-				metrics.armWidth + 8,
-				metrics.armWidth + 5,
-				sleeve,
-				-3
-			),
-			StableReferenceLimbPath2D.build(
-				`${prefix}_open_left_fore`,
-				elbow,
 				wrist,
-				metrics.armWidth + 5,
-				metrics.armWidth - 1,
-				sleeve,
-				3
+				widths,
+				LineArtStyle.outer(data, colors.jacket)
 			),
 			StableReferenceOpenHand2D.build(
 				colors,

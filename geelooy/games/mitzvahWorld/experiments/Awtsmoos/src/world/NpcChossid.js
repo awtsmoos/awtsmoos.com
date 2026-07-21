@@ -1,13 +1,5 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file NpcChossid.js
- * @description Owns one exact chossid.glb actor, phased motion, and Shlichus state.
- * The Awtsmoos renews each complete person and every mitzvah; Awtsmoos.com preserves the real
- * animated body while relevance cadences distribute route, ground, pose, marker, and facing work.
- */
+/** Owns one friendly Chossid actor, its visible body, schedule state, and interaction events. */
 
 import { NpcAnimationCadence } from './npc/NpcAnimationCadence.js';
 import { updateNpcChossidMotion } from './npc/NpcChossidMotion.js';
@@ -30,29 +22,29 @@ export class NpcChossid {
 		this.elapsed = 0;
 		this.worldX = this.profile.x;
 		this.worldZ = this.profile.z;
+		this.routeCenterX = this.profile.x;
+		this.routeCenterZ = this.profile.z;
+		this.dailyPeriod = null;
+		this.currentAction = 'arriving';
+		this.activeScheduleAction = 'arriving';
+		this.navigationTarget = this.profile.dailyAnchors?.day?.location || null;
+		this.isTravelling = false;
+		this.scheduleChanges = 0;
+		this.relationshipState = this.profile.relationship?.initial || 'neighbor';
 		this.lod = resolveNpcLod(Infinity);
 		this.animationCadence = new NpcAnimationCadence(this.profile.id);
 		this.motionCadence = new NpcRelevanceCadence(`${this.profile.id}:motion`);
-		Object.assign(this, createNpcChossidVisual(
-			this.profile,
-			options.gltf,
-			options.ground
-		));
+		Object.assign(this, createNpcChossidVisual(this.profile, options.gltf, options.ground));
 		this.worldY = this.groundY + this.footOffset;
 	}
 
-	update(deltaTime, playerState) {
-		updateNpcChossidMotion(this, deltaTime, playerState);
+	update(deltaTime, playerState, worldHour) {
+		updateNpcChossidMotion(this, deltaTime, playerState, worldHour);
 	}
 
 	hitPointer(event) {
 		if (this.lod.id === 'dormant') return false;
-		this.lastHit = npcPointerHits(
-			event,
-			this.camera,
-			this.canvas,
-			this.targetHint()
-		);
+		this.lastHit = npcPointerHits(event, this.camera, this.canvas, this.targetHint());
 		return this.lastHit;
 	}
 
@@ -62,13 +54,20 @@ export class NpcChossid {
 		this.bus.emit('npc:target', this.payload());
 	}
 
-	dialogue() {
+	dialogue(mode = 'greeting') {
 		this.dialogueOpen = true;
-		const payload = this.payload();
+		const payload = { ...this.payload(), dialogueMode: mode, dialogueText: this.profile.dialogue?.[mode] || this.profile.dialogue?.greeting };
 		this.bus.emit('npc:dialogue', payload);
-		if (this.profile.questId) {
-			this.bus.emit('quest:offer', { questId: this.profile.questId });
-		}
+		this.bus.emit('npc:talk', payload);
+		this.bus.emit('quest:event', { count: 1, npcId: this.profile.id, target: this.profile.id, type: 'npc:talk' });
+		if (this.profile.questId) this.bus.emit('quest:offer', { questId: this.profile.questId });
+	}
+
+	setRelationship(state) {
+		if (!state || state === this.relationshipState) return false;
+		this.relationshipState = state;
+		this.bus.emit('npc:relationship', this.payload());
+		return true;
 	}
 
 	clear() {
@@ -80,13 +79,23 @@ export class NpcChossid {
 
 	payload() {
 		return {
+			currentAction: this.currentAction,
+			dialogueModes: this.profile.dialogueModes,
 			face: '🧔',
 			health: this.health,
+			homeId: this.profile.home?.id || null,
 			id: this.profile.id,
-			level: 'Shlichus giver',
+			level: this.profile.role || 'Village resident',
 			name: this.profile.name,
+			navigationTarget: this.navigationTarget,
+			period: this.dailyPeriod,
 			questId: this.profile.questId,
-			selected: this.selected
+			relationship: this.relationshipState,
+			role: this.profile.role,
+			selected: this.selected,
+			torah: this.profile.torah,
+			vendor: this.profile.vendor,
+			workplaceId: this.profile.workplace?.id || null
 		};
 	}
 
@@ -104,7 +113,9 @@ export class NpcChossid {
 			lod: this.lod.id,
 			modelSource: 'chossid.glb',
 			motionCadence: this.motionCadence.stats(),
-			position: this.targetHint()
+			position: this.targetHint(),
+			scheduleChanges: this.scheduleChanges,
+			travelling: this.isTravelling
 		};
 	}
 }

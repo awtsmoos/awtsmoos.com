@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainGeometry.js
- * @description Generates a center-dense canonical valley mesh and identical floor collision field.
+ * @description Generates one exact valley mesh with synchronous and cooperative boot paths.
  * The Awtsmoos renews cliff, terrace, riverbank, road bed, and foundation as one earth vessel;
- * Awtsmoos.com concentrates geometry where the player lives without wasting it beyond the valley.
+ * Awtsmoos.com yields during expensive canonical sampling without reducing distance or density.
  */
 
 import { TriangleCollider } from '../collision/TriangleCollider.js';
@@ -19,36 +19,47 @@ export const DEFAULT_TERRAIN_STEPS = 128;
 export const terrainHeightAt = canonicalTerrainHeightAt;
 export const terrainZoneAt = canonicalTerrainZoneAt;
 
+/** Builds the canonical terrain synchronously for deterministic tools and tests. */
 export function createTerrainGeometry(
 	size = DEFAULT_TERRAIN_SIZE,
 	steps = DEFAULT_TERRAIN_STEPS
 ) {
-	const vertices = [];
-	const uvs = [];
-	const indices = [];
-	const zones = [];
-	const half = size / 2;
-	for (let zIndex = 0; zIndex <= steps; zIndex += 1) {
-		const z = terrainCoordinateAt(zIndex, steps, half);
-		for (let xIndex = 0; xIndex <= steps; xIndex += 1) {
-			const x = terrainCoordinateAt(xIndex, steps, half);
-			vertices.push(v(x, terrainHeightAt(x, z), z));
-			uvs.push(xIndex / steps, zIndex / steps);
-			zones.push(terrainZoneAt(x, z));
-		}
+	const startedAt = now();
+	const state = createSamplingState(size, steps);
+	for (let index = 0; index < state.total; index += 1) sampleVertex(state, index);
+	return finishTerrain(state, {
+		mode: 'synchronous',
+		milliseconds: now() - startedAt,
+		yields: 0
+	});
+}
+
+/** Builds identical terrain while returning control between bounded sampling batches. */
+export async function createTerrainGeometryAsync(
+	size = DEFAULT_TERRAIN_SIZE,
+	steps = DEFAULT_TERRAIN_STEPS,
+	options = {}
+) {
+	const startedAt = now();
+	const state = createSamplingState(size, steps);
+	const yieldEvery = boundedInteger(options.yieldEvery, 32, 8, 512);
+	const yieldWork = options.yieldWork || yieldToBrowser;
+	let yields = 0;
+	for (let index = 0; index < state.total; index += 1) {
+		sampleVertex(state, index);
+		if ((index + 1) % yieldEvery !== 0 || index + 1 === state.total) continue;
+		yields += 1;
+		if (yields % 8 === 0) options.onProgress?.(index + 1, state.total);
+		await yieldWork();
 	}
-	appendIndices(indices, steps);
-	return {
-		AwtsmoosTerrainValley: terrainEvidence(size, steps, indices.length / 3),
-		colliders: colliderList(vertices, indices),
-		indices,
-		normals: vertexNormals(vertices, indices),
-		size,
-		steps,
-		uvs,
-		vertices,
-		zones
-	};
+	options.onProgress?.(state.total, state.total);
+	await yieldWork();
+	return finishTerrain(state, {
+		mode: 'cooperative',
+		milliseconds: now() - startedAt,
+		yieldEvery,
+		yields: yields + 1
+	});
 }
 
 export function terrainCoordinateAt(index, steps, half) {
@@ -58,7 +69,53 @@ export function terrainCoordinateAt(index, steps, half) {
 	return Math.sign(normalized) * centerDense * half;
 }
 
-function terrainEvidence(size, steps, colliderTriangles) {
+function createSamplingState(size, steps) {
+	return {
+		half: size / 2,
+		size,
+		steps,
+		total: (steps + 1) * (steps + 1),
+		vertices: [],
+		uvs: [],
+		zones: []
+	};
+}
+
+function sampleVertex(state, index) {
+	const rowSize = state.steps + 1;
+	const xIndex = index % rowSize;
+	const zIndex = Math.floor(index / rowSize);
+	const x = terrainCoordinateAt(xIndex, state.steps, state.half);
+	const z = terrainCoordinateAt(zIndex, state.steps, state.half);
+	const height = terrainHeightAt(x, z);
+	state.vertices.push(v(x, height, z));
+	state.uvs.push(xIndex / state.steps, zIndex / state.steps);
+	state.zones.push(terrainZoneAt(x, z, height));
+}
+
+function finishTerrain(state, preparation) {
+	const indices = [];
+	appendIndices(indices, state.steps);
+	return {
+		AwtsmoosTerrainValley: terrainEvidence(
+			state.size,
+			state.steps,
+			indices.length / 3,
+			preparation
+		),
+		colliders: colliderList(state.vertices, indices),
+		indices,
+		normals: vertexNormals(state.vertices, indices),
+		preparation,
+		size: state.size,
+		steps: state.steps,
+		uvs: state.uvs,
+		vertices: state.vertices,
+		zones: state.zones
+	};
+}
+
+function terrainEvidence(size, steps, colliderTriangles, preparation) {
 	const centerSpacing = Math.abs(
 		terrainCoordinateAt(steps / 2 + 1, steps, size / 2)
 		- terrainCoordinateAt(steps / 2, steps, size / 2)
@@ -68,9 +125,10 @@ function terrainEvidence(size, steps, colliderTriangles) {
 		colliderTriangles,
 		grid: `${steps}x${steps}`,
 		hydrology: 'canonical-waterfall-bridge-lake-outlet',
-		performancePolicy: 'center-dense-single-authority-heightfield',
+		performancePolicy: 'center-dense-cooperative-heightfield',
+		preparation: Object.freeze({ ...preparation }),
 		sampling: 'nonlinear-center-dense',
-		terraces: canonicalTerraceDefinitions().map((terrace) => terrace.id)
+		terraces: canonicalTerraceDefinitions().map(terrace => terrace.id)
 	});
 }
 
@@ -104,9 +162,7 @@ function vertexNormals(vertices, indices) {
 	for (let index = 0; index < indices.length; index += 3) {
 		const face = [indices[index], indices[index + 1], indices[index + 2]];
 		const normal = triangleNormal(vertices[face[0]], vertices[face[1]], vertices[face[2]]);
-		for (const vertexIndex of face) {
-			addNormal(normals[vertexIndex], normal);
-		}
+		for (const vertexIndex of face) addNormal(normals[vertexIndex], normal);
 	}
 	return normals.flatMap(normalized);
 }
@@ -120,4 +176,18 @@ function addNormal(target, source) {
 function normalized(normal) {
 	const length = Math.hypot(normal.x, normal.y, normal.z) || 1;
 	return [normal.x / length, normal.y / length, normal.z / length];
+}
+
+function boundedInteger(value, fallback, minimum, maximum) {
+	const resolved = Number.isFinite(Number(value)) ? Number(value) : fallback;
+	return Math.max(minimum, Math.min(maximum, Math.floor(resolved)));
+}
+
+function yieldToBrowser() {
+	if (typeof globalThis.scheduler?.yield === 'function') return globalThis.scheduler.yield();
+	return new Promise(resolve => setTimeout(resolve, 0));
+}
+
+function now() {
+	return globalThis.performance?.now?.() ?? Date.now();
 }

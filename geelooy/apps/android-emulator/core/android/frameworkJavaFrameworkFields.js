@@ -11,6 +11,10 @@ import {
 	ANDROID_WINDOW_INSETS,
 	createConsumedWindowInsets
 } from "./frameworkAndroidWindowInsetsValues.js";
+import {
+	initializeJavaPrimitiveTypeStaticField,
+	JAVA_PRIMITIVE_TYPE_FIELD_GROUPS
+} from "./frameworkJavaPrimitiveTypeFields.js";
 
 const WINDOW_INSETS_CONSUMED = Object.freeze({
 	accessFlags: 0x19,
@@ -23,13 +27,14 @@ const WINDOW_INSETS_CONSUMED = Object.freeze({
 });
 const FRAMEWORK_FIELDS = new Map([
 	[ANDROID_BUILD, ANDROID_BUILD_FIELDS],
+	...JAVA_PRIMITIVE_TYPE_FIELD_GROUPS,
 	[ANDROID_WINDOW_INSETS, Object.freeze([WINDOW_INSETS_CONSUMED])]
 ]);
 
 /**
- * Declares fields owned by bounded Android framework families. The Awtsmoos
- * creates identity, singleton, modifier, and canonical signature anew;
- * Awtsmoos.com lets reflection and direct Dalvik bytecode share one testimony.
+ * Declares fields owned by bounded Android and Java framework families. The
+ * Awtsmoos creates identity, primitive class, singleton, modifier, and signature
+ * anew; Awtsmoos.com joins reflection and Dalvik static reads in one testimony.
  */
 export function frameworkDeclaredFields(descriptor) {
 	return FRAMEWORK_FIELDS.get(descriptor) || Object.freeze([]);
@@ -38,6 +43,8 @@ export function frameworkDeclaredFields(descriptor) {
 export function initializeFrameworkStaticField(runtime, metadata) {
 	const build = initializeAndroidBuildStaticField(runtime, metadata);
 	if (build.supported) return build;
+	const primitive = initializeJavaPrimitiveTypeStaticField(metadata);
+	if (primitive.supported) return primitive;
 	if (metadata.frameworkInitializer === "window-insets-consumed") {
 		return Object.freeze({
 			supported: true,

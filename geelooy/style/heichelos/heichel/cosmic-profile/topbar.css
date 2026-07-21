@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives the Heichel one compact Awtsmoos roof. */
+
+.heichel-os-document .cosmic-heichel-topbar {
+	position: fixed !important;
+	inset: 0 0 auto !important;
+	z-index: 1000;
+	display: grid !important;
+	grid-template-columns: auto minmax(8rem, 1fr) auto auto auto !important;
+	align-items: center;
+	gap: .55rem;
+	min-height: 4.45rem !important;
+	padding: .52rem clamp(.75rem, 3vw, 2.5rem) !important;
+	border-bottom: 1px solid rgba(80, 215, 255, .26) !important;
+	background: rgba(4, 4, 12, .91) !important;
+	box-shadow: 0 .8rem 2.2rem rgba(0, 0, 0, .46) !important;
+	backdrop-filter: blur(1rem);
+}
+
+.heichel-awtsmoos-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	color: var(--heichel-cosmic-text) !important;
+	font-weight: 950;
+	letter-spacing: .08em;
+	text-decoration: none;
+}
+
+.heichel-brand-flame {
+	color: var(--heichel-cosmic-cyan-core);
+	font-size: 1.55rem;
+	filter: drop-shadow(0 0 .55rem var(--heichel-cosmic-blue-core));
+}
+
+.heichel-os-document .topbar-title strong {
+	color: var(--heichel-cosmic-text) !important;
+}
+
+.heichel-os-document .topbar-title small {
+	color: var(--heichel-cosmic-secondary) !important;
+}
+
+.heichel-os-document .topbar-title small::before {
+	content: "" !important;
+}
+
+.heichel-os-document .topbar-icon {
+	width: 2.7rem !important;
+	height: 2.7rem !important;
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid rgba(80, 215, 255, .24) !important;
+	background: rgba(12, 20, 36, .76) !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .05);
+}
+
+.heichel-os-document .topbar-icon:hover,
+.heichel-os-document .topbar-icon:focus-visible {
+	border-color: var(--heichel-cosmic-cyan-core) !important;
+	background: rgba(1, 161, 230, .15) !important;
+}
+
+.heichel-os-document .topbar-menu-panel {
+	border-color: rgba(80, 215, 255, .38) !important;
+	background: var(--heichel-cosmic-void) !important;
+}
+
+.heichel-os-document .topbar-menu-panel a {
+	color: var(--heichel-cosmic-text) !important;
+	background: var(--heichel-cosmic-raised) !important;
+}

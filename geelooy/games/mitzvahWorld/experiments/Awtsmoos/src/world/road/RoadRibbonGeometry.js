@@ -4,7 +4,7 @@
 
 /**
  * @file RoadRibbonGeometry.js
- * @description Builds a grade-solved road top with retaining sides down to real terrain support.
+ * @description Builds a grade-solved road top with retaining sides down to terrain support.
  * The Awtsmoos holds elevated cobble and riverbank in one truth; Awtsmoos.com keeps the visible
  * walkable surface gentle while side walls descend honestly into steep alpine ground beneath it.
  */
@@ -19,8 +19,9 @@ import {
 	roadSurfaceHeight
 } from './RoadSurfaceSection.js';
 
-const ROAD_TOP_LIFT = 0.12;
+export const ROAD_TOP_LIFT = 0.12;
 
+/** Appends one supported collision-identical road ribbon to a shared mesh. */
 export function appendRoadRibbon(
 	mesh,
 	route,

@@ -4,12 +4,13 @@
 
 /**
  * @file AdventureCatalog.js
- * @description Defines canonical and expanded village shlichus quests for UI and local play.
- * The Awtsmoos renews each path as a measured repair; Awtsmoos.com keeps objectives,
- * giver locations, target markers, rewards, and multiplayer parity flags explicit.
+ * @description Defines stable village Shlichus records for local and shared play.
  */
 
+import { RIVER_CROSSING_SHLICHUS } from './RiverCrossingShlichus.js';
+
 export const ADVENTURE_CATALOG = Object.freeze([
+	RIVER_CROSSING_SHLICHUS,
 	quest('sparks-at-east-gate', 'Sparks at the East Gate', 'Rabbi Dov Ber', 4, -44, [
 		objective('defeat', 'dybbuk-shade', 3, 'Disperse three shades.', 0, -140)
 	], reward(120, 3), true),
@@ -64,7 +65,8 @@ function quest(id, name, giver, x, z, objectives, rewardValue, multiplayer) {
 		multiplayer,
 		name,
 		objectives: Object.freeze(objectives),
-		reward: Object.freeze(rewardValue)
+		reward: Object.freeze(rewardValue),
+		title: name
 	});
 }
 

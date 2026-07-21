@@ -4,9 +4,9 @@
 
 /**
  * @file Terrain3D.js
- * @description Coordinates quality-aware terrain, village, forest, text, roads, and signs.
+ * @description Coordinates cooperatively prepared terrain, village, forest, roads, and signs.
  * The Awtsmoos renews every blade, roof, river stone, and distant mountain; Awtsmoos.com
- * uses licensed power-of-two grass and soil while retaining full ecological detail layers.
+ * keeps the loading vessel responsive while the exact canonical heightfield is sampled.
  */
 
 import { highestResolutionSurface } from '../assets/HighestResolutionSurfaceCatalog.js';
@@ -15,7 +15,10 @@ import { primitiveColliders } from './Box3D.js';
 import { houseRoadSystem } from './PathRoadSystem.js';
 import { createProceduralTextLandmark } from './proceduralText/ProceduralTextLandmarkSystem.js';
 import { createTerrainGroup } from './TerrainGroupAssembly.js';
-import { createTerrainGeometry, terrainHeightAt } from './TerrainGeometry.js';
+import {
+	createTerrainGeometryAsync,
+	terrainHeightAt
+} from './TerrainGeometry.js';
 import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
 import { createProceduralForest } from './trees/ProceduralForestSystem.js';
 import { preloadVillageSignTextures } from './village/VillageSignTexture.js';
@@ -42,7 +45,19 @@ export async function createTerrainPackage(
 	options = {}
 ) {
 	const quality = options.quality || 'medium';
-	const terrain = createTerrainGeometry();
+	const boot = options.boot || globalThis.AwtsmoosBootTracker;
+	boot?.progress('terrain-grid', 0, 1, 'Sampling canonical valley collision and surface');
+	const terrain = await createTerrainGeometryAsync(undefined, undefined, {
+		onProgress(current, total) {
+			boot?.progress(
+				'terrain-grid',
+				current,
+				total,
+				'Building exact terrain; interface remains responsive'
+			);
+		},
+		yieldEvery: options.terrainYieldEvery
+	});
 	const road = houseRoadSystem(obstacles.assets || {}, groundSampler, obstacles);
 	const roadColliders = primitiveColliders(road.visual);
 	const obstacleColliders = obstacles.flatMap(primitiveColliders);
@@ -81,6 +96,7 @@ export async function createTerrainPackage(
 	const stats = createTerrainPackageStats(assembly);
 	stats.quality = quality;
 	stats.signTextures = signTextures;
+	stats.terrainPreparation = { ...terrain.preparation };
 	return {
 		colliders: [
 			...terrain.colliders,
@@ -100,6 +116,7 @@ export async function createTerrainPackage(
 			forest: forest.stats,
 			quality,
 			signTextures,
+			terrainPreparation: { ...terrain.preparation },
 			textLandmark: textLandmark.stats,
 			village: village.stats
 		}

@@ -6,9 +6,9 @@ import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { LineArtStyle } from '../../style/LineArtStyle.js';
 
 /**
- * The Awtsmoos rounds shoulder, chest, waist, hip, and hem into one soft garment.
- * Awtsmoos.com honors independently serialized chest, waist, and hip centers so
- * authored weight survives animation, save, reload, and export.
+ * Shoulder, chest, waist, hip, and hem flow as one weighted garment boundary.
+ * The Awtsmoos rounds finite corners without erasing identity, while Awtsmoos.com
+ * preserves authored centers through animation, persistence, preview, and export.
  */
 export class StableAuthoredTorsoMass2D {
 	static build(data, colors, metrics, geometry) {
@@ -17,26 +17,63 @@ export class StableAuthoredTorsoMass2D {
 		const chestX = skeleton.chest.x;
 		const waistX = this.number(torso.waistCenterX, chestX);
 		const hipX = this.number(torso.hipCenterX, skeleton.hips.x);
-		const leftShoulder = skeleton.leftShoulder.x - torso.shoulderExtra;
-		const rightShoulder = skeleton.rightShoulder.x + torso.shoulderExtra;
-		const leftWaist = waistX - torso.waistHalf;
-		const rightWaist = waistX + torso.waistHalf;
-		const leftHip = hipX - torso.hipHalf;
-		const rightHip = hipX + torso.hipHalf;
-		const shoulderY = metrics.shoulderY + Number(torso.shoulderDrop || 4);
-		const waistY = metrics.waistY + Number(torso.waistDrop || 0);
-		const sideRound = Number(torso.sideRound || 12);
-		const belly = Number(torso.belly || 0);
-		const hemLift = Number(torso.hemLift || 0);
-		return G.path('authored_torso_connected_mass', [
-			{ type: 'move', x: leftShoulder, y: shoulderY },
-			{ type: 'quad', cx: chestX, cy: shoulderY - Number(torso.shoulderArch || 13), x: rightShoulder, y: shoulderY },
-			{ type: 'quad', cx: rightShoulder + sideRound, cy: metrics.chestY + 4, x: rightWaist + belly, y: waistY },
-			{ type: 'quad', cx: rightHip + sideRound, cy: torso.hemY - 15, x: rightHip, y: torso.hemY - hemLift },
-			{ type: 'quad', cx: hipX, cy: torso.hemY + torso.hemRound, x: leftHip, y: torso.hemY + hemLift },
-			{ type: 'quad', cx: leftHip - sideRound, cy: torso.hemY - 15, x: leftWaist - belly, y: waistY },
-			{ type: 'quad', cx: leftShoulder - sideRound, cy: metrics.chestY + 4, x: leftShoulder, y: shoulderY }
-		], { ...LineArtStyle.outer(data, colors.jacket), lineJoin: 'round' });
+		const values = {
+			chestX,
+			waistX,
+			hipX,
+			leftShoulder: skeleton.leftShoulder.x - torso.shoulderExtra,
+			rightShoulder: skeleton.rightShoulder.x + torso.shoulderExtra,
+			leftWaist: waistX - torso.waistHalf,
+			rightWaist: waistX + torso.waistHalf,
+			leftHip: hipX - torso.hipHalf,
+			rightHip: hipX + torso.hipHalf,
+			shoulderY: metrics.shoulderY + Number(torso.shoulderDrop || 4),
+			waistY: metrics.waistY + Number(torso.waistDrop || 0),
+			sideRound: Number(torso.sideRound || 12),
+			belly: Number(torso.belly || 0),
+			hemLift: Number(torso.hemLift || 0),
+			hemY: torso.hemY,
+			hemRound: torso.hemRound,
+			shoulderArch: Number(torso.shoulderArch || 13),
+			shoulderRound: Number(torso.shoulderRound || 0),
+			chestY: metrics.chestY
+		};
+		const points = values.shoulderRound > 0
+			? this.rounded(values)
+			: this.legacy(values);
+		return G.path('authored_torso_connected_mass', points, {
+			...LineArtStyle.outer(data, colors.jacket),
+			lineJoin: 'round'
+		});
+	}
+
+	static rounded(v) {
+		const round = Math.min(v.shoulderRound, 14);
+		return [
+			{ type: 'move', x: v.leftShoulder, y: v.shoulderY + round },
+			{ type: 'quad', cx: v.leftShoulder - 1, cy: v.shoulderY, x: v.leftShoulder + round, y: v.shoulderY },
+			{ type: 'bezier', c1x: v.chestX - 24, c1y: v.shoulderY - v.shoulderArch, c2x: v.chestX + 24, c2y: v.shoulderY - v.shoulderArch, x: v.rightShoulder - round, y: v.shoulderY },
+			{ type: 'quad', cx: v.rightShoulder + 1, cy: v.shoulderY, x: v.rightShoulder, y: v.shoulderY + round },
+			...this.lower(v)
+		];
+	}
+
+	static legacy(v) {
+		return [
+			{ type: 'move', x: v.leftShoulder, y: v.shoulderY },
+			{ type: 'quad', cx: v.chestX, cy: v.shoulderY - v.shoulderArch, x: v.rightShoulder, y: v.shoulderY },
+			...this.lower(v)
+		];
+	}
+
+	static lower(v) {
+		return [
+			{ type: 'quad', cx: v.rightShoulder + v.sideRound, cy: v.chestY + 4, x: v.rightWaist + v.belly, y: v.waistY },
+			{ type: 'quad', cx: v.rightHip + v.sideRound, cy: v.hemY - 15, x: v.rightHip, y: v.hemY - v.hemLift },
+			{ type: 'quad', cx: v.hipX, cy: v.hemY + v.hemRound, x: v.leftHip, y: v.hemY + v.hemLift },
+			{ type: 'quad', cx: v.leftHip - v.sideRound, cy: v.hemY - 15, x: v.leftWaist - v.belly, y: v.waistY },
+			{ type: 'quad', cx: v.leftShoulder - v.sideRound, cy: v.chestY + 4, x: v.leftShoulder, y: v.shoulderY + v.shoulderRound }
+		];
 	}
 
 	static number(value, fallback) {

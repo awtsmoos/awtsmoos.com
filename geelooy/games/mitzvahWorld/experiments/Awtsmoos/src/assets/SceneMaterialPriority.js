@@ -5,9 +5,12 @@
 /**
  * @file SceneMaterialPriority.js
  * @description Ranks shared visible material URLs by human-visible village value.
- * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com gives cottage
- * stone, slate, timber, roads, water, and terrain a bounded order that prevents white houses.
+ * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
+ * canonical same-origin keys while bounding hydration to trusted material-pack paths.
  */
+
+const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
+const NETWORK_MATERIAL_URL = /^https?:\/\//i;
 
 export function rankedSceneUrls(root) {
 	const records = new Map();
@@ -15,6 +18,12 @@ export function rankedSceneUrls(root) {
 	return [...records.values()].sort((left, right) => (
 		right.score - left.score || left.url.localeCompare(right.url)
 	));
+}
+
+/** Returns true for an existing network URL or a packaged same-origin material URL. */
+export function isSceneMaterialUrl(url) {
+	const value = String(url || '').trim();
+	return NETWORK_MATERIAL_URL.test(value) || LOCAL_MATERIAL_URL.test(value);
 }
 
 function collectObject(records, object) {
@@ -36,7 +45,7 @@ function collectMaterial(records, object, material) {
 }
 
 function add(records, url, role, score) {
-	if (!/^https?:\/\//i.test(String(url || ''))) return;
+	if (!isSceneMaterialUrl(url)) return;
 	const existing = records.get(url);
 	if (existing) {
 		existing.references += 1;

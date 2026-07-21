@@ -1,0 +1,145 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos contracts the giant landing card into a living profile identity. */
+
+.heichel-os-document .cosmic-heichel-topbar {
+	position: fixed !important;
+	inset: 0 0 auto !important;
+	z-index: 1000;
+	display: grid !important;
+	grid-template-columns: auto minmax(8rem, 1fr) auto auto auto !important;
+	align-items: center;
+	gap: .55rem;
+	min-height: 4.45rem !important;
+	padding: .52rem clamp(.75rem, 3vw, 2.5rem) !important;
+	border-bottom: 1px solid rgba(80, 215, 255, .26) !important;
+	background: rgba(4, 4, 12, .91) !important;
+	box-shadow: 0 .8rem 2.2rem rgba(0, 0, 0, .46) !important;
+	backdrop-filter: blur(1rem);
+}
+
+.heichel-awtsmoos-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	color: var(--heichel-cosmic-text) !important;
+	font-weight: 950;
+	letter-spacing: .08em;
+	text-decoration: none;
+}
+
+.heichel-brand-flame {
+	color: var(--heichel-cosmic-cyan-core);
+	font-size: 1.55rem;
+	filter: drop-shadow(0 0 .55rem var(--heichel-cosmic-blue-core));
+}
+
+.heichel-os-document .topbar-title strong {
+	color: var(--heichel-cosmic-text) !important;
+}
+
+.heichel-os-document .topbar-title small {
+	color: var(--heichel-cosmic-secondary) !important;
+}
+
+.heichel-os-document .topbar-icon {
+	width: 2.7rem !important;
+	height: 2.7rem !important;
+	color: var(--heichel-cosmic-text) !important;
+	border: 1px solid rgba(80, 215, 255, .24) !important;
+	background: rgba(12, 20, 36, .76) !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .05);
+}
+
+.heichel-os-document .cosmic-heichel-profile {
+	position: relative;
+	display: grid !important;
+	grid-template-columns: 1fr !important;
+	gap: 0 !important;
+	min-height: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+	border: 1px solid rgba(80, 215, 255, .48) !important;
+	border-radius: var(--heichel-cosmic-radius) !important;
+	background: rgba(4, 12, 28, .91) !important;
+	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgba(255, 255, 255, .06) !important;
+	clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 1rem, 100% 100%, .8rem 100%, 0 calc(100% - .8rem));
+}
+
+.heichel-profile-cover {
+	height: clamp(7.5rem, 18vw, 12.5rem);
+	background:
+		radial-gradient(circle at 50% 110%, rgba(80, 215, 255, .72), transparent 19%),
+		radial-gradient(circle at 21% 45%, rgba(52, 155, 255, .42), transparent 23%),
+		radial-gradient(circle at 79% 35%, rgba(163, 90, 255, .45), transparent 24%),
+		linear-gradient(135deg, #041424, #0C2C5C 46%, #241C5C 72%, #04040C);
+	border-bottom: 1px solid rgba(80, 215, 255, .2);
+}
+
+.heichel-profile-identity {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 1rem;
+	align-items: end;
+	padding: 0 clamp(1rem, 3vw, 2rem);
+	margin-top: -3.15rem;
+}
+
+.heichel-os-document .heichel-seal {
+	width: clamp(5.6rem, 12vw, 7.7rem) !important;
+	height: clamp(5.6rem, 12vw, 7.7rem) !important;
+	margin: 0 !important;
+	border: 2px solid var(--heichel-cosmic-cyan-core) !important;
+	border-radius: 50% !important;
+	background: radial-gradient(circle, #0C2C5C, #04040C 72%) !important;
+	color: var(--heichel-cosmic-text) !important;
+	font-size: clamp(1.35rem, 4vw, 2rem) !important;
+	box-shadow: 0 0 1.8rem rgba(80, 215, 255, .42) !important;
+}
+
+.heichel-profile-copy {
+	min-width: 0;
+	padding-bottom: .35rem;
+}
+
+.heichel-os-document .hero-kicker {
+	margin: 0 0 .35rem !important;
+	color: var(--heichel-cosmic-cyan-core) !important;
+	border-color: rgba(80, 215, 255, .26) !important;
+	background: rgba(1, 161, 230, .1) !important;
+}
+
+.heichel-profile-title-row {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+}
+
+.heichel-os-document #heichel-main-title {
+	margin: 0 !important;
+	max-width: none !important;
+	color: var(--heichel-cosmic-text) !important;
+	font-size: clamp(2rem, 5vw, 3.75rem) !important;
+	line-height: 1 !important;
+	letter-spacing: -.045em !important;
+}
+
+.heichel-verification {
+	display: grid;
+	width: 1.5rem;
+	height: 1.5rem;
+	place-items: center;
+	border-radius: 50%;
+	color: #040C1C;
+	background: var(--heichel-cosmic-cyan-core);
+	font-weight: 1000;
+}
+
+.heichel-os-document .hero-description {
+	margin: .55rem 0 0 !important;
+	max-width: 58rem !important;
+	color: var(--heichel-cosmic-secondary) !important;
+	font-size: clamp(.92rem, 1.6vw, 1.05rem) !important;
+	line-height: 1.5 !important;
+}

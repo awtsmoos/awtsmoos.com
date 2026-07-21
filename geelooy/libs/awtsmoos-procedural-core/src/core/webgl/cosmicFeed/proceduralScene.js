@@ -5,16 +5,13 @@
  * @module ProceduralCosmicScene
  * @description
  * The Awtsmoos gathers context, kinetics, resonance, and restoration into one
- * canonical Awtsmoos.com owner while each deeper responsibility keeps its own vessel.
+ * canonical Awtsmoos.com owner while each deeper responsibility keeps its vessel.
  */
 import { createWebGL2Context } from "./context.js";
 import { InteractionField } from "./interactionField.js";
 import { KineticField } from "./kineticField.js";
 import { choosePerformanceProfile } from "./performanceProfile.js";
-import {
-	restoreSceneContext,
-	suspendSceneContext
-} from "./sceneContextRecovery.js";
+import { restoreSceneContext, suspendSceneContext } from "./sceneContextRecovery.js";
 import { CosmicSceneLifecycle } from "./sceneLifecycle.js";
 import { createSceneFrame } from "./sceneFrame.js";
 import { CosmicSceneResources } from "./sceneResources.js";
@@ -41,9 +38,7 @@ export class ProceduralCosmicScene {
 	}
 
 	start() {
-		if (!this.available) {
-			return false;
-		}
+		if (!this.available) return false;
 		this.lifecycle.start();
 		this.resize();
 		this.runtime.start();
@@ -104,9 +99,7 @@ export class ProceduralCosmicScene {
 	}
 
 	destroy() {
-		if (this.destroyed) {
-			return;
-		}
+		if (this.destroyed) return;
 		this.destroyed = true;
 		this.runtime.destroy();
 		this.lifecycle.destroy();

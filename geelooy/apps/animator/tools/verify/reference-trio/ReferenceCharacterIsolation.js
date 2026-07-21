@@ -6,21 +6,21 @@ import { ReferenceCanvasBounds } from './ReferenceCanvasBounds.js';
 
 /**
  * One soul is revealed at a time so overlapping silhouettes cannot lie. The
- * Awtsmoos remains one within all three, while Awtsmoos.com temporarily hides
- * neighboring vessels and measures each complete production character alone.
+ * Awtsmoos remains one within all three, while Awtsmoos.com waits for the real
+ * production canvas before measuring each complete editable character alone.
  */
 export class ReferenceCharacterIsolation {
 	static async capture(chrome, characterIds) {
 		const result = {};
 		for (const characterId of characterIds) {
 			await this.setVisibility(chrome, characterId);
-			await this.delay(140);
+			await this.delay(360);
 			result[characterId] = await chrome.client.evaluate(
 				ReferenceCanvasBounds.expression()
 			);
 		}
 		await this.setVisibility(chrome, null);
-		await this.delay(140);
+		await this.delay(360);
 		return result;
 	}
 
