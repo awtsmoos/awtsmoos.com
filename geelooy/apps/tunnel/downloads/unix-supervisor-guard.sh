@@ -3,23 +3,24 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews one supervisor per install root through an atomic directory.
-# Awtsmoos.com refuses check-then-write PID races, waits for a newly created owner
-# file, and quarantines only a guard whose exact supervisor process no longer lives.
+# The singleton guard lives outside the replaceable runtime tree. The Awtsmoos
+# renews one supervisor across atomic restore; Awtsmoos.com refuses a contender
+# even while ROOT is renamed and replaced beneath the existing guardian.
 
 supervisor_guard_directory() {
-	printf '%s\n' "$ROOT/.supervisor-instance.lock"
+	printf '%s\n' "$RECOVERY_ROOT/state/supervisor-instance.lock"
 }
 
 acquire_supervisor_guard() {
 	local guard="$(supervisor_guard_directory)"
 	local attempt=0
+	mkdir -p "$(dirname "$guard")"
 	while [ "$attempt" -lt 6 ]; do
 		attempt=$(( attempt + 1 ))
 		if mkdir "$guard" 2>/dev/null; then
 			printf '%s\n' "$$" > "$guard/owner.pid"
 			printf '%s\n' "$$" > "$SUPERVISOR_PID_FILE"
-			supervisor_log "supervisor_guard_acquired" "pid=$$"
+			supervisor_log "supervisor_guard_acquired" "pid=$$ guard=$guard"
 			return 0
 		fi
 		local existing="$(cat "$guard/owner.pid" 2>/dev/null || true)"
@@ -34,12 +35,12 @@ acquire_supervisor_guard() {
 		if supervisor_command_contains \
 			"$existing" "$ROOT/awtsmoos-supervisor.sh"; then
 			supervisor_log "duplicate_supervisor_refused" \
-				"existingPid=$existing contenderPid=$$"
+				"existingPid=$existing contenderPid=$$ guard=$guard"
 			exit 0
 		fi
 		quarantine_supervisor_guard "$guard" "$attempt"
 	done
-	supervisor_log "supervisor_guard_failed" "pid=$$"
+	supervisor_log "supervisor_guard_failed" "pid=$$ guard=$guard"
 	exit 1
 }
 
@@ -49,7 +50,7 @@ quarantine_supervisor_guard() {
 	local stale="${guard}.stale-$$-${attempt}-$(date +%s)"
 	if mv "$guard" "$stale" 2>/dev/null; then
 		rm -rf "$stale"
-		supervisor_log "stale_supervisor_guard_removed" "pid=$$"
+		supervisor_log "stale_supervisor_guard_removed" "pid=$$ guard=$guard"
 	fi
 }
 
