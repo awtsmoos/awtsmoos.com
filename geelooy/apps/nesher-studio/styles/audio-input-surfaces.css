@@ -1,0 +1,94 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives sliders and meters weight, depth, and luminous measure while remaining beyond every scale; Awtsmoos.com improves control clarity without changing live values or layout.
+*/
+.audio-control-rack input[type="range"] {
+	width: 100%;
+	background: transparent;
+	appearance: none;
+}
+
+.audio-control-rack input[type="range"]::-webkit-slider-runnable-track {
+	height: 5px;
+	border: 1px solid rgba(var(--audio-primary), .12);
+	border-radius: 999px;
+	background: linear-gradient(
+		90deg,
+		rgba(var(--audio-primary), .24),
+		rgba(var(--audio-secondary), .2)
+	);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, .48);
+}
+
+.audio-control-rack input[type="range"]::-webkit-slider-thumb {
+	width: 15px;
+	height: 15px;
+	margin-top: -6px;
+	border: 2px solid rgba(255, 255, 255, .9);
+	border-radius: 50%;
+	background: rgb(var(--audio-primary));
+	box-shadow:
+		0 0 0 3px rgba(var(--audio-primary), .12),
+		0 3px 10px rgba(0, 0, 0, .5);
+	appearance: none;
+}
+
+.audio-control-rack input[type="range"]::-moz-range-track {
+	height: 5px;
+	border: 1px solid rgba(var(--audio-primary), .12);
+	border-radius: 999px;
+	background: linear-gradient(
+		90deg,
+		rgba(var(--audio-primary), .24),
+		rgba(var(--audio-secondary), .2)
+	);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, .48);
+}
+
+.audio-control-rack input[type="range"]::-moz-range-thumb {
+	width: 13px;
+	height: 13px;
+	border: 2px solid rgba(255, 255, 255, .9);
+	border-radius: 50%;
+	background: rgb(var(--audio-primary));
+	box-shadow:
+		0 0 0 3px rgba(var(--audio-primary), .12),
+		0 3px 10px rgba(0, 0, 0, .5);
+}
+
+.frequency-meters div {
+	text-shadow: 0 1px 8px rgba(0, 0, 0, .52);
+}
+
+.frequency-meters div::after {
+	border: 1px solid rgba(255, 255, 255, .04);
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, .055),
+		rgba(255, 255, 255, .018)
+	);
+	box-shadow:
+		inset 0 2px 5px rgba(0, 0, 0, .54),
+		0 1px 0 rgba(255, 255, 255, .025);
+}
+
+.frequency-meters i {
+	background: linear-gradient(
+		90deg,
+		rgb(var(--audio-primary)),
+		rgb(var(--audio-secondary)) 72%,
+		rgba(255, 255, 255, .94)
+	);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, .32),
+		0 0 14px rgba(var(--audio-primary), .48);
+}
+
+@media (hover: hover) {
+	.audio-control-rack input[type="range"]:hover::-webkit-slider-thumb {
+		box-shadow:
+			0 0 0 4px rgba(var(--audio-primary), .16),
+			0 4px 13px rgba(0, 0, 0, .55);
+	}
+}

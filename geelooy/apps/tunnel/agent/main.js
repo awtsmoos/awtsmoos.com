@@ -63,7 +63,10 @@ const processRuntime = MainProcess.createProcessRuntime({
 	start: components.startup.main,
 	snapshot: components.runtime.snapshot,
 	lagMonitor: components.runtime.lagMonitor,
-	stopWorkers: signal => components.workers.stopAll(signal),
+	stopWorkers: signal => {
+		components.workers.stopAll(signal);
+		D.FsExecutor.shutdown();
+	},
 	exitProcess: code => process.exit(code)
 });
 

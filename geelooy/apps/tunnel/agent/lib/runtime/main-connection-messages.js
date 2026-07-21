@@ -1,9 +1,6 @@
 // B"H
 // Boruch Hashem
-// Blessed is He
-
 const Acknowledgement = require("./main-connection-acknowledgement.js");
-
 /**
  * @file Routes relay messages into small identity, revocation, and work vessels.
  * @description
@@ -25,15 +22,14 @@ function createConnectionMessages(dependencies) {
 		if (dependencies.Replacement.isReplacementMessage(data)) {
 			return handleReplacement(data, ws);
 		}
-		dependencies.Receipt?.markServerSeen({
-			generation: dependencies.state.generation
-		});
+		checkpoint(dependencies);
 		if (data.type === "TUNNEL_PING") {
-			dependencies.Send.safeSend(ws, {
+			const pong = {
 				type: "TUNNEL_PONG",
-				at: new Date().toISOString(),
-				queueStats: dependencies.stats()
-			});
+				at: new Date().toISOString()
+			};
+			if (data.includeStats === true) pong.queueStats = dependencies.stats();
+			dependencies.Send.safeSend(ws, pong);
 			return true;
 		}
 		if (data.type === "TUNNEL_REQUEST") {
@@ -92,6 +88,20 @@ function createConnectionMessages(dependencies) {
 	};
 }
 
+/** Records liveness asynchronously; receipt I/O never delays a pong frame. */
+function checkpoint(dependencies) {
+	const mark = dependencies.Receipt?.markServerSeenAsync;
+	if (typeof mark !== "function") {
+		dependencies.Receipt?.markServerSeen?.({
+			generation: dependencies.state.generation
+		});
+		return;
+	}
+	mark({ generation: dependencies.state.generation }).catch(error => {
+		dependencies.log?.("warn", `Liveness checkpoint failed: ${error.message}`);
+	});
+}
+
 function parse(raw, log) {
 	try {
 		return typeof raw === "string" || Buffer.isBuffer(raw)
@@ -104,6 +114,7 @@ function parse(raw, log) {
 }
 
 module.exports = {
+	checkpoint,
 	createConnectionMessages,
 	parse
 };

@@ -5,6 +5,8 @@
  * Twin rivers, eddies, stars, and source pulses emerge without borrowed imagery.
  * The Awtsmoos renews the field while Awtsmoos.com protects the reading corridor.
  */
+import { GLSL_REFERENCE_PALETTE } from "../referencePalette.js";
+
 export const NEBULA_FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 in vec2 vUv;
@@ -19,6 +21,7 @@ uniform vec4 uInteraction;
 uniform vec3 uInteractionColor;
 uniform vec2 uFeedBounds;
 uniform float uMotionScale;
+${GLSL_REFERENCE_PALETTE}
 float hash21(vec2 point) {
 	point = fract(point * vec2(123.34, 456.21));
 	point += dot(point, point + 45.32);
@@ -84,12 +87,8 @@ void main() {
 	float eddy = smoothstep(0.48, 0.86, density) * side;
 	float filament = 1.0 - abs(fbm(point * 4.8 - folded * 1.5) * 2.0 - 1.0);
 	filament = smoothstep(0.67, 0.97, filament) * side;
-	vec3 cyan = vec3(0.03, 0.78, 1.0);
-	vec3 blue = vec3(0.12, 0.32, 1.0);
-	vec3 violet = vec3(0.49, 0.16, 1.0);
-	vec3 magenta = vec3(1.0, 0.1, 0.76);
-	vec3 leftColor = mix(cyan, blue, smoothstep(0.08, 0.92, uv.y));
-	vec3 rightColor = mix(violet, magenta, smoothstep(0.35, 0.96, uv.y));
+	vec3 leftColor = mix(COSMIC_CYAN, COSMIC_BLUE_CORE, smoothstep(0.08, 0.92, uv.y));
+	vec3 rightColor = mix(COSMIC_VIOLET, COSMIC_MAGENTA, smoothstep(0.35, 0.96, uv.y));
 	vec3 nebula = mix(leftColor, rightColor, smoothstep(0.43, 0.57, uv.x));
 	float stars = starBand(uv, 4.0, 0.9982, 1.18);
 	stars += starBand(uv + 0.19, 10.0, 0.9964, 0.74) * 0.67;
@@ -101,10 +100,10 @@ void main() {
 	vec2 pointerDirection = normalize(uPointerVelocity + vec2(0.0001));
 	float wakeAxis = abs(dot(point, vec2(-pointerDirection.y, pointerDirection.x)));
 	float kineticWake = exp(-wakeAxis * 10.0) * pointerSpeed * side;
-	vec3 color = vec3(0.0015, 0.005, 0.021);
+	vec3 color = COSMIC_VOID;
 	color += nebula * (river * (0.82 + uKineticEnergy * 0.3) + eddy * 0.31);
-	color += mix(cyan, magenta, uv.y) * filament * (0.18 + river * 0.2);
-	color += vec3(0.62, 0.82, 1.0) * stars * (0.15 + side * 1.28 + velocity * 0.22);
+	color += mix(COSMIC_CYAN_CORE, COSMIC_MAGENTA_CORE, uv.y) * filament * (0.18 + river * 0.2);
+	color += mix(COSMIC_CYAN_CORE, COSMIC_INDIGO_CORE, uv.x) * stars * (0.15 + side * 1.28 + velocity * 0.22);
 	color += nebula * kineticWake * 0.28;
 	color += uInteractionColor * (resonance * 0.42 + pulse * 0.34) * (0.2 + side);
 	float insideLeft = smoothstep(uFeedBounds.x - 0.1, uFeedBounds.x + 0.04, horizontal);

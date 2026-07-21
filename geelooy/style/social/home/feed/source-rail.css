@@ -3,7 +3,7 @@
 /* Blessed is He */
 /*
  * Source is architecture, not ornament. The Awtsmoos renews lineage itself;
- * Awtsmoos.com makes its sigil, name, beam, and terminus unmistakable in every card.
+ * Awtsmoos.com makes its sigil, name, beam, and terminus exact in every card.
  */
 
 .cosmic-source-rail {
@@ -48,11 +48,15 @@
 	width: 3.05rem;
 	height: 3.05rem;
 	place-items: center;
-	color: #f4fbff;
-	border: 1px solid color-mix(in srgb, var(--source-accent) 86%, white 8%);
+	color: var(--cosmic-text);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 86%, var(--cosmic-text) 8%);
 	border-radius: 50%;
 	background:
-		radial-gradient(circle, color-mix(in srgb, var(--source-accent) 28%, #071222), #030a17 70%);
+		radial-gradient(
+			circle,
+			color-mix(in srgb, var(--source-accent) 28%, var(--cosmic-panel)),
+			var(--cosmic-void) 70%
+		);
 	box-shadow:
 		0 0 1.25rem color-mix(in srgb, var(--source-accent) 55%, transparent),
 		inset 0 0 1rem color-mix(in srgb, var(--source-accent) 24%, transparent);

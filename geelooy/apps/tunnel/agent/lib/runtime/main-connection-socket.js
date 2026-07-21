@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Open = require("./main-connection-open.js");
+const Inbound = require("./main-inbound-dispatch.js");
 const Terminal = require("./main-connection-terminal.js");
 const ResponseSocket = require("./main-response-socket.js");
 
@@ -39,6 +40,15 @@ function wireConnectionSocket(options) {
 		releaseObservers,
 		scheduleReconnect
 	});
+	const inbound = Inbound.createInboundDispatch(deliver);
+
+	function deliver(raw) {
+		if (!owns(ws, generation) || terminal.isTerminal()) return;
+		messages.handle(raw, ws);
+		if (dependencies.state.registrationConfirmed === true) {
+			ResponseSocket.flush(dependencies, ws);
+		}
+	}
 
 	ws.on("open", () => {
 		if (!owns(ws, generation)) {
@@ -56,16 +66,11 @@ function wireConnectionSocket(options) {
 	});
 
 	ws.on("message", raw => {
-		if (!owns(ws, generation) || terminal.isTerminal()) {
-			return;
-		}
-		messages.handle(raw, ws);
-		if (dependencies.state.registrationConfirmed === true) {
-			ResponseSocket.flush(dependencies, ws);
-		}
+		inbound.accept(raw);
 	});
 
 	ws.on("close", () => {
+		inbound.close();
 		const rejected = dependencies.state.registrationRejected === true;
 		terminal.terminate(
 			rejected

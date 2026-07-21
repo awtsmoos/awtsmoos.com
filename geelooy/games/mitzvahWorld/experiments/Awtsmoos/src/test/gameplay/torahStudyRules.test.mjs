@@ -44,3 +44,15 @@ test('passage cooldown is measured from inventory history', () => {
 	assert.equal(result.reason, 'PASSAGE_COOLDOWN');
 	assert.equal(result.remainingMs, 300);
 });
+
+test('action timeline may own cooldown and permit a targetless support passage', () => {
+	const result = evaluateTorahStudyUse(snapshot({
+		lastUsedAt: { 'modeh-ani': 1900 }
+	}), { id: 'modeh-ani' }, 2000, {
+		focus: 12,
+		skipPassageCooldown: true,
+		targetAttackable: false,
+		targetRequired: false
+	});
+	assert.equal(result.ok, true);
+});

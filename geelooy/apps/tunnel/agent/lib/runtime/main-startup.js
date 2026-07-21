@@ -20,14 +20,6 @@ function createStartupRuntime(dependencies) {
 			? Helpers.cleanupHistory(dependencies, config)
 			: Helpers.skipped("project_root_unavailable");
 		logOperation(dependencies, "startup cleanup", cleanup);
-		const commandReconciliation = projectRootHealth.ok
-			? await Helpers.reconcileCommands(dependencies, config)
-			: Helpers.skipped("project_root_unavailable");
-		logOperation(
-			dependencies,
-			"command reconciliation",
-			commandReconciliation
-		);
 		const localApiServer = Helpers.startLocalApi(dependencies);
 		const boot = dependencies.Boot.start(dependencies.log);
 		const update = dependencies.Updates.scheduleSelfUpdate({
@@ -37,6 +29,15 @@ function createStartupRuntime(dependencies) {
 		});
 		await ensureDeviceIdentity(dependencies, config);
 		const socket = dependencies.connection.connect();
+		dependencies.FsExecutor?.warm?.();
+		const commandReconciliation = projectRootHealth.ok
+			? await Helpers.reconcileCommands(dependencies, config)
+			: Helpers.skipped("project_root_unavailable");
+		logOperation(
+			dependencies,
+			"command reconciliation",
+			commandReconciliation
+		);
 		const openedControl = dependencies.shouldOpenControl?.()
 			? Boolean(dependencies.openHostedControl(config))
 			: false;

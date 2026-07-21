@@ -5,16 +5,15 @@
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 
 /**
- * A compact cloth bun overlaps the rear wrap as one rounded gathered silhouette.
- * The Awtsmoos renews the hidden knot and visible curve together, while
- * Awtsmoos.com keeps the authored path editable, serializable, and deterministic.
+ * A compact gathered bun completes Miriam's rear silhouette without a droplet.
+ * The Awtsmoos renews knot and curve as one, while Awtsmoos.com keeps the
+ * original vector path editable, serializable, and deterministic at every frame.
  */
 export class StableHeadWrapBun2D {
 	static build(headwear, geometry, fill, stroke) {
 		if (headwear.bun === false) {
 			return null;
 		}
-
 		const shape = this.geometry(geometry);
 		return G.path('head_wrap_bun', this.commands(shape), {
 			fill,
@@ -24,23 +23,22 @@ export class StableHeadWrapBun2D {
 		});
 	}
 
-	static geometry(geometry) {
+	static geometry(g) {
 		return {
-			centerX: geometry.x + geometry.radiusX * geometry.bunX,
-			centerY: geometry.baselineY + geometry.crownHeight * geometry.bunY,
-			radiusX: geometry.radiusX * geometry.bunWidth,
-			radiusY: geometry.crownHeight * geometry.bunHeight
+			centerX: g.x + g.radiusX * g.bunX,
+			centerY: g.baselineY + g.crownHeight * g.bunY,
+			radiusX: g.radiusX * g.bunWidth,
+			radiusY: g.crownHeight * g.bunHeight
 		};
 	}
 
-	static commands(shape) {
-		const { centerX, centerY, radiusX, radiusY } = shape;
+	static commands(s) {
 		return [
-			{ type: 'move', x: centerX - radiusX * 0.96, y: centerY - radiusY * 0.04 },
-			{ type: 'bezier', c1x: centerX - radiusX * 0.92, c1y: centerY - radiusY * 0.72, c2x: centerX - radiusX * 0.36, c2y: centerY - radiusY, x: centerX + radiusX * 0.12, y: centerY - radiusY * 0.94 },
-			{ type: 'bezier', c1x: centerX + radiusX * 0.72, c1y: centerY - radiusY * 0.84, c2x: centerX + radiusX, c2y: centerY - radiusY * 0.22, x: centerX + radiusX * 0.9, y: centerY + radiusY * 0.24 },
-			{ type: 'bezier', c1x: centerX + radiusX * 0.74, c1y: centerY + radiusY * 0.8, c2x: centerX + radiusX * 0.08, c2y: centerY + radiusY, x: centerX - radiusX * 0.44, y: centerY + radiusY * 0.78 },
-			{ type: 'bezier', c1x: centerX - radiusX * 0.84, c1y: centerY + radiusY * 0.58, c2x: centerX - radiusX, c2y: centerY + radiusY * 0.22, x: centerX - radiusX * 0.96, y: centerY - radiusY * 0.04 },
+			{ type: 'move', x: s.centerX - s.radiusX, y: s.centerY },
+			{ type: 'bezier', c1x: s.centerX - s.radiusX * 0.92, c1y: s.centerY - s.radiusY * 0.72, c2x: s.centerX - s.radiusX * 0.38, c2y: s.centerY - s.radiusY, x: s.centerX + s.radiusX * 0.08, y: s.centerY - s.radiusY },
+			{ type: 'bezier', c1x: s.centerX + s.radiusX * 0.68, c1y: s.centerY - s.radiusY, c2x: s.centerX + s.radiusX, c2y: s.centerY - s.radiusY * 0.5, x: s.centerX + s.radiusX, y: s.centerY + s.radiusY * 0.05 },
+			{ type: 'bezier', c1x: s.centerX + s.radiusX * 0.94, c1y: s.centerY + s.radiusY * 0.66, c2x: s.centerX + s.radiusX * 0.38, c2y: s.centerY + s.radiusY, x: s.centerX - s.radiusX * 0.14, y: s.centerY + s.radiusY * 0.92 },
+			{ type: 'bezier', c1x: s.centerX - s.radiusX * 0.72, c1y: s.centerY + s.radiusY * 0.82, c2x: s.centerX - s.radiusX, c2y: s.centerY + s.radiusY * 0.42, x: s.centerX - s.radiusX, y: s.centerY },
 			{ type: 'close' }
 		];
 	}

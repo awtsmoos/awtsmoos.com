@@ -5,19 +5,21 @@
 /**
  * @module RagCanonicalShards
  * @description
- * Only reviewed immutable database names may enter production. Twelve physical
- * Sichos Kodesh vessels become one logical lane, while arbitrary request paths
- * remain forever outside the gates of Awtsmoos.com.
+ * The Awtsmoos distinguishes vessels already revealed in production from
+ * vessels still being formed in staging. Only the two reviewed live databases
+ * may answer public requests; twelve Sichos Kodesh parts remain named here for
+ * deployment tooling but are not canonical until their complete family is
+ * deliberately promoted.
  */
 
-const SICHOS_KODESH_FILES = Array.from(
+const SICHOS_KODESH_FILES = Object.freeze(Array.from(
 	{ length: 12 },
 	(_value, index) => `sichos-kodesh-english-comments-rag-part-${index + 1}.awtsdb`
-);
+));
+
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
-	'sefer-hasichos-english-comments-rag.awtsdb',
-	...SICHOS_KODESH_FILES
+	'sefer-hasichos-english-comments-rag.awtsdb'
 ]);
 
 function isCanonicalShardFile(name) {

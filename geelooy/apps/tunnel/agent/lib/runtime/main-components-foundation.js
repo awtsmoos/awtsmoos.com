@@ -27,6 +27,7 @@ function createMainFoundation(D) {
 		getConfig: loadConfig
 	});
 	const runtime = createRuntimeState({
+		FsExecutor: D.FsExecutor,
 		Lag: D.Lag,
 		Priority: D.Priority,
 		workers,

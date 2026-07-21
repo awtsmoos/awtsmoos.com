@@ -5,8 +5,10 @@
  * @module CosmicParticleFamilies
  * @description
  * The Awtsmoos reveals dust, sparks, filaments, and flares as distinct motions
- * within one field. Awtsmoos.com gains depth without multiplying draw calls.
+ * within one field. Awtsmoos.com preserves exact reference colors without
+ * multiplying draw calls or introducing per-particle CPU animation.
  */
+import { REFERENCE_RGB } from "./referencePalette.js";
 
 const FAMILY_CONFIG = Object.freeze([
 	Object.freeze({ weight: 0.52, sideProbability: 0.82, speedX: 0.028, speedY: 0.022 }),
@@ -16,17 +18,17 @@ const FAMILY_CONFIG = Object.freeze([
 ]);
 
 const LEFT_PALETTE = Object.freeze([
-	Object.freeze([0.13, 0.48, 0.92]),
-	Object.freeze([0.16, 0.82, 1]),
-	Object.freeze([0.26, 0.96, 1]),
-	Object.freeze([0.72, 0.95, 1])
+	REFERENCE_RGB.cyanDust,
+	REFERENCE_RGB.cyan,
+	REFERENCE_RGB.blueCore,
+	REFERENCE_RGB.cyanCore
 ]);
 
 const RIGHT_PALETTE = Object.freeze([
-	Object.freeze([0.42, 0.25, 0.9]),
-	Object.freeze([0.72, 0.25, 1]),
-	Object.freeze([0.98, 0.18, 0.82]),
-	Object.freeze([1, 0.64, 0.95])
+	REFERENCE_RGB.violetDust,
+	REFERENCE_RGB.violet,
+	REFERENCE_RGB.magenta,
+	REFERENCE_RGB.magentaCore
 ]);
 
 /** Selects a weighted family index from one deterministic random source. */
@@ -52,9 +54,7 @@ export function particleFamilyValue(index) {
 	return (index + 0.5) / FAMILY_CONFIG.length;
 }
 
-/** Creates a side-aware color with bounded deterministic shimmer variation. */
-export function particleFamilyColor(index, side, random) {
-	const source = side < 0 ? LEFT_PALETTE[index] : RIGHT_PALETTE[index];
-	const shimmer = random.range(0.9, 1.08);
-	return source.map(channel => Math.min(1, channel * shimmer));
+/** Returns one exact reference-derived RGB color for a family and side. */
+export function particleFamilyColor(index, side) {
+	return side < 0 ? LEFT_PALETTE[index] : RIGHT_PALETTE[index];
 }

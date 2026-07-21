@@ -4,9 +4,7 @@
 
 /**
  * @file GameplayPanelSuite.js
- * @description Composes major sheets, modal offers, map, tracker, ribbon, and coordination.
- * The Awtsmoos renews many interfaces without division; Awtsmoos.com places each major
- * vessel behind one doorway while persistent guidance stays light and visible.
+ * @description Composes modal gameplay panels and their bounded diagnostics.
  */
 
 import { PanelCoordinator } from './PanelCoordinator.js';
@@ -30,15 +28,15 @@ export class GameplayPanelSuite {
 		this.questOffer = new QuestOfferPanel(this.adventures);
 		this.minimap = new WorldMinimap(this.adventures);
 		this.torah = new TorahLibraryPanel(this.inventory, {
+			getFocus: options.getTorahFocus,
+			onAssign: options.onAssignAbility,
 			onUse: options.onUsePassage
 		});
 		this.profilePanel = new ShliachProfilePanel(this.profile, {
 			onActivate: options.onActivatePowerup,
 			onAllocate: options.onAllocateAttribute
 		});
-		this.vendor = new VendorPanel(this.inventory, {
-			onBuy: options.onBuyItem
-		});
+		this.vendor = new VendorPanel(this.inventory, { onBuy: options.onBuyItem });
 		this.tracker = new QuestTracker(
 			this.adventures,
 			() => this.coordinator.open('quests')
@@ -70,6 +68,10 @@ export class GameplayPanelSuite {
 
 	updatePosition(position) {
 		this.minimap.setPosition(position);
+	}
+
+	snapshot() {
+		return { torahLibrary: this.torah.snapshot() };
 	}
 
 	destroy() {

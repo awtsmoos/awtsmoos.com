@@ -1,0 +1,144 @@
+{"ok":true,"assets":1,"scenes":2,"sequences":2}
+(node:44241) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/project/index.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H timeline model smoke passed
+(node:44269) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/timeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H export queue smoke passed
+(node:44271) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/export/ExportQueue.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H project serializer smoke passed
+(node:44278) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/project/ProjectSerializer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H timeline editing smoke passed
+(node:44280) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/timeline/TimelineModel.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H nle timeline commands smoke passed
+(node:44286) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/timeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H nle render smoke passed
+(node:44290) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/timeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H export negotiator smoke passed
+(node:44293) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/export/pipeline/ExportNegotiator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H audio visualizer smoke passed
+(node:44294) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/visualizer/audioVisualizerSource.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H visualizer routing and features smoke passed
+(node:44316) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/visualizer/audioFeatures.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H encoding benchmark smoke passed
+(node:44325) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/encodingBenchmark/bouncingBallFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H visualizer source family smoke passed
+(node:44327) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/visualizer/audioVisualizerSource.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H visualizer audio features smoke passed
+(node:44330) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/visualizer/audioFeatures.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H live stream health smoke passed
+(node:44334) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/live/liveStreamHealth.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H NLE track commands smoke passed
+(node:44339) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/timeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H encoding recommendation smoke passed
+(node:44343) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/encodingBenchmark/benchmarkRecommendation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H active no forbidden recorder guard passed
+B"H browser confidence layer smoke passed
+(node:44354) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/encodingBenchmark/benchmarkMatrix.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H mocked generic HLS controller smoke passed
+(node:44362) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/app/genericHlsController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H benchmark compact view smoke passed
+(node:44367) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/encodingBenchmark/benchmarkCompactView.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H Hebrew visualizer models smoke passed
+(node:44371) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/visualizer/hebrewLightningModel.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H NLE advanced commands smoke passed
+(node:44375) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/timeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H encoding smoke mode compact smoke passed
+(node:44378) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/encodingBenchmark/benchmarkScenarios.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H stage crop transform smoke passed
+(node:44385) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/graph/sceneGraph.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H NLE UI commands smoke passed
+(node:44390) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/nle/bin.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H fixed viewport recording, deck, and audio DOM contract passed
+(node:44394) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/ui/views/audioLabView.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H recording state machine smoke passed
+(node:44395) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/recording/session/RecordingSessionState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H recursive no-scroll style contract passed across 44 CSS vessels
+(node:44397) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/ui/views/audioLabView.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+(node:44405) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio/modules/audioLab/AdaptiveParticleBudget.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Line-count violations:
+modules/audioLab/WebglParticleRiver.js has 122 lines
+tests/066_style_visual_contract_smoke.mjs has 126 lines

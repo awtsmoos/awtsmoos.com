@@ -48,6 +48,7 @@ function createRuntimeState(dependencies) {
 			lanes,
 			eventLoopLag: state.eventLoopLag,
 			circuit: dependencies.Circuit.snapshot(circuitInput),
+			filesystemExecutor: dependencies.FsExecutor?.stats?.() || null,
 			workers: WorkerStats.workerStats(rawWorkers, options.workers !== false),
 			lastSuccessfulActionAt: state.lastSuccessfulActionAt,
 			connection: Values.connectionSnapshot(state),

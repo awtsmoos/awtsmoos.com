@@ -5,34 +5,107 @@
 /**
  * @module SocialSearchRoutes
  * @description
- * Search routes appear only after packed comments are warm and canonical RAG
- * storage proves unchanged. The Awtsmoos reveals readiness without creating a
- * third shard, WAL, journal, lock, temporary database, or persistent cache byte.
+ * Search engines remain sealed until their own route is invoked. Building the
+ * social route table performs no index import, database warm-up, or model load,
+ * so Ikar and every unrelated API stay immediately available.
  */
 
-const {
-	configuredRoot,
-	warmRagCommentSource
-} = require('./helper/search/rag/ragStartupWarmup.js');
-const {
-	assertStorageUnchanged,
-	captureCanonicalStorage
-} = require('./helper/search/rag/storageInvariant.js');
-const { exactRoutes } = require('./helper/search/routes/exact.js');
-const { libraryRoutes } = require('./helper/search/routes/library.js');
-const { commentRoutes } = require('./helper/search/routes/comments.js');
+const ROUTE_GROUPS = Object.freeze([
+	{
+		modulePath: './helper/search/routes/exact.js',
+		factoryName: 'exactRoutes',
+		routes: [
+			'/search/exact/hebrew',
+			'/search/exact/hebrew/meta'
+		]
+	},
+	{
+		modulePath: './helper/search/routes/library.js',
+		factoryName: 'libraryRoutes',
+		routes: [
+			'/search/library/shards',
+			'/search/rag/shards',
+			'/rag/search/shards',
+			'/search/library/query',
+			'/search/rag/query',
+			'/rag/search/query',
+			'/search/rag/llama/status'
+		]
+	},
+	{
+		modulePath: './helper/search/routes/comments.js',
+		factoryName: 'commentRoutes',
+		routes: [
+			'/search/rag/comments/:comment',
+			'/search/rag/post-comments'
+		]
+	}
+]);
 
-function warmSearchRoutes() {
-	const $i = { db: { directory: configuredRoot() } };
-	const storageBefore = captureCanonicalStorage($i);
-	warmRagCommentSource();
-	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
+let searchReadiness = {
+	ok: false,
+	code: 'SEARCH_NOT_WARMED',
+	message: 'Search warm-up has not been requested.'
+};
+
+function lazyHandler(group, route, context) {
+	return async (...argumentsList) => {
+		const factory = require(group.modulePath)[group.factoryName];
+		const handler = factory(context)[route];
+		return handler(...argumentsList);
+	};
 }
 
-warmSearchRoutes();
+function lazySearchRoutes(context) {
+	const routes = {};
+	for (const group of ROUTE_GROUPS) {
+		for (const route of group.routes) {
+			routes[route] = lazyHandler(group, route, context);
+		}
+	}
+	return routes;
+}
 
-module.exports = (vessel = {}) => ({
-	...exactRoutes(vessel),
-	...libraryRoutes(vessel),
-	...commentRoutes(vessel)
+function warmSearchRoutes() {
+	const {
+		configuredRoot,
+		warmRagCommentSource
+	} = require('./helper/search/rag/ragStartupWarmup.js');
+	const {
+		assertStorageUnchanged,
+		captureCanonicalStorage
+	} = require('./helper/search/rag/storageInvariant.js');
+	const $i = { db: { directory: configuredRoot() } };
+	const storageBefore = captureCanonicalStorage($i);
+	const warmup = warmRagCommentSource();
+	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
+	return { ok: true, warmup, storage: storageBefore };
+}
+
+function warmSearchRoutesSafely() {
+	try {
+		searchReadiness = warmSearchRoutes();
+	} catch (error) {
+		searchReadiness = {
+			ok: false,
+			code: error.code || 'SEARCH_WARMUP_FAILED',
+			message: error.message
+		};
+	}
+	return searchReadiness;
+}
+
+function currentSearchReadiness() {
+	return searchReadiness;
+}
+
+module.exports = (context = {}) => ({
+	...lazySearchRoutes(context),
+	'/search/readiness': async () => ({ success: currentSearchReadiness() }),
+	'/search/readiness/refresh': async () => ({ success: warmSearchRoutesSafely() })
 });
+
+module.exports.currentSearchReadiness = currentSearchReadiness;
+module.exports.lazySearchRoutes = lazySearchRoutes;
+module.exports.warmSearchRoutes = warmSearchRoutes;
+module.exports.warmSearchRoutesSafely = warmSearchRoutesSafely;

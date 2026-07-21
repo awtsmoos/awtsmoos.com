@@ -5,8 +5,8 @@
 /**
  * @module RagStorageInvariant
  * @description
- * The Awtsmoos measures every approved production database before and after search,
- * refusing unknown shards, write sidecars, or any mutation during a request.
+ * The Awtsmoos measures every approved production database before and after
+ * search, refusing missing roots, unknown shards, write sidecars, or mutation.
  */
 
 const fs = require('fs');
@@ -19,7 +19,12 @@ const WRITE_SIDECAR_PATTERN = /\.awtsdb\.(?:journal|lock|tmp|wal)$/i;
 
 function fileIdentity(file) {
 	const status = fs.statSync(file);
-	return { dev: Number(status.dev), ino: Number(status.ino), mtimeMs: Number(status.mtimeMs), size: Number(status.size) };
+	return {
+		dev: Number(status.dev),
+		ino: Number(status.ino),
+		mtimeMs: Number(status.mtimeMs),
+		size: Number(status.size)
+	};
 }
 
 function storageError(code, detail) {
@@ -29,19 +34,41 @@ function storageError(code, detail) {
 	return error;
 }
 
+function storageEntries(root) {
+	try {
+		return fs.readdirSync(root, { withFileTypes: true });
+	} catch (error) {
+		if (error?.code === 'ENOENT') {
+			throw storageError('RAG_ROOT_MISSING', { root });
+		}
+		throw error;
+	}
+}
+
 function captureCanonicalStorage($i) {
 	const root = ragRoot($i);
-	const files = fs.readdirSync(root, { withFileTypes: true })
-		.filter(entry => entry.isFile()).map(entry => entry.name).sort();
+	const files = storageEntries(root)
+		.filter(entry => entry.isFile())
+		.map(entry => entry.name)
+		.sort();
 	const databases = files.filter(name => name.endsWith('.awtsdb'));
 	const forbidden = files.filter(name => WRITE_SIDECAR_PATTERN.test(name));
 	if (JSON.stringify(databases) !== JSON.stringify(CANONICAL_NAMES)) {
-		throw storageError('RAG_DATABASE_SET_CHANGED', { actual: databases, expected: CANONICAL_NAMES, root });
+		throw storageError('RAG_DATABASE_SET_CHANGED', {
+			actual: databases,
+			expected: CANONICAL_NAMES,
+			root
+		});
 	}
-	if (forbidden.length) throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
+	if (forbidden.length) {
+		throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
+	}
 	return {
 		root,
-		databases: CANONICAL_NAMES.map(name => ({ name, ...fileIdentity(path.join(root, name)) }))
+		databases: databases.map(name => ({
+			name,
+			...fileIdentity(path.join(root, name))
+		}))
 	};
 }
 

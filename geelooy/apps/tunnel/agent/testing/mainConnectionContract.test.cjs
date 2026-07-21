@@ -21,7 +21,7 @@ class FakeSocket extends EventEmitter {
 }
 
 /** B"H — Connect, control, replacement, and ownership are verified as behavior. */
-(() => {
+(async () => {
 	const state = {
 		activeWs: null,
 		reconnectTimer: null,
@@ -60,6 +60,7 @@ class FakeSocket extends EventEmitter {
 	socket.emit('message', JSON.stringify({ type: 'TUNNEL_PING' }));
 	assert.equal(socket.sent.at(-1).type, 'TUNNEL_PONG');
 	socket.emit('message', JSON.stringify({ type: 'TUNNEL_REQUEST', id: 'request-1' }));
+	await new Promise(resolve => setImmediate(resolve));
 	assert.equal(enqueued.id, 'request-1');
 	state.reconnectTimer = setTimeout(() => {}, 10000);
 	state.reconnectTimer.unref?.();
@@ -72,4 +73,7 @@ class FakeSocket extends EventEmitter {
 	assert.equal(exitCode, 0);
 	assert.equal(state.reconnectTimer, null);
 	console.log(JSON.stringify({ ok: true, suite: 'main-connection-contract' }, null, 2));
-})();
+})().catch(error => {
+	console.error(error);
+	process.exitCode = 1;
+});

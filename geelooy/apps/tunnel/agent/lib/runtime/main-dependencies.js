@@ -15,6 +15,7 @@ module.exports = {
 	startLocalApiServer: require("../local-api.js").startLocalApiServer,
 	openHostedControl: require("../open.js").openHostedControl,
 	TinyWebSocket: require("../ws.js").TinyWebSocket,
+	FsExecutor: require("../../tools/fs/executor/index.js"),
 	handleFs: require("../../tools/fs/index.js").handleFs,
 	handleCommand: require("../../tools/command/index.js").handleCommand,
 	handleChrome: require("../../tools/chrome/index.js").handleChrome,

@@ -10,6 +10,7 @@ import {
 	createPreferenceState,
 	snapshotPreferenceState
 } from "./preferenceState.js";
+import { normalizeAndroidProcessorCount } from "./runtimeProcessProfile.js";
 import {
 	createAndroidRuntimeNetwork,
 	snapshotAndroidRuntimeNetwork
@@ -18,14 +19,17 @@ import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates content, network testimony, native bridge, files, graphics, heap, and
- * logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
+ * creates content, network testimony, virtual processors, files, graphics, heap,
+ * and logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
 	const network = createAndroidRuntimeNetwork(options);
 	const runtime = {
 		assetManager: null,
+		availableProcessors: normalizeAndroidProcessorCount(
+			options.availableProcessors
+		),
 		content: createPackageContent(packageSet, options),
 		contentView: null,
 		filesystem: createAndroidFilesystem(packageSet.packageName, options),

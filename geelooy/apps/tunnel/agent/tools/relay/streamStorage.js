@@ -5,6 +5,7 @@
 const {
 	appendDiskChunk,
 	cleanupDiskStore,
+	finalizeDiskStore,
 	readDiskChunk,
 	readDiskStore,
 	spillStoreToDisk
@@ -43,6 +44,12 @@ async function appendBytes(store, value) {
 	}
 }
 
+async function finalizeStore(store) {
+	if (store.mode === "disk") {
+		await finalizeDiskStore(store);
+	}
+}
+
 async function readChunk(store, index) {
 	if (store.mode === "disk") {
 		return await readDiskChunk(store, index);
@@ -52,16 +59,12 @@ async function readChunk(store, index) {
 }
 
 async function readAll(store) {
-	if (store.mode === "disk") {
-		return await readDiskStore(store);
-	}
+	if (store.mode === "disk") return await readDiskStore(store);
 	return Buffer.concat(store.memory, store.totalBytes);
 }
 
 async function cleanupStore(store) {
-	if (store.mode === "disk") {
-		await cleanupDiskStore(store);
-	}
+	if (store.mode === "disk") await cleanupDiskStore(store);
 	store.memory = [];
 }
 
@@ -70,7 +73,8 @@ function storeDiagnostics(store) {
 		mode: store.mode,
 		chunkCount: store.lengths.length,
 		totalBytes: store.totalBytes,
-		spilled: store.mode === "disk"
+		spilled: store.mode === "disk",
+		sealed: store.mode !== "disk" || !store.fileHandle
 	};
 }
 
@@ -96,6 +100,7 @@ module.exports = {
 	appendBytes,
 	cleanupStore,
 	createChunkStore,
+	finalizeStore,
 	readAll,
 	readChunk,
 	storeDiagnostics
