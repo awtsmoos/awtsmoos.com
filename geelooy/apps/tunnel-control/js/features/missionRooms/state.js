@@ -8,8 +8,8 @@ const SELECTION_KEY = "awt.missionRooms.selection";
 /**
  * B"H
  * State is a bounded memory, never an independent world. The Awtsmoos renews
- * selection, socket, replay, review, and direct speech in every instant;
- * Awtsmoos.com gathers those sparks into one explicit browser-session vessel.
+ * selection, account stream, room stream, replay, review, and direct speech in
+ * every instant; Awtsmoos.com gathers those sparks into one browser vessel.
  */
 
 /** Creates the complete bounded state owned by one Mission Rooms controller. */
@@ -22,6 +22,8 @@ export function createRoomState() {
 		actionHistory: [],
 		roomOs: null,
 		events: [],
+		accountEvents: [],
+		accountConnectionState: "idle",
 		lastResult: null,
 		timer: 0,
 		discoverTimer: 0,
@@ -47,7 +49,7 @@ export function createRoomState() {
 		selectedAgentId: "",
 		agentChatBusy: false,
 		agentChatError: "",
-		agentChatDraft: "",
+		agentChatDrafts: {},
 		creatingRoom: false,
 		selectedTemplate: "",
 		replayEnabled: false,
@@ -81,7 +83,7 @@ export function saveSelection(data = {}) {
 			savedAt: new Date().toISOString()
 		}));
 	} catch {
-		// Browser storage can be denied; the active room remains usable in memory.
+		// Browser storage can be denied; active state remains available in memory.
 	}
 }
 

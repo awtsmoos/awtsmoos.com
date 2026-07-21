@@ -1,0 +1,60 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives one chosen agent a focused conversational vessel while the
+ * wider room continues to live. Awtsmoos.com preserves draft, delivery state,
+ * failure testimony, and mobile clarity inside the existing control center.
+ */
+@layer awt.views {
+	.awt-agent-direct {
+		display: grid;
+		gap: 8px;
+		padding: 12px;
+		border: 1px solid rgba(113, 214, 255, .15);
+		border-radius: 16px;
+		background: rgba(0, 0, 0, .18);
+	}
+
+	.awt-agent-direct h4,
+	.awt-agent-direct p {
+		margin: 0;
+	}
+
+	.awt-agent-direct-note {
+		color: var(--awt-muted);
+		font-size: .82rem;
+	}
+
+	.awt-agent-direct-log {
+		display: grid;
+		gap: 6px;
+		max-height: 230px;
+		overflow: auto;
+	}
+
+	.awt-agent-direct-message {
+		padding: 8px 10px;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, .05);
+		overflow-wrap: anywhere;
+	}
+
+	.awt-agent-direct-message.is-sending {
+		opacity: .68;
+	}
+
+	.awt-agent-direct-message.is-failed {
+		border: 1px solid rgba(255, 110, 110, .35);
+	}
+
+	.awt-agent-direct-input {
+		min-height: 82px;
+		resize: vertical;
+		border-radius: 13px;
+	}
+
+	.awt-agent-chat-error {
+		color: #ff9d9d;
+	}
+}

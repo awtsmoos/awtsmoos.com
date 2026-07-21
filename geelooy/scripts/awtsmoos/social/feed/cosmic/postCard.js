@@ -32,7 +32,6 @@ export function createCosmicPostCard(post, options = {}) {
 			postArchetype: model.archetype
 		}
 	});
-	article.style.setProperty("--source-rgb", model.source.rgb);
 	article.__cosmicModel = model;
 	const content = createElement(documentRef, "div", "cosmic-post-content");
 	const heading = createElement(documentRef, "h2", "cosmic-post-title", {

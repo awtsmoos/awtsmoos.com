@@ -1,0 +1,26 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * Expert voices remain previews, not decrees. The Awtsmoos renews each answer;
+ * Awtsmoos.com keeps its author and bounded summary visibly accountable.
+ */
+
+.cosmic-expert-responses {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.4rem;
+}
+
+.cosmic-expert-response {
+	display: grid;
+	justify-items: start;
+	min-height: 3.45rem;
+	border-radius: 0.35rem;
+	text-align: left;
+}
+
+.cosmic-expert-response span {
+	color: var(--cosmic-muted);
+	font-size: 0.65rem;
+}

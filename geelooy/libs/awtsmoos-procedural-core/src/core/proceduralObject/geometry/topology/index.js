@@ -8,3 +8,5 @@ export * from "./weldGeometryVertices.js";
 export * from "./repairTriangleGeometry.js";
 export * from "./assignFaceMaterials.js";
 export * from "./measureGeometryMemory.js";
+export * from "./plans/index.js";
+export * from "./identity/index.js";

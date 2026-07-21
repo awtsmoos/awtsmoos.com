@@ -4,99 +4,113 @@
 
 /**
  * @file VillageWaterfallSystem.js
- * @description Derives sheets, rapids, mist veils, and ledges from exact river drops.
- * The Awtsmoos pours one current through many descents; Awtsmoos.com forbids floating
- * waterfall cards by binding every top and bottom edge to the shared hydrology profile.
+ * @description Composes batched sheets, impact foam, mist, and ledges from exact drops.
+ * The Awtsmoos pours one current through many descents; Awtsmoos.com binds every top,
+ * impact, white ribbon, and rising veil to hydrology without CPU particles or card drift.
  */
 
+import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { MOUNTAIN_VILLAGE_SOURCES as S } from '../materials/MountainVillageMaterialSources.js';
 import { createVillageBoxBatch } from './VillageBoxBatch.js';
-import {
-	RIVER_CASCADES,
-	createRiverHydrology,
-	sampleHydrologyAt
-} from './VillageRiverHydrology.js';
+import { createRiverHydrology, RIVER_CASCADES } from './VillageRiverHydrology.js';
+import { cascadeFrame } from './VillageWaterfallGeometryMath.js';
+import { createWaterfallImpactGeometry } from './VillageWaterfallImpactGeometry.js';
+import { createWaterfallMistGeometry } from './VillageWaterfallMistGeometry.js';
+import { createWaterfallSheetGeometry } from './VillageWaterfallSheetGeometry.js';
 
 export function createWaterfallDefinitions(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
-	const sheets = geometry();
-	const rapidsAndMist = geometry();
-	const ledges = [];
-	for (const [index, cascade] of RIVER_CASCADES.entries()) {
-		appendCascade(profile, cascade.t, index, sheets, rapidsAndMist, ledges);
-	}
 	return [
-		waterDefinition('stream-waterfall-sheets', sheets, [4, 2], '#d7f6ff', 0.86),
-		waterDefinition('stream-whitewater-and-mist', rapidsAndMist, [6, 1], '#effcff', 0.72),
-		createVillageBoxBatch('stream-cascade-fieldstone-ledges', ledges, {
-			color: '#6f6a61',
-			family: 'connected-stream-cascade',
-			part: 'fieldstone-ledge',
-			textureUrl: TEXTURE_URLS.bricks.fieldstone1
-		})
+		waterDefinition({
+			color: '#d7f6ff',
+			geometry: createWaterfallSheetGeometry(profile),
+			id: 'stream-waterfall-sheets',
+			mapRepeat: [4.2, 2.8],
+			mixStrength: 0.24,
+			mixTextureUrl: S.waterLake,
+			opacity: 0.84,
+			textureUrl: S.waterStream,
+			waterVariant: 'waterfall'
+		}),
+		waterDefinition({
+			color: '#effcff',
+			geometry: createWaterfallImpactGeometry(profile),
+			id: 'stream-whitewater-impact',
+			mapRepeat: [7, 1.2],
+			mixStrength: 0.2,
+			mixTextureUrl: S.waterStream,
+			opacity: 0.78,
+			textureUrl: TEXTURE_URLS.water.bright,
+			waterVariant: 'foam'
+		}),
+		waterDefinition({
+			color: '#d9f8ff',
+			geometry: createWaterfallMistGeometry(profile),
+			id: 'stream-waterfall-impact-mist',
+			mapRepeat: [2.6, 2.2],
+			mixStrength: 0,
+			mixTextureUrl: null,
+			opacity: 0.34,
+			textureUrl: TEXTURE_URLS.water.bright,
+			waterVariant: 'mist'
+		}),
+		createCascadeLedges(profile)
 	];
 }
 
-function appendCascade(profile, t, index, sheets, rapids, ledges) {
-	const top = sampleHydrologyAt(profile, Math.max(0, t - 0.012));
-	const bottom = sampleHydrologyAt(profile, Math.min(1, t + 0.012));
-	const halfWidth = Math.min(top.width, bottom.width) * 0.9;
-	const topLeft = bankPoint(top, -halfWidth, top.y);
-	const topRight = bankPoint(top, halfWidth, top.y);
-	const bottomLeft = bankPoint(bottom, -halfWidth, bottom.y);
-	const bottomRight = bankPoint(bottom, halfWidth, bottom.y);
-	appendQuad(sheets, [topLeft, topRight, bottomRight, bottomLeft]);
-	appendRapid(rapids, bottom, halfWidth);
-	appendMist(rapids, top, bottom, halfWidth, index);
-	ledges.push({
-		position: { x: top.x, y: bottom.y - 0.16, z: top.z },
-		size: { x: halfWidth * 2.5, y: 0.55, z: 1.05 },
-		yaw: Math.atan2(-top.normal.z, top.normal.x)
+function createCascadeLedges(profile) {
+	const ledges = RIVER_CASCADES.map(cascade => {
+		const frame = cascadeFrame(profile, cascade.t);
+		return {
+			position: { x: frame.top.x, y: frame.bottom.y - 0.16, z: frame.top.z },
+			size: { x: frame.halfWidth * 2.5, y: 0.55, z: 1.05 },
+			yaw: Math.atan2(-frame.top.normal.z, frame.top.normal.x)
+		};
+	});
+	return createVillageBoxBatch('stream-cascade-fieldstone-ledges', ledges, {
+		color: '#6f6a61',
+		family: 'connected-stream-cascade',
+		part: 'fieldstone-ledge',
+		textureUrl: TEXTURE_URLS.bricks.fieldstone1
 	});
 }
 
-function appendRapid(output, point, width) {
-	const direction = { x: point.normal.z, z: -point.normal.x };
-	appendQuad(output, [
-		bankPoint(point, -width, point.y + 0.035),
-		bankPoint(point, width, point.y + 0.035),
-		[point.x + direction.x * 4 + point.normal.x * width, point.y + 0.02, point.z + direction.z * 4 + point.normal.z * width],
-		[point.x + direction.x * 4 - point.normal.x * width, point.y + 0.02, point.z + direction.z * 4 - point.normal.z * width]
-	]);
-}
-
-function appendMist(output, top, bottom, width, index) {
-	const centerY = (top.y + bottom.y) / 2;
-	const spread = width * (0.45 + index * 0.06);
-	appendQuad(output, [
-		[top.x - spread, centerY - 0.8, top.z],
-		[top.x + spread, centerY - 0.8, top.z],
-		[top.x + spread * 1.25, centerY + 0.9, top.z],
-		[top.x - spread * 1.25, centerY + 0.9, top.z]
-	]);
-}
-
-function bankPoint(point, offset, y) {
-	return [point.x + point.normal.x * offset, y, point.z + point.normal.z * offset];
-}
-
-function geometry() {
-	return { faces: [], uvs: [], vertices: [] };
-}
-
-function appendQuad(output, points) {
-	const start = output.vertices.length;
-	output.vertices.push(...points);
-	output.faces.push([start, start + 1, start + 2, start + 3]);
-	output.uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
-}
-
-function waterDefinition(id, geometryData, mapRepeat, color, opacity) {
-	return {
-		alphaMode: 'BLEND', color, doubleSided: true, ...geometryData,
-		id: `Awtsmoos_${id}`, mapRepeat, noEdge: true, opacity, shape: 'manual',
-		solid: false, textureUrl: TEXTURE_URLS.water.bright, transparent: true,
-		texturePolicy: { animated: true, publicFirebase: true, shader: 'layered-flow-refraction-fresnel-foam' },
-		userData: { family: 'connected-stream-cascade', instances: RIVER_CASCADES.length }
+function waterDefinition(options) {
+	const definition = {
+		alphaMode: 'BLEND',
+		color: options.color,
+		doubleSided: true,
+		...options.geometry,
+		id: `Awtsmoos_${options.id}`,
+		mapImage: cachedTextureImage(options.textureUrl),
+		mapRepeat: options.mapRepeat,
+		noEdge: true,
+		opacity: options.opacity,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: {
+			animated: true,
+			publicFirebase: true,
+			shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
+			waterVariant: options.waterVariant
+		},
+		textureUrl: options.textureUrl,
+		transparent: true,
+		userData: {
+			family: 'connected-stream-cascade',
+			instances: RIVER_CASCADES.length,
+			part: options.id,
+			waterVariant: options.waterVariant
+		}
 	};
+	if (options.mixTextureUrl) addMixTexture(definition, options);
+	return definition;
+}
+
+function addMixTexture(definition, options) {
+	definition.mixImage = cachedTextureImage(options.mixTextureUrl);
+	definition.mixRepeat = options.mapRepeat;
+	definition.mixStrength = options.mixStrength;
+	definition.mixTextureUrl = options.mixTextureUrl;
 }

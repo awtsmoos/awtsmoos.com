@@ -3,24 +3,27 @@
 //Blessed is He
 
 import { agentId } from "../state.js";
+import { createAccountActivityBridge } from "./activityBridge.js";
 import { directAgentMessagePayload } from "./model.js";
+import { createOptimisticAgentMessage } from "./optimisticEvent.js";
 import { renderAgentChat } from "./render.js";
 
 /**
  * B"H
- * The Awtsmoos joins observation and speech: the same room whose events arrive
- * through a verified WebSocket becomes the vessel through which a human may
- * address one agent. Awtsmoos.com guards the boundary without touching the
- * tunnel engine beneath it.
+ * The Awtsmoos joins account observation, room observation, and chosen speech.
+ * Awtsmoos.com keeps one account WebSocket alive, preserves the room transport,
+ * and lets the human address any revealed agent without touching tunnel internals.
  */
 
 /** Creates the bounded lifecycle for per-agent live channels and direct chat. */
 export function createAgentChatController(state, api, setStatus, callbacks = {}) {
+	let mounted = false;
 	let observer = null;
 	let renderQueued = false;
+	const accountBridge = createAccountActivityBridge(state, scheduleRender);
 
 	function render(force = false) {
-		renderAgentChat(state, { select, send }, force);
+		renderAgentChat(state, { select, send, draft }, force);
 	}
 
 	function scheduleRender() {
@@ -33,7 +36,9 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 	}
 
 	function mount() {
-		if (observer) return;
+		if (mounted) return;
+		mounted = true;
+		accountBridge.mount();
 		const workspace = document.getElementById("roomWorkspace");
 		const Observer = globalThis.MutationObserver;
 		if (workspace && Observer) {
@@ -44,6 +49,8 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 	}
 
 	function unmount() {
+		mounted = false;
+		accountBridge.unmount();
 		observer?.disconnect();
 		observer = null;
 		renderQueued = false;
@@ -55,28 +62,41 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 		render(true);
 	}
 
+	function draft(value) {
+		if (!state.selectedAgentId) return;
+		state.agentChatDrafts[state.selectedAgentId] = String(value || "");
+	}
+
 	async function send(value) {
 		const body = String(value || "").trim();
 		const toAgent = state.selectedAgentId;
-		if (!state.selectedMissionId || !toAgent || !body || state.agentChatBusy) return;
-		state.agentChatDraft = body;
+		if (!state.selectedMissionId || !toAgent || !body || state.agentChatBusy) {
+			return;
+		}
+		draft(body);
 		state.agentChatBusy = true;
 		state.agentChatError = "";
-		const optimistic = optimisticEvent(state, toAgent, body);
+		const fromAgent = agentId();
+		const optimistic = createOptimisticAgentMessage(
+			state,
+			fromAgent,
+			toAgent,
+			body
+		);
 		state.events = [...(state.events || []), optimistic];
 		render(true);
+		let delivered = false;
 		try {
-			const result = await api(directAgentMessagePayload(
+			state.lastResult = await api(directAgentMessagePayload(
 				state.selectedMissionId,
-				agentId(),
+				fromAgent,
 				toAgent,
 				body
 			));
-			state.lastResult = result;
-			state.agentChatDraft = "";
+			delivered = true;
 			optimistic.status = "delivered";
+			state.agentChatDrafts[toAgent] = "";
 			setStatus(`Direct message sent to ${toAgent}.`);
-			await callbacks.refresh?.(true);
 		} catch (error) {
 			optimistic.status = "failed";
 			state.agentChatError = error?.message || String(error);
@@ -85,26 +105,17 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 			state.agentChatBusy = false;
 			render(true);
 		}
+		if (delivered) await refreshAfterSend(toAgent);
 	}
 
-	return { mount, unmount, render, select, send };
-}
-
-function optimisticEvent(state, toAgent, body) {
-	return {
-		id: `direct_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-		roomId: state.selectedMissionId,
-		actor: agentId(),
-		target: toAgent,
-		type: "mission_agent_message",
-		title: body,
-		at: new Date().toISOString(),
-		status: "sending",
-		payload: {
-			fromAgent: agentId(),
-			toAgent,
-			body,
-			kind: "user-direct-message"
+	async function refreshAfterSend(toAgent) {
+		try {
+			await callbacks.refresh?.(true);
+		} catch (error) {
+			setStatus(`Message sent to ${toAgent}; refresh failed: ${error?.message || error}`);
 		}
-	};
+		render(true);
+	}
+
+	return { mount, unmount, render, select, send, draft };
 }

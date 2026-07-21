@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The Awtsmoos lets transcript and volume orbit the melody without obscuring it.
+ * Awtsmoos.com keeps utility controls compact, native, and visibly source-bound.
+ */
+
+.cosmic-volume-control {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.38rem;
+	min-height: 2.75rem;
+	padding-inline: 0.58rem;
+	color: var(--cosmic-muted);
+	border: 1px solid rgba(132, 170, 220, 0.28);
+	border-radius: 999px;
+	background: rgba(5, 16, 34, 0.78);
+	font-size: 0.66rem;
+	font-weight: 720;
+}
+
+.cosmic-audio-volume {
+	width: min(6rem, 22vw);
+	height: 2rem;
+	margin: 0;
+	accent-color: var(--source-accent);
+}
+
+.cosmic-transcript {
+	max-height: 13rem;
+	overflow: auto;
+	padding: 0.68rem;
+	color: var(--cosmic-secondary);
+	border-left: 2px solid var(--source-accent);
+	background: rgba(3, 12, 27, 0.76);
+	font-size: 0.8rem;
+	line-height: 1.48;
+	white-space: pre-wrap;
+}

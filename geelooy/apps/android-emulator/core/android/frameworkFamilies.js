@@ -1,7 +1,6 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
 import { createFrameworkAndroidDirectoryMethods } from "./frameworkAndroidDirectories.js";
 import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
@@ -16,6 +15,7 @@ import { createFrameworkAndroidResourceMethods } from "./frameworkAndroidResourc
 import { createFrameworkAndroidServiceMethods } from "./frameworkAndroidServices.js";
 import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSparseArrays.js";
 import { createFrameworkAndroidSystemClockMethods } from "./frameworkAndroidSystemClock.js";
+import { createFrameworkAndroidTextUtilsMethods } from "./frameworkAndroidTextUtils.js";
 import { createFrameworkAndroidTraceMethods } from "./frameworkAndroidTrace.js";
 import { createFrameworkAndroidWindowInsetsMethods } from "./frameworkAndroidWindowInsets.js";
 import { createFrameworkAssetMethods } from "./frameworkAssets.js";
@@ -23,6 +23,7 @@ import { createFrameworkAtomicMethods } from "./frameworkAtomics.js";
 import { createFrameworkBundleMethods } from "./frameworkBundles.js";
 import { createFrameworkComponentMethods } from "./frameworkComponents.js";
 import { createFrameworkConstructors } from "./frameworkConstructors.js";
+import { createFrameworkContentProviderMethods } from "./frameworkContentProviders.js";
 import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
 import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
 import { createFrameworkIntentMethods } from "./frameworkIntents.js";
@@ -46,6 +47,7 @@ import { createFrameworkJavaObjectMethods } from "./frameworkJavaObjects.js";
 import { createFrameworkJavaPriorityQueueMethods } from "./frameworkJavaPriorityQueues.js";
 import { createFrameworkJavaReferenceMethods } from "./frameworkJavaReferences.js";
 import { createFrameworkJavaReflectFieldMethods } from "./frameworkJavaReflectFields.js";
+import { createFrameworkJavaRegexMethods } from "./frameworkJavaRegex.js";
 import { createFrameworkJavaSetMethods } from "./frameworkJavaSets.js";
 import { createFrameworkJavaStringMethods } from "./frameworkJavaStrings.js";
 import { createFrameworkJavaSystemMethods } from "./frameworkJavaSystem.js";
@@ -55,21 +57,18 @@ import { createFrameworkPackageMethods } from "./frameworkPackages.js";
 import { createFrameworkPreferenceMethods } from "./frameworkPreferences.js";
 import { createFrameworkViewMethods } from "./frameworkViews.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
-
-/**
- * Assembles explicit Android, Java, Flutter, and native-boundary capabilities.
- * The Awtsmoos creates family, precedence, graphics, media, and road anew;
- * Awtsmoos.com keeps measured values and metadata before broader fallbacks.
- */
 export function createAndroidFrameworkFamilies(runtime) {
 	return Object.freeze([
 		createFrameworkAndroidGraphicsMethods(runtime),
 		createFrameworkAndroidWindowInsetsMethods(runtime),
 		createFrameworkAndroidMediaMethods(runtime),
+		createFrameworkContentProviderMethods(runtime),
+		createFrameworkAndroidTextUtilsMethods(runtime),
 		createFrameworkConstructors(runtime),
 		createFrameworkJavaObjectMethods(runtime),
 		createFrameworkJavaClassMethods(runtime),
 		createFrameworkJavaReflectFieldMethods(runtime),
+		createFrameworkJavaRegexMethods(runtime),
 		createFrameworkJavaStringMethods(runtime),
 		createFrameworkJavaFileMethods(runtime),
 		createFrameworkJavaArraysMethods(runtime),

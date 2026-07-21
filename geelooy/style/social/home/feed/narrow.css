@@ -1,0 +1,81 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+ * The narrowest vessel still remembers source, title, action, and measure. The
+ * Awtsmoos renews every pixel while Awtsmoos.com forbids horizontal fracture.
+ */
+
+@media (max-width: 30rem) {
+	.geelooy-home-document {
+		--cosmic-feed-gap: 0.45rem;
+		--cosmic-card-padding: 0.62rem;
+	}
+
+	.cosmic-post-card {
+		grid-template-columns: 3.15rem minmax(0, 1fr);
+		contain-intrinsic-size: auto 36rem;
+	}
+
+	.cosmic-source-label {
+		font-size: 0.55rem;
+		letter-spacing: 0.05em;
+		writing-mode: vertical-rl;
+	}
+
+	.cosmic-source-sigil {
+		width: 2.15rem;
+		height: 2.15rem;
+		font-size: 1rem;
+	}
+
+	.cosmic-post-topline,
+	.cosmic-post-identity,
+	.cosmic-audio-time {
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.cosmic-post-title {
+		font-size: 1rem;
+	}
+
+	.cosmic-poll-copy {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.cosmic-poll-track {
+		grid-column: 1 / -1;
+	}
+
+	.cosmic-source-node,
+	.cosmic-breadcrumb-link,
+	.cosmic-author-name,
+	.cosmic-post-title,
+	.cosmic-body-paragraph,
+	.cosmic-poll-copy {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+}
+
+@media (max-width: 24.375rem) {
+	.geelooy-home-document .home-dashboard-page,
+	.geelooy-home-document [data-home-dashboard-page] {
+		padding-inline: 0.3rem;
+	}
+
+	.cosmic-post-card {
+		grid-template-columns: 2.8rem minmax(0, 1fr);
+	}
+
+	.cosmic-post-content,
+	.cosmic-post-shell {
+		padding-right: 0.48rem;
+	}
+
+	.cosmic-post-actions > * {
+		flex: 1 1 2.75rem;
+		min-width: 0;
+	}
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file VillageFoamBatchGeometry.js
- * @description Batches lake shore foam and both river-bank current seams into one draw.
- * The Awtsmoos writes white signs where water meets stone; Awtsmoos.com joins lake edge,
- * current, and waterfall approach without multiplying transparent submissions.
+ * @description Batches lake shore and river-bank foam into one animated GPU vessel.
+ * The Awtsmoos writes bright signs where water meets stone; Awtsmoos.com joins basin edge
+ * and rushing banks without particles, extra textures, or multiplied transparent submissions.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
@@ -34,11 +34,17 @@ export function createFoamBatchDefinition(groundSampler, hydrology = null) {
 			animated: true,
 			publicFirebase: true,
 			realMaterialRequired: true,
-			role: 'connected-water-foam'
+			role: 'connected-water-foam',
+			shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
+			waterVariant: 'foam'
 		},
 		textureUrl: TEXTURE_URLS.water.bright,
 		transparent: true,
-		userData: { family: 'connected-water-foam', staticBatch: true }
+		userData: {
+			family: 'connected-water-foam',
+			staticBatch: true,
+			waterVariant: 'foam'
+		}
 	};
 }
 
@@ -80,7 +86,7 @@ function bank(point, side, distance) {
 function appendPair(output, inner, outer, ratio) {
 	if (output.vertices.length >= 2) {
 		const start = output.vertices.length - 2;
-		appendFace(output, start, start + 1, start + 3, start + 2);
+		output.faces.push([start, start + 1, start + 3, start + 2]);
 	}
 	output.vertices.push(inner, outer);
 	output.uvs.push(ratio, 0, ratio, 1);
@@ -89,10 +95,6 @@ function appendPair(output, inner, outer, ratio) {
 function appendQuad(output, a, b, c, d, ratio) {
 	const start = output.vertices.length;
 	output.vertices.push(a, b, c, d);
-	appendFace(output, start, start + 1, start + 2, start + 3);
+	output.faces.push([start, start + 1, start + 2, start + 3]);
 	output.uvs.push(ratio, 0, ratio, 1, ratio + 0.1, 1, ratio + 0.1, 0);
-}
-
-function appendFace(output, a, b, c, d) {
-	output.faces.push([a, b, c, d]);
 }

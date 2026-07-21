@@ -3,16 +3,19 @@
 import { createDataBlockArtifact } from "../../artifact/createDataBlockArtifact.js";
 import { createTypedGraph } from "./createTypedGraph.js";
 
-/** Embeds a typed graph inside the existing immutable `node_graph` datablock vessel. */
+/**
+ * Embeds a typed graph inside the existing immutable `node_graph` datablock.
+ * The graph remains pure data beneath the Awtsmoos; trusted executors stay outside.
+ */
 export function createTypedGraphDataBlock(graphInput, options = {}) {
 	const graph = graphInput?.graphSchema === "awtsmoos.typed-graph"
 		? graphInput
 		: createTypedGraph(graphInput);
 	return createDataBlockArtifact({
 		id: options.id ?? graph.name,
-		kind: "node_graph",
+		type: "node_graph",
 		name: options.name ?? graph.name,
-		data: { typedGraph: graph },
+		properties: { typedGraph: graph },
 		metadata: {
 			...(options.metadata ?? {}),
 			typedGraphHash: graph.contentHash,

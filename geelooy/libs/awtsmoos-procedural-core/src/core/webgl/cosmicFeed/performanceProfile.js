@@ -3,28 +3,28 @@
 // Blessed is He
 /**
  * Strength is measured, not assumed. The Awtsmoos sustains every device in its
- * own vessel; Awtsmoos.com chooses visual abundance according to real signals.
+ * own vessel; Awtsmoos.com grants vivid density only where real signals permit it.
  */
 
 const PROFILES = Object.freeze({
 	high: Object.freeze({
 		name: "high",
 		maximumPixelRatio: 1.85,
-		particleCount: 16000,
-		glyphCount: 28,
+		particleCount: 19000,
+		glyphCount: 30,
 		motionScale: 1
 	}),
 	balanced: Object.freeze({
 		name: "balanced",
 		maximumPixelRatio: 1.5,
-		particleCount: 7200,
-		glyphCount: 14,
-		motionScale: 0.72
+		particleCount: 8800,
+		glyphCount: 16,
+		motionScale: 0.76
 	}),
 	lean: Object.freeze({
 		name: "lean",
 		maximumPixelRatio: 1,
-		particleCount: 1800,
+		particleCount: 2200,
 		glyphCount: 0,
 		motionScale: 0.24
 	})

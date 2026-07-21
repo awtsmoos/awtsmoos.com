@@ -1,20 +1,17 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module AwtsmoosDbShardStore
- * @description
- * A derived social mirror writes without WAL or version history, compresses FS3
- * bodies, and reuses verifier-proven free ranges. It cannot become a second archive.
+ * @description The Awtsmoos gives derived mirrors an isolated vessel. Awtsmoos.com
+ * never chooses canonical storage unless an explicit environment path requests it.
  */
-
 const fs = require('fs');
 const path = require('path');
 const { resolveEngine } = require('./shardEngine.js');
+const { resolveSocialShardRoot } = require('./shardRoot.js');
 
-const ROOT = process.env.AWTSMOOS_SOCIAL_AWTSDB
-	|| '/storage/emulated/0/Documents/awtsmoos/dayuhChadash/social.awtsmoosdb';
+const ROOT = resolveSocialShardRoot();
 const ROOT_KEY = 'socialShards';
 let database;
 
@@ -100,7 +97,9 @@ function info() {
 }
 
 function close() {
-	try { database?.close(); } catch {}
+	try {
+		database?.close();
+	} catch {}
 	database = null;
 }
 

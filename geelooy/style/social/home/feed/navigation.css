@@ -2,62 +2,64 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * Paths and feed modes become deliberate controls before the Awtsmoos.
- * Awtsmoos.com gives each one a tactile luminous vessel without a dashboard rail.
+ * The Awtsmoos keeps navigation present without turning the feed into a dashboard.
+ * Awtsmoos.com reduces every pre-feed path to a compact luminous threshold.
  */
 
-.cosmic-quick-paths,
-.home-feed-tabs,
-.cosmic-feed-heading {
+.geelooy-home-document .cosmic-quick-paths,
+.geelooy-home-document [data-home-quick-paths] {
+	display: none !important;
+}
+
+.geelooy-home-document .home-feed-header,
+.geelooy-home-document [data-home-feed-header] {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.55rem;
-	max-width: var(--cosmic-feed-width);
-	margin-inline: auto;
-}
-
-.cosmic-quick-paths {
-	margin-bottom: 1rem;
-	padding-inline: 0.5rem;
-}
-
-.cosmic-quick-paths a,
-.home-feed-tabs button,
-.cosmic-feed-heading .civilization-button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 2.75rem;
-	padding: 0.55rem 0.85rem;
-	color: var(--cosmic-secondary);
-	border: 1px solid rgba(132, 170, 220, 0.25);
-	border-radius: 999px;
-	background: rgba(5, 16, 34, 0.76);
-	font: inherit;
-	font-size: 0.78rem;
-	font-weight: 750;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.cosmic-feed-heading {
 	justify-content: space-between;
-	margin-bottom: 0.7rem;
+	gap: 0.45rem;
+	min-height: 2.75rem;
+	margin: 0 0 0.45rem;
+	padding: 0.35rem 0.55rem;
+	border: 1px solid rgba(74, 171, 255, 0.24);
+	background: rgba(3, 11, 25, 0.72);
+	backdrop-filter: blur(12px);
+	clip-path: polygon(0 0, calc(100% - 0.55rem) 0, 100% 0.55rem, 100% 100%, 0 100%);
 }
 
-.cosmic-feed-heading h2 {
-	margin: 0.15rem 0 0;
-	font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+.geelooy-home-document .home-feed-title,
+.geelooy-home-document [data-home-feed-title] {
+	margin: 0;
+	color: var(--cosmic-secondary);
+	font-size: 0.72rem;
+	font-weight: 850;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
 }
 
-.home-feed-tabs {
-	margin-bottom: 0.85rem;
+.geelooy-home-document .home-feed-tabs,
+.geelooy-home-document [data-home-feed-tabs] {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.28rem;
 }
 
-.home-feed-tabs button[aria-pressed="true"] {
+.geelooy-home-document .home-feed-tab,
+.geelooy-home-document [data-home-feed-tab] {
+	min-height: 2.25rem;
+	padding: 0.35rem 0.62rem;
+	color: var(--cosmic-muted);
+	border: 1px solid rgba(100, 158, 214, 0.22);
+	border-radius: 999px;
+	background: rgba(4, 15, 32, 0.76);
+	font: inherit;
+	font-size: 0.68rem;
+	font-weight: 740;
+}
+
+.geelooy-home-document .home-feed-tab[aria-selected="true"],
+.geelooy-home-document [data-home-feed-tab][aria-selected="true"] {
 	color: var(--cosmic-text);
 	border-color: var(--cosmic-cyan);
-	background: rgba(16, 75, 102, 0.5);
-	box-shadow: 0 0 1.1rem rgba(53, 232, 255, 0.13);
+	box-shadow: 0 0 0.75rem rgba(53, 232, 255, 0.18);
 }

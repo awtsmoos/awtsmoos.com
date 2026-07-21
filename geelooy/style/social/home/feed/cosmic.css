@@ -2,33 +2,78 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /*
- * The Awtsmoos fills the space behind every vessel without intercepting it.
- * This Awtsmoos.com canvas remains fixed, silent to assistive technology, and click-through.
+ * The Awtsmoos gives even a canvasless browser two rivers of living color.
+ * Awtsmoos.com protects the reading center while outer cyan and violet energy remains.
  */
 
-.awtsmoos-cosmic-canvas,
+.geelooy-home-document {
+	position: relative;
+	min-width: 0;
+	min-height: 100%;
+	background:
+		radial-gradient(circle at 5% 30%, rgba(20, 157, 255, 0.1), transparent 30rem),
+		radial-gradient(circle at 95% 63%, rgba(137, 65, 255, 0.11), transparent 32rem),
+		linear-gradient(180deg, #01040c, #020713 45%, #01040c);
+}
+
+.geelooy-home-document::before,
+.geelooy-home-document::after {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	z-index: 0;
+	width: min(28vw, 30rem);
+	content: "";
+	pointer-events: none;
+}
+
+.geelooy-home-document::before {
+	left: 0;
+	background:
+		radial-gradient(ellipse at left 22%, rgba(53, 232, 255, 0.18), transparent 58%),
+		radial-gradient(ellipse at 18% 73%, rgba(59, 130, 255, 0.13), transparent 62%);
+	filter: blur(1.4rem);
+}
+
+.geelooy-home-document::after {
+	right: 0;
+	background:
+		radial-gradient(ellipse at right 36%, rgba(121, 92, 255, 0.2), transparent 58%),
+		radial-gradient(ellipse at 82% 78%, rgba(255, 75, 216, 0.12), transparent 62%);
+	filter: blur(1.5rem);
+}
+
 [data-awtsmoos-cosmic-scene] {
 	position: fixed;
 	inset: 0;
 	z-index: 0;
+	display: block;
 	width: 100%;
 	height: 100%;
 	pointer-events: none;
-	background: var(--cosmic-page);
 }
 
-.geelooy-home-document {
-	min-height: 100%;
-	background:
-		radial-gradient(circle at 8% 28%, rgba(53, 232, 255, 0.09), transparent 28rem),
-		radial-gradient(circle at 93% 72%, rgba(255, 75, 216, 0.09), transparent 30rem),
-		var(--cosmic-page);
-	color: var(--cosmic-text);
+.cosmic-webgl-fallback [data-awtsmoos-cosmic-scene],
+[data-awtsmoos-cosmic-scene][hidden] {
+	display: none;
 }
 
-html[data-cosmic-fallback="true"] .geelooy-home-document {
+.cosmic-webgl-fallback .geelooy-home-document::before {
 	background:
-		radial-gradient(ellipse at left, rgba(53, 232, 255, 0.16), transparent 34%),
-		radial-gradient(ellipse at right, rgba(121, 92, 255, 0.16), transparent 36%),
-		linear-gradient(180deg, #020611, #050b1a 48%, #020611);
+		radial-gradient(ellipse at 4% 25%, rgba(53, 232, 255, 0.28), transparent 55%),
+		repeating-radial-gradient(circle at 15% 70%, rgba(255, 255, 255, 0.24) 0 1px, transparent 1px 2.8rem);
+}
+
+.cosmic-webgl-fallback .geelooy-home-document::after {
+	background:
+		radial-gradient(ellipse at 96% 40%, rgba(121, 92, 255, 0.3), transparent 55%),
+		repeating-radial-gradient(circle at 85% 64%, rgba(255, 255, 255, 0.2) 0 1px, transparent 1px 3.2rem);
+}
+
+@media (max-width: 43.75rem) {
+	.geelooy-home-document::before,
+	.geelooy-home-document::after {
+		width: 18vw;
+		opacity: 0.6;
+	}
 }

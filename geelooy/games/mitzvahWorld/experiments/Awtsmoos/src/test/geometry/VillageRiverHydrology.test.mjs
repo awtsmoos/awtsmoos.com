@@ -4,9 +4,9 @@
 
 /**
  * @file VillageRiverHydrology.test.mjs
- * @description Proves one descending source, three drops, lake waterline, and outlet.
- * The Awtsmoos measures every descent before water shines; Awtsmoos.com refuses disconnected
- * waterfall cards, uphill current, exposed volume skirts, or unbounded draw vessels.
+ * @description Proves one descending source, three drops, living variants, lake, and outlet.
+ * The Awtsmoos measures every descent before water shines; Awtsmoos.com refuses floating
+ * cards, uphill current, exposed volume skirts, or unbounded waterfall draw vessels.
  */
 
 import assert from 'node:assert/strict';
@@ -43,11 +43,20 @@ assert.ok(drops.filter(drop => drop > 0.8).length >= 3);
 assert.equal(bodies.length, 2);
 assert.ok(bodies.every(definition => definition.shape === 'manual'));
 assert.ok(bodies.every(definition => definition.mixTextureUrl));
+assert.deepEqual(
+	bodies.map(definition => definition.texturePolicy.waterVariant),
+	['lake', 'river']
+);
 assert.equal(bodies[1].vertices.length, hydrology.points.length * 2);
 assert.equal(bodies[1].faces.length, hydrology.points.length - 1);
-assert.equal(waterfalls.length, 3);
-assert.equal(system.definitions.length, 7);
+assert.equal(waterfalls.length, 4);
+assert.deepEqual(
+	waterfalls.slice(0, 3).map(definition => definition.texturePolicy.waterVariant),
+	['waterfall', 'foam', 'mist']
+);
+assert.equal(system.definitions.length, 8);
 assert.equal(system.stats.connectedSourceToOutlet, true);
+assert.equal(system.stats.waterDraws, 5);
 assert.equal(system.stats.waterfallCascades, 3);
 
 console.log(JSON.stringify({

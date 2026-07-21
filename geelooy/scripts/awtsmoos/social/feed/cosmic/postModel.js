@@ -27,6 +27,22 @@ function list(value) {
 	return Array.isArray(value) ? value.filter(Boolean) : [];
 }
 
+function citationData(raw) {
+	const supplied = raw.citation || raw.sourceReference || raw.canonicalSource;
+	if (supplied && typeof supplied === "object") {
+		const title = firstText(supplied.title, supplied.label, supplied.name);
+		const detail = firstText(supplied.detail, supplied.chapter, supplied.section);
+		return {
+			label: [title, detail].filter(Boolean).join(" · "),
+			href: firstText(supplied.href, supplied.url, raw.citationHref, raw.sourceHref)
+		};
+	}
+	return {
+		label: firstText(supplied),
+		href: firstText(raw.citationHref, raw.sourceHref, raw.referenceUrl)
+	};
+}
+
 function normalizePollOptions(raw) {
 	return pollOptions(raw).map((option, index) => ({
 		id: String(option?.id ?? index),
@@ -44,16 +60,13 @@ function normalizeGraphNodes(raw) {
 	}));
 }
 
-/**
- * Derives the immutable card model consumed by semantic renderers.
- * @param {Record<string, unknown>} post Normalized feed object.
- * @returns {Record<string, unknown>}
- */
+/** Derives the immutable card model consumed by semantic renderers. */
 export function createPostModel(post) {
 	const raw = post.raw || {};
 	const archetype = resolveArchetype(post);
 	const source = sourceIdentity(post, archetype);
 	const media = audioSource(raw, post.assets);
+	const citation = citationData(raw);
 	const authorAlias = firstText(post.authorAlias, raw.aliasId, raw.author?.alias, "unknown");
 	return Object.freeze({
 		id: String(post.id || post.contentId || ""),
@@ -75,8 +88,8 @@ export function createPostModel(post) {
 		heichelId: firstText(post.heichelId, raw.heichelId),
 		seriesId: firstText(post.seriesId, raw.seriesId),
 		quote: firstText(raw.quote, raw.highlight),
-		citation: firstText(raw.citation, raw.sourceReference, raw.canonicalSource),
-		citationHref: firstText(raw.citationHref, raw.sourceHref, raw.referenceUrl),
+		citation: citation.label,
+		citationHref: citation.href,
 		tags: list(raw.tags || raw.topics).slice(0, 6).map(String),
 		participants: list(raw.participants).slice(0, 5),
 		responses: list(raw.expertResponses || raw.responses).slice(0, 2),
