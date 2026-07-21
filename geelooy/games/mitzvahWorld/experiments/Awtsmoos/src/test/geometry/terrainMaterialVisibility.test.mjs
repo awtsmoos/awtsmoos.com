@@ -4,34 +4,38 @@
 
 /**
  * @file terrainMaterialVisibility.test.mjs
- * @description Prevents asynchronously hydrated terrain from beginning or remaining black.
- * The Awtsmoos reveals earth through color and texture together; Awtsmoos.com verifies that
- * neutral source multiplication survives both the waiting state and the fully hydrated state.
+ * @description Prevents terrain from tinting, blackening, or losing packaged source pixels.
+ * The Awtsmoos reveals earth through its true image; Awtsmoos.com multiplies meadow and soil by
+ * neutral white so texture color survives unchanged in ready and preloaded construction paths.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
 
-const NEUTRAL_TERRAIN_TINT = [0.94, 0.98, 0.90, 1];
+const SOURCE_PIXEL_TINT = [1, 1, 1, 1];
 
-test('textured terrain preserves visible source color and soil mixing', () => {
+test('textured terrain preserves source color and soil mixing', () => {
 	const grass = completeImage('grass.jpg', 1024, 1024);
 	const dirt = completeImage('dirt.jpg', 2048, 1024);
 	const mesh = createTerrainMesh(terrainData(), grass, dirt, grass.src, 'high');
-	assert.deepEqual(mesh.material.color, NEUTRAL_TERRAIN_TINT);
+	assert.deepEqual(mesh.material.color, SOURCE_PIXEL_TINT);
 	assert.equal(mesh.material.mapImage, grass);
 	assert.equal(mesh.material.mixImage, dirt);
 	assert.equal(mesh.material.texturePolicy.hydration, 'ready-at-construction');
 	assert.equal(mesh.material.texturePolicy.fullResolutionEcologicalLayers, true);
+	assert.equal(mesh.material.texturePolicy.realBaseImage, true);
+	assert.equal(mesh.material.texturePolicy.realMixImage, true);
 });
 
-test('deferred terrain hydration starts with the same neutral source tint', () => {
+test('unhydrated construction remains white and points at packaged local ground', () => {
 	const mesh = createTerrainMesh(terrainData(), null, null, 'grass.jpg', 'low');
-	assert.deepEqual(mesh.material.color, NEUTRAL_TERRAIN_TINT);
-	assert.equal(mesh.material.texturePolicy.baseSource, 'canonical-original-pixels-with-neutral-physical-tint');
-	assert.equal(mesh.material.texturePolicy.hydration, 'deferred-residency');
-	assert.equal(mesh.material.textureUrl, 'grass.jpg');
+	assert.deepEqual(mesh.material.color, SOURCE_PIXEL_TINT);
+	assert.equal(mesh.material.texturePolicy.baseSource, 'trusted-local-high-resolution-meadow');
+	assert.equal(mesh.material.texturePolicy.hydration, 'local-preload-required');
+	assert.match(mesh.material.textureUrl, /^\.\/assets\/materials\/local\/terrain\//);
+	assert.equal(mesh.material.transparent, false);
+	assert.equal(mesh.material.visible, true);
 });
 
 function completeImage(src, width, height) {

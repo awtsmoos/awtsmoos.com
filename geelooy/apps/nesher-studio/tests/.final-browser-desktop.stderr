@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/nesher-viewport-audit.py", line 71, in <module>
+    assert not data['rootOverflow'],data['rootOverflow'];assert not page_failures,page_failures;assert not data['deckOverflow'],data['deckOverflow'];assert not data['scrollbarElements'],data['scrollbarElements'];assert data['webgl2'] and min(data['canvasSize'])>=1,data['canvasSize'];assert data['presetCount']==10 and len(data['uniqueModes'])==10,data['uniqueModes'];i=data['immersive'];assert i['active'] and i['grid']['scrollWidth']<=i['grid']['clientWidth']+1 and i['rackWidth']<=1 and i['rackOpacity']=='0' and i['rackPointerEvents']=='none',i
+                                                                                                                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: []

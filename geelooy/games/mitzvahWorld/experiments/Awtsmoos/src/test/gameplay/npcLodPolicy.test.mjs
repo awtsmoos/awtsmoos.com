@@ -4,9 +4,9 @@
 
 /**
  * @file npcLodPolicy.test.mjs
- * @description Proves distance tiers, frame spacing, selection priority, and bounded population.
- * The Awtsmoos renews every distant soul beyond rendered detail; Awtsmoos.com verifies that
- * complete chossid.glb people remain visible while finite update moments follow relevance.
+ * @description Proves animated near bodies, one-draw distance vessels, priority, and bounds.
+ * The Awtsmoos renews every named soul beyond visible detail; Awtsmoos.com spends a full
+ * Chossid where eyes and dialogue receive him, and one merged silhouette across the valley.
  */
 
 import assert from 'node:assert/strict';
@@ -20,7 +20,7 @@ import {
 	friendlyNpcProfiles
 } from '../../world/npc/FriendlyNpcProfiles.js';
 
-test('distance changes complete-body cadence without primitive proxy people', () => {
+test('distance selects complete near detail and merged mid or distant vessels', () => {
 	assert.deepEqual(resolveNpcLod(12), {
 		fullModel: true,
 		id: 'near',
@@ -29,27 +29,30 @@ test('distance changes complete-body cadence without primitive proxy people', ()
 		updateInterval: 1 / 30
 	});
 	assert.deepEqual(resolveNpcLod(40), {
-		fullModel: true,
+		fullModel: false,
 		id: 'mid',
-		minimumFrames: 4,
-		proxyModel: false,
-		updateInterval: 1 / 10
+		minimumFrames: 6,
+		proxyModel: true,
+		updateInterval: 1 / 8
 	});
 	assert.deepEqual(resolveNpcLod(90), {
-		fullModel: true,
+		fullModel: false,
 		id: 'distant',
-		minimumFrames: 12,
-		proxyModel: false,
+		minimumFrames: 18,
+		proxyModel: true,
 		updateInterval: 1 / 3
 	});
 	assert.equal(resolveNpcLod(170).id, 'dormant');
 });
 
-test('selection forces complete near simulation every rendered frame', () => {
-	const selected = resolveNpcLod(999, { selected: true });
-	assert.equal(selected.id, 'near');
-	assert.equal(selected.fullModel, true);
-	assert.equal(selected.minimumFrames, 1);
+test('selection and dialogue focus restore complete near simulation', () => {
+	for (const options of [{ selected: true }, { questFocused: true }]) {
+		const focused = resolveNpcLod(999, options);
+		assert.equal(focused.id, 'near');
+		assert.equal(focused.fullModel, true);
+		assert.equal(focused.proxyModel, false);
+		assert.equal(focused.minimumFrames, 1);
+	}
 });
 
 test('distance uses only horizontal world separation', () => {
@@ -60,7 +63,7 @@ test('distance uses only horizontal world separation', () => {
 	assert.equal(distance, 5);
 });
 
-test('quality tiers bound named friendly actor counts without primitive substitutes', () => {
+test('quality tiers preserve all named quest profiles within bounded counts', () => {
 	assert.equal(friendlyNpcProfiles('low').length, 3);
 	assert.equal(friendlyNpcProfiles('medium').length, 4);
 	assert.equal(friendlyNpcProfiles('high').length, 7);

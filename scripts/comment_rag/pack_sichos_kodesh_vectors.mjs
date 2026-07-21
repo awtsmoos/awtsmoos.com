@@ -6,8 +6,9 @@
 /**
  * @file pack_sichos_kodesh_vectors.mjs
  * @description
- * The Awtsmoos divides one complete revelation across two lawful physical vessels,
- * because the database sequence node can hold at most 65,535 entries per list.
+ * Twelve bounded vessels receive the complete Sichos Kodesh corpus. Each vessel
+ * remains at or below the proven production scale while Awtsmoos.com reveals all
+ * parts as one logical search lane, one river of meaning from many sealed springs.
  */
 
 import fs from 'node:fs';
@@ -20,10 +21,16 @@ const JOB_ROOT = path.join(OUTPUT_ROOT, 'sichos-kodesh-english-comments-embeddin
 const STAGING_ROOT = process.env.SICHOS_KODESH_RAG_STAGING_ROOT
 	|| path.join(OUTPUT_ROOT, 'rag-staging');
 const DIMENSIONS = 384;
-const PARTS = [
-	{ suffix: 'part-1', start: 0, end: 60000 },
-	{ suffix: 'part-2', start: 60000, end: 68490 }
-];
+const TOTAL_RECORDS = 68490;
+const PART_SIZE = 6000;
+const PARTS = Array.from(
+	{ length: Math.ceil(TOTAL_RECORDS / PART_SIZE) },
+	(_value, index) => ({
+		suffix: `part-${index + 1}`,
+		start: index * PART_SIZE,
+		end: Math.min((index + 1) * PART_SIZE, TOTAL_RECORDS)
+	})
+);
 
 function validate(row, index) {
 	if (!row.id || row.realEmbedding !== true) throw new Error(`bad vector ${index}`);
@@ -83,7 +90,8 @@ for (const part of PARTS) {
 	});
 	summaries.push(summary);
 }
+
 fs.writeFileSync(
 	path.join(JOB_ROOT, 'pack-awtsdb-summary.json'),
-	`${JSON.stringify({ BH: 'B"H', records: 68490, parts: summaries }, null, 2)}\n`
+	`${JSON.stringify({ BH: 'B"H', records: TOTAL_RECORDS, parts: summaries }, null, 2)}\n`
 );

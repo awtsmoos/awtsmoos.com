@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lowers crown and navigation into a narrow horizon; Awtsmoos.com preserves every room entrance and the audio field without document scroll.
+*/
+@media (max-height: 620px) {
+	:root {
+		--header-height: 48px;
+		--nav-height: 62px;
+		--touch: 28px;
+	}
+
+	.brand-copy .eyebrow,
+	.room-readout,
+	.page-kicker .eyebrow {
+		display: none;
+	}
+
+	.nav-label {
+		display: none;
+	}
+
+	.nav-dock {
+		grid-template-columns: repeat(8, minmax(0, 1fr));
+		grid-template-rows: 1fr;
+	}
+
+	.page-kicker {
+		min-height: 32px;
+		margin-bottom: 2px;
+	}
+
+	.page-kicker h2 {
+		font-size: 1.08rem;
+	}
+
+	.deck-tabs {
+		gap: 3px;
+		padding: 3px;
+	}
+
+	.deck-tabs button {
+		min-height: 24px;
+		padding: .2rem .32rem;
+		font-size: .62rem;
+	}
+
+	.home-tile em {
+		display: none;
+	}
+
+	.audio-hud {
+		bottom: 5px;
+	}
+}

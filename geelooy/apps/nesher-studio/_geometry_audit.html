@@ -1,0 +1,98 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets temporary geometry evidence arise without entering the permanent source tree; Awtsmoos.com witnesses every bounded room before this vessel disappears.
+-->
+<!doctype html>
+<html lang="en" data-audit="pending">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Nesher Geometry Audit</title>
+	<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+	<div id="appRoot"></div>
+	<pre id="auditResult" hidden></pre>
+	<script type="module" src="./main.js?v=nesher-gpu-river"></script>
+	<script type="module">
+		const output = document.querySelector('#auditResult');
+		const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+		const waitForBoot = async () => {
+			for (let attempt = 0; attempt < 240; attempt += 1) {
+				if (document.querySelectorAll('[data-studio-page]').length === 7) return;
+				await wait(25);
+			}
+			throw new Error('Nesher Studio did not boot.');
+		};
+		const boxOverflows = (element) => Boolean(element) && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1);
+		const normalizePage = (pageName) => {
+			const classes = ['is-active', 'is-entering', 'is-leaving', 'from-left', 'from-right', 'to-left', 'to-right'];
+			document.querySelectorAll('[data-studio-page]').forEach((page) => {
+				page.classList.remove(...classes);
+				const active = page.dataset.studioPage === pageName;
+				page.hidden = !active;
+				page.inert = !active;
+				if (active) page.classList.add('is-active');
+			});
+		};
+		try {
+			await waitForBoot();
+			const noMotion = document.createElement('style');
+			noMotion.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}';
+			document.head.append(noMotion);
+			const reports = [];
+			for (const pageName of ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle']) {
+				normalizePage(pageName);
+				await wait(20);
+				const page = document.querySelector(`[data-studio-page="${pageName}"]`);
+				const critical = [page, ...page.querySelectorAll('.stage-workspace,.audio-lab-grid,.source-deck,.nle-deck,.timeline-real')];
+				const pageOverflow = critical.filter(boxOverflows).map((element) => element.id || String(element.className));
+				const deckOverflow = [];
+				for (const deck of page.querySelectorAll('[data-workspace-deck]')) {
+					for (const button of deck.querySelectorAll(':scope > [data-deck-tabs] [data-deck-target]')) {
+						button.click();
+						await wait(5);
+						const stack = deck.querySelector(':scope > [data-deck-stack]');
+						const panel = stack?.querySelector('.deck-panel.active');
+						if ([deck, stack, panel].some(boxOverflows)) deckOverflow.push(`${deck.dataset.workspaceDeck}/${button.dataset.deckTarget}`);
+					}
+				}
+				reports.push({ pageName, activeCount: document.querySelectorAll('.workspace-page.is-active').length, pageOverflow, deckOverflow });
+			}
+			normalizePage('audio');
+			await wait(20);
+			const immersiveButton = document.querySelector('#audioLabImmersive');
+			if (!document.querySelector('#audioLabSection').classList.contains('is-immersive')) immersiveButton.click();
+			await wait(20);
+			const rack = document.querySelector('.audio-control-rack');
+			const rackStyle = getComputedStyle(rack);
+			const roots = [document.documentElement, document.body, document.querySelector('#appRoot'), document.querySelector('.nesher-shell'), document.querySelector('#studioPage'), document.querySelector('#topNav')];
+			const scrollbarElements = [...document.querySelectorAll('*')].filter((element) => {
+				const style = getComputedStyle(element);
+				return ['auto', 'scroll'].includes(style.overflowX) || ['auto', 'scroll'].includes(style.overflowY);
+			}).map((element) => element.id || String(element.className));
+			const report = {
+				viewport: [innerWidth, innerHeight],
+				pages: reports,
+				rootOverflow: roots.filter(boxOverflows).map((element) => element.id || String(element.className)),
+				scrollbarElements,
+				immersive: {
+					active: document.querySelector('#audioLabSection').classList.contains('is-immersive'),
+					gridOverflow: boxOverflows(document.querySelector('.audio-lab-grid')),
+					rackWidth: rack.getBoundingClientRect().width,
+					opacity: rackStyle.opacity,
+					pointerEvents: rackStyle.pointerEvents
+				}
+			};
+			const failures = reports.filter((page) => page.activeCount !== 1 || page.pageOverflow.length || page.deckOverflow.length);
+			const passed = !failures.length && !report.rootOverflow.length && !scrollbarElements.length && report.immersive.active && !report.immersive.gridOverflow && report.immersive.rackWidth <= 1 && report.immersive.opacity === '0' && report.immersive.pointerEvents === 'none';
+			output.textContent = JSON.stringify({ passed, report });
+			document.documentElement.dataset.audit = passed ? 'pass' : 'fail';
+		} catch (error) {
+			output.textContent = JSON.stringify({ passed: false, error: String(error?.stack || error) });
+			document.documentElement.dataset.audit = 'error';
+		}
+	</script>
+</body>
+</html>

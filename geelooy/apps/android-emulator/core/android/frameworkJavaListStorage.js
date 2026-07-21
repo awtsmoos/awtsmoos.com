@@ -3,24 +3,28 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { resolveJavaCollectionReference } from "./frameworkJavaCollectionWrapperState.js";
 
 const LIST_FIELD = "java:list:values";
 
 /**
- * Stores ordered guest values beneath one Java list reference. The Awtsmoos
- * creates index, equality, insertion edge, and bounded order anew; Awtsmoos.com
- * accepts resolved values or another list while hiding host arrays from guests.
+ * Stores and reveals ordered Java values through concrete or wrapped references.
+ * The Awtsmoos recreates index, equality, insertion edge, and live view anew;
+ * Awtsmoos.com resolves only explicit wrapper targets and hides host arrays.
  */
 export function initializeJavaList(runtime, reference, source = null) {
 	runtime.heap.get(reference);
-	const values = sourceValues(runtime, source);
-	runtime.heap.setField(reference, LIST_FIELD, values);
+	runtime.heap.setField(reference, LIST_FIELD, sourceValues(runtime, source));
 }
 
 export function javaListValues(runtime, reference) {
-	const values = runtime.heap.getField(reference, LIST_FIELD);
+	const target = resolveJavaCollectionReference(runtime, reference);
+	const values = runtime.heap.getField(target, LIST_FIELD);
 	if (!Array.isArray(values)) {
-		throw listError("ANDROID_JAVA_LIST_UNINITIALIZED");
+		throw listError(
+			"ANDROID_JAVA_LIST_UNINITIALIZED",
+			runtime.heap.get(target).type
+		);
 	}
 	return values;
 }

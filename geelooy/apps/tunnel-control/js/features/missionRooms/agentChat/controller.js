@@ -14,7 +14,6 @@ import { renderAgentChat } from "./render.js";
  * Awtsmoos.com keeps one account WebSocket alive, preserves the room transport,
  * and lets the human address any revealed agent without touching tunnel internals.
  */
-
 /** Creates the bounded lifecycle for per-agent live channels and direct chat. */
 export function createAgentChatController(state, api, setStatus, callbacks = {}) {
 	let mounted = false;
@@ -116,6 +115,5 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 		}
 		render(true);
 	}
-
 	return { mount, unmount, render, select, send, draft };
 }

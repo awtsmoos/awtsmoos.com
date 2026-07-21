@@ -1,0 +1,2 @@
+websocket no ModuleNotFoundError("No module named 'websocket'")
+websockets no ModuleNotFoundError("No module named 'websockets'")

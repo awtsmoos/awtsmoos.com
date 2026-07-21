@@ -16,7 +16,6 @@ function principleDescriptor(value) {
 	}
 	return { icon: "✦", label: String(value || "Principle") };
 }
-
 function principleTiles(documentRef, model) {
 	const supplied = Array.isArray(model.raw?.principles) ? model.raw.principles : [];
 	const values = supplied.length ? supplied.slice(0, 4) : model.pollOptions.slice(0, 4);
@@ -42,7 +41,6 @@ function principleTiles(documentRef, model) {
 	}
 	return grid;
 }
-
 function poll(documentRef, model) {
 	if (!model.pollOptions.length) {
 		return null;
@@ -81,7 +79,6 @@ function poll(documentRef, model) {
 	}));
 	return fieldset;
 }
-
 function responsePreview(documentRef, response) {
 	const href = response?.href || response?.url;
 	const element = createElement(documentRef, href ? "a" : "article", "cosmic-expert-response",
@@ -96,7 +93,6 @@ function responsePreview(documentRef, response) {
 	);
 	return element;
 }
-
 function responses(documentRef, model) {
 	if (!model.responses.length) {
 		return null;

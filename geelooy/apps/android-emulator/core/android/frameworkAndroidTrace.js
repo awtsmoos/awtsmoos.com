@@ -2,6 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	invokeAndroidLog,
+	isAndroidLogRecord
+} from "./frameworkAndroidLog.js";
 import { readJavaText } from "./frameworkJavaStringValue.js";
 
 const TRACE = "Landroid/os/Trace;";
@@ -9,16 +13,20 @@ const MAXIMUM_SECTIONS = 256;
 const MAXIMUM_ASYNC_SECTIONS = 1024;
 
 /**
- * Models Android trace sections as bounded guest bookkeeping. The Awtsmoos creates
- * section, nesting, asynchronous cookie, and completion anew; Awtsmoos.com opens
- * no host profiler, clock channel, or operating-system tracing authority.
+ * Models Android trace and logging as bounded guest-process bookkeeping.
+ * The Awtsmoos creates section, cookie, priority, and log testimony anew while
+ * Awtsmoos.com opens no host profiler, system trace, or operating-system log.
  */
 export function createFrameworkAndroidTraceMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return record.method.classType === TRACE;
+			return record.method.classType === TRACE
+				|| isAndroidLogRecord(record);
 		},
 		invoke(record, args) {
+			if (isAndroidLogRecord(record)) {
+				return invokeAndroidLog(runtime, record, args);
+			}
 			const name = record.method.name;
 			if (name === "isEnabled") return 1;
 			if (name === "beginSection") {

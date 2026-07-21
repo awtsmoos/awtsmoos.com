@@ -4,11 +4,12 @@
 /**
  * @module ProceduralCosmicScene
  * @description
- * The Awtsmoos recreates context, interaction, and restoration without multiplying
- * owners. Awtsmoos.com receives one canonical raw WebGL2 atmosphere beneath meaning.
+ * The Awtsmoos recreates context, kinetics, resonance, and restoration without
+ * multiplying owners. Awtsmoos.com receives one canonical raw WebGL2 atmosphere.
  */
 import { createWebGL2Context } from "./context.js";
 import { InteractionField } from "./interactionField.js";
+import { KineticField } from "./kineticField.js";
 import { choosePerformanceProfile } from "./performanceProfile.js";
 import { CosmicSceneLifecycle } from "./sceneLifecycle.js";
 import { createSceneFrame } from "./sceneFrame.js";
@@ -22,15 +23,15 @@ export class ProceduralCosmicScene {
 		this.gl = createWebGL2Context(canvas);
 		this.profile = options.profile || choosePerformanceProfile();
 		this.interactionField = new InteractionField();
-		this.pointer = new Float32Array([2, 2]);
+		this.kineticField = new KineticField();
 		this.feedBounds = new Float32Array([-0.38, 0.38]);
-		this.scroll = globalThis.scrollY || 0;
 		this.startedAt = performance.now();
 		this.destroyed = false;
 		this.resources = this.createResources();
 		this.lifecycle = new CosmicSceneLifecycle(this);
 		this.runtime = new CosmicSceneRuntime(this);
 	}
+
 	get available() {
 		return Boolean(this.gl && !this.destroyed);
 	}
@@ -47,10 +48,9 @@ export class ProceduralCosmicScene {
 
 	draw(timestamp) {
 		const size = this.resources?.size;
-		if (!size || this.destroyed) {
-			return;
+		if (size && !this.destroyed) {
+			this.resources.draw(createSceneFrame(this, timestamp, size));
 		}
-		this.resources.draw(createSceneFrame(this, timestamp, size));
 	}
 
 	resize() {
@@ -58,28 +58,35 @@ export class ProceduralCosmicScene {
 	}
 
 	setScroll(scroll) {
-		this.scroll = Number(scroll) || 0;
+		this.kineticField.setScroll(scroll);
 	}
+
 	setPaused(paused) {
 		this.runtime.setPaused(Boolean(paused));
 	}
 
 	setPointer(x, y) {
-		this.pointer[0] = x / Math.max(1, innerWidth) * 2 - 1;
-		this.pointer[1] = 1 - y / Math.max(1, innerHeight) * 2;
+		this.kineticField.setPointer(x, y);
+	}
+
+	setPointerAway() {
+		this.kineticField.setPointerAway();
 	}
 
 	setFeedBounds(rectangle) {
-		this.feedBounds[0] = rectangle.left / Math.max(1, innerWidth) * 2 - 1;
-		this.feedBounds[1] = rectangle.right / Math.max(1, innerWidth) * 2 - 1;
+		const width = Math.max(1, globalThis.innerWidth || 0);
+		this.feedBounds[0] = rectangle.left / width * 2 - 1;
+		this.feedBounds[1] = rectangle.right / width * 2 - 1;
 	}
 
 	setInteraction(anchor) {
 		this.interactionField.set(anchor);
 	}
+
 	setInteractionChannel(name, anchor, options) {
 		this.interactionField.setChannel(name, anchor, options);
 	}
+
 	clearInteractionChannel(name) {
 		this.interactionField.clearChannel(name);
 	}
@@ -112,6 +119,7 @@ export class ProceduralCosmicScene {
 		this.resources?.destroy();
 		this.resources = null;
 	}
+
 	createResources() {
 		return this.gl ? new CosmicSceneResources(this.gl, this.profile) : null;
 	}

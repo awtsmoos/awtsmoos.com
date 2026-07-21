@@ -2,12 +2,17 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	isJavaCollectionWrapperImmutable,
+	javaCollectionReferenceChain
+} from "./frameworkJavaCollectionWrapperState.js";
+
 const IMMUTABLE_FIELD = "java:collection:immutable";
 
 /**
- * Marks and protects guest collection snapshots. The Awtsmoos creates wrapper,
- * mutation boundary, and immutable covenant anew; Awtsmoos.com rejects every
- * write through an unmodifiable collection while leaving its source untouched.
+ * Marks and protects concrete snapshots and live collection wrapper chains.
+ * The Awtsmoos creates wrapper, target, and immutable covenant anew;
+ * Awtsmoos.com rejects every write crossing any unmodifiable guest boundary.
  */
 export function markJavaCollectionImmutable(runtime, reference) {
 	runtime.heap.get(reference);
@@ -16,13 +21,15 @@ export function markJavaCollectionImmutable(runtime, reference) {
 }
 
 export function isJavaCollectionImmutable(runtime, reference) {
-	return runtime.heap.getField(reference, IMMUTABLE_FIELD) === true;
+	if (isJavaCollectionWrapperImmutable(runtime, reference)) return true;
+	return javaCollectionReferenceChain(runtime, reference).some(candidate => {
+		return runtime.heap.getField(candidate, IMMUTABLE_FIELD) === true;
+	});
 }
 
 export function assertJavaCollectionMutable(runtime, reference) {
-	if (isJavaCollectionImmutable(runtime, reference)) {
-		const error = new Error("ANDROID_JAVA_COLLECTION_UNMODIFIABLE");
-		error.code = "ANDROID_JAVA_COLLECTION_UNMODIFIABLE";
-		throw error;
-	}
+	if (!isJavaCollectionImmutable(runtime, reference)) return;
+	const error = new Error("ANDROID_JAVA_COLLECTION_UNMODIFIABLE");
+	error.code = "ANDROID_JAVA_COLLECTION_UNMODIFIABLE";
+	throw error;
 }

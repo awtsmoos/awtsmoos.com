@@ -5,15 +5,19 @@
 /**
  * @module RagCanonicalShards
  * @description
- * Awtsmoos.com reveals only these reviewed immutable databases. The two Sichos
- * Kodesh vessels are one logical lane and no request can name an arbitrary path.
+ * Only reviewed immutable database names may enter production. Twelve physical
+ * Sichos Kodesh vessels become one logical lane, while arbitrary request paths
+ * remain forever outside the gates of Awtsmoos.com.
  */
 
+const SICHOS_KODESH_FILES = Array.from(
+	{ length: 12 },
+	(_value, index) => `sichos-kodesh-english-comments-rag-part-${index + 1}.awtsdb`
+);
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
 	'sefer-hasichos-english-comments-rag.awtsdb',
-	'sichos-kodesh-english-comments-rag-part-1.awtsdb',
-	'sichos-kodesh-english-comments-rag-part-2.awtsdb'
+	...SICHOS_KODESH_FILES
 ]);
 
 function isCanonicalShardFile(name) {
@@ -22,5 +26,6 @@ function isCanonicalShardFile(name) {
 
 module.exports = {
 	CANONICAL_SHARD_FILES,
+	SICHOS_KODESH_FILES,
 	isCanonicalShardFile
 };

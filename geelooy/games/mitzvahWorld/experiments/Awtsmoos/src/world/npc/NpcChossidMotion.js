@@ -4,9 +4,9 @@
 
 /**
  * @file NpcChossidMotion.js
- * @description Advances complete Chossid motion only when its relevance cadence becomes due.
- * The Awtsmoos renews every neighbor between sampled poses; Awtsmoos.com releases accumulated
- * time in full while route, skeleton, ground, marker, transform, and facing share one bounded gate.
+ * @description Advances routes while selecting animated body, proxy, cadence, and facing.
+ * The Awtsmoos renews one neighbor through every distance; Awtsmoos.com spends bones only
+ * where eyes can receive them while route, marker, identity, and ground remain continuous.
  */
 
 import {
@@ -31,30 +31,48 @@ export function updateNpcChossidMotion(actor, deltaTime, playerState) {
 		actor.lod.updateInterval,
 		actor.lod.minimumFrames
 	);
-	if (!actor.lod.fullModel || motionDelta <= 0) return;
+	if ((!actor.lod.fullModel && !actor.lod.proxyModel) || motionDelta <= 0) return;
 	actor.elapsed += motionDelta * (actor.profile.motionSpeed || 0);
 	updateRoute(actor);
-	updateSkeletonAndGround(actor, motionDelta);
-	actor.model.position.set(actor.worldX, actor.worldY, actor.worldZ);
+	updateGround(actor);
 	moveMarker(actor);
-	faceActor(actor, playerState);
+	if (actor.lod.fullModel) updateFullModel(actor, motionDelta, playerState);
+	if (actor.lod.proxyModel) updateProxy(actor);
 }
 
 function applyVisibility(actor) {
 	actor.model.visible = actor.lod.fullModel;
-	actor.proxy.visible = false;
+	actor.proxy.visible = actor.lod.proxyModel;
 	setNpcMarkerState(actor.marker, {
 		questVisible: Boolean(actor.profile.questId) && actor.lod.id !== 'dormant',
 		selected: actor.selected
 	});
 }
 
-function updateSkeletonAndGround(actor, motionDelta) {
+function updateFullModel(actor, motionDelta, playerState) {
 	const animationDelta = actor.animationCadence.advance(
 		motionDelta,
 		actor.lod.updateInterval
 	);
 	if (animationDelta > 0) actor.player.update(animationDelta);
+	actor.model.position.set(actor.worldX, actor.worldY, actor.worldZ);
+	faceActor(actor.model, actor, playerState);
+}
+
+function updateProxy(actor) {
+	actor.proxy.position.set(
+		actor.worldX,
+		actor.worldY - actor.footOffset,
+		actor.worldZ
+	);
+	faceNpcModelAlongPath(
+		actor.proxy,
+		actor.elapsed,
+		actor.profile.motionPhase || 0
+	);
+}
+
+function updateGround(actor) {
 	actor.worldY = actor.ground.heightAt(actor.worldX, actor.worldZ)
 		+ actor.footOffset;
 }
@@ -75,18 +93,14 @@ function moveMarker(actor) {
 	);
 }
 
-function faceActor(actor, playerState) {
+function faceActor(model, actor, playerState) {
 	if (actor.selected || !actor.profile.wanderRadius) {
 		faceNpcModelToPlayer(
-			actor.model,
+			model,
 			{ x: actor.worldX, z: actor.worldZ },
 			playerState
 		);
 		return;
 	}
-	faceNpcModelAlongPath(
-		actor.model,
-		actor.elapsed,
-		actor.profile.motionPhase || 0
-	);
+	faceNpcModelAlongPath(model, actor.elapsed, actor.profile.motionPhase || 0);
 }

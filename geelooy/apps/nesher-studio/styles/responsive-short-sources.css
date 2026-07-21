@@ -1,0 +1,49 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps every acquisition command visible when height contracts; Awtsmoos.com yields decorative narrative before any camera, file, audio, or browser action is lost.
+*/
+@media (max-height: 620px) {
+	.source-card > p:not(.eyebrow) {
+		display: none;
+	}
+
+	.source-card {
+		align-content: center;
+		gap: 4px;
+		padding: 7px 10px;
+	}
+
+	.source-card h3 {
+		margin: 0;
+		font-size: 1rem;
+	}
+
+	.source-card .eyebrow {
+		margin: 0;
+		font-size: .52rem;
+	}
+
+	.card-orb {
+		width: 34px;
+		height: 34px;
+		margin-bottom: 2px;
+		font-size: 1rem;
+	}
+
+	.source-toolbar {
+		gap: 4px;
+	}
+
+	.source-toolbar button,
+	.source-toolbar label {
+		min-height: 26px;
+		padding: .22rem .38rem;
+		font-size: .58rem;
+	}
+
+	.source-card > label {
+		gap: 2px;
+		font-size: .58rem;
+	}
+}
