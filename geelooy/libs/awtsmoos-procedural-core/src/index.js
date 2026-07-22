@@ -15,3 +15,9 @@ export * from "./exports/meshText.js";
 export * from "./exports/recipes.js";
 export * from "./core/animalMesh/index.js";
 export * from "./core/proceduralObject/index.js";
+
+/**
+ * Additive API-driven creature kernel export. Existing animalMesh and root
+ * imports remain untouched while semantic Four-Worlds operations become local.
+ */
+export * from "./core/animalMesh/creature/index.js";

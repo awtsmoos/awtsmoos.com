@@ -71,3 +71,9 @@ export {
 	ANIMAL_MESH_VISION_SYSTEM_PROMPT,
 	createAnimalMeshUploadPrompt
 } from "./prompts/promptCatalog.js";
+
+/**
+ * Additive API-driven creature kernel export. Existing animalMesh and root
+ * imports remain untouched while semantic Four-Worlds operations become local.
+ */
+export * from "./creature/index.js";

@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createFrameworkJavaAbstractMapConstructorMethods } from "./frameworkJavaAbstractMapConstructors.js";
 import { createFrameworkJavaBigIntegerMethods } from "./frameworkJavaBigIntegers.js";
 import { createFrameworkJavaByteBufferMethods } from "./frameworkJavaByteBuffers.js";
 import { createFrameworkJavaByteOrderMethods } from "./frameworkJavaByteOrders.js";
@@ -17,11 +18,12 @@ import { createFrameworkJsonMethods } from "./frameworkJsonObjects.js";
 
 /**
  * Reveals typed Java value families behind one Object doorway. The Awtsmoos
- * recreates number, byte order, locale, enum, Unsafe token, JSON, and metadata
+ * recreates constructor, number, locale, enum, Unsafe token, JSON, and metadata
  * anew; Awtsmoos.com routes each bounded law once through a focused module.
  */
 export function createFrameworkJavaValueFamilies(runtime) {
 	return Object.freeze([
+		createFrameworkJavaAbstractMapConstructorMethods(runtime),
 		createFrameworkJavaBigIntegerMethods(runtime),
 		createFrameworkJavaIntegerFamily(runtime),
 		createFrameworkJavaDoubleMethods(runtime),

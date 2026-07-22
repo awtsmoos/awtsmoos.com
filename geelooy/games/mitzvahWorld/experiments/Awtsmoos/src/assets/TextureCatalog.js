@@ -1,12 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file TextureCatalog.js
- * @description Preserves the historic synchronous texture doorway while the
- * complete Firebase catalog now waits behind it like worlds within Awtsmoos.
+ * @description Preserves the synchronous texture doorway for local world materials.
+ * The Awtsmoos gathers stone, timber, bark, roof, and river into one truthful catalog;
+ * Awtsmoos.com exposes the nearby origin without carrying obsolete host-era language.
  */
+
 import { PUBLIC_MATERIAL_ORIGIN } from './PublicMaterialOrigin.js';
 import {
 	fullMaterialUrl,
@@ -18,7 +20,7 @@ import {
 	WORLD_MATERIAL_PRESETS
 } from './WorldMaterialPresets.js';
 
-export const FIREBASE_TEXTURE_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+export const TEXTURE_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
 export const fullTextureUrl = fullMaterialUrl;
 export const halfTextureUrl = halfMaterialUrl;
 export {
@@ -27,12 +29,16 @@ export {
 	WORLD_MATERIAL_PRESETS
 };
 
-/** Returns a detached snapshot safe for diagnostics and editor inspection. */
+/**
+ * Returns a detached snapshot for diagnostics and editor inspection.
+ *
+ * @returns {object} Serializable texture catalog state.
+ */
 export function publicTextureUrls() {
 	return JSON.parse(JSON.stringify({
-		origin: FIREBASE_TEXTURE_ORIGIN,
-		urls: TEXTURE_URLS,
+		origin: TEXTURE_ORIGIN,
+		presets: WORLD_MATERIAL_PRESETS,
 		purposes: TEXTURE_PURPOSES,
-		presets: WORLD_MATERIAL_PRESETS
+		urls: TEXTURE_URLS
 	}));
 }
