@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file DoorwayFrameGeometry.js
@@ -9,16 +9,17 @@
  * gives the finite renderer the same silhouette as box subtraction with no boolean cost.
  */
 
+import { v } from '../../math/Geometry3D.js';
 import { createPrimitiveBoxGeometry } from './PrimitiveBoxGeometry.js';
-import { transformPrimitivePoint, v } from './PrimitiveTransform.js';
+import { transformPrimitivePoint } from './PrimitiveTransform.js';
 
 const MINIMUM_FRAME_WIDTH = 0.02;
 
 /**
  * Creates a transformed doorway frame whose opening begins at the wall floor.
  *
- * @param {object} definition Doorway primitive definition.
- * @returns {{vertices: Array<object>, indices: Array<number>, uvs: Array<number>}}
+ * @param {object} definition - Doorway primitive definition.
+ * @returns {{vertices: Array<object>, indices: Array<number>, uvs: Array<number>}} Geometry buffers.
  */
 export function createDoorwayFrameGeometry(definition = {}) {
 	const wall = normalizedSize(definition.size, { x: 10, y: 10, z: 1 });

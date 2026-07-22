@@ -4,9 +4,9 @@
 
 /**
  * @file VillageRiverHydrology.test.mjs
- * @description Proves one descending source, three drops, living variants, lake, and outlet.
- * The Awtsmoos measures every descent before water shines; Awtsmoos.com refuses floating
- * cards, uphill current, exposed volume skirts, or unbounded waterfall draw vessels.
+ * @description Proves one descending alpine water story with bounded realistic draw vessels.
+ * The Awtsmoos carries source, cascades, lake, current, wet stone bed, and outlet as one river;
+ * Awtsmoos.com distinguishes transparent water from its quiet opaque vessel beneath the flow.
  */
 
 import assert from 'node:assert/strict';
@@ -15,53 +15,89 @@ import { createWaterBodyDefinitions } from '../../world/village/VillageWaterBodi
 import { createWaterfallDefinitions } from '../../world/village/VillageWaterfallSystem.js';
 import { createVillageWaterDefinitions } from '../../world/village/VillageWaterSystem.js';
 
-const sampler = {
-	heightAt(x, z) {
-		return { y: 0.4 + x * 0.004 + z * 0.003 };
-	},
-	sample(x, z) {
-		return { height: 0.4 + x * 0.004 + z * 0.003, x, z };
-	}
-};
+const EXPECTED_FLOW_REGIMES = [
+	'mountain-source',
+	'plunge-pool',
+	'fast-narrows',
+	'village-current',
+	'calm-lower-pool',
+	'outlet-run'
+];
+const sampler = createSampler();
 const hydrology = createRiverHydrology(sampler);
 const bodies = createWaterBodyDefinitions(sampler, hydrology);
 const waterfalls = createWaterfallDefinitions(sampler, hydrology);
 const system = createVillageWaterDefinitions(sampler);
+const animatedSurfaces = bodies.filter(isAnimatedSurface);
+const riverBed = bodies.find(isRiverBed);
+const riverSurface = animatedSurfaces.find(hasWaterVariant('river'));
 
 assert.equal(hydrology.points.length, 65);
 assert.equal(hydrology.stats.cascades, 3);
+assert.deepEqual(hydrology.stats.flowRegimes, EXPECTED_FLOW_REGIMES);
 assert.ok(hydrology.stats.sourceY > hydrology.lakeLevel);
 assert.ok(hydrology.lakeLevel > hydrology.stats.outletY);
 assert.ok(hydrology.stats.totalDrop > 4);
-for (let index = 1; index < hydrology.points.length; index += 1) {
-	assert.ok(hydrology.points[index].y < hydrology.points[index - 1].y);
-}
-const drops = hydrology.points.slice(1).map((point, index) => {
-	return hydrology.points[index].y - point.y;
-});
-assert.ok(drops.filter(drop => drop > 0.8).length >= 3);
-assert.equal(bodies.length, 2);
+assertDescending(hydrology.points);
+assert.ok(substantialDrops(hydrology.points) >= 3);
+
+assert.equal(bodies.length, 3);
 assert.ok(bodies.every(definition => definition.shape === 'manual'));
-assert.ok(bodies.every(definition => definition.mixTextureUrl));
-assert.deepEqual(
-	bodies.map(definition => definition.texturePolicy.waterVariant),
-	['lake', 'river']
-);
-assert.equal(bodies[1].vertices.length, hydrology.points.length * 2);
-assert.equal(bodies[1].faces.length, hydrology.points.length - 1);
+assert.equal(animatedSurfaces.length, 2);
+assert.deepEqual(animatedSurfaces.map(surface => surface.userData.waterVariant), ['lake', 'river']);
+assert.ok(animatedSurfaces.every(surface => Boolean(surface.mixTextureUrl)));
+assert.ok(riverBed);
+assert.equal(riverBed.transparent, false);
+assert.equal(riverBed.userData.staticGeometry, true);
+assert.equal(riverBed.texturePolicy.role, 'wet-river-stone');
+assert.ok(isSameOriginAsset(riverBed.textureUrl));
+assert.equal(riverSurface.vertices.length, hydrology.points.length * 2);
+assert.equal(riverSurface.faces.length, hydrology.points.length - 1);
+
 assert.equal(waterfalls.length, 4);
 assert.deepEqual(
 	waterfalls.slice(0, 3).map(definition => definition.texturePolicy.waterVariant),
 	['waterfall', 'foam', 'mist']
 );
-assert.equal(system.definitions.length, 8);
+assert.equal(system.definitions.length, 9);
 assert.equal(system.stats.connectedSourceToOutlet, true);
-assert.equal(system.stats.waterDraws, 5);
+assert.equal(system.stats.surfaceWaterBodies, 2);
+assert.equal(system.stats.riverBedDraws, 1);
+assert.equal(system.stats.transparentWaterDraws, 6);
+assert.equal(system.stats.waterDraws, 6);
 assert.equal(system.stats.waterfallCascades, 3);
 
-console.log(JSON.stringify({
-	bodies: bodies.length,
-	definitions: system.definitions.length,
-	ok: true,
-	stats: hydrology.stats
-}, null, 2));
+console.log(JSON.stringify({ bodies: bodies.length, ok: true, stats: system.stats }, null, 2));
+
+function createSampler() {
+	return {
+		heightAt: (x, z) => ({ y: 0.4 + x * 0.004 + z * 0.003 }),
+		sample: (x, z) => ({ height: 0.4 + x * 0.004 + z * 0.003, x, z })
+	};
+}
+
+function assertDescending(points) {
+	for (let index = 1; index < points.length; index += 1) {
+		assert.ok(points[index].y < points[index - 1].y);
+	}
+}
+
+function substantialDrops(points) {
+	return points.slice(1).filter((point, index) => points[index].y - point.y > 0.8).length;
+}
+
+function isAnimatedSurface(definition) {
+	return definition.texturePolicy?.animated === true && Boolean(definition.userData?.waterVariant);
+}
+
+function isRiverBed(definition) {
+	return definition.userData?.part === 'river-bed-channel';
+}
+
+function hasWaterVariant(variant) {
+	return definition => definition.userData?.waterVariant === variant;
+}
+
+function isSameOriginAsset(url) {
+	return typeof url === 'string' && url.length > 0 && !/^https?:\/\//u.test(url);
+}

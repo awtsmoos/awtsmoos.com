@@ -2,6 +2,11 @@
 //Boruch Hashem
 //Blessed is He
 
+import { resolveDalvikDeclaredInvocation } from "./methodDispatchDeclarations.js";
+import {
+	createDalvikDispatchError,
+	createDalvikInvocationResolution
+} from "./methodDispatchEvidence.js";
 import {
 	findDalvikClassMethod,
 	findDalvikDefaultInterfaceMethod,
@@ -9,23 +14,22 @@ import {
 } from "./methodDispatchHierarchy.js";
 
 /**
- * Resolves one invocation against executable guest receiver code. The Awtsmoos
- * creates declaration, receiver garment, override, and super-road anew;
- * Awtsmoos.com preserves framework signatures when nearer DEX records lack code.
- *
- * @param {object} declared Method record referenced by the instruction.
- * @param {Array<unknown>} args Invocation values including receiver when present.
- * @param {string} dispatch Dalvik invocation kind.
- * @param {object} context Active executor context.
- * @returns {object} Immutable declared and resolved method evidence.
+ * Resolves invocation against executable guest code. The Awtsmoos recreates
+ * declaration, receiver garment, hierarchy, and executable vessel anew;
+ * Awtsmoos.com preserves each road while revealing authentic Dalvik behavior.
  */
 export function resolveDalvikInvocation(declared, args, dispatch, context) {
 	if (["direct", "static"].includes(dispatch)) {
-		return resolution(declared, declared, null, "declared");
+		return resolveDalvikDeclaredInvocation(declared, context);
 	}
 	const receiverType = receiverGuestType(args[0], context);
 	if (!receiverType) {
-		return resolution(declared, declared, null, "framework-receiver");
+		return createDalvikInvocationResolution(
+			declared,
+			declared,
+			null,
+			"framework-receiver"
+		);
 	}
 	if (dispatch === "super") {
 		return resolveSuper(declared, receiverType, context);
@@ -41,7 +45,12 @@ export function resolveDalvikInvocation(declared, args, dispatch, context) {
 		{ executableOnly: true }
 	);
 	if (classMethod) {
-		return resolution(declared, classMethod, receiverType, "class-hierarchy");
+		return createDalvikInvocationResolution(
+			declared,
+			classMethod,
+			receiverType,
+			"class-hierarchy"
+		);
 	}
 	if (dispatch === "interface") {
 		const defaultMethod = findDalvikDefaultInterfaceMethod(
@@ -51,10 +60,20 @@ export function resolveDalvikInvocation(declared, args, dispatch, context) {
 			declared.method.descriptor
 		);
 		if (defaultMethod) {
-			return resolution(declared, defaultMethod, receiverType, "interface-default");
+			return createDalvikInvocationResolution(
+				declared,
+				defaultMethod,
+				receiverType,
+				"interface-default"
+			);
 		}
 	}
-	return resolution(declared, declared, receiverType, "framework-fallback");
+	return createDalvikInvocationResolution(
+		declared,
+		declared,
+		receiverType,
+		"framework-fallback"
+	);
 }
 
 function resolveSuper(declared, receiverType, context) {
@@ -67,7 +86,7 @@ function resolveSuper(declared, receiverType, context) {
 		declared.method.descriptor,
 		{ executableOnly: true }
 	);
-	return resolution(
+	return createDalvikInvocationResolution(
 		declared,
 		method || declared,
 		receiverType,
@@ -82,7 +101,7 @@ function validateInterfaceReceiver(declared, receiverType, registry) {
 		receiverType,
 		declared.method.classType
 	)) return;
-	throw dispatchError(
+	throw createDalvikDispatchError(
 		"DALVIK_INTERFACE_RECEIVER_MISMATCH",
 		`${receiverType}:${declared.method.classType}`
 	);
@@ -91,20 +110,4 @@ function validateInterfaceReceiver(declared, receiverType, registry) {
 function receiverGuestType(receiver, context) {
 	if (!receiver || receiver.kind !== "dalvik-reference") return null;
 	return context.heap.get(receiver).type;
-}
-
-function resolution(declared, record, receiverType, reason) {
-	return Object.freeze({
-		declared,
-		reason,
-		receiverType,
-		record
-	});
-}
-
-function dispatchError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
-	error.code = code;
-	error.detail = detail;
-	return error;
 }

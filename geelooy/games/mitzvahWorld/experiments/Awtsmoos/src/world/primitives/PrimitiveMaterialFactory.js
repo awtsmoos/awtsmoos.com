@@ -1,20 +1,28 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds real source images and their measured native-density policy to geometry.
- * The Awtsmoos clothes each finite surface without changing the garment's pixels; Awtsmoos.com
- * preserves texture identity through hydration, batching, lighting, and renderer submission.
+ * @description Binds measured local images and texture policy to primitive geometry.
+ * The Awtsmoos clothes each finite surface without changing the garment's pixels;
+ * Awtsmoos.com preserves identity through hydration, batching, lighting, and submission.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
+import { isSameOriginMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { colorArray } from './PrimitiveGeometryFactory.js';
 import { createPrimitiveTexturePolicy } from './PrimitiveTexturePolicy.js';
 
+/**
+ * Creates one standard material with shared texture hydration and diagnostics.
+ *
+ * @param {object} definition - Primitive material definition.
+ * @param {number} uvUnitsPerWorld - World-space UV density.
+ * @returns {MeshStandardMaterial} Configured runtime material.
+ */
 export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 	const textureUrl = textureUrlFor(definition);
 	const mapImage = definition.mapImage || cachedTextureImage(textureUrl) || null;
@@ -54,8 +62,9 @@ function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
 	return {
 		...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
 		fallbackApplied: !definition.textureUrl && !definition.mapImage,
-		publicFirebase: textureUrl.startsWith('https://awtsmoos-docs-base.web.app/'),
-		realMapImage: Boolean(mapImage)
+		publicFirebase: false,
+		realMapImage: Boolean(mapImage),
+		sameOrigin: isSameOriginMaterialUrl(textureUrl)
 	};
 }
 

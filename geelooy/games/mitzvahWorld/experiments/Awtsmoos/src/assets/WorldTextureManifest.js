@@ -1,16 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file WorldTextureManifest.js
- * @description Converts every registered world texture into a strict optional production role.
- * The Awtsmoos gathers many pigments into one living world; Awtsmoos.com keeps each local URL
- * auditable through its canonical source witness while refusing preview and staging folders.
+ * @description Converts every registered local texture into an optional production role.
+ * The Awtsmoos gathers many pigments into one living world without changing their route;
+ * Awtsmoos.com reads identity through a harmless base while preserving each browser URL.
  */
 
 import { assertProductionMaterialUrl } from './ProductionMaterialUrlPolicy.js';
 import { TEXTURE_URLS } from './TextureCatalog.js';
+
+const TEXTURE_IDENTITY_BASE = new URL('https://same-origin.invalid/');
 
 export const WORLD_TEXTURE_MATERIALS = Object.freeze(
 	uniqueTextureUrls(TEXTURE_URLS).map(createWorldTextureRole)
@@ -18,13 +20,14 @@ export const WORLD_TEXTURE_MATERIALS = Object.freeze(
 
 function createWorldTextureRole(sourceUrl) {
 	const name = textureName(sourceUrl);
+	const role = `world.${roleName(name)}`;
 	return Object.freeze({
 		critical: false,
 		fallbackUrls: Object.freeze([]),
 		label: name,
-		primaryUrl: assertProductionMaterialUrl(sourceUrl, `world.${roleName(name)}`),
+		primaryUrl: assertProductionMaterialUrl(sourceUrl, role),
 		repeat: Object.freeze([1, 1]),
-		role: `world.${roleName(name)}`
+		role
 	});
 }
 
@@ -42,7 +45,7 @@ function uniqueTextureUrls(value) {
 }
 
 function textureName(url) {
-	const parsedUrl = new URL(url);
+	const parsedUrl = new URL(url, TEXTURE_IDENTITY_BASE);
 	const sourceWitness = parsedUrl.searchParams.get('source');
 	const identityPath = sourceWitness || parsedUrl.pathname;
 	const filename = identityPath.split('/').at(-1) || '';
