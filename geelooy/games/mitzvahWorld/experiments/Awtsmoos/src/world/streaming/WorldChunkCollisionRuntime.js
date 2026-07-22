@@ -1,11 +1,16 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file WorldChunkCollisionRuntime.js
- * @description Owns accepted collision state, live streaming, and its query facade.
- * The Awtsmoos sustains the parent while children ripen through guarded phases;
- * Awtsmoos.com exposes one unchanged query vessel through every atomic handoff.
+ * @description Owns every accepted collision vessel behind one stable query facade.
+ * The Awtsmoos holds the essential ground while later village stone descends;
+ * Yesod receives each guarded octree, and Tiferes one query extends.
+ * Awtsmoos.com therefore streams richer matter without a second world or law,
+ * while every handoff, cancellation, and diagnostic remains exact in what it saw.
  */
+
 import { WorldChunkCollisionIndex } from './WorldChunkCollisionIndex.js';
 import { WorldChunkCollisionQueryFacade } from './WorldChunkCollisionQueryFacade.js';
 import { WorldChunkCollisionStreamingRuntime } from './WorldChunkCollisionStreamingRuntime.js';
@@ -16,6 +21,7 @@ export class WorldChunkCollisionRuntime {
 			throw new TypeError('Bootstrap chunk record is required for collision runtime.');
 		}
 		this.index = new WorldChunkCollisionIndex();
+		this.activeLayerRegistrations = 0;
 		this.bootstrapEntry = this.index.registerActive({
 			chunkId: bootstrapRecord.id,
 			parentId: null,
@@ -31,6 +37,17 @@ export class WorldChunkCollisionRuntime {
 			generate,
 			measure
 		});
+	}
+
+	/**
+	 * Reveals one validated post-movement collision layer inside the existing index.
+	 * @param {object} definition Stable chunk identity, octree, bounds, and generation.
+	 * @returns {object} The immutable active collision entry.
+	 */
+	registerActiveCollisionChunk(definition = {}) {
+		const yesodEntry = this.index.registerActive(definition);
+		this.activeLayerRegistrations += 1;
+		return yesodEntry;
 	}
 
 	/** Accepts one stable manually triggered bootstrap subdivision. */
@@ -59,6 +76,7 @@ export class WorldChunkCollisionRuntime {
 			bootstrapId: this.bootstrapEntry.chunkId,
 			bootstrapBounds: this.bootstrapEntry.bounds,
 			bootstrapTriangles: this.bootstrapEntry.triangleCount,
+			activeLayerRegistrations: this.activeLayerRegistrations,
 			streaming: this.streaming.diagnostics(),
 			query: this.query.diagnostics(),
 			...this.index.diagnostics()

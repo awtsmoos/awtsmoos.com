@@ -4,37 +4,44 @@
 
 /**
  * @file villageBotanicalBudget.test.mjs
- * @description Proves the 123-species garden remains six batches and quality-budget bounded.
+ * @description Proves deterministic gardens remain six batches and policy-budget bounded.
  * The Awtsmoos renews every named plant within few material vessels; Awtsmoos.com preserves
- * complete guide coverage while measured triangle growth stays monotonic and below each budget.
+ * canonical species while measured triangle growth stays monotonic and below every ceiling.
  */
 
 import assert from 'node:assert/strict';
+import { villageBotanicalQuality } from '../../world/botany/VillageBotanicalQuality.js';
 import { createVillageBotanicalBatchDefinitions } from '../../world/village/VillageBotanicalBatchGeometry.js';
 
 const qualities = ['low', 'medium', 'high', 'cinematic'];
 const stats = {};
 for (const quality of qualities) {
+	const policy = villageBotanicalQuality(quality);
 	const definitions = createVillageBotanicalBatchDefinitions(groundHeight, quality);
 	assert.equal(definitions.length, 6);
 	assert.equal(definitions.stats.batches, 6);
+	assert.equal(definitions.stats.placements, policy.maxPlacements);
+	assert.ok(definitions.stats.triangles <= policy.maxTriangles);
 	assert.ok(definitions.every(definition => definition.shape === 'manual'));
-	assert.ok(definitions.every(definition => {
-		return definition.userData.AwtsmoosLod.className === 'vegetation';
-	}));
-	assert.ok(definitions.stats.triangles <= definitions.stats.budget.maxTriangles);
-	assert.ok(definitions.stats.placements <= definitions.stats.budget.maxPlacements);
+	assert.ok(definitions.every(definition => (
+		definition.userData.AwtsmoosLod.className === 'vegetation'
+	)));
+	assert.deepEqual(definitions.stats.renderPolicy, {
+		geometryQuality: 'low',
+		maxClusterCount: 2
+	});
 	stats[quality] = definitions.stats;
 }
 
-assert.equal(stats.high.catalogSpecies, 123);
-assert.equal(stats.medium.placements, 180);
-assert.equal(stats.high.placements, 270);
-assert.ok(stats.high.triangles >= 14000);
+assert.deepEqual(qualities.map(quality => stats[quality].placements), [72, 144, 226, 300]);
+assert.equal(stats.low.catalogSpecies, 67);
+for (const quality of ['medium', 'high', 'cinematic']) {
+	assert.equal(stats[quality].catalogSpecies, 123);
+}
+assert.ok(stats.high.triangles >= 16000);
 assert.ok(stats.low.triangles < stats.medium.triangles);
 assert.ok(stats.medium.triangles < stats.high.triangles);
 assert.ok(stats.high.triangles < stats.cinematic.triangles);
-assert.equal(stats.high.catalogSpecies, stats.cinematic.catalogSpecies);
 
 console.log(JSON.stringify({ ok: true, stats }, null, 2));
 

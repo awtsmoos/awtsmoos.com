@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Packing evidence proves stable particle bytes and aligned PIC grid uniforms. */
+/** Packing evidence proves particles plus aligned PIC and pressure uniforms. */
 
 import assert from "node:assert/strict";
 import { createParticleSystem } from "../src/core/proceduralObject/particles/createParticleSystem.js";
@@ -45,10 +45,14 @@ const uniforms = packWebGpuLiquidUniforms3d({
 	damping: 0.98,
 	restitution: 0.25,
 	fixedPointScale: 2048,
-	picBlend: 0.375
+	picBlend: 0.375,
+	fluidDensity: 998.2,
+	pressureRelaxation: 0.8
 });
 assert.equal(uniforms.byteLength, WEB_GPU_UNIFORM_BUFFER_BYTES);
 assert.equal(uniforms.picBlend, 0.375);
+assert.equal(uniforms.fluidDensity, 998.2);
+assert.equal(uniforms.pressureRelaxation, 0.8);
 const view = new DataView(uniforms.buffer);
 assert.equal(view.getUint32(4, true), 7);
 assert.equal(view.getUint32(8, true), 64);
@@ -57,9 +61,15 @@ assert.deepEqual([0, 1, 2].map(axis => view.getFloat32(80 + axis * 4, true)), [-
 assert.equal(view.getFloat32(96, true), 0.5);
 assert.deepEqual([100, 104, 108].map(offset => view.getUint32(offset, true)), [4, 4, 4]);
 assert.equal(view.getFloat32(112, true), 0.375);
+assert.ok(Math.abs(view.getFloat32(116, true) - 998.2) < 0.001);
+assert.ok(Math.abs(view.getFloat32(120, true) - 0.8) < 1e-6);
 assert.equal(packWebGpuLiquidUniforms3d({
 	gridCellCount: 1,
-	picBlend: 2
-}).picBlend, 1);
+	pressureRelaxation: 2
+}).pressureRelaxation, 1);
+assert.throws(() => packWebGpuLiquidUniforms3d({
+	gridCellCount: 1,
+	fluidDensity: 0
+}), /positive and finite/);
 
 console.log('B"H | proceduralObjectWebGpuPacking3d.test passed');

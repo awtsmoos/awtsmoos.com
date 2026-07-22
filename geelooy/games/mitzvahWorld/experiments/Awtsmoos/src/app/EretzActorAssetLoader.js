@@ -4,39 +4,34 @@
 
 /**
  * @file EretzActorAssetLoader.js
- * @description Loads the exact player Chossid before play and enriches neighbors afterward.
- * The Awtsmoos reveals the player as a living vessel at first sight; Awtsmoos.com awaits one
- * canonical chossid.glb, then streams NPC copies and optional animation richness later.
+ * @description Reveals local actors immediately and keeps canonical GLB parsing outside entry.
+ * The Awtsmoos grants movement before a heavy garment is parsed; Awtsmoos.com begins with
+ * dignified local Chassidim and exposes canonical actor hydration only as an explicit idle stream.
  */
 
-import { applyChossidOutfit, chossidMaterialResolver } from '../assets/ChossidOutfitPalette.js';
-import { consolidateChossidMeshes } from '../assets/ChossidMeshConsolidator.js';
-import { bindImportedModelMaterials } from '../assets/ModelMaterialBinder.js';
-import { loadIsolatedGltf, sharedGltfAssetStats } from '../assets/ModelAssetLoader.js';
+import { loadHouseAssets } from '../assets/HouseAssets.js';
 import { friendlyNpcProfiles } from '../world/npc/FriendlyNpcProfiles.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
 import { createFallbackActorGltf } from './EretzFallbackActorTemplate.js';
+import { scheduleActorHydration } from './EretzActorHydrationScheduler.js';
 
 export async function loadEretzActorAssets(options = {}) {
 	const quality = options.quality || 'medium';
 	const npcProfiles = friendlyNpcProfiles(quality);
-	const playerGltf = await loadCanonicalPlayer(options);
+	const playerGltf = createFallbackActorGltf('player');
 	const npcGltfs = npcProfiles.map((profile, index) => createFallbackActorGltf(
 		`friendly-npc-${index}-${profile.id}`,
 		{ outfit: profile.outfit }
 	));
+	const houseLoader = options.houseLoader || loadHouseAssets;
+	const assets = await houseLoader(async () => null);
+	assets.actorAssets = actorStats(npcGltfs.length);
+	assets.importedModelMaterials = fallbackMaterials(npcProfiles);
 	return {
-		actorAssetStats: {
-			...sharedGltfAssetStats(),
-			fallbackActors: npcGltfs.length,
-			playerBlockingRequests: 1,
-			strategy: 'canonical-player-first-deferred-npc-enrichment'
-		},
-		actorHydration: scheduleNpcHydration(options, npcProfiles),
-		importedModelMaterials: {
-			npcs: npcProfiles.map(profile => ({ fallback: true, profileId: profile.id })),
-			player: preparePlayer(playerGltf)
-		},
+		actorAssetStats: assets.actorAssets,
+		actorHydration: createDeferredActorHydration(options, npcProfiles),
+		assets,
+		importedModelMaterials: assets.importedModelMaterials,
 		npcGltf: npcGltfs[0],
 		npcGltfs,
 		npcProfiles,
@@ -44,67 +39,75 @@ export async function loadEretzActorAssets(options = {}) {
 	};
 }
 
-export async function loadRemoteEretzActorAssets(options = {}, npcProfiles = null) {
-	const profiles = npcProfiles || friendlyNpcProfiles(options.quality || 'medium');
-	const npcGltfs = await Promise.all(profiles.map((profile, index) => loadIsolatedGltf(
-		PLAYER_MODEL_URL,
-		`friendly-npc-${index}-${profile.id}`,
-		{ materialResolver: chossidMaterialResolver(profile.outfit) }
-	)));
-	return {
-		actorAssetStats: sharedGltfAssetStats(),
-		importedModelMaterials: {
-			npcs: npcGltfs.map((gltf, index) => prepareNpc(gltf, profiles[index]))
-		},
-		npcGltf: npcGltfs[0],
-		npcGltfs,
-		npcProfiles: profiles
-	};
-}
-
-async function loadCanonicalPlayer(options) {
-	const loader = options.playerActorLoader || loadIsolatedGltf;
-	try {
-		return await loader(PLAYER_MODEL_URL, 'player');
-	} catch (error) {
-		if (options.allowPlayerFallback === true) return createFallbackActorGltf('player');
-		throw new Error(`Canonical player chossid.glb failed to load: ${error?.message || error}`);
-	}
-}
-
-function scheduleNpcHydration(options, npcProfiles) {
-	const state = { error: null, startedAt: null, status: 'scheduled', value: null };
-	const remoteLoader = options.remoteActorLoader || loadRemoteEretzActorAssets;
-	state.promise = new Promise(resolve => setTimeout(async () => {
-		state.startedAt = now();
-		state.status = 'loading';
-		try {
-			state.value = await remoteLoader(options, npcProfiles);
-			state.status = 'ready';
-			resolve(state.value);
-		} catch (error) {
-			state.error = error?.message || String(error);
-			state.status = 'degraded';
-			resolve(null);
+export function createDeferredActorHydration(options = {}, npcProfiles = []) {
+	const enabled = options.streamCanonicalActors === true;
+	const state = {
+		enabled,
+		error: null,
+		promise: null,
+		startedAt: null,
+		status: enabled ? 'waiting-for-idle-start' : 'fallback-stable',
+		value: null,
+		start() {
+			if (!enabled) return Promise.resolve(null);
+			if (state.promise) return state.promise;
+			state.status = 'scheduled';
+			state.promise = scheduleActorHydration(options, async () => {
+				state.startedAt = now();
+				state.status = 'loading';
+				try {
+					state.value = await loadRemoteEretzActorAssets(options, npcProfiles);
+					state.status = 'ready';
+					return state.value;
+				} catch (error) {
+					state.error = error?.message || String(error);
+					state.status = 'degraded';
+					return null;
+				}
+			});
+			return state.promise;
 		}
-	}, options.actorStreamingDelayMs ?? 0));
+	};
 	return state;
 }
 
-function preparePlayer(gltf) {
+export async function loadRemoteEretzActorAssets(options = {}, npcProfiles = []) {
+	const loader = options.remoteActorLoader || defaultRemoteActorLoader;
+	return loader(options, npcProfiles);
+}
+
+async function defaultRemoteActorLoader(options, npcProfiles) {
+	const [{ loadIsolatedGltf, sharedGltfAssetStats }, palette] = await Promise.all([
+		import('../assets/ModelAssetLoader.js?v=20260722-idle-actor-02'),
+		import('../assets/ChossidOutfitPalette.js?v=20260722-idle-actor-02')
+	]);
+	const playerGltf = await loadIsolatedGltf(PLAYER_MODEL_URL, 'player-canonical');
+	const npcGltfs = await Promise.all(npcProfiles.map((profile, index) => loadIsolatedGltf(
+		PLAYER_MODEL_URL,
+		`friendly-npc-${index}-${profile.id}`,
+		{ materialResolver: palette.chossidMaterialResolver(profile.outfit) }
+	)));
 	return {
-		...bindImportedModelMaterials(gltf.scene),
-		...applyChossidOutfit(gltf.scene, {}),
-		consolidation: consolidateChossidMeshes(gltf.scene)
+		actorAssetStats: sharedGltfAssetStats(),
+		npcGltf: npcGltfs[0],
+		npcGltfs,
+		npcProfiles,
+		playerGltf
 	};
 }
 
-function prepareNpc(gltf, profile) {
+function actorStats(fallbackActors) {
 	return {
-		...bindImportedModelMaterials(gltf.scene),
-		...applyChossidOutfit(gltf.scene, profile.outfit),
-		consolidation: consolidateChossidMeshes(gltf.scene),
-		profileId: profile.id
+		fallbackActors,
+		playerBlockingRequests: 0,
+		strategy: 'procedural-first-explicit-idle-canonical-hydration'
+	};
+}
+
+function fallbackMaterials(npcProfiles) {
+	return {
+		npcs: npcProfiles.map(profile => ({ fallback: true, profileId: profile.id })),
+		player: { fallback: true, source: 'local-procedural-chossid-silhouette' }
 	};
 }
 

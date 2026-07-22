@@ -29,16 +29,16 @@ export class CheerfulReferenceAppearance {
 				minimumTongue: 0.42,
 				lineWidth: 1.42,
 				horizontalOffset: -3,
-				verticalOffset: 9
+				verticalOffset: 13
 			},
 			beardGeometry: {
 				massStyle: 'continuous',
-				cheekScale: 0.62,
+				cheekScale: 0.7,
 				leftCheekScale: 1.04,
 				rightCheekScale: 0.96,
 				topOffset: 17,
-				topInset: 0.8,
-				sideRatio: 0.4,
+				topInset: 0.72,
+				sideRatio: 0.47,
 				bridgeDrop: 19,
 				bridgeGap: 0.4,
 				bridgeValley: 2.2,
@@ -54,11 +54,11 @@ export class CheerfulReferenceAppearance {
 				moustacheDrop: 1.2,
 				moustacheGap: 0.8,
 				moustacheAsymmetry: 0.25,
-				lengthScale: 0.62,
-				chinWidth: 19,
+				lengthScale: 0.72,
+				chinWidth: 22,
 				chinOffsetX: -1.4,
-				taper: 0.74,
-				bottomRoundness: 1.18,
+				taper: 0.78,
+				bottomRoundness: 1.2,
 				lineWidth: 1.35,
 				strandOpacity: 0.035
 			}

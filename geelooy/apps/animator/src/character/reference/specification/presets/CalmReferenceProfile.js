@@ -25,7 +25,7 @@ export class CalmReferenceProfile {
 			beard: false,
 			payos: false,
 			hatType: 'head_wrap',
-			lineStyle: 'softCartoon',
+			lineStyle: 'referenceSitcom',
 			wardrobeProfile: 'olive_overshirt_black_dress',
 			rigPose: this.pose(),
 			colors: this.colors()
@@ -45,8 +45,8 @@ export class CalmReferenceProfile {
 				hipY: 0.696
 			},
 			style: {
-				outerLineWidth: 0.0088,
-				innerLineWidth: 0.0044,
+				outerLineWidth: 0.0082,
+				innerLineWidth: 0.0036,
 				shadowWidth: 0.235
 			}
 		};
@@ -73,10 +73,10 @@ export class CalmReferenceProfile {
 
 	static colors() {
 		return {
-			jacket: '#606944', jacketDark: '#485238', jacketLight: '#78835a',
-			shirt: '#272729', innerShirt: '#272729', skirt: '#29292c', pants: '#29292c',
-			skin: '#f3bf91', skinDark: '#d1865a', hair: '#3b2a1d', hairDark: '#251a13',
-			hat: '#292a2d', lip: '#a75a62', earring: '#cda431'
+			jacket: '#667349', jacketDark: '#4d593b', jacketLight: '#7d8961',
+			shirt: '#29292c', innerShirt: '#29292c', skirt: '#2d2d31', pants: '#2d2d31',
+			skin: '#f3c092', skinDark: '#d4885c', hair: '#402c1d', hairDark: '#281b13',
+			hat: '#2a2b2e', lip: '#a96069', earring: '#cba53b'
 		};
 	}
 }

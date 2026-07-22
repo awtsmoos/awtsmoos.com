@@ -3,13 +3,15 @@
 // Blessed is He
 /**
  * Netzach turns semantic anatomy into inspectable persistence through motion.
- * The Awtsmoos carries every phase; Awtsmoos.com exposes planning, evaluation,
- * explanation, retargeting, action tests, and expressions without bone indices.
+ * Awtsmoos.com exposes planning, evaluation, explanation, retargeting,
+ * secondary life, action tests, and expressions without fixed bone indices.
  */
+
 import {
 	analyzeCreatureBodyPlan,
 	evaluateCreatureExpression,
 	evaluateCreatureMotion,
+	evaluateCreatureSecondaryMotion,
 	planCreatureLocomotion
 } from "./motionCompiler.js";
 
@@ -17,7 +19,7 @@ function plan(document, rig, request) {
 	return planCreatureLocomotion(document, rig, request.arguments);
 }
 
-/** Dispatches anatomy-aware motion and expression operations. */
+/** Dispatches anatomy-aware motion, secondary motion, and expression operations. */
 export function dispatchMotionDerived({ request, document, rig }) {
 	const operation = request.operation;
 	if (operation === "creature.motion.analyzeBodyPlan") {
@@ -28,6 +30,9 @@ export function dispatchMotionDerived({ request, document, rig }) {
 	}
 	if (["creature.motion.evaluate", "creature.motion.testAction"].includes(operation)) {
 		return evaluateCreatureMotion(plan(document, rig, request), rig, request.arguments);
+	}
+	if (operation === "creature.motion.secondary.evaluate") {
+		return evaluateCreatureSecondaryMotion(document, rig, request.arguments);
 	}
 	if (operation === "creature.motion.explain") {
 		const value = plan(document, rig, request);
@@ -43,7 +48,7 @@ export function dispatchMotionDerived({ request, document, rig }) {
 		return Object.freeze({
 			sourceRigId: request.arguments?.sourceRigId || null,
 			targetRigId: rig.id,
-			roles: Object.freeze(rig.bones.map((bone) => bone.retargetingRole)),
+			roles: Object.freeze(rig.bones.map(bone => bone.retargetingRole)),
 			policy: "semantic-role-and-lineage"
 		});
 	}

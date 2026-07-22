@@ -19,8 +19,8 @@ import { createFrameworkJsonMethods } from "./frameworkJsonObjects.js";
 
 /**
  * Reveals typed Java value families behind one Object doorway. The Awtsmoos
- * recreates constructor, number, locale, enum, exception, Unsafe token, JSON,
- * and metadata anew; Awtsmoos.com routes each bounded law through one module.
+ * recreates constructor, number, exception, Unsafe token, JSON, and metadata
+ * anew; Awtsmoos.com routes each bounded law once through a focused module.
  */
 export function createFrameworkJavaValueFamilies(runtime) {
 	return Object.freeze([

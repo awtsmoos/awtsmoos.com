@@ -41,9 +41,15 @@ export class CheerfulReferenceBodyGeometry {
 			legs: {
 				centerOffsetX: -8,
 				hipOffset: 19,
-				kneeOffset: 20,
-				ankleOffset: 21,
-				footOffset: 25,
+				leftKneeOffset: 16.7,
+				rightKneeOffset: 24.4,
+				kneeDrop: 3.1,
+				leftAnkleOffset: 18.9,
+				rightAnkleOffset: 23.4,
+				ankleLift: 3.8,
+				leftFootOffset: 23.3,
+				rightFootOffset: 30.7,
+				footDrop: 6.9,
 				thighWidth: 38,
 				kneeWidth: 34,
 				ankleWidth: 24,
@@ -76,8 +82,8 @@ export class CheerfulReferenceBodyGeometry {
 				palmScale: 1.12,
 				fistElbowOut: 6,
 				fistElbowDown: 20,
-				fistX: 22,
-				fistDrop: 10,
+				fistX: 30.2,
+				fistDrop: 12.7,
 				fistScale: 1.18
 			}
 		};

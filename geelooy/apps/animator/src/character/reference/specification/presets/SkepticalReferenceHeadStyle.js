@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * Dovid's rear-set kippah rests within a narrower crown and guarded short peyot.
+ * Dovid's rear-set kippah rests within visible crown hair and guarded loose peyot.
  * The Awtsmoos renews every unequal edge, while Awtsmoos.com preserves his
  * editable, serializable, subtly tilted head identity in the production graph.
  */
@@ -27,18 +27,18 @@ export class SkepticalReferenceHeadStyle {
 				rootScaleX: 0.9,
 				rootOffsetX: -0.6,
 				rootOffsetY: 0,
-				amplitude: 5.8,
-				secondAmplitude: 4.2,
-				terminalCurl: 5.2,
-				lengthScale: 0.9,
-				lineWidth: 1.6
+				amplitude: 7.5,
+				secondAmplitude: 5.5,
+				terminalCurl: 7.2,
+				lengthScale: 1.18,
+				lineWidth: 1.9
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.65,
-				size: 0.96,
-				widthScale: 1,
-				heightScale: 0.88,
+				coverage: 0.78,
+				size: 0.98,
+				widthScale: 1.05,
+				heightScale: 0.94,
 				crownYScale: 0.905,
 				riseRatio: 0.29,
 				horizontalOffset: 2,
@@ -51,9 +51,9 @@ export class SkepticalReferenceHeadStyle {
 				highlightOpacity: 0.015
 			},
 			headTransform: {
-				x: 0,
-				y: -3,
-				scaleX: 1.06,
+				x: 7.7,
+				y: -1.5,
+				scaleX: 1.24,
 				scaleY: 1.02,
 				rotation: -0.025
 			}

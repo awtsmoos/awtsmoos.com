@@ -6,9 +6,9 @@ import { SkepticalReferenceFaceIdentity } from './SkepticalReferenceFaceIdentity
 import { SkepticalReferenceHeadStyle } from './SkepticalReferenceHeadStyle.js';
 
 /**
- * Gevurah gathers Dovid's narrow face, tapered beard, and compressed expression.
+ * Gevurah gathers Dovid's guarded face, tapered beard, and compressed expression.
  * The Awtsmoos renews every finite control, while Awtsmoos.com preserves his
- * guarded mouth as editable, serializable production anatomy.
+ * restrained mouth as editable, serializable production anatomy.
  */
 export class SkepticalReferenceAppearance {
 	static create() {
@@ -24,19 +24,19 @@ export class SkepticalReferenceAppearance {
 				cavityHeightScale: 0.72,
 				asymmetryBias: 0.1,
 				smileBias: -0.34,
-				verticalOffset: 0.4,
+				verticalOffset: 2.4,
 				lineWidth: 1.28,
 				lowerLipWidth: 0.82,
 				commissures: false
 			},
 			beardGeometry: {
 				massStyle: 'continuous',
-				cheekScale: 0.54,
+				cheekScale: 0.62,
 				leftCheekScale: 0.97,
 				rightCheekScale: 1.03,
 				topOffset: 19,
-				topInset: 0.78,
-				sideRatio: 0.34,
+				topInset: 0.74,
+				sideRatio: 0.4,
 				bridgeDrop: 15,
 				bridgeGap: 0.3,
 				bridgeValley: 1.6,
@@ -52,11 +52,11 @@ export class SkepticalReferenceAppearance {
 				moustacheDrop: 1,
 				moustacheGap: 0.7,
 				moustacheAsymmetry: 0.18,
-				lengthScale: 0.4,
-				chinWidth: 15,
+				lengthScale: 0.48,
+				chinWidth: 17,
 				chinOffsetX: 1,
-				taper: 0.58,
-				bottomRoundness: 0.92,
+				taper: 0.62,
+				bottomRoundness: 0.96,
 				lineWidth: 1.3,
 				strandOpacity: 0.03
 			}

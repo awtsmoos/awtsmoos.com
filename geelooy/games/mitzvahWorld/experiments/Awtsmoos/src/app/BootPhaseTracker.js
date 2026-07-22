@@ -5,8 +5,8 @@
 /**
  * @file BootPhaseTracker.js
  * @description Records startup phases, progress, degradation, readiness, and fatal failure.
- * The Awtsmoos renews each asynchronous threshold; Awtsmoos.com makes geometry readiness,
- * catalog discovery, texture streaming, and optional model enrichment distinct and visible.
+ * The Awtsmoos renews each threshold; Awtsmoos.com makes every boot gate visible and emits
+ * precise debug beacons only when the explicit debugBoot query flag opens that vessel.
  */
 
 import { renderBootProgress } from './BootProgressOverlay.js';
@@ -28,6 +28,7 @@ export class BootPhaseTracker {
 		this.finishCurrent();
 		this.current = name;
 		this.currentStartedAt = this.clock();
+		this.debug('begin', { name });
 		this.publish();
 		return this;
 	}
@@ -52,6 +53,7 @@ export class BootPhaseTracker {
 		if (name === this.current) this.finishCurrent();
 		this.current = 'ready';
 		this.currentStartedAt = this.clock();
+		this.debug('ready', { name });
 		this.progress('gameplay-ready', 1, 1, 'Movement enabled; textures continue streaming.', 'ready');
 		return this;
 	}
@@ -62,6 +64,7 @@ export class BootPhaseTracker {
 			error: error?.message || String(error),
 			system
 		});
+		this.debug('degraded', { error: error?.message || String(error), system });
 		this.publish();
 		return this;
 	}
@@ -73,6 +76,7 @@ export class BootPhaseTracker {
 			message: error?.message || String(error),
 			stack: error?.stack || ''
 		};
+		this.debug('failed', this.failure);
 		this.publish();
 		return this;
 	}
@@ -89,14 +93,13 @@ export class BootPhaseTracker {
 	}
 
 	finishCurrent() {
-		if (
-			this.currentStartedAt == null
-			|| ['created', 'ready', 'failed'].includes(this.current)
-		) return;
-		this.records.push({
+		if (this.currentStartedAt == null || ['created', 'ready', 'failed'].includes(this.current)) return;
+		const record = {
 			durationMs: this.clock() - this.currentStartedAt,
 			name: this.current
-		});
+		};
+		this.records.push(record);
+		this.debug('finish', record);
 		this.currentStartedAt = null;
 	}
 
@@ -111,9 +114,23 @@ export class BootPhaseTracker {
 		document.documentElement.dataset.awtsmoosBootPhase = this.current;
 		renderBootProgress(snapshot);
 	}
+
+	debug(event, detail) {
+		if (!debugEnabled()) return;
+		console.info('[MitzvahWorldBoot]', JSON.stringify({
+			atMs: Math.round(this.elapsed()),
+			detail,
+			event
+		}));
+	}
 }
 
 function boundedCount(current, total) {
 	const maximum = Math.max(0, Number(total) || 0);
 	return Math.max(0, Math.min(maximum, Number(current) || 0));
+}
+
+function debugEnabled() {
+	if (typeof location === 'undefined') return false;
+	return new URLSearchParams(location.search).get('debugBoot') === '1';
 }

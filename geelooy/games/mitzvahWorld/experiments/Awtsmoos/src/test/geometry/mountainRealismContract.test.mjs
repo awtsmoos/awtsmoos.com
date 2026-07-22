@@ -1,9 +1,17 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** The Awtsmoos raises broken alpine ridges and clothes them in stone, scree, moss, soil, and snow. */
+
+/**
+ * @file mountainRealismContract.test.mjs
+ * @description Guards authored ridges, seamless UVs, aligned snow, and local layered materials.
+ * The Awtsmoos raises no painted illusion from remote chance; Awtsmoos.com keeps every finite
+ * garment local, measured, and joined continuously to the ridge that gives it meaning.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { isSameOriginMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { mountainRockStack } from '../../world/materials/MountainVillageMaterialPresets.js';
 import {
 	mountainGeometry,
@@ -16,7 +24,7 @@ const options = { depth: 142, height: 188, radius: 390, segments: 152 };
 test('mountain geometry forms a large irregular closed alpine ridge belt', () => {
 	const mountain = mountainGeometry(options, 0);
 	const heights = mountain.vertices.map(vertex => vertex[1]);
-	assert.equal(mountain.vertices.length, options.segments * 4);
+	assert.equal(mountain.vertices.length, (options.segments + 1) * 4);
 	assert.equal(mountain.indices.length / 3, options.segments * 6);
 	assert.ok(Math.max(...heights) - Math.min(...heights) > 100);
 	assert.ok(new Set(heights.map(value => value.toFixed(2))).size > 30);
@@ -25,12 +33,12 @@ test('mountain geometry forms a large irregular closed alpine ridge belt', () =>
 test('snow follows the broken ridge instead of forming a flat cap', () => {
 	const snow = snowGeometry(options, 0);
 	const heights = snow.vertices.map(vertex => vertex[1]);
-	assert.equal(snow.vertices.length, options.segments * 3);
+	assert.equal(snow.vertices.length, (options.segments + 1) * 3);
 	assert.equal(snow.indices.length / 3, options.segments * 4);
 	assert.ok(Math.max(...heights) - Math.min(...heights) > 45);
 });
 
-test('high mountains use six full-resolution triplanar material layers', () => {
+test('high mountains use six local triplanar material layers', () => {
 	const stack = mountainRockStack();
 	const definitions = createAtmosphericMountainDefinitions('high');
 	assert.equal(stack.layers.length, 10);
@@ -41,6 +49,6 @@ test('high mountains use six full-resolution triplanar material layers', () => {
 		assert.equal(definition.shape, 'manual');
 		assert.equal(definition.texturePolicy.projection, 'triplanar-alpine-strata');
 		assert.ok(definition.textureLayers.length >= 6);
-		assert.ok(definition.textureLayers.every(layer => /^https:\/\//.test(layer.url)));
+		assert.ok(definition.textureLayers.every(layer => isSameOriginMaterialUrl(layer.url)));
 	}
 });

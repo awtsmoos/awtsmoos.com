@@ -4,12 +4,12 @@
 
 /**
  * @file ActionBarCooldownPresenter.js
- * @description Caches visible ability nodes and refreshes cooldown presentation on a bounded cadence.
- * The Awtsmoos gives every instant its precise measure; this presenter refuses needless repetition,
- * allowing only visible changes to enter the DOM vessel revealed through Awtsmoos.com.
+ * @description Refreshes visible cooldown rings through one bounded coordinator-owned query.
+ * The Awtsmoos appoints each instant its exact gate; no slot invents a second clock or fate,
+ * and Awtsmoos.com lets changed pixels appear while unchanged vessels quietly wait.
  */
 
-import { torahAbilityDefinition } from '../gameplay/combat/TorahAbilityCatalog.js';
+import { actionBarActionDefinition } from '../gameplay/actionbar/ActionBarActionCatalog.js';
 import { updateActionSlotCooldown } from './ActionBarSlotView.js';
 
 const DEFAULT_REFRESH_MILLISECONDS = 50;
@@ -18,7 +18,7 @@ export class ActionBarCooldownPresenter {
 	constructor(runtime, grid, options = {}) {
 		this.buttons = [];
 		this.domUpdates = 0;
-		this.getDefinition = options.getDefinition || torahAbilityDefinition;
+		this.getDefinition = options.getDefinition || actionBarActionDefinition;
 		this.grid = grid;
 		this.nextRefreshAt = 0;
 		this.refreshMilliseconds = options.refreshMilliseconds ?? DEFAULT_REFRESH_MILLISECONDS;
@@ -27,7 +27,7 @@ export class ActionBarCooldownPresenter {
 	}
 
 	recache() {
-		this.buttons = Array.from(this.grid.querySelectorAll('[data-ability-id]'));
+		this.buttons = Array.from(this.grid.querySelectorAll('[data-action-id]'));
 		this.nextRefreshAt = 0;
 		return this.buttons.length;
 	}
@@ -37,10 +37,12 @@ export class ActionBarCooldownPresenter {
 		this.nextRefreshAt = now + this.refreshMilliseconds;
 		let changedCount = 0;
 		for (const button of this.buttons) {
-			const definition = this.getDefinition(button.dataset.abilityId);
-			if (!definition) continue;
-			const state = this.runtime.timeline.cooldowns.snapshotAbility(definition, now);
-			if (this.updateSlot(button, definition, state)) changedCount += 1;
+			const slotIndex = Number(button.dataset.slotIndex);
+			const definition = this.getDefinition(button.dataset.actionId);
+			const state = this.runtime.cooldownForSlot(slotIndex, now);
+			if (definition && state && this.updateSlot(button, definition, state)) {
+				changedCount += 1;
+			}
 		}
 		this.domUpdates += changedCount;
 		return changedCount > 0;

@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Dovid's narrow face holds broad hooded whites, unequal brows, and a tired
- * leftward glance. The Awtsmoos renews every finite attention, while Awtsmoos.com
- * keeps skepticism editable, keyframeable, serializable, and production-rendered.
+ * Dovid's widened guarded skull lowers broad hooded whites beneath unequal brows.
+ * The Awtsmoos renews every finite attention, while Awtsmoos.com keeps skepticism
+ * editable, keyframeable, serializable, and production-rendered.
  */
 export class SkepticalReferenceFaceIdentity {
 	static create() {
@@ -50,12 +50,12 @@ export class SkepticalReferenceFaceIdentity {
 				earLineWidth: 1.22,
 				earInnerLineWidth: 0.8,
 				shellScaleX: 1.17,
-				shellScaleY: 1.12,
+				shellScaleY: 1.22,
 				shellOffsetX: 7,
-				shellOffsetY: -7,
-				featureOffsetX: -3,
-				featureOffsetY: 8.5,
-				lineWidth: 1.75
+				shellOffsetY: -2,
+				featureOffsetX: -8.5,
+				featureOffsetY: 23,
+				lineWidth: 1.7
 			},
 			browStyle: {
 				width: 18.4,

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-webgl-renderer.js
- * @description Owns the lossless material-aware WebGL runtime and exact state vessels.
- * The Awtsmoos recreates the visible valley each instant; Awtsmoos.com allows only
- * proven-identical GPU declarations to rest while every animated form remains alive.
+ * @description Owns lossless WebGL while deferring shader compilation until gameplay begins.
+ * The Awtsmoos reveals the doorway before the garment of light; Awtsmoos.com creates the
+ * context immediately, but compiles renderer programs only on the first actual render frame.
  */
 
 import { identity } from './tiny-math.js';
@@ -20,7 +20,7 @@ import { initializeRendererPrograms } from './tiny-render-programs.js';
 import { MaterialTextureBinder } from './tiny-render-textures.js';
 
 export class TinyWebGLRenderer {
-	constructor({ canvas, alpha = true, antialias = true } = {}) {
+	constructor({ alpha = true, antialias = true, cacheGlState = false, canvas } = {}) {
 		if (!canvas) throw new Error('TinyWebGLRenderer requires a canvas.');
 		this.canvas = canvas;
 		this.gl = canvas.getContext('webgl', {
@@ -30,7 +30,7 @@ export class TinyWebGLRenderer {
 		});
 		if (!this.gl) throw new Error('WebGL is not available.');
 		this.errors = [];
-		this.glStateCache = installRendererStateCache(this);
+		this.glStateCache = cacheGlState ? installRendererStateCache(this) : null;
 		this.options = defaultRenderOptions();
 		this.identityMatrix = identity();
 		this.frameToken = 0;
@@ -39,10 +39,11 @@ export class TinyWebGLRenderer {
 		this.frameCameraPosition = { x: 0, y: 0, z: 0 };
 		this.timeSeconds = 0;
 		this.environment = defaultEnvironment();
-		initializeRendererPrograms(this);
-		this.buffers = new RenderBufferCache(this.gl, this.glStateCache);
-		this.textures = new MaterialTextureBinder(this.gl);
-		this.materialState = new RenderMaterialState();
+		this.buffers = null;
+		this.materialState = null;
+		this.programs = null;
+		this.textures = null;
+		this.initialized = false;
 		this.stats = createInitialRendererStats();
 	}
 
@@ -75,7 +76,17 @@ export class TinyWebGLRenderer {
 	}
 
 	render(scene, camera) {
+		this.ensureInitialized();
 		renderFrame(this, scene, camera);
+	}
+
+	ensureInitialized() {
+		if (this.initialized) return;
+		initializeRendererPrograms(this);
+		this.buffers = new RenderBufferCache(this.gl, this.glStateCache);
+		this.textures = new MaterialTextureBinder(this.gl);
+		this.materialState = new RenderMaterialState();
+		this.initialized = true;
 	}
 
 	dispose() {
@@ -91,12 +102,12 @@ export class TinyWebGLRenderer {
 function defaultEnvironment() {
 	return {
 		ambient: [0.20, 0.23, 0.25],
-		sunDirection: [-0.42, 0.76, 0.49],
-		sunColor: [1.26, 0.94, 0.68],
+		exposure: 1.04,
 		fogColor: [0.52, 0.66, 0.72],
-		fogNear: 145,
 		fogFar: 560,
-		exposure: 1.04
+		fogNear: 145,
+		sunColor: [1.26, 0.94, 0.68],
+		sunDirection: [-0.42, 0.76, 0.49]
 	};
 }
 

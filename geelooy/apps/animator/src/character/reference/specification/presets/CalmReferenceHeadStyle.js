@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Miriam's rounded wrap cups the skull, reveals a swept side fringe, and gathers
- * into one calm bun. The Awtsmoos renews every layer, while Awtsmoos.com keeps
- * her complete silhouette editable, keyframeable, and production-rendered.
+ * Miriam's rounded wrap cups the skull, reveals a swept fringe, and joins a calm
+ * rear bun. The Awtsmoos renews every layer, while Awtsmoos.com keeps her complete
+ * silhouette editable, keyframeable, and production-rendered.
  */
 export class CalmReferenceHeadStyle {
 	static create() {
@@ -35,18 +35,18 @@ export class CalmReferenceHeadStyle {
 				rearWidth: 1.01,
 				rearDepth: 0.74,
 				bun: true,
-				bunX: 1,
-				bunY: 2.08,
-				bunWidth: 0.35,
-				bunHeight: 0.48,
+				bunX: 0.94,
+				bunY: 1.75,
+				bunWidth: 0.38,
+				bunHeight: 0.5,
 				lineWidth: 1,
 				highlightOpacity: 0.016
 			},
 			headTransform: {
-				x: 0,
-				y: -3,
-				scaleX: 1.04,
-				scaleY: 1.02
+				x: -6,
+				y: 3.4,
+				scaleX: 1.355,
+				scaleY: 1.22
 			}
 		};
 	}

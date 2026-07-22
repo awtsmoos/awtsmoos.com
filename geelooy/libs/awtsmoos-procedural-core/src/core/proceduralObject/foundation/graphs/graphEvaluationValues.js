@@ -1,12 +1,26 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * The Awtsmoos opens canonical graph values only at trusted execution borders.
+ * Awtsmoos.com preserves ordered multi-input confluence without flattening,
+ * re-normalizing, or losing the semantic identity of upstream results.
+ */
 
-import { normalizeCanonicalValue } from "../canonical/index.js";
+import {
+	CANONICAL_VALUE_TAGS,
+	normalizeCanonicalValue
+} from "../canonical/index.js";
 import { valueMatchesGraphType } from "./graphContract.js";
 
 function requiredGraphInput(graph, provided, name) {
 	const definition = graph.inputs[name];
-	if (Object.hasOwn(provided, name)) return normalizeCanonicalValue(provided[name]);
-	if (Object.hasOwn(definition, "default")) return definition.default;
+	if (Object.hasOwn(provided, name)) {
+		return normalizeCanonicalValue(provided[name]);
+	}
+	if (Object.hasOwn(definition, "default")) {
+		return definition.default;
+	}
 	throw new Error(`Required graph input is missing: ${name}`);
 }
 
@@ -26,15 +40,37 @@ export function resolveGraphInputs(graph, provided = {}) {
 	return Object.freeze(result);
 }
 
-/** Resolves one normalized node binding from literals, graph inputs, or node outputs. */
-export function resolveNodeBinding(binding, graphInputs, nodeResults) {
-	if (Object.hasOwn(binding, "value")) return binding.value;
-	if (binding.source.kind === "graph-input") return graphInputs[binding.source.input];
-	const output = nodeResults[binding.source.nodeId]?.[binding.source.port];
+function resolveSource(source, graphInputs, nodeResults) {
+	if (source.kind === "graph-input") {
+		return graphInputs[source.input];
+	}
+	const output = nodeResults[source.nodeId]?.[source.port];
 	if (output === undefined) {
-		throw new Error(`Upstream graph output is unavailable: ${binding.source.nodeId}.${binding.source.port}`);
+		throw new Error(
+			`Upstream graph output is unavailable: ${source.nodeId}.${source.port}`
+		);
 	}
 	return output;
+}
+
+function canonicalSourceArray(sources, graphInputs, nodeResults) {
+	return Object.freeze({
+		type: CANONICAL_VALUE_TAGS.ARRAY,
+		items: Object.freeze(sources.map((source) => (
+			resolveSource(source, graphInputs, nodeResults)
+		)))
+	});
+}
+
+/** Resolves one normalized node binding from literals or ordered sources. */
+export function resolveNodeBinding(binding, graphInputs, nodeResults) {
+	if (Object.hasOwn(binding, "value")) {
+		return binding.value;
+	}
+	if (binding.source) {
+		return resolveSource(binding.source, graphInputs, nodeResults);
+	}
+	return canonicalSourceArray(binding.sources, graphInputs, nodeResults);
 }
 
 /** Normalizes and validates an executor's declared node outputs. */
@@ -44,9 +80,13 @@ export function normalizeNodeOutputs(node, outputInput) {
 	}
 	const result = {};
 	for (const [name, type] of Object.entries(node.outputs)) {
-		if (!Object.hasOwn(outputInput, name)) throw new Error(`Graph node output is missing: ${node.id}.${name}`);
+		if (!Object.hasOwn(outputInput, name)) {
+			throw new Error(`Graph node output is missing: ${node.id}.${name}`);
+		}
 		const value = normalizeCanonicalValue(outputInput[name]);
-		if (!valueMatchesGraphType(value, type)) throw new TypeError(`Graph node output type mismatch: ${node.id}.${name}`);
+		if (!valueMatchesGraphType(value, type)) {
+			throw new TypeError(`Graph node output type mismatch: ${node.id}.${name}`);
+		}
 		result[name] = value;
 	}
 	return Object.freeze(result);

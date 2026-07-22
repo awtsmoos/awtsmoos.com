@@ -4,21 +4,21 @@
 
 /**
  * @file EretzDeferredRuntimeEnrichment.js
- * @description Starts neighbors, botany, textures, models, and optional districts after movement.
- * The Awtsmoos lets the traveler walk before every distant garment arrives; Awtsmoos.com
- * gives enrichment its own request wave and records degradation without closing the world.
+ * @description Streams actors, botany, textures, models, and districts after movement begins.
+ * The Awtsmoos lets the traveler walk before distant garments arrive; Awtsmoos.com sequences
+ * world families before optional canonical actor clothing while every stream remains non-blocking.
  */
 
-import { startEretzActorHydration } from './EretzActorHydration.js?v=20260720-canonical-valley-pass-05';
+import { startEretzActorHydration } from './EretzActorHydration.js?v=20260722-fallback-first-02';
 import { startEretzPostMovementStreaming } from './EretzPostMovementStreaming.js';
+import { startEretzWorldActorHydration } from './EretzWorldActorHydration.js?v=20260722-world-stream-01';
 
 export async function startEretzDeferredRuntimeEnrichment(context) {
 	const { boot, diagnostics, foundation, movement, options, qualityProfile, runtime } = context;
-	diagnostics.actorHydrationPromise = startEretzActorHydration(
-		runtime,
-		foundation.actorHydration,
-		boot
-	);
+	diagnostics.worldActorHydrationPromise = startEretzWorldActorHydration(runtime, options, boot);
+	diagnostics.actorHydrationPromise = diagnostics.worldActorHydrationPromise.then(() => (
+		startEretzActorHydration(runtime, foundation.actorHydration, boot)
+	));
 	startEretzPostMovementStreaming({
 		boot,
 		diagnostics,
@@ -29,6 +29,7 @@ export async function startEretzDeferredRuntimeEnrichment(context) {
 		runtime
 	});
 	return Promise.allSettled([
+		diagnostics.worldActorHydrationPromise,
 		diagnostics.actorHydrationPromise,
 		diagnostics.worldModelPromise
 	]);

@@ -47,11 +47,16 @@ export class CalmReferenceBodyGeometry {
 				rightHemLift: 0.5
 			},
 			legs: {
-				centerOffsetX: -17.5,
+				centerOffsetX: -6.4,
 				hipOffset: 13.5,
-				kneeOffset: 12.8,
-				ankleOffset: 16,
-				footOffset: 18.5,
+				leftKneeOffset: 8.35,
+				rightKneeOffset: 8.35,
+				kneeDrop: 4,
+				leftAnkleOffset: 14.25,
+				rightAnkleOffset: 14.25,
+				ankleLift: 3.1,
+				leftFootOffset: 21.1,
+				rightFootOffset: 15.7,
 				footDrop: 7,
 				shoeScaleX: 0.63,
 				shoeScaleY: 0.52,
@@ -75,7 +80,7 @@ export class CalmReferenceBodyGeometry {
 			},
 			pocket: {
 				centerX: 22,
-				drop: 7,
+				drop: 4.7,
 				halfWidth: 9,
 				height: 12,
 				entryOffsetX: 1,
@@ -87,16 +92,16 @@ export class CalmReferenceBodyGeometry {
 			gesture: {
 				mode: 'right_hand_in_pocket',
 				leftElbowOut: -1,
-				leftElbowDown: 43,
-				leftWristOut: 8,
-				leftWristDown: 92,
+				leftElbowDown: 38,
+				leftWristOut: 6.9,
+				leftWristDown: 82.5,
 				leftHandScale: 1.03,
 				shoulderDrop: 11,
 				elbowOut: 9,
-				elbowDown: 38,
+				elbowDown: 36,
 				forearmBend: 7,
 				pocketX: 22,
-				pocketDrop: 7
+				pocketDrop: 4.7
 			}
 		};
 	}

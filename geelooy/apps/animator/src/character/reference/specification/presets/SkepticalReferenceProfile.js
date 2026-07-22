@@ -28,7 +28,7 @@ export class SkepticalReferenceProfile {
 			payosCurl: 0.68,
 			payosThickness: 0.9,
 			hatType: 'kippah',
-			lineStyle: 'softCartoon',
+			lineStyle: 'referenceSitcom',
 			wardrobeProfile: 'burgundy_collared_shirt',
 			rigPose: this.pose(),
 			colors: this.colors()
@@ -48,8 +48,8 @@ export class SkepticalReferenceProfile {
 				hipY: 0.688
 			},
 			style: {
-				outerLineWidth: 0.0093,
-				innerLineWidth: 0.0047,
+				outerLineWidth: 0.0085,
+				innerLineWidth: 0.0038,
 				shadowWidth: 0.27
 			}
 		};
@@ -76,11 +76,11 @@ export class SkepticalReferenceProfile {
 
 	static colors() {
 		return {
-			shirt: '#8e3b2d', shirtDark: '#6d2d24', shirtLight: '#a75645',
-			jacket: '#8e3b2d', jacketDark: '#6d2d24', jacketLight: '#a75645',
-			pants: '#303136', skin: '#f1bd8e', skinDark: '#d08458',
-			hair: '#493016', hairDark: '#2c1b0d', beard: '#493016',
-			beardDark: '#2c1b0d', hat: '#202124'
+			shirt: '#944438', shirtDark: '#73342c', shirtLight: '#ae6254',
+			jacket: '#944438', jacketDark: '#73342c', jacketLight: '#ae6254',
+			pants: '#303136', skin: '#f3c092', skinDark: '#d4875b',
+			hair: '#50331a', hairDark: '#2e1c0f', beard: '#50331a',
+			beardDark: '#2e1c0f', hat: '#202124'
 		};
 	}
 }

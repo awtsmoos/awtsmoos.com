@@ -4,25 +4,29 @@
 
 /**
  * @file PlayerMeleeController.js
- * @description Converts one edge-triggered key into a bounded physical strike transaction.
- * The Awtsmoos renews intention before impact; Awtsmoos.com lets one finite key awaken one
- * measured attack without polling enemies, allocating every frame, or multiplying listeners.
+ * @description Converts keyboard or hotbar intention into one canonical physical strike transaction.
+ * The Awtsmoos renews resolve before the staff can fly; Gevurah is measured, Tiferes keeps time,
+ * and Awtsmoos.com sends one bounded request without polling the world or multiplying listeners.
  */
 
-const DEFAULT_ATTACK = Object.freeze({
-	cooldownMilliseconds: 620,
-	damage: 18,
-	id: 'shliach-staff-strike',
-	range: 2.85,
-	stagger: 14
-});
+import {
+	DEFAULT_PLAYER_MELEE_ATTACK,
+	playerMeleeReadiness,
+	resolvePlayerMeleeAttack
+} from './PlayerMeleeRules.js';
 
 export class PlayerMeleeController {
 	constructor(options) {
 		this.bus = options.bus;
 		this.clock = options.clock || Date.now;
-		this.attack = Object.freeze({ ...DEFAULT_ATTACK, ...(options.attack || {}) });
+		this.inventory = options.inventory || null;
+		this.profile = options.profile || null;
+		this.attackTemplate = Object.freeze({
+			...DEFAULT_PLAYER_MELEE_ATTACK,
+			...(options.attack || {})
+		});
 		this.lastAttackAt = -Infinity;
+		this.nextAttackAt = -Infinity;
 		this.keys = new Set();
 		this.lastResult = null;
 		this.unsubscribers = [
@@ -35,18 +39,23 @@ export class PlayerMeleeController {
 		const nextKeys = new Set(state?.keys || []);
 		const pressed = nextKeys.has('KeyF') && !this.keys.has('KeyF');
 		this.keys = nextKeys;
-		if (pressed) this.attackNow();
+		if (pressed) this.attackNow({ source: 'keyboard' });
 	}
 
-	attackNow() {
-		const now = this.clock();
-		if (now - this.lastAttackAt < this.attack.cooldownMilliseconds) {
-			return this.publishLocalRejection('ATTACK_COOLDOWN', now);
-		}
+	attackNow(context = {}) {
+		const now = Number.isFinite(context.now) ? context.now : this.clock();
+		const readiness = this.readiness(now);
+		if (!readiness.ok) return this.publishLocalRejection('ATTACK_COOLDOWN', now, readiness);
+		const attack = this.currentAttack();
 		this.lastAttackAt = now;
+		this.nextAttackAt = now + attack.cooldownMilliseconds;
 		const request = {
-			attack: this.attack,
+			attack,
+			ok: true,
+			reason: 'committed',
 			requestedAt: now,
+			slotIndex: context.slotIndex ?? null,
+			source: context.source || 'action-bar',
 			sourceId: 'player'
 		};
 		this.bus.emit('combat:melee', request);
@@ -54,14 +63,28 @@ export class PlayerMeleeController {
 		return request;
 	}
 
+	currentAttack() {
+		return resolvePlayerMeleeAttack(
+			this.attackTemplate,
+			this.inventory?.snapshot?.() || null,
+			this.profile?.snapshot?.() || null
+		);
+	}
+
+	readiness(now = this.clock()) {
+		return playerMeleeReadiness(now, this.nextAttackAt);
+	}
+
 	receiveResult(result) {
 		this.lastResult = result ? structuredClone(result) : null;
 	}
 
-	publishLocalRejection(reason, now) {
+	publishLocalRejection(reason, now, readiness) {
 		const result = {
 			accepted: false,
-			attackId: this.attack.id,
+			attackId: this.attackTemplate.id,
+			cooldownRemainingMilliseconds: readiness.cooldownRemainingMilliseconds,
+			ok: false,
 			reason,
 			resolvedAt: now
 		};
@@ -71,9 +94,11 @@ export class PlayerMeleeController {
 
 	snapshot() {
 		return {
-			attack: this.attack,
+			attack: this.currentAttack(),
 			lastAttackAt: this.lastAttackAt,
-			lastResult: this.lastResult
+			lastResult: this.lastResult,
+			nextAttackAt: this.nextAttackAt,
+			readiness: this.readiness()
 		};
 	}
 

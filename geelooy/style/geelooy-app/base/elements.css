@@ -2,22 +2,38 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives links, media, and controls one universal physical law.
- * Awtsmoos.com preserves route-specific art while eliminating accidental font,
- * sizing, overflow, and hidden-text behavior from the browser default sheet.
+ * @fileoverview Gives native HTML a complete quiet baseline on Awtsmoos.com.
+ * Explicit components remain free to specialize it. Each tag is a keli for
+ * meaning; the Awtsmoos continuously recreates the meaning and its visible form.
  */
+body.geelooy-app-shell :where(h1, h2, h3, h4, h5, h6) {
+	margin-block: 0 .55em;
+	color: var(--g-text);
+	font-weight: 850;
+	line-height: 1.12;
+	letter-spacing: -.035em;
+	text-wrap: balance;
+}
 
-body.geelooy-app-shell a {
+body.geelooy-app-shell :where(p, ul, ol, dl, blockquote, pre, table, figure) {
+	margin-block: 0 1rem;
+}
+
+body.geelooy-app-shell :where(p, li, dd) {
+	max-inline-size: 75ch;
+}
+
+body.geelooy-app-shell :where(a) {
 	color: inherit;
-	text-underline-offset: .18em;
+	text-underline-offset: .2em;
 }
 
 body.geelooy-app-shell :where(a[class], nav a) {
 	text-decoration: none;
 }
 
-body.geelooy-app-shell :is(button, input, select, textarea) {
-	font-family: inherit;
+body.geelooy-app-shell :where(button, input, select, textarea) {
+	font: inherit;
 }
 
 body.geelooy-app-shell :is(
@@ -29,12 +45,71 @@ body.geelooy-app-shell :is(
 	line-height: 1.4;
 }
 
-body.geelooy-app-shell :is(img, picture, video, canvas, svg) {
+body.geelooy-app-shell :where(img, picture, video, canvas, svg) {
 	display: block;
 	max-inline-size: 100%;
 }
 
-body.geelooy-app-shell :is(.sr-only, .g-sr-only) {
+body.geelooy-app-shell :where(img, video) {
+	block-size: auto;
+}
+
+body.geelooy-app-shell :where(hr) {
+	block-size: 1px;
+	margin-block: 1.5rem;
+	border: 0;
+	background: linear-gradient(90deg, transparent, var(--g-line-strong), transparent);
+}
+
+body.geelooy-app-shell :where(blockquote) {
+	padding: 1rem 1.1rem;
+	border-inline-start: 3px solid var(--g-cyan);
+	border-radius: 0 var(--g-radius-sm) var(--g-radius-sm) 0;
+	background: rgba(77, 233, 255, .06);
+	color: var(--g-text-soft);
+}
+
+body.geelooy-app-shell :where(code, kbd, samp, pre) {
+	font-family: var(--g-mono);
+}
+
+body.geelooy-app-shell :where(code, kbd) {
+	padding: .16em .38em;
+	border: 1px solid var(--g-line);
+	border-radius: .35rem;
+	background: rgba(2, 6, 16, .72);
+}
+
+body.geelooy-app-shell :where(pre) {
+	max-inline-size: 100%;
+	padding: 1rem;
+	overflow: auto;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+	background: rgba(1, 4, 12, .88);
+}
+
+body.geelooy-app-shell :where(table) {
+	inline-size: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+}
+
+body.geelooy-app-shell :where(th, td) {
+	padding: .7rem .8rem;
+	border-block-end: 1px solid var(--g-line);
+	text-align: start;
+}
+
+body.geelooy-app-shell :where(th) {
+	background: var(--g-surface-soft);
+	color: var(--g-text-soft);
+}
+
+body.geelooy-app-shell :where(.sr-only, .g-sr-only) {
 	position: absolute;
 	inline-size: 1px;
 	block-size: 1px;

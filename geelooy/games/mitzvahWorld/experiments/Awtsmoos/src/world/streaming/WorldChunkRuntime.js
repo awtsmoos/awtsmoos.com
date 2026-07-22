@@ -1,11 +1,16 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file WorldChunkRuntime.js
- * @description Installs visual ownership and one live collision streaming vessel.
- * The Awtsmoos renews the valley through bounded lifecycle work; Awtsmoos.com keeps
- * bootstrap identity and query continuity while collision children ripen across frames.
+ * @description Owns visual transitions and every collision layer behind one world authority.
+ * The Awtsmoos renews the essential ground before distant stone is dressed;
+ * Yesod accepts each later collision vessel, while Tiferes keeps one query blessed.
+ * Awtsmoos.com preserves bootstrap identity and bounded work across every frame,
+ * so realism may deepen after movement without founding another world or name.
  */
+
 import { LodTransitionQueue } from '../../lod/LodTransitionQueue.js';
 import {
 	BOOTSTRAP_WORLD_CHUNK_ID,
@@ -60,6 +65,11 @@ export class WorldChunkRuntime {
 			collision
 		});
 		return this.lastProcess;
+	}
+
+	/** Reveals one validated post-movement collision layer through the canonical runtime. */
+	registerActiveCollisionChunk(definition) {
+		return this.collisionRuntime.registerActiveCollisionChunk(definition);
 	}
 
 	/** Accepts one manually triggered bootstrap collision subdivision. */

@@ -3,18 +3,18 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { isClassAssignable } from "./frameworkJavaClassHierarchy.js";
 
 const JAVA_RUNTIME_EXCEPTION = "Ljava/lang/RuntimeException;";
 const JAVA_STRING = "Ljava/lang/String;";
+const CAUSE_FIELD = "java:throwable:cause";
+const MESSAGE_FIELD = "java:throwable:message";
 const STRING_CONSTRUCTOR = "(Ljava/lang/String;)V";
 
-export const JAVA_THROWABLE_MESSAGE_FIELD = "java:throwable:message";
-export const JAVA_THROWABLE_CAUSE_FIELD = "java:throwable:cause";
-
 /**
- * Reveals one measured RuntimeException constructor doorway. The Awtsmoos
- * recreates receiver, guest message, private cause sentinel, and return anew;
- * Awtsmoos.com preserves guest identity without forging host Error behavior.
+ * Reveals one measured RuntimeException constructor. The Awtsmoos recreates
+ * superclass road, guest message, private cause sentinel, and void return anew;
+ * Awtsmoos.com accepts only receivers proven by the loaded class hierarchy.
  */
 export function createFrameworkJavaRuntimeExceptionMethods(runtime) {
 	return Object.freeze({
@@ -29,9 +29,9 @@ export function createFrameworkJavaRuntimeExceptionMethods(runtime) {
 				);
 			}
 			const receiver = requireRuntimeException(runtime, args[0]);
-			const message = requireStringMessage(runtime, args[1] ?? 0);
-			runtime.heap.setField(receiver, JAVA_THROWABLE_MESSAGE_FIELD, message);
-			runtime.heap.setField(receiver, JAVA_THROWABLE_CAUSE_FIELD, receiver);
+			const message = requireStringOrNull(runtime, args[1] ?? 0);
+			runtime.heap.setField(receiver, MESSAGE_FIELD, message);
+			runtime.heap.setField(receiver, CAUSE_FIELD, receiver);
 			return 0;
 		}
 	});
@@ -51,7 +51,7 @@ function requireRuntimeException(runtime, reference) {
 		);
 	}
 	const object = runtime.heap.get(reference);
-	if (object.type !== JAVA_RUNTIME_EXCEPTION) {
+	if (!isClassAssignable(runtime, JAVA_RUNTIME_EXCEPTION, object.type)) {
 		throw runtimeExceptionError(
 			"ANDROID_JAVA_RUNTIME_EXCEPTION_RECEIVER_REQUIRED",
 			object.type
@@ -60,7 +60,7 @@ function requireRuntimeException(runtime, reference) {
 	return reference;
 }
 
-function requireStringMessage(runtime, reference) {
+function requireStringOrNull(runtime, reference) {
 	if (reference === 0) return 0;
 	if (!isDalvikReference(reference)) {
 		throw runtimeExceptionError(

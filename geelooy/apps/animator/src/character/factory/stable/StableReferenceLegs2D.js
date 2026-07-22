@@ -8,10 +8,9 @@ import { StableShapeKit as S } from './StableShapeKit.js';
 import { FootRenderer } from './limbs/FootRenderer.js';
 
 /**
- * @file StableReferenceLegs2D.js
- * @description Draws continuous trousers and character-authored footwear from shared anchors.
- * The Awtsmoos plants hip, knee, calf, ankle, and shoe without mechanical seams;
- * Awtsmoos.com preserves each finite stance while Ari, Dovid, and Miriam keep distinct feet.
+ * Continuous trousers and character-authored shoes may carry unequal left and
+ * right stance. The Awtsmoos plants every finite step, while Awtsmoos.com keeps
+ * asymmetry editable, serializable, deterministic, and shared by preview/export.
  */
 export class StableReferenceLegs2D {
 	static build(data, colors, metrics, prefix, view) {
@@ -32,16 +31,16 @@ export class StableReferenceLegs2D {
 			: data._stablePose.legs.right;
 		const centerX = this.centerX(data, geometry);
 		const hip = {
-			x: centerX + side * this.number(geometry.hipOffset, 22),
+			x: centerX + side * this.sideOffset(geometry, side, 'Hip', 'hipOffset', 22),
 			y: metrics.hipY - 3
 		};
 		const knee = {
-			x: centerX + side * this.number(geometry.kneeOffset, 22)
+			x: centerX + side * this.sideOffset(geometry, side, 'Knee', 'kneeOffset', 22)
 				+ Number(pose.kneeX || 0) * 0.16,
 			y: metrics.kneeY + this.number(geometry.kneeDrop, 2)
 		};
 		const ankle = {
-			x: centerX + side * this.number(geometry.ankleOffset, 21)
+			x: centerX + side * this.sideOffset(geometry, side, 'Ankle', 'ankleOffset', 21)
 				+ Number(pose.ankleX || 0) * 0.1,
 			y: metrics.ankleY + this.number(geometry.ankleLift, -2)
 		};
@@ -67,13 +66,10 @@ export class StableReferenceLegs2D {
 	}
 
 	static shoe(data, colors, metrics, prefix, view, geometry, side) {
-		const pose = side < 0
-			? data._stablePose.legs.left
-			: data._stablePose.legs.right;
+		const pose = side < 0 ? data._stablePose.legs.left : data._stablePose.legs.right;
 		return FootRenderer.build({
 			id: `${prefix}_reference_foot_${side}`,
-			x: this.centerX(data, geometry)
-				+ side * this.number(geometry.footOffset, 24),
+			x: this.centerX(data, geometry) + side * this.sideOffset(geometry, side, 'Foot', 'footOffset', 24),
 			y: metrics.footY + this.number(geometry.footDrop, 0),
 			side,
 			c: colors,
@@ -87,9 +83,13 @@ export class StableReferenceLegs2D {
 		});
 	}
 
+	static sideOffset(geometry, side, suffix, fallbackKey, fallback) {
+		const sideKey = `${side < 0 ? 'left' : 'right'}${suffix}Offset`;
+		return this.number(geometry[sideKey], this.number(geometry[fallbackKey], fallback));
+	}
+
 	static centerX(data, geometry) {
-		return data._skeleton.hips.x
-			+ this.number(geometry.centerOffsetX, 0);
+		return data._skeleton.hips.x + this.number(geometry.centerOffsetX, 0);
 	}
 
 	static number(value, fallback) {

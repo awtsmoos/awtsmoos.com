@@ -3,6 +3,7 @@
 // Blessed is He
 /** This Awtsmoos.com vessel reports only capability supported by present evidence. */
 
+import { BLENDER_SCHEMA_CAPABILITIES } from "./blenderSchemaCapabilities.js";
 import {
 	PROCEDURAL_ADAPTER_OPERATIONS,
 	PROCEDURAL_COMPONENT_TYPES,
@@ -82,6 +83,11 @@ export function getProceduralObjectCapabilities() {
 		webGpuGridClearKernel3d: true,
 		webGpuParticleGridDeposition3d: true,
 		webGpuGlobalForceKernel3d: true,
+		webGpuGridVelocityNormalization3d: true,
+		webGpuCollocatedDivergence3d: true,
+		webGpuCollocatedPressureProjection3d: true,
+		webGpuOccupiedAirPressureBoundary3d: true,
+		webGpuPicGridToParticleTransfer3d: true,
 		webGpuSurfacePointPackingKernel3d: true,
 		webGpuPersistentDoubleBuffers3d: true,
 		webGpuReadbackFreeFramePath3d: true,
@@ -97,10 +103,8 @@ export function getProceduralObjectCapabilities() {
 		twoWayRigidBodyCoupling: false,
 		realtimeGpuLiquid: "adapter-dependent",
 		universalNodeGraphs: true,
-		blenderNodeSchemaPacks: true,
-		opaqueBlenderNodePreservation: true,
 		materialCompilePlans: true,
-		completeBlenderNodeExecution: false,
+		...BLENDER_SCHEMA_CAPABILITIES,
 		topologyModes: PROCEDURAL_TOPOLOGY_MODES,
 		componentTypes: PROCEDURAL_COMPONENT_TYPES,
 		coreOperations: PROCEDURAL_CORE_OPERATIONS,

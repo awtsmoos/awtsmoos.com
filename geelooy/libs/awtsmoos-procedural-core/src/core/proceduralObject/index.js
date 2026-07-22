@@ -22,6 +22,7 @@ export * from "./simulation/index.js";
 export * from "./simulation3d/index.js";
 export * from "./solid3d/index.js";
 export * from "./liquid3d/index.js";
+export * from "./realtimeQuality/index.js";
 export * from "./realtime3d/index.js";
 export * from "./webgpu3d/index.js";
 export * from "./volumes/index.js";
@@ -30,6 +31,7 @@ export * from "./nodeSystem/index.js";
 export * from "./animation/index.js";
 export * from "./assets/index.js";
 
+export { createParticleRenderArtifact } from "./particles/createParticleRenderArtifact.js";
 export { getProceduralObjectCapabilities } from "./capabilities/proceduralObjectCapabilities.js";
 
 export {

@@ -3,11 +3,12 @@
 //Blessed is He
 
 import { dexError } from "./bytes.js";
+import { readDexCatchHandlers } from "./catchHandlers.js";
 
 /**
- * Reads one bounded DEX code_item and its try table. The Awtsmoos creates register
- * frame, incoming words, outgoing words, instruction units, and protected regions
- * anew; Awtsmoos.com retains raw bytecode while refusing impossible code extents.
+ * Reads one bounded DEX code_item with normalized exception roads. The Awtsmoos
+ * recreates register frame, instructions, protected regions, and handlers anew;
+ * Awtsmoos.com retains raw bytecode while refusing impossible code extents.
  */
 export function readDexCodeItem(view, offset, options = {}) {
 	if (!offset) return null;
@@ -31,16 +32,46 @@ export function readDexCodeItem(view, offset, options = {}) {
 		instructionUnits * 2,
 		"code instructions"
 	).slice();
-	let cursor = instructionsOffset + instructionUnits * 2;
-	if (triesSize && instructionUnits & 1) cursor += 2;
+	let triesOffset = instructionsOffset + instructionUnits * 2;
+	if (triesSize && instructionUnits & 1) triesOffset += 2;
+	const tries = readTries(view, triesOffset, triesSize, instructionUnits, offset);
+	const handlersOffset = triesOffset + triesSize * 8;
+	const exceptionHandlers = triesSize
+		? readDexCatchHandlers(
+			view,
+			handlersOffset,
+			tries,
+			options.types || [],
+			instructionUnits,
+			options
+		)
+		: Object.freeze([]);
+	return Object.freeze({
+		debugInfoOffset,
+		exceptionHandlers,
+		insSize,
+		instructionUnits,
+		instructions,
+		offset,
+		outsSize,
+		registersSize,
+		tries,
+		triesSize
+	});
+}
+
+function readTries(view, offset, count, instructionUnits, codeOffset) {
 	const tries = [];
-	if (triesSize) view.range(cursor, triesSize * 8, "code tries");
-	for (let index = 0; index < triesSize; index += 1) {
-		const itemOffset = cursor + index * 8;
+	if (count) view.range(offset, count * 8, "code tries");
+	for (let index = 0; index < count; index += 1) {
+		const itemOffset = offset + index * 8;
 		const startAddress = view.u32(itemOffset, "try start");
 		const instructionCount = view.u16(itemOffset + 4, "try instruction count");
 		if (startAddress + instructionCount > instructionUnits) {
-			throw dexError("DEX_TRY_RANGE", `${offset}:${startAddress}:${instructionCount}`);
+			throw dexError(
+				"DEX_TRY_RANGE",
+				`${codeOffset}:${startAddress}:${instructionCount}`
+			);
 		}
 		tries.push(Object.freeze({
 			handlerOffset: view.u16(itemOffset + 6, "try handler offset"),
@@ -48,15 +79,5 @@ export function readDexCodeItem(view, offset, options = {}) {
 			startAddress
 		}));
 	}
-	return Object.freeze({
-		debugInfoOffset,
-		insSize,
-		instructionUnits,
-		instructions,
-		offset,
-		outsSize,
-		registersSize,
-		tries: Object.freeze(tries),
-		triesSize
-	});
+	return Object.freeze(tries);
 }

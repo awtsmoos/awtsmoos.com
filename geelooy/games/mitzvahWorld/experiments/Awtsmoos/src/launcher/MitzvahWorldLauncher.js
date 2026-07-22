@@ -10,7 +10,7 @@
  */
 
 import { setGameHostsVisible, showMainMenu } from './MainMenu.js';
-import { createMitzvahWorldModeLoaders, hasMovieRequest } from './MitzvahWorldModeLoaders.js';
+import { createMitzvahWorldModeLoaders, hasMovieRequest } from './MitzvahWorldModeLoaders.js?v=20260722-join-fix-06';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 const VILLAGE_MOVIE_URL = './movies/projects/reference-village-60s.json';

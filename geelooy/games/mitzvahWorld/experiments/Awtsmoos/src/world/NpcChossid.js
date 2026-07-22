@@ -1,6 +1,15 @@
 // B"H
-/** Owns one friendly Chossid actor, its visible body, schedule state, and interaction events. */
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file NpcChossid.js
+ * @description Owns one friendly Chossid actor, visible life, schedule, and proximity-safe dialogue.
+ * The Awtsmoos renews every meeting without collapsing honest space; Awtsmoos.com lets every
+ * resident be selected from sight yet spoken with only when the player truly approaches.
+ */
+
+import { copyPlanarPosition, friendlyNpcInteractionDecision } from './npc/FriendlyNpcInteractionRules.js';
 import { NpcAnimationCadence } from './npc/NpcAnimationCadence.js';
 import { updateNpcChossidMotion } from './npc/NpcChossidMotion.js';
 import { resolveNpcLod } from './npc/NpcLodPolicy.js';
@@ -19,6 +28,7 @@ export class NpcChossid {
 		this.selected = false;
 		this.dialogueOpen = false;
 		this.lastHit = false;
+		this.lastPlayerPosition = null;
 		this.elapsed = 0;
 		this.worldX = this.profile.x;
 		this.worldZ = this.profile.z;
@@ -39,6 +49,7 @@ export class NpcChossid {
 	}
 
 	update(deltaTime, playerState, worldHour) {
+		this.lastPlayerPosition = copyPlanarPosition(playerState);
 		updateNpcChossidMotion(this, deltaTime, playerState, worldHour);
 	}
 
@@ -55,12 +66,36 @@ export class NpcChossid {
 	}
 
 	dialogue(mode = 'greeting') {
+		const decision = this.interactionDecision();
+		if (!decision.ok) {
+			this.bus.emit('npc:prompt', {
+				...decision,
+				npcId: this.profile.id,
+				visible: true
+			});
+			return false;
+		}
 		this.dialogueOpen = true;
-		const payload = { ...this.payload(), dialogueMode: mode, dialogueText: this.profile.dialogue?.[mode] || this.profile.dialogue?.greeting };
+		const payload = {
+			...this.payload(),
+			dialogueMode: mode,
+			dialogueText: this.profile.dialogue?.[mode] || this.profile.dialogue?.greeting
+		};
+		this.bus.emit('npc:prompt', { npcId: this.profile.id, visible: false });
 		this.bus.emit('npc:dialogue', payload);
 		this.bus.emit('npc:talk', payload);
-		this.bus.emit('quest:event', { count: 1, npcId: this.profile.id, target: this.profile.id, type: 'npc:talk' });
+		this.bus.emit('quest:event', {
+			count: 1,
+			npcId: this.profile.id,
+			target: this.profile.id,
+			type: 'npc:talk'
+		});
 		if (this.profile.questId) this.bus.emit('quest:offer', { questId: this.profile.questId });
+		return true;
+	}
+
+	interactionDecision() {
+		return friendlyNpcInteractionDecision(this.profile, this.targetHint(), this.lastPlayerPosition);
 	}
 
 	setRelationship(state) {
@@ -85,6 +120,7 @@ export class NpcChossid {
 			health: this.health,
 			homeId: this.profile.home?.id || null,
 			id: this.profile.id,
+			interactionRadius: this.profile.interactionRadius,
 			level: this.profile.role || 'Village resident',
 			name: this.profile.name,
 			navigationTarget: this.navigationTarget,
@@ -109,6 +145,7 @@ export class NpcChossid {
 			animation: this.player.diagnostics(),
 			animationCadence: this.animationCadence.stats(),
 			dialogueOpen: this.dialogueOpen,
+			interaction: this.interactionDecision(),
 			lastHit: this.lastHit,
 			lod: this.lod.id,
 			modelSource: 'chossid.glb',

@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Ari's modest kippah rests inside a generous brown crown above loose peyot. The
- * Awtsmoos renews every curl and lock, while Awtsmoos.com keeps his complete
- * head silhouette editable, keyframeable, and deterministic in production.
+ * Ari's kippah rests inside a generous brown crown above two loose living curls.
+ * The Awtsmoos renews every lock, while Awtsmoos.com keeps his complete head
+ * silhouette editable, keyframeable, and deterministic in production.
  */
 export class CheerfulReferenceHeadStyle {
 	static create() {
@@ -27,18 +27,18 @@ export class CheerfulReferenceHeadStyle {
 				rootScaleX: 0.9,
 				rootOffsetX: -0.7,
 				rootOffsetY: -1,
-				amplitude: 8,
-				secondAmplitude: 5.8,
-				terminalCurl: 8,
-				lengthScale: 1.02,
-				lineWidth: 1.75
+				amplitude: 9.5,
+				secondAmplitude: 7,
+				terminalCurl: 9.5,
+				lengthScale: 1.25,
+				lineWidth: 2.05
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.68,
-				size: 0.97,
-				widthScale: 1,
-				heightScale: 0.9,
+				coverage: 0.82,
+				size: 1,
+				widthScale: 1.05,
+				heightScale: 0.96,
 				crownYScale: 0.91,
 				riseRatio: 0.31,
 				verticalOffset: -0.2,
@@ -50,9 +50,9 @@ export class CheerfulReferenceHeadStyle {
 				highlightOpacity: 0.018
 			},
 			headTransform: {
-				x: -1,
+				x: -10,
 				y: -2,
-				scaleX: 1.08,
+				scaleX: 1.21,
 				scaleY: 1.02
 			}
 		};

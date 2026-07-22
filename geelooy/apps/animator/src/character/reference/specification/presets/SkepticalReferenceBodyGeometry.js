@@ -41,9 +41,15 @@ export class SkepticalReferenceBodyGeometry {
 			legs: {
 				centerOffsetX: -3,
 				hipOffset: 17,
-				kneeOffset: 17,
-				ankleOffset: 18,
-				footOffset: 21,
+				leftKneeOffset: 19.4,
+				rightKneeOffset: 26.4,
+				kneeDrop: 6.1,
+				leftAnkleOffset: 23.8,
+				rightAnkleOffset: 29.1,
+				ankleLift: 3.6,
+				leftFootOffset: 28.4,
+				rightFootOffset: 29.6,
+				footDrop: 7.8,
 				thighWidth: 36,
 				kneeWidth: 33,
 				ankleWidth: 24,
@@ -77,12 +83,12 @@ export class SkepticalReferenceBodyGeometry {
 				rightElbowOut: 7,
 				leftElbowDown: 35,
 				rightElbowDown: 34,
-				leftWristAcross: 31,
-				rightWristAcross: 23,
-				upperWristDrop: -6,
-				lowerWristDrop: -3,
-				leftHandScale: 0.88,
-				rightHandScale: 0.92
+				leftWristAcross: 35.6,
+				rightWristAcross: 17.4,
+				upperWristDrop: -4,
+				lowerWristDrop: -1.6,
+				leftHandScale: 0.9,
+				rightHandScale: 0.94
 			}
 		};
 	}

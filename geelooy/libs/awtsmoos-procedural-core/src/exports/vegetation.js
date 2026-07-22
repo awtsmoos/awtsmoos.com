@@ -1,7 +1,6 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * The Awtsmoos renews every botanical family through one truthful doorway.
  * This Awtsmoos.com barrel merges legacy meshes, canonical skeletons, LODs,
@@ -83,4 +82,15 @@ export {
 	generateBotanicalCluster,
 	generateBotanicalPlant
 } from "../core/geometry/generators/botany/BotanicalGenerator.js";
+export {
+	generateRealisticBotanicalCluster,
+	generateRealisticBotanicalPlant
+} from "../core/geometry/generators/botany/BotanicalRealism.js";
+export {
+	BOTANICAL_GOLDEN_ANGLE,
+	createBotanicalPhyllotaxis
+} from "../core/geometry/generators/botany/BotanicalPhyllotaxis.js";
+export {
+	planBotanicalFlowerOrgans
+} from "../core/geometry/generators/botany/BotanicalFlowerOrgans.js";
 export { validateBotanicalGeometry } from "../core/geometry/generators/botany/BotanicalValidation.js";

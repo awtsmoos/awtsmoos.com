@@ -4,9 +4,9 @@
 
 /**
  * @file AtmosphericMountainSystem.js
- * @description Builds canonical full-source alpine belts, scree, moss, soil, and snow caps.
- * The Awtsmoos renews depth beyond reachable paths; Awtsmoos.com spends two static draws per
- * belt while a six-layer triplanar stack replaces flat tint and forbidden preview textures.
+ * @description Builds authored alpine walls with rendered rock, scree, moss, soil, and caps.
+ * The Awtsmoos renews depth beyond reachable paths; Awtsmoos.com preserves source-wall and
+ * outlet-pass geography while measured zone channels reveal the existing layered stack.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
@@ -16,9 +16,10 @@ import { mountainRockStack } from '../materials/MountainVillageMaterialPresets.j
 import {
 	mountainGeometry,
 	snowGeometry
-} from './AtmosphericMountainGeometry.js?v=20260720-canonical-valley-pass-04';
+} from './AtmosphericMountainGeometry.js?v=20260722-authored-valley-ridge-layered-07';
 
 const MOUNTAIN_STACK = mountainRockStack();
+const PLACEMENT_MODEL = 'authored-source-walls-outlet-pass';
 const BELTS = Object.freeze([
 	belt(390, 188, 142, '#34433d', 152),
 	belt(590, 254, 126, '#3f5260', 128),
@@ -34,12 +35,16 @@ export function createAtmosphericMountainDefinitions(quality = 'high') {
 		definitions.push(snowDefinition(options, index, quality));
 	}
 	definitions.stats = {
+		activeMaterialLayers: definitions[0]?.textureLayers?.length || 0,
 		belts: count,
 		definitions: definitions.length,
+		layeredMaterials: definitions.every(item => item.textureLayers?.length > 0),
 		logicalMaterialLayers: MOUNTAIN_STACK.logicalLayerCount,
 		nearestRadius: BELTS[0].radius,
+		placementModel: PLACEMENT_MODEL,
 		snowCaps: count,
-		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0)
+		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0),
+		zoneWeighted: definitions.every(item => item.zones.length === item.vertices.length)
 	};
 	return definitions;
 }
@@ -88,7 +93,9 @@ function definition(id, geometry, color, family, quality, depth) {
 		textureUrl: primary.url,
 		userData: {
 			AwtsmoosLod: { className: 'mountain', quality },
-			family
+			AwtsmoosMountainMaterial: { layered: true, zoneWeighted: true },
+			family,
+			geography: 'authored-valley-ridge-atlas'
 		}
 	}, MOUNTAIN_STACK, quality === 'low' ? 2 : quality === 'medium' ? 4 : 6);
 }

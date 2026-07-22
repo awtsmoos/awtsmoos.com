@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Shared WGSL contracts align particles, atomic cells, velocity cells, and uniforms. */
+/** Shared WGSL contracts align particles, pressure, curl, velocity history, and uniforms. */
 
 export const WEB_GPU_LIQUID_CONTRACTS_WGSL = /* wgsl */ `
 struct LiquidUniforms {
@@ -22,6 +22,10 @@ struct LiquidUniforms {
 	gridHeight: u32,
 	gridDepth: u32,
 	picBlend: f32,
+	fluidDensity: f32,
+	pressureRelaxation: f32,
+	flipBlend: f32,
+	vorticityStrength: f32,
 };
 
 struct Particle {
@@ -43,4 +47,9 @@ struct GridCell {
 @group(0) @binding(3) var<storage, read_write> gridCells: array<GridCell>;
 @group(0) @binding(4) var<storage, read_write> surfacePoints: array<vec4<f32>>;
 @group(0) @binding(5) var<storage, read_write> gridVelocities: array<vec4<f32>>;
+@group(0) @binding(6) var<storage, read_write> divergenceGrid: array<f32>;
+@group(0) @binding(7) var<storage, read_write> pressureA: array<f32>;
+@group(0) @binding(8) var<storage, read_write> pressureB: array<f32>;
+@group(0) @binding(9) var<storage, read_write> previousGridVelocities: array<vec4<f32>>;
+@group(0) @binding(10) var<storage, read_write> vorticityGrid: array<vec4<f32>>;
 `;

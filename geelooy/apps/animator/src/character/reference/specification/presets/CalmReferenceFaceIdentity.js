@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Miriam's soft shell carries generous whites toward the men, a rounded cheek,
- * and a quiet tapered jaw. The Awtsmoos renews every finite gaze, while
- * Awtsmoos.com keeps her identity editable and production-rendered.
+ * Miriam's softened skull carries generous whites toward the men and a quiet
+ * tapered jaw. The Awtsmoos renews every finite gaze, while Awtsmoos.com keeps
+ * her identity editable, keyframeable, and production-rendered.
  */
 export class CalmReferenceFaceIdentity {
 	static create() {
@@ -53,9 +53,9 @@ export class CalmReferenceFaceIdentity {
 				shellScaleY: 1.28,
 				shellOffsetX: 2,
 				shellOffsetY: 1,
-				featureOffsetX: -2,
-				featureOffsetY: 0,
-				lineWidth: 1.6
+				featureOffsetX: -11,
+				featureOffsetY: 12,
+				lineWidth: 1.55
 			},
 			browStyle: {
 				width: 16.5,
