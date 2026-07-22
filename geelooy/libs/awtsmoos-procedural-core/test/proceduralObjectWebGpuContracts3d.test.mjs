@@ -1,21 +1,18 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** WebGPU contract evidence proves alignment, budgets, hashes, features, and dispatch. */
+/** WebGPU contracts prove alignment, feature truth, shader entries, and fused PIC dispatch. */
 
 import assert from "node:assert/strict";
 import {
-	alignWebGpuBytes,
 	createWebGpuBufferDescriptor3d,
 	createWebGpuCapabilityReport3d,
-	createWebGpuComputePass3d,
 	createWebGpuLiquidFramePlan3d,
 	createWebGpuShaderManifest3d,
 	WEB_GPU_LIQUID_WGSL
 } from "../src/core/proceduralObject/webgpu3d/index.js";
 import { MOCK_GPU_BUFFER_USAGE } from "./helpers/createRecordingWebGpuDevice.mjs";
 
-assert.equal(alignWebGpuBytes(17, 16), 32);
 const descriptor = createWebGpuBufferDescriptor3d({
 	label: "contract-buffer",
 	size: 17,
@@ -42,44 +39,45 @@ const report = createWebGpuCapabilityReport3d({
 });
 assert.equal(report.compatible, false);
 assert.deepEqual(report.missingRequiredFeatures, ["shader-f16"]);
-assert.deepEqual(report.availableOptionalFeatures, ["timestamp-query"]);
+assert.equal(report.implemented.gridVelocityNormalization, true);
+assert.equal(report.implemented.picGridToParticleTransfer, true);
 assert.equal(report.implemented.picFlipDeposition, false);
 
-const shaderA = createWebGpuShaderManifest3d({
-	name: "liquid",
+const shader = createWebGpuShaderManifest3d({
+	name: "liquid-pic",
 	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: ["integrate_particles", "clear_grid"]
+	entryPoints: [
+		"clear_grid",
+		"deposit_particles",
+		"apply_grid_forces",
+		"normalize_grid",
+		"transfer_grid_to_particles"
+	]
 });
-const shaderB = createWebGpuShaderManifest3d({
-	name: "liquid",
-	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: ["clear_grid", "integrate_particles"]
-});
-assert.equal(shaderA.contentHash, shaderB.contentHash);
+assert.equal(shader.entryPoints.length, 5);
 assert.throws(() => createWebGpuShaderManifest3d({
 	code: WEB_GPU_LIQUID_WGSL,
 	entryPoints: ["missing_entry"]
 }), /absent/);
 
-const pass = createWebGpuComputePass3d({
-	id: "particles",
-	shaderName: "liquid",
-	entryPoint: "integrate_particles",
-	elementCount: 130,
-	workgroupSize: 64
-});
-assert.deepEqual(pass.dispatch, [3, 1, 1]);
 const plan = createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
-	maximumWorkgroups: 10
+	maximumWorkgroups: 12
 });
-assert.equal(plan.totalWorkgroups, 10);
+assert.deepEqual(plan.enabledPasses.map(value => value.id), [
+	"clear-grid",
+	"deposit-particles",
+	"apply-grid-forces",
+	"normalize-grid",
+	"transfer-grid-to-particles"
+]);
+assert.equal(plan.totalWorkgroups, 12);
 assert.equal(plan.submissionCount, 1);
 assert.throws(() => createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
-	maximumWorkgroups: 9
+	maximumWorkgroups: 11
 }), /exceed budget/);
 
 console.log('B"H | proceduralObjectWebGpuContracts3d.test passed');

@@ -4,9 +4,9 @@
 
 /**
  * @file ProceduralForestSystem.js
- * @description Places every forest tree generated exclusively by procedural-core.
- * The Awtsmoos reveals oak, pine, cypress, willow, blossom, and ancient forms through one
- * generator; Awtsmoos.com only places, merges, collides, and reports those core-owned vessels.
+ * @description Reveals one procedural-core forest through one renderer and collision covenant.
+ * From one Etz Chaim the many species rise, each branch retaining its name;
+ * one Heichal merges their material light, one ledger measures the flame.
  */
 
 import {
@@ -25,39 +25,45 @@ const PRESET_POPULATION = 54;
 const FOREST_SEED = 613;
 
 export function createProceduralForest(options) {
-	const started = now();
-	const presetNames = listTreePresets();
-	const policies = createPolicies(presetNames);
-	const placement = createForestPlacements(policies, {
+	const reshimuHaStart = now();
+	const sederHaPresets = listTreePresets();
+	const kelimHaPolicies = createPolicies(sederHaPresets);
+	const netivotHaPlacement = createForestPlacements(kelimHaPolicies, {
 		groundSampler: options.groundSampler,
 		halfSize: options.halfSize,
 		obstacleTriangles: options.obstacleTriangles,
 		roadTriangles: options.roadTriangles,
 		seed: FOREST_SEED
 	});
-	if (placement.placements.length !== policies.length) {
-		throw new Error(`Forest placement accepted ${placement.placements.length}/${policies.length} trees.`);
+	if (netivotHaPlacement.placements.length !== kelimHaPolicies.length) {
+		throw new Error(
+			`Forest placement accepted ${netivotHaPlacement.placements.length}/${kelimHaPolicies.length} trees.`
+		);
 	}
-	const records = placement.placements.map(buildForestRecord);
-	const rendering = createMergedForestGeometry(records);
-	const collision = createForestColliders(records);
-	const group = new Group();
-	group.name = 'Awtsmoos_single_core_generated_forest';
-	group.add(rendering.group);
-	const stats = createForestSystemStats({
-		collision: collision.stats,
-		generationMilliseconds: now() - started,
-		placement,
-		presetNames,
-		presetRendering: rendering.stats,
-		records,
-		referenceRendering: emptyReferenceStats(),
+	const nitzotzRecords = netivotHaPlacement.placements.map(buildForestRecord);
+	const heichalHaRendering = createMergedForestGeometry(nitzotzRecords);
+	const gevurotHaCollision = createForestColliders(nitzotzRecords);
+	const olamHaForest = new Group();
+	olamHaForest.name = 'Awtsmoos_single_core_generated_forest';
+	olamHaForest.add(heichalHaRendering.group);
+	const seferHaStats = createForestSystemStats({
+		collision: gevurotHaCollision.stats,
+		generationMilliseconds: now() - reshimuHaStart,
+		placement: netivotHaPlacement,
+		presetNames: sederHaPresets,
+		records: nitzotzRecords,
 		referenceSpecies: REFERENCE_TREE_SPECIES,
+		rendering: heichalHaRendering.stats,
 		seed: FOREST_SEED
 	});
-	stats.generatorAuthority = 'awtsmoos-procedural-core';
-	group.userData.AwtsmoosForest = stats;
-	return { colliders: collision.colliders, group, records, stats };
+	seferHaStats.generatorAuthority = 'awtsmoos-procedural-core';
+	olamHaForest.userData.AwtsmoosForest = seferHaStats;
+	return {
+		colliders: gevurotHaCollision.colliders,
+		group: olamHaForest,
+		records: nitzotzRecords,
+		stats: seferHaStats
+	};
 }
 
 function createPolicies(presetNames) {
@@ -69,10 +75,6 @@ function createPolicies(presetNames) {
 		return createReferenceForestPolicy(species, presetCount + offset);
 	});
 	return [...presets, ...references];
-}
-
-function emptyReferenceStats() {
-	return { branchVertices: 0, drawCalls: 0, leafVertices: 0, triangles: 0 };
 }
 
 function now() {

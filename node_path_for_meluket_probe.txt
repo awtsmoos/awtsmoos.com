@@ -1,0 +1,4 @@
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin:/Users/awtsmoos/Tools/android-screen/platform-tools
+NODE=/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node
+NODE_REAL=/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node
+v24.17.0

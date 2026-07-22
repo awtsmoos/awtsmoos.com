@@ -12,6 +12,7 @@
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { villageLandmarks } from './VillageCurves.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
+import { createAnimatedWaterTexturePolicy } from './VillageWaterMaterialPolicy.js';
 
 export function createFoamBatchDefinition(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
@@ -30,13 +31,12 @@ export function createFoamBatchDefinition(groundSampler, hydrology = null) {
 		shape: 'manual',
 		solid: false,
 		texturePolicy: {
+			...createAnimatedWaterTexturePolicy({
+				primaryUrl: TEXTURE_URLS.water.bright,
+				waterVariant: 'foam'
+			}),
 			alpha: 0.72,
-			animated: true,
-			publicFirebase: true,
-			realMaterialRequired: true,
-			role: 'connected-water-foam',
-			shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
-			waterVariant: 'foam'
+			role: 'connected-water-foam'
 		},
 		textureUrl: TEXTURE_URLS.water.bright,
 		transparent: true,
@@ -54,7 +54,8 @@ function appendLakeFoam(output, lake, level, segments) {
 		const angle = ratio * Math.PI * 2;
 		const cosine = Math.cos(angle);
 		const sine = Math.sin(angle);
-		appendPair(output,
+		appendPair(
+			output,
 			[lake.x + cosine * (lake.radiusX - 0.3), level + 0.035, lake.z + sine * (lake.radiusZ - 0.3)],
 			[lake.x + cosine * (lake.radiusX + 0.65), level + 0.025, lake.z + sine * (lake.radiusZ + 0.65)],
 			ratio

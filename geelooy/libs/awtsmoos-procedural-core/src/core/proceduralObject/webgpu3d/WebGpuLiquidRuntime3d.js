@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** A resident GPU river advances through bounded dispatch without synchronous return. */
+/** A resident GPU river deposits, forces, integrates, and packs without synchronous return. */
 
 import { createWebGpuLiquidFramePlan3d } from "./createWebGpuLiquidFramePlan3d.js";
 import { createWebGpuLiquidRuntimeState3d } from "./createWebGpuLiquidRuntimeState3d.js";
@@ -24,34 +24,49 @@ export class WebGpuLiquidRuntime3d {
 		this.#state = createWebGpuLiquidRuntimeState3d(input);
 		const lost = this.#state.device.lost;
 		if (lost && typeof lost.then === "function") {
-			lost.then(info => { this.#lost = structuredDeviceLoss(info); }).catch(error => {
-				this.#lost = structuredDeviceLoss({ reason: "promise-rejected", message: error?.message ?? String(error) });
+			lost.then(info => {
+				this.#lost = structuredDeviceLoss(info);
+			}).catch(error => {
+				this.#lost = structuredDeviceLoss({
+					reason: "promise-rejected",
+					message: error?.message ?? String(error)
+				});
 			});
 		}
 	}
 
 	stepFrame(input = {}) {
 		if (this.#lost) {
-			return Object.freeze({ ok: false, frameIndex: this.#frameIndex, lost: this.#lost, readbackCount: 0 });
+			return Object.freeze({
+				ok: false,
+				frameIndex: this.#frameIndex,
+				lost: this.#lost,
+				readbackCount: 0
+			});
 		}
 		const plan = createWebGpuLiquidFramePlan3d({
 			frameIndex: this.#frameIndex,
 			particleCount: this.#state.particleCount,
-			gridCellCount: this.#state.gridCellCount,
-			maximumWorkgroups: input.maximumWorkgroups ?? this.#state.maximumWorkgroups,
+			gridCellCount: this.#state.gridLayout.cellCount,
+			maximumWorkgroups: input.maximumWorkgroups
+				?? this.#state.maximumWorkgroups,
 			enabledPasses: input.enabledPasses,
 			workgroupSize: input.workgroupSize
 		});
 		const uniforms = packWebGpuLiquidUniforms3d({
 			...input,
+			gridLayout: this.#state.gridLayout,
 			frameIndex: this.#frameIndex,
 			particleCount: this.#state.particleCount,
-			gridCellCount: this.#state.gridCellCount,
 			boundsMin: input.boundsMin ?? this.#state.boundsMin,
 			boundsMax: input.boundsMax ?? this.#state.boundsMax,
 			deltaTime: input.deltaTime ?? 1 / 60
 		});
-		this.#state.device.queue.writeBuffer(this.#state.resources.uniformBuffer, 0, uniforms.bytes);
+		this.#state.device.queue.writeBuffer(
+			this.#state.resources.uniformBuffer,
+			0,
+			uniforms.bytes
+		);
 		const encoded = encodeWebGpuLiquidFrame3d({
 			device: this.#state.device,
 			plan,
@@ -63,6 +78,7 @@ export class WebGpuLiquidRuntime3d {
 			schema: "awtsmoos.webgpu-liquid-frame-report-3d",
 			ok: true,
 			frameIndex: this.#frameIndex,
+			gridLayout: this.#state.gridLayout,
 			plan,
 			parity: encoded.parityAfter,
 			bytesAllocated: this.#state.resources.totalBytes,
@@ -80,6 +96,7 @@ export class WebGpuLiquidRuntime3d {
 
 	get frameIndex() { return this.#frameIndex; }
 	get resources() { return this.#state.resources; }
+	get gridLayout() { return this.#state.gridLayout; }
 	get capabilities() { return this.#state.capabilities; }
 	get shaderManifest() { return this.#state.shaderManifest; }
 	get lost() { return this.#lost; }

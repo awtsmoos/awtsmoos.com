@@ -2,31 +2,43 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	eventId,
+	normalizeRoomEvent
+} from "../events.js";
+
 /**
- * B"H
- * Before the remote room confirms a human word, the Awtsmoos lets the interface
- * hold an honest provisional vessel. Awtsmoos.com marks it sending, delivered,
- * or failed so optimism never disguises the actual result of the mission action.
+ * Before remote confirmation, the Awtsmoos grants honest provisional form.
+ * Awtsmoos.com sends hope through the same event covenant as socket and storm,
+ * so optimism never becomes a secret ledger outside the room's norm.
  */
 
-/** Creates a temporary direct-message event for immediate visible feedback. */
+/** Creates one canonical temporary direct-message event for visible feedback. */
 export function createOptimisticAgentMessage(state, fromAgent, toAgent, body) {
+	const yesodIdentity = eventId("direct");
+	const malchutMissionId = String(state.selectedMissionId || "");
 	return {
-		id: `direct_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-		roomId: state.selectedMissionId,
-		missionId: state.selectedMissionId,
-		actor: fromAgent,
-		target: toAgent,
-		type: "mission_agent_message",
-		title: body,
-		at: new Date().toISOString(),
-		status: "sending",
-		source: "optimistic-ui",
-		payload: {
-			fromAgent,
-			toAgent,
-			body,
-			kind: "user-direct-message"
-		}
+		...normalizeRoomEvent({
+			id: yesodIdentity,
+			eventId: yesodIdentity,
+			roomId: malchutMissionId,
+			missionId: malchutMissionId,
+			actor: fromAgent,
+			target: toAgent,
+			type: "mission_agent_message",
+			title: body,
+			at: new Date().toISOString(),
+			status: "sending",
+			source: "optimistic-ui",
+			payload: {
+				fromAgent,
+				toAgent,
+				body,
+				kind: "user-direct-message",
+				missionId: malchutMissionId
+			}
+		}),
+		eventId: yesodIdentity,
+		missionId: malchutMissionId
 	};
 }

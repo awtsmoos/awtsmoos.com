@@ -4,9 +4,9 @@
 
 /**
  * @file EretzAssetLoader.js
- * @description Returns the canonical actor and authored fallback materials before texture work.
- * The Awtsmoos reveals form before pigment; Awtsmoos.com keeps the default texture stream
- * dormant until the runtime confirms that movement and a first rendered frame are available.
+ * @description Returns the canonical actor and authored fallback materials before textures.
+ * The Awtsmoos reveals form before pigment; Awtsmoos.com keeps optional texture code outside
+ * the playable bundle until movement has already painted the first living frame.
  */
 
 import { loadHouseAssets } from '../assets/HouseAssets.js';
@@ -15,11 +15,9 @@ import {
 	loadPublicMaterialUrl,
 	publicMaterialCacheStats
 } from '../assets/PublicMaterialCache.js';
-import { GRASS_URLS } from '../world/Terrain3D.js';
+import { GRASS_URLS } from '../world/TerrainTextureCatalog.js';
 import { loadEretzActorAssets } from './EretzActorAssetLoader.js';
-import { scheduleEretzTextureStreaming } from './EretzTextureStreaming.js';
 
-/** Loads only assets required to construct a playable world. */
 export async function loadEretzAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
 	const actorLoader = options.actorLoader || loadEretzActorAssets;
@@ -41,14 +39,9 @@ export async function loadEretzAssets(options = {}) {
 	});
 	assets.publicMaterialStreaming = createTextureStream(assets, options, boot);
 	assets.publicMaterialHydration = assets.publicMaterialStreaming;
-	return {
-		...actors,
-		assets,
-		grassImage: firstCachedImage(GRASS_URLS)
-	};
+	return { ...actors, assets, grassImage: firstCachedImage(GRASS_URLS) };
 }
 
-/** Loads the first available image for explicit non-boot callers. */
 export async function loadFirstImage(urls, timeoutMs = 7000) {
 	for (const url of urls) {
 		const cached = cachedTextureImage(url);
@@ -60,9 +53,7 @@ export async function loadFirstImage(urls, timeoutMs = 7000) {
 }
 
 function createTextureStream(assets, options, boot) {
-	if (options.textureScheduler) {
-		return options.textureScheduler(assets, options, boot);
-	}
+	if (options.textureScheduler) return options.textureScheduler(assets, options, boot);
 	let delegate = null;
 	let error = null;
 	let phase = 'waiting-for-gameplay';
@@ -71,26 +62,26 @@ function createTextureStream(assets, options, boot) {
 	const state = {
 		get completed() { return delegate?.completed ?? 0; },
 		get error() { return delegate?.error || error; },
-		promise: new Promise(resolve => {
-			resolvePromise = resolve;
-		}),
+		promise: new Promise(resolve => { resolvePromise = resolve; }),
 		get startedAt() { return delegate?.startedAt ?? startedAt; },
 		get status() { return delegate?.status || phase; },
 		get total() { return delegate?.total ?? 0; },
-		start() {
+		async start() {
 			if (delegate) return state.promise;
-			startedAt = now();
+			startedAt = globalThis.performance?.now?.() ?? Date.now();
 			phase = 'scheduled';
-			delegate = scheduleEretzTextureStreaming(assets, options, boot);
-			Promise.resolve(delegate.promise || delegate).then(value => {
+			try {
+				const module = await import('./EretzTextureStreaming.js');
+				delegate = module.scheduleEretzTextureStreaming(assets, options, boot);
+				const value = await Promise.resolve(delegate.promise || delegate);
 				phase = delegate?.status || value?.status || 'ready';
 				resolvePromise(value);
-			}, caught => {
+			} catch (caught) {
 				error = caught?.message || String(caught);
 				phase = 'degraded';
 				boot?.degrade('texture-stream', caught);
 				resolvePromise(null);
-			});
+			}
 			return state.promise;
 		}
 	};
@@ -103,8 +94,4 @@ function firstCachedImage(urls) {
 		if (image) return image;
 	}
 	return null;
-}
-
-function now() {
-	return globalThis.performance?.now?.() ?? Date.now();
 }

@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Device evidence distinguishes present GPU power from deferred liquid promises. */
+/** Device evidence distinguishes implemented PIC transfer from every deferred fluid promise. */
 
 function sortedFeatures(value) {
 	return Object.freeze([...new Set(value ? [...value].map(String) : [])].sort());
@@ -31,7 +31,10 @@ export function createWebGpuCapabilityReport3d(input = {}) {
 		implemented: Object.freeze({
 			particleIntegration: true,
 			gridClear: true,
+			particleGridDeposition: true,
 			globalForces: true,
+			gridVelocityNormalization: true,
+			picGridToParticleTransfer: true,
 			surfacePointPacking: true,
 			picFlipDeposition: false,
 			macPressureProjection: false,

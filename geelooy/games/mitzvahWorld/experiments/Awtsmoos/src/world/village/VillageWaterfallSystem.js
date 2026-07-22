@@ -4,7 +4,7 @@
 
 /**
  * @file VillageWaterfallSystem.js
- * @description Composes batched sheets, impact foam, mist, and ledges from exact drops.
+ * @description Composes batched sheets, impact foam, mist, and one subordinate ledge batch.
  * The Awtsmoos pours one current through many descents; Awtsmoos.com binds every top,
  * impact, white ribbon, and rising veil to hydrology without CPU particles or card drift.
  */
@@ -12,13 +12,20 @@
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { MOUNTAIN_VILLAGE_SOURCES as S } from '../materials/MountainVillageMaterialSources.js';
-import { createVillageBoxBatch } from './VillageBoxBatch.js';
 import { createRiverHydrology, RIVER_CASCADES } from './VillageRiverHydrology.js';
-import { cascadeFrame } from './VillageWaterfallGeometryMath.js';
+import { createAnimatedWaterTexturePolicy } from './VillageWaterMaterialPolicy.js';
 import { createWaterfallImpactGeometry } from './VillageWaterfallImpactGeometry.js';
+import { createWaterfallLedgeDefinition } from './VillageWaterfallLedgeGeometry.js';
 import { createWaterfallMistGeometry } from './VillageWaterfallMistGeometry.js';
 import { createWaterfallSheetGeometry } from './VillageWaterfallSheetGeometry.js';
 
+/**
+ * Creates one waterfall definition family from the canonical hydrology profile.
+ *
+ * @param {Function} groundSampler - Terrain height sampler.
+ * @param {object|null} hydrology - Optional shared profile from VillageWaterSystem.
+ * @returns {object[]} Water sheets, foam, mist, and one static ledge batch.
+ */
 export function createWaterfallDefinitions(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
 	return [
@@ -55,25 +62,8 @@ export function createWaterfallDefinitions(groundSampler, hydrology = null) {
 			textureUrl: TEXTURE_URLS.water.bright,
 			waterVariant: 'mist'
 		}),
-		createCascadeLedges(profile)
+		createWaterfallLedgeDefinition(profile)
 	];
-}
-
-function createCascadeLedges(profile) {
-	const ledges = RIVER_CASCADES.map(cascade => {
-		const frame = cascadeFrame(profile, cascade.t);
-		return {
-			position: { x: frame.top.x, y: frame.bottom.y - 0.16, z: frame.top.z },
-			size: { x: frame.halfWidth * 2.5, y: 0.55, z: 1.05 },
-			yaw: Math.atan2(-frame.top.normal.z, frame.top.normal.x)
-		};
-	});
-	return createVillageBoxBatch('stream-cascade-fieldstone-ledges', ledges, {
-		color: '#6f6a61',
-		family: 'connected-stream-cascade',
-		part: 'fieldstone-ledge',
-		textureUrl: TEXTURE_URLS.bricks.fieldstone1
-	});
 }
 
 function waterDefinition(options) {
@@ -89,12 +79,11 @@ function waterDefinition(options) {
 		opacity: options.opacity,
 		shape: 'manual',
 		solid: false,
-		texturePolicy: {
-			animated: true,
-			publicFirebase: true,
-			shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
+		texturePolicy: createAnimatedWaterTexturePolicy({
+			mixUrl: options.mixTextureUrl,
+			primaryUrl: options.textureUrl,
 			waterVariant: options.waterVariant
-		},
+		}),
 		textureUrl: options.textureUrl,
 		transparent: true,
 		userData: {

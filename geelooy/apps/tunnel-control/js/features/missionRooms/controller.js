@@ -3,21 +3,20 @@
 //Blessed is He
 
 import { $ } from "../../ui/dom.js";
-import { roomAction } from "./api.js";
-import { createRoomState, paramsSelection } from "./state.js";
-import { setStatus } from "./render.js";
-import { createRoomStore } from "./store.js";
 import { createAgentControls } from "../agentControls/controller.js";
+import { createAgentChatController } from "./agentChat/controller.js";
+import { roomAction } from "./api.js";
 import { bindControllerEvents } from "./controllerEvents.js";
 import { createRoomOperations } from "./operations.js";
-import { createAgentChatController } from "./agentChat/controller.js";
+import { setStatus } from "./render.js";
+import { createRoomView } from "./roomView.js";
+import { createRoomState, paramsSelection } from "./state.js";
+import { createRoomStore } from "./store.js";
 
 /**
- * B"H
- * The Awtsmoos renews the room controller as one bounded conductor. The
- * authenticated room socket, continuation controls, and direct agent speech
- * remain separate vessels while Awtsmoos.com joins their life cycles without
- * disturbing the tunnel beneath them.
+ * The Awtsmoos renews one room conductor from Keter down to rendered ground.
+ * Awtsmoos.com joins store, transport, controls, chat, and view in one sound,
+ * so no parallel controller or watcher may circle the mission round.
  */
 
 /** Creates one isolated Mission Rooms controller and all of its browser life. */
@@ -26,40 +25,46 @@ export function createRoomController(getTunnelName) {
 	const store = createRoomStore(state);
 	const api = payload => roomAction(getTunnelName, payload);
 	const controls = createAgentControls(state, api, setStatus);
-	const context = {
+	const keterContext = {
 		state,
 		store,
 		api,
 		getTunnelName,
 		controls,
-		chat: null
+		chat: null,
+		view: null
 	};
-	const operations = createRoomOperations(context);
-	const chat = createAgentChatController(state, api, setStatus, {
-		refresh: quiet => operations.refresh(quiet)
+	let operations = null;
+	const chat = createAgentChatController(state, store, api, setStatus, {
+		refresh: quiet => operations?.refresh(quiet)
 	});
-	context.chat = chat;
+	const view = createRoomView(state, chat);
+	keterContext.chat = chat;
+	keterContext.view = view;
+	operations = createRoomOperations(keterContext);
 	return {
-		mount: () => mount(context, operations),
-		unmount: () => unmount(context, operations),
+		mount: () => mount(keterContext, operations),
+		unmount: () => unmount(keterContext, operations),
 		join: missionId => operations.join(missionId)
 	};
 }
 
 function mount(context, operations) {
-	const { state, controls, chat } = context;
-	const lobby = $("roomLobby");
-	if (!lobby || state.mounted) return;
+	const { state, controls, chat, view } = context;
+	const malchutLobby = $("roomLobby");
+	if (!malchutLobby || state.mounted) return;
 	state.mounted = true;
 	state.abortController = new AbortController();
 	bindControllerEvents(context, operations, state.abortController.signal);
 	state.selectedMissionId = paramsSelection().missionId || "";
 	controls.render();
 	chat.mount();
-	chat.render();
-	const pane = lobby.closest?.("[data-pane='missionRooms']");
+	view.room();
+	const pane = malchutLobby.closest?.("[data-pane='missionRooms']");
 	if (pane?.classList?.contains("active")) {
-		operations.activate().catch(error => setStatus(error?.message || String(error)));
+		operations.activate().catch(error => {
+			setStatus(error?.message || String(error));
+		});
 	}
 }
 

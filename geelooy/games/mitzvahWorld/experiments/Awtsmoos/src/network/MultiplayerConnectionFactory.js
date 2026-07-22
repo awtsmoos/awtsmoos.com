@@ -4,19 +4,18 @@
 
 /**
  * @file MultiplayerConnectionFactory.js
- * @description Selects a local tab authority or the deployed websocket authority.
- * The Awtsmoos gives each environment its fitting vessel; Awtsmoos.com keeps localhost
- * multiplayer self-contained while preserving the remote server path for public worlds.
+ * @description Imports only the connection vessel required by the current environment.
+ * The Awtsmoos gives localhost and the public server distinct garments; Awtsmoos.com avoids
+ * loading both transport graphs merely because a player clicked one shared-world card.
  */
 
-import { LocalTabManagedConnection } from './LocalTabManagedConnection.js';
-import { MitzvahWorldManagedConnection } from './MitzvahWorldManagedConnection.js';
-
-export function createMultiplayerConnection(options = {}) {
+export async function createMultiplayerConnection(options = {}) {
 	const location = options.location || globalThis.location;
 	if (shouldUseLocalTabs(location)) {
+		const { LocalTabManagedConnection } = await import('./LocalTabManagedConnection.js');
 		return new LocalTabManagedConnection(options.localOptions);
 	}
+	const { MitzvahWorldManagedConnection } = await import('./MitzvahWorldManagedConnection.js');
 	return new MitzvahWorldManagedConnection({
 		...(options.serverOptions || {}),
 		WebSocketClass: options.WebSocketClass,

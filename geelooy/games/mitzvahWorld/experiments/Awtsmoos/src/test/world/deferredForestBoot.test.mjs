@@ -4,67 +4,87 @@
 
 /**
  * @file deferredForestBoot.test.mjs
- * @description Proves movement awakens before duplicate forest and enrichment work.
- * The Awtsmoos reveals a playable valley before every leaf arrives; Awtsmoos.com guards
- * the gate from runtime loop through botany and only then into deferred world models.
+ * @description Proves one movement-first chain owns terrain, botany, and later models.
+ * One kav descends through every world without a rival stream in sight;
+ * the valley wakes, the garden blooms, then hidden forms receive their light.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { createDeferredForestState } from '../../world/DeferredForestState.js';
+import {
+	createDeferredForestState,
+	createDeferredTextLandmarkState
+} from '../../world/streaming/DeferredTerrainFeatureState.js';
 
 const SOURCE_ROOT = new URL('../../', import.meta.url);
 
-test('deferred forest preserves diagnostics with zero startup geometry', () => {
+test('canonical deferred terrain vessels contain no startup geometry', () => {
 	const forest = createDeferredForestState();
+	const landmark = createDeferredTextLandmarkState();
 
-	assert.equal(forest.group.userData.deferred, true);
-	assert.equal(forest.group.userData.owner, 'EretzBotanicalStreaming');
+	assert.equal(forest.group.name, 'Awtsmoos_deferred_forest_vessel');
 	assert.deepEqual(forest.colliders, []);
-	assert.equal(forest.stats.deferred, true);
+	assert.deepEqual(forest.records, []);
+	assert.equal(forest.stats.state, 'deferred');
+	assert.equal(forest.stats.treeCount, 0);
 	assert.equal(forest.stats.rendering.drawCalls, 0);
 	assert.equal(forest.stats.rendering.triangles, 0);
-	assert.equal(forest.stats.unsupported.wind, false);
-	assert.deepEqual(forest.stats.treeSummaries, []);
+	assert.equal(landmark.mesh.name, 'Awtsmoos_deferred_text_landmark_vessel');
+	assert.deepEqual(landmark.colliders, []);
+	assert.equal(landmark.stats.state, 'deferred');
+	assert.equal(landmark.stats.triangles, 0);
 });
 
-test('essential terrain no longer invokes the procedural forest generator', async () => {
+test('essential terrain defers both forest and sacred landmark generation', async () => {
 	const source = await readSource('world/Terrain3D.js');
 
-	assert.equal(source.includes('ProceduralForestSystem'), false);
 	assert.equal(source.includes('createProceduralForest'), false);
-	assert.equal(source.includes('createDeferredForestState'), true);
-	assert.equal(source.includes('...forest.colliders'), false);
+	assert.equal(source.includes('createProceduralTextLandmark'), false);
+	assert.equal(source.includes('createDeferredForestState()'), true);
+	assert.equal(source.includes('createDeferredTextLandmarkState()'), true);
+	assert.equal(source.includes('deferredTerrainContext'), true);
 });
 
-test('runtime loop starts before post-movement enrichment orchestration', async () => {
+test('movement starts before the one post-movement orchestration gate', async () => {
 	const source = await readSource('app/createEretzRuntime.js');
-	const loopIndex = source.indexOf('startEretzRuntime(runtime, diagnostics)');
+	const movementIndex = source.indexOf('startEretzRuntime(runtime, diagnostics)');
 	const streamingIndex = source.indexOf('startEretzPostMovementStreaming({');
 
-	assert.ok(loopIndex >= 0, 'Runtime loop start must remain present.');
-	assert.ok(streamingIndex >= 0, 'Post-movement streaming handoff must remain present.');
-	assert.ok(loopIndex < streamingIndex, 'Movement must start before enrichment.');
+	assert.ok(movementIndex >= 0, 'Runtime movement start must remain present.');
+	assert.ok(streamingIndex > movementIndex, 'Streaming must begin after movement.');
 });
 
-test('botanical completion gates deferred models without blocking movement', async () => {
+test('optional-world streaming is the sole botanical runtime owner', async () => {
+	const post = await readSource('app/EretzPostMovementStreaming.js');
+	const optional = await readSource('app/EretzOptionalWorldStreaming.js');
+	const terrainIndex = optional.indexOf('startEretzTerrainStreaming(');
+	const botanicalIndex = optional.indexOf('botanical = startEretzBotanicalStreaming(');
+
+	assert.equal(post.includes('EretzBotanicalStreaming.js'), false);
+	assert.equal(post.includes('startEretzBotanicalStreaming('), false);
+	assert.equal(countOccurrences(post, 'startEretzOptionalWorldStreaming('), 1);
+	assert.equal(countOccurrences(optional, 'botanical = startEretzBotanicalStreaming('), 1);
+	assert.ok(terrainIndex >= 0, 'Terrain enrichment must be started.');
+	assert.ok(botanicalIndex > terrainIndex, 'Botany must follow terrain enrichment.');
+});
+
+test('the botanical gate alone releases deferred world models', async () => {
 	const source = await readSource('app/EretzPostMovementStreaming.js');
-	const botanyIndex = source.indexOf('startEretzBotanicalStreaming(');
-	const gateIndex = source.indexOf(
-		'botanicalStreamingGatePromise = Promise.resolve(',
-		botanyIndex
-	);
-	const modelIndex = source.indexOf(
-		'.then(() => startWorldModels(context))',
-		gateIndex
-	);
+	const optionalIndex = source.indexOf('startEretzOptionalWorldStreaming(');
+	const gateIndex = source.indexOf('diagnostics.botanicalStreamingGatePromise', optionalIndex);
+	const modelIndex = source.indexOf('.then(() => startOlamHaAsiyahModels(context))');
+	const disabledIndex = source.indexOf("state: 'movement-disabled'");
 
-	assert.ok(botanyIndex >= 0, 'Botanical enrichment must be started.');
-	assert.ok(gateIndex > botanyIndex, 'The movement-path gate must wrap enrichment.');
-	assert.ok(modelIndex > gateIndex, 'Deferred models must wait for the botanical gate.');
+	assert.ok(disabledIndex >= 0, 'No-loop mode must expose a resolved gate.');
+	assert.ok(gateIndex > optionalIndex, 'The gate must come from optional-world streaming.');
+	assert.ok(modelIndex > gateIndex, 'Models must wait for the botanical gate.');
 });
+
+function countOccurrences(source, needle) {
+	return source.split(needle).length - 1;
+}
 
 async function readSource(relativePath) {
 	return readFile(new URL(relativePath, SOURCE_ROOT), 'utf8');

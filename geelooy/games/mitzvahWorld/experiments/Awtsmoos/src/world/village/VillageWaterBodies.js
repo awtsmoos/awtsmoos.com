@@ -16,6 +16,13 @@ import { createLakeGeometry } from './VillageLakeGeometry.js';
 import { createRiverBedGeometry } from './VillageRiverBedGeometry.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
 import { createRiverSurfaceGeometry } from './VillageRiverSurfaceGeometry.js?v=20260720-canonical-valley-pass-04';
+import {
+	createAnimatedWaterTexturePolicy,
+	createStaticWaterTexturePolicy,
+	waterShaderPolicy
+} from './VillageWaterMaterialPolicy.js';
+
+export { waterShaderPolicy };
 
 export function createWaterBodyDefinitions(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
@@ -49,17 +56,6 @@ export function createWaterBodyDefinitions(groundSampler, hydrology = null) {
 	return definitions;
 }
 
-export function waterShaderPolicy(waterVariant = 'lake') {
-	return {
-		animated: true,
-		flowLayers: 2,
-		shader: 'alpine-two-fetch-variant-flow-fresnel-foam-water',
-		textureDriven: true,
-		waterClass: waterVariant === 'river' ? 'stream' : waterVariant,
-		waterVariant
-	};
-}
-
 function riverBedManual(profile) {
 	return {
 		color: '#394843',
@@ -71,14 +67,12 @@ function riverBedManual(profile) {
 		noEdge: true,
 		shape: 'manual',
 		solid: false,
-		texturePolicy: {
-			fallbackFirst: true,
-			publicFirebase: true,
-			realMaterialRequired: true,
+		texturePolicy: createStaticWaterTexturePolicy({
+			primaryUrl: S.fieldstone,
 			role: 'wet-river-stone',
 			shader: 'terrain-transition',
 			tileWorld: 0.92
-		},
+		}),
 		textureUrl: S.fieldstone,
 		transparent: false,
 		userData: {
@@ -108,12 +102,11 @@ function waterManual(options) {
 		opacity: options.opacity,
 		shape: 'manual',
 		solid: false,
-		texturePolicy: {
-			...waterShaderPolicy(options.waterVariant),
-			fallbackFirst: true,
-			publicFirebase: true,
-			realMaterialRequired: true
-		},
+		texturePolicy: createAnimatedWaterTexturePolicy({
+			mixUrl: options.mixTextureUrl,
+			primaryUrl: options.textureUrl,
+			waterVariant: options.waterVariant
+		}),
 		textureUrl: options.textureUrl,
 		transparent: true,
 		userData: {

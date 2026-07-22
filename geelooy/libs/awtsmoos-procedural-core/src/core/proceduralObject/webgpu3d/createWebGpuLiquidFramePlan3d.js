@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** One GPU frame plan orders bounded compute work without CPU readback. */
+/** One GPU plan clears, deposits, forces, normalizes, and performs fused PIC output. */
 
 import { createWebGpuComputePass3d } from "./createWebGpuComputePass3d.js";
 
@@ -21,13 +21,21 @@ export function createWebGpuLiquidFramePlan3d(input = {}) {
 	const particleCount = Math.max(0, Math.floor(input.particleCount ?? 0));
 	const gridCellCount = Math.max(0, Math.floor(input.gridCellCount ?? 0));
 	const passes = Object.freeze([
-		computePass("clear-grid", "clear_grid", gridCellCount, ["uniforms", "grid"], input),
-		computePass("apply-grid-forces", "apply_grid_forces", gridCellCount, ["uniforms", "grid"], input),
-		computePass("integrate-particles", "integrate_particles", particleCount, [
-			"uniforms", "particles-current", "particles-next"
+		computePass("clear-grid", "clear_grid", gridCellCount, [
+			"uniforms", "grid"
 		], input),
-		computePass("pack-surface-points", "pack_surface_points", particleCount, [
-			"uniforms", "particles-next", "surface-points"
+		computePass("deposit-particles", "deposit_particles", particleCount, [
+			"uniforms", "particles-current", "grid"
+		], input),
+		computePass("apply-grid-forces", "apply_grid_forces", gridCellCount, [
+			"uniforms", "grid"
+		], input),
+		computePass("normalize-grid", "normalize_grid", gridCellCount, [
+			"uniforms", "grid", "grid-velocities"
+		], input),
+		computePass("transfer-grid-to-particles", "transfer_grid_to_particles", particleCount, [
+			"uniforms", "particles-current", "particles-next",
+			"grid-velocities", "surface-points"
 		], input)
 	]);
 	const enabledPasses = Object.freeze(passes.filter(pass => pass.enabled));

@@ -5,15 +5,12 @@
 /**
  * @file MitzvahWorldLauncher.js
  * @description Routes the lightweight menu into lazily loaded game and creative modes.
- * The Awtsmoos renews each chosen world without burdening the first threshold with every
- * optional vessel; Awtsmoos.com lets the menu appear before cinema, tools, or terrain arrive.
+ * The Awtsmoos renews each chosen world without burdening the threshold; Awtsmoos.com
+ * carries cancellation and progress from the clicked card into every deeper runtime phase.
  */
 
 import { setGameHostsVisible, showMainMenu } from './MainMenu.js';
-import {
-	createMitzvahWorldModeLoaders,
-	hasMovieRequest
-} from './MitzvahWorldModeLoaders.js';
+import { createMitzvahWorldModeLoaders, hasMovieRequest } from './MitzvahWorldModeLoaders.js';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 const VILLAGE_MOVIE_URL = './movies/projects/reference-village-60s.json';
@@ -27,23 +24,23 @@ export async function launchMitzvahWorld(hosts, search = globalThis.location?.se
 	const realtimeUrl = parameters.get('realtimeUrl')
 		|| environment.AwtsmoosRealtimeUrl
 		|| inferRealtimeUrl(environment.location);
-	const openSinglePlayer = async () => {
+	const openSinglePlayer = async (selection = {}) => {
 		revealHosts(hosts, true);
 		return modes.singlePlayer(hosts, {
-			quality: parameters.get('quality')
+			onProgress: selection.onProgress,
+			quality: parameters.get('quality'),
+			signal: selection.signal
 		});
 	};
 	const openMultiplayer = async (selection = {}) => {
 		revealHosts(hosts, true);
 		return modes.multiplayer(hosts, {
-			displayName: selection.playerName
-				|| parameters.get('displayName')
-				|| uniqueDisplayName(environment),
+			displayName: selection.playerName || parameters.get('displayName') || uniqueDisplayName(environment),
+			onProgress: selection.onProgress,
 			quality: parameters.get('quality'),
 			realtimeUrl,
-			worldId: selection.worldId
-				|| parameters.get('worldId')
-				|| 'main-village'
+			signal: selection.signal,
+			worldId: selection.worldId || parameters.get('worldId') || 'main-village'
 		});
 	};
 	const openPlatform = async () => {
@@ -57,7 +54,6 @@ export async function launchMitzvahWorld(hosts, search = globalThis.location?.se
 	const openVillageMovie = () => openMovie(
 		`?mode=movie&movieUrl=${encodeURIComponent(VILLAGE_MOVIE_URL)}`
 	);
-
 	if (parameters.get('mode') === 'materials') {
 		revealHosts(hosts, false);
 		return modes.materials(hosts);
@@ -79,6 +75,7 @@ export async function launchMitzvahWorld(hosts, search = globalThis.location?.se
 		singlePlayer: openSinglePlayer
 	}, {
 		WebSocketClass: environment.WebSocket,
+		environment,
 		realtimeUrl
 	});
 }

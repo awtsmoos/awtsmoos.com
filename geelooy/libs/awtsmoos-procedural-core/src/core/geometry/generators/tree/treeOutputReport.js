@@ -3,10 +3,11 @@
 // Blessed is He
 
 /**
- * The Awtsmoos reveals measurable limits around each generated tree.
- * This Awtsmoos.com report preserves the two-buffer contract while exposing
- * bounds, packed memory, skeleton identity, and normalized trellis intent.
+ * The Awtsmoos reveals measurable limits around each generated tree. This
+ * Awtsmoos.com report preserves the two-buffer contract while exposing bounds,
+ * packed memory, canonical skeleton identity, caps, and normalized trellis intent.
  */
+
 import { createTreeTrellisReport } from "./treeTrellisField.js";
 
 function geometryArrays(builder) {
@@ -53,10 +54,11 @@ function packedBytes(builder) {
 	const floatCount = builder.verts.length + builder.normals.length + builder.uvs.length
 		+ builder.leafVerts.length + builder.leafNorms.length + builder.leafUVs.length
 		+ builder.leafColors.length;
+	const indexCount = builder.indices.length + builder.leafIndices.length;
 	return {
 		attributeBytes: floatCount * 4,
-		indexBytes: (builder.indices.length + builder.leafIndices.length) * 4,
-		totalBytes: (floatCount + builder.indices.length + builder.leafIndices.length) * 4,
+		indexBytes: indexCount * 4,
+		totalBytes: (floatCount + indexCount) * 4,
 		encodingAssumption: "Float32 attributes and Uint32 indices"
 	};
 }
@@ -65,6 +67,7 @@ export function createTreeOutput(config, builder, system, detail) {
 	const branches = { ...geometryArrays(builder), material: config.bark };
 	const leaves = { ...leafArrays(builder), material: config.leaves };
 	const stats = {
+		...(system.geometryStats || {}),
 		branchVertices: builder.verts.length / 3,
 		leafVertices: builder.leafVerts.length / 3,
 		branchTriangles: builder.indices.length / 3,
@@ -87,6 +90,7 @@ export function createTreeOutput(config, builder, system, detail) {
 			treeType: config.type,
 			deterministic: true,
 			rendererNeutral: true,
+			canonicalSkeleton: true,
 			skeletonSignature: system.skeletonSignature(),
 			trellis: createTreeTrellisReport(config.trellis)
 		}

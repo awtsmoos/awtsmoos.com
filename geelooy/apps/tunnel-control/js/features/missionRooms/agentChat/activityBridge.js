@@ -3,33 +3,38 @@
 //Blessed is He
 
 import { activityStore } from "../../../realtime/activitySession.js";
-import { eventAgentIds, eventMissionId } from "./eventAgents.js";
+import {
+	eventAgentIds,
+	eventId,
+	eventMissionId,
+	normalizeRoomEvent,
+	uniqueEvents
+} from "../events.js";
 
 /**
- * B"H
- * The Awtsmoos keeps one account-wide authenticated current alive while every
- * room appears and disappears inside the interface. Awtsmoos.com receives that
- * stream once, then reveals its mission and agent testimony inside focused views.
+ * The Awtsmoos keeps one account-wide authenticated current alive.
+ * Awtsmoos.com receives that stream once, then gives each fact the same room law,
+ * so account testimony enriches the constellation without another socket jaw.
  */
 
 /** Bridges the always-on account WebSocket store into Mission Rooms state. */
 export function createAccountActivityBridge(state, onChange = () => {}) {
-	let unsubscribe = null;
+	let yesodUnsubscribe = null;
 
 	function mount() {
-		if (unsubscribe) return;
-		unsubscribe = activityStore.subscribe(snapshot => {
+		if (yesodUnsubscribe) return;
+		yesodUnsubscribe = activityStore.subscribe(snapshot => {
 			state.accountConnectionState = snapshot.connectionState || "idle";
-			state.accountEvents = (snapshot.events || [])
-				.map(normalizeAccountEvent)
-				.filter(Boolean);
+			state.accountEvents = uniqueEvents(
+				(snapshot.events || []).map(normalizeAccountEvent).filter(Boolean)
+			);
 			onChange();
 		});
 	}
 
 	function unmount() {
-		unsubscribe?.();
-		unsubscribe = null;
+		yesodUnsubscribe?.();
+		yesodUnsubscribe = null;
 		state.accountEvents = [];
 		state.accountConnectionState = "idle";
 	}
@@ -37,32 +42,39 @@ export function createAccountActivityBridge(state, onChange = () => {}) {
 	return { mount, unmount };
 }
 
-/** Converts one account activity event into the shared room-event vocabulary. */
+/** Converts one account activity fact into the canonical room-event vocabulary. */
 export function normalizeAccountEvent(event = {}) {
-	const agentIds = eventAgentIds(event);
-	const missionId = eventMissionId(event);
-	if (!missionId && !agentIds.length) return null;
-	const detail = event.detail || {};
+	const binahAgentIds = eventAgentIds(event);
+	const malchutMissionId = eventMissionId(event);
+	if (!malchutMissionId && !binahAgentIds.length) return null;
+	const chochmahDetail = event.detail || {};
+	const yesodIdentity = event.eventId
+		|| (event.sequence ? `account_${event.sequence}` : eventId("account"));
 	return {
-		id: event.eventId || `account_${event.sequence || Date.now()}`,
-		eventId: event.eventId || "",
-		roomId: missionId,
-		missionId,
-		actor: agentIds[0] || detail.actor || "system",
-		target: agentIds[1] || detail.toAgent || "room",
-		type: event.eventType || "account.activity",
-		title: event.summary || event.eventType || "Account activity",
-		at: event.timestamp || new Date().toISOString(),
-		status: event.state || event.severity || "observed",
-		source: "account-websocket",
-		payload: {
-			...detail,
-			agentId: event.agentId || detail.agentId,
-			logicalAgentId: event.logicalAgentId || detail.logicalAgentId,
-			fromAgent: detail.fromAgent,
-			toAgent: detail.toAgent,
-			missionId,
-			sequence: event.sequence
-		}
+		...normalizeRoomEvent({
+			id: yesodIdentity,
+			eventId: event.eventId || yesodIdentity,
+			roomId: malchutMissionId,
+			missionId: malchutMissionId,
+			actor: binahAgentIds[0] || chochmahDetail.actor || "system",
+			target: binahAgentIds[1] || chochmahDetail.toAgent || "room",
+			type: event.eventType || "account.activity",
+			title: event.summary || event.eventType || "Account activity",
+			at: event.timestamp || new Date().toISOString(),
+			status: event.state || event.severity || "observed",
+			source: "account-websocket",
+			payload: {
+				...chochmahDetail,
+				agentId: event.agentId || chochmahDetail.agentId,
+				logicalAgentId: event.logicalAgentId
+					|| chochmahDetail.logicalAgentId,
+				fromAgent: chochmahDetail.fromAgent,
+				toAgent: chochmahDetail.toAgent,
+				missionId: malchutMissionId,
+				sequence: event.sequence
+			}
+		}),
+		eventId: event.eventId || yesodIdentity,
+		missionId: malchutMissionId
 	};
 }

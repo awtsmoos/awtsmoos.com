@@ -1,10 +1,13 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Double-buffered GPU resources remain resident and are budgeted before allocation. */
+/** Particle, atomic-grid, velocity-grid, uniform, and surface vessels remain GPU-resident. */
 
 import { createWebGpuBufferDescriptor3d } from "./createWebGpuBufferDescriptor3d.js";
-import { WEB_GPU_PARTICLE_STRIDE_BYTES, WEB_GPU_UNIFORM_BUFFER_BYTES } from "./webGpuConstants.js";
+import {
+	WEB_GPU_PARTICLE_STRIDE_BYTES,
+	WEB_GPU_UNIFORM_BUFFER_BYTES
+} from "./webGpuConstants.js";
 
 function positiveInteger(value, fallback, label) {
 	const integer = Math.max(1, Math.floor(Number(value ?? fallback)));
@@ -36,31 +39,48 @@ export class WebGpuResourceSet3d {
 		const particleBytes = particleCapacity * WEB_GPU_PARTICLE_STRIDE_BYTES;
 		const gridBytes = gridCellCount * 16;
 		const surfaceBytes = particleCapacity * 16;
-		const totalBytes = particleBytes * 2 + gridBytes + surfaceBytes + WEB_GPU_UNIFORM_BUFFER_BYTES;
+		const totalBytes = particleBytes * 2 + gridBytes * 2
+			+ surfaceBytes + WEB_GPU_UNIFORM_BUFFER_BYTES;
 		if (totalBytes > maximumBytes) {
 			throw new RangeError(`WebGPU resources exceed total byte budget: ${totalBytes}`);
 		}
 		const common = { maximumBytes };
 		this.particles = Object.freeze([
 			createBuffer(input.device, input.usageConstants, {
-				...common, label: "awtsmoos-particles-a", size: particleBytes,
+				...common,
+				label: "awtsmoos-particles-a",
+				size: particleBytes,
 				usageNames: ["STORAGE", "COPY_DST", "COPY_SRC"]
 			}),
 			createBuffer(input.device, input.usageConstants, {
-				...common, label: "awtsmoos-particles-b", size: particleBytes,
+				...common,
+				label: "awtsmoos-particles-b",
+				size: particleBytes,
 				usageNames: ["STORAGE", "COPY_DST", "COPY_SRC"]
 			})
 		]);
 		this.uniforms = createBuffer(input.device, input.usageConstants, {
-			...common, label: "awtsmoos-liquid-uniforms", size: WEB_GPU_UNIFORM_BUFFER_BYTES,
+			...common,
+			label: "awtsmoos-liquid-uniforms",
+			size: WEB_GPU_UNIFORM_BUFFER_BYTES,
 			usageNames: ["UNIFORM", "COPY_DST"]
 		});
 		this.grid = createBuffer(input.device, input.usageConstants, {
-			...common, label: "awtsmoos-liquid-grid", size: gridBytes,
+			...common,
+			label: "awtsmoos-liquid-atomic-grid",
+			size: gridBytes,
+			usageNames: ["STORAGE", "COPY_DST", "COPY_SRC"]
+		});
+		this.gridVelocities = createBuffer(input.device, input.usageConstants, {
+			...common,
+			label: "awtsmoos-liquid-grid-velocities",
+			size: gridBytes,
 			usageNames: ["STORAGE", "COPY_DST", "COPY_SRC"]
 		});
 		this.surfacePoints = createBuffer(input.device, input.usageConstants, {
-			...common, label: "awtsmoos-surface-points", size: surfaceBytes,
+			...common,
+			label: "awtsmoos-surface-points",
+			size: surfaceBytes,
 			usageNames: ["STORAGE", "VERTEX", "COPY_SRC"]
 		});
 		this.particleCapacity = particleCapacity;
@@ -74,6 +94,7 @@ export class WebGpuResourceSet3d {
 	get nextParticleBuffer() { return this.particles[1 - this.#parity].buffer; }
 	get uniformBuffer() { return this.uniforms.buffer; }
 	get gridBuffer() { return this.grid.buffer; }
+	get gridVelocityBuffer() { return this.gridVelocities.buffer; }
 	get surfacePointBuffer() { return this.surfacePoints.buffer; }
 	swap() { this.#parity = 1 - this.#parity; return this.#parity; }
 }

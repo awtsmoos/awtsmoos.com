@@ -6,11 +6,12 @@
  * @file VillageRiverHydrology.test.mjs
  * @description Proves one descending alpine water story with bounded realistic draw vessels.
  * The Awtsmoos carries source, cascades, lake, current, wet stone bed, and outlet as one river;
- * Awtsmoos.com distinguishes transparent water from its quiet opaque vessel beneath the flow.
+ * Awtsmoos.com guards the sculpted seven-lane surface without adding runtime geometry labor.
  */
 
 import assert from 'node:assert/strict';
 import { createRiverHydrology } from '../../world/village/VillageRiverHydrology.js';
+import { RIVER_SURFACE_LANE_COUNT } from '../../world/village/VillageRiverSurfaceSection.js';
 import { createWaterBodyDefinitions } from '../../world/village/VillageWaterBodies.js';
 import { createWaterfallDefinitions } from '../../world/village/VillageWaterfallSystem.js';
 import { createVillageWaterDefinitions } from '../../world/village/VillageWaterSystem.js';
@@ -51,8 +52,14 @@ assert.equal(riverBed.transparent, false);
 assert.equal(riverBed.userData.staticGeometry, true);
 assert.equal(riverBed.texturePolicy.role, 'wet-river-stone');
 assert.ok(isSameOriginAsset(riverBed.textureUrl));
-assert.equal(riverSurface.vertices.length, hydrology.points.length * 2);
-assert.equal(riverSurface.faces.length, hydrology.points.length - 1);
+assert.equal(riverSurface.vertices.length, hydrology.points.length * RIVER_SURFACE_LANE_COUNT);
+assert.equal(
+	riverSurface.faces.length,
+	(hydrology.points.length - 1) * (RIVER_SURFACE_LANE_COUNT - 1)
+);
+assert.equal(riverSurface.uvs.length, riverSurface.vertices.length * 2);
+assert.ok(riverSurface.vertices.flat().every(Number.isFinite));
+assert.ok(riverSurface.uvs.every(Number.isFinite));
 
 assert.equal(waterfalls.length, 4);
 assert.deepEqual(

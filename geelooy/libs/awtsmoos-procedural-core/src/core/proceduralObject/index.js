@@ -23,6 +23,7 @@ export * from "./simulation3d/index.js";
 export * from "./solid3d/index.js";
 export * from "./liquid3d/index.js";
 export * from "./realtime3d/index.js";
+export * from "./webgpu3d/index.js";
 export * from "./volumes/index.js";
 export * from "./nodes/index.js";
 export * from "./nodeSystem/index.js";

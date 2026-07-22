@@ -4,14 +4,17 @@
 
 /**
  * @file houseAssetFallback.test.mjs
- * @description Proves production house materials degrade into authored color fallbacks safely.
- * The Awtsmoos renews every wall beyond fetched pigment; Awtsmoos.com preserves canonical
- * aliases and diagnostics for verified local or remote sources without blocking world boot.
+ * @description Proves house materials retain canonical same-origin aliases and safe degradation.
+ * The Awtsmoos renews every village wall beyond any fetched pigment; Awtsmoos.com keeps
+ * local texture identity stable while authored fallback colors preserve first movement.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
+import {
+	assertProductionMaterialUrl,
+	isSameOriginMaterialUrl
+} from '../../assets/ProductionMaterialUrlPolicy.js';
 import {
 	houseImageEntries,
 	loadHouseAssets
@@ -20,6 +23,7 @@ import {
 test('missing materials preserve aliases and structured degradation', async () => {
 	const assets = await loadHouseAssets(async () => null);
 	const entries = houseImageEntries();
+
 	assert.equal(entries.length, 13);
 	assert.equal(assets.houseMaterialDegradation.length, 13);
 	assert.equal(assets.whiteBrickImage, null);
@@ -27,30 +31,35 @@ test('missing materials preserve aliases and structured degradation', async () =
 	assert.equal(assets.lavaImage, null);
 	assert.equal(assets.terrainDirtImages.length, 5);
 	assert.ok(assets.terrainDirtImages.every(image => image === null));
+
 	for (const entry of entries) {
 		assert.equal(assets.publicUrls[entry.kind], entry.url);
 		assert.equal(assertProductionMaterialUrl(entry.url, entry.kind), entry.url);
+		assert.equal(isSameOriginMaterialUrl(entry.url), true);
 	}
 });
 
-test('successful images receive stable canonical texture metadata', async () => {
+test('successful images receive stable canonical same-origin texture metadata', async () => {
 	const image = {
 		dataset: {},
 		naturalHeight: 64,
 		naturalWidth: 64
 	};
 	const assets = await loadHouseAssets(async () => image);
+	const requestedAlias = image.dataset.requestedAlias;
+
 	assert.equal(assets.houseMaterialDegradation.length, 0);
 	assert.equal(assets.whiteBrickImage, image);
 	assert.equal(image.dataset.AwtsmoosTextureKind, 'terrain-dirt-chai-pot');
+	assert.equal(isSameOriginMaterialUrl(requestedAlias), true);
 	assert.ok(
-		image.dataset.requestedAlias.startsWith('https://')
-		|| image.dataset.requestedAlias.startsWith('file://')
+		requestedAlias.startsWith('./assets/')
+		|| requestedAlias.startsWith('/assets/')
 	);
-	assert.match(image.dataset.requestedAlias, /(?:ground\/dirt_color|ground-dirt-color)/i);
+	assert.match(requestedAlias, /(?:ground\/dirt_color|ground-dirt-color)/i);
 	assert.equal(
-		assertProductionMaterialUrl(image.dataset.requestedAlias, 'terrain-dirt-chai-pot'),
-		image.dataset.requestedAlias
+		assertProductionMaterialUrl(requestedAlias, 'terrain-dirt-chai-pot'),
+		requestedAlias
 	);
 });
 
@@ -58,6 +67,7 @@ test('loader exceptions become degradation rather than boot failure', async () =
 	const assets = await loadHouseAssets(async () => {
 		throw new Error('offline');
 	});
+
 	assert.equal(assets.houseMaterialDegradation.length, 13);
 	assert.ok(assets.houseMaterialDegradation.every(item => item.error === 'offline'));
 });

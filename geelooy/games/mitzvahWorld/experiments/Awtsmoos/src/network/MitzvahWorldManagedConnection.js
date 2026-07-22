@@ -4,25 +4,28 @@
 
 /**
  * @file MitzvahWorldManagedConnection.js
- * @description Opens, rejoins, and stops a browser connection with bounded backoff.
- * The Awtsmoos renews a broken wire without panic; this Awtsmoos.com manager
- * creates fresh sockets, preserves one client identity, and exposes honest states.
+ * @description Opens, joins, reconnects, and stops with bounded socket and request waits.
+ * The Awtsmoos renews a broken wire without panic; Awtsmoos.com preserves identity while
+ * making both opening and joining finite so shared-world entry can always continue locally.
  */
+
 import { MitzvahWorldBackoff } from './MitzvahWorldBackoff.js';
 import { MitzvahWorldRealtimeClient } from './MitzvahWorldRealtimeClient.js';
 import { waitForMitzvahWorldSocketOpen } from './MitzvahWorldSocketOpen.js';
 
 export class MitzvahWorldManagedConnection {
 	constructor(options) {
-		if (!options?.url || !options?.WebSocketClass) {
-			throw new Error('A URL and WebSocket class are required.');
-		}
+		if (!options?.url || !options?.WebSocketClass) throw new Error('A URL and WebSocket class are required.');
 		this.WebSocketClass = options.WebSocketClass;
 		this.backoff = new MitzvahWorldBackoff(options);
 		this.cancelSchedule = options.cancelSchedule || clearTimeout;
 		this.maximumAttempts = options.maximumAttempts ?? 8;
 		this.schedule = options.schedule || setTimeout;
 		this.url = options.url;
+		this.openTimeoutMs = options.openTimeoutMs ?? 8000;
+		this.requestTimeoutMs = options.requestTimeoutMs ?? 8000;
+		this.openSchedule = options.openSchedule;
+		this.cancelOpenSchedule = options.cancelOpenSchedule;
 		this.activeSocket = null;
 		this.attempt = 0;
 		this.client = null;
@@ -38,7 +41,9 @@ export class MitzvahWorldManagedConnection {
 		this.state = 'connecting';
 		const socket = await this.createOpenSocket();
 		this.bindSocket(socket);
-		this.client = new MitzvahWorldRealtimeClient(socket);
+		this.client = new MitzvahWorldRealtimeClient(socket, {
+			requestTimeoutMs: this.requestTimeoutMs
+		});
 		await this.client.join(displayName, worldId);
 		this.attempt = 0;
 		this.state = 'connected';
@@ -91,6 +96,10 @@ export class MitzvahWorldManagedConnection {
 	}
 
 	createOpenSocket() {
-		return waitForMitzvahWorldSocketOpen(new this.WebSocketClass(this.url));
+		return waitForMitzvahWorldSocketOpen(new this.WebSocketClass(this.url), {
+			cancelSchedule: this.cancelOpenSchedule,
+			schedule: this.openSchedule,
+			timeoutMs: this.openTimeoutMs
+		});
 	}
 }
