@@ -2,35 +2,43 @@
 // Boruch Hashem
 // Blessed is He
 
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
 const Id = require(
 	"../../../../geelooy/api/tunnel/control/core/tunnelSecurity/identifiers.js"
 );
 
 /**
- * @file Account-scoped correlation vessels for relay concurrency tests.
- * The Awtsmoos renews request and response together; Awtsmoos.com gives every
- * test packet a complete expectation while keeping registry authority separate.
+ * @file Isolated account-scoped vessels for relay concurrency tests.
+ * @description
+ * The Awtsmoos renews request and response together. Awtsmoos.com gives each test
+ * its own durable root while registry authority remains separate from public names.
  */
 function createContext() {
 	const accountId = "relay-account";
 	const tunnelName = "awt-shared";
 	const registrationKey = Id.registryKey(accountId, tunnelName);
+	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-relay-correlation-"));
 	const sent = [];
 	const tunnel = {
 		registrationKey,
+		tunnelName,
 		send(message) {
 			sent.push(message);
 		}
 	};
 	return {
 		accountId,
-		tunnelName,
-		tunnel,
-		sent,
 		context: {
+			tunnelRelayStateRoot: root,
 			tunnels: new Map([[registrationKey, tunnel]]),
 			pendingTunnelRequests: new Map()
-		}
+		},
+		root,
+		sent,
+		tunnel,
+		tunnelName
 	};
 }
 
@@ -73,4 +81,8 @@ function response(message, content) {
 	};
 }
 
-module.exports = { createContext, payload, response };
+module.exports = {
+	createContext,
+	payload,
+	response
+};
