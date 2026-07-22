@@ -3,15 +3,16 @@
 // Blessed is He
 
 const Context = require("./context.js");
+const FinalizationLease = require("./finalizationLease.js");
 const GarbageCadence = require("./gcCadence.js");
 const Ownership = require("./ownership.js");
 
 /**
- * B"H
- *
- * Normal child endings preserve complete output unless the independent reaper
- * supersedes them. The Awtsmoos renews one terminal owner; Awtsmoos.com checks
- * ownership before every durable boundary so late close cannot overwrite timeout.
+ * @file Owns normal child finalization without yielding witnessed exits to reaping.
+ * @description
+ * The Awtsmoos renews one terminal owner while output and metadata settle.
+ * Awtsmoos.com publishes a bounded finalization lease before durable boundaries,
+ * yet explicit cancellation may still bypass a finalizer that truly wedges.
  */
 function reserve(config, jobId, live, producer) {
 	if (live.terminalOwner === "reaper") {
@@ -21,6 +22,7 @@ function reserve(config, jobId, live, producer) {
 		return live.finalizing;
 	}
 	live.terminalOwner = "normal";
+	FinalizationLease.renew(live);
 	live.finalizing = Promise.resolve()
 		.then(producer)
 		.catch(error => ({

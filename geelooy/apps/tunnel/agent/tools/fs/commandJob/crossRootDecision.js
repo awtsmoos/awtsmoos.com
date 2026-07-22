@@ -4,8 +4,8 @@ const Identity = require('./processIdentity.js');
 const Observe = require('./processObserve.js');
 
 /**
- * B"H — Planning observes but never signals. Exact surviving families are named
- * for cleanup; recycled or missing identity becomes terminal evidence.
+ * B"H — Current exact families are preserved; obsolete exact families are cleaned.
+ * Missing or recycled identities become terminal evidence without unsafe signaling.
  */
 async function decide(record, options = {}) {
 	const meta = record.meta || {};
@@ -40,27 +40,22 @@ async function decide(record, options = {}) {
 	const observed = await Promise.resolve(observe(expected.pid));
 	const comparison = Identity.compare(expected, observed);
 	if (comparison.state === 'dead') {
-		return {
-			action: 'finalize',
-			status: 'stale_lost_worker',
-			patch: {
-				status: 'stale_lost_worker',
-				startupRecovered: true,
-				error: 'startup_process_missing',
-				processComparison: comparison
-			}
-		};
+		return finalizeDecision('stale_lost_worker', comparison, 'startup_process_missing');
 	}
 	if (!comparison.ok) {
+		return finalizeDecision(
+			'identity_unverified',
+			comparison,
+			comparison.reason || comparison.state
+		);
+	}
+	if (record.currentRoot === true) {
 		return {
-			action: 'finalize',
-			status: 'identity_unverified',
-			patch: {
-				status: 'identity_unverified',
-				startupRecovered: true,
-				error: comparison.reason || comparison.state,
-				processComparison: comparison
-			}
+			action: 'preserve_current_exact',
+			status: 'running',
+			expected,
+			observed,
+			processComparison: comparison
 		};
 	}
 	return {
@@ -69,6 +64,19 @@ async function decide(record, options = {}) {
 		expected,
 		observed,
 		processComparison: comparison
+	};
+}
+
+function finalizeDecision(status, comparison, error) {
+	return {
+		action: 'finalize',
+		status,
+		patch: {
+			status,
+			startupRecovered: true,
+			error,
+			processComparison: comparison
+		}
 	};
 }
 
@@ -86,4 +94,4 @@ function positive(value, fallback) {
 	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
-module.exports = { decide, notStartedCleanup, positive };
+module.exports = { decide, finalizeDecision, notStartedCleanup, positive };

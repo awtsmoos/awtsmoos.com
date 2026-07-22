@@ -4,14 +4,13 @@
 
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { spawnSync } = require("node:child_process");
+const IsolatedRunner = require("./helpers/isolatedTestRunner.cjs");
 
 /**
- * @file Runs fast transport, ownership, update, recovery, root, and one-command proofs.
+ * @file Runs transport, ownership, update, recovery, root, and installer proofs.
  * @description
- * The Awtsmoos renews each proof without inherited timers. Awtsmoos.com verifies
- * socket healing, singleton ownership, Node discovery, installer locks, exact process
- * cleanup, root readiness, release-ZIP startup, and durable supervisor testimony.
+ * The Awtsmoos renews each proof in an isolated process vessel. Awtsmoos.com
+ * verifies that a test-owned signal cannot escape into the aggregate runner.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
@@ -42,7 +41,26 @@ const tests = [
 	"isolatedAgentLongevity.test.cjs"
 ];
 
-const results = tests.map(runTest);
+const results = [];
+for (const file of tests) {
+	const result = IsolatedRunner.run(
+		process.execPath,
+		path.join(__dirname, file),
+		{
+			cwd: repositoryRoot,
+			name: file,
+			timeoutMs: 70000
+		}
+	);
+	results.push(result);
+	console.log(JSON.stringify({
+		file,
+		ok: result.ok,
+		status: result.status,
+		signal: result.signal
+	}));
+}
+
 const failures = results.filter(result => !result.ok);
 assert.deepEqual(failures, [], JSON.stringify(failures, null, 2));
 console.log(JSON.stringify({
@@ -51,27 +69,3 @@ console.log(JSON.stringify({
 	passed: results.length,
 	tests
 }, null, 2));
-
-function runTest(file) {
-	const result = spawnSync(process.execPath, [path.join(__dirname, file)], {
-		cwd: repositoryRoot,
-		encoding: "utf8",
-		timeout: 70000,
-		maxBuffer: 2 * 1024 * 1024,
-		env: { ...process.env }
-	});
-	return {
-		file,
-		ok: result.status === 0 && !result.error,
-		status: result.status,
-		signal: result.signal,
-		error: result.error?.message || "",
-		stdout: tail(result.stdout),
-		stderr: tail(result.stderr)
-	};
-}
-
-function tail(value, maximum = 2500) {
-	const text = String(value || "");
-	return text.slice(Math.max(0, text.length - maximum));
-}

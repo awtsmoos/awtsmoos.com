@@ -6,12 +6,13 @@ const Context = require("./context.js");
 const Lifecycle = require("./lifecycle.js");
 
 /**
- * B"H
- * The listeners enter before the event loop may announce a fast child exit.
- * Thus even an `echo` has its final breath witnessed by Awtsmoos.com, while
- * the Awtsmoos binds process identity and durable metadata into one receipt.
+ * @file Launches one admitted command with execution-time lease truth.
+ * @description
+ * The listeners enter before a fast child may leave, while the Awtsmoos renews
+ * the command's allotted life only when Awtsmoos.com actually opens its process.
  */
 async function launch(config, payload, meta) {
+	Context.MetaFactory.markLaunched(meta);
 	const spawned = Context.ProcessControl.spawn(
 		meta.command,
 		meta.cwd,
@@ -21,10 +22,7 @@ async function launch(config, payload, meta) {
 		}
 	);
 
-	Context.ProcessControl.renice(
-		spawned,
-		payload
-	);
+	Context.ProcessControl.renice(spawned, payload);
 	Context.MetaFactory.attachPreliminary(
 		meta,
 		Context.ProcessControl.preliminary(spawned)
@@ -38,11 +36,7 @@ async function launch(config, payload, meta) {
 		meta
 	);
 
-	Lifecycle.beginIdentity(
-		config,
-		meta.jobId,
-		live
-	);
+	Lifecycle.beginIdentity(config, meta.jobId, live);
 	Lifecycle.wireProcess(
 		config,
 		meta.jobId,
@@ -50,24 +44,17 @@ async function launch(config, payload, meta) {
 		meta.timeoutMs
 	);
 
-	await Context.Meta.write(
-		config,
-		meta.jobId,
-		meta
-	);
+	await Context.Meta.write(config, meta.jobId, meta);
 	await live.identityPromise;
 
-	return Context.Responses.start(
-		meta.jobId,
-		{
-			command: meta.command,
-			cwd: meta.cwd,
-			shell: meta.shell,
-			timeoutMs: meta.timeoutMs,
-			storage: meta.storage,
-			meta: live.meta
-		}
-	);
+	return Context.Responses.start(meta.jobId, {
+		command: meta.command,
+		cwd: meta.cwd,
+		shell: meta.shell,
+		timeoutMs: meta.timeoutMs,
+		storage: meta.storage,
+		meta: live.meta
+	});
 }
 
 async function fail(config, meta, error) {

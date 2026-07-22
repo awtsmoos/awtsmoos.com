@@ -8,14 +8,15 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
- * @file Verifies durable route identity and reconnect testimony for one process.
+ * @file Verifies durable route, activation, runtime, and reconnect testimony.
  * @description
- * The Awtsmoos renews friendly name, tunnel ID, generation, and recovery pressure.
- * Awtsmoos.com rejects stale or borrowed receipts before an installer or supervisor
- * can mistake an opened process for a healthy account-scoped connection.
+ * The Awtsmoos renews every route witness while Awtsmoos.com rejects receipts
+ * borrowed from another activation, runtime, process, or account-bound tunnel.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-connection-receipt-"));
 process.env.AWTSMOOS_INSTALL_ROOT = root;
+process.env.AWTSMOOS_ACTIVATION_ID = "activation-test";
+process.env.AWTSMOOS_RUNTIME_VERSION = "runtime-test";
 const Receipt = require("../lib/runtime/connection-receipt.js");
 
 try {
@@ -34,6 +35,8 @@ try {
 	assert.equal(written.schemaVersion, 4);
 	assert.equal(written.pid, process.pid);
 	assert.equal(written.tunnelId, "tun_test_identity");
+	assert.equal(written.activationId, "activation-test");
+	assert.equal(written.runtimeVersion, "runtime-test");
 	assert.equal(written.reconnectAttempt, 4);
 	assert.equal(written.reconnectDelayMs, 8000);
 	assert.equal(written.lastRegisteredAt, 12345);
@@ -41,6 +44,8 @@ try {
 		pid: process.pid,
 		tunnelId: "tun_test_identity",
 		tunnelName: "awt-test",
+		activationId: "activation-test",
+		runtimeVersion: "runtime-test",
 		maxAgeMs: 10000
 	}), true);
 	assert.equal(Receipt.matches(Receipt.read(root), {
@@ -50,6 +55,12 @@ try {
 	assert.equal(Receipt.matches(Receipt.read(root), {
 		pid: process.pid + 1,
 		tunnelName: "awt-test"
+	}), false);
+	assert.equal(Receipt.matches(Receipt.read(root), {
+		activationId: "activation-other"
+	}), false);
+	assert.equal(Receipt.matches(Receipt.read(root), {
+		runtimeVersion: "runtime-other"
 	}), false);
 
 	const stale = Receipt.read(root);
@@ -69,6 +80,8 @@ try {
 	assert.equal(old.schemaVersion, 4);
 	assert.equal(old.reconnectAttempt, 0);
 	assert.equal(old.tunnelId, "");
+	assert.equal(old.activationId, "");
+	assert.equal(old.runtimeVersion, "");
 
 	fs.writeFileSync(Receipt.receiptPath(root), "not-json");
 	assert.equal(Receipt.read(root), null);
@@ -78,6 +91,8 @@ try {
 		ok: true,
 		suite: "connection-receipt",
 		authoritativeTunnelId: true,
+		activationBound: true,
+		runtimeBound: true,
 		reconnectTestimony: true
 	}, null, 2));
 } finally {

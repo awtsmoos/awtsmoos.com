@@ -8,8 +8,8 @@ const Singleton = require("./process-singleton.js");
  * @file Starts runtime activity only after one process owns the install-root lease.
  * @description
  * The Awtsmoos renews metrics, workers, socket, and shutdown beneath one owner.
- * Awtsmoos.com leaves duplicate launchers without timers, sockets, or receipt writes,
- * so they exit quietly instead of replacing the living account-scoped tunnel.
+ * Awtsmoos.com keeps periodic diagnostics compact and fallible, so observation
+ * cannot freeze or terminate the living account-scoped tunnel it observes.
  */
 function createProcessRuntime(options = {}) {
 	let lease = null;
@@ -40,9 +40,10 @@ function createProcessRuntime(options = {}) {
 
 	function startActivity() {
 		options.lagMonitor?.start?.();
-		memoryTimer = setInterval(() => {
-			options.log?.("info", `Memory: ${JSON.stringify(options.snapshot())}`);
-		}, Number(options.memoryIntervalMs || 60000));
+		memoryTimer = setInterval(
+			() => reportMemory(options),
+			Number(options.memoryIntervalMs || 60000)
+		);
 		memoryTimer.unref?.();
 	}
 
@@ -70,6 +71,17 @@ function createProcessRuntime(options = {}) {
 	};
 }
 
+function reportMemory(options) {
+	try {
+		const snapshot = options.snapshot?.({ workers: false }) || {};
+		options.log?.("info", `Memory: ${JSON.stringify(snapshot)}`);
+	} catch (error) {
+		try {
+			options.log?.("warn", `Memory snapshot failed: ${error.message || error}`);
+		} catch {}
+	}
+}
+
 function duplicateMessage(result = {}) {
 	const owner = publicOwner(result.owner);
 	return `B"H duplicate agent refused: ${JSON.stringify({
@@ -90,5 +102,6 @@ function publicOwner(owner = {}) {
 module.exports = {
 	createProcessRuntime,
 	duplicateMessage,
-	publicOwner
+	publicOwner,
+	reportMemory
 };

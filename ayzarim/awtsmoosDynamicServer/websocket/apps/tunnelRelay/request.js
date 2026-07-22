@@ -5,11 +5,8 @@
 const Id = require(
 	"../../../../../geelooy/api/tunnel/control/core/tunnelSecurity/identifiers.js"
 );
-const {
-	boundedTimeout,
-	cleanRelayPayload,
-	safeRelayWaitMs
-} = require("./normalizers.js");
+const Canonical = require("./canonicalRequest.js");
+const Normalizers = require("./normalizers.js");
 const ProgressHandler = require("./progressHandler.js");
 const RequestDispatch = require("./requestDispatch.js");
 const RequestPlan = require("./requestPlan.js");
@@ -19,25 +16,34 @@ const RetryRequest = require("./retryRequest.js");
 const State = require("./state.js");
 
 /**
- * @file Routes requests through one account plus immutable route reference.
+ * @file Routes one account-scoped canonical operation through the relay.
  * @description
- * The Awtsmoos renews route ID, friendly name, request, and answer as one deed.
- * Awtsmoos.com finds the socket by account and tunnel ID, then sends the canonical
- * display name to the agent so stable routing never degrades response readability.
+ * The Awtsmoos renews route, request, waiters, and response as one deed.
+ * Awtsmoos.com claims durable identity before dispatch and treats every retry as
+ * observation of that deed rather than permission to create a new socket request.
  */
-function sendTunnelRequest(context, accountId, routeReference, payload = {}, timeoutMs) {
+async function sendTunnelRequest(
+	context,
+	accountId,
+	routeReference,
+	payload = {},
+	timeoutMs
+) {
 	State.ensureStores(context);
 	State.cleanup(context);
 	const registrationKey = Id.registryKey(accountId, routeReference);
 	if (!registrationKey) return invalidIdentity();
-	const cleaned = cleanRelayPayload(payload);
-	const waitMs = safeRelayWaitMs(cleaned.relayWaitMs || cleaned.httpSafeWaitMs);
+	const cleaned = Normalizers.cleanRelayPayload(payload);
+	const waitMs = Normalizers.safeRelayWaitMs(
+		cleaned.relayWaitMs || cleaned.httpSafeWaitMs
+	);
+	const totalTimeoutMs = Normalizers.boundedTimeout(
+		timeoutMs || cleaned.timeoutMs
+	);
 	const retry = RetryRequest.describe(cleaned);
-	const localRetry = RetryRequest.resolveLocal(context, retry, waitMs);
-	if (localRetry?.handled) return localRetry.result;
-	const totalTimeoutMs = boundedTimeout(timeoutMs || cleaned.timeoutMs);
+	if (retry && !retry.controlRequestId) return RetryRequest.invalid(retry);
 	const plan = retry
-		? RetryRequest.forwardPlan(cleaned, retry)
+		? observationPlan(cleaned, retry)
 		: RequestPlan.ordinary(cleaned);
 	const tunnel = context.tunnels.get(registrationKey);
 	const canonicalName = tunnel?.tunnelName || routeReference;
@@ -47,48 +53,58 @@ function sendTunnelRequest(context, accountId, routeReference, payload = {}, tim
 		canonicalName,
 		totalTimeoutMs
 	);
-	const prior = RequestReuse.priorResult(
+	return await Canonical.run({
 		context,
+		id: plan.transportId,
+		expected,
 		retry,
-		plan,
-		expected,
-		waitMs
-	);
-	if (prior) return prior;
-	if (!tunnel) {
-		return RequestDispatch.missing(
-			context,
-			accountId,
-			routeReference,
-			cleaned,
-			plan,
-			expected
-		);
-	}
-	return RequestDispatch.dispatch({
-		context,
-		accountId,
-		tunnelName: canonicalName,
-		routeReference,
-		tunnel,
-		payload: cleaned,
-		plan,
-		expected,
-		totalTimeoutMs,
 		waitMs,
-		retry
+		producer: () => tunnel
+			? RequestDispatch.dispatch({
+				context,
+				accountId,
+				tunnelName: canonicalName,
+				tunnel,
+				payload: cleaned,
+				plan,
+				expected,
+				totalTimeoutMs,
+				waitMs
+			})
+			: RequestDispatch.missing(
+				context,
+				accountId,
+				routeReference,
+				cleaned,
+				plan,
+				expected
+			)
 	});
 }
 
+function observationPlan(payload, retry) {
+	return {
+		transportId: retry.controlRequestId,
+		expectationId: retry.controlRequestId,
+		expectationPayload: {
+			...payload,
+			action: retry.requestedAction,
+			controlRequestId: retry.controlRequestId
+		},
+		tunnelPayload: payload
+	};
+}
+
 function invalidIdentity() {
-	return Promise.resolve({
+	return {
 		ok: false,
 		error: "invalid_tunnel_identity"
-	});
+	};
 }
 
 module.exports = {
 	handleTunnelProgress: ProgressHandler.handleTunnelProgress,
 	handleTunnelResponse: ResponseHandler.handleTunnelResponse,
+	observationPlan,
 	sendTunnelRequest
 };
