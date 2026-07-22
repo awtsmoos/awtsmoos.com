@@ -8,21 +8,16 @@ const ProcessEvents = require("./liveProcessEvents.js");
 const Reap = require("./reap.js");
 
 /**
- * B"H
- *
- * One live record joins child, registry, reaper, heartbeat, and output chains.
- * The Awtsmoos renews each ownership vessel; Awtsmoos.com delegates identity and
- * process events so construction remains small and every boundary is testable.
+ * @file Creates one explicit ownership record for each live command process.
+ * @description
+ * The Awtsmoos joins child, registry, reaper, heartbeat, and ordered output in
+ * one renewed vessel. Awtsmoos.com keeps constant-time writes, one heartbeat
+ * stream, and per-channel byte testimony for batched retained-output trimming.
  */
 function createLive(config, payload, jobId, spawned, meta) {
 	const registry = Context.getGlobalRegistry();
 	const reaper = Context.getGlobalReaper(registry);
-	const live = createRecord(
-		spawned,
-		meta,
-		registry,
-		reaper
-	);
+	const live = createRecord(spawned, meta, registry, reaper, config);
 	registry.registerWorker(
 		Context.RegistryBridge.registryRecord(meta),
 		{
@@ -46,24 +41,37 @@ function createLive(config, payload, jobId, spawned, meta) {
 	return live;
 }
 
-function createRecord(spawned, meta, registry, reaper) {
+function createRecord(spawned, meta, registry, reaper, config = null) {
 	return {
 		child: spawned.child,
 		spawned,
 		meta,
-		writes: [],
+		config,
+		writes: new Set(),
 		chains: {
 			stdout: Promise.resolve(),
 			stderr: Promise.resolve()
+		},
+		outputState: {
+			stdout: streamState(),
+			stderr: streamState()
 		},
 		registry,
 		reaper,
 		heartbeatWrites: 0,
 		heartbeatTimer: null,
+		heartbeatPersistence: null,
 		timer: null,
 		identityPromise: null,
 		finalizing: null,
 		reapPromise: null
+	};
+}
+
+function streamState() {
+	return {
+		bytes: 0,
+		trims: 0
 	};
 }
 
@@ -72,5 +80,6 @@ module.exports = {
 	beginIdentity: Identity.beginIdentity,
 	createLive,
 	createRecord,
+	streamState,
 	wireProcess: ProcessEvents.wireProcess
 };

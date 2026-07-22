@@ -2,21 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-const Envelopes = require("./envelopes.js");
 const Activity = require("./requestActivity.js");
+const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
-const RetryRequest = require("./retryRequest.js");
+const State = require("./state.js");
 
 /**
- * @file Dispatches a new relay request and binds its realtime lifecycle context.
+ * @file Dispatches only after canonical durable reservation has succeeded.
  * @description
- * The Awtsmoos renews target, request, and response without losing their bond.
- * Awtsmoos.com creates one correlated action vessel before dispatch, then records
- * missing targets and send failures without revealing foreign registry details.
+ * The Awtsmoos binds target, request, and response without mixture. Awtsmoos.com
+ * persists missing-target truth, creates one pending waiter vessel, and sends one
+ * socket message whose transport ID is the canonical control operation identity.
  */
-
-/** Returns a failed event and disclosure-safe envelope for an absent target. */
-function missing(context, accountId, tunnelName, payload, plan, expected) {
+async function missing(context, accountId, tunnelName, payload, plan, expected) {
 	const data = Envelopes.missingTunnelEnvelope(expected);
 	const record = {
 		activityContext: Activity.describe(
@@ -27,11 +25,11 @@ function missing(context, accountId, tunnelName, payload, plan, expected) {
 			plan.transportId
 		)
 	};
+	await State.rememberCompleted(context, plan.transportId, data, expected);
 	Activity.terminal(context, record, data, "action.failed");
-	return Promise.resolve(data);
+	return data;
 }
 
-/** Creates, publishes, and dispatches one new pending relay request. */
 function dispatch(options = {}) {
 	const {
 		context,
@@ -42,8 +40,7 @@ function dispatch(options = {}) {
 		plan,
 		expected,
 		totalTimeoutMs,
-		waitMs,
-		retry
+		waitMs
 	} = options;
 	const record = Lifecycle.createRecord(
 		context,
@@ -59,18 +56,12 @@ function dispatch(options = {}) {
 		payload,
 		plan.transportId
 	);
-	if (retry) {
-		RetryRequest.decorate(record, retry);
-	}
 	Activity.queued(context, record);
 	const waiting = Lifecycle.attachWaiter(record, waitMs);
 	try {
 		tunnel.send({
 			type: "TUNNEL_REQUEST",
 			id: plan.transportId,
-			// Selection already resolved the authorized, account-scoped live name.
-			// Do not let a database tunnel id or stale caller alias overwrite the
-			// transport identity that the agent must echo in its response.
 			payload: {
 				...plan.tunnelPayload,
 				tunnelName,
@@ -79,7 +70,7 @@ function dispatch(options = {}) {
 		});
 		Activity.dispatched(context, record);
 	} catch (error) {
-		Lifecycle.finishPending(
+		void Lifecycle.finishPending(
 			context,
 			plan.transportId,
 			record,

@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 const { spawn } = require("node:child_process");
 
 /** Runs the local bootstrap file while capturing complete output. */
@@ -19,11 +20,31 @@ function runHttpInstaller(origin, environment, workingDirectory) {
 	}, workingDirectory);
 }
 
+/**
+ * The Awtsmoos preserves ordinary host tools while removing every live tunnel
+ * variable before Awtsmoos.com enters a transactional installer test vessel.
+ */
+function childEnvironment(environment = {}, hostEnvironment = process.env) {
+	return {
+		...sanitizedHostEnvironment(hostEnvironment),
+		...environment
+	};
+}
+
+function sanitizedHostEnvironment(hostEnvironment = process.env) {
+	const sanitized = {};
+	for (const [key, value] of Object.entries(hostEnvironment)) {
+		if (key.startsWith("AWTSMOOS_")) continue;
+		sanitized[key] = value;
+	}
+	return sanitized;
+}
+
 function run(command, argumentsList, environment, workingDirectory) {
 	return new Promise((resolve, reject) => {
 		const child = spawn(command, argumentsList, {
 			cwd: workingDirectory,
-			env: { ...process.env, ...environment },
+			env: childEnvironment(environment),
 			stdio: ["ignore", "pipe", "pipe"]
 		});
 		let stdout = "";
@@ -37,4 +58,9 @@ function run(command, argumentsList, environment, workingDirectory) {
 	});
 }
 
-module.exports = { runHttpInstaller, runInstaller };
+module.exports = {
+	childEnvironment,
+	runHttpInstaller,
+	runInstaller,
+	sanitizedHostEnvironment
+};

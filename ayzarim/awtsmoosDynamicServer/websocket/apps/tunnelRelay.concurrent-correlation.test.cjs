@@ -3,21 +3,68 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
+const fsp = require("node:fs/promises");
 const Relay = require("./tunnelRelay.js");
 const Fixture = require("./tunnelRelay.correlationFixtures.cjs");
+const Helpers = require("./tunnelRelay.concurrentHelpers.cjs");
 const Constants = require("./tunnelRelay/constants.js");
 
 /**
- * Hundreds of callers may share one request without sharing another account's
- * answer. The Awtsmoos renews each correlation; Awtsmoos.com binds every waiter
- * and response to one account-scoped registration key and exact expectation.
+ * @file Proves concurrent callers converge on account-scoped durable results.
+ * @description
+ * The Awtsmoos lets short HTTP windows close while one deed continues. Awtsmoos.com
+ * quarantines crossed answers and replays truth without another socket dispatch.
  */
 async function main() {
 	const test = Fixture.createContext();
-	const count = Math.max(1, Number(process.env.AWTSMOOS_RELAY_STRESS_COUNT || 200));
-	const promises = createDuplicateCallers(test, count);
-	assert.equal(test.sent.length, count);
+	const count = Math.max(
+		1,
+		Number(process.env.AWTSMOOS_RELAY_STRESS_COUNT || 200)
+	);
+	try {
+		const entries = Helpers.createDuplicateCallers(
+			Relay,
+			test,
+			Fixture,
+			count
+		);
+		await Helpers.waitFor(() => test.sent.length === count, 30000);
+		quarantineCrossedResponses(test, count);
+		assert.equal(test.context.pendingTunnelRequests.size, count);
+		completeValidResponses(test);
+		const initial = await Promise.all(entries.map(entry => entry.promise));
+		await Helpers.waitFor(
+			() => test.context.pendingTunnelRequests.size === 0,
+			30000
+		);
+		const final = await Promise.all(entries.map((entry, index) => (
+			initial[index].ok === true
+				? initial[index]
+				: Helpers.send(Relay, test, Helpers.retryPayload(entry.request))
+		)));
+		assert(final.every(result => result.ok === true));
+		assert(final.every(result => result.content.startsWith("valid:")));
+		assert.equal(test.sent.length, count);
+		assert.equal(
+			test.context.completedTunnelRequests.size,
+			Math.min(count, Constants.COMPLETED_LIMIT)
+		);
+		assert.equal(
+			test.context.tunnelResponseQuarantine.length,
+			Math.min(count, Constants.QUARANTINE_LIMIT)
+		);
+		console.log(JSON.stringify({
+			ok: true,
+			requests: count,
+			callers: entries.length,
+			initialPending: initial.filter(result => !result.ok).length
+		}));
+	} finally {
+		await fsp.rm(test.root, { recursive: true, force: true });
+	}
+}
 
+function quarantineCrossedResponses(test, count) {
 	for (let index = 0; index < count; index += 1) {
 		const current = test.sent[index];
 		const crossed = test.sent[(index + 1) % count];
@@ -30,8 +77,9 @@ async function main() {
 			}
 		), false);
 	}
-	assert.equal(test.context.pendingTunnelRequests.size, count);
+}
 
+function completeValidResponses(test) {
 	for (const message of [...test.sent].reverse()) {
 		assert.equal(Relay.handleTunnelResponse(
 			test.context,
@@ -39,44 +87,6 @@ async function main() {
 			Fixture.response(message, `valid:${message.payload.path}`)
 		), true);
 	}
-
-	const results = await Promise.all(promises);
-	assert(results.every(result => result.ok === true));
-	assert(results.every(result => result.content.startsWith("valid:")));
-	assert.equal(test.context.pendingTunnelRequests.size, 0);
-	assert.equal(
-		test.context.completedTunnelRequests.size,
-		Math.min(count, Constants.COMPLETED_LIMIT)
-	);
-	assert.equal(
-		test.context.tunnelResponseQuarantine.length,
-		Math.min(count, Constants.QUARANTINE_LIMIT)
-	);
-	console.log(JSON.stringify({
-		ok: true,
-		requests: count,
-		callers: promises.length
-	}));
-}
-
-function createDuplicateCallers(test, count) {
-	const promises = [];
-	for (let index = 0; index < count; index += 1) {
-		const request = Fixture.payload(index);
-		promises.push(send(test, request));
-		promises.push(send(test, request));
-	}
-	return promises;
-}
-
-function send(test, request) {
-	return Relay.sendTunnelRequest(
-		test.context,
-		test.accountId,
-		test.tunnelName,
-		request,
-		10000
-	);
 }
 
 main().catch(error => {

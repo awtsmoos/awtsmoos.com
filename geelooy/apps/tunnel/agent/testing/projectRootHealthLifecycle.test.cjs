@@ -7,6 +7,7 @@ const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const RootHealth = require("../lib/runtime/project-root-health.js");
+const SpawnResult = require("./helpers/spawnResult.cjs");
 
 /** Agent root testimony and installer waiting share an identity-bound contract. */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
@@ -30,7 +31,7 @@ try {
 	assert.equal(runCheck("ready", root, shellFile, process.pid).status, 0);
 	fs.rmSync(path.join(root, RootHealth.FILE_NAME));
 	const delayed = runCheck("delayed", root, shellFile, process.pid, projectRoot);
-	assert.equal(delayed.status, 0, `${delayed.stdout}\n${delayed.stderr}`);
+	assert.equal(delayed.status, 0, SpawnResult.describe(delayed));
 	assert.match(delayed.stdout, /"state":"ready"/);
 	writeReceipt(root, {
 		...direct,
@@ -79,11 +80,11 @@ source "$TEST_SCRIPT"`;
 	return `${prelude}
 ( sleep 1; node - "$ROOT/project-root-state.json" "$TEST_PID" "$TEST_PROJECT_ROOT" <<'NODE'
 const fs = require("node:fs");
-const path = require("node:path");
 const [file, pid, root] = process.argv.slice(2);
 fs.writeFileSync(file, JSON.stringify({
 	schemaVersion: 2, state: "ready", ok: true, pid: Number(pid),
-	activationId: "", runtimeVersion: "test-version", root,
+	activationId: process.env.AWTSMOOS_ACTIVATION_ID || "",
+	runtimeVersion: "test-version", root,
 	canonicalRoot: fs.realpathSync(root), allowWrite: true,
 	readable: true, writable: true,
 	request: { action: "projectRootProbe", root }, response: { ok: true },

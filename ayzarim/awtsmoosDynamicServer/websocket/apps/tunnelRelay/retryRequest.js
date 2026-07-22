@@ -2,92 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
-const Lifecycle = require("./lifecycle.js");
 const Identity = require("./retryIdentity.js");
-const State = require("./state.js");
 
 /**
- * B"H
- * Retry joins one living deed. The Awtsmoos keeps the operation immutable while
- * Awtsmoos.com may renew only the outer transport vessel.
+ * @file Defines retry as observation of one canonical deed.
+ * @description
+ * The Awtsmoos keeps operation identity immutable while transport callers return.
+ * Awtsmoos.com validates canonical ID and requested action but never builds a fresh
+ * native dispatch plan for an unknown retry.
  */
-function resolveLocal(context, descriptor, waitMs) {
-	if (!descriptor) return null;
-	if (!descriptor.controlRequestId) return handled(invalid(descriptor));
-	const pending = context.pendingTunnelRequests.get(descriptor.controlRequestId);
-	if (pending) {
-		return actionMatches(descriptor, pending.expected)
-			? handledPromise(Lifecycle.attachWaiter(pending, waitMs))
-			: handled(conflict(descriptor, pending.expected));
-	}
-	const completed = State.completed(context, descriptor.controlRequestId);
-	if (completed) {
-		return actionMatches(descriptor, completed.expected)
-			? handled(completed.data)
-			: handled(conflict(descriptor, completed.expected));
-	}
-	return descriptor.requestedAction
-		? { handled: false, descriptor }
-		: handled(invalid(descriptor));
-}
-
-/** @returns {object} Fresh transport plan for an agent-side retry probe. */
-function forwardPlan(payload, descriptor) {
-	const operationId = descriptor.controlRequestId;
-	const carrier = {
-		controlRequestId: operationId,
-		originalControlRequestId: operationId,
-		requestedAction: descriptor.requestedAction
-	};
-	return {
-		transportId: `retry_${Date.now()}_${Math.random().toString(36).slice(2)}`,
-		expectationId: operationId,
-		expectationPayload: {
-			...payload,
-			action: descriptor.requestedAction,
-			controlRequestId: operationId
-		},
-		tunnelPayload: {
-			...payload,
-			action: "retryAction",
-			controlRequestId: operationId,
-			originalControlRequestId: operationId,
-			requestedAction: descriptor.requestedAction,
-			params: payload.params || JSON.stringify(carrier)
-		}
-	};
-}
-
-function decorate(record, descriptor) {
-	record.retryOperationId = descriptor.controlRequestId;
-	record.retryRequestedAction = descriptor.requestedAction;
-}
-
-/** Preserve a terminal probe under the original operation identity. */
-function rememberCompletion(context, record, data = {}) {
-	if (!record?.retryOperationId || data.pending === true) return;
-	State.rememberCompleted(context, record.retryOperationId, data, {
-		...record.expected,
-		id: record.retryOperationId,
-		controlRequestId: record.retryOperationId,
-		requestedAction: record.retryRequestedAction
-	});
-}
-
-function actionMatches(descriptor, expected = {}) {
+function actionMatches(descriptor = {}, expected = {}) {
 	return !descriptor.requestedAction ||
 		descriptor.requestedAction === expected.requestedAction;
 }
 
-function handled(value) {
-	return handledPromise(Promise.resolve(value));
-}
-
-function handledPromise(result) {
-	return { handled: true, result };
-}
-
-function invalid(identity) {
+function invalid(identity = {}) {
 	return {
 		ok: false,
 		status: 400,
@@ -96,7 +25,7 @@ function invalid(identity) {
 	};
 }
 
-function conflict(identity, expected) {
+function conflict(identity = {}, expected = {}) {
 	return {
 		ok: false,
 		status: 409,
@@ -108,9 +37,8 @@ function conflict(identity, expected) {
 }
 
 module.exports = {
-	decorate,
+	actionMatches,
+	conflict,
 	describe: Identity.describe,
-	forwardPlan,
-	rememberCompletion,
-	resolveLocal
+	invalid
 };
