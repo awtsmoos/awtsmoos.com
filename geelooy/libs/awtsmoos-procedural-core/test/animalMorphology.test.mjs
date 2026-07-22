@@ -1,63 +1,70 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
-/** The Awtsmoos renews bounded variation while ancestry remains inspectable. */
+/**
+ * The Awtsmoos renews bounded variation through one public animal pipeline.
+ * These Awtsmoos.com tests reject duplicate profiles while proving body plans,
+ * breeding, recipe evolution, and locomotion metadata remain deterministic.
+ */
 import assert from "node:assert/strict";
 import {
+	ANIMAL_GENOME_RULES,
+	breedAnimalGenomes,
 	createAnimalGenome,
-	createAnimalLocomotionProfile,
-	createAnimalMorphologyProfile,
-	crossAnimalGenomes,
+	createAnimalLocomotionPlan,
+	createAnimalMorphologyVariant,
+	createAnimalVariationSet,
 	listAnimalArchetypes,
-	mutateAnimalGenome,
 	resolveAnimalBodyPlan
 } from "../src/core/animalMesh/index.js";
+import { createExampleQuadrupedRecipe } from "../examples/animalMesh/createExampleQuadrupedRecipe.js";
 
 for (const archetype of listAnimalArchetypes()) {
-	assert.ok(archetype.morphology, `${archetype.id} must expose one existing-system body plan.`);
 	assert.equal(archetype.morphology.id, resolveAnimalBodyPlan(archetype.id).id);
 	assert.ok(Object.isFrozen(archetype.morphology));
 }
 
-const first = createAnimalMorphologyProfile({ archetypeId: "quadruped", seed: 5784 });
-const repeated = createAnimalMorphologyProfile({ archetypeId: "quadruped", seed: 5784 });
-const varied = createAnimalMorphologyProfile({ archetypeId: "quadruped", seed: 5785 });
+const first = createAnimalGenome({ seed: 5784 });
+const repeated = createAnimalGenome({ seed: 5784 });
+const varied = createAnimalGenome({ seed: 5785 });
 assert.deepEqual(first, repeated);
-assert.notDeepEqual(first.genome.traits, varied.genome.traits);
-assert.ok(Object.isFrozen(first));
-assert.equal(first.compiler_hints.use_existing_rig_builder, true);
-
-const parentA = createAnimalGenome("avian", 11);
-const parentB = createAnimalGenome("avian", 22);
-const parentASnapshot = JSON.stringify(parentA);
-const mutationA = mutateAnimalGenome(parentA, { seed: 33, intensity: 0.5, rate: 1 });
-const mutationB = mutateAnimalGenome(parentA, { seed: 33, intensity: 0.5, rate: 1 });
-assert.deepEqual(mutationA, mutationB);
-assert.equal(JSON.stringify(parentA), parentASnapshot, "Mutation must never alter its parent.");
-const childA = crossAnimalGenomes(parentA, parentB, 44);
-const childB = crossAnimalGenomes(parentA, parentB, 44);
-assert.deepEqual(childA, childB);
-assert.equal(childA.generation, 1);
-
-const ranges = resolveAnimalBodyPlan("avian").trait_ranges;
-for (const [name, value] of Object.entries(mutationA.traits)) {
-	assert.ok(value >= ranges[name][0] && value <= ranges[name][1], `${name} escaped its range.`);
+assert.notDeepEqual(first.genes, varied.genes);
+for (const [name, value] of Object.entries(first.genes)) {
+	const rule = ANIMAL_GENOME_RULES[name];
+	assert.ok(value >= rule.minimum && value <= rule.maximum, `${name} escaped its range.`);
 }
 
-const trot = createAnimalLocomotionProfile({ archetypeId: "quadruped", mode: "trot" });
-assert.equal(trot.phases.front_left, trot.phases.rear_right);
-assert.equal(trot.phases.front_right, trot.phases.rear_left);
-assert.equal(Math.abs(trot.phases.front_left - trot.phases.front_right), 0.5);
+const parentSnapshot = JSON.stringify(first);
+const childA = breedAnimalGenomes(first, varied, { seed: 33, mutationRate: 1 });
+const childB = breedAnimalGenomes(first, varied, { seed: 33, mutationRate: 1 });
+assert.deepEqual(childA, childB);
+assert.equal(JSON.stringify(first), parentSnapshot, "Breeding must not mutate a parent genome.");
 
-const wave = createAnimalLocomotionProfile({ archetypeId: "serpentine", mode: "slither", segmentCount: 12 });
-assert.equal(wave.type, "traveling_wave");
-assert.equal(wave.segments.length, 12);
-assert.ok(wave.segments.at(-1).amplitude > wave.segments[0].amplitude);
+const baseRecipe = createExampleQuadrupedRecipe();
+const recipeSnapshot = JSON.stringify(baseRecipe);
+const variant = createAnimalMorphologyVariant(baseRecipe, first, { locomotion: { gait: "trot" } });
+assert.equal(JSON.stringify(baseRecipe), recipeSnapshot, "Variation must not mutate the base recipe.");
+assert.equal(variant.locomotion.body_plan_descriptor.id, "four_limb_vertebrate");
+assert.equal(variant.locomotion.phases.front_left_leg, 0.5);
+assert.equal(variant.locomotion.phases.front_right_leg, 0);
+assert.notEqual(variant.locomotion.phases.front_left_leg, variant.locomotion.phases.front_right_leg);
 
-const tripod = createAnimalLocomotionProfile({ archetypeId: "arthropod", mode: "tripod_walk", legPairs: 3 });
-assert.equal(tripod.groups.length, 2);
-assert.equal(tripod.groups[1].phase, 0.5);
-assert.ok(tripod.groups.every((group) => group.members.length >= 3));
+const serpent = createAnimalLocomotionPlan({
+	parts: ["spine_1", "spine_2", "tail"],
+	rig: { type: "serpentine", bones: [] }
+}, first, { gait: "undulate", segmentCount: 12 });
+assert.equal(serpent.spine_wave.enabled, true);
+assert.equal(serpent.spine_wave.segments.length, 12);
+assert.ok(serpent.spine_wave.segments.at(-1).amplitude > serpent.spine_wave.segments[0].amplitude);
 
+const arthropod = createAnimalLocomotionPlan({
+	parts: [],
+	rig: { type: "arthropod", bones: [] }
+}, first, { legPairs: 3 });
+assert.equal(arthropod.phase_groups.length, 2);
+assert.equal(arthropod.phase_groups[1].phase, 0.5);
+assert.ok(arthropod.phase_groups.every((group) => group.members.length === 3));
+
+const variations = createAnimalVariationSet(baseRecipe, { count: 4, seed: 9001 });
+assert.equal(new Set(variations.map((entry) => entry.genome.id)).size, 4);
 console.log('B"H | animalMorphology.test.mjs passed');

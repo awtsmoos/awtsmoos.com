@@ -4,20 +4,20 @@ B"H
 
 ## cheerful-orthodox-speaker
 
-- headBox: mean absolute edge error 18.81px.
+- headBox: mean absolute edge error 18.68px.
 - leftEye: dx 1.46px, dy -26.55px, distance 26.59px.
 - rightEye: dx 2.08px, dy -27.37px, distance 27.45px.
 - mouth: dx 2.41px, dy -36.35px, distance 36.43px.
-- leftShoulder: dx -0.36px, dy 0.03px, distance 0.36px.
-- rightShoulder: dx 0.1px, dy -0.02px, distance 0.1px.
-- leftHand: dx -1.43px, dy 3.12px, distance 3.43px.
-- rightHand: dx 0.43px, dy 0.52px, distance 0.67px.
-- waist: dx 1.87px, dy 0.4px, distance 1.91px.
-- leftKnee: dx -11.96px, dy -2.58px, distance 12.24px.
+- leftShoulder: dx 3.57px, dy -1.21px, distance 3.77px.
+- rightShoulder: dx -3.84px, dy -1.27px, distance 4.04px.
+- leftHand: dx 1.3px, dy 3.69px, distance 3.91px.
+- rightHand: dx -19.73px, dy -6.53px, distance 20.78px.
+- waist: dx 3.83px, dy 0.4px, distance 3.85px.
+- leftKnee: dx -8.03px, dy -2.58px, distance 8.43px.
 - rightKnee: dx -10.7px, dy -2.58px, distance 11.01px.
-- leftAnkle: dx -8.96px, dy -13.9px, distance 16.54px.
+- leftAnkle: dx -5.03px, dy -13.9px, distance 14.78px.
 - rightAnkle: dx -5.7px, dy -13.9px, distance 15.02px.
-- leftFoot: dx -7.96px, dy -16.46px, distance 18.28px.
+- leftFoot: dx -4.03px, dy -16.46px, distance 16.95px.
 - rightFoot: dx -13.7px, dy -16.49px, distance 21.44px.
 
 ## skeptical-orthodox-observer
@@ -26,17 +26,17 @@ B"H
 - leftEye: dx -0.96px, dy -35.38px, distance 35.39px.
 - rightEye: dx -0.9px, dy -41.5px, distance 41.51px.
 - mouth: dx 2.07px, dy -43.96px, distance 44.01px.
-- leftShoulder: dx -0.28px, dy -0.33px, distance 0.43px.
-- rightShoulder: dx 0.68px, dy -0.3px, distance 0.74px.
-- leftHand: dx 1px, dy 0.4px, distance 1.08px.
-- rightHand: dx 1.08px, dy 0.14px, distance 1.09px.
+- leftShoulder: dx 1.8px, dy 0.9px, distance 2.01px.
+- rightShoulder: dx -1.4px, dy 0.92px, distance 1.68px.
+- leftHand: dx -10.95px, dy -3.44px, distance 11.48px.
+- rightHand: dx -13.39px, dy -4.9px, distance 14.26px.
 - waist: dx -2.21px, dy 0.37px, distance 2.24px.
-- leftKnee: dx 1.76px, dy -9.84px, distance 10px.
-- rightKnee: dx -18.69px, dy -9.84px, distance 21.12px.
-- leftAnkle: dx 9.76px, dy -13.49px, distance 16.65px.
-- rightAnkle: dx -22.69px, dy -13.49px, distance 26.4px.
-- leftFoot: dx 13.76px, dy -18.94px, distance 23.41px.
-- rightFoot: dx -16.69px, dy -18.93px, distance 25.24px.
+- leftKnee: dx 5.91px, dy -9.84px, distance 11.48px.
+- rightKnee: dx -22.84px, dy -9.84px, distance 24.87px.
+- leftAnkle: dx 13.91px, dy -13.49px, distance 19.38px.
+- rightAnkle: dx -26.84px, dy -13.49px, distance 30.04px.
+- leftFoot: dx 17.91px, dy -18.94px, distance 26.07px.
+- rightFoot: dx -20.84px, dy -18.93px, distance 28.15px.
 
 ## calm-orthodox-woman
 

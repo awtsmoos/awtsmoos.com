@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos distinguishes canonical writing from living oral transmission. */
+
+.heichel-os-document .nav-card[data-series-archetype="written"] {
+	--source-accent: var(--heichel-cosmic-cyan-core);
+	--series-secondary: var(--heichel-cosmic-blue-core);
+}
+
+.heichel-os-document .nav-card[data-series-archetype="oral"] {
+	--source-accent: var(--heichel-cosmic-magenta-core);
+	--series-secondary: var(--heichel-cosmic-violet-core);
+}
+
+.heichel-os-document .nav-card[data-series-archetype="written"]::before {
+	content: "Canonical written source";
+}
+
+.heichel-os-document .nav-card[data-series-archetype="oral"]::before {
+	content: "Living oral tradition";
+}
+
+.series-source-constellation {
+	position: absolute;
+	right: 3.25rem;
+	bottom: .75rem;
+	z-index: 1;
+	width: 12.5rem;
+	height: 4.2rem;
+	color: var(--source-accent);
+	pointer-events: none;
+	opacity: .78;
+}
+
+.series-source-constellation::before,
+.series-source-constellation::after {
+	position: absolute;
+	content: "";
+}
+
+.series-source-constellation::before {
+	inset: 20% 4%;
+	background:
+		linear-gradient(18deg, transparent 48%, currentColor 49% 50%, transparent 51%),
+		linear-gradient(-22deg, transparent 48%, var(--series-secondary) 49% 50%, transparent 51%),
+		linear-gradient(90deg, transparent 48%, currentColor 49% 50%, transparent 51%);
+	filter: drop-shadow(0 0 .35rem currentColor);
+	opacity: .55;
+}
+
+.series-source-constellation::after {
+	inset: 18% 32%;
+	border: 1px solid color-mix(in srgb, currentColor 52%, transparent);
+	border-radius: 50%;
+	box-shadow: 0 0 1rem color-mix(in srgb, currentColor 34%, transparent);
+}
+
+.series-source-constellation i {
+	position: absolute;
+	display: block;
+	width: .72rem;
+	height: .72rem;
+	border: 1px solid currentColor;
+	border-radius: 50%;
+	background: radial-gradient(circle, var(--heichel-cosmic-text), var(--series-secondary) 36%, var(--heichel-cosmic-void) 72%);
+	box-shadow: 0 0 .75rem currentColor;
+}
+
+.series-source-constellation i:nth-child(1) { left: 2%; top: 48%; }
+.series-source-constellation i:nth-child(2) { left: 24%; top: 4%; }
+.series-source-constellation i:nth-child(3) { left: 48%; top: 38%; width: .95rem; height: .95rem; }
+.series-source-constellation i:nth-child(4) { right: 21%; top: 8%; }
+.series-source-constellation i:nth-child(5) { right: 2%; top: 54%; }
+
+@media (min-width: 56rem) {
+	.heichel-os-document .nav-card[data-type="series"] .nav-card-body {
+		padding-right: 12.5rem;
+	}
+}
+
+@media (max-width: 55rem) {
+	.series-source-constellation {
+		right: 2.5rem;
+		width: 7.5rem;
+		opacity: .38;
+	}
+}

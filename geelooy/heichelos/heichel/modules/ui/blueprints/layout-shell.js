@@ -4,29 +4,11 @@
 /**
  * @module HeichelLayoutShell
  * @description
- * The Awtsmoos gathers global navigation and Heichel identity into one compact
- * profile vessel. Awtsmoos.com keeps every live title, description, and count ref.
+ * The Awtsmoos gathers Heichel identity into one compact profile vessel while
+ * live title, description, counters, actions, and section paths retain ownership.
  */
-
 import { box, link } from './layout-primitives.js';
-import { quickLinks } from './layout-navigation.js';
-
-export function topbar() {
-	return {
-		tag: 'header',
-		attr: { class: 'heichel-mobile-topbar cosmic-heichel-topbar' },
-		children: [
-			brand(),
-			box('topbar-title', [
-				{ tag: 'strong', ref: 'topbarHeichelTitle', children: ['Heichel'] },
-				{ tag: 'small', ref: 'topbarHeichelContext', children: ['root'] }
-			]),
-			link('/search', '⌕', 'topbar-icon topbar-search-gate', 'Search Awtsmoos'),
-			link('/email', '✉', 'topbar-icon topbar-mail-gate', 'Messages'),
-			quickLinks()
-		]
-	};
-}
+export { topbar } from './layout-roof.js';
 
 export function hero() {
 	return {
@@ -38,17 +20,7 @@ export function hero() {
 		},
 		children: [
 			{ tag: 'div', attr: { class: 'heichel-profile-cover', 'aria-hidden': 'true' } },
-			box('heichel-profile-identity', [
-				{ tag: 'div', attr: { class: 'heichel-seal', 'aria-hidden': 'true' }, children: ['ב״ה'] },
-				box('heichel-profile-copy', [
-					{ tag: 'p', attr: { class: 'hero-kicker' }, children: ['Living Heichel'] },
-					box('heichel-profile-title-row', [
-						{ tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
-						{ tag: 'span', attr: { class: 'heichel-verification', title: 'Verified Heichel' }, children: ['✓'] }
-					]),
-					{ tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }
-				])
-			]),
+			identity(),
 			stats(),
 			actions(),
 			profileTabs()
@@ -56,15 +28,18 @@ export function hero() {
 	};
 }
 
-function brand() {
-	return {
-		tag: 'a',
-		attr: { href: '/', class: 'heichel-awtsmoos-brand', 'aria-label': 'Awtsmoos home' },
-		children: [
-			{ tag: 'span', attr: { class: 'heichel-brand-flame', 'aria-hidden': 'true' }, children: ['◈'] },
-			{ tag: 'span', attr: { class: 'heichel-brand-word' }, children: ['AWTSMOOS'] }
-		]
-	};
+function identity() {
+	return box('heichel-profile-identity', [
+		{ tag: 'div', attr: { class: 'heichel-seal', 'aria-hidden': 'true' }, children: ['ב״ה'] },
+		box('heichel-profile-copy', [
+			{ tag: 'p', attr: { class: 'hero-kicker' }, children: ['Living Heichel'] },
+			box('heichel-profile-title-row', [
+				{ tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
+				{ tag: 'span', attr: { class: 'heichel-verification', title: 'Verified Heichel' }, children: ['✓'] }
+			]),
+			{ tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }
+		])
+	]);
 }
 
 function stats() {
@@ -101,7 +76,7 @@ function profileTabs() {
 			link('#postsList', 'Posts'),
 			link('#seriesList', 'Sources'),
 			link('#seriesNameAndInfo', 'Series'),
-			link('[data-heichel-os-world]', 'About')
+			link('#heichel-world', 'About')
 		]
 	};
 }

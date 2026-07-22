@@ -1,0 +1,49 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives the Heichel cover a static source-lattice above live WebGL. */
+
+.heichel-profile-cover::before,
+.heichel-profile-cover::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	pointer-events: none;
+}
+
+.heichel-profile-cover::before {
+	background:
+		radial-gradient(circle at 50% 82%, rgba(246, 248, 255, .92) 0 1px, rgba(80, 215, 255, .7) 2px, transparent 5px),
+		radial-gradient(circle at 26% 34%, rgba(80, 215, 255, .95) 0 1px, transparent 3px),
+		radial-gradient(circle at 73% 27%, rgba(218, 97, 194, .9) 0 1px, transparent 3px),
+		repeating-radial-gradient(circle at 50% 92%, transparent 0 2.1rem, rgba(80, 215, 255, .12) 2.15rem 2.2rem);
+	filter: drop-shadow(0 0 .65rem rgba(80, 215, 255, .62));
+	opacity: .86;
+}
+
+.heichel-profile-cover::after {
+	inset: 12% 7% auto;
+	height: 2rem;
+	color: rgba(246, 248, 255, .4);
+	font-size: clamp(.64rem, 1.2vw, .82rem);
+	font-weight: 760;
+	letter-spacing: .55em;
+	line-height: 2rem;
+	text-align: center;
+	text-shadow:
+		0 0 .65rem var(--heichel-cosmic-cyan-core),
+		0 0 1rem var(--heichel-cosmic-violet-core);
+	content: "א  ב  ג  ד  ה  ו  ז  ח  ט  י";
+}
+
+.heichel-os-document .cosmic-heichel-profile::after {
+	position: absolute;
+	inset: 0;
+	z-index: 4;
+	background:
+		linear-gradient(90deg, var(--heichel-cosmic-cyan-core), transparent 18%) top left / 32% 1px no-repeat,
+		linear-gradient(270deg, var(--heichel-cosmic-magenta-core), transparent 18%) bottom right / 32% 1px no-repeat;
+	opacity: .72;
+	content: "";
+	pointer-events: none;
+}

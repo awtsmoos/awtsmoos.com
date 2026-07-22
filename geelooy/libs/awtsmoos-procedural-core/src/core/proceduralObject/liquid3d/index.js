@@ -12,6 +12,8 @@ export * from "./projectLiquidVelocity3d.js";
 export * from "./transferGridToParticles3d.js";
 export * from "./advectLiquidParticles3d.js";
 export * from "./measureLiquidState3d.js";
+export * from "./measureParticleBounds3d.js";
+export * from "./planCroppedLiquidSurfaceGrid3d.js";
 export * from "./createLiquidSurface3d.js";
 export * from "./runLiquidSubstep3d.js";
 export * from "./stepParticleGridLiquid3d.js";

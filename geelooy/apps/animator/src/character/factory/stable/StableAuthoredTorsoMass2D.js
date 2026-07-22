@@ -8,13 +8,13 @@ import { LineArtStyle } from '../../style/LineArtStyle.js';
 /**
  * Shoulder, neckline, waist, hip, and hem become one uninterrupted garment breath.
  * The Awtsmoos joins hidden rig bones to a soft visible silhouette, while Awtsmoos.com
- * keeps every contour editable through animation, persistence, preview, and export.
+ * keeps canonical garment identities editable through animation, persistence, and export.
  */
 export class StableAuthoredTorsoMass2D {
 	static build(data, colors, metrics, geometry) {
 		const values = this.values(data._skeleton, metrics, geometry);
 		return G.path(
-			'authored_torso_connected_mass',
+			`authored_${values.garmentKind}_front`,
 			this.contour(values),
 			{
 				...LineArtStyle.outer(data, colors.jacket),
@@ -32,6 +32,7 @@ export class StableAuthoredTorsoMass2D {
 		const rightShoulderY = skeleton.rightShoulder.y;
 		const shoulderArch = Number(torso.shoulderArch || 8);
 		return {
+			garmentKind: torso.garmentKind || 'jacket',
 			chestX,
 			waistX,
 			hipX,
@@ -57,26 +58,26 @@ export class StableAuthoredTorsoMass2D {
 		};
 	}
 
-	static contour(v) {
-		const round = v.shoulderRound;
+	static contour(values) {
+		const round = values.shoulderRound;
 		return [
-			{ type: 'move', x: v.leftShoulder, y: v.leftShoulderY + round },
-			{ type: 'quad', cx: v.leftShoulder - 1, cy: v.leftShoulderY, x: v.leftShoulder + round, y: v.leftShoulderY },
-			{ type: 'bezier', c1x: v.leftShoulder + round + 12, c1y: v.leftShoulderY - 2, c2x: v.chestX - v.neckHalf - 10, c2y: v.necklineY, x: v.chestX - v.neckHalf, y: v.necklineY },
-			{ type: 'quad', cx: v.chestX, cy: v.necklineY + v.necklineDrop, x: v.chestX + v.neckHalf, y: v.necklineY },
-			{ type: 'bezier', c1x: v.chestX + v.neckHalf + 10, c1y: v.necklineY, c2x: v.rightShoulder - round - 12, c2y: v.rightShoulderY - 2, x: v.rightShoulder - round, y: v.rightShoulderY },
-			{ type: 'quad', cx: v.rightShoulder + 1, cy: v.rightShoulderY, x: v.rightShoulder, y: v.rightShoulderY + round },
-			...this.lower(v)
+			{ type: 'move', x: values.leftShoulder, y: values.leftShoulderY + round },
+			{ type: 'quad', cx: values.leftShoulder - 1, cy: values.leftShoulderY, x: values.leftShoulder + round, y: values.leftShoulderY },
+			{ type: 'bezier', c1x: values.leftShoulder + round + 12, c1y: values.leftShoulderY - 2, c2x: values.chestX - values.neckHalf - 10, c2y: values.necklineY, x: values.chestX - values.neckHalf, y: values.necklineY },
+			{ type: 'quad', cx: values.chestX, cy: values.necklineY + values.necklineDrop, x: values.chestX + values.neckHalf, y: values.necklineY },
+			{ type: 'bezier', c1x: values.chestX + values.neckHalf + 10, c1y: values.necklineY, c2x: values.rightShoulder - round - 12, c2y: values.rightShoulderY - 2, x: values.rightShoulder - round, y: values.rightShoulderY },
+			{ type: 'quad', cx: values.rightShoulder + 1, cy: values.rightShoulderY, x: values.rightShoulder, y: values.rightShoulderY + round },
+			...this.lower(values)
 		];
 	}
 
-	static lower(v) {
+	static lower(values) {
 		return [
-			{ type: 'quad', cx: v.rightShoulder + v.sideRound, cy: v.chestY + 4, x: v.rightWaist + v.belly, y: v.waistY },
-			{ type: 'quad', cx: v.rightHip + v.sideRound, cy: v.hemY - 15, x: v.rightHip, y: v.hemY - v.hemLift },
-			{ type: 'quad', cx: v.hipX, cy: v.hemY + v.hemRound, x: v.leftHip, y: v.hemY + v.hemLift },
-			{ type: 'quad', cx: v.leftHip - v.sideRound, cy: v.hemY - 15, x: v.leftWaist - v.belly, y: v.waistY },
-			{ type: 'quad', cx: v.leftShoulder - v.sideRound, cy: v.chestY + 4, x: v.leftShoulder, y: v.leftShoulderY + v.shoulderRound }
+			{ type: 'quad', cx: values.rightShoulder + values.sideRound, cy: values.chestY + 4, x: values.rightWaist + values.belly, y: values.waistY },
+			{ type: 'quad', cx: values.rightHip + values.sideRound, cy: values.hemY - 15, x: values.rightHip, y: values.hemY - values.hemLift },
+			{ type: 'quad', cx: values.hipX, cy: values.hemY + values.hemRound, x: values.leftHip, y: values.hemY + values.hemLift },
+			{ type: 'quad', cx: values.leftHip - values.sideRound, cy: values.hemY - 15, x: values.leftWaist - values.belly, y: values.waistY },
+			{ type: 'quad', cx: values.leftShoulder - values.sideRound, cy: values.chestY + 4, x: values.leftShoulder, y: values.leftShoulderY + values.shoulderRound }
 		];
 	}
 

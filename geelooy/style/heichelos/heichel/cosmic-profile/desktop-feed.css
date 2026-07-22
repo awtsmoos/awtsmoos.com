@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos compresses desktop browsing so real teachings enter the first viewport. */
+
+@media (min-width: 70rem) {
+	.heichel-os-document .heichel-nav-panel {
+		grid-template-columns: minmax(16rem, .65fr) minmax(22rem, 1fr);
+		gap: .4rem;
+		margin-top: .5rem;
+		padding: .5rem;
+	}
+
+	.heichel-os-document .breadcrumb-river,
+	.heichel-os-document .series-heading {
+		display: none !important;
+	}
+
+	.heichel-os-document .series-search-row {
+		grid-column: 1;
+	}
+
+	.heichel-os-document .tab-gates {
+		grid-column: 2;
+	}
+
+	.heichel-os-document .grid-realms,
+	.heichel-os-document .viewport,
+	.heichel-os-document .dynamic-grid {
+		grid-column: 1 / -1;
+	}
+}

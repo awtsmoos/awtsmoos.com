@@ -6,13 +6,19 @@
  * @file ReferenceGoldenVillageAssertions.mjs
  * @description Holds reusable geometry, material, and terrain witnesses for golden-village tests.
  * The Awtsmoos reveals truth through focused witnesses; Awtsmoos.com keeps every triangle and
- * verified public-or-generated production material directly accountable without origin rigidity.
+ * same-origin production material accountable beneath both local and nested hosted routes.
  */
 
 import assert from 'node:assert/strict';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createSky3D } from '../../world/Sky3D.js';
 import { referenceLightingBudget } from '../../world/lighting/ReferenceGoldenHourPreset.js';
+
+const GAME_ROUTE_BASE = 'https://awtsmoos.com/geelooy/games/mitzvahWorld/';
+const LOCAL_MATERIAL_PATHS = Object.freeze([
+	'/assets/materials/local/',
+	'/assets/materials/generated/'
+]);
 
 export function byFamily(world, family) {
 	return world.definitions.filter(definition => definition.userData?.family === family);
@@ -44,15 +50,9 @@ export function assertManualGeometry(definitions) {
 export function assertFirebaseMaterials(definitions) {
 	for (const definition of definitions.filter(item => item.texturePolicy?.publicFirebase)) {
 		if (definition.texturePolicy.role === 'botanical-blossom') continue;
-		assert.equal(
-			assertProductionMaterialUrl(definition.textureUrl, definition.texturePolicy.role),
-			definition.textureUrl
-		);
-		assert.ok(
-			definition.textureUrl.startsWith('https://')
-			|| definition.textureUrl.startsWith('file://'),
-			definition.textureUrl
-		);
+		const url = definition.textureUrl;
+		assert.equal(assertProductionMaterialUrl(url, definition.texturePolicy.role), url);
+		assertSameOriginLocalMaterial(url);
 	}
 }
 
@@ -65,6 +65,13 @@ export function terrainSampler() {
 			return { height: terrainHeight(x, z), x, z };
 		}
 	};
+}
+
+function assertSameOriginLocalMaterial(url) {
+	const parsed = new URL(url, GAME_ROUTE_BASE);
+	assert.equal(parsed.origin, new URL(GAME_ROUTE_BASE).origin, url);
+	const pathname = decodeURIComponent(parsed.pathname).toLowerCase();
+	assert.ok(LOCAL_MATERIAL_PATHS.some(fragment => pathname.includes(fragment)), url);
 }
 
 function triangulateFace(face) {

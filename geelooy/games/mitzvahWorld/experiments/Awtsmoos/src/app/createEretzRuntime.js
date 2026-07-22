@@ -4,25 +4,29 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes a playable valley before botanical and model enrichment.
- * The Awtsmoos renews one essential adventure through desktop and mobile vessels;
- * Awtsmoos.com starts movement before optional petals, models, and textures finish arriving.
+ * @description Publishes the playable valley before every optional enrichment begins.
+ * The Awtsmoos awakens movement before distant leaves and models; Awtsmoos.com preserves
+ * one ordered covenant from foundation through actors, diagnostics, loop, and streaming.
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
 import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
 import { startEretzActorHydration } from './EretzActorHydration.js?v=20260720-canonical-valley-pass-05';
-import { startEretzBotanicalStreaming } from './EretzBotanicalStreaming.js';
 import { BootPhaseTracker } from './BootPhaseTracker.js';
-import { startDeferredWorldModels } from './DeferredWorldModelLoader.js';
 import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';
+import {
+	startEretzPostMovementStreaming,
+	startGameplayTextureStreaming
+} from './EretzPostMovementStreaming.js';
 import { attachRuntimeDiagnostics } from './EretzRuntimeDiagnostics.js';
 import { startEretzRuntime } from './EretzRuntimeLoop.js';
 import { createEretzUi } from './EretzUiSystem.js?v=20260720-canonical-valley-pass-06';
 import { installViewport } from './EretzViewport.js';
 import { createEretzWorldFoundation } from './EretzWorldFoundation.js?v=20260720-canonical-valley-pass-04';
 import { installWorldDiagnostics } from './WorldDiagnostics.js';
+
+export { startGameplayTextureStreaming };
 
 export async function createEretzRuntime(hosts, options = {}) {
 	const boot = new BootPhaseTracker();
@@ -57,24 +61,15 @@ export async function createEretzRuntime(hosts, options = {}) {
 		);
 		boot.complete();
 		setDebugHudVisibility(hosts?.hud);
-		diagnostics.textureStreamingScheduled = movement
-			? startGameplayTextureStreaming(foundation.assets, options.scheduleFrame)
-			: false;
-		if (movement) {
-			startEretzBotanicalStreaming(
-				foundation,
-				diagnostics,
-				qualityProfile,
-				options
-			);
-		}
-		diagnostics.worldModelPromise = startDeferredWorldModels(
-			foundation,
-			runtime,
+		startEretzPostMovementStreaming({
+			boot,
 			diagnostics,
-			{ ...options, quality: qualityProfile.quality },
-			boot
-		);
+			foundation,
+			movement,
+			options,
+			qualityProfile,
+			runtime
+		});
 		publishRuntime(diagnostics);
 		return diagnostics;
 	} catch (error) {
@@ -86,14 +81,6 @@ export async function createEretzRuntime(hosts, options = {}) {
 			globalThis.AwtsmoosBootTracker = null;
 		}
 	}
-}
-
-/** Starts texture enrichment only after the playable frame and overlay handoff. */
-export function startGameplayTextureStreaming(assets, scheduleFrame = frameScheduler) {
-	const stream = assets?.publicMaterialStreaming;
-	if (typeof stream?.start !== 'function') return false;
-	scheduleFrame(() => scheduleFrame(() => stream.start()));
-	return true;
 }
 
 function publishRuntime(diagnostics) {
@@ -122,11 +109,6 @@ function setDebugHudVisibility(hud) {
 	if (!hud || typeof location === 'undefined') return;
 	const showDebug = new URLSearchParams(location.search).get('debug') === '1';
 	hud.style.display = showDebug ? '' : 'none';
-}
-
-function frameScheduler(callback) {
-	if (typeof requestAnimationFrame === 'function') return requestAnimationFrame(callback);
-	return setTimeout(callback, 0);
 }
 
 export default createEretzRuntime;

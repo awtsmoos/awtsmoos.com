@@ -4,34 +4,48 @@
 
 /**
  * The Awtsmoos draws an invisible spine before bark receives vertices.
- * This Awtsmoos.com planner honors twist and force while keeping branch planning
- * independent from LOD emission, so all detail levels share one skeleton.
+ * This Awtsmoos.com planner combines seeded gnarliness, global force, twist,
+ * and one bounded trellis field while every LOD shares the same skeleton.
  */
 import { Vec3 } from "../../../math/vec3.js";
 import { Quat } from "../../../math/quat.js";
 import { treeNumber } from "./treeGrowthMath.js";
+import { calculateTreeTrellisForce } from "./treeTrellisField.js";
 
-function nextTreeDirection(system, direction, gnarliness, radius) {
-	let result = [...direction];
-	if (gnarliness) {
-		result = Vec3.add(result, [
-			system.rng.random(-gnarliness, gnarliness),
-			system.rng.random(-gnarliness * 0.25, gnarliness * 0.25),
-			system.rng.random(-gnarliness, gnarliness)
-		]);
-	}
+function addGlobalForce(system, direction, radius) {
 	const force = system.config.branch.force;
-	if (force?.direction && force.strength) {
-		const vector = [
-			treeNumber(force.direction.x),
-			treeNumber(force.direction.y, 1),
-			treeNumber(force.direction.z)
-		];
-		result = Vec3.add(result, Vec3.scale(
-			vector,
-			treeNumber(force.strength) / Math.max(0.15, radius)
-		));
+	if (!force?.direction || !force.strength) {
+		return direction;
 	}
+	const vector = [
+		treeNumber(force.direction.x),
+		treeNumber(force.direction.y, 1),
+		treeNumber(force.direction.z)
+	];
+	return Vec3.add(direction, Vec3.scale(
+		vector,
+		treeNumber(force.strength) / Math.max(0.15, radius)
+	));
+}
+
+function addGnarliness(system, direction, gnarliness) {
+	if (!gnarliness) {
+		return direction;
+	}
+	return Vec3.add(direction, [
+		system.rng.random(-gnarliness, gnarliness),
+		system.rng.random(-gnarliness * 0.25, gnarliness * 0.25),
+		system.rng.random(-gnarliness, gnarliness)
+	]);
+}
+
+function nextTreeDirection(system, position, direction, gnarliness, radius) {
+	let result = addGnarliness(system, [...direction], gnarliness);
+	result = addGlobalForce(system, result, radius);
+	result = Vec3.add(
+		result,
+		calculateTreeTrellisForce(position, system.config.trellis, radius)
+	);
 	return Vec3.normalize(result);
 }
 
@@ -56,7 +70,7 @@ export function planTreeBranch(system, task, sections) {
 			distance: task.length * progress
 		});
 		if (section < sections) {
-			direction = nextTreeDirection(system, direction, gnarliness, task.radius);
+			direction = nextTreeDirection(system, position, direction, gnarliness, task.radius);
 			const target = Quat.setFromUnitVectors([0, 1, 0], direction);
 			baseRotation = Quat.slerp(baseRotation, target, 0.35);
 			position = Vec3.add(position, Vec3.scale(direction, segmentLength));

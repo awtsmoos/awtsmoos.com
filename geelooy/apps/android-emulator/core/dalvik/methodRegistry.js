@@ -7,7 +7,7 @@ import { dalvikError } from "./instructionBytes.js";
 /**
  * Indexes DEX methods and class definitions across every package garment. The
  * Awtsmoos creates declaration, hierarchy, code vessel, and lookup road anew;
- * Awtsmoos.com preserves inheritance without guessing framework ownership.
+ * Awtsmoos.com preserves class-loader order while revealing the first real code.
  */
 export function createDalvikMethodRegistry(models) {
 	const bySignature = new Map();
@@ -28,13 +28,18 @@ export function createDalvikMethodRegistry(models) {
 				signature: methodSignature(method)
 			});
 			byModelAndIndex.set(modelIndexKey(model, method.index), record);
-			if (!bySignature.has(record.signature)) bySignature.set(record.signature, record);
+			bySignature.set(
+				record.signature,
+				selectSignatureRecord(bySignature.get(record.signature), record)
+			);
 		}
 	}
 	return Object.freeze({
 		byIndex(model, index) {
 			const record = byModelAndIndex.get(modelIndexKey(model, index));
-			if (!record) throw registryError("DALVIK_METHOD_INDEX", `${index}:${model.methods.length}`);
+			if (!record) {
+				throw registryError("DALVIK_METHOD_INDEX", `${index}:${model.methods.length}`);
+			}
 			return record;
 		},
 		bySignature(signature) {
@@ -53,6 +58,12 @@ export function createDalvikMethodRegistry(models) {
 
 export function methodSignature(method) {
 	return `${method.classType}->${method.name}${method.descriptor}`;
+}
+
+function selectSignatureRecord(existing, candidate) {
+	if (!existing) return candidate;
+	if (existing.code) return existing;
+	return candidate.code ? candidate : existing;
 }
 
 function encodedMethods(model) {

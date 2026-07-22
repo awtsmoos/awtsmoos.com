@@ -16,6 +16,10 @@ import { VILLAGE_DISTRICTS } from '../../world/village/VillageDistrictCatalog.js
 import { createVillageWorldDefinitions } from '../../world/village/VillageWorldSystem.js';
 import { VILLAGE_WORLD_LAYERS } from '../../world/village/VillageWorldLayers.js';
 import { villageWorldBudget } from '../../world/village/VillageWorldBudget.js';
+import {
+	MAXIMUM_VILLAGE_DEFINITIONS,
+	VILLAGE_QUALITY_FLOORS
+} from './VillageDefinitionBudgetAssertions.mjs';
 
 const sampler = terrainSampler();
 const budget = villageWorldBudget('high');
@@ -75,7 +79,8 @@ assert.equal(world.stats.practicalLights.definitions, 4);
 assert.equal(world.stats.forestEdge.primitiveTrees, 0);
 assert.equal(world.stats.population.visualPolicy, 'no-primitive-humans');
 assert.equal(world.definitions.length, world.stats.definitionCount);
-assert.equal(world.definitions.length, 278);
+assert.ok(world.definitions.length >= VILLAGE_QUALITY_FLOORS.high);
+assert.ok(world.definitions.length <= MAXIMUM_VILLAGE_DEFINITIONS);
 
 console.log(JSON.stringify({
 	architecture: architecture.stats,

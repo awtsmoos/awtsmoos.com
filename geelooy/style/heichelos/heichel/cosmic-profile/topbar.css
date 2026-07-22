@@ -1,16 +1,16 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos gives the Heichel one compact Awtsmoos roof. */
+/* The Awtsmoos gives the live Heichel a searchable, luminous Awtsmoos roof. */
 
 .heichel-os-document .cosmic-heichel-topbar {
 	position: fixed !important;
 	inset: 0 0 auto !important;
 	z-index: 1000;
 	display: grid !important;
-	grid-template-columns: auto minmax(8rem, 1fr) auto auto auto !important;
+	grid-template-columns: auto minmax(16rem, 1fr) auto auto auto !important;
 	align-items: center;
-	gap: .55rem;
+	gap: .65rem;
 	min-height: 4.45rem !important;
 	padding: .52rem clamp(.75rem, 3vw, 2.5rem) !important;
 	border-bottom: 1px solid rgba(80, 215, 255, .26) !important;
@@ -19,14 +19,19 @@
 	backdrop-filter: blur(1rem);
 }
 
-.heichel-awtsmoos-brand {
+.heichel-awtsmoos-brand,
+.heichel-roof-messages,
+.heichel-roof-profile {
 	display: inline-flex;
 	align-items: center;
 	gap: .45rem;
 	color: var(--heichel-cosmic-text) !important;
+	text-decoration: none;
+}
+
+.heichel-awtsmoos-brand {
 	font-weight: 950;
 	letter-spacing: .08em;
-	text-decoration: none;
 }
 
 .heichel-brand-flame {
@@ -35,39 +40,81 @@
 	filter: drop-shadow(0 0 .55rem var(--heichel-cosmic-blue-core));
 }
 
-.heichel-os-document .topbar-title strong {
-	color: var(--heichel-cosmic-text) !important;
+.heichel-global-search {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .5rem;
+	min-width: 0;
+	height: 2.75rem;
+	padding: 0 .6rem 0 .8rem;
+	border: 1px solid rgba(80, 215, 255, .24);
+	border-radius: .65rem;
+	background: rgba(4, 12, 28, .76);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
 }
 
-.heichel-os-document .topbar-title small {
-	color: var(--heichel-cosmic-secondary) !important;
+.heichel-global-search input {
+	min-width: 0;
+	color: var(--heichel-cosmic-text);
+	border: 0;
+	outline: 0;
+	background: transparent;
 }
 
-.heichel-os-document .topbar-title small::before {
-	content: "" !important;
+.heichel-global-search input::placeholder {
+	color: var(--heichel-cosmic-muted);
 }
 
+.heichel-global-search button {
+	width: 1.85rem;
+	height: 1.85rem;
+	color: var(--heichel-cosmic-secondary);
+	border: 1px solid rgba(80, 215, 255, .18);
+	border-radius: .42rem;
+	background: rgba(12, 20, 36, .72);
+}
+
+.heichel-global-search:focus-within {
+	border-color: var(--heichel-cosmic-cyan-core);
+	box-shadow: 0 0 1rem rgba(80, 215, 255, .16);
+}
+
+.heichel-roof-context {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	overflow: hidden !important;
+	clip: rect(0 0 0 0) !important;
+}
+
+.heichel-roof-messages,
+.heichel-roof-profile,
 .heichel-os-document .topbar-icon {
-	width: 2.7rem !important;
-	height: 2.7rem !important;
-	color: var(--heichel-cosmic-text) !important;
-	border: 1px solid rgba(80, 215, 255, .24) !important;
+	min-height: 2.75rem;
+	padding: .35rem .68rem;
+	border: 1px solid rgba(80, 215, 255, .22) !important;
+	border-radius: 999px;
 	background: rgba(12, 20, 36, .76) !important;
-	box-shadow: inset 0 1px rgba(255, 255, 255, .05);
 }
 
-.heichel-os-document .topbar-icon:hover,
-.heichel-os-document .topbar-icon:focus-visible {
-	border-color: var(--heichel-cosmic-cyan-core) !important;
-	background: rgba(1, 161, 230, .15) !important;
+.heichel-message-count {
+	display: grid;
+	width: 1.2rem;
+	height: 1.2rem;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--heichel-cosmic-violet-core);
+	font-size: .62rem;
 }
 
-.heichel-os-document .topbar-menu-panel {
-	border-color: rgba(80, 215, 255, .38) !important;
-	background: var(--heichel-cosmic-void) !important;
-}
-
-.heichel-os-document .topbar-menu-panel a {
-	color: var(--heichel-cosmic-text) !important;
-	background: var(--heichel-cosmic-raised) !important;
+.heichel-roof-avatar {
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid var(--heichel-cosmic-cyan-core);
+	border-radius: 50%;
+	background: radial-gradient(circle, #0C2C5C, #04040C 72%);
+	font-size: .7rem;
 }

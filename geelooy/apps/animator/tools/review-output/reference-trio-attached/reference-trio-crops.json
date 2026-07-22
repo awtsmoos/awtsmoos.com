@@ -1,0 +1,87 @@
+{
+  "trio": {
+    "fileName": "reference-trio.png",
+    "bytes": 258730,
+    "sha256": "22adc497cb39f7debf8bd353396ddd17cad1c484548a93881f40bfea6ab7d282"
+  },
+  "crops": [
+    {
+      "id": "cheerful-orthodox-speaker",
+      "kind": "fullBody",
+      "rect": {
+        "x": 72,
+        "y": 25,
+        "width": 529,
+        "height": 819
+      },
+      "fileName": "ari-full-body.png",
+      "bytes": 102435,
+      "sha256": "a61645405fe630850a9b0683462454e02012ae3da85ef9165c081ad5e2e15b82"
+    },
+    {
+      "id": "cheerful-orthodox-speaker",
+      "kind": "head",
+      "rect": {
+        "x": 265,
+        "y": 35,
+        "width": 260,
+        "height": 330
+      },
+      "fileName": "ari-head.png",
+      "bytes": 45806,
+      "sha256": "5b550bba73376d0eb00e4deb56388ee2a8f0fe35e9e6280abc5245111ae8f4e7"
+    },
+    {
+      "id": "skeptical-orthodox-observer",
+      "kind": "fullBody",
+      "rect": {
+        "x": 606,
+        "y": 40,
+        "width": 327,
+        "height": 804
+      },
+      "fileName": "dovid-full-body.png",
+      "bytes": 73744,
+      "sha256": "1721658a2baa827d65ebf57b5f0883881c725d75e5b5913dbcda8b837c568396"
+    },
+    {
+      "id": "skeptical-orthodox-observer",
+      "kind": "head",
+      "rect": {
+        "x": 675,
+        "y": 45,
+        "width": 265,
+        "height": 325
+      },
+      "fileName": "dovid-head.png",
+      "bytes": 35441,
+      "sha256": "8a4a176cb2eb0da5b7ff10cea5a1e889c8107936d4af6e2b51587019bf1768f4"
+    },
+    {
+      "id": "calm-orthodox-woman",
+      "kind": "fullBody",
+      "rect": {
+        "x": 1028,
+        "y": 73,
+        "width": 311,
+        "height": 770
+      },
+      "fileName": "miriam-full-body.png",
+      "bytes": 67818,
+      "sha256": "c77b53b08fe0012f71eced9e310b3ff5cff48e6fae62f582341c8466093b7a50"
+    },
+    {
+      "id": "calm-orthodox-woman",
+      "kind": "head",
+      "rect": {
+        "x": 1065,
+        "y": 80,
+        "width": 265,
+        "height": 285
+      },
+      "fileName": "miriam-head.png",
+      "bytes": 28291,
+      "sha256": "6b8eeb121383bfbdc193036c5a732a4334ef591a37074774b0640334a635d58f"
+    }
+  ]
+}
