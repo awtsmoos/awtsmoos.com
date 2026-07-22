@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* Ten Keilim receive one Shefa; the canonical sky remains the only moving sea. */
+
+.heichel-merkavah {
+	position: absolute;
+	inset: 8% 7%;
+	z-index: 1;
+	display: block;
+	opacity: calc(.34 + var(--heichel-shefa, .28) * .54);
+	filter: saturate(calc(1 + var(--heichel-shefa, .28)));
+	pointer-events: none;
+}
+
+.heichel-merkavah::before,
+.heichel-merkavah::after {
+	position: absolute;
+	inset: 4% 18%;
+	border: 1px solid rgba(80, 215, 255, .22);
+	clip-path: polygon(50% 0, 78% 20%, 70% 42%, 88% 62%, 58% 75%, 50% 100%, 42% 75%, 12% 62%, 30% 42%, 22% 20%);
+	content: "";
+}
+
+.heichel-merkavah::after {
+	inset: 11% 25%;
+	border-color: rgba(218, 97, 194, .24);
+	transform: rotate(180deg);
+}
+
+.heichel-sefirah-node {
+	position: absolute;
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid rgba(80, 215, 255, .48);
+	border-radius: 50%;
+	color: rgba(246, 248, 255, .78);
+	background: radial-gradient(circle, rgba(80, 215, 255, .32), rgba(4, 4, 12, .88) 68%);
+	box-shadow: 0 0 calc(.45rem + var(--heichel-shefa, .28) * 1rem) rgba(80, 215, 255, .4);
+	font-size: .55rem;
+	font-style: normal;
+}
+
+.heichel-sefirah-node--keter { top: 0; left: calc(50% - 1rem); }
+.heichel-sefirah-node--chochmah { top: 17%; left: 20%; }
+.heichel-sefirah-node--binah { top: 17%; right: 20%; border-color: rgba(218, 97, 194, .55); }
+.heichel-sefirah-node--chesed { top: 40%; left: 12%; }
+.heichel-sefirah-node--gevurah { top: 40%; right: 12%; border-color: rgba(218, 97, 194, .55); }
+.heichel-sefirah-node--tiferet { top: 43%; left: calc(50% - 1rem); }
+.heichel-sefirah-node--netzach { top: 65%; left: 20%; }
+.heichel-sefirah-node--hod { top: 65%; right: 20%; border-color: rgba(163, 90, 255, .58); }
+.heichel-sefirah-node--yesod { top: 71%; left: calc(50% - 1rem); }
+.heichel-sefirah-node--malchut { bottom: 0; left: calc(50% - 1rem); border-color: rgba(246, 248, 255, .58); }
+
+.cosmic-heichel-profile[data-olam="atzilus"] .heichel-sefirah-node {
+	box-shadow: 0 0 1.45rem rgba(80, 215, 255, .72), 0 0 2.4rem rgba(163, 90, 255, .24);
+}
