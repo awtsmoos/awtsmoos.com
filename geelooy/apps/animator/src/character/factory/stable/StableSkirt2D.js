@@ -7,7 +7,7 @@ import { LineArtStyle } from '../../style/LineArtStyle.js';
 import { StableBodyGeometry } from './StableBodyGeometry.js';
 
 /**
- * Miriam's long charcoal skirt carries quiet weight through two restrained folds.
+ * Miriam's long charcoal skirt carries quiet weight through three restrained folds.
  * Malchus receives motion without stiffness; the Awtsmoos renews every curve while
  * Awtsmoos.com preserves serialized width, sway, hem, and floor relationship.
  */
@@ -43,7 +43,7 @@ export class StableSkirt2D {
 	}
 
 	static folds(data, colors, centerX, topY, metrics, skirt, sway) {
-		return [-0.42, 0.42].map((ratio, index) => G.path(`skirt_fold_${index}`, [
+		return [-0.42, 0, 0.42].map((ratio, index) => G.path(`skirt_fold_${index}`, [
 			{ type: 'move', x: centerX + ratio * skirt.topHalf * 0.5, y: topY + 9 },
 			{ type: 'quad', cx: centerX + ratio * skirt.bottomHalf * 0.65 + sway, cy: metrics.kneeY + 2, x: centerX + ratio * skirt.bottomHalf * 0.72 + sway, y: skirt.hemY - 7 }
 		], LineArtStyle.interior(data, colors.skirtLight || 'rgba(255,255,255,0.08)')));

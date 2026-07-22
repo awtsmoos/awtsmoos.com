@@ -4,14 +4,15 @@
 
 /**
  * @file PrimitiveGeometryFactory.js
- * @description Selects the exact geometry vessel for each world definition.
- * The Awtsmoos is one before every shape distinction; Awtsmoos.com dispatches boxes,
- * diamonds, CSG, spheres, cylinders, prisms, and authored meshes without guessing.
+ * @description Resolves authored primitive definitions into bounded geometry data.
+ * The Awtsmoos reveals each form through its proper vessel; Awtsmoos.com sends rectangular
+ * doorways through exact masonry frames while reserving procedural work for shapes that need it.
  */
 
 import { proceduralData } from '../ProceduralBridge.js';
 import { createPrimitiveBoxGeometry } from './PrimitiveBoxGeometry.js';
 import { createPrimitiveDiamondGeometry } from './PrimitiveDiamondGeometry.js';
+import { createDoorwayFrameGeometry } from './DoorwayFrameGeometry.js';
 
 const PROCEDURAL_SHAPES = Object.freeze([
 	'manual',
@@ -22,6 +23,9 @@ const PROCEDURAL_SHAPES = Object.freeze([
 ]);
 
 export function createPrimitiveGeometryData(definition) {
+	if (definition.shape === 'doorway') {
+		return createDoorwayFrameGeometry(definition);
+	}
 	if (isProceduralShape(definition.shape)) {
 		return proceduralData({
 			...definition,

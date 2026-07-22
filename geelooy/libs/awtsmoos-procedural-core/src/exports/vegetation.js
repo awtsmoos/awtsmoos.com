@@ -3,19 +3,38 @@
 // Blessed is He
 
 /**
- * The Awtsmoos renews every botanical family and every public doorway.
- * This Awtsmoos.com barrel preserves the mature local catalogs while revealing
- * richer tree detail controls through the same established vegetation surface.
+ * The Awtsmoos renews every botanical family through one truthful doorway.
+ * This Awtsmoos.com barrel merges legacy meshes, canonical skeletons, LODs,
+ * trellis fields, reports, presets, reference species, and botany exactly once.
  */
 export {
 	TreeGenerator,
+	generateTreeLods,
 	generateTreeProceduralData,
+	generateTreeSkeleton,
+	getTreeCapabilities,
 	getTreePreset,
 	listTreePresets
 } from "../core/geometry/generators/tree/treeGenerator.js";
 export { TreeGrowthSystem } from "../core/geometry/generators/tree/treeGrowthSystem.js";
 export { TreeGeometryBuilder } from "../core/geometry/generators/tree/treeGeometryBuilder.js";
+export { TreeSkeletonGenerator } from "../core/geometry/generators/tree/treeSkeletonGenerator.js";
+export {
+	TreeSkeletonArtifact,
+	hashTreeSkeleton
+} from "../core/geometry/generators/tree/treeSkeletonArtifact.js";
+export {
+	TREE_LOD_PROFILES,
+	createTreeLodSet
+} from "../core/geometry/generators/tree/treeLodPlanner.js";
+export { buildTreeGeometryFromSkeleton } from "../core/geometry/generators/tree/treeGeometryFromSkeleton.js";
 export { validateTreeProceduralData } from "../core/geometry/generators/tree/treeValidation.js";
+export {
+	calculateTreeTrellisForce,
+	createTreeTrellisReport,
+	nearestTreeTrellisPoint,
+	normalizeTreeTrellis
+} from "../core/geometry/generators/tree/treeTrellisField.js";
 export {
 	DEFAULT_TREE_LOD_ORDER,
 	TREE_DETAIL_PROFILES,
@@ -28,10 +47,10 @@ export {
 	resolveTreeConfig
 } from "../core/geometry/generators/tree/treeConfigResolver.js";
 export {
-	TREE_PRESETS,
-	TREE_PRESET_NAMES,
+	TREE_MATERIAL_NEEDS,
 	TREE_PRESET_ALIASES,
-	TREE_MATERIAL_NEEDS
+	TREE_PRESET_NAMES,
+	TREE_PRESETS
 } from "../core/geometry/generators/tree/treePresets.js";
 export {
 	REQUIRED_TREE_BARK_TYPES,

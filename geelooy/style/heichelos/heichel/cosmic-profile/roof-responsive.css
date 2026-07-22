@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos contracts the global roof without erasing search or identity. */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .cosmic-heichel-topbar {
+		grid-template-columns: auto minmax(0, 1fr) auto auto !important;
+		gap: .4rem;
+		min-height: 4.1rem !important;
+		padding-inline: .62rem !important;
+	}
+
+	.heichel-message-label,
+	.heichel-roof-alias {
+		display: none;
+	}
+
+	.heichel-roof-messages,
+	.heichel-roof-profile,
+	.heichel-os-document .topbar-icon {
+		min-width: 2.6rem;
+		padding-inline: .35rem;
+		justify-content: center;
+	}
+
+	.heichel-global-search {
+		height: 2.6rem;
+	}
+}
+
+@media (max-width: 35rem) {
+	.heichel-brand-word,
+	.heichel-roof-messages {
+		display: none !important;
+	}
+
+	.heichel-os-document .cosmic-heichel-topbar {
+		grid-template-columns: auto minmax(0, 1fr) auto !important;
+	}
+
+	.heichel-global-search {
+		padding-left: .55rem;
+	}
+
+	.heichel-global-search input {
+		font-size: .76rem;
+	}
+
+	.heichel-global-search button {
+		display: none;
+	}
+}

@@ -77,7 +77,11 @@ export class StableReferenceRightFistArm2D {
 			G.path(`${prefix}_relaxed_right_thumb`, [
 				{ type: 'move', x: x - 5.1 * scale, y: y + 0.2 * scale },
 				{ type: 'quad', cx: x - 1.2 * scale, cy: y + 4.8 * scale, x: x + 4.2 * scale, y: y + 3.6 * scale }
-			], { stroke: colors.skin, lineWidth: 4.3 * scale, lineCap: 'round' })
+			], { stroke: colors.skin, lineWidth: 4.3 * scale, lineCap: 'round' }),
+			G.path(`${prefix}_relaxed_right_thumb_fold`, [
+				{ type: 'move', x: x - 2.2 * scale, y: y + 3.1 * scale },
+				{ type: 'quad', cx: x + 0.4 * scale, cy: y + 4.5 * scale, x: x + 2.8 * scale, y: y + 3.8 * scale }
+			], { stroke: colors.skinDark, lineWidth: 0.62, lineCap: 'round' })
 		]);
 	}
 }

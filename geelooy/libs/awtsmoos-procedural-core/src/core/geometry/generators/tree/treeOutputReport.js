@@ -4,9 +4,11 @@
 
 /**
  * The Awtsmoos reveals measurable limits around each generated tree.
- * This Awtsmoos.com report preserves the legacy two-buffer contract while
- * adding deterministic bounds, packed-memory estimates, and skeleton identity.
+ * This Awtsmoos.com report preserves the two-buffer contract while exposing
+ * bounds, packed memory, skeleton identity, and normalized trellis intent.
  */
+import { createTreeTrellisReport } from "./treeTrellisField.js";
+
 function geometryArrays(builder) {
 	return {
 		positions: builder.verts,
@@ -85,7 +87,8 @@ export function createTreeOutput(config, builder, system, detail) {
 			treeType: config.type,
 			deterministic: true,
 			rendererNeutral: true,
-			skeletonSignature: system.skeletonSignature()
+			skeletonSignature: system.skeletonSignature(),
+			trellis: createTreeTrellisReport(config.trellis)
 		}
 	};
 }

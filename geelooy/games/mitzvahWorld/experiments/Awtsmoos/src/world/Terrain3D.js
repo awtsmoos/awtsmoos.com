@@ -4,25 +4,29 @@
 
 /**
  * @file Terrain3D.js
- * @description Coordinates cooperatively prepared terrain, village, forest, roads, and signs.
- * The Awtsmoos renews every blade, roof, river stone, and distant mountain; Awtsmoos.com
- * keeps the loading vessel responsive while the exact canonical heightfield is sampled.
+ * @description Builds the movement-ready valley before optional forest and landmark enrichment.
+ * The Awtsmoos renews terrain, river, bridge, road, and inhabited stone first; Awtsmoos.com
+ * lets the shliach move while distant trees and carved letters enter through truthful vessels.
  */
 
 import { highestResolutionSurface } from '../assets/HighestResolutionSurfaceCatalog.js';
 import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
 import { primitiveColliders } from './Box3D.js';
 import { houseRoadSystem } from './PathRoadSystem.js';
-import { createProceduralTextLandmark } from './proceduralText/ProceduralTextLandmarkSystem.js';
+import {
+	createDeferredForestState,
+	createDeferredTextLandmarkState
+} from './streaming/DeferredTerrainFeatureState.js';
 import { createTerrainGroup } from './TerrainGroupAssembly.js';
 import {
 	createTerrainGeometryAsync,
 	terrainHeightAt
 } from './TerrainGeometry.js';
 import { createTerrainPackageStats } from './TerrainPackageStatistics.js';
-import { createProceduralForest } from './trees/ProceduralForestSystem.js';
 import { preloadVillageSignTextures } from './village/VillageSignTexture.js';
-import { createVillageWorldDefinitions } from './village/VillageWorldSystem.js?v=20260720-canonical-valley-pass-04';
+import {
+	createVillageWorldDefinitions
+} from './village/VillageWorldSystem.js?v=20260720-canonical-valley-pass-04';
 
 export const GRASS_URLS = Object.freeze([
 	highestResolutionSurface('baseGrass'),
@@ -64,19 +68,9 @@ export async function createTerrainPackage(
 	const signTextures = await preloadVillageSignTextures();
 	const village = createVillageWorldDefinitions(groundSampler, quality);
 	const villageColliders = village.definitions.flatMap(primitiveColliders);
-	const textLandmark = await createProceduralTextLandmark(groundSampler);
-	const occupiedColliders = [
-		...obstacleColliders,
-		...villageColliders,
-		...textLandmark.colliders
-	];
-	const forest = createProceduralForest({
-		groundSampler,
-		halfSize: terrain.size / 2 - 20,
-		obstacleTriangles: occupiedColliders,
-		quality,
-		roadTriangles: roadColliders
-	});
+	const forest = createDeferredForestState();
+	const textLandmark = createDeferredTextLandmarkState();
+	const occupiedColliders = [...obstacleColliders, ...villageColliders];
 	const assembly = {
 		dirtImage,
 		forest,
@@ -94,16 +88,27 @@ export async function createTerrainPackage(
 	};
 	const group = createTerrainGroup(assembly, REAL_GRASS_URL);
 	const stats = createTerrainPackageStats(assembly);
+	const colliders = [
+		...terrain.colliders,
+		...roadColliders,
+		...occupiedColliders
+	];
+	stats.deferredTerrainEnrichment = 'forest-and-landmark-after-movement';
 	stats.quality = quality;
 	stats.signTextures = signTextures;
 	stats.terrainPreparation = { ...terrain.preparation };
 	return {
-		colliders: [
-			...terrain.colliders,
-			...roadColliders,
-			...occupiedColliders,
-			...forest.colliders
-		],
+		colliders,
+		deferredTerrainContext: {
+			colliderStore: colliders,
+			forest,
+			groundSampler,
+			halfSize: terrain.size / 2 - 20,
+			obstacleTriangles: occupiedColliders,
+			quality,
+			roadTriangles: roadColliders,
+			textLandmark
+		},
 		forest,
 		group,
 		heightAt,
@@ -113,6 +118,7 @@ export async function createTerrainPackage(
 		village,
 		worldMetadata: {
 			...(obstacles.userData || {}),
+			deferredTerrainEnrichment: true,
 			forest: forest.stats,
 			quality,
 			signTextures,

@@ -15,6 +15,7 @@ import {
 	treeNumber,
 	treeRadialDirection
 } from "./treeGrowthMath.js";
+import { calculateTreeChildRadius } from "./treePipeModel.js";
 
 export function spawnTreeChildren(system, spine, parentLength, level) {
 	const count = Math.max(0, Math.floor(system.get("children", level, 0)));
@@ -40,7 +41,11 @@ export function spawnTreeChildren(system, spine, parentLength, level) {
 			position: [...node.position],
 			rotation: Quat.setFromUnitVectors([0, 1, 0], direction),
 			length: baseLength * evergreenScale * system.rng.random(0.86, 1.14),
-			radius: Math.max(0.015, node.radius * system.rng.random(0.52, 0.82)),
+			radius: calculateTreeChildRadius(
+				node.radius,
+				count,
+				system.rng.random(0.52, 0.82)
+			),
 			level: level + 1
 		});
 	}
@@ -61,9 +66,10 @@ export function spawnTreeLeaves(system, spine, level, maximumLevel) {
 		const nodeIndex = Math.min(available, Math.max(0, Math.floor(progress * available)));
 		const node = spine[nodeIndex];
 		const radial = treeRadialDirection(node.direction, offset + leafIndex * GOLDEN_TREE_ANGLE);
-		const variance = treeNumber(leaves.sizeVariance, 0.35);
-		const size = treeNumber(leaves.size, 1) * system.rng.random(1 - variance, 1 + variance);
+		const variation = system.rng.random(0.82, 1.18);
+		const size = treeNumber(leaves.size, 0.8) * variation;
 		const pitch = treeNumber(leaves.angle, 12) * Math.PI / 180 + system.rng.random(-0.25, 0.25);
+		const roll = system.rng.random(-0.45, 0.45);
 		if (leafIndex % system.detail.leafStride !== 0) {
 			continue;
 		}
@@ -74,7 +80,7 @@ export function spawnTreeLeaves(system, spine, level, maximumLevel) {
 		system.geo.addLeaf(
 			position,
 			Math.max(0.03, size * system.detail.leafScale),
-			[pitch, Math.atan2(radial[0], radial[2]), system.rng.random(-0.45, 0.45)],
+			[pitch, Math.atan2(radial[0], radial[2]), roll],
 			leaves.tint || leaves.color || [0.25, 0.65, 0.22, 1],
 			{ billboard: system.detail.billboard || leaves.billboard, aspect: leaves.aspect }
 		);

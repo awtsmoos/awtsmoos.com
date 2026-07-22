@@ -2,100 +2,102 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews every inherited trait without confusing variation with
- * chaos. This Awtsmoos.com vessel bounds every gene, preserves determinism,
- * and lets many creatures unfold from one lawful recipe.
+ * The Awtsmoos carries inheritance through one lawful animal pipeline. This
+ * Awtsmoos.com genome remains deterministic, bounded, serializable, and fully
+ * compatible with the original genes API while revealing richer body plans.
  */
 
-const GENE_RULES = Object.freeze({
-	body_length: { minimum: 0.55, maximum: 1.8, center: 1, spread: 0.28 },
-	body_width: { minimum: 0.55, maximum: 1.7, center: 1, spread: 0.24 },
-	body_height: { minimum: 0.6, maximum: 1.65, center: 1, spread: 0.2 },
-	appendage_length: { minimum: 0.5, maximum: 1.9, center: 1, spread: 0.32 },
-	appendage_thickness: { minimum: 0.55, maximum: 1.65, center: 1, spread: 0.24 },
-	head_scale: { minimum: 0.55, maximum: 1.65, center: 1, spread: 0.2 },
-	tail_length: { minimum: 0.25, maximum: 2.4, center: 1, spread: 0.45 },
-	muscle_bulk: { minimum: 0.55, maximum: 1.65, center: 1, spread: 0.22 },
-	spine_bend: { minimum: -0.35, maximum: 0.35, center: 0, spread: 0.12 },
-	stance_width: { minimum: 0.6, maximum: 1.7, center: 1, spread: 0.22 },
-	gait_frequency: { minimum: 0.35, maximum: 2.5, center: 1, spread: 0.35 },
-	gait_stride: { minimum: 0.35, maximum: 2.1, center: 1, spread: 0.3 },
-	flexibility: { minimum: 0, maximum: 1, center: 0.5, spread: 0.28 }
-});
+import { createAnimalGenomeRandom, hashAnimalGenome } from "./animalGenomeIdentity.js";
+import { ANIMAL_GENOME_LINKS, ANIMAL_GENOME_RULES } from "./animalGenomeRules.js";
+
+const finite = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
 function clamp(value, rule) {
-	return Math.max(rule.minimum, Math.min(rule.maximum, value));
+	const bounded = Math.max(rule.minimum, Math.min(rule.maximum, value));
+	return rule.integer ? Math.round(bounded) : bounded;
 }
 
-function finite(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
+function linkedValue(name, source, fallback) {
+	for (const pair of ANIMAL_GENOME_LINKS) {
+		if (pair[0] === name && source[pair[1]] !== undefined) return source[pair[1]];
+		if (pair[1] === name && source[pair[0]] !== undefined) return source[pair[0]];
+	}
+	return name === "body_depth" && source.body_width !== undefined ? source.body_width : fallback;
 }
 
-function createRandom(seed) {
-	let state = (Number(seed) >>> 0) || 0x9e3779b9;
-	return () => {
-		state ^= state << 13;
-		state ^= state >>> 17;
-		state ^= state << 5;
-		return (state >>> 0) / 4294967296;
+function normalizeGenes(source = {}) {
+	return Object.fromEntries(Object.entries(ANIMAL_GENOME_RULES).map(([name, rule]) => {
+		const requested = source[name] ?? linkedValue(name, source, rule.center);
+		return [name, clamp(finite(requested, rule.center), rule)];
+	}));
+}
+
+function creationOptions(input, seed, overrides) {
+	if (typeof input === "string") {
+		return { archetypeId: input, seed, genes: overrides, generation: 0 };
+	}
+	return {
+		archetypeId: input.archetypeId || input.archetype_id || "custom",
+		seed: input.seed ?? 1,
+		genes: { ...(input.traits || {}), ...(input.genes || {}) },
+		generation: input.generation || 0
 	};
 }
 
-function hashGenome(seed, genes) {
-	const text = `${seed}|${Object.entries(genes).map(([key, value]) => `${key}:${value}`).join("|")}`;
-	let hash = 2166136261;
-	for (let index = 0; index < text.length; index += 1) {
-		hash ^= text.charCodeAt(index);
-		hash = Math.imul(hash, 16777619);
-	}
-	return (hash >>> 0).toString(16).padStart(8, "0");
-}
-
-export const ANIMAL_GENOME_RULES = GENE_RULES;
+export { ANIMAL_GENOME_RULES };
 
 export function normalizeAnimalGenome(input = {}) {
 	const seed = finite(input.seed, 1) >>> 0;
-	const source = input.genes || input;
-	const genes = {};
-	for (const [name, rule] of Object.entries(GENE_RULES)) {
-		genes[name] = clamp(finite(source[name], rule.center), rule);
-	}
-	return {
+	const generation = Math.max(0, Math.floor(finite(input.generation, 0)));
+	const archetypeId = String(input.archetype_id || input.archetypeId || "custom");
+	const genes = normalizeGenes({ ...input, ...(input.traits || {}), ...(input.genes || {}) });
+	return Object.freeze({
 		schema: "awtsmoos.animal-genome",
-		version: "1.0.0",
-		id: `genome_${hashGenome(seed, genes)}`,
+		version: "1.1.0",
+		id: `genome_${hashAnimalGenome(archetypeId, generation, seed, genes)}`,
 		seed,
-		genes
-	};
+		generation,
+		archetype_id: archetypeId,
+		genes: Object.freeze(genes),
+		traits: Object.freeze({ ...genes })
+	});
 }
 
-export function createAnimalGenome(options = {}) {
-	const seed = finite(options.seed, 1) >>> 0;
-	const random = createRandom(seed);
-	const requested = options.genes || {};
-	const genes = {};
-	for (const [name, rule] of Object.entries(GENE_RULES)) {
-		const sampled = rule.center + (random() * 2 - 1) * rule.spread;
-		genes[name] = requested[name] ?? sampled;
-	}
-	return normalizeAnimalGenome({ seed, genes });
+export function createAnimalGenome(input = {}, seed = 1, overrides = {}) {
+	const options = creationOptions(input, seed, overrides);
+	const random = createAnimalGenomeRandom(options.seed);
+	const sampled = Object.fromEntries(Object.entries(ANIMAL_GENOME_RULES).map(([name, rule]) => [
+		name,
+		options.genes[name] ?? rule.center + (random() * 2 - 1) * rule.spread
+	]));
+	return normalizeAnimalGenome({
+		seed: options.seed,
+		generation: options.generation,
+		archetype_id: options.archetypeId,
+		genes: sampled
+	});
 }
 
 export function breedAnimalGenomes(leftInput, rightInput, options = {}) {
 	const left = normalizeAnimalGenome(leftInput);
 	const right = normalizeAnimalGenome(rightInput);
+	if (left.archetype_id !== right.archetype_id && options.allowCrossArchetype !== true) {
+		throw new Error('B"H | Cross-archetype breeding requires explicit permission.');
+	}
 	const seed = finite(options.seed, left.seed ^ right.seed ^ 0x85ebca6b) >>> 0;
-	const random = createRandom(seed);
-	const mutationRate = Math.max(0, Math.min(1, finite(options.mutationRate, 0.12)));
-	const mutationScale = Math.max(0, finite(options.mutationScale, 0.12));
-	const genes = {};
-	for (const [name, rule] of Object.entries(GENE_RULES)) {
+	const random = createAnimalGenomeRandom(seed);
+	const rate = Math.max(0, Math.min(1, finite(options.mutationRate, 0.12)));
+	const scale = Math.max(0, finite(options.mutationScale, 0.12));
+	const genes = Object.fromEntries(Object.entries(ANIMAL_GENOME_RULES).map(([name, rule]) => {
 		const blend = random();
 		let value = left.genes[name] * blend + right.genes[name] * (1 - blend);
-		if (random() < mutationRate) {
-			value += (random() * 2 - 1) * mutationScale * (rule.maximum - rule.minimum);
-		}
-		genes[name] = clamp(value, rule);
-	}
-	return normalizeAnimalGenome({ seed, genes });
+		if (random() < rate) value += (random() * 2 - 1) * scale * (rule.maximum - rule.minimum);
+		return [name, clamp(value, rule)];
+	}));
+	return normalizeAnimalGenome({
+		seed,
+		generation: Math.max(left.generation, right.generation) + 1,
+		archetype_id: options.archetypeId || left.archetype_id,
+		genes
+	});
 }

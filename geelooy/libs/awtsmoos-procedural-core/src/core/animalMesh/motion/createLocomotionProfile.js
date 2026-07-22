@@ -1,33 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * The Awtsmoos turns ordered anatomy into ordered time without owning animation.
- * This Awtsmoos.com module emits deterministic phase metadata for the existing
- * animation, rig, constraint, or external solver layers to evaluate explicitly.
+ * The Awtsmoos turns ordered anatomy into ordered time without pretending to
+ * own animation. This Awtsmoos.com module emits deterministic phase metadata
+ * for the existing rig, constraint, graph, or external solver layers.
  */
+
 import { resolveAnimalBodyPlan } from "../morphology/bodyPlanCatalog.js";
 import { freezeMorphologyValue } from "../morphology/morphologyValue.js";
 
 const wrapPhase = (value) => ((value % 1) + 1) % 1;
 
-const LIMB_PHASES = {
-	quadruped: {
+const LIMB_PHASES = Object.freeze({
+	quadruped: Object.freeze({
 		walk: { front_left: 0, rear_right: 0.25, front_right: 0.5, rear_left: 0.75 },
 		trot: { front_left: 0, rear_right: 0, front_right: 0.5, rear_left: 0.5 },
 		canter: { rear_left: 0, rear_right: 0.18, front_left: 0.43, front_right: 0.58 },
 		gallop: { rear_left: 0, rear_right: 0.12, front_left: 0.5, front_right: 0.62 }
-	},
-	biped: {
+	}),
+	biped: Object.freeze({
 		walk: { left_leg: 0, right_leg: 0.5, left_arm: 0.5, right_arm: 0 },
 		run: { left_leg: 0, right_leg: 0.5, left_arm: 0.5, right_arm: 0 }
-	},
-	avian: {
+	}),
+	avian: Object.freeze({
 		flap: { left_wing: 0, right_wing: 0 },
 		walk: { left_leg: 0, right_leg: 0.5 }
-	}
-};
+	})
+});
 
 function travelingWave(segmentCount, wavelength = 1.5) {
 	const count = Math.max(2, Math.floor(Number(segmentCount) || 2));
@@ -38,7 +38,7 @@ function travelingWave(segmentCount, wavelength = 1.5) {
 	}));
 }
 
-function arthropodTripods(pairCount) {
+function arthropodGroups(pairCount) {
 	const count = Math.max(3, Math.floor(Number(pairCount) || 3));
 	const groups = [[], []];
 	for (let index = 0; index < count; index += 1) {
@@ -46,7 +46,7 @@ function arthropodTripods(pairCount) {
 		groups[(index + 1) % 2].push(`right_leg_${index + 1}`);
 	}
 	return groups.map((members, index) => ({
-		id: `tripod_${index + 1}`,
+		id: `alternating_group_${index + 1}`,
 		phase: index * 0.5,
 		members
 	}));
@@ -59,14 +59,14 @@ export function createAnimalLocomotionProfile(options = {}) {
 	if (!plan.locomotion_modes.includes(mode)) {
 		throw new Error(`B"H | ${mode} is not declared for ${archetypeId}.`);
 	}
-	const cycleDuration = Math.max(0.01, Number(options.cycleDuration ?? options.cycle_duration ?? 1));
 	const base = {
 		schema: "awtsmoos.animal.locomotion/1",
 		archetype_id: archetypeId,
 		mode,
-		cycle_duration: cycleDuration,
+		cycle_duration: Math.max(0.01, Number(options.cycleDuration ?? options.cycle_duration ?? 1)),
 		loop: mode !== "glide" && mode !== "idle",
-		deterministic: true
+		deterministic: true,
+		status: "plan_only"
 	};
 	if (archetypeId === "fish" || archetypeId === "serpentine") {
 		return freezeMorphologyValue({
@@ -79,9 +79,12 @@ export function createAnimalLocomotionProfile(options = {}) {
 		return freezeMorphologyValue({
 			...base,
 			type: "alternating_groups",
-			groups: arthropodTripods(options.legPairs || options.leg_pairs || 3)
+			groups: arthropodGroups(options.legPairs || options.leg_pairs || 3)
 		});
 	}
-	const phases = LIMB_PHASES[archetypeId]?.[mode] || {};
-	return freezeMorphologyValue({ ...base, type: "limb_phase_map", phases });
+	return freezeMorphologyValue({
+		...base,
+		type: "limb_phase_map",
+		phases: LIMB_PHASES[archetypeId]?.[mode] || {}
+	});
 }

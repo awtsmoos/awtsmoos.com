@@ -40,7 +40,7 @@ export class CalmReferenceBodyGeometry {
 			skirt: {
 				centerX: -13,
 				topHalf: 29,
-				bottomHalf: 39,
+				bottomHalf: 43,
 				hemY: -4,
 				sway: 0.4,
 				leftHemDrop: 1.5,

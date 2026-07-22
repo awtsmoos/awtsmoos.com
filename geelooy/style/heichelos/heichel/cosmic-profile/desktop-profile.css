@@ -1,0 +1,106 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos contracts desktop identity without diminishing the phone vessel. */
+
+@media (min-width: 70rem) {
+	.heichel-os-document .all {
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
+	}
+
+	.heichel-os-document .geelooy-main-stage {
+		width: min(calc(100% - 2rem), var(--heichel-profile-width));
+		margin: 0 auto !important;
+		padding: 4.8rem 0 2rem !important;
+	}
+
+	.heichel-os-document .cosmic-heichel-profile {
+		display: grid !important;
+		grid-template-columns: minmax(0, 1fr) auto !important;
+		grid-template-areas:
+			"identity stats"
+			"actions tabs" !important;
+		min-height: 0 !important;
+	}
+
+	.heichel-profile-cover {
+		position: absolute;
+		inset: 0;
+		height: auto;
+		opacity: .38;
+		pointer-events: none;
+	}
+
+	.heichel-profile-identity {
+		position: relative;
+		z-index: 1;
+		grid-area: identity;
+		grid-template-columns: 4.6rem minmax(0, 1fr);
+		gap: .85rem;
+		align-items: center;
+		margin: 0;
+		padding: .85rem 1rem .65rem;
+	}
+
+	.heichel-os-document .heichel-seal {
+		width: 4.6rem !important;
+		height: 4.6rem !important;
+		font-size: 1.2rem !important;
+	}
+
+	.heichel-os-document .hero-kicker {
+		margin-bottom: .2rem !important;
+		font-size: .58rem !important;
+	}
+
+	.heichel-os-document #heichel-main-title {
+		font-size: clamp(1.8rem, 3vw, 2.65rem) !important;
+	}
+
+	.heichel-os-document .hero-description {
+		display: -webkit-box;
+		overflow: hidden;
+		margin-top: .35rem !important;
+		font-size: .82rem !important;
+		line-height: 1.35 !important;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.heichel-os-document .heichel-profile-stats {
+		position: relative;
+		z-index: 1;
+		grid-area: stats;
+		align-self: center;
+		width: 21rem !important;
+		margin: 0 1rem 0 0 !important;
+		padding: .65rem 0 !important;
+	}
+
+	.heichel-profile-actions {
+		position: relative;
+		z-index: 1;
+		grid-area: actions;
+		grid-template-columns: 9rem 9rem;
+		align-content: center;
+		padding: .55rem 1rem .7rem;
+	}
+
+	.heichel-profile-action {
+		min-height: 2.35rem;
+	}
+
+	.heichel-profile-tabs {
+		position: relative;
+		z-index: 1;
+		grid-area: tabs;
+		align-self: end;
+		width: 30rem;
+		border-top: 0;
+	}
+
+	.heichel-profile-tabs a {
+		min-height: 2.75rem;
+	}
+}

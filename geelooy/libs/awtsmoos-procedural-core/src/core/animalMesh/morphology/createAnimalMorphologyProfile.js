@@ -1,35 +1,52 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * The Awtsmoos joins archetype, body plan, and genome into one inspectable form.
- * This Awtsmoos.com profile gives the established loft and rig compiler explicit
- * anatomical guidance without creating geometry or mutating scene state itself.
+ * The Awtsmoos joins archetype, body plan, and genome into one inspectable
+ * morphology profile. This Awtsmoos.com contract guides the established loft,
+ * rig, weighting, recipe, and compiler systems without creating geometry.
  */
+
 import { resolveAnimalArchetype } from "../archetypes/AnimalArchetypeRegistry.js";
-import { createAnimalGenome } from "./animalGenome.js";
+import { createAnimalGenome, normalizeAnimalGenome } from "./animalGenome.js";
 import { resolveAnimalBodyPlan } from "./bodyPlanCatalog.js";
 import { cloneMorphologyValue, freezeMorphologyValue } from "./morphologyValue.js";
 
-function normalizedSegmentWeights(segmentNames, genome) {
-	const count = Math.max(1, segmentNames.length);
-	const elongation = genome.traits.elongation || genome.traits.body_length || 1;
-	return segmentNames.map((name, index) => ({
-		id: name,
-		order: index,
+function resolveGenome(archetypeId, options) {
+	if (options.genome) {
+		const genome = normalizeAnimalGenome(options.genome);
+		if (genome.archetype_id !== archetypeId && genome.archetype_id !== "custom") {
+			throw new Error('B"H | Morphology genome does not match its archetype.');
+		}
+		return genome.archetype_id === "custom"
+			? normalizeAnimalGenome({ ...genome, archetype_id: archetypeId })
+			: genome;
+	}
+	return createAnimalGenome(
+		archetypeId,
+		options.seed ?? 0,
+		options.traitOverrides || options.trait_overrides || {}
+	);
+}
+
+function segmentDescriptors(names, genome) {
+	const count = Math.max(1, names.length);
+	const elongation = genome.traits.elongation || genome.traits.body_length;
+	return names.map((id, order) => ({
+		id,
+		order,
 		length_weight: elongation / count,
-		radius_weight: (genome.traits.body_depth || 1) * (1 - index / (count * 4))
+		radius_weight: genome.traits.body_depth * (1 - order / (count * 4))
 	}));
 }
 
 function appendageDescriptors(plan, genome) {
-	return plan.appendage_pairs.map((id, index) => ({
+	return plan.appendage_pairs.map((id, pairIndex) => ({
 		id,
-		pair_index: index,
+		pair_index: pairIndex,
 		symmetry: "bilateral",
-		length_scale: genome.traits.limb_length || genome.traits.wing_span || 1,
-		taper: genome.traits.appendage_taper || 0.65
+		length_scale: genome.traits.limb_length || genome.traits.wing_span,
+		taper: genome.traits.appendage_taper
 	}));
 }
 
@@ -37,14 +54,7 @@ export function createAnimalMorphologyProfile(options = {}) {
 	const archetypeId = options.archetypeId || options.archetype_id || "quadruped";
 	const archetype = resolveAnimalArchetype(archetypeId);
 	const plan = resolveAnimalBodyPlan(archetypeId);
-	const genome = options.genome || createAnimalGenome(
-		archetypeId,
-		options.seed ?? 0,
-		options.traitOverrides || options.trait_overrides || {}
-	);
-	if (genome.archetype_id !== archetypeId) {
-		throw new Error('B"H | Morphology genome does not match its archetype.');
-	}
+	const genome = resolveGenome(archetypeId, options);
 	return freezeMorphologyValue({
 		schema: "awtsmoos.animal.morphology/1",
 		id: `${archetypeId}-${genome.seed}-${genome.generation}`,
@@ -52,7 +62,7 @@ export function createAnimalMorphologyProfile(options = {}) {
 		body_plan: cloneMorphologyValue(plan),
 		symmetry: archetype.symmetry,
 		primary_axis: plan.primary_axis,
-		segments: normalizedSegmentWeights(plan.segments, genome),
+		segments: segmentDescriptors(plan.segments, genome),
 		appendages: appendageDescriptors(plan, genome),
 		joint_chains: cloneMorphologyValue(plan.joint_chains),
 		locomotion_modes: cloneMorphologyValue(plan.locomotion_modes),
