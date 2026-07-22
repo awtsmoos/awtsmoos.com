@@ -32,7 +32,7 @@ const files = {
 	routeDishes: resolve(profileRoot, 'routeDishes.js'),
 	template: resolve(profileRoot, 'template.js')
 };
-const source = Object.fromEntries(Object.entries(files).map(([name, path]) => [name, readFileSync(path, 'utf8')]));
+const source = readSources(files);
 
 for (const [name, content] of Object.entries(source)) {
 	assert.match(firstLine(content), /B"H/, `${name} must begin with B"H`);
@@ -64,6 +64,14 @@ assert.match(source.icons, /<svg/);
 assert.match(source.feedback, /aria-busy/);
 console.log('B"H solid profile dropdown contract passed.');
 
+function readSources(paths) {
+	const entries = [];
+	for (const [name, path] of Object.entries(paths)) {
+		entries.push([name, readFileSync(path, 'utf8')]);
+	}
+	return Object.fromEntries(entries);
+}
+
 function firstLine(content) {
 	return content.split(String.fromCharCode(10))[0];
 }
@@ -73,12 +81,26 @@ function lineCount(content) {
 }
 
 function hasCompressedFunction(content) {
-	return content.split(String.fromCharCode(10)).some(line => {
-		const trimmed = line.trim();
-		if (!trimmed || trimmed.startsWith('*') || trimmed.startsWith('//') || trimmed.startsWith('/*')) return false;
-		if (!/function/.test(trimmed)) return false;
-		const bodyStart = trimmed.lastIndexOf('{');
-		if (bodyStart < 0) return false;
-		return trimmed.slice(bodyStart + 1).trim().length > 0;
-	});
+	const lines = content.split(String.fromCharCode(10));
+	for (const line of lines) {
+		if (isCompressedFunctionLine(line)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function isCompressedFunctionLine(line) {
+	const trimmed = line.trim();
+	if (!trimmed || trimmed.startsWith('*') || trimmed.startsWith('//') || trimmed.startsWith('/*')) {
+		return false;
+	}
+	if (!/function/.test(trimmed)) {
+		return false;
+	}
+	const bodyStart = trimmed.lastIndexOf('{');
+	if (bodyStart < 0) {
+		return false;
+	}
+	return trimmed.slice(bodyStart + 1).trim().length > 0;
 }

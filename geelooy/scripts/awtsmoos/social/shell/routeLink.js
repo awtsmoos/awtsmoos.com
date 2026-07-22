@@ -4,9 +4,9 @@
 /**
  * @module GeelooyRouteLink
  * @description
- * The Awtsmoos pours one route soul into many visual keilim. Constellation,
- * dock, drawer, and profile dish change garments but never duplicate meaning;
- * one renderer rhymes through every navigational chamber of Awtsmoos.com.
+ * One Malchus route soul descends through many visual keilim. Constellation,
+ * dock, drawer, and profile dish wear different garments, yet the Awtsmoos
+ * keeps their meaning indivisible throughout Awtsmoos.com.
  */
 const keterVariants = Object.freeze({
 	constellation: 'g-constellation-route',
@@ -23,42 +23,47 @@ const keterVariants = Object.freeze({
  * @returns {HTMLAnchorElement} One canonical route link.
  */
 export function createMalchusRouteLink(root, route, variant = 'constellation') {
+	assertRouteVessel(root, route);
+	const malchusLink = root.createElement('a');
+	malchusLink.href = route.href;
+	malchusLink.className = keterVariants[variant] || keterVariants.constellation;
+	malchusLink.dataset.gRouteLink = 'true';
+	malchusLink.dataset.routeVariant = variant;
+	markRouteIdentity(malchusLink, route);
+	malchusLink.append(createOhrIcon(root, route, variant));
+	malchusLink.append(createKliCopy(root, route, variant));
+	return malchusLink;
+}
+
+function assertRouteVessel(root, route) {
 	if (!root?.createElement || !route?.href) {
 		throw new TypeError('B"H canonical route links require a document and route.');
 	}
-	const link = root.createElement('a');
-	link.href = route.href;
-	link.className = keterVariants[variant] || keterVariants.constellation;
-	link.dataset.gRouteLink = 'true';
-	link.dataset.routeVariant = variant;
+}
+
+function markRouteIdentity(link, route) {
 	if (route.main) {
 		link.dataset.mainRoute = 'true';
 	}
 	if (route.href === '/games') {
 		link.dataset.gamesRoute = 'true';
 	}
-	link.append(createOhrIcon(root, route, variant));
-	link.append(createKliCopy(root, route, variant));
-	return link;
 }
 
 function createOhrIcon(root, route, variant) {
-	const icon = root.createElement('span');
-	icon.className = iconClass(variant);
-	icon.setAttribute('aria-hidden', 'true');
-	icon.textContent = route.icon;
-	return icon;
+	const ohrIcon = root.createElement('span');
+	ohrIcon.className = revealIconClass(variant);
+	ohrIcon.setAttribute('aria-hidden', 'true');
+	ohrIcon.textContent = route.icon;
+	return ohrIcon;
 }
 
 function createKliCopy(root, route, variant) {
 	if (variant === 'dock') {
-		const label = root.createElement('small');
-		label.className = 'g-route-label';
-		label.textContent = route.label;
-		return label;
+		return createDockLabel(root, route);
 	}
 	const copy = root.createElement('span');
-	copy.className = copyClass(variant);
+	copy.className = revealCopyClass(variant);
 	const label = root.createElement('strong');
 	label.textContent = route.label;
 	copy.append(label);
@@ -70,15 +75,33 @@ function createKliCopy(root, route, variant) {
 	return copy;
 }
 
-function iconClass(variant) {
-	if (variant === 'dock') return 'g-route-icon';
-	if (variant === 'profileDish') return 'profile-route-dish-icon';
-	if (variant === 'drawer') return 'geelooy-drawer-route-icon';
-	return 'g-constellation-icon';
+function createDockLabel(root, route) {
+	const label = root.createElement('small');
+	label.className = 'g-route-label';
+	label.textContent = route.label;
+	return label;
 }
 
-function copyClass(variant) {
-	if (variant === 'profileDish') return 'profile-route-dish-copy';
-	if (variant === 'drawer') return 'geelooy-drawer-route-copy';
-	return 'g-constellation-copy';
+function revealIconClass(variant) {
+	switch (variant) {
+		case 'dock':
+			return 'g-route-icon';
+		case 'profileDish':
+			return 'profile-route-dish-icon';
+		case 'drawer':
+			return 'geelooy-drawer-route-icon';
+		default:
+			return 'g-constellation-icon';
+	}
+}
+
+function revealCopyClass(variant) {
+	switch (variant) {
+		case 'profileDish':
+			return 'profile-route-dish-copy';
+		case 'drawer':
+			return 'geelooy-drawer-route-copy';
+		default:
+			return 'g-constellation-copy';
+	}
 }

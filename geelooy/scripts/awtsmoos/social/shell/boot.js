@@ -5,8 +5,8 @@
  * @module GeelooyUnifiedShellBoot
  * @description
  * The Awtsmoos reveals one jeweled horizon around every eligible main route.
- * Home, Heichelos, identity, Mail, Apps, and Games receive the same profile
- * crown without duplicate headers or page-scale animation on Awtsmoos.com.
+ * Home, Spaces, Ikar, Mail, Profile, Apps, and Games receive the same crown
+ * without duplicate headers or page-scale animation on Awtsmoos.com.
  */
 import { bindAppCommand } from './appCommand.js';
 import { currentAppRoute } from './appRoutes.js';
@@ -23,7 +23,9 @@ const SHELL_GENERATION = 'speed-001';
 
 /** Boots shared identity without replacing native route content. */
 export function bootGeelooyShell(root = document) {
-	if (!root.documentElement || !root.body || !isShellEligible(root.location?.pathname)) return null;
+	if (!canRevealShell(root)) {
+		return null;
+	}
 	applyPerformanceProfile(root);
 	ensureStylesheet(root);
 	applyRouteIdentity(root);
@@ -31,17 +33,26 @@ export function bootGeelooyShell(root = document) {
 	root.documentElement.dataset.geelooyShellGeneration = SHELL_GENERATION;
 	root.body.classList.add('geelooy-app-shell');
 	root.body.classList.remove('geelooy-spectral-shell');
-	const shell = ensureAppShell(root);
+	const malchusShell = ensureAppShell(root);
 	bindAppCommand(root);
 	bindScrollMemory();
 	ensureToastRegion();
 	startOptionalNavigation(root);
-	return shell;
+	return malchusShell;
+}
+
+function canRevealShell(root) {
+	if (!root.documentElement || !root.body) {
+		return false;
+	}
+	return isShellEligible(root.location?.pathname);
 }
 
 /** Loads hybrid navigation only when a route outlet explicitly exists. */
 async function startOptionalNavigation(root) {
-	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) return null;
+	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) {
+		return null;
+	}
 	try {
 		const { startAppNavigation } = await import('../navigation/appNavigation.js');
 		return startAppNavigation(root);
@@ -52,15 +63,23 @@ async function startOptionalNavigation(root) {
 }
 
 function applyRouteIdentity(root) {
-	if (root.body.dataset.geelooyRoute) return;
+	if (root.body.dataset.geelooyRoute) {
+		return;
+	}
 	const route = currentAppRoute(root.location?.pathname);
-	root.body.dataset.geelooyRoute = routeThemeName(route);
+	root.body.dataset.geelooyRoute = revealRouteThemeName(route);
 }
 
-function routeThemeName(route) {
-	if (route.href === '/') return 'home';
-	if (route.href === '/mawgawl/sefarim') return 'search';
-	if (route.create) return 'create';
+function revealRouteThemeName(route) {
+	if (route.href === '/') {
+		return 'home';
+	}
+	if (route.href === '/mawgawl/sefarim') {
+		return 'search';
+	}
+	if (route.create) {
+		return 'create';
+	}
 	return route.href.split('/').filter(Boolean).at(-1) || 'home';
 }
 
@@ -68,8 +87,7 @@ function ensureStylesheet(root) {
 	const existing = root.querySelector(STYLE_SELECTOR);
 	const expectedHref = new URL(STYLE_HREF, root.baseURI).href;
 	if (existing) {
-		if (existing.href !== expectedHref) existing.href = STYLE_HREF;
-		existing.dataset.geelooyAppStyle = 'true';
+		harmonizeExistingStylesheet(existing, expectedHref);
 		return;
 	}
 	const link = root.createElement('link');
@@ -79,10 +97,25 @@ function ensureStylesheet(root) {
 	root.head.append(link);
 }
 
-if (typeof document !== 'undefined' && isShellEligible(document.location?.pathname)) {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => bootGeelooyShell(), { once: true });
-	} else {
-		bootGeelooyShell();
+function harmonizeExistingStylesheet(existing, expectedHref) {
+	if (existing.href !== expectedHref) {
+		existing.href = STYLE_HREF;
 	}
+	existing.dataset.geelooyAppStyle = 'true';
+}
+
+function scheduleShellBoot() {
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', revealShellAfterCreation, { once: true });
+		return;
+	}
+	bootGeelooyShell();
+}
+
+function revealShellAfterCreation() {
+	bootGeelooyShell();
+}
+
+if (typeof document !== 'undefined' && isShellEligible(document.location?.pathname)) {
+	scheduleShellBoot();
 }

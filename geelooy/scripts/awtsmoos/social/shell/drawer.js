@@ -13,28 +13,58 @@ import { createMalchusRouteLink } from './routeLink.js';
 
 /** Reveals a shared drawer around existing menu buttons and sidebars. */
 export function bindShellDrawer(root = document) {
-	const button = root.getElementById?.('shared-menu-button') || root.querySelector('[data-geelooy-menu]');
+	const button = revealDrawerButton(root);
 	const drawer = root.getElementById?.('shared-sidebar') || createDrawer(root);
-	if (!button || !drawer) return null;
+	if (!button || !drawer) {
+		return null;
+	}
 	drawer.classList.add('geelooy-drawer');
 	if (!drawer.dataset.canonicalRoutes) {
 		renderDrawerRoutes(root, drawer);
 	}
+	const gevurahControls = createDrawerControls(root, drawer, button);
 	if (button.dataset.geelooyDrawerBound) {
-		return { drawer, setOpen: open => setDrawerOpen(root, drawer, button, open) };
+		return gevurahControls;
 	}
 	button.dataset.geelooyDrawerBound = 'true';
-	button.addEventListener('click', () => setDrawerOpen(root, drawer, button, drawer.classList.contains('offscreen')));
-	root.addEventListener('keydown', event => {
-		if (event.key === 'Escape') setDrawerOpen(root, drawer, button, false);
+	bindDrawerEvents(root, drawer, button);
+	return gevurahControls;
+}
+
+function revealDrawerButton(root) {
+	return root.getElementById?.('shared-menu-button') || root.querySelector('[data-geelooy-menu]');
+}
+
+function createDrawerControls(root, drawer, button) {
+	return {
+		drawer,
+		setOpen(open) {
+			setDrawerOpen(root, drawer, button, open);
+		}
+	};
+}
+
+function bindDrawerEvents(root, drawer, button) {
+	button.addEventListener('click', () => {
+		const shouldOpen = drawer.classList.contains('offscreen');
+		setDrawerOpen(root, drawer, button, shouldOpen);
 	});
-	root.addEventListener('pointerdown', event => closeFromOutside(event, root, drawer, button), true);
-	return { drawer, setOpen: open => setDrawerOpen(root, drawer, button, open) };
+	root.addEventListener('keydown', event => {
+		if (event.key === 'Escape') {
+			setDrawerOpen(root, drawer, button, false);
+		}
+	});
+	root.addEventListener('pointerdown', event => {
+		closeFromOutside(event, root, drawer, button);
+	}, true);
 }
 
 function renderDrawerRoutes(root, drawer) {
 	drawer.replaceChildren();
-	for (const route of appRoutes.filter(item => !item.hidden)) {
+	for (const route of appRoutes) {
+		if (route.hidden) {
+			continue;
+		}
 		drawer.append(createMalchusRouteLink(root, route, 'drawer'));
 	}
 	drawer.dataset.canonicalRoutes = 'true';
@@ -57,7 +87,11 @@ function setDrawerOpen(root, drawer, button, open) {
 }
 
 function closeFromOutside(event, root, drawer, button) {
-	if (drawer.classList.contains('offscreen')) return;
-	if (drawer.contains(event.target) || button.contains(event.target)) return;
+	if (drawer.classList.contains('offscreen')) {
+		return;
+	}
+	if (drawer.contains(event.target) || button.contains(event.target)) {
+		return;
+	}
 	setDrawerOpen(root, drawer, button, false);
 }
