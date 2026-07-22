@@ -1,0 +1,75 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* Each real card is one Keili; one Sefirah names its hue, one Olam gives it depth. */
+
+.nav-card[data-sefirah="keter"],
+.nav-card[data-sefirah="chochmah"] {
+	--source-accent: var(--heichel-cosmic-cyan-core);
+	--sefirah-label: "חכמה · Chochmah";
+}
+
+.nav-card[data-sefirah="binah"],
+.nav-card[data-sefirah="gevurah"],
+.nav-card[data-sefirah="hod"] {
+	--source-accent: var(--heichel-cosmic-magenta-core);
+	--sefirah-label: "בינה · Binah";
+}
+
+.nav-card[data-sefirah="tiferet"],
+.nav-card[data-sefirah="chesed"] {
+	--source-accent: var(--heichel-cosmic-aqua);
+	--sefirah-label: "תפארת · Tiferet";
+}
+
+.nav-card[data-sefirah="netzach"],
+.nav-card[data-sefirah="yesod"] {
+	--source-accent: var(--heichel-cosmic-violet-core);
+	--sefirah-label: "יסוד · Yesod";
+}
+
+.nav-card-title-row::before {
+	display: inline-grid;
+	flex: 0 0 auto;
+	place-items: center;
+	min-height: 1.35rem;
+	padding: .15rem .4rem;
+	color: var(--source-accent);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 34%, transparent);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--source-accent) 8%, transparent);
+	font-size: .52rem;
+	font-weight: 900;
+	letter-spacing: .06em;
+	content: var(--sefirah-label, "כתר · Keter");
+}
+
+.nav-card[data-olam="atzilus"] {
+	box-shadow: 0 .9rem 2.4rem rgba(0, 0, 0, .45), 0 0 1.7rem color-mix(in srgb, var(--source-accent) 23%, transparent) !important;
+}
+
+.nav-card[data-olam="beriah"] {
+	background: linear-gradient(112deg, color-mix(in srgb, var(--source-accent) 13%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 70%) !important;
+}
+
+.nav-card[data-olam="yetzirah"] {
+	clip-path: polygon(0 .45rem, .45rem 0, calc(100% - .75rem) 0, 100% .75rem, 100% 100%, .55rem 100%, 0 calc(100% - .55rem));
+}
+
+.series-source-constellation i:nth-child(6) { left: 11%; bottom: 2%; }
+.series-source-constellation i:nth-child(7) { left: 35%; bottom: 0; }
+.series-source-constellation i:nth-child(8) { right: 35%; bottom: 2%; }
+.series-source-constellation i:nth-child(9) { right: 11%; bottom: 0; }
+.series-source-constellation i:nth-child(10) {
+	left: calc(50% - .55rem);
+	bottom: -1rem;
+	width: 1.1rem;
+	height: 1.1rem;
+	border-color: var(--heichel-cosmic-text);
+}
+
+.nav-card:focus-within .series-source-constellation,
+.nav-card:hover .series-source-constellation {
+	opacity: 1;
+	filter: saturate(1.3) drop-shadow(0 0 .55rem var(--source-accent));
+}

@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* On a narrow Keili the same light contracts; no second mobile system reacts. */
+
+@media (max-width: 55rem) {
+	.heichel-merkavah {
+		inset: 10% 3%;
+		opacity: calc(.18 + var(--heichel-shefa, .28) * .34);
+	}
+
+	.heichel-sefirah-node {
+		width: 1.45rem;
+		height: 1.45rem;
+		font-size: .42rem;
+	}
+
+	.nav-card-title-row::before {
+		display: none;
+	}
+
+	.series-source-constellation i:nth-child(n+6) {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichel-merkavah,
+	.series-source-constellation,
+	.heichel-sefirah-node {
+		transition: none !important;
+	}
+}
