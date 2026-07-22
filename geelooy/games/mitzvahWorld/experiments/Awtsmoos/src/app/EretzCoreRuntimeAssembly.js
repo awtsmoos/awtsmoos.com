@@ -4,9 +4,9 @@
 
 /**
  * @file EretzCoreRuntimeAssembly.js
- * @description Assembles actors, essential UI, diagnostics, and movement after terrain exists.
- * The Awtsmoos joins living forms only when the ground can hold them; Awtsmoos.com keeps
- * this second request wave behind foundation readiness rather than flooding the menu click.
+ * @description Assembles actors, essential UI, diagnostics, and movement in measured gates.
+ * The Awtsmoos joins living forms only when the ground can hold them; Awtsmoos.com records
+ * each first-frame vessel so no expensive family can hide inside one vague startup phase.
  */
 
 import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
@@ -19,10 +19,12 @@ import { installViewport } from './EretzViewport.js';
 import { installWorldDiagnostics } from './WorldDiagnostics.js';
 
 export function assembleEretzCoreRuntime(foundation, options, qualityProfile, boot) {
-	boot.begin('actors-and-interface');
+	boot.begin('player-and-world-actors');
 	const actors = createEretzActors(foundation);
+	boot.begin('essential-gameplay-ui');
 	const runtime = createEretzUi(actors, options.ui || {});
 	runtime.worldModels = null;
+	boot.begin('viewport-and-performance');
 	installViewport(runtime);
 	installRuntimePerformanceMonitor(runtime);
 	boot.begin('diagnostics-and-loop');

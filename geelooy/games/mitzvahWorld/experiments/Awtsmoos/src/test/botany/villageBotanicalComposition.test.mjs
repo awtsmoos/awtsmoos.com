@@ -4,45 +4,54 @@
 
 /**
  * @file villageBotanicalComposition.test.mjs
- * @description Proves all 123 species span ten deterministic LOD-aware districts.
- * The Awtsmoos renews abundance without clutter; Awtsmoos.com keeps paths clear,
- * wind finite, quality ordered, and every high-quality species visibly represented.
+ * @description Proves exact botanical budgets occupy deterministic spatially valid sites.
+ * The Awtsmoos renews abundance without road, house, river, slope, or neighbor confusion;
+ * Awtsmoos.com keeps every quality tier and measured site evidence inspectable.
  */
 
 import assert from 'node:assert/strict';
 import { listBotanicalSpecies } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import { createVillageBotanicalComposition } from '../../world/botany/VillageBotanicalComposition.js';
-import { VILLAGE_REFERENCE_CLEARINGS } from '../../world/village/VillageReferenceComposition.js';
+import { villageBotanicalQuality } from '../../world/botany/VillageBotanicalQuality.js';
 
 const qualities = ['low', 'medium', 'high', 'cinematic'];
-const gardens = Object.fromEntries(qualities.map((quality) => [
+const gardens = Object.fromEntries(qualities.map(quality => [
 	quality,
 	createVillageBotanicalComposition(groundHeight, quality)
 ]));
 
 assert.deepEqual(gardens.high, createVillageBotanicalComposition(groundHeight, 'high'));
-assert.equal(gardens.high.stats.catalogSpecies, listBotanicalSpecies().length);
-assert.equal(gardens.high.stats.primarySpecies, 123);
-assert.equal(gardens.high.stats.repeatedPlacements, 147);
-assert.equal(gardens.high.stats.districts, 10);
-assert.deepEqual(gardens.high.stats.lod, { near: 90, medium: 124, far: 56 });
-assert.ok(gardens.high.stats.roles['color-mass'] >= 120);
-assert.ok(gardens.high.stats.roles['ground-tapestry'] >= 35);
+assert.equal(gardens.low.stats.primarySpecies, 63);
+assert.equal(gardens.low.stats.catalogSpecies, 67);
+assert.equal(gardens.low.stats.districts, 9);
+for (const quality of ['medium', 'high', 'cinematic']) {
+	assert.equal(gardens[quality].stats.catalogSpecies, listBotanicalSpecies().length);
+	assert.equal(gardens[quality].stats.primarySpecies, 123);
+	assert.equal(gardens[quality].stats.districts, 10);
+}
 
 for (const quality of qualities) {
 	const garden = gardens[quality];
+	const policy = villageBotanicalQuality(quality);
+	assert.equal(garden.length, policy.maxPlacements);
 	assert.equal(garden.length, garden.stats.placements);
+	assert.equal(garden.stats.repeatedPlacements, policy.featuredBudget + policy.repeatBudget);
+	assert.deepEqual(garden.stats.renderPolicy, {
+		featuredBudget: policy.featuredBudget,
+		geometryQuality: 'low',
+		maxClusterCount: 2,
+		repeatBudget: policy.repeatBudget
+	});
+	assert.equal(Object.values(garden.stats.lod).reduce((sum, value) => sum + value, 0), garden.length);
+	assert.ok(Object.values(garden.stats.lod).every(value => value > 0));
 	for (const placement of garden) assertPlacement(placement);
 }
 
-assert.ok(gardens.low.length < gardens.medium.length);
-assert.ok(gardens.medium.length < gardens.high.length);
-assert.ok(gardens.high.length < gardens.cinematic.length);
-assert.equal(gardens.high.length, 270);
+assert.deepEqual(qualities.map(quality => gardens[quality].length), [72, 144, 226, 300]);
 
 console.log(JSON.stringify({
 	ok: true,
-	placements: Object.fromEntries(qualities.map((quality) => [quality, gardens[quality].length])),
+	placements: Object.fromEntries(qualities.map(quality => [quality, gardens[quality].length])),
 	high: gardens.high.stats
 }, null, 2));
 
@@ -52,14 +61,12 @@ function assertPlacement(placement) {
 	assert.ok(Number.isFinite(placement.windPhase));
 	assert.ok(['near', 'medium', 'far'].includes(placement.lodClass));
 	assert.ok(['low', 'medium', 'high'].includes(placement.geometryQuality));
-	assert.ok(['x', 'y', 'z'].every((axis) => Number.isFinite(placement.position[axis])));
-	for (const clearing of VILLAGE_REFERENCE_CLEARINGS) {
-		const distance = Math.hypot(
-			placement.position.x - clearing.x,
-			placement.position.z - clearing.z
-		);
-		assert.ok(distance >= clearing.radius, `${placement.species} entered ${clearing.id}`);
+	assert.ok(['x', 'y', 'z'].every(axis => Number.isFinite(placement.position[axis])));
+	assert.equal(placement.siteEvidence.valid, true);
+	for (const key of ['clearing', 'district', 'footprint', 'river', 'road', 'slope', 'spacing']) {
+		assert.ok(placement.siteEvidence[key] >= 0, `${placement.species} violated ${key}`);
 	}
+	assert.ok(placement.siteEvidence.biome);
 }
 
 function groundHeight(x, z) {

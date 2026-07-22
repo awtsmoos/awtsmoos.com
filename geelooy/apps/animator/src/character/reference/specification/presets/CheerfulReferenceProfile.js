@@ -28,7 +28,7 @@ export class CheerfulReferenceProfile {
 			payosCurl: 0.92,
 			payosThickness: 1.08,
 			hatType: 'kippah',
-			lineStyle: 'softCartoon',
+			lineStyle: 'referenceSitcom',
 			wardrobeProfile: 'navy_jacket_white_shirt',
 			rigPose: this.pose(),
 			colors: this.colors()
@@ -48,8 +48,8 @@ export class CheerfulReferenceProfile {
 				hipY: 0.675
 			},
 			style: {
-				outerLineWidth: 0.0095,
-				innerLineWidth: 0.0048,
+				outerLineWidth: 0.0086,
+				innerLineWidth: 0.0039,
 				shadowWidth: 0.3
 			}
 		};
@@ -76,11 +76,11 @@ export class CheerfulReferenceProfile {
 
 	static colors() {
 		return {
-			jacket: '#29415f', jacketDark: '#20344d', jacketLight: '#49647f',
+			jacket: '#2c4a6b', jacketDark: '#233b56', jacketLight: '#526d87',
 			shirt: '#fbfaf7', innerShirt: '#fbfaf7', collar: '#fbfaf7',
-			pants: '#303033', skin: '#f6c79a', skinDark: '#d78e62',
-			hair: '#684320', hairDark: '#3a2412', beard: '#6b4422',
-			beardDark: '#3d2613', hat: '#202124'
+			pants: '#303034', skin: '#f6c99c', skinDark: '#d99064',
+			hair: '#714a28', hairDark: '#3c2514', beard: '#704725',
+			beardDark: '#402716', hat: '#202124'
 		};
 	}
 }

@@ -70,6 +70,16 @@ export class LineArtStyle {
 }
 
 const STYLE_MAP = Object.freeze({
+	referenceSitcom: Object.freeze({
+		exterior: 2.15,
+		medium: 1.3,
+		seam: 0.76,
+		interior: 0.5,
+		far: 0.44,
+		alphaFar: 0.44,
+		stroke: '#1b1c1e',
+		softStroke: 'rgba(27,28,30,0.3)'
+	}),
 	softCartoon: Object.freeze({
 		exterior: 2.55,
 		medium: 1.72,

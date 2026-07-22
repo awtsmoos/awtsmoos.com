@@ -4,9 +4,9 @@
 
 /**
  * @file StructureMaterialStackPreset.js
- * @description Builds mountain and cottage recipes from named sources, never family positions.
- * The Awtsmoos reveals cliff and home through distinct stone, timber, roof, and metal garments;
- * Awtsmoos.com keeps aliases free to deduplicate without shifting granite into emptiness.
+ * @description Builds mountain and cottage recipes with deliberate ecological masks.
+ * The Awtsmoos reveals cliff and home through stone, scree, soil, moss, timber, and metal;
+ * Awtsmoos.com lets each layer answer terrain evidence instead of painting every slope alike.
  */
 
 import { materialStackRecipe } from './MaterialStackRecipe.js';
@@ -16,20 +16,26 @@ import {
 	MOUNTAIN_VILLAGE_SOURCES as S
 } from './MountainVillageMaterialSources.js';
 
+const HARD_ROCK = Object.freeze([0.04, 0, 0, 1]);
+const SCREE = Object.freeze([0.28, 0.02, 0.02, 0.78]);
+const SHELF_SOIL = Object.freeze([0.78, 0.08, 0.06, 0.2]);
+const FOREST_MOSS = Object.freeze([0.58, 0.18, 0.16, 0.28]);
+const DRY_GRASS = Object.freeze([0.86, 0.03, 0.02, 0.12]);
+
 export function mountainRockStack() {
 	return materialStackRecipe('mountain-rock', {
 		fallbackColor: [0.32, 0.33, 0.31, 1],
 		layers: [
-			rock('rock-fieldstone', S.fieldstone, 100, [8, 10], 0.72, [0.2, 1]),
-			rock('rock-stone-one', S.stoneOne, 99, [11, 9], 0.54, [0.28, 1]),
-			rock('rock-bluestone', S.bluestone, 98, [12, 10], 0.34, [0.34, 1]),
-			rock('rock-cobble-breakup', S.cobblestone, 97, [14, 12], 0.28, [0.36, 1]),
-			rock('rock-floor-strata', S.stoneFloor, 96, [7, 13], 0.31, [0.42, 1]),
-			rock('rock-granite', S.granite, 95, [9, 15], 0.25, [0.56, 1]),
-			rock('rock-scree-sand', S.sand, 94, [18, 20], 0.3, [0.38, 1]),
-			rock('rock-shelf-soil', S.soilDirtFive, 93, [20, 18], 0.35, [0, 0.48]),
-			rock('rock-forest-moss', S.darkForestFloor, 92, [16, 19], 0.32, [0, 0.38]),
-			rock('rock-dry-grass', S.dryGrass, 91, [24, 22], 0.23, [0, 0.3])
+			rock('rock-fieldstone', S.fieldstone, 100, [8, 10], 0.72, [0.2, 1], HARD_ROCK),
+			rock('rock-stone-one', S.stoneOne, 99, [11, 9], 0.54, [0.28, 1], HARD_ROCK),
+			rock('rock-bluestone', S.bluestone, 98, [12, 10], 0.34, [0.34, 1], HARD_ROCK),
+			rock('rock-cobble-breakup', S.cobblestone, 97, [14, 12], 0.28, [0.36, 1], SCREE),
+			rock('rock-floor-strata', S.stoneFloor, 96, [7, 13], 0.31, [0.42, 1], SCREE),
+			rock('rock-granite', S.granite, 95, [9, 15], 0.25, [0.56, 1], HARD_ROCK),
+			rock('rock-scree-sand', S.sand, 94, [18, 20], 0.3, [0.38, 1], SCREE),
+			rock('rock-shelf-soil', S.soilDirtFive, 93, [20, 18], 0.35, [0, 0.48], SHELF_SOIL),
+			rock('rock-forest-moss', S.darkForestFloor, 92, [16, 19], 0.32, [0, 0.38], FOREST_MOSS),
+			rock('rock-dry-grass', S.dryGrass, 91, [24, 22], 0.23, [0, 0.3], DRY_GRASS)
 		]
 	});
 }
@@ -53,14 +59,8 @@ export function cottageSurfaceStack() {
 	});
 }
 
-function rock(role, url, priority, repeat, strength, slope) {
-	return layer(role, url, {
-		priority,
-		repeat,
-		slope,
-		strength,
-		zones: [0.04, 0, 0, 1]
-	});
+function rock(role, url, priority, repeat, strength, slope, zones) {
+	return layer(role, url, { priority, repeat, slope, strength, zones });
 }
 
 function building(role, url, priority, repeat, strength) {

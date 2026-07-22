@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** One aligned page carries frame, domain, grid coordinates, and PIC blending into WGSL. */
+/** One page carries frame, pressure, PIC, FLIP, and rotational strength into WGSL. */
 
 import { createWebGpuGridLayout3d } from "./createWebGpuGridLayout3d.js";
 import { WEB_GPU_UNIFORM_BUFFER_BYTES } from "./webGpuConstants.js";
@@ -12,11 +12,31 @@ function writeVector3(view, offset, value) {
 	}
 }
 
+function positive(value, fallback, label) {
+	const number = Number(value ?? fallback);
+	if (!Number.isFinite(number) || number <= 0) {
+		throw new TypeError(`${label} must be positive and finite.`);
+	}
+	return number;
+}
+
+function nonnegative(value, fallback, label) {
+	const number = Number(value ?? fallback);
+	if (!Number.isFinite(number) || number < 0) {
+		throw new TypeError(`${label} must be finite and nonnegative.`);
+	}
+	return number;
+}
+
 export function packWebGpuLiquidUniforms3d(input) {
 	const layout = createWebGpuGridLayout3d(input.gridLayout ?? input);
 	const picBlend = Math.max(0, Math.min(1, Number(input.picBlend ?? 1)));
-	if (!Number.isFinite(picBlend)) {
-		throw new TypeError("PIC blend must be finite.");
+	const flipBlend = Math.max(0, Math.min(1, Number(input.flipBlend ?? 0.95)));
+	const fluidDensity = positive(input.fluidDensity, 1000, "Fluid density");
+	const pressureRelaxation = Math.max(0, Math.min(1, Number(input.pressureRelaxation ?? 1)));
+	const vorticityStrength = nonnegative(input.vorticityStrength, 0, "Vorticity strength");
+	if (![picBlend, flipBlend, pressureRelaxation].every(Number.isFinite)) {
+		throw new TypeError("PIC, FLIP, and pressure blends must be finite.");
 	}
 	const bytes = new ArrayBuffer(WEB_GPU_UNIFORM_BUFFER_BYTES);
 	const view = new DataView(bytes);
@@ -36,11 +56,19 @@ export function packWebGpuLiquidUniforms3d(input) {
 	view.setUint32(104, layout.dimensions[1], true);
 	view.setUint32(108, layout.dimensions[2], true);
 	view.setFloat32(112, picBlend, true);
+	view.setFloat32(116, fluidDensity, true);
+	view.setFloat32(120, pressureRelaxation, true);
+	view.setFloat32(124, flipBlend, true);
+	view.setFloat32(128, vorticityStrength, true);
 	return Object.freeze({
 		schema: "awtsmoos.webgpu-liquid-uniform-bytes-3d",
 		byteLength: bytes.byteLength,
 		layout,
 		picBlend,
+		flipBlend,
+		fluidDensity,
+		pressureRelaxation,
+		vorticityStrength,
 		bytes: new Uint8Array(bytes),
 		buffer: bytes
 	});

@@ -6,13 +6,17 @@
  * @file canonicalVillagePlan.test.mjs
  * @description Proves the master plan is singular, connected, numbered, and camera-readable.
  * The Awtsmoos renews one village beneath eight compass views; Awtsmoos.com verifies that
- * houses, districts, bridge, waterfall, portal, river, and arrival sightline cannot drift apart.
+ * houses, districts, bridge, waterfall, portal, river, roads, and arrival cannot drift apart.
  */
 
 import assert from 'node:assert/strict';
 import { CANONICAL_VILLAGE_PLAN } from '../../world/village/CanonicalVillagePlan.js';
 import { villageDistrictPlacements } from '../../world/village/VillageDistrictPlacement.js';
-import { riverCenterAt, riverWidthAt, sampleRiverPath } from '../../world/village/VillageRiverPath.js';
+import {
+	riverCenterAt,
+	riverWidthAt,
+	sampleRiverPath
+} from '../../world/village/VillageRiverPath.js';
 
 const plan = CANONICAL_VILLAGE_PLAN;
 const houseIds = plan.houses.map((house) => house.id);
@@ -23,7 +27,7 @@ const arrivalCorridorHouses = plan.houses.filter((house) => (
 ));
 
 assert.equal(plan.districts.length, 10);
-assert.deepEqual(houseIds, Array.from({ length: 18 }, (_, index) => `H${index + 10}`));
+assert.deepEqual(houseIds, Array.from({ length: 18 }, (_value, index) => `H${index + 10}`));
 assert.equal(new Set(houseIds).size, houseIds.length);
 assert.ok(plan.houses.every((house) => districtIds.has(house.districtId)));
 assert.ok(plan.districts.every((district) => (
@@ -40,7 +44,17 @@ assert.ok(river.every((point, index) => index === 0 || point.z >= river[index - 
 assert.ok(riverWidthAt(8 / 11) > riverWidthAt(0.5) * 2);
 assert.deepEqual(riverCenterAt(0), { x: 52, z: -56 });
 assert.deepEqual(riverCenterAt(1), { x: 22, z: 108 });
-assert.ok(plan.districts.every((district) => villageDistrictPlacements(district, 4).length === 4));
+
+for (const district of plan.districts) {
+	const placements = villageDistrictPlacements(district, district.houseIds.length);
+	assert.deepEqual(
+		placements.map((placement) => placement.houseId),
+		district.houseIds
+	);
+	assert.ok(placements.every((placement) => (
+		placement.placementKind === 'canonical-authored-house'
+	)));
+}
 
 console.log(JSON.stringify({
 	arrivalCorridorHouses: arrivalCorridorHouses.length,

@@ -1,16 +1,25 @@
-/* B"H — Identity and community share one clear family of surfaces. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Shared identity and community surfaces for Awtsmoos.com.
+ * A person may reveal many aliases and enter many Heichelos without losing the
+ * one source beneath them. The Awtsmoos renews identity and relationship while
+ * these responsive keilim keep names, stats, tabs, and actions readable.
+ */
 .geelooy-profile-shell,
 .social-spaces-shell {
 	display: grid;
+	inline-size: min(100%, var(--g-content));
 	gap: var(--g-space-5);
-	max-width: var(--g-content);
+	margin-inline: auto;
 }
 
 .profile-hero-card,
 .profile-command-panel,
 .spaces-hero,
 .home-command-galaxy {
-	padding: clamp(1.25rem, 3vw, 2rem);
+	padding: clamp(1.15rem, 3vw, 2rem);
 }
 
 .profile-identity-row,
@@ -25,14 +34,14 @@
 .space-seal,
 .geelooy-avatar {
 	display: grid;
-	width: 3.25rem;
-	height: 3.25rem;
+	inline-size: clamp(3.5rem, 8vw, 5.5rem);
+	block-size: clamp(3.5rem, 8vw, 5.5rem);
 	flex: 0 0 auto;
 	place-items: center;
 	border: 1px solid var(--g-line-strong);
-	border-radius: 1rem;
+	border-radius: 50%;
 	background: var(--g-gradient-soft);
-	box-shadow: var(--g-glow);
+	box-shadow: var(--g-glow), inset 0 0 1.2rem rgba(77, 233, 255, .1);
 	font-weight: 900;
 }
 
@@ -42,25 +51,29 @@
 .spaces-state-row {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.65rem;
-	margin-top: 1rem;
+	gap: .7rem;
+	margin-block-start: 1rem;
 }
 
 .profile-stat-grid article {
-	min-width: 8rem;
-	padding: 0.8rem;
+	min-inline-size: 8rem;
+	padding: .85rem 1rem;
+	border: 1px solid var(--g-line);
 	border-radius: var(--g-radius-sm);
 	background: var(--g-surface-soft);
 }
 
-.profile-stat-grid strong,
-.profile-stat-grid span {
+.profile-stat-grid :where(strong, span) {
 	display: block;
+}
+
+.profile-stat-grid strong {
+	font-size: 1.35rem;
 }
 
 .profile-stat-grid span {
 	color: var(--g-muted);
-	font-size: 0.78rem;
+	font-size: .78rem;
 }
 
 .profile-tab-panel.hidden,
@@ -71,16 +84,24 @@
 .social-card-list,
 .spaces-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
 	gap: 1rem;
 }
 
 .social-space-card,
 .social-empty-card {
+	position: relative;
 	padding: 1.15rem;
+	overflow: clip;
 	border: 1px solid var(--g-line);
 	border-radius: var(--g-radius-md);
-	background: var(--g-surface);
+	background: var(--g-panel-gradient);
+	box-shadow: var(--g-shadow-xs);
+}
+
+.social-space-card:is(:hover, :focus-within) {
+	border-color: var(--g-line-strong);
+	box-shadow: var(--g-shadow-sm), var(--g-glow);
 }
 
 .space-body,
@@ -88,11 +109,11 @@
 .space-actions {
 	display: flex;
 	align-items: center;
-	gap: 0.8rem;
+	gap: .8rem;
 }
 
 .space-copy {
-	min-width: 0;
+	min-inline-size: 0;
 	flex: 1;
 }
 
@@ -102,5 +123,21 @@
 }
 
 .space-actions {
-	margin-top: 1rem;
+	margin-block-start: 1rem;
+	padding-block-start: .85rem;
+	border-block-start: 1px solid var(--g-line);
+}
+
+@media (max-width: 40rem) {
+	.profile-identity-row,
+	.spaces-hero {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.profile-inline-actions,
+	.profile-tabs {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }

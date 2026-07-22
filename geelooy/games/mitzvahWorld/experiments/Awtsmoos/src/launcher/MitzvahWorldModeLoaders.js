@@ -34,7 +34,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	options.onProgress?.({ message: 'Preparing a private world…', progress: 0.04 });
 	startPresentation(hosts, environment);
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import('../app/createEretzRuntime.js?v=20260722-stream-02'),
+		import('../app/createEretzRuntime.js?v=20260722-stream-08'),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, {
@@ -56,7 +56,7 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	options.onProgress?.({ message: 'Preparing the shared-world runtime…', progress: 0.04 });
 	startPresentation(hosts, environment);
 	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?v=20260722-stream-02'
+		'../network/MultiplayerEretzRuntime.js?v=20260722-stream-08'
 	);
 	return createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,

@@ -4,9 +4,9 @@
 
 /**
  * @file EretzPlayerModel.js
- * @description Mounts the canonical Chossid and selects a genuinely animated idle clip.
- * The Awtsmoos reveals living stillness rather than frozen neutrality; Awtsmoos.com measures
- * the embedded covenant and chooses the breathing stand before any zero-duration neutral pose.
+ * @description Mounts immediate or canonical Chossid forms behind one replaceable contract.
+ * The Awtsmoos reveals living presence before optional animation; Awtsmoos.com keeps the
+ * same runtime doorway for a local silhouette and a later canonical animated garment.
  */
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
@@ -25,18 +25,11 @@ export function createPlayerModel(playerGltf, scene) {
 	const player = new TinyAnimationPlayer(model, playerGltf.animations || []);
 	const clips = createClipMap(playerGltf.animations || []);
 	const defaultClip = clips.stand || player.names[0] || '';
-	if (defaultClip) {
-		player.play(defaultClip);
-	}
-	model.userData.AwtsmoosCanonicalPlayer = {
-		animationCount: player.names.length,
-		defaultClip,
-		modelSource: 'chossid.glb',
-		measuredAnimatedIdle: defaultClip === 'stand_Armature',
-		optionalAnimationsDeferred: true
-	};
+	if (defaultClip) player.play(defaultClip);
+	model.userData.AwtsmoosCanonicalPlayer = playerEvidence(playerGltf, player, defaultClip);
 	return { clips, defaultClip, feet, footOffset, model, player };
 }
+
 
 export function createEquipment(model) {
 	const materials = new Set();
@@ -70,10 +63,7 @@ export function faceTarget(state) {
 }
 
 export function createClipMap(animations) {
-	const clips = animations.map(clip => ({
-		duration: Number(clip.duration || 0),
-		name: clip.name || ''
-	}));
+	const clips = animations.map(clip => ({ duration: Number(clip.duration || 0), name: clip.name || '' }));
 	const names = clips.map(clip => clip.name);
 	const animated = expression => clips.find(clip => expression.test(clip.name) && clip.duration > 0)?.name;
 	const named = expression => names.find(name => expression.test(name));
@@ -86,11 +76,16 @@ export function createClipMap(animations) {
 	const walk = animated(/walk|step|stroll/i) || stand;
 	const run = animated(/run|jog/i) || walk;
 	const jump = animated(/jump|leap/i) || stand;
+	return { fall: animated(/fall|air|drop/i) || jump, jump, run, stand, walk };
+}
+
+function playerEvidence(gltf, player, defaultClip) {
+	const fallback = gltf.scene?.userData?.isolatedModelLoad?.fallback === true;
 	return {
-		fall: animated(/fall|air|drop/i) || jump,
-		jump,
-		run,
-		stand,
-		walk
+		animationCount: player.names.length,
+		defaultClip,
+		modelSource: fallback ? 'local-procedural-chossid-silhouette' : 'chossid.glb',
+		measuredAnimatedIdle: defaultClip === 'stand_Armature',
+		optionalAnimationsDeferred: fallback
 	};
 }

@@ -133,7 +133,7 @@ export class MultiplayerEretzRuntime {
 
 export async function createMultiplayerEretzRuntime(hosts, options = {}) {
 	const runtimeFactory = options.runtimeFactory
-		|| (await import('../app/createEretzRuntime.js?v=20260722-stream-02')).createEretzRuntime;
+		|| (await import('../app/createEretzRuntime.js?v=20260722-stream-08')).createEretzRuntime;
 	const runtimeOptions = { ...options };
 	delete runtimeOptions.runtimeFactory;
 	options.onProgress?.({ message: 'Building the playable shared village…', progress: 0.1 });

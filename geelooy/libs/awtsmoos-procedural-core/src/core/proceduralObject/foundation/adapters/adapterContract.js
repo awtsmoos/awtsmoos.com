@@ -22,7 +22,8 @@ export const ADAPTER_TOPOLOGY_IDENTITY_MODES = Object.freeze([
 	"unsupported",
 	"artifact-only",
 	"preserved",
-	"remapped"
+	"remapped",
+	"semantic-plan-preserved"
 ]);
 
 export const ADAPTER_DETERMINISM_MODES = Object.freeze([

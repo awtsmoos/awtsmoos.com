@@ -4,9 +4,9 @@
 
 /**
  * @file Box3D.js
- * @description Orchestrates primitive geometry, material, collision, and world-baked UVs.
- * The Awtsmoos reveals one world through focused responsibilities; Awtsmoos.com keeps
- * original image pixels untouched while physical surfaces share one exact world-unit UV basis.
+ * @description Orchestrates primitive geometry, material, collision, UVs, and ecological masks.
+ * The Awtsmoos reveals one world through focused responsibilities; Awtsmoos.com keeps original
+ * pixels untouched while measured surfaces carry only the layered meaning they genuinely need.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
@@ -22,6 +22,7 @@ import {
 } from './primitives/PrimitiveGeometryBuffers.js';
 import { createPrimitiveMaterial } from './primitives/PrimitiveMaterialFactory.js';
 import { primitiveUsesNativeDensity } from './primitives/PrimitiveTexturePolicy.js';
+import { primitiveZoneWeights } from './primitives/PrimitiveZoneWeights.js';
 import {
 	measureUvUnitsPerWorld,
 	normalizePrimitiveUvsToWorld,
@@ -43,12 +44,12 @@ export function createPrimitiveMesh(definition) {
 		: authoredUvs;
 	const data = { ...sourceData, uvs };
 	const textureBasis = physical ? WORLD_UV_BASIS : measuredUnits;
-	const geometry = createBufferGeometry(data, normals);
+	const geometry = createBufferGeometry(data, normals, definition);
 	const material = createPrimitiveMaterial(definition, textureBasis);
 	const mesh = new Mesh(geometry, material);
 	mesh.name = definition.id;
 	mesh.visible = definition.visible !== false;
-	mesh.userData = primitiveUserData(definition, material, measuredUnits, textureBasis);
+	mesh.userData = primitiveUserData(definition, material, measuredUnits, textureBasis, geometry);
 	mesh.setBaseTransform();
 	return mesh;
 }
@@ -64,9 +65,14 @@ export function primitiveColliders(definition) {
 	});
 }
 
-function primitiveUserData(definition, material, measuredUnits, textureBasis) {
+function primitiveUserData(definition, material, measuredUnits, textureBasis, geometry) {
 	return {
 		...(definition.userData || {}),
+		AwtsmoosLayeredMaterial: {
+			layerCount: material.textureLayers?.length || 0,
+			shader: material.texturePolicy?.shader || 'standard',
+			zoneAttribute: Boolean(geometry.attributes.zone)
+		},
 		AwtsmoosMaterialEnforcement: material.mapImage
 			? 'real-mapImage-bound'
 			: 'url-only-not-yet-loaded',
@@ -82,13 +88,19 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis) {
 	};
 }
 
-function createBufferGeometry(data, normals) {
+function createBufferGeometry(data, normals, definition) {
 	const geometry = new BufferGeometry();
 	geometry.setAttribute('position', new BufferAttribute(new Float32Array(
 		flattenPrimitiveVertices(data.vertices)
 	), 3));
 	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
 	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
+	const zones = primitiveZoneWeights(
+		data.zones,
+		data.vertices.length,
+		Boolean(definition.textureLayers?.length)
+	);
+	if (zones) geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zones), 4));
 	geometry.setIndex(new BufferAttribute(primitiveIndexArray(data.indices), 1));
 	return geometry;
 }

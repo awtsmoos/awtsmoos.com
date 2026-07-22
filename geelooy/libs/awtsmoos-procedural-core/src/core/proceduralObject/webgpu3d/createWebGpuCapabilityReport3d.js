@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Device evidence distinguishes implemented PIC transfer from every deferred fluid promise. */
+/** Device evidence separates tested FLIP history and curl from deferred APIC and MAC promises. */
 
 function sortedFeatures(value) {
 	return Object.freeze([...new Set(value ? [...value].map(String) : [])].sort());
@@ -34,9 +34,15 @@ export function createWebGpuCapabilityReport3d(input = {}) {
 			particleGridDeposition: true,
 			globalForces: true,
 			gridVelocityNormalization: true,
+			collocatedDivergence: true,
+			collocatedPressureProjection: true,
+			occupiedAirPressureBoundary: true,
 			picGridToParticleTransfer: true,
+			flipGridToParticleTransfer: true,
+			gridVelocityHistory: true,
+			vorticityConfinement: true,
 			surfacePointPacking: true,
-			picFlipDeposition: false,
+			apicTransfer: false,
 			macPressureProjection: false,
 			marchingCubes: false
 		})

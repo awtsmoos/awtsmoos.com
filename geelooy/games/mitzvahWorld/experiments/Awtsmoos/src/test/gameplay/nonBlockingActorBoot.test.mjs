@@ -4,9 +4,9 @@
 
 /**
  * @file nonBlockingActorBoot.test.mjs
- * @description Proves the canonical player loads first while optional enrichment remains deferred.
- * The Awtsmoos reveals the living Chossid before distant garments; Awtsmoos.com blocks only on
- * one exact player model and never lets NPC copies, extra animation, or texture networks delay it.
+ * @description Proves movement never waits for canonical player or NPC GLB parsing.
+ * The Awtsmoos reveals a playable local Chossid before the heavier garment arrives;
+ * Awtsmoos.com opens canonical actor hydration only through an explicit idle gate.
  */
 
 import assert from 'node:assert/strict';
@@ -15,55 +15,75 @@ import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { loadEretzActorAssets } from '../../app/EretzActorAssetLoader.js';
 import { loadEretzAssets } from '../../app/EretzAssetLoader.js';
 
-const PLAYER_GLTF = Object.freeze({
-	animations: Object.freeze([{ name: 'neutral_Armature' }]),
+const CANONICAL_PLAYER = Object.freeze({
+	animations: Object.freeze([{ duration: 1, name: 'stand_Armature' }]),
 	scene: createScene(),
 	userData: Object.freeze({ fallback: false })
 });
 
-test('awaits one canonical player and defers every NPC network request', async () => {
-	const never = new Promise(() => {});
+test('first-frame actors make zero canonical network requests', async () => {
+	let remoteRequests = 0;
 	const assets = await loadEretzActorAssets({
-		playerActorLoader: async () => PLAYER_GLTF,
 		quality: 'low',
-		remoteActorLoader: () => never
+		remoteActorLoader: async () => {
+			remoteRequests += 1;
+			return null;
+		},
+		streamCanonicalActors: true
 	});
-	assert.equal(assets.actorAssetStats.playerBlockingRequests, 1);
-	assert.equal(assets.actorAssetStats.strategy, 'canonical-player-first-deferred-npc-enrichment');
-	assert.equal(assets.playerGltf, PLAYER_GLTF);
-	assert.equal(assets.playerGltf.userData.fallback, false);
-	assert.ok(assets.npcGltfs.length > 0);
+
+	assert.equal(assets.actorAssetStats.playerBlockingRequests, 0);
+	assert.equal(assets.actorAssetStats.strategy, 'procedural-first-explicit-idle-canonical-hydration');
+	assert.equal(assets.playerGltf.userData.fallback, true);
 	assert.ok(assets.npcGltfs.every(gltf => gltf.userData.fallback));
-	assert.equal(assets.actorHydration.status, 'scheduled');
+	assert.equal(assets.actorHydration.status, 'waiting-for-idle-start');
+	assert.equal(remoteRequests, 0);
 });
 
-test('full assets resolve after player readiness while textures and NPCs remain pending', async () => {
+test('full assets resolve while textures and canonical actors remain dormant', async () => {
 	const never = new Promise(() => {});
 	const result = await loadEretzAssets({
 		houseLoader: async () => ({ houseMaterialDegradation: [] }),
-		playerActorLoader: async () => PLAYER_GLTF,
 		quality: 'low',
-		remoteActorLoader: () => never,
-		textureScheduler: () => ({ promise: never, status: 'scheduled' })
+		streamCanonicalActors: true,
+		textureScheduler: () => ({ promise: never, status: 'waiting-for-gameplay' })
 	});
-	assert.equal(result.playerGltf, PLAYER_GLTF);
+
+	assert.equal(result.playerGltf.userData.fallback, true);
 	assert.equal(result.assets.publicMaterialPolicy.blockingTextureRequests, 0);
-	assert.equal(result.actorHydration.status, 'scheduled');
+	assert.equal(result.actorHydration.status, 'waiting-for-idle-start');
 	assert.equal(result.assets.publicMaterialStreaming.promise, never);
 });
 
-test('successful deferred hydration contains NPC enrichment without another player', async () => {
-	const remote = { npcGltfs: [], npcProfiles: [] };
+test('explicit hydration starts after delay and idle gates', async () => {
+	const callbacks = [];
+	const remote = {
+		npcGltfs: [],
+		npcProfiles: [],
+		playerGltf: CANONICAL_PLAYER
+	};
 	const assets = await loadEretzActorAssets({
 		actorStreamingDelayMs: 0,
-		playerActorLoader: async () => PLAYER_GLTF,
+		environment: {
+			requestIdleCallback(callback) {
+				callbacks.push(callback);
+			},
+			setTimeout(callback) {
+				callback();
+			}
+		},
 		quality: 'low',
-		remoteActorLoader: async () => remote
+		remoteActorLoader: async () => remote,
+		streamCanonicalActors: true
 	});
-	assert.equal(await assets.actorHydration.promise, remote);
+
+	const promise = assets.actorHydration.start();
+	assert.equal(assets.actorHydration.status, 'scheduled');
+	assert.equal(callbacks.length, 1);
+	callbacks.shift()();
+	assert.equal(await promise, remote);
 	assert.equal(assets.actorHydration.status, 'ready');
-	assert.equal(assets.actorHydration.value, remote);
-	assert.equal('playerGltf' in remote, false);
+	assert.equal(assets.actorHydration.value.playerGltf, CANONICAL_PLAYER);
 });
 
 function createScene() {

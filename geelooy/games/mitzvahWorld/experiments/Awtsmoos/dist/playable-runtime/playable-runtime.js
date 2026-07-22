@@ -1,55 +1,37 @@
 import {
+  TinyAnimationPlayer,
+  collectWorldMatrices,
+  skeletonLinePositions
+} from "./chunks/chunk-2UWXRKAB.js";
+import {
   Aabb,
-  Bone,
-  BufferAttribute,
-  BufferGeometry,
   CANONICAL_HOUSES_BY_ID,
-  CANONICAL_VILLAGE_PLAN,
   DEFAULT_HOUSE_SPEC,
-  DETAIL_TEXTURE_FAMILIES,
   GRASS_URLS,
-  Group,
   HOUSE_ARCHITECTURE,
-  Mesh,
-  MeshStandardMaterial,
   PLAYER_CAPSULE,
-  PerspectiveCamera,
   REFERENCE_GOLDEN_HOUR,
   REPEAT_HOOKS,
-  ROOT_WORLD_MATRIX,
-  Scene,
   TEXTURE_PURPOSES,
-  TEXTURE_URLS,
   Vec3,
   add,
   bindMaterialPair,
-  canonicalVillageRoadRoutes,
   closestPointsSegmentSegment,
-  copyMat4,
   cottageSurfaceStack,
   createHouseFenceSegments,
   createHouseYardPatches,
-  createLoftedAnimalGeometry,
-  createPrimitiveMesh,
   createTerrainPackage,
-  createVillageBoxBatch,
-  cross,
   dot,
   floorBottomY,
   floorTopY,
   heightAt,
   houseBasis,
-  identity,
-  inverse,
   length,
   loadHouseAssets,
   localToWorld,
-  mat4FromArray,
   materialTexture,
-  multiply,
   negate,
   normalize,
-  primitiveColliders,
   projectToPlane,
   rayTriangle,
   referenceLightingBudget,
@@ -57,11 +39,9 @@ import {
   scale,
   storyCeilingY,
   sub,
-  transformPoint,
   triangleContainsPoint,
-  updateCachedWorldMatrix,
   v
-} from "./chunks/chunk-DK7VZS62.js";
+} from "./chunks/chunk-JPJ7NPWO.js";
 import {
   VILLAGE_ARRIVAL_PLAYER,
   cachedTextureImage,
@@ -69,7 +49,18 @@ import {
   loadPublicMaterialUrl,
   publicMaterialCacheStats,
   rankedSceneUrls
-} from "./chunks/chunk-PERZ7G34.js";
+} from "./chunks/chunk-J3TNLTMJ.js";
+import {
+  BufferAttribute,
+  BufferGeometry,
+  Group,
+  Mesh,
+  MeshStandardMaterial,
+  PerspectiveCamera,
+  Scene,
+  identity,
+  transformPoint
+} from "./chunks/chunk-XAIHDDDJ.js";
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialCanonicalizer.js
 function canonicalizeSceneMaterials(scene) {
@@ -80,12 +71,12 @@ function canonicalizeSceneMaterials(scene) {
   let nextIdentity = 1;
   let assignments = 0;
   let reusedAssignments = 0;
-  const identity2 = (value3) => {
-    if (!identities.has(value3)) {
-      identities.set(value3, nextIdentity);
+  const identity2 = (value2) => {
+    if (!identities.has(value2)) {
+      identities.set(value2, nextIdentity);
       nextIdentity += 1;
     }
-    return identities.get(value3);
+    return identities.get(value2);
   };
   const signature = (material) => materialSignature(material, identity2);
   scene?.traverse?.((object) => {
@@ -124,25 +115,25 @@ function materialSignature(material, identity2) {
   const values = keys.map((key) => `${key}:${valueSignature(material[key], identity2)}`);
   return `${material.constructor?.name || "Object"}|${values.join("|")}`;
 }
-function valueSignature(value3, identity2) {
-  if (value3 === null || typeof value3 !== "object") {
-    return `${typeof value3}:${String(value3)}`;
+function valueSignature(value2, identity2) {
+  if (value2 === null || typeof value2 !== "object") {
+    return `${typeof value2}:${String(value2)}`;
   }
-  if (Array.isArray(value3)) {
-    return `[${value3.map((item2) => valueSignature(item2, identity2)).join(",")}]`;
+  if (Array.isArray(value2)) {
+    return `[${value2.map((item2) => valueSignature(item2, identity2)).join(",")}]`;
   }
-  if (ArrayBuffer.isView(value3)) {
-    return `${value3.constructor.name}:${Array.from(value3).join(",")}`;
+  if (ArrayBuffer.isView(value2)) {
+    return `${value2.constructor.name}:${Array.from(value2).join(",")}`;
   }
-  const numericKeys = numericValueKeys(value3);
+  const numericKeys = numericValueKeys(value2);
   if (numericKeys.length) {
-    return `${value3.constructor?.name || "Value"}:${numericKeys.map((key) => `${key}=${Number(value3[key])}`).join(",")}`;
+    return `${value2.constructor?.name || "Value"}:${numericKeys.map((key) => `${key}=${Number(value2[key])}`).join(",")}`;
   }
-  return `identity:${identity2(value3)}`;
+  return `identity:${identity2(value2)}`;
 }
-function numericValueKeys(value3) {
+function numericValueKeys(value2) {
   const candidates2 = ["r", "g", "b", "a", "x", "y", "z", "w"];
-  const keys = candidates2.filter((key) => Number.isFinite(value3[key]));
+  const keys = candidates2.filter((key) => Number.isFinite(value2[key]));
   return keys.length >= 2 ? keys : [];
 }
 
@@ -200,9 +191,9 @@ var Ray = class {
     this.direction = Vec3.from(direction).normalize();
   }
   /** Returns the point reached at one scalar distance. */
-  at(distance4) {
+  at(distance3) {
     return this.origin.clone().add(
-      this.direction.clone().scale(distance4)
+      this.direction.clone().scale(distance3)
     );
   }
 };
@@ -277,8 +268,8 @@ function freezePoint(x, y, z) {
     z: finiteNumber(z, 0)
   });
 }
-function finiteNumber(value3, fallback) {
-  return Number.isFinite(value3) ? value3 : fallback;
+function finiteNumber(value2, fallback) {
+  return Number.isFinite(value2) ? value2 : fallback;
 }
 function inspectCandidate(hingeLocalX, panelWidth, openAngle) {
   const halfWidth = panelWidth / 2;
@@ -317,38 +308,6 @@ function worldMatrixFromYaw(center, yaw) {
     center.z,
     1
   ];
-}
-function matrixBasis(matrix) {
-  return {
-    tangent: normalize2({ x: matrix[0], y: matrix[1], z: matrix[2] }),
-    up: normalize2({ x: matrix[4], y: matrix[5], z: matrix[6] }),
-    normal: normalize2({ x: matrix[8], y: matrix[9], z: matrix[10] }),
-    center: { x: matrix[12], y: matrix[13], z: matrix[14] }
-  };
-}
-function matrixMaximumDelta(left, right) {
-  let maximum = 0;
-  for (let index = 0; index < 16; index += 1) {
-    maximum = Math.max(maximum, Math.abs((left?.[index] || 0) - (right?.[index] || 0)));
-  }
-  return maximum;
-}
-function vectorAngle(left, right) {
-  const a = normalize2(left);
-  const b = normalize2(right);
-  const value3 = Math.max(-1, Math.min(1, dot2(a, b)));
-  return Math.acos(value3);
-}
-function dot2(left, right) {
-  return left.x * right.x + left.y * right.y + left.z * right.z;
-}
-function normalize2(vector3) {
-  const length2 = Math.hypot(vector3.x, vector3.y, vector3.z) || 1;
-  return {
-    x: vector3.x / length2,
-    y: vector3.y / length2,
-    z: vector3.z / length2
-  };
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/HouseDoorLegacyAliases.js
@@ -448,13 +407,10 @@ function framePoint(frame, localX, inwardDepth) {
     z: frame.center.z + frame.basis.right.z * localX + frame.basis.inward.z * inwardDepth
   };
 }
-function doorHingeWorld(specification) {
-  return normalizeDoorFrame(specification).hinge.worldPosition;
-}
-function snapAngle(value3) {
+function snapAngle(value2) {
   const quarterTurn = Math.PI / 2;
-  const nearest = Math.round(value3 / quarterTurn) * quarterTurn;
-  return Math.abs(value3 - nearest) < 1e-8 ? nearest : value3;
+  const nearest = Math.round(value2 / quarterTurn) * quarterTurn;
+  return Math.abs(value2 - nearest) < 1e-8 ? nearest : value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorWallSystem.js
@@ -569,10 +525,10 @@ function signedEntryMeasurements(frame, placement) {
     z: placement.worldPosition.z - frame.center.z
   };
   return {
-    rightDot: dot3(delta, frame.entry.right),
-    sourceDot: dot3(delta, frame.basis.outward),
-    cavityDepthDot: dot3(delta, frame.basis.inward),
-    facingDot: dot3(frame.basis.outward, frame.entry.outsideDirection),
+    rightDot: dot2(delta, frame.entry.right),
+    sourceDot: dot2(delta, frame.basis.outward),
+    cavityDepthDot: dot2(delta, frame.basis.inward),
+    facingDot: dot2(frame.basis.outward, frame.entry.outsideDirection),
     upperThirdRatio: (placement.worldPosition.y - frame.opening.bottomY) / frame.opening.height,
     hingeIsEntryRight: frame.hinge.side === "entry-right"
   };
@@ -582,7 +538,7 @@ function upperThirdY(frame, dimensions) {
   const centerOffset = Math.min(dimensions.height * 0.18, frame.opening.height * 0.035);
   return lower + centerOffset;
 }
-function dot3(left, right) {
+function dot2(left, right) {
   return left.x * right.x + left.y * right.y + left.z * right.z;
 }
 
@@ -973,8 +929,8 @@ function appendFlower(mesh, flower) {
   mesh.uvs.push(0.5, 1, 1, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5);
 }
 function random(index, seed) {
-  const value3 = Math.sin(index * 12.9898 + seed * 78.233) * 43758.5453;
-  return value3 - Math.floor(value3);
+  const value2 = Math.sin(index * 12.9898 + seed * 78.233) * 43758.5453;
+  return value2 - Math.floor(value2);
 }
 function mix(start, end, amount) {
   return start + (end - start) * amount;
@@ -1144,8 +1100,8 @@ function staircaseStats(layout) {
     capsuleFits: layout.opening.width > PLAYER_CAPSULE.radius * 2 && layout.headroom > PLAYER_CAPSULE.height
   };
 }
-function clamp(value3, minimum, maximum) {
-  return Math.max(minimum, Math.min(maximum, value3));
+function clamp(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/StoryFloorSystem.js
@@ -1200,9 +1156,6 @@ function tagHouseInteriorDefinitions(definitions, houseId, source) {
       }
     }
   }));
-}
-function houseVisibilityMetadata(object) {
-  return object?.userData?.AwtsmoosVisibility || null;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/house/HouseRoofSystem.js
@@ -1336,7 +1289,7 @@ function buildStairSolidMesh(layout, tileWorld) {
   return mesh;
 }
 function stairGeometrySignature(definition) {
-  return definition.vertices.map((point3) => point3.map((value3) => value3.toFixed(4)).join(",")).join("|");
+  return definition.vertices.map((point3) => point3.map((value2) => value2.toFixed(4)).join(",")).join("|");
 }
 function appendTop(mesh, x0, x1, front, back, y, tile) {
   mesh.topFaces.push(mesh.faces.length);
@@ -1681,13 +1634,6 @@ function createModularHouse(assets = {}, specification = DEFAULT_HOUSE_SPEC, gro
   }
   return assembly.definitions;
 }
-function modularHouseDoorDefs(assets = {}, specification = DEFAULT_HOUSE_SPEC, groundSampler) {
-  const spec2 = resolveHouseSpec(specification, groundSampler);
-  const materials = createHouseMaterials(assets);
-  const entry = createHouseEntry(spec2, materials, groundSampler);
-  const rooms = createInteriorRoomSet({ spec: spec2, materials });
-  return [entry.door, ...rooms.doorDefs];
-}
 function modularHouseAnchors(specification = DEFAULT_HOUSE_SPEC) {
   const spec2 = {
     ...DEFAULT_HOUSE_SPEC,
@@ -1728,9 +1674,6 @@ function createHouseDefs(assets = {}, groundSampler) {
     yardPatches: packages.flatMap((item2) => item2.userData.yardPatches || [])
   };
   return definitions;
-}
-function allHouseDoorDefs(assets = {}, groundSampler) {
-  return ALL_SPECS.flatMap((spec2) => modularHouseDoorDefs(assets, spec2, groundSampler));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/ObstacleField.js
@@ -1878,8 +1821,8 @@ function discGeometry(middle, normal, right, up, radius, color) {
 function attribute(values, itemSize) {
   return new BufferAttribute(new Float32Array(values), itemSize);
 }
-function repeatVector(vector3, count) {
-  return Array.from({ length: count }, () => vector3).flat();
+function repeatVector(vector2, count) {
+  return Array.from({ length: count }, () => vector2).flat();
 }
 function indexArray(indices) {
   return Math.max(...indices) > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
@@ -2177,15 +2120,15 @@ var GroundSampleCache = class {
     ].join("|");
   }
   /** Returns a stable process-local identity for an object or primitive. */
-  identityFor(value3) {
-    if (!isReference(value3)) {
-      return `${typeof value3}:${String(value3)}`;
+  identityFor(value2) {
+    if (!isReference(value2)) {
+      return `${typeof value2}:${String(value2)}`;
     }
-    if (!this.identities.has(value3)) {
-      this.identities.set(value3, this.nextIdentity);
+    if (!this.identities.has(value2)) {
+      this.identities.set(value2, this.nextIdentity);
       this.nextIdentity += 1;
     }
-    return this.identities.get(value3);
+    return this.identities.get(value2);
   }
   /** Evicts oldest insertion-order entries until the configured bound holds. */
   evictOldest() {
@@ -2199,8 +2142,8 @@ function collisionRevisionFor(octree) {
   const revision = octree?.revision;
   return revision === void 0 ? "revision:none" : `revision:${String(revision)}`;
 }
-function isReference(value3) {
-  return !!value3 && (typeof value3 === "object" || typeof value3 === "function");
+function isReference(value2) {
+  return !!value2 && (typeof value2 === "object" || typeof value2 === "function");
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/WorldGround.js
@@ -2332,13 +2275,13 @@ var LodTransitionQueue = class {
       if (usedCost + entry.cost > maximumCost) continue;
       this.entries.delete(entry.id);
       try {
-        const value3 = entry.apply(entry.metadata);
+        const value2 = entry.apply(entry.metadata);
         usedCost += entry.cost;
         this.stats.applied += 1;
         results.push({
           id: entry.id,
           ok: true,
-          value: value3,
+          value: value2,
           cost: entry.cost
         });
       } catch (error) {
@@ -2365,8 +2308,8 @@ function compareEntries(left, right) {
   if (left.priority !== right.priority) return right.priority - left.priority;
   return left.sequence - right.sequence;
 }
-function finiteNumber2(value3, fallback) {
-  return Number.isFinite(value3) ? value3 : fallback;
+function finiteNumber2(value2, fallback) {
+  return Number.isFinite(value2) ? value2 : fallback;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkId.js
@@ -2421,12 +2364,12 @@ function parseWorldChunkId(id) {
 function worldChunkSeed(id, generationVersion = 1) {
   parseWorldChunkId(id);
   assertCoordinate("generationVersion", generationVersion, { minimum: 1 });
-  let hash2 = 2166136261;
+  let hash = 2166136261;
   for (const character of `${id}|generation:${generationVersion}`) {
-    hash2 ^= character.codePointAt(0);
-    hash2 = Math.imul(hash2, 16777619);
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
   }
-  return hash2 >>> 0;
+  return hash >>> 0;
 }
 function parentWorldChunkId(id) {
   const chunk = parseWorldChunkId(id);
@@ -2464,8 +2407,8 @@ function assertNamespace(namespace) {
     throw new TypeError("World chunk namespace must be a nonempty string.");
   }
 }
-function assertCoordinate(name, value3, { minimum = -Infinity } = {}) {
-  if (!Number.isSafeInteger(value3) || value3 < minimum) {
+function assertCoordinate(name, value2, { minimum = -Infinity } = {}) {
+  if (!Number.isSafeInteger(value2) || value2 < minimum) {
     throw new TypeError(`${name} must be a safe integer >= ${minimum}.`);
   }
 }
@@ -2482,59 +2425,59 @@ function freezeChunkBounds(bounds = {}) {
   return Object.freeze({ min: minimum, max: maximum });
 }
 function freezeChunkStrings(values = []) {
-  if (!Array.isArray(values) || values.some((value3) => typeof value3 !== "string")) {
+  if (!Array.isArray(values) || values.some((value2) => typeof value2 !== "string")) {
     throw new TypeError("Chunk relationship lists must contain only strings.");
   }
   return Object.freeze([...values]);
 }
-function freezeChunkMemory(value3 = {}) {
+function freezeChunkMemory(value2 = {}) {
   return Object.freeze({
-    geometry: nonnegativeChunkNumber("memory.geometry", value3.geometry),
-    textures: nonnegativeChunkNumber("memory.textures", value3.textures),
-    collision: nonnegativeChunkNumber("memory.collision", value3.collision)
+    geometry: nonnegativeChunkNumber("memory.geometry", value2.geometry),
+    textures: nonnegativeChunkNumber("memory.textures", value2.textures),
+    collision: nonnegativeChunkNumber("memory.collision", value2.collision)
   });
 }
-function freezeChunkReadiness(value3 = {}) {
+function freezeChunkReadiness(value2 = {}) {
   return Object.freeze({
-    visualReady: value3.visualReady === true,
-    collisionPrepared: value3.collisionPrepared === true,
-    safetyValidated: value3.safetyValidated === true
+    visualReady: value2.visualReady === true,
+    collisionPrepared: value2.collisionPrepared === true,
+    safetyValidated: value2.safetyValidated === true
   });
 }
-function freezeCollisionHandoff(value3 = {}) {
+function freezeCollisionHandoff(value2 = {}) {
   return Object.freeze({
-    parentRetained: value3.parentRetained === true,
-    atomicReady: value3.atomicReady === true
+    parentRetained: value2.parentRetained === true,
+    atomicReady: value2.atomicReady === true
   });
 }
-function nonnegativeChunkInteger(name, value3, minimum = 0) {
-  if (!Number.isSafeInteger(value3) || value3 < minimum) {
+function nonnegativeChunkInteger(name, value2, minimum = 0) {
+  if (!Number.isSafeInteger(value2) || value2 < minimum) {
     throw new TypeError(`${name} must be an integer >= ${minimum}.`);
   }
-  return value3;
+  return value2;
 }
-function nonnegativeChunkNumber(name, value3 = 0) {
-  const number = finiteNumber3(name, value3);
+function nonnegativeChunkNumber(name, value2 = 0) {
+  const number = finiteNumber3(name, value2);
   if (number < 0) {
     throw new TypeError(`${name} must be nonnegative.`);
   }
   return number;
 }
-function clampChunkUnit(value3 = 0) {
-  return Math.min(1, Math.max(0, Number(value3) || 0));
+function clampChunkUnit(value2 = 0) {
+  return Math.min(1, Math.max(0, Number(value2) || 0));
 }
-function freezeVector(value3 = {}) {
+function freezeVector(value2 = {}) {
   return Object.freeze({
-    x: finiteNumber3("vector.x", value3.x),
-    y: finiteNumber3("vector.y", value3.y),
-    z: finiteNumber3("vector.z", value3.z)
+    x: finiteNumber3("vector.x", value2.x),
+    y: finiteNumber3("vector.y", value2.y),
+    z: finiteNumber3("vector.z", value2.z)
   });
 }
-function finiteNumber3(name, value3 = 0) {
-  if (!Number.isFinite(value3)) {
+function finiteNumber3(name, value2 = 0) {
+  if (!Number.isFinite(value2)) {
     throw new TypeError(`${name} must be finite.`);
   }
-  return value3;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkState.js
@@ -2552,14 +2495,14 @@ var WORLD_CHUNK_STATES = Object.freeze({
   FAILED: "Failed"
 });
 var STATE_VALUES = new Set(Object.values(WORLD_CHUNK_STATES));
-function isWorldChunkState(value3) {
-  return STATE_VALUES.has(value3);
+function isWorldChunkState(value2) {
+  return STATE_VALUES.has(value2);
 }
-function assertWorldChunkState(value3) {
-  if (!isWorldChunkState(value3)) {
-    throw new TypeError(`Unknown world chunk state: ${String(value3)}`);
+function assertWorldChunkState(value2) {
+  if (!isWorldChunkState(value2)) {
+    throw new TypeError(`Unknown world chunk state: ${String(value2)}`);
   }
-  return value3;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkRecord.js
@@ -2679,14 +2622,14 @@ var WORLD_CHUNK_COLLISION_STATES = Object.freeze({
 var COLLISION_STATE_VALUES = new Set(
   Object.values(WORLD_CHUNK_COLLISION_STATES)
 );
-function isWorldChunkCollisionState(value3) {
-  return COLLISION_STATE_VALUES.has(value3);
+function isWorldChunkCollisionState(value2) {
+  return COLLISION_STATE_VALUES.has(value2);
 }
-function assertWorldChunkCollisionState(value3) {
-  if (!isWorldChunkCollisionState(value3)) {
-    throw new TypeError(`Unknown world chunk collision state: ${String(value3)}`);
+function assertWorldChunkCollisionState(value2) {
+  if (!isWorldChunkCollisionState(value2)) {
+    throw new TypeError(`Unknown world chunk collision state: ${String(value2)}`);
   }
-  return value3;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionValues.js
@@ -2697,17 +2640,17 @@ function assertCollisionOctree(octree) {
   }
   return octree;
 }
-function assertCollisionGenerationVersion(value3) {
-  if (!Number.isSafeInteger(value3) || value3 < 1) {
+function assertCollisionGenerationVersion(value2) {
+  if (!Number.isSafeInteger(value2) || value2 < 1) {
     throw new TypeError("Collision generation version must be a positive integer.");
   }
-  return value3;
+  return value2;
 }
-function assertCollisionEventTime(value3) {
-  if (!Number.isFinite(value3) || value3 < 0) {
+function assertCollisionEventTime(value2) {
+  if (!Number.isFinite(value2) || value2 < 0) {
     throw new TypeError("Collision event time must be a finite nonnegative number.");
   }
-  return value3;
+  return value2;
 }
 function freezeCollisionBounds(bounds = {}) {
   const frozen = Object.freeze({
@@ -2748,12 +2691,12 @@ function collisionBoundsVolume(bounds) {
 function sameCollisionBounds(left, right) {
   return ["min", "max"].every((side) => ["x", "y", "z"].every((axis) => left[side][axis] === right[side][axis]));
 }
-function freezeVector2(value3 = {}) {
-  const vector3 = { x: value3.x, y: value3.y, z: value3.z };
-  if (Object.values(vector3).some((component) => !Number.isFinite(component))) {
+function freezeVector2(value2 = {}) {
+  const vector2 = { x: value2.x, y: value2.y, z: value2.z };
+  if (Object.values(vector2).some((component) => !Number.isFinite(component))) {
     throw new TypeError("Collision bounds must contain finite coordinates.");
   }
-  return Object.freeze(vector3);
+  return Object.freeze(vector2);
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionEntry.js
@@ -2819,8 +2762,8 @@ function assertEntryState(entry, ...states) {
     throw new Error(`Collision entry state must be one of: ${states.join(", ")}`);
   }
 }
-function assertHandoffId(value3) {
-  if (typeof value3 !== "string" || !value3.trim()) {
+function assertHandoffId(value2) {
+  if (typeof value2 !== "string" || !value2.trim()) {
     throw new TypeError("Collision handoff ID must be a nonempty string.");
   }
 }
@@ -2875,40 +2818,40 @@ function freezeParentCoverage(entries) {
   }
   return Object.freeze(coverage);
 }
-function compactHandoff(value3) {
-  if (!value3) {
+function compactHandoff(value2) {
+  if (!value2) {
     return null;
   }
   return Object.freeze({
-    id: value3.id,
-    parentId: value3.parentId,
-    childIds: Object.freeze([...value3.childIds]),
-    retainedParent: value3.retainedParent,
-    at: value3.at,
-    coverage: compactCoverage(value3.coverage)
+    id: value2.id,
+    parentId: value2.parentId,
+    childIds: Object.freeze([...value2.childIds]),
+    retainedParent: value2.retainedParent,
+    at: value2.at,
+    coverage: compactCoverage(value2.coverage)
   });
 }
-function compactCoverage(value3) {
-  if (!value3) {
+function compactCoverage(value2) {
+  if (!value2) {
     return null;
   }
   return Object.freeze({
-    parentBounds: value3.parentBounds,
-    aggregateBounds: value3.aggregateBounds,
-    parentVolume: value3.parentVolume,
-    childVolume: value3.childVolume,
-    childCount: value3.childCount,
-    tolerance: value3.tolerance
+    parentBounds: value2.parentBounds,
+    aggregateBounds: value2.aggregateBounds,
+    parentVolume: value2.parentVolume,
+    childVolume: value2.childVolume,
+    childCount: value2.childCount,
+    tolerance: value2.tolerance
   });
 }
-function compactDiscard(value3) {
-  if (!value3) {
+function compactDiscard(value2) {
+  if (!value2) {
     return null;
   }
   return Object.freeze({
-    chunkId: value3.chunkId,
-    at: value3.at,
-    reason: value3.reason
+    chunkId: value2.chunkId,
+    at: value2.at,
+    reason: value2.reason
   });
 }
 
@@ -3055,7 +2998,7 @@ function canonicalIds(values) {
   if (!Array.isArray(values) || values.length === 0) {
     throw new TypeError("Collision replacement IDs must be a nonempty array.");
   }
-  if (values.some((value3) => typeof value3 !== "string")) {
+  if (values.some((value2) => typeof value2 !== "string")) {
     throw new TypeError("Collision replacement IDs must be strings.");
   }
   const unique2 = [...new Set(values)];
@@ -3339,12 +3282,12 @@ var WorldChunkCollisionTriangleIdentity = class {
     this.cachedKeys.set(triangle2, key);
     return key;
   }
-  fallbackKey(value3) {
-    if (!this.fallbackIds.has(value3)) {
-      this.fallbackIds.set(value3, this.nextFallbackId);
+  fallbackKey(value2) {
+    if (!this.fallbackIds.has(value2)) {
+      this.fallbackIds.set(value2, this.nextFallbackId);
       this.nextFallbackId += 1;
     }
-    return `object:${this.fallbackIds.get(value3)}`;
+    return `object:${this.fallbackIds.get(value2)}`;
   }
 };
 function appendUniqueCollisionTriangles(triangles, output, identity2, seen = /* @__PURE__ */ new Set()) {
@@ -3370,14 +3313,14 @@ function geometricTriangleKey(triangle2) {
     vertices
   ].join("|");
 }
-function vectorKey(vector3) {
-  return [vector3.x, vector3.y, vector3.z].map((component) => Number(component).toString()).join(",");
+function vectorKey(vector2) {
+  return [vector2.x, vector2.y, vector2.z].map((component) => Number(component).toString()).join(",");
 }
-function hasTriangleVertices(value3) {
-  return [value3.a, value3.b, value3.c].every((vector3) => vector3 && [vector3.x, vector3.y, vector3.z].every(Number.isFinite));
+function hasTriangleVertices(value2) {
+  return [value2.a, value2.b, value2.c].every((vector2) => vector2 && [vector2.x, vector2.y, vector2.z].every(Number.isFinite));
 }
-function isReference2(value3) {
-  return !!value3 && (typeof value3 === "object" || typeof value3 === "function");
+function isReference2(value2) {
+  return !!value2 && (typeof value2 === "object" || typeof value2 === "function");
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionQueryFacade.js
@@ -3578,14 +3521,14 @@ var TRANSITIONS = Object.freeze({
   [S.ROLLBACK_FAILED]: freezeStates(),
   [S.MANUAL_RECOVERY]: freezeStates()
 });
-function assertCollisionStreamingState(value3) {
-  if (!Object.values(S).includes(value3)) {
-    throw new TypeError(`Unknown collision streaming state: ${String(value3)}`);
+function assertCollisionStreamingState(value2) {
+  if (!Object.values(S).includes(value2)) {
+    throw new TypeError(`Unknown collision streaming state: ${String(value2)}`);
   }
-  return value3;
+  return value2;
 }
-function isCollisionStreamingTerminal(value3) {
-  return TERMINAL_STATES.has(assertCollisionStreamingState(value3));
+function isCollisionStreamingTerminal(value2) {
+  return TERMINAL_STATES.has(assertCollisionStreamingState(value2));
 }
 function canTransitionCollisionStreaming(fromState, toState) {
   assertCollisionStreamingState(fromState);
@@ -3708,27 +3651,27 @@ function createCollisionIncrementalOptions(options = {}) {
     )
   });
 }
-function requireCollisionGenerationUnits(value3) {
-  if (!Number.isSafeInteger(value3) || value3 < 0) {
+function requireCollisionGenerationUnits(value2) {
+  if (!Number.isSafeInteger(value2) || value2 < 0) {
     throw new TypeError("Collision generation units must be nonnegative.");
   }
-  return value3;
+  return value2;
 }
 function compareCollisionSourceKeys(left, right) {
   return left.key.localeCompare(right.key);
 }
-function requirePositiveInteger(value3, label) {
-  const integer = requireSafeInteger(value3, label);
+function requirePositiveInteger(value2, label) {
+  const integer = requireSafeInteger(value2, label);
   if (integer < 1) {
     throw new TypeError(`${label} must be positive.`);
   }
   return integer;
 }
-function requireSafeInteger(value3, label) {
-  if (!Number.isSafeInteger(value3)) {
+function requireSafeInteger(value2, label) {
+  if (!Number.isSafeInteger(value2)) {
     throw new TypeError(`${label} must be a safe integer.`);
   }
-  return value3;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionStreamingValues.js
@@ -3783,35 +3726,35 @@ function collisionStreamingHandoffIds(requestId) {
     retirement: `${stableId}:parent-retired`
   });
 }
-function requireCollisionStreamingTime(value3, label) {
-  return requireTime(value3, label);
+function requireCollisionStreamingTime(value2, label) {
+  return requireTime(value2, label);
 }
-function requireCollisionStreamingText(value3, label) {
-  return requireText(value3, label);
+function requireCollisionStreamingText(value2, label) {
+  return requireText(value2, label);
 }
-function requireTriangles(value3) {
-  if (!Array.isArray(value3) || value3.length === 0) {
+function requireTriangles(value2) {
+  if (!Array.isArray(value2) || value2.length === 0) {
     throw new TypeError("Collision source triangles are required.");
   }
-  return value3;
+  return value2;
 }
-function requireTime(value3, label) {
-  if (!Number.isFinite(value3)) {
+function requireTime(value2, label) {
+  if (!Number.isFinite(value2)) {
     throw new TypeError(`${label} must be finite.`);
   }
-  return value3;
+  return value2;
 }
-function requireText(value3, label) {
-  if (typeof value3 !== "string" || value3.trim().length === 0) {
+function requireText(value2, label) {
+  if (typeof value2 !== "string" || value2.trim().length === 0) {
     throw new TypeError(`${label} must be nonempty text.`);
   }
-  return value3.trim();
+  return value2.trim();
 }
-function requireSafeInteger2(value3, label) {
-  if (!Number.isSafeInteger(value3)) {
+function requireSafeInteger2(value2, label) {
+  if (!Number.isSafeInteger(value2)) {
     throw new TypeError(`${label} must be a safe integer.`);
   }
-  return value3;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionStreamingControl.js
@@ -3950,17 +3893,17 @@ function generatedHandoffIndexDefinition(definition) {
     expectedBounds: definition.expectedBounds
   });
 }
-function requireGeneratedHandoffText(value3, label) {
-  if (typeof value3 !== "string" || value3.length === 0) {
+function requireGeneratedHandoffText(value2, label) {
+  if (typeof value2 !== "string" || value2.length === 0) {
     throw new TypeError(`${label} must be nonempty text.`);
   }
-  return value3;
+  return value2;
 }
-function requireGeneratedHandoffTime(value3, label) {
-  if (!Number.isFinite(value3)) {
+function requireGeneratedHandoffTime(value2, label) {
+  if (!Number.isFinite(value2)) {
     throw new TypeError(`${label} must be finite.`);
   }
-  return value3;
+  return value2;
 }
 function assertGeneratedDefinition(definition, parentId) {
   if (!definition?.chunkId || definition.parentId !== parentId) {
@@ -4224,15 +4167,15 @@ var FNV_PRIME = 16777619;
 function createCollisionDigestState() {
   return FNV_OFFSET;
 }
-function updateCollisionDigestState(hash2, key, keyIndex) {
-  let nextHash = hash2 >>> 0;
+function updateCollisionDigestState(hash, key, keyIndex) {
+  let nextHash = hash >>> 0;
   if (keyIndex > 0) {
     nextHash = hashText(nextHash, "\n");
   }
   return hashText(nextHash, key);
 }
-function finalizeCollisionDigest(hash2) {
-  return (hash2 >>> 0).toString(16).padStart(8, "0");
+function finalizeCollisionDigest(hash) {
+  return (hash >>> 0).toString(16).padStart(8, "0");
 }
 function createCollisionIncrementalFinalDiagnostics({
   options,
@@ -4257,12 +4200,12 @@ function createCollisionIncrementalFinalDiagnostics({
   });
 }
 function hashText(initialHash, text3) {
-  let hash2 = initialHash >>> 0;
+  let hash = initialHash >>> 0;
   for (let index = 0; index < text3.length; index += 1) {
-    hash2 ^= text3.charCodeAt(index);
-    hash2 = Math.imul(hash2, FNV_PRIME) >>> 0;
+    hash ^= text3.charCodeAt(index);
+    hash = Math.imul(hash, FNV_PRIME) >>> 0;
   }
-  return hash2;
+  return hash;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionIncrementalPhases.js
@@ -4286,8 +4229,8 @@ var TERMINAL_PHASES = /* @__PURE__ */ new Set([
   PHASES.DISPOSED,
   PHASES.FAILED
 ]);
-function isCollisionIncrementalTerminal(phase2) {
-  return TERMINAL_PHASES.has(phase2);
+function isCollisionIncrementalTerminal(phase) {
+  return TERMINAL_PHASES.has(phase);
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionIncrementalBuildEngine.js
@@ -4470,12 +4413,12 @@ function midpointVector(bounds) {
 }
 function deriveChildSeed(parentSeed, generationVersion, chunkId) {
   const input = `${String(parentSeed)}|${generationVersion}|${chunkId}`;
-  let hash2 = 2166136261;
+  let hash = 2166136261;
   for (let index = 0; index < input.length; index += 1) {
-    hash2 ^= input.charCodeAt(index);
-    hash2 = Math.imul(hash2, 16777619);
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
   }
-  return hash2 >>> 0;
+  return hash >>> 0;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionTriangleBounds.js
@@ -4512,8 +4455,8 @@ function assertFiniteBounds(bounds = {}) {
     }
   }
 }
-function isFiniteVector(vector3) {
-  return !!vector3 && ["x", "y", "z"].every((axis) => Number.isFinite(vector3[axis]));
+function isFiniteVector(vector2) {
+  return !!vector2 && ["x", "y", "z"].every((axis) => Number.isFinite(vector2[axis]));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionIncrementalAssignments.js
@@ -4792,18 +4735,18 @@ function slabDistances(origin, direction, bounds, axis) {
   if (near > far) [near, far] = [far, near];
   return { near, far };
 }
-function outsideSlab(value3, bounds, axis) {
-  return value3 < bounds.min[axis] || value3 > bounds.max[axis];
+function outsideSlab(value2, bounds, axis) {
+  return value2 < bounds.min[axis] || value2 > bounds.max[axis];
 }
-function validDistance(value3) {
-  return value3 === Infinity || Number.isFinite(value3) && value3 >= 0;
+function validDistance(value2) {
+  return value2 === Infinity || Number.isFinite(value2) && value2 >= 0;
 }
 function validBounds(bounds) {
   if (!validVector(bounds?.min) || !validVector(bounds?.max)) return false;
   return AXES.every((axis) => bounds.min[axis] <= bounds.max[axis]);
 }
-function validVector(vector3) {
-  return AXES.every((axis) => Number.isFinite(vector3?.[axis]));
+function validVector(vector2) {
+  return AXES.every((axis) => Number.isFinite(vector2?.[axis]));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/collision/OctreeRaycast.js
@@ -4848,11 +4791,11 @@ function validRay(ray) {
 function validHit(hit) {
   return !!hit && Number.isFinite(hit.distance) && validVector2(hit.point) && validVector2(hit.normal);
 }
-function validDistance2(value3) {
-  return value3 === Infinity || Number.isFinite(value3) && value3 >= 0;
+function validDistance2(value2) {
+  return value2 === Infinity || Number.isFinite(value2) && value2 >= 0;
 }
-function validVector2(vector3) {
-  return Number.isFinite(vector3?.x) && Number.isFinite(vector3?.y) && Number.isFinite(vector3?.z);
+function validVector2(vector2) {
+  return Number.isFinite(vector2?.x) && Number.isFinite(vector2?.y) && Number.isFinite(vector2?.z);
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/collision/AwtsmoosOctree.js
@@ -5357,9 +5300,9 @@ var WorldChunkCollisionStreamingRuntime = class {
 };
 function measureOperation(operation) {
   const start = globalThis.performance?.now?.() ?? 0;
-  const value3 = operation();
+  const value2 = operation();
   const end = globalThis.performance?.now?.() ?? start;
-  return Object.freeze({ value: value3, durationMs: Math.max(0, end - start) });
+  return Object.freeze({ value: value2, durationMs: Math.max(0, end - start) });
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/WorldChunkCollisionRuntime.js
@@ -5369,6 +5312,7 @@ var WorldChunkCollisionRuntime = class {
       throw new TypeError("Bootstrap chunk record is required for collision runtime.");
     }
     this.index = new WorldChunkCollisionIndex();
+    this.activeLayerRegistrations = 0;
     this.bootstrapEntry = this.index.registerActive({
       chunkId: bootstrapRecord.id,
       parentId: null,
@@ -5384,6 +5328,16 @@ var WorldChunkCollisionRuntime = class {
       generate,
       measure: measure2
     });
+  }
+  /**
+   * Reveals one validated post-movement collision layer inside the existing index.
+   * @param {object} definition Stable chunk identity, octree, bounds, and generation.
+   * @returns {object} The immutable active collision entry.
+   */
+  registerActiveCollisionChunk(definition = {}) {
+    const yesodEntry = this.index.registerActive(definition);
+    this.activeLayerRegistrations += 1;
+    return yesodEntry;
   }
   /** Accepts one stable manually triggered bootstrap subdivision. */
   requestBootstrapSubdivision(options) {
@@ -5407,6 +5361,7 @@ var WorldChunkCollisionRuntime = class {
       bootstrapId: this.bootstrapEntry.chunkId,
       bootstrapBounds: this.bootstrapEntry.bounds,
       bootstrapTriangles: this.bootstrapEntry.triangleCount,
+      activeLayerRegistrations: this.activeLayerRegistrations,
       streaming: this.streaming.diagnostics(),
       query: this.query.diagnostics(),
       ...this.index.diagnostics()
@@ -5564,24 +5519,24 @@ function transitionWorldChunk(record, toState, evidence = {}) {
 function freezeStates2(...states) {
   return Object.freeze(states);
 }
-function normalizeTimestamp(value3) {
-  const timestamp = value3 ?? Date.now();
+function normalizeTimestamp(value2) {
+  const timestamp = value2 ?? Date.now();
   if (!Number.isFinite(timestamp) || timestamp < 0) {
     throw new TypeError("Transition timestamp must be a nonnegative number.");
   }
   return timestamp;
 }
-function normalizeReason(value3) {
-  if (value3 === void 0) {
+function normalizeReason(value2) {
+  if (value2 === void 0) {
     return "";
   }
-  if (typeof value3 !== "string") {
+  if (typeof value2 !== "string") {
     throw new TypeError("Transition reason must be a string.");
   }
-  return value3;
+  return value2;
 }
-function normalizeRetryCount(value3) {
-  const retryCount = value3 ?? 0;
+function normalizeRetryCount(value2) {
+  const retryCount = value2 ?? 0;
   if (!Number.isSafeInteger(retryCount) || retryCount < 0) {
     throw new TypeError("Transition retry count must be a nonnegative integer.");
   }
@@ -5719,6 +5674,10 @@ var WorldChunkRuntime = class {
     });
     return this.lastProcess;
   }
+  /** Reveals one validated post-movement collision layer through the canonical runtime. */
+  registerActiveCollisionChunk(definition) {
+    return this.collisionRuntime.registerActiveCollisionChunk(definition);
+  }
   /** Accepts one manually triggered bootstrap collision subdivision. */
   requestBootstrapSubdivision(options) {
     return this.collisionRuntime.requestBootstrapSubdivision(options);
@@ -5834,17 +5793,17 @@ var MitzvahWorldLocalRpgSession = class {
     if (this.progress[questId] === "available") this.progress[questId] = "active";
     return this.snapshot();
   }
-  attack(creatureId, weaponId = "wooden-staff", distance4 = 1) {
+  attack(creatureId, weaponId = "wooden-staff", distance3 = 1) {
     const weapon2 = LOCAL_RPG_WEAPONS[weaponId];
     const creature2 = this.creatures.get(creatureId);
     if (!weapon2 || !this.inventory.has(weaponId)) throw new Error("WEAPON_NOT_OWNED");
     if (this.equipment[weapon2.slot] !== weaponId) throw new Error("WEAPON_NOT_EQUIPPED");
     if (!creature2 || creature2.status !== "active") throw new Error("CREATURE_NOT_ACTIVE");
-    if (distance4 > weapon2.range) throw new Error("TARGET_OUT_OF_RANGE");
-    const now2 = this.clock();
-    if (now2 - this.combat.lastAttackAt < weapon2.cooldownMs) throw new Error("ATTACK_COOLDOWN");
+    if (distance3 > weapon2.range) throw new Error("TARGET_OUT_OF_RANGE");
+    const now3 = this.clock();
+    if (now3 - this.combat.lastAttackAt < weapon2.cooldownMs) throw new Error("ATTACK_COOLDOWN");
     if (this.combat.stamina < weapon2.staminaCost) throw new Error("INSUFFICIENT_STAMINA");
-    this.combat.lastAttackAt = now2;
+    this.combat.lastAttackAt = now3;
     this.combat.stamina -= weapon2.staminaCost;
     creature2.health = Math.max(0, creature2.health - weapon2.damage);
     if (creature2.health === 0) this.defeat(creature2);
@@ -5936,9 +5895,9 @@ var AdaptiveRenderScalePolicy = class {
     }
     return scales;
   }
-  nearestScale(value3) {
+  nearestScale(value2) {
     const scales = this.availableScales();
-    return scales[nearestIndex(scales, value3)];
+    return scales[nearestIndex(scales, value2)];
   }
   publish(scale2) {
     this.runtime.adaptiveRenderScale = scale2;
@@ -5955,10 +5914,10 @@ var AdaptiveRenderScalePolicy = class {
     };
   }
 };
-function nearestIndex(scales, value3) {
+function nearestIndex(scales, value2) {
   let best = 0;
   for (let index = 1; index < scales.length; index += 1) {
-    if (Math.abs(scales[index] - value3) < Math.abs(scales[best] - value3)) {
+    if (Math.abs(scales[index] - value2) < Math.abs(scales[best] - value2)) {
       best = index;
     }
   }
@@ -6000,7 +5959,7 @@ var FrameBudgetWindow = class {
   }
   snapshot() {
     const ordered = this.orderedValues();
-    const elapsedMilliseconds = ordered.reduce((total, value3) => total + value3, 0);
+    const elapsedMilliseconds = ordered.reduce((total, value2) => total + value2, 0);
     const hardMisses = countAbove(ordered, this.hardFrameMilliseconds);
     const longFrames = countAbove(ordered, this.longFrameMilliseconds);
     const missedBudgetFrames = countAbove(ordered, this.targetFrameMilliseconds);
@@ -6049,13 +6008,13 @@ function percentile(values, ratioValue) {
   return values[Math.max(0, index)];
 }
 function countAbove(values, threshold) {
-  return values.filter((value3) => value3 > threshold).length;
+  return values.filter((value2) => value2 > threshold).length;
 }
 function average(total, count) {
   return count ? total / count : 0;
 }
-function ratio(value3, count) {
-  return count ? value3 / count : 0;
+function ratio(value2, count) {
+  return count ? value2 / count : 0;
 }
 function fpsFromElapsed(count, elapsedMilliseconds) {
   return elapsedMilliseconds > 0 ? count * 1e3 / elapsedMilliseconds : 0;
@@ -6087,9 +6046,9 @@ var RuntimeAnimationWindows = class {
   }
   push(breakdown = {}) {
     for (const [name, field] of Object.entries(FIELDS)) {
-      const value3 = breakdown[field];
-      if (Number.isFinite(value3) && value3 >= 0) {
-        this.windows[name].push(Math.max(1e-4, value3));
+      const value2 = breakdown[field];
+      if (Number.isFinite(value2) && value2 >= 0) {
+        this.windows[name].push(Math.max(1e-4, value2));
       }
     }
   }
@@ -6362,8 +6321,8 @@ function probeStyle() {
     zIndex: "80"
   };
 }
-function fixed(value3, digits = 1) {
-  return Number.isFinite(value3) ? Number(value3).toFixed(digits) : "n/a";
+function fixed(value2, digits = 1) {
+  return Number.isFinite(value2) ? Number(value2).toFixed(digits) : "n/a";
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/QualityTier.js
@@ -6548,29 +6507,6 @@ function governorDiagnostics(monitor) {
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeSceneResourceScan.js
 var MIP_OVERHEAD = 4 / 3;
-function scanRuntimeSceneResources(scene) {
-  if (!scene?.traverse) {
-    return emptyRuntimeSceneMetrics();
-  }
-  const materials = /* @__PURE__ */ new Set();
-  const textures = /* @__PURE__ */ new Set();
-  let objectCount = 0;
-  let triangles = 0;
-  scene.traverse((object) => {
-    objectCount += 1;
-    triangles += geometryTriangles(object.geometry);
-    for (const material of materialArray(object.material)) {
-      collectMaterialResources(material, materials, textures);
-    }
-  });
-  return {
-    activeMaterials: materials.size,
-    objectCount,
-    textureCount: textures.size,
-    textureMemoryBytesEstimate: Array.from(textures).reduce(textureBytes, 0),
-    triangles
-  };
-}
 function emptyRuntimeSceneMetrics() {
   return {
     activeMaterials: 0,
@@ -6580,47 +6516,92 @@ function emptyRuntimeSceneMetrics() {
     triangles: 0
   };
 }
-function collectMaterialResources(material, materials, textures) {
-  if (!material) {
-    return;
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeSceneResourceScanTask.js
+var MIP_OVERHEAD2 = 4 / 3;
+var RuntimeSceneResourceScanTask = class {
+  constructor(scene) {
+    this.stack = scene ? [scene] : [];
+    this.materials = /* @__PURE__ */ new Set();
+    this.textures = /* @__PURE__ */ new Set();
+    this.metrics = emptyMetrics();
   }
-  materials.add(material);
-  for (const value3 of Object.values(material)) {
-    if (value3?.isTexture) {
-      textures.add(value3);
+  get done() {
+    return this.stack.length === 0;
+  }
+  step(maximumObjects = 128) {
+    const limit = Math.max(1, Math.floor(maximumObjects));
+    let processed = 0;
+    while (this.stack.length && processed < limit) {
+      const object = this.stack.pop();
+      processed += 1;
+      this.metrics.objectCount += 1;
+      this.metrics.triangles += geometryTriangles(object?.geometry);
+      this.collectMaterials(object?.material);
+      const children = Array.isArray(object?.children) ? object.children : [];
+      for (let index = children.length - 1; index >= 0; index -= 1) {
+        this.stack.push(children[index]);
+      }
+    }
+    this.metrics.activeMaterials = this.materials.size;
+    this.metrics.textureCount = this.textures.size;
+    return this.snapshot();
+  }
+  snapshot() {
+    return {
+      ...this.metrics,
+      complete: this.done,
+      remainingObjects: this.stack.length
+    };
+  }
+  collectMaterials(value2) {
+    const materials = Array.isArray(value2) ? value2 : [value2];
+    for (const material of materials) {
+      if (!material || this.materials.has(material)) continue;
+      this.materials.add(material);
+      for (const candidate of Object.values(material)) {
+        if (!candidate?.isTexture || this.textures.has(candidate)) continue;
+        this.textures.add(candidate);
+        this.metrics.textureMemoryBytesEstimate += textureBytes(candidate);
+      }
     }
   }
+};
+function emptyMetrics() {
+  return {
+    activeMaterials: 0,
+    objectCount: 0,
+    textureCount: 0,
+    textureMemoryBytesEstimate: 0,
+    triangles: 0
+  };
 }
 function geometryTriangles(geometry) {
-  if (!geometry) {
-    return 0;
-  }
+  if (!geometry) return 0;
   const count = geometry.index?.count || geometry.attributes?.position?.count || 0;
   return Math.floor(count / 3);
 }
-function textureBytes(total, texture2) {
+function textureBytes(texture2) {
   const image = texture2.image || texture2.source?.data;
   const width = Number(image?.width || image?.videoWidth || 0);
   const height = Number(image?.height || image?.videoHeight || 0);
-  return total + Math.round(width * height * 4 * MIP_OVERHEAD);
-}
-function materialArray(value3) {
-  return Array.isArray(value3) ? value3 : [value3];
+  return Math.round(width * height * 4 * MIP_OVERHEAD2);
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeResourceSnapshot.js
 var STATIC_SCAN_INTERVAL_MS = 5e3;
+var SCAN_BATCH_SIZE = 128;
 var RuntimeResourceSnapshot = class {
-  constructor() {
+  constructor(environment = globalThis) {
+    this.environment = environment;
     this.lastSceneScanAt = -Infinity;
     this.scene = emptyRuntimeSceneMetrics();
+    this.sceneTask = null;
+    this.sceneScanScheduled = false;
     this.memoryBaseline = null;
   }
-  collect(runtime, costs = {}, now2 = performance.now()) {
-    if (now2 - this.lastSceneScanAt >= STATIC_SCAN_INTERVAL_MS) {
-      this.scene = scanRuntimeSceneResources(runtime.scene);
-      this.lastSceneScanAt = now2;
-    }
+  collect(runtime, costs = {}, now3 = performance.now()) {
+    this.ensureSceneScan(runtime.scene, now3);
     const renderer = runtime.renderer || {};
     const stats3 = renderer.stats || renderer.info?.render || {};
     return {
@@ -6641,6 +6622,27 @@ var RuntimeResourceSnapshot = class {
       waterCostMilliseconds: finiteOrNull(costs.waterMilliseconds)
     };
   }
+  ensureSceneScan(scene, now3) {
+    if (!this.sceneTask && now3 - this.lastSceneScanAt < STATIC_SCAN_INTERVAL_MS) return;
+    if (!this.sceneTask) this.sceneTask = new RuntimeSceneResourceScanTask(scene);
+    this.scheduleSceneChunk();
+  }
+  scheduleSceneChunk() {
+    if (this.sceneScanScheduled || !this.sceneTask) return;
+    this.sceneScanScheduled = true;
+    scheduleIdle(this.environment, () => {
+      this.sceneScanScheduled = false;
+      if (!this.sceneTask) return;
+      const progress = this.sceneTask.step(SCAN_BATCH_SIZE);
+      this.scene = publicSceneMetrics(progress);
+      if (progress.complete) {
+        this.sceneTask = null;
+        this.lastSceneScanAt = now();
+        return;
+      }
+      this.scheduleSceneChunk();
+    });
+  }
 };
 function streamingEvidence(runtime, costs) {
   return {
@@ -6651,9 +6653,7 @@ function streamingEvidence(runtime, costs) {
 }
 function memoryEvidence(sampler) {
   const memory = performance.memory;
-  if (!memory) {
-    return { available: false, growthBytes: null, usedBytes: null };
-  }
+  if (!memory) return { available: false, growthBytes: null, usedBytes: null };
   sampler.memoryBaseline ??= memory.usedJSHeapSize;
   return {
     available: true,
@@ -6661,15 +6661,29 @@ function memoryEvidence(sampler) {
     usedBytes: memory.usedJSHeapSize
   };
 }
+function publicSceneMetrics(progress) {
+  const { complete, remainingObjects, ...metrics } = progress;
+  return metrics;
+}
+function scheduleIdle(environment, callback) {
+  if (typeof environment.requestIdleCallback === "function") {
+    environment.requestIdleCallback(callback, { timeout: 1e3 });
+    return;
+  }
+  environment.setTimeout?.(callback, 0) ?? callback();
+}
 function gpuEvidence(stats3) {
   const milliseconds = finiteOrNull(stats3.gpuFrameMilliseconds);
   return { available: milliseconds !== null, milliseconds };
 }
-function finiteOrNull(value3) {
-  return Number.isFinite(value3) ? Number(value3) : null;
+function finiteOrNull(value2) {
+  return Number.isFinite(value2) ? Number(value2) : null;
 }
-function finiteOrZero(value3) {
-  return Number.isFinite(value3) ? Number(value3) : 0;
+function finiteOrZero(value2) {
+  return Number.isFinite(value2) ? Number(value2) : 0;
+}
+function now() {
+  return globalThis.performance?.now?.() ?? Date.now();
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeSamplingContext.js
@@ -6712,8 +6726,8 @@ function defaultContextProvider() {
     visibilityState
   };
 }
-function normalizeContext(value3 = {}) {
-  const kind = validKind(value3.kind) ? value3.kind : "unknown";
+function normalizeContext(value2 = {}) {
+  const kind = validKind(value2.kind) ? value2.kind : "unknown";
   const hidden = kind === "hidden" || kind === "prerender";
   return {
     focused: kind === "focused",
@@ -6722,7 +6736,7 @@ function normalizeContext(value3 = {}) {
     kind,
     reason: contextReason(kind),
     recordable: !hidden,
-    visibilityState: value3.visibilityState || "unknown"
+    visibilityState: value2.visibilityState || "unknown"
   };
 }
 function validKind(kind) {
@@ -6768,9 +6782,9 @@ var RuntimeSubsystemWindows = class {
   }
   push(costs = {}) {
     for (const [name, field] of Object.entries(COST_FIELDS)) {
-      const value3 = costs[field];
-      if (Number.isFinite(value3) && value3 >= 0) {
-        this.windows[name].push(Math.max(1e-4, value3));
+      const value2 = costs[field];
+      if (Number.isFinite(value2) && value2 >= 0) {
+        this.windows[name].push(Math.max(1e-4, value2));
       }
     }
   }
@@ -6824,8 +6838,8 @@ function attributeSubsystems(snapshots) {
     otherMilliseconds
   };
 }
-function ratio2(value3, total) {
-  return total > 0 ? value3 / total : 0;
+function ratio2(value2, total) {
+  return total > 0 ? value2 / total : 0;
 }
 var RUNTIME_SUBSYSTEM_NAMES = Object.freeze(
   Object.keys(COST_FIELDS).filter((name) => name !== "cpu")
@@ -6919,548 +6933,190 @@ function installRuntimePerformanceMonitor(runtime, options) {
   return monitor;
 }
 
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/LavaLevel.js
-var LAVA_START = { x: -62, z: 42 };
-var ERETZ_RETURN = { x: 0, z: 4 };
-var LAVA_Y = -1.18;
-var LavaLevel = class {
-  constructor(scene, assets = {}) {
-    this.group = new Group();
-    this.group.name = "Awtsmoos_long_lava_coin_world_easy_extended";
-    this.group.visible = false;
-    this.assets = assets;
-    this.defs = lavaWorldDefs(assets);
-    this.coins = coinData().map((p, i) => makeCoin(p, assets, i));
-    this.collected = 0;
-    this.failures = 0;
-    this.active = false;
-    this.notice = "";
-    this.build();
-    this.octree = buildOctree(this.colliders);
-    scene.add(this.group);
-  }
-  build() {
-    this.colliders = this.defs.flatMap(primitiveColliders);
-    for (const d of this.defs) this.group.add(createPrimitiveMesh(d));
-    for (const c of this.coins) this.group.add(c.group);
-  }
-  heightAt() {
-    return LAVA_Y + 0.09;
-  }
-  enter(state, ground, mover, footOffset) {
-    this.active = true;
-    this.group.visible = true;
-    this.notice = "Long lava course: collect every coin; lava resets the count.";
-    state.level = "lava-coin-course";
-    this.resetPlayer(state, ground, footOffset);
-    if (mover) mover.octree = this.octree;
-  }
-  leave(state, ground, mover, mainOctree, footOffset) {
-    this.active = false;
-    this.group.visible = false;
-    this.notice = "";
-    state.level = "eretz";
-    state.x = ERETZ_RETURN.x;
-    state.z = ERETZ_RETURN.z;
-    if (mover) mover.octree = mainOctree;
-    state.y = ground.heightAt(state.x, state.z) + footOffset;
-    state.renderY = state.y;
-    state.velY = 0;
-    state.grounded = true;
-  }
-  update(state, ground, footOffset) {
-    if (!this.active) return;
-    if (this.touchedLava(state, footOffset)) return this.fail(state, ground, footOffset);
-    for (const c of this.coins) if (!c.got && Math.hypot(state.x - c.x, state.z - c.z) < 1.35 && Math.abs(state.y - footOffset - c.floorY) < 2.8) {
-      c.got = true;
-      c.group.visible = false;
-      this.collected++;
-      this.notice = `Coin collected: ${this.collected}/${this.coins.length}`;
-    }
-  }
-  touchedLava(state, footOffset) {
-    return state.y - footOffset <= LAVA_Y + 0.3;
-  }
-  fail(state, ground, footOffset) {
-    this.failures++;
-    this.notice = `Lava reset ${this.failures}; coins 0/${this.coins.length}.`;
-    for (const c of this.coins) {
-      c.got = false;
-      c.group.visible = true;
-    }
-    this.collected = 0;
-    this.resetPlayer(state, ground, footOffset);
-  }
-  resetPlayer(state, ground, footOffset) {
-    state.x = LAVA_START.x;
-    state.z = LAVA_START.z;
-    state.y = ground.heightAt(state.x, state.z) + footOffset;
-    state.renderY = state.y;
-    state.velY = 0;
-    state.grounded = true;
-  }
-  stats() {
-    return { active: this.active, coins: this.collected, collected: this.collected, total: this.coins.length, failures: this.failures, start: LAVA_START, platformColliders: this.colliders.length, loadedWorld: this.group.visible, notice: this.notice, platformTexture: tex(this.assets.redBrickImage), coinTexture: tex(this.assets.goldImage), easierCourse: true, extendedCourse: true };
-  }
-};
-function lavaWorldDefs(assets = {}) {
-  const lava = { color: "#ff3512", mapImage: assets.lavaImage || null, textureUrl: tex(assets.lavaImage), mapRepeat: [18, 7] }, brick = brickMaterial(assets);
-  const out = [{ id: "lava-huge-extended-burning-sea", shape: "box", solid: false, walkable: false, ...lava, position: { x: -18, y: LAVA_Y, z: 42 }, size: { x: 118, y: 0.22, z: 46 }, rotation: { y: 0.01 } }];
-  for (const [i, p] of courseNodes().entries()) out.push(box2(`lava-long-red-brick-platform-${i + 1}`, brick, p.x, p.y, p.z, p.sx, 0.58, p.sz, p.yaw || 0, true));
-  return out;
-}
-function coinData() {
-  return courseNodes().filter((_, i) => i > 0 && i % 2 === 0).map((p) => [p.x, p.y + 1.05, p.z, p.y + 0.29]);
-}
-function courseNodes() {
-  const out = [{ x: -62, y: 0.48, z: 42, sx: 6.2, sz: 5.2, yaw: 0 }];
-  for (let i = 1; i <= 30; i++) {
-    const x = -62 + i * 3.2, z = 42 + Math.sin(i * 0.48) * 6.4 + Math.cos(i * 0.21) * 2.2, big = i % 5 === 0 || i % 7 === 0;
-    out.push({ x, y: 0.56 + i % 4 * 0.08, z, sx: big ? 4.4 : 3, sz: i % 3 === 0 ? 3.8 : big ? 4.1 : 2.85, yaw: i * 0.08 });
-  }
-  out.push({ x: 39.5, y: 1.02, z: 43, sx: 7.4, sz: 5.6, yaw: 0.08 });
-  return out;
-}
-function makeCoin([x, y, z, floorY], assets, i) {
-  const group = new Group();
-  group.name = `long-gold-coin-${i + 1}`;
-  group.add(createPrimitiveMesh({ id: `gold-2-long-course-coin-${i + 1}`, shape: "cylinder", color: "#ffd84a", mapImage: assets.goldImage || null, textureUrl: tex(assets.goldImage), mapRepeat: [1, 1], solid: false, position: { x, y, z }, radius: 0.48, height: 0.08, segments: 32, rotation: { x: Math.PI / 2 } }));
-  return { x, y, z, floorY, group, got: false };
-}
-function brickMaterial(assets) {
-  const img = assets.redBrickImage || assets.redBrick2Image || assets.brickImage;
-  return { color: "#f47a55", mapImage: img || null, textureUrl: tex(img), mapRepeat: [2.4, 2.4] };
-}
-function box2(id, material, x, y, z, sx, sy, sz, yaw, walkable) {
-  return { id, shape: "box", solid: true, walkable, noEdge: true, ...material, position: { x, y, z }, size: { x: sx, y: sy, z: sz }, rotation: { y: yaw } };
-}
-function buildOctree(colliders) {
-  const octree = new AwtsmoosOctree(Aabb.centerSize({ x: -18, y: 2, z: 42 }, { x: 170, y: 70, z: 92 }));
-  for (const tri of colliders) octree.insert(tri);
-  return octree;
-}
-function tex(img) {
-  return img?.dataset?.url || img?.dataset?.publicUrl || img?.src || null;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/ShadowUpdateState.js
-function captureShadowUpdateState({
-  state,
-  ground,
-  npc,
-  worldMode
-}) {
-  const octree = ground?.octree;
-  const octreeRevision = collisionRevisionFor2(octree);
-  return Object.freeze({
-    playerX: state?.x,
-    playerZ: state?.z,
-    playerFacing: state?.facing,
-    playerLevel: state?.level,
-    npcX: npc?.x,
-    npcZ: npc?.z,
-    npcVisible: npc?.group?.visible !== false,
-    worldMode: worldMode?.mode,
-    octree,
-    octreeRevision,
-    terrainHeightAt: ground?.terrainHeightAt
-  });
-}
-function shadowUpdateStateChanged(previous, next) {
-  if (!previous) {
-    return true;
-  }
-  return previous.playerX !== next.playerX || previous.playerZ !== next.playerZ || previous.playerFacing !== next.playerFacing || previous.playerLevel !== next.playerLevel || previous.npcX !== next.npcX || previous.npcZ !== next.npcZ || previous.npcVisible !== next.npcVisible || previous.worldMode !== next.worldMode || previous.octree !== next.octree || previous.octreeRevision !== next.octreeRevision || previous.terrainHeightAt !== next.terrainHeightAt;
-}
-var ShadowUpdateTracker = class {
-  constructor() {
-    this.previous = null;
-    this.stats = { applied: 0, skipped: 0 };
-  }
-  /** Returns whether the current context requires a fresh shadow projection. */
-  shouldApply(context) {
-    const next = captureShadowUpdateState(context);
-    if (!shadowUpdateStateChanged(this.previous, next)) {
-      this.stats.skipped += 1;
-      return false;
-    }
-    this.previous = next;
-    this.stats.applied += 1;
-    return true;
-  }
-};
-function collisionRevisionFor2(octree) {
-  const revision = octree?.revision;
-  return revision === void 0 ? null : String(revision);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/SunShadowMeshes.js
-function createSunShadowMeshes(scene) {
-  const group = new Group();
-  group.name = "Awtsmoos_fast_sun_projected_shadows";
-  const player = shadowDisc("player-sun-shadow", 1.05, 0.22);
-  const npc = shadowDisc("npc-sun-shadow", 0.95, 0.18);
-  const house2 = shadowBox(
-    "house-roof-ground-shadow",
-    10.8,
-    6.8,
-    0.16
-  );
-  group.add(player);
-  group.add(npc);
-  group.add(house2);
-  scene.add(group);
-  return { group, player, npc, house: house2 };
-}
-function placeSunShadow(mesh, x, y, z, yaw) {
-  mesh.position.set(x, y, z);
-  mesh.quaternion.set(
-    0,
-    Math.sin(yaw / 2),
-    0,
-    Math.cos(yaw / 2)
-  );
-  mesh.setBaseTransform();
-}
-function shadowDisc(id, radius, opacity) {
-  return shadowMaterial(createPrimitiveMesh({
-    id,
-    shape: "cylinder",
-    color: "#000000",
-    solid: false,
-    position: { x: 0, y: 0, z: 0 },
-    radius,
-    height: 0.025,
-    segments: 40,
-    rotation: {}
-  }), opacity);
-}
-function shadowBox(id, x, z, opacity) {
-  return shadowMaterial(createPrimitiveMesh({
-    id,
-    shape: "box",
-    color: "#000000",
-    solid: false,
-    position: { x: 0, y: 0, z: 0 },
-    size: { x, y: 0.025, z },
-    rotation: { y: -0.16 }
-  }), opacity);
-}
-function shadowMaterial(mesh, opacity) {
-  mesh.material.opacity = opacity;
-  mesh.material.alphaMode = "BLEND";
-  mesh.material.transparent = true;
-  mesh.material.color = [0, 0, 0, opacity];
-  return mesh;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/SunShadowProjector.js
-var SunShadowProjector = class {
-  constructor(scene) {
-    Object.assign(this, createSunShadowMeshes(scene));
-    this.updateTracker = new ShadowUpdateTracker();
-  }
-  update(context) {
-    if (!this.updateTracker.shouldApply(context)) return false;
-    this.applyUpdate(context);
-    return true;
-  }
-  applyUpdate({ state, ground, npc, worldMode }) {
-    const lava = state.level.startsWith("lava");
-    this.group.visible = true;
-    placeSunShadow(
-      this.player,
-      state.x - 0.55,
-      ground.heightAt(state.x, state.z) + 0.025,
-      state.z + 0.45,
-      state.facing
-    );
-    this.updateNpcShadow({ lava, ground, npc });
-    this.updateHouseShadow({ lava, ground, worldMode });
-  }
-  updateNpcShadow({ lava, ground, npc }) {
-    this.npc.visible = !lava && npc?.group?.visible !== false;
-    if (!this.npc.visible) return;
-    placeSunShadow(
-      this.npc,
-      npc.x - 0.45,
-      ground.heightAt(npc.x, npc.z) + 0.026,
-      npc.z + 0.35,
-      0
-    );
-  }
-  updateHouseShadow({ lava, ground, worldMode }) {
-    this.house.visible = !lava && worldMode?.mode === "eretz";
-    if (!this.house.visible) return;
-    placeSunShadow(
-      this.house,
-      16.8,
-      ground.heightAt(16.8, -19.2) + 0.028,
-      -18.7,
-      -0.16
-    );
-  }
-  stats() {
-    return {
-      player: this.player.visible,
-      npc: this.npc.visible,
-      house: this.house.visible,
-      updates: { ...this.updateTracker.stats },
-      method: "flat projected transparent meshes along sun direction"
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/WorldModeManager.js
-var WorldModeManager = class {
-  constructor({
-    state,
-    ground,
-    mover,
-    eretzCollision,
-    mainGroup,
-    lava,
-    mainObjects = [],
-    footOffset = 0
-  } = {}) {
-    this.state = state;
-    this.ground = ground;
-    this.mover = mover;
-    this.eretzCollision = eretzCollision;
-    this.mainGroup = mainGroup;
-    this.lava = lava;
-    this.mainObjects = mainObjects;
-    this.footOffset = footOffset;
-    this.mode = "eretz";
-    this.mainHeightAt = null;
-  }
-  /** Remembers the Eretz terrain-height function used after lava restoration. */
-  rememberMainHeight(heightAt2) {
-    if (typeof heightAt2 !== "function") {
-      throw new TypeError("Eretz height function must be callable.");
-    }
-    this.mainHeightAt = heightAt2;
-    return this;
-  }
-  /** Conceals Eretz and activates the isolated lava collision world. */
-  enterLava() {
-    if (this.mode === "lava") {
-      return false;
-    }
-    this.mode = "lava";
-    this.setMainVisibility(false);
-    this.ground.terrainHeightAt = (x, z) => this.lava.heightAt(x, z);
-    this.ground.octree = this.lava.octree;
-    this.lava.enter(
-      this.state,
-      this.ground,
-      this.mover,
-      this.footOffset
-    );
-    return true;
-  }
-  /** Restores Eretz scenery, terrain sampling, and the active collision facade. */
-  returnEretz() {
-    if (this.mode !== "lava") {
-      return false;
-    }
-    if (typeof this.mainHeightAt !== "function") {
-      throw new Error("Eretz height function was not remembered before restoration.");
-    }
-    this.mode = "eretz";
-    this.setMainVisibility(true);
-    this.ground.terrainHeightAt = this.mainHeightAt;
-    this.ground.octree = this.eretzCollision;
-    this.lava.leave(
-      this.state,
-      this.ground,
-      this.mover,
-      this.eretzCollision,
-      this.footOffset
-    );
-    return true;
-  }
-  /** Returns compact deterministic world-mode evidence. */
-  stats() {
-    return Object.freeze({
-      mode: this.mode,
-      mainVisible: this.mainGroup.visible,
-      lavaVisible: this.lava.group.visible,
-      eretzCollisionRestored: this.ground.octree === this.eretzCollision
-    });
-  }
-  setMainVisibility(visible) {
-    this.mainGroup.visible = visible;
-    for (const object of this.mainObjects) {
-      object.visible = visible;
-    }
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseBounds.js
-function pointInsideHouse(house2, point3, margin = 0.45) {
-  if (!house2 || !point3) {
-    return false;
-  }
-  const local = worldPointToHouse(house2, point3.x, point3.z);
-  const insideFloorPlan = Math.abs(local.x) <= house2.width / 2 + margin && Math.abs(local.z) <= house2.depth / 2 + margin;
-  const y = Number(point3.renderY ?? point3.y ?? house2.floorY);
-  const minimumY = house2.floorY - 1;
-  const maximumY = house2.floorY + house2.wallHeight + 2;
-  return insideFloorPlan && y >= minimumY && y <= maximumY;
-}
-function worldPointToHouse(house2, x, z) {
-  const dx = Number(x) - house2.x;
-  const dz = Number(z) - house2.z;
-  const cosine = Math.cos(house2.yaw || 0);
-  const sine = Math.sin(house2.yaw || 0);
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredActorPlaceholders.js
+function createDeferredActorSystems() {
+  const npc = createNpcPlaceholder();
   return {
-    x: dx * cosine + dz * sine,
-    z: -dx * sine + dz * cosine
+    doors: [],
+    friendlyNpcs: population("friendly", npc),
+    horses: animatedFamily("horses"),
+    hostileNpcs: hostilePopulation(),
+    houseVisibility: visibilityPlaceholder(),
+    lava: lavaPlaceholder(),
+    npc,
+    shadows: shadowPlaceholder(),
+    targetCoordinator: { destroy() {
+    }, streaming: true },
+    worldMode: worldModePlaceholder()
   };
 }
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseInteriorActivity.js
-function setHouseInteriorObjectActive(object, active) {
-  const next = Boolean(active);
-  object.visible = next;
-  object.userData ||= {};
-  object.userData.AwtsmoosInteriorRuntime = {
-    active: next,
-    animationHz: next ? 30 : 0,
-    audioActive: next,
-    lightActive: next,
-    suspended: !next
-  };
-  for (const handle of runtimeHandles(object)) {
-    applyRuntimeHandle(handle, next);
-  }
-}
-function houseInteriorObjectActive(object) {
-  return object?.userData?.AwtsmoosInteriorRuntime?.active !== false;
-}
-function runtimeHandles(object) {
-  const data = object?.userData || {};
-  return [
-    data.interiorRuntimeHandle,
-    data.animationHandle,
-    data.audioHandle,
-    data.lightHandle,
-    data.particleHandle
-  ].filter(Boolean);
-}
-function applyRuntimeHandle(handle, active) {
-  if (typeof handle.setActive === "function") {
-    handle.setActive(active);
-    return;
-  }
-  if (active && typeof handle.resume === "function") {
-    handle.resume();
-    return;
-  }
-  if (!active && typeof handle.pause === "function") {
-    handle.pause();
-  }
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseVisibilityIndex.js
-function createHouseVisibilityIndex(root) {
-  const objectsByHouse = /* @__PURE__ */ new Map();
-  walkHierarchy(root, (object) => {
-    const metadata = houseVisibilityMetadata(object);
-    if (!metadata || metadata.domain !== "interior") return;
-    if (!objectsByHouse.has(metadata.houseId)) {
-      objectsByHouse.set(metadata.houseId, []);
+function population(name, primary = null) {
+  return {
+    actors: [],
+    clearAll() {
+    },
+    destroy() {
+    },
+    group: namedGroup(`Awtsmoos_deferred_${name}`),
+    primary,
+    stats: () => ({ actors: 0, status: "streaming" }),
+    update() {
     }
-    objectsByHouse.get(metadata.houseId).push(object);
+  };
+}
+function hostilePopulation() {
+  return {
+    ...population("hostiles"),
+    diagnostics: () => ({ active: 0, actors: [], status: "streaming" }),
+    selected: null
+  };
+}
+function animatedFamily(name) {
+  return {
+    group: namedGroup(`Awtsmoos_deferred_${name}`),
+    stats: () => ({ count: 0, status: "streaming" }),
+    update() {
+    }
+  };
+}
+function createNpcPlaceholder() {
+  return {
+    clear() {
+    },
+    dialogue() {
+    },
+    group: namedGroup("Awtsmoos_deferred_primary_npc"),
+    profile: { id: "streaming-primary-npc" },
+    selected: false,
+    target() {
+    },
+    update() {
+    },
+    x: 0,
+    z: 0
+  };
+}
+function lavaPlaceholder() {
+  return {
+    active: false,
+    group: namedGroup("Awtsmoos_deferred_lava"),
+    stats: () => ({ active: false, status: "streaming" }),
+    update() {
+    }
+  };
+}
+function shadowPlaceholder() {
+  return {
+    stats: () => ({ method: "streaming", player: false }),
+    update() {
+    }
+  };
+}
+function visibilityPlaceholder() {
+  return {
+    stats: () => ({ status: "streaming", updates: 0 }),
+    update() {
+    }
+  };
+}
+function worldModePlaceholder() {
+  return {
+    enterLava: () => false,
+    mode: "eretz",
+    returnEretz: () => false,
+    stats: () => ({ mode: "eretz", status: "streaming" })
+  };
+}
+function namedGroup(name) {
+  const group = new Group();
+  group.name = name;
+  group.visible = false;
+  return group;
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js
+function alignModelFeetToGround(model, groundY = 0) {
+  model.updateWorldMatrix?.();
+  const minY = findMinWorldY(model);
+  if (!Number.isFinite(minY)) return { minY: null, offset: 0 };
+  const offset = groundY - minY;
+  model.position.y += offset;
+  model.setBaseTransform?.();
+  return { minY, offset };
+}
+function findMinWorldY(root) {
+  let minY = Infinity;
+  root.traverse((object) => {
+    const position = object.geometry?.attributes?.position;
+    const matrix = object.matrixWorld;
+    if (!position || !matrix) return;
+    const array = position.array;
+    for (let i = 0; i < array.length; i += 3) {
+      const y = matrix[1] * array[i] + matrix[5] * array[i + 1] + matrix[9] * array[i + 2] + matrix[13];
+      if (y < minY) minY = y;
+    }
   });
-  return new HouseVisibilityIndex(objectsByHouse);
-}
-var HouseVisibilityIndex = class {
-  constructor(objectsByHouse = /* @__PURE__ */ new Map()) {
-    this.objectsByHouse = objectsByHouse;
-    this.visibleByHouse = /* @__PURE__ */ new Map();
-  }
-  setVisible(houseId, visible) {
-    const next = Boolean(visible);
-    if (this.visibleByHouse.get(houseId) === next) return false;
-    for (const object of this.objectsByHouse.get(houseId) || []) {
-      setHouseInteriorObjectActive(object, next);
-    }
-    this.visibleByHouse.set(houseId, next);
-    return true;
-  }
-  meshes(houseId) {
-    return [...this.objectsByHouse.get(houseId) || []];
-  }
-  stats() {
-    const objects = [...this.objectsByHouse.values()].flat();
-    const activeObjects = objects.filter(houseInteriorObjectActive).length;
-    return {
-      activeObjects,
-      hiddenMeshes: objects.length - activeObjects,
-      houses: this.objectsByHouse.size,
-      suspendedObjects: objects.length - activeObjects,
-      totalMeshes: objects.length,
-      visibleMeshes: activeObjects
-    };
-  }
-};
-function walkHierarchy(object, visitor) {
-  if (!object) return;
-  visitor(object);
-  for (const child of object.children || []) {
-    walkHierarchy(child, visitor);
-  }
+  return minY;
 }
 
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseVisibilitySystem.js
-var HouseVisibilitySystem = class {
-  constructor({ root, houses = [], doors = [] } = {}) {
-    this.houses = [...houses];
-    this.doors = [...doors];
-    this.index = createHouseVisibilityIndex(root);
-    this.states = /* @__PURE__ */ new Map();
-    this.updateCount = 0;
-  }
-  /** Updates only houses whose inside-or-door state actually changed. */
-  update(playerState) {
-    let changed = 0;
-    for (const house2 of this.houses) {
-      const inside = pointInsideHouse(house2, playerState);
-      const doorActive = frontDoorActive(this.doors, house2.id);
-      const visible = inside || doorActive;
-      if (this.index.setVisible(house2.id, visible)) {
-        changed += 1;
-      }
-      this.states.set(house2.id, { inside, doorActive, visible });
-    }
-    this.updateCount += 1;
-    return changed;
-  }
-  /** Returns detached evidence suitable for diagnostics and browser tests. */
-  stats() {
-    const visibleHouses = [...this.states.values()].filter((state) => state.visible).length;
-    return {
-      ...this.index.stats(),
-      visibleHouses,
-      hiddenHouses: this.houses.length - visibleHouses,
-      updates: this.updateCount,
-      states: Object.fromEntries(this.states)
-    };
-  }
-};
-function createHouseVisibilitySystem(options, playerState) {
-  const system = new HouseVisibilitySystem(options);
-  system.update(playerState);
-  return system;
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerModel.js
+function createPlayerModel(playerGltf, scene) {
+  const model = playerGltf.scene;
+  model.name = "Awtsmoos_visible_player_isolated_chossid";
+  model.visible = true;
+  model.scale.set(1.52, 1.52, 1.52);
+  model.position.set(0, 0, 4);
+  model.setBaseTransform();
+  scene.add(model);
+  const feet = alignModelFeetToGround(model, 0);
+  const footOffset = model.position.y;
+  const player = new TinyAnimationPlayer(model, playerGltf.animations || []);
+  const clips = createClipMap(playerGltf.animations || []);
+  const defaultClip = clips.stand || player.names[0] || "";
+  if (defaultClip) player.play(defaultClip);
+  model.userData.AwtsmoosCanonicalPlayer = playerEvidence(playerGltf, player, defaultClip);
+  return { clips, defaultClip, feet, footOffset, model, player };
 }
-function frontDoorActive(doors, houseId) {
-  const entryDoor = doors.find((door) => doorHouseId(door) === houseId && door?.def?.id === `${houseId}-front-door`);
-  return entryDoor ? entryDoor.state !== "closed" : false;
+function createEquipment(model) {
+  const materials = /* @__PURE__ */ new Set();
+  const meshes = [];
+  const visible = {};
+  model.traverse((object) => {
+    if (!object.isMesh && !object.isSkinnedMesh) return;
+    const material = object.material?.name || "material";
+    materials.add(material);
+    visible[material] = object.visible !== false;
+    meshes.push({ name: object.name, material, object });
+  });
+  return { materials: [...materials], meshes, visible };
 }
-function doorHouseId(door) {
-  return door?.def?.frame?.houseId || door?.def?.userData?.AwtsmoosDoorFrame?.houseId || null;
+function placePlayerModel(model, state) {
+  model.position.set(state.x, state.renderY, state.z);
+  model.quaternion.set(0, Math.sin(state.facing / 2), 0, Math.cos(state.facing / 2));
+}
+function faceTarget(state) {
+  return { x: state.x, y: state.renderY + state.faceHeight, z: state.z };
+}
+function createClipMap(animations) {
+  const clips = animations.map((clip) => ({ duration: Number(clip.duration || 0), name: clip.name || "" }));
+  const names = clips.map((clip) => clip.name);
+  const animated = (expression) => clips.find((clip) => expression.test(clip.name) && clip.duration > 0)?.name;
+  const named = (expression) => names.find((name) => expression.test(name));
+  const stand = animated(/^stand_Armature$/i) || animated(/^stand 2_Armature$/i) || animated(/stand|idle/i) || named(/neutral/i) || names[0] || "";
+  const walk = animated(/walk|step|stroll/i) || stand;
+  const run = animated(/run|jog/i) || walk;
+  const jump = animated(/jump|leap/i) || stand;
+  return { fall: animated(/fall|air|drop/i) || jump, jump, run, stand, walk };
+}
+function playerEvidence(gltf, player, defaultClip) {
+  const fallback = gltf.scene?.userData?.isolatedModelLoad?.fallback === true;
+  return {
+    animationCount: player.names.length,
+    defaultClip,
+    modelSource: fallback ? "local-procedural-chossid-silhouette" : "chossid.glb",
+    measuredAnimatedIdle: defaultClip === "stand_Armature",
+    optionalAnimationsDeferred: fallback
+  };
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/collision/CapsuleTriangle.js
@@ -7691,3772 +7347,6 @@ var JumpPhysics = class {
   }
 };
 
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCollisionGeometry.js
-function rayObb(ray, box4) {
-  const direction = normalize(ray.dir);
-  let minimum = 0.05;
-  let maximum = 80;
-  for (const [axis, half] of axes(box4)) {
-    const offset = dot(axis, sub(box4.center, ray.origin));
-    const projected = dot(direction, axis);
-    if (Math.abs(projected) < 1e-5) {
-      if (-offset - half > 0 || -offset + half < 0) {
-        return null;
-      }
-      continue;
-    }
-    let near = (offset - half) / projected;
-    let far = (offset + half) / projected;
-    if (near > far) {
-      [near, far] = [far, near];
-    }
-    minimum = Math.max(minimum, near);
-    maximum = Math.min(maximum, far);
-    if (minimum > maximum) {
-      return null;
-    }
-  }
-  return { t: minimum };
-}
-function colorArray(hex = "#6b3d1e") {
-  const value3 = parseInt(String(hex).replace("#", ""), 16);
-  return [
-    (value3 >> 16 & 255) / 255,
-    (value3 >> 8 & 255) / 255,
-    (value3 & 255) / 255,
-    1
-  ];
-}
-function axes(box4) {
-  return [
-    [box4.right, box4.half.x],
-    [box4.up, box4.half.y],
-    [box4.forward, box4.half.z]
-  ];
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorDebugEvidence.js
-function createDoorDebugEvidence(door) {
-  const actualMatrix = Array.from(door.refreshWorldMatrix());
-  const expectedMatrix = door.pose.matrix;
-  const actualBasis = matrixBasis(actualMatrix);
-  const wall = door.def.frame.basis;
-  return {
-    id: door.def.id,
-    state: door.state,
-    progress: door.t,
-    currentAngle: door.pose.angle,
-    worldMatrix: actualMatrix,
-    colliderWorldMatrix: expectedMatrix,
-    matrixDelta: matrixMaximumDelta(actualMatrix, expectedMatrix),
-    panelTangentAngleToWall: vectorAngle(actualBasis.tangent, wall.right),
-    panelNormalAngleToWall: vectorAngle(actualBasis.normal, wall.outward),
-    frame: door.def.frame,
-    obb: door.obb(),
-    interaction: door.interaction.debug()
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorProjectionGeometry.js
-function pointerRay(event, camera, canvas, targetHint) {
-  const rectangle = canvas.getBoundingClientRect();
-  const x = (event.clientX - rectangle.left) / rectangle.width * 2 - 1;
-  const y = 1 - (event.clientY - rectangle.top) / rectangle.height * 2;
-  const basis = cameraBasis(camera, targetHint);
-  const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
-  const direction = add(
-    add(basis.forward, scale(basis.right, x * tangent * (camera.aspect || 1))),
-    scale(basis.up, y * tangent)
-  );
-  return { origin: basis.origin, dir: normalize(direction) };
-}
-function screenBox(box4, camera, canvas, targetHint, padding) {
-  const points = boxCorners(box4).map((point3) => project(point3, camera, canvas, targetHint)).filter(Boolean);
-  if (points.length < 2) {
-    return null;
-  }
-  return {
-    x0: Math.min(...points.map((point3) => point3.x)) - padding,
-    x1: Math.max(...points.map((point3) => point3.x)) + padding,
-    y0: Math.min(...points.map((point3) => point3.y)) - padding,
-    y1: Math.max(...points.map((point3) => point3.y)) + padding
-  };
-}
-function boxCorners(box4) {
-  const points = [];
-  for (const sideX of [-1, 1]) {
-    for (const sideY of [-1, 1]) {
-      for (const sideZ of [-1, 1]) {
-        const horizontal = add(box4.center, scale(box4.right, sideX * box4.half.x));
-        const vertical = add(horizontal, scale(box4.up, sideY * box4.half.y));
-        points.push(add(vertical, scale(box4.forward, sideZ * box4.half.z)));
-      }
-    }
-  }
-  return points;
-}
-function project(point3, camera, canvas, targetHint) {
-  const basis = cameraBasis(camera, targetHint);
-  const delta = sub(point3, basis.origin);
-  const depth = dot(delta, basis.forward);
-  if (depth <= 0.05) {
-    return null;
-  }
-  const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
-  const x = dot(delta, basis.right) / (depth * tangent * (camera.aspect || 1));
-  const y = dot(delta, basis.up) / (depth * tangent);
-  return {
-    x: (x + 1) * 0.5 * canvas.clientWidth,
-    y: (1 - y) * 0.5 * canvas.clientHeight
-  };
-}
-function cameraBasis(camera, targetHint) {
-  const origin = v(camera.position.x, camera.position.y, camera.position.z);
-  const forward = normalize(sub(targetOf(targetHint || camera.target), origin));
-  const right = normalize(cross(forward, v(0, 1, 0)));
-  return { origin, forward, right, up: normalize(cross(right, forward)) };
-}
-function targetOf(target) {
-  if (Array.isArray(target)) {
-    return v(target[0] || 0, target[1] || 0, target[2] || 0);
-  }
-  return v(target?.x || 0, target?.y || 0, target?.z || 0);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionController.js
-var DEFAULT_INTERACTION_DISTANCE = 4.5;
-var DoorInteractionController = class {
-  constructor(door) {
-    this.door = door;
-    this.context = {};
-    this.canvas = null;
-    this.camera = null;
-    this.hoverFrame = null;
-    this.pendingPointerEvent = null;
-    this.lastHitMode = "none";
-    this.lastScreenBox = null;
-    this.lastHit = null;
-    this.onPointerMove = (event) => this.queueHover(event);
-    this.onPointerDown = (event) => this.handle(event, true);
-  }
-  setContext(context = {}) {
-    this.context = context;
-    return this;
-  }
-  install(canvas, camera) {
-    this.uninstall();
-    this.canvas = canvas;
-    this.camera = camera;
-    canvas.addEventListener("pointermove", this.onPointerMove, { passive: true });
-    canvas.addEventListener("pointerdown", this.onPointerDown);
-    return this;
-  }
-  uninstall() {
-    if (this.canvas) {
-      this.canvas.removeEventListener("pointermove", this.onPointerMove);
-      this.canvas.removeEventListener("pointerdown", this.onPointerDown);
-      this.restoreCursor();
-    }
-    if (this.hoverFrame != null) {
-      cancelAnimationFrame(this.hoverFrame);
-    }
-    this.hoverFrame = null;
-    this.pendingPointerEvent = null;
-    this.canvas = null;
-    this.camera = null;
-  }
-  queueHover(event) {
-    if (event.pointerType !== "mouse") {
-      return;
-    }
-    this.pendingPointerEvent = event;
-    if (this.hoverFrame != null) {
-      return;
-    }
-    this.hoverFrame = requestAnimationFrame(() => {
-      this.hoverFrame = null;
-      const pointerEvent = this.pendingPointerEvent;
-      this.pendingPointerEvent = null;
-      if (pointerEvent) {
-        this.handle(pointerEvent, false);
-      }
-    });
-  }
-  handle(event, click) {
-    const found = this.hit(event, this.camera);
-    this.door.setHover(found && event.pointerType === "mouse");
-    this.updateCursor(found);
-    this.publishPrompt(found);
-    if (!click || !found) {
-      return false;
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation?.();
-    this.door.toggle("pointer");
-    return true;
-  }
-  hit(event, camera) {
-    this.resetEvidence();
-    if (!this.door.clickable() || !this.withinInteractionDistance()) {
-      return false;
-    }
-    const canvas = event.currentTarget || this.canvas || this.context.canvas;
-    if (!canvas || !camera) {
-      return false;
-    }
-    const ray = pointerRay(event, camera, canvas, this.context.getCameraTarget?.());
-    const rayHit = rayObb(ray, this.door.obb());
-    if (rayHit) {
-      this.lastHitMode = "ray-current-pose";
-      this.lastHit = {
-        distance: rayHit.t,
-        state: this.door.state
-      };
-      return true;
-    }
-    const padding = this.door.state === "open" ? 20 : 8;
-    const box4 = screenBox(
-      this.door.obb(),
-      camera,
-      canvas,
-      this.context.getCameraTarget?.(),
-      padding
-    );
-    this.lastScreenBox = box4;
-    const inside = Boolean(box4) && event.clientX >= box4.x0 && event.clientX <= box4.x1 && event.clientY >= box4.y0 && event.clientY <= box4.y1;
-    if (inside) {
-      this.lastHitMode = "screen-current-pose";
-    }
-    return inside;
-  }
-  withinInteractionDistance() {
-    const player = this.context.getPlayerPosition?.();
-    if (!player) {
-      return true;
-    }
-    const center = this.door.obb().center;
-    const maximum = Number(
-      this.context.maxInteractionDistance || DEFAULT_INTERACTION_DISTANCE
-    );
-    return Math.hypot(center.x - player.x, center.y - player.y, center.z - player.z) <= maximum;
-  }
-  updateCursor(found) {
-    if (!this.canvas) {
-      return;
-    }
-    this.canvas.style.cursor = found ? "pointer" : "";
-  }
-  restoreCursor() {
-    if (this.canvas) {
-      this.canvas.style.cursor = "";
-    }
-  }
-  publishPrompt(found) {
-    this.context.bus?.emit?.("door:prompt", {
-      doorId: this.door.def.id,
-      state: this.door.state,
-      visible: Boolean(found)
-    });
-  }
-  resetEvidence() {
-    this.lastHitMode = "none";
-    this.lastHit = null;
-    this.lastScreenBox = null;
-  }
-  debug() {
-    return {
-      hitMode: this.lastHitMode,
-      lastHit: this.lastHit,
-      screenBox: this.lastScreenBox
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorRuntimePose.js
-function closedYaw(definition) {
-  return definition.frame?.yaw ?? definition.closedYaw ?? definition.wallYaw ?? definition.yaw ?? 0;
-}
-function hingeWorld(definition) {
-  return definition.hinge?.worldPosition || doorHingeWorld(definition.frame || definition);
-}
-function currentAngle(definition, progress) {
-  if (progress <= 0) {
-    return 0;
-  }
-  const openAngle = definition.frame?.swing?.openAngle ?? definition.openAngle ?? -Math.PI * 0.58;
-  if (progress >= 1) {
-    return openAngle;
-  }
-  const eased = progress * progress * (3 - 2 * progress);
-  return openAngle * eased;
-}
-function doorPose(definition, progress = 0) {
-  const clamped = Math.max(0, Math.min(1, progress));
-  const angle = currentAngle(definition, clamped);
-  const yaw = closedYaw(definition) + angle;
-  if (clamped === 0 && definition.frame?.closedWorldMatrix) {
-    return {
-      progress: 0,
-      angle: 0,
-      yaw: closedYaw(definition),
-      center: { ...definition.frame.panel.closedCenter },
-      matrix: [...definition.frame.closedWorldMatrix]
-    };
-  }
-  const hinge = hingeWorld(definition);
-  const hingeSign = Math.sign(definition.frame?.hinge?.localX || -1);
-  const centerOffset = -hingeSign * definition.width / 2;
-  const center = {
-    x: hinge.x + Math.cos(yaw) * centerOffset,
-    y: definition.centerY,
-    z: hinge.z + Math.sin(yaw) * centerOffset
-  };
-  return {
-    progress: clamped,
-    angle,
-    yaw,
-    center,
-    matrix: worldMatrixFromYaw(center, yaw)
-  };
-}
-function orientedBox(definition, progress) {
-  const pose = doorPose(definition, progress);
-  return {
-    center: pose.center,
-    right: v(Math.cos(pose.yaw), 0, Math.sin(pose.yaw)),
-    up: v(0, 1, 0),
-    forward: v(-Math.sin(pose.yaw), 0, Math.cos(pose.yaw)),
-    half: {
-      x: definition.width / 2,
-      y: definition.height / 2,
-      z: Math.max(definition.thickness / 2, 0.12)
-    }
-  };
-}
-function colliderDefinition(definition, progress = 0) {
-  const pose = doorPose(definition, progress);
-  return {
-    id: `${definition.id}-door`,
-    shape: "box",
-    solid: true,
-    walkable: false,
-    position: pose.center,
-    size: {
-      x: definition.width,
-      y: definition.height,
-      z: definition.thickness
-    },
-    rotation: { y: pose.yaw },
-    userData: {
-      AwtsmoosDoorPose: {
-        progress: pose.progress,
-        angle: pose.angle,
-        worldMatrix: pose.matrix
-      }
-    }
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorwaySpecs.js
-var TALL_DOORWAY_SPEC = Object.freeze({
-  id: "tall-doorway",
-  wallId: "tall-dynamic-doorway-wall",
-  doorId: "tall-hinged-door",
-  x: -5.5,
-  z: -20.6,
-  floorY: 0,
-  yaw: 0.04,
-  wallW: 8.7,
-  wallH: 4.2,
-  wallT: 0.72,
-  doorW: 2.75,
-  doorH: 3.08,
-  doorThickness: 0.24,
-  panelGap: 0.08,
-  openAngle: -Math.PI * 0.56
-});
-function tallDoorDef() {
-  return doorwaySet().door;
-}
-function doorwaySet() {
-  return createDoorWallSet(TALL_DOORWAY_SPEC, {
-    color: "#654538",
-    doorMaterial: { color: "#7d4827" }
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/DynamicDoor3D.js
-var DEFAULT_SPEED = 2.15;
-var DynamicDoor3D = class {
-  constructor(definition = tallDoorDef()) {
-    this.def = definition;
-    this.t = 0;
-    this.state = "closed";
-    this.hovered = false;
-    this.autoCloseRemaining = 0;
-    this.mesh = new Group();
-    this.mesh.name = `${definition.id}-panel-frame`;
-    this.panel = createPrimitiveMesh(panelDefinition(definition));
-    this.panel.name = `${definition.id}-dynamic-door`;
-    this.mesh.add(this.panel);
-    this.interaction = new DoorInteractionController(this);
-    this.setPose();
-    this.closedColliders = [...this.currentColliders];
-  }
-  setInteractionContext(context = {}) {
-    this.interaction.setContext(context);
-    return this;
-  }
-  install(canvas, camera) {
-    this.interaction.install(canvas, camera);
-    return this;
-  }
-  clickable() {
-    return this.state === "closed" || this.state === "open";
-  }
-  toggle(source = "unknown") {
-    if (this.state === "closed") {
-      return this.open(source);
-    }
-    if (this.state === "open") {
-      return this.close(source);
-    }
-    return false;
-  }
-  open(source = "unknown") {
-    if (this.state === "open" || this.state === "opening") {
-      return false;
-    }
-    this.setState("opening", source);
-    return true;
-  }
-  close(source = "unknown") {
-    if (this.state === "closed" || this.state === "closing") {
-      return false;
-    }
-    this.setState("closing", source);
-    return true;
-  }
-  update(deltaTime) {
-    if (this.state === "open" && this.autoCloseRemaining > 0) {
-      this.autoCloseRemaining = Math.max(0, this.autoCloseRemaining - deltaTime);
-      if (this.autoCloseRemaining === 0) {
-        this.close("auto-close");
-      }
-    }
-    const direction = motionDirection(this.state);
-    if (direction === 0) {
-      return;
-    }
-    const previousProgress = this.t;
-    const speed = finitePositive(this.def.openSpeed, DEFAULT_SPEED);
-    this.t = clamp01(previousProgress + direction * deltaTime * speed);
-    if (this.t >= 1) {
-      this.t = 1;
-      this.setState("open", "motion-complete");
-      this.autoCloseRemaining = finitePositive(this.def.autoCloseSeconds, 0);
-    } else if (this.t <= 0) {
-      this.t = 0;
-      this.setState("closed", "motion-complete");
-    }
-    if (this.t !== previousProgress) {
-      this.setPose();
-    }
-  }
-  activeColliders() {
-    return this.currentColliders;
-  }
-  setHover(enabled) {
-    const next = Boolean(enabled);
-    if (next === this.hovered) {
-      return;
-    }
-    this.hovered = next;
-    this.panel.material.color = next ? [1, 0.78, 0.26, 1] : colorArray(this.def.color);
-  }
-  setState(nextState, source) {
-    if (nextState === this.state) {
-      return;
-    }
-    const previousState = this.state;
-    this.state = nextState;
-    this.interaction.context.bus?.emit?.("door:state", {
-      doorId: this.def.id,
-      previousState,
-      source,
-      state: nextState
-    });
-  }
-  setPose() {
-    this.pose = doorPose(this.def, easedProgress(this.t));
-    this.mesh.matrix = new Float32Array(this.pose.matrix);
-    this.mesh.position.set(0, 0, 0);
-    this.mesh.quaternion.set(0, 0, 0, 1);
-    this.currentColliders = primitiveColliders(
-      colliderDefinition(this.def, easedProgress(this.t))
-    );
-    this.refreshWorldMatrix();
-  }
-  refreshWorldMatrix() {
-    const parentMatrix = this.mesh.parent?.matrixWorld;
-    this.mesh.updateWorldMatrix(parentMatrix);
-    return this.mesh.matrixWorld;
-  }
-  obb() {
-    return orientedBox(this.def, easedProgress(this.t));
-  }
-  debug() {
-    return {
-      ...createDoorDebugEvidence(this),
-      autoCloseRemaining: this.autoCloseRemaining,
-      hovered: this.hovered
-    };
-  }
-  destroy() {
-    this.interaction.uninstall();
-    this.mesh.parent?.remove(this.mesh);
-  }
-};
-function motionDirection(state) {
-  if (state === "opening") {
-    return 1;
-  }
-  if (state === "closing") {
-    return -1;
-  }
-  return 0;
-}
-function easedProgress(value3) {
-  const progress = clamp01(value3);
-  return progress * progress * (3 - 2 * progress);
-}
-function clamp01(value3) {
-  return Math.max(0, Math.min(1, Number(value3) || 0));
-}
-function finitePositive(value3, fallback) {
-  const number = Number(value3);
-  return Number.isFinite(number) && number > 0 ? number : fallback;
-}
-function panelDefinition(definition) {
-  return {
-    color: definition.color || "#6b3d1e",
-    id: `${definition.id}-panel`,
-    mapImage: definition.mapImage || null,
-    mapRepeat: definition.mapRepeat || [1, 1],
-    position: { x: 0, y: 0, z: 0 },
-    rotation: { y: 0 },
-    shape: "box",
-    size: {
-      x: definition.width,
-      y: definition.height,
-      z: definition.thickness
-    },
-    textureUrl: definition.textureUrl || null
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyAdventureEvent.js
-function enemyDefeatAdventureEvent(payload) {
-  if (!payload?.creatureType) return null;
-  return {
-    count: 1,
-    instanceId: payload.id,
-    target: payload.creatureType,
-    type: "defeat"
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStates.js
-var ENEMY_STATE = Object.freeze({
-  ALERT: "Alert",
-  APPROACH: "Approach",
-  ATTACK_ACTIVE: "AttackActive",
-  ATTACK_ANTICIPATION: "AttackAnticipation",
-  ATTACK_RECOVERY: "AttackRecovery",
-  CHASE: "Chase",
-  CIRCLE: "Circle",
-  DEFEATED: "Defeated",
-  DESPAWN: "Despawn",
-  DORMANT: "Dormant",
-  HIT_REACTION: "HitReaction",
-  IDLE: "Idle",
-  INVESTIGATE: "Investigate",
-  PATROL: "Patrol",
-  RESPAWN_COOLDOWN: "RespawnCooldown",
-  RETREAT: "Retreat",
-  RETURN_HOME: "ReturnHome",
-  SPAWN: "Spawn",
-  STAGGER: "Stagger",
-  WANDER: "Wander"
-});
-var URGENT_STATES = /* @__PURE__ */ new Set([
-  ENEMY_STATE.ALERT,
-  ENEMY_STATE.APPROACH,
-  ENEMY_STATE.ATTACK_ACTIVE,
-  ENEMY_STATE.ATTACK_ANTICIPATION,
-  ENEMY_STATE.ATTACK_RECOVERY,
-  ENEMY_STATE.CHASE,
-  ENEMY_STATE.CIRCLE,
-  ENEMY_STATE.HIT_REACTION,
-  ENEMY_STATE.RETREAT,
-  ENEMY_STATE.RETURN_HOME,
-  ENEMY_STATE.STAGGER
-]);
-function enemyStateIsUrgent(state) {
-  return URGENT_STATES.has(state);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js
-function createCombatDamageEvent(options, timestamp = Date.now()) {
-  return Object.freeze({
-    abilityId: options.abilityId || null,
-    amount: Math.max(0, Number(options.amount) || 0),
-    blocked: Boolean(options.blocked),
-    critical: Boolean(options.critical),
-    damageType: options.damageType || "symbolic-light",
-    hitDirection: vector(options.hitDirection),
-    perfectWard: Boolean(options.perfectWard),
-    sourceId: String(options.sourceId || "unknown-source"),
-    staggerAmount: Math.max(0, Number(options.staggerAmount) || 0),
-    statusEffects: Object.freeze([...options.statusEffects || []]),
-    targetId: String(options.targetId || "unknown-target"),
-    timestamp,
-    worldPosition: vector(options.worldPosition)
-  });
-}
-function vector(value3 = {}) {
-  return Object.freeze({
-    x: Number(value3.x) || 0,
-    y: Number(value3.y) || 0,
-    z: Number(value3.z) || 0
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/PlayerCombatDefense.js
-var PlayerCombatDefense = class {
-  constructor() {
-    this.perfectWardUntil = 0;
-    this.protectionUntil = 0;
-    this.wardUntil = 0;
-  }
-  activateWard(nowSeconds, options = {}) {
-    this.perfectWardUntil = nowSeconds + (options.perfectSeconds || 0.22);
-    this.wardUntil = nowSeconds + (options.wardSeconds || 0.9);
-  }
-  activateProtection(nowSeconds, seconds = 5) {
-    this.protectionUntil = Math.max(this.protectionUntil, nowSeconds + seconds);
-  }
-  resolveIncoming(event, nowSeconds) {
-    const perfectWard = nowSeconds <= this.perfectWardUntil;
-    const warded = nowSeconds <= this.wardUntil;
-    const protectedValue = nowSeconds <= this.protectionUntil;
-    const multiplier = perfectWard ? 0 : warded ? 0.3 : protectedValue ? 0.65 : 1;
-    return createCombatDamageEvent({
-      ...event,
-      amount: event.amount * multiplier,
-      blocked: multiplier < 1,
-      perfectWard,
-      staggerAmount: perfectWard ? 0 : event.staggerAmount
-    }, event.timestamp);
-  }
-  snapshot(nowSeconds) {
-    return {
-      perfectWard: nowSeconds <= this.perfectWardUntil,
-      protected: nowSeconds <= this.protectionUntil,
-      warded: nowSeconds <= this.wardUntil
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahAbilityRules.js
-var ABILITIES = Object.freeze({
-  awareness: ability("Gemara Chain", "chain", 3, 14, 0, ["clarity"]),
-  choice: ability("Tzedakah Burst", "single", 1, 12, 18, ["armor-open", "protection"]),
-  courage: ability("Mishnah Pulse", "area", 8, 7, 24, ["push"]),
-  gratitude: ability("Alef-Beis Spark", "single", 1, 12, 12, ["stagger-light"]),
-  joy: ability("Mitzvah Radiance", "area", 8, 9, 30, ["radiance"]),
-  light: ability("Mitzvah Radiance", "area", 8, 9, 30, ["radiance"]),
-  peace: ability("Tehillim Ward", "ward", 0, 0, 0, ["ward"]),
-  unity: ability("Gemara Chain", "chain", 3, 14, 8, ["unity-chain"]),
-  water: ability("Niggun Resonance", "area", 6, 8, 14, ["slow"])
-});
-function torahAbilityFor(passage2) {
-  const base = ABILITIES[passage2.aspect] || ABILITIES.gratitude;
-  return Object.freeze({
-    ...base,
-    damage: passage2.damage,
-    id: passage2.id,
-    passageName: passage2.name
-  });
-}
-function ability(name, targetMode, maximumTargets, range, stagger, statusEffects) {
-  return Object.freeze({ maximumTargets, name, range, stagger, statusEffects, targetMode });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js
-var TORAH_BOOKS = Object.freeze([
-  book("siddur", "Siddur", "\u{1F4D6}", [
-    passage("modeh-ani", "Grateful Awakening", "Gratitude awakens the soul.", 12, 8, 700, "gratitude"),
-    passage("shema-unity", "Unity of the Shema", "Everything rests within one Source.", 18, 12, 900, "unity"),
-    passage("peace-prayer", "Prayer for Peace", "Peace joins divided sparks.", 10, 16, 650, "peace")
-  ]),
-  book("chumash-light", "Chumash of Light", "\u{1F4DA}", [
-    passage("creation-light", "Light of Creation", "Light is called into darkness.", 24, 9, 1100, "light"),
-    passage("guardian-path", "The Guarded Path", "Courage walks beside responsibility.", 20, 14, 1e3, "courage"),
-    passage("living-water", "Living Water", "Wisdom flows toward thirsty ground.", 16, 18, 900, "water")
-  ]),
-  book("tanya-pocket", "Pocket Tanya", "\u{1F4D5}", [
-    passage("two-souls", "Two Souls", "Choice can redirect inner struggle.", 22, 15, 1050, "choice"),
-    passage("small-city", "The Small City", "Awareness governs the inner city.", 19, 20, 950, "awareness"),
-    passage("joy-breaks-barriers", "Joy Breaks Barriers", "Holy joy opens a blocked road.", 28, 10, 1250, "joy")
-  ])
-]);
-function torahBook(bookId) {
-  return TORAH_BOOKS.find((item2) => item2.id === bookId) || null;
-}
-function torahPassage(passageId) {
-  for (const bookValue of TORAH_BOOKS) {
-    const found = bookValue.passages.find((item2) => item2.id === passageId);
-    if (found) return { ...found, bookId: bookValue.id, bookName: bookValue.name };
-  }
-  return null;
-}
-function book(id, name, icon, passages) {
-  return Object.freeze({ icon, id, name, passages: Object.freeze(passages) });
-}
-function passage(id, name, text3, damage, focusCost, cooldownMs, aspect) {
-  return Object.freeze({
-    aspect,
-    cooldownMs,
-    damage,
-    focusCost,
-    id,
-    name,
-    text: text3
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/HostileActorSpatialIndex.js
-var HostileActorSpatialIndex = class {
-  constructor(cellSize = 12) {
-    this.cellSize = Math.max(1, cellSize);
-    this.actorsById = /* @__PURE__ */ new Map();
-    this.cells = /* @__PURE__ */ new Map();
-    this.memberships = /* @__PURE__ */ new Map();
-    this.lookupCount = 0;
-    this.queryCount = 0;
-    this.lastQuery = emptyQuery();
-  }
-  replace(actors = []) {
-    this.clear();
-    for (const actor of actors) this.update(actor);
-  }
-  update(actor) {
-    const id = actorId(actor);
-    const position = actor?.group?.position;
-    if (!id || !Number.isFinite(position?.x) || !Number.isFinite(position?.z)) return false;
-    const cellX = Math.floor(position.x / this.cellSize);
-    const cellZ = Math.floor(position.z / this.cellSize);
-    const previous = this.memberships.get(id);
-    this.actorsById.set(id, actor);
-    if (previous?.cellX === cellX && previous?.cellZ === cellZ) return true;
-    if (previous) this.removeFromCell(previous.cellX, previous.cellZ, id);
-    this.cell(cellX, cellZ, true).set(id, actor);
-    this.memberships.set(id, { cellX, cellZ });
-    return true;
-  }
-  remove(actorOrId) {
-    const id = actorId(actorOrId);
-    const membership = this.memberships.get(id);
-    if (!membership) return false;
-    this.removeFromCell(membership.cellX, membership.cellZ, id);
-    this.memberships.delete(id);
-    this.actorsById.delete(id);
-    return true;
-  }
-  resolve(actorOrId) {
-    this.lookupCount += 1;
-    return this.actorsById.get(actorId(actorOrId)) || null;
-  }
-  queryRadius(center, radius) {
-    const safeRadius = Math.max(0, Number(radius) || 0);
-    const minimumX = Math.floor((center.x - safeRadius) / this.cellSize);
-    const maximumX = Math.floor((center.x + safeRadius) / this.cellSize);
-    const minimumZ = Math.floor((center.z - safeRadius) / this.cellSize);
-    const maximumZ = Math.floor((center.z + safeRadius) / this.cellSize);
-    const actors = [];
-    let visitedCells = 0;
-    let candidateCount = 0;
-    for (let cellX = minimumX; cellX <= maximumX; cellX += 1) {
-      for (let cellZ = minimumZ; cellZ <= maximumZ; cellZ += 1) {
-        visitedCells += 1;
-        const bucket = this.cell(cellX, cellZ, false);
-        if (!bucket) continue;
-        candidateCount += bucket.size;
-        for (const actor of bucket.values()) actors.push(actor);
-      }
-    }
-    this.queryCount += 1;
-    this.lastQuery = { candidateCount, radius: safeRadius, visitedCells };
-    return actors;
-  }
-  diagnostics() {
-    return {
-      actorCount: this.actorsById.size,
-      cellCount: countCells(this.cells),
-      directLookups: this.lookupCount,
-      lastQuery: { ...this.lastQuery },
-      regionalQueries: this.queryCount
-    };
-  }
-  clear() {
-    this.actorsById.clear();
-    this.cells.clear();
-    this.memberships.clear();
-  }
-  cell(cellX, cellZ, create) {
-    let column = this.cells.get(cellX);
-    if (!column && create) this.cells.set(cellX, column = /* @__PURE__ */ new Map());
-    let bucket = column?.get(cellZ);
-    if (!bucket && create) column.set(cellZ, bucket = /* @__PURE__ */ new Map());
-    return bucket || null;
-  }
-  removeFromCell(cellX, cellZ, id) {
-    const column = this.cells.get(cellX);
-    const bucket = column?.get(cellZ);
-    bucket?.delete(id);
-    if (bucket?.size === 0) column.delete(cellZ);
-    if (column?.size === 0) this.cells.delete(cellX);
-  }
-};
-function actorId(actorOrId) {
-  return typeof actorOrId === "string" ? actorOrId : actorOrId?.profile?.id || "";
-}
-function countCells(columns) {
-  let count = 0;
-  for (const column of columns.values()) count += column.size;
-  return count;
-}
-function emptyQuery() {
-  return { candidateCount: 0, radius: 0, visitedCells: 0 };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTerrainPolicy.js
-var PROTECTED_ZONES = Object.freeze([
-  zone("arrival", CANONICAL_VILLAGE_PLAN.landmarks.entrance, 12),
-  zone("beis-chabad", CANONICAL_VILLAGE_PLAN.landmarks.beisChabad, 13),
-  zone("plaza", CANONICAL_VILLAGE_PLAN.landmarks.plaza, 12),
-  zone("shul", CANONICAL_VILLAGE_PLAN.landmarks.shul, 15)
-]);
-function enemyTerrainAllows(ground, x, z, profile3 = {}) {
-  if (insideProtectedZone(x, z)) return false;
-  if (insideLake(x, z) || insideRiver(x, z)) return false;
-  const sample2 = ground.sample?.(x, z) || {
-    height: ground.heightAt(x, z),
-    kind: "terrain",
-    normal: ground.terrainNormal?.(x, z)
-  };
-  const normalY = Number(sample2.normal?.y ?? 1);
-  const minimumNormalY = Number(profile3.minimumGroundNormalY || 0.72);
-  const kind = String(sample2.kind || "").toLowerCase();
-  return normalY >= minimumNormalY && !/(water|river|lake|lava)/.test(kind);
-}
-function resolveEnemyGroundStep(ground, current, proposed, profile3) {
-  for (const candidate of detourCandidates(current, proposed)) {
-    if (!enemyTerrainAllows(ground, candidate.x, candidate.z, profile3)) continue;
-    return { ...candidate, y: ground.heightAt(candidate.x, candidate.z) };
-  }
-  return { ...current, y: ground.heightAt(current.x, current.z) };
-}
-function insideProtectedZone(x, z) {
-  return PROTECTED_ZONES.some((value3) => distance(x, z, value3.x, value3.z) < value3.radius);
-}
-function insideLake(x, z) {
-  const lake = CANONICAL_VILLAGE_PLAN.landmarks.lake;
-  return ((x - lake.x) / lake.radiusX) ** 2 + ((z - lake.z) / lake.radiusZ) ** 2 < 1.12;
-}
-function insideRiver(x, z) {
-  const bridge = CANONICAL_VILLAGE_PLAN.landmarks.bridge;
-  if (distance(x, z, bridge.x, bridge.z) < 5.5) return false;
-  return CANONICAL_VILLAGE_PLAN.river.controlPoints.some(([riverX, riverZ]) => distance(x, z, riverX, riverZ) < 4.2);
-}
-function detourCandidates(current, proposed) {
-  return [
-    proposed,
-    { x: proposed.x, z: current.z },
-    { x: current.x, z: proposed.z }
-  ];
-}
-function distance(x, z, otherX, otherZ) {
-  return Math.hypot(x - otherX, z - otherZ);
-}
-function zone(id, point3, radius) {
-  return Object.freeze({ id, radius, x: point3.x, z: point3.z });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/VillageSanctuaryPolicy.js
-var EXCLUDED_DISTRICTS = /* @__PURE__ */ new Set(["waterfall-portal"]);
-var DISTRICT_MARGIN = 4;
-var SANCTUARIES = Object.freeze([
-  ...CANONICAL_VILLAGE_PLAN.districts.filter((district) => !EXCLUDED_DISTRICTS.has(district.id)).map((district) => ellipse(
-    district.id,
-    district.center[0],
-    district.center[1],
-    district.radius[0] + DISTRICT_MARGIN,
-    district.radius[1] + DISTRICT_MARGIN
-  )),
-  circle("bridge-crossing", CANONICAL_VILLAGE_PLAN.landmarks.bridge, 14),
-  circle("central-plaza", CANONICAL_VILLAGE_PLAN.landmarks.plaza, 14),
-  circle("village-well", CANONICAL_VILLAGE_PLAN.landmarks.well, 10)
-]);
-function villageSanctuaryAt(point3, padding = 0) {
-  if (!finitePoint(point3)) return null;
-  return SANCTUARIES.find((zone2) => insideEllipse(point3, zone2, padding)) || null;
-}
-function pointInsideVillageSanctuary(point3, padding = 0) {
-  return Boolean(villageSanctuaryAt(point3, padding));
-}
-function segmentEntersVillageSanctuary(from, to, sampleCount = 12) {
-  if (!finitePoint(from) || !finitePoint(to)) return true;
-  const count = Math.max(2, Math.min(32, Math.floor(sampleCount)));
-  for (let index = 1; index <= count; index += 1) {
-    const ratio3 = index / count;
-    const point3 = {
-      x: from.x + (to.x - from.x) * ratio3,
-      z: from.z + (to.z - from.z) * ratio3
-    };
-    if (pointInsideVillageSanctuary(point3)) return true;
-  }
-  return false;
-}
-function ellipse(id, x, z, radiusX, radiusZ) {
-  return Object.freeze({ id, radiusX, radiusZ, x, z });
-}
-function circle(id, marker2, radius) {
-  return ellipse(id, marker2.x, marker2.z, radius, radius);
-}
-function insideEllipse(point3, zone2, padding) {
-  const radiusX = Math.max(1e-3, zone2.radiusX + padding);
-  const radiusZ = Math.max(1e-3, zone2.radiusZ + padding);
-  const dx = (point3.x - zone2.x) / radiusX;
-  const dz = (point3.z - zone2.z) / radiusZ;
-  return dx * dx + dz * dz <= 1;
-}
-function finitePoint(point3) {
-  return Number.isFinite(point3?.x) && Number.isFinite(point3?.z);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTerritoryPolicy.js
-function evaluateEnemyMovement(options) {
-  const { candidate, from, ground, profile: profile3, purpose = "wander" } = options;
-  if (!finitePoint2(candidate) || !finitePoint2(from)) return denied("invalid-point");
-  const currentHomeDistance = planarDistance(from, profile3);
-  const candidateHomeDistance = planarDistance(candidate, profile3);
-  const retreatProgress = purpose === "return" && candidateHomeDistance < currentHomeDistance;
-  if (candidateHomeDistance > profile3.leashRange && !retreatProgress) {
-    return denied("outside-leash");
-  }
-  const fromInside = pointInsideVillageSanctuary(from);
-  const candidateInside = pointInsideVillageSanctuary(candidate);
-  if (fromInside && purpose === "return") {
-    if (!retreatProgress) return denied("sanctuary-exit-not-progressing");
-  } else if (candidateInside || segmentEntersVillageSanctuary(from, candidate)) {
-    return denied("village-sanctuary");
-  }
-  const normalY = terrainNormalY(ground, candidate);
-  const minimumNormalY = purpose === "return" ? 0.22 : Number(profile3.minimumGroundNormalY ?? 0.58);
-  if (normalY < minimumNormalY) return denied("slope-too-steep", { normalY });
-  return Object.freeze({ allowed: true, normalY, reason: "allowed" });
-}
-function terrainNormalY(ground, point3) {
-  const normal = ground?.terrainNormal?.(point3.x, point3.z);
-  return Number.isFinite(normal?.y) ? normal.y : 1;
-}
-function planarDistance(first, second) {
-  return Math.hypot(first.x - second.x, first.z - second.z);
-}
-function denied(reason, detail = {}) {
-  return Object.freeze({ allowed: false, reason, ...detail });
-}
-function finitePoint2(point3) {
-  return Number.isFinite(point3?.x) && Number.isFinite(point3?.z);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonMotion.js
-function updateShadowDemonMotion(actor, deltaTime, playerState) {
-  if (actor.state === ENEMY_STATE.CHASE || actor.state === ENEMY_STATE.APPROACH) {
-    return pursuePlayer(actor, playerState, deltaTime);
-  }
-  if (actor.state === ENEMY_STATE.CIRCLE) {
-    return circlePlayer(actor, playerState, deltaTime);
-  }
-  if (actor.state === ENEMY_STATE.RETURN_HOME || actor.state === ENEMY_STATE.RETREAT) {
-    return returnShadowHome(actor, deltaTime);
-  }
-  if (actor.state === ENEMY_STATE.WANDER || actor.state === ENEMY_STATE.PATROL) {
-    return wanderShadow(actor, deltaTime);
-  }
-  return true;
-}
-function planarDistance2(first, second) {
-  return Math.hypot(first.x - second.x, first.z - second.z);
-}
-function shadowGroundHeight(ground, x, z) {
-  const value3 = ground.heightAt(x, z);
-  return Number(value3?.y ?? value3 ?? 0);
-}
-function pursuePlayer(actor, playerState, deltaTime) {
-  const moved = moveShadowToward(
-    actor,
-    playerState,
-    actor.profile.speed,
-    deltaTime,
-    "chase"
-  );
-  actor.forcedReturnReason = moved ? null : actor.lastTerritoryDecision?.reason;
-  return moved;
-}
-function circlePlayer(actor, playerState, deltaTime) {
-  const dx = playerState.x - actor.group.position.x;
-  const dz = playerState.z - actor.group.position.z;
-  const length2 = Math.max(1e-3, Math.hypot(dx, dz));
-  const direction = actor.attackIndex % 2 === 0 ? 1 : -1;
-  const target = {
-    x: actor.group.position.x - dz / length2 * direction * 2,
-    z: actor.group.position.z + dx / length2 * direction * 2
-  };
-  return moveShadowToward(actor, target, actor.profile.speed * 0.72, deltaTime, "circle");
-}
-function wanderShadow(actor, deltaTime) {
-  const waypoint = actor.waypoints[actor.waypointIndex];
-  if (planarDistance2(actor.group.position, waypoint) < 0.8) {
-    advanceWaypoint(actor);
-    return true;
-  }
-  const moved = moveShadowToward(
-    actor,
-    waypoint,
-    actor.profile.speed * 0.38,
-    deltaTime,
-    "wander"
-  );
-  if (!moved) advanceWaypoint(actor);
-  return moved;
-}
-function returnShadowHome(actor, deltaTime) {
-  if (planarDistance2(actor.group.position, actor.profile) <= actor.profile.homeArrivalRange) {
-    actor.engaged = false;
-    actor.forcedReturnReason = null;
-    return true;
-  }
-  return moveShadowToward(
-    actor,
-    actor.profile,
-    actor.profile.speed * 1.2,
-    deltaTime,
-    "return"
-  );
-}
-function moveShadowToward(actor, target, speed, deltaTime, purpose) {
-  const from = actor.group.position;
-  const dx = target.x - from.x;
-  const dz = target.z - from.z;
-  const length2 = Math.max(1e-4, Math.hypot(dx, dz));
-  const step2 = Math.min(length2, speed * deltaTime);
-  const proposed = {
-    x: from.x + dx / length2 * step2,
-    z: from.z + dz / length2 * step2
-  };
-  const candidate = resolveEnemyGroundStep(actor.ground, from, proposed, actor.profile);
-  const decision = evaluateEnemyMovement({ candidate, from, ground: actor.ground, profile: actor.profile, purpose });
-  actor.lastTerritoryDecision = decision;
-  if (!decision.allowed) return false;
-  actor.group.position.x = candidate.x;
-  actor.group.position.z = candidate.z;
-  actor.groundY = shadowGroundHeight(actor.ground, candidate.x, candidate.z);
-  const yaw = Math.atan2(dx, dz);
-  actor.group.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
-  return true;
-}
-function advanceWaypoint(actor) {
-  actor.waypointIndex = (actor.waypointIndex + 1) % actor.waypoints.length;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/HostileTorahAbilitySystem.js?v=20260721-spatial-targeting-01
-var HostileTorahAbilitySystem = class {
-  constructor(bus, actors, spatialIndex = new HostileActorSpatialIndex()) {
-    this.bus = bus;
-    this.spatialIndex = spatialIndex;
-    this.defense = new PlayerCombatDefense();
-    this.playerState = null;
-    this._actors = [];
-    this.setActors(actors);
-  }
-  get actors() {
-    return this._actors;
-  }
-  set actors(actors) {
-    this._actors = Array.isArray(actors) ? actors : [];
-    this.spatialIndex.replace(this._actors);
-  }
-  setActors(actors = []) {
-    this.actors = actors;
-    return this._actors.length;
-  }
-  setPlayerState(playerState) {
-    this.playerState = playerState;
-  }
-  updateActor(actor) {
-    if (actor?.state === ENEMY_STATE.DEFEATED) return this.spatialIndex.remove(actor);
-    return this.spatialIndex.update(actor);
-  }
-  removeActor(actorOrId) {
-    return this.spatialIndex.remove(actorOrId);
-  }
-  apply(proposedPassage, selectedTarget) {
-    const passage2 = torahPassage(proposedPassage?.id);
-    if (!passage2) return this.reject("UNKNOWN_PASSAGE");
-    if (!this.playerState) return this.reject("PLAYER_STATE_UNAVAILABLE");
-    const ability3 = torahAbilityFor(passage2);
-    const now2 = performance.now() / 1e3;
-    if (ability3.targetMode === "ward") return this.applyWard(ability3, now2);
-    if (ability3.statusEffects.includes("protection")) this.defense.activateProtection(now2, 5);
-    const targets = this.targetsFor(ability3, selectedTarget);
-    if (!targets.length) return this.reject("TARGET_REQUIRED", ability3);
-    const results = targets.map((actor) => actor.applyTorahPassage(passage2, this.playerState, now2));
-    if (!results.some((result) => result.accepted)) {
-      return this.reject(results[0]?.reason || "ABILITY_REJECTED", ability3, results);
-    }
-    return this.accept(ability3, targets, results);
-  }
-  targetsFor(ability3, selectedTarget) {
-    if (ability3.targetMode === "single") {
-      const selected2 = this.spatialIndex.resolve(selectedTarget);
-      return this.isAvailable(selected2, ability3.range) ? [selected2] : [];
-    }
-    const inRange = this.spatialIndex.queryRadius(this.playerState, ability3.range).filter((actor) => this.isAvailable(actor, ability3.range));
-    inRange.sort((first, second) => this.distance(first) - this.distance(second));
-    if (ability3.targetMode !== "chain") return inRange.slice(0, ability3.maximumTargets);
-    const selected = this.spatialIndex.resolve(selectedTarget);
-    if (!this.isAvailable(selected, ability3.range) || !inRange.includes(selected)) {
-      return inRange.slice(0, ability3.maximumTargets);
-    }
-    return [selected, ...inRange.filter((actor) => actor !== selected)].slice(0, ability3.maximumTargets);
-  }
-  isAvailable(actor, range) {
-    return Boolean(actor) && actor.state !== ENEMY_STATE.DEFEATED && this.distance(actor) <= range;
-  }
-  distance(actor) {
-    return planarDistance2(actor.group.position, this.playerState);
-  }
-  applyWard(ability3, now2) {
-    this.defense.activateWard(now2);
-    this.bus.emit("combat:ward", { ability: ability3, defense: this.defense.snapshot(now2) });
-    return this.accept(ability3, [], []);
-  }
-  accept(ability3, targets, results) {
-    const targetIds = targets.map((actor) => actor.profile.id);
-    const impact = { accepted: true, ability: ability3, results, targetIds };
-    this.bus.emit("combat:ability", impact);
-    this.bus.emit("torah:impact", impact);
-    return impact;
-  }
-  reject(reason, ability3 = null, results = []) {
-    const impact = { accepted: false, ability: ability3, reason, results, targetIds: [] };
-    this.bus.emit("torah:impact", impact);
-    return impact;
-  }
-  diagnostics() {
-    return { targeting: this.spatialIndex.diagnostics() };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcPointerRay.js
-function npcPointerHits(event, camera, canvas, target, radius = 0.82) {
-  const ray = rayFromPointer(event, camera, canvas);
-  return raySphere(ray, target, radius);
-}
-function rayFromPointer(event, camera, canvas) {
-  const rectangle = canvas.getBoundingClientRect();
-  const normalizedX = (event.clientX - rectangle.left) / rectangle.width * 2 - 1;
-  const normalizedY = 1 - (event.clientY - rectangle.top) / rectangle.height * 2;
-  const basis = cameraBasis2(camera);
-  const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
-  return {
-    direction: normalize(add(
-      add(
-        basis.forward,
-        scale(basis.right, normalizedX * tangent * (camera.aspect || 1))
-      ),
-      scale(basis.up, normalizedY * tangent)
-    )),
-    origin: basis.origin
-  };
-}
-function cameraBasis2(camera) {
-  const origin = v(
-    camera.position.x,
-    camera.position.y,
-    camera.position.z
-  );
-  const forward = normalize(sub(targetOf2(camera.target), origin));
-  const right = normalize(cross(forward, v(0, 1, 0)));
-  const up = normalize(cross(right, forward));
-  return { forward, origin, right, up };
-}
-function raySphere(ray, center, radius) {
-  const offset = sub(ray.origin, center);
-  const linear = dot(offset, ray.direction);
-  const constant = dot(offset, offset) - radius * radius;
-  const discriminant = linear * linear - constant;
-  if (discriminant < 0) return false;
-  const distance4 = -linear - Math.sqrt(discriminant);
-  return distance4 > 0.05 && distance4 < 80;
-}
-function targetOf2(target) {
-  if (Array.isArray(target)) {
-    return v(target[0] || 0, target[1] || 0, target[2] || 0);
-  }
-  return v(target?.x || 0, target?.y || 0, target?.z || 0);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyAttackCatalog.js
-var ENEMY_ATTACKS = Object.freeze({
-  "klipah-stalker": attacks([
-    attack("quick-slash", 0.28, 0.14, 0.38, 0.75, 8, 2.25, 9, "shadow-slash"),
-    attack("lunging-cut", 0.46, 0.16, 0.56, 1.05, 11, 3.5, 13, "shadow-lunge"),
-    attack("retreat-feint", 0.34, 0.12, 0.42, 0.9, 6, 2.7, 7, "shadow-feint")
-  ]),
-  "portal-wraith": attacks([
-    attack("charged-pulse", 0.92, 0.16, 0.7, 1.55, 13, 8.5, 15, "portal-pulse"),
-    attack("warning-ring", 0.68, 0.22, 0.64, 1.35, 10, 5.8, 12, "portal-ring"),
-    attack("blink-burst", 0.48, 0.14, 0.5, 1.1, 9, 4.5, 10, "portal-blink")
-  ]),
-  "shadow-husk": attacks([
-    attack("heavy-sweep", 0.76, 0.24, 0.82, 1.35, 14, 3.1, 18, "shadow-sweep"),
-    attack("ground-pulse", 0.9, 0.2, 0.9, 1.65, 12, 4.7, 20, "shadow-pulse"),
-    attack("binding-grasp", 0.64, 0.2, 0.72, 1.45, 10, 2.2, 16, "shadow-grasp")
-  ])
-});
-function chooseEnemyAttack(archetype, attackIndex, playerDistance) {
-  const values = ENEMY_ATTACKS[archetype] || ENEMY_ATTACKS["shadow-husk"];
-  if (archetype === "portal-wraith" && playerDistance > 5) return values[0];
-  if (archetype === "klipah-stalker" && playerDistance > 2.5) return values[1];
-  return values[Math.abs(attackIndex) % values.length];
-}
-function attack(id, anticipation, active, recovery, cooldown, damage, range, stagger, damageType) {
-  return Object.freeze({ active, anticipation, cooldown, damage, damageType, id, range, recovery, stagger });
-}
-function attacks(values) {
-  return Object.freeze(values);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyAttackTimeline.js
-function beginEnemyAttack(definition, nowSeconds) {
-  const activeStart = nowSeconds + definition.anticipation;
-  const activeEnd = activeStart + definition.active;
-  return {
-    activeEnd,
-    activeStart,
-    cancelled: false,
-    completeAt: activeEnd + definition.recovery,
-    damageApplied: false,
-    definition,
-    startedAt: nowSeconds
-  };
-}
-function advanceEnemyAttack(timeline, nowSeconds) {
-  if (!timeline || timeline.cancelled) {
-    return phase(ENEMY_STATE.CHASE, false, true);
-  }
-  if (nowSeconds < timeline.activeStart) {
-    return phase(ENEMY_STATE.ATTACK_ANTICIPATION, false, false);
-  }
-  if (nowSeconds < timeline.activeEnd) {
-    return phase(ENEMY_STATE.ATTACK_ACTIVE, !timeline.damageApplied, false);
-  }
-  if (nowSeconds < timeline.completeAt) {
-    return phase(ENEMY_STATE.ATTACK_RECOVERY, false, false);
-  }
-  return phase(ENEMY_STATE.CHASE, false, true);
-}
-function markEnemyAttackDamage(timeline) {
-  if (timeline) timeline.damageApplied = true;
-}
-function enemyAttackCooldownEnds(timeline) {
-  return timeline.completeAt + timeline.definition.cooldown;
-}
-function phase(state, damageWindowOpened, complete) {
-  return { complete, damageWindowOpened, state };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTargetContract.js
-function enemyTargetContract(actor) {
-  const worldPosition = actor.targetHint();
-  return {
-    aimPoint: { ...worldPosition },
-    alive: actor.health > 0,
-    combatRadius: actor.profile.attackRange,
-    faction: "hostile",
-    face: actor.profile.face || "\u25C8",
-    health: actor.health,
-    hostility: 1,
-    id: actor.profile.id,
-    interactionRadius: actor.profile.targetRadius || 1.25,
-    maxHealth: actor.profile.maxHealth,
-    name: actor.profile.name,
-    occluded: false,
-    priority: actor.selected ? 100 : 60,
-    role: actor.profile.role,
-    selected: actor.selected,
-    stagger: actor.stagger,
-    state: actor.state,
-    statusEffects: actor.statusEffects.map((effect2) => effect2.id),
-    targetable: actor.health > 0 && actor.group.visible,
-    targetId: actor.profile.id,
-    worldPosition
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyUpdateCadence.js
-var EnemyUpdateCadence = class {
-  constructor() {
-    this.accumulated = 0;
-  }
-  advance(deltaTime, context) {
-    this.accumulated += Math.max(0, deltaTime);
-    const interval = enemyUpdateInterval(context);
-    if (interval > 0 && this.accumulated < interval) return 0;
-    const released = this.accumulated;
-    this.accumulated = 0;
-    return released;
-  }
-};
-function enemyUpdateInterval(context) {
-  if (context.selected || enemyStateIsUrgent(context.state)) return 0;
-  if (context.distance < 34) return 0;
-  if (context.distance < 72) return 0.1;
-  if (context.distance < 120) return 0.25;
-  return 0.6;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonCombatSupport.js
-function shadowAttackDefinition(actor) {
-  if (actor.currentAttack) return actor.currentAttack;
-  const profile3 = actor.profile || {};
-  return Object.freeze({
-    damage: Math.max(0, Number(profile3.attackDamage || 0)),
-    damageType: "shadow-contact",
-    id: "shadow-contact",
-    range: Math.max(0, Number(profile3.attackRange || 0)),
-    stagger: 0
-  });
-}
-function shadowSanctuaryBlock(actor, playerState) {
-  if (pointInsideVillageSanctuary(actor.group?.position)) return "enemy-sanctuary";
-  if (pointInsideVillageSanctuary(playerState)) return "player-sanctuary";
-  return null;
-}
-function resolveShadowIncoming(actor, proposedEvent, now2) {
-  if (typeof actor.defense?.resolveIncoming === "function") {
-    return actor.defense.resolveIncoming(proposedEvent, now2);
-  }
-  return proposedEvent;
-}
-function ensureShadowCombatCollections(actor) {
-  if (!Array.isArray(actor.statusEffects)) actor.statusEffects = [];
-  if (!Number.isFinite(actor.stagger)) actor.stagger = 0;
-}
-function resetShadowTransform(actor) {
-  const x = Number(actor.profile.x || 0);
-  const z = Number(actor.profile.z || 0);
-  const y = shadowGroundHeight(actor.ground, x, z);
-  actor.groundY = y;
-  if (typeof actor.group.position.set === "function") actor.group.position.set(x, y, z);
-  else Object.assign(actor.group.position, { x, y, z });
-  if (typeof actor.group.scale?.set === "function") actor.group.scale.set(1, 1, 1);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonCombat.js
-var PLAYER_HURT_WINDOW_SECONDS = 0.18;
-function attackPlayerFromShadow(actor, playerState, now2) {
-  const attack2 = shadowAttackDefinition(actor);
-  if (actor.attackTimeline?.damageApplied) return false;
-  markEnemyAttackDamage(actor.attackTimeline);
-  const sanctuaryReason = shadowSanctuaryBlock(actor, playerState);
-  if (sanctuaryReason) return publishMiss(actor, attack2, sanctuaryReason);
-  const combat = playerState.combat || (playerState.combat = { nextShadowHitAt: 0 });
-  if (now2 < combat.nextShadowHitAt) return false;
-  if (planarDistance2(actor.group.position, playerState) > attack2.range * 1.2) {
-    return publishMiss(actor, attack2, "out-of-range");
-  }
-  combat.nextShadowHitAt = now2 + PLAYER_HURT_WINDOW_SECONDS;
-  const proposed = createCombatDamageEvent({
-    amount: attack2.damage,
-    damageType: attack2.damageType,
-    hitDirection: hitDirection(actor.group.position, playerState),
-    sourceId: actor.profile.id,
-    staggerAmount: attack2.stagger,
-    targetId: "player",
-    worldPosition: playerState
-  });
-  const event = resolveShadowIncoming(actor, proposed, now2);
-  playerState.player.health = Math.max(0, playerState.player.health - event.amount);
-  if (event.perfectWard) staggerShadow(actor, now2, attack2.stagger);
-  actor.bus.emit("combat:damage", event);
-  actor.bus.emit("enemy:attack", { attackId: attack2.id, enemy: actor.payload(), event });
-  return true;
-}
-function applyTorahLight(actor, proposedPassage, playerState, now2) {
-  const passage2 = torahPassage(proposedPassage?.id);
-  if (!passage2) return rejection("UNKNOWN_PASSAGE");
-  if (actor.state === ENEMY_STATE.DEFEATED) return rejection("TARGET_DEFEATED");
-  const ability3 = torahAbilityFor(passage2);
-  if (!playerState || planarDistance2(actor.group.position, playerState) > ability3.range) {
-    return rejection("TARGET_OUT_OF_RANGE");
-  }
-  ensureShadowCombatCollections(actor);
-  actor.engaged = true;
-  actor.health = Math.max(0, actor.health - ability3.damage);
-  actor.stagger += ability3.stagger;
-  actor.statusEffects.push(...ability3.statusEffects.map((id) => ({ id, until: now2 + 3 })));
-  const event = torahDamageEvent(actor, ability3, passage2);
-  if (actor.stagger >= Number(actor.profile.staggerThreshold || Infinity)) {
-    staggerShadow(actor, now2, actor.stagger);
-  }
-  if (actor.health <= 0) defeatShadow(actor, now2);
-  actor.bus.emit("combat:damage", event);
-  actor.bus.emit("enemy:damaged", { ...actor.payload(), ability: ability3, event });
-  if (actor.selected) actor.bus.emit("npc:target", actor.payload());
-  return { accepted: true, ability: ability3, damage: ability3.damage, defeated: actor.state === ENEMY_STATE.DEFEATED, event, health: actor.health };
-}
-function defeatShadow(actor, now2) {
-  actor.state = ENEMY_STATE.DEFEATED;
-  actor.stateElapsed = 0;
-  actor.engaged = false;
-  actor.respawnAt = now2 + actor.profile.respawnSeconds;
-  actor.group.visible = false;
-  actor.clear?.();
-  actor.bus.emit("enemy:defeated", actor.payload());
-}
-function updateShadowRespawn(actor, now2) {
-  if (now2 < actor.respawnAt) return false;
-  actor.health = actor.profile.maxHealth;
-  actor.state = ENEMY_STATE.SPAWN;
-  actor.stateElapsed = 0;
-  actor.engaged = false;
-  actor.selected = false;
-  actor.attackTimeline = null;
-  actor.currentAttack = null;
-  actor.nextAttackAt = now2 + Number(actor.profile.spawnSeconds || 0);
-  actor.respawnAt = 0;
-  actor.stagger = 0;
-  actor.staggerUntil = 0;
-  actor.statusEffects = [];
-  actor.waypointIndex = 0;
-  actor.forcedReturnReason = null;
-  if (actor.cadence) actor.cadence.accumulated = 0;
-  actor.group.visible = true;
-  resetShadowTransform(actor);
-  actor.bus.emit("enemy:respawn", actor.payload());
-  return true;
-}
-function staggerShadow(actor, now2, amount) {
-  actor.stagger = 0;
-  actor.staggerUntil = now2 + Math.min(1.2, 0.4 + amount / 50);
-  actor.attackTimeline = null;
-  actor.currentAttack = null;
-  actor.state = ENEMY_STATE.STAGGER;
-  actor.stateElapsed = 0;
-  actor.bus.emit("enemy:staggered", actor.payload());
-}
-function torahDamageEvent(actor, ability3, passage2) {
-  return createCombatDamageEvent({ abilityId: ability3.id, amount: ability3.damage, damageType: `torah-${passage2.aspect}`, sourceId: "player", staggerAmount: ability3.stagger, statusEffects: ability3.statusEffects, targetId: actor.profile.id, worldPosition: actor.group.position });
-}
-function publishMiss(actor, attack2, reason) {
-  actor.bus.emit("enemy:miss", { attackId: attack2.id, enemy: actor.payload(), reason });
-  return false;
-}
-function hitDirection(source, target) {
-  const length2 = Math.max(1e-3, planarDistance2(source, target));
-  return { x: (target.x - source.x) / length2, y: 0, z: (target.z - source.z) / length2 };
-}
-function rejection(reason) {
-  return { accepted: false, damage: 0, reason };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonMelee.js
-function applyMeleeStrike(actor, request, playerState, nowSeconds) {
-  const attack2 = request?.attack;
-  if (!attack2 || !playerState) return rejection2(actor, attack2, "ATTACK_CONTEXT_UNAVAILABLE");
-  if (actor.state === ENEMY_STATE.DEFEATED) return rejection2(actor, attack2, "TARGET_DEFEATED");
-  const distance4 = planarDistance2(actor.group.position, playerState);
-  if (distance4 > attack2.range) return rejection2(actor, attack2, "TARGET_OUT_OF_RANGE", distance4);
-  actor.engaged = true;
-  actor.health = Math.max(0, actor.health - attack2.damage);
-  actor.stagger += attack2.stagger;
-  const event = createCombatDamageEvent({
-    abilityId: attack2.id,
-    amount: attack2.damage,
-    damageType: "physical-staff",
-    sourceId: request.sourceId || "player",
-    staggerAmount: attack2.stagger,
-    targetId: actor.profile.id,
-    worldPosition: actor.group.position
-  });
-  if (actor.health <= 0) {
-    defeatShadow(actor, nowSeconds);
-  } else {
-    applyStaggerThreshold(actor, nowSeconds);
-  }
-  actor.bus.emit("combat:damage", event);
-  actor.bus.emit("enemy:damaged", {
-    ...actor.payload(),
-    attack: attack2,
-    event
-  });
-  return {
-    accepted: true,
-    attackId: attack2.id,
-    damage: attack2.damage,
-    defeated: actor.state === ENEMY_STATE.DEFEATED,
-    distance: distance4,
-    health: actor.health,
-    targetId: actor.profile.id
-  };
-}
-function applyStaggerThreshold(actor, nowSeconds) {
-  const threshold = Number(actor.profile.staggerThreshold || Infinity);
-  if (actor.stagger < threshold) return;
-  actor.stagger = 0;
-  actor.staggerUntil = nowSeconds + 0.55;
-  actor.attackTimeline = null;
-  actor.currentAttack = null;
-  actor.state = ENEMY_STATE.STAGGER;
-  actor.stateElapsed = 0;
-  actor.bus.emit("enemy:staggered", actor.payload());
-}
-function rejection2(actor, attack2, reason, distance4 = null) {
-  return {
-    accepted: false,
-    attackId: attack2?.id || null,
-    distance: distance4,
-    reason,
-    targetId: actor?.profile?.id || null
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStatePolicy.js
-function resolveEnemyState(context = {}) {
-  if (Number(context.health) <= 0) return ENEMY_STATE.DEFEATED;
-  if (mustReturnHome(context)) return ENEMY_STATE.RETURN_HOME;
-  if (continuingReturn(context)) return ENEMY_STATE.RETURN_HOME;
-  if (Number(context.now) < Number(context.staggerUntil || 0)) return ENEMY_STATE.STAGGER;
-  if (continuingSpawn(context)) return ENEMY_STATE.SPAWN;
-  if (context.attackState) return context.attackState;
-  if (continuingAlert(context)) return ENEMY_STATE.ALERT;
-  const aware = Boolean(context.engaged) || Number(context.playerDistance) <= Number(context.aggroRange);
-  if (!aware) return ENEMY_STATE.WANDER;
-  if (!context.engaged) return ENEMY_STATE.ALERT;
-  if (canBeginAttack(context)) return ENEMY_STATE.ATTACK_ANTICIPATION;
-  return ENEMY_STATE.CHASE;
-}
-function mustReturnHome(context) {
-  return Boolean(context.returnReason) || Boolean(context.enemyInSanctuary) || Boolean(context.playerInSanctuary) || Number(context.homeDistance) > Number(context.leashRange);
-}
-function continuingReturn(context) {
-  return context.currentState === ENEMY_STATE.RETURN_HOME && Number(context.homeDistance) > Number(context.homeArrivalRange);
-}
-function continuingSpawn(context) {
-  return context.currentState === ENEMY_STATE.SPAWN && Number(context.stateElapsed) < Number(context.spawnSeconds || 0);
-}
-function continuingAlert(context) {
-  return context.currentState === ENEMY_STATE.ALERT && Number(context.stateElapsed) < Number(context.noticeSeconds || 0);
-}
-function canBeginAttack(context) {
-  return Number(context.playerDistance) <= Number(context.attackRange) && Number(context.now) >= Number(context.nextAttackAt || 0);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyWanderPath.js
-function compileEnemyWanderPath(profile3, pointCount = 7) {
-  const random2 = seededRandom(hash(profile3.id));
-  const count = Math.max(3, Math.min(16, Math.floor(pointCount)));
-  return Array.from({ length: count }, (_, index) => {
-    const angle = index / count * Math.PI * 2 + random2() * 0.42;
-    const radius = profile3.wanderRadius * (0.38 + random2() * 0.62);
-    return {
-      x: profile3.x + Math.cos(angle) * radius,
-      z: profile3.z + Math.sin(angle) * radius
-    };
-  });
-}
-function hash(value3) {
-  let result = 2166136261;
-  for (const character of String(value3)) {
-    result = Math.imul(result ^ character.charCodeAt(0), 16777619) >>> 0;
-  }
-  return result;
-}
-function seededRandom(seed) {
-  let state = seed >>> 0;
-  return () => {
-    state = Math.imul(state ^ state >>> 15, 2246822507);
-    state ^= Math.imul(state ^ state >>> 13, 3266489909);
-    return (state >>> 0) / 4294967295;
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackBoxMesh.js
-var FACES = Object.freeze([
-  face([0, 0, 1], [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]]),
-  face([0, 0, -1], [[1, -1, -1], [-1, -1, -1], [-1, 1, -1], [1, 1, -1]]),
-  face([1, 0, 0], [[1, -1, 1], [1, -1, -1], [1, 1, -1], [1, 1, 1]]),
-  face([-1, 0, 0], [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1]]),
-  face([0, 1, 0], [[-1, 1, 1], [1, 1, 1], [1, 1, -1], [-1, 1, -1]]),
-  face([0, -1, 0], [[-1, -1, -1], [1, -1, -1], [1, -1, 1], [-1, -1, 1]])
-]);
-function createFallbackBoxMesh(name, size, position, color) {
-  const geometry = new BufferGeometry();
-  const positions = [];
-  const normals = [];
-  const colors = [];
-  const uvs = [];
-  const indices = [];
-  const half = size.map((value3) => value3 * 0.5);
-  for (const [faceIndex, definition] of FACES.entries()) {
-    const offset = faceIndex * 4;
-    for (const corner of definition.corners) {
-      positions.push(
-        corner[0] * half[0],
-        corner[1] * half[1],
-        corner[2] * half[2]
-      );
-      normals.push(...definition.normal);
-      colors.push(...color);
-    }
-    uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
-    indices.push(offset, offset + 1, offset + 2, offset, offset + 2, offset + 3);
-  }
-  geometry.setAttribute("position", attribute2(positions, 3));
-  geometry.setAttribute("normal", attribute2(normals, 3));
-  geometry.setAttribute("color", attribute2(colors, 4));
-  geometry.setAttribute("uv", attribute2(uvs, 2));
-  geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
-  const material = new MeshStandardMaterial({ color, name: `${name}-material` });
-  const mesh = new Mesh(geometry, material);
-  mesh.name = name;
-  mesh.position.set(position[0], position[1], position[2]);
-  mesh.setBaseTransform();
-  return mesh;
-}
-function face(normal, corners2) {
-  return Object.freeze({
-    corners: Object.freeze(corners2.map((corner) => Object.freeze(corner))),
-    normal: Object.freeze(normal)
-  });
-}
-function attribute2(values, itemSize) {
-  return new BufferAttribute(new Float32Array(values), itemSize);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonVisual.js
-var SHADOW = Object.freeze([0.035, 0.025, 0.07, 1]);
-var VIOLET = Object.freeze([0.2, 0.06, 0.32, 1]);
-var EYE = Object.freeze([0.8, 0.3, 1, 1]);
-function createShadowDemonVisual(profile3, ground) {
-  const group = new Group();
-  group.name = `Awtsmoos_shadow_${profile3.id}`;
-  group.userData.archetype = profile3.creatureType;
-  group.userData.family = "hostile-shadow-demon";
-  group.userData.renderDistance = 105;
-  for (const definition of partsFor(profile3)) {
-    group.add(createFallbackBoxMesh(
-      definition.name,
-      definition.size,
-      definition.position,
-      definition.color
-    ));
-  }
-  const groundY = groundHeight(ground, profile3.x, profile3.z);
-  group.position.set(profile3.x, groundY, profile3.z);
-  group.setBaseTransform();
-  return { group, groundY };
-}
-function animateShadowDemonVisual(actor, deltaTime) {
-  actor.visualClock += deltaTime;
-  const pulse = Math.sin(actor.visualClock * stateFrequency(actor.state));
-  actor.group.position.y = actor.groundY + 0.2 + pulse * 0.07;
-  const anticipation = actor.state === ENEMY_STATE.ATTACK_ANTICIPATION ? Math.max(0, pulse) * 0.2 : 0;
-  const active = actor.state === ENEMY_STATE.ATTACK_ACTIVE ? 0.17 : 0;
-  const stagger = actor.state === ENEMY_STATE.STAGGER ? pulse * 0.1 : 0;
-  const spawn2 = actor.state === ENEMY_STATE.SPAWN ? Math.min(1, actor.stateElapsed / actor.profile.spawnSeconds) : 1;
-  const scale2 = Math.max(0.05, (actor.profile.visualScale + anticipation + active + stagger) * spawn2);
-  actor.group.scale.set(scale2, scale2, scale2);
-}
-function partsFor(profile3) {
-  if (profile3.visualKind === "stalker") return stalkerParts(profile3.id);
-  if (profile3.visualKind === "wraith") return wraithParts(profile3.id);
-  return huskParts(profile3.id);
-}
-function huskParts(id) {
-  return [
-    part(`${id}-body`, [1.05, 1.7, 0.72], [0, 1, 0], SHADOW),
-    part(`${id}-head`, [0.62, 0.56, 0.55], [0, 2.05, 0], VIOLET),
-    part(`${id}-eye`, [0.3, 0.1, 0.05], [0, 2.1, 0.3], EYE)
-  ];
-}
-function stalkerParts(id) {
-  return [
-    part(`${id}-body`, [1.35, 0.62, 0.6], [0, 0.72, 0], SHADOW),
-    part(`${id}-head`, [0.5, 0.48, 0.52], [0, 1.05, 0.48], VIOLET),
-    part(`${id}-legs`, [1.55, 0.25, 0.35], [0, 0.3, 0], SHADOW)
-  ];
-}
-function wraithParts(id) {
-  return [
-    part(`${id}-mist`, [1.45, 0.3, 1.2], [0, 0.22, 0], VIOLET),
-    part(`${id}-column`, [0.65, 1.9, 0.58], [0, 1.15, 0], SHADOW),
-    part(`${id}-eyes`, [0.38, 0.1, 0.05], [0, 1.8, 0.31], EYE)
-  ];
-}
-function part(name, size, position, color) {
-  return { color, name, position, size };
-}
-function stateFrequency(state) {
-  if (state === ENEMY_STATE.ATTACK_ANTICIPATION) return 10;
-  if (state === ENEMY_STATE.ATTACK_ACTIVE || state === ENEMY_STATE.STAGGER) return 14;
-  return 3;
-}
-function groundHeight(ground, x, z) {
-  const value3 = ground.heightAt(x, z);
-  return Number(value3?.y ?? value3 ?? 0);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonActor.js
-var ShadowDemonActor = class {
-  constructor(options) {
-    Object.assign(this, options);
-    this.health = this.profile.maxHealth;
-    this.state = ENEMY_STATE.SPAWN;
-    this.stateElapsed = 0;
-    this.selected = false;
-    this.engaged = false;
-    this.nextAttackAt = 0;
-    this.respawnAt = 0;
-    this.stagger = 0;
-    this.staggerUntil = 0;
-    this.statusEffects = [];
-    this.attackIndex = 0;
-    this.attackTimeline = null;
-    this.currentAttack = null;
-    this.visualClock = 0;
-    this.lastTerritoryDecision = null;
-    this.cadence = new EnemyUpdateCadence();
-    this.waypoints = compileEnemyWanderPath(this.profile);
-    this.waypointIndex = 0;
-    Object.assign(this, createShadowDemonVisual(this.profile, this.ground));
-  }
-  update(deltaTime, playerState, now2 = performance.now() / 1e3) {
-    if (this.state === ENEMY_STATE.DEFEATED) {
-      updateShadowRespawn(this, now2);
-      return;
-    }
-    const distance4 = planarDistance2(this.group.position, playerState);
-    const released = this.cadence.advance(deltaTime, {
-      distance: distance4,
-      selected: this.selected,
-      state: this.state
-    });
-    animateShadowDemonVisual(this, deltaTime);
-    if (!released) return;
-    this.statusEffects = this.statusEffects.filter((effect2) => effect2.until > now2);
-    this.stateElapsed += released;
-    const attackState = this.advanceAttack(playerState, now2);
-    const previousState = this.state;
-    this.state = resolveEnemyState(this.stateContext(playerState, now2, attackState));
-    if (this.state !== previousState) this.stateElapsed = 0;
-    if (this.state === ENEMY_STATE.ALERT && !this.engaged) {
-      this.engaged = true;
-      this.bus.emit("enemy:alert", this.payload());
-    }
-    if (this.state === ENEMY_STATE.ATTACK_ANTICIPATION && !this.attackTimeline) {
-      this.beginAttack(distance4, now2);
-    }
-    updateShadowDemonMotion(this, released, playerState);
-  }
-  advanceAttack(playerState, now2) {
-    if (!this.attackTimeline) return null;
-    const phase2 = advanceEnemyAttack(this.attackTimeline, now2);
-    if (phase2.damageWindowOpened) attackPlayerFromShadow(this, playerState, now2);
-    if (!phase2.complete) return phase2.state;
-    this.nextAttackAt = enemyAttackCooldownEnds(this.attackTimeline);
-    this.attackTimeline = null;
-    this.currentAttack = null;
-    this.attackIndex += 1;
-    return null;
-  }
-  beginAttack(distance4, now2) {
-    this.currentAttack = chooseEnemyAttack(this.profile.creatureType, this.attackIndex, distance4);
-    this.attackTimeline = beginEnemyAttack(this.currentAttack, now2);
-    this.bus.emit("enemy:telegraph", { attack: this.currentAttack, enemy: this.payload() });
-  }
-  stateContext(playerState, now2, attackState) {
-    return {
-      aggroRange: this.profile.aggroRange,
-      attackRange: this.currentAttack?.range || this.profile.attackRange,
-      attackState,
-      currentState: this.state,
-      engaged: this.engaged,
-      enemyInSanctuary: pointInsideVillageSanctuary(this.group.position),
-      health: this.health,
-      homeArrivalRange: this.profile.homeArrivalRange,
-      homeDistance: planarDistance2(this.group.position, this.profile),
-      leashRange: this.profile.leashRange,
-      nextAttackAt: this.nextAttackAt,
-      noticeSeconds: this.profile.noticeSeconds,
-      now: now2,
-      playerDistance: planarDistance2(this.group.position, playerState),
-      playerInSanctuary: pointInsideVillageSanctuary(playerState),
-      returnReason: this.forcedReturnReason,
-      spawnSeconds: this.profile.spawnSeconds,
-      staggerUntil: this.staggerUntil,
-      stateElapsed: this.stateElapsed
-    };
-  }
-  hitPointer(event) {
-    return this.state !== ENEMY_STATE.DEFEATED && npcPointerHits(event, this.camera, this.canvas, this.targetHint());
-  }
-  target() {
-    this.selected = true;
-    this.bus.emit("npc:target", this.payload());
-  }
-  clear(silent = false) {
-    this.selected = false;
-    if (!silent) this.bus.emit("npc:clear", this.payload());
-  }
-  applyTorahPassage(passage2, playerState, now2 = performance.now() / 1e3) {
-    return applyTorahLight(this, passage2, playerState, now2);
-  }
-  applyMelee(request, playerState, now2 = performance.now() / 1e3) {
-    return applyMeleeStrike(this, request, playerState, now2);
-  }
-  payload() {
-    return {
-      ...enemyTargetContract(this),
-      attackable: true,
-      attackId: this.currentAttack?.id || null,
-      creatureType: this.profile.creatureType,
-      level: "Hostile shadow",
-      territory: this.lastTerritoryDecision
-    };
-  }
-  targetHint() {
-    return {
-      x: this.group.position.x,
-      y: this.group.position.y + 1.3,
-      z: this.group.position.z
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonProfiles.js
-var PROFILES2 = Object.freeze([
-  profile2({
-    aggroRange: 22,
-    attackCooldown: 1.35,
-    attackRange: 3.1,
-    creatureType: "shadow-husk",
-    face: "\u{1F311}",
-    id: "shadow-husk-east",
-    maxHealth: 110,
-    name: "Shadow Husk",
-    noticeSeconds: 0.6,
-    role: "Heavy sweep, pulse, and binding grasp",
-    speed: 1.55,
-    staggerThreshold: 38,
-    targetRadius: 1.55,
-    visualKind: "husk",
-    wanderRadius: 14,
-    x: 86,
-    z: -88
-  }),
-  profile2({
-    aggroRange: 30,
-    attackCooldown: 0.9,
-    attackRange: 3.5,
-    creatureType: "klipah-stalker",
-    face: "\u{1F43E}",
-    id: "klipah-stalker-ridge",
-    maxHealth: 70,
-    name: "Klipah Stalker",
-    noticeSeconds: 0.35,
-    role: "Quick slash, lunge, side-step, and retreat",
-    speed: 3.1,
-    staggerThreshold: 24,
-    targetRadius: 1.3,
-    visualKind: "stalker",
-    wanderRadius: 20,
-    x: 52,
-    z: -104
-  }),
-  profile2({
-    aggroRange: 34,
-    attackCooldown: 1.4,
-    attackRange: 8.5,
-    creatureType: "portal-wraith",
-    face: "\u{1F300}",
-    id: "portal-wraith-terrace",
-    maxHealth: 82,
-    name: "Portal Wraith",
-    noticeSeconds: 0.5,
-    role: "Charged pulse, warning ring, and blink burst",
-    speed: 2.3,
-    staggerThreshold: 30,
-    targetRadius: 1.45,
-    visualKind: "wraith",
-    wanderRadius: 12,
-    x: 77,
-    z: -55
-  })
-]);
-function shadowDemonProfiles(quality = "high") {
-  const count = quality === "low" ? 1 : quality === "medium" ? 2 : 3;
-  return PROFILES2.slice(0, count);
-}
-function profile2(definition) {
-  return Object.freeze({
-    face: "\u{1F311}",
-    homeArrivalRange: 0.8,
-    leashRange: definition.wanderRadius + 24,
-    minimumGroundNormalY: 0.55,
-    questTarget: "dybbuk-shade",
-    respawnSeconds: 22,
-    spawnSeconds: 0.7,
-    visualScale: 1,
-    ...definition
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/HostileNpcPopulation.js?v=20260721-spatial-targeting-01
-var HostileNpcPopulation = class {
-  constructor(options) {
-    this.bus = options.bus;
-    this.camera = options.camera;
-    this.group = new Group();
-    this.group.name = "Awtsmoos_hostile_shadow_population";
-    this.abilitySystem = new HostileTorahAbilitySystem(options.bus, []);
-    this.actors = shadowDemonProfiles(options.quality).map((profile3) => new ShadowDemonActor({
-      bus: options.bus,
-      camera: options.camera,
-      canvas: options.canvas,
-      defense: this.abilitySystem.defense,
-      ground: options.ground,
-      profile: profile3
-    }));
-    this.abilitySystem.setActors(this.actors);
-    for (const actor of this.actors) this.group.add(actor.group);
-    this.selected = null;
-    this.playerState = null;
-    this.unsubscribers = [
-      this.bus.on("torah:use", (passage2) => this.applyTorahPassage(passage2)),
-      this.bus.on("combat:melee", (request) => this.applyMelee(request)),
-      this.bus.on("target:cycle", () => this.cycleTarget()),
-      this.bus.on("npc:target", (payload) => this.clearDifferentTarget(payload)),
-      this.bus.on("enemy:defeated", (payload) => this.publishAdventureEvent(payload))
-    ];
-  }
-  update(deltaTime, playerState) {
-    this.playerState = playerState;
-    this.abilitySystem.setPlayerState(playerState);
-    const now2 = performance.now() / 1e3;
-    for (const actor of this.actors) {
-      actor.update(deltaTime, playerState, now2);
-      this.abilitySystem.updateActor(actor);
-    }
-    if (this.selected?.state === ENEMY_STATE.DEFEATED) this.selected = null;
-  }
-  applyTorahPassage(passage2) {
-    return this.abilitySystem.apply(passage2, this.selected?.profile?.id || null);
-  }
-  applyMelee(request) {
-    const result = this.selected ? this.selected.applyMelee(request, this.playerState) : rejection3(request, "TARGET_REQUIRED");
-    this.bus.emit("combat:melee-result", result);
-    return result;
-  }
-  candidateFromPointer(event) {
-    const hits = this.actors.filter((actor) => actor.hitPointer(event)).map((actor) => ({
-      actor,
-      distance: distanceFromCamera(actor, this.camera),
-      population: this
-    }));
-    return hits.sort((first, second) => first.distance - second.distance)[0] || null;
-  }
-  activateCandidate(candidate) {
-    this.selectActor(candidate.actor);
-  }
-  cycleTarget() {
-    const living = this.actors.filter((actor) => actor.state !== ENEMY_STATE.DEFEATED);
-    if (!living.length) return false;
-    const index = Math.max(-1, living.indexOf(this.selected));
-    this.selectActor(living[(index + 1) % living.length]);
-    return true;
-  }
-  selectActor(actor) {
-    if (this.selected && this.selected !== actor) this.selected.clear(true);
-    this.selected = actor;
-    actor.target();
-  }
-  clearAll() {
-    if (!this.selected) return;
-    this.selected.clear();
-    this.selected = null;
-  }
-  clearDifferentTarget(payload) {
-    if (!this.selected || payload?.id === this.selected.profile.id) return;
-    this.selected.clear(true);
-    this.selected = null;
-  }
-  publishAdventureEvent(payload) {
-    this.abilitySystem.removeActor(payload?.id);
-    if (payload?.id === this.selected?.profile.id) this.selected = null;
-    const event = enemyDefeatAdventureEvent(payload);
-    if (event) this.bus.emit("quest:event", event);
-  }
-  diagnostics() {
-    const actors = this.actors.map((actor) => actor.payload());
-    return {
-      active: actors.filter((actor) => actor.state !== ENEMY_STATE.DEFEATED).length,
-      actors,
-      playerContextReady: Boolean(this.playerState),
-      selectedId: this.selected?.profile.id || null,
-      torahTargeting: this.abilitySystem.diagnostics().targeting
-    };
-  }
-  destroy() {
-    for (const unsubscribe of this.unsubscribers) unsubscribe();
-    this.abilitySystem.spatialIndex.clear();
-    this.group.parent?.remove(this.group);
-  }
-};
-function rejection3(request, reason) {
-  return { accepted: false, attackId: request?.attack?.id || null, reason, targetId: null };
-}
-function distanceFromCamera(actor, camera) {
-  const hint = actor.targetHint();
-  const position = camera?.position || { x: 0, y: 0, z: 0 };
-  return Math.hypot(hint.x - position.x, hint.y - position.y, hint.z - position.z);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/AnimatedHorse.js
-var AnimatedHorse = class {
-  constructor(template, groundProfile, route) {
-    this.groundProfile = groundProfile;
-    this.route = { ...route };
-    this.clock = 0;
-    this.mesh = new Mesh(template.geometry, template.material);
-    this.mesh.name = `Awtsmoos-animated-horse-${route.id}`;
-    this.mesh.userData = {
-      ...template.userData,
-      animated: true,
-      dynamic: true,
-      groundSampling: "precomputed-cyclic-catmull-rom-profile",
-      horseId: route.id,
-      sharedGeometry: true,
-      sharedMaterial: true
-    };
-    this.update(0);
-  }
-  update(deltaTime) {
-    this.clock += Math.max(0, Number(deltaTime) || 0);
-    const angle = this.route.phase + this.clock * this.route.speed;
-    const x = this.route.centerX + Math.cos(angle) * this.route.radiusX;
-    const z = this.route.centerZ + Math.sin(angle) * this.route.radiusZ;
-    const directionX = -Math.sin(angle) * this.route.radiusX;
-    const directionZ = Math.cos(angle) * this.route.radiusZ;
-    const yaw = Math.atan2(directionX, directionZ);
-    const groundY = this.groundProfile.heightAt(angle);
-    const gait = Math.abs(Math.sin(this.clock * this.route.gaitRate));
-    this.mesh.position.set(x, groundY + gait * 0.075, z);
-    this.mesh.quaternion.set(
-      0,
-      Math.sin(yaw / 2),
-      0,
-      Math.cos(yaw / 2)
-    );
-    return this;
-  }
-  stats() {
-    return {
-      animated: true,
-      clock: this.clock,
-      geometryShared: this.mesh.userData.sharedGeometry,
-      groundProfile: this.groundProfile.stats(),
-      groundSampling: this.mesh.userData.groundSampling,
-      id: this.route.id,
-      materialShared: this.mesh.userData.sharedMaterial,
-      modelSource: this.mesh.userData.modelSource,
-      position: {
-        x: this.mesh.position.x,
-        y: this.mesh.position.y,
-        z: this.mesh.position.z
-      }
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/HorseGroundProfile.js
-var TWO_PI = Math.PI * 2;
-var HORSE_GROUND_SAMPLE_COUNT = 2048;
-var HorseGroundProfile = class {
-  constructor(ground, route, options = {}) {
-    this.routeId = route.id;
-    this.sampleCount = validatedSampleCount(
-      options.sampleCount || HORSE_GROUND_SAMPLE_COUNT
-    );
-    this.heights = new Float64Array(this.sampleCount);
-    this.terrainQueries = 0;
-    this.minimumHeight = Infinity;
-    this.maximumHeight = -Infinity;
-    this.maximumAdjacentDelta = 0;
-    this.sampleGround(ground, route);
-    this.measureAdjacentDelta();
-  }
-  heightAt(angle) {
-    const scaled = normalizeAngle(angle) / TWO_PI * this.sampleCount;
-    const base = Math.floor(scaled);
-    const amount = scaled - base;
-    return cyclicCatmullRom(
-      this.heights[wrap(base - 1, this.sampleCount)],
-      this.heights[wrap(base, this.sampleCount)],
-      this.heights[wrap(base + 1, this.sampleCount)],
-      this.heights[wrap(base + 2, this.sampleCount)],
-      amount
-    );
-  }
-  stats() {
-    return {
-      interpolation: "cyclic-catmull-rom",
-      maximumAdjacentDelta: this.maximumAdjacentDelta,
-      maximumHeight: this.maximumHeight,
-      minimumHeight: this.minimumHeight,
-      routeId: this.routeId,
-      sampleCount: this.sampleCount,
-      sampleSpacingRadians: TWO_PI / this.sampleCount,
-      terrainQueries: this.terrainQueries
-    };
-  }
-  sampleGround(ground, route) {
-    for (let index = 0; index < this.sampleCount; index += 1) {
-      const angle = index / this.sampleCount * TWO_PI;
-      const x = route.centerX + Math.cos(angle) * route.radiusX;
-      const z = route.centerZ + Math.sin(angle) * route.radiusZ;
-      const height = finiteGroundHeight(ground.heightAt(x, z));
-      this.heights[index] = height;
-      this.terrainQueries += 1;
-      this.minimumHeight = Math.min(this.minimumHeight, height);
-      this.maximumHeight = Math.max(this.maximumHeight, height);
-    }
-  }
-  measureAdjacentDelta() {
-    for (let index = 0; index < this.sampleCount; index += 1) {
-      const next = (index + 1) % this.sampleCount;
-      this.maximumAdjacentDelta = Math.max(
-        this.maximumAdjacentDelta,
-        Math.abs(this.heights[next] - this.heights[index])
-      );
-    }
-  }
-};
-function cyclicCatmullRom(a, b, c, d, amount) {
-  const squared = amount * amount;
-  const cubed = squared * amount;
-  return 0.5 * (2 * b + (-a + c) * amount + (2 * a - 5 * b + 4 * c - d) * squared + (-a + 3 * b - 3 * c + d) * cubed);
-}
-function normalizeAngle(angle) {
-  const finite4 = Number.isFinite(Number(angle)) ? Number(angle) : 0;
-  return (finite4 % TWO_PI + TWO_PI) % TWO_PI;
-}
-function wrap(index, count) {
-  return (index % count + count) % count;
-}
-function validatedSampleCount(value3) {
-  const count = Math.floor(Number(value3));
-  if (!Number.isFinite(count) || count < 8) {
-    throw new Error("Horse ground profile requires at least eight samples.");
-  }
-  return count;
-}
-function finiteGroundHeight(sample2) {
-  const value3 = Number.isFinite(Number(sample2)) ? Number(sample2) : Number(sample2?.y);
-  if (!Number.isFinite(value3)) {
-    throw new Error("Horse ground profile requires a finite terrain height.");
-  }
-  return value3;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/HorseMaterialContract.js
-var HORSE_FUR_TEXTURE_URL = DETAIL_TEXTURE_FAMILIES.fur.horse;
-function horseMaterialFields() {
-  const mapImage = cachedTextureImage(HORSE_FUR_TEXTURE_URL);
-  return {
-    anisotropy: 8,
-    mapImage,
-    mapRepeat: [3, 2],
-    texturePolicy: {
-      fallbackApplied: false,
-      fullResolution: true,
-      role: "creature.horseFur",
-      tileWorld: 1.15
-    },
-    textureUrl: HORSE_FUR_TEXTURE_URL
-  };
-}
-function horseMaterialEvidence() {
-  const image = cachedTextureImage(HORSE_FUR_TEXTURE_URL);
-  return {
-    decoded: !!image,
-    fullResolution: HORSE_FUR_TEXTURE_URL.includes("/full-resolution/"),
-    height: image?.naturalHeight || 0,
-    role: "creature.horseFur",
-    url: HORSE_FUR_TEXTURE_URL,
-    width: image?.naturalWidth || 0
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/HorseGeometryTemplate.js
-var HORSE_VISUAL = Object.freeze({
-  color: "#7a4a28",
-  height: 1.82,
-  id: "horse",
-  kosherEligible: false,
-  length: 3.25,
-  width: 0.74
-});
-var sharedTemplate = null;
-function sharedHorseTemplate() {
-  if (sharedTemplate) {
-    return sharedTemplate;
-  }
-  const geometry = createLoftedAnimalGeometry(HORSE_VISUAL, "high");
-  sharedTemplate = createPrimitiveMesh({
-    ...horseMaterialFields(),
-    color: HORSE_VISUAL.color,
-    id: "Awtsmoos-shared-high-detail-horse-template",
-    indices: geometry.indices,
-    position: { x: 0, y: 0, z: 0 },
-    rotation: { x: 0, y: Math.PI / 2, z: 0 },
-    shape: "manual",
-    solid: false,
-    userData: {
-      animated: true,
-      dynamic: true,
-      family: "animated-horse",
-      modelSource: "shared-project-horse-geometry"
-    },
-    vertices: geometry.vertices
-  });
-  return sharedTemplate;
-}
-function sharedHorseTemplateEvidence() {
-  const template = sharedHorseTemplate();
-  return {
-    materialName: template.material.name,
-    modelSource: template.userData.modelSource,
-    triangles: template.geometry.index.count / 3,
-    vertices: template.geometry.attributes.position.count
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/HorseRouteCatalog.js
-var HORSE_HERD_ROUTES = Object.freeze([
-  createHorseRoute("chesed", 53, -43, 8.5, 5.5, 0.27, 0.2),
-  createHorseRoute("gevurah", 51, -43, 6.2, 8.3, 0.24, 2.4),
-  createHorseRoute("tiferes", 55, -45, 10.4, 6.8, 0.21, 4.5)
-]);
-function createHorseRoute(id, centerX, centerZ, radiusX, radiusZ, speed, phase2) {
-  return Object.freeze({
-    centerX,
-    centerZ,
-    gaitRate: 7.8 + speed * 4,
-    id,
-    phase: phase2,
-    radiusX,
-    radiusZ,
-    speed
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/HorseHerdSystem.js
-var HorseHerdSystem = class {
-  constructor(scene, ground) {
-    this.group = new Group();
-    this.group.name = "Awtsmoos-animated-full-material-horse-herd";
-    this.group.userData = {
-      animated: true,
-      dynamic: true,
-      family: "animated-horse-herd",
-      groundSampling: "precomputed-cyclic-catmull-rom-profile"
-    };
-    const template = sharedHorseTemplate();
-    this.groundProfiles = HORSE_HERD_ROUTES.map((route) => new HorseGroundProfile(ground, route));
-    this.horses = HORSE_HERD_ROUTES.map((route, index) => new AnimatedHorse(template, this.groundProfiles[index], route));
-    for (const horse of this.horses) {
-      this.group.add(horse.mesh);
-    }
-    scene.add(this.group);
-  }
-  update(deltaTime) {
-    for (const horse of this.horses) {
-      horse.update(deltaTime);
-    }
-  }
-  stats() {
-    const groundProfiles = this.groundProfiles.map((profile3) => profile3.stats());
-    return {
-      allAnimated: this.horses.every((horse) => horse.mesh.userData.animated === true),
-      count: this.horses.length,
-      drawVessels: this.horses.length,
-      groundProfiles,
-      horses: this.horses.map((horse) => horse.stats()),
-      material: horseMaterialEvidence(),
-      resources: sharedHorseTemplateEvidence(),
-      runtimeTerrainQueries: 0,
-      strategy: "shared-full-detail-form-independent-frame-motion-cyclic-ground-profiles",
-      terrainQueriesDuringConstruction: groundProfiles.reduce(
-        (total, profile3) => total + profile3.terrainQueries,
-        0
-      )
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcAnimationCadence.js
-var NpcAnimationCadence = class {
-  constructor(id, options = {}) {
-    this.phase = Number.isFinite(options.phase) ? clampPhase(options.phase) : deterministicNpcAnimationPhase(id);
-    this.elapsed = 0;
-    this.lastAppliedAt = 0;
-    this.nextAt = 0;
-    this.interval = Infinity;
-    this.updates = 0;
-  }
-  advance(deltaTime, interval) {
-    this.elapsed += Math.max(0, Number(deltaTime) || 0);
-    if (!Number.isFinite(interval)) {
-      this.interval = Infinity;
-      return 0;
-    }
-    const safeInterval = Math.max(1 / 240, Number(interval) || 0);
-    if (safeInterval !== this.interval) {
-      this.interval = safeInterval;
-      this.nextAt = this.elapsed + this.phase * safeInterval;
-    }
-    if (this.elapsed + 1e-9 < this.nextAt) {
-      return 0;
-    }
-    const accumulated = Math.max(1e-3, this.elapsed - this.lastAppliedAt);
-    this.lastAppliedAt = this.elapsed;
-    this.nextAt = this.elapsed + safeInterval;
-    this.updates += 1;
-    return accumulated;
-  }
-  stats() {
-    return {
-      elapsed: this.elapsed,
-      interval: this.interval,
-      nextAt: this.nextAt,
-      phase: this.phase,
-      updates: this.updates
-    };
-  }
-};
-function deterministicNpcAnimationPhase(id) {
-  let hash2 = 2166136261;
-  for (const character of String(id || "npc")) {
-    hash2 ^= character.codePointAt(0);
-    hash2 = Math.imul(hash2, 16777619);
-  }
-  return (hash2 >>> 0) / 4294967296;
-}
-function clampPhase(value3) {
-  return Math.max(0, Math.min(0.999999, Number(value3) || 0));
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcLodPolicy.js
-var TIERS = Object.freeze({
-  near: tier("near", true, false, 1 / 30, 2),
-  mid: tier("mid", false, true, 1 / 8, 6),
-  distant: tier("distant", false, true, 1 / 3, 18),
-  dormant: tier("dormant", false, false, Infinity, Infinity)
-});
-function resolveNpcLod(distance4, options = {}) {
-  if (options.selected || options.questFocused) {
-    return { ...TIERS.near, minimumFrames: 1 };
-  }
-  const value3 = Number.isFinite(distance4) ? distance4 : Infinity;
-  if (value3 <= (options.nearDistance ?? 24)) return { ...TIERS.near };
-  if (value3 <= (options.midDistance ?? 72)) return { ...TIERS.mid };
-  if (value3 <= (options.distantDistance ?? 155)) return { ...TIERS.distant };
-  return { ...TIERS.dormant };
-}
-function npcDistanceToPlayer(actor, playerState) {
-  if (!playerState) return Infinity;
-  return Math.hypot(
-    Number(playerState.x || 0) - Number(actor.x || 0),
-    Number(playerState.z || 0) - Number(actor.z || 0)
-  );
-}
-function tier(id, fullModel, proxyModel, updateInterval, minimumFrames) {
-  return Object.freeze({
-    fullModel,
-    id,
-    minimumFrames,
-    proxyModel,
-    updateInterval
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcQuestMarker.js
-function createNpcQuestMarker(profile3, groundY) {
-  const group = new Group();
-  group.name = `Awtsmoos_npc_marker_${profile3.id}`;
-  group.add(primitive(
-    `${profile3.id}-ring`,
-    "cylinder",
-    profile3.x,
-    groundY + 0.05,
-    profile3.z,
-    { height: 0.05, radius: 1.05, segments: 28 },
-    "#ffe45e"
-  ));
-  if (profile3.questId) {
-    group.add(primitive(
-      `${profile3.id}-quest-stem`,
-      "cylinder",
-      profile3.x,
-      groundY + 3.25,
-      profile3.z,
-      { height: 0.58, radius: 0.1, segments: 12 },
-      "#ffd229"
-    ));
-    group.add(primitive(
-      `${profile3.id}-quest-dot`,
-      "sphere",
-      profile3.x,
-      groundY + 2.82,
-      profile3.z,
-      { radius: 0.14 },
-      "#fff080"
-    ));
-  }
-  group.userData.questMarker = Boolean(profile3.questId);
-  return group;
-}
-function setNpcMarkerState(marker2, state) {
-  const selected = state.selected === true;
-  const questVisible = state.questVisible === true;
-  for (const child of marker2.children) {
-    const questPart = child.name.includes("quest-");
-    child.visible = questPart ? questVisible : selected;
-  }
-  marker2.visible = selected || questVisible;
-}
-function primitive(id, shape, x, y, z, dimensions, color) {
-  return createPrimitiveMesh({
-    ...dimensions,
-    color,
-    id: `Awtsmoos_${id}`,
-    position: { x, y, z },
-    shape,
-    solid: false,
-    userData: { family: "friendly-npc-marker" }
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js
-var COMPONENTS = { 5120: Int8Array, 5121: Uint8Array, 5122: Int16Array, 5123: Uint16Array, 5125: Uint32Array, 5126: Float32Array };
-var TYPE_SIZES = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4, MAT2: 4, MAT3: 9, MAT4: 16 };
-function componentName(t) {
-  return { 5120: "BYTE", 5121: "UNSIGNED_BYTE", 5122: "SHORT", 5123: "UNSIGNED_SHORT", 5125: "UNSIGNED_INT", 5126: "FLOAT" }[t] || String(t);
-}
-function normalizedScale(Ctor) {
-  if (Ctor === Int8Array) return 1 / 127;
-  if (Ctor === Uint8Array) return 1 / 255;
-  if (Ctor === Int16Array) return 1 / 32767;
-  if (Ctor === Uint16Array) return 1 / 65535;
-  return 1;
-}
-function scalar(view, off, Ctor) {
-  if (Ctor === Float32Array) return view.getFloat32(off, true);
-  if (Ctor === Uint32Array) return view.getUint32(off, true);
-  if (Ctor === Uint16Array) return view.getUint16(off, true);
-  if (Ctor === Uint8Array) return view.getUint8(off);
-  if (Ctor === Int16Array) return view.getInt16(off, true);
-  return view.getInt8(off);
-}
-function writeTuple(target, index, values, itemSize) {
-  for (let k = 0; k < itemSize; k++) target[index * itemSize + k] = values[k] ?? 0;
-}
-function readAccessor(doc, buffers, index) {
-  const a = doc.accessors[index], Ctor = COMPONENTS[a?.componentType], itemSize = TYPE_SIZES[a?.type] || 1;
-  if (!a || !Ctor) throw new Error(`Unsupported accessor ${index}`);
-  const normalized3 = a.normalized === true;
-  let array;
-  if (a.bufferView === void 0) {
-    array = new Ctor(a.count * itemSize);
-  } else {
-    const bv = doc.bufferViews[a.bufferView], buffer = buffers[bv.buffer], base = (bv.byteOffset || 0) + (a.byteOffset || 0), stride = bv.byteStride || Ctor.BYTES_PER_ELEMENT * itemSize;
-    if (stride === Ctor.BYTES_PER_ELEMENT * itemSize) {
-      array = new Ctor(buffer, base, a.count * itemSize);
-    } else {
-      array = new Ctor(a.count * itemSize);
-      const view = new DataView(buffer);
-      for (let i = 0; i < a.count; i++) for (let k = 0; k < itemSize; k++) array[i * itemSize + k] = scalar(view, base + i * stride + k * Ctor.BYTES_PER_ELEMENT, Ctor);
-    }
-  }
-  if (a.sparse) {
-    array = new Ctor(array);
-    applySparse(doc, buffers, a, array, itemSize, Ctor);
-  }
-  const attr = new BufferAttribute(array, itemSize, normalized3, a.componentType);
-  attr.accessorIndex = index;
-  attr.min = a.min;
-  attr.max = a.max;
-  return attr;
-}
-function applySparse(doc, buffers, a, array, itemSize, Ctor) {
-  const s = a.sparse, iv = doc.bufferViews[s.indices.bufferView], vv = doc.bufferViews[s.values.bufferView], ICtor = COMPONENTS[s.indices.componentType];
-  const ib = buffers[iv.buffer], vb = buffers[vv.buffer], iBase = (iv.byteOffset || 0) + (s.indices.byteOffset || 0), vBase = (vv.byteOffset || 0) + (s.values.byteOffset || 0);
-  const iView = new DataView(ib), vView = new DataView(vb);
-  for (let n = 0; n < s.count; n++) {
-    const idx = scalar(iView, iBase + n * ICtor.BYTES_PER_ELEMENT, ICtor), vals = [];
-    for (let k = 0; k < itemSize; k++) vals[k] = scalar(vView, vBase + (n * itemSize + k) * Ctor.BYTES_PER_ELEMENT, Ctor);
-    writeTuple(array, idx, vals, itemSize);
-  }
-}
-function accessorFloatArray(attr) {
-  const src = attr.array;
-  if (src instanceof Float32Array && !attr.normalized) return src;
-  const out = new Float32Array(src.length), scale2 = attr.normalized ? normalizedScale(src.constructor) : 1;
-  for (let i = 0; i < src.length; i++) {
-    let v2 = src[i] * scale2;
-    if (attr.normalized && (src instanceof Int8Array || src instanceof Int16Array)) v2 = Math.max(-1, v2);
-    out[i] = v2;
-  }
-  return out;
-}
-function normalizeWeightsAttribute(attr) {
-  const src = accessorFloatArray(attr), out = new Float32Array(src.length), size = attr.itemSize;
-  for (let i = 0; i < attr.count; i++) {
-    let sum2 = 0;
-    for (let k = 0; k < size; k++) sum2 += Math.abs(src[i * size + k] || 0);
-    if (sum2 > 0) {
-      for (let k = 0; k < size; k++) out[i * size + k] = (src[i * size + k] || 0) / sum2;
-    } else out[i * size] = 1;
-  }
-  return new BufferAttribute(out, size, false, 5126);
-}
-function accessorSummary(doc, index) {
-  const a = doc.accessors[index];
-  return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js
-var TARGET_SIZE = {
-  rotation: 4,
-  scale: 3,
-  translation: 3,
-  weights: 1
-};
-function summarizeAnimations(document2) {
-  return (document2.animations || []).map((animation, index) => ({
-    channels: (animation.channels || []).length,
-    index,
-    name: animation.name || `animation_${index}`,
-    paths: [...new Set(
-      (animation.channels || []).map((channel) => channel.target?.path).filter(Boolean)
-    )],
-    samplers: (animation.samplers || []).length
-  }));
-}
-function parseTinyAnimations(document2, accessors, nodeMap) {
-  return (document2.animations || []).map((animation, index) => parseAnimation(animation, index, accessors, nodeMap));
-}
-function parseAnimation(animation, index, accessors, nodeMap) {
-  const channels = [];
-  let duration = 0;
-  for (const sourceChannel of animation.channels || []) {
-    const channel = parseChannel(
-      sourceChannel,
-      animation.samplers || [],
-      accessors,
-      nodeMap
-    );
-    if (!channel) {
-      continue;
-    }
-    channels.push(channel);
-    duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
-  }
-  return {
-    channels,
-    duration,
-    index,
-    name: animation.name || `animation_${index}`
-  };
-}
-function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
-  const sampler = samplers[sourceChannel.sampler];
-  const target = sourceChannel.target || {};
-  const node = nodeMap.get(target.node);
-  const size = TARGET_SIZE[target.path];
-  if (!sampler || !node || !size) {
-    return null;
-  }
-  return {
-    input: accessorFloatArray(accessors[sampler.input]),
-    interpolation: sampler.interpolation || "LINEAR",
-    node,
-    nodeIndex: target.node,
-    output: accessorFloatArray(accessors[sampler.output]),
-    path: target.path,
-    size
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js
-function createAnimationBindings(clips) {
-  const bindingByNode = /* @__PURE__ */ new Map();
-  const bindings = [];
-  for (const clip of clips) {
-    for (const channel of clip.channels || []) {
-      let paths = bindingByNode.get(channel.node);
-      if (!paths) {
-        paths = /* @__PURE__ */ new Map();
-        bindingByNode.set(channel.node, paths);
-      }
-      if (paths.has(channel.path)) {
-        continue;
-      }
-      const binding = {
-        base: readBaseValue(channel.node, channel.path),
-        node: channel.node,
-        path: channel.path
-      };
-      paths.set(channel.path, binding);
-      bindings.push(binding);
-    }
-  }
-  return bindings;
-}
-function captureClipPose(clip) {
-  const pose = /* @__PURE__ */ new Map();
-  for (const channel of clip?.channels || []) {
-    pose.set(channel, readNodeValue(channel.node, channel.path));
-  }
-  return pose;
-}
-function resetAnimationBindings(bindings) {
-  for (const binding of bindings) {
-    writeNodeValue(binding.node, binding.path, binding.base);
-  }
-}
-function writeNodeValue(node, path, values) {
-  if (path === "translation") {
-    node.position.set(values[0], values[1], values[2]);
-    return;
-  }
-  if (path === "rotation") {
-    node.quaternion.set(values[0], values[1], values[2], values[3]);
-    return;
-  }
-  if (path === "scale") {
-    node.scale.set(values[0], values[1], values[2]);
-  }
-}
-function readBaseValue(node, path) {
-  const base = node._base;
-  if (path === "translation") {
-    const value3 = base?.position || node.position;
-    return [value3.x, value3.y, value3.z];
-  }
-  if (path === "rotation") {
-    const value3 = base?.quaternion || node.quaternion;
-    return [value3.x, value3.y, value3.z, value3.w];
-  }
-  if (path === "scale") {
-    const value3 = base?.scale || node.scale;
-    return [value3.x, value3.y, value3.z];
-  }
-  return [0];
-}
-function readNodeValue(node, path) {
-  if (path === "translation") {
-    return [node.position.x, node.position.y, node.position.z];
-  }
-  if (path === "rotation") {
-    return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
-  }
-  if (path === "scale") {
-    return [node.scale.x, node.scale.y, node.scale.z];
-  }
-  return [0];
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js
-function slerpQuaternionInto(output, ax, ay, az, aw, bx, by, bz, bw, amount) {
-  let cosine = ax * bx + ay * by + az * bz + aw * bw;
-  if (cosine < 0) {
-    bx = -bx;
-    by = -by;
-    bz = -bz;
-    bw = -bw;
-    cosine = -cosine;
-  }
-  if (cosine > 0.9995) {
-    return normalizeInto(
-      output,
-      ax + (bx - ax) * amount,
-      ay + (by - ay) * amount,
-      az + (bz - az) * amount,
-      aw + (bw - aw) * amount
-    );
-  }
-  const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
-  const sine = Math.sin(angle);
-  const leftWeight = Math.sin((1 - amount) * angle) / sine;
-  const rightWeight = Math.sin(amount * angle) / sine;
-  return normalizeInto(
-    output,
-    ax * leftWeight + bx * rightWeight,
-    ay * leftWeight + by * rightWeight,
-    az * leftWeight + bz * rightWeight,
-    aw * leftWeight + bw * rightWeight
-  );
-}
-function normalizeInto(output, x, y, z, w) {
-  const scale2 = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
-  output[0] = x * scale2;
-  output[1] = y * scale2;
-  output[2] = z * scale2;
-  output[3] = w * scale2;
-  return output;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js
-function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
-  const span = resolveSpan(channel, time);
-  if (channel.path === "rotation") {
-    applyRotation(channel, span, fadeFrom, fadeAmount);
-    return;
-  }
-  if (channel.path === "translation" || channel.path === "scale") {
-    applyVector(channel, span, fadeFrom, fadeAmount);
-  }
-}
-function applyVector(channel, span, fadeFrom, fadeAmount) {
-  const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
-  for (let index = 0; index < 3; index += 1) {
-    const sampled = sampleComponent(channel, span, index);
-    values[index] = fadeFrom ? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount : sampled;
-  }
-  const target = channel.path === "translation" ? channel.node.position : channel.node.scale;
-  target.set(values[0], values[1], values[2]);
-}
-function applyRotation(channel, span, fadeFrom, fadeAmount) {
-  const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
-  const left = span.left * channel.size;
-  const right = span.right * channel.size;
-  const source = channel.output;
-  if (span.step) {
-    for (let index = 0; index < 4; index += 1) {
-      output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
-    }
-  } else {
-    slerpQuaternionInto(
-      output,
-      source[left] || 0,
-      source[left + 1] || 0,
-      source[left + 2] || 0,
-      source[left + 3] ?? 1,
-      source[right] || 0,
-      source[right + 1] || 0,
-      source[right + 2] || 0,
-      source[right + 3] ?? 1,
-      span.amount
-    );
-  }
-  if (fadeFrom) {
-    slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
-  }
-  channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
-}
-function sampleComponent(channel, span, componentIndex) {
-  const left = span.left * channel.size + componentIndex;
-  const valueA = channel.output[left] ?? 0;
-  if (span.step) return valueA;
-  const right = span.right * channel.size + componentIndex;
-  const valueB = channel.output[right] ?? valueA;
-  return valueA + (valueB - valueA) * span.amount;
-}
-function resolveSpan(channel, time) {
-  const times = channel.input;
-  const span = channel._sampleSpan || (channel._sampleSpan = {});
-  const last = times.length - 1;
-  if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
-  if (time >= times[last]) return assignSpan(span, last, last, 0, true);
-  let low = 0;
-  let high = last;
-  while (high - low > 1) {
-    const middle = low + high >> 1;
-    if (times[middle] <= time) low = middle;
-    else high = middle;
-  }
-  const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
-  return assignSpan(span, low, high, amount, channel.interpolation === "STEP");
-}
-function assignSpan(span, left, right, amount, step2) {
-  span.left = left;
-  span.right = right;
-  span.amount = amount;
-  span.step = step2 || left === right;
-  return span;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js
-var TinyAnimationPlayer = class {
-  constructor(root, clips = []) {
-    this.root = root;
-    this.clips = clips;
-    this.bindings = createAnimationBindings(clips);
-    this.currentIndex = clips.length ? 0 : -1;
-    this.time = 0;
-    this.playing = true;
-    this.bindPose = false;
-    this.lastApplied = null;
-    this.fadeDuration = 0.18;
-    this.fadeTime = 0;
-    this.fadePose = null;
-  }
-  get current() {
-    return this.clips[this.currentIndex] || null;
-  }
-  get names() {
-    return this.clips.map((clip) => clip.name);
-  }
-  play(indexOrName) {
-    const index = resolveClipIndex(this.clips, indexOrName);
-    if (index < 0) return this.current;
-    const target = this.clips[index];
-    const alreadyApplied = this.lastApplied === target?.name;
-    if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
-      this.playing = true;
-      return this.current;
-    }
-    const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== "bind";
-    this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
-    this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
-    this.currentIndex = index;
-    this.time = 0;
-    this.bindPose = false;
-    this.playing = true;
-    this.apply(0);
-    return this.current;
-  }
-  next() {
-    return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
-  }
-  setBindPose(enabled) {
-    this.bindPose = Boolean(enabled);
-    this.time = 0;
-    this.fadePose = null;
-    resetAnimationBindings(this.bindings);
-    this.lastApplied = this.bindPose ? "bind" : null;
-  }
-  update(deltaTime) {
-    if (this.bindPose || !this.current) return;
-    const delta = Math.max(0, Number(deltaTime) || 0);
-    if (this.playing) this.time += delta;
-    if (this.fadePose) this.fadeTime += delta;
-    const duration = this.current.duration || 1;
-    this.apply(duration ? this.time % duration : 0);
-  }
-  apply(time) {
-    const clip = this.current;
-    if (!clip) return;
-    resetAnimationBindings(this.bindings);
-    const fadeAmount = this.fadePose ? smooth(Math.min(1, this.fadeTime / Math.max(1e-3, this.fadeDuration))) : 1;
-    for (const channel of clip.channels) {
-      applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
-    }
-    if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
-    this.lastApplied = clip.name;
-  }
-  diagnostics() {
-    const clip = this.current;
-    return {
-      bindPose: this.bindPose,
-      channels: clip?.channels.length || 0,
-      clipCount: this.clips.length,
-      currentAnimation: clip?.name || null,
-      currentIndex: this.currentIndex,
-      duration: Number((clip?.duration || 0).toFixed(3)),
-      fade: this.fadePose ? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3)) : 0,
-      playing: this.playing,
-      time: Number(this.time.toFixed(3))
-    };
-  }
-};
-function resolveClipIndex(clips, indexOrName) {
-  return typeof indexOrName === "number" ? indexOrName : clips.findIndex((clip) => clip.name === indexOrName);
-}
-function smooth(amount) {
-  return amount * amount * (3 - 2 * amount);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js
-function alignModelFeetToGround(model, groundY = 0) {
-  model.updateWorldMatrix?.();
-  const minY = findMinWorldY(model);
-  if (!Number.isFinite(minY)) return { minY: null, offset: 0 };
-  const offset = groundY - minY;
-  model.position.y += offset;
-  model.setBaseTransform?.();
-  return { minY, offset };
-}
-function findMinWorldY(root) {
-  let minY = Infinity;
-  root.traverse((object) => {
-    const position = object.geometry?.attributes?.position;
-    const matrix = object.matrixWorld;
-    if (!position || !matrix) return;
-    const array = position.array;
-    for (let i = 0; i < array.length; i += 3) {
-      const y = matrix[1] * array[i] + matrix[5] * array[i + 1] + matrix[9] * array[i + 2] + matrix[13];
-      if (y < minY) minY = y;
-    }
-  });
-  return minY;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcFarProxy.js
-function createNpcFarProxy(profile3, ground) {
-  const group = new Group();
-  const definition = createVillageBoxBatch(
-    `npc-proxy-${profile3.id}`,
-    proxyBoxes(),
-    {
-      color: profile3.outfit?.colors?.coat || "#29313b",
-      family: "friendly-npc-proxy",
-      part: "merged-silhouette"
-    }
-  );
-  const mesh = createPrimitiveMesh(definition);
-  mesh.userData.renderFamily = "npc-proxy";
-  mesh.userData.renderDistance = 170;
-  group.name = `Awtsmoos_npc_proxy_${profile3.id}`;
-  group.userData.family = "friendly-npc-proxy";
-  group.userData.actorId = profile3.id;
-  group.position.set(profile3.x, ground.heightAt(profile3.x, profile3.z), profile3.z);
-  group.add(mesh);
-  group.visible = false;
-  return group;
-}
-function proxyBoxes() {
-  return [
-    box3(0, 1.28, 0, 0.72, 1.22, 0.42),
-    box3(0, 2.18, 0, 0.48, 0.48, 0.48),
-    box3(0, 2.55, 0, 0.62, 0.18, 0.62),
-    box3(-0.25, 0.48, 0, 0.22, 0.96, 0.24),
-    box3(0.25, 0.48, 0, 0.22, 0.96, 0.24),
-    box3(-0.48, 1.35, 0, 0.2, 1.02, 0.24),
-    box3(0.48, 1.35, 0, 0.2, 1.02, 0.24)
-  ];
-}
-function box3(x, y, z, width, height, depth) {
-  return {
-    position: { x, y, z },
-    size: { x: width, y: height, z: depth },
-    yaw: 0
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcChossidVisual.js
-function createNpcChossidVisual(profile3, gltf, ground) {
-  const group = new Group();
-  group.name = `Awtsmoos_friendly_npc_${profile3.id}`;
-  group.userData.family = "animated-chossid-npc";
-  group.userData.renderDistance = profile3.primary ? 170 : 155;
-  const model = gltf.scene;
-  model.scale.set(1.38, 1.38, 1.38);
-  model.position.set(profile3.x, 0, profile3.z);
-  const aligned = alignModelFeetToGround(model, 0);
-  const groundY = ground.heightAt(profile3.x, profile3.z);
-  const footOffset = aligned.offset ?? 0;
-  model.position.set(profile3.x, groundY + footOffset, profile3.z);
-  model.quaternion.set(0, Math.sin(0.75), 0, Math.cos(0.75));
-  model.setBaseTransform();
-  const player = new TinyAnimationPlayer(model, gltf.animations);
-  const clips = npcAnimationClips(player.names);
-  player.play(profile3.wanderRadius ? clips.walk : clips.idle);
-  const marker2 = createNpcQuestMarker(profile3, groundY);
-  const proxy = createNpcFarProxy(profile3, ground);
-  group.add(model);
-  group.add(proxy);
-  group.add(marker2);
-  return { clips, footOffset, groundY, group, marker: marker2, model, player, proxy };
-}
-function faceNpcModelToPlayer(model, actorPosition, playerState) {
-  if (!playerState) return;
-  const yaw = Math.atan2(playerState.x - actorPosition.x, playerState.z - actorPosition.z);
-  setYaw(model, yaw);
-}
-function faceNpcModelAlongPath(model, elapsed, phase2 = 0) {
-  const dx = -Math.sin(elapsed + phase2);
-  const dz = Math.cos((elapsed + phase2) * 0.83) * 0.72;
-  setYaw(model, Math.atan2(dx, dz));
-}
-function setYaw(model, yaw) {
-  model.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
-}
-function npcAnimationClips(names) {
-  const pick = (expression, fallback) => names.find((name) => expression.test(name)) || fallback;
-  const idle = pick(/stand|idle|neutral/i, names[0] || "");
-  return { idle, walk: pick(/walk|step|stroll/i, idle) };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcScheduleFacing.js
-function faceNpcScheduledActor(model, actor, playerState) {
-  if (actor.selected || actor.dialogueOpen) {
-    faceNpcModelToPlayer(
-      model,
-      { x: actor.worldX, z: actor.worldZ },
-      playerState
-    );
-    return;
-  }
-  if (actor.isTravelling) {
-    faceDirection(model, actor.routeDirectionX, actor.routeDirectionZ);
-    return;
-  }
-  faceNpcModelAlongPath(
-    model,
-    actor.elapsed,
-    actor.profile.motionPhase || 0
-  );
-}
-function faceDirection(model, directionX, directionZ) {
-  const yaw = Math.atan2(directionX || 0, directionZ || 1);
-  model.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/FriendlyNpcScheduleRules.js
-var DEFAULT_DAY_LENGTH_SECONDS = 1440;
-function friendlyNpcDailyPeriod(hour) {
-  const value3 = normalizeFriendlyNpcHour(hour);
-  if (value3 < 5 || value3 >= 21) return "night";
-  if (value3 < 10) return "morning";
-  if (value3 < 17) return "day";
-  return "evening";
-}
-function friendlyNpcScheduleAt(profile3, hour) {
-  const period = friendlyNpcDailyPeriod(hour);
-  return profile3?.dailyAnchors?.[period] || null;
-}
-function advanceFriendlyNpcWorldHour(currentHour, deltaTime, options = {}) {
-  const authoritative = Number(options.playerState?.worldHour);
-  if (Number.isFinite(authoritative)) return normalizeFriendlyNpcHour(authoritative);
-  const dayLengthSeconds = Math.max(60, Number(options.dayLengthSeconds) || DEFAULT_DAY_LENGTH_SECONDS);
-  const elapsed = Math.max(0, Number(deltaTime) || 0);
-  return normalizeFriendlyNpcHour(Number(currentHour) + elapsed * 24 / dayLengthSeconds);
-}
-function normalizeFriendlyNpcHour(hour) {
-  const value3 = Number.isFinite(Number(hour)) ? Number(hour) : 12;
-  return (value3 % 24 + 24) % 24;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadNetwork.js
-var NETWORK = buildNetwork();
-function nearestNpcRoadNode(point3) {
-  let nearest = NETWORK.nodes[0];
-  let nearestDistance = Infinity;
-  for (const node of NETWORK.nodes) {
-    const distance4 = pointDistance(point3, node);
-    if (distance4 < nearestDistance) {
-      nearest = node;
-      nearestDistance = distance4;
-    }
-  }
-  return nearest;
-}
-function shortestNpcRoadNodePath(start, end) {
-  const count = NETWORK.nodes.length;
-  const distances = new Float64Array(count);
-  const previous = new Int32Array(count);
-  const visited = new Uint8Array(count);
-  distances.fill(Infinity);
-  previous.fill(-1);
-  distances[start.index] = 0;
-  for (let pass = 0; pass < count; pass += 1) {
-    const node = nearestUnvisited(distances, visited);
-    if (!node || node === end) break;
-    visited[node.index] = 1;
-    relaxLinks(node, distances, previous);
-  }
-  return rebuildPath(start, end, previous);
-}
-function buildNetwork() {
-  const nodesByKey = /* @__PURE__ */ new Map();
-  const nodes = [];
-  for (const route of canonicalVillageRoadRoutes()) {
-    for (let index = 0; index < route.points.length; index += 1) {
-      const node = networkNode(route.points[index], nodesByKey, nodes);
-      if (index > 0) {
-        const previous = networkNode(route.points[index - 1], nodesByKey, nodes);
-        connectNodes(previous, node);
-      }
-    }
-  }
-  return Object.freeze({ nodes: Object.freeze(nodes) });
-}
-function networkNode(point3, nodesByKey, nodes) {
-  const key = coordinateKey(point3);
-  if (!nodesByKey.has(key)) {
-    const node = { index: nodes.length, links: [], x: point3.x, z: point3.z };
-    nodesByKey.set(key, node);
-    nodes.push(node);
-  }
-  return nodesByKey.get(key);
-}
-function connectNodes(first, second) {
-  const distance4 = pointDistance(first, second);
-  first.links.push({ distance: distance4, node: second });
-  second.links.push({ distance: distance4, node: first });
-}
-function nearestUnvisited(distances, visited) {
-  let result = null;
-  let resultDistance = Infinity;
-  for (const node of NETWORK.nodes) {
-    if (!visited[node.index] && distances[node.index] < resultDistance) {
-      result = node;
-      resultDistance = distances[node.index];
-    }
-  }
-  return result;
-}
-function relaxLinks(node, distances, previous) {
-  for (const link of node.links) {
-    const candidate = distances[node.index] + link.distance;
-    if (candidate < distances[link.node.index]) {
-      distances[link.node.index] = candidate;
-      previous[link.node.index] = node.index;
-    }
-  }
-}
-function rebuildPath(start, end, previous) {
-  const path = [];
-  let index = end.index;
-  while (index >= 0) {
-    path.push(NETWORK.nodes[index]);
-    if (index === start.index) break;
-    index = previous[index];
-  }
-  return index < 0 ? [start, end] : path.reverse();
-}
-function coordinateKey(point3) {
-  return `${Number(point3.x).toFixed(3)}:${Number(point3.z).toFixed(3)}`;
-}
-function pointDistance(first, second) {
-  return Math.hypot(Number(second.x) - Number(first.x), Number(second.z) - Number(first.z));
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadJourney.js
-var JOURNEY_CACHE = /* @__PURE__ */ new Map();
-function npcRoadJourney(from, to) {
-  const key = journeyKey(from, to);
-  if (JOURNEY_CACHE.has(key)) return JOURNEY_CACHE.get(key);
-  const points = samePoint(from, to) ? [pointFrom(from)] : journeyPoints(from, to);
-  const journey = measureJourney(points);
-  JOURNEY_CACHE.set(key, journey);
-  return journey;
-}
-function sampleNpcRoadJourney(journey, progress, actor, laneOffset = 0) {
-  if (journey.points.length < 2 || journey.totalLength <= 1e-3) {
-    applyStationaryJourney(journey.points[0], actor);
-    return;
-  }
-  const clamped = Math.max(0, Math.min(1, Number(progress) || 0));
-  const distance4 = journey.totalLength * clamped;
-  const index = segmentForDistance(journey, distance4);
-  const from = journey.points[index - 1];
-  const to = journey.points[index];
-  const start = journey.cumulativeLength[index - 1];
-  const length2 = Math.max(1e-6, journey.cumulativeLength[index] - start);
-  const local = Math.max(0, Math.min(1, (distance4 - start) / length2));
-  const directionX = (to.x - from.x) / length2;
-  const directionZ = (to.z - from.z) / length2;
-  const offset = laneOffset * Math.sin(Math.PI * clamped);
-  actor.routeCenterX = from.x + (to.x - from.x) * local - directionZ * offset;
-  actor.routeCenterZ = from.z + (to.z - from.z) * local + directionX * offset;
-  actor.routeDirectionX = directionX;
-  actor.routeDirectionZ = directionZ;
-}
-function journeyPoints(from, to) {
-  const nodes = shortestNpcRoadNodePath(
-    nearestNpcRoadNode(from),
-    nearestNpcRoadNode(to)
-  );
-  return deduplicatePoints([
-    pointFrom(from),
-    ...nodes.map(pointFrom),
-    pointFrom(to)
-  ]);
-}
-function applyStationaryJourney(point3, actor) {
-  actor.routeCenterX = Number(point3?.x) || 0;
-  actor.routeCenterZ = Number(point3?.z) || 0;
-  actor.routeDirectionX = 0;
-  actor.routeDirectionZ = 1;
-}
-function measureJourney(points) {
-  const cumulativeLength = [0];
-  for (let index = 1; index < points.length; index += 1) {
-    cumulativeLength.push(
-      cumulativeLength[index - 1] + pointDistance2(points[index - 1], points[index])
-    );
-  }
-  return Object.freeze({
-    cumulativeLength: Object.freeze(cumulativeLength),
-    points: Object.freeze(points.map((point3) => Object.freeze(point3))),
-    totalLength: cumulativeLength.at(-1) || 0
-  });
-}
-function segmentForDistance(journey, distance4) {
-  for (let index = 1; index < journey.cumulativeLength.length; index += 1) {
-    if (distance4 <= journey.cumulativeLength[index]) return index;
-  }
-  return journey.points.length - 1;
-}
-function deduplicatePoints(points) {
-  return points.filter((point3, index) => {
-    return index === 0 || pointDistance2(point3, points[index - 1]) > 1e-3;
-  });
-}
-function samePoint(first, second) {
-  return pointDistance2(first, second) <= 1e-3;
-}
-function journeyKey(from, to) {
-  return `${coordinateKey2(from)}>${coordinateKey2(to)}`;
-}
-function coordinateKey2(point3) {
-  return `${Number(point3.x).toFixed(3)}:${Number(point3.z).toFixed(3)}`;
-}
-function pointFrom(point3) {
-  return { x: Number(point3.x) || 0, z: Number(point3.z) || 0 };
-}
-function pointDistance2(first, second) {
-  return Math.hypot(
-    Number(second.x) - Number(first.x),
-    Number(second.z) - Number(first.z)
-  );
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcScheduleJourney.js
-var DEFAULT_DAY_LENGTH_SECONDS2 = 1440;
-var MAXIMUM_TRAVEL_HOURS = 2.4;
-var MINIMUM_TRAVEL_HOURS = 0.25;
-var PERIOD_START = Object.freeze({ day: 10, evening: 17, morning: 5, night: 21 });
-var PREVIOUS_PERIOD = Object.freeze({
-  day: "morning",
-  evening: "day",
-  morning: "night",
-  night: "evening"
-});
-function applyNpcScheduleJourney(actor, worldHour) {
-  const anchors = actor.profile?.dailyAnchors;
-  if (!anchors) {
-    applyFallbackPost(actor);
-    return 1;
-  }
-  const hour = normalizeFriendlyNpcHour(worldHour);
-  const period = friendlyNpcDailyPeriod(hour);
-  ensureScheduleLeg(actor, anchors, period);
-  const elapsed = normalizeFriendlyNpcHour(hour - PERIOD_START[period]);
-  const duration = actor.scheduleTravelDuration;
-  const progress = duration > 0 ? Math.min(1, elapsed / duration) : 1;
-  sampleNpcRoadJourney(
-    actor.scheduleJourney,
-    smoothStep(progress),
-    actor,
-    actor.scheduleLaneOffset
-  );
-  applyScheduleState(actor, progress);
-  return progress;
-}
-function npcScheduleTravelDuration(routeLength, walkSpeed, dayLengthSeconds = DEFAULT_DAY_LENGTH_SECONDS2) {
-  const length2 = Math.max(0, Number(routeLength) || 0);
-  if (length2 <= 1e-3) return 0;
-  const speed = Math.max(0.2, Number(walkSpeed) || 1);
-  const daySeconds = Math.max(1, Number(dayLengthSeconds) || DEFAULT_DAY_LENGTH_SECONDS2);
-  const worldHours = length2 / speed * 24 / daySeconds;
-  return Math.max(MINIMUM_TRAVEL_HOURS, Math.min(MAXIMUM_TRAVEL_HOURS, worldHours));
-}
-function ensureScheduleLeg(actor, anchors, period) {
-  if (actor.scheduleJourney && actor.dailyPeriod === period) return;
-  const destination = friendlyNpcScheduleAt(actor.profile, PERIOD_START[period]);
-  const origin = anchors[PREVIOUS_PERIOD[period]] || destination;
-  if (actor.dailyPeriod && actor.dailyPeriod !== period) {
-    actor.scheduleChanges = Number(actor.scheduleChanges || 0) + 1;
-  }
-  actor.dailyPeriod = period;
-  actor.scheduleDestination = destination;
-  actor.scheduleJourney = npcRoadJourney(origin.location, destination.location);
-  actor.scheduleTravelDuration = npcScheduleTravelDuration(
-    actor.scheduleJourney.totalLength,
-    actor.profile.walkSpeed
-  );
-  actor.scheduleLaneOffset = laneOffsetFor(actor.profile);
-}
-function applyScheduleState(actor, progress) {
-  const destination = actor.scheduleDestination;
-  actor.activeScheduleAction = destination.action;
-  actor.currentAction = progress < 1 ? `travel-to-${destination.location.id}` : destination.action;
-  actor.isTravelling = progress < 1;
-  actor.navigationTarget = destination.location;
-  actor.scheduleProgress = progress;
-  actor.scheduleRouteLength = actor.scheduleJourney.totalLength;
-}
-function applyFallbackPost(actor) {
-  actor.routeCenterX = Number(actor.profile?.x) || 0;
-  actor.routeCenterZ = Number(actor.profile?.z) || 0;
-  actor.routeDirectionX = 0;
-  actor.routeDirectionZ = 1;
-  actor.currentAction = "remain-at-post";
-  actor.isTravelling = false;
-}
-function laneOffsetFor(profile3) {
-  const phase2 = Number(profile3.motionPhase) || 0;
-  return Math.sin(phase2 * 7.31 + 0.43) * 0.42;
-}
-function smoothStep(value3) {
-  const clamped = Math.max(0, Math.min(1, value3));
-  return clamped * clamped * (3 - 2 * clamped);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcChossidMotion.js
-var DUTY_WANDER_SCALE = Object.freeze({
-  "join-village-gathering": 0.68,
-  "pray-shacharis": 0.32,
-  "rest-at-home": 0.16
-});
-function updateNpcChossidMotion(actor, deltaTime, playerState, worldHour) {
-  applyNpcScheduleJourney(actor, worldHour);
-  updateLogicalRoute(actor);
-  const previousLodId = actor.lod?.id;
-  actor.lod = resolveNpcLod(
-    npcDistanceToPlayer({ x: actor.worldX, z: actor.worldZ }, playerState),
-    { questFocused: actor.dialogueOpen, selected: actor.selected }
-  );
-  applyVisibility(actor);
-  const motionDelta = actor.motionCadence.advance(
-    deltaTime,
-    actor.lod.updateInterval,
-    actor.lod.minimumFrames
-  );
-  if (!actor.lod.fullModel && !actor.lod.proxyModel) return;
-  const becameVisible = previousLodId === "dormant" && actor.lod.id !== "dormant";
-  const appliedDelta = motionDelta > 0 ? motionDelta : becameVisible ? Math.max(deltaTime, 1 / 60) : 0;
-  if (appliedDelta <= 0) return;
-  actor.elapsed += appliedDelta * (actor.profile.motionSpeed || 0);
-  updateLogicalRoute(actor);
-  updateGround(actor);
-  moveMarker(actor);
-  if (actor.lod.fullModel) updateFullModel(actor, appliedDelta, playerState);
-  if (actor.lod.proxyModel) updateProxy(actor);
-}
-function applyVisibility(actor) {
-  actor.model.visible = actor.lod.fullModel;
-  actor.proxy.visible = actor.lod.proxyModel;
-  setNpcMarkerState(actor.marker, {
-    questVisible: Boolean(actor.profile.questId) && actor.lod.id !== "dormant",
-    selected: actor.selected
-  });
-}
-function updateLogicalRoute(actor) {
-  const radius = localWanderRadius(actor);
-  const phase2 = actor.profile.motionPhase || 0;
-  actor.worldX = actor.routeCenterX + Math.cos(actor.elapsed + phase2) * radius;
-  actor.worldZ = actor.routeCenterZ + Math.sin((actor.elapsed + phase2) * 0.83) * radius * 0.72;
-}
-function localWanderRadius(actor) {
-  if (actor.isTravelling) return 0;
-  const scale2 = DUTY_WANDER_SCALE[actor.activeScheduleAction] ?? 0.52;
-  return (actor.profile.wanderRadius || 0) * scale2;
-}
-function updateFullModel(actor, motionDelta, playerState) {
-  const animationDelta = actor.animationCadence.advance(
-    motionDelta,
-    actor.lod.updateInterval
-  );
-  if (animationDelta > 0) actor.player.update(animationDelta);
-  actor.model.position.set(actor.worldX, actor.worldY, actor.worldZ);
-  faceNpcScheduledActor(actor.model, actor, playerState);
-}
-function updateProxy(actor) {
-  actor.proxy.position.set(
-    actor.worldX,
-    actor.worldY - actor.footOffset,
-    actor.worldZ
-  );
-  faceNpcScheduledActor(actor.proxy, actor, null);
-}
-function updateGround(actor) {
-  actor.worldY = actor.ground.heightAt(actor.worldX, actor.worldZ) + actor.footOffset;
-}
-function moveMarker(actor) {
-  actor.marker.position.set(
-    actor.worldX - actor.profile.x,
-    actor.worldY - (actor.groundY + actor.footOffset),
-    actor.worldZ - actor.profile.z
-  );
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRelevanceCadence.js
-var NpcRelevanceCadence = class {
-  constructor(id, options = {}) {
-    this.phase = Number.isFinite(options.phase) ? clampPhase2(options.phase) : deterministicNpcAnimationPhase(id);
-    this.elapsed = 0;
-    this.frames = 0;
-    this.interval = Infinity;
-    this.lastAppliedAt = 0;
-    this.minimumFrames = Infinity;
-    this.nextAt = Infinity;
-    this.nextFrame = Infinity;
-    this.updates = 0;
-  }
-  advance(deltaTime, interval, minimumFrames) {
-    this.elapsed += Math.max(0, Number(deltaTime) || 0);
-    this.frames += 1;
-    if (!Number.isFinite(interval) || !Number.isFinite(minimumFrames)) {
-      this.enterDormantState();
-      return 0;
-    }
-    const safeInterval = Math.max(1 / 240, Number(interval) || 0);
-    const safeFrames = Math.max(1, Math.floor(Number(minimumFrames) || 1));
-    this.applyPolicy(safeInterval, safeFrames);
-    if (this.elapsed + 1e-9 < this.nextAt || this.frames < this.nextFrame) return 0;
-    const accumulated = Math.max(1e-3, this.elapsed - this.lastAppliedAt);
-    this.lastAppliedAt = this.elapsed;
-    this.nextAt = this.elapsed + safeInterval;
-    this.nextFrame = this.frames + safeFrames;
-    this.updates += 1;
-    return accumulated;
-  }
-  stats() {
-    return {
-      elapsed: this.elapsed,
-      frames: this.frames,
-      interval: this.interval,
-      minimumFrames: this.minimumFrames,
-      nextAt: this.nextAt,
-      nextFrame: this.nextFrame,
-      phase: this.phase,
-      updates: this.updates
-    };
-  }
-  applyPolicy(interval, minimumFrames) {
-    if (interval === this.interval && minimumFrames === this.minimumFrames) return;
-    this.interval = interval;
-    this.minimumFrames = minimumFrames;
-    this.nextAt = this.elapsed + this.phase * interval;
-    this.nextFrame = this.frames + Math.floor(this.phase * minimumFrames);
-  }
-  enterDormantState() {
-    this.interval = Infinity;
-    this.minimumFrames = Infinity;
-    this.nextAt = Infinity;
-    this.nextFrame = Infinity;
-    this.lastAppliedAt = this.elapsed;
-  }
-};
-function clampPhase2(value3) {
-  return Math.max(0, Math.min(0.999999, Number(value3) || 0));
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/NpcChossid.js
-var NpcChossid = class {
-  constructor(options) {
-    this.profile = options.profile;
-    this.bus = options.bus;
-    this.camera = options.camera;
-    this.canvas = options.canvas;
-    this.ground = options.ground;
-    this.health = 100;
-    this.selected = false;
-    this.dialogueOpen = false;
-    this.lastHit = false;
-    this.elapsed = 0;
-    this.worldX = this.profile.x;
-    this.worldZ = this.profile.z;
-    this.routeCenterX = this.profile.x;
-    this.routeCenterZ = this.profile.z;
-    this.dailyPeriod = null;
-    this.currentAction = "arriving";
-    this.activeScheduleAction = "arriving";
-    this.navigationTarget = this.profile.dailyAnchors?.day?.location || null;
-    this.isTravelling = false;
-    this.scheduleChanges = 0;
-    this.relationshipState = this.profile.relationship?.initial || "neighbor";
-    this.lod = resolveNpcLod(Infinity);
-    this.animationCadence = new NpcAnimationCadence(this.profile.id);
-    this.motionCadence = new NpcRelevanceCadence(`${this.profile.id}:motion`);
-    Object.assign(this, createNpcChossidVisual(this.profile, options.gltf, options.ground));
-    this.worldY = this.groundY + this.footOffset;
-  }
-  update(deltaTime, playerState, worldHour) {
-    updateNpcChossidMotion(this, deltaTime, playerState, worldHour);
-  }
-  hitPointer(event) {
-    if (this.lod.id === "dormant") return false;
-    this.lastHit = npcPointerHits(event, this.camera, this.canvas, this.targetHint());
-    return this.lastHit;
-  }
-  target() {
-    this.selected = true;
-    this.dialogueOpen = false;
-    this.bus.emit("npc:target", this.payload());
-  }
-  dialogue(mode = "greeting") {
-    this.dialogueOpen = true;
-    const payload = { ...this.payload(), dialogueMode: mode, dialogueText: this.profile.dialogue?.[mode] || this.profile.dialogue?.greeting };
-    this.bus.emit("npc:dialogue", payload);
-    this.bus.emit("npc:talk", payload);
-    this.bus.emit("quest:event", { count: 1, npcId: this.profile.id, target: this.profile.id, type: "npc:talk" });
-    if (this.profile.questId) this.bus.emit("quest:offer", { questId: this.profile.questId });
-  }
-  setRelationship(state) {
-    if (!state || state === this.relationshipState) return false;
-    this.relationshipState = state;
-    this.bus.emit("npc:relationship", this.payload());
-    return true;
-  }
-  clear() {
-    if (!this.selected && !this.dialogueOpen) return;
-    this.selected = false;
-    this.dialogueOpen = false;
-    this.bus.emit("npc:clear", this.payload());
-  }
-  payload() {
-    return {
-      currentAction: this.currentAction,
-      dialogueModes: this.profile.dialogueModes,
-      face: "\u{1F9D4}",
-      health: this.health,
-      homeId: this.profile.home?.id || null,
-      id: this.profile.id,
-      level: this.profile.role || "Village resident",
-      name: this.profile.name,
-      navigationTarget: this.navigationTarget,
-      period: this.dailyPeriod,
-      questId: this.profile.questId,
-      relationship: this.relationshipState,
-      role: this.profile.role,
-      selected: this.selected,
-      torah: this.profile.torah,
-      vendor: this.profile.vendor,
-      workplaceId: this.profile.workplace?.id || null
-    };
-  }
-  targetHint() {
-    return { x: this.worldX, y: this.worldY + 1.35, z: this.worldZ };
-  }
-  debug() {
-    return {
-      ...this.payload(),
-      animation: this.player.diagnostics(),
-      animationCadence: this.animationCadence.stats(),
-      dialogueOpen: this.dialogueOpen,
-      lastHit: this.lastHit,
-      lod: this.lod.id,
-      modelSource: "chossid.glb",
-      motionCadence: this.motionCadence.stats(),
-      position: this.targetHint(),
-      scheduleChanges: this.scheduleChanges,
-      travelling: this.isTravelling
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/FriendlyNpcWorldClock.js
-var DEFAULT_DAY_LENGTH_SECONDS3 = 1440;
-var DEFAULT_INITIAL_HOUR = 13;
-var FriendlyNpcWorldClock = class {
-  constructor(options = {}) {
-    this.dayLengthSeconds = positiveNumber(
-      options.dayLengthSeconds,
-      DEFAULT_DAY_LENGTH_SECONDS3
-    );
-    this.hour = normalizeFriendlyNpcHour(
-      options.initialHour ?? DEFAULT_INITIAL_HOUR
-    );
-    this.updates = 0;
-  }
-  /** Advances once for the population and returns the shared normalized hour. */
-  update(deltaTime, playerState) {
-    this.hour = advanceFriendlyNpcWorldHour(this.hour, deltaTime, {
-      dayLengthSeconds: this.dayLengthSeconds,
-      playerState
-    });
-    this.updates += 1;
-    return this.hour;
-  }
-  /** Returns allocation-light diagnostics outside the animation hot path. */
-  stats() {
-    return {
-      dayLengthSeconds: this.dayLengthSeconds,
-      hour: this.hour,
-      updates: this.updates
-    };
-  }
-};
-function positiveNumber(value3, fallback) {
-  const parsed = Number(value3);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/FriendlyNpcPopulation.js
-var FriendlyNpcPopulation = class {
-  constructor(options) {
-    this.camera = options.camera;
-    this.group = new Group();
-    this.group.name = "Awtsmoos_friendly_npc_population";
-    this.worldClock = options.worldClock || new FriendlyNpcWorldClock({
-      dayLengthSeconds: options.dayLengthSeconds,
-      initialHour: options.initialWorldHour
-    });
-    this.actors = options.profiles.map((profile3, index) => {
-      const actor = new NpcChossid({
-        bus: options.bus,
-        camera: options.camera,
-        canvas: options.canvas,
-        gltf: options.gltfs[index],
-        ground: options.ground,
-        profile: profile3
-      });
-      this.group.add(actor.group);
-      return actor;
-    });
-    this.primary = this.actors.find((actor) => actor.profile.primary) || this.actors[0];
-  }
-  candidateFromPointer(event) {
-    let nearest = null;
-    for (const actor of this.actors) {
-      if (!actor.hitPointer(event)) continue;
-      const distance4 = distanceFromCamera2(actor, this.camera);
-      if (!nearest || distance4 < nearest.distance) {
-        nearest = { actor, distance: distance4, population: this };
-      }
-    }
-    return nearest;
-  }
-  activateCandidate(candidate) {
-    const actor = candidate.actor;
-    for (const current of this.actors) {
-      if (current !== actor) current.clear();
-    }
-    if (actor.selected) actor.dialogue();
-    else actor.target();
-  }
-  update(deltaTime, playerState) {
-    const worldHour = this.worldClock.update(deltaTime, playerState);
-    for (const actor of this.actors) {
-      actor.update(deltaTime, playerState, worldHour);
-    }
-  }
-  clearAll() {
-    for (const actor of this.actors) actor.clear();
-  }
-  stats() {
-    const byLod = {};
-    for (const actor of this.actors) {
-      byLod[actor.lod.id] = (byLod[actor.lod.id] || 0) + 1;
-    }
-    return {
-      actors: this.actors.length,
-      byLod,
-      clock: this.worldClock.stats(),
-      selected: this.actors.find((actor) => actor.selected)?.profile.id || null
-    };
-  }
-  destroy() {
-    this.clearAll();
-    this.group.parent?.remove(this.group);
-  }
-};
-function distanceFromCamera2(actor, camera) {
-  const hint = actor.targetHint();
-  const position = camera?.position || { x: 0, y: 0, z: 0 };
-  return Math.hypot(hint.x - position.x, hint.y - position.y, hint.z - position.z);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/targeting/WorldTargetCoordinator.js
-var WorldTargetCoordinator = class {
-  /**
-   * @param {object} options - Shared target ownership options.
-   * @param {HTMLElement} options.canvas - Renderer canvas.
-   * @param {Array<object>} options.populations - Actor populations.
-   */
-  constructor(options) {
-    this.canvas = options.canvas;
-    this.populations = options.populations.filter(Boolean);
-    this.onPointerDown = (event) => this.selectFromPointer(event);
-    this.canvas.addEventListener("pointerdown", this.onPointerDown);
-  }
-  /** Selects or activates the first actor hit by the shared pointer ray. */
-  selectFromPointer(event) {
-    const entry = this.entries().find((candidate) => candidate.actor.hitPointer?.(event));
-    if (!entry) {
-      this.clearAll();
-      return false;
-    }
-    event.preventDefault?.();
-    event.stopPropagation?.();
-    event.stopImmediatePropagation?.();
-    if (entry.actor.selected && typeof entry.actor.dialogue === "function") {
-      entry.actor.dialogue();
-      return true;
-    }
-    this.clearAll(entry.actor);
-    if (typeof entry.population.selectActor === "function") {
-      entry.population.selectActor(entry.actor);
-    } else {
-      entry.actor.target?.();
-    }
-    return true;
-  }
-  /** Returns actor entries while preserving their owning population. */
-  entries() {
-    return this.populations.flatMap((population) => (population.actors || []).map((actor) => ({ actor, population })));
-  }
-  /** Clears every selected actor except an optional preserved actor. */
-  clearAll(exception = null) {
-    for (const { actor } of this.entries()) {
-      if (actor === exception || !actor.selected) continue;
-      actor.clear?.(true);
-    }
-    for (const population of this.populations) {
-      if (population.selected && population.selected !== exception) {
-        population.selected = null;
-      }
-    }
-  }
-  /** Removes the one canvas pointer listener. */
-  destroy() {
-    this.canvas.removeEventListener("pointerdown", this.onPointerDown);
-  }
-};
-
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js
 var PLAYER_MODEL_URL = "./assets/models/player/chossid.glb";
 var SIDE_SIGN = -1;
@@ -11508,60 +7398,7 @@ function createEretzPlayerState(initialY, feet, player, spawn2 = PLAYER_SPAWN) {
   };
 }
 
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzActorFactories.js?v=20260721-shadow-runtime-02
-function createEretzDoors(foundation, state) {
-  const definitions = [
-    tallDoorDef(),
-    ...allHouseDoorDefs(foundation.assets, foundation.phaseOneGround)
-  ];
-  return definitions.map((definition) => {
-    const door = new DynamicDoor3D(definition);
-    door.setInteractionContext({
-      canvas: foundation.canvas,
-      getCameraTarget: () => ({
-        x: state.x,
-        y: state.renderY + state.faceHeight,
-        z: state.z
-      })
-    }).install(foundation.canvas, foundation.camera);
-    foundation.scene.add(door.mesh);
-    return door;
-  });
-}
-function createEretzNpcPopulation(foundation) {
-  const population = new FriendlyNpcPopulation({
-    bus: foundation.bus,
-    camera: foundation.camera,
-    canvas: foundation.canvas,
-    gltfs: foundation.npcGltfs,
-    ground: foundation.ground,
-    ownsPointer: false,
-    profiles: foundation.npcProfiles
-  });
-  foundation.scene.add(population.group);
-  return population;
-}
-function createEretzHostilePopulation(foundation) {
-  const population = new HostileNpcPopulation({
-    bus: foundation.bus,
-    camera: foundation.camera,
-    canvas: foundation.canvas,
-    ground: foundation.ground,
-    ownsPointer: false,
-    quality: foundation.qualityProfile?.quality || "high"
-  });
-  foundation.scene.add(population.group);
-  return population;
-}
-function createEretzTargetCoordinator(foundation, friendlyNpcs, hostileNpcs) {
-  return new WorldTargetCoordinator({
-    canvas: foundation.canvas,
-    populations: [friendlyNpcs, hostileNpcs]
-  });
-}
-function createEretzHorseHerd(foundation) {
-  return new HorseHerdSystem(foundation.scene, foundation.ground);
-}
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerRuntimeFactories.js
 function createEretzMover(foundation, playerModel) {
   return new AwtsmoosCollisionMover({
     footOffset: playerModel.footOffset,
@@ -11576,73 +7413,6 @@ function createEretzJumpPhysics(foundation, playerModel) {
     ground: foundation.ground,
     maxSlopeNormal: MAX_SLOPE_NORMAL
   });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerModel.js
-function createPlayerModel(playerGltf, scene) {
-  const model = playerGltf.scene;
-  model.name = "Awtsmoos_visible_player_isolated_chossid";
-  model.visible = true;
-  model.scale.set(1.52, 1.52, 1.52);
-  model.position.set(0, 0, 4);
-  model.setBaseTransform();
-  scene.add(model);
-  const feet = alignModelFeetToGround(model, 0);
-  const footOffset = model.position.y;
-  const player = new TinyAnimationPlayer(model, playerGltf.animations || []);
-  const clips = createClipMap(playerGltf.animations || []);
-  const defaultClip = clips.stand || player.names[0] || "";
-  if (defaultClip) {
-    player.play(defaultClip);
-  }
-  model.userData.AwtsmoosCanonicalPlayer = {
-    animationCount: player.names.length,
-    defaultClip,
-    modelSource: "chossid.glb",
-    measuredAnimatedIdle: defaultClip === "stand_Armature",
-    optionalAnimationsDeferred: true
-  };
-  return { clips, defaultClip, feet, footOffset, model, player };
-}
-function createEquipment(model) {
-  const materials = /* @__PURE__ */ new Set();
-  const meshes = [];
-  const visible = {};
-  model.traverse((object) => {
-    if (!object.isMesh && !object.isSkinnedMesh) return;
-    const material = object.material?.name || "material";
-    materials.add(material);
-    visible[material] = object.visible !== false;
-    meshes.push({ name: object.name, material, object });
-  });
-  return { materials: [...materials], meshes, visible };
-}
-function placePlayerModel(model, state) {
-  model.position.set(state.x, state.renderY, state.z);
-  model.quaternion.set(0, Math.sin(state.facing / 2), 0, Math.cos(state.facing / 2));
-}
-function faceTarget(state) {
-  return { x: state.x, y: state.renderY + state.faceHeight, z: state.z };
-}
-function createClipMap(animations) {
-  const clips = animations.map((clip) => ({
-    duration: Number(clip.duration || 0),
-    name: clip.name || ""
-  }));
-  const names = clips.map((clip) => clip.name);
-  const animated = (expression) => clips.find((clip) => expression.test(clip.name) && clip.duration > 0)?.name;
-  const named = (expression) => names.find((name) => expression.test(name));
-  const stand = animated(/^stand_Armature$/i) || animated(/^stand 2_Armature$/i) || animated(/stand|idle/i) || named(/neutral/i) || names[0] || "";
-  const walk = animated(/walk|step|stroll/i) || stand;
-  const run = animated(/run|jog/i) || walk;
-  const jump = animated(/jump|leap/i) || stand;
-  return {
-    fall: animated(/fall|air|drop/i) || jump,
-    jump,
-    run,
-    stand,
-    walk
-  };
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerStateFactory.js
@@ -11662,77 +7432,24 @@ function createEretzActors(foundation) {
     playerStats,
     PLAYER_SPAWN2
   );
-  const doors = createEretzDoors(foundation, state);
-  const friendlyNpcs = createEretzNpcPopulation(foundation);
-  const hostileNpcs = createEretzHostilePopulation(foundation);
-  const targetCoordinator = createEretzTargetCoordinator(
-    foundation,
-    friendlyNpcs,
-    hostileNpcs
-  );
-  const horses = createEretzHorseHerd(foundation);
-  const npc = friendlyNpcs.primary;
-  const lava = new LavaLevel(foundation.scene, foundation.assets);
-  const shadows = new SunShadowProjector(foundation.scene);
   const mover = createEretzMover(foundation, playerModel);
   const jumpPhysics = createEretzJumpPhysics(foundation, playerModel);
-  const houses = foundation.terrain.worldMetadata.houses || [];
-  const worldMode = createWorldMode({
-    doors,
-    footOffset: playerModel.footOffset,
-    foundation,
-    friendlyNpcs,
-    horses,
-    hostileNpcs,
-    lava,
-    mover,
-    state
-  });
-  const houseVisibility = createHouseVisibilitySystem({
-    doors,
-    houses,
-    root: foundation.terrain.group
-  }, state);
+  const deferred = createDeferredActorSystems();
   foundation.orbit.setSpatialContext({
-    houses,
+    houses: foundation.terrain.worldMetadata.houses || [],
     stairs: foundation.terrain.worldMetadata.stairLayouts || [],
     state
   });
   return {
     ...foundation,
     ...playerModel,
-    doors,
-    friendlyNpcs,
-    horses,
-    hostileNpcs,
-    houseVisibility,
+    ...deferred,
     jumpPhysics,
-    lava,
     mover,
-    npc,
     playerStats,
-    shadows,
     state,
-    targetCoordinator,
-    worldMode
+    worldActorsReady: false
   };
-}
-function createWorldMode(options) {
-  return new WorldModeManager({
-    eretzCollision: options.foundation.collisionQuery,
-    footOffset: options.footOffset,
-    ground: options.foundation.ground,
-    lava: options.lava,
-    mainGroup: options.foundation.terrain.group,
-    mainObjects: [
-      options.friendlyNpcs.group,
-      options.hostileNpcs.group,
-      options.horses.group,
-      ...options.doors.map((door) => door.mesh)
-    ],
-    mover: options.mover,
-    state: options.state
-  }).rememberMainHeight(options.foundation.terrain.heightAt);
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzRuntimeDiagnostics.js
@@ -11952,9 +7669,9 @@ var MINIMUM_AMBIENT_LUMINANCE = 0.31;
 var MINIMUM_DIFFUSE_FLOOR = 0.36;
 function inspectVillageLighting(renderer) {
   const environment = renderer?.environment || {};
-  const ambient = vector2(environment.ambient);
-  const sunColor = vector2(environment.sunColor);
-  const fogColor = vector2(environment.fogColor);
+  const ambient = vector(environment.ambient);
+  const sunColor = vector(environment.sunColor);
+  const fogColor = vector(environment.fogColor);
   const exposure = finite(environment.exposure, 0);
   const ambientLuminance = luminance(ambient);
   const sunLuminance = luminance(sunColor);
@@ -11978,7 +7695,7 @@ function inspectVillageLighting(renderer) {
     fogNear: finite(environment.fogNear, 0),
     readable: warnings.length === 0,
     sunColor,
-    sunDirection: vector2(environment.sunDirection),
+    sunDirection: vector(environment.sunDirection),
     sunLuminance,
     warnings
   };
@@ -11988,14 +7705,14 @@ function validFog(environment) {
   const far = finite(environment.fogFar, 0);
   return near >= 0 && far > near;
 }
-function vector2(value3) {
-  return [0, 1, 2].map((index) => finite(value3?.[index], 0));
+function vector(value2) {
+  return [0, 1, 2].map((index) => finite(value2?.[index], 0));
 }
 function luminance(color) {
   return color[0] * 0.2126 + color[1] * 0.7152 + color[2] * 0.0722;
 }
-function finite(value3, fallback) {
-  return Number.isFinite(Number(value3)) ? Number(value3) : fallback;
+function finite(value2, fallback) {
+  return Number.isFinite(Number(value2)) ? Number(value2) : fallback;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/VillageMaterialDiagnosticHelpers.js
@@ -12263,22 +7980,22 @@ var VillageLifeRuntimeLogger = class {
     this.lastKey = "";
     this.lastPublishedAt = -Infinity;
   }
-  update(runtime, now2 = performance.now()) {
-    const snapshot2 = createSnapshot(runtime, now2, "cadence");
+  update(runtime, now3 = performance.now()) {
+    const snapshot2 = createSnapshot(runtime, now3, "cadence");
     const key = snapshotKey(snapshot2);
-    if (key !== this.lastKey || now2 - this.lastPublishedAt >= HEARTBEAT_MS) {
+    if (key !== this.lastKey || now3 - this.lastPublishedAt >= HEARTBEAT_MS) {
       this.publish(snapshot2);
       this.lastKey = key;
-      this.lastPublishedAt = now2;
+      this.lastPublishedAt = now3;
     }
     return snapshot2;
   }
   force(runtime, label = "manual-probe") {
-    const now2 = globalThis.performance?.now?.() ?? Date.now();
-    const snapshot2 = createSnapshot(runtime, now2, label);
+    const now3 = globalThis.performance?.now?.() ?? Date.now();
+    const snapshot2 = createSnapshot(runtime, now3, label);
     this.publish(snapshot2);
     this.lastKey = snapshotKey(snapshot2);
-    this.lastPublishedAt = now2;
+    this.lastPublishedAt = now3;
     return snapshot2;
   }
   snapshot() {
@@ -12304,10 +8021,10 @@ var VillageLifeRuntimeLogger = class {
     }
   }
 };
-function createSnapshot(runtime, now2, label) {
+function createSnapshot(runtime, now3, label) {
   const lighting = inspectVillageLighting(runtime.renderer);
   return {
-    atMilliseconds: Math.round(now2),
+    atMilliseconds: Math.round(now3),
     cache: publicMaterialCacheStats(),
     hydration: runtime.materialHydrationStats || null,
     label,
@@ -12336,11 +8053,11 @@ function snapshotKey(snapshot2) {
     renderer.triangles
   ].join("|");
 }
-function structuredCloneSafe(value3) {
+function structuredCloneSafe(value2) {
   try {
-    return globalThis.structuredClone ? structuredClone(value3) : JSON.parse(JSON.stringify(value3));
+    return globalThis.structuredClone ? structuredClone(value2) : JSON.parse(JSON.stringify(value2));
   } catch {
-    return value3;
+    return value2;
   }
 }
 
@@ -12532,13 +8249,13 @@ function findWalkableStep({
   maxStep,
   maxSlopeNormal
 }) {
-  const distance4 = Math.hypot(delta.x, delta.z);
-  if (distance4 < 1e-4) {
+  const distance3 = Math.hypot(delta.x, delta.z);
+  if (distance3 < 1e-4) {
     return null;
   }
   const direction = {
-    x: delta.x / distance4,
-    z: delta.z / distance4
+    x: delta.x / distance3,
+    z: delta.z / distance3
   };
   const feetY = position.y - footOffset;
   const target = {
@@ -12892,14 +8609,14 @@ function startEretzRuntime(runtime, diagnostics3) {
   const residency = new SceneMaterialResidency({ concurrency: 3, timeoutMs: 3e4 });
   const villageLifeLogger = new VillageLifeRuntimeLogger();
   let lastTime = performance.now();
-  const frame = (now2) => {
-    const intervalMilliseconds = Math.max(0.1, now2 - lastTime);
+  const frame = (now3) => {
+    const intervalMilliseconds = Math.max(0.1, now3 - lastTime);
     const deltaTime = frameDelta(intervalMilliseconds);
     const costs = new RuntimeFrameCostSample();
-    lastTime = now2;
+    lastTime = now3;
     try {
-      costs.measure("streaming", () => updateStreaming(runtime, cadence, residency, now2));
-      costs.measure("gameplay", () => updateGameplay(runtime, movement, cadence, deltaTime, now2));
+      costs.measure("streaming", () => updateStreaming(runtime, cadence, residency, now3));
+      costs.measure("gameplay", () => updateGameplay(runtime, movement, cadence, deltaTime, now3));
       costs.measure("animation", () => updateEretzAnimationFrame(runtime, deltaTime, costs));
       costs.measure("water", () => runtime.lava.update(
         runtime.state,
@@ -12913,15 +8630,15 @@ function startEretzRuntime(runtime, diagnostics3) {
         runtime.mover.octree,
         deltaTime
       ));
-      costs.measure("render", () => renderWorld(runtime, now2));
-      if (cadence.due("combatHud", now2)) runtime.combatActionBar?.update(now2);
-      if (cadence.due("hud", now2)) refreshStatusHud(runtime);
-      if (cadence.due("diagnostics", now2)) refreshWorldDiagnostics(diagnostics3, runtime);
-      if (cadence.due("villageLifeLogs", now2)) villageLifeLogger.update(runtime, now2);
+      costs.measure("render", () => renderWorld(runtime, now3));
+      if (cadence.due("combatHud", now3)) runtime.combatActionBar?.update(now3);
+      if (cadence.due("hud", now3)) refreshStatusHud(runtime);
+      if (cadence.due("diagnostics", now3)) refreshWorldDiagnostics(diagnostics3, runtime);
+      if (cadence.due("villageLifeLogs", now3)) villageLifeLogger.update(runtime, now3);
     } catch (error) {
       window.AwtsmoosError = error?.stack || String(error);
     } finally {
-      runtime.performanceMonitor?.record(intervalMilliseconds, now2, costs.finish());
+      runtime.performanceMonitor?.record(intervalMilliseconds, now3, costs.finish());
       requestAnimationFrame(frame);
     }
   };
@@ -12931,17 +8648,17 @@ function startEretzRuntime(runtime, diagnostics3) {
   requestAnimationFrame(frame);
   return movement;
 }
-function updateStreaming(runtime, cadence, residency, now2) {
-  if (cadence.due("chunks", now2)) runtime.chunkRuntime?.update({ at: now2 });
-  if (!cadence.due("materialHydration", now2)) return;
+function updateStreaming(runtime, cadence, residency, now3) {
+  if (cadence.due("chunks", now3)) runtime.chunkRuntime?.update({ at: now3 });
+  if (!cadence.due("materialHydration", now3)) return;
   runtime.materialHydrationStats = residency.update(runtime.scene);
 }
-function updateGameplay(runtime, movement, cadence, deltaTime, now2) {
+function updateGameplay(runtime, movement, cadence, deltaTime, now3) {
   movement.update(deltaTime);
-  runtime.gameplayUi?.actionBar.update(now2);
-  runtime.multiplayerBridge?.update(deltaTime, runtime.state, now2);
-  if (cadence.due("minimap", now2)) runtime.gameplayUi?.updatePosition(runtime.state);
-  if (cadence.due("houseVisibility", now2)) runtime.houseVisibility.update(runtime.state);
+  runtime.gameplayUi?.actionBar.update(now3);
+  runtime.multiplayerBridge?.update(deltaTime, runtime.state, now3);
+  if (cadence.due("minimap", now3)) runtime.gameplayUi?.updatePosition(runtime.state);
+  if (cadence.due("houseVisibility", now3)) runtime.houseVisibility.update(runtime.state);
 }
 function updateShadows(runtime) {
   runtime.shadows.update({
@@ -12951,8 +8668,8 @@ function updateShadows(runtime) {
     worldMode: runtime.worldMode
   });
 }
-function renderWorld(runtime, now2) {
-  runtime.renderer.setInteractor(runtime.state, now2 / 1e3);
+function renderWorld(runtime, now3) {
+  runtime.renderer.setInteractor(runtime.state, now3 / 1e3);
   runtime.renderer.render(runtime.scene, runtime.camera);
 }
 function frameDelta(intervalMilliseconds) {
@@ -13006,6 +8723,49 @@ function descriptionFor(name, category) {
   return `${name} is a ${category} vessel with server-owned effects in shared worlds.`;
 }
 
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js
+var TORAH_BOOKS = Object.freeze([
+  book("siddur", "Siddur", "\u{1F4D6}", [
+    passage("modeh-ani", "Grateful Awakening", "Gratitude awakens the soul.", 12, 8, 700, "gratitude"),
+    passage("shema-unity", "Unity of the Shema", "Everything rests within one Source.", 18, 12, 900, "unity"),
+    passage("peace-prayer", "Prayer for Peace", "Peace joins divided sparks.", 10, 16, 650, "peace")
+  ]),
+  book("chumash-light", "Chumash of Light", "\u{1F4DA}", [
+    passage("creation-light", "Light of Creation", "Light is called into darkness.", 24, 9, 1100, "light"),
+    passage("guardian-path", "The Guarded Path", "Courage walks beside responsibility.", 20, 14, 1e3, "courage"),
+    passage("living-water", "Living Water", "Wisdom flows toward thirsty ground.", 16, 18, 900, "water")
+  ]),
+  book("tanya-pocket", "Pocket Tanya", "\u{1F4D5}", [
+    passage("two-souls", "Two Souls", "Choice can redirect inner struggle.", 22, 15, 1050, "choice"),
+    passage("small-city", "The Small City", "Awareness governs the inner city.", 19, 20, 950, "awareness"),
+    passage("joy-breaks-barriers", "Joy Breaks Barriers", "Holy joy opens a blocked road.", 28, 10, 1250, "joy")
+  ])
+]);
+function torahBook(bookId) {
+  return TORAH_BOOKS.find((item2) => item2.id === bookId) || null;
+}
+function torahPassage(passageId) {
+  for (const bookValue of TORAH_BOOKS) {
+    const found = bookValue.passages.find((item2) => item2.id === passageId);
+    if (found) return { ...found, bookId: bookValue.id, bookName: bookValue.name };
+  }
+  return null;
+}
+function book(id, name, icon, passages) {
+  return Object.freeze({ icon, id, name, passages: Object.freeze(passages) });
+}
+function passage(id, name, text3, damage, focusCost, cooldownMs, aspect) {
+  return Object.freeze({
+    aspect,
+    cooldownMs,
+    damage,
+    focusCost,
+    id,
+    name,
+    text: text3
+  });
+}
+
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreRules.js
 function addInventoryItem(items, itemId, quantity2, definition) {
   const existing = items.find((item2) => item2.itemId === itemId);
@@ -13042,7 +8802,7 @@ function derivedInventoryStats(equipment) {
   return total;
 }
 function togglePinnedValue(values, id, maximum, label) {
-  if (values.includes(id)) return values.filter((value3) => value3 !== id);
+  if (values.includes(id)) return values.filter((value2) => value2 !== id);
   if (values.length >= maximum) {
     throw new Error(`Only ${maximum} ${label} may be pinned.`);
   }
@@ -13131,8 +8891,8 @@ function validEquipment(equipment, items) {
 }
 function validUsage(lastUsedAt) {
   const result = {};
-  for (const [passageId, value3] of Object.entries(lastUsedAt || {})) {
-    const at = Number(value3);
+  for (const [passageId, value2] of Object.entries(lastUsedAt || {})) {
+    const at = Number(value2);
     if (torahPassage(passageId) && Number.isFinite(at) && at >= 0) result[passageId] = at;
   }
   return result;
@@ -13333,7 +9093,7 @@ var DEFAULTS = Object.freeze({
   stagger: 0
 });
 var TORAH_ABILITY_CATALOG = Object.freeze([
-  ability2(
+  ability(
     "grateful-awakening",
     "Grateful Awakening",
     "modeh-ani",
@@ -13341,7 +9101,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "awakening",
     { castType: "instant", healing: 24, statusEffects: ["returning-spark"], targetType: "self" }
   ),
-  ability2(
+  ability(
     "voice-of-unity",
     "Voice of Unity",
     "shema-unity",
@@ -13349,7 +9109,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "unity",
     { castType: "channel", channelMilliseconds: 2400, range: 15, statusEffects: ["light-of-clarity"], targetType: "chain" }
   ),
-  ability2(
+  ability(
     "stillness-of-shabbos",
     "Stillness of Shabbos",
     "peace-prayer",
@@ -13357,7 +9117,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "peace",
     { castType: "cast", castMilliseconds: 900, radius: 7, statusEffects: ["stillness-of-shabbos"], targetType: "ground-point" }
   ),
-  ability2(
+  ability(
     "light-against-concealment",
     "Light Against Concealment",
     "creation-light",
@@ -13365,7 +9125,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "illumination",
     { castType: "cast", castMilliseconds: 700, range: 18, statusEffects: ["light-against-concealment"], targetType: "selected-enemy" }
   ),
-  ability2(
+  ability(
     "shield-of-trust",
     "Shield of Trust",
     "guardian-path",
@@ -13373,7 +9133,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "protection",
     { castType: "instant", shield: 48, statusEffects: ["shield-of-trust"], targetType: "self" }
   ),
-  ability2(
+  ability(
     "waters-of-purification",
     "Waters of Purification",
     "living-water",
@@ -13381,7 +9141,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "purification",
     { castType: "cast", castMilliseconds: 600, healing: 16, range: 16, statusEffects: ["waters-of-purification"], targetType: "selected-ally" }
   ),
-  ability2(
+  ability(
     "merciful-restraint",
     "Merciful Restraint",
     "two-souls",
@@ -13389,7 +9149,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "restraint",
     { castType: "instant", range: 14, statusEffects: ["merciful-restraint"], targetType: "selected-enemy" }
   ),
-  ability2(
+  ability(
     "guarded-thought",
     "Guarded Thought",
     "small-city",
@@ -13397,7 +9157,7 @@ var TORAH_ABILITY_CATALOG = Object.freeze([
     "clarity",
     { castType: "reactive", range: 12, statusEffects: ["guarded-thought"], targetType: "selected-enemy" }
   ),
-  ability2(
+  ability(
     "joy-breaks-barriers",
     "Joy Breaks Barriers",
     "joy-breaks-barriers",
@@ -13413,7 +9173,7 @@ function torahAbilityDefinition(abilityId) {
 function torahAbilityForPassage(passageId) {
   return TORAH_ABILITY_CATALOG.find((definition) => definition.passageId === passageId) || null;
 }
-function ability2(id, title2, passageId, description, school, overrides) {
+function ability(id, title2, passageId, description, school, overrides) {
   const passage2 = torahPassage(passageId);
   if (!passage2) throw new Error(`Unknown Torah passage for ability: ${passageId}`);
   return Object.freeze({
@@ -13433,6 +9193,46 @@ function ability2(id, title2, passageId, description, school, overrides) {
     unlockCondition: Object.freeze({ passageId, type: "passage-learned" }),
     visualEvent: `torah:${id}:visual`
   });
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarActionCatalog.js
+var DEFAULT_MELEE_ACTION_ID = "shliach-staff-strike";
+var PHYSICAL_ACTIONS = Object.freeze({
+  [DEFAULT_MELEE_ACTION_ID]: Object.freeze({
+    castMilliseconds: 0,
+    castType: "instant",
+    chargeRecoveryMilliseconds: 620,
+    charges: 1,
+    cooldownMilliseconds: 620,
+    description: "A measured staff strike whose force grows through level, Gevurah, and equipped weaponry.",
+    globalCooldownMilliseconds: 0,
+    glyph: "\u2694",
+    id: DEFAULT_MELEE_ACTION_ID,
+    kind: "physical",
+    range: 2.85,
+    resourceCost: 0,
+    school: "Gevurah \xB7 Physical",
+    targetType: "selected-enemy",
+    title: "Shliach Staff Strike",
+    tone: "gevurah"
+  })
+});
+function actionBarActionDefinition(actionId) {
+  if (typeof actionId !== "string" || !actionId) return null;
+  return PHYSICAL_ACTIONS[actionId] || torahAbilityDefinition(actionId) || null;
+}
+function isPhysicalAction(actionId) {
+  return Boolean(PHYSICAL_ACTIONS[actionId]);
+}
+function integratedDefaultActionBarLayout() {
+  const slots = Array(24).fill(null);
+  slots[0] = "grateful-awakening";
+  slots[12] = DEFAULT_MELEE_ACTION_ID;
+  return {
+    locked: false,
+    rows: 2,
+    slots
+  };
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarBindingRules.js
@@ -13505,6 +9305,19 @@ function presentation(glyph, tone) {
   return Object.freeze({ glyph, tone });
 }
 
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarActionPresentation.js
+function actionBarActionPresentation(actionId) {
+  const definition = actionBarActionDefinition(actionId);
+  if (!definition) return { glyph: "", tone: "empty" };
+  if (definition.glyph || definition.tone) {
+    return {
+      glyph: definition.glyph || "\u2726",
+      tone: definition.tone || "tiferes"
+    };
+  }
+  return torahAbilityPresentation(actionId);
+}
+
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarSlotView.js
 function renderActionBarSlots(grid, layout) {
   const fragment = document.createDocumentFragment();
@@ -13538,15 +9351,15 @@ function updateActionSlotCooldown(button2, definition, state) {
   return true;
 }
 function cooldownPresentation(definition, state) {
-  const localRemaining = state.cooldownRemainingMilliseconds;
-  const globalRemaining = state.globalCooldownRemainingMilliseconds;
+  const localRemaining = state.cooldownRemainingMilliseconds || 0;
+  const globalRemaining = state.globalCooldownRemainingMilliseconds || 0;
   const remaining = Math.max(localRemaining, globalRemaining);
   const localDuration = definition.charges > 1 ? definition.chargeRecoveryMilliseconds : definition.cooldownMilliseconds;
   const duration = globalRemaining > localRemaining ? definition.globalCooldownMilliseconds : localDuration;
   const ratio3 = duration ? Math.min(1, remaining / duration).toFixed(3) : "0.000";
   const label = remaining > 0 ? cooldownLabel(remaining) : "";
-  const chargeHidden = state.maximumCharges < 2;
-  const chargeLabel = chargeHidden ? "" : String(state.charges);
+  const chargeHidden = (state.maximumCharges || 1) < 2;
+  const chargeLabel = chargeHidden ? "" : String(state.charges || 0);
   return {
     chargeHidden,
     chargeLabel,
@@ -13555,9 +9368,9 @@ function cooldownPresentation(definition, state) {
     signature: `${ratio3}|${label}|${chargeHidden ? 0 : 1}|${chargeLabel}`
   };
 }
-function createActionSlot(slotIndex, abilityId) {
-  const definition = torahAbilityDefinition(abilityId);
-  const presentation2 = torahAbilityPresentation(abilityId);
+function createActionSlot(slotIndex, actionId) {
+  const definition = actionBarActionDefinition(actionId);
+  const presentation2 = actionBarActionPresentation(actionId);
   const button2 = document.createElement("button");
   button2.className = `Mitzvah-action-slot${definition ? "" : " is-empty"}`;
   button2.dataset.slotIndex = slotIndex;
@@ -13569,6 +9382,7 @@ function createActionSlot(slotIndex, abilityId) {
     definition ? `${definition.title}, slot ${slotIndex + 1}` : `Empty slot ${slotIndex + 1}`
   );
   if (definition) {
+    button2.dataset.actionId = definition.id;
     button2.dataset.abilityId = definition.id;
     button2.dataset.tone = presentation2.tone;
   }
@@ -13586,10 +9400,10 @@ function cooldownLabel(milliseconds) {
   if (milliseconds >= 1e4) return `${Math.ceil(milliseconds / 1e3)}`;
   return `${(milliseconds / 1e3).toFixed(1)}`;
 }
-function text(tagName, className, value3) {
+function text(tagName, className, value2) {
   const element2 = document.createElement(tagName);
   element2.className = className;
-  element2.textContent = value3;
+  element2.textContent = value2;
   return element2;
 }
 
@@ -13599,7 +9413,7 @@ var ActionBarCooldownPresenter = class {
   constructor(runtime, grid, options = {}) {
     this.buttons = [];
     this.domUpdates = 0;
-    this.getDefinition = options.getDefinition || torahAbilityDefinition;
+    this.getDefinition = options.getDefinition || actionBarActionDefinition;
     this.grid = grid;
     this.nextRefreshAt = 0;
     this.refreshMilliseconds = options.refreshMilliseconds ?? DEFAULT_REFRESH_MILLISECONDS;
@@ -13607,19 +9421,21 @@ var ActionBarCooldownPresenter = class {
     this.updateSlot = options.updateSlot || updateActionSlotCooldown;
   }
   recache() {
-    this.buttons = Array.from(this.grid.querySelectorAll("[data-ability-id]"));
+    this.buttons = Array.from(this.grid.querySelectorAll("[data-action-id]"));
     this.nextRefreshAt = 0;
     return this.buttons.length;
   }
-  update(now2) {
-    if (now2 < this.nextRefreshAt) return false;
-    this.nextRefreshAt = now2 + this.refreshMilliseconds;
+  update(now3) {
+    if (now3 < this.nextRefreshAt) return false;
+    this.nextRefreshAt = now3 + this.refreshMilliseconds;
     let changedCount = 0;
     for (const button2 of this.buttons) {
-      const definition = this.getDefinition(button2.dataset.abilityId);
-      if (!definition) continue;
-      const state = this.runtime.timeline.cooldowns.snapshotAbility(definition, now2);
-      if (this.updateSlot(button2, definition, state)) changedCount += 1;
+      const slotIndex = Number(button2.dataset.slotIndex);
+      const definition = this.getDefinition(button2.dataset.actionId);
+      const state = this.runtime.cooldownForSlot(slotIndex, now3);
+      if (definition && state && this.updateSlot(button2, definition, state)) {
+        changedCount += 1;
+      }
     }
     this.domUpdates += changedCount;
     return changedCount > 0;
@@ -13669,9 +9485,9 @@ function ActionBarHudMarkup(host = null) {
   return { feedback, focusFill, focusLabel, focusTrack, frame, grid, lock, root };
 }
 function element(tagName, className) {
-  const value3 = document.createElement(tagName);
-  value3.className = className;
-  return value3;
+  const value2 = document.createElement(tagName);
+  value2.className = className;
+  return value2;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarActivationInput.js
@@ -14027,8 +9843,8 @@ var ActionBarMetaPresenter = class {
     this.domUpdates += 1;
     return true;
   }
-  update(now2 = this.clock()) {
-    if (!this.feedbackExpiresAt || now2 < this.feedbackExpiresAt) return false;
+  update(now3 = this.clock()) {
+    if (!this.feedbackExpiresAt || now3 < this.feedbackExpiresAt) return false;
     this.elements.feedback.hidden = true;
     this.feedbackExpiresAt = 0;
     this.domUpdates += 1;
@@ -14066,11 +9882,13 @@ var ActionBarSlotPresenter = class {
     this.domUpdates += 1;
     return this.buttons.length;
   }
-  refreshReadiness() {
+  refreshReadiness(now3) {
     let changedCount = 0;
     for (const button2 of this.buttons) {
-      const abilityId = button2.dataset.abilityId;
-      const decision = abilityId ? this.runtime.timeline.readiness(abilityId) : { ok: false, reason: "empty-slot" };
+      const slotIndex = Number(button2.dataset.slotIndex);
+      const decision = this.runtime.readinessForSlot(slotIndex, {
+        ...Number.isFinite(now3) ? { now: now3 } : {}
+      });
       updateActionSlotReadiness(button2, decision);
       changedCount += 1;
     }
@@ -14594,11 +10412,11 @@ var CastBarHud = class {
     this.domUpdates += 1;
     this.update(detail.startedAt);
   }
-  update(now2) {
+  update(now3) {
     if (!this.active || this.root.hidden) return false;
     const duration = Math.max(1, this.active.completesAt - this.active.startedAt);
-    const progress = Math.min(1, Math.max(0, (now2 - this.active.startedAt) / duration));
-    const remaining = Math.max(0, this.active.completesAt - now2);
+    const progress = Math.min(1, Math.max(0, (now3 - this.active.startedAt) / duration));
+    const remaining = Math.max(0, this.active.completesAt - now3);
     this.fill.style.transform = `scaleX(${progress})`;
     const label = `${(remaining / 1e3).toFixed(1)}s`;
     if (this.time.textContent !== label) this.time.textContent = label;
@@ -14795,12 +10613,12 @@ var StatusEffectHud = class {
     if (effect2.stacks > 1) node.dataset.stacks = effect2.stacks;
     return node;
   }
-  update(now2) {
-    if (this.root.hidden || now2 < this.nextRefreshAt) return false;
-    this.nextRefreshAt = now2 + this.refreshMilliseconds;
+  update(now3) {
+    if (this.root.hidden || now3 < this.nextRefreshAt) return false;
+    this.nextRefreshAt = now3 + this.refreshMilliseconds;
     let changedCount = 0;
     for (const node of this.nodes.values()) {
-      const seconds = Math.max(0, Math.ceil((Number(node.dataset.expiresAt) - now2) / 1e3));
+      const seconds = Math.max(0, Math.ceil((Number(node.dataset.expiresAt) - now3) / 1e3));
       const time = node.querySelector("small");
       const label = String(seconds);
       if (time.textContent === label) continue;
@@ -14839,7 +10657,7 @@ var TorahAbilityTooltip = class {
   }
   show(definition, readiness, anchor2) {
     if (!definition || !anchor2) return this.hide();
-    const presentation2 = torahAbilityPresentation(definition.id);
+    const presentation2 = actionBarActionPresentation(definition.id);
     this.element.replaceChildren(
       row("Mitzvah-tooltip-heading", `${presentation2.glyph} ${definition.title}`),
       row("Mitzvah-tooltip-school", definition.school),
@@ -14868,14 +10686,14 @@ function stats2(definition) {
   const element2 = document.createElement("dl");
   element2.className = "Mitzvah-tooltip-stats";
   const values = [
-    ["Focus", definition.resourceCost],
+    ["Focus", definition.resourceCost || 0],
     ["Range", definition.range ? `${definition.range}m` : "Self"],
     ["Cast", castLabel(definition)],
     ["Cooldown", `${(definition.cooldownMilliseconds / 1e3).toFixed(1)}s`]
   ];
-  for (const [label, value3] of values) {
+  for (const [label, value2] of values) {
     element2.append(row("Mitzvah-tooltip-term", label, "dt"));
-    element2.append(row("Mitzvah-tooltip-value", value3, "dd"));
+    element2.append(row("Mitzvah-tooltip-value", value2, "dd"));
   }
   return element2;
 }
@@ -14935,24 +10753,25 @@ var ActionBarHud = class {
       this.runtime.inventory.onChange(() => this.slots.refreshReadiness()),
       bus.on("npc:target", () => this.slots.refreshReadiness()),
       bus.on("npc:clear", () => this.slots.refreshReadiness()),
-      bus.on("actionbar:result", (result) => this.showResult(result))
+      bus.on("actionbar:result", (result) => this.showResult(result)),
+      bus.on("combat:melee-result", (result) => this.showResult(result))
     ];
   }
-  update(now2 = this.clock()) {
+  update(now3 = this.clock()) {
     if (this.elements.root.hidden) return false;
     this.meta.updateFocus(this.runtime.combat.snapshot().focus);
-    this.cooldowns.update(now2);
-    this.castBar.update(now2);
-    this.statusEffects.update(now2);
-    this.meta.update(now2);
+    this.cooldowns.update(now3);
+    this.castBar.update(now3);
+    this.statusEffects.update(now3);
+    this.meta.update(now3);
     return true;
   }
   inspect(slotIndex, anchor2) {
-    const abilityId = anchor2.dataset.abilityId;
-    if (!abilityId) return this.tooltip.hide();
+    const actionId = anchor2.dataset.actionId;
+    if (!actionId) return this.tooltip.hide();
     return this.tooltip.show(
-      torahAbilityDefinition(abilityId),
-      this.runtime.timeline.readiness(abilityId),
+      actionBarActionDefinition(actionId),
+      this.runtime.readinessForSlot(slotIndex),
       anchor2
     );
   }
@@ -15088,6 +10907,766 @@ var CameraModeToggle = class {
     this.document.head.append(style);
   }
 };
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/PanelCoordinator.js
+var PanelCoordinator = class {
+  constructor() {
+    this.panels = /* @__PURE__ */ new Map();
+    this.activeId = null;
+    this.keyHandler = (event) => this.onKey(event);
+    addEventListener("keydown", this.keyHandler);
+  }
+  register(panelId, panel) {
+    if (!panel?.setOpen) {
+      throw new Error(`Panel ${panelId} requires setOpen().`);
+    }
+    const originalSetOpen = panel.setOpen.bind(panel);
+    const record = {
+      originalSetOpen,
+      panel
+    };
+    this.panels.set(panelId, record);
+    panel.setOpen = (open) => this.apply(panelId, Boolean(open));
+    return () => this.unregister(panelId);
+  }
+  unregister(panelId) {
+    const record = this.panels.get(panelId);
+    if (!record) return;
+    record.panel.setOpen = record.originalSetOpen;
+    this.panels.delete(panelId);
+    if (this.activeId === panelId) this.activeId = null;
+  }
+  toggle(panelId) {
+    if (this.activeId === panelId) {
+      this.close(panelId);
+      return false;
+    }
+    this.open(panelId);
+    return true;
+  }
+  open(panelId) {
+    const record = this.requirePanel(panelId);
+    record.panel.setOpen(true);
+  }
+  close(panelId = this.activeId) {
+    if (!panelId) return;
+    this.panels.get(panelId)?.panel.setOpen(false);
+  }
+  notify(panelId, open) {
+    const record = this.panels.get(panelId);
+    if (!record) return;
+    if (open) this.apply(panelId, true, false);
+    else if (this.activeId === panelId) this.activeId = null;
+  }
+  apply(panelId, open, callTarget = true) {
+    const record = this.requirePanel(panelId);
+    if (open) {
+      for (const [otherId, other] of this.panels) {
+        if (otherId !== panelId) other.originalSetOpen(false);
+      }
+      if (callTarget) record.originalSetOpen(true);
+      this.activeId = panelId;
+      return;
+    }
+    if (callTarget) record.originalSetOpen(false);
+    if (this.activeId === panelId) this.activeId = null;
+  }
+  requirePanel(panelId) {
+    const record = this.panels.get(panelId);
+    if (!record) throw new Error(`Unknown panel: ${panelId}`);
+    return record;
+  }
+  onKey(event) {
+    if (event.key !== "Escape" || !this.activeId) return;
+    event.preventDefault();
+    this.close();
+  }
+  destroy() {
+    removeEventListener("keydown", this.keyHandler);
+    for (const panelId of [...this.panels.keys()]) {
+      this.unregister(panelId);
+    }
+  }
+};
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestLogPanel.js
+var QuestLogPanel = class {
+  constructor(store) {
+    this.store = store;
+    this.open = false;
+    this.tab = "active";
+    this.root = document.createElement("section");
+    this.root.className = "Awtsmoos-quest-log Awtsmoos-gameplay";
+    this.root.hidden = true;
+    document.body.appendChild(this.root);
+    this.unsubscribe = store.onChange(() => this.render());
+    this.render();
+  }
+  setOpen(open) {
+    this.open = Boolean(open);
+    this.root.hidden = !this.open;
+    if (this.open) this.render();
+  }
+  toggle() {
+    this.setOpen(!this.open);
+  }
+  render() {
+    const snapshot2 = this.store.snapshot();
+    this.root.innerHTML = `
+			<header class="Awtsmoos-panel-header">
+				<h2>\u{1F4DC} Shlichus Log</h2><span>${snapshot2.active.length} active</span>
+				<button class="Awtsmoos-quest-button" data-close>Close</button>
+			</header>
+			<nav class="Awtsmoos-quest-tabs" aria-label="Quest states">
+				${tabButton("active", snapshot2.active.length, this.tab)}
+				${tabButton("available", snapshot2.available.length, this.tab)}
+				${tabButton("completed", snapshot2.completed.length, this.tab)}
+			</nav>
+			<div data-quest-list></div>
+		`;
+    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
+    this.root.querySelectorAll("[data-tab]").forEach((button2) => {
+      button2.addEventListener("click", () => {
+        this.tab = button2.dataset.tab;
+        this.render();
+      });
+    });
+    const records = snapshot2[this.tab] || [];
+    this.root.querySelector("[data-quest-list]").replaceChildren(...records.map((record) => this.questCard(record)));
+  }
+  questCard(record) {
+    const card = document.createElement("article");
+    card.className = "Awtsmoos-quest-card";
+    const objective3 = record.objectives[record.objectiveIndex] || record.objectives.at(-1);
+    const progress = objective3 ? objective3.progress / objective3.count : 1;
+    card.innerHTML = `
+			<h3>${record.pinned ? "\u{1F4CC} " : ""}${escapeHtml(record.definition.name)}</h3>
+			<p>${escapeHtml(record.definition.description)}</p>
+			${objective3 ? `<p><b>${escapeHtml(objective3.description)}</b> ${objective3.progress}/${objective3.count}</p><div class="Awtsmoos-progress"><span style="width:${Math.min(100, progress * 100)}%"></span></div>` : ""}
+			<p>Reward: ${record.definition.reward.xp} XP \xB7 ${record.definition.reward.mitzvahPoints} points</p>
+			<footer></footer>
+		`;
+    const footer = card.querySelector("footer");
+    if (record.status === "active") {
+      footer.append(
+        actionButton2(record.pinned ? "Unpin" : "Pin", () => this.store.togglePin(record.definition.id)),
+        actionButton2("Abandon", () => this.store.abandon(record.definition.id))
+      );
+    }
+    if (["available", "declined", "offered"].includes(record.status)) {
+      footer.append(actionButton2("Accept", () => this.store.accept(record.definition.id)));
+    }
+    return card;
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function tabButton(id, count, selected) {
+  return `<button data-tab="${id}" aria-selected="${id === selected}">${id} (${count})</button>`;
+}
+function actionButton2(label, action2) {
+  const button2 = document.createElement("button");
+  button2.className = "Awtsmoos-quest-button";
+  button2.type = "button";
+  button2.textContent = label;
+  button2.addEventListener("click", action2);
+  return button2;
+}
+function escapeHtml(value2) {
+  return String(value2).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestOfferPanel.js
+var QuestOfferPanel = class {
+  constructor(store) {
+    this.store = store;
+    this.questId = null;
+    this.root = document.createElement("div");
+    this.root.className = "Awtsmoos-modal-backdrop Awtsmoos-gameplay";
+    this.root.hidden = true;
+    document.body.appendChild(this.root);
+  }
+  open(questId) {
+    const record = this.store.get(questId);
+    if (!record) throw new Error(`Unknown quest offer: ${questId}`);
+    this.questId = questId;
+    this.store.offer(questId);
+    this.render(record.definition);
+    this.root.hidden = false;
+  }
+  close() {
+    this.root.hidden = true;
+    this.questId = null;
+  }
+  render(definition) {
+    this.root.replaceChildren(createOffer(definition));
+    this.root.querySelector("[data-accept]").addEventListener("click", () => {
+      this.store.accept(definition.id);
+      this.close();
+    });
+    this.root.querySelector("[data-decline]").addEventListener("click", () => {
+      this.store.decline(definition.id);
+      this.close();
+    });
+  }
+  destroy() {
+    this.root.remove();
+  }
+};
+function createOffer(definition) {
+  const panel = document.createElement("article");
+  panel.className = "Awtsmoos-quest-offer";
+  const title2 = document.createElement("h2");
+  title2.textContent = `! ${definition.name}`;
+  const giver = document.createElement("p");
+  giver.className = "giver";
+  giver.textContent = `Offered by ${definition.giver.name}`;
+  const description = document.createElement("p");
+  description.textContent = definition.description;
+  const objectives = document.createElement("ol");
+  objectives.className = "Awtsmoos-objectives";
+  for (const objective3 of definition.objectives) {
+    const item2 = document.createElement("li");
+    item2.textContent = `${objective3.description} (${objective3.count})`;
+    objectives.appendChild(item2);
+  }
+  const reward2 = document.createElement("p");
+  reward2.textContent = `Reward: ${definition.reward.xp} XP \xB7 ${definition.reward.mitzvahPoints} mitzvah points`;
+  const actions = document.createElement("div");
+  actions.className = "Awtsmoos-offer-actions";
+  actions.append(button("Decline", "decline"), button("Accept Shlichus", "accept"));
+  panel.append(title2, giver, description, objectives, reward2, actions);
+  return panel;
+}
+function button(label, action2) {
+  const element2 = document.createElement("button");
+  element2.type = "button";
+  element2.dataset[action2] = "";
+  element2.textContent = label;
+  return element2;
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestTracker.js
+var QuestTracker = class {
+  constructor(store, onOpenLog = () => {
+  }) {
+    this.store = store;
+    this.onOpenLog = onOpenLog;
+    this.root = document.createElement("aside");
+    this.root.className = "Awtsmoos-quest-tracker Awtsmoos-gameplay";
+    document.body.appendChild(this.root);
+    this.unsubscribe = store.onChange((snapshot2) => this.render(snapshot2));
+    this.render(store.snapshot());
+  }
+  render(snapshot2) {
+    this.root.hidden = snapshot2.pinned.length === 0;
+    this.root.replaceChildren();
+    if (!snapshot2.pinned.length) return;
+    const header = document.createElement("button");
+    header.className = "Awtsmoos-quest-button";
+    header.textContent = "\u{1F4DC} Pinned Shlichus";
+    header.addEventListener("click", this.onOpenLog);
+    this.root.appendChild(header);
+    for (const record of snapshot2.pinned) this.root.appendChild(trackedQuest(record));
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function trackedQuest(record) {
+  const objective3 = record.objectives[record.objectiveIndex];
+  const item2 = document.createElement("div");
+  item2.className = "Awtsmoos-tracked-quest";
+  const title2 = document.createElement("b");
+  title2.textContent = record.definition.name;
+  const progress = document.createElement("div");
+  progress.textContent = objective3 ? `${objective3.description} ${objective3.progress}/${objective3.count}` : "Return for the reward.";
+  item2.append(title2, progress);
+  return item2;
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ShliachProfilePanel.js
+var ShliachProfilePanel = class {
+  constructor(store, options = {}) {
+    this.store = store;
+    this.onAllocate = options.onAllocate || ((id, points) => store.allocate(id, points));
+    this.onActivate = options.onActivate || ((id) => store.activate(id));
+    this.open = false;
+    this.root = document.createElement("section");
+    this.root.className = "Awtsmoos-sheet Awtsmoos-profile-panel Awtsmoos-gameplay";
+    this.root.hidden = true;
+    document.body.appendChild(this.root);
+    this.unsubscribe = store.onChange((state) => this.render(state));
+    this.render(store.snapshot());
+  }
+  setOpen(open) {
+    this.open = Boolean(open);
+    this.root.hidden = !this.open;
+    if (this.open) this.render(this.store.snapshot());
+  }
+  render(state) {
+    this.root.innerHTML = `
+			<header class="Awtsmoos-sheet-header">
+				<div><small>Level ${state.level}</small><h2>\u{1F31F} Shliach Profile</h2></div>
+				<button data-close aria-label="Close profile">\xD7</button>
+			</header>
+			<div class="Awtsmoos-profile-summary">
+				<span>Power <b>${state.derived.powerRating}</b></span>
+				<span>Perutas <b>${state.perutas}</b></span>
+				<span>Points <b>${state.unspentPoints}</b></span>
+			</div>
+			<h3>Attributes</h3><div class="Awtsmoos-stat-grid" data-attributes></div>
+			<h3>Derived Strength</h3><div class="Awtsmoos-derived-grid">${derivedHtml(state.derived)}</div>
+			<h3>Timed Powerups</h3><div class="Awtsmoos-powerup-grid" data-powerups></div>
+			<p class="Awtsmoos-panel-message" data-message></p>
+		`;
+    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
+    this.root.querySelector("[data-attributes]").replaceChildren(...attributeCards(state));
+    this.root.querySelector("[data-powerups]").replaceChildren(...powerupCards(state));
+    this.bindActions();
+  }
+  bindActions() {
+    this.root.querySelectorAll("[data-allocate]").forEach((button2) => {
+      button2.addEventListener("click", () => this.perform(() => this.onAllocate(button2.dataset.allocate, 1)));
+    });
+    this.root.querySelectorAll("[data-powerup]").forEach((button2) => {
+      button2.addEventListener("click", () => this.perform(() => this.onActivate(button2.dataset.powerup)));
+    });
+  }
+  async perform(operation) {
+    try {
+      const result = await operation();
+      if (result?.shliach || result?.attributes) this.store.synchronize(result);
+      this.render(this.store.snapshot());
+    } catch (error) {
+      this.root.querySelector("[data-message]").textContent = humanError(error);
+    }
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function attributeCards(state) {
+  return Object.entries(state.attributesCatalog).map(([id, definition]) => {
+    const card = document.createElement("article");
+    card.className = "Awtsmoos-stat-card";
+    card.innerHTML = `<span>${definition.icon}</span><div><b>${definition.name}</b><small>${definition.effect}</small></div><strong>${state.attributes[id]}</strong><button data-allocate="${id}" ${state.unspentPoints < 1 || state.attributes[id] >= definition.maximum ? "disabled" : ""}>+</button>`;
+    return card;
+  });
+}
+function powerupCards(state) {
+  return Object.entries(state.powerupsCatalog).map(([id, definition]) => {
+    const active = state.activePowerups[id];
+    const card = document.createElement("article");
+    card.className = "Awtsmoos-powerup-card";
+    card.innerHTML = `<span>${definition.icon}</span><div><b>${definition.name}</b><small>${definition.cost} Perutas \xB7 ${Math.round(definition.durationMs / 1e3)}s</small></div><button data-powerup="${id}" ${active || state.perutas < definition.cost ? "disabled" : ""}>${active ? "Active" : "Activate"}</button>`;
+    return card;
+  });
+}
+function derivedHtml(stats3) {
+  return `<span>\u2694\uFE0F +${stats3.damageBonus}</span><span>\u{1F6E1}\uFE0F ${stats3.armor}</span><span>\u{1F4D8} ${stats3.focusMaximum}</span><span>\u{1F9ED} ${stats3.trackingRange}m</span>`;
+}
+function humanError(error) {
+  return String(error?.message || error).replaceAll("_", " ").toLowerCase();
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/StatusRibbon.js
+var StatusRibbon = class {
+  constructor(profileStore) {
+    this.store = profileStore;
+    this.root = document.createElement("aside");
+    this.root.className = "Awtsmoos-status-ribbon Awtsmoos-gameplay";
+    document.body.appendChild(this.root);
+    this.unsubscribe = profileStore.onChange((state) => this.render(state));
+    this.render(profileStore.snapshot());
+  }
+  render(state) {
+    const effects = Object.entries(state.activePowerups).map(([powerupId, active]) => {
+      const definition = state.powerupsCatalog[powerupId];
+      const seconds = Math.max(0, Math.ceil((active.expiresAt - Date.now()) / 1e3));
+      return `<span title="${escapeHtml2(definition.name)}">${definition.icon}${seconds}s</span>`;
+    }).join("");
+    this.root.innerHTML = `
+			<strong>Lv ${state.level}</strong>
+			<span title="Shliach power">\u{1F31F} ${state.derived.powerRating}</span>
+			<span title="Perutas">\u{1FA99} ${state.perutas}</span>
+			<span title="Mitzvah points">\u2728 ${state.mitzvahPoints}</span>
+			<span title="Focus maximum">\u{1F4D8} ${state.derived.focusMaximum}</span>
+			<span title="Armor">\u{1F6E1}\uFE0F ${state.derived.armor}</span>
+			<span class="Awtsmoos-powerup-timers">${effects}</span>
+		`;
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function escapeHtml2(value2) {
+  return String(value2 ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/TorahLibraryPanel.js
+var TorahLibraryPanel = class {
+  constructor(inventoryStore, options = {}) {
+    this.store = inventoryStore;
+    this.getFocus = options.getFocus || (() => null);
+    this.onAssign = options.onAssign || (() => {
+    });
+    this.onUse = options.onUse || (() => {
+    });
+    this.open = false;
+    this.dirty = false;
+    this.domUpdates = 0;
+    this.root = document.createElement("section");
+    this.root.className = "Awtsmoos-torah-library Awtsmoos-gameplay";
+    this.root.hidden = true;
+    document.body.appendChild(this.root);
+    this.unsubscribe = inventoryStore.onChange(() => this.changed());
+    this.render(true);
+  }
+  changed() {
+    if (this.open) this.render();
+    else this.dirty = true;
+  }
+  setOpen(open) {
+    this.open = Boolean(open);
+    this.root.hidden = !this.open;
+    if (this.open && this.dirty) this.render();
+  }
+  toggle() {
+    this.setOpen(!this.open);
+  }
+  render(force = false) {
+    if (!this.open && !force) {
+      this.dirty = true;
+      return false;
+    }
+    const state = this.store.snapshot();
+    const focus = this.getFocus() || { current: state.stats.focus, maximum: state.stats.focus };
+    this.root.innerHTML = `
+			<header class="Awtsmoos-panel-header">
+				<h2>\u{1F4DA} Torah Sefarim</h2><span>Focus ${Math.floor(focus.current)} / ${Math.floor(focus.maximum)}</span>
+				<button class="Awtsmoos-quest-button" data-close>Close</button>
+			</header>
+			<p>Learn a passage, use it directly, or place it on the Torah action bar.</p>
+			<div class="Awtsmoos-book-grid" data-books></div>
+		`;
+    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
+    this.root.querySelector("[data-books]").replaceChildren(...TORAH_BOOKS.map((book2) => this.bookCard(book2, state)));
+    this.dirty = false;
+    this.domUpdates += 1;
+    return true;
+  }
+  bookCard(book2, state) {
+    const owned = state.items.some((item2) => item2.itemId === book2.id);
+    const card = document.createElement("article");
+    card.className = "Awtsmoos-book";
+    const title2 = document.createElement("h3");
+    title2.textContent = `${book2.icon} ${book2.name}${owned ? "" : " \xB7 not owned"}`;
+    card.appendChild(title2);
+    for (const passage2 of book2.passages) card.appendChild(this.passageCard(book2, passage2, state, owned));
+    return card;
+  }
+  passageCard(book2, passage2, state, owned) {
+    const learned = state.learned.includes(passage2.id);
+    const pinned = state.pinnedPassages.includes(passage2.id);
+    const row2 = document.createElement("div");
+    row2.className = "Awtsmoos-passage";
+    const copy = document.createElement("div");
+    copy.append(
+      text2("b", passage2.name),
+      text2("p", passage2.text),
+      text2("small", `${passage2.damage} light \xB7 ${passage2.focusCost} focus \xB7 ${passage2.cooldownMs}ms \xB7 ${passage2.aspect}`)
+    );
+    const actions = document.createElement("div");
+    if (!learned) actions.appendChild(actionButton3("Learn", !owned, () => this.store.learn(passage2.id)));
+    if (learned) this.addLearnedActions(actions, book2, passage2, pinned);
+    row2.append(copy, actions);
+    return row2;
+  }
+  addLearnedActions(actions, book2, passage2, pinned) {
+    const ability2 = torahAbilityForPassage(passage2.id);
+    actions.append(
+      actionButton3(pinned ? "Unpin" : "Pin", false, () => this.store.togglePassagePin(passage2.id)),
+      actionButton3("Use", false, () => this.onUse({ ...passage2, bookId: book2.id }))
+    );
+    if (!ability2) return;
+    const assign = actionButton3("Add to bar", false, () => this.onAssign(ability2.id));
+    assign.dataset.torahAbilityId = ability2.id;
+    assign.draggable = true;
+    actions.appendChild(assign);
+  }
+  snapshot() {
+    return { dirty: this.dirty, domUpdates: this.domUpdates, open: this.open };
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function actionButton3(label, disabled, action2) {
+  const button2 = document.createElement("button");
+  button2.className = "Awtsmoos-quest-button";
+  button2.disabled = disabled;
+  button2.textContent = label;
+  button2.addEventListener("click", action2);
+  return button2;
+}
+function text2(tagName, value2) {
+  const element2 = document.createElement(tagName);
+  element2.textContent = value2;
+  return element2;
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/VendorPanel.js
+var SALE_IDS = Object.freeze([
+  "forest-axe",
+  "wooden-staff",
+  "spark-blade",
+  "village-shield",
+  "chumash-light",
+  "tanya-pocket",
+  "wool-kippah",
+  "walking-boots"
+]);
+var VendorPanel = class {
+  constructor(inventoryStore, options = {}) {
+    this.store = inventoryStore;
+    this.onBuy = options.onBuy || ((itemId, quantity2) => storeBuy(inventoryStore, itemId, quantity2));
+    this.open = false;
+    this.root = document.createElement("section");
+    this.root.className = "Awtsmoos-sheet Awtsmoos-vendor-panel Awtsmoos-gameplay";
+    this.root.hidden = true;
+    document.body.appendChild(this.root);
+    this.unsubscribe = inventoryStore.onChange(() => this.render());
+    this.render();
+  }
+  setOpen(open) {
+    this.open = Boolean(open);
+    this.root.hidden = !this.open;
+    if (this.open) this.render();
+  }
+  render() {
+    const state = this.store.snapshot();
+    const perutas = state.items.find((item2) => item2.itemId === "perutas")?.quantity || 0;
+    this.root.innerHTML = `
+			<header class="Awtsmoos-sheet-header">
+				<div><small>Village Market</small><h2>\u{1F3EA} Shliach Supplies</h2></div>
+				<button data-close aria-label="Close market">\xD7</button>
+			</header>
+			<p class="Awtsmoos-wallet">\u{1FA99} ${perutas} Perutas available</p>
+			<div class="Awtsmoos-vendor-grid" data-items></div>
+			<p class="Awtsmoos-panel-message" data-message></p>
+		`;
+    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
+    this.root.querySelector("[data-items]").replaceChildren(...SALE_IDS.map((itemId) => itemCard(itemId, state, perutas)));
+    this.root.querySelectorAll("[data-buy]").forEach((button2) => {
+      button2.addEventListener("click", () => this.buy(button2.dataset.buy));
+    });
+  }
+  async buy(itemId) {
+    try {
+      await this.onBuy(itemId, 1);
+      this.render();
+    } catch (error) {
+      this.root.querySelector("[data-message]").textContent = humanError2(error);
+    }
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function itemCard(itemId, state, perutas) {
+  const definition = INVENTORY_CATALOG[itemId];
+  const owned = state.items.some((item2) => item2.itemId === itemId);
+  const disabled = owned || perutas < definition.price;
+  const card = document.createElement("article");
+  card.className = "Awtsmoos-vendor-card";
+  card.innerHTML = `
+		<span>${definition.icon}</span>
+		<div><b>${definition.name}</b><small>${definition.category} \xB7 \u2694 ${definition.stats.damage} \xB7 \u{1F6E1} ${definition.stats.defense} \xB7 \u2728 ${definition.stats.focus}</small></div>
+		<button data-buy="${itemId}" ${disabled ? "disabled" : ""}>${owned ? "Owned" : `${definition.price} \u{1FA99}`}</button>
+	`;
+  return card;
+}
+function storeBuy(store, itemId, quantity2) {
+  return store.buy(itemId, quantity2);
+}
+function humanError2(error) {
+  return String(error?.message || error).replaceAll("_", " ").toLowerCase();
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldMinimap.js
+var WORLD_RADIUS = 210;
+var WorldMinimap = class {
+  constructor(store) {
+    this.store = store;
+    this.position = { x: 0, z: 0 };
+    this.root = document.createElement("section");
+    this.root.className = "Awtsmoos-minimap Awtsmoos-gameplay";
+    this.root.dataset.expanded = "false";
+    document.body.appendChild(this.root);
+    this.unsubscribe = store.onChange(() => this.render());
+    this.render();
+  }
+  setPosition(position) {
+    const x = Number(position?.x || 0);
+    const z = Number(position?.z || 0);
+    if (Math.hypot(x - this.position.x, z - this.position.z) < 1.5) return;
+    this.position = { x, z };
+    this.renderMarkers();
+  }
+  toggleExpanded() {
+    this.root.dataset.expanded = String(this.root.dataset.expanded !== "true");
+  }
+  render() {
+    this.root.innerHTML = `
+			<header><strong>\u{1F5FA}\uFE0F Village Map</strong><button class="Awtsmoos-quest-button" data-expand>Expand</button></header>
+			<div class="Awtsmoos-map-canvas" data-map aria-label="Quest map"></div>
+		`;
+    this.root.querySelector("[data-expand]").addEventListener("click", () => this.toggleExpanded());
+    this.renderMarkers();
+  }
+  renderMarkers() {
+    const map = this.root.querySelector("[data-map]");
+    if (!map) return;
+    map.replaceChildren(playerMarker(this.position));
+    const snapshot2 = this.store.snapshot();
+    for (const record of snapshot2.available.slice(0, 12)) {
+      map.appendChild(marker("!", record.definition.giver.position, record.definition.name, "giver"));
+    }
+    for (const record of snapshot2.active) {
+      const objective3 = record.objectives[record.objectiveIndex];
+      if (objective3?.marker) map.appendChild(marker("\u25C6", objective3.marker, objective3.description, "objective"));
+    }
+  }
+  destroy() {
+    this.unsubscribe();
+    this.root.remove();
+  }
+};
+function playerMarker(position) {
+  const element2 = document.createElement("span");
+  element2.className = "Awtsmoos-map-player";
+  place(element2, position);
+  element2.title = "You";
+  return element2;
+}
+function marker(icon, position, label, kind) {
+  const element2 = document.createElement("button");
+  element2.className = "Awtsmoos-map-marker";
+  element2.dataset.kind = kind;
+  element2.type = "button";
+  element2.textContent = icon;
+  element2.title = label;
+  place(element2, position);
+  return element2;
+}
+function place(element2, position) {
+  element2.style.left = `${percentage(position.x)}%`;
+  element2.style.top = `${100 - percentage(position.z)}%`;
+}
+function percentage(value2) {
+  return Math.max(2, Math.min(98, (Number(value2 || 0) + WORLD_RADIUS) / (WORLD_RADIUS * 2) * 100));
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/GameplayPanelSuite.js
+var GameplayPanelSuite = class {
+  constructor(options) {
+    this.adventures = options.adventures;
+    this.inventory = options.inventory;
+    this.profile = options.profile;
+    this.inventoryPanel = options.inventoryPanel;
+    this.coordinator = new PanelCoordinator();
+    this.questLog = new QuestLogPanel(this.adventures);
+    this.questOffer = new QuestOfferPanel(this.adventures);
+    this.minimap = new WorldMinimap(this.adventures);
+    this.torah = new TorahLibraryPanel(this.inventory, {
+      getFocus: options.getTorahFocus,
+      onAssign: options.onAssignAbility,
+      onUse: options.onUsePassage
+    });
+    this.profilePanel = new ShliachProfilePanel(this.profile, {
+      onActivate: options.onActivatePowerup,
+      onAllocate: options.onAllocateAttribute
+    });
+    this.vendor = new VendorPanel(this.inventory, { onBuy: options.onBuyItem });
+    this.tracker = new QuestTracker(
+      this.adventures,
+      () => this.coordinator.open("quests")
+    );
+    this.ribbon = new StatusRibbon(this.profile);
+    this.registerPanels();
+  }
+  registerPanels() {
+    this.coordinator.register("quests", this.questLog);
+    this.coordinator.register("torah", this.torah);
+    this.coordinator.register("bag", this.inventoryPanel);
+    this.coordinator.register("profile", this.profilePanel);
+    this.coordinator.register("vendor", this.vendor);
+    this.coordinator.register("map", {
+      setOpen: (open) => {
+        this.minimap.root.dataset.expanded = String(Boolean(open));
+      }
+    });
+  }
+  toggle(panelId) {
+    return this.coordinator.toggle(panelId);
+  }
+  notifyInventory(open) {
+    this.coordinator.notify("bag", open);
+  }
+  updatePosition(position) {
+    this.minimap.setPosition(position);
+  }
+  snapshot() {
+    return { torahLibrary: this.torah.snapshot() };
+  }
+  destroy() {
+    this.coordinator.destroy();
+    this.questLog.destroy();
+    this.questOffer.destroy();
+    this.minimap.destroy();
+    this.torah.destroy();
+    this.profilePanel.destroy();
+    this.vendor.destroy();
+    this.tracker.destroy();
+    this.ribbon.destroy();
+  }
+};
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/GameplayPanelAssembly.js
+function assembleGameplayPanels(runtime, options = {}) {
+  return new GameplayPanelSuite({
+    adventures: runtime.adventures,
+    getTorahFocus: () => runtime.combat.snapshot().focus,
+    inventory: runtime.inventory,
+    inventoryPanel: options.inventoryPanel,
+    onActivatePowerup: (id) => runtime.gateway.activatePowerup(id),
+    onAllocateAttribute: (id, points) => runtime.gateway.allocateAttribute(id, points),
+    onAssignAbility: (id) => runtime.actionBar.assignFirstAvailable(id),
+    onBuyItem: (id, quantity2) => runtime.gateway.buyItem(id, quantity2),
+    onUsePassage: (passage2) => runtime.combat.usePassage(passage2),
+    profile: runtime.profile
+  });
+}
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/RiverCrossingShlichus.js
 var RIVER_CROSSING_SHLICHUS = Object.freeze({
@@ -15369,6 +11948,14 @@ var AdventureStore = class {
   }
 };
 
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarLayoutRules.js
+function firstAvailableActionSlot(slots, visibleCount) {
+  for (let index = 0; index < visibleCount; index += 1) {
+    if (!slots[index]) return index;
+  }
+  return -1;
+}
+
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahAbilityStatusGateway.js
 var TorahAbilityStatusGateway = class {
   constructor(options) {
@@ -15433,23 +12020,23 @@ var TorahAbilityStatusGateway = class {
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahAbilityCastRules.js
 var CHANNEL_TICK_COUNT = 3;
 var MAXIMUM_CATCH_UP_TICKS = 3;
-function createAbilityCast(definition, context, now2, castId) {
-  const phase2 = definition.castType === "channel" ? "channeling" : definition.castType === "charged" ? "charging" : "casting";
-  const duration = phase2 === "channeling" ? definition.channelMilliseconds : definition.castMilliseconds;
-  const tickInterval = phase2 === "channeling" ? duration / CHANNEL_TICK_COUNT : 0;
+function createAbilityCast(definition, context, now3, castId) {
+  const phase = definition.castType === "channel" ? "channeling" : definition.castType === "charged" ? "charging" : "casting";
+  const duration = phase === "channeling" ? definition.channelMilliseconds : definition.castMilliseconds;
+  const tickInterval = phase === "channeling" ? duration / CHANNEL_TICK_COUNT : 0;
   return {
     castId,
-    completesAt: now2 + duration,
+    completesAt: now3 + duration,
     context,
     definition,
-    nextTickAt: tickInterval ? now2 + tickInterval : Infinity,
-    phase: phase2,
-    startedAt: now2,
+    nextTickAt: tickInterval ? now3 + tickInterval : Infinity,
+    phase,
+    startedAt: now3,
     tickIndex: 0,
     tickInterval
   };
 }
-function abilityCastSnapshot(cast, now2) {
+function abilityCastSnapshot(cast, now3) {
   if (!cast) return null;
   const duration = Math.max(1, cast.completesAt - cast.startedAt);
   return {
@@ -15457,19 +12044,19 @@ function abilityCastSnapshot(cast, now2) {
     castId: cast.castId,
     completesAt: cast.completesAt,
     phase: cast.phase,
-    progress: Math.min(1, Math.max(0, (now2 - cast.startedAt) / duration)),
+    progress: Math.min(1, Math.max(0, (now3 - cast.startedAt) / duration)),
     startedAt: cast.startedAt,
     tickIndex: cast.tickIndex
   };
 }
-function abilityChargeRatio(cast, now2) {
+function abilityChargeRatio(cast, now3) {
   if (!cast || cast.phase !== "charging") return 0;
   const duration = Math.max(1, cast.completesAt - cast.startedAt);
-  return Math.min(1, Math.max(0.1, (now2 - cast.startedAt) / duration));
+  return Math.min(1, Math.max(0.1, (now3 - cast.startedAt) / duration));
 }
-function channelTickPlan(cast, now2) {
-  if (!cast || cast.phase !== "channeling" || now2 < cast.nextTickAt) return null;
-  const effectiveNow = Math.min(now2, cast.completesAt);
+function channelTickPlan(cast, now3) {
+  if (!cast || cast.phase !== "channeling" || now3 < cast.nextTickAt) return null;
+  const effectiveNow = Math.min(now3, cast.completesAt);
   const pending = Math.floor((effectiveNow - cast.nextTickAt) / cast.tickInterval) + 1;
   const remaining = CHANNEL_TICK_COUNT - cast.tickIndex;
   const count = Math.min(pending, remaining, MAXIMUM_CATCH_UP_TICKS);
@@ -15485,57 +12072,57 @@ var TorahAbilityCooldownStore = class {
     this.globalCooldownUntil = 0;
     this.activations = 0;
   }
-  readiness(definition, now2) {
-    const state = this.stateFor(definition, now2);
-    if (now2 < this.globalCooldownUntil) {
-      return { ok: false, reason: "global-cooldown", state: this.snapshotAbility(definition, now2) };
+  readiness(definition, now3) {
+    const state = this.stateFor(definition, now3);
+    if (now3 < this.globalCooldownUntil) {
+      return { ok: false, reason: "global-cooldown", state: this.snapshotAbility(definition, now3) };
     }
-    if (state.charges < 1 || now2 < state.cooldownUntil) {
-      return { ok: false, reason: "cooldown", state: this.snapshotAbility(definition, now2) };
+    if (state.charges < 1 || now3 < state.cooldownUntil) {
+      return { ok: false, reason: "cooldown", state: this.snapshotAbility(definition, now3) };
     }
-    return { ok: true, reason: "ready", state: this.snapshotAbility(definition, now2) };
+    return { ok: true, reason: "ready", state: this.snapshotAbility(definition, now3) };
   }
-  commit(definition, now2) {
-    const state = this.stateFor(definition, now2);
+  commit(definition, now3) {
+    const state = this.stateFor(definition, now3);
     if (state.charges < 1) return false;
     state.charges -= 1;
     if (definition.charges > 1) {
-      if (!state.nextChargeAt) state.nextChargeAt = now2 + definition.chargeRecoveryMilliseconds;
+      if (!state.nextChargeAt) state.nextChargeAt = now3 + definition.chargeRecoveryMilliseconds;
     } else {
-      state.cooldownUntil = now2 + definition.cooldownMilliseconds;
+      state.cooldownUntil = now3 + definition.cooldownMilliseconds;
     }
     this.globalCooldownUntil = Math.max(
       this.globalCooldownUntil,
-      now2 + definition.globalCooldownMilliseconds
+      now3 + definition.globalCooldownMilliseconds
     );
     this.activations += 1;
     return true;
   }
-  update(now2) {
-    for (const state of this.abilities.values()) this.recover(state, now2);
-    return this.diagnostics(now2);
+  update(now3) {
+    for (const state of this.abilities.values()) this.recover(state, now3);
+    return this.diagnostics(now3);
   }
-  snapshotAbility(definition, now2) {
-    const state = this.stateFor(definition, now2);
+  snapshotAbility(definition, now3) {
+    const state = this.stateFor(definition, now3);
     const recoveryUntil = state.nextChargeAt || state.cooldownUntil;
     return {
       abilityId: definition.id,
       charges: state.charges,
-      cooldownRemainingMilliseconds: Math.max(0, recoveryUntil - now2),
+      cooldownRemainingMilliseconds: Math.max(0, recoveryUntil - now3),
       cooldownUntil: recoveryUntil,
-      globalCooldownRemainingMilliseconds: Math.max(0, this.globalCooldownUntil - now2),
+      globalCooldownRemainingMilliseconds: Math.max(0, this.globalCooldownUntil - now3),
       maximumCharges: definition.charges
     };
   }
-  snapshot(now2) {
+  snapshot(now3) {
     const abilities = [];
-    for (const state of this.abilities.values()) abilities.push(this.snapshotAbility(state.definition, now2));
-    return { abilities, diagnostics: this.diagnostics(now2) };
+    for (const state of this.abilities.values()) abilities.push(this.snapshotAbility(state.definition, now3));
+    return { abilities, diagnostics: this.diagnostics(now3) };
   }
-  diagnostics(now2) {
+  diagnostics(now3) {
     return {
       activations: this.activations,
-      globalCooldownRemainingMilliseconds: Math.max(0, this.globalCooldownUntil - now2),
+      globalCooldownRemainingMilliseconds: Math.max(0, this.globalCooldownUntil - now3),
       trackedAbilities: this.abilities.size
     };
   }
@@ -15543,7 +12130,7 @@ var TorahAbilityCooldownStore = class {
     this.abilities.clear();
     this.globalCooldownUntil = 0;
   }
-  stateFor(definition, now2) {
+  stateFor(definition, now3) {
     let state = this.abilities.get(definition.id);
     if (!state) {
       state = {
@@ -15554,18 +12141,18 @@ var TorahAbilityCooldownStore = class {
       };
       this.abilities.set(definition.id, state);
     }
-    this.recover(state, now2);
+    this.recover(state, now3);
     return state;
   }
-  recover(state, now2) {
+  recover(state, now3) {
     const definition = state.definition;
-    if (definition.charges === 1 && state.charges === 0 && now2 >= state.cooldownUntil) {
+    if (definition.charges === 1 && state.charges === 0 && now3 >= state.cooldownUntil) {
       state.charges = 1;
       state.cooldownUntil = 0;
       return;
     }
     if (!state.nextChargeAt || !definition.chargeRecoveryMilliseconds) return;
-    while (state.charges < definition.charges && now2 >= state.nextChargeAt) {
+    while (state.charges < definition.charges && now3 >= state.nextChargeAt) {
       state.charges += 1;
       state.nextChargeAt += definition.chargeRecoveryMilliseconds;
     }
@@ -15585,7 +12172,7 @@ var TorahAbilityExecutor = class {
     });
     this.diagnostics = { accepted: 0, executorErrors: 0 };
   }
-  commit(cast, now2, publishCompletion) {
+  commit(cast, now3, publishCompletion) {
     let result;
     try {
       result = this.execute(cast.definition, { ...cast.context, castId: cast.castId });
@@ -15596,10 +12183,10 @@ var TorahAbilityExecutor = class {
     if (!(result === true || result?.ok === true)) {
       return rejected(result?.reason || "rejected", result?.detail || result);
     }
-    this.cooldowns.commit(cast.definition, now2);
+    this.cooldowns.commit(cast.definition, now3);
     this.diagnostics.accepted += 1;
     this.onApply(cast.definition, cast.context, result);
-    const detail = this.castDetail(cast, now2);
+    const detail = this.castDetail(cast, now3);
     this.emit(cast.definition.visualEvent, detail);
     this.emit(cast.definition.audioEvent, detail);
     this.emit("quest:event", {
@@ -15609,20 +12196,20 @@ var TorahAbilityExecutor = class {
       type: "torah"
     });
     if (publishCompletion) this.emit("torah:cast-complete", detail);
-    return { cast: abilityCastSnapshot(cast, now2), ok: true, reason: cast.phase };
+    return { cast: abilityCastSnapshot(cast, now3), ok: true, reason: cast.phase };
   }
-  channelTick(cast, now2, tickIndex) {
+  channelTick(cast, now3, tickIndex) {
     this.onChannelTick(cast.definition, cast.context, tickIndex);
-    this.emit("torah:channel-tick", { ...this.castDetail(cast, now2), tickIndex });
+    this.emit("torah:channel-tick", { ...this.castDetail(cast, now3), tickIndex });
   }
-  completeChannel(cast, now2) {
-    this.emit("torah:cast-complete", this.castDetail(cast, now2));
+  completeChannel(cast, now3) {
+    this.emit("torah:cast-complete", this.castDetail(cast, now3));
   }
   snapshot() {
     return { ...this.diagnostics };
   }
-  castDetail(cast, now2, reason = null) {
-    return { ...abilityCastSnapshot(cast, now2), reason };
+  castDetail(cast, now3, reason = null) {
+    return { ...abilityCastSnapshot(cast, now3), reason };
   }
   emit(type, detail) {
     this.bus?.emit(type, detail);
@@ -15651,9 +12238,9 @@ function evaluateTorahAbilityActivation(definition, state = {}) {
   if (definition.targetType === "selected-ally" && target?.friendly === false) {
     return rejected2("invalid-target");
   }
-  const distance4 = Number(state.distance ?? target?.distance);
-  if (definition.range > 0 && Number.isFinite(distance4) && distance4 > definition.range) {
-    return rejected2("out-of-range", { distance: distance4, range: definition.range });
+  const distance3 = Number(state.distance ?? target?.distance);
+  if (definition.range > 0 && Number.isFinite(distance3) && distance3 > definition.range) {
+    return rejected2("out-of-range", { distance: distance3, range: definition.range });
   }
   if (requiresFacing(definition.targetType) && state.facing === false) return rejected2("not-facing");
   return { ok: true, reason: "ready", target };
@@ -15684,16 +12271,16 @@ var TorahAbilityPreflight = class {
   }
   resolve(abilityId, suppliedContext = {}, activeCast = false) {
     const definition = torahAbilityDefinition(abilityId);
-    const now2 = suppliedContext.now ?? this.clock();
+    const now3 = suppliedContext.now ?? this.clock();
     const context = { ...this.getContext(definition), ...suppliedContext };
     const decision = evaluateTorahAbilityActivation(definition, {
       ...context,
       activeCast,
-      cooldown: definition ? this.cooldowns.readiness(definition, now2) : null,
-      resource: resourceValue(this.getResource(now2)),
+      cooldown: definition ? this.cooldowns.readiness(definition, now3) : null,
+      resource: resourceValue(this.getResource(now3)),
       unlocked: definition ? this.isUnlocked(definition) : false
     });
-    return { context, decision, definition, now: now2 };
+    return { context, decision, definition, now: now3 };
   }
 };
 function resourceValue(resource) {
@@ -15738,12 +12325,12 @@ var TorahAbilityTimeline = class {
     if (!result.ok) this.activeCast = null;
     return result;
   }
-  release(now2 = this.clock()) {
+  release(now3 = this.clock()) {
     const cast = this.activeCast;
     if (!cast || cast.phase !== "charging") return rejected3("not-charging");
-    cast.context = { ...cast.context, chargeRatio: abilityChargeRatio(cast, now2) };
+    cast.context = { ...cast.context, chargeRatio: abilityChargeRatio(cast, now3) };
     this.activeCast = null;
-    return this.commit(cast, now2, true);
+    return this.commit(cast, now3, true);
   }
   interrupt(reason = "interrupted") {
     if (!this.activeCast) return false;
@@ -15753,24 +12340,24 @@ var TorahAbilityTimeline = class {
     this.emit("torah:interrupt", detail);
     return true;
   }
-  update(now2 = this.clock()) {
+  update(now3 = this.clock()) {
     const cast = this.activeCast;
     if (!cast) return false;
-    if (cast.phase === "casting" && now2 >= cast.completesAt) {
+    if (cast.phase === "casting" && now3 >= cast.completesAt) {
       this.activeCast = null;
-      this.commit(cast, now2, true);
+      this.commit(cast, now3, true);
       return false;
     }
-    if (cast.phase === "channeling") this.advanceChannel(cast, now2);
+    if (cast.phase === "channeling") this.advanceChannel(cast, now3);
     return Boolean(this.activeCast);
   }
   readiness(abilityId, suppliedContext = {}) {
     return this.preflight.resolve(abilityId, suppliedContext, Boolean(this.activeCast)).decision;
   }
-  snapshot(now2 = this.clock()) {
+  snapshot(now3 = this.clock()) {
     return {
-      activeCast: abilityCastSnapshot(this.activeCast, now2),
-      cooldowns: this.cooldowns.snapshot(now2),
+      activeCast: abilityCastSnapshot(this.activeCast, now3),
+      cooldowns: this.cooldowns.snapshot(now3),
       diagnostics: { ...this.diagnostics, executor: this.executor.snapshot() }
     };
   }
@@ -15778,22 +12365,22 @@ var TorahAbilityTimeline = class {
     this.activeCast = null;
     this.cooldowns.destroy();
   }
-  commit(cast, now2, publishCompletion) {
-    const result = this.executor.commit(cast, now2, publishCompletion);
+  commit(cast, now3, publishCompletion) {
+    const result = this.executor.commit(cast, now3, publishCompletion);
     if (!result.ok) return this.reject(cast.definition.id, result);
-    const acceptedResult = accepted(cast.phase === "channeling" ? "channeling" : "complete", cast, now2);
+    const acceptedResult = accepted(cast.phase === "channeling" ? "channeling" : "complete", cast, now3);
     this.emit("actionbar:result", { ...acceptedResult, abilityId: cast.definition.id });
     return acceptedResult;
   }
-  advanceChannel(cast, now2) {
-    const plan = channelTickPlan(cast, now2);
+  advanceChannel(cast, now3) {
+    const plan = channelTickPlan(cast, now3);
     for (let index = 0; index < (plan?.count || 0); index += 1) {
-      this.executor.channelTick(cast, now2, plan.firstTickIndex + index);
+      this.executor.channelTick(cast, now3, plan.firstTickIndex + index);
       this.diagnostics.channelTicks += 1;
     }
-    if (now2 < cast.completesAt) return;
+    if (now3 < cast.completesAt) return;
     this.activeCast = null;
-    this.executor.completeChannel(cast, now2);
+    this.executor.completeChannel(cast, now3);
   }
   reject(abilityId, decision) {
     this.diagnostics.rejected += 1;
@@ -15805,8 +12392,8 @@ var TorahAbilityTimeline = class {
     this.bus?.emit(type, detail);
   }
 };
-function accepted(reason, cast, now2) {
-  return { cast: abilityCastSnapshot(cast, now2), ok: true, reason };
+function accepted(reason, cast, now3) {
+  return { cast: abilityCastSnapshot(cast, now3), ok: true, reason };
 }
 function rejected3(reason, detail = null, abilityId = null) {
   return { abilityId, detail, ok: false, reason };
@@ -15814,12 +12401,12 @@ function rejected3(reason, detail = null, abilityId = null) {
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahStatusEffectRules.js
 var MAXIMUM_CATCH_UP_TICKS2 = 4;
-function createStatusInstance(definition, request, now2, sequence) {
+function createStatusInstance(definition, request, now3, sequence) {
   return {
     bossScale: bossScale(definition, request.isBoss),
     definition,
-    expiresAt: now2 + definition.durationMilliseconds,
-    nextTickAt: definition.tickIntervalMilliseconds ? now2 + definition.tickIntervalMilliseconds : Infinity,
+    expiresAt: now3 + definition.durationMilliseconds,
+    nextTickAt: definition.tickIntervalMilliseconds ? now3 + definition.tickIntervalMilliseconds : Infinity,
     sequence,
     sourceId: request.sourceId,
     stacks: 1,
@@ -15827,7 +12414,7 @@ function createStatusInstance(definition, request, now2, sequence) {
     targetId: request.targetId
   };
 }
-function refreshStatusInstance(instance, request, now2) {
+function refreshStatusInstance(instance, request, now3) {
   const definition = instance.definition;
   const strength = request.strength ?? 1;
   if (definition.refreshRule === "replace-stronger" && strength < instance.strength) {
@@ -15836,17 +12423,17 @@ function refreshStatusInstance(instance, request, now2) {
   if (definition.stackingRule === "add") {
     instance.stacks = Math.min(definition.maximumStacks, instance.stacks + 1);
   }
-  instance.expiresAt = now2 + definition.durationMilliseconds;
+  instance.expiresAt = now3 + definition.durationMilliseconds;
   instance.sourceId = request.sourceId;
   instance.strength = Math.max(instance.strength, strength);
   return { ok: true, reason: "refreshed" };
 }
-function statusTickPlan(instance, now2) {
+function statusTickPlan(instance, now3) {
   const interval = instance.definition.tickIntervalMilliseconds;
-  if (!interval || now2 < instance.nextTickAt) return null;
-  const pending = Math.floor((now2 - instance.nextTickAt) / interval) + 1;
+  if (!interval || now3 < instance.nextTickAt) return null;
+  const pending = Math.floor((now3 - instance.nextTickAt) / interval) + 1;
   const count = Math.min(pending, MAXIMUM_CATCH_UP_TICKS2);
-  instance.nextTickAt = pending > count ? now2 + interval : instance.nextTickAt + count * interval;
+  instance.nextTickAt = pending > count ? now3 + interval : instance.nextTickAt + count * interval;
   return { count, dropped: pending - count };
 }
 function statusEffectSnapshot(instance) {
@@ -15887,30 +12474,30 @@ var TorahStatusEffectStore = class {
     if (!definition) return outcome(false, "unknown-effect");
     if (request.targetId == null) return outcome(false, "missing-target");
     if (request.isBoss && definition.bossBehavior === "immune") return outcome(false, "boss-immune");
-    const now2 = request.now ?? this.clock();
+    const now3 = request.now ?? this.clock();
     const effects = this.targetEffects(request.targetId, true);
     const existing = effects.get(definition.id);
     if (existing) {
-      const result = refreshStatusInstance(existing, request, now2);
+      const result = refreshStatusInstance(existing, request, now3);
       if (result.ok) this.emit("status:apply", existing, result.reason);
       return outcome(result.ok, result.reason, statusEffectSnapshot(existing));
     }
     if (this.activeCount >= this.maximumEffects) return outcome(false, "capacity");
-    const instance = createStatusInstance(definition, request, now2, ++this.sequence);
+    const instance = createStatusInstance(definition, request, now3, ++this.sequence);
     effects.set(definition.id, instance);
     this.activeCount += 1;
     this.diagnostics.applied += 1;
     this.emit("status:apply", instance, "applied");
     return outcome(true, "applied", statusEffectSnapshot(instance));
   }
-  update(now2 = this.clock()) {
+  update(now3 = this.clock()) {
     for (const [targetId, effects] of this.targets) {
       for (const [effectId, instance] of effects) {
-        if (now2 >= instance.expiresAt) {
+        if (now3 >= instance.expiresAt) {
           this.removeInternal(targetId, effectId, instance, "expired");
           continue;
         }
-        this.advanceTicks(instance, now2);
+        this.advanceTicks(instance, now3);
       }
     }
     return this.diagnosticSnapshot();
@@ -15959,8 +12546,8 @@ var TorahStatusEffectStore = class {
     this.targets.clear();
     this.activeCount = 0;
   }
-  advanceTicks(instance, now2) {
-    const plan = statusTickPlan(instance, now2);
+  advanceTicks(instance, now3) {
+    const plan = statusTickPlan(instance, now3);
     if (!plan) return;
     for (let index = 0; index < plan.count; index += 1) {
       this.onTick(statusEffectSnapshot(instance));
@@ -15994,6 +12581,53 @@ var TorahStatusEffectStore = class {
 function outcome(ok, reason, effect2 = null) {
   return { effect: effect2, ok, reason };
 }
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarCombatGateway.js
+var TARGET_REQUIRED_TYPES = /* @__PURE__ */ new Set(["chain", "line", "selected-enemy"]);
+var DIRECT_SUPPORT_TYPES = /* @__PURE__ */ new Set(["self", "selected-ally"]);
+var ActionBarCombatGateway = class {
+  constructor(options) {
+    this.combat = options.combat;
+    this.inventory = options.inventory;
+    this.melee = options.melee;
+  }
+  activatePhysical(context = {}) {
+    return this.melee?.attackNow(context) || {
+      ok: false,
+      reason: "physical-action-unavailable"
+    };
+  }
+  physicalReadiness(now3) {
+    return this.melee?.readiness(now3) || {
+      charges: 0,
+      cooldownRemainingMilliseconds: 0,
+      globalCooldownRemainingMilliseconds: 0,
+      maximumCharges: 1,
+      ok: false,
+      reason: "physical-action-unavailable"
+    };
+  }
+  executeTorah(definition, context) {
+    return this.combat.usePassage({ id: definition.passageId }, {
+      requestId: context.castId,
+      returnResult: true,
+      skipPassageCooldown: true,
+      targetRequired: TARGET_REQUIRED_TYPES.has(definition.targetType),
+      worldImpactRequired: !DIRECT_SUPPORT_TYPES.has(definition.targetType)
+    });
+  }
+  combatContext() {
+    const target = this.combat.snapshot().selectedTarget;
+    return {
+      distance: target?.distance ?? target?.distanceToPlayer,
+      facing: target?.facing !== false,
+      target
+    };
+  }
+  isTorahUnlocked(definition) {
+    return this.inventory.snapshot().learned?.includes(definition.passageId) || false;
+  }
+};
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarDragController.js
 var ActionBarDragController = class {
@@ -16237,79 +12871,126 @@ var ActionBarStore = class {
 };
 var ACTION_BAR_LIMITS = Object.freeze({ maximumRows: MAXIMUM_ROWS, slotsPerRow: SLOTS_PER_ROW });
 
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarRuntimeAssembly.js
+function assembleActionBarRuntime(options, activateAction) {
+  const bus = options.bus || null;
+  const clock = options.clock || Date.now;
+  const gateway = options.gateway || new ActionBarCombatGateway({
+    combat: options.combat,
+    inventory: options.inventory,
+    melee: options.melee
+  });
+  let statusGateway = null;
+  const statuses = options.statuses || new TorahStatusEffectStore({
+    bus,
+    clock,
+    onTick: (effect2) => statusGateway?.periodicTick(effect2)
+  });
+  statusGateway = new TorahAbilityStatusGateway({
+    bus,
+    playerId: options.playerId,
+    statuses
+  });
+  const timeline = options.timeline || createTimeline({
+    bus,
+    clock,
+    gateway,
+    statusGateway,
+    statuses
+  });
+  const store = options.store || new ActionBarStore({
+    activateAbility: activateAction,
+    isAbilityKnown: (actionId) => Boolean(actionBarActionDefinition(actionId)),
+    layout: integratedDefaultActionBarLayout()
+  });
+  const persistence = options.persistence || new ActionBarPersistence(options.persistenceOptions);
+  persistence.connect(store);
+  const drag = options.drag || new ActionBarDragController({ bus, store });
+  return {
+    bus,
+    clock,
+    drag,
+    gateway,
+    persistence,
+    statusGateway,
+    statuses,
+    store,
+    timeline
+  };
+}
+function createTimeline(options) {
+  return new TorahAbilityTimeline({
+    bus: options.bus,
+    clock: options.clock,
+    execute: (definition, context) => options.gateway.executeTorah(definition, context),
+    getContext: () => options.gateway.combatContext(),
+    getResource: () => options.gateway.combat.snapshot().focus,
+    isUnlocked: (definition) => options.gateway.isTorahUnlocked(definition),
+    onApply: (definition, context, result) => options.statusGateway.apply(definition, context, result),
+    onChannelTick: (definition, context, tickIndex) => options.statusGateway.channelTick(definition, context, tickIndex)
+  });
+}
+
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarRuntimeCoordinator.js
-var TARGET_REQUIRED_TYPES = /* @__PURE__ */ new Set(["chain", "line", "selected-enemy"]);
-var DIRECT_SUPPORT_TYPES = /* @__PURE__ */ new Set(["self", "selected-ally"]);
 var STATUS_UPDATE_MILLISECONDS = 100;
 var ActionBarRuntimeCoordinator = class {
   constructor(options) {
-    this.bus = options.bus || null;
-    this.clock = options.clock || Date.now;
     this.combat = options.combat;
     this.inventory = options.inventory;
     this.nextStatusUpdateAt = 0;
-    this.statuses = options.statuses || new TorahStatusEffectStore({
-      bus: this.bus,
-      clock: this.clock,
-      onTick: (effect2) => this.statusGateway?.periodicTick(effect2)
-    });
-    this.statusGateway = new TorahAbilityStatusGateway({
-      bus: this.bus,
-      playerId: options.playerId,
-      statuses: this.statuses
-    });
-    this.timeline = options.timeline || new TorahAbilityTimeline({
-      bus: this.bus,
-      clock: this.clock,
-      execute: (definition, context) => this.execute(definition, context),
-      getContext: () => this.combatContext(),
-      getResource: () => this.combat.snapshot().focus,
-      isUnlocked: (definition) => this.isUnlocked(definition),
-      onApply: (definition, context, result) => this.statusGateway.apply(definition, context, result),
-      onChannelTick: (definition, context, tickIndex) => this.statusGateway.channelTick(definition, context, tickIndex)
-    });
-    this.store = options.store || new ActionBarStore({
-      activateAbility: (abilityId, context) => this.timeline.activate(abilityId, context),
-      isAbilityKnown: (abilityId) => Boolean(torahAbilityDefinition(abilityId)),
-      layout: defaultLayout()
-    });
-    this.persistence = options.persistence || new ActionBarPersistence(options.persistenceOptions);
-    this.persistence.connect(this.store);
-    this.drag = options.drag || new ActionBarDragController({ bus: this.bus, store: this.store });
+    Object.assign(
+      this,
+      assembleActionBarRuntime(
+        options,
+        (actionId, context) => this.activateAction(actionId, context)
+      )
+    );
+  }
+  activateAction(actionId, context = {}) {
+    return isPhysicalAction(actionId) ? this.gateway.activatePhysical(context) : this.timeline.activate(actionId, context);
   }
   activateSlot(slotIndex, context = {}) {
     return this.store.activate(slotIndex, context);
   }
-  assignFirstAvailable(abilityId) {
-    if (this.store.locked) return { ok: false, reason: "layout-locked", snapshot: this.store.snapshot() };
-    let slotIndex = firstEmptySlot(this.store.slots, this.store.rows * 12);
-    if (slotIndex < 0 && this.store.rows === 1) {
-      this.store.setRows(2);
-      slotIndex = firstEmptySlot(this.store.slots, 24);
-    }
-    if (slotIndex < 0) return { ok: false, reason: "bar-full", snapshot: this.store.snapshot() };
-    return this.store.assign(slotIndex, abilityId);
-  }
   readinessForSlot(slotIndex, context = {}) {
-    const abilityId = this.store.slots[slotIndex];
-    return abilityId ? this.timeline.readiness(abilityId, context) : { ok: false, reason: "empty-slot" };
+    const actionId = this.store.slots[slotIndex];
+    if (!actionId) return { ok: false, reason: "empty-slot" };
+    return isPhysicalAction(actionId) ? this.gateway.physicalReadiness(context.now ?? this.clock()) : this.timeline.readiness(actionId, context);
   }
-  update(now2 = this.clock()) {
-    const casting = this.timeline.update(now2);
-    if (this.statuses.activeCount && now2 >= this.nextStatusUpdateAt) {
-      this.statuses.update(now2);
-      this.nextStatusUpdateAt = now2 + STATUS_UPDATE_MILLISECONDS;
+  cooldownForSlot(slotIndex, now3 = this.clock()) {
+    const actionId = this.store.slots[slotIndex];
+    const definition = actionBarActionDefinition(actionId);
+    if (!definition) return null;
+    return isPhysicalAction(actionId) ? this.gateway.physicalReadiness(now3) : this.timeline.cooldowns.snapshotAbility(definition, now3);
+  }
+  assignFirstAvailable(actionId) {
+    if (this.store.locked) return this.result(false, "layout-locked");
+    const slotIndex = firstAvailableActionSlot(
+      this.store.slots,
+      this.store.rows * 12
+    );
+    if (slotIndex < 0) return this.result(false, "bar-full");
+    return this.store.assign(slotIndex, actionId);
+  }
+  update(now3 = this.clock()) {
+    const casting = this.timeline.update(now3);
+    if (this.statuses.activeCount && now3 >= this.nextStatusUpdateAt) {
+      this.statuses.update(now3);
+      this.nextStatusUpdateAt = now3 + STATUS_UPDATE_MILLISECONDS;
     }
     return casting || this.statuses.activeCount > 0;
   }
-  snapshot(now2 = this.clock()) {
+  snapshot(now3 = this.clock()) {
     return {
       drag: this.drag.snapshot(),
       layout: this.store.snapshot(),
       persistence: this.persistence.snapshot(),
       statuses: this.statuses.snapshot(),
-      timeline: this.timeline.snapshot(now2)
+      timeline: this.timeline.snapshot(now3)
     };
+  }
+  result(ok, reason) {
+    return { ok, reason, snapshot: this.store.snapshot() };
   }
   destroy() {
     this.persistence.destroy();
@@ -16318,305 +12999,15 @@ var ActionBarRuntimeCoordinator = class {
     this.statuses.destroy();
     this.store.destroy();
   }
-  execute(definition, context) {
-    return this.combat.usePassage({ id: definition.passageId }, {
-      requestId: context.castId,
-      returnResult: true,
-      skipPassageCooldown: true,
-      targetRequired: TARGET_REQUIRED_TYPES.has(definition.targetType),
-      worldImpactRequired: !DIRECT_SUPPORT_TYPES.has(definition.targetType)
-    });
-  }
-  combatContext() {
-    const target = this.combat.snapshot().selectedTarget;
-    return {
-      distance: target?.distance ?? target?.distanceToPlayer,
-      facing: target?.facing !== false,
-      target
-    };
-  }
-  isUnlocked(definition) {
-    return this.inventory.snapshot().learned?.includes(definition.passageId) || false;
-  }
-};
-function defaultLayout() {
-  const slots = Array(24).fill(null);
-  slots[0] = "grateful-awakening";
-  return { locked: false, rows: 1, slots };
-}
-function firstEmptySlot(slots, visibleCount) {
-  for (let index = 0; index < visibleCount; index += 1) {
-    if (!slots[index]) return index;
-  }
-  return -1;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js
-var DEFAULT_ATTACK = Object.freeze({
-  cooldownMilliseconds: 620,
-  damage: 18,
-  id: "shliach-staff-strike",
-  range: 2.85,
-  stagger: 14
-});
-var PlayerMeleeController = class {
-  constructor(options) {
-    this.bus = options.bus;
-    this.clock = options.clock || Date.now;
-    this.attack = Object.freeze({ ...DEFAULT_ATTACK, ...options.attack || {} });
-    this.lastAttackAt = -Infinity;
-    this.keys = /* @__PURE__ */ new Set();
-    this.lastResult = null;
-    this.unsubscribers = [
-      this.bus.on("input:key", (state) => this.receiveInput(state)),
-      this.bus.on("combat:melee-result", (result) => this.receiveResult(result))
-    ];
-  }
-  receiveInput(state) {
-    const nextKeys = new Set(state?.keys || []);
-    const pressed = nextKeys.has("KeyF") && !this.keys.has("KeyF");
-    this.keys = nextKeys;
-    if (pressed) this.attackNow();
-  }
-  attackNow() {
-    const now2 = this.clock();
-    if (now2 - this.lastAttackAt < this.attack.cooldownMilliseconds) {
-      return this.publishLocalRejection("ATTACK_COOLDOWN", now2);
-    }
-    this.lastAttackAt = now2;
-    const request = {
-      attack: this.attack,
-      requestedAt: now2,
-      sourceId: "player"
-    };
-    this.bus.emit("combat:melee", request);
-    this.bus.emit("player:attack", request);
-    return request;
-  }
-  receiveResult(result) {
-    this.lastResult = result ? structuredClone(result) : null;
-  }
-  publishLocalRejection(reason, now2) {
-    const result = {
-      accepted: false,
-      attackId: this.attack.id,
-      reason,
-      resolvedAt: now2
-    };
-    this.bus.emit("combat:melee-result", result);
-    return result;
-  }
-  snapshot() {
-    return {
-      attack: this.attack,
-      lastAttackAt: this.lastAttackAt,
-      lastResult: this.lastResult
-    };
-  }
-  destroy() {
-    for (const unsubscribe of this.unsubscribers) unsubscribe();
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahFocusMeter.js
-var DEFAULT_REGENERATION_PER_SECOND = 4;
-var TorahFocusMeter = class {
-  constructor(options = {}) {
-    this.clock = options.clock || Date.now;
-    this.maximum = Math.max(1, Number(options.maximum || 24));
-    this.current = Math.min(
-      this.maximum,
-      Math.max(0, Number(options.current ?? this.maximum))
-    );
-    this.regenerationPerSecond = Math.max(
-      0,
-      Number(options.regenerationPerSecond ?? DEFAULT_REGENERATION_PER_SECOND)
-    );
-    this.updatedAt = Number(options.updatedAt ?? this.clock());
-  }
-  synchronizeMaximum(maximum, now2 = this.clock()) {
-    this.recover(now2);
-    this.maximum = Math.max(1, Number(maximum || this.maximum));
-    this.current = Math.min(this.current, this.maximum);
-    return this.snapshot(now2);
-  }
-  canSpend(amount, now2 = this.clock()) {
-    this.recover(now2);
-    return this.current >= Number(amount || 0);
-  }
-  spend(amount, now2 = this.clock()) {
-    this.recover(now2);
-    const cost = Math.max(0, Number(amount || 0));
-    if (this.current < cost) return false;
-    this.current -= cost;
-    return true;
-  }
-  recover(now2 = this.clock()) {
-    const elapsedSeconds = Math.max(0, Number(now2) - this.updatedAt) / 1e3;
-    this.current = Math.min(
-      this.maximum,
-      this.current + elapsedSeconds * this.regenerationPerSecond
-    );
-    this.updatedAt = Number(now2);
-    return this.current;
-  }
-  snapshot(now2 = this.clock()) {
-    this.recover(now2);
-    return {
-      current: this.current,
-      maximum: this.maximum,
-      regenerationPerSecond: this.regenerationPerSecond,
-      updatedAt: this.updatedAt
-    };
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahStudyRules.js
-function evaluateTorahStudyUse(inventoryState, requestedPassage, now2, combatState2 = {}) {
-  const passage2 = torahPassage(requestedPassage?.id);
-  if (!passage2) return rejected4("UNKNOWN_PASSAGE");
-  if (!inventoryState.learned?.includes(passage2.id)) return rejected4("PASSAGE_NOT_LEARNED");
-  if (!ownsBook(inventoryState, passage2.bookId)) return rejected4("BOOK_NOT_OWNED");
-  if (!combatState2.skipPassageCooldown) {
-    const lastUsedAt = Number(inventoryState.lastUsedAt?.[passage2.id] || 0);
-    const elapsed = Number(now2) - lastUsedAt;
-    if (lastUsedAt > 0 && elapsed < passage2.cooldownMs) {
-      return rejected4("PASSAGE_COOLDOWN", { remainingMs: passage2.cooldownMs - elapsed });
-    }
-  }
-  const focus = Number.isFinite(combatState2.focus) ? combatState2.focus : Number.POSITIVE_INFINITY;
-  if (focus < passage2.focusCost) return rejected4("INSUFFICIENT_FOCUS");
-  if (combatState2.targetRequired !== false && combatState2.targetAttackable === false) {
-    return rejected4("TARGET_REQUIRED");
-  }
-  return {
-    damage: passage2.damage,
-    focusCost: passage2.focusCost,
-    ok: true,
-    passage: passage2,
-    usedAt: Number(now2)
-  };
-}
-function ownsBook(inventoryState, bookId) {
-  return Boolean(inventoryState.items?.find((item2) => {
-    const quantity2 = item2.quantity === void 0 ? 1 : Number(item2.quantity);
-    return item2.itemId === bookId && quantity2 > 0;
-  }));
-}
-function rejected4(reason, detail = {}) {
-  return { ok: false, reason, ...detail };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js
-var TorahCombatController = class {
-  constructor(options) {
-    this.bus = options.bus;
-    this.clock = options.clock || Date.now;
-    this.inventory = options.inventory;
-    this.profile = options.profile;
-    this.focus = options.focus || new TorahFocusMeter({
-      clock: this.clock,
-      maximum: this.profile.snapshot().derived.focusMaximum
-    });
-    this.selectedTarget = null;
-    this.pendingUse = null;
-    this.completedUseResult = null;
-    this.unsubscribers = [
-      this.bus.on("npc:target", (payload) => this.receiveTarget(payload)),
-      this.bus.on("npc:clear", (payload) => this.clearTarget(payload)),
-      this.bus.on("enemy:defeated", (payload) => this.clearTarget(payload)),
-      this.bus.on("torah:impact", (payload) => this.receiveImpact(payload)),
-      this.bus.on("combat:ability", (payload) => this.receiveLegacyAbility(payload)),
-      this.bus.on("combat:ward", (payload) => this.receiveLegacyWard(payload))
-    ];
-  }
-  usePassage(requestedPassage, options = {}) {
-    const now2 = this.clock();
-    this.focus.synchronizeMaximum(this.profile.snapshot().derived.focusMaximum, now2);
-    const decision = evaluateTorahStudyUse(this.inventory.snapshot(), requestedPassage, now2, {
-      focus: this.focus.snapshot(now2).current,
-      skipPassageCooldown: Boolean(options.skipPassageCooldown),
-      targetAttackable: Boolean(this.selectedTarget?.attackable),
-      targetRequired: options.targetRequired
-    });
-    if (!decision.ok) return this.publishResult({ ...decision, requestId: options.requestId || null });
-    this.completedUseResult = null;
-    this.pendingUse = { ...decision, requestId: options.requestId || null };
-    if (options.worldImpactRequired === false) {
-      this.receiveImpact({ accepted: true, kind: "support" });
-    } else {
-      this.bus.emit("torah:use", decision.passage);
-    }
-    if (this.pendingUse) {
-      this.pendingUse = null;
-      this.publishResult({ ok: false, reason: "TARGET_UNAVAILABLE", requestId: options.requestId || null });
-    }
-    return options.returnResult ? this.completedUseResult : true;
-  }
-  receiveTarget(payload) {
-    this.selectedTarget = payload?.attackable ? payload : null;
-  }
-  clearTarget(payload) {
-    if (!payload?.id || payload.id === this.selectedTarget?.id) this.selectedTarget = null;
-  }
-  receiveLegacyAbility(payload) {
-    if (!this.pendingUse) return;
-    const accepted2 = payload?.results?.some((result) => result.accepted) || false;
-    this.receiveImpact({
-      ...payload,
-      accepted: accepted2,
-      reason: accepted2 ? null : payload?.results?.[0]?.reason || "ABILITY_REJECTED"
-    });
-  }
-  receiveLegacyWard(payload) {
-    if (this.pendingUse) this.receiveImpact({ accepted: true, ...payload, results: [] });
-  }
-  receiveImpact(impact) {
-    const pending = this.pendingUse;
-    if (!pending) return;
-    this.pendingUse = null;
-    if (!impact?.accepted) {
-      this.publishResult({ ok: false, reason: impact?.reason || "ABILITY_REJECTED", requestId: pending.requestId });
-      return;
-    }
-    const now2 = this.clock();
-    if (!this.focus.spend(pending.focusCost, now2)) {
-      this.publishResult({ ok: false, reason: "INSUFFICIENT_FOCUS", requestId: pending.requestId });
-      return;
-    }
-    this.inventory.markPassageUsed(pending.passage.id, now2);
-    this.publishResult({
-      ...impact,
-      focus: this.focus.snapshot(now2),
-      ok: true,
-      passage: pending.passage,
-      requestId: pending.requestId
-    });
-  }
-  publishResult(result) {
-    this.completedUseResult = result;
-    this.bus.emit("torah:result", result);
-    return result;
-  }
-  snapshot() {
-    return {
-      focus: this.focus.snapshot(this.clock()),
-      selectedTarget: this.selectedTarget ? { ...this.selectedTarget } : null,
-      selectedTargetId: this.selectedTarget?.id || null
-    };
-  }
-  destroy() {
-    for (const unsubscribe of this.unsubscribers) unsubscribe();
-  }
 };
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/ShliachProfileCatalog.js
 var SHLIACH_ATTRIBUTES = Object.freeze({
-  binah: attribute3("Binah", "\u{1F9E0}", "Faster cooldown recovery", 10),
-  chochmah: attribute3("Chochmah", "\u2728", "Larger focus reserve", 10),
-  daas: attribute3("Daas", "\u{1F9ED}", "Longer tracking range", 10),
-  gevurah: attribute3("Gevurah", "\u2694\uFE0F", "Stronger light damage", 10),
-  haganah: attribute3("Haganah", "\u{1F6E1}\uFE0F", "Greater armor", 10)
+  binah: attribute2("Binah", "\u{1F9E0}", "Faster cooldown recovery", 10),
+  chochmah: attribute2("Chochmah", "\u2728", "Larger focus reserve", 10),
+  daas: attribute2("Daas", "\u{1F9ED}", "Longer tracking range", 10),
+  gevurah: attribute2("Gevurah", "\u2694\uFE0F", "Stronger light damage", 10),
+  haganah: attribute2("Haganah", "\u{1F6E1}\uFE0F", "Greater armor", 10)
 });
 var SHLIACH_POWERUPS = Object.freeze({
   "binah-flow": powerup("Binah Flow", "\u{1F9E0}", "binah", 25, 45e3, {
@@ -16642,7 +13033,7 @@ function defaultShliachAttributes() {
 }
 function deriveShliachStats(attributes, level = 1) {
   const total = Object.values(attributes).reduce(
-    (sum2, value3) => sum2 + Number(value3 || 0),
+    (sum2, value2) => sum2 + Number(value2 || 0),
     0
   );
   return {
@@ -16668,7 +13059,7 @@ function applyShliachPowerups(derived, activePowerups) {
   }
   return result;
 }
-function attribute3(name, icon, effect2, maximum) {
+function attribute2(name, icon, effect2, maximum) {
   return Object.freeze({ effect: effect2, icon, maximum, name });
 }
 function powerup(name, icon, attributeId, cost, durationMs, effect2) {
@@ -16725,7 +13116,7 @@ function awardShlichusProgress(state, reward2 = {}) {
 function xpForNextLevel(level) {
   return Math.round(BASE_LEVEL_XP * Math.pow(LEVEL_XP_GROWTH, Math.max(0, level - 1)));
 }
-function activateShliachPowerup(state, inventory, powerupId, now2) {
+function activateShliachPowerup(state, inventory, powerupId, now3) {
   const definition = SHLIACH_POWERUPS[powerupId];
   if (!definition) throw new Error("POWERUP_NOT_FOUND");
   if (state.perutas != null) {
@@ -16736,8 +13127,8 @@ function activateShliachPowerup(state, inventory, powerupId, now2) {
     inventory.remove("perutas", definition.cost);
   }
   state.activePowerups[powerupId] = {
-    activatedAt: now2,
-    expiresAt: now2 + definition.durationMs
+    activatedAt: now3,
+    expiresAt: now3 + definition.durationMs
   };
 }
 function synchronizeShliachProfile(state, payload) {
@@ -16747,13 +13138,13 @@ function synchronizeShliachProfile(state, payload) {
     if (source[key] !== void 0) state[key] = structuredClone(source[key]);
   }
 }
-function removeExpiredShliachPowerups(state, now2) {
+function removeExpiredShliachPowerups(state, now3) {
   for (const [powerupId, powerup2] of Object.entries(state.activePowerups)) {
-    if (powerup2.expiresAt <= now2) delete state.activePowerups[powerupId];
+    if (powerup2.expiresAt <= now3) delete state.activePowerups[powerupId];
   }
 }
-function nonNegativeInteger(value3) {
-  return Math.max(0, Math.trunc(Number(value3) || 0));
+function nonNegativeInteger(value2) {
+  return Math.max(0, Math.trunc(Number(value2) || 0));
 }
 var PROFILE_KEYS = Object.freeze([
   "activePowerups",
@@ -16764,6 +13155,425 @@ var PROFILE_KEYS = Object.freeze([
   "unspentPoints",
   "xp"
 ]);
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/EnemyProgressionRules.js
+function enemyExperienceReward(enemy, playerLevel = 1) {
+  const baseReward = Math.max(0, Math.trunc(Number(enemy?.xpReward) || 0));
+  if (!baseReward) return 0;
+  const enemyLevel = positiveInteger(enemy?.combatLevel ?? enemy?.level, 1);
+  const level = positiveInteger(playerLevel, 1);
+  const multiplier = clamp2(1 + (enemyLevel - level) * 0.2, 0.25, 2);
+  return Math.max(1, Math.round(baseReward * multiplier));
+}
+function playerHudProfile(profile2 = {}) {
+  const level = positiveInteger(profile2.level, 1);
+  return {
+    armor: Math.max(0, Math.round(Number(profile2.derived?.armor) || 0)),
+    face: profile2.face || "\u{1F3A9}",
+    health: Math.max(0, Number(profile2.health) || 100),
+    level,
+    maxHealth: Math.max(1, Number(profile2.maxHealth) || 100),
+    name: profile2.name || "Chossid",
+    xp: Math.max(0, Math.trunc(Number(profile2.xp) || 0)),
+    xpMax: xpForNextLevel(level)
+  };
+}
+function clamp2(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
+}
+function positiveInteger(value2, fallback) {
+  return Math.max(1, Math.trunc(Number(value2) || fallback));
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/EnemyProgressionCoordinator.js
+var DEFAULT_RECEIPT_LIMIT = 128;
+var EnemyProgressionCoordinator = class {
+  constructor(options) {
+    this.bus = options.bus;
+    this.profile = options.profile;
+    this.receiptLimit = options.receiptLimit || DEFAULT_RECEIPT_LIMIT;
+    this.receipts = /* @__PURE__ */ new Set();
+    this.receiptOrder = [];
+    this.unsubscribeDefeat = this.bus.on("enemy:defeated", (enemy) => this.receiveDefeat(enemy));
+    this.unsubscribeProfile = this.profile.onChange((state) => this.publishProfile(state));
+    this.publishProfile(this.profile.snapshot());
+  }
+  receiveDefeat(enemy = {}) {
+    const receipt = String(enemy.defeatReceipt || "");
+    if (!receipt) return { ok: false, reason: "defeat-receipt-required" };
+    if (this.receipts.has(receipt)) return { ok: false, reason: "reward-already-granted", receipt };
+    const playerLevel = this.profile.snapshot().level;
+    const xp = enemyExperienceReward(enemy, playerLevel);
+    if (!xp) return { ok: false, reason: "enemy-reward-empty", receipt };
+    const award = this.profile.award({ xp }, receipt);
+    this.remember(receipt);
+    const result = {
+      enemyId: enemy.targetId || enemy.id || null,
+      enemyLevel: enemy.combatLevel || enemy.level || 1,
+      levelsGained: award.levelsGained,
+      ok: true,
+      receipt,
+      xp
+    };
+    this.bus.emit("player:experience", result);
+    return result;
+  }
+  publishProfile(state) {
+    this.bus.emit("profile:state", playerHudProfile(state));
+  }
+  remember(receipt) {
+    this.receipts.add(receipt);
+    this.receiptOrder.push(receipt);
+    while (this.receiptOrder.length > this.receiptLimit) {
+      this.receipts.delete(this.receiptOrder.shift());
+    }
+  }
+  snapshot() {
+    return { receiptCount: this.receipts.size, receiptLimit: this.receiptLimit };
+  }
+  destroy() {
+    this.unsubscribeDefeat?.();
+    this.unsubscribeProfile?.();
+    this.receipts.clear();
+    this.receiptOrder.length = 0;
+  }
+};
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeRules.js
+var DEFAULT_PLAYER_MELEE_ATTACK = Object.freeze({
+  cooldownMilliseconds: 620,
+  damage: 18,
+  id: "shliach-staff-strike",
+  range: 2.85,
+  stagger: 14
+});
+function resolvePlayerMeleeAttack(template = DEFAULT_PLAYER_MELEE_ATTACK, inventorySnapshot2 = null, profileSnapshot = null) {
+  const yesodTemplate = {
+    ...DEFAULT_PLAYER_MELEE_ATTACK,
+    ...template || {}
+  };
+  const gevurahEquipmentDamage = finite2(inventorySnapshot2?.stats?.damage, 0);
+  const gevurahAttributeDamage = finite2(profileSnapshot?.derived?.damageBonus, 0);
+  const tiferesLevel = Math.max(1, finite2(profileSnapshot?.level, 1));
+  const tiferesLevelDamage = Math.max(0, tiferesLevel - 1) * 1.25;
+  const netzachCooldownMultiplier = clamp3(
+    finite2(profileSnapshot?.derived?.cooldownMultiplier, 1),
+    0.45,
+    1.25
+  );
+  return Object.freeze({
+    ...yesodTemplate,
+    cooldownMilliseconds: Math.max(
+      240,
+      Math.round(yesodTemplate.cooldownMilliseconds * netzachCooldownMultiplier)
+    ),
+    damage: Math.max(
+      1,
+      Math.round(
+        yesodTemplate.damage + gevurahEquipmentDamage * 0.55 + gevurahAttributeDamage + tiferesLevelDamage
+      )
+    ),
+    stagger: Math.max(
+      1,
+      Math.round(yesodTemplate.stagger + gevurahEquipmentDamage * 0.2)
+    )
+  });
+}
+function playerMeleeReadiness(now3, nextAttackAt) {
+  const cooldownRemainingMilliseconds = Math.max(0, nextAttackAt - now3);
+  const ready = cooldownRemainingMilliseconds <= 0;
+  return Object.freeze({
+    charges: ready ? 1 : 0,
+    cooldownRemainingMilliseconds,
+    globalCooldownRemainingMilliseconds: 0,
+    maximumCharges: 1,
+    ok: ready,
+    reason: ready ? "ready" : "attack-cooldown"
+  });
+}
+function finite2(value2, fallback) {
+  return Number.isFinite(value2) ? value2 : fallback;
+}
+function clamp3(value2, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value2));
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js
+var PlayerMeleeController = class {
+  constructor(options) {
+    this.bus = options.bus;
+    this.clock = options.clock || Date.now;
+    this.inventory = options.inventory || null;
+    this.profile = options.profile || null;
+    this.attackTemplate = Object.freeze({
+      ...DEFAULT_PLAYER_MELEE_ATTACK,
+      ...options.attack || {}
+    });
+    this.lastAttackAt = -Infinity;
+    this.nextAttackAt = -Infinity;
+    this.keys = /* @__PURE__ */ new Set();
+    this.lastResult = null;
+    this.unsubscribers = [
+      this.bus.on("input:key", (state) => this.receiveInput(state)),
+      this.bus.on("combat:melee-result", (result) => this.receiveResult(result))
+    ];
+  }
+  receiveInput(state) {
+    const nextKeys = new Set(state?.keys || []);
+    const pressed = nextKeys.has("KeyF") && !this.keys.has("KeyF");
+    this.keys = nextKeys;
+    if (pressed) this.attackNow({ source: "keyboard" });
+  }
+  attackNow(context = {}) {
+    const now3 = Number.isFinite(context.now) ? context.now : this.clock();
+    const readiness = this.readiness(now3);
+    if (!readiness.ok) return this.publishLocalRejection("ATTACK_COOLDOWN", now3, readiness);
+    const attack = this.currentAttack();
+    this.lastAttackAt = now3;
+    this.nextAttackAt = now3 + attack.cooldownMilliseconds;
+    const request = {
+      attack,
+      ok: true,
+      reason: "committed",
+      requestedAt: now3,
+      slotIndex: context.slotIndex ?? null,
+      source: context.source || "action-bar",
+      sourceId: "player"
+    };
+    this.bus.emit("combat:melee", request);
+    this.bus.emit("player:attack", request);
+    return request;
+  }
+  currentAttack() {
+    return resolvePlayerMeleeAttack(
+      this.attackTemplate,
+      this.inventory?.snapshot?.() || null,
+      this.profile?.snapshot?.() || null
+    );
+  }
+  readiness(now3 = this.clock()) {
+    return playerMeleeReadiness(now3, this.nextAttackAt);
+  }
+  receiveResult(result) {
+    this.lastResult = result ? structuredClone(result) : null;
+  }
+  publishLocalRejection(reason, now3, readiness) {
+    const result = {
+      accepted: false,
+      attackId: this.attackTemplate.id,
+      cooldownRemainingMilliseconds: readiness.cooldownRemainingMilliseconds,
+      ok: false,
+      reason,
+      resolvedAt: now3
+    };
+    this.bus.emit("combat:melee-result", result);
+    return result;
+  }
+  snapshot() {
+    return {
+      attack: this.currentAttack(),
+      lastAttackAt: this.lastAttackAt,
+      lastResult: this.lastResult,
+      nextAttackAt: this.nextAttackAt,
+      readiness: this.readiness()
+    };
+  }
+  destroy() {
+    for (const unsubscribe of this.unsubscribers) unsubscribe();
+  }
+};
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahFocusMeter.js
+var DEFAULT_REGENERATION_PER_SECOND = 4;
+var TorahFocusMeter = class {
+  constructor(options = {}) {
+    this.clock = options.clock || Date.now;
+    this.maximum = Math.max(1, Number(options.maximum || 24));
+    this.current = Math.min(
+      this.maximum,
+      Math.max(0, Number(options.current ?? this.maximum))
+    );
+    this.regenerationPerSecond = Math.max(
+      0,
+      Number(options.regenerationPerSecond ?? DEFAULT_REGENERATION_PER_SECOND)
+    );
+    this.updatedAt = Number(options.updatedAt ?? this.clock());
+  }
+  synchronizeMaximum(maximum, now3 = this.clock()) {
+    this.recover(now3);
+    this.maximum = Math.max(1, Number(maximum || this.maximum));
+    this.current = Math.min(this.current, this.maximum);
+    return this.snapshot(now3);
+  }
+  canSpend(amount, now3 = this.clock()) {
+    this.recover(now3);
+    return this.current >= Number(amount || 0);
+  }
+  spend(amount, now3 = this.clock()) {
+    this.recover(now3);
+    const cost = Math.max(0, Number(amount || 0));
+    if (this.current < cost) return false;
+    this.current -= cost;
+    return true;
+  }
+  recover(now3 = this.clock()) {
+    const elapsedSeconds = Math.max(0, Number(now3) - this.updatedAt) / 1e3;
+    this.current = Math.min(
+      this.maximum,
+      this.current + elapsedSeconds * this.regenerationPerSecond
+    );
+    this.updatedAt = Number(now3);
+    return this.current;
+  }
+  snapshot(now3 = this.clock()) {
+    this.recover(now3);
+    return {
+      current: this.current,
+      maximum: this.maximum,
+      regenerationPerSecond: this.regenerationPerSecond,
+      updatedAt: this.updatedAt
+    };
+  }
+};
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahStudyRules.js
+function evaluateTorahStudyUse(inventoryState, requestedPassage, now3, combatState2 = {}) {
+  const passage2 = torahPassage(requestedPassage?.id);
+  if (!passage2) return rejected4("UNKNOWN_PASSAGE");
+  if (!inventoryState.learned?.includes(passage2.id)) return rejected4("PASSAGE_NOT_LEARNED");
+  if (!ownsBook(inventoryState, passage2.bookId)) return rejected4("BOOK_NOT_OWNED");
+  if (!combatState2.skipPassageCooldown) {
+    const lastUsedAt = Number(inventoryState.lastUsedAt?.[passage2.id] || 0);
+    const elapsed = Number(now3) - lastUsedAt;
+    if (lastUsedAt > 0 && elapsed < passage2.cooldownMs) {
+      return rejected4("PASSAGE_COOLDOWN", { remainingMs: passage2.cooldownMs - elapsed });
+    }
+  }
+  const focus = Number.isFinite(combatState2.focus) ? combatState2.focus : Number.POSITIVE_INFINITY;
+  if (focus < passage2.focusCost) return rejected4("INSUFFICIENT_FOCUS");
+  if (combatState2.targetRequired !== false && combatState2.targetAttackable === false) {
+    return rejected4("TARGET_REQUIRED");
+  }
+  return {
+    damage: passage2.damage,
+    focusCost: passage2.focusCost,
+    ok: true,
+    passage: passage2,
+    usedAt: Number(now3)
+  };
+}
+function ownsBook(inventoryState, bookId) {
+  return Boolean(inventoryState.items?.find((item2) => {
+    const quantity2 = item2.quantity === void 0 ? 1 : Number(item2.quantity);
+    return item2.itemId === bookId && quantity2 > 0;
+  }));
+}
+function rejected4(reason, detail = {}) {
+  return { ok: false, reason, ...detail };
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js
+var TorahCombatController = class {
+  constructor(options) {
+    this.bus = options.bus;
+    this.clock = options.clock || Date.now;
+    this.inventory = options.inventory;
+    this.profile = options.profile;
+    this.focus = options.focus || new TorahFocusMeter({
+      clock: this.clock,
+      maximum: this.profile.snapshot().derived.focusMaximum
+    });
+    this.selectedTarget = null;
+    this.pendingUse = null;
+    this.completedUseResult = null;
+    this.unsubscribers = [
+      this.bus.on("npc:target", (payload) => this.receiveTarget(payload)),
+      this.bus.on("npc:clear", (payload) => this.clearTarget(payload)),
+      this.bus.on("enemy:defeated", (payload) => this.clearTarget(payload)),
+      this.bus.on("torah:impact", (payload) => this.receiveImpact(payload)),
+      this.bus.on("combat:ability", (payload) => this.receiveLegacyAbility(payload)),
+      this.bus.on("combat:ward", (payload) => this.receiveLegacyWard(payload))
+    ];
+  }
+  usePassage(requestedPassage, options = {}) {
+    const now3 = this.clock();
+    this.focus.synchronizeMaximum(this.profile.snapshot().derived.focusMaximum, now3);
+    const decision = evaluateTorahStudyUse(this.inventory.snapshot(), requestedPassage, now3, {
+      focus: this.focus.snapshot(now3).current,
+      skipPassageCooldown: Boolean(options.skipPassageCooldown),
+      targetAttackable: Boolean(this.selectedTarget?.attackable),
+      targetRequired: options.targetRequired
+    });
+    if (!decision.ok) return this.publishResult({ ...decision, requestId: options.requestId || null });
+    this.completedUseResult = null;
+    this.pendingUse = { ...decision, requestId: options.requestId || null };
+    if (options.worldImpactRequired === false) {
+      this.receiveImpact({ accepted: true, kind: "support" });
+    } else {
+      this.bus.emit("torah:use", decision.passage);
+    }
+    if (this.pendingUse) {
+      this.pendingUse = null;
+      this.publishResult({ ok: false, reason: "TARGET_UNAVAILABLE", requestId: options.requestId || null });
+    }
+    return options.returnResult ? this.completedUseResult : true;
+  }
+  receiveTarget(payload) {
+    this.selectedTarget = payload?.attackable ? payload : null;
+  }
+  clearTarget(payload) {
+    if (!payload?.id || payload.id === this.selectedTarget?.id) this.selectedTarget = null;
+  }
+  receiveLegacyAbility(payload) {
+    if (!this.pendingUse) return;
+    const accepted2 = payload?.results?.some((result) => result.accepted) || false;
+    this.receiveImpact({
+      ...payload,
+      accepted: accepted2,
+      reason: accepted2 ? null : payload?.results?.[0]?.reason || "ABILITY_REJECTED"
+    });
+  }
+  receiveLegacyWard(payload) {
+    if (this.pendingUse) this.receiveImpact({ accepted: true, ...payload, results: [] });
+  }
+  receiveImpact(impact) {
+    const pending = this.pendingUse;
+    if (!pending) return;
+    this.pendingUse = null;
+    if (!impact?.accepted) {
+      this.publishResult({ ok: false, reason: impact?.reason || "ABILITY_REJECTED", requestId: pending.requestId });
+      return;
+    }
+    const now3 = this.clock();
+    if (!this.focus.spend(pending.focusCost, now3)) {
+      this.publishResult({ ok: false, reason: "INSUFFICIENT_FOCUS", requestId: pending.requestId });
+      return;
+    }
+    this.inventory.markPassageUsed(pending.passage.id, now3);
+    this.publishResult({
+      ...impact,
+      focus: this.focus.snapshot(now3),
+      ok: true,
+      passage: pending.passage,
+      requestId: pending.requestId
+    });
+  }
+  publishResult(result) {
+    this.completedUseResult = result;
+    this.bus.emit("torah:result", result);
+    return result;
+  }
+  snapshot() {
+    return {
+      focus: this.focus.snapshot(this.clock()),
+      selectedTarget: this.selectedTarget ? { ...this.selectedTarget } : null,
+      selectedTargetId: this.selectedTarget?.id || null
+    };
+  }
+  destroy() {
+    for (const unsubscribe of this.unsubscribers) unsubscribe();
+  }
+};
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/ShliachProfileStore.js
 var ShliachProfileStore = class {
@@ -16842,8 +13652,8 @@ var ShlichusPersistence = class {
     this.diagnostics.reads += 1;
     if (!this.storage) return null;
     try {
-      const value3 = this.storage.getItem(this.key);
-      const restored = value3 ? JSON.parse(value3) : null;
+      const value2 = this.storage.getItem(this.key);
+      const restored = value2 ? JSON.parse(value2) : null;
       this.diagnostics.restored = Boolean(restored);
       return restored;
     } catch {
@@ -16851,10 +13661,10 @@ var ShlichusPersistence = class {
       return null;
     }
   }
-  save(value3) {
+  save(value2) {
     if (!this.storage) return false;
     try {
-      this.storage.setItem(this.key, JSON.stringify(value3));
+      this.storage.setItem(this.key, JSON.stringify(value2));
       this.diagnostics.writes += 1;
       return true;
     } catch {
@@ -16902,11 +13712,11 @@ var ShlichusRewardService = class {
       if (this.granted.has(questId)) continue;
       const reward2 = record.definition.reward || {};
       this.validateInventoryReward(reward2);
-      const profile3 = this.profile.award(reward2, questId);
+      const profile2 = this.profile.award(reward2, questId);
       this.grantInventoryReward(reward2);
       this.granted.add(questId);
       const grant = {
-        profile: profile3,
+        profile: profile2,
         questId,
         reward: structuredClone(reward2),
         worldEffects: structuredClone(record.definition.worldEffects || [])
@@ -16938,8 +13748,8 @@ var ShlichusRewardService = class {
     for (const passageId of reward2.passages || []) this.inventory.learn(passageId);
   }
 };
-function nonNegativeInteger2(value3) {
-  return Math.max(0, Math.trunc(Number(value3) || 0));
+function nonNegativeInteger2(value2) {
+  return Math.max(0, Math.trunc(Number(value2) || 0));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/ShlichusRuntimeCoordinator.js
@@ -17053,749 +13863,61 @@ function synchronizeResult(store, result) {
   return result;
 }
 
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/PanelCoordinator.js
-var PanelCoordinator = class {
-  constructor() {
-    this.panels = /* @__PURE__ */ new Map();
-    this.activeId = null;
-    this.keyHandler = (event) => this.onKey(event);
-    addEventListener("keydown", this.keyHandler);
-  }
-  register(panelId, panel) {
-    if (!panel?.setOpen) {
-      throw new Error(`Panel ${panelId} requires setOpen().`);
-    }
-    const originalSetOpen = panel.setOpen.bind(panel);
-    const record = {
-      originalSetOpen,
-      panel
-    };
-    this.panels.set(panelId, record);
-    panel.setOpen = (open) => this.apply(panelId, Boolean(open));
-    return () => this.unregister(panelId);
-  }
-  unregister(panelId) {
-    const record = this.panels.get(panelId);
-    if (!record) return;
-    record.panel.setOpen = record.originalSetOpen;
-    this.panels.delete(panelId);
-    if (this.activeId === panelId) this.activeId = null;
-  }
-  toggle(panelId) {
-    if (this.activeId === panelId) {
-      this.close(panelId);
-      return false;
-    }
-    this.open(panelId);
-    return true;
-  }
-  open(panelId) {
-    const record = this.requirePanel(panelId);
-    record.panel.setOpen(true);
-  }
-  close(panelId = this.activeId) {
-    if (!panelId) return;
-    this.panels.get(panelId)?.panel.setOpen(false);
-  }
-  notify(panelId, open) {
-    const record = this.panels.get(panelId);
-    if (!record) return;
-    if (open) this.apply(panelId, true, false);
-    else if (this.activeId === panelId) this.activeId = null;
-  }
-  apply(panelId, open, callTarget = true) {
-    const record = this.requirePanel(panelId);
-    if (open) {
-      for (const [otherId, other] of this.panels) {
-        if (otherId !== panelId) other.originalSetOpen(false);
-      }
-      if (callTarget) record.originalSetOpen(true);
-      this.activeId = panelId;
-      return;
-    }
-    if (callTarget) record.originalSetOpen(false);
-    if (this.activeId === panelId) this.activeId = null;
-  }
-  requirePanel(panelId) {
-    const record = this.panels.get(panelId);
-    if (!record) throw new Error(`Unknown panel: ${panelId}`);
-    return record;
-  }
-  onKey(event) {
-    if (event.key !== "Escape" || !this.activeId) return;
-    event.preventDefault();
-    this.close();
-  }
-  destroy() {
-    removeEventListener("keydown", this.keyHandler);
-    for (const panelId of [...this.panels.keys()]) {
-      this.unregister(panelId);
-    }
-  }
-};
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestLogPanel.js
-var QuestLogPanel = class {
-  constructor(store) {
-    this.store = store;
-    this.open = false;
-    this.tab = "active";
-    this.root = document.createElement("section");
-    this.root.className = "Awtsmoos-quest-log Awtsmoos-gameplay";
-    this.root.hidden = true;
-    document.body.appendChild(this.root);
-    this.unsubscribe = store.onChange(() => this.render());
-    this.render();
-  }
-  setOpen(open) {
-    this.open = Boolean(open);
-    this.root.hidden = !this.open;
-    if (this.open) this.render();
-  }
-  toggle() {
-    this.setOpen(!this.open);
-  }
-  render() {
-    const snapshot2 = this.store.snapshot();
-    this.root.innerHTML = `
-			<header class="Awtsmoos-panel-header">
-				<h2>\u{1F4DC} Shlichus Log</h2><span>${snapshot2.active.length} active</span>
-				<button class="Awtsmoos-quest-button" data-close>Close</button>
-			</header>
-			<nav class="Awtsmoos-quest-tabs" aria-label="Quest states">
-				${tabButton("active", snapshot2.active.length, this.tab)}
-				${tabButton("available", snapshot2.available.length, this.tab)}
-				${tabButton("completed", snapshot2.completed.length, this.tab)}
-			</nav>
-			<div data-quest-list></div>
-		`;
-    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
-    this.root.querySelectorAll("[data-tab]").forEach((button2) => {
-      button2.addEventListener("click", () => {
-        this.tab = button2.dataset.tab;
-        this.render();
-      });
-    });
-    const records = snapshot2[this.tab] || [];
-    this.root.querySelector("[data-quest-list]").replaceChildren(...records.map((record) => this.questCard(record)));
-  }
-  questCard(record) {
-    const card = document.createElement("article");
-    card.className = "Awtsmoos-quest-card";
-    const objective3 = record.objectives[record.objectiveIndex] || record.objectives.at(-1);
-    const progress = objective3 ? objective3.progress / objective3.count : 1;
-    card.innerHTML = `
-			<h3>${record.pinned ? "\u{1F4CC} " : ""}${escapeHtml(record.definition.name)}</h3>
-			<p>${escapeHtml(record.definition.description)}</p>
-			${objective3 ? `<p><b>${escapeHtml(objective3.description)}</b> ${objective3.progress}/${objective3.count}</p><div class="Awtsmoos-progress"><span style="width:${Math.min(100, progress * 100)}%"></span></div>` : ""}
-			<p>Reward: ${record.definition.reward.xp} XP \xB7 ${record.definition.reward.mitzvahPoints} points</p>
-			<footer></footer>
-		`;
-    const footer = card.querySelector("footer");
-    if (record.status === "active") {
-      footer.append(
-        actionButton2(record.pinned ? "Unpin" : "Pin", () => this.store.togglePin(record.definition.id)),
-        actionButton2("Abandon", () => this.store.abandon(record.definition.id))
-      );
-    }
-    if (["available", "declined", "offered"].includes(record.status)) {
-      footer.append(actionButton2("Accept", () => this.store.accept(record.definition.id)));
-    }
-    return card;
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function tabButton(id, count, selected) {
-  return `<button data-tab="${id}" aria-selected="${id === selected}">${id} (${count})</button>`;
-}
-function actionButton2(label, action2) {
-  const button2 = document.createElement("button");
-  button2.className = "Awtsmoos-quest-button";
-  button2.type = "button";
-  button2.textContent = label;
-  button2.addEventListener("click", action2);
-  return button2;
-}
-function escapeHtml(value3) {
-  return String(value3).replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestOfferPanel.js
-var QuestOfferPanel = class {
-  constructor(store) {
-    this.store = store;
-    this.questId = null;
-    this.root = document.createElement("div");
-    this.root.className = "Awtsmoos-modal-backdrop Awtsmoos-gameplay";
-    this.root.hidden = true;
-    document.body.appendChild(this.root);
-  }
-  open(questId) {
-    const record = this.store.get(questId);
-    if (!record) throw new Error(`Unknown quest offer: ${questId}`);
-    this.questId = questId;
-    this.store.offer(questId);
-    this.render(record.definition);
-    this.root.hidden = false;
-  }
-  close() {
-    this.root.hidden = true;
-    this.questId = null;
-  }
-  render(definition) {
-    this.root.replaceChildren(createOffer(definition));
-    this.root.querySelector("[data-accept]").addEventListener("click", () => {
-      this.store.accept(definition.id);
-      this.close();
-    });
-    this.root.querySelector("[data-decline]").addEventListener("click", () => {
-      this.store.decline(definition.id);
-      this.close();
-    });
-  }
-  destroy() {
-    this.root.remove();
-  }
-};
-function createOffer(definition) {
-  const panel = document.createElement("article");
-  panel.className = "Awtsmoos-quest-offer";
-  const title2 = document.createElement("h2");
-  title2.textContent = `! ${definition.name}`;
-  const giver = document.createElement("p");
-  giver.className = "giver";
-  giver.textContent = `Offered by ${definition.giver.name}`;
-  const description = document.createElement("p");
-  description.textContent = definition.description;
-  const objectives = document.createElement("ol");
-  objectives.className = "Awtsmoos-objectives";
-  for (const objective3 of definition.objectives) {
-    const item2 = document.createElement("li");
-    item2.textContent = `${objective3.description} (${objective3.count})`;
-    objectives.appendChild(item2);
-  }
-  const reward2 = document.createElement("p");
-  reward2.textContent = `Reward: ${definition.reward.xp} XP \xB7 ${definition.reward.mitzvahPoints} mitzvah points`;
-  const actions = document.createElement("div");
-  actions.className = "Awtsmoos-offer-actions";
-  actions.append(button("Decline", "decline"), button("Accept Shlichus", "accept"));
-  panel.append(title2, giver, description, objectives, reward2, actions);
-  return panel;
-}
-function button(label, action2) {
-  const element2 = document.createElement("button");
-  element2.type = "button";
-  element2.dataset[action2] = "";
-  element2.textContent = label;
-  return element2;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestTracker.js
-var QuestTracker = class {
-  constructor(store, onOpenLog = () => {
-  }) {
-    this.store = store;
-    this.onOpenLog = onOpenLog;
-    this.root = document.createElement("aside");
-    this.root.className = "Awtsmoos-quest-tracker Awtsmoos-gameplay";
-    document.body.appendChild(this.root);
-    this.unsubscribe = store.onChange((snapshot2) => this.render(snapshot2));
-    this.render(store.snapshot());
-  }
-  render(snapshot2) {
-    this.root.hidden = snapshot2.pinned.length === 0;
-    this.root.replaceChildren();
-    if (!snapshot2.pinned.length) return;
-    const header = document.createElement("button");
-    header.className = "Awtsmoos-quest-button";
-    header.textContent = "\u{1F4DC} Pinned Shlichus";
-    header.addEventListener("click", this.onOpenLog);
-    this.root.appendChild(header);
-    for (const record of snapshot2.pinned) this.root.appendChild(trackedQuest(record));
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function trackedQuest(record) {
-  const objective3 = record.objectives[record.objectiveIndex];
-  const item2 = document.createElement("div");
-  item2.className = "Awtsmoos-tracked-quest";
-  const title2 = document.createElement("b");
-  title2.textContent = record.definition.name;
-  const progress = document.createElement("div");
-  progress.textContent = objective3 ? `${objective3.description} ${objective3.progress}/${objective3.count}` : "Return for the reward.";
-  item2.append(title2, progress);
-  return item2;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ShliachProfilePanel.js
-var ShliachProfilePanel = class {
-  constructor(store, options = {}) {
-    this.store = store;
-    this.onAllocate = options.onAllocate || ((id, points) => store.allocate(id, points));
-    this.onActivate = options.onActivate || ((id) => store.activate(id));
-    this.open = false;
-    this.root = document.createElement("section");
-    this.root.className = "Awtsmoos-sheet Awtsmoos-profile-panel Awtsmoos-gameplay";
-    this.root.hidden = true;
-    document.body.appendChild(this.root);
-    this.unsubscribe = store.onChange((state) => this.render(state));
-    this.render(store.snapshot());
-  }
-  setOpen(open) {
-    this.open = Boolean(open);
-    this.root.hidden = !this.open;
-    if (this.open) this.render(this.store.snapshot());
-  }
-  render(state) {
-    this.root.innerHTML = `
-			<header class="Awtsmoos-sheet-header">
-				<div><small>Level ${state.level}</small><h2>\u{1F31F} Shliach Profile</h2></div>
-				<button data-close aria-label="Close profile">\xD7</button>
-			</header>
-			<div class="Awtsmoos-profile-summary">
-				<span>Power <b>${state.derived.powerRating}</b></span>
-				<span>Perutas <b>${state.perutas}</b></span>
-				<span>Points <b>${state.unspentPoints}</b></span>
-			</div>
-			<h3>Attributes</h3><div class="Awtsmoos-stat-grid" data-attributes></div>
-			<h3>Derived Strength</h3><div class="Awtsmoos-derived-grid">${derivedHtml(state.derived)}</div>
-			<h3>Timed Powerups</h3><div class="Awtsmoos-powerup-grid" data-powerups></div>
-			<p class="Awtsmoos-panel-message" data-message></p>
-		`;
-    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
-    this.root.querySelector("[data-attributes]").replaceChildren(...attributeCards(state));
-    this.root.querySelector("[data-powerups]").replaceChildren(...powerupCards(state));
-    this.bindActions();
-  }
-  bindActions() {
-    this.root.querySelectorAll("[data-allocate]").forEach((button2) => {
-      button2.addEventListener("click", () => this.perform(() => this.onAllocate(button2.dataset.allocate, 1)));
-    });
-    this.root.querySelectorAll("[data-powerup]").forEach((button2) => {
-      button2.addEventListener("click", () => this.perform(() => this.onActivate(button2.dataset.powerup)));
-    });
-  }
-  async perform(operation) {
-    try {
-      const result = await operation();
-      if (result?.shliach || result?.attributes) this.store.synchronize(result);
-      this.render(this.store.snapshot());
-    } catch (error) {
-      this.root.querySelector("[data-message]").textContent = humanError(error);
-    }
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function attributeCards(state) {
-  return Object.entries(state.attributesCatalog).map(([id, definition]) => {
-    const card = document.createElement("article");
-    card.className = "Awtsmoos-stat-card";
-    card.innerHTML = `<span>${definition.icon}</span><div><b>${definition.name}</b><small>${definition.effect}</small></div><strong>${state.attributes[id]}</strong><button data-allocate="${id}" ${state.unspentPoints < 1 || state.attributes[id] >= definition.maximum ? "disabled" : ""}>+</button>`;
-    return card;
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/GameplayRuntimeAssembly.js
+function assembleGameplayRuntime(bus, options = {}) {
+  const adventures = options.adventures || new AdventureStore();
+  const inventory = options.inventory || new InventoryStore();
+  const profile2 = options.profile || new ShliachProfileStore({ inventory });
+  const progression = options.progression || new EnemyProgressionCoordinator({ bus, profile: profile2 });
+  const shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
+    adventures,
+    bus,
+    inventory,
+    persistence: options.shlichusPersistence,
+    persistenceOptions: options.shlichusPersistenceOptions,
+    profile: profile2
   });
-}
-function powerupCards(state) {
-  return Object.entries(state.powerupsCatalog).map(([id, definition]) => {
-    const active = state.activePowerups[id];
-    const card = document.createElement("article");
-    card.className = "Awtsmoos-powerup-card";
-    card.innerHTML = `<span>${definition.icon}</span><div><b>${definition.name}</b><small>${definition.cost} Perutas \xB7 ${Math.round(definition.durationMs / 1e3)}s</small></div><button data-powerup="${id}" ${active || state.perutas < definition.cost ? "disabled" : ""}>${active ? "Active" : "Activate"}</button>`;
-    return card;
+  const gateway = new GameplayActionGateway({
+    actions: options.actions,
+    inventory,
+    profile: profile2
   });
+  const combat = options.combat || new TorahCombatController({
+    bus,
+    clock: options.clock,
+    focus: options.focus,
+    inventory,
+    profile: profile2
+  });
+  const melee = options.melee || new PlayerMeleeController({
+    attack: options.meleeAttack,
+    bus,
+    clock: options.clock,
+    inventory,
+    profile: profile2
+  });
+  const actionBar = options.actionBar || new ActionBarRuntimeCoordinator({
+    bus,
+    clock: options.clock,
+    combat,
+    inventory,
+    melee,
+    persistence: options.actionBarPersistence,
+    persistenceOptions: options.actionBarPersistenceOptions,
+    playerId: options.playerId
+  });
+  return {
+    actionBar,
+    adventures,
+    combat,
+    gateway,
+    inventory,
+    melee,
+    profile: profile2,
+    progression,
+    shlichus
+  };
 }
-function derivedHtml(stats3) {
-  return `<span>\u2694\uFE0F +${stats3.damageBonus}</span><span>\u{1F6E1}\uFE0F ${stats3.armor}</span><span>\u{1F4D8} ${stats3.focusMaximum}</span><span>\u{1F9ED} ${stats3.trackingRange}m</span>`;
-}
-function humanError(error) {
-  return String(error?.message || error).replaceAll("_", " ").toLowerCase();
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/StatusRibbon.js
-var StatusRibbon = class {
-  constructor(profileStore) {
-    this.store = profileStore;
-    this.root = document.createElement("aside");
-    this.root.className = "Awtsmoos-status-ribbon Awtsmoos-gameplay";
-    document.body.appendChild(this.root);
-    this.unsubscribe = profileStore.onChange((state) => this.render(state));
-    this.render(profileStore.snapshot());
-  }
-  render(state) {
-    const effects = Object.entries(state.activePowerups).map(([powerupId, active]) => {
-      const definition = state.powerupsCatalog[powerupId];
-      const seconds = Math.max(0, Math.ceil((active.expiresAt - Date.now()) / 1e3));
-      return `<span title="${escapeHtml2(definition.name)}">${definition.icon}${seconds}s</span>`;
-    }).join("");
-    this.root.innerHTML = `
-			<strong>Lv ${state.level}</strong>
-			<span title="Shliach power">\u{1F31F} ${state.derived.powerRating}</span>
-			<span title="Perutas">\u{1FA99} ${state.perutas}</span>
-			<span title="Mitzvah points">\u2728 ${state.mitzvahPoints}</span>
-			<span title="Focus maximum">\u{1F4D8} ${state.derived.focusMaximum}</span>
-			<span title="Armor">\u{1F6E1}\uFE0F ${state.derived.armor}</span>
-			<span class="Awtsmoos-powerup-timers">${effects}</span>
-		`;
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function escapeHtml2(value3) {
-  return String(value3 ?? "").replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/TorahLibraryPanel.js
-var TorahLibraryPanel = class {
-  constructor(inventoryStore, options = {}) {
-    this.store = inventoryStore;
-    this.getFocus = options.getFocus || (() => null);
-    this.onAssign = options.onAssign || (() => {
-    });
-    this.onUse = options.onUse || (() => {
-    });
-    this.open = false;
-    this.dirty = false;
-    this.domUpdates = 0;
-    this.root = document.createElement("section");
-    this.root.className = "Awtsmoos-torah-library Awtsmoos-gameplay";
-    this.root.hidden = true;
-    document.body.appendChild(this.root);
-    this.unsubscribe = inventoryStore.onChange(() => this.changed());
-    this.render(true);
-  }
-  changed() {
-    if (this.open) this.render();
-    else this.dirty = true;
-  }
-  setOpen(open) {
-    this.open = Boolean(open);
-    this.root.hidden = !this.open;
-    if (this.open && this.dirty) this.render();
-  }
-  toggle() {
-    this.setOpen(!this.open);
-  }
-  render(force = false) {
-    if (!this.open && !force) {
-      this.dirty = true;
-      return false;
-    }
-    const state = this.store.snapshot();
-    const focus = this.getFocus() || { current: state.stats.focus, maximum: state.stats.focus };
-    this.root.innerHTML = `
-			<header class="Awtsmoos-panel-header">
-				<h2>\u{1F4DA} Torah Sefarim</h2><span>Focus ${Math.floor(focus.current)} / ${Math.floor(focus.maximum)}</span>
-				<button class="Awtsmoos-quest-button" data-close>Close</button>
-			</header>
-			<p>Learn a passage, use it directly, or place it on the Torah action bar.</p>
-			<div class="Awtsmoos-book-grid" data-books></div>
-		`;
-    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
-    this.root.querySelector("[data-books]").replaceChildren(...TORAH_BOOKS.map((book2) => this.bookCard(book2, state)));
-    this.dirty = false;
-    this.domUpdates += 1;
-    return true;
-  }
-  bookCard(book2, state) {
-    const owned = state.items.some((item2) => item2.itemId === book2.id);
-    const card = document.createElement("article");
-    card.className = "Awtsmoos-book";
-    const title2 = document.createElement("h3");
-    title2.textContent = `${book2.icon} ${book2.name}${owned ? "" : " \xB7 not owned"}`;
-    card.appendChild(title2);
-    for (const passage2 of book2.passages) card.appendChild(this.passageCard(book2, passage2, state, owned));
-    return card;
-  }
-  passageCard(book2, passage2, state, owned) {
-    const learned = state.learned.includes(passage2.id);
-    const pinned = state.pinnedPassages.includes(passage2.id);
-    const row2 = document.createElement("div");
-    row2.className = "Awtsmoos-passage";
-    const copy = document.createElement("div");
-    copy.append(
-      text2("b", passage2.name),
-      text2("p", passage2.text),
-      text2("small", `${passage2.damage} light \xB7 ${passage2.focusCost} focus \xB7 ${passage2.cooldownMs}ms \xB7 ${passage2.aspect}`)
-    );
-    const actions = document.createElement("div");
-    if (!learned) actions.appendChild(actionButton3("Learn", !owned, () => this.store.learn(passage2.id)));
-    if (learned) this.addLearnedActions(actions, book2, passage2, pinned);
-    row2.append(copy, actions);
-    return row2;
-  }
-  addLearnedActions(actions, book2, passage2, pinned) {
-    const ability3 = torahAbilityForPassage(passage2.id);
-    actions.append(
-      actionButton3(pinned ? "Unpin" : "Pin", false, () => this.store.togglePassagePin(passage2.id)),
-      actionButton3("Use", false, () => this.onUse({ ...passage2, bookId: book2.id }))
-    );
-    if (!ability3) return;
-    const assign = actionButton3("Add to bar", false, () => this.onAssign(ability3.id));
-    assign.dataset.torahAbilityId = ability3.id;
-    assign.draggable = true;
-    actions.appendChild(assign);
-  }
-  snapshot() {
-    return { dirty: this.dirty, domUpdates: this.domUpdates, open: this.open };
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function actionButton3(label, disabled, action2) {
-  const button2 = document.createElement("button");
-  button2.className = "Awtsmoos-quest-button";
-  button2.disabled = disabled;
-  button2.textContent = label;
-  button2.addEventListener("click", action2);
-  return button2;
-}
-function text2(tagName, value3) {
-  const element2 = document.createElement(tagName);
-  element2.textContent = value3;
-  return element2;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/VendorPanel.js
-var SALE_IDS = Object.freeze([
-  "forest-axe",
-  "wooden-staff",
-  "spark-blade",
-  "village-shield",
-  "chumash-light",
-  "tanya-pocket",
-  "wool-kippah",
-  "walking-boots"
-]);
-var VendorPanel = class {
-  constructor(inventoryStore, options = {}) {
-    this.store = inventoryStore;
-    this.onBuy = options.onBuy || ((itemId, quantity2) => storeBuy(inventoryStore, itemId, quantity2));
-    this.open = false;
-    this.root = document.createElement("section");
-    this.root.className = "Awtsmoos-sheet Awtsmoos-vendor-panel Awtsmoos-gameplay";
-    this.root.hidden = true;
-    document.body.appendChild(this.root);
-    this.unsubscribe = inventoryStore.onChange(() => this.render());
-    this.render();
-  }
-  setOpen(open) {
-    this.open = Boolean(open);
-    this.root.hidden = !this.open;
-    if (this.open) this.render();
-  }
-  render() {
-    const state = this.store.snapshot();
-    const perutas = state.items.find((item2) => item2.itemId === "perutas")?.quantity || 0;
-    this.root.innerHTML = `
-			<header class="Awtsmoos-sheet-header">
-				<div><small>Village Market</small><h2>\u{1F3EA} Shliach Supplies</h2></div>
-				<button data-close aria-label="Close market">\xD7</button>
-			</header>
-			<p class="Awtsmoos-wallet">\u{1FA99} ${perutas} Perutas available</p>
-			<div class="Awtsmoos-vendor-grid" data-items></div>
-			<p class="Awtsmoos-panel-message" data-message></p>
-		`;
-    this.root.querySelector("[data-close]").addEventListener("click", () => this.setOpen(false));
-    this.root.querySelector("[data-items]").replaceChildren(...SALE_IDS.map((itemId) => itemCard(itemId, state, perutas)));
-    this.root.querySelectorAll("[data-buy]").forEach((button2) => {
-      button2.addEventListener("click", () => this.buy(button2.dataset.buy));
-    });
-  }
-  async buy(itemId) {
-    try {
-      await this.onBuy(itemId, 1);
-      this.render();
-    } catch (error) {
-      this.root.querySelector("[data-message]").textContent = humanError2(error);
-    }
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function itemCard(itemId, state, perutas) {
-  const definition = INVENTORY_CATALOG[itemId];
-  const owned = state.items.some((item2) => item2.itemId === itemId);
-  const disabled = owned || perutas < definition.price;
-  const card = document.createElement("article");
-  card.className = "Awtsmoos-vendor-card";
-  card.innerHTML = `
-		<span>${definition.icon}</span>
-		<div><b>${definition.name}</b><small>${definition.category} \xB7 \u2694 ${definition.stats.damage} \xB7 \u{1F6E1} ${definition.stats.defense} \xB7 \u2728 ${definition.stats.focus}</small></div>
-		<button data-buy="${itemId}" ${disabled ? "disabled" : ""}>${owned ? "Owned" : `${definition.price} \u{1FA99}`}</button>
-	`;
-  return card;
-}
-function storeBuy(store, itemId, quantity2) {
-  return store.buy(itemId, quantity2);
-}
-function humanError2(error) {
-  return String(error?.message || error).replaceAll("_", " ").toLowerCase();
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldMinimap.js
-var WORLD_RADIUS = 210;
-var WorldMinimap = class {
-  constructor(store) {
-    this.store = store;
-    this.position = { x: 0, z: 0 };
-    this.root = document.createElement("section");
-    this.root.className = "Awtsmoos-minimap Awtsmoos-gameplay";
-    this.root.dataset.expanded = "false";
-    document.body.appendChild(this.root);
-    this.unsubscribe = store.onChange(() => this.render());
-    this.render();
-  }
-  setPosition(position) {
-    const x = Number(position?.x || 0);
-    const z = Number(position?.z || 0);
-    if (Math.hypot(x - this.position.x, z - this.position.z) < 1.5) return;
-    this.position = { x, z };
-    this.renderMarkers();
-  }
-  toggleExpanded() {
-    this.root.dataset.expanded = String(this.root.dataset.expanded !== "true");
-  }
-  render() {
-    this.root.innerHTML = `
-			<header><strong>\u{1F5FA}\uFE0F Village Map</strong><button class="Awtsmoos-quest-button" data-expand>Expand</button></header>
-			<div class="Awtsmoos-map-canvas" data-map aria-label="Quest map"></div>
-		`;
-    this.root.querySelector("[data-expand]").addEventListener("click", () => this.toggleExpanded());
-    this.renderMarkers();
-  }
-  renderMarkers() {
-    const map = this.root.querySelector("[data-map]");
-    if (!map) return;
-    map.replaceChildren(playerMarker(this.position));
-    const snapshot2 = this.store.snapshot();
-    for (const record of snapshot2.available.slice(0, 12)) {
-      map.appendChild(marker("!", record.definition.giver.position, record.definition.name, "giver"));
-    }
-    for (const record of snapshot2.active) {
-      const objective3 = record.objectives[record.objectiveIndex];
-      if (objective3?.marker) map.appendChild(marker("\u25C6", objective3.marker, objective3.description, "objective"));
-    }
-  }
-  destroy() {
-    this.unsubscribe();
-    this.root.remove();
-  }
-};
-function playerMarker(position) {
-  const element2 = document.createElement("span");
-  element2.className = "Awtsmoos-map-player";
-  place(element2, position);
-  element2.title = "You";
-  return element2;
-}
-function marker(icon, position, label, kind) {
-  const element2 = document.createElement("button");
-  element2.className = "Awtsmoos-map-marker";
-  element2.dataset.kind = kind;
-  element2.type = "button";
-  element2.textContent = icon;
-  element2.title = label;
-  place(element2, position);
-  return element2;
-}
-function place(element2, position) {
-  element2.style.left = `${percentage(position.x)}%`;
-  element2.style.top = `${100 - percentage(position.z)}%`;
-}
-function percentage(value3) {
-  return Math.max(2, Math.min(98, (Number(value3 || 0) + WORLD_RADIUS) / (WORLD_RADIUS * 2) * 100));
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/GameplayPanelSuite.js
-var GameplayPanelSuite = class {
-  constructor(options) {
-    this.adventures = options.adventures;
-    this.inventory = options.inventory;
-    this.profile = options.profile;
-    this.inventoryPanel = options.inventoryPanel;
-    this.coordinator = new PanelCoordinator();
-    this.questLog = new QuestLogPanel(this.adventures);
-    this.questOffer = new QuestOfferPanel(this.adventures);
-    this.minimap = new WorldMinimap(this.adventures);
-    this.torah = new TorahLibraryPanel(this.inventory, {
-      getFocus: options.getTorahFocus,
-      onAssign: options.onAssignAbility,
-      onUse: options.onUsePassage
-    });
-    this.profilePanel = new ShliachProfilePanel(this.profile, {
-      onActivate: options.onActivatePowerup,
-      onAllocate: options.onAllocateAttribute
-    });
-    this.vendor = new VendorPanel(this.inventory, { onBuy: options.onBuyItem });
-    this.tracker = new QuestTracker(
-      this.adventures,
-      () => this.coordinator.open("quests")
-    );
-    this.ribbon = new StatusRibbon(this.profile);
-    this.registerPanels();
-  }
-  registerPanels() {
-    this.coordinator.register("quests", this.questLog);
-    this.coordinator.register("torah", this.torah);
-    this.coordinator.register("bag", this.inventoryPanel);
-    this.coordinator.register("profile", this.profilePanel);
-    this.coordinator.register("vendor", this.vendor);
-    this.coordinator.register("map", {
-      setOpen: (open) => {
-        this.minimap.root.dataset.expanded = String(Boolean(open));
-      }
-    });
-  }
-  toggle(panelId) {
-    return this.coordinator.toggle(panelId);
-  }
-  notifyInventory(open) {
-    this.coordinator.notify("bag", open);
-  }
-  updatePosition(position) {
-    this.minimap.setPosition(position);
-  }
-  snapshot() {
-    return { torahLibrary: this.torah.snapshot() };
-  }
-  destroy() {
-    this.coordinator.destroy();
-    this.questLog.destroy();
-    this.questOffer.destroy();
-    this.minimap.destroy();
-    this.torah.destroy();
-    this.profilePanel.destroy();
-    this.vendor.destroy();
-    this.tracker.destroy();
-    this.ribbon.destroy();
-  }
-};
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/GameplayUiStyles.js
 var STYLE_ID2 = "Awtsmoos-gameplay-ui-style";
@@ -18413,55 +14535,8 @@ var GameplayUiController = class {
     installGameplayUiStyles();
     installResponsiveGameplayStyles();
     this.bus = bus;
-    this.adventures = options.adventures || new AdventureStore();
-    this.inventory = options.inventory || new InventoryStore();
-    this.profile = options.profile || new ShliachProfileStore({ inventory: this.inventory });
-    this.shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
-      adventures: this.adventures,
-      bus,
-      inventory: this.inventory,
-      persistence: options.shlichusPersistence,
-      persistenceOptions: options.shlichusPersistenceOptions,
-      profile: this.profile
-    });
-    this.gateway = new GameplayActionGateway({
-      actions: options.actions,
-      inventory: this.inventory,
-      profile: this.profile
-    });
-    this.combat = options.combat || new TorahCombatController({
-      bus,
-      clock: options.clock,
-      focus: options.focus,
-      inventory: this.inventory,
-      profile: this.profile
-    });
-    this.actionBar = options.actionBar || new ActionBarRuntimeCoordinator({
-      bus,
-      clock: options.clock,
-      combat: this.combat,
-      inventory: this.inventory,
-      persistence: options.actionBarPersistence,
-      persistenceOptions: options.actionBarPersistenceOptions,
-      playerId: options.playerId
-    });
-    this.melee = options.melee || new PlayerMeleeController({
-      attack: options.meleeAttack,
-      bus,
-      clock: options.clock
-    });
-    this.panels = new GameplayPanelSuite({
-      adventures: this.adventures,
-      getTorahFocus: () => this.combat.snapshot().focus,
-      inventory: this.inventory,
-      inventoryPanel: options.inventoryPanel,
-      onActivatePowerup: (id) => this.gateway.activatePowerup(id),
-      onAllocateAttribute: (id, points) => this.gateway.allocateAttribute(id, points),
-      onAssignAbility: (id) => this.actionBar.assignFirstAvailable(id),
-      onBuyItem: (id, quantity2) => this.gateway.buyItem(id, quantity2),
-      onUsePassage: (passage2) => this.combat.usePassage(passage2),
-      profile: this.profile
-    });
+    Object.assign(this, assembleGameplayRuntime(bus, options));
+    this.panels = assembleGameplayPanels(this, options);
     this.unsubscribers = [];
     this.bind();
   }
@@ -18491,12 +14566,14 @@ var GameplayUiController = class {
       melee: this.melee.snapshot(),
       panels: this.panels.snapshot(),
       profile: this.profile.snapshot(),
+      progression: this.progression.snapshot(),
       shlichusPersistence: this.shlichus.snapshot()
     };
   }
   destroy() {
     for (const unsubscribe of this.unsubscribers) unsubscribe();
     this.actionBar.destroy();
+    this.progression.destroy();
     this.shlichus.destroy();
     this.combat.destroy();
     this.melee.destroy();
@@ -18596,8 +14673,8 @@ function quantity(state, itemId) {
 function actionLabel(action2) {
   return action2.charAt(0).toUpperCase() + action2.slice(1);
 }
-function escapeHtml3(value3) {
-  return String(value3 ?? "").replace(/[&<>"']/g, (character) => ({
+function escapeHtml3(value2) {
+  return String(value2 ?? "").replace(/[&<>"']/g, (character) => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -18700,10 +14777,7 @@ function makeHost2() {
 function npcDialogueMarkup(data, questId) {
   return `
 		<section>
-			<header>
-				<b>${escapeHtml4(data.face || "\u{1F9D4}")} ${escapeHtml4(data.name)}</b>
-				<button data-close>\xD7</button>
-			</header>
+			<header><b>${escapeHtml4(data.face || "\u{1F9D4}")} ${escapeHtml4(data.name)}</b><button data-close>\xD7</button></header>
 			<p>B"H. Read the shlichus before deciding, train nearby, or continue exploring.</p>
 			<button data-quest="${escapeHtml4(questId)}">\u2728 View Golden Shlichus</button>
 			<button data-level="lava">\u{1F525} Training Course</button>
@@ -18711,37 +14785,37 @@ function npcDialogueMarkup(data, questId) {
 		</section>`;
 }
 function npcPlayerCard(player) {
+  const maximumHealth = Math.max(1, Number(player.maxHealth) || 100);
+  const health = Math.max(0, Math.min(maximumHealth, Number(player.health) || 0));
+  const xpMaximum = Math.max(1, Number(player.xpMax) || 200);
+  const xp = Math.max(0, Math.min(xpMaximum, Number(player.xp) || 0));
   return `
 		<article class="status-card player-card">
 			<div class="status-face">${escapeHtml4(player.face)}</div>
 			<div>
 				<b>${escapeHtml4(player.name)}</b>
-				<small>Level ${player.level} \xB7 Health ${player.health}</small>
-				<meter min="0" max="100" value="${player.health}"></meter>
-				<label>\u2B50 XP ${player.xp}/${player.xpMax}</label>
-				<progress max="${player.xpMax}" value="${player.xp}"></progress>
-			</div>
-			<strong>${player.level}</strong>
+				<small>Level ${player.level} \xB7 Health ${health}/${maximumHealth} \xB7 Armor ${player.armor || 0}</small>
+				<meter min="0" max="${maximumHealth}" value="${health}"></meter>
+				<label>\u2B50 XP ${xp}/${xpMaximum}</label><progress max="${xpMaximum}" value="${xp}"></progress>
+			</div><strong>${player.level}</strong>
 		</article>`;
 }
 function npcTargetCard(target) {
   const maximum = Math.max(1, Number(target.maxHealth || 100));
-  const value3 = Number(target.health ?? maximum);
-  const role = target.role || target.level || "Village resident";
-  const emblem = target.faction === "hostile" ? "\u2694" : "!";
+  const value2 = Math.max(0, Number(target.health ?? maximum));
+  const hostile = target.faction === "hostile";
+  const level = Math.max(1, Math.trunc(Number(target.combatLevel) || 1));
+  const armor = Math.max(0, Math.round(Number(target.armor) || 0));
+  const detail = hostile ? `Level ${level} \xB7 Health ${value2}/${maximum} \xB7 Armor ${armor}` : escapeHtml4(target.role || target.level || "Village resident");
   return `
 		<article class="status-card target-card">
 			<div class="status-face">${escapeHtml4(target.face || "\u{1F9D4}")}</div>
-			<div>
-				<b>${escapeHtml4(target.name)}</b>
-				<small>${escapeHtml4(role)}</small>
-				<meter min="0" max="${maximum}" value="${value3}"></meter>
-			</div>
-			<strong>${emblem}</strong>
+			<div><b>${escapeHtml4(target.name)}</b><small>${detail}</small><meter min="0" max="${maximum}" value="${value2}"></meter></div>
+			<strong>${hostile ? "\u2694" : "!"}</strong>
 		</article>`;
 }
-function escapeHtml4(value3) {
-  return String(value3 ?? "").replace(/[&<>"']/g, (character) => ({
+function escapeHtml4(value2) {
+  return String(value2 ?? "").replace(/[&<>"']/g, (character) => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -18766,22 +14840,34 @@ var NpcHud = class {
     this.host.classList.add("Awtsmoos-status-dock");
     this.dialogueHost.classList.add("Awtsmoos-npc-dialogue");
     this.dialogueHost.dataset.open = "false";
-    this.unsubscribers.push(this.bus.on("npc:target", (data) => this.showTarget(data)));
-    this.unsubscribers.push(this.bus.on("npc:dialogue", (data) => this.showDialogue(data)));
-    this.unsubscribers.push(this.bus.on("npc:clear", () => this.clearTarget()));
-    this.unsubscribers.push(this.bus.on("enemy:attack", (data) => {
-      this.updatePlayer({ health: data.playerHealth });
-    }));
+    this.listen("npc:target", (data) => this.showTarget(data));
+    this.listen("npc:dialogue", (data) => this.showDialogue(data));
+    this.listen("npc:clear", () => this.clearTarget());
+    this.listen("profile:state", (data) => this.updatePlayer(data));
+    this.listen("enemy:damaged", (data) => this.refreshTarget(data));
+    this.listen("enemy:respawn", (data) => this.refreshTarget(data));
+    this.listen("enemy:attack", (data) => this.applyEnemyDamage(data));
     this.dialogueHost.addEventListener("click", (event) => this.click(event));
     this.render();
+  }
+  listen(type, listener) {
+    this.unsubscribers.push(this.bus.on(type, listener));
   }
   updatePlayer(data = {}) {
     this.player = { ...this.player, ...data };
     this.render();
   }
+  applyEnemyDamage(data = {}) {
+    const amount = Math.max(0, Number(data.event?.amount) || 0);
+    this.updatePlayer({ health: Math.max(0, this.player.health - amount) });
+  }
   showTarget(data) {
     this.target = data;
     this.render();
+  }
+  refreshTarget(data) {
+    if (!this.target || targetIdentity(this.target) !== targetIdentity(data)) return;
+    this.showTarget(data);
   }
   clearTarget() {
     this.target = null;
@@ -18796,8 +14882,7 @@ var NpcHud = class {
     this.dialogueHost.innerHTML = npcDialogueMarkup(data, questId);
   }
   render() {
-    const targetMarkup = this.target ? npcTargetCard(this.target) : "";
-    this.host.innerHTML = `${npcPlayerCard(this.player)}${targetMarkup}`;
+    this.host.innerHTML = `${npcPlayerCard(this.player)}${this.target ? npcTargetCard(this.target) : ""}`;
     this.host.dataset.hasTarget = String(Boolean(this.target));
   }
   click(event) {
@@ -18806,13 +14891,11 @@ var NpcHud = class {
     const level = event.target.closest("[data-level]");
     if (quest2) {
       this.bus.emit("quest:offer", { questId: quest2.dataset.quest });
-      this.close();
-      return;
+      return this.close();
     }
     if (level?.dataset.level === "lava") {
       this.bus.emit("level:lava", { from: this.target });
-      this.close();
-      return;
+      return this.close();
     }
     if (close || level?.dataset.level === "stay") this.close();
   }
@@ -18824,14 +14907,10 @@ var NpcHud = class {
   }
 };
 function defaultPlayer() {
-  return {
-    face: "\u{1F3A9}",
-    health: 100,
-    level: 1,
-    name: "Chossid",
-    xp: 0,
-    xpMax: 100
-  };
+  return { armor: 3, face: "\u{1F3A9}", health: 100, level: 1, maxHealth: 100, name: "Chossid", xp: 0, xpMax: 200 };
+}
+function targetIdentity(target) {
+  return target?.targetId || target?.id || null;
 }
 function makeHost3(id) {
   const element2 = document.createElement("div");
@@ -18948,7 +15027,7 @@ function resolveViewportDensity(deviceDpr, profileMaximumDpr, requestedScale) {
     MAXIMUM_RENDER_SCALE,
     MINIMUM_EFFECTIVE_DPR / cappedDpr
   );
-  const scale2 = clamp2(
+  const scale2 = clamp4(
     Number(requestedScale) || DEFAULT_RENDER_SCALE,
     minimumScale,
     MAXIMUM_RENDER_SCALE
@@ -18970,16 +15049,18 @@ function publishViewportStats(runtime, density) {
     runtime.renderer.canvas.height
   ];
 }
-function clamp2(value3, minimum, maximum) {
-  return Math.max(minimum, Math.min(maximum, value3));
+function clamp4(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzCoreRuntimeAssembly.js
 function assembleEretzCoreRuntime(foundation, options, qualityProfile, boot) {
-  boot.begin("actors-and-interface");
+  boot.begin("player-and-world-actors");
   const actors = createEretzActors(foundation);
+  boot.begin("essential-gameplay-ui");
   const runtime = createEretzUi(actors, options.ui || {});
   runtime.worldModels = null;
+  boot.begin("viewport-and-performance");
   installViewport(runtime);
   installRuntimePerformanceMonitor(runtime);
   boot.begin("diagnostics-and-loop");
@@ -18990,1569 +15071,6 @@ function assembleEretzCoreRuntime(foundation, options, qualityProfile, boot) {
   diagnostics3.bootPhases = () => boot.snapshot();
   diagnostics3.qualityProfile = { ...qualityProfile };
   return { diagnostics: diagnostics3, movement, runtime };
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidOutfitPalette.js
-var variantCache = /* @__PURE__ */ new WeakMap();
-function chossidMaterialResolver(outfitDefinition) {
-  const definition = normalizeOutfit(outfitDefinition);
-  return (material) => materialVariant(material, definition);
-}
-function applyChossidOutfit(scene, outfitDefinition) {
-  const definition = normalizeOutfit(outfitDefinition);
-  const stats3 = { hiddenNodes: 0, visibleNodes: 0 };
-  scene.traverse((node) => {
-    const visibility = clothingVisibility(node.name, definition);
-    if (visibility === null) return;
-    node.visible = visibility;
-    stats3[visibility ? "visibleNodes" : "hiddenNodes"] += 1;
-  });
-  scene.userData.chossidOutfit = definition;
-  return stats3;
-}
-function materialVariant(material, definition) {
-  if (!material) return material;
-  const role = materialRole(material.name);
-  const color = definition.colors[role];
-  if (!color) return material;
-  let variants = variantCache.get(material);
-  if (!variants) {
-    variants = /* @__PURE__ */ new Map();
-    variantCache.set(material, variants);
-  }
-  const key = `${role}:${color}`;
-  if (variants.has(key)) return variants.get(key);
-  const variant = Object.assign(
-    Object.create(Object.getPrototypeOf(material)),
-    material
-  );
-  variant.color = rgba(color, material.color?.[3] ?? 1);
-  variant.name = `${material.name || role}@${color}`;
-  variant.userData = {
-    ...material.userData || {},
-    chossidPaletteKey: key
-  };
-  variants.set(key, variant);
-  return variant;
-}
-function clothingVisibility(nameValue, definition) {
-  const name = String(nameValue || "").toLowerCase();
-  if (name === "top-hat") return definition.headwear === "top-hat";
-  if (name === "yarmalka") return definition.headwear !== "top-hat";
-  if (name === "jacket") return definition.jacket && !definition.tefillin;
-  if (name === "jacket-teffilin") return definition.jacket && definition.tefillin;
-  if (name === "outer-shirt") return true;
-  if (/teffilin|tefillin|batim|shinleft|shinright|ritzooyoys/.test(name)) {
-    return definition.tefillin;
-  }
-  return null;
-}
-function materialRole(nameValue) {
-  const name = String(nameValue || "").toLowerCase();
-  if (name.startsWith("jacket")) return "coat";
-  if (name === "shirt" || name === "outer-shirt") return "shirt";
-  if (name === "pants") return "pants";
-  if (name === "hair") return "hair";
-  if (name === "glasses-frame") return "glasses";
-  if (name === "eye-color") return "eyes";
-  return name;
-}
-function normalizeOutfit(value3 = {}) {
-  return {
-    colors: {
-      coat: value3.colors?.coat || "#202226",
-      eyes: value3.colors?.eyes || "#4d6b8a",
-      glasses: value3.colors?.glasses || "#26384a",
-      hair: value3.colors?.hair || "#4b2410",
-      pants: value3.colors?.pants || "#17181a",
-      shirt: value3.colors?.shirt || "#f4efe6"
-    },
-    headwear: value3.headwear || "yarmulke",
-    id: value3.id || "default",
-    jacket: value3.jacket !== false,
-    tefillin: value3.tefillin === true
-  };
-}
-function rgba(hex, alpha) {
-  const value3 = Number.parseInt(String(hex).replace("#", ""), 16);
-  return [
-    (value3 >> 16 & 255) / 255,
-    (value3 >> 8 & 255) / 255,
-    (value3 & 255) / 255,
-    alpha
-  ];
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-material.js
-function createStaticBatchMaterial(source = {}) {
-  const material = new MeshStandardMaterial({
-    alphaCutoff: source.alphaCutoff,
-    alphaMode: source.alphaMode,
-    color: [1, 1, 1, 1],
-    doubleSided: source.doubleSided,
-    name: `${source.name || "material"}:static-batch-neutral`,
-    opacity: source.opacity,
-    transparent: source.transparent
-  });
-  Object.assign(material, source);
-  material.color = [1, 1, 1, 1];
-  material.name = `${source.name || "material"}:static-batch-neutral`;
-  material.userData = {
-    ...source.userData || {},
-    AwtsmoosStaticBatchMaterial: {
-      originalTint: [...source.color || [0.75, 0.7, 0.62, 1]],
-      tintBakedIntoVertexColor: true
-    }
-  };
-  return material;
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGeometry.js
-function buildChossidConsolidatedMesh(group) {
-  if (!group.meshes.length) return null;
-  const streams = createStreams();
-  for (const mesh of group.meshes) appendGeometry(streams, mesh, group.anchor);
-  if (streams.positions.length < 9) return null;
-  const geometry = new BufferGeometry();
-  geometry.setAttribute("position", attribute4(streams.positions, 3));
-  geometry.setAttribute("normal", attribute4(streams.normals, 3));
-  geometry.setAttribute("color", attribute4(streams.colors, 4));
-  geometry.setAttribute("uv", attribute4(streams.uvs, 2));
-  if (group.skinned) {
-    geometry.setAttribute("joints", attribute4(streams.joints, 4));
-    geometry.setAttribute("weights", attribute4(streams.weights, 4));
-  }
-  geometry.setIndex(new BufferAttribute(indexArray2(streams.indices), 1));
-  const batch = new Mesh(geometry, createStaticBatchMaterial(group.meshes[0].material));
-  batch.name = `AwtsmoosChossidBatch:${group.skinned ? "skin" : "rigid"}:${group.meshes.length}`;
-  batch.isSkinnedMesh = group.skinned;
-  batch.skeleton = group.skeleton;
-  batch.userData.AwtsmoosChossidConsolidation = {
-    anchor: group.anchor?.name || "root",
-    members: group.meshes.length,
-    skinned: group.skinned,
-    tintBakedIntoVertexColor: true,
-    triangles: streams.indices.length / 3,
-    vertices: streams.positions.length / 3
-  };
-  batch.setBaseTransform();
-  return batch;
-}
-function appendGeometry(streams, mesh, anchor2) {
-  const geometry = mesh.geometry;
-  const transform = multiply(inverse(anchor2.matrixWorld), mesh.matrixWorld);
-  const position = geometry.attributes.position;
-  const normal = geometry.attributes.normal;
-  const color = geometry.attributes.color;
-  const uv2 = geometry.attributes.uv;
-  const joints = geometry.attributes.joints;
-  const weights = geometry.attributes.weights;
-  const tint = mesh.material?.color || [0.75, 0.7, 0.62, 1];
-  const vertexOffset = streams.positions.length / 3;
-  for (let index = 0; index < position.count; index += 1) {
-    appendPosition(streams.positions, position, index, transform);
-    appendNormal(streams.normals, normal, index, transform);
-    streams.colors.push(
-      value(color, index, 0, 1) * (tint[0] ?? 0.75),
-      value(color, index, 1, 1) * (tint[1] ?? 0.7),
-      value(color, index, 2, 1) * (tint[2] ?? 0.62),
-      value(color, index, 3, 1)
-    );
-    streams.uvs.push(value(uv2, index, 0, 0), value(uv2, index, 1, 0));
-    if (joints) appendVector(streams.joints, joints, index, [0, 0, 0, 0]);
-    if (weights) appendVector(streams.weights, weights, index, [1, 0, 0, 0]);
-  }
-  const source = geometry.index?.array || Array.from({ length: position.count }, (_, index) => index);
-  for (const index of source) streams.indices.push(index + vertexOffset);
-}
-function appendPosition(target, source, index, matrix) {
-  const x = value(source, index, 0, 0);
-  const y = value(source, index, 1, 0);
-  const z = value(source, index, 2, 0);
-  target.push(
-    matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12],
-    matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13],
-    matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]
-  );
-}
-function appendNormal(target, source, index, matrix) {
-  const x = value(source, index, 0, 0);
-  const y = value(source, index, 1, 1);
-  const z = value(source, index, 2, 0);
-  target.push(
-    matrix[0] * x + matrix[4] * y + matrix[8] * z,
-    matrix[1] * x + matrix[5] * y + matrix[9] * z,
-    matrix[2] * x + matrix[6] * y + matrix[10] * z
-  );
-}
-function appendVector(target, source, index, fallback) {
-  for (let component = 0; component < 4; component += 1) {
-    target.push(value(source, index, component, fallback[component]));
-  }
-}
-function createStreams() {
-  return { colors: [], indices: [], joints: [], normals: [], positions: [], uvs: [], weights: [] };
-}
-function attribute4(values, size) {
-  return new BufferAttribute(new Float32Array(values), size);
-}
-function value(attributeValue, index, component, fallback) {
-  if (!attributeValue || component >= attributeValue.itemSize) return fallback;
-  return Number(attributeValue.array[index * attributeValue.itemSize + component] ?? fallback);
-}
-function indexArray2(indices) {
-  let maximum = 0;
-  for (const index of indices) if (index > maximum) maximum = index;
-  return maximum > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-webgl-utils.js
-var materialModeCache = /* @__PURE__ */ new WeakMap();
-function drawMode(gl, mode) {
-  return {
-    0: gl.POINTS,
-    1: gl.LINES,
-    2: gl.LINE_LOOP,
-    3: gl.LINE_STRIP,
-    4: gl.TRIANGLES,
-    5: gl.TRIANGLE_STRIP,
-    6: gl.TRIANGLE_FAN
-  }[mode ?? 4] || gl.TRIANGLES;
-}
-function attributeType(gl, attribute5) {
-  const array = attribute5.array;
-  if (array instanceof Float32Array) return gl.FLOAT;
-  if (array instanceof Uint8Array) return gl.UNSIGNED_BYTE;
-  if (array instanceof Uint16Array) return gl.UNSIGNED_SHORT;
-  if (array instanceof Uint32Array) return gl.UNSIGNED_INT;
-  if (array instanceof Int8Array) return gl.BYTE;
-  if (array instanceof Int16Array) return gl.SHORT;
-  return gl.FLOAT;
-}
-function createShader(gl, type, source, label, errors) {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  const info = gl.getShaderInfoLog(shader);
-  if (info) errors.push(`${label} shader: ${info}`);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    throw new Error(`${label} shader failed: ${info}`);
-  }
-  return shader;
-}
-function createProgram(gl, vertexSource, fragmentSource, label, errors) {
-  const program = gl.createProgram();
-  gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vertexSource, label, errors));
-  gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fragmentSource, label, errors));
-  gl.linkProgram(program);
-  const info = gl.getProgramInfoLog(program);
-  if (info) errors.push(`${label} program: ${info}`);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    throw new Error(`${label} program failed: ${info}`);
-  }
-  return program;
-}
-function materialColor(material) {
-  const color = material?.color || [0.75, 0.7, 0.62, 1];
-  return new Float32Array([
-    color[0] ?? 0.75,
-    color[1] ?? 0.7,
-    color[2] ?? 0.62,
-    material?.opacity ?? color[3] ?? 1
-  ]);
-}
-function alphaModeCode(material) {
-  if (material?.alphaMode === "MASK") return 1;
-  if (material?.alphaMode === "BLEND") return 2;
-  return 0;
-}
-function materialModeCode(mesh) {
-  const material = mesh.material || {};
-  const policy2 = material.texturePolicy || {};
-  const cached = materialModeCache.get(mesh);
-  if (cached && sameModeFacts(cached, mesh, material, policy2)) return cached.code;
-  const code = classifyMaterialMode(mesh, policy2);
-  materialModeCache.set(mesh, captureModeFacts(mesh, material, policy2, code));
-  return code;
-}
-function classifyMaterialMode(mesh, policy2) {
-  const identity2 = materialIdentity2(mesh);
-  if (policy2.shader?.includes("terrain-layered")) return 5;
-  if (policy2.shader?.includes("water") || /water|lake|stream/.test(identity2)) return 1;
-  if (policy2.proceduralSky || /world-sky|sky_dome|atmosphere_dome/.test(identity2)) return 4;
-  if (policy2.practicalLightProxy || /lamp-pane|window|fire|ember|flame/.test(identity2)) return 3;
-  if (policy2.shader?.includes("wind") || policy2.alpha?.includes("cutout") || /leaves|botanical|flower|petal|fern|reed|bush/.test(identity2)) return 2;
-  return 0;
-}
-function captureModeFacts(mesh, material, policy2, code) {
-  return {
-    alpha: policy2.alpha,
-    code,
-    family: mesh.userData?.family,
-    material,
-    materialName: material.name,
-    meshName: mesh.name,
-    parent: mesh.parent,
-    parentFamily: mesh.parent?.userData?.family,
-    policy: policy2,
-    practicalLightProxy: policy2.practicalLightProxy,
-    proceduralSky: policy2.proceduralSky,
-    shader: policy2.shader
-  };
-}
-function sameModeFacts(value3, mesh, material, policy2) {
-  return value3.material === material && value3.policy === policy2 && value3.meshName === mesh.name && value3.materialName === material.name && value3.family === mesh.userData?.family && value3.parent === mesh.parent && value3.parentFamily === mesh.parent?.userData?.family && value3.shader === policy2.shader && value3.alpha === policy2.alpha && value3.proceduralSky === policy2.proceduralSky && value3.practicalLightProxy === policy2.practicalLightProxy;
-}
-function materialIdentity2(mesh) {
-  const values = [mesh.name, mesh.material?.name];
-  let parent = mesh;
-  while (parent) {
-    values.push(parent.userData?.family, parent.userData?.AwtsmoosForestLayer?.layer);
-    parent = parent.parent;
-  }
-  return values.filter(Boolean).join(" ").toLowerCase();
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature-state.js
-function captureMaterialSignatureState(mesh, textureState2) {
-  const material = mesh.material || {};
-  const color = material.color || [0.75, 0.7, 0.62, 1];
-  const grass = mesh.userData?.AwtsmoosYardGrass || {};
-  return {
-    alphaCutoff: material.alphaCutoff ?? 0.5,
-    alphaMode: material.alphaMode || "OPAQUE",
-    anisotropy: material.anisotropy ?? 2,
-    color0: color[0] ?? 0.75,
-    color1: color[1] ?? 0.7,
-    color2: color[2] ?? 0.62,
-    cullingDisabled: material.backfaceCull === false,
-    doubleSided: material.doubleSided === true,
-    emissiveStrength: material.emissiveStrength ?? 1.8,
-    geometryMode: mesh.geometry?.mode ?? mesh.primitiveMode ?? 4,
-    grassRadius: grass.interactionRadius ?? 2.2,
-    grassReactive: grass.reactsToPlayer === true,
-    grassWind: grass.windStrength ?? 0.085,
-    material,
-    materialMode: materialModeCode(mesh),
-    opacity: material.opacity ?? color[3] ?? 1,
-    textureState: textureState2
-  };
-}
-function sameMaterialSignatureState(state, mesh, textureState2) {
-  if (!state) return false;
-  const material = mesh.material || {};
-  const color = material.color || [0.75, 0.7, 0.62, 1];
-  const grass = mesh.userData?.AwtsmoosYardGrass || {};
-  return state.material === material && state.textureState === textureState2 && state.color0 === (color[0] ?? 0.75) && state.color1 === (color[1] ?? 0.7) && state.color2 === (color[2] ?? 0.62) && state.opacity === (material.opacity ?? color[3] ?? 1) && state.alphaMode === (material.alphaMode || "OPAQUE") && state.alphaCutoff === (material.alphaCutoff ?? 0.5) && state.doubleSided === (material.doubleSided === true) && state.cullingDisabled === (material.backfaceCull === false) && state.emissiveStrength === (material.emissiveStrength ?? 1.8) && state.anisotropy === (material.anisotropy ?? 2) && state.materialMode === materialModeCode(mesh) && state.grassReactive === (grass.reactsToPlayer === true) && state.grassRadius === (grass.interactionRadius ?? 2.2) && state.grassWind === (grass.windStrength ?? 0.085) && state.geometryMode === (mesh.geometry?.mode ?? mesh.primitiveMode ?? 4);
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-texture-signature.js
-function appendTextureSignature(values, state, identity2) {
-  values.push(
-    identity2(state.mapImage),
-    state.mapReady ? 1 : 0,
-    state.mapRepeat0,
-    state.mapRepeat1,
-    identity2(state.mixImage),
-    state.mixReady ? 1 : 0,
-    state.mixRepeat0,
-    state.mixRepeat1,
-    ...state.mapPolicySignature,
-    ...state.mixPolicySignature,
-    state.mixStrength,
-    state.patchScale,
-    state.patchSharpness
-  );
-  for (const layer of state.layers) appendLayer(values, layer, identity2);
-  return values;
-}
-function appendLayer(values, layer, identity2) {
-  values.push(
-    identity2(layer.image),
-    layer.ready ? 1 : 0,
-    layer.repeat0,
-    layer.repeat1,
-    layer.strength,
-    layer.role,
-    layer.angle,
-    ...layer.policySignature,
-    ...layer.zones,
-    ...layer.slope,
-    ...layer.height,
-    layer.wetness
-  );
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-source.js
-function sourceReady(source) {
-  return !!(source && sourceWidth(source) && sourceHeight(source) && source.complete !== false);
-}
-function sourceWidth(source) {
-  return source?.naturalWidth || source?.videoWidth || source?.width || 0;
-}
-function sourceHeight(source) {
-  return source?.naturalHeight || source?.videoHeight || source?.height || 0;
-}
-function createDefaultTexture(gl) {
-  const texture2 = gl.createTexture();
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, texture2);
-  gl.texImage2D(
-    gl.TEXTURE_2D,
-    0,
-    gl.RGBA,
-    1,
-    1,
-    0,
-    gl.RGBA,
-    gl.UNSIGNED_BYTE,
-    new Uint8Array([255, 255, 255, 255])
-  );
-  setTextureParameters(gl, gl.NEAREST, gl.NEAREST, gl.CLAMP_TO_EDGE);
-  return texture2;
-}
-function setTextureParameters(gl, minification, magnification, wrap2) {
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minification);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, magnification);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap2);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap2);
-}
-function isPowerOfTwo(value3) {
-  return value3 > 0 && (value3 & value3 - 1) === 0;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-native-texture-density.js
-var DEFAULT_NATIVE_TEXELS_PER_WORLD = 96;
-function resolveNativeTextureRepeat(source, authoredRepeat, policy2 = {}, overrides = {}) {
-  const resolvedPolicy = { ...policy2, ...overrides };
-  const fallback = finitePair(authoredRepeat, [1, 1]);
-  if (!nativeDensityEnabled(resolvedPolicy)) return fallback;
-  const dimensions = textureDimensions(source);
-  if (!dimensions.ready) return fallback;
-  const density = positivePair(
-    resolvedPolicy.texelsPerWorld,
-    [DEFAULT_NATIVE_TEXELS_PER_WORLD, DEFAULT_NATIVE_TEXELS_PER_WORLD]
-  );
-  const surface = optionalPositivePair(resolvedPolicy.surfaceWorldSize);
-  if (surface) {
-    return [
-      surface[0] * density[0] / dimensions.width,
-      surface[1] * density[1] / dimensions.height
-    ];
-  }
-  const uvUnits = uvUnitsPerWorld(resolvedPolicy);
-  if (!uvUnits) return fallback;
-  return [
-    density[0] / (dimensions.width * uvUnits[0]),
-    density[1] / (dimensions.height * uvUnits[1])
-  ];
-}
-function nativeTexturePolicySignature(policy2 = {}) {
-  const density = positivePair(policy2.texelsPerWorld, [0, 0]);
-  const surface = finitePair(policy2.surfaceWorldSize, [0, 0]);
-  const uvUnits = uvUnitsPerWorld(policy2) || [0, 0];
-  return [
-    policy2.nativeTexelDensity === false ? 0 : nativeDensityEnabled(policy2) ? 1 : 0,
-    density[0],
-    density[1],
-    uvUnits[0],
-    uvUnits[1],
-    surface[0],
-    surface[1]
-  ];
-}
-function nativeDensityEnabled(policy2) {
-  if (policy2.nativeTexelDensity === false) return false;
-  return policy2.nativeTexelDensity === true || Boolean(optionalPositivePair(policy2.uvUnitsPerWorld)) || Boolean(optionalPositivePair(policy2.surfaceWorldSize)) || Boolean(optionalPositivePair(policy2.tileWorld));
-}
-function uvUnitsPerWorld(policy2) {
-  const explicit = optionalPositivePair(policy2.uvUnitsPerWorld);
-  if (explicit) return explicit;
-  const tileWorld = optionalPositivePair(policy2.tileWorld);
-  return tileWorld ? [1 / tileWorld[0], 1 / tileWorld[1]] : null;
-}
-function textureDimensions(source) {
-  const width = sourceWidth(source);
-  const height = sourceHeight(source);
-  return { height, ready: width > 0 && height > 0 && source?.complete !== false, width };
-}
-function optionalPositivePair(value3) {
-  if (Array.isArray(value3)) {
-    const pair3 = [Number(value3[0]), Number(value3[1])];
-    return pair3.every((item2) => Number.isFinite(item2) && item2 > 0) ? pair3 : null;
-  }
-  const number = Number(value3);
-  return Number.isFinite(number) && number > 0 ? [number, number] : null;
-}
-function positivePair(value3, fallback) {
-  return optionalPositivePair(value3) || [...fallback];
-}
-function finitePair(value3, fallback) {
-  if (!Array.isArray(value3)) return [...fallback];
-  return value3.slice(0, 2).map((item2, index) => Number.isFinite(Number(item2)) ? Number(item2) : fallback[index]);
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js
-var TERRAIN_LAYER_TARGET = 6;
-var TERRAIN_RESERVED_FRAGMENT_UNITS = 2;
-var TERRAIN_FIRST_TEXTURE_UNIT = 3;
-function terrainLayerCapacity(gl) {
-  const fragmentLimit = numericLimit(gl, gl.MAX_TEXTURE_IMAGE_UNITS, 8);
-  const combinedLimit = numericLimit(gl, gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS, 8);
-  return Math.max(0, Math.min(
-    TERRAIN_LAYER_TARGET,
-    fragmentLimit - TERRAIN_RESERVED_FRAGMENT_UNITS,
-    combinedLimit - TERRAIN_FIRST_TEXTURE_UNIT
-  ));
-}
-function terrainLayerUnits(count = TERRAIN_LAYER_TARGET) {
-  const capacity = Math.max(0, Math.min(TERRAIN_LAYER_TARGET, Math.floor(count)));
-  return Object.freeze(Array.from({ length: capacity }, (_, index) => {
-    return TERRAIN_FIRST_TEXTURE_UNIT + index;
-  }));
-}
-function numericLimit(gl, key, fallback) {
-  const value3 = Number(gl.getParameter?.(key));
-  return Number.isFinite(value3) && value3 > 0 ? value3 : fallback;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-state.js
-var TERRAIN_LAYER_COUNT = TERRAIN_LAYER_TARGET;
-var TERRAIN_LAYER_UNITS = terrainLayerUnits(TERRAIN_LAYER_TARGET);
-function layeredTextureState(material = {}) {
-  if (!Array.isArray(material.textureLayers)) return [];
-  return Array.from({ length: TERRAIN_LAYER_COUNT }, (_, index) => layerState(material.textureLayers[index] || {}, material));
-}
-function sameLayeredTextureState(left = [], right = []) {
-  if (left.length !== right.length) return false;
-  return left.every((layer, index) => sameLayer(layer, right[index]));
-}
-function layerState(layer, material) {
-  const policy2 = { ...material.texturePolicy || {}, ...layer.texturePolicy || {} };
-  const repeat = resolveNativeTextureRepeat(layer.image, layer.repeat || [1, 1], policy2);
-  return {
-    angle: finite2(layer.angle, 0),
-    height: pair2(layer.height, [-1e4, 1e4]),
-    image: layer.image || null,
-    policySignature: nativeTexturePolicySignature(policy2),
-    ready: sourceReady(layer.image),
-    repeat0: repeat[0],
-    repeat1: repeat[1],
-    role: layer.role || "",
-    slope: pair2(layer.slope, [0, 1]),
-    strength: finite2(layer.strength, 0),
-    wetness: finite2(layer.wetness, 0),
-    zones: vector4(layer.zones)
-  };
-}
-function sameLayer(left, right) {
-  return Boolean(right) && left.image === right.image && left.ready === right.ready && left.repeat0 === right.repeat0 && left.repeat1 === right.repeat1 && left.strength === right.strength && left.role === right.role && left.angle === right.angle && sameArray(left.policySignature, right.policySignature) && sameArray(left.zones, right.zones) && sameArray(left.slope, right.slope) && sameArray(left.height, right.height) && left.wetness === right.wetness;
-}
-function pair2(value3, fallback) {
-  if (!Array.isArray(value3)) return [...fallback];
-  return [finite2(value3[0], fallback[0]), finite2(value3[1], fallback[1])];
-}
-function vector4(value3) {
-  return Array.from({ length: 4 }, (_, index) => finite2(value3?.[index], 1));
-}
-function finite2(value3, fallback) {
-  return Number.isFinite(Number(value3)) ? Number(value3) : fallback;
-}
-function sameArray(left, right) {
-  return left.length === right.length && left.every((value3, index) => value3 === right[index]);
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint-core.js
-function captureSourceFingerprint(source) {
-  return {
-    ready: sourceReady(source),
-    source: source || null
-  };
-}
-function sameSourceFingerprint(fingerprint, source) {
-  return fingerprint.source === (source || null) && fingerprint.ready === sourceReady(source);
-}
-function capturePair(value3, fallback = [1, 1]) {
-  return [
-    finite3(value3?.[0], fallback[0]),
-    finite3(value3?.[1], fallback[1])
-  ];
-}
-function samePair(pair3, value3, fallback = [1, 1]) {
-  return pair3[0] === finite3(value3?.[0], fallback[0]) && pair3[1] === finite3(value3?.[1], fallback[1]);
-}
-function capturePolicy(policy2 = {}) {
-  return {
-    nativeTexelDensity: policy2.nativeTexelDensity,
-    surfaceWorldSize: capturePair(policy2.surfaceWorldSize, [0, 0]),
-    texelsPerWorld: policy2.texelsPerWorld,
-    tileWorld: policy2.tileWorld,
-    uvUnitsPerWorld: policy2.uvUnitsPerWorld
-  };
-}
-function samePolicy(fingerprint, policy2 = {}) {
-  return fingerprint.nativeTexelDensity === policy2.nativeTexelDensity && fingerprint.texelsPerWorld === policy2.texelsPerWorld && fingerprint.tileWorld === policy2.tileWorld && fingerprint.uvUnitsPerWorld === policy2.uvUnitsPerWorld && samePair(fingerprint.surfaceWorldSize, policy2.surfaceWorldSize, [0, 0]);
-}
-function captureVector(value3, length2, fallback) {
-  return Array.from({ length: length2 }, (_, index) => {
-    return finite3(value3?.[index], fallback[index]);
-  });
-}
-function sameVector(vector3, value3, fallback) {
-  return vector3.every((entry, index) => {
-    return entry === finite3(value3?.[index], fallback[index]);
-  });
-}
-function finite3(value3, fallback) {
-  const number = Number(value3);
-  return Number.isFinite(number) ? number : fallback;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-layer-fingerprint.js
-var EMPTY_LAYERS = Object.freeze([]);
-var HEIGHT_DEFAULT = [-1e4, 1e4];
-var SLOPE_DEFAULT = [0, 1];
-var ZONE_DEFAULT = [1, 1, 1, 1];
-function captureLayerFingerprints(material = {}) {
-  const layers = material.textureLayers || EMPTY_LAYERS;
-  return {
-    layers,
-    records: layers.map((layer) => captureLayer(layer))
-  };
-}
-function sameLayerFingerprints(fingerprint, material = {}) {
-  const layers = material.textureLayers || EMPTY_LAYERS;
-  if (fingerprint.layers !== layers) return false;
-  if (fingerprint.records.length !== layers.length) return false;
-  return fingerprint.records.every((record, index) => {
-    return sameLayer2(record, layers[index] || {});
-  });
-}
-function captureLayer(layer = {}) {
-  return {
-    angle: numeric(layer.angle, 0),
-    height: captureVector(layer.height, 2, HEIGHT_DEFAULT),
-    image: captureSourceFingerprint(layer.image),
-    layer,
-    policy: capturePolicy(layer.texturePolicy),
-    repeat: capturePair(layer.repeat, [1, 1]),
-    role: layer.role || "",
-    slope: captureVector(layer.slope, 2, SLOPE_DEFAULT),
-    strength: numeric(layer.strength, 0),
-    wetness: numeric(layer.wetness, 0),
-    zones: captureVector(layer.zones, 4, ZONE_DEFAULT)
-  };
-}
-function sameLayer2(record, layer) {
-  return record.layer === layer && record.angle === numeric(layer.angle, 0) && record.role === (layer.role || "") && record.strength === numeric(layer.strength, 0) && record.wetness === numeric(layer.wetness, 0) && sameSourceFingerprint(record.image, layer.image) && samePair(record.repeat, layer.repeat, [1, 1]) && samePolicy(record.policy, layer.texturePolicy) && sameVector(record.zones, layer.zones, ZONE_DEFAULT) && sameVector(record.slope, layer.slope, SLOPE_DEFAULT) && sameVector(record.height, layer.height, HEIGHT_DEFAULT);
-}
-function numeric(value3, fallback) {
-  const number = Number(value3);
-  return Number.isFinite(number) ? number : fallback;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint.js
-function captureTextureFingerprint(material = {}) {
-  return {
-    layers: captureLayerFingerprints(material),
-    mapImage: captureSourceFingerprint(material.mapImage),
-    mapPolicy: capturePolicy(material.texturePolicy),
-    mapRepeat: capturePair(material.mapRepeat, [1, 1]),
-    mixImage: captureSourceFingerprint(material.mixImage),
-    mixPolicy: capturePolicy(material.mixTexturePolicy),
-    mixRepeat: capturePair(material.mixRepeat, [1, 1]),
-    mixStrength: numberOr(material.mixStrength, 0),
-    patchScale: numberOr(material.mixPatchScale, 0),
-    patchSharpness: numberOr(material.mixPatchSharpness, 0.58)
-  };
-}
-function sameTextureFingerprint(fingerprint, material = {}) {
-  return Boolean(fingerprint) && fingerprint.mixStrength === numberOr(material.mixStrength, 0) && fingerprint.patchScale === numberOr(material.mixPatchScale, 0) && fingerprint.patchSharpness === numberOr(material.mixPatchSharpness, 0.58) && sameSourceFingerprint(fingerprint.mapImage, material.mapImage) && sameSourceFingerprint(fingerprint.mixImage, material.mixImage) && samePair(fingerprint.mapRepeat, material.mapRepeat, [1, 1]) && samePair(fingerprint.mixRepeat, material.mixRepeat, [1, 1]) && samePolicy(fingerprint.mapPolicy, material.texturePolicy) && samePolicy(fingerprint.mixPolicy, material.mixTexturePolicy) && sameLayerFingerprints(fingerprint.layers, material);
-}
-function numberOr(value3, fallback) {
-  const number = Number(value3);
-  return Number.isFinite(number) ? number : fallback;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state.js
-var cache = /* @__PURE__ */ new WeakMap();
-var diagnostics = {
-  hits: 0,
-  invalidations: 0,
-  misses: 0
-};
-function textureState(material = {}) {
-  if (!material || typeof material !== "object") return buildTextureState({});
-  const cached = cache.get(material);
-  if (cached && sameTextureFingerprint(cached.fingerprint, material)) {
-    diagnostics.hits += 1;
-    return cached.state;
-  }
-  if (cached) diagnostics.invalidations += 1;
-  else diagnostics.misses += 1;
-  const state = buildTextureState(material);
-  cache.set(material, {
-    fingerprint: captureTextureFingerprint(material),
-    state
-  });
-  return state;
-}
-function sameTextureState(left, right) {
-  if (left === right) return true;
-  if (!left || !right) return false;
-  return left.mapImage === right.mapImage && left.mapReady === right.mapReady && left.mapRepeat0 === right.mapRepeat0 && left.mapRepeat1 === right.mapRepeat1 && left.mixImage === right.mixImage && left.mixReady === right.mixReady && left.mixRepeat0 === right.mixRepeat0 && left.mixRepeat1 === right.mixRepeat1 && left.mixStrength === right.mixStrength && left.patchScale === right.patchScale && left.patchSharpness === right.patchSharpness && sameLayeredTextureState(left.layers, right.layers);
-}
-function buildTextureState(material) {
-  const mapRepeat = resolveNativeTextureRepeat(
-    material.mapImage,
-    material.mapRepeat || [1, 1],
-    material.texturePolicy
-  );
-  const mixPolicy = {
-    ...material.texturePolicy || {},
-    ...material.mixTexturePolicy || {}
-  };
-  const mixRepeat = resolveNativeTextureRepeat(
-    material.mixImage,
-    material.mixRepeat || [1, 1],
-    material.texturePolicy,
-    material.mixTexturePolicy
-  );
-  return Object.freeze({
-    layers: layeredTextureState(material),
-    mapImage: material.mapImage || null,
-    mapPolicySignature: nativeTexturePolicySignature(material.texturePolicy),
-    mapReady: sourceReady(material.mapImage),
-    mapRepeat0: mapRepeat[0],
-    mapRepeat1: mapRepeat[1],
-    mixImage: material.mixImage || null,
-    mixPolicySignature: nativeTexturePolicySignature(mixPolicy),
-    mixReady: sourceReady(material.mixImage),
-    mixRepeat0: mixRepeat[0],
-    mixRepeat1: mixRepeat[1],
-    mixStrength: material.mixStrength ?? 0,
-    patchScale: material.mixPatchScale ?? 0,
-    patchSharpness: material.mixPatchSharpness ?? 0.58
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js
-var cache2 = /* @__PURE__ */ new WeakMap();
-var objectIds = /* @__PURE__ */ new WeakMap();
-var diagnostics2 = { hits: 0, invalidations: 0, misses: 0 };
-var nextObjectId = 1;
-function materialSignature2(mesh) {
-  return cachedSignatures(mesh).full;
-}
-function staticBatchMaterialSignature(mesh) {
-  return cachedSignatures(mesh).batch;
-}
-function objectIdentity(object) {
-  if (!object || typeof object !== "object") return 0;
-  if (!objectIds.has(object)) {
-    objectIds.set(object, nextObjectId);
-    nextObjectId += 1;
-  }
-  return objectIds.get(object);
-}
-function cachedSignatures(mesh) {
-  const textures = textureState(mesh.material || {});
-  const cached = cache2.get(mesh);
-  if (cached && sameMaterialSignatureState(cached.observed, mesh, textures)) {
-    diagnostics2.hits += 1;
-    return cached;
-  }
-  if (cached) diagnostics2.invalidations += 1;
-  else diagnostics2.misses += 1;
-  const observed = captureMaterialSignatureState(mesh, textures);
-  const signatures = Object.freeze({
-    batch: buildSignature(observed, false),
-    full: buildSignature(observed, true),
-    observed
-  });
-  cache2.set(mesh, signatures);
-  return signatures;
-}
-function buildSignature(state, includeColor) {
-  const values = [];
-  if (includeColor) values.push(state.color0, state.color1, state.color2);
-  values.push(
-    state.opacity,
-    state.alphaMode,
-    state.alphaCutoff,
-    surfaceSidedness(state),
-    state.emissiveStrength,
-    state.materialMode
-  );
-  appendTextureSignature(values, state.textureState, objectIdentity);
-  values.push(
-    state.anisotropy,
-    state.grassReactive ? 1 : 0,
-    state.grassRadius,
-    state.grassWind,
-    state.geometryMode
-  );
-  return values.join("|");
-}
-function surfaceSidedness(state) {
-  if (state.doubleSided) return "double-sided";
-  if (state.cullingDisabled) return "culling-disabled";
-  return "backface-culling";
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGrouping.js
-function collectChossidConsolidationGroups(root) {
-  const groups = /* @__PURE__ */ new Map();
-  let prunedHelpers = 0;
-  root.traverse((mesh) => {
-    if (!eligibleMesh(mesh) || !visibleHierarchy(mesh)) return;
-    if (!mesh.geometry.attributes.normal) {
-      mesh.visible = false;
-      prunedHelpers += 1;
-      return;
-    }
-    const skinned = Boolean(mesh.isSkinnedMesh && mesh.skeleton);
-    const anchor2 = skinned ? mesh.parent : nearestAnimatedAnchor(mesh, root);
-    const key = groupKey(mesh, anchor2, skinned);
-    if (!groups.has(key)) {
-      groups.set(key, {
-        anchor: anchor2,
-        key,
-        meshes: [],
-        skinned,
-        skeleton: skinned ? mesh.skeleton : null
-      });
-    }
-    groups.get(key).meshes.push(mesh);
-  });
-  return { groups: [...groups.values()], prunedHelpers };
-}
-function eligibleMesh(mesh) {
-  return Boolean(
-    mesh?.geometry?.attributes?.position && (mesh.geometry.mode ?? mesh.primitiveMode ?? 4) === 4 && mesh.material && mesh.material.transparent !== true && mesh.material.alphaMode !== "BLEND" && !mesh.userData?.AwtsmoosChossidConsolidation
-  );
-}
-function visibleHierarchy(object) {
-  for (let current = object; current; current = current.parent) {
-    if (current.visible === false) return false;
-  }
-  return true;
-}
-function nearestAnimatedAnchor(mesh, root) {
-  for (let current = mesh.parent; current && current !== root; current = current.parent) {
-    if (current.isBone) return current;
-  }
-  return root;
-}
-function groupKey(mesh, anchor2, skinned) {
-  return [
-    skinned ? "skin" : "rigid",
-    objectIdentity(anchor2),
-    skinned ? objectIdentity(mesh.skeleton) : 0,
-    staticBatchMaterialSignature(mesh)
-  ].join(":");
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidMeshConsolidator.js
-function consolidateChossidMeshes(root) {
-  if (!root?.traverse) return emptyStats();
-  root.updateWorldMatrix?.();
-  const collected = collectChossidConsolidationGroups(root);
-  const batches = [];
-  let originalDraws = 0;
-  let skinnedSources = 0;
-  let rigidSources = 0;
-  for (const group of collected.groups) {
-    const batch = buildChossidConsolidatedMesh(group);
-    if (!batch) continue;
-    group.anchor.add(batch);
-    for (const mesh of group.meshes) mesh.visible = false;
-    batches.push(batch);
-    originalDraws += group.meshes.length;
-    if (group.skinned) skinnedSources += group.meshes.length;
-    else rigidSources += group.meshes.length;
-  }
-  const stats3 = Object.freeze({
-    batches: batches.length,
-    consolidatedDraws: batches.length,
-    originalDraws,
-    prunedHelpers: collected.prunedHelpers,
-    rigidSources,
-    savedDraws: Math.max(0, originalDraws - batches.length),
-    skinnedSources,
-    tintBakedBatches: batches.length
-  });
-  root.userData.AwtsmoosChossidConsolidation = stats3;
-  return stats3;
-}
-function emptyStats() {
-  return Object.freeze({
-    batches: 0,
-    consolidatedDraws: 0,
-    originalDraws: 0,
-    prunedHelpers: 0,
-    rigidSources: 0,
-    savedDraws: 0,
-    skinnedSources: 0,
-    tintBakedBatches: 0
-  });
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelMaterialBinder.js
-function bindImportedModelMaterials(scene, textureUrl = TEXTURE_URLS.fabric.tanCloth) {
-  const image = cachedTextureImage(textureUrl);
-  const stats3 = {
-    textureUrl,
-    imageAvailable: !!image,
-    materialsVisited: 0,
-    materialsBound: 0,
-    materialsAlreadyTextured: 0
-  };
-  visit(scene, (material) => {
-    stats3.materialsVisited += 1;
-    if (material.mapImage) {
-      stats3.materialsAlreadyTextured += 1;
-      return;
-    }
-    if (!image) return;
-    material.mapImage = image;
-    material.textureUrl = material.textureUrl || textureUrl;
-    material.mapRepeat = material.mapRepeat || [1, 1];
-    material.anisotropy = material.anisotropy ?? 2;
-    material.texturePolicy = {
-      ...material.texturePolicy || {},
-      publicFirebase: true,
-      realMapImage: true,
-      modelFallbackDetail: true
-    };
-    stats3.materialsBound += 1;
-  });
-  return stats3;
-}
-function visit(node, onMaterial) {
-  if (!node) return;
-  const materials = Array.isArray(node.material) ? node.material : [node.material];
-  for (const material of materials.filter(Boolean)) onMaterial(material);
-  for (const child of node.children || []) visit(child, onMaterial);
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js
-var SkinPaletteCache = class {
-  constructor() {
-    this.frameToken = null;
-    this.meshWorld = new Float32Array(16);
-    this.valid = false;
-    this.revision = 0;
-  }
-  /** Returns true only when a fresh palette computation is required. */
-  needsUpdate(frameToken, meshWorld) {
-    if (!validFrameToken(frameToken) || !this.valid) {
-      return true;
-    }
-    if (this.frameToken !== frameToken) {
-      return true;
-    }
-    return !matrixEquals(this.meshWorld, meshWorld);
-  }
-  /** Records the exact transform and increments the palette revision. */
-  markUpdated(frameToken, meshWorld) {
-    this.frameToken = frameToken;
-    copyMatrix(this.meshWorld, meshWorld);
-    this.valid = validFrameToken(frameToken);
-    this.revision += 1;
-    return this.revision;
-  }
-  invalidate() {
-    this.valid = false;
-    this.frameToken = null;
-  }
-};
-function matrixEquals(left, right) {
-  if (!left || !right || left.length !== 16 || right.length !== 16) {
-    return false;
-  }
-  for (let index = 0; index < 16; index += 1) {
-    if (left[index] !== right[index]) {
-      return false;
-    }
-  }
-  return true;
-}
-function copyMatrix(target, source) {
-  if (!source || source.length !== 16) {
-    target.fill(Number.NaN);
-    return;
-  }
-  for (let index = 0; index < 16; index += 1) {
-    target[index] = source[index];
-  }
-}
-function validFrameToken(frameToken) {
-  return Number.isInteger(frameToken) && frameToken >= 0;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js
-function skeletonLinePositions(root) {
-  const positions = [];
-  root.traverse((node) => {
-    const skeletons = node.userData?.skeletons;
-    if (!(skeletons instanceof Map)) {
-      return;
-    }
-    for (const skeleton of skeletons.values()) {
-      appendSkeletonLines(skeleton, positions);
-    }
-  });
-  return new Float32Array(positions);
-}
-function appendSkeletonLines(skeleton, positions) {
-  const jointSet = new Set(skeleton.joints.filter(Boolean));
-  for (const joint of jointSet) {
-    const parent = joint.parent;
-    if (!parent || !jointSet.has(parent)) {
-      continue;
-    }
-    positions.push(
-      parent.matrixWorld[12],
-      parent.matrixWorld[13],
-      parent.matrixWorld[14],
-      joint.matrixWorld[12],
-      joint.matrixWorld[13],
-      joint.matrixWorld[14]
-    );
-  }
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js
-function readSkinMatrix(accessor, index) {
-  const source = accessor?.array || accessor;
-  if (!source) {
-    return identity();
-  }
-  const matrix = new Float32Array(16);
-  for (let component = 0; component < 16; component += 1) {
-    matrix[component] = source[index * 16 + component] ?? (component % 5 === 0 ? 1 : 0);
-  }
-  return matrix;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js
-function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
-  const nodeMap = root.userData?.nodeMap || /* @__PURE__ */ new Map();
-  const skeletons = /* @__PURE__ */ new Map();
-  let maxJoints = 0;
-  let missingJoints = 0;
-  for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
-    const skinDefinition = doc.skins[skinIndex] || {};
-    const inverseBindAccessor = skinDefinition.inverseBindMatrices === void 0 ? null : accessors[skinDefinition.inverseBindMatrices];
-    const skeleton = createSkeleton({
-      inverseBindAccessor,
-      nodeMap,
-      skinDef: skinDefinition,
-      skinIndex
-    });
-    skeletons.set(skinIndex, skeleton);
-    maxJoints = Math.max(maxJoints, skeleton.jointCount);
-    missingJoints += skeleton.joints.filter((joint) => !joint).length;
-  }
-  const meshStats = bindMeshes(root, skeletons);
-  root.userData.skeletons = skeletons;
-  return {
-    maxJoints,
-    missingJoints,
-    skeletonCount: skeletons.size,
-    ...meshStats
-  };
-}
-function bindMeshes(root, skeletons) {
-  let rigidMeshes = 0;
-  let skinnedMeshes = 0;
-  root.traverse((node) => {
-    if (!node.isMesh) return;
-    const hasSkinAttributes = Boolean(
-      node.geometry?.attributes?.joints && node.geometry?.attributes?.weights
-    );
-    node.skeleton = skeletons.get(node.skinIndex) || null;
-    node.isSkinnedMesh = Boolean(node.skeleton && hasSkinAttributes);
-    if (node.isSkinnedMesh) skinnedMeshes += 1;
-    else rigidMeshes += 1;
-  });
-  return {
-    rigidMeshes,
-    skinnedMeshes
-  };
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js
-function collectWorldMatrices(root, reusableWorldByNode = null) {
-  const worldByNode = reusableWorldByNode instanceof Map ? reusableWorldByNode : /* @__PURE__ */ new Map();
-  worldByNode.clear();
-  const stats3 = reusableStats(worldByNode.stats);
-  updateVisibleBranch(
-    root,
-    ROOT_WORLD_MATRIX,
-    0,
-    worldByNode,
-    stats3,
-    true
-  );
-  worldByNode.stats = stats3;
-  return worldByNode;
-}
-function updateVisibleBranch(node, parentWorld, parentRevision, worldByNode, stats3, parentVisible) {
-  const visible = parentVisible && node.visible !== false;
-  if (!visible) {
-    stats3.skippedSubtrees += 1;
-    return;
-  }
-  const changed = updateCachedWorldMatrix(
-    node,
-    parentWorld,
-    parentRevision
-  );
-  if (changed) stats3.updatedNodes += 1;
-  else stats3.reusedNodes += 1;
-  node.userData ||= {};
-  node.userData.worldMatrix = node.matrixWorld;
-  worldByNode.set(node, node.matrixWorld);
-  for (const child of node.children || []) {
-    updateVisibleBranch(
-      child,
-      node.matrixWorld,
-      node._worldRevision || 0,
-      worldByNode,
-      stats3,
-      visible
-    );
-  }
-}
-function reusableStats(stats3) {
-  const result = stats3 || {
-    reusedNodes: 0,
-    skippedSubtrees: 0,
-    updatedNodes: 0
-  };
-  result.reusedNodes = 0;
-  result.skippedSubtrees = 0;
-  result.updatedNodes = 0;
-  return result;
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js
-var MAX_TINY_JOINTS = 96;
-var TinySkeleton = class {
-  constructor({
-    skinIndex = 0,
-    skinDef = {},
-    nodeMap = /* @__PURE__ */ new Map(),
-    inverseBindAccessor = null
-  } = {}) {
-    this.skinIndex = skinIndex;
-    this.name = skinDef.name || `Skin_${skinIndex}`;
-    this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
-    this.inverseBindMatrices = this.joints.map((_, index) => readSkinMatrix(inverseBindAccessor, index));
-    this.jointCount = this.joints.length;
-    this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
-    this.paletteCache = new SkinPaletteCache();
-    this.paletteRevision = 0;
-    this.lastPaletteRecomputed = false;
-    this.resetPalette();
-  }
-  resetPalette() {
-    for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
-      this.jointMatrices.set(identity(), index * 16);
-    }
-  }
-  update(meshWorld = identity()) {
-    this.computePalette(meshWorld);
-    this.paletteRevision += 1;
-    this.paletteCache.invalidate();
-    this.lastPaletteRecomputed = true;
-    return Math.min(this.jointCount, MAX_TINY_JOINTS);
-  }
-  updateCached(meshWorld = identity(), frameToken) {
-    if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
-      this.lastPaletteRecomputed = false;
-      return Math.min(this.jointCount, MAX_TINY_JOINTS);
-    }
-    this.computePalette(meshWorld);
-    this.paletteCache.markUpdated(frameToken, meshWorld);
-    this.paletteRevision += 1;
-    this.lastPaletteRecomputed = true;
-    return Math.min(this.jointCount, MAX_TINY_JOINTS);
-  }
-  invalidatePaletteCache() {
-    this.paletteCache.invalidate();
-  }
-  computePalette(meshWorld) {
-    const inverseMesh = inverse(meshWorld);
-    const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
-    for (let index = 0; index < count; index += 1) {
-      const joint = this.joints[index];
-      const jointWorld = joint?.userData?.worldMatrix || joint?.matrixWorld || identity();
-      const skinMatrix = multiply(
-        inverseMesh,
-        multiply(jointWorld, this.inverseBindMatrices[index])
-      );
-      this.jointMatrices.set(skinMatrix, index * 16);
-    }
-  }
-};
-function bindTinySkeletons(root, doc, accessors) {
-  return bindSceneSkeletons(
-    root,
-    doc,
-    accessors,
-    (configuration) => new TinySkeleton(configuration)
-  );
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js
-var DEFAULT_COLOR = [1, 1, 1, 1];
-async function createTinyMaterials(doc, buffers, baseUrl) {
-  const images = await loadImages(doc, buffers, baseUrl);
-  const materials = (doc.materials || []).map((def, index) => materialFromDef(doc, def, index, images));
-  return { materials, images, diagnostics: materialDiagnostics(doc, materials, images) };
-}
-function materialFromDef(doc, def = {}, index = 0, images = []) {
-  const pbr = def.pbrMetallicRoughness || {}, factor = pbr.baseColorFactor || DEFAULT_COLOR;
-  const tex2 = textureImage(doc, pbr.baseColorTexture, images);
-  const color = tex2 ? factor : displayColor(factor);
-  const mat = new MeshStandardMaterial({ name: def.name || `material_${index}`, color, opacity: factor[3] ?? 1, alphaMode: def.alphaMode || "OPAQUE", alphaCutoff: def.alphaCutoff ?? 0.5, transparent: (def.alphaMode || "OPAQUE") === "BLEND" || (factor[3] ?? 1) < 1, doubleSided: def.doubleSided === true });
-  Object.assign(mat, { metallicFactor: pbr.metallicFactor ?? 1, roughnessFactor: pbr.roughnessFactor ?? 1, baseColorFactor: factor, sourceColorSpace: tex2 ? "texture+sRGB-factor" : "gltf-factor-linear-to-display", mapImage: tex2?.image || null, textureUrl: tex2?.url || null, mapRepeat: tex2?.repeat || [1, 1], anisotropy: true });
-  return mat;
-}
-function defaultTinyMaterial() {
-  const mat = new MeshStandardMaterial({ name: "material_default", color: DEFAULT_COLOR, opacity: 1, alphaMode: "OPAQUE" });
-  Object.assign(mat, { sourceColorSpace: "neutral-default", mapRepeat: [1, 1], anisotropy: true });
-  return mat;
-}
-function textureImage(doc, info, images) {
-  if (!info) return null;
-  const tex2 = doc.textures?.[info.index];
-  if (!tex2) return null;
-  const image = images[tex2.source];
-  if (!image) return null;
-  const sampler = doc.samplers?.[tex2.sampler] || {};
-  return { image, url: image.dataset?.url || image.src || `image_${tex2.source}`, repeat: sampler.wrapS === 33071 || sampler.wrapT === 33071 ? [1, 1] : [1, 1] };
-}
-async function loadImages(doc, buffers, baseUrl) {
-  return await Promise.all((doc.images || []).map((image, index) => loadOneImage(doc, buffers, baseUrl, image, index)));
-}
-async function loadOneImage(doc, buffers, baseUrl, image, index) {
-  if (image.uri) return await loadUriImage(new URL(image.uri, baseUrl).href, index);
-  if (image.bufferView !== void 0) {
-    const bv = doc.bufferViews[image.bufferView], buffer = buffers[bv.buffer];
-    const bytes = buffer.slice(bv.byteOffset || 0, (bv.byteOffset || 0) + bv.byteLength);
-    const blob = new Blob([bytes], { type: image.mimeType || "image/png" });
-    const url = URL.createObjectURL(blob);
-    try {
-      return await loadUriImage(url, index, `glb-bufferView:${image.bufferView}`);
-    } finally {
-      setTimeout(() => URL.revokeObjectURL(url), 2e3);
-    }
-  }
-  return null;
-}
-function loadUriImage(src, index, label = src) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    let done = false;
-    const finish = (value3) => {
-      if (!done) {
-        done = true;
-        resolve(value3);
-      }
-    };
-    img.crossOrigin = src.startsWith("blob:") ? null : "anonymous";
-    img.onload = () => {
-      img.dataset.url = label;
-      img.dataset.index = String(index);
-      finish(img);
-    };
-    img.onerror = () => finish(null);
-    img.src = src;
-  });
-}
-function displayColor(color) {
-  return [toSrgb(color[0] ?? 1), toSrgb(color[1] ?? 1), toSrgb(color[2] ?? 1), color[3] ?? 1];
-}
-function toSrgb(v2) {
-  v2 = Math.max(0, Math.min(1, v2));
-  return v2 <= 31308e-7 ? v2 * 12.92 : 1.055 * Math.pow(v2, 1 / 2.4) - 0.055;
-}
-function materialDiagnostics(doc, materials, images) {
-  return { count: materials.length, images: images.filter(Boolean).length, textures: (doc.textures || []).length, defaultColor: DEFAULT_COLOR, colorsConverted: true, entries: materials.map((m, i) => ({ i, name: m.name, color: m.color, raw: m.baseColorFactor, hasMap: !!m.mapImage, textureSize: m.mapImage ? `${m.mapImage.naturalWidth}x${m.mapImage.naturalHeight}` : null, sourceColorSpace: m.sourceColorSpace })).slice(0, 64) };
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js
-var GLB_MAGIC = 1179937895;
-var JSON_CHUNK = 1313821514;
-var BIN_CHUNK = 5130562;
-var ATTR = { POSITION: "position", NORMAL: "normal", TEXCOORD_0: "uv", COLOR_0: "color", JOINTS_0: "joints", WEIGHTS_0: "weights" };
-async function fetchBuffer(url) {
-  const r = await fetch(url, { mode: "cors" });
-  if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`);
-  return await r.arrayBuffer();
-}
-function dataUri(uri) {
-  const raw = atob(uri.split(",")[1] || ""), out = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
-  return out.buffer;
-}
-async function loadBuffers(doc, baseUrl, bin) {
-  return await Promise.all((doc.buffers || []).map((b) => b.uri ? b.uri.startsWith("data:") ? dataUri(b.uri) : fetchBuffer(new URL(b.uri, baseUrl).href) : bin));
-}
-function parseGlb(buffer) {
-  const view = new DataView(buffer);
-  if (view.getUint32(0, true) !== GLB_MAGIC) throw new Error("Not a GLB container");
-  let json = null, bin = null, chunks = [];
-  for (let off = 12; off + 8 <= buffer.byteLength; ) {
-    const len = view.getUint32(off, true), type = view.getUint32(off + 4, true), bytes = buffer.slice(off + 8, off + 8 + len);
-    chunks.push({ type, byteOffset: off + 8, byteLength: len });
-    if (type === JSON_CHUNK) json = JSON.parse(new TextDecoder().decode(bytes));
-    if (type === BIN_CHUNK) bin = bytes;
-    off += 8 + len;
-  }
-  if (!json) throw new Error("GLB missing JSON chunk");
-  return { json, bin, chunks };
-}
-function markBones(doc) {
-  const bones = /* @__PURE__ */ new Set();
-  for (const s of doc.skins || []) for (const j of s.joints || []) bones.add(j);
-  return bones;
-}
-function makeAccessorGetter(doc, buffers, cache3) {
-  return (i) => cache3[i] || (cache3[i] = readAccessor(doc, buffers, i));
-}
-function warmAnimationAccessors(doc, getAccessor) {
-  for (const a of doc.animations || []) for (const s of a.samplers || []) {
-    if (s.input !== void 0) getAccessor(s.input);
-    if (s.output !== void 0) getAccessor(s.output);
-  }
-}
-function primitiveMesh(materials, getAccessor, primitive2, meshDef, nodeDef, primitiveIndex) {
-  const geometry = new BufferGeometry();
-  geometry.mode = primitive2.mode ?? 4;
-  geometry.userData = { primitive: primitive2, primitiveIndex };
-  for (const [semantic, accessorIndex] of Object.entries(primitive2.attributes || {})) {
-    const key = ATTR[semantic];
-    if (!key) continue;
-    let attribute5 = getAccessor(accessorIndex);
-    if (key === "weights") attribute5 = normalizeWeightsAttribute(attribute5);
-    geometry.setAttribute(key, attribute5);
-  }
-  if (primitive2.indices !== void 0) geometry.setIndex(getAccessor(primitive2.indices));
-  const mesh = new Mesh(geometry, primitive2.material !== void 0 ? materials[primitive2.material] : defaultTinyMaterial());
-  mesh.name = meshDef.name || nodeDef.name || `mesh_${nodeDef.mesh}_${primitiveIndex}`;
-  mesh.skinIndex = nodeDef.skin ?? null;
-  mesh.primitiveMode = geometry.mode;
-  mesh.userData = { meshDef, primitive: primitive2, primitiveIndex };
-  return mesh;
-}
-function applyNodeTransform(obj, nodeDef, index) {
-  obj.userData.nodeIndex = index;
-  obj.userData.gltfNode = nodeDef;
-  if (nodeDef.name) {
-    obj.name = nodeDef.name;
-    obj.userData.name = nodeDef.name;
-  }
-  if (nodeDef.matrix) obj.matrix = mat4FromArray(nodeDef.matrix);
-  else {
-    if (nodeDef.translation) obj.position.fromArray(nodeDef.translation);
-    if (nodeDef.rotation) obj.quaternion.fromArray(nodeDef.rotation);
-    if (nodeDef.scale) obj.scale.fromArray(nodeDef.scale);
-  }
-  obj.setBaseTransform();
-}
-function buildNodes(doc, materials, getAccessor, bones, stats3) {
-  const nodeMap = /* @__PURE__ */ new Map(), nodes = [];
-  for (let i = 0; i < (doc.nodes || []).length; i++) {
-    const def = doc.nodes[i] || {}, node = bones.has(i) ? new Bone() : new Group();
-    applyNodeTransform(node, def, i);
-    nodes[i] = node;
-    nodeMap.set(i, node);
-    stats3.nodes++;
-    if (def.skin !== void 0) stats3.skinnedNodes++;
-  }
-  for (let i = 0; i < nodes.length; i++) {
-    const def = doc.nodes[i] || {}, node = nodes[i], meshDef = doc.meshes?.[def.mesh];
-    if (!meshDef) continue;
-    for (let p = 0; p < (meshDef.primitives || []).length; p++) {
-      const mesh = primitiveMesh(materials, getAccessor, meshDef.primitives[p], meshDef, def, p);
-      mesh.nodeIndex = i;
-      mesh.setBaseTransform();
-      node.add(mesh);
-      stats3.meshes++;
-      stats3.primitives++;
-      if (mesh.skinIndex !== null && mesh.geometry.attributes.joints && mesh.geometry.attributes.weights) stats3.skinnedPrimitives++;
-    }
-  }
-  for (let i = 0; i < nodes.length; i++) for (const childIndex of doc.nodes[i]?.children || []) nodes[i].add(nodes[childIndex]);
-  return { nodes, nodeMap };
-}
-function skinDetails(doc) {
-  return (doc.skins || []).map((s, index) => ({ index, name: s.name || null, joints: (s.joints || []).length, skeleton: s.skeleton ?? null, hasInverseBind: s.inverseBindMatrices !== void 0, inverseBindAccessor: s.inverseBindMatrices }));
-}
-function accessorDetails(doc) {
-  const out = [];
-  for (const m of doc.meshes || []) for (const p of m.primitives || []) for (const [sem, i] of Object.entries(p.attributes || {})) if (sem === "JOINTS_0" || sem === "WEIGHTS_0") out.push(`${sem}: ${accessorSummary(doc, i)}`);
-  return [...new Set(out)].slice(0, 24);
-}
-async function loadTinyGltf(url) {
-  const started = performance.now(), buffer = await fetchBuffer(url), glb = parseGlb(buffer), doc = glb.json, buffers = await loadBuffers(doc, url, glb.bin), accessors = [], getAccessor = makeAccessorGetter(doc, buffers, accessors), root = new Group(), bones = markBones(doc), materialPack = await createTinyMaterials(doc, buffers, url);
-  root.name = "AwtsmoosTinyGltfRoot";
-  const stats3 = { nodes: 0, meshes: 0, primitives: 0, materials: (doc.materials || []).length, images: (doc.images || []).length, textures: (doc.textures || []).length, animations: (doc.animations || []).length, skins: (doc.skins || []).length, skinnedNodes: 0, skinnedPrimitives: 0, bytes: buffer.byteLength, chunks: glb.chunks, skinDetails: skinDetails(doc), animationDetails: summarizeAnimations(doc), accessorDetails: accessorDetails(doc), materialDetails: materialPack.diagnostics };
-  for (let i = 0; i < (doc.accessors || []).length; i++) if (doc.accessors[i].type === "MAT4" || doc.accessors[i].type === "SCALAR") getAccessor(i);
-  warmAnimationAccessors(doc, getAccessor);
-  const built = buildNodes(doc, materialPack.materials, getAccessor, bones, stats3), scene = doc.scenes?.[doc.scene || 0] || doc.scenes?.[0] || { nodes: built.nodes.map((_, i) => i) };
-  for (const nodeIndex of scene.nodes || []) root.add(built.nodes[nodeIndex]);
-  Object.assign(root.userData, { gltf: doc, nodeMap: built.nodeMap, allNodes: built.nodes, skins: doc.skins || [], accessors, sourceUrl: url, materials: materialPack.materials, materialDetails: materialPack.diagnostics });
-  const clips = parseTinyAnimations(doc, accessors, built.nodeMap);
-  Object.assign(stats3, bindTinySkeletons(root, doc, accessors));
-  stats3.joints = (doc.skins || []).reduce((n, s) => n + (s.joints?.length || 0), 0);
-  stats3.skeletonName = doc.skins?.[0]?.name || null;
-  stats3.hasInverseBind = !!doc.skins?.[0]?.inverseBindMatrices;
-  stats3.clips = clips.map((c) => ({ index: c.index, name: c.name, duration: c.duration, channels: c.channels.length }));
-  stats3.ms = Math.round(performance.now() - started);
-  root.userData.animations = clips;
-  return { scene: root, json: doc, stats: stats3, animations: clips, experimental: true };
-}
-
-// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js
-function instantiateTinyGltf(template, options = {}) {
-  if (!template?.scene) throw new Error("A parsed GLTF template is required.");
-  const nodeMap = /* @__PURE__ */ new Map();
-  const resources = {
-    geometries: /* @__PURE__ */ new Set(),
-    materials: /* @__PURE__ */ new Set()
-  };
-  const scene = cloneNode(
-    template.scene,
-    nodeMap,
-    resources,
-    options.materialResolver
-  );
-  const sourceData = template.scene.userData || {};
-  const document2 = template.json || sourceData.gltf || {};
-  const accessors = sourceData.accessors || [];
-  const sourceNodes = sourceData.allNodes || [];
-  const allNodes = sourceNodes.map((_, index) => nodeMap.get(index) || null);
-  Object.assign(scene.userData, {
-    accessors,
-    allNodes,
-    gltf: document2,
-    instanceLabel: options.label || "instance",
-    materials: sourceData.materials || [],
-    nodeMap,
-    sharedSourceUrl: sourceData.sourceUrl || null,
-    skins: document2.skins || []
-  });
-  const skinStats = bindTinySkeletons(scene, document2, accessors);
-  const animations = parseTinyAnimations(document2, accessors, nodeMap);
-  scene.userData.animations = animations;
-  scene.name = `${options.label || "instance"}_shared_gltf_scene`;
-  return {
-    animations,
-    experimental: true,
-    json: document2,
-    scene,
-    stats: {
-      ...template.stats || {},
-      ...skinStats,
-      instanceLabel: options.label || "instance",
-      sharedGeometries: resources.geometries.size,
-      sharedMaterials: resources.materials.size,
-      sharedTemplate: true
-    }
-  };
-}
-function cloneNode(source, nodeMap, resources, materialResolver) {
-  const target = createNode(source, resources, materialResolver);
-  copyNodeState(source, target);
-  const nodeIndex = source.userData?.nodeIndex;
-  if (Number.isInteger(nodeIndex)) nodeMap.set(nodeIndex, target);
-  for (const child of source.children || []) {
-    target.add(cloneNode(child, nodeMap, resources, materialResolver));
-  }
-  target.setBaseTransform();
-  return target;
-}
-function createNode(source, resources, materialResolver) {
-  if (source.isBone) return new Bone();
-  if (!source.isMesh) return new Group();
-  resources.geometries.add(source.geometry);
-  collectMaterials(resources.materials, source.material);
-  const material = resolveMaterial(
-    source.material,
-    source,
-    materialResolver
-  );
-  const mesh = new Mesh(source.geometry, material);
-  mesh.skinIndex = source.skinIndex;
-  mesh.primitiveMode = source.primitiveMode;
-  mesh.nodeIndex = source.nodeIndex;
-  return mesh;
-}
-function copyNodeState(source, target) {
-  target.name = source.name;
-  target.visible = source.visible !== false;
-  target.position.copy(source.position);
-  target.quaternion.copy(source.quaternion);
-  target.scale.copy(source.scale);
-  target.matrix = source.matrix ? copyMat4(source.matrix) : null;
-  target.userData = { ...source.userData || {} };
-}
-function resolveMaterial(material, node, resolver) {
-  if (Array.isArray(material)) {
-    return material.map((item2) => resolver?.(item2, node) || item2);
-  }
-  return resolver?.(material, node) || material;
-}
-function collectMaterials(target, material) {
-  for (const item2 of Array.isArray(material) ? material : [material]) {
-    if (item2) target.add(item2);
-  }
-}
-
-// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js
-var templatePromises = /* @__PURE__ */ new Map();
-var templateLoads = 0;
-var instancesCreated = 0;
-async function loadSharedGltfTemplate(url) {
-  const resourceUrl = absoluteUrl(url);
-  if (!templatePromises.has(resourceUrl)) {
-    templateLoads += 1;
-    templatePromises.set(resourceUrl, loadTinyGltf(resourceUrl));
-  }
-  return templatePromises.get(resourceUrl);
-}
-async function loadIsolatedGltf(url, label, options = {}) {
-  const resourceUrl = absoluteUrl(url);
-  const template = await loadSharedGltfTemplate(resourceUrl);
-  const gltf = instantiateTinyGltf(template, {
-    label,
-    materialResolver: options.materialResolver
-  });
-  instancesCreated += 1;
-  gltf.scene.userData.isolatedModelLoad = {
-    instanceLabel: label,
-    originalUrl: url,
-    sharedNetworkResource: resourceUrl,
-    sharedTemplate: true
-  };
-  return gltf;
-}
-function sharedGltfAssetStats() {
-  return {
-    instancesCreated,
-    templateLoads,
-    templatesCached: templatePromises.size
-  };
-}
-function absoluteUrl(url) {
-  const base = globalThis.location?.href || "http://localhost/";
-  return new URL(url, base).href;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidOutfitCatalog.js
@@ -20711,6 +15229,59 @@ function withWorkPosition(quest2, x, z) {
   return { ...quest2, giver: { ...quest2.giver, position: { x, y: 0, z } } };
 }
 
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackBoxMesh.js
+var FACES = Object.freeze([
+  face([0, 0, 1], [[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]]),
+  face([0, 0, -1], [[1, -1, -1], [-1, -1, -1], [-1, 1, -1], [1, 1, -1]]),
+  face([1, 0, 0], [[1, -1, 1], [1, -1, -1], [1, 1, -1], [1, 1, 1]]),
+  face([-1, 0, 0], [[-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1]]),
+  face([0, 1, 0], [[-1, 1, 1], [1, 1, 1], [1, 1, -1], [-1, 1, -1]]),
+  face([0, -1, 0], [[-1, -1, -1], [1, -1, -1], [1, -1, 1], [-1, -1, 1]])
+]);
+function createFallbackBoxMesh(name, size, position, color) {
+  const geometry = new BufferGeometry();
+  const positions = [];
+  const normals = [];
+  const colors = [];
+  const uvs = [];
+  const indices = [];
+  const half = size.map((value2) => value2 * 0.5);
+  for (const [faceIndex, definition] of FACES.entries()) {
+    const offset = faceIndex * 4;
+    for (const corner of definition.corners) {
+      positions.push(
+        corner[0] * half[0],
+        corner[1] * half[1],
+        corner[2] * half[2]
+      );
+      normals.push(...definition.normal);
+      colors.push(...color);
+    }
+    uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
+    indices.push(offset, offset + 1, offset + 2, offset, offset + 2, offset + 3);
+  }
+  geometry.setAttribute("position", attribute3(positions, 3));
+  geometry.setAttribute("normal", attribute3(normals, 3));
+  geometry.setAttribute("color", attribute3(colors, 4));
+  geometry.setAttribute("uv", attribute3(uvs, 2));
+  geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
+  const material = new MeshStandardMaterial({ color, name: `${name}-material` });
+  const mesh = new Mesh(geometry, material);
+  mesh.name = name;
+  mesh.position.set(position[0], position[1], position[2]);
+  mesh.setBaseTransform();
+  return mesh;
+}
+function face(normal, corners2) {
+  return Object.freeze({
+    corners: Object.freeze(corners2.map((corner) => Object.freeze(corner))),
+    normal: Object.freeze(normal)
+  });
+}
+function attribute3(values, itemSize) {
+  return new BufferAttribute(new Float32Array(values), itemSize);
+}
+
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackActorTemplate.js
 var COLORS = Object.freeze({
   beard: Object.freeze([0.12, 0.075, 0.045, 1]),
@@ -20730,20 +15301,20 @@ function createFallbackActorGltf(label = "fallback-chossid", options = {}) {
   };
   const coat = resolveCoatColor(options.outfit);
   const parts = [
-    part2("coat", [0.64, 1.12, 0.34], [0, 0.89, 0], coat),
-    part2("shirt", [0.22, 0.26, 0.03], [0, 1.29, 0.19], COLORS.shirt),
-    part2("left-arm", [0.18, 0.92, 0.22], [-0.41, 0.94, 0], coat),
-    part2("right-arm", [0.18, 0.92, 0.22], [0.41, 0.94, 0], coat),
-    part2("left-hand", [0.17, 0.18, 0.17], [-0.41, 0.43, 0], COLORS.skin),
-    part2("right-hand", [0.17, 0.18, 0.17], [0.41, 0.43, 0], COLORS.skin),
-    part2("left-leg", [0.22, 0.7, 0.24], [-0.18, 0.02, 0], COLORS.black),
-    part2("right-leg", [0.22, 0.7, 0.24], [0.18, 0.02, 0], COLORS.black),
-    part2("left-shoe", [0.25, 0.14, 0.42], [-0.18, -0.39, 0.08], COLORS.black),
-    part2("right-shoe", [0.25, 0.14, 0.42], [0.18, -0.39, 0.08], COLORS.black),
-    part2("head", [0.37, 0.4, 0.34], [0, 1.63, 0], COLORS.skin),
-    part2("beard", [0.34, 0.38, 0.17], [0, 1.42, 0.2], COLORS.beard),
-    part2("hat-brim", [0.56, 0.07, 0.5], [0, 1.88, 0], COLORS.black),
-    part2("hat-crown", [0.4, 0.25, 0.4], [0, 2.03, 0], COLORS.black)
+    part("coat", [0.64, 1.12, 0.34], [0, 0.89, 0], coat),
+    part("shirt", [0.22, 0.26, 0.03], [0, 1.29, 0.19], COLORS.shirt),
+    part("left-arm", [0.18, 0.92, 0.22], [-0.41, 0.94, 0], coat),
+    part("right-arm", [0.18, 0.92, 0.22], [0.41, 0.94, 0], coat),
+    part("left-hand", [0.17, 0.18, 0.17], [-0.41, 0.43, 0], COLORS.skin),
+    part("right-hand", [0.17, 0.18, 0.17], [0.41, 0.43, 0], COLORS.skin),
+    part("left-leg", [0.22, 0.7, 0.24], [-0.18, 0.02, 0], COLORS.black),
+    part("right-leg", [0.22, 0.7, 0.24], [0.18, 0.02, 0], COLORS.black),
+    part("left-shoe", [0.25, 0.14, 0.42], [-0.18, -0.39, 0.08], COLORS.black),
+    part("right-shoe", [0.25, 0.14, 0.42], [0.18, -0.39, 0.08], COLORS.black),
+    part("head", [0.37, 0.4, 0.34], [0, 1.63, 0], COLORS.skin),
+    part("beard", [0.34, 0.38, 0.17], [0, 1.42, 0.2], COLORS.beard),
+    part("hat-brim", [0.56, 0.07, 0.5], [0, 1.88, 0], COLORS.black),
+    part("hat-crown", [0.4, 0.25, 0.4], [0, 2.03, 0], COLORS.black)
   ];
   for (const definition of parts) {
     scene.add(createFallbackBoxMesh(
@@ -20760,104 +15331,134 @@ function createFallbackActorGltf(label = "fallback-chossid", options = {}) {
     userData: { fallback: true }
   };
 }
-function part2(name, size, position, color) {
+function part(name, size, position, color) {
   return { color, name, position, size };
 }
 function resolveCoatColor(outfit2) {
-  const value3 = outfit2?.coatColor || outfit2?.coat;
-  if (Array.isArray(value3) && value3.length >= 3) {
-    return [value3[0], value3[1], value3[2], value3[3] ?? 1];
+  const value2 = outfit2?.coatColor || outfit2?.coat;
+  if (Array.isArray(value2) && value2.length >= 3) {
+    return [value2[0], value2[1], value2[2], value2[3] ?? 1];
   }
   return COLORS.coat;
+}
+
+// geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzActorHydrationScheduler.js
+function scheduleActorHydration(options, callback) {
+  const environment = options.environment || globalThis;
+  const delayMs = options.actorStreamingDelayMs ?? 3e4;
+  return new Promise((resolve) => {
+    const startAtIdle = () => scheduleIdle2(environment, () => resolve(callback()));
+    if (typeof environment.setTimeout === "function") {
+      environment.setTimeout(startAtIdle, delayMs);
+      return;
+    }
+    startAtIdle();
+  });
+}
+function scheduleIdle2(environment, callback) {
+  if (typeof environment.requestIdleCallback === "function") {
+    environment.requestIdleCallback(callback, { timeout: 1e4 });
+    return;
+  }
+  if (typeof environment.setTimeout === "function") {
+    environment.setTimeout(callback, 0);
+    return;
+  }
+  callback();
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzActorAssetLoader.js
 async function loadEretzActorAssets(options = {}) {
   const quality = options.quality || "medium";
   const npcProfiles = friendlyNpcProfiles(quality);
-  const playerGltf = await loadCanonicalPlayer(options);
-  const npcGltfs = npcProfiles.map((profile3, index) => createFallbackActorGltf(
-    `friendly-npc-${index}-${profile3.id}`,
-    { outfit: profile3.outfit }
+  const playerGltf = createFallbackActorGltf("player");
+  const npcGltfs = npcProfiles.map((profile2, index) => createFallbackActorGltf(
+    `friendly-npc-${index}-${profile2.id}`,
+    { outfit: profile2.outfit }
   ));
+  const houseLoader = options.houseLoader || loadHouseAssets;
+  const assets = await houseLoader(async () => null);
+  assets.actorAssets = actorStats(npcGltfs.length);
+  assets.importedModelMaterials = fallbackMaterials(npcProfiles);
   return {
-    actorAssetStats: {
-      ...sharedGltfAssetStats(),
-      fallbackActors: npcGltfs.length,
-      playerBlockingRequests: 1,
-      strategy: "canonical-player-first-deferred-npc-enrichment"
-    },
-    actorHydration: scheduleNpcHydration(options, npcProfiles),
-    importedModelMaterials: {
-      npcs: npcProfiles.map((profile3) => ({ fallback: true, profileId: profile3.id })),
-      player: preparePlayer(playerGltf)
-    },
+    actorAssetStats: assets.actorAssets,
+    actorHydration: createDeferredActorHydration(options, npcProfiles),
+    assets,
+    importedModelMaterials: assets.importedModelMaterials,
     npcGltf: npcGltfs[0],
     npcGltfs,
     npcProfiles,
     playerGltf
   };
 }
-async function loadRemoteEretzActorAssets(options = {}, npcProfiles = null) {
-  const profiles = npcProfiles || friendlyNpcProfiles(options.quality || "medium");
-  const npcGltfs = await Promise.all(profiles.map((profile3, index) => loadIsolatedGltf(
+function createDeferredActorHydration(options = {}, npcProfiles = []) {
+  const enabled = options.streamCanonicalActors === true;
+  const state = {
+    enabled,
+    error: null,
+    promise: null,
+    startedAt: null,
+    status: enabled ? "waiting-for-idle-start" : "fallback-stable",
+    value: null,
+    start() {
+      if (!enabled) return Promise.resolve(null);
+      if (state.promise) return state.promise;
+      state.status = "scheduled";
+      state.promise = scheduleActorHydration(options, async () => {
+        state.startedAt = now2();
+        state.status = "loading";
+        try {
+          state.value = await loadRemoteEretzActorAssets(options, npcProfiles);
+          state.status = "ready";
+          return state.value;
+        } catch (error) {
+          state.error = error?.message || String(error);
+          state.status = "degraded";
+          return null;
+        }
+      });
+      return state.promise;
+    }
+  };
+  return state;
+}
+async function loadRemoteEretzActorAssets(options = {}, npcProfiles = []) {
+  const loader = options.remoteActorLoader || defaultRemoteActorLoader;
+  return loader(options, npcProfiles);
+}
+async function defaultRemoteActorLoader(options, npcProfiles) {
+  const [{ loadIsolatedGltf, sharedGltfAssetStats }, palette] = await Promise.all([
+    import("./chunks/ModelAssetLoader-PLM7I75B.js"),
+    import("./chunks/ChossidOutfitPalette-7OMCDHNW.js")
+  ]);
+  const playerGltf = await loadIsolatedGltf(PLAYER_MODEL_URL, "player-canonical");
+  const npcGltfs = await Promise.all(npcProfiles.map((profile2, index) => loadIsolatedGltf(
     PLAYER_MODEL_URL,
-    `friendly-npc-${index}-${profile3.id}`,
-    { materialResolver: chossidMaterialResolver(profile3.outfit) }
+    `friendly-npc-${index}-${profile2.id}`,
+    { materialResolver: palette.chossidMaterialResolver(profile2.outfit) }
   )));
   return {
     actorAssetStats: sharedGltfAssetStats(),
-    importedModelMaterials: {
-      npcs: npcGltfs.map((gltf, index) => prepareNpc(gltf, profiles[index]))
-    },
     npcGltf: npcGltfs[0],
     npcGltfs,
-    npcProfiles: profiles
+    npcProfiles,
+    playerGltf
   };
 }
-async function loadCanonicalPlayer(options) {
-  const loader = options.playerActorLoader || loadIsolatedGltf;
-  try {
-    return await loader(PLAYER_MODEL_URL, "player");
-  } catch (error) {
-    if (options.allowPlayerFallback === true) return createFallbackActorGltf("player");
-    throw new Error(`Canonical player chossid.glb failed to load: ${error?.message || error}`);
-  }
-}
-function scheduleNpcHydration(options, npcProfiles) {
-  const state = { error: null, startedAt: null, status: "scheduled", value: null };
-  const remoteLoader = options.remoteActorLoader || loadRemoteEretzActorAssets;
-  state.promise = new Promise((resolve) => setTimeout(async () => {
-    state.startedAt = now();
-    state.status = "loading";
-    try {
-      state.value = await remoteLoader(options, npcProfiles);
-      state.status = "ready";
-      resolve(state.value);
-    } catch (error) {
-      state.error = error?.message || String(error);
-      state.status = "degraded";
-      resolve(null);
-    }
-  }, options.actorStreamingDelayMs ?? 0));
-  return state;
-}
-function preparePlayer(gltf) {
+function actorStats(fallbackActors) {
   return {
-    ...bindImportedModelMaterials(gltf.scene),
-    ...applyChossidOutfit(gltf.scene, {}),
-    consolidation: consolidateChossidMeshes(gltf.scene)
+    fallbackActors,
+    playerBlockingRequests: 0,
+    strategy: "procedural-first-explicit-idle-canonical-hydration"
   };
 }
-function prepareNpc(gltf, profile3) {
+function fallbackMaterials(npcProfiles) {
   return {
-    ...bindImportedModelMaterials(gltf.scene),
-    ...applyChossidOutfit(gltf.scene, profile3.outfit),
-    consolidation: consolidateChossidMeshes(gltf.scene),
-    profileId: profile3.id
+    npcs: npcProfiles.map((profile2) => ({ fallback: true, profileId: profile2.id })),
+    player: { fallback: true, source: "local-procedural-chossid-silhouette" }
   };
 }
-function now() {
+function now2() {
   return globalThis.performance?.now?.() ?? Date.now();
 }
 
@@ -20889,7 +15490,7 @@ function createTextureStream(assets, options, boot) {
   if (options.textureScheduler) return options.textureScheduler(assets, options, boot);
   let delegate = null;
   let error = null;
-  let phase2 = "waiting-for-gameplay";
+  let phase = "waiting-for-gameplay";
   let resolvePromise;
   let startedAt = null;
   const state = {
@@ -20906,7 +15507,7 @@ function createTextureStream(assets, options, boot) {
       return delegate?.startedAt ?? startedAt;
     },
     get status() {
-      return delegate?.status || phase2;
+      return delegate?.status || phase;
     },
     get total() {
       return delegate?.total ?? 0;
@@ -20914,16 +15515,16 @@ function createTextureStream(assets, options, boot) {
     async start() {
       if (delegate) return state.promise;
       startedAt = globalThis.performance?.now?.() ?? Date.now();
-      phase2 = "scheduled";
+      phase = "scheduled";
       try {
-        const module = await import("./chunks/EretzTextureStreaming-NXPJ2HAO.js");
+        const module = await import("./chunks/EretzTextureStreaming-YRIUCBJB.js");
         delegate = module.scheduleEretzTextureStreaming(assets, options, boot);
-        const value3 = await Promise.resolve(delegate.promise || delegate);
-        phase2 = delegate?.status || value3?.status || "ready";
-        resolvePromise(value3);
+        const value2 = await Promise.resolve(delegate.promise || delegate);
+        phase = delegate?.status || value2?.status || "ready";
+        resolvePromise(value2);
       } catch (caught) {
         error = caught?.message || String(caught);
-        phase2 = "degraded";
+        phase = "degraded";
         boot?.degrade("texture-stream", caught);
         resolvePromise(null);
       }
@@ -20938,6 +15539,600 @@ function firstCachedImage(urls) {
     if (image) return image;
   }
   return null;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-webgl-utils.js
+var materialModeCache = /* @__PURE__ */ new WeakMap();
+function drawMode(gl, mode) {
+  return {
+    0: gl.POINTS,
+    1: gl.LINES,
+    2: gl.LINE_LOOP,
+    3: gl.LINE_STRIP,
+    4: gl.TRIANGLES,
+    5: gl.TRIANGLE_STRIP,
+    6: gl.TRIANGLE_FAN
+  }[mode ?? 4] || gl.TRIANGLES;
+}
+function attributeType(gl, attribute4) {
+  const array = attribute4.array;
+  if (array instanceof Float32Array) return gl.FLOAT;
+  if (array instanceof Uint8Array) return gl.UNSIGNED_BYTE;
+  if (array instanceof Uint16Array) return gl.UNSIGNED_SHORT;
+  if (array instanceof Uint32Array) return gl.UNSIGNED_INT;
+  if (array instanceof Int8Array) return gl.BYTE;
+  if (array instanceof Int16Array) return gl.SHORT;
+  return gl.FLOAT;
+}
+function createShader(gl, type, source, label, errors) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  const info = gl.getShaderInfoLog(shader);
+  if (info) errors.push(`${label} shader: ${info}`);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    throw new Error(`${label} shader failed: ${info}`);
+  }
+  return shader;
+}
+function createProgram(gl, vertexSource, fragmentSource, label, errors) {
+  const program = gl.createProgram();
+  gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vertexSource, label, errors));
+  gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fragmentSource, label, errors));
+  gl.linkProgram(program);
+  const info = gl.getProgramInfoLog(program);
+  if (info) errors.push(`${label} program: ${info}`);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    throw new Error(`${label} program failed: ${info}`);
+  }
+  return program;
+}
+function materialColor(material) {
+  const color = material?.color || [0.75, 0.7, 0.62, 1];
+  return new Float32Array([
+    color[0] ?? 0.75,
+    color[1] ?? 0.7,
+    color[2] ?? 0.62,
+    material?.opacity ?? color[3] ?? 1
+  ]);
+}
+function alphaModeCode(material) {
+  if (material?.alphaMode === "MASK") return 1;
+  if (material?.alphaMode === "BLEND") return 2;
+  return 0;
+}
+function materialModeCode(mesh) {
+  const material = mesh.material || {};
+  const policy2 = material.texturePolicy || {};
+  const cached = materialModeCache.get(mesh);
+  if (cached && sameModeFacts(cached, mesh, material, policy2)) return cached.code;
+  const code = classifyMaterialMode(mesh, policy2);
+  materialModeCache.set(mesh, captureModeFacts(mesh, material, policy2, code));
+  return code;
+}
+function classifyMaterialMode(mesh, policy2) {
+  const identity2 = materialIdentity2(mesh);
+  if (policy2.shader?.includes("terrain-layered")) return 5;
+  if (policy2.shader?.includes("water") || /water|lake|stream/.test(identity2)) return 1;
+  if (policy2.proceduralSky || /world-sky|sky_dome|atmosphere_dome/.test(identity2)) return 4;
+  if (policy2.practicalLightProxy || /lamp-pane|window|fire|ember|flame/.test(identity2)) return 3;
+  if (policy2.shader?.includes("wind") || policy2.alpha?.includes("cutout") || /leaves|botanical|flower|petal|fern|reed|bush/.test(identity2)) return 2;
+  return 0;
+}
+function captureModeFacts(mesh, material, policy2, code) {
+  return {
+    alpha: policy2.alpha,
+    code,
+    family: mesh.userData?.family,
+    material,
+    materialName: material.name,
+    meshName: mesh.name,
+    parent: mesh.parent,
+    parentFamily: mesh.parent?.userData?.family,
+    policy: policy2,
+    practicalLightProxy: policy2.practicalLightProxy,
+    proceduralSky: policy2.proceduralSky,
+    shader: policy2.shader
+  };
+}
+function sameModeFacts(value2, mesh, material, policy2) {
+  return value2.material === material && value2.policy === policy2 && value2.meshName === mesh.name && value2.materialName === material.name && value2.family === mesh.userData?.family && value2.parent === mesh.parent && value2.parentFamily === mesh.parent?.userData?.family && value2.shader === policy2.shader && value2.alpha === policy2.alpha && value2.proceduralSky === policy2.proceduralSky && value2.practicalLightProxy === policy2.practicalLightProxy;
+}
+function materialIdentity2(mesh) {
+  const values = [mesh.name, mesh.material?.name];
+  let parent = mesh;
+  while (parent) {
+    values.push(parent.userData?.family, parent.userData?.AwtsmoosForestLayer?.layer);
+    parent = parent.parent;
+  }
+  return values.filter(Boolean).join(" ").toLowerCase();
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature-state.js
+function captureMaterialSignatureState(mesh, textureState2) {
+  const material = mesh.material || {};
+  const color = material.color || [0.75, 0.7, 0.62, 1];
+  const grass = mesh.userData?.AwtsmoosYardGrass || {};
+  return {
+    alphaCutoff: material.alphaCutoff ?? 0.5,
+    alphaMode: material.alphaMode || "OPAQUE",
+    anisotropy: material.anisotropy ?? 2,
+    color0: color[0] ?? 0.75,
+    color1: color[1] ?? 0.7,
+    color2: color[2] ?? 0.62,
+    cullingDisabled: material.backfaceCull === false,
+    doubleSided: material.doubleSided === true,
+    emissiveStrength: material.emissiveStrength ?? 1.8,
+    geometryMode: mesh.geometry?.mode ?? mesh.primitiveMode ?? 4,
+    grassRadius: grass.interactionRadius ?? 2.2,
+    grassReactive: grass.reactsToPlayer === true,
+    grassWind: grass.windStrength ?? 0.085,
+    material,
+    materialMode: materialModeCode(mesh),
+    opacity: material.opacity ?? color[3] ?? 1,
+    textureState: textureState2
+  };
+}
+function sameMaterialSignatureState(state, mesh, textureState2) {
+  if (!state) return false;
+  const material = mesh.material || {};
+  const color = material.color || [0.75, 0.7, 0.62, 1];
+  const grass = mesh.userData?.AwtsmoosYardGrass || {};
+  return state.material === material && state.textureState === textureState2 && state.color0 === (color[0] ?? 0.75) && state.color1 === (color[1] ?? 0.7) && state.color2 === (color[2] ?? 0.62) && state.opacity === (material.opacity ?? color[3] ?? 1) && state.alphaMode === (material.alphaMode || "OPAQUE") && state.alphaCutoff === (material.alphaCutoff ?? 0.5) && state.doubleSided === (material.doubleSided === true) && state.cullingDisabled === (material.backfaceCull === false) && state.emissiveStrength === (material.emissiveStrength ?? 1.8) && state.anisotropy === (material.anisotropy ?? 2) && state.materialMode === materialModeCode(mesh) && state.grassReactive === (grass.reactsToPlayer === true) && state.grassRadius === (grass.interactionRadius ?? 2.2) && state.grassWind === (grass.windStrength ?? 0.085) && state.geometryMode === (mesh.geometry?.mode ?? mesh.primitiveMode ?? 4);
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-texture-signature.js
+function appendTextureSignature(values, state, identity2) {
+  values.push(
+    identity2(state.mapImage),
+    state.mapReady ? 1 : 0,
+    state.mapRepeat0,
+    state.mapRepeat1,
+    identity2(state.mixImage),
+    state.mixReady ? 1 : 0,
+    state.mixRepeat0,
+    state.mixRepeat1,
+    ...state.mapPolicySignature,
+    ...state.mixPolicySignature,
+    state.mixStrength,
+    state.patchScale,
+    state.patchSharpness
+  );
+  for (const layer of state.layers) appendLayer(values, layer, identity2);
+  return values;
+}
+function appendLayer(values, layer, identity2) {
+  values.push(
+    identity2(layer.image),
+    layer.ready ? 1 : 0,
+    layer.repeat0,
+    layer.repeat1,
+    layer.strength,
+    layer.role,
+    layer.angle,
+    ...layer.policySignature,
+    ...layer.zones,
+    ...layer.slope,
+    ...layer.height,
+    layer.wetness
+  );
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-source.js
+function sourceReady(source) {
+  return !!(source && sourceWidth(source) && sourceHeight(source) && source.complete !== false);
+}
+function sourceWidth(source) {
+  return source?.naturalWidth || source?.videoWidth || source?.width || 0;
+}
+function sourceHeight(source) {
+  return source?.naturalHeight || source?.videoHeight || source?.height || 0;
+}
+function createDefaultTexture(gl) {
+  const texture2 = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, texture2);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0,
+    gl.RGBA,
+    1,
+    1,
+    0,
+    gl.RGBA,
+    gl.UNSIGNED_BYTE,
+    new Uint8Array([255, 255, 255, 255])
+  );
+  setTextureParameters(gl, gl.NEAREST, gl.NEAREST, gl.CLAMP_TO_EDGE);
+  return texture2;
+}
+function setTextureParameters(gl, minification, magnification, wrap) {
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minification);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, magnification);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+}
+function isPowerOfTwo(value2) {
+  return value2 > 0 && (value2 & value2 - 1) === 0;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-native-texture-density.js
+var DEFAULT_NATIVE_TEXELS_PER_WORLD = 96;
+function resolveNativeTextureRepeat(source, authoredRepeat, policy2 = {}, overrides = {}) {
+  const resolvedPolicy = { ...policy2, ...overrides };
+  const fallback = finitePair(authoredRepeat, [1, 1]);
+  if (!nativeDensityEnabled(resolvedPolicy)) return fallback;
+  const dimensions = textureDimensions(source);
+  if (!dimensions.ready) return fallback;
+  const density = positivePair(
+    resolvedPolicy.texelsPerWorld,
+    [DEFAULT_NATIVE_TEXELS_PER_WORLD, DEFAULT_NATIVE_TEXELS_PER_WORLD]
+  );
+  const surface = optionalPositivePair(resolvedPolicy.surfaceWorldSize);
+  if (surface) {
+    return [
+      surface[0] * density[0] / dimensions.width,
+      surface[1] * density[1] / dimensions.height
+    ];
+  }
+  const uvUnits = uvUnitsPerWorld(resolvedPolicy);
+  if (!uvUnits) return fallback;
+  return [
+    density[0] / (dimensions.width * uvUnits[0]),
+    density[1] / (dimensions.height * uvUnits[1])
+  ];
+}
+function nativeTexturePolicySignature(policy2 = {}) {
+  const density = positivePair(policy2.texelsPerWorld, [0, 0]);
+  const surface = finitePair(policy2.surfaceWorldSize, [0, 0]);
+  const uvUnits = uvUnitsPerWorld(policy2) || [0, 0];
+  return [
+    policy2.nativeTexelDensity === false ? 0 : nativeDensityEnabled(policy2) ? 1 : 0,
+    density[0],
+    density[1],
+    uvUnits[0],
+    uvUnits[1],
+    surface[0],
+    surface[1]
+  ];
+}
+function nativeDensityEnabled(policy2) {
+  if (policy2.nativeTexelDensity === false) return false;
+  return policy2.nativeTexelDensity === true || Boolean(optionalPositivePair(policy2.uvUnitsPerWorld)) || Boolean(optionalPositivePair(policy2.surfaceWorldSize)) || Boolean(optionalPositivePair(policy2.tileWorld));
+}
+function uvUnitsPerWorld(policy2) {
+  const explicit = optionalPositivePair(policy2.uvUnitsPerWorld);
+  if (explicit) return explicit;
+  const tileWorld = optionalPositivePair(policy2.tileWorld);
+  return tileWorld ? [1 / tileWorld[0], 1 / tileWorld[1]] : null;
+}
+function textureDimensions(source) {
+  const width = sourceWidth(source);
+  const height = sourceHeight(source);
+  return { height, ready: width > 0 && height > 0 && source?.complete !== false, width };
+}
+function optionalPositivePair(value2) {
+  if (Array.isArray(value2)) {
+    const pair3 = [Number(value2[0]), Number(value2[1])];
+    return pair3.every((item2) => Number.isFinite(item2) && item2 > 0) ? pair3 : null;
+  }
+  const number = Number(value2);
+  return Number.isFinite(number) && number > 0 ? [number, number] : null;
+}
+function positivePair(value2, fallback) {
+  return optionalPositivePair(value2) || [...fallback];
+}
+function finitePair(value2, fallback) {
+  if (!Array.isArray(value2)) return [...fallback];
+  return value2.slice(0, 2).map((item2, index) => Number.isFinite(Number(item2)) ? Number(item2) : fallback[index]);
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js
+var TERRAIN_LAYER_TARGET = 6;
+var TERRAIN_RESERVED_FRAGMENT_UNITS = 2;
+var TERRAIN_FIRST_TEXTURE_UNIT = 3;
+function terrainLayerCapacity(gl) {
+  const fragmentLimit = numericLimit(gl, gl.MAX_TEXTURE_IMAGE_UNITS, 8);
+  const combinedLimit = numericLimit(gl, gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS, 8);
+  return Math.max(0, Math.min(
+    TERRAIN_LAYER_TARGET,
+    fragmentLimit - TERRAIN_RESERVED_FRAGMENT_UNITS,
+    combinedLimit - TERRAIN_FIRST_TEXTURE_UNIT
+  ));
+}
+function terrainLayerUnits(count = TERRAIN_LAYER_TARGET) {
+  const capacity = Math.max(0, Math.min(TERRAIN_LAYER_TARGET, Math.floor(count)));
+  return Object.freeze(Array.from({ length: capacity }, (_, index) => {
+    return TERRAIN_FIRST_TEXTURE_UNIT + index;
+  }));
+}
+function numericLimit(gl, key, fallback) {
+  const value2 = Number(gl.getParameter?.(key));
+  return Number.isFinite(value2) && value2 > 0 ? value2 : fallback;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-state.js
+var TERRAIN_LAYER_COUNT = TERRAIN_LAYER_TARGET;
+var TERRAIN_LAYER_UNITS = terrainLayerUnits(TERRAIN_LAYER_TARGET);
+function layeredTextureState(material = {}) {
+  if (!Array.isArray(material.textureLayers)) return [];
+  return Array.from({ length: TERRAIN_LAYER_COUNT }, (_, index) => layerState(material.textureLayers[index] || {}, material));
+}
+function sameLayeredTextureState(left = [], right = []) {
+  if (left.length !== right.length) return false;
+  return left.every((layer, index) => sameLayer(layer, right[index]));
+}
+function layerState(layer, material) {
+  const policy2 = { ...material.texturePolicy || {}, ...layer.texturePolicy || {} };
+  const repeat = resolveNativeTextureRepeat(layer.image, layer.repeat || [1, 1], policy2);
+  return {
+    angle: finite3(layer.angle, 0),
+    height: pair2(layer.height, [-1e4, 1e4]),
+    image: layer.image || null,
+    policySignature: nativeTexturePolicySignature(policy2),
+    ready: sourceReady(layer.image),
+    repeat0: repeat[0],
+    repeat1: repeat[1],
+    role: layer.role || "",
+    slope: pair2(layer.slope, [0, 1]),
+    strength: finite3(layer.strength, 0),
+    wetness: finite3(layer.wetness, 0),
+    zones: vector4(layer.zones)
+  };
+}
+function sameLayer(left, right) {
+  return Boolean(right) && left.image === right.image && left.ready === right.ready && left.repeat0 === right.repeat0 && left.repeat1 === right.repeat1 && left.strength === right.strength && left.role === right.role && left.angle === right.angle && sameArray(left.policySignature, right.policySignature) && sameArray(left.zones, right.zones) && sameArray(left.slope, right.slope) && sameArray(left.height, right.height) && left.wetness === right.wetness;
+}
+function pair2(value2, fallback) {
+  if (!Array.isArray(value2)) return [...fallback];
+  return [finite3(value2[0], fallback[0]), finite3(value2[1], fallback[1])];
+}
+function vector4(value2) {
+  return Array.from({ length: 4 }, (_, index) => finite3(value2?.[index], 1));
+}
+function finite3(value2, fallback) {
+  return Number.isFinite(Number(value2)) ? Number(value2) : fallback;
+}
+function sameArray(left, right) {
+  return left.length === right.length && left.every((value2, index) => value2 === right[index]);
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint-core.js
+function captureSourceFingerprint(source) {
+  return {
+    ready: sourceReady(source),
+    source: source || null
+  };
+}
+function sameSourceFingerprint(fingerprint, source) {
+  return fingerprint.source === (source || null) && fingerprint.ready === sourceReady(source);
+}
+function capturePair(value2, fallback = [1, 1]) {
+  return [
+    finite4(value2?.[0], fallback[0]),
+    finite4(value2?.[1], fallback[1])
+  ];
+}
+function samePair(pair3, value2, fallback = [1, 1]) {
+  return pair3[0] === finite4(value2?.[0], fallback[0]) && pair3[1] === finite4(value2?.[1], fallback[1]);
+}
+function capturePolicy(policy2 = {}) {
+  return {
+    nativeTexelDensity: policy2.nativeTexelDensity,
+    surfaceWorldSize: capturePair(policy2.surfaceWorldSize, [0, 0]),
+    texelsPerWorld: policy2.texelsPerWorld,
+    tileWorld: policy2.tileWorld,
+    uvUnitsPerWorld: policy2.uvUnitsPerWorld
+  };
+}
+function samePolicy(fingerprint, policy2 = {}) {
+  return fingerprint.nativeTexelDensity === policy2.nativeTexelDensity && fingerprint.texelsPerWorld === policy2.texelsPerWorld && fingerprint.tileWorld === policy2.tileWorld && fingerprint.uvUnitsPerWorld === policy2.uvUnitsPerWorld && samePair(fingerprint.surfaceWorldSize, policy2.surfaceWorldSize, [0, 0]);
+}
+function captureVector(value2, length2, fallback) {
+  return Array.from({ length: length2 }, (_, index) => {
+    return finite4(value2?.[index], fallback[index]);
+  });
+}
+function sameVector(vector2, value2, fallback) {
+  return vector2.every((entry, index) => {
+    return entry === finite4(value2?.[index], fallback[index]);
+  });
+}
+function finite4(value2, fallback) {
+  const number = Number(value2);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-layer-fingerprint.js
+var EMPTY_LAYERS = Object.freeze([]);
+var HEIGHT_DEFAULT = [-1e4, 1e4];
+var SLOPE_DEFAULT = [0, 1];
+var ZONE_DEFAULT = [1, 1, 1, 1];
+function captureLayerFingerprints(material = {}) {
+  const layers = material.textureLayers || EMPTY_LAYERS;
+  return {
+    layers,
+    records: layers.map((layer) => captureLayer(layer))
+  };
+}
+function sameLayerFingerprints(fingerprint, material = {}) {
+  const layers = material.textureLayers || EMPTY_LAYERS;
+  if (fingerprint.layers !== layers) return false;
+  if (fingerprint.records.length !== layers.length) return false;
+  return fingerprint.records.every((record, index) => {
+    return sameLayer2(record, layers[index] || {});
+  });
+}
+function captureLayer(layer = {}) {
+  return {
+    angle: numeric(layer.angle, 0),
+    height: captureVector(layer.height, 2, HEIGHT_DEFAULT),
+    image: captureSourceFingerprint(layer.image),
+    layer,
+    policy: capturePolicy(layer.texturePolicy),
+    repeat: capturePair(layer.repeat, [1, 1]),
+    role: layer.role || "",
+    slope: captureVector(layer.slope, 2, SLOPE_DEFAULT),
+    strength: numeric(layer.strength, 0),
+    wetness: numeric(layer.wetness, 0),
+    zones: captureVector(layer.zones, 4, ZONE_DEFAULT)
+  };
+}
+function sameLayer2(record, layer) {
+  return record.layer === layer && record.angle === numeric(layer.angle, 0) && record.role === (layer.role || "") && record.strength === numeric(layer.strength, 0) && record.wetness === numeric(layer.wetness, 0) && sameSourceFingerprint(record.image, layer.image) && samePair(record.repeat, layer.repeat, [1, 1]) && samePolicy(record.policy, layer.texturePolicy) && sameVector(record.zones, layer.zones, ZONE_DEFAULT) && sameVector(record.slope, layer.slope, SLOPE_DEFAULT) && sameVector(record.height, layer.height, HEIGHT_DEFAULT);
+}
+function numeric(value2, fallback) {
+  const number = Number(value2);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint.js
+function captureTextureFingerprint(material = {}) {
+  return {
+    layers: captureLayerFingerprints(material),
+    mapImage: captureSourceFingerprint(material.mapImage),
+    mapPolicy: capturePolicy(material.texturePolicy),
+    mapRepeat: capturePair(material.mapRepeat, [1, 1]),
+    mixImage: captureSourceFingerprint(material.mixImage),
+    mixPolicy: capturePolicy(material.mixTexturePolicy),
+    mixRepeat: capturePair(material.mixRepeat, [1, 1]),
+    mixStrength: numberOr(material.mixStrength, 0),
+    patchScale: numberOr(material.mixPatchScale, 0),
+    patchSharpness: numberOr(material.mixPatchSharpness, 0.58)
+  };
+}
+function sameTextureFingerprint(fingerprint, material = {}) {
+  return Boolean(fingerprint) && fingerprint.mixStrength === numberOr(material.mixStrength, 0) && fingerprint.patchScale === numberOr(material.mixPatchScale, 0) && fingerprint.patchSharpness === numberOr(material.mixPatchSharpness, 0.58) && sameSourceFingerprint(fingerprint.mapImage, material.mapImage) && sameSourceFingerprint(fingerprint.mixImage, material.mixImage) && samePair(fingerprint.mapRepeat, material.mapRepeat, [1, 1]) && samePair(fingerprint.mixRepeat, material.mixRepeat, [1, 1]) && samePolicy(fingerprint.mapPolicy, material.texturePolicy) && samePolicy(fingerprint.mixPolicy, material.mixTexturePolicy) && sameLayerFingerprints(fingerprint.layers, material);
+}
+function numberOr(value2, fallback) {
+  const number = Number(value2);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state.js
+var cache = /* @__PURE__ */ new WeakMap();
+var diagnostics = {
+  hits: 0,
+  invalidations: 0,
+  misses: 0
+};
+function textureState(material = {}) {
+  if (!material || typeof material !== "object") return buildTextureState({});
+  const cached = cache.get(material);
+  if (cached && sameTextureFingerprint(cached.fingerprint, material)) {
+    diagnostics.hits += 1;
+    return cached.state;
+  }
+  if (cached) diagnostics.invalidations += 1;
+  else diagnostics.misses += 1;
+  const state = buildTextureState(material);
+  cache.set(material, {
+    fingerprint: captureTextureFingerprint(material),
+    state
+  });
+  return state;
+}
+function sameTextureState(left, right) {
+  if (left === right) return true;
+  if (!left || !right) return false;
+  return left.mapImage === right.mapImage && left.mapReady === right.mapReady && left.mapRepeat0 === right.mapRepeat0 && left.mapRepeat1 === right.mapRepeat1 && left.mixImage === right.mixImage && left.mixReady === right.mixReady && left.mixRepeat0 === right.mixRepeat0 && left.mixRepeat1 === right.mixRepeat1 && left.mixStrength === right.mixStrength && left.patchScale === right.patchScale && left.patchSharpness === right.patchSharpness && sameLayeredTextureState(left.layers, right.layers);
+}
+function buildTextureState(material) {
+  const mapRepeat = resolveNativeTextureRepeat(
+    material.mapImage,
+    material.mapRepeat || [1, 1],
+    material.texturePolicy
+  );
+  const mixPolicy = {
+    ...material.texturePolicy || {},
+    ...material.mixTexturePolicy || {}
+  };
+  const mixRepeat = resolveNativeTextureRepeat(
+    material.mixImage,
+    material.mixRepeat || [1, 1],
+    material.texturePolicy,
+    material.mixTexturePolicy
+  );
+  return Object.freeze({
+    layers: layeredTextureState(material),
+    mapImage: material.mapImage || null,
+    mapPolicySignature: nativeTexturePolicySignature(material.texturePolicy),
+    mapReady: sourceReady(material.mapImage),
+    mapRepeat0: mapRepeat[0],
+    mapRepeat1: mapRepeat[1],
+    mixImage: material.mixImage || null,
+    mixPolicySignature: nativeTexturePolicySignature(mixPolicy),
+    mixReady: sourceReady(material.mixImage),
+    mixRepeat0: mixRepeat[0],
+    mixRepeat1: mixRepeat[1],
+    mixStrength: material.mixStrength ?? 0,
+    patchScale: material.mixPatchScale ?? 0,
+    patchSharpness: material.mixPatchSharpness ?? 0.58
+  });
+}
+
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js
+var cache2 = /* @__PURE__ */ new WeakMap();
+var objectIds = /* @__PURE__ */ new WeakMap();
+var diagnostics2 = { hits: 0, invalidations: 0, misses: 0 };
+var nextObjectId = 1;
+function materialSignature2(mesh) {
+  return cachedSignatures(mesh).full;
+}
+function staticBatchMaterialSignature(mesh) {
+  return cachedSignatures(mesh).batch;
+}
+function objectIdentity(object) {
+  if (!object || typeof object !== "object") return 0;
+  if (!objectIds.has(object)) {
+    objectIds.set(object, nextObjectId);
+    nextObjectId += 1;
+  }
+  return objectIds.get(object);
+}
+function cachedSignatures(mesh) {
+  const textures = textureState(mesh.material || {});
+  const cached = cache2.get(mesh);
+  if (cached && sameMaterialSignatureState(cached.observed, mesh, textures)) {
+    diagnostics2.hits += 1;
+    return cached;
+  }
+  if (cached) diagnostics2.invalidations += 1;
+  else diagnostics2.misses += 1;
+  const observed = captureMaterialSignatureState(mesh, textures);
+  const signatures = Object.freeze({
+    batch: buildSignature(observed, false),
+    full: buildSignature(observed, true),
+    observed
+  });
+  cache2.set(mesh, signatures);
+  return signatures;
+}
+function buildSignature(state, includeColor) {
+  const values = [];
+  if (includeColor) values.push(state.color0, state.color1, state.color2);
+  values.push(
+    state.opacity,
+    state.alphaMode,
+    state.alphaCutoff,
+    surfaceSidedness(state),
+    state.emissiveStrength,
+    state.materialMode
+  );
+  appendTextureSignature(values, state.textureState, objectIdentity);
+  values.push(
+    state.anisotropy,
+    state.grassReactive ? 1 : 0,
+    state.grassRadius,
+    state.grassWind,
+    state.geometryMode
+  );
+  return values.join("|");
+}
+function surfaceSidedness(state) {
+  if (state.doubleSided) return "double-sided";
+  if (state.cullingDisabled) return "culling-disabled";
+  return "backface-culling";
 }
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-bounds.js
@@ -21005,12 +16200,12 @@ function computeBounds(position) {
   let radius = 0;
   for (let index = 0; index < position.count; index += 1) {
     const offset = index * itemSize;
-    const distance4 = Math.hypot(
+    const distance3 = Math.hypot(
       Number(array[offset] || 0) - center[0],
       Number(array[offset + 1] || 0) - center[1],
       Number(array[offset + 2] || 0) - center[2]
     );
-    radius = Math.max(radius, distance4);
+    radius = Math.max(radius, distance3);
   }
   return { center, radius };
 }
@@ -21036,7 +16231,7 @@ var STATIC_CELL_SIZE = 384;
 var DISTANCE_BUCKET_SIZE = 64;
 function staticBatchGroupKey(mesh, metadata) {
   const center = worldBoundingSphere(mesh)?.center || [0, 0, 0];
-  const cell = center.map((value3) => Math.round(value3 / STATIC_CELL_SIZE));
+  const cell = center.map((value2) => Math.round(value2 / STATIC_CELL_SIZE));
   const distanceBucket = Math.ceil(
     Math.max(0, Number(metadata.renderDistance) || 0) / DISTANCE_BUCKET_SIZE
   ) * DISTANCE_BUCKET_SIZE;
@@ -21157,6 +16352,30 @@ function recordStaticBatchSuccess(stats3, members, batch) {
   stats3.batchedTriangles += batch.geometry.attributes.position.count / 3;
 }
 
+// geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-material.js
+function createStaticBatchMaterial(source = {}) {
+  const material = new MeshStandardMaterial({
+    alphaCutoff: source.alphaCutoff,
+    alphaMode: source.alphaMode,
+    color: [1, 1, 1, 1],
+    doubleSided: source.doubleSided,
+    name: `${source.name || "material"}:static-batch-neutral`,
+    opacity: source.opacity,
+    transparent: source.transparent
+  });
+  Object.assign(material, source);
+  material.color = [1, 1, 1, 1];
+  material.name = `${source.name || "material"}:static-batch-neutral`;
+  material.userData = {
+    ...source.userData || {},
+    AwtsmoosStaticBatchMaterial: {
+      originalTint: [...source.color || [0.75, 0.7, 0.62, 1]],
+      tintBakedIntoVertexColor: true
+    }
+  };
+  return material;
+}
+
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-static-geometry-source.js
 function appendWorldGeometry(mesh, target) {
   const geometry = mesh.geometry;
@@ -21169,51 +16388,51 @@ function appendWorldGeometry(mesh, target) {
   const tint = materialTint(mesh.material);
   for (let offset = 0; offset < count; offset += 1) {
     const vertexIndex = indices ? indices[offset] : offset;
-    appendPosition2(target.position, position, vertexIndex, mesh.matrixWorld);
-    appendNormal2(target.normal, normal, vertexIndex, mesh.matrixWorld);
+    appendPosition(target.position, position, vertexIndex, mesh.matrixWorld);
+    appendNormal(target.normal, normal, vertexIndex, mesh.matrixWorld);
     appendColor(target.color, color, vertexIndex, tint);
     appendUv(target.uv, uv2, vertexIndex);
   }
   return count;
 }
-function appendPosition2(target, attribute5, index, matrix) {
-  const x = value2(attribute5, index, 0, 0);
-  const y = value2(attribute5, index, 1, 0);
-  const z = value2(attribute5, index, 2, 0);
+function appendPosition(target, attribute4, index, matrix) {
+  const x = value(attribute4, index, 0, 0);
+  const y = value(attribute4, index, 1, 0);
+  const z = value(attribute4, index, 2, 0);
   target.push(
     matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12],
     matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13],
     matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]
   );
 }
-function appendNormal2(target, attribute5, index, matrix) {
-  if (!attribute5) {
+function appendNormal(target, attribute4, index, matrix) {
+  if (!attribute4) {
     target.push(0, 1, 0);
     return;
   }
-  const x = value2(attribute5, index, 0, 0);
-  const y = value2(attribute5, index, 1, 1);
-  const z = value2(attribute5, index, 2, 0);
+  const x = value(attribute4, index, 0, 0);
+  const y = value(attribute4, index, 1, 1);
+  const z = value(attribute4, index, 2, 0);
   target.push(
     matrix[0] * x + matrix[4] * y + matrix[8] * z,
     matrix[1] * x + matrix[5] * y + matrix[9] * z,
     matrix[2] * x + matrix[6] * y + matrix[10] * z
   );
 }
-function appendColor(target, attribute5, index, tint) {
+function appendColor(target, attribute4, index, tint) {
   target.push(
-    value2(attribute5, index, 0, 1) * tint[0],
-    value2(attribute5, index, 1, 1) * tint[1],
-    value2(attribute5, index, 2, 1) * tint[2],
-    value2(attribute5, index, 3, 1)
+    value(attribute4, index, 0, 1) * tint[0],
+    value(attribute4, index, 1, 1) * tint[1],
+    value(attribute4, index, 2, 1) * tint[2],
+    value(attribute4, index, 3, 1)
   );
 }
-function appendUv(target, attribute5, index) {
-  if (!attribute5) {
+function appendUv(target, attribute4, index) {
+  if (!attribute4) {
     target.push(0, 0);
     return;
   }
-  target.push(value2(attribute5, index, 0, 0), value2(attribute5, index, 1, 0));
+  target.push(value(attribute4, index, 0, 0), value(attribute4, index, 1, 0));
 }
 function materialTint(material = {}) {
   const color = material.color || [0.75, 0.7, 0.62, 1];
@@ -21223,11 +16442,11 @@ function materialTint(material = {}) {
     color[2] ?? 0.62
   ];
 }
-function value2(attribute5, index, component, fallback) {
-  if (!attribute5 || component >= attribute5.itemSize) return fallback;
-  const raw = Number(attribute5.array[index * attribute5.itemSize + component] ?? fallback);
-  if (!attribute5.normalized) return raw;
-  const array = attribute5.array;
+function value(attribute4, index, component, fallback) {
+  if (!attribute4 || component >= attribute4.itemSize) return fallback;
+  const raw = Number(attribute4.array[index * attribute4.itemSize + component] ?? fallback);
+  if (!attribute4.normalized) return raw;
+  const array = attribute4.array;
   if (array instanceof Uint8Array) return raw / 255;
   if (array instanceof Int8Array) return Math.max(-1, raw / 127);
   if (array instanceof Uint16Array) return raw / 65535;
@@ -21429,20 +16648,20 @@ function decideGlStateCall(name, args, state, gl) {
     Array.from(args[1] || []).join(",")
   );
 }
-function valueDecision(slot, value3) {
+function valueDecision(slot, value2) {
   return {
-    skip: slot.known && slot.value === value3,
+    skip: slot.known && slot.value === value2,
     commit() {
       slot.known = true;
-      slot.value = value3;
+      slot.value = value2;
     }
   };
 }
-function mapDecision(map, key, value3) {
+function mapDecision(map, key, value2) {
   return {
-    skip: map.has(key) && map.get(key) === value3,
+    skip: map.has(key) && map.get(key) === value2,
     commit: () => {
-      map.set(key, value3);
+      map.set(key, value2);
     }
   };
 }
@@ -21571,10 +16790,10 @@ var RenderBufferResources = class {
   createResource(geometry, position) {
     const attributes = {};
     for (const name of ATTRIBUTE_NAMES) {
-      const attribute5 = geometry.attributes?.[name];
-      attributes[name] = attribute5 ? {
-        attribute: attribute5,
-        buffer: this.createBuffer(this.gl.ARRAY_BUFFER, attribute5.array)
+      const attribute4 = geometry.attributes?.[name];
+      attributes[name] = attribute4 ? {
+        attribute: attribute4,
+        buffer: this.createBuffer(this.gl.ARRAY_BUFFER, attribute4.array)
       } : null;
     }
     const resource = {
@@ -21696,7 +16915,7 @@ var RenderManualAttributes = class {
   }
 };
 function sameAttribute(left, right) {
-  return Boolean(left) && left.length === right.length && left.every((value3, index) => value3 === right[index]);
+  return Boolean(left) && left.length === right.length && left.every((value2, index) => value2 === right[index]);
 }
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-array-builder.js
@@ -21774,7 +16993,7 @@ function bindVertexArrayFallbacks(owner, entry) {
   }
 }
 function sameValues(left, right) {
-  return Boolean(left) && left.length === right.length && left.every((value3, index) => value3 === right[index]);
+  return Boolean(left) && left.length === right.length && left.every((value2, index) => value2 === right[index]);
 }
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-arrays.js
@@ -22029,8 +17248,8 @@ function meshCullingReason(mesh, camera, options = {}, context = null) {
   const relativeX = sphere.center[0] - basis.eyeX;
   const relativeY = sphere.center[1] - basis.eyeY;
   const relativeZ = sphere.center[2] - basis.eyeZ;
-  const distance4 = Math.hypot(relativeX, relativeY, relativeZ);
-  if (distance4 - sphere.radius > distanceLimit) return "distance";
+  const distance3 = Math.hypot(relativeX, relativeY, relativeZ);
+  if (distance3 - sphere.radius > distanceLimit) return "distance";
   const depth = relativeX * basis.forwardX + relativeY * basis.forwardY + relativeZ * basis.forwardZ;
   if (depth + sphere.radius < camera.near) return "frustum";
   if (depth - sphere.radius > camera.far) return "frustum";
@@ -22176,7 +17395,7 @@ function collectSceneMeshes(root, options = {}) {
     opaque: [],
     transparent: []
   };
-  visit2(root, true, (object) => classify(object, options, result), result);
+  visit(root, true, (object) => classify(object, options, result), result);
   return result;
 }
 function classify(object, options, result) {
@@ -22198,7 +17417,7 @@ function classify(object, options, result) {
   }
   result.opaque.push(object);
 }
-function visit2(object, parentVisible, callback, result) {
+function visit(object, parentVisible, callback, result) {
   const visible = parentVisible && object.visible !== false;
   if (!visible) {
     result.invisibleSubtrees += 1;
@@ -22206,7 +17425,7 @@ function visit2(object, parentVisible, callback, result) {
   }
   callback(object);
   for (const child of object.children || []) {
-    visit2(child, visible, callback, result);
+    visit(child, visible, callback, result);
   }
 }
 
@@ -22901,16 +18120,16 @@ function sameSnapshot(left, right) {
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-locations.js
 function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET) {
-  const attribute5 = (name) => gl.getAttribLocation(program, name);
+  const attribute4 = (name) => gl.getAttribLocation(program, name);
   const uniform = (name) => gl.getUniformLocation(program, name);
   return {
-    position: attribute5("aPosition"),
-    normal: attribute5("aNormal"),
-    color: attribute5("aColor"),
-    uv: attribute5("aUv"),
-    zone: attribute5("aZone"),
-    joints: attribute5("aJoints"),
-    weights: attribute5("aWeights"),
+    position: attribute4("aPosition"),
+    normal: attribute4("aNormal"),
+    color: attribute4("aColor"),
+    uv: attribute4("aUv"),
+    zone: attribute4("aZone"),
+    joints: attribute4("aJoints"),
+    weights: attribute4("aWeights"),
     mvp: uniform("uMvp"),
     model: uniform("uModel"),
     colorUniform: uniform("uColor"),
@@ -23165,8 +18384,8 @@ function terrainDeclarationsForLayerCount(layerCount) {
   const lineBreak = String.fromCharCode(10);
   return [lineBreak, declarations2.join(lineBreak), lineBreak].join("");
 }
-function normalizedCount(value3) {
-  const count = Math.floor(Number(value3) || 0);
+function normalizedCount(value2) {
+  const count = Math.floor(Number(value2) || 0);
   return Math.max(0, Math.min(TERRAIN_LAYER_TARGET, count));
 }
 
@@ -23294,8 +18513,8 @@ function layerMix(index) {
 		result=mix(result,layer${index},weight${index});
 	}`;
 }
-function normalizedCount2(value3) {
-  return Math.max(0, Math.min(TERRAIN_LAYER_TARGET, Math.floor(Number(value3) || 0)));
+function normalizedCount2(value2) {
+  return Math.max(0, Math.min(TERRAIN_LAYER_TARGET, Math.floor(Number(value2) || 0)));
 }
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shader.js
@@ -23676,7 +18895,7 @@ var MaterialTextureBinder = class {
 
 // geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-webgl-renderer.js
 var TinyWebGLRenderer = class {
-  constructor({ canvas, alpha = true, antialias = true } = {}) {
+  constructor({ alpha = true, antialias = true, cacheGlState = false, canvas } = {}) {
     if (!canvas) throw new Error("TinyWebGLRenderer requires a canvas.");
     this.canvas = canvas;
     this.gl = canvas.getContext("webgl", {
@@ -23686,7 +18905,7 @@ var TinyWebGLRenderer = class {
     });
     if (!this.gl) throw new Error("WebGL is not available.");
     this.errors = [];
-    this.glStateCache = installRendererStateCache(this);
+    this.glStateCache = cacheGlState ? installRendererStateCache(this) : null;
     this.options = defaultRenderOptions();
     this.identityMatrix = identity();
     this.frameToken = 0;
@@ -23695,10 +18914,11 @@ var TinyWebGLRenderer = class {
     this.frameCameraPosition = { x: 0, y: 0, z: 0 };
     this.timeSeconds = 0;
     this.environment = defaultEnvironment();
-    initializeRendererPrograms(this);
-    this.buffers = new RenderBufferCache(this.gl, this.glStateCache);
-    this.textures = new MaterialTextureBinder(this.gl);
-    this.materialState = new RenderMaterialState();
+    this.buffers = null;
+    this.materialState = null;
+    this.programs = null;
+    this.textures = null;
+    this.initialized = false;
     this.stats = createInitialRendererStats();
   }
   setSize(width, height) {
@@ -23726,7 +18946,16 @@ var TinyWebGLRenderer = class {
     }
   }
   render(scene, camera) {
+    this.ensureInitialized();
     renderFrame(this, scene, camera);
+  }
+  ensureInitialized() {
+    if (this.initialized) return;
+    initializeRendererPrograms(this);
+    this.buffers = new RenderBufferCache(this.gl, this.glStateCache);
+    this.textures = new MaterialTextureBinder(this.gl);
+    this.materialState = new RenderMaterialState();
+    this.initialized = true;
   }
   dispose() {
     this.buffers?.dispose?.();
@@ -23740,12 +18969,12 @@ var TinyWebGLRenderer = class {
 function defaultEnvironment() {
   return {
     ambient: [0.2, 0.23, 0.25],
-    sunDirection: [-0.42, 0.76, 0.49],
-    sunColor: [1.26, 0.94, 0.68],
+    exposure: 1.04,
     fogColor: [0.52, 0.66, 0.72],
-    fogNear: 145,
     fogFar: 560,
-    exposure: 1.04
+    fogNear: 145,
+    sunColor: [1.26, 0.94, 0.68],
+    sunDirection: [-0.42, 0.76, 0.49]
   };
 }
 function installRendererStateCache(renderer) {
@@ -23841,13 +19070,13 @@ var CameraClipCache = class {
   shouldRefresh(target, desired, octree) {
     if (!this.entry) return true;
     if (this.entry.octree !== octree) return true;
-    if (this.entry.revision !== collisionRevisionFor3(octree)) {
+    if (this.entry.revision !== collisionRevisionFor2(octree)) {
       this.stats.revisionInvalidations += 1;
       return true;
     }
     if (this.entry.reusedFrames >= this.maximumReuseFrames) return true;
-    if (distance2(target, this.entry.target) > TARGET_REFRESH_DISTANCE) return true;
-    if (distance2(desired, this.entry.desired) > DESIRED_REFRESH_DISTANCE) return true;
+    if (distance(target, this.entry.target) > TARGET_REFRESH_DISTANCE) return true;
+    if (distance(desired, this.entry.desired) > DESIRED_REFRESH_DISTANCE) return true;
     return directionAngle(target, desired, this.entry.target, this.entry.desired) > DIRECTION_REFRESH_RADIANS;
   }
   refresh(target, desired, octree, minimumSafe) {
@@ -23857,8 +19086,8 @@ var CameraClipCache = class {
       hit: resolved.hit,
       octree,
       reusedFrames: 0,
-      revision: collisionRevisionFor3(octree),
-      safeDistance: distance2(target, resolved.eye),
+      revision: collisionRevisionFor2(octree),
+      safeDistance: distance(target, resolved.eye),
       target: copyPoint(target)
     };
     this.stats.misses += 1;
@@ -23878,13 +19107,13 @@ function eyeAtDistance(target, desired, safeDistance) {
 function directionAngle(firstTarget, firstEye, secondTarget, secondEye) {
   const first = normalized(subtract(firstEye, firstTarget));
   const second = normalized(subtract(secondEye, secondTarget));
-  const dot4 = Math.max(-1, Math.min(1, first.x * second.x + first.y * second.y + first.z * second.z));
-  return Math.acos(dot4);
+  const dot3 = Math.max(-1, Math.min(1, first.x * second.x + first.y * second.y + first.z * second.z));
+  return Math.acos(dot3);
 }
-function collisionRevisionFor3(octree) {
+function collisionRevisionFor2(octree) {
   return octree?.revision === void 0 ? "revision:none" : String(octree.revision);
 }
-function distance2(first, second) {
+function distance(first, second) {
   return Math.hypot(first.x - second.x, first.y - second.y, first.z - second.z);
 }
 function normalized(point3) {
@@ -23909,8 +19138,8 @@ function cameraLookAngles(yaw, pitch, deltaX, deltaY, options = {}) {
     yaw: Number(yaw) - Number(deltaX) * yawSensitivity
   };
 }
-function clampCameraPitch(value3) {
-  return clamp3(Number(value3), MINIMUM_CAMERA_PITCH, MAXIMUM_CAMERA_PITCH);
+function clampCameraPitch(value2) {
+  return clamp5(Number(value2), MINIMUM_CAMERA_PITCH, MAXIMUM_CAMERA_PITCH);
 }
 function cameraPointerPoint(event) {
   return {
@@ -23921,11 +19150,11 @@ function cameraPointerPoint(event) {
 function cameraPointerDistance(first, second) {
   return Math.hypot(first.x - second.x, first.y - second.y);
 }
-function boundedCameraDistance(value3, minimum, maximum) {
-  return clamp3(Number(value3), Number(minimum), Number(maximum));
+function boundedCameraDistance(value2, minimum, maximum) {
+  return clamp5(Number(value2), Number(minimum), Number(maximum));
 }
-function clamp3(value3, minimum, maximum) {
-  return Math.max(minimum, Math.min(maximum, value3));
+function clamp5(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraLegacyZoom.js
@@ -24056,7 +19285,7 @@ var DEFAULT_LOOK_DISTANCE = 100;
 var DEFAULT_FORWARD_OFFSET = 0.24;
 var MAXIMUM_PITCH = 1.42;
 function firstPersonLookVector(yaw, pitch) {
-  const safePitch = clamp4(Number(pitch) || 0, -MAXIMUM_PITCH, MAXIMUM_PITCH);
+  const safePitch = clamp6(Number(pitch) || 0, -MAXIMUM_PITCH, MAXIMUM_PITCH);
   const cosine = Math.cos(safePitch);
   return {
     x: Math.sin(Number(yaw) || 0) * cosine,
@@ -24083,11 +19312,11 @@ function firstPersonCameraPose(anchor2, yaw, pitch, options = {}) {
     }
   };
 }
-function finiteOr(value3, fallback) {
-  return Number.isFinite(Number(value3)) ? Number(value3) : fallback;
+function finiteOr(value2, fallback) {
+  return Number.isFinite(Number(value2)) ? Number(value2) : fallback;
 }
-function clamp4(value3, minimum, maximum) {
-  return Math.max(minimum, Math.min(maximum, value3));
+function clamp6(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/LegacyOrbitCameraPose.js
@@ -24103,7 +19332,7 @@ function applyLegacyOrbitCamera(options) {
     ...options.target,
     y: options.target.y + currentTargetLift
   };
-  const pitch = clamp5(
+  const pitch = clamp7(
     options.pitch + options.context.profile.pitchBias,
     -1.35,
     1.42
@@ -24147,8 +19376,8 @@ function resolveClip(options, target, desired) {
     options.context.profile.minSafe
   );
 }
-function clamp5(value3, minimum, maximum) {
-  return Math.max(minimum, Math.min(maximum, value3));
+function clamp7(value2, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value2));
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraProfileSystem.js
@@ -24501,14 +19730,14 @@ function keySign(keys, positive, negative) {
 function desiredLodVisibility({
   currentlyVisible,
   alwaysVisible,
-  distance: distance4,
+  distance: distance3,
   maximumDistance,
   hysteresis = 0.12
 }) {
   if (alwaysVisible || maximumDistance === Infinity) return true;
   const margin = Math.max(0, Math.min(0.49, hysteresis));
   const threshold = currentlyVisible ? maximumDistance * (1 + margin) : maximumDistance * (1 - margin);
-  return distance4 <= threshold;
+  return distance3 <= threshold;
 }
 function lodSphereDistance(position, center, radius = 0) {
   return Math.max(0, Math.hypot(
@@ -24517,8 +19746,8 @@ function lodSphereDistance(position, center, radius = 0) {
     finiteLodNumber(position?.z) - finiteLodNumber(center?.z)
   ) - Math.max(0, finiteLodNumber(radius)));
 }
-function lodTransitionPriority(visible, distance4) {
-  return visible ? 1e5 - distance4 : distance4;
+function lodTransitionPriority(visible, distance3) {
+  return visible ? 1e5 - distance3 : distance3;
 }
 function createInitialLodStats() {
   return {
@@ -24530,8 +19759,8 @@ function createInitialLodStats() {
     lastEventKey: null
   };
 }
-function finiteLodNumber(value3, fallback = 0) {
-  return Number.isFinite(value3) ? value3 : fallback;
+function finiteLodNumber(value2, fallback = 0) {
+  return Number.isFinite(value2) ? value2 : fallback;
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodPolicy.js
@@ -24583,8 +19812,8 @@ function lodMaximumDistance(className, tierName = "high") {
   const normalizedClass = normalizeLodClass(className);
   const classPolicy = lodClassPolicy(normalizedClass);
   if (classPolicy.protected || classPolicy.maximumDistance === Infinity) return Infinity;
-  const tier2 = qualityTier(tierName);
-  const scale2 = normalizedClass === "vegetation" || normalizedClass === "grass" ? tier2.vegetationDistanceScale : tier2.decorativeDistanceScale;
+  const tier = qualityTier(tierName);
+  const scale2 = normalizedClass === "vegetation" || normalizedClass === "grass" ? tier.vegetationDistanceScale : tier.decorativeDistanceScale;
   return classPolicy.maximumDistance * scale2;
 }
 function policy(maximumDistance, importance, protectedObject) {
@@ -24625,13 +19854,13 @@ function yawSector(yaw, sectorCount = 16) {
     Math.floor(normalized3 / TAU2 * count)
   );
 }
-function quantize(value3, cellSize) {
-  const safeValue = Number.isFinite(value3) ? value3 : 0;
+function quantize(value2, cellSize) {
+  const safeValue = Number.isFinite(value2) ? value2 : 0;
   const safeCellSize = Number.isFinite(cellSize) && cellSize > 0 ? cellSize : 1;
   return Math.floor(safeValue / safeCellSize);
 }
-function positiveModulo(value3, divisor) {
-  const safeValue = Number.isFinite(value3) ? value3 : 0;
+function positiveModulo(value2, divisor) {
+  const safeValue = Number.isFinite(value2) ? value2 : 0;
   return (safeValue % divisor + divisor) % divisor;
 }
 
@@ -24702,12 +19931,12 @@ var LodController = class {
     }
   }
   evaluateEntry(entry, position, tierName) {
-    const distance4 = lodSphereDistance(position, entry.center, entry.radius);
+    const distance3 = lodSphereDistance(position, entry.center, entry.radius);
     const maximumDistance = lodMaximumDistance(entry.className, tierName);
     const visible = desiredLodVisibility({
       currentlyVisible: entry.desiredVisible,
       alwaysVisible: entry.alwaysVisible,
-      distance: distance4,
+      distance: distance3,
       maximumDistance,
       hysteresis: this.hysteresis
     });
@@ -24715,11 +19944,11 @@ var LodController = class {
     entry.desiredVisible = visible;
     this.queue.enqueue({
       id: entry.id,
-      priority: lodTransitionPriority(visible, distance4),
+      priority: lodTransitionPriority(visible, distance3),
       apply: () => {
         entry.node.visible = visible;
       },
-      metadata: { visible, distance: distance4, maximumDistance }
+      metadata: { visible, distance: distance3, maximumDistance }
     });
   }
   restore() {
@@ -24767,7 +19996,7 @@ function geometryLodBounds(geometry) {
     invalidCoordinates,
     maximum,
     minimum,
-    radius: distance3(center, maximum),
+    radius: distance2(center, maximum),
     triangles: triangleCount(geometry, position, values, itemSize),
     vertices: position.count || Math.floor(values.length / itemSize)
   });
@@ -24776,7 +20005,7 @@ function cacheBounds(geometry, bounds) {
   GEOMETRY_BOUNDS.set(geometry, bounds);
   return bounds;
 }
-function distance3(left, right) {
+function distance2(left, right) {
   return Math.hypot(right.x - left.x, right.y - left.y, right.z - left.z);
 }
 function emptyBounds(invalidCoordinates = 0) {
@@ -24792,7 +20021,7 @@ function emptyBounds(invalidCoordinates = 0) {
   };
 }
 function invalidCount(...values) {
-  return values.filter((value3) => !Number.isFinite(value3)).length;
+  return values.filter((value2) => !Number.isFinite(value2)).length;
 }
 function midpoint(minimum, maximum) {
   return {
@@ -25133,9 +20362,9 @@ function referenceEnvironment(reference) {
     sunDirection: Object.freeze(normalized2(reference.sunPosition))
   });
 }
-function normalized2(vector3) {
-  const length2 = Math.hypot(vector3[0], vector3[1], vector3[2]) || 1;
-  return [vector3[0] / length2, vector3[1] / length2, vector3[2] / length2];
+function normalized2(vector2) {
+  const length2 = Math.hypot(vector2[0], vector2[1], vector2[2]) || 1;
+  return [vector2[0] / length2, vector2[1] / length2, vector2[2] / length2];
 }
 
 // geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js
@@ -25181,15 +20410,20 @@ function browserYield() {
 async function createPlayableEretzRuntime(hosts, options = {}, boot) {
   const qualityProfile = resolveWorldQuality(options);
   throwIfLaunchAborted(options.signal);
+  boot.begin("playable-services");
   reportLaunchProgress(options, "Opening the crystal-clear renderer\u2026", 0.12);
   const services = createEretzFoundationServices(hosts, qualityProfile);
-  reportLaunchProgress(options, "Loading the player and solid village forms\u2026", 0.24);
+  boot.begin("playable-assets");
+  reportLaunchProgress(options, "Preparing immediate player and solid materials\u2026", 0.24);
   const loaded = await loadEretzAssets({
     ...options.assets || {},
     boot,
+    environment: options.environment,
     quality: qualityProfile.quality
   });
   throwIfLaunchAborted(options.signal);
+  boot.begin("playable-terrain");
+  reportLaunchProgress(options, "Building the responsive valley\u2026", 0.4);
   const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
   const obstacles = createObstacleField(loaded.assets, phaseOneGround);
   const terrain = await createTerrainPackage(
@@ -25205,6 +20439,7 @@ async function createPlayableEretzRuntime(hosts, options = {}, boot) {
     }
   );
   throwIfLaunchAborted(options.signal);
+  boot.begin("playable-collision");
   reportLaunchProgress(options, "Indexing responsive movement collision\u2026", 0.9);
   const mainOctree = await buildWorldCollisionOctreeAsync(terrain.colliders, {
     onProgress: options.onProgress
@@ -25215,6 +20450,7 @@ async function createPlayableEretzRuntime(hosts, options = {}, boot) {
   const ground = new WorldGround({ octree: collisionQuery, terrainHeightAt: terrain.heightAt });
   terrain.stats.groundSampler = groundSampler.stats().mode;
   terrain.stats.qualityProfile = { ...qualityProfile };
+  boot.begin("playable-scene");
   services.scene.add(createSky3D(qualityProfile.quality));
   services.scene.add(terrain.group);
   const foundation = {

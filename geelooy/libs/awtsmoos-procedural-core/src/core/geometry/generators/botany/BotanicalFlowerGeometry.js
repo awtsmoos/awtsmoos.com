@@ -35,8 +35,12 @@ export function appendPetalRing(buffer, context, count, radius, phase, lift = 0)
 	}
 }
 
+/** Returns a finite quality-scaled detail count with a hard anatomical minimum. */
 export function botanicalDetailCount(context, requested, minimum) {
-	return Math.max(minimum, Math.round(requested * context.quality.detail));
+	const declared = Number(context?.quality?.detail);
+	const detail = Number.isFinite(declared) && declared > 0 ? declared : 1;
+	const requestedCount = Number.isFinite(Number(requested)) ? Number(requested) : minimum;
+	return Math.max(minimum, Math.round(requestedCount * detail));
 }
 
 export function botanicalTop(context) {

@@ -4,12 +4,12 @@
 
 /**
  * @file ActionBarHud.js
- * @description Composes dormant, bounded Torah-action presenters without owning their details.
- * The Awtsmoos reveals one living interface through many precise vessels; each serves its measure,
- * then returns to stillness without hidden frame work in the world of Awtsmoos.com.
+ * @description Composes one dormant, bounded HUD for Torah and physical actions.
+ * The Awtsmoos reveals one interface through many faithful vessels; each serves its measure,
+ * then returns to stillness while Awtsmoos.com preserves readiness, rhythm, and player treasure.
  */
 
-import { torahAbilityDefinition } from '../gameplay/combat/TorahAbilityCatalog.js';
+import { actionBarActionDefinition } from '../gameplay/actionbar/ActionBarActionCatalog.js';
 import { ActionBarCooldownPresenter } from './ActionBarCooldownPresenter.js';
 import { ActionBarHudMarkup } from './ActionBarHudMarkup.js';
 import { ActionBarInputController } from './ActionBarInputController.js';
@@ -59,7 +59,8 @@ export class ActionBarHud {
 			this.runtime.inventory.onChange(() => this.slots.refreshReadiness()),
 			bus.on('npc:target', () => this.slots.refreshReadiness()),
 			bus.on('npc:clear', () => this.slots.refreshReadiness()),
-			bus.on('actionbar:result', result => this.showResult(result))
+			bus.on('actionbar:result', result => this.showResult(result)),
+			bus.on('combat:melee-result', result => this.showResult(result))
 		];
 	}
 
@@ -74,11 +75,11 @@ export class ActionBarHud {
 	}
 
 	inspect(slotIndex, anchor) {
-		const abilityId = anchor.dataset.abilityId;
-		if (!abilityId) return this.tooltip.hide();
+		const actionId = anchor.dataset.actionId;
+		if (!actionId) return this.tooltip.hide();
 		return this.tooltip.show(
-			torahAbilityDefinition(abilityId),
-			this.runtime.timeline.readiness(abilityId),
+			actionBarActionDefinition(actionId),
+			this.runtime.readinessForSlot(slotIndex),
 			anchor
 		);
 	}

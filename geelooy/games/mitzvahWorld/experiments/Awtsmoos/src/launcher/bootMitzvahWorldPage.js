@@ -21,7 +21,7 @@ const HOST_IDS = Object.freeze({
 	npcHost: 'npcTarget'
 });
 
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260722-menu-stream-01';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260722-join-fix-06';
 
 /**
  * Boots the menu path without placing the gameplay dependency graph in the initial module graph.

@@ -22,13 +22,26 @@ function result(compatible, conversion = null, lossiness = "none", reason = null
 	return Object.freeze({ compatible, conversion, lossiness, reason });
 }
 
+function planShaderConnection(outputType, inputType) {
+	if (outputType === inputType) return result(true);
+	if (outputType.startsWith("shader.") && inputType === "shader") {
+		return result(true, `${outputType}-to-shader`, "contextual");
+	}
+	if (outputType === "shader" && inputType.startsWith("shader.")) {
+		return result(true, `shader-to-${inputType}`, "contextual");
+	}
+	return result(
+		false,
+		null,
+		"incompatible",
+		`Cannot connect shader closure ${outputType} to ${inputType}; an exact family or generic shader boundary is required.`
+	);
+}
+
 function planBaseConnection(outputType, inputType) {
 	if (outputType === inputType) return result(true);
 	if (outputType.startsWith("shader") || inputType.startsWith("shader")) {
-		if (outputType === "shader" && inputType.startsWith("shader.")) {
-			return result(true, `shader-to-${inputType}`, "contextual");
-		}
-		return result(false, null, "incompatible", "Shader closures require exact compatible families.");
+		return planShaderConnection(outputType, inputType);
 	}
 	if (EXACT_TYPES.has(outputType) || EXACT_TYPES.has(inputType)) {
 		return result(false, null, "incompatible", `Cannot connect ${outputType} to ${inputType}.`);
@@ -43,8 +56,12 @@ function planBaseConnection(outputType, inputType) {
 	if (VECTOR_TYPES.has(outputType) && VECTOR_TYPES.has(inputType)) {
 		return result(true, `${outputType}-reinterpret-as-${inputType}`, "contextual");
 	}
-	if (outputType === "spectrum" && inputType === "color") return result(true, "spectrum-to-color", "lossy");
-	if (outputType === "color" && inputType === "spectrum") return result(true, "color-to-spectrum", "estimated");
+	if (outputType === "spectrum" && inputType === "color") {
+		return result(true, "spectrum-to-color", "lossy");
+	}
+	if (outputType === "color" && inputType === "spectrum") {
+		return result(true, "color-to-spectrum", "estimated");
+	}
 	return result(false, null, "incompatible", `Cannot connect ${outputType} to ${inputType}.`);
 }
 
@@ -56,10 +73,18 @@ export function planSocketConnection(outputSocket, inputSocket) {
 	if (inputField && !outputField) {
 		const base = planBaseConnection(outputType, inputField);
 		return base.compatible
-			? result(true, base.conversion ? `${base.conversion}-then-lift-field` : "lift-constant-to-field", base.lossiness)
+			? result(
+				true,
+				base.conversion
+					? `${base.conversion}-then-lift-field`
+					: "lift-constant-to-field",
+				base.lossiness
+			)
 			: base;
 	}
 	if (outputField && inputField) return planBaseConnection(outputField, inputField);
-	if (outputField && !inputField) return result(false, null, "incompatible", "A field requires an evaluation context.");
+	if (outputField && !inputField) {
+		return result(false, null, "incompatible", "A field requires an evaluation context.");
+	}
 	return planBaseConnection(outputType, inputType);
 }

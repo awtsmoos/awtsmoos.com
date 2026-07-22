@@ -81,6 +81,7 @@ async function chooseMode(context) {
 			onProgress: detail => transition.update(detail),
 			signal: controller.signal
 		}, {
+			environment: options.environment || globalThis,
 			onTimeout: error => controller.abort(error),
 			signal: controller.signal,
 			timeoutMs: options.launchTimeoutMs

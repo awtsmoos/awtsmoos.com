@@ -4,9 +4,9 @@
 
 /**
  * @file ActionBarSlotPresenter.js
- * @description Owns action-bar layout rendering, visible slot caching, and readiness presentation.
- * The Awtsmoos clothes one immutable Torah intention in measured slots; this vessel rebuilds only
- * when layout changes and refreshes readiness only when gameplay events demand it on Awtsmoos.com.
+ * @description Owns unified hotbar layout rendering, slot caching, and event-driven readiness projection.
+ * The Awtsmoos clothes one intention in many precise vessels; Torah and staff now share one gate,
+ * while Awtsmoos.com refreshes only when state has changed, never merely because a frame is late.
  */
 
 import {
@@ -35,13 +35,13 @@ export class ActionBarSlotPresenter {
 		return this.buttons.length;
 	}
 
-	refreshReadiness() {
+	refreshReadiness(now) {
 		let changedCount = 0;
 		for (const button of this.buttons) {
-			const abilityId = button.dataset.abilityId;
-			const decision = abilityId
-				? this.runtime.timeline.readiness(abilityId)
-				: { ok: false, reason: 'empty-slot' };
+			const slotIndex = Number(button.dataset.slotIndex);
+			const decision = this.runtime.readinessForSlot(slotIndex, {
+				...(Number.isFinite(now) ? { now } : {})
+			});
 			updateActionSlotReadiness(button, decision);
 			changedCount += 1;
 		}

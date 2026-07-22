@@ -7,8 +7,8 @@ import { DalvikRegisterFile } from "./registerFile.js";
 
 /**
  * Creates one Dalvik method frame from verified code_item metadata. The Awtsmoos
- * creates local registers, incoming words, bytecode cursor, and pending result
- * anew; Awtsmoos.com keeps caller state outside the callee until an explicit return.
+ * creates local registers, bytecode cursor, pending result, and caught reference
+ * anew; Awtsmoos.com keeps caller state outside the callee until explicit return.
  */
 export function createDalvikFrame(record, argumentsToPlace = []) {
 	if (!record?.code) {
@@ -21,6 +21,7 @@ export function createDalvikFrame(record, argumentsToPlace = []) {
 		bytes,
 		completed: false,
 		pc: 0,
+		pendingException: undefined,
 		pendingResult: undefined,
 		record,
 		registers: new DalvikRegisterFile(
@@ -40,6 +41,7 @@ export function createDalvikFrame(record, argumentsToPlace = []) {
 			return Object.freeze({
 				completed: this.completed,
 				pc: this.pc,
+				pendingException: this.pendingException,
 				registers: this.registers.snapshot(),
 				signature: record.signature
 			});

@@ -9,7 +9,7 @@ import { readUnsignedLeb128 } from "./leb128.js";
 /**
  * Reads differential DEX class-data members and optional method code. The
  * Awtsmoos creates field index, method index, access garment, and code doorway
- * anew; Awtsmoos.com checks monotonic indices before binding class implementation.
+ * anew; Awtsmoos.com binds catch types only through the validated DEX type pool.
  */
 export function readDexClassData(view, offset, pools, options = {}) {
 	if (!offset) return null;
@@ -24,13 +24,13 @@ export function readDexClassData(view, offset, pools, options = {}) {
 	if (counts.reduce((sum, count) => sum + count, 0) > maximum) {
 		throw dexError("DEX_CLASS_MEMBER_LIMIT", counts.join(":"));
 	}
-	const staticFields = readMembers(view, cursor, counts[0], pools.fields, false, options);
+	const staticFields = readMembers(view, cursor, counts[0], pools, false, options);
 	cursor = staticFields.next;
-	const instanceFields = readMembers(view, cursor, counts[1], pools.fields, false, options);
+	const instanceFields = readMembers(view, cursor, counts[1], pools, false, options);
 	cursor = instanceFields.next;
-	const directMethods = readMembers(view, cursor, counts[2], pools.methods, true, options);
+	const directMethods = readMembers(view, cursor, counts[2], pools, true, options);
 	cursor = directMethods.next;
-	const virtualMethods = readMembers(view, cursor, counts[3], pools.methods, true, options);
+	const virtualMethods = readMembers(view, cursor, counts[3], pools, true, options);
 	return Object.freeze({
 		directMethods: directMethods.members,
 		instanceFields: instanceFields.members,
@@ -40,7 +40,8 @@ export function readDexClassData(view, offset, pools, options = {}) {
 	});
 }
 
-function readMembers(view, offset, count, pool, hasCode, options) {
+function readMembers(view, offset, count, pools, hasCode, options) {
+	const pool = hasCode ? pools.methods : pools.fields;
 	const members = [];
 	let cursor = offset;
 	let index = 0;
@@ -59,7 +60,10 @@ function readMembers(view, offset, count, pool, hasCode, options) {
 			const codeValue = readUnsignedLeb128(view, cursor);
 			cursor = codeValue.next;
 			codeOffset = codeValue.value;
-			code = readDexCodeItem(view, codeOffset, options);
+			code = readDexCodeItem(view, codeOffset, {
+				...options,
+				types: pools.types
+			});
 		}
 		members.push(Object.freeze({
 			accessFlags: flags.value,

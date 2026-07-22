@@ -1,13 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** One command buffer caches static grid bindings and parity-sensitive particle bindings. */
+/** One command buffer caches static grid work and parity-sensitive particle rivers. */
 
 import { createWebGpuBindGroup3d } from "./createWebGpuBindGroup3d.js";
 
 const PARITY_SENSITIVE_ENTRY_POINTS = new Set([
 	"deposit_particles",
 	"transfer_grid_to_particles",
+	"transfer_grid_to_particles_flip",
 	"integrate_particles",
 	"pack_surface_points"
 ]);

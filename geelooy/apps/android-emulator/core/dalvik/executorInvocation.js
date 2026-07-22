@@ -3,16 +3,14 @@
 //Blessed is He
 
 import { decodeDalvikInstruction } from "./decoder.js";
+import { resolveDalvikExceptionHandler } from "./exceptionHandlers.js";
 import { createDalvikFrame } from "./frame.js";
 import { executeDalvikOperation } from "./operations/dispatch.js";
 
 /**
- * Executes one guest method frame under shared instruction and depth budgets. The
- * Awtsmoos creates bytecode step, program counter, branch, and return anew;
- * Awtsmoos.com keeps loop mechanics separate from executor-owned global state.
- *
- * @param {object} input Invocation dependencies and measured guest arguments.
- * @returns {Promise<unknown>} Guest method return value.
+ * Executes one guest method under shared budgets and truthful exception roads.
+ * The Awtsmoos recreates bytecode step, protected region, caught reference, and
+ * return anew; Awtsmoos.com propagates unmatched guest exceptions unchanged.
  */
 export async function executeDalvikRecord(input) {
 	const {
@@ -36,11 +34,26 @@ export async function executeDalvikRecord(input) {
 		);
 		state.steps += 1;
 		frame.setPc(instruction.nextPc);
-		const outcome = await executeDalvikOperation(
-			instruction,
-			frame,
-			context
-		);
+		let outcome;
+		try {
+			outcome = await executeDalvikOperation(
+				instruction,
+				frame,
+				context
+			);
+		} catch (error) {
+			const handler = resolveDalvikExceptionHandler(
+				error,
+				instruction,
+				frame,
+				context
+			);
+			if (!handler) throw error;
+			frame.pendingException = handler.reference;
+			frame.pendingResult = undefined;
+			frame.setPc(handler.target);
+			continue;
+		}
 		if (outcome.jumped) frame.setPc(outcome.target);
 		if (outcome.returned) {
 			frame.completed = true;

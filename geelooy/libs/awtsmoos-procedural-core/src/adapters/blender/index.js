@@ -5,4 +5,5 @@
 
 export { createBlenderExecutionPlan } from "./BlenderExecutionPlan.js";
 export { createBlenderObjectExecutionPlan } from "./BlenderObjectExecutionPlan.js";
+export { createBlenderNodeExecutionPlan } from "./BlenderNodeExecutionPlan.js";
 export { createBlenderAdapterManifest } from "./createBlenderAdapterManifest.js";

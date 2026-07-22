@@ -4,90 +4,72 @@
 /** Repeated bounded substeps renew one deterministic liquid state. */
 
 import { createParticleSystem } from "../particles/createParticleSystem.js";
+import { createLiquidSecondaryParticleEvents3d } from "./createLiquidSecondaryParticleEvents3d.js";
 import { createLiquidSurface3d } from "./createLiquidSurface3d.js";
 import { createParticleGridLiquidState } from "./createParticleGridLiquidState.js";
 import { measureLiquidState3d } from "./measureLiquidState3d.js";
-import { runLiquidSubstep3d } from "./runLiquidSubstep3d.js";
+import { planLiquidSubsteps3d } from "./planLiquidSubsteps3d.js";
+import { runPlannedLiquidFrame3d } from "./runPlannedLiquidFrame3d.js";
 
-function emptySubstepReport() {
-	return {
-		activeCellCount: 0,
-		divergenceBefore: 0,
-		divergenceAfter: 0,
-		projectionAccepted: false,
-		acceptedIterations: 0,
-		solidContactCount: 0,
-		solidProjectedParticleEvents: 0,
-		solidConstrainedCellCount: 0,
-		solidInteriorCellCount: 0
-	};
+function secondaryOptions(options) {
+	if (options.secondaryParticles === false) return null;
+	return typeof options.secondaryParticles === "object"
+		? options.secondaryParticles
+		: {};
 }
 
-function mergeSubstepReport(total, current) {
-	return {
-		...current,
-		solidContactCount: total.solidContactCount + current.solidContactCount,
-		solidProjectedParticleEvents: total.solidProjectedParticleEvents
-			+ current.solidProjectedParticleEvents,
-		solidConstrainedCellCount: total.solidConstrainedCellCount
-			+ current.solidConstrainedCellCount,
-		solidInteriorCellCount: total.solidInteriorCellCount
-			+ current.solidInteriorCellCount
-	};
-}
-
-export function stepParticleGridLiquid3d(input, options = {}) {
-	const state = createParticleGridLiquidState(input);
-	const deltaTime = Math.max(0, Number(options.deltaTime ?? 1 / 60));
-	const substeps = Math.max(1, Math.floor(options.substeps ?? 1));
-	const substepTime = deltaTime / substeps;
-	const blend = options.blend ?? state.blend;
-	const solidColliders = options.solidColliders ?? [];
-	let particleSystem = state.particleSystem;
-	let massGrid = state.massGrid;
-	let velocityGrid = state.velocityGrid;
-	let previousVelocityGrid = state.previousVelocityGrid;
-	let substepReport = emptySubstepReport();
-	for (let step = 0; step < substeps; step += 1) {
-		const result = runLiquidSubstep3d({
-			particleSystem,
-			grid: state.grid,
-			blend,
-			solidColliders,
-			deltaTime: substepTime,
-			options
-		});
-		particleSystem = result.particleSystem;
-		massGrid = result.massGrid;
-		velocityGrid = result.velocityGrid;
-		previousVelocityGrid = result.previousVelocityGrid;
-		substepReport = mergeSubstepReport(substepReport, result.report);
-	}
-	particleSystem = createParticleSystem({
-		...particleSystem,
+function createNextState(state, result, plan) {
+	const particleSystem = createParticleSystem({
+		...result.particleSystem,
 		tick: state.particleSystem.tick + 1,
-		time: state.particleSystem.time + deltaTime
+		time: state.particleSystem.time + plan.deltaTime
 	});
-	const nextState = createParticleGridLiquidState({
+	return createParticleGridLiquidState({
 		...state,
 		tick: state.tick + 1,
-		time: state.time + deltaTime,
+		time: state.time + plan.deltaTime,
 		particleSystem,
-		massGrid,
-		velocityGrid,
-		previousVelocityGrid,
-		blend
+		massGrid: result.massGrid,
+		velocityGrid: result.velocityGrid,
+		previousVelocityGrid: result.previousVelocityGrid,
+		blend: result.blend
 	});
+}
+
+function createFrameReport(nextState, result, plan) {
+	return Object.freeze({
+		...measureLiquidState3d(nextState, { deltaTime: plan.deltaTime }),
+		...result.report,
+		substeps: plan.substeps,
+		substepPlan: plan,
+		qualityProfile: plan.profile.name
+	});
+}
+
+/**
+ * Advances PIC/FLIP liquid with CFL-bounded work and derived secondary events.
+ * @returns {{state:Object,surface:Object|null,secondaryParticleEvents:Object[],report:Object}}
+ * @complexity O(substeps × (particles + grid cells + pressure iterations)).
+ * @deterministic Always for equal canonical state and options.
+ * @sideEffects None.
+ * @resourceBehavior Work and secondary events are explicitly bounded.
+ */
+export function stepParticleGridLiquid3d(input, options = {}) {
+	const state = createParticleGridLiquidState(input);
+	const plan = planLiquidSubsteps3d(state, options);
+	const result = runPlannedLiquidFrame3d(state, options, plan);
+	const nextState = createNextState(state, result, plan);
+	const report = createFrameReport(nextState, result, plan);
+	const eventOptions = secondaryOptions(options);
 	const surfaceOptions = options.surface === true ? {} : options.surface;
 	return Object.freeze({
 		state: nextState,
 		surface: surfaceOptions
 			? createLiquidSurface3d(nextState, surfaceOptions)
 			: null,
-		report: Object.freeze({
-			...measureLiquidState3d(nextState, { deltaTime }),
-			...substepReport,
-			substeps
-		})
+		secondaryParticleEvents: eventOptions
+			? createLiquidSecondaryParticleEvents3d(nextState, report, eventOptions)
+			: Object.freeze([]),
+		report
 	});
 }

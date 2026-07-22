@@ -12,7 +12,7 @@
 import { startGameplayTextureStreaming } from './GameplayTextureStreamingGate.js';
 import { afterVisibleFrames, reportLaunchProgress } from './RuntimeLaunchProgress.js';
 
-const PLAYABLE_BUNDLE_URL = '../../dist/playable-runtime/playable-runtime.js?v=20260722-bundle-02';
+const PLAYABLE_BUNDLE_URL = '../../dist/playable-runtime/playable-runtime.js?v=20260722-bundle-08';
 
 export { startGameplayTextureStreaming };
 

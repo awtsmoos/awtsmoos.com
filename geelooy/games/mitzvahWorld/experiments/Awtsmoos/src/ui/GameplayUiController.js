@@ -4,18 +4,13 @@
 
 /**
  * @file GameplayUiController.js
- * @description Owns durable Shlichus, action-bar combat, panels, and physical attacks.
+ * @description Binds one assembled gameplay runtime to visible panels and shared events.
+ * The Awtsmoos gathers many windows beneath one hidden throne; coin, quest, sefer, strike,
+ * and earned ascent rhyme through Awtsmoos.com while every mutation returns to one store alike.
  */
 
-import { AdventureStore } from '../gameplay/AdventureStore.js';
-import { ActionBarRuntimeCoordinator } from '../gameplay/actionbar/ActionBarRuntimeCoordinator.js';
-import { PlayerMeleeController } from '../gameplay/combat/PlayerMeleeController.js';
-import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
-import { InventoryStore } from '../gameplay/InventoryStore.js';
-import { ShliachProfileStore } from '../gameplay/ShliachProfileStore.js';
-import { ShlichusRuntimeCoordinator } from '../gameplay/ShlichusRuntimeCoordinator.js';
-import { GameplayActionGateway } from './GameplayActionGateway.js';
-import { GameplayPanelSuite } from './GameplayPanelSuite.js';
+import { assembleGameplayPanels } from './GameplayPanelAssembly.js';
+import { assembleGameplayRuntime } from './GameplayRuntimeAssembly.js';
 import { installGameplayUiStyles } from './GameplayUiStyles.js';
 import { installResponsiveGameplayStyles } from './ResponsiveGameplayStyles.js';
 
@@ -24,55 +19,8 @@ export class GameplayUiController {
 		installGameplayUiStyles();
 		installResponsiveGameplayStyles();
 		this.bus = bus;
-		this.adventures = options.adventures || new AdventureStore();
-		this.inventory = options.inventory || new InventoryStore();
-		this.profile = options.profile || new ShliachProfileStore({ inventory: this.inventory });
-		this.shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
-			adventures: this.adventures,
-			bus,
-			inventory: this.inventory,
-			persistence: options.shlichusPersistence,
-			persistenceOptions: options.shlichusPersistenceOptions,
-			profile: this.profile
-		});
-		this.gateway = new GameplayActionGateway({
-			actions: options.actions,
-			inventory: this.inventory,
-			profile: this.profile
-		});
-		this.combat = options.combat || new TorahCombatController({
-			bus,
-			clock: options.clock,
-			focus: options.focus,
-			inventory: this.inventory,
-			profile: this.profile
-		});
-		this.actionBar = options.actionBar || new ActionBarRuntimeCoordinator({
-			bus,
-			clock: options.clock,
-			combat: this.combat,
-			inventory: this.inventory,
-			persistence: options.actionBarPersistence,
-			persistenceOptions: options.actionBarPersistenceOptions,
-			playerId: options.playerId
-		});
-		this.melee = options.melee || new PlayerMeleeController({
-			attack: options.meleeAttack,
-			bus,
-			clock: options.clock
-		});
-		this.panels = new GameplayPanelSuite({
-			adventures: this.adventures,
-			getTorahFocus: () => this.combat.snapshot().focus,
-			inventory: this.inventory,
-			inventoryPanel: options.inventoryPanel,
-			onActivatePowerup: id => this.gateway.activatePowerup(id),
-			onAllocateAttribute: (id, points) => this.gateway.allocateAttribute(id, points),
-			onAssignAbility: id => this.actionBar.assignFirstAvailable(id),
-			onBuyItem: (id, quantity) => this.gateway.buyItem(id, quantity),
-			onUsePassage: passage => this.combat.usePassage(passage),
-			profile: this.profile
-		});
+		Object.assign(this, assembleGameplayRuntime(bus, options));
+		this.panels = assembleGameplayPanels(this, options);
 		this.unsubscribers = [];
 		this.bind();
 	}
@@ -106,6 +54,7 @@ export class GameplayUiController {
 			melee: this.melee.snapshot(),
 			panels: this.panels.snapshot(),
 			profile: this.profile.snapshot(),
+			progression: this.progression.snapshot(),
 			shlichusPersistence: this.shlichus.snapshot()
 		};
 	}
@@ -113,6 +62,7 @@ export class GameplayUiController {
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.actionBar.destroy();
+		this.progression.destroy();
 		this.shlichus.destroy();
 		this.combat.destroy();
 		this.melee.destroy();

@@ -13,6 +13,7 @@ export * from "./exports/animation.js";
 export * from "./exports/adapters.js";
 export * from "./exports/meshText.js";
 export * from "./exports/recipes.js";
+export * from "./exports/realism.js";
 export * from "./core/animalMesh/index.js";
 export * from "./core/proceduralObject/index.js";
 

@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** A resident GPU river deposits, forces, integrates, and packs without synchronous return. */
+/** A resident GPU river deposits, projects pressure, transfers PIC motion, and returns no bytes. */
 
 import { createWebGpuLiquidFramePlan3d } from "./createWebGpuLiquidFramePlan3d.js";
 import { createWebGpuLiquidRuntimeState3d } from "./createWebGpuLiquidRuntimeState3d.js";
@@ -48,6 +48,7 @@ export class WebGpuLiquidRuntime3d {
 			frameIndex: this.#frameIndex,
 			particleCount: this.#state.particleCount,
 			gridCellCount: this.#state.gridLayout.cellCount,
+			pressureIterations: input.pressureIterations,
 			maximumWorkgroups: input.maximumWorkgroups
 				?? this.#state.maximumWorkgroups,
 			enabledPasses: input.enabledPasses,
@@ -79,6 +80,7 @@ export class WebGpuLiquidRuntime3d {
 			ok: true,
 			frameIndex: this.#frameIndex,
 			gridLayout: this.#state.gridLayout,
+			pressureIterations: plan.pressureIterations,
 			plan,
 			parity: encoded.parityAfter,
 			bytesAllocated: this.#state.resources.totalBytes,

@@ -1,47 +1,99 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Decorative fog, glow stacks, and perpetual motion leave the canonical app layer.
+ *
+ * @fileoverview Bounded visual effects for a fast Awtsmoos.com shell.
+ * This Netzach policy no longer erases the intended design with global
+ * `!important` rules. The Awtsmoos renews motion each instant; only motion that
+ * clarifies state is admitted, while perpetual decorative work remains still.
  */
-:where(body.geelooy-app-shell, body[data-premium-ui])::before,
-:where(body.geelooy-app-shell, body[data-premium-ui])::after,
-:where(.g-home-orbit, .home-pointer-light, .home-awake-sky, .home-awake-orb, .premium-sky, .ambient-orb, .cosmic-field) {
-	display: none !important;
+:where(
+	.home-pointer-light,
+	.home-awake-orb,
+	.premium-float,
+	.ambient-orb[data-animated="true"]
+) {
+	animation-play-state: paused;
 }
-:where(.g-unusual-header, .g-dock, .g-context-ribbon, .g-constellation-menu, .g-panel, .g-header-search, .g-search-suggestions, .awtsmoosDrop .dropdown-content, .awtsmoos-dropdown-backdrop, .g-home-portal-search, .home-command-dock, .profile-bottom-nav, .geelooy-bottom-nav, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel) {
-	backdrop-filter: none !important;
-	-webkit-backdrop-filter: none !important;
+
+:where(
+	.g-panel,
+	.g-card,
+	.geelooy-feed-card,
+	.home-post-card,
+	.social-space-card,
+	.card-wrapper,
+	.post-card
+) {
+	transform: translateZ(0);
+	will-change: auto;
 }
-:where(.g-panel, .geelooy-home-composer, .g-constellation-route, .profile-icon-symbol, .profile-icon-line, .g-gradient-text, .geelooy-feed-sentinel, .g-home-aside, .premium-panel, .social-space-card, .card-wrapper, .post-card) {
-	filter: none !important;
+
+:where(
+	.g-panel,
+	.g-card,
+	.geelooy-feed-card,
+	.home-post-card,
+	.social-space-card,
+	.card-wrapper,
+	.post-card
+):is(:hover, :focus-within) {
+	will-change: transform, border-color, box-shadow;
 }
-:where(.g-gradient-text) {
-	background: none !important;
-	color: inherit !important;
+
+:where(
+	.g-unusual-header,
+	.g-dock,
+	.g-context-ribbon,
+	.g-constellation-menu,
+	.g-panel,
+	.g-card,
+	.g-header-search,
+	.g-search-suggestions
+) {
+	backface-visibility: hidden;
 }
-:where(.g-unusual-header, .g-dock, .g-context-ribbon, .g-panel, .g-constellation-menu, .geelooy-home-composer, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel) {
-	box-shadow: var(--shadow-card) !important;
-}
-:where(.g-page, .g-home-main, .g-home-orbit, .g-home-orbit i, .g-home-aside, .g-search-orb, .g-signal-core span, .g-primary-action, .g-button-primary, .premium-float, .premium-arrival, .premium-lift, .home-search-label) {
-	animation: none !important;
-}
-:where(.g-page, .g-home-main, .g-home-aside, .g-panel, .geelooy-feed-card, .home-post-card, .social-space-card, .card-wrapper, .post-card) {
-	transform-style: flat !important;
-	perspective: none !important;
-}
-:where(.g-panel, .geelooy-feed-card, .home-post-card, .social-space-card, .card-wrapper, .post-card):is(:hover, :focus-within) {
-	filter: none !important;
-}
-@media (prefers-reduced-motion: no-preference) {
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+	:where(.g-card, .geelooy-feed-card, .home-post-card, .social-space-card) {
+		transition:
+			transform var(--g-motion-medium) var(--g-ease),
+			border-color var(--g-motion-medium) var(--g-ease),
+			box-shadow var(--g-motion-medium) var(--g-ease);
+	}
+
+	:where(.g-card, .geelooy-feed-card, .home-post-card, .social-space-card):hover {
+		transform: translateY(-2px);
+	}
+
 	:where([data-enter], .is-entering) {
-		animation: unified-enter var(--motion-med) var(--ease-soft) both;
+		animation: g-unified-enter var(--g-motion-slow) var(--g-ease) both;
 	}
 }
-@keyframes unified-enter {
+
+@media (max-width: 42rem), (update: slow) {
+	:where(.g-panel, .g-card, .geelooy-feed-card, .home-post-card) {
+		backdrop-filter: none;
+	}
+
+	:where(.g-panel, .g-card, .geelooy-feed-card, .home-post-card):is(:hover, :focus-within) {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-panel, .g-card, .geelooy-feed-card, .home-post-card, .social-space-card) {
+		transition: none;
+		transform: none;
+	}
+}
+
+@keyframes g-unified-enter {
 	from {
 		opacity: 0;
-		transform: translateY(var(--motion-slide-distance));
+		transform: translateY(.7rem);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);

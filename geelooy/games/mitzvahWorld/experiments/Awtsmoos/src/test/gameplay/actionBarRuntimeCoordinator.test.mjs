@@ -2,10 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-/** @file actionBarRuntimeCoordinator.test.mjs @description Verifies the integrated hotbar transaction. */
+/**
+ * @file actionBarRuntimeCoordinator.test.mjs
+ * @description Verifies one persisted hotbar routes Torah and physical actions without divided authority.
+ * The Awtsmoos binds many deeds within one covenantal bar; Awtsmoos.com keeps target, cooldown,
+ * layout, drag, and persistence truthful whether a player raises a sefer or a staff from afar.
+ */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { DEFAULT_MELEE_ACTION_ID } from '../../gameplay/actionbar/ActionBarActionCatalog.js';
 import { ActionBarRuntimeCoordinator } from '../../gameplay/actionbar/ActionBarRuntimeCoordinator.js';
 
 test('runtime separates restored catalog validity from learned readiness', () => {
@@ -21,7 +27,7 @@ test('runtime separates restored catalog validity from learned readiness', () =>
 	runtime.destroy();
 });
 
-test('self and hostile slots use the canonical controller contract and exact status targets', () => {
+test('self and hostile Torah slots preserve the canonical controller contract', () => {
 	let now = 0;
 	const requests = [];
 	const runtime = createRuntime({
@@ -33,7 +39,6 @@ test('self and hostile slots use the canonical controller contract and exact sta
 	assert.equal(requests[0].options.worldImpactRequired, false);
 	assert.equal(requests[0].options.targetRequired, false);
 	assert.equal(runtime.statuses.snapshot('player').effects[0].effectId, 'returning-spark');
-
 	now = 1100;
 	runtime.store.assign(1, 'light-against-concealment');
 	assert.equal(runtime.activateSlot(1, { now }).reason, 'casting');
@@ -45,6 +50,35 @@ test('self and hostile slots use the canonical controller contract and exact sta
 	assert.equal(runtime.snapshot(now).persistence.connected, true);
 	runtime.destroy();
 	assert.equal(runtime.persistence.snapshot().connected, false);
+});
+
+test('row two begins with one default attack routed through canonical melee', () => {
+	const attacks = [];
+	const melee = {
+		attackNow(context) {
+			attacks.push({ ...context });
+			return { ok: true, reason: 'committed' };
+		},
+		readiness(now) {
+			return {
+				charges: now >= 700 ? 1 : 0,
+				cooldownRemainingMilliseconds: Math.max(0, 700 - now),
+				globalCooldownRemainingMilliseconds: 0,
+				maximumCharges: 1,
+				ok: now >= 700,
+				reason: now >= 700 ? 'ready' : 'attack-cooldown'
+			};
+		}
+	};
+	const runtime = createRuntime({ melee });
+	const layout = runtime.store.snapshot();
+	assert.equal(layout.rows, 2);
+	assert.equal(layout.slots[12], DEFAULT_MELEE_ACTION_ID);
+	assert.equal(runtime.activateSlot(12, { now: 700, source: 'test' }).ok, true);
+	assert.deepEqual(attacks, [{ now: 700, slotIndex: 12, source: 'test' }]);
+	assert.equal(runtime.readinessForSlot(12, { now: 500 }).reason, 'attack-cooldown');
+	assert.equal(runtime.cooldownForSlot(12, 500).cooldownRemainingMilliseconds, 200);
+	runtime.destroy();
 });
 
 function createRuntime(options = {}) {
@@ -69,6 +103,7 @@ function createRuntime(options = {}) {
 			}
 		},
 		inventory: { snapshot: () => ({ learned: [...learned] }) },
+		melee: options.melee,
 		persistenceOptions: { key: 'test.runtime', storage }
 	});
 }

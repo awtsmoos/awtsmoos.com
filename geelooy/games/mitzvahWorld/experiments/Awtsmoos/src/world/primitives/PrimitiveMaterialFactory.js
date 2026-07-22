@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds measured local images and texture policy to primitive geometry.
- * The Awtsmoos clothes each finite surface without changing the garment's pixels;
- * Awtsmoos.com preserves identity through hydration, batching, lighting, and submission.
+ * @description Binds measured local images and existing layered recipes to primitive geometry.
+ * The Awtsmoos clothes each finite surface without changing the garment's pixels; Awtsmoos.com
+ * preserves authored strata through hydration, lighting, batching, and final GPU submission.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -16,13 +16,6 @@ import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { colorArray } from './PrimitiveGeometryFactory.js';
 import { createPrimitiveTexturePolicy } from './PrimitiveTexturePolicy.js';
 
-/**
- * Creates one standard material with shared texture hydration and diagnostics.
- *
- * @param {object} definition - Primitive material definition.
- * @param {number} uvUnitsPerWorld - World-space UV density.
- * @returns {MeshStandardMaterial} Configured runtime material.
- */
 export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 	const textureUrl = textureUrlFor(definition);
 	const mapImage = definition.mapImage || cachedTextureImage(textureUrl) || null;
@@ -48,6 +41,7 @@ export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 		mapRepeat: definition.mapRepeat || [1, 1],
 		mixImage,
 		mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
+		mixStrength: definition.mixStrength ?? 0,
 		mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
 		normalTextureUrl: definition.normalTextureUrl || null,
 		opacity: definition.opacity ?? 1,
@@ -55,14 +49,27 @@ export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 		textureUrl,
 		transparent: Boolean(definition.transparent)
 	});
+	Object.assign(material, layeredFields(definition));
 	return material;
+}
+
+function layeredFields(definition) {
+	if (!Array.isArray(definition.textureLayers) || !definition.textureLayers.length) return {};
+	return {
+		materialStack: definition.materialStack || null,
+		textureLayers: definition.textureLayers.map(layer => ({
+			...layer,
+			image: layer.image || cachedTextureImage(layer.url) || null
+		}))
+	};
 }
 
 function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
 	return {
 		...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
+		...(definition.texturePolicy || {}),
 		fallbackApplied: !definition.textureUrl && !definition.mapImage,
-		publicFirebase: false,
+		publicFirebase: definition.texturePolicy?.publicFirebase ?? false,
 		realMapImage: Boolean(mapImage),
 		sameOrigin: isSameOriginMaterialUrl(textureUrl)
 	};

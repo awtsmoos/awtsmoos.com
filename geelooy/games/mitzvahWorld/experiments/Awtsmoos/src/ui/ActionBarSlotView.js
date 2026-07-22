@@ -4,14 +4,14 @@
 
 /**
  * @file ActionBarSlotView.js
- * @description Builds stable ability slots and applies only changed readiness or cooldown presentation.
- * From the unchanging unity of the Awtsmoos arise measured visible states; this vessel remembers the
- * last garment it revealed so the browser is not asked to recreate what already exists on Awtsmoos.com.
+ * @description Renders stable Torah or physical action slots and mutates only changed visual state.
+ * The Awtsmoos reveals many deeds through one measured lattice; glyph and cooldown rhyme,
+ * while Awtsmoos.com refuses wasteful DOM recreation in the river of time.
  */
 
+import { actionBarActionDefinition } from '../gameplay/actionbar/ActionBarActionCatalog.js';
 import { actionBarKeyLabel } from '../gameplay/actionbar/ActionBarBindingRules.js';
-import { torahAbilityDefinition } from '../gameplay/combat/TorahAbilityCatalog.js';
-import { torahAbilityPresentation } from './TorahAbilityPresentation.js';
+import { actionBarActionPresentation } from './ActionBarActionPresentation.js';
 
 export function renderActionBarSlots(grid, layout) {
 	const fragment = document.createDocumentFragment();
@@ -48,8 +48,8 @@ export function updateActionSlotCooldown(button, definition, state) {
 }
 
 function cooldownPresentation(definition, state) {
-	const localRemaining = state.cooldownRemainingMilliseconds;
-	const globalRemaining = state.globalCooldownRemainingMilliseconds;
+	const localRemaining = state.cooldownRemainingMilliseconds || 0;
+	const globalRemaining = state.globalCooldownRemainingMilliseconds || 0;
 	const remaining = Math.max(localRemaining, globalRemaining);
 	const localDuration = definition.charges > 1
 		? definition.chargeRecoveryMilliseconds
@@ -59,8 +59,8 @@ function cooldownPresentation(definition, state) {
 		: localDuration;
 	const ratio = duration ? Math.min(1, remaining / duration).toFixed(3) : '0.000';
 	const label = remaining > 0 ? cooldownLabel(remaining) : '';
-	const chargeHidden = state.maximumCharges < 2;
-	const chargeLabel = chargeHidden ? '' : String(state.charges);
+	const chargeHidden = (state.maximumCharges || 1) < 2;
+	const chargeLabel = chargeHidden ? '' : String(state.charges || 0);
 	return {
 		chargeHidden,
 		chargeLabel,
@@ -70,9 +70,9 @@ function cooldownPresentation(definition, state) {
 	};
 }
 
-function createActionSlot(slotIndex, abilityId) {
-	const definition = torahAbilityDefinition(abilityId);
-	const presentation = torahAbilityPresentation(abilityId);
+function createActionSlot(slotIndex, actionId) {
+	const definition = actionBarActionDefinition(actionId);
+	const presentation = actionBarActionPresentation(actionId);
 	const button = document.createElement('button');
 	button.className = `Mitzvah-action-slot${definition ? '' : ' is-empty'}`;
 	button.dataset.slotIndex = slotIndex;
@@ -84,6 +84,7 @@ function createActionSlot(slotIndex, abilityId) {
 		definition ? `${definition.title}, slot ${slotIndex + 1}` : `Empty slot ${slotIndex + 1}`
 	);
 	if (definition) {
+		button.dataset.actionId = definition.id;
 		button.dataset.abilityId = definition.id;
 		button.dataset.tone = presentation.tone;
 	}

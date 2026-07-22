@@ -36,7 +36,7 @@ The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com 
 				<button class="kind-pill" data-kind="question" type="button">Question</button>
 			</div>
 			<div class="editor-wrapper main-editor-wrapper">
-				<div id="mainContentEditor" class="content-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Write it here. Add media or sections only if the post needs them."></div>
+				<div id="mainContentEditor" class="content-editor" contenteditable="true" role="textbox" aria-label="Post body" aria-multiline="true" data-placeholder="Write it here. Add media or sections only if the post needs them."></div>
 				<div id="mainContentToolbarContainer" class="toolbar-slot"></div>
 			</div>
 			<div class="composer-actions" aria-label="Composer tools">
@@ -53,7 +53,9 @@ The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com 
 			<input id="newHeichelName" class="text-input" placeholder="Optional new space name">
 			<label class="field-label" for="targetSeriesId">Series ID</label>
 			<input id="targetSeriesId" class="text-input" placeholder="root">
+			<label class="field-label" for="bulkText">Long text to split into verses</label>
 			<textarea id="bulkText" class="bulk-text" placeholder="Optional: paste long text and generate verses"></textarea>
+			<label class="field-label" for="mainSectionDelimiters">Verse delimiters</label>
 			<input id="mainSectionDelimiters" class="text-input" placeholder="Custom delimiters, comma separated">
 			<div class="composer-actions">
 				<button id="generateSectionsFromBulk" class="soft-btn" type="button">Split paste</button>
@@ -70,22 +72,67 @@ The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com 
 			<button id="closeModalBtn" class="modal-close" type="button" aria-label="Close upload dialog">×</button>
 			<h2 id="uploadTitle">Attach media or file</h2>
 			<div id="dropZone" class="drop-zone">Drop a file here or tap to choose</div>
+			<label class="g-sr-only" for="fileInput">Choose a file to attach</label>
 			<input id="fileInput" type="file" accept="image/*,audio/*,.pdf,.txt,.md,.doc,.docx,.zip">
 			<button id="uploadImageBtn" class="soft-btn" type="button">Attach file</button>
 		</div>
 	</div>
-	<template id="toolbarTemplate"><div class="editor-toolbar"><button type="button" data-command="bold">Bold</button><button type="button" data-command="italic">Italic</button><button type="button" data-command="createLink">Link</button></div></template>
+	<template id="toolbarTemplate">
+		<div class="editor-toolbar">
+			<button type="button" data-command="bold">Bold</button>
+			<button type="button" data-command="italic">Italic</button>
+			<button type="button" data-command="createLink">Link</button>
+		</div>
+	</template>
 	<template id="sectionTemplate">
-		<article class="section"><h3 class="section-title-dynamic">Verse</h3><input class="section-id-input text-input" placeholder="id"><input class="section-label-input text-input" placeholder="label"><input class="section-verse-input text-input" placeholder="verse"><input class="section-order-input text-input" placeholder="order"><select class="section-type-select"><option value="verse">Verse</option></select>
-			<div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div>
-			<div class="composer-actions"><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></div>
-			<div class="subsection-manager"><textarea class="subsection-bulk-text"></textarea><input class="subsection-delimiters text-input"><button class="generate-subsections-btn soft-btn" type="button">Split segments</button><button class="add-subsection-btn soft-btn" type="button">Add segment</button></div><div class="sub-sections-area"></div>
+		<article class="section">
+			<h3 class="section-title-dynamic">Verse</h3>
+			<input class="section-id-input text-input" aria-label="Verse ID" placeholder="id">
+			<input class="section-label-input text-input" aria-label="Verse label" placeholder="label">
+			<input class="section-verse-input text-input" aria-label="Verse number" placeholder="verse">
+			<input class="section-order-input text-input" aria-label="Verse order" placeholder="order">
+			<select class="section-type-select" aria-label="Verse type"><option value="verse">Verse</option></select>
+			<div class="editor-wrapper">
+				<div class="section-content content-editor" contenteditable="true" role="textbox" aria-label="Verse content" aria-multiline="true"></div>
+				<div class="editor-toolbar-container"></div>
+			</div>
+			<div class="composer-actions">
+				<button class="toggle-toolbar-btn soft-btn" type="button">Format</button>
+				<button class="toggle-html-view-btn soft-btn" type="button">HTML</button>
+				<button class="upload-image-section-btn soft-btn" type="button">Attach</button>
+				<button class="add-before-btn soft-btn" type="button">Before</button>
+				<button class="add-after-btn soft-btn" type="button">After</button>
+				<button class="remove-section-btn soft-btn" type="button">Remove</button>
+			</div>
+			<div class="subsection-manager">
+				<textarea class="subsection-bulk-text" aria-label="Segment text to split"></textarea>
+				<input class="subsection-delimiters text-input" aria-label="Segment delimiters">
+				<button class="generate-subsections-btn soft-btn" type="button">Split segments</button>
+				<button class="add-subsection-btn soft-btn" type="button">Add segment</button>
+			</div>
+			<div class="sub-sections-area"></div>
 		</article>
 	</template>
 	<template id="subSectionTemplate">
-		<article class="sub-section"><h4 class="section-title-dynamic">Segment</h4><input class="section-id-input text-input"><input class="section-label-input text-input"><input class="section-verse-input text-input"><input class="section-order-input text-input"><select class="section-type-select"><option value="segment">Segment</option></select>
-			<div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div>
-			<div class="composer-actions"><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></div>
+		<article class="sub-section">
+			<h4 class="section-title-dynamic">Segment</h4>
+			<input class="section-id-input text-input" aria-label="Segment ID">
+			<input class="section-label-input text-input" aria-label="Segment label">
+			<input class="section-verse-input text-input" aria-label="Segment number">
+			<input class="section-order-input text-input" aria-label="Segment order">
+			<select class="section-type-select" aria-label="Segment type"><option value="segment">Segment</option></select>
+			<div class="editor-wrapper">
+				<div class="section-content content-editor" contenteditable="true" role="textbox" aria-label="Segment content" aria-multiline="true"></div>
+				<div class="editor-toolbar-container"></div>
+			</div>
+			<div class="composer-actions">
+				<button class="toggle-toolbar-btn soft-btn" type="button">Format</button>
+				<button class="toggle-html-view-btn soft-btn" type="button">HTML</button>
+				<button class="upload-image-section-btn soft-btn" type="button">Attach</button>
+				<button class="add-before-btn soft-btn" type="button">Before</button>
+				<button class="add-after-btn soft-btn" type="button">After</button>
+				<button class="remove-section-btn soft-btn" type="button">Remove</button>
+			</div>
 		</article>
 	</template>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>

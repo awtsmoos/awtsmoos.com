@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Runtime evidence proves fused PIC residency, static grid bindings, and no readback. */
+/** Runtime evidence proves resident pressure projection, bounded iteration, and no readback. */
 
 import assert from "node:assert/strict";
 import { createParticleSystem } from "../src/core/proceduralObject/particles/createParticleSystem.js";
@@ -32,38 +32,50 @@ const runtime = new WebGpuLiquidRuntime3d({
 	boundsMin: [-1, -1, -1],
 	boundsMax: [1, 1, 1]
 });
-assert.equal(recording.records.buffers.length, 6);
+assert.equal(recording.records.buffers.length, 9);
 assert.equal(recording.records.writes.length, 2);
-assert.equal(runtime.capabilities.implemented.gridVelocityNormalization, true);
-assert.equal(runtime.capabilities.implemented.picGridToParticleTransfer, true);
-assert.equal(runtime.capabilities.implemented.picFlipDeposition, false);
+assert.equal(runtime.capabilities.implemented.collocatedPressureProjection, true);
+assert.equal(runtime.capabilities.implemented.macPressureProjection, false);
 
-const first = runtime.stepFrame({ deltaTime: 1 / 60, picBlend: 0.95 });
+const first = runtime.stepFrame({
+	deltaTime: 1 / 60,
+	picBlend: 0.95,
+	pressureIterations: 8,
+	fluidDensity: 1000,
+	pressureRelaxation: 1
+});
 assert.equal(first.ok, true);
+assert.equal(first.pressureIterations, 8);
 assert.equal(first.parity, 1);
-assert.equal(first.dispatchCount, 5);
-assert.equal(first.totalWorkgroups, 8);
+assert.equal(first.dispatchCount, 15);
+assert.equal(first.totalWorkgroups, 28);
 assert.equal(first.submissionCount, 1);
 assert.equal(first.readbackCount, 0);
-assert.equal(first.pipelineCount, 5);
-assert.equal(first.bindGroupCount, 5);
-assert.equal(recording.records.buffers.length, 6);
+assert.equal(first.pipelineCount, 9);
+assert.equal(first.bindGroupCount, 9);
+assert.equal(recording.records.buffers.length, 9);
 assert.equal(recording.records.submissions.length, 1);
-assert.equal(recording.records.dispatches.length, 5);
+assert.equal(recording.records.dispatches.length, 15);
 
-const second = runtime.stepFrame({ deltaTime: 1 / 60 });
+const second = runtime.stepFrame({
+	deltaTime: 1 / 60,
+	pressureIterations: 8
+});
 assert.equal(second.parity, 0);
-assert.equal(second.pipelineCount, 5);
-assert.equal(second.bindGroupCount, 7);
-assert.equal(recording.records.pipelines.length, 5);
-assert.equal(recording.records.bindGroups.length, 7);
-assert.equal(recording.records.buffers.length, 6);
+assert.equal(second.pipelineCount, 9);
+assert.equal(second.bindGroupCount, 11);
+assert.equal(recording.records.pipelines.length, 9);
+assert.equal(recording.records.bindGroups.length, 11);
+assert.equal(recording.records.buffers.length, 9);
 assert.equal(recording.records.submissions.length, 2);
 
-const third = runtime.stepFrame({ deltaTime: 1 / 60 });
+const third = runtime.stepFrame({
+	deltaTime: 1 / 60,
+	pressureIterations: 8
+});
 assert.equal(third.parity, 1);
-assert.equal(third.bindGroupCount, 7);
-assert.equal(recording.records.buffers.length, 6);
+assert.equal(third.bindGroupCount, 11);
+assert.equal(recording.records.buffers.length, 9);
 assert.equal(recording.records.writes.length, 5);
 assert.equal(recording.records.submissions.length, 3);
 assert.equal(runtime.frameIndex, 3);

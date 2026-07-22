@@ -2,13 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * Netzach listens to the actual Briah body instead of forcing humanoid dogma.
- * The Awtsmoos carries every gait through time; Awtsmoos.com adapts historical
- * contact and control spellings while preserving the one locomotion planner.
+ * Netzach listens to actual Briah anatomy instead of forcing humanoid dogma.
+ * Awtsmoos.com adapts historical contact spellings while preserving one
+ * locomotion, expression, and secondary-motion semantic pipeline.
  */
+
 import {
 	analyzeCreatureBodyPlan as analyzeExistingBodyPlan
 } from "./motion/analyzeBodyPlan.js";
+import { evaluateCreatureSecondaryMotion } from "./motion/CreatureSecondaryMotion.js";
 import {
 	evaluateCreatureExpression as evaluateExistingExpression,
 	evaluateCreatureMotion as evaluateExistingMotion,
@@ -18,9 +20,9 @@ import {
 function normalizedCreature(creature) {
 	return {
 		...creature,
-		limbs: creature.limbs.map((limb) => ({
+		limbs: creature.limbs.map(limb => ({
 			...limb,
-			contactCapabilities: limb.contactCapabilities.map((capability) => (
+			contactCapabilities: limb.contactCapabilities.map(capability => (
 				capability === "ground-support" ? "ground.support" : capability
 			))
 		}))
@@ -57,7 +59,7 @@ export function planCreatureLocomotion(creature, rig, input = {}) {
 	return Object.freeze({
 		...plan,
 		gaitFamily: gaitFamily || plan.gait,
-		contactTrajectories: plan.contactPhases.map((phase) => ({
+		contactTrajectories: plan.contactPhases.map(phase => ({
 			targetId: phase.targetId,
 			strideLength: phase.trajectory.stride,
 			groundClearance: phase.trajectory.lift
@@ -79,3 +81,5 @@ export function evaluateCreatureMotion(plan, rig, input = {}) {
 export function evaluateCreatureExpression(rig, input = {}) {
 	return evaluateExistingExpression(normalizedRig(rig), input);
 }
+
+export { evaluateCreatureSecondaryMotion };

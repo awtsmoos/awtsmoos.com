@@ -1,26 +1,35 @@
 // B"H
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
-import { villageGroundHeight } from './VillageGroundSampling.js';
-
-const BUSH_COLORS = Object.freeze(['#356b3b', '#417f49', '#5d8c4f']);
-const BUSH_COUNT = 24;
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Compresses the village shrub ring into three finite faceted batches. Each
- * bush keeps three overlapping leafy lobes, while twenty-one draw calls and
- * thousands of wasted triangles dissolve before reaching the renderer.
+ * @file VillageBushBatchGeometry.js
+ * @description Merges geographically authored shrub clusters into three static leaf draws.
+ * The Awtsmoos replaces orbit with garden, hedgerow, meadow, and forest purpose; Awtsmoos.com
+ * preserves the same finite geometry while every shrub belongs to a named place.
  */
+
+import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import {
+	AUTHORED_BUSH_CLUSTERS,
+	AUTHORED_BUSH_COUNT,
+	createAuthoredBushPlacements
+} from './VillageBushPlacement.js';
+
+const BUSH_COLORS = Object.freeze(['#356b3b', '#417f49', '#5d8c4f']);
+const PLACEMENT_MODEL = 'canonical-biome-edge-clusters';
+
 export function createBushBatchDefinitions(groundSampler) {
+	const placements = createAuthoredBushPlacements(groundSampler);
 	const batches = BUSH_COLORS.map(emptyGeometry);
-	for (let index = 0; index < BUSH_COUNT; index += 1) {
-		const center = bushCenter(index, groundSampler);
-		const radius = 0.75 + index % 3 * 0.15;
-		appendBush(batches[index % batches.length], center, radius, index);
+	for (const [index, placement] of placements.entries()) {
+		appendBush(batches[index % batches.length], placement, placement.radius, index);
 	}
 	return batches.map((geometry, index) => batchDefinition(
 		geometry,
 		index,
-		BUSH_COLORS[index]
+		BUSH_COLORS[index],
+		placements
 	));
 }
 
@@ -31,18 +40,6 @@ export function bushBatchStats(definitions) {
 		summary.triangles += definition.faces.length;
 		return summary;
 	}, { batches: 0, instances: 0, triangles: 0 });
-}
-
-function bushCenter(index, groundSampler) {
-	const angle = index / BUSH_COUNT * Math.PI * 2;
-	const radialDistance = 18 + index % 4 * 6.2;
-	const x = Math.cos(angle) * radialDistance;
-	const z = Math.sin(angle) * radialDistance * 0.72 + 3;
-	return {
-		x,
-		y: villageGroundHeight(groundSampler, x, z) + 0.7,
-		z
-	};
 }
 
 function appendBush(geometry, center, radius, seed) {
@@ -77,29 +74,32 @@ function appendOctahedron(geometry, center, radius) {
 	}
 }
 
-function batchDefinition(geometry, index, color) {
+function batchDefinition(geometry, index, color, placements) {
 	return {
 		id: `Awtsmoos_living_bush_batch_${index}`,
 		shape: 'manual',
 		...geometry,
-		color,
-		textureUrl: TEXTURE_URLS.leaves.leaf1,
-		mapRepeat: [2, 2],
-		doubleSided: false,
 		backfaceCull: true,
-		solid: false,
+		color,
+		doubleSided: false,
+		mapRepeat: [2, 2],
 		noEdge: true,
-		userData: {
-			staticBatch: true,
-			family: 'village-bushes',
-			instances: BUSH_COUNT / BUSH_COLORS.length,
-			AwtsmoosLod: { className: 'vegetation' }
-		},
+		solid: false,
 		texturePolicy: {
-			role: 'leaf-bush',
 			publicFirebase: true,
 			realMaterialRequired: true,
+			role: 'leaf-bush',
 			shader: 'leaf-cluster-alpha-wind'
+		},
+		textureUrl: TEXTURE_URLS.leaves.leaf1,
+		userData: {
+			AwtsmoosLod: { className: 'vegetation' },
+			biomeIds: [...new Set(placements.map((item) => item.intendedBiomeId))],
+			clusterCount: AUTHORED_BUSH_CLUSTERS.length,
+			family: 'village-bushes',
+			instances: AUTHORED_BUSH_COUNT / BUSH_COLORS.length,
+			placementModel: PLACEMENT_MODEL,
+			staticBatch: true
 		}
 	};
 }

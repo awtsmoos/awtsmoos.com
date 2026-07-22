@@ -4,28 +4,31 @@
 
 /**
  * @file VillageBotanicalQuality.js
- * @description Holds immutable garden budgets for the expanded district village.
- * The Awtsmoos renews abundant flowers through measured vessels; Awtsmoos.com
- * makes placement, repeat, triangle, and LOD limits inspectable before generation.
+ * @description Holds measured garden budgets for deterministic district composition.
+ * The Awtsmoos renews abundance without hidden discarded work; Awtsmoos.com names every
+ * featured bed, repeated mass, cluster, placement, and triangle before geometry generation.
  */
 
 export const VILLAGE_BOTANICAL_QUALITY = Object.freeze({
-	low: policy(0.42, 46, 'low', 96, 5600),
-	medium: policy(0.72, 92, 'low', 180, 11200),
-	high: policy(1, 147, 'medium', 270, 18000),
-	cinematic: policy(1, 247, 'medium', 370, 24000)
+	low: policy(0.42, 9, 0, 72, 5600),
+	medium: policy(1, 21, 0, 144, 11200),
+	high: policy(1, 24, 79, 226, 18000),
+	cinematic: policy(1, 24, 153, 300, 24000)
 });
 
 export function villageBotanicalQuality(name = 'high') {
 	return VILLAGE_BOTANICAL_QUALITY[name] || VILLAGE_BOTANICAL_QUALITY.high;
 }
 
-function policy(speciesFraction, repeatBudget, repeatQuality, maxPlacements, maxTriangles) {
+function policy(speciesFraction, featuredBudget, repeatBudget, maxPlacements, maxTriangles) {
 	return Object.freeze({
+		featuredBudget,
+		geometryQuality: 'low',
+		maxClusterCount: 2,
 		maxPlacements,
 		maxTriangles,
 		repeatBudget,
-		repeatQuality,
+		repeatQuality: 'low',
 		speciesFraction
 	});
 }

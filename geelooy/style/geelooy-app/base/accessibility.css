@@ -2,20 +2,34 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos makes every route reachable without demanding motion. Focus on
- * Awtsmoos.com remains visible above dark surfaces, and reduced-motion travelers
- * receive immediate state changes instead of decorative delays.
+ * @fileoverview The Gevurah boundary for focus, motion, contrast, and reach.
+ * The Awtsmoos is beyond ability and limitation; Awtsmoos.com therefore makes
+ * every command visible, keyboard-reachable, and merciful to the senses.
  */
-
 body.geelooy-app-shell :focus-visible {
-	outline: 3px solid #7ed7e5;
+	outline: 3px solid var(--g-cyan);
 	outline-offset: 3px;
 }
 
 body.geelooy-app-shell :where(button, input, select, textarea):disabled,
 body.geelooy-app-shell [aria-disabled="true"] {
 	cursor: not-allowed;
-	opacity: .58;
+	filter: grayscale(.35);
+	opacity: .52;
+}
+
+body.geelooy-app-shell [aria-busy="true"] {
+	cursor: progress;
+}
+
+body.geelooy-app-shell :where(button, [role="button"], a[href], input, select, textarea, summary) {
+	-webkit-tap-highlight-color: rgba(77, 233, 255, .2);
+}
+
+@media (pointer: coarse) {
+	body.geelooy-app-shell :where(button, [role="button"], a.g-button, summary) {
+		min-block-size: 44px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -34,11 +48,24 @@ body.geelooy-app-shell [aria-disabled="true"] {
 }
 
 @media (prefers-contrast: more) {
+	body.geelooy-app-shell {
+		--g-line: rgba(255, 255, 255, .52);
+		--g-line-strong: rgba(255, 255, 255, .82);
+		--g-muted: #d5dfed;
+	}
+
 	body.geelooy-app-shell :focus-visible {
 		outline-width: 4px;
 	}
+}
 
-	body.geelooy-app-shell :where(.g-panel, .g-card, input, textarea, select, button) {
-		border-color: currentColor;
+@media (forced-colors: active) {
+	body.geelooy-app-shell :where(button, input, select, textarea, .g-panel, .g-card) {
+		border-color: CanvasText;
+		box-shadow: none;
+	}
+
+	body.geelooy-app-shell :focus-visible {
+		outline-color: Highlight;
 	}
 }

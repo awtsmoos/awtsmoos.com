@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** WebGPU contracts prove alignment, feature truth, shader entries, and fused PIC dispatch. */
+/** WebGPU contracts prove pressure capabilities, shader entries, and bounded iteration dispatch. */
 
 import assert from "node:assert/strict";
 import {
@@ -38,46 +38,55 @@ const report = createWebGpuCapabilityReport3d({
 	optionalFeatures: ["timestamp-query"]
 });
 assert.equal(report.compatible, false);
-assert.deepEqual(report.missingRequiredFeatures, ["shader-f16"]);
-assert.equal(report.implemented.gridVelocityNormalization, true);
-assert.equal(report.implemented.picGridToParticleTransfer, true);
-assert.equal(report.implemented.picFlipDeposition, false);
+assert.equal(report.implemented.collocatedDivergence, true);
+assert.equal(report.implemented.collocatedPressureProjection, true);
+assert.equal(report.implemented.occupiedAirPressureBoundary, true);
+assert.equal(report.implemented.macPressureProjection, false);
 
+const pressureEntries = [
+	"compute_divergence",
+	"jacobi_pressure_a",
+	"jacobi_pressure_b",
+	"project_grid_velocity"
+];
 const shader = createWebGpuShaderManifest3d({
-	name: "liquid-pic",
+	name: "liquid-pressure",
 	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: [
-		"clear_grid",
-		"deposit_particles",
-		"apply_grid_forces",
-		"normalize_grid",
-		"transfer_grid_to_particles"
-	]
+	entryPoints: pressureEntries
 });
-assert.equal(shader.entryPoints.length, 5);
+assert.deepEqual(shader.entryPoints, pressureEntries);
 assert.throws(() => createWebGpuShaderManifest3d({
 	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: ["missing_entry"]
+	entryPoints: ["missing_pressure_entry"]
 }), /absent/);
 
 const plan = createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
-	maximumWorkgroups: 12
+	pressureIterations: 8,
+	maximumWorkgroups: 32
 });
-assert.deepEqual(plan.enabledPasses.map(value => value.id), [
-	"clear-grid",
-	"deposit-particles",
-	"apply-grid-forces",
-	"normalize-grid",
-	"transfer-grid-to-particles"
-]);
-assert.equal(plan.totalWorkgroups, 12);
+assert.equal(plan.pressureIterations, 8);
+assert.equal(plan.enabledPasses.length, 15);
+assert.equal(plan.totalWorkgroups, 32);
 assert.equal(plan.submissionCount, 1);
+assert.deepEqual(plan.enabledPasses.slice(4, 7).map(value => value.entryPoint), [
+	"compute_divergence",
+	"jacobi_pressure_a",
+	"jacobi_pressure_b"
+]);
+assert.equal(plan.enabledPasses.at(-2).entryPoint, "project_grid_velocity");
+assert.equal(plan.enabledPasses.at(-1).entryPoint, "transfer_grid_to_particles");
 assert.throws(() => createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
-	maximumWorkgroups: 11
+	pressureIterations: 8,
+	maximumWorkgroups: 31
 }), /exceed budget/);
+assert.throws(() => createWebGpuLiquidFramePlan3d({
+	particleCount: 1,
+	gridCellCount: 8,
+	pressureIterations: 3
+}), /positive even integer/);
 
 console.log('B"H | proceduralObjectWebGpuContracts3d.test passed');

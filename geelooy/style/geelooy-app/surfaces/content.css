@@ -1,5 +1,13 @@
-/* B"H — Panels become dark crystal chambers with coherent spectral edges. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview The Malchus surface grammar for panels, cards, titles, and chips.
+ * Content is the ohr; glass, edge light, and spacing are its keilim. Awtsmoos.com
+ * recalls that the Awtsmoos creates the many cards as one undivided present.
+ */
 .g-panel,
+.g-card,
 .geelooy-app-shell .home-panel,
 .geelooy-app-shell .profile-hero-card,
 .geelooy-app-shell .profile-command-panel,
@@ -7,49 +15,74 @@
 .geelooy-app-shell .home-command-galaxy {
 	position: relative;
 	isolation: isolate;
-	overflow: hidden;
-	border: 1px solid rgba(60, 236, 255, 0.18);
+	overflow: clip;
+	border: 1px solid var(--g-line);
 	border-radius: var(--g-radius-lg);
-	background:
-		linear-gradient(145deg, rgba(15, 28, 54, 0.88), rgba(4, 9, 22, 0.94)),
-		var(--g-surface);
-	box-shadow: var(--g-shadow-sm), inset 0 1px rgba(255, 255, 255, 0.07);
-	backdrop-filter: blur(22px) saturate(135%);
+	background: var(--g-panel-gradient);
+	box-shadow: var(--g-shadow-sm), inset 0 1px rgba(255, 255, 255, .06);
+	color: var(--g-text);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+	.g-panel,
+	.g-card,
+	.geelooy-app-shell .home-panel,
+	.geelooy-app-shell .profile-hero-card,
+	.geelooy-app-shell .profile-command-panel,
+	.geelooy-app-shell .spaces-hero {
+		backdrop-filter: blur(14px) saturate(125%);
+	}
 }
 
 .g-panel::before,
 .g-card::before {
 	position: absolute;
 	z-index: -1;
-	inset: -40% 35% auto -25%;
-	height: 9rem;
-	border-radius: 50%;
-	background: linear-gradient(90deg, rgba(60, 236, 255, 0.24), rgba(139, 92, 255, 0.14));
+	inset: 0;
+	border-radius: inherit;
+	background:
+		linear-gradient(120deg, rgba(77, 233, 255, .08), transparent 28%, transparent 72%, rgba(255, 85, 209, .07)),
+		radial-gradient(circle at 15% 0, rgba(76, 141, 255, .12), transparent 14rem);
 	content: "";
-	filter: blur(48px);
-	opacity: 0.45;
 	pointer-events: none;
+}
+
+.g-panel::after,
+.g-card::after {
+	position: absolute;
+	inset: 0 auto 0 0;
+	inline-size: 2px;
+	background: linear-gradient(180deg, transparent, var(--g-route-accent, var(--g-cyan)), var(--g-route-accent-2, var(--g-magenta)), transparent);
+	content: "";
+	opacity: .72;
+	pointer-events: none;
+}
+
+.g-panel:focus-within,
+.g-card:focus-within {
+	border-color: color-mix(in srgb, var(--g-route-accent, var(--g-cyan)) 58%, var(--g-line));
+	box-shadow: var(--g-shadow-sm), 0 0 2.2rem var(--g-route-halo, rgba(77, 233, 255, .14));
 }
 
 .g-kicker,
 .geelooy-app-shell .profile-kicker,
 .geelooy-app-shell .spaces-kicker,
 .geelooy-app-shell .notifications-kicker {
-	margin: 0 0 0.5rem;
-	background: linear-gradient(90deg, var(--g-cyan), #b89cff, var(--g-magenta));
+	margin: 0 0 .5rem;
+	background: linear-gradient(90deg, var(--g-route-accent, var(--g-cyan)), #c7b6ff, var(--g-route-accent-2, var(--g-magenta)));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	font: 900 0.72rem/1 var(--g-mono);
-	letter-spacing: 0.17em;
+	font: 900 .72rem/1 var(--g-mono);
+	letter-spacing: .16em;
 	text-transform: uppercase;
 }
 
 .g-title {
 	margin: 0;
-	font-size: clamp(2.5rem, 7vw, 6.8rem);
-	line-height: 0.88;
-	letter-spacing: -0.072em;
+	font-size: clamp(2.35rem, 7vw, 6.5rem);
+	line-height: .9;
+	letter-spacing: -.068em;
 	text-wrap: balance;
 }
 
@@ -58,7 +91,7 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	filter: drop-shadow(0 0 28px rgba(139, 92, 255, 0.26));
+	filter: drop-shadow(0 0 1.4rem rgba(150, 100, 255, .18));
 }
 
 .g-muted {
@@ -67,13 +100,28 @@
 
 .g-chip {
 	display: inline-flex;
-	min-height: 2.15rem;
+	min-block-size: 2.1rem;
 	align-items: center;
-	padding: 0.35rem 0.7rem;
-	border: 1px solid rgba(60, 236, 255, 0.18);
+	gap: .35rem;
+	padding: .35rem .7rem;
+	border: 1px solid var(--g-line);
 	border-radius: var(--g-radius-pill);
-	background: linear-gradient(135deg, rgba(60, 236, 255, 0.09), rgba(139, 92, 255, 0.11));
-	color: #dbe8ff;
-	font: 750 0.76rem/1 var(--g-mono);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+	background: var(--g-gradient-soft);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .05);
+	color: var(--g-text-soft);
+	font: 750 .76rem/1 var(--g-mono);
+}
+
+.g-card :where(h2, h3, p):last-child {
+	margin-block-end: 0;
+}
+
+@media (max-width: 42rem) {
+	.g-panel,
+	.g-card,
+	.geelooy-app-shell .home-panel,
+	.geelooy-app-shell .profile-hero-card,
+	.geelooy-app-shell .profile-command-panel {
+		border-radius: var(--g-radius-md);
+	}
 }

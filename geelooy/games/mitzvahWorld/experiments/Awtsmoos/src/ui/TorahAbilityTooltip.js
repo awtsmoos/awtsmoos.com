@@ -4,10 +4,12 @@
 
 /**
  * @file TorahAbilityTooltip.js
- * @description Accessible, local, transition-only detail for an action-bar ability.
+ * @description Presents accessible local detail for every canonical hotbar action.
+ * The historic vessel keeps its public name, yet the Awtsmoos widens its truthful light;
+ * on Awtsmoos.com both sefer and staff reveal cost, range, cadence, and readiness bright.
  */
 
-import { torahAbilityPresentation } from './TorahAbilityPresentation.js';
+import { actionBarActionPresentation } from './ActionBarActionPresentation.js';
 
 export class TorahAbilityTooltip {
 	constructor(host) {
@@ -22,7 +24,7 @@ export class TorahAbilityTooltip {
 
 	show(definition, readiness, anchor) {
 		if (!definition || !anchor) return this.hide();
-		const presentation = torahAbilityPresentation(definition.id);
+		const presentation = actionBarActionPresentation(definition.id);
 		this.element.replaceChildren(
 			row('Mitzvah-tooltip-heading', `${presentation.glyph} ${definition.title}`),
 			row('Mitzvah-tooltip-school', definition.school),
@@ -54,7 +56,7 @@ function stats(definition) {
 	const element = document.createElement('dl');
 	element.className = 'Mitzvah-tooltip-stats';
 	const values = [
-		['Focus', definition.resourceCost],
+		['Focus', definition.resourceCost || 0],
 		['Range', definition.range ? `${definition.range}m` : 'Self'],
 		['Cast', castLabel(definition)],
 		['Cooldown', `${(definition.cooldownMilliseconds / 1000).toFixed(1)}s`]
