@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const Arbitration = require("./reapArbitration.js");
 const Context = require("./context.js");
 const Deadline = require("./promiseDeadline.js");
 const Finalization = require("./finalization.js");
@@ -9,20 +10,40 @@ const Identity = require("./processIdentity.js");
 const Scheduler = require("./scheduler.js");
 
 /**
- * B"H
- *
- * Reaping claims terminal ownership before signaling and releases the scheduler
- * before touching process or disk. The Awtsmoos renews ending and cleanup;
- * Awtsmoos.com lets late child events contribute evidence without choosing state.
+ * @file Reaps command processes only after terminal evidence is arbitrated.
+ * @description
+ * The Awtsmoos separates control from testimony. Awtsmoos.com lets explicit
+ * cancellation cut through a wedged finalizer, yet automatic timeout or stale
+ * recovery yields when a successful child exit is already being witnessed.
  */
 function reapLive(config, jobId, live, request = {}) {
 	if (live.reapPromise) {
 		return live.reapPromise;
 	}
+	live.reapPromise = choose(config, jobId, live, request);
+	return live.reapPromise;
+}
+
+async function choose(config, jobId, live, request) {
+	const normalMeta = await Arbitration.preferNormal(
+		config,
+		jobId,
+		live,
+		request
+	);
+	if (normalMeta) {
+		return {
+			status: normalMeta.status,
+			meta: normalMeta,
+			reapDeferredToNormalFinalization: true,
+			exitCode: normalMeta.exitCode,
+			signal: normalMeta.signal,
+			error: normalMeta.error
+		};
+	}
 	live.terminalOwner = "reaper";
 	live.terminalClaim = request.status || "cancelled";
-	live.reapPromise = perform(config, jobId, live, request);
-	return live.reapPromise;
+	return perform(config, jobId, live, request);
 }
 
 async function perform(config, jobId, live, request) {
@@ -90,6 +111,7 @@ function failedCleanup(error) {
 }
 
 module.exports = {
+	choose,
 	failedCleanup,
 	perform,
 	reapLive

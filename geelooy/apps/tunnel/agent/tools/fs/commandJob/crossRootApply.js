@@ -2,8 +2,9 @@
 const fs = require('node:fs').promises;
 const Cleanup = require('./processCleanup.js');
 const Lifecycle = require('./lifecycle.js');
+const Monitor = require('./crossRootMonitor.js');
 
-/** B"H — Apply mode mutates only the explicit decision produced by the planner. */
+/** B"H — Apply mode mutates only explicit decisions and never signals current work. */
 async function apply(record, decision, options = {}) {
 	if (options.apply !== true) {
 		return receipt(record, decision, true, { dryRun: true });
@@ -15,6 +16,9 @@ async function apply(record, decision, options = {}) {
 		}
 		if (decision.action === 'keep_terminal') {
 			return receipt(record, decision, true, { kept: true });
+		}
+		if (decision.action === 'preserve_current_exact') {
+			return preserveCurrent(record, decision, options);
 		}
 		if (decision.action === 'cleanup_exact') {
 			return cleanupExact(record, decision, options);
@@ -32,6 +36,18 @@ async function apply(record, decision, options = {}) {
 	} catch (error) {
 		return receipt(record, decision, false, { error: error.message });
 	}
+}
+
+async function preserveCurrent(record, decision, options) {
+	const monitorCurrent = options.monitorCurrent || Monitor.start;
+	const monitor = await Promise.resolve(
+		monitorCurrent(record, decision, options)
+	);
+	return receipt(record, decision, true, {
+		kept: true,
+		currentRoot: true,
+		monitor
+	});
 }
 
 async function cleanupExact(record, decision, options) {
@@ -66,4 +82,4 @@ function receipt(record, decision, ok, extra = {}) {
 	};
 }
 
-module.exports = { apply, cleanupExact, receipt };
+module.exports = { apply, cleanupExact, preserveCurrent, receipt };

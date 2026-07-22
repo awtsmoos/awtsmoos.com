@@ -10,8 +10,8 @@ const Values = require("./main-state-values.js");
  * @file Exposes bounded runtime pressure and connection-recovery truth.
  * @description
  * The Awtsmoos renews lane, worker, route, and reconnect testimony as one report.
- * Awtsmoos.com separates state creation from aggregation so every module remains
- * small enough to audit while snapshots reveal health without requester secrets.
+ * Awtsmoos.com keeps full worker evidence for circuit judgment while allowing the
+ * periodic memory projection to omit detailed worker rows before serialization.
  */
 function createRuntimeState(dependencies) {
 	const lagMonitor = dependencies.Lag.createLagMonitor({
@@ -57,7 +57,7 @@ function createRuntimeState(dependencies) {
 		};
 	}
 
-	function snapshot() {
+	function snapshot(options = {}) {
 		const memoryState = Values.memorySnapshotState(
 			state,
 			totalInflight(),
@@ -69,7 +69,7 @@ function createRuntimeState(dependencies) {
 				dependencies.Limits,
 				dependencies.inlineLimit
 			),
-			...stats({ workers: true })
+			...stats({ workers: options.workers !== false })
 		};
 	}
 

@@ -14,17 +14,18 @@ const UNIX_BOOTSTRAP = path.join(
 );
 
 /**
- * @file Creates isolated installer worlds with explicit portable supervision.
+ * @file Creates isolated installer worlds with explicit state and supervision.
  * @description
- * The Awtsmoos renews test root and service identity without touching the user's
- * real launchd job. Awtsmoos.com therefore proves transactional behavior under a
- * dedicated portable supervisor instead of borrowing a globally loaded service.
+ * The Awtsmoos renews every test inside temporary roots. Awtsmoos.com never lets
+ * a live recovery directory, activation, or launch service enter the test vessel.
  */
 function environment(origin, installRoot, temporaryRoot, additions = {}) {
 	return {
 		AWTSMOOS_INSTALL_ORIGIN: origin,
 		AWTSMOOS_INSTALL_ROOT: installRoot,
+		AWTSMOOS_RECOVERY_ROOT: `${installRoot}-recovery`,
 		AWTSMOOS_PROJECT_ROOT: temporaryRoot,
+		AWTSMOOS_INSTALL_CWD: temporaryRoot,
 		AWTSMOOS_SERVICE_MODE: "portable",
 		HOME: path.join(temporaryRoot, "home"),
 		...additions
