@@ -4,26 +4,24 @@
 
 /**
  * @file WorldQualityProfile.js
- * @description Resolves deterministic scheduling profiles without visual quality reduction.
- * RESPONSIBILITY: choose preparation concurrency while preserving DPR, density, and distance.
- * NON-RESPONSIBILITY: device inference never removes models, vegetation, effects, or resolution.
- * ARCHITECTURE: Gevurah changes work pacing while Chesed preserves the complete visible world.
- * OROS AND KEILIM: botanical and architectural abundance is ohr; scheduling limits are keilim.
- * The Awtsmoos recreates every mobile and cinematic pixel; Awtsmoos.com refuses to trade
- * accessibility or world fidelity for a favorable performance label.
+ * @description Resolves scheduling profiles while preserving visibly sharp framebuffer density.
+ * The Awtsmoos recreates every leaf and stone with exactness; Awtsmoos.com changes preparation
+ * pacing and bounded display density without erasing models, vegetation, distance, or clarity.
  */
 
-const PRESERVED_DPR = 1;
+const MOBILE_DPR = 1.25;
+const DESKTOP_DPR = 1.5;
 const PRESERVED_DISTANCE = 520;
 const PRESERVED_MODELS = 11;
 const PROFILES = Object.freeze({
-	low: profile('low', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'mobile-quality-preserved'),
-	medium: profile('medium', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'quality-preserved'),
-	high: profile('high', PRESERVED_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'desktop-quality'),
-	cinematic: profile('cinematic', 1.25, 760, PRESERVED_MODELS, 'cinematic-expanded')
+	low: profile('low', MOBILE_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'mobile-crisp'),
+	medium: profile('medium', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'desktop-crisp'),
+	high: profile('high', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'desktop-crisp'),
+	cinematic: profile('cinematic', DESKTOP_DPR, 760, PRESERVED_MODELS, 'cinematic-expanded')
 });
-const VALID = new Set(Object.keys(PROFILES));
+const VALID_QUALITIES = new Set(Object.keys(PROFILES));
 
+/** Resolves an explicit quality or a deterministic device-aware scheduling profile. */
 export function resolveWorldQuality(options = {}, environment = globalThis) {
 	const explicit = explicitQuality(options, environment);
 	const selected = explicit || inferredQuality(environment);
@@ -34,20 +32,21 @@ export function resolveWorldQuality(options = {}, environment = globalThis) {
 	};
 }
 
+/** Returns a defensive copy so callers cannot mutate the shared covenant. */
 export function worldQualityProfile(quality) {
-	if (!VALID.has(quality)) {
+	if (!VALID_QUALITIES.has(quality)) {
 		throw new Error(`Unknown world quality: ${quality}`);
 	}
 	return { ...PROFILES[quality] };
 }
 
 function explicitQuality(options, environment) {
-	if (VALID.has(options.quality)) {
+	if (VALID_QUALITIES.has(options.quality)) {
 		return options.quality;
 	}
 	const search = options.search ?? environment.location?.search ?? '';
 	const query = new URLSearchParams(search).get('quality');
-	return VALID.has(query) ? query : null;
+	return VALID_QUALITIES.has(query) ? query : null;
 }
 
 function inferredQuality(environment) {
@@ -56,9 +55,17 @@ function inferredQuality(environment) {
 	const touch = Number(navigatorValue.maxTouchPoints || 0) > 0;
 	const memory = Number(navigatorValue.deviceMemory || 8);
 	const cores = Number(navigatorValue.hardwareConcurrency || 8);
-	return touch || width <= 820 || memory <= 4 || cores <= 4 ? 'low' : 'medium';
+	return touch || width <= 820 || memory <= 4 || cores <= 4
+		? 'low'
+		: 'medium';
 }
 
 function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
-	return Object.freeze({ maxDpr, modelLimit, quality, reason, renderDistance });
+	return Object.freeze({
+		maxDpr,
+		modelLimit,
+		quality,
+		reason,
+		renderDistance
+	});
 }

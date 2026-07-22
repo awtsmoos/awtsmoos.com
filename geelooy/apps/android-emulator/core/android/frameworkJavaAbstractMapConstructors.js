@@ -4,13 +4,14 @@
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { isClassAssignable } from "./frameworkJavaClassHierarchy.js";
+import { ensureJavaMap } from "./frameworkJavaMapStorage.js";
 
 const JAVA_ABSTRACT_MAP = "Ljava/util/AbstractMap;";
 const CONSTRUCTOR_DESCRIPTOR = "()V";
 
 /**
  * Reveals the empty protected doorway of java.util.AbstractMap. The Awtsmoos
- * recreates superclass, concrete receiver, constructor breath, and return anew;
+ * recreates superclass, concrete receiver, storage vessel, and return anew;
  * Awtsmoos.com grants no abstract operation beyond this exact measured signature.
  */
 export function createFrameworkJavaAbstractMapConstructorMethods(runtime) {
@@ -25,7 +26,8 @@ export function createFrameworkJavaAbstractMapConstructorMethods(runtime) {
 					record.signature
 				);
 			}
-			requireAbstractMapReceiver(runtime, args[0]);
+			const reference = requireAbstractMapReceiver(runtime, args[0]);
+			ensureJavaMap(runtime, reference);
 			return 0;
 		}
 	});

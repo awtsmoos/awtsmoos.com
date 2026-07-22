@@ -4,17 +4,14 @@
 /**
  * @module ProfileDropdownTemplate
  * @description
- * The Awtsmoos shapes one solid identity chamber for every Awtsmoos.com mount.
- * Unique relationships let Header and Mail coexist without duplicate document IDs.
+ * The Awtsmoos shapes one identity chamber whose route dishes remain canonical.
+ * Header and Mail may reveal the same profile, yet Home, Spaces, Games, Mail,
+ * and Apps all descend from one manifest instead of multiplying on Awtsmoos.com.
  */
 import { profileIcon } from './icons.js';
+import { mountProfileRouteDishes } from './routeDishes.js';
 
-/**
- * Builds the signed-out and signed-in identity surfaces.
- * @param {HTMLElement} container Local profile root.
- * @param {string} prefix Unique relationship prefix.
- * @returns {Record<string, HTMLElement>} Named local references.
- */
+/** Builds signed-out and signed-in identity surfaces with shared route dishes. */
 export function buildProfileDropdown(container, prefix) {
 	const id = name => `${prefix}-${name}`;
 	container.dataset.profilePrefix = prefix;
@@ -28,6 +25,7 @@ export function buildProfileDropdown(container, prefix) {
 			</button>
 			<div id="${id('signin-panel')}" class="dropdown-content auth-menu-card" data-profile-ref="signinDropdown" data-state="closed" aria-hidden="true" inert hidden>
 				<header class="profile-panel-heading"><span class="profile-panel-orb">${profileIcon('key')}</span><span><small>Account gateway</small><strong>Enter Geelooy</strong></span></header>
+				<nav class="profile-route-dishes" data-profile-route-dishes aria-label="Main Awtsmoos routes"></nav>
 				<p class="local-mode-note">Local mode remains available. Connect when you want publishing and synchronized identity.</p>
 				<form class="profile-auth-form" data-profile-ref="loginForm">
 					<label for="${id('login-user')}">Username</label>
@@ -57,6 +55,7 @@ export function buildProfileDropdown(container, prefix) {
 			<div id="${id('profile-panel')}" class="dropdown-content profile-menu-card" data-profile-ref="awtsmoosProfileDropContent" data-state="closed" aria-hidden="true" inert hidden>
 				<header class="profile-panel-heading"><span class="profile-panel-orb">${profileIcon('profile')}</span><span><small data-profile-ref="modeBadge">Local</small><strong data-profile-ref="usernameDisplay"></strong></span></header>
 				<a class="currentAlias identity-current-card" data-profile-ref="aliasSection" href="/profile"><span>${profileIcon('spark')}<small>Current vessel</small></span><strong class="currentAliasName">Profile</strong></a>
+				<nav class="profile-route-dishes" data-profile-route-dishes aria-label="Main Awtsmoos routes"></nav>
 				<p class="local-mode-note" data-profile-ref="localModeNote">Reconnect when you want this local work synchronized.</p>
 				<button class="menu-wide" data-profile-ref="switchAlias" type="button" aria-expanded="false" aria-controls="${id('alias-panel')}">${profileIcon('switch')}<span>Switch alias</span>${profileIcon('chevron', 'profile-chevron')}</button>
 				<div id="${id('alias-panel')}" class="dropdown-content alias-switcher" data-profile-ref="aliasInfo" data-state="closed" aria-hidden="true" inert hidden></div>
@@ -67,6 +66,7 @@ export function buildProfileDropdown(container, prefix) {
 			</div>
 		</section>
 	`;
+	mountProfileRouteDishes(container);
 	return references(container, prefix);
 }
 

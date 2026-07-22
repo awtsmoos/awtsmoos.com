@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos crowns one profile doorway and makes Games visible without noise.
+ */
+.geelooy-app-shell .g-header-profile {
+	position: relative;
+	isolation: isolate;
+}
+
+.geelooy-app-shell .g-header-profile::before {
+	position: absolute;
+	inset: -.18rem;
+	z-index: -1;
+	border: 1px solid rgba(80, 215, 255, .3);
+	border-radius: 999px 1.4rem 999px 1.4rem;
+	background:
+		linear-gradient(115deg, rgba(80, 215, 255, .14), transparent 38%, rgba(218, 97, 194, .12)),
+		rgba(4, 8, 22, .72);
+	box-shadow: 0 0 1.15rem rgba(52, 155, 255, .12);
+	content: "";
+	pointer-events: none;
+	transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.geelooy-app-shell .g-header-profile:focus-within::before,
+.geelooy-app-shell .g-header-profile:hover::before {
+	border-color: rgba(80, 215, 255, .72);
+	box-shadow: 0 0 1.45rem rgba(52, 155, 255, .22), 0 0 2rem rgba(218, 97, 194, .1);
+}
+
+.geelooy-app-shell .g-constellation-route[data-games-route="true"],
+.geelooy-app-shell .g-dock-route[data-games-route="true"] {
+	--g-route-accent: #da61c2;
+}
+
+.geelooy-app-shell .g-constellation-route[data-games-route="true"] {
+	border-color: rgba(218, 97, 194, .44);
+	background: linear-gradient(135deg, rgba(84, 58, 165, .32), rgba(4, 12, 28, .94));
+}
+
+.geelooy-app-shell .g-constellation-route[data-games-route="true"] .g-constellation-icon {
+	filter: drop-shadow(0 0 .65rem rgba(218, 97, 194, .74));
+}
+
+.geelooy-app-shell[data-geelooy-route="games"] .g-bh-jewel,
+body[data-geelooy-route="games"] .g-bh-jewel {
+	border-color: rgba(218, 97, 194, .72);
+	box-shadow: 0 0 1.2rem rgba(218, 97, 194, .28), inset 0 0 .8rem rgba(80, 215, 255, .12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-app-shell .g-header-profile::before {
+		transition: none;
+	}
+}

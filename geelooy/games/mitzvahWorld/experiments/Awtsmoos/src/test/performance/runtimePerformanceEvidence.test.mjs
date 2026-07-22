@@ -4,9 +4,9 @@
 
 /**
  * @file runtimePerformanceEvidence.test.mjs
- * @description Proves quality preservation and honest adaptive runtime performance evidence.
+ * @description Proves authored-world preservation and honest crisp-density performance evidence.
  * The Awtsmoos creates world and witness anew; Awtsmoos.com requires focused tails, intact
- * geometry, and a deliberately lighter framebuffer before sixty-frame testimony is accepted.
+ * geometry, and a framebuffer that may shed surplus dense-display pixels but never begins blurred.
  */
 
 import assert from 'node:assert/strict';
@@ -24,7 +24,8 @@ test('every tier preserves world distance and authored geometry', () => {
 	}
 	const low = worldQualityProfile('low');
 	const high = worldQualityProfile('high');
-	assert.equal(low.maxDpr, high.maxDpr);
+	assert.ok(low.maxDpr >= 1);
+	assert.ok(low.maxDpr <= high.maxDpr);
 	assert.equal(low.renderDistance, high.renderDistance);
 	assert.equal(low.modelLimit, high.modelLimit);
 });
@@ -78,7 +79,7 @@ test('monitor requires focused average and tail lows before target success', () 
 	assert.equal(diagnostics.meets60Target, true);
 	assert.equal(diagnostics.verdict.status, 'pass');
 	assert.equal(diagnostics.governor.qualityPreserved, true);
-	assert.equal(runtime.adaptiveRenderScale, 0.66);
+	assert.equal(runtime.adaptiveRenderScale, 1);
 	monitor.record(100, 6000, {
 		cpuFrameMilliseconds: 60,
 		renderSubmissionMilliseconds: 45
@@ -86,6 +87,7 @@ test('monitor requires focused average and tail lows before target success', () 
 	diagnostics = monitor.diagnostics();
 	assert.equal(diagnostics.meets60Target, false);
 	assert.equal(diagnostics.verdict.status, 'fail');
-	assert.ok(runtime.adaptiveRenderScale < 0.66);
+	assert.ok(runtime.adaptiveRenderScale < 1);
+	assert.ok(runtime.adaptiveRenderScale >= 0.67);
 	monitor.dispose();
 });

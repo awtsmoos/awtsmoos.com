@@ -1,0 +1,165 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers health, purpose, and presence into small lucid vessels. Permanent HUD
+ * surfaces remain opaque enough to read and light enough to render without costly background blur.
+ */
+
+.Awtsmoos-status-dock {
+	position: fixed !important;
+	left: max(10px, env(safe-area-inset-left)) !important;
+	top: max(10px, env(safe-area-inset-top)) !important;
+	z-index: 740 !important;
+	display: flex !important;
+	gap: 6px !important;
+	max-width: calc(100vw - 20px) !important;
+	transform: none !important;
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+
+.status-card {
+	display: grid;
+	grid-template-columns: 34px minmax(92px, 1fr) auto;
+	gap: 7px;
+	align-items: center;
+	min-width: 170px;
+	max-width: 250px;
+	padding: 6px 8px;
+	border-radius: 11px;
+	background: rgba(7, 18, 18, 0.93);
+	box-shadow: 0 5px 16px rgba(0, 0, 0, 0.28);
+	backdrop-filter: none !important;
+}
+
+.player-card {
+	border: 1px solid rgba(53, 255, 216, 0.62);
+}
+
+.target-card {
+	border: 1px solid rgba(255, 228, 94, 0.7);
+}
+
+.status-face {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: #14383a;
+	font-size: 20px;
+}
+
+.status-card b {
+	display: block;
+	color: #fff6b9;
+	font-size: 12px;
+	line-height: 1.05;
+}
+
+.status-card small,
+.status-card label {
+	display: block;
+	color: #cce9e6;
+	font-size: 9px;
+}
+
+.status-card meter,
+.status-card progress {
+	width: 100%;
+	height: 6px;
+	accent-color: #76d68a;
+}
+
+.status-card strong {
+	color: #ffe45e;
+	font-size: 14px;
+}
+
+html body .Awtsmoos-status-ribbon {
+	top: max(9px, env(safe-area-inset-top)) !important;
+	gap: 7px !important;
+	max-width: min(68vw, 620px) !important;
+	padding: 6px 10px !important;
+	border-radius: 999px !important;
+	background: rgba(5, 16, 15, 0.94) !important;
+	font-size: 11px !important;
+	transform: translateX(-50%) !important;
+	backdrop-filter: none !important;
+}
+
+html body .Awtsmoos-realtime-status {
+	right: max(10px, env(safe-area-inset-right)) !important;
+	top: max(10px, env(safe-area-inset-top)) !important;
+	max-width: 180px !important;
+	padding: 6px 9px !important;
+	border-radius: 10px !important;
+	background: rgba(5, 18, 17, 0.94) !important;
+	font-size: 10px !important;
+	transform: none !important;
+	opacity: 1 !important;
+	backdrop-filter: none !important;
+}
+
+html body .Awtsmoos-camera-mode-toggle {
+	right: max(10px, env(safe-area-inset-right)) !important;
+	top: 58px !important;
+	display: flex !important;
+	min-width: 0 !important;
+	padding: 6px 8px !important;
+	border-radius: 9px !important;
+	background: rgba(5, 17, 18, 0.94) !important;
+	transform: none !important;
+	opacity: 1 !important;
+	backdrop-filter: none !important;
+}
+
+.Awtsmoos-camera-mode-toggle span {
+	font-size: 17px !important;
+}
+
+.Awtsmoos-camera-mode-toggle small {
+	display: none !important;
+}
+
+.Awtsmoos-hud-minimize {
+	position: absolute !important;
+	right: -5px !important;
+	top: -5px !important;
+	z-index: 20 !important;
+	display: grid !important;
+	place-items: center !important;
+	width: 24px !important;
+	height: 24px !important;
+	min-width: 24px !important;
+	min-height: 24px !important;
+	padding: 0 !important;
+	border: 1px solid rgba(244, 215, 134, 0.72) !important;
+	border-radius: 50% !important;
+	background: #15201d !important;
+	color: #fff2bd !important;
+	font: 900 15px/1 system-ui !important;
+	pointer-events: auto !important;
+}
+
+[data-awtsmoos-hud-id] {
+	position: fixed;
+}
+
+[data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
+	display: none !important;
+}
+
+[data-awtsmoos-minimized="true"] {
+	width: 30px !important;
+	height: 30px !important;
+	min-width: 30px !important;
+	min-height: 30px !important;
+	padding: 0 !important;
+	border: 1px solid var(--Awtsmoos-line) !important;
+	border-radius: 9px !important;
+	background: rgba(5, 18, 18, 0.94) !important;
+	overflow: visible !important;
+}

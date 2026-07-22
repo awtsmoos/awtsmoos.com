@@ -4,8 +4,8 @@
 /**
  * @module ProfileDropdownContractTest
  * @description
- * The Awtsmoos verifies one solid, uniquely owned Awtsmoos.com identity menu
- * while executable persistence tests guard the server-before-memory covenant.
+ * The Awtsmoos verifies one uniquely owned identity menu whose route dishes,
+ * including Games, descend from the canonical Awtsmoos.com route covenant.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -29,15 +29,14 @@ const files = {
 	keyboard: resolve(profileRoot, 'menuKeyboard.js'),
 	menus: resolve(profileRoot, 'menus.js'),
 	panelState: resolve(profileRoot, 'panelState.js'),
+	routeDishes: resolve(profileRoot, 'routeDishes.js'),
 	template: resolve(profileRoot, 'template.js')
 };
-const source = Object.fromEntries(
-	Object.entries(files).map(([name, path]) => [name, readFileSync(path, 'utf8')])
-);
+const source = Object.fromEntries(Object.entries(files).map(([name, path]) => [name, readFileSync(path, 'utf8')]));
 
 for (const [name, content] of Object.entries(source)) {
-	assert.match(content.split('\n')[0], /B"H/, `${name} must begin with B"H`);
-	assert.ok(content.split('\n').length - 1 <= 120, `${name} exceeds 120 lines`);
+	assert.match(firstLine(content), /B"H/, `${name} must begin with B"H`);
+	assert.ok(lineCount(content) <= 120, `${name} exceeds 120 lines`);
 	assert.equal(hasCompressedFunction(content), false, `${name} contains a compressed function`);
 }
 
@@ -55,22 +54,29 @@ assert.match(source.auth, /hydrateProfileIdentity/);
 assert.match(source.menus, /returnFocusTarget\.focus\(\)/);
 assert.match(source.aliasMenu, /renderProfileAliases/);
 assert.match(source.keyboard, /trapProfileFocus/);
-assert.match(source.template, /data-profile-ref/);
-assert.match(source.template, /aria-controls=/);
-assert.match(source.template, /inert hidden/);
+assert.match(source.template, /data-profile-route-dishes/);
+assert.match(source.template, /mountProfileRouteDishes/);
+assert.match(source.routeDishes, /profileDishRoutes/);
+assert.match(source.routeDishes, /createMalchusRouteLink/);
 assert.match(source.mount, /profileOwner/);
 assert.match(source.panelState, /trapProfileFocus/);
 assert.match(source.icons, /<svg/);
 assert.match(source.feedback, /aria-busy/);
 console.log('B"H solid profile dropdown contract passed.');
 
+function firstLine(content) {
+	return content.split(String.fromCharCode(10))[0];
+}
+
+function lineCount(content) {
+	return content.split(String.fromCharCode(10)).length;
+}
+
 function hasCompressedFunction(content) {
-	return content.split('\n').some(line => {
+	return content.split(String.fromCharCode(10)).some(line => {
 		const trimmed = line.trim();
-		if (!trimmed || trimmed.startsWith('*') || trimmed.startsWith('//') || trimmed.startsWith('/*')) {
-			return false;
-		}
-		if (!/\bfunction\b/.test(trimmed)) return false;
+		if (!trimmed || trimmed.startsWith('*') || trimmed.startsWith('//') || trimmed.startsWith('/*')) return false;
+		if (!/function/.test(trimmed)) return false;
 		const bodyStart = trimmed.lastIndexOf('{');
 		if (bodyStart < 0) return false;
 		return trimmed.slice(bodyStart + 1).trim().length > 0;

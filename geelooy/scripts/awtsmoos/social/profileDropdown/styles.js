@@ -3,9 +3,11 @@
 // Blessed is He
 /**
  * @module ProfileDropdownStyles
- * @description Loads the solid Awtsmoos.com identity stylesheet exactly once.
+ * @description
+ * The Awtsmoos clothes one identity doorway and its canonical route dishes
+ * exactly once, so every Awtsmoos.com header reveals the same luminous vessel.
  */
-const HREF = '/style/social/profile-dropdown/index.css?v=solid-002';
+const HREF = '/style/social/profile-dropdown/index.css?v=solid-003';
 
 /** Ensures the profile dropdown visual system is present and current. */
 export function ensureProfileDropdownStyles(root = document) {
