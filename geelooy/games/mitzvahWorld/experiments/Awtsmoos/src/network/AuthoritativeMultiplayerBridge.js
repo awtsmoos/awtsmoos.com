@@ -5,11 +5,14 @@
 /**
  * @file AuthoritativeMultiplayerBridge.js
  * @description Bridges runtime truth into local-tab or server-authoritative remote Chassidim.
- * The Awtsmoos gives every distant traveler one present form; Awtsmoos.com publishes exact
- * world transforms where supported and preserves input authority for deployed servers.
+ * The Awtsmoos gives every distant traveler one present form; Awtsmoos.com imports this
+ * population garment only after the connection itself has already succeeded.
  */
 
 import { RemoteChossidPopulation } from './RemoteChossidPopulation.js';
+import { currentMovementIntent, runtimePlayerSnapshot } from './RuntimePlayerSnapshot.js';
+
+export { runtimePlayerSnapshot };
 
 const STATE_INTERVAL_SECONDS = 1 / 15;
 const SERVER_HEARTBEAT_INTERVAL_SECONDS = 5;
@@ -60,10 +63,7 @@ export class AuthoritativeMultiplayerBridge {
 			this.publishRuntimeState();
 			this.stateElapsed %= STATE_INTERVAL_SECONDS;
 		}
-		if (
-			this.transport !== 'local-tab'
-			&& this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS
-		) {
+		if (this.transport !== 'local-tab' && this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS) {
 			this.client.heartbeat().catch(() => {});
 			this.heartbeatElapsed %= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 		}
@@ -75,11 +75,7 @@ export class AuthoritativeMultiplayerBridge {
 			return this.client.updatePlayerState(snapshot).catch(() => {});
 		}
 		const input = currentMovementIntent(this.runtime);
-		return this.client.input(
-			input.forward,
-			input.strafe,
-			snapshot.facing
-		).catch(() => {});
+		return this.client.input(input.forward, input.strafe, snapshot.facing).catch(() => {});
 	}
 
 	stop() {
@@ -101,36 +97,4 @@ export class AuthoritativeMultiplayerBridge {
 			transport: this.transport
 		};
 	}
-}
-
-export function runtimePlayerSnapshot(runtime) {
-	const state = runtime?.state || {};
-	return {
-		clip: String(state.clip || ''),
-		coordinateSpace: 'world',
-		facing: finite(state.facing),
-		level: String(state.level || 'eretz'),
-		moving: Boolean(state.moving),
-		position: {
-			x: finite(state.x),
-			y: finite(state.y),
-			z: finite(state.z)
-		},
-		runMode: Boolean(state.runMode)
-	};
-}
-
-function currentMovementIntent(runtime) {
-	const axis = runtime.input.axis();
-	const joystick = runtime.joystick?.vector || { x: 0, y: 0, magnitude: 0 };
-	const forward = -(axis.y + joystick.y * joystick.magnitude);
-	const strafe = -(axis.x + joystick.x * joystick.magnitude);
-	const length = Math.hypot(forward, strafe);
-	if (length <= 1) return { forward, strafe };
-	return { forward: forward / length, strafe: strafe / length };
-}
-
-function finite(value) {
-	const number = Number(value);
-	return Number.isFinite(number) ? number : 0;
 }

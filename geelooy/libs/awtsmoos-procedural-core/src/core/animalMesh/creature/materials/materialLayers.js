@@ -8,16 +8,16 @@
 import { sealBriahCreature } from "../worlds/BriahCreature.js";
 import {
 	cloneCreatureValue,
-	creatureContentHash,
-	creatureStableId
+	creatureContentHash
 } from "../shared/creatureValue.js";
+import {
+	applyMaterialLayerEdit,
+	createMaterialLayerRecipe
+} from "./materialLayerRecipe.js";
 
 function revise(creature, materialLayers, operation) {
 	return sealBriahCreature(
-		{
-			...creature,
-			materialLayers
-		},
+		{ ...creature, materialLayers },
 		creature.revision + 1,
 		{
 			parentContentHash: creature.contentHash,
@@ -28,28 +28,7 @@ function revise(creature, materialLayers, operation) {
 
 /** Adds a deterministic base, coat, detail, or custom material recipe. */
 export function addMaterialLayer(creature, input = {}) {
-	const role = input.role || (
-		creature.materialLayers.length === 0 ? "base" : "detail"
-	);
-	const layer = {
-		id: input.id || creatureStableId("material.layer", {
-			creatureId: creature.id,
-			role,
-			ordinal: creature.materialLayers.length
-		}),
-		role,
-		blendMode: input.blendMode || "normal",
-		opacity: Number.isFinite(input.opacity)
-			? Math.max(0, Math.min(1, input.opacity))
-			: 1,
-		pattern: cloneCreatureValue(input.pattern || { type: "solid" }),
-		palette: cloneCreatureValue(input.palette || ["#808080"]),
-		mask: cloneCreatureValue(input.mask || {
-			type: "semantic-region",
-			regions: ["body.base"]
-		}),
-		regionOverrides: cloneCreatureValue(input.regionOverrides || {})
-	};
+	const layer = createMaterialLayerRecipe(creature, input);
 	return revise(
 		creature,
 		[...creature.materialLayers, layer],
@@ -58,40 +37,18 @@ export function addMaterialLayer(creature, input = {}) {
 }
 
 /** Removes, reorders, or edits one semantic material recipe. */
-export function editMaterialLayers(creature, input = {}, action = "pattern.set") {
-	let layers = cloneCreatureValue(creature.materialLayers);
-	if (action === "remove") {
-		layers = layers.filter((layer) => layer.id !== input.layerId);
-	} else if (action === "reorder") {
-		const oldIndex = layers.findIndex((layer) => layer.id === input.layerId);
-		const [layer] = oldIndex >= 0 ? layers.splice(oldIndex, 1) : [];
-		if (layer) {
-			const newIndex = Math.max(0, Math.min(layers.length, input.index));
-			layers.splice(newIndex, 0, layer);
-		}
-	} else {
-		const key = action.startsWith("pattern")
-			? "pattern"
-			: action.startsWith("palette")
-				? "palette"
-				: action.startsWith("mask")
-					? "mask"
-					: "regionOverrides";
-		const value = input.value
-			?? input.pattern
-			?? input.palette
-			?? input.mask
-			?? input.override;
-		layers = layers.map((layer) => layer.id === input.layerId
-			? {
-				...layer,
-				[key]: cloneCreatureValue(value)
-			}
-			: layer);
-	}
+export function editMaterialLayers(
+	creature,
+	input = {},
+	action = "pattern.set"
+) {
 	return revise(
 		creature,
-		layers,
+		applyMaterialLayerEdit(
+			creature.materialLayers,
+			input,
+			action
+		),
 		`creature.material.layer.${action}`
 	);
 }

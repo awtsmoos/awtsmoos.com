@@ -1,0 +1,389 @@
+PUBLIC_INDEX
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file index.js
+ * @chapter The Public Door Opens With Verified Memory Of Every Reclaimable Chamber
+ * @description
+ * Compatibility facade for strict search, reports, vacuum, and safe defaults.
+ * Writable callers that omit a reuse policy now receive verified reuse; explicit
+ * opt-out and read-only choices remain unchanged beneath the Awtsmoos.
+ */
+
+const BaseAwtsmoosDB = require('./database.js');
+const SearchManager = require('./api/search/index.js');
+const StorageReport = require('./api/admin/storageReport.js');
+const hydrateIndexCaches = require('./api/indexCacheHydrator.js');
+const runIndexedSearch = require('./api/search/strictQuery.js');
+const reindexSearch = require('./api/search/reindex/index.js');
+const flushSearchPath = require('./api/search/batchedFlush.js');
+const vacuumFile = require('./core/vacuum/index.js');
+const semanticDigest = require('./core/vacuum/semanticDigest.js');
+const withDefaultVerifiedReuse = require('./core/allocator/defaultReuseOptions.js');
+
+class AwtsmoosDB extends BaseAwtsmoosDB {
+	constructor(filePath, options = {}) {
+		super(filePath, withDefaultVerifiedReuse(options));
+	}
+}
+
+const originalOpen = AwtsmoosDB.prototype.open;
+AwtsmoosDB.prototype.open = function openWithIndexCaches(...argumentsList) {
+	const result = originalOpen.apply(this, argumentsList);
+	if (result && typeof result.then === 'function') {
+		return result.then(value => {
+			hydrateIndexCaches(this);
+			return value;
+		});
+	}
+	hydrateIndexCaches(this);
+	return result;
+};
+
+SearchManager.prototype.runIndexed = function runIndexed(handleOrPath, query) {
+	return runIndexedSearch(this, handleOrPath, query);
+};
+
+SearchManager.prototype.reindex = function rebuildSearchIndex(path) {
+	return reindexSearch(this, path);
+};
+
+SearchManager.prototype._flushUpdates = function flushUpdatesInOneBoundary(path) {
+	return flushSearchPath(this, path);
+};
+
+AwtsmoosDB.prototype.storageReport = function storageReport(options = {}) {
+	return new StorageReport(this).snapshot(options);
+};
+
+AwtsmoosDB.prototype.semanticDigest = function digest() {
+	return semanticDigest(this);
+};
+
+AwtsmoosDB.vacuumFile = function vacuum(sourcePath, destinationPath, options = {}) {
+	return vacuumFile(AwtsmoosDB, sourcePath, destinationPath, options);
+};
+
+module.exports = AwtsmoosDB;
+DATABASE_CONSTRUCTOR
+32-const TextManager = require('./api/text/index.js');
+33-const TurboWriteBehind = require('./api/turbo/index.js');
+34-const DosDBBridge = require('./api/dosdb/index.js');
+35-const createSQLApi = require('./api/sql/index.js');
+36-const MongoFacade = require('./api/mongo/index.js');
+37-const FirebaseFacade = require('./api/firebase/index.js');
+38-const TableFacade = require('./api/table/index.js');
+39-const createGraphQLApi = require('./api/graphql/index.js');
+40-const SparseArrayManager = require('./api/sparseArray/index.js');
+41-const SchemaManager = require('./api/schema/index.js');
+42-const BackupManager = require('./api/backup/index.js');
+43-const IndexManager = require('./api/indexes/index.js');
+44-const AdminManager = require('./api/admin/index.js');
+45-const TransactionManager = require('./api/transaction/index.js');
+46-const ReplicationManager = require('./api/replication/index.js');
+47-const ProcessLock = require('./core/processLock.js');
+48-const VirtualFs = require('./api/fs/index.js');
+49-const FreeListCodec = require('./core/freeListCodec.js');
+50-
+51-/**
+52: * @class AwtsmoosDB
+53- * @description
+54- * Main synchronous binary object database.
+55- */
+56:class AwtsmoosDB {
+57-  /**
+58-   * @constructor
+59-   * @param {string} filePath - Database path.
+60-   * @param {object} [options={}] - Runtime options.
+61-   */
+62:  constructor(filePath, options = {}) {
+63-    this.options = {
+64-      debug: false,
+65-      compression: true,
+66-      autoCompress: true,
+67-      reuseFreedSpace: false,
+68-      readOnly: false,
+69-      ...options
+70-    };
+71-
+72-    if (this.options.readOnly) {
+73-      this.options.wal = false;
+74-      this.options.reuseFreedSpace = false;
+75-    }
+76-
+77-    this.pager = new Pager(filePath);
+78-    this.pager.db = this;
+79-
+80-    this.allocator = new Allocator(this.pager);
+81-    this.allocator.db = this;
+82-    this.allocator.v1 = this.allocator;
+83-
+84-    this.builder = new Builder(this.allocator);
+85-    this.primitiveSaver = this.builder.scribe;
+86-
+87-    this.graph = new GraphManager(this);
+88-    this.search = new SearchManager(this);
+89-    this.vector = new VectorManager(this);
+90-    this.ai = new AIManager(this);
+91-    this.concurrent = new ConcurrentManager(this);
+92-    this.blob = new BlobManager(this);
+93-    this.compactJson = new CompactJsonManager(this);
+94-    this.compactJson = new CompactJsonManager(this);
+95-    this.text = new TextManager(this);
+96-    this.turbo = new TurboWriteBehind(this);
+97-    this.DosDB = new DosDBBridge(this);
+98-    this.sparseArrays = new SparseArrayManager(this);
+99-    this.schema = new SchemaManager(this);
+100-    this.backups = new BackupManager(this);
+101-    this.indexes = new IndexManager(this);
+102-    this.admin = new AdminManager(this);
+103-    this.transactions = new TransactionManager(this);
+104-    this.replication = new ReplicationManager(this);
+105-    this.fs = new VirtualFs(this);
+106-    this.tables = new TableFacade(this);
+107-    this.table = (name) => this.tables.table(name);
+108-    this.sql = createSQLApi(this);
+109-    this.graphql = createGraphQLApi(this);
+110-    this.postgres = this.sql.postgres;
+111-    this.mongo = new MongoFacade(this);
+112-    this.ayshyesod = new FirebaseFacade(this);
+113-    this.firebase = this.ayshyesod;
+114-
+115-    this.sysCache = {
+116-      search: new Set(),
+117-      vector: new Set(),
+118-      loaded: true
+119-    };
+120-
+121-    this._pendingIndexOps = [];
+122-    this._structureCache = new Map();
+123-    this.metrics = new MetricsTracker();
+124-    this._versions = new Map();
+125-    this.mutationCount = 0;
+126-
+127-    this.Map = class {
+128:      constructor() {
+129-        this._isAwtsmoosMap = true;
+130-      }
+131-    };
+132-
+133-    this.List = class {
+134:      constructor() {
+135-        this._isAwtsmoosList = true;
+136-      }
+137-    };
+138-
+139-    this.Object = class {
+140:      constructor() {
+141-        this._isAwtsmoosObject = true;
+142-      }
+143-    };
+144-
+145-    this.root = null;
+146-    this.freeListPtrRaw = null;
+147-    this.lock = new (require('./core/concurrency.js'))();
+148-    this.processLock = new ProcessLock(filePath);
+149-  }
+150-
+151-  /**
+152-   * @method open
+153-   * @description Opens the binary world and resolves the root anchor.
+154-   * @returns {void}
+155-   */
+156-  open() {
+157-    this.processLock.acquire(this.options);
+158-    this.pager.init();
+159-    this.allocator.init();
+160-
+161-    const legacySuperblockless = Boolean(this.allocator && this.allocator.legacySuperblockless);
+162-    const sb = this.pager.readExact(0, 64) || Buffer.alloc(64).fill(0);
+163-    const rootSealLength = sb.readUInt8(8);
+164-    if (!legacySuperblockless) {
+165-      this._loadFreeListSeal(sb);
+166-      if (this.turbo && typeof this.turbo.load === 'function') this.turbo.load();
+167-      if (this.sparseArrays && typeof this.sparseArrays.load === 'function') this.sparseArrays.load();
+168-    }
+169-
+170-    if (rootSealLength === 0) {
+171-      if (this.options.readOnly) {
+172-        const err = new Error(`B\"H readOnly AwtsmoosDB cannot initialize an empty database: ${this.pager.filePath}`);
+173-        err.code = 'AWTSMOOS_DB_READONLY_EMPTY';
+174-        throw err;
+175-      }
+176-      const DictionaryEngine = require('./structure/dictionary/index.js');
+177-      const StableAnchor = require('./structure/anchor/stable.js');
+178-      const startDict = new DictionaryEngine(this.allocator);
+179-      const apexAnchor = new StableAnchor(this);
+180-      const dataVessel = startDict.create();
+181-      const identitySeal = apexAnchor.create(constants.VAL_TYPE.DICTIONARY, dataVessel);
+182-
+183-      this.root = new Handle(this, identitySeal, constants.VAL_TYPE.ANCHOR);
+184-      this.rootPtrRaw = identitySeal;
+185-      this._flushSuperblock(identitySeal);
+186-    } else {
+187-      const rootBytes = sb.subarray(9, 9 + rootSealLength);
+188-      this.root = new Handle(this, rootBytes, constants.VAL_TYPE.ANCHOR);
+189-      this.rootPtrRaw = rootBytes;
+190-    }
+191-
+192-    if (this.options.debug) {
+193-      console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
+194-    }
+195-    if (!this.options.readOnly && !legacySuperblockless) {
+196-      if (this.schema && typeof this.schema.load === 'function') this.schema.load();
+197-      if (this.indexes && typeof this.indexes.hasStoredIndexes === 'function') this.indexes.hasStoredIndexes();
+198-      if (this.transactions && typeof this.transactions.recover === 'function') this.transactions.recover();
+199-      this._ensureFormatMeta();
+200-    }
+201-  }
+202-
+203-  /**
+204-   * @method _flushSuperblock
+205-   * @param {Buffer} [seal=this.rootPtrRaw] - Root seal.
+206-   * @returns {void}
+207-   */
+208-  _flushSuperblock(seal = this.rootPtrRaw) {
+209-    if (this.options.readOnly) throw new Error('B\"H readOnly AwtsmoosDB refused superblock flush');
+210-    if (!seal) return;
+211-
+212-    const layout = Buffer.alloc(64).fill(0);
+213-    layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);
+214-    layout.writeUInt8(seal.length, 8);
+215-    seal.copy(layout, 9);
+216-    if (this.freeListPtrRaw) {
+217-      layout.writeUInt8(this.freeListPtrRaw.length, 40);
+218-      this.freeListPtrRaw.copy(layout, 41);
+219-    }
+220-    this.pager.writeExact(0, layout);
+221-  }
+222-
+223-  /**
+224-   * @method _loadFreeListSeal
+225-   * @description Loads persisted free-list metadata from the superblock.
+226-   * @param {Buffer} sb - Superblock bytes.
+227-   * @returns {void}
+228-   */
+229-  _loadFreeListSeal(sb) {
+230-    const len = sb && sb.length > 40 ? sb.readUInt8(40) : 0;
+231-    if (!len || len > 22) return;
+232-
+233-    this.freeListPtrRaw = Buffer.from(sb.subarray(41, 41 + len));
+234-
+235-    try {
+236-      const dec = Pointer.decode(this.freeListPtrRaw);
+237-      const raw = this.pager.readExact(dec.offset, dec.length) || Buffer.alloc(0);
+238-      const packed = FreeListCodec.decode(raw);
+239-      const ranges = packed === null
+240-        ? JSON.parse(raw.toString('utf8'))
+241-        : packed;
+242-      this.allocator.freeList = Array.isArray(ranges)
+243-        ? ranges.filter(r => r && r.offset >= 64 && r.length > 0)
+244-        : [];
+245-    } catch (_err) {
+246-      this.freeListPtrRaw = null;
+247-      this.allocator.freeList = [];
+248-    }
+249-  }
+250-
+251-  /**
+252-   * @method _saveFreeListSeal
+253-   * @description
+254-   * Persists current free-list metadata as live DB bytes without needless
+255-   * growth. The seal first tries to reuse its prior vessel, then tries to sit
+256-   * inside reclaimed space, and only appends when no hollow chamber can hold it.
+257-   * The on-disk format remains exactly the same: superblock byte 40 stores the
+258-   * pointer length and bytes 41.. carry a normal BUFFER pointer to encoded
+259-   * ranges.
+260-   * @returns {void}
+OPEN_LIFECYCLE
+1-
+2-// B"H
+3-/**
+4- * @file lifecycle.js
+5- * @description 
+6- *  =============================================================================
+7- *  THE OPENING AND CLOSING OF THE GATES
+8- *  =============================================================================
+9- *  This is where the DB wakes up. It reads the 64-byte Superblock, finds the 
+10- *  Root Dictionary's VarInt coordinates, and breathes life into the LiveHandle.
+11- *  
+12- *  THE TIKKUN OF THE SUPERBLOCK:
+13- *  In the dark era, saving the Genesis Root Pointer involved copying the *old* 
+14- *  Superblock buffer, which accidentally wiped out the Allocator's newly advanced 
+15- *  cursor. This caused the next creation to overwrite the Root Node itself, 
+16- *  shattering the reality of the cache. 
+17- *  We now ALWAYS read the fresh Superblock before sealing the coordinates.
+18- */
+19-
+20-const constants = require('../../constants.js');
+21-const Dictionary = require('../../structure/dictionary/index.js');
+22-const HandleRegistry = require('../registry/handle.js');
+23-const SmartPointer = require('../../utils/smartPointer.js');
+24-const fs = require('fs');
+25-
+26-module.exports = {
+27-    /**
+28-     * @method open
+29-     * @description Awakens the Database from the disk.
+30-     */
+31:    open(db) {
+32-        db.pager.init(); 
+33-        db.allocator.init(); // Reads EOF cursor into the Allocator
+34-        
+35-        // Read the exact 64-byte Superblock from the very beginning of reality
+36-        let sb = db.pager.readExact(0, 64);
+37-        
+38-        // Bytes 8-15: Root Offset. Bytes 16-23: Root Length.
+39-        let rootOffset = sb.readBigUInt64BE(8);
+40-        let rootLength = sb.readBigUInt64BE(16);
+41-        let ptr = null;
+42-        
+43-        if (rootOffset === 0n) {
+44-            // Genesis. Create the root dictionary from nothingness.
+45-            ptr = (new Dictionary(db.allocator)).create(); 
+46-            
+47-            // The ptr returned is a microscopic VarInt Buffer. 
+48-            const dec = SmartPointer.decode(ptr);
+49-            
+50-            // B"H: THE TIKKUN. Read the FRESH Superblock so we do not crush the Allocator's cursor!
+51-            const freshSb = db.pager.readExact(0, 64);
+52-            const updateSb = Buffer.allocUnsafe(64);
+53-            freshSb.copy(updateSb);
+54-            
+55-            // Save the Root's coordinates into the Superblock for eternity
+56-            updateSb.writeBigUInt64BE(BigInt(dec.offset), 8);
+57-            updateSb.writeBigUInt64BE(BigInt(dec.length), 16);
+58-            db.pager.writeExact(0, updateSb);
+59-            
+60-            db.rootPtrRaw = ptr; 
+61-            db.pager.fsync(); 
+62-        } else {
+63-            // Resurrection. Restore the VarInt pointer from the Superblock coordinates.
+64-            ptr = SmartPointer.encode(constants.VAL_TYPE.DICTIONARY, Number(rootOffset), Number(rootLength));
+65-            db.rootPtrRaw = ptr;
+66-        }
+67-        
+68-        // Bind the physical pointer to the abstract Soul of the root object
+69-        const soul = HandleRegistry.getSoul(db.root);
+70-        if (soul) { 
+71-            soul.ptr = ptr; 
+72-            soul.type = constants.VAL_TYPE.DICTIONARY; 
+73-            soul.lastMutationCount = -1; 
+74-            soul.ensureResolved(true); 
+75-        }
+76-    },
+77-    
+78-    /**
+79-     * @method close
+80-     * @description Seals the Database back into the disk.
+81-     */
+82-    close(db) { 
+83-        if (typeof db.waitForIdle === 'function') db.waitForIdle();
+84-        db.pager.close(); 
+85-        
+86-        const physSize = fs.existsSync(db.pager.filePath) ? fs.statSync(db.pager.filePath).size : 0;
+87-        console.log(`[SIZE_REPORT] physical: ${physSize}, pure: ${physSize}`);
+88-    }
+89-};

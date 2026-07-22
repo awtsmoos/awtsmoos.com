@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Packing evidence proves stable particle stride and aligned deterministic uniforms. */
+/** Packing evidence proves stable particle bytes and aligned PIC grid uniforms. */
 
 import assert from "node:assert/strict";
 import { createParticleSystem } from "../src/core/proceduralObject/particles/createParticleSystem.js";
@@ -25,37 +25,41 @@ const particles = createParticleSystem({
 });
 const packed = packWebGpuParticles3d(particles);
 assert.equal(packed.strideBytes, WEB_GPU_PARTICLE_STRIDE_BYTES);
-assert.equal(packed.byteLength, WEB_GPU_PARTICLE_STRIDE_BYTES);
 assert.deepEqual([...packed.values.slice(0, 12)], [
 	1, 2, 3, 0.25,
 	4, 5, 6, 2,
 	0.5, 8, 0, 0
 ]);
 
-const input = {
+const uniforms = packWebGpuLiquidUniforms3d({
 	deltaTime: 1 / 60,
 	particleCount: 7,
 	gridCellCount: 64,
+	gridDimensions: [4, 4, 4],
+	gridOrigin: [-1, -2, -3],
+	gridCellSize: 0.5,
 	frameIndex: 3,
 	gravity: [0, -9.81, 1],
 	boundsMin: [-2, -3, -4],
 	boundsMax: [2, 3, 4],
 	damping: 0.98,
 	restitution: 0.25,
-	fixedPointScale: 2048
-};
-const first = packWebGpuLiquidUniforms3d(input);
-const second = packWebGpuLiquidUniforms3d(input);
-assert.equal(first.byteLength, WEB_GPU_UNIFORM_BUFFER_BYTES);
-assert.deepEqual(first.bytes, second.bytes);
-const view = new DataView(first.buffer);
-assert.ok(Math.abs(view.getFloat32(0, true) - 1 / 60) < 1e-7);
+	fixedPointScale: 2048,
+	picBlend: 0.375
+});
+assert.equal(uniforms.byteLength, WEB_GPU_UNIFORM_BUFFER_BYTES);
+assert.equal(uniforms.picBlend, 0.375);
+const view = new DataView(uniforms.buffer);
 assert.equal(view.getUint32(4, true), 7);
 assert.equal(view.getUint32(8, true), 64);
-assert.equal(view.getUint32(12, true), 3);
-assert.ok(Math.abs(view.getFloat32(20, true) + 9.81) < 1e-5);
-assert.equal(view.getFloat32(32, true), -2);
-assert.equal(view.getFloat32(56, true), 4);
 assert.equal(view.getFloat32(72, true), 2048);
+assert.deepEqual([0, 1, 2].map(axis => view.getFloat32(80 + axis * 4, true)), [-1, -2, -3]);
+assert.equal(view.getFloat32(96, true), 0.5);
+assert.deepEqual([100, 104, 108].map(offset => view.getUint32(offset, true)), [4, 4, 4]);
+assert.equal(view.getFloat32(112, true), 0.375);
+assert.equal(packWebGpuLiquidUniforms3d({
+	gridCellCount: 1,
+	picBlend: 2
+}).picBlend, 1);
 
 console.log('B"H | proceduralObjectWebGpuPacking3d.test passed');

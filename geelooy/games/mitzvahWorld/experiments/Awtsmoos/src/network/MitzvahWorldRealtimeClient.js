@@ -1,19 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file MitzvahWorldRealtimeClient.js
- * @description Browser client with recovery, deltas, census, events, and public address.
- * The Awtsmoos renews each private session garment; Awtsmoos.com separates public
- * player address, private resume token, world state, and unsolicited event streams.
+ * @description Browser client with recovery, deltas, census, events, and bounded requests.
+ * The Awtsmoos renews each private session garment; Awtsmoos.com separates public address,
+ * private resume token, world state, and a transport that cannot wait without end.
  */
+
 import { createMitzvahWorldJoinKey } from './MitzvahWorldJoinKey.js';
 import { MitzvahWorldEventHub } from './MitzvahWorldEventHub.js';
 import { MitzvahWorldMmorpgApi } from './MitzvahWorldMmorpgApi.js';
 import { MitzvahWorldTransport } from './MitzvahWorldTransport.js';
 import { applyWorldDelta } from './WorldDeltaStore.js';
+
 export class MitzvahWorldRealtimeClient {
-	constructor(socket) {
+	constructor(socket, options = {}) {
 		this.events = new MitzvahWorldEventHub();
 		this.joinKey = createMitzvahWorldJoinKey();
 		this.listeners = new Set();
@@ -24,33 +27,24 @@ export class MitzvahWorldRealtimeClient {
 		this.world = null;
 		this.transport = new MitzvahWorldTransport(
 			socket,
-			message => this.receive(message)
+			message => this.receive(message),
+			options.transport || options
 		);
-		this.mmorpg = new MitzvahWorldMmorpgApi(
-			(type, payload) => this.send(type, payload)
-		);
+		this.mmorpg = new MitzvahWorldMmorpgApi((type, payload) => this.send(type, payload));
 	}
-	static connect(url, WebSocketClass = globalThis.WebSocket) {
+
+	static connect(url, WebSocketClass = globalThis.WebSocket, options = {}) {
 		if (!WebSocketClass) throw new Error('WebSocket is unavailable.');
-		return new MitzvahWorldRealtimeClient(new WebSocketClass(url));
+		return new MitzvahWorldRealtimeClient(new WebSocketClass(url), options);
 	}
-	get socket() {
-		return this.transport.socket;
-	}
-	census() {
-		return this.send('world.census');
-	}
+
+	get socket() { return this.transport.socket; }
+	census() { return this.send('world.census'); }
 	join(displayName, worldId = 'main-village') {
-		return this.send('world.join', {
-			displayName,
-			joinKey: this.joinKey,
-			worldId
-		});
+		return this.send('world.join', { displayName, joinKey: this.joinKey, worldId });
 	}
 	async reconnect(socket) {
-		if (!this.session?.resumeToken) {
-			throw new Error('No resumable Mitzvah World session exists.');
-		}
+		if (!this.session?.resumeToken) throw new Error('No resumable Mitzvah World session exists.');
 		const revision = this.world?.revision ?? 0;
 		this.transport.replaceSocket(socket);
 		const joined = await this.send('world.join', {
@@ -60,15 +54,9 @@ export class MitzvahWorldRealtimeClient {
 		await this.resync(revision);
 		return joined;
 	}
-	input(forward, strafe, facing) {
-		return this.send('player.input', { facing, forward, strafe });
-	}
-	startQuest(questId = 'first-tefillin-shlichus') {
-		return this.send('quest.start', { questId });
-	}
-	interact(questId, npcId, action) {
-		return this.send('quest.interact', { action, npcId, questId });
-	}
+	input(forward, strafe, facing) { return this.send('player.input', { facing, forward, strafe }); }
+	startQuest(questId = 'first-tefillin-shlichus') { return this.send('quest.start', { questId }); }
+	interact(questId, npcId, action) { return this.send('quest.interact', { action, npcId, questId }); }
 	spawnBots(count = 1, seed = 613, displayName = 'Shliach Bot') {
 		return this.send('bot.spawn', { count, displayName, seed });
 	}
@@ -78,16 +66,12 @@ export class MitzvahWorldRealtimeClient {
 	heartbeat(lastAcknowledgedRevision = this.world?.revision ?? 0) {
 		return this.send('world.heartbeat', { lastAcknowledgedRevision });
 	}
-	on(type, listener) {
-		return this.events.on(type, listener);
-	}
+	on(type, listener) { return this.events.on(type, listener); }
 	onWorld(listener) {
 		this.listeners.add(listener);
 		return () => this.listeners.delete(listener);
 	}
-	send(type, payload = {}) {
-		return this.transport.send(type, payload);
-	}
+	send(type, payload = {}) { return this.transport.send(type, payload); }
 	receive(message) {
 		this.events.emit(message);
 		if (message.type === 'session.revoked') {

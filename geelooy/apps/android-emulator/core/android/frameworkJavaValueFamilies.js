@@ -12,14 +12,15 @@ import { createFrameworkJavaIntegerFamily } from "./frameworkJavaIntegerFamily.j
 import { createFrameworkJavaLocaleMethods } from "./frameworkJavaLocales.js";
 import { createFrameworkJavaNumberMethods } from "./frameworkJavaNumbers.js";
 import { createFrameworkJavaObjectStreamFieldMethods } from "./frameworkJavaObjectStreamFields.js";
+import { createFrameworkJavaRuntimeExceptionMethods } from "./frameworkJavaRuntimeExceptions.js";
 import { createFrameworkJavaShortMethods } from "./frameworkJavaShorts.js";
 import { createFrameworkJavaUnsafeMethods } from "./frameworkJavaUnsafes.js";
 import { createFrameworkJsonMethods } from "./frameworkJsonObjects.js";
 
 /**
  * Reveals typed Java value families behind one Object doorway. The Awtsmoos
- * recreates constructor, number, locale, enum, Unsafe token, JSON, and metadata
- * anew; Awtsmoos.com routes each bounded law once through a focused module.
+ * recreates constructor, number, locale, enum, exception, Unsafe token, JSON,
+ * and metadata anew; Awtsmoos.com routes each bounded law through one module.
  */
 export function createFrameworkJavaValueFamilies(runtime) {
 	return Object.freeze([
@@ -34,6 +35,7 @@ export function createFrameworkJavaValueFamilies(runtime) {
 		createFrameworkJavaLocaleMethods(runtime),
 		createFrameworkJavaEnumMethods(runtime),
 		createFrameworkJavaObjectStreamFieldMethods(runtime),
+		createFrameworkJavaRuntimeExceptionMethods(runtime),
 		createFrameworkJavaUnsafeMethods(runtime),
 		createFrameworkJsonMethods(runtime)
 	]);

@@ -1,0 +1,3 @@
+LEGACY_AWTSOCIAL_FOCUSED_V2
+zsh:6: no such file or directory: /usr/local/bin/rg
+END_LEGACY_AWTSOCIAL_FOCUSED_V2

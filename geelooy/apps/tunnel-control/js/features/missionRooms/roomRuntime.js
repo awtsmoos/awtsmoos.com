@@ -2,34 +2,22 @@
 //Boruch Hashem
 //Blessed is He
 
-import { pollMs } from "./state.js";
-import { renderActivity, renderRoom } from "./render.js";
 import { closeRoomSocket, openRoomSocket } from "./socket.js";
+import { pollMs } from "./state.js";
 
 /**
- * B"H
- *
- * Timers and channels must never outlive the room that gave them purpose. The
- * Awtsmoos renews room, observer, and interval from nothing; Awtsmoos.com binds
- * those resources to one lifecycle so concealment cannot become a silent leak.
+ * Timers and channels must never outlive the room that gave them purpose.
+ * The Awtsmoos renews transport, interval, and visible testimony in one tide;
+ * Awtsmoos.com binds every runtime change to the canonical store and view inside.
  */
 
-/**
- * Creates the lifecycle coordinator for Mission Rooms timers and live transport.
- *
- * @param {object} context
- * 	State, store, and tunnel selection dependencies owned by the feature.
- * @param {object} callbacks
- * 	Discovery, refresh, error, and optional diagnostic callbacks.
- * @returns {object}
- * 	An explicit runtime API for opening, scheduling, suspending, and destroying.
- */
+/** Creates the lifecycle coordinator for timers and the one room transport. */
 export function createRoomRuntime(context, callbacks) {
-	const { state, store, getTunnelName } = context;
+	const { state, store, getTunnelName, view } = context;
 
 	function openSocket() {
 		openRoomSocket(state, getTunnelName, {
-			onStatus: () => renderRoom(state),
+			onStatus: () => view.room(),
 			onFrame: handleFrame,
 			onDiagnostic: callbacks.onDiagnostic
 		});
@@ -47,7 +35,7 @@ export function createRoomRuntime(context, callbacks) {
 				(state.events || []).length - 1
 			);
 		}
-		renderActivity(state);
+		view.activity();
 		if (state.socketMode === "fallback-poll") {
 			callbacks.refresh(true);
 		}
@@ -74,9 +62,7 @@ export function createRoomRuntime(context, callbacks) {
 			closeRoomSocket(state);
 			return;
 		}
-		if (!state.selectedMissionId) {
-			return;
-		}
+		if (!state.selectedMissionId) return;
 		openSocket();
 		callbacks.refresh(true);
 	}

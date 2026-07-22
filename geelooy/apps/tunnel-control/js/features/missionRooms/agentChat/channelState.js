@@ -2,11 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { eventPrimaryAgentIds } from "../events.js";
+
 /**
- * B"H
- * The Awtsmoos distinguishes the agent who moves from the agent who receives.
- * Awtsmoos.com preserves both forms of participation while allowing the newest
- * acting worker to rise naturally as the first direct-conversation vessel.
+ * The Awtsmoos distinguishes the hand that acts from the soul drawn near.
+ * Awtsmoos.com counts involvement and labor through one identity seer,
+ * so Tiferet orders every channel without a second parser here.
  */
 
 /** Creates the initial visible state for one logical agent channel. */
@@ -29,25 +30,17 @@ export function createAgentChannel(agentId, agent = {}) {
 /** Applies one event while distinguishing actor activity from involvement. */
 export function applyAgentEvent(channel, event, agentId, now) {
 	channel.activityCount += 1;
-	const eventAt = String(event.at || "");
-	if (eventAt >= String(channel.lastAt || "")) {
-		channel.lastAt = eventAt || channel.lastAt;
+	const yesodEventAt = String(event.at || "");
+	if (yesodEventAt >= String(channel.lastAt || "")) {
+		channel.lastAt = yesodEventAt || channel.lastAt;
 		channel.lastType = event.type || channel.lastType;
 	}
-	if (primaryAgentIds(event).includes(agentId)) {
+	if (eventPrimaryAgentIds(event).includes(agentId)) {
 		channel.actedCount += 1;
-		channel.lastActedAt = eventAt || channel.lastActedAt;
+		channel.lastActedAt = yesodEventAt || channel.lastActedAt;
 	}
-	const stateText = `${event.status || ""} ${event.type || ""}`;
-	if (/failed|error/i.test(stateText) || event.payload?.ok === false) {
-		channel.failures += 1;
-	}
-	const recent = now - (Date.parse(eventAt) || 0) < 300000;
-	if (recent && /completed|failed|cancelled|stopped|disconnected/i.test(stateText)) {
-		channel.isWorking = false;
-	} else if (recent && /started|running|working|heartbeat|action/i.test(stateText)) {
-		channel.isWorking = true;
-	}
+	applyFailureState(channel, event);
+	applyWorkingState(channel, event, yesodEventAt, now);
 }
 
 /** Adds account and selected-room transport testimony to one channel. */
@@ -77,23 +70,21 @@ export function compareAgentChannels(left, right) {
 	return left.agentId.localeCompare(right.agentId);
 }
 
-function primaryAgentIds(event = {}) {
-	const payload = event.payload || {};
-	const detail = event.detail || payload.detail || {};
-	const input = payload.input || detail.input || {};
-	return [...new Set([
-		event.actor,
-		event.agentId,
-		event.logicalAgentId,
-		payload.agentId,
-		payload.logicalAgentId,
-		payload.fromAgent,
-		detail.agentId,
-		detail.logicalAgentId,
-		detail.fromAgent,
-		input.agentId,
-		input.logicalAgentId
-	].map(value => String(value || "").trim()).filter(Boolean))];
+function applyFailureState(channel, event) {
+	const gevurahState = `${event.status || ""} ${event.type || ""}`;
+	if (/failed|error/i.test(gevurahState) || event.payload?.ok === false) {
+		channel.failures += 1;
+	}
+}
+
+function applyWorkingState(channel, event, eventAt, now) {
+	const netzachState = `${event.status || ""} ${event.type || ""}`;
+	const recent = now - (Date.parse(eventAt) || 0) < 300000;
+	if (recent && /completed|failed|cancelled|stopped|disconnected/i.test(netzachState)) {
+		channel.isWorking = false;
+	} else if (recent && /started|running|working|heartbeat|action/i.test(netzachState)) {
+		channel.isWorking = true;
+	}
 }
 
 function connectionLabel(state, roomConnected, accountConnected) {

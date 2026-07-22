@@ -1,44 +1,50 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { statusPayload, timelinePayload } from "./api.js";
-import { agentId, projectRoot, saveSelection } from "./state.js";
-import { renderActivity, renderAll, renderOut, renderRoom, setStatus } from "./render.js";
-import { send, copyRoomLink } from "./messages.js";
+import { copyRoomLink, send } from "./messages.js";
+import { setStatus } from "./render.js";
 import { createRoomActivation } from "./roomActivation.js";
 import { createRoomLobby } from "./roomLobby.js";
-import { createRoomRuntime } from "./roomRuntime.js";
 import { applyRoomOpening, loadRoomForSession } from "./roomOpening.js";
+import { createRoomRuntime } from "./roomRuntime.js";
+import { agentId, projectRoot, saveSelection } from "./state.js";
 
 /**
- * @file Coordinates Mission Rooms without turning ordinary viewing into mutation.
- * @description
- * The Awtsmoos renews lobby, room, stream, and authority in their proper vessels.
- * Awtsmoos.com opens rooms through status and timeline reads; creation, messages,
- * steering, approvals, and agent participation remain scoped key operations.
+ * The Awtsmoos coordinates discovery, opening, refreshing, speech, and closure.
+ * Awtsmoos.com sends every state change through one store and every view through
+ * one Malchut coordinator, so operations never grow a parallel enclosure.
  */
 export function createRoomOperations(context) {
-	const { state, store, api, controls } = context;
-	let lobby;
-	const discover = reason => lobby.discover(reason);
-	const runtime = createRoomRuntime(context, { discover, refresh, onError: errorStatus });
+	const { state, store, api, controls, view } = context;
+	let malchutLobby;
+	const discover = reason => malchutLobby.discover(reason);
+	const runtime = createRoomRuntime(context, {
+		discover,
+		refresh,
+		onError: errorStatus
+	});
 	const activation = createRoomActivation(state, runtime, { discover, join });
-	lobby = createRoomLobby(context, { join, onError: errorStatus });
+	malchutLobby = createRoomLobby(context, { join, onError: errorStatus });
 
 	async function join(missionId, quiet = false) {
 		if (!missionId) return;
 		runtime.closeLiveResources();
-		resetSelection(state, missionId);
+		resetSelection(state, store, missionId);
 		state.socketMode = "connecting";
 		const opening = await loadRoomForSession(api, missionId, {
 			projectRoot: projectRoot(),
 			agentId: agentId()
 		});
 		applyRoomOpening(state, store, opening);
-		saveSelection({ missionId, projectRoot: projectRoot(), agentId: agentId() });
+		saveSelection({
+			missionId,
+			projectRoot: projectRoot(),
+			agentId: agentId()
+		});
 		if (!quiet) setStatus(`Opened room ${missionId}.`);
-		renderAll(state, { join });
+		view.all({ join });
 		controls.render();
 		await controls.refresh();
 		if (state.paneActive) {
@@ -54,9 +60,7 @@ export function createRoomOperations(context) {
 			store.setSelected(await api(statusPayload(state.selectedMissionId)));
 			await loadTimeline().catch(() => {});
 			if (!quiet) setStatus(`Room refreshed: ${state.selectedMissionId}`);
-			renderRoom(state);
-			renderActivity(state);
-			renderOut(state.selected);
+			view.selected();
 		} catch (error) {
 			errorStatus(error);
 		} finally {
@@ -72,9 +76,9 @@ export function createRoomOperations(context) {
 
 	function closeRoom() {
 		runtime.closeLiveResources();
-		resetSelection(state, "");
+		resetSelection(state, store, "");
 		state.selected = null;
-		renderAll(state, { join });
+		view.all({ join });
 		controls.render();
 		setStatus(`Showing ${state.missions.length} available rooms.`);
 	}
@@ -83,7 +87,7 @@ export function createRoomOperations(context) {
 		activate: activation.activate,
 		closeRoom,
 		copyLink: () => copyRoomLink(state),
-		createRoom: lobby.createRoom,
+		createRoom: malchutLobby.createRoom,
 		destroy: runtime.destroy,
 		discover,
 		join,
@@ -94,10 +98,10 @@ export function createRoomOperations(context) {
 	};
 }
 
-function resetSelection(state, missionId) {
+function resetSelection(state, store, missionId) {
 	state.selectedMissionId = missionId;
 	state.timeline = [];
-	state.events = [];
+	store.clearEvents();
 	state.selectedEventId = "";
 	state.replayEnabled = false;
 	state.continuation = null;

@@ -1,14 +1,31 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Each compute path receives only the resources its revealed WGSL actually uses. */
+/** Each compute path receives only the GPU vessels its revealed WGSL actually uses. */
 
 function bufferEntry(binding, buffer) {
-	return Object.freeze({ binding, resource: Object.freeze({ buffer }) });
+	return Object.freeze({
+		binding,
+		resource: Object.freeze({ buffer })
+	});
 }
 
 function entriesForEntryPoint(entryPoint, resources) {
 	switch (entryPoint) {
+		case "deposit_particles":
+			return [
+				bufferEntry(0, resources.uniformBuffer),
+				bufferEntry(1, resources.currentParticleBuffer),
+				bufferEntry(3, resources.gridBuffer)
+			];
+		case "transfer_grid_to_particles":
+			return [
+				bufferEntry(0, resources.uniformBuffer),
+				bufferEntry(1, resources.currentParticleBuffer),
+				bufferEntry(2, resources.nextParticleBuffer),
+				bufferEntry(4, resources.surfacePointBuffer),
+				bufferEntry(5, resources.gridVelocityBuffer)
+			];
 		case "integrate_particles":
 			return [
 				bufferEntry(0, resources.uniformBuffer),
@@ -20,6 +37,12 @@ function entriesForEntryPoint(entryPoint, resources) {
 			return [
 				bufferEntry(0, resources.uniformBuffer),
 				bufferEntry(3, resources.gridBuffer)
+			];
+		case "normalize_grid":
+			return [
+				bufferEntry(0, resources.uniformBuffer),
+				bufferEntry(3, resources.gridBuffer),
+				bufferEntry(5, resources.gridVelocityBuffer)
 			];
 		case "pack_surface_points":
 			return [

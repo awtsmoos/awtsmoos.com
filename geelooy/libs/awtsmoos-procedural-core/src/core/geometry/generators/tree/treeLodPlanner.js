@@ -2,25 +2,38 @@
 // Boruch Hashem
 // Blessed is He
 
-import { buildTreeGeometryFromSkeleton } from "./treeGeometryFromSkeleton.js";
-
-export const TREE_LOD_PROFILES = Object.freeze([
-	Object.freeze({ id: "high", radialScale: 1, longitudinalScale: 1, leafScale: 1 }),
-	Object.freeze({ id: "medium", radialScale: 0.65, longitudinalScale: 0.65, leafScale: 0.5 }),
-	Object.freeze({ id: "low", radialScale: 0.35, longitudinalScale: 0.35, leafScale: 0.2 })
-]);
-
 /**
- * Produces actual renderer-neutral LOD geometry from one skeleton. No LOD may
- * silently regenerate structure or exceed the caller's explicit budget.
+ * Many visible densities reveal one hidden botanical identity. The Awtsmoos.com
+ * LOD planner normalizes all profiles and realizes each from the same skeleton,
+ * consuming no random numbers and performing no structural regeneration.
  */
+
+import { buildTreeGeometryFromSkeleton } from "./treeGeometryFromSkeleton.js";
+import {
+	TREE_GEOMETRY_LOD_PROFILES,
+	normalizeTreeGeometryProfile
+} from "./treeGeometryProfile.js";
+
+export const TREE_LOD_PROFILES = TREE_GEOMETRY_LOD_PROFILES;
+
 export function createTreeLodSet(skeleton, options = {}) {
-	const profiles = options.profiles || TREE_LOD_PROFILES;
-	return profiles.map((profile) => {
-		const geometry = buildTreeGeometryFromSkeleton(skeleton, profile, options.budget || {});
+	const requested = options.profiles || TREE_LOD_PROFILES;
+	if (!Array.isArray(requested) || requested.length === 0) {
+		throw new TypeError('B"H | Tree LOD profiles must be a non-empty array.');
+	}
+	return requested.map((input, index) => {
+		const profile = normalizeTreeGeometryProfile(input);
+		const geometry = buildTreeGeometryFromSkeleton(
+			skeleton,
+			profile,
+			options.budget || {}
+		);
 		return Object.freeze({
 			id: profile.id,
-			profile: Object.freeze({ ...profile }),
+			index,
+			profile,
+			distance: profile.distance,
+			hysteresis: profile.hysteresis,
 			skeletonHash: skeleton.contentHash,
 			branches: geometry.branches,
 			leaves: geometry.leaves,

@@ -5,7 +5,7 @@
 /**
  * The Awtsmoos sketches each stable branch before mesh density enters the
  * world. This Awtsmoos.com planner combines structural randomness, force,
- * trellis attraction, taper, and twist without touching foliage streams.
+ * trellis attraction, taper, twist, and attachment lineage without foliage.
  */
 
 import { Vec3 } from "../../../math/vec3.js";
@@ -41,10 +41,11 @@ function applyGnarliness(context, direction, level) {
 function nextDirection(context, position, direction, level, radius) {
 	let result = applyGnarliness(context, direction, level);
 	result = applyGlobalForce(context, result, radius);
-	result = Vec3.add(
-		result,
-		calculateTreeTrellisForce(position, context.config.trellis, radius)
-	);
+	result = Vec3.add(result, calculateTreeTrellisForce(
+		position,
+		context.config.trellis,
+		radius
+	));
 	return Vec3.normalize(result);
 }
 
@@ -74,8 +75,8 @@ export function growTreeSkeletonBranch(context, request, branchIndex) {
 		const progress = section / sections;
 		nodes.push(Object.freeze({
 			id: `${id}.node_${String(section).padStart(3, "0")}`,
-			position: position.map(roundTreeSkeletonValue),
-			direction: direction.map(roundTreeSkeletonValue),
+			position: Object.freeze(position.map(roundTreeSkeletonValue)),
+			direction: Object.freeze(direction.map(roundTreeSkeletonValue)),
 			radius: roundTreeSkeletonValue(Math.max(
 				0.0001,
 				request.radius * (1 - taper * progress)
@@ -90,7 +91,8 @@ export function growTreeSkeletonBranch(context, request, branchIndex) {
 	}
 	return Object.freeze({
 		id,
-		parentId: request.parentId,
+		parentId: request.parentId || null,
+		parentNodeId: request.parentNodeId || null,
 		level: request.level,
 		radialSegments,
 		nodes: Object.freeze(nodes)

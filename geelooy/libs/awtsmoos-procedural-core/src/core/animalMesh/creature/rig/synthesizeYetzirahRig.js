@@ -11,11 +11,11 @@ import { compileLimbBones } from "./compileLimbBones.js";
 import { createYetzirahBone } from "./boneFactory.js";
 import { deriveRigTargets } from "./deriveRigTargets.js";
 import { deriveRigLineage } from "./deriveRigLineage.js";
+import { calculateCreatureCenterOfMass } from "./calculateCreatureCenterOfMass.js";
 import {
 	addVector,
 	creatureContentHash,
-	creatureStableId,
-	scaleVector
+	creatureStableId
 } from "../shared/creatureValue.js";
 
 function addPartControls(creature, bones, sectionBoneIds) {
@@ -45,23 +45,6 @@ function addPartControls(creature, bones, sectionBoneIds) {
 			}
 		));
 	}
-}
-
-function centerOfMass(creature) {
-	const totalMass = Math.max(
-		1,
-		creature.body.sections.reduce(
-			(sum, section) => sum + section.massContribution,
-			0
-		)
-	);
-	return creature.body.sections.reduce(
-		(sum, section) => addVector(
-			sum,
-			scaleVector(section.position, section.massContribution)
-		),
-		[0, 0, 0]
-	).map((value) => value / totalMass);
 }
 
 /**
@@ -111,7 +94,7 @@ export function synthesizeYetzirahRig(creature, options = {}) {
 			boneId: bone.id,
 			policy: "distributed"
 		})),
-		centerOfMass: centerOfMass(creature),
+		centerOfMass: calculateCreatureCenterOfMass(creature),
 		locomotionSupportRoles: creature.limbs.filter(
 			(limb) => limb.contactCapabilities.includes("ground.support")
 		).map((limb) => limb.id),

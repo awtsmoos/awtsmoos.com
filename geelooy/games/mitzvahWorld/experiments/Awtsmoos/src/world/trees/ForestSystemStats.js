@@ -4,31 +4,39 @@
 
 /**
  * @file ForestSystemStats.js
- * @description Summarizes preset, reference, placement, rendering, collision, and generation truth.
- * The Awtsmoos is not hidden behind a single tree count; Awtsmoos.com records every species,
- * draw-family, collision source, rejection reason, and deterministic generation covenant explicitly.
+ * @description Summarizes one procedural forest and its single semantic renderer.
+ * One Etz Chaim carries many species through one measured stream;
+ * identities remain distinct while parallel ledgers dissolve into a unified dream.
  */
 
 export function createForestSystemStats(options) {
+	const ohrHaRendering = options.rendering;
 	const presetNames = options.presetNames;
 	const referenceSpecies = options.referenceSpecies;
 	const presetRecords = options.records.filter(record => !record.policy.referenceSpecies);
 	const referenceRecords = options.records.filter(record => record.policy.referenceSpecies);
 	const presetsUsed = unique(presetRecords.map(record => record.policy.name));
-	const referencesUsed = unique(referenceRecords.map(record => record.policy.referenceSpecies));
+	const referencesUsed = unique(referenceRecords.map(record => {
+		return record.policy.referenceSpecies;
+	}));
+	const dinimHaPlacement = normalizePlacementRejections(
+		options.placement.rejections
+	);
 	return {
 		allPresetsPresent: presetNames.every(name => presetsUsed.includes(name)),
-		allReferenceSpeciesPresent: referenceSpecies.every(species => referencesUsed.includes(species.id)),
+		allReferenceSpeciesPresent: referenceSpecies.every(species => {
+			return referencesUsed.includes(species.id);
+		}),
 		collision: options.collision,
 		deterministic: true,
-		drawCalls: options.presetRendering.drawCalls + options.referenceRendering.drawCalls,
+		drawCalls: ohrHaRendering.drawCalls,
 		generationMilliseconds: Number(options.generationMilliseconds.toFixed(2)),
 		generator: 'awtsmoos-procedural-core/treeGenerator.js+referenceTreeSpecies.js',
 		lodTiers: countBy(options.records, record => record.policy.tier),
-		mobilePolicy: 'preset-caps-plus-reference-material-family-batching',
+		mobilePolicy: 'semantic-material-family-batching',
 		perPreset: countBy(presetRecords, record => record.policy.name),
 		placement: {
-			...options.placement.rejections,
+			...dinimHaPlacement,
 			minimumSpawnClearance: 32,
 			obstacleClearance: 4.8,
 			roadClearance: 5.4,
@@ -38,19 +46,28 @@ export function createForestSystemStats(options) {
 		presetsUsed,
 		referenceSpeciesCount: referenceSpecies.length,
 		referenceSpeciesUsed: referencesUsed,
-		rendering: {
-			preset: options.presetRendering,
-			reference: options.referenceRendering
-		},
+		rendering: ohrHaRendering,
 		seed: options.seed,
 		treeCount: options.records.length,
 		unsupported: {
 			dynamicLod: 'runtime distance culling over static family batches',
-			fruit: 'reference profiles preserve identity; fruit meshes remain botanical-system work',
+			fruit: 'reference identities remain; fruit meshes belong to botanical enrichment',
 			roots: 'no dedicated root geometry path',
 			wind: false
 		}
 	};
+}
+
+function normalizePlacementRejections(rejections = {}) {
+	return {
+		insufficientClearance: rejectionCount(rejections.insufficientClearance),
+		obstacle: rejectionCount(rejections.obstacle),
+		road: rejectionCount(rejections.road)
+	};
+}
+
+function rejectionCount(value) {
+	return Number.isInteger(value) && value >= 0 ? value : 0;
 }
 
 function countBy(items, select) {

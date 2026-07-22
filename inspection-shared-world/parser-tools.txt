@@ -1,0 +1,6 @@
+acorn=missing
+es-module-lexer=missing
+@babel/parser=missing
+recast=missing
+magic-string=missing
+terser=missing

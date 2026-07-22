@@ -1,9 +1,10 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Persistent GPU state gathers particles, buffers, shader, pipelines, and truth. */
+/** Persistent GPU state gathers particles, a world-space grid, buffers, shader, and truth. */
 
 import { createWebGpuCapabilityReport3d } from "./createWebGpuCapabilityReport3d.js";
+import { createWebGpuGridLayout3d } from "./createWebGpuGridLayout3d.js";
 import { createWebGpuShaderManifest3d } from "./createWebGpuShaderManifest3d.js";
 import { packWebGpuParticles3d } from "./packWebGpuParticles3d.js";
 import { WebGpuPipelineCache3d } from "./WebGpuPipelineCache3d.js";
@@ -23,11 +24,15 @@ function finiteVector3(value, fallback, label) {
 }
 
 function assertDevice(device) {
-	const methods = ["createBuffer", "createShaderModule", "createComputePipeline", "createBindGroup", "createCommandEncoder"];
+	const methods = [
+		"createBuffer", "createShaderModule", "createComputePipeline",
+		"createBindGroup", "createCommandEncoder"
+	];
 	if (!device?.queue || methods.some(name => typeof device[name] !== "function")) {
 		throw new TypeError("WebGPU liquid runtime requires a complete GPUDevice-like object.");
 	}
-	if (typeof device.queue.writeBuffer !== "function" || typeof device.queue.submit !== "function") {
+	if (typeof device.queue.writeBuffer !== "function"
+		|| typeof device.queue.submit !== "function") {
 		throw new TypeError("WebGPU liquid runtime requires GPU queue write and submit methods.");
 	}
 	return device;
@@ -36,16 +41,24 @@ function assertDevice(device) {
 export function createWebGpuLiquidRuntimeState3d(input) {
 	const device = assertDevice(input?.device);
 	const packedParticles = packWebGpuParticles3d(input.particleSystem);
-	const particleCapacity = Math.max(1, Math.floor(input.particleCapacity ?? packedParticles.particleCount));
+	const particleCapacity = Math.max(
+		1,
+		Math.floor(input.particleCapacity ?? packedParticles.particleCount)
+	);
 	if (particleCapacity < packedParticles.particleCount) {
 		throw new RangeError("WebGPU particle capacity cannot be smaller than particle count.");
 	}
-	const gridCellCount = Math.max(0, Math.floor(input.gridCellCount ?? 0));
+	const gridLayout = createWebGpuGridLayout3d({
+		gridCellCount: input.gridCellCount ?? 1,
+		gridDimensions: input.gridDimensions,
+		gridOrigin: input.gridOrigin,
+		gridCellSize: input.gridCellSize
+	});
 	const resources = new WebGpuResourceSet3d({
 		device,
 		usageConstants: input.usageConstants,
 		particleCapacity,
-		gridCellCount: Math.max(1, gridCellCount),
+		gridCellCount: gridLayout.cellCount,
 		maximumBytes: input.maximumBytes
 	});
 	device.queue.writeBuffer(resources.currentParticleBuffer, 0, packedParticles.values);
@@ -55,12 +68,15 @@ export function createWebGpuLiquidRuntimeState3d(input) {
 		code: WEB_GPU_LIQUID_WGSL,
 		entryPoints: WEB_GPU_LIQUID_ENTRY_POINTS
 	});
-	const shaderModule = device.createShaderModule({ label: shaderManifest.name, code: shaderManifest.code });
+	const shaderModule = device.createShaderModule({
+		label: shaderManifest.name,
+		code: shaderManifest.code
+	});
 	return Object.freeze({
 		device,
 		particleCount: packedParticles.particleCount,
 		particleCapacity,
-		gridCellCount,
+		gridLayout,
 		boundsMin: finiteVector3(input.boundsMin, [-1, -1, -1], "WebGPU bounds minimum"),
 		boundsMax: finiteVector3(input.boundsMax, [1, 1, 1], "WebGPU bounds maximum"),
 		maximumWorkgroups: input.maximumWorkgroups ?? Number.MAX_SAFE_INTEGER,

@@ -1,33 +1,63 @@
-
 // B"H
-import { TreeRNG } from './rng.js';
-import { TreeGeometryBuilder } from './treeGeometryBuilder.js';
-import { TreeGrowthSystem } from './treeGrowthSystem.js';
+// Boruch Hashem
+// Blessed is He
+/**
+ * This legacy doorway no longer grows a second tree. The Awtsmoos creates every
+ * branch through one canonical skeleton and growth system; Awtsmoos.com preserves
+ * the historical verts contract while delegating all generation to that system.
+ */
+import {
+	TreeGenerator as CanonicalTreeGenerator,
+	generateTreeLods,
+	generateTreeProceduralData,
+	generateTreeSkeleton
+} from "../../../../geometry/generators/tree/treeGenerator.js";
+
+function legacyGeometry(output) {
+	return {
+		branches: {
+			verts: output.branches.positions,
+			normals: output.branches.normals,
+			uvs: output.branches.uvs,
+			indices: output.branches.indices
+		},
+		leaves: {
+			verts: output.leaves.positions,
+			normals: output.leaves.normals,
+			uvs: output.leaves.uvs,
+			indices: output.leaves.indices,
+			colors: output.leaves.colors
+		},
+		metadata: output.metadata,
+		stats: output.stats
+	};
+}
 
 export class TreeGenerator {
-    constructor(config) {
-        this.config = config;
-        this.rng = new TreeRNG(config.seed);
-        this.builder = new TreeGeometryBuilder();
-        this.system = new TreeGrowthSystem(config, this.rng, this.builder);
-    }
+	constructor(config) {
+		this.canonical = new CanonicalTreeGenerator(config);
+	}
 
-    generate() {
-        this.system.generate();
-        return {
-            branches: {
-                verts: this.builder.verts,
-                normals: this.builder.normals,
-                uvs: this.builder.uvs,
-                indices: this.builder.indices
-            },
-            leaves: {
-                verts: this.builder.leafVerts,
-                normals: this.builder.leafNorms,
-                uvs: this.builder.leafUVs,
-                indices: this.builder.leafIndices,
-                colors: this.builder.leafColors
-            }
-        };
-    }
+	generate(options = {}) {
+		return legacyGeometry(this.canonical.generate(options));
+	}
+
+	generateSkeleton() {
+		return this.canonical.generateSkeleton();
+	}
+
+	generateLODs(options = {}) {
+		return this.canonical.generateLODs(options);
+	}
+
+	capabilities() {
+		return this.canonical.capabilities();
+	}
 }
+
+export {
+	generateTreeLods,
+	generateTreeProceduralData,
+	generateTreeSkeleton
+};
+export default TreeGenerator;

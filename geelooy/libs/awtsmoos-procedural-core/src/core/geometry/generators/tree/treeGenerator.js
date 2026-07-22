@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * The Awtsmoos renews the entire tree on every invocation, so no old buffer
- * masquerades as new growth. This Awtsmoos.com façade preserves the original
- * mesh contract while also exposing stable structural artifacts and LODs.
+ * The Awtsmoos renews one stable tree and clothes it for every public output.
+ * This Awtsmoos.com facade preserves legacy buffers, presets, and helper APIs
+ * while preventing mesh and LOD calls from owning separate growth algorithms.
  */
 
 import { TreeRNG } from "./rng.js";
@@ -17,6 +17,10 @@ import { getTreeCapabilities } from "./treeCapabilities.js";
 import { createTreeOutput } from "./treeOutputReport.js";
 import { resolveTreeConfig } from "./treeConfigResolver.js";
 import TREE_PRESETS, { getTreePreset, listTreePresets } from "./treePresets.js";
+
+function generationOptions(input) {
+	return typeof input === "string" ? { detail: input } : input || {};
+}
 
 function emptyTreeStats() {
 	return {
@@ -36,18 +40,29 @@ export class TreeGenerator {
 		this.builder = null;
 		this.system = null;
 		this.lastOutput = null;
+		this.lastSkeleton = null;
 	}
 
-	generate(options = {}) {
+	setConfig(config) {
+		this.config = resolveTreeConfig(config);
+		this.lastOutput = null;
+		this.lastSkeleton = null;
+		return this;
+	}
+
+	generate(input = {}) {
+		const options = generationOptions(input);
 		this.rng = new TreeRNG(this.config.seed);
 		this.builder = new TreeGeometryBuilder();
 		this.system = new TreeGrowthSystem(
 			this.config,
 			this.rng,
 			this.builder,
-			options.detail || options.quality || {}
+			options.detail || options.quality || "high",
+			{ budget: options.budget || {} }
 		);
 		this.system.generate();
+		this.lastSkeleton = this.system.skeleton;
 		this.lastOutput = createTreeOutput(
 			this.config,
 			this.builder,
@@ -57,11 +72,21 @@ export class TreeGenerator {
 		return this.lastOutput;
 	}
 
-	generateSkeleton() {
-		return new TreeSkeletonGenerator(this.config).generate();
+	build(input = {}) {
+		return this.generate(input);
 	}
 
-	generateLODs(options = {}) {
+	createGeometry(input = {}) {
+		return this.generate(input);
+	}
+
+	generateSkeleton() {
+		this.lastSkeleton = new TreeSkeletonGenerator(this.config).generate();
+		return this.lastSkeleton;
+	}
+
+	generateLODs(input = {}) {
+		const options = Array.isArray(input) ? { profiles: input } : input || {};
 		const skeleton = this.generateSkeleton();
 		return {
 			preset: this.config.name,
@@ -91,6 +116,8 @@ export function generateTreeSkeleton(config) {
 export function generateTreeLods(config, options = {}) {
 	return new TreeGenerator(config).generateLODs(options);
 }
+
+export const generateTreeLODs = generateTreeLods;
 
 export {
 	TREE_PRESETS,

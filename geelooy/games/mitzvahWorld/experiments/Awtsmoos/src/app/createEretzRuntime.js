@@ -4,82 +4,57 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes the playable valley before every optional enrichment begins.
- * The Awtsmoos awakens movement before distant leaves and models; Awtsmoos.com preserves
- * one ordered covenant from foundation through actors, diagnostics, loop, and streaming.
+ * @description Opens one bundled playable world, then streams optional enrichment afterward.
+ * The Awtsmoos gathers the first living frame into one vessel; Awtsmoos.com replaces the old
+ * six-hundred-module thunderclap with a single responsive bundle and later bounded streams.
  */
 
-import { MitzvahWorldLocalRpgSession } from '../network/MitzvahWorldLocalRpgSession.js';
-import { installRuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor.js';
-import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
-import { startEretzActorHydration } from './EretzActorHydration.js?v=20260720-canonical-valley-pass-05';
-import { BootPhaseTracker } from './BootPhaseTracker.js';
-import { createEretzActors } from './EretzActorSystem.js?v=20260720-canonical-valley-pass-04';
-import {
-	startEretzPostMovementStreaming,
-	startGameplayTextureStreaming
-} from './EretzPostMovementStreaming.js';
-import { attachRuntimeDiagnostics } from './EretzRuntimeDiagnostics.js';
-import { startEretzRuntime } from './EretzRuntimeLoop.js';
-import { createEretzUi } from './EretzUiSystem.js?v=20260720-canonical-valley-pass-06';
-import { installViewport } from './EretzViewport.js';
-import { createEretzWorldFoundation } from './EretzWorldFoundation.js?v=20260720-canonical-valley-pass-04';
-import { installWorldDiagnostics } from './WorldDiagnostics.js';
+import { startGameplayTextureStreaming } from './GameplayTextureStreamingGate.js';
+import { afterVisibleFrames, reportLaunchProgress } from './RuntimeLaunchProgress.js';
+
+const PLAYABLE_BUNDLE_URL = '../../dist/playable-runtime/playable-runtime.js?v=20260722-bundle-02';
 
 export { startGameplayTextureStreaming };
 
 export async function createEretzRuntime(hosts, options = {}) {
+	const { BootPhaseTracker } = await import('./BootPhaseTracker.js');
 	const boot = new BootPhaseTracker();
-	const qualityProfile = resolveWorldQuality(options);
 	globalThis.AwtsmoosBootTracker = boot;
 	try {
-		boot.begin('world-foundation');
-		const foundation = await createEretzWorldFoundation(hosts, {
-			...options,
-			qualityProfile
-		});
-		boot.begin('actors-and-interface');
-		const actors = createEretzActors(foundation);
-		const runtime = createEretzUi(actors, options.ui || {});
-		runtime.worldModels = null;
-		installViewport(runtime);
-		installRuntimePerformanceMonitor(runtime);
-		boot.begin('diagnostics-and-loop');
-		const diagnostics = installWorldDiagnostics(runtime);
-		const movement = options.startLoop === false
-			? null
-			: startEretzRuntime(runtime, diagnostics);
-		const localRpg = options.localRpg
-			|| new MitzvahWorldLocalRpgSession(options);
-		attachRuntimeDiagnostics(diagnostics, runtime, movement, localRpg);
-		diagnostics.bootPhases = () => boot.snapshot();
-		diagnostics.qualityProfile = { ...qualityProfile };
-		diagnostics.actorHydrationPromise = startEretzActorHydration(
-			runtime,
-			foundation.actorHydration,
-			boot
-		);
+		boot.begin('playable-bundle');
+		reportLaunchProgress(options, 'Loading the playable world bundle…', 0.08);
+		const { createPlayableEretzRuntime } = await import(PLAYABLE_BUNDLE_URL);
+		const core = await createPlayableEretzRuntime(hosts, options, boot);
 		boot.complete();
 		setDebugHudVisibility(hosts?.hud);
-		startEretzPostMovementStreaming({
+		publishRuntime(core.diagnostics);
+		reportLaunchProgress(options, 'The world is playable; details are streaming in…', 1);
+		core.diagnostics.enrichmentPromise = scheduleEnrichment({
+			...core,
 			boot,
-			diagnostics,
-			foundation,
-			movement,
-			options,
-			qualityProfile,
-			runtime
+			options
 		});
-		publishRuntime(diagnostics);
-		return diagnostics;
+		return core.diagnostics;
 	} catch (error) {
 		boot.fail(error);
 		exposeBootFailure(error, hosts);
 		throw error;
 	} finally {
-		if (globalThis.AwtsmoosBootTracker === boot) {
-			globalThis.AwtsmoosBootTracker = null;
-		}
+		if (globalThis.AwtsmoosBootTracker === boot) globalThis.AwtsmoosBootTracker = null;
+	}
+}
+
+async function scheduleEnrichment(context) {
+	try {
+		await afterVisibleFrames(2, context.options.environment || globalThis);
+		const { startEretzDeferredRuntimeEnrichment } = await import(
+			'./EretzDeferredRuntimeEnrichment.js?v=20260722-stream-03'
+		);
+		return startEretzDeferredRuntimeEnrichment(context);
+	} catch (error) {
+		context.boot.degrade?.('deferred-enrichment', error);
+		console.warn('[MitzvahWorld] Optional enrichment degraded.', error);
+		return null;
 	}
 }
 
@@ -102,13 +77,11 @@ function exposeBootFailure(error, hosts) {
 		hosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;
 	}
 	console.error('B"H Mitzvah World initialization failed.', error);
-	return failure;
 }
 
 function setDebugHudVisibility(hud) {
 	if (!hud || typeof location === 'undefined') return;
-	const showDebug = new URLSearchParams(location.search).get('debug') === '1';
-	hud.style.display = showDebug ? '' : 'none';
+	hud.style.display = new URLSearchParams(location.search).get('debug') === '1' ? '' : 'none';
 }
 
 export default createEretzRuntime;

@@ -1,9 +1,9 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** A strict recording device proves WebGPU command behavior without pretending to be hardware. */
+/** A strict recording device proves GPU command shape without pretending to be hardware. */
 
-export const MOCK_GPU_BUFFER_USAGE = Object.freeze({
+export const RECORDING_GPU_BUFFER_USAGE = Object.freeze({
 	MAP_READ: 1,
 	MAP_WRITE: 2,
 	COPY_SRC: 4,
@@ -16,114 +16,95 @@ export const MOCK_GPU_BUFFER_USAGE = Object.freeze({
 	QUERY_RESOLVE: 512
 });
 
+export const MOCK_GPU_BUFFER_USAGE = RECORDING_GPU_BUFFER_USAGE;
+
 export function createRecordingWebGpuDevice() {
-	const calls = {
+	const records = {
 		buffers: [],
-		writeBuffers: [],
+		writes: [],
 		shaderModules: [],
 		pipelines: [],
 		bindGroups: [],
 		encoders: [],
 		computePasses: [],
-		pipelineSets: [],
-		bindGroupSets: [],
 		dispatches: [],
-		submissions: [],
-		mapAsyncCount: 0
+		submissions: []
 	};
-	let bufferId = 0;
-	let pipelineId = 0;
-	let bindGroupId = 0;
-	let resolveLost;
-	const lost = new Promise(resolve => {
-		resolveLost = resolve;
-	});
+	let sequence = 0;
 	const queue = {
 		writeBuffer(buffer, offset, data) {
-			calls.writeBuffers.push({ buffer, offset, byteLength: data.byteLength });
+			records.writes.push({ buffer, offset, byteLength: data.byteLength });
 		},
 		submit(commandBuffers) {
-			calls.submissions.push([...commandBuffers]);
+			records.submissions.push([...commandBuffers]);
 		}
 	};
 	const device = {
 		features: new Set(["timestamp-query"]),
-		limits: Object.freeze({ maxStorageBufferBindingSize: 128 * 1024 * 1024 }),
-		lost,
+		limits: Object.freeze({ maxStorageBufferBindingSize: 256 * 1024 * 1024 }),
 		queue,
+		lost: new Promise(() => {}),
 		createBuffer(descriptor) {
-			const buffer = {
-				id: `buffer-${bufferId += 1}`,
-				...descriptor,
-				mapAsync() {
-					calls.mapAsyncCount += 1;
-					return Promise.resolve();
-				}
-			};
-			calls.buffers.push(buffer);
+			const buffer = Object.freeze({ id: `buffer-${sequence += 1}`, descriptor });
+			records.buffers.push(buffer);
 			return buffer;
 		},
 		createShaderModule(descriptor) {
-			const module = { descriptor };
-			calls.shaderModules.push(module);
+			const module = Object.freeze({ id: `shader-${sequence += 1}`, descriptor });
+			records.shaderModules.push(module);
 			return module;
 		},
 		createComputePipeline(descriptor) {
-			const pipeline = {
-				id: `pipeline-${pipelineId += 1}`,
+			const pipeline = Object.freeze({
+				id: `pipeline-${sequence += 1}`,
 				descriptor,
 				getBindGroupLayout(index) {
-					return { pipelineId: pipeline.id, index };
+					return Object.freeze({ pipelineId: this.id, index });
 				}
-			};
-			calls.pipelines.push(pipeline);
+			});
+			records.pipelines.push(pipeline);
 			return pipeline;
 		},
 		createBindGroup(descriptor) {
-			const bindGroup = {
-				id: `bind-group-${bindGroupId += 1}`,
-				descriptor
-			};
-			calls.bindGroups.push(bindGroup);
-			return bindGroup;
+			const group = Object.freeze({ id: `group-${sequence += 1}`, descriptor });
+			records.bindGroups.push(group);
+			return group;
 		},
 		createCommandEncoder(descriptor) {
-			const encoder = { descriptor, passCount: 0, finished: false };
-			calls.encoders.push(encoder);
+			const encoderRecord = { descriptor, passes: [], finished: false };
+			records.encoders.push(encoderRecord);
 			return {
 				beginComputePass(passDescriptor) {
-					const passIndex = calls.computePasses.length;
-					const pass = { passIndex, descriptor: passDescriptor, ended: false };
-					calls.computePasses.push(pass);
-					encoder.passCount += 1;
+					const passRecord = {
+						descriptor: passDescriptor,
+						pipelines: [],
+						bindGroups: [],
+						dispatches: [],
+						ended: false
+					};
+					encoderRecord.passes.push(passRecord);
+					records.computePasses.push(passRecord);
 					return {
-						setPipeline(pipeline) {
-							calls.pipelineSets.push({ passIndex, pipelineId: pipeline.id });
+						setPipeline(pipeline) { passRecord.pipelines.push(pipeline); },
+						setBindGroup(index, group) { passRecord.bindGroups.push({ index, group }); },
+						dispatchWorkgroups(x, y, z) {
+							const dispatch = Object.freeze([x, y, z]);
+							passRecord.dispatches.push(dispatch);
+							records.dispatches.push(dispatch);
 						},
-						setBindGroup(index, bindGroup) {
-							calls.bindGroupSets.push({ passIndex, index, bindGroupId: bindGroup.id });
-						},
-						dispatchWorkgroups(...workgroups) {
-							calls.dispatches.push({ passIndex, workgroups });
-						},
-						end() {
-							pass.ended = true;
-						}
+						end() { passRecord.ended = true; }
 					};
 				},
 				finish() {
-					encoder.finished = true;
-					return { encoder };
+					encoderRecord.finished = true;
+					return Object.freeze({ id: `commands-${sequence += 1}`, encoderRecord });
 				}
 			};
 		}
 	};
 	return Object.freeze({
 		device,
-		calls,
-		usageConstants: MOCK_GPU_BUFFER_USAGE,
-		lose(info = {}) {
-			resolveLost(info);
-		}
+		records,
+		usageConstants: RECORDING_GPU_BUFFER_USAGE
 	});
 }

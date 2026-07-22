@@ -14,8 +14,12 @@ import { CreatureOperationError } from "./contracts.js";
 
 function createContext(store, request) {
 	const document = refreshBriahCreature(store.resolveDocument(request), false);
-	const record = request.target?.artifactId ? store.requireRecord(request.target.artifactId) : null;
-	const previousRig = record?.compiled?.yetzirahRig || record?.previousCompiled?.yetzirahRig || null;
+	const record = request.target?.artifactId
+		? store.requireRecord(request.target.artifactId)
+		: null;
+	const previousRig = record?.compiled?.yetzirahRig
+		|| record?.previousCompiled?.yetzirahRig
+		|| null;
 	return { document, record, previousRig };
 }
 
@@ -32,13 +36,9 @@ function compileAndRemember(store, request) {
 	return compiled;
 }
 
-/**
- * Resolves read-only and derived operations without allowing Asiyah geometry to
- * become authoritative over Briah anatomy. Each focused dispatcher reveals one
- * technical layer while the Awtsmoos unifies their deterministic dependency flow.
- */
+/** Resolves derived operations without allowing Asiyah to author Briah. */
 export function dispatchDerivedOperation(store, request) {
-	if (request.operation === "creature.compile" || request.operation === "creature.export") {
+	if (["creature.compile", "creature.export"].includes(request.operation)) {
 		return compileAndRemember(store, request);
 	}
 	const context = createContext(store, request);
@@ -54,11 +54,10 @@ export function dispatchDerivedOperation(store, request) {
 			store,
 			request,
 			document: context.document,
-			rig
+			rig,
+			previousRig: context.previousRig
 		});
-		if (result !== undefined) {
-			return result;
-		}
+		if (result !== undefined) return result;
 	}
 	throw new CreatureOperationError(
 		"CREATURE_DERIVED_OPERATION_UNKNOWN",

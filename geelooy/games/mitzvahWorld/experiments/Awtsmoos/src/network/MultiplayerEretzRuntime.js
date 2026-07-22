@@ -4,17 +4,14 @@
 
 /**
  * @file MultiplayerEretzRuntime.js
- * @description Connects the live village to local-tab or websocket authority with visible status.
- * The Awtsmoos recreates every traveler and transport each instant; Awtsmoos.com starts from
- * the real runtime transform, exposes peer truth, and leaves single-player as an explicit mode.
+ * @description Returns the playable village before realtime authority finishes connecting.
+ * The Awtsmoos lets the traveler enter while the wire seeks its companion; Awtsmoos.com
+ * imports remote population rendering only after connection truth has been established.
  */
 
-import {
-	AuthoritativeMultiplayerBridge,
-	runtimePlayerSnapshot
-} from './AuthoritativeMultiplayerBridge.js';
 import { createMultiplayerConnection } from './MultiplayerConnectionFactory.js';
 import { MultiplayerStatusBadge } from './MultiplayerStatusBadge.js';
+import { runtimePlayerSnapshot } from './RuntimePlayerSnapshot.js';
 
 const STATUS_REFRESH_SECONDS = 0.25;
 
@@ -27,6 +24,8 @@ export class MultiplayerEretzRuntime {
 		this.WebSocketClass = options.WebSocketClass;
 		this.location = options.location || globalThis.location;
 		this.localOptions = options.localOptions;
+		this.serverOptions = options.serverOptions;
+		this.createConnection = options.connectionFactory || createMultiplayerConnection;
 		this.statusRoot = options.statusRoot || globalThis.document?.body;
 		this.connection = null;
 		this.client = null;
@@ -44,10 +43,11 @@ export class MultiplayerEretzRuntime {
 		this.statusElapsed = 0;
 		this.refreshStatus('connecting');
 		try {
-			this.connection = createMultiplayerConnection({
+			this.connection = await this.createConnection({
 				WebSocketClass: this.WebSocketClass,
 				localOptions: this.localOptions,
 				location: this.location,
+				serverOptions: this.serverOptions,
 				url: this.url
 			});
 			this.transport = this.connection.transport || 'websocket';
@@ -56,6 +56,9 @@ export class MultiplayerEretzRuntime {
 				this.displayName,
 				this.worldId,
 				runtimePlayerSnapshot(this.runtime)
+			);
+			const { AuthoritativeMultiplayerBridge } = await import(
+				'./AuthoritativeMultiplayerBridge.js?v=20260722-stream-02'
 			);
 			this.bridge = new AuthoritativeMultiplayerBridge({
 				client: this.client,
@@ -114,9 +117,7 @@ export class MultiplayerEretzRuntime {
 			error: this.error?.message || null,
 			mode: 'multiplayer',
 			peerCount: Math.max(0, players.length - (this.client?.playerId ? 1 : 0)),
-			state: forcedState
-				|| this.connection?.state
-				|| (this.error ? 'error' : 'idle'),
+			state: forcedState || this.connection?.state || (this.error ? 'error' : 'idle'),
 			transport: this.transport
 		};
 	}
@@ -132,24 +133,25 @@ export class MultiplayerEretzRuntime {
 
 export async function createMultiplayerEretzRuntime(hosts, options = {}) {
 	const runtimeFactory = options.runtimeFactory
-		|| (await import('../app/createEretzRuntime.js')).createEretzRuntime;
+		|| (await import('../app/createEretzRuntime.js?v=20260722-stream-02')).createEretzRuntime;
 	const runtimeOptions = { ...options };
 	delete runtimeOptions.runtimeFactory;
+	options.onProgress?.({ message: 'Building the playable shared village…', progress: 0.1 });
 	const diagnostics = await runtimeFactory(hosts, runtimeOptions);
 	const runtime = diagnostics.runtime;
-	if (!runtime) {
-		throw new Error('Multiplayer runtime requires diagnostics.runtime.');
-	}
-	const multiplayer = new MultiplayerEretzRuntime({
-		...options,
-		runtime
-	});
+	if (!runtime) throw new Error('Multiplayer runtime requires diagnostics.runtime.');
+	const multiplayer = new MultiplayerEretzRuntime({ ...options, runtime });
 	runtime.multiplayerBridge = multiplayer;
-	const session = await multiplayer.start();
 	diagnostics.multiplayer = multiplayer;
 	diagnostics.multiplayerDiagnostics = () => multiplayer.diagnostics();
-	diagnostics.multiplayerSession = session;
-	diagnostics.sessionMode = 'multiplayer';
+	diagnostics.multiplayerSession = null;
+	diagnostics.sessionMode = 'multiplayer-connecting';
+	diagnostics.multiplayerReady = multiplayer.start().then(session => {
+		diagnostics.multiplayerSession = session;
+		diagnostics.sessionMode = session ? 'multiplayer' : 'multiplayer-offline';
+		return session;
+	});
+	options.onProgress?.({ message: 'World ready; realtime is connecting in the background…', progress: 1 });
 	return diagnostics;
 }
 

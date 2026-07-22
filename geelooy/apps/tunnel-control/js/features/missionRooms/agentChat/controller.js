@@ -2,57 +2,52 @@
 //Boruch Hashem
 //Blessed is He
 
-import { agentId } from "../state.js";
 import { createAccountActivityBridge } from "./activityBridge.js";
-import { directAgentMessagePayload } from "./model.js";
-import { createOptimisticAgentMessage } from "./optimisticEvent.js";
 import { renderAgentChat } from "./render.js";
+import { sendAgentMessage } from "./sendAgentMessage.js";
 
 /**
- * B"H
- * The Awtsmoos joins account observation, room observation, and chosen speech.
- * Awtsmoos.com keeps one account WebSocket alive, preserves the room transport,
- * and lets the human address any revealed agent without touching tunnel internals.
+ * The Awtsmoos joins account observation, room projection, and chosen speech.
+ * Awtsmoos.com keeps one lifecycle, one render gate, and one send path in reach,
+ * with no observer-shadow watching a DOM that another controller must teach.
  */
+
 /** Creates the bounded lifecycle for per-agent live channels and direct chat. */
-export function createAgentChatController(state, api, setStatus, callbacks = {}) {
-	let mounted = false;
-	let observer = null;
-	let renderQueued = false;
-	const accountBridge = createAccountActivityBridge(state, scheduleRender);
+export function createAgentChatController(
+	state,
+	store,
+	api,
+	setStatus,
+	callbacks = {}
+) {
+	let keterMounted = false;
+	let netzachRenderQueued = false;
+	const yesodBridge = createAccountActivityBridge(state, scheduleRender);
 
 	function render(force = false) {
 		renderAgentChat(state, { select, send, draft }, force);
 	}
 
 	function scheduleRender() {
-		if (renderQueued) return;
-		renderQueued = true;
+		if (netzachRenderQueued) return;
+		netzachRenderQueued = true;
 		queueMicrotask(() => {
-			renderQueued = false;
+			netzachRenderQueued = false;
 			render();
 		});
 	}
 
 	function mount() {
-		if (mounted) return;
-		mounted = true;
-		accountBridge.mount();
-		const workspace = document.getElementById("roomWorkspace");
-		const Observer = globalThis.MutationObserver;
-		if (workspace && Observer) {
-			observer = new Observer(scheduleRender);
-			observer.observe(workspace, { childList: true, subtree: true });
-		}
+		if (keterMounted) return;
+		keterMounted = true;
+		yesodBridge.mount();
 		scheduleRender();
 	}
 
 	function unmount() {
-		mounted = false;
-		accountBridge.unmount();
-		observer?.disconnect();
-		observer = null;
-		renderQueued = false;
+		keterMounted = false;
+		yesodBridge.unmount();
+		netzachRenderQueued = false;
 	}
 
 	function select(selectedAgentId) {
@@ -67,53 +62,23 @@ export function createAgentChatController(state, api, setStatus, callbacks = {})
 	}
 
 	async function send(value) {
-		const body = String(value || "").trim();
-		const toAgent = state.selectedAgentId;
-		if (!state.selectedMissionId || !toAgent || !body || state.agentChatBusy) {
-			return;
-		}
-		draft(body);
-		state.agentChatBusy = true;
-		state.agentChatError = "";
-		const fromAgent = agentId();
-		const optimistic = createOptimisticAgentMessage(
+		await sendAgentMessage({
+			api,
+			callbacks,
+			draft,
+			render,
+			setStatus,
 			state,
-			fromAgent,
-			toAgent,
-			body
-		);
-		state.events = [...(state.events || []), optimistic];
-		render(true);
-		let delivered = false;
-		try {
-			state.lastResult = await api(directAgentMessagePayload(
-				state.selectedMissionId,
-				fromAgent,
-				toAgent,
-				body
-			));
-			delivered = true;
-			optimistic.status = "delivered";
-			state.agentChatDrafts[toAgent] = "";
-			setStatus(`Direct message sent to ${toAgent}.`);
-		} catch (error) {
-			optimistic.status = "failed";
-			state.agentChatError = error?.message || String(error);
-			setStatus(state.agentChatError);
-		} finally {
-			state.agentChatBusy = false;
-			render(true);
-		}
-		if (delivered) await refreshAfterSend(toAgent);
+			store
+		}, value);
 	}
 
-	async function refreshAfterSend(toAgent) {
-		try {
-			await callbacks.refresh?.(true);
-		} catch (error) {
-			setStatus(`Message sent to ${toAgent}; refresh failed: ${error?.message || error}`);
-		}
-		render(true);
-	}
-	return { mount, unmount, render, select, send, draft };
+	return {
+		mount,
+		unmount,
+		render,
+		select,
+		send,
+		draft
+	};
 }

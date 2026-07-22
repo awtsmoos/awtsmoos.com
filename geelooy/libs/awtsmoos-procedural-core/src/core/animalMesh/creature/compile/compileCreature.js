@@ -8,16 +8,10 @@
 import { validateBriahCreature } from "../validation/GevurahAnatomyConstraints.js";
 import { synthesizeYetzirahRig } from "../rig/synthesizeYetzirahRig.js";
 import { validateYetzirahRig } from "../rig/rigDiagnostics.js";
-import {
-	bindCreatureSkin,
-	validateCreatureSkin
-} from "../skin/creatureSkinning.js";
 import { compileCreatureMaterials } from "../materials/materialLayers.js";
 import { createAsiyahCreatureArtifacts } from "../worlds/AsiyahCreatureArtifacts.js";
 import { compileBriahRecipe } from "./compileBriahRecipe.js";
-import { compileBodyMesh } from "./compileBodyMesh.js";
-import { compileLimbMesh } from "./compileLimbMesh.js";
-import { compilePartMesh } from "./compilePartMesh.js";
+import { compileCreatureGeometry } from "./compileCreatureGeometry.js";
 import { createCreatureCollisionShapes } from "./createCollisionShapes.js";
 import { createCreatureLodSet } from "./createLodSet.js";
 import { createCreatureMemoryReport } from "./createMemoryReport.js";
@@ -29,20 +23,6 @@ function assertValid(report, stage) {
 		error.diagnostics = report.diagnostics;
 		throw error;
 	}
-}
-
-function summarizeMesh(parts) {
-	return {
-		partCount: parts.length,
-		vertices: parts.reduce(
-			(sum, part) => sum + part.positions.length / 3,
-			0
-		),
-		triangles: parts.reduce(
-			(sum, part) => sum + part.indices.length / 3,
-			0
-		)
-	};
 }
 
 /**
@@ -60,31 +40,21 @@ export function compileCreature(creature, options = {}) {
 	});
 	assertValid(validateYetzirahRig(yetzirahRig), "rig");
 	const recipe = compileBriahRecipe(creature, yetzirahRig, options);
-	const rawParts = [
-		compileBodyMesh(recipe),
-		...recipe.limbs.map(
-			(limb) => compileLimbMesh(creature, limb)
-		),
-		...creature.parts.map(
-			(part) => compilePartMesh(creature, part)
-		)
-	];
-	const skinning = bindCreatureSkin(
-		rawParts,
+	const {
+		parts,
+		skinning,
+		meshSummary
+	} = compileCreatureGeometry(
+		creature,
+		recipe,
 		yetzirahRig,
 		options.skinning || {}
 	);
-	assertValid(validateCreatureSkin(skinning), "skin");
-	const parts = skinning.parts;
-	const meshSummary = summarizeMesh(parts);
 	const materials = compileCreatureMaterials(creature);
 	return createAsiyahCreatureArtifacts({
 		briahCreature: creature,
 		yetzirahRig,
-		mesh: {
-			parts,
-			summary: meshSummary
-		},
+		mesh: { parts, summary: meshSummary },
 		skinning,
 		materials,
 		proceduralCoordinates: materials.proceduralCoordinates,

@@ -4,11 +4,13 @@
 
 /**
  * The Awtsmoos clothes a stable skeleton in indexed arrays without changing
- * its identity. These Awtsmoos.com buffer helpers are renderer-neutral,
- * deterministic, linear in emitted geometry, and bounded by explicit budgets.
+ * identity. These Awtsmoos.com helpers emit transported rings, flat caps, and
+ * bounded geometry with deterministic linear complexity and no renderer state.
  */
 
 import { Vec3 } from "../../../math/vec3.js";
+
+export { addTreeSkeletonLeaf } from "./treeSkeletonLeafBuffers.js";
 
 export function createTreeSkeletonGeometryBuffer(withColors = false) {
 	const buffer = { positions: [], normals: [], uvs: [], indices: [] };
@@ -23,10 +25,10 @@ export function addTreeSkeletonRing(buffer, node, normal, binormal, radial, v) {
 	for (let segment = 0; segment <= radial; segment += 1) {
 		const u = segment / radial;
 		const angle = u * Math.PI * 2;
-		const outward = Vec3.add(
+		const outward = Vec3.normalize(Vec3.add(
 			Vec3.scale(normal, Math.cos(angle)),
 			Vec3.scale(binormal, Math.sin(angle))
-		);
+		));
 		buffer.positions.push(...Vec3.add(node.position, Vec3.scale(outward, node.radius)));
 		buffer.normals.push(...outward);
 		buffer.uvs.push(u, v);
@@ -44,27 +46,30 @@ export function stitchTreeSkeletonRings(buffer, first, second, radial) {
 	}
 }
 
-export function addTreeSkeletonLeaf(buffer, leaf) {
-	const normal = Vec3.normalize(leaf.direction);
-	const right = initialTreeSkeletonNormal(normal);
-	const up = Vec3.normalize(Vec3.cross(normal, right));
-	const half = leaf.size * 0.5;
-	const start = buffer.positions.length / 3;
-	for (const [x, y, u, v] of [[-1, -1, 0, 0], [1, -1, 1, 0], [1, 1, 1, 1], [-1, 1, 0, 1]]) {
-		const position = Vec3.add(
-			leaf.position,
-			Vec3.add(Vec3.scale(right, x * half), Vec3.scale(up, y * half))
-		);
-		buffer.positions.push(...position);
+export function addTreeSkeletonCap(buffer, node, tangent, ringStart, radial, reverse) {
+	const normal = Vec3.scale(Vec3.normalize(tangent), reverse ? -1 : 1);
+	const center = buffer.positions.length / 3;
+	buffer.positions.push(...node.position);
+	buffer.normals.push(...normal);
+	buffer.uvs.push(0.5, 0.5);
+	const rim = buffer.positions.length / 3;
+	for (let segment = 0; segment <= radial; segment += 1) {
+		const source = (ringStart + segment) * 3;
+		buffer.positions.push(...buffer.positions.slice(source, source + 3));
 		buffer.normals.push(...normal);
-		buffer.uvs.push(u, v);
-		buffer.colors.push(...leaf.color);
+		const angle = segment / radial * Math.PI * 2;
+		buffer.uvs.push(0.5 + Math.cos(angle) * 0.5, 0.5 + Math.sin(angle) * 0.5);
 	}
-	buffer.indices.push(start, start + 1, start + 2, start, start + 2, start + 3);
+	for (let segment = 0; segment < radial; segment += 1) {
+		const first = rim + segment;
+		const second = first + 1;
+		buffer.indices.push(...(reverse ? [center, second, first] : [center, first, second]));
+	}
 }
 
 export function sampleTreeSkeletonNodes(nodes, scaleValue) {
-	const count = Math.max(2, Math.round((nodes.length - 1) * scaleValue) + 1);
+	const scale = Math.max(0.1, Math.min(1, Number(scaleValue) || 1));
+	const count = Math.max(2, Math.round((nodes.length - 1) * scale) + 1);
 	return Array.from({ length: count }, (_, index) => (
 		nodes[Math.round(index * (nodes.length - 1) / Math.max(1, count - 1))]
 	));
@@ -87,7 +92,7 @@ export function enforceTreeSkeletonBudget(stats, budget = {}) {
 	const triangles = stats.branchTriangles + stats.leafTriangles;
 	if ((budget.maxVertices && vertices > budget.maxVertices)
 		|| (budget.maxTriangles && triangles > budget.maxTriangles)) {
-		const error = new Error("Tree geometry exceeds the declared resource budget.");
+		const error = new Error('B"H | Tree geometry exceeds the declared resource budget.');
 		error.code = "RESOURCE_BUDGET_EXCEEDED";
 		error.details = { vertices, triangles, budget };
 		throw error;
