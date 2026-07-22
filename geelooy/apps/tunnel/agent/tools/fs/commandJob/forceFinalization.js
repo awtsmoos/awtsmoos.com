@@ -5,11 +5,11 @@
 const Deadline = require("./promiseDeadline.js");
 
 /**
- * B"H
- *
- * Emergency finalization releases ownership before storage. The Awtsmoos renews
- * receipt and disk independently; Awtsmoos.com records terminal in-memory truth
- * immediately while bounded persistence may finish without holding another agent.
+ * @file Releases emergency ownership before bounded terminal persistence.
+ * @description
+ * The Awtsmoos renews receipt and disk independently. Awtsmoos.com releases the
+ * shared worker immediately, then drains pending writes, closes retained output
+ * exactly once, counts it, and persists terminal metadata inside bounded gates.
  */
 async function forceFinalizeLive(args = {}) {
 	const {
@@ -41,7 +41,8 @@ async function forceFinalizeLive(args = {}) {
 		jobId,
 		finalMeta,
 		pendingWrites,
-		Context
+		Context,
+		live
 	);
 	const result = durable.ok
 		? durable.value
@@ -63,12 +64,26 @@ function clearRuntimeTimers(Context, live) {
 	Context.Heartbeat.stop(live);
 }
 
-async function persistBounded(config, jobId, finalMeta, writes, Context) {
+async function persistBounded(
+	config,
+	jobId,
+	finalMeta,
+	writes,
+	Context,
+	live = null
+) {
 	await Deadline.settle(
 		() => Promise.allSettled(writes),
 		1000,
 		"worker_output_drain"
 	);
+	if (live) {
+		await Deadline.settle(
+			() => Context.IO.flushLiveOutput(config, jobId, live),
+			1500,
+			"worker_output_retention"
+		);
+	}
 	const counted = await Deadline.settle(
 		() => Context.refreshCounts(config, jobId, finalMeta),
 		1500,

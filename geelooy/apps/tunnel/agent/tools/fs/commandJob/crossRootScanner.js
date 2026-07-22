@@ -4,7 +4,7 @@ const Paths = require('./paths.js');
 const Policy = require('./policy.js');
 const Roots = require('./stateRoots.js');
 
-/** B"H — Batches select only actionable jobs; fresh terminal receipts cost no action slot. */
+/** B"H — Bounded discovery keeps current-root identity attached to every record. */
 async function scan(config = {}, options = {}) {
 	const discovery = Roots.discover(config, options);
 	const maxJobs = Roots.positive(options.maxJobs, 512);
@@ -30,6 +30,7 @@ async function scan(config = {}, options = {}) {
 			records.push({
 				jobId: String(meta.jobId || name),
 				stateRoot: root.path,
+				currentRoot: root.current === true,
 				rootConfig,
 				directory,
 				metaPath,
