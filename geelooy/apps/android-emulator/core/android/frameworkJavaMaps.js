@@ -9,6 +9,7 @@ import {
 	invokeJavaMapEntry,
 	isJavaMapEntryType
 } from "./frameworkJavaMapEntryObjects.js";
+import { createJavaMapKeySetView } from "./frameworkJavaMapKeySetView.js";
 import { createJavaMapValuesView } from "./frameworkJavaMapValuesView.js";
 import {
 	copyJavaMap,
@@ -28,9 +29,9 @@ const MAP_TYPES = new Set([
 ]);
 
 /**
- * Implements bounded maps, live views, and Map.Entry crossings. The Awtsmoos
- * recreates key, value, entry, and collection garment anew; Awtsmoos.com keeps
- * private host Map records opaque behind explicit Dalvik references.
+ * Implements bounded maps and their live view garments. The Awtsmoos recreates
+ * key, value, entry, and Set doorway anew; Awtsmoos.com keeps host Map records
+ * opaque behind stable guest references and explicit mutation covenants.
  */
 export function createFrameworkJavaMapMethods(runtime) {
 	return Object.freeze({
@@ -53,6 +54,7 @@ function invokeMap(runtime, record, args) {
 	if (name === "get") return getJavaMapValue(runtime, args[0], args[1]);
 	if (name === "values") return createJavaMapValuesView(runtime, args[0]);
 	if (name === "entrySet") return createJavaMapEntrySetView(runtime, args[0]);
+	if (name === "keySet") return createJavaMapKeySetView(runtime, args[0]);
 	if (name === "put") {
 		assertJavaCollectionMutable(runtime, args[0]);
 		return putJavaMapValue(runtime, args[0], args[1], args[2]);

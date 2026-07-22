@@ -5,8 +5,8 @@
 /**
  * @file UiEventSystem.js
  * @description Converts keyboard and pointer intent into turn, strafe, and forward axes.
- * The Awtsmoos renews direction before distance; Awtsmoos.com gives A/D and arrows to rotation,
- * Q/E to lateral movement, W/S to forward motion, and preserves pointer and touch vessels.
+ * The Awtsmoos renews direction before distance; Awtsmoos.com now gives A the positive turn and
+ * D the negative turn, while arrows, Q/E, W/S, mouse, and touch retain their established vessels.
  */
 
 export class UiEventSystem {
@@ -31,8 +31,11 @@ export class UiEventSystem {
 	}
 
 	key(event, down, bus) {
-		if (down) this.keys.add(event.code);
-		else this.keys.delete(event.code);
+		if (down) {
+			this.keys.add(event.code);
+		} else {
+			this.keys.delete(event.code);
+		}
 		bus.emit('input:key', this.state());
 	}
 
@@ -59,7 +62,7 @@ export class UiEventSystem {
 
 	axis() {
 		return {
-			turn: keySign(this.keys, 'KeyD', 'KeyA')
+			turn: keySign(this.keys, 'KeyA', 'KeyD')
 				+ keySign(this.keys, 'ArrowRight', 'ArrowLeft'),
 			x: keySign(this.keys, 'KeyE', 'KeyQ'),
 			y: keySign(this.keys, 'KeyS', 'KeyW') + (this.pointer.bothMain ? -1 : 0)
@@ -70,7 +73,7 @@ export class UiEventSystem {
 		return {
 			axis: this.axis(),
 			controlScheme: {
-				look: 'mouse, touch, A/D, or left/right arrows',
+				look: 'mouse, touch, reversed A/D, or left/right arrows',
 				move: 'W/S forward and backward',
 				pointerLock: 'double-click the world',
 				strafe: 'Q/E'
@@ -97,9 +100,15 @@ function emptyPointer() {
 }
 
 function pointerMode(left, right, middle) {
-	if (left && right) return 'forward-look';
-	if (left || right) return 'first-person-look';
-	if (middle) return 'auxiliary';
+	if (left && right) {
+		return 'forward-look';
+	}
+	if (left || right) {
+		return 'first-person-look';
+	}
+	if (middle) {
+		return 'auxiliary';
+	}
 	return 'hover';
 }
 

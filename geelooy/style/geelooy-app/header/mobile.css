@@ -3,7 +3,8 @@
  * Blessed is He
  *
  * The Awtsmoos condenses the crown without erasing the active name. Search,
- * profile, and constellation remain full touch instruments on Awtsmoos.com.
+ * profile, and constellation remain full touch instruments on Awtsmoos.com,
+ * while responsive clamps give the identity doorway room without overflow.
  */
 @media (max-width: 66rem) {
 	.geelooy-app-shell {
@@ -11,6 +12,7 @@
 		--g-rail-w: 0px;
 		--g-context-w: 0px;
 		--g-dock-h: calc(4.9rem + env(safe-area-inset-bottom));
+		--g-mobile-profile-min: clamp(8.5rem, 24vw, 10rem);
 	}
 
 	.geelooy-app-shell .g-unusual-header {
@@ -63,8 +65,8 @@
 	}
 
 	.geelooy-app-shell .g-header-profile {
-		min-inline-size: 7.2rem;
-		max-inline-size: 9rem;
+		min-inline-size: var(--g-mobile-profile-min);
+		max-inline-size: 11rem;
 	}
 
 	.geelooy-app-shell .g-content-region {
@@ -84,6 +86,10 @@
 }
 
 @media (max-width: 30rem) {
+	.geelooy-app-shell {
+		--g-mobile-profile-min: clamp(7.75rem, 38vw, 9rem);
+	}
+
 	.geelooy-app-shell .g-unusual-header {
 		inset-inline: .35rem;
 	}
@@ -99,8 +105,7 @@
 	}
 
 	.geelooy-app-shell .g-header-profile {
-		min-inline-size: 6.35rem;
-		max-inline-size: 7rem;
+		max-inline-size: 9.5rem;
 	}
 
 	.geelooy-app-shell .g-header-actions {

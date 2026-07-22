@@ -1,0 +1,145 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos reveals many actions inside one narrow line. These direct dimensions replace
+ * scale transforms, preserve sharp text, and let Awtsmoos.com keep the valley visible behind play.
+ */
+
+html body .Awtsmoos-action-host {
+	position: fixed !important;
+	left: 50% !important;
+	bottom: var(--Awtsmoos-bottom) !important;
+	z-index: 700 !important;
+	max-width: calc(100vw - 20px) !important;
+	transform: translateX(-50%) !important;
+	opacity: 1 !important;
+}
+
+html body .Awtsmoos-action-bar {
+	display: flex !important;
+	gap: 4px !important;
+	max-width: calc(100vw - 20px) !important;
+	overflow-x: auto !important;
+	padding: 4px 6px !important;
+	border: 1px solid rgba(96, 224, 205, 0.4) !important;
+	border-radius: 11px !important;
+	background: rgba(5, 15, 17, 0.94) !important;
+	box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3) !important;
+	backdrop-filter: none !important;
+	scrollbar-width: none;
+}
+
+.Awtsmoos-action-bar::-webkit-scrollbar {
+	display: none;
+}
+
+html body .Awtsmoos-action-bar button {
+	flex: 0 0 38px !important;
+	width: 38px !important;
+	height: 36px !important;
+	min-width: 38px !important;
+	min-height: 36px !important;
+	padding: 2px !important;
+	border-radius: 8px !important;
+	background: rgba(255, 255, 255, 0.07) !important;
+}
+
+.Awtsmoos-action-bar span {
+	font-size: 17px !important;
+}
+
+.Awtsmoos-action-bar small {
+	max-width: 34px;
+	overflow: hidden;
+	font-size: 7px !important;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+html body .Mitzvah-combat-host {
+	left: 50% !important;
+	bottom: 54px !important;
+	z-index: 690 !important;
+	width: min(92vw, 610px) !important;
+	transform: translateX(-50%) !important;
+}
+
+html body .Mitzvah-combat-frame {
+	gap: 3px !important;
+	padding: 4px !important;
+	border-radius: 9px !important;
+	background: rgba(16, 17, 14, 0.95) !important;
+	box-shadow: 0 5px 18px rgba(0, 0, 0, 0.34) !important;
+}
+
+html body .Mitzvah-action-grid,
+html body .Mitzvah-action-grid[data-rows="2"] {
+	display: grid !important;
+	grid-template-columns: repeat(12, minmax(34px, 1fr)) !important;
+	grid-template-rows: 1fr !important;
+	gap: 3px !important;
+	overflow-x: auto !important;
+	scrollbar-width: none;
+}
+
+.Mitzvah-action-grid::-webkit-scrollbar {
+	display: none;
+}
+
+html body .Mitzvah-action-slot {
+	min-width: 34px !important;
+	min-height: 34px !important;
+	border-radius: 6px !important;
+	box-shadow: none !important;
+}
+
+html body .Mitzvah-slot-glyph {
+	font-size: clamp(13px, 1.4vw, 18px) !important;
+}
+
+html body .Mitzvah-slot-key {
+	padding: 2px !important;
+	font-size: 7px !important;
+}
+
+html body .Mitzvah-action-meta {
+	grid-template-columns: 1fr auto !important;
+	min-height: 12px !important;
+}
+
+html body .Mitzvah-focus-track {
+	height: 6px !important;
+}
+
+html body .Mitzvah-focus-label {
+	font-size: 8px !important;
+}
+
+html body .Mitzvah-layout-lock {
+	min-height: 20px !important;
+	padding: 3px 6px !important;
+	font-size: 8px !important;
+}
+
+html body .Awtsmoos-minimap {
+	right: max(10px, env(safe-area-inset-right)) !important;
+	bottom: max(10px, env(safe-area-inset-bottom)) !important;
+	z-index: 680 !important;
+	width: 136px !important;
+	border-radius: 11px !important;
+	background: rgba(5, 17, 15, 0.94) !important;
+	opacity: 1 !important;
+}
+
+html body .Awtsmoos-minimap header {
+	padding: 5px 7px !important;
+	font-size: 10px !important;
+}
+
+html body .Awtsmoos-minimap header button {
+	min-height: 24px !important;
+	padding: 3px 6px !important;
+	font-size: 9px !important;
+}

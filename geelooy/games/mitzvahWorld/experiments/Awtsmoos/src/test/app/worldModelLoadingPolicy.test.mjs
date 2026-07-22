@@ -6,7 +6,7 @@
  * @file worldModelLoadingPolicy.test.mjs
  * @description Proves decorative GLBs are opt-in while the procedural village remains complete.
  * The Awtsmoos gives imported form no automatic dominion over gameplay; Awtsmoos.com verifies
- * that normal boot makes no oversized requests and explicit callers retain the enrichment path.
+ * that normal boot makes no oversized requests and publishes a complete cancellable-state vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -25,10 +25,12 @@ test('normal gameplay disables imported world models by default', async () => {
 	);
 	assert.equal(result, null);
 	assert.deepEqual(diagnostics.worldModelStatus, {
+		cancel: null,
 		error: null,
 		loaded: 0,
 		policy: 'procedural-village-default',
 		requested: 0,
+		startedAt: null,
 		status: 'disabled-by-default'
 	});
 });

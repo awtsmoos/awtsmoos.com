@@ -4,12 +4,14 @@
 /**
  * @module GeelooyAppShell
  * @description
- * One Horizon, Context Ribbon, and emoji dock surround Awtsmoos.com. The
- * Awtsmoos places Ikar at the center while each native route remains sovereign.
+ * One horizon, context ribbon, and dock surround Awtsmoos.com. The Awtsmoos
+ * places every route—including Games—inside one shell and one link renderer,
+ * while each native page keeps its sovereign content and performance budget.
  */
 import { currentAppRoute, primaryRoutes } from './appRoutes.js';
 import { createContextRibbon } from './contextRibbon.js';
 import { isCanonicalRouteLink } from './routeCurrentState.js';
+import { createMalchusRouteLink } from './routeLink.js';
 import { createUnusualHeader } from './unusualHeader.js';
 
 const CURRENT_ROUTE_OWNER = 'shell';
@@ -17,13 +19,9 @@ const ROUTE_LINK_SELECTOR = 'a[data-g-route-link]';
 
 /** Adds the canonical shell without replacing route content. */
 export function ensureAppShell(root = document) {
-	if (!root.body) {
-		return null;
-	}
+	if (!root.body) return null;
 	const existing = root.querySelector('[data-g-shell]');
-	if (existing) {
-		return existing;
-	}
+	if (existing) return existing;
 	const shell = root.createElement('div');
 	shell.className = 'g-shell';
 	shell.dataset.gShell = 'true';
@@ -44,11 +42,10 @@ export function markCurrentLinks(root = document) {
 			link.dataset.gRouteCurrent = CURRENT_ROUTE_OWNER;
 			return;
 		}
-		if (link.dataset.gRouteCurrent !== CURRENT_ROUTE_OWNER) {
-			return;
+		if (link.dataset.gRouteCurrent === CURRENT_ROUTE_OWNER) {
+			link.removeAttribute('aria-current');
+			delete link.dataset.gRouteCurrent;
 		}
-		link.removeAttribute('aria-current');
-		delete link.dataset.gRouteCurrent;
 	});
 }
 
@@ -57,27 +54,9 @@ function createDock(root) {
 	dock.className = 'g-dock';
 	dock.setAttribute('aria-label', 'Primary Geelooy routes');
 	for (const route of primaryRoutes) {
-		dock.append(createDockLink(root, route));
+		dock.append(createMalchusRouteLink(root, route, 'dock'));
 	}
 	return dock;
-}
-
-function createDockLink(root, route) {
-	const link = root.createElement('a');
-	link.href = route.href;
-	link.dataset.gRouteLink = 'true';
-	if (route.main) {
-		link.dataset.mainRoute = 'true';
-	}
-	const icon = root.createElement('span');
-	icon.className = 'g-route-icon';
-	icon.setAttribute('aria-hidden', 'true');
-	icon.textContent = route.icon;
-	const label = root.createElement('small');
-	label.className = 'g-route-label';
-	label.textContent = route.label;
-	link.append(icon, label);
-	return link;
 }
 
 function currentPageHref() {

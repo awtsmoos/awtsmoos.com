@@ -4,9 +4,9 @@
 
 /**
  * @file runtimePerformanceMonitor.test.mjs
- * @description Proves attribution, boundary discard, hidden rejection, and adaptive scale safety.
+ * @description Proves attribution, boundary discard, hidden rejection, and crisp adaptive safety.
  * The Awtsmoos renews every frame and witness; Awtsmoos.com tests that stale intervals never
- * cross contexts and that a finite framebuffer begins lighter without removing authored detail.
+ * cross contexts and that the framebuffer begins clear before pressure may shed only surplus work.
  */
 
 import assert from 'node:assert/strict';
@@ -59,7 +59,7 @@ test('monitor attributes animation and discards context-boundary intervals', () 
 	assert.equal(diagnostics.animationBreakdown.dominantComponent, 'worldModels');
 	assert.equal(diagnostics.animationBreakdown.worldModels.count, 8);
 	assert.equal(diagnostics.sampling.counters.acceptedFocused, 8);
-	assert.equal(runtime.adaptiveRenderScale, 0.66);
+	assert.equal(runtime.adaptiveRenderScale, 1);
 	assert.equal(runtime.adaptiveQualityTier, 'high');
 
 	kind = 'unfocused';

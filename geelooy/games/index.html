@@ -1,30 +1,35 @@
-<!--B"H-->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens an arcade of sparks beneath the one shared Awtsmoos.com crown.
+-->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Awtsmoos Games</title>
-  <link rel="stylesheet" href="./style.css" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#04040C">
+	<title>Awtsmoos Games</title>
+	<link rel="stylesheet" href="./style.css">
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=games-shell-001"></script>
 </head>
-<body>
-  <div class="all awtsmoospage">
-    <script awts> return $a("nav/header.html") </script>?>
-    <main class="gamesShell">
-      <section class="heroPanel">
-        <p class="eyebrow">B"H · Arcade of sparks</p>
-        <h1>Awtsmoos Games</h1>
-        <p class="heroText">Choose a doorway. Each card is generated from one clean JavaScript list, so the arcade can grow without hardcoded link-chaos.</p>
-        <div class="searchRow">
-          <input id="gameSearch" type="search" placeholder="Search games, tags, or worlds…" autocomplete="off" />
-          <span id="gameCount">0 doorways</span>
-        </div>
-        <nav id="tagCloud" class="tagCloud" aria-label="Game filters"></nav>
-      </section>
-      <section id="gamesGrid" class="gamesGrid" aria-live="polite"></section>
-    </main>
-  </div>
-  <script type="module" src="./scripts/games-index.js"></script>
-  <script src="/register.js"></script>
+<body data-geelooy-route="games">
+	<div class="all awtsmoospage">
+		<main class="gamesShell g-content-region geelooy-content-region" aria-labelledby="games-title">
+			<section class="heroPanel">
+				<p class="eyebrow">B"H · Arcade of sparks</p>
+				<h1 id="games-title">Awtsmoos Games</h1>
+				<p class="heroText">Choose a doorway. Every world now lives beneath the same global crown, profile dishes, and route constellation as the rest of Geelooy.</p>
+				<div class="searchRow">
+					<input id="gameSearch" type="search" placeholder="Search games, tags, or worlds…" autocomplete="off">
+					<span id="gameCount">0 doorways</span>
+				</div>
+				<nav id="tagCloud" class="tagCloud" aria-label="Game filters"></nav>
+			</section>
+			<section id="gamesGrid" class="gamesGrid" aria-live="polite"></section>
+		</main>
+	</div>
+	<script type="module" src="./scripts/games-index.js"></script>
+	<script src="/register.js"></script>
 </body>
 </html>

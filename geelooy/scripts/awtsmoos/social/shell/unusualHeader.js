@@ -4,15 +4,17 @@
 /**
  * @module GeelooyUnusualHeader
  * @description
- * The floating B"H jewel, emoji portals, profile doorway, and constellation
- * reveal one fast, plain-text horizon across Awtsmoos.com.
+ * The floating B"H jewel, search lens, profile crown, and route constellation
+ * become one horizon. The Awtsmoos lets Games shine here through the same route
+ * soul that animates every other navigation vessel on Awtsmoos.com.
  */
 import createProfileDropdown from '../profileDropdown.js';
 import { appRoutes, currentAppRoute } from './appRoutes.js';
 import { bindConstellationMenu } from './constellationMenu.js';
 import { createHeaderSearch, focusHeaderSearch } from './headerSearch.js';
+import { createMalchusRouteLink } from './routeLink.js';
 
-/** Creates the historical unusual header and its functional route menu. */
+/** Creates the unusual header and its one canonical route constellation. */
 export function createUnusualHeader(root = document) {
 	const header = element(root, 'header', 'awtsmoosificationalisticaticalism g-unusual-header');
 	header.dataset.unusualHeader = 'true';
@@ -57,35 +59,19 @@ function createConstellation(root) {
 	menu.hidden = true;
 	menu.setAttribute('aria-label', 'Geelooy route constellation');
 	const heading = element(root, 'header', 'g-constellation-heading');
-	const symbol = element(root, 'span', '', '🧭');
 	const copy = element(root, 'div');
 	copy.append(element(root, 'strong', '', 'Route constellation'), element(root, 'small', '', 'Every chamber, one jump away'));
-	heading.append(symbol, copy);
+	heading.append(element(root, 'span', '', '🧭'), copy);
 	const grid = element(root, 'div', 'g-constellation-grid');
-	for (const route of appRoutes.filter(item => !['/login', '/register'].includes(item.href))) {
-		grid.append(routeCard(root, route));
+	for (const route of appRoutes.filter(item => !item.hidden && !['/login', '/register'].includes(item.href))) {
+		grid.append(createMalchusRouteLink(root, route, 'constellation'));
 	}
 	const account = element(root, 'div', 'g-constellation-account');
-	for (const href of ['/login', '/register']) {
-		account.append(routeCard(root, appRoutes.find(route => route.href === href)));
+	for (const route of appRoutes.filter(item => ['/login', '/register'].includes(item.href))) {
+		account.append(createMalchusRouteLink(root, route, 'constellation'));
 	}
 	menu.append(heading, grid, account);
 	return menu;
-}
-
-function routeCard(root, route) {
-	const link = element(root, 'a', 'g-constellation-route');
-	link.href = route.href;
-	link.dataset.gRouteLink = 'true';
-	if (route.main) {
-		link.dataset.mainRoute = 'true';
-	}
-	const icon = element(root, 'span', 'g-constellation-icon', route.icon);
-	icon.setAttribute('aria-hidden', 'true');
-	const copy = element(root, 'span', 'g-constellation-copy');
-	copy.append(element(root, 'strong', '', route.label), element(root, 'small', '', route.description));
-	link.append(icon, copy);
-	return link;
 }
 
 function action(root, tag, text, label) {
@@ -98,8 +84,6 @@ function action(root, tag, text, label) {
 function element(root, tag, className = '', text = '') {
 	const item = root.createElement(tag);
 	item.className = className;
-	if (text) {
-		item.textContent = text;
-	}
+	if (text) item.textContent = text;
 	return item;
 }

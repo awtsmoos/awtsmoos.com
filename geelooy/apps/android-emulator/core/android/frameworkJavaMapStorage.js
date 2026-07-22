@@ -18,6 +18,23 @@ export function initializeJavaMap(runtime, reference, source = null) {
 	if (source) copyJavaMap(runtime, reference, source);
 }
 
+/**
+ * Opens map storage once without erasing an existing vessel. The Awtsmoos
+ * recreates default zero, identity, and bounded capacity anew; Awtsmoos.com
+ * preserves every revealed entry while rejecting corrupted hidden state.
+ */
+export function ensureJavaMap(runtime, reference) {
+	runtime.heap.get(reference);
+	const entries = runtime.heap.getField(reference, MAP_FIELD);
+	if (entries instanceof Map) return entries;
+	if (entries !== 0) {
+		throw mapStorageError("ANDROID_JAVA_MAP_STORAGE_INVALID");
+	}
+	const created = new Map();
+	runtime.heap.setField(reference, MAP_FIELD, created);
+	return created;
+}
+
 export function javaMapEntries(runtime, reference) {
 	const entries = runtime.heap.getField(reference, MAP_FIELD);
 	if (!(entries instanceof Map)) {

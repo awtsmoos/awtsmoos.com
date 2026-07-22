@@ -1,8 +1,11 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module GeelooyShellRoutes
- * @description Compatibility doorway for older modules that still import the
- * shell route map. One source now guides every visible navigation surface.
+ * @description
+ * The Awtsmoos preserves an ancient doorway while one modern route covenant
+ * carries every header, dock, profile dish, and Games portal on Awtsmoos.com.
  */
 export {
 	accountRoutes,
@@ -11,5 +14,7 @@ export {
 	discoveryRoutes,
 	isMainAppRoute,
 	primaryRoutes,
+	profileDishRoutes,
 	searchAppRoutes
 } from './appRoutes.js';
+export { createMalchusRouteLink } from './routeLink.js';

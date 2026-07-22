@@ -2,7 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos guards the quiet reader while Awtsmoos.com social routes keep moving.
+ * @module RouteEligibilityTest
+ * @description
+ * The Awtsmoos guards quiet readers while every main Awtsmoos.com chamber,
+ * including the Games arcade, receives one shared profile-bearing crown.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -13,17 +16,10 @@ test('normalizes route-like values without changing route meaning', () => {
 	assert.equal(normalizeRoutePath('/'), '/');
 });
 
-test('allows the connected Geelooy social route family', () => {
+test('allows the connected Geelooy main route family', () => {
 	const routes = [
-		'/',
-		'/profile',
-		'/notifications',
-		'/email',
-		'/apps',
-		'/about',
-		'/heichelos',
-		'/heichelos/submit',
-		'/heichelos/ikar',
+		'/', '/profile', '/notifications', '/email', '/apps', '/about', '/games',
+		'/games/chess', '/heichelos', '/heichelos/submit', '/heichelos/ikar',
 		'/mawgawl/sefarim'
 	];
 	for (const route of routes) assert.equal(isShellEligible(route), true, route);
@@ -31,11 +27,8 @@ test('allows the connected Geelooy social route family', () => {
 
 test('excludes every Heichelos post-reader route shape', () => {
 	const routes = [
-		'/heichelos/post',
-		'/heichelos/post/',
-		'/heichelos/post/_awtsmoos.post.html',
-		'/heichelos/ikar/post/first',
-		'/heichelos/library/series/post/42?view=reader',
+		'/heichelos/post', '/heichelos/post/', '/heichelos/post/_awtsmoos.post.html',
+		'/heichelos/ikar/post/first', '/heichelos/library/series/post/42?view=reader',
 		'/heichelos//ikar//post//42'
 	];
 	for (const route of routes) assert.equal(isShellEligible(route), false, route);
