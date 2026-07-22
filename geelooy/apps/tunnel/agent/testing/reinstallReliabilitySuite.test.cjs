@@ -29,11 +29,13 @@ const regressionTests = [
 	"transactionalUnixInstaller.test.cjs",
 	"installerManifestChecksumContract.test.cjs",
 	"manifestGenerationSmoke.cjs",
+	"runtimeProbeOpenHandleExit.test.cjs",
 	"manifestVerifyFresh.test.cjs",
 	"releaseInventoryRegression.test.cjs",
 	"releaseBundleClosure.test.cjs"
 ];
 const timeoutByFile = {
+	"manifestVerifyFresh.test.cjs": 4 * 60 * 1000,
 	"transactionalUnixInstaller.test.cjs": 8 * 60 * 1000
 };
 
