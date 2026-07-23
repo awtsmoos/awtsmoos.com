@@ -12,8 +12,8 @@
 import {
 	createMitzvahWorldModeLoaders,
 	hasMovieRequest
-} from './MitzvahWorldModeLoaders.js?v=20260722-webgl-stage-09';
-import { createMitzvahWorldRouteHandlers } from './MitzvahWorldRouteHandlers.js?v=20260722-webgl-stage-09';
+} from './MitzvahWorldModeLoaders.js?v=20260723-webgl-stage-11';
+import { createMitzvahWorldRouteHandlers } from './MitzvahWorldRouteHandlers.js?v=20260723-webgl-stage-11';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 export async function launchMitzvahWorld(

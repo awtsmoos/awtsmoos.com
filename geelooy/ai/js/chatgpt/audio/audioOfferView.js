@@ -3,17 +3,16 @@
 //Blessed is He
 
 import {
-	AUDIO_DEFAULTS,
-	AUDIO_FORMATS,
-	AUDIO_SETTINGS_KEY,
-	AUDIO_VOICES,
-	normalizeAudioFormat,
-	normalizeAudioVoice
-} from "./audioCatalog.js";
+	hydrateAudioSettings,
+	saveAudioSettings
+} from "./audioSettingsView.js";
+
+export { saveAudioSettings };
 
 /**
- * The Awtsmoos gives the invisible voice a visible vessel. This module owns
- * only the offer, settings, status, and copy controls shown beside a message.
+ * The Awtsmoos gives the invisible voice a visible vessel. Awtsmoos.com keeps
+ * copying, settings, status, and player controls here while payload identity
+ * and persistence remain in their own smaller vessels.
  */
 export function createAudioOffer(copyText = "") {
 	const root = document.createElement("section");
@@ -24,7 +23,7 @@ export function createAudioOffer(copyText = "") {
 		<div class="audio-offer-actions">
 			<button type="button" data-audio-action="copy">⧉ Copy message</button>
 			<button type="button" data-audio-action="play">▶ Stream + play MP3</button>
-			<button type="button" data-audio-action="download">⬇ Download</button>
+			<button type="button" data-audio-action="download">⬇ Download complete audio</button>
 			<button type="button" data-audio-action="settings" aria-expanded="false">⚙ Audio settings</button>
 		</div>
 		<div class="audio-settings" hidden>
@@ -43,17 +42,6 @@ export function createAudioOffer(copyText = "") {
 	`;
 	hydrateAudioSettings(root);
 	return root;
-}
-
-export function saveAudioSettings(root) {
-	const settings = {
-		voice: normalizeAudioVoice(root.querySelector('[data-audio-setting="voice"]')?.value),
-		format: normalizeAudioFormat(root.querySelector('[data-audio-setting="format"]')?.value)
-	};
-	try {
-		localStorage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify(settings));
-	} catch {}
-	return settings;
 }
 
 export function toggleAudioSettings(root, button) {
@@ -78,11 +66,17 @@ export function statusNode(root) {
 
 export async function copyAudioMessage(root) {
 	const text = String(root.__awtsmoosCopyText || "");
-	if (!text.trim()) throw new Error("No assistant text found to copy.");
+	if (!text.trim()) {
+		throw new Error("No assistant text found to copy.");
+	}
 	if (navigator.clipboard?.writeText) {
 		await navigator.clipboard.writeText(text);
 		return;
 	}
+	fallbackCopy(text);
+}
+
+function fallbackCopy(text) {
 	const area = document.createElement("textarea");
 	area.value = text;
 	area.setAttribute("readonly", "");
@@ -93,30 +87,3 @@ export async function copyAudioMessage(root) {
 	document.execCommand("copy");
 	area.remove();
 }
-
-function hydrateAudioSettings(root) {
-	const settings = loadAudioSettings();
-	hydrateSelect(root.querySelector('[data-audio-setting="voice"]'), AUDIO_VOICES, settings.voice);
-	hydrateSelect(root.querySelector('[data-audio-setting="format"]'), AUDIO_FORMATS, settings.format);
-}
-
-function loadAudioSettings() {
-	try {
-		const stored = JSON.parse(localStorage.getItem(AUDIO_SETTINGS_KEY) || "{}");
-		return { voice: normalizeAudioVoice(stored.voice), format: normalizeAudioFormat(stored.format) };
-	} catch {
-		return { ...AUDIO_DEFAULTS };
-	}
-}
-
-function hydrateSelect(select, values, selected) {
-	if (!select) return;
-	select.innerHTML = values.map(value => {
-		return `<option value="${escapeAttribute(value)}">${escapeText(titleCase(value))}</option>`;
-	}).join("");
-	select.value = values.includes(selected) ? selected : values[0];
-}
-
-function titleCase(value = "") { return value.slice(0, 1).toUpperCase() + value.slice(1); }
-function escapeText(text) { return String(text || "").replace(/[&<>]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[character]); }
-function escapeAttribute(text) { return escapeText(text).replace(/"/g, "&quot;"); }

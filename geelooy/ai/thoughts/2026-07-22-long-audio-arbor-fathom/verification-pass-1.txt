@@ -1,0 +1,26 @@
+B"H
+=== LINE COUNTS ===
+      79 geelooy/ai/js/chatgpt/audio/audioCatalog.js
+      76 geelooy/ai/js/chatgpt/audio/audioSettingsView.js
+      89 geelooy/ai/js/chatgpt/audio/audioOfferView.js
+      77 geelooy/ai/js/chatgpt/audio/audioStreamDownload.js
+     129 geelooy/ai/js/chatgpt/audio/audioSynthesisActions.js
+     114 geelooy/ai/tests/audioLongDownload.test.mjs
+     564 total
+=== SYNTAX ===
+syntax ok
+=== FOCUSED TEST ===
+✔ Arbor normalizes to the fathom synthesis identifier (116.723809ms)
+✔ complete stream receiver preserves every long-audio packet (356.050446ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 810.740703
+=== EXISTING CHUNK CONTRACT ===
+{"result":"BH_AUDIO_CHUNK_STORE_CONTRACT_OK","bytes":2097485,"hash":"ccdb06546b3d6fcad505e79a9eae658c89bc9cca0c9ef93b93372ea6938258f7","opfsLazy":true,"opfsCleanup":true,"memoryFallback":true}
+=== DIFF CHECK ===
+=== INDENT ===

@@ -1,0 +1,104 @@
+B"H
+=== LINE COUNTS ===
+      79 geelooy/ai/js/chatgpt/audio/audioCatalog.js
+      76 geelooy/ai/js/chatgpt/audio/audioSettingsView.js
+      89 geelooy/ai/js/chatgpt/audio/audioOfferView.js
+      77 geelooy/ai/js/chatgpt/audio/audioStreamDownload.js
+      37 geelooy/ai/js/chatgpt/audio/audioSynthesisRequest.js
+      54 geelooy/ai/js/chatgpt/audio/audioPlayAction.js
+      71 geelooy/ai/js/chatgpt/audio/audioDownloadAction.js
+      11 geelooy/ai/js/chatgpt/audio/audioSynthesisActions.js
+     114 geelooy/ai/tests/audioLongDownload.test.mjs
+     608 total
+=== SYNTAX ===
+syntax ok
+=== FOCUSED TEST ===
+✔ Arbor normalizes to the fathom synthesis identifier (89.855473ms)
+✔ complete stream receiver preserves every long-audio packet (373.551465ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1036.47744
+=== CHUNK CONTRACT ===
+{"result":"BH_AUDIO_CHUNK_STORE_CONTRACT_OK","bytes":2097485,"hash":"ccdb06546b3d6fcad505e79a9eae658c89bc9cca0c9ef93b93372ea6938258f7","opfsLazy":true,"opfsCleanup":true,"memoryFallback":true}
+=== AI AUDIO/STATIC HARNESSES ===
+✗ [1] chatgpt-extension-boot-regressions 3ms
+undefined {
+  'extension-bridge-boot-exposes-awtsmoos-fetch': { awtsmoosFetch: true, mFetch: true, ready: true },
+  'conversation-list-extension-mock-renders-sidebar-items': { rendersItems: true },
+  'extension-list-failure-shows-clear-error': { clearError: true },
+  'chatgpt-page-boot-does-not-call-node-relay-unless-enabled': {},
+  'automation-bridge-detection-cannot-block-conversation-list': { nonBlocking: true },
+  'audio-controls-cannot-throw-during-conversation-load': { guardedAudio: true },
+  'chatgpt-list-detail-fetch-errors-do-not-kill-app-shell': { shellSurvivesErrors: true },
+  'automation-page-send-is-identical-to-manual-send-path': { sameControllerSend: true, noAutomationPayload: true },
+  'chatgpt-sentinel-proof-is-fresh-per-send': { freshSentinelEverySend: true },
+  'automation-countdown-is-not-cut-by-composer': { visibleCountdown: true }
+}
+✓ [1] static-regression-audit 153ms
+{
+  "ok": false,
+  "total": 2,
+  "failed": 1,
+  "results": [
+    {
+      "round": 1,
+      "ok": false,
+      "name": "chatgpt-extension-boot-regressions",
+      "ms": 3,
+      "facts": {
+        "extension-bridge-boot-exposes-awtsmoos-fetch": {
+          "awtsmoosFetch": true,
+          "mFetch": true,
+          "ready": true
+        },
+        "conversation-list-extension-mock-renders-sidebar-items": {
+          "rendersItems": true
+        },
+        "extension-list-failure-shows-clear-error": {
+          "clearError": true
+        },
+        "chatgpt-page-boot-does-not-call-node-relay-unless-enabled": {},
+        "automation-bridge-detection-cannot-block-conversation-list": {
+          "nonBlocking": true
+        },
+        "audio-controls-cannot-throw-during-conversation-load": {
+          "guardedAudio": true
+        },
+        "chatgpt-list-detail-fetch-errors-do-not-kill-app-shell": {
+          "shellSurvivesErrors": true
+        },
+        "automation-page-send-is-identical-to-manual-send-path": {
+          "sameControllerSend": true,
+          "noAutomationPayload": true
+        },
+        "chatgpt-sentinel-proof-is-fresh-per-send": {
+          "freshSentinelEverySend": true
+        },
+        "automation-countdown-is-not-cut-by-composer": {
+          "visibleCountdown": true
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "static-regression-audit",
+      "ms": 153,
+      "facts": {
+        "files": 234,
+        "duplicateImports": 0,
+        "duplicateExports": 0,
+        "duplicateFunctions": 0,
+        "suspicious": 0
+      }
+    }
+  ]
+}
+=== DIFF CHECK ===
+=== INDENT ===
+tab indentation ok

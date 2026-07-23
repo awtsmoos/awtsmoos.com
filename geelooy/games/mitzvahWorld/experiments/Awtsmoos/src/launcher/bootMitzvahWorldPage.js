@@ -19,7 +19,7 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260722-webgl-stage-09';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260723-webgl-stage-11';
 
 export async function bootMitzvahWorldPage(
 	documentValue = document,

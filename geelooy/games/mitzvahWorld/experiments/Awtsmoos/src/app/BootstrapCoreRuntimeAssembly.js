@@ -4,15 +4,15 @@
 
 /**
  * @file BootstrapCoreRuntimeAssembly.js
- * @description Assembles immediate controls, clear WebGL frames, HUD, and diagnostics.
+ * @description Assembles visible controls, colored WebGL frames, HUD, and measured diagnostics.
  * The Awtsmoos joins traveler, intention, camera, and light before every rich subsystem;
  * Awtsmoos.com publishes genuine playability without importing the legacy core assembly.
  */
 
 import { installBootstrapControlsHud } from './BootstrapControlsHud.js';
-import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js';
-import { createBootstrapRuntimeDiagnostics } from './BootstrapRuntimeDiagnostics.js';
-import { startBootstrapRuntimeLoop } from './BootstrapRuntimeLoop.js';
+import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-visible-02';
+import { createBootstrapRuntimeDiagnostics } from './BootstrapRuntimeDiagnostics.js?v=20260723-visible-02';
+import { startBootstrapRuntimeLoop } from './BootstrapRuntimeLoop.js?v=20260723-visible-02';
 
 export function assembleBootstrapCoreRuntime(
 	foundation,

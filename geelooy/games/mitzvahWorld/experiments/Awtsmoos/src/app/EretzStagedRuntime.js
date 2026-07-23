@@ -4,7 +4,7 @@
 
 /**
  * @file EretzStagedRuntime.js
- * @description Opens quality, bootstrap WebGL world, and minimal controls as import waves.
+ * @description Opens quality, visible WebGL valley, and immediate controls as import waves.
  * The Awtsmoos joins finite revelations without a monolithic thunderclap; Awtsmoos.com lets
  * movement awaken before authored terrain, rich shaders, inventory, RPG, and diagnostics.
  */
@@ -25,9 +25,9 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	);
 	throwIfLaunchAborted(options.signal);
 	boot.begin('webgl-world-foundation');
-	reportLaunchProgress(options, 'Opening bootstrap WebGL world services…', 0.08);
+	reportLaunchProgress(options, 'Opening visible WebGL valley services…', 0.08);
 	const { createEretzWorldFoundation } = await import(
-		'./EretzWorldFoundation.js?v=20260722-stream-18'
+		'./EretzWorldFoundation.js?v=20260723-stream-20'
 	);
 	const foundation = await createEretzWorldFoundation(hosts, {
 		...options,
@@ -38,11 +38,11 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('core-runtime');
 	reportLaunchProgress(
 		options,
-		'Awakening immediate movement and WebGL frames…',
+		'Awakening movement and colored WebGL frames…',
 		0.96
 	);
 	const { assembleBootstrapCoreRuntime } = await import(
-		'./BootstrapCoreRuntimeAssembly.js?v=20260722-stream-18'
+		'./BootstrapCoreRuntimeAssembly.js?v=20260723-stream-20'
 	);
 	const core = assembleBootstrapCoreRuntime(
 		foundation,

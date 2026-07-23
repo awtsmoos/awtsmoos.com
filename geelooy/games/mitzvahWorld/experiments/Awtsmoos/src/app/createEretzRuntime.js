@@ -4,9 +4,9 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Opens flat playable WebGL control and keeps heavy systems explicitly deferred.
- * The Awtsmoos reveals context, movement, ground, and truth in appointed measures;
- * Awtsmoos.com publishes playability before every shader, terrain, UI, and RPG family.
+ * @description Publishes visible playability before streaming tiny districts in idle slices.
+ * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;
+ * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.
  */
 
 import {
@@ -16,7 +16,7 @@ import {
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
-const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260722-stream-18';
+const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260723-stream-21';
 const TRACKER_URL = './BootPhaseTracker.js?v=20260722-boot-text-01';
 
 export async function createEretzRuntime(hosts, options = {}) {
@@ -33,9 +33,12 @@ export async function createEretzRuntime(hosts, options = {}) {
 		publishRuntime(core.diagnostics, environment);
 		markRendererHydration('deferred', environment.document);
 		core.diagnostics.rendererHydrationPromise = Promise.resolve(null);
-		core.diagnostics.enrichmentPromise = Promise.resolve(null);
+		core.diagnostics.enrichmentPromise = streamDistricts(
+			core.diagnostics.runtime,
+			environment
+		);
 		core.diagnostics.deferredSystems = Object.freeze({
-			authoredTerrain: 'deferred',
+			authoredTerrain: 'district-streaming-required',
 			inventoryAndRpg: 'deferred',
 			richActors: 'deferred',
 			richRenderer: 'deferred',
@@ -50,6 +53,25 @@ export async function createEretzRuntime(hosts, options = {}) {
 		if (globalThis.AwtsmoosBootTracker === boot) {
 			globalThis.AwtsmoosBootTracker = null;
 		}
+	}
+}
+
+async function streamDistricts(runtime, environment) {
+	try {
+		const { streamBootstrapDistricts } = await import(
+			'./BootstrapDistrictStreamer.js?v=20260723-visible-03'
+		);
+		return streamBootstrapDistricts(runtime, environment);
+	} catch (error) {
+		runtime.districtStreaming = {
+			completed: 0,
+			loaded: [],
+			meshes: 0,
+			status: 'degraded',
+			total: 3
+		};
+		console.warn('[MitzvahWorld] Lightweight district streaming degraded.', error);
+		return runtime.districtStreaming;
 	}
 }
 

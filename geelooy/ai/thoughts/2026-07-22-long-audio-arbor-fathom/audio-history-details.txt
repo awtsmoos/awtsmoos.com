@@ -1,0 +1,57 @@
+
+===== a6fc347c2 =====
+a6fc347c2 B_H automatic update
+ geelooy/ai/js/chatgpt/audio/audioControls.js | 35 ++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+===== 572d02518 =====
+572d02518 B_H automatic update
+ geelooy/ai/js/chatgpt/audio/audioActionRouter.js   |  56 +++++++
+ geelooy/ai/js/chatgpt/audio/audioBlobPlayer.js     |  69 +++++++++
+ geelooy/ai/js/chatgpt/audio/audioChunkStore.js     |  47 ++++++
+ .../ai/js/chatgpt/audio/audioChunkStoreMemory.js   |  51 +++++++
+ geelooy/ai/js/chatgpt/audio/audioChunkStoreOpfs.js |  76 ++++++++++
+ geelooy/ai/js/chatgpt/audio/audioControls.js       | 167 ++-------------------
+ geelooy/ai/js/chatgpt/audio/audioFormatting.js     |  20 +++
+ geelooy/ai/js/chatgpt/audio/audioMediaSource.js    |  63 ++++++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerDisplay.js  |  78 ++++++++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerState.js    |  85 ++++++-----
+ geelooy/ai/js/chatgpt/audio/audioPlayerView.js     | 123 ++-------------
+ geelooy/ai/js/chatgpt/audio/audioStreamPlayback.js | 126 ++--------------
+ geelooy/ai/js/chatgpt/audio/audioStreamPump.js     |  62 ++++++++
+ .../ai/js/chatgpt/audio/audioSynthesisActions.js   | 110 ++++++++++++++
+ 14 files changed, 707 insertions(+), 426 deletions(-)
+
+===== 432b783e2 =====
+432b783e2 B_H automatic update
+ .../.audioControls.js.awts-43530-512b661c8e.tmp    | 209 ++++++++
+ geelooy/ai/js/chatgpt/audio/audioCatalog.js        |  77 +++
+ geelooy/ai/js/chatgpt/audio/audioControls.js       | 574 ++++++++-------------
+ geelooy/ai/js/chatgpt/audio/audioOfferView.js      | 122 +++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerState.js    | 118 +++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerView.js     | 119 +++++
+ geelooy/ai/js/chatgpt/audio/audioStreamPlayback.js | 156 ++++++
+ geelooy/ai/js/chatgpt/audio/synthesize.js          | 183 ++++---
+ 8 files changed, 1128 insertions(+), 430 deletions(-)
+
+===== 7bf66b718 =====
+7bf66b718 BH
+ geelooy/ai/js/chatgpt/audio/audioControls.js | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+===== 4ab54aba5 =====
+4ab54aba5 BH
+ geelooy/ai/js/chatgpt/audio/audioControls.js | 35 ++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
+
+===== d3f0d501c =====
+d3f0d501c BH
+ geelooy/ai/js/chatgpt/audio/audioControls.js | 346 +++++++++++++++++++++++++++
+ geelooy/ai/js/chatgpt/audio/synthesize.js    |  84 +++++--
+ 2 files changed, 406 insertions(+), 24 deletions(-)
+
+===== e03dd14e9 =====
+e03dd14e9 B"H Manifesting changes.
+ geelooy/ai/js/chatgpt/audio/synthesize.js  |   40 +
+ geelooy/ai/old.AwtsmoosGPTify.reference.js | 1117 ++++++++++++++++++++++++++++
+ 2 files changed, 1157 insertions(+)
