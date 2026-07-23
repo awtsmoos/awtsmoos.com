@@ -1,0 +1,17 @@
+=== ZIP TOOLS ===
+/usr/bin/zip
+/usr/bin/unzip
+=== PACKAGE ZIP LIBS ===
+=== EXISTING BUILD HELPERS ===
+geelooy/api/social/helper/search/exactHebrewRecords.test.js:77:	assert.equal(manager.includes('gunzipSync'), false);
+geelooy/api/social/helper/search/exactHebrewV3.js:42:	const text = zlib.gunzipSync(blobBuffer(blob)).toString('utf8');
+geelooy/api/social/helper/search/exactHebrewV3.test.js:57:	const blob = zlib.gzipSync(Buffer.from(JSON.stringify(shard)));
+geelooy/api/social/helper/search/exactHebrewV3.test.js:101:	assert.equal(facade.includes('gunzipSync'), false);
+geelooy/api/social/helper/search/exactHebrewV3.test.js:103:	assert.equal(workerSide.includes('gunzipSync'), true);
+geelooy/apps/code/js/file-ops/exporter.js:29:    async createZipBlob(items) {
+geelooy/apps/code/js/file-ops/transfer/Paster.js:30:                    ? await Exporter.createZipBlob(State.clipboardZip.items) 
+geelooy/apps/code/js/zip/ops/index.js:11:    createItem: (t, k) => ZipModify.createItem(t, k),
+geelooy/apps/code/js/zip/ops/index.js:12:    createEntry: (t, p, k) => ZipModify.createEntry(t, p, k),
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:11:function createBundleZip(zipPath) {
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:58:	const zipPath = createBundleZip(path.join(Paths.TEMP_ROOT, 'awtsmoos-agent.zip'));
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:110:module.exports = { createBundleZip, startStaticServer };

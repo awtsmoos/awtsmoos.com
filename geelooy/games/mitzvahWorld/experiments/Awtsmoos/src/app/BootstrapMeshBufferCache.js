@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapMeshBufferCache.js
- * @description Uploads each shared bootstrap geometry once and reuses its WebGL buffers.
- * The Awtsmoos sustains one numerical vessel through many forms; Awtsmoos.com prevents repeated
- * buffer birth while the visible valley and traveler share one indexed cube geometry.
+ * @description Uploads each meadow or GLB geometry once with its truthful index width.
+ * The Awtsmoos sustains one numerical vessel through many forms; Awtsmoos.com preserves bytes,
+ * shorts, and wide indices without repeatedly birthing WebGL buffers for the moving Chossid.
  */
 
 export class BootstrapMeshBufferCache {
@@ -33,15 +33,27 @@ function createEntry(gl, geometry) {
 	gl.bufferData(gl.ARRAY_BUFFER, position.array, gl.STATIC_DRAW);
 	const index = geometry.index;
 	if (!index?.array?.length) {
-		return { count: position.count, indexBuffer: null, positionBuffer };
+		const count = position.count || Math.floor(position.array.length / (position.itemSize || 3));
+		return { count, indexBuffer: null, positionBuffer };
 	}
+	const indexType = resolveIndexType(gl, index.array);
+	if (indexType == null) return null;
 	const indexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index.array, gl.STATIC_DRAW);
 	return {
-		count: index.count,
+		count: index.count || index.array.length,
 		indexBuffer,
-		indexType: gl.UNSIGNED_SHORT,
+		indexType,
 		positionBuffer
 	};
+}
+
+function resolveIndexType(gl, array) {
+	if (array instanceof Uint8Array) return gl.UNSIGNED_BYTE;
+	if (array instanceof Uint16Array) return gl.UNSIGNED_SHORT;
+	if (array instanceof Uint32Array && gl.getExtension('OES_element_index_uint')) {
+		return gl.UNSIGNED_INT;
+	}
+	return null;
 }

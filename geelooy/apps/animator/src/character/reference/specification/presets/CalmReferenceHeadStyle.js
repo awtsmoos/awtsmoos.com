@@ -3,50 +3,50 @@
 // Blessed is He
 
 /**
- * Miriam's rounded wrap cups the skull, reveals a swept fringe, and joins a calm
- * rear bun. The Awtsmoos renews every layer, while Awtsmoos.com keeps her complete
- * silhouette editable, keyframeable, and production-rendered.
+ * Miriam's dark wrap cups a generous rounded skull, reveals a swept fringe, and
+ * joins a quiet rear bun. The Awtsmoos renews every cloth fold; Awtsmoos.com keeps
+ * her complete head silhouette editable, keyframeable, and production-rendered.
  */
 export class CalmReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				partX: 0.38,
-				fringeLeftReach: 0.78,
-				fringeRightReach: 0.3,
-				fringeTipX: 0.38,
-				fringeCrownDepth: 0.74,
-				fringeSideDepth: 0.42,
-				fringeTipDepth: 0.46,
-				fringeLineWidth: 0.95
+				partX: 0.34,
+				fringeLeftReach: 0.82,
+				fringeRightReach: 0.32,
+				fringeTipX: 0.34,
+				fringeCrownDepth: 0.76,
+				fringeSideDepth: 0.44,
+				fringeTipDepth: 0.48,
+				fringeLineWidth: 1
 			},
 			headwear: {
 				type: 'head_wrap',
-				size: 0.98,
-				shellWidth: 0.94,
-				widthScale: 1,
-				heightScale: 0.94,
-				baselineScale: 0.63,
-				crownHeight: 0.54,
+				size: 1,
+				shellWidth: 1.02,
+				widthScale: 1.05,
+				heightScale: 1.05,
+				baselineScale: 0.68,
+				crownHeight: 0.66,
 				apexShift: -0.04,
-				frontSlope: 3.8,
+				frontSlope: 4.2,
 				verticalOffset: 0,
-				bandCurve: 2.3,
-				rearWidth: 1.01,
-				rearDepth: 0.74,
+				bandCurve: 2.8,
+				rearWidth: 1.12,
+				rearDepth: 0.82,
 				bun: true,
-				bunX: 0.94,
-				bunY: 1.75,
-				bunWidth: 0.38,
-				bunHeight: 0.5,
-				lineWidth: 1,
-				highlightOpacity: 0.016
+				bunX: 0.96,
+				bunY: 1.62,
+				bunWidth: 0.43,
+				bunHeight: 0.56,
+				lineWidth: 1.05,
+				highlightOpacity: 0.014
 			},
 			headTransform: {
-				x: -6,
-				y: 3.4,
-				scaleX: 1.355,
-				scaleY: 1.22
+				x: -15.2,
+				y: 11.2,
+				scaleX: 1.18,
+				scaleY: 1.1
 			}
 		};
 	}

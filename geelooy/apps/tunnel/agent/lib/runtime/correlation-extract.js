@@ -1,76 +1,59 @@
 // B"H
-const Definitions = require('./correlation-definitions.js');
-const Parser = require('./correlation-parser.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Inner payload identity outranks its transport carrier, never vice versa. */
+const Helpers = require("./correlation-extract-helpers.js");
+const Parser = require("./correlation-parser.js");
+
+/**
+ * @file Extracts request correlation while separating transport and entity IDs.
+ * @description
+ * The Awtsmoos reveals inner request identity before outer transport fallback.
+ * Awtsmoos.com therefore keeps a command's `id` distinct from the request path
+ * that asks about it, while preserving historical top-level transport carriers.
+ */
 function extractCorrelationScope(input = {}) {
-	if (!Parser.plainObject(input)) return {};
-	const output = {};
-	const payload = Parser.jsonish(input.payload, 'payload');
-	if (payload) {
-		mergeMissing(output, scanObject(payload));
-		mergeMissing(output, scanObject(withoutPayload(input)));
-		return output;
+	if (!Parser.plainObject(input)) {
+		return {};
 	}
-	mergeMissing(output, scanObject(input));
+
+	const output = {};
+	const payload = Parser.jsonish(input.payload, "payload");
+
+	if (payload) {
+		Helpers.mergeMissing(output, scanObject(payload));
+		Helpers.mergeMissing(
+			output,
+			scanObject(Helpers.withoutPayload(input))
+		);
+	} else {
+		Helpers.mergeMissing(output, scanObject(input));
+	}
+
+	Helpers.applyTransportFallback(output, input);
 	return output;
 }
 
 function scanObject(input, seen = new Set(), depth = 0) {
-	if (!Parser.plainObject(input) || depth > 4 || seen.has(input)) return {};
+	if (!Parser.plainObject(input) || depth > 4 || seen.has(input)) {
+		return {};
+	}
+
 	seen.add(input);
-	const output = directFields(input);
+	const output = Helpers.directFields(input);
+
 	for (const carrier of Parser.carrierObjects(input)) {
-		mergeMissing(output, scanObject(carrier, seen, depth + 1));
+		Helpers.mergeMissing(
+			output,
+			scanObject(carrier, seen, depth + 1)
+		);
 	}
+
 	return output;
-}
-
-function directFields(input = {}) {
-	const output = {};
-	for (const [field, aliases] of Object.entries(Definitions.FIELD_ALIASES)) {
-		const value = pick(input, aliases);
-		if (value) output[field] = value;
-	}
-	return output;
-}
-
-function pick(input, aliases) {
-	if (!Parser.plainObject(input)) return '';
-	for (const key of aliases) {
-		const value = cleanValue(input[key]);
-		if (value) return value;
-	}
-	return '';
-}
-
-function cleanValue(value) {
-	if (value == null || value === '') return '';
-	if (typeof value === 'string') return value;
-	if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-	return '';
-}
-
-function mergeMissing(target, source) {
-	for (const [key, value] of Object.entries(source || {})) {
-		if (value && !target[key]) target[key] = value;
-	}
-	return target;
-}
-
-function withoutPayload(input) {
-	const copy = { ...input };
-	delete copy.payload;
-	delete copy.payload64;
-	return copy;
 }
 
 module.exports = {
-	cleanValue,
-	directFields,
+	...Helpers,
 	extractCorrelationScope,
-	mergeMissing,
-	pick,
-	scanObject,
-	withoutPayload
+	scanObject
 };

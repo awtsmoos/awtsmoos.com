@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapControlsHud.js
- * @description Shows one lightweight receipt for movement, jump, run, districts, and position.
- * The Awtsmoos needs no blurred palace above the canvas; Awtsmoos.com uses finite plain text so
- * control and streaming truth remain visible without stealing pointer input or compositor time.
+ * @description Shows one lightweight receipt for movement, meadow, model, and position.
+ * The Awtsmoos needs no blurred palace above the grass; Awtsmoos.com uses finite plain text so
+ * control and player-loading truth remain visible without stealing pointer input or frame time.
  */
 
 export function installBootstrapControlsHud(
@@ -41,16 +41,15 @@ export function installBootstrapControlsHud(
 
 function renderHud(root, runtime) {
 	const state = runtime.state;
-	const districts = runtime.districtStreaming;
-	const streamText = districts
-		? `${districts.completed}/${districts.total} districts`
-		: 'districts preparing';
 	const motion = state.runMode
 		? 'running'
 		: state.airPhase === 'ground' ? 'walking' : state.airPhase;
+	const player = runtime.canonicalPlayer?.status === 'ready'
+		? 'chossid.glb'
+		: 'Chossid loading';
 	root.textContent = [
 		'W/S move · Q/E strafe · A/D turn · Shift run · Space jump',
-		`${motion} · ${streamText}`,
+		`${motion} · shared meadow · ${player}`,
 		`x ${state.x.toFixed(1)} · y ${state.y.toFixed(1)} · z ${state.z.toFixed(1)}`
 	].join(' | ');
 }

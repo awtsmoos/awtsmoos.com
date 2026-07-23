@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Miriam's olive cloth opens across a calm ribcage before settling into a weighted
- * charcoal skirt. The Awtsmoos renews every modest curve, while Awtsmoos.com
- * preserves pocket, stance, and garment geometry as editable production vessels.
+ * Miriam's olive cloth descends through a balanced inward stance to two planted
+ * flats beneath a weighted charcoal skirt. The Awtsmoos renews every hidden joint;
+ * Awtsmoos.com preserves pocket, garment, knee, ankle, and floor as editable vessels.
  */
 export class CalmReferenceBodyGeometry {
 	static create() {
@@ -33,10 +33,10 @@ export class CalmReferenceBodyGeometry {
 			pelvis: { centerX: -13, topHalf: 33, bottomHalf: 31, bottomY: -66 },
 			skirt: { centerX: -13, topHalf: 32, bottomHalf: 43, hemY: -4, sway: 0.4, leftHemDrop: 1.5, rightHemLift: 0.5 },
 			legs: {
-				centerOffsetX: -6.4, hipOffset: 13.5,
-				leftKneeOffset: 8.35, rightKneeOffset: 8.35, kneeDrop: 4,
-				leftAnkleOffset: 14.25, rightAnkleOffset: 14.25, ankleLift: 3.1,
-				leftFootOffset: 21.1, rightFootOffset: 15.7, footDrop: 7,
+				centerOffsetX: -1.435, hipOffset: 13.5,
+				leftKneeOffset: 3.102, rightKneeOffset: 3.102, kneeDrop: 6.377,
+				leftAnkleOffset: 12.475, rightAnkleOffset: 11.98, ankleLift: 9.229,
+				leftFootOffset: 24.288, rightFootOffset: 12.437, footDrop: 7.174,
 				shoeScaleX: 0.63, shoeScaleY: 0.52,
 				footwear: { kind: 'flat', toeLength: 0.34, vampHeight: 0.48, soleDepth: 1.4, heelHeight: 0.05, openingDepth: 0.46 }
 			},

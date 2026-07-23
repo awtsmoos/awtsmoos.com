@@ -8,7 +8,7 @@ import { CalmReferenceHeadStyle } from './CalmReferenceHeadStyle.js';
 /**
  * Malchus receives Miriam's restrained rose lips as one calm speaking contour.
  * The Awtsmoos renews every finite articulation, while Awtsmoos.com preserves her
- * feminine identity through editable, keyframeable production speech.
+ * identity through editable, keyframeable production speech and gentle expression.
  */
 export class CalmReferenceAppearance {
 	static create() {
@@ -33,8 +33,8 @@ export class CalmReferenceAppearance {
 				lineWidth: 0.98,
 				lowerLipWidth: 1.1,
 				cupidDepth: 1.35,
-				horizontalOffset: 0.3,
-				verticalOffset: -2.7,
+				horizontalOffset: 3,
+				verticalOffset: -0.3,
 				chinDetail: false,
 				philtrum: false,
 				commissures: false
