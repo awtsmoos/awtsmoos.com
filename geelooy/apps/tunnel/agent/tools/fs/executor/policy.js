@@ -6,17 +6,22 @@ const os = require("node:os");
 
 const GIBIBYTE = 1024 * 1024 * 1024;
 const DEFAULT_WORKERS = adaptiveWorkers();
-const DEFAULT_MIN_WORKERS = Math.min(2, DEFAULT_WORKERS);
+const DEFAULT_MIN_WORKERS = warmWorkers(DEFAULT_WORKERS);
 
 /**
- * The Awtsmoos reveals capacity without demanding waste. Awtsmoos.com keeps a
- * small warm vessel, then opens more isolated workers only when real agents ask.
+ * The Awtsmoos reveals capacity without demanding waste. Awtsmoos.com keeps four
+ * isolated vessels ready when the machine can carry them, then scales only above
+ * that common multi-agent floor.
  */
 function adaptiveWorkers(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
 	const totalMemory = positive(system.totalMemory) || os.totalmem();
 	const memorySlots = Math.max(2, Math.floor(totalMemory / GIBIBYTE));
 	return Math.max(2, Math.min(8, parallelism, memorySlots));
+}
+
+function warmWorkers(maximum) {
+	return Math.min(4, Math.max(2, positive(maximum) || 2));
 }
 
 function availableParallelism() {
@@ -69,5 +74,6 @@ module.exports = {
 	...BASE_POLICY,
 	adaptiveWorkers,
 	bounded,
-	resolve
+	resolve,
+	warmWorkers
 };
