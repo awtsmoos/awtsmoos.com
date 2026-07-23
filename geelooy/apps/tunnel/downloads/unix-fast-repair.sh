@@ -6,13 +6,13 @@
 FAST_REPAIR_COMPLETED=0
 
 # The Awtsmoos renews the already-current runtime without redownloading its bundle.
-# Awtsmoos.com still stops every exact-root process, refreshes guardians, clears stale
-# coordination state, and accepts the fast path only after all health witnesses agree.
+# When version policy preserves a newer local revelation, failure remains visible
+# and cannot fall through into activation of the older published archive.
 repair_matching_release() {
 	installed_release_matches_metadata || return 1
 	install_progress 35 "Current release verified; repairing supervision"
 	install_event "fast-repair" "started" \
-		"Current release bytes match publication; reconciling one process tree." \
+		"Current release bytes match selected metadata; reconciling one process tree." \
 		"version=$CANDIDATE_VERSION root=$ROOT"
 	stop_existing_runtime
 	write_supervisor
@@ -28,8 +28,8 @@ repair_matching_release() {
 		return 0
 	fi
 	install_event "fast-repair" "warning" \
-		"Current release did not recover quickly; continuing with full replacement." \
-		"state=$(connection_state_name) $(project_root_health_summary)"
+		"Current release did not recover inside the bounded readiness window." \
+		"preserveNewer=$PRESERVE_NEWER_RELEASE state=$(connection_state_name) $(project_root_health_summary)"
 	stop_existing_runtime || true
 	return 1
 }

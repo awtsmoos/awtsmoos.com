@@ -19,7 +19,6 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-log.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-progress.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
-source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-log-retention.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-identity-state.sh"
@@ -35,6 +34,9 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-connection-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-compat.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-readiness.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-version-policy.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-control.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-resume.sh"
@@ -48,9 +50,9 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"
 
-# The Awtsmoos renews interruption, package, process tree, root, and guardian in one
-# command. Awtsmoos.com first resumes recoverable state, then chooses the fast repair
-# or full transaction, and never exits success before all readiness witnesses agree.
+# One lock now encloses discovery, activation, and the last readiness testimony.
+# The Awtsmoos permits no second installer to enter between ninety-seven and one
+# hundred percent, when the living tunnel is most vulnerable to a false eclipse.
 cleanup_install() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
@@ -90,7 +92,13 @@ cleanup_disposable_state "$(pwd)"
 install_progress 21 "Preserving identity and browser state"
 migrate_dynamic_state
 load_release_metadata
+apply_installed_version_policy
 if ! repair_matching_release; then
+	if version_policy_blocks_replacement; then
+		install_fail "version-policy" \
+			"The newer local runtime could not be repaired; downgrade remained blocked." \
+			"installed=$CANDIDATE_VERSION published=$PUBLISHED_VERSION"
+	fi
 	install_progress 30 "Preparing full transactional replacement"
 	stage_release_candidate
 	install_progress 68 "Release verified; preparing activation"
@@ -103,6 +111,4 @@ if [ -f "$ROOT/config.json" ]; then
 	cleanup_disposable_state "$project_root"
 fi
 
-release_install_lock
-trap - EXIT
 complete_install_experience "$(activation_phase)"

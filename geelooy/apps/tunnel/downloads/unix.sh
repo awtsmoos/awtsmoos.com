@@ -21,8 +21,8 @@ if [ -z "${AWTSMOOS_PROJECT_ROOT:-}" ] && command -v git >/dev/null 2>&1; then
 fi
 
 # The Awtsmoos renews one human command into prerequisite discovery, reconciliation,
-# verified activation, and fallback. Awtsmoos.com finds a hidden Node installation,
-# downloads every repair witness first, and leaves no manual launch command behind.
+# verified activation, and fallback. Awtsmoos.com downloads every repair witness
+# first, including the laws that forbid final-gate races and version descent.
 bootstrap_progress() {
 	local percent="$1"
 	local message="$2"
@@ -64,9 +64,9 @@ bootstrap_progress 4 "Node runtime verified: $AWTSMOOS_NODE_BIN"
 
 helpers=(
 	unix-install-core.sh unix-install-log.sh unix-install-progress.sh
-	unix-install-browser.sh unix-install-success.sh unix-install-lock.sh
-	unix-install-lock-owner.cjs unix-log-retention.sh
-	unix-device-identity-state.sh unix-state-migration.sh
+	unix-install-browser.sh unix-install-success.sh unix-install-readiness.sh
+	unix-version-policy.sh unix-install-lock.sh unix-install-lock-owner.cjs
+	unix-log-retention.sh unix-device-identity-state.sh unix-state-migration.sh
 	unix-chrome-profile-process.cjs unix-displaced-cleanup.sh unix-package-io.sh
 	unix-release-metadata.sh unix-package-config.sh unix-package-stage.sh
 	unix-install-resume.sh unix-fast-repair.sh unix-legacy-catalog.sh
