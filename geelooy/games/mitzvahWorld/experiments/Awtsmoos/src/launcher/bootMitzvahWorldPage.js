@@ -4,10 +4,9 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Reveals the lightweight menu before importing any gameplay runtime.
- * The Awtsmoos creates the threshold before the valley: one tiny page module waits for the first
- * paint, then asks Awtsmoos.com for the menu router while renderer, terrain, actors, inventory,
- * cinema, and multiplayer remain beyond the gate until the player chooses them.
+ * @description Reveals the tiny route entry before importing any selected mode.
+ * The Awtsmoos creates the threshold before the valley; Awtsmoos.com permits one paint while
+ * a finite timer prevents a throttled animation frame from sealing the doorway forever.
  */
 
 const HOST_IDS = Object.freeze({
@@ -20,16 +19,8 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260722-webgl-stage-09';
 
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260722-join-fix-06';
-
-/**
- * Boots the menu path without placing the gameplay dependency graph in the initial module graph.
- *
- * @param {Document} documentValue - Document containing semantic page hosts.
- * @param {Window|typeof globalThis} environment - Browser-like runtime used for paint scheduling.
- * @returns {Promise<unknown>} The menu element or directly requested mode diagnostics.
- */
 export async function bootMitzvahWorldPage(
 	documentValue = document,
 	environment = globalThis
@@ -53,14 +44,11 @@ export async function bootMitzvahWorldPage(
 	}
 }
 
-/** Resolves every host explicitly so browser-created ID globals are never required. */
 export function resolveHosts(documentValue) {
 	const hosts = {};
 	for (const [name, id] of Object.entries(HOST_IDS)) {
 		const element = documentValue.getElementById(id);
-		if (!element) {
-			throw new Error(`Missing Mitzvah World host: #${id}`);
-		}
+		if (!element) throw new Error(`Missing Mitzvah World host: #${id}`);
 		hosts[name] = element;
 	}
 	return hosts;
@@ -68,11 +56,20 @@ export function resolveHosts(documentValue) {
 
 function firstPaint(environment) {
 	return new Promise(resolve => {
+		let settled = false;
+		let timer = null;
+		const finish = () => {
+			if (settled) return;
+			settled = true;
+			if (timer !== null) environment.clearTimeout?.(timer);
+			resolve();
+		};
 		if (typeof environment.requestAnimationFrame === 'function') {
-			environment.requestAnimationFrame(() => resolve());
+			timer = environment.setTimeout?.(finish, 48) ?? null;
+			environment.requestAnimationFrame(finish);
 			return;
 		}
-		environment.setTimeout?.(resolve, 0) ?? resolve();
+		environment.setTimeout?.(finish, 0) ?? finish();
 	});
 }
 
@@ -93,6 +90,4 @@ function showFailure(hud, documentValue, error) {
 	console.error(error);
 }
 
-if (typeof document !== 'undefined') {
-	await bootMitzvahWorldPage();
-}
+if (typeof document !== 'undefined') await bootMitzvahWorldPage();

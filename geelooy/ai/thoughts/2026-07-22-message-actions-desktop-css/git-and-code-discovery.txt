@@ -1,0 +1,568 @@
+B"H
+=== STATUS ===
+ M geelooy/apps/tunnel-control/css/final-normal-scroll.css
+ M geelooy/apps/tunnel-control/css/future/index.css
+ M geelooy/apps/tunnel-control/css/future/views/dashboard/cards.css
+ M geelooy/apps/tunnel-control/css/future/views/dashboard/layout.css
+ M geelooy/apps/tunnel-control/css/future/views/dashboard/responsive.css
+ M geelooy/apps/tunnel-control/css/future/views/mission-control-os.css
+ M geelooy/apps/tunnel-control/css/future/views/shell.css
+ M geelooy/apps/tunnel-control/js/dashboard/dashboard.js
+ M geelooy/apps/tunnel-control/js/dashboard/dashboardCard.js
+ M geelooy/apps/tunnel-control/js/dashboard/dashboardGrid.js
+ M geelooy/apps/tunnel-control/js/router/paneRouter.js
+ M geelooy/apps/tunnel-control/js/shell/workspaceMode.js
+ M geelooy/apps/tunnel-control/js/shell/workspaceStage.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootPhaseTracker.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootProgressOverlay.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationServices.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarCombatGateway.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MainMenu.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MainMenuLaunchTask.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldLauncher.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldModeLoaders.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/bootMitzvahWorldPage.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzRuntime.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/proceduralCreatureGeometry.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuLaunchTask.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/creatures/VillageCreatureSystem.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonProfiles.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonVisual.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageFurnitureDefinitions.js
+ D geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageMarketFurniture.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageWaterMaterialPolicy.js
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/tiny-water-shader-contract.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-lighting-functions.js
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-sampling-functions.js
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-standard-declarations.js
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-locations.js
+ M geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-uniforms.js
+ M geelooy/games/mitzvahWorld/index.html
+ M geelooy/libs/awtsmoos-procedural-core/package.json
+ M geelooy/libs/awtsmoos-procedural-core/src/core/animalMesh/creature/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/geometry/generators/botany/realism/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/capabilities/proceduralObjectCapabilities.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/createUniversalNodeGraph.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/native/createOpenBlenderGraphIr.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/nativeExecution/createNativeReferenceExecutorRegistry.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/nativeExecution/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/realtimeRealism/createLiquidSecondaryParticleSystems3d.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/realtimeRealism/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/realtimeRealism/persistent/createPersistentRealtimeLiquidState3d.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/volumes/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/webgpu3d/createWebGpuShaderManifest3d.js
+ M geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/webgpu3d/index.js
+ M geelooy/libs/awtsmoos-procedural-core/src/exports/vegetation.js
+ M geelooy/libs/awtsmoos-procedural-core/src/index.js
+ M geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectWebGpuContracts3d.test.mjs
+ M geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectWebGpuPacking3d.test.mjs
+ M geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectWebGpuRuntime3d.test.mjs
+?? geelooy/ai/thoughts/2026-07-22-message-actions-desktop-css/
+?? geelooy/apps/tunnel-control/css/viewport/
+?? geelooy/apps/tunnel-control/js/features/test/viewportNavigation.test.mjs
+?? geelooy/apps/tunnel-control/js/shell/navigation.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootPhaseSnapshot.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialAssetLoader.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialAssetRecord.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzStagedRuntime.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWebGlBootFrame.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFinalizer.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldModuleLoader.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLDefaults.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRendererHydration.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RendererHydrationScheduler.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeStateMarker.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeTurnGateway.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatEventBindings.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatTurnGateway.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MainMenuPopulation.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MainMenuShell.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldDirectRoute.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldRouteHandlers.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzBootstrap.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSession.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusReceipt.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerTransportIdentity.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootProgressPublication.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/essentialAssetBoundary.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/progressiveWebGlRenderer.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/webGlStagedBoot.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/villageWaterPhysicalPolicy.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/directWorldRoute.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/network/multiplayerTransportIdentity.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/shadowDemonAnatomyGeometry.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/villageMarketOwnership.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonAnatomyCatalog.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonAnatomyGeometry.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonAnatomyPart.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonHuskAnatomy.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonStalkerAnatomy.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonWraithAnatomy.js
+?? geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/tiny-water-physical-uniforms.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-water-physical-uniforms.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureEnvironmentCoupling.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureSoftTissueState.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/stepCreatureSoftTissue.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/geometry/generators/botany/realism/createBotanicalEnvironmentCoupling.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/geometry/generators/botany/realism/createBotanicalVascularState.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/geometry/generators/botany/realism/stepBotanicalVascularTransport.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/assets/biological3d/
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/multiphase3d/
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/native/openGraphIrEvidence.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/native/openGraphIrPlanning.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/native/openGraphIrSchedule.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/nativeExecution/advancedGeometryExecutors.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/nativeExecution/advancedShaderExecutors.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/nativeExecution/fieldDomain.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/volumes/createCombustionVolumeArtifact3d.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/volumes/createParticleVolumeArtifact3d.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/volumes/particleVolumeGridPlan3d.js
+?? geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/volumes/splatParticlesToVolume3d.js
+?? geelooy/libs/awtsmoos-procedural-core/test/botanicalRootSeasonRealism.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/botanicalVascularTransport.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/creatureLivingFrame.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/creatureSoftTissue.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectAdvancedParticleDynamics.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectMultiphase3d.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectNativeExecutionExtreme.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectVolumetricArtifacts3d.test.mjs
+?? meluket_copy_source_sample.command
+?? meluket_corpus_locator.txt
+?? meluket_importer_focus.txt
+?? meluket_markers/
+?? meluket_normalized_job_receipt.txt
+?? meluket_old_dayuh_218_shape.command
+?? meluket_old_dayuh_218_shape_summary.json
+?? meluket_old_dayuh_compact_summary.json
+?? meluket_old_dayuh_probe.json
+?? meluket_rag_recovery_surface.txt
+?? meluket_source_reconstruction_search.txt
+?? meluket_source_sample.done
+?? meluket_source_sample.json
+?? meluket_source_sample_hashes.txt
+?? meluket_translation_artifact_audit.command
+?? meluket_translation_job_compact.json
+?? meluket_translation_job_probe.command
+?? meluket_translation_job_probe.json
+?? meluket_translation_nonchunk_metadata.json
+?? meluket_translation_normalized_audit.command
+?? meluket_translation_normalized_audit.json
+?? meluket_translation_normalized_compact.json
+?? meluket_verification_month_schema.json
+?? meluket_verification_schema_summary.json
+?? scripts/meluket_restore/
+=== RECENT AI HISTORY ===
+9f4c085ad B_H automatic update
+46182e478 B_H automatic update
+572d02518 B_H automatic update
+b771a0759 B_H automatic update
+432b783e2 B_H automatic update
+c5874a0a5 B_H automatic update
+ae8d2f30f B_H automatic update
+bde48167f B_H automatic update
+6207735fa B_H automatic update
+40aa08d37 B"H
+ac7c29edd B_H automatic update
+a6ba4dd91 B_H automatic update
+4b0232af9 B"H
+6f803e1d8 B_H automatic update
+d63c2164b B'H Add discoverable mission rooms
+b696f2aec B'H Add mission collaboration room actions
+4ba45be2f B'H Add long run mission loop and live tunnel calls UI
+00b46b2d1 B'H Add mission step chunk protocol
+b22f99e36 B_H expose mission expansion loop to tunnel agents
+9582f28ca B_H enforce mission anti premature stop guard
+586d097b1 B_H automatic update
+0eba93fdf B_H automatic update
+9e07a5f6c B_H automatic update
+2b5eb017e B_H automatic update
+20304cfb7 B_H automatic update
+c414c898e B_H automatic update
+dda018d15 B_H automatic update
+5d3b6446c B_H automatic update
+8fb5828f1 B_H regenerate tunnel action artifacts
+181b7232b B_H give shared agents full tunnel catalog
+7e45b4b72 B_H add async command jobs and GPT carriers
+24416a0b1 B_H add command output pagination action
+fdc6e53dc B_H automatic update
+d4dda7ef4 B_H clean publish update
+5505e856a BH
+d9bc705f7 BH
+3464d110d BH
+02a0cd335 BH
+96257ef8a BH
+c90f198a0 BH
+=== HISTORY MATCHES ===
+432b783e2 B_H automatic update
+c414c898e B_H automatic update
+c90f198a0 BH
+cce6b617d B"H
+a45d22536 BH
+de3543335 B"H
+4ab54aba5 BH
+2365a9400 B"H Manifesting changes.
+6beb24c81 B"H Manifesting changes.
+0e00fe412 B"H Updated at 11/24/2025, 2:24:54 AM (Part 2/35)
+0e03d84f8 B"H Updated at 11/24/2025, 2:15:00 AM (Deletions)
+50428a14e B"H Updated at 11/24/2025, 2:15:00 AM (Part 8/42)
+0eb1f8aec B"H Updated at 11/23/2025, 9:17:06 PM
+196c05653 BH
+=== CURRENT MATCHES ===
+=== FILES ===
+geelooy/ai/css/ai-chat/buttons.css
+geelooy/ai/css/ai-chat/composer.css
+geelooy/ai/css/ai-chat/focus-motion.css
+geelooy/ai/css/ai-chat/index.css
+geelooy/ai/css/ai-chat/messages.css
+geelooy/ai/css/ai-chat/mobile.css
+geelooy/ai/css/ai-chat/providers.css
+geelooy/ai/css/ai-chat/shell.css
+geelooy/ai/css/ai-chat/sidebar.css
+geelooy/ai/css/ai-chat/states.css
+geelooy/ai/css/ai-chat/tokens.css
+geelooy/ai/css/atmosphere-engine.css
+geelooy/ai/css/attachments.css
+geelooy/ai/css/automation-cockpit.css
+geelooy/ai/css/automation-form-polish.css
+geelooy/ai/css/automation-futuristic.css
+geelooy/ai/css/automation-graph-nodes.css
+geelooy/ai/css/automation-settle-gate.css
+geelooy/ai/css/automation-status-compact.css
+geelooy/ai/css/automation-stop-button.css
+geelooy/ai/css/boundary-guard.css
+geelooy/ai/css/bug-polish/00-foundation.css
+geelooy/ai/css/bug-polish/10-conversations.css
+geelooy/ai/css/bug-polish/20-chat-composer.css
+geelooy/ai/css/bug-polish/30-responsive.css
+geelooy/ai/css/bug-polish/40-panels-transport.css
+geelooy/ai/css/bug-polish/50-motion-depth.css
+geelooy/ai/css/bug-polish/60-message-details.css
+geelooy/ai/css/bug-polish/manifest.css
+geelooy/ai/css/chat.css
+geelooy/ai/css/civilization/page-polish.css
+geelooy/ai/css/desktop-polish.css
+geelooy/ai/css/desktop-shell.css
+geelooy/ai/css/direct-desktop.css
+geelooy/ai/css/embedded-mode.css
+geelooy/ai/css/embedded.css
+geelooy/ai/css/empty-state.css
+geelooy/ai/css/event-cockpit.css
+geelooy/ai/css/event-loading.css
+geelooy/ai/css/event-responsive.css
+geelooy/ai/css/event-visibility.css
+geelooy/ai/css/events/file-review.css
+geelooy/ai/css/events/manifest.css
+geelooy/ai/css/events/mobile.css
+geelooy/ai/css/events/panel-chrome.css
+geelooy/ai/css/events/region.css
+geelooy/ai/css/events/thought-run.css
+geelooy/ai/css/events/thought-stepper.css
+geelooy/ai/css/events/tokens.css
+geelooy/ai/css/events/tool-terminal.css
+geelooy/ai/css/file-change-review.css
+geelooy/ai/css/final-alignment.css
+geelooy/ai/css/focus-accessibility.css
+geelooy/ai/css/forms.css
+geelooy/ai/css/hover-affordance-polish.css
+geelooy/ai/css/ideal/automation.css
+geelooy/ai/css/ideal/chat.css
+geelooy/ai/css/ideal/composer.css
+geelooy/ai/css/ideal/mobile.css
+geelooy/ai/css/ideal/mobile/composer.css
+geelooy/ai/css/ideal/mobile/control-center.css
+geelooy/ai/css/ideal/mobile/crown.css
+geelooy/ai/css/ideal/mobile/measure.css
+geelooy/ai/css/ideal/mobile/polish.css
+geelooy/ai/css/ideal/mobile/revamp.css
+geelooy/ai/css/ideal/mobile/scenes.css
+geelooy/ai/css/ideal/mobile/suggestions.css
+geelooy/ai/css/ideal/mobile/visual-match.css
+geelooy/ai/css/ideal/settings.css
+geelooy/ai/css/ideal/shell.css
+geelooy/ai/css/ideal/sidebar.css
+geelooy/ai/css/ideal/tokens.css
+geelooy/ai/css/layout.css
+geelooy/ai/css/legacy-pages.css
+geelooy/ai/css/live-scroll-follow.css
+geelooy/ai/css/live-stream-markdown.css
+geelooy/ai/css/markdown-polish.css
+geelooy/ai/css/mobile-vessel.css
+geelooy/ai/css/mobile/chat-events.css
+geelooy/ai/css/mobile/composer.css
+geelooy/ai/css/mobile/drawer-overlay.css
+geelooy/ai/css/mobile/focus-drawer.css
+geelooy/ai/css/mobile/lightweight-feedback.css
+geelooy/ai/css/mobile/panel-rails.css
+geelooy/ai/css/mobile/panels.css
+geelooy/ai/css/mobile/prompt.css
+geelooy/ai/css/mobile/shell.css
+geelooy/ai/css/mobile/surface-polish.css
+geelooy/ai/css/panel-action-rail.css
+geelooy/ai/css/panel-controls.css
+geelooy/ai/css/panel-polish.css
+geelooy/ai/css/panels.css
+geelooy/ai/css/panels/base.css
+geelooy/ai/css/panels/collapsed.css
+geelooy/ai/css/panels/resizers.css
+geelooy/ai/css/panels/windowing.css
+geelooy/ai/css/performance-override.css
+geelooy/ai/css/relay-install.css
+geelooy/ai/css/right-panel-menu.css
+geelooy/ai/css/right-panel-overlap-kill.css
+geelooy/ai/css/right-panel/actions.css
+geelooy/ai/css/right-panel/clarity.css
+geelooy/ai/css/right-panel/forms.css
+geelooy/ai/css/right-panel/fullscreen.css
+geelooy/ai/css/right-panel/manifest.css
+geelooy/ai/css/right-panel/menu.css
+geelooy/ai/css/right-panel/mobile-overlap-kill.css
+geelooy/ai/css/right-panel/responsive.css
+geelooy/ai/css/right-panel/sections.css
+geelooy/ai/css/right-panel/shell.css
+geelooy/ai/css/right-panel/spacing.css
+geelooy/ai/css/right-panel/toggles.css
+geelooy/ai/css/right-panel/tokens.css
+geelooy/ai/css/settings-controls-fix.css
+geelooy/ai/css/showcase-cards.css
+geelooy/ai/css/stream-polish.css
+geelooy/ai/css/stream-resume-hardening.css
+geelooy/ai/css/stream-selection-stability.css
+geelooy/ai/css/thinking-window.css
+geelooy/ai/css/thought-freeze-polish.css
+geelooy/ai/css/tokens.css
+geelooy/ai/css/transport-error-polish.css
+geelooy/ai/css/transport.css
+geelooy/ai/css/unified-events.css
+geelooy/ai/css/vision-engine.css
+geelooy/ai/css/visual.css
+geelooy/ai/js/app/bootUtils.js
+geelooy/ai/js/app/conversationController.js
+geelooy/ai/js/app/conversationListPager.js
+geelooy/ai/js/app/conversationSidebarLiveRows.js
+geelooy/ai/js/app/conversations/visibleConversationSession.js
+geelooy/ai/js/app/conversations/withTimeout.js
+geelooy/ai/js/app/desktopShell.js
+geelooy/ai/js/app/desktopShellData.js
+geelooy/ai/js/app/domRefs.js
+geelooy/ai/js/app/embeddedMode.js
+geelooy/ai/js/app/emptyState.js
+geelooy/ai/js/app/keyboardSend.js
+geelooy/ai/js/app/layoutState.js
+geelooy/ai/js/app/mobileChrome.js
+geelooy/ai/js/app/mobileControlCenter.js
+geelooy/ai/js/app/mobileDrawers.js
+geelooy/ai/js/app/mobileSuggestions.js
+geelooy/ai/js/app/performanceMode.js
+geelooy/ai/js/app/providerKeyPanel.js
+geelooy/ai/js/app/sendButtonState.js
+geelooy/ai/js/app/serviceModeChrome.js
+geelooy/ai/js/app/showcaseChrome.js
+geelooy/ai/js/app/stream/eventKeys.js
+geelooy/ai/js/app/stream/livePacketSanitizer.js
+geelooy/ai/js/app/stream/packetState.js
+geelooy/ai/js/app/streamRouter.js
+geelooy/ai/js/app/transportStatus.js
+geelooy/ai/js/app/urlState.js
+geelooy/ai/js/app/viewportMode.js
+geelooy/ai/js/app/visionDemo.js
+geelooy/ai/js/attachments/attachmentStore.js
+geelooy/ai/js/attachments/attachmentTray.js
+geelooy/ai/js/attachments/describeAttachments.js
+geelooy/ai/js/automation/backgroundBridge.js
+geelooy/ai/js/automation/backgroundStreamMirror.js
+geelooy/ai/js/automation/continuationGate.js
+geelooy/ai/js/automation/graphDefaults.js
+geelooy/ai/js/automation/graphEditorUi.js
+geelooy/ai/js/automation/graphEngine.js
+geelooy/ai/js/automation/graphNodeUi.js
+geelooy/ai/js/automation/graphStore.js
+geelooy/ai/js/automation/messageArchive.js
+geelooy/ai/js/automation/panel.js
+geelooy/ai/js/automation/panelMarkup.js
+geelooy/ai/js/automation/pipeline.js
+geelooy/ai/js/automation/providerChatAdmin.js
+geelooy/ai/js/automation/relayInstallActions.js
+geelooy/ai/js/automation/runStore.js
+geelooy/ai/js/automation/settingsStore.js
+geelooy/ai/js/automation/streamCompletionGuard.js
+geelooy/ai/js/chatgpt/audio/.audioControls.js.awts-43530-512b661c8e.tmp
+geelooy/ai/js/chatgpt/audio/audioActionRouter.js
+geelooy/ai/js/chatgpt/audio/audioBlobPlayer.js
+geelooy/ai/js/chatgpt/audio/audioCatalog.js
+geelooy/ai/js/chatgpt/audio/audioChunkStore.js
+geelooy/ai/js/chatgpt/audio/audioChunkStoreMemory.js
+geelooy/ai/js/chatgpt/audio/audioChunkStoreOpfs.js
+geelooy/ai/js/chatgpt/audio/audioControls.js
+geelooy/ai/js/chatgpt/audio/audioFormatting.js
+geelooy/ai/js/chatgpt/audio/audioMediaSource.js
+geelooy/ai/js/chatgpt/audio/audioOfferView.js
+geelooy/ai/js/chatgpt/audio/audioPlayerDisplay.js
+geelooy/ai/js/chatgpt/audio/audioPlayerState.js
+geelooy/ai/js/chatgpt/audio/audioPlayerView.js
+geelooy/ai/js/chatgpt/audio/audioStreamPlayback.js
+geelooy/ai/js/chatgpt/audio/audioStreamPump.js
+geelooy/ai/js/chatgpt/audio/audioSynthesisActions.js
+geelooy/ai/js/chatgpt/audio/synthesize.js
+geelooy/ai/js/chatgpt/auth/session.js
+geelooy/ai/js/chatgpt/conversations/detail.js
+geelooy/ai/js/chatgpt/conversations/list.js
+geelooy/ai/js/chatgpt/debugFetch.js
+geelooy/ai/js/chatgpt/generateLegacyModules.tmp.cjs
+geelooy/ai/js/chatgpt/sentinel/requirements.js
+geelooy/ai/js/chatgpt/sentinel/tokenClassLegacy.js
+geelooy/ai/js/chatgpt/stream/logStream.js
+geelooy/ai/js/chatgpt/stream/resumeBridge.js
+geelooy/ai/js/chatgpt/stream/resumeDeltaRouter.js
+geelooy/ai/js/chatgpt/stream/resumeLoop.js
+geelooy/ai/js/chatgpt/stream/resumePacketOrder.js
+geelooy/ai/js/chatgpt/stream/resumeScopeState.js
+geelooy/ai/js/chatgpt/stream/streamResumeStore.js
+geelooy/ai/js/chatgpt/stream/streamResumer.js
+geelooy/ai/js/chatgpt/stream/visibleStreamScope.js
+geelooy/ai/js/chatgpt/stream/workerStreamClient.js
+geelooy/ai/js/chatgpt/transport/bridge.js
+geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+geelooy/ai/js/chatgpt/transport/nodeRelayApi.js
+geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js
+geelooy/ai/js/chatgpt/transport/nodeRelaySettings.js
+geelooy/ai/js/chatgpt/transport/relayBodyStream.js
+geelooy/ai/js/chatgpt/transport/relayResponse.js
+geelooy/ai/js/chatgpt/transport/relaySerialization.js
+geelooy/ai/js/chatgpt/transport/tunnelRelayApi.js
+geelooy/ai/js/chatgpt/transport/tunnelRelayFetch.js
+geelooy/ai/js/chatgpt/transport/tunnelRelayMerkava.js
+geelooy/ai/js/chatgpt/util/blob.js
+geelooy/ai/js/chatgpt/util/ids.js
+geelooy/ai/js/export/chatHtmlExporter.js
+geelooy/ai/js/forms/composerAutosize.js
+geelooy/ai/js/layout/layoutController.js
+geelooy/ai/js/layout/layoutStore.js
+geelooy/ai/js/layout/panelFrame.js
+geelooy/ai/js/layout/resizeHandles.js
+geelooy/ai/js/render/escapeHtml.js
+geelooy/ai/js/render/event-ui/cards.js
+geelooy/ai/js/render/event-ui/codeHighlight.js
+geelooy/ai/js/render/event-ui/eventFacts.js
+geelooy/ai/js/render/event-ui/fileChangeReview.js
+geelooy/ai/js/render/event-ui/referenceFacts.js
+geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js
+geelooy/ai/js/render/event-ui/thoughtTextCard.js
+geelooy/ai/js/render/event-ui/toolHeadline.js
+geelooy/ai/js/render/event-ui/valueView.js
+geelooy/ai/js/render/eventBody.js
+geelooy/ai/js/render/eventDetails.js
+geelooy/ai/js/render/eventSummaries.js
+geelooy/ai/js/render/markdown.js
+geelooy/ai/js/render/markdown/blocks.js
+geelooy/ai/js/render/markdown/inline.js
+geelooy/ai/js/render/markdown/protocol.js
+geelooy/ai/js/render/markdown/tables.js
+geelooy/ai/js/render/messageNormalizer.js
+geelooy/ai/js/render/messageRenderer.js
+geelooy/ai/js/render/messageVault.js
+geelooy/ai/js/render/normalizer/textExtractors.js
+geelooy/ai/js/render/normalizer/toolNameResolver.js
+geelooy/ai/js/render/normalizer/toolSignals.js
+geelooy/ai/js/render/normalizer/transportClassifier.js
+geelooy/ai/js/render/runtime/collapsedDomVault.js
+geelooy/ai/js/render/runtime/eventBodyHydrator.js
+geelooy/ai/js/render/runtime/eventLabels.js
+geelooy/ai/js/render/runtime/eventPayloadVault.js
+geelooy/ai/js/render/runtime/eventRenderableGate.js
+geelooy/ai/js/render/runtime/eventRuntime.js
+geelooy/ai/js/render/runtime/eventTimeline.js
+geelooy/ai/js/render/runtime/eventVisibilityRuntime.js
+geelooy/ai/js/render/runtime/innerEventFilter.js
+geelooy/ai/js/render/runtime/liveTextDelta.js
+geelooy/ai/js/render/runtime/liveTextFreeze.js
+geelooy/ai/js/render/runtime/liveTextRuntime.js
+geelooy/ai/js/render/runtime/loadState.js
+geelooy/ai/js/render/runtime/loadingRuntime.js
+geelooy/ai/js/render/runtime/loadingSweep.js
+geelooy/ai/js/render/runtime/panelChrome.js
+geelooy/ai/js/render/runtime/rawJsonHydrator.js
+geelooy/ai/js/render/runtime/rawJsonVault.js
+geelooy/ai/js/render/runtime/reasoningGrouper.js
+geelooy/ai/js/render/runtime/recordRuntime.js
+geelooy/ai/js/render/runtime/recordWeight.js
+geelooy/ai/js/render/runtime/renderConstants.js
+geelooy/ai/js/render/runtime/renderHelpers.js
+geelooy/ai/js/render/runtime/scrollAnchor.js
+geelooy/ai/js/render/runtime/scrollRuntime.js
+geelooy/ai/js/render/runtime/shellRuntime.js
+geelooy/ai/js/render/runtime/streamStatsRuntime.js
+geelooy/ai/js/render/runtime/thoughtEnvelope.js
+geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js
+geelooy/ai/js/render/runtime/thoughtInnerEvents.js
+geelooy/ai/js/render/runtime/thoughtInnerReconciler.js
+geelooy/ai/js/render/runtime/thoughtInnerVisibility.js
+geelooy/ai/js/render/runtime/thoughtStreamReconciler.js
+geelooy/ai/js/render/runtime/thoughtVesselStability.js
+geelooy/ai/js/render/runtime/toolStreamIdentity.js
+geelooy/ai/js/render/runtime/windowRuntime.js
+geelooy/ai/js/render/runtime/windowScrollAnchor.js
+geelooy/ai/js/render/safeUrl.js
+geelooy/ai/js/render/semanticText.js
+geelooy/ai/js/render/streamPacket.js
+geelooy/ai/js/render/worker/eventStore.js
+geelooy/ai/js/render/worker/openAiChoiceDeltas.js
+geelooy/ai/js/render/worker/renderWorker.js
+geelooy/ai/js/render/worker/sseParser.js
+geelooy/ai/js/render/worker/streamDelta.js
+geelooy/ai/js/render/workerClient.js
+geelooy/ai/js/services/awtaiLocalService.js
+geelooy/ai/js/services/chatgptService.js
+geelooy/ai/js/services/geminiApi.js
+geelooy/ai/js/services/geminiService.js
+geelooy/ai/js/settings/eventVisibility.js
+geelooy/ai/tests/.tmp-readmanylines-test/test.txt
+geelooy/ai/tests/audioChunkStoreContract.test.mjs
+geelooy/ai/tests/automationStreamCompletionGuard.test.mjs
+geelooy/ai/tests/browserRelayChunkContract.test.mjs
+geelooy/ai/tests/central/central-ai-smoke.test.mjs
+geelooy/ai/tests/central/multipass-tools.test.mjs
+geelooy/ai/tests/debug-readmanylines.cjs
+geelooy/ai/tests/harness/agentCouncilFanout.cjs
+geelooy/ai/tests/harness/assert.cjs
+geelooy/ai/tests/harness/automationContinuance.cjs
+geelooy/ai/tests/harness/automationGraph.cjs
+geelooy/ai/tests/harness/backgroundAutomation.cjs
+geelooy/ai/tests/harness/boot.cjs
+geelooy/ai/tests/harness/browserClientSim.cjs
+geelooy/ai/tests/harness/browserDebug.cjs
+geelooy/ai/tests/harness/cssNoOverlap.cjs
+geelooy/ai/tests/harness/cssParity.cjs
+geelooy/ai/tests/harness/extensionAuth.cjs
+geelooy/ai/tests/harness/extensionBfcachePort.cjs
+geelooy/ai/tests/harness/extensionLedger.cjs
+geelooy/ai/tests/harness/extensionPackaging.cjs
+geelooy/ai/tests/harness/liveStreamingUi.cjs
+geelooy/ai/tests/harness/memoryRetention.cjs
+geelooy/ai/tests/harness/mobileLayout.cjs
+geelooy/ai/tests/harness/payloadParity.cjs
+geelooy/ai/tests/harness/relay.cjs
+geelooy/ai/tests/harness/relayAuth.cjs
+geelooy/ai/tests/harness/relayInstallControl.cjs
+geelooy/ai/tests/harness/reloadOrdering.cjs
+geelooy/ai/tests/harness/run.cjs
+geelooy/ai/tests/harness/staticAudit.cjs
+geelooy/ai/tests/harness/storesAutomation.cjs
+geelooy/ai/tests/harness/streamOrdering.cjs
+geelooy/ai/tests/harness/thoughtDomStability.cjs
+geelooy/ai/tests/harness/thoughtGrouping.cjs
+geelooy/ai/tests/minimax-tunnel-action.test.cjs
+geelooy/ai/tests/minimaxDefaultProvider.test.mjs
+geelooy/ai/tests/providerTunnelBridgeModes.test.mjs
+geelooy/ai/tests/relayDiskStorageContract.test.mjs
+geelooy/ai/tests/streamOrderingContract.test.mjs
+geelooy/ai/tests/thoughtInnerEvents.test.mjs

@@ -4,25 +4,33 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads only the selected mode and carries visible progress into its runtime.
- * The Awtsmoos renews each doorway independently; Awtsmoos.com keeps cinema, diagnostics,
- * multiplayer, terrain, and HUD code dormant until their actual path is chosen.
+ * @description Loads direct worlds without menu presentation, CSS families, or HUD observers.
+ * The Awtsmoos opens control before ornament; Awtsmoos.com keeps creative presentation,
+ * diagnostics, cinema, rich panels, and responsive HUD code beyond their chosen doorways.
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260722-menu-stream-01';
+const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260722-webgl-stage-09';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
-		materials: hosts => openMaterials(hosts, environment),
-		movie: (hosts, options) => openMovie(hosts, options, environment),
+		materials: hosts => openCreative('openMaterialsMode', hosts, '', environment),
+		movie: (hosts, options) => openCreative(
+			'openMovieMode',
+			hosts,
+			options?.search || '',
+			environment
+		),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
-		platform: hosts => openPlatform(hosts, environment),
+		platform: hosts => openCreative('openPlatformMode', hosts, '', environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
 	});
 }
 
 export function hasMovieRequest(search = '') {
-	const parameters = search instanceof URLSearchParams ? search : new URLSearchParams(search);
+	const parameters = search instanceof URLSearchParams
+		? search
+		: new URLSearchParams(search);
 	return parameters.get('mode') === 'movie'
 		|| parameters.has('movie')
 		|| parameters.has('movieJson')
@@ -31,10 +39,9 @@ export function hasMovieRequest(search = '') {
 }
 
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
-	options.onProgress?.({ message: 'Preparing a private world…', progress: 0.04 });
-	startPresentation(hosts, environment);
+	report(options, 'Preparing immediate WebGL control…');
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import('../app/createEretzRuntime.js?v=20260722-stream-08'),
+		import('../app/createEretzRuntime.js?v=20260722-stream-18'),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, {
@@ -47,16 +54,18 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	diagnostics.connectionBadge = badgeModule.installSinglePlayerStatusBadge();
 	diagnostics.sessionMode = 'singleplayer';
 	diagnostics.sessionDiagnostics = () => ({
-		mode: 'singleplayer', peerCount: 0, state: 'singleplayer', transport: 'none'
+		mode: 'singleplayer',
+		peerCount: 0,
+		state: 'singleplayer',
+		transport: 'none'
 	});
 	return diagnostics;
 }
 
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
-	options.onProgress?.({ message: 'Preparing the shared-world runtime…', progress: 0.04 });
-	startPresentation(hosts, environment);
+	report(options, 'Preparing immediate WebGL shared control…');
 	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?v=20260722-stream-08'
+		'../network/MultiplayerEretzRuntime.js?v=20260722-stream-18'
 	);
 	return createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,
@@ -72,33 +81,26 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	});
 }
 
-async function openMaterials(hosts, environment) {
-	startPresentation(hosts, environment);
-	return (await import('../diagnostics/MaterialDiagnosticMode.js')).launchMaterialDiagnostic(hosts);
+async function openCreative(method, hosts, search, environment) {
+	await startPresentation(hosts, environment);
+	const module = await import(CREATIVE_URL);
+	return module[method](hosts, search);
 }
 
-async function openPlatform(hosts, environment) {
-	startPresentation(hosts, environment);
-	return (await import('../world/platform/PlatformShowcaseMode.js')).launchPlatformShowcase(hosts);
+function report(options, message) {
+	options.onProgress?.({ message, progress: 0.04 });
 }
 
-async function openMovie(hosts, options = {}, environment = globalThis) {
-	startPresentation(hosts, environment);
-	const [projectModule, studioModule] = await Promise.all([
-		import('../movie/MovieProject.js'),
-		import('../movie/MovieStudio.js')
-	]);
-	const search = options.search || '';
-	const project = await projectModule.loadRequestedMovie(search);
-	return studioModule.createMovieStudio(hosts, project, {
-		autoRender: new URLSearchParams(search).get('autoRender') === '1'
-	});
-}
-
-function startPresentation(hosts, environment) {
-	void import(PRESENTATION_URL)
-		.then(({ prepareGameplayPresentation }) => {
-			prepareGameplayPresentation(hosts, environment.document, environment);
-		})
-		.catch(error => console.warn('[MitzvahWorld] Gameplay presentation degraded.', error));
+async function startPresentation(hosts, environment) {
+	try {
+		const module = await import(PRESENTATION_URL);
+		return module.prepareGameplayPresentation(
+			hosts,
+			environment.document,
+			environment
+		);
+	} catch (error) {
+		console.warn('[MitzvahWorld] Creative presentation degraded.', error);
+		return null;
+	}
 }

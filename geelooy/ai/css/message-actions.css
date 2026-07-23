@@ -1,0 +1,101 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos hides many useful paths inside one calm dot-gate. This vessel
+ * lets every Awtsmoos.com message breathe while its actions remain discoverable.
+ */
+.message-shell > .message {
+	order:20;
+}
+.message-action-root {
+	position:relative;
+	order:30;
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:7px;
+	width:min(290px,var(--awt-message-max));
+	margin-top:-8px;
+	z-index:12;
+}
+.message-action-root[hidden] {
+	display:none;
+}
+.start-flow > .message-action-root {
+	align-self:flex-start;
+}
+.end-flow > .message-action-root {
+	align-self:flex-end;
+	justify-content:flex-end;
+}
+.message-action-trigger {
+	width:34px;
+	height:30px;
+	padding:0;
+	border:1px solid transparent;
+	border-radius:999px;
+	background:rgba(9,20,37,.72);
+	color:var(--awt-muted);
+	font-size:.72rem;
+	font-weight:900;
+	letter-spacing:1px;
+	opacity:.66;
+	transition:opacity .16s ease,border-color .16s ease,background .16s ease;
+}
+.message-shell:hover .message-action-trigger,
+.message-action-trigger[aria-expanded="true"],
+.message-action-trigger:focus-visible {
+	opacity:1;
+	border-color:var(--awt-line-strong);
+	background:rgba(14,35,54,.96);
+}
+.message-action-menu {
+	order:3;
+	flex-basis:100%;
+	min-width:205px;
+	padding:7px;
+	border:1px solid var(--awt-line-strong);
+	border-radius:15px;
+	background:rgba(3,11,23,.98);
+	box-shadow:var(--awt-shadow-md),var(--awt-ring);
+	backdrop-filter:blur(18px);
+}
+.message-action-menu[hidden] {
+	display:none;
+}
+.message-action-menu button {
+	display:grid;
+	grid-template-columns:24px minmax(0,1fr);
+	align-items:center;
+	width:100%;
+	min-height:40px;
+	padding:8px 10px;
+	border:0;
+	border-radius:10px;
+	background:transparent;
+	color:var(--awt-soft);
+	text-align:left;
+}
+.message-action-menu button:hover,
+.message-action-menu button:focus-visible {
+	background:rgba(34,230,196,.12);
+	color:var(--awt-text);
+}
+.message-action-menu button:disabled {
+	opacity:.5;
+	cursor:wait;
+}
+.message-action-menu button > span:first-child {
+	color:var(--awt-hot);
+	font-size:1rem;
+}
+.message-action-status {
+	width:1px;
+	height:1px;
+	margin:-1px;
+	overflow:hidden;
+	clip-path:inset(50%);
+	white-space:nowrap;
+}

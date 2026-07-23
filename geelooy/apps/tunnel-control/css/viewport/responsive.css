@@ -1,0 +1,103 @@
+/* B"H */
+/** One navigation becomes a mobile dock while every page keeps its bounded sky. */
+@media (max-width: 760px) {
+	.awt-control-main {
+		grid-template-columns: minmax(0, 1fr) !important;
+		grid-template-rows: minmax(0, 1fr) 62px;
+		gap: 6px !important;
+		padding: 6px !important;
+	}
+
+	.awt-home-mode .awt-control-main {
+		grid-template-rows: minmax(0, 1fr);
+	}
+
+	.awt-workspace-mode .awt-workspace-stage {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.awt-workspace-mode .awt-dashboard {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.awt-app-navigation {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		grid-template-rows: 1fr;
+		gap: 6px;
+		padding: 5px;
+		border-radius: 14px;
+		overflow: visible;
+	}
+
+	.awt-navigation-button.is-home,
+	.awt-navigation-toggle {
+		display: grid;
+		place-items: center;
+		min-height: 50px;
+	}
+
+	.awt-navigation-button.is-home {
+		grid-template-columns: auto auto;
+		justify-content: center;
+	}
+
+	.awt-navigation-grid {
+		position: fixed;
+		left: 6px;
+		right: 6px;
+		bottom: 68px;
+		z-index: 80;
+		display: none;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-auto-rows: minmax(68px, auto);
+		gap: 7px;
+		max-height: min(70dvh, 560px);
+		padding: 10px;
+		border: 1px solid var(--awt-line-soft);
+		border-radius: 18px;
+		background: rgba(5, 15, 29, .98);
+		box-shadow: 0 -18px 50px rgba(0, 0, 0, .45);
+		overflow-y: auto;
+	}
+
+	.awt-app-navigation.is-open .awt-navigation-grid {
+		display: grid;
+	}
+
+	.awt-navigation-grid .awt-navigation-button {
+		display: grid;
+		grid-template-rows: auto auto;
+		gap: 4px;
+	}
+
+	.awt-navigation-grid .awt-navigation-label {
+		position: static;
+		width: auto;
+		height: auto;
+		clip: auto;
+		clip-path: none;
+		overflow: hidden;
+		font-size: .64rem;
+		line-height: 1.05;
+		text-align: center;
+		white-space: normal;
+	}
+
+	.awt-workspace-toolbar {
+		min-height: 44px;
+		padding: 4px 7px;
+	}
+
+	.awt-workspace-status {
+		display: none;
+	}
+
+	.awt-pane-content {
+		grid-template-columns: minmax(0, 1fr);
+		padding: 7px;
+	}
+}

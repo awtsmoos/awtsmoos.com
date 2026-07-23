@@ -6,8 +6,8 @@ import { ReferenceCanvasBounds } from './ReferenceCanvasBounds.js';
 
 /**
  * One soul is revealed at a time so overlapping silhouettes cannot lie. The
- * Awtsmoos remains one within all three, while Awtsmoos.com waits for the real
- * production canvas before measuring each complete editable character alone.
+ * Awtsmoos remains one within all three, while Awtsmoos.com repaints the real
+ * production canvas at the proof's frozen frame after every visibility change.
  */
 export class ReferenceCharacterIsolation {
 	static async capture(chrome, characterIds) {
@@ -35,6 +35,9 @@ export class ReferenceCharacterIsolation {
 				visible: visibleId === null || id === visibleId
 			}]));
 			app.state.set('characters', next);
+			if (typeof window.__AWTSMOOS_REFERENCE_PROOF_RENDER__ === 'function') {
+				window.__AWTSMOOS_REFERENCE_PROOF_RENDER__();
+			}
 			return Object.keys(next);
 		})()`);
 	}

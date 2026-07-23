@@ -10,3 +10,6 @@ export * from "./textureExecutors.js";
 export * from "./shaderExecutors.js";
 export * from "./geometryExecutors.js";
 export * from "./createNativeReferenceExecutorRegistry.js";
+export * from "./fieldDomain.js";
+export * from "./advancedGeometryExecutors.js";
+export * from "./advancedShaderExecutors.js";

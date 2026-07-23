@@ -4,9 +4,9 @@
 
 /**
  * @file StableBodyGeometry.js
- * @description Resolves the authored body proportions consumed by the production graph.
- * The Awtsmoos renews each shoulder, garment, foot, and gesture as a precise vessel;
- * Awtsmoos.com preserves the complete editable geometry without flattening the living rig.
+ * @description Resolves authored body proportions consumed by the production graph.
+ * The Awtsmoos renews shoulder, ribcage, waist, garment, foot, and gesture as
+ * precise vessels; Awtsmoos.com preserves editable geometry without flattening the rig.
  */
 export class StableBodyGeometry {
 	static resolve(data = {}, metrics = {}) {
@@ -23,17 +23,23 @@ export class StableBodyGeometry {
 	}
 
 	static torso(source = {}, metrics = {}) {
+		const waistHalf = this.number(source.waistHalf, (metrics.hipHalf || 27) + 16);
+		const hipHalf = this.number(source.hipHalf, (metrics.hipHalf || 27) + 18);
+		const shoulderHalf = this.number(metrics.shoulderHalf, 42);
 		return {
 			garmentKind: source.garmentKind || 'jacket',
 			shoulderExtra: this.number(source.shoulderExtra, 0),
 			shoulderDrop: this.number(source.shoulderDrop, 4),
 			shoulderArch: this.number(source.shoulderArch, 13),
 			shoulderRound: this.number(source.shoulderRound, 8),
+			chestHalf: this.number(source.chestHalf, Math.max(waistHalf, shoulderHalf - 2)),
+			chestDrop: this.number(source.chestDrop, 21),
+			ribRound: this.number(source.ribRound, 10),
 			waistCenterX: this.number(source.waistCenterX, 0),
 			hipCenterX: this.number(source.hipCenterX, 0),
-			waistHalf: this.number(source.waistHalf, (metrics.hipHalf || 27) + 16),
+			waistHalf,
 			waistDrop: this.number(source.waistDrop, 0),
-			hipHalf: this.number(source.hipHalf, (metrics.hipHalf || 27) + 18),
+			hipHalf,
 			sideRound: this.number(source.sideRound, 12),
 			belly: this.number(source.belly, 0),
 			hemY: this.number(source.hemY, (metrics.hipY || -91) + 3),
@@ -65,10 +71,7 @@ export class StableBodyGeometry {
 	}
 
 	static legs(source = {}) {
-		return {
-			...source,
-			footwear: { ...(source.footwear || {}) }
-		};
+		return { ...source, footwear: { ...(source.footwear || {}) } };
 	}
 
 	static details(source = {}) {

@@ -4,16 +4,22 @@
 
 /**
  * @file BootPhaseTracker.js
- * @description Records startup phases, progress, degradation, readiness, and fatal failure.
- * The Awtsmoos renews each threshold; Awtsmoos.com makes every boot gate visible and emits
- * precise debug beacons only when the explicit debugBoot query flag opens that vessel.
+ * @description Records startup truth while visible publication remains asynchronous and finite.
+ * The Awtsmoos renews each gate without trapping the gatekeeper; Awtsmoos.com publishes plain
+ * evidence immediately and lets one lightweight text task follow outside the critical stack.
  */
 
-import { renderBootProgress } from './BootProgressOverlay.js';
+import { scheduleBootProgress } from './BootProgressOverlay.js?v=20260722-boot-text-01';
+import {
+	bootDebugEnabled,
+	boundedBootCount,
+	createBootSnapshot
+} from './BootPhaseSnapshot.js';
 
 export class BootPhaseTracker {
-	constructor(clock = () => performance.now()) {
+	constructor(clock = () => performance.now(), environment = globalThis) {
 		this.clock = clock;
+		this.environment = environment;
 		this.startedAt = clock();
 		this.current = 'created';
 		this.currentStartedAt = null;
@@ -36,7 +42,7 @@ export class BootPhaseTracker {
 	progress(name, current, total, detail = '', status = 'loading') {
 		const record = Object.freeze({
 			atMs: this.elapsed(),
-			current: boundedCount(current, total),
+			current: boundedBootCount(current, total),
 			detail: String(detail || ''),
 			label: String(name || 'loading'),
 			status,
@@ -54,8 +60,13 @@ export class BootPhaseTracker {
 		this.current = 'ready';
 		this.currentStartedAt = this.clock();
 		this.debug('ready', { name });
-		this.progress('gameplay-ready', 1, 1, 'Movement enabled; textures continue streaming.', 'ready');
-		return this;
+		return this.progress(
+			'gameplay-ready',
+			1,
+			1,
+			'Movement enabled; textures continue streaming.',
+			'ready'
+		);
 	}
 
 	degrade(system, error) {
@@ -82,18 +93,12 @@ export class BootPhaseTracker {
 	}
 
 	snapshot() {
-		return {
-			current: this.current,
-			degraded: structuredClone(this.degraded),
-			elapsedMs: this.elapsed(),
-			failure: this.failure ? { ...this.failure } : null,
-			progress: structuredClone(this.progressRecords),
-			records: structuredClone(this.records)
-		};
+		return createBootSnapshot(this);
 	}
 
 	finishCurrent() {
-		if (this.currentStartedAt == null || ['created', 'ready', 'failed'].includes(this.current)) return;
+		if (this.currentStartedAt == null) return;
+		if (['created', 'ready', 'failed'].includes(this.current)) return;
 		const record = {
 			durationMs: this.clock() - this.currentStartedAt,
 			name: this.current
@@ -108,29 +113,19 @@ export class BootPhaseTracker {
 	}
 
 	publish() {
-		if (typeof window === 'undefined') return;
+		if (!this.environment?.document) return;
 		const snapshot = this.snapshot();
-		window.AwtsmoosBootPhases = snapshot;
-		document.documentElement.dataset.awtsmoosBootPhase = this.current;
-		renderBootProgress(snapshot);
+		this.environment.AwtsmoosBootPhases = snapshot;
+		this.environment.document.documentElement.dataset.awtsmoosBootPhase = this.current;
+		scheduleBootProgress(snapshot, this.environment);
 	}
 
 	debug(event, detail) {
-		if (!debugEnabled()) return;
-		console.info('[MitzvahWorldBoot]', JSON.stringify({
+		if (!bootDebugEnabled(this.environment.location)) return;
+		this.environment.console?.info?.('[MitzvahWorldBoot]', JSON.stringify({
 			atMs: Math.round(this.elapsed()),
 			detail,
 			event
 		}));
 	}
-}
-
-function boundedCount(current, total) {
-	const maximum = Math.max(0, Number(total) || 0);
-	return Math.max(0, Math.min(maximum, Number(current) || 0));
-}
-
-function debugEnabled() {
-	if (typeof location === 'undefined') return false;
-	return new URLSearchParams(location.search).get('debugBoot') === '1';
 }

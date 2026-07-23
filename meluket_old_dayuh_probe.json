@@ -1,0 +1,101 @@
+{
+  "mode": "read_only",
+  "root": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash",
+  "rootExists": true,
+  "entities": [
+    {
+      "id": "BH_POST_1749792440863_theRebbe_116",
+      "candidates": [
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1749792440863_theRebbe_116",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1749792440863_theRebbe_116.awtsmoosJSON",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1749792440863_theRebbe_116",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1749792440863_theRebbe_116.awtsmoosJSON",
+          "exists": false
+        }
+      ]
+    },
+    {
+      "id": "BH_POST_1766518919556_theRebbe_605",
+      "candidates": [
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518919556_theRebbe_605",
+          "exists": true,
+          "isFile": false,
+          "isDirectory": true,
+          "size": 96,
+          "mtime": 1783621145.3651047,
+          "children": [
+            {
+              "name": "commentTree",
+              "isFile": false,
+              "isDirectory": true,
+              "size": 96
+            }
+          ]
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518919556_theRebbe_605.awtsmoosJSON",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1766518919556_theRebbe_605",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1766518919556_theRebbe_605.awtsmoosJSON",
+          "exists": false
+        }
+      ]
+    },
+    {
+      "id": "BH_POST_1766518920368_theRebbe_469",
+      "candidates": [
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518920368_theRebbe_469",
+          "exists": true,
+          "isFile": false,
+          "isDirectory": true,
+          "size": 96,
+          "mtime": 1783622375.985113,
+          "children": [
+            {
+              "name": "commentTree",
+              "isFile": false,
+              "isDirectory": true,
+              "size": 96
+            }
+          ]
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518920368_theRebbe_469.awtsmoosJSON",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1766518920368_theRebbe_469",
+          "exists": false
+        },
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/full/BH_POST_1766518920368_theRebbe_469.awtsmoosJSON",
+          "exists": false
+        }
+      ]
+    }
+  ],
+  "postsDirectory": {
+    "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts",
+    "exists": true,
+    "isDirectory": true,
+    "size": 46880,
+    "mtime": 1784697345.4175684
+  }
+}

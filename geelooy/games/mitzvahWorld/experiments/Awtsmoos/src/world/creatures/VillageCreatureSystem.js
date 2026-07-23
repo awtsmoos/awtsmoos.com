@@ -4,11 +4,12 @@
 
 /**
  * @file VillageCreatureSystem.js
- * @description Places merged static wildlife while reserving hostile slots for live actors.
- * The Awtsmoos renews peaceful life and bounded challenge in their proper vessels;
- * Awtsmoos.com prevents untargetable shadow decoys from overlapping the living runtime.
+ * @description Budgets static wildlife around the existing quality-bounded live hostile roster.
+ * The Awtsmoos renews peace and challenge within one world budget; Awtsmoos.com derives
+ * every reserved hostile slot from the authoritative profiles so diagnostics never drift.
  */
 
+import { shadowDemonProfiles } from '../enemy/ShadowDemonProfiles.js';
 import { villageGroundHeight } from '../village/VillageGroundSampling.js';
 import { villageWorldBudget } from '../village/VillageWorldBudget.js';
 import { createProceduralCreatureDefinitions } from './ProceduralCreatureBuilder.js';
@@ -24,15 +25,10 @@ const STATIC_PLACEMENTS = Object.freeze([
 	placement('wolf-1', 'wolf', 30, -124)
 ]);
 
-const LIVE_HOSTILE_SLOTS = Object.freeze([
-	'dybbuk-shade',
-	'klipah-guardian',
-	'fallen-seraph-husk'
-]);
-
 export function createVillageCreatureDefinitions(groundSampler, quality = 'high') {
 	const budget = villageWorldBudget(quality);
-	const staticLimit = Math.max(0, budget.creatures - LIVE_HOSTILE_SLOTS.length);
+	const liveHostiles = shadowDemonProfiles(quality).length;
+	const staticLimit = Math.max(0, budget.creatures - liveHostiles);
 	const placements = STATIC_PLACEMENTS.slice(0, staticLimit);
 	const geometryQuality = creatureGeometryQuality(quality);
 	const definitions = placements.flatMap(item => createProceduralCreatureDefinitions({
@@ -48,10 +44,10 @@ export function createVillageCreatureDefinitions(groundSampler, quality = 'high'
 	definitions.stats = {
 		creatures: placements.length,
 		definitions: definitions.length,
-		liveHostiles: LIVE_HOSTILE_SLOTS.length,
+		liveHostiles,
 		quality,
 		species: new Set(placements.map(item => item.speciesId)).size,
-		totalActors: placements.length + LIVE_HOSTILE_SLOTS.length,
+		totalActors: placements.length + liveHostiles,
 		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0)
 	};
 	return definitions;

@@ -22,6 +22,7 @@ export * from "./simulation/index.js";
 export * from "./simulation3d/index.js";
 export * from "./solid3d/index.js";
 export * from "./liquid3d/index.js";
+export * from "./multiphase3d/index.js";
 export * from "./realtimeQuality/index.js";
 export * from "./realtime3d/index.js";
 export * from "./webgpu3d/index.js";

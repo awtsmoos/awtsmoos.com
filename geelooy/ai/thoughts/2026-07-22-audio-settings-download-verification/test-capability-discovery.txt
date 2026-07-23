@@ -1,0 +1,10 @@
+=== DOM LIBS ===
+jsdom missing
+happy-dom missing
+linkedom missing
+=== AUDIO TESTS ===
+geelooy/ai/tests/audioChunkStoreContract.test.mjs
+geelooy/ai/tests/harness/boot.cjs
+geelooy/ai/tests/messageMediaDiscovery.test.mjs
+geelooy/ai/tests/relayDiskStorageContract.test.mjs
+=== SERVICE BINDING ===

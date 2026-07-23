@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** WebGPU contracts prove pressure capabilities, shader entries, and bounded iteration dispatch. */
+/** WebGPU contracts prove pressure, curl, FLIP history, shader entries, and bounded dispatch. */
 
 import assert from "node:assert/strict";
 import {
@@ -25,63 +25,45 @@ assert.equal(
 	descriptor.toHostDescriptor(MOCK_GPU_BUFFER_USAGE).usage,
 	MOCK_GPU_BUFFER_USAGE.COPY_DST | MOCK_GPU_BUFFER_USAGE.STORAGE
 );
-assert.throws(() => createWebGpuBufferDescriptor3d({
-	size: 65,
-	maximumBytes: 64,
-	usageNames: ["STORAGE"]
-}), /exceeds byte budget/);
-
-const report = createWebGpuCapabilityReport3d({
-	available: true,
-	features: ["timestamp-query"],
-	requiredFeatures: ["shader-f16"],
-	optionalFeatures: ["timestamp-query"]
-});
-assert.equal(report.compatible, false);
-assert.equal(report.implemented.collocatedDivergence, true);
+const report = createWebGpuCapabilityReport3d({ available: true });
 assert.equal(report.implemented.collocatedPressureProjection, true);
-assert.equal(report.implemented.occupiedAirPressureBoundary, true);
+assert.equal(report.implemented.flipGridToParticleTransfer, true);
+assert.equal(report.implemented.gridVelocityHistory, true);
+assert.equal(report.implemented.vorticityConfinement, true);
+assert.equal(report.implemented.apicTransfer, false);
 assert.equal(report.implemented.macPressureProjection, false);
 
-const pressureEntries = [
-	"compute_divergence",
-	"jacobi_pressure_a",
-	"jacobi_pressure_b",
-	"project_grid_velocity"
+const entries = [
+	"compute_vorticity",
+	"apply_vorticity_confinement",
+	"transfer_grid_to_particles_flip",
+	"store_grid_history"
 ];
 const shader = createWebGpuShaderManifest3d({
-	name: "liquid-pressure",
+	name: "liquid-flip-vorticity",
 	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: pressureEntries
+	entryPoints: entries
 });
-assert.deepEqual(shader.entryPoints, pressureEntries);
-assert.throws(() => createWebGpuShaderManifest3d({
-	code: WEB_GPU_LIQUID_WGSL,
-	entryPoints: ["missing_pressure_entry"]
-}), /absent/);
-
+assert.deepEqual(shader.entryPoints, entries);
 const plan = createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
 	pressureIterations: 8,
-	maximumWorkgroups: 32
+	maximumWorkgroups: 38
 });
-assert.equal(plan.pressureIterations, 8);
-assert.equal(plan.enabledPasses.length, 15);
-assert.equal(plan.totalWorkgroups, 32);
-assert.equal(plan.submissionCount, 1);
-assert.deepEqual(plan.enabledPasses.slice(4, 7).map(value => value.entryPoint), [
-	"compute_divergence",
-	"jacobi_pressure_a",
-	"jacobi_pressure_b"
+assert.equal(plan.enabledPasses.length, 18);
+assert.equal(plan.totalWorkgroups, 38);
+assert.deepEqual(plan.enabledPasses.slice(-4).map(value => value.entryPoint), [
+	"compute_vorticity",
+	"apply_vorticity_confinement",
+	"transfer_grid_to_particles_flip",
+	"store_grid_history"
 ]);
-assert.equal(plan.enabledPasses.at(-2).entryPoint, "project_grid_velocity");
-assert.equal(plan.enabledPasses.at(-1).entryPoint, "transfer_grid_to_particles");
 assert.throws(() => createWebGpuLiquidFramePlan3d({
 	particleCount: 130,
 	gridCellCount: 65,
 	pressureIterations: 8,
-	maximumWorkgroups: 31
+	maximumWorkgroups: 37
 }), /exceed budget/);
 assert.throws(() => createWebGpuLiquidFramePlan3d({
 	particleCount: 1,

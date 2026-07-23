@@ -1,0 +1,507 @@
+{
+  "expectedIdCount": 218,
+  "archiveChunkCount": 1129,
+  "archiveBasePostCount": 218,
+  "exactIdOverlapCount": 0,
+  "parseErrorCount": 0,
+  "directoryErrorCount": 0,
+  "integrityFailureCount": 217,
+  "monthCounts": {
+    "אדר_meluket": 12,
+    "אייר_meluket": 10,
+    "אלול_meluket": 12,
+    "חשון_meluket": 16,
+    "טבת_meluket": 10,
+    "כסלו_meluket": 28,
+    "מנחם אב_meluket": 18,
+    "ניסן_meluket": 20,
+    "סיון_meluket": 14,
+    "שבט_meluket": 28,
+    "תמוז_meluket": 14,
+    "תשרי_meluket": 36
+  },
+  "expectedMonthCounts": {
+    "None": 12
+  },
+  "globalIndexMin": 0,
+  "globalIndexMax": 1128,
+  "globalIndexUniqueCount": 1129,
+  "globalIndexGaps": [],
+  "globalIndexDuplicateCount": 0,
+  "totalTextItemCount": 88043,
+  "totalTextCharCount": 2491444,
+  "totalCoordinateCount": 88043,
+  "expectedIdsMissingByIdCount": 218,
+  "archiveIdsNotInExpectedByIdCount": 218,
+  "expectedIdsMissingByIdSamples": [
+    "BH_POST_1749792440863_theRebbe_116",
+    "BH_POST_1749792441014_theRebbe_57",
+    "BH_POST_1749792441146_theRebbe_960",
+    "BH_POST_1749792441194_theRebbe_600",
+    "BH_POST_1749792441414_theRebbe_755",
+    "BH_POST_1749792441545_theRebbe_687",
+    "BH_POST_1749792441625_theRebbe_643",
+    "BH_POST_1749792441734_theRebbe_673",
+    "BH_POST_1749792441810_theRebbe_144",
+    "BH_POST_1749792441896_theRebbe_896",
+    "BH_POST_1749792441969_theRebbe_731",
+    "BH_POST_1749792442031_theRebbe_21",
+    "BH_POST_1749792442123_theRebbe_323",
+    "BH_POST_1749792442206_theRebbe_326",
+    "BH_POST_1749792442288_theRebbe_34",
+    "BH_POST_1749792442327_theRebbe_791",
+    "BH_POST_1749792442386_theRebbe_763",
+    "BH_POST_1749792442469_theRebbe_135",
+    "BH_POST_1749792442639_theRebbe_409",
+    "BH_POST_1749792442771_theRebbe_456"
+  ],
+  "archiveIdsNotInExpectedByIdSamples": [
+    "BH_POST_1766518913707_theRebbe_562",
+    "BH_POST_1766518913746_theRebbe_550",
+    "BH_POST_1766518913771_theRebbe_98",
+    "BH_POST_1766518913794_theRebbe_460",
+    "BH_POST_1766518913820_theRebbe_687",
+    "BH_POST_1766518913852_theRebbe_463",
+    "BH_POST_1766518913877_theRebbe_326",
+    "BH_POST_1766518913912_theRebbe_602",
+    "BH_POST_1766518913940_theRebbe_399",
+    "BH_POST_1766518913974_theRebbe_325",
+    "BH_POST_1766518914005_theRebbe_415",
+    "BH_POST_1766518914033_theRebbe_108",
+    "BH_POST_1766518914059_theRebbe_310",
+    "BH_POST_1766518914091_theRebbe_428",
+    "BH_POST_1766518914115_theRebbe_704",
+    "BH_POST_1766518914138_theRebbe_689",
+    "BH_POST_1766518914162_theRebbe_955",
+    "BH_POST_1766518914186_theRebbe_341",
+    "BH_POST_1766518914213_theRebbe_9",
+    "BH_POST_1766518914243_theRebbe_128"
+  ],
+  "integrityFailureSamples": [
+    {
+      "postId": "BH_POST_1766518913707_theRebbe_562",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913746_theRebbe_550",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913771_theRebbe_98",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913794_theRebbe_460",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913820_theRebbe_687",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913852_theRebbe_463",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913877_theRebbe_326",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913912_theRebbe_602",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913940_theRebbe_399",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913974_theRebbe_325",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914005_theRebbe_415",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914033_theRebbe_108",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914059_theRebbe_310",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914091_theRebbe_428",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914115_theRebbe_704",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914138_theRebbe_689",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914162_theRebbe_955",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914186_theRebbe_341",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914213_theRebbe_9",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914243_theRebbe_128",
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    }
+  ],
+  "postRowSamples": [
+    {
+      "postId": "BH_POST_1766518913707_theRebbe_562",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "chunkCount": 8,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר יבחר לנו את נחלתינו תשכ\"ג",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 23,
+      "uniqueSectionCount": 24,
+      "textItemCount": 523,
+      "textCharCount": 14573,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913746_theRebbe_550",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "chunkCount": 5,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר והיה ביום ההוא תשכ\"ח",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 14,
+      "uniqueSectionCount": 15,
+      "textItemCount": 363,
+      "textCharCount": 11031,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913771_theRebbe_98",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "chunkCount": 6,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר יו\"ט של ר\"ה תשל\"ג",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 16,
+      "uniqueSectionCount": 17,
+      "textItemCount": 378,
+      "textCharCount": 10524,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913794_theRebbe_460",
+      "parts": [
+        1,
+        2,
+        3
+      ],
+      "chunkCount": 3,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר וביום שמחתכם תש\"מ",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 6,
+      "uniqueSectionCount": 7,
+      "textItemCount": 258,
+      "textCharCount": 7442,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913820_theRebbe_687",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "chunkCount": 7,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר זה היום תחילת מעשיך תשמ\"א",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 18,
+      "uniqueSectionCount": 19,
+      "textItemCount": 694,
+      "textCharCount": 19311,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913852_theRebbe_463",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "chunkCount": 6,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר זה היום תחילת מעשיך תשמ\"ב",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 17,
+      "uniqueSectionCount": 18,
+      "textItemCount": 534,
+      "textCharCount": 14550,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913877_theRebbe_326",
+      "parts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "chunkCount": 4,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר יו\"ט של ר\"ה תשמ\"ג",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 11,
+      "uniqueSectionCount": 12,
+      "textItemCount": 398,
+      "textCharCount": 11949,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913912_theRebbe_602",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "chunkCount": 5,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר אדון עולם תשמ\"ג",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 13,
+      "uniqueSectionCount": 14,
+      "textItemCount": 589,
+      "textCharCount": 17202,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913940_theRebbe_399",
+      "parts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "chunkCount": 4,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר תקעו בחודש שופר תשמ\"ז",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 10,
+      "uniqueSectionCount": 11,
+      "textItemCount": 267,
+      "textCharCount": 8075,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518913974_theRebbe_325",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "chunkCount": 6,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר וכל אדם תשכ\"ג",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 17,
+      "uniqueSectionCount": 18,
+      "textItemCount": 414,
+      "textCharCount": 13071,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914005_theRebbe_415",
+      "parts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "chunkCount": 4,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר שובה ישראל תשל\"ו",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 10,
+      "uniqueSectionCount": 11,
+      "textItemCount": 269,
+      "textCharCount": 9019,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    },
+    {
+      "postId": "BH_POST_1766518914033_theRebbe_108",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "chunkCount": 5,
+      "seriesId": "תשרי_meluket",
+      "title": "מאמר שובה ישראל תשל\"ז",
+      "globalIndex": null,
+      "owner": null,
+      "sectionMin": 0,
+      "sectionMax": 12,
+      "uniqueSectionCount": 13,
+      "textItemCount": 349,
+      "textCharCount": 10503,
+      "duplicateCoordinates": [],
+      "sectionGaps": [],
+      "failures": [
+        "inconsistent_metadata"
+      ]
+    }
+  ]
+}

@@ -11,3 +11,6 @@ export * from "./createBotanicalReproductiveProfile.js";
 export * from "./createBotanicalRootArchitecture.js";
 export * from "./createBotanicalSeasonalProfile.js";
 export * from "./createBotanicalRealismArtifacts.js";
+export * from "./createBotanicalVascularState.js";
+export * from "./stepBotanicalVascularTransport.js";
+export * from "./createBotanicalEnvironmentCoupling.js";

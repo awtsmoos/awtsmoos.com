@@ -1,0 +1,496 @@
+
+> awtsfaria@1.0.0 test:ai
+> node geelooy/ai/tests/harness/run.cjs all
+
+✓ [1] css-and-entrypoint-parity 266ms
+✓ [1] css-no-overlap-law 19ms
+✓ [1] mobile-layout-regression-guard 4ms
+✓ [1] extension-ledger-many-streams 22ms
+✓ [1] extension-auth-automation-hardening 15ms
+✗ [1] chatgpt-extension-boot-regressions 31ms
+undefined {
+  'extension-bridge-boot-exposes-awtsmoos-fetch': { awtsmoosFetch: true, mFetch: true, ready: true },
+  'conversation-list-extension-mock-renders-sidebar-items': { rendersItems: true },
+  'extension-list-failure-shows-clear-error': { clearError: true },
+  'chatgpt-page-boot-does-not-call-node-relay-unless-enabled': {},
+  'automation-bridge-detection-cannot-block-conversation-list': { nonBlocking: true },
+  'audio-controls-cannot-throw-during-conversation-load': {},
+  'chatgpt-list-detail-fetch-errors-do-not-kill-app-shell': { shellSurvivesErrors: true },
+  'automation-page-send-is-identical-to-manual-send-path': { sameControllerSend: true, noAutomationPayload: true },
+  'chatgpt-sentinel-proof-is-fresh-per-send': { freshSentinelEverySend: true },
+  'automation-countdown-is-not-cut-by-composer': { visibleCountdown: true }
+}
+✓ [1] manual-and-automation-service-payload-parity 414ms
+(node:54572) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/awtsmoos.com/geelooy/ai/js/app/conversationController.js?h=17847626687910.23439186049025906 is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✓ [1] durable-stores-and-multi-automation 65ms
+✓ [1] reload-full-history-before-stream-resume 22ms
+✓ [1] stream-router-single-assistant-record-order 114ms
+✓ [1] live-streaming-ui-regressions 41ms
+✓ [1] extension-background-automation-wiring 24ms
+✓ [1] automation-continuance-many-turns 9ms
+✓ [1] extension-bfcache-port-recovery 1ms
+✓ [1] thought-text-stands-alone-actions-group-after 5ms
+✓ [1] thought-open-vessel-defers-innerhtml-rewrite 2ms
+✓ [1] automation-graph-engine-and-archive 6ms
+B"H Awtsmoos Split Browser at http://127.0.0.1:39822/control
+B"H Node-rendered ChatGPT test at http://127.0.0.1:39822/chatgpt
+B"H Awtsmoos Split Browser at http://127.0.0.1:39824/control
+B"H Node-rendered ChatGPT test at http://127.0.0.1:39824/chatgpt
+✓ [1] node-relay-multi-streams-and-automation 1367ms
+B"H Awtsmoos Split Browser at http://127.0.0.1:39932/control
+B"H Node-rendered ChatGPT test at http://127.0.0.1:39932/chatgpt
+B"H Awtsmoos Split Browser at http://127.0.0.1:39934/control
+B"H Node-rendered ChatGPT test at http://127.0.0.1:39934/chatgpt
+✓ [1] node-relay-auth-session-stress 389ms
+✗ [1] relay-install-and-no-debug-control 8ms
+Error: Unix installer must download every split-browser module
+    at assert (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/assert.cjs:12:19)
+    at /Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/relayInstallControl.cjs:17:3
+    at test (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/assert.cjs:21:25)
+    at Object.run (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/relayInstallControl.cjs:7:29)
+    at main (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/run.cjs:47:51)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) { missingSh: [ 'proxyLog.cjs', 'responseStream.cjs' ] }
+B"H Awtsmoos Split Browser at http://127.0.0.1:39922/control
+B"H Node-rendered ChatGPT test at http://127.0.0.1:39922/chatgpt
+✓ [1] browser-rewrite-and-debug-api 31ms
+✓ [1] browser-client-runtime-simulation 6ms
+✓ [1] memory-retention-boundaries 12ms
+✓ [1] static-regression-audit 257ms
+✓ [1] extension-zip-packaging-includes-service-worker-deps 1ms
+{
+  "ok": false,
+  "total": 25,
+  "failed": 2,
+  "results": [
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-and-entrypoint-parity",
+      "ms": 266,
+      "facts": {
+        "imports": 11,
+        "eventImports": 8,
+        "activeCss": 54,
+        "allCss": 131,
+        "activeImportant": 0,
+        "eventsManifestLive": true,
+        "thoughtsLive": true,
+        "toolTerminalLive": true,
+        "fileReviewLive": true,
+        "mobileOverlapSeal": "final-small",
+        "handlers": 3
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-no-overlap-law",
+      "ms": 19,
+      "facts": {
+        "activeCss": 54,
+        "importedLegacy": 0,
+        "fixedChecked": true,
+        "absoluteChecked": true,
+        "highZChecked": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "mobile-layout-regression-guard",
+      "ms": 4,
+      "facts": {
+        "imports": 11,
+        "mobileImports": 9,
+        "lift": 76,
+        "eventsManifestLive": true,
+        "overlapSealLast": true,
+        "revampOwnsTokensOnly": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "extension-ledger-many-streams",
+      "ms": 22,
+      "facts": {
+        "extension-ledger-many-streams": {
+          "streams": 16,
+          "firsts": 16,
+          "resumes": 16,
+          "cancelled": true,
+          "timeoutGuard": true
+        },
+        "extension-ledger-first-chunk-before-full-body": {
+          "first": "first-",
+          "doneBeforeBody": false,
+          "body": "first-second-"
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "extension-auth-automation-hardening",
+      "ms": 15,
+      "facts": {
+        "extension-auth-failures-structured-no-secret-no-commit": {
+          "missing": "missing_token",
+          "missingTurn": "token_absent",
+          "limited": "rate_limited"
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": false,
+      "name": "chatgpt-extension-boot-regressions",
+      "ms": 31,
+      "facts": {
+        "extension-bridge-boot-exposes-awtsmoos-fetch": {
+          "awtsmoosFetch": true,
+          "mFetch": true,
+          "ready": true
+        },
+        "conversation-list-extension-mock-renders-sidebar-items": {
+          "rendersItems": true
+        },
+        "extension-list-failure-shows-clear-error": {
+          "clearError": true
+        },
+        "chatgpt-page-boot-does-not-call-node-relay-unless-enabled": {},
+        "automation-bridge-detection-cannot-block-conversation-list": {
+          "nonBlocking": true
+        },
+        "audio-controls-cannot-throw-during-conversation-load": {},
+        "chatgpt-list-detail-fetch-errors-do-not-kill-app-shell": {
+          "shellSurvivesErrors": true
+        },
+        "automation-page-send-is-identical-to-manual-send-path": {
+          "sameControllerSend": true,
+          "noAutomationPayload": true
+        },
+        "chatgpt-sentinel-proof-is-fresh-per-send": {
+          "freshSentinelEverySend": true
+        },
+        "automation-countdown-is-not-cut-by-composer": {
+          "visibleCountdown": true
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "manual-and-automation-service-payload-parity",
+      "ms": 414,
+      "facts": {
+        "visibleParity": true,
+        "hiddenNoAutomationFlag": true,
+        "perChatDefaults": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "durable-stores-and-multi-automation",
+      "ms": 65,
+      "facts": {
+        "events": 41,
+        "sends": 4,
+        "kickSends": 1,
+        "tabIdsDifferent": true,
+        "uiEvents": true,
+        "failedTurns": 0
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "reload-full-history-before-stream-resume",
+      "ms": 22,
+      "facts": {
+        "reload-full-history-before-stream-resume": {
+          "remaining": [
+            "fresh-visible",
+            "old-other"
+          ],
+          "chain": [
+            "root",
+            "user",
+            "assistant-1",
+            "assistant-2"
+          ],
+          "order": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "send-cancels-stale-history-load-before-incoming-sparks": {
+          "loadedAfterSend": false,
+          "userSent": true,
+          "assistantAnswered": true,
+          "calls": [
+            "clear",
+            "add",
+            "add",
+            "prompt",
+            "update",
+            "update",
+            "finalize"
+          ]
+        },
+        "failed-stream-post-becomes-visible-error-not-incoming-sparks": {
+          "threw": true
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "stream-router-single-assistant-record-order",
+      "ms": 114,
+      "facts": {
+        "stream-router-single-assistant-record-order": {
+          "records": 1,
+          "events": 1,
+          "text": "final text"
+        },
+        "tool-complete-packets-do-not-finalize-before-final-text": {
+          "order": "event > text > done"
+        },
+        "background-automation-mirror-preserves-tool-event-packets": {
+          "packets": 2,
+          "secondType": "tool_result"
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "live-streaming-ui-regressions",
+      "ms": 41,
+      "facts": {
+        "streaming-text-prewrap-and-live-markdown-preview-stay-stable": {
+          "innerHTMLSetCount": 1,
+          "stable": true,
+          "liveMarkdown": true
+        },
+        "stream-resume-store-active-prunes-done-ghosts": {
+          "active": [
+            "live-1",
+            "old-live"
+          ]
+        },
+        "resume-packets-accept-single-chunk-and-malformed-shapes": {
+          "single": 1,
+          "pending": true,
+          "malformed": true
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "extension-background-automation-wiring",
+      "ms": 24,
+      "facts": {
+        "extension-background-automation-wiring": {
+          "alarms": true,
+          "multiStorage": true,
+          "bridge": true,
+          "backgroundOwnsStreaming": true,
+          "stop": true
+        },
+        "background-engine-runs-multiple-conversations": {
+          "sends": 5,
+          "convA": 2,
+          "convB": 3,
+          "alarmNames": [
+            "BH_awtsmoos_background_automation_tick:conv-a",
+            "BH_awtsmoos_background_automation_tick:conv-b",
+            "BH_awtsmoos_background_automation_tick:conv-a",
+            "BH_awtsmoos_background_automation_tick:conv-b",
+            "BH_awtsmoos_background_automation_tick:conv-b"
+          ]
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "automation-continuance-many-turns",
+      "ms": 9,
+      "facts": {
+        "maxTurns": 27,
+        "sends": 27,
+        "alarms": 26,
+        "finalStatus": "done:max-turns"
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "extension-bfcache-port-recovery",
+      "ms": 1,
+      "facts": {
+        "permissions": 7,
+        "bfcache": true,
+        "lastErrorConsumed": true,
+        "backgroundIndependent": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "thought-text-stands-alone-actions-group-after",
+      "ms": 5,
+      "facts": {
+        "shape": "thought > actions > thought > actions"
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "thought-open-vessel-defers-innerhtml-rewrite",
+      "ms": 2,
+      "facts": {
+        "held": true,
+        "applied": true,
+        "selectedHeld": true,
+        "finalHtml": "<p>new</p>"
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "automation-graph-engine-and-archive",
+      "ms": 6,
+      "facts": {
+        "prompt": "turn 4 for c77: continue precisely",
+        "archive": 2,
+        "savedNodes": 3
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "node-relay-multi-streams-and-automation",
+      "ms": 1367,
+      "facts": {
+        "node-relay-multi-streams-and-bodies": {
+          "post": true,
+          "redirect": true,
+          "streams": 5
+        },
+        "node-relay-background-automation-staged-real-streams": {
+          "sends": 5,
+          "turns": 5,
+          "status": "done:max-turns",
+          "stagedEvents": 32,
+          "parents": [
+            "assistant-0",
+            "assistant-1",
+            "assistant-2",
+            "assistant-3",
+            "assistant-4"
+          ]
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "node-relay-auth-session-stress",
+      "ms": 389,
+      "facts": {
+        "relay-auth-cold-health-control-session-transition": {
+          "cold": "not_logged_in",
+          "warm": "logged_in",
+          "cursor": 4,
+          "resumed": 1,
+          "final": "sending"
+        },
+        "relay-auth-failure-stops-no-fake-commit": {
+          "status": "error",
+          "turns": 0,
+          "error": "token_absent",
+          "events": 4
+        }
+      }
+    },
+    {
+      "round": 1,
+      "ok": false,
+      "name": "relay-install-and-no-debug-control",
+      "ms": 8,
+      "error": "Error: Unix installer must download every split-browser module\n    at assert (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/assert.cjs:12:19)\n    at /Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/relayInstallControl.cjs:17:3\n    at test (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/assert.cjs:21:25)\n    at Object.run (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/relayInstallControl.cjs:7:29)\n    at main (/Users/awtsmoos/awtsmoos.com/geelooy/ai/tests/harness/run.cjs:47:51)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "facts": {
+        "missingSh": [
+          "proxyLog.cjs",
+          "responseStream.cjs"
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "browser-rewrite-and-debug-api",
+      "ms": 31,
+      "facts": {
+        "authOrigins": 6,
+        "commands": 2
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "browser-client-runtime-simulation",
+      "ms": 6,
+      "facts": {
+        "fetchCalls": 2,
+        "opened": 1,
+        "beacons": 4
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "memory-retention-boundaries",
+      "ms": 12,
+      "facts": {
+        "compactEventRaw": true,
+        "compactSnapshotRaw": true,
+        "visibleTextLength": 120000,
+        "safeLinks": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "static-regression-audit",
+      "ms": 257,
+      "facts": {
+        "files": 234,
+        "duplicateImports": 0,
+        "duplicateExports": 0,
+        "duplicateFunctions": 0,
+        "suspicious": 0
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "extension-zip-packaging-includes-service-worker-deps",
+      "ms": 1,
+      "facts": {
+        "listed": 15,
+        "imports": 11
+      }
+    }
+  ]
+}

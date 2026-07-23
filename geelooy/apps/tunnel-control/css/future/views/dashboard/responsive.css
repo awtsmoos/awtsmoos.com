@@ -2,29 +2,30 @@
 @layer awt.responsive {
 	@media (max-width: 760px) {
 		.awt-dashboard {
-			padding: 14px;
+			padding: 8px;
 		}
 
-		.awt-mission-grid {
-			grid-template-columns: 1fr;
+		.awt-launcher-grid {
+			width: 100%;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 8px;
 		}
 
-		.awt-action-card.is-primary-mission {
-			grid-column: auto;
+		.awt-launcher-tile {
+			min-height: 74px;
+			padding: 7px 4px;
+			border-radius: 16px;
 		}
 
-		.awt-action-card {
-			min-height: 128px;
+		.awt-launcher-icon {
+			width: 42px;
+			height: 42px;
+			border-radius: 14px;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.awt-action-card {
-			transition: none;
-		}
-
-		.awt-action-card:hover {
-			transform: none;
-		}
+		.awt-launcher-tile { transition: none; }
+		.awt-launcher-tile:hover { transform: none; }
 	}
 }

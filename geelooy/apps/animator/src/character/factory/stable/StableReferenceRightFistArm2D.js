@@ -8,9 +8,9 @@ import { StableOrganicSleevePath2D } from './StableOrganicSleevePath2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Ari gathers one rounded fist near his heart through one unbroken cloth sleeve.
- * The Awtsmoos renews cuff, thumb, and knuckles, while Awtsmoos.com keeps each
- * canonical rig node editable and shared by production preview and export.
+ * Ari gathers one rounded fist near his heart through a broad unbroken sleeve.
+ * The Awtsmoos renews cuff, thumb, knuckles, and cloth, while Awtsmoos.com keeps
+ * every canonical node editable and shared by production preview and export.
  */
 export class StableReferenceRightFistArm2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
@@ -19,14 +19,14 @@ export class StableReferenceRightFistArm2D {
 			y: data._skeleton.rightShoulder.y + 7
 		};
 		const elbow = {
-			x: shoulder.x + Number(gesture.fistElbowOut || 17),
-			y: shoulder.y + Number(gesture.fistElbowDown || 31)
+			x: shoulder.x + this.number(gesture.fistElbowOut, 17),
+			y: shoulder.y + this.number(gesture.fistElbowDown, 31)
 		};
 		const wrist = {
-			x: Number(gesture.fistX || 49),
-			y: metrics.chestY + Number(gesture.fistDrop || 23)
+			x: this.number(gesture.fistX, 49),
+			y: metrics.chestY + this.number(gesture.fistDrop, 23)
 		};
-		const scale = Number(gesture.fistScale || 1.16);
+		const scale = this.number(gesture.fistScale, 1.16);
 		return S.group(`${prefix}_right_fist_arm`, null, [
 			S.group(`${prefix}_right_fist_upper`, { x: shoulder.x, y: shoulder.y }, []),
 			S.group(`${prefix}_right_fist_fore`, { x: elbow.x, y: elbow.y }, []),
@@ -35,11 +35,7 @@ export class StableReferenceRightFistArm2D {
 				shoulder,
 				elbow,
 				wrist,
-				{
-					shoulder: metrics.armWidth + 8,
-					elbow: metrics.armWidth + 4,
-					wrist: metrics.armWidth - 1
-				},
+				this.widths(metrics, gesture),
 				LineArtStyle.outer(data, colors.jacket)
 			),
 			this.cuff(data, colors, wrist, prefix, scale),
@@ -47,14 +43,19 @@ export class StableReferenceRightFistArm2D {
 		]);
 	}
 
+	static widths(metrics, gesture) {
+		return {
+			shoulder: this.number(gesture.fistShoulderWidth, metrics.armWidth + 8),
+			elbow: this.number(gesture.fistElbowWidth, metrics.armWidth + 4),
+			wrist: this.number(gesture.fistWristWidth, metrics.armWidth - 1)
+		};
+	}
+
 	static cuff(data, colors, wrist, prefix, scale) {
 		return G.ellipse(
 			`${prefix}_right_fist_cuff`,
-			wrist.x - 4 * scale,
-			wrist.y - 2.2 * scale,
-			6.1 * scale,
-			3.7 * scale,
-			-0.18,
+			wrist.x - 4 * scale, wrist.y - 2.2 * scale,
+			6.1 * scale, 3.7 * scale, -0.18,
 			LineArtStyle.medium(data, colors.jacketDark || colors.jacket)
 		);
 	}
@@ -83,5 +84,9 @@ export class StableReferenceRightFistArm2D {
 				{ type: 'quad', cx: x + 0.4 * scale, cy: y + 4.5 * scale, x: x + 2.8 * scale, y: y + 3.8 * scale }
 			], { stroke: colors.skinDark, lineWidth: 0.62, lineCap: 'round' })
 		]);
+	}
+
+	static number(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

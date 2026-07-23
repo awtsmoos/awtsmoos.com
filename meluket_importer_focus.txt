@@ -1,0 +1,253 @@
+B"H
+===== SOURCE CODE REFERENCES =====
+geelooy/api/social/helper/comments/imported/registry.js:20:  else if (/meluket/i.test(seriesId)) family = { id: 'meluket', type: 'legacy' };
+geelooy/api/social/helper/comments/imported/test/federationCore.test.js:9:assert.equal(familyFor('BH-seferHamaamarimMeluket-תשרי').id, 'meluket');
+geelooy/api/social/helper/comments/imported/meluketMap.js:8:  return path.join($i.db.directory, 'socialPacked', 'meluket-post-map.v1.json');
+geelooy/api/social/helper/comments/imported/adapters/legacyAdapter.js:6:const { resolve: resolveMeluket } = require('../meluketMap.js');
+geelooy/api/social/helper/comments/imported/adapters/legacyAdapter.js:7:const ALIASES = ['meluket_translation_en', 'awtsmoosTranslations', 'awtsmoos'];
+geelooy/api/social/helper/search/rag/ragStartupWarmup.js:53:		'meluket-english-comments-rag.meta.jsonl'
+geelooy/api/social/helper/search/rag/test/twoShardInvariant.test.js:19:		'meluket-english-comments-rag.awtsdb',
+geelooy/api/social/helper/search/rag/test/twoShardInvariant.test.js:27:		'meluket-english-comments-rag',
+geelooy/api/social/helper/search/rag/test/twoShardInvariant.test.js:28:		['meluket']
+geelooy/api/social/helper/search/rag/test/twoShardInvariant.test.js:33:	assert(names.includes('meluket'));
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:41:	lane: 'meluket-english-comments-rag',
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:48:const meluketContext = {
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:55:assert.equal(query(meluketContext).lane, 'meluket-english-comments-rag');
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:56:assert.equal(data(meluketContext).limit, '3');
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:59:const meluketOptions = strictRagOptions(meluketContext);
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:63:assert.equal(meluketOptions.lane, 'meluket-english-comments-rag');
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:64:assert.equal(meluketOptions.query, 'Moshiach');
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:65:assert.equal(meluketOptions.limit, 3);
+geelooy/api/social/helper/search/rag/test/requestSnapshot.test.js:66:for (const options of [seferOptions, meluketOptions]) {
+geelooy/api/social/helper/search/rag/shardManifest.js:32:	if (containsEither(id, fileSlug, 'meluket')) {
+geelooy/api/social/helper/search/rag/shardManifest.js:33:		values.push('meluket', 'maamar-meluket');
+geelooy/api/social/helper/search/rag/canonicalShards.js:21:	'meluket-english-comments-rag.awtsdb',
+geelooy/heichelos/heichel/modules/api/posts.js:10: * like `מנחם אב_meluket` and old Awtsmoos IDs arrive whole at the API gate.
+scripts/comment_rag/test_sichos_kodesh_rag_api.mjs:20:	'meluket-english-comments-rag.awtsdb',
+scripts/comment_rag/test_sichos_kodesh_rag_api.mjs:81:for (const alias of ['ls', 'meluket', 'dvar-hasichos', 'dr-hasichos', 'sk']) {
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:4: * @file embed_meluket_english_manifest_simple.mjs
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:18:const JOB = path.join(RAG, 'meluket-english-comments-embedding-job');
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:61:    phase: extra.phase || 'meluket-embedding-active',
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:117:    provider: 'llama-embedding:bge-small-en-v1.5-q8_0:meluket-simple',
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:169:  progress({ phase: 'meluket-embedding-starting', total: manifest.length });
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs:188:  progress({ phase: merged.rows === merged.total ? 'meluket-embedding-complete' : 'meluket-embedding-incomplete', vectors: merged.rows, total: merged.total, missingCount: merged.missing.length, missingSample: merged.missing.slice(0, 20) });
+scripts/comment_rag/search_meluket_english_awtsdb_linear.mjs:6: * This still reads records from meluket-english-comments-rag.awtsdb only. The
+scripts/comment_rag/search_meluket_english_awtsdb_linear.mjs:20:const SHARD = path.join(RAG, 'meluket-english-comments-rag.awtsdb');
+scripts/comment_rag/search_meluket_english_awtsdb_linear.mjs:21:const LIST = 'meluketEnglishCommentVectors';
+scripts/comment_rag/search_meluket_rag_then_original_comments.mjs:20:const RAG_DB = path.join(RAG, 'meluket-english-comments-rag.awtsdb');
+scripts/comment_rag/search_meluket_rag_then_original_comments.mjs:22:const LIST = 'meluketEnglishCommentVectors';
+scripts/comment_rag/pack_meluket_english_vectors.mjs:5: * @file pack_meluket_english_vectors.mjs
+scripts/comment_rag/pack_meluket_english_vectors.mjs:17:const JOB = path.join(RAG, 'meluket-english-comments-embedding-job');
+scripts/comment_rag/pack_meluket_english_vectors.mjs:63:	shardPath: path.join(RAG, 'meluket-english-comments-rag.awtsdb'),
+scripts/comment_rag/pack_meluket_english_vectors.mjs:64:	metadataPath: path.join(RAG, 'meluket-english-comments-rag.meta.jsonl'),
+scripts/comment_rag/pack_meluket_english_vectors.mjs:65:	matrixPath: path.join(RAG, 'meluket-english-comments-rag.f32'),
+scripts/comment_rag/pack_meluket_english_vectors.mjs:66:	manifestPath: path.join(RAG, 'meluket-english-comments-rag.fast-manifest.json'),
+scripts/comment_rag/pack_meluket_english_vectors.mjs:69:	listName: 'meluketEnglishCommentVectors',
+scripts/comment_rag/retry_meluket_english_transient_embeddings.mjs:17:const JOB = path.join(RAG, 'meluket-english-comments-embedding-job');
+scripts/comment_rag/retry_meluket_english_transient_embeddings.mjs:62:  return { id: item.id, seriesId: item.seriesId, postId: item.postId, aliasId: item.aliasId, commentPath: item.commentPath, title: item.title, verseStart: item.verseStart, verseEnd: item.verseEnd, firstSubSection: item.firstSubSection, lastSubSection: item.lastSubSection, commentIds: item.commentIds, firstCommentId: item.firstCommentId, lastCommentId: item.lastCommentId, commentCount: item.commentCount, rowStart: item.rowStart, rowEnd: item.rowEnd, textPolicy: item.textPolicy, text: item.text, embeddingTextPolicy: 'manifest embeddingText; shortened only when BGE/llama 512-token limit aborts', previewEnglish: item.previewEnglish, embeddingManifest: MANIFEST, provider: 'llama-embedding:bge-small-en-v1.5-q8_0:meluket-transient-retry', realEmbedding: true, dimensions: made.vec.length, embeddingCharsUsed: made.embeddingCharsUsed, shortenedForModelLimit: made.shortenedForModelLimit, vec: made.vec };
+scripts/comment_rag/retry_meluket_english_transient_embeddings.mjs:90:const payload = { BH: 'B"H', phase: merged.missing.length ? 'meluket-transient-retry-incomplete' : 'meluket-embedding-complete', manifestTotal: manifest.length, completedVectors: merged.rows.length, missingCount: merged.missing.length, appended: made.length, appendedRows: made, updatedAt: new Date().toISOString() };
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs:4: * @file search_meluket_english_vectors_shard.mjs
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs:17:const MANIFEST = path.join(RAG, 'meluket-english-comments-rag.fast-manifest.json');
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs:18:const F32 = path.join(RAG, 'meluket-english-comments-rag.f32');
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs:19:const META = path.join(RAG, 'meluket-english-comments-rag.meta.jsonl');
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs:33:async function main() { const queries = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT_QUERIES; const manifest = readManifest(); const loadStart = performance.now(); const matrix = fs.readFileSync(manifest.matrix); const metaText = fs.readFileSync(manifest.metadata, 'utf8').trim(); const metaLines = metaText ? metaText.split(/\n/) : []; const rows = Math.floor(matrix.length / (DIM * 4)); if (rows !== metaLines.length) throw new Error(`matrix/meta mismatch rows=${rows} meta=${metaLines.length}`); const loadMs = Math.round(performance.now() - loadStart); const searches = []; for (const query of queries) searches.push(await searchOne(query, matrix, metaLines, rows)); const header = ['B"H','MODE','fast-f32-sidecar-meluket-english-comments','ROWS',String(rows),'DIMENSIONS',String(DIM),'TOP K',String(TOP_K),'LOAD MS',String(loadMs),'RUNNER',JSON.stringify(runnerState({ modelRoot: RAG })),'SEARCHED AT',new Date().toISOString(),''].join('\n'); console.log(header + searches.map(renderSearch).join('\n')); }
+scripts/comment_rag/search_meluket_english_awtsdb.mjs:19:const SHARD = path.join(RAG, 'meluket-english-comments-rag.awtsdb');
+scripts/comment_rag/search_meluket_english_awtsdb.mjs:20:const LIST = 'meluketEnglishCommentVectors';
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:4: * @file prepare_meluket_english_embedding_job.mjs
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:22:const JOB = path.join(RAG, 'meluket-english-comments-embedding-job');
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:24:const IMPORT_REPORT = process.env.MELUKET_IMPORT_REPORT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job/generated/meluket-comment-import/run-report.json';
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:25:const ALIAS = 'meluket_translation_en';
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:76:  return `meluket:${seriesId}:${postId}:chunk-${index}:rows-${startRow}-${endRow}`;
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:101:    textPolicy: 'meluket-english-comments-from-awtsmoosdb-comment-tree',
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs:166:    runCommand: `cd ${process.cwd()} && MELUKET_EMBED_WORKERS=2 node scripts/comment_rag/embed_meluket_english_manifest_simple.mjs`,
+scripts/meluket_repair/meluketPackedReader.js:14:} = require("./meluketRepairConstants.js");
+scripts/meluket_repair/meluketPackedReader.js:17:} = require("./meluketIdentityMap.js");
+scripts/meluket_repair/meluketPackedReader.js:22:} = require("./meluketPackedDb.js");
+scripts/meluket_repair/createMeluketRepairBackup.js:24:} = require("./meluketRepairConstants.js");
+scripts/meluket_repair/createMeluketRepairBackup.js:27:} = require("./meluketPackedReader.js");
+scripts/meluket_repair/createMeluketRepairBackup.js:33:	"meluket-repair-backup.json"
+scripts/meluket_repair/meluketRepairConstants.js:26:const AUTHORITATIVE_MAP_FILE = path.join(PACKED_ROOT, "meluket-post-map.v1.json");
+scripts/meluket_repair/meluketRepairConstants.js:29:	"meluket-packed-posts-working.awtsdb"
+scripts/meluket_repair/meluketRepairConstants.js:31:const WORKING_MAP_FILE = path.join(EVIDENCE_ROOT, "meluket-post-map-working.json");
+scripts/meluket_repair/meluketRepairConstants.js:46:	["תשרי_meluket", "BH-seferHamaamarimMeluket-תשרי"],
+scripts/meluket_repair/meluketRepairConstants.js:47:	["חשון_meluket", "BH-seferHamaamarimMeluket-חשון"],
+scripts/meluket_repair/meluketRepairConstants.js:48:	["כסלו_meluket", "BH-seferHamaamarimMeluket-כסלו"],
+scripts/meluket_repair/meluketRepairConstants.js:49:	["טבת_meluket", "BH-seferHamaamarimMeluket-טבת"],
+scripts/meluket_repair/meluketRepairConstants.js:50:	["שבט_meluket", "BH-seferHamaamarimMeluket-שבט"],
+scripts/meluket_repair/meluketRepairConstants.js:51:	["אדר_meluket", "BH-seferHamaamarimMeluket-אדר"],
+scripts/meluket_repair/meluketRepairConstants.js:52:	["ניסן_meluket", "BH-seferHamaamarimMeluket-ניסן"],
+scripts/meluket_repair/meluketRepairConstants.js:53:	["אייר_meluket", "BH-seferHamaamarimMeluket-אייר"],
+scripts/meluket_repair/meluketRepairConstants.js:54:	["סיון_meluket", "BH-seferHamaamarimMeluket-סיון"],
+scripts/meluket_repair/meluketRepairConstants.js:55:	["תמוז_meluket", "BH-seferHamaamarimMeluket-תמוז"],
+scripts/meluket_repair/meluketRepairConstants.js:56:	["מנחם אב_meluket", "BH-seferHamaamarimMeluket-מנחם-אב"],
+scripts/meluket_repair/meluketRepairConstants.js:57:	["אלול_meluket", "BH-seferHamaamarimMeluket-אלול"]
+scripts/meluket_repair/meluketPackedDb.js:19:} = require("./meluketRepairConstants.js");
+scripts/meluket_repair/meluketIdentityMap.js:15:} = require("./meluketRepairConstants.js");
+scripts/comment_federation/buildMeluketMap.js:10:const output = path.join(root, 'meluket-post-map.v1.json');
+scripts/comment_federation/buildMeluketMap.js:30:    .map(x => x?.path || '').filter(p => p.startsWith(prefix) && p.endsWith('/meluket_translation_en'))
+scripts/comment_federation/buildMeluketMap.js:37:      const seriesId = `BH-seferHamaamarimMeluket-${month}`;
+scripts/comment_federation/buildMeluketMap.js:38:      const oldSeriesId = `${oldMonth}_meluket`;
+scripts/comment_federation/auditReaderEnglish.js:22:      if(!m || !(/BH-seferHamaamarimMeluket-/.test(m[1]) || /^seferHaSichos\d+$/.test(m[1]))) continue;
+scripts/comment_federation/auditReaderEnglish.js:24:      for(const postId of Object.keys(bundle).filter(k=>k!=='$awtsmoosObjectShape')) out.push({family:m[1].startsWith('sefer')?'sefer':'meluket',seriesId:m[1],postId,sections:bundle[postId]?.dayuh?.sections?.length||bundle[postId]?.sections?.length||0,title:bundle[postId]?.title});
+scripts/comment_federation/auditReaderEnglish.js:40:  const list=targets(), stats={meluket:{posts:0,ok:0,missing:0,rows:0,blank:0,outOfBounds:0,aliases:{}},sefer:{posts:0,ok:0,missing:0,rows:0,blank:0,outOfBounds:0,aliases:{}},bad:[]};
+scripts/comment_federation/auditReaderEnglish.js:43:  if(stats.meluket.missing||stats.sefer.missing||stats.meluket.blank||stats.sefer.blank||stats.meluket.outOfBounds||stats.sefer.outOfBounds) process.exitCode=1;
+scripts/comment_federation/reconcileReferences.js:76:  const meluket = corpusRefs(path.join(packed, 'social.heichel.ikar.comments.fs.awtsdb'), /^\/social\/heichelos\/ikar\/comments\/atSeries\/([^/]*meluket[^/]*)\/atPost\/([^/]+)\/(?:meluket_translation_en|awtsmoosTranslations(?:\.awtsmoosJSON)?|awtsmoos\.awtsmoosJSON)$/i);
+scripts/comment_federation/reconcileReferences.js:86:      compare('meluket', meluket, active, seriesInfo)
+tests/basicUiUxRegression.test.mjs:68:			lane: 'meluket'
+tests/basicUiUxRegression.test.mjs:73:		assert.equal(request.searchParams.get('lane'), 'meluket');
+===== IMPORTER-LIKE FILES =====
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/importer.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/creation/maamar.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_fresh_import.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_migration.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/migration_density_test.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/migration_searchable_packed_test.js
+ayzarim/awtsmoosDynamicServer/compactJs/imports.js
+geelooy/ai/animation/wikiTextDownloader.html
+geelooy/api/social/_awtsmoos.migrations.js
+geelooy/api/social/helper/comments/commentMigration.js
+geelooy/api/social/helper/comments/commentMigrationDiscovery.js
+geelooy/api/social/helper/comments/imported/meluketMap.js
+geelooy/api/social/helper/comments/importedCommentTree.js
+geelooy/api/social/helper/comments/test/commentMigration.test.js
+geelooy/api/social/helper/nodeOs/migration.js
+geelooy/api/social/helper/nodeOs/test/nodeOsMigration.test.mjs
+geelooy/api/social/helper/packed/postMigration.js
+geelooy/api/social/helper/packed/test/connectedPostMigration.test.mjs
+geelooy/api/social/helper/search/rag/importedCoordinates.js
+geelooy/api/social/helper/search/rag/test/importedCoordinates.test.js
+geelooy/api/social/helper/search/rag/test/strategyImportIsolation.test.js
+geelooy/api/social/helper/test/postMigration.test.js
+geelooy/api/tunnel/control/core/storeMigrations.js
+geelooy/apps/android-emulator/core/native/aarch64MachineWithImports.js
+geelooy/apps/android-emulator/core/native/flutterJniImportHandlers.js
+geelooy/apps/android-emulator/core/native/nativeHostImportRegistry.js
+geelooy/apps/android-emulator/core/native/nativeImportAddressSpace.js
+geelooy/apps/android-emulator/test/aarch64MachineWithImports.test.mjs
+geelooy/apps/animator/src/character/reference/ReferenceCharacterMigration.js
+geelooy/apps/animator/src/nle/media/VideoImportService.js
+geelooy/apps/animator/src/nle/project/ProjectPackageDownload.js
+geelooy/apps/animator/src/nle/ui/MediaImportPanel.js
+geelooy/apps/animator/src/studio/export/browser/AnimatorBrowserExportDownload.js
+geelooy/apps/animator/src/world/generation/urban/SkyscraperNode.js
+geelooy/apps/animator/tools/verify/browser/BrowserDownloadTarget.js
+geelooy/apps/animator/tools/verify/importGraph.js
+geelooy/apps/animator/tools/verify/realVideoImportSmoke.js
+geelooy/apps/captions/video/js_modules/download_helpers.js
+geelooy/apps/captions/video/js_modules/downloads.js
+geelooy/apps/code/js/actions/definitions/download-md-context.js
+geelooy/apps/code/js/actions/definitions/download-zip.js
+geelooy/apps/code/js/actions/definitions/download.js
+geelooy/apps/code/js/ai-studio/import-context.js
+geelooy/apps/code/js/file-ops/zip/ZipDownloader.js
+geelooy/apps/code/js/importScriptsHack.js
+geelooy/apps/code/js/tools/import-scanner.js
+geelooy/apps/code/js/vibe/runtime/reality/ImportAssetVerifier.js
+geelooy/apps/compiler/import_manager.js
+geelooy/apps/exe-emulator/core/portable/darwinAllocationImports.js
+geelooy/apps/exe-emulator/core/portable/darwinCppImports.js
+geelooy/apps/exe-emulator/core/portable/darwinImportHost.js
+geelooy/apps/exe-emulator/core/portable/darwinLifecycleImports.js
+geelooy/apps/exe-emulator/core/portable/darwinMemoryImports.js
+geelooy/apps/exe-emulator/core/portable/darwinMutexImports.js
+geelooy/apps/exe-emulator/core/portable/darwinPthreadImports.js
+geelooy/apps/exe-emulator/core/portable/darwinStreamImports.js
+geelooy/apps/exe-emulator/core/portable/darwinStringImports.js
+geelooy/apps/exe-emulator/core/portable/darwinTimeImports.js
+geelooy/apps/exe-emulator/core/portable/darwinTransferImports.js
+geelooy/apps/exe-emulator/core/portable/machoImports.js
+geelooy/apps/exe-emulator/core/portable/virtualDarwinDataImports.js
+geelooy/apps/exe-emulator/core/portable/virtualImportThunks.js
+geelooy/apps/exe-emulator/test/darwinCppImports.test.mjs
+geelooy/apps/exe-emulator/test/darwinMutexImports.test.mjs
+geelooy/apps/exe-emulator/test/darwinStreamImports.test.mjs
+geelooy/apps/exe-emulator/test/virtualDarwinDataImports.test.mjs
+geelooy/apps/exe-emulator/test/virtualDarwinImports.test.mjs
+geelooy/apps/nesher-studio/modules/download.js
+geelooy/apps/nesher-studio/modules/project/ProjectMigration.js
+geelooy/apps/nesher-studio/modules/titles/CaptionImporter.js
+geelooy/apps/nesher-studio/tests/041_video_frame_pump_import_smoke.mjs
+geelooy/apps/piano/modules/recording/download.js
+geelooy/apps/rebbe/controllers/search-results/downloads.js
+geelooy/apps/rebbe/modules/download.js
+geelooy/apps/tunnel/agent/testing/installerIdentityMigration.test.cjs
+geelooy/apps/tunnel/agent/testing/unixStateMigration.test.cjs
+geelooy/apps/tunnel/agent/tools/fs/nodeDomRuntime/esm/importEmit.js
+geelooy/apps/tunnel/agent/tools/fs/nodeDomRuntime/importMap.js
+geelooy/apps/tunnel/agent/tools/fs/runtime/sourceRefs/importMapRefs.js
+geelooy/apps/tunnel/agent/tools/fs/testing/runtime-inline-module-import-regression.test.cjs
+geelooy/apps/tunnel/downloads/unix-state-migration.sh
+geelooy/games/Merkava/test/importClosure.test.mjs
+geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/MovieExactPackageDownloader.js
+geelooy/games/mitzvahWorld/movies/tools/exact/ExactBrowserDownloads.mjs
+geelooy/games/nitzotz-io/js/save/migration.js
+geelooy/games/ohr-hagnuz/src/yesod/save/SaveMigrations.js
+geelooy/games/ohr-hagnuz/tests/rpg/nitzotzSaveMigration.test.mjs
+geelooy/games/ohr-hagnuz/tests/rpg/rpgImportAndRegistry.test.mjs
+geelooy/games/scribe-journey/js/data/items/maamar_items.js
+geelooy/games/scribe-journey/js/data/maps/maamar_5715_expansion.js
+geelooy/games/scribe-journey/js/persistence/migrations.js
+geelooy/games/scribe-journey/js/ui/downloadChronicle.js
+geelooy/games/scribe-journey/tests/insight/maamarQuestReport.mjs
+geelooy/games/scribe-journey/tests/insight/questMigrationSimulation.mjs
+geelooy/games/scribe-journey/tests/insight/saveMigrationSimulation.mjs
+geelooy/games/sefira-clash/.reports/resonance-loop-import-recon.txt
+geelooy/games/sefira-clash/tools/source-quality/relativeImportAudit.mjs
+geelooy/games/seven-mitzvos/js/multiplayer/host-migration-service.js
+geelooy/games/seven-mitzvos/js/persistence/migration-registry.js
+geelooy/games/seven-mitzvos/tests/living-world-migration.test.mjs
+geelooy/games/shema-strike/js/core/saveMigrations.js
+geelooy/games/shema-strike/tests/saveMigrations.test.mjs
+geelooy/heichelos/post/styles/reader-legend/verse-rhythm/important-passage.css
+geelooy/heichelos/post/styles/test/importedStyleOwnership.test.js
+geelooy/libs/awtsmoos-procedural-core/src/core/proceduralObject/nodeSystem/blender/createBlenderSchemaMigrationPlan.js
+geelooy/libs/awtsmoos-procedural-core/test/proceduralObjectBlenderSchemaMigration.test.mjs
+geelooy/os/programs/awtsmoos-file-explorer/api/actions/importAction.js
+geelooy/scripts/awtai-db/download-cheap-chat-gguf.js
+geelooy/scripts/awtsmoos/MerkavaExecutor/.repair-dynamic-import-catch.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-dynamic-import-side-effect.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-dynamic-static-import.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-real-manager-import.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-real-ui-import.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-real-uimanager-import.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-static-default-import-class-introspect.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/.test-static-default-import-class.cjs
+geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/ImportResolver.js
+geelooy/scripts/awtsmoos/MerkavaExecutor/tests/runtime/module_imports.js
+geelooy/scripts/awtsmoos/api/bookMakers/chabadlibrary/bookDownloader.js
+geelooy/scripts/awtsmoos/api/scrapers/rambamDownloader.js
+geelooy/scripts/awtsmoos/api/scrapers/tanachScraper.js
+geelooy/scripts/awtsmoos/compiling/pe/import_manager.js
+geelooy/scripts/tricks/sichaScripts/jem-downloader.html
+geelooy/style/test/beautyImportGraph.test.mjs
+geelooy/style/test/cssImportGraph.test.mjs
+geelooy/style/test/homeNoHardLiveFeedImport.test.mjs
+geelooy/style/test/legendImportGraph.test.mjs
+geelooy/webScrapers/chabadlibraryScraper.js
+scripts/comment_federation/buildMeluketMap.js
+scripts/comment_rag/embed_meluket_english_manifest_simple.mjs
+scripts/comment_rag/import_archived_likkutei_v16_v39_to_packed_comments.mjs
+scripts/comment_rag/import_sefer_hasichos_5748_translations.mjs
+scripts/comment_rag/mv_imported_likkutei_v16_v39_extensionless.mjs
+scripts/comment_rag/pack_meluket_english_vectors.mjs
+scripts/comment_rag/prepare_meluket_english_embedding_job.mjs
+scripts/comment_rag/retry_meluket_english_transient_embeddings.mjs
+scripts/comment_rag/search_meluket_english_awtsdb.mjs
+scripts/comment_rag/search_meluket_english_awtsdb_linear.mjs
+scripts/comment_rag/search_meluket_english_vectors_shard.mjs
+scripts/comment_rag/search_meluket_rag_then_original_comments.mjs
+scripts/meluket_repair/createMeluketRepairBackup.js
+scripts/meluket_repair/meluketIdentityMap.js
+scripts/meluket_repair/meluketPackedDb.js
+scripts/meluket_repair/meluketPackedReader.js
+scripts/meluket_repair/meluketRepairConstants.js
+scripts/sichos_kodesh/import_sichos_kodesh_to_social.cjs
+tests/mitzvahWorld.olamImportCase.smoke.mjs
+tests/mitzvahWorld.workerBootImportCase.smoke.mjs
+===== PACKAGE SCRIPTS =====
+./package.json:17:		"test": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover",
+./package.json:28:		"test:imported-style-ownership": "node geelooy/heichelos/post/styles/test/importedStyleOwnership.test.js",
+./geelooy/apps/animator/package.json:11:		"verify:imports": "node tools/verify/importGraph.js",
+./geelooy/apps/animator/package.json:61:		"verify:real-video-import": "node tools/verify/realVideoImportSmoke.js",
+./geelooy/apps/animator/package.json:62:		"verify:media-durability": "npm run verify:recording-persistence && npm run verify:real-video-import",
+./geelooy/apps/animator/package.json:75:		"verify": "npm run verify:imports && npm run verify:fast && npm run verify:vibe && npm run verify:ai-parity && npm run verify:ai-smoke && npm run verify:camera && npm run verify:scene3 && npm run verify:healthy && npm run verify:staging && npm run verify:interaction && npm run verify:render-modules && npm run verify:production-scene && npm run verify:all18 && npm run verify:runtime-proof && npm run verify:real-characters && npm run verify:careful-polish && npm run verify:camera-background-acting && npm run verify:face-performance && npm run verify:eye-attention && npm run verify:body-acting && npm run verify:object-lifecycle && npm run verify:interaction-performance && npm run verify:camera-continuity && npm run verify:character-style && npm run verify:object-art && npm run verify:healthy-performance && npm run verify:render-consumption && npm run verify:shot-suite && npm run verify:goal-board-smokes && npm run verify:cinematic-upgrade"

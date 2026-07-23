@@ -1,0 +1,32 @@
+B"H
+=== LISTENERS ===
+COMMAND     PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node       2883 awtsmoos   12u  IPv4 0x8f07b9c464c85353      0t0  TCP 127.0.0.1:5199 (LISTEN)
+Python     6273 awtsmoos    3u  IPv4 0x8f07b9c465cccdfb      0t0  TCP 127.0.0.1:5201 (LISTEN)
+Google     7367 awtsmoos   22u  IPv4 0x8f07b9c4645ce353      0t0  TCP 127.0.0.1:9222 (LISTEN)
+Google    11693 awtsmoos   46u  IPv4 0x8f07b9c4669738a3      0t0  TCP 127.0.0.1:9333 (LISTEN)
+Google    32285 awtsmoos   43u  IPv4 0x8f07b9c464583353      0t0  TCP 127.0.0.1:9225 (LISTEN)
+node      32319 awtsmoos   12u  IPv6 0x8f07b9c935a9509b      0t0  TCP *:8080 (LISTEN)
+node      32319 awtsmoos   13u  IPv6 0x8f07b9c935a95e9b      0t0  TCP *:25 (LISTEN)
+Google    36447 awtsmoos   44u  IPv6 0x8f07b9c935a96c9b      0t0  TCP [::1]:9225 (LISTEN)
+Google    38562 awtsmoos   47u  IPv4 0x8f07b9c4665c88a3      0t0  TCP 127.0.0.1:9360 (LISTEN)
+Google    41382 awtsmoos   46u  IPv4 0x8f07b9c464596dfb      0t0  TCP 127.0.0.1:9341 (LISTEN)
+Google    65648 awtsmoos   45u  IPv4 0x8f07b9c4642f8dfb      0t0  TCP 127.0.0.1:9345 (LISTEN)
+node      79033 awtsmoos   14u  IPv4 0x8f07b9c466d11353      0t0  TCP 127.0.0.1:3977 (LISTEN)
+Python    94683 awtsmoos    3u  IPv4 0x8f07b9c4645a5353      0t0  TCP 127.0.0.1:8877 (LISTEN)
+=== PORT CONFIG ===
+=== LIKELY HEALTH ===
+port 3000: 000
+unavailable
+port 3001: 000
+unavailable
+port 5000: 000
+unavailable
+port 8000: 000
+unavailable
+port 8080: 200
+port 8081: 000
+unavailable
+port 8787: 000
+unavailable
+port 9222: 404

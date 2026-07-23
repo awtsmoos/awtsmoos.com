@@ -1,0 +1,98 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Voice is hidden light until a listener opens its vessel. The Awtsmoos lets
+ * Awtsmoos.com reveal synthesis settings without crowding the conversation.
+ */
+.awtsmoos-audio-offer.audio-offer {
+	order:40;
+	align-self:flex-start;
+	width:min(640px,94%);
+	margin-top:4px;
+	padding:14px;
+	border:1px solid var(--awt-line-strong);
+	border-radius:18px;
+	background:linear-gradient(145deg,rgba(7,25,39,.98),rgba(4,12,25,.98));
+	box-shadow:var(--awt-shadow-md);
+}
+.awtsmoos-audio-offer.audio-offer[hidden] {
+	display:none;
+}
+.end-flow > .awtsmoos-audio-offer.audio-offer {
+	align-self:flex-end;
+}
+.audio-offer-head {
+	display:flex;
+	align-items:baseline;
+	justify-content:space-between;
+	gap:12px;
+	margin-bottom:10px;
+}
+.audio-offer-head strong {
+	color:var(--awt-text);
+}
+.audio-offer-head span,
+.audio-status {
+	color:var(--awt-muted);
+	font-size:.78rem;
+}
+.audio-offer-actions {
+	display:flex;
+	flex-wrap:wrap;
+	gap:8px;
+}
+.audio-offer-actions button,
+.audio-settings select,
+.player-play {
+	min-height:38px;
+	border:1px solid var(--awt-line);
+	border-radius:11px;
+	background:rgba(6,16,30,.9);
+	color:var(--awt-soft);
+}
+.audio-offer-actions button {
+	padding:8px 11px;
+}
+.audio-offer-actions button:hover {
+	border-color:var(--awt-line-strong);
+	color:var(--awt-text);
+}
+.audio-settings {
+	display:grid;
+	grid-template-columns:repeat(2,minmax(0,1fr));
+	gap:10px;
+	margin-top:12px;
+}
+.audio-settings[hidden],
+.audio-player-wrap[hidden] {
+	display:none;
+}
+.audio-settings label {
+	display:grid;
+	gap:6px;
+	color:var(--awt-muted);
+	font-size:.78rem;
+}
+.audio-settings select {
+	width:100%;
+	padding:8px 10px;
+}
+.audio-status {
+	min-height:1.2em;
+	margin:10px 0 0;
+}
+@media(max-width:760px) {
+	.awtsmoos-audio-offer.audio-offer {
+		width:100%;
+		padding:12px;
+	}
+	.audio-offer-head {
+		align-items:flex-start;
+		flex-direction:column;
+	}
+	.audio-settings {
+		grid-template-columns:1fr;
+	}
+}

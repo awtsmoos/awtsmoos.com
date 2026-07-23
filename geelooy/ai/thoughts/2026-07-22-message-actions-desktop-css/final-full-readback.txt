@@ -1,0 +1,1135 @@
+B"H
+
+===== geelooy/ai/js/render/message-actions/messageActionTransfer.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * The Awtsmoos gives every spoken letter a portable vessel. Awtsmoos.com may
+ * reveal a message as text, a native share sheet, or a downloaded media file;
+ * this module keeps those crossings small, explicit, and recoverable.
+ */
+export async function copyMessageText(text) {
+	const value = requireText(text);
+	if (navigator.clipboard?.writeText) {
+		await navigator.clipboard.writeText(value);
+		return;
+	}
+	fallbackCopy(value);
+}
+
+export async function shareMessageText(text, title = "Awtsmoos AI message") {
+	const value = requireText(text);
+	if (navigator.share) {
+		await navigator.share({ title, text: value });
+		return "shared";
+	}
+	await copyMessageText(value);
+	return "copied";
+}
+
+export function downloadMessageText(text, filename = "awtsmoos-message.txt") {
+	const value = requireText(text);
+	downloadBlob(new Blob([value], { type: "text/plain;charset=utf-8" }), filename);
+}
+
+export async function downloadRemoteMedia(url, filename) {
+	const source = String(url || "").trim();
+	if (!source) {
+		throw new Error("No downloadable media source was found.");
+	}
+	if (/^(blob:|data:)/i.test(source)) {
+		triggerDownload(source, filename);
+		return;
+	}
+	try {
+		const response = await fetch(source, { credentials: "include" });
+		if (!response.ok) {
+			throw new Error(`Media request failed with ${response.status}.`);
+		}
+		downloadBlob(await response.blob(), filename);
+	} catch (error) {
+		triggerDownload(source, filename, true);
+		console.warn("Direct media fetch failed; browser fallback used.", error);
+	}
+}
+
+export function sanitizeDownloadName(name, fallback = "awtsmoos-download") {
+	const clean = String(name || "")
+		.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-")
+		.replace(/\s+/g, " ")
+		.trim()
+		.slice(0, 120);
+	return clean || fallback;
+}
+
+function requireText(text) {
+	const value = String(text || "").trim();
+	if (!value) {
+		throw new Error("This message has no text to transfer.");
+	}
+	return value;
+}
+
+function downloadBlob(blob, filename) {
+	const url = URL.createObjectURL(blob);
+	triggerDownload(url, filename);
+	setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function triggerDownload(url, filename, openFallback = false) {
+	const link = document.createElement("a");
+	link.href = url;
+	link.download = sanitizeDownloadName(filename);
+	if (openFallback) {
+		link.target = "_blank";
+		link.rel = "noopener noreferrer";
+	}
+	document.body.append(link);
+	link.click();
+	link.remove();
+}
+
+function fallbackCopy(text) {
+	const area = document.createElement("textarea");
+	area.value = text;
+	area.readOnly = true;
+	area.style.position = "fixed";
+	area.style.opacity = "0";
+	document.body.append(area);
+	area.select();
+	const copied = document.execCommand("copy");
+	area.remove();
+	if (!copied) {
+		throw new Error("Clipboard access is unavailable.");
+	}
+}
+
+===== geelooy/ai/js/render/message-actions/messageMediaDiscovery.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { sanitizeDownloadName } from "./messageActionTransfer.js";
+
+/**
+ * A rendered message is a garden of possible vessels. The Awtsmoos lets this
+ * module inspect visible audio and video paths so Awtsmoos.com never invents a
+ * download that the message does not actually contain.
+ */
+export function discoverMessageMedia(shell) {
+	if (!shell?.querySelectorAll) {
+		return [];
+	}
+	const found = [];
+	const seen = new Set();
+	for (const node of shell.querySelectorAll("audio[src], video[src], source[src], a[href]")) {
+		const url = mediaUrl(node);
+		const kind = classifyMediaSource({
+			url,
+			type: node.getAttribute?.("type"),
+			tagName: mediaTagName(node)
+		});
+		const key = `${kind}:${url}`;
+		if (!kind || !isDownloadableUrl(url) || seen.has(key)) {
+			continue;
+		}
+		seen.add(key);
+		found.push({ kind, url, filename: mediaFilename(url, kind) });
+	}
+	return found;
+}
+
+export function classifyMediaSource({ url = "", type = "", tagName = "" } = {}) {
+	const mime = String(type || "").toLowerCase();
+	const tag = String(tagName || "").toLowerCase();
+	if (mime.startsWith("audio/") || tag === "audio") {
+		return "audio";
+	}
+	if (mime.startsWith("video/") || tag === "video") {
+		return "video";
+	}
+	const path = safePathname(url).toLowerCase();
+	if (/\.(mp3|m4a|aac|wav|ogg|oga|flac|opus)$/.test(path)) {
+		return "audio";
+	}
+	if (/\.(mp4|webm|mov|m4v|ogv|mpeg)$/.test(path)) {
+		return "video";
+	}
+	return null;
+}
+
+export function mediaFilename(url, kind) {
+	const extension = kind === "audio" ? "mp3" : "mp4";
+	const fallback = `awtsmoos-message-${kind}.${extension}`;
+	const encoded = safePathname(url).split("/").pop() || "";
+	return sanitizeDownloadName(safeDecode(encoded), fallback);
+}
+
+function mediaUrl(node) {
+	return String(node.currentSrc || node.src || node.href || node.getAttribute?.("src") || node.getAttribute?.("href") || "").trim();
+}
+
+function mediaTagName(node) {
+	const ownTag = String(node.tagName || "").toLowerCase();
+	return ownTag === "source"
+		? String(node.parentElement?.tagName || "").toLowerCase()
+		: ownTag;
+}
+
+function isDownloadableUrl(url) {
+	return /^(https?:|blob:|data:)/i.test(String(url || ""));
+}
+
+function safePathname(url) {
+	try {
+		return new URL(String(url || ""), "https://awtsmoos.com").pathname;
+	} catch {
+		return String(url || "");
+	}
+}
+
+function safeDecode(value) {
+	try {
+		return decodeURIComponent(value);
+	} catch {
+		return value;
+	}
+}
+
+===== geelooy/ai/js/render/message-actions/messageActionKeyboard.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * As the Awtsmoos renews direction every instant, this keyboard river lets
+ * focus travel through the Awtsmoos.com message menu without becoming lost.
+ */
+export function handleMenuNavigation(event, menu, closeMenu) {
+	const items = [...menu.querySelectorAll('button[role="menuitem"]:not([disabled])')];
+	if (!items.length) {
+		return;
+	}
+	if (event.key === "Escape") {
+		event.preventDefault();
+		closeMenu(true);
+		return;
+	}
+	const currentIndex = Math.max(0, items.indexOf(document.activeElement));
+	const destinations = {
+		ArrowDown: (currentIndex + 1) % items.length,
+		ArrowUp: (currentIndex - 1 + items.length) % items.length,
+		Home: 0,
+		End: items.length - 1
+	};
+	if (!(event.key in destinations)) {
+		return;
+	}
+	event.preventDefault();
+	items[destinations[event.key]].focus();
+}
+
+===== geelooy/ai/js/render/message-actions/messageActionItems.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { discoverMessageMedia } from "./messageMediaDiscovery.js";
+import {
+	copyMessageText,
+	downloadMessageText,
+	downloadRemoteMedia,
+	shareMessageText
+} from "./messageActionTransfer.js";
+
+/**
+ * Every action is a distinct keli for one message-light. The Awtsmoos gathers
+ * text, sharing, speech, audio, and video so Awtsmoos.com offers only what is
+ * presently real inside the rendered message.
+ */
+export function buildMessageActionItems({ shell, record, setStatus }) {
+	const items = [];
+	const text = String(record?.text || "").trim();
+	if (text) {
+		items.push(action("copy", "⧉", "Copy message", async () => {
+			await copyMessageText(text);
+			setStatus("Message copied.");
+		}));
+		items.push(action("share", "↗", "Share message", async () => {
+			const result = await shareMessageText(text);
+			setStatus(result === "copied" ? "Copied for sharing." : "Share sheet opened.");
+		}));
+		items.push(action("text", "↓", "Download text", async () => {
+			downloadMessageText(text, messageFilename(record));
+			setStatus("Text download started.");
+		}));
+	}
+	const audioPanel = shell.querySelector?.(":scope > .awtsmoos-audio-offer");
+	if (audioPanel) {
+		items.push(action("audio-options", "◉", audioPanel.hidden ? "Audio & download" : "Hide audio options", async () => {
+			audioPanel.hidden = !audioPanel.hidden;
+			shell.classList.toggle("audio-options-open", !audioPanel.hidden);
+			setStatus(audioPanel.hidden ? "Audio options closed." : "Audio options opened.");
+			if (!audioPanel.hidden) {
+				audioPanel.querySelector("button")?.focus();
+			}
+		}));
+	}
+	discoverMessageMedia(shell).slice(0, 4).forEach((item, index) => {
+		items.push(action(`media-${index}`, item.kind === "audio" ? "♫" : "▣", `Download ${item.kind}`, async () => {
+			await downloadRemoteMedia(item.url, item.filename);
+			setStatus(`${capitalize(item.kind)} download started.`);
+		}));
+	});
+	return items;
+}
+
+function action(id, icon, label, run) {
+	return { id, icon, label, run };
+}
+
+function messageFilename(record) {
+	const identity = String(record?.id || record?.role || "message").slice(0, 48);
+	return `awtsmoos-${identity}.txt`;
+}
+
+function capitalize(value) {
+	return value.slice(0, 1).toUpperCase() + value.slice(1);
+}
+
+===== geelooy/ai/js/render/message-actions/messageActionElements.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * The Awtsmoos shapes plain DOM into quiet, semantic vessels. Awtsmoos.com
+ * keeps element creation here so menu behavior can remain a short clear river.
+ */
+export function createMessageActionElements(sequence) {
+	const root = document.createElement("div");
+	root.className = "message-action-root";
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.className = "message-action-trigger";
+	trigger.textContent = "•••";
+	trigger.setAttribute("aria-label", "Message actions");
+	trigger.setAttribute("aria-haspopup", "menu");
+	trigger.setAttribute("aria-expanded", "false");
+	const menu = document.createElement("div");
+	menu.className = "message-action-menu";
+	menu.id = `message-action-menu-${sequence}`;
+	menu.setAttribute("role", "menu");
+	menu.hidden = true;
+	trigger.setAttribute("aria-controls", menu.id);
+	const status = document.createElement("span");
+	status.className = "message-action-status";
+	status.setAttribute("aria-live", "polite");
+	root.append(trigger, menu, status);
+	return { root, trigger, menu, status };
+}
+
+export function createMessageActionButton(item, onActivate) {
+	const button = document.createElement("button");
+	button.type = "button";
+	button.setAttribute("role", "menuitem");
+	button.dataset.messageAction = item.id;
+	const icon = document.createElement("span");
+	icon.setAttribute("aria-hidden", "true");
+	icon.textContent = item.icon;
+	const label = document.createElement("span");
+	label.textContent = item.label;
+	button.append(icon, label);
+	button.addEventListener("click", () => onActivate(button, item));
+	return button;
+}
+
+===== geelooy/ai/js/render/message-actions/messageActionMenu.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { createMessageActionButton, createMessageActionElements } from "./messageActionElements.js";
+import { buildMessageActionItems } from "./messageActionItems.js";
+import { handleMenuNavigation } from "./messageActionKeyboard.js";
+
+let menuSequence = 0;
+
+/**
+ * A tiny doorway reveals many useful vessels without crowding the message. The
+ * Awtsmoos hides multiplicity inside unity, and Awtsmoos.com lets keyboard,
+ * pointer, text, sound, and video enter through one accessible gate.
+ */
+export class MessageActionMenu {
+	constructor(shell, record) {
+		this.shell = shell;
+		this.record = record;
+		Object.assign(this, createMessageActionElements(++menuSequence));
+		this.handleOutside = event => {
+			if (!this.root.contains(event.target)) {
+				this.close(false);
+			}
+		};
+		this.shell.append(this.root);
+		this.bind();
+		this.refresh(record);
+	}
+
+	bind() {
+		this.trigger.addEventListener("click", () => this.toggle());
+		this.menu.addEventListener("keydown", event => {
+			handleMenuNavigation(event, this.menu, restore => this.close(restore));
+		});
+	}
+
+	refresh(record) {
+		this.record = record || this.record;
+		const text = String(this.record?.text || "").trim();
+		const media = this.shell.querySelector("audio, video, .awtsmoos-audio-offer");
+		this.root.hidden = !(text || media);
+	}
+
+	toggle() {
+		if (this.menu.hidden) {
+			this.open();
+			return;
+		}
+		this.close(false);
+	}
+
+	open() {
+		this.renderItems();
+		if (!this.menu.children.length) {
+			this.setStatus("No actions are available yet.");
+			return;
+		}
+		this.menu.hidden = false;
+		this.trigger.setAttribute("aria-expanded", "true");
+		document.addEventListener("pointerdown", this.handleOutside, true);
+		queueMicrotask(() => this.menu.querySelector("button")?.focus());
+	}
+
+	close(restoreFocus) {
+		this.menu.hidden = true;
+		this.trigger.setAttribute("aria-expanded", "false");
+		document.removeEventListener("pointerdown", this.handleOutside, true);
+		if (restoreFocus) {
+			this.trigger.focus();
+		}
+	}
+
+	renderItems() {
+		this.menu.replaceChildren();
+		const items = buildMessageActionItems({
+			shell: this.shell,
+			record: this.record,
+			setStatus: text => this.setStatus(text)
+		});
+		items.forEach(item => {
+			this.menu.append(createMessageActionButton(item, (button, action) => {
+				void this.activate(button, action);
+			}));
+		});
+	}
+
+	async activate(button, item) {
+		button.disabled = true;
+		try {
+			await item.run();
+			this.close(false);
+		} catch (error) {
+			const cancelled = error?.name === "AbortError";
+			this.setStatus(cancelled ? "Share cancelled." : error?.message || "Action failed.");
+		} finally {
+			button.disabled = false;
+		}
+	}
+
+	setStatus(text) {
+		this.status.textContent = String(text || "");
+	}
+}
+
+===== geelooy/ai/js/render/message-actions/index.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { MessageActionMenu } from "./messageActionMenu.js";
+
+/**
+ * One narrow gate joins the renderer to the action vessels. The Awtsmoos keeps
+ * inner multiplicity hidden while Awtsmoos.com refreshes each living record.
+ */
+export function ensureMessageActionMenu(shell, record) {
+	if (!shell) {
+		return null;
+	}
+	if (!shell.__awtsmoosMessageActionMenu) {
+		shell.__awtsmoosMessageActionMenu = new MessageActionMenu(shell, record);
+	}
+	shell.__awtsmoosMessageActionMenu.refresh(record);
+	return shell.__awtsmoosMessageActionMenu.root;
+}
+
+===== geelooy/ai/js/render/runtime/shellDecorations.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { recordKinds } from "./recordWeight.js";
+import { toolHeadline } from "../event-ui/toolHeadline.js";
+
+/**
+ * Around each message the Awtsmoos reveals small signs: a loading pulse, an
+ * event badge, and an overflow door. Awtsmoos.com keeps those signs separate
+ * while preserving the renderer's established public contracts.
+ */
+export function eventBadge(record) {
+	const badge = document.createElement("div");
+	badge.className = "event-record-badge";
+	badge.textContent = activeEventLabel(record);
+	return badge;
+}
+
+export function createInlineOverflow(renderer, record, hiddenCount) {
+	const wrap = document.createElement("div");
+	wrap.className = "inline-overflow-note";
+	const show = document.createElement("button");
+	show.className = "inline-overflow-button";
+	show.textContent = `Show ${hiddenCount.toLocaleString()} more characters`;
+	show.onclick = () => {
+		record.expanded = true;
+		renderer.refreshLive(record);
+		renderer.scrollDown();
+	};
+	wrap.append(show);
+	return wrap;
+}
+
+export function loadingBubble() {
+	const bubble = document.createElement("div");
+	bubble.className = "message assistant is-loading extreme-loading";
+	bubble.innerHTML = '<div class="message-loading"><i></i><span></span><span></span><span></span><em>incoming sparks…</em></div>';
+	return bubble;
+}
+
+export function activeEventLabel(record) {
+	const events = record.events || [];
+	const activeTool = [...events].reverse().find(event => /tool|awtsmoos/i.test(event.kind || ""));
+	if (activeTool) {
+		const info = toolHeadline(activeTool);
+		const target = info.target && info.target !== info.action ? ` · ${info.target}` : "";
+		const prefix = record.streaming || record.loading ? "Running" : "Tool trace";
+		return `${prefix}: ${info.action}${target}`;
+	}
+	const kinds = recordKinds(record);
+	if (kinds.includes("thinking")) {
+		return record.streaming || record.loading ? "Thinking live…" : "Thinking trace";
+	}
+	if (kinds.includes("status")) {
+		return record.streaming || record.loading ? "Status streaming…" : "Status trace";
+	}
+	return record.streaming || record.loading ? "Transport streaming…" : "Transport trace";
+}
+
+===== geelooy/ai/js/render/runtime/shellRuntime.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { ensureMessageActionMenu } from "../message-actions/index.js";
+import { renderEventRegion, visibleRenderableEvents } from "./eventRuntime.js";
+import { VISIBLE_TEXT_LIMIT } from "./renderConstants.js";
+import { dedupeEvents } from "./renderHelpers.js";
+import { primaryRecordKind, recordKinds } from "./recordWeight.js";
+import { updateLiveText } from "./liveTextRuntime.js";
+import { ensureStreamStatus, removeStreamStatus } from "./streamStatsRuntime.js";
+import {
+	activeEventLabel,
+	createInlineOverflow,
+	eventBadge,
+	loadingBubble
+} from "./shellDecorations.js";
+
+export { createInlineOverflow, eventBadge, loadingBubble };
+
+/**
+ * The Awtsmoos renews every message shell while preserving the established
+ * stream, event, truncation, and suppression rivers. Awtsmoos.com adds only one
+ * quiet action doorway, never replacing the behavior already proven in history.
+ */
+export function createShell(renderer, record) {
+	const shell = document.createElement("div");
+	const kind = primaryRecordKind(record);
+	shell.className = `message-shell ${record.role === "user" ? "end-flow" : "start-flow"} kind-${kind} ${record.text ? "has-text" : "event-only"} ${record.streaming || record.loading ? "is-live" : "is-finished"}`;
+	shell.dataset.messageId = record.id;
+	shell.dataset.eventKinds = recordKinds(record).join(" ");
+	record.shell = shell;
+	const visible = visibleRenderableEvents(dedupeEvents(record.events || []));
+	if (!record.text && !record.loading && !visible.length) {
+		shell.classList.add("is-render-suppressed");
+		return shell;
+	}
+	refreshStreamRail(record);
+	if (!record.text && visible.length) {
+		shell.append(eventBadge({ ...record, events: visible }));
+	}
+	if (visible.length) {
+		renderEventRegion(shell, visible, record);
+	}
+	if (record.text) {
+		shell.append(createCombinedBubble(renderer, record));
+	}
+	if (record.loading && !record.text && !visible.length) {
+		shell.append(loadingBubble());
+	}
+	ensureMessageActionMenu(shell, record);
+	return shell;
+}
+
+export function createCombinedBubble(renderer, record) {
+	const bubble = document.createElement("div");
+	bubble.className = `message ${record.role}`;
+	record.bubble = bubble;
+	updateBubbleHtml(renderer, record);
+	return bubble;
+}
+
+export function updateBubbleHtml(renderer, record) {
+	refreshStreamRail(record);
+	ensureMessageActionMenu(record.shell, record);
+	if (!record.bubble) {
+		return;
+	}
+	const text = String(record.text || "");
+	const tooLong = text.length > VISIBLE_TEXT_LIMIT && !record.expanded;
+	const visibleText = tooLong ? text.slice(0, VISIBLE_TEXT_LIMIT) : text;
+	const unchanged = record.renderedText === visibleText
+		&& record.renderedExpanded === record.expanded
+		&& record.renderedStreaming === record.streaming;
+	if (unchanged) {
+		return;
+	}
+	updateLiveText(renderer, record, visibleText);
+	record.renderedText = visibleText;
+	record.renderedExpanded = record.expanded;
+	record.renderedStreaming = record.streaming;
+	if (tooLong) {
+		record.bubble.append(createInlineOverflow(renderer, record, text.length - visibleText.length));
+	}
+}
+
+export function refreshEventBadge(record) {
+	const badge = record.shell?.querySelector?.(":scope > .event-record-badge");
+	if (badge) {
+		badge.textContent = activeEventLabel(record);
+	}
+	refreshStreamRail(record);
+	ensureMessageActionMenu(record.shell, record);
+}
+
+function refreshStreamRail(record) {
+	if (!record?.shell) {
+		return;
+	}
+	if (record.streaming || record.loading) {
+		ensureStreamStatus(record.shell, record);
+		return;
+	}
+	removeStreamStatus(record.shell);
+}
+
+===== geelooy/ai/js/chatgpt/audio/audioControls.js =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { handleAudioAction } from "./audioActionRouter.js";
+import { createAudioOffer, saveAudioSettings } from "./audioOfferView.js";
+import { bindAudioPlayer } from "./audioPlayerView.js";
+
+/**
+ * The Awtsmoos gives one completed assistant answer a hidden chamber of voice.
+ * Awtsmoos.com reveals that chamber through the message menu, preserving a calm
+ * conversation while retaining synthesis, playback, and download powers.
+ */
+export function mountAwtsmoosAudioOffer(options = {}) {
+	const {
+		shell,
+		aiHandler,
+		conversationId = null,
+		messageId = null,
+		copyText = ""
+	} = options;
+	if (!shell || !conversationId) {
+		return null;
+	}
+	if (shell.querySelector?.(":scope > .awtsmoos-audio-offer")) {
+		return null;
+	}
+	if (shell.querySelector?.(":scope > .message.is-loading")) {
+		return null;
+	}
+	const text = assistantText(shell, copyText);
+	if (!text) {
+		return null;
+	}
+	const root = createAudioOffer(text);
+	root.classList.add("audio-offer");
+	root.hidden = true;
+	root.dataset.messageAudioPanel = "true";
+	bindAudioPlayer(root);
+	root.addEventListener("change", () => saveAudioSettings(root));
+	root.addEventListener("click", event => {
+		void handleAudioAction(event, {
+			root,
+			aiHandler,
+			conversationId,
+			messageId
+		});
+	});
+	shell.classList.add("has-audio-options");
+	shell.append(root);
+	shell.__awtsmoosMessageActionMenu?.refresh?.();
+	return root;
+}
+
+function assistantText(shell, copyText) {
+	return String(
+		copyText
+		|| shell.querySelector?.(":scope > .message:not(.is-loading)")?.textContent
+		|| ""
+	).trim();
+}
+
+===== geelooy/ai/css/message-actions.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos hides many useful paths inside one calm dot-gate. This vessel
+ * lets every Awtsmoos.com message breathe while its actions remain discoverable.
+ */
+.message-shell > .message {
+	order:20;
+}
+.message-action-root {
+	position:relative;
+	order:30;
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:7px;
+	width:min(290px,var(--awt-message-max));
+	margin-top:-8px;
+	z-index:12;
+}
+.message-action-root[hidden] {
+	display:none;
+}
+.start-flow > .message-action-root {
+	align-self:flex-start;
+}
+.end-flow > .message-action-root {
+	align-self:flex-end;
+	justify-content:flex-end;
+}
+.message-action-trigger {
+	width:34px;
+	height:30px;
+	padding:0;
+	border:1px solid transparent;
+	border-radius:999px;
+	background:rgba(9,20,37,.72);
+	color:var(--awt-muted);
+	font-size:.72rem;
+	font-weight:900;
+	letter-spacing:1px;
+	opacity:.66;
+	transition:opacity .16s ease,border-color .16s ease,background .16s ease;
+}
+.message-shell:hover .message-action-trigger,
+.message-action-trigger[aria-expanded="true"],
+.message-action-trigger:focus-visible {
+	opacity:1;
+	border-color:var(--awt-line-strong);
+	background:rgba(14,35,54,.96);
+}
+.message-action-menu {
+	order:3;
+	flex-basis:100%;
+	min-width:205px;
+	padding:7px;
+	border:1px solid var(--awt-line-strong);
+	border-radius:15px;
+	background:rgba(3,11,23,.98);
+	box-shadow:var(--awt-shadow-md),var(--awt-ring);
+	backdrop-filter:blur(18px);
+}
+.message-action-menu[hidden] {
+	display:none;
+}
+.message-action-menu button {
+	display:grid;
+	grid-template-columns:24px minmax(0,1fr);
+	align-items:center;
+	width:100%;
+	min-height:40px;
+	padding:8px 10px;
+	border:0;
+	border-radius:10px;
+	background:transparent;
+	color:var(--awt-soft);
+	text-align:left;
+}
+.message-action-menu button:hover,
+.message-action-menu button:focus-visible {
+	background:rgba(34,230,196,.12);
+	color:var(--awt-text);
+}
+.message-action-menu button:disabled {
+	opacity:.5;
+	cursor:wait;
+}
+.message-action-menu button > span:first-child {
+	color:var(--awt-hot);
+	font-size:1rem;
+}
+.message-action-status {
+	width:1px;
+	height:1px;
+	margin:-1px;
+	overflow:hidden;
+	clip-path:inset(50%);
+	white-space:nowrap;
+}
+
+===== geelooy/ai/css/message-actions-mobile.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * On a narrow vessel the Awtsmoos brings the menu near the thumb. Awtsmoos.com
+ * keeps actions inside normal flow so no floating surface covers the composer.
+ */
+@media(hover:none), (pointer:coarse) {
+	.message-action-trigger {
+		opacity:1;
+		width:38px;
+		height:38px;
+	}
+}
+@media(max-width:760px) {
+	.message-action-root {
+		width:min(100%,320px);
+		margin-top:-6px;
+	}
+	.message-action-trigger {
+		opacity:1;
+		width:38px;
+		height:38px;
+	}
+	.message-action-menu {
+		min-width:0;
+		width:100%;
+	}
+}
+
+===== geelooy/ai/css/message-audio-options.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Voice is hidden light until a listener opens its vessel. The Awtsmoos lets
+ * Awtsmoos.com reveal synthesis settings without crowding the conversation.
+ */
+.awtsmoos-audio-offer.audio-offer {
+	order:40;
+	align-self:flex-start;
+	width:min(640px,94%);
+	margin-top:4px;
+	padding:14px;
+	border:1px solid var(--awt-line-strong);
+	border-radius:18px;
+	background:linear-gradient(145deg,rgba(7,25,39,.98),rgba(4,12,25,.98));
+	box-shadow:var(--awt-shadow-md);
+}
+.awtsmoos-audio-offer.audio-offer[hidden] {
+	display:none;
+}
+.end-flow > .awtsmoos-audio-offer.audio-offer {
+	align-self:flex-end;
+}
+.audio-offer-head {
+	display:flex;
+	align-items:baseline;
+	justify-content:space-between;
+	gap:12px;
+	margin-bottom:10px;
+}
+.audio-offer-head strong {
+	color:var(--awt-text);
+}
+.audio-offer-head span,
+.audio-status {
+	color:var(--awt-muted);
+	font-size:.78rem;
+}
+.audio-offer-actions {
+	display:flex;
+	flex-wrap:wrap;
+	gap:8px;
+}
+.audio-offer-actions button,
+.audio-settings select,
+.player-play {
+	min-height:38px;
+	border:1px solid var(--awt-line);
+	border-radius:11px;
+	background:rgba(6,16,30,.9);
+	color:var(--awt-soft);
+}
+.audio-offer-actions button {
+	padding:8px 11px;
+}
+.audio-offer-actions button:hover {
+	border-color:var(--awt-line-strong);
+	color:var(--awt-text);
+}
+.audio-settings {
+	display:grid;
+	grid-template-columns:repeat(2,minmax(0,1fr));
+	gap:10px;
+	margin-top:12px;
+}
+.audio-settings[hidden],
+.audio-player-wrap[hidden] {
+	display:none;
+}
+.audio-settings label {
+	display:grid;
+	gap:6px;
+	color:var(--awt-muted);
+	font-size:.78rem;
+}
+.audio-settings select {
+	width:100%;
+	padding:8px 10px;
+}
+.audio-status {
+	min-height:1.2em;
+	margin:10px 0 0;
+}
+@media(max-width:760px) {
+	.awtsmoos-audio-offer.audio-offer {
+		width:100%;
+		padding:12px;
+	}
+	.audio-offer-head {
+		align-items:flex-start;
+		flex-direction:column;
+	}
+	.audio-settings {
+		grid-template-columns:1fr;
+	}
+}
+
+===== geelooy/ai/css/message-audio-player.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Sound crosses time as a measured river. The Awtsmoos gives Awtsmoos.com a
+ * focused player vessel whose progress, duration, and controls remain readable.
+ */
+.audio-player-wrap {
+	margin-top:12px;
+}
+.audio-player-wrap > audio {
+	display:none;
+}
+.awtsmoos-player {
+	display:grid;
+	grid-template-columns:40px minmax(80px,1fr) auto;
+	align-items:center;
+	gap:10px;
+}
+.player-play {
+	width:40px;
+	padding:0;
+}
+.player-meter {
+	position:relative;
+	height:8px;
+	border-radius:999px;
+	background:rgba(148,163,184,.22);
+	overflow:hidden;
+}
+.player-meter span {
+	display:block;
+	width:var(--audio-progress,0%);
+	height:100%;
+	background:linear-gradient(90deg,var(--awt-hot),#5aa2ff);
+}
+.player-time {
+	color:var(--awt-muted);
+	font-size:.76rem;
+	font-variant-numeric:tabular-nums;
+}
+@media(max-width:760px) {
+	.awtsmoos-player {
+		grid-template-columns:40px minmax(60px,1fr);
+	}
+	.player-time {
+		grid-column:1 / -1;
+	}
+}
+
+===== geelooy/ai/css/desktop-refinement.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * On the wide desktop the Awtsmoos gives every panel its measured boundary.
+ * Awtsmoos.com now reserves the largest vessel for conversation while keeping
+ * navigation and automation readable rather than letting them crush the center.
+ */
+@media(min-width:1101px) {
+	:root {
+		--awt-left:clamp(228px,16vw,292px);
+		--awt-right:clamp(280px,20vw,350px);
+		--awt-gap:clamp(8px,.75vw,14px);
+		--awt-shell-pad:clamp(10px,1vw,18px);
+		--awt-chat-pad:clamp(20px,2vw,34px) clamp(18px,2.4vw,38px) 142px;
+		--awt-message-max:min(880px,94%);
+	}
+	.container > .main {
+		min-width:480px;
+	}
+	.container > .sidebar {
+		min-width:220px;
+	}
+	.container > #automation-panel {
+		min-width:270px;
+	}
+	.chat-box {
+		scroll-padding-block:72px 150px;
+	}
+	.input-area {
+		max-width:1040px;
+		margin-inline:auto;
+		width:100%;
+	}
+}
+@media(min-width:1500px) {
+	:root {
+		--awt-left:clamp(260px,18vw,330px);
+		--awt-right:clamp(310px,21vw,390px);
+		--awt-message-max:min(940px,92%);
+	}
+}
+@media(min-width:761px) and (max-width:1100px) {
+	:root {
+		--awt-message-max:min(780px,96%);
+	}
+	.container > .main {
+		min-width:0;
+	}
+	.chat-box {
+		padding-inline:clamp(14px,3vw,28px);
+	}
+}
+@media(prefers-reduced-motion:reduce) {
+	.message-action-trigger,
+	.message-action-menu,
+	.awtsmoos-audio-offer {
+		transition:none;
+	}
+}
+
+===== geelooy/ai/css/right-panel/manifest.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gathers right-panel organs and shared interface refinements into
+ * one ordered river. Awtsmoos.com keeps the mobile overlap seal last, after the
+ * message, audio, and desktop vessels have all declared their measured bounds.
+ */
+@import "./tokens.css";
+@import "./shell.css";
+@import "./menu.css";
+@import "./sections.css";
+@import "./forms.css";
+@import "./toggles.css";
+@import "./actions.css";
+@import "./fullscreen.css";
+@import "./responsive.css";
+@import "../message-actions.css";
+@import "../message-actions-mobile.css";
+@import "../message-audio-options.css";
+@import "../message-audio-player.css";
+@import "../desktop-refinement.css";
+@import "./mobile-overlap-kill.css";
+
+===== geelooy/ai/styles.css =====
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos reveals one protected cascade from focused vessels. Awtsmoos.com
+ * preserves the tested gate order while nested manifests carry new refinements.
+ */
+@import "./css/ideal/tokens.css";
+@import "./css/ideal/shell.css";
+@import "./css/ideal/sidebar.css";
+@import "./css/ideal/chat.css";
+@import "./css/ideal/composer.css";
+@import "./css/ideal/automation.css";
+@import "./css/ideal/settings.css";
+@import "./css/right-panel/manifest.css";
+@import "./css/events/manifest.css";
+@import "./css/ideal/mobile.css";
+@import "./css/right-panel/mobile-overlap-kill.css";
+
+===== geelooy/ai/tests/messageMediaDiscovery.test.mjs =====
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
+	classifyMediaSource,
+	mediaFilename
+} from "../js/render/message-actions/messageMediaDiscovery.js";
+import { sanitizeDownloadName } from "../js/render/message-actions/messageActionTransfer.js";
+
+/**
+ * The Awtsmoos tests the boundary between a true media vessel and a false one.
+ * Awtsmoos.com should offer downloads only when evidence survives classification.
+ */
+test("classifies audio and video from elements, MIME types, and URLs", () => {
+	assert.equal(classifyMediaSource({ tagName: "audio", url: "blob:test" }), "audio");
+	assert.equal(classifyMediaSource({ type: "video/webm", url: "blob:test" }), "video");
+	assert.equal(classifyMediaSource({ url: "https://cdn.test/song.mp3?token=1" }), "audio");
+	assert.equal(classifyMediaSource({ url: "https://cdn.test/movie.mp4#part" }), "video");
+	assert.equal(classifyMediaSource({ url: "https://cdn.test/page.html" }), null);
+});
+
+test("derives readable safe media filenames", () => {
+	assert.equal(mediaFilename("https://cdn.test/My%20Voice.mp3?x=1", "audio"), "My Voice.mp3");
+	assert.equal(mediaFilename("blob:https://awtsmoos.com/value", "video"), "value");
+	assert.equal(sanitizeDownloadName('bad:name/with*marks?.mp4'), "bad-name-with-marks-.mp4");
+	assert.equal(sanitizeDownloadName("", "fallback.mp3"), "fallback.mp3");
+});

@@ -1,0 +1,6 @@
+geelooy/ai/js/app/conversationController.js:6:import { mountAwtsmoosAudioOffer } from "../chatgpt/audio/audioControls.js";
+geelooy/ai/js/app/conversationController.js:222:function mountAudioOfferLazy(options) { mountAwtsmoosAudioOffer(options); }
+geelooy/ai/js/chatgpt/audio/audioOfferView.js:18:export function createAudioOffer(copyText = "") {
+geelooy/ai/js/chatgpt/audio/audioControls.js:6:import { createAudioOffer, saveAudioSettings } from "./audioOfferView.js";
+geelooy/ai/js/chatgpt/audio/audioControls.js:13:export function mountAwtsmoosAudioOffer(options = {}) {
+geelooy/ai/js/chatgpt/audio/audioControls.js:28:	const root = createAudioOffer(text);

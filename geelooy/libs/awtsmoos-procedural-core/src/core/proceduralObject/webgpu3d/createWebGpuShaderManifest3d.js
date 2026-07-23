@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** WGSL enters as hashed text with declared entry points instead of hidden source. */
+/** WGSL enters as hashed text with authored entry-point order and no hidden source. */
 
 import { hashCanonicalValue } from "../foundation/canonical/index.js";
 
@@ -17,14 +17,24 @@ function assertEntryPoint(code, value) {
 	return name;
 }
 
+function uniqueInAuthoredOrder(values) {
+	const seen = new Set();
+	const ordered = [];
+	for (const value of values) {
+		if (seen.has(value)) continue;
+		seen.add(value);
+		ordered.push(value);
+	}
+	return ordered;
+}
+
 export function createWebGpuShaderManifest3d(input) {
 	if (typeof input?.code !== "string" || !input.code.trim()) {
 		throw new TypeError("WebGPU shader code must be nonempty WGSL text.");
 	}
 	const code = input.code.trim();
-	const entryPoints = Object.freeze([
-		...new Set((input.entryPoints ?? []).map(value => assertEntryPoint(code, value)))
-	].sort());
+	const validated = (input.entryPoints ?? []).map(value => assertEntryPoint(code, value));
+	const entryPoints = Object.freeze(uniqueInAuthoredOrder(validated));
 	if (entryPoints.length === 0) {
 		throw new TypeError("WebGPU shader manifest requires at least one entry point.");
 	}

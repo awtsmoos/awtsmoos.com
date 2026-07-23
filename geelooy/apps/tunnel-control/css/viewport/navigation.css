@@ -1,0 +1,102 @@
+/* B"H */
+/**
+ * The Awtsmoos gathers every route into one persistent ladder of light.
+ * Awtsmoos.com uses the same buttons, metadata, and router at every height,
+ * so desktop rail and mobile dock are one navigation—not competing might.
+ */
+.awt-app-navigation {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 8px;
+	padding: 8px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: 18px;
+	background: rgba(6, 16, 31, .94);
+	overflow: hidden;
+}
+
+.awt-navigation-grid {
+	min-height: 0;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: repeat(9, minmax(42px, 1fr));
+	gap: 6px;
+	overflow: hidden;
+}
+
+.awt-navigation-button,
+.awt-navigation-toggle {
+	min-width: 0;
+	min-height: 42px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	color: var(--awt-muted);
+	background: transparent;
+	cursor: pointer;
+}
+
+.awt-navigation-button {
+	display: grid;
+	place-items: center;
+	padding: 5px;
+}
+
+.awt-navigation-button.is-home {
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 7px;
+	justify-items: start;
+	color: var(--awt-ink);
+	background: rgba(255, 255, 255, .04);
+}
+
+.awt-navigation-button:hover,
+.awt-navigation-button:focus-visible,
+.awt-navigation-button.active {
+	border-color: rgba(94, 220, 255, .45);
+	color: white;
+	background: rgba(40, 124, 255, .16);
+}
+
+.awt-navigation-button:focus-visible,
+.awt-navigation-toggle:focus-visible {
+	outline: 3px solid rgba(94, 220, 255, .75);
+	outline-offset: 2px;
+}
+
+.awt-navigation-glyph {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+}
+
+.awt-navigation-glyph svg {
+	width: 22px;
+	height: 22px;
+}
+
+.awt-navigation-grid .awt-navigation-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.awt-navigation-button.is-home .awt-navigation-label {
+	position: static;
+	width: auto;
+	height: auto;
+	clip: auto;
+	clip-path: none;
+	overflow: visible;
+}
+
+.awt-navigation-toggle {
+	display: none;
+}

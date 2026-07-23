@@ -1,0 +1,218 @@
+B"H
+=== LINE COUNTS ===
+     104 geelooy/ai/js/render/message-actions/messageActionTransfer.js
+      90 geelooy/ai/js/render/message-actions/messageMediaDiscovery.js
+      31 geelooy/ai/js/render/message-actions/messageActionKeyboard.js
+      66 geelooy/ai/js/render/message-actions/messageActionItems.js
+      45 geelooy/ai/js/render/message-actions/messageActionElements.js
+     104 geelooy/ai/js/render/message-actions/messageActionMenu.js
+      20 geelooy/ai/js/render/message-actions/index.js
+      59 geelooy/ai/js/render/runtime/shellDecorations.js
+     105 geelooy/ai/js/render/runtime/shellRuntime.js
+      61 geelooy/ai/js/chatgpt/audio/audioControls.js
+     101 geelooy/ai/css/message-actions.css
+      30 geelooy/ai/css/message-actions-mobile.css
+      98 geelooy/ai/css/message-audio-options.css
+      50 geelooy/ai/css/message-audio-player.css
+      61 geelooy/ai/css/desktop-refinement.css
+      24 geelooy/ai/css/right-panel/manifest.css
+      19 geelooy/ai/styles.css
+      30 geelooy/ai/tests/messageMediaDiscovery.test.mjs
+    1098 total
+=== SYNTAX ===
+syntax ok
+=== FOCUSED MEDIA TEST ===
+(node:56590) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/awtsmoos.com/geelooy/ai/js/render/message-actions/messageMediaDiscovery.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ classifies audio and video from elements, MIME types, and URLs (2.414791ms)
+✔ derives readable safe media filenames (2.314167ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 517.223522
+=== SCOPED HARNESS ===
+✓ [1] css-and-entrypoint-parity 5557ms
+✓ [1] css-no-overlap-law 43ms
+✓ [1] mobile-layout-regression-guard 9ms
+✓ [1] static-regression-audit 467ms
+✓ [1] live-streaming-ui-regressions 352ms
+{
+  "ok": true,
+  "total": 5,
+  "failed": 0,
+  "results": [
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-and-entrypoint-parity",
+      "ms": 5557,
+      "facts": {
+        "imports": 11,
+        "eventImports": 8,
+        "activeCss": 54,
+        "allCss": 131,
+        "activeImportant": 0,
+        "eventsManifestLive": true,
+        "thoughtsLive": true,
+        "toolTerminalLive": true,
+        "fileReviewLive": true,
+        "mobileOverlapSeal": "final-small",
+        "handlers": 3
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-no-overlap-law",
+      "ms": 43,
+      "facts": {
+        "activeCss": 54,
+        "importedLegacy": 0,
+        "fixedChecked": true,
+        "absoluteChecked": true,
+        "highZChecked": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "mobile-layout-regression-guard",
+      "ms": 9,
+      "facts": {
+        "imports": 11,
+        "mobileImports": 9,
+        "lift": 76,
+        "eventsManifestLive": true,
+        "overlapSealLast": true,
+        "revampOwnsTokensOnly": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "static-regression-audit",
+      "ms": 467,
+      "facts": {
+        "files": 234,
+        "duplicateImports": 0,
+        "duplicateExports": 0,
+        "duplicateFunctions": 0,
+        "suspicious": 0
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "live-streaming-ui-regressions",
+      "ms": 352,
+      "facts": {
+        "streaming-text-prewrap-and-live-markdown-preview-stay-stable": {
+          "innerHTMLSetCount": 1,
+          "stable": true,
+          "liveMarkdown": true
+        },
+        "stream-resume-store-active-prunes-done-ghosts": {
+          "active": [
+            "live-1",
+            "old-live"
+          ]
+        },
+        "resume-packets-accept-single-chunk-and-malformed-shapes": {
+          "single": 1,
+          "pending": true,
+          "malformed": true
+        }
+      }
+    }
+  ]
+}
+=== BOOT HARNESS (KNOWN RELAY-DEFAULT FAILURE MAY REMAIN) ===
+✗ [1] chatgpt-extension-boot-regressions 3ms
+undefined {
+  'extension-bridge-boot-exposes-awtsmoos-fetch': { awtsmoosFetch: true, mFetch: true, ready: true },
+  'conversation-list-extension-mock-renders-sidebar-items': { rendersItems: true },
+  'extension-list-failure-shows-clear-error': { clearError: true },
+  'chatgpt-page-boot-does-not-call-node-relay-unless-enabled': {},
+  'automation-bridge-detection-cannot-block-conversation-list': { nonBlocking: true },
+  'audio-controls-cannot-throw-during-conversation-load': { guardedAudio: true },
+  'chatgpt-list-detail-fetch-errors-do-not-kill-app-shell': { shellSurvivesErrors: true },
+  'automation-page-send-is-identical-to-manual-send-path': { sameControllerSend: true, noAutomationPayload: true },
+  'chatgpt-sentinel-proof-is-fresh-per-send': { freshSentinelEverySend: true },
+  'automation-countdown-is-not-cut-by-composer': { visibleCountdown: true }
+}
+{
+  "ok": false,
+  "total": 1,
+  "failed": 1,
+  "results": [
+    {
+      "round": 1,
+      "ok": false,
+      "name": "chatgpt-extension-boot-regressions",
+      "ms": 3,
+      "facts": {
+        "extension-bridge-boot-exposes-awtsmoos-fetch": {
+          "awtsmoosFetch": true,
+          "mFetch": true,
+          "ready": true
+        },
+        "conversation-list-extension-mock-renders-sidebar-items": {
+          "rendersItems": true
+        },
+        "extension-list-failure-shows-clear-error": {
+          "clearError": true
+        },
+        "chatgpt-page-boot-does-not-call-node-relay-unless-enabled": {},
+        "automation-bridge-detection-cannot-block-conversation-list": {
+          "nonBlocking": true
+        },
+        "audio-controls-cannot-throw-during-conversation-load": {
+          "guardedAudio": true
+        },
+        "chatgpt-list-detail-fetch-errors-do-not-kill-app-shell": {
+          "shellSurvivesErrors": true
+        },
+        "automation-page-send-is-identical-to-manual-send-path": {
+          "sameControllerSend": true,
+          "noAutomationPayload": true
+        },
+        "chatgpt-sentinel-proof-is-fresh-per-send": {
+          "freshSentinelEverySend": true
+        },
+        "automation-countdown-is-not-cut-by-composer": {
+          "visibleCountdown": true
+        }
+      }
+    }
+  ]
+}
+=== DIFF CHECK ===
+=== INDENT CHECK ===
+tabs/no source-space indentation ok
+=== SUSPICIOUS CSS ===
+css overlap guard ok
+=== FINAL HASHES ===
+5ab12958bfb2e4fe20e867f8bbcdcb160c55492f621d2b7c08584e3b14d51d9f  geelooy/ai/js/render/message-actions/messageActionTransfer.js
+7947de569cc83f7f7282dfc43077900a2fc972ea670f6f2315e82e0fb48967fd  geelooy/ai/js/render/message-actions/messageMediaDiscovery.js
+57a21cc1419e99b81b252034fc0ac6b83919f5ab098911195684e67320a1cab8  geelooy/ai/js/render/message-actions/messageActionKeyboard.js
+e59b51269007207a51a6ef2d51005840a0cc26662fbcf50798639735b011e9e9  geelooy/ai/js/render/message-actions/messageActionItems.js
+a724662f72ecf811b78bcc1755e6a2e6ab94fcfacb59e090a05422d9df85c9c1  geelooy/ai/js/render/message-actions/messageActionElements.js
+2319c86788d7fb27888d67361d3e83649aef43178d36ff2cd3cb356c1b915258  geelooy/ai/js/render/message-actions/messageActionMenu.js
+742162fb7a9b9d67ed4b829d3aee205c2d056cf478e5432c181c737fa2016a03  geelooy/ai/js/render/message-actions/index.js
+73a7c5e49627dc518198ea5df96f4fa680bb87e190cc04f2b8bc17f3544e0ec1  geelooy/ai/js/render/runtime/shellDecorations.js
+b789c628c53a3fd4353d8fd75a307e82804f218fc9e3c853465d79373831afbc  geelooy/ai/js/render/runtime/shellRuntime.js
+9ab897be5cbd9ed662c1169f8be0712e592da2663701206f01b5f3683b2d8fdb  geelooy/ai/js/chatgpt/audio/audioControls.js
+191e230908b25e5a6dae2251a666c42ed970b53cdf91c7003f0d8a6bcddc9d00  geelooy/ai/css/message-actions.css
+d9f0e7e83b3277bd289f79976b1765a8a8df4db7d5df056fffb5a16b1fb31ff6  geelooy/ai/css/message-actions-mobile.css
+44bd9d02199dad7d0fab2ebe1569d4d0726621a384c10197d0b8a900b7bbdb54  geelooy/ai/css/message-audio-options.css
+4b5ac3a31a5ad0296124a4843acdea5b23600a2312920db8280e7185b604c311  geelooy/ai/css/message-audio-player.css
+ab20e2b6015cd296d49fb4671e2e776ce4165089aa67ff26ddb2255b788a6d50  geelooy/ai/css/desktop-refinement.css
+80c999bb926bd54f9f536ccf4fea3449f547a119ee9cf74e3d6c879be3ff5525  geelooy/ai/css/right-panel/manifest.css
+51e9df860ee1510c4517f77c23fe84a6761bf20d014844e2154f6e94078800c5  geelooy/ai/styles.css
+6a2408d54129db9019a06a66b25972591c765a58673380b1f79db356c33ed267  geelooy/ai/tests/messageMediaDiscovery.test.mjs
