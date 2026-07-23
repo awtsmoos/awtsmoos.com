@@ -1,13 +1,22 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+const Capacity = require("./pool-capacity.js");
+const Jobs = require("./pool-jobs.js");
+const Lifecycle = require("./pool-lifecycle.js");
 const Policy = require("./policy.js");
 const State = require("./pool-state.js");
-const Worker = require("./worker.js");
+
 /** Creates a bounded, requester-fair pool of isolated filesystem executors. */
 function createPool(options = {}) {
-	const policy = { ...Policy, ...options };
-	const state = { active: new Map(), idleTimer: null, queue: [], workers: [] };
+	const policy = Policy.resolve(options);
+	const state = State.create();
 
 	function execute(payload = {}) {
+		if (state.stopped) {
+			return Promise.reject(State.failure("FS_EXECUTOR_STOPPED", "fs_executor_stopped"));
+		}
 		if (state.queue.length >= policy.MAX_QUEUE) {
 			return Promise.reject(State.failure("FS_EXECUTOR_BACKPRESSURE", "fs_executor_queue_full"));
 		}
@@ -18,99 +27,81 @@ function createPool(options = {}) {
 	}
 
 	function pump() {
-		clearTimeout(state.idleTimer);
+		if (state.stopped) return;
+		Lifecycle.touch(state);
 		ensureWorkers();
 		for (const worker of state.workers) {
 			if (worker.busy || !worker.ready) continue;
 			const index = State.eligibleIndex(state, policy.MAX_PER_REQUESTER);
 			if (index < 0) break;
-			assign(worker, state.queue.splice(index, 1)[0]);
+			Jobs.assign(state, worker, state.queue.splice(index, 1)[0], policy, expire);
 		}
-		scheduleIdle();
-	}
-
-	function assign(worker, job) {
-		worker.busy = true;
-		worker.job = job;
-		State.increment(state.active, job.requester);
-		worker.timer = setTimeout(() => expire(worker), policy.JOB_TIMEOUT_MS);
-		worker.timer.unref?.();
-		worker.child.send({ id: job.id, payload: job.payload, type: "execute" });
+		Lifecycle.schedule(state, policy);
 	}
 
 	function complete(worker, message) {
 		if (message?.type === "ready") {
-			worker.ready = true;
+			Capacity.markReady(state, worker);
 			pump();
 			return;
 		}
 		if (!worker.job || message?.id !== worker.job.id) return;
-		const job = release(worker);
+		const job = Jobs.release(state, worker);
 		if (message.ok) job.resolve(message.result);
 		else job.reject(State.failure(message.code, message.error, message.stack));
 		pump();
 	}
 
 	function exited(worker, code, signal) {
-		const index = state.workers.indexOf(worker);
-		if (index >= 0) state.workers.splice(index, 1);
+		const wasReady = worker.ready;
+		const planned = worker.retiring === true;
+		Capacity.remove(state, worker);
+		if (!wasReady && !planned) Capacity.recordBootFailure(state, worker);
 		if (worker.job) {
-			const job = release(worker);
+			const job = Jobs.release(state, worker);
 			job.reject(State.failure("FS_EXECUTOR_EXITED", `fs_executor_exited:${code ?? signal}`));
 		}
-		if (state.queue.length) pump();
+		if (!planned && (state.queue.length || state.workers.length < policy.MIN_WORKERS)) {
+			const delay = wasReady ? 0 : Capacity.retryDelay(state, policy);
+			Capacity.schedulePump(state, delay, pump);
+		}
+	}
+
+	function bootExpired(worker) {
+		if (worker.ready || !state.workers.includes(worker)) return;
+		worker.bootTimedOut = true;
+		Capacity.recordBootFailure(state, worker);
+		Capacity.stop(worker);
 	}
 
 	function expire(worker) {
 		if (!worker.job) return;
-		const job = release(worker);
+		const job = Jobs.release(state, worker);
 		job.reject(State.failure("FS_EXECUTOR_TIMEOUT", "fs_executor_action_timed_out"));
-		Worker.stop(worker);
-	}
-
-	function release(worker) {
-		clearTimeout(worker.timer);
-		const job = worker.job;
-		worker.busy = false;
-		worker.job = null;
-		worker.timer = null;
-		State.decrement(state.active, job.requester);
-		return job;
+		Capacity.stop(worker);
 	}
 
 	function ensureWorkers(requested) {
-		const busy = state.workers.filter(worker => worker.busy).length;
-		const wanted = requested || Math.min(
-			policy.WORKERS,
-			Math.max(2, busy + state.queue.length)
-		);
-		while (state.workers.length < wanted) {
-			state.workers.push(Worker.spawn(complete, exited));
-		}
-	}
-
-	function scheduleIdle() {
-		if (policy.IDLE_SHUTDOWN_MS <= 0) return;
-		if (state.queue.length || state.workers.some(worker => worker.busy)) return;
-		state.idleTimer = setTimeout(shutdown, policy.IDLE_SHUTDOWN_MS);
-		state.idleTimer.unref?.();
-	}
-
-	function shutdown() {
-		clearTimeout(state.idleTimer);
-		for (const worker of state.workers.splice(0)) Worker.stop(worker);
-		for (const job of state.queue.splice(0)) {
-			job.reject(State.failure("FS_EXECUTOR_STOPPED", "fs_executor_stopped"));
+		if (state.spawnTimer) return;
+		const target = Capacity.wanted(state, policy, requested);
+		while (state.workers.length < target) {
+			Capacity.spawn(state, policy, { bootExpired, complete, exited });
 		}
 	}
 
 	const stats = () => State.stats(state, policy);
 	function warm() {
-		ensureWorkers(policy.WORKERS);
+		ensureWorkers(policy.MIN_WORKERS);
 		return stats();
 	}
 
-	return { execute, shutdown, state, stats, warm };
+	return {
+		execute,
+		shutdown: () => Lifecycle.shutdown(state),
+		state,
+		stats,
+		warm
+	};
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 B"H
-1.0.382
+1.0.383
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -1359,6 +1359,9 @@ tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
 tools/fs/executor/index.js
 tools/fs/executor/policy.js
+tools/fs/executor/pool-capacity.js
+tools/fs/executor/pool-jobs.js
+tools/fs/executor/pool-lifecycle.js
 tools/fs/executor/pool-state.js
 tools/fs/executor/pool.js
 tools/fs/executor/requester.js
