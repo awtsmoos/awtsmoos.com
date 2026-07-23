@@ -4,9 +4,9 @@
 
 /**
  * @file mainMenuStreamingBoundary.test.mjs
- * @description Proves menu, WebGL foundation, core runtime, and enrichment are separate waves.
- * The Awtsmoos reveals each world in ordered measures; Awtsmoos.com rejects a renamed monolith
- * and tests the focused module that now owns every startup boundary.
+ * @description Proves menu, visible WebGL foundation, bootstrap core, and realtime stay separate.
+ * The Awtsmoos reveals each doorway in an appointed measure; Awtsmoos.com rejects both the old
+ * playable bundle and any automatic authored-world enrichment before responsive control exists.
  */
 
 import assert from 'node:assert/strict';
@@ -40,55 +40,62 @@ test('gameplay styles remain outside the HTML threshold', () => {
 	assert.equal(new Set(GAMEPLAY_STYLESHEETS).size, 6);
 });
 
-test('runtime opens the staged orchestrator and never imports the legacy bundle', async () => {
+test('runtime opens staged startup and keeps heavy systems explicitly deferred', async () => {
 	const runtime = await source(
 		'experiments/Awtsmoos/src/app/createEretzRuntime.js'
 	);
 	assert.match(runtime, /STAGED_RUNTIME_URL/);
 	assert.match(runtime, /import\(STAGED_RUNTIME_URL\)/);
+	assert.match(runtime, /deferredSystems/);
+	assert.match(runtime, /authoredTerrain:\s*'deferred'/);
+	assert.match(runtime, /richRenderer:\s*'deferred'/);
 	assert.doesNotMatch(runtime, /playable-runtime|PLAYABLE_BUNDLE_URL/);
-	assert.match(runtime, /EretzDeferredRuntimeEnrichment/);
+	assert.doesNotMatch(runtime, /EretzDeferredRuntimeEnrichment|scheduleRendererHydration/);
 });
 
-test('staged runtime imports foundation before core assembly', async () => {
+test('staged runtime imports foundation before bootstrap core assembly', async () => {
 	const staged = await source(
 		'experiments/Awtsmoos/src/app/EretzStagedRuntime.js'
 	);
 	const foundation = staged.indexOf('EretzWorldFoundation.js');
-	const assembly = staged.indexOf('EretzCoreRuntimeAssembly.js');
+	const assembly = staged.indexOf('BootstrapCoreRuntimeAssembly.js');
 	assert.ok(foundation >= 0);
 	assert.ok(assembly > foundation);
-	assert.doesNotMatch(staged, /PlayableRuntimeBundleEntry|playable-runtime/);
+	assert.doesNotMatch(staged, /EretzCoreRuntimeAssembly|PlayableRuntimeBundleEntry/);
 });
 
-test('foundation paints WebGL, awaits assets, then delegates finalization', async () => {
+test('foundation paints WebGL, loads essential control, then creates bootstrap world', async () => {
 	const foundation = await source(
 		'experiments/Awtsmoos/src/app/EretzWorldFoundation.js'
 	);
 	const paint = foundation.indexOf('paintEretzWebGlBootFrame');
-	const assetCall = foundation.indexOf('await loadFoundationAssets');
-	const finalizer = foundation.indexOf('EretzWorldFinalizer.js');
+	const assetImport = foundation.indexOf('EretzEssentialAssetLoader.js');
+	const assetAwait = foundation.indexOf('await loadEretzEssentialAssets');
+	const bootstrapImport = foundation.indexOf('BootstrapWorldFoundation.js');
 	assert.ok(paint >= 0);
-	assert.ok(assetCall > paint);
-	assert.ok(finalizer > assetCall);
+	assert.ok(assetImport > paint);
+	assert.ok(assetAwait > assetImport);
+	assert.ok(bootstrapImport > assetAwait);
+	assert.doesNotMatch(foundation, /Terrain3D|EretzWorldFinalizer|EretzWorldModuleLoader/);
 });
 
-test('world finalizer builds collision cooperatively after terrain', async () => {
-	const finalizer = await source(
-		'experiments/Awtsmoos/src/app/EretzWorldFinalizer.js'
+test('bootstrap world contains visible valley without authored terrain imports', async () => {
+	const terrain = await source(
+		'experiments/Awtsmoos/src/app/BootstrapTerrainPackage.js'
 	);
-	assert.match(finalizer, /buildWorldCollisionOctreeAsync/);
-	assert.match(finalizer, /nextLaunchTask/);
-	assert.doesNotMatch(finalizer, /buildWorldCollisionOctree\(/);
+	const renderer = await source(
+		'experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js'
+	);
+	assert.match(terrain, /createBootstrapVisibleWorld/);
+	assert.match(renderer, /BootstrapColorRenderer/);
+	assert.doesNotMatch(`${terrain}${renderer}`, /from .*Terrain3D|from .*tiny-webgl-renderer/);
 });
 
 test('multiplayer connection begins after local runtime resolves', async () => {
 	const bootstrap = await source(
 		'experiments/Awtsmoos/src/network/MultiplayerEretzBootstrap.js'
 	);
-	const runtimeAwait = bootstrap.indexOf(
-		'await runtimeFactory(hosts, runtimeOptions)'
-	);
+	const runtimeAwait = bootstrap.indexOf('await runtimeFactory(hosts, runtimeOptions)');
 	const connectionStart = bootstrap.indexOf(
 		'diagnostics.multiplayerReady = multiplayer.start()'
 	);

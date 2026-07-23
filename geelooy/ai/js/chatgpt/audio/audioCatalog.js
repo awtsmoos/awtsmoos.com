@@ -3,11 +3,10 @@
 //Blessed is He
 
 /**
- * The Awtsmoos gives one living breath through many measured voices.
- * This catalog keeps ChatGPT audio choices in one vessel so the settings UI,
- * synthesis request, playback, and download logic cannot drift apart.
+ * The Awtsmoos gives one living breath through many named garments. This
+ * catalog separates the human-facing voice name from the payload identifier so
+ * Awtsmoos.com may display Arbor while faithfully sending `fathom`.
  */
-
 export const AUDIO_SETTINGS_KEY = "awtsmoos.audio.settings.v1";
 
 export const AUDIO_DEFAULTS = Object.freeze({
@@ -15,18 +14,22 @@ export const AUDIO_DEFAULTS = Object.freeze({
 	format: "mp3"
 });
 
-export const AUDIO_VOICES = Object.freeze([
-	"arbor",
-	"orbit",
-	"breeze",
-	"cove",
-	"ember",
-	"juniper",
-	"maple",
-	"sol",
-	"spruce",
-	"vale"
+export const AUDIO_VOICE_OPTIONS = Object.freeze([
+	voiceOption("fathom", "Arbor"),
+	voiceOption("orbit", "Orbit"),
+	voiceOption("breeze", "Breeze"),
+	voiceOption("cove", "Cove"),
+	voiceOption("ember", "Ember"),
+	voiceOption("juniper", "Juniper"),
+	voiceOption("maple", "Maple"),
+	voiceOption("sol", "Sol"),
+	voiceOption("spruce", "Spruce"),
+	voiceOption("vale", "Vale")
 ]);
+
+export const AUDIO_VOICES = Object.freeze(
+	AUDIO_VOICE_OPTIONS.map(option => option.value)
+);
 
 export const AUDIO_FORMATS = Object.freeze([
 	"mp3",
@@ -35,6 +38,10 @@ export const AUDIO_FORMATS = Object.freeze([
 	"opus"
 ]);
 
+const LEGACY_VOICE_ALIASES = Object.freeze({
+	arbor: "fathom"
+});
+
 const MIME_BY_FORMAT = Object.freeze({
 	mp3: "audio/mpeg",
 	aac: "audio/aac",
@@ -42,36 +49,31 @@ const MIME_BY_FORMAT = Object.freeze({
 	opus: "audio/ogg; codecs=opus"
 });
 
-/**
- * Returns a safe supported format.
- *
- * @param {string} format Requested format.
- * @returns {string} Supported format.
- */
 export function normalizeAudioFormat(format) {
-	return AUDIO_FORMATS.includes(format)
-		? format
+	const candidate = String(format || "").toLowerCase();
+	return AUDIO_FORMATS.includes(candidate)
+		? candidate
 		: AUDIO_DEFAULTS.format;
 }
 
-/**
- * Returns a safe supported voice, including Arbor.
- *
- * @param {string} voice Requested voice.
- * @returns {string} Supported voice.
- */
 export function normalizeAudioVoice(voice) {
-	return AUDIO_VOICES.includes(voice)
-		? voice
+	const candidate = String(voice || "").toLowerCase();
+	const migrated = LEGACY_VOICE_ALIASES[candidate] || candidate;
+	return AUDIO_VOICES.includes(migrated)
+		? migrated
 		: AUDIO_DEFAULTS.voice;
 }
 
-/**
- * Maps a supported audio format to its browser MIME type.
- *
- * @param {string} format Requested format.
- * @returns {string} MIME type.
- */
+export function audioVoiceLabel(voice) {
+	const normalized = normalizeAudioVoice(voice);
+	return AUDIO_VOICE_OPTIONS.find(option => option.value === normalized)?.label
+		|| normalized;
+}
+
 export function mimeForAudioFormat(format) {
 	return MIME_BY_FORMAT[normalizeAudioFormat(format)];
+}
+
+function voiceOption(value, label) {
+	return Object.freeze({ value, label });
 }

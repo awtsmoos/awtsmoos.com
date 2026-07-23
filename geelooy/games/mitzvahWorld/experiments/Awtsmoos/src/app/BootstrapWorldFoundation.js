@@ -4,15 +4,15 @@
 
 /**
  * @file BootstrapWorldFoundation.js
- * @description Joins flat terrain, open collision, ground, chunks, and scene for first control.
- * The Awtsmoos gathers only what movement needs; Awtsmoos.com returns truthful diagnostics and
- * leaves village geometry, octrees, sky, materials, and authored chunks outside the critical path.
+ * @description Joins visible valley, open collision, ground, chunks, and scene for first control.
+ * The Awtsmoos gathers only what movement needs; Awtsmoos.com returns truthful diagnostics while
+ * authored districts, octrees, texture families, and rich sky remain outside the critical path.
  */
 
 import { createBootstrapChunkRuntime } from './BootstrapChunkRuntime.js';
 import { createBootstrapCollisionWorld } from './BootstrapCollisionWorld.js';
 import { createBootstrapFlatGround } from './BootstrapFlatGround.js';
-import { createBootstrapTerrainPackage } from './BootstrapTerrainPackage.js';
+import { createBootstrapTerrainPackage } from './BootstrapTerrainPackage.js?v=20260723-visible-02';
 
 export function createBootstrapWorldFoundation(services) {
 	const terrain = createBootstrapTerrainPackage();
@@ -34,7 +34,7 @@ export function createBootstrapWorldFoundation(services) {
 		mainOctree,
 		materialCanonicalization: {
 			canonicalized: 0,
-			mode: 'bootstrap-dormant'
+			mode: 'visible-bootstrap'
 		},
 		obstacles: {
 			assets: {},

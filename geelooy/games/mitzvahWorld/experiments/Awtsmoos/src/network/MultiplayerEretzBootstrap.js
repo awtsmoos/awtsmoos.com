@@ -4,9 +4,9 @@
 
 /**
  * @file MultiplayerEretzBootstrap.js
- * @description Returns progressive WebGL playability before realtime authority connects.
- * The Awtsmoos opens control while the distant covenant crosses the line; Awtsmoos.com keeps
- * local movement first and every later shared state authoritative by design.
+ * @description Returns visible WebGL playability before realtime authority connects.
+ * The Awtsmoos opens local control while the distant covenant crosses the line;
+ * Awtsmoos.com keeps movement first and every later shared state authoritative by design.
  */
 
 import { MultiplayerEretzRuntime } from './MultiplayerEretzSession.js';
@@ -14,12 +14,12 @@ import { MultiplayerEretzRuntime } from './MultiplayerEretzSession.js';
 export async function createMultiplayerEretzRuntime(hosts, options = {}) {
 	const runtimeFactory = options.runtimeFactory
 		|| (await import(
-			'../app/createEretzRuntime.js?v=20260722-stream-18'
+			'../app/createEretzRuntime.js?v=20260723-stream-20'
 		)).createEretzRuntime;
 	const runtimeOptions = { ...options };
 	delete runtimeOptions.runtimeFactory;
 	options.onProgress?.({
-		message: 'Building the progressive WebGL shared village…',
+		message: 'Building the visible WebGL shared valley…',
 		progress: 0.1
 	});
 	const diagnostics = await runtimeFactory(hosts, runtimeOptions);

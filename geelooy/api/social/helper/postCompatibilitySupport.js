@@ -5,22 +5,27 @@
 /**
  * @file postCompatibilitySupport.js
  * @description
- * The Awtsmoos keeps ancient root-series callers small and explicit while the
- * canonical singular-post route remains owned by its focused post module.
+ * The Awtsmoos keeps ancient root callers aligned with the mapped Meluket
+ * reader, so every Awtsmoos.com compatibility route reveals complete months.
  */
 
 const {
 	addPostToSeries,
 	getPostsInSeries
-} = require('./index.js');
-const { methodNotAllowed } = require('./response/routeResponses.js');
+} = require("./index.js");
+const {
+	readPostsCompatible
+} = require("./post/seriesReadCompatibility.js");
+const {
+	methodNotAllowed
+} = require("./response/routeResponses.js");
 
 function parseMap(value) {
 	if (!value) return null;
-	if (typeof value === 'object') return value;
+	if (typeof value === "object") return value;
 	try {
 		return JSON.parse(value);
-	} catch {
+	} catch (_error) {
 		return null;
 	}
 }
@@ -43,22 +48,39 @@ function properties($i) {
 }
 
 function cleanSeriesId(value) {
-	const id = String(value || '').trim();
-	return !id || id === 'undefined' || id === 'null' ? 'root' : id;
+	const id = String(value || "").trim();
+	return !id || id === "undefined" || id === "null" ? "root" : id;
 }
 
 function requestedSeriesId($i) {
 	const input = query($i);
-	return cleanSeriesId(input.seriesId || input.parentSeriesId || input.series);
+	return cleanSeriesId(
+		input.seriesId || input.parentSeriesId || input.series
+	);
+}
+
+function detailsRequested($i, forceDetails) {
+	const value = query($i).details;
+	return forceDetails || value === true || value === "true";
 }
 
 function postsInRequestedSeries($i, heichelId, forceDetails = false) {
-	return getPostsInSeries({
+	const seriesId = requestedSeriesId($i);
+	const selected = properties($i);
+	const withDetails = detailsRequested($i, forceDetails);
+	return readPostsCompatible({
 		$i,
 		heichelId,
-		seriesId: requestedSeriesId($i),
-		withDetails: forceDetails || query($i).details === 'true',
-		properties: properties($i)
+		seriesId,
+		withDetails,
+		properties: selected,
+		standardReader: () => getPostsInSeries({
+			$i,
+			heichelId,
+			seriesId,
+			withDetails,
+			properties: selected
+		})
 	});
 }
 

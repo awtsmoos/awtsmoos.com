@@ -4,13 +4,13 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct worlds without menu presentation, CSS families, or HUD observers.
- * The Awtsmoos opens control before ornament; Awtsmoos.com keeps creative presentation,
- * diagnostics, cinema, rich panels, and responsive HUD code beyond their chosen doorways.
+ * @description Loads direct visible worlds without menu presentation or heavy HUD families.
+ * The Awtsmoos opens control before ornament; Awtsmoos.com keeps cinema, rich panels,
+ * authored districts, and creative presentation beyond their chosen doorways.
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260722-menu-stream-01';
-const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260722-webgl-stage-09';
+const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260723-webgl-stage-11';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
@@ -39,9 +39,9 @@ export function hasMovieRequest(search = '') {
 }
 
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing immediate WebGL control…');
+	report(options, 'Preparing visible WebGL control…');
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import('../app/createEretzRuntime.js?v=20260722-stream-18'),
+		import('../app/createEretzRuntime.js?v=20260723-stream-20'),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, {
@@ -63,9 +63,9 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 }
 
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing immediate WebGL shared control…');
+	report(options, 'Preparing visible WebGL shared control…');
 	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?v=20260722-stream-18'
+		'../network/MultiplayerEretzRuntime.js?v=20260723-stream-20'
 	);
 	return createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,

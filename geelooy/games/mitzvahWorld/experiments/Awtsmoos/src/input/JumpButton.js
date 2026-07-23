@@ -1,14 +1,71 @@
 // B"H
-/** JumpButton: the right thumb receives one upward arrow, small and clear. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file JumpButton.js
+ * @description Converts pointer and Space input into one finite queued jump intention.
+ * The Awtsmoos lifts the traveler through a single upward desire; Awtsmoos.com preserves
+ * edge-triggered truth so holding a key cannot create an endless ladder of accidental jumps.
+ */
+
 export class JumpButton {
-  constructor(host) { this.host = host || makeHost(); this.queued = false; this.held = false; this.build(); }
-  build() { this.button = document.createElement('button'); this.button.className = 'Awtsmoos-jump-button'; this.button.type = 'button'; this.button.textContent = '⬆️'; this.button.setAttribute('aria-label', 'Jump'); this.host.append(this.button); this.bind(); }
-  bind() {
-    this.button.addEventListener('pointerdown', (e) => { e.preventDefault(); this.held = true; this.queued = true; this.button.setPointerCapture?.(e.pointerId); });
-    this.button.addEventListener('pointerup', () => { this.held = false; }); this.button.addEventListener('pointercancel', () => { this.held = false; });
-    addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); if (!this.held) this.queued = true; this.held = true; } });
-    addEventListener('keyup', (e) => { if (e.code === 'Space') this.held = false; });
-  }
-  consume() { const out = this.queued; this.queued = false; return out; }
+	constructor(host, environment = globalThis) {
+		this.environment = environment;
+		this.host = host || createJumpHost(environment.document);
+		this.held = false;
+		this.queued = false;
+		this.button = createJumpButton(environment.document);
+		this.host.append(this.button);
+		this.bind();
+	}
+
+	consume() {
+		const queued = this.queued;
+		this.queued = false;
+		return queued;
+	}
+
+	bind() {
+		this.button.addEventListener('pointerdown', event => {
+			event.preventDefault();
+			this.queueFromPress();
+			this.button.setPointerCapture?.(event.pointerId);
+		});
+		this.button.addEventListener('pointerup', () => this.release());
+		this.button.addEventListener('pointercancel', () => this.release());
+		this.environment.addEventListener?.('keydown', event => {
+			if (event.code !== 'Space') return;
+			event.preventDefault();
+			this.queueFromPress();
+		});
+		this.environment.addEventListener?.('keyup', event => {
+			if (event.code === 'Space') this.release();
+		});
+	}
+
+	queueFromPress() {
+		if (!this.held) this.queued = true;
+		this.held = true;
+	}
+
+	release() {
+		this.held = false;
+	}
 }
-function makeHost() { const host = document.createElement('div'); host.id = 'jump'; document.body.append(host); return host; }
+
+function createJumpButton(documentValue) {
+	const button = documentValue.createElement('button');
+	button.className = 'Awtsmoos-jump-button';
+	button.type = 'button';
+	button.textContent = '⬆️';
+	button.setAttribute('aria-label', 'Jump');
+	return button;
+}
+
+function createJumpHost(documentValue) {
+	const host = documentValue.createElement('div');
+	host.id = 'jump';
+	documentValue.body.append(host);
+	return host;
+}
