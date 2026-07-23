@@ -1,9 +1,24 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const crypto = require("node:crypto");
 const Requester = require("./requester.js");
 
-/** Creates one private queued job and its fairness identity. */
+function create() {
+	return {
+		active: new Map(),
+		bootFailures: 0,
+		consecutiveBootFailures: 0,
+		idleTimer: null,
+		queue: [],
+		scaleTimer: null,
+		spawnTimer: null,
+		stopped: false,
+		workers: []
+	};
+}
+
 function createJob(payload, resolve, reject) {
 	return {
 		id: crypto.randomUUID(),
@@ -14,7 +29,6 @@ function createJob(payload, resolve, reject) {
 	};
 }
 
-/** Finds the first queued job whose requester still has capacity. */
 function eligibleIndex(state, maximum) {
 	return state.queue.findIndex(job => {
 		return Number(state.active.get(job.requester) || 0) < maximum;
@@ -41,17 +55,22 @@ function failure(code, message, stack) {
 function stats(state, policy) {
 	return {
 		activeRequesters: state.active.size,
+		bootFailures: state.bootFailures,
 		busy: state.workers.filter(worker => worker.busy).length,
+		consecutiveBootFailures: state.consecutiveBootFailures,
 		maxPerRequester: policy.MAX_PER_REQUESTER,
 		maxQueue: policy.MAX_QUEUE,
+		minimumWorkers: policy.MIN_WORKERS,
 		queued: state.queue.length,
 		ready: state.workers.filter(worker => worker.ready).length,
+		starting: state.workers.filter(worker => !worker.ready).length,
 		workerLimit: policy.WORKERS,
 		workers: state.workers.length
 	};
 }
 
 module.exports = {
+	create,
 	createJob,
 	decrement,
 	eligibleIndex,

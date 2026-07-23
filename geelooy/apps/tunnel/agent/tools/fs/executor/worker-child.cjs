@@ -1,10 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 process.env.AWTSMOOS_FS_EXECUTOR_CHILD = "1";
 
 const { handleFsAction } = require("../actions.js");
 
-process.send?.({ type: "ready" });
+if (process.env.AWTSMOOS_FS_EXECUTOR_TEST_NO_READY !== "1") {
+	process.send?.({ type: "ready" });
+}
 
 /** Executes exactly one parent-assigned action at a time. */
 process.on("message", async message => {
