@@ -4,36 +4,26 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Creates one finite local player state without importing actor systems.
- * The Awtsmoos grants a traveler before costumes and crowds; Awtsmoos.com preserves scene,
- * position, facing, identity, and diagnostics without requiring a visible rotation contract.
+ * @description Creates local player truth and attaches a visible three-part Chossid marker.
+ * The Awtsmoos grants traveler and visible vessel together before costumes and crowds;
+ * Awtsmoos.com preserves identity, movement, facing, diagnostics, and bounded draw cost.
  */
+
+import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
 
 export function createBootstrapPlayerRuntime(foundation) {
 	const model = foundation.playerGltf.scene;
 	model.name = model.name || 'Awtsmoos_bootstrap_player';
 	model.position.set(0, 0, 0);
+	const visiblePlayer = createBootstrapVisiblePlayer();
+	model.add(visiblePlayer);
 	if (!model.parent) foundation.scene.add(model);
-	const state = {
-		airPhase: 'ground',
-		clip: '',
-		contacts: [],
-		facing: 0,
-		grounded: true,
-		level: 'eretz',
-		moving: false,
-		multiplayer: null,
-		renderY: 0,
-		runMode: false,
-		velY: 0,
-		x: 0,
-		y: 0,
-		z: 0
-	};
+	const state = createPlayerState();
 	const player = {
 		diagnostics: () => ({
 			animations: 0,
 			bootstrap: true,
+			meshes: visiblePlayer.userData.meshCount,
 			position: { x: state.x, y: state.y, z: state.z }
 		}),
 		names: [],
@@ -53,6 +43,26 @@ export function createBootstrapPlayerRuntime(foundation) {
 			xp: 0,
 			xpMax: 100
 		},
-		state
+		state,
+		visiblePlayer
+	};
+}
+
+function createPlayerState() {
+	return {
+		airPhase: 'ground',
+		clip: '',
+		contacts: [],
+		facing: 0,
+		grounded: true,
+		level: 'eretz',
+		moving: false,
+		multiplayer: null,
+		renderY: 0,
+		runMode: false,
+		velY: 0,
+		x: 0,
+		y: 0,
+		z: 0
 	};
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file ProgressiveWebGLDefaults.js
- * @description Creates finite bootstrap renderer settings without opening shader families.
- * The Awtsmoos gives clear light a small measured vessel; Awtsmoos.com keeps diagnostics and
- * environment contracts intact while every richer garment waits beyond playability.
+ * @description Creates finite colored-bootstrap renderer settings and diagnostics.
+ * The Awtsmoos gives clear sky and visible earth one measured vessel; Awtsmoos.com records
+ * frames, meshes, draws, and triangles while richer garments remain beyond playability.
  */
 
 export function createProgressiveEnvironment() {
@@ -25,7 +25,8 @@ export function createProgressiveStats() {
 	return {
 		draws: 0,
 		frames: 0,
-		phase: 'clear-only',
+		meshes: 0,
+		phase: 'colored-bootstrap',
 		staticBatch: { savedDraws: 0 },
 		triangles: 0
 	};

@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapMovementController.js
- * @description Applies keyboard and joystick intent directly to flat-world player truth.
- * The Awtsmoos turns intention into place each frame; Awtsmoos.com preserves W/S motion,
- * Q/E strafe, reversed A/D turning, run mode, camera pose, and multiplayer update contracts.
+ * @description Applies keyboard and joystick intent to visible flat-world player truth.
+ * The Awtsmoos turns intention into place and facing each frame; Awtsmoos.com preserves W/S,
+ * Q/E, reversed A/D, camera following, visible yaw, run mode, and multiplayer contracts.
  */
 
 const WALK_SPEED = 4.2;
@@ -24,11 +24,7 @@ export class BootstrapMovementController {
 	update(deltaSeconds) {
 		const runtime = this.runtime;
 		const axis = runtime.input.axis();
-		const joystick = runtime.joystick?.vector || {
-			magnitude: 0,
-			x: 0,
-			y: 0
-		};
+		const joystick = runtime.joystick?.vector || { magnitude: 0, x: 0, y: 0 };
 		const intent = normalizedIntent(axis, joystick);
 		const state = runtime.state;
 		state.facing += intent.turn * TURN_SPEED * deltaSeconds;
@@ -46,6 +42,7 @@ export class BootstrapMovementController {
 		state.grounded = true;
 		state.moving = Math.hypot(intent.forward, intent.strafe) > 0.001;
 		runtime.model.position.set(state.x, state.y, state.z);
+		setYaw(runtime.model.quaternion, state.facing);
 		updateCamera(runtime, state);
 		runtime.multiplayerBridge?.update(deltaSeconds, state);
 		this.frames += 1;
@@ -78,6 +75,10 @@ function normalizedIntent(axis, joystick) {
 		strafe: strafe * scale,
 		turn: Math.max(-1, Math.min(1, axis.turn))
 	};
+}
+
+function setYaw(quaternion, yaw) {
+	quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
 }
 
 function updateCamera(runtime, state) {
