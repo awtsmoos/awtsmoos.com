@@ -5,9 +5,9 @@
 /**
  * @file verifyBundle.js
  * @description
- * The Awtsmoos rereads every restored branch in one bounded passage. Rich
- * records, keyed indexes, section children, dual series projections, comment
- * bridges, and every packed identity must all stand before production opens.
+ * The Awtsmoos rereads every restored branch in one bounded passage and permits
+ * no restart while one rich post, child series entry, index, section, map, or
+ * packed identity remains absent from Awtsmoos.com.
  */
 
 const fs = require("fs");
@@ -19,6 +19,9 @@ const {
 const {
 	bundleRoot
 } = require("./constants.js");
+const {
+	verifyAllSeries
+} = require("./seriesVerifier.js");
 
 function readJson(name) {
 	return JSON.parse(fs.readFileSync(path.join(bundleRoot, name), "utf8"));
@@ -31,57 +34,32 @@ async function verifyRecord(db, record, historicalSeriesId) {
 	if ((rich.sections || []).length !== record.sections.length) {
 		return `sections:${record.id}`;
 	}
-	const postIndex = await db.getObjectKey(
-		"/social/heichelos/ikar/postIds",
-		record.id
-	);
-	if (!postIndex) return `postIndex:${record.id}`;
+	if (!await db.getObjectKey("/social/heichelos/ikar/postIds", record.id)) {
+		return `postIndex:${record.id}`;
+	}
 	const aliasBase = "/social/aliases/theRebbe/postsSubmitted/inHeichel/ikar/inSeries";
-	const friendlyIndex = await db.getObjectKey(
-		`${aliasBase}/${record.seriesId}`,
-		record.id
-	);
-	if (!friendlyIndex) return `friendlyAlias:${record.id}`;
-	const historicalIndex = await db.getObjectKey(
-		`${aliasBase}/${historicalSeriesId}`,
-		record.id
-	);
-	if (!historicalIndex) return `historyAlias:${record.id}`;
-	const firstSection = record.sections[0];
-	const sectionPath = `${richPath.slice(0, -".awtsmoosJSON".length)}/sections/${firstSection.id}`;
+	if (!await db.getObjectKey(`${aliasBase}/${record.seriesId}`, record.id)) {
+		return `friendlyAlias:${record.id}`;
+	}
+	if (!await db.getObjectKey(`${aliasBase}/${historicalSeriesId}`, record.id)) {
+		return `historicalAlias:${record.id}`;
+	}
+	const sectionPath = `/social/heichelos/ikar/posts/${record.id}/sections/${record.sections[0].id}`;
 	if (!await db.get(sectionPath)) return `sectionChild:${record.id}`;
 	return null;
 }
 
 function packedPostIds(db) {
-	const records = listPackedRecords({ $i: { db }, shard: "core" });
-	return new Set(records
+	const packed = listPackedRecords({
+		$i: {
+			db
+		},
+		shard: "core"
+	});
+	return new Set(packed
 		.filter(item => item.meta?.kind === "post")
 		.map(item => item.value?.id || item.value?.postId)
 		.filter(Boolean));
-}
-
-async function verifySeries(db, mappings, failures) {
-	for (const month of new Set(mappings.map(row => row.month))) {
-		const rows = mappings.filter(row => row.month === month);
-		for (const key of ["friendlySeriesId", "historicalSeriesId"]) {
-			const seriesId = rows[0][key];
-			const objectPath = `/social/heichelos/ikar/series/${seriesId}/posts`;
-			const ids = await db.getObjectKeys(objectPath);
-			const expected = new Set(rows.map(row => row.newPostId));
-			if (ids.length !== rows.length) failures.push(`${key}:${month}:count`);
-			for (const id of expected) {
-				if (!ids.includes(id)) {
-					failures.push(`${key}:${month}:missing:${id}`);
-					continue;
-				}
-				const value = await db.getObjectKey(objectPath, id);
-				if (!value || (value.id || value.postId) !== id) {
-					failures.push(`${key}:${month}:value:${id}`);
-				}
-			}
-		}
-	}
 }
 
 async function main() {
@@ -101,12 +79,16 @@ async function main() {
 		const failure = await verifyRecord(db, record, mapping.historicalSeriesId);
 		if (failure) failures.push(failure);
 	}
-	await verifySeries(db, mappings, failures);
-	const contribution = await db.getObjectKey(
+	await verifyAllSeries({
+		db,
+		mappings,
+		records,
+		failures
+	});
+	if (!await db.getObjectKey(
 		"/social/aliases/theRebbe/heichelosContributedTo",
 		"ikar"
-	);
-	if (!contribution) failures.push("heichelContribution");
+	)) failures.push("heichelContribution");
 	const mapPath = path.join(dbRoot, "socialPacked", "meluket-post-map.v1.json");
 	const commentMap = JSON.parse(fs.readFileSync(mapPath, "utf8"));
 	if (commentMap.count !== 436) failures.push("commentMap");

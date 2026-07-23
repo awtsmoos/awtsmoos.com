@@ -4,11 +4,12 @@
 
 /**
  * @file ProgressiveWebGLRenderer.js
- * @description Creates real WebGL immediately and defers the rich shader renderer.
- * The Awtsmoos reveals a clear living framebuffer before every luminous garment;
- * Awtsmoos.com preserves the runtime contract while rich rendering enters after playability.
+ * @description Draws a visible colored valley immediately and defers the rich shader renderer.
+ * The Awtsmoos reveals sky, earth, traveler, and golden ridge before every luminous garment;
+ * Awtsmoos.com preserves the renderer contract through one tiny shader and shared cube buffer.
  */
 
+import { BootstrapColorRenderer } from './BootstrapColorRenderer.js';
 import {
 	createProgressiveEnvironment,
 	createProgressiveStats
@@ -41,6 +42,7 @@ export class ProgressiveWebGLRenderer {
 		this.hydrationError = null;
 		this.errors = [];
 		this.bootstrapStats = createProgressiveStats();
+		this.bootstrapRenderer = new BootstrapColorRenderer(this.gl, this.bootstrapStats);
 	}
 
 	get stats() {
@@ -88,12 +90,7 @@ export class ProgressiveWebGLRenderer {
 
 	render(scene, camera) {
 		if (this.delegate) return this.delegate.render(scene, camera);
-		const color = this.clearColor;
-		this.gl.clearColor(color[0], color[1], color[2], color[3]);
-		this.gl.clearDepth?.(1);
-		this.gl.enable?.(this.gl.DEPTH_TEST);
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-		this.bootstrapStats.frames += 1;
+		return this.bootstrapRenderer.render(scene, camera, this.clearColor);
 	}
 
 	hydrate(options = {}) {
@@ -106,6 +103,7 @@ export class ProgressiveWebGLRenderer {
 	}
 
 	dispose() {
+		this.bootstrapRenderer.dispose();
 		this.delegate?.dispose?.();
 	}
 }

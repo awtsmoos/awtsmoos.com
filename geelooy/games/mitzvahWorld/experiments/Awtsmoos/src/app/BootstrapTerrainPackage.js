@@ -4,17 +4,15 @@
 
 /**
  * @file BootstrapTerrainPackage.js
- * @description Creates a diagnostics-safe flat scene package with no authored-world imports.
- * The Awtsmoos reveals open land before village detail; Awtsmoos.com names every absent family
- * honestly while preserving terrain, forest, landmark, metadata, and deferred-context contracts.
+ * @description Creates a visible golden-valley package without authored-world imports.
+ * The Awtsmoos reveals green earth, a golden path, and distant ridges before village detail;
+ * Awtsmoos.com preserves every terrain contract while eleven tiny meshes remain the whole scene.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js';
 
 export function createBootstrapTerrainPackage() {
-	const group = new Group();
-	group.name = 'Awtsmoos_bootstrap_flat_world';
-	group.userData.bootstrapTerrain = true;
+	const group = createBootstrapVisibleWorld();
 	const forest = createForestState();
 	const textLandmark = createLandmarkState();
 	const stats = {
@@ -22,21 +20,22 @@ export function createBootstrapTerrainPackage() {
 		deferredTerrainEnrichment: 'authored-valley-dormant',
 		forestStats: forest.stats,
 		groundSampler: 'bootstrap-flat-ground',
-		quality: 'bootstrap',
+		meshCount: group.userData.meshCount,
+		quality: 'visible-bootstrap',
 		renderDpr: 1,
-		terrainPreparation: { mode: 'flat-bootstrap', steps: 0 }
+		terrainPreparation: { mode: 'golden-valley-bootstrap', steps: 1 }
 	};
 	const worldMetadata = {
 		bootstrap: true,
 		deferredTerrainEnrichment: true,
 		forest: forest.stats,
 		houses: [],
-		quality: 'bootstrap',
+		quality: 'visible-bootstrap',
 		stairLayouts: [],
 		terrainGridSteps: 0,
-		terrainPreparation: { mode: 'flat-bootstrap', steps: 0 },
+		terrainPreparation: stats.terrainPreparation,
 		textLandmark: textLandmark.stats,
-		village: { status: 'dormant' }
+		village: { status: 'visible-bootstrap-gate' }
 	};
 	return {
 		colliders: [],
@@ -46,19 +45,19 @@ export function createBootstrapTerrainPackage() {
 			groundSampler: null,
 			halfSize: 1024,
 			obstacleTriangles: [],
-			quality: 'bootstrap',
+			quality: 'visible-bootstrap',
 			roadTriangles: [],
 			textLandmark
 		},
 		forest,
 		group,
 		heightAt: () => 0,
-		materialDiagnostics: { mode: 'clear-only-bootstrap', materials: 0 },
-		roadStats: { colliders: 0, status: 'dormant' },
+		materialDiagnostics: { materials: group.userData.meshCount, mode: 'colored-bootstrap' },
+		roadStats: { colliders: 0, status: 'visible-path' },
 		signTexturePromise: Promise.resolve({ status: 'dormant' }),
 		stats,
 		textLandmark,
-		village: { definitions: [], stats: { status: 'dormant' } },
+		village: { definitions: [], stats: { status: 'visible-bootstrap-gate' } },
 		worldMetadata
 	};
 }
@@ -79,6 +78,6 @@ function createForestState() {
 function createLandmarkState() {
 	return {
 		start: () => Promise.resolve(null),
-		stats: { status: 'dormant' }
+		stats: { status: 'visible-bootstrap-summit' }
 	};
 }
