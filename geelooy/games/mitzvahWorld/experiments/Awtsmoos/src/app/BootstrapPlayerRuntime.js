@@ -4,29 +4,35 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Creates local player truth and attaches a visible three-part Chossid marker.
- * The Awtsmoos grants traveler and visible vessel together before costumes and crowds;
- * Awtsmoos.com preserves identity, movement, facing, diagnostics, and bounded draw cost.
+ * @description Mounts the supplied Chossid vessel and exposes every player mesh to tiny WebGL.
+ * The Awtsmoos grants one moving identity through fallback and canonical garments; Awtsmoos.com
+ * keeps the state stable while the visible form may be replaced without replacing the traveler.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
 
 export function createBootstrapPlayerRuntime(foundation) {
 	const model = foundation.playerGltf.scene;
-	model.name = model.name || 'Awtsmoos_bootstrap_player';
+	model.name = model.name || 'Awtsmoos_minimal_meadow_player';
 	model.position.set(0, 0, 0);
-	const visiblePlayer = createBootstrapVisiblePlayer();
-	model.add(visiblePlayer);
+	model.setBaseTransform?.();
+	let meshCount = markBootstrapMeshes(model);
+	let visiblePlayer = model;
+	if (meshCount === 0) {
+		visiblePlayer = createBootstrapVisiblePlayer();
+		model.add(visiblePlayer);
+		meshCount = visiblePlayer.userData.meshCount;
+	}
 	if (!model.parent) foundation.scene.add(model);
 	const state = createPlayerState();
 	const player = {
 		diagnostics: () => ({
-			animations: 0,
+			animations: foundation.playerGltf.animations?.length || 0,
 			bootstrap: true,
-			meshes: visiblePlayer.userData.meshCount,
+			meshes: meshCount,
 			position: { x: state.x, y: state.y, z: state.z }
 		}),
-		names: [],
+		names: (foundation.playerGltf.animations || []).map(clip => clip.name || ''),
 		update() {}
 	};
 	return {
@@ -35,17 +41,21 @@ export function createBootstrapPlayerRuntime(foundation) {
 		footOffset: 0,
 		model,
 		player,
-		playerStats: {
-			face: '🎩',
-			health: 100,
-			level: 1,
-			name: 'Chossid',
-			xp: 0,
-			xpMax: 100
-		},
+		playerStats: { face: '🎩', health: 100, level: 1, name: 'Chossid', xp: 0, xpMax: 100 },
 		state,
 		visiblePlayer
 	};
+}
+
+function markBootstrapMeshes(model) {
+	let count = 0;
+	model.traverse?.(object => {
+		if (!object.isMesh && !object.isSkinnedMesh) return;
+		object.userData ||= {};
+		object.userData.bootstrapVisual = true;
+		count += 1;
+	});
+	return count;
 }
 
 function createPlayerState() {
@@ -55,7 +65,7 @@ function createPlayerState() {
 		contacts: [],
 		facing: 0,
 		grounded: true,
-		level: 'eretz',
+		level: 'meadow',
 		moving: false,
 		multiplayer: null,
 		renderY: 0,

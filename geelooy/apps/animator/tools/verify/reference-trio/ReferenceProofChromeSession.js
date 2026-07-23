@@ -19,7 +19,7 @@ export class ReferenceProofChromeSession {
 		if (await this.startConnected()) {
 			return this;
 		}
-		this.fallback = new ChromeSession(9338);
+		this.fallback = new ChromeSession(0);
 		await this.fallback.start();
 		this.client = this.fallback.client;
 		return this;

@@ -1,0 +1,21 @@
+{
+	"BH": "B\"H — Boruch Hashem — Blessed is He",
+	"name": "chatgpt-endpoint-recovery",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Evidence-driven ChatGPT web request recorder and legacy contract comparer.",
+	"scripts": {
+		"capture": "node src/cli/capture.mjs",
+		"probe": "node src/cli/probe.mjs",
+		"compare": "node src/cli/compare.mjs",
+		"check": "node src/cli/check.mjs",
+		"test": "node --test test/*.test.mjs"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"dependencies": {
+		"ws": "^8.18.0"
+	}
+}

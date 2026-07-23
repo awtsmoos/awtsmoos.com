@@ -1,0 +1,85 @@
+B"H
+=== LINE COUNTS ===
+      17 geelooy/ai/js/chatgpt/transport/extensionPackage.js
+      65 geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+      98 geelooy/ai/scripts/buildServerExtensionZip.cjs
+      62 geelooy/ai/tests/extensionZipPackage.test.cjs
+     242 total
+=== SYNTAX ===
+=== FOCUSED TEST ===
+✔ server extension ZIP exists at the canonical public path (1441.466504ms)
+✔ ZIP entries exactly close over the current source folder (477.593635ms)
+✔ missing transport notice uses the absolute canonical ZIP URL (0.527911ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2558.359102
+=== ZIP INTEGRITY ===
+Archive:  geelooy/ai/relay/install/awtsmoos-server-extension.zip
+    testing: awtsmoosContent.js       OK
+    testing: background.js            OK
+    testing: bgAutomation/api.js      OK
+    testing: bgAutomation/authErrors.js   OK
+    testing: bgAutomation/chatgpt.js   OK
+    testing: bgAutomation/engine.js   OK
+    testing: bgAutomation/graph.js    OK
+    testing: bgAutomation/pageDelegate.js   OK
+    testing: bgAutomation/sendVerifier.js   OK
+    testing: bgAutomation/settledConversationPoller.js   OK
+    testing: bgAutomation/storage.js   OK
+    testing: bgAutomation/turnState.js   OK
+    testing: jected.js                OK
+    testing: manifest.json            OK
+    testing: streamLedger.js          OK
+No errors detected in compressed data of geelooy/ai/relay/install/awtsmoos-server-extension.zip.
+=== ZIP ENTRIES ===
+awtsmoosContent.js
+background.js
+bgAutomation/api.js
+bgAutomation/authErrors.js
+bgAutomation/chatgpt.js
+bgAutomation/engine.js
+bgAutomation/graph.js
+bgAutomation/pageDelegate.js
+bgAutomation/sendVerifier.js
+bgAutomation/settledConversationPoller.js
+bgAutomation/storage.js
+bgAutomation/turnState.js
+jected.js
+manifest.json
+streamLedger.js
+=== STATIC HARNESS ===
+✓ [1] static-regression-audit 512ms
+{
+  "ok": true,
+  "total": 1,
+  "failed": 0,
+  "results": [
+    {
+      "round": 1,
+      "ok": true,
+      "name": "static-regression-audit",
+      "ms": 512,
+      "facts": {
+        "files": 235,
+        "duplicateImports": 0,
+        "duplicateExports": 0,
+        "duplicateFunctions": 0,
+        "suspicious": 0
+      }
+    }
+  ]
+}
+=== DIFF CHECK ===
+=== STATUS ===
+ M geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+?? geelooy/ai/js/chatgpt/transport/extensionPackage.js
+?? geelooy/ai/relay/install/awtsmoos-server-extension.zip
+?? geelooy/ai/scripts/buildServerExtensionZip.cjs
+?? geelooy/ai/tests/extensionZipPackage.test.cjs
+=== HASH ===
+a2cef22d23d8c8d9e09433da6337d50759209dea70c27966badcd272cdf0fca2  geelooy/ai/relay/install/awtsmoos-server-extension.zip

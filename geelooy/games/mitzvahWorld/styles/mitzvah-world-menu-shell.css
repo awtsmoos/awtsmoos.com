@@ -3,15 +3,15 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos renews the first threshold before the valley, actors, and distant leaves arrive.
- * This tiny Awtsmoos.com vessel paints only the menu background and honest startup state; every
- * gameplay stylesheet remains outside the network path until a player chooses a world.
+ * The Awtsmoos renews the first threshold and gives the WebGL vessel its whole horizon.
+ * Awtsmoos.com lets the meadow fill every finite pixel while menus and honest failures remain
+ * above it; no hidden default canvas size may conceal the world that is being created now.
  */
 
 :root {
 	color-scheme: dark;
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-	background: #06100a;
+	background: #07140b;
 	color: #f4ffff;
 }
 
@@ -21,9 +21,18 @@ body {
 	height: 100%;
 	margin: 0;
 	overflow: hidden;
-	background:
-		radial-gradient(circle at 50% 15%, rgba(42, 115, 82, 0.28), transparent 42%),
-		linear-gradient(160deg, #07120c, #020705 74%);
+	background: #07140b;
+}
+
+#AwtsmoosCanvas {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	display: block;
+	width: 100vw;
+	height: 100vh;
+	touch-action: none;
+	outline: none;
 }
 
 .Awtsmoos-menu-boot {

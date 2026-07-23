@@ -1,0 +1,22 @@
+{
+  "publicUrl": "/ai/relay/install/awtsmoos-server-extension.zip",
+  "artifactPath": "geelooy/ai/relay/install/awtsmoos-server-extension.zip",
+  "bytes": 23755,
+  "files": [
+    "awtsmoosContent.js",
+    "background.js",
+    "bgAutomation/api.js",
+    "bgAutomation/authErrors.js",
+    "bgAutomation/chatgpt.js",
+    "bgAutomation/engine.js",
+    "bgAutomation/graph.js",
+    "bgAutomation/pageDelegate.js",
+    "bgAutomation/sendVerifier.js",
+    "bgAutomation/settledConversationPoller.js",
+    "bgAutomation/storage.js",
+    "bgAutomation/turnState.js",
+    "jected.js",
+    "manifest.json",
+    "streamLedger.js"
+  ]
+}

@@ -4,14 +4,16 @@
 
 /**
  * @file RuntimeStateMarker.js
- * @description Publishes durable runtime and renderer-hydration truth on the real page.
- * The Awtsmoos reveals each threshold without silencing the living loop; Awtsmoos.com marks
- * starting, playable, failed, bootstrap-rendering, rich-ready, and degraded states.
+ * @description Publishes runtime, renderer, and gameplay visibility truth on the real page.
+ * The Awtsmoos joins inward readiness with outward revelation; Awtsmoos.com refuses to call a
+ * world playable while its canvas remains hidden behind a missing finite attribute.
  */
 
 export function markRuntimeStarting(documentValue = globalThis.document) {
 	const root = documentValue?.documentElement;
-	if (root) root.dataset.awtsmoosRendererHydration = 'idle';
+	if (!root) return;
+	root.dataset.awtsmoosGameplay = 'false';
+	root.dataset.awtsmoosRendererHydration = 'idle';
 	setRuntimeState(documentValue, 'starting');
 }
 
@@ -22,6 +24,7 @@ export function markRuntimePlayable(
 	const root = documentValue?.documentElement;
 	if (!root) return;
 	const renderer = diagnostics?.runtime?.renderer;
+	root.dataset.awtsmoosGameplay = 'true';
 	root.dataset.awtsmoosRenderer = renderer?.backend
 		|| renderer?.contextName
 		|| 'webgl';
@@ -38,6 +41,7 @@ export function markRendererHydration(state, documentValue = globalThis.document
 export function markRuntimeFailed(error, documentValue = globalThis.document) {
 	const root = documentValue?.documentElement;
 	if (!root) return;
+	root.dataset.awtsmoosGameplay = 'false';
 	root.dataset.awtsmoosRuntimeError = error?.message || String(error);
 	setRuntimeState(documentValue, 'failed');
 }

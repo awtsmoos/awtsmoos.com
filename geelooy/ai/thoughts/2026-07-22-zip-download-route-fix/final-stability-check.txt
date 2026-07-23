@@ -1,0 +1,30 @@
+B"H
+=== LINE COUNTS ===
+      17 geelooy/ai/js/chatgpt/transport/extensionPackage.js
+      65 geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+      98 geelooy/ai/scripts/buildServerExtensionZip.cjs
+      62 geelooy/ai/tests/extensionZipPackage.test.cjs
+     242 total
+=== SYNTAX ===
+=== TEST ===
+✔ server extension ZIP exists at the canonical public path (126.148416ms)
+✔ ZIP entries exactly close over the current source folder (81.46948ms)
+✔ missing transport notice uses the absolute canonical ZIP URL (1.004287ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1198.02855
+=== DIFF CHECK ===
+=== HASH ===
+a2cef22d23d8c8d9e09433da6337d50759209dea70c27966badcd272cdf0fca2  geelooy/ai/relay/install/awtsmoos-server-extension.zip
+=== STATUS ===
+ M geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+?? geelooy/ai/js/chatgpt/transport/extensionPackage.js
+?? geelooy/ai/relay/install/awtsmoos-server-extension.zip
+?? geelooy/ai/scripts/buildServerExtensionZip.cjs
+?? geelooy/ai/tests/extensionZipPackage.test.cjs
+?? geelooy/ai/thoughts/2026-07-22-zip-download-route-fix/

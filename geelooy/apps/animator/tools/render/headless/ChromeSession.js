@@ -8,6 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { CdpClient } from './CdpClient.js';
 import { ChromeBinary } from './ChromeBinary.js';
+import { ChromeDebugPort } from './ChromeDebugPort.js';
 
 /**
  * A private Chrome session is a sealed chamber for cinematic actualization.
@@ -16,6 +17,7 @@ import { ChromeBinary } from './ChromeBinary.js';
  */
 export class ChromeSession {
 	constructor(port = 9333) {
+		this.requestedPort = port;
 		this.port = port;
 	}
 
@@ -31,7 +33,7 @@ export class ChromeSession {
 			'--no-first-run',
 			'--no-default-browser-check',
 			'--autoplay-policy=no-user-gesture-required',
-			`--remote-debugging-port=${this.port}`,
+			`--remote-debugging-port=${this.requestedPort}`,
 			`--user-data-dir=${this.profile}`,
 			'about:blank'
 		], {
@@ -41,6 +43,7 @@ export class ChromeSession {
 		this.process.stderr.on('data', (chunk) => {
 			this.stderr += String(chunk);
 		});
+		this.port = await ChromeDebugPort.resolve(this.profile, this.requestedPort);
 		const page = await this.waitForPage();
 		this.client = await new CdpClient(page.webSocketDebuggerUrl).connect();
 		await this.client.send('Page.enable');

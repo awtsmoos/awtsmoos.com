@@ -1,0 +1,64 @@
+=== GIT STATUS ===
+ M geelooy/ai/js/chatgpt/transport/missingTransportNotice.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/CalmReferenceFaceIdentity.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/CalmReferenceHeadStyle.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/CheerfulReferenceFaceIdentity.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/CheerfulReferenceHeadStyle.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/SkepticalReferenceFaceIdentity.js
+ M geelooy/apps/animator/src/character/reference/specification/presets/SkepticalReferenceHeadStyle.js
+?? geelooy/ai/js/chatgpt/transport/extensionPackage.js
+?? geelooy/ai/relay/install/awtsmoos-server-extension.zip
+?? geelooy/ai/scripts/buildServerExtensionZip.cjs
+?? geelooy/ai/tests/extensionZipPackage.test.cjs
+?? geelooy/ai/thoughts/2026-07-22-2211-awtsmoos-server-extension-install/
+?? geelooy/ai/thoughts/2026-07-22-zip-download-route-fix/
+=== EXACT ZIP REFERENCES ===
+/bin/sh: rg: command not found
+=== RELAY INSTALL REFERENCES ===
+=== DYNAMIC ROUTE ERROR ===
+/bin/sh: rg: command not found
+=== EXTENSION FILES ===
+geelooy/ai/relay/split-browser/.smoke-server-39501.cjs
+geelooy/ai/relay/split-browser/.smoke-server-39502.cjs
+geelooy/ai/relay/split-browser/.smoke-server-39504.cjs
+geelooy/ai/relay/split-browser/.smoke-server-39505.cjs
+geelooy/ai/relay/split-browser/.smoke-server.cjs
+geelooy/ai/relay/split-browser/authState.cjs
+geelooy/ai/relay/split-browser/autoLogin.cjs
+geelooy/ai/relay/split-browser/automation.cjs
+geelooy/ai/relay/split-browser/bodyPolicy.cjs
+geelooy/ai/relay/split-browser/bodyTransform.cjs
+geelooy/ai/relay/split-browser/browserBridge.cjs
+geelooy/ai/relay/split-browser/browserRewrite.cjs
+geelooy/ai/relay/split-browser/browserShim.cjs
+geelooy/ai/relay/split-browser/cdpChrome.cjs
+geelooy/ai/relay/split-browser/clientDiagnostics.cjs
+geelooy/ai/relay/split-browser/clientState.cjs
+geelooy/ai/relay/split-browser/config.cjs
+geelooy/ai/relay/split-browser/controlPage.cjs
+geelooy/ai/relay/split-browser/cookieJar.cjs
+geelooy/ai/relay/split-browser/debugApi.cjs
+geelooy/ai/relay/split-browser/debugClient.cjs
+geelooy/ai/relay/split-browser/headerMap.cjs
+geelooy/ai/relay/split-browser/http.cjs
+geelooy/ai/relay/split-browser/index.js
+geelooy/ai/relay/split-browser/jsPreamble.cjs
+geelooy/ai/relay/split-browser/logger.cjs
+geelooy/ai/relay/split-browser/manifest.json
+geelooy/ai/relay/split-browser/originPolicy.cjs
+geelooy/ai/relay/split-browser/proxy.cjs
+geelooy/ai/relay/split-browser/proxyLog.cjs
+geelooy/ai/relay/split-browser/relayApi.cjs
+geelooy/ai/relay/split-browser/responseStream.cjs
+geelooy/ai/relay/split-browser/rewriteHtml.cjs
+geelooy/ai/relay/split-browser/rewriteText.cjs
+geelooy/ai/relay/split-browser/routeNormalize.cjs
+geelooy/ai/relay/split-browser/server.cjs
+geelooy/ai/relay/split-browser/urlMap.cjs
+=== INSTALL FILES ===
+geelooy/ai/relay/install/awtsmoos-server-extension.zip
+geelooy/ai/relay/install/install-awtsmoos-chatgpt-relay.ps1
+geelooy/ai/relay/install/install-awtsmoos-chatgpt-relay.sh
+=== ROOT PACKAGE FILES ===
+./.gitignore
+./package.json

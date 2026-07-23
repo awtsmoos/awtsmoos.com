@@ -1,5 +1,5 @@
 B"H
-1.0.378
+1.0.380
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -817,6 +817,7 @@ lib/runtime/connection-receipt.js
 lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js
 lib/runtime/correlation-definitions.js
+lib/runtime/correlation-extract-helpers.js
 lib/runtime/correlation-extract.js
 lib/runtime/correlation-fields.js
 lib/runtime/correlation-parser.js
@@ -1049,6 +1050,9 @@ release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimePaths.js
 release/runtimeProbe.js
+release/runtimeProbeImport.js
+release/runtimeProbeInventory.js
+release/runtimeProbePolicy.js
 release/runtimeRequiredCore.js
 release/runtimeRequiredFiles.js
 release/runtimeRequiredRecovery.js
@@ -1263,6 +1267,7 @@ tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
+tools/fs/commandJob/asyncFileSystem.js
 tools/fs/commandJob/cancel.js
 tools/fs/commandJob/cancelResponse.js
 tools/fs/commandJob/cancelStored.js
@@ -1270,6 +1275,7 @@ tools/fs/commandJob/concurrencyProfile.js
 tools/fs/commandJob/context.js
 tools/fs/commandJob/crossRootApply.js
 tools/fs/commandJob/crossRootDecision.js
+tools/fs/commandJob/crossRootJobOrder.js
 tools/fs/commandJob/crossRootLock.js
 tools/fs/commandJob/crossRootMonitor.js
 tools/fs/commandJob/crossRootReconciler.js
@@ -1333,6 +1339,7 @@ tools/fs/commandJob/schedulerState.js
 tools/fs/commandJob/start.js
 tools/fs/commandJob/startResults.js
 tools/fs/commandJob/stateRoots.js
+tools/fs/commandJob/stateRootsAsync.js
 tools/fs/commandJob/status.js
 tools/fs/commandJob/wait.js
 tools/fs/commandJob/writeSnapshot.js

@@ -4,15 +4,17 @@
 
 /**
  * @file BootstrapColorRenderer.js
- * @description Draws the bounded first valley with one program and cached shared geometry.
- * The Awtsmoos reveals earth, path, ridge, summit, and traveler through a single beam;
- * Awtsmoos.com traverses only bootstrap meshes and records honest draw and triangle evidence.
+ * @description Draws meadow and GLB player meshes through one tiny color program.
+ * The Awtsmoos reveals many finite garments through one beam; Awtsmoos.com accepts simple colors,
+ * GLTF factors, indexed geometry, and static skinned bind poses without importing a rich renderer.
  */
 
 import { lookAt, perspective } from '../../../light-three-gltf/tiny-camera-math.js';
 import { multiply } from '../../../light-three-gltf/tiny-matrix-core.js';
 import { createBootstrapColorProgram } from './BootstrapColorProgram.js';
 import { BootstrapMeshBufferCache } from './BootstrapMeshBufferCache.js';
+
+const DEFAULT_COLOR = Object.freeze([0.72, 0.72, 0.72, 1]);
 
 export class BootstrapColorRenderer {
 	constructor(gl, stats) {
@@ -32,7 +34,7 @@ export class BootstrapColorRenderer {
 		this.stats.meshes = meshes.length;
 		if (!meshes.length || !camera) return;
 		this.programState ||= createBootstrapColorProgram(gl);
-		scene.updateWorldMatrix?.();
+		scene.updateWorldMatrix?.(true, true);
 		const projectionView = cameraProjectionView(camera);
 		const { locations, program } = this.programState;
 		gl.useProgram(program);
@@ -48,7 +50,7 @@ export class BootstrapColorRenderer {
 		gl.bindBuffer(gl.ARRAY_BUFFER, entry.positionBuffer);
 		gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
 		gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
-		gl.uniform4fv(locations.color, mesh.material?.color || [0.8, 0.8, 0.8, 1]);
+		gl.uniform4fv(locations.color, materialColor(mesh.material));
 		if (entry.indexBuffer) {
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entry.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, entry.count, entry.indexType, 0);
@@ -68,19 +70,26 @@ export class BootstrapColorRenderer {
 function collectBootstrapMeshes(scene) {
 	const meshes = [];
 	scene?.traverse?.(object => {
-		if (object.isMesh && object.visible !== false && object.userData?.bootstrapVisual) {
-			meshes.push(object);
-		}
+		const isMesh = object.isMesh || object.isSkinnedMesh;
+		if (isMesh && object.visible !== false && object.userData?.bootstrapVisual) meshes.push(object);
 	});
 	return meshes;
 }
 
+function materialColor(materialValue) {
+	const material = Array.isArray(materialValue) ? materialValue[0] : materialValue;
+	const value = material?.color || material?.baseColorFactor || DEFAULT_COLOR;
+	if (Array.isArray(value) || ArrayBuffer.isView(value)) {
+		return [value[0] ?? 0.72, value[1] ?? 0.72, value[2] ?? 0.72, value[3] ?? 1];
+	}
+	if (Number.isFinite(value?.r)) return [value.r, value.g, value.b, value.a ?? 1];
+	return DEFAULT_COLOR;
+}
+
 function cameraProjectionView(camera) {
-	const eye = camera.position.toArray();
-	const target = camera.target || [0, 1, 0];
 	return multiply(
 		perspective(camera.fov, camera.aspect, camera.near, camera.far),
-		lookAt(eye, target)
+		lookAt(camera.position.toArray(), camera.target || [0, 1, 0])
 	);
 }
 

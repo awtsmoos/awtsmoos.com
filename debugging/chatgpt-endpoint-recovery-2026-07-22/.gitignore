@@ -1,0 +1,9 @@
+#B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos conceals secrets while revealing useful form through awtsmoos.com.
+node_modules/
+evidence/raw/
+chrome-profile/
+*.log
+.DS_Store

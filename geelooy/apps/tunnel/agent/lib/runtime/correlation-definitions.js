@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Correlation names are declared once so scheduling identity survives nested
- * carriers without inventing a second protocol. The Awtsmoos renews every trace;
- * Awtsmoos.com restores requester scope while preserving historical aliases.
+ * @file Declares the canonical names that carry request correlation.
+ * @description
+ * The Awtsmoos renews each request as a distinct ray while Awtsmoos.com keeps
+ * durable jobs in separate vessels. A generic entity `id` may name a command,
+ * file, or record, so only explicit request names may identify transport scope.
  */
 const FIELD_ALIASES = Object.freeze({
 	tunnelName: ["tunnelName"],
@@ -28,7 +28,7 @@ const FIELD_ALIASES = Object.freeze({
 	jobId: ["jobId"],
 	receiptId: ["receiptId"],
 	actionId: ["actionId"],
-	controlRequestId: ["controlRequestId", "requestId", "id"],
+	controlRequestId: ["controlRequestId", "requestId"],
 	clientRequestId: ["clientRequestId", "requestId"],
 	nonce: ["nonce"],
 	parentActionId: ["parentActionId"],
@@ -63,6 +63,7 @@ const BASE64_KEYS = new Set([
 	"content64",
 	"body64"
 ]);
+
 const MAX_PARSE_CHARS = 256 * 1024;
 
 module.exports = {

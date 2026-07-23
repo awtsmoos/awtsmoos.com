@@ -1,0 +1,135 @@
+=== TRACKED CONTENT ===
+ayzarim/DosDB/awtsmoosBinary/firebase/hosting/FirebaseHostingBridge.js:39:     * @param {string} localRelativePath - The earthly name of the file (e.g. 'heavy/os.zip').
+ayzarim/DosDB/awtsmoosBinary/firebase/hosting/FirebaseHostingPayloadMaps.js:43:     * @param {string} path - The relative URL path (e.g., '/heavy-file.zip')
+ayzarim/DosDB/awtsmoosBinary/firebase/sync/ContentAliyahPolicy.js:10: * If we try to stuff 1.4MB of `os.zip` into it, it will shatter the vessel.
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/helpers/unixReleaseServer.cjs:46:			if (url.pathname === "/api/tunnel/install/agent.zip") {
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/helpers/unixReleaseServer.cjs:67:				url: "/api/tunnel/install/agent.zip",
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/installerFallback.localhost-agent.test.cjs:48:        res.end(JSON.stringify({ ok: true, files: 1, bundles: [{ name: "agent", url: "/api/tunnel/install/agent.zip" }] }));
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/installerFallback.localhost-agent.test.cjs:51:      if (url.pathname === "/api/tunnel/install/agent.zip") {
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/windowsInstaller.localhost-agent.test.cjs:51:        res.end(JSON.stringify({ ok: true, files: manifestFiles(repoRoot).length, bundles: [{ name: "agent", url: "/api/tunnel/install/agent.zip" }] }));
+ayzarim/awtsmoosDynamicServer/tests/zipBundles/windowsInstaller.localhost-agent.test.cjs:54:      if (url.pathname === "/api/tunnel/install/agent.zip") {
+ayzarim/awtsmoosDynamicServer/zipBundles/bundleRoute.js:36:  const byteLimit = checkRateLimit(clientKey(context), built.zip.length);
+ayzarim/awtsmoosDynamicServer/zipBundles/bundleRoute.js:41:  response.setHeader("Content-Disposition", `attachment; filename="awtsmoos-agent-${part}.zip"`);
+ayzarim/awtsmoosDynamicServer/zipBundles/bundleRoute.js:45:  response.end(built.zip);
+docs/tunnel/ROOT_SEARCH_BRAINSTORM.md:40:15. Add archive searching for `.zip`, `.tar`, and `.tgz` behind an explicit flag.
+geelooy/ai/css/right-panel/actions.css:5:  provider archive controls, and relay/install commands. No button floats over
+geelooy/ai/js/automation/panelMarkup.js:11:const INSTALL_BASE = "https://awtsmoos.com/ai/relay/install";
+geelooy/ai/js/automation/relayInstallActions.js:2:const SCRIPT_ROOT = "./relay/install";
+geelooy/ai/js/chatgpt/transport/missingTransportNotice.js:5:const EXTENSION_ZIP_HREF = "./relay/install/awtsmoos-server-extension.zip";
+geelooy/ai/js/chatgpt/transport/missingTransportNotice.js:36: * The zip link points at an asset generated from the existing server-extension
+geelooy/ai/js/chatgpt/transport/missingTransportNotice.js:48:    <p><a class="awtsmoos-extension-download" href="${EXTENSION_ZIP_HREF}" download="awtsmoos-server-extension.zip">DOWNLOAD the Awtsmoos Server Extension .zip</a>, unzip it, load the unpacked folder in your browser extensions page, then refresh this tab.</p>
+geelooy/ai/old.AwtsmoosGPTify.reference.js:12:	                    headerTxt: "You need to <a href='https://github.com/ymerkos/awtsfaria/blob/main/geelooy/scripts/tricks/extensions/server.zip'>awtsmoos server</a> extension to run this.",
+geelooy/ai/prompt.js:59:    await zip.downloadZipFromUrls(EXTENSION_FILES, { zipName: "awtsmoos-server-extension.zip" });
+geelooy/ai/prompt.js:65:    setTimeout(() => { button.disabled = false; button.textContent = "Download extension zip"; }, 1800);
+geelooy/ai/prompt.js:96:  return `<button type="button" data-awts-action="download-extension">Download extension zip</button><a href="${EXTENSION_SOURCE_URL}" target="_blank" rel="noreferrer">View extension source</a>`;
+geelooy/ai/tests/harness/relayInstallControl.cjs:8:  const sh=read("relay/install/install-awtsmoos-chatgpt-relay.sh");
+geelooy/ai/tests/harness/relayInstallControl.cjs:9:  const ps1=read("relay/install/install-awtsmoos-chatgpt-relay.ps1");
+geelooy/ai/thoughts/2026-07-22-message-actions-desktop-css/history-message-actions.txt:82: .../ai/relay/install/awtsmoos-server-extension.zip | Bin 0 -> 65428 bytes
+geelooy/api/tunnel/install/_awtsmoos.derech.js:24:		await $i.use("agent.zip", async () => publishAgentZip($i));
+geelooy/api/tunnel/install/_awtsmoos.derech.js:54:		"attachment; filename=\"awtsmoos-agent.zip\""
+geelooy/api/tunnel/install/tools/bundleDescriptor.js:15:		url: "/api/tunnel/install/agent.zip",
+geelooy/apps/code/css/zip-explorer.css:13:.zip-toolbar {
+geelooy/apps/code/css/zip-explorer.css:23:.zip-info {
+geelooy/apps/code/css/zip-explorer.css:29:.zip-filename {
+geelooy/apps/code/css/zip-explorer.css:35:.zip-stats {
+geelooy/apps/code/css/zip-explorer.css:43:.zip-actions {
+geelooy/apps/code/css/zip-explorer.css:48:.zip-content {
+geelooy/apps/code/css/zip-explorer.css:54:.zip-table {
+geelooy/apps/code/css/zip-explorer.css:60:.zip-table th {
+geelooy/apps/code/css/zip-explorer.css:72:.zip-table td {
+geelooy/apps/code/css/zip-explorer.css:77:.zip-row {
+geelooy/apps/code/css/zip-explorer.css:82:.zip-row:hover {
+geelooy/apps/code/css/zip-explorer.css:86:.zip-row.modified td:first-child {
+geelooy/apps/code/css/zip-explorer.css:90:.zip-row.modified td:first-child::before {
+geelooy/apps/code/css/zip-explorer.css:100:.zip-icon-cell {
+geelooy/apps/code/css/zip-explorer.css:106:.zip-name-cell {
+geelooy/apps/code/css/zip-explorer.css:110:.zip-size-cell {
+geelooy/apps/code/css/zip-explorer.css:117:.zip-ratio-cell {
+geelooy/apps/code/css/zip-explorer.css:123:.zip-empty-msg {
+geelooy/apps/code/js/core/identity/CanonicalSeal.js:24:            return `intent[${intent}]::dim[zip]::parent[${item.zipTabId}]::path[${path}]`;
+geelooy/apps/code/js/core/identity/MultidimensionalSeal.js:19:            return `zip-realm::parent[${item.zipTabId}]::path[${item.path}]`;
+geelooy/apps/code/js/core/identity/TripleSealForge.js:18:            return `realm[zip]::tab[${item.zipTabId}]::coord[${item.path}]`;
+geelooy/apps/code/js/core/identity/UniversalIdentity.js:33:            return `zip-dim::tab[${item.zipTabId}]::path[${item.path}]`;
+geelooy/apps/code/js/core/identity/WorkspaceIdentity.js:20:        if (item.type === 'zip-entry') return `zip-realm-${item.zipTabId}::${item.path}`;
+geelooy/apps/code/js/file-ops/exporter.js:17:            name: items.length === 1 ? `${items[0].name}.zip` : 'collective.zip' 
+geelooy/apps/code/js/file-ops/zip/ZipCopier.js:24:            name: items.length === 1 ? `${items[0].name}.zip` : 'selection.zip' 
+geelooy/apps/code/js/file-ops/zip/ZipDownloader.js:33:            a.download = items.length === 1 ? `${items[0].name}.zip` : 'Awtsmoos_Bundle.zip';
+geelooy/apps/code/js/mime-util.js:57:    '.zip': { type: 'zip', mime: 'application/zip' }
+geelooy/apps/code/js/tabs/identity/TabIdentityManager.js:26:            return `intent[${intent}]::dim[zip]::parent[${item.zipTabId}]::path[${path}]`;
+geelooy/apps/code/js/terminal/commands/archive.js:36:        if (args.length < 2) throw new Error("usage: zip out.zip file1 [file2...]");
+geelooy/apps/code/js/terminal/commands/archive.js:58:        if (args.length < 1) throw new Error("usage: unzip file.zip [target_dir]");
+geelooy/apps/code/js/zip/ops/extract.js:18:            const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/extract.js:47:        const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/extract.js:52:        const zipName = sourceItem.name.replace(/\.zip$/i, '');
+geelooy/apps/code/js/zip/ops/modify.js:28:        const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/modify.js:41:        ZipRenderer.render(zipTab, (await import('./index.js')).ZipOps);
+geelooy/apps/code/js/zip/ops/modify.js:56:        const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/modify.js:63:        const openTab = State.tabs.find(t => t.item.type === 'zip-entry' && t.item.path === filename && t.item.zipTabId === state.tabId);
+geelooy/apps/code/js/zip/ops/modify.js:67:        import('./index.js').then(m => ZipRenderer.render(zipTab, m.ZipOps));
+geelooy/apps/code/js/zip/ops/modify.js:71:        const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/modify.js:88:            import('./index.js').then(m => ZipRenderer.render(zipTab, m.ZipOps));
+geelooy/apps/code/js/zip/ops/save.js:12:        const state = zipTab.zipState;
+geelooy/apps/code/js/zip/ops/save.js:76:            import('./index.js').then(m => ZipRenderer.render(zipTab, m.ZipOps));
+geelooy/apps/code/js/zip/render.js:13:        const state = tab.zipState;
+geelooy/apps/code/js/zip/render.js:16:        const container = DOM.zipExplorerWrapper;
+geelooy/apps/code/js/zip/render.js:19:        if (!container.querySelector('.zip-toolbar')) {
+geelooy/apps/code/js/zip/render.js:54:            const contentDiv = container.querySelector('.zip-content');
+geelooy/apps/code/js/zip/render.js:56:                if (e.target.closest('.zip-row')) return;
+geelooy/apps/code/js/zip/render.js:89:            container.querySelector('.zip-filename').textContent = tab.item.name;
+geelooy/apps/code/js/zip/state.js:16:        if (!tab.zipState) {
+geelooy/apps/code/js/zip/state.js:23:            tab.zipState = {
+geelooy/apps/code/js/zip/state.js:34:        return tab.zipState;
+geelooy/apps/code/js/zip/state.js:45:        if (!tab.zipState) return;
+geelooy/apps/code/js/zip/state.js:50:        tab.zipState.reader = reader;
+geelooy/apps/code/js/zip/state.js:51:        tab.zipState.entries = reader.getEntries();
+geelooy/apps/code/js/zip/state.js:53:        tab.zipState.modifications.clear();
+geelooy/apps/code/js/zip/state.js:54:        tab.zipState.newEntries.clear();
+geelooy/apps/code/js/zip/state.js:55:        tab.zipState.deletedPaths.clear();
+geelooy/apps/code/js/zip/zip-explorer.js:15:        return tab?.zipState;
+geelooy/apps/code/js/zip/zip-explorer.js:74:            zipTabId = foundTab?.item?.zipTabId;
+geelooy/apps/code/js/zip/zip-explorer.js:77:            zipTabId = subFileTab.item.zipTabId;
+geelooy/apps/code/js/zip/zip-explorer.js:94:            const tab = State.tabs.find(t => t.id === item.zipTabId);
+geelooy/apps/code/js/zip/zip-explorer.js:95:            if (!tab || !tab.zipState) throw new Error("Zip tab closed or invalid.");
+geelooy/apps/code/js/zip/zip-explorer.js:97:            const entries = ZipState.getDisplayEntries(tab.zipState);
+geelooy/apps/code/js/zip/zip-explorer.js:112:                            zipTabId: item.zipTabId,
+geelooy/apps/code/js/zip/zip-explorer.js:124:                                zipTabId: item.zipTabId,
+geelooy/apps/code/js/zip/zip-explorer.js:135:            const tab = State.tabs.find(t => t.id === item.zipTabId);
+geelooy/apps/code/js/zip/zip-explorer.js:136:            if (!tab || !tab.zipState) throw new Error("Zip tab closed.");
+geelooy/apps/code/js/zip/zip-explorer.js:139:            if (tab.zipState.modifications.has(item.path)) {
+geelooy/apps/code/js/zip/zip-explorer.js:140:                return tab.zipState.modifications.get(item.path);
+geelooy/apps/code/js/zip/zip-explorer.js:144:            const entry = tab.zipState.entries.find(e => e.filename === item.path);
+geelooy/apps/code/js/zip/zip-explorer.js:153:            const tab = State.tabs.find(t => t.id === item.zipTabId);
+geelooy/apps/code/js/zip/zip-explorer.js:161:            const tab = State.tabs.find(t => t.id === parentDir.zipTabId);
+geelooy/apps/code/js/zip/zip-explorer.js:172:            const tab = State.tabs.find(t => t.id === item.zipTabId);
+Binary file geelooy/apps/rebbe/android/dist/rebbe-responsa.apk matches
+geelooy/apps/rebbe/controllers/search-results/downloads.js:16:  return downloadRowsAsZip(rows, `rebbe-search-results-${Date.now()}.zip`, 'Zipping search results newest-first');
+geelooy/apps/rebbe/controllers/search-results/downloads.js:23:  return downloadRowsAsZip(rows, `rebbe-selected-tracks-${Date.now()}.zip`, 'Zipping selected files newest-first');
+geelooy/apps/rebbe/controllers/search-results/downloads.js:32:  return downloadRowsAsZip(rows, `${safeName(titleOf(item))}.zip`, `Zipping event newest-first: ${titleOf(item)}`);
+geelooy/apps/rebbe/modules/download/exports.js:15:export async function downloadRowsAsZip(rows = [], filename = 'rebbe-files.zip', title = 'Zipping files newest-first') {
+geelooy/apps/rebbe/modules/download/exports.js:58:  return `${safeName(playlist.title || 'playlist')}.zip`;
+geelooy/apps/rebbe/ui/browser/search.js:32:  node.querySelector('.zip-selected').onclick = e => act(e, () => actions.onDownloadSelectedTracks?.([...selected.values()]));
+geelooy/apps/rebbe/ui/browser/search.js:54:  bind('.zip', () => actions.onDownloadEvent?.(item));
+geelooy/apps/rebbe/ui/browser/search.js:103:  s.textContent = `.premium-event-card{border:1px solid rgba(0,243,255,.28);border-radius:22px;margin:14px 0;padding:16px;background:linear-gradient(135deg,rgba(0,243,255,.08),rgba(255,204,0,.035),rgba(0,0,0,.82));box-shadow:0 18px 48px rgba(0,0,0,.34)}.premium-event-card:hover{border-color:rgba(0,243,255,.75);box-shadow:0 22px 70px rgba(0,243,255,.12)}.result-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.summary-eyebrow{display:block;color:var(--c-yellow);font-size:11px;letter-spacing:3px;text-transform:uppercase}.premium-selection{position:sticky;top:0;z-index:20;border:1px solid rgba(255,204,0,.36);border-radius:18px;padding:14px;background:rgba(2,8,10,.96);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.event-action-grid,.bulk-selection-actions,.track-row-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bulk-selection-actions{justify-content:flex-end}.result-action{border:1px solid rgba(0,243,255,.45);border-radius:999px;background:rgba(0,0,0,.58);color:#eaffff;padding:8px 12px;font-weight:900;letter-spacing:.6px;cursor:pointer}.result-action:hover,.result-action:focus{background:var(--c-cyan);color:#001014;outline:2px solid rgba(255,204,0,.45)}.zip-selected,.event-action-grid .zip{border-color:rgba(255,204,0,.72);box-shadow:0 0 18px rgba(255,204,0,.12)}.result-title{font-size:clamp(18px,3vw,28px);color:white;font-weight:900}.result-date{color:var(--c-yellow);letter-spacing:2px}.event-files{margin-top:12px;border-top:1px solid rgba(0,243,255,.18);padding-top:12px}.track-selection-toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;color:#dff}.premium-track-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid rgba(0,243,255,.12);border-radius:14px;margin:8px 0;background:rgba(255,255,255,.025)}.premium-track-row.selected{border-color:var(--c-yellow);background:rgba(255,204,0,.12);box-shadow:inset 4px 0 0 var(--c-yellow)}.track-play-title{background:transparent;border:0;color:white;text-align:left;font-weight:900;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track-check-shell input{width:20px;height:20px;accent-color:var(--c-yellow)}.search-empty.small{padding:16px}@media(max-width:760px){.result-head,.premium-track-row,.premium-selection,.track-selection-toolbar{display:grid;grid-template-columns:1fr}.event-action-grid,.track-row-actions,.bulk-selection-actions{display:grid;grid-template-columns:1fr 1fr;justify-content:stretch}.result-action{width:100%}}`;
+geelooy/apps/tunnel/agent/testing/bundleDescriptorCompatibility.test.cjs:47:	"https://awtsmoos.com/api/tunnel/install/agent.zip"
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:58:	const zipPath = createBundleZip(path.join(Paths.TEMP_ROOT, 'awtsmoos-agent.zip'));
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:67:			url: '/awtsmoos-agent.zip',
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/bundle.cjs:77:		if (url.pathname === '/awtsmoos-agent.zip' || url.pathname === '/api/tunnel/install/agent.zip') {
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstalledAgent/bundleServer.cjs:43:				url: "/awtsmoos-agent.zip",
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstalledAgent/bundleServer.cjs:50:		url.pathname === "/awtsmoos-agent.zip" ||
+geelooy/apps/tunnel/agent/testing/helpers/isolatedInstalledAgent/bundleServer.cjs:51:		url.pathname === "/api/tunnel/install/agent.zip"
+geelooy/apps/tunnel/agent/testing/helpers/releaseBundleRuntime.cjs:27:	const zipFile = path.join(temporaryRoot, "agent.zip");
+geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/cases/sameVersionFastRepair.cjs:51:		assert.equal(requests.includes("/api/tunnel/install/agent.zip"), false);
+geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/releaseServer.cjs:60:		if (requestPath === "/api/tunnel/install/agent.zip") {
+geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/releaseServer.cjs:85:				url: "/api/tunnel/install/agent.zip",
+geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureInstall.cjs:24:	const zipPath = path.join(fixture.temporaryRoot, "older-runtime.zip");
+geelooy/apps/tunnel/agent/testing/releaseBundleClosure.test.cjs:16:	const zipPath = path.join(root, "agent.zip");
+geelooy/apps/tunnel/agent/testing/selfUpdateDescriptorTolerance.test.cjs:28:			url: "/api/tunnel/install/agent.zip",
+geelooy/apps/tunnel/agent/testing/selfUpdateDescriptorTolerance.test.cjs:34:	assert.equal(legacy.bundle.url, `${origin}/api/tunnel/install/agent.zip`);
+geelooy/apps/tunnel/agent/testing/selfUpdateNotificationOnly.test.cjs:93:					url: "/api/tunnel/install/agent.zip",
+geelooy/apps/tunnel/agent/testing/versionRecoveryFallback.test.cjs:86:	const zipPath = path.join(temporaryRoot, "agent.zip");
+geelooy/apps/tunnel/agent/tools/fs.js:13:const BIN = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", ".zip", ".exe", ".dll", ".so", ".node", ".woff", ".woff2", ".ttf", ".mp4", ".mov", ".mp3"]);
+geelooy/apps/tunnel/agent/tools/fs/constants.js:26:  ".pdf", ".zip", ".exe", ".dll", ".so", ".node",
+geelooy/apps/tunnel/downloads/awtsmoos-local-app.js:48:  ".pdf", ".zip", ".exe", ".dll", ".so", ".node",
+geelooy/apps/tunnel/downloads/awtsmoos-tunnel-client.js:42:  ".pdf", ".zip", ".exe", ".dll", ".so", ".node",
+geelooy/apps/tunnel/downloads/unix-package-stage.sh:19:	bundle_path="$work_root/agent.zip"
+geelooy/apps/tunnel/downloads/windows-bundle.ps1:27:			$zipPath = Join-Path $tempRoot ($bundle.name + '.zip')
