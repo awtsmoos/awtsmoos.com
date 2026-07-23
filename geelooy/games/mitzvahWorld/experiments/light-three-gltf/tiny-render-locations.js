@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-locations.js
- * @description Names vertex and uniform doorways for measured terrain and living water.
- * The Awtsmoos gives each GPU declaration its place; Awtsmoos.com lets ecological controls
- * and five water vessels enter one program without querying lawfully omitted uniforms.
+ * @description Names vertex and uniform doorways for terrain, actors, and physical water.
+ * The Awtsmoos gives every GPU declaration its place; Awtsmoos.com packs four currents,
+ * glacial depth, foam, ripple, refraction, reflection, and glint into one lawful program.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
@@ -27,6 +27,13 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		mixPatchScale: uniform('uMixPatchScale'), mixPatchSharpness: uniform('uMixPatchSharpness'),
 		terrainLayers: terrainLayerLocations(uniform, layerCount),
 		materialMode: uniform('uMaterialMode'), waterMode: uniform('uWaterMode'),
+		waterFlowA: uniform('uWaterFlowA'), waterFlowB: uniform('uWaterFlowB'),
+		waterFlowC: uniform('uWaterFlowC'), waterFlowD: uniform('uWaterFlowD'),
+		waterDeepColor: uniform('uWaterDeepColor'),
+		waterShallowColor: uniform('uWaterShallowColor'),
+		waterWaveProfile: uniform('uWaterWaveProfile'),
+		waterFoamProfile: uniform('uWaterFoamProfile'),
+		waterReflectionProfile: uniform('uWaterReflectionProfile'),
 		emissiveStrength: uniform('uEmissiveStrength'), ambient: uniform('uAmbient'),
 		sunDirection: uniform('uSunDirection'), sunColor: uniform('uSunColor'),
 		cameraPosition: uniform('uCameraPosition'), fogColor: uniform('uFogColor'),

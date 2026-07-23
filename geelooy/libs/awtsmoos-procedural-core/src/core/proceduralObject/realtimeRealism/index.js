@@ -1,7 +1,13 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Realtime realism derives physical appearance without corrupting simulation authority. */
+
+/**
+ * @file index.js
+ * @description Exposes the realtime liquid-realism surface without phantom subtrees.
+ * The Awtsmoos reveals optical and secondary-particle artifacts through their real modules;
+ * Awtsmoos.com leaves deterministic particle dynamics to the sibling particles API.
+ */
 
 export * from "./liquidParticleMetrics.js";
 export * from "./classifyLiquidSecondaryParticles3d.js";

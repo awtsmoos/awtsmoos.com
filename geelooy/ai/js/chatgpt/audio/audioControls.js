@@ -1,14 +1,15 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { handleAudioAction } from "./audioActionRouter.js";
 import { createAudioOffer, saveAudioSettings } from "./audioOfferView.js";
 import { bindAudioPlayer } from "./audioPlayerView.js";
 
 /**
- * The Awtsmoos gives one visible offer beside a completed assistant message.
- * Mounting remains small: creation, hydration, player binding, and delegation.
+ * The Awtsmoos gives one completed assistant answer a hidden chamber of voice.
+ * Awtsmoos.com reveals that chamber through the message menu, preserving a calm
+ * conversation while retaining synthesis, playback, and download powers.
  */
 export function mountAwtsmoosAudioOffer(options = {}) {
 	const {
@@ -18,7 +19,13 @@ export function mountAwtsmoosAudioOffer(options = {}) {
 		messageId = null,
 		copyText = ""
 	} = options;
-	if (!canMount(shell, conversationId)) {
+	if (!shell || !conversationId) {
+		return null;
+	}
+	if (shell.querySelector?.(":scope > .awtsmoos-audio-offer")) {
+		return null;
+	}
+	if (shell.querySelector?.(":scope > .message.is-loading")) {
 		return null;
 	}
 	const text = assistantText(shell, copyText);
@@ -26,6 +33,9 @@ export function mountAwtsmoosAudioOffer(options = {}) {
 		return null;
 	}
 	const root = createAudioOffer(text);
+	root.classList.add("audio-offer");
+	root.hidden = true;
+	root.dataset.messageAudioPanel = "true";
 	bindAudioPlayer(root);
 	root.addEventListener("change", () => saveAudioSettings(root));
 	root.addEventListener("click", event => {
@@ -36,25 +46,16 @@ export function mountAwtsmoosAudioOffer(options = {}) {
 			messageId
 		});
 	});
+	shell.classList.add("has-audio-options");
 	shell.append(root);
+	shell.__awtsmoosMessageActionMenu?.refresh?.();
 	return root;
-}
-
-function canMount(shell, conversationId) {
-	return Boolean(
-		shell
-		&& conversationId
-		&& !shell.querySelector?.(":scope > .awtsmoos-audio-offer")
-		&& !shell.querySelector?.(":scope > .message.is-loading")
-	);
 }
 
 function assistantText(shell, copyText) {
 	return String(
 		copyText
-		|| shell.querySelector?.(
-			":scope > .message:not(.is-loading)"
-		)?.textContent
+		|| shell.querySelector?.(":scope > .message:not(.is-loading)")?.textContent
 		|| ""
 	).trim();
 }

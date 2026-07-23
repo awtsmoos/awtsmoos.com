@@ -10,8 +10,6 @@
 @import url("./views/gate.css") layer(awt.views);
 @import url("./views/shell.css") layer(awt.views);
 @import url("./views/feature-compat.css") layer(awt.views);
-@import url("./views/dashboard/layout.css") layer(awt.views);
-@import url("./views/dashboard/cards.css") layer(awt.views);
 @import url("./views/device-security/index.css") layer(awt.views);
 @import url("./views/activity/layout.css") layer(awt.views);
 @import url("./views/activity/identity.css") layer(awt.views);
@@ -63,7 +61,6 @@
 @import url("./interaction/motion.css") layer(awt.motion);
 @import url("./views/agent-live-motion.css") layer(awt.motion);
 @import url("./core/responsive.css") layer(awt.responsive);
-@import url("./views/dashboard/responsive.css") layer(awt.responsive);
 @import url("./views/activity/responsive.css") layer(awt.responsive);
 @import url("./views/agent-command-deck/responsive.css") layer(awt.responsive);
 @import url("./views/agent-controls/responsive.css") layer(awt.responsive);

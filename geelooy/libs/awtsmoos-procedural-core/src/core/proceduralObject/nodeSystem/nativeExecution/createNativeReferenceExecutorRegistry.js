@@ -4,6 +4,17 @@
 /** Native reference executors provide trustworthy CPU semantics and Blender aliases. */
 
 import { NativeReferenceExecutorRegistry } from "./NativeReferenceExecutorRegistry.js";
+import {
+	executeJoinGeometry,
+	executeSetPosition,
+	executeSubdivideMesh
+} from "./advancedGeometryExecutors.js";
+import {
+	executeGlass,
+	executePrincipledVolume,
+	executeTransparent,
+	executeVolumeAbsorption
+} from "./advancedShaderExecutors.js";
 import { executeCube, executeGrid, executeTransformGeometry } from "./geometryExecutors.js";
 import { executeBooleanMath, executeClamp, executeMapRange, executeScalarMath } from "./mathExecutors.js";
 import { executeEmission, executeMaterialOutput, executeMixSurface, executePrincipledSurface } from "./shaderExecutors.js";
@@ -27,10 +38,17 @@ const EXECUTORS = Object.freeze({
 	"material.shader.principled": executePrincipledSurface,
 	"material.shader.emission": executeEmission,
 	"material.shader.mix-surface": executeMixSurface,
+	"material.shader.transparent": executeTransparent,
+	"material.shader.glass": executeGlass,
+	"material.shader.volume-principled": executePrincipledVolume,
+	"material.shader.volume-absorption": executeVolumeAbsorption,
 	"material.output.material": executeMaterialOutput,
 	"geometry.mesh.cube": executeCube,
 	"geometry.mesh.grid": executeGrid,
-	"geometry.mesh.transform": executeTransformGeometry
+	"geometry.mesh.transform": executeTransformGeometry,
+	"geometry.mesh.set-position": executeSetPosition,
+	"geometry.mesh.subdivide": executeSubdivideMesh,
+	"geometry.instance.join": executeJoinGeometry
 });
 
 const BLENDER_ALIASES = Object.freeze({
@@ -45,10 +63,17 @@ const BLENDER_ALIASES = Object.freeze({
 	ShaderNodeBsdfPrincipled: "material.shader.principled",
 	ShaderNodeEmission: "material.shader.emission",
 	ShaderNodeMixShader: "material.shader.mix-surface",
+	ShaderNodeBsdfTransparent: "material.shader.transparent",
+	ShaderNodeBsdfGlass: "material.shader.glass",
+	ShaderNodeVolumePrincipled: "material.shader.volume-principled",
+	ShaderNodeVolumeAbsorption: "material.shader.volume-absorption",
 	ShaderNodeOutputMaterial: "material.output.material",
 	GeometryNodeMeshCube: "geometry.mesh.cube",
 	GeometryNodeMeshGrid: "geometry.mesh.grid",
-	GeometryNodeTransform: "geometry.mesh.transform"
+	GeometryNodeTransform: "geometry.mesh.transform",
+	GeometryNodeSetPosition: "geometry.mesh.set-position",
+	GeometryNodeSubdivideMesh: "geometry.mesh.subdivide",
+	GeometryNodeJoinGeometry: "geometry.instance.join"
 });
 
 /** Creates a CPU reference registry and optional manifest aliases. */

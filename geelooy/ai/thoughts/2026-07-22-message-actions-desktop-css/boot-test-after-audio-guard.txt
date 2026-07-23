@@ -1,0 +1,59 @@
+✗ [1] chatgpt-extension-boot-regressions 2ms
+undefined {
+  'extension-bridge-boot-exposes-awtsmoos-fetch': { awtsmoosFetch: true, mFetch: true, ready: true },
+  'conversation-list-extension-mock-renders-sidebar-items': { rendersItems: true },
+  'extension-list-failure-shows-clear-error': { clearError: true },
+  'chatgpt-page-boot-does-not-call-node-relay-unless-enabled': {},
+  'automation-bridge-detection-cannot-block-conversation-list': { nonBlocking: true },
+  'audio-controls-cannot-throw-during-conversation-load': { guardedAudio: true },
+  'chatgpt-list-detail-fetch-errors-do-not-kill-app-shell': { shellSurvivesErrors: true },
+  'automation-page-send-is-identical-to-manual-send-path': { sameControllerSend: true, noAutomationPayload: true },
+  'chatgpt-sentinel-proof-is-fresh-per-send': { freshSentinelEverySend: true },
+  'automation-countdown-is-not-cut-by-composer': { visibleCountdown: true }
+}
+{
+  "ok": false,
+  "total": 1,
+  "failed": 1,
+  "results": [
+    {
+      "round": 1,
+      "ok": false,
+      "name": "chatgpt-extension-boot-regressions",
+      "ms": 2,
+      "facts": {
+        "extension-bridge-boot-exposes-awtsmoos-fetch": {
+          "awtsmoosFetch": true,
+          "mFetch": true,
+          "ready": true
+        },
+        "conversation-list-extension-mock-renders-sidebar-items": {
+          "rendersItems": true
+        },
+        "extension-list-failure-shows-clear-error": {
+          "clearError": true
+        },
+        "chatgpt-page-boot-does-not-call-node-relay-unless-enabled": {},
+        "automation-bridge-detection-cannot-block-conversation-list": {
+          "nonBlocking": true
+        },
+        "audio-controls-cannot-throw-during-conversation-load": {
+          "guardedAudio": true
+        },
+        "chatgpt-list-detail-fetch-errors-do-not-kill-app-shell": {
+          "shellSurvivesErrors": true
+        },
+        "automation-page-send-is-identical-to-manual-send-path": {
+          "sameControllerSend": true,
+          "noAutomationPayload": true
+        },
+        "chatgpt-sentinel-proof-is-fresh-per-send": {
+          "freshSentinelEverySend": true
+        },
+        "automation-countdown-is-not-cut-by-composer": {
+          "visibleCountdown": true
+        }
+      }
+    }
+  ]
+}

@@ -1,59 +1,42 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-import { h } from "../ui/core/html.js";
 import { activatePane } from "../router/paneRouter.js";
-import { PAGE_GROUPS } from "../shell/pageSpecs.js";
+import { h } from "../ui/core/html.js";
 import { createIcon } from "../ui/iconRegistry.js";
 
-/** Creates one ranked command-center card with a single activation event. */
+/**
+ * The Awtsmoos compresses every application into one luminous, honest door.
+ * Awtsmoos.com keeps icon and name, while description and metadata leave the floor,
+ * so the hand can choose immediately and navigation reveals all that waits in store.
+ */
 export function createDashboardCard(key, meta = {}) {
-  const group = meta.group || "core";
-  const isCore = (meta.badges || []).includes("core");
-  const card = h("button", {
-    classes: [
-      "awt-action-card",
-      `is-${group}`,
-      isCore ? "is-core" : "is-advanced",
-      key === "missionRooms" ? "is-primary-mission" : ""
-    ],
-    attrs: {
-      type: "button",
-      "data-awt-navigate": key,
-      "data-awt-key": key,
-      "data-awt-group": group,
-      "data-awt-core": String(isCore)
-    },
-    children: [icon(meta, key, group), copy(key, meta, group)]
-  });
-  card.addEventListener("click", event => {
-    event.preventDefault();
-    event.stopPropagation();
-    activatePane(key);
-  });
-  return card;
-}
-
-function icon(meta, key, group) {
-  return h("div", {
-    classes: ["awt-action-icon", `is-${group}`],
-    children: [createIcon(meta.icon || key, group)]
-  });
-}
-
-function copy(key, meta, group) {
-  return h("div", { classes: ["awt-action-copy"], children: [
-    h("strong", { text: meta.title || key }),
-    h("span", { text: meta.desc || "Open this workspace." }),
-    h("div", { classes: ["awt-card-meta"], children: metaChips(meta, group) })
-  ] });
-}
-
-function metaChips(meta, group) {
-  const chips = [chip(PAGE_GROUPS[group] || group || "Core", "group")];
-  for (const badge of meta.badges || []) chips.push(chip(badge, badge));
-  return chips;
-}
-
-function chip(label, kind) {
-  return h("span", { classes: ["awt-card-chip", `is-${kind}`], text: label });
+	const yesodGroup = meta.group || "core";
+	const malchutTitle = meta.title || key;
+	const card = h("button", {
+		classes: ["awt-launcher-tile", `is-${yesodGroup}`],
+		attrs: {
+			type: "button",
+			title: malchutTitle,
+			"aria-label": `Open ${malchutTitle}`,
+			"data-awt-navigate": key,
+			"data-awt-key": key
+		},
+		children: [
+			h("span", {
+				classes: ["awt-launcher-icon"],
+				children: [createIcon(meta.icon || key, yesodGroup)]
+			}),
+			h("strong", {
+				classes: ["awt-launcher-label"],
+				text: malchutTitle
+			})
+		]
+	});
+	card.addEventListener("click", event => {
+		event.preventDefault();
+		activatePane(key);
+	});
+	return card;
 }

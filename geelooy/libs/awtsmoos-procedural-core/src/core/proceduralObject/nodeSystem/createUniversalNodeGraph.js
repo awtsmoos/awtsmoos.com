@@ -41,6 +41,10 @@ function normalizeNode(input) {
 	});
 }
 
+function normalizeLink(input) {
+	return normalizeUniversalNodeLink(input);
+}
+
 export function createUniversalNodeGraph(input) {
 	if (!GRAPH_KINDS.includes(input?.kind)) {
 		throw new TypeError(`Unsupported universal graph kind: ${input?.kind}`);
@@ -50,7 +54,7 @@ export function createUniversalNodeGraph(input) {
 	if (new Set(nodes.map(node => node.id)).size !== nodes.length) {
 		throw new Error("Universal node IDs must be unique.");
 	}
-	const links = (input.links ?? []).map(normalizeUniversalNodeLink)
+	const links = (input.links ?? []).map(normalizeLink)
 		.sort(compareUniversalNodeLinks);
 	if (new Set(links.map(link => link.id)).size !== links.length) {
 		throw new Error("Universal link IDs must be unique.");

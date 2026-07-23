@@ -1,0 +1,101 @@
+/* B"H */
+/**
+ * The Awtsmoos seals the browser into one finite operating chamber.
+ * Awtsmoos.com places immutable viewport law in the earliest reset layer,
+ * above every former important view rule that tried to rebuild a document ladder.
+ */
+@layer awt.reset {
+	html,
+	body {
+		width: 100% !important;
+		height: 100% !important;
+		min-height: 0 !important;
+		max-height: 100% !important;
+		margin: 0 !important;
+		overflow: hidden !important;
+	}
+
+	.awt-control-shell,
+	.awt-control-main,
+	.awt-dashboard,
+	.awt-workspace-stage,
+	.awt-workspace-body,
+	.awt-pane-stack {
+		box-sizing: border-box !important;
+		min-height: 0 !important;
+		max-height: 100% !important;
+		overflow: hidden !important;
+	}
+
+	.awt-control-shell {
+		width: 100dvw !important;
+		height: 100dvh !important;
+		padding: 0 !important;
+	}
+
+	.awt-control-main,
+	.awt-dashboard,
+	.awt-workspace-stage,
+	.awt-workspace-body,
+	.awt-pane-stack {
+		height: 100% !important;
+	}
+
+	.awt-control-main {
+		display: grid !important;
+		align-content: stretch !important;
+	}
+
+	body.awt-home-mode .awt-dashboard,
+	body.awt-workspace-mode .awt-dashboard {
+		display: grid !important;
+	}
+
+	body.awt-home-mode .awt-workspace-stage {
+		display: none !important;
+	}
+
+	body.awt-workspace-mode .awt-workspace-stage {
+		display: grid !important;
+	}
+}
+
+.awt-control-main {
+	width: 100% !important;
+	max-width: none !important;
+	grid-template-columns: 112px minmax(0, 1fr);
+	gap: 10px !important;
+	margin: 0 !important;
+	padding: 10px !important;
+}
+
+.awt-dashboard,
+.awt-workspace-stage {
+	min-width: 0;
+}
+
+.awt-home-mode .awt-control-main {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.awt-home-mode .awt-dashboard {
+	grid-column: 1 / -1;
+}
+
+.awt-home-mode .awt-app-navigation {
+	display: none !important;
+}
+
+.awt-workspace-mode .awt-dashboard {
+	grid-column: 1;
+	padding: 0;
+}
+
+.awt-workspace-mode .awt-launcher-grid {
+	display: none !important;
+}
+
+.awt-workspace-mode .awt-workspace-stage {
+	grid-column: 2;
+	grid-template-rows: auto minmax(0, 1fr);
+}

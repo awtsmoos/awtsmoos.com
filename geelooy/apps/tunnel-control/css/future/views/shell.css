@@ -1,120 +1,85 @@
 /* B"H */
 /**
- * B"H
- * Chapter 802: The sidebar became dust beneath the single throne.
- *
- * The Awtsmoos pours Tunnel Control through one scrollable main vessel. No rail
- * is allocated, no hidden column reserves space, and every card must wrap inside
- * the page instead of overlapping the next breath.
+ * The Awtsmoos leaves structural dimensions to the final viewport covenant.
+ * Awtsmoos.com keeps only reusable visual vessels here, so no older shell law
+ * can secretly restore a long document, hidden rail, or competing arrangement.
  */
-.awt-control-shell {
-  width: 100%;
-  min-height: 100svh;
-  display: block;
-  padding: clamp(10px, 2vw, 24px);
-  overflow: visible;
-}
-
-.awt-control-side,
-.awt-side-tabs,
-.awt-home-button,
-.awt-nav-button,
-.awt-rail-status {
-  display: none !important;
-}
-
-.awt-control-main {
-  width: min(100%, 1480px);
-  min-width: 0;
-  min-height: calc(100svh - clamp(20px, 4vw, 48px));
-  display: grid;
-  gap: clamp(14px, 1.6vw, 24px);
-  align-content: start;
-  margin-inline: auto;
-  overflow: visible;
-}
-
 .awt-brand-block,
 .awt-runtime-switcher,
 .awt-user-chip {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  border: 1px solid var(--awt-line-soft);
-  border-radius: var(--awt-radius-3);
-  background: rgba(255, 255, 255, .035);
+	min-width: 0;
+	display: grid;
+	gap: 10px;
+	padding: 14px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: var(--awt-radius-3);
+	background: rgba(255, 255, 255, .035);
 }
 
 .awt-brand-row,
 .awt-user-chip {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
 }
 
 .awt-brand-logo,
-.awt-action-icon,
 .awt-pane-icon {
-  display: grid;
-  place-items: center;
-  color: var(--awt-icon-blue);
+	display: grid;
+	place-items: center;
+	color: var(--awt-icon-blue);
 }
 
 .awt-brand-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 16px;
-  background: rgba(40, 124, 255, .14);
+	width: 44px;
+	height: 44px;
+	border-radius: 16px;
+	background: rgba(40, 124, 255, .14);
 }
 
 .awt-brand-block h1 {
-  margin: 0;
-  font-size: 1.06rem;
-  line-height: 1.08;
-  letter-spacing: -.035em;
+	margin: 0;
+	font-size: 1.06rem;
+	line-height: 1.08;
+	letter-spacing: -.035em;
 }
 
 .awt-brand-block p,
 .awt-runtime-caption,
 .awt-user-chip small {
-  margin: 0;
-  color: var(--awt-muted);
-  font-size: .78rem;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
+	margin: 0;
+	color: var(--awt-muted);
+	font-size: .78rem;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
 }
 
 .awt-user-chip > span {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: rgba(40,124,255,.24);
-  font-weight: 950;
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	background: rgba(40, 124, 255, .24);
+	font-weight: 950;
 }
 
-.awt-runtime-grid { display: grid; gap: 14px; }
+.awt-runtime-grid {
+	display: grid;
+	gap: 12px;
+}
 
 .awt-runtime-card {
-  min-width: 0;
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  border: 1px solid var(--awt-line-soft);
-  border-radius: var(--awt-radius-3);
-  background: var(--awt-card-bg-soft);
-  overflow: hidden;
+	min-width: 0;
+	display: grid;
+	gap: 9px;
+	padding: 12px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: var(--awt-radius-3);
+	background: var(--awt-card-bg-soft);
 }
 
-.awt-runtime-card-top strong,
-.awt-runtime-card-top span,
-.awt-runtime-card p {
-  min-width: 0;
-  overflow-wrap: anywhere;
+.awt-runtime-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
-
-.awt-runtime-card-top span, .awt-runtime-card p { color: var(--awt-muted); }
-.awt-runtime-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.awt-runtime-actions button { flex: 1 1 132px; min-width: 0; }

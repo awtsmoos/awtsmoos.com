@@ -14,10 +14,10 @@ const STYLE = Object.freeze({
 	mist: { lifetime: 1.2, size: 0.025, buoyancy: 0.3 }
 });
 
-function derivedParticle(metric, role, index) {
+function derivedParticle(metric, role, index, tick) {
 	const style = STYLE[role];
 	return {
-		id: `${metric.particle.id}:${role}:${index}`,
+		id: `${metric.particle.id}:${role}:${tick}:${index}`,
 		position: metric.particle.position,
 		velocity: metric.particle.velocity,
 		age: 0,
@@ -28,28 +28,28 @@ function derivedParticle(metric, role, index) {
 			role,
 			buoyancy: style.buoyancy,
 			sourceParticleId: metric.particle.id,
+			sourceTick: tick,
 			turbulence: metric.turbulence,
 			surfaceHeight: metric.height
 		}
 	};
 }
 
-/** Creates four stable particle systems without consuming primary liquid particles. */
+/** Creates four stable systems without consuming primary liquid particles. */
 export function createLiquidSecondaryParticleSystems3d(state, options = {}) {
 	const classification = classifyLiquidSecondaryParticles3d(state, options);
 	const systems = {};
 	for (const [role, metrics] of Object.entries(classification.groups)) {
-		const particles = metrics.map((metric, index) => derivedParticle(metric, role, index));
+		const particles = metrics.map(
+			(metric, index) => derivedParticle(metric, role, index, state.tick)
+		);
 		systems[role] = createParticleSystem({
 			id: createStableId(`liquid.${role}`, { stateId: state.id, tick: state.tick }),
 			seed: state.particleSystem.seed,
 			capacity: Math.max(1, particles.length),
 			particles,
-			metadata: { role, sourceLiquidStateId: state.id }
+			metadata: { role, sourceLiquidStateId: state.id, sourceTick: state.tick }
 		});
 	}
-	return Object.freeze({
-		systems: Object.freeze(systems),
-		classification
-	});
+	return Object.freeze({ systems: Object.freeze(systems), classification });
 }

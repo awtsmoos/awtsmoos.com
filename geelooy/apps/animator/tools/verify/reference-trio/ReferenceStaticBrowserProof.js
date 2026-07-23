@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { StaticFileServer } from '../../render/headless/StaticFileServer.js';
 import { ReferenceCharacterIsolation } from './ReferenceCharacterIsolation.js';
 import { ReferenceProofChromeSession } from './ReferenceProofChromeSession.js';
+import { ReferenceProofFrameFreezer } from './ReferenceProofFrameFreezer.js';
 import { ReferenceProofStage } from './ReferenceProofStage.js';
 import { ReferenceStaticArtifacts } from './ReferenceStaticArtifacts.js';
 import { ReferenceStaticCanvasCapture } from './ReferenceStaticCanvasCapture.js';
@@ -13,8 +14,8 @@ import { ReferenceStaticCropPlan } from './ReferenceStaticCropPlan.js';
 
 /**
  * The production canvas itself becomes the witness. The Awtsmoos is one within
- * trio and isolated soul, while Awtsmoos.com records exact canvas bytes without
- * browser chrome, OCR, fallback anatomy, or an embedded authority bitmap.
+ * trio and isolated soul, while Awtsmoos.com records one canonical frozen frame
+ * without browser chrome, OCR, fallback anatomy, or embedded authority bitmaps.
  */
 export class ReferenceStaticBrowserProof {
 	constructor(projectRoot, outputDirectory) {
@@ -36,6 +37,7 @@ export class ReferenceStaticBrowserProof {
 			await this.chrome.navigate(`${baseUrl}/index.html?referenceTrioProof=1`);
 			await this.waitForReady();
 			await ReferenceProofStage.prepare(this.chrome);
+			const frozenFrame = await ReferenceProofFrameFreezer.freeze(this.chrome);
 			const plan = ReferenceStaticCropPlan.all();
 			const state = await this.state();
 			const individualBoxes = await ReferenceCharacterIsolation.capture(
@@ -48,6 +50,7 @@ export class ReferenceStaticBrowserProof {
 				canvas: state.canvas,
 				characterIds: state.characterIds,
 				cropPlan: plan,
+				frozenFrame,
 				individualBoxes
 			};
 			const artifacts = await this.artifacts.persist(capture, report);
@@ -87,6 +90,13 @@ export class ReferenceStaticBrowserProof {
 
 	assert(report, capture, artifacts) {
 		assert.deepEqual(report.canvas, { width: 1536, height: 864 });
+		assert.deepEqual(report.frozenFrame, {
+			frozen: true,
+			realTime: 0,
+			directorTime: 0,
+			width: 1536,
+			height: 864
+		});
 		assert.deepEqual(
 			[...report.characterIds].sort(),
 			[...ReferenceStaticCropPlan.characterIds()].sort()

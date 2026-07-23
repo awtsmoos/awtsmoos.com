@@ -4,18 +4,28 @@
 
 /**
  * @file MainMenuLaunchTask.js
- * @description Paints the transition before running a bounded selected-world launcher.
- * The Awtsmoos opens a visible threshold before heavy creation; Awtsmoos.com grants two
- * browser frames for the progress vessel without delaying non-browser tests by a microtask.
+ * @description Paints one visible transition task before invoking a bounded world launcher.
+ * The Awtsmoos opens the doorway without depending on animation frames; Awtsmoos.com yields
+ * one macrotask for paint, then advances even when the tab is hidden or rendering is throttled.
  */
 
 export function runMainMenuLaunch(handler, selection, options = {}) {
-	const paintPromise = waitForLaunchPaint(
-		options.environment || globalThis,
-		options.paintFrames
-	);
-	if (!paintPromise) return runBoundedHandler(handler, selection, options);
-	return paintPromise.then(() => runBoundedHandler(handler, selection, options));
+	const paintTask = createLaunchPaintTask(options);
+	if (!paintTask) return runBoundedHandler(handler, selection, options);
+	return paintTask.then(() => runBoundedHandler(handler, selection, options));
+}
+
+export function createLaunchPaintTask(options = {}) {
+	const environment = options.environment || globalThis;
+	const browserDocument = environment.document || globalThis.document;
+	const explicit = options.forcePaintTask === true;
+	if (!browserDocument && !explicit) return null;
+	const schedule = options.paintSchedule
+		|| environment.setTimeout?.bind(environment)
+		|| globalThis.setTimeout?.bind(globalThis);
+	if (!schedule) return Promise.resolve();
+	const delayMs = Math.max(0, Number(options.paintDelayMs) || 0);
+	return new Promise(resolve => schedule(resolve, delayMs));
 }
 
 function runBoundedHandler(handler, selection, options) {
@@ -54,28 +64,6 @@ function runBoundedHandler(handler, selection, options) {
 			.then(() => handler(selection))
 			.then(finish(resolve), finish(reject));
 	});
-}
-
-function waitForLaunchPaint(environment, requestedFrames) {
-	const defaultFrames = typeof document === 'undefined' ? 0 : 2;
-	const frames = Math.max(
-		0,
-		Number.isFinite(requestedFrames) ? requestedFrames : defaultFrames
-	);
-	if (frames === 0) return null;
-	return paintFrames(environment, frames);
-}
-
-async function paintFrames(environment, frames) {
-	for (let index = 0; index < frames; index += 1) {
-		await new Promise(resolve => {
-			if (typeof environment.requestAnimationFrame === 'function') {
-				environment.requestAnimationFrame(() => resolve());
-				return;
-			}
-			environment.setTimeout?.(resolve, 0) ?? resolve();
-		});
-	}
 }
 
 function abortError(reason) {

@@ -1,0 +1,263 @@
+===== 432b783e2 =====
+432b783e2 B_H automatic update
+ .../.audioControls.js.awts-43530-512b661c8e.tmp    | 209 ++++++++
+ geelooy/ai/js/chatgpt/audio/audioCatalog.js        |  77 +++
+ geelooy/ai/js/chatgpt/audio/audioControls.js       | 574 ++++++++-------------
+ geelooy/ai/js/chatgpt/audio/audioOfferView.js      | 122 +++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerState.js    | 118 +++++
+ geelooy/ai/js/chatgpt/audio/audioPlayerView.js     | 119 +++++
+ geelooy/ai/js/chatgpt/audio/audioStreamPlayback.js | 156 ++++++
+ geelooy/ai/js/chatgpt/audio/synthesize.js          | 183 ++++---
+ geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js  | 197 +++----
+ geelooy/ai/js/chatgpt/transport/relayBodyStream.js |  99 ++++
+ geelooy/ai/js/chatgpt/transport/relayResponse.js   |  64 +++
+ .../ai/js/chatgpt/transport/relaySerialization.js  |  58 +++
+ .../ai/js/chatgpt/transport/tunnelRelayFetch.js    | 173 +++----
+ 13 files changed, 1506 insertions(+), 643 deletions(-)
+===== c414c898e =====
+c414c898e B_H automatic update
+ geelooy/ai/central/providerTunnelBridge.js        |  28 ++-
+ geelooy/ai/css/bug-polish/00-foundation.css       |  61 +++++++
+ geelooy/ai/css/bug-polish/10-conversations.css    |  78 ++++++++
+ geelooy/ai/css/bug-polish/20-chat-composer.css    |  21 +++
+ geelooy/ai/css/bug-polish/30-responsive.css       |  10 ++
+ geelooy/ai/css/bug-polish/40-panels-transport.css |  18 ++
+ geelooy/ai/css/bug-polish/50-motion-depth.css     |  14 ++
+ geelooy/ai/css/bug-polish/60-message-details.css  |  17 ++
+ geelooy/ai/css/bug-polish/manifest.css            |  11 ++
+ geelooy/ai/index-old.html                         | 208 ++++++----------------
+ geelooy/ai/index.html                             |  35 ++--
+ geelooy/ai/js/app/providerKeyPanel.js             |  57 +++---
+ geelooy/ai/js/app/transportStatus.js              | 113 +++++++-----
+ geelooy/ai/styles.css                             |  11 +-
+ 14 files changed, 426 insertions(+), 256 deletions(-)
+===== c90f198a0 =====
+c90f198a0 BH
+ geelooy/ai/css/atmosphere-engine.css           |  28 ++++
+ geelooy/ai/css/desktop-polish.css              | 138 ++++++++++++++++++++
+ geelooy/ai/css/desktop-shell.css               | 123 ++++++++++++++++++
+ geelooy/ai/css/direct-desktop.css              | 164 ++++++++++++++++++++++++
+ geelooy/ai/css/embedded-mode.css               | 169 +++++++++++++++++++++++++
+ geelooy/ai/css/embedded.css                    |  96 ++++++++++++++
+ geelooy/ai/css/empty-state.css                 | 103 +++++++++++++++
+ geelooy/ai/css/ideal/mobile.css                |  11 +-
+ geelooy/ai/css/ideal/mobile/composer.css       |  75 ++++-------
+ geelooy/ai/css/ideal/mobile/control-center.css | 105 +++++++++++++++
+ geelooy/ai/css/ideal/mobile/crown.css          | 131 +++++++++++++------
+ geelooy/ai/css/ideal/mobile/measure.css        |  27 ++--
+ geelooy/ai/css/ideal/mobile/revamp.css         |  15 +--
+ geelooy/ai/css/ideal/mobile/scenes.css         |  19 ++-
+ geelooy/ai/css/ideal/mobile/suggestions.css    |  37 ++++++
+ geelooy/ai/css/ideal/mobile/visual-match.css   | 102 +++++++++++++++
+ geelooy/ai/css/performance-override.css        | 103 +++++++++++++++
+ geelooy/ai/css/showcase-cards.css              |  30 +++++
+ geelooy/ai/css/vision-engine.css               | 114 +++++++++++++++++
+ geelooy/ai/index.html                          |  87 ++++++-------
+ geelooy/ai/js/app/desktopShell.js              |  85 +++++++++++++
+ geelooy/ai/js/app/desktopShellData.js          |  40 ++++++
+ geelooy/ai/js/app/embeddedMode.js              |  50 ++++++++
+ geelooy/ai/js/app/emptyState.js                |  67 ++++++++++
+ geelooy/ai/js/app/layoutState.js               | 106 ++++++++++++++++
+ geelooy/ai/js/app/mobileChrome.js              |  29 +++++
+ geelooy/ai/js/app/mobileControlCenter.js       | 115 +++++++++++++++++
+ geelooy/ai/js/app/mobileDrawers.js             |  62 +++------
+ geelooy/ai/js/app/mobileSuggestions.js         |  57 +++++++++
+ geelooy/ai/js/app/performanceMode.js           |  38 ++++++
+ geelooy/ai/js/app/providerKeyPanel.js          | 102 +++++++++++++++
+ geelooy/ai/js/app/showcaseChrome.js            |  87 +++++++++++++
+ geelooy/ai/js/app/transportStatus.js           |  53 +++++---
+ geelooy/ai/js/app/viewportMode.js              |  31 +++++
+ geelooy/ai/js/app/visionDemo.js                |  46 +++++++
+ geelooy/ai/styles.css                          |  17 ++-
+ 36 files changed, 2430 insertions(+), 232 deletions(-)
+===== cce6b617d =====
+cce6b617d B"H
+ geelooy/ai/js/automation/panel.js                  |  38 +++----
+ geelooy/ai/js/automation/panelMarkup.js            |  53 +++-------
+ geelooy/ai/js/automation/relayInstallActions.js    |  27 ++---
+ geelooy/ai/js/chatgpt/transport/bridge.js          |  68 ++++++------
+ .../js/chatgpt/transport/missingTransportNotice.js |  66 ++++++++++++
+ .../ai/js/chatgpt/transport/nodeRelaySettings.js   |  67 ++++++------
+ .../ai/js/chatgpt/transport/tunnelRelayFetch.js    | 115 +++++++++++++++++++++
+ .../ai/relay/install/awtsmoos-server-extension.zip | Bin 0 -> 65428 bytes
+ 8 files changed, 287 insertions(+), 147 deletions(-)
+===== a45d22536 =====
+a45d22536 BH
+ geelooy/ai/IndexedDBHandler.js                     | 276 +++++++++------------
+ geelooy/ai/central/browserLocalTunnelBridge.js     |  71 ++----
+ geelooy/ai/central/contextWindow.js                |  89 +++++++
+ geelooy/ai/central/index.js                        |   9 +-
+ geelooy/ai/central/multiPassAgent.js               |  78 +++++-
+ geelooy/ai/central/providerChatStore.js            |  94 +++++++
+ geelooy/ai/central/providerEvents.js               |  86 +++++++
+ geelooy/ai/central/providers.js                    |  24 +-
+ geelooy/ai/central/streamClient.js                 | 147 ++++++++---
+ geelooy/ai/css/automation-form-polish.css          |  34 +--
+ geelooy/ai/css/ideal/automation.css                |  17 +-
+ geelooy/ai/css/ideal/chat.css                      |  12 +-
+ geelooy/ai/css/ideal/composer.css                  |   6 +-
+ geelooy/ai/css/ideal/shell.css                     |  22 +-
+ geelooy/ai/css/ideal/tokens.css                    |  24 +-
+ geelooy/ai/css/live-scroll-follow.css              |  25 +-
+ geelooy/ai/css/panels/windowing.css                |  24 +-
+ geelooy/ai/css/relay-install.css                   |  73 ++++++
+ geelooy/ai/css/unified-events.css                  |  88 +++++++
+ geelooy/ai/index.js                                |  95 +++----
+ geelooy/ai/js/app/conversationController.js        | 122 ++-------
+ geelooy/ai/js/app/sendButtonState.js               |  69 ++++++
+ geelooy/ai/js/app/streamRouter.js                  |  47 ++--
+ geelooy/ai/js/automation/backgroundBridge.js       |  54 ++--
+ geelooy/ai/js/automation/panel.js                  | 183 +++++---------
+ geelooy/ai/js/automation/panelMarkup.js            |  42 ++++
+ geelooy/ai/js/automation/pipeline.js               |  85 +++----
+ geelooy/ai/js/automation/providerChatAdmin.js      |  91 +++++++
+ geelooy/ai/js/automation/relayInstallActions.js    |  74 ++++++
+ geelooy/ai/js/automation/settingsStore.js          |  42 ++--
+ geelooy/ai/js/layout/layoutController.js           |  27 +-
+ geelooy/ai/js/layout/resizeHandles.js              |  66 +++--
+ .../ai/js/render/event-ui/thoughtEnvelopeCard.js   |  12 +-
+ geelooy/ai/js/render/eventDetails.js               |  39 ++-
+ geelooy/ai/js/render/messageVault.js               |  36 ++-
+ geelooy/ai/js/render/runtime/eventBodyHydrator.js  |  64 +++--
+ geelooy/ai/js/render/runtime/eventRuntime.js       | 102 ++++----
+ geelooy/ai/js/render/runtime/liveTextDelta.js      |  62 +++++
+ geelooy/ai/js/render/runtime/liveTextFreeze.js     |  58 +++++
+ geelooy/ai/js/render/runtime/liveTextRuntime.js    | 139 ++---------
+ geelooy/ai/js/render/runtime/panelChrome.js        |  67 +++--
+ geelooy/ai/js/render/runtime/recordWeight.js       |   2 +-
+ geelooy/ai/js/render/runtime/renderHelpers.js      |  18 +-
+ .../ai/js/render/runtime/thoughtEnvelopeRuntime.js |  35 ++-
+ geelooy/ai/js/render/worker/openAiChoiceDeltas.js  | 104 ++++++++
+ geelooy/ai/js/render/worker/streamDelta.js         |  25 +-
+ geelooy/ai/openaiCompatible.js                     | 139 +++++++----
+ .../install/install-awtsmoos-chatgpt-relay.ps1     |  48 ++++
+ .../install/install-awtsmoos-chatgpt-relay.sh      |  55 ++++
+ geelooy/ai/styles.css                              |  11 +-
+ geelooy/ai/tests/harness/liveStreamingUi.cjs       |   7 +-
+ 51 files changed, 2103 insertions(+), 1116 deletions(-)
+===== de3543335 =====
+de3543335 B"H
+ geelooy/ai/agents/localToolBridge.mjs              |  55 ++++++++
+ geelooy/ai/agents/stream-agent.mjs                 |  36 +++++
+ geelooy/ai/central/index.js                        |   8 ++
+ geelooy/ai/central/multiPassAgent.js               |  52 +++++++
+ geelooy/ai/central/payload.js                      |  42 ++++++
+ geelooy/ai/central/providers.js                    |  53 +++++++
+ geelooy/ai/central/streamClient.js                 |  59 ++++++++
+ geelooy/ai/central/toolCallParser.js               |  68 +++++++++
+ geelooy/ai/central/toolSchemas.js                  |  50 +++++++
+ geelooy/ai/central/tunnelRegistry.js               |  44 ++++++
+ geelooy/ai/css/ideal/automation.css                |  10 ++
+ geelooy/ai/css/ideal/chat.css                      |   9 ++
+ geelooy/ai/css/ideal/composer.css                  |   8 ++
+ geelooy/ai/css/ideal/mobile.css                    |  21 +++
+ geelooy/ai/css/ideal/shell.css                     |  14 ++
+ geelooy/ai/css/ideal/sidebar.css                   |  10 ++
+ geelooy/ai/css/ideal/tokens.css                    |  23 +++
+ geelooy/ai/css/right-panel-menu.css                | 100 +------------
+ geelooy/ai/index.html                              |   2 +-
+ geelooy/ai/index.js                                | 157 ++++++++++-----------
+ geelooy/ai/js/app/mobileDrawers.js                 |  42 ++++++
+ geelooy/ai/js/app/transportStatus.js               |  53 +++++++
+ geelooy/ai/js/automation/panel.js                  |  19 ++-
+ geelooy/ai/openaiCompatible.js                     | 115 ++++-----------
+ geelooy/ai/styles.css                              |  48 ++-----
+ geelooy/ai/tests/central/central-ai-smoke.test.mjs |  43 ++++++
+ geelooy/ai/tests/central/multipass-tools.test.mjs  |  87 ++++++++++++
+ 27 files changed, 922 insertions(+), 306 deletions(-)
+===== 4ab54aba5 =====
+4ab54aba5 BH
+ geelooy/ai/js/app/conversationController.js  |  3 ++-
+ geelooy/ai/js/chatgpt/audio/audioControls.js | 35 ++++++++++++++++++++++++----
+ geelooy/ai/js/render/messageRenderer.js      | 15 ------------
+ 3 files changed, 33 insertions(+), 20 deletions(-)
+===== 2365a9400 =====
+2365a9400 B"H Manifesting changes.
+ geelooy/ai/app-main.js                             |   3 +
+ geelooy/ai/css/chat.css                            |  68 +++++-
+ geelooy/ai/css/event-cockpit.css                   |  66 +++---
+ geelooy/ai/css/event-responsive.css                |  46 ++++
+ geelooy/ai/css/focus-accessibility.css             |  32 +++
+ geelooy/ai/css/layout.css                          |  17 --
+ geelooy/ai/css/markdown-polish.css                 | 100 +++++++++
+ geelooy/ai/css/panel-action-rail.css               |  40 ++++
+ geelooy/ai/css/panel-controls.css                  |  55 +++++
+ geelooy/ai/css/stream-polish.css                   |  82 +++++++
+ geelooy/ai/index.js                                |   6 +
+ geelooy/ai/js/app/conversationController.js        |   1 +
+ geelooy/ai/js/app/stream/livePacketSanitizer.js    |  17 ++
+ geelooy/ai/js/app/stream/packetState.js            |   8 +-
+ geelooy/ai/js/app/streamRouter.js                  |  58 +++--
+ geelooy/ai/js/automation/panel.js                  | 105 ++++++++-
+ geelooy/ai/js/chatgpt/auth/session.js              |   2 +-
+ .../js/chatgpt/conversations/history/turnFold.js   |  31 ++-
+ geelooy/ai/js/chatgpt/conversations/list.js        |   9 +
+ geelooy/ai/js/chatgpt/stream/logStream.js          |  67 +++---
+ geelooy/ai/js/chatgpt/stream/streamResumeStore.js  |  42 ++++
+ geelooy/ai/js/chatgpt/stream/streamResumer.js      |  53 +++++
+ geelooy/ai/js/chatgpt/stream/workerStreamClient.js |  55 +++++
+ geelooy/ai/js/chatgpt/transport/bridge.js          |  21 +-
+ geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js  | 116 ++++++++++
+ .../ai/js/chatgpt/transport/nodeRelaySettings.js   |  37 ++++
+ geelooy/ai/js/render/event-ui/thoughtTextCard.js   |  22 ++
+ geelooy/ai/js/render/event-ui/toolHeadline.js      |  70 ++++--
+ geelooy/ai/js/render/eventDetails.js               |   4 +-
+ geelooy/ai/js/render/eventSummaries.js             |   4 -
+ geelooy/ai/js/render/markdown/blocks.js            | 211 +++++++++++-------
+ geelooy/ai/js/render/markdown/inline.js            |  22 +-
+ geelooy/ai/js/render/messageRenderer.js            | 174 ++++++++++++---
+ .../ai/js/render/normalizer/toolNameResolver.js    |  52 +++--
+ geelooy/ai/js/render/normalizer/toolSignals.js     |  39 +++-
+ .../ai/js/render/normalizer/transportClassifier.js |  28 ++-
+ geelooy/ai/js/render/runtime/eventBodyHydrator.js  |  59 +++++-
+ geelooy/ai/js/render/runtime/eventPayloadVault.js  |  19 +-
+ geelooy/ai/js/render/runtime/eventRuntime.js       |  91 ++++++--
+ geelooy/ai/js/render/runtime/liveTextRuntime.js    |  53 +++++
+ geelooy/ai/js/render/runtime/loadState.js          |  22 ++
+ geelooy/ai/js/render/runtime/loadingRuntime.js     |  16 +-
+ geelooy/ai/js/render/runtime/loadingSweep.js       |   7 +-
+ geelooy/ai/js/render/runtime/panelChrome.js        |  93 ++++++--
+ geelooy/ai/js/render/runtime/reasoningGrouper.js   |   2 +-
+ geelooy/ai/js/render/runtime/recordRuntime.js      |  24 +++
+ geelooy/ai/js/render/runtime/renderHelpers.js      |   5 +-
+ geelooy/ai/js/render/runtime/scrollAnchor.js       |  75 +++++++
+ geelooy/ai/js/render/runtime/scrollRuntime.js      |  54 +++++
+ geelooy/ai/js/render/runtime/shellRuntime.js       |  50 +++--
+ geelooy/ai/js/render/runtime/thoughtEnvelope.js    |  79 +++++--
+ .../ai/js/render/runtime/thoughtEnvelopeRuntime.js | 102 +++++++++
+ .../ai/js/render/runtime/thoughtInnerReconciler.js |  82 +++++++
+ .../ai/js/render/runtime/thoughtInnerVisibility.js |  18 ++
+ .../js/render/runtime/thoughtStreamReconciler.js   |  60 ++++++
+ geelooy/ai/js/render/runtime/toolStreamIdentity.js |  23 ++
+ geelooy/ai/js/render/runtime/windowRuntime.js      |  35 +++
+ geelooy/ai/js/render/worker/renderWorker.js        |   2 +
+ geelooy/ai/js/render/worker/sseParser.js           |  38 ++++
+ geelooy/ai/relay/chatgpt-node-relay.cjs            | 235 +++++++++++++++++++++
+ .../ai/relay/split-browser/.smoke-server-39501.cjs |   6 +
+ .../ai/relay/split-browser/.smoke-server-39502.cjs |   6 +
+ .../ai/relay/split-browser/.smoke-server-39504.cjs |   6 +
+ .../ai/relay/split-browser/.smoke-server-39505.cjs |   6 +
+ geelooy/ai/relay/split-browser/.smoke-server.cjs   |   6 +
+ geelooy/ai/relay/split-browser/bodyPolicy.cjs      |  20 ++
+ geelooy/ai/relay/split-browser/bodyTransform.cjs   |  25 +++
+ geelooy/ai/relay/split-browser/browserBridge.cjs   |  53 +++++
+ geelooy/ai/relay/split-browser/browserShim.cjs     |  38 ++++
+ .../ai/relay/split-browser/clientDiagnostics.cjs   |  41 ++++
+ geelooy/ai/relay/split-browser/config.cjs          |  23 ++
+ geelooy/ai/relay/split-browser/controlPage.cjs     |  45 ++++
+ geelooy/ai/relay/split-browser/cookieJar.cjs       |  51 +++++
+ geelooy/ai/relay/split-browser/headerMap.cjs       |  65 ++++++
+ geelooy/ai/relay/split-browser/http.cjs            |  52 +++++
+ geelooy/ai/relay/split-browser/index.js            |  19 ++
+ geelooy/ai/relay/split-browser/jsPreamble.cjs      |  87 ++++++++
+ geelooy/ai/relay/split-browser/logger.cjs          |  43 ++++
+ geelooy/ai/relay/split-browser/proxy.cjs           |  66 ++++++
+ geelooy/ai/relay/split-browser/relayApi.cjs        |  86 ++++++++
+ geelooy/ai/relay/split-browser/rewriteHtml.cjs     |  19 ++
+ geelooy/ai/relay/split-browser/rewriteText.cjs     |  41 ++++
+ geelooy/ai/relay/split-browser/routeNormalize.cjs  |  21 ++
+ geelooy/ai/relay/split-browser/server.cjs          |  59 ++++++
+ geelooy/ai/relay/split-browser/urlMap.cjs          |  32 +++
+ .../scripts/awtsmoos/coding/highlighter-logic.js   |  54 +++++
+ geelooy/ai/styles.css                              |  12 +-
+ 87 files changed, 3592 insertions(+), 397 deletions(-)

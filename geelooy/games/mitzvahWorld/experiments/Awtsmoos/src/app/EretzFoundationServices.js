@@ -4,14 +4,12 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates camera, renderer, input, scene, and one scene-LOD owner.
- * The Awtsmoos recreates observer, warm sun, cool return, and every distant garment;
- * Awtsmoos.com gives the finite renderer one measured vessel for beauty without duplication.
+ * @description Creates camera, input, scene, LOD, and a clear-first progressive WebGL renderer.
+ * The Awtsmoos reveals observer and light before shader garments; Awtsmoos.com creates a real
+ * context immediately while rich rendering remains beyond the playable threshold.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
-import { StaticOpaqueBatcher } from '../../../light-three-gltf/tiny-static-opaque-batcher.js';
-import { TinyWebGLRenderer } from '../../../light-three-gltf/tiny-webgl-renderer.js';
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
 import { JumpButton } from '../input/JumpButton.js';
 import { MobileJoystick } from '../input/MobileJoystick.js';
@@ -20,14 +18,21 @@ import { SceneLodRuntime } from '../lod/SceneLodRuntime.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js?v=20260720-canonical-valley-pass-04';
+import { ProgressiveWebGLRenderer } from './ProgressiveWebGLRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
-export function createEretzFoundationServices(hosts, qualityProfile) {
+export function createEretzFoundationServices(
+	hosts,
+	qualityProfile,
+	environment = globalThis
+) {
+	const width = Math.max(1, Number(environment.innerWidth) || 1);
+	const height = Math.max(1, Number(environment.innerHeight) || 1);
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(
 		VILLAGE_ARRIVAL_CAMERA.fov,
-		innerWidth / innerHeight,
+		width / height,
 		0.08,
 		1600
 	);
@@ -48,10 +53,9 @@ export function createEretzFoundationServices(hosts, qualityProfile) {
 }
 
 function createRenderer(canvas, qualityProfile) {
-	const renderer = new TinyWebGLRenderer({ canvas });
+	const renderer = new ProgressiveWebGLRenderer({ canvas });
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
-	renderer.options.staticBatcher = new StaticOpaqueBatcher();
 	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.fogColor, 1);
 	renderer.setEnvironment({
 		...GOLDEN_HOUR_ENVIRONMENT,

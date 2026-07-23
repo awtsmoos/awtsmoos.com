@@ -4,87 +4,72 @@
 
 /**
  * @file EretzWorldFoundation.js
- * @description Builds graphics, assets, terrain, collision, and lighting in painted phases.
- * The Awtsmoos does not summon the whole valley in one breath; Awtsmoos.com first proves
- * the canvas, then the player, then the ground, yielding between revelations.
+ * @description Opens progressive WebGL, essential control, and a flat bootstrap world.
+ * The Awtsmoos reveals movement before the authored valley; Awtsmoos.com keeps terrain CSG,
+ * houses, roads, water, forests, textures, octrees, and village districts outside first startup.
  */
 
-import { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260720-canonical-valley-pass-04';
+import { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260722-stream-18';
+import { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';
 import {
 	nextLaunchFrame,
+	nextLaunchTask,
 	reportLaunchProgress,
 	throwIfLaunchAborted
 } from './RuntimeLaunchProgress.js';
 
 export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
-	if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
-	reportLaunchProgress(options, 'Opening the crystal-clear renderer…', 0.12);
-	const services = createEretzFoundationServices(hosts, qualityProfile);
-	await nextLaunchFrame(options.environment);
+	if (!qualityProfile) {
+		throw new Error('Eretz foundation requires a quality profile.');
+	}
+	const environment = options.environment || globalThis;
+	options.boot?.begin('webgl-context');
+	reportLaunchProgress(options, 'Opening progressive WebGL…', 0.12);
+	const services = createEretzFoundationServices(
+		hosts,
+		qualityProfile,
+		environment
+	);
+	const webGlBootFrame = paintEretzWebGlBootFrame(
+		services,
+		qualityProfile,
+		environment
+	);
+	await nextLaunchFrame(environment);
 	throwIfLaunchAborted(options.signal);
-	reportLaunchProgress(options, 'Loading the player and solid village forms…', 0.24);
-	const { loadEretzAssets } = await import('./EretzAssetLoader.js?v=20260722-stream-02');
-	const loaded = await loadEretzAssets({
-		...(options.assets || {}),
+	options.boot?.begin('essential-assets');
+	reportLaunchProgress(options, 'Creating the local control vessel…', 0.24);
+	const { loadEretzEssentialAssets } = await import(
+		'./EretzEssentialAssetLoader.js?v=20260722-stream-18'
+	);
+	const loaded = await loadEretzEssentialAssets({
+		...options,
 		boot: options.boot,
+		environment,
 		quality: qualityProfile.quality
 	});
-	await nextLaunchFrame(options.environment);
+	await nextLaunchTask(environment);
 	throwIfLaunchAborted(options.signal);
-	reportLaunchProgress(options, 'Building the playable valley and collision…', 0.48);
-	const modules = await loadWorldModules();
-	const phaseOneGround = modules.createGroundSampler({ terrainHeightAt: modules.heightAt });
-	const obstacles = modules.createObstacleField(loaded.assets, phaseOneGround);
-	const terrain = await modules.createTerrainPackage(
-		obstacles,
-		loaded.grassImage,
-		loaded.assets.terrainMixImage,
-		phaseOneGround,
-		{ boot: options.boot, quality: qualityProfile.quality }
+	options.boot?.begin('bootstrap-flat-world');
+	reportLaunchProgress(options, 'Opening flat movement ground…', 0.72);
+	const { createBootstrapWorldFoundation } = await import(
+		'./BootstrapWorldFoundation.js?v=20260722-stream-18'
 	);
-	throwIfLaunchAborted(options.signal);
-	reportLaunchProgress(options, 'Preparing ground truth and first light…', 0.68);
-	const mainOctree = modules.buildWorldCollisionOctree(terrain.colliders);
-	const chunkRuntime = modules.createWorldChunkRuntime({ mainOctree, terrain });
-	const collisionQuery = chunkRuntime.collisionQuery;
-	const groundSampler = phaseOneGround.withOctree(collisionQuery);
-	const ground = new modules.WorldGround({ octree: collisionQuery, terrainHeightAt: terrain.heightAt });
-	terrain.stats.groundSampler = groundSampler.stats().mode;
-	terrain.stats.qualityProfile = { ...qualityProfile };
-	services.scene.add(modules.createSky3D(qualityProfile.quality));
-	services.scene.add(terrain.group);
-	const initialLodRegistrations = services.sceneLod.refresh();
-	const materialCanonicalization = modules.canonicalizeSceneMaterials(services.scene);
+	const world = createBootstrapWorldFoundation(services);
+	options.boot?.progress?.(
+		'bootstrap-flat-world',
+		1,
+		1,
+		'Flat movement ground ready; authored valley remains dormant.',
+		'ready'
+	);
 	return {
 		...hosts,
 		...loaded,
 		...services,
-		chunkRegistry: chunkRuntime.registry,
-		chunkRuntime,
-		collisionQuery,
-		ground,
-		groundSampler,
-		initialLodRegistrations,
-		mainOctree,
-		materialCanonicalization,
-		obstacles,
-		phaseOneGround,
+		...world,
 		qualityProfile,
-		terrain
+		webGlBootFrame
 	};
-}
-
-async function loadWorldModules() {
-	const [materials, ground, obstacles, sky, terrain, worldGround, chunks, collision] = await Promise.all([
-		import('../assets/SceneMaterialCanonicalizer.js'),
-		import('../world/GroundPlacementSystem.js'),
-		import('../world/ObstacleField.js'),
-		import('../world/Sky3D.js'),
-		import('../world/Terrain3D.js?v=20260722-stream-02'),
-		import('../world/WorldGround.js'),
-		import('../world/streaming/WorldChunkRuntime.js'),
-		import('./WorldCollisionOctree.js')
-	]);
-	return { ...materials, ...ground, ...obstacles, ...sky, ...terrain, ...worldGround, ...chunks, ...collision };
 }

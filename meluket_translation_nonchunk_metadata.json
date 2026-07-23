@@ -1,0 +1,18 @@
+[
+  {
+    "relativePath": "generated/chunked-post-test/source-post.json",
+    "size": 61292
+  },
+  {
+    "relativePath": "generated/multi-test/source-items.json",
+    "size": 1827
+  },
+  {
+    "relativePath": "generated/one-test/source-item.json",
+    "size": 354
+  },
+  {
+    "relativePath": "generated/whole-post-test/source-batch.json",
+    "size": 61286
+  }
+]

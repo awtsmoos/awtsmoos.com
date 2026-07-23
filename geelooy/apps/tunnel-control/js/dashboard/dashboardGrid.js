@@ -1,39 +1,25 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
+import { PAGE_ORDER, PANE_META } from "../router/paneMeta.js";
 import { h } from "../ui/core/html.js";
-import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { createDashboardCard } from "./dashboardCard.js";
 
-export function coreGrid() {
-	return zone("Core command center", "Rooms, live actions, files, commands, providers, and tunnel permissions.", coreKeys(), "awt-core-grid");
-}
-
-export function advancedGrid() {
-	return h("details", { classes: ["awt-dashboard-zone", "is-advanced-zone"], children: [
-		h("summary", { text: "Advanced systems" }),
-		grid(advancedKeys(), "awt-advanced-grid")
-	] });
-}
-
-function zone(title, text, keys, className) {
-	return h("section", { classes: ["awt-dashboard-zone", "is-core-zone"], children: [
-		h("div", { classes: ["awt-zone-head"], children: [h("h3", { text: title }), h("p", { text })] }),
-		grid(keys, className)
-	] });
-}
-
-function grid(keys, className) {
+/**
+ * The Awtsmoos gathers every application door into one equal constellation.
+ * Awtsmoos.com refuses a second advanced vault or hidden destination;
+ * one ordered grid reveals the complete operating system through navigation.
+ */
+export function launcherGrid() {
 	return h("div", {
-		classes: ["awt-mission-grid", className],
-		attrs: { "aria-label": className },
-		children: keys.map(key => createDashboardCard(key, PANE_META[key]))
+		classes: ["awt-launcher-grid"],
+		attrs: {
+			role: "navigation",
+			"aria-label": "Open an application"
+		},
+		children: PAGE_ORDER.map(key => {
+			return createDashboardCard(key, PANE_META[key]);
+		})
 	});
-}
-
-function coreKeys() {
-	return DASHBOARD_ORDER.filter(key => (PANE_META[key]?.badges || []).includes("core"));
-}
-
-function advancedKeys() {
-	return DASHBOARD_ORDER.filter(key => !(PANE_META[key]?.badges || []).includes("core"));
 }

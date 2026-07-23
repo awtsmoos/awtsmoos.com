@@ -4,44 +4,38 @@
 
 /**
  * @file VillageWaterMaterialPolicy.js
- * @description Centralizes same-origin material truth for every village water definition.
- * The Awtsmoos lets lake, river, foam, mist, reeds, and wet stone wear garments from one law;
- * Awtsmoos.com validates each local texture once so no parallel material story can arise.
+ * @description Centralizes same-origin texture truth and physical alpine shader law.
+ * The Awtsmoos lets lake, river, fall, foam, and mist share one current; Awtsmoos.com
+ * binds every visible vessel to one canonical recipe without a parallel water simulation.
  */
 
 import {
 	assertProductionMaterialUrl
 } from '../../assets/ProductionMaterialUrlPolicy.js';
+import { waterShaderRecipe } from '../proceduralApi/WaterShaderRecipe.js';
 
 const WATER_SHADER = 'alpine-two-fetch-variant-flow-fresnel-foam-water';
 
-/**
- * Preserves the public shader description used by existing callers.
- *
- * @param {string} [waterVariant='lake'] - Lake, river, waterfall, foam, or mist.
- * @returns {object} Immutable shader behavior without texture ownership metadata.
- */
+/** Returns immutable shader and physical behavior for one water variant. */
 export function waterShaderPolicy(waterVariant = 'lake') {
+	const waterClass = waterVariant === 'river' ? 'stream' : waterVariant;
 	return Object.freeze({
 		animated: true,
 		flowLayers: 2,
 		shader: WATER_SHADER,
 		textureDriven: true,
-		waterClass: waterVariant === 'river' ? 'stream' : waterVariant,
+		waterClass,
+		waterPhysical: waterShaderRecipe(physicalKind(waterVariant)),
 		waterVariant
 	});
 }
 
-/**
- * Creates validated metadata for one animated water surface.
- *
- * @param {object} options - Texture and water-variant options.
- * @returns {object} Truthful same-origin runtime metadata.
- */
+/** Creates validated metadata for one animated water surface. */
 export function createAnimatedWaterTexturePolicy(options) {
 	assertLocalWaterTexture(options.primaryUrl, `${options.waterVariant} primary`);
-	if (options.mixUrl) assertLocalWaterTexture(options.mixUrl, `${options.waterVariant} mix`);
-
+	if (options.mixUrl) {
+		assertLocalWaterTexture(options.mixUrl, `${options.waterVariant} mix`);
+	}
 	return {
 		...waterShaderPolicy(options.waterVariant),
 		fallbackFirst: true,
@@ -51,12 +45,7 @@ export function createAnimatedWaterTexturePolicy(options) {
 	};
 }
 
-/**
- * Creates validated metadata for one static hydrology-adjacent material.
- *
- * @param {object} options - Texture, role, and optional shader options.
- * @returns {object} Truthful same-origin runtime metadata.
- */
+/** Creates validated metadata for one static hydrology-adjacent material. */
 export function createStaticWaterTexturePolicy(options) {
 	assertLocalWaterTexture(options.primaryUrl, options.role);
 	const policy = {
@@ -66,10 +55,15 @@ export function createStaticWaterTexturePolicy(options) {
 		role: options.role,
 		sameOrigin: true
 	};
-
 	if (options.shader) policy.shader = options.shader;
 	if (Number.isFinite(options.tileWorld)) policy.tileWorld = options.tileWorld;
 	return policy;
+}
+
+function physicalKind(waterVariant) {
+	if (waterVariant === 'river' || waterVariant === 'stream') return 'stream';
+	if (['waterfall', 'foam', 'mist'].includes(waterVariant)) return 'cascade';
+	return 'lake';
 }
 
 function assertLocalWaterTexture(url, role) {

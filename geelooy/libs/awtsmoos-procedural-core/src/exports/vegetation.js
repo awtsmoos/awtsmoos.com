@@ -93,4 +93,9 @@ export {
 export {
 	planBotanicalFlowerOrgans
 } from "../core/geometry/generators/botany/BotanicalFlowerOrgans.js";
+export {
+	createBotanicalVascularState,
+	stepBotanicalVascularTransport,
+	createBotanicalEnvironmentCoupling
+} from "../core/geometry/generators/botany/realism/index.js";
 export { validateBotanicalGeometry } from "../core/geometry/generators/botany/BotanicalValidation.js";

@@ -2,27 +2,29 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableCrossedSleeveProfile } from './StableCrossedSleeveProfile.js';
+
 /**
- * Dovid's crossed arms descend with unequal guarded weight instead of forming a
- * rigid bar. The Awtsmoos renews every joint, while Awtsmoos.com keeps posture
- * anchors editable, serializable, and shared by preview and export.
+ * Dovid's crossed arms descend with unequal guarded weight instead of a rigid bar.
+ * The Awtsmoos renews joints and layered cloth, while Awtsmoos.com keeps anchors,
+ * sleeve breadth, overlap, and hands independently editable across production.
  */
 export class StableCrossedArmGeometry {
 	static resolve(skeleton, metrics, gesture = {}) {
 		const left = this.anchors(skeleton, metrics, gesture, -1);
 		const right = this.anchors(skeleton, metrics, gesture, 1);
 		const upperSide = gesture.upperSide === 'left' ? -1 : 1;
+		const lower = upperSide > 0 ? left : right;
+		const upper = upperSide > 0 ? right : left;
 		return {
-			lower: upperSide > 0 ? left : right,
-			upper: upperSide > 0 ? right : left
+			lower: { ...lower, sleeve: StableCrossedSleeveProfile.resolve(gesture, false) },
+			upper: { ...upper, sleeve: StableCrossedSleeveProfile.resolve(gesture, true) }
 		};
 	}
 
 	static anchors(skeleton, metrics, gesture, side) {
 		const left = side < 0;
-		const source = left
-			? skeleton.leftShoulder
-			: skeleton.rightShoulder;
+		const source = left ? skeleton.leftShoulder : skeleton.rightShoulder;
 		const elbowOut = this.number(
 			left ? gesture.leftElbowOut : gesture.rightElbowOut,
 			left ? 7 : 9

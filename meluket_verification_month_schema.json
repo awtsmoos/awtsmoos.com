@@ -1,0 +1,290 @@
+[
+  {
+    "index": 0,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "תשרי_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-תשרי"
+    },
+    "listLengths": {
+      "sourcePostIds": 36,
+      "aliasPostIds": 0,
+      "missingPosts": 36,
+      "identityFailures": 36,
+      "contentFailures": 36
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 1,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "חשון_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-חשון"
+    },
+    "listLengths": {
+      "sourcePostIds": 16,
+      "aliasPostIds": 0,
+      "missingPosts": 16,
+      "identityFailures": 16,
+      "contentFailures": 16
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 2,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "כסלו_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-כסלו"
+    },
+    "listLengths": {
+      "sourcePostIds": 28,
+      "aliasPostIds": 0,
+      "missingPosts": 28,
+      "identityFailures": 28,
+      "contentFailures": 28
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 3,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "טבת_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-טבת"
+    },
+    "listLengths": {
+      "sourcePostIds": 10,
+      "aliasPostIds": 0,
+      "missingPosts": 10,
+      "identityFailures": 10,
+      "contentFailures": 10
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 4,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "שבט_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-שבט"
+    },
+    "listLengths": {
+      "sourcePostIds": 28,
+      "aliasPostIds": 0,
+      "missingPosts": 28,
+      "identityFailures": 28,
+      "contentFailures": 28
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 5,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "אדר_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-אדר"
+    },
+    "listLengths": {
+      "sourcePostIds": 12,
+      "aliasPostIds": 0,
+      "missingPosts": 12,
+      "identityFailures": 12,
+      "contentFailures": 12
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 6,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "ניסן_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-ניסן"
+    },
+    "listLengths": {
+      "sourcePostIds": 20,
+      "aliasPostIds": 0,
+      "missingPosts": 20,
+      "identityFailures": 20,
+      "contentFailures": 20
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 7,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "אייר_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-אייר"
+    },
+    "listLengths": {
+      "sourcePostIds": 10,
+      "aliasPostIds": 0,
+      "missingPosts": 10,
+      "identityFailures": 10,
+      "contentFailures": 10
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 8,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "סיון_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-סיון"
+    },
+    "listLengths": {
+      "sourcePostIds": 14,
+      "aliasPostIds": 0,
+      "missingPosts": 14,
+      "identityFailures": 14,
+      "contentFailures": 14
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 9,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "תמוז_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-תמוז"
+    },
+    "listLengths": {
+      "sourcePostIds": 14,
+      "aliasPostIds": 0,
+      "missingPosts": 14,
+      "identityFailures": 14,
+      "contentFailures": 14
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 10,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "מנחם אב_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-מנחם-אב"
+    },
+    "listLengths": {
+      "sourcePostIds": 18,
+      "aliasPostIds": 0,
+      "missingPosts": 18,
+      "identityFailures": 18,
+      "contentFailures": 18
+    },
+    "dictKeys": {}
+  },
+  {
+    "index": 11,
+    "keys": [
+      "aliasId",
+      "sourceId",
+      "sourcePostIds",
+      "aliasPostIds",
+      "missingPosts",
+      "identityFailures",
+      "contentFailures"
+    ],
+    "scalars": {
+      "aliasId": "אלול_meluket",
+      "sourceId": "BH-seferHamaamarimMeluket-אלול"
+    },
+    "listLengths": {
+      "sourcePostIds": 12,
+      "aliasPostIds": 0,
+      "missingPosts": 12,
+      "identityFailures": 12,
+      "contentFailures": 12
+    },
+    "dictKeys": {}
+  }
+]

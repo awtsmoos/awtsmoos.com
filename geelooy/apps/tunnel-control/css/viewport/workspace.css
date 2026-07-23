@@ -1,0 +1,38 @@
+/* B"H */
+/**
+ * The Awtsmoos crowns every bounded application with one compact title bar.
+ * Awtsmoos.com keeps the way home, the page name, and status within one row,
+ * so controls below receive the whole remaining viewport and never wander far.
+ */
+.awt-workspace-toolbar {
+	box-sizing: border-box;
+	min-width: 0;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: 10px;
+	align-items: center;
+	min-height: 48px;
+	padding: 6px 10px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: 14px 14px 0 0;
+	background: rgba(7, 18, 34, .92);
+}
+
+.awt-workspace-title {
+	margin: 0;
+	overflow: hidden;
+	font-size: 1rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awt-workspace-status {
+	color: var(--awt-muted);
+	font-size: .72rem;
+}
+
+.awt-back-button {
+	min-height: 36px;
+	padding-inline: 12px;
+	white-space: nowrap;
+}

@@ -1,0 +1,8 @@
+B"H
+playwright missing
+playwright-core missing
+puppeteer missing
+chrome-remote-interface /Users/awtsmoos/node_modules/chrome-remote-interface/index.js
+ws /Users/awtsmoos/node_modules/ws/index.js
+=== CHROME APP ===
+/Applications/Google Chrome.app/Contents/MacOS/Google Chrome

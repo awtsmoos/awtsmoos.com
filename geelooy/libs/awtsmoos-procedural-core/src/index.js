@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * The Awtsmoos renews every attribute, index, object, and world from nothing
  * at every instant. This Awtsmoos.com vessel keeps one responsibility bounded
@@ -22,3 +23,5 @@ export * from "./core/proceduralObject/index.js";
  * imports remain untouched while semantic Four-Worlds operations become local.
  */
 export * from "./core/animalMesh/creature/index.js";
+
+export { createParticleRenderArtifact } from "./core/proceduralObject/particles/createParticleRenderArtifact.js";

@@ -5,10 +5,14 @@
 /**
  * @file TorahCombatController.js
  * @description Commits canonical passage focus and history only after accepted world consequence.
+ * The Awtsmoos lets study, turn, target, impact, and reward arrive in their truthful order;
+ * Awtsmoos.com keeps one focus meter and inventory history, never a shadow combat border.
  */
 
+import { bindTorahCombatEvents } from './TorahCombatEventBindings.js';
 import { TorahFocusMeter } from './TorahFocusMeter.js';
 import { evaluateTorahStudyUse } from './TorahStudyRules.js';
+import { reserveTorahCombatTurn } from './TorahCombatTurnGateway.js';
 
 export class TorahCombatController {
 	constructor(options) {
@@ -16,6 +20,7 @@ export class TorahCombatController {
 		this.clock = options.clock || Date.now;
 		this.inventory = options.inventory;
 		this.profile = options.profile;
+		this.turns = options.turns || null;
 		this.focus = options.focus || new TorahFocusMeter({
 			clock: this.clock,
 			maximum: this.profile.snapshot().derived.focusMaximum
@@ -23,14 +28,7 @@ export class TorahCombatController {
 		this.selectedTarget = null;
 		this.pendingUse = null;
 		this.completedUseResult = null;
-		this.unsubscribers = [
-			this.bus.on('npc:target', payload => this.receiveTarget(payload)),
-			this.bus.on('npc:clear', payload => this.clearTarget(payload)),
-			this.bus.on('enemy:defeated', payload => this.clearTarget(payload)),
-			this.bus.on('torah:impact', payload => this.receiveImpact(payload)),
-			this.bus.on('combat:ability', payload => this.receiveLegacyAbility(payload)),
-			this.bus.on('combat:ward', payload => this.receiveLegacyWard(payload))
-		];
+		this.unsubscribers = bindTorahCombatEvents(this, this.bus);
 	}
 
 	usePassage(requestedPassage, options = {}) {
@@ -43,6 +41,10 @@ export class TorahCombatController {
 			targetRequired: options.targetRequired
 		});
 		if (!decision.ok) return this.publishResult({ ...decision, requestId: options.requestId || null });
+		const turnDecision = reserveTorahCombatTurn(this.turns, decision, options, now);
+		if (!turnDecision.ok) {
+			return this.publishResult({ ok: false, reason: turnDecision.reason, requestId: options.requestId || null });
+		}
 		this.completedUseResult = null;
 		this.pendingUse = { ...decision, requestId: options.requestId || null };
 		if (options.worldImpactRequired === false) {
@@ -63,20 +65,6 @@ export class TorahCombatController {
 
 	clearTarget(payload) {
 		if (!payload?.id || payload.id === this.selectedTarget?.id) this.selectedTarget = null;
-	}
-
-	receiveLegacyAbility(payload) {
-		if (!this.pendingUse) return;
-		const accepted = payload?.results?.some(result => result.accepted) || false;
-		this.receiveImpact({
-			...payload,
-			accepted,
-			reason: accepted ? null : payload?.results?.[0]?.reason || 'ABILITY_REJECTED'
-		});
-	}
-
-	receiveLegacyWard(payload) {
-		if (this.pendingUse) this.receiveImpact({ accepted: true, ...payload, results: [] });
 	}
 
 	receiveImpact(impact) {

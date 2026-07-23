@@ -14,6 +14,7 @@ import {
 	playerMeleeReadiness,
 	resolvePlayerMeleeAttack
 } from './PlayerMeleeRules.js';
+import { PlayerMeleeTurnGateway } from './PlayerMeleeTurnGateway.js';
 
 export class PlayerMeleeController {
 	constructor(options) {
@@ -21,6 +22,7 @@ export class PlayerMeleeController {
 		this.clock = options.clock || Date.now;
 		this.inventory = options.inventory || null;
 		this.profile = options.profile || null;
+		this.turnGateway = new PlayerMeleeTurnGateway(options.turns || null);
 		this.attackTemplate = Object.freeze({
 			...DEFAULT_PLAYER_MELEE_ATTACK,
 			...(options.attack || {})
@@ -45,8 +47,10 @@ export class PlayerMeleeController {
 	attackNow(context = {}) {
 		const now = Number.isFinite(context.now) ? context.now : this.clock();
 		const readiness = this.readiness(now);
-		if (!readiness.ok) return this.publishLocalRejection('ATTACK_COOLDOWN', now, readiness);
+		if (!readiness.ok) return this.publishLocalRejection(rejectionCode(readiness), now, readiness);
 		const attack = this.currentAttack();
+		const turnDecision = this.turnGateway.reserve(attack, context, now);
+		if (!turnDecision.ok) return this.publishLocalRejection(turnDecision.reason, now, turnDecision);
 		this.lastAttackAt = now;
 		this.nextAttackAt = now + attack.cooldownMilliseconds;
 		const request = {
@@ -72,7 +76,7 @@ export class PlayerMeleeController {
 	}
 
 	readiness(now = this.clock()) {
-		return playerMeleeReadiness(now, this.nextAttackAt);
+		return this.turnGateway.readiness(now, playerMeleeReadiness(now, this.nextAttackAt));
 	}
 
 	receiveResult(result) {
@@ -83,7 +87,7 @@ export class PlayerMeleeController {
 		const result = {
 			accepted: false,
 			attackId: this.attackTemplate.id,
-			cooldownRemainingMilliseconds: readiness.cooldownRemainingMilliseconds,
+			cooldownRemainingMilliseconds: readiness.cooldownRemainingMilliseconds || 0,
 			ok: false,
 			reason,
 			resolvedAt: now
@@ -105,4 +109,8 @@ export class PlayerMeleeController {
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 	}
+}
+
+function rejectionCode(readiness) {
+	return readiness.reason === 'attack-cooldown' ? 'ATTACK_COOLDOWN' : readiness.reason;
 }

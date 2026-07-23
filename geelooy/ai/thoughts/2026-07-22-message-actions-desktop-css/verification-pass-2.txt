@@ -1,0 +1,156 @@
+B"H
+=== LINE COUNTS ===
+     104 geelooy/ai/js/render/message-actions/messageActionTransfer.js
+      90 geelooy/ai/js/render/message-actions/messageMediaDiscovery.js
+      31 geelooy/ai/js/render/message-actions/messageActionKeyboard.js
+      66 geelooy/ai/js/render/message-actions/messageActionItems.js
+      45 geelooy/ai/js/render/message-actions/messageActionElements.js
+     104 geelooy/ai/js/render/message-actions/messageActionMenu.js
+      20 geelooy/ai/js/render/message-actions/index.js
+      59 geelooy/ai/js/render/runtime/shellDecorations.js
+     105 geelooy/ai/js/render/runtime/shellRuntime.js
+      64 geelooy/ai/js/chatgpt/audio/audioControls.js
+     101 geelooy/ai/css/message-actions.css
+      25 geelooy/ai/css/message-actions-mobile.css
+      98 geelooy/ai/css/message-audio-options.css
+      50 geelooy/ai/css/message-audio-player.css
+      61 geelooy/ai/css/desktop-refinement.css
+      24 geelooy/ai/css/right-panel/manifest.css
+      19 geelooy/ai/styles.css
+      30 geelooy/ai/tests/messageMediaDiscovery.test.mjs
+    1096 total
+=== SYNTAX ===
+syntax ok
+=== FOCUSED TEST ===
+(node:38448) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/awtsmoos.com/geelooy/ai/js/render/message-actions/messageMediaDiscovery.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ classifies audio and video from elements, MIME types, and URLs (13.3648ms)
+✔ derives readable safe media filenames (1.478618ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 734.592419
+=== AI SCOPED HARNESS ===
+✓ [1] css-and-entrypoint-parity 278ms
+✓ [1] css-no-overlap-law 141ms
+✓ [1] mobile-layout-regression-guard 3ms
+✓ [1] static-regression-audit 268ms
+✓ [1] live-streaming-ui-regressions 351ms
+{
+  "ok": true,
+  "total": 5,
+  "failed": 0,
+  "results": [
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-and-entrypoint-parity",
+      "ms": 278,
+      "facts": {
+        "imports": 11,
+        "eventImports": 8,
+        "activeCss": 54,
+        "allCss": 131,
+        "activeImportant": 0,
+        "eventsManifestLive": true,
+        "thoughtsLive": true,
+        "toolTerminalLive": true,
+        "fileReviewLive": true,
+        "mobileOverlapSeal": "final-small",
+        "handlers": 3
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "css-no-overlap-law",
+      "ms": 141,
+      "facts": {
+        "activeCss": 54,
+        "importedLegacy": 0,
+        "fixedChecked": true,
+        "absoluteChecked": true,
+        "highZChecked": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "mobile-layout-regression-guard",
+      "ms": 3,
+      "facts": {
+        "imports": 11,
+        "mobileImports": 9,
+        "lift": 76,
+        "eventsManifestLive": true,
+        "overlapSealLast": true,
+        "revampOwnsTokensOnly": true
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "static-regression-audit",
+      "ms": 268,
+      "facts": {
+        "files": 234,
+        "duplicateImports": 0,
+        "duplicateExports": 0,
+        "duplicateFunctions": 0,
+        "suspicious": 0
+      }
+    },
+    {
+      "round": 1,
+      "ok": true,
+      "name": "live-streaming-ui-regressions",
+      "ms": 351,
+      "facts": {
+        "streaming-text-prewrap-and-live-markdown-preview-stay-stable": {
+          "innerHTMLSetCount": 1,
+          "stable": true,
+          "liveMarkdown": true
+        },
+        "stream-resume-store-active-prunes-done-ghosts": {
+          "active": [
+            "live-1",
+            "old-live"
+          ]
+        },
+        "resume-packets-accept-single-chunk-and-malformed-shapes": {
+          "single": 1,
+          "pending": true,
+          "malformed": true
+        }
+      }
+    }
+  ]
+}
+=== SPACE INDENT CHECK ===
+=== CSS SUSPICIOUS ===
+=== DIFF CHECK ===
+=== TARGET STATUS ===
+ M geelooy/ai/css/right-panel/manifest.css
+ M geelooy/ai/js/chatgpt/audio/audioControls.js
+ M geelooy/ai/js/render/runtime/shellRuntime.js
+ M geelooy/ai/styles.css
+?? geelooy/ai/css/desktop-refinement.css
+?? geelooy/ai/css/message-actions-mobile.css
+?? geelooy/ai/css/message-actions.css
+?? geelooy/ai/css/message-audio-options.css
+?? geelooy/ai/css/message-audio-player.css
+?? geelooy/ai/js/render/message-actions/index.js
+?? geelooy/ai/js/render/message-actions/messageActionElements.js
+?? geelooy/ai/js/render/message-actions/messageActionItems.js
+?? geelooy/ai/js/render/message-actions/messageActionKeyboard.js
+?? geelooy/ai/js/render/message-actions/messageActionMenu.js
+?? geelooy/ai/js/render/message-actions/messageActionTransfer.js
+?? geelooy/ai/js/render/message-actions/messageMediaDiscovery.js
+?? geelooy/ai/js/render/runtime/shellDecorations.js
+?? geelooy/ai/tests/messageMediaDiscovery.test.mjs

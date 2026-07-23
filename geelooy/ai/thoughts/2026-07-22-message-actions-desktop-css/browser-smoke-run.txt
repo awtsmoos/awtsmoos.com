@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "desktop": {
+    "ok": true,
+    "labels": [
+      "Copy message",
+      "Share message",
+      "Download text",
+      "Audio & download",
+      "Download audio"
+    ],
+    "copied": "A browser-verified message from the Awtsmoos.",
+    "audioPanelOpen": true,
+    "escapeClosed": true,
+    "focusReturned": true,
+    "stylesLoaded": true
+  },
+  "mobile": {
+    "ok": true,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "triggerRect": {
+      "x": 0,
+      "y": 859.78125,
+      "width": 38,
+      "height": 40,
+      "top": 859.78125,
+      "right": 38,
+      "bottom": 899.78125,
+      "left": 0
+    },
+    "rootRect": {
+      "x": 0,
+      "y": 859.78125,
+      "width": 320,
+      "height": 263,
+      "top": 859.78125,
+      "right": 320,
+      "bottom": 1122.78125,
+      "left": 0
+    },
+    "menuRect": {
+      "x": 0,
+      "y": 906.78125,
+      "width": 320,
+      "height": 216,
+      "top": 906.78125,
+      "right": 320,
+      "bottom": 1122.78125,
+      "left": 0
+    }
+  }
+}

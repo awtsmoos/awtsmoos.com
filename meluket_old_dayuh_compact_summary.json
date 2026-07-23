@@ -1,0 +1,68 @@
+{
+  "rootExists": true,
+  "postsDirectory": {
+    "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts",
+    "exists": true,
+    "isDirectory": true,
+    "size": 46880,
+    "mtime": 1784697345.4175684
+  },
+  "entities": [
+    {
+      "id": "BH_POST_1749792440863_theRebbe_116",
+      "existing": []
+    },
+    {
+      "id": "BH_POST_1766518919556_theRebbe_605",
+      "existing": [
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518919556_theRebbe_605",
+          "isFile": false,
+          "isDirectory": true,
+          "size": 96,
+          "jsonType": null,
+          "jsonError": null,
+          "payloadId": null,
+          "author": null,
+          "title": null,
+          "contentLength": null,
+          "fields": null,
+          "children": [
+            {
+              "name": "commentTree",
+              "isFile": false,
+              "isDirectory": true,
+              "size": 96
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BH_POST_1766518920368_theRebbe_469",
+      "existing": [
+        {
+          "path": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/social/heichelos/ikar/posts/BH_POST_1766518920368_theRebbe_469",
+          "isFile": false,
+          "isDirectory": true,
+          "size": 96,
+          "jsonType": null,
+          "jsonError": null,
+          "payloadId": null,
+          "author": null,
+          "title": null,
+          "contentLength": null,
+          "fields": null,
+          "children": [
+            {
+              "name": "commentTree",
+              "isFile": false,
+              "isDirectory": true,
+              "size": 96
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
