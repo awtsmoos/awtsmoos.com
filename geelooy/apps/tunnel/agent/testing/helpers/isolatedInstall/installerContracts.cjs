@@ -11,6 +11,7 @@ const UNIX_FILES = Object.freeze([
 	"unix.sh", "unix-node-runtime.sh", "unix-install-core.sh",
 	"unix-install-lock.sh", "unix-install-lock-owner.cjs",
 	"unix-install-resume.sh", "unix-release-metadata.sh",
+	"unix-install-readiness.sh", "unix-version-policy.sh",
 	"unix-fast-repair.sh", "unix-install-progress.sh",
 	"unix-install-browser.sh", "unix-install-success.sh",
 	"unix-state-migration.sh", "unix-process-census.sh",
@@ -29,7 +30,7 @@ const WINDOWS_FILES = Object.freeze([
  * @file Audits split installer families as one user-facing covenant.
  * @description
  * The Awtsmoos renews every helper behind one command. Awtsmoos.com requires Node
- * discovery, lock ownership, exact process repair, root proof, and valid syntax.
+ * discovery, lock ownership, monotonic versions, root proof, and valid syntax.
  */
 function assertInstallerScripts() {
 	const windows = readFamily(WINDOWS_FILES);
@@ -42,8 +43,9 @@ function assertInstallerScripts() {
 	assertTokens(unix, [
 		"curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
 		"activate_node_runtime", "acquire_install_lock",
-		"resume_interrupted_install", "repair_matching_release",
-		"stop_existing_runtime", "exact_root_process_count",
+		"resume_interrupted_install", "apply_installed_version_policy",
+		"repair_matching_release", "stop_existing_runtime",
+		"exact_root_process_count", "verified_agent_pid",
 		"wait_for_project_root_readiness", "complete_install_experience"
 	], "unix");
 	assert.equal(unix.includes("falling back to per-file"), false);

@@ -3,9 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos calls installation complete only when relay, root, and guardian agree.
-# Awtsmoos.com refuses 100% for a temporary child, then reveals the stable route ID,
-# friendly name, project root, version, and durable service ownership.
+# Completion appears only after one bounded witness binds relay, root, process,
+# and guardian. The Awtsmoos allows transient renewal, never contradictory truth.
 installer_config_value() {
 	local key="$1"
 	node - "$ROOT/config.json" "$key" <<'NODE'
@@ -28,18 +27,6 @@ try {
 	process.stdout.write(String(value[key] ?? ""));
 } catch {}
 NODE
-}
-
-verified_agent_pid() {
-	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	if runtime_pid_matches "$pid" &&
-		runtime_registered "$pid" 600000 &&
-		project_root_ready "$pid" 600000 &&
-		service_supervision_ready "$pid"; then
-		printf '%s\n' "$pid"
-		return 0
-	fi
-	return 1
 }
 
 print_install_success_card() {
@@ -93,8 +80,8 @@ complete_install_experience() {
 	agent_pid="$(verified_agent_pid || true)"
 	if [ -z "$agent_pid" ]; then
 		install_fail "complete" \
-			"Registration, project root, or durable guardian was missing." \
-			"phase=$phase state=$(connection_state_name) $(project_root_health_summary) $(service_health_summary)"
+			"Registration, project root, or durable guardian did not converge." \
+			"phase=$phase $(final_readiness_failure_detail)"
 	fi
 	tunnel_id="$(connection_receipt_value tunnelId)"
 	[ -n "$tunnel_id" ] || install_fail "complete" \
