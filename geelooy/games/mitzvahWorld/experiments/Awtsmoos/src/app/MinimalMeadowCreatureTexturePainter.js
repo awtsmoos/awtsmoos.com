@@ -3,95 +3,78 @@
 // Blessed is He
 
 /**
-	* @file MinimalMeadowCreatureTexturePainter.js
-	* @description Owns finite demon-hide palettes and deterministic canvas painting.
-	* The Awtsmoos gives darkness grain, scar, and rune; Awtsmoos.com lets ash, ember,
-	* and stone become visible garments without network fetches or per-actor image waste.
-	*/
+ * @file MinimalMeadowCreatureTexturePainter.js
+ * @description Paints deterministic hide, rune, scar, stone, and armor patterns for shared maps.
+ * The Awtsmoos renews every texel without waste; Awtsmoos.com gives shadow a woven memory,
+ * so darkness remains thematic while its grain, ridges, runes, and scars remain readable.
+ */
 
-export const MINIMAL_SHADOW_SURFACE_FAMILIES = Object.freeze([
-	Object.freeze({
-		name: 'violet-ash',
-		seed: 17,
-		colors: Object.freeze(['#9b6bb7', '#5b3c70', '#2b2037', '#d7a1ec'])
-	}),
-	Object.freeze({
-		name: 'scorched-ember',
-		seed: 31,
-		colors: Object.freeze(['#a35d57', '#633737', '#2f2023', '#e2a08d'])
-	}),
-	Object.freeze({
-		name: 'weathered-stone',
-		seed: 47,
-		colors: Object.freeze(['#85839c', '#525266', '#292b36', '#c4bdd9'])
-	})
-]);
+import { MINIMAL_DEMON_READABILITY_PROFILES } from './MinimalMeadowDemonReadabilityProfile.js';
+import { measureMinimalCreatureSurface } from './MinimalMeadowCreatureSurfaceEvidence.js';
 
-/**
-	* Paints one deterministic seamless-enough hide source for the renderer cache.
-	* @param {CanvasRenderingContext2D} context Canvas drawing vessel.
-	* @param {object} family Controlled palette and seed.
-	* @param {number} size Square source size in pixels.
-	* @returns {void}
-	*/
+export const MINIMAL_SHADOW_SURFACE_FAMILIES = MINIMAL_DEMON_READABILITY_PROFILES;
+
 export function paintMinimalShadowSurface(context, family, size) {
 	paintBase(context, family.colors, size);
-	paintSmoke(context, family, size);
-	paintCracks(context, family, size);
-	paintRuneFlecks(context, family, size);
+	paintMottle(context, family, size);
+	paintRidges(context, family, size);
+	paintRunes(context, family, size);
 	context.globalAlpha = 1;
 }
 
+export function measureMinimalShadowSurface(context, family, size) {
+	return measureMinimalCreatureSurface(context, family, size);
+}
+
 function paintBase(context, colors, size) {
-	const center = size * 0.5;
 	const gradient = context.createRadialGradient(
-		size * 0.41,
-		size * 0.32,
-		size * 0.04,
-		center,
-		center,
-		size * 0.74
+		size * 0.38,
+		size * 0.28,
+		size * 0.03,
+		size * 0.52,
+		size * 0.52,
+		size * 0.72
 	);
-	gradient.addColorStop(0, colors[0]);
-	gradient.addColorStop(0.46, colors[1]);
+	gradient.addColorStop(0, colors[1]);
+	gradient.addColorStop(0.52, colors[0]);
 	gradient.addColorStop(1, colors[2]);
 	context.fillStyle = gradient;
 	context.fillRect(0, 0, size, size);
 }
 
-function paintSmoke(context, family, size) {
-	context.globalAlpha = 0.22;
-	for (let index = 0; index < 54; index += 1) {
-		const x = (family.seed + index * 73) % size;
-		const y = (family.seed * 3 + index * 131) % size;
-		const radius = 7 + (index * 5) % 19;
-		const smoke = context.createRadialGradient(x, y, 0, x, y, radius);
-		smoke.addColorStop(0, index % 3 ? family.colors[3] : family.colors[2]);
-		smoke.addColorStop(1, 'rgba(0,0,0,0)');
-		context.fillStyle = smoke;
+function paintMottle(context, family, size) {
+	context.globalAlpha = 0.2;
+	for (let index = 0; index < 52; index += 1) {
+		const x = (family.seed * 5 + index * 73) % size;
+		const y = (family.seed * 9 + index * 131) % size;
+		const radius = 8 + (index * 7) % 18;
+		const cloud = context.createRadialGradient(x, y, 0, x, y, radius);
+		cloud.addColorStop(0, index % 4 ? family.colors[3] : family.colors[2]);
+		cloud.addColorStop(1, 'rgba(0,0,0,0)');
+		context.fillStyle = cloud;
 		context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
 	}
 }
 
-function paintCracks(context, family, size) {
-	context.globalAlpha = 0.32;
+function paintRidges(context, family, size) {
+	context.globalAlpha = 0.3;
 	context.strokeStyle = family.colors[3];
-	context.lineWidth = 1.25;
-	for (let index = 0; index < 10; index += 1) {
-		const y = 18 + index * 25;
+	context.lineWidth = 1.5;
+	for (let index = 0; index < 11; index += 1) {
+		const y = 12 + index * 23;
 		context.beginPath();
 		context.moveTo(0, y);
-		context.bezierCurveTo(68, y - family.seed, 178, y + family.seed, size, y - 6);
+		context.bezierCurveTo(64, y - family.seed * 0.3, 186, y + family.seed * 0.22, size, y - 5);
 		context.stroke();
 	}
 }
 
-function paintRuneFlecks(context, family, size) {
-	context.globalAlpha = 0.38;
+function paintRunes(context, family, size) {
+	context.globalAlpha = 0.42;
 	context.fillStyle = family.colors[3];
-	for (let index = 0; index < 24; index += 1) {
+	for (let index = 0; index < 28; index += 1) {
 		const x = (family.seed * 7 + index * 43) % size;
 		const y = (family.seed * 11 + index * 67) % size;
-		context.fillRect(x, y, 2 + index % 3, 5 + index % 4);
+		context.fillRect(x, y, 2 + index % 3, 5 + index % 5);
 	}
 }

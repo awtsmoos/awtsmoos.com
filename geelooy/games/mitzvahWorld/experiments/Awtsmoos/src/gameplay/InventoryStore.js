@@ -4,26 +4,16 @@
 
 /**
  * @file InventoryStore.js
- * @description Coordinates authoritative inventory, equipment, learning, and persistence state.
- * The Awtsmoos is one before every stack and listener; Awtsmoos.com reveals one complete snapshot
- * after each transaction while focused rules prepare the finite changes outside this vessel.
+ * @description Coordinates authoritative inventory, equipment, appearance, and learning state.
+ * The Awtsmoos is one before stack, garment, hue, fabric, and listener; Awtsmoos.com
+ * publishes one complete snapshot after every lawful transaction.
  */
 
-import {
-	learnInventoryPassage,
-	markInventoryPassageUsed,
-	toggleInventoryBook,
-	toggleInventoryPassage
-} from './InventoryLearningRules.js';
+import { cycleInventoryAppearance, setInventoryAppearance } from './InventoryAppearanceRules.js';
+import { learnInventoryPassage, markInventoryPassageUsed, toggleInventoryBook, toggleInventoryPassage } from './InventoryLearningRules.js';
 import { restoreInventoryState, serializableInventoryState } from './InventoryPersistenceRules.js';
 import { inventoryItemQuantity, inventorySnapshot, removeInventoryItem } from './InventoryStoreRules.js';
-import {
-	initialInventoryState,
-	inventoryAdditionDraft,
-	inventoryPurchaseDraft,
-	reconciledInventoryEquipment,
-	requireInventoryItem
-} from './InventoryStoreTransactions.js';
+import { initialInventoryState, inventoryAdditionDraft, inventoryPurchaseDraft, reconciledInventoryEquipment, requireInventoryItem } from './InventoryStoreTransactions.js';
 
 export class InventoryStore {
 	constructor(options = {}) {
@@ -47,7 +37,8 @@ export class InventoryStore {
 	}
 
 	remove(itemId, quantity = 1) {
-		requireInventoryItem(itemId);
+		const definition = requireInventoryItem(itemId);
+		if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_DROP');
 		this.items = removeInventoryItem(this.items, itemId, quantity);
 		this.reconcileEquipment();
 		return this.publish();
@@ -68,47 +59,33 @@ export class InventoryStore {
 	}
 
 	unequip(slot) {
+		const definition = requireInventoryItem(this.equipment[slot]);
+		if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_UNEQUIP');
 		delete this.equipment[slot];
 		return this.publish();
 	}
-	learn(passageId) {
-		learnInventoryPassage(this, passageId);
+
+	setAppearance(itemId, patch) {
+		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+		this.appearance = setInventoryAppearance(this.appearance, itemId, patch);
 		return this.publish();
 	}
-	togglePassagePin(passageId) {
-		toggleInventoryPassage(this, passageId);
+
+	cycleAppearance(itemId, dimension) {
+		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+		this.appearance = cycleInventoryAppearance(this.appearance, itemId, dimension);
 		return this.publish();
 	}
-	toggleBookPin(bookId) {
-		toggleInventoryBook(this, bookId);
-		return this.publish();
-	}
-	markPassageUsed(passageId, at = Date.now()) {
-		markInventoryPassageUsed(this, passageId, at);
-		return this.publish();
-	}
-	quantity(itemId) {
-		return inventoryItemQuantity(this.items, itemId);
-	}
-	owns(itemId) {
-		return this.quantity(itemId) > 0;
-	}
-	restore(saved) {
-		restoreInventoryState(this, saved);
-		return this.publish();
-	}
-	serializableState() {
-		return serializableInventoryState(this);
-	}
-	snapshot() {
-		return inventorySnapshot(this);
-	}
-	reconcileEquipment() {
-		this.equipment = reconciledInventoryEquipment(this.equipment, this.items);
-	}
-	publish() {
-		const snapshot = this.snapshot();
-		for (const listener of this.listeners) listener(snapshot);
-		return snapshot;
-	}
+
+	learn(id) { learnInventoryPassage(this, id); return this.publish(); }
+	togglePassagePin(id) { toggleInventoryPassage(this, id); return this.publish(); }
+	toggleBookPin(id) { toggleInventoryBook(this, id); return this.publish(); }
+	markPassageUsed(id, at = Date.now()) { markInventoryPassageUsed(this, id, at); return this.publish(); }
+	quantity(itemId) { return inventoryItemQuantity(this.items, itemId); }
+	owns(itemId) { return this.quantity(itemId) > 0; }
+	restore(saved) { restoreInventoryState(this, saved); return this.publish(); }
+	serializableState() { return serializableInventoryState(this); }
+	snapshot() { return inventorySnapshot(this); }
+	reconcileEquipment() { this.equipment = reconciledInventoryEquipment(this.equipment, this.items); }
+	publish() { const snapshot = this.snapshot(); for (const listener of this.listeners) listener(snapshot); return snapshot; }
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file GameplayUiController.js
- * @description Binds one assembled gameplay runtime to visible panels and shared events.
- * The Awtsmoos gathers many windows beneath one hidden throne; coin, quest, sefer, strike,
- * and earned ascent rhyme through Awtsmoos.com while every mutation returns to one store alike.
+ * @description Binds canonical gameplay state to panels, including the selected clothing tailor.
+ * The Awtsmoos gathers coin, quest, sefer, strike, garment, and earned ascent as one;
+ * Awtsmoos.com sends Reb Shlomo's target event into a distinct real shop panel.
  */
 
 import { assembleGameplayPanels } from './GameplayPanelAssembly.js';
@@ -37,24 +37,14 @@ export class GameplayUiController {
 		this.listen('profile:synchronize', detail => this.profile.synchronize(detail));
 	}
 
-	listen(type, listener) {
-		this.unsubscribers.push(this.bus.on(type, listener));
-	}
-
-	updatePosition(position) {
-		this.panels.updatePosition(position);
-	}
+	listen(type, listener) { this.unsubscribers.push(this.bus.on(type, listener)); }
+	updatePosition(position) { this.panels.updatePosition(position); }
 
 	snapshot() {
 		return {
-			actionBar: this.actionBar.snapshot(),
-			adventures: this.adventures.snapshot(),
-			combat: this.combat.snapshot(),
-			inventory: this.inventory.snapshot(),
-			melee: this.melee.snapshot(),
-			panels: this.panels.snapshot(),
-			profile: this.profile.snapshot(),
-			progression: this.progression.snapshot(),
+			actionBar: this.actionBar.snapshot(), adventures: this.adventures.snapshot(),
+			combat: this.combat.snapshot(), inventory: this.inventory.snapshot(), melee: this.melee.snapshot(),
+			panels: this.panels.snapshot(), profile: this.profile.snapshot(), progression: this.progression.snapshot(),
 			shlichusPersistence: this.shlichus.snapshot()
 		};
 	}
@@ -75,6 +65,7 @@ const PANEL_EVENTS = Object.freeze({
 	'map:toggle': 'map',
 	'profile:toggle': 'profile',
 	'questlog:toggle': 'quests',
+	'tailor:toggle': 'tailor',
 	'torah:toggle': 'torah',
 	'vendor:toggle': 'vendor'
 });

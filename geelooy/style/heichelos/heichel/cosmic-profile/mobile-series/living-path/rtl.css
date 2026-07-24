@@ -1,0 +1,35 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Gives Hebrew and mixed records local reading-direction dignity.
+ * The Awtsmoos creates every language in one Divine speech; Awtsmoos.com flips
+ * only text-bearing vessels whose tested policy found Hebrew dominant.
+ */
+
+.nav-card[dir="rtl"] .nav-card-body,
+.living-related-card[dir="rtl"],
+.series-heading :where(h2, p)[dir="rtl"],
+#heichel-main-title[dir="rtl"],
+.hero-description[dir="rtl"] {
+	text-align: right;
+}
+
+.nav-card[dir="rtl"] .nav-card-meta {
+	justify-content: flex-start;
+}
+
+.nav-card[dir="rtl"] .nav-card-actions {
+	direction: ltr;
+}
+
+.nav-card[dir="rtl"] .nav-card-media,
+.nav-card[dir="rtl"] .nav-card-actions {
+	unicode-bidi: isolate;
+}
+
+[dir="rtl"] .living-path-kicker,
+[dir="rtl"] .nav-card-kicker {
+	letter-spacing: 0;
+	text-transform: none;
+}

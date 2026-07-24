@@ -86,7 +86,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 
 function loadFeatures(runtime, environment) {
 	runtime.featureStatus = { phase: 'loading-compact-entry' };
-	return import('./MinimalMeadowFeatureBundle.js?compact=true')
+	return import('./MinimalMeadowFeatureBundle.js')
 		.then(module => module.installMinimalMeadowFeatures(runtime, environment))
 		.catch(error => {
 			runtime.featureStatus = {

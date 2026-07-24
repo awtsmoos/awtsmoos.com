@@ -4,17 +4,20 @@
 
 /**
  * @file InventoryPersistenceRules.js
- * @description Restores compact saves without losing duplicate or overflow quantities.
- * The Awtsmoos renews the remembered vessel without confusing yesterday with today;
- * Awtsmoos.com validates every restored stack, slot, passage, pin, and timestamp before use.
+ * @description Restores stacks, required equipment, learning, and garment appearance.
+ * The Awtsmoos renews remembered color and fabric without confusing yesterday with today;
+ * Awtsmoos.com validates every saved item, slot, palette choice, passage, and timestamp.
  */
 
+import { restoreInventoryAppearance } from './InventoryAppearanceRules.js';
 import { inventoryDefinition } from './InventoryCatalog.js';
 import { addInventoryItem } from './InventoryStoreRules.js';
+import { reconciledInventoryEquipment } from './InventoryStoreTransactions.js';
 import { torahBook, torahPassage } from './TorahPassageCatalog.js';
 
 export function serializableInventoryState(store) {
 	return structuredClone({
+		appearance: store.appearance,
 		equipment: store.equipment,
 		items: store.items,
 		lastUsedAt: store.lastUsedAt,
@@ -26,12 +29,11 @@ export function serializableInventoryState(store) {
 
 export function restoreInventoryState(store, saved = {}) {
 	store.items = validStacks(saved.items);
-	store.equipment = validEquipment(saved.equipment, store.items);
+	store.equipment = reconciledInventoryEquipment(saved.equipment, store.items);
+	store.appearance = restoreInventoryAppearance(saved.appearance);
 	store.learned = uniqueStrings(saved.learned).filter(id => torahPassage(id));
 	store.pinnedBooks = uniqueStrings(saved.pinnedBooks).filter(id => torahBook(id)).slice(0, 3);
-	store.pinnedPassages = uniqueStrings(saved.pinnedPassages)
-		.filter(id => store.learned.includes(id))
-		.slice(0, 5);
+	store.pinnedPassages = uniqueStrings(saved.pinnedPassages).filter(id => store.learned.includes(id)).slice(0, 5);
 	store.lastUsedAt = validUsage(saved.lastUsedAt);
 }
 
@@ -40,38 +42,21 @@ function validStacks(stacks) {
 	for (const stack of Array.isArray(stacks) ? stacks : []) {
 		const definition = inventoryDefinition(stack?.itemId);
 		const quantity = savedQuantity(stack?.quantity);
-		if (!definition || quantity === 0) continue;
-		addInventoryItem(result, definition.id, quantity, definition);
-	}
-	return result;
-}
-
-function validEquipment(equipment, items) {
-	const owned = new Set(items.filter(stack => stack.quantity > 0).map(stack => stack.itemId));
-	const result = {};
-	for (const [slot, itemId] of Object.entries(equipment || {})) {
-		const definition = inventoryDefinition(itemId);
-		if (definition?.slot === slot && owned.has(itemId)) result[slot] = itemId;
+		if (definition && quantity > 0) addInventoryItem(result, definition.id, quantity, definition);
 	}
 	return result;
 }
 
 function validUsage(lastUsedAt) {
-	const result = {};
-	for (const [passageId, value] of Object.entries(lastUsedAt || {})) {
-		const at = Number(value);
-		if (torahPassage(passageId) && Number.isFinite(at) && at >= 0) result[passageId] = at;
-	}
-	return result;
+	return Object.fromEntries(Object.entries(lastUsedAt || {}).filter(([id, value]) =>
+		torahPassage(id) && Number.isFinite(Number(value)) && Number(value) >= 0));
 }
 
 function savedQuantity(value) {
 	const numeric = Number(value);
-	if (!Number.isFinite(numeric) || numeric <= 0) return 0;
-	return Math.trunc(numeric);
+	return Number.isFinite(numeric) && numeric > 0 ? Math.trunc(numeric) : 0;
 }
 
 function uniqueStrings(values) {
-	if (!Array.isArray(values)) return [];
-	return [...new Set(values.filter(value => typeof value === 'string'))];
+	return Array.isArray(values) ? [...new Set(values.filter(value => typeof value === 'string'))] : [];
 }

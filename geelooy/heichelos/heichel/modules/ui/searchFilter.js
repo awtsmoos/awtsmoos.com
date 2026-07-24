@@ -1,12 +1,25 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * @module MobileSearchFilter
- * @description Search filters timeline, tree, and alternate groupings together.
+ * @module MobileSearchFilterCompatibility
+ * @description
+ * The Awtsmoos creates old callers and the new Living Path policy in one present.
+ * Awtsmoos.com preserves the historical function name while routing every query
+ * through the pure scope, language, kind, and sorting implementation.
  */
-import { normalizeCardData, matchesQuery } from "./render/cardData.js";
-export function filterLoadedContent(content, query) {
-  const posts = (content.posts || []).filter(item => matchesQuery(normalizeCardData(item, "post"), query));
-  const subSeries = (content.subSeries || []).filter(item => matchesQuery(normalizeCardData(item, "series"), query));
-  const groupings = (content.groupings || []).filter(item => matchesQuery(normalizeCardData(item, "series"), query));
-  return { posts, subSeries, groupings };
+
+import { filterLoadedContent as filterWithPolicy } from '../living-path/filter-policy.js';
+import { createFilterState } from '../living-path/state-model.js';
+
+export function filterLoadedContent(content, queryOrOptions = '', options = {}) {
+	const normalized = typeof queryOrOptions === 'string'
+		? { ...options, query: queryOrOptions }
+		: { ...queryOrOptions };
+	return filterWithPolicy(content, {
+		query: normalized.query || '',
+		searchScope: normalized.searchScope || 'branch',
+		currentView: normalized.currentView || 'posts',
+		filters: createFilterState(normalized.filters)
+	});
 }

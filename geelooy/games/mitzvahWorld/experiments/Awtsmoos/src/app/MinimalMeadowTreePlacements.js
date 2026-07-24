@@ -4,50 +4,104 @@
 
 /**
  * @file MinimalMeadowTreePlacements.js
- * @description Creates deterministic terrain-grounded placements for bounded procedural trees.
- * The Awtsmoos assigns every root a measured patch of earth; Awtsmoos.com excludes road, water,
- * village, and houses while desktop and mobile share one seed and different honest population caps.
+ * @description Grows deterministic irregular groves with full-crown playable and access clearances.
+ * The Awtsmoos gathers distinct trunks without a dead grid; Awtsmoos.com gives each tree its own
+ * turn, height, crown breadth, bark tone, climate, and finite rooted proof inside the meadow.
  */
 
-import { listTreePresets } from 'awtsmoos-procedural-core';
-import { minimalMeadowRoadMask } from './MinimalMeadowBezierPath.js';
+import { listTreePresets } from './MinimalMeadowTreeCoreFacade.js';
 import {
-	minimalMeadowLakeDistance,
-	minimalMeadowRiverNearest
-} from './MinimalMeadowRiverPath.js?v=20260724-meadow-21';
+	MINIMAL_MEADOW_GROVES,
+	MINIMAL_MEADOW_PLAYABLE_HALF_SIZE,
+	MINIMAL_MEADOW_POPULATION_SEED
+} from './MinimalMeadowWorldPopulationConfig.js';
+import { minimalMeadowPopulationAllows } from './MinimalMeadowWorldPopulationExclusions.js';
+import {
+	minimalMeadowHasSpacing,
+	minimalMeadowSeededUnit
+} from './MinimalMeadowWorldPopulationMath.js';
 
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const PROFILES = Object.freeze(['Oak Small', 'Ash Small', 'Birch Small', 'Pine Small']);
-const CANDIDATES = Object.freeze([
-	[-88, 32], [-78, 16], [-71, -7], [-82, -31], [-63, -54], [-46, -67],
-	[-15, -78], [16, -82], [42, -72], [68, -69], [87, -44], [91, -16],
-	[86, 17], [82, 32], [42, 85], [12, 88], [-20, 86], [-48, 89],
-	[-93, 57], [95, 68], [-71, 94], [70, 92], [-95, -68], [94, -76]
-]);
 
 export function createMinimalMeadowTreePlacements(terrain, options = {}) {
 	const available = new Set(listTreePresets());
 	const presets = PROFILES.filter(name => available.has(name));
-	if (!presets.length) throw new Error('B"H | canonical procedural tree presets are unavailable.');
-	const limit = options.mobile ? 12 : 20;
-	return CANDIDATES.filter(([x, z]) => allowed(x, z)).slice(0, limit).map(([x, z], index) => ({
-		id: `meadow-procedural-tree-${index + 1}`,
-		preset: presets[index % presets.length],
-		scale: 0.76 + seeded(index, 17) * 0.28,
-		x,
-		y: terrain.heightAt(x, z),
-		yaw: seeded(index, 41) * Math.PI * 2,
-		z
+	if (!presets.length) {
+		throw new Error('B"H | canonical procedural tree presets are unavailable.');
+	}
+	const groveLists = MINIMAL_MEADOW_GROVES.map((grove, groveIndex) => {
+		return buildGrove(terrain, grove, groveIndex, presets);
+	});
+	const limit = options.mobile ? 22 : 32;
+	return interleave(groveLists, limit).map((placement, index) => Object.freeze({
+		...placement,
+		id: `meadow-procedural-tree-${index + 1}`
 	}));
 }
 
-function allowed(x, z) {
-	if (Math.hypot(x, z) < 36 || minimalMeadowRoadMask(x, z) > 0.08) return false;
-	const river = minimalMeadowRiverNearest(x, z, 48);
-	if (river.distance < river.width + 10 || minimalMeadowLakeDistance(x, z) < 1.45) return false;
-	return Math.hypot(x + 28, z + 22) >= 19 && Math.hypot(x - 28, z + 28) >= 16;
+function buildGrove(terrain, grove, groveIndex, presets) {
+	const placements = [];
+	for (let attempt = 0; attempt < 160 && placements.length < grove.count; attempt += 1) {
+		const key = groveIndex * 211 + attempt;
+		const radial = grove.radius * Math.sqrt(minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 11));
+		const angle = attempt * GOLDEN_ANGLE + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 23);
+		const x = grove.x + Math.cos(angle) * radial;
+		const z = grove.z + Math.sin(angle) * radial;
+		if (!minimalMeadowPopulationAllows(x, z, 'tree')) {
+			continue;
+		}
+		const specification = treeSpecification(terrain, grove, groveIndex, key, presets, x, z);
+		if (!insidePlayableCrown(specification)) {
+			continue;
+		}
+		if (!minimalMeadowHasSpacing(placements, x, z, 6.2)) {
+			continue;
+		}
+		placements.push(specification);
+	}
+	return placements;
 }
 
-function seeded(index, salt) {
-	const value = Math.sin((index + 1) * 12.9898 + salt * 78.233) * 43758.5453;
-	return value - Math.floor(value);
+function treeSpecification(terrain, grove, groveIndex, key, presets, x, z) {
+	const base = 0.82 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 37) * 0.28;
+	const scaleX = base * (0.84 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 41) * 0.24);
+	const scaleY = base * (0.9 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 43) * 0.32);
+	const scaleZ = base * (0.84 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 47) * 0.24);
+	return {
+		climate: grove.climate,
+		groveId: grove.id,
+		materialVariant: (key + groveIndex) % 3,
+		preset: presets[(key + groveIndex) % presets.length],
+		radius: Math.max(scaleX, scaleZ) * 3.8,
+		scaleX,
+		scaleY,
+		scaleZ,
+		x,
+		y: terrain.heightAt(x, z),
+		yaw: minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 53) * Math.PI * 2,
+		z
+	};
+}
+
+function insidePlayableCrown(tree) {
+	return Math.abs(tree.x) + tree.radius <= MINIMAL_MEADOW_PLAYABLE_HALF_SIZE
+		&& Math.abs(tree.z) + tree.radius <= MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+}
+
+function interleave(groups, limit) {
+	const output = [];
+	for (let round = 0; output.length < limit; round += 1) {
+		let added = false;
+		for (const group of groups) {
+			if (group[round] && output.length < limit) {
+				output.push(group[round]);
+				added = true;
+			}
+		}
+		if (!added) {
+			break;
+		}
+	}
+	return output;
 }

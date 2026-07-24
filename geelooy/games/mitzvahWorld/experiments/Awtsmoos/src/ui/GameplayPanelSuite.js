@@ -4,9 +4,12 @@
 
 /**
  * @file GameplayPanelSuite.js
- * @description Composes modal gameplay panels and their bounded diagnostics.
+ * @description Composes modal gameplay panels, including a distinct canonical clothing tailor.
+ * The Awtsmoos gathers map, quest, Torah, profile, market, Bag, and garment exchange beneath
+ * one hidden unity; Awtsmoos.com keeps the general vendor separate from Reb Shlomo's wardrobe.
  */
 
+import { ClothingMerchantPanel } from './ClothingMerchantPanel.js';
 import { PanelCoordinator } from './PanelCoordinator.js';
 import { QuestLogPanel } from './QuestLogPanel.js';
 import { QuestOfferPanel } from './QuestOfferPanel.js';
@@ -37,10 +40,8 @@ export class GameplayPanelSuite {
 			onAllocate: options.onAllocateAttribute
 		});
 		this.vendor = new VendorPanel(this.inventory, { onBuy: options.onBuyItem });
-		this.tracker = new QuestTracker(
-			this.adventures,
-			() => this.coordinator.open('quests')
-		);
+		this.tailor = new ClothingMerchantPanel(this.inventory, { onBuy: options.onBuyItem });
+		this.tracker = new QuestTracker(this.adventures, () => this.coordinator.open('quests'));
 		this.ribbon = new StatusRibbon(this.profile);
 		this.registerPanels();
 	}
@@ -51,38 +52,19 @@ export class GameplayPanelSuite {
 		this.coordinator.register('bag', this.inventoryPanel);
 		this.coordinator.register('profile', this.profilePanel);
 		this.coordinator.register('vendor', this.vendor);
+		this.coordinator.register('tailor', this.tailor);
 		this.coordinator.register('map', {
-			setOpen: open => {
-				this.minimap.root.dataset.expanded = String(Boolean(open));
-			}
+			setOpen: open => { this.minimap.root.dataset.expanded = String(Boolean(open)); }
 		});
 	}
 
-	toggle(panelId) {
-		return this.coordinator.toggle(panelId);
-	}
-
-	notifyInventory(open) {
-		this.coordinator.notify('bag', open);
-	}
-
-	updatePosition(position) {
-		this.minimap.setPosition(position);
-	}
-
-	snapshot() {
-		return { torahLibrary: this.torah.snapshot() };
-	}
+	toggle(panelId) { return this.coordinator.toggle(panelId); }
+	notifyInventory(open) { this.coordinator.notify('bag', open); }
+	updatePosition(position) { this.minimap.setPosition(position); }
+	snapshot() { return { tailorOpen: !this.tailor.root.hidden, torahLibrary: this.torah.snapshot() }; }
 
 	destroy() {
 		this.coordinator.destroy();
-		this.questLog.destroy();
-		this.questOffer.destroy();
-		this.minimap.destroy();
-		this.torah.destroy();
-		this.profilePanel.destroy();
-		this.vendor.destroy();
-		this.tracker.destroy();
-		this.ribbon.destroy();
+		for (const panel of [this.questLog, this.questOffer, this.minimap, this.torah, this.profilePanel, this.vendor, this.tailor, this.tracker, this.ribbon]) panel.destroy();
 	}
 }

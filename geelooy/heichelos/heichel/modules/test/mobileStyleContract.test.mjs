@@ -4,9 +4,11 @@
 /**
  * @module MobileStyleContractTest
  * @description
- * The Awtsmoos follows every imported mobile style through cache-busting query
- * strings and verifies that visible controls still possess real actions.
+ * The Awtsmoos creates every imported style and visible action in one present.
+ * Awtsmoos.com follows the complete split blueprint, renderer, and CSS graphs so
+ * stale monolith assumptions cannot hide missing controls or unstyled surfaces.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -33,23 +35,47 @@ function cssGraph(entry, seen = new Set()) {
 	return `${source}\n${imported}`;
 }
 
-const layout = read('geelooy/heichelos/heichel/modules/ui/blueprints/main-layout.js');
-const render = read('geelooy/heichelos/heichel/modules/ui/render.js');
-const grids = read('geelooy/heichelos/heichel/modules/ui/render/grids.js');
-const css = cssGraph('geelooy/style/heichelos/heichel/index.css');
-const cosmic = cssGraph('geelooy/style/heichelos/heichel/cosmic-profile/index.css');
-const completeCss = `${css}\n${cosmic}`;
+const blueprintFiles = [
+	'main-layout.js',
+	'layout-shell.js',
+	'layout-content.js',
+	'layout-navigation.js',
+	'living-path/profile.js',
+	'living-path/path.js',
+	'living-path/discovery.js',
+	'living-path/filters.js',
+	'living-path/filter-sheet.js'
+];
+const blueprints = blueprintFiles
+	.map(file => read(`geelooy/heichelos/heichel/modules/ui/blueprints/${file}`))
+	.join('\n');
+const renderFiles = [
+	'render.js',
+	'render/grids.js',
+	'render/living-path/cards.js',
+	'render/living-path/card-content.js',
+	'render/living-path/card-menu.js'
+];
+const renderGraph = renderFiles
+	.map(file => read(`geelooy/heichelos/heichel/modules/ui/${file}`))
+	.join('\n');
+const completeCss = [
+	cssGraph('geelooy/style/heichelos/heichel/index.css'),
+	cssGraph('geelooy/style/heichelos/heichel/cosmic-profile/index.css')
+].join('\n');
 
 for (const token of [
 	'geelooy-heichel-hero',
 	'hero-stats',
+	'living-path-sticky',
 	'series-search-row',
+	'living-path-filter-sheet',
 	'tab-gates',
 	'geelooy-mobile-drawer',
 	'geelooy-bottom-nav'
 ]) {
-	assert.ok(layout.includes(token), `layout must emit ${token}`);
-	assert.ok(completeCss.includes(`.${token}`), `css must style .${token}`);
+	assert.ok(blueprints.includes(token), `blueprint graph must emit ${token}`);
+	assert.ok(completeCss.includes(`.${token}`), `CSS graph must style .${token}`);
 }
 
 for (const token of [
@@ -59,14 +85,17 @@ for (const token of [
 	'card-menu-spark',
 	'card-menu-panel'
 ]) {
-	assert.ok(grids.includes(token), `grid renderer must emit ${token}`);
-	assert.ok(completeCss.includes(`.${token}`), `css must style .${token}`);
+	assert.ok(renderGraph.includes(token), `renderer graph must emit ${token}`);
+	assert.ok(completeCss.includes(`.${token}`), `CSS graph must style .${token}`);
 }
 
-assert.ok(layout.includes("ref: 'filterButton'"));
-assert.ok(layout.includes('events: { click: actions.applyFilter }'));
-assert.ok(render.includes("classList.toggle('sidebar-open')"));
-assert.ok(!render.includes("classList.toggle('sidebar-collapsed')"));
+assert.ok(blueprints.includes("ref: 'filterButton'"));
+assert.ok(blueprints.includes('actions.openFilterSheet'));
+assert.ok(renderGraph.includes("classList.toggle('sidebar-open')"));
+assert.ok(!renderGraph.includes("classList.toggle('sidebar-collapsed')"));
 assert.ok(completeCss.includes('.geelooy-mobile-drawer a'));
 assert.ok(completeCss.includes('.tab.Active'));
+assert.ok(completeCss.includes('.filter-sheet-panel'));
+assert.ok(completeCss.includes('.living-path-skeleton'));
+
 console.log('B"H mobileStyleContract.test passed');

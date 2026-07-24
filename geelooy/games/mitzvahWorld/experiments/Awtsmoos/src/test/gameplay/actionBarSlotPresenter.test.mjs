@@ -3,8 +3,10 @@
 // Blessed is He
 
 /**
- * The Awtsmoos reveals one ordered array of usable vessels without repeating hidden work;
- * these proofs bind layout, readiness, caching, and cleanup in the action bar of Awtsmoos.com.
+ * @file actionBarSlotPresenter.test.mjs
+ * @description Proves layout, readiness, caching, invalidation, snapshots, and cleanup together.
+ * The Awtsmoos reveals one ordered array of usable vessels; Awtsmoos.com tests the current
+ * slot-indexed readiness contract rather than an abandoned timeline method.
  */
 
 import assert from 'node:assert/strict';
@@ -26,31 +28,25 @@ class FakeElement {
 			toggle: (name, force) => this.toggleClass(name, force)
 		};
 	}
-
 	classes() {
 		return new Set(this.className.split(/\s+/).filter(Boolean));
 	}
-
 	toggleClass(name, force) {
 		const names = this.classes();
 		if (force) names.add(name);
 		else names.delete(name);
 		this.className = Array.from(names).join(' ');
 	}
-
 	append(...children) {
 		this.children.push(...children);
 	}
-
 	appendChild(child) {
 		this.children.push(child);
 		return child;
 	}
-
 	replaceChildren(...children) {
 		this.children = children.flatMap(child => child.tagName === 'fragment' ? child.children : [child]);
 	}
-
 	querySelector(selector) {
 		const className = selector.startsWith('.') ? selector.slice(1) : '';
 		for (const child of this.children) {
@@ -60,11 +56,9 @@ class FakeElement {
 		}
 		return null;
 	}
-
 	setAttribute(name, value) {
 		this.attributes.set(name, String(value));
 	}
-
 	getAttribute(name) {
 		return this.attributes.get(name);
 	}
@@ -87,18 +81,19 @@ test('slot presenter renders, caches, invalidates, snapshots, and cleans up', ()
 	const lock = new FakeElement('button');
 	let recaches = 0;
 	let invalidations = 0;
+	let readinessCalls = 0;
 	const cooldowns = {
 		invalidate: () => invalidations += 1,
 		recache: () => recaches += 1
 	};
 	const runtime = {
+		readinessForSlot(slotIndex) {
+			assert.ok(slotIndex >= 0 && slotIndex < 12);
+			readinessCalls += 1;
+			return { ok: false, reason: 'empty-slot' };
+		},
 		store: {
 			snapshot: () => ({ locked: true, rows: 1, slots: Array(12).fill(null) })
-		},
-		timeline: {
-			readiness() {
-				throw new Error('Empty slots must not query ability readiness.');
-			}
 		}
 	};
 	try {
@@ -110,10 +105,13 @@ test('slot presenter renders, caches, invalidates, snapshots, and cleans up', ()
 		assert.equal(lock.getAttribute('aria-pressed'), 'true');
 		assert.equal(recaches, 1);
 		assert.equal(invalidations, 1);
+		assert.equal(readinessCalls, 12);
 		assert.equal(grid.children[0].getAttribute('aria-disabled'), 'true');
 		assert.deepEqual(presenter.snapshot(), { cachedButtons: 12, domUpdates: 13 });
 		assert.equal(presenter.refreshReadiness(), 12);
+		assert.equal(readinessCalls, 24);
 		assert.equal(invalidations, 2);
+		assert.deepEqual(presenter.snapshot(), { cachedButtons: 12, domUpdates: 25 });
 		presenter.destroy();
 		assert.equal(presenter.snapshot().cachedButtons, 0);
 	} finally {

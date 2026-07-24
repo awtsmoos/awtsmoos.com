@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Renders Timeline, Tree, and Groupings as one segmented control.
+ * The Awtsmoos contains every perspective; Awtsmoos.com distinguishes the chosen
+ * one with quiet fill and one line instead of three competing glowing boxes.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .tab-gates {
+		position: relative;
+		inset: auto;
+		display: grid;
+		inline-size: 100%;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: .2rem;
+		margin: 0;
+		padding: .22rem;
+		overflow: hidden;
+		border: 1px solid rgba(80, 215, 255, .16);
+		border-radius: .78rem;
+		background: rgba(3, 9, 22, .84);
+		box-shadow: none;
+		backdrop-filter: none;
+	}
+
+	.heichel-os-document .tab-gates button,
+	.heichel-os-document .tab-gate {
+		position: relative;
+		min-inline-size: 0;
+		min-block-size: 44px;
+		padding: .55rem .25rem;
+		border: 0;
+		border-radius: .58rem;
+		background: transparent;
+		box-shadow: none;
+		color: #8f9db1;
+		font-size: clamp(.62rem, 2.8vw, .72rem);
+		font-weight: 820;
+		letter-spacing: .08em;
+		line-height: 1;
+		text-transform: uppercase;
+		white-space: nowrap;
+		transform: none;
+	}
+
+	.heichel-os-document .tab-gates button:is(.active, [aria-selected="true"]),
+	.heichel-os-document .tab-gate:is(.active, [aria-selected="true"]) {
+		background: rgba(31, 60, 101, .7);
+		color: #fff;
+	}
+
+	.heichel-os-document .tab-gates button:is(.active, [aria-selected="true"])::after,
+	.heichel-os-document .tab-gate:is(.active, [aria-selected="true"])::after {
+		position: absolute;
+		inset-inline: 22%;
+		inset-block-end: 3px;
+		block-size: 2px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
+		content: "";
+	}
+}

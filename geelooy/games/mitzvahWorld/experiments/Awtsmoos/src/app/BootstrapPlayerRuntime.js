@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts one Chossid and initializes health, armor, action, and double-jump truth.
- * The Awtsmoos grants one moving identity through fallback and canonical garments;
- * Awtsmoos.com keeps two finite jumps, health, action, and form inside one stable traveler.
+ * @description Mounts one Chossid with playable lifecycle truth before rich hydration arrives.
+ * The Awtsmoos grants one identity through fallback, defeat, and renewal; Awtsmoos.com keeps
+ * health, collision, input, and two finite jumps inside one stable traveler from the first frame.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
@@ -31,6 +31,7 @@ export function createBootstrapPlayerRuntime(foundation) {
 			animations: foundation.playerGltf.animations?.length || 0,
 			bootstrap: true,
 			jumpsUsed: state.jumpsUsed,
+			lifecycle: state.lifecycle,
 			meshes: meshCount,
 			position: { x: state.x, y: state.y, z: state.z }
 		}),
@@ -43,16 +44,7 @@ export function createBootstrapPlayerRuntime(foundation) {
 		footOffset: 0,
 		model,
 		player,
-		playerStats: {
-			armor: 3,
-			face: '🎩',
-			health: 100,
-			level: 1,
-			maxHealth: 100,
-			name: 'Chossid',
-			xp: 0,
-			xpMax: 100
-		},
+		playerStats: createPlayerStats(),
 		state,
 		visiblePlayer
 	};
@@ -69,20 +61,38 @@ function markBootstrapMeshes(model) {
 	return count;
 }
 
+function createPlayerStats() {
+	return {
+		armor: 3,
+		face: '🎩',
+		health: 100,
+		level: 1,
+		maxHealth: 100,
+		name: 'Chossid',
+		xp: 0,
+		xpMax: 100
+	};
+}
+
 function createPlayerState() {
 	return {
 		action: 'idle',
 		airPhase: 'ground',
 		clip: '',
+		collisionEnabled: true,
 		contacts: [],
+		defeated: false,
 		facing: 0,
 		grounded: true,
+		inputLocked: false,
 		jumpsUsed: 0,
 		level: 'meadow',
+		lifecycle: 'active',
 		moving: false,
 		multiplayer: null,
 		renderY: 0,
 		runMode: false,
+		targetingEnabled: true,
 		velY: 0,
 		x: 0,
 		y: 0,

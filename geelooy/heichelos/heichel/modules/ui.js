@@ -1,10 +1,14 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module UIAggregator
  * @description
- * The public mouth of the Heichel UI: browsing, owner controls, selection, and
- * the OS world panel all flow through one explicit surface.
+ * The Awtsmoos creates browsing, governance, selection, and district surfaces
+ * as one visible kingdom. Awtsmoos.com keeps this public facade stable while
+ * focused render modules evolve behind explicit compatibility functions.
  */
+
 import { appState } from './state.js';
 import { manifestWorld as renderedManifestWorld } from './ui/render.js';
 import * as Render from './ui/render.js';
@@ -16,45 +20,45 @@ export { notify } from './ui/render/toast.js';
 export { showContextMenu } from './ui/contextmenu.js';
 
 export function updateHeichelHeader(data) {
-    Render.updateHeichelHeader(data);
+	Render.updateHeichelHeader(data);
 }
 
 export function renderBreadcrumb(data, navigator) {
-    Render.renderBreadcrumb(data, navigator);
+	Render.renderBreadcrumb(data, navigator);
 }
 
-export async function renderSeriesInfo(data, heichel, id) {
-    await Render.renderSeriesInfo(data, heichel, id);
+export function renderSeriesInfo(data, heichel, id) {
+	return Render.renderSeriesInfo(data, heichel, id);
 }
 
 export function renderOwnerControls(breadcrumb, navigator) {
-    OwnerControls.renderOwnerControls(breadcrumb, navigator, appState);
+	OwnerControls.renderOwnerControls(breadcrumb, navigator, appState);
 }
 
 export function renderContentGrids(content, navigator, state) {
-    Render.renderContentGrids(content, navigator, state);
+	Render.renderContentGrids(content, navigator, state);
 }
 
 export function renderHeichelWorldState(state) {
-    Render.renderHeichelWorldState(state);
+	Render.renderHeichelWorldState(state);
 }
 
 export function activateDistrict(name) {
-    Render.activateDistrict(name);
+	Render.activateDistrict(name);
 }
 
 export function showLoading() {
-    Render.showLoading();
+	Render.showLoading();
 }
 
 export function hideLoading() {
-    Render.hideLoading();
+	Render.hideLoading();
 }
 
 export function updateActiveTab(view) {
-    Render.updateActiveTab(view, appState);
+	Render.updateActiveTab(view, appState);
 }
 
-export function toggleSelectionMode(isActive, navigator) {
-    toggleSelectionModeCore(isActive, navigator, appState);
+export function toggleSelectionMode(active, navigator) {
+	toggleSelectionModeCore(active, navigator, appState);
 }

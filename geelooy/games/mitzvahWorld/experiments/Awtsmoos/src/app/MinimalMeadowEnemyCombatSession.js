@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyCombatSession.js
- * @description Remembers role, target, leash loss, and every explicit encounter transition.
- * The Awtsmoos renews pursuit without panic; Awtsmoos.com keeps one target present
- * through brief distance and sight changes until measured loss truly closes the session.
+ * @description Remembers spawn home, role, target, leash loss, and explicit encounter transitions.
+ * The Awtsmoos anchors pursuit to the demon's revealed place rather than an unborn group origin;
+ * Awtsmoos.com keeps one target through brief distance and sight changes until true loss closes it.
  */
 
 import {
@@ -17,10 +17,7 @@ import {
 export class MinimalMeadowEnemyCombatSession {
 	constructor(actor) {
 		this.actor = actor;
-		this.home = Object.freeze({
-			x: actor.group.position.x,
-			z: actor.group.position.z
-		});
+		this.home = Object.freeze(minimalEnemyCombatHome(actor));
 		this.reset('created');
 	}
 
@@ -75,4 +72,18 @@ export class MinimalMeadowEnemyCombatSession {
 		this.targetId = null;
 		this.lastTransition = Object.freeze({ from: prior, reason, to: 'patrol' });
 	}
+}
+
+export function minimalEnemyCombatHome(actor) {
+	const profileX = finite(actor.profile?.x);
+	const profileZ = finite(actor.profile?.z);
+	return {
+		x: profileX ?? finite(actor.group?.position?.x) ?? 0,
+		z: profileZ ?? finite(actor.group?.position?.z) ?? 0
+	};
+}
+
+function finite(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : null;
 }

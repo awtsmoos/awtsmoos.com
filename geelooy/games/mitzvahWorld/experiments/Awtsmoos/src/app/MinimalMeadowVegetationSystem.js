@@ -4,110 +4,78 @@
 
 /**
  * @file MinimalMeadowVegetationSystem.js
- * @description Owns batched grass/flower cells with wind, proximity, and movement-direction bending.
- * The Awtsmoos lets the meadow answer footsteps without one object per blade; Awtsmoos.com
- * batches many clumps, follows travel direction at center, restores them, and cleans up truthfully.
+ * @description Owns allocation-free reactive vegetation cells across dry, moist, and riverbank zones.
+ * The Awtsmoos lets the meadow answer each footstep without birthing garbage each frame;
+ * Awtsmoos.com preserves one idempotent mount, shared ecological proof, and finite mobile bounds.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { createPrimitiveMesh } from '../world/Box3D.js';
-import { createMinimalMeadowFlowerCellGeometry } from './MinimalMeadowFlowerClumpGeometry.js?v=20260724-meadow-21';
-import { createMinimalMeadowVegetationCells } from './MinimalMeadowVegetationCells.js?v=20260724-meadow-21';
+import { createMinimalMeadowVegetationCells } from './MinimalMeadowVegetationCells.js';
+import { createMinimalMeadowVegetationCell } from './MinimalMeadowVegetationDistributionCellFactory.js';
+import { minimalMeadowVegetationDiagnostics } from './MinimalMeadowWorldPopulationDiagnostics.js';
 
 export class MinimalMeadowVegetationSystem {
 	constructor(runtime) {
+		if (runtime.vegetation?.group) {
+			return runtime.vegetation;
+		}
 		this.runtime = runtime;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_baked_instance_reactive_flower_meadow';
+		this.group.name = 'Awtsmoos_seeded_ecological_vegetation';
 		this.clock = 0;
-		this.cells = createMinimalMeadowVegetationCells(runtime.terrain).map(specification => (
-			createCell(specification, runtime.terrain)
-		));
-		for (const cell of this.cells) this.group.add(cell.group);
+		this.mobile = mobileProfile(runtime);
+		this.specifications = createMinimalMeadowVegetationCells(runtime.terrain, { mobile: this.mobile });
+		this.cells = this.specifications.map(specification => {
+			return createMinimalMeadowVegetationCell(specification, runtime.terrain);
+		});
+		for (const cell of this.cells) {
+			this.group.add(cell.group);
+		}
 	}
 
 	update(deltaSeconds) {
 		this.clock += deltaSeconds;
 		const player = this.runtime.state;
 		for (let index = 0; index < this.cells.length; index += 1) {
-			const cell = this.cells[index];
-			const dx = cell.x - player.x;
-			const dz = cell.z - player.z;
-			const distance = Math.hypot(dx, dz);
-			const reaction = Math.max(0, 1 - distance / 7.5);
-			const direction = disturbanceDirection(player, dx, dz, distance);
-			const wind = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025;
-			cell.group.quaternion.z = wind + direction.x * reaction * 0.18;
-			cell.group.quaternion.x = direction.z * reaction * 0.12;
-			cell.reaction = reaction;
-			cell.disturbance = direction;
+			this.updateCell(this.cells[index], player, index);
 		}
 	}
 
+	updateCell(cell, player, index) {
+		const dx = cell.x - player.x;
+		const dz = cell.z - player.z;
+		const distance = Math.hypot(dx, dz);
+		const reaction = Math.max(0, 1 - distance / 7.5);
+		if (player.moving && Number.isFinite(player.travelFacing)) {
+			cell.directionX = -Math.sin(player.travelFacing);
+			cell.directionZ = -Math.cos(player.travelFacing);
+		} else if (distance > 0.001) {
+			cell.directionX = dx / distance;
+			cell.directionZ = dz / distance;
+		} else {
+			cell.directionX = 0;
+			cell.directionZ = 0;
+		}
+		cell.group.quaternion.z = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025
+			+ cell.directionX * reaction * 0.18;
+		cell.group.quaternion.x = cell.directionZ * reaction * 0.12;
+		cell.reaction = reaction;
+	}
+
 	diagnostics() {
-		return {
-			batchMode: 'baked-instance-cell-batches',
-			cells: this.cells.length,
-			clumps: this.cells.reduce((sum, cell) => sum + cell.clumps, 0),
-			flowers: this.cells.reduce((sum, cell) => sum + cell.flowers, 0),
-			movementReactive: true,
-			reactiveCells: this.cells.filter(cell => cell.reaction > 0).length,
-			worldMeshes: this.cells.length * 2
-		};
+		return minimalMeadowVegetationDiagnostics(this);
 	}
 
 	destroy() {
 		this.group.parent?.remove(this.group);
+		if (this.runtime.vegetation === this) {
+			this.runtime.vegetation = null;
+		}
 	}
 }
 
-function disturbanceDirection(player, dx, dz, distance) {
-	if (player.moving && Number.isFinite(player.travelFacing)) {
-		return {
-			x: -Math.sin(player.travelFacing),
-			z: -Math.cos(player.travelFacing)
-		};
-	}
-	if (distance > 0.001) return { x: dx / distance, z: dz / distance };
-	return { x: 0, z: 0 };
-}
-
-function createCell(specification, terrain) {
-	const geometry = createMinimalMeadowFlowerCellGeometry({
-		center: specification,
-		clumps: specification.clumps,
-		terrain
-	});
-	const group = new Group();
-	group.name = specification.id;
-	group.position.set(specification.x, specification.y, specification.z);
-	group.add(manualMesh('grass', geometry.grass, '#4f8f39', geometry.clumps));
-	group.add(manualMesh('flowers', geometry.petals, specification.color, geometry.clumps));
-	group.userData.AwtsmoosVegetationCell = {
-		batchMode: 'baked-instance-cell-batch',
-		clumps: geometry.clumps,
-		flowers: geometry.flowers
-	};
-	return {
-		clumps: geometry.clumps,
-		disturbance: { x: 0, z: 0 },
-		flowers: geometry.flowers,
-		group,
-		reaction: 0,
-		x: specification.x,
-		z: specification.z
-	};
-}
-
-function manualMesh(role, geometry, color, instances) {
-	return createPrimitiveMesh({
-		color,
-		doubleSided: true,
-		...geometry,
-		id: `Awtsmoos_${role}_baked_instances`,
-		shape: 'manual',
-		solid: false,
-		transparent: false,
-		userData: { instanceCount: instances, role }
-	});
+function mobileProfile(runtime) {
+	const environment = runtime.environment || globalThis;
+	return Number(environment.innerWidth || 1024) <= 820
+		|| Boolean(environment.matchMedia?.('(pointer: coarse)')?.matches);
 }

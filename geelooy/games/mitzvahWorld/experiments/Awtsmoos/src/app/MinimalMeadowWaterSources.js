@@ -4,15 +4,16 @@
 
 /**
  * @file MinimalMeadowWaterSources.js
- * @description Loads the organized same-origin water pack with deterministic canvas fallbacks.
- * The Awtsmoos carries broad current, fine ripple, and wet stone through nearby truthful vessels;
- * Awtsmoos.com avoids undefined paths, Firebase CORS, duplicate retries, and invisible failure.
+ * @description Provides immediate cached water fallbacks and optional non-blocking local hydration.
+ * The Awtsmoos reveals current before a finite server answers; Awtsmoos.com preserves two normals,
+ * stone depth, provenance, bounded timeout, and a world that never loses its river to silent I/O.
  */
 
 import { loadPublicMaterialUrl } from '../assets/PublicMaterialCache.js';
 import { createMinimalMeadowProceduralWaterNormals } from './MinimalMeadowProceduralWaterNormals.js';
 
 const ASSET_ROOT = '/games/mitzvahWorld/.awtsmoos-external-assets';
+const BED_CACHE = new WeakMap();
 
 export const MINIMAL_MEADOW_WATER_URLS = Object.freeze({
 	bed: `${ASSET_ROOT}/shore/riverbank-pebbles.png`,
@@ -20,44 +21,57 @@ export const MINIMAL_MEADOW_WATER_URLS = Object.freeze({
 	normalB: `${ASSET_ROOT}/water/micro-ripple-normal.png`
 });
 
-export async function loadMinimalMeadowWaterSources(environment = globalThis) {
-	const entries = Object.entries(MINIMAL_MEADOW_WATER_URLS);
-	const records = await Promise.all(entries.map(([, url]) => loadPublicMaterialUrl(url, 18000)));
-	const loaded = Object.fromEntries(entries.map(([name], index) => [name, records[index]]));
-	const generated = createMinimalMeadowProceduralWaterNormals(environment.document);
-	const normalA = loaded.normalA.ok ? loaded.normalA.image : generated[0];
-	const normalB = loaded.normalB.ok ? loaded.normalB.image : generated[1];
-	const bed = loaded.bed.ok ? loaded.bed.image : createProceduralRiverBed(environment.document);
-	const realNormalCount = Number(loaded.normalA.ok) + Number(loaded.normalB.ok);
+export function createMinimalMeadowWaterFallbackSources(environment = globalThis) {
+	const documentValue = environment.document || environment;
+	const normals = createMinimalMeadowProceduralWaterNormals(documentValue);
 	return {
 		activeNormalSources: 2,
-		bed,
-		bedMode: loaded.bed.ok ? 'same-origin-riverbank-pebbles' : 'procedural-stone-silt',
+		bed: proceduralRiverBed(documentValue),
+		bedMode: 'procedural-stone-silt',
 		hostedNormalsReady: 0,
-		localNormalsReady: realNormalCount,
-		normalA,
-		normalB,
-		normalMode: normalMode(realNormalCount),
+		localNormalsReady: 0,
+		normalA: normals[0],
+		normalB: normals[1],
+		normalMode: 'procedural-fallback',
 		provenance: [
-			loaded.normalA.ok ? MINIMAL_MEADOW_WATER_URLS.normalA : 'procedural://awtsmoos-water-normal/613',
-			loaded.normalB.ok ? MINIMAL_MEADOW_WATER_URLS.normalB : 'procedural://awtsmoos-water-normal/991'
+			'procedural://awtsmoos-water-normal/613',
+			'procedural://awtsmoos-water-normal/991'
 		],
-		records,
+		records: [],
 		urls: MINIMAL_MEADOW_WATER_URLS
 	};
 }
 
-function normalMode(realNormalCount) {
-	if (realNormalCount === 2) return 'same-origin-real-normal-pack';
-	if (realNormalCount === 1) return 'hybrid-real-procedural';
-	return 'procedural-fallback';
+export async function loadMinimalMeadowWaterSources(environment = globalThis) {
+	const fallback = createMinimalMeadowWaterFallbackSources(environment);
+	const entries = Object.entries(MINIMAL_MEADOW_WATER_URLS);
+	const records = await Promise.all(entries.map(([, url]) => loadPublicMaterialUrl(url, 4500)));
+	const loaded = Object.fromEntries(entries.map(([name], index) => [name, records[index]]));
+	const realNormalCount = Number(loaded.normalA.ok) + Number(loaded.normalB.ok);
+	return {
+		...fallback,
+		bed: loaded.bed.ok ? loaded.bed.image : fallback.bed,
+		bedMode: loaded.bed.ok ? 'same-origin-riverbank-pebbles' : fallback.bedMode,
+		localNormalsReady: realNormalCount,
+		normalA: loaded.normalA.ok ? loaded.normalA.image : fallback.normalA,
+		normalB: loaded.normalB.ok ? loaded.normalB.image : fallback.normalB,
+		normalMode: realNormalCount === 2 ? 'same-origin-real-normal-pack'
+			: realNormalCount === 1 ? 'hybrid-real-procedural' : fallback.normalMode,
+		provenance: [
+			loaded.normalA.ok ? MINIMAL_MEADOW_WATER_URLS.normalA : fallback.provenance[0],
+			loaded.normalB.ok ? MINIMAL_MEADOW_WATER_URLS.normalB : fallback.provenance[1]
+		],
+		records
+	};
 }
 
-function createProceduralRiverBed(documentValue) {
-	if (!documentValue?.createElement) throw new Error('Riverbed fallback requires a canvas document.');
+function proceduralRiverBed(documentValue) {
+	if (BED_CACHE.has(documentValue)) {
+		return BED_CACHE.get(documentValue);
+	}
 	const canvas = documentValue.createElement('canvas');
-	canvas.width = 256;
-	canvas.height = 256;
+	canvas.width = 128;
+	canvas.height = 128;
 	const context = canvas.getContext('2d', { alpha: false });
 	const image = context.createImageData(canvas.width, canvas.height);
 	for (let y = 0; y < canvas.height; y += 1) {
@@ -67,14 +81,14 @@ function createProceduralRiverBed(documentValue) {
 	}
 	context.putImageData(image, 0, 0);
 	canvas.dataset.awtsmoosRiverBed = 'procedural-stone-silt';
+	BED_CACHE.set(documentValue, canvas);
 	return canvas;
 }
 
 function writeStone(data, offset, x, y) {
-	const broad = Math.sin(x * 0.074) * Math.cos(y * 0.061) * 0.28;
-	const pebble = Math.sin((x + y) * 0.19) * Math.sin((x - y) * 0.13) * 0.22;
-	const grit = Math.sin(x * 0.73 + y * 0.47) * 0.08;
-	const stone = Math.max(0, Math.min(1, 0.5 + broad + pebble + grit));
+	const stone = Math.max(0, Math.min(1, 0.5
+		+ Math.sin(x * 0.074) * Math.cos(y * 0.061) * 0.28
+		+ Math.sin((x + y) * 0.19) * Math.sin((x - y) * 0.13) * 0.22));
 	data[offset] = 52 + Math.round(stone * 42);
 	data[offset + 1] = 61 + Math.round(stone * 37);
 	data[offset + 2] = 55 + Math.round(stone * 31);

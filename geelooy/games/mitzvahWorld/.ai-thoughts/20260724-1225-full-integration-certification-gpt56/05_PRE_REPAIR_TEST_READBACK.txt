@@ -1,0 +1,284 @@
+===== experiments/Awtsmoos/src/test/gameplay/actionBarCooldownPresenter.test.mjs =====
+9a3ef3ee462107e11f4717c21624c7032de5842368b7433756d9e4b43eab599e  experiments/Awtsmoos/src/test/gameplay/actionBarCooldownPresenter.test.mjs
+      72 experiments/Awtsmoos/src/test/gameplay/actionBarCooldownPresenter.test.mjs
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * These cadence proofs guard the frame budget: the Awtsmoos renews every instant, yet the DOM
+ * receives only measured visible changes through the action bar of Awtsmoos.com.
+ */
+
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { ActionBarCooldownPresenter } from '../../ui/ActionBarCooldownPresenter.js';
+
+function harness() {
+	const buttons = [
+		{ dataset: { abilityId: 'clarity' } },
+		{ dataset: { abilityId: 'trust' } }
+	];
+	let queries = 0;
+	let snapshots = 0;
+	let updates = 0;
+	const grid = {
+		querySelectorAll() {
+			queries += 1;
+			return buttons;
+		}
+	};
+	const runtime = {
+		timeline: {
+			cooldowns: {
+				snapshotAbility() {
+					snapshots += 1;
+					return {};
+				}
+			}
+		}
+	};
+	const presenter = new ActionBarCooldownPresenter(runtime, grid, {
+		getDefinition: abilityId => ({ id: abilityId }),
+		refreshMilliseconds: 50,
+		updateSlot() {
+			updates += 1;
+			return updates <= 2;
+		}
+	});
+	return {
+		counts: () => ({ queries, snapshots, updates }),
+		presenter
+	};
+}
+
+test('cached slots refresh only on the bounded cadence', () => {
+	const { counts, presenter } = harness();
+	assert.equal(presenter.recache(), 2);
+	assert.equal(presenter.update(0), true);
+	assert.equal(presenter.update(20), false);
+	assert.deepEqual(counts(), { queries: 1, snapshots: 2, updates: 2 });
+	assert.equal(presenter.update(50), false);
+	assert.deepEqual(counts(), { queries: 1, snapshots: 4, updates: 4 });
+	assert.equal(presenter.snapshot().domUpdates, 2);
+});
+
+test('invalidation permits an immediate refresh without querying again', () => {
+	const { counts, presenter } = harness();
+	presenter.recache();
+	presenter.update(0);
+	presenter.invalidate();
+	presenter.update(1);
+	assert.deepEqual(counts(), { queries: 1, snapshots: 4, updates: 4 });
+	presenter.destroy();
+	assert.equal(presenter.snapshot().cachedButtons, 0);
+});
+===== experiments/Awtsmoos/src/test/gameplay/actionBarSlotPresenter.test.mjs =====
+feda817c677a3f7ebacaab5a3ca2ecf586d47d5e13bf64240621296fd1cbdf42  experiments/Awtsmoos/src/test/gameplay/actionBarSlotPresenter.test.mjs
+     122 experiments/Awtsmoos/src/test/gameplay/actionBarSlotPresenter.test.mjs
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * The Awtsmoos reveals one ordered array of usable vessels without repeating hidden work;
+ * these proofs bind layout, readiness, caching, and cleanup in the action bar of Awtsmoos.com.
+ */
+
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { ActionBarSlotPresenter } from '../../ui/ActionBarSlotPresenter.js';
+
+class FakeElement {
+	constructor(tagName) {
+		this.tagName = tagName;
+		this.attributes = new Map();
+		this.children = [];
+		this.dataset = {};
+		this.hidden = false;
+		this.style = { setProperty() {} };
+		this.textContent = '';
+		this.className = '';
+		this.classList = {
+			contains: name => this.classes().has(name),
+			toggle: (name, force) => this.toggleClass(name, force)
+		};
+	}
+
+	classes() {
+		return new Set(this.className.split(/\s+/).filter(Boolean));
+	}
+
+	toggleClass(name, force) {
+		const names = this.classes();
+		if (force) names.add(name);
+		else names.delete(name);
+		this.className = Array.from(names).join(' ');
+	}
+
+	append(...children) {
+		this.children.push(...children);
+	}
+
+	appendChild(child) {
+		this.children.push(child);
+		return child;
+	}
+
+	replaceChildren(...children) {
+		this.children = children.flatMap(child => child.tagName === 'fragment' ? child.children : [child]);
+	}
+
+	querySelector(selector) {
+		const className = selector.startsWith('.') ? selector.slice(1) : '';
+		for (const child of this.children) {
+			if (child.classList?.contains(className)) return child;
+			const nested = child.querySelector?.(selector);
+			if (nested) return nested;
+		}
+		return null;
+	}
+
+	setAttribute(name, value) {
+		this.attributes.set(name, String(value));
+	}
+
+	getAttribute(name) {
+		return this.attributes.get(name);
+	}
+}
+
+function installDocument() {
+	const previous = globalThis.document;
+	globalThis.document = {
+		createDocumentFragment: () => new FakeElement('fragment'),
+		createElement: tagName => new FakeElement(tagName)
+	};
+	return () => {
+		globalThis.document = previous;
+	};
+}
+
+test('slot presenter renders, caches, invalidates, snapshots, and cleans up', () => {
+	const restoreDocument = installDocument();
+	const grid = new FakeElement('div');
+	const lock = new FakeElement('button');
+	let recaches = 0;
+	let invalidations = 0;
+	const cooldowns = {
+		invalidate: () => invalidations += 1,
+		recache: () => recaches += 1
+	};
+	const runtime = {
+		store: {
+			snapshot: () => ({ locked: true, rows: 1, slots: Array(12).fill(null) })
+		},
+		timeline: {
+			readiness() {
+				throw new Error('Empty slots must not query ability readiness.');
+			}
+		}
+	};
+	try {
+		const presenter = new ActionBarSlotPresenter(runtime, { grid, lock }, cooldowns);
+		assert.equal(presenter.render(), 12);
+		assert.equal(grid.children.length, 12);
+		assert.equal(grid.dataset.rows, 1);
+		assert.equal(lock.textContent, 'Layout locked');
+		assert.equal(lock.getAttribute('aria-pressed'), 'true');
+		assert.equal(recaches, 1);
+		assert.equal(invalidations, 1);
+		assert.equal(grid.children[0].getAttribute('aria-disabled'), 'true');
+		assert.deepEqual(presenter.snapshot(), { cachedButtons: 12, domUpdates: 13 });
+		assert.equal(presenter.refreshReadiness(), 12);
+		assert.equal(invalidations, 2);
+		presenter.destroy();
+		assert.equal(presenter.snapshot().cachedButtons, 0);
+	} finally {
+		restoreDocument();
+	}
+});
+===== experiments/Awtsmoos/src/test/gameplay/worldTargetCoordinator.test.mjs =====
+d45ed5df2bfc48214fbbec3d6e24aee4af61b1ab502413910b1055ee1bd5cbbf  experiments/Awtsmoos/src/test/gameplay/worldTargetCoordinator.test.mjs
+      81 experiments/Awtsmoos/src/test/gameplay/worldTargetCoordinator.test.mjs
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file worldTargetCoordinator.test.mjs
+ * @description Proves one coordinator preserves modern and actor-array targeting contracts.
+ * The Awtsmoos renews every candidate beneath one choice; Awtsmoos.com verifies nearest modern
+ * ownership, safe incompatibility, legacy selection, dialogue, and listener destruction together.
+ */
+
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { WorldTargetCoordinator } from '../../ui/WorldTargetCoordinator.js';
+import {
+	fakeCanvas,
+	fakeEvent,
+	fakeModernPopulation,
+	legacyActor
+} from '../support/WorldTargetCoordinatorTestDoubles.mjs';
+
+test('nearest compatible population owns the pointer action', () => {
+	const canvas = fakeCanvas();
+	const friendly = fakeModernPopulation(8);
+	const hostile = fakeModernPopulation(3);
+	const coordinator = new WorldTargetCoordinator({
+		canvas,
+		friendlyNpcs: friendly,
+		hostileNpcs: hostile
+	});
+	const event = fakeEvent();
+	canvas.listeners.pointerdown(event);
+	assert.equal(hostile.activations, 1);
+	assert.equal(friendly.activations, 0);
+	assert.equal(friendly.clears, 1);
+	assert.equal(event.prevented, true);
+	coordinator.destroy();
+	assert.equal(canvas.removed, true);
+});
+
+test('incompatible population contracts keep the listener disabled', () => {
+	const canvas = fakeCanvas();
+	const coordinator = new WorldTargetCoordinator({
+		canvas,
+		friendlyNpcs: { clearAll() {} },
+		hostileNpcs: { clearAll() {} }
+	});
+	assert.equal(coordinator.diagnostics().enabled, false);
+	assert.equal(canvas.listeners.pointerdown, undefined);
+});
+
+test('actor-array populations share one listener and preserve selection', () => {
+	const canvas = fakeCanvas();
+	const friendly = legacyActor('friendly', false, true);
+	const hostile = legacyActor('hostile', true);
+	const coordinator = new WorldTargetCoordinator({
+		canvas,
+		populations: [
+			{ actors: [friendly] },
+			{ actors: [hostile] }
+		]
+	});
+	canvas.listeners.pointerdown(fakeEvent());
+	assert.equal(hostile.targetCount, 1);
+	assert.equal(hostile.selected, true);
+	assert.equal(friendly.selected, false);
+	coordinator.destroy();
+	assert.equal(canvas.removed, true);
+});
+
+test('a second click opens dialogue for an already selected actor', () => {
+	const friendly = legacyActor('friendly', true, true);
+	const coordinator = new WorldTargetCoordinator({
+		canvas: fakeCanvas(),
+		populations: [{ actors: [friendly] }]
+	});
+	coordinator.selectFromPointer(fakeEvent());
+	coordinator.selectFromPointer(fakeEvent());
+	assert.equal(friendly.targetCount, 1);
+	assert.equal(friendly.dialogueCount, 1);
+});

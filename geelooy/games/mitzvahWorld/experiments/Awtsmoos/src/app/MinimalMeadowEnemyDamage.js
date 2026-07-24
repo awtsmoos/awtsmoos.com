@@ -4,18 +4,41 @@
 
 /**
  * @file MinimalMeadowEnemyDamage.js
- * @description Applies armor-aware demon damage to the authoritative player profile.
- * The Awtsmoos gives every trial an exact boundary; Awtsmoos.com keeps health, HUD, action,
- * source, Hebrew letters, and defeat state synchronized through one event receipt.
+ * @description Applies policy-sized armor damage through invulnerability and singular defeat truth.
+ * The Awtsmoos gives every trial an exact boundary; Awtsmoos.com clamps health, rejects overlap,
+ * and delegates zero health to one authoritative lifecycle instead of emitting repeated defeat.
  */
+
+import { minimalEnemyBalancedDamage } from './MinimalMeadowCombatBalancePolicy.js';
 
 export function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 	const stats = runtime.playerStats;
-	stats.maxHealth ||= 100;
-	stats.armor ||= 3;
-	const damage = Math.max(1, Math.round((Number(amount) || 0) - stats.armor * 0.45));
-	stats.health = Math.max(0, (Number(stats.health) || stats.maxHealth) - damage);
+	stats.maxHealth = finiteOr(stats.maxHealth, 100);
+	stats.armor = finiteOr(stats.armor, 3);
+	if (runtime.playerDefeat?.isDefeated?.() || stats.health <= 0) {
+		return blockedReceipt(stats, details, 'player-defeated');
+	}
+	const mode = details.mode || 'melee';
+	const accepted = runtime.combatBalance?.acceptPlayerHit?.(
+		details.enemyId,
+		mode,
+		mode === 'melee'
+	) ?? true;
+	if (!accepted) {
+		const receipt = blockedReceipt(
+			stats,
+			details,
+			'invulnerability-or-attack-spacing'
+		);
+		runtime.bus.emit('player:damage-blocked', receipt);
+		return receipt;
+	}
+	const rawDamage = minimalEnemyBalancedDamage(mode, amount);
+	const damage = Math.max(1, Math.round(rawDamage - stats.armor * 0.45));
+	const currentHealth = finiteOr(stats.health, stats.maxHealth);
+	stats.health = Math.max(0, currentHealth - damage);
 	const receipt = {
+		accepted: true,
 		amount: damage,
 		event: { amount: damage },
 		health: stats.health,
@@ -23,8 +46,27 @@ export function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 		source: 'procedural-shadow-chai',
 		...details
 	};
+	runtime.combatBalance?.recordDamage?.(damage);
 	runtime.bus.emit('enemy:attack', receipt);
 	runtime.bus.emit('profile:state', { ...stats });
-	if (stats.health === 0) runtime.bus.emit('player:defeated', receipt);
+	if (stats.health === 0) runtime.playerDefeat?.defeat?.(receipt);
 	return receipt;
+}
+
+function blockedReceipt(stats, details, reason) {
+	return {
+		accepted: false,
+		amount: 0,
+		blocked: reason,
+		event: { amount: 0 },
+		health: Math.max(0, finiteOr(stats.health, 0)),
+		maxHealth: stats.maxHealth,
+		source: 'procedural-shadow-chai',
+		...details
+	};
+}
+
+function finiteOr(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
 }

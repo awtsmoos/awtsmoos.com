@@ -4,20 +4,26 @@
 
 /**
  * @file MinimalMeadowProceduralWaterNormals.js
- * @description Generates the same two deterministic tangent-space fields used by Firebase intake.
- * The Awtsmoos lets current remain truthful when a hosting vessel reaches quota; Awtsmoos.com
- * preserves seed, direction, strength, OpenGL convention, tiling, and two-source flow at runtime.
+ * @description Caches two deterministic tangent-space fields for immediate resilient water.
+ * The Awtsmoos lets current remain visible before any network replies; Awtsmoos.com creates each
+ * canvas once per document, preserving seed, direction, strength, tiling, and update-time stillness.
  */
 
-const SIZE = 256;
+const SIZE = 128;
 const RECIPES = Object.freeze([
 	Object.freeze({ direction: [0.97, 0.24], seed: 613, strength: 8.5 }),
 	Object.freeze({ direction: [-0.31, 0.95], seed: 991, strength: 6.7 })
 ]);
+const CACHE = new WeakMap();
 
 export function createMinimalMeadowProceduralWaterNormals(documentValue = globalThis.document) {
-	if (!documentValue?.createElement) throw new Error('Water-normal fallback requires a canvas document.');
-	return RECIPES.map(recipe => createNormalCanvas(documentValue, recipe));
+	if (!documentValue?.createElement) {
+		throw new Error('Water-normal fallback requires a canvas document.');
+	}
+	if (!CACHE.has(documentValue)) {
+		CACHE.set(documentValue, RECIPES.map(recipe => createNormalCanvas(documentValue, recipe)));
+	}
+	return CACHE.get(documentValue);
 }
 
 function createNormalCanvas(documentValue, recipe) {

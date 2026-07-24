@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowRoadRibbon.js
- * @description Builds a nonblocking cobblestone ribbon from the canonical arc-length road samples.
- * The Awtsmoos lays measured stones along one curved passage; Awtsmoos.com aligns each visible
- * vertex to terrain collision while UV length, width, density, and shoulders remain inspectable.
+ * @description Builds a visible mixed road with physical world-space UV density.
+ * The Awtsmoos lays measured stone through grass and soil; Awtsmoos.com keeps each cobble
+ * near native resolution while the continuous road remains aligned to terrain collision.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
@@ -18,46 +18,53 @@ import {
 } from './MinimalMeadowBezierPath.js';
 
 export function createMinimalMeadowRoadRibbon(image, heightAt, options = {}) {
-	const width = options.width || 4.4;
-	const samples = minimalMeadowRoadSamples(options.segments || 96);
-	const geometry = roadGeometry(samples, width, heightAt);
+	const width = options.width || 5.2;
+	const samples = minimalMeadowRoadSamples(options.segments || 128);
 	const density = textureDensityPlan({
 		image,
 		maximumAnisotropy: options.mobile ? 4 : 12,
 		mobile: options.mobile,
 		quality: options.quality || 'high',
-		texelsPerWorld: options.mobile ? 52 : 72,
+		texelsPerWorld: options.mobile ? 64 : 96,
 		worldDepth: MINIMAL_MEADOW_ROAD_LENGTH,
 		worldWidth: width
 	});
+	const geometry = roadGeometry(samples, width, heightAt, density.tileWorld);
 	const material = createPrimitiveMaterial({
 		anisotropy: density.anisotropy,
-		color: '#c4b293',
-		id: 'Awtsmoos_real_cobblestone_road',
+		color: '#d0b98f',
+		id: 'Awtsmoos_mixed_physical_road',
 		mapImage: image,
-		mapRepeat: [...density.repeat],
+		mapRepeat: [1, 1],
+		mixImage: options.shoulderImage || null,
+		mixRepeat: [1, 1],
+		mixStrength: 0.32,
+		textureLayers: roadLayers(image, options),
 		texturePolicy: {
 			densityPlan: density,
-			projection: 'bezier-arclength-width',
+			projection: 'bezier-world-density',
 			roadAuthority: 'MinimalMeadowBezierPath'
 		}
 	}, [1, 1]);
 	const mesh = new Mesh(geometry, material);
-	mesh.name = 'Awtsmoos_real_cobblestone_bezier_road';
+	mesh.name = 'Awtsmoos_real_mixed_bezier_road';
 	mesh.frustumCulled = false;
+	mesh.visible = true;
+	mesh.userData.bootstrapVisual = true;
 	mesh.userData.AwtsmoosRoad = {
 		collisionAuthority: 'underlying-shared-terrain-heightAt',
 		density,
 		length: MINIMAL_MEADOW_ROAD_LENGTH,
 		segments: samples.length - 1,
-		uvProjection: 'bezier-arclength-width',
+		sourceCount: roadLayers(image, options).length,
+		uvProjection: 'bezier-world-density',
 		width
 	};
 	mesh.setBaseTransform();
 	return mesh;
 }
 
-function roadGeometry(samples, width, heightAt) {
+function roadGeometry(samples, width, heightAt, tileWorld) {
 	const positions = [];
 	const normals = [];
 	const uvs = [];
@@ -66,9 +73,12 @@ function roadGeometry(samples, width, heightAt) {
 		for (const side of [-1, 1]) {
 			const x = sample.point.x + sample.normal.x * width * 0.5 * side;
 			const z = sample.point.z + sample.normal.z * width * 0.5 * side;
-			positions.push(x, heightAt(x, z) + 0.045, z);
+			positions.push(x, heightAt(x, z) + 0.12, z);
 			normals.push(0, 1, 0);
-			uvs.push(side < 0 ? 0 : 1, sample.distance / MINIMAL_MEADOW_ROAD_LENGTH);
+			uvs.push(
+				(side < 0 ? 0 : width) / tileWorld[0],
+				sample.distance / tileWorld[1]
+			);
 		}
 	}
 	for (let index = 0; index < samples.length - 1; index += 1) {
@@ -81,4 +91,12 @@ function roadGeometry(samples, width, heightAt) {
 	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
 	geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
 	return geometry;
+}
+
+function roadLayers(image, options) {
+	return [
+		{ image, repeat: [1, 1], strength: 0.72, zones: [0, 1, 0, 0] },
+		{ image: options.shoulderImage, repeat: [1, 1], strength: 0.34, zones: [0.3, 0.7, 0, 0] },
+		{ image: options.soilImage, repeat: [1, 1], strength: 0.2, zones: [0.2, 0.8, 0, 0] }
+	].filter(layer => layer.image);
 }

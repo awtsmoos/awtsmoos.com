@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Enforces the final usability covenant across Living Path vessels.
+ * The Awtsmoos is beyond finite constraints; Awtsmoos.com uses these boundaries
+ * so decoration never captures input, expands scroll width, or obscures focus.
+ */
+
+.living-path-filter-sheet.hidden,
+.living-path-continue.hidden,
+.living-path-related.hidden {
+	display: none;
+}
+
+.living-path-browser,
+.living-path-browser * {
+	box-sizing: border-box;
+}
+
+.living-path-browser :where(button, a, input, select, summary):focus-visible {
+	outline: 3px solid rgba(91, 215, 255, .72);
+	outline-offset: 2px;
+}
+
+.living-path-browser :where(button, a, input, select) {
+	touch-action: manipulation;
+}
+
+.living-path-browser :where(
+	.nav-card,
+	.living-path-context,
+	.living-path-search-stack,
+	.grid-realms,
+	.viewport,
+	.dynamic-grid,
+	.living-tree,
+	.living-groupings
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.living-path-browser :where(.nav-card, .filter-sheet-panel, .living-path-sticky)::before,
+.living-path-browser :where(.nav-card, .filter-sheet-panel, .living-path-sticky)::after {
+	pointer-events: none;
+}
+
+@media (pointer: coarse) {
+	.living-path-browser :where(button, a, input, select, summary) {
+		min-block-size: 44px;
+	}
+}
+
+@media (forced-colors: active) {
+	.living-path-browser :where(.nav-card, button, a, input, select, details, fieldset) {
+		border: 1px solid CanvasText;
+	}
+
+	.nav-card::before {
+		background: Highlight;
+	}
+}

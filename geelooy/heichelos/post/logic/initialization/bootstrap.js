@@ -1,130 +1,70 @@
-
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * B"H
  * @module BootstrapRitual
- * @chapter Ignition of Consciousness
  * @description
- * The Great Seder Histalshelus begins here. We gather initial coordinates,
- * manifest the scroll, install active coordinate tracking, and then awaken the
- * inline guardians. The current visible verse/subsection now writes itself into
- * the URL continuously so refresh returns to the same place.
+ * The Awtsmoos gathers coordinates, verses, comments, and navigation into one
+ * living reader. Canonical API sections now enter before plain content, so the
+ * many punctuation vessels of Meluket remain visible on Awtsmoos.com.
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
-import { makeNavBars, loadFontSize, scrollToActiveEl, appendHTML, makeInfoHTML } from "/heichelos/post/postFunctions.js";
-import { interpretPostDayuh } from "/heichelos/post/logic/scribe.js";
-import { loadRootComments, updateCommentHeader } from "/heichelos/post/comments/panel.js";
+import { loadFontSize, scrollToActiveEl } from "/heichelos/post/postFunctions.js";
+import { updateCommentHeader } from "/heichelos/post/comments/panel.js";
 import { indexSwitch } from "/heichelos/post/logic/conductor.js";
 import { applyUserPreferences } from "/heichelos/post/logic/preferences.js";
-import { setupActiveCoordinateTracking, setupUIListeners, renderBookmarksPanel, toggleSidebar } from "/heichelos/post/logic/listeners.js";
+import { setupActiveCoordinateTracking, setupUIListeners } from "/heichelos/post/logic/listeners.js";
 import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js";
-import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
-import { renderApprovalsPanel } from "/heichelos/post/comments/panel/approvals.js";
-import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
-import { populateRootMenu } from "/heichelos/post/logic/initialization/sidebarContent.js";
 import { awakenInlineSparks } from "/heichelos/post/logic/initialization/autoInline.js";
+import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js";
+import { createReaderPanels } from "/heichelos/post/logic/initialization/readerPanels.js";
 
-function bindFootnotePanel(tabRefs) {
-    window.openFootnotesPanel = async (footnoteId = null) => {
-        toggleSidebar(true);
-        const tab = tabRefs?.footnotes;
-        if (tab?.open) await tab.open();
-        if (footnoteId === null || footnoteId === undefined) return;
-        setTimeout(() => {
-            const item = document.querySelector(`.awtsmoos-list-item[data-footnote-id="${CSS.escape(String(footnoteId))}"]`);
-            if (!item) return;
-            item.scrollIntoView({ behavior: "smooth", block: "center" });
-            item.classList.add("active");
-            setTimeout(() => item.classList.remove("active"), 2200);
-        }, 350);
-    };
+async function hydrateIdentity(post, heichelId) {
+	const [heichel, alias] = await Promise.all([
+		getHeichelDetails(heichelId).catch(() => ({})),
+		getAliasName(post.author).catch(() => ({}))
+	]);
+	post.heichel = { id: heichelId, ...heichel };
+	window.alias = { id: post.author, ...alias };
+	window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
+	window.doesOwn = window.curAlias === post.author;
 }
 
-function createTabRefs(sidebar) {
-    window.tabManager = new TabManager({ parent: sidebar, headerTxt: "Divine Context" });
-    const tabRefs = {
-        insights: window.tabManager.addTab({
-            header: "Insights",
-            name: "insights",
-            onopen: async ({ actualTab, tab }) => await loadRootComments({ parent: actualTab, tab })
-        }),
-        details: window.tabManager.addTab({
-            header: "Scroll Details",
-            name: "details",
-            onopen: async ({ actualTab }) => {
-                actualTab.innerHTML = "";
-                actualTab.appendChild(makeInfoHTML());
-            }
-        }),
-        bookmarks: window.tabManager.addTab({
-            header: "Bookmarks",
-            name: "bookmarks",
-            onopen: async ({ actualTab }) => renderBookmarksPanel(actualTab)
-        }),
-        footnotes: window.tabManager.addTab({
-            header: "Footnotes",
-            name: "footnotes",
-            onopen: async ({ actualTab }) => renderFootnotesPanel(actualTab)
-        }),
-        approvals: window.tabManager.addTab({
-            header: "Approvals",
-            name: "approvals",
-            onopen: async ({ actualTab }) => renderApprovalsPanel(actualTab)
-        })
-    };
-    tabRefs.rootMenu = window.tabManager.addTab({
-        header: "Main Menu",
-        name: "rootMenu",
-        onopen: async ({ actualTab }) => populateRootMenu(actualTab, window.post, tabRefs)
-    });
-    return tabRefs;
+function prepareReaderBehavior() {
+	applyUserPreferences();
+	setupUIListeners();
+	setupViewEffects();
+	loadFontSize();
 }
 
-async function manifestPost(viewport, post, series, pIdx) {
-    if (!viewport) return;
-    viewport.innerHTML = "";
-    if (post.dayuh) await interpretPostDayuh(post);
-    else if (post.content) appendHTML(post.content, viewport);
-    viewport.appendChild(makeNavBars(post, series, pIdx));
+async function settleReader() {
+	window.tabRefs.rootMenu.open();
+	await indexSwitch(true);
+	await updateCommentHeader();
+	await scrollToActiveEl({ settle: true });
+	setupActiveCoordinateTracking();
+	await awakenInlineSparks();
 }
 
+/** Ignites the canonical post reader from API response through visible DOM. */
 export async function ignite() {
-    console.log("%c B\"H - Commencing Unified Seder Histalshelus", "color: #ccff00; font-weight: 900;");
-    const viewport = document.getElementById("realPost");
-    const sidebar = document.querySelector(".sidebar");
-
-    try {
-        const { post, series, hId, pIdx } = await loadInitial();
-        window.post = post;
-
-        const [meta, aDetails] = await Promise.all([
-            getHeichelDetails(hId).catch(() => ({})),
-            getAliasName(post.author).catch(() => ({}))
-        ]);
-
-        post.heichel = { id: hId, ...meta };
-        window.alias = { id: post.author, ...aDetails };
-        window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
-        window.doesOwn = window.curAlias === post.author;
-
-        window.tabRefs = createTabRefs(sidebar);
-        bindFootnotePanel(window.tabRefs);
-
-        applyUserPreferences();
-        setupUIListeners();
-        setupViewEffects();
-        loadFontSize();
-        await manifestPost(viewport, post, series, pIdx);
-
-        window.tabRefs.rootMenu.open();
-        await indexSwitch(true);
-        await updateCommentHeader();
-        await scrollToActiveEl({ settle: true });
-        setupActiveCoordinateTracking();
-        await awakenInlineSparks();
-    } catch (e) {
-        console.error("B\"H - Bootstrap Rupture:", e);
-        if (viewport) viewport.innerHTML = `<div class='fatal-error awtsmoos-empty-placeholder'>SYSTEM RUPTURE: ${e.message}</div>`;
-    }
+	console.log("%c B\"H - Commencing Unified Seder Histalshelus", "color: #ccff00; font-weight: 900;");
+	const viewport = document.getElementById("realPost");
+	const sidebar = document.querySelector(".sidebar");
+	try {
+		const { post, series, hId, pIdx } = await loadInitial();
+		window.post = post;
+		await hydrateIdentity(post, hId);
+		window.tabRefs = createReaderPanels(sidebar);
+		prepareReaderBehavior();
+		window.__awtsmoosPostRenderMode = await manifestPost(viewport, post, series, pIdx);
+		await settleReader();
+	} catch (error) {
+		console.error("B\"H - Bootstrap Rupture:", error);
+		if (viewport) {
+			viewport.innerHTML = `<div class='fatal-error awtsmoos-empty-placeholder'>SYSTEM RUPTURE: ${error.message}</div>`;
+		}
+	}
 }

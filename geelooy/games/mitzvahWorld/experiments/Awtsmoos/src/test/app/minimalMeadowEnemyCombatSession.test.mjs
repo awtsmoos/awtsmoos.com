@@ -4,14 +4,17 @@
 
 /**
  * @file minimalMeadowEnemyCombatSession.test.mjs
- * @description Proves role stability, broad stagger, transitions, persistence, and true loss.
- * The Awtsmoos is one while test states are many; Awtsmoos.com accepts completion only
- * when deterministic evidence distinguishes brief separation from a genuinely lost target.
+ * @description Proves spawn anchoring, stable role, broad stagger, persistence, and true loss.
+ * The Awtsmoos is one while test states are many; Awtsmoos.com accepts completion only when
+ * profile placement, brief separation, and genuinely lost targets remain truthfully distinct.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { MinimalMeadowEnemyCombatSession } from '../../app/MinimalMeadowEnemyCombatSession.js';
+import {
+	minimalEnemyCombatHome,
+	MinimalMeadowEnemyCombatSession
+} from '../../app/MinimalMeadowEnemyCombatSession.js';
 import {
 	minimalEnemyDecisionOffset,
 	selectMinimalEnemyRole
@@ -23,6 +26,22 @@ function actor(id, temperament = 'balanced') {
 		profile: { id, temperament }
 	};
 }
+
+test('profile spawn anchors home before the group receives final placement', () => {
+	const placedLater = {
+		group: { position: { x: 0, z: 0 } },
+		profile: { id: 'placed-later', temperament: 'melee', x: 18, z: 34 }
+	};
+	const session = new MinimalMeadowEnemyCombatSession(placedLater);
+	placedLater.group.position.x = 18;
+	placedLater.group.position.z = 34;
+	assert.deepEqual(session.home, { x: 18, z: 34 });
+	assert.deepEqual(minimalEnemyCombatHome(placedLater), { x: 18, z: 34 });
+	assert.equal(Math.hypot(
+		placedLater.group.position.x - session.home.x,
+		placedLater.group.position.z - session.home.z
+	), 0);
+});
 
 test('role and cadence remain stable for one complete engagement', () => {
 	const first = actor('stable-one', 'ranged');

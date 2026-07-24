@@ -4,30 +4,35 @@
 
 /**
  * @file MinimalMeadowTerrainComposites.js
- * @description Creates ecological grass, dry, soil, mud, shoulder, and true cobblestone sources.
- * The Awtsmoos joins many earthly garments without rectangular dominion; Awtsmoos.com reserves
- * real stone for the road center while feathered dirt and grass remain independently blendable.
+ * @description Preserves the legacy facade while returning independent source images, never mosaics.
+ * The Awtsmoos unites many garments without sewing visible squares beside one another; Awtsmoos.com
+ * entrusts blending to continuous shader masks while every decoded source keeps its native pixels.
  */
 
-import { createMeadowTextureComposite } from './MinimalMeadowTextureComposite.js?v=20260724-meadow-13';
+import { minimalMeadowTerrainSourceRoles } from './MinimalMeadowTerrainSources.js';
 
-export function createMinimalMeadowTerrainComposites(images, documentValue = globalThis.document) {
-	const composite = (name, roles) => createMeadowTextureComposite(
-		name,
-		roles.map(role => images[role]).filter(Boolean),
-		documentValue
-	);
-	return {
-		dry: composite('dry-grass-soil', ['grassFive', 'grassSeven', 'dirtGrassOne', 'soilLight']),
-		lush: composite('lush-eight-grass', ['grassOne', 'grassFour', 'grassEight', 'marshGrass']),
-		main: composite('main-eight-source-meadow', [
-			'grassEight', 'grassOne', 'grassFour', 'grassSeven',
-			'grassFive', 'marshGrass', 'dirtGrassOne', 'dirtGrassThree'
-		]),
-		marsh: composite('marsh-meadow', ['marshGrass', 'grassOne', 'grassFour', 'soilDark']),
-		mud: composite('wet-mud-soil', ['soilDark', 'tilledSoil', 'marshGrass']),
-		path: images.cobblestone || images.pathCenter,
-		pathEdge: composite('road-dirt-shoulder', ['dirtGrassThree', 'soilLight', 'dirtGrassOne']),
-		soil: composite('main-soil-breakup', ['soilDark', 'soilLight', 'tilledSoil', 'dirtGrassOne'])
-	};
+/**
+ * Returns renderer-ready source roles without drawing, scaling, or resampling any image.
+ *
+ * @param {object} images Loaded ground source images.
+ * @param {Document} documentValue Preserved legacy argument; deliberately unused.
+ * @returns {object} Independent images plus anti-mosaic evidence.
+ */
+export function createMinimalMeadowTerrainComposites(
+	images,
+	documentValue = globalThis.document
+) {
+	void documentValue;
+	const roles = minimalMeadowTerrainSourceRoles(images);
+	const independentSources = Object.values(roles).filter(Boolean);
+	return Object.freeze({
+		...roles,
+		evidence: Object.freeze({
+			compositeCanvases: 0,
+			independentSourceCount: new Set(independentSources).size,
+			mosaic: false,
+			resampled: false,
+			sourceResolutionPolicy: 'decoded-image-preserved'
+		})
+	});
 }

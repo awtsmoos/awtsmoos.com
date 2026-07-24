@@ -4,31 +4,43 @@
 
 /**
  * @file HudMinimizeController.js
- * @description Adds accessible, persistent folding controls to late-created HUD surfaces.
- * The Awtsmoos is unchanged whether a vessel shines or rests; Awtsmoos.com lets the player fold
- * finite interface chambers away while their gameplay meaning continues without interruption.
+ * @description Coordinates persistent folding with late-created explicit mobile HUD zones.
+ * The Awtsmoos is unchanged whether a vessel shines or rests; Awtsmoos.com lets finite panels
+ * fold without surrendering the measured composition that keeps neighboring surfaces apart.
  */
 
 import { defaultHudMinimized, hudLayoutRegistry } from './HudLayoutRegistry.js';
-
-const STORAGE_KEY = 'Awtsmoos.mitzvahWorld.hud.v1';
-const COMPACT_QUERY = '(max-width: 800px)';
+import { MobileHudCompositionController } from './MobileHudCompositionController.js';
+import {
+	readHudMinimizeState,
+	writeHudMinimizeState
+} from './MobileHudCompositionMinimizeStorage.js';
+import { isCompactHudViewport } from './MobileHudCompositionRegistry.js';
 
 export class HudMinimizeController {
 	constructor(documentValue = document, storage = globalThis.localStorage) {
 		this.document = documentValue;
+		this.environment = documentValue.defaultView || globalThis;
 		this.storage = storage;
 		this.layouts = hudLayoutRegistry();
-		this.saved = readSavedState(storage);
+		this.saved = readHudMinimizeState(storage);
+		this.composition = new MobileHudCompositionController(documentValue);
 		this.observer = null;
 		this.syncQueued = false;
 	}
 
-	/** Installs one bounded observer because several gameplay components render after page boot. */
 	install() {
 		this.sync();
-		this.observer = new MutationObserver(() => this.queueSync());
-		this.observer.observe(this.document.body, { childList: true, subtree: true });
+		const Observer = this.environment.MutationObserver || globalThis.MutationObserver;
+		if (Observer) {
+			this.observer = new Observer(() => this.queueSync());
+			this.observer.observe(this.document.body, {
+				attributeFilter: ['hidden', 'data-open'],
+				attributes: true,
+				childList: true,
+				subtree: true
+			});
+		}
 		return this;
 	}
 
@@ -37,21 +49,22 @@ export class HudMinimizeController {
 			return;
 		}
 		this.syncQueued = true;
-		queueMicrotask(() => {
+		const enqueue = this.environment.queueMicrotask || globalThis.queueMicrotask;
+		enqueue(() => {
 			this.syncQueued = false;
 			this.sync();
 		});
 	}
 
 	sync() {
-		const compact = globalThis.matchMedia?.(COMPACT_QUERY).matches === true;
+		const compact = isCompactHudViewport(this.environment);
 		for (const definition of this.layouts) {
 			const root = this.document.querySelector(definition.selector);
-			if (!root) {
-				continue;
+			if (root) {
+				this.prepare(root, definition, compact);
 			}
-			this.prepare(root, definition, compact);
 		}
+		this.composition.sync();
 	}
 
 	prepare(root, definition, compact) {
@@ -78,7 +91,7 @@ export class HudMinimizeController {
 			event.stopPropagation();
 			const minimized = root.dataset.awtsmoosMinimized !== 'true';
 			this.saved[definition.id] = minimized;
-			writeSavedState(this.storage, this.saved);
+			writeHudMinimizeState(this.storage, this.saved);
 			this.apply(root, definition, minimized, button);
 		});
 		return button;
@@ -86,8 +99,7 @@ export class HudMinimizeController {
 
 	apply(root, definition, minimized, knownButton = null) {
 		root.dataset.awtsmoosMinimized = String(minimized);
-		const button = knownButton
-			|| root.querySelector(':scope > .Awtsmoos-hud-minimize');
+		const button = knownButton || root.querySelector(':scope > .Awtsmoos-hud-minimize');
 		if (!button) {
 			return;
 		}
@@ -101,21 +113,6 @@ export class HudMinimizeController {
 	destroy() {
 		this.observer?.disconnect();
 		this.observer = null;
-	}
-}
-
-function readSavedState(storage) {
-	try {
-		return JSON.parse(storage?.getItem(STORAGE_KEY) || '{}');
-	} catch {
-		return {};
-	}
-}
-
-function writeSavedState(storage, value) {
-	try {
-		storage?.setItem(STORAGE_KEY, JSON.stringify(value));
-	} catch {
-		// Storage is optional; the current session remains fully usable without it.
+		this.composition.destroy();
 	}
 }

@@ -1,0 +1,6 @@
+{
+	"status": "superseded-by-runtime-trace",
+	"reason": "The first baseline probe exposed missing material diagnostics before it could produce a trustworthy numeric ledger.",
+	"runtimeDiscovery": "04_BASELINE_AND_RUNTIME_DISCOVERY.md",
+	"authoritativeMeasurements": "05_FINAL_MEASUREMENTS.json"
+}

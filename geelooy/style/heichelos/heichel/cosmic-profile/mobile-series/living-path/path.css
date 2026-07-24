@@ -1,0 +1,80 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Gives immediate and full ancestry distinct readable vessels.
+ * The Awtsmoos is Root beyond repetition; Awtsmoos.com keeps the compact river
+ * horizontal while the optional full path reveals true depth in a quiet outline.
+ */
+
+.living-path-context {
+	display: grid;
+	gap: .45rem;
+}
+
+.living-path-full-path {
+	border: 1px solid rgba(91, 215, 255, .14);
+	border-radius: .7rem;
+	background: rgba(4, 11, 26, .72);
+}
+
+.living-path-full-path > summary {
+	display: flex;
+	min-block-size: 42px;
+	align-items: center;
+	justify-content: space-between;
+	padding: .55rem .7rem;
+	color: #9fb1c7;
+	font-size: .72rem;
+	font-weight: 800;
+	cursor: pointer;
+	list-style: none;
+}
+
+.living-path-full-path > summary::-webkit-details-marker {
+	display: none;
+}
+
+.living-path-full-path > summary::after {
+	content: "⌄";
+	color: #74e7ff;
+}
+
+.living-path-full-path[open] > summary::after {
+	content: "⌃";
+}
+
+.living-path-full-path ol {
+	display: grid;
+	gap: .28rem;
+	margin: 0;
+	padding: 0 .55rem .65rem;
+	list-style: none;
+}
+
+.living-path-full-path li {
+	position: relative;
+	padding-inline-start: calc(var(--path-depth, 0) * .65rem);
+}
+
+.living-path-full-path li::before {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: .25rem;
+	inline-size: 1px;
+	background: rgba(91, 215, 255, .16);
+	content: "";
+}
+
+.living-path-full-path li[data-depth="1"] { --path-depth: 1; }
+.living-path-full-path li[data-depth="2"] { --path-depth: 2; }
+.living-path-full-path li[data-depth="3"] { --path-depth: 3; }
+.living-path-full-path li[data-depth="4"] { --path-depth: 4; }
+.living-path-full-path li[data-depth="5"] { --path-depth: 5; }
+
+.living-path-full-path .breadcrumb-link {
+	inline-size: 100%;
+	justify-content: flex-start;
+	max-inline-size: none;
+	text-align: start;
+}

@@ -1,53 +1,82 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * @module MobileCardData
+ * @module LivingPathCardData
  * @description
- * Chapter 418: Every card receives a name, a safe description, and a true key.
- * The Awtsmoos turns API dialects into visible chambers without letting escaped
- * HTML or `undefined` scratch the wall of the palace.
+ * The Awtsmoos creates every legacy API dialect before normalization.
+ * Awtsmoos.com converts each record into safe title, language, chronology,
+ * counts, and content kind so all three browse modes share one truthful model.
  */
 
-import { openRecordVessel } from "../../navigator/content-normalizer.js";
-import { safeDisplayText } from "../textSanitizer.js";
+import { openRecordVessel } from '../../navigator/content-normalizer.js';
+import { detectDirection, detectLanguage } from '../../living-path/language-policy.js';
+import { safeDisplayText } from '../textSanitizer.js';
 
-function clean(value, fallback = "") {
-    return safeDisplayText(value, fallback);
+export function normalizeCardData(item = {}, type = 'post') {
+	const raw = openRecordVessel(type === 'post' ? item : (item.prateem || item)) || {};
+	const id = first(raw.id, raw.postId, raw.seriesId, raw.inputId, item.id, item.postId, item.seriesId);
+	const fallback = type === 'series' ? 'Untitled Series' : type === 'grouping' ? 'Untitled Grouping' : 'Untitled Post';
+	const title = clean(first(raw.title, raw.name, id), fallback);
+	const description = clean(first(raw.description, raw.content, raw.excerpt), '').slice(0, 240);
+	const text = `${title} ${description}`;
+	return {
+		id: String(id || ''),
+		type,
+		kind: normalizeKind(type, raw),
+		title,
+		description,
+		language: detectLanguage(text),
+		direction: detectDirection(text),
+		thumbnail: first(raw.thumbnail, raw.cover, raw.image) || '',
+		postCount: count(first(raw.posts, raw.postIds, raw.postsCount, item.posts, item.postsCount)),
+		subSeriesCount: count(first(raw.subSeries, raw.subSeriesIds, raw.subSeriesCount, item.subSeries, item.subSeriesCount)),
+		followersCount: count(first(raw.followers, raw.members, raw.views, item.followersCount)),
+		sectionsCount: count(first(raw.sections, raw.sectionIds, item.sectionsCount)),
+		commentsCount: count(first(raw.comments, raw.commentIds, item.commentsCount)),
+		timestamp: normalizeTime(first(raw.timestamp, raw.createdAt, raw.publishedAt, raw.modifiedAt, raw.date)),
+		indexInSeries: item.indexInSeries,
+		parentSeriesId: String(first(raw.parentSeriesId, raw.parentId, item.parentSeriesId) || ''),
+		raw
+	};
+}
+
+export function matchesQuery(card, query) {
+	const needle = String(query || '').trim().toLocaleLowerCase();
+	if (!needle) return true;
+	return [card.title, card.description, card.kind, card.type]
+		.join(' ')
+		.toLocaleLowerCase()
+		.includes(needle);
+}
+
+function normalizeKind(type, raw) {
+	if (type === 'series' || type === 'grouping') return type;
+	const value = String(first(raw.contentType, raw.postType, raw.mediaType, raw.type) || 'post').toLowerCase();
+	if (value.includes('question')) return 'question';
+	if (value.includes('audio') || value.includes('podcast')) return 'audio';
+	if (value.includes('source') || value.includes('citation')) return 'source';
+	return 'post';
+}
+
+function normalizeTime(value) {
+	if (!value) return null;
+	const numeric = Number(value);
+	if (Number.isFinite(numeric) && numeric > 0) return numeric < 1e12 ? numeric * 1000 : numeric;
+	const parsed = Date.parse(String(value));
+	return Number.isFinite(parsed) ? parsed : null;
+}
+
+function clean(value, fallback = '') {
+	return safeDisplayText(value, fallback);
 }
 
 function count(value) {
-    if (Array.isArray(value)) return value.length;
-    if (value && typeof value === "object") return Object.keys(value).length;
-    return Number(value || 0) || 0;
+	if (Array.isArray(value)) return value.length;
+	if (value && typeof value === 'object') return Object.keys(value).length;
+	return Number(value || 0) || 0;
 }
 
-function firstPresent(...values) {
-    return values.find(value => value !== undefined && value !== null && value !== "");
-}
-
-export function normalizeCardData(item, type) {
-    const raw = openRecordVessel(type === "post" ? item : (item.prateem || item)) || {};
-    const id = firstPresent(raw.id, raw.postId, raw.seriesId, raw.inputId, item.id, item.postId, item.seriesId);
-    const fallback = type === "series" ? "Untitled Series" : "Untitled Post";
-    const title = clean(firstPresent(raw.title, raw.name, id), fallback);
-    const description = clean(firstPresent(raw.description, raw.content, raw.excerpt), "").slice(0, 190);
-    return {
-        id,
-        type,
-        title,
-        description,
-        thumbnail: firstPresent(raw.thumbnail, raw.cover, raw.image) || "",
-        postCount: count(firstPresent(raw.posts, raw.postIds, raw.postsCount, item.posts, item.postsCount)),
-        subSeriesCount: count(firstPresent(raw.subSeries, raw.subSeriesIds, raw.subSeriesCount, item.subSeries, item.subSeriesCount)),
-        followersCount: count(firstPresent(raw.followers, raw.members, raw.views, item.followersCount)),
-        sectionsCount: count(firstPresent(raw.sections, raw.sectionIds, item.sectionsCount)),
-        commentsCount: count(firstPresent(raw.comments, raw.commentIds, item.commentsCount)),
-        indexInSeries: item.indexInSeries,
-        raw
-    };
-}
-
-export function matchesQuery(item, query) {
-    const q = String(query || "").trim().toLowerCase();
-    if (!q) return true;
-    return [item.title, item.description, item.type].join(" ").toLowerCase().includes(q);
+function first(...values) {
+	return values.find(value => value !== undefined && value !== null && value !== '');
 }

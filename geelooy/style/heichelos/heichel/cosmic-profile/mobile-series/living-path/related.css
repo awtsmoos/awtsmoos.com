@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Reveals only nearby branches already present in loaded data.
+ * The Awtsmoos creates relation beyond recommendation engines; Awtsmoos.com
+ * offers three real children at most, then hides the entire section when absent.
+ */
+
+.living-path-related {
+	display: grid;
+	gap: .55rem;
+	padding-block-start: .65rem;
+	border-block-start: 1px solid rgba(91, 215, 255, .14);
+}
+
+.living-path-related h2,
+.living-path-related p {
+	margin: 0;
+}
+
+.living-path-related h2 {
+	color: #eaf2fa;
+	font-size: 1rem;
+}
+
+.living-path-related-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+	gap: .5rem;
+}
+
+.living-related-card {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	min-block-size: 4.4rem;
+	align-items: center;
+	gap: .5rem;
+	padding: .62rem;
+	border: 1px solid rgba(91, 215, 255, .16);
+	border-radius: .72rem;
+	background: rgba(7, 17, 34, .82);
+	color: #e4eef7;
+	text-align: start;
+}
+
+.living-related-card strong,
+.living-related-card small {
+	grid-column: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.living-related-card small {
+	color: #8195ab;
+	font-size: .62rem;
+}
+
+.living-related-mark {
+	grid-row: 1 / span 2;
+	color: #5fe7ff;
+}

@@ -14,10 +14,7 @@ const {
 	reportDriveReconciliation,
 	repairDriveReconciliation
 } = require('../reconciliationService.js');
-const {
-	requireMethod,
-	safeRoute
-} = require('./routeSupport.js');
+const { requireMethod, safeRoute } = require('./routeSupport.js');
 
 module.exports = ({ $i, userid }) => ({
 	'/drive/:aliasId/reconciliation': variables => safeRoute(async () => {

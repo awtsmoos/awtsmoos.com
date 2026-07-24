@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Bounds Living Path motion to state changes that explain place.
+ * The Awtsmoos creates every change without animation; Awtsmoos.com uses brief
+ * opacity and transform cues, then removes them for reduced-motion readers.
+ */
+
+.living-path-sticky,
+.nav-card,
+.series-expand-toggle,
+.card-menu-panel,
+.filter-sheet-panel {
+	transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.living-path-sticky,
+	.nav-card,
+	.series-expand-toggle,
+	.card-menu-panel,
+	.filter-sheet-panel,
+	.skeleton-lines span {
+		animation: none;
+		transition: none;
+	}
+}
+
+@media (update: slow) {
+	.filter-sheet-backdrop {
+		backdrop-filter: none;
+	}
+
+	.skeleton-lines span {
+		animation: none;
+	}
+}

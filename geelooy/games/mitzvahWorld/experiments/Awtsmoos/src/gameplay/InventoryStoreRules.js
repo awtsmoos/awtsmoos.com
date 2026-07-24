@@ -4,12 +4,14 @@
 
 /**
  * @file InventoryStoreRules.js
- * @description Provides pure quantity, stack, equipment-stat, and snapshot rules.
- * The Awtsmoos renews every quantity without loss and every slot without illusion;
- * Awtsmoos.com keeps these finite rules deterministic so inventory truth can be tested directly.
+ * @description Provides pure stack, equipment-stat, appearance, and snapshot rules.
+ * The Awtsmoos renews every quantity and attribute without illusion; Awtsmoos.com
+ * derives combat and ten spiritual measures from the garments actually equipped.
  */
 
 import { INVENTORY_CATALOG } from './InventoryCatalog.js';
+import { inventoryAppearanceFor } from './InventoryAppearanceRules.js';
+import { addSpiritualStats, emptySpiritualStats } from './SpiritualStats.js';
 
 export function normalizeInventoryQuantity(quantity) {
 	const numeric = Number(quantity);
@@ -20,9 +22,8 @@ export function normalizeInventoryQuantity(quantity) {
 }
 
 export function inventoryItemQuantity(items, itemId) {
-	return items.reduce((total, stack) => {
-		return stack.itemId === itemId ? total + stack.quantity : total;
-	}, 0);
+	return items.reduce((total, stack) =>
+		stack.itemId === itemId ? total + stack.quantity : total, 0);
 }
 
 export function addInventoryItem(items, itemId, quantity, definition) {
@@ -33,7 +34,6 @@ export function addInventoryItem(items, itemId, quantity, definition) {
 		const added = Math.min(limit - stack.quantity, remaining);
 		stack.quantity += added;
 		remaining -= added;
-		if (remaining === 0) return items;
 	}
 	while (remaining > 0) {
 		const added = Math.min(limit, remaining);
@@ -45,9 +45,7 @@ export function addInventoryItem(items, itemId, quantity, definition) {
 
 export function removeInventoryItem(items, itemId, quantity) {
 	let remaining = normalizeInventoryQuantity(quantity);
-	if (inventoryItemQuantity(items, itemId) < remaining) {
-		throw new Error('INSUFFICIENT_ITEM_QUANTITY');
-	}
+	if (inventoryItemQuantity(items, itemId) < remaining) throw new Error('INSUFFICIENT_ITEM_QUANTITY');
 	const result = [];
 	for (const stack of items) {
 		if (stack.itemId !== itemId || remaining === 0) {
@@ -55,42 +53,40 @@ export function removeInventoryItem(items, itemId, quantity) {
 			continue;
 		}
 		const removed = Math.min(stack.quantity, remaining);
-		const nextQuantity = stack.quantity - removed;
 		remaining -= removed;
-		if (nextQuantity > 0) result.push({ ...stack, quantity: nextQuantity });
+		if (stack.quantity > removed) result.push({ ...stack, quantity: stack.quantity - removed });
 	}
 	return result;
 }
 
 export function derivedInventoryStats(equipment) {
-	const total = { damage: 0, defense: 0, focus: 20 };
+	const total = { damage: 0, defense: 0, focus: 20, spiritual: emptySpiritualStats() };
 	for (const itemId of Object.values(equipment)) {
-		const stats = INVENTORY_CATALOG[itemId]?.stats;
-		if (!stats) continue;
-		total.damage += stats.damage;
-		total.defense += stats.defense;
-		total.focus += stats.focus;
+		const definition = INVENTORY_CATALOG[itemId];
+		if (!definition) continue;
+		total.damage += definition.stats.damage;
+		total.defense += definition.stats.defense;
+		total.focus += definition.stats.focus;
+		addSpiritualStats(total.spiritual, definition.spiritual);
 	}
 	return total;
 }
 
-export function togglePinnedValue(values, id, maximum, label) {
-	if (values.includes(id)) return values.filter(value => value !== id);
-	if (values.length >= maximum) throw new Error(`Only ${maximum} ${label} may be pinned.`);
-	return [...values, id];
-}
-
 export function inventorySnapshot(store) {
 	return structuredClone({
+		appearance: Object.fromEntries(Object.keys(store.appearance || {}).map(itemId => [itemId, inventoryAppearanceFor(store.appearance, itemId)]).filter(([, value]) => value)),
 		equipment: store.equipment,
-		items: store.items.map(stack => ({
-			...stack,
-			definition: INVENTORY_CATALOG[stack.itemId]
-		})),
+		items: store.items.map(stack => ({ ...stack, definition: INVENTORY_CATALOG[stack.itemId] })),
 		lastUsedAt: store.lastUsedAt,
 		learned: store.learned,
 		pinnedBooks: store.pinnedBooks,
 		pinnedPassages: store.pinnedPassages,
 		stats: derivedInventoryStats(store.equipment)
 	});
+}
+
+export function togglePinnedValue(values, id, maximum, label) {
+	if (values.includes(id)) return values.filter(value => value !== id);
+	if (values.length >= maximum) throw new Error(`Only ${maximum} ${label} may be pinned.`);
+	return [...values, id];
 }

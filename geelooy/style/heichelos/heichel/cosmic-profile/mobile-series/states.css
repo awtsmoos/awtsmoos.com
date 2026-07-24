@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Makes loading, emptiness, and populated grids honest and bounded.
+ * The Awtsmoos creates presence and apparent absence alike; Awtsmoos.com gives
+ * each state strong language without manufacturing a giant decorative void.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .grid-realms,
+	.heichel-os-document .viewport,
+	.heichel-os-document .dynamic-grid,
+	.heichel-os-document .heichel-grid,
+	.heichel-os-document .series-grid {
+		inline-size: 100%;
+		min-inline-size: 0;
+		max-inline-size: 100%;
+	}
+
+	.heichel-os-document .viewport {
+		gap: .75rem;
+		padding-block: .1rem 1rem;
+		scroll-margin-block-start: 6rem;
+	}
+
+	.heichel-os-document .dynamic-grid,
+	.heichel-os-document .heichel-grid,
+	.heichel-os-document .series-grid {
+		grid-template-columns: 1fr;
+		gap: .75rem;
+		padding-block-start: 0;
+	}
+
+	.heichel-os-document .empty-glow-msg {
+		display: grid;
+		min-block-size: 10.5rem;
+		place-items: center;
+		align-content: center;
+		gap: .4rem;
+		padding: 1.25rem;
+		border: 1px dashed rgba(80, 215, 255, .24);
+		border-radius: .85rem;
+		background: radial-gradient(circle at 50% 0, rgba(80, 215, 255, .09), transparent 9rem), rgba(4, 11, 26, .74);
+		box-shadow: none;
+		color: #adbed3;
+		font-size: .86rem;
+		font-weight: 560;
+		line-height: 1.45;
+		text-align: center;
+	}
+
+	.heichel-os-document .empty-glow-msg .empty-orb {
+		display: grid;
+		inline-size: 3rem;
+		block-size: 3rem;
+		place-items: center;
+		border: 1px solid rgba(80, 215, 255, .45);
+		border-radius: 50%;
+		background: linear-gradient(145deg, rgba(80, 215, 255, .22), rgba(133, 117, 255, .28));
+		box-shadow: 0 0 1.1rem rgba(80, 215, 255, .12);
+		color: #eafcff;
+		font-size: 1.15rem;
+	}
+
+	.heichel-os-document .empty-glow-msg strong {
+		color: #f6f8ff;
+		font-size: 1.05rem;
+		letter-spacing: -.015em;
+	}
+
+	.heichel-os-document .empty-glow-msg span:last-child {
+		max-inline-size: 30ch;
+		color: #a8b8cd;
+	}
+
+	.heichel-os-document .sacred-loading {
+		min-block-size: 8rem;
+		overflow: hidden;
+		border: 1px solid rgba(80, 215, 255, .16);
+		border-radius: .85rem;
+		background: linear-gradient(90deg, rgba(255, 255, 255, .025), rgba(80, 215, 255, .08), rgba(255, 255, 255, .025));
+		background-size: 220% 100%;
+	}
+
+	.heichel-os-document .sacred-loading::before {
+		inline-size: 38%;
+		block-size: .75rem;
+		margin: 1.65rem auto .65rem;
+		box-shadow: 0 1.6rem 0 rgba(255, 255, 255, .055), 0 3.2rem 0 rgba(255, 255, 255, .04);
+	}
+}

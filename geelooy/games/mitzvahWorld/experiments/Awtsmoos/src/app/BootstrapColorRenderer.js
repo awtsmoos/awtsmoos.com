@@ -4,17 +4,19 @@
 
 /**
  * @file BootstrapColorRenderer.js
- * @description Draws first-playable meshes with cached geometry and procedural vertex color.
- * The Awtsmoos reveals many finite garments through one beam; Awtsmoos.com preserves immediate
- * playability while dark demons retain readable eyes, horns, veins, and profile tint.
+ * @description Draws first-playable meshes while honoring material color contracts.
+ * The Awtsmoos reveals shadow and garment before rich hydration; Awtsmoos.com keeps
+ * demons readable and staff or sword visible without opening another request graph.
  */
 
 import { lookAt, perspective } from '../../../light-three-gltf/tiny-camera-math.js';
 import { multiply } from '../../../light-three-gltf/tiny-matrix-core.js';
+import {
+	bindBootstrapMeshColor,
+	writeBootstrapMaterialColor
+} from './BootstrapColorBinding.js';
 import { createBootstrapColorProgram } from './BootstrapColorProgram.js';
 import { BootstrapMeshBufferCache } from './BootstrapMeshBufferCache.js';
-
-const DEFAULT_COLOR = Object.freeze([0.72, 0.72, 0.72, 1]);
 
 export class BootstrapColorRenderer {
 	constructor(gl, stats) {
@@ -34,7 +36,11 @@ export class BootstrapColorRenderer {
 		scene.updateWorldMatrix?.();
 		const { locations, program } = this.programState;
 		this.gl.useProgram(program);
-		this.gl.uniformMatrix4fv(locations.projectionView, false, cameraProjectionView(camera));
+		this.gl.uniformMatrix4fv(
+			locations.projectionView,
+			false,
+			cameraProjectionView(camera)
+		);
 		this.gl.enableVertexAttribArray(locations.position);
 		for (const mesh of meshes) this.drawMesh(mesh, locations);
 	}
@@ -45,9 +51,12 @@ export class BootstrapColorRenderer {
 		const gl = this.gl;
 		gl.bindBuffer(gl.ARRAY_BUFFER, entry.positionBuffer);
 		gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
-		this.buffers.bindColor(entry, locations.vertexColor, locations.position);
+		bindBootstrapMeshColor(this.buffers, gl, entry, locations, mesh.material);
 		gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
-		gl.uniform4fv(locations.color, writeMaterialColor(mesh.material, this.materialColor));
+		gl.uniform4fv(
+			locations.color,
+			writeBootstrapMaterialColor(mesh.material, this.materialColor)
+		);
 		if (entry.indexBuffer) {
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entry.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, entry.count, entry.indexType, 0);
@@ -75,30 +84,11 @@ function collectBootstrapMeshes(scene) {
 	const meshes = [];
 	scene?.traverse?.(object => {
 		const isMesh = object.isMesh || object.isSkinnedMesh;
-		if (isMesh && object.visible !== false && object.userData?.bootstrapVisual) meshes.push(object);
+		if (isMesh && object.visible !== false && object.userData?.bootstrapVisual) {
+			meshes.push(object);
+		}
 	});
 	return meshes;
-}
-
-function writeMaterialColor(materialValue, target) {
-	const material = Array.isArray(materialValue) ? materialValue[0] : materialValue;
-	const value = material?.color || material?.baseColorFactor || DEFAULT_COLOR;
-	if (Array.isArray(value) || ArrayBuffer.isView(value)) {
-		target[0] = value[0] ?? 0.72;
-		target[1] = value[1] ?? 0.72;
-		target[2] = value[2] ?? 0.72;
-		target[3] = value[3] ?? 1;
-		return target;
-	}
-	if (Number.isFinite(value?.r)) {
-		target[0] = value.r;
-		target[1] = value.g;
-		target[2] = value.b;
-		target[3] = value.a ?? 1;
-		return target;
-	}
-	target.set(DEFAULT_COLOR);
-	return target;
 }
 
 function cameraProjectionView(camera) {

@@ -1,24 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowPlayerHydration.js
- * @description Replaces the visible fallback only after one canonical Chossid GLB is fully ready.
- * The Awtsmoos clothes the moving soul without removing its first garment too soon;
- * Awtsmoos.com preserves play, reports measured bytes, and leaves the fallback on every failure.
+ * @description Replaces the fallback only after one readable canonical Chossid is ready.
+ * The Awtsmoos clothes the traveler without losing the first visible garment;
+ * Awtsmoos.com preserves texture identity while daylight reveals face, coat, limbs, and tools.
  */
 
 import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { normalizeMinimalModelMaterials } from './MinimalMeadowMaterialReadability.js';
 
 const PLAYER_MODEL_URL = './assets/models/player/chossid.glb';
 
-/**
- * Loads, validates, mounts, and binds the canonical player without blocking core play.
- * @param {object} runtime Active meadow runtime with visible fallback model.
- * @param {Window|object} environment Browser-like environment.
- * @returns {Promise<object|null>} Canonical model receipt or null when fallback remains.
- */
 export async function hydrateMinimalMeadowPlayer(runtime, environment = globalThis) {
 	announce(environment, { phase: 'starting', progress: 0 });
 	const fallbackModel = runtime.model;
@@ -32,6 +27,7 @@ export async function hydrateMinimalMeadowPlayer(runtime, environment = globalTh
 			return null;
 		}
 		const model = prepareCanonicalModel(gltf.scene, runtime.state);
+		const materialReceipt = normalizeMinimalModelMaterials(model);
 		const meshCount = markBootstrapMeshes(model);
 		if (meshCount < 1) {
 			throw new Error('Canonical Chossid GLB contained no renderable meshes.');
@@ -43,6 +39,7 @@ export async function hydrateMinimalMeadowPlayer(runtime, environment = globalTh
 		fallbackModel?.parent?.remove?.(fallbackModel);
 		runtime.canonicalPlayer = {
 			animations: gltf.animations?.length || 0,
+			materials: materialReceipt,
 			meshes: meshCount,
 			source: PLAYER_MODEL_URL,
 			status: 'ready'

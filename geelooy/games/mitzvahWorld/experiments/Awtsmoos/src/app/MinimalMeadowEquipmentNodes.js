@@ -4,101 +4,91 @@
 
 /**
  * @file MinimalMeadowEquipmentNodes.js
- * @description Resolves garment and hand/back nodes once across bootstrap and hydrated scene graphs.
- * The Awtsmoos clothes one traveler through many named vessels without losing their unity;
- * Awtsmoos.com accepts rich traversal or child recursion while keeping per-frame searches at zero.
+ * @description Resolves hands and the complete model-derived Chossid wardrobe.
+ * The Awtsmoos clothes body and soul through exporter names and preserved extras alike;
+ * Awtsmoos.com keeps glasses, hat, yarmulke, tefillin, jacket, shirts, trousers, and shoes truthful.
  */
 
-const ALIASES = Object.freeze({
-	coat: Object.freeze(['jacket', 'coat', 'black-coat']),
-	kippah: Object.freeze(['yarmalka', 'yarmulke', 'kippah']),
-	leftHand: Object.freeze(['mixamorig:LeftHand', 'LeftHand', 'hand_l']),
-	outerShirt: Object.freeze(['outer-shirt', 'outer_shirt', 'shirt']),
-	rightHand: Object.freeze(['mixamorig:RightHand', 'RightHand', 'hand_r']),
-	spine: Object.freeze(['mixamorig:Spine2', 'mixamorig:Spine1', 'Spine2', 'Spine1', 'spine']),
-	tefillinCoat: Object.freeze(['jacket-teffilin', 'jacket-tefillin']),
-	topHat: Object.freeze(['top-hat', 'top_hat', 'tophat'])
+import { discoverMinimalMeadowGarments } from './MinimalMeadowGarmentDiscovery.js';
+
+const BONE_ALIASES = Object.freeze({
+	leftHand: ['mixamoriglefthand', 'lefthand', 'handl', 'wristl'],
+	rightHand: ['mixamorigrighthand', 'righthand', 'handr', 'wristr'],
+	spine: ['mixamorigspine2', 'mixamorigspine1', 'spine2', 'spine1', 'chest', 'upperback']
 });
 
+const REMOVABLE_VISUALS = Object.freeze([
+	'glasses',
+	'jacket',
+	'outer-shirt',
+	'teffilin-arm',
+	'teffilin-head',
+	'top-hat',
+	'yarmulka'
+]);
+
 export function resolveMinimalEquipmentNodes(model) {
-	const index = buildNodeIndex(model);
+	const index = nodeIndex(model);
+	const wardrobe = discoverMinimalMeadowGarments(model);
 	return {
-		garments: {
-			coat: resolveMany(index, ALIASES.coat),
-			kippah: resolveMany(index, ALIASES.kippah),
-			tefillinCoat: resolveMany(index, ALIASES.tefillinCoat)
-		},
-		leftHand: resolveOne(index, ALIASES.leftHand),
-		outerShirt: resolveOne(index, ALIASES.outerShirt),
-		rightHand: resolveOne(index, ALIASES.rightHand),
-		spine: resolveOne(index, ALIASES.spine),
-		topHat: resolveOne(index, ALIASES.topHat)
+		garments: wardrobe.visuals,
+		leftHand: resolve(index, BONE_ALIASES.leftHand),
+		modelRoot: model || null,
+		rightHand: resolve(index, BONE_ALIASES.rightHand),
+		spine: resolve(index, BONE_ALIASES.spine),
+		wardrobe
 	};
 }
 
 export function applyMinimalGarmentVisibility(nodes, equipment) {
-	const coatEquipped = equipment.coat === 'black-coat';
-	const kippahEquipped = equipment.head === 'wool-kippah';
-	setVisible(nodes.garments.coat, coatEquipped);
-	setVisible(nodes.garments.kippah, kippahEquipped);
-	setVisible(nodes.garments.tefillinCoat, false);
-	if (nodes.outerShirt) nodes.outerShirt.visible = true;
-	if (nodes.topHat) nodes.topHat.visible = !kippahEquipped;
+	const active = new Set();
+	for (const itemId of Object.values(equipment || {})) {
+		const visualId = visualForItem(itemId);
+		if (visualId) active.add(visualId);
+	}
+	for (const visualId of REMOVABLE_VISUALS) setVisual(nodes.wardrobe, visualId, active.has(visualId));
+	const armTefillin = active.has('tefillin-arm');
+	setVisual(nodes.wardrobe, 'jacket', active.has('jacket') && !armTefillin);
+	setVisual(nodes.wardrobe, 'jacket-tefillin', active.has('jacket') && armTefillin);
+	for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) setVisual(nodes.wardrobe, visualId, true);
 	return {
-		coat: coatEquipped,
-		kippah: kippahEquipped,
-		outerShirt: Boolean(nodes.outerShirt?.visible),
-		topHat: Boolean(nodes.topHat?.visible)
+		active: [...active],
+		discovered: nodes.wardrobe.diagnostics(),
+		tefillinJacket: active.has('jacket') && armTefillin
 	};
 }
 
-function buildNodeIndex(model) {
-	const index = { exact: new Map(), normalized: new Map() };
-	walkSceneNodes(model, node => indexNode(index, node));
-	return index;
+function visualForItem(itemId) {
+	const map = {
+		'base-shirt': 'body-shirt', 'black-coat': 'jacket', 'black-trousers': 'body-pants',
+		'blue-scholar-glasses': 'glasses', 'brown-kapote': 'jacket', 'linen-outer-shirt': 'outer-shirt',
+		'scholar-glasses': 'glasses', 'shabbos-top-hat': 'top-hat', 'tefillin-shel-rosh': 'tefillin-head',
+		'tefillin-shel-yad': 'tefillin-arm', 'velvet-top-hat': 'top-hat', 'walking-boots': 'body-shoes',
+		'white-outer-shirt': 'outer-shirt', 'wool-kippah': 'yarmulka'
+	};
+	return map[itemId] || null;
 }
 
-function walkSceneNodes(root, visitor) {
-	if (!root) return;
-	if (typeof root.traverse === 'function') {
-		root.traverse(visitor);
-		return;
-	}
-	visitor(root);
-	for (const child of root.children || []) walkSceneNodes(child, visitor);
+function setVisual(wardrobe, visualId, visible) {
+	const record = wardrobe?.visuals?.get(visualId);
+	for (const root of record?.roots || []) root.visible = visible;
+	for (const mesh of record?.meshes || []) mesh.visible = visible;
 }
 
-function indexNode(index, node) {
-	if (!node.name) return;
-	index.exact.set(node.name, node);
-	const key = normalizeName(node.name);
-	const matches = index.normalized.get(key) || [];
-	matches.push(node);
-	index.normalized.set(key, matches);
+function nodeIndex(model) {
+	const values = [];
+	model?.traverse?.(node => values.push({ key: normalize(node.name), node }));
+	return values;
 }
 
-function resolveOne(index, aliases) {
+function resolve(index, aliases) {
 	for (const alias of aliases) {
-		const node = index.exact.get(alias) || index.normalized.get(normalizeName(alias))?.[0];
-		if (node) return node;
+		const entry = index.find(value => value.key === alias || value.key.includes(alias));
+		if (entry) return entry.node;
 	}
 	return null;
 }
 
-function resolveMany(index, aliases) {
-	const result = new Set();
-	for (const alias of aliases) {
-		const exact = index.exact.get(alias);
-		if (exact) result.add(exact);
-		for (const node of index.normalized.get(normalizeName(alias)) || []) result.add(node);
-	}
-	return [...result];
-}
-
-function normalizeName(value) {
-	return String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
-}
-
-function setVisible(nodes, visible) {
-	for (const node of nodes) node.visible = visible;
+function normalize(value) {
+	return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }

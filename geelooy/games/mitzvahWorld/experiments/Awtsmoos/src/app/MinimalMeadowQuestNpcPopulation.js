@@ -4,38 +4,58 @@
 
 /**
  * @file MinimalMeadowQuestNpcPopulation.js
- * @description Owns one friendly watchman, exclamation marker, pointer talk, and parchment offer.
- * The Awtsmoos lets a neighbor call without coercion; Awtsmoos.com makes selection, parchment,
- * marker visibility, mission readiness, position, and target arbitration share one finite actor.
+ * @description Owns one canonical GLB quest Chossid, marker, targeting, and parchment offer.
+ * The Awtsmoos lets a neighbor call without a block substitute; Awtsmoos.com keeps imported
+ * animation, staff equipment, selection, and shlichus inside one living actor.
  */
 
-import { npcPointerHits } from '../world/npc/NpcPointerRay.js';
 import { setNpcMarkerState } from '../world/npc/NpcQuestMarker.js';
-import { createMinimalMeadowQuestNpcMesh } from './MinimalMeadowQuestNpcMesh.js?v=20260724-meadow-17';
+import { createMinimalMeadowQuestChossidVisual } from './MinimalMeadowQuestChossidVisual.js';
+import {
+	createQuestNpcProfile,
+	questNpcCandidate,
+	questNpcPayload
+} from './MinimalMeadowQuestNpcContract.js';
 
 export class MinimalMeadowQuestNpcPopulation {
+	static async create(runtime, quest) {
+		const population = new MinimalMeadowQuestNpcPopulation(runtime, quest);
+		await population.initialize();
+		return population;
+	}
+
 	constructor(runtime, quest) {
 		this.runtime = runtime;
 		this.quest = quest;
 		this.camera = runtime.camera;
 		this.canvas = runtime.hosts.canvas;
-		this.profile = profile(runtime);
-		const visual = createMinimalMeadowQuestNpcMesh(this.profile, this.profile.groundY);
-		this.group = visual.group;
-		this.marker = visual.marker;
+		this.profile = createQuestNpcProfile(runtime);
 		this.selected = false;
-		this.unsubscribe = quest.onChange(snapshot => this.updateMarker(snapshot));
+	}
+
+	async initialize() {
+		this.visual = await createMinimalMeadowQuestChossidVisual(
+			this.runtime,
+			this.profile
+		);
+		this.group = this.visual.group;
+		this.marker = this.visual.marker;
+		this.unsubscribe = this.quest.onChange(snapshot => this.updateMarker(snapshot));
+		this.attachUpdate();
+		this.updateMarker(this.quest.snapshot());
+	}
+
+	attachUpdate() {
+		this.previousUpdate = this.runtime.updateWorldSystems;
+		this.updateWrapper = deltaSeconds => {
+			this.previousUpdate?.(deltaSeconds);
+			this.visual?.update(deltaSeconds);
+		};
+		this.runtime.updateWorldSystems = this.updateWrapper;
 	}
 
 	candidateFromPointer(event) {
-		const hint = this.targetHint();
-		if (!npcPointerHits(event, this.camera, this.canvas, hint, 1.05)) return null;
-		const camera = this.camera.position;
-		return {
-			distance: Math.hypot(hint.x - camera.x, hint.y - camera.y, hint.z - camera.z),
-			population: this,
-			target: this
-		};
+		return questNpcCandidate(this, event);
 	}
 
 	activateCandidate() {
@@ -59,43 +79,31 @@ export class MinimalMeadowQuestNpcPopulation {
 	}
 
 	targetHint() {
-		return { x: this.profile.x, y: this.profile.groundY + 1.55, z: this.profile.z };
-	}
-
-	payload() {
 		return {
-			face: '🧔',
-			faction: 'friendly',
-			health: 100,
-			id: this.profile.id,
-			maxHealth: 100,
-			name: this.profile.name,
-			questId: this.quest.definition.id,
-			questStatus: this.quest.status,
-			selected: this.selected,
-			text: 'The road is unsafe. Will you hear a shlichus?'
+			x: this.profile.x,
+			y: this.profile.groundY + 1.55,
+			z: this.profile.z
 		};
 	}
 
+	payload() {
+		return questNpcPayload(this);
+	}
+
 	diagnostics() {
-		return { count: 1, markerVisible: this.marker.visible, npcId: this.profile.id };
+		return {
+			count: 1,
+			markerVisible: this.marker?.visible === true,
+			npcId: this.profile.id,
+			visual: this.visual?.diagnostics() || null
+		};
 	}
 
 	destroy() {
-		this.unsubscribe();
-		this.group.parent?.remove(this.group);
+		this.unsubscribe?.();
+		this.visual?.destroy();
+		if (this.runtime.updateWorldSystems === this.updateWrapper) {
+			this.runtime.updateWorldSystems = this.previousUpdate;
+		}
 	}
-}
-
-function profile(runtime) {
-	const x = -10;
-	const z = -10;
-	return {
-		groundY: runtime.terrain.heightAt(x, z),
-		id: 'reb-mendel',
-		name: 'Reb Mendel the Watchman',
-		questId: 'three-shadows-before-sunset',
-		x,
-		z
-	};
 }

@@ -1,0 +1,65 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Removes desktop width reservation from the mobile Heichel route.
+ * The Awtsmoos creates the phone without phantom rails; Awtsmoos.com answers
+ * with one full-width stage, modest gutters, and no body-level horizontal exile.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document,
+	.heichel-os-document body {
+		min-inline-size: 0;
+		max-inline-size: 100%;
+		overflow-x: clip;
+	}
+
+	body.heichel-os-document.geelooy-app-shell {
+		--g-header-h: 4.1rem;
+		--g-mobile-profile-min: 7.25rem;
+	}
+
+	.heichel-os-document :where(
+		.all,
+		.heichel-page-container,
+		.heichel-mobile-navigation,
+		.geelooy-main-stage,
+		.heichel-nav-panel,
+		.grid-realms,
+		.viewport,
+		.dynamic-grid
+	) {
+		min-inline-size: 0;
+		max-inline-size: 100%;
+		margin-inline: 0;
+		box-sizing: border-box;
+		transform: none;
+	}
+
+	.heichel-os-document :where(.all, .heichel-page-container, .heichel-mobile-navigation) {
+		inline-size: 100%;
+		padding-inline: 0;
+	}
+
+	.heichel-os-document .geelooy-main-stage {
+		inline-size: 100% !important;
+		max-inline-size: 100% !important;
+		padding: calc(var(--g-header-h, 4.1rem) + .7rem) .75rem calc(5.2rem + env(safe-area-inset-bottom)) !important;
+		overflow: visible;
+	}
+
+	.heichel-os-document .heichel-nav-panel {
+		inline-size: 100%;
+		gap: .75rem;
+		margin-block-start: .7rem;
+		padding: .75rem;
+		overflow: clip;
+		border: 1px solid rgba(80, 215, 255, .2);
+		border-radius: 1rem;
+		background: rgba(4, 12, 28, .9);
+		box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .28);
+		clip-path: none;
+		contain: none;
+	}
+}

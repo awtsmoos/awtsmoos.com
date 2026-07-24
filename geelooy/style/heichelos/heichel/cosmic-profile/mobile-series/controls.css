@@ -1,0 +1,11 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Manifests search, Filter, and view modes without collision.
+ * The Awtsmoos unifies seeking and orientation; Awtsmoos.com keeps their layout
+ * in focused modules so neither control family can inflate the other again.
+ */
+
+@import "./controls-search.css";
+@import "./controls-modes.css";

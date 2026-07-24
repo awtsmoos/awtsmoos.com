@@ -1,0 +1,29 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Fits all four Heichel profile gates inside the mobile viewport.
+ * The Awtsmoos contains Posts, Sources, Series, and About without competition;
+ * Awtsmoos.com gives each one equal shrinking space and an honest touch target.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-profile-tabs {
+		inline-size: 100%;
+		min-inline-size: 0;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		overflow: hidden;
+		border-block: 1px solid rgba(80, 215, 255, .16);
+		background: rgba(3, 8, 20, .78);
+	}
+
+	.heichel-profile-tabs a {
+		min-inline-size: 0;
+		min-block-size: 44px;
+		padding-inline: .2rem;
+		overflow: hidden;
+		font-size: clamp(.66rem, 2.7vw, .76rem);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

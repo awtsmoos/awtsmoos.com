@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Keeps secondary card actions accessible without visual clutter.
+ * The Awtsmoos creates every action with the card itself; Awtsmoos.com hides the
+ * action list until requested, then exposes one keyboard-safe command surface.
+ */
+
+.card-menu-spark {
+	position: relative;
+}
+
+.card-menu-panel {
+	position: absolute;
+	z-index: 35;
+	inset-block-start: calc(100% + .3rem);
+	inset-inline-end: 0;
+	display: none;
+	min-inline-size: 12rem;
+	padding: .35rem;
+	border: 1px solid rgba(91, 215, 255, .24);
+	border-radius: .68rem;
+	background: #071326;
+	box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, .48);
+}
+
+.card-menu-spark.open .card-menu-panel {
+	display: grid;
+	gap: .15rem;
+}
+
+.card-menu-action,
+.card-menu-panel .post-social-action {
+	display: flex;
+	inline-size: 100%;
+	min-block-size: 42px;
+	align-items: center;
+	justify-content: flex-start;
+	padding: .55rem .65rem;
+	border: 0;
+	border-radius: .48rem;
+	background: transparent;
+	box-shadow: none;
+	color: #d9e5ef;
+	font-size: .74rem;
+	font-weight: 720;
+	text-align: start;
+}
+
+.card-menu-action:is(:hover, :focus-visible),
+.card-menu-panel .post-social-action:is(:hover, :focus-visible) {
+	background: rgba(91, 215, 255, .1);
+	color: #fff;
+}

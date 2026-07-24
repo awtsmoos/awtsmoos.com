@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowEquipmentRuntime.js
- * @description Synchronizes authoritative equipment with garments, weapons, hydration, and casting.
- * The Awtsmoos renews wearer, staff, sword, hand, and back in one present relation;
- * Awtsmoos.com preserves one weapon object and delegates cast timing to its focused vessel.
+ * @description Synchronizes model-derived garments, appearance, weapons, hydration, and casting.
+ * The Awtsmoos renews wearer, hue, weave, staff, sword, hand, and back in one relation;
+ * Awtsmoos.com applies wardrobe changes on publication, never by allocating inside each frame.
  */
 
 import { MinimalMeadowEquipmentCasting } from './MinimalMeadowEquipmentCasting.js';
+import { applyMinimalGarmentAppearance } from './MinimalMeadowGarmentAppearance.js';
 import { applyMinimalGarmentVisibility, resolveMinimalEquipmentNodes } from './MinimalMeadowEquipmentNodes.js';
 import { attachMinimalWeapon, detachMinimalWeapon } from './MinimalMeadowWeaponAttachment.js';
 import { createMinimalMeadowWeapon } from './MinimalMeadowWeaponFactory.js';
@@ -25,6 +26,7 @@ export class MinimalMeadowEquipmentRuntime {
 		this.weapon = null;
 		this.weaponItemId = null;
 		this.garments = {};
+		this.appearance = {};
 		this.casting = new MinimalMeadowEquipmentCasting(this);
 		this.unsubscribers = this.installListeners();
 	}
@@ -62,6 +64,7 @@ export class MinimalMeadowEquipmentRuntime {
 		if (itemId !== this.weaponItemId) this.replaceWeapon(itemId);
 		if (this.nodes) {
 			this.garments = applyMinimalGarmentVisibility(this.nodes, state.equipment);
+			this.appearance = applyMinimalGarmentAppearance(this.nodes.wardrobe, state.equipment, state.appearance);
 			if (this.weapon) attachMinimalWeapon(this.weapon, this.nodes, this.drawn);
 		}
 		this.emitState();
@@ -73,15 +76,20 @@ export class MinimalMeadowEquipmentRuntime {
 		this.weaponItemId = itemId;
 	}
 
+	equipped(slot) {
+		return this.inventory.snapshot().equipment[slot] || null;
+	}
+
 	emitState() {
 		this.bus.emit('equipment:state', this.diagnostics());
 	}
 
 	diagnostics() {
 		return {
+			appearance: { ...this.appearance },
 			casting: this.casting.active,
 			drawn: this.drawn,
-			garments: { ...this.garments },
+			garments: structuredClone(this.garments),
 			handBone: this.nodes?.rightHand?.name || this.nodes?.leftHand?.name || null,
 			model: this.model?.name || null,
 			spineBone: this.nodes?.spine?.name || null,

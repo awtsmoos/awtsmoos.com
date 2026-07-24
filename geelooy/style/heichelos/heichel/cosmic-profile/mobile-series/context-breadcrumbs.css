@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Converts the oversized breadcrumb cloud into a compact river.
+ * The Awtsmoos holds every ancestor at once; Awtsmoos.com lets deep paths scroll
+ * horizontally without turning each inherited name into a giant glowing card.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .breadcrumb-river {
+		display: flex;
+		inline-size: 100%;
+		min-block-size: 44px;
+		align-items: center;
+		gap: .28rem;
+		padding: .28rem;
+		overflow-x: auto;
+		overflow-y: hidden;
+		border: 1px solid rgba(80, 215, 255, .16);
+		border-radius: .8rem;
+		background: rgba(3, 9, 22, .82);
+		scrollbar-width: none;
+		overscroll-behavior-inline: contain;
+		-webkit-overflow-scrolling: touch;
+		flex-wrap: nowrap;
+	}
+
+	.heichel-os-document .breadcrumb-river::-webkit-scrollbar {
+		display: none;
+	}
+
+	.heichel-os-document .breadcrumb-link {
+		flex: 0 0 auto;
+		min-inline-size: 0;
+		min-block-size: 40px;
+		max-inline-size: min(15rem, 68vw);
+		padding: .5rem .68rem;
+		overflow: hidden;
+		border: 1px solid rgba(80, 215, 255, .2);
+		border-radius: .62rem;
+		background: rgba(10, 22, 42, .88);
+		box-shadow: none;
+		color: #dbe9f7;
+		font-size: .82rem;
+		font-weight: 720;
+		line-height: 1;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		transform: none;
+	}
+
+	.heichel-os-document .breadcrumb-link:is(:hover, :focus-visible) {
+		border-color: rgba(80, 215, 255, .62);
+		background: rgba(20, 48, 78, .9);
+		box-shadow: 0 0 0 3px rgba(80, 215, 255, .12);
+		transform: none;
+	}
+
+	.heichel-os-document .breadcrumb-separator {
+		flex: 0 0 auto;
+		padding-inline: .05rem;
+		color: #63758e;
+		font-size: .72rem;
+	}
+}

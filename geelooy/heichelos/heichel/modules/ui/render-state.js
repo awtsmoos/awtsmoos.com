@@ -1,44 +1,49 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module HeichelRenderState
  * @description
- * Series identity, loading indicators, and active content view remain one state vessel.
+ * The Awtsmoos creates branch identity, loading, and active perspective together.
+ * Awtsmoos.com exposes those states through text, direction, ARIA, visibility,
+ * and stable skeleton vessels rather than class color alone.
  */
 
 import { DOMElements } from '../dom.js';
+import { detectDirection } from '../living-path/language-policy.js';
 import { safeDisplayText } from './textSanitizer.js';
 import { updateTopbarSeries } from './render/header.js';
 
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
-	if (currentSeriesId !== 'root' && seriesData && DOMElements.seriesInfoArea) {
-		const prateem = seriesData.prateem || seriesData;
-		const seriesName = safeDisplayText(prateem.name, 'A Bound Sequence');
-		DOMElements.seriesTitle.textContent = seriesName;
-		DOMElements.seriesDesc.textContent = safeDisplayText(prateem.description, '');
-		updateTopbarSeries(seriesName);
-		DOMElements.seriesInfoArea.classList.remove('hidden');
-		return;
-	}
-	updateTopbarSeries('root');
-	DOMElements.seriesInfoArea?.classList.add('hidden');
+	const root = currentSeriesId === 'root';
+	const raw = seriesData?.prateem || seriesData || {};
+	const seriesName = root
+		? safeDisplayText(heichelGlobal?.name, 'Root')
+		: safeDisplayText(raw.name || raw.title, 'A Bound Sequence');
+	const description = root ? '' : safeDisplayText(raw.description, '');
+	updateTopbarSeries(root ? 'Root' : seriesName);
+	if (!DOMElements.seriesInfoArea) return;
+	DOMElements.seriesInfoArea.classList.toggle('hidden', root);
+	if (root) return;
+	DOMElements.seriesTitle.textContent = seriesName;
+	DOMElements.seriesTitle.dir = detectDirection(seriesName);
+	DOMElements.seriesDesc.textContent = description;
+	DOMElements.seriesDesc.dir = detectDirection(description);
 }
 
 export function showLoading() {
-	DOMElements.loadingPosts?.classList.remove('hidden');
-	DOMElements.loadingSeries?.classList.remove('hidden');
-	DOMElements.loadingGroupings?.classList.remove('hidden');
-	DOMElements.postsList?.replaceChildren();
-	DOMElements.seriesList?.replaceChildren();
-	DOMElements.groupingsList?.replaceChildren();
+	for (const key of ['Posts', 'Series', 'Groupings']) {
+		DOMElements[`loading${key}`]?.classList.remove('hidden');
+		DOMElements[`${key.toLowerCase()}List`]?.setAttribute('aria-busy', 'true');
+		DOMElements[`${key.toLowerCase()}List`]?.replaceChildren();
+	}
 }
 
 export function hideLoading() {
-	DOMElements.loadingPosts?.classList.add('hidden');
-	DOMElements.loadingSeries?.classList.add('hidden');
-	DOMElements.loadingGroupings?.classList.add('hidden');
+	for (const key of ['Posts', 'Series', 'Groupings']) {
+		DOMElements[`loading${key}`]?.classList.add('hidden');
+		DOMElements[`${key.toLowerCase()}List`]?.setAttribute('aria-busy', 'false');
+	}
 }
 
 export function updateActiveTab(view) {
@@ -47,12 +52,13 @@ export function updateActiveTab(view) {
 		series: view === 'series',
 		groupings: view === 'groupings'
 	};
-	DOMElements.postsTab?.classList.toggle('Active', states.posts);
-	DOMElements.seriesTab?.classList.toggle('Active', states.series);
-	DOMElements.groupingsTab?.classList.toggle('Active', states.groupings);
-	for (const key of Object.keys(states)) {
+	for (const [key, active] of Object.entries(states)) {
+		const tab = DOMElements[`${key}Tab`];
+		tab?.classList.toggle('Active', active);
+		tab?.setAttribute('aria-selected', String(active));
+		tab?.setAttribute('tabindex', active ? '0' : '-1');
 		const viewport = DOMElements[`${key}Viewport`]
 			|| document.querySelector(`.heichel-mobile-navigation .viewport.${key}`);
-		viewport?.classList.toggle('hidden', !states[key]);
+		viewport?.classList.toggle('hidden', !active);
 	}
 }

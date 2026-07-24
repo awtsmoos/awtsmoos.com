@@ -1,61 +1,59 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * @module HeaderManifest
- * @description The topbar names the Heichel; the smaller line carries id/path.
+ * @module LivingPathHeaderManifest
+ * @description
+ * The Awtsmoos creates Heichel identity, branch identity, and path in one voice.
+ * Awtsmoos.com keeps the roof concise while delegating all ancestry surfaces to
+ * the Living Path renderer, preventing duplicate root labels and stale context.
  */
+
 import { DOMElements } from '../../dom.js';
-import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
+import { detectDirection } from '../../living-path/language-policy.js';
+import { renderPathSurfaces } from './living-path/path-renderer.js';
 import { safeDisplayText } from '../textSanitizer.js';
+import { appState } from '../../state.js';
 
 let currentHeichelName = 'Heichel';
 let currentHeichelId = '';
 
 export function updateHeichelHeader(heichelData) {
-    if (!heichelData) return;
-    const name = safeDisplayText(heichelData.name, 'Heichel');
-    const desc = safeDisplayText(heichelData.description, '');
-    currentHeichelName = name;
-    currentHeichelId = deriveHeichelId(heichelData);
-    if (DOMElements.mainTitle) DOMElements.mainTitle.textContent = name;
-    if (DOMElements.heichelDescription) DOMElements.heichelDescription.textContent = desc;
-    paintTopbar(name, currentHeichelId || 'current heichel');
+	if (!heichelData) return;
+	const name = safeDisplayText(heichelData.name, 'Heichel');
+	const description = safeDisplayText(heichelData.description, '');
+	currentHeichelName = name;
+	currentHeichelId = deriveHeichelId(heichelData);
+	if (DOMElements.mainTitle) {
+		DOMElements.mainTitle.textContent = name;
+		DOMElements.mainTitle.dir = detectDirection(name);
+	}
+	if (DOMElements.heichelDescription) {
+		DOMElements.heichelDescription.textContent = description;
+		DOMElements.heichelDescription.dir = detectDirection(description);
+	}
+	paintTopbar(name, currentHeichelId || 'current Heichel');
 }
 
 export function updateTopbarSeries(seriesName) {
-    const name = currentHeichelName || 'Heichel';
-    const small = seriesName ? `${currentHeichelId || 'series'} · ${safeDisplayText(seriesName, 'Series')}` : currentHeichelId;
-    paintTopbar(name, small || 'root');
+	const name = currentHeichelName || 'Heichel';
+	const series = safeDisplayText(seriesName, 'Root');
+	paintTopbar(name, `${currentHeichelId || 'series'} · ${series}`);
 }
 
 export function renderBreadcrumb(breadcrumbData, navigator) {
-    if (!DOMElements.breadcrumb) return;
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(ScribeOfManifestation.speakElement(createCrumbBlueprint('🏡 Root', () => navigator.navigateTo('root'))));
-    for (const item of breadcrumbData || []) {
-        const separator = document.createElement('span');
-        separator.className = 'breadcrumb-separator';
-        separator.textContent = '/';
-        fragment.appendChild(separator);
-        const name = safeDisplayText(item.name, '...');
-        fragment.appendChild(ScribeOfManifestation.speakElement(createCrumbBlueprint(name, () => navigator.navigateTo(item.id))));
-    }
-    DOMElements.breadcrumb.replaceChildren(fragment);
+	appState.breadcrumb = Array.isArray(breadcrumbData) ? breadcrumbData : [];
+	renderPathSurfaces(navigator, appState);
 }
 
-function paintTopbar(name, small) {
-    if (DOMElements.topbarHeichelTitle) DOMElements.topbarHeichelTitle.textContent = name;
-    if (DOMElements.topbarHeichelContext) DOMElements.topbarHeichelContext.textContent = small || 'root';
+function paintTopbar(name, context) {
+	if (DOMElements.topbarHeichelTitle) DOMElements.topbarHeichelTitle.textContent = name;
+	if (DOMElements.topbarHeichelContext) DOMElements.topbarHeichelContext.textContent = context || 'root';
 }
 
 function deriveHeichelId(data) {
-    const fromData = data.id || data._id || data.heichelId || data.aliasId || data.author || '';
-    if (fromData) return safeDisplayText(String(fromData), '');
-    const match = location.pathname.match(/\/heichelos\/([^/?#]+)/);
-    return match ? decodeURIComponent(match[1]) : '';
+	const explicit = data.id || data._id || data.heichelId || data.aliasId || data.author;
+	if (explicit) return safeDisplayText(String(explicit), '');
+	const match = location.pathname.match(/\/heichelos\/([^/?#]+)/);
+	return match ? decodeURIComponent(match[1]) : '';
 }
-
-function createCrumbBlueprint(text, onClick) {
-    return { tag: 'button', attr: { class: 'breadcrumb-link', type: 'button' }, children: [text], events: { click: event => { event.preventDefault(); onClick(); } } };
-}
-
-/** B"H: name above, id below; one clear voice in the roof. */

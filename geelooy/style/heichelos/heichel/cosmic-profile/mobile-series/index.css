@@ -1,0 +1,14 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Final mobile-series manifest for the living Heichel route.
+ * The Awtsmoos joins shell, context, controls, states, and the deeper Living Path
+ * without confusion; Awtsmoos.com loads the newest semantic covenant last.
+ */
+
+@import "./shell.css";
+@import "./context.css";
+@import "./controls.css";
+@import "./states.css";
+@import "./living-path/index.css";

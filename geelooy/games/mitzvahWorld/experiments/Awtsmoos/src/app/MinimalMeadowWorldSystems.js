@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts real demons, targeting, and charged combat before optional world richness.
- * The Awtsmoos grants the player a true deed before distant decoration;
- * Awtsmoos.com reveals attack, casting, impact, and selection while water and homes load later.
+ * @description Mounts combat first and resilient optional richness afterward.
+ * The Awtsmoos grants deed before decoration and never discards a surviving world;
+ * Awtsmoos.com preserves combat while river, homes, roads, and trees hydrate.
  */
 
 import { WorldTargetCoordinator } from '../ui/WorldTargetCoordinator.js';
@@ -15,13 +15,10 @@ import { MinimalMeadowEnemyPopulation } from './MinimalMeadowEnemyPopulation.js'
 import { compileMinimalShadowCreature } from './MinimalMeadowProceduralCreature.js';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js';
 
-/**
- * Installs the combat-ready world and begins optional richness without awaiting it.
- * @param {object} runtime Active meadow runtime with event bus and UI installed.
- * @param {Window|object} environment Browser-like environment.
- * @returns {Promise<object>} Combat-core readiness receipt.
- */
-export async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
+export async function installMinimalMeadowWorldSystems(
+	runtime,
+	environment = globalThis
+) {
 	runtime.sky = installMinimalMeadowSky(runtime.scene, runtime.camera, 'high');
 	const compiled = await compileMinimalShadowCreature();
 	runtime.enemies = new MinimalMeadowEnemyPopulation(
@@ -30,12 +27,10 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	runtime.scene.add(runtime.enemies.group);
 	installEnemyTargeting(runtime);
 	runtime.combat = new MinimalMeadowCombat(runtime);
-	runtime.updateWorldSystems = deltaSeconds => {
+	runtime.updateWorldSystems = deltaSeconds =>
 		updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
-	};
-	runtime.destroyWorldSystems = () => {
+	runtime.destroyWorldSystems = () =>
 		destroyMinimalMeadowWorldSystems(runtime);
-	};
 	const receipt = combatDiagnostics(runtime);
 	runtime.bus.emit('world:combat-ready', receipt);
 	runtime.richWorldPromise = loadRichWorld(runtime, environment);
@@ -55,7 +50,12 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.targeting?.destroy?.();
 	runtime.enemies?.clearAll?.();
-	for (const system of [runtime.water, runtime.trees, runtime.vegetation, runtime.houses]) {
+	for (const system of [
+		runtime.water,
+		runtime.trees,
+		runtime.vegetation,
+		runtime.houses
+	]) {
 		system?.destroy?.();
 	}
 	runtime.friendlyNpcs?.destroy?.();
@@ -76,8 +76,10 @@ function installEnemyTargeting(runtime) {
 }
 
 function loadRichWorld(runtime, environment) {
-	return import('./MinimalMeadowRichWorld.js?compact=true')
-		.then(module => module.installMinimalMeadowRichWorld(runtime, environment))
+	return import('./MinimalMeadowRichWorld.js')
+		.then(module =>
+			module.installMinimalMeadowRichWorld(runtime, environment)
+		)
 		.catch(error => {
 			runtime.richWorldError = error?.message || String(error);
 			runtime.bus.emit('world:rich-failed', {

@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Makes Tree a true expandable structural outline.
+ * The Awtsmoos creates parent and child without division; Awtsmoos.com shows
+ * explicit levels, guarded wells, loading, cycles, and branch controls.
+ */
+
+.living-tree {
+	display: grid;
+	gap: .65rem;
+}
+
+.living-tree-node {
+	position: relative;
+	min-inline-size: 0;
+}
+
+.living-tree-node[aria-level="2"] { margin-inline-start: .75rem; }
+.living-tree-node[aria-level="3"] { margin-inline-start: 1.5rem; }
+.living-tree-node[aria-level="4"],
+.living-tree-node[aria-level="5"],
+.living-tree-node[aria-level="6"],
+.living-tree-node[aria-level="7"],
+.living-tree-node[aria-level="8"] { margin-inline-start: 2rem; }
+
+.tree-card {
+	border-color: rgba(91, 215, 255, .2) !important;
+}
+
+.tree-card::before {
+	background: linear-gradient(#66ecff, #40b9d1) !important;
+}
+
+.series-expand-toggle[aria-expanded="true"] {
+	border: 1px solid rgba(91, 215, 255, .44);
+	background: rgba(91, 215, 255, .12);
+	color: #fff;
+	transform: rotate(180deg);
+}
+
+.series-children-well {
+	grid-column: 1 / -1;
+	display: grid;
+	gap: .55rem;
+	margin-block-start: .55rem;
+	padding-inline-start: .8rem;
+	border-inline-start: 1px solid rgba(91, 215, 255, .22);
+}
+
+.series-children-well[hidden] {
+	display: none;
+}
+
+.series-branch-loading,
+.series-branch-empty,
+.series-branch-error {
+	margin: 0;
+	padding: .65rem .75rem;
+	border-radius: .58rem;
+	background: rgba(255, 255, 255, .025);
+	color: #9eb0c4;
+	font-size: .72rem;
+}
+
+.series-branch-error {
+	border: 1px solid rgba(255, 120, 145, .32);
+	color: #ffc0cc;
+}

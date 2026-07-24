@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowDemonSurfaceVertex.js
- * @description Interpolates implicit crossings and derives outward normal, color, and UV truth.
- * The Awtsmoos gives every boundary point direction and garment; Awtsmoos.com keeps a closed
- * demon surface readable without transparent holes, detached eyes, or remembered polygon normals.
+ * @description Interpolates the implicit skin and writes normals, anatomical color, and bound UVs.
+ * The Awtsmoos gives every boundary point direction and garment; Awtsmoos.com keeps eyes,
+ * face, horns, claws, torso, arms, and legs readable without detached geometry or dark holes.
  */
 
-import { minimalDemonField, minimalDemonSurfaceColor } from './MinimalMeadowDemonField.js?v=20260724-meadow-13';
+import { minimalDemonField } from './MinimalMeadowDemonField.js?v=20260724-meadow-13';
+import { readableDemonSurfaceColor } from './MinimalMeadowCreatureSurfaceRegions.js';
 
 export function interpolateDemonSurface(first, second, firstValue, secondValue) {
 	const denominator = firstValue - secondValue;
@@ -24,24 +25,33 @@ export function appendDemonTriangle(data, first, second, third) {
 	for (const point of ordered) appendDemonVertex(data, point);
 }
 
+export function demonSurfaceUv(point) {
+	return [
+		0.5 + Math.atan2(point[2], point[0]) / (Math.PI * 2),
+		point[1] / 4.7 + 0.16
+	];
+}
+
 function appendDemonVertex(data, point) {
-	const normal = demonSurfaceNormal(point);
 	data.positions.push(...point);
-	data.normals.push(...normal);
-	data.colors.push(...minimalDemonSurfaceColor(point));
-	data.uvs.push(0.5 + Math.atan2(point[2], point[0]) / (Math.PI * 2), point[1] / 4.7 + 0.16);
+	data.normals.push(...demonSurfaceNormal(point));
+	data.colors.push(...readableDemonSurfaceColor(point));
+	data.uvs.push(...demonSurfaceUv(point));
 }
 
 function demonSurfaceNormal(point) {
 	const epsilon = 0.012;
-	const x = minimalDemonField([point[0] + epsilon, point[1], point[2]])
-		- minimalDemonField([point[0] - epsilon, point[1], point[2]]);
-	const y = minimalDemonField([point[0], point[1] + epsilon, point[2]])
-		- minimalDemonField([point[0], point[1] - epsilon, point[2]]);
-	const z = minimalDemonField([point[0], point[1], point[2] + epsilon])
-		- minimalDemonField([point[0], point[1], point[2] - epsilon]);
+	const x = sampleOffset(point, 0, epsilon) - sampleOffset(point, 0, -epsilon);
+	const y = sampleOffset(point, 1, epsilon) - sampleOffset(point, 1, -epsilon);
+	const z = sampleOffset(point, 2, epsilon) - sampleOffset(point, 2, -epsilon);
 	const length = Math.max(0.000001, Math.hypot(x, y, z));
 	return [x / length, y / length, z / length];
+}
+
+function sampleOffset(point, axis, distance) {
+	const sample = [...point];
+	sample[axis] += distance;
+	return minimalDemonField(sample);
 }
 
 function triangleCross(first, second, third) {

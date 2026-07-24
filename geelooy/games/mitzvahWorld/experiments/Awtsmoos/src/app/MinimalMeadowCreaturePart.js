@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCreaturePart.js
- * @description Creates named articulated nodes and renderer-native textured meshes.
- * The Awtsmoos joins hierarchy and garment without confusion; Awtsmoos.com gives every
- * head, limb, horn, eye, and tail an independently animatable transform and visible material.
+ * @description Creates articulated helper parts with bounded texture and accent material records.
+ * The Awtsmoos joins hierarchy and garment without confusion; Awtsmoos.com lets an eye glow
+ * softly while ordinary horn, claw, and limb materials remain lit surfaces rather than lamps.
  */
 
 import { Group, Mesh, MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
@@ -14,13 +14,23 @@ import { Group, Mesh, MeshStandardMaterial } from '../../../light-three-gltf/tin
 export function creatureMaterial(name, color, image = null, emissive = false) {
 	const material = new MeshStandardMaterial({ color, name });
 	Object.assign(material, {
-		anisotropy: 8,
-		emissiveStrength: emissive ? 4.8 : 0,
+		anisotropy: 6,
+		baseColorFactor: [...color],
+		emissiveStrength: emissive ? 0.32 : 0,
+		map: image,
 		mapImage: image,
 		mapRepeat: [2.4, 2.4],
-		texturePolicy: emissive
-			? { practicalLightProxy: true, shader: 'shadow-creature-glow' }
-			: { shader: 'shadow-creature-textured-hide' }
+		roughness: emissive ? 0.5 : 0.78,
+		roughnessFactor: emissive ? 0.5 : 0.78,
+		texturePolicy: Object.freeze(emissive
+			? { practicalLightProxy: true, shader: 'shadow-creature-accent' }
+			: { shader: 'shadow-creature-textured-hide' }),
+		vertexColors: true
+	});
+	material.userData = Object.freeze({
+		accentOnly: emissive,
+		mapBound: Boolean(image),
+		perFrameTextureAllocation: false
 	});
 	return material;
 }

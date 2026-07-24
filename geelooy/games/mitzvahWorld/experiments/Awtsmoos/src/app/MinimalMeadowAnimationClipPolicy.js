@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowAnimationClipPolicy.js
- * @description Chooses truthful GLB bases without mistaking attacks or bind-like poses for casting.
- * The Awtsmoos gives every imported motion its boundary; Awtsmoos.com reserves punch and stab for
- * melee while deliberate procedural arms transform a stable standing clip into Hebrew spellwork.
+ * @description Chooses imported clips while grounding outranks stale airborne labels.
+ * The Awtsmoos gives rise and return their truthful boundaries; Awtsmoos.com preserves
+ * genuine jump and fall in the air, yet never lets yesterday's fall possess grounded feet.
  */
 
 const POLICIES = Object.freeze({
@@ -26,10 +26,13 @@ export function minimalMeadowClipForState(names, stateName, options = {}) {
 }
 
 export function minimalMeadowLocomotionState(runtime) {
-	const state = runtime.state;
-	if (state.action === 'jump-one' || state.action === 'jump-two') return 'jumping';
-	if (state.action === 'falling') return 'falling';
-	if (!state.moving) return 'standing';
+	const state = runtime.state || {};
+	if (state.grounded === false) {
+		return risingAirPhase(state) ? 'jumping' : 'falling';
+	}
+	if (!state.moving) {
+		return 'standing';
+	}
 	return state.runMode ? 'running' : 'walking';
 }
 
@@ -40,6 +43,13 @@ export function minimalMeadowClipPolicyEvidence(names) {
 		meleeBase: minimalMeadowClipForState(names, 'melee-impact'),
 		standingBase: minimalMeadowClipForState(names, 'standing')
 	};
+}
+
+function risingAirPhase(state) {
+	const phase = state.airPhase || state.action || '';
+	return phase === 'jump-one'
+		|| phase === 'jump-two'
+		|| Number(state.velY) > 0;
 }
 
 function policyFor(stateName, weaponKind) {

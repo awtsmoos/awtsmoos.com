@@ -4,46 +4,69 @@
 
 /**
  * @file MinimalMeadowWaterDefinitions.js
- * @description Composes opaque bed and provenance-aware dual-normal physical river/lake surfaces.
- * The Awtsmoos conceals stone beneath changing light; Awtsmoos.com keeps current, Fresnel,
- * refraction, foam, sun glint, active normal provenance, and strict source ownership explicit.
+ * @description Composes two beds, two banks, and two dual-normal surfaces into one hydrology.
+ * The Awtsmoos conceals depth beneath changing light and reveals shore beside it; Awtsmoos.com
+ * keeps current, stone, soil transition, opacity, provenance, and collision ownership explicit.
  */
 
 import { waterShaderRecipe } from '../world/proceduralApi/WaterShaderRecipe.js';
 import {
+	createMinimalMeadowLakeShoreGeometry,
+	createMinimalMeadowRiverBanksGeometry
+} from './MinimalMeadowRiverBanksGeometry.js';
+import {
+	createMinimalMeadowLakeBedGeometry,
 	createMinimalMeadowLakeGeometry,
+	createMinimalMeadowRiverBedGeometry,
 	createMinimalMeadowRiverGeometry
-} from './MinimalMeadowWaterGeometry.js?v=20260724-meadow-21';
-
-const FIREBASE_HOST = 'https://awtsmoos-docs-base.web.app/awtsmoos-assets/mitzvah-world/environment-v1/water/';
+} from './MinimalMeadowWaterGeometry.js';
 
 export function createMinimalMeadowWaterDefinitions(sources) {
-	const riverGeometry = createMinimalMeadowRiverGeometry();
 	return [
-		bedDefinition(riverGeometry, sources),
-		waterDefinition('river', riverGeometry, sources, '#287987', 0.74, [24, 2.8]),
-		waterDefinition('lake', createMinimalMeadowLakeGeometry(), sources, '#266d83', 0.78, [7, 6])
+		bed('river', createMinimalMeadowRiverBedGeometry(), sources),
+		bed('lake', createMinimalMeadowLakeBedGeometry(), sources),
+		bank('river-banks', createMinimalMeadowRiverBanksGeometry(), sources),
+		bank('lake-shore', createMinimalMeadowLakeShoreGeometry(), sources),
+		water('river', createMinimalMeadowRiverGeometry(), sources, '#3b91a0', 0.76, [24, 2.8]),
+		water('lake', createMinimalMeadowLakeGeometry(), sources, '#397f96', 0.8, [7, 6])
 	];
 }
 
-function bedDefinition(geometry, sources) {
+function bed(variant, geometry, sources) {
 	return {
-		color: '#394944',
+		color: variant === 'river' ? '#43534b' : '#3e504a',
 		doubleSided: true,
-		...lowered(geometry, 1.18),
-		id: 'Awtsmoos_minimal_meadow_riverbed_stone',
+		...geometry,
+		id: `Awtsmoos_minimal_meadow_${variant}_bed`,
 		mapImage: sources.bed,
-		mapRepeat: [20, 3.2],
+		mapRepeat: variant === 'river' ? [20, 3.2] : [8, 8],
 		noEdge: true,
 		shape: 'manual',
 		solid: false,
-		texturePolicy: { primaryUrl: sources.urls.bed, role: 'river-bed', shader: 'terrain-transition' },
+		texturePolicy: { role: `${variant}-bed`, shader: 'terrain-transition' },
 		transparent: false,
-		userData: { family: 'minimal-meadow-water', part: 'river-bed' }
+		userData: { family: 'minimal-meadow-water', part: `${variant}-bed` }
 	};
 }
 
-function waterDefinition(variant, geometry, sources, color, opacity, repeat) {
+function bank(variant, geometry, sources) {
+	return {
+		color: variant === 'river-banks' ? '#756a4d' : '#806f4f',
+		doubleSided: true,
+		...geometry,
+		id: `Awtsmoos_minimal_meadow_${variant}`,
+		mapImage: sources.bed,
+		mapRepeat: [14, 2.4],
+		noEdge: true,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: { role: variant, shader: 'readable-shore-transition' },
+		transparent: false,
+		userData: { family: 'minimal-meadow-water', part: variant }
+	};
+}
+
+function water(variant, geometry, sources, color, opacity, repeat) {
 	return {
 		alphaMode: 'BLEND',
 		color,
@@ -53,8 +76,6 @@ function waterDefinition(variant, geometry, sources, color, opacity, repeat) {
 		mapImage: sources.normalA,
 		mapRepeat: repeat,
 		mixImage: sources.normalB,
-		mixPatchScale: 0.028,
-		mixPatchSharpness: 0.26,
 		mixRepeat: repeat,
 		mixStrength: variant === 'river' ? 0.48 : 0.34,
 		noEdge: true,
@@ -68,22 +89,15 @@ function waterDefinition(variant, geometry, sources, color, opacity, repeat) {
 }
 
 function waterPolicy(variant, sources) {
-	const hosted = sources.provenance.every(url => String(url).startsWith(FIREBASE_HOST));
 	return {
 		animated: true,
 		flowLayers: 2,
 		normalMode: sources.normalMode,
 		normalSources: [...sources.provenance],
-		publicFirebase: hosted,
 		realMaterialRequired: true,
 		shader: 'physical-dual-normal-flowing-water',
 		textureDriven: true,
-		waterClass: variant === 'river' ? 'stream' : 'lake',
 		waterPhysical: waterShaderRecipe(variant === 'river' ? 'stream' : 'lake'),
 		waterVariant: variant
 	};
-}
-
-function lowered(geometry, amount) {
-	return { ...geometry, vertices: geometry.vertices.map(([x, y, z]) => [x, y - amount, z]) };
 }

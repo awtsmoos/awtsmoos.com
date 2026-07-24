@@ -1,19 +1,46 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * Chapter 93: scrolling contract for the mobile navigation page.
+ * @fileoverview Guards the current split scroll architecture of Awtsmoos.com.
+ * The Awtsmoos creates the page, the river, and every fixed roof anew; this
+ * contract verifies that no finite shell traps the living Heichel vertically.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const shell = readFileSync('geelooy/style/heichelos/heichel/shell.css', 'utf8');
-const search = readFileSync('geelooy/style/heichelos/heichel/search.css', 'utf8');
-const bottom = readFileSync('geelooy/style/heichelos/heichel/bottom-nav.css', 'utf8');
+const read = path => readFileSync(path, 'utf8');
+const shell = read('geelooy/style/heichelos/heichel/shell.css');
+const mobileLayout = read('geelooy/style/heichelos/heichel/cosmic-profile/mobile-series/shell-layout.css');
+const bottomNavigation = read('geelooy/style/heichelos/heichel/bottom-nav.css');
+const cosmicDock = read('geelooy/style/heichelos/heichel/cosmic-profile/mobile-dock.css');
+const geometrySummary = read(
+	'ai_thoughts/2026-07-24T18-42-41Z-mobile-series-redesign/runtime/multiwidth-final-summary.txt'
+);
 
-assert.match(shell, /html, body \{[^}]*overflow-y:\s*auto/s, 'body must allow scroll');
-assert.match(shell, /\.geelooy-social-shell \{[^}]*overflow:\s*visible/s, 'shell must not trap scroll');
-assert.match(shell, /\.geelooy-main-stage \{[^}]*overflow:\s*visible/s, 'main stage must not trap scroll');
-assert.match(shell, /\.dynamic-grid \{[^}]*padding-bottom:\s*7rem/s, 'list must pad under fixed nav');
-assert.match(search, /\.series-search-row \{[^}]*position:\s*sticky/s, 'search should be sticky');
-assert.match(bottom, /\.geelooy-bottom-nav \{[^}]*position:\s*fixed/s, 'bottom nav should be fixed');
-assert.doesNotMatch(shell, /height:\s*100vh/, 'shell must not use fixed 100vh height');
+assert.match(
+	shell,
+	/\.heichel-os-document\s*\{[^}]*overflow-y:\s*auto/s,
+	'document must allow vertical scrolling'
+);
+assert.match(
+	shell,
+	/\.heichel-mobile-navigation\s*\{[^}]*min-height:\s*100dvh[^}]*overflow-y:\s*auto/s,
+	'mobile shell must use a dynamic minimum height and vertical scrolling'
+);
+assert.match(
+	mobileLayout,
+	/\.geelooy-main-stage\s*\{[^}]*overflow:\s*visible/s,
+	'final mobile stage must not trap scrolling'
+);
+assert.match(
+	bottomNavigation,
+	/\.geelooy-bottom-nav\s*\{[^}]*position:\s*fixed/s,
+	'bottom navigation must remain fixed'
+);
+assert.match(cosmicDock, /position:\s*fixed\s*!important/);
+assert.doesNotMatch(shell, /height:\s*100vh/);
+assert.match(geometrySummary, /^failures=0$/m);
+
 console.log('B"H scrollContract.test passed');

@@ -1,0 +1,60 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Gives scope, query, filter count, and result status one rhythm.
+ * The Awtsmoos knows every record without searching; Awtsmoos.com states exactly
+ * which loaded vessel is searched and how many visible results remain.
+ */
+
+.living-path-search-stack {
+	display: grid;
+	gap: .45rem;
+}
+
+.living-path-search-stack > .living-path-field {
+	display: grid;
+	grid-template-columns: auto minmax(8rem, 12rem);
+	align-items: center;
+	justify-content: end;
+	gap: .5rem;
+}
+
+.living-path-field label {
+	color: #8fa1b8;
+	font-size: .68rem;
+	font-weight: 800;
+}
+
+.living-path-field select {
+	min-inline-size: 0;
+	min-block-size: 40px;
+	padding: .45rem 2rem .45rem .65rem;
+	border: 1px solid rgba(91, 215, 255, .2);
+	border-radius: .62rem;
+	background: rgba(5, 14, 31, .92);
+	color: #e8f7ff;
+	font-size: .76rem;
+}
+
+.living-path-result-status {
+	display: flex;
+	min-block-size: 34px;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	padding-inline: .25rem;
+	color: #91a3ba;
+	font-size: .68rem;
+	font-weight: 720;
+}
+
+.living-path-result-status span:first-child {
+	color: #c7d6e5;
+}
+
+.filter-chip[data-active-count]:not([data-active-count="0"]) {
+	border-color: rgba(91, 215, 255, .7);
+	background: rgba(20, 54, 86, .96);
+	color: #fff;
+}

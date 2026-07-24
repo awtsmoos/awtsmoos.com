@@ -3,25 +3,19 @@
 // Blessed is He
 
 /**
-	* @file MinimalMeadowCreatureMesh.js
-	* @description Creates one readable continuous demon surface with an independent skeleton.
-	* The Awtsmoos reveals many joints through one body; Awtsmoos.com binds shared textured hide,
-	* daylight-safe color, semantic evidence, and one mutable actor material without extra draw calls.
-	*/
+ * @file MinimalMeadowCreatureMesh.js
+ * @description Creates one measured continuous demon surface with one independent skeleton.
+ * The Awtsmoos reveals many joints through one body; Awtsmoos.com binds shared hide,
+ * profile color, UV evidence, and bootstrap-rich luminance records without extra draw calls.
+ */
 
 import { Group, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
 import { createCanonicalCreatureSurfaceContract } from '../../../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/creature/canonicalSurfaceContract.js';
 import { createMinimalDemonGeometry } from './MinimalMeadowDemonGeometry.js';
 import { createMinimalDemonMaterial } from './MinimalMeadowDemonMaterial.js';
+import { measureDemonMaterialReadability } from './MinimalMeadowDemonReadabilityMetrics.js';
 import { createMinimalDemonSkeleton } from './MinimalMeadowDemonSkeleton.js';
 
-/**
-	* Creates the canonical one-surface demon while preserving all rig and evidence contracts.
-	* @param {object} compiled Semantic creature compiler result.
-	* @param {object} profile Runtime enemy profile.
-	* @param {Document} documentValue Browser document or injected test vessel.
-	* @returns {Group} Root carrying exactly one continuous skinned mesh.
-	*/
 export function createMinimalShadowCreatureMesh(
 	compiled,
 	profile = {},
@@ -31,21 +25,23 @@ export function createMinimalShadowCreatureMesh(
 	root.name = `Awtsmoos_continuous_skinned_${profile.id || 'shadow-demon'}`;
 	const geometry = createMinimalDemonGeometry();
 	const material = createMinimalDemonMaterial(profile, documentValue);
-	const mesh = createSurfaceMesh(geometry, material, profile);
+	const readability = measureDemonMaterialReadability(geometry, material);
+	material.userData.readability = readability;
+	const mesh = createSurfaceMesh(geometry, material, profile, readability);
 	root.add(mesh);
 	const rig = createMinimalDemonSkeleton(root);
 	mesh.skeleton = rig.skeleton;
 	mesh.setBaseTransform();
-	const evidence = coreEvidence(compiled, geometry, rig, material);
 	root.userData.rig = { ...rig.byName, mesh, root };
-	root.userData.proceduralCore = evidence;
+	root.userData.proceduralCore = coreEvidence(compiled, geometry, rig, material, readability);
+	root.userData.readability = readability;
 	root.userData.skeletons = new Map([[0, rig.skeleton]]);
 	root.userData.surfaceMaterial = material.surfaceDiagnostics;
 	root.setBaseTransform();
 	return root;
 }
 
-function createSurfaceMesh(geometry, material, profile) {
+function createSurfaceMesh(geometry, material, profile, readability) {
 	const mesh = new Mesh(geometry, material);
 	mesh.name = `Awtsmoos_single_surface_${profile.id || 'demon'}`;
 	mesh.skinIndex = 0;
@@ -53,19 +49,19 @@ function createSurfaceMesh(geometry, material, profile) {
 	mesh.frustumCulled = false;
 	mesh.userData.bootstrapVisual = true;
 	mesh.userData.AwtsmoosDemonSurface = material.surfaceDiagnostics;
+	mesh.userData.readability = readability;
 	return mesh;
 }
 
-function coreEvidence(compiled, geometry, rig, material) {
-	const geometryEvidence = geometry.userData.AwtsmoosContinuousDemon;
-	const vertices = geometryEvidence.vertexCount;
+function coreEvidence(compiled, geometry, rig, material, readability) {
+	const evidence = geometry.userData.AwtsmoosContinuousDemon;
 	const surfaceContract = createCanonicalCreatureSurfaceContract({
 		closedSurface: true,
 		jointCount: rig.bones.length,
 		semanticPartCount: compiled.briah?.body?.parts?.length ||
 			compiled.briah?.body?.sections?.length || 0,
 		skinWeightCount: geometry.attributes.weights.count,
-		vertexCount: vertices
+		vertexCount: evidence.vertexCount
 	});
 	return {
 		anatomyNodes: rig.bones.length,
@@ -75,8 +71,9 @@ function coreEvidence(compiled, geometry, rig, material) {
 		continuousSkinnedMesh: true,
 		material: material.surfaceDiagnostics,
 		meshCount: 1,
+		readability,
 		surfaceContract,
-		triangles: geometryEvidence.triangleCount,
-		vertices
+		triangles: evidence.triangleCount,
+		vertices: evidence.vertexCount
 	};
 }

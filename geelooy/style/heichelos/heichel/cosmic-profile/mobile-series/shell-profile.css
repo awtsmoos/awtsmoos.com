@@ -1,0 +1,118 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Compresses the mobile Heichel identity without deleting meaning.
+ * The Awtsmoos creates cover, seal, name, description, numbers, and actions as
+ * one present identity; Awtsmoos.com gives them a  compact editorial hierarchy.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .cosmic-heichel-profile {
+		inline-size: 100%;
+		min-block-size: 0 !important;
+		border-radius: .9rem !important;
+		clip-path: none;
+	}
+
+	.heichel-os-document .heichel-profile-cover {
+		block-size: 4.75rem;
+		min-block-size: 0;
+		background:
+			radial-gradient(circle at 55% 115%, rgba(80, 215, 255, .35), transparent 26%),
+			linear-gradient(135deg, #061729, #102f56 52%, #241b4d);
+	}
+
+	.heichel-os-document .heichel-profile-cover::before,
+	.heichel-os-document .heichel-profile-cover::after {
+		opacity: .34;
+	}
+
+	.heichel-os-document .heichel-profile-identity {
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: end;
+		gap: .6rem;
+		margin-block-start: -1.7rem;
+		padding: 0 .75rem;
+	}
+
+	.heichel-os-document .heichel-seal {
+		inline-size: 4rem !important;
+		block-size: 4rem !important;
+		font-size: 1rem !important;
+		box-shadow: 0 0 1rem rgba(80, 215, 255, .26) !important;
+	}
+
+	.heichel-os-document .heichel-profile-copy {
+		min-inline-size: 0;
+		padding-block-end: 0;
+	}
+
+	.heichel-os-document .hero-kicker {
+		display: none;
+	}
+
+	.heichel-os-document .heichel-profile-title-row {
+		min-inline-size: 0;
+		gap: .35rem;
+	}
+
+	.heichel-os-document #heichel-main-title {
+		min-inline-size: 0;
+		overflow: hidden;
+		font-size: clamp(1.35rem, 6vw, 1.7rem) !important;
+		line-height: 1.08 !important;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.heichel-os-document .heichel-verification {
+		inline-size: 1.15rem;
+		block-size: 1.15rem;
+		font-size: .7rem;
+	}
+
+	.heichel-os-document .hero-description {
+		display: -webkit-box;
+		margin: .22rem 0 0 !important;
+		overflow: hidden;
+		font-size: .76rem !important;
+		line-height: 1.34 !important;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.heichel-os-document .heichel-profile-stats {
+		min-block-size: 0;
+		margin: .45rem .75rem 0 !important;
+		padding: .35rem 0 !important;
+	}
+
+	.heichel-os-document .heichel-profile-stat {
+		gap: 0;
+		padding: .05rem .3rem;
+	}
+
+	.heichel-os-document .heichel-profile-stat strong {
+		font-size: 1rem;
+		line-height: 1.1;
+	}
+
+	.heichel-os-document .heichel-profile-stat small {
+		font-size: .56rem;
+		line-height: 1.2;
+	}
+
+	.heichel-os-document .heichel-profile-actions {
+		gap: .5rem;
+		margin: 0 .75rem !important;
+		padding: .5rem 0 !important;
+	}
+
+	.heichel-os-document .heichel-profile-action {
+		min-block-size: 44px;
+		border-radius: .65rem;
+		font-size: .78rem;
+		clip-path: none;
+	}
+}

@@ -1,0 +1,13 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Manifests the narrow Heichel shell without mixing concerns.
+ * The Awtsmoos unifies route, roof, profile, and tabs beyond division;
+ * Awtsmoos.com receives each measured vessel through one ordered covenant.
+ */
+
+@import "./shell-layout.css";
+@import "./shell-roof.css";
+@import "./shell-profile.css";
+@import "./shell-tabs.css";

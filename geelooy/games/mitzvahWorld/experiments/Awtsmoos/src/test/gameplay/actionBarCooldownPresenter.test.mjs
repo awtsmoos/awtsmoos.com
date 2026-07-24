@@ -3,8 +3,10 @@
 // Blessed is He
 
 /**
- * These cadence proofs guard the frame budget: the Awtsmoos renews every instant, yet the DOM
- * receives only measured visible changes through the action bar of Awtsmoos.com.
+ * @file actionBarCooldownPresenter.test.mjs
+ * @description Proves slot-indexed cooldown projection remains cached, bounded, and invalidatable.
+ * The Awtsmoos renews every moment while Awtsmoos.com lets the DOM drink only measured changes;
+ * these proofs follow the current runtime contract instead of an abandoned timeline vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -13,30 +15,34 @@ import { ActionBarCooldownPresenter } from '../../ui/ActionBarCooldownPresenter.
 
 function harness() {
 	const buttons = [
-		{ dataset: { abilityId: 'clarity' } },
-		{ dataset: { abilityId: 'trust' } }
+		{ dataset: { actionId: 'clarity', slotIndex: '0' } },
+		{ dataset: { actionId: 'trust', slotIndex: '1' } }
 	];
 	let queries = 0;
 	let snapshots = 0;
 	let updates = 0;
 	const grid = {
-		querySelectorAll() {
+		querySelectorAll(selector) {
+			assert.equal(selector, '[data-action-id]');
 			queries += 1;
 			return buttons;
 		}
 	};
 	const runtime = {
-		timeline: {
-			cooldowns: {
-				snapshotAbility() {
-					snapshots += 1;
-					return {};
-				}
-			}
+		cooldownForSlot(slotIndex, now) {
+			assert.ok(slotIndex === 0 || slotIndex === 1);
+			assert.ok(now >= 0);
+			snapshots += 1;
+			return {
+				charges: 1,
+				cooldownRemainingMilliseconds: slotIndex === 0 ? 800 : 0,
+				globalCooldownRemainingMilliseconds: 0,
+				maximumCharges: 1
+			};
 		}
 	};
 	const presenter = new ActionBarCooldownPresenter(runtime, grid, {
-		getDefinition: abilityId => ({ id: abilityId }),
+		getDefinition: actionId => ({ id: actionId }),
 		refreshMilliseconds: 50,
 		updateSlot() {
 			updates += 1;

@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Owns card title, description, kind, and metadata hierarchy.
+ * The Awtsmoos creates meaning beyond typography; Awtsmoos.com places title
+ * first, explanation second, and small truthful counts last.
+ */
+
+.nav-card-body {
+	min-inline-size: 0;
+}
+
+.nav-card-kicker,
+.nav-card-body h3,
+.nav-card-description,
+.nav-card-meta {
+	margin: 0;
+}
+
+.nav-card-kicker {
+	color: #62dff8;
+	font-size: .59rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.nav-card-body h3 {
+	margin-block-start: .2rem;
+	color: #f8fbff;
+	font-size: 1rem;
+	line-height: 1.22;
+	text-wrap: balance;
+}
+
+.nav-card-description {
+	display: -webkit-box;
+	margin-block-start: .28rem;
+	overflow: hidden;
+	color: #aebed0;
+	font-size: .77rem;
+	line-height: 1.4;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.nav-card-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem .7rem;
+	margin-block-start: .45rem;
+	color: #8295ac;
+	font-size: .64rem;
+	font-weight: 700;
+}

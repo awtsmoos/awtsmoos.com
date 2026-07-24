@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCombatBarView.js
- * @description Builds the visible action slots, cooldown labels, target key, status, and cast meter.
+ * @description Builds action slots, cooldown labels, target key, status, and cast meter.
  * The Awtsmoos gives every deed a bounded visible vessel;
- * Awtsmoos.com lets key, icon, cooldown, charge, launch, and consequence remain readable together.
+ * Awtsmoos.com keeps key, icon, cooldown, charge, launch, and consequence readable together.
  */
 
 import { minimalMeadowCombatActionList } from '../app/MinimalMeadowCombatActions.js';
@@ -36,15 +36,7 @@ export function createMinimalMeadowCombatBarView(host) {
 	root.append(meter.root, bar);
 	host.className = 'Awtsmoos-combat-host-container';
 	host.replaceChildren(root);
-	return {
-		bar,
-		buttons,
-		collapseButton,
-		meter,
-		root,
-		status,
-		targetButton
-	};
+	return { bar, buttons, collapseButton, meter, root, status, targetButton };
 }
 
 export function updateMinimalMeadowCastView(view, payload = null) {

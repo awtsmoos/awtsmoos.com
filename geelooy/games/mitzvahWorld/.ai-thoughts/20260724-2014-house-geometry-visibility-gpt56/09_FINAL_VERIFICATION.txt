@@ -1,0 +1,97 @@
+
+== NODE SYNTAX ==
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js
+PASS experiments/Awtsmoos/src/test/world/MinimalMeadowHouseTestFixture.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs
+
+== LINE COUNTS ==
+      92 experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js
+      55 experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js
+      99 experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js
+      59 experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js
+      43 experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js
+      67 experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js
+      20 experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js
+      36 experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js
+      26 experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js
+      88 experiments/Awtsmoos/src/test/world/MinimalMeadowHouseTestFixture.mjs
+      49 experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs
+     101 experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs
+      48 experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs
+     102 experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs
+     885 total
+
+== TAB INDENTATION ==
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js
+PASS experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js
+PASS experiments/Awtsmoos/src/test/world/MinimalMeadowHouseTestFixture.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs
+PASS experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs
+
+== DIFF WHITESPACE ==
+PASS git diff --check
+
+== FORBIDDEN FILE UNCHANGED ==
+PASS MinimalMeadowVisualStability.js has no diff
+
+== FINAL HASHES ==
+cfeb1b44f0f63ba75394c61e56d672b6c1f530e8bd6be9a642abb1056d10fe5c  experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js
+eb60767bf25b6cd9170451ca9872d015cff75f05ccff794074c7d66a51272ea8  experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js
+ea7c3dbe67d94ba4fec0c8d2433007b43f7cbff90e21a8857947e2adb12598b8  experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js
+6d050e93586d6907f0f42d22b705866b2e8444d3cd84823087108dd7881c8311  experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js
+8f45897f574749867c7760c30ca16ffb34c9891b5e959b6842bcb196af5b5080  experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js
+4120170cbae097823b087776b3f393a34b267748496432e3249bc2951d029908  experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js
+4fad9229fadd0145e7be226cfa5b43e5a361520b85b0e26b4dd70a10d04b9d2c  experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js
+daa39d319ca51fb86c81650ff9df78a44cf261fcc03dd6e54efbf8b65d0a36ee  experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js
+24b2f080c15be0dba5fc121e095fad6705862c673bf38131a0440af94be5da6a  experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js
+83376c884551d0bc477b476c1fadf5f83cb702182601aaa60a9612b39276511f  experiments/Awtsmoos/src/test/world/MinimalMeadowHouseTestFixture.mjs
+af8c4ec34e75fb31b100cea3d190fd41e6e008d0e7f9bc0579dbb78b543953a9  experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs
+2bb857799a09d8f549b790f44cbac3a52061624b0f716b55f8bd19d8462246ad  experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs
+49db0d8bc38636390d3234094c711b6ec7bc1662b91d4568752426e966146dcb  experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs
+fedc0e66281222abc96aa76da7b7e2aef85d999fc9a88de4eb8157d038cc109e  experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs
+
+== SCOPED GIT STATUS ==
+ M experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js
+ M experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js
+ M experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js
+?? .ai-thoughts/20260724-2014-house-geometry-visibility-gpt56/
+?? experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js
+?? experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js
+?? experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js
+?? experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js
+?? experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js
+?? experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js
+?? experiments/Awtsmoos/src/test/world/MinimalMeadowHouseTestFixture.mjs
+?? experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs
+?? experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs
+?? experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs
+?? experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs
+
+== SCOPED DIFF STAT ==
+ .../src/app/MinimalMeadowHouseMaterials.js         | 36 ++++----
+ .../src/app/MinimalMeadowHousePopulation.js        | 93 ++++++++-------------
+ .../Awtsmoos/src/app/MinimalMeadowHouseShell.js    | 96 ++++++++++++----------
+ 3 files changed, 109 insertions(+), 116 deletions(-)
+
+== CURRENT COMMIT ==
+31e8c9dc95fea1bdf67e506a9ddebe4d07f072ec B_H automatic update

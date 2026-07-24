@@ -4,35 +4,44 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Hydrates the real Chossid, combat core, and complete rich world after first play.
- * The Awtsmoos reveals garment, deed, creature, water, tree, flower, dwelling, and mission;
- * Awtsmoos.com keeps the first frame free while one promise truthfully means the whole world is ready.
+ * @description Hydrates player, combat, canonical quest Chossid, rich world, and visual stability.
+ * The Awtsmoos reveals traveler and world after first play; Awtsmoos.com publishes one truthful
+ * receipt without duplicate friendly systems or an undefined clock aborting the right rail.
  */
 
 import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
+import {
+	createMinimalFeatureReceipt,
+	featureNow,
+	fulfilledFeature,
+	initialFeatureStatus,
+	rejectedFeature
+} from './MinimalMeadowFeatureReceipts.js';
 import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
 import { installMinimalMeadowUi } from './MinimalMeadowUi.js';
+import { installMinimalMeadowVisualStability } from './MinimalMeadowVisualStability.js';
 import { installMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js';
 
 export async function installMinimalMeadowFeatures(runtime, environment = globalThis) {
-	const startedAt = now(environment);
-	runtime.featureStatus = status('installing-action-bar', startedAt);
+	const startedAt = featureNow(environment);
+	runtime.featureStatus = initialFeatureStatus('installing-action-bar', startedAt);
 	installMinimalMeadowUi(runtime, environment.document, environment);
 	runtime.featureStatus.phase = 'loading-combat-and-model';
-	const [modelResult, combatResult] = await Promise.allSettled([
+	const [model, combat] = await Promise.allSettled([
 		hydratePlayer(runtime, environment),
 		installMinimalMeadowWorldSystems(runtime, environment)
 	]);
-	const richResult = await settleRichWorld(runtime, combatResult);
-	const receipt = createReceipt(startedAt, environment, modelResult, combatResult, richResult);
-	Object.assign(runtime.featureStatus, {
-		combat: receipt.combat.status,
-		durationMs: receipt.durationMs,
-		model: receipt.model.status,
-		phase: receipt.ready ? 'ready' : 'degraded',
-		receipt,
-		richWorld: receipt.richWorld.status
+	const richWorld = await settleRichWorld(runtime, combat);
+	const friendlyNpcs = settleFriendly(runtime, richWorld);
+	const visualStability = installMinimalMeadowVisualStability(runtime);
+	const receipt = createMinimalFeatureReceipt(startedAt, environment, {
+		combat,
+		friendlyNpcs,
+		model,
+		richWorld,
+		visualStability
 	});
+	applyFeatureStatus(runtime, receipt);
 	runtime.bus.emit('features:ready', receipt);
 	return receipt;
 }
@@ -43,52 +52,38 @@ async function hydratePlayer(runtime, environment) {
 	return result;
 }
 
+function settleFriendly(runtime, richWorldResult) {
+	if (richWorldResult.status !== 'fulfilled' || !runtime.friendlyNpcs) {
+		return rejectedFeature('Canonical quest Chossid did not mount.');
+	}
+	return fulfilledFeature(runtime.friendlyNpcs.diagnostics());
+}
+
 async function settleRichWorld(runtime, combatResult) {
 	if (combatResult.status !== 'fulfilled') {
-		return { reason: new Error('Combat core failed before rich-world hydration.'), status: 'rejected' };
+		return rejectedFeature('Combat core failed before rich-world hydration.');
 	}
 	try {
 		const value = await runtime.richWorldPromise;
 		return value
-			? { status: 'fulfilled', value }
-			: { reason: new Error(runtime.richWorldError || 'Rich world returned no receipt.'), status: 'rejected' };
+			? fulfilledFeature(value)
+			: rejectedFeature(runtime.richWorldError || 'Rich world returned no receipt.');
 	} catch (reason) {
 		return { reason, status: 'rejected' };
 	}
 }
 
-function createReceipt(startedAt, environment, modelResult, combatResult, richResult) {
-	const model = resultReceipt(modelResult);
-	const combat = resultReceipt(combatResult);
-	const richWorld = resultReceipt(richResult);
-	return {
-		combat,
-		durationMs: Math.round(now(environment) - startedAt),
-		model,
-		ready: combat.status === 'ready' && model.status === 'ready' && richWorld.status === 'ready',
-		richWorld
-	};
-}
-
-function resultReceipt(result) {
-	if (result.status === 'fulfilled') {
-		return {
-			status: result.value ? 'ready' : 'fallback-visible',
-			value: result.value || null
-		};
-	}
-	return {
-		error: result.reason?.message || String(result.reason),
-		status: 'failed'
-	};
-}
-
-function status(phase, startedAt) {
-	return { combat: 'loading', model: 'loading', phase, richWorld: 'waiting', startedAt };
-}
-
-function now(environment) {
-	return environment.performance?.now?.() || Date.now();
+function applyFeatureStatus(runtime, receipt) {
+	Object.assign(runtime.featureStatus, {
+		combat: receipt.combat.status,
+		durationMs: receipt.durationMs,
+		friendlyNpcs: receipt.friendlyNpcs.status,
+		model: receipt.model.status,
+		phase: receipt.ready ? 'ready' : 'degraded',
+		receipt,
+		richWorld: receipt.richWorld.status,
+		visualStability: receipt.visualStability
+	});
 }
 
 export default installMinimalMeadowFeatures;

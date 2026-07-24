@@ -1,0 +1,33 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Distinguishes alternate grouping maps from the structural tree.
+ * The Awtsmoos creates many valid arrangements without confusion; Awtsmoos.com
+ * reserves violet identity for supplied collections and never invents missing maps.
+ */
+
+.living-groupings {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	gap: .7rem;
+}
+
+.grouping-card {
+	border-color: rgba(160, 119, 255, .28) !important;
+	background: linear-gradient(145deg, rgba(23, 16, 52, .96), rgba(6, 11, 28, .98)) !important;
+}
+
+.grouping-card::before {
+	background: linear-gradient(#9e7cff, #dd6cc4) !important;
+}
+
+.grouping-card .nav-card-media {
+	border-color: rgba(160, 119, 255, .42);
+	background: linear-gradient(145deg, rgba(96, 54, 158, .8), rgba(30, 24, 79, .9));
+	color: #f0ddff;
+}
+
+.grouping-card .nav-card-kicker {
+	color: #c9a3ff;
+}

@@ -1,48 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every phrase a vessel and every verse breathing room.
+ * Meluket punctuation segments remain distinct, selectable chambers while the
+ * copied Torah stream stays continuous on Awtsmoos.com.
+ */
 
-/* B"H - THE INNER MATRIX (PARAGRAPHS)
-   The differentiation of the light into specific vessels.
-*/
-
-.post-reader-localized-context #realPost .subsection-container {
-    display: flex;
-    flex-direction: column; 
-    gap: 2rem;
-    width: 100%;
+.post-reader-localized-context #realPost .subsection-container,
+.post-reader-localized-context #realPost .awtsmoos-subsection-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.65rem, 1.7vw, 1.15rem);
+	width: 100%;
 }
 
 .post-reader-localized-context #realPost .sub-awtsmoos {
-    position: relative;
-    display: block; 
-    width: 100%;
-    transition: all var(--time-std) var(--ease-snap);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 2px solid transparent;
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: clamp(0.7rem, 2vw, 1rem);
+	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	border-radius: 0.75rem;
+	background: color-mix(in srgb, var(--bg-surface, transparent) 72%, transparent);
+	line-height: 1.65;
+	transition: background var(--time-std) var(--ease-snap), border-color var(--time-std) var(--ease-snap);
 }
 
 .post-reader-localized-context #realPost .sub-awtsmoos:hover {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.035);
+	border-color: rgba(0, 0, 0, 0.14);
 }
 
 .post-reader-localized-context[data-theme="dark"] #realPost .sub-awtsmoos:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.045);
+	border-color: rgba(255, 255, 255, 0.16);
 }
 
 .post-reader-localized-context #realPost .sub-toichen {
-    display: block;
-    width: 100%;
+	display: block;
+	width: 100%;
 }
 
-/* THE GLOW OF CONSCIOUSNESS */
+.post-reader-localized-context #realPost .awtsmoos-plain-post-content {
+	white-space: pre-wrap;
+	line-height: 1.7;
+}
+
 .post-reader-localized-context .active-reading-sub {
-    background: var(--bg-surface) !important;
-    border-color: var(--color-ink) !important;
-    box-shadow: 8px 8px 0 var(--color-accent) !important;
-    transform: translateX(10px);
+	background: var(--bg-surface) !important;
+	border-color: var(--color-ink) !important;
+	box-shadow: 8px 8px 0 var(--color-accent) !important;
+	transform: translateX(10px);
 }
 
 .post-reader-localized-context .heb .active-reading-sub {
-    transform: translateX(-10px);
+	transform: translateX(-10px);
+}
+
+@media (max-width: 700px) {
+	.post-reader-localized-context #realPost .sub-awtsmoos {
+		padding: 0.8rem 0.65rem;
+		border-inline-start-width: 3px;
+	}
 }

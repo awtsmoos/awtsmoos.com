@@ -1,0 +1,22 @@
+[
+  {
+    "drawFailures": 0,
+    "houseId": "beis-ohr",
+    "matrixFailures": 0,
+    "missingBounds": 83,
+    "missingDefinitions": 83,
+    "missingSidePolicy": 83,
+    "meshCount": 83,
+    "windingFailures": 0
+  },
+  {
+    "drawFailures": 0,
+    "houseId": "brick-cottage",
+    "matrixFailures": 0,
+    "missingBounds": 40,
+    "missingDefinitions": 40,
+    "missingSidePolicy": 40,
+    "meshCount": 40,
+    "windingFailures": 0
+  }
+]

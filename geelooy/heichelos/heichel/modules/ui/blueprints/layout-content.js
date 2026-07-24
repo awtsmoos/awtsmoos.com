@@ -1,95 +1,49 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module HeichelLayoutContent
  * @description
- * Search, filter, tabs, breadcrumbs, and content grids remain one coherent browser.
+ * The Awtsmoos creates path, memory, search, view, and discovery as one intent.
+ * Awtsmoos.com manifests them in reading order so the current Torah branch
+ * appears before secondary institutional districts or decorative machinery.
  */
 
+import { box, grid, tab } from './layout-primitives.js';
 import {
-	box,
-	button,
-	grid,
-	search,
-	tab
-} from './layout-primitives.js';
+	currentSeriesContext,
+	pathContext,
+	stickyPath
+} from './living-path/path.js';
+import {
+	continueLearning,
+	relatedPaths,
+	resultStatus
+} from './living-path/discovery.js';
+import { filterSheet, searchAndFilter } from './living-path/filters.js';
 
-export function contentPanel(actions, filterButtonRef) {
+export function contentPanel(actions) {
 	return {
 		tag: 'section',
-		attr: {
-			class: 'heichel-nav-panel',
-			'aria-label': 'Heichel browsing'
-		},
+		attr: { class: 'heichel-nav-panel living-path-browser', 'aria-label': 'Heichel browsing' },
 		ref: 'browsePanel',
 		children: [
-			breadcrumb(),
-			seriesHeading(),
-			box('series-search-row', [
-				search(actions.onSearch),
-				button(
-					'Filter',
-					'Apply current search filter',
-					actions.applyFilter,
-					{
-						class: 'filter-chip',
-						'aria-pressed': 'false'
-					},
-					filterButtonRef
-				)
-			]),
+			stickyPath(actions),
+			pathContext(),
+			currentSeriesContext(),
+			continueLearning(),
+			searchAndFilter(actions),
+			resultStatus(),
 			browseTabs(actions),
 			box('grid-realms', [
 				grid('posts', 'postsList', 'loadingPosts'),
 				grid('series', 'seriesList', 'loadingSeries', true),
 				grid('groupings', 'groupingsList', 'loadingGroupings', true)
-			])
+			]),
+			relatedPaths(),
+			filterSheet(actions)
 		]
 	};
-}
-
-function breadcrumb() {
-	return {
-		tag: 'nav',
-		attr: {
-			id: 'breadcrumb-container',
-			class: 'breadcrumb-river',
-			'aria-label': 'Series path'
-		},
-		ref: 'breadcrumb'
-	};
-}
-
-function seriesHeading() {
-	return box(
-		'series-heading hidden',
-		[
-			{
-				tag: 'p',
-				attr: { class: 'series-label' },
-				children: ['Current series']
-			},
-			{
-				tag: 'h2',
-				ref: 'seriesTitle'
-			},
-			{
-				tag: 'p',
-				ref: 'seriesDesc'
-			},
-			{
-				tag: 'div',
-				attr: { id: 'seriesControls' },
-				ref: 'seriesControls'
-			}
-		],
-		{
-			attr: { id: 'seriesNameAndInfo' },
-			ref: 'seriesInfoArea'
-		}
-	);
 }
 
 function browseTabs(actions) {
@@ -97,7 +51,8 @@ function browseTabs(actions) {
 		tag: 'nav',
 		attr: {
 			class: 'tab-gates geelooy-tabs',
-			'aria-label': 'Browse content type'
+			role: 'tablist',
+			'aria-label': 'Browse this branch'
 		},
 		children: [
 			tab('Timeline', 'posts', actions, true),

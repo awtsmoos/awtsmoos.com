@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Owns the modal geometry of the Living Path filter sheet.
+ * The Awtsmoos creates draft and commitment without distance; Awtsmoos.com
+ * gives the draft a bounded mobile sheet with a backdrop and scroll-safe panel.
+ */
+
+.living-path-filter-sheet {
+	position: fixed;
+	z-index: var(--g-z-modal, 160);
+	inset: 0;
+	display: grid;
+	align-items: end;
+}
+
+.filter-sheet-backdrop {
+	position: absolute;
+	inset: 0;
+	border: 0;
+	background: rgba(0, 4, 13, .72);
+	backdrop-filter: blur(5px);
+}
+
+.filter-sheet-panel {
+	position: relative;
+	display: grid;
+	max-block-size: min(86dvh, 44rem);
+	gap: .9rem;
+	padding: 1rem;
+	padding-block-end: max(1rem, env(safe-area-inset-bottom));
+	overflow-y: auto;
+	border: 1px solid rgba(91, 215, 255, .28);
+	border-radius: 1.1rem 1.1rem 0 0;
+	background: #071225;
+	box-shadow: 0 -1.2rem 3rem rgba(0, 0, 0, .5);
+}
+
+.filter-sheet-header,
+.filter-sheet-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.filter-sheet-heading h2,
+.filter-sheet-heading p {
+	margin: 0;
+}
+
+.filter-sheet-heading h2 {
+	margin-block-start: .18rem;
+	color: #f7fbff;
+	font-size: 1.35rem;
+}
+
+.filter-sheet-close {
+	inline-size: 44px;
+	block-size: 44px;
+	border: 1px solid rgba(91, 215, 255, .22);
+	border-radius: .65rem;
+	background: rgba(255, 255, 255, .04);
+	color: #fff;
+	font-size: 1.35rem;
+}
+
+.filter-sheet-footer {
+	position: sticky;
+	inset-block-end: 0;
+	padding-block-start: .6rem;
+	background: #071225;
+}
+
+body.living-filter-open {
+	overflow: hidden;
+}

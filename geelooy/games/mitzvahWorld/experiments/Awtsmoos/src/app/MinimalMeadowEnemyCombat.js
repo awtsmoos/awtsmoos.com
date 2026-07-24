@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyCombat.js
- * @description Guards one persistent encounter and delegates finite action and motion flows.
- * The Awtsmoos renews pursuit without accidental patrol; Awtsmoos.com holds role, target,
- * leash, sight, cooldown, effects, and transitions behind the actor's stable combat API.
+ * @description Guards one persistent encounter and releases shared attack ownership on every exit.
+ * The Awtsmoos renews pursuit without a mob becoming one blow; Awtsmoos.com holds role,
+ * target, leash, sight, slot, cooldown, effect, and transition behind one stable combat API.
  */
 
 import {
@@ -54,7 +54,9 @@ export class MinimalMeadowEnemyCombat {
 	update(deltaSeconds) {
 		updateEnemyCombatEffects(this, deltaSeconds);
 		this.cooldown = Math.max(0, this.cooldown - deltaSeconds);
-		if (!this.actor.alive || this.runtime.playerStats.health <= 0) return this.stopInactive();
+		if (!this.actor.alive || this.runtime.playerDefeat?.isDefeated?.() || this.runtime.playerStats.health <= 0) {
+			return this.stopInactive();
+		}
 		const perception = minimalEnemyPerception(this);
 		this.lineOfSight = perception.lineOfSight;
 		this.lineOfSightSource = perception.lineOfSightSource;
@@ -84,16 +86,12 @@ export class MinimalMeadowEnemyCombat {
 		if (isActionState(state)) return advanceMinimalEnemyAction(this);
 		if (state === 'recovery') return advanceMinimalEnemyRecovery(this);
 		if (!this.lineOfSight || !this.withinLeash) return advanceMinimalEnemyPursuit(this, deltaSeconds);
-		return advanceMinimalEnemyLocomotion(
-			this,
-			perception.distance,
-			deltaSeconds,
-			beginMinimalEnemyAction
-		);
+		return advanceMinimalEnemyLocomotion(this, perception.distance, deltaSeconds, beginMinimalEnemyAction);
 	}
 
 	disengage() {
 		this.runtime.bus.emit('enemy:return', this.actor.payload());
+		this.releaseAttackSlot();
 		this.session.reset('target-genuinely-lost');
 		this.action = null;
 		this.actor.action = 'idle';
@@ -102,14 +100,25 @@ export class MinimalMeadowEnemyCombat {
 	}
 
 	stopInactive() {
+		this.releaseAttackSlot();
 		if (this.session.active) {
 			this.session.reset(this.actor.alive ? 'player-defeated' : 'enemy-defeated');
 		}
+		this.action = null;
+		this.actor.action = 'idle';
+		this.actor.moving = false;
 		return false;
 	}
 
+	releaseAttackSlot() {
+		this.runtime.combatBalance?.releaseActor?.(this.actor.profile.id);
+	}
+
 	diagnostics() {
-		return minimalEnemyCombatDiagnostics(this);
+		return {
+			...minimalEnemyCombatDiagnostics(this),
+			balance: this.runtime.combatBalance?.diagnostics?.() || null
+		};
 	}
 }
 

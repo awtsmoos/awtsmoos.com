@@ -4,32 +4,44 @@
 
 /**
  * @file VolumetricSunShaftSystem.js
- * @description Builds bounded crepuscular rays from the reference sunset direction.
- * The Awtsmoos renews visible beams within air and leaf; Awtsmoos.com uses tapered
- * transparent sky meshes so radiance appears without an unbounded post-process pass.
+ * @description Keeps unsafe world-space shaft quads disabled until the renderer can
+ * provide radial edge falloff, camera-aware projection, and depth occlusion.
+ * The Awtsmoos renews the sun without needing a false wall of white; Awtsmoos.com
+ * preserves the honest glow, clouds, and atmosphere while this finite vessel rests.
  */
 
-import { createSkyRay } from '../sky/SkyMeshFactory.js';
-import {
-	REFERENCE_GOLDEN_HOUR,
-	referenceLightingBudget
-} from './ReferenceGoldenHourPreset.js';
+export const SUN_SHAFT_SAFETY_REPORT = Object.freeze({
+	boundaryAlphaMaximum: 0,
+	cameraFacingSurfaceCount: 0,
+	depthUnfadedSurfaceCount: 0,
+	edgeAlphaSampleCount: 0,
+	enabled: false,
+	geometryCount: 0,
+	maximumAccumulatedOpacity: 0,
+	maximumOverdraw: 0,
+	uniformOpaqueRectangleCount: 0
+});
 
-export function createVolumetricSunShafts(quality = 'high') {
-	const budget = referenceLightingBudget(quality);
-	return Array.from({ length: budget.sunShafts }, (_, index) => {
-		const ratio = index / Math.max(1, budget.sunShafts - 1);
-		const angle = -0.72 + ratio * 1.34 + Math.sin(index * 2.3) * 0.045;
-		const length = 92 + index % 4 * 24;
-		const width = 5.5 + index % 3 * 2.4;
-		const alpha = 0.08 + (index % 5) * 0.012;
-		return createSkyRay(
-			`reference_sun_shaft_${quality}_${index}`,
-			REFERENCE_GOLDEN_HOUR.sunPosition,
-			angle,
-			length,
-			width,
-			[1, 0.73, 0.28, alpha]
-		);
-	});
+/**
+ * Returns no shaft meshes on any quality tier.
+ *
+ * The previous implementation emitted overlapping, double-sided world-space quads.
+ * Their side edges retained nonzero opacity, they had no depth fade, and they did not
+ * rotate with the camera. Disabling those meshes is the only reliable bounded result
+ * until a depth-aware radial scattering path exists.
+ *
+ * @param {string} _quality Requested rendering quality; retained for API compatibility.
+ * @returns {Array} A fresh empty array safe for spreading into world definitions.
+ */
+export function createVolumetricSunShafts(_quality = 'high') {
+	return [];
+}
+
+/**
+ * Exposes measurable safety values for regression tests and mobile budgets.
+ *
+ * @returns {object} A detached report proving zero geometry, opacity, and overdraw.
+ */
+export function inspectVolumetricSunShaftSafety() {
+	return { ...SUN_SHAFT_SAFETY_REPORT };
 }

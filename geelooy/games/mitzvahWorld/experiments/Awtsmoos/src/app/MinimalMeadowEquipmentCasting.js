@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEquipmentCasting.js
- * @description Holds the staff draw, release hold, cancellation, and prior-state restoration contract.
- * The Awtsmoos carries intention through wind-up and release without severing hand from tool;
- * Awtsmoos.com keeps casting authority focused while the equipment runtime preserves visible truth.
+ * @description Draws either equipped staff or sword through cast release and recovery.
+ * The Awtsmoos carries intention through wind-up and release; Awtsmoos.com no longer lets
+ * the Spark Blade remain hidden merely because the first weapon implementation was a staff.
  */
 
 export class MinimalMeadowEquipmentCasting {
@@ -16,6 +16,7 @@ export class MinimalMeadowEquipmentCasting {
 		this.active = false;
 		this.drawnBeforeCast = false;
 		this.timer = null;
+		this.cancelScheduledRestore = null;
 	}
 
 	begin() {
@@ -23,7 +24,7 @@ export class MinimalMeadowEquipmentCasting {
 		if (this.active) return;
 		this.drawnBeforeCast = this.owner.drawn;
 		this.active = true;
-		if (this.owner.weaponItemId === 'wooden-staff') {
+		if (this.owner.weaponItemId) {
 			this.owner.setDrawn(true, true);
 			return;
 		}
@@ -38,18 +39,31 @@ export class MinimalMeadowEquipmentCasting {
 		this.finish(0);
 	}
 
-	finish(delay) {
+	finish(delayMilliseconds) {
 		this.clearTimer();
 		if (!this.active) return;
-		if (delay > 0) {
-			this.timer = setTimeout(() => this.restore(), delay);
+		if (delayMilliseconds > 0) {
+			this.scheduleRestore(delayMilliseconds);
 			return;
 		}
 		this.restore();
 	}
 
+	scheduleRestore(delayMilliseconds) {
+		const schedule = this.owner.runtime?.schedule;
+		if (typeof schedule === 'function') {
+			this.cancelScheduledRestore = schedule(
+				delayMilliseconds / 1000,
+				() => this.restore()
+			);
+			return;
+		}
+		this.timer = setTimeout(() => this.restore(), delayMilliseconds);
+	}
+
 	restore() {
 		this.timer = null;
+		this.cancelScheduledRestore = null;
 		this.active = false;
 		this.owner.setDrawn(this.drawnBeforeCast, true);
 	}
@@ -57,6 +71,8 @@ export class MinimalMeadowEquipmentCasting {
 	clearTimer() {
 		clearTimeout(this.timer);
 		this.timer = null;
+		this.cancelScheduledRestore?.();
+		this.cancelScheduledRestore = null;
 	}
 
 	destroy() {

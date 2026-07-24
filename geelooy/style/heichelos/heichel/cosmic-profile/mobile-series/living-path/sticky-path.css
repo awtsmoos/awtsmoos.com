@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Keeps current orientation visible only after full context leaves.
+ * The Awtsmoos contains parent and current branch without distance; Awtsmoos.com
+ * reveals this compact echo through observation, not an always-running animation.
+ */
+
+.living-path-sticky {
+	position: fixed;
+	z-index: calc(var(--g-z-header, 100) - 1);
+	inset-block-start: calc(var(--g-header-h, 4.1rem) + .35rem);
+	inset-inline: max(.75rem, env(safe-area-inset-left)) max(.75rem, env(safe-area-inset-right));
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	min-block-size: 46px;
+	align-items: center;
+	gap: .5rem;
+	padding: .28rem .4rem;
+	border: 1px solid rgba(91, 215, 255, .32);
+	border-radius: .78rem;
+	background: rgba(3, 10, 24, .94);
+	box-shadow: 0 .75rem 1.8rem rgba(0, 0, 0, .4);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-.55rem);
+}
+
+.living-path-sticky.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: none;
+}
+
+.living-path-sticky strong {
+	overflow: hidden;
+	color: #f6f8ff;
+	font-size: .84rem;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.living-path-sticky button {
+	min-block-size: 38px;
+	max-inline-size: 8.75rem;
+	padding: .45rem .6rem;
+	overflow: hidden;
+	border: 0;
+	border-radius: .55rem;
+	background: rgba(22, 43, 70, .75);
+	color: #bfefff;
+	font-size: .72rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.living-path-sticky button:disabled {
+	opacity: .42;
+}
+
+@media (min-width: 56rem) {
+	.living-path-sticky {
+		inset-inline: max(calc((100vw - 72rem) / 2), 1rem);
+	}
+}

@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Fits Search and Filter in one honest shrinking row.
+ * The Awtsmoos is beyond seeking and finding; Awtsmoos.com gives both intentions
+ * a 48-pixel vessel while preserving readable placeholder and focus contrast.
+ */
+
+@media (max-width: 55rem) {
+	.heichel-os-document .series-search-row {
+		display: grid;
+		inline-size: 100%;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: .5rem;
+		margin: 0;
+		padding: 0;
+	}
+
+	.heichel-os-document .series-search-row input {
+		inline-size: 100%;
+		min-inline-size: 0;
+		min-block-size: 48px;
+		padding: .7rem .85rem;
+		border: 1px solid rgba(80, 215, 255, .24);
+		border-radius: .75rem;
+		background: rgba(5, 14, 31, .92);
+		box-shadow: none;
+		color: #f6f8ff;
+		font-size: 1rem;
+		font-weight: 620;
+		line-height: 1.2;
+	}
+
+	.heichel-os-document .series-search-row input::placeholder {
+		color: #8798af;
+		opacity: 1;
+	}
+
+	.heichel-os-document .series-search-row input:focus {
+		border-color: rgba(80, 215, 255, .72);
+		outline: 0;
+		box-shadow: 0 0 0 3px rgba(80, 215, 255, .13);
+	}
+
+	.heichel-os-document .filter-chip {
+		min-inline-size: 5.75rem;
+		min-block-size: 48px;
+		justify-content: center;
+		gap: .35rem;
+		padding: .65rem .8rem;
+		border: 1px solid rgba(80, 215, 255, .3);
+		border-radius: .75rem;
+		background: rgba(9, 22, 43, .94);
+		box-shadow: none;
+		color: #eef7ff;
+		font-size: .86rem;
+		font-weight: 780;
+		transform: none;
+	}
+
+	.heichel-os-document .filter-chip::before {
+		content: "⚙";
+		font-size: .9rem;
+	}
+
+	.heichel-os-document .filter-chip:is(:hover, :focus-visible),
+	.heichel-os-document .filter-chip[aria-pressed="true"] {
+		border-color: rgba(80, 215, 255, .7);
+		background: rgba(20, 50, 82, .96);
+		box-shadow: 0 0 0 3px rgba(80, 215, 255, .12);
+		transform: none;
+	}
+}

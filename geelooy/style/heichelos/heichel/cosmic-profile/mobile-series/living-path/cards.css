@@ -1,0 +1,11 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Orders the shared Living Path card language on Awtsmoos.com.
+ * The Awtsmoos creates content before visible geometry; layout and typography
+ * remain separate vessels so Timeline, Tree, and Groupings can reuse both safely.
+ */
+
+@import "./cards-layout.css";
+@import "./cards-content.css";

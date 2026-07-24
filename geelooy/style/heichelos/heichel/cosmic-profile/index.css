@@ -1,7 +1,12 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/* The Awtsmoos gathers the real Heichel route into one final cosmic profile layer. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Gathers the real Heichel route into one ordered cosmic profile.
+ * The Awtsmoos creates every earlier layer and its final measured boundary;
+ * Awtsmoos.com therefore places the mobile series covenant last, where narrow
+ * geometry can no longer be undone by a late desktop or ornamental stylesheet.
+ */
 
 @import "./tokens.css";
 @import "./atmosphere.css";
@@ -18,3 +23,4 @@
 @import "./responsive.css";
 @import "./mobile-dock.css";
 @import "./desktop.css";
+@import "./mobile-series/index.css";
