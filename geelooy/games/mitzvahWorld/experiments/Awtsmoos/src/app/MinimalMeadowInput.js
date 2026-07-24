@@ -4,29 +4,39 @@
 
 /**
  * @file MinimalMeadowInput.js
- * @description Owns only movement, run, and jump keys for the empty shared meadow.
- * The Awtsmoos turns finite intention into motion without summoning a UI kingdom; Awtsmoos.com
- * keeps one small set of keys, one jump spark, and one honest path back to stillness.
+ * @description Separates actor-relative keys from camera-relative joystick intention.
+ * The Awtsmoos joins hand, key, camera, and traveler without reversing their finite signs;
+ * Awtsmoos.com keeps mobile forward truthful after orbit while preserving historic keyboard law.
  */
 
+const CONTROL_CODES = new Set([
+	'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'KeyA', 'KeyD',
+	'KeyE', 'KeyQ', 'KeyS', 'KeyW', 'ShiftLeft', 'ShiftRight', 'Space'
+]);
+
 export class MinimalMeadowInput {
-	constructor(environment = globalThis, jumpHost = null) {
+	constructor(environment = globalThis, jumpHost = null, joystick = null) {
 		this.environment = environment;
 		this.jumpHost = jumpHost;
+		this.joystick = joystick;
 		this.keys = new Set();
 		this.jumpRequested = false;
 		this.onKeyDown = event => this.handleKeyDown(event);
 		this.onKeyUp = event => this.keys.delete(event.code);
-		this.onBlur = () => this.keys.clear();
+		this.onBlur = () => this.reset();
 		this.onJump = event => this.requestJump(event);
 		this.install();
 	}
 
 	axis() {
+		const joystick = this.joystick?.vector || { magnitude: 0, x: 0, y: 0 };
 		return {
-			turn: signed(this.keys, 'KeyD', 'KeyA'),
-			x: signed(this.keys, 'KeyQ', 'KeyE'),
-			y: signed(this.keys, 'KeyS', 'KeyW')
+			forward: sign(this.keys, ['KeyW', 'ArrowUp'], ['KeyS', 'ArrowDown']),
+			joystickForward: clamp(-joystick.y),
+			joystickMagnitude: clampMagnitude(joystick.magnitude),
+			joystickStrafe: clamp(joystick.x),
+			strafe: sign(this.keys, ['KeyE'], ['KeyQ']),
+			turn: sign(this.keys, ['KeyD', 'ArrowRight'], ['KeyA', 'ArrowLeft'])
 		};
 	}
 
@@ -40,18 +50,21 @@ export class MinimalMeadowInput {
 		return this.keys.has('ShiftLeft') || this.keys.has('ShiftRight');
 	}
 
-	dispose() {
-		this.environment.removeEventListener?.('keydown', this.onKeyDown);
-		this.environment.removeEventListener?.('keyup', this.onKeyUp);
-		this.environment.removeEventListener?.('blur', this.onBlur);
-		this.jumpHost?.removeEventListener?.('pointerdown', this.onJump);
+	handleKeyDown(event) {
+		if (isTextEntry(event.target)) return;
+		if (CONTROL_CODES.has(event.code)) event.preventDefault?.();
+		this.keys.add(event.code);
+		if (event.code === 'Space' && !event.repeat) this.jumpRequested = true;
 	}
 
-	handleKeyDown(event) {
-		this.keys.add(event.code);
-		if (event.code !== 'Space' || event.repeat) return;
-		event.preventDefault?.();
+	requestJump(event) {
+		event?.preventDefault?.();
 		this.jumpRequested = true;
+	}
+
+	reset() {
+		this.keys.clear();
+		this.joystick?.reset?.();
 	}
 
 	install() {
@@ -61,14 +74,28 @@ export class MinimalMeadowInput {
 		this.jumpHost?.addEventListener?.('pointerdown', this.onJump);
 	}
 
-	requestJump(event) {
-		event?.preventDefault?.();
-		this.jumpRequested = true;
+	dispose() {
+		this.environment.removeEventListener?.('keydown', this.onKeyDown);
+		this.environment.removeEventListener?.('keyup', this.onKeyUp);
+		this.environment.removeEventListener?.('blur', this.onBlur);
+		this.jumpHost?.removeEventListener?.('pointerdown', this.onJump);
+		this.joystick?.destroy?.();
 	}
 }
 
-function signed(keys, positiveCode, negativeCode) {
-	return Number(keys.has(positiveCode)) - Number(keys.has(negativeCode));
+function sign(keys, positiveCodes, negativeCodes) {
+	return Number(positiveCodes.some(code => keys.has(code)))
+		- Number(negativeCodes.some(code => keys.has(code)));
 }
 
-export default MinimalMeadowInput;
+function clamp(value) {
+	return Math.max(-1, Math.min(1, Number(value) || 0));
+}
+
+function clampMagnitude(value) {
+	return Math.max(0, Math.min(1, Number(value) || 0));
+}
+
+function isTextEntry(target) {
+	return Boolean(target?.closest?.('input,textarea,select,[contenteditable="true"]'));
+}

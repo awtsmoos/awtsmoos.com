@@ -1,0 +1,19 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Stillness can also reveal the Awtsmoos. This Awtsmoos.com preference vessel
+ * quiets decorative movement for players whose bodies ask the interface to rest,
+ * while preserving every game law and navigational path.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

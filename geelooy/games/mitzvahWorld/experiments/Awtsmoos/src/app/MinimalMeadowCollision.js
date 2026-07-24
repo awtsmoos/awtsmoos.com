@@ -4,49 +4,42 @@
 
 /**
  * @file MinimalMeadowCollision.js
- * @description Places two truthful ground triangles inside the project's real collision octree.
- * The Awtsmoos holds the broad field through the smallest sufficient geometry; Awtsmoos.com lets
- * the Chossid carry a capsule across actual spatial authority without loading village collision.
+ * @description Builds one octree from the same rolling triangles that the player sees.
+ * The Awtsmoos does not divide visible hill from grounded hill; Awtsmoos.com lets feet,
+ * walls, camera rays, and terrain all question one deterministic collision vessel.
  */
 
+import { Aabb } from '../math/Aabb.js';
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { AwtsmoosOctree } from '../collision/AwtsmoosOctree.js';
-import { TriangleCollider } from '../collision/TriangleCollider.js';
-import { Aabb } from '../math/Aabb.js';
-import { createBootstrapFlatGround } from './BootstrapFlatGround.js';
 
-const MINIMUM = Object.freeze({ x: -256, y: -16, z: -256 });
-const MAXIMUM = Object.freeze({ x: 256, y: 64, z: 256 });
-
-export function createMinimalMeadowCollision() {
-	const mainOctree = new AwtsmoosOctree(new Aabb(MINIMUM, MAXIMUM));
-	const triangles = createGroundTriangles();
-	for (const triangle of triangles) mainOctree.insert(triangle);
+export function createMinimalMeadowCollision(terrain) {
+	if (!terrain?.colliders?.length || typeof terrain.heightAt !== 'function') {
+		throw new Error('Rolling meadow collision requires terrain colliders and heightAt.');
+	}
+	const mainOctree = new AwtsmoosOctree(
+		new Aabb(
+			{ x: -128, y: -24, z: -128 },
+			{ x: 128, y: 72, z: 128 }
+		),
+		0,
+		6
+	);
+	for (const collider of terrain.colliders) {
+		mainOctree.insert(collider);
+	}
 	const collisionMover = new AwtsmoosCollisionMover({
 		footOffset: 0,
 		height: 1.72,
 		octree: mainOctree,
 		radius: 0.38
 	});
-	const flatGround = createBootstrapFlatGround(mainOctree);
 	return {
-		...flatGround,
 		collisionMover,
-		collisionTriangles: triangles.length,
+		collisionTriangles: terrain.colliders.length,
+		groundSampler: terrain,
 		mainOctree
 	};
-}
-
-function createGroundTriangles() {
-	const southWest = { x: -120, y: 0, z: -120 };
-	const northWest = { x: -120, y: 0, z: 200 };
-	const southEast = { x: 120, y: 0, z: -120 };
-	const northEast = { x: 120, y: 0, z: 200 };
-	const options = { floor: true, kind: 'minimal-meadow-ground', solid: true };
-	return [
-		new TriangleCollider(southWest, northWest, southEast, options),
-		new TriangleCollider(southEast, northWest, northEast, options)
-	];
 }
 
 export default createMinimalMeadowCollision;

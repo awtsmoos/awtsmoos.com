@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Victory should shimmer without obscuring the next choice. The Awtsmoos renews
+ * delight and stillness together, while this Awtsmoos.com feedback layer keeps
+ * every spark inside the fixed result vessel and honors reduced-motion souls.
+ */
+.achievementBadge {
+	position: relative;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	min-height: 2rem;
+	padding: 0.36rem 0.78rem;
+	border: 1px solid hsl(var(--mitzvah-hue) 88% 72% / 0.5);
+	border-radius: 999px;
+	color: #fff4bd;
+	font-size: clamp(0.72rem, 2vw, 0.92rem);
+	font-weight: 900;
+	background: hsl(var(--mitzvah-hue) 58% 24% / 0.8);
+	box-shadow: 0 0 1.5rem hsl(var(--mitzvah-hue) 90% 60% / 0.2);
+}
+
+.celebrationField {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.celebrationField i {
+	--angle: calc(var(--spark) * 30deg);
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 0.48rem;
+	height: 0.48rem;
+	border-radius: 50%;
+	background: hsl(calc(var(--mitzvah-hue) + var(--spark) * 12) 92% 70%);
+	box-shadow: 0 0 0.9rem currentColor;
+	animation: celebrationBurst 1.25s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+	animation-delay: calc(var(--spark) * 24ms);
+}
+
+.gameResult > :not(.celebrationField) {
+	position: relative;
+	z-index: 2;
+}
+
+.resultActions .primaryButton:first-child {
+	border-color: hsl(var(--mitzvah-hue) 92% 72% / 0.8);
+	box-shadow: 0 0.65rem 1.8rem hsl(var(--mitzvah-hue) 90% 40% / 0.22);
+}
+
+@keyframes celebrationBurst {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(0.3);
+	}
+	24% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-50%, -50%) rotate(var(--angle)) translateX(clamp(7rem, 28vw, 18rem)) scale(1.2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.celebrationField i {
+		display: none;
+	}
+}

@@ -1,0 +1,108 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Portrait space becomes a compact constellation rather than a scrolling list.
+ * The Awtsmoos renews every small screen, while this Awtsmoos.com vessel fits
+ * shell, seven titles, and teaching details inside one touch-sized chamber.
+ */
+@media (max-width: 700px) {
+	.appTopBar {
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		min-height: 2.85rem;
+		padding-bottom: 0.4rem;
+	}
+
+	.brandLockup strong {
+		font-size: 0.82rem;
+	}
+
+	.brandLockup span {
+		width: 1.65rem;
+		font-size: 0.72rem;
+	}
+
+	.gamesLink,
+	.legacyMark {
+		font-size: 0.64rem;
+	}
+
+	.hubLayer {
+		gap: 0.48rem;
+		padding: 0.55rem max(0.5rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left));
+	}
+
+	.mitzvahGrid3d {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(4, minmax(0, 1fr));
+		gap: 0.42rem;
+	}
+
+	.mitzvahTile {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-rows: minmax(0, 1fr) auto;
+		grid-template-areas:
+			"number title symbol"
+			"progress progress progress";
+		column-gap: 0.45rem;
+		padding: 0.42rem 0.52rem;
+		border-radius: 0.85rem;
+	}
+
+	.tileNumber {
+		grid-area: number;
+	}
+
+	.tileSymbol {
+		grid-area: symbol;
+		align-self: center;
+		width: clamp(1.7rem, 6vh, 2.65rem);
+		font-size: clamp(0.9rem, 3.3vh, 1.5rem);
+	}
+
+	.mitzvahTile strong {
+		grid-area: title;
+		align-self: center;
+		justify-self: start;
+		max-width: none;
+		font-size: clamp(0.66rem, 3vw, 0.9rem);
+		text-align: left;
+	}
+
+	.tileProgress {
+		grid-area: progress;
+		justify-self: end;
+		font-size: 0.54rem;
+	}
+
+	.detailLayer {
+		padding: 3.05rem max(0.55rem, env(safe-area-inset-right)) max(0.55rem, env(safe-area-inset-bottom)) max(0.55rem, env(safe-area-inset-left));
+	}
+
+	.detailCard {
+		grid-template-columns: 4.4rem minmax(0, 1fr);
+		gap: 0.42rem 0.75rem;
+		padding: 0.78rem;
+		border-radius: 1rem;
+	}
+
+	.detailIdentity {
+		min-height: 7.2rem;
+	}
+
+	.detailIdentity strong {
+		width: 3.5rem;
+		font-size: 1.8rem;
+	}
+
+	.detailPractice {
+		grid-template-columns: 1fr;
+		gap: 0.28rem;
+	}
+
+	.detailFooter {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

@@ -4,69 +4,60 @@
 
 /**
  * @file TerrainMesh.js
- * @description Creates one always-visible zoned terrain draw before texture hydration completes.
- * The Awtsmoos reveals earth before pigment; Awtsmoos.com guarantees geometry, material, color,
- * visibility, bounds, and diagnostics first, while grass, bank, terrace, and rock pixels stream.
+ * @description Carries continuous Bézier-road influence through supported ecological weights.
+ * The Awtsmoos reveals one road inside living earth without an ignored attribute;
+ * Awtsmoos.com encodes grass, road, wetness, and rock in the renderer's proven zone vessel.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
 import { createTerrainMaterial } from './terrain/TerrainMaterialFactory.js';
 
-export function createTerrainMesh(data, grassImage, dirtImage, fallbackUrl, quality = 'medium') {
+export function createTerrainMesh(data, grassImage, pathImage, fallbackUrl, quality = 'high') {
 	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(
-		data.vertices.flatMap(point => [point.x, point.y, point.z])
-	), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(data.normals), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zoneWeights(data.zones)), 4));
+	geometry.setAttribute('position', attribute(data.vertices.flatMap(point => [point.x, point.y, point.z]), 3));
+	geometry.setAttribute('normal', attribute(data.normals, 3));
+	geometry.setAttribute('uv', attribute(data.uvs, 2));
+	geometry.setAttribute('zone', attribute(data.zones.flatMap((zone, index) => {
+		return zoneWeight(zone, data.roadMasks?.[index] || 0);
+	}), 4));
 	geometry.setIndex(new BufferAttribute(indexArray(data.indices), 1));
 	const material = createTerrainMaterial({
-		dirtImage,
+		dirtImage: pathImage,
 		fallbackUrl,
 		grassImage,
 		quality,
 		size: data.size
 	});
-	material.visible = true;
-	material.transparent = false;
-	material.opacity = 1;
 	const mesh = new Mesh(geometry, material);
-	mesh.name = 'Awtsmoos_canonical_alpine_valley_terrain';
-	mesh.visible = true;
+	mesh.name = 'Awtsmoos_high_detail_bezier_road_terrain';
 	mesh.frustumCulled = false;
 	mesh.userData.AwtsmoosTerrainValley = {
 		...data.AwtsmoosTerrainValley,
 		indexCount: data.indices.length,
 		layerCount: material.textureLayers.length,
+		roadMaskMaximum: Math.max(0, ...(data.roadMasks || [])),
+		roadMaskTransport: 'ecological-zone-y',
 		shader: material.texturePolicy.shader,
-		visibleAtBoot: true,
 		vertexCount: data.vertices.length
 	};
 	mesh.setBaseTransform();
 	return mesh;
 }
 
-function zoneWeights(zones = []) {
-	return zones.flatMap(zoneToWeight);
+function zoneWeight(zone, rawRoad) {
+	const road = Math.max(0, Math.min(1, Number(rawRoad) || 0));
+	if (road > 0) return [0.28 * (1 - road), road, 0, 0.02];
+	if (zone === 'meadow-dry-grass') return [0.72, 0, 0.18, 0.1];
+	if (zone === 'river-bank') return [0.2, 0, 0.78, 0.02];
+	if (zone === 'village-terrace') return [0.72, 0, 0.04, 0.24];
+	if (zone === 'alpine-rock') return [0.08, 0, 0.02, 0.9];
+	return [0.94, 0, 0.04, 0.02];
 }
 
-function zoneToWeight(zone) {
-	if (zone === 'village-plaza') return [1, 0, 0, 0.45];
-	if (zone === 'lake-basin') return [0.05, 0.72, 0.23, 0];
-	if (zone === 'stream-channel') return [0.05, 0.72, 0.23, 0];
-	if (zone === 'river-bank') return [0.22, 0.43, 0.35, 0];
-	if (zone === 'village-terrace') return [0.48, 0.12, 0.1, 0.3];
-	if (zone === 'alpine-rock') return [0.12, 0.05, 0.08, 0.75];
-	return [0.82, 0.04, 0.12, 0.02];
+function attribute(values, itemSize) {
+	return new BufferAttribute(new Float32Array(values), itemSize);
 }
 
 function indexArray(indices) {
-	return dataMaximum(indices) > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
-}
-
-function dataMaximum(indices) {
-	let maximum = 0;
-	for (const index of indices) maximum = Math.max(maximum, index);
-	return maximum;
+	return Math.max(0, ...indices) > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
 }

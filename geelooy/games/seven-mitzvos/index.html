@@ -6,107 +6,15 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#071321">
-	<meta name="description" content="Seven living regions, seven games, a campaign, a society builder, and clear learning for the Seven Mitzvos of Bnei Noach.">
-	<title>Seven Mitzvos · Seven Worlds</title>
+	<meta name="theme-color" content="#040913">
+	<meta name="description" content="Seven Mitzvos, seven real 3D games, one no-scroll mobile world on Awtsmoos.com.">
+	<title>Seven Mitzvos · Seven 3D Worlds</title>
 	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
-	<link rel="stylesheet" href="./styles/index.css" data-components="tokens.css foundation.css typography.css hero-navigation.css hero-shell.css hero-actions.css hero-disclosure.css hero-seven.css landscape.css components.css living-world.css living-world-regions.css universe.css game.css game-board.css game-motion.css builder-shell.css builder-hud.css builder-status.css builder-grid.css builder-controls.css builder-ledger.css builder-motion.css cards.css dialog.css">
+	<link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
-	<div class="livingWorld" aria-hidden="true">
-		<canvas id="landscapeCanvas"></canvas>
-		<div class="sunVeil"></div>
-		<div class="grainVeil"></div>
-		<div class="edgeVeil"></div>
-	</div>
-	<header class="heroSection">
-		<nav class="topBar" aria-label="Page navigation">
-			<a class="backLink" href="../">← Awtsmoos Games</a>
-			<span class="worldMark">B"H · One humanity, seven foundations</span>
-		</nav>
-		<div class="heroContent">
-			<p class="eyebrow">Seven living regions · Seven exact mitzvos</p>
-			<h1>Learn every foundation.<br><em>Enter every world.</em></h1>
-			<p class="heroLead">Govern a persistent civic world shaped by households, markets, ecology, courts, travel, and remembered choices.</p>
-			<div class="heroActionStack">
-				<a class="primaryAction heroPrimary" href="#livingWorldMount">Govern the seven regions</a>
-				<div class="heroDisclosureGroup">
-					<details class="heroDisclosure heroExplore">
-						<summary>More ways to explore <span>4</span></summary>
-						<div class="secondaryActionGrid">
-							<a class="primaryAction" href="#campaignMount" aria-label="Open the Seven Provinces">Seven Provinces</a>
-							<a class="primaryAction" href="#sevenWorlds">Seven games</a>
-							<button id="beginGame" class="primaryAction" type="button">Guard the World</button>
-							<button id="beginBuilder" class="primaryAction builderLaunch" type="button">Build the Covenant</button>
-						</div>
-					</details>
-					<details class="heroDisclosure heroReference">
-						<summary>View the seven mitzvos <span>7</span></summary>
-						<ol class="heroMitzvahStrip" aria-label="The Seven Mitzvos of Bnei Noach">
-							<li>Do not worship idols</li>
-							<li>Do not blaspheme</li>
-							<li>Do not murder</li>
-							<li>Do not engage in forbidden relationships</li>
-							<li>Do not steal</li>
-							<li>Do not eat flesh taken from a living animal</li>
-							<li>Establish courts of justice</li>
-						</ol>
-					</details>
-				</div>
-			</div>
-		</div>
-	</header>
-	<main>
-		<div id="livingWorldMount"></div>
-		<div id="campaignMount"></div>
-		<div id="universeMount"></div>
-		<section id="gameSection" class="gameSection contentPanel" aria-labelledby="gameTitle">
-			<header class="gameHeader">
-				<div><p class="sectionNumber">02 · Recognize all seven</p><h2 id="gameTitle">Guard the World</h2></div>
-				<p>Choose with touch, mouse, or keys 1–3. Fast correct answers build larger combos.</p>
-			</header>
-			<div class="gameStats" aria-label="Game status">
-				<div class="gameStat"><span>Score</span><strong id="gameScore">0</strong></div>
-				<div class="gameStat"><span>Combo</span><strong id="gameStreak">×1</strong></div>
-				<div class="gameStat"><span>Round</span><strong id="gameRound">1 / 12</strong></div>
-				<div class="gameStat"><span>Best</span><strong id="gameBest">0</strong></div>
-			</div>
-			<div class="meterRow" aria-hidden="true">
-				<div class="meter"><span id="lightFill" style="width: 50%"></span></div>
-				<div class="meter"><span id="roundFill"></span></div>
-			</div>
-			<div id="gameBoard" class="gameBoard">
-				<div class="timeTrack" aria-hidden="true"><span id="timeFill"></span></div>
-				<p id="gamePrompt" class="gamePrompt">Press start. Twelve moments are waiting for protection.</p>
-				<div id="answerGrid" class="answerGrid"></div>
-				<p id="gameFeedback" class="gameFeedback" aria-live="polite">Every round includes all seven foundations.</p>
-			</div>
-			<div class="gameFooter">
-				<button id="startGame" class="primaryAction" type="button">Start round</button>
-				<p>No lives, no waiting—just recognition, streaks, and replay.</p>
-			</div>
-		</section>
-		<div id="builderMount"></div>
-		<section id="mitzvos" class="mitzvosSection">
-			<header class="sectionHeader">
-				<p class="sectionNumber">04 · Learn clearly</p>
-				<h2>The Seven Mitzvos of Bnei Noach</h2>
-				<p>Every card states the commandment, its meaning, and its positive work in daily life.</p>
-			</header>
-			<div id="mitzvahGrid" class="mitzvahGrid" aria-live="polite"></div>
-		</section>
-	</main>
-	<dialog id="mitzvahDialog" class="mitzvahDialog" aria-labelledby="dialogTitle">
-		<button id="closeDialog" class="dialogClose" type="button" aria-label="Close details">×</button>
-		<p id="dialogNumber" class="dialogNumber"></p>
-		<div id="dialogSymbol" class="dialogSymbol" aria-hidden="true"></div>
-		<h2 id="dialogTitle"></h2>
-		<p id="dialogSummary" class="dialogSummary"></p>
-		<div class="dialogDivider"></div>
-		<h3>The positive work</h3>
-		<p id="dialogPractice"></p>
-	</dialog>
-	<footer><span>B"H</span><p>Seven living regions, seven games, and one clear learning path on Awtsmoos.com.</p></footer>
+	<div id="sevenMitzvosApp"></div>
+	<noscript>This Awtsmoos.com game needs JavaScript to reveal its seven interactive worlds.</noscript>
 	<script type="module" src="./js/main.js"></script>
 </body>
 </html>

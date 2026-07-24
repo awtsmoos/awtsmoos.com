@@ -4,20 +4,30 @@
 
 /**
  * @file worldTargetCoordinator.test.mjs
- * @description Proves nearest-hit arbitration and compatibility-gated listener ownership.
- * The Awtsmoos renews many candidates within one click; Awtsmoos.com verifies that one selected
- * vessel receives the action while every competing population releases its previous selection.
+ * @description Proves one coordinator preserves modern and actor-array targeting contracts.
+ * The Awtsmoos renews every candidate beneath one choice; Awtsmoos.com verifies nearest modern
+ * ownership, safe incompatibility, legacy selection, dialogue, and listener destruction together.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { WorldTargetCoordinator } from '../../ui/WorldTargetCoordinator.js';
+import {
+	fakeCanvas,
+	fakeEvent,
+	fakeModernPopulation,
+	legacyActor
+} from '../support/WorldTargetCoordinatorTestDoubles.mjs';
 
 test('nearest compatible population owns the pointer action', () => {
 	const canvas = fakeCanvas();
-	const friendly = fakePopulation(8);
-	const hostile = fakePopulation(3);
-	const coordinator = new WorldTargetCoordinator({ canvas, friendlyNpcs: friendly, hostileNpcs: hostile });
+	const friendly = fakeModernPopulation(8);
+	const hostile = fakeModernPopulation(3);
+	const coordinator = new WorldTargetCoordinator({
+		canvas,
+		friendlyNpcs: friendly,
+		hostileNpcs: hostile
+	});
 	const event = fakeEvent();
 	canvas.listeners.pointerdown(event);
 	assert.equal(hostile.activations, 1);
@@ -28,7 +38,7 @@ test('nearest compatible population owns the pointer action', () => {
 	assert.equal(canvas.removed, true);
 });
 
-test('legacy population contracts keep shared listener disabled', () => {
+test('incompatible population contracts keep the listener disabled', () => {
 	const canvas = fakeCanvas();
 	const coordinator = new WorldTargetCoordinator({
 		canvas,
@@ -39,33 +49,33 @@ test('legacy population contracts keep shared listener disabled', () => {
 	assert.equal(canvas.listeners.pointerdown, undefined);
 });
 
-function fakePopulation(distance) {
-	return {
-		activations: 0,
-		clears: 0,
-		activateCandidate() { this.activations += 1; },
-		candidateFromPointer() { return { distance, population: this }; },
-		clearAll() { this.clears += 1; }
-	};
-}
+test('actor-array populations share one listener and preserve selection', () => {
+	const canvas = fakeCanvas();
+	const friendly = legacyActor('friendly', false, true);
+	const hostile = legacyActor('hostile', true);
+	const coordinator = new WorldTargetCoordinator({
+		canvas,
+		populations: [
+			{ actors: [friendly] },
+			{ actors: [hostile] }
+		]
+	});
+	canvas.listeners.pointerdown(fakeEvent());
+	assert.equal(hostile.targetCount, 1);
+	assert.equal(hostile.selected, true);
+	assert.equal(friendly.selected, false);
+	coordinator.destroy();
+	assert.equal(canvas.removed, true);
+});
 
-function fakeCanvas() {
-	return {
-		listeners: {},
-		removed: false,
-		addEventListener(type, listener) { this.listeners[type] = listener; },
-		removeEventListener(type, listener) {
-			this.removed = this.listeners[type] === listener;
-			delete this.listeners[type];
-		}
-	};
-}
-
-function fakeEvent() {
-	return {
-		prevented: false,
-		preventDefault() { this.prevented = true; },
-		stopImmediatePropagation() {},
-		stopPropagation() {}
-	};
-}
+test('a second click opens dialogue for an already selected actor', () => {
+	const friendly = legacyActor('friendly', true, true);
+	const coordinator = new WorldTargetCoordinator({
+		canvas: fakeCanvas(),
+		populations: [{ actors: [friendly] }]
+	});
+	coordinator.selectFromPointer(fakeEvent());
+	coordinator.selectFromPointer(fakeEvent());
+	assert.equal(friendly.targetCount, 1);
+	assert.equal(friendly.dialogueCount, 1);
+});

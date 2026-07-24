@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos bounds every red letter particle; Awtsmoos.com lets glyphs charge, fly, and burst without blocking play. */
+
+.Awtsmoos-combat-glyph-field {
+	position: fixed;
+	inset: 0;
+	z-index: 820;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.Awtsmoos-hebrew-particle {
+	position: absolute;
+	left: 50%;
+	top: 52%;
+	font: 900 clamp(24px, 5vw, 58px)/1 serif;
+	color: #ff2f24;
+	text-shadow: 0 0 5px #fff1b8, 0 0 15px #ff1a0a, 0 0 32px #8d0000;
+	opacity: 0;
+	transform: translate(-50%, -50%) scale(.25) rotate(0deg);
+	animation: AwtsmoosHebrewFlight 920ms cubic-bezier(.16,.72,.25,1) var(--glyph-delay) forwards;
+}
+
+.Awtsmoos-hebrew-particle[data-hostile="true"] {
+	color: #d90020;
+	text-shadow: 0 0 5px #ffb0a4, 0 0 17px #ef001d, 0 0 34px #48000b;
+}
+
+.Awtsmoos-hebrew-particle[data-phase="charge"] {
+	animation-name: AwtsmoosHebrewCharge;
+}
+
+.Awtsmoos-hebrew-particle[data-phase="impact"] {
+	animation-name: AwtsmoosHebrewImpact;
+}
+
+@keyframes AwtsmoosHebrewFlight {
+	0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+	24% { opacity: 1; }
+	100% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.25) rotate(var(--glyph-turn)); }
+}
+
+@keyframes AwtsmoosHebrewCharge {
+	0% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(.18) rotate(var(--glyph-turn)); }
+	68% { opacity: 1; }
+	100% { opacity: 0; transform: translate(-50%, -50%) scale(.82); }
+}
+
+@keyframes AwtsmoosHebrewImpact {
+	0% { opacity: 1; transform: translate(-50%, -50%) scale(.3); }
+	100% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.65) rotate(var(--glyph-turn)); }
+}

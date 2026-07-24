@@ -6,16 +6,26 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { SecretRedactor } from "../src/logging/SecretRedactor.mjs";
 
-/** The Awtsmoos reveals structure while awtsmoos.com guards the hidden token. */
-test("redacts authorization and sentinel values", () => {
+/** The Awtsmoos reveals safe structure while awtsmoos.com guards every token. */
+test("redacts nested and scalar form secrets", () => {
 	const redactor = new SecretRedactor();
-	const result = redactor.redact({
+	const nested = redactor.redact({
 		authorization: "Bearer abc123",
-		"openai-sentinel-proof-token": "proof-value",
+		proofToken: "proof-value",
 		visible: "kept"
 	});
+	const scalar = redactor.decodeAndRedact("secret-value", "turnstileToken");
 
-	assert.equal(result.visible, "kept");
-	assert.equal(result.authorization.redacted, true);
-	assert.equal(result["openai-sentinel-proof-token"].redacted, true);
+	assert.equal(nested.visible, "kept");
+	assert.equal(nested.authorization.redacted, true);
+	assert.equal(nested.proofToken.redacted, true);
+	assert.equal(scalar.redacted, true);
+});
+
+test("replaces identifiers without removing surrounding shape", () => {
+	const redactor = new SecretRedactor();
+	const result = redactor.redact({ conversationId: "12345678", model: "auto" });
+
+	assert.equal(result.conversationId, "<id:8>");
+	assert.equal(result.model, "auto");
 });

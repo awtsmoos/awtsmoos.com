@@ -9,7 +9,7 @@
  * Awtsmoos.com preserves the renderer contract through one tiny shader and shared cube buffer.
  */
 
-import { BootstrapColorRenderer } from './BootstrapColorRenderer.js';
+import { BootstrapColorRenderer } from './BootstrapColorRenderer.js?v=20260723-meadow-07';
 import {
 	createProgressiveEnvironment,
 	createProgressiveStats

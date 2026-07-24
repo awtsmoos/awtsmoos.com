@@ -7,22 +7,57 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#07140b">
-	<title>B&quot;H Mitzvah World — Shared Meadow</title>
-	<link rel="stylesheet" href="./styles/mitzvah-world-menu-shell.css?v=20260723-meadow-05">
+	<title>B&quot;H Mitzvah World — Houses and Shlichus</title>
+	<link rel="stylesheet" href="./styles/mitzvah-world-menu-shell.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-loading.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-inventory.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-status.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-panels.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-responsive.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-meadow-hud.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-meadow-menu.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-combat.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-game-rail.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-mobile.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-glyphs.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-houses.css?v=20260724-meadow-17">
+	<link rel="stylesheet" href="./styles/mitzvah-world-quest.css?v=20260724-meadow-17">
 </head>
 <body>
-	<div id="menuBoot" class="Awtsmoos-menu-boot" role="status">
-		<strong>B&quot;H</strong>
-		<span>Opening the shared meadow…</span>
+	<div id="menuBoot" class="Awtsmoos-menu-boot" role="status" aria-live="polite">
+		<section class="Awtsmoos-loading-card">
+			<p class="Awtsmoos-loading-kicker">B&quot;H · Mitzvah World</p>
+			<h1>Opening houses and shlichus</h1>
+			<p id="loadingMessage">Loading brick, timber, rooms, doors, and mezuzahs…</p>
+			<div class="Awtsmoos-progress-group">
+				<div class="Awtsmoos-progress-heading"><span>World systems</span><output id="worldProgressValue">0%</output></div>
+				<progress id="worldProgress" max="100" value="0"></progress>
+			</div>
+			<div class="Awtsmoos-progress-group">
+				<div class="Awtsmoos-progress-heading"><span>Chossid model</span><output id="modelProgressValue">0%</output></div>
+				<progress id="modelProgress" max="100" value="0"></progress>
+				<small id="modelProgressDetail">Waiting for six skins, parchment quest, corpses, and loot…</small>
+			</div>
+		</section>
 	</div>
-	<canvas id="AwtsmoosCanvas" aria-label="Mitzvah World shared meadow"></canvas>
+	<canvas id="AwtsmoosCanvas" aria-label="Mitzvah World houses and shlichus meadow"></canvas>
 	<div id="hud" role="status"></div>
-	<div id="npcTarget"></div>
+	<section id="playerHudShell" class="Awtsmoos-player-hud-shell">
+		<button type="button" data-retract-toggle aria-label="Retract player HUD">−</button>
+		<div id="npcTarget"></div>
+	</section>
+	<div id="combatTarget" data-visible="false"></div>
 	<div id="npcDialogue"></div>
-	<div id="joy"></div>
-	<div id="jump"></div>
+	<section id="mobileControls" class="Awtsmoos-mobile-shell">
+		<button type="button" data-retract-toggle aria-label="Retract mobile controls">−</button>
+		<div id="joy"></div>
+		<button id="jump" type="button" aria-label="Jump or double jump">↑</button>
+	</section>
 	<div id="actions"></div>
+	<div id="gameRail"></div>
+	<div id="combatFx" hidden></div>
 	<div id="inventory"></div>
-	<script type="module" src="./experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js?v=20260723-meadow-05"></script>
+	<div id="meadowMenu"></div>
+	<script type="module" src="./experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js?v=20260724-meadow-17"></script>
 </body>
 </html>

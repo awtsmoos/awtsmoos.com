@@ -4,163 +4,94 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Opens one meadow, one Chossid, one octree, and one yielding movement loop directly.
- * The Awtsmoos reveals readiness before recurring motion; Awtsmoos.com keeps the page responsive
- * while only camera, renderer, collision, input, one model, and realtime enter the shared field.
+ * @description Composes meadow, houses, Chossid, six demons, quest giver, combat, UI, and touch.
+ * The Awtsmoos gathers proven sparks without reviving the abandoned heavy world;
+ * Awtsmoos.com keeps renderer, home, creature, quest, loot, jump, target, and UI ownership explicit.
  */
 
-import { Group, PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
-import { installBootstrapControlsHud } from './BootstrapControlsHud.js';
-import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-meadow-04';
-import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js?v=20260723-meadow-04';
-import { createMinimalMeadowCollision } from './MinimalMeadowCollision.js?v=20260723-meadow-04';
-import { MinimalMeadowInput } from './MinimalMeadowInput.js?v=20260723-meadow-04';
-import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js?v=20260723-meadow-04';
-import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js?v=20260723-meadow-04';
-import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js?v=20260723-meadow-04';
+import { Group, Scene } from '../../../light-three-gltf/tiny-runtime.js';
+import { MobileJoystick } from '../input/MobileJoystick.js?v=20260724-meadow-13';
+import { installBootstrapControlsHud } from './BootstrapControlsHud.js?v=20260723-meadow-10';
+import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260724-meadow-13';
+import { MinimalMeadowCameraRig } from './MinimalMeadowCameraRig.js?v=20260723-meadow-09';
+import { createMinimalMeadowCollision } from './MinimalMeadowCollision.js?v=20260723-meadow-09';
+import { MinimalMeadowInput } from './MinimalMeadowInput.js?v=20260724-meadow-13';
+import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js?v=20260724-meadow-17';
+import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js?v=20260723-meadow-07';
+import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js?v=20260723-meadow-11';
 import {
-	markRuntimePlayable,
-	markRuntimeStarting
-} from './RuntimeStateMarker.js?v=20260723-meadow-03';
+	createMinimalBootReceipt,
+	createMinimalCamera,
+	createMinimalDiagnostics,
+	createMinimalQuality,
+	disposeMinimalRuntime,
+	installMinimalResize,
+	renderMinimalFirstFrame
+} from './MinimalMeadowRuntimeSupport.js?v=20260723-meadow-09';
+import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js?v=20260723-meadow-10';
+import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js?v=20260724-meadow-14';
+import { installMinimalMeadowUi } from './MinimalMeadowUi.js?v=20260724-meadow-17';
+import {
+	destroyMinimalMeadowWorldSystems,
+	installMinimalMeadowWorldSystems
+} from './MinimalMeadowWorldSystems.js?v=20260724-meadow-17';
+import { markRuntimePlayable, markRuntimeStarting } from './RuntimeStateMarker.js?v=20260723-meadow-03';
 
 export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	const documentValue = environment.document;
-	const boot = createBootReceipt(environment);
+	const boot = createMinimalBootReceipt(environment);
 	markRuntimeStarting(documentValue);
-	boot.begin('minimal-meadow-services');
-	const qualityProfile = createQualityProfile(environment);
+	boot.begin('meadow-and-house-materials');
+	const terrain = await createMinimalMeadowTerrainPackage({ ...options, environment });
 	const scene = new Scene();
-	const camera = createCamera(environment);
+	scene.add(terrain.group);
+	const qualityProfile = createMinimalQuality(environment);
+	const camera = createMinimalCamera(environment);
 	const renderer = createMinimalMeadowRenderer(hosts.canvas);
-	installResize(renderer, camera, qualityProfile, environment);
-	const input = new MinimalMeadowInput(environment, hosts.jumpHost);
-	const collision = createMinimalMeadowCollision();
-	scene.add(createBootstrapVisibleWorld());
-	boot.begin('minimal-meadow-player');
+	const removeResize = installMinimalResize(renderer, camera, qualityProfile, environment);
+	const joystick = new MobileJoystick(hosts.joystickHost);
+	const input = new MinimalMeadowInput(environment, hosts.jumpHost, joystick);
+	const collision = createMinimalMeadowCollision(terrain);
 	const runtime = createBootstrapPlayerRuntime({
 		...hosts,
 		...collision,
-		assets: createAssetReceipt(),
+		assets: { actorAssets: { strategy: 'fallback-then-one-glb' } },
 		camera,
 		input,
-		joystick: null,
-		jumpButton: null,
+		joystick,
+		jumpButton: hosts.jumpHost,
 		playerGltf: { animations: [], scene: new Group() },
 		qualityProfile,
 		renderer,
 		scene,
-		terrain: createTerrainReceipt(collision.collisionTriangles)
+		terrain
 	});
-	runtime.canonicalPlayer = { status: 'loading' };
-	runtime.districtStreaming = null;
-	runtime.worldMode = 'minimal-meadow';
+	initializeMinimalMeadowRuntime(runtime, hosts, documentValue);
+	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
+	installMinimalMeadowUi(runtime, documentValue, environment);
+	boot.begin('houses-six-demons-quest-corpses-loot');
+	await installMinimalMeadowWorldSystems(runtime, environment);
 	installBootstrapControlsHud(runtime, documentValue);
-	renderFirstFrame(runtime);
+	renderMinimalFirstFrame(runtime);
 	boot.complete();
-	const diagnostics = createDiagnostics(runtime, qualityProfile, boot);
-	environment.AwtsmoosBootError = null;
-	environment.AwtsmoosDiagnostics = diagnostics;
+	const diagnostics = createMinimalDiagnostics(runtime, qualityProfile, boot);
+	environment.AwtsmoosMitzvahWorld = diagnostics;
 	markRuntimePlayable(diagnostics, documentValue);
-	if (options.startLoop !== false) {
-		runtime.movement = startMinimalMeadowLoop(runtime, environment);
-		diagnostics.movement = runtime.movement;
-	}
-	runtime.dispose = () => disposeRuntime(runtime, input);
+	if (options.startLoop !== false) startLoop(runtime, diagnostics, environment);
+	runtime.dispose = () => disposeRuntime(runtime, input, removeResize);
 	diagnostics.canonicalPlayerPromise = hydrateMinimalMeadowPlayer(runtime, environment);
 	return diagnostics;
 }
 
-function createCamera(environment) {
-	const width = Math.max(1, Number(environment.innerWidth) || 1);
-	const height = Math.max(1, Number(environment.innerHeight) || 1);
-	return new PerspectiveCamera(58, width / height, 0.08, 1200);
+function startLoop(runtime, diagnostics, environment) {
+	runtime.movement = startMinimalMeadowLoop(runtime, environment);
+	diagnostics.movement = runtime.movement;
 }
 
-function createQualityProfile(environment) {
-	return {
-		maxDpr: Math.min(1.5, Number(environment.devicePixelRatio) || 1),
-		renderDistance: 500
-	};
-}
-
-function installResize(renderer, camera, quality, environment) {
-	const resize = () => {
-		const width = Math.max(1, Number(environment.innerWidth) || 1);
-		const height = Math.max(1, Number(environment.innerHeight) || 1);
-		camera.aspect = width / height;
-		renderer.setSize(
-			Math.round(width * quality.maxDpr),
-			Math.round(height * quality.maxDpr)
-		);
-	};
-	environment.addEventListener?.('resize', resize, { passive: true });
-	resize();
-}
-
-function renderFirstFrame(runtime) {
-	runtime.camera.position.set(0, 4.2, -7);
-	runtime.camera.target = [0, 1.25, 0];
-	runtime.renderer.setInteractor?.(runtime.state);
-	runtime.renderer.render(runtime.scene, runtime.camera);
-	runtime.bootstrapHud?.refresh?.();
-}
-
-function createDiagnostics(runtime, qualityProfile, boot) {
-	return {
-		boot: boot.snapshot(),
-		movement: null,
-		qualityProfile,
-		runtime,
-		snapshot() {
-			return {
-				boot: boot.snapshot(),
-				movement: runtime.movement?.snapshot?.() || null,
-				position: { ...runtime.state },
-				renderer: { ...runtime.renderer.stats },
-				worldMode: runtime.worldMode
-			};
-		}
-	};
-}
-
-function createTerrainReceipt(collisionTriangles) {
-	return {
-		stats: {
-			collisionTriangles,
-			districts: 0,
-			visualMode: 'minimal-shared-meadow'
-		}
-	};
-}
-
-function createAssetReceipt() {
-	return {
-		actorAssets: { strategy: 'fallback-then-one-glb' },
-		importedModelMaterials: {}
-	};
-}
-
-function createBootReceipt(environment) {
-	const phases = [];
-	return {
-		begin(name) {
-			phases.push({ at: environment.performance?.now?.() || Date.now(), name });
-		},
-		complete() {
-			phases.push({ at: environment.performance?.now?.() || Date.now(), name: 'ready' });
-		},
-		snapshot() {
-			return { current: phases.at(-1)?.name || 'created', phases: [...phases] };
-		}
-	};
-}
-
-function disposeRuntime(runtime, input) {
-	runtime.movement?.stop?.();
-	runtime.multiplayerBridge?.stop?.();
-	runtime.renderer?.dispose?.();
-	input.dispose();
+function disposeRuntime(runtime, input, removeResize) {
+	destroyMinimalMeadowWorldSystems(runtime);
+	disposeMinimalRuntime(runtime, input, removeResize);
 }
 
 export default createMinimalMeadowRuntime;

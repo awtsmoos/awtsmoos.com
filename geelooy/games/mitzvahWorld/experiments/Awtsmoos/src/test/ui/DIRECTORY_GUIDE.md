@@ -1,0 +1,71 @@
+# B"H
+
+Boruch Hashem
+Blessed is He
+
+# Directory Guide: `experiments/Awtsmoos/src/test/ui`
+
+> **Role:** Tests
+> **Snapshot:** 2026-07-23T23:32:30.660Z
+> **Snapshot contents (excluding this generated guide):** 2 files, 0 structural child directories
+
+## Purpose
+
+Tests for UI coordinators and browser presentation contracts.
+
+The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+
+## Find things here
+
+- **Category:** Tests
+- **Search terms:** `hud`, `which`, `accidental`, `Awtsmoos`, `begin`, `collision`, `com`, `compactness`, `contract`, `css`, `defaults`, `deliberate`
+- **File mix:** .md: 1 · .mjs: 1
+- **Good first question:** “Does the behavior or asset I need belong to tests, or is this only a neighboring/test/reference layer?”
+
+## Semantic evidence
+
+- B"H
+- Proves the major HUD surfaces receive deliberate desktop and mobile defaults. The Awtsmoos shines through every finite panel; Awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental CSS collision.
+
+## Representative files
+
+- `hudLayoutRegistry.test.mjs` — Proves the major HUD surfaces receive deliberate desktop and mobile defaults. The Awtsmoos shines through every finite panel; Awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental CSS collision. Covers: “registry covers every major always-visible HUD surface”, “secondary surfaces begin folded while core status remains visible”, “registry records are immutable”.
+
+## Import neighborhood
+
+These import targets were observed in immediate source files and help reveal adjacent ownership:
+
+- `node:assert/strict`
+- `node:test`
+- `../../ui/HudLayoutRegistry.js`
+
+## Test themes
+
+- registry covers every major always-visible HUD surface
+- secondary surfaces begin folded while core status remains visible
+- registry records are immutable
+
+## Directory map
+
+- **Parent:** [`experiments/Awtsmoos/src/test`](../DIRECTORY_GUIDE.md)
+- **Children:** None.
+
+## Related and overlapping systems
+
+- [**Colocated and integration test surfaces**](../../../../../SYSTEM_OVERLAP_MAP.md#testing-surfaces) — Most subsystem tests live under `src/test`, while a smaller external `tests` tree exercises broader integration contracts.
+
+## Boundaries and cautions
+
+- This directory verifies behavior; it should not become the production owner of that behavior.
+- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
+- Read current imports, callers, tests, and runtime receipts before changing behavior.
+- This documentation pass intentionally changes no gameplay or source logic.
+
+## Navigation
+
+- [Project directory index](../../../../../DIRECTORY_INDEX.md)
+- [System overlap map](../../../../../SYSTEM_OVERLAP_MAP.md)
+
+---
+
+*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*

@@ -4,31 +4,34 @@
 
 /**
  * @file MinimalMeadowLoop.js
- * @description Advances one player and draws one meadow on one browser animation frame.
- * The Awtsmoos renews motion without an inherited scheduler kingdom; Awtsmoos.com yields the
- * main thread after every finite frame so input, realtime, diagnostics, and the page remain alive.
+ * @description Advances player, houses, doors, six demons, quests, both combats, camera, UI, and draw.
+ * The Awtsmoos renews traveler, dwelling, neighbor, creature, spell, loot, earth, and sky;
+ * Awtsmoos.com prevents stale doors, stale bones, stale quest truth, or stale atmosphere at render.
  */
 
-import { BootstrapMovementController } from './BootstrapMovementController.js?v=20260723-meadow-04';
+import { BootstrapMovementController } from './BootstrapMovementController.js?v=20260724-meadow-13';
+import { updateMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js?v=20260724-meadow-13';
+import { updateMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js?v=20260724-meadow-17';
 
 export function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
 	let frameId = null;
 	let lastTime = environment.performance?.now?.() || Date.now();
 	let running = true;
-
 	const frame = timeValue => {
 		if (!running) return;
 		const now = Number(timeValue) || Date.now();
 		const deltaSeconds = Math.min(0.05, Math.max(0, (now - lastTime) / 1000));
 		lastTime = now;
 		movement.update(deltaSeconds);
+		updateMinimalMeadowAnimation(runtime, deltaSeconds);
+		updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
 		runtime.renderer.setInteractor?.(runtime.state);
 		runtime.renderer.render(runtime.scene, runtime.camera);
+		runtime.ui?.refresh?.();
 		runtime.bootstrapHud?.refresh?.();
 		frameId = environment.requestAnimationFrame(frame);
 	};
-
 	frameId = environment.requestAnimationFrame(frame);
 	return {
 		controller: movement,

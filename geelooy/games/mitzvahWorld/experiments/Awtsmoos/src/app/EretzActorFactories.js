@@ -13,13 +13,13 @@
 
 import { AwtsmoosCollisionMover } from '../collision/AwtsmoosCollisionMover.js';
 import { JumpPhysics } from '../motion/JumpPhysics.js';
+import { WorldTargetCoordinator } from '../ui/WorldTargetCoordinator.js';
 import { DynamicDoor3D } from '../world/DynamicDoor3D.js';
 import { tallDoorDef } from '../world/DoorwaySpecs.js';
 import { HostileNpcPopulation } from '../world/enemy/HostileNpcPopulation.js?v=20260721-spatial-targeting-01';
 import { HorseHerdSystem } from '../world/horses/HorseHerdSystem.js';
 import { allHouseDoorDefs } from '../world/House3D.js';
 import { FriendlyNpcPopulation } from '../world/npc/FriendlyNpcPopulation.js';
-import { WorldTargetCoordinator } from '../world/targeting/WorldTargetCoordinator.js';
 import {
 	MAX_SLOPE_NORMAL,
 	PLAYER_HEIGHT,
@@ -78,7 +78,11 @@ export function createEretzHostilePopulation(foundation) {
 	return population;
 }
 
-export function createEretzTargetCoordinator(foundation, friendlyNpcs, hostileNpcs) {
+export function createEretzTargetCoordinator(
+	foundation,
+	friendlyNpcs,
+	hostileNpcs
+) {
 	return new WorldTargetCoordinator({
 		canvas: foundation.canvas,
 		populations: [friendlyNpcs, hostileNpcs]

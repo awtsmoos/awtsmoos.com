@@ -3,32 +3,21 @@
 /*Blessed is He*/
 
 /**
- * The visible garments of Seven Mitzvos gather through one ordered gateway on
- * Awtsmoos.com. The Awtsmoos unifies every style while each finite stylesheet
- * preserves a focused responsibility and independently testable boundary.
+ * The Awtsmoos renews every visual vessel from nothing each instant. This
+ * Awtsmoos.com index reveals small focused style worlds for one fixed game shell,
+ * now including contained encouragement without restoring vertical stacking.
  */
-@import url('./tokens.css');
-@import url('./foundation.css');
-@import url('./typography.css');
-@import url('./hero-navigation.css');
-@import url('./hero-shell.css');
-@import url('./hero-actions.css');
-@import url('./hero-disclosure.css');
-@import url('./hero-seven.css');
-@import url('./landscape.css');
-@import url('./components.css');
-@import url('./living-world.css');
-@import url('./living-world-regions.css');
-@import url('./universe.css');
-@import url('./game.css');
-@import url('./game-board.css');
-@import url('./game-motion.css');
-@import url('./builder-shell.css');
-@import url('./builder-hud.css');
-@import url('./builder-status.css');
-@import url('./builder-grid.css');
-@import url('./builder-controls.css');
-@import url('./builder-ledger.css');
-@import url('./builder-motion.css');
-@import url('./cards.css');
-@import url('./dialog.css');
+@import url('./viewport-shell.css');
+@import url('./shell-controls.css');
+@import url('./mitzvah-grid-3d.css');
+@import url('./detail-panel-3d.css');
+@import url('./detail-content-3d.css');
+@import url('./game-shell-3d.css');
+@import url('./game-hud-3d.css');
+@import url('./game-controls-3d.css');
+@import url('./game-result-3d.css');
+@import url('./game-feedback.css');
+@import url('./mobile-controls.css');
+@import url('./mobile-game.css');
+@import url('./mobile-landscape.css');
+@import url('./reduced-motion.css');

@@ -4,13 +4,23 @@
 
 /**
  * @file BootstrapMovementController.js
- * @description Applies walk, run, jump, turning, camera follow, and capsule-octree movement.
- * The Awtsmoos joins intention to bounded place without severing the ground beneath it;
- * Awtsmoos.com carries every finite step through real collision before revealing position.
+ * @description Applies actor keys, camera touch, run, double jump, hills, and collision.
+ * The Awtsmoos joins intention to real earth; Awtsmoos.com preserves historic keyboard law
+ * while mobile forward follows sight and two bounded jumps return only after actual landing.
  */
 
-const GRAVITY = 20;
-const JUMP_SPEED = 7.4;
+import {
+	combineMeadowSteps,
+	meadowCameraMovementStep,
+	meadowMovementStep,
+	meadowTravelFacing,
+	normalizedMeadowIntent
+} from './MinimalMeadowControlMath.js?v=20260724-meadow-13';
+import {
+	finishMinimalMeadowVertical,
+	prepareMinimalMeadowVertical
+} from './MinimalMeadowJumpState.js?v=20260724-meadow-13';
+
 const RUN_SPEED = 7.2;
 const TURN_SPEED = 2.35;
 const WALK_SPEED = 4.2;
@@ -18,35 +28,41 @@ const WALK_SPEED = 4.2;
 export class BootstrapMovementController {
 	constructor(runtime) {
 		this.runtime = runtime;
-		this.frames = 0;
 		this.distance = 0;
-		this.lastIntent = { forward: 0, strafe: 0, turn: 0 };
+		this.frames = 0;
+		this.lastIntent = {};
 	}
 
 	update(deltaSeconds) {
 		const runtime = this.runtime;
 		const state = runtime.state;
-		const intent = normalizedIntent(runtime.input.axis());
-		state.runMode = runtime.input.runRequested();
-		updateJump(state, runtime.input.consumeJump(), deltaSeconds);
-		state.facing += intent.turn * TURN_SPEED * deltaSeconds;
+		const axis = runtime.input.axis();
+		const keyboard = normalizedMeadowIntent(axis);
+		const joystick = normalizedMeadowIntent({
+			forward: axis.joystickForward,
+			strafe: axis.joystickStrafe
+		});
+		const turnDelta = keyboard.turn * TURN_SPEED * deltaSeconds;
+		state.facing += turnDelta;
+		runtime.cameraRig.followTurn(turnDelta);
+		state.runMode = Boolean(runtime.runToggle || runtime.input.runRequested());
+		prepareMinimalMeadowVertical(runtime, state, deltaSeconds);
 		const speed = state.runMode ? RUN_SPEED : WALK_SPEED;
-		const sin = Math.sin(state.facing);
-		const cos = Math.cos(state.facing);
-		const step = {
-			x: (sin * intent.forward + cos * intent.strafe) * speed * deltaSeconds,
-			y: 0,
-			z: (cos * intent.forward - sin * intent.strafe) * speed * deltaSeconds
-		};
+		const keyStep = meadowMovementStep(state.facing, keyboard, speed, deltaSeconds);
+		const touchStep = meadowCameraMovementStep(runtime.camera, joystick, speed, deltaSeconds, state.facing);
+		const step = combineMeadowSteps(keyStep, touchStep);
 		moveThroughCollision(runtime, state, step);
-		state.moving = Math.hypot(intent.forward, intent.strafe) > 0.001;
+		finishMinimalMeadowVertical(runtime, state);
+		state.moving = Math.hypot(step.x, step.z) > 0.0001;
+		state.travelFacing = meadowTravelFacing(step, state.facing);
+		state.action = actionFor(state);
 		runtime.model.position.set(state.x, state.renderY, state.z);
-		setYaw(runtime.model.quaternion, state.facing);
-		updateCamera(runtime, state);
+		setYaw(runtime.model.quaternion, state.travelFacing);
+		runtime.cameraRig.update(runtime.camera, state, runtime.mainOctree, deltaSeconds);
 		runtime.multiplayerBridge?.update(deltaSeconds, state);
-		this.frames += 1;
 		this.distance += Math.hypot(step.x, step.z);
-		this.lastIntent = intent;
+		this.frames += 1;
+		this.lastIntent = { axis, joystick, keyboard };
 		return state;
 	}
 
@@ -54,66 +70,35 @@ export class BootstrapMovementController {
 		return {
 			distance: this.distance,
 			frames: this.frames,
-			intent: { ...this.lastIntent },
-			position: { x: this.runtime.state.x, y: this.runtime.state.y, z: this.runtime.state.z },
+			intent: this.lastIntent,
+			jumpsUsed: this.runtime.state.jumpsUsed,
+			position: positionReceipt(this.runtime.state),
 			runMode: this.runtime.state.runMode
 		};
 	}
 }
 
-function updateJump(state, requested, deltaSeconds) {
-	if (requested && state.grounded) {
-		state.grounded = false;
-		state.velY = JUMP_SPEED;
-		state.airPhase = 'rising';
-	}
-	if (state.grounded) {
-		state.renderY = 0;
-		state.y = 0;
-		state.velY = 0;
-		state.airPhase = 'ground';
-		return;
-	}
-	state.velY -= GRAVITY * deltaSeconds;
-	state.renderY += state.velY * deltaSeconds;
-	state.y = state.renderY;
-	state.airPhase = state.velY >= 0 ? 'rising' : 'falling';
-	if (state.renderY > 0) return;
-	state.renderY = 0;
-	state.y = 0;
-	state.velY = 0;
-	state.grounded = true;
-	state.airPhase = 'ground';
-}
-
 function moveThroughCollision(runtime, state, step) {
 	const result = runtime.collisionMover.move(state, step, {
-		floorY: 0,
+		blockSteepFloors: false,
+		floorY: runtime.terrain.heightAt(state.x, state.z),
 		grounded: state.grounded,
-		maxStepHeight: 0.35
+		maxStepHeight: 0.42,
+		maxSlopeNormal: 0.58
 	});
 	state.contacts = result.normals || [];
 }
 
-function normalizedIntent(axis) {
-	const forward = -axis.y;
-	const strafe = -axis.x;
-	const length = Math.hypot(forward, strafe);
-	const scale = length > 1 ? 1 / length : 1;
-	return { forward: forward * scale, strafe: strafe * scale, turn: clamp(axis.turn) };
-}
-
-function clamp(value) {
-	return Math.max(-1, Math.min(1, Number(value) || 0));
+function actionFor(state) {
+	if (!state.grounded) return state.airPhase;
+	if (!state.moving) return 'idle';
+	return state.runMode ? 'run' : 'walk';
 }
 
 function setYaw(quaternion, yaw) {
 	quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
 }
 
-function updateCamera(runtime, state) {
-	const sin = Math.sin(state.facing);
-	const cos = Math.cos(state.facing);
-	runtime.camera.position.set(state.x - sin * 7, state.renderY + 4.2, state.z - cos * 7);
-	runtime.camera.target = [state.x, state.renderY + 1.25, state.z];
+function positionReceipt(state) {
+	return { x: state.x, y: state.y, z: state.z };
 }

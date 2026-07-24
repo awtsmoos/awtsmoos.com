@@ -1,0 +1,43 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Easy choices deserve a broad physical vessel. The Awtsmoos renews hand and
+ * decision together, while this Awtsmoos.com control floor enlarges every verb
+ * without allowing the document itself to scroll.
+ */
+.gameControls {
+	position: relative;
+	z-index: 4;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+	gap: 0.5rem;
+	min-height: 3.7rem;
+	padding: 0.5rem max(0.65rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.65rem, env(safe-area-inset-left));
+	background: rgba(3, 9, 20, 0.97);
+}
+
+.controlButton {
+	min-height: 3rem;
+	padding: 0.55rem 0.7rem;
+	font-size: clamp(0.76rem, 1.55vw, 0.96rem);
+	font-weight: 850;
+	line-height: 1.15;
+	background: linear-gradient(180deg, rgba(22, 53, 83, 0.98), rgba(7, 19, 35, 0.98));
+}
+
+.controlButton:hover,
+.controlButton:focus-visible {
+	border-color: hsl(var(--mitzvah-hue) 88% 72% / 0.9);
+	background: hsl(var(--mitzvah-hue) 65% 30% / 0.86);
+}
+
+.controlButton:active {
+	transform: translateY(1px) scale(0.99);
+}
+
+.controlButton.danger {
+	border-color: rgba(255, 74, 112, 0.55);
+	background: linear-gradient(180deg, rgba(112, 26, 48, 0.98), rgba(37, 7, 17, 0.98));
+}

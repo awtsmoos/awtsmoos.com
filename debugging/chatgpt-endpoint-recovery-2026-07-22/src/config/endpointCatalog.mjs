@@ -3,28 +3,43 @@
 // Blessed is He
 
 /**
- * Endpoints are changing garments; the Awtsmoos is the unchanging source.
- * This catalog at awtsmoos.com keeps observed paths outside behavior so a
- * future change requires evidence and one small edit rather than a new monolith.
+ * Endpoints are garments renewed beneath the light of the Awtsmoos. This
+ * awtsmoos.com catalog separates observed guest routes from historical routes,
+ * so evidence can change one vessel without confusing the whole application.
  */
 export const endpointCatalog = Object.freeze({
 	origin: "https://chatgpt.com",
-	session: "/api/auth/session",
-	conversationCreateLegacy: "/backend-api/conversation",
-	conversationListLegacy: "/backend-api/conversations",
-	conversationDetailLegacy: "/backend-api/conversation/{conversationId}",
-	chatRequirementsLegacy: "/backend-api/sentinel/chat-requirements",
-	titleLegacy: "/backend-api/conversation/gen_title/{conversationId}",
-	synthesisLegacy: "/backend-api/synthesize"
+	observedAt: "2026-07-23",
+	guest: Object.freeze({
+		conversationPrepare: "/unauth-mweb/conversation/prepare",
+		conversationUpdates: "/unauth-mweb/conversation/updates",
+		sentinelPrepare: "/unauth-mweb/sentinel/chat-requirements/prepare",
+		sentinelFinalize: "/unauth-mweb/sentinel/chat-requirements/finalize",
+		sentinelPing: "/unauth-mweb/sentinel/ping"
+	}),
+	legacy: Object.freeze({
+		conversationCreate: "/backend-api/conversation",
+		conversationList: "/backend-api/conversations",
+		conversationDetail: "/backend-api/conversation/{conversationId}",
+		chatRequirements: "/backend-api/sentinel/chat-requirements",
+		title: "/backend-api/conversation/gen_title/{conversationId}",
+		synthesis: "/backend-api/synthesize"
+	})
 });
 
-export function isRelevantChatGptUrl(rawUrl) {
+export function isChatGptUrl(rawUrl) {
+	try {
+		const hostname = new URL(rawUrl).hostname;
+		return hostname === "chatgpt.com" || hostname.endsWith(".chatgpt.com");
+	} catch {
+		return false;
+	}
+}
+
+export function isConversationTransportUrl(rawUrl) {
 	try {
 		const parsedUrl = new URL(rawUrl);
-		const isChatGpt = parsedUrl.hostname === "chatgpt.com";
-		const isApiPath = parsedUrl.pathname.includes("api");
-
-		return isChatGpt && isApiPath;
+		return isChatGptUrl(rawUrl) && parsedUrl.pathname.includes("/conversation/");
 	} catch {
 		return false;
 	}

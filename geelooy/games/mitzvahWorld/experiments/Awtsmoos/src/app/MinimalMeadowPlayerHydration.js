@@ -4,17 +4,24 @@
 
 /**
  * @file MinimalMeadowPlayerHydration.js
- * @description Replaces the instant local silhouette with exactly one isolated chossid.glb.
- * The Awtsmoos clothes one moving soul without summoning a catalog; Awtsmoos.com preserves the
- * player's state and scene position while one canonical garment replaces the temporary vessel.
+ * @description Replaces the visible fallback with one measured canonical chossid.glb.
+ * The Awtsmoos clothes one moving soul byte by truthful byte; Awtsmoos.com keeps
+ * the meadow visible while the final garment downloads, parses, and enters its place.
  */
 
-import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js?v=20260723-meadow-06';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
 
 export async function hydrateMinimalMeadowPlayer(runtime, environment = globalThis) {
+	announce(environment, { phase: 'starting', progress: 0 });
 	try {
-		const gltf = await loadIsolatedGltf(PLAYER_MODEL_URL, 'minimal-meadow-player-canonical');
+		const gltf = await loadIsolatedGltf(
+			PLAYER_MODEL_URL,
+			'minimal-meadow-player-canonical',
+			{
+				onProgress: detail => announce(environment, detail)
+			}
+		);
 		const model = prepareCanonicalModel(gltf.scene, runtime.state);
 		const previous = runtime.model;
 		previous?.parent?.remove?.(previous);
@@ -27,12 +34,18 @@ export async function hydrateMinimalMeadowPlayer(runtime, environment = globalTh
 			source: PLAYER_MODEL_URL,
 			status: 'ready'
 		};
+		announce(environment, { phase: 'ready', progress: 1 });
 		return runtime.canonicalPlayer;
 	} catch (error) {
 		runtime.canonicalPlayer = {
 			error: error?.message || String(error),
 			status: 'fallback-visible'
 		};
+		announce(environment, {
+			error: runtime.canonicalPlayer.error,
+			phase: 'fallback',
+			progress: 1
+		});
 		environment.console?.warn?.(
 			'[MitzvahWorld] chossid.glb could not replace the visible fallback.',
 			error
@@ -60,6 +73,14 @@ function markBootstrapMeshes(model) {
 		meshes += 1;
 	});
 	return meshes;
+}
+
+function announce(environment, detail) {
+	const EventClass = environment.CustomEvent;
+	if (!EventClass || !environment.dispatchEvent) return;
+	environment.dispatchEvent(new EventClass('awtsmoos:model-progress', {
+		detail
+	}));
 }
 
 export default hydrateMinimalMeadowPlayer;

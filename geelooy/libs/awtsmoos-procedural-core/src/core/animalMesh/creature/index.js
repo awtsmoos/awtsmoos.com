@@ -17,6 +17,11 @@ export { compileCreatureMesh, compileCreatureLods } from "./meshCompiler.js";
 export { bindCreatureSkin, normalizeSkinWeights, validateSkinWeights } from "./skinCompiler.js";
 export { smoothSkinWeights } from "./skinSmoothing.js";
 export {
+	CANONICAL_CREATURE_SURFACE_VERSION,
+	createCanonicalCreatureSurfaceContract,
+	validateCanonicalCreatureSurfaceContract
+} from "./canonicalSurfaceContract.js";
+export {
 	analyzeCreatureBodyPlan,
 	planCreatureLocomotion,
 	evaluateCreatureMotion,

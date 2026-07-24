@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts the supplied Chossid vessel and exposes every player mesh to tiny WebGL.
- * The Awtsmoos grants one moving identity through fallback and canonical garments; Awtsmoos.com
- * keeps the state stable while the visible form may be replaced without replacing the traveler.
+ * @description Mounts one Chossid and initializes health, armor, action, and double-jump truth.
+ * The Awtsmoos grants one moving identity through fallback and canonical garments;
+ * Awtsmoos.com keeps two finite jumps, health, action, and form inside one stable traveler.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
@@ -27,8 +27,10 @@ export function createBootstrapPlayerRuntime(foundation) {
 	const state = createPlayerState();
 	const player = {
 		diagnostics: () => ({
+			action: state.action,
 			animations: foundation.playerGltf.animations?.length || 0,
 			bootstrap: true,
+			jumpsUsed: state.jumpsUsed,
 			meshes: meshCount,
 			position: { x: state.x, y: state.y, z: state.z }
 		}),
@@ -41,7 +43,16 @@ export function createBootstrapPlayerRuntime(foundation) {
 		footOffset: 0,
 		model,
 		player,
-		playerStats: { face: '🎩', health: 100, level: 1, name: 'Chossid', xp: 0, xpMax: 100 },
+		playerStats: {
+			armor: 3,
+			face: '🎩',
+			health: 100,
+			level: 1,
+			maxHealth: 100,
+			name: 'Chossid',
+			xp: 0,
+			xpMax: 100
+		},
 		state,
 		visiblePlayer
 	};
@@ -60,11 +71,13 @@ function markBootstrapMeshes(model) {
 
 function createPlayerState() {
 	return {
+		action: 'idle',
 		airPhase: 'ground',
 		clip: '',
 		contacts: [],
 		facing: 0,
 		grounded: true,
+		jumpsUsed: 0,
 		level: 'meadow',
 		moving: false,
 		multiplayer: null,

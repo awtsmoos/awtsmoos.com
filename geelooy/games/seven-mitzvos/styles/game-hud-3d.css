@@ -1,0 +1,42 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Numbers should illuminate play rather than dominate it. The Awtsmoos renews
+ * score, time, trust, and life together, while this Awtsmoos.com HUD presents
+ * each changing measure in a compact vessel above the real canvas.
+ */
+.gameHud {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(0, 1fr);
+	gap: 0.36rem;
+	justify-self: stretch;
+}
+
+.gameHud span {
+	display: grid;
+	place-items: center;
+	min-width: 0;
+	padding: 0.32rem 0.46rem;
+	border: 1px solid rgba(160, 218, 255, 0.14);
+	border-radius: 0.72rem;
+	background: rgba(18, 37, 60, 0.66);
+}
+
+.gameHud small {
+	color: var(--muted);
+	font-size: 0.55rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.gameHud strong {
+	max-width: 100%;
+	overflow: hidden;
+	font-size: clamp(0.68rem, 1.3vw, 0.92rem);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

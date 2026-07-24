@@ -1,0 +1,86 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * A short landscape screen must widen rather than begin a vertical journey. The
+ * Awtsmoos renews horizon and player together, while this Awtsmoos.com vessel
+ * turns the header sideways and protects the canvas height beneath it.
+ */
+@media (max-height: 540px) and (orientation: landscape) {
+	.appTopBar {
+		min-height: 2.35rem;
+		padding-top: max(0.25rem, env(safe-area-inset-top));
+		padding-bottom: 0.25rem;
+	}
+
+	.hubLayer {
+		grid-template-columns: minmax(8.5rem, 0.32fr) minmax(0, 1.68fr);
+		grid-template-rows: minmax(0, 1fr);
+		align-items: stretch;
+		gap: 0.5rem;
+	}
+
+	.hubHeader {
+		display: grid;
+		align-content: center;
+		text-align: left;
+	}
+
+	.hubHeader h1 {
+		font-size: clamp(1.1rem, 3.8vw, 2rem);
+	}
+
+	.mitzvahGrid3d {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(0, 1fr));
+	}
+
+	.mitzvahTile {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		grid-template-rows: auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			"number symbol"
+			"title title"
+			"progress progress";
+		padding: 0.32rem 0.42rem;
+	}
+
+	.tileSymbol {
+		justify-self: end;
+		width: 1.7rem;
+		font-size: 0.9rem;
+	}
+
+	.mitzvahTile strong {
+		align-self: center;
+		font-size: clamp(0.58rem, 1.75vw, 0.78rem);
+		text-align: center;
+	}
+
+	.gameTopBar {
+		grid-template-columns: auto minmax(0, 0.9fr) minmax(12rem, 1.1fr);
+		grid-template-rows: auto;
+		min-height: 2.8rem;
+	}
+
+	.gameHud {
+		grid-column: auto;
+		grid-row: auto;
+	}
+
+	.gameStatus {
+		min-height: 1.7rem;
+		padding-block: 0.28rem;
+	}
+
+	.gameControls {
+		min-height: 2.6rem;
+		padding-block: 0.3rem;
+	}
+
+	.controlButton {
+		min-height: 2rem;
+	}
+}

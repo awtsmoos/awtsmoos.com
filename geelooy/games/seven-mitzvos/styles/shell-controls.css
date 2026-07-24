@@ -1,0 +1,60 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos joins identity, progress, and navigation without crowding the
+ * screen. This Awtsmoos.com vessel styles the shell's small controls apart from
+ * its structural viewport law.
+ */
+button:focus-visible,
+a:focus-visible {
+	outline: 3px solid var(--gold);
+	outline-offset: 3px;
+}
+
+.brandLockup {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	white-space: nowrap;
+}
+
+.brandLockup span {
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	color: #06101e;
+	font-weight: 900;
+	background: var(--gold);
+}
+
+.gamesLink,
+.legacyMark {
+	color: var(--muted);
+	font-size: clamp(0.72rem, 1.5vw, 0.9rem);
+	text-decoration: none;
+}
+
+.legacyMark {
+	justify-self: end;
+	margin: 0;
+}
+
+.navButton,
+.primaryButton,
+.controlButton {
+	border: 1px solid rgba(181, 226, 255, 0.25);
+	border-radius: 999px;
+	cursor: pointer;
+	background: rgba(10, 24, 43, 0.88);
+}
+
+.primaryButton {
+	padding: 0.8rem 1.25rem;
+	color: #08111d;
+	font-weight: 900;
+	background: linear-gradient(135deg, hsl(var(--mitzvah-hue, 42) 95% 72%), #fff1b5);
+}

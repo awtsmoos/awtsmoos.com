@@ -1,0 +1,141 @@
+B"H
+=== MOBILE SELECTOR JS ===
+geelooy/ai/js/app/domRefs.js:12:    sidebar: id("sidebar"),
+geelooy/ai/js/app/domRefs.js:13:    toggleSidebar: id("toggle-sidebar"),
+geelooy/ai/js/app/domRefs.js:19:    automationPanel: id("automation-panel"),
+geelooy/ai/js/app/mobileControlCenter.js:49:  node.querySelector(".mobile-control-tools")?.addEventListener("click", () => document.querySelector(".mobile-nav-automation")?.click());
+geelooy/ai/js/app/conversationListPager.js:7: * B"H — A small sidebar vessel for conversation pagination.
+geelooy/ai/js/app/conversationListPager.js:10: * but completed stream ghosts are pruned before paint so the sidebar cannot
+geelooy/ai/js/app/mobileDrawers.js:32:  expandDesktopPanel(dom.sidebar);
+geelooy/ai/js/app/mobileDrawers.js:42:  bind(".mobile-crown-menu", () => openConversationDrawer(dom));
+geelooy/ai/js/app/mobileDrawers.js:43:  bind(".mobile-crown-code", () => applyScene("automation", dom));
+geelooy/ai/js/app/mobileDrawers.js:44:  bind(".mobile-nav-chat", () => applyScene("chat", dom));
+geelooy/ai/js/app/mobileDrawers.js:45:  bind(".mobile-nav-conversations", () => openConversationDrawer(dom));
+geelooy/ai/js/app/mobileDrawers.js:46:  bind(".mobile-nav-search", () => openConversationDrawer(dom));
+geelooy/ai/js/app/mobileDrawers.js:47:  bind(".mobile-nav-automation", () => applyScene("automation", dom));
+geelooy/ai/js/app/mobileDrawers.js:48:  bind(".mobile-nav-settings", () => applyScene("automation", dom));
+geelooy/ai/js/app/mobileDrawers.js:55:  dom.sidebar?.classList.toggle("mobile-scene-active", next === "conversations");
+geelooy/ai/js/app/mobileDrawers.js:62:  const closed = panel.classList.contains("is-collapsed") || panel.classList.contains("is-detached");
+geelooy/ai/js/app/mobileDrawers.js:64:  panel.querySelector("[data-panel-action='toggle']")?.click();
+geelooy/ai/js/app/mobileDrawers.js:69:  dom.sidebar?.classList.remove("mobile-scene-active");
+geelooy/ai/js/app/showcaseChrome.js:72:  const sidebar = document.querySelector(".conversation-list");
+geelooy/ai/js/app/showcaseChrome.js:73:  const automation = document.getElementById("automation-panel");
+geelooy/ai/js/app/showcaseChrome.js:74:  if (sidebar && !sidebar.querySelector(".showcase-side-badge")) sidebar.prepend(badge("AI Memory", "cyan"));
+geelooy/ai/js/app/conversations/withTimeout.js:7: * to return from the mist. This helper gives the sidebar a measured gate: if
+geelooy/ai/js/app/layoutState.js:25:  const panel = side === "left" ? document.getElementById("sidebar") : document.getElementById("automation-panel");
+geelooy/ai/js/app/mobileChrome.js:15:  const crown = document.querySelector(".mobile-app-crown");
+geelooy/ai/js/app/mobileChrome.js:16:  const button = document.querySelector(".mobile-crown-collapse");
+geelooy/ai/js/app/mobileChrome.js:19:  button.addEventListener("click", () => apply(!document.body.classList.contains("mobile-crown-collapsed")));
+geelooy/ai/js/app/mobileChrome.js:24:  document.body.classList.toggle("mobile-crown-collapsed", collapsed);
+geelooy/ai/js/app/mobileChrome.js:26:  const button = document.querySelector(".mobile-crown-collapse");
+geelooy/ai/js/layout/panelFrame.js:16:        <button data-panel-action="toggle" title="Collapse / expand" aria-label="Collapse or expand ${title}"></button>
+geelooy/ai/js/layout/panelFrame.js:17:        <button data-panel-action="fullscreen" title="Fullscreen" aria-label="Fullscreen ${title}">⛶</button>
+geelooy/ai/js/layout/panelFrame.js:22:  const toggle = panel.querySelector("[data-panel-action='toggle']");
+geelooy/ai/js/layout/panelFrame.js:23:  const full = panel.querySelector("[data-panel-action='fullscreen']");
+geelooy/ai/js/layout/panelFrame.js:29:    const button = event.target.closest("[data-panel-action]");
+geelooy/ai/js/layout/panelFrame.js:54:  const fullscreen = panel.classList.contains("is-panel-fullscreen");
+geelooy/ai/js/layout/panelFrame.js:63:  return panel.classList.contains("is-collapsed") || panel.classList.contains("is-detached");
+geelooy/ai/js/layout/panelFrame.js:71:  panel.classList.remove("is-collapsed", "is-detached");
+geelooy/ai/js/layout/layoutStore.js:5:  sidebar: { width: 290, collapsed: false, detached: false, fullscreen: false, x: 24, y: 86, h: 520 },
+geelooy/ai/js/layout/layoutStore.js:9:  mobile: { initialized: false, sidebarHeight: 360, automationHeight: 420 }
+geelooy/ai/js/layout/layoutController.js:23:    mountPanelFrame({ panel:this.dom.sidebar, name:"sidebar", title:"Conversations", store:this.store, onLayout:l => this.apply(l) });
+geelooy/ai/js/layout/layoutController.js:32:    const sidebarClosed = closed(layout.sidebar);
+geelooy/ai/js/layout/layoutController.js:34:    const left = panelWidth(layout.sidebar, 240, 560, 58);
+geelooy/ai/js/layout/layoutController.js:37:    this.applyPanel(this.dom.sidebar, layout.sidebar);
+geelooy/ai/js/layout/layoutController.js:39:    writeBodyFlags({ sidebarClosed, automationClosed, layout });
+geelooy/ai/js/layout/layoutController.js:47:    panel.classList.toggle("is-collapsed", panelClosed);
+geelooy/ai/js/layout/layoutController.js:48:    panel.classList.toggle("is-panel-fullscreen", fullscreen);
+geelooy/ai/js/layout/layoutController.js:58:    "--ai-composer": `${composer}px`, "--ai-mobile-sidebar": `${mobile.sidebarHeight || 360}px`,
+geelooy/ai/js/layout/layoutController.js:64:function writeBodyFlags({ sidebarClosed, automationClosed, layout }) {
+geelooy/ai/js/layout/layoutController.js:65:  document.body.dataset.sidebarCollapsed = String(sidebarClosed);
+geelooy/ai/js/layout/layoutController.js:67:  document.body.dataset.sidebarDetached = "false";
+geelooy/ai/js/layout/layoutController.js:70:  document.body.classList.toggle("ai-left-collapsed", sidebarClosed);
+geelooy/ai/js/layout/layoutController.js:72:  document.body.classList.toggle("has-panel-fullscreen", Boolean(layout.sidebar?.fullscreen || layout.automation?.fullscreen));
+geelooy/ai/js/layout/layoutController.js:86:  return store.save({ sidebar:{ collapsed:true, detached:false }, automation:{ collapsed:true, detached:false }, mobile:{ initialized:true } });
+geelooy/ai/js/layout/resizeHandles.js:13:  wirePanelHandle(dom.leftResizer, "sidebar", 220, 560, store, onLayout, 1);
+geelooy/ai/js/layout/resizeHandles.js:22: * @param {"sidebar"|"automation"} panelName Layout key.
+geelooy/ai/js/layout/resizeHandles.js:78:  const key = panelName === "sidebar" ? "sidebarHeight" : "automationHeight";
+geelooy/ai/js/layout/resizeHandles.js:123:  return document.getElementById(panelName === "sidebar" ? "sidebar" : "automation-panel");
+geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js:41:  return `<span class="event-panel-actions thought-run-actions"><button type="button" data-panel-action="minimize" title="Collapse">−</button><button type="button" data-panel-action="maximize" title="Maximize">▢</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span>`;
+geelooy/ai/js/render/runtime/panelChrome.js:27:  const button = event.target?.closest?.("[data-panel-action]");
+geelooy/ai/js/render/runtime/panelChrome.js:102:  const button = panel.querySelector(`[data-panel-action="${action}"]`);
+geelooy/ai/js/render/runtime/eventRuntime.js:152:  return `<span class="event-panel-actions"><button type="button" data-panel-action="minimize" title="Collapse">−</button><button type="button" data-panel-action="maximize" title="Maximize">□</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span>`;
+geelooy/ai/js/render/eventDetails.js:34:  return `<span class="event-panel-actions"><button type="button" data-panel-action="minimize" title="Collapse">−</button><button type="button" data-panel-action="maximize" title="Maximize">□</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span>`;
+geelooy/ai/js/automation/runStore.js:9: * reply, and timestamps. The page may reload, sidebar badges may repaint, and
+geelooy/ai/js/automation/panel.js:32:  render() { const topbar = this.root.querySelector(":scope > .panel-topbar"); const content = document.createElement("div"); content.className = "automation-panel-content"; content.innerHTML = `${menu(this.tab)}<div class="right-panel-body">${this.body()}</div>`; this.root.replaceChildren(...[topbar, content].filter(Boolean)); this.bindAll(); }
+geelooy/ai/js/chatgpt/conversations/list.js:44:  // entire conversations payload and turn a simple sidebar refresh into a
+geelooy/ai/index.js:82:  return { main: document.querySelector(".main"), chatBox: id("chat-box"), newChat: id("new-chat"), messageInput: id("message-input"), sendButton: id("send-button"), sidebar: id("sidebar"), toggleSidebar: id("toggle-sidebar"), conversationList: id("conversation-items"), refreshButton: id("refresh-conversations"), serviceSelect: id("ai-service-select"), chatgptModeWrap: id("chatgpt-mode-wrap"), chatgptModeSelect: id("chatgpt-mode-select"), automationPanel: id("automation-panel"), leftResizer: id("left-resizer"), rightResizer: id("right-resizer"), composerResizer: id("composer-resizer"), attachmentTray: id("attachment-tray"), attachmentInput: id("attachment-input"), transportStatus: id("transport-status") };
+geelooy/ai/index.js:88:  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
+geelooy/ai/index.js:96:  document.querySelector(".mobile-nav-chat")?.addEventListener("click", () => mobileScenes.openChat());
+geelooy/ai/index.js:97:  document.querySelector(".mobile-nav-conversations")?.addEventListener("click", () => mobileScenes.openConversationDrawer());
+geelooy/ai/index.js:98:  document.querySelector(".mobile-nav-automation")?.addEventListener("click", () => mobileScenes.openAutomationDrawer());
+geelooy/ai/app-main.js:104:    sidebar: document.getElementById("sidebar"), toggleSidebar: document.getElementById("toggle-sidebar"),
+geelooy/ai/app-main.js:106:    serviceSelect: document.getElementById("ai-service-select"), automationPanel: document.getElementById("automation-panel"),
+geelooy/ai/app-main.js:114:  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
+=== UI FILES ===
+geelooy/ai/js/app/conversationSidebarLiveRows.js
+geelooy/ai/js/app/desktopShell.js
+geelooy/ai/js/app/desktopShellData.js
+geelooy/ai/js/app/layoutState.js
+geelooy/ai/js/app/mobileChrome.js
+geelooy/ai/js/app/mobileControlCenter.js
+geelooy/ai/js/app/mobileDrawers.js
+geelooy/ai/js/app/mobileSuggestions.js
+geelooy/ai/js/app/providerKeyPanel.js
+geelooy/ai/js/app/serviceModeChrome.js
+geelooy/ai/js/app/showcaseChrome.js
+geelooy/ai/js/automation/backgroundBridge.js
+geelooy/ai/js/automation/backgroundStreamMirror.js
+geelooy/ai/js/automation/continuationGate.js
+geelooy/ai/js/automation/graphDefaults.js
+geelooy/ai/js/automation/graphEditorUi.js
+geelooy/ai/js/automation/graphEngine.js
+geelooy/ai/js/automation/graphNodeUi.js
+geelooy/ai/js/automation/graphStore.js
+geelooy/ai/js/automation/messageArchive.js
+geelooy/ai/js/automation/panel.js
+geelooy/ai/js/automation/panelMarkup.js
+geelooy/ai/js/automation/pipeline.js
+geelooy/ai/js/automation/providerChatAdmin.js
+geelooy/ai/js/automation/relayInstallActions.js
+geelooy/ai/js/automation/runStore.js
+geelooy/ai/js/automation/settingsStore.js
+geelooy/ai/js/automation/streamCompletionGuard.js
+geelooy/ai/js/layout/layoutController.js
+geelooy/ai/js/layout/layoutStore.js
+geelooy/ai/js/layout/panelFrame.js
+geelooy/ai/js/layout/resizeHandles.js
+geelooy/ai/js/render/runtime/panelChrome.js
+geelooy/ai/js/render/runtime/shellDecorations.js
+geelooy/ai/js/render/runtime/shellRuntime.js
+=== IMPORTS ===
+geelooy/ai/index.js:47:  panel = new AutomationPanel({ root: dom.automationPanel, store, conversationId: getConversationId(), onDownloadChat: () => downloadCurrentChatHtml(renderer), onDownloadJson: () => downloadCurrentChatJson(renderer), onChange: async settings => onAutomationChange({ settings, panel, pipeline, aiHandler }) });
+geelooy/ai/index.js:82:  return { main: document.querySelector(".main"), chatBox: id("chat-box"), newChat: id("new-chat"), messageInput: id("message-input"), sendButton: id("send-button"), sidebar: id("sidebar"), toggleSidebar: id("toggle-sidebar"), conversationList: id("conversation-items"), refreshButton: id("refresh-conversations"), serviceSelect: id("ai-service-select"), chatgptModeWrap: id("chatgpt-mode-wrap"), chatgptModeSelect: id("chatgpt-mode-select"), automationPanel: id("automation-panel"), leftResizer: id("left-resizer"), rightResizer: id("right-resizer"), composerResizer: id("composer-resizer"), attachmentTray: id("attachment-tray"), attachmentInput: id("attachment-input"), transportStatus: id("transport-status") };
+geelooy/ai/index.js:88:  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
+geelooy/ai/app-main.js:39:  const panel = new AutomationPanel({ root: dom.automationPanel, store, conversationId: getConversationId() });
+geelooy/ai/app-main.js:104:    sidebar: document.getElementById("sidebar"), toggleSidebar: document.getElementById("toggle-sidebar"),
+geelooy/ai/app-main.js:106:    serviceSelect: document.getElementById("ai-service-select"), automationPanel: document.getElementById("automation-panel"),
+geelooy/ai/app-main.js:107:    leftResizer: document.getElementById("left-resizer"), rightResizer: document.getElementById("right-resizer"),
+geelooy/ai/app-main.js:108:    composerResizer: document.getElementById("composer-resizer"), attachmentTray: document.getElementById("attachment-tray"),
+geelooy/ai/app-main.js:114:  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
+geelooy/ai/js/app/domRefs.js:12:    sidebar: id("sidebar"),
+geelooy/ai/js/app/domRefs.js:13:    toggleSidebar: id("toggle-sidebar"),
+geelooy/ai/js/app/domRefs.js:19:    automationPanel: id("automation-panel"),
+geelooy/ai/js/app/domRefs.js:20:    leftResizer: id("left-resizer"),
+geelooy/ai/js/app/domRefs.js:21:    rightResizer: id("right-resizer"),
+geelooy/ai/js/app/domRefs.js:22:    composerResizer: id("composer-resizer"),
+geelooy/ai/js/app/conversationListPager.js:7: * B"H — A small sidebar vessel for conversation pagination.
+geelooy/ai/js/app/conversationListPager.js:10: * but completed stream ghosts are pruned before paint so the sidebar cannot
+geelooy/ai/js/app/mobileDrawers.js:32:  expandDesktopPanel(dom.sidebar);
+geelooy/ai/js/app/mobileDrawers.js:55:  dom.sidebar?.classList.toggle("mobile-scene-active", next === "conversations");
+geelooy/ai/js/app/mobileDrawers.js:56:  dom.automationPanel?.classList.toggle("mobile-scene-active", next === "automation");
+geelooy/ai/js/app/mobileDrawers.js:69:  dom.sidebar?.classList.remove("mobile-scene-active");
+geelooy/ai/js/app/mobileDrawers.js:70:  dom.automationPanel?.classList.remove("mobile-scene-active");
+geelooy/ai/js/app/showcaseChrome.js:72:  const sidebar = document.querySelector(".conversation-list");
+geelooy/ai/js/app/showcaseChrome.js:74:  if (sidebar && !sidebar.querySelector(".showcase-side-badge")) sidebar.prepend(badge("AI Memory", "cyan"));
+geelooy/ai/js/app/conversations/withTimeout.js:7: * to return from the mist. This helper gives the sidebar a measured gate: if
+geelooy/ai/js/app/layoutState.js:7: * collapse into clean icon rails and the resizer bars now write CSS variables
+geelooy/ai/js/app/layoutState.js:14:/** B"H. Mounts desktop resizers and collapse controls. */
+geelooy/ai/js/app/layoutState.js:25:  const panel = side === "left" ? document.getElementById("sidebar") : document.getElementById("automation-panel");
+geelooy/ai/js/app/layoutState.js:51:  const bar = document.getElementById(side === "left" ? "left-resizer" : "right-resizer");
+geelooy/ai/js/app/mobileChrome.js:3: * @file mobileChrome.js

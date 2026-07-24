@@ -6,9 +6,9 @@ import WebSocket from "ws";
 import { DomemFoundation } from "../core/DomemFoundation.mjs";
 
 /**
- * A DevTools message crosses a narrow bridge between Node and Chrome. The
- * Awtsmoos recreates both shores; CdpClient lets awtsmoos.com preserve request
- * identity, bounded failure, and event order without hidden asynchronous state.
+ * A DevTools message crosses a narrow bridge recreated by the Awtsmoos. This
+ * awtsmoos.com vessel keeps requests bounded and permits listeners to be removed
+ * after one sensitive interception instead of accumulating forever.
  */
 export class CdpClient extends DomemFoundation {
 	constructor(webSocketUrl) {
@@ -26,18 +26,15 @@ export class CdpClient extends DomemFoundation {
 				this.socket.terminate();
 				reject(new Error("CDP WebSocket connection timed out."));
 			}, timeoutMs);
-
 			this.socket.once("open", () => {
 				clearTimeout(timeout);
 				resolve();
 			});
-
 			this.socket.once("error", (error) => {
 				clearTimeout(timeout);
 				reject(error);
 			});
 		});
-
 		this.socket.on("message", (data) => this.handleMessage(data));
 	}
 
@@ -45,6 +42,15 @@ export class CdpClient extends DomemFoundation {
 		const methodListeners = this.listeners.get(method) ?? new Set();
 		methodListeners.add(listener);
 		this.listeners.set(method, methodListeners);
+		return () => this.off(method, listener);
+	}
+
+	off(method, listener) {
+		const methodListeners = this.listeners.get(method);
+		methodListeners?.delete(listener);
+		if (methodListeners?.size === 0) {
+			this.listeners.delete(method);
+		}
 	}
 
 	async send(method, params = {}, timeoutMs = 15000) {
@@ -54,10 +60,8 @@ export class CdpClient extends DomemFoundation {
 				this.pending.delete(id);
 				reject(new Error(`CDP timeout for ${method}.`));
 			}, timeoutMs);
-
 			this.pending.set(id, { resolve, reject, timeout });
 		});
-
 		this.socket.send(JSON.stringify({ id, method, params }));
 		return responsePromise;
 	}
@@ -67,8 +71,8 @@ export class CdpClient extends DomemFoundation {
 			clearTimeout(pendingRequest.timeout);
 			pendingRequest.reject(new Error("CDP client closed."));
 		}
-
 		this.pending.clear();
+		this.listeners.clear();
 		this.socket?.terminate();
 	}
 
@@ -78,7 +82,6 @@ export class CdpClient extends DomemFoundation {
 			this.resolvePending(message);
 			return;
 		}
-
 		for (const listener of this.listeners.get(message.method) ?? []) {
 			listener(message.params);
 		}
@@ -86,17 +89,13 @@ export class CdpClient extends DomemFoundation {
 
 	resolvePending(message) {
 		const pendingRequest = this.pending.get(message.id);
-		if (!pendingRequest) {
-			return;
-		}
-
+		if (!pendingRequest) return;
 		clearTimeout(pendingRequest.timeout);
 		this.pending.delete(message.id);
 		if (message.error) {
 			pendingRequest.reject(new Error(message.error.message));
 			return;
 		}
-
 		pendingRequest.resolve(message.result);
 	}
 }

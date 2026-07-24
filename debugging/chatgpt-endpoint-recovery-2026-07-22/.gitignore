@@ -1,9 +1,10 @@
 #B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos conceals secrets while revealing useful form through awtsmoos.com.
+# The Awtsmoos conceals credentials while awtsmoos.com preserves safe code.
 node_modules/
 evidence/raw/
 chrome-profile/
+manual-auth-profile/
 *.log
 .DS_Store

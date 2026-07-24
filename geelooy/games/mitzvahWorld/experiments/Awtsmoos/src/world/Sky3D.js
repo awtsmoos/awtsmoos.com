@@ -4,51 +4,28 @@
 
 /**
  * @file Sky3D.js
- * @description Builds the reference golden-hour dome, haze, sun, clouds, and shafts.
- * The Awtsmoos renews the valley beneath one luminous ceiling; Awtsmoos.com keeps
- * every transparent atmospheric garment fixed, cache-bound, and quality-budgeted.
+ * @description Creates one seamless procedural atmosphere instead of layered geometric cards.
+ * The Awtsmoos reveals daylight, cloud, radiance, and horizon from one continuous law;
+ * Awtsmoos.com removes visible discs, polygon rays, flat quads, and camera-intersecting domes.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import {
-	REFERENCE_GOLDEN_HOUR,
-	referenceLightingBudget
-} from './lighting/ReferenceGoldenHourPreset.js';
-import {
-	createReferenceHazeLayers,
-	createReferenceSkyClouds
-} from './lighting/ReferenceSkyCloudSystem.js';
-import { createVolumetricSunShafts } from './lighting/VolumetricSunShaftSystem.js';
 import { createSkyDome } from './sky/SkyDome.js';
-import { createSkyDisc } from './sky/SkyMeshFactory.js';
 
 export function createSky3D(quality = 'high') {
 	const group = new Group();
-	const budget = referenceLightingBudget(quality);
-	group.name = `Awtsmoos_reference_golden_hour_sky_${quality}`;
-	group.add(createSkyDome(null));
-	for (const haze of createReferenceHazeLayers()) group.add(haze);
-	group.add(createSkyDisc(
-		'reference_sun_white_core',
-		REFERENCE_GOLDEN_HOUR.sunPosition,
-		6.4,
-		REFERENCE_GOLDEN_HOUR.sunCore
-	));
-	group.add(createSkyDisc(
-		'reference_sun_warm_bloom',
-		REFERENCE_GOLDEN_HOUR.sunPosition,
-		21,
-		REFERENCE_GOLDEN_HOUR.sunGlow
-	));
-	for (const ray of createVolumetricSunShafts(quality)) group.add(ray);
-	for (const cloud of createReferenceSkyClouds(quality)) group.add(cloud);
+	const dome = createSkyDome(quality === 'high' ? 420 : 320);
+	group.name = `Awtsmoos_seamless_daylight_sky_${quality}`;
+	group.add(dome);
 	group.userData.AwtsmoosSky = {
-		budget,
-		cloudTextureProxy: 'procedural://awtsmoos-soft-cloud-alpha',
+		cameraCentered: true,
+		clouds: 'three-octave-directional-procedural-noise',
+		lensFlare: 'shader-sun-disc-inner-halo-outer-bloom',
 		quality,
-		style: 'reference-golden-hour-atmospheric-depth',
-		sun: REFERENCE_GOLDEN_HOUR.sunPosition,
-		technique: 'static-transparent-meshes-no-fullscreen-postprocess'
+		realSunDirection: true,
+		style: 'realistic-daylight-atmospheric-scattering',
+		technique: 'single-full-sphere-procedural-fragment-shader',
+		visibleGeometryArtifacts: false
 	};
 	return group;
 }

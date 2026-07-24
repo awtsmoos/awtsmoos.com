@@ -1,33 +1,38 @@
 {
-  "manifest_version": 3,
-  "name": "Awtsmoos Server",
-  "version": "1.0",
-  "description": "Bypasses CORs to allow for AI interactions.",
-  "permissions": [
-    "storage",
-    "cookies",
-    "scripting",
-    "tabs",
-    "activeTab",
-    "webNavigation",
-    "alarms"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["*://*/*"],
-      "js": ["awtsmoosContent.js"],
-      "run_at": "document_start",
-      "all_frames": false
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["jected.js", "streamLedger.js"],
-      "matches": ["*://*/*"]
-    }
-  ],
-  "host_permissions": ["<all_urls>"],
-  "background": {
-    "service_worker": "background.js"
-  }
+	"manifest_version": 3,
+	"name": "Awtsmoos Server",
+	"version": "1.1",
+	"description": "B\"H — Awtsmoos fetch, automation, and opaque direct ChatGPT relay bridge.",
+	"permissions": [
+		"storage",
+		"cookies",
+		"scripting",
+		"tabs",
+		"activeTab",
+		"webNavigation",
+		"alarms"
+	],
+	"content_scripts": [
+		{
+			"matches": ["*://*/*"],
+			"js": ["awtsmoosContent.js"],
+			"run_at": "document_start",
+			"all_frames": false
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"jected.js",
+				"jectedBridge.js",
+				"jectedResponse.js",
+				"streamLedger.js"
+			],
+			"matches": ["*://*/*"]
+		}
+	],
+	"host_permissions": ["<all_urls>"],
+	"background": {
+		"service_worker": "background.js"
+	}
 }
