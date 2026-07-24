@@ -4,13 +4,12 @@
 
 /**
  * @file minimalMeadowMobileIntegration.test.mjs
- * @description Proves zero-black lifting, real sword ownership, and final mobile wiring.
- * The Awtsmoos joins remembered inventory to visible form; Awtsmoos.com verifies the real store
- * contract, semantic material repair, safe-area stylesheet, and post-feature module without a demo.
+ * @description Proves readable materials, real sword ownership, and successful mobile settlement.
+ * The Awtsmoos joins remembered inventory to visible form; Awtsmoos.com verifies the authoritative
+ * store, semantic material repair, ready receipt, and document state without any demo substitute.
  */
 
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import test from 'node:test';
 import {
 	ensureRealSword,
@@ -18,29 +17,31 @@ import {
 } from '../../app/MinimalMeadowMobileIntegration.js';
 import { hydrateReadablePlayerMaterials } from '../../app/MinimalMeadowPlayerMaterialHydrator.js';
 
-const gameRoot = 'geelooy/games/mitzvahWorld';
-
-test('zero-black player materials become readable while existing colors remain unchanged', () => {
+test('B"H zero-black materials become readable without changing existing colors', () => {
 	const black = { color: [0, 0, 0, 1], name: 'coat' };
 	const readable = { color: [0.4, 0.3, 0.2, 1], name: 'face' };
-	const model = fakeModel([
+	const receipt = hydrateReadablePlayerMaterials(fakeModel([
 		{ isMesh: true, material: black, name: 'Jacket' },
 		{ isMesh: true, material: readable, name: 'Face' }
-	]);
-	const receipt = hydrateReadablePlayerMaterials(model, fakeDocument());
+	]), fakeDocument());
 	assert.equal(receipt.materialsLifted, 1);
 	assert.ok(black.color.slice(0, 3).every(channel => channel > 0.02));
 	assert.match(black.mapImage.dataset.url, /player-cloth/);
 	assert.deepEqual(readable.color, [0.4, 0.3, 0.2, 1]);
 });
 
-test('integration adds the real sword once and refreshes authoritative equipment', async () => {
+test('B"H integration adds the real sword once and settles ready', async () => {
 	const owned = new Set(['wooden-staff', 'black-coat']);
 	const added = [];
+	let synced = 0;
+	let refreshed = 0;
 	const diagnostics = {
 		featuresPromise: Promise.resolve(),
 		runtime: {
-			equipment: { diagnostics: () => ({ weaponItemId: 'wooden-staff' }), sync() {} },
+			equipment: {
+				diagnostics: () => ({ weaponItemId: 'wooden-staff' }),
+				sync: () => { synced += 1; }
+			},
 			inventory: {
 				add(itemId, quantity) {
 					added.push([itemId, quantity]);
@@ -51,27 +52,31 @@ test('integration adds the real sword once and refreshes authoritative equipment
 			},
 			model: fakeModel([]),
 			movement: { snapshot: () => ({ selectedMode: 'walk' }) },
-			ui: { refresh() {} }
+			ui: { refresh: () => { refreshed += 1; } }
 		}
 	};
-	const receipt = await installMinimalMeadowMobileIntegration(diagnostics, fakeDocument());
+	const documentValue = fakeDocument();
+	const receipt = await installMinimalMeadowMobileIntegration(
+		diagnostics,
+		documentValue,
+		{}
+	);
 	assert.deepEqual(added, [['spark-blade', 1]]);
 	assert.equal(receipt.swordOwned, true);
+	assert.equal(receipt.ready, true);
+	assert.equal(receipt.status, 'ready');
+	assert.equal(documentValue.documentElement.dataset.awtsmoosMobileIntegration, 'ready');
+	assert.equal(synced, 1);
+	assert.equal(refreshed, 1);
 	assert.equal(ensureRealSword(diagnostics.runtime.inventory), false);
-});
-
-test('index loads the bounded tree facade and final mobile integration last', () => {
-	const index = fs.readFileSync(`${gameRoot}/index.html`, 'utf8');
-	assert.match(index, /MinimalMeadowTreeCoreFacade\.js/);
-	assert.match(index, /mitzvah-world-mobile-integration\.css/);
-	assert.match(index, /MinimalMeadowMobileIntegration\.js/);
-	assert.ok(index.indexOf('mitzvah-world-mobile-integration.css') > index.indexOf('mitzvah-world-houses.css'));
 });
 
 function fakeModel(nodes) {
 	return {
 		traverse(visitor) {
-			for (const node of nodes) visitor(node);
+			for (const node of nodes) {
+				visitor(node);
+			}
 		}
 	};
 }

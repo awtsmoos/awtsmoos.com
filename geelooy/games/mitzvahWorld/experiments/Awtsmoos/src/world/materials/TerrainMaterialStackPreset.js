@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainMaterialStackPreset.js
- * @description Builds sixteen named alpine layers without relying on deduplicated array indices.
- * The Awtsmoos reveals meadow as grasses, transitions, earth, mud, rock, forest, and shore;
- * Awtsmoos.com keeps every URL explicit so aliasing one source can never break world startup.
+ * @description Defines six broad ecological garments instead of sixteen high-frequency repeats.
+ * The Awtsmoos reveals one mountain meadow through grass, earth, moss, and stone; Awtsmoos.com
+ * turns each source in a distinct direction while continuous masks erase the fiction of square cells.
  */
 
 import { materialStackRecipe } from './MaterialStackRecipe.js';
@@ -16,88 +16,80 @@ import {
 	MOUNTAIN_VILLAGE_TERRAIN_VARIANTS as T
 } from './MountainVillageTerrainSources.js';
 
+/**
+ * Builds the terrain stack with phone-readable repeats and explicit ecological responsibilities.
+ *
+ * @returns {object} Six-layer terrain material recipe.
+ */
 export function mountainTerrainStack() {
 	return materialStackRecipe('mountain-terrain', {
-		fallbackColor: [0.31, 0.34, 0.20, 1],
+		fallbackColor: [0.31, 0.34, 0.22, 1],
 		layers: [
-			meadow('meadow-source-grass', T.baseGrass, 100, [29, 27], 0.34),
-			meadow('meadow-grass-one', T.grassOne, 99, [21, 25], 0.28),
-			meadow('meadow-grass-four', T.grassFour, 98, [34, 30], 0.24),
-			meadow('meadow-dry-grass', S.dryGrass, 97, [27, 32], 0.22),
-			meadow('meadow-wet-grass', T.grassFive, 96, [19, 23], 0.27),
-			meadow('meadow-dirt-grass-one', T.dirtGrassOne, 95, [18, 20], 0.34),
-			meadow('meadow-dirt-grass-two', T.dirtGrassTwo, 94, [23, 19], 0.31),
-			earthLayer('worn-earth', S.dirt, 93, [17, 19], 0.48),
-			streamMudLayer(),
-			mountainStoneLayer(),
-			meadow('meadow-grass-eight', T.grassEight, 90, [25, 28], 0.2),
-			meadow('meadow-wild-grass', T.grassSeven, 89, [31, 26], 0.19),
-			meadow('meadow-marsh-grass', T.marshGrass, 88, [22, 35], 0.18),
-			meadow('meadow-dirt-grass-three', T.dirtGrassThree, 87, [20, 24], 0.28),
-			forestFloorLayer(),
-			shoreSandLayer()
+			meadow('meadow-base-grass', T.baseGrass, 100, [8, 7], 0.52, 0.12),
+			meadow('meadow-lush-grass', T.grassOne, 99, [7, 8], 0.42, -0.58, 0.22),
+			earth('meadow-open-soil', S.dirt, 98, [6, 6], 0.38, 1.04),
+			shoulderLayer(),
+			wetLayer(),
+			stoneLayer()
 		]
 	});
 }
 
-function meadow(role, url, priority, repeat, strength) {
+function meadow(role, url, priority, repeat, strength, angle, wetness = 0.08) {
 	return layer(role, url, {
+		angle,
 		priority,
 		repeat,
-		slope: [0, 0.52],
+		slope: [0, 0.58],
 		strength,
-		zones: [1, 0.03, 0, 0.16]
+		wetness,
+		zones: [1, 0.04, 0.12, 0.06]
 	});
 }
 
-function earthLayer(role, url, priority, repeat, strength) {
+function earth(role, url, priority, repeat, strength, angle) {
 	return layer(role, url, {
+		angle,
 		priority,
 		repeat,
-		slope: [0, 0.62],
+		slope: [0.08, 0.82],
 		strength,
-		zones: [1, 0.25, 0.22, 0.18]
+		wetness: -0.12,
+		zones: [0.34, 0.18, 0.46, 0.18]
 	});
 }
 
-function streamMudLayer() {
-	return layer('stream-bank-mud', S.mud, {
-		priority: 92,
-		repeat: [15, 18],
-		slope: [0, 0.48],
-		strength: 0.56,
-		wetness: 0.9,
-		zones: [0.18, 1, 1, 0]
+function shoulderLayer() {
+	return layer('meadow-road-shoulder', T.dirtGrassThree, {
+		angle: -1.22,
+		priority: 97,
+		repeat: [5, 6],
+		slope: [0, 0.54],
+		strength: 0.64,
+		wetness: -0.04,
+		zones: [0.22, 1, 0.08, 0]
 	});
 }
 
-function mountainStoneLayer() {
-	return layer('mountain-stone', S.stone, {
-		priority: 91,
-		repeat: [11, 14],
-		slope: [0.22, 1],
-		strength: 0.78,
-		zones: [0.05, 0, 0, 1]
+function wetLayer() {
+	return layer('meadow-moss-and-wet-grass', T.marshGrass, {
+		angle: 0.76,
+		priority: 96,
+		repeat: [7, 6],
+		slope: [0, 0.46],
+		strength: 0.44,
+		wetness: 0.72,
+		zones: [0.22, 0, 1, 0]
 	});
 }
 
-function forestFloorLayer() {
-	return layer('forest-leaf-floor', T.forestLeaves, {
-		priority: 86,
-		repeat: [14, 17],
-		slope: [0, 0.64],
-		strength: 0.52,
-		zones: [0.08, 0, 0, 1]
-	});
-}
-
-function shoreSandLayer() {
-	return layer('shore-sand', S.sand, {
-		priority: 85,
-		repeat: [18, 22],
-		slope: [0, 0.34],
-		strength: 0.5,
-		wetness: 0.18,
-		zones: [0, 1, 1, 0]
+function stoneLayer() {
+	return layer('mountain-exposed-stone', S.stone, {
+		angle: 1.68,
+		priority: 95,
+		repeat: [5, 5],
+		slope: [0.26, 1],
+		strength: 0.58,
+		zones: [0.06, 0, 0, 1]
 	});
 }

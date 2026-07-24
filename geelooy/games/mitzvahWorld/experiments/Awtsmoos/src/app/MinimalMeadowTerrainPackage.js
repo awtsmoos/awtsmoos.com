@@ -4,86 +4,101 @@
 
 /**
  * @file MinimalMeadowTerrainPackage.js
- * @description Assembles physically repeated terrain, ecological layers, and a mixed road.
- * The Awtsmoos clothes valley and passage in measured pixels; Awtsmoos.com encodes repeat
- * directly into world UVs so mobile cannot stretch one finite image over all the earth.
+ * @description Assembles one collision-aligned meadow whose terrain shader also renders the road.
+ * The Awtsmoos renews field and path upon one continuous vessel; Awtsmoos.com removes the raised
+ * duplicate surface so stone, shoulder, and grass share geometry without z-fighting or hard borders.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { MINIMAL_MEADOW_GRASS_ROLES } from './MinimalMeadowFirebaseTextures.js?v=20260724-meadow-13';
-import { createMinimalMeadowRoadRibbon } from './MinimalMeadowRoadRibbon.js';
+import { createTerrainMesh } from '../world/TerrainMesh.js';
 import { createMinimalMeadowTerrainComposites } from './MinimalMeadowTerrainComposites.js';
-import { createMinimalMeadowTerrainData } from './MinimalMeadowTerrainData.js?v=20260724-meadow-21';
+import { buildMinimalMeadowTerrainData } from './MinimalMeadowTerrainData.js';
 import { configureMinimalTerrainDensity } from './MinimalMeadowTerrainMaterialDensity.js';
+import { createMinimalMeadowRoadRibbon } from './MinimalMeadowRoadRibbon.js';
 import { loadMinimalMeadowTerrainSources } from './MinimalMeadowTerrainSources.js';
-import { minimalMeadowHeightAt } from './MinimalMeadowTerrainShape.js?v=20260724-meadow-21';
 import { applyWorldUvDensity } from './MinimalMeadowWorldUvDensity.js';
-import { createTerrainMesh } from '../world/TerrainMesh.js?v=20260723-meadow-11';
 
+/**
+ * Creates the meadow package while preserving its historic return contract.
+ *
+ * @param {object} options Device, progress, and document controls.
+ * @returns {Promise<object>} Terrain group, collider, diagnostics, and measured texture evidence.
+ */
 export async function createMinimalMeadowTerrainPackage(options = {}) {
-	options.onProgress?.({
-		message: 'Loading grasses, earth, mud, and mixed stone road…',
-		progress: 0.12
-	});
-	const data = createMinimalMeadowTerrainData();
-	const sources = await loadMinimalMeadowTerrainSources(options);
+	const mobile = Boolean(options.mobile);
+	options.onProgress?.({ message: 'Loading independent meadow sources…', progress: 0.08 });
+	const textureSources = await loadMinimalMeadowTerrainSources(options);
 	const composites = createMinimalMeadowTerrainComposites(
-		sources.images,
-		options.environment?.document
+		textureSources.images,
+		options.documentValue || globalThis.document
 	);
-	const mobile = mobileProfile(options.environment);
-	const mesh = createTerrainMesh(
-		data,
-		composites.main,
-		composites.pathEdge,
-		'',
-		'high'
-	);
-	const density = configureMinimalTerrainDensity(
-		mesh.material,
-		composites,
-		data.size,
-		mobile
-	);
-	const worldUv = applyWorldUvDensity(
-		mesh.geometry,
-		density.tileWorld,
-		[data.size / 2, data.size / 2]
-	);
-	const road = createMinimalMeadowRoadRibbon(
-		composites.path,
-		minimalMeadowHeightAt,
-		{
-			mobile,
-			shoulderImage: composites.pathEdge,
-			soilImage: composites.soil
-		}
-	);
+	options.onProgress?.({ message: 'Building continuous meadow geometry…', progress: 0.5 });
+	const data = buildMinimalMeadowTerrainData({ mobile });
+	const mesh = createTerrainMesh(data, composites.main, composites.path, '', 'high');
+	mesh.name = 'Awtsmoos_continuous_meadow_and_road';
+	const density = configureMinimalTerrainDensity(mesh.material, composites, data.size, mobile);
+	const uvInfo = applyWorldUvDensity(mesh.geometry, density.tileWorld, [data.size * 0.5, data.size * 0.5]);
+	const road = createMinimalMeadowRoadRibbon({
+		centerImage: composites.path,
+		heightAt: data.heightAt,
+		mobile,
+		shoulderImage: composites.pathEdge,
+		soilImage: composites.soil,
+		visible: false
+	});
 	const group = new Group();
-	group.name = 'Awtsmoos_physical_density_mixed_meadow';
-	group.add(mesh, road);
+	group.name = 'Awtsmoos_minimal_meadow_terrain_package';
+	group.add(mesh);
+	group.userData.AwtsmoosTerrain = packageEvidence(composites, density, uvInfo, road);
+	options.onProgress?.({ message: 'Meadow and curved road aligned.', progress: 0.82 });
 	return {
-		colliders: data.colliders,
+		collider: data.collider,
 		group,
-		heightAt: minimalMeadowHeightAt,
+		heightAt: data.heightAt,
 		mesh,
 		road,
+		size: data.size,
 		stats: {
-			cobblestoneReady: sources.cobbleRecord.ok,
-			collisionTriangles: data.colliders.length,
-			grassSources: MINIMAL_MEADOW_GRASS_ROLES.length,
-			road: road.userData.AwtsmoosRoad,
-			textureDensity: density,
-			textureLayers: mesh.material.textureLayers.length,
-			texturesReady: sources.records.filter(record => record.ok).length
-				+ Number(sources.cobbleRecord.ok),
-			visualMode: 'physical-world-uv-mixed-grass-earth-road',
-			worldUv
+			...data.stats,
+			roadSurface: group.userData.AwtsmoosTerrain.roadSurface,
+			textureSources,
+			textureSurface: textureEvidence(composites, density, mobile, textureSources, uvInfo),
+			visualMode: 'continuous-stochastic-meadow-with-terrain-owned-bezier-road'
 		}
 	};
 }
 
-function mobileProfile(environment = globalThis) {
-	return Number(environment?.innerWidth || 1024) <= 820
-		|| Boolean(environment?.matchMedia?.('(pointer: coarse)')?.matches);
+function packageEvidence(composites, density, uvInfo, road) {
+	return Object.freeze({
+		mosaic: composites.evidence.mosaic,
+		renderedChildren: 1,
+		roadSurface: Object.freeze({
+			collisionAligned: true,
+			diagnosticFinite: road.userData.AwtsmoosRoad.finite,
+			elevatedDuplicateRendered: false,
+			renderAuthority: 'terrain-zone-y',
+			signedDistanceAuthority: 'MinimalMeadowBezierPath',
+			surfaceOffset: 0
+		}),
+		sourceWorldUnits: density.sourceWorldUnits,
+		uvFinite: uvInfo?.finite === true,
+		wrap: 'mirror-pingpong-repeat'
+	});
+}
+
+function textureEvidence(composites, density, mobile, sources, uvInfo) {
+	return Object.freeze({
+		anisotropy: density.anisotropy,
+		effectiveTexelsPerWorld: density.effectiveTexelsPerWorld,
+		grassSourceCount: composites.evidence.independentSourceCount,
+		layerReports: density.layerReports,
+		mobile,
+		profile: density.profile,
+		repeat: density.repeat,
+		sourceSize: density.source,
+		sourceWorldUnits: density.sourceWorldUnits,
+		sources: Object.keys(sources.records),
+		tileWorld: density.tileWorld,
+		uvInfo
+	});
 }

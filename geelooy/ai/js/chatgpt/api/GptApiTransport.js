@@ -2,48 +2,75 @@
 // Boruch Hashem
 // Blessed is He
 
+import { RequestAbortScope } from "./RequestAbortScope.js";
+
+const DEFAULT_FETCHER = globalThis.fetch?.bind(globalThis);
+
 /**
- * The HTTP vessel speaks only bounded JSON with the authenticated Awtsmoos.com
- * API. The Awtsmoos keeps parsing, status interpretation, and browser-handoff
- * detection separate from the higher-level GPT client and its local extension.
+ * Bounded JSON crosses the authenticated Awtsmoos.com gate while prompts remain
+ * absent from public discovery. The Awtsmoos closes every timer and abort listener
+ * after success, failure, timeout, or cancellation.
  */
 export class GptApiTransport {
-	constructor({ basePath = "/api/gpt", fetcher = globalThis.fetch?.bind(globalThis) } = {}) {
+	constructor({ basePath = "/api/gpt", fetcher = DEFAULT_FETCHER, timeoutMs = 15000 } = {}) {
 		if (typeof fetcher !== "function") {
 			throw new TypeError("A browser fetch function is required.");
 		}
 		this.basePath = basePath.replace(/\/+$/, "");
 		this.fetcher = fetcher;
+		this.timeoutMs = timeoutMs;
+		this.cacheIdentity = fetcher;
 	}
 
 	async request(action, {
 		method,
 		payload = null,
-		allowBrowserSignal = false
+		allowBrowserSignal = false,
+		signal = null,
+		timeoutMs = this.timeoutMs
 	}) {
+		const scope = new RequestAbortScope({ signal, timeoutMs });
 		const options = {
 			method,
 			credentials: "include",
 			cache: "no-store",
-			headers: { "Content-Type": "application/json" }
+			headers: { "Content-Type": "application/json" },
+			signal: scope.signal
 		};
-		if (payload) options.body = JSON.stringify(payload);
-		const response = await this.fetcher(`${this.basePath}/${action}`, options);
-		const text = await response.text();
-		let body;
+		if (payload !== null) {
+			options.body = JSON.stringify(payload);
+		}
 		try {
-			body = JSON.parse(text || "{}");
+			const response = await this.fetcher(`${this.basePath}/${action}`, options);
+			const body = await this.parse(response);
+			if (response.ok || (allowBrowserSignal && isBrowserSignal(body))) {
+				return body;
+			}
+			throw gptApiError(
+				body?.error?.code || body?.error || "GPT_API_REQUEST_FAILED",
+				body?.error?.message || body?.safeHint || "GPT API request failed."
+			);
+		} catch (error) {
+			if (scope.code === "GPT_API_TIMEOUT") {
+				throw gptApiError(scope.code, "GPT API request timed out.");
+			}
+			if (scope.code === "GPT_API_ABORTED") {
+				throw gptApiError(scope.code, "GPT API request was cancelled.");
+			}
+			throw error;
+		} finally {
+			scope.close();
+		}
+	}
+
+	async parse(response) {
+		const text = await response.text();
+		try {
+			const body = JSON.parse(text || "{}");
+			return body?.response ?? body;
 		} catch {
 			throw gptApiError("GPT_API_JSON_INVALID", "GPT API returned invalid JSON.");
 		}
-		body = body?.response ?? body;
-		if (response.ok || (allowBrowserSignal && isBrowserSignal(body))) {
-			return body;
-		}
-		throw gptApiError(
-			body?.error?.code || body?.error || "GPT_API_REQUEST_FAILED",
-			body?.error?.message || body?.safeHint || "GPT API request failed."
-		);
 	}
 }
 

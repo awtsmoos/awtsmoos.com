@@ -7,12 +7,12 @@ import { CdpClient } from "./CdpClient.mjs";
 import { PageStateInspector } from "./PageStateInspector.mjs";
 
 /**
- * The authenticated controller is a fresh root tab whose own ChatGPT socket is
- * retained before application code runs. The Awtsmoos creates the living socket;
- * awtsmoos.com stores only an object reference inside that same page runtime.
+ * A fresh owned tab captures its own ChatGPT socket without destroying unrelated
+ * user tabs. The Awtsmoos replaces fixed sleeps with observed readiness, while
+ * Awtsmoos.com closes only the target created by this controller.
  */
 export class AuthenticatedSocketController {
-	constructor({ port = 9226, replaceChatGptTabs = true } = {}) {
+	constructor({ port = 9226, replaceChatGptTabs = false } = {}) {
 		this.port = port;
 		this.replaceChatGptTabs = replaceChatGptTabs;
 	}
@@ -21,25 +21,28 @@ export class AuthenticatedSocketController {
 		if (this.replaceChatGptTabs) {
 			await this.closeChatGptTargets();
 		}
-
 		const target = await this.createTarget();
 		const cdpClient = new CdpClient(target.webSocketDebuggerUrl);
-		await cdpClient.connect();
-		await cdpClient.send("Page.enable");
-		await cdpClient.send("Page.addScriptToEvaluateOnNewDocument", {
-			source: this.buildSocketCaptureScript()
-		});
-		await cdpClient.send("Page.navigate", { url: "https://chatgpt.com/" });
-
-		const inspector = new PageStateInspector(cdpClient);
-		const pageState = await this.waitUntilReady(cdpClient, inspector, timeoutMs);
-		return {
-			cdpClient,
-			inspector,
-			pageState,
-			targetId: target.id,
-			close: () => this.close(target.id, cdpClient)
-		};
+		try {
+			await cdpClient.connect();
+			await cdpClient.send("Page.enable");
+			await cdpClient.send("Page.addScriptToEvaluateOnNewDocument", {
+				source: this.buildSocketCaptureScript()
+			});
+			await cdpClient.send("Page.navigate", { url: "https://chatgpt.com/" });
+			const inspector = new PageStateInspector(cdpClient);
+			const pageState = await this.waitUntilReady(cdpClient, inspector, timeoutMs);
+			return {
+				cdpClient,
+				inspector,
+				pageState,
+				targetId: target.id,
+				close: () => this.close(target.id, cdpClient)
+			};
+		} catch (error) {
+			await this.close(target.id, cdpClient);
+			throw error;
+		}
 	}
 
 	buildSocketCaptureScript() {
@@ -70,30 +73,33 @@ export class AuthenticatedSocketController {
 			if (pageState.authenticated && pageState.composerVisible && socketResult.result.value === true) {
 				return pageState;
 			}
-			await new Promise((resolveDelay) => setTimeout(resolveDelay, 350));
+			await new Promise(resolve => setTimeout(resolve, 250));
 		}
 		throw new Error("Authenticated controller did not expose its owned ChatGPT socket.");
 	}
 
 	async closeChatGptTargets() {
 		const targets = await new ChromeDiscovery(this.port).listTargets();
-		for (const target of targets) {
-			if (target.type === "page" && target.url.includes("chatgpt.com")) {
-				await fetch(`http://127.0.0.1:${this.port}/json/close/${target.id}`).catch(() => {});
-			}
-		}
-		await new Promise((resolveDelay) => setTimeout(resolveDelay, 800));
+		const chatTargets = targets.filter(target => {
+			return target.type === "page" && target.url.includes("chatgpt.com");
+		});
+		await Promise.all(chatTargets.map(target => fetch(
+			`http://127.0.0.1:${this.port}/json/close/${target.id}`
+		).catch(() => null)));
+		return chatTargets.length;
 	}
 
 	async createTarget() {
 		const endpoint = `http://127.0.0.1:${this.port}/json/new?${encodeURIComponent("about:blank")}`;
 		const response = await fetch(endpoint, { method: "PUT" });
-		if (!response.ok) throw new Error(`Could not create authenticated controller: ${response.status}.`);
+		if (!response.ok) {
+			throw new Error(`Could not create authenticated controller: ${response.status}.`);
+		}
 		return response.json();
 	}
 
 	async close(targetId, cdpClient) {
 		cdpClient.close();
-		await fetch(`http://127.0.0.1:${this.port}/json/close/${targetId}`).catch(() => {});
+		await fetch(`http://127.0.0.1:${this.port}/json/close/${targetId}`).catch(() => null);
 	}
 }

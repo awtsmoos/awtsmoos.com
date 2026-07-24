@@ -4,9 +4,9 @@
 
 /**
  * @file RoadMaterialStackPreset.js
- * @description Builds ten active road garments from stone, cobble, soil, moss, grass, mud, and dust.
- * The Awtsmoos renews every traveled center and softened edge; Awtsmoos.com mixes multiple
- * full-source cobbles and transitions without splitting one continuous collision road into objects.
+ * @description Defines a curved road center, softened soil shoulder, and grass transition at broad scales.
+ * The Awtsmoos leads the traveler through stone and earth without a hard rectangular decree;
+ * Awtsmoos.com turns six sources so every edge returns gently into the living meadow.
  */
 
 import { materialStackRecipe } from './MaterialStackRecipe.js';
@@ -16,31 +16,69 @@ import {
 	MOUNTAIN_VILLAGE_SOURCES as S
 } from './MountainVillageMaterialSources.js';
 
+/**
+ * Builds six phone-readable road garments ordered from center toward meadow transition.
+ *
+ * @returns {object} Road material recipe.
+ */
 export function villageRoadStack() {
 	return materialStackRecipe('village-road', {
-		fallbackColor: [0.31, 0.27, 0.21, 1],
+		fallbackColor: [0.35, 0.27, 0.22, 1],
 		layers: [
-			road('road-fieldstone', S.fieldstone, 100, [9, 10], 0.64),
-			road('road-cobblestone', F.stone[3], 99, [12, 11], 0.46),
-			road('road-yellow-brick', S.yellowBrick, 98, [14, 12], 0.27),
-			road('road-stone-floor', F.stone[4], 97, [15, 13], 0.3),
-			road('road-worn-dirt', F.earth[1], 96, [17, 19], 0.43),
-			road('road-dirt-grass', F.grassTransitions[1], 95, [19, 17], 0.34),
-			road('road-wet-mud', S.mud, 94, [14, 16], 0.48, 0.82),
-			road('road-leaf-moss', F.forest[0], 93, [20, 18], 0.3),
-			road('road-grass-joints', F.grass[5], 92, [25, 23], 0.24),
-			road('road-pale-dust', S.sand, 91, [22, 20], 0.26)
+			roadCenter('road-fieldstone-center', S.fieldstone, 100, [4, 5], 0.68, 0.14),
+			roadCenter('road-cobble-variation', F.stone[3], 99, [5, 4], 0.44, -0.62),
+			roadCenter('road-worn-dirt-center', F.earth[1], 98, [4, 4], 0.46, 0.92),
+			roadShoulder(),
+			wetRoadLayer(),
+			grassTransition()
 		]
 	});
 }
 
-function road(role, url, priority, repeat, strength, wetness = 0) {
+function roadCenter(role, url, priority, repeat, strength, angle) {
 	return layer(role, url, {
+		angle,
 		priority,
 		repeat,
-		slope: [0, 0.55],
+		slope: [0, 0.58],
 		strength,
-		wetness,
-		zones: [1, wetness > 0 ? 0.58 : 0.18, wetness > 0 ? 0.64 : 0.18, 0.06]
+		wetness: -0.04,
+		zones: [0.12, 1, 0.08, 0]
+	});
+}
+
+function roadShoulder() {
+	return layer('road-soft-soil-shoulder', F.grassTransitions[1], {
+		angle: -1.16,
+		priority: 97,
+		repeat: [3, 4],
+		slope: [0, 0.54],
+		strength: 0.62,
+		wetness: -0.08,
+		zones: [0.42, 0.94, 0.16, 0]
+	});
+}
+
+function wetRoadLayer() {
+	return layer('road-damp-mud', S.mud, {
+		angle: 0.74,
+		priority: 96,
+		repeat: [4, 3],
+		slope: [0, 0.46],
+		strength: 0.36,
+		wetness: 0.76,
+		zones: [0.08, 0.72, 0.68, 0]
+	});
+}
+
+function grassTransition() {
+	return layer('road-grass-transition', F.grass[5], {
+		angle: 1.46,
+		priority: 95,
+		repeat: [3, 3],
+		slope: [0, 0.48],
+		strength: 0.34,
+		wetness: 0.08,
+		zones: [0.92, 0.28, 0.12, 0]
 	});
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowTreeCoreFacade.test.mjs
- * @description Proves the live tree facade is functional and graph-bounded.
- * The Awtsmoos reveals a complete tree through a narrow gate; Awtsmoos.com verifies that
- * the gate never reopens the giant procedural root which previously darkened playable boot.
+ * @description Proves the live facade is functional, graph-bounded, and transform-safe.
+ * The Awtsmoos reveals a complete tree through a narrow named gate; Awtsmoos.com verifies
+ * that neither the giant procedural root nor a fragile bare re-export can darken browser boot.
  */
 
 import assert from 'node:assert/strict';
@@ -22,7 +22,7 @@ const facadePath = path.resolve(
 	'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
 );
 
-test('facade exposes the real procedural tree API', () => {
+test('B"H facade exposes the real canonical procedural tree API', () => {
 	const presets = listTreePresets();
 	assert.ok(presets.length > 3);
 	assert.ok(presets.includes('Oak Medium'));
@@ -38,15 +38,20 @@ test('facade exposes the real procedural tree API', () => {
 	assert.equal(tree.stats.drawCalls, 2);
 });
 
-test('facade graph excludes the procedural root index', () => {
+test('B"H facade owns explicit local bindings instead of a bare re-export', () => {
+	const source = fs.readFileSync(facadePath, 'utf8');
+	assert.match(source, /import\s*\{/);
+	assert.match(source, /generateCanonicalTreeProceduralData/);
+	assert.match(source, /export function generateTreeProceduralData/);
+	assert.doesNotMatch(source, /export\s*\{[\s\S]*?\}\s*from/);
+});
+
+test('B"H facade graph excludes the procedural root index', () => {
 	const visited = traceGraph(facadePath);
 	assert.ok(visited.size < 80, `expected bounded tree graph, found ${visited.size}`);
-	assert.equal(
-		[...visited].some(file => {
-			return file.endsWith('/awtsmoos-procedural-core/src/index.js');
-		}),
-		false
-	);
+	assert.equal([...visited].some(file => {
+		return file.endsWith('/awtsmoos-procedural-core/src/index.js');
+	}), false);
 });
 
 function traceGraph(rootFile) {
@@ -61,10 +66,9 @@ function traceGraph(rootFile) {
 		const pattern = /(?:import|export)\s+(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
 		for (const match of source.matchAll(pattern)) {
 			const specifier = match[1];
-			if (!specifier.startsWith('.')) {
-				continue;
+			if (specifier.startsWith('.')) {
+				walk(path.resolve(path.dirname(file), specifier.split('?')[0]));
 			}
-			walk(path.resolve(path.dirname(file), specifier.split('?')[0]));
 		}
 	}
 	walk(rootFile);

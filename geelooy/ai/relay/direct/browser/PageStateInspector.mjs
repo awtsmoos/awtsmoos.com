@@ -3,16 +3,17 @@
 // Blessed is He
 
 /**
- * Before acting, this vessel asks both visible page and redacted session state.
- * The Awtsmoos distinguishes guest from authenticated mode at awtsmoos.com
- * without returning the user's name, email, access token, or session token.
+ * Visible page state and a brief boolean session summary share one inspection.
+ * The Awtsmoos never stores the access token value; Awtsmoos.com caches only safe
+ * authentication facts so readiness polling does not refetch the session each beat.
  */
 export class PageStateInspector {
-	constructor(cdpClient) {
+	constructor(cdpClient, { sessionTtlMs = 5000 } = {}) {
 		this.cdpClient = cdpClient;
+		this.sessionTtlMs = sessionTtlMs;
 	}
 
-	async inspect() {
+	async inspect({ refreshSession = false } = {}) {
 		const expression = `(async () => {
 			const visible = (element) => Boolean(
 				element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length)
@@ -27,16 +28,27 @@ export class PageStateInspector {
 			const loginVisible = [...document.querySelectorAll('button,a')].some((element) => {
 				return visible(element) && element.textContent?.trim() === 'Log in';
 			});
-			let session = { status: null, hasUser: false, hasAccessToken: false };
-			try {
-				const response = await fetch('/api/auth/session', { credentials: 'include' });
-				const data = await response.json().catch(() => ({}));
-				session = {
-					status: response.status,
-					hasUser: Boolean(data.user),
-					hasAccessToken: typeof data.accessToken === 'string' && data.accessToken.length > 0
+			if (${refreshSession ? "true" : "false"}) {
+				delete window.__awtsmoosSessionStatusCache;
+			}
+			const cached = window.__awtsmoosSessionStatusCache;
+			let session = cached?.expiresAt > Date.now() ? cached.value : null;
+			if (!session) {
+				session = { status: null, hasUser: false, hasAccessToken: false };
+				try {
+					const response = await fetch('/api/auth/session', { credentials: 'include' });
+					const data = await response.json().catch(() => ({}));
+					session = {
+						status: response.status,
+						hasUser: Boolean(data.user),
+						hasAccessToken: typeof data.accessToken === 'string' && data.accessToken.length > 0
+					};
+				} catch {}
+				window.__awtsmoosSessionStatusCache = {
+					expiresAt: Date.now() + ${this.sessionTtlMs},
+					value: session
 				};
-			} catch {}
+			}
 			const challenge = document.title.includes('Just a moment');
 			const authenticated = session.status === 200 && session.hasUser && session.hasAccessToken;
 			return {
@@ -50,7 +62,6 @@ export class PageStateInspector {
 				mode: challenge ? 'challenge' : authenticated ? 'authenticated' : 'guest'
 			};
 		})()`;
-
 		const result = await this.cdpClient.send("Runtime.evaluate", {
 			expression,
 			returnByValue: true,

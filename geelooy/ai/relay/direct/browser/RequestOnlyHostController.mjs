@@ -7,31 +7,35 @@ import { CdpClient } from "./CdpClient.mjs";
 import { PageStateInspector } from "./PageStateInspector.mjs";
 
 /**
- * A settings tab becomes a request-only host: authenticated cookies, current app
- * headers, and the page-owned topic socket, without a composer. The Awtsmoos
- * creates these vessels; Awtsmoos.com keeps their sensitive values only in memory.
+ * A non-composer settings route owns transient headers and its topic socket. The
+ * Awtsmoos leaves existing ChatGPT tabs untouched; Awtsmoos.com closes this single
+ * owned host after strict capability truth has been measured.
  */
 export class RequestOnlyHostController extends AuthenticatedSocketController {
-	constructor({ port = 9226, route = "/settings", replaceChatGptTabs = true } = {}) {
+	constructor({ port = 9226, route = "/settings", replaceChatGptTabs = false } = {}) {
 		super({ port, replaceChatGptTabs });
 		this.route = route;
 	}
 
 	async open(timeoutMs = 30000) {
-		if (this.replaceChatGptTabs) await this.closeChatGptTargets();
+		if (this.replaceChatGptTabs) {
+			await this.closeChatGptTargets();
+		}
 		const target = await this.createTarget();
 		const cdpClient = new CdpClient(target.webSocketDebuggerUrl);
-		await cdpClient.connect();
 		let applicationHeaders = null;
-		const removeListener = cdpClient.on("Network.requestWillBeSent", event => {
-			if (applicationHeaders) return;
-			const headers = event.request?.headers ?? {};
-			if (headers["OAI-Client-Build-Number"] && headers["OAI-Client-Version"]) {
-				applicationHeaders = { ...headers };
-			}
-		});
-
+		let removeListener = () => {};
 		try {
+			await cdpClient.connect();
+			removeListener = cdpClient.on("Network.requestWillBeSent", event => {
+				if (applicationHeaders) {
+					return;
+				}
+				const headers = event.request?.headers ?? {};
+				if (headers["OAI-Client-Build-Number"] && headers["OAI-Client-Version"]) {
+					applicationHeaders = { ...headers };
+				}
+			});
 			await cdpClient.send("Network.enable");
 			await cdpClient.send("Page.enable");
 			await cdpClient.send("Page.addScriptToEvaluateOnNewDocument", {
@@ -74,16 +78,21 @@ export class RequestOnlyHostController extends AuthenticatedSocketController {
 			if (pageState.authenticated && socket.result.value === true && readHeaders()) {
 				return pageState;
 			}
-			await new Promise(resolve => setTimeout(resolve, 350));
+			await new Promise(resolve => setTimeout(resolve, 250));
 		}
 		throw new Error("Request-only host did not expose authentication, headers, and socket.");
 	}
 
 	selectHeaders(headers) {
 		const allowed = [
-			"Authorization", "ChatGPT-Account-ID", "OAI-Client-Build-Number",
-			"OAI-Client-Version", "OAI-Device-Id", "OAI-Language",
-			"OAI-Session-Id", "X-OAI-IS-Client-Observation"
+			"Authorization",
+			"ChatGPT-Account-ID",
+			"OAI-Client-Build-Number",
+			"OAI-Client-Version",
+			"OAI-Device-Id",
+			"OAI-Language",
+			"OAI-Session-Id",
+			"X-OAI-IS-Client-Observation"
 		];
 		return Object.fromEntries(allowed
 			.filter(name => headers?.[name] !== undefined)

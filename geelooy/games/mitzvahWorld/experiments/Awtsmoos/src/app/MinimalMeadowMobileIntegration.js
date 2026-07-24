@@ -4,18 +4,21 @@
 
 /**
  * @file MinimalMeadowMobileIntegration.js
- * @description Reconciles post-hydration player materials, sword ownership, and visible equipment.
- * The Awtsmoos joins the remembered Bag to the embodied Chossid; Awtsmoos.com waits for the
- * real feature promise, then repairs only proven integration gaps through authoritative stores.
+ * @description Reconciles mobile equipment after boot and settles automatic failure without a cascade.
+ * The Awtsmoos joins remembered inventory to the embodied Chossid; Awtsmoos.com lets explicit
+ * callers receive strict errors while the browser bootstrap records one failure and never rethrows it.
  */
 
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
 
 export async function installMinimalMeadowMobileIntegration(
-	diagnostics = globalThis.AwtsmoosMitzvahWorld,
-	documentValue = globalThis.document
+	diagnostics = null,
+	documentValue = globalThis.document,
+	environment = globalThis
 ) {
-	const resolved = diagnostics || await globalThis.AwtsmoosMitzvahWorldBoot;
+	const resolved = diagnostics
+		|| environment.AwtsmoosMitzvahWorld
+		|| await environment.AwtsmoosMitzvahWorldBoot;
 	await resolved?.featuresPromise;
 	const runtime = resolved?.runtime;
 	if (!runtime) {
@@ -30,14 +33,29 @@ export async function installMinimalMeadowMobileIntegration(
 		equipment: runtime.equipment?.diagnostics?.() || null,
 		materialReceipt: Object.freeze({ ...materialReceipt }),
 		movement: runtime.movement?.snapshot?.() || null,
+		ready: true,
+		status: 'ready',
 		swordAdded,
 		swordOwned: runtime.inventory?.owns?.('spark-blade') === true
 	});
 	resolved.mobileIntegration = receipt;
-	if (documentValue?.documentElement) {
-		documentValue.documentElement.dataset.awtsmoosMobileIntegration = 'ready';
-	}
+	setDocumentState(documentValue, 'ready');
 	return receipt;
+}
+
+export function startMinimalMeadowMobileIntegration(
+	environment = globalThis,
+	documentValue = environment.document
+) {
+	const bootSource = environment.AwtsmoosMitzvahWorld
+		|| environment.AwtsmoosMitzvahWorldBoot;
+	const promise = Promise.resolve(bootSource)
+		.then(diagnostics => {
+			return installMinimalMeadowMobileIntegration(diagnostics, documentValue, environment);
+		})
+		.catch(error => settleAutomaticFailure(error, documentValue));
+	environment.AwtsmoosMobileIntegrationPromise = promise;
+	return promise;
 }
 
 export function ensureRealSword(inventory) {
@@ -48,14 +66,22 @@ export function ensureRealSword(inventory) {
 	return inventory.owns?.('spark-blade') === true;
 }
 
+function settleAutomaticFailure(error, documentValue) {
+	setDocumentState(documentValue, 'failed');
+	console.error('[MitzvahWorld] mobile integration failed.', error);
+	return Object.freeze({
+		error: error?.message || String(error),
+		ready: false,
+		status: 'failed'
+	});
+}
+
+function setDocumentState(documentValue, state) {
+	if (documentValue?.documentElement) {
+		documentValue.documentElement.dataset.awtsmoosMobileIntegration = state;
+	}
+}
+
 if (typeof document !== 'undefined') {
-	globalThis.AwtsmoosMobileIntegrationPromise = Promise.resolve(
-		globalThis.AwtsmoosMitzvahWorldBoot
-	)
-		.then(diagnostics => installMinimalMeadowMobileIntegration(diagnostics, document))
-		.catch(error => {
-			document.documentElement.dataset.awtsmoosMobileIntegration = 'failed';
-			console.error('[MitzvahWorld] mobile integration failed.', error);
-			throw error;
-		});
+	startMinimalMeadowMobileIntegration(globalThis, document);
 }

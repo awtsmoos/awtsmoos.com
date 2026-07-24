@@ -3,17 +3,26 @@
 // Blessed is He
 
 /**
- * Credentials remain inside Chrome while the same-origin request crosses its
- * living page. The Awtsmoos reveals the handoff through SSE; awtsmoos.com stops
- * at `[DONE]` instead of waiting for a connection that may remain open forever.
+ * Credentials remain inside Chrome while a same-origin request crosses its page.
+ * The Awtsmoos clears both outer abort and inner read timers; Awtsmoos.com stops
+ * at `[DONE]` without leaving the losing Promise-race timer alive.
  */
 export class PageContextRequestClient {
 	constructor(cdpClient) {
 		this.cdpClient = cdpClient;
 		this.forbiddenHeaders = new Set([
-			"accept-encoding", "connection", "content-length", "cookie", "host",
-			"origin", "priority", "referer", "user-agent", "sec-ch-ua",
-			"sec-ch-ua-mobile", "sec-ch-ua-platform"
+			"accept-encoding",
+			"connection",
+			"content-length",
+			"cookie",
+			"host",
+			"origin",
+			"priority",
+			"referer",
+			"user-agent",
+			"sec-ch-ua",
+			"sec-ch-ua-mobile",
+			"sec-ch-ua-platform"
 		]);
 	}
 
@@ -25,7 +34,6 @@ export class PageContextRequestClient {
 			returnByValue: true,
 			awaitPromise: true
 		}, timeoutMs + 10000);
-
 		if (result.exceptionDetails) {
 			throw new Error(result.exceptionDetails.text ?? "Page-context fetch failed.");
 		}
@@ -68,12 +76,7 @@ export class PageContextRequestClient {
 				const decoder = new TextDecoder();
 				let text = '';
 				while (true) {
-					const packet = await Promise.race([
-						reader.read(),
-						new Promise((_, reject) => setTimeout(() => {
-							reject(new Error('Conversation handoff read timed out.'));
-						}, ${readTimeoutMs}))
-					]);
+					const packet = await readWithTimeout(reader);
 					if (packet.done) {
 						text += decoder.decode();
 						return { text, endedByDoneMarker: false };
@@ -83,7 +86,25 @@ export class PageContextRequestClient {
 						await reader.cancel().catch(() => {});
 						return { text, endedByDoneMarker: true };
 					}
-					if (text.length > 1000000) throw new Error('Conversation handoff exceeded one megabyte.');
+					if (text.length > 1000000) {
+						throw new Error('Conversation handoff exceeded one megabyte.');
+					}
+				}
+			}
+
+			async function readWithTimeout(reader) {
+				let timer = null;
+				try {
+					return await Promise.race([
+						reader.read(),
+						new Promise((resolve, reject) => {
+							timer = setTimeout(() => reject(
+								new Error('Conversation handoff read timed out.')
+							), ${readTimeoutMs});
+						})
+					]);
+				} finally {
+					if (timer) clearTimeout(timer);
 				}
 			}
 		})()`;

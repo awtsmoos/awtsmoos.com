@@ -3,18 +3,22 @@
 // Blessed is He
 
 import { gptApiError } from "./GptApiTransport.js";
+import { RequestAbortScope } from "./RequestAbortScope.js";
 
 /**
- * The visitor's extension is a local Awtsmoos.com vessel. The Awtsmoos invokes
- * only named bridge methods and adds transport testimony without exposing server
- * internals, credentials, or upstream identifiers to the public API response.
+ * The visitor extension is the private vessel after harmless topology discovery.
+ * The Awtsmoos bounds its named invocation; Awtsmoos.com returns quickly when the
+ * bridge is absent instead of waiting through an invisible handshake.
  */
 export class BrowserBridgeInvoker {
 	constructor(bridge = globalThis.awtsmoosFetch) {
 		this.bridge = bridge;
 	}
 
-	async invoke(method, payload, serverDescriptor) {
+	async invoke(method, payload, serverDescriptor, {
+		signal = null,
+		timeoutMs = 210000
+	} = {}) {
 		const callable = this.bridge?.[method];
 		if (typeof callable !== "function") {
 			throw gptApiError(
@@ -22,13 +26,27 @@ export class BrowserBridgeInvoker {
 				`The Awtsmoos browser bridge does not expose ${method}.`
 			);
 		}
-		const result = payload == null
-			? await callable.call(this.bridge)
-			: await callable.call(this.bridge, payload);
-		return {
-			...result,
-			apiTransport: "browser-extension",
-			serverRelayAttempted: serverDescriptor?.serverRelayAttempted === true
-		};
+		const scope = new RequestAbortScope({ signal, timeoutMs });
+		try {
+			const invocation = Promise.resolve().then(() => payload == null
+				? callable.call(this.bridge)
+				: callable.call(this.bridge, payload));
+			const result = await scope.race(invocation);
+			return {
+				...result,
+				apiTransport: "browser-extension",
+				serverRelayAttempted: serverDescriptor?.serverRelayAttempted === true
+			};
+		} catch (error) {
+			if (scope.code === "GPT_API_TIMEOUT") {
+				throw gptApiError("GPT_BROWSER_BRIDGE_TIMEOUT", "Browser relay request timed out.");
+			}
+			if (scope.code === "GPT_API_ABORTED") {
+				throw gptApiError("GPT_BROWSER_BRIDGE_ABORTED", "Browser relay request was cancelled.");
+			}
+			throw error;
+		} finally {
+			scope.close();
+		}
 	}
 }
