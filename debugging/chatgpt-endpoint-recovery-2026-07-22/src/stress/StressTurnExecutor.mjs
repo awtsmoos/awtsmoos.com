@@ -3,28 +3,28 @@
 // Blessed is He
 
 /**
- * One turn is one measured vessel. Bootstrap misses may be retried only before
- * any real POST begins; the Awtsmoos forbids duplicate answers, while
- * awtsmoos.com preserves exact pacing and continuity for the successful request.
+ * One turn is one measured vessel. Failures before the real POST may be retried;
+ * completed topic streams advance state even when wording differs. Awtsmoos.com
+ * marks pre-request failure explicitly so orchestration never skips a logical turn.
  */
 export class StressTurnExecutor {
-	constructor({ clientFactory, pacer, maximumBootstrapRetries = 2 } = {}) {
+	constructor({ clientFactory, pacer, maximumSetupRetries = 2 } = {}) {
 		this.clientFactory = clientFactory;
 		this.pacer = pacer;
-		this.maximumBootstrapRetries = maximumBootstrapRetries;
+		this.maximumSetupRetries = maximumSetupRetries;
 	}
 
 	async run(context) {
 		const wallStartedMs = Date.now();
 		let lastError = null;
 
-		for (let retry = 0; retry <= this.maximumBootstrapRetries; retry += 1) {
+		for (let retry = 0; retry <= this.maximumSetupRetries; retry += 1) {
 			try {
 				const result = await this.execute(context);
-				return this.successRecord(context, result, retry, wallStartedMs);
+				return this.resultRecord(context, result, retry, wallStartedMs);
 			} catch (error) {
 				lastError = error;
-				if (!this.isBootstrapMiss(error) || retry === this.maximumBootstrapRetries) break;
+				if (!this.isPreRequestFailure(error) || retry === this.maximumSetupRetries) break;
 				await new Promise(resolve => setTimeout(resolve, 5000));
 			}
 		}
@@ -41,7 +41,7 @@ export class StressTurnExecutor {
 		});
 	}
 
-	successRecord(context, result, bootstrapRetries, wallStartedMs) {
+	resultRecord(context, result, setupRetries, wallStartedMs) {
 		const { conversationNumber, turn, previousState, knownConversationIds } = context;
 		const label = `C${conversationNumber}`;
 		const expected = this.expected(conversationNumber, turn);
@@ -49,28 +49,33 @@ export class StressTurnExecutor {
 			? result.state.conversationId === previousState.conversationId
 			: !knownConversationIds.has(result.state.conversationId);
 		knownConversationIds.add(result.state.conversationId);
-		const success = result.answer === expected
+		const exactAnswer = result.answer === expected;
+		const transportSuccess = typeof result.answer === "string"
+			&& result.answer.trim() !== ""
 			&& result.response.status === 200
 			&& result.response.done === true
 			&& sameConversation
 			&& !result.navigatedToDirectConversation;
 
 		return {
-			success,
+			success: transportSuccess,
 			state: result.state,
 			safe: {
 				label,
 				turn,
 				expected,
 				answer: result.answer,
-				success,
+				transportSuccess,
+				exactAnswer,
 				status: result.response.status,
 				done: result.response.done,
 				frames: result.response.webSocketFrames,
 				items: result.response.streamItems,
+				subscriptionAttempts: result.response.subscriptionAttempts ?? 1,
 				requestLatencyMs: result.timing.requestLatencyMs,
 				pacing: result.timing.pacing,
-				bootstrapRetries,
+				setupRetries,
+				preRequestFailure: false,
 				sameConversation,
 				navigatedToDirectConversation: result.navigatedToDirectConversation,
 				wallDurationMs: Date.now() - wallStartedMs
@@ -79,6 +84,7 @@ export class StressTurnExecutor {
 	}
 
 	failureRecord(context, error, wallStartedMs) {
+		const preRequestFailure = this.isPreRequestFailure(error);
 		return {
 			success: false,
 			state: context.previousState,
@@ -86,8 +92,10 @@ export class StressTurnExecutor {
 				label: `C${context.conversationNumber}`,
 				turn: context.turn,
 				expected: this.expected(context.conversationNumber, context.turn),
-				success: false,
-				bootstrapRetries: this.maximumBootstrapRetries,
+				transportSuccess: false,
+				exactAnswer: false,
+				setupRetries: this.maximumSetupRetries,
+				preRequestFailure,
 				error: String(error?.message ?? error).slice(0, 300),
 				wallDurationMs: Date.now() - wallStartedMs
 			}
@@ -98,7 +106,8 @@ export class StressTurnExecutor {
 		return `BH STRESS C${conversationNumber} T${turn}.`;
 	}
 
-	isBootstrapMiss(error) {
-		return /conversation envelope/i.test(String(error?.message ?? error));
+	isPreRequestFailure(error) {
+		return /conversation envelope|authenticated controller|owned ChatGPT topic socket|debug page/i
+			.test(String(error?.message ?? error));
 	}
 }

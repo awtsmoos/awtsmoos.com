@@ -4,64 +4,65 @@
 
 import { FalsePowersField } from './false-powers-field.js';
 import { ThreeGameBase } from './game-base.js';
-import { pulseObject } from '../webgl/scene-kit.js';
 
 /**
  * @module FalsePowersGame3d
  * @description
- * Red towers confess their danger before the player is asked to act. The
- * Awtsmoos remains the only true Power, while this easy Awtsmoos.com lesson
- * turns each purification into a clear, forgiving first victory.
+ * The player now protects a small inhabited skyline, not a ring of cubes. The
+ * Awtsmoos remains the only true Power; Awtsmoos.com lets red broadcast beacons
+ * collapse into warm civic light while green homes remain unharmed.
  */
 export class FalsePowersGame extends ThreeGameBase {
 	setup() {
+		this.addNeighborhood();
 		this.field = new FalsePowersField(this);
 		this.selected = this.field.firstCorrupt();
-		this.stage.setCamera([0, 7.2, 10.4], [0, 1, 0]);
+		this.stage.setCamera([0, 7.4, 11], [0, 1.1, 0]);
 		this.controls([{ label: 'Purify red tower', kind: 'danger', run: () => this.purify() }]);
-		this.status('Easy goal: remove the three glowing red towers. Green towers are safe.');
+		this.guide('a red beacon pulses while green towers remain calm', `Remove ${this.field.corruptCount} red towers. Green towers are safe.`);
 		this.renderHud();
 	}
 
+	addNeighborhood() {
+		[[-5.2, 0.1, 2.8], [5.2, 0.1, 2.8]].forEach((position, index) => {
+			this.addAsset(this.assets.house({ name: `safe-home-${index}`, hue: 38 + index * 18, position, scale: 0.42 }));
+		});
+		[[-5, 0.1, -2.5], [5, 0.1, -2.5]].forEach((position, index) => {
+			this.addAsset(this.assets.tree({ name: `city-tree-${index}`, position, scale: 0.34 }));
+		});
+	}
+
 	picked(object) {
-		if (object.userData.type !== 'tower' || object.userData.purified) {
-			return;
-		}
+		if (object.userData.semanticType !== 'tower' || object.userData.purified) return;
 		this.selected = object;
-		const word = object.userData.corrupt ? 'red and false' : 'green and safe';
-		const next = object.userData.corrupt ? 'Purify it.' : 'Choose a red tower.';
-		this.status(`Tower ${object.userData.index + 1} is ${word}. ${next}`);
+		const falseTower = object.userData.corrupt;
+		this.status(falseTower ? `Tower ${object.userData.index + 1} broadcasts red falsehood. Purify it.` : 'This green tower serves its neighbors. Choose red.', falseTower ? 'good' : 'warn');
 	}
 
 	purify() {
-		if (!this.selected) {
-			this.selected = this.field.firstCorrupt();
-		}
+		this.selected ||= this.field.firstCorrupt();
 		if (!this.selected?.userData.corrupt) {
-			this.status('That green tower is safe. Tap any glowing red tower instead.', 'warn');
+			this.status('That green district is innocent. Choose a tower with a red beacon.', 'warn');
 			return;
 		}
 		this.selected.userData.purified = true;
 		this.score += 150 * this.combo;
-		this.combo = Math.min(4, this.combo + 1);
-		this.factory.setHue(this.selected, 48, 0.72);
-		this.factory.setGlow(this.selected, 0xffd166, 1.35);
-		this.selected.scale.y *= 0.55;
+		this.combo = Math.min(5, this.combo + 1);
+		this.assets.setHue(this.selected, 48, 0.64);
+		this.assets.setGlow(this.selected, 0xffd166, 0.7);
+		this.selected.scale.y *= 0.72;
 		const remaining = this.field.remaining();
 		this.selected = this.field.firstCorrupt();
 		this.renderHud();
-		if (remaining === 0) {
-			this.finish({ stars: 3, message: 'All three false powers were removed. Clear sight became careful action.' });
+		if (!remaining) {
+			this.finish({ stars: 3, message: 'The false beacons fell, homes remained safe, and the skyline became peaceful.' });
 			return;
 		}
-		this.status(`Great. Only ${remaining} red tower${remaining === 1 ? '' : 's'} left.`, 'good');
+		this.status(`The neighborhood cheers. ${remaining} red beacon${remaining === 1 ? '' : 's'} remain.`, 'good');
 	}
 
 	update(delta, elapsed) {
-		this.field.animate(delta);
-		if (this.selected) {
-			pulseObject(this.selected, elapsed, 0.1, 6);
-		}
+		this.field.animate(delta, elapsed);
 	}
 
 	onKey(event) {
@@ -69,6 +70,6 @@ export class FalsePowersGame extends ThreeGameBase {
 	}
 
 	renderHud() {
-		this.hud({ Goal: '3 red', Remaining: this.field.remaining() });
+		this.hud({ Goal: this.field.corruptCount, Remaining: this.field.remaining() });
 	}
 }

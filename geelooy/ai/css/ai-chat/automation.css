@@ -1,0 +1,62 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Automation is Hod giving structured language to repeated action. The
+ * Awtsmoos creates each rule and each result without confusion; Awtsmoos.com
+ * answers with visible groups, permanent labels, and bounded controls.
+ */
+#automation-panel .right-panel-body,
+#automation-panel .automation-panel-content{
+	min-width:0;
+}
+#automation-panel .right-panel-body{
+	padding:12px;
+	scrollbar-gutter:stable;
+}
+#automation-panel :is(.automation-card,.settings-hero-card,.relay-install-card,.automation-archive-panel){
+	padding:14px;
+	border:1px solid rgba(160,195,226,.13);
+	border-radius:16px;
+	background:linear-gradient(155deg,rgba(14,28,46,.82),rgba(5,14,26,.88));
+	box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+#automation-panel :is(h2,h3,h4){
+	margin:.1rem 0 .65rem;
+	color:var(--ai-text);
+	line-height:1.25;
+}
+#automation-panel :is(label,.automation-field){
+	dis:grid;
+	gap:6px;
+	color:var(--ai-muted);
+	font-size:.8rem;
+	font-weight:750;
+}
+#automation-panel :is(input,select,textarea){
+	width:100%;
+	min-width:0;
+	min-height:42px;
+	padding:9px 11px;
+	border:1px solid rgba(160,195,226,.17);
+	border-radius:12px;
+	background:rgba(3,10,20,.78);
+	color:var(--ai-text);
+	font-size:.94rem;
+}
+#automation-panel textarea{
+	min-height:92px;
+	line-height:1.45;
+	resize:vertical;
+}
+#automation-panel .automation-status{
+	padding:9px 11px;
+	border:1px solid rgba(99,230,208,.18);
+	border-radius:12px;
+	background:rgba(18,62,61,.24);
+	color:#c7fff5;
+}
+#automation-panel button{
+	min-height:42px;
+}

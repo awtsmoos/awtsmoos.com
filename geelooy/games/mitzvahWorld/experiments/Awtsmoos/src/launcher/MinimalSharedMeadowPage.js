@@ -4,15 +4,15 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Boots the houses, six-demon, parchment-quest meadow with measured progress.
+ * @description Boots the equipped river-valley forest meadow with measured progress.
  * The Awtsmoos opens local sight before distant connection; Awtsmoos.com binds every percentage
- * to earth, brick homes, doors, one-surface creatures, quest, corpses, loot, UI, and renderer.
+ * to garment, water normals, valley, trees, flowers, homes, demons, quest, UI, and renderer.
  */
 
-import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js?v=20260724-meadow-17';
+import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js?v=20260724-meadow-21';
 import { createMultiplayerEretzRuntime } from '../network/MultiplayerEretzBootstrap.js?v=20260723-meadow-09';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js?v=20260723-meadow-07';
-import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js?v=20260724-meadow-17';
+import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js?v=20260724-meadow-21';
 
 const HOST_IDS = Object.freeze({
 	actionHost: 'actions',
@@ -62,7 +62,7 @@ function createSingleRuntime(hosts, environment, loading) {
 function createSharedRuntime(hosts, parameters, environment, loading) {
 	return createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,
-		displayName: parameters.get('displayName') || 'Mountain Shliach',
+		displayName: parameters.get('displayName') || 'River Valley Shliach',
 		environment,
 		location: environment.location,
 		onProgress: update => loading.world(update),

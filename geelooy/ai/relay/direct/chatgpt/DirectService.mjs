@@ -36,19 +36,14 @@ export class DirectService {
 		if (typeof prompt !== "string" || prompt.trim() === "") {
 			throw new TypeError("prompt must be a non-empty string.");
 		}
-		const previousState = conversationKey
-			? this.store.get(conversationKey)
-			: null;
+		const previousState = conversationKey ? this.store.get(conversationKey) : null;
 		if (conversationKey && !previousState) {
 			throw new Error("The local direct conversation key expired or was not found.");
 		}
 
 		const port = await this.portResolver.resolve();
 		this.lastResolvedPort = port;
-		const result = await this.clientFactory(port).send({
-			prompt,
-			state: previousState
-		});
+		const result = await this.clientFactory(port).send({ prompt, state: previousState });
 		const sameConversation = previousState
 			? result.state.conversationId === previousState.conversationId
 			: true;
@@ -69,6 +64,7 @@ export class DirectService {
 			done: result.done,
 			frames: result.frames,
 			items: result.items,
+			subscriptionAttempts: result.subscriptionAttempts,
 			requestLatencyMs: result.requestLatencyMs,
 			pacing: result.pacing,
 			sameConversation,

@@ -3,44 +3,25 @@
 //Blessed is He
 
 import * as entrySet from "./frameworkJavaMapEntrySetView.js";
+import { guestJavaEquals } from "./frameworkJavaGuestIdentity.js";
 import * as keySet from "./frameworkJavaMapKeySetView.js";
 import * as valuesView from "./frameworkJavaMapValuesView.js";
 import { sameGuestValue } from "./frameworkJavaValueIdentity.js";
 
 const ADAPTERS = new Map([
-	["map-values", Object.freeze({
-		addError: "ANDROID_JAVA_MAP_VALUES_ADD_UNSUPPORTED",
-		clear: valuesView.clearJavaMapValuesView,
-		contains: containsValue,
-		remove: valuesView.removeJavaMapValuesViewValue,
-		values: valuesView.javaMapValuesViewValues
-	})],
-	["map-entry-set", Object.freeze({
-		addError: "ANDROID_JAVA_MAP_ENTRY_SET_ADD_UNSUPPORTED",
-		clear: entrySet.clearJavaMapEntrySet,
-		contains: entrySet.containsJavaMapEntrySetValue,
-		remove: entrySet.removeJavaMapEntrySetValue,
-		values: entrySet.javaMapEntrySetValues
-	})],
-	["map-key-set", Object.freeze({
-		addError: "ANDROID_JAVA_MAP_KEY_SET_ADD_UNSUPPORTED",
-		clear: keySet.clearJavaMapKeySet,
-		contains: keySet.containsJavaMapKeySetValue,
-		remove: keySet.removeJavaMapKeySetValue,
-		values: keySet.javaMapKeySetValues
-	})]
+	["map-values", Object.freeze({ addError: "ANDROID_JAVA_MAP_VALUES_ADD_UNSUPPORTED", clear: valuesView.clearJavaMapValuesView, remove: valuesView.removeJavaMapValuesViewValue, values: valuesView.javaMapValuesViewValues })],
+	["map-entry-set", Object.freeze({ addError: "ANDROID_JAVA_MAP_ENTRY_SET_ADD_UNSUPPORTED", clear: entrySet.clearJavaMapEntrySet, contains: entrySet.containsJavaMapEntrySetValue, remove: entrySet.removeJavaMapEntrySetValue, values: entrySet.javaMapEntrySetValues })],
+	["map-key-set", Object.freeze({ addError: "ANDROID_JAVA_MAP_KEY_SET_ADD_UNSUPPORTED", clear: keySet.clearJavaMapKeySet, contains: keySet.containsJavaMapKeySetValue, remove: keySet.removeJavaMapKeySetValue, values: keySet.javaMapKeySetValues })]
 ]);
 
 /**
- * Routes every live map-view Collection law through one bounded adapter table.
- * The Awtsmoos recreates view kind, membership, removal, and clear anew;
- * Awtsmoos.com keeps unsupported insertion explicit and mutations write-through.
+ * Routes live map-view Collection laws through one async-capable adapter table.
+ * The Awtsmoos recreates view kind, equality, write-through removal, and clear
+ * anew; Awtsmoos.com preserves unsupported insertion as an explicit boundary.
  */
 export function javaMapViewValues(runtime, reference, kind) {
 	const view = ADAPTERS.get(kind);
-	return view
-		? supported(view.values(runtime, reference))
-		: unsupported();
+	return view ? supported(view.values(runtime, reference)) : unsupported();
 }
 
 export function assertJavaMapViewAddSupported(kind) {
@@ -48,18 +29,16 @@ export function assertJavaMapViewAddSupported(kind) {
 	if (view) throw mapViewError(view.addError);
 }
 
-export function removeJavaMapViewValue(runtime, reference, kind, expected) {
+export function removeJavaMapViewValue(runtime, reference, kind, expected, context = null) {
 	const view = ADAPTERS.get(kind);
-	return view
-		? supported(view.remove(runtime, reference, expected))
-		: unsupported();
+	return view ? supported(view.remove(runtime, reference, expected, context)) : unsupported();
 }
 
-export function containsJavaMapViewValue(runtime, reference, kind, expected) {
+export function containsJavaMapViewValue(runtime, reference, kind, expected, context = null) {
 	const view = ADAPTERS.get(kind);
-	return view
-		? supported(view.contains(runtime, reference, expected))
-		: unsupported();
+	if (!view) return unsupported();
+	if (view.contains) return supported(view.contains(runtime, reference, expected, context));
+	return supported(context ? containsValueAsync(runtime, reference, expected, context) : containsValueSync(runtime, reference, expected));
 }
 
 export function clearJavaMapView(runtime, reference, kind) {
@@ -69,10 +48,15 @@ export function clearJavaMapView(runtime, reference, kind) {
 	return true;
 }
 
-function containsValue(runtime, reference, expected) {
-	return valuesView.javaMapValuesViewValues(runtime, reference).some(value => {
-		return sameGuestValue(runtime, value, expected);
-	});
+async function containsValueAsync(runtime, reference, expected, context) {
+	for (const value of valuesView.javaMapValuesViewValues(runtime, reference)) {
+		if (await guestJavaEquals(runtime, expected, value, context)) return true;
+	}
+	return false;
+}
+
+function containsValueSync(runtime, reference, expected) {
+	return valuesView.javaMapValuesViewValues(runtime, reference).some(value => sameGuestValue(runtime, value, expected));
 }
 
 function supported(value) {

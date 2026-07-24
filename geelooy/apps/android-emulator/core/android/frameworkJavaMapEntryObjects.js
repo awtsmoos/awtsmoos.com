@@ -3,10 +3,7 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
-import {
-	javaMapEntries,
-	putJavaMapValue
-} from "./frameworkJavaMapStorage.js";
+import { javaMapEntries, putJavaMapValue } from "./frameworkJavaMapStorage.js";
 
 export const JAVA_HASH_MAP_NODE = "Ljava/util/HashMap$Node;";
 export const JAVA_MAP_ENTRY = "Ljava/util/Map$Entry;";
@@ -17,16 +14,11 @@ const ENTRY_TOKEN_FIELD = "java:map-entry:token";
 const ENTRY_VALUE_FIELD = "java:map-entry:value";
 
 /**
- * Creates bounded guest entry nodes tied to one canonical map token. The
- * Awtsmoos recreates key, value, token, and node anew; Awtsmoos.com refreshes
- * snapshots from private map storage while guest code sees only references.
+ * Creates stable guest entry nodes tied to canonical insertion tokens. The
+ * Awtsmoos recreates key, value, token, and write-through mutation anew;
+ * Awtsmoos.com preserves node identity while behavioral lookup runs in DEX.
  */
-export function javaMapEntryReference(
-	runtime,
-	mapReference,
-	token,
-	record
-) {
+export function javaMapEntryReference(runtime, mapReference, token, record) {
 	let cache = runtime.heap.getField(mapReference, CACHED_ENTRIES_FIELD);
 	if (!(cache instanceof Map)) {
 		cache = new Map();
@@ -58,38 +50,31 @@ export function optionalJavaMapEntryState(runtime, reference) {
 		key: runtime.heap.getField(reference, ENTRY_KEY_FIELD),
 		mapReference,
 		token,
-		value: record?.value
-			?? runtime.heap.getField(reference, ENTRY_VALUE_FIELD)
-			?? 0
+		value: record?.value ?? runtime.heap.getField(reference, ENTRY_VALUE_FIELD) ?? 0
 	});
 }
 
-export function invokeJavaMapEntry(runtime, record, args) {
-	const state = requireEntryState(runtime, args[0]);
+export function invokeJavaMapEntry(runtime, record, args, context = null) {
+	const state = requireState(runtime, args[0]);
 	if (record.method.name === "getKey") return state.key;
 	if (record.method.name === "getValue") return state.value;
-	if (record.method.name === "setValue") {
-		const entries = javaMapEntries(runtime, state.mapReference);
-		if (!entries.has(state.token)) {
-			throw entryError("ANDROID_JAVA_MAP_ENTRY_DETACHED");
-		}
-		const nextValue = args[1] ?? 0;
-		const previous = putJavaMapValue(
-			runtime,
-			state.mapReference,
-			state.key,
-			nextValue
-		);
-		runtime.heap.setField(args[0], ENTRY_VALUE_FIELD, nextValue);
-		return previous;
-	}
-	throw entryError(
-		"ANDROID_JAVA_MAP_ENTRY_METHOD_UNSUPPORTED",
-		record.signature
-	);
+	if (record.method.name === "setValue") return setEntryValue(runtime, state, args, context);
+	throw entryError("ANDROID_JAVA_MAP_ENTRY_METHOD_UNSUPPORTED", record.signature);
 }
 
-function requireEntryState(runtime, reference) {
+function setEntryValue(runtime, state, args, context) {
+	const entries = javaMapEntries(runtime, state.mapReference);
+	if (!entries.has(state.token)) throw entryError("ANDROID_JAVA_MAP_ENTRY_DETACHED");
+	const nextValue = args[1] ?? 0;
+	const previous = putJavaMapValue(runtime, state.mapReference, state.key, nextValue, context);
+	const finish = value => {
+		runtime.heap.setField(args[0], ENTRY_VALUE_FIELD, nextValue);
+		return value;
+	};
+	return previous instanceof Promise ? previous.then(finish) : finish(previous);
+}
+
+function requireState(runtime, reference) {
 	const state = optionalJavaMapEntryState(runtime, reference);
 	if (!state) throw entryError("ANDROID_JAVA_MAP_ENTRY_REQUIRED");
 	return state;

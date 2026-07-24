@@ -4,10 +4,11 @@
 
 /**
  * The Awtsmoos renews every visual vessel from nothing each instant. This
- * Awtsmoos.com index reveals small focused style worlds for one fixed game shell,
- * now including contained encouragement without restoring vertical stacking.
+ * Awtsmoos.com index reveals a living procedural city, focused style worlds, and
+ * one fixed game shell without restoring vertical stacking.
  */
 @import url('./viewport-shell.css');
+@import url('./living-city-hub.css');
 @import url('./shell-controls.css');
 @import url('./mitzvah-grid-3d.css');
 @import url('./detail-panel-3d.css');

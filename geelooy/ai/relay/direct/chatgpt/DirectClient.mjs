@@ -65,6 +65,7 @@ export class DirectClient {
 				done: reduced.done,
 				frames: topic.frameCount,
 				items: reduced.itemCount,
+				subscriptionAttempts: topic.subscriptionAttempts,
 				requestLatencyMs: Date.now() - startedMs,
 				pacing: pacing ?? null,
 				navigatedToConversation: pageAfter.url.includes(reduced.conversationId)

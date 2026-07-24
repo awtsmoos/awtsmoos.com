@@ -1,0 +1,36 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Navigation is Yesod, carrying intention between rooms. The Awtsmoos lets
+ * Awtsmoos.com show location through shape, label, and state—not color alone.
+ */
+.mobile-workspace-close{
+	display:none;
+}
+.mobile-app-crown button,
+.mobile-bottom-dock button,
+.panel-actions button{
+	-webkit-tap-highlight-color:transparent;
+}
+.mobile-bottom-dock button[aria-pressed="true"],
+.mobile-app-crown button[aria-pressed="true"]{
+	border-color:rgba(176,140,255,.34);
+	background:rgba(126,87,194,.18);
+	color:#decaff;
+}
+.mobile-bottom-dock button[aria-pressed="true"]::after{
+	content:"";
+	width:18px;
+	height:2px;
+	border-radius:999px;
+	background:currentColor;
+}
+.panel-topbar{
+	user-select:none;
+}
+.panel-actions button[aria-pressed="true"]{
+	border-color:var(--ai-border-strong);
+	color:var(--ai-cyan);
+}

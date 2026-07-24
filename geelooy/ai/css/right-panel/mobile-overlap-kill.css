@@ -1,74 +1,13 @@
 @import "../ai-chat/index.css";
-/*B"H
-  Chapter 368: The Final Guard Became A Crown Gate.
+@import "./mobile-automation-flow.css";
 
-  The Awtsmoos lets the new AI-chat modules enter before this last mobile oath.
-  Then the oath still closes the cascade by forcing automation controls into
-  safe mobile rows without blunt important declarations.
-*/
-@media(max-width:900px){
-  body #automation-panel,
-  body #automation-panel *{
-    box-sizing:border-box;
-  }
-  body #automation-panel>.automation-panel-content{
-    overflow:hidden;
-  }
-  body #automation-panel .right-panel-body{
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:12px 10px calc(96px + env(safe-area-inset-bottom));
-    scroll-padding-bottom:110px;
-  }
-  body #automation-panel .right-panel-body>*,
-  body #automation-panel .automation-card,
-  body #automation-panel .automation-archive-panel,
-  body #automation-panel .settings-hero-card,
-  body #automation-panel .relay-install-card,
-  body #automation-panel .chat-scope-pill,
-  body #automation-panel .automation-status,
-  body #automation-panel .automation-field,
-  body #automation-panel .automation-toggle-row,
-  body #automation-panel .event-filter,
-  body #automation-panel .provider-chat-row{
-    position:static;
-    width:100%;
-    max-width:100%;
-    min-width:0;
-    height:auto;
-    min-height:0;
-    max-height:none;
-    margin:0;
-    transform:none;
-  }
-  body #automation-panel .prompt-action-row,
-  body #automation-panel .relay-actions,
-  body #automation-panel .conversation-portal-actions,
-  body #automation-panel .graph-toolbar,
-  body #automation-panel .compact-provider-actions{
-    position:static;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:10px;
-    width:100%;
-    height:auto;
-    margin:0;
-    transform:none;
-  }
-  body #automation-panel .automation-toggle-row{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) auto;
-    align-items:center;
-  }
-  body #automation-panel .automation-toggle-row>span{
-    min-width:0;
-  }
-  body #automation-panel .automation-toggle-row input[type="checkbox"]{
-    justify-self:end;
-  }
-  body #automation-panel .automation-stop-button{
-    position:static;
-    width:100%;
-    min-height:48px;
-  }
-}
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * This final manifest is Gevurah after the entire visual river. The Awtsmoos
+ * creates boundaries as care, and Awtsmoos.com places the polished experience
+ * and automation flow at the final edge of the cascade where no legacy rule can
+ * silently cover them.
+ */

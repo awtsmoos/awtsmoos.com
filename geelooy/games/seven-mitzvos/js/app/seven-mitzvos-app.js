@@ -1,22 +1,22 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 import { appTemplate } from './app-template.js';
+import { required } from './app-elements.js';
 import { GameSession } from './game-session.js';
 import { HashRouter } from './hash-router.js';
-import { MitzvahGrid } from '../views/mitzvah-grid.js';
+import { LivingCityService } from '../city/living-city-service.js';
 import { DetailPanel } from '../views/detail-panel.js';
 import { GameShell } from '../views/game-shell.js';
+import { MitzvahGrid } from '../views/mitzvah-grid.js';
 import { UNIVERSE_BY_ID, UNIVERSE_GAMES } from '../universe/universe-definitions.js';
 import { UniverseProgress } from '../universe/universe-progress.js';
-
 /**
  * @module SevenMitzvosApp
  * @description
- * The Awtsmoos joins seven teachings without stacking them into an endless
- * document. This Awtsmoos.com coordinator lets one completed world open the next
- * through a fixed hub, detail, and WebGL vessel.
+ * The Awtsmoos joins seven teachings, one living city, and one disposable WebGL
+ * game vessel. Awtsmoos.com releases the city before opening a world and rebuilds
+ * it from saved kindness when the player returns to the fixed hub.
  */
 export class SevenMitzvosApp {
 	constructor(root) {
@@ -31,13 +31,19 @@ export class SevenMitzvosApp {
 			game: required(this.root, '#gameLayer')
 		};
 		this.progress = new UniverseProgress(UNIVERSE_GAMES.map(game => game.id));
+		this.router = new HashRouter(UNIVERSE_GAMES.map(game => game.id));
 		this.grid = new MitzvahGrid(required(this.root, '#mitzvahGrid'));
 		this.detail = new DetailPanel(this.layers.detail);
 		this.gameShell = new GameShell(this.layers.game);
-		this.router = new HashRouter(UNIVERSE_GAMES.map(game => game.id));
+		this.city = new LivingCityService(this.root, {
+			progress: this.progress,
+			definitions: UNIVERSE_GAMES,
+			onSelect: id => this.router.go('detail', id)
+		});
 		this.session = new GameSession({
 			shell: this.gameShell,
 			progress: this.progress,
+			getMode: () => this.city.mode(),
 			onRecord: () => this.refreshProgress(),
 			onHub: () => this.router.go('hub'),
 			onNext: id => this.nextWorld(id)
@@ -48,16 +54,16 @@ export class SevenMitzvosApp {
 	}
 	renderRoute(route) {
 		this.session.stop();
+		this.city.hide();
 		this.showOnly(route.view);
 		if (route.view === 'detail') {
-			this.renderDetail(route.id);
-			return;
+			return this.renderDetail(route.id);
 		}
 		if (route.view === 'game') {
-			this.session.start(UNIVERSE_BY_ID[route.id]);
-			return;
+			return this.session.start(UNIVERSE_BY_ID[route.id]);
 		}
 		this.renderGrid();
+		this.city.show();
 	}
 	renderDetail(id) {
 		const definition = UNIVERSE_BY_ID[id];
@@ -82,6 +88,7 @@ export class SevenMitzvosApp {
 	}
 	refreshProgress() {
 		this.renderGrid();
+		this.city?.refresh();
 		const legacy = this.progress.legacy();
 		required(this.root, '#legacyMark').textContent = `Level ${legacy.level} · ${legacy.mastery}/700`;
 	}
@@ -92,21 +99,18 @@ export class SevenMitzvosApp {
 		});
 	}
 	handleEscape(event) {
-		if (event.key !== 'Escape') return;
+		if (event.key !== 'Escape') {
+			return;
+		}
 		const route = this.router.current();
 		this.router.go(route.view === 'game' ? 'detail' : 'hub', route.id);
 	}
 	destroy() {
 		this.session?.stop();
+		this.city?.destroy();
 		this.gameShell?.destroy();
 		this.router?.destroy();
 		document.removeEventListener('keydown', this.escapeHandler);
 		this.root.replaceChildren();
 	}
-}
-
-function required(root, selector) {
-	const element = root.querySelector(selector);
-	if (!element) throw new Error(`B"H | Missing application element: ${selector}`);
-	return element;
 }

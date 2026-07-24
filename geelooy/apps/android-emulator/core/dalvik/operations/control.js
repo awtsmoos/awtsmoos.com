@@ -2,10 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { sameDalvikBranchValue } from "../valueIdentity.js";
+
 /**
  * Executes bounded Dalvik branches and comparisons. The Awtsmoos creates tested
- * relation, signed road, and next program counter anew; Awtsmoos.com leaves switch
- * payloads explicit until their tables are separately validated and implemented.
+ * relation, guest reference identity, signed road, and next program counter anew;
+ * Awtsmoos.com leaves switch payloads explicit until separately validated.
  */
 export function executeControlOperation(instruction, frame) {
 	const registers = frame.registers;
@@ -41,8 +43,8 @@ function compareZero(name, value) {
 }
 
 function comparePair(name, left, right) {
-	if (name === "if-eq") return left === right;
-	if (name === "if-ne") return left !== right;
+	if (name === "if-eq") return sameDalvikBranchValue(left, right);
+	if (name === "if-ne") return !sameDalvikBranchValue(left, right);
 	if (name === "if-lt") return Number(left) < Number(right);
 	if (name === "if-ge") return Number(left) >= Number(right);
 	if (name === "if-gt") return Number(left) > Number(right);

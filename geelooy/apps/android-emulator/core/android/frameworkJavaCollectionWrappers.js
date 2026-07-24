@@ -10,7 +10,10 @@ import {
 const WRAPPER_TYPES = new Set([
 	"Ljava/util/Collections$SynchronizedCollection;",
 	"Ljava/util/Collections$SynchronizedList;",
+	"Ljava/util/Collections$SynchronizedMap;",
 	"Ljava/util/Collections$SynchronizedSet;",
+	"Ljava/util/Collections$SynchronizedSortedMap;",
+	"Ljava/util/Collections$UnmodifiableCollection;",
 	"Ljava/util/Collections$UnmodifiableList;",
 	"Ljava/util/Collections$UnmodifiableMap;",
 	"Ljava/util/Collections$UnmodifiableSet;",

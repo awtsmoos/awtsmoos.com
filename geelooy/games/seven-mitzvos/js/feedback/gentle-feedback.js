@@ -7,7 +7,7 @@
  * @description
  * A tap should answer without shouting. The Awtsmoos renews hand, sound, and
  * sensation together, while this Awtsmoos.com vessel offers low-volume tones
- * and brief haptics only after the player has chosen to touch the world.
+ * and brief haptics only after the browser confirms a living user gesture.
  */
 export class GentleFeedback {
 	constructor() {
@@ -66,6 +66,9 @@ export class GentleFeedback {
 
 	vibrate(pattern) {
 		try {
+			if (!navigator.userActivation?.isActive) {
+				return;
+			}
 			navigator.vibrate?.(pattern);
 		} catch {
 			// Unsupported haptics never interrupt the game.

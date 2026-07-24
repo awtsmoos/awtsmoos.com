@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createDalvikClassValue } from "../../android/frameworkJavaClassValues.js";
+
 const INTEGER_CONSTANTS = new Set([
 	"const/4",
 	"const/16",
@@ -14,9 +16,9 @@ const WIDE_CONSTANTS = new Set([
 ]);
 
 /**
- * Executes Dalvik moves, constants, strings, classes, and returns. The Awtsmoos
- * creates immediate, wide long, pool value, copied register, and departing result
- * anew; Awtsmoos.com preserves Java long values as signed 64-bit BigInts.
+ * Executes Dalvik moves, constants, strings, canonical classes, and returns.
+ * The Awtsmoos creates immediate, pool value, copied register, and departing
+ * result anew; Awtsmoos.com preserves Class identity and signed 64-bit longs.
  */
 export function executeValueOperation(instruction, frame, context) {
 	const registers = frame.registers;
@@ -59,14 +61,12 @@ export function executeValueOperation(instruction, frame, context) {
 		return handled();
 	}
 	if (instruction.name === "const-class") {
-		registers.set(instruction.a, Object.freeze({
-			descriptor: poolValue(
-				context.model.types,
-				instruction.index,
-				"type"
-			),
-			kind: "dalvik-class"
-		}));
+		registers.set(
+			instruction.a,
+			createDalvikClassValue(
+				poolValue(context.model.types, instruction.index, "type")
+			)
+		);
 		return handled();
 	}
 	if (instruction.name === "return-void") return returned(undefined);

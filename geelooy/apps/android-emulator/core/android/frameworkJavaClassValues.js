@@ -4,6 +4,7 @@
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 
+const CLASS_VALUES = new Map();
 const PRIMITIVE_NAMES = Object.freeze({
 	B: "byte",
 	C: "char",
@@ -20,15 +21,20 @@ const PRIMITIVE_DESCRIPTORS = new Map(
 );
 
 /**
- * Preserves the VM's immutable Dalvik class-value representation. The Awtsmoos
- * creates descriptor, Java name, array component, and simple garment anew;
+ * Preserves one canonical immutable Class value per descriptor. The Awtsmoos
+ * recreates descriptor, Java name, array component, and identity garment anew;
  * Awtsmoos.com never turns guest class identity into a host constructor.
  */
 export function createDalvikClassValue(descriptor) {
-	return Object.freeze({
-		descriptor: String(descriptor),
+	const value = String(descriptor);
+	let classValue = CLASS_VALUES.get(value);
+	if (classValue) return classValue;
+	classValue = Object.freeze({
+		descriptor: value,
 		kind: "dalvik-class"
 	});
+	CLASS_VALUES.set(value, classValue);
+	return classValue;
 }
 
 export function isDalvikClassValue(value) {

@@ -7,25 +7,31 @@ import { ringPosition } from '../webgl/scene-kit.js';
 /**
  * @module FalsePowersField
  * @description
- * Six towers stand plainly enough for a first journey: red warns, green rests.
- * The Awtsmoos alone is beyond every created power, while this Awtsmoos.com
- * field lets discernment begin with clarity before deeper concealment ever comes.
+ * Recognizable towers now rise among homes instead of floating as anonymous
+ * blocks. The Awtsmoos alone is beyond created power; Awtsmoos.com marks false
+ * broadcasts with visible red beacons while keeping innocent districts green.
  */
 export class FalsePowersField {
 	constructor(game) {
 		this.game = game;
-		const shuffled = [...Array(6).keys()].sort(() => Math.random() - 0.5);
-		const corrupt = new Set(shuffled.slice(0, 3));
-		this.towers = [...Array(6).keys()].map(index => {
+		this.total = game.difficulty(6, 7, 8);
+		this.corruptCount = game.difficulty(3, 4, 5);
+		const shuffled = [...Array(this.total).keys()].sort(() => Math.random() - 0.5);
+		const corrupt = new Set(shuffled.slice(0, this.corruptCount));
+		this.towers = [...Array(this.total).keys()].map(index => {
 			const isCorrupt = corrupt.has(index);
-			const tower = game.addVessel({
+			const tower = game.assets.tower({
+				name: `district-tower-${index + 1}`,
 				hue: isCorrupt ? 350 : 145,
-				position: ringPosition(index, 6, 3.8, 0.8),
-				scale: [1, 1.55 + (index % 2) * 0.45, 1],
-				name: `district-${index + 1}`,
-				userData: { type: 'tower', index, corrupt: isCorrupt, purified: false }
-			}, true);
-			game.factory.setGlow(tower, isCorrupt ? 0xff285c : 0x35ffc4, 1.05);
+				position: ringPosition(index, this.total, 4.15, 0.12),
+				scale: 0.58,
+				type: 'tower',
+				index
+			});
+			Object.assign(tower.userData, { corrupt: isCorrupt, purified: false });
+			game.assets.parts.mark(tower, tower.userData);
+			game.assets.setGlow(tower, isCorrupt ? 0xff285c : 0x35ffc4, isCorrupt ? 1.2 : 0.18);
+			game.addAsset(tower, true);
 			return tower;
 		});
 	}
@@ -38,9 +44,12 @@ export class FalsePowersField {
 		return this.towers.filter(tower => tower.userData.corrupt && !tower.userData.purified).length;
 	}
 
-	animate(delta) {
-		this.towers.forEach(tower => {
-			tower.rotation.y += delta * (tower.userData.purified ? 0.1 : 0.22);
+	animate(delta, elapsed) {
+		this.towers.forEach((tower, index) => {
+			tower.rotation.y += delta * (tower.userData.purified ? 0.08 : 0.18);
+			if (tower.userData.corrupt && !tower.userData.purified) {
+				tower.position.y = 0.12 + Math.sin(elapsed * 3 + index) * 0.045;
+			}
 		});
 	}
 }

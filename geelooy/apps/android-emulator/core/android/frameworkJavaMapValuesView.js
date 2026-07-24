@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { guestJavaEquals } from "./frameworkJavaGuestIdentity.js";
 import { javaMapEntries } from "./frameworkJavaMapStorage.js";
 import { sameGuestValue } from "./frameworkJavaValueIdentity.js";
 
@@ -11,33 +12,46 @@ const BACKING_MAP_FIELD = "java:map-values:map";
 const CACHED_VIEW_FIELD = "java:map:values-view";
 
 /**
- * Reveals the live values garment of one guest Map. The Awtsmoos recreates map,
- * view, duplicate value, and removal path anew; Awtsmoos.com stores only guest
- * references while the bounded private Map remains the authoritative vessel.
+ * Reveals the live values garment through behavioral equality. The Awtsmoos
+ * recreates duplicate value, first match, removal, and view anew; Awtsmoos.com
+ * removes exactly one canonical map record as Java Collection requires.
  */
 export function createJavaMapValuesView(runtime, mapReference) {
 	javaMapEntries(runtime, mapReference);
 	const cached = runtime.heap.getField(mapReference, CACHED_VIEW_FIELD);
 	if (isJavaMapValuesView(runtime, cached)) return cached;
-	const view = runtime.heap.allocate(JAVA_HASH_MAP_VALUES, {
-		[BACKING_MAP_FIELD]: mapReference
-	});
+	const view = runtime.heap.allocate(JAVA_HASH_MAP_VALUES, { [BACKING_MAP_FIELD]: mapReference });
 	runtime.heap.setField(mapReference, CACHED_VIEW_FIELD, view);
 	return view;
 }
 
 export function isJavaMapValuesView(runtime, reference) {
-	if (!isDalvikReference(reference)) return false;
-	return runtime.heap.get(reference).type === JAVA_HASH_MAP_VALUES;
+	return isDalvikReference(reference) && runtime.heap.get(reference).type === JAVA_HASH_MAP_VALUES;
 }
 
 export function javaMapValuesViewValues(runtime, reference) {
-	return [...backingEntries(runtime, reference).values()].map(record => {
-		return record.value ?? 0;
-	});
+	return [...backingEntries(runtime, reference).values()].map(record => record.value ?? 0);
 }
 
-export function removeJavaMapValuesViewValue(runtime, reference, expected) {
+export function removeJavaMapValuesViewValue(runtime, reference, expected, context = null) {
+	return context ? removeAsync(runtime, reference, expected, context) : removeSync(runtime, reference, expected);
+}
+
+export function clearJavaMapValuesView(runtime, reference) {
+	backingEntries(runtime, reference).clear();
+}
+
+async function removeAsync(runtime, reference, expected, context) {
+	const entries = backingEntries(runtime, reference);
+	for (const [token, record] of entries) {
+		if (!await guestJavaEquals(runtime, expected, record.value, context)) continue;
+		entries.delete(token);
+		return true;
+	}
+	return false;
+}
+
+function removeSync(runtime, reference, expected) {
 	const entries = backingEntries(runtime, reference);
 	for (const [token, record] of entries) {
 		if (!sameGuestValue(runtime, record.value, expected)) continue;
@@ -47,19 +61,12 @@ export function removeJavaMapValuesViewValue(runtime, reference, expected) {
 	return false;
 }
 
-export function clearJavaMapValuesView(runtime, reference) {
-	backingEntries(runtime, reference).clear();
-}
-
 function backingEntries(runtime, reference) {
-	if (!isJavaMapValuesView(runtime, reference)) {
-		throw mapValuesError("ANDROID_JAVA_MAP_VALUES_VIEW_REQUIRED");
-	}
-	const mapReference = runtime.heap.getField(reference, BACKING_MAP_FIELD);
-	return javaMapEntries(runtime, mapReference);
+	if (!isJavaMapValuesView(runtime, reference)) throw valuesError("ANDROID_JAVA_MAP_VALUES_VIEW_REQUIRED");
+	return javaMapEntries(runtime, runtime.heap.getField(reference, BACKING_MAP_FIELD));
 }
 
-function mapValuesError(code) {
+function valuesError(code) {
 	const error = new Error(code);
 	error.code = code;
 	return error;

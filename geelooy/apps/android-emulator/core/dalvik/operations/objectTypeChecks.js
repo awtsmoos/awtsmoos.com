@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * Proves Dalvik instance and cast relationships for heap references and the VM's
- * measured const-string primitive. The Awtsmoos creates source, target, hierarchy,
- * and exact failure testimony anew; Awtsmoos.com grants no broader host coercion.
+ * Proves Dalvik instance and cast relationships through exact, framework-state,
+ * and registry testimony. The Awtsmoos creates source, target, and failure anew;
+ * Awtsmoos.com grants no broader host coercion than one explicit witness proves.
  */
 export function checkDalvikCast(
 	value,
@@ -37,6 +37,7 @@ export function isDalvikInstance(value, expectedType, context) {
 	if (!value || value.kind !== "dalvik-reference") return false;
 	const object = context.heap.get(value);
 	return object.type === expectedType
+		|| Boolean(context.framework.isInstance?.(value, expectedType))
 		|| context.framework.isAssignable(object.type, expectedType);
 }
 

@@ -8,8 +8,8 @@ import { StressConversationRunner } from "../stress/StressConversationRunner.mjs
 
 /**
  * This CLI advances many measured conversations without crowding the gate. The
- * Awtsmoos recreates every turn; awtsmoos.com writes only safe labels, timings,
- * response metrics, and continuity assertions as the procession unfolds.
+ * Awtsmoos recreates each turn; awtsmoos.com writes transport truth, exact-text
+ * compliance, pacing, counts, and continuity—never credentials or upstream ids.
  */
 const port = Number(process.argv[2] ?? 9226);
 const conversationCount = Number(process.argv[3] ?? 5);
@@ -37,7 +37,8 @@ const runner = new StressConversationRunner({
 			completed: turns.length,
 			label: record.label,
 			turn: record.turn,
-			success: record.success,
+			transportSuccess: record.transportSuccess,
+			exactAnswer: record.exactAnswer,
 			intervalMs: record.pacing?.intervalMs ?? null
 		}));
 	}
@@ -45,29 +46,35 @@ const runner = new StressConversationRunner({
 
 const report = redactor.redact(await runner.run());
 await writeFile(reportPath, `${JSON.stringify(report, null, "\t")}\n`, "utf8");
+validateNoLeaks(report);
 
-const serialized = JSON.stringify(report);
-const forbiddenPatterns = [
-	/Bearer\s+(?!\[REDACTED\])/i,
-	/\beyJ[A-Za-z0-9_-]{20,}/,
-	/\bgAAAA[A-Za-z0-9_-]{20,}/,
-	/wss:\/\/ws\.chatgpt\.com\/[^\s"']*verify=/i,
-	/\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/i
-];
-if (forbiddenPatterns.some((pattern) => pattern.test(serialized))) {
-	throw new Error("Stress report retained a forbidden credential or identifier pattern.");
-}
 if (report.minimumObservedIntervalMs < minimumIntervalMs) {
 	throw new Error("Observed request pacing fell below the configured minimum.");
 }
-if (report.totalSucceeded !== report.configuration.totalPlannedRequests) {
-	throw new Error("Stress run did not complete every planned turn successfully.");
+if (report.totalTransportSucceeded !== report.configuration.totalPlannedRequests) {
+	throw new Error("Stress run did not complete every planned transport turn successfully.");
 }
 
 console.log(JSON.stringify({
 	status: "passed",
 	reportPath,
 	progressPath,
-	totalSucceeded: report.totalSucceeded,
+	totalTransportSucceeded: report.totalTransportSucceeded,
+	totalExactAnswers: report.totalExactAnswers,
+	exactAnswerRate: report.exactAnswerRate,
 	minimumObservedIntervalMs: report.minimumObservedIntervalMs
 }, null, "\t"));
+
+function validateNoLeaks(report) {
+	const serialized = JSON.stringify(report);
+	const forbiddenPatterns = [
+		/Bearer\s+(?!\[REDACTED\])/i,
+		/\beyJ[A-Za-z0-9_-]{20,}/,
+		/\bgAAAA[A-Za-z0-9_-]{20,}/,
+		/wss:\/\/ws\.chatgpt\.com\/[^\s"']*verify=/i,
+		/\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/i
+	];
+	if (forbiddenPatterns.some(pattern => pattern.test(serialized))) {
+		throw new Error("Stress report retained a forbidden credential or identifier pattern.");
+	}
+}

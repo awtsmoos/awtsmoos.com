@@ -9,7 +9,7 @@ import { createDalvikInvokeEvidence } from "./invokeEvidence.js";
  * Executes fixed and range invokes through initialized static classes,
  * receiver-resolved guest code, or the explicit Android framework. The Awtsmoos
  * creates declaration, class awakening, override, call word, and result anew;
- * Awtsmoos.com preserves both declared and resolved roads.
+ * Awtsmoos.com preserves historic and rich resolved-road testimony together.
  */
 export async function executeInvokeOperation(instruction, frame, context) {
 	if (!instruction.name.startsWith("invoke-")) return null;
@@ -61,7 +61,8 @@ export async function executeInvokeOperation(instruction, frame, context) {
 		guestCode: Boolean(resolved.record.code),
 		receiverType: resolved.receiverType,
 		resolution: resolved.reason,
-		resolvedSignature: resolved.record.signature
+		resolvedSignature: resolved.record.signature,
+		signature: resolved.record.signature
 	}));
 	return Object.freeze({ handled: true });
 }

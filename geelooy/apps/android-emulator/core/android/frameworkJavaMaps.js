@@ -5,21 +5,10 @@
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
 import { createJavaMapEntrySetView } from "./frameworkJavaMapEntrySetView.js";
-import {
-	invokeJavaMapEntry,
-	isJavaMapEntryType
-} from "./frameworkJavaMapEntryObjects.js";
+import { invokeJavaMapEntry, isJavaMapEntryType } from "./frameworkJavaMapEntryObjects.js";
 import { createJavaMapKeySetView } from "./frameworkJavaMapKeySetView.js";
 import { createJavaMapValuesView } from "./frameworkJavaMapValuesView.js";
-import {
-	copyJavaMap,
-	getJavaMapValue,
-	hasJavaMapKey,
-	initializeJavaMap,
-	javaMapEntries,
-	putJavaMapValue,
-	removeJavaMapValue
-} from "./frameworkJavaMapStorage.js";
+import * as storage from "./frameworkJavaMapStorage.js";
 
 const MAP_TYPES = new Set([
 	"Ljava/util/HashMap;",
@@ -29,67 +18,63 @@ const MAP_TYPES = new Set([
 ]);
 
 /**
- * Implements bounded maps and their live view garments. The Awtsmoos recreates
- * key, value, entry, and Set doorway anew; Awtsmoos.com keeps host Map records
- * opaque behind stable guest references and explicit mutation covenants.
+ * Implements bounded Java maps through behavioral guest key identity. The
+ * Awtsmoos recreates hash, equality, canonical key, and live views anew;
+ * Awtsmoos.com preserves synchronous tests while real frames invoke DEX methods.
  */
 export function createFrameworkJavaMapMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return MAP_TYPES.has(record.method.classType)
-				|| isJavaMapEntryType(record.method.classType);
+			return MAP_TYPES.has(record.method.classType) || isJavaMapEntryType(record.method.classType);
 		},
-		invoke(record, args) {
+		invoke(record, args, dispatch, context) {
 			if (isJavaMapEntryType(record.method.classType)) {
-				return invokeJavaMapEntry(runtime, record, args);
+				return invokeJavaMapEntry(runtime, record, args, context);
 			}
-			return invokeMap(runtime, record, args);
+			return invokeMap(runtime, record, args, context);
 		}
 	});
 }
 
-function invokeMap(runtime, record, args) {
+function invokeMap(runtime, record, args, context) {
 	const name = record.method.name;
-	if (name === "<init>") return initialize(runtime, args);
-	if (name === "get") return getJavaMapValue(runtime, args[0], args[1]);
+	if (name === "<init>") return initialize(runtime, args, context);
+	if (name === "get") return storage.getJavaMapValue(runtime, args[0], args[1], context);
 	if (name === "values") return createJavaMapValuesView(runtime, args[0]);
 	if (name === "entrySet") return createJavaMapEntrySetView(runtime, args[0]);
 	if (name === "keySet") return createJavaMapKeySetView(runtime, args[0]);
-	if (name === "put") {
-		assertJavaCollectionMutable(runtime, args[0]);
-		return putJavaMapValue(runtime, args[0], args[1], args[2]);
-	}
-	if (name === "remove") {
-		assertJavaCollectionMutable(runtime, args[0]);
-		return removeJavaMapValue(runtime, args[0], args[1]);
-	}
-	if (name === "containsKey") {
-		return hasJavaMapKey(runtime, args[0], args[1]) ? 1 : 0;
-	}
-	if (name === "size") return javaMapEntries(runtime, args[0]).size;
-	if (name === "isEmpty") {
-		return javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
-	}
+	if (name === "put") return mutate(runtime, args[0], () => storage.putJavaMapValue(runtime, args[0], args[1], args[2], context));
+	if (name === "remove") return mutate(runtime, args[0], () => storage.removeJavaMapValue(runtime, args[0], args[1], context));
+	if (name === "containsKey") return booleanResult(storage.hasJavaMapKey(runtime, args[0], args[1], context));
+	if (name === "size") return storage.javaMapEntries(runtime, args[0]).size;
+	if (name === "isEmpty") return storage.javaMapEntries(runtime, args[0]).size === 0 ? 1 : 0;
 	if (name === "clear") return clear(runtime, args[0]);
-	if (name === "putAll") return putAll(runtime, args[0], args[1]);
+	if (name === "putAll") return putAll(runtime, args[0], args[1], context);
 	throw mapError("ANDROID_JAVA_MAP_METHOD_UNSUPPORTED", record.signature);
 }
 
-function initialize(runtime, args) {
-	const source = args.length === 2 && isDalvikReference(args[1])
-		? args[1]
-		: null;
-	initializeJavaMap(runtime, args[0], source);
+function initialize(runtime, args, context) {
+	const source = args.length === 2 && isDalvikReference(args[1]) ? args[1] : null;
+	return storage.initializeJavaMap(runtime, args[0], source, context);
 }
 
 function clear(runtime, reference) {
 	assertJavaCollectionMutable(runtime, reference);
-	javaMapEntries(runtime, reference).clear();
+	storage.javaMapEntries(runtime, reference).clear();
 }
 
-function putAll(runtime, target, source) {
+function putAll(runtime, target, source, context) {
 	assertJavaCollectionMutable(runtime, target);
-	copyJavaMap(runtime, target, source);
+	return storage.copyJavaMap(runtime, target, source, context);
+}
+
+function mutate(runtime, reference, operation) {
+	assertJavaCollectionMutable(runtime, reference);
+	return operation();
+}
+
+function booleanResult(value) {
+	return value instanceof Promise ? value.then(result => result ? 1 : 0) : value ? 1 : 0;
 }
 
 function mapError(code, detail) {

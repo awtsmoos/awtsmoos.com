@@ -1,0 +1,526 @@
+{
+  "mobile-chat": {
+    "ok": true,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "chat",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 72,
+      "width": 390,
+      "height": 698,
+      "top": 72,
+      "right": 390,
+      "bottom": 770,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -373.14874267578125,
+      "y": 72,
+      "width": 358.796875,
+      "height": 698,
+      "top": 72,
+      "right": -14.35186767578125,
+      "bottom": 770,
+      "left": -373.14874267578125
+    },
+    "automation": {
+      "x": 404.66375732421875,
+      "y": 72,
+      "width": 366.59375,
+      "height": 698,
+      "top": 72,
+      "right": 771.2575073242188,
+      "bottom": 770,
+      "left": 404.66375732421875
+    },
+    "composer": {
+      "x": 10,
+      "y": 670.21875,
+      "width": 370,
+      "height": 90.78125,
+      "top": 670.21875,
+      "right": 380,
+      "bottom": 761,
+      "left": 10
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "mobile-conversations": {
+    "ok": true,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "conversations",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 72,
+      "width": 390,
+      "height": 698,
+      "top": 72,
+      "right": 390,
+      "bottom": 770,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -373.14874267578125,
+      "y": 72,
+      "width": 358.796875,
+      "height": 698,
+      "top": 72,
+      "right": -14.35186767578125,
+      "bottom": 770,
+      "left": -373.14874267578125
+    },
+    "automation": {
+      "x": 404.66375732421875,
+      "y": 72,
+      "width": 366.59375,
+      "height": 698,
+      "top": 72,
+      "right": 771.2575073242188,
+      "bottom": 770,
+      "left": 404.66375732421875
+    },
+    "composer": {
+      "x": 10,
+      "y": 670.21875,
+      "width": 370,
+      "height": 90.78125,
+      "top": 670.21875,
+      "right": 380,
+      "bottom": 761,
+      "left": 10
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "mobile-automation": {
+    "ok": true,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "automation",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 72,
+      "width": 390,
+      "height": 698,
+      "top": 72,
+      "right": 390,
+      "bottom": 770,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -373.14874267578125,
+      "y": 72,
+      "width": 358.796875,
+      "height": 698,
+      "top": 72,
+      "right": -14.35186767578125,
+      "bottom": 770,
+      "left": -373.14874267578125
+    },
+    "automation": {
+      "x": 23.4822998046875,
+      "y": 72,
+      "width": 366.59375,
+      "height": 698,
+      "top": 72,
+      "right": 390.0760498046875,
+      "bottom": 770,
+      "left": 23.4822998046875
+    },
+    "composer": {
+      "x": 10,
+      "y": 670.21875,
+      "width": 370,
+      "height": 90.78125,
+      "top": 670.21875,
+      "right": 380,
+      "bottom": 761,
+      "left": 10
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "tablet-chat": {
+    "ok": true,
+    "viewport": {
+      "width": 768,
+      "height": 900
+    },
+    "active": "chat",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 72,
+      "width": 768,
+      "height": 754,
+      "top": 72,
+      "right": 768,
+      "bottom": 826,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -436.79998779296875,
+      "y": 72,
+      "width": 420,
+      "height": 754,
+      "top": 72,
+      "right": -16.79998779296875,
+      "bottom": 826,
+      "left": -436.79998779296875
+    },
+    "automation": {
+      "x": 785.5999755859375,
+      "y": 72,
+      "width": 440,
+      "height": 754,
+      "top": 72,
+      "right": 1225.5999755859375,
+      "bottom": 826,
+      "left": 785.5999755859375
+    },
+    "composer": {
+      "x": 10,
+      "y": 726.21875,
+      "width": 748,
+      "height": 90.78125,
+      "top": 726.21875,
+      "right": 758,
+      "bottom": 817,
+      "left": 10
+    },
+    "dock": {
+      "x": 10,
+      "y": 832,
+      "width": 748,
+      "height": 60,
+      "top": 832,
+      "right": 758,
+      "bottom": 892,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 744,
+      "height": 56,
+      "top": 8,
+      "right": 756,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "58px 0px minmax(0px, 1fr) 0px 58px"
+  },
+  "laptop": {
+    "ok": true,
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 271,
+      "y": 9,
+      "width": 708,
+      "height": 782,
+      "top": 9,
+      "right": 979,
+      "bottom": 791,
+      "left": 271
+    },
+    "sidebar": {
+      "x": 9,
+      "y": 9,
+      "width": 240,
+      "height": 782,
+      "top": 9,
+      "right": 249,
+      "bottom": 791,
+      "left": 9
+    },
+    "automation": {
+      "x": 1001,
+      "y": 9,
+      "width": 270,
+      "height": 782,
+      "top": 9,
+      "right": 1271,
+      "bottom": 791,
+      "left": 1001
+    },
+    "composer": {
+      "x": 272,
+      "y": 681.65625,
+      "width": 706,
+      "height": 108.34375,
+      "top": 681.65625,
+      "right": 978,
+      "bottom": 790,
+      "left": 272
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "240px 6px 708px 6px 270px"
+  },
+  "desktop": {
+    "ok": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 331,
+      "y": 12,
+      "width": 746,
+      "height": 876,
+      "top": 12,
+      "right": 1077,
+      "bottom": 888,
+      "left": 331
+    },
+    "sidebar": {
+      "x": 12,
+      "y": 12,
+      "width": 292,
+      "height": 876,
+      "top": 12,
+      "right": 304,
+      "bottom": 888,
+      "left": 12
+    },
+    "automation": {
+      "x": 1104,
+      "y": 12,
+      "width": 324,
+      "height": 876,
+      "top": 12,
+      "right": 1428,
+      "bottom": 888,
+      "left": 1104
+    },
+    "composer": {
+      "x": 332,
+      "y": 778.65625,
+      "width": 744,
+      "height": 108.34375,
+      "top": 778.65625,
+      "right": 1076,
+      "bottom": 887,
+      "left": 332
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "292px 7px 746px 7px 324px"
+  },
+  "ultrawide": {
+    "ok": true,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 362,
+      "y": 14,
+      "width": 1156,
+      "height": 1052,
+      "top": 14,
+      "right": 1518,
+      "bottom": 1066,
+      "left": 362
+    },
+    "sidebar": {
+      "x": 14,
+      "y": 14,
+      "width": 320,
+      "height": 1052,
+      "top": 14,
+      "right": 334,
+      "bottom": 1066,
+      "left": 14
+    },
+    "automation": {
+      "x": 1546,
+      "y": 14,
+      "width": 360,
+      "height": 1052,
+      "top": 14,
+      "right": 1906,
+      "bottom": 1066,
+      "left": 1546
+    },
+    "composer": {
+      "x": 420,
+      "y": 956.65625,
+      "width": 1040,
+      "height": 108.34375,
+      "top": 956.65625,
+      "right": 1460,
+      "bottom": 1065,
+      "left": 420
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "320px 8px 1156px 8px 360px"
+  },
+  "escape": {
+    "ok": true,
+    "scene": "chat",
+    "focus": "mobile-crown-menu"
+  },
+  "ok": true
+}

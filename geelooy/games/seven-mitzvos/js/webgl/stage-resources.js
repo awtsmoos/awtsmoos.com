@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '../../../scripts/build/three.module.js';
 
 /**
  * @module StageResources
@@ -24,6 +24,8 @@ export function disposeScene(scene) {
 	scene.traverse(object => {
 		object.geometry?.dispose?.();
 		const materials = Array.isArray(object.material) ? object.material : [object.material];
-		materials.filter(Boolean).forEach(material => material.dispose?.());
+		materials.filter(Boolean).forEach(material => {
+			material.dispose?.();
+		});
 	});
 }

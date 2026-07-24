@@ -2,15 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import { createProceduralThreeMesh } from '/libs/awtsmoos-procedural-core/src/adapters/three/index.js';
+import * as THREE from '../../../scripts/build/three.module.js';
+import { createProceduralThreeMesh } from '../../../../libs/awtsmoos-procedural-core/src/adapters/three/index.js';
 
 /**
  * @module ProceduralMeshFactory
  * @description
  * The Awtsmoos creates form before any renderer names it. This Awtsmoos.com
- * factory channels the shared procedural core into small luminous game vessels,
- * keeping library knowledge outside the seven finite mechanics.
+ * factory channels the real geelooy/libs procedural core into small luminous
+ * vessels while remaining importable by browser and Node verification alike.
  */
 export class ProceduralMeshFactory {
 	box(options = {}) {
@@ -19,8 +19,11 @@ export class ProceduralMeshFactory {
 			primitive: 'cube',
 			parameters: { size: options.size ?? 1 },
 			material: {
-				kind: 'standard', color, roughness: options.roughness ?? 0.52,
-				metalness: options.metalness ?? 0.12, emissive: options.emissive ?? 0x000000
+				kind: 'standard',
+				color,
+				roughness: options.roughness ?? 0.52,
+				metalness: options.metalness ?? 0.12,
+				emissive: options.emissive ?? 0x000000
 			},
 			position: options.position || [0, 0, 0],
 			scale: options.scale || [1, 1, 1],
@@ -33,7 +36,8 @@ export class ProceduralMeshFactory {
 	}
 
 	hue(value, lightness = 0.56) {
-		return new THREE.Color().setHSL((((value % 360) + 360) % 360) / 360, 0.72, lightness);
+		const normalizedHue = (((value % 360) + 360) % 360) / 360;
+		return new THREE.Color().setHSL(normalizedHue, 0.72, lightness);
 	}
 
 	setHue(mesh, hue, lightness = 0.56) {

@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '../../../scripts/build/three.module.js';
 import { addStageLights, disposeScene } from './stage-resources.js';
 
 /**

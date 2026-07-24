@@ -4,9 +4,9 @@
 
 /**
  * @file InventoryPanel.js
- * @description Connects the shared InventoryStore to bag, equipment, books, and actions.
- * The Awtsmoos renews each selection through a measured action menu; Awtsmoos.com
- * keeps bag presentation local while multiplayer mutations remain server-authoritative.
+ * @description Connects bag actions to real garment visibility and hand/back weapon state.
+ * The Awtsmoos renews selection, wearing, drawing, and sheathing through one store;
+ * Awtsmoos.com keeps the bag local while the visible Chossid obeys authoritative equipment.
  */
 
 import {
@@ -15,7 +15,7 @@ import {
 	renderInventoryCard,
 	renderInventoryItems,
 	renderInventoryMenu
-} from './InventoryPanelView.js';
+} from './InventoryPanelView.js?v=20260724-meadow-21';
 
 export class InventoryPanel {
 	constructor(host, bus, options = {}) {
@@ -25,6 +25,7 @@ export class InventoryPanel {
 		if (!this.store) throw new Error('InventoryPanel requires an InventoryStore.');
 		this.open = false;
 		this.selectedItemId = null;
+		this.equipmentState = { drawn: false };
 		this.unsubscribers = [];
 		this.build();
 	}
@@ -37,6 +38,10 @@ export class InventoryPanel {
 		this.panel.addEventListener('click', event => this.onClick(event));
 		this.unsubscribers.push(this.bus.on('inventory:toggle', () => this.setOpen(!this.open)));
 		this.unsubscribers.push(this.bus.on('inventory:open', () => this.setOpen(true)));
+		this.unsubscribers.push(this.bus.on('equipment:state', state => {
+			this.equipmentState = state;
+			this.render();
+		}));
 		this.unsubscribers.push(this.store.onChange(() => this.render()));
 		this.render();
 	}
@@ -51,41 +56,38 @@ export class InventoryPanel {
 	}
 
 	onClick(event) {
-		if (event.target.closest('[data-close]')) {
-			this.setOpen(false);
-			return;
-		}
+		if (event.target.closest('[data-close]')) return this.setOpen(false);
 		const itemButton = event.target.closest('[data-item-id]');
-		if (itemButton) {
-			this.select(itemButton.dataset.itemId, itemButton);
-			return;
-		}
+		if (itemButton) return this.select(itemButton.dataset.itemId, itemButton);
 		const actionButton = event.target.closest('[data-action]');
 		if (actionButton) this.runAction(actionButton.dataset.action);
 	}
 
 	select(itemId, button) {
 		this.selectedItemId = itemId;
-		const stack = this.store.snapshot().items.find(item => item.itemId === itemId);
+		const state = this.store.snapshot();
+		const stack = state.items.find(item => item.itemId === itemId);
 		renderInventoryCard(this.panel.querySelector('[data-item-card]'), stack);
-		renderInventoryMenu(this.menu, stack);
+		renderInventoryMenu(this.menu, stack, state, this.equipmentState);
 		const rectangle = button.getBoundingClientRect();
 		this.menu.style.left = `${Math.max(8, Math.min(innerWidth - 230, rectangle.left))}px`;
 		this.menu.style.top = `${Math.max(8, Math.min(innerHeight - 180, rectangle.bottom + 6))}px`;
 	}
 
 	runAction(action) {
-		const definition = this.store.snapshot().items.find(item => (
-			item.itemId === this.selectedItemId
-		))?.definition;
-		if (!definition) return;
+		const stack = this.store.snapshot().items.find(item => item.itemId === this.selectedItemId);
+		const item = stack?.definition;
+		if (!item) return;
 		try {
-			if (action === 'equip') this.store.equip(definition.id);
-			if (action === 'drop') this.store.remove(definition.id, 1);
-			if (action === 'open' && definition.category === 'book') this.bus.emit('torah:toggle');
-			if (action === 'open' && definition.id === 'quest-scroll') this.bus.emit('questlog:toggle');
-			if (action === 'pin' && definition.category === 'book') this.store.toggleBookPin(definition.id);
-			this.bus.emit('inventory:action', { action, itemId: definition.id });
+			if (action === 'equip') this.store.equip(item.id);
+			if (action === 'unequip') this.store.unequip(item.slot);
+			if (action === 'draw') this.bus.emit('equipment:draw');
+			if (action === 'sheath') this.bus.emit('equipment:sheath');
+			if (action === 'drop') this.store.remove(item.id, 1);
+			if (action === 'open' && item.category === 'book') this.bus.emit('torah:toggle');
+			if (action === 'open' && item.id === 'quest-scroll') this.bus.emit('questlog:toggle');
+			if (action === 'pin' && item.category === 'book') this.store.toggleBookPin(item.id);
+			this.bus.emit('inventory:action', { action, itemId: item.id });
 			this.menu.dataset.open = 'false';
 			this.render();
 		} catch (error) {

@@ -1,0 +1,68 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Awtsmoos AI UI Verification</title>
+	<link rel="stylesheet" href="/ai/styles.css">
+</head>
+<body>
+	<header class="mobile-app-crown" aria-label="Mobile app header">
+		<button class="mobile-crown-menu" type="button" aria-label="Open conversations">☰</button>
+		<div class="mobile-crown-brand"><span class="mobile-crown-mark">א</span><span>AWTSMOOS AI</span></div>
+		<button class="mobile-crown-code" type="button" aria-label="Open automation">⚙</button>
+		<button class="mobile-crown-collapse" type="button" aria-label="Collapse app header">⌃</button>
+	</header>
+	<div class="container">
+		<aside id="sidebar" class="sidebar" tabindex="-1">
+			<header class="panel-topbar"><span class="panel-title">Conversations</span><div class="panel-actions"><button type="button" data-panel-action="toggle">↔</button></div></header>
+			<div class="conversation-list" id="conversation-list">
+				<button class="refresh-button new-chat" type="button">New chat</button>
+				<section class="service-selector"><label>AI service<select id="ai-service-select"><option>ChatGPT</option><option>MiniMax</option></select></label><label>Mode<select id="chatgpt-mode-select"><option>Standard</option></select></label></section>
+				<ul id="conversation-items"><li data-conversation-id="one" aria-current="true"><span class="conversation-title">Responsive revelation and a deliberately long remembered title</span></li><li data-conversation-id="two"><span class="conversation-title">Automation research notes</span></li><li data-conversation-id="three"><span class="conversation-title">Audio and message actions</span></li></ul>
+			</div>
+		</aside>
+		<div id="left-resizer" class="resize-bar"></div>
+		<main class="main" tabindex="-1">
+			<div id="transport-status" class="transport-status"><strong>Connected</strong><span>ChatGPT transport ready</span></div>
+			<section id="chat-box" class="chat-box">
+				<div class="message-shell end-flow"><article class="message user"><p>Make the workspace feel calm and powerful on every screen.</p></article></div>
+				<div class="message-shell start-flow"><article class="message assistant"><h2>One workspace, many vessels</h2><p>The conversation remains the primary horizon while memory and automation stay close without crushing the center.</p><pre><code>const responsiveTruth = "one room at a time on mobile";</code></pre><table><tbody><tr><th>Viewport</th><th>Experience</th></tr><tr><td>Mobile</td><td>Focused single room</td></tr><tr><td>Desktop</td><td>Measured three-panel observatory</td></tr></tbody></table></article></div>
+			</section>
+			<div id="composer-resizer" class="composer-resizer"></div>
+			<form class="input-area"><textarea id="message-input" placeholder="Write a message…"></textarea><button id="send-button" type="button">Send</button></form>
+		</main>
+		<div id="right-resizer" class="resize-bar"></div>
+		<aside id="automation-panel" class="automation-panel" tabindex="-1">
+			<header class="panel-topbar"><span class="panel-title">Automation</span><div class="panel-actions"><button type="button" data-panel-action="toggle">↔</button></div></header>
+			<div class="automation-panel-content"><div class="right-panel-body"><section class="automation-card"><h3>Automation pipeline</h3><p class="automation-status">Ready for this conversation</p><label>Maximum turns<input value="8"></label><label>Prompt<textarea>Continue with the next precise verified step.</textarea></label><button type="button">Apply automation</button></section><section class="settings-hero-card"><h3>Experience settings</h3><label>Response mode<select><option>Balanced</option></select></label></section></div></div>
+		</aside>
+	</div>
+	<nav class="mobile-bottom-dock" aria-label="Mobile destinations">
+		<button class="mobile-nav-conversations" type="button"><span>☰</span><em>Chats</em></button>
+		<button class="mobile-nav-search" type="button"><span>⌕</span><em>Search</em></button>
+		<button class="mobile-nav-chat" type="button"><span>✦</span><em>Chat</em></button>
+		<button class="mobile-nav-automation" type="button"><span>⚙</span><em>Automate</em></button>
+		<button class="mobile-nav-settings" type="button"><span>⋯</span><em>Settings</em></button>
+	</nav>
+	<script type="module">
+		import { mountMobileChrome } from "/ai/js/app/mobileChrome.js";
+		import { mountMobileScenes } from "/ai/js/app/mobileDrawers.js";
+		const dom = {
+			sidebar: document.getElementById("sidebar"),
+			main: document.querySelector(".main"),
+			automationPanel: document.getElementById("automation-panel"),
+			conversationList: document.getElementById("conversation-list")
+		};
+		const workspace = mountMobileScenes(dom);
+		document.querySelector(".mobile-nav-chat").onclick = workspace.openChat;
+		document.querySelector(".mobile-nav-conversations").onclick = workspace.openConversationDrawer;
+		document.querySelector(".mobile-nav-automation").onclick = workspace.openAutomationDrawer;
+		mountMobileChrome();
+		document.body.dataset.fixtureReady = "true";
+	</script>
+</body>
+</html>

@@ -4,23 +4,27 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Installs houses, quest giver, six demons, one target stream, and both combats.
- * The Awtsmoos gathers dwelling, threshold, neighbor, trial, corpse, loot, spell, and sunlight;
- * Awtsmoos.com keeps every population inspectable while one pointer arbitrates all visible choice.
+ * @description Installs water, forest, flowers, houses, quest, six demons, targeting, and combat.
+ * The Awtsmoos gathers current, leaf, blossom, dwelling, neighbor, trial, corpse, and sunlight;
+ * Awtsmoos.com gives every living system one owner while one pointer arbitrates visible choice.
  */
 
 import { WorldTargetCoordinator } from '../ui/WorldTargetCoordinator.js';
-import { MinimalMeadowQuestParchment } from '../ui/MinimalMeadowQuestParchment.js?v=20260724-meadow-17';
+import { MinimalMeadowQuestParchment } from '../ui/MinimalMeadowQuestParchment.js?v=20260724-meadow-21';
 import { MinimalMeadowCombat } from './MinimalMeadowCombat.js?v=20260723-meadow-11';
-import { MinimalMeadowEnemyPopulation } from './MinimalMeadowEnemyPopulation.js?v=20260724-meadow-17';
-import { MinimalMeadowHousePopulation } from './MinimalMeadowHousePopulation.js?v=20260724-meadow-17';
+import { MinimalMeadowEnemyPopulation } from './MinimalMeadowEnemyPopulation.js?v=20260724-meadow-21';
+import { MinimalMeadowHousePopulation } from './MinimalMeadowHousePopulation.js?v=20260724-meadow-21';
 import { compileMinimalShadowCreature } from './MinimalMeadowProceduralCreature.js?v=20260723-meadow-10';
-import { MinimalMeadowQuestNpcPopulation } from './MinimalMeadowQuestNpcPopulation.js?v=20260724-meadow-17';
-import { MinimalMeadowQuestState } from './MinimalMeadowQuestState.js?v=20260724-meadow-17';
+import { MinimalMeadowQuestNpcPopulation } from './MinimalMeadowQuestNpcPopulation.js?v=20260724-meadow-21';
+import { MinimalMeadowQuestState } from './MinimalMeadowQuestState.js?v=20260724-meadow-21';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js?v=20260723-meadow-11';
+import { MinimalMeadowTreeSystem } from './MinimalMeadowTreeSystem.js?v=20260724-meadow-21';
+import { MinimalMeadowVegetationSystem } from './MinimalMeadowVegetationSystem.js?v=20260724-meadow-21';
+import { MinimalMeadowWaterSystem } from './MinimalMeadowWaterSystem.js?v=20260724-meadow-21';
 
 export async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
 	runtime.sky = installMinimalMeadowSky(runtime.scene, runtime.camera, 'high');
+	await installEnvironment(runtime);
 	runtime.houses = await MinimalMeadowHousePopulation.create(runtime);
 	runtime.scene.add(runtime.houses.group);
 	const compiled = await compileMinimalShadowCreature();
@@ -42,6 +46,9 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	runtime.sky?.update?.();
+	runtime.water?.update(deltaSeconds);
+	runtime.trees?.update(deltaSeconds);
+	runtime.vegetation?.update(deltaSeconds);
 	runtime.houses?.update(deltaSeconds);
 	runtime.enemies?.update(deltaSeconds);
 	runtime.combat?.update(deltaSeconds);
@@ -50,12 +57,19 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.targeting?.destroy?.();
 	runtime.enemies?.clearAll?.();
-	runtime.houses?.destroy?.();
+	for (const system of [runtime.water, runtime.trees, runtime.vegetation, runtime.houses]) system?.destroy?.();
 	runtime.friendlyNpcs?.destroy?.();
 	runtime.questUi?.destroy?.();
 	runtime.quest?.destroy?.();
 	runtime.enemies?.group?.parent?.remove(runtime.enemies.group);
 	for (const unsubscribe of runtime.combat?.unsubscribers || []) unsubscribe();
+}
+
+async function installEnvironment(runtime) {
+	runtime.water = await MinimalMeadowWaterSystem.create(runtime);
+	runtime.trees = await MinimalMeadowTreeSystem.create(runtime);
+	runtime.vegetation = new MinimalMeadowVegetationSystem(runtime);
+	for (const system of [runtime.water, runtime.trees, runtime.vegetation]) runtime.scene.add(system.group);
 }
 
 function enemyOptions(runtime, compiled, environment) {
@@ -78,6 +92,9 @@ function diagnostics(runtime) {
 		houses: runtime.houses?.diagnostics?.() || null,
 		quest: runtime.quest?.snapshot?.() || null,
 		sky: runtime.sky?.diagnostics?.() || null,
-		targeting: runtime.targeting?.diagnostics?.() || null
+		targeting: runtime.targeting?.diagnostics?.() || null,
+		trees: runtime.trees?.diagnostics?.() || null,
+		vegetation: runtime.vegetation?.diagnostics?.() || null,
+		water: runtime.water?.diagnostics?.() || null
 	};
 }

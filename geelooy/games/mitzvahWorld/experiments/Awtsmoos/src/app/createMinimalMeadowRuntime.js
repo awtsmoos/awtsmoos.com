@@ -4,9 +4,9 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Composes meadow, houses, Chossid, six demons, quest giver, combat, UI, and touch.
+ * @description Composes valley, water, trees, flowers, equipment, homes, demons, quest, and touch.
  * The Awtsmoos gathers proven sparks without reviving the abandoned heavy world;
- * Awtsmoos.com keeps renderer, home, creature, quest, loot, jump, target, and UI ownership explicit.
+ * Awtsmoos.com keeps terrain, renderer, garment, current, root, blossom, and gameplay ownership clear.
  */
 
 import { Group, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -16,8 +16,8 @@ import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=2026
 import { MinimalMeadowCameraRig } from './MinimalMeadowCameraRig.js?v=20260723-meadow-09';
 import { createMinimalMeadowCollision } from './MinimalMeadowCollision.js?v=20260723-meadow-09';
 import { MinimalMeadowInput } from './MinimalMeadowInput.js?v=20260724-meadow-13';
-import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js?v=20260724-meadow-17';
-import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js?v=20260723-meadow-07';
+import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js?v=20260724-meadow-21';
+import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js?v=20260724-meadow-21';
 import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js?v=20260723-meadow-11';
 import {
 	createMinimalBootReceipt,
@@ -29,12 +29,12 @@ import {
 	renderMinimalFirstFrame
 } from './MinimalMeadowRuntimeSupport.js?v=20260723-meadow-09';
 import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js?v=20260723-meadow-10';
-import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js?v=20260724-meadow-14';
-import { installMinimalMeadowUi } from './MinimalMeadowUi.js?v=20260724-meadow-17';
+import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js?v=20260724-meadow-21';
+import { installMinimalMeadowUi } from './MinimalMeadowUi.js?v=20260724-meadow-21';
 import {
 	destroyMinimalMeadowWorldSystems,
 	installMinimalMeadowWorldSystems
-} from './MinimalMeadowWorldSystems.js?v=20260724-meadow-17';
+} from './MinimalMeadowWorldSystems.js?v=20260724-meadow-21';
 import { markRuntimePlayable, markRuntimeStarting } from './RuntimeStateMarker.js?v=20260723-meadow-03';
 
 export async function createMinimalMeadowRuntime(hosts, options = {}) {
@@ -42,7 +42,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	const documentValue = environment.document;
 	const boot = createMinimalBootReceipt(environment);
 	markRuntimeStarting(documentValue);
-	boot.begin('meadow-and-house-materials');
+	boot.begin('eight-grass-river-valley-terrain');
 	const terrain = await createMinimalMeadowTerrainPackage({ ...options, environment });
 	const scene = new Scene();
 	scene.add(terrain.group);
@@ -70,7 +70,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	initializeMinimalMeadowRuntime(runtime, hosts, documentValue);
 	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
 	installMinimalMeadowUi(runtime, documentValue, environment);
-	boot.begin('houses-six-demons-quest-corpses-loot');
+	boot.begin('water-forest-flowers-equipment-houses-quest');
 	await installMinimalMeadowWorldSystems(runtime, environment);
 	installBootstrapControlsHud(runtime, documentValue);
 	renderMinimalFirstFrame(runtime);

@@ -1,5 +1,5 @@
 B"H
-1.0.384
+1.0.385
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -17,6 +17,7 @@ ai/relay/split-browser/controlPage.cjs
 ai/relay/split-browser/cookieJar.cjs
 ai/relay/split-browser/debugApi.cjs
 ai/relay/split-browser/debugClient.cjs
+ai/relay/split-browser/directApi.cjs
 ai/relay/split-browser/headerMap.cjs
 ai/relay/split-browser/http.cjs
 ai/relay/split-browser/index.js

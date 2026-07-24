@@ -41,10 +41,7 @@ export class PageAuthorizedDirectClient {
 			const mutator = new ConversationBodyMutator();
 			const request = mutator.mutate(envelope, { prompt, state });
 			const requestClient = new PageContextRequestClient(controller.cdpClient);
-
-			if (dryRun) {
-				return this.describeDryRun(controller, mutator, requestClient, request);
-			}
+			if (dryRun) return this.describeDryRun(controller, mutator, requestClient, request);
 
 			const pacing = await beforeDirectRequest?.();
 			const requestStartedMs = Date.now();
@@ -55,11 +52,11 @@ export class PageAuthorizedDirectClient {
 			}
 
 			const handoff = new ConversationHandoffParser().parse(response.text);
-			const topicResult = await new TopicWebSocketSubscriber(controller.cdpClient).subscribe({
+			const topic = await new TopicWebSocketSubscriber(controller.cdpClient).subscribe({
 				topicId: handoff.topicId,
 				timeoutMs
 			});
-			const reduced = new ConversationV1Reducer().reduce(topicResult.encodedItems, {
+			const reduced = new ConversationV1Reducer().reduce(topic.encodedItems, {
 				conversationId: handoff.conversationId
 			});
 			this.assertConversationState(reduced);
@@ -74,8 +71,9 @@ export class PageAuthorizedDirectClient {
 				response: {
 					status: response.status,
 					contentType: response.contentType,
-					webSocketFrames: topicResult.frameCount,
+					webSocketFrames: topic.frameCount,
 					streamItems: reduced.itemCount,
+					subscriptionAttempts: topic.subscriptionAttempts,
 					done: reduced.done
 				},
 				timing: {

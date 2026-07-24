@@ -1,0 +1,629 @@
+=== RUN ===
+Error: UI browser proof failed: {"mobile-chat":{"ok":false,"viewport":{"width":390,"height":844},"active":"chat","horizontalOverflow":0,"main":{"x":0,"y":8,"width":390,"height":844,"top":8,"right":390,"bottom":852,"left":0},"sidebar":{"x":-365.14874267578125,"y":8,"width":358.796875,"height":752,"top":8,"right":-6.35186767578125,"bottom":760,"left":-365.14874267578125},"automation":{"x":396.66375732421875,"y":8,"width":366.59375,"height":752,"top":8,"right":763.2575073242188,"bottom":760,"left":396.66375732421875},"composer":{"x":9,"y":748,"width":390,"height":96,"top":748,"right":399,"bottom":844,"left":9},"dock":{"x":10,"y":776,"width":370,"height":60,"top":776,"right":380,"bottom":836,"left":10},"crown":{"x":12,"y":8,"width":366,"height":56,"top":8,"right":378,"bottom":64,"left":12},"otherPanelsInert":true,"composerClear":false,"touchTargets":true,"centerWide":true,"grid":"minmax(0px, 1fr)"},"mobile-conversations":{"ok":false,"viewport":{"width":390,"height":844},"active":"conversations","horizontalOverflow":0,"main":{"x":0,"y":8,"width":390,"height":844,"top":8,"right":390,"bottom":852,"left":0},"sidebar":{"x":-365.14874267578125,"y":8,"width":358.796875,"height":752,"top":8,"right":-6.35186767578125,"bottom":760,"left":-365.14874267578125},"automation":{"x":396.66375732421875,"y":8,"width":366.59375,"height":752,"top":8,"right":763.2575073242188,"bottom":760,"left":396.66375732421875},"composer":{"x":9,"y":748,"width":390,"height":96,"top":748,"right":399,"bottom":844,"left":9},"dock":{"x":10,"y":776,"width":370,"height":60,"top":776,"right":380,"bottom":836,"left":10},"crown":{"x":12,"y":8,"width":366,"height":56,"top":8,"right":378,"bottom":64,"left":12},"otherPanelsInert":true,"composerClear":false,"touchTargets":true,"centerWide":true,"grid":"minmax(0px, 1fr)"},"mobile-automation":{"ok":false,"viewport":{"width":390,"height":844},"active":"automation","horizontalOverflow":0,"main":{"x":0,"y":8,"width":390,"height":844,"top":8,"right":390,"bottom":852,"left":0},"sidebar":{"x":-365.14874267578125,"y":8,"width":358.796875,"height":752,"top":8,"right":-6.35186767578125,"bottom":760,"left":-365.14874267578125},"automation":{"x":396.66375732421875,"y":8,"width":366.59375,"height":752,"top":8,"right":763.2575073242188,"bottom":760,"left":396.66375732421875},"composer":{"x":9,"y":748,"width":390,"height":96,"top":748,"right":399,"bottom":844,"left":9},"dock":{"x":10,"y":776,"width":370,"height":60,"top":776,"right":380,"bottom":836,"left":10},"crown":{"x":12,"y":8,"width":366,"height":56,"top":8,"right":378,"bottom":64,"left":12},"otherPanelsInert":true,"composerClear":false,"touchTargets":true,"centerWide":true,"grid":"minmax(0px, 1fr)"},"tablet-chat":{"ok":false,"viewport":{"width":768,"height":900},"active":"chat","horizontalOverflow":0,"main":{"x":0,"y":539.59375,"width":768,"height":900,"top":539.59375,"right":768,"bottom":1439.59375,"left":0},"sidebar":{"x":-436.79998779296875,"y":0,"width":420,"height":539.59375,"top":0,"right":-16.79998779296875,"bottom":539.59375,"left":-436.79998779296875},"automation":{"x":457.6000061035156,"y":1439.59375,"width":439.9999694824219,"height":677.9375,"top":1439.59375,"right":897.5999755859375,"bottom":2117.53125,"left":457.6000061035156},"composer":{"x":10,"y":1334.59375,"width":766,"height":96,"top":1334.59375,"right":776,"bottom":1430.59375,"left":10},"dock":{"x":10,"y":832,"width":748,"height":60,"top":832,"right":758,"bottom":892,"left":10},"crown":{"x":12,"y":8,"width":744,"height":56,"top":8,"right":756,"bottom":64,"left":12},"otherPanelsInert":true,"composerClear":false,"touchTargets":true,"centerWide":true,"grid":"58px 0px minmax(0px, 1fr) 0px 58px"},"laptop":{"ok":true,"viewport":{"width":1280,"height":800},"active":"desktop","horizontalOverflow":0,"main":{"x":271,"y":9,"width":708,"height":782,"top":9,"right":979,"bottom":791,"left":271},"sidebar":{"x":9,"y":9,"width":240,"height":782,"top":9,"right":249,"bottom":791,"left":9},"automation":{"x":1001,"y":9,"width":270,"height":782,"top":9,"right":1271,"bottom":791,"left":1001},"composer":{"x":272,"y":681.65625,"width":706,"height":108.34375,"top":681.65625,"right":978,"bottom":790,"left":272},"dock":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"crown":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"otherPanelsInert":true,"composerClear":true,"touchTargets":true,"centerWide":true,"grid":"240px 6px 708px 6px 270px"},"desktop":{"ok":true,"viewport":{"width":1440,"height":900},"active":"desktop","horizontalOverflow":0,"main":{"x":331,"y":12,"width":746,"height":876,"top":12,"right":1077,"bottom":888,"left":331},"sidebar":{"x":12,"y":12,"width":292,"height":876,"top":12,"right":304,"bottom":888,"left":12},"automation":{"x":1104,"y":12,"width":324,"height":876,"top":12,"right":1428,"bottom":888,"left":1104},"composer":{"x":332,"y":778.65625,"width":744,"height":108.34375,"top":778.65625,"right":1076,"bottom":887,"left":332},"dock":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"crown":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"otherPanelsInert":true,"composerClear":true,"touchTargets":true,"centerWide":true,"grid":"292px 7px 746px 7px 324px"},"ultrawide":{"ok":true,"viewport":{"width":1920,"height":1080},"active":"desktop","horizontalOverflow":0,"main":{"x":362,"y":14,"width":1156,"height":1052,"top":14,"right":1518,"bottom":1066,"left":362},"sidebar":{"x":14,"y":14,"width":320,"height":1052,"top":14,"right":334,"bottom":1066,"left":14},"automation":{"x":1546,"y":14,"width":360,"height":1052,"top":14,"right":1906,"bottom":1066,"left":1546},"composer":{"x":420,"y":956.65625,"width":1040,"height":108.34375,"top":956.65625,"right":1460,"bottom":1065,"left":420},"dock":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"crown":{"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0},"otherPanelsInert":true,"composerClear":true,"touchTargets":true,"centerWide":true,"grid":"320px 8px 1156px 8px 360px"},"escape":{"ok":true,"scene":"chat","focus":"mobile-crown-menu"},"ok":false}
+    at run (/Users/awtsmoos/awtsmoos.com/geelooy/ai/thoughts/2026-07-23-massive-ui-ux-revelation/ui-browser-proof.cjs:40:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+=== EVIDENCE ===
+{
+  "mobile-chat": {
+    "ok": false,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "chat",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 8,
+      "width": 390,
+      "height": 844,
+      "top": 8,
+      "right": 390,
+      "bottom": 852,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -365.14874267578125,
+      "y": 8,
+      "width": 358.796875,
+      "height": 752,
+      "top": 8,
+      "right": -6.35186767578125,
+      "bottom": 760,
+      "left": -365.14874267578125
+    },
+    "automation": {
+      "x": 396.66375732421875,
+      "y": 8,
+      "width": 366.59375,
+      "height": 752,
+      "top": 8,
+      "right": 763.2575073242188,
+      "bottom": 760,
+      "left": 396.66375732421875
+    },
+    "composer": {
+      "x": 9,
+      "y": 748,
+      "width": 390,
+      "height": 96,
+      "top": 748,
+      "right": 399,
+      "bottom": 844,
+      "left": 9
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": false,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "mobile-conversations": {
+    "ok": false,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "conversations",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 8,
+      "width": 390,
+      "height": 844,
+      "top": 8,
+      "right": 390,
+      "bottom": 852,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -365.14874267578125,
+      "y": 8,
+      "width": 358.796875,
+      "height": 752,
+      "top": 8,
+      "right": -6.35186767578125,
+      "bottom": 760,
+      "left": -365.14874267578125
+    },
+    "automation": {
+      "x": 396.66375732421875,
+      "y": 8,
+      "width": 366.59375,
+      "height": 752,
+      "top": 8,
+      "right": 763.2575073242188,
+      "bottom": 760,
+      "left": 396.66375732421875
+    },
+    "composer": {
+      "x": 9,
+      "y": 748,
+      "width": 390,
+      "height": 96,
+      "top": 748,
+      "right": 399,
+      "bottom": 844,
+      "left": 9
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": false,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "mobile-automation": {
+    "ok": false,
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "active": "automation",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 8,
+      "width": 390,
+      "height": 844,
+      "top": 8,
+      "right": 390,
+      "bottom": 852,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -365.14874267578125,
+      "y": 8,
+      "width": 358.796875,
+      "height": 752,
+      "top": 8,
+      "right": -6.35186767578125,
+      "bottom": 760,
+      "left": -365.14874267578125
+    },
+    "automation": {
+      "x": 396.66375732421875,
+      "y": 8,
+      "width": 366.59375,
+      "height": 752,
+      "top": 8,
+      "right": 763.2575073242188,
+      "bottom": 760,
+      "left": 396.66375732421875
+    },
+    "composer": {
+      "x": 9,
+      "y": 748,
+      "width": 390,
+      "height": 96,
+      "top": 748,
+      "right": 399,
+      "bottom": 844,
+      "left": 9
+    },
+    "dock": {
+      "x": 10,
+      "y": 776,
+      "width": 370,
+      "height": 60,
+      "top": 776,
+      "right": 380,
+      "bottom": 836,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 366,
+      "height": 56,
+      "top": 8,
+      "right": 378,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": false,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "minmax(0px, 1fr)"
+  },
+  "tablet-chat": {
+    "ok": false,
+    "viewport": {
+      "width": 768,
+      "height": 900
+    },
+    "active": "chat",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 0,
+      "y": 539.59375,
+      "width": 768,
+      "height": 900,
+      "top": 539.59375,
+      "right": 768,
+      "bottom": 1439.59375,
+      "left": 0
+    },
+    "sidebar": {
+      "x": -436.79998779296875,
+      "y": 0,
+      "width": 420,
+      "height": 539.59375,
+      "top": 0,
+      "right": -16.79998779296875,
+      "bottom": 539.59375,
+      "left": -436.79998779296875
+    },
+    "automation": {
+      "x": 457.6000061035156,
+      "y": 1439.59375,
+      "width": 439.9999694824219,
+      "height": 677.9375,
+      "top": 1439.59375,
+      "right": 897.5999755859375,
+      "bottom": 2117.53125,
+      "left": 457.6000061035156
+    },
+    "composer": {
+      "x": 10,
+      "y": 1334.59375,
+      "width": 766,
+      "height": 96,
+      "top": 1334.59375,
+      "right": 776,
+      "bottom": 1430.59375,
+      "left": 10
+    },
+    "dock": {
+      "x": 10,
+      "y": 832,
+      "width": 748,
+      "height": 60,
+      "top": 832,
+      "right": 758,
+      "bottom": 892,
+      "left": 10
+    },
+    "crown": {
+      "x": 12,
+      "y": 8,
+      "width": 744,
+      "height": 56,
+      "top": 8,
+      "right": 756,
+      "bottom": 64,
+      "left": 12
+    },
+    "otherPanelsInert": true,
+    "composerClear": false,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "58px 0px minmax(0px, 1fr) 0px 58px"
+  },
+  "laptop": {
+    "ok": true,
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 271,
+      "y": 9,
+      "width": 708,
+      "height": 782,
+      "top": 9,
+      "right": 979,
+      "bottom": 791,
+      "left": 271
+    },
+    "sidebar": {
+      "x": 9,
+      "y": 9,
+      "width": 240,
+      "height": 782,
+      "top": 9,
+      "right": 249,
+      "bottom": 791,
+      "left": 9
+    },
+    "automation": {
+      "x": 1001,
+      "y": 9,
+      "width": 270,
+      "height": 782,
+      "top": 9,
+      "right": 1271,
+      "bottom": 791,
+      "left": 1001
+    },
+    "composer": {
+      "x": 272,
+      "y": 681.65625,
+      "width": 706,
+      "height": 108.34375,
+      "top": 681.65625,
+      "right": 978,
+      "bottom": 790,
+      "left": 272
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "240px 6px 708px 6px 270px"
+  },
+  "desktop": {
+    "ok": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 331,
+      "y": 12,
+      "width": 746,
+      "height": 876,
+      "top": 12,
+      "right": 1077,
+      "bottom": 888,
+      "left": 331
+    },
+    "sidebar": {
+      "x": 12,
+      "y": 12,
+      "width": 292,
+      "height": 876,
+      "top": 12,
+      "right": 304,
+      "bottom": 888,
+      "left": 12
+    },
+    "automation": {
+      "x": 1104,
+      "y": 12,
+      "width": 324,
+      "height": 876,
+      "top": 12,
+      "right": 1428,
+      "bottom": 888,
+      "left": 1104
+    },
+    "composer": {
+      "x": 332,
+      "y": 778.65625,
+      "width": 744,
+      "height": 108.34375,
+      "top": 778.65625,
+      "right": 1076,
+      "bottom": 887,
+      "left": 332
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "292px 7px 746px 7px 324px"
+  },
+  "ultrawide": {
+    "ok": true,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "active": "desktop",
+    "horizontalOverflow": 0,
+    "main": {
+      "x": 362,
+      "y": 14,
+      "width": 1156,
+      "height": 1052,
+      "top": 14,
+      "right": 1518,
+      "bottom": 1066,
+      "left": 362
+    },
+    "sidebar": {
+      "x": 14,
+      "y": 14,
+      "width": 320,
+      "height": 1052,
+      "top": 14,
+      "right": 334,
+      "bottom": 1066,
+      "left": 14
+    },
+    "automation": {
+      "x": 1546,
+      "y": 14,
+      "width": 360,
+      "height": 1052,
+      "top": 14,
+      "right": 1906,
+      "bottom": 1066,
+      "left": 1546
+    },
+    "composer": {
+      "x": 420,
+      "y": 956.65625,
+      "width": 1040,
+      "height": 108.34375,
+      "top": 956.65625,
+      "right": 1460,
+      "bottom": 1065,
+      "left": 420
+    },
+    "dock": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "crown": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "otherPanelsInert": true,
+    "composerClear": true,
+    "touchTargets": true,
+    "centerWide": true,
+    "grid": "320px 8px 1156px 8px 360px"
+  },
+  "escape": {
+    "ok": true,
+    "scene": "chat",
+    "focus": "mobile-crown-menu"
+  },
+  "ok": false
+}
+=== SERVER ===
+127.0.0.1 - - [23/Jul/2026 18:36:06] "GET /ai/thoughts/2026-07-23-massive-ui-ux-revelation/ui-fixture.html HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:06] "GET /ai/thoughts/2026-07-23-massive-ui-ux-revelation/ui-fixture.html HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileChrome.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileDrawers.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/tokens.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/sidebar.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/chat.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/shell.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/composer.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/automation.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/settings.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/manifest.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/manifest.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/mobile-overlap-kill.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceController.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/tokens.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/region.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/panel-chrome.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/thought-run.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/tool-terminal.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/thought-stepper.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/file-review.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/events/mobile.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/tokens.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/shell.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/menu.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/sections.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/forms.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/toggles.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/actions.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/fullscreen.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/right-panel/responsive.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/message-actions.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/message-actions-mobile.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/message-audio-options.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/message-audio-player.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/desktop-refinement.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/index.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/measure.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/crown.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/scenes.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/composer.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/suggestions.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/control-center.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/polish.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/visual-match.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ideal/mobile/revamp.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceApi.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceDesktop.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceBindings.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceElements.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/js/app/mobileWorkspaceFocus.js HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/navigation.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/shell.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/sidebar.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/tokens.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/messages.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/composer.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/automation.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/buttons.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/providers.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/states.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/focus-motion.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/responsive.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/mobile.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/mobile-shell.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/mobile-composer.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /ai/css/ai-chat/mobile-content.css HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:07] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [23/Jul/2026 18:36:11] "GET /ai/thoughts/2026-07-23-massive-ui-ux-revelation/ui-fixture.html HTTP/1.1" 304 -
+=== CHROME ===
+
+DevTools listening on ws://127.0.0.1:9381/devtools/browser/96be937d-6fa8-4e0d-90d8-16f0974e8e48
+[23130:3721790:0723/183605.025037:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183605.026132:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183605.026445:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183605.852785:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+Trying to load the allocator multiple times. This is *not* supported.
+[23120:3721677:0723/183609.227815:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[23130:3721790:0723/183609.265819:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183609.516573:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183609.584620:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183610.272202:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183610.286994:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183610.303911:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183610.322015:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183614.291675:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[23130:3721790:0723/183616.770655:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.771366:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.771571:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.771676:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.771888:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.772056:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.772099:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.
+[23130:3721790:0723/183616.772167:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:395] SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.

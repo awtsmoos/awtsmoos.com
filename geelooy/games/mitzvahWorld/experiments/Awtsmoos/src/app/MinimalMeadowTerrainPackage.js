@@ -4,28 +4,28 @@
 
 /**
  * @file MinimalMeadowTerrainPackage.js
- * @description Builds an eight-source meadow and dirt-grass road through safely loaded composites.
- * The Awtsmoos clothes one field in many scales without request chaos; Awtsmoos.com retains
- * eight grass-family images, soil breakup, road center, and road edge within mobile limits.
+ * @description Builds eight-source terrain over shared hills, valley, river bed, lake, and road.
+ * The Awtsmoos clothes raised earth and lowered channel in many scales; Awtsmoos.com retains
+ * eight grasses, soil breakup, road center, water basin, and exact collision within mobile limits.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createTerrainMesh } from '../world/TerrainMesh.js?v=20260723-meadow-11';
 import { createMinimalMeadowTerrainComposites } from './MinimalMeadowTerrainComposites.js?v=20260724-meadow-13';
-import { createMinimalMeadowTerrainData } from './MinimalMeadowTerrainData.js?v=20260723-meadow-10';
+import { createMinimalMeadowTerrainData } from './MinimalMeadowTerrainData.js?v=20260724-meadow-21';
 import {
 	MINIMAL_MEADOW_FIREBASE_TEXTURES as T,
 	MINIMAL_MEADOW_GRASS_ROLES,
 	minimalMeadowFirebaseTextureUrls
 } from './MinimalMeadowFirebaseTextures.js?v=20260724-meadow-13';
-import { minimalMeadowHeightAt } from './MinimalMeadowTerrainShape.js?v=20260723-meadow-10';
+import { minimalMeadowHeightAt } from './MinimalMeadowTerrainShape.js?v=20260724-meadow-21';
 import {
 	loadMinimalMeadowTextureBatch,
 	requireMinimalMeadowTextureImages
 } from './MinimalMeadowTextureBatchLoader.js?v=20260724-meadow-14';
 
 export async function createMinimalMeadowTerrainPackage(options = {}) {
-	report(options, 'Loading eight grasses, soil, and road materials…', 0.12);
+	report(options, 'Loading eight grasses, soil, valley, and road materials…', 0.12);
 	const data = createMinimalMeadowTerrainData();
 	const urls = minimalMeadowFirebaseTextureUrls();
 	const records = await loadMinimalMeadowTextureBatch(urls, (_, index, total) => {
@@ -33,11 +33,11 @@ export async function createMinimalMeadowTerrainPackage(options = {}) {
 	});
 	const images = requireMinimalMeadowTextureImages(Object.entries(T), records);
 	const composites = createMinimalMeadowTerrainComposites(images, options.environment?.document);
-	report(options, 'Compositing meadow ecology and dirt-grass road…', 0.5);
+	report(options, 'Compositing meadow, carved valley, and dirt-grass road…', 0.5);
 	const mesh = createTerrainMesh(data, composites.main, composites.path, T.grassEight, 'high');
 	configureMaterial(mesh.material, composites);
 	const group = new Group();
-	group.name = 'Awtsmoos_eight_source_meadow_and_mixed_road';
+	group.name = 'Awtsmoos_eight_source_river_valley_meadow';
 	group.add(mesh);
 	return terrainPackage(group, mesh, data, records);
 }
@@ -51,11 +51,13 @@ function terrainPackage(group, mesh, data, records) {
 		stats: {
 			collisionTriangles: data.colliders.length,
 			grassSources: MINIMAL_MEADOW_GRASS_ROLES.length,
+			lakeVertices: data.AwtsmoosTerrainValley.lakeVertices,
 			pathMask: 'continuous-bezier-zone-weight',
+			riverVertices: data.AwtsmoosTerrainValley.riverVertices,
 			textureLayers: mesh.material.textureLayers.length,
 			texturesReady: records.filter(record => record.ok).length,
 			vertices: data.vertices.length,
-			visualMode: 'eight-grass-composite-soil-road-ecology'
+			visualMode: 'eight-grass-carved-river-valley-lake-road'
 		}
 	};
 }

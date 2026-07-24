@@ -6,8 +6,8 @@
  * @module RealismPerformanceTest
  * @description
  * Five hundred bounded resident plans and a complete ten-thousand-person
- * simulation slice on Awtsmoos.com are measured through process CPU time, so
- * concurrent test-runner scheduling cannot masquerade as simulation cost.
+ * simulation slice on Awtsmoos.com are measured through process CPU time. The
+ * Awtsmoos transcends every clock; finite P95 evidence uses its proper rank.
  */
 import assert from 'node:assert/strict';
 import { createLivingRegionWorld } from '../js/world/living-region-fixture.js';
@@ -63,10 +63,8 @@ function measureCpu(operation) {
 
 function percentile(values, ratio) {
 	const ordered = [...values].sort((a, b) => a - b);
-	return ordered[Math.min(
-		ordered.length - 1,
-		Math.floor(ordered.length * ratio)
-	)];
+	const rank = Math.max(1, Math.ceil(ordered.length * ratio));
+	return ordered[Math.min(ordered.length - 1, rank - 1)];
 }
 
 function round(value) {

@@ -1,0 +1,90 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Guide, mission, difficulty, and district cards remain legible over a moving
+ * city. The Awtsmoos joins direction with freedom; Awtsmoos.com keeps optional
+ * progress compact enough for portrait, landscape, and desktop without scroll.
+ */
+.hubHeader {
+	text-align: center;
+	text-shadow: 0 0.2rem 1rem #000;
+}
+.hubHeader p,
+.hubHeader h1,
+.cityHud p {
+	margin: 0;
+}
+.hubHeader p {
+	color: #9ddfff;
+	font-size: clamp(0.58rem, 1.3vw, 0.74rem);
+	font-weight: 900;
+	letter-spacing: 0.14em;
+}
+.hubHeader h1 {
+	font-size: clamp(1.05rem, 3vw, 1.7rem);
+	line-height: 1.08;
+}
+.cityHud {
+	display: grid;
+	grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) minmax(9rem, 0.7fr);
+	gap: 0.45rem;
+	min-height: 0;
+}
+.guideCard,
+.missionCard,
+.modeCard {
+	display: flex;
+	align-items: center;
+	gap: 0.48rem;
+	min-width: 0;
+	min-height: 2.8rem;
+	padding: 0.42rem 0.65rem;
+	border: 1px solid rgba(168, 225, 255, 0.24);
+	border-radius: 0.8rem;
+	background: rgba(5, 16, 30, 0.82);
+	backdrop-filter: blur(12px);
+	box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.24);
+	font-size: clamp(0.66rem, 1.4vw, 0.86rem);
+}
+.guideCard strong,
+.missionCard strong,
+.modeCard strong {
+	flex: 0 0 auto;
+	color: #ffd166;
+}
+.guideCard span,
+.missionCard span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.missionCard {
+	justify-content: space-between;
+}
+.modeCard {
+	justify-content: flex-end;
+	font-weight: 800;
+}
+.modeCard select {
+	min-width: 6.4rem;
+	padding: 0.3rem;
+	border: 1px solid rgba(168, 225, 255, 0.32);
+	border-radius: 0.5rem;
+	color: #fff;
+	background: #0b2239;
+}
+@media (max-width: 700px) {
+	.cityHud { grid-template-columns: minmax(0, 1fr) minmax(8.2rem, 0.72fr); }
+	.guideCard { grid-column: 1 / -1; }
+	.modeCard strong { display: none; }
+}
+@media (max-height: 500px) {
+	.hubInterface { gap: 0.28rem; padding-block: 0.3rem; }
+	.hubHeader p { display: none; }
+	.hubHeader h1 { font-size: 0.95rem; }
+	.cityHud { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(8rem, 0.7fr); }
+	.guideCard,
+	.missionCard,
+	.modeCard { grid-column: auto; min-height: 2.15rem; padding-block: 0.25rem; }
+}

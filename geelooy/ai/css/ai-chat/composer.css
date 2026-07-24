@@ -1,16 +1,66 @@
-/* B"H — the composer is the command altar. */
-.input-area {
-  margin: .75rem; padding: .55rem; border: 1px solid rgba(255,211,109,.24); border-radius: 22px;
-  background: linear-gradient(135deg, rgba(6,10,20,.92), rgba(18,27,43,.88)); box-shadow: 0 -14px 40px rgba(0,0,0,.2);
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The composer is the speech gate where possible meaning becomes action. The
+ * Awtsmoos creates the intention, the hand, and the instant of sending anew;
+ * Awtsmoos.com therefore keeps this gate calm, generous, and unmistakable.
+ */
+.input-area{
+	margin:0;
+	padding:12px 14px 14px;
+	gap:10px;
+	border-top:1px solid rgba(160,195,226,.13);
+	background:
+		linear-gradient(180deg,rgba(4,10,20,.74),rgba(7,16,29,.98));
+	box-shadow:0 -18px 48px rgba(0,0,0,.22);
 }
-#message-input {
-  min-height: 52px; max-height: min(34vh, 260px); color: var(--ai-text); caret-color: var(--ai-cyan);
-  background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: .85rem;
+.input-area::before{
+	left:24px;
+	right:24px;
+	top:8px;
+	background:linear-gradient(90deg,transparent,rgba(99,230,208,.30),transparent);
 }
-#message-input::placeholder { color: rgba(246,237,218,.52); }
-.attachment-tools { margin: 0 .8rem .8rem; display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
-.attach-button, .attachment-tray > * {
-  border: 1px solid rgba(105,232,255,.22); border-radius: 999px; padding: .45rem .7rem;
-  background: rgba(105,232,255,.08); color: var(--ai-text);
+#message-input{
+	min-height:58px;
+	max-height:min(34dvh,280px);
+	padding:16px 17px;
+	border:1px solid rgba(160,195,226,.18);
+	border-radius:17px;
+	background:rgba(3,10,20,.86);
+	color:var(--ai-text);
+	line-height:1.48;
+	caret-color:var(--ai-cyan);
 }
-.composer-resizer { background: linear-gradient(90deg, transparent, rgba(255,211,109,.3), transparent); }
+#message-input:hover{
+	border-color:rgba(99,230,208,.32);
+}
+#message-input:focus{
+	border-color:rgba(99,230,208,.56);
+	box-shadow:var(--ai-focus);
+}
+#message-input::placeholder{
+	color:rgba(174,193,213,.66);
+}
+#send-button{
+	min-width:104px;
+	min-height:58px;
+	border-radius:17px;
+	background:linear-gradient(135deg,#63e6d0,#6d8cff);
+	color:#04111b;
+	box-shadow:0 14px 34px rgba(70,127,215,.26);
+}
+#send-button:hover{
+	filter:brightness(1.06);
+	transform:translateY(-1px);
+}
+.attachment-tools{
+	gap:7px;
+}
+.attach-button{
+	min-height:38px;
+	padding:8px 12px;
+	border-color:rgba(160,195,226,.16);
+	background:rgba(5,14,26,.88);
+}

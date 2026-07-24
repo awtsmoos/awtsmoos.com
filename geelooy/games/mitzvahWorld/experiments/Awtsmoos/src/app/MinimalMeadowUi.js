@@ -4,27 +4,32 @@
 
 /**
  * @file MinimalMeadowUi.js
- * @description Mounts compact HUD, combat, target, glyphs, rail, bag, notices, and touch controls.
- * The Awtsmoos gives each interface its proper edge; Awtsmoos.com keeps health, Hebrew attacks,
- * inventory, corpse loot, mezuzah receipts, progression, and world choice truthful without crowding.
+ * @description Mounts HUD, bag, equipment authority, combat, notices, menu, and touch controls.
+ * The Awtsmoos gives every garment and interface its proper edge; Awtsmoos.com keeps inventory,
+ * visible GLB clothes, hand/back weapons, health, loot, progression, and world choice synchronized.
  */
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
-import { InventoryPanel } from '../ui/InventoryPanel.js';
+import { InventoryPanel } from '../ui/InventoryPanel.js?v=20260724-meadow-21';
 import { MinimalMeadowCombatBar } from '../ui/MinimalMeadowCombatBar.js?v=20260723-meadow-11';
 import { MinimalMeadowCombatGlyphs } from '../ui/MinimalMeadowCombatGlyphs.js?v=20260724-meadow-13';
 import { MinimalMeadowGameRail } from '../ui/MinimalMeadowGameRail.js?v=20260723-meadow-10';
-import { MinimalMeadowHouseNotice } from '../ui/MinimalMeadowHouseNotice.js?v=20260724-meadow-17';
+import { MinimalMeadowHouseNotice } from '../ui/MinimalMeadowHouseNotice.js?v=20260724-meadow-21';
 import { MinimalMeadowMenu } from '../ui/MinimalMeadowMenu.js?v=20260723-meadow-09';
 import { MinimalMeadowRetractable } from '../ui/MinimalMeadowRetractable.js?v=20260723-meadow-10';
 import { MinimalMeadowTargetFrame } from '../ui/MinimalMeadowTargetFrame.js?v=20260723-meadow-11';
 import { NpcHud } from '../ui/NpcHud.js';
+import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js?v=20260724-meadow-21';
 
 export function installMinimalMeadowUi(runtime, documentValue, environment = globalThis) {
 	const hosts = runtime.hosts;
 	const bus = runtime.bus || new AwtsmoosEventBus();
 	const inventory = new InventoryStore();
+	Object.assign(runtime, { bus, inventory });
+	const equipment = new MinimalMeadowEquipmentRuntime(runtime);
+	runtime.equipment = equipment;
+	equipment.bindModel(runtime.model);
 	const inventoryPanel = new InventoryPanel(hosts.inventoryHost, bus, { store: inventory });
 	const npcHud = new NpcHud(hosts.npcHost, hosts.dialogueHost, bus);
 	const combatBar = new MinimalMeadowCombatBar(hosts.actionHost, bus, environment);
@@ -46,12 +51,12 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 		}
 		menu.refresh();
 	};
-	Object.assign(runtime, { bus, inventory });
 	runtime.ui = {
-		diagnostics: () => diagnostics(combatBar, gameRail, targetFrame, inventory, npcHud),
+		diagnostics: () => diagnostics(runtime, combatBar, gameRail, targetFrame, inventory, npcHud),
 		dispose() {
 			for (const unsubscribe of unsubscribers) unsubscribe();
 			for (const item of [combatBar, gameRail, targetFrame, glyphs, notice, menu, playerRetract, mobileRetract]) item.destroy();
+			equipment.destroy();
 			inventoryPanel.destroy();
 			npcHud.destroy();
 		},
@@ -70,11 +75,8 @@ function installUiEvents(runtime, bus, mobileRetract, playerRetract) {
 		}),
 		bus.on('controls:toggle', () => mobileRetract.toggle()),
 		bus.on('hud:toggle', () => playerRetract.toggle()),
-		bus.on('player:xp', () => runtime.ui?.refresh?.()),
-		bus.on('profile:state', () => runtime.ui?.refresh?.()),
-		bus.on('enemy:attack', () => runtime.ui?.refresh?.()),
-		bus.on('enemy:looted', () => runtime.ui?.refresh?.()),
-		bus.on('quest:completed', () => runtime.ui?.refresh?.())
+		...['player:xp', 'profile:state', 'enemy:attack', 'enemy:looted', 'quest:completed']
+			.map(name => bus.on(name, () => runtime.ui?.refresh?.()))
 	];
 }
 
@@ -92,9 +94,10 @@ function playerProfile(runtime) {
 	};
 }
 
-function diagnostics(combatBar, gameRail, targetFrame, inventory, npcHud) {
+function diagnostics(runtime, combatBar, gameRail, targetFrame, inventory, npcHud) {
 	return {
 		combatBar: combatBar.diagnostics(),
+		equipment: runtime.equipment.diagnostics(),
 		gameRail: gameRail.diagnostics(),
 		inventoryItems: inventory.snapshot().items.length,
 		playerHealth: npcHud.player.health,

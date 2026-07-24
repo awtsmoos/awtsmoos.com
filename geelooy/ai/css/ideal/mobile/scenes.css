@@ -1,54 +1,94 @@
-/*B"H
-  Chapter 4: The Mobile Rooms Made Space For The Retreating Crown.
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
 
-  The Awtsmoos lets only one room breathe at a time. Each scene now respects
-  both the retractable crown above and the thumb dock below.
-*/
+/*
+ * The responsive rooms are Malchus receiving one workspace through measured
+ * boundaries. The Awtsmoos creates chat, memory, and automation every instant;
+ * Awtsmoos.com gives each room the whole mobile stage instead of compressing
+ * three desktop columns into an unreadable miniature.
+ */
 @media(max-width:900px){
-  body .main,
-  body .sidebar,
-  body .automation-panel{
-    position:fixed;
-    inset:var(--mobile-scene-top) 0 var(--mobile-scene-bottom) 0;
-    width:100vw;
-    max-width:100vw;
-    height:auto;
-    max-height:none;
-    min-width:0;
-    border-inline:0;
-    border-bottom:0;
-    border-radius:24px;
-    transform:translateX(108vw);
-    transition:transform .28s ease,opacity .2s ease,filter .2s ease,inset .22s ease;
-    opacity:0;
-    pointer-events:none;
-    filter:blur(2px);
-  }
-  body .mobile-scene-active{
-    transform:translateX(0);
-    opacity:1;
-    pointer-events:auto;
-    filter:blur(0);
-    z-index:30;
-  }
-  body[data-mobile-scene="chat"] .main{z-index:35}
-  body .is-collapsed,
-  body .is-detached{
-    width:100vw;
-    max-width:100vw;
-  }
-  body .is-collapsed>:not(.panel-topbar),
-  body .is-detached>:not(.panel-topbar){display:revert}
-  body .is-collapsed .panel-topbar,
-  body .is-detached .panel-topbar{
-    height:48px;
-    display:flex;
-    padding:8px 10px;
-  }
-  body .is-collapsed .panel-title,
-  body .is-detached .panel-title{
-    writing-mode:horizontal-tb;
-    transform:none;
-    font-size:.9rem;
-  }
+	body[data-mobile-scene] .container{
+		display:block;
+		width:100vw;
+		height:100dvh;
+		padding:0;
+		gap:0;
+		overflow:hidden;
+	}
+	body[data-mobile-scene] .container > :is(.main,.sidebar,.automation-panel){
+		position:fixed;
+		top:var(--mobile-scene-top);
+		bottom:var(--mobile-scene-bottom);
+		height:auto;
+		min-height:0;
+		max-height:none;
+		margin:0;
+		border:1px solid rgba(125,211,252,.18);
+		background:linear-gradient(160deg,rgba(7,17,32,.99),rgba(2,7,16,.99));
+		box-shadow:0 24px 70px rgba(0,0,0,.52);
+		overflow:hidden;
+		transition:
+			transform .26s cubic-bezier(.2,.75,.2,1),
+			opacity .2s ease,
+			filter .2s ease;
+	}
+	body[data-mobile-scene] .container > .main{
+		inset-inline:0;
+		width:100vw;
+		max-width:100vw;
+		display:grid;
+		grid-template-rows:minmax(0,1fr) auto auto auto;
+		transform:none;
+		opacity:1;
+		filter:none;
+		pointer-events:auto;
+		z-index:22;
+	}
+	body[data-mobile-scene] .container > #sidebar{
+		inset-inline:0 auto;
+		width:min(92vw,420px);
+		max-width:min(92vw,420px);
+		grid-template-rows:auto minmax(0,1fr);
+		transform:translateX(-104%);
+		border-radius:0 22px 22px 0;
+		z-index:32;
+	}
+	body[data-mobile-scene] .container > #automation-panel{
+		inset-inline:auto 0;
+		width:min(94vw,440px);
+		max-width:min(94vw,440px);
+		grid-template-rows:auto minmax(0,1fr);
+		transform:translateX(104%);
+		border-radius:22px 0 0 22px;
+		z-index:32;
+	}
+	body[data-mobile-scene="conversations"] .container > #sidebar,
+	body[data-mobile-scene="automation"] .container > #automation-panel{
+		transform:translateX(0);
+		opacity:1;
+		filter:none;
+		pointer-events:auto;
+	}
+	body.mobile-workspace-drawer-open .container > .main{
+		opacity:.34;
+		filter:saturate(.55) brightness(.58);
+		pointer-events:none;
+	}
+	body .is-collapsed > :not(.panel-topbar),
+	body .is-detached > :not(.panel-topbar){
+		display:revert;
+	}
+	body .is-collapsed .panel-topbar,
+	body .is-detached .panel-topbar{
+		display:flex;
+		height:48px;
+		writing-mode:horizontal-tb;
+	}
+	body #left-resizer,
+	body #right-resizer,
+	body #composer-resizer{
+		display:none;
+	}
 }

@@ -25,9 +25,10 @@ const app = read('js/app/seven-mitzvos-app.js');
 const definitions = read('js/universe/universe-definitions.js');
 const styles = read('styles/game-feedback.css');
 
-test('feedback stays gentle and unlocks only through a tap', () => {
+test('feedback stays gentle and requires genuine activation for haptics', () => {
 	assert.match(feedback, /this\.unlocked = false/);
 	assert.match(feedback, /tap\(kind/);
+	assert.match(feedback, /navigator\.userActivation\?\.isActive/);
 	assert.match(feedback, /navigator\.vibrate/);
 	assert.match(feedback, /AudioContext/);
 	assert.match(feedback, /volume/);

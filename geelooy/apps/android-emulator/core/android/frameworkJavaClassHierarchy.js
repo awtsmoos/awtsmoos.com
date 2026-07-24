@@ -3,54 +3,15 @@
 //Blessed is He
 
 import {
+	BOOT_INTERFACES,
+	BOOT_SUPERCLASSES
+} from "./frameworkJavaBootHierarchy.js";
+import {
 	componentClassDescriptor,
 	isPrimitiveClassDescriptor
 } from "./frameworkJavaClassValues.js";
 
 const OBJECT = "Ljava/lang/Object;";
-const SPECIAL_SUPERCLASSES = Object.freeze({
-	"Landroid/app/Activity;": "Landroid/view/ContextThemeWrapper;",
-	"Landroid/app/Application;": "Landroid/content/ContextWrapper;",
-	"Landroid/app/Service;": "Landroid/content/ContextWrapper;",
-	"Landroid/content/ContextWrapper;": "Landroid/content/Context;",
-	"Landroid/view/ContextThemeWrapper;": "Landroid/content/ContextWrapper;",
-	"Ljava/lang/Class;": OBJECT,
-	"Ljava/lang/ClassLoader;": OBJECT,
-	"Ljava/lang/String;": OBJECT,
-	"Ljava/util/AbstractCollection;": OBJECT,
-	"Ljava/util/AbstractExecutorService;": OBJECT,
-	"Ljava/util/ArrayList;": "Ljava/util/AbstractCollection;",
-	"Ljava/util/HashMap;": OBJECT,
-	"Ljava/util/HashSet;": OBJECT,
-	"Ljava/util/LinkedHashMap;": "Ljava/util/HashMap;",
-	"Ljava/util/LinkedHashSet;": "Ljava/util/HashSet;",
-	"Ljava/util/WeakHashMap;": OBJECT,
-	"Ljava/util/concurrent/CopyOnWriteArrayList;": OBJECT,
-	"Ljava/util/concurrent/CopyOnWriteArraySet;": OBJECT,
-	"Ljava/util/concurrent/FutureTask;": OBJECT,
-	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": "Ljava/util/concurrent/ThreadPoolExecutor;",
-	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/AbstractExecutorService;"
-});
-const SPECIAL_INTERFACES = Object.freeze({
-	"Ljava/lang/String;": ["Ljava/lang/CharSequence;", "Ljava/io/Serializable;", "Ljava/lang/Comparable;"],
-	"Ljava/util/AbstractCollection;": ["Ljava/util/Collection;"],
-	"Ljava/util/AbstractExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
-	"Ljava/util/ArrayList;": ["Ljava/util/List;"],
-	"Ljava/util/HashMap$Node;": ["Ljava/util/Map$Entry;"],
-	"Ljava/util/HashMap;": ["Ljava/util/Map;"],
-	"Ljava/util/HashSet;": ["Ljava/util/Set;"],
-	"Ljava/util/Set;": ["Ljava/util/Collection;"],
-	"Ljava/util/WeakHashMap;": ["Ljava/util/Map;"],
-	"Ljava/util/concurrent/CopyOnWriteArrayList;": ["Ljava/util/List;"],
-	"Ljava/util/concurrent/CopyOnWriteArraySet;": ["Ljava/util/Set;"],
-	"Ljava/util/concurrent/ExecutorService;": ["Ljava/util/concurrent/Executor;"],
-	"Ljava/util/concurrent/FutureTask;": ["Ljava/util/concurrent/RunnableFuture;", "Ljava/util/concurrent/Future;", "Ljava/lang/Runnable;"],
-	"Ljava/util/concurrent/RunnableFuture;": ["Ljava/lang/Runnable;", "Ljava/util/concurrent/Future;"],
-	"Ljava/util/concurrent/ScheduledExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
-	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": ["Ljava/util/concurrent/ScheduledExecutorService;"],
-	"Ljava/util/concurrent/locks/ReentrantLock;": ["Ljava/util/concurrent/locks/Lock;"],
-	"Ljava/util/concurrent/locks/ReentrantReadWriteLock;": ["Ljava/util/concurrent/locks/ReadWriteLock;"]
-});
 
 /**
  * Walks measured DEX hierarchy plus explicit boot-class testimony. The Awtsmoos
@@ -81,7 +42,7 @@ export function directSuperclass(runtime, descriptor) {
 	if (isPrimitiveClassDescriptor(value) || value === OBJECT) return null;
 	if (value.startsWith("[")) return OBJECT;
 	return runtime.registry?.superType(value)
-		|| SPECIAL_SUPERCLASSES[value]
+		|| BOOT_SUPERCLASSES[value]
 		|| null;
 }
 
@@ -91,7 +52,7 @@ export function directInterfaces(runtime, descriptor) {
 		return ["Ljava/lang/Cloneable;", "Ljava/io/Serializable;"];
 	}
 	const measured = runtime.registry?.classDefinition(value)?.interfaces || [];
-	return [...new Set([...measured, ...(SPECIAL_INTERFACES[value] || [])])];
+	return [...new Set([...measured, ...(BOOT_INTERFACES[value] || [])])];
 }
 
 export function isKnownClassDescriptor(runtime, descriptor) {

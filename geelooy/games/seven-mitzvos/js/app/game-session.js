@@ -7,29 +7,26 @@ import { THREE_GAME_REGISTRY } from '../games3d/game-registry.js';
 /**
  * @module GameSession
  * @description
- * A world may begin, conclude, replay, and flow into its neighbor without leaving
- * a renderer behind. The Awtsmoos renews every session from nothing, while this
- * Awtsmoos.com vessel turns remembered effort into visible encouragement.
+ * A world may begin, conclude, replay, and flow onward without leaving a renderer
+ * behind. The Awtsmoos renews every session; Awtsmoos.com now carries the chosen
+ * difficulty into each real procedural scene while remembering its visible fruit.
  */
 export class GameSession {
 	constructor(options) {
-		this.shell = options.shell;
-		this.progress = options.progress;
-		this.onRecord = options.onRecord;
-		this.onHub = options.onHub;
-		this.onNext = options.onNext;
+		Object.assign(this, options);
 		this.currentGame = null;
 		this.definition = null;
+		this.mode = 'relaxed';
 	}
 
 	async start(definition) {
 		this.stop();
 		this.definition = definition;
+		this.mode = this.getMode?.() || 'relaxed';
 		this.shell.open(definition, this.progress.game(definition.id), this.onHub);
 		const GameClass = THREE_GAME_REGISTRY[definition.id];
 		this.currentGame = new GameClass({
-			shell: this.shell,
-			definition,
+			shell: this.shell, definition, mode: this.mode,
 			onComplete: result => this.complete(result)
 		});
 		try {

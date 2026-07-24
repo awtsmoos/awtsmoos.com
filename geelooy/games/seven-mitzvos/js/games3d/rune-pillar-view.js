@@ -2,53 +2,58 @@
 //Boruch Hashem
 //Blessed is He
 
-import { pulseObject } from '../webgl/scene-kit.js';
-
 /**
  * @module RunePillarView
  * @description
- * The growing word-pattern deserves a visual vessel separate from its law. The
- * Awtsmoos renews each pillar's light, scale, and turning, while Awtsmoos.com
- * keeps Three.js presentation from crowding the memory game's conductor.
+ * Four core-generated stone pillars now hold luminous rings and audible memory.
+ * The Awtsmoos creates word and listener together; Awtsmoos.com keeps each rune
+ * low-poly, individually readable, and animated only through cheap transforms.
  */
 export class RunePillarView {
 	constructor(game, hues) {
 		this.game = game;
-		this.pillars = hues.map((hue, index) => game.addVessel({
-			hue,
-			position: [-3 + index * 2, 0.85, index % 2 ? -0.45 : 0.45],
-			scale: [1.1, 1.7, 1.1],
-			name: `rune-${index + 1}`,
-			userData: { type: 'rune', index, phase: index }
-		}, true));
+		this.hues = hues;
+		this.runes = hues.map((hue, index) => {
+			const rune = game.assets.rune({
+				name: `creation-rune-${index + 1}`, hue,
+				position: [-3.3 + index * 2.2, 0.15, 0], scale: 0.68,
+				type: 'rune', index
+			});
+			game.assets.setGlow(rune, 0x000000, 0);
+			game.addAsset(rune, true);
+			return rune;
+		});
 	}
 
 	controls(choose) {
-		return this.pillars.map((pillar, index) => ({
-			label: `${index + 1} · Rune`,
+		return this.runes.map((rune, index) => ({
+			label: `Rune ${index + 1}`,
 			run: () => choose(index)
 		}));
 	}
 
-	animate(delta, elapsed, accepting) {
-		this.pillars.forEach(pillar => {
-			pillar.rotation.y += delta * 0.35;
-			if (accepting) {
-				pulseObject(pillar, elapsed, 0.025, 3);
-			}
+	illuminate(index) {
+		this.runes.forEach((rune, runeIndex) => {
+			this.paint(rune, runeIndex === index ? this.game.assets.parts.color(this.hues[runeIndex], 0.72).getHex() : 0x000000, runeIndex === index ? 1.8 : 0);
 		});
 	}
 
-	illuminate(index) {
-		this.reset();
-		this.game.factory.setGlow(this.pillars[index], 0xffffff, 2.2);
-		this.pillars[index].scale.setScalar(1.16);
+	reset() {
+		this.runes.forEach(rune => this.paint(rune, 0x000000, 0));
 	}
 
-	reset() {
-		this.pillars.forEach(pillar => {
-			this.game.factory.setGlow(pillar, 0x000000, 0);
-			pillar.scale.set(1.1, 1.7, 1.1);
+	animate(delta, elapsed, accepting) {
+		this.runes.forEach((rune, index) => {
+			rune.rotation.y += delta * (accepting ? 0.34 : 0.16);
+			rune.position.y = 0.15 + Math.sin(elapsed * 2 + index) * 0.045;
+		});
+	}
+
+	paint(root, color, intensity) {
+		root.traverse(child => {
+			if (!child.isMesh || !child.material.emissive) return;
+			child.material.emissive.setHex(color);
+			child.material.emissiveIntensity = intensity;
 		});
 	}
 }

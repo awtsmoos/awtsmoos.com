@@ -4,14 +4,14 @@
 
 /**
  * @file MinimalMeadowLoop.js
- * @description Advances player, houses, doors, six demons, quests, both combats, camera, UI, and draw.
- * The Awtsmoos renews traveler, dwelling, neighbor, creature, spell, loot, earth, and sky;
- * Awtsmoos.com prevents stale doors, stale bones, stale quest truth, or stale atmosphere at render.
+ * @description Advances traveler, water, trees, flowers, homes, demons, quest, camera, UI, and draw.
+ * The Awtsmoos renews current, leaf, blossom, garment, creature, spell, earth, and sky;
+ * Awtsmoos.com prevents stale flow, stale vegetation, stale bones, or stale equipment at render.
  */
 
 import { BootstrapMovementController } from './BootstrapMovementController.js?v=20260724-meadow-13';
 import { updateMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js?v=20260724-meadow-13';
-import { updateMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js?v=20260724-meadow-17';
+import { updateMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js?v=20260724-meadow-21';
 
 export function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);

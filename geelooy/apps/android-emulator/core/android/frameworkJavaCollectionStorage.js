@@ -5,6 +5,7 @@
 import { directJavaCollectionKind } from "./frameworkJavaCollectionKinds.js";
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
 import { resolveJavaCollectionReference } from "./frameworkJavaCollectionWrapperState.js";
+import { guestJavaEquals } from "./frameworkJavaGuestIdentity.js";
 import * as mapViews from "./frameworkJavaMapViewCollections.js";
 import * as sets from "./frameworkJavaSetStorage.js";
 import { sameGuestValue } from "./frameworkJavaValueIdentity.js";
@@ -13,15 +14,12 @@ const LIST_FIELD = "java:list:values";
 const MAXIMUM_VALUES = 65536;
 
 /**
- * Routes bounded collection operations through live wrapper targets. The
- * Awtsmoos recreates list, set, map views, insertion, and removal anew;
- * Awtsmoos.com checks each vessel law before hidden storage can change.
+ * Routes collection operations through live wrappers and guest equality. The
+ * Awtsmoos recreates target, kind, query, and mutation anew; Awtsmoos.com keeps
+ * synchronous projections while behavioral relations await executable DEX.
  */
 export function collectionKind(runtime, reference) {
-	return directJavaCollectionKind(
-		runtime,
-		resolveJavaCollectionReference(runtime, reference)
-	);
+	return directJavaCollectionKind(runtime, resolveJavaCollectionReference(runtime, reference));
 }
 
 export function collectionValues(runtime, reference) {
@@ -34,36 +32,35 @@ export function collectionValues(runtime, reference) {
 	return sets.javaSetValues(runtime, target);
 }
 
-export function addCollectionValue(runtime, reference, value) {
+export function addCollectionValue(runtime, reference, value, context = null) {
 	assertJavaCollectionMutable(runtime, reference);
 	const target = resolveJavaCollectionReference(runtime, reference);
 	const kind = directJavaCollectionKind(runtime, target);
 	mapViews.assertJavaMapViewAddSupported(kind);
-	if (kind === "set") return sets.addJavaSetValue(runtime, target, value);
+	if (kind === "set") return sets.addJavaSetValue(runtime, target, value, context);
 	if (kind === "list") return addListValue(runtime, target, value);
 	throw collectionError("ANDROID_JAVA_COLLECTION_IMMUTABLE", kind);
 }
 
-export function removeCollectionValue(runtime, reference, expected) {
+export function removeCollectionValue(runtime, reference, expected, context = null) {
 	assertJavaCollectionMutable(runtime, reference);
 	const target = resolveJavaCollectionReference(runtime, reference);
 	const kind = directJavaCollectionKind(runtime, target);
-	const mapView = mapViews.removeJavaMapViewValue(runtime, target, kind, expected);
+	const mapView = mapViews.removeJavaMapViewValue(runtime, target, kind, expected, context);
 	if (mapView.supported) return mapView.value;
-	if (kind === "set") return sets.removeJavaSetValue(runtime, target, expected);
+	if (kind === "set") return sets.removeJavaSetValue(runtime, target, expected, context);
 	if (kind !== "list") return false;
-	return removeListValue(runtime, target, expected);
+	return context ? removeListAsync(runtime, target, expected, context) : removeListSync(runtime, target, expected);
 }
 
-export function containsCollectionValue(runtime, reference, expected) {
+export function containsCollectionValue(runtime, reference, expected, context = null) {
 	const target = resolveJavaCollectionReference(runtime, reference);
 	const kind = directJavaCollectionKind(runtime, target);
-	const mapView = mapViews.containsJavaMapViewValue(runtime, target, kind, expected);
+	const mapView = mapViews.containsJavaMapViewValue(runtime, target, kind, expected, context);
 	if (mapView.supported) return mapView.value;
-	if (kind === "set") return sets.containsJavaSetValue(runtime, target, expected);
-	return collectionValues(runtime, target).some(value => {
-		return sameGuestValue(runtime, value, expected);
-	});
+	if (kind === "set") return sets.containsJavaSetValue(runtime, target, expected, context);
+	const values = collectionValues(runtime, target);
+	return context ? containsAsync(runtime, values, expected, context) : values.some(value => sameGuestValue(runtime, value, expected));
 }
 
 export function clearCollection(runtime, reference) {
@@ -72,37 +69,42 @@ export function clearCollection(runtime, reference) {
 	const kind = directJavaCollectionKind(runtime, target);
 	if (mapViews.clearJavaMapView(runtime, target, kind)) return;
 	if (kind === "set") return sets.clearJavaSet(runtime, target);
-	if (kind === "list") {
-		runtime.heap.getField(target, LIST_FIELD).length = 0;
-		return;
-	}
+	if (kind === "list") return void (runtime.heap.getField(target, LIST_FIELD).length = 0);
 	throw collectionError("ANDROID_JAVA_COLLECTION_IMMUTABLE", kind);
 }
 
-function arrayValues(runtime, reference) {
-	return Array.from(
-		{ length: runtime.heap.arrayLength(reference) },
-		(_, index) => runtime.heap.arrayGet(reference, index)
-	);
+async function containsAsync(runtime, values, expected, context) {
+	for (const value of values) if (await guestJavaEquals(runtime, expected, value, context)) return true;
+	return false;
+}
+
+async function removeListAsync(runtime, reference, expected, context) {
+	const values = runtime.heap.getField(reference, LIST_FIELD);
+	for (let index = 0; index < values.length; index += 1) {
+		if (!await guestJavaEquals(runtime, expected, values[index], context)) continue;
+		values.splice(index, 1);
+		return true;
+	}
+	return false;
+}
+
+function removeListSync(runtime, reference, expected) {
+	const values = runtime.heap.getField(reference, LIST_FIELD);
+	const index = values.findIndex(value => sameGuestValue(runtime, value, expected));
+	if (index < 0) return false;
+	values.splice(index, 1);
+	return true;
 }
 
 function addListValue(runtime, reference, value) {
 	const values = runtime.heap.getField(reference, LIST_FIELD);
-	if (values.length >= MAXIMUM_VALUES) {
-		throw collectionError("ANDROID_JAVA_COLLECTION_LIMIT", MAXIMUM_VALUES);
-	}
+	if (values.length >= MAXIMUM_VALUES) throw collectionError("ANDROID_JAVA_COLLECTION_LIMIT", MAXIMUM_VALUES);
 	values.push(value ?? 0);
 	return true;
 }
 
-function removeListValue(runtime, reference, expected) {
-	const values = runtime.heap.getField(reference, LIST_FIELD);
-	const index = values.findIndex(value => {
-		return sameGuestValue(runtime, value, expected);
-	});
-	if (index < 0) return false;
-	values.splice(index, 1);
-	return true;
+function arrayValues(runtime, reference) {
+	return Array.from({ length: runtime.heap.arrayLength(reference) }, (_, index) => runtime.heap.arrayGet(reference, index));
 }
 
 function collectionError(code, detail = "") {

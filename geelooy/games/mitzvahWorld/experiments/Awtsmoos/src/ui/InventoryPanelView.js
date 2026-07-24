@@ -4,47 +4,32 @@
 
 /**
  * @file InventoryPanelView.js
- * @description Builds safe inventory cards for stacks, equipment, statistics, and actions.
+ * @description Builds safe bag, equipment, garment, weapon, and draw/sheath action cards.
  * The Awtsmoos renews each carried vessel behind a readable icon and lawful slot;
- * Awtsmoos.com keeps rendering separate from store mutations and server authority.
+ * Awtsmoos.com keeps rendering separate from mutations while visible GLB garments follow truth.
  */
+
+const EQUIPMENT_SLOTS = Object.freeze(['head', 'coat', 'hand', 'offhand', 'feet', 'tool']);
 
 export function inventoryPanelHtml(state) {
 	return `
 		<section class="Awtsmoos-inventory-panel" data-open="false" aria-hidden="true">
-			<header>
-				<b>🎒 B"H Bag</b>
-				<span>🪙 ${quantity(state, 'perutas')} · ⚔ ${state.stats.damage} · 🛡 ${state.stats.defense} · ✨ ${state.stats.focus}</span>
-				<button data-close aria-label="Close bag">×</button>
-			</header>
+			<header><b>🎒 B"H Bag</b><span>${summary(state)}</span><button data-close>×</button></header>
 			<div class="inv-body">
 				<aside><h3>Equipped</h3><div class="equip-grid" data-equipment></div></aside>
 				<main><h3>Backpack</h3><div class="bag-grid" data-items></div><div class="item-card" data-item-card>Select an item.</div></main>
 			</div>
 			<div class="inv-context-menu" data-open="false" data-menu></div>
-		</section>
-	`;
+		</section>`;
 }
 
 export function renderInventoryItems(container, state) {
-	container.replaceChildren(...state.items.map(stack => itemButton(stack)));
-	const emptyCount = Math.max(0, 24 - state.items.length);
-	for (let index = 0; index < emptyCount; index += 1) {
-		container.appendChild(emptyButton());
-	}
+	container.replaceChildren(...state.items.map(itemButton));
+	for (let index = state.items.length; index < 24; index += 1) container.appendChild(emptyButton());
 }
 
 export function renderEquipment(container, state) {
-	container.replaceChildren(...Object.entries(state.equipment).map(([slot, itemId]) => {
-		const stack = state.items.find(item => item.itemId === itemId);
-		const definition = stack?.definition;
-		const button = document.createElement('button');
-		button.className = 'inv-slot equip';
-		button.dataset.itemId = itemId;
-		button.dataset.slot = slot;
-		button.innerHTML = `<span>${escapeHtml(definition?.icon || '✨')}</span><b>${escapeHtml(definition?.name || itemId)}</b><small>${escapeHtml(slot)}</small>`;
-		return button;
-	}));
+	container.replaceChildren(...EQUIPMENT_SLOTS.map(slot => equipmentButton(slot, state)));
 }
 
 export function renderInventoryCard(container, stack) {
@@ -52,22 +37,21 @@ export function renderInventoryCard(container, stack) {
 		container.textContent = 'Select an item.';
 		return;
 	}
-	const definition = stack.definition;
-	container.innerHTML = `
-		<h4>${escapeHtml(definition.icon)} ${escapeHtml(definition.name)}</h4>
-		<p><b>${escapeHtml(definition.category)}</b> · quantity ${stack.quantity}</p>
-		<p>${escapeHtml(definition.description)}</p>
-		<p>Damage ${definition.stats.damage} · Defense ${definition.stats.defense} · Focus ${definition.stats.focus}</p>
-	`;
+	const item = stack.definition;
+	container.innerHTML = `<h4>${escapeHtml(item.icon)} ${escapeHtml(item.name)}</h4>
+		<p><b>${escapeHtml(item.category)}</b> · quantity ${stack.quantity}</p>
+		<p>${escapeHtml(item.description)}</p>
+		<p>Damage ${item.stats.damage} · Defense ${item.stats.defense} · Focus ${item.stats.focus}</p>`;
 }
 
-export function renderInventoryMenu(menu, stack) {
+export function renderInventoryMenu(menu, stack, state, equipmentState = {}) {
 	menu.replaceChildren();
 	if (!stack?.definition) return;
+	const item = stack.definition;
 	const title = document.createElement('h4');
-	title.textContent = `${stack.definition.icon} ${stack.definition.name}`;
+	title.textContent = `${item.icon} ${item.name}`;
 	const actions = document.createElement('div');
-	for (const action of stack.definition.actions) {
+	for (const action of actionsFor(item, state, equipmentState)) {
 		const button = document.createElement('button');
 		button.dataset.action = action;
 		button.textContent = actionLabel(action);
@@ -75,6 +59,30 @@ export function renderInventoryMenu(menu, stack) {
 	}
 	menu.append(title, actions);
 	menu.dataset.open = 'true';
+}
+
+function actionsFor(item, state, equipmentState) {
+	const equipped = item.slot && state.equipment[item.slot] === item.id;
+	const actions = new Set(item.actions || []);
+	if (equipped) {
+		actions.delete('equip');
+		actions.add('unequip');
+	}
+	if (equipped && item.slot === 'hand') actions.add(equipmentState.drawn ? 'sheath' : 'draw');
+	return [...actions];
+}
+
+function equipmentButton(slot, state) {
+	const itemId = state.equipment[slot];
+	const stack = state.items.find(item => item.itemId === itemId);
+	const item = stack?.definition;
+	const button = document.createElement('button');
+	button.className = `inv-slot equip${item ? '' : ' empty'}`;
+	button.dataset.slot = slot;
+	if (itemId) button.dataset.itemId = itemId;
+	button.disabled = !itemId;
+	button.innerHTML = `<span>${escapeHtml(item?.icon || '＋')}</span><b>${escapeHtml(item?.name || 'Empty')}</b><small>${escapeHtml(slot)}</small>`;
+	return button;
 }
 
 function itemButton(stack) {
@@ -93,8 +101,9 @@ function emptyButton() {
 	return button;
 }
 
-function quantity(state, itemId) {
-	return state.items.find(item => item.itemId === itemId)?.quantity || 0;
+function summary(state) {
+	const coins = state.items.find(item => item.itemId === 'perutas')?.quantity || 0;
+	return `🪙 ${coins} · ⚔ ${state.stats.damage} · 🛡 ${state.stats.defense} · ✨ ${state.stats.focus}`;
 }
 
 function actionLabel(action) {
@@ -102,7 +111,5 @@ function actionLabel(action) {
 }
 
 function escapeHtml(value) {
-	return String(value ?? '').replace(/[&<>"']/g, character => ({
-		'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-	})[character]);
+	return String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }

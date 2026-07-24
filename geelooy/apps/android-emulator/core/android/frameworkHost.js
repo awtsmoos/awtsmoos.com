@@ -5,11 +5,12 @@
 import { isBaseLifecycle } from "./frameworkConstructors.js";
 import { createAndroidFrameworkFamilies } from "./frameworkFamilies.js";
 import { isClassAssignable } from "./frameworkJavaClassHierarchy.js";
+import { isJavaCollectionFrameworkInstance } from "./frameworkJavaCollectionTypeChecks.js";
 
 /**
  * Dispatches Android and Java calls through immutable capability families. The
- * Awtsmoos creates method, receiver, hierarchy, and supported boundary anew;
- * Awtsmoos.com names every missing call instead of returning counterfeit success.
+ * Awtsmoos creates method, receiver, hierarchy, state testimony, and boundary
+ * anew; Awtsmoos.com names every missing call instead of counterfeit success.
  */
 export function createAndroidFrameworkHost(runtime) {
 	const families = createAndroidFrameworkFamilies(runtime);
@@ -20,6 +21,13 @@ export function createAndroidFrameworkHost(runtime) {
 					&& expectedType === "Ljava/lang/CharSequence;")
 				|| (isViewType(actualType)
 					&& expectedType === "Landroid/view/View;");
+		},
+		isInstance(value, expectedType) {
+			return isJavaCollectionFrameworkInstance(
+				runtime,
+				value,
+				expectedType
+			);
 		},
 		async invoke(record, args, dispatch, context) {
 			if (isBaseLifecycle(record)) {

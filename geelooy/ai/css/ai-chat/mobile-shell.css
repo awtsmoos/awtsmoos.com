@@ -1,0 +1,96 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * A phone cannot hold three palaces side by side, so Tiferes reveals one room
+ * and lets the others arrive as drawers. The Awtsmoos creates every transition;
+ * Awtsmoos.com keeps the base chat present, calm, and never miniaturized.
+ */
+@media(max-width:900px){
+	:root{
+		--mobile-crown-height:56px;
+		--mobile-dock-height:74px;
+		--awt-panel-radius:22px;
+	}
+	body[data-mobile-scene] .main{
+		inset-inline:0;
+		width:100vw;
+		max-width:100vw;
+		transform:none;
+		opacity:1;
+		filter:none;
+		pointer-events:auto;
+	}
+	body.mobile-workspace-drawer-open .main{
+		opacity:.34;
+		filter:saturate(.55) brightness(.58);
+		pointer-events:none;
+	}
+	body[data-mobile-scene] .sidebar{
+		inset-inline:0 auto;
+		width:min(92vw,420px);
+		max-width:min(92vw,420px);
+		transform:translateX(-104%);
+		border-inline-end:1px solid var(--ai-border);
+		border-radius:0 22px 22px 0;
+	}
+	body[data-mobile-scene] .automation-panel{
+		inset-inline:auto 0;
+		width:min(94vw,440px);
+		max-width:min(94vw,440px);
+		transform:translateX(104%);
+		border-inline-start:1px solid var(--ai-border);
+		border-radius:22px 0 0 22px;
+	}
+	body[data-mobile-scene] :is(.sidebar,.automation-panel).mobile-scene-active{
+		transform:translateX(0);
+		opacity:1;
+		filter:none;
+		pointer-events:auto;
+	}
+	body[data-mobile-scene] .sidebar .panel-topbar,
+	body[data-mobile-scene] .automation-panel .panel-topbar{
+		min-height:54px;
+		padding:8px 10px;
+	}
+	.mobile-workspace-close{
+		display:inline-grid;
+		place-items:center;
+		font-size:1.35rem;
+		line-height:1;
+	}
+	.mobile-app-crown{
+		left:10px;
+		right:10px;
+		grid-template-columns:44px minmax(0,1fr) 44px 44px;
+		gap:6px;
+		padding:6px;
+		border-radius:18px;
+		background:linear-gradient(140deg,rgba(5,14,27,.96),rgba(10,27,45,.92));
+		border-color:rgba(160,195,226,.16);
+	}
+	.mobile-app-crown button{
+		min-width:44px;
+		min-height:44px;
+		height:44px;
+	}
+	.mobile-bottom-dock{
+		left:8px;
+		right:8px;
+		height:66px;
+		padding:6px;
+		border-radius:20px;
+		background:linear-gradient(140deg,rgba(5,14,27,.97),rgba(10,27,45,.93));
+		border-color:rgba(160,195,226,.16);
+	}
+	.mobile-bottom-dock button{
+		min-height:52px;
+		border-radius:14px;
+	}
+	body.mobile-crown-collapsed .mobile-app-crown{
+		left:22px;
+		right:22px;
+		opacity:.92;
+	}
+}
