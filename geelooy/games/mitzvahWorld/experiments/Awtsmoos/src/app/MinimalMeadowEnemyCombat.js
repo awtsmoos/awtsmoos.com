@@ -4,26 +4,32 @@
 
 /**
  * @file MinimalMeadowEnemyCombat.js
- * @description Gives each demon pack-aware chase, melee, ranged Hebrew cast, and cooldown.
- * The Awtsmoos bounds opposition by warning and distance; Awtsmoos.com lets temperament,
- * nearby alarm, elbow strike, red projectile, damage, and recovery drive one named animation.
+ * @description Guards one persistent encounter and delegates finite action and motion flows.
+ * The Awtsmoos renews pursuit without accidental patrol; Awtsmoos.com holds role, target,
+ * leash, sight, cooldown, effects, and transitions behind the actor's stable combat API.
  */
 
 import {
-	beginEnemyMeleeStrike,
-	executeEnemyMeleeImpact,
-	finishEnemyAttack,
-	launchEnemyRangedAttack
-} from './MinimalMeadowEnemyAttackExecution.js?v=20260724-meadow-13';
+	advanceMinimalEnemyAction,
+	advanceMinimalEnemyRecovery,
+	beginMinimalEnemyAction
+} from './MinimalMeadowEnemyActionFlow.js';
 import {
-	chaseEnemyTowardPlayer,
-	enemyActionDuration,
-	enemyAggroRange,
-	enemyDistanceToPlayer,
-	enemyPrefersRanged,
-	faceEnemyTowardPlayer
-} from './MinimalMeadowEnemyCombatDecision.js?v=20260724-meadow-17';
-import { updateEnemyCombatEffects } from './MinimalMeadowEnemyCombatEffects.js?v=20260724-meadow-13';
+	MINIMAL_ENEMY_LOSS_TIMEOUT,
+	minimalEnemyCombatRanges
+} from './MinimalMeadowEnemyCombatDecision.js';
+import { minimalEnemyCombatDiagnostics } from './MinimalMeadowEnemyCombatDiagnostics.js';
+import { updateEnemyCombatEffects } from './MinimalMeadowEnemyCombatEffects.js';
+import { MinimalMeadowEnemyCombatSession } from './MinimalMeadowEnemyCombatSession.js';
+import {
+	advanceMinimalEnemyAlert,
+	advanceMinimalEnemyLocomotion,
+	advanceMinimalEnemyPursuit
+} from './MinimalMeadowEnemyLocomotionFlow.js';
+import {
+	faceMinimalEnemyToPlayer,
+	minimalEnemyPerception
+} from './MinimalMeadowEnemyNavigation.js';
 
 export class MinimalMeadowEnemyCombat {
 	constructor(actor, runtime) {
@@ -32,60 +38,83 @@ export class MinimalMeadowEnemyCombat {
 			actionTime: 0,
 			actor,
 			attackCount: 0,
-			cooldown: Math.random() * 0.8,
+			cooldown: 0,
 			effects: [],
+			launched: false,
+			lineOfSight: true,
+			lineOfSightSource: 'unmeasured',
 			projectiles: [],
 			runtime,
-			struck: false
+			struck: false,
+			withinLeash: true
 		});
+		this.session = new MinimalMeadowEnemyCombatSession(actor);
 	}
 
 	update(deltaSeconds) {
 		updateEnemyCombatEffects(this, deltaSeconds);
 		this.cooldown = Math.max(0, this.cooldown - deltaSeconds);
-		if (!this.actor.alive || this.runtime.playerStats.health <= 0) return false;
-		if (this.action) return this.updateAction(deltaSeconds);
-		const distance = enemyDistanceToPlayer(this);
-		if (distance > enemyAggroRange(this)) return false;
-		faceEnemyTowardPlayer(this);
-		if (distance <= 2.35 && this.cooldown === 0) return this.begin('melee-windup');
-		if (distance <= 12 && enemyPrefersRanged(this, distance) && this.cooldown === 0) return this.begin('ranged-cast');
-		chaseEnemyTowardPlayer(this, deltaSeconds);
-		return true;
+		if (!this.actor.alive || this.runtime.playerStats.health <= 0) return this.stopInactive();
+		const perception = minimalEnemyPerception(this);
+		this.lineOfSight = perception.lineOfSight;
+		this.lineOfSightSource = perception.lineOfSightSource;
+		const ranges = minimalEnemyCombatRanges(this);
+		if (!this.session.active && perception.distance <= ranges.aggro) this.engage('aggro-radius');
+		if (!this.session.active) return false;
+		const delta = this.session.tick(deltaSeconds);
+		this.actionTime = this.session.stateTime;
+		this.withinLeash = perception.homeDistance <= ranges.leash
+			&& perception.distance <= ranges.leash * 1.3;
+		this.session.observe(perception.lineOfSight, this.withinLeash, delta);
+		if (this.session.lossTime >= MINIMAL_ENEMY_LOSS_TIMEOUT) return this.disengage();
+		faceMinimalEnemyToPlayer(this);
+		return this.advance(perception, delta);
 	}
 
-	updateAction(deltaSeconds) {
-		this.actionTime += deltaSeconds;
-		this.actor.actionProgress = this.progress();
-		this.actor.action = this.action;
-		faceEnemyTowardPlayer(this);
-		if (this.action === 'melee-windup' && this.actionTime >= 0.48) return beginEnemyMeleeStrike(this);
-		if (this.action === 'melee-strike' && this.actionTime >= 0.16 && !this.struck) executeEnemyMeleeImpact(this);
-		if (this.action === 'melee-strike' && this.actionTime >= 0.55) finishEnemyAttack(this, 1.15);
-		if (this.action === 'ranged-cast' && this.actionTime >= 1.05) launchEnemyRangedAttack(this);
-		return true;
+	engage(reason) {
+		if (!this.session.engage(reason)) return;
+		this.cooldown = Math.max(this.cooldown, this.session.openingDelay);
+		this.actor.moving = false;
+		this.runtime.bus.emit('enemy:alert', this.actor.payload());
 	}
 
-	begin(action) {
-		this.action = action;
-		this.actionTime = 0;
-		this.struck = false;
-		this.actor.action = action;
-		this.actor.actionProgress = 0;
-		this.runtime.bus.emit('enemy:cast', {
-			action,
-			duration: enemyActionDuration(action),
-			enemyId: this.actor.profile.id,
-			letters: action === 'ranged-cast' ? 'דין' : 'מכה'
-		});
-		return true;
+	advance(perception, deltaSeconds) {
+		const state = this.session.state;
+		if (state === 'alerted') return advanceMinimalEnemyAlert(this);
+		if (isActionState(state)) return advanceMinimalEnemyAction(this);
+		if (state === 'recovery') return advanceMinimalEnemyRecovery(this);
+		if (!this.lineOfSight || !this.withinLeash) return advanceMinimalEnemyPursuit(this, deltaSeconds);
+		return advanceMinimalEnemyLocomotion(
+			this,
+			perception.distance,
+			deltaSeconds,
+			beginMinimalEnemyAction
+		);
 	}
 
-	progress() {
-		return Math.min(1, this.actionTime / enemyActionDuration(this.action));
+	disengage() {
+		this.runtime.bus.emit('enemy:return', this.actor.payload());
+		this.session.reset('target-genuinely-lost');
+		this.action = null;
+		this.actor.action = 'idle';
+		this.actor.moving = false;
+		return false;
+	}
+
+	stopInactive() {
+		if (this.session.active) {
+			this.session.reset(this.actor.alive ? 'player-defeated' : 'enemy-defeated');
+		}
+		return false;
 	}
 
 	diagnostics() {
-		return { action: this.action, attacks: this.attackCount, effects: this.effects.length, projectiles: this.projectiles.length };
+		return minimalEnemyCombatDiagnostics(this);
 	}
+}
+
+function isActionState(state) {
+	return state === 'melee-windup'
+		|| state === 'melee-impact'
+		|| state === 'cast-windup';
 }

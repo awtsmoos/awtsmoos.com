@@ -4,21 +4,20 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Composes valley, water, trees, flowers, equipment, homes, demons, quest, and touch.
- * The Awtsmoos gathers proven sparks without reviving the abandoned heavy world;
- * Awtsmoos.com keeps terrain, renderer, garment, current, root, blossom, and gameplay ownership clear.
+ * @description Reveals movement and rendering first, then loads real GLB, action bar, and combat.
+ * The Awtsmoos creates the playable valley before every optional garment;
+ * Awtsmoos.com keeps one compact feature doorway for casting, creatures, equipment, and richness.
  */
 
 import { Group, Scene } from '../../../light-three-gltf/tiny-runtime.js';
-import { MobileJoystick } from '../input/MobileJoystick.js?v=20260724-meadow-13';
-import { installBootstrapControlsHud } from './BootstrapControlsHud.js?v=20260723-meadow-10';
-import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260724-meadow-13';
-import { MinimalMeadowCameraRig } from './MinimalMeadowCameraRig.js?v=20260723-meadow-09';
-import { createMinimalMeadowCollision } from './MinimalMeadowCollision.js?v=20260723-meadow-09';
-import { MinimalMeadowInput } from './MinimalMeadowInput.js?v=20260724-meadow-13';
-import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js?v=20260724-meadow-21';
-import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js?v=20260724-meadow-21';
-import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js?v=20260723-meadow-11';
+import { MobileJoystick } from '../input/MobileJoystick.js';
+import { installBootstrapControlsHud } from './BootstrapControlsHud.js';
+import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js';
+import { MinimalMeadowCameraRig } from './MinimalMeadowCameraRig.js';
+import { createMinimalMeadowCollision } from './MinimalMeadowCollision.js';
+import { MinimalMeadowInput } from './MinimalMeadowInput.js';
+import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js';
+import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 import {
 	createMinimalBootReceipt,
 	createMinimalCamera,
@@ -27,22 +26,23 @@ import {
 	disposeMinimalRuntime,
 	installMinimalResize,
 	renderMinimalFirstFrame
-} from './MinimalMeadowRuntimeSupport.js?v=20260723-meadow-09';
-import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js?v=20260723-meadow-10';
-import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js?v=20260724-meadow-21';
-import { installMinimalMeadowUi } from './MinimalMeadowUi.js?v=20260724-meadow-21';
-import {
-	destroyMinimalMeadowWorldSystems,
-	installMinimalMeadowWorldSystems
-} from './MinimalMeadowWorldSystems.js?v=20260724-meadow-21';
-import { markRuntimePlayable, markRuntimeStarting } from './RuntimeStateMarker.js?v=20260723-meadow-03';
+} from './MinimalMeadowRuntimeSupport.js';
+import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js';
+import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js';
+import { markRuntimePlayable, markRuntimeStarting } from './RuntimeStateMarker.js';
 
+/**
+ * Creates and exposes the playable core before the compact feature bundle resolves.
+ * @param {object} hosts Required DOM hosts.
+ * @param {object} options Runtime environment and progress options.
+ * @returns {Promise<object>} Immediate core diagnostics with a deferred features promise.
+ */
 export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	const documentValue = environment.document;
 	const boot = createMinimalBootReceipt(environment);
 	markRuntimeStarting(documentValue);
-	boot.begin('eight-grass-river-valley-terrain');
+	boot.begin('core-terrain');
 	const terrain = await createMinimalMeadowTerrainPackage({ ...options, environment });
 	const scene = new Scene();
 	scene.add(terrain.group);
@@ -69,28 +69,38 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	});
 	initializeMinimalMeadowRuntime(runtime, hosts, documentValue);
 	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
-	installMinimalMeadowUi(runtime, documentValue, environment);
-	boot.begin('water-forest-flowers-equipment-houses-quest');
-	await installMinimalMeadowWorldSystems(runtime, environment);
 	installBootstrapControlsHud(runtime, documentValue);
 	renderMinimalFirstFrame(runtime);
 	boot.complete();
 	const diagnostics = createMinimalDiagnostics(runtime, qualityProfile, boot);
 	environment.AwtsmoosMitzvahWorld = diagnostics;
 	markRuntimePlayable(diagnostics, documentValue);
-	if (options.startLoop !== false) startLoop(runtime, diagnostics, environment);
+	if (options.startLoop !== false) {
+		runtime.movement = startMinimalMeadowLoop(runtime, environment);
+		diagnostics.movement = runtime.movement;
+	}
 	runtime.dispose = () => disposeRuntime(runtime, input, removeResize);
-	diagnostics.canonicalPlayerPromise = hydrateMinimalMeadowPlayer(runtime, environment);
+	diagnostics.featuresPromise = loadFeatures(runtime, environment);
 	return diagnostics;
 }
 
-function startLoop(runtime, diagnostics, environment) {
-	runtime.movement = startMinimalMeadowLoop(runtime, environment);
-	diagnostics.movement = runtime.movement;
+function loadFeatures(runtime, environment) {
+	runtime.featureStatus = { phase: 'loading-compact-entry' };
+	return import('./MinimalMeadowFeatureBundle.js?compact=true')
+		.then(module => module.installMinimalMeadowFeatures(runtime, environment))
+		.catch(error => {
+			runtime.featureStatus = {
+				error: error?.message || String(error),
+				phase: 'failed-core-still-playable'
+			};
+			environment.console?.error?.('[MitzvahWorld] deferred features failed.', error);
+			return null;
+		});
 }
 
 function disposeRuntime(runtime, input, removeResize) {
-	destroyMinimalMeadowWorldSystems(runtime);
+	runtime.destroyed = true;
+	runtime.destroyWorldSystems?.();
 	disposeMinimalRuntime(runtime, input, removeResize);
 }
 

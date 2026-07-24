@@ -3,42 +3,35 @@
 // Blessed is He
 
 /**
- * @file MinimalMeadowHouseProfiles.js
- * @description Defines two bounded brick dwellings with measured rooms, stories, and doors.
- * The Awtsmoos grants every home a place without swallowing the meadow; Awtsmoos.com keeps
- * dimensions, rooms, stairs, entrances, and material character explicit and deterministic.
- */
+	* @file MinimalMeadowHouseProfiles.js
+	* @description Places two fortyfold-footprint dwellings in measured, obstruction-free envelopes.
+	* The Awtsmoos grants rooms breadth while a thirty-two-unit passage keeps the world connected;
+	* Awtsmoos.com preserves legacy area, human doors, clear spawn, dry ground, and truthful bounds.
+	*/
+
+import { createExpandedHouseProfile } from './MinimalMeadowHouseDimensionPolicy.js';
 
 export const MINIMAL_MEADOW_HOUSE_PROFILES = Object.freeze([
-	profile({
-		depth: 16,
+	createExpandedHouseProfile({
+		depth: 92,
 		floors: 2,
 		id: 'beis-ohr',
+		legacyDepth: 16,
+		legacyWidth: 18,
 		name: 'Beis Ohr',
-		width: 18,
-		x: -28,
-		z: -22
+		width: 128,
+		x: 46,
+		z: -60
 	}),
-	profile({
-		depth: 11,
+	createExpandedHouseProfile({
+		depth: 96,
 		floors: 1,
 		id: 'brick-cottage',
+		legacyDepth: 11,
+		legacyWidth: 13,
 		name: 'Brick Cottage',
-		width: 13,
-		x: 28,
-		z: -28
+		width: 60,
+		x: -80,
+		z: -62
 	})
 ]);
-
-function profile(values) {
-	return Object.freeze({
-		doorHeight: 3.1,
-		doorWidth: 2.1,
-		floorThickness: 0.22,
-		roofHeight: 0.7,
-		storyHeight: 4.35,
-		wallThickness: 0.48,
-		yaw: 0,
-		...values
-	});
-}

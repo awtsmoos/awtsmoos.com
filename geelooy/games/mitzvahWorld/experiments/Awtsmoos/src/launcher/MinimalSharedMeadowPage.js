@@ -4,15 +4,14 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Boots the equipped river-valley forest meadow with measured progress.
- * The Awtsmoos opens local sight before distant connection; Awtsmoos.com binds every percentage
- * to garment, water normals, valley, trees, flowers, homes, demons, quest, UI, and renderer.
+ * @description Boots single-player core by default and imports multiplayer only when requested.
+ * The Awtsmoos opens one playable gate before network and distant systems;
+ * Awtsmoos.com keeps compact GLB, action bar, casting, and shared travel behind explicit doors.
  */
 
-import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js?v=20260724-meadow-21';
-import { createMultiplayerEretzRuntime } from '../network/MultiplayerEretzBootstrap.js?v=20260723-meadow-09';
-import { MeadowLoadingScreen } from './MeadowLoadingScreen.js?v=20260723-meadow-07';
-import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js?v=20260724-meadow-21';
+import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
+import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
+import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
 
 const HOST_IDS = Object.freeze({
 	actionHost: 'actions',
@@ -31,18 +30,33 @@ const HOST_IDS = Object.freeze({
 	targetHost: 'combatTarget'
 });
 
-export async function bootMinimalSharedMeadow(documentValue = document, environment = globalThis) {
+/**
+ * Boots the visible local game and observes optional feature readiness without awaiting it.
+ * @param {Document} documentValue Active document.
+ * @param {Window|object} environment Browser-like environment.
+ * @returns {Promise<object>} Core runtime diagnostics.
+ */
+export async function bootMinimalSharedMeadow(
+	documentValue = document,
+	environment = globalThis
+) {
 	const loading = new MeadowLoadingScreen(documentValue, environment);
 	const hosts = resolveHosts(documentValue);
 	const parameters = new URLSearchParams(environment.location?.search || '');
-	const sessionMode = parameters.get('session') || 'multiplayer';
+	const sessionMode = parameters.get('session') || 'singleplayer';
 	try {
-		const diagnostics = sessionMode === 'singleplayer'
-			? await createSingleRuntime(hosts, environment, loading)
-			: await createSharedRuntime(hosts, parameters, environment, loading);
+		const diagnostics = sessionMode === 'multiplayer'
+			? await createSharedRuntime(hosts, parameters, environment, loading)
+			: await createSingleRuntime(hosts, environment, loading);
 		environment.AwtsmoosMitzvahWorld = diagnostics;
-		await awaitMinimalMeadowReadiness(diagnostics, loading, documentValue, environment);
+		await awaitMinimalMeadowReadiness(
+			diagnostics,
+			loading,
+			documentValue,
+			environment
+		);
 		loading.finish();
+		documentValue.documentElement.dataset.awtsmoosSession = sessionMode;
 		return diagnostics;
 	} catch (error) {
 		loading.fail(error);
@@ -59,8 +73,9 @@ function createSingleRuntime(hosts, environment, loading) {
 	});
 }
 
-function createSharedRuntime(hosts, parameters, environment, loading) {
-	return createMultiplayerEretzRuntime(hosts, {
+async function createSharedRuntime(hosts, parameters, environment, loading) {
+	const module = await import('../network/MultiplayerEretzBootstrap.js?compact=true');
+	return module.createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,
 		displayName: parameters.get('displayName') || 'River Valley Shliach',
 		environment,
@@ -77,15 +92,20 @@ function resolveHosts(documentValue) {
 	const hosts = {};
 	for (const [name, id] of Object.entries(HOST_IDS)) {
 		const element = documentValue.getElementById(id);
-		if (!element) throw new Error(`Missing meadow host: #${id}`);
+		if (!element) {
+			throw new Error(`Missing meadow host: #${id}`);
+		}
 		hosts[name] = element;
 	}
 	return hosts;
 }
 
 function inferRealtimeUrl(locationValue) {
-	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) return null;
-	return `${locationValue.protocol === 'https:' ? 'wss:' : 'ws:'}//${locationValue.host}`;
+	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) {
+		return null;
+	}
+	const scheme = locationValue.protocol === 'https:' ? 'wss:' : 'ws:';
+	return `${scheme}//${locationValue.host}`;
 }
 
 function showFailure(hud, documentValue, error) {
@@ -96,4 +116,9 @@ function showFailure(hud, documentValue, error) {
 	console.error(error);
 }
 
-if (typeof document !== 'undefined') await bootMinimalSharedMeadow();
+if (typeof document !== 'undefined') {
+	globalThis.AwtsmoosMitzvahWorldBoot = bootMinimalSharedMeadow().catch(error => {
+		console.error('[MitzvahWorld] compact boot failed.', error);
+		throw error;
+	});
+}

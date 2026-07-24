@@ -1,0 +1,2 @@
+import{n as e}from"./f025431a-ehagpvg3m4e1cduv.js";import{_7t as t,g7t as n}from"./4813494d-btp8cmrhquskot7i.js";function r(e){return/^\/auth\/login\/?$/.test(e)}function i(){return typeof document>`u`?null:document.querySelector(o)}function a(e,t,r){s??=n.createLogger(`login-hydration`),s[e](t,r)}var o,s,c=e((()=>{t(),o=`[data-login-form-container="true"] input[name="email"]`}));export{a as i,c as n,r,i as t};
+//# sourceMappingURL=d42ee766-07bvik11g7wedua2.js.map

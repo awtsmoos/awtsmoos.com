@@ -5,8 +5,9 @@
 /**
  * @module SearchResultShape
  * @description
- * Private vectors and filesystem details remain hidden while the public contract
- * distinguishes stored coordinates from a genuinely persisted indexed lane.
+ * Private vectors and filesystem details remain hidden while public metadata
+ * states completeness honestly. A partial text-only lane cannot masquerade as a
+ * complete persisted-vector corpus.
  */
 
 function firstText(...values) {
@@ -18,40 +19,34 @@ function firstText(...values) {
 }
 
 function publicShard(shard = {}) {
-	const storedVectors = Boolean(
-		shard.listName
-		&& Number(shard.dimensions || 0) > 0
-	);
+	const partial = shard.partial === true;
+	const storedVectors = Boolean(shard.listName && Number(shard.dimensions || 0) > 0);
 	const indexed = shard.vectorEnabled === true;
 	return {
 		id: firstText(shard.id),
-		title: firstText(
-			shard.title,
-			shard.label,
-			shard.id,
-			'Indexed library'
-		),
+		title: firstText(shard.title, shard.label, shard.id, 'Indexed library'),
 		aliases: Array.isArray(shard.aliases) ? shard.aliases : [],
 		count: Number(shard.count || 0),
 		dimensions: Number(shard.dimensions || 0),
 		bytes: Number(shard.bytes || 0),
 		storedVectors,
 		indexed,
-		modes: searchModes({
-			...shard,
-			storedVectors,
-			indexed
-		}),
+		modes: searchModes({ ...shard, storedVectors, indexed }),
 		available: !shard.error,
+		partial,
+		completeParts: Number(shard.completeParts || (partial ? 0 : 1)),
+		expectedParts: Number(shard.expectedParts || 1),
+		publicationStatus: shard.publicationStatus || (partial ? 'partial' : 'complete'),
+		textOnly: shard.textOnly === true,
 		error: shard.error ? String(shard.error) : undefined
 	};
 }
 
 function searchModes(shard) {
 	const modes = [];
-	if (shard.textFile) modes.push('text');
-	if (shard.storedVectors) modes.push('vector-exact');
-	if (shard.indexed) modes.push('vector-indexed');
+	if (shard.textFile || shard.parts?.some(part => part.textFile)) modes.push('text');
+	if (!shard.textOnly && shard.storedVectors) modes.push('vector-exact');
+	if (!shard.textOnly && shard.indexed) modes.push('vector-indexed');
 	return modes;
 }
 
@@ -63,21 +58,11 @@ function publicRow(row = {}) {
 		row.sampleContent,
 		row.content
 	);
-	const {
-		vec,
-		vector,
-		embedding,
-		...safe
-	} = row;
+	const { vec, vector, embedding, ...safe } = row;
 	return {
 		...safe,
 		displayText,
-		title: firstText(
-			row.title,
-			row.postTitle,
-			row.postId,
-			'Source segment'
-		),
+		title: firstText(row.title, row.postTitle, row.postId, 'Source segment'),
 		sourceLabel: firstText(
 			row.sourceLabel,
 			row.seriesTitle,

@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "suite": "connection-receipt",
+  "authoritativeTunnelId": true,
+  "activationBound": true,
+  "runtimeBound": true,
+  "reconnectTestimony": true
+}

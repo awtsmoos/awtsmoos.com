@@ -1,0 +1,118 @@
+B"H
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/actionCoreActions.js:86:	if (line.includes("Tunnel watchdog reconnect")) return { at, event: "watchdog_reconnect", ok: false, ...jsonTail(line) };
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/mission/innovationPolicy.js:51: * Chapter 546: The hour became a guardian at the exit.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionOpenRecovery.test.cjs:86:		generation: 4,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionOpenRecovery.test.cjs:102:				reconnectAttempt: 3
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs:15:const state = { reconnectAttempt: 0, lastRegisteredAt: 0 };
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs:17:assert.equal(state.reconnectAttempt, 1);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs:19:assert.equal(state.reconnectAttempt, 2);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs:41:assert.equal(state.reconnectAttempt, 0);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs:42:assert.equal(state.lastRegisteredAt > 0, true);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:16: * The Awtsmoos renews exact PID, name, ID, and freshness beneath the real guardian.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionTerminalTransition.test.cjs:43:replacementCase.state.replacementRequested = true;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionTerminalTransition.test.cjs:62:		generation: 9,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionTerminalTransition.test.cjs:65:			testCase.state.activeWs === socket && generation === 9
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionTerminalTransition.test.cjs:86:		replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionTerminalTransition.test.cjs:87:		reconnectAttempt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/unixServiceHealth.test.cjs:15: * Awtsmoos.com accepts one agent and one guardian, rejects missing or duplicate bodies,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs:21: * only after ACK, tunnel ID, project-root access, and guardian ownership agree;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs:70:	}), /guardian/i);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs:83:		guardianGatesCompletion: true,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/selfPreservationSuite.test.cjs:14: * durable guardians, connection receipts, installer truth, and existing contracts.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/deviceRevocationForget.test.cjs:10:	generation: 7,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/deviceRevocationForget.test.cjs:12:	replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/deviceRevocationForget.test.cjs:37:assert.equal(state.replacementRequested, true);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:39:	reconnectAttempt: 5,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:41:	replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:42:	generation: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:45:	lastRegisteredAt: 0
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:74:assert.equal(state.reconnectAttempt, 5);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:76:	type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:84:assert.equal(state.reconnectAttempt, 0);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:85:assert.equal(state.lastRegisteredAt > 0, true);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:89:state.reconnectAttempt = 3;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:93:	type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs:100:assert.equal(state.reconnectAttempt > 0, true);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/transportActivityReceipt.test.cjs:26:	reconnectAttempt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/transportActivityReceipt.test.cjs:29:	replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/transportActivityReceipt.test.cjs:56:const generation = 7;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs:28:		reconnectAttempt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs:30:		replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs:31:		generation: 0
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs:68:	assert.equal(state.replacementRequested, true);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/registrationWatchdogFailureRecovery.test.cjs:26:		replacementRequested: false
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/registrationWatchdogFailureRecovery.test.cjs:42:	generation: 8,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/isolatedAgentLongevity.test.cjs:64:		assert.equal(thirdReceipt.reconnectAttempt, 0);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:28:		generation: 2,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:29:		reconnectAttempt: 4,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:31:		lastRegisteredAt: 12345,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:40:	assert.equal(written.reconnectAttempt, 4);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:42:	assert.equal(written.lastRegisteredAt, 12345);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs:81:	assert.equal(old.reconnectAttempt, 0);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/isolatedRelay/server.cjs:65:			type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/installerExperienceHarness.cjs:13: * The Awtsmoos renews registration, root readiness, guardian ownership, and browser
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/installerExperienceScript.cjs:10: * The Awtsmoos renews registration, root, and guardian as separate witnesses.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/isolatedInstall/relay.cjs:90:						type: 'TUNNEL_ACK',
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureInstall.cjs:15: * The Awtsmoos renews runtime, Node locator, singleton, guardian, and receipt together.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/cases/sameVersionFastRepair.cjs:17: * The Awtsmoos renews one matching runtime beneath fresh guardian files. Awtsmoos.com
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureSource.cjs:32:			activationId, runtimeVersion, generation: 1, reconnectAttempt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixture.cjs:17: * The Awtsmoos renews registered identity, fresh receipt, guardian, and teardown.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/registrationWatchdogHarness.cjs:35:				replacementRequested: false
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/registrationWatchdogHarness.cjs:68:		generation: 7,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:33:		if (dependencies.state.replacementRequested) return null;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:44:			generation: dependencies.state.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:46:			reconnectAttempt: attempt + 1,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:58:		const generation = dependencies.state.generation + 1;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:59:		dependencies.state.generation = generation;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:64:		dependencies.state.replacementRequested = false;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection.js:95:			dependencies.state.generation === generation;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-acknowledgement.js:33:			generation: dependencies.state.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-acknowledgement.js:37:			reconnectAttempt: dependencies.state.reconnectAttempt || 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-acknowledgement.js:38:			lastRegisteredAt: dependencies.state.lastRegisteredAt || null
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-terminal.js:37:				reconnectAttempt: dependencies.state.reconnectAttempt || 0
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-terminal.js:41:		if (dependencies.state.replacementRequested) return true;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/memory.js:2:function snapshot(state, limits, inlineLimit) { const m = process.memoryUsage(); return { rssMB:Math.round(m.rss/1048576), heapUsedMB:Math.round(m.heapUsed/1048576), heapTotalMB:Math.round(m.heapTotal/1048576), externalMB:Math.round(m.external/1048576), inflight:state.inflight.size, queued:state.requestQueue.length, maxInflight:limits.MAX_INFLIGHT, maxQueue:limits.MAX_QUEUE, reconnectAttempt:state.reconnectAttempt, wasEverConnected:state.wasEverConnected, strictOrdering:limits.STRICT_ORDERING, inlineLimitBytes:inlineLimit() }; }
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-registration-watchdog.js:39:			options.dependencies.state.replacementRequested !== true;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-registration-watchdog.js:57:			generation: options.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-registration-watchdog.js:71:			generation: options.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-open.js:46:			reconnectAttempt: dependencies.state.reconnectAttempt || 0
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-reconnect-policy.js:39:	state.reconnectAttempt = 0;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-reconnect-policy.js:40:	state.lastRegisteredAt = Date.now();
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-reconnect-policy.js:44:	const attempt = Math.max(0, Number(state.reconnectAttempt) || 0);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-reconnect-policy.js:45:	state.reconnectAttempt = attempt + 1;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/connection-receipt.js:90:		generation: Number(value.generation || 0),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/connection-receipt.js:91:		reconnectAttempt: Number(value.reconnectAttempt || 0),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/connection-receipt.js:95:		lastRegisteredAt: value.lastRegisteredAt || null,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/control-plane.js:18:    generation: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/control-plane.js:33:    generation: gen,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:16:		if (data.type === "TUNNEL_ACK") {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:45:		dependencies.state.replacementRequested = true;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:49:			generation: dependencies.state.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:64:		dependencies.state.replacementRequested = true;
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:66:			generation: dependencies.state.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:96:			generation: dependencies.state.generation
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-connection-messages.js:100:	mark({ generation: dependencies.state.generation }).catch(error => {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:18:		reconnectAttempt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:20:		replacementRequested: false,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:24:		generation: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:27:		lastRegisteredAt: 0,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:37:		generation: state.generation,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:41:		reconnectAttempt: state.reconnectAttempt,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:42:		lastRegisteredAt: state.lastRegisteredAt || null,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:43:		replacementRequested: state.replacementRequested === true
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/main-state-values.js:51:		reconnectAttempt: state.reconnectAttempt,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopBoss.js:6: * The cooperative guardian carries three server-owned phases into the shared road.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/browser-session.test.cjs:79:	const attempts = policy.reconnectAttemptLimit(15000);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationAuthority.js:28:	const generation = Number(value);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationAuthority.js:50:		generation: protocolGeneration(value.protocolVersion),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/register.js:70:		type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/register.js:78:		registrationGeneration: client.registrationGeneration,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/serverStateCompatibility.test.cjs:44:		assert.equal(JSON.parse(client.messages.at(-1)).type, "TUNNEL_ACK");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js:67:		registrationGeneration: server.tunnelRegistrationGeneration,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js:82:			type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationTransfer.js:100:			type: "TUNNEL_ACK",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/adventureCatalog.test.cjs:24:		'klipah-guardian': { target: 'klipah-guardian' },
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureSpawnCatalog.js:24:	spawn('guardian-1', 'klipah-guardian', -20, 0, -152),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CreatureSpawnCatalog.js:25:	spawn('guardian-2', 'klipah-guardian', -31, 0, -143),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AdventureQuestCatalog.js:17:		objective('defeat', 'klipah-guardian', 2, 'Defeat two klipah guardians.')
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatantCatalog.js:29:	'klipah-guardian': spirit('klipah-guardian', 90, 4, 15),

@@ -5,29 +5,35 @@
 /**
  * @module RagCanonicalShards
  * @description
- * The Awtsmoos distinguishes vessels already revealed in production from
- * vessels still being formed in staging. Only the two reviewed live databases
- * may answer public requests; twelve Sichos Kodesh parts remain named here for
- * deployment tooling but are not canonical until their complete family is
- * deliberately promoted.
+ * Two complete live libraries and eight reviewed Sichos Kodesh parts may answer
+ * public text search. Four unfinished parts remain named but unpublished, so the
+ * API can reveal a truthful partial lane without pretending the corpus is whole.
  */
 
+const SICHOS_KODESH_EXPECTED_PARTS = 12;
+const SICHOS_KODESH_PUBLISHED_PARTS = 8;
 const SICHOS_KODESH_FILES = Object.freeze(Array.from(
-	{ length: 12 },
+	{ length: SICHOS_KODESH_EXPECTED_PARTS },
 	(_value, index) => `sichos-kodesh-english-comments-rag-part-${index + 1}.awtsdb`
 ));
-
+const PUBLISHED_SICHOS_KODESH_FILES = Object.freeze(
+	SICHOS_KODESH_FILES.slice(0, SICHOS_KODESH_PUBLISHED_PARTS)
+);
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
 	'sefer-hasichos-english-comments-rag.awtsdb'
 ]);
 
 function isCanonicalShardFile(name) {
-	return CANONICAL_SHARD_FILES.includes(String(name));
+	return CANONICAL_SHARD_FILES.includes(String(name))
+		|| PUBLISHED_SICHOS_KODESH_FILES.includes(String(name));
 }
 
 module.exports = {
 	CANONICAL_SHARD_FILES,
+	PUBLISHED_SICHOS_KODESH_FILES,
+	SICHOS_KODESH_EXPECTED_PARTS,
 	SICHOS_KODESH_FILES,
+	SICHOS_KODESH_PUBLISHED_PARTS,
 	isCanonicalShardFile
 };

@@ -3,50 +3,67 @@
 // Blessed is He
 
 /**
- * @file MinimalMeadowCreatureMesh.js
- * @description Creates one validated continuous surface with independent skeleton and profile tint.
- * The Awtsmoos reveals many joints through one body; Awtsmoos.com validates one primary skin,
- * retains semantic anatomy as metadata, and gives every actor its own mutable bone hierarchy.
- */
+	* @file MinimalMeadowCreatureMesh.js
+	* @description Creates one readable continuous demon surface with an independent skeleton.
+	* The Awtsmoos reveals many joints through one body; Awtsmoos.com binds shared textured hide,
+	* daylight-safe color, semantic evidence, and one mutable actor material without extra draw calls.
+	*/
 
-import { Group, Mesh, MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import { Group, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
 import { createCanonicalCreatureSurfaceContract } from '../../../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/creature/canonicalSurfaceContract.js';
-import { createMinimalDemonGeometry } from './MinimalMeadowDemonGeometry.js?v=20260724-meadow-13';
-import { createMinimalDemonSkeleton } from './MinimalMeadowDemonSkeleton.js?v=20260724-meadow-13';
+import { createMinimalDemonGeometry } from './MinimalMeadowDemonGeometry.js';
+import { createMinimalDemonMaterial } from './MinimalMeadowDemonMaterial.js';
+import { createMinimalDemonSkeleton } from './MinimalMeadowDemonSkeleton.js';
 
-export function createMinimalShadowCreatureMesh(compiled, profile = {}) {
+/**
+	* Creates the canonical one-surface demon while preserving all rig and evidence contracts.
+	* @param {object} compiled Semantic creature compiler result.
+	* @param {object} profile Runtime enemy profile.
+	* @param {Document} documentValue Browser document or injected test vessel.
+	* @returns {Group} Root carrying exactly one continuous skinned mesh.
+	*/
+export function createMinimalShadowCreatureMesh(
+	compiled,
+	profile = {},
+	documentValue = globalThis.document
+) {
 	const root = new Group();
 	root.name = `Awtsmoos_continuous_skinned_${profile.id || 'shadow-demon'}`;
 	const geometry = createMinimalDemonGeometry();
-	const material = new MeshStandardMaterial({
-		color: profile.tint || [1, 1, 1, 1],
-		doubleSided: true,
-		name: `Awtsmoos_continuous_skin_${profile.id || 'demon'}`
-	});
-	material.texturePolicy = { closedSurface: true, shader: 'canonical-continuous-skinned-demon' };
+	const material = createMinimalDemonMaterial(profile, documentValue);
+	const mesh = createSurfaceMesh(geometry, material, profile);
+	root.add(mesh);
+	const rig = createMinimalDemonSkeleton(root);
+	mesh.skeleton = rig.skeleton;
+	mesh.setBaseTransform();
+	const evidence = coreEvidence(compiled, geometry, rig, material);
+	root.userData.rig = { ...rig.byName, mesh, root };
+	root.userData.proceduralCore = evidence;
+	root.userData.skeletons = new Map([[0, rig.skeleton]]);
+	root.userData.surfaceMaterial = material.surfaceDiagnostics;
+	root.setBaseTransform();
+	return root;
+}
+
+function createSurfaceMesh(geometry, material, profile) {
 	const mesh = new Mesh(geometry, material);
 	mesh.name = `Awtsmoos_single_surface_${profile.id || 'demon'}`;
 	mesh.skinIndex = 0;
 	mesh.isSkinnedMesh = true;
 	mesh.frustumCulled = false;
-	root.add(mesh);
-	const rig = createMinimalDemonSkeleton(root);
-	mesh.skeleton = rig.skeleton;
-	mesh.setBaseTransform();
-	const evidence = coreEvidence(compiled, geometry, rig);
-	root.userData.rig = { ...rig.byName, mesh, root };
-	root.userData.proceduralCore = evidence;
-	root.userData.skeletons = new Map([[0, rig.skeleton]]);
-	root.setBaseTransform();
-	return root;
+	mesh.userData.bootstrapVisual = true;
+	mesh.userData.AwtsmoosDemonSurface = material.surfaceDiagnostics;
+	return mesh;
 }
 
-function coreEvidence(compiled, geometry, rig) {
-	const vertices = geometry.userData.AwtsmoosContinuousDemon.vertexCount;
+function coreEvidence(compiled, geometry, rig, material) {
+	const geometryEvidence = geometry.userData.AwtsmoosContinuousDemon;
+	const vertices = geometryEvidence.vertexCount;
 	const surfaceContract = createCanonicalCreatureSurfaceContract({
 		closedSurface: true,
 		jointCount: rig.bones.length,
-		semanticPartCount: compiled.briah?.body?.parts?.length || compiled.briah?.body?.sections?.length || 0,
+		semanticPartCount: compiled.briah?.body?.parts?.length ||
+			compiled.briah?.body?.sections?.length || 0,
 		skinWeightCount: geometry.attributes.weights.count,
 		vertexCount: vertices
 	});
@@ -56,9 +73,10 @@ function coreEvidence(compiled, geometry, rig) {
 		bones: rig.bones.length,
 		closedSurface: true,
 		continuousSkinnedMesh: true,
+		material: material.surfaceDiagnostics,
 		meshCount: 1,
 		surfaceContract,
-		triangles: geometry.userData.AwtsmoosContinuousDemon.triangleCount,
+		triangles: geometryEvidence.triangleCount,
 		vertices
 	};
 }

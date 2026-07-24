@@ -4,14 +4,14 @@
 
 /**
  * @module LibrarySearchRoutes
- * @chapter Every Search Handler Carries Its Own Frozen Request Values
  * @description
- * Generic library search and both strict RAG spellings use the request snapshot
- * captured before authentication. Caller parameters cannot cross lanes or weaken
- * the persisted-index contract after concurrent requests begin.
+ * Public library questions may cross every completed lane, while strict RAG
+ * spellings preserve their single-lane persisted-index covenant. Frozen request
+ * values prevent concurrent callers from crossing strategies or corpora.
  */
 
 const { availableShards } = require('../rag/shards.js');
+const { librarySearch } = require('../rag/librarySearch.js');
 const { ragSearch } = require('../rag/search.js');
 const { publicShard } = require('../rag/resultShape.js');
 const { ensureLlama } = require('../rag/llama.js');
@@ -27,19 +27,19 @@ function libraryRoutes(context) {
 	const list = async () => safe(async () => ({
 		success: (await availableShards({ $i })).map(publicShard)
 	}));
-	const librarySearch = async () => safe(async () => ({
-		success: await ragSearch(libraryOptions(context))
+	const publicSearch = async () => safe(async () => ({
+		success: await librarySearch(libraryOptions(context))
 	}));
-	const strictRagSearch = async () => safe(async () => ({
+	const strictSearch = async () => safe(async () => ({
 		success: await ragSearch(strictRagOptions(context))
 	}));
 	return {
 		'/search/library/shards': list,
 		'/search/rag/shards': list,
 		'/rag/search/shards': list,
-		'/search/library/query': librarySearch,
-		'/search/rag/query': strictRagSearch,
-		'/rag/search/query': strictRagSearch,
+		'/search/library/query': publicSearch,
+		'/search/rag/query': strictSearch,
+		'/rag/search/query': strictSearch,
 		'/search/rag/llama/status': async () => safe(async () => ({
 			success: await ensureLlama({
 				$i,

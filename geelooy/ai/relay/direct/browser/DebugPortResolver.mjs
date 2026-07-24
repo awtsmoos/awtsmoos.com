@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Chrome may awaken on several known debugging gates. The Awtsmoos reveals the
- * live ChatGPT page by observation, while Awtsmoos.com never assumes a port is
- * authenticated merely because an old configuration named it.
+ * Chrome may awaken on several known debugging gates. The Awtsmoos resolves a
+ * living browser rather than demanding a preexisting ChatGPT tab; Awtsmoos.com
+ * lets each controller create its own route and verify authentication directly.
  */
 export class DebugPortResolver {
 	constructor({ preferredPort, candidates } = {}) {
@@ -22,23 +22,30 @@ export class DebugPortResolver {
 
 	async resolve() {
 		const observed = [];
-		for (const port of [...new Set(this.candidates.filter(Number.isInteger))]) {
+		for (const port of this.uniqueCandidates()) {
 			try {
-				const response = await fetch(`http://127.0.0.1:${port}/json/list`);
+				const response = await fetch(`http://127.0.0.1:${port}/json/version`);
 				if (!response.ok) {
 					observed.push({ port, status: response.status });
 					continue;
 				}
-				const targets = await response.json();
-				const chatPage = targets.some(target => {
-					return target.type === "page" && target.url.includes("chatgpt.com");
-				});
-				if (chatPage) return port;
-				observed.push({ port, status: "no_chatgpt_page" });
+				const version = await response.json();
+				if (typeof version.webSocketDebuggerUrl === "string") {
+					return port;
+				}
+				observed.push({ port, status: "missing_browser_websocket" });
 			} catch {
 				observed.push({ port, status: "offline" });
 			}
 		}
-		throw new Error(`No ChatGPT debug page was found. Checked ${JSON.stringify(observed)}.`);
+		throw new Error(
+			`No Chrome debug browser was found. Checked ${JSON.stringify(observed)}.`
+		);
+	}
+
+	uniqueCandidates() {
+		return [...new Set(this.candidates.filter(port => {
+			return Number.isInteger(port) && port > 0;
+		}))];
 	}
 }

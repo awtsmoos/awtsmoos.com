@@ -4,70 +4,67 @@
 
 /**
  * @file MinimalMeadowTreeSystem.js
- * @description Owns core-authorized placements, real bark, alpha leaves, gentle wind, and cleanup.
- * The Awtsmoos breathes through finite leaves without turning trunks transparent; Awtsmoos.com
- * hydrates real textures, retains a safe leaf fallback, and spends only bounded tree transforms.
+ * @description Owns real procedural-core trees, real bark/leaves, bounded wind, and cleanup.
+ * The Awtsmoos breathes through connected branches and botanical canopies; Awtsmoos.com waits
+ * outside first play, shares preset resources, and refuses every crossed-card or block-tree fallback.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage, loadPublicMaterialUrl } from '../assets/PublicMaterialCache.js';
 import { TEXTURE_PURPOSES } from '../assets/TextureCatalog.js';
-import {
-	createForestLeafPublicTexture,
-	createForestLeafTexture
-} from '../world/trees/ForestLeafTexture.js';
-import { createMinimalMeadowTree } from './MinimalMeadowTreeFactory.js?v=20260724-meadow-21';
-import { createMinimalMeadowTreePlacements } from './MinimalMeadowTreePlacements.js?v=20260724-meadow-21';
+import { createForestLeafPublicTexture } from '../world/trees/ForestLeafTexture.js';
+import { createMinimalMeadowTree } from './MinimalMeadowTreeFactory.js';
+import { createMinimalMeadowTreePlacements } from './MinimalMeadowTreePlacements.js';
 
 export class MinimalMeadowTreeSystem {
 	static async create(runtime) {
-		await Promise.all([
+		const records = await Promise.all([
 			loadPublicMaterialUrl(TEXTURE_PURPOSES.forestBark, 18000),
 			loadPublicMaterialUrl(TEXTURE_PURPOSES.forestLeaf, 18000)
 		]);
-		return new MinimalMeadowTreeSystem(runtime);
+		return new MinimalMeadowTreeSystem(runtime, records);
 	}
 
-	constructor(runtime) {
+	constructor(runtime, records) {
 		this.runtime = runtime;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_bounded_core_forest';
-		this.publicLeafImage = cachedTextureImage(TEXTURE_PURPOSES.forestLeaf);
-		this.materials = materials(this.publicLeafImage);
-		this.placements = createMinimalMeadowTreePlacements(runtime.terrain);
-		this.trees = this.placements.map(placement => createMinimalMeadowTree(placement, this.materials));
+		this.group.name = 'Awtsmoos_canonical_procedural_core_forest';
+		this.records = records;
+		this.mobile = mobileProfile(runtime);
+		this.materials = requireRealMaterials(records);
+		this.placements = createMinimalMeadowTreePlacements(runtime.terrain, { mobile: this.mobile });
+		this.errors = [];
+		this.trees = this.placements.flatMap(placement => {
+			try {
+				return [createMinimalMeadowTree(placement, this.materials)];
+			} catch (error) {
+				this.errors.push({ id: placement.id, message: error.message });
+				return [];
+			}
+		});
 		for (const tree of this.trees) this.group.add(tree);
 		this.clock = 0;
-		this.publicLeafApplied = false;
 	}
 
 	update(deltaSeconds) {
 		this.clock += deltaSeconds;
 		for (let index = 0; index < this.trees.length; index += 1) {
 			const tree = this.trees[index];
-			const sway = Math.sin(this.clock * 0.62 + index * 1.7) * 0.008;
-			tree.quaternion.z = sway;
+			tree.quaternion.z = Math.sin(this.clock * 0.48 + index * 1.37) * 0.0045;
 		}
-		this.hydratePublicLeaves();
-	}
-
-	hydratePublicLeaves() {
-		if (this.publicLeafApplied || !this.publicLeafImage) return;
-		const prepared = createForestLeafPublicTexture(this.publicLeafImage);
-		if (!prepared) return;
-		for (const tree of this.trees) tree.traverse(node => {
-			if (node.userData?.part === 'alpha-cutout-leaf-crown') node.material.mapImage = prepared;
-		});
-		this.publicLeafApplied = true;
 	}
 
 	diagnostics() {
+		const profiles = new Set(this.trees.map(tree => tree.userData.AwtsmoosTree.preset));
 		return {
-			alphaMode: 'MASK',
-			barkOpaque: true,
-			coreAuthority: 'awtsmoos-procedural-core',
-			leafSource: this.publicLeafApplied ? 'public-alpha-prepared' : 'procedural-alpha-fallback',
-			presets: new Set(this.placements.map(placement => placement.preset)).size,
+			coreAuthority: '/libs/awtsmoos-procedural-core',
+			drawCallsPerTree: 2,
+			errors: [...this.errors],
+			fakeFallback: false,
+			leafSource: 'real-public-alpha-prepared',
+			mobileProfile: this.mobile,
+			presets: profiles.size,
+			sharedTemplates: profiles.size,
 			trees: this.trees.length
 		};
 	}
@@ -77,20 +74,27 @@ export class MinimalMeadowTreeSystem {
 	}
 }
 
-function materials(publicLeafImage) {
-	createForestLeafPublicTexture(publicLeafImage);
+function requireRealMaterials(records) {
+	const barkImage = cachedTextureImage(TEXTURE_PURPOSES.forestBark);
+	const leafImage = createForestLeafPublicTexture(cachedTextureImage(TEXTURE_PURPOSES.forestLeaf));
+	if (!records.every(record => record.ok) || !barkImage || !leafImage) {
+		throw new Error('B"H | real procedural tree bark and leaf textures are required.');
+	}
 	return {
 		bark: {
-			color: '#6b4930',
-			mapImage: cachedTextureImage(TEXTURE_PURPOSES.forestBark),
-			mapRepeat: [2.5, 5.5],
+			mapImage: barkImage,
 			textureUrl: TEXTURE_PURPOSES.forestBark
 		},
+		cacheKey: `${TEXTURE_PURPOSES.forestBark}|${TEXTURE_PURPOSES.forestLeaf}`,
 		leaf: {
-			color: '#5f8d45',
-			mapImage: createForestLeafTexture(),
-			mapRepeat: [1, 1],
+			mapImage: leafImage,
 			textureUrl: TEXTURE_PURPOSES.forestLeaf
 		}
 	};
+}
+
+function mobileProfile(runtime) {
+	const environment = runtime.environment || globalThis;
+	return Number(environment.innerWidth || 1024) <= 820
+		|| Boolean(environment.matchMedia?.('(pointer: coarse)')?.matches);
 }

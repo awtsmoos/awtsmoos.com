@@ -5,9 +5,9 @@
 /**
  * @module SocialRagPaths
  * @description
- * Canonical social data and rebuildable AI assets inhabit separate vessels.
- * Explicit roots always win. Otherwise the Awtsmoos looks only for an existing
- * sibling runtime root and never creates, mutates, or guesses a database file.
+ * Canonical social data, runtime AI assets, and reviewed staging shards inhabit
+ * explicit vessels. Existing directories are discovered read-only; no API call
+ * creates, copies, renames, or mutates a database or sidecar.
  */
 
 const fs = require('fs');
@@ -54,6 +54,26 @@ function ragRoot($i) {
 		: path.join(aiRoot($i), 'comment-rag');
 }
 
+function sichosKodeshStagingCandidates($i) {
+	const databaseRoot = path.resolve(dbRoot($i));
+	const namespaceRoot = path.dirname(databaseRoot);
+	return [
+		process.env.AWTSMOOS_SICHOS_KODESH_RAG_ROOT,
+		path.join(
+			namespaceRoot,
+			'docs',
+			'torah',
+			'sichos-kodesh-ai',
+			'embedding-output',
+			'rag-staging'
+		)
+	].filter(Boolean).map(candidate => path.resolve(candidate));
+}
+
+function sichosKodeshStagingRoot($i) {
+	return existingDirectory(sichosKodeshStagingCandidates($i));
+}
+
 function commentsDbPath($i, heichel = 'ikar') {
 	return path.join(
 		dbRoot($i),
@@ -86,5 +106,7 @@ module.exports = {
 	existingJson,
 	ragRoot,
 	runtimeAiCandidates,
+	sichosKodeshStagingCandidates,
+	sichosKodeshStagingRoot,
 	stat
 };

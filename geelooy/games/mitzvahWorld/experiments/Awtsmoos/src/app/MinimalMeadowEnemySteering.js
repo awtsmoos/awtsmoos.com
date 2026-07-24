@@ -4,30 +4,40 @@
 
 /**
  * @file MinimalMeadowEnemySteering.js
- * @description Combines pursuit, pack separation, flank bias, and assist awareness for six demons.
- * The Awtsmoos lets many finite pursuers remain distinct; Awtsmoos.com prevents body stacking,
- * carries nearby alarm, and gives flankers a curved approach without expensive hidden navigation.
+ * @description Builds separated approach, retreat, and orbit vectors for persistent encounters.
+ * The Awtsmoos lets many finite pursuers remain distinct; Awtsmoos.com prevents stacking
+ * while melee pressure and caster spacing remain stable instead of turning into flight.
  */
 
-export function minimalEnemyChaseVector(actor, runtime) {
-	const player = runtime.state;
-	let x = player.x - actor.group.position.x;
-	let z = player.z - actor.group.position.z;
-	const separation = packSeparation(actor);
-	x += separation.x * 2.4;
-	z += separation.z * 2.4;
-	if (actor.profile.temperament === 'flanker') {
-		const length = Math.max(0.001, Math.hypot(x, z));
-		x += z / length * 3.2;
-		z -= x / length * 3.2;
-	}
-	return { distance: Math.hypot(x, z), x, z };
+import { minimalEnemyOrbitDirection } from './MinimalMeadowEnemyRolePolicy.js';
+
+export function minimalEnemyApproachVector(actor, runtime) {
+	return combined(actor, runtime, 1, 0);
+}
+
+export function minimalEnemyRetreatVector(actor, runtime) {
+	return combined(actor, runtime, -1, 0.35 * minimalEnemyOrbitDirection(actor.profile));
+}
+
+export function minimalEnemyOrbitVector(actor, runtime) {
+	return combined(actor, runtime, 0.08, minimalEnemyOrbitDirection(actor.profile));
 }
 
 export function minimalEnemyPackAlerted(actor) {
-	return Boolean(actor.pack?.actors.some(ally => (
-		ally !== actor && ally.alive && (ally.combat.action || ally.hitTime > 0)
+	return Boolean(actor.pack?.actors.some((ally) => (
+		ally !== actor && ally.alive && ally.combat?.session?.active
 	)));
+}
+
+function combined(actor, runtime, forwardWeight, sideWeight) {
+	const dx = runtime.state.x - actor.group.position.x;
+	const dz = runtime.state.z - actor.group.position.z;
+	const length = Math.max(0.0001, Math.hypot(dx, dz));
+	const separation = packSeparation(actor);
+	return {
+		x: dx * forwardWeight + dz / length * sideWeight * 4 + separation.x * 2.6,
+		z: dz * forwardWeight - dx / length * sideWeight * 4 + separation.z * 2.6
+	};
 }
 
 function packSeparation(actor) {
@@ -38,8 +48,8 @@ function packSeparation(actor) {
 		const dx = actor.group.position.x - ally.group.position.x;
 		const dz = actor.group.position.z - ally.group.position.z;
 		const distance = Math.hypot(dx, dz);
-		if (distance <= 0.001 || distance > 3.2) continue;
-		const force = (3.2 - distance) / 3.2;
+		if (distance <= 0.001 || distance > 3.4) continue;
+		const force = (3.4 - distance) / 3.4;
 		x += dx / distance * force;
 		z += dz / distance * force;
 	}

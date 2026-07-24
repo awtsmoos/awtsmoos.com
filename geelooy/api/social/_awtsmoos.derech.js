@@ -1,14 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module SocialApiDerech
- * @chapter The Request Is Remembered Before Authentication Opens An Async Door
  * @description
- * Captures immutable search query/body values at the first synchronous instruction.
- * Authentication and route construction may then await safely without allowing a
- * concurrent request to replace lane, query, corpus, post, or comment context.
+ * The Awtsmoos remembers one request before asynchronous identity gates open.
+ * Awtsmoos.com gathers every social route, including the unified alias drive,
+ * without allowing concurrent requests to exchange their query or body vessels.
  */
 
 const aliases = require('./_awtsmoos.alias.js');
@@ -19,6 +18,7 @@ const communications = require('./_awtsmoos.communications.js');
 const community = require('./_awtsmoos.community.js');
 const content = require('./_awtsmoos.content.js');
 const counters = require('./_awtsmoos.counter.js');
+const drive = require('./_awtsmoos.drive.js');
 const editor = require('./_awtsmoos.editor.js');
 const entities = require('./_awtsmoos.entities.js');
 const fileSystem = require('./_awtsmoos.fileSystem.js');
@@ -40,9 +40,7 @@ const series = require('./_awtsmoos.series.js');
 const thoughts = require('./_awtsmoos.thoughts.js');
 const { verifyApiKey } = require('./helper/apiKeys.js');
 const { loggedIn } = require('./helper/general.js');
-const {
-	captureSearchRequest
-} = require('./helper/search/routes/requestSnapshot.js');
+const { captureSearchRequest } = require('./helper/search/routes/requestSnapshot.js');
 
 async function resolveUser($i) {
 	if (loggedIn($i)) return $i.request.user.info.userId;
@@ -96,12 +94,34 @@ module.exports = async $i => {
 	await $i.use({
 		'/': async () => ({ BH: 'yes', session: $i.request.user }),
 		'/fetch/:url': async variables => fetchProxy($i, variables),
-		...profile(vessel), ...communications(vessel), ...civilization(vessel), ...objects(vessel),
-		...aliases(vessel), ...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel),
-		...community(vessel), ...entities(vessel), ...living(vessel), ...thoughts(vessel),
-		...assets(vessel), ...editor(vessel), ...governance(vessel), ...notifications(vessel),
-		...packed(vessel), ...platform(vessel), ...migrations(vessel), ...heichelos(vessel),
-		...posts(vessel), ...counters(vessel), ...mail(vessel), ...fileSystem({ $i }),
-		...optionalNodeOs(vessel), ...comments(vessel), ...series(vessel)
+		...profile(vessel),
+		...communications(vessel),
+		...civilization(vessel),
+		...objects(vessel),
+		...aliases(vessel),
+		...keys(vessel),
+		...graph(vessel),
+		...search(vessel),
+		...content(vessel),
+		...community(vessel),
+		...entities(vessel),
+		...living(vessel),
+		...thoughts(vessel),
+		...assets(vessel),
+		...drive(vessel),
+		...editor(vessel),
+		...governance(vessel),
+		...notifications(vessel),
+		...packed(vessel),
+		...platform(vessel),
+		...migrations(vessel),
+		...heichelos(vessel),
+		...posts(vessel),
+		...counters(vessel),
+		...mail(vessel),
+		...fileSystem({ $i }),
+		...optionalNodeOs(vessel),
+		...comments(vessel),
+		...series(vessel)
 	});
 };

@@ -1,0 +1,1 @@
+requested compact envelope v2 matches measured mission semantics

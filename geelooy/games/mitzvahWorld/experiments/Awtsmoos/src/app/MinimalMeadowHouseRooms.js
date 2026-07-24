@@ -3,50 +3,71 @@
 // Blessed is He
 
 /**
- * @file MinimalMeadowHouseRooms.js
- * @description Builds lower and upper room partitions with measured dynamic-door openings.
- * The Awtsmoos distinguishes rooms without dividing the home; Awtsmoos.com leaves passage,
- * header, jamb, source room, target room, and mezuzah ownership explicit at every threshold.
- */
+	* @file MinimalMeadowHouseRooms.js
+	* @description Builds six room bays per story around a broad central hall and real door gaps.
+	* The Awtsmoos draws walls without sealing the path; Awtsmoos.com aligns jamb-free openings,
+	* headers, transverse divisions, room identities, visible boxes, and collision-ready definitions.
+	*/
 
-import { houseBox } from './MinimalMeadowHouseMath.js?v=20260724-meadow-17';
+import { houseBox } from './MinimalMeadowHouseMath.js';
+import { createMinimalMeadowHouseFloorPlan } from './MinimalMeadowHouseFloorPlan.js';
 
 export function createMinimalMeadowHouseRooms(profile, materials, groundY) {
+	const plan = createMinimalMeadowHouseFloorPlan(profile, groundY);
 	const definitions = [];
-	const doors = [];
-	const levels = profile.floors > 1 ? [0, 1] : [0];
-	for (const level of levels) {
-		const floorY = groundY + profile.floorThickness + level * profile.storyHeight;
-		const doorway = partition(profile, materials, floorY, level);
-		definitions.push(...doorway.definitions);
-		doors.push(doorway.door);
+	for (const partition of plan.longitudinal) {
+		definitions.push(...longitudinalWall(profile, materials.brickLight, partition));
 	}
-	return { definitions, doors, roomCount: levels.length * 2 };
-}
-
-function partition(profile, materials, floorY, level) {
-	const wallWidth = profile.depth - profile.wallThickness * 2;
-	const sideWidth = (wallWidth - profile.doorWidth) / 2;
-	const sideOffset = profile.doorWidth / 2 + sideWidth / 2;
-	const localX = level === 0 ? 1.8 : -1.8;
-	const yaw = Math.PI / 2;
-	const prefix = `story-${level + 1}-partition`;
-	const definitions = [
-		houseBox(profile, materials.brickLight, `${prefix}-front`, localX, floorY + profile.storyHeight / 2, sideOffset, { x: sideWidth, y: profile.storyHeight, z: profile.wallThickness }, { yaw }),
-		houseBox(profile, materials.brickLight, `${prefix}-back`, localX, floorY + profile.storyHeight / 2, -sideOffset, { x: sideWidth, y: profile.storyHeight, z: profile.wallThickness }, { yaw }),
-		houseBox(profile, materials.brickLight, `${prefix}-header`, localX, floorY + profile.doorHeight + (profile.storyHeight - profile.doorHeight) / 2, 0, { x: profile.doorWidth, y: profile.storyHeight - profile.doorHeight, z: profile.wallThickness }, { yaw })
-	];
+	for (const partition of plan.transverse) {
+		definitions.push(transverseWall(profile, materials.brickLight, partition));
+	}
 	return {
 		definitions,
-		door: {
-			id: `${profile.id}-${prefix}-door`,
-			level,
-			localX,
-			localZ: 0,
-			sourceRoomId: `${profile.id}-story-${level + 1}-west`,
-			targetRoomId: `${profile.id}-story-${level + 1}-east`,
-			y: floorY,
-			yaw: profile.yaw + yaw
-		}
+		doors: plan.doors,
+		roomCount: plan.roomIds.length,
+		roomIds: plan.roomIds
 	};
+}
+
+function longitudinalWall(profile, material, partition) {
+	const definitions = [];
+	const halfDepth = profile.layout.innerDepth / 2;
+	const openingWidth = profile.doorWidth + 0.18;
+	let cursor = -halfDepth;
+	for (let index = 0; index < partition.bayCenters.length; index += 1) {
+		const center = partition.bayCenters[index];
+		const openingStart = center - openingWidth / 2;
+		pushLongSegment(definitions, profile, material, partition, cursor, openingStart, index);
+		definitions.push(header(profile, material, partition, center, index));
+		cursor = center + openingWidth / 2;
+	}
+	pushLongSegment(definitions, profile, material, partition, cursor, halfDepth, 9);
+	return definitions;
+}
+
+function pushLongSegment(target, profile, material, partition, start, end, index) {
+	const length = end - start;
+	if (length <= 0.08) return;
+	target.push(houseBox(profile, material, `${partition.id}-segment-${index}`, partition.localX, partition.floorY + profile.storyHeight / 2, (start + end) / 2, {
+		x: length,
+		y: profile.storyHeight,
+		z: profile.wallThickness
+	}, { role: 'longitudinal-room-wall', yaw: Math.PI / 2 }));
+}
+
+function header(profile, material, partition, center, index) {
+	const height = profile.storyHeight - profile.doorHeight;
+	return houseBox(profile, material, `${partition.id}-header-${index}`, partition.localX, partition.floorY + profile.doorHeight + height / 2, center, {
+		x: profile.doorWidth + 0.18,
+		y: height,
+		z: profile.wallThickness
+	}, { role: 'room-door-header', yaw: Math.PI / 2 });
+}
+
+function transverseWall(profile, material, partition) {
+	return houseBox(profile, material, partition.id, partition.localX, partition.floorY + profile.storyHeight / 2, partition.localZ, {
+		x: profile.layout.wingWidth,
+		y: profile.storyHeight,
+		z: profile.wallThickness
+	}, { role: 'transverse-room-wall' });
 }

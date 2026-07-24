@@ -1,0 +1,10 @@
+{
+  "application": "scribe-journey",
+  "historicalFinalFactory": "createShemaStrikeApplication",
+  "legacyTypesClaimed": 0,
+  "ok": true,
+  "versions": [
+    1,
+    2
+  ]
+}

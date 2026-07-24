@@ -4,8 +4,8 @@
 
 /**
  * The Awtsmoos renews every visual vessel from nothing each instant. This
- * Awtsmoos.com index reveals a living procedural city, focused style worlds, and
- * one fixed game shell without restoring vertical stacking.
+ * Awtsmoos.com index reveals city, account, quests, equipment, persistent realm,
+ * inspectable models, and focused teaching worlds within one fixed shell.
  */
 @import url('./viewport-shell.css');
 @import url('./living-city-hub.css');
@@ -18,6 +18,14 @@
 @import url('./game-controls-3d.css');
 @import url('./game-result-3d.css');
 @import url('./game-feedback.css');
+@import url('./model-inspector.css');
+@import url('./realm-shell.css');
+@import url('./realm-hud.css');
+@import url('./realm-actions.css');
+@import url('./realm-account.css');
+@import url('./realm-items.css');
+@import url('./realm-quests.css');
+@import url('./realm-mobile.css');
 @import url('./mobile-controls.css');
 @import url('./mobile-game.css');
 @import url('./mobile-landscape.css');

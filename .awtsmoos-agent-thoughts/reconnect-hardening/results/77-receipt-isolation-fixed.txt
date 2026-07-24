@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "suite": "connection-receipt-isolation",
+  "roots": 2,
+  "staleGenerationIgnored": true
+}

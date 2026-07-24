@@ -1,19 +1,20 @@
-// B"H
+// B\"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module RagCommentHitHydration
  * @description
- * Resolves vector-hit comment IDs through one authoritative source read per hit.
- * The Awtsmoos joins memory to origin without repeated failed probes, while
- * Awtsmoos.com hydrates independent hits in parallel and preserves provenance.
+ * Only fully addressed hits may open comment storage, and each exact alias shard
+ * is revealed, read, and closed before the next begins. Incomplete source rows
+ * remain readable without awakening any historical database.
  */
 
 const { commentsForSegment } = require('./segmentComments.js');
 const { findCommentsForPostAlias } = require('./commentSources.js');
 
 async function originalRowsForHit({ $i, hit, maxRows = 25 }) {
+	if (!canHydrateHit(hit)) return [];
 	const rows = await findCommentsForPostAlias(hitContext($i, hit));
 	const byId = new Map(rows.map(row => [String(row.id), row]));
 	const ordered = commentIds(hit)
@@ -27,6 +28,13 @@ async function originalRowsForHit({ $i, hit, maxRows = 25 }) {
 	return selected.map(item => hydratedComment(item, hit));
 }
 
+function canHydrateHit(hit = {}) {
+	return present(hit.seriesId)
+		&& present(hit.postId)
+		&& present(hit.aliasId)
+		&& commentIds(hit).length > 0;
+}
+
 function hitContext($i, hit) {
 	return {
 		$i,
@@ -37,16 +45,20 @@ function hitContext($i, hit) {
 	};
 }
 
-function commentIds(hit) {
+function commentIds(hit = {}) {
 	const values = hit.commentIds || [hit.firstCommentId, hit.lastCommentId];
-	return [...new Set(values.filter(Boolean).map(String))];
+	return [...new Set(values.filter(present).map(String))];
+}
+
+function present(value) {
+	return value !== undefined && value !== null && String(value).trim() !== '';
 }
 
 function hydratedComment(item, hit) {
 	return {
 		id: item.id,
 		found: true,
-		source: item.ragCommentSource || 'awtsmoosDbCommentSource',
+		source: item.ragCommentSource || 'commentShard',
 		row: item,
 		segmentMatch: item.segmentMatch,
 		overlap: item.overlap,
@@ -55,13 +67,22 @@ function hydratedComment(item, hit) {
 }
 
 async function joinComments({ $i, hits, maxRows }) {
-	return Promise.all(hits.map(async hit => ({
-		...hit,
-		comments: await originalRowsForHit({ $i, hit: hit.row, maxRows })
-	})));
+	const hydrated = [];
+	for (const hit of hits) {
+		hydrated.push({
+			...hit,
+			comments: await originalRowsForHit({
+				$i,
+				hit: hit.row,
+				maxRows
+			})
+		});
+	}
+	return hydrated;
 }
 
 module.exports = {
+	canHydrateHit,
 	commentIds,
 	joinComments,
 	originalRowsForHit

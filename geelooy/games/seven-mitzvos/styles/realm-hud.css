@@ -1,0 +1,105 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Inventory, mastery, projects, emergency, and history remain readable without
+ * covering the world. The Awtsmoos holds all consequence at once; Awtsmoos.com
+ * projects only bounded summaries and actionable choices.
+ */
+.realmOverlay {
+	position: absolute;
+	z-index: 7;
+	top: 4.3rem;
+	left: max(0.65rem, env(safe-area-inset-left));
+	display: grid;
+	gap: 0.45rem;
+	width: min(25rem, calc(100% - 1.3rem));
+	max-height: calc(100% - 8.5rem);
+	pointer-events: none;
+}
+
+.realmOverlay > * {
+	pointer-events: auto;
+}
+
+.realmVitals,
+.realmEvent,
+.realmLedger,
+.realmMessage {
+	border: 1px solid rgba(128, 223, 255, 0.2);
+	border-radius: 0.85rem;
+	background: rgba(4, 14, 27, 0.86);
+	backdrop-filter: blur(13px);
+	box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.28);
+}
+
+.realmVitals {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem 0.8rem;
+	align-items: center;
+	padding: 0.48rem 0.65rem;
+	font-size: 0.7rem;
+}
+
+.realmVitals span {
+	color: #b8d9ea;
+}
+
+.realmEvent {
+	display: grid;
+	gap: 0.14rem;
+	padding: 0.55rem 0.7rem;
+}
+
+.realmEvent small,
+.realmLedger small {
+	color: #ffd166;
+	font-size: 0.55rem;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+}
+
+.realmEvent strong {
+	font-size: 0.83rem;
+}
+
+.realmEvent span,
+.realmLedger span,
+.realmLedger strong {
+	font-size: 0.64rem;
+	line-height: 1.25;
+}
+
+.realmLedger {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.4rem;
+	padding: 0.52rem;
+}
+
+.realmLedger > div {
+	display: grid;
+	gap: 0.16rem;
+	padding: 0.42rem;
+	border-radius: 0.58rem;
+	background: rgba(255, 255, 255, 0.04);
+}
+
+.realmMessage {
+	margin: 0;
+	padding: 0.55rem 0.7rem;
+	font-size: 0.7rem;
+	line-height: 1.3;
+}
+
+.realmMessage[data-tone="good"] {
+	border-color: rgba(66, 255, 193, 0.42);
+	color: #a7ffdc;
+}
+
+.realmMessage[data-tone="warn"] {
+	border-color: rgba(255, 185, 73, 0.46);
+	color: #ffd59a;
+}

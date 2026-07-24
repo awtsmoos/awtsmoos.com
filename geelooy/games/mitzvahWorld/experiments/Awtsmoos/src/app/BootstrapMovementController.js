@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapMovementController.js
- * @description Applies actor keys, camera touch, run, double jump, hills, and collision.
- * The Awtsmoos joins intention to real earth; Awtsmoos.com preserves historic keyboard law
- * while mobile forward follows sight and two bounded jumps return only after actual landing.
+ * @description Orchestrates actor keys, camera touch, movement mode, world step, and animation state.
+ * The Awtsmoos joins many finite intentions into one bounded journey; Awtsmoos.com keeps the
+ * controller small while a dedicated runtime vessel guards progressive boot and hydration.
  */
 
 import {
@@ -15,11 +15,15 @@ import {
 	meadowMovementStep,
 	meadowTravelFacing,
 	normalizedMeadowIntent
-} from './MinimalMeadowControlMath.js?v=20260724-meadow-13';
+} from './MinimalMeadowControlMath.js';
 import {
-	finishMinimalMeadowVertical,
-	prepareMinimalMeadowVertical
-} from './MinimalMeadowJumpState.js?v=20260724-meadow-13';
+	applyMovementCollision,
+	finishMovementVertical,
+	movementAxes,
+	movementModeFor,
+	prepareMovementVertical,
+	updateMovementCamera
+} from './MinimalMeadowMovementRuntime.js';
 
 const RUN_SPEED = 7.2;
 const TURN_SPEED = 2.35;
@@ -37,56 +41,54 @@ export class BootstrapMovementController {
 		const runtime = this.runtime;
 		const state = runtime.state;
 		const axis = runtime.input.axis();
-		const keyboard = normalizedMeadowIntent(axis);
-		const joystick = normalizedMeadowIntent({
-			forward: axis.joystickForward,
-			strafe: axis.joystickStrafe
-		});
+		const axes = movementAxes(axis);
+		const keyboard = normalizedMeadowIntent(axes.keyboard);
+		const joystick = normalizedMeadowIntent(axes.joystick);
+		const movementMode = movementModeFor(runtime);
 		const turnDelta = keyboard.turn * TURN_SPEED * deltaSeconds;
 		state.facing += turnDelta;
-		runtime.cameraRig.followTurn(turnDelta);
-		state.runMode = Boolean(runtime.runToggle || runtime.input.runRequested());
-		prepareMinimalMeadowVertical(runtime, state, deltaSeconds);
+		runtime.cameraRig?.followTurn?.(turnDelta);
+		state.runMode = movementMode.effectiveMode === 'run';
+		const richVertical = prepareMovementVertical(runtime, state, deltaSeconds);
 		const speed = state.runMode ? RUN_SPEED : WALK_SPEED;
-		const keyStep = meadowMovementStep(state.facing, keyboard, speed, deltaSeconds);
-		const touchStep = meadowCameraMovementStep(runtime.camera, joystick, speed, deltaSeconds, state.facing);
-		const step = combineMeadowSteps(keyStep, touchStep);
-		moveThroughCollision(runtime, state, step);
-		finishMinimalMeadowVertical(runtime, state);
+		const keyboardStep = meadowMovementStep(state.facing, keyboard, speed, deltaSeconds);
+		const touchStep = meadowCameraMovementStep(
+			runtime.camera,
+			joystick,
+			speed,
+			deltaSeconds,
+			state.facing
+		);
+		const step = combineMeadowSteps(keyboardStep, touchStep);
+		applyMovementCollision(runtime, state, step);
+		finishMovementVertical(runtime, state, richVertical);
 		state.moving = Math.hypot(step.x, step.z) > 0.0001;
 		state.travelFacing = meadowTravelFacing(step, state.facing);
 		state.action = actionFor(state);
 		runtime.model.position.set(state.x, state.renderY, state.z);
 		setYaw(runtime.model.quaternion, state.travelFacing);
-		runtime.cameraRig.update(runtime.camera, state, runtime.mainOctree, deltaSeconds);
-		runtime.multiplayerBridge?.update(deltaSeconds, state);
+		const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
+		runtime.multiplayerBridge?.update?.(deltaSeconds, state);
 		this.distance += Math.hypot(step.x, step.z);
 		this.frames += 1;
-		this.lastIntent = { axis, joystick, keyboard };
+		this.lastIntent = { axis, cameraMode, joystick, keyboard, movementMode };
 		return state;
 	}
 
 	snapshot() {
+		const mode = this.lastIntent.movementMode || {};
 		return {
+			cameraMode: this.lastIntent.cameraMode || 'bootstrap-rig',
 			distance: this.distance,
+			effectiveMode: mode.effectiveMode || 'walk',
 			frames: this.frames,
 			intent: this.lastIntent,
 			jumpsUsed: this.runtime.state.jumpsUsed,
 			position: positionReceipt(this.runtime.state),
-			runMode: this.runtime.state.runMode
+			runMode: this.runtime.state.runMode,
+			selectedMode: mode.selectedMode || 'walk'
 		};
 	}
-}
-
-function moveThroughCollision(runtime, state, step) {
-	const result = runtime.collisionMover.move(state, step, {
-		blockSteepFloors: false,
-		floorY: runtime.terrain.heightAt(state.x, state.z),
-		grounded: state.grounded,
-		maxStepHeight: 0.42,
-		maxSlopeNormal: 0.58
-	});
-	state.contacts = result.normals || [];
 }
 
 function actionFor(state) {

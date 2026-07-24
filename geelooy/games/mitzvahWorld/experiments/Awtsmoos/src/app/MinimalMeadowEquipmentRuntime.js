@@ -4,20 +4,15 @@
 
 /**
  * @file MinimalMeadowEquipmentRuntime.js
- * @description Synchronizes inventory garments and one procedural weapon with the visible Chossid.
- * The Awtsmoos renews wearer and garment in one present act; Awtsmoos.com lets equip, unequip,
- * draw, sheath, GLB rebinding, exact bones, and visible child meshes share one authoritative state.
+ * @description Synchronizes authoritative equipment with garments, weapons, hydration, and casting.
+ * The Awtsmoos renews wearer, staff, sword, hand, and back in one present relation;
+ * Awtsmoos.com preserves one weapon object and delegates cast timing to its focused vessel.
  */
 
-import {
-	applyMinimalGarmentVisibility,
-	resolveMinimalEquipmentNodes
-} from './MinimalMeadowEquipmentNodes.js?v=20260724-meadow-21';
-import {
-	attachMinimalWeapon,
-	detachMinimalWeapon
-} from './MinimalMeadowWeaponAttachment.js?v=20260724-meadow-21';
-import { createMinimalMeadowWeapon } from './MinimalMeadowWeaponFactory.js?v=20260724-meadow-21';
+import { MinimalMeadowEquipmentCasting } from './MinimalMeadowEquipmentCasting.js';
+import { applyMinimalGarmentVisibility, resolveMinimalEquipmentNodes } from './MinimalMeadowEquipmentNodes.js';
+import { attachMinimalWeapon, detachMinimalWeapon } from './MinimalMeadowWeaponAttachment.js';
+import { createMinimalMeadowWeapon } from './MinimalMeadowWeaponFactory.js';
 
 export class MinimalMeadowEquipmentRuntime {
 	constructor(runtime) {
@@ -30,11 +25,19 @@ export class MinimalMeadowEquipmentRuntime {
 		this.weapon = null;
 		this.weaponItemId = null;
 		this.garments = {};
-		this.unsubscribers = [
+		this.casting = new MinimalMeadowEquipmentCasting(this);
+		this.unsubscribers = this.installListeners();
+	}
+
+	installListeners() {
+		return [
 			this.inventory.onChange(() => this.synchronize()),
 			this.bus.on('equipment:draw', () => this.setDrawn(true)),
 			this.bus.on('equipment:sheath', () => this.setDrawn(false)),
-			this.bus.on('equipment:toggle-draw', () => this.setDrawn(!this.drawn))
+			this.bus.on('equipment:toggle-draw', () => this.setDrawn(!this.drawn)),
+			this.bus.on('combat:cast-start', () => this.casting.begin()),
+			this.bus.on('combat:cast-launch', () => this.casting.launch()),
+			this.bus.on('combat:cast-cancel', () => this.casting.cancel())
 		];
 	}
 
@@ -46,19 +49,22 @@ export class MinimalMeadowEquipmentRuntime {
 		this.synchronize();
 	}
 
-	setDrawn(drawn) {
+	setDrawn(drawn, force = false) {
+		if (this.casting.active && !force) return this.diagnostics();
 		this.drawn = Boolean(drawn);
 		this.synchronize();
+		return this.diagnostics();
 	}
 
 	synchronize() {
-		if (!this.nodes) return;
 		const state = this.inventory.snapshot();
-		this.garments = applyMinimalGarmentVisibility(this.nodes, state.equipment);
-		const itemId = weaponItemId(state.equipment.hand);
+		const itemId = equippedWeaponItemId(state.equipment.hand);
 		if (itemId !== this.weaponItemId) this.replaceWeapon(itemId);
-		if (this.weapon) attachMinimalWeapon(this.weapon, this.nodes, this.drawn);
-		this.bus.emit('equipment:state', this.diagnostics());
+		if (this.nodes) {
+			this.garments = applyMinimalGarmentVisibility(this.nodes, state.equipment);
+			if (this.weapon) attachMinimalWeapon(this.weapon, this.nodes, this.drawn);
+		}
+		this.emitState();
 	}
 
 	replaceWeapon(itemId) {
@@ -67,11 +73,16 @@ export class MinimalMeadowEquipmentRuntime {
 		this.weaponItemId = itemId;
 	}
 
+	emitState() {
+		this.bus.emit('equipment:state', this.diagnostics());
+	}
+
 	diagnostics() {
 		return {
+			casting: this.casting.active,
 			drawn: this.drawn,
 			garments: { ...this.garments },
-			handBone: this.nodes?.rightHand?.name || null,
+			handBone: this.nodes?.rightHand?.name || this.nodes?.leftHand?.name || null,
 			model: this.model?.name || null,
 			spineBone: this.nodes?.spine?.name || null,
 			weaponAttachment: this.weapon?.userData?.attachment || 'none',
@@ -80,11 +91,12 @@ export class MinimalMeadowEquipmentRuntime {
 	}
 
 	destroy() {
+		this.casting.destroy();
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		detachMinimalWeapon(this.weapon);
 	}
 }
 
-function weaponItemId(itemId) {
+function equippedWeaponItemId(itemId) {
 	return ['wooden-staff', 'spark-blade'].includes(itemId) ? itemId : null;
 }

@@ -4,54 +4,80 @@
 
 /**
  * @file MinimalMeadowReadiness.js
- * @description Waits for renderer and canonical Chossid, then verifies the complete living meadow.
- * The Awtsmoos gathers garment, river, lake, tree, flower, home, quest, and creature each instant;
- * Awtsmoos.com reveals play only after the rendered world and every requested contract agree.
+ * @description Reveals the rendered core immediately and observes richer readiness without blocking.
+ * The Awtsmoos grants play before every garment has descended;
+ * Awtsmoos.com records renderer, action bar, combat, GLB, and rich-world states as they arrive.
  */
 
-import { installMinimalMeadowAnimation } from '../app/MinimalMeadowAnimationState.js?v=20260724-meadow-13';
-import { startMinimalMeadowLoop } from '../app/MinimalMeadowLoop.js?v=20260724-meadow-21';
-import {
-	publishMinimalMeadowWorldReceipt,
-	verifyMinimalMeadowWorld
-} from './MinimalMeadowWorldReceipt.js?v=20260724-meadow-21';
-
-export async function awaitMinimalMeadowReadiness(diagnostics, loading, documentValue, environment = globalThis) {
+/**
+ * Marks the core playable and starts nonfatal renderer/feature observations.
+ * @param {object} diagnostics Runtime diagnostics returned by the core factory.
+ * @param {object} loading Loading-screen presenter.
+ * @param {Document} documentValue Active document.
+ * @param {Window|object} environment Browser-like environment.
+ * @returns {Promise<object>} Core diagnostics without waiting for optional features.
+ */
+export async function awaitMinimalMeadowReadiness(
+	diagnostics,
+	loading,
+	documentValue,
+	environment = globalThis
+) {
 	const runtime = diagnostics.runtime;
-	loading.world({ message: 'Activating equipment, water, trees, flowers, homes, and shlichus…', progress: 0.82 });
-	const rendererReady = runtime.renderer.hydrate
-		? runtime.renderer.hydrate({ environment })
-		: Promise.resolve(null);
-	await Promise.all([rendererReady, Promise.resolve(diagnostics.canonicalPlayerPromise)]);
-	installMinimalMeadowAnimation(runtime);
-	restartLoop(runtime, diagnostics, environment);
-	renderVerifiedFrame(runtime);
-	const receipt = verifyMinimalMeadowWorld(runtime);
-	publishMinimalMeadowWorldReceipt(documentValue, receipt);
-	loading.world({ message: 'Garments, river, lake, forest, flowers, houses, and quest ready.', progress: 1 });
+	renderCoreFrame(runtime);
+	documentValue.documentElement.dataset.awtsmoosReadiness = 'core-playable';
+	loading.world({
+		message: 'Playable core ready; Chossid, action bar, demons, and valley are arriving…',
+		progress: 1
+	});
+	diagnostics.rendererPromise = hydrateRenderer(runtime, documentValue, environment);
+	observeFeatures(diagnostics, documentValue);
 	return diagnostics;
 }
 
-function restartLoop(runtime, diagnostics, environment) {
-	if (!runtime.movement) return;
-	runtime.movement.stop?.();
-	runtime.movement = startMinimalMeadowLoop(runtime, environment);
-	diagnostics.movement = runtime.movement;
+function hydrateRenderer(runtime, documentValue, environment) {
+	if (typeof runtime.renderer.hydrate !== 'function') {
+		documentValue.documentElement.dataset.awtsmoosRenderer = 'bootstrap';
+		return Promise.resolve(null);
+	}
+	return runtime.renderer.hydrate({ environment })
+		.then(delegate => {
+			documentValue.documentElement.dataset.awtsmoosRenderer = delegate
+				? 'rich-ready'
+				: 'bootstrap';
+			renderCoreFrame(runtime);
+			return delegate;
+		})
+		.catch(error => {
+			runtime.rendererHydrationError = error?.message || String(error);
+			documentValue.documentElement.dataset.awtsmoosRenderer = 'bootstrap-degraded';
+			environment.console?.warn?.(
+				'[MitzvahWorld] rich renderer unavailable; bootstrap remains active.',
+				error
+			);
+			return null;
+		});
 }
 
-function renderVerifiedFrame(runtime) {
-	runtime.player?.update?.(0);
-	runtime.model?.updateWorldMatrix?.();
-	runtime.sky?.update?.();
-	runtime.water?.update?.(0.016);
-	runtime.trees?.update?.(0.016);
-	runtime.vegetation?.update?.(0.016);
-	runtime.houses?.update?.(0.016);
-	runtime.enemies?.update?.(0.016);
+function observeFeatures(diagnostics, documentValue) {
+	documentValue.documentElement.dataset.awtsmoosFeatures = 'loading';
+	Promise.resolve(diagnostics.featuresPromise)
+		.then(receipt => {
+			documentValue.documentElement.dataset.awtsmoosFeatures = receipt?.ready
+				? 'combat-ready'
+				: 'degraded';
+		})
+		.catch(() => {
+			documentValue.documentElement.dataset.awtsmoosFeatures = 'failed-core-playable';
+		});
+}
+
+function renderCoreFrame(runtime) {
 	runtime.cameraRig.update(runtime.camera, runtime.state, runtime.mainOctree, 1);
 	runtime.renderer.setInteractor?.(runtime.state);
 	runtime.renderer.render(runtime.scene, runtime.camera);
-	if (!runtime.renderer.delegate) throw new Error('Rich meadow renderer did not become active.');
+	runtime.ui?.refresh?.();
+	runtime.bootstrapHud?.refresh?.();
 }
 
 export default awaitMinimalMeadowReadiness;

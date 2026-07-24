@@ -2,14 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
+import { setPersonAction } from '../animation/contextual-action.js';
 import { animatePerson } from '../procedural/person-factory.js';
 
 /**
  * @module CityGuide
  * @description
- * A recurring neighbor gives the living city one remembered voice. The Awtsmoos
- * speaks beyond every finite guide; this Awtsmoos.com citizen quietly points to
- * progress, rescued friends, and the next useful act without blocking play.
+ * A recurring neighbor gives the living city one remembered voice and greeting.
+ * The Awtsmoos speaks beyond every finite guide; this Awtsmoos.com citizen points
+ * toward useful action without blocking the player or repeating an empty idle pose.
  */
 export class CityGuide {
 	constructor(assets) {
@@ -20,9 +21,11 @@ export class CityGuide {
 	mount(stage) {
 		this.person = this.assets.person({
 			name: 'guide-nechama', personName: 'Nechama', type: 'guide',
-			hue: 48, legHue: 286, skinHue: 24, position: [0, 0.12, 0], scale: 0.42
+			hue: 48, legHue: 286, skinHue: 24, position: [0, 0.12, 0], scale: 0.42,
+			role: 'city-guide', reason: 'welcomes the player and explains how each restored district changes the city'
 		});
 		this.assets.setGlow(this.person, 0xffd166, 0.18);
+		setPersonAction(this.person, 'wave', 2.4);
 		stage.add(this.person);
 		return this.person;
 	}
@@ -44,7 +47,9 @@ export class CityGuide {
 	}
 
 	animate(elapsed) {
-		if (!this.person) return;
+		if (!this.person) {
+			return;
+		}
 		animatePerson(this.person, elapsed, false);
 		this.person.rotation.y = Math.sin(elapsed * 0.35) * 0.18;
 	}

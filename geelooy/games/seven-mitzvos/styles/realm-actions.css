@@ -1,0 +1,63 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Context actions and chronicle remain compact, reachable, and distinct from
+ * movement. The Awtsmoos surrounds every choice and memory; Awtsmoos.com gives
+ * finite buttons large targets while confining optional history to its own scroll.
+ */
+.realmActions,
+.realmChronicle {
+	border: 1px solid rgba(128, 223, 255, 0.2);
+	border-radius: 0.85rem;
+	background: rgba(4, 14, 27, 0.86);
+	backdrop-filter: blur(13px);
+	box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.28);
+}
+
+.realmActions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.35rem;
+	padding: 0.45rem;
+}
+
+.realmActions button,
+.realmMovement button {
+	min-height: 2.5rem;
+	border: 1px solid rgba(128, 223, 255, 0.3);
+	border-radius: 0.65rem;
+	color: #eaf8ff;
+	background: rgba(15, 49, 65, 0.9);
+	font-size: 0.68rem;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.realmActions button:hover,
+.realmActions button:focus-visible,
+.realmMovement button:focus-visible {
+	border-color: rgba(255, 209, 102, 0.65);
+	background: rgba(25, 73, 88, 0.96);
+}
+
+.realmChronicle {
+	padding: 0.42rem 0.65rem;
+	font-size: 0.65rem;
+}
+
+.realmChronicle summary {
+	cursor: pointer;
+	font-weight: 850;
+}
+
+.realmChronicle div {
+	max-height: 7rem;
+	overflow: auto;
+}
+
+.realmChronicle p {
+	margin: 0.35rem 0;
+	color: #c8dce8;
+}

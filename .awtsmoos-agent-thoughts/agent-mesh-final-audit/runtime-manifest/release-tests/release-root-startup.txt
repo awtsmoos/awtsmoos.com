@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "suite": "release-bundle-project-root-startup",
+  "version": "1.0.384",
+  "files": 1808,
+  "releaseZipBooted": true,
+  "registered": true,
+  "projectRootReady": true,
+  "compositionDependencyPackaged": true
+}

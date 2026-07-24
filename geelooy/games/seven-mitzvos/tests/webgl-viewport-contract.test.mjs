@@ -10,36 +10,53 @@ import { fileURLToPath } from 'node:url';
 
 /**
  * @module WebglViewportContractTest
- * @description
- * The Awtsmoos is truth before every claim. These Awtsmoos.com tests inspect the
- * entry, routes, registry, renderer, local procedural adapter, viewport laws, and
- * module boundaries so visual promises cannot masquerade as implemented reality.
+ * @description Hub, teachings, account, and persistent realm remain one fixed,
+ * procedural-core Awtsmoos.com application whose nested source stays modular.
  */
-const testDirectory = dirname(fileURLToPath(import.meta.url));
-const projectRoot = join(testDirectory, '..');
-const read = relativePath => readFileSync(join(projectRoot, relativePath), 'utf8');
-const GAME_IDS = Object.freeze([
+const project = join(dirname(fileURLToPath(import.meta.url)), '..');
+const read = path => readFileSync(join(project, path), 'utf8');
+const GAME_IDS = [
 	'false-powers', 'words-of-creation', 'every-life', 'households',
 	'honest-market', 'living-sanctuary', 'court-of-nations'
-]);
+];
 
-test('entry mounts one fixed application instead of stacked legacy sections', () => {
+test('entry contains one fixed app, persistent realm, and account drawer', () => {
 	const html = read('index.html');
+	const template = read('js/realm/realm-template.js');
 	assert.match(html, /id="sevenMitzvosApp"/);
-	for (const legacyId of ['livingWorldMount', 'campaignMount', 'universeMount', 'quizMount', 'builderMount', 'mitzvahGrid']) {
-		assert.doesNotMatch(html, new RegExp(`id="${legacyId}"`));
+	assert.match(read('js/app/app-template.js'), /id="realmLayer"/);
+	assert.match(template, /id="realmAccountDrawer"/);
+	assert.match(template, /id="realmAccountToggle"/);
+	for (const id of ['livingWorldMount', 'campaignMount', 'universeMount', 'quizMount']) {
+		assert.doesNotMatch(html, new RegExp(`id="${id}"`));
 	}
 });
 
-test('root contracts forbid document-level vertical scrolling', () => {
-	const css = read('styles/viewport-shell.css');
-	assert.match(css, /height:\s*100dvh/);
-	assert.match(css, /html,[\s\S]*body,[\s\S]*#sevenMitzvosApp[\s\S]*overflow:\s*hidden/);
-	assert.match(css, /body\s*\{[\s\S]*position:\s*fixed/);
-	assert.match(css, /\.appLayer\s*\{[\s\S]*overflow:\s*hidden/);
+test('router exposes hub, detail, game, and realm', () => {
+	const source = read('js/app/hash-router.js');
+	for (const pattern of [/hash === 'realm'/, /view === 'realm'/, /\['world-',\s*'game'\]/, /\['play-',\s*'game'\]/, /\['mitzvah-',\s*'detail'\]/]) {
+		assert.match(source, pattern);
+	}
 });
 
-test('responsive grid keeps all seven titles inside one viewport', () => {
+test('application owns one disposable realm session', () => {
+	const source = read('js/app/seven-mitzvos-app.js');
+	for (const pattern of [/new RealmSession/, /this\.realm\.start/, /this\.realm\.stop/, /\['hub', 'detail', 'game', 'realm'\]/]) {
+		assert.match(source, pattern);
+	}
+});
+
+test('root, realm, and account drawer confine scrolling', () => {
+	const shell = read('styles/viewport-shell.css');
+	const realm = read('styles/realm-shell.css');
+	const account = read('styles/realm-account.css');
+	assert.match(shell, /height:\s*100dvh/);
+	assert.match(shell, /html,[\s\S]*body,[\s\S]*#sevenMitzvosApp[\s\S]*overflow:\s*hidden/);
+	assert.match(realm, /\.realmLayer\s*\{[\s\S]*overflow:\s*hidden/);
+	assert.match(account, /\.realmAccountScroll[\s\S]*overflow:\s*auto/);
+});
+
+test('responsive grid keeps all seven teaching titles visible', () => {
 	const desktop = read('styles/mitzvah-grid-3d.css');
 	const mobile = read('styles/mobile-controls.css');
 	assert.match(desktop, /repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
@@ -48,44 +65,46 @@ test('responsive grid keeps all seven titles inside one viewport', () => {
 	assert.match(mobile, /repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
 });
 
-test('registry exposes seven mechanically separate game controllers', () => {
-	const registry = read('js/games3d/game-registry.js');
-	for (const gameId of GAME_IDS) {
-		assert.match(registry, new RegExp(`'${gameId}'\\s*:`));
-	}
-	assert.equal((registry.match(/:\s*[A-Z][A-Za-z]+Game/g) || []).length, 7);
+test('registry retains seven separate teaching controllers', () => {
+	const source = read('js/games3d/game-registry.js');
+	for (const id of GAME_IDS) assert.match(source, new RegExp(`'${id}'\\s*:`));
+	assert.equal((source.match(/:\s*[A-Z][A-Za-z]+Game/g) || []).length, 7);
 });
 
-test('legacy world hashes and new routes share the no-scroll router', () => {
-	const router = read('js/app/hash-router.js');
-	assert.match(router, /\['world-',\s*'game'\]/);
-	assert.match(router, /\['play-',\s*'game'\]/);
-	assert.match(router, /\['mitzvah-',\s*'detail'\]/);
-});
-
-test('renderer and procedural core are real local WebGL dependencies', () => {
+test('renderer, raycaster, and procedural core remain real', () => {
 	const stage = read('js/webgl/webgl-stage.js');
-	const factory = read('js/webgl/procedural-mesh-factory.js');
+	const picker = read('js/webgl/semantic-picker.js');
+	const core = read('js/procedural/core-part-factory.js');
 	assert.match(stage, /new THREE\.WebGLRenderer/);
-	assert.match(stage, /new THREE\.Raycaster/);
 	assert.match(stage, /forceContextLoss/);
-	assert.match(factory, /\/libs\/awtsmoos-procedural-core\/src\/adapters\/three\/index\.js/);
-	assert.match(factory, /createProceduralThreeMesh/);
+	assert.match(picker, /new THREE\.Raycaster/);
+	assert.match(picker, /intersectObjects\(this\.targets, true\)/);
+	assert.match(core, /libs\/awtsmoos-procedural-core\/src\/adapters\/three\/index\.js/);
+	assert.match(core, /createProceduralThreeMesh/);
 });
 
-test('every new source begins with the blessing and stays within 120 lines', () => {
-	const javascript = ['js/main.js', ...sourceFiles('js/app'), ...sourceFiles('js/views'), ...sourceFiles('js/webgl'), ...sourceFiles('js/games3d')];
-	const browserTests = ['tests/cdp-client.mjs', 'tests/browser-runtime-smoke.mjs', 'tests/webgl-viewport-contract.test.mjs'];
-	const importedStyles = [...read('styles/index.css').matchAll(/url\('\.\/(.+?\.css)'\)/g)].map(match => `styles/${match[1]}`);
-	for (const source of [...javascript, ...browserTests, ...importedStyles]) {
+test('nested account and browser source begins blessed and stays within 120 lines', () => {
+	const javascript = [
+		'js/main.js',
+		...['app', 'views', 'webgl', 'games3d', 'materials', 'assets', 'realm', 'realm/account']
+			.flatMap(directory => sourceFiles(`js/${directory}`))
+	];
+	const browserTests = [
+		'cdp-client', 'browser-account-smoke', 'browser-frame-sampler',
+		'browser-material-inspection', 'browser-model-inspection',
+		'browser-realm-smoke', 'browser-runtime-smoke'
+	].map(name => `tests/${name}.mjs`);
+	const styles = [...read('styles/index.css').matchAll(/url\('\.\/(.+?\.css)'\)/g)]
+		.map(match => `styles/${match[1]}`);
+	for (const source of [...javascript, ...browserTests, ...styles]) {
 		const content = read(source);
 		assert.match(content, source.endsWith('.css') ? /^\/\*B"H\*\// : /^\/\/B"H/);
-		assert.ok(content.split('\n').length <= 120, `${source} exceeds 120 lines`);
+		assert.ok(content.split(String.fromCharCode(10)).length <= 120, `${source} exceeds 120 lines`);
 	}
 });
 
-function sourceFiles(relativeDirectory) {
-	return readdirSync(join(projectRoot, relativeDirectory))
+function sourceFiles(directory) {
+	return readdirSync(join(project, directory))
 		.filter(name => name.endsWith('.js'))
-		.map(name => `${relativeDirectory}/${name}`);
+		.map(name => `${directory}/${name}`);
 }

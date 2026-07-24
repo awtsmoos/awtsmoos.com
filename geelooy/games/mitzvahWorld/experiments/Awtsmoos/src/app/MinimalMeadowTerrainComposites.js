@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTerrainComposites.js
- * @description Creates five ecological overlays, one meadow base, and one mixed road center.
- * The Awtsmoos joins eight grasses, marsh, soil, and road without erasing distinction;
- * Awtsmoos.com uses CPU mosaics so mobile WebGL receives visual abundance through bounded samplers.
+ * @description Creates ecological grass, dry, soil, mud, shoulder, and true cobblestone sources.
+ * The Awtsmoos joins many earthly garments without rectangular dominion; Awtsmoos.com reserves
+ * real stone for the road center while feathered dirt and grass remain independently blendable.
  */
 
 import { createMeadowTextureComposite } from './MinimalMeadowTextureComposite.js?v=20260724-meadow-13';
@@ -14,7 +14,7 @@ import { createMeadowTextureComposite } from './MinimalMeadowTextureComposite.js
 export function createMinimalMeadowTerrainComposites(images, documentValue = globalThis.document) {
 	const composite = (name, roles) => createMeadowTextureComposite(
 		name,
-		roles.map(role => images[role]),
+		roles.map(role => images[role]).filter(Boolean),
 		documentValue
 	);
 	return {
@@ -25,8 +25,9 @@ export function createMinimalMeadowTerrainComposites(images, documentValue = glo
 			'grassFive', 'marshGrass', 'dirtGrassOne', 'dirtGrassThree'
 		]),
 		marsh: composite('marsh-meadow', ['marshGrass', 'grassOne', 'grassFour', 'soilDark']),
-		path: composite('road-center-dirt-grass', ['pathCenter', 'soilLight', 'dirtGrassThree']),
-		pathEdge: composite('road-edge-grass-dirt', ['dirtGrassThree', 'dirtGrassOne', 'grassFive']),
+		mud: composite('wet-mud-soil', ['soilDark', 'tilledSoil', 'marshGrass']),
+		path: images.cobblestone || images.pathCenter,
+		pathEdge: composite('road-dirt-shoulder', ['dirtGrassThree', 'soilLight', 'dirtGrassOne']),
 		soil: composite('main-soil-breakup', ['soilDark', 'soilLight', 'tilledSoil', 'dirtGrassOne'])
 	};
 }

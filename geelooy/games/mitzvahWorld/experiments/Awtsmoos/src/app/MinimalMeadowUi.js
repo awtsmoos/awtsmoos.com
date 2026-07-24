@@ -11,16 +11,16 @@
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
-import { InventoryPanel } from '../ui/InventoryPanel.js?v=20260724-meadow-21';
-import { MinimalMeadowCombatBar } from '../ui/MinimalMeadowCombatBar.js?v=20260723-meadow-11';
-import { MinimalMeadowCombatGlyphs } from '../ui/MinimalMeadowCombatGlyphs.js?v=20260724-meadow-13';
-import { MinimalMeadowGameRail } from '../ui/MinimalMeadowGameRail.js?v=20260723-meadow-10';
-import { MinimalMeadowHouseNotice } from '../ui/MinimalMeadowHouseNotice.js?v=20260724-meadow-21';
-import { MinimalMeadowMenu } from '../ui/MinimalMeadowMenu.js?v=20260723-meadow-09';
-import { MinimalMeadowRetractable } from '../ui/MinimalMeadowRetractable.js?v=20260723-meadow-10';
-import { MinimalMeadowTargetFrame } from '../ui/MinimalMeadowTargetFrame.js?v=20260723-meadow-11';
+import { InventoryPanel } from '../ui/InventoryPanel.js';
+import { MinimalMeadowCombatBar } from '../ui/MinimalMeadowCombatBar.js';
+import { MinimalMeadowCombatGlyphs } from '../ui/MinimalMeadowCombatGlyphs.js';
+import { MinimalMeadowGameRail } from '../ui/MinimalMeadowGameRail.js';
+import { MinimalMeadowHouseNotice } from '../ui/MinimalMeadowHouseNotice.js';
+import { MinimalMeadowMenu } from '../ui/MinimalMeadowMenu.js';
+import { MinimalMeadowRetractable } from '../ui/MinimalMeadowRetractable.js';
+import { MinimalMeadowTargetFrame } from '../ui/MinimalMeadowTargetFrame.js';
 import { NpcHud } from '../ui/NpcHud.js';
-import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js?v=20260724-meadow-21';
+import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js';
 
 export function installMinimalMeadowUi(runtime, documentValue, environment = globalThis) {
 	const hosts = runtime.hosts;
@@ -30,7 +30,9 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 	const equipment = new MinimalMeadowEquipmentRuntime(runtime);
 	runtime.equipment = equipment;
 	equipment.bindModel(runtime.model);
-	const inventoryPanel = new InventoryPanel(hosts.inventoryHost, bus, { store: inventory });
+	const inventoryPanel = new InventoryPanel(hosts.inventoryHost, bus, {
+		store: inventory
+	});
 	const npcHud = new NpcHud(hosts.npcHost, hosts.dialogueHost, bus);
 	const combatBar = new MinimalMeadowCombatBar(hosts.actionHost, bus, environment);
 	const gameRail = new MinimalMeadowGameRail(hosts.gameRailHost, bus);
@@ -52,10 +54,32 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 		menu.refresh();
 	};
 	runtime.ui = {
-		diagnostics: () => diagnostics(runtime, combatBar, gameRail, targetFrame, inventory, npcHud),
+		diagnostics() {
+			return diagnostics(
+				runtime,
+				combatBar,
+				gameRail,
+				targetFrame,
+				inventory,
+				npcHud
+			);
+		},
 		dispose() {
-			for (const unsubscribe of unsubscribers) unsubscribe();
-			for (const item of [combatBar, gameRail, targetFrame, glyphs, notice, menu, playerRetract, mobileRetract]) item.destroy();
+			for (const unsubscribe of unsubscribers) {
+				unsubscribe();
+			}
+			for (const item of [
+				combatBar,
+				gameRail,
+				targetFrame,
+				glyphs,
+				notice,
+				menu,
+				playerRetract,
+				mobileRetract
+			]) {
+				item.destroy();
+			}
 			equipment.destroy();
 			inventoryPanel.destroy();
 			npcHud.destroy();
@@ -68,6 +92,14 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 }
 
 function installUiEvents(runtime, bus, mobileRetract, playerRetract) {
+	const refreshEvents = [
+		'player:xp',
+		'profile:state',
+		'enemy:attack',
+		'enemy:looted',
+		'quest:completed',
+		'combat:impact'
+	];
 	return [
 		bus.on('mode:toggle', () => {
 			runtime.runToggle = !runtime.runToggle;
@@ -75,8 +107,9 @@ function installUiEvents(runtime, bus, mobileRetract, playerRetract) {
 		}),
 		bus.on('controls:toggle', () => mobileRetract.toggle()),
 		bus.on('hud:toggle', () => playerRetract.toggle()),
-		...['player:xp', 'profile:state', 'enemy:attack', 'enemy:looted', 'quest:completed']
-			.map(name => bus.on(name, () => runtime.ui?.refresh?.()))
+		...refreshEvents.map(name => {
+			return bus.on(name, () => runtime.ui?.refresh?.());
+		})
 	];
 }
 

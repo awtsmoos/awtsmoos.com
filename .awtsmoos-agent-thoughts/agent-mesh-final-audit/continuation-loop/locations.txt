@@ -1,0 +1,2 @@
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/pagedSearch.js:76:  const autoContinue = truthy(payload.autoContinue) || truthy(payload.continueUntilFound) || truthy(payload.fullScan);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/lib/runtime/priority/searchLane.js:30:		truthy(payload.continueUntilFound)) {

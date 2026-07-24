@@ -5,9 +5,9 @@
 /**
  * @module AppTemplate
  * @description
- * One fixed viewport now contains a living procedural city, seven clear doors,
- * one guide, and one game vessel. The Awtsmoos creates every layer together while
- * Awtsmoos.com reveals progress without adding a hidden document beneath it.
+ * One fixed viewport now contains seven teaching doors and one persistent covenant
+ * realm. The Awtsmoos creates every layer together while Awtsmoos.com reveals hub,
+ * detail, game, and living world without stacking a hidden document beneath them.
  */
 export function appTemplate() {
 	return `
@@ -24,7 +24,7 @@ export function appTemplate() {
 					<div class="hubInterface">
 						<header class="hubHeader">
 							<p>THE CITY CHANGES WHEN YOU HELP IT</p>
-							<h1>Choose one of seven living districts</h1>
+							<h1>Choose a teaching or enter the persistent realm</h1>
 						</header>
 						<div class="cityHud">
 							<p class="guideCard"><strong>Nechama</strong><span id="guideMessage"></span></p>
@@ -38,6 +38,11 @@ export function appTemplate() {
 								<strong id="cityLight">0 city light</strong>
 							</label>
 						</div>
+						<button id="enterRealm" class="realmPortalButton" type="button">
+							<span>ENTER THE PERSISTENT WORLD</span>
+							<strong>Covenant Realm</strong>
+							<small>Walk · gather · craft · trade · restore · remember</small>
+						</button>
 						<div id="mitzvahGrid" class="mitzvahGrid3d"></div>
 					</div>
 				</section>
@@ -62,6 +67,7 @@ export function appTemplate() {
 					<div id="gameControls" class="gameControls"></div>
 					<section id="gameResult" class="gameResult" hidden></section>
 				</section>
+				<section id="realmLayer" class="appLayer realmLayer" hidden></section>
 			</main>
 		</div>`;
 }

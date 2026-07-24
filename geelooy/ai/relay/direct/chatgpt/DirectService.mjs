@@ -4,13 +4,16 @@
 
 import { DebugPortResolver } from "../browser/DebugPortResolver.mjs";
 import { RequestPacer } from "../stress/RequestPacer.mjs";
+import { ConversationModePolicy } from "./ConversationModePolicy.mjs";
 import { ConversationStore } from "./ConversationStore.mjs";
 import { DirectClient } from "./DirectClient.mjs";
+import { FallbackConversationService } from "./FallbackConversationService.mjs";
+import { RequestOnlyCapabilityService } from "./RequestOnlyCapabilityService.mjs";
 
 /**
- * The relay crowns transient ChatGPT state with an opaque local key. The
- * Awtsmoos joins each continuation, while Awtsmoos.com exposes only answer text,
- * pacing, status, counts, and continuity truth—not upstream identifiers.
+ * The Awtsmoos separates strict request light from the named carrier fallback.
+ * Awtsmoos.com defaults raw relay calls to strict mode and permits only bounded
+ * model controls plus one validated conversation mode to cross into Chrome.
  */
 export class DirectService {
 	constructor({
@@ -19,57 +22,66 @@ export class DirectService {
 		store,
 		pacer,
 		portResolver,
-		clientFactory
+		clientFactory,
+		capabilityService,
+		fallbackService
 	} = {}) {
 		this.preferredPort = preferredPort;
 		this.store = store ?? new ConversationStore();
 		this.pacer = pacer ?? new RequestPacer({ minimumIntervalMs });
 		this.portResolver = portResolver ?? new DebugPortResolver({ preferredPort });
-		this.clientFactory = clientFactory ?? (port => new DirectClient({
+		this.conversationModePolicy = new ConversationModePolicy();
+		const makeClient = clientFactory ?? (port => new DirectClient({
 			port,
 			minimumIntervalHook: () => this.pacer.enter()
 		}));
-		this.lastResolvedPort = null;
+		this.capabilityService = capabilityService ?? new RequestOnlyCapabilityService({
+			preferredPort,
+			portResolver: this.portResolver
+		});
+		this.fallbackService = fallbackService ?? new FallbackConversationService({
+			store: this.store,
+			portResolver: this.portResolver,
+			clientFactory: makeClient
+		});
 	}
 
-	async send({ prompt, conversationKey } = {}) {
-		if (typeof prompt !== "string" || prompt.trim() === "") {
-			throw new TypeError("prompt must be a non-empty string.");
+	async send({
+		prompt,
+		conversationKey,
+		mode = "strict-request-only",
+		model = null,
+		thinkingEffort = null,
+		conversationMode = null
+	} = {}) {
+		this.validatePrompt(prompt);
+		const normalizedConversationMode = this.conversationModePolicy.normalize(
+			conversationMode
+		);
+		if (mode === "strict-request-only") throw await this.enforcementError();
+		if (mode !== "page-authorized-fallback") {
+			throw new TypeError(`Unsupported direct mode: ${mode}.`);
 		}
-		const previousState = conversationKey ? this.store.get(conversationKey) : null;
-		if (conversationKey && !previousState) {
-			throw new Error("The local direct conversation key expired or was not found.");
-		}
+		return this.fallbackService.send({
+			prompt,
+			conversationKey,
+			model,
+			thinkingEffort,
+			conversationMode: normalizedConversationMode
+		});
+	}
 
-		const port = await this.portResolver.resolve();
-		this.lastResolvedPort = port;
-		const result = await this.clientFactory(port).send({ prompt, state: previousState });
-		const sameConversation = previousState
-			? result.state.conversationId === previousState.conversationId
-			: true;
-		if (!sameConversation) {
-			throw new Error("ChatGPT continuation returned a different conversation.");
-		}
-		if (result.navigatedToConversation) {
-			throw new Error("The controller navigated to the direct conversation unexpectedly.");
-		}
+	async enforcementError() {
+		const error = new Error(
+			"Strict request-only chat stopped before normal enforcement finalization."
+		);
+		error.code = "direct_enforcement_required";
+		error.capability = await this.capability();
+		return error;
+	}
 
-		const localKey = this.store.set(conversationKey, result.state);
-		return {
-			ok: true,
-			answer: result.answer,
-			conversationKey: localKey,
-			created: !conversationKey,
-			status: result.status,
-			done: result.done,
-			frames: result.frames,
-			items: result.items,
-			subscriptionAttempts: result.subscriptionAttempts,
-			requestLatencyMs: result.requestLatencyMs,
-			pacing: result.pacing,
-			sameConversation,
-			navigatedToConversation: false
-		};
+	async capability() {
+		return this.capabilityService.inspect();
 	}
 
 	reset(conversationKey) {
@@ -82,11 +94,19 @@ export class DirectService {
 		return {
 			ok: true,
 			mode: "authenticated-direct-topic",
+			defaultChatMode: "strict-request-only",
+			fallbackMode: "page-authorized-fallback",
 			preferredDebugPort: this.preferredPort,
-			lastResolvedPort: this.lastResolvedPort,
 			minimumIntervalMs: this.pacer.minimumIntervalMs,
+			...this.fallbackService.status(),
 			...this.store.status()
 		};
+	}
+
+	validatePrompt(prompt) {
+		if (typeof prompt !== "string" || prompt.trim() === "") {
+			throw new TypeError("prompt must be a non-empty string.");
+		}
 	}
 }
 

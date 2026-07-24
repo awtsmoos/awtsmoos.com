@@ -1,0 +1,22 @@
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js:13:	authorizeMissionRoomUpgrade,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js:32:function handleSocketUpgrade(server, request, socket, head) {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js:34:	const decision = authorizeMissionRoomUpgrade(request, identity);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js:67:	handleSocketUpgrade,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:8:	authorizeMissionRoomUpgrade,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:32:const acceptedDecision = authorizeMissionRoomUpgrade(acceptedRequest);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:40:const replayDecision = authorizeMissionRoomUpgrade(acceptedRequest);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:46:const foreignDecision = authorizeMissionRoomUpgrade(
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:59:const versionDecision = authorizeMissionRoomUpgrade(wrongVersionRequest);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:66:const originDecision = authorizeMissionRoomUpgrade(missingOriginRequest);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs:73:const keyDecision = authorizeMissionRoomUpgrade(missingKeyRequest);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs:33:		const { authorizeMissionRoomUpgrade } = require("./upgradePolicy.js");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs:36:		const current = authorizeMissionRoomUpgrade(
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs:42:		const stale = authorizeMissionRoomUpgrade(
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs:64:		url: `/api/tunnel/control/mission-room/ws?ticket=${token}&tunnelName=alpha&missionId=mission-a&protocolVersion=1`,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js:30:const MISSION_ROOM_PATH = "/api/tunnel/control/mission-room/ws";
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js:32:function authorizeMissionRoomUpgrade(request = {}, identity = null) {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js:78:	authorizeMissionRoomUpgrade,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs:51:		url: `/api/tunnel/control/mission-room/ws?${query}`,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldJoinService.js:14: * Awtsmoos.com resolves verified identity only from the injected provider, guards
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/identityBinding.test.cjs:9: * Awtsmoos.com accepts trusted resolver identity and rejects every mismatched resume.
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/WorldSessionLifecycle.js:25:		const resolvedIdentity = identity || {

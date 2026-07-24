@@ -1,0 +1,56 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Equipment rows expose condition, quality, ownership, and action without pretending
+ * that icons are items. The Awtsmoos gives every material its being; Awtsmoos.com
+ * lets maker, wear, slot, and finite custody remain visible in a compact field ledger.
+ */
+.realmAccountRow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.48rem 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.realmAccountRow:last-child {
+	border-bottom: 0;
+}
+
+.realmAccountRow p {
+	display: grid;
+	gap: 0.12rem;
+	min-width: 0;
+}
+
+.realmAccountRow strong,
+.realmAccountRow span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.realmAccountRow strong {
+	font-size: 0.69rem;
+}
+
+.realmAccountRow span {
+	color: #adc4d0;
+	font-size: 0.59rem;
+	line-height: 1.28;
+}
+
+.realmAccountRow button {
+	min-width: 4.6rem;
+	padding: 0.34rem 0.52rem;
+}
+
+.realmAccountRow button:hover,
+.realmAccountRow button:focus-visible,
+.realmAccountToggle:hover,
+.realmAccountToggle:focus-visible {
+	border-color: rgba(255, 222, 139, 0.8);
+	background: rgba(86, 57, 17, 0.98);
+}

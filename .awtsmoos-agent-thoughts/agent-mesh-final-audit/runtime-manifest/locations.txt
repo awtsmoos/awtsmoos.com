@@ -1,0 +1,26 @@
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/chatgpt/testing/chatgpt-profile-actions.test.cjs:6:const { buildManifest } = require("../../../rebuild-manifest.cjs");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/testing/consolidated-edge-cases.test.cjs:7:const { buildManifest } = require(path.join(process.cwd(), "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"));
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/testing/consolidated-get-runtime-guidance.test.cjs:7:const { buildManifest } = require(path.join(process.cwd(), "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"));
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/testing/installer-manifest-hygiene.test.cjs:5:const { agentFiles, externalFiles } = require("../../../rebuild-manifest.cjs");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/tools/fs/testing/installer-manifest-hygiene.test.cjs:14: * are allowed only through rebuild-manifest.cjs; tests and smoke sparks remain
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/recovery/archiveStore.js:71:		...manifest.runtimeFiles,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeRequiredCore.js:41:	"release/runtimeFiles.js",
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:49:function assertManifestCoverage(files, roots = SourcePaths.resolveRoots()) {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:113:	assertManifestCoverage,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeProbeInventory.js:32:		runtimeFiles: lines.slice(1)
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeProbeInventory.js:50:		Catalog.assertManifestCoverage(files, roots);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeProbe.js:31:		descriptor.runtimeFiles,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeProbe.js:71:		files: descriptor.runtimeFiles.length,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeCatalog.js:5:const Files = require("./runtimeFiles.js");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeCatalog.js:13:	assertManifestCoverage: Files.assertManifestCoverage,
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseInventoryRegression.test.cjs:7:const Manifest = require("../rebuild-manifest.cjs");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseInventoryRegression.test.cjs:39:	() => Catalog.assertManifestCoverage(
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseInventoryRegression.test.cjs:46:	() => Catalog.assertManifestCoverage([...built.files, built.files[0]], roots),
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/manifestGenerationSmoke.cjs:28:const run = spawnSync(process.execPath, [path.join(ROOT, 'rebuild-manifest.cjs')], {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs:8:const Builder = require("../rebuild-manifest.cjs");
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs:38:	Catalog.assertManifestCoverage(expected.files, roots);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/scripts/auto-manifest.cjs:5:const M = require('../rebuild-manifest.cjs');
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:	Catalog.assertManifestCoverage(files, roots);
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:38:	const runtimeFiles = [lines[1], ...files];
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:39:	const entries = runtimeFiles.map((relativePath) => {
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipBundle.js:31:module.exports = { buildAgentBundle, buildAgentZip, manifestFiles };

@@ -2,16 +2,16 @@
 //Boruch Hashem
 //Blessed is He
 
-import { animatePerson } from '../procedural/person-factory.js';
+import { HouseholdNeighborhood } from './household-neighborhood.js';
 import { ThreeGameBase } from './game-base.js';
 import { ringPosition } from '../webgl/scene-kit.js';
 
 /**
  * @module HouseholdsGame3d
  * @description
- * Families now stand beside real procedural homes with doors, roofs, and windows.
- * The Awtsmoos joins households without erasing them; Awtsmoos.com turns each red
- * signal into a visible repair while wrong choices merely point toward need.
+ * Four real homes now summon their families, neighbors, and repair workers when
+ * windows glow red. The Awtsmoos joins households without erasing them; this
+ * Awtsmoos.com defense makes every alert, response, and repair visibly social.
  */
 export class HouseholdsGame extends ThreeGameBase {
 	setup() {
@@ -21,40 +21,48 @@ export class HouseholdsGame extends ThreeGameBase {
 		this.threatened = -1;
 		this.timer = 0;
 		this.homes = [...Array(4).keys()].map(index => this.createHome(index));
+		this.neighborhood = new HouseholdNeighborhood(this, this.homes);
 		this.stage.setCamera([0, 8.8, 10.6], [0, 0.7, 0]);
 		this.controls(this.homes.map((home, index) => ({ label: `Protect ${index + 1}`, run: () => this.protect(index) })));
-		this.guide('one home’s windows turn red while its family waves', 'Tap the numbered home whose windows glow red.');
+		this.guide('family and repair workers walk toward red windows', 'Tap the numbered home whose windows glow red.');
 		this.nextThreat();
 	}
 
 	createHome(index) {
 		const position = ringPosition(index, 4, 3.7, 0.12);
-		const home = this.assets.house({ name: `family-home-${index + 1}`, hue: this.definition.hue + index * 24, position, scale: 0.62, type: 'home', index });
-		this.assets.parts.mark(home, { semanticType: 'home', index });
-		this.addAsset(home, true);
-		const family = this.assets.person({ name: `family-${index + 1}`, personName: `Family ${index + 1}`, hue: 42 + index * 45, position: [position[0] * 0.72, 0.12, position[2] * 0.72], scale: 0.3, phase: index });
-		this.addAsset(family);
-		home.userData.family = family;
-		return home;
+		const home = this.assets.house({
+			name: `family-home-${index + 1}`, hue: this.definition.hue + index * 24,
+			position, scale: 0.62, type: 'home', index,
+			role: 'family-home', reason: `shelters family ${index + 1} and signals when repair is needed`
+		});
+		this.assets.parts.mark(home, { ...home.userData, semanticType: 'home', index });
+		return this.addAsset(home, true);
 	}
 
 	nextThreat() {
 		if (this.round >= this.totalWaves) {
-			this.finish({ stars: Math.min(3, Math.ceil(this.trust / 2)), message: 'Every family saw its home repaired and the neighborhood became dependable.' });
+			this.finish({ stars: Math.min(3, Math.ceil(this.trust / 2)), message: 'Families, neighbors, and workers restored every home together.' });
 			return;
 		}
 		this.round += 1;
 		this.timer = this.difficulty(6, 5, 4.2);
 		let next = this.random(this.homes.length);
-		if (next === this.threatened) next = (next + 1) % this.homes.length;
+		if (next === this.threatened) {
+			next = (next + 1) % this.homes.length;
+		}
 		this.threatened = next;
-		this.homes.forEach((home, index) => this.assets.setGlow(home, index === next ? 0xff285c : 0x000000, index === next ? 1.4 : 0));
-		this.status(`Home ${next + 1} needs help. Its windows glow red.`);
+		this.homes.forEach((home, index) => {
+			this.assets.setGlow(home, index === next ? 0xff285c : 0x000000, index === next ? 1.4 : 0);
+		});
+		this.neighborhood.threaten(next);
+		this.status(`Home ${next + 1} needs help. Its family and repair workers are moving toward it.`);
 		this.renderHud();
 	}
 
 	picked(object) {
-		if (object.userData.semanticType === 'home') this.protect(object.userData.index);
+		if (object.userData.semanticType === 'home') {
+			this.protect(object.userData.index);
+		}
 	}
 
 	protect(index) {
@@ -66,15 +74,16 @@ export class HouseholdsGame extends ThreeGameBase {
 		this.score += Math.round(100 * this.combo);
 		this.combo = Math.min(6, this.combo + 1);
 		this.assets.setGlow(this.homes[index], 0x42ffc1, 0.45);
-		this.status(`Family ${index + 1} celebrates the repair.`, 'good');
+		this.neighborhood.repaired(index);
+		this.status(`Family ${index + 1} returns calmly after the repair.`, 'good');
 		this.nextThreat();
 	}
 
 	update(delta, elapsed) {
 		this.timer -= delta;
-		this.homes.forEach((home, index) => {
+		this.neighborhood.update(delta, elapsed);
+		this.homes.forEach(home => {
 			home.rotation.y += delta * 0.05;
-			animatePerson(home.userData.family, elapsed, index === this.threatened);
 		});
 		if (this.timer <= 0) {
 			this.trust = Math.max(1, this.trust - 1);
@@ -86,7 +95,9 @@ export class HouseholdsGame extends ThreeGameBase {
 
 	onKey(event) {
 		const index = Number(event.key) - 1;
-		if (index >= 0 && index < 4) this.protect(index);
+		if (index >= 0 && index < 4) {
+			this.protect(index);
+		}
 	}
 
 	renderHud() {

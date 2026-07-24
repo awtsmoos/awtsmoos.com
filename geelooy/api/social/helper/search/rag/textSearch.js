@@ -5,11 +5,13 @@
 /**
  * @module TextSearchFallback
  * @description
- * Stored text mirrors remain searchable without vectors, installation, database locks,
- * or whole-corpus materialization.
+ * Stored text mirrors remain searchable without vectors, installation, database
+ * locks, or whole-corpus materialization. Multipart lanes search every reviewed
+ * sidecar and merge their best results into one logical corpus response.
  */
 
 const { searchSidecar } = require('./sidecarSearch.js');
+const { mergeTextParts } = require('./textSearchParts.js');
 
 function normalize(value) {
 	return String(value ?? '')
@@ -20,11 +22,7 @@ function normalize(value) {
 }
 
 function tokens(query) {
-	return [...new Set(
-		normalize(query)
-			.split(/\s+/)
-			.filter(Boolean)
-	)];
+	return [...new Set(normalize(query).split(/\s+/).filter(Boolean))];
 }
 
 function searchableText(row = {}) {
@@ -54,20 +52,21 @@ function relevance(row, queryText, queryTokens) {
 }
 
 async function textSearchShard(shard, query, limit = 10) {
-	if (!shard.textFile) {
-		throw codedError(
-			'TEXT_MIRROR_UNAVAILABLE',
-			`Shard ${shard.id} has no readable text mirror.`
-		);
+	const parts = (shard.parts || [shard]).filter(part => part.textFile);
+	if (!parts.length) {
+		throw codedError('TEXT_MIRROR_UNAVAILABLE', `Shard ${shard.id} has no readable text mirror.`);
 	}
-	return searchSidecar({
-		file: shard.textFile,
-		queryText: normalize(query),
-		queryTokens: tokens(query),
+	const queryText = normalize(query);
+	const queryTokens = tokens(query);
+	const results = await Promise.all(parts.map(part => searchSidecar({
+		file: part.textFile,
+		queryText,
+		queryTokens,
 		relevance,
 		limit: Math.max(1, Number(limit) || 10),
-		shard
-	});
+		shard: part
+	})));
+	return mergeTextParts(results, Math.max(1, Number(limit) || 10), shard);
 }
 
 function codedError(code, message) {

@@ -1,0 +1,12 @@
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsRecovery.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/virtualClientSend.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/liveAliasPreference.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsAdversarial.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/liveDevices.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/resolveFsVessel.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/tunnelClientLivenessEvidence.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/resolveFsVesselDeadTunnel.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsStore.basic.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/liveDevicesRecoveringNative.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/capabilityProjection.test.cjs
+/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/control/routes/fsVessel/test/accountScopedRelayEndToEnd.test.cjs

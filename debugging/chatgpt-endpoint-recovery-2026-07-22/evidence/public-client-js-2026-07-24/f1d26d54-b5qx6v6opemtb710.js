@@ -1,0 +1,2 @@
+import{n as e}from"./f025431a-ehagpvg3m4e1cduv.js";var t,n,r=e((()=>{t=`keyboard-focused:bg-token-text-primary/3 hover:bg-token-text-primary/3 rounded-xl dark:keyboard-focused:bg-white/6 dark:hover:bg-white/6`,n=`rounded-xl [--interactive-button-bg-hover-secondary:rgba(13,13,13,0.03)] dark:[--interactive-button-bg-hover-secondary:rgba(255,255,255,0.06)]`}));export{t as n,r,n as t};
+//# sourceMappingURL=f1d26d54-b5qx6v6opemtb710.js.map

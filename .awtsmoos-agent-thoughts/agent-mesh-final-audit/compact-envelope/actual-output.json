@@ -1,0 +1,44 @@
+{
+	"ok": true,
+	"action": "commandRun",
+	"summary": "Started worker.",
+	"next": "Resume available via commandJobStatus.",
+	"type": "TUNNEL_RESPONSE",
+	"id": "req1",
+	"tunnelName": "awt-awtsmoos-16364",
+	"requestedTunnelName": "awt-awtsmoos-16364",
+	"controlRequestId": "ctrl_mrymcc3m_cf9a3680",
+	"clientRequestId": "client_mrymcc3m_782d52be",
+	"nonce": "nonce_mrymcc3n_7cc2ff20",
+	"requestAction": "commandRun",
+	"actualAction": "commandRun",
+	"actionMismatch": false,
+	"queueStats": {
+		"workers": {
+			"active": {}
+		}
+	},
+	"queuedMs": 8,
+	"mission": {
+		"active": false,
+		"advisory": false,
+		"resumeAvailable": false,
+		"next": "Resume available via commandJobStatus.",
+		"nextSuggestedToolCall": {
+			"action": "commandJobStatus",
+			"jobId": "cmd1"
+		},
+		"engagementRequired": false,
+		"why": "explicit_block"
+	},
+	"responseShape": "compact-envelope-v2",
+	"previewRequired": false,
+	"responseFocus": {
+		"previewRequired": false,
+		"reason": "simple_response_default"
+	},
+	"previewPolicy": {
+		"enabled": false,
+		"reason": "simple_response_default"
+	}
+}

@@ -1,0 +1,46 @@
+B"H
+--- processes ---
+40483 64583       02:24   0.0  0.0 SNs  /bin/sh -c set -u\012W=/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z\012SOURCE=/Users/awtsmoos/awtsmoos.com/.awtsmoos-agent-thoughts/agent-mesh-final-audit/full-universe-rerun/list.txt\012D=/Users/awtsmoos/awtsmoos.com/.awtsmoos-agent-thoughts/agent-mesh-final-audit/universe-resume-42\012mkdir -p "$D"\012node - "$W" "$SOURCE" "$D" <<'NODE'\012const fs = require('node:fs');\012const path = require('node:path');\012const { spawnSync } = require('node:child_process');\012const root = process.argv[2];\012const source = process.argv[3];\012const outputRoot = process.argv[4];\012const all = fs.readFileSync(source, 'utf8').split(/\r?\n/).filter(Boolean);\012const startIndex = 41;\012const tests = all.slice(startIndex);\012const report = path.join(outputRoot, 'report.txt');\012const state = path.join(outputRoot, 'state.json');\012fs.writeFileSync(report, `B"H\nremaining=${tests.length}\n`);\012let passed = 0;\012let failed = 0;\012let timedOut = 0;\012const startedAt = Date.now();\012for (let index = 0; index < tests.length; index += 1) {\012\011const absolute = tests[index];\012\011const relative = path.relative(root, absolute).replaceAll('\\', '/');\012\011fs.writeFileSync(state, JSON.stringify({\012\011\011status: 'running', universeIndex: index + startIndex + 1,\012\011\011remainingIndex: index + 1, totalUniverse: all.length,\012\011\011totalRemaining: tests.length, passed, failed, timedOut,\012\011\011current: relative, elapsedMs: Date.now() - startedAt\012\011}, null, '\t'));\012\011const result = spawnSync(process.execPath, [relative], {\012\011\011cwd: root,\012\011\011env: { ...process.env, AWTSMOOS_TEST_MODE: '1' },\012\011\011encoding: 'utf8', timeout: 180000,\012\011\011maxBuffer: 8 * 1024 * 1024\012\011});\012\011const timeout = result.error?.code === 'ETIMEDOUT';\012\011const code = timeout ? 124 : (result.status ?? 1);\012\011fs.appendFileSync(report, `${code}\t${Math.round((Date.now() - startedAt) / 1000)}s\t${relative}\n`);\012\011if (code === 0) { passed += 1; continue; }\012\011failed += 1;\012\011if (timeout) timedOut += 1;\012\011fs.writeFileSync(path.join(outputRoot, 'failure.txt'), [\012\011\011`file=${relative}`, `code=${code}`, `signal=${result.signal || ''}`,\012\011\011`error=${result.error?.stack || result.error?.message || ''}`,\012\011\011'--- stdout ---', String(result.stdout || '').slice(-100000),\012\011\011'--- stderr ---', String(result.stderr || '').slice(-100000)\012\011].join('\n'));\012\011break;\012}\012const finalState = {\012\011status: failed ? 'failed' : 'completed', totalUniverse: all.length,\012\011startedAtUniverseIndex: startIndex + 1, totalRemaining: tests.length,\012\011passed, failed, timedOut, elapsedMs: Date.now() - startedAt\012};\012fs.writeFileSync(state, JSON.stringify(finalState, null, '\t'));\012fs.writeFileSync(path.join(outputRoot, 'exit-code.txt'), `${failed ? 1 : 0}\n`);\012process.exit(failed ? 1 : 0);\012NODE
+40496 40483       02:24   0.0  0.5 SN   node - /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z /Users/awtsmoos/awtsmoos.com/.awtsmoos-agent-thoughts/agent-mesh-final-audit/full-universe-rerun/list.txt /Users/awtsmoos/awtsmoos.com/.awtsmoos-agent-thoughts/agent-mesh-final-audit/universe-resume-42
+41574 64583       01:42   0.0  0.7 SNs  node tests/browser-realm-smoke.mjs
+54345 64583       00:00   0.0  0.0 SNs  /bin/sh -c set -eu\012D=/Users/awtsmoos/awtsmoos.com/.awtsmoos-agent-thoughts/agent-mesh-final-audit/universe-resume-42\012O="$D/stall-diagnostic.txt"\012{\012\011printf '%s\n' 'B"H' '--- processes ---'\012\011ps -axo pid,ppid,etime,%cpu,%mem,state,command | awk '$1==40483 || $2==40483 || $1==41574 || $2==41574 || /commandThousandQueueStatus/ || /universe-resume-42/ {print}'\012\011printf '%s\n' '--- report tail ---'\012\011tail -n 25 "$D/report.txt"\012\011printf '%s\n' '--- state ---'\012\011cat "$D/state.json"\012} > "$O"
+54353 54345       00:00   0.0  0.0 R    awk $1==40483 || $2==40483 || $1==41574 || $2==41574 || /commandThousandQueueStatus/ || /universe-resume-42/ {print}
+--- report tail ---
+0	21s	geelooy/apps/tunnel/agent/testing/bundleDescriptorCompatibility.test.cjs
+0	22s	geelooy/apps/tunnel/agent/testing/cancelOneWorkerDoesNotCancelOthers.test.cjs
+0	22s	geelooy/apps/tunnel/agent/testing/chromeActionQueue.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/chromeCdpBounds.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/chromeNavigationHardening.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/chromeProfileState.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/chromeTargetIsolation.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/circuitNoGlobalLock.test.cjs
+0	23s	geelooy/apps/tunnel/agent/testing/commandAliasIdentity.test.cjs
+0	24s	geelooy/apps/tunnel/agent/testing/commandCancelFinalizerBypass.test.cjs
+0	24s	geelooy/apps/tunnel/agent/testing/commandConcurrencyProfiles.test.cjs
+0	27s	geelooy/apps/tunnel/agent/testing/commandConcurrentWaitRace.test.cjs
+0	27s	geelooy/apps/tunnel/agent/testing/commandEnvelopeIdentity.test.cjs
+0	27s	geelooy/apps/tunnel/agent/testing/commandExitedBeforeReap.test.cjs
+0	27s	geelooy/apps/tunnel/agent/testing/commandGcCadence.test.cjs
+0	29s	geelooy/apps/tunnel/agent/testing/commandJobReaperIntegration.test.cjs
+0	29s	geelooy/apps/tunnel/agent/testing/commandLifecycleCompat.test.cjs
+0	32s	geelooy/apps/tunnel/agent/testing/commandMissionWrap.test.cjs
+0	32s	geelooy/apps/tunnel/agent/testing/commandOutputTrimBatching.test.cjs
+0	32s	geelooy/apps/tunnel/agent/testing/commandOutputWriteTracking.test.cjs
+0	34s	geelooy/apps/tunnel/agent/testing/commandParams64Correlation.test.cjs
+0	34s	geelooy/apps/tunnel/agent/testing/commandQueueExecutionLease.test.cjs
+0	35s	geelooy/apps/tunnel/agent/testing/commandRunAsyncDefault.test.cjs
+0	36s	geelooy/apps/tunnel/agent/testing/commandRunWorkerIdentity.test.cjs
+0	136s	geelooy/apps/tunnel/agent/testing/commandThousandQueueStatus.test.cjs
+--- state ---
+{
+	"status": "running",
+	"universeIndex": 148,
+	"remainingIndex": 107,
+	"totalUniverse": 384,
+	"totalRemaining": 343,
+	"passed": 106,
+	"failed": 0,
+	"timedOut": 0,
+	"current": "geelooy/apps/tunnel/agent/testing/commandThousandQueueStress.test.cjs",
+	"elapsedMs": 136132
+}

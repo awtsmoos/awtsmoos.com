@@ -4,37 +4,51 @@
 
 /**
  * @file ModelAssetLoader.js
- * @description Downloads each GLB once with measured progress, then instantiates it safely.
- * The Awtsmoos gives one shared form to many distinct souls; Awtsmoos.com measures the
- * network vessel honestly, parses locally, and preserves independent bones and motion.
+ * @description Fetches each canonical GLB template once and creates isolated animated instances.
+ * The Awtsmoos gives one finite garment many independent motions without repeating its bytes;
+ * Awtsmoos.com measures the stream, caches the parsed source, and forgets only failed promises.
  */
 
 import { loadTinyGltf } from '../../../light-three-gltf/tiny-gltf-loader.js';
 import { instantiateTinyGltf } from '../../../light-three-gltf/tiny-gltf-instance.js';
-import { fetchAssetBuffer } from './ProgressiveAssetFetch.js?v=20260723-meadow-06';
+import { fetchAssetBuffer } from './ProgressiveAssetFetch.js';
 
 const templatePromises = new Map();
 let templateLoads = 0;
 let instancesCreated = 0;
 
+/**
+ * Loads or reuses one parsed GLB template by canonical absolute URL.
+ * @param {string} url Model URL.
+ * @param {object} options Progress callback options.
+ * @returns {Promise<object>} Shared parsed GLTF template.
+ */
 export async function loadSharedGltfTemplate(url, options = {}) {
 	const resourceUrl = absoluteUrl(url);
 	const wasCached = templatePromises.has(resourceUrl);
 	if (!wasCached) {
 		templateLoads += 1;
-		templatePromises.set(
-			resourceUrl,
-			createTemplate(resourceUrl, options.onProgress)
-		);
+		const promise = createTemplate(resourceUrl, options.onProgress)
+			.catch(error => {
+				templatePromises.delete(resourceUrl);
+				throw error;
+			});
+		templatePromises.set(resourceUrl, promise);
 	}
-
 	const template = await templatePromises.get(resourceUrl);
 	if (wasCached) {
-		options.onProgress?.({ phase: 'ready', progress: 1, cached: true });
+		options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
 	}
 	return template;
 }
 
+/**
+ * Creates one independently animated model instance from the cached template.
+ * @param {string} url Model URL.
+ * @param {string} label Instance identity.
+ * @param {object} options Material resolver and progress options.
+ * @returns {Promise<object>} Isolated GLTF instance.
+ */
 export async function loadIsolatedGltf(url, label, options = {}) {
 	const resourceUrl = absoluteUrl(url);
 	const template = await loadSharedGltfTemplate(resourceUrl, options);
@@ -52,6 +66,20 @@ export async function loadIsolatedGltf(url, label, options = {}) {
 	return gltf;
 }
 
+export function sharedGltfAssetStats() {
+	return {
+		instancesCreated,
+		templateLoads,
+		templatesCached: templatePromises.size
+	};
+}
+
+export function clearSharedGltfAssetCache() {
+	templatePromises.clear();
+	templateLoads = 0;
+	instancesCreated = 0;
+}
+
 async function createTemplate(resourceUrl, onProgress) {
 	const asset = await fetchAssetBuffer(resourceUrl, onProgress);
 	onProgress?.({
@@ -63,7 +91,6 @@ async function createTemplate(resourceUrl, onProgress) {
 	const objectUrl = URL.createObjectURL(new Blob([asset.buffer], {
 		type: asset.contentType
 	}));
-
 	try {
 		const template = await loadTinyGltf(objectUrl);
 		template.scene.userData.originalSourceUrl = resourceUrl;
@@ -79,21 +106,9 @@ async function createTemplate(resourceUrl, onProgress) {
 	}
 }
 
-export function sharedGltfAssetStats() {
-	return {
-		instancesCreated,
-		templateLoads,
-		templatesCached: templatePromises.size
-	};
-}
-
-export function clearSharedGltfAssetCache() {
-	templatePromises.clear();
-	templateLoads = 0;
-	instancesCreated = 0;
-}
-
 function absoluteUrl(url) {
 	const base = globalThis.location?.href || 'http://localhost/';
-	return new URL(url, base).href;
+	const resolved = new URL(url, base);
+	resolved.hash = '';
+	return resolved.href;
 }

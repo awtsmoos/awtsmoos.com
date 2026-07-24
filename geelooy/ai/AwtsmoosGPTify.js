@@ -2,106 +2,107 @@
 // Boruch Hashem
 // Blessed is He
 
-import { checkMFetch } from "./js/chatgpt/transport/bridge.js";
-import { getConversations as getLegacyConversations } from "./js/chatgpt/conversations/list.js";
-import { getConversation as getLegacyConversation } from "./js/chatgpt/conversations/detail.js";
 import {
-	getAwtsmoosAudio as getLegacyAudio,
-	getAwtsmoosAudioStream as getLegacyAudioStream
-} from "./js/chatgpt/audio/synthesize.js";
-import { sendDirectChat, resetDirectChat } from "./js/chatgpt/direct/directRelay.js";
+	getLegacyAudio,
+	getLegacyAudioStream,
+	getLegacyConversation,
+	getLegacyConversations,
+	getLegacyParentState
+} from "./js/chatgpt/legacy/legacyClient.js";
 import {
-	buildDirectConversation,
-	makeDirectResult,
-	makeDirectTurn
-} from "./js/chatgpt/direct/directHistory.js";
+	getDirectCapability,
+	resetDirectChat,
+	sendDirectChat
+} from "./js/chatgpt/direct/directRelay.js";
+import { DirectCallbackAdapter } from "./js/chatgpt/direct/compatibility/DirectCallbackAdapter.js";
+import {
+	DirectConversationState,
+	isDirectKey
+} from "./js/chatgpt/direct/DirectConversationState.js";
+import { installLegacyGlobals } from "./js/chatgpt/legacy/installGlobals.js";
 
 /**
- * The old sender guessed private endpoints, proof values, and stream shape. The
- * Awtsmoos now keeps those garments inside the local relay, while Awtsmoos.com
- * sends only prompt text and an opaque continuation key from this browser class.
+ * The Awtsmoos keeps the old core's pleasant public vessel while Awtsmoos.com
+ * delegates auth, state, request, callback, history, audio, and validated mode
+ * work to focused collaborators. Credentials and arbitrary request fields stay out.
  */
 class AwtsmoosGPTify {
-	_conversationId = null;
-	_directTurns = [];
+	_directMode = "page-authorized-fallback";
 	sessionName = null;
 
-	constructor({ conversation_id } = {}) {
-		this._conversationId = isDirectKey(conversation_id) ? conversation_id : null;
-		this.getAwtsmoosAudio = options => getAwtsmoosAudio(options);
-		this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);
+	constructor({ conversation_id, directMode = "page-authorized-fallback" } = {}) {
+		this.directState = new DirectConversationState(conversation_id);
+		this._directMode = directMode;
+		this.getAwtsmoosAudio = options => getLegacyAudio(options);
+		this.getAwtsmoosAudioStream = options => getLegacyAudioStream(options);
 	}
 
 	async go({
 		prompt,
 		onstream,
 		ondone,
-		conversationId = this._conversationId,
+		mode = this._directMode,
+		model = null,
+		thinkingEffort = null,
+		conversationMode = null,
+		callbackStyle = "modern",
+		conversationId = this.directState.key,
 		conversation_id = conversationId
 	} = {}) {
 		const conversationKey = isDirectKey(conversation_id)
 			? conversation_id
-			: this._conversationId;
-		const relayResult = await sendDirectChat({ prompt, conversationKey });
-		this._conversationId = relayResult.conversationKey;
-		const turn = makeDirectTurn({
+			: this.directState.key;
+		const relayResult = await sendDirectChat({
 			prompt,
-			answer: relayResult.answer,
-			conversationKey: this._conversationId
+			conversationKey,
+			mode,
+			model,
+			thinkingEffort,
+			conversationMode
 		});
-		this._directTurns.push(turn);
-		const result = makeDirectResult(turn, relayResult);
-		await onstream?.({ event: "message", data: result, direct: true });
-		await ondone?.(result);
+		const result = this.directState.record({ prompt, relayResult });
+		await new DirectCallbackAdapter({ style: callbackStyle }).emit({
+			result,
+			onstream,
+			ondone
+		});
 		return result;
 	}
 
+	async getDirectCapability() {
+		return getDirectCapability();
+	}
+
 	async createNewConversation() {
-		if (this._conversationId) {
-			await resetDirectChat(this._conversationId).catch(() => {});
+		if (this.directState.key) {
+			await resetDirectChat(this.directState.key).catch(() => {});
 		}
-		this._conversationId = null;
-		this._directTurns = [];
+		this.directState.reset();
 		return { ok: true };
 	}
 
-	async getConversation(conversationId = this._conversationId) {
-		if (isDirectKey(conversationId)) {
-			return buildDirectConversation(conversationId, this._directTurns);
-		}
-		const fetcher = await checkMFetch();
-		return await getLegacyConversation(fetcher, conversationId);
+	async getConversation(conversationId = this.directState.key) {
+		return isDirectKey(conversationId)
+			? this.directState.conversation()
+			: getLegacyConversation(conversationId);
+	}
+
+	async getParentState(conversationId = this.directState.key) {
+		return isDirectKey(conversationId)
+			? this.directState.parentState()
+			: getLegacyParentState(conversationId);
 	}
 
 	async getConversations(options = {}) {
-		const fetcher = await checkMFetch({ timeout: options.transportTimeout ?? 3000 });
-		return await getLegacyConversations(fetcher, options);
+		return getLegacyConversations(options);
 	}
 }
 
-async function getAwtsmoosAudio(options) {
-	const fetcher = await checkMFetch();
-	return await getLegacyAudio(fetcher, options);
-}
-
-async function getAwtsmoosAudioStream(options) {
-	const fetcher = await checkMFetch();
-	return await getLegacyAudioStream(fetcher, options);
-}
-
-function isDirectKey(value) {
-	return typeof value === "string" && value.startsWith("BH_DIRECT_");
-}
-
-globalThis.getConversation = async conversationId => {
-	const fetcher = await checkMFetch();
-	return await getLegacyConversation(fetcher, conversationId);
-};
-globalThis.getAwtsmoosAudio = getAwtsmoosAudio;
-globalThis.getAwtsmoosAudioStream = getAwtsmoosAudioStream;
-globalThis.getConversations = async options => {
-	const fetcher = await checkMFetch();
-	return await getLegacyConversations(fetcher, options);
-};
+installLegacyGlobals({
+	getConversation: getLegacyConversation,
+	getConversations: getLegacyConversations,
+	getAwtsmoosAudio: getLegacyAudio,
+	getAwtsmoosAudioStream: getLegacyAudioStream
+});
 
 export default AwtsmoosGPTify;

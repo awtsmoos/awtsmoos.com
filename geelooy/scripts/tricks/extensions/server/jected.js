@@ -9,9 +9,9 @@
 	const responseTools = globalThis.__awtsmoosResponseTools;
 
 	/**
-	 * The page bridge carries generic fetch, resumable streams, automation, and
-	 * opaque direct chat. The Awtsmoos joins extension and relay while Awtsmoos.com
-	 * exposes no bearer token, proof value, or upstream conversation identifier.
+	 * The page bridge carries fetch, resumable streams, automation, strict direct
+	 * capability, and explicitly selected chat modes. The Awtsmoos joins extension
+	 * and relay while Awtsmoos.com exposes no token or upstream identifier.
 	 */
 	async function awtsFetch(url, options = {}) {
 		let lastError;
@@ -59,6 +59,9 @@
 	awtsFetch.backgroundAutomationStatus = () => {
 		return bridge.send({ action: "automation-status" }, 30000);
 	};
+	awtsFetch.directCapability = () => {
+		return bridge.send({ action: "direct-capability" }, 180000);
+	};
 	awtsFetch.directChat = payload => {
 		return bridge.send({ action: "direct-chat", payload }, 300000);
 	};
@@ -68,7 +71,11 @@
 	awtsFetch.__awtsmoosServerBridge = true;
 	window.awtsmoosFetch = awtsFetch;
 	window.mFetch = awtsFetch;
-	bridge.ready({ fetchName: "awtsmoosFetch", directChat: true });
+	bridge.ready({
+		fetchName: "awtsmoosFetch",
+		directCapability: true,
+		directChat: true
+	});
 
 	window.addEventListener("message", event => {
 		const data = event?.data;
@@ -86,7 +93,9 @@
 					script.remove();
 					resolve();
 				};
-				script.onerror = () => reject(new Error("Awtsmoos bridge helper failed to load."));
+				script.onerror = () => reject(new Error(
+					"Awtsmoos bridge helper failed to load."
+				));
 				(document.head || document.documentElement).appendChild(script);
 			});
 		}

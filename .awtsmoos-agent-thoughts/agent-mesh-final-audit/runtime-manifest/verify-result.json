@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "message": "manifest_fresh",
+  "version": "1.0.384",
+  "files": 1808,
+  "probe": {
+    "ok": true,
+    "version": "1.0.384",
+    "files": 1809,
+    "stdout": "startup_imports_ok",
+    "timeoutMs": 120000,
+    "elapsedMs": 470
+  }
+}

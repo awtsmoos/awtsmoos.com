@@ -5,34 +5,24 @@
 /**
  * @module RagShardCatalog
  * @description
- * The Awtsmoos reveals exactly two complete vessels: Likkutei Sichos and Sefer
- * HaSichos. Awtsmoos.com keeps this compatibility catalog aligned with the living
- * manifest reader so no historical experiment can reappear as a public shard.
+ * Caches manifest-only descriptions for every reviewed public file. No catalog
+ * request opens AWTSDB, and unfinished Sichos Kodesh files never enter the source
+ * list merely because they exist on disk.
  */
 
-const path = require('path');
-const { CANONICAL_SHARD_FILES } = require('./canonicalShards.js');
-const {
-	describeFile,
-	isPublishable,
-	manifestFor
-} = require('./shardManifest.js');
-const { ragRoot, stat } = require('./paths.js');
+const { describeFile, shardFiles } = require('./shardManifest.js');
 
 const cache = new Map();
 const CACHE_DURATION_MS = 30_000;
 
 function catalog($i) {
-	const root = ragRoot($i);
-	const saved = cache.get(root);
+	const key = $i?.db?.directory || 'default';
+	const saved = cache.get(key);
 	if (saved?.expiresAt > Date.now()) return saved.items.map(clone);
-	const items = CANONICAL_SHARD_FILES
-		.map(name => path.join(root, name))
-		.filter(file => stat(file))
-		.filter(file => isPublishable(manifestFor(file)))
+	const items = shardFiles($i)
 		.map(describeFile)
 		.sort((left, right) => right.count - left.count);
-	cache.set(root, {
+	cache.set(key, {
 		expiresAt: Date.now() + CACHE_DURATION_MS,
 		items
 	});
@@ -52,6 +42,5 @@ function clearCatalogCache() {
 
 module.exports = {
 	catalog,
-	clearCatalogCache,
-	descriptors: CANONICAL_SHARD_FILES
+	clearCatalogCache
 };

@@ -5,51 +5,22 @@
 /**
  * @module RagShardManifest
  * @description
- * Converts the two canonical fast manifests into bounded shard descriptions. The
- * Awtsmoos caches unchanged JSON by filesystem identity, while Awtsmoos.com refuses
- * to publish a third database merely because an old experiment once existed.
+ * Converts reviewed manifests into bounded descriptions. Multipart identity and
+ * partial-publication metadata survive discovery while vectors remain unopened
+ * until an explicitly supported vector request crosses that boundary.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { CANONICAL_SHARD_FILES } = require('./canonicalShards.js');
+const {
+	SICHOS_KODESH_EXPECTED_PARTS
+} = require('./canonicalShards.js');
 const { readManifest } = require('./manifestCache.js');
-const { ragRoot, stat } = require('./paths.js');
-
-function slug(name) {
-	return path.basename(name, '.awtsdb')
-		.replace(/[^a-z0-9]+/gi, '-')
-		.replace(/^-|-$/g, '')
-		.toLowerCase();
-}
-
-function label(value) {
-	return value.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
-}
-
-function aliases(id, fileSlug = id, declared = []) {
-	const values = [id, fileSlug, ...normalizeAliases(declared)];
-	if (containsEither(id, fileSlug, 'meluket')) {
-		values.push('meluket', 'maamar-meluket');
-	}
-	if (containsEither(id, fileSlug, 'hasichos')) {
-		values.push('sefer-hasichos', 'dvar-hasichos', 'dr-hasichos');
-	}
-	if (containsEither(id, fileSlug, 'likkutei')) {
-		values.push('likkutei-sichos', 'likutei-sichos', 'ls');
-	}
-	return [...new Set(
-		values.filter(Boolean).map(value => String(value).toLowerCase())
-	)];
-}
-
-function containsEither(left, right, fragment) {
-	return left.includes(fragment) || right.includes(fragment);
-}
-
-function normalizeAliases(value) {
-	return Array.isArray(value) ? value : [];
-}
+const { stat } = require('./paths.js');
+const { publishedShardFiles } = require('./shardSources.js');
+const {
+	aliases,
+	label,
+	slug
+} = require('./shardIdentity.js');
 
 function manifestPath(file) {
 	return file.replace(/\.awtsdb$/, '.fast-manifest.json');
@@ -69,13 +40,13 @@ function isPublishable(manifest) {
 	);
 }
 
-function textFileFor(file, manifest) {
+function textFileFor(file, manifest = {}) {
 	const candidates = [
-		manifest.textFile,
 		file.replace(/\.awtsdb$/, '.fast-meta.jsonl'),
+		file.replace(/\.awtsdb$/, '.meta.jsonl'),
+		manifest.textFile,
 		manifest.metadataSidecar,
-		manifest.metadata,
-		file.replace(/\.awtsdb$/, '.meta.jsonl')
+		manifest.metadata
 	];
 	return candidates.find(candidate => candidate && stat(candidate)) || null;
 }
@@ -84,6 +55,8 @@ function describeFile(file) {
 	const manifest = manifestFor(file);
 	const fileSlug = slug(file);
 	const id = String(manifest?.id || fileSlug).toLowerCase();
+	const partNumber = Number(String(manifest?.partId || '').match(/\d+/)?.[0] || 0);
+	const partial = id === 'sichos-kodesh';
 	return {
 		id,
 		aliases: aliases(id, fileSlug, manifest?.aliases),
@@ -94,16 +67,16 @@ function describeFile(file) {
 		dimensions: Number(manifest.dimensions || 0),
 		vectorEnabled: false,
 		bytes: stat(file)?.size || 0,
-		textFile: textFileFor(file, manifest)
+		textFile: textFileFor(file, manifest),
+		partNumber,
+		partial,
+		expectedParts: partial ? SICHOS_KODESH_EXPECTED_PARTS : 1,
+		textOnly: partial
 	};
 }
 
 function shardFiles($i) {
-	const root = ragRoot($i);
-	if (!fs.existsSync(root)) return [];
-	return CANONICAL_SHARD_FILES
-		.map(name => path.join(root, name))
-		.filter(file => fs.existsSync(file))
+	return publishedShardFiles($i)
 		.filter(file => isPublishable(manifestFor(file)));
 }
 

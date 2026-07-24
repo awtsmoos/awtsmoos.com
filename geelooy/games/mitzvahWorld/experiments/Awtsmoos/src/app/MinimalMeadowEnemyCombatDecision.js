@@ -4,51 +4,44 @@
 
 /**
  * @file MinimalMeadowEnemyCombatDecision.js
- * @description Owns profile-aware distance, facing, pack steering, and action-duration policy.
- * The Awtsmoos distinguishes approach from impact; Awtsmoos.com gives six temperaments shared
- * geometry but different pursuit, spacing, assist, melee, ranged, and recovery decisions.
+ * @description Defines bounded encounter ranges, durations, and next locomotion choices.
+ * The Awtsmoos joins mercy and limit; Awtsmoos.com keeps aggro smaller than leash,
+ * melee close, casting useful, and target loss deliberate rather than instantaneous.
  */
 
-import {
-	minimalEnemyChaseVector,
-	minimalEnemyPackAlerted
-} from './MinimalMeadowEnemySteering.js?v=20260724-meadow-17';
+import { minimalEnemyPackAlerted } from './MinimalMeadowEnemySteering.js';
 
-export function enemyDistanceToPlayer(combat) {
-	return Math.hypot(
-		combat.runtime.state.x - combat.actor.group.position.x,
-		combat.runtime.state.z - combat.actor.group.position.z
-	);
+export const MINIMAL_ENEMY_LOSS_TIMEOUT = 4.2;
+
+export function minimalEnemyCombatRanges(combat) {
+	const aggro = minimalEnemyPackAlerted(combat.actor) ? 29 : 20;
+	const suppliedLeash = Number(combat.actor.profile.leashRange) || 38;
+	return Object.freeze({
+		aggro,
+		casterMaximum: 11.5,
+		casterMinimum: 5.4,
+		leash: Math.max(aggro + 12, suppliedLeash),
+		meleeMaximum: 2.65,
+		meleeMinimum: 1.85
+	});
 }
 
-export function enemyAggroRange(combat) {
-	return minimalEnemyPackAlerted(combat.actor) ? 28 : 20;
+export function minimalEnemyActionDuration(state) {
+	if (state === 'alerted') return 0.24;
+	if (state === 'melee-windup') return 0.48;
+	if (state === 'melee-impact') return 0.55;
+	if (state === 'cast-windup') return 1.05;
+	if (state === 'recovery') return 0.58;
+	return 0;
 }
 
-export function enemyPrefersRanged(combat, distance) {
-	const temperament = combat.actor.profile.temperament;
-	if (temperament === 'ranged') return distance >= 4.4;
-	if (temperament === 'melee') return distance >= 8.5;
-	return distance >= 5.5;
-}
-
-export function faceEnemyTowardPlayer(combat) {
-	const dx = combat.runtime.state.x - combat.actor.group.position.x;
-	const dz = combat.runtime.state.z - combat.actor.group.position.z;
-	const yaw = Math.atan2(dx, dz);
-	combat.actor.group.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
-}
-
-export function chaseEnemyTowardPlayer(combat, deltaSeconds) {
-	const vector = minimalEnemyChaseVector(combat.actor, combat.runtime);
-	combat.actor.action = 'chase';
-	combat.actor.actionProgress = 0;
-	combat.actor.moving = true;
-	combat.actor.move(vector.x, vector.z, vector.distance, deltaSeconds * 1.22);
-}
-
-export function enemyActionDuration(action) {
-	if (action === 'ranged-cast') return 1.05;
-	if (action === 'melee-windup') return 0.48;
-	return 0.55;
+export function minimalEnemyLocomotionState(combat, distance) {
+	const ranges = minimalEnemyCombatRanges(combat);
+	if (combat.session.role === 'melee') {
+		if (distance > ranges.meleeMaximum) return 'approach';
+		return combat.cooldown === 0 ? 'melee-windup' : 'reposition';
+	}
+	if (distance < ranges.casterMinimum) return 'reposition';
+	if (distance > ranges.casterMaximum) return 'approach';
+	return combat.cooldown === 0 ? 'cast-windup' : 'reposition';
 }

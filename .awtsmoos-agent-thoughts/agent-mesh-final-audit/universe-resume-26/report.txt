@@ -1,0 +1,18 @@
+B"H
+remaining=359
+0	0s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/mmorpgSocial.test.cjs
+0	1s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/persistence.test.cjs
+0	1s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/progression.test.cjs
+0	1s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/session.test.cjs
+0	1s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionCredentials.test.cjs
+0	2s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionExpiryScheduler.test.cjs
+0	3s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionSecurity.test.cjs
+0	3s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/shliachProfile.test.cjs
+0	3s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socialRestoreSanitation.test.cjs
+0	4s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/tradeMailGuild.test.cjs
+0	4s	ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/worldCensusChat.test.cjs
+0	4s	ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/application-isolation.test.cjs
+0	5s	ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/authenticated-world.test.cjs
+0	5s	ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/shared-road.test.cjs
+0	5s	ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/strict-auth.test.cjs
+1	6s	ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/application.test.cjs

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowQuestParchment.js
- * @description Renders one medieval parchment conversation and one compact mission tracker.
- * The Awtsmoos gives shlichus dignity without screen clutter; Awtsmoos.com binds offer, choice,
- * three-kill progress, return state, reward, close behavior, and mobile-safe layout to one truth.
+ * @description Renders one modal parchment only while explicitly open and one compact tracker.
+ * The Awtsmoos gives shlichus dignity without stealing the unopened world; Awtsmoos.com binds
+ * hidden state, ARIA, pointer ownership, offer, choice, progress, reward, and cleanup to one truth.
  */
 
 export class MinimalMeadowQuestParchment {
@@ -17,7 +17,9 @@ export class MinimalMeadowQuestParchment {
 		this.opened = false;
 		this.root = documentValue.createElement('div');
 		this.root.className = 'Awtsmoos-quest-parchment-backdrop';
+		this.root.dataset.open = 'false';
 		this.root.hidden = true;
+		this.root.setAttribute('aria-hidden', 'true');
 		this.tracker = documentValue.createElement('aside');
 		this.tracker.className = 'Awtsmoos-quest-mini-tracker';
 		this.tracker.hidden = true;
@@ -30,13 +32,17 @@ export class MinimalMeadowQuestParchment {
 
 	open(snapshot = this.quest.snapshot()) {
 		this.opened = true;
+		this.root.dataset.open = 'true';
 		this.root.hidden = false;
+		this.root.setAttribute('aria-hidden', 'false');
 		this.render(snapshot);
 	}
 
 	close() {
 		this.opened = false;
+		this.root.dataset.open = 'false';
 		this.root.hidden = true;
+		this.root.setAttribute('aria-hidden', 'true');
 	}
 
 	refresh(snapshot) {
@@ -69,10 +75,7 @@ export class MinimalMeadowQuestParchment {
 
 	click(event) {
 		if (event.target === this.root || event.target.closest('[data-close]')) return this.close();
-		if (event.target.closest('[data-accept]')) {
-			this.quest.accept();
-			return;
-		}
+		if (event.target.closest('[data-accept]')) return void this.quest.accept();
 		if (event.target.closest('[data-decline]')) {
 			this.quest.decline();
 			return this.close();

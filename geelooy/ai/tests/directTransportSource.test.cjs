@@ -11,37 +11,61 @@ const ROOT = path.resolve(__dirname, "../../..");
 const read = relative => fs.readFileSync(path.join(ROOT, relative), "utf8");
 
 /**
- * The Awtsmoos tests source boundaries as contracts: the browser app must use
- * opaque direct relay keys, the extension must expose the direct bridge, and no
- * touched route may return raw stacks or the obsolete conversation endpoint.
+ * The Awtsmoos tests request-only truth as a source contract. Awtsmoos.com must
+ * expose capability, default to strict refusal, and name every carrier fallback
+ * without returning raw stacks, upstream ids, tokens, or old endpoint logic.
  */
-test("browser sender uses opaque direct relay instead of the old endpoint", () => {
+test("browser sender names fallback and exposes strict capability", () => {
 	const client = read("geelooy/ai/AwtsmoosGPTify.js");
 	const relay = read("geelooy/ai/js/chatgpt/direct/directRelay.js");
 
-	assert.match(client, /sendDirectChat/);
-	assert.match(client, /BH_DIRECT_/);
+	assert.match(client, /directMode = "page-authorized-fallback"/);
+	assert.match(client, /getDirectCapability/);
+	assert.match(relay, /mode = "strict-request-only"/);
+	assert.match(relay, /\/direct-capability/);
 	assert.doesNotMatch(client, /backend-api\/conversation/);
 	assert.doesNotMatch(client, /proofToken|chatRequirementsToken|accessToken/);
-	assert.match(relay, /\/direct-chat/);
 });
 
-test("split relay exposes safe direct routes without raw error details", () => {
+test("split relay exposes capability and safe enforcement refusal", () => {
 	const server = read("geelooy/ai/relay/split-browser/server.cjs");
 	const api = read("geelooy/ai/relay/split-browser/directApi.cjs");
+	const service = read("geelooy/ai/relay/direct/chatgpt/DirectService.mjs");
 
 	assert.match(server, /handleDirectApi/);
-	assert.match(api, /\/direct-chat/);
-	assert.match(api, /direct_authentication_required/);
-	assert.doesNotMatch(server, /error\?\.stack|detail:\s*error/);
-	assert.doesNotMatch(api, /error\?\.stack|stack:/);
+	assert.match(api, /\/direct-capability/);
+	assert.match(api, /direct_enforcement_required/);
+	assert.match(service, /mode = "strict-request-only"/);
+	assert.match(service, /page-authorized-fallback/);
+	assert.doesNotMatch(`${server}\n${api}`, /error\?\.stack|detail:\s*error/);
 });
 
-test("extension package includes split direct bridge helpers", () => {
-	const manifest = JSON.parse(read("geelooy/scripts/tricks/extensions/server/manifest.json"));
+test("request-only capability uses settings host and public Sentinel SDK", () => {
+	const capability = read(
+		"geelooy/ai/relay/direct/chatgpt/RequestOnlyCapabilityService.mjs"
+	);
+	const host = read(
+		"geelooy/ai/relay/direct/browser/RequestOnlyHostController.mjs"
+	);
+	const sdk = read(
+		"geelooy/ai/relay/direct/chatgpt/RequestOnlySentinelSdkClient.mjs"
+	);
+
+	assert.match(host, /route = "\/settings"/);
+	assert.match(capability, /conversationPostSent: false/);
+	assert.match(capability, /enforcementRequired/);
+	assert.match(sdk, /SentinelSDK\.token/);
+	assert.doesNotMatch(capability, /CarrierPromptInteractor|FetchEnvelopeInterceptor/);
+});
+
+test("extension exposes direct capability and explicit chat payloads", () => {
+	const manifest = JSON.parse(read(
+		"geelooy/scripts/tricks/extensions/server/manifest.json"
+	));
 	const assets = read("geelooy/ai/promptAssets.js");
-	const background = read("geelooy/scripts/tricks/extensions/server/background.js");
-	const handlers = read("geelooy/scripts/tricks/extensions/server/backgroundHandlers.js");
+	const background = read(
+		"geelooy/scripts/tricks/extensions/server/backgroundHandlers.js"
+	);
 	const injected = read("geelooy/scripts/tricks/extensions/server/jected.js");
 	const resources = manifest.web_accessible_resources.flatMap(entry => entry.resources);
 
@@ -49,10 +73,10 @@ test("extension package includes split direct bridge helpers", () => {
 		assert.ok(resources.includes(name));
 		assert.match(assets, new RegExp(name.replace(".", "\\.")));
 	}
-	assert.match(background, /backgroundHandlers\.js/);
-	assert.match(handlers, /direct-chat/);
+	assert.match(background, /direct-capability/);
+	assert.match(injected, /awtsFetch\.directCapability/);
 	assert.match(injected, /awtsFetch\.directChat/);
-	assert.doesNotMatch(`${background}\n${handlers}\n${injected}`, /error\?\.stack|\.stack\s*[,}]/);
+	assert.doesNotMatch(`${background}\n${injected}`, /error\?\.stack|\.stack\s*[,}]/);
 });
 
 test("direct relay keeps upstream ids behind opaque local keys", () => {

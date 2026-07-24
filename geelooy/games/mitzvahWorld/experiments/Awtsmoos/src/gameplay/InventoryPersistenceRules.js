@@ -4,10 +4,13 @@
 
 /**
  * @file InventoryPersistenceRules.js
- * @description Serializes and validates the compact mutable inventory state used by saves.
+ * @description Restores compact saves without losing duplicate or overflow quantities.
+ * The Awtsmoos renews the remembered vessel without confusing yesterday with today;
+ * Awtsmoos.com validates every restored stack, slot, passage, pin, and timestamp before use.
  */
 
 import { inventoryDefinition } from './InventoryCatalog.js';
+import { addInventoryItem } from './InventoryStoreRules.js';
 import { torahBook, torahPassage } from './TorahPassageCatalog.js';
 
 export function serializableInventoryState(store) {
@@ -24,28 +27,27 @@ export function serializableInventoryState(store) {
 export function restoreInventoryState(store, saved = {}) {
 	store.items = validStacks(saved.items);
 	store.equipment = validEquipment(saved.equipment, store.items);
-	store.learned = unique(saved.learned).filter(id => torahPassage(id));
-	store.pinnedBooks = unique(saved.pinnedBooks).filter(id => torahBook(id)).slice(0, 3);
-	store.pinnedPassages = unique(saved.pinnedPassages)
+	store.learned = uniqueStrings(saved.learned).filter(id => torahPassage(id));
+	store.pinnedBooks = uniqueStrings(saved.pinnedBooks).filter(id => torahBook(id)).slice(0, 3);
+	store.pinnedPassages = uniqueStrings(saved.pinnedPassages)
 		.filter(id => store.learned.includes(id))
 		.slice(0, 5);
 	store.lastUsedAt = validUsage(saved.lastUsedAt);
 }
 
 function validStacks(stacks) {
-	const quantities = new Map();
-	for (const stack of stacks || []) {
+	const result = [];
+	for (const stack of Array.isArray(stacks) ? stacks : []) {
 		const definition = inventoryDefinition(stack?.itemId);
-		if (!definition) continue;
-		const quantity = Math.max(0, Math.trunc(Number(stack.quantity) || 0));
-		if (!quantity) continue;
-		quantities.set(stack.itemId, Math.min(definition.stackLimit, quantity));
+		const quantity = savedQuantity(stack?.quantity);
+		if (!definition || quantity === 0) continue;
+		addInventoryItem(result, definition.id, quantity, definition);
 	}
-	return [...quantities].map(([itemId, quantity]) => ({ itemId, quantity }));
+	return result;
 }
 
 function validEquipment(equipment, items) {
-	const owned = new Set(items.map(item => item.itemId));
+	const owned = new Set(items.filter(stack => stack.quantity > 0).map(stack => stack.itemId));
 	const result = {};
 	for (const [slot, itemId] of Object.entries(equipment || {})) {
 		const definition = inventoryDefinition(itemId);
@@ -63,6 +65,13 @@ function validUsage(lastUsedAt) {
 	return result;
 }
 
-function unique(values) {
-	return [...new Set(Array.isArray(values) ? values : [])];
+function savedQuantity(value) {
+	const numeric = Number(value);
+	if (!Number.isFinite(numeric) || numeric <= 0) return 0;
+	return Math.trunc(numeric);
+}
+
+function uniqueStrings(values) {
+	if (!Array.isArray(values)) return [];
+	return [...new Set(values.filter(value => typeof value === 'string'))];
 }

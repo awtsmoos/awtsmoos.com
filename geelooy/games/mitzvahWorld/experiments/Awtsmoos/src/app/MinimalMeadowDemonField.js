@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowDemonField.js
- * @description Defines one closed implicit demon with connected head, limbs, joints, horns, and tail.
- * The Awtsmoos reveals one creature through continuous boundary rather than assembled shells;
- * Awtsmoos.com joins every shoulder, elbow, knee, eye, and horn before triangles are ever born.
+ * @description Defines one closed demon field and a finite procedural daylight palette.
+ * The Awtsmoos joins every limb before triangles arise; Awtsmoos.com lets violet hide,
+ * scorched seams, readable eyes, and horn ridges remain finite instead of NaN shadow.
  */
 
 export const DEMON_FIELD_BOUNDS = Object.freeze({
@@ -31,12 +31,23 @@ export function minimalDemonField(point) {
 }
 
 export function minimalDemonSurfaceColor(point) {
-	const leftEye = distanceTo(point, [-0.18, 2.99, 0.4]);
-	const rightEye = distanceTo(point, [0.18, 2.99, 0.4]);
-	if (Math.min(leftEye, rightEye) < 0.13) return [1, 0.08, 0.02, 1];
-	if (point.y > 3.25 && Math.abs(point.x) > 0.14) return [0.18, 0.05, 0.26, 1];
-	const vein = 0.5 + 0.5 * Math.sin(point.x * 12 + point.y * 8 + point.z * 9);
-	return [0.34 + vein * 0.22, 0.08 + vein * 0.08, 0.52 + vein * 0.28, 1];
+	const [x, y, z] = point;
+	const eyeDistance = Math.min(
+		distanceTo(point, [-0.18, 2.99, 0.4]),
+		distanceTo(point, [0.18, 2.99, 0.4])
+	);
+	if (eyeDistance < 0.13) return [1, 0.16, 0.045, 1];
+	if (y > 3.25 && Math.abs(x) > 0.14) return [0.34, 0.12, 0.48, 1];
+	const vein = wave(x * 12 + y * 8 + z * 9);
+	const scorch = wave(x * 5 - y * 3 + z * 14);
+	const face = y > 2.55 && z > 0.08 ? 0.07 : 0;
+	const limb = y < 0.95 || Math.abs(x) > 0.68 ? 0.055 : 0;
+	return [
+		clamp(0.38 + vein * 0.18 + scorch * 0.055 + face),
+		clamp(0.15 + vein * 0.095 + scorch * 0.035 + limb * 0.4),
+		clamp(0.54 + vein * 0.22 - scorch * 0.06 + limb),
+		1
+	];
 }
 
 function armField(point, side) {
@@ -64,11 +75,7 @@ function capsule(point, start, end, radius) {
 	const pa = subtract(point, start);
 	const ba = subtract(end, start);
 	const ratio = clamp(dot(pa, ba) / dot(ba, ba));
-	return Math.hypot(
-		pa[0] - ba[0] * ratio,
-		pa[1] - ba[1] * ratio,
-		pa[2] - ba[2] * ratio
-	) - radius;
+	return Math.hypot(pa[0] - ba[0] * ratio, pa[1] - ba[1] * ratio, pa[2] - ba[2] * ratio) - radius;
 }
 
 function sphere(point, center, radius) {
@@ -76,11 +83,7 @@ function sphere(point, center, radius) {
 }
 
 function distanceTo(first, second) {
-	return Math.hypot(
-		first[0] - second[0],
-		first[1] - second[1],
-		first[2] - second[2]
-	);
+	return Math.hypot(first[0] - second[0], first[1] - second[1], first[2] - second[2]);
 }
 
 function join(first, second, softness) {
@@ -94,6 +97,10 @@ function subtract(first, second) {
 
 function dot(first, second) {
 	return first.reduce((sum, value, index) => sum + value * second[index], 0);
+}
+
+function wave(value) {
+	return 0.5 + Math.sin(value) * 0.5;
 }
 
 function clamp(value) {

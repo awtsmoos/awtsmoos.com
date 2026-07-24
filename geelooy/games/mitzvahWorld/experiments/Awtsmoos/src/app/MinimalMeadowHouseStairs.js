@@ -3,45 +3,46 @@
 // Blessed is He
 
 /**
- * @file MinimalMeadowHouseStairs.js
- * @description Builds a twenty-step walkable staircase below the player's step-height limit.
- * The Awtsmoos permits ascent one measured tread at a time; Awtsmoos.com aligns visible boxes,
- * collision triangles, landing, opening, rise, run, and headroom inside the same dwelling.
- */
+	* @file MinimalMeadowHouseStairs.js
+	* @description Builds a solid parameterized staircase aligned with the upper-floor opening.
+	* The Awtsmoos permits ascent through many finite rises; Awtsmoos.com keeps tread, run, landing,
+	* headroom, width, floor elevation, visible boxes, and walkable collision on one measured path.
+	*/
 
-import { houseBox } from './MinimalMeadowHouseMath.js?v=20260724-meadow-17';
-
-const STEP_COUNT = 20;
+import { houseBox } from './MinimalMeadowHouseMath.js';
 
 export function createMinimalMeadowHouseStairs(profile, materials, groundY) {
 	if (profile.floors < 2) return { definitions: [], stats: null };
-	const rise = profile.storyHeight / STEP_COUNT;
-	const depth = 0.48;
-	const width = 2.7;
-	const startZ = profile.depth / 2 - 2.4;
-	const localX = -0.2;
+	const policy = profile.layout;
+	const rise = profile.storyHeight / policy.stairSteps;
+	const lowerY = groundY + profile.floorThickness;
+	const startZ = policy.innerDepth / 2 - 3;
 	const definitions = [];
-	for (let index = 0; index < STEP_COUNT; index += 1) {
-		const topY = groundY + profile.floorThickness + rise * (index + 1);
-		definitions.push(houseBox(
-			profile,
-			materials.floor,
-			`stair-${index + 1}`,
-			localX,
-			topY - rise / 2,
-			startZ - index * depth,
-			{ x: width, y: rise, z: depth },
-			{ walkable: true }
-		));
+	for (let index = 0; index < policy.stairSteps; index += 1) {
+		const height = rise * (index + 1);
+		definitions.push(houseBox(profile, materials.floor, `stair-${index + 1}`, 0, lowerY + height / 2, startZ - (index + 0.5) * policy.stairTread, {
+			x: policy.stairWidth,
+			y: height,
+			z: policy.stairTread + 0.02
+		}, { role: 'solid-interior-stair', walkable: true }));
 	}
+	const landingZ = startZ - policy.stairRun - policy.stairLandingDepth / 2;
+	definitions.push(houseBox(profile, materials.floor, 'upper-stair-landing', 0, lowerY + profile.storyHeight - profile.floorThickness / 2, landingZ, {
+		x: policy.stairWidth,
+		y: profile.floorThickness,
+		z: policy.stairLandingDepth
+	}, { role: 'upper-stair-landing', walkable: true }));
 	return {
 		definitions,
-		stats: {
-			headroom: profile.storyHeight - 0.4,
+		stats: Object.freeze({
+			headroom: profile.storyHeight - profile.floorThickness,
+			landingDepth: policy.stairLandingDepth,
 			maximumRise: rise,
-			run: STEP_COUNT * depth,
-			steps: STEP_COUNT,
-			width
-		}
+			openingDepth: policy.stairRun + policy.stairLandingDepth + 1,
+			run: policy.stairRun,
+			steps: policy.stairSteps,
+			tread: policy.stairTread,
+			width: policy.stairWidth
+		})
 	};
 }

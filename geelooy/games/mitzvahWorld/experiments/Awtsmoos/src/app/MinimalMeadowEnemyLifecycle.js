@@ -4,13 +4,13 @@
 
 /**
  * @file MinimalMeadowEnemyLifecycle.js
- * @description Owns living target, persistent corpse, damage, defeat, and loot transitions.
- * The Awtsmoos returns every finite battle to stillness; Awtsmoos.com keeps defeated bodies
- * selectable until one honest loot receipt closes their interaction without erasing the corpse.
+ * @description Owns living target, persistent corpse selection, defeat, and deliberate second-step loot.
+ * The Awtsmoos returns battle to stillness without erasing the truth of what remains;
+ * Awtsmoos.com separates selecting a corpse from taking its loot so touch and drag cannot steal by accident.
  */
 
 import { npcPointerHits } from '../world/npc/NpcPointerRay.js';
-import { lootMinimalEnemyCorpse } from './MinimalMeadowEnemyLoot.js?v=20260724-meadow-17';
+import { lootMinimalEnemyCorpse } from './MinimalMeadowEnemyLoot.js';
 
 export function minimalEnemyPointerHit(actor, event) {
 	if (actor.looted) return false;
@@ -53,5 +53,15 @@ export function defeatMinimalEnemy(actor) {
 }
 
 export function interactWithMinimalEnemy(actor) {
-	return actor.alive ? targetMinimalEnemy(actor) : lootMinimalEnemyCorpse(actor);
+	if (actor.alive) return targetMinimalEnemy(actor);
+	if (actor.looted) return { accepted: false, reason: 'CORPSE_ALREADY_LOOTED' };
+	if (!actor.selected) {
+		targetMinimalEnemy(actor);
+		return {
+			accepted: false,
+			reason: 'CORPSE_SELECTED',
+			target: actor.payload()
+		};
+	}
+	return lootMinimalEnemyCorpse(actor);
 }

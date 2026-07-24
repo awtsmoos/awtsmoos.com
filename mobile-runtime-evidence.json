@@ -1,0 +1,212 @@
+{
+  "title": "B\"H Mitzvah World — Restored River Valley",
+  "readyState": "complete",
+  "viewport": [
+    500,
+    701,
+    1
+  ],
+  "canvas": {
+    "backing": [
+      500,
+      701
+    ],
+    "rect": [
+      500,
+      701
+    ]
+  },
+  "resources": 250,
+  "bodyText": "−\n🎩\nChossid\nLevel 1 · Health 100/100 · Armor 3\n⭐ XP 0/100\n1\n−\nאש\n1\nאור\n2\n⚔\n3\n◎\nTab\n−\n🚶\nWalk\n›\n🎒\nBag\n🌟\nChossid\n🗺️\nMap\n📜\nShlichus\n📚\nSefarim\n🎮\nControls\n👁️\nHUD\n☰\nMenu",
+  "actorCount": 6,
+  "groupChildren": 6,
+  "rows": [
+    {
+      "index": 0,
+      "name": "Awtsmoos_single_surface_tzel-chai",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "violet-ash",
+      "color": [
+        0.44639999999999996,
+        0.279,
+        0.589,
+        1
+      ],
+      "emissive": [
+        0.08035199999999999,
+        0.03348,
+        0.12958
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    },
+    {
+      "index": 1,
+      "name": "Awtsmoos_single_surface_esh-katan",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "scorched-ember",
+      "color": [
+        0.62,
+        0.1736,
+        0.1984,
+        1
+      ],
+      "emissive": [
+        0.11159999999999999,
+        0.020832,
+        0.043648
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    },
+    {
+      "index": 2,
+      "name": "Awtsmoos_single_surface_ruach-afelah",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "scorched-ember",
+      "color": [
+        0.21445470069953076,
+        0.3880608869801033,
+        0.510606430236978,
+        1
+      ],
+      "emissive": [
+        0.03860184612591554,
+        0.0465673064376124,
+        0.11233341465213517
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    },
+    {
+      "index": 3,
+      "name": "Awtsmoos_single_surface_shomer-hoshech",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "violet-ash",
+      "color": [
+        0.3875946230055027,
+        0.1691321991296739,
+        0.5073965973890217,
+        1
+      ],
+      "emissive": [
+        0.06976703214099048,
+        0.020295863895560866,
+        0.11162725142558476
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    },
+    {
+      "index": 4,
+      "name": "Awtsmoos_single_surface_ketem-layla",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "weathered-stone",
+      "color": [
+        0.5332,
+        0.217,
+        0.5704,
+        1
+      ],
+      "emissive": [
+        0.09597599999999999,
+        0.026039999999999997,
+        0.12548800000000002
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    },
+    {
+      "index": 5,
+      "name": "Awtsmoos_single_surface_ayin-raash",
+      "visible": true,
+      "bootstrapVisual": true,
+      "family": "scorched-ember",
+      "color": [
+        0.4901020427106604,
+        0.34529916645523795,
+        0.18,
+        1
+      ],
+      "emissive": [
+        0.08821836768791887,
+        0.04143589997462855,
+        0.039599999999999996
+      ],
+      "emissiveStrength": 0.24,
+      "roughness": 0.78,
+      "metalness": 0.035,
+      "vertexColors": true,
+      "map": [
+        256,
+        256
+      ],
+      "mapRepeat": [
+        3.2,
+        2.55
+      ],
+      "anisotropy": 6
+    }
+  ],
+  "richWorldError": "B\"H | real procedural tree bark and leaf textures are required."
+}

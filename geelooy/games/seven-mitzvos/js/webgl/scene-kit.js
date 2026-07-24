@@ -2,38 +2,52 @@
 //Boruch Hashem
 //Blessed is He
 
+import { CorePartFactory } from '../procedural/core-part-factory.js';
 import { THREE } from './webgl-stage.js';
 
 /**
  * @module SceneKit
  * @description
- * The Awtsmoos spreads one earth beneath seven different missions. This small
- * Awtsmoos.com kit supplies horizon, stars, and spatial rhythm while leaving the
- * actual laws of play to each independent world.
+ * Continuous grass, worn earth, horizon stone, and stars replace the former grid.
+ * The Awtsmoos spreads one undivided ground beneath seven missions; Awtsmoos.com
+ * uses no tile cells, snapping, grid helper, or discrete movement coordinates.
  */
 export function addArena(stage, hue = 42) {
-	const ground = new THREE.Mesh(
-		new THREE.CircleGeometry(8.5, 64),
-		new THREE.MeshStandardMaterial({
-			color: new THREE.Color().setHSL(hue / 360, 0.28, 0.11),
-			roughness: 0.88,
-			metalness: 0.08
-		})
-	);
-	ground.rotation.x = -Math.PI / 2;
-	ground.receiveShadow = true;
+	const parts = new CorePartFactory();
+	const ground = parts.part({
+		materialRole: 'grass',
+		name: 'continuous-grass-ground',
+		primitive: 'cylinder',
+		position: [0, -0.1, 0],
+		scale: [17, 0.18, 17],
+		tint: 0xffffff
+	});
+	const earth = parts.part({
+		materialRole: 'dirt',
+		name: 'continuous-earth-underlay',
+		primitive: 'cylinder',
+		position: [0, -0.22, 0],
+		scale: [19.5, 0.28, 19.5],
+		tint: 0xffffff
+	});
+	const boundary = parts.part({
+		materialRole: 'masonry',
+		name: 'arena-retaining-wall',
+		primitive: 'torus',
+		position: [0, 0.12, 0],
+		rotation: [Math.PI / 2, 0, 0],
+		scale: [8.7, 8.7, 8.7],
+		tint: 0xffffff
+	});
+	stage.add(earth);
 	stage.add(ground);
-	const grid = new THREE.GridHelper(16, 16, 0x6fcfff, 0x18324f);
-	grid.position.y = 0.015;
-	grid.material.transparent = true;
-	grid.material.opacity = 0.22;
-	stage.add(grid);
-	stage.add(starField(220));
+	stage.add(boundary);
+	stage.add(starField(180, hue));
 	return ground;
 }
 
 export function ringPosition(index, count, radius = 4.2, height = 0.6) {
-	const angle = (index / count) * Math.PI * 2 - Math.PI / 2;
+	const angle = index / count * Math.PI * 2 - Math.PI / 2;
 	return [Math.cos(angle) * radius, height, Math.sin(angle) * radius];
 }
 
@@ -48,7 +62,7 @@ export function pulseObject(object, elapsed, amount = 0.08, speed = 4) {
 	object.scale.setScalar(scale);
 }
 
-function starField(count) {
+function starField(count, hue) {
 	const positions = new Float32Array(count * 3);
 	for (let index = 0; index < count; index += 1) {
 		const offset = index * 3;
@@ -58,6 +72,7 @@ function starField(count) {
 	}
 	const geometry = new THREE.BufferGeometry();
 	geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-	const material = new THREE.PointsMaterial({ color: 0xd8efff, size: 0.055, transparent: true, opacity: 0.78 });
+	const color = new THREE.Color().setHSL(hue / 360, 0.28, 0.82);
+	const material = new THREE.PointsMaterial({ color, opacity: 0.68, size: 0.045, transparent: true });
 	return new THREE.Points(geometry, material);
 }

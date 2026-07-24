@@ -4,62 +4,60 @@
 
 /**
  * @file MinimalMeadowAnimationState.js
- * @description Selects GLB idle, travel, double-jump, falling, cast, and strike actions.
- * The Awtsmoos gives each motion its truthful garment; Awtsmoos.com names both airborne jumps
- * and combat actions even when an older GLB must gracefully fall back to its closest available clip.
+ * @description Installs clip crossfades, locked combat phases, and additive Mixamo player gestures.
+ * The Awtsmoos clothes each measured action after the imported clip is sampled; Awtsmoos.com keeps
+ * locomotion beneath casting until launch, then returns arm, hand, staff, torso, and head smoothly.
  */
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
-
-const CLIP_PATTERNS = Object.freeze({
-	casting: [/cast|spell|magic|attack/i, /stand|neutral/i],
-	falling: [/^falling_Armature$/i, /fall/i],
-	jumping: [/^jump_Armature$/i, /jump/i],
-	running: [/^run_Armature$/i, /run/i],
-	standing: [/^stand_Armature$/i, /^stand 2_Armature$/i, /stand|neutral/i],
-	striking: [/attack|strike|staff|hit/i, /stand|neutral/i],
-	walking: [/^walk_Armature$/i, /walk/i]
-});
+import { minimalMeadowClipForState } from './MinimalMeadowAnimationClipPolicy.js';
+import { MinimalMeadowCombatAnimationController } from './MinimalMeadowCombatAnimationController.js';
+import { MinimalMeadowPlayerBonePose } from './MinimalMeadowPlayerBonePose.js';
 
 export function installMinimalMeadowAnimation(runtime) {
+	runtime.playerAnimation?.controller?.destroy?.();
 	const player = new TinyAnimationPlayer(runtime.model, runtime.playerGltf?.animations || []);
+	const controller = new MinimalMeadowCombatAnimationController(runtime);
+	const pose = new MinimalMeadowPlayerBonePose(runtime.model);
+	const animation = { controller, model: runtime.model, player, pose };
 	runtime.player = player;
-	playState(runtime, 'standing');
+	runtime.playerAnimation = animation;
+	playCurrentClip(runtime, 'standing');
 	player.update(0);
+	runtime.animationDiagnostics = () => diagnostics(animation);
 	return player;
 }
 
 export function updateMinimalMeadowAnimation(runtime, deltaSeconds) {
-	const stateName = animationState(runtime);
-	playState(runtime, stateName);
-	runtime.player?.update?.(deltaSeconds);
-	runtime.state.clip = runtime.player?.current?.name || '';
+	let animation = runtime.playerAnimation;
+	if (!animation || animation.model !== runtime.model) {
+		installMinimalMeadowAnimation(runtime);
+		animation = runtime.playerAnimation;
+	}
+	animation.controller.update(deltaSeconds);
+	const stateName = animation.controller.animationState();
+	playCurrentClip(runtime, stateName);
+	animation.player.update(deltaSeconds);
+	animation.pose.update(animation.controller, deltaSeconds, animation.player.names.length > 0);
+	runtime.state.animationState = stateName;
+	runtime.state.animationLocked = animation.controller.locked;
+	runtime.state.castAnimationProgress = animation.controller.progress;
+	runtime.state.clip = animation.player.current?.name || '';
 	runtime.model?.updateWorldMatrix?.();
 }
 
-function animationState(runtime) {
-	const state = runtime.state;
-	if (runtime.combat?.cast) return 'casting';
-	if (state.action === 'melee' || state.action === 'strike') return 'striking';
-	if (state.action === 'jump-one' || state.action === 'jump-two') return 'jumping';
-	if (state.action === 'falling') return 'falling';
-	if (!state.moving) return 'standing';
-	return state.runMode ? 'running' : 'walking';
+function playCurrentClip(runtime, stateName) {
+	const animation = runtime.playerAnimation;
+	const weaponKind = /blade|sword/i.test(runtime.equipment?.weaponItemId || '') ? 'sword' : 'staff';
+	const clip = minimalMeadowClipForState(animation.player.names, stateName, { weaponKind });
+	if (clip && animation.player.current?.name !== clip) animation.player.play(clip);
 }
 
-function playState(runtime, stateName) {
-	const player = runtime.player;
-	if (!player?.names?.length) return;
-	const clip = findClip(player.names, CLIP_PATTERNS[stateName]);
-	if (!clip || player.current?.name === clip) return;
-	player.play(clip);
-	runtime.state.animationState = stateName;
-}
-
-function findClip(names, patterns) {
-	for (const pattern of patterns) {
-		const match = names.find(name => pattern.test(name));
-		if (match) return match;
-	}
-	return names[0] || '';
+function diagnostics(animation) {
+	return {
+		clip: animation.player.diagnostics(),
+		controller: animation.controller.snapshot(),
+		model: animation.model?.name || '',
+		pose: animation.pose.diagnostics()
+	};
 }

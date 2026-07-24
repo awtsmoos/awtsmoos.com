@@ -4,34 +4,75 @@
 
 /**
  * @file WorldTargetCoordinator.js
- * @description Owns one pointer stream across every compatible world population.
- * The Awtsmoos renews many visible beings beneath one indivisible choice; Awtsmoos.com chooses
- * the nearest honest candidate while preserving modern and legacy population behavior.
+ * @description Distinguishes a world click from a camera drag across compatible populations.
+ * The Awtsmoos separates a finite point of choice from a journey across the valley;
+ * Awtsmoos.com waits for movement evidence before selecting, clearing, or stopping propagation.
  */
 
-import {
-	createWorldTargetPopulationAdapters
-} from './WorldTargetPopulationAdapter.js';
+import { createWorldTargetPopulationAdapters } from './WorldTargetPopulationAdapter.js';
+
+const DRAG_THRESHOLD = 6;
 
 export class WorldTargetCoordinator {
-	/**
-	 * @param {object} options - Shared target ownership options.
-	 * @param {HTMLElement} options.canvas - Renderer canvas.
-	 * @param {Array<object>} [options.populations] - Explicit population collection.
-	 * @param {object} [options.friendlyNpcs] - Friendly population compatibility input.
-	 * @param {object} [options.hostileNpcs] - Hostile population compatibility input.
-	 */
 	constructor(options = {}) {
 		this.canvas = options.canvas;
-		this.adapters = createWorldTargetPopulationAdapters(
-			resolvePopulations(options)
-		);
+		this.adapters = createWorldTargetPopulationAdapters(resolvePopulations(options));
 		this.populations = this.adapters.map(adapter => adapter.population);
 		this.enabled = canOwnPointer(this.canvas, this.adapters);
-		this.pointerHandler = event => this.selectFromPointer(event);
-		this.onPointerDown = this.pointerHandler;
+		this.pointer = null;
+		this.handlers = {
+			pointercancel: event => this.cancelPointer(event),
+			pointerdown: event => this.beginPointer(event),
+			pointermove: event => this.movePointer(event),
+			pointerup: event => this.finishPointer(event)
+		};
+		this.onPointerDown = this.handlers.pointerdown;
 		if (this.enabled) {
-			this.canvas.addEventListener('pointerdown', this.pointerHandler);
+			for (const [name, handler] of Object.entries(this.handlers)) {
+				this.canvas.addEventListener(name, handler);
+			}
+		}
+	}
+
+	beginPointer(event) {
+		if (this.pointer || event.button > 0) {
+			return;
+		}
+		this.pointer = {
+			dragging: false,
+			id: event.pointerId,
+			startX: event.clientX,
+			startY: event.clientY
+		};
+	}
+
+	movePointer(event) {
+		if (!this.pointer || event.pointerId !== this.pointer.id) {
+			return;
+		}
+		const distance = Math.hypot(
+			event.clientX - this.pointer.startX,
+			event.clientY - this.pointer.startY
+		);
+		if (distance >= DRAG_THRESHOLD) {
+			this.pointer.dragging = true;
+		}
+	}
+
+	finishPointer(event) {
+		if (!this.pointer || event.pointerId !== this.pointer.id) {
+			return;
+		}
+		const shouldSelect = !this.pointer.dragging;
+		this.pointer = null;
+		if (shouldSelect) {
+			this.selectFromPointer(event);
+		}
+	}
+
+	cancelPointer(event) {
+		if (this.pointer && event.pointerId === this.pointer.id) {
+			this.pointer = null;
 		}
 	}
 
@@ -40,7 +81,9 @@ export class WorldTargetCoordinator {
 	}
 
 	selectFromPointer(event) {
-		if (!this.enabled) return false;
+		if (!this.enabled) {
+			return false;
+		}
 		const candidate = this.nearestCandidate(event);
 		if (!candidate) {
 			this.clearAll();
@@ -48,7 +91,9 @@ export class WorldTargetCoordinator {
 		}
 		stopPointerEvent(event);
 		for (const adapter of this.adapters) {
-			if (adapter !== candidate.adapter) adapter.clearAll();
+			if (adapter !== candidate.adapter) {
+				adapter.clearAll();
+			}
 		}
 		candidate.adapter.activateCandidate(candidate);
 		return true;
@@ -66,28 +111,35 @@ export class WorldTargetCoordinator {
 	}
 
 	clearAll(exception = null) {
-		for (const adapter of this.adapters) adapter.clearAll(exception);
+		for (const adapter of this.adapters) {
+			adapter.clearAll(exception);
+		}
 	}
 
 	diagnostics() {
 		return {
 			contracts: this.adapters.map(adapter => adapter.diagnostics()),
+			dragThreshold: DRAG_THRESHOLD,
 			enabled: this.enabled,
-			listenerCount: this.enabled ? 1 : 0,
+			listenerCount: this.enabled ? Object.keys(this.handlers).length : 0,
+			pointerActive: Boolean(this.pointer),
 			populations: this.populations.length
 		};
 	}
 
 	destroy() {
-		if (!this.enabled) return;
-		this.canvas.removeEventListener('pointerdown', this.pointerHandler);
+		if (!this.enabled) {
+			return;
+		}
+		for (const [name, handler] of Object.entries(this.handlers)) {
+			this.canvas.removeEventListener(name, handler);
+		}
+		this.pointer = null;
 	}
 }
 
 function resolvePopulations(options) {
-	const supplied = Array.isArray(options.populations)
-		? options.populations
-		: [];
+	const supplied = Array.isArray(options.populations) ? options.populations : [];
 	const compatibility = [options.friendlyNpcs, options.hostileNpcs];
 	return [...new Set([...supplied, ...compatibility].filter(Boolean))];
 }

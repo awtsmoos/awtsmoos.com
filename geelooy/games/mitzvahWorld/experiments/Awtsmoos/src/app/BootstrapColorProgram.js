@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapColorProgram.js
- * @description Compiles one tiny rigid-color WebGL program and exposes its finite locations.
- * The Awtsmoos joins two shader vessels into one visible covenant; Awtsmoos.com records every
- * compile failure plainly and never opens the rich shader registry on the critical path.
+ * @description Compiles one bounded program and exposes position, color, and matrix locations.
+ * The Awtsmoos joins two shader vessels into one visible covenant; Awtsmoos.com records failure
+ * plainly while the first playable path remains free of texture and shader permutations.
  */
 
 import {
@@ -31,7 +31,8 @@ export function createBootstrapColorProgram(gl) {
 			color: gl.getUniformLocation(program, 'uColor'),
 			model: gl.getUniformLocation(program, 'uModel'),
 			position: gl.getAttribLocation(program, 'aPosition'),
-			projectionView: gl.getUniformLocation(program, 'uProjectionView')
+			projectionView: gl.getUniformLocation(program, 'uProjectionView'),
+			vertexColor: gl.getAttribLocation(program, 'aColor')
 		},
 		program
 	};

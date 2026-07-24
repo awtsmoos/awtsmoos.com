@@ -5,11 +5,11 @@
 /**
  * @module RagShardDiscovery
  * @description
- * Physical shards are inspected independently, then matching parts are gathered
- * into one logical lane so the Awtsmoos may reveal a corpus larger than one list.
+ * Manifest descriptions are grouped without opening AWTSDB. Text search can then
+ * stream sidecars safely, while explicit vector code remains responsible for
+ * opening only a supported non-partial shard at the moment it is requested.
  */
 
-const { openShardSession } = require('./shardStore.js');
 const { describeFile, shardFiles } = require('./shardManifest.js');
 
 function rowsOf(list) {
@@ -19,30 +19,29 @@ function rowsOf(list) {
 		: Array.from({ length: Number(list?.length || 0) }, (_value, index) => list[index]);
 }
 
-function inspectSelected(shard) {
-	const session = openShardSession(shard);
-	return {
-		...shard,
-		listName: session.listName,
-		count: Number(session.list.length || 0),
-		vectorEnabled: session.status.usable,
-		registryCount: session.status.registryCount,
-		entryNodeID: session.status.entryNodeID,
-		maxLevel: session.status.maxLevel
-	};
-}
-
 function logicalShard(parts) {
-	if (parts.length === 1) return parts[0];
-	const first = parts[0];
+	const ordered = [...parts].sort((left, right) => left.partNumber - right.partNumber);
+	if (ordered.length === 1) return ordered[0];
+	const first = ordered[0];
+	const completeParts = ordered.length;
+	const expectedParts = Math.max(...ordered.map(part => Number(part.expectedParts || 1)));
+	const partial = ordered.some(part => part.partial === true);
 	return {
 		...first,
+		title: partial
+			? `${first.title} (Parts 1–${completeParts} of ${expectedParts})`
+			: first.title,
 		file: null,
-		parts,
-		count: parts.reduce((sum, part) => sum + Number(part.count || 0), 0),
-		bytes: parts.reduce((sum, part) => sum + Number(part.bytes || 0), 0),
-		vectorEnabled: parts.every(part => part.vectorEnabled === true),
-		registryCount: parts.reduce((sum, part) => sum + Number(part.registryCount || 0), 0)
+		parts: ordered,
+		count: ordered.reduce((sum, part) => sum + Number(part.count || 0), 0),
+		bytes: ordered.reduce((sum, part) => sum + Number(part.bytes || 0), 0),
+		vectorEnabled: false,
+		registryCount: 0,
+		partial,
+		completeParts,
+		expectedParts,
+		publicationStatus: partial ? `partial-${completeParts}-of-${expectedParts}` : 'complete',
+		textOnly: partial
 	};
 }
 
@@ -56,18 +55,21 @@ function grouped(shards) {
 	return [...lanes.values()].map(logicalShard);
 }
 
+function describedShards($i) {
+	return shardFiles($i).map(describeFile);
+}
+
 async function availableShards({ $i }) {
-	const physical = shardFiles($i).map(describeFile).map(inspectSelected);
-	return grouped(physical).sort((left, right) => right.count - left.count);
+	return grouped(describedShards($i))
+		.sort((left, right) => right.count - left.count);
 }
 
 async function resolveShard({ $i, lane }) {
-	const shards = shardFiles($i).map(describeFile);
+	const shards = describedShards($i);
+	const lanes = grouped(shards);
 	const requested = String(lane || '').toLowerCase();
-	const matches = requested
-		? shards.filter(shard => matchesLane(shard, requested))
-		: shards.filter(shard => shard.id === grouped(shards)[0]?.id);
-	return matches.length ? logicalShard(matches.map(inspectSelected)) : null;
+	if (!requested) return lanes[0] || null;
+	return lanes.find(shard => matchesLane(shard, requested)) || null;
 }
 
 function matchesLane(shard, requested) {
@@ -76,4 +78,12 @@ function matchesLane(shard, requested) {
 		|| shard.id.includes(requested);
 }
 
-module.exports = { availableShards, resolveShard, rowsOf };
+module.exports = {
+	availableShards,
+	describedShards,
+	grouped,
+	logicalShard,
+	matchesLane,
+	resolveShard,
+	rowsOf
+};

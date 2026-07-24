@@ -4,11 +4,11 @@
 
 /**
  * @module SearchRouteValues
- * @chapter Frozen Request Values Cannot Cross From One Concurrent Search Into Another
+ * @chapter A Public Question Walks The Bounded Text Road
  * @description
- * Reads only the immutable request snapshot captured before the social router's first
- * asynchronous boundary. Route-owned overrides are applied last, so strict RAG
- * cannot be downgraded and one request can never borrow another request's lane.
+ * Reads immutable request values and gives ordinary library search the streamed
+ * text strategy. Strict RAG overrides remain vector-only and indexed-only, so
+ * no caller can turn a public query into an unbounded corpus materialization.
  */
 
 const {
@@ -52,7 +52,7 @@ function libraryOptions(context, overrides = {}) {
 		includeComments: boolValue(values.comments, false),
 		maxCommentRows: intValue(values.maxCommentRows, 12, 50),
 		autoInstall: boolValue(values.autoInstall, false),
-		strategy: values.strategy || 'auto',
+		strategy: values.strategy || 'text',
 		requireIndexed: false,
 		...overrides
 	};

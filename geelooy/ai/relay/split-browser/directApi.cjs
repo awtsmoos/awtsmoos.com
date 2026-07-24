@@ -4,9 +4,9 @@ const { json, readBody } = require("./http.cjs");
 let servicePromise = null;
 
 /**
- * The local relay exposes answers and opaque keys, never ChatGPT credentials or
- * identifiers. The Awtsmoos joins CommonJS routing to the small ESM direct engine
- * while Awtsmoos.com returns safe errors without browser or token stack traces.
+ * The Awtsmoos gives each direct route a truthful boundary. Awtsmoos.com exposes
+ * request-only capability, strict refusal, explicit fallback, reset, and health
+ * without returning credentials, challenge values, upstream ids, or raw stacks.
  */
 async function handleDirectApi(req, res, path) {
 	try {
@@ -14,9 +14,11 @@ async function handleDirectApi(req, res, path) {
 		if (path === "/direct-health" && req.method === "GET") {
 			return json(res, service.status());
 		}
+		if (path === "/direct-capability" && req.method === "GET") {
+			return json(res, await service.capability());
+		}
 		if (path === "/direct-chat" && req.method === "POST") {
-			const payload = await requestJson(req);
-			return json(res, await service.send(payload));
+			return json(res, await service.send(await requestJson(req)));
 		}
 		if (path === "/direct-reset" && req.method === "POST") {
 			const payload = await requestJson(req);
@@ -28,7 +30,7 @@ async function handleDirectApi(req, res, path) {
 			error: "direct_route_not_found"
 		}, 404);
 	} catch (error) {
-		return json(res, publicError(error), error instanceof TypeError ? 400 : 500);
+		return json(res, publicError(error), publicStatus(error));
 	}
 }
 
@@ -43,28 +45,52 @@ async function requestJson(req) {
 	return JSON.parse(text || "{}");
 }
 
+function publicStatus(error) {
+	if (error instanceof TypeError) return 400;
+	if (error?.code === "direct_enforcement_required") return 409;
+	return 500;
+}
+
 function publicError(error) {
+	if (error?.code === "direct_enforcement_required") {
+		return {
+			ok: false,
+			status: error.code,
+			error: error.code,
+			safeHint: "Strict request-only preparation succeeded, but normal enforcement is required before chat submission.",
+			capability: error.capability
+		};
+	}
 	const message = String(error?.message || error || "Direct ChatGPT request failed.");
-	const authentication = /authenticated|login|session|composer|socket/i.test(message);
+	const authentication = /authenticated|login|session|composer|socket|debug page/i.test(message);
 	const expired = /expired|not found/i.test(message);
+	const invalidMode = /Unsupported direct mode/i.test(message);
+	const code = authentication
+		? "direct_authentication_required"
+		: expired
+			? "direct_conversation_expired"
+			: invalidMode
+				? "direct_mode_invalid"
+				: "direct_request_failed";
 	return {
 		ok: false,
-		status: authentication
-			? "direct_authentication_required"
-			: expired
-				? "direct_conversation_expired"
-				: "direct_request_failed",
-		error: authentication
-			? "direct_authentication_required"
-			: expired
-				? "direct_conversation_expired"
-				: "direct_request_failed",
-		safeHint: authentication
-			? "Open the relay's debug Chrome profile and authenticate ChatGPT manually."
-			: expired
-				? "Start a new direct conversation because the local continuation key expired."
-				: "The direct request did not complete. Check relay health and retry after the pacing interval."
+		status: code,
+		error: code,
+		safeHint: safeHint(code)
 	};
+}
+
+function safeHint(code) {
+	if (code === "direct_authentication_required") {
+		return "Open the relay's debug Chrome profile and authenticate ChatGPT manually.";
+	}
+	if (code === "direct_conversation_expired") {
+		return "Start a new direct conversation because the local continuation key expired.";
+	}
+	if (code === "direct_mode_invalid") {
+		return "Use strict-request-only or page-authorized-fallback.";
+	}
+	return "The direct request did not complete. Check relay health and pacing.";
 }
 
 module.exports = { handleDirectApi };

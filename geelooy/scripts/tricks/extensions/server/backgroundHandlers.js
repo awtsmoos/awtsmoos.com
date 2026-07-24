@@ -5,9 +5,9 @@
 const DIRECT_RELAY = "http://127.0.0.1:38488";
 
 /**
- * The background handlers carry generic streams and opaque direct-chat packets.
- * The Awtsmoos reveals results through safe reply shapes; Awtsmoos.com never
- * returns browser stacks, relay credentials, or upstream ChatGPT identifiers.
+ * The Awtsmoos carries generic streams and explicit direct relay actions. Through
+ * Awtsmoos.com the extension can inspect strict request-only capability, request
+ * a named fallback chat, or reset state without exposing relay secrets or stacks.
  */
 function registerAwtsmoosBackgroundHandlers(portManager) {
 	portManager.on("fetch", async (message, port) => {
@@ -32,41 +32,71 @@ function registerAwtsmoosBackgroundHandlers(portManager) {
 		}
 	});
 
-	portManager.on("fetch-body", async (message, port) => streamAction(message, port, async () => {
-		return message.bodyAction === "read"
-			? await globalThis.__awtsmoosStreamLedger.read(message.id)
-			: await globalThis.__awtsmoosStreamLedger.body(message.id, message.bodyAction);
-	}, portManager));
-	portManager.on("resume-stream", async (message, port) => streamAction(message, port, () => {
-		return globalThis.__awtsmoosStreamLedger.resume(message.id, message.cursor);
-	}, portManager));
-	portManager.on("ack-stream", async (message, port) => streamAction(message, port, () => {
-		return globalThis.__awtsmoosStreamLedger.ack(message.id, message.cursor);
-	}, portManager));
-	portManager.on("stream-stats", async (message, port) => streamAction(message, port, () => {
-		return globalThis.__awtsmoosStreamLedger.stats(message.id);
-	}, portManager));
-	portManager.on("cancel-stream", async (message, port) => streamAction(message, port, () => {
-		return globalThis.__awtsmoosStreamLedger.cancel(message.id, message.reason || "cancelled");
-	}, portManager));
+	registerStreamHandlers(portManager);
+	portManager.on("direct-capability", async (message, port) => {
+		return relayAction({
+			path: "/direct-capability",
+			method: "GET",
+			message,
+			port,
+			portManager
+		});
+	});
 	portManager.on("direct-chat", async (message, port) => {
-		return directAction("/direct-chat", message, port, portManager);
+		return relayAction({
+			path: "/direct-chat",
+			method: "POST",
+			message,
+			port,
+			portManager
+		});
 	});
 	portManager.on("direct-reset", async (message, port) => {
-		return directAction("/direct-reset", message, port, portManager);
+		return relayAction({
+			path: "/direct-reset",
+			method: "POST",
+			message,
+			port,
+			portManager
+		});
 	});
 }
 
-async function directAction(path, message, port, portManager) {
-	try {
-		const response = await fetch(`${DIRECT_RELAY}${path}`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(message.payload || {})
+function registerStreamHandlers(portManager) {
+	const actions = {
+		"fetch-body": message => message.bodyAction === "read"
+			? globalThis.__awtsmoosStreamLedger.read(message.id)
+			: globalThis.__awtsmoosStreamLedger.body(message.id, message.bodyAction),
+		"resume-stream": message => globalThis.__awtsmoosStreamLedger.resume(
+			message.id,
+			message.cursor
+		),
+		"ack-stream": message => globalThis.__awtsmoosStreamLedger.ack(
+			message.id,
+			message.cursor
+		),
+		"stream-stats": message => globalThis.__awtsmoosStreamLedger.stats(message.id),
+		"cancel-stream": message => globalThis.__awtsmoosStreamLedger.cancel(
+			message.id,
+			message.reason || "cancelled"
+		)
+	};
+	for (const [name, action] of Object.entries(actions)) {
+		portManager.on(name, async (message, port) => {
+			return streamAction(message, port, () => action(message), portManager);
 		});
+	}
+}
+
+async function relayAction({ path, method, message, port, portManager }) {
+	try {
+		const options = { method, headers: { "Content-Type": "application/json" } };
+		if (method !== "GET") options.body = JSON.stringify(message.payload || {});
+		const response = await fetch(`${DIRECT_RELAY}${path}`, options);
 		const result = await response.json();
 		portManager.reply(port, response.ok ? { result, id: message.id } : {
 			error: result.error || "direct_request_failed",
+			result,
 			id: message.id
 		});
 	} catch {

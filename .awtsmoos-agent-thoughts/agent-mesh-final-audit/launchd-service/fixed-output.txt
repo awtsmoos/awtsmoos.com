@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "suite": "launchd-persistent-service",
+  "modularComposition": true,
+  "rootScopedIdentity": true,
+  "macOSKeepAlive": true,
+  "portableFallback": true,
+  "activationRaceGuarded": true
+}

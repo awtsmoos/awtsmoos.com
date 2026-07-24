@@ -4,56 +4,101 @@
 
 /**
  * @file MinimalMeadowEquipmentNodes.js
- * @description Resolves exact Chossid garment and attachment nodes from the canonical GLB.
- * The Awtsmoos clothes one traveler through visible finite vessels; Awtsmoos.com binds inventory
- * truth to jacket, shirt, hats, right hand, and spine without guessing unnamed descendants.
+ * @description Resolves garment and hand/back nodes once across bootstrap and hydrated scene graphs.
+ * The Awtsmoos clothes one traveler through many named vessels without losing their unity;
+ * Awtsmoos.com accepts rich traversal or child recursion while keeping per-frame searches at zero.
  */
 
-const GARMENT_NODES = Object.freeze({
-	coat: Object.freeze(['jacket']),
-	kippah: Object.freeze(['yarmalka']),
-	tefillinCoat: Object.freeze(['jacket-teffilin'])
+const ALIASES = Object.freeze({
+	coat: Object.freeze(['jacket', 'coat', 'black-coat']),
+	kippah: Object.freeze(['yarmalka', 'yarmulke', 'kippah']),
+	leftHand: Object.freeze(['mixamorig:LeftHand', 'LeftHand', 'hand_l']),
+	outerShirt: Object.freeze(['outer-shirt', 'outer_shirt', 'shirt']),
+	rightHand: Object.freeze(['mixamorig:RightHand', 'RightHand', 'hand_r']),
+	spine: Object.freeze(['mixamorig:Spine2', 'mixamorig:Spine1', 'Spine2', 'Spine1', 'spine']),
+	tefillinCoat: Object.freeze(['jacket-teffilin', 'jacket-tefillin']),
+	topHat: Object.freeze(['top-hat', 'top_hat', 'tophat'])
 });
 
 export function resolveMinimalEquipmentNodes(model) {
-	const byName = new Map();
-	model?.traverse?.(node => {
-		if (node.name) byName.set(node.name, node);
-	});
+	const index = buildNodeIndex(model);
 	return {
-		byName,
 		garments: {
-			coat: nodes(byName, GARMENT_NODES.coat),
-			kippah: nodes(byName, GARMENT_NODES.kippah),
-			tefillinCoat: nodes(byName, GARMENT_NODES.tefillinCoat)
+			coat: resolveMany(index, ALIASES.coat),
+			kippah: resolveMany(index, ALIASES.kippah),
+			tefillinCoat: resolveMany(index, ALIASES.tefillinCoat)
 		},
-		rightHand: byName.get('mixamorig:RightHand') || null,
-		spine: byName.get('mixamorig:Spine2') || byName.get('mixamorig:Spine1') || null,
-		topHat: byName.get('top-hat') || null,
-		outerShirt: byName.get('outer-shirt') || null
+		leftHand: resolveOne(index, ALIASES.leftHand),
+		outerShirt: resolveOne(index, ALIASES.outerShirt),
+		rightHand: resolveOne(index, ALIASES.rightHand),
+		spine: resolveOne(index, ALIASES.spine),
+		topHat: resolveOne(index, ALIASES.topHat)
 	};
 }
 
-export function applyMinimalGarmentVisibility(nodesValue, equipment) {
+export function applyMinimalGarmentVisibility(nodes, equipment) {
 	const coatEquipped = equipment.coat === 'black-coat';
 	const kippahEquipped = equipment.head === 'wool-kippah';
-	setVisible(nodesValue.garments.coat, coatEquipped);
-	setVisible(nodesValue.garments.kippah, kippahEquipped);
-	setVisible(nodesValue.garments.tefillinCoat, false);
-	if (nodesValue.outerShirt) nodesValue.outerShirt.visible = true;
-	if (nodesValue.topHat) nodesValue.topHat.visible = !kippahEquipped;
+	setVisible(nodes.garments.coat, coatEquipped);
+	setVisible(nodes.garments.kippah, kippahEquipped);
+	setVisible(nodes.garments.tefillinCoat, false);
+	if (nodes.outerShirt) nodes.outerShirt.visible = true;
+	if (nodes.topHat) nodes.topHat.visible = !kippahEquipped;
 	return {
 		coat: coatEquipped,
 		kippah: kippahEquipped,
-		outerShirt: Boolean(nodesValue.outerShirt?.visible),
-		topHat: Boolean(nodesValue.topHat?.visible)
+		outerShirt: Boolean(nodes.outerShirt?.visible),
+		topHat: Boolean(nodes.topHat?.visible)
 	};
 }
 
-function nodes(byName, names) {
-	return names.map(name => byName.get(name)).filter(Boolean);
+function buildNodeIndex(model) {
+	const index = { exact: new Map(), normalized: new Map() };
+	walkSceneNodes(model, node => indexNode(index, node));
+	return index;
 }
 
-function setVisible(nodesValue, visible) {
-	for (const node of nodesValue) node.visible = visible;
+function walkSceneNodes(root, visitor) {
+	if (!root) return;
+	if (typeof root.traverse === 'function') {
+		root.traverse(visitor);
+		return;
+	}
+	visitor(root);
+	for (const child of root.children || []) walkSceneNodes(child, visitor);
+}
+
+function indexNode(index, node) {
+	if (!node.name) return;
+	index.exact.set(node.name, node);
+	const key = normalizeName(node.name);
+	const matches = index.normalized.get(key) || [];
+	matches.push(node);
+	index.normalized.set(key, matches);
+}
+
+function resolveOne(index, aliases) {
+	for (const alias of aliases) {
+		const node = index.exact.get(alias) || index.normalized.get(normalizeName(alias))?.[0];
+		if (node) return node;
+	}
+	return null;
+}
+
+function resolveMany(index, aliases) {
+	const result = new Set();
+	for (const alias of aliases) {
+		const exact = index.exact.get(alias);
+		if (exact) result.add(exact);
+		for (const node of index.normalized.get(normalizeName(alias)) || []) result.add(node);
+	}
+	return [...result];
+}
+
+function normalizeName(value) {
+	return String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function setVisible(nodes, visible) {
+	for (const node of nodes) node.visible = visible;
 }

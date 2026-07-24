@@ -2,17 +2,29 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/** The Awtsmoos gives shlichus a parchment vessel; Awtsmoos.com keeps it readable, retractable, and mobile-safe. */
+/** The Awtsmoos gives shlichus a parchment vessel; Awtsmoos.com keeps closed parchment absent from sight and pointer flow. */
 
 .Awtsmoos-quest-parchment-backdrop {
 	position: fixed;
 	inset: 0;
 	z-index: 1080;
-	display: grid;
+	display: none;
 	place-items: center;
 	padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
 	box-sizing: border-box;
 	background: rgba(8, 5, 3, .62);
+	pointer-events: none;
+}
+
+.Awtsmoos-quest-parchment-backdrop[data-open="true"] {
+	display: grid;
+	pointer-events: auto;
+}
+
+.Awtsmoos-quest-parchment-backdrop[hidden],
+.Awtsmoos-quest-mini-tracker[hidden] {
+	display: none !important;
+	pointer-events: none !important;
 }
 
 .Awtsmoos-quest-parchment {

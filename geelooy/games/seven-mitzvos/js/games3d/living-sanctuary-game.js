@@ -1,16 +1,16 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-import { animateAnimal } from '../procedural/animal-factory.js';
+import { SanctuaryLife } from './sanctuary-life.js';
 import { ThreeGameBase } from './game-base.js';
 import { ringPosition } from '../webgl/scene-kit.js';
 const TOTAL_CARES = 6;
 /**
  * @module LivingSanctuaryGame3d
  * @description
- * Procedural animals now limp, tremble, lower their heads, or seek shelter. The
- * Awtsmoos sustains every breath; Awtsmoos.com lets behavior reveal need before
- * text confirms it, using only bounded transform animation.
+ * Needy animals wander, healthy animals graze, and caregivers approach the selected
+ * creature. The Awtsmoos sustains every breath; Awtsmoos.com makes behavior, care,
+ * supplies, shelter, and recovery one smoothly inhabited sanctuary.
  */
 export class LivingSanctuaryGame extends ThreeGameBase {
 	setup() {
@@ -22,34 +22,37 @@ export class LivingSanctuaryGame extends ThreeGameBase {
 		this.cues = { Feed: 'lowers its head toward food', Heal: 'limps on one side', Calm: 'trembles and hides', Shelter: 'curls toward the cold ground' };
 		this.animals = [...Array(4).keys()].map(index => this.createAnimal(index));
 		this.addHabitat();
+		this.life = new SanctuaryLife(this, this.animals);
 		this.stage.setCamera([0, 7.6, 10.5], [0, 0.7, 0]);
 		const labels = { Feed: '🍎 Feed', Heal: '✚ Heal', Calm: '♥ Calm', Shelter: '⌂ Shelter' };
 		this.controls(this.needs.map(need => ({ label: labels[need], run: () => this.care(need) })));
 		this.selectAnimal(this.animals[0]);
-		this.guide('the selected animal acts out its need', 'Watch its behavior, then choose the matching care.');
+		this.guide('caregivers walk toward the animal whose behavior shows need', 'Watch its movement, then choose the matching care.');
 		this.renderHud();
 	}
 	createAnimal(index) {
 		const animal = this.assets.animal({
 			name: `sanctuary-animal-${index + 1}`, species: index % 2 ? 'sheep' : 'deer',
 			hue: 28 + index * 34, position: ringPosition(index, 4, 3.4, 0.12),
-			scale: 0.58, type: 'animal', index, phase: index, need: this.newNeed()
+			scale: 0.58, type: 'animal', index, phase: index, need: this.newNeed(),
+			role: 'care-patient', reason: 'shows a specific need through movement and waits for exact care'
 		});
 		this.assets.parts.mark(animal, animal.userData);
 		this.paintNeed(animal);
 		return this.addAsset(animal, true);
 	}
 	addHabitat() {
-		[[-4.8, 0.1, -2.6], [4.8, 0.1, -2.6]].forEach((position, index) => {
-			this.addAsset(this.assets.tree({ name: `sanctuary-tree-${index}`, hue: 105 + index * 12, position, scale: 0.36 }));
+		[[-4.8, -2.6], [4.8, -2.6], [-4.8, 2.8], [4.8, 2.8]].forEach((point, index) => {
+			this.addAsset(this.assets.tree({ name: `sanctuary-tree-${index}`, position: [point[0], 0.1, point[1]], scale: 0.3, role: 'shade-tree', reason: 'gives recovering animals shelter and a bounded habitat edge' }));
 		});
-		this.addAsset(this.assets.shelter({ name: 'animal-shelter', position: [0, 0.1, -4.9], scale: 0.45 }));
+		this.addAsset(this.assets.shelter({ name: 'animal-shelter', position: [0, 0.1, -4.9], scale: 0.45, role: 'animal-shelter', reason: 'protects cold or recovering animals' }));
 	}
 	newNeed() {
 		return this.needs[this.random(this.needs.length)];
 	}
 	selectAnimal(animal) {
 		this.selected = animal;
+		this.life?.focus(animal);
 		const need = animal.userData.need;
 		this.status(`Creature ${animal.userData.index + 1} ${this.cues[need]}. Choose ${need}.`);
 	}
@@ -72,7 +75,7 @@ export class LivingSanctuaryGame extends ThreeGameBase {
 		this.assets.setGlow(this.selected, 0x42ffc1, 0.5);
 		if (this.cared >= this.totalCares) {
 			const stars = this.mistakes <= 2 ? 3 : this.mistakes <= 5 ? 2 : 1;
-			this.finish({ stars, message: 'Every creature visibly recovered, and the sanctuary became calm and alive.' });
+			this.finish({ stars, message: 'Caregivers and animals moved together until the whole sanctuary became calm.' });
 			return;
 		}
 		this.selected.userData.need = this.newNeed();
@@ -88,7 +91,7 @@ export class LivingSanctuaryGame extends ThreeGameBase {
 	}
 	update(delta, elapsed) {
 		this.timer -= delta;
-		this.animals.forEach(animal => animateAnimal(animal, elapsed, this.stateFor(animal.userData.need)));
+		this.life.update(delta, elapsed, this.selected, need => this.stateFor(need));
 		if (this.timer <= 0) {
 			this.timer = 10;
 			this.status(`Extra time added. Creature ${this.selected.userData.index + 1} still needs ${this.selected.userData.need}.`, 'warn');

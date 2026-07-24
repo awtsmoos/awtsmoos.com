@@ -9,9 +9,9 @@
  * through patrol, pack pursuit, attack, recoil, corpse pose, selection, and one-time inventory loot.
  */
 
-import { animateMinimalShadowCreature } from './MinimalMeadowCreatureAnimation.js?v=20260724-meadow-13';
-import { createMinimalShadowCreatureMesh } from './MinimalMeadowCreatureMesh.js?v=20260724-meadow-17';
-import { MinimalMeadowEnemyCombat } from './MinimalMeadowEnemyCombat.js?v=20260724-meadow-17';
+import { animateMinimalShadowCreature } from './MinimalMeadowCreatureAnimation.js';
+import { createMinimalShadowCreatureMesh } from './MinimalMeadowCreatureMesh.js';
+import { MinimalMeadowEnemyCombat } from './MinimalMeadowEnemyCombat.js';
 import {
 	clearMinimalEnemy,
 	damageMinimalEnemy,
@@ -19,9 +19,16 @@ import {
 	interactWithMinimalEnemy,
 	minimalEnemyPointerHit,
 	targetMinimalEnemy
-} from './MinimalMeadowEnemyLifecycle.js?v=20260724-meadow-17';
-import { minimalShadowEnemyProfile, minimalShadowWaypoints } from './MinimalMeadowEnemyProfile.js?v=20260724-meadow-17';
-import { minimalEnemyGround, minimalEnemyPayload, minimalEnemyTargetHints } from './MinimalMeadowEnemyState.js?v=20260724-meadow-17';
+} from './MinimalMeadowEnemyLifecycle.js';
+import {
+	minimalShadowEnemyProfile,
+	minimalShadowWaypoints
+} from './MinimalMeadowEnemyProfile.js';
+import {
+	minimalEnemyGround,
+	minimalEnemyPayload,
+	minimalEnemyTargetHints
+} from './MinimalMeadowEnemyState.js';
 
 export class MinimalMeadowEnemyActor {
 	constructor(options) {
@@ -31,61 +38,114 @@ export class MinimalMeadowEnemyActor {
 		this.waypoints = minimalShadowWaypoints(this.profile);
 		this.health = this.profile.maxHealth;
 		this.combat = new MinimalMeadowEnemyCombat(this, this.runtime);
-		this.group.scale.set(this.profile.visualScale, this.profile.visualScale, this.profile.visualScale);
-		this.group.position.set(this.profile.x, this.ground(this.profile.x, this.profile.z), this.profile.z);
+		this.group.scale.set(
+			this.profile.visualScale,
+			this.profile.visualScale,
+			this.profile.visualScale
+		);
+		this.group.position.set(
+			this.profile.x,
+			this.ground(this.profile.x, this.profile.z),
+			this.profile.z
+		);
 	}
 
 	update(deltaSeconds) {
-		if (!this.alive) return this.updateCorpse(deltaSeconds);
-		if (!this.combat.update(deltaSeconds)) this.wander(deltaSeconds);
-		this.group.position.y = this.ground(this.group.position.x, this.group.position.z);
+		if (!this.alive) {
+			this.updateCorpse(deltaSeconds);
+			return;
+		}
+		if (!this.combat.update(deltaSeconds)) {
+			this.wander(deltaSeconds);
+		}
+		this.group.position.y = this.ground(
+			this.group.position.x,
+			this.group.position.z
+		);
 		animateMinimalShadowCreature(this, deltaSeconds);
 	}
 
 	wander(deltaSeconds) {
 		const target = this.waypoints[this.waypointIndex];
-		const dx = target.x - this.group.position.x;
-		const dz = target.z - this.group.position.z;
-		const distance = Math.hypot(dx, dz);
+		const deltaX = target.x - this.group.position.x;
+		const deltaZ = target.z - this.group.position.z;
+		const distance = Math.hypot(deltaX, deltaZ);
 		this.moving = distance >= 0.65;
 		this.action = this.moving ? 'walk' : 'idle';
-		if (!this.moving) this.waypointIndex = (this.waypointIndex + 1) % this.waypoints.length;
-		else this.move(dx, dz, distance, deltaSeconds);
+		if (!this.moving) {
+			this.waypointIndex = (this.waypointIndex + 1) % this.waypoints.length;
+			return;
+		}
+		this.move(deltaX, deltaZ, distance, deltaSeconds);
 	}
 
 	updateCorpse(deltaSeconds) {
 		this.deathTime += deltaSeconds;
 		this.action = this.deathTime < 1.2 ? 'death' : 'corpse';
 		animateMinimalShadowCreature(this, deltaSeconds);
-		this.group.position.y = this.ground(this.group.position.x, this.group.position.z);
+		this.group.position.y = this.ground(
+			this.group.position.x,
+			this.group.position.z
+		);
 	}
 
-	move(dx, dz, distance, deltaSeconds) {
-		if (distance <= 0.0001) return;
+	move(deltaX, deltaZ, distance, deltaSeconds) {
+		if (distance <= 0.0001) {
+			return;
+		}
 		const step = Math.min(distance, this.profile.speed * deltaSeconds);
-		this.group.position.x += dx / distance * step;
-		this.group.position.z += dz / distance * step;
-		const yaw = Math.atan2(dx, dz);
+		this.group.position.x += deltaX / distance * step;
+		this.group.position.z += deltaZ / distance * step;
+		const yaw = Math.atan2(deltaX, deltaZ);
 		this.group.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
 	}
 
-	hitPointer(event) { return minimalEnemyPointerHit(this, event); }
-	target() { return targetMinimalEnemy(this); }
-	interact() { return interactWithMinimalEnemy(this); }
-	clear(silent = false) { clearMinimalEnemy(this, silent); }
-	applyDamage(amount) { return damageMinimalEnemy(this, amount); }
-	defeat() { defeatMinimalEnemy(this); }
-	payload() { return minimalEnemyPayload(this); }
-	targetHint() { return this.targetHints()[1]; }
-	targetHints() { return minimalEnemyTargetHints(this); }
-	ground(x, z) { return minimalEnemyGround(this, x, z); }
+	hitPointer(event) {
+		return minimalEnemyPointerHit(this, event);
+	}
+
+	target() {
+		return targetMinimalEnemy(this);
+	}
+
+	interact() {
+		return interactWithMinimalEnemy(this);
+	}
+
+	clear(silent = false) {
+		clearMinimalEnemy(this, silent);
+	}
+
+	applyDamage(amount) {
+		return damageMinimalEnemy(this, amount);
+	}
+
+	defeat() {
+		defeatMinimalEnemy(this);
+	}
+
+	payload() {
+		return minimalEnemyPayload(this);
+	}
+
+	targetHint() {
+		return this.targetHints()[1];
+	}
+
+	targetHints() {
+		return minimalEnemyTargetHints(this);
+	}
+
+	ground(x, z) {
+		return minimalEnemyGround(this, x, z);
+	}
 }
 
 function initialState(options) {
 	return {
-		alive: true,
 		action: 'idle',
 		actionProgress: 0,
+		alive: true,
 		bus: options.bus,
 		camera: options.camera,
 		canvas: options.canvas,

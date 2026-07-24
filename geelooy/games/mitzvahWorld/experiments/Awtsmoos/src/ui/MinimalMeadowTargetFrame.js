@@ -4,10 +4,12 @@
 
 /**
  * @file MinimalMeadowTargetFrame.js
- * @description Displays a safe-area target frame with health, armor, state, cast, and impact status.
- * The Awtsmoos reveals every finite adversary by measured truth; Awtsmoos.com keeps selection,
- * charging, collision, damage, defeat, and retraction visible without clipping beneath mobile chrome.
+ * @description Displays safe target, corpse, cast, impact, and deliberate loot guidance.
+ * The Awtsmoos reveals life, defeat, selection, and release by measured truth;
+ * Awtsmoos.com keeps every interpolated name and message escaped while mobile users retain clear intent.
  */
+
+const HTML_ESCAPES = Object.freeze({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' });
 
 export class MinimalMeadowTargetFrame {
 	constructor(host, bus) {
@@ -27,7 +29,7 @@ export class MinimalMeadowTargetFrame {
 		this.target = target;
 		if (changed) this.collapsed = false;
 		this.host.dataset.visible = 'true';
-		this.status = target.alive === false ? 'Defeated' : target.state || 'Target acquired';
+		this.status = targetStatus(target);
 		this.render();
 	}
 
@@ -64,7 +66,7 @@ export class MinimalMeadowTargetFrame {
 		const percent = Math.round(health / maximum * 100);
 		this.host.className = 'Awtsmoos-target-frame';
 		this.host.dataset.collapsed = String(this.collapsed);
-		this.host.innerHTML = `<button data-target-collapse aria-label="Retract target frame">${this.collapsed ? '⌄' : '⌃'}</button><section><header><span>${target?.face || '◎'}</span><b>${target?.name || 'No target'}</b><small>Lv ${target?.level || 0}</small></header><div class="Awtsmoos-target-health"><i style="width:${percent}%"></i></div><footer>${health}/${maximum} HP · Armor ${target?.armor || 0} · ${target?.xpReward || 0} XP</footer><p>${this.status}</p></section>`;
+		this.host.innerHTML = `<button data-target-collapse aria-label="Retract target frame">${this.collapsed ? '⌄' : '⌃'}</button><section><header><span>${escapeHtml(target?.face || '◎')}</span><b>${escapeHtml(target?.name || 'No target')}</b><small>Lv ${numberText(target?.level)}</small></header><div class="Awtsmoos-target-health"><i style="width:${percent}%"></i></div><footer>${health}/${maximum} HP · Armor ${numberText(target?.armor)} · ${numberText(target?.xpReward)} XP</footer><p>${escapeHtml(this.status)}</p></section>`;
 	}
 
 	diagnostics() {
@@ -85,9 +87,29 @@ function targetListeners(frame) {
 		frame.bus.on('enemy:defeated', target => frame.show(target)),
 		frame.bus.on('combat:cast-start', event => frame.cast(event)),
 		frame.bus.on('combat:cast-progress', event => frame.cast(event)),
-		frame.bus.on('combat:cast-launch', event => frame.message(`${event.letters} launched`, event.target)),
-		frame.bus.on('combat:impact', event => frame.message(`${event.letters} impact · ${event.damage} damage`, event)),
-		frame.bus.on('combat:cast-cancel', event => frame.message(event.reason.replaceAll('_', ' '))),
-		frame.bus.on('combat:rejected', event => frame.message(event.reason.replaceAll('_', ' ')))
+		frame.bus.on('combat:cast-launch', event => frame.message(`${event.letters || ''} launched`, event.target)),
+		frame.bus.on('combat:impact', event => frame.message(`${event.letters || ''} impact · ${event.damage || 0} damage`, event)),
+		frame.bus.on('combat:cast-cancel', event => frame.message(formatReason(event?.reason))),
+		frame.bus.on('combat:rejected', event => frame.message(formatReason(event?.reason)))
 	];
+}
+
+function targetStatus(target) {
+	if (target?.looted) return 'Looted corpse';
+	if (target?.lootable || target?.corpse || target?.alive === false) {
+		return target?.selected ? 'Corpse selected · interact again to loot' : 'Corpse · select to inspect loot';
+	}
+	return target?.state || 'Target acquired';
+}
+
+function formatReason(reason) {
+	return String(reason || 'Action unavailable').replaceAll('_', ' ');
+}
+
+function numberText(value) {
+	return Math.max(0, Number(value) || 0);
+}
+
+function escapeHtml(value) {
+	return String(value ?? '').replace(/[&<>"']/g, character => HTML_ESCAPES[character]);
 }

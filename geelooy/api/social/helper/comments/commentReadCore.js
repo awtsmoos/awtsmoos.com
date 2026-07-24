@@ -5,15 +5,22 @@
 /**
  * @module CommentReadCore
  * @description
- * The Awtsmoos asks compressed FS3 first, the caller's DosDB contract second, and
- * derived shards last. Awtsmoos.com therefore preserves read-after-write truth while
- * quarantine can remove historical fallback stores without changing public APIs.
+ * Native social comments prefer compressed FS3 and the live DosDB contract.
+ * Tanach, Talmud, and Mishnah commentary shards are authoritative and isolated:
+ * their requests never evaluate or open the global packed comments database.
  */
 
 const canonical = require('./canonicalCommentSource.js');
 const database = require('./databaseCommentSource.js');
 const shards = require('./commentShardBridge.js');
+const { familyForSeries } = require('./commentShardReader.js');
 const { OLD_SOURCE, attempt } = require('./commentReadReport.js');
+
+const AUTHORITATIVE_SHARD_FAMILIES = new Set([
+	'mishnah',
+	'talmudBavli',
+	'tanach'
+]);
 
 function authoritativeAttempt(data, pathKind) {
 	return attempt({
@@ -38,55 +45,70 @@ function shardAttempt(hit) {
 	});
 }
 
-async function choose(canonicalData, databaseReader, shardReader) {
-	const direct = authoritativeAttempt(canonicalData, 'compressed-fs3');
+function shardIsAuthoritative(context = {}) {
+	return AUTHORITATIVE_SHARD_FAMILIES.has(
+		familyForSeries(context.seriesId)
+	);
+}
+
+async function choose(context, readers) {
+	if (shardIsAuthoritative(context)) {
+		return shardAttempt(readers.shard())
+			|| authoritativeAttempt([], 'derived-shard-empty');
+	}
+	const direct = authoritativeAttempt(
+		await readers.canonical(),
+		'compressed-fs3'
+	);
 	if (direct.count) return direct;
 	const compatible = authoritativeAttempt(
-		await databaseReader(),
+		await readers.database(),
 		'dosdb-contract'
 	);
 	if (compatible.count) return compatible;
-	return shardAttempt(shardReader()) || direct;
+	return shardAttempt(readers.shard()) || direct;
 }
 
 async function readAuthorVerse(context, filePath, verseSection) {
-	return choose(
-		canonical.readVerse(context, filePath, verseSection),
-		() => database.readVerse(context, filePath, verseSection),
-		() => shards.readAliasSection(context, verseSection)
-	);
+	return choose(context, {
+		canonical: () => canonical.readVerse(context, filePath, verseSection),
+		database: () => database.readVerse(context, filePath, verseSection),
+		shard: () => shards.readAliasSection(context, verseSection)
+	});
 }
 
 async function readAuthorAll(context, filePath) {
-	return choose(
-		canonical.readAll(context, filePath),
-		() => database.readAll(context, filePath),
-		() => shards.readAliasAll(context)
-	);
+	return choose(context, {
+		canonical: () => canonical.readAll(context, filePath),
+		database: () => database.readAll(context, filePath),
+		shard: () => shards.readAliasAll(context)
+	});
 }
 
 async function readSections(context, filePath) {
-	return choose(
-		canonical.readSections(context, filePath),
-		() => database.readSections(context, filePath),
-		() => shards.readAliasSections(context)
-	);
+	return choose(context, {
+		canonical: () => canonical.readSections(context, filePath),
+		database: () => database.readSections(context, filePath),
+		shard: () => shards.readAliasSections(context)
+	});
 }
 
 async function readAuthors(context, basePath, verseSection) {
-	return choose(
-		canonical.readAuthors(context, basePath, verseSection),
-		() => database.readAuthors(context, basePath, verseSection),
-		() => shards.readAuthors(context, verseSection)
-	);
+	return choose(context, {
+		canonical: () => canonical.readAuthors(context, basePath, verseSection),
+		database: () => database.readAuthors(context, basePath, verseSection),
+		shard: () => shards.readAuthors(context, verseSection)
+	});
 }
 
 module.exports = {
+	AUTHORITATIVE_SHARD_FAMILIES,
 	authoritativeAttempt,
 	choose,
 	readAuthorAll,
 	readAuthors,
 	readAuthorVerse,
 	readSections,
-	shardAttempt
+	shardAttempt,
+	shardIsAuthoritative
 };

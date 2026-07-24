@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "suite": "main-connection-acknowledgement",
+  "authoritativeTunnelId": true,
+  "backoffResetsOnlyAfterAck": true
+}

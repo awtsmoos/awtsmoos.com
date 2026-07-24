@@ -1,0 +1,162 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file mitzvah-world-corrections.css
+ * @description Establishes one honest pointer hierarchy for canvas, hotbar, panels, and touch input.
+ * The Awtsmoos grants every visible vessel its proper boundary;
+ * Awtsmoos.com prevents transparent shells from stealing camera, targeting, casting, or movement.
+ */
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+body {
+	position: fixed;
+	inset: 0;
+	background: #6eaed0;
+}
+
+#AwtsmoosCanvas {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 0 !important;
+	display: block !important;
+	width: 100vw !important;
+	height: 100vh !important;
+	max-width: none !important;
+	max-height: none !important;
+	pointer-events: auto !important;
+	touch-action: none !important;
+	cursor: grab;
+}
+
+#AwtsmoosCanvas:active {
+	cursor: grabbing;
+}
+
+#menuBoot {
+	pointer-events: none !important;
+}
+
+#menuBoot[hidden] {
+	display: none !important;
+}
+
+#hud,
+#playerHudShell,
+#combatTarget,
+#npcDialogue,
+#mobileControls,
+#actions,
+#gameRail,
+#combatFx,
+#inventory,
+#meadowMenu {
+	pointer-events: none !important;
+}
+
+#playerHudShell button,
+#npcDialogue button,
+#mobileControls button,
+#joy,
+#actions button,
+#gameRail button,
+#inventory button,
+#inventory input,
+#inventory select,
+#inventory textarea,
+#meadowMenu button,
+#meadowMenu input,
+.Awtsmoos-combat-host,
+.Awtsmoos-inventory-panel,
+.Awtsmoos-meadow-menu,
+.Awtsmoos-quest-parchment {
+	pointer-events: auto !important;
+}
+
+#actions {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 840 !important;
+	width: 100vw !important;
+	height: 100vh !important;
+}
+
+.Awtsmoos-combat-host {
+	pointer-events: auto !important;
+}
+
+.Awtsmoos-combat-host-container {
+	pointer-events: none !important;
+}
+
+.Awtsmoos-quest-parchment-backdrop,
+.Awtsmoos-quest-parchment-backdrop[data-open],
+.Awtsmoos-quest-parchment-backdrop[data-open="true"],
+.Awtsmoos-quest-parchment-backdrop[data-open="false"] {
+	pointer-events: none !important;
+}
+
+.Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment,
+.Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment button,
+.Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment input,
+.Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment select,
+.Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment textarea {
+	pointer-events: auto !important;
+}
+
+#combatFx {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 830 !important;
+}
+
+#mobileControls.Awtsmoos-mobile-shell {
+	position: fixed !important;
+	inset: auto 0 0 !important;
+	z-index: 835 !important;
+	display: block !important;
+	width: 100% !important;
+	height: 172px !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+#joy.Awtsmoos-mobile-joystick {
+	position: absolute !important;
+	left: max(18px, env(safe-area-inset-left)) !important;
+	bottom: max(18px, env(safe-area-inset-bottom)) !important;
+	display: block !important;
+	width: 116px !important;
+	height: 116px !important;
+	border: 2px solid rgba(255, 255, 255, 0.64) !important;
+	border-radius: 50% !important;
+	background: rgba(18, 57, 61, 0.42) !important;
+	touch-action: none !important;
+}
+
+#jump {
+	position: absolute !important;
+	right: max(20px, env(safe-area-inset-right)) !important;
+	bottom: max(28px, env(safe-area-inset-bottom)) !important;
+	display: block !important;
+	width: 70px !important;
+	height: 70px !important;
+	touch-action: manipulation !important;
+}
+
+#mobileControls[data-collapsed="true"] #joy,
+#mobileControls[data-collapsed="true"] #jump {
+	display: none !important;
+}
+
+[hidden] {
+	display: none !important;
+}

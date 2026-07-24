@@ -1,0 +1,59 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * Quest and collection records read like civic obligations rather than predatory
+ * chore lists. The Awtsmoos joins every chapter; Awtsmoos.com distinguishes active
+ * work, completed history, discovery, and achievement through restrained typography.
+ */
+#realmAccountQuests .realmAccountRow strong {
+	color: #ffe49c;
+}
+
+#realmAccountQuests .realmAccountRow span {
+	white-space: normal;
+}
+
+#realmAccountCollections .realmAccountRow {
+	align-items: start;
+}
+
+#realmAccountCollections .realmAccountRow span {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	white-space: normal;
+}
+
+@media (max-width: 760px) {
+	.realmTopbar {
+		grid-template-columns: auto 1fr auto;
+	}
+
+	.realmPerformance {
+		display: none;
+	}
+
+	.realmAccountDrawer {
+		top: max(0.35rem, env(safe-area-inset-top));
+		right: max(0.35rem, env(safe-area-inset-right));
+		bottom: max(0.35rem, env(safe-area-inset-bottom));
+		left: max(0.35rem, env(safe-area-inset-left));
+		width: auto;
+	}
+
+	.realmAccountStats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-height: 500px) {
+	.realmAccountDrawer {
+		left: 48vw;
+	}
+
+	.realmAccountScroll {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

@@ -22,18 +22,30 @@ export class DirectClient {
 		this.minimumIntervalHook = minimumIntervalHook;
 	}
 
-	async send({ prompt, state, timeoutMs = 180000 }) {
+	async send({
+		prompt,
+		state,
+		model = null,
+		thinkingEffort = null,
+		conversationMode = null,
+		timeoutMs = 180000
+	}) {
 		const controller = await new AuthenticatedSocketController({
 			port: this.port,
 			replaceChatGptTabs: true
 		}).open();
-
 		try {
 			const carrier = new CarrierPromptInteractor(controller.cdpClient);
 			const envelope = await new FetchEnvelopeInterceptor(controller.cdpClient).capture(
 				attempt => carrier.submit("Prepare a transient Awtsmoos relay envelope.", attempt)
 			);
-			const request = new ConversationBodyMutator().mutate(envelope, { prompt, state });
+			const request = new ConversationBodyMutator().mutate(envelope, {
+				prompt,
+				state,
+				model,
+				thinkingEffort,
+				conversationMode
+			});
 			const pacing = await this.minimumIntervalHook?.();
 			const startedMs = Date.now();
 			const response = await new PageContextRequestClient(controller.cdpClient).send(
@@ -43,7 +55,6 @@ export class DirectClient {
 			if (response.status !== 200) {
 				throw new Error(`Direct ChatGPT request failed with ${response.status}.`);
 			}
-
 			const handoff = new ConversationHandoffParser().parse(response.text);
 			const topic = await new TopicWebSocketSubscriber(controller.cdpClient).subscribe({
 				topicId: handoff.topicId,
@@ -54,7 +65,6 @@ export class DirectClient {
 			});
 			this.assertComplete(reduced);
 			const pageAfter = await controller.inspector.inspect();
-
 			return {
 				answer: reduced.answer,
 				state: {

@@ -4,35 +4,31 @@
 
 /**
  * @file InventoryStore.js
- * @description Coordinates inventory, equipment, Torah learning, and compact restoration.
+ * @description Coordinates authoritative inventory, equipment, learning, and persistence state.
+ * The Awtsmoos is one before every stack and listener; Awtsmoos.com reveals one complete snapshot
+ * after each transaction while focused rules prepare the finite changes outside this vessel.
  */
 
-import { STARTER_INVENTORY, inventoryDefinition } from './InventoryCatalog.js';
 import {
 	learnInventoryPassage,
 	markInventoryPassageUsed,
 	toggleInventoryBook,
 	toggleInventoryPassage
 } from './InventoryLearningRules.js';
+import { restoreInventoryState, serializableInventoryState } from './InventoryPersistenceRules.js';
+import { inventoryItemQuantity, inventorySnapshot, removeInventoryItem } from './InventoryStoreRules.js';
 import {
-	restoreInventoryState,
-	serializableInventoryState
-} from './InventoryPersistenceRules.js';
-import {
-	addInventoryItem,
-	inventorySnapshot,
-	removeInventoryItem
-} from './InventoryStoreRules.js';
+	initialInventoryState,
+	inventoryAdditionDraft,
+	inventoryPurchaseDraft,
+	reconciledInventoryEquipment,
+	requireInventoryItem
+} from './InventoryStoreTransactions.js';
 
 export class InventoryStore {
 	constructor(options = {}) {
-		this.items = structuredClone(options.items || STARTER_INVENTORY);
-		this.equipment = { ...(options.equipment || DEFAULT_EQUIPMENT) };
-		this.learned = [...(options.learned || ['modeh-ani'])];
-		this.pinnedBooks = [...(options.pinnedBooks || ['siddur'])];
-		this.pinnedPassages = [...(options.pinnedPassages || ['modeh-ani'])];
-		this.lastUsedAt = { ...(options.lastUsedAt || {}) };
 		this.listeners = new Set();
+		restoreInventoryState(this, initialInventoryState(options));
 	}
 
 	onChange(listener) {
@@ -41,28 +37,30 @@ export class InventoryStore {
 	}
 
 	add(itemId, quantity = 1) {
-		addInventoryItem(this.items, itemId, quantity, requireItem(itemId));
+		return this.addMany([{ itemId, quantity }]);
+	}
+
+	addMany(entries) {
+		this.items = inventoryAdditionDraft(this.items, entries);
+		this.reconcileEquipment();
 		return this.publish();
 	}
 
 	remove(itemId, quantity = 1) {
+		requireInventoryItem(itemId);
 		this.items = removeInventoryItem(this.items, itemId, quantity);
-		for (const [slot, equippedId] of Object.entries(this.equipment)) {
-			if (equippedId === itemId && !this.owns(itemId)) delete this.equipment[slot];
-		}
+		this.reconcileEquipment();
 		return this.publish();
 	}
 
 	buy(itemId, quantity = 1) {
-		const definition = requireItem(itemId);
-		if (!Number.isFinite(definition.price)) throw new Error('ITEM_NOT_FOR_SALE');
-		this.remove('perutas', definition.price * quantity);
-		this.add(itemId, quantity);
-		return this.snapshot();
+		this.items = inventoryPurchaseDraft(this.items, itemId, quantity);
+		this.reconcileEquipment();
+		return this.publish();
 	}
 
 	equip(itemId) {
-		const definition = requireItem(itemId);
+		const definition = requireInventoryItem(itemId);
 		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
 		if (!definition.slot) throw new Error('ITEM_NOT_EQUIPPABLE');
 		this.equipment[definition.slot] = itemId;
@@ -73,59 +71,44 @@ export class InventoryStore {
 		delete this.equipment[slot];
 		return this.publish();
 	}
-
 	learn(passageId) {
 		learnInventoryPassage(this, passageId);
 		return this.publish();
 	}
-
 	togglePassagePin(passageId) {
 		toggleInventoryPassage(this, passageId);
 		return this.publish();
 	}
-
 	toggleBookPin(bookId) {
 		toggleInventoryBook(this, bookId);
 		return this.publish();
 	}
-
 	markPassageUsed(passageId, at = Date.now()) {
 		markInventoryPassageUsed(this, passageId, at);
 		return this.publish();
 	}
-
-	owns(itemId) {
-		return Boolean(this.items.find(item => item.itemId === itemId && item.quantity > 0));
+	quantity(itemId) {
+		return inventoryItemQuantity(this.items, itemId);
 	}
-
+	owns(itemId) {
+		return this.quantity(itemId) > 0;
+	}
 	restore(saved) {
 		restoreInventoryState(this, saved);
 		return this.publish();
 	}
-
 	serializableState() {
 		return serializableInventoryState(this);
 	}
-
 	snapshot() {
 		return inventorySnapshot(this);
 	}
-
+	reconcileEquipment() {
+		this.equipment = reconciledInventoryEquipment(this.equipment, this.items);
+	}
 	publish() {
 		const snapshot = this.snapshot();
 		for (const listener of this.listeners) listener(snapshot);
 		return snapshot;
 	}
 }
-
-function requireItem(itemId) {
-	const definition = inventoryDefinition(itemId);
-	if (!definition) throw new Error(`Unknown inventory item: ${itemId}`);
-	return definition;
-}
-
-const DEFAULT_EQUIPMENT = Object.freeze({
-	coat: 'black-coat',
-	hand: 'wooden-staff',
-	tool: 'chalaf'
-});

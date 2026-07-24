@@ -6,6 +6,7 @@ import { required } from './app-elements.js';
 import { GameSession } from './game-session.js';
 import { HashRouter } from './hash-router.js';
 import { LivingCityService } from '../city/living-city-service.js';
+import { RealmSession } from '../realm/realm-session.js';
 import { DetailPanel } from '../views/detail-panel.js';
 import { GameShell } from '../views/game-shell.js';
 import { MitzvahGrid } from '../views/mitzvah-grid.js';
@@ -14,9 +15,9 @@ import { UniverseProgress } from '../universe/universe-progress.js';
 /**
  * @module SevenMitzvosApp
  * @description
- * The Awtsmoos joins seven teachings, one living city, and one disposable WebGL
- * game vessel. Awtsmoos.com releases the city before opening a world and rebuilds
- * it from saved kindness when the player returns to the fixed hub.
+ * The Awtsmoos joins seven teachings, one living city, one persistent realm, and
+ * one disposable game vessel. Awtsmoos.com saves and releases each active world
+ * before revealing another state inside the same fixed viewport.
  */
 export class SevenMitzvosApp {
 	constructor(root) {
@@ -25,11 +26,8 @@ export class SevenMitzvosApp {
 	}
 	mount() {
 		this.root.innerHTML = appTemplate();
-		this.layers = {
-			hub: required(this.root, '#hubLayer'),
-			detail: required(this.root, '#detailLayer'),
-			game: required(this.root, '#gameLayer')
-		};
+		this.layers = Object.fromEntries(['hub', 'detail', 'game', 'realm']
+			.map(name => [name, required(this.root, `#${name}Layer`)]));
 		this.progress = new UniverseProgress(UNIVERSE_GAMES.map(game => game.id));
 		this.router = new HashRouter(UNIVERSE_GAMES.map(game => game.id));
 		this.grid = new MitzvahGrid(required(this.root, '#mitzvahGrid'));
@@ -48,20 +46,20 @@ export class SevenMitzvosApp {
 			onHub: () => this.router.go('hub'),
 			onNext: id => this.nextWorld(id)
 		});
+		this.realm = new RealmSession(this.layers.realm, () => this.router.go('hub'));
+		required(this.root, '#enterRealm').addEventListener('click', () => this.router.go('realm'));
 		this.refreshProgress();
 		document.addEventListener('keydown', this.escapeHandler);
 		this.router.start(route => this.renderRoute(route));
 	}
 	renderRoute(route) {
 		this.session.stop();
+		this.realm.stop();
 		this.city.hide();
 		this.showOnly(route.view);
-		if (route.view === 'detail') {
-			return this.renderDetail(route.id);
-		}
-		if (route.view === 'game') {
-			return this.session.start(UNIVERSE_BY_ID[route.id]);
-		}
+		if (route.view === 'realm') return this.realm.start();
+		if (route.view === 'detail') return this.renderDetail(route.id);
+		if (route.view === 'game') return this.session.start(UNIVERSE_BY_ID[route.id]);
 		this.renderGrid();
 		this.city.show();
 	}
@@ -75,11 +73,7 @@ export class SevenMitzvosApp {
 		);
 	}
 	renderGrid() {
-		this.grid.render(
-			UNIVERSE_GAMES,
-			this.progress,
-			id => this.router.go('detail', id)
-		);
+		this.grid.render(UNIVERSE_GAMES, this.progress, id => this.router.go('detail', id));
 	}
 	nextWorld(id) {
 		const index = UNIVERSE_GAMES.findIndex(game => game.id === id);
@@ -93,20 +87,19 @@ export class SevenMitzvosApp {
 		required(this.root, '#legacyMark').textContent = `Level ${legacy.level} · ${legacy.mastery}/700`;
 	}
 	showOnly(view) {
-		const active = view === 'detail' || view === 'game' ? view : 'hub';
+		const active = ['detail', 'game', 'realm'].includes(view) ? view : 'hub';
 		Object.entries(this.layers).forEach(([name, layer]) => {
 			layer.hidden = name !== active;
 		});
 	}
 	handleEscape(event) {
-		if (event.key !== 'Escape') {
-			return;
-		}
+		if (event.key !== 'Escape') return;
 		const route = this.router.current();
 		this.router.go(route.view === 'game' ? 'detail' : 'hub', route.id);
 	}
 	destroy() {
 		this.session?.stop();
+		this.realm?.stop();
 		this.city?.destroy();
 		this.gameShell?.destroy();
 		this.router?.destroy();

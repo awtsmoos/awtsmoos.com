@@ -1,0 +1,146 @@
+file=geelooy/apps/tunnel/agent/testing/focusedSelfPreservationSuite.test.cjs
+code=1
+signal=
+error=
+--- stdout ---
+{"file":"transportLiveness.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"reconnectPolicy.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"webSocketHandshakeIntegrity.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"webSocketHalfOpenRecovery.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"processSingleton.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"supervisorDuplicateReconciliation.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"supervisorReceiptStability.test.cjs","ok":false,"status":1,"signal":null}
+{"file":"unixServiceHealth.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"connectionReceipt.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"mainConnectionAcknowledgement.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"selfUpdateHttpSafety.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"selfUpdateStateSafety.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"activationJournalAtomicity.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"recoveryIdentityRestore.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"recoveryRetentionIntegrity.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"installerIdentityPreservation.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"installerExperience.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"oneCommandNodeRuntime.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"oneCommandInstallLock.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"oneCommandProcessReconciliation.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"mainComponentsStartupDependencies.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"mainStartupContract.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"projectRootHealthLifecycle.test.cjs","ok":true,"status":0,"signal":null}
+{"file":"releaseBundleProjectRootStartup.test.cjs","ok":false,"status":null,"signal":"SIGTERM"}
+{"file":"isolatedAgentLongevity.test.cjs","ok":true,"status":0,"signal":null}
+
+--- stderr ---
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: [
+  {
+    "file": "supervisorReceiptStability.test.cjs",
+    "ok": false,
+    "status": 1,
+    "signal": null,
+    "error": "",
+    "stdout": "",
+    "stderr": "Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n    at installFixture (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureInstall.cjs:20:25)\n    at RuntimeFixture.install (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixture.cjs:31:3)\n    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:25:10\n    at Object.<anonymous> (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:49:3)\n    at Module._compile (node:internal/modules/cjs/loader:1854:14)\n    at Object..js (node:internal/modules/cjs/loader:1985:10)\n    at Module.load (node:internal/modules/cjs/loader:1577:32)\n    at Module._load (node:internal/modules/cjs/loader:1379:12)\n"
+  },
+  {
+    "file": "releaseBundleProjectRootStartup.test.cjs",
+    "ok": false,
+    "status": null,
+    "signal": "SIGTERM",
+    "error": "spawnSync /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node ETIMEDOUT",
+    "stdout": "",
+    "stderr": "Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n    at Object.create (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/releaseBundleRuntime.cjs:28:29)\n    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseBundleProjectRootStartup.test.cjs:23:24\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n"
+  }
+]
++ actual - expected
+
++ [
++   {
++     error: '',
++     file: 'supervisorReceiptStability.test.cjs',
++     ok: false,
++     signal: null,
++     status: 1,
++     stderr: 'Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n' +
++       '    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n' +
++       '    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n' +
++       '    at installFixture (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureInstall.cjs:20:25)\n' +
++       '    at RuntimeFixture.install (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixture.cjs:31:3)\n' +
++       '    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:25:10\n' +
++       '    at Object.<anonymous> (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:49:3)\n' +
++       '    at Module._compile (node:internal/modules/cjs/loader:1854:14)\n' +
++       '    at Object..js (node:internal/modules/cjs/loader:1985:10)\n' +
++       '    at Module.load (node:internal/modules/cjs/loader:1577:32)\n' +
++       '    at Module._load (node:internal/modules/cjs/loader:1379:12)\n',
++     stdout: ''
++   },
++   {
++     error: 'spawnSync /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node ETIMEDOUT',
++     file: 'releaseBundleProjectRootStartup.test.cjs',
++     ok: false,
++     signal: 'SIGTERM',
++     status: null,
++     stderr: 'Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n' +
++       '    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n' +
++       '    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n' +
++       '    at Object.create (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/releaseBundleRuntime.cjs:28:29)\n' +
++       '    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseBundleProjectRootStartup.test.cjs:23:24\n' +
++       '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n',
++     stdout: ''
++   }
++ ]
+- []
+
+    at Object.<anonymous> (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/focusedSelfPreservationSuite.test.cjs:65:8)
+    at Module._compile (node:internal/modules/cjs/loader:1854:14)
+    at Object..js (node:internal/modules/cjs/loader:1985:10)
+    at Module.load (node:internal/modules/cjs/loader:1577:32)
+    at Module._load (node:internal/modules/cjs/loader:1379:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      file: 'supervisorReceiptStability.test.cjs',
+      ok: false,
+      status: 1,
+      signal: null,
+      error: '',
+      stdout: '',
+      stderr: 'Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n' +
+        '    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n' +
+        '    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n' +
+        '    at installFixture (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixtureInstall.cjs:20:25)\n' +
+        '    at RuntimeFixture.install (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/transactionalInstaller/runtimeFixture.cjs:31:3)\n' +
+        '    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:25:10\n' +
+        '    at Object.<anonymous> (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/supervisorReceiptStability.test.cjs:49:3)\n' +
+        '    at Module._compile (node:internal/modules/cjs/loader:1854:14)\n' +
+        '    at Object..js (node:internal/modules/cjs/loader:1985:10)\n' +
+        '    at Module.load (node:internal/modules/cjs/loader:1577:32)\n' +
+        '    at Module._load (node:internal/modules/cjs/loader:1379:12)\n'
+    },
+    {
+      file: 'releaseBundleProjectRootStartup.test.cjs',
+      ok: false,
+      status: null,
+      signal: 'SIGTERM',
+      error: 'spawnSync /Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node ETIMEDOUT',
+      stdout: '',
+      stderr: 'Error: manifest_dependency_omission:lib/runtime/priority/searchLane.js,tools/fs/actionCoreActions.js,tools/fs/actionGroupRegistry.js,tools/fs/actionGroups/agentPresenceActions.js,tools/fs/actionGroups/readActionContext.js,tools/fs/actionGroups/readContentActions.js,tools/fs/actionGroups/readStructureActions.js,tools/fs/actionLedgerLock.js,tools/fs/agentPresence/affinity.js,tools/fs/agentPresence/eventStore.js,tools/fs/agentPresence/handler.js,tools/fs/agentPresence/identity.js,tools/fs/agentPresence/messageStore.js,tools/fs/agentPresence/observer.js,tools/fs/agentPresence/presenceStore.js,tools/fs/agentPresence/roomStore.js,tools/fs/cognition/doctorNames.js,tools/fs/cognition/semanticFoundationNames.js,tools/fs/cognition/semanticRepairNames.js,tools/fs/cognition/systemOperationNames.js,tools/fs/cognition/traceOperationNames.js,tools/fs/cognition/workflowNames.js,tools/fs/commandJob/requestedIdentity.js,tools/fs/configPublic.js,tools/fs/logTail.js,tools/fs/rootSelection.js,tools/fs/searchMutation.js,tools/fs/searchMutationGuard.js,tools/fs/searchMutationPayload.js,tools/fs/searchRead.js\n' +
+        '    at Object.assertManifestCoverage (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/release/runtimeFiles.js:61:28)\n' +
+        '    at Object.descriptor (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/api/tunnel/install/tools/zipSources.js:30:10)\n' +
+        '    at Object.create (/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/helpers/releaseBundleRuntime.cjs:28:29)\n' +
+        '    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/agent/testing/releaseBundleProjectRootStartup.test.cjs:23:24\n' +
+        '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n'
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.17.0

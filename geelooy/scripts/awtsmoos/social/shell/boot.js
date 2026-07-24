@@ -15,12 +15,10 @@ import { ensureToastRegion } from './notifications.js';
 import { applyPerformanceProfile } from './performanceProfile.js';
 import { isShellEligible } from './routeEligibility.js';
 import { bindScrollMemory } from './scrollMemory.js';
-
 const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-012';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 const ROUTE_OUTLET_SELECTOR = '[data-geelooy-route-outlet]';
 const SHELL_GENERATION = 'speed-001';
-
 /** Boots shared identity without replacing native route content. */
 export function bootGeelooyShell(root = document) {
 	if (!canRevealShell(root)) {

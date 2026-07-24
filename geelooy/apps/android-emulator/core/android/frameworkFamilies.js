@@ -1,118 +1,120 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
-import { createFrameworkAndroidDirectoryMethods } from "./frameworkAndroidDirectories.js";
-import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
+import { createFrameworkAndroidActivityMethods } from "./frameworkAndroidActivity.js";
+import { createFrameworkAndroidActivityThreadMethods } from "./frameworkAndroidActivityThread.js";
+import { createFrameworkAndroidArrayMethods } from "./frameworkAndroidArrays.js";
+import { createFrameworkAndroidBroadcastReceiverMethods } from "./frameworkAndroidBroadcastReceivers.js";
+import { createFrameworkAndroidCollectionFactoryMethods } from "./frameworkAndroidCollectionFactories.js";
+import { createFrameworkAndroidCollectionWrapperMethods } from "./frameworkAndroidCollectionWrappers.js";
+import { createFrameworkAndroidCollectionMethods } from "./frameworkAndroidCollections.js";
+import { createFrameworkAndroidContentMethods } from "./frameworkAndroidContentContext.js";
+import { createFrameworkAndroidDialogMethods } from "./frameworkAndroidDialogs.js";
+import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplay.js";
+import { createFrameworkAndroidDrawableMethods } from "./frameworkAndroidDrawables.js";
+import { createFrameworkAndroidExecutorMethods } from "./frameworkAndroidExecutors.js";
+import { createFrameworkAndroidFileMethods } from "./frameworkAndroidFiles.js";
 import { createFrameworkAndroidGraphicsMethods } from "./frameworkAndroidGraphics.js";
-import { createFrameworkAndroidHandlerMethods } from "./frameworkAndroidHandlers.js";
-import { sendHandlerMessage } from "./frameworkAndroidHandlerQueue.js";
-import { createFrameworkAndroidLongSparseArrayMethods } from "./frameworkAndroidLongSparseArrays.js";
-import { createFrameworkAndroidLooperMethods } from "./frameworkAndroidLoopers.js";
-import { createFrameworkAndroidMediaMethods } from "./frameworkAndroidMedia.js";
-import { createFrameworkAndroidMessageMethods } from "./frameworkAndroidMessages.js";
-import { createFrameworkAndroidResourceMethods } from "./frameworkAndroidResources.js";
-import { createFrameworkAndroidServiceMethods } from "./frameworkAndroidServices.js";
-import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSparseArrays.js";
-import { createFrameworkAndroidSystemClockMethods } from "./frameworkAndroidSystemClock.js";
-import { createFrameworkAndroidTextUtilsMethods } from "./frameworkAndroidTextUtils.js";
-import { createFrameworkAndroidTraceMethods } from "./frameworkAndroidTrace.js";
-import { createFrameworkAndroidWindowInsetsMethods } from "./frameworkAndroidWindowInsets.js";
-import { createFrameworkAssetMethods } from "./frameworkAssets.js";
-import { createFrameworkAtomicMethods } from "./frameworkAtomics.js";
-import { createFrameworkBundleMethods } from "./frameworkBundles.js";
-import { createFrameworkComponentMethods } from "./frameworkComponents.js";
-import { createFrameworkConstructors } from "./frameworkConstructors.js";
-import { createFrameworkContentProviderMethods } from "./frameworkContentProviders.js";
-import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
-import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
-import { createFrameworkIntentMethods } from "./frameworkIntents.js";
-import { createFrameworkJavaArraysMethods } from "./frameworkJavaArrays.js";
-import { createFrameworkJavaClassMethods } from "./frameworkJavaClasses.js";
-import { createFrameworkJavaCollectionWrapperMethods } from "./frameworkJavaCollectionWrappers.js";
-import { createFrameworkJavaCollectionsMethods } from "./frameworkJavaCollections.js";
+import { createFrameworkAndroidHandlerMethods } from "./frameworkAndroidHandler.js";
+import { sendHandlerMessage } from "./frameworkAndroidHandlerMessages.js";
+import { createFrameworkAndroidInputStreamMethods } from "./frameworkAndroidInputStreams.js";
+import { createFrameworkAndroidIntDefMethods } from "./frameworkAndroidIntDefs.js";
+import { createFrameworkJavaArrayMethods } from "./frameworkJavaArrays.js";
+import { createFrameworkJavaClassMethods } from "./frameworkJavaClassMethods.js";
+import { createFrameworkJavaCollectionMethods } from "./frameworkJavaCollections.js";
 import { createFrameworkJavaComparatorMethods } from "./frameworkJavaComparators.js";
-import { createFrameworkJavaConcurrentQueueMethods } from "./frameworkJavaConcurrentQueues.js";
-import { createFrameworkJavaCopyOnWriteMethods } from "./frameworkJavaCopyOnWrite.js";
-import { createFrameworkJavaDesugarObjectMethods } from "./frameworkJavaDesugarObjects.js";
-import { createFrameworkJavaEnumerationMethods } from "./frameworkJavaEnumerations.js";
+import { createFrameworkJavaConcurrencyMethods } from "./frameworkJavaConcurrency.js";
+import { createFrameworkJavaConstructorMethods } from "./frameworkJavaConstructors.js";
 import { createFrameworkJavaExecutorMethods } from "./frameworkJavaExecutors.js";
-import { createFrameworkJavaFileMethods } from "./frameworkJavaFiles.js";
-import { createFrameworkJavaFutureMethods } from "./frameworkJavaFutures.js";
-import { createFrameworkJavaIteratorMethods } from "./frameworkJavaIterators.js";
 import { createFrameworkJavaListMethods } from "./frameworkJavaLists.js";
 import { createFrameworkJavaLockMethods } from "./frameworkJavaLocks.js";
 import { createFrameworkJavaMapMethods } from "./frameworkJavaMaps.js";
+import { createFrameworkJavaMathMethods } from "./frameworkJavaMath.js";
 import { createFrameworkJavaObjectMethods } from "./frameworkJavaObjects.js";
-import { createFrameworkJavaPriorityQueueMethods } from "./frameworkJavaPriorityQueues.js";
-import { createFrameworkJavaReferenceMethods } from "./frameworkJavaReferences.js";
-import { createFrameworkJavaReflectFieldMethods } from "./frameworkJavaReflectFields.js";
-import { createFrameworkJavaRegexMethods } from "./frameworkJavaRegex.js";
+import { createFrameworkJavaReflectionMethods } from "./frameworkJavaReflection.js";
 import { createFrameworkJavaSetMethods } from "./frameworkJavaSets.js";
 import { createFrameworkJavaStringMethods } from "./frameworkJavaStrings.js";
-import { createFrameworkJavaSystemMethods } from "./frameworkJavaSystem.js";
-import { createFrameworkJavaThreadMethods } from "./frameworkJavaThreads.js";
-import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
-import { createFrameworkPackageMethods } from "./frameworkPackages.js";
-import { createFrameworkPreferenceMethods } from "./frameworkPreferences.js";
-import { createFrameworkViewMethods } from "./frameworkViews.js";
-import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
+import { createFrameworkJavaSystemMethods } from "./frameworkJavaSystems.js";
+import { createFrameworkJavaThrowableFamily } from "./frameworkJavaThrowableFamily.js";
+import { createFrameworkJavaTimeMethods } from "./frameworkJavaTime.js";
+import { createFrameworkJavaValueFamilies } from "./frameworkJavaValueFamilies.js";
+import { createFrameworkJsonPackageMethods } from "./frameworkJsonPackages.js";
+import { createFrameworkAndroidLoggingMethods } from "./frameworkAndroidLogging.js";
+import { createFrameworkAndroidLooperMethods } from "./frameworkAndroidLoopers.js";
+import { createFrameworkMaterialMethods } from "./frameworkMaterial.js";
+import { createFrameworkAndroidMetadataMethods } from "./frameworkAndroidMetadata.js";
+import { createFrameworkAndroidNetworkingMethods } from "./frameworkAndroidNetworking.js";
+import { createFrameworkAndroidOsMethods } from "./frameworkAndroidOs.js";
+import { createFrameworkAndroidPreferenceMethods } from "./frameworkAndroidPreferences.js";
+import { createFrameworkAndroidPrintWriterMethods } from "./frameworkAndroidPrintWriters.js";
+import { createFrameworkAndroidProcessMethods } from "./frameworkAndroidProcesses.js";
+import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSparseArrays.js";
+import { createFrameworkAndroidStringBuilderMethods } from "./frameworkAndroidStringBuilders.js";
+import { createFrameworkAndroidUtilityFamilies } from "./frameworkAndroidUtilityFamilies.js";
+import { createFrameworkAndroidTextViewMethods } from "./frameworkAndroidTextViews.js";
+import { createFrameworkAndroidThreadMethods } from "./frameworkAndroidThreads.js";
+import { createFrameworkAndroidVirtualRefMethods } from "./frameworkAndroidVirtualRefs.js";
+import { createFrameworkAndroidWebMethods } from "./frameworkAndroidWeb.js";
+import { createFrameworkAndroidWindowInsetsMethods } from "./frameworkAndroidWindowInsets.js";
+import { createFrameworkAndroidXmlMethods } from "./frameworkAndroidXml.js";
 export function createAndroidFrameworkFamilies(runtime) {
 	return Object.freeze([
-		createFrameworkAndroidGraphicsMethods(runtime),
-		createFrameworkAndroidWindowInsetsMethods(runtime),
-		createFrameworkAndroidMediaMethods(runtime),
-		createFrameworkContentProviderMethods(runtime),
-		createFrameworkAndroidTextUtilsMethods(runtime),
-		createFrameworkConstructors(runtime),
-		createFrameworkJavaObjectMethods(runtime),
-		createFrameworkJavaClassMethods(runtime),
-		createFrameworkJavaReflectFieldMethods(runtime),
-		createFrameworkJavaRegexMethods(runtime),
-		createFrameworkJavaStringMethods(runtime),
-		createFrameworkJavaFileMethods(runtime),
-		createFrameworkJavaArraysMethods(runtime),
-		createFrameworkJavaCollectionsMethods(runtime),
-		createFrameworkJavaCollectionWrapperMethods(runtime),
-		createFrameworkJavaEnumerationMethods(runtime),
-		createFrameworkJavaComparatorMethods(runtime),
-		createFrameworkJavaDesugarObjectMethods(runtime),
-		createFrameworkJavaSystemMethods(runtime),
-		createFrameworkFlutterPlatformMessageMethods(runtime),
-		createFrameworkFlutterJniMethods(runtime),
-		createFrameworkAtomicMethods(runtime),
-		createFrameworkJavaMapMethods(runtime),
-		createFrameworkJavaConcurrentQueueMethods(runtime),
-		createFrameworkJavaPriorityQueueMethods(runtime),
-		createFrameworkJavaListMethods(runtime),
-		createFrameworkJavaSetMethods(runtime),
-		createFrameworkJavaCopyOnWriteMethods(runtime),
-		createFrameworkJavaIteratorMethods(runtime),
-		createFrameworkJavaReferenceMethods(runtime),
-		createFrameworkJavaExecutorMethods(runtime),
-		createFrameworkJavaFutureMethods(runtime),
-		createFrameworkJavaThreadMethods(runtime),
-		createFrameworkJavaLockMethods(runtime),
-		createFrameworkAndroidTraceMethods(runtime),
-		createFrameworkAndroidSystemClockMethods(runtime),
-		createFrameworkAndroidServiceMethods(runtime),
-		createFrameworkAndroidSparseArrayMethods(runtime),
-		createFrameworkAndroidLongSparseArrayMethods(runtime),
-		createFrameworkAndroidResourceMethods(runtime),
-		createFrameworkAndroidActivityManagerMethods(runtime),
-		createFrameworkAndroidDirectoryMethods(runtime),
-		createFrameworkAndroidDisplayMethods(runtime),
-		createFrameworkAndroidLooperMethods(runtime),
+		createFrameworkJavaThrowableFamily(runtime),
+		createFrameworkJavaCollectionMethods(runtime),
+		createFrameworkJavaCollectionMethods(runtime),
+		createFrameworkAndroidCollectionFactoryMethods(runtime),
+		createFrameworkAndroidCollectionWrapperMethods(runtime),
+		createFrameworkAndroidActivityThreadMethods(runtime),
+		createFrameworkAndroidActivityMethods(runtime),
+		createFrameworkAndroidBroadcastReceiverMethods(runtime),
+		createFrameworkAndroidContentMethods(runtime),
+		createFrameworkAndroidMetadataMethods(runtime),
+		createFrameworkAndroidPreferenceMethods(runtime),
+		createFrameworkAndroidOsMethods(runtime),
 		createFrameworkAndroidHandlerMethods(runtime),
-		createFrameworkAndroidMessageMethods(runtime, sendHandlerMessage),
-		createFrameworkBundleMethods(runtime),
-		createFrameworkPackageMethods(runtime),
-		createFrameworkComponentMethods(runtime),
-		createFrameworkIntentMethods(runtime),
-		createFrameworkAssetMethods(runtime),
-		createFrameworkNetworkMethods(runtime),
-		createFrameworkPreferenceMethods(runtime),
-		createFrameworkViewMethods(runtime),
-		createFrameworkWebGlesMethods(runtime)
+		createFrameworkAndroidLooperMethods(runtime),
+		createFrameworkAndroidThreadMethods(runtime),
+		createFrameworkAndroidProcessMethods(runtime),
+		createFrameworkAndroidExecutorMethods(runtime),
+		createFrameworkAndroidLoggingMethods(runtime),
+		createFrameworkAndroidInputStreamMethods(runtime),
+		createFrameworkAndroidFileMethods(runtime),
+		createFrameworkAndroidPrintWriterMethods(runtime),
+		createFrameworkAndroidStringBuilderMethods(runtime),
+		...createFrameworkAndroidUtilityFamilies(runtime),
+		createFrameworkAndroidTextViewMethods(runtime),
+		createFrameworkAndroidDialogMethods(runtime),
+		createFrameworkAndroidWindowInsetsMethods(runtime),
+		createFrameworkAndroidDisplayMethods(runtime),
+		createFrameworkAndroidDrawableMethods(runtime),
+		createFrameworkAndroidGraphicsMethods(runtime),
+		createFrameworkAndroidWebMethods(runtime),
+		createFrameworkAndroidXmlMethods(runtime),
+		createFrameworkAndroidSparseArrayMethods(runtime),
+		createFrameworkAndroidCollectionMethods(runtime),
+		createFrameworkAndroidArrayMethods(runtime),
+		createFrameworkAndroidIntDefMethods(runtime),
+		createFrameworkAndroidNetworkingMethods(runtime),
+		createFrameworkMaterialMethods(runtime),
+		createFrameworkJsonPackageMethods(runtime),
+		createFrameworkJavaSystemMethods(runtime),
+		createFrameworkJavaStringMethods(runtime),
+		createFrameworkJavaArrayMethods(runtime),
+		createFrameworkJavaClassMethods(runtime),
+		createFrameworkJavaMathMethods(runtime),
+		createFrameworkJavaObjectMethods(runtime),
+		createFrameworkJavaReflectionMethods(runtime),
+		createFrameworkJavaConstructorMethods(runtime),
+		createFrameworkJavaSetMethods(runtime),
+		createFrameworkJavaListMethods(runtime),
+		createFrameworkJavaMapMethods(runtime),
+		createFrameworkJavaConcurrencyMethods(runtime),
+		createFrameworkJavaLockMethods(runtime),
+		createFrameworkJavaTimeMethods(runtime),
+		createFrameworkJavaComparatorMethods(runtime),
+		createFrameworkJavaExecutorMethods(runtime),
+		...createFrameworkJavaValueFamilies(runtime),
+		createFrameworkAndroidVirtualRefMethods(runtime)
 	]);
 }
+export { sendHandlerMessage };

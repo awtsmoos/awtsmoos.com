@@ -1,0 +1,109 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The account drawer resembles a durable field ledger layered beside, never above,
+ * the living world. The Awtsmoos exceeds every recorded identity; Awtsmoos.com
+ * keeps one fixed viewport, local scrolling, safe areas, and strong contrast.
+ */
+.realmTopbar {
+	grid-template-columns: auto 1fr auto auto;
+}
+
+.realmAccountToggle,
+.realmAccountDrawer button {
+	min-height: 2.35rem;
+	border: 1px solid rgba(255, 209, 102, 0.38);
+	border-radius: 0.65rem;
+	color: #fff6d7;
+	background: rgba(55, 38, 13, 0.9);
+	font-size: 0.67rem;
+	font-weight: 900;
+	cursor: pointer;
+}
+.realmAccountToggle {
+	padding: 0.45rem 0.7rem;
+}
+
+.realmAccountDrawer {
+	position: absolute;
+	z-index: 12;
+	top: max(0.55rem, env(safe-area-inset-top));
+	right: max(0.55rem, env(safe-area-inset-right));
+	bottom: max(0.55rem, env(safe-area-inset-bottom));
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: min(28rem, calc(100% - 1.1rem));
+	overflow: hidden;
+	border: 1px solid rgba(205, 226, 235, 0.24);
+	border-radius: 1rem;
+	background: linear-gradient(160deg, rgba(8, 23, 34, 0.98), rgba(25, 18, 10, 0.97));
+	box-shadow: -1.2rem 0 4rem rgba(0, 0, 0, 0.48);
+	backdrop-filter: blur(18px);
+}
+.realmAccountDrawer[hidden] {
+	display: none;
+}
+
+.realmAccountDrawer > header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.8rem;
+	padding: 0.8rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.realmAccountDrawer h2,
+.realmAccountDrawer h3,
+.realmAccountDrawer p {
+	margin: 0;
+}
+.realmAccountDrawer h2 {
+	font-size: 1rem;
+}
+.realmAccountDrawer h3 {
+	margin-bottom: 0.45rem;
+	color: #ffd986;
+	font-size: 0.69rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.realmAccountDrawer small {
+	color: #80dfff;
+	font-size: 0.52rem;
+	letter-spacing: 0.12em;
+}
+.realmAccountDrawer header button {
+	padding: 0.42rem 0.72rem;
+}
+
+.realmAccountScroll {
+	display: grid;
+	gap: 0.65rem;
+	align-content: start;
+	overflow: auto;
+	padding: 0.7rem;
+	overscroll-behavior: contain;
+}
+.realmAccountScroll > section {
+	padding: 0.62rem;
+	border: 1px solid rgba(128, 223, 255, 0.14);
+	border-radius: 0.75rem;
+	background: rgba(255, 255, 255, 0.035);
+}
+.realmAccountStats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.38rem;
+}
+.realmAccountStats > p {
+	display: grid;
+	gap: 0.1rem;
+	padding: 0.42rem;
+	border-radius: 0.5rem;
+	background: rgba(0, 0, 0, 0.18);
+}
+.realmAccountStats strong {
+	font-size: 0.72rem;
+}

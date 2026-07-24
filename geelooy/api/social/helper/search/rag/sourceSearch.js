@@ -5,35 +5,50 @@
 /**
  * @module SourceSearch
  * @description
- * One query vector may cross several reviewed physical vessels. Their persisted
- * HNSW answers are merged by distance into one truthful Awtsmoos.com result lane.
+ * Persisted vector roads may be crossed only through a usable index. Partial
+ * multipart publications are text-only, preventing eight large vector databases
+ * from entering the long-lived API process through an explicit vector request.
  */
 
 const corpusReader = require('../../../../../../ayzarim/DosDB/aiSearch/vectorCorpus/reader.js');
-const { rowsOf } = require('./shards.js');
-const { sortHits, closeness } = require('./math.js');
+const { closeness } = require('./math.js');
 const { publicHit, publicRow } = require('./resultShape.js');
 const { openShardSession } = require('./shardStore.js');
+
+const DEFAULT_DIAGNOSTIC_ROWS = 128;
 
 function cleanRow(row = {}) {
 	const sourceVector = row.vec || row.embedding || row.vector;
 	const { vec, embedding, vector, ...rest } = row;
-	return publicRow({ ...rest, vectorDimensions: Number(sourceVector?.length || row.vectorDimensions || 0) });
+	return publicRow({
+		...rest,
+		vectorDimensions: Number(sourceVector?.length || row.vectorDimensions || 0)
+	});
 }
 
-async function rowsForShard(_context, shard) {
+async function rowsForShard(_context, shard, maximumRows = DEFAULT_DIAGNOSTIC_ROWS) {
+	assertVectorSupported(shard);
+	const limit = Math.max(0, Math.min(Number(maximumRows) || 0, 1000));
+	const rows = [];
 	const parts = shard.parts || [shard];
-	const rows = parts.flatMap(part => {
+	for (const part of parts) {
+		if (rows.length >= limit) break;
 		const session = openShardSession(part);
-		return rowsOf(session.list).map(row => corpusReader.decode(session.database, row));
-	});
-	return { rows, source: 'awtsdb-list-read', sessionReused: false };
+		const remaining = limit - rows.length;
+		const count = Math.min(Number(session.list.length || 0), remaining);
+		for (let index = 0; index < count; index += 1) {
+			rows.push(corpusReader.decode(session.database, session.list[index]));
+		}
+	}
+	return { rows, source: 'awtsdb-bounded-list-read', truncated: rows.length >= limit };
 }
 
 async function searchShard(shard, queryVector, limit, options = {}) {
+	assertVectorSupported(shard);
 	const parts = shard.parts || [shard];
-	const searches = parts.map(part => searchPhysical(part, queryVector, limit, options));
-	const results = await Promise.all(searches);
+	const results = await Promise.all(
+		parts.map(part => searchPhysical(part, queryVector, limit, options))
+	);
 	if (results.length === 1) return results[0];
 	const hits = results.flatMap(result => result.hits)
 		.sort((left, right) => Number(left.score) - Number(right.score))
@@ -44,7 +59,7 @@ async function searchShard(shard, queryVector, limit, options = {}) {
 		totalRows: results.reduce((sum, result) => sum + result.totalRows, 0),
 		source: 'awtsdb-hnsw-persisted',
 		index: {
-			persisted: results.every(result => result.index?.persisted === true),
+			persisted: true,
 			registryCount: results.reduce((sum, result) => sum + Number(result.index?.registryCount || 0), 0),
 			parts: results.length,
 			sessionReused: results.every(result => result.index?.sessionReused === true)
@@ -52,14 +67,9 @@ async function searchShard(shard, queryVector, limit, options = {}) {
 	};
 }
 
-function searchPhysical(shard, queryVector, limit, options) {
+function searchPhysical(shard, queryVector, limit) {
 	const session = openShardSession(shard);
-	if (session.status.usable) return indexed(session, queryVector, limit);
-	if (options.requireIndexed === true) throw unavailableIndex(shard, session.status);
-	return exact(session, queryVector, limit);
-}
-
-function indexed(session, queryVector, limit) {
+	if (!session.status.usable) throw unavailableIndex(shard, session.status);
 	const hits = session.database.vector.nearestIndexed(session.list, queryVector, limit);
 	return {
 		hits: hits.map((hit, index) => publicHit({
@@ -70,25 +80,37 @@ function indexed(session, queryVector, limit) {
 		}, index)),
 		totalRows: Number(session.list.length || 0),
 		source: 'awtsdb-hnsw-persisted',
-		index: { persisted: true, registryCount: session.status.registryCount, sessionReused: session.reused }
+		index: {
+			persisted: true,
+			registryCount: session.status.registryCount,
+			sessionReused: session.reused
+		}
 	};
 }
 
-function exact(session, queryVector, limit) {
-	const rows = rowsOf(session.list).map(row => corpusReader.decode(session.database, row));
-	return {
-		hits: sortHits(rows, queryVector, limit).map((hit, index) => publicHit({ ...hit, row: cleanRow(hit.row) }, index)),
-		totalRows: rows.length,
-		source: 'awtsdb-vector-exact',
-		index: { persisted: false, sessionReused: session.reused }
-	};
+function assertVectorSupported(shard = {}) {
+	if (shard.textOnly !== true && shard.partial !== true) return;
+	throw Object.assign(new Error(`Shard ${shard.id} is a partial text-only publication.`), {
+		code: 'PARTIAL_LANE_TEXT_ONLY'
+	});
 }
 
 function unavailableIndex(shard, status) {
 	return Object.assign(new Error(`Persisted HNSW is unavailable for shard ${shard.id}.`), {
 		code: 'INDEXED_VECTOR_SEARCH_UNAVAILABLE',
-		readiness: { shardId: shard.id, registryCount: status.registryCount }
+		readiness: {
+			shardId: shard.id,
+			configured: status.configured,
+			registryCount: status.registryCount,
+			entryNodeID: status.entryNodeID
+		}
 	});
 }
 
-module.exports = { cleanRow, rowsForShard, searchShard, unavailableIndex };
+module.exports = {
+	assertVectorSupported,
+	cleanRow,
+	rowsForShard,
+	searchShard,
+	unavailableIndex
+};

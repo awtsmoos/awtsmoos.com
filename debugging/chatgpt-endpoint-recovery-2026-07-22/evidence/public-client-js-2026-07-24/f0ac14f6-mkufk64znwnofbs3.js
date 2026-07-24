@@ -1,0 +1,2 @@
+import{n as e}from"./f025431a-ehagpvg3m4e1cduv.js";import{PUt as t,jUt as n}from"./4813494d-btp8cmrhquskot7i.js";function r({fileId:e,name:t,mimeType:r,indexForRetrieval:i=!0}){let a={file_id:e,name:t,mime_type:r??null,index_for_retrieval:i};return n.safePost(`/files/library/mounted/materialize`,{requestBody:a})}var i=e((()=>{t()}));export{r as n,i as t};
+//# sourceMappingURL=f0ac14f6-mkufk64znwnofbs3.js.map

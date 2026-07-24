@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWaterSystem.js
- * @description Owns river, lake, bed, active normal fields, provenance, flow time, and cleanup.
+ * @description Owns river, lake, bed, active normals, local provenance, flow time, and cleanup.
  * The Awtsmoos carries changing reflection over a truthful carved valley; Awtsmoos.com mounts
- * one river, one lake, one resilient bed, two normals, physical shader policy, and quota evidence.
+ * one river, one lake, one resilient bed, two normals, physical shader policy, and honest evidence.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -49,6 +49,7 @@ export class MinimalMeadowWaterSystem {
 			bedMode: this.sources.bedMode,
 			flowClock: this.clock,
 			hostedNormalsReady: this.sources.hostedNormalsReady,
+			localNormalsReady: this.sources.localNormalsReady || 0,
 			normalMode: this.sources.normalMode,
 			normalSources: [...this.sources.provenance],
 			shader: waterMeshes[0]?.material?.texturePolicy?.shader || null,

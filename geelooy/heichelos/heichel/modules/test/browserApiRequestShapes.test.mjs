@@ -1,35 +1,47 @@
 // B"H
 import assert from 'node:assert/strict';
 import {
-  createQuestion,
-  createAnswer,
-  listAnswers,
-  createSection,
-  listSections,
-  repostEntity,
-  shareEntity,
-  referenceEntity
+	createQuestion,
+	createAnswer,
+	listAnswers,
+	createSection,
+	listSections,
+	repostEntity,
+	shareEntity,
+	referenceEntity
 } from '../api/socialContent.js';
 import {
-  createComment,
-  replyToComment,
-  listCommentAuthors,
-  listCommentsByAlias
+	createComment,
+	replyToComment,
+	listCommentAuthors,
+	listCommentsByAlias
 } from '../api/comments.js';
 import {
-  listNotifications,
-  getUnreadNotificationCount,
-  markNotificationRead,
-  createNotification,
-  pollNotifications,
-  fanoutNotifications
+	listNotifications,
+	getUnreadNotificationCount,
+	markNotificationRead,
+	createNotification,
+	pollNotifications,
+	fanoutNotifications
 } from '../api/notifications.js';
 import { semanticSearch } from '../api/semanticSearch.js';
+import {
+	getPostDetails as getLegacyPostDetails,
+	getBreadcrumb as getLegacyBreadcrumb
+} from '../../api/contentApi.js';
 
 const calls = [];
 globalThis.fetch = async (url, opts = {}) => {
-  calls.push({ url: String(url), opts });
-  return { ok: true, status: 200, statusText: 'OK', async json() { return { success: true }; } };
+	calls.push({ url: String(url), opts });
+	const payload = String(url).includes('/breadcrumb') ? [] : { success: true };
+	return {
+		ok: true,
+		status: 200,
+		statusText: 'OK',
+		async json() {
+			return payload;
+		}
+	};
 };
 
 const bodyText = call => call.opts?.body?.toString?.() || '';
@@ -53,6 +65,8 @@ await createNotification({ toAliasId: 'b', fromAliasId: 'a', type: 'reply', titl
 await pollNotifications({ aliasId: 'b', since: 9 });
 await fanoutNotifications({ toAliases: ['b', 'c'], fromAliasId: 'a', type: 'storm', title: 'T', body: 'B' });
 await semanticSearch({ query: 'deep concept', embedding: '1,2,3', limit: 7, entityType: 'comment' });
+await getLegacyPostDetails('היכל 1', 'BH-seferHamaamarimMeluket-מנחם-אב');
+await getLegacyBreadcrumb('היכל 1', 'מנחם אב_meluket');
 
 assert.ok(calls.some(call => call.url.endsWith('/api/social/content/heichelos/h%201/questions') && call.opts.method === 'POST' && bodyText(call).includes('sections=')));
 assert.ok(calls.some(call => call.url.includes('/api/social/content/heichelos/h%201/questions/q1/answers') && call.opts.method === 'POST'));
@@ -73,5 +87,14 @@ assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/b') &&
 assert.ok(calls.some(call => call.url.includes('/api/social/notifications/b/poll?since=9')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/fanout') && bodyText(call).includes('toAliases=b%2Cc')));
 assert.ok(calls.some(call => call.url.includes('/api/social/search/semantic?') && call.url.includes('entityType=comment') && call.url.includes('limit=7')));
+
+const legacyPostsCall = calls.find(call => call.url.includes('/posts/details?'));
+assert.ok(legacyPostsCall, 'legacy navigator post request missing');
+const legacyPostsUrl = new URL(legacyPostsCall.url, 'http://awtsmoos.local');
+assert.ok(legacyPostsUrl.pathname.includes('%D7%94%D7%99%D7%9B%D7%9C%201'));
+assert.ok(legacyPostsUrl.pathname.includes('BH-seferHamaamarimMeluket-%D7%9E%D7%A0%D7%97%D7%9D-%D7%90%D7%91'));
+assert.ok(legacyPostsUrl.searchParams.has('properties'));
+assert.ok(!legacyPostsUrl.searchParams.has('propertyMap'));
+assert.ok(calls.some(call => call.url.includes('%D7%9E%D7%A0%D7%97%D7%9D%20%D7%90%D7%91_meluket/breadcrumb')));
 
 console.log('B"H browserApiRequestShapes.test passed');

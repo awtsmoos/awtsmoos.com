@@ -2,27 +2,53 @@
 // Boruch Hashem
 // Blessed is He
 
-import { nodeRelayJson } from "../transport/nodeRelayApi.js";
+import {
+	nodeRelayGet,
+	nodeRelayJson
+} from "../transport/nodeRelayApi.js";
 import { loadNodeRelaySettings } from "../transport/nodeRelaySettings.js";
 
 /**
- * The browser speaks only prompt text and an opaque local continuation key. The
- * Awtsmoos keeps upstream identity behind the local relay, while Awtsmoos.com may
- * enter through the extension bridge or directly through the selected Node gate.
+ * The browser speaks only prompt text, opaque continuation keys, explicit mode,
+ * bounded model controls, and one validated conversation mode. The Awtsmoos keeps
+ * Awtsmoos.com free of credential, header, proof-token, and arbitrary-body fields.
  */
-export async function sendDirectChat({ prompt, conversationKey = null } = {}) {
+export async function sendDirectChat({
+	prompt,
+	conversationKey = null,
+	mode = "strict-request-only",
+	model = null,
+	thinkingEffort = null,
+	conversationMode = null
+} = {}) {
 	if (typeof prompt !== "string" || prompt.trim() === "") {
 		throw new TypeError("prompt must be a non-empty string.");
 	}
+	const payload = {
+		prompt,
+		conversationKey,
+		mode,
+		model,
+		thinkingEffort,
+		conversationMode
+	};
 	const extension = globalThis.awtsmoosFetch?.directChat;
 	if (typeof extension === "function") {
-		return validate(await extension({ prompt, conversationKey }));
+		return validateChat(await extension(payload));
 	}
-	return validate(await nodeRelayJson(
+	return validateChat(await nodeRelayJson(
 		"/direct-chat",
-		{ prompt, conversationKey },
+		payload,
 		"Direct ChatGPT relay"
 	));
+}
+
+export async function getDirectCapability() {
+	const extension = globalThis.awtsmoosFetch?.directCapability;
+	if (typeof extension === "function") {
+		return validateCapability(await extension());
+	}
+	return validateCapability(await nodeRelayGet("/direct-capability"));
 }
 
 export async function resetDirectChat(conversationKey = null) {
@@ -41,11 +67,21 @@ export function directRelayUrl() {
 	return loadNodeRelaySettings().url.replace(/\/+$/, "");
 }
 
-function validate(result) {
+function validateChat(result) {
 	if (!result?.ok || typeof result.answer !== "string") {
-		const error = new Error(result?.safeHint || "Direct ChatGPT relay did not return an answer.");
+		const error = new Error(
+			result?.safeHint || "Direct ChatGPT relay did not return an answer."
+		);
 		error.code = result?.error || "direct_request_failed";
+		error.capability = result?.capability ?? null;
 		throw error;
+	}
+	return result;
+}
+
+function validateCapability(result) {
+	if (!result?.ok || result.mode !== "strict-request-only") {
+		throw new Error("Direct request-only capability could not be verified.");
 	}
 	return result;
 }

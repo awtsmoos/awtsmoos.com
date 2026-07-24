@@ -1,34 +1,37 @@
-// B"H
+// B\"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module RagCommentSources
  * @description
- * Resolves the authoritative DosDB comment path first, then rich comments, then
- * imported history. The Awtsmoos preserves one truth through several vessels,
- * and Awtsmoos.com never scans an older ocean while the living path answers.
+ * Interactive RAG reads one exact derived alias shard, then one exact object from
+ * the running database family, then the current rich tree. No search request
+ * opens or caches a second global or historical comments database.
  */
 
 const {
-	authoritativeAliases,
-	authoritativeRows
+	authoritativeAliases
 } = require('./authoritativeCommentRows.js');
 const { legacyRows } = require('./legacyCommentRows.js');
 const {
 	directRichComment,
 	richRowsForPost
 } = require('./richCommentRows.js');
+const { bridgeCommentRows } = require('./bridgeCommentRows.js');
+const { shardCommentRows } = require('./shardCommentRows.js');
 
-async function findCommentsForPostAlias(context) {
-	const authoritative = await authoritativeRows(context);
-	if (authoritative.length) return authoritative;
-	const richRows = await richRowsForPost(context);
-	if (richRows.length) return richRows;
-	return legacyRows(context);
+async function findCommentsForPostAlias(context = {}) {
+	if (!hasAliasCoordinates(context)) return [];
+	const shardRows = shardCommentRows(context);
+	if (shardRows.length) return shardRows;
+	const bridgeRows = await brideCommentRows(context);
+	if (bridgeRows.length) return bridgeRows;
+	return richRowsForPost(context);
 }
 
-async function findAliasesForPost(context) {
+async function findAliasesForPost(context = {}) {
+	if (!hasPostCoordinates(context)) return [];
 	const authoritative = await authoritativeAliases(context);
 	if (authoritative.length) return authoritative;
 	const rows = await richRowsForPost({ ...context, aliasId: '' });
@@ -36,25 +39,44 @@ async function findAliasesForPost(context) {
 	return uniqueAliases(await legacyRows({ ...context, aliasId: '' }));
 }
 
-function uniqueAliases(rows) {
-	return [...new Set(rows.map(row => row.aliasId).filter(Boolean))];
-}
-
-async function findCommentById(context) {
+async function findCommentById(context = {}) {
+	if (!hasAliasCoordinates(context) || !present(context.commentId)) {
+		return missingComment();
+	}
 	const rows = await findCommentsForPostAlias(context);
 	const comment = rows.find(row => String(row.id) === String(context.commentId));
 	if (comment) {
 		return {
 			success: comment,
-			source: comment.ragCommentSource || 'awtsmoosDbCommentSource'
+			source: comment.ragCommentSource || 'commentShard'
 		};
 	}
 	const rich = await directRichComment(context, context.commentId);
 	if (rich) return { success: rich, source: 'commentTree' };
+	return missingComment();
+}
+
+function hasPostCoordinates(context = {}) {
+	return present(context.seriesId) && present(context.postId);
+}
+
+function hasAliasCoordinates(context = {}) {
+	return hasPostCoordinates(context) && present(context.aliasId);
+}
+
+function present(value) {
+	return value !== undefined && value !== null && String(value).trim() !== '';
+}
+
+function uniqueAliases(rows) {
+	return [...new Set(rows.map(row => row.aliasId).filter(Boolean))];
+}
+
+function missingComment() {
 	return {
 		error: {
 			code: 'COMMENT_NOT_FOUND',
-			message: 'Comment not found in authoritative, rich, or imported sources.'
+			message: 'Comment not found in the exact shard, family bridge, or current tree.'
 		}
 	};
 }
@@ -63,5 +85,7 @@ module.exports = {
 	findAliasesForPost,
 	findCommentById,
 	findCommentsForPostAlias,
+	hasAliasCoordinates,
+	hasPostCoordinates,
 	uniqueAliases
 };

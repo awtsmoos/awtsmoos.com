@@ -1,0 +1,12 @@
+file=ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs
+code=1
+signal=
+error=
+--- stdout ---
+
+--- stderr ---
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(String(socket.writes[0]).startsWith("HTTP/1.1 101"))
+
+    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs:40:2

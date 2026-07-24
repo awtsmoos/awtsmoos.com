@@ -1,0 +1,10 @@
+{
+	"status": "failed",
+	"totalUniverse": 384,
+	"startedAtUniverseIndex": 176,
+	"totalRemaining": 209,
+	"passed": 7,
+	"failed": 1,
+	"timedOut": 0,
+	"elapsedMs": 7291
+}

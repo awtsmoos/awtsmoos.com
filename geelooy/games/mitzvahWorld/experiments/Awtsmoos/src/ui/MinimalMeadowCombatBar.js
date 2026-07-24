@@ -4,105 +4,155 @@
 
 /**
  * @file MinimalMeadowCombatBar.js
- * @description Renders a retractable MMO hotbar with a real charge meter above its actions.
- * The Awtsmoos measures intention before release; Awtsmoos.com displays name, Hebrew letters,
- * percentage, remaining time, rejection, launch, collision, and damage without covering travel.
+ * @description Binds keys, buttons, cast progress, cooldowns, launch, impact, and target cycling.
+ * The Awtsmoos joins hand, keyboard, visible meter, and fictional deed in one measured truth;
+ * Awtsmoos.com keeps every action responsive without allowing UI input to leak into the world.
  */
 
-const ACTIONS = Object.freeze([
-	{ id: 'hebrew-fire', key: 'Digit1', label: 'Hebrew Fire', icon: 'אש' },
-	{ id: 'letter-light', key: 'Digit2', label: 'Letter Light', icon: 'אור' },
-	{ id: 'staff-strike', key: 'Digit3', label: 'Staff Strike', icon: '⚔' },
-	{ id: 'target-cycle', key: 'Tab', label: 'Target', icon: '◎' }
-]);
+import { minimalMeadowCombatActionList } from '../app/MinimalMeadowCombatActions.js';
+import {
+	createMinimalMeadowCombatBarView,
+	updateMinimalMeadowCastView,
+	updateMinimalMeadowCooldownView
+} from './MinimalMeadowCombatBarView.js';
+
+const REJECTION_LABELS = Object.freeze({
+	ALREADY_CASTING: 'Already casting',
+	CAST_INTERRUPTED_RANGE: 'Cast interrupted',
+	COOLDOWN: 'Action cooling down',
+	TARGET_LOST: 'Target lost',
+	TARGET_OUT_OF_RANGE: 'Move closer',
+	TARGET_REQUIRED: 'Select a demon first',
+	UNKNOWN_ACTION: 'Unknown action'
+});
 
 export class MinimalMeadowCombatBar {
 	constructor(host, bus, environment = globalThis) {
 		this.host = host;
 		this.bus = bus;
 		this.environment = environment;
-		this.collapsed = false;
+		this.actions = minimalMeadowCombatActionList();
+		this.view = createMinimalMeadowCombatBarView(host);
+		this.casting = null;
+		this.cooldowns = {};
 		this.onClick = event => this.handleClick(event);
-		this.onKey = event => this.handleKey(event);
-		this.build();
+		this.onKeyDown = event => this.handleKeyDown(event);
+		this.view.root.addEventListener('click', this.onClick);
+		environment.addEventListener?.('keydown', this.onKeyDown);
+		this.unsubscribers = this.bindEvents();
 	}
 
-	build() {
-		this.host.className = 'Awtsmoos-combat-host';
-		this.host.innerHTML = `<section class="Awtsmoos-cast-meter" data-visible="false"><header><b data-cast-name>Ready</b><output data-cast-percent>0%</output></header><div><i data-cast-fill></i></div><small data-cast-time></small></section><div class="Awtsmoos-combat-bar" data-collapsed="false"><button data-collapse title="Retract combat bar">⌄</button>${ACTIONS.map(button).join('')}<output data-cast-status>Ready</output></div>`;
-		this.meter = this.host.querySelector('.Awtsmoos-cast-meter');
-		this.host.addEventListener('click', this.onClick);
-		this.environment.addEventListener?.('keydown', this.onKey);
-		this.unsubscribers = listeners(this);
+	bindEvents() {
+		return [
+			this.bus.on('world:combat-ready', () => this.setStatus('Combat ready · choose a demon')),
+			this.bus.on('combat:cast-start', payload => this.showCast(payload)),
+			this.bus.on('combat:cast-progress', payload => this.showCast(payload)),
+			this.bus.on('combat:cast-launch', payload => this.showLaunch(payload)),
+			this.bus.on('combat:cast-cancel', payload => this.showCancel(payload)),
+			this.bus.on('combat:impact', payload => this.showImpact(payload)),
+			this.bus.on('combat:rejected', payload => this.showRejection(payload)),
+			this.bus.on('combat:cooldowns', payload => this.showCooldowns(payload))
+		];
 	}
 
 	handleClick(event) {
-		if (event.target.closest('[data-collapse]')) return this.toggle();
-		const action = event.target.closest('[data-combat-action]')?.dataset.combatAction;
-		if (action) this.activate(action);
+		const button = event.target.closest('button');
+		if (!button || button.disabled) {
+			return;
+		}
+		event.preventDefault();
+		event.stopPropagation();
+		if (button.dataset.actionId) {
+			this.activate(button.dataset.actionId);
+			return;
+		}
+		if (button.dataset.targetCycle) {
+			this.bus.emit('target:cycle', {});
+			return;
+		}
+		if (button.dataset.collapse) {
+			const collapsed = this.view.bar.dataset.collapsed !== 'true';
+			this.view.bar.dataset.collapsed = String(collapsed);
+			button.textContent = collapsed ? '+' : '−';
+		}
 	}
 
-	handleKey(event) {
-		if (event.repeat || isTextEntry(event.target)) return;
-		const action = ACTIONS.find(item => item.key === event.code);
-		if (!action) return;
-		event.preventDefault?.();
-		this.activate(action.id);
+	handleKeyDown(event) {
+		if (event.repeat || isTextEntry(event.target)) {
+			return;
+		}
+		const action = this.actions.find(candidate => candidate.keyCode === event.code);
+		if (action) {
+			event.preventDefault();
+			this.activate(action.id);
+			return;
+		}
+		if (event.code === 'Tab') {
+			event.preventDefault();
+			this.bus.emit('target:cycle', {});
+		}
 	}
 
 	activate(actionId) {
-		if (actionId === 'target-cycle') this.bus.emit('target:cycle', {});
-		else this.bus.emit('combat:activate', { actionId });
+		this.bus.emit('combat:activate', { actionId, source: 'action-bar' });
 	}
 
-	showCast(event) {
-		const percent = Math.round((event.progress || 0) * 100);
-		this.meter.dataset.visible = 'true';
-		this.meter.querySelector('[data-cast-name]').textContent = `${event.label} · ${event.letters}`;
-		this.meter.querySelector('[data-cast-percent]').textContent = `${percent}%`;
-		this.meter.querySelector('[data-cast-fill]').style.width = `${percent}%`;
-		this.meter.querySelector('[data-cast-time]').textContent = `${(event.remaining || event.duration || 0).toFixed(1)}s`;
-		this.status(`Charging ${event.letters}…`);
+	showCast(payload) {
+		this.casting = payload;
+		updateMinimalMeadowCastView(this.view, payload);
+		this.setStatus(`Casting ${payload.label || payload.letters || 'action'}…`);
 	}
 
-	hideCast(text) {
-		this.meter.dataset.visible = 'false';
-		this.status(text);
+	showLaunch(payload) {
+		this.casting = null;
+		updateMinimalMeadowCastView(this.view, null);
+		this.setStatus(`${payload.letters || 'Action'} launched`);
 	}
 
-	toggle() {
-		this.collapsed = !this.collapsed;
-		this.host.querySelector('.Awtsmoos-combat-bar').dataset.collapsed = String(this.collapsed);
+	showCancel(payload) {
+		this.casting = null;
+		updateMinimalMeadowCastView(this.view, null);
+		this.setStatus(REJECTION_LABELS[payload.reason] || payload.reason || 'Cast cancelled');
 	}
 
-	status(text) {
-		this.host.querySelector('[data-cast-status]').textContent = text;
+	showImpact(payload) {
+		const health = Number.isFinite(payload.health) ? ` · ${Math.max(0, payload.health)} HP` : '';
+		this.setStatus(`${payload.letters || 'Impact'} struck${health}`);
+	}
+
+	showRejection(payload) {
+		const remaining = payload.cooldownRemaining
+			? ` · ${Number(payload.cooldownRemaining).toFixed(1)}s`
+			: '';
+		this.setStatus(`${REJECTION_LABELS[payload.reason] || payload.reason}${remaining}`);
+	}
+
+	showCooldowns(payload) {
+		this.cooldowns = { ...(payload.actions || {}) };
+		updateMinimalMeadowCooldownView(this.view, payload);
+	}
+
+	setStatus(message) {
+		this.view.status.textContent = message;
 	}
 
 	diagnostics() {
-		return { actions: ACTIONS.length, collapsed: this.collapsed, meterVisible: this.meter.dataset.visible === 'true' };
+		return {
+			buttons: this.view.buttons.size,
+			casting: this.casting?.actionId || null,
+			cooldowns: { ...this.cooldowns },
+			status: this.view.status.textContent
+		};
 	}
 
 	destroy() {
-		for (const unsubscribe of this.unsubscribers) unsubscribe();
-		this.host.removeEventListener('click', this.onClick);
-		this.environment.removeEventListener?.('keydown', this.onKey);
+		this.view.root.removeEventListener('click', this.onClick);
+		this.environment.removeEventListener?.('keydown', this.onKeyDown);
+		for (const unsubscribe of this.unsubscribers) {
+			unsubscribe();
+		}
+		this.host.replaceChildren();
 	}
-}
-
-function listeners(bar) {
-	return [
-		bar.bus.on('combat:cast-start', event => bar.showCast(event)),
-		bar.bus.on('combat:cast-progress', event => bar.showCast(event)),
-		bar.bus.on('combat:cast-launch', event => bar.hideCast(`Launched ${event.letters}`)),
-		bar.bus.on('combat:cast-cancel', event => bar.hideCast(event.reason.replaceAll('_', ' '))),
-		bar.bus.on('combat:impact', event => bar.hideCast(`${event.letters} hit · ${event.health} HP`)),
-		bar.bus.on('combat:rejected', event => bar.hideCast(event.reason.replaceAll('_', ' ')))
-	];
-}
-
-function button(action, index) {
-	return `<button data-combat-action="${action.id}" title="${action.label}"><b>${action.icon}</b><small>${action.key === 'Tab' ? 'Tab' : index + 1}</small></button>`;
 }
 
 function isTextEntry(target) {

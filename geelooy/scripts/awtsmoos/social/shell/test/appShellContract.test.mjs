@@ -1,12 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module AppShellContractTest
  * @description
- * The Awtsmoos verifies one profile-bearing horizon, one canonical route-link
- * renderer, and one Games doorway across Awtsmoos.com without shadow headers.
+ * The Awtsmoos verifies one profile-bearing horizon, canonical route links, and
+ * a main search form whose ordinary submission reaches the living Torah library.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
@@ -18,6 +20,7 @@ const ribbon = read('geelooy/scripts/awtsmoos/social/shell/contextRibbon.js');
 const header = read('geelooy/scripts/awtsmoos/social/shell/unusualHeader.js');
 const menu = read('geelooy/scripts/awtsmoos/social/shell/constellationMenu.js');
 const search = read('geelooy/scripts/awtsmoos/social/shell/headerSearch.js');
+const suggestions = read('geelooy/scripts/awtsmoos/social/shell/headerSearchSuggestions.js');
 const boot = read('geelooy/scripts/awtsmoos/social/shell/boot.js');
 const performance = read('geelooy/scripts/awtsmoos/social/shell/performanceProfile.js');
 const home = read('geelooy/index.html');
@@ -43,15 +46,18 @@ for (const token of ['awtsmoosificationalisticaticalism', 'createProfileDropdown
 	assert.ok(header.includes(token), `unusual header missing ${token}`);
 }
 assert.doesNotMatch(header, /function routeCard/);
-for (const emoji of ['🔍', '📬', '🧭']) {
-	assert.ok(header.includes(emoji));
-}
+for (const emoji of ['🔍', '📬', '🧭']) assert.ok(header.includes(emoji));
 for (const token of ['Escape', 'restoreFocus', 'button.focus()', 'data-global-menu-open']) {
 	assert.ok(menu.includes(token), `constellation menu missing ${token}`);
 }
-for (const token of ['/heichelos', '/mawgawl/sefarim', 'searchAppRoutes']) {
-	assert.ok(search.includes(token));
+for (const token of ['/mawgawl/sefarim', "input.name = 'q'", 'renderSearchSuggestions']) {
+	assert.ok(search.includes(token), `header search missing ${token}`);
 }
+for (const token of ['searchAppRoutes', '/mawgawl/sefarim', 'encodeURIComponent']) {
+	assert.ok(suggestions.includes(token), `search suggestions missing ${token}`);
+}
+assert.match(search, /form\.action\s*=\s*['"]\/mawgawl\/sefarim['"]/);
+assert.doesNotMatch(search, /form\.action\s*=\s*['"]\/heichelos['"]/);
 for (const token of ['ensureAppShell', 'applyPerformanceProfile', 'speed-001', 'geelooy-spectral-shell']) {
 	assert.ok(boot.includes(token));
 }
@@ -66,7 +72,7 @@ for (const token of ['social/shell/boot.js', 'g-content-region', 'data-geelooy-r
 }
 assert.doesNotMatch(games, /nav\/header\.html/);
 assert.doesNotMatch(home, /class="civilization-header"/);
-for (const [name, source] of Object.entries({ shell, routeLink, routeState, ribbon, header, menu, boot, performance })) {
+for (const [name, source] of Object.entries({ shell, routeLink, routeState, ribbon, header, suggestions, menu, boot, performance })) {
 	assert.ok(lineCount(source) <= 120, `${name} must stay within 120 lines`);
 }
 assert.ok(!shell.includes('g-rail') && !header.includes('g-rail'));

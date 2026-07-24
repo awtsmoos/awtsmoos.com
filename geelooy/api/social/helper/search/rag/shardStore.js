@@ -5,9 +5,9 @@
 /**
  * @module SearchShardStore
  * @description
- * One immutable shard receives one reusable read-only session. The Awtsmoos keeps
- * its persisted graph open and tunes only the in-memory search breadth, while
- * Awtsmoos.com never rewrites, expands, or re-embeds either canonical database.
+ * Every immutable RAG shard opens through its reviewed manifest list name. The
+ * Awtsmoos permits no request to enumerate a giant database root merely to guess
+ * a list, while reusable read-only sessions keep persisted graphs efficient.
  */
 
 const fs = require('fs');
@@ -22,12 +22,20 @@ function fingerprint(file) {
 	return `${status.dev}:${status.ino}:${status.size}:${status.mtimeMs}`;
 }
 
-function discoverListName(database, preferred) {
-	if (preferred && database.root[preferred]) return preferred;
-	return Object.keys(database.root).find(name => {
-		if (name.startsWith('__')) return false;
-		return typeof database.root[name]?.length === 'number';
-	});
+function discoverListName(database, preferred, shardId = 'unknown') {
+	if (!preferred) {
+		throw codedError(
+			'RAG_LIST_NAME_REQUIRED',
+			`Shard ${shardId} has no reviewed vector list name.`
+		);
+	}
+	if (!database.root[preferred]) {
+		throw codedError(
+			'RAG_LIST_UNAVAILABLE',
+			`Vector list ${preferred} is unavailable in shard ${shardId}.`
+		);
+	}
+	return preferred;
 }
 
 function statusFor(index) {
@@ -53,14 +61,8 @@ function openShardSession(shard) {
 	const database = new SearchDatabase(file);
 	try {
 		database.open();
-		const listName = discoverListName(database, shard.listName);
-		const list = listName ? database.root[listName] : null;
-		if (!list) {
-			throw codedError(
-				'RAG_LIST_UNAVAILABLE',
-				`No vector list exists in shard ${shard.id}.`
-			);
-		}
+		const listName = discoverListName(database, shard.listName, shard.id);
+		const list = database.root[listName];
 		const index = database.vector.getIndex(list);
 		tunePersistedIndex(index);
 		const session = {
@@ -101,5 +103,6 @@ function codedError(code, message) {
 module.exports = {
 	closeAllShardSessions,
 	closeShardSession,
+	discoverListName,
 	openShardSession
 };

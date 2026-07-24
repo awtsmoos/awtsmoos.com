@@ -4,39 +4,56 @@
 
 /**
  * @file MinimalMeadowPlayerHydration.js
- * @description Replaces fallback with canonical Chossid and reapplies authoritative equipment.
- * The Awtsmoos clothes one moving soul byte by truthful byte; Awtsmoos.com keeps the meadow
- * visible while the final garment downloads, then binds coat, hat, hand, and back without drift.
+ * @description Replaces the visible fallback only after one canonical Chossid GLB is fully ready.
+ * The Awtsmoos clothes the moving soul without removing its first garment too soon;
+ * Awtsmoos.com preserves play, reports measured bytes, and leaves the fallback on every failure.
  */
 
-import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js?v=20260723-meadow-06';
-import { PLAYER_MODEL_URL } from './EretzConstants.js';
+import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
 
+const PLAYER_MODEL_URL = './assets/models/player/chossid.glb';
+
+/**
+ * Loads, validates, mounts, and binds the canonical player without blocking core play.
+ * @param {object} runtime Active meadow runtime with visible fallback model.
+ * @param {Window|object} environment Browser-like environment.
+ * @returns {Promise<object|null>} Canonical model receipt or null when fallback remains.
+ */
 export async function hydrateMinimalMeadowPlayer(runtime, environment = globalThis) {
 	announce(environment, { phase: 'starting', progress: 0 });
+	const fallbackModel = runtime.model;
 	try {
 		const gltf = await loadIsolatedGltf(
 			PLAYER_MODEL_URL,
 			'minimal-meadow-player-canonical',
 			{ onProgress: detail => announce(environment, detail) }
 		);
+		if (runtime.destroyed) {
+			return null;
+		}
 		const model = prepareCanonicalModel(gltf.scene, runtime.state);
-		runtime.model?.parent?.remove?.(runtime.model);
+		const meshCount = markBootstrapMeshes(model);
+		if (meshCount < 1) {
+			throw new Error('Canonical Chossid GLB contained no renderable meshes.');
+		}
 		runtime.scene.add(model);
 		runtime.model = model;
 		runtime.playerGltf = gltf;
-		runtime.equipment?.bindModel(model);
+		runtime.equipment?.bindModel?.(model);
+		fallbackModel?.parent?.remove?.(fallbackModel);
 		runtime.canonicalPlayer = {
 			animations: gltf.animations?.length || 0,
-			meshes: markBootstrapMeshes(model),
+			meshes: meshCount,
 			source: PLAYER_MODEL_URL,
 			status: 'ready'
 		};
 		announce(environment, { phase: 'ready', progress: 1 });
 		return runtime.canonicalPlayer;
 	} catch (error) {
+		runtime.model = fallbackModel;
 		runtime.canonicalPlayer = {
 			error: error?.message || String(error),
+			source: PLAYER_MODEL_URL,
 			status: 'fallback-visible'
 		};
 		announce(environment, {
@@ -44,25 +61,30 @@ export async function hydrateMinimalMeadowPlayer(runtime, environment = globalTh
 			phase: 'fallback',
 			progress: 1
 		});
-		environment.console?.warn?.('[MitzvahWorld] canonical Chossid hydration failed.', error);
+		environment.console?.warn?.(
+			'[MitzvahWorld] canonical Chossid hydration failed; fallback remains visible.',
+			error
+		);
 		return null;
 	}
 }
 
 function prepareCanonicalModel(model, state) {
+	const renderY = state.renderY ?? state.y ?? 0;
 	model.name = 'Awtsmoos_minimal_meadow_chossid_glb';
 	model.visible = true;
 	model.scale.set(1.52, 1.52, 1.52);
-	model.position.set(state.x, state.renderY, state.z);
+	model.position.set(state.x || 0, renderY, state.z || 0);
 	model.setBaseTransform?.();
-	markBootstrapMeshes(model);
 	return model;
 }
 
 function markBootstrapMeshes(model) {
 	let meshes = 0;
 	model.traverse?.(object => {
-		if (!object.isMesh && !object.isSkinnedMesh) return;
+		if (!object.isMesh && !object.isSkinnedMesh) {
+			return;
+		}
 		object.userData ||= {};
 		object.userData.bootstrapVisual = true;
 		meshes += 1;
@@ -72,8 +94,12 @@ function markBootstrapMeshes(model) {
 
 function announce(environment, detail) {
 	const EventClass = environment.CustomEvent;
-	if (!EventClass || !environment.dispatchEvent) return;
-	environment.dispatchEvent(new EventClass('awtsmoos:model-progress', { detail }));
+	if (!EventClass || !environment.dispatchEvent) {
+		return;
+	}
+	environment.dispatchEvent(
+		new EventClass('awtsmoos:model-progress', { detail })
+	);
 }
 
 export default hydrateMinimalMeadowPlayer;
