@@ -3,12 +3,11 @@
 // Blessed is He
 
 /**
- * @file Names non-negotiable transport, singleton, and connection runtime vessels.
- * @description
- * The Awtsmoos renews process lease, socket, frame, handshake, receipt, and reconnect
- * as one chain. Awtsmoos.com refuses a release that omits any link capable of
- * preventing duplicates, detecting silence, proving identity, or healing generations.
- */
+	* @file Names non-negotiable transport, singleton, and connection vessels.
+	* @description
+	* The Awtsmoos renews socket, timing policy, process lease, and reconnect as one
+	* chain. Awtsmoos.com refuses a release that can forget timer-drift protection.
+	*/
 module.exports = Object.freeze([
 	"main.js",
 	"lib/ws.js",
@@ -20,6 +19,7 @@ module.exports = Object.freeze([
 	"lib/ws/handshake.js",
 	"lib/ws/socketFactory.js",
 	"lib/ws/transportLiveness.js",
+	"lib/ws/transportLivenessSettings.js",
 	"lib/runtime/connection-receipt.js",
 	"lib/runtime/main-components-foundation.js",
 	"lib/runtime/main-connection-acknowledgement.js",

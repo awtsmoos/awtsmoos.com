@@ -3,12 +3,11 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Response identity names the original deed beneath a retry envelope. The Awtsmoos
- * renews transport and action separately; Awtsmoos.com preserves every deployed
- * alias while allowing a recovered write to answer its retryAction poll.
- */
+	* @file Validates response correlation while permitting truthful worker promotion.
+	* @description
+	* The Awtsmoos compares the requested doorway to an approved execution vessel.
+	* Awtsmoos.com reports real conflicts without rejecting honest command promotion.
+	*/
 function expectedResponseAction(payload = {}) {
 	if (payload.action === "retryAction") {
 		return String(
@@ -33,12 +32,7 @@ function allowedActionAlias(expected, actual) {
 		commandStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
 		commandJobStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
 		commandWait: ["commandWait", "commandStatus", "commandJobStatus"],
-		commandJobWait: [
-			"commandWait",
-			"commandJobWait",
-			"commandStatus",
-			"commandJobStatus"
-		],
+		commandJobWait: ["commandWait", "commandJobWait", "commandStatus", "commandJobStatus"],
 		nodeCheckFiles: ["nodeCheckFiles", "nodeCheckMany"],
 		nodeCheckMany: ["nodeCheckFiles", "nodeCheckMany"]
 	};
@@ -60,12 +54,16 @@ function snapshot(value = {}) {
 	return {
 		action: value.action,
 		requestAction: value.requestAction,
+		executionAction: value.executionAction,
 		actualAction: value.actualAction,
+		actionPromoted: value.actionPromoted,
 		controlRequestId: value.controlRequestId,
 		clientRequestId: value.clientRequestId,
 		nonce: value.nonce,
 		jobId: value.jobId,
 		stream: value.stream,
+		projectRoot: value.projectRoot || value.root,
+		cwd: value.cwd,
 		path: value.path,
 		absolutePath: value.absolutePath
 	};

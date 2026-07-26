@@ -1,5 +1,5 @@
 B"H
-1.0.386
+1.0.391
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -807,6 +807,7 @@ lib/response-spill.js
 lib/response-values.js
 lib/responseContracts/index.js
 lib/responseContracts/registry.js
+lib/runtime/action-identity.js
 lib/runtime/action-stream.js
 lib/runtime/aliases.js
 lib/runtime/async-task-process.js
@@ -905,6 +906,7 @@ lib/runtime/request-retry-records.js
 lib/runtime/request-retry-registry.js
 lib/runtime/request-retry-shapes.js
 lib/runtime/request-retry-store.js
+lib/runtime/request-scope.js
 lib/runtime/response-surface-definitions.js
 lib/runtime/response-surface-helpers.js
 lib/runtime/response-surface.js
@@ -988,6 +990,7 @@ lib/ws/frameStream.js
 lib/ws/handshake.js
 lib/ws/socketFactory.js
 lib/ws/transportLiveness.js
+lib/ws/transportLivenessSettings.js
 next-runtime/command/activeRegistry.js
 next-runtime/command/admission.js
 next-runtime/command/atomicMeta.js

@@ -7,15 +7,13 @@ const Correlation = require("../runtime/correlation.js");
 const PROTOCOL_VERSION = "awtsmoos-worker-v1";
 
 /**
- * B"H
- * Worker identity is a vessel for one process family. The Awtsmoos preserves
- * caller, birth, and group identity while Awtsmoos.com observes every change.
- */
+	* @file Describes worker process identity together with immutable request scope.
+	* @description
+	* The Awtsmoos joins process family, project root, cwd, and execution action.
+	* Awtsmoos.com adds optional proof without breaking existing protocol readers.
+	*/
 function commandWorker(args = {}) {
-	const correlation = Correlation.extract(
-		args.correlation || args
-	);
-
+	const correlation = Correlation.extract(args.correlation || args);
 	return compact({
 		...correlation,
 		protocol: PROTOCOL_VERSION,
@@ -23,6 +21,11 @@ function commandWorker(args = {}) {
 		jobId: args.jobId,
 		kind: "subprocess",
 		state: args.state || "running",
+		requestAction: args.requestAction,
+		executionAction: args.executionAction || args.actualAction,
+		actualAction: args.executionAction || args.actualAction,
+		projectRoot: args.projectRoot,
+		cwd: args.cwd,
 		pid: args.pid,
 		processGroupId: args.processGroupId,
 		birthToken: args.birthToken,
@@ -44,12 +47,8 @@ function commandFinalWorker(worker = {}, patch = {}) {
 		...worker,
 		...patch,
 		state: patch.state || worker.state || "completed",
-		finishedAt: patch.finishedAt ||
-			worker.finishedAt ||
-			new Date().toISOString(),
-		heartbeatAt: patch.heartbeatAt ||
-			worker.heartbeatAt ||
-			new Date().toISOString()
+		finishedAt: patch.finishedAt || worker.finishedAt || new Date().toISOString(),
+		heartbeatAt: patch.heartbeatAt || worker.heartbeatAt || new Date().toISOString()
 	});
 }
 
@@ -71,18 +70,9 @@ function processWorker(args = {}) {
 }
 
 function compact(value) {
-	return Object.fromEntries(
-		Object.entries(value).filter(([, item]) => {
-			return item !== undefined &&
-				item !== null &&
-				item !== "";
-		})
-	);
+	return Object.fromEntries(Object.entries(value).filter(([, item]) => {
+		return item !== undefined && item !== null && item !== "";
+	}));
 }
 
-module.exports = {
-	PROTOCOL_VERSION,
-	commandFinalWorker,
-	commandWorker,
-	processWorker
-};
+module.exports = { PROTOCOL_VERSION, commandFinalWorker, commandWorker, processWorker };

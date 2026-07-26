@@ -3,24 +3,25 @@
 // Blessed is He
 
 /**
- * B"H
- * A receipt binds one request to one worker and one job. The Awtsmoos keeps
- * every caller identity visible while Awtsmoos.com watches the state change.
- */
+	* @file Binds one caller, scope, worker, and job into durable identity.
+	* @description
+	* The Awtsmoos keeps root and cwd beside action identity. Awtsmoos.com never
+	* asks a later status request to guess where the original process was born.
+	*/
 function commandReceipt(input = {}) {
-	const source = {
-		...(input.correlation || {}),
-		...input
-	};
+	const source = { ...(input.correlation || {}), ...input };
 	const action = source.action || "commandStart";
-
+	const executionAction = source.executionAction || source.actualAction || action;
 	return clean({
 		receiptId: source.receiptId,
 		jobId: source.jobId,
 		workerId: source.workerId,
 		action,
 		requestAction: source.requestAction || action,
-		actualAction: source.actualAction || action,
+		executionAction,
+		actualAction: executionAction,
+		projectRoot: source.projectRoot,
+		cwd: source.cwd,
 		missionId: source.missionId,
 		roomId: source.roomId,
 		agentSessionId: source.agentSessionId,
@@ -39,56 +40,29 @@ function commandReceipt(input = {}) {
 }
 
 function created(input = {}) {
-	return commandReceipt({
-		...input,
-		state: input.state || "queued"
-	});
+	return commandReceipt({ ...input, state: input.state || "queued" });
 }
 
 function running(receipt = {}, worker = {}) {
-	return update(
-		receipt,
-		{
-			state: "running",
-			workerId: worker.workerId || receipt.workerId,
-			jobId: worker.jobId || receipt.jobId,
-			pid: worker.pid,
-			processGroupId: worker.processGroupId,
-			birthToken: worker.birthToken,
-			heartbeatAt: worker.heartbeatAt
-		}
-	);
-}
-
-function update(receipt = {}, patch = {}) {
-	return clean({
-		...receipt,
-		...patch,
-		updatedAt: patch.updatedAt || new Date().toISOString()
+	return update(receipt, {
+		state: "running",
+		workerId: worker.workerId || receipt.workerId,
+		jobId: worker.jobId || receipt.jobId,
+		pid: worker.pid,
+		processGroupId: worker.processGroupId,
+		birthToken: worker.birthToken,
+		heartbeatAt: worker.heartbeatAt
 	});
 }
 
-function clean(object = {}) {
-	const output = {
-		...object
-	};
-
-	for (const key of Object.keys(output)) {
-		if (
-			output[key] === undefined ||
-			output[key] === ""
-		) {
-			delete output[key];
-		}
-	}
-
-	return output;
+function update(receipt = {}, patch = {}) {
+	return clean({ ...receipt, ...patch, updatedAt: patch.updatedAt || new Date().toISOString() });
 }
 
-module.exports = {
-	clean,
-	commandReceipt,
-	created,
-	running,
-	update
-};
+function clean(object = {}) {
+	return Object.fromEntries(Object.entries(object).filter(([, value]) => {
+		return value !== undefined && value !== "";
+	}));
+}
+
+module.exports = { clean, commandReceipt, created, running, update };

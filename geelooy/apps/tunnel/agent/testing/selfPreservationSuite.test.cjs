@@ -7,15 +7,15 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
- * @file Runs self-preservation and installer proofs in isolated processes.
- * @description
- * The Awtsmoos renews each test without inherited timers or module caches.
- * Awtsmoos.com gathers bounded evidence for half-open recovery, ACK-aware backoff,
- * durable guardians, connection receipts, installer truth, and existing contracts.
- */
+	* @file Runs self-preservation and installer proofs in isolated processes.
+	* @description
+	* The Awtsmoos renews each proof without inherited timers. Awtsmoos.com requires
+	* timer-drift recovery beside half-open death, reconnect, identity, and install.
+	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
 	"geelooy/apps/tunnel/agent/testing/transportLiveness.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/transportLivenessEventLoopLag.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/webSocketHalfOpenRecovery.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/unixServiceHealth.test.cjs",
@@ -29,14 +29,14 @@ const tests = [
 ];
 
 const results = tests.map(runTest);
-const failures = results.filter((result) => !result.ok);
+const failures = results.filter(result => !result.ok);
 assert.deepEqual(failures, [], JSON.stringify(failures, null, 2));
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "self-preservation",
 	passed: results.length,
-	tests: results.map((result) => result.file)
+	tests: results.map(result => result.file)
 }, null, 2));
 
 function runTest(file) {
