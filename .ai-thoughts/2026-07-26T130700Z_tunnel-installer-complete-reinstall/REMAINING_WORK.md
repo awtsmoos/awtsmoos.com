@@ -12,8 +12,10 @@ Blessed is He
 - [x] Remove optional workspace health from activation, completion, and rollback corruption gates.
 - [x] Add all requested isolated root, reinstall, identity, pipeline, and rollback scenarios.
 - [x] Pass focused, transactional, 18-test reliability, Unix route, Termux, and HTTP pipeline suites.
-- [x] Read back every changed file and verify syntax, tabs, line limits, and static contracts.
+- [x] Read back every changed file and verify syntax, tabs, line limits, executable modes, and static contracts.
 - [x] Verify the main worktree and configured production root remain untouched by repair files.
 - [x] Verify no production code/config file was modified during the work window and the live tunnel registration remained stable.
-- [ ] Create, commit, and push the separate repair branch.
-- [ ] Confirm remote branch and clean detached worktree.
+- [x] Create, commit, and push the separate repair branch.
+- [x] Confirm remote branch and clean detached worktree.
+
+Completion gate: closed.
