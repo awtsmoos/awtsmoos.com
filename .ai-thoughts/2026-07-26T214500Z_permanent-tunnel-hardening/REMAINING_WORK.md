@@ -25,5 +25,7 @@ Blessed is He
 - [x] Pass Unix route, Termux, real HTTP curl-pipe bootstrap, release closure, and packaged startup.
 - [x] Pass final syntax, tabs, executable mode, line limit, manifest, and diff audit.
 - [x] Confirm production and main-worktree isolation.
-- [ ] Commit and push the permanent-hardening branch.
-- [ ] Confirm remote tip and clean isolated worktree.
+- [x] Commit and push permanent implementation as `e57c225454bab54c04a2fec1152902290272dd5a`.
+- [x] Confirm remote tip and clean isolated worktree.
+
+Completion gate: closed. Integration, deployment, and live reinstall remain deliberately separate from this source-only repair.
