@@ -9,13 +9,30 @@ const path = require("node:path");
 const Harness = require("./helpers/installerProjectRoot/harness.cjs");
 
 /**
-	* @file Proves current invocation roots always replace stale workspace memory.
+	* @file Proves current roots replace stale memory while only durable state survives.
 	* @description The Awtsmoos moves through spaces, HOME, and repository-free worlds.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const downloads = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-project-root-"));
+const durable = {
+	tools: { chrome: false, command: false, fsWrite: false },
+	command: { enabled: false, allowNodeScript: false, timeoutMs: 12345 },
+	chrome: { enabled: false, userDataDir: "/durable/browser-state" }
+};
+const credentials = {
+	providerKeys: { openai: "approved-test-key" },
+	providerKeyFiles: { local: "/secure/key-file" }
+};
 const existing = {
+	...durable,
+	aiAgents: {
+		...credentials,
+		agents: [{ id: "transient-agent", provider: "openai" }],
+		maxDepth: 99
+	},
+	gitHygiene: { ignoreAiThoughts: true },
+	mission: { activeMissionId: "transient-mission" },
 	root: "/Users/awtsmoos/awtsmoos.com",
 	repoRoot: "/deleted/source/tree",
 	sourceRoot: "/deleted/source/tree",
@@ -23,8 +40,7 @@ const existing = {
 	relay: "wss://account.example",
 	tunnelName: "awt-preserved",
 	allowWrite: false,
-	allowCommands: true,
-	chrome: { profile: "durable-browser" }
+	allowCommands: true
 };
 
 try {
@@ -46,8 +62,13 @@ try {
 	for (const config of [moved, spaced, fromHome, plain, overridden]) {
 		assert.equal(config.tunnelName, existing.tunnelName);
 		assert.equal(config.relay, existing.relay);
-		assert.deepEqual(config.chrome, existing.chrome);
 		assert.equal(config.allowWrite, false);
+		for (const [key, value] of Object.entries(durable)) {
+			assert.deepEqual(config[key], value, `durable field ${key}`);
+		}
+		assert.deepEqual(config.aiAgents, credentials);
+		assert.equal(config.gitHygiene, undefined);
+		assert.equal(config.mission, undefined);
 		assert.equal(config.repoRoot, undefined);
 		assert.equal(config.sourceRoot, undefined);
 		assert.equal(config.installRoot, undefined);
@@ -57,7 +78,8 @@ try {
 		suite: "installer-project-root-migration",
 		scenarios: 5,
 		staleRootDiscarded: true,
-		durableStatePreserved: true
+		consentBrowserAndCredentialsPreserved: true,
+		transientOrchestrationDiscarded: true
 	}, null, 2));
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });

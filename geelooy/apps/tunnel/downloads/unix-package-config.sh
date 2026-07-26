@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos keeps identity, consent, and browser vessels while replacing every
-# runtime garment. Awtsmoos.com chooses the present caller root, never an absent
-# memory from yesterday, and seals the new configuration through an atomic rename.
+# The Awtsmoos keeps identity, consent, browser vessels, and approved credentials
+# while replacing every runtime garment. Awtsmoos.com chooses the present caller
+# root and carries no mission or orchestration residue from yesterday.
 create_candidate_config() {
 	local candidate="$1"
 	local existing="$ROOT/config.json"
@@ -32,15 +32,25 @@ function selectProjectRoot() {
 	return selected;
 }
 
+function approvedCredentials(aiAgents = {}) {
+	const value = {};
+	if (aiAgents.providerKeys) value.providerKeys = aiAgents.providerKeys;
+	if (aiAgents.providerKeyFiles) value.providerKeyFiles = aiAgents.providerKeyFiles;
+	return Object.keys(value).length ? value : undefined;
+}
+
 function durableState(config) {
 	const keys = [
 		"allowCommands", "allowSecrets", "allowWrite", "allowedOrigins",
-		"chrome", "deviceName", "enableLocalHttpProxy", "localApi",
-		"verifyAccountPassword"
+		"chrome", "command", "deviceName", "enableLocalHttpProxy",
+		"localApi", "tools", "verifyAccountPassword"
 	];
-	return Object.fromEntries(keys
+	const value = Object.fromEntries(keys
 		.filter(key => config[key] !== undefined)
 		.map(key => [key, config[key]]));
+	const credentials = approvedCredentials(config.aiAgents);
+	if (credentials) value.aiAgents = credentials;
+	return value;
 }
 
 const config = readExisting();
