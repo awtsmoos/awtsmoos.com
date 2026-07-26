@@ -17,5 +17,7 @@ Blessed is He
 - [x] Pass Unix route, Termux, and HTTP bootstrap suites.
 - [x] Pass syntax, tab, line-limit, executable-mode, invariant, and diff audits.
 - [x] Confirm production and main-worktree isolation.
-- [ ] Commit and push the post-publication correction.
-- [ ] Confirm the remote branch tip and clean detached worktree.
+- [x] Commit and push the post-publication correction as `0e10f726782f8e8c74bfcdcfb8bba1272e3a1344`.
+- [x] Confirm the remote branch tip and clean detached worktree.
+
+Completion gate: closed. No safe relevant work remains in the requested installer repair scope.
