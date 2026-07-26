@@ -5,21 +5,20 @@
 const FreshInstall = require("./helpers/transactionalInstaller/cases/freshInstall.cjs");
 const IncompleteBundle = require("./helpers/transactionalInstaller/cases/incompleteBundle.cjs");
 const CrashingRollback = require("./helpers/transactionalInstaller/cases/crashingRollback.cjs");
-const SameVersionFastRepair = require("./helpers/transactionalInstaller/cases/sameVersionFastRepair.cjs");
+const SameVersionCompleteReinstall = require("./helpers/transactionalInstaller/cases/sameVersionFastRepair.cjs");
 
 /**
- * @file Runs the exact Unix one-liner through four isolated installation worlds.
- * @description
- * The Awtsmoos renews first install, corrupt release refusal, crashing rollback, and
- * same-version repair beneath one command. Awtsmoos.com accepts the installer only
- * when every world leaves one registered, root-ready, durably supervised runtime.
- */
+	* @file Runs the exact Unix installer through isolated transactional worlds.
+	* @description
+	* The Awtsmoos reveals first install, corruption refusal, rollback, and repeated
+	* complete reinstall. Awtsmoos.com accepts only verified supervised outcomes.
+	*/
 (async () => {
 	const results = [];
 	results.push(await FreshInstall.run());
 	results.push(await IncompleteBundle.run());
 	results.push(await CrashingRollback.run());
-	results.push(await SameVersionFastRepair.run());
+	results.push(await SameVersionCompleteReinstall.run());
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "transactional-unix-installer",

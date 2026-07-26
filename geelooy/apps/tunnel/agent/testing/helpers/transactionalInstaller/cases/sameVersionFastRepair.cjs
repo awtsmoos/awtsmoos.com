@@ -3,72 +3,93 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { runInstaller } = require("../installerProcess.cjs");
 const { ReleaseServer } = require("../releaseServer.cjs");
 const { RuntimeFixture } = require("../runtimeFixture.cjs");
+const FixtureSource = require("../runtimeFixtureSource.cjs");
 const Context = require("../testContext.cjs");
 
 /**
- * @file Proves the same one-liner repairs a current release without bundle download.
- * @description
- * The Awtsmoos renews one matching runtime beneath fresh guardian files. Awtsmoos.com
- * verifies metadata and seal, stops every exact-root body, restarts one process tree,
- * proves all health witnesses, and avoids downloading the heavy archive again.
- */
+	* @file Proves every same-version invocation performs a complete reinstall.
+	* @description
+	* The Awtsmoos replaces one healthy predecessor with a distinct healthy release,
+	* then downloads and activates that identical release again. Awtsmoos.com keeps
+	* tunnel identity while each verified invocation receives a new supervised PID.
+	*/
 async function run() {
-	const temporaryRoot = fs.mkdtempSync(
-		path.join(os.tmpdir(), "awts-install-fast-repair-")
-	);
+	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-complete-reinstall-"));
 	const fixture = new RuntimeFixture(Context.REPOSITORY_ROOT, temporaryRoot);
-	const server = new ReleaseServer(Context.REPOSITORY_ROOT);
+	const successorMain = `${FixtureSource.fixtureMainSource()}\n// verified successor release\n`;
+	const server = new ReleaseServer(Context.REPOSITORY_ROOT, entry => (
+		entry.path === "main.js"
+			? { path: entry.path, data: Buffer.from(successorMain) }
+			: entry
+	));
 	fixture.install(server.source.version);
 	await fixture.start();
-	const before = fixture.readReceipt();
+	const original = fixture.readReceipt();
+	const predecessorHash = hash(path.join(fixture.runtimeRoot, "main.js"));
+	const expectedHash = hashBuffer(Buffer.from(successorMain));
 	const requests = trackRequests(server);
 	const origin = await server.start();
 	try {
-		const result = await runInstaller(
-			Context.UNIX_BOOTSTRAP,
-			Context.environment(origin, fixture.runtimeRoot, temporaryRoot, {
-				AWTSMOOS_RECOVERY_ROOT: fixture.recoveryRoot,
-				AWTSMOOS_STARTUP_TIMEOUT_SECONDS: "20",
-				AWTSMOOS_PROJECT_ROOT_TIMEOUT_SECONDS: "8",
-				AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "8",
-				AWTSMOOS_STABILITY_SAMPLES: "2",
-				AWTSMOOS_SKIP_OPEN_CONTROL: "1"
-			}),
-			temporaryRoot
-		);
-		assert.equal(result.status, 0, Context.combinedOutput(result));
-		const afterPid = await fixture.waitForAgent(15000);
-		const after = fixture.readReceipt();
-		assert.notEqual(afterPid, before.pid);
-		assert.equal(after.tunnelId, before.tunnelId);
-		assert.equal(after.tunnelName, before.tunnelName);
-		assert.equal(requests.includes("/api/tunnel/install/agent.zip"), false);
-		assert.match(Context.combinedOutput(result), /fast-repair.*passed/i);
+		const first = await install(origin, fixture, temporaryRoot);
+		const firstReceipt = fixture.readReceipt();
+		const firstHash = hash(path.join(fixture.runtimeRoot, "main.js"));
+		const second = await install(origin, fixture, temporaryRoot);
+		const secondReceipt = fixture.readReceipt();
+		const secondHash = hash(path.join(fixture.runtimeRoot, "main.js"));
+		assert.equal(first.status, 0, Context.combinedOutput(first));
+		assert.equal(second.status, 0, Context.combinedOutput(second));
+		assert.notEqual(expectedHash, predecessorHash);
+		assert.equal(firstHash, expectedHash);
+		assert.equal(secondHash, expectedHash);
+		assert.notEqual(firstReceipt.pid, original.pid);
+		assert.notEqual(secondReceipt.pid, firstReceipt.pid);
+		assert.equal(secondReceipt.tunnelId, original.tunnelId);
+		assert.equal(secondReceipt.tunnelName, original.tunnelName);
+		assert.equal(bundleDownloads(requests), 2);
 		const journal = JSON.parse(fs.readFileSync(path.join(
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		), "utf8"));
-		assert.equal(journal.phase, "repaired_current");
+		assert.equal(journal.phase, "committed");
 		return {
-			case: "same_version_fast_repair",
-			version: server.source.version,
-			oldPid: before.pid,
-			newPid: afterPid,
-			bundleDownloaded: false,
-			journalPhase: journal.phase,
-			consolePhases: Context.phaseLines(result.stdout)
+			case: "same_version_complete_reinstall",
+			bundleDownloads: 2,
+			identityPreserved: true,
+			journalPhase: journal.phase
 		};
 	} finally {
 		await server.close();
 		await fixture.stop();
 		fs.rmSync(temporaryRoot, { recursive: true, force: true });
 	}
+}
+
+function install(origin, fixture, temporaryRoot) {
+	return runInstaller(
+		Context.UNIX_BOOTSTRAP,
+		Context.environment(origin, fixture.runtimeRoot, temporaryRoot, {
+			AWTSMOOS_STARTUP_TIMEOUT_SECONDS: "20",
+			AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "8",
+			AWTSMOOS_STABILITY_SAMPLES: "2",
+			AWTSMOOS_SKIP_OPEN_CONTROL: "1"
+		}),
+		temporaryRoot
+	);
+}
+
+function hash(file) {
+	return hashBuffer(fs.readFileSync(file));
+}
+
+function hashBuffer(value) {
+	return crypto.createHash("sha256").update(value).digest("hex");
 }
 
 function trackRequests(server) {
@@ -79,6 +100,10 @@ function trackRequests(server) {
 		return original(request, response);
 	};
 	return requests;
+}
+
+function bundleDownloads(requests) {
+	return requests.filter(item => item === "/api/tunnel/install/agent.zip").length;
 }
 
 module.exports = { run };

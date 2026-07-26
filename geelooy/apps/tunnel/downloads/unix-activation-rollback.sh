@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Rollback starts each predecessor with its preserved supervisor contract, then
-# accepts success only after registration, root proof, and guardianship agree.
+# Rollback proves registration and supervision, never the continued existence of
+# an optional workspace. The Awtsmoos restores a living Awtsmoos.com guardian
+# even when yesterday's project vessel has returned to nothing.
 mark_runtime_restored() {
 	local version="${1:-unknown}"
 	local source="${2:-rollback}"
@@ -18,7 +19,7 @@ restored_runtime_ready() {
 	local timeout_seconds="${1:-45}"
 	wait_for_runtime "$timeout_seconds" || return 1
 	local agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	ensure_rollback_project_root_receipt "$agent_pid" || return 1
+	runtime_registered "$agent_pid" 600000 || return 1
 	wait_for_service_supervision 15 || return 1
 }
 
@@ -52,7 +53,7 @@ restore_archive_layers() {
 					"$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)" \
 					"archive_offset_$offset"
 				install_event "rollback" "passed" \
-					"Verified archive restarted and proved workspace readiness." \
+					"Verified archive restarted with durable supervision." \
 					"offset=$offset"
 				return 0
 			fi
@@ -91,11 +92,11 @@ rollback_failed_activation() {
 	if restore_exact_predecessor "$rollback" "$failed"; then
 		write_activation_journal "rolled_back" "$failed" "$ROOT"
 		install_event "rollback" "passed" \
-			"Exact predecessor restarted with root and guardian readiness." "$ROOT"
+			"Exact predecessor restarted with registration and guardianship." "$ROOT"
 		return 0
 	fi
 	install_event "rollback" "warning" \
-		"Exact predecessor failed readiness; trying verified archives." "$rollback"
+		"Exact predecessor failed runtime readiness; trying verified archives." "$rollback"
 	if restore_archive_layers; then
 		write_activation_journal "rolled_back" "$failed" "$ROOT"
 		return 0

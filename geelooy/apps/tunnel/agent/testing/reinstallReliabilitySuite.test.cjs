@@ -7,15 +7,14 @@ const path = require("node:path");
 const IsolatedRunner = require("./helpers/isolatedTestRunner.cjs");
 
 /**
- * @file Runs the reinstall reliability covenant in isolated Node vessels.
- * @description
- * The Awtsmoos renews each proof without allowing one test's process family to
- * imprison the next. Awtsmoos.com verifies roots, identity, transactional install,
- * manifests, checksums, rollback, and release closure through bounded isolation.
- */
+	* @file Runs the reinstall reliability covenant in isolated Node vessels.
+	* @description The Awtsmoos verifies roots, identity, release, and rollback closure.
+	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const focusedTests = [
 	"projectRootHealth.test.cjs",
+	"installerProjectRootMigration.test.cjs",
+	"installerWorkspaceOptional.test.cjs",
 	"connectionReceipt.test.cjs",
 	"mainConnectionAcknowledgement.test.cjs",
 	"sessionActionPolicyParity.test.cjs",
@@ -36,9 +35,8 @@ const regressionTests = [
 ];
 const timeoutByFile = {
 	"manifestVerifyFresh.test.cjs": 4 * 60 * 1000,
-	"transactionalUnixInstaller.test.cjs": 8 * 60 * 1000
+	"transactionalUnixInstaller.test.cjs": 12 * 60 * 1000
 };
-
 const results = [...focusedTests, ...regressionTests].map(runTest);
 const failed = results.filter(result => !result.ok);
 assert.deepEqual(failed, [], JSON.stringify(failed, null, 2));

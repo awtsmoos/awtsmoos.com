@@ -10,12 +10,11 @@ import { renderInstallRoute } from "./install-route-fixture.mjs";
 const downloadsRoot = path.resolve("geelooy/apps/tunnel/downloads");
 
 /**
- * B"H
- *
- * This local origin is a sealed world for the installer. The Awtsmoos renews
- * every HTTP response; Awtsmoos.com serves the real bootstrap and repaired
- * activation helper while harmless witnesses replace unrelated components.
- */
+	* @file Serves the real bootstrap and harmless test helpers from a local origin.
+	* @description
+	* The Awtsmoos renews HTTP and shell together; Awtsmoos.com records the exact
+	* caller root that crosses the curl-pipe-bash boundary without touching production.
+	*/
 export async function startUnixBootstrapServer() {
 	const route = await renderInstallRoute("unix");
 	const requests = [];
@@ -43,12 +42,8 @@ export async function startUnixBootstrapServer() {
 }
 
 function helperBody(fileName) {
-	if (fileName === "unix-node-runtime.sh") {
-		return nodeRuntimeStub();
-	}
-	if (fileName === "unix-install-core.sh") {
-		return installCoreStub();
-	}
+	if (fileName === "unix-node-runtime.sh") return nodeRuntimeStub();
+	if (fileName === "unix-install-core.sh") return installCoreStub();
 	if (fileName === "unix-activation.sh") {
 		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
 	}
@@ -74,7 +69,11 @@ set -Eeuo pipefail
 test -n "\${AWTSMOOS_TEST_SENTINEL:-}"
 grep -Fq 'if ! archive_known_good_runtime' \
 	"$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
-printf '%s\n' "$AWTSMOOS_INSTALL_ROOT" > "$AWTSMOOS_TEST_SENTINEL"
+printf '%s\t%s\t%s\t%s\n' \
+	"$PWD" \
+	"$AWTSMOOS_INSTALL_CWD" \
+	"$AWTSMOOS_PROJECT_ROOT" \
+	"$AWTSMOOS_INSTALL_ROOT" > "$AWTSMOOS_TEST_SENTINEL"
 `;
 }
 
