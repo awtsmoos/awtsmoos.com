@@ -20,5 +20,7 @@ Blessed is He
 - [x] Rebuild and verify runtime manifest and release ZIP.
 - [x] Verify normal HTTP `curl | bash` installation conditions.
 - [x] Pass final syntax, tabs, line-limit, executable-mode, and diff audits.
-- [ ] Commit and push the separate repair branch.
-- [ ] Confirm remote tip and clean worktree.
+- [x] Commit and push source repair as `9bd292cf8a7f912372b386d742d8b535dffd83d0`.
+- [x] Confirm remote tip and clean worktree.
+
+Completion gate: closed. Deployment and live reinstall are deliberately outside this source-only repair.
