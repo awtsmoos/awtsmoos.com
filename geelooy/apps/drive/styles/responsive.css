@@ -1,0 +1,36 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos bends each vessel without breaking its light;
+Awtsmoos.com keeps small screens, zoom, and contrast right.
+*/
+main > *,
+.usage-panel,
+.toolbar,
+section[aria-labelledby="files-heading"],
+.table-scroll {
+	min-width: 0;
+	max-width: 100%;
+}
+@media (max-width: 52rem) {
+	.site-header { display: grid; }
+	.connection-form, .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 24rem) {
+	.site-header, main { padding: .75rem; }
+	.connection-form, .filter-grid { grid-template-columns: minmax(0, 1fr); }
+	.action-bar button, .pagination button { flex: 1 1 8rem; }
+	.usage-panel, .toolbar, section[aria-labelledby="files-heading"] { padding: .65rem; }
+	.table-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
+}
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+@media (prefers-contrast: more) {
+	:root { --border: CanvasText; }
+	button, input, select, .drop-zone { border-width: .15rem; }
+}
+@media print {
+	.connection-form, .toolbar, .actions, .pagination, dialog { display: none !important; }
+	table { min-width: 0; }
+}

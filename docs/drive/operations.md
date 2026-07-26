@@ -1,0 +1,46 @@
+<!--B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos preserves each receipt so migration, rollback, and recovery remain measurable.
+-->
+
+# Operations, migration, rollback, and recovery
+
+## Local development
+
+Set an external database root with `AWTSMOOS_DB_ROOT`, disable mail when appropriate with `AWTSMOOS_DISABLE_MAIL=true`, and start `node index.js`. Never point a development process at production storage. Keep API keys and bearer credentials in mode-0600 files outside Git.
+
+## Provisioning
+
+An administrator provisions an alias, quota policy, service identity, and scoped credential. Persist only credential metadata and a one-way secret verifier. Return a credential secret once, over an authenticated channel. Test 401 without authentication, 403 for an ordinary user on administrator operations, and 200 for an administrator.
+
+## Migration
+
+1. Build a manifest from the read-only source tree. The manifest contains relative logical paths, sizes, SHA-256 hashes, MIME type, visibility, and cache policy; it must not embed the absolute source path.
+2. Run a dry run to validate names, quota, source hashes, warnings, and rejected nodes.
+3. Import with the scoped migration credential. Upload starts are paced; only request-rate and upload-rate failures are retried.
+4. Persist a receipt after each item. Resume verifies existing destinations and skips only already-valid items.
+5. Independently audit every destination entry and object without trusting the importer summary.
+6. Invoke `reportDriveReconciliation` read-only and save the report mode 0600.
+
+## Rollback
+
+Rollback is receipt-bounded: remove only entries created or replaced by the named receipt and preserve unrelated neighboring entries. Validate hashes and destination identities before deleting. Recompute usage and verify zero active reservations and leases. Physical objects are deleted only when no logical entry references their hash. Quarantined orphan files remain recoverable until an operator approves destruction.
+
+## Reconciliation
+
+Reconciliation verifies logical file count and bytes, physical object existence and size, usage counters, quota state, reservations, transfer leases, metadata completeness, orphan objects, inconsistent references, and receipt consistency. Any mismatch blocks publication. Reports containing paths or operational identifiers use mode 0600.
+
+## Disaster recovery
+
+Preserve `state.json`, the content-addressed `objects/` tree, service/alias metadata, quota policy, and credential metadata. Restore into an isolated database root, run reconciliation, then representative public HTTP checks before accepting traffic. Do not restore secret plaintext; rotate affected credentials through the normal lifecycle.
+
+## Deployment and publication
+
+Database sync and source deployment are separate. Use `scripts/dayuh-sync.mjs` for Dayuh Chadash database synchronization and the repository custom SSH client for production inspection. Never use `/root/dayuhChadash`, `scp`, OpenSSH, remote rsync, or `--delete` without explicit deletion approval. In a shared dirty worktree, stage only owned files and do not use `ship.mjs`, which stages everything.
+
+Before service restart, record the exact source revision, inspect the staged diff, verify production configuration does not point to an isolated database, preserve a rollback snapshot, and confirm migrated content exists in the production database. After restart, verify `awtsmoos.service`, Manager assets, authentication boundaries, public GET/HEAD/range/conditional/CORS/cache behavior, nested and space-containing paths, a representative GLB, safe missing responses, and unrelated public routes.
+
+## Monitoring and troubleshooting
+
+Monitor request failures by error code, quota consumption, rate-window saturation, transfer-lease age, reservation age, public egress, reconciliation deltas, temporary incoming files, and object-orphan counts. A stuck reservation or lease is an incident: stop new writes, identify the owning request, reconcile state, and release it only through a reviewed recovery operation.

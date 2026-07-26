@@ -5,39 +5,72 @@
 /**
  * @module NativeAliasGateway
  * @description
- * The Awtsmoos binds service work to the same identity tree as every human alias.
- * Awtsmoos.com refuses split ownership and invokes the native alias creator once.
+ * The Awtsmoos binds a service messenger to the native alias covenant.
+ * Awtsmoos.com maps the inspected helper contract while preserving ownership.
  */
 
 const { sp } = require('../_awtsmoos.constants.js');
 const { createNewAlias } = require('../alias.js');
+const {
+	describeFunctionContract,
+	selectContractParameters,
+	nativeAliasContractError
+} = require('./nativeAliasContract.js');
+
+class NativeAliasGateway {
+	constructor(nativeCreator = createNewAlias) {
+		this.nativeCreator = nativeCreator;
+		this.contract = describeFunctionContract(nativeCreator);
+	}
+
+	async createOwnedAlias(options) {
+		const result = this.contract.kind === 'object'
+			? await this.invokeObjectContract(options)
+			: await this.invokePositionalContract(options);
+		if (result?.error) throw gatewayError('SERVICE_ALIAS_CREATE_FAILED', 400);
+		if (result?.aliasId && result.aliasId !== options.aliasId) {
+			throw gatewayError('SERVICE_ALIAS_ID_MISMATCH');
+		}
+		return result;
+	}
+
+	invokeObjectContract(options) {
+		if (this.contract.parameters.includes('aliasId')) {
+			return this.nativeCreator(
+				selectContractParameters(options, this.contract.parameters)
+			);
+		}
+		const aliasContext = Object.create(options.$i);
+		aliasContext.$_POST = {
+			aliasName: options.aliasName,
+			description: options.description,
+			inputId: options.aliasId
+		};
+		return this.nativeCreator({ $i: aliasContext, userid: options.userid });
+	}
+
+	invokePositionalContract(options) {
+		return this.nativeCreator(
+			...this.contract.parameters.map(name => options[name])
+		);
+	}
+}
 
 async function ensureNativeServiceAlias(options, dependencies = {}) {
 	const existing = await readNativeAlias(options);
 	if (existing.present) return validateExistingAlias(options, existing);
-	const createAlias = dependencies.createAlias || createNewAlias;
-	const aliasContext = Object.create(options.$i);
-	aliasContext.$_POST = {
-		aliasName: options.aliasName,
-		description: options.description,
-		inputId: options.aliasId
-	};
-	const result = await createAlias({ $i: aliasContext, userid: options.ownerUserId });
-	if (result?.error) throw gatewayError('SERVICE_ALIAS_CREATE_FAILED', 400);
-	if (result?.aliasId !== options.aliasId) {
-		throw gatewayError('SERVICE_ALIAS_ID_MISMATCH');
-	}
+	const gateway = new NativeAliasGateway(
+		dependencies.createAlias || createNewAlias
+	);
+	await gateway.createOwnedAlias({ ...options, userid: options.ownerUserId });
 	const verified = await readNativeAlias(options);
-	const alias = validateExistingAlias(options, verified);
-	return { ...alias, created: true };
+	return { ...validateExistingAlias(options, verified), created: true };
 }
 
 async function readNativeAlias(options) {
-	const infoPath = `${sp}/aliases/${options.aliasId}/info`;
-	const ownerPath = `/users/${options.ownerUserId}/aliases/${options.aliasId}`;
 	const [info, ownerLink] = await Promise.all([
-		options.$i.db.get(infoPath),
-		options.$i.db.get(ownerPath)
+		options.$i.db.get(`${sp}/aliases/${options.aliasId}/info`),
+		options.$i.db.get(`/users/${options.ownerUserId}/aliases/${options.aliasId}`)
 	]);
 	return { info, ownerLink, present: Boolean(info || ownerLink) };
 }
@@ -58,13 +91,12 @@ function validateExistingAlias(options, existing) {
 }
 
 function gatewayError(code, statusCode = 409) {
-	const error = new Error(code);
-	error.code = code;
-	error.statusCode = statusCode;
-	return error;
+	return nativeAliasContractError(code, statusCode);
 }
 
 module.exports = {
+	NativeAliasGateway,
+	describeFunctionContract,
 	ensureNativeServiceAlias,
 	readNativeAlias,
 	validateExistingAlias,

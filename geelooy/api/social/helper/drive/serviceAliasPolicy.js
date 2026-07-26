@@ -5,31 +5,42 @@
 /**
  * @module DriveServiceAliasPolicy
  * @description
- * The Awtsmoos shapes one migration messenger through narrow letters and measured
- * intent. Awtsmoos.com accepts one owner, one deterministic alias, and one scope.
+ * The Awtsmoos gives one migration identity one owner, one quota vessel, and one
+ * permission. Awtsmoos.com rejects broad scopes and ambiguous replay keys.
  */
 
 const { normalizeScopes } = require('./credentialPolicy.js');
 
-function normalizeServiceAliasRequest(value = {}) {
+const SERVICE_SCOPES = Object.freeze(['drive.migrate']);
+const SERVICE_QUOTA_PROFILE = 'service-migration';
+
+function normalizeServiceAliasInput(value = {}) {
 	const aliasId = requiredText(value.aliasId, 'SERVICE_ALIAS_ID_REQUIRED', 26);
-	if (!/^[a-z0-9](?:[a-z0-9-]{1,24}[a-z0-9])?$/.test(aliasId)) {
+	if (!/^[a-zA-Z0-9_$-]+$/.test(aliasId)) {
 		throw policyError('SERVICE_ALIAS_ID_INVALID');
 	}
-	const aliasName = requiredText(value.aliasName, 'SERVICE_ALIAS_NAME_REQUIRED', 50);
+	return {
+		aliasId,
+		aliasName: requiredText(value.aliasName, 'SERVICE_ALIAS_NAME_REQUIRED', 50),
+		description: optionalText(value.description, 5784)
+	};
+}
+
+function normalizeProvisioningIdempotencyKey(value) {
+	const key = requiredText(value, 'SERVICE_IDEMPOTENCY_KEY_REQUIRED', 200);
+	if (key.length < 8) throw policyError('SERVICE_IDEMPOTENCY_KEY_REQUIRED');
+	return key;
+}
+
+function normalizeServiceAliasRequest(value = {}) {
+	const alias = normalizeServiceAliasInput(value);
 	const ownerUserId = requiredText(value.ownerUserId, 'SERVICE_OWNER_REQUIRED', 200);
-	const idempotencyKey = requiredText(
-		value.idempotencyKey,
-		'SERVICE_IDEMPOTENCY_KEY_REQUIRED',
-		200
-	);
-	if (idempotencyKey.length < 8) throw policyError('SERVICE_IDEMPOTENCY_KEY_REQUIRED');
-	const description = optionalText(value.description, 5784);
-	const scopes = normalizeScopes(value.scopes || ['drive.migrate']);
-	if (scopes.length !== 1 || scopes[0] !== 'drive.migrate') {
+	const idempotencyKey = normalizeProvisioningIdempotencyKey(value.idempotencyKey);
+	const scopes = normalizeScopes(value.scopes || SERVICE_SCOPES);
+	if (scopes.length !== 1 || scopes[0] !== SERVICE_SCOPES[0]) {
 		throw policyError('SERVICE_SCOPE_INVALID');
 	}
-	return { aliasId, aliasName, ownerUserId, idempotencyKey, description, scopes };
+	return { ...alias, ownerUserId, idempotencyKey, scopes };
 }
 
 function requiredText(value, code, maximum) {
@@ -53,6 +64,10 @@ function policyError(code) {
 }
 
 module.exports = {
+	SERVICE_SCOPES,
+	SERVICE_QUOTA_PROFILE,
+	normalizeServiceAliasInput,
+	normalizeProvisioningIdempotencyKey,
 	normalizeServiceAliasRequest,
 	policyError
 };
