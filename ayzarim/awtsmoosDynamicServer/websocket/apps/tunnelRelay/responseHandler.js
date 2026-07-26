@@ -7,25 +7,19 @@ const State = require("./state.js");
 const Validation = require("./validation.js");
 
 /**
- * @file Validates one response, then begins durable terminal settlement.
- * @description
- * The Awtsmoos joins request and answer only through immutable correlation.
- * Awtsmoos.com quarantines strangers and mismatches, while a valid response keeps
- * all waiters joined until terminal disk readback is verified.
- */
+	* @file Settles valid responses and re-acknowledges already durable duplicates.
+	* @description
+	* The Awtsmoos lets an ACK disappear without making the answer uncertain.
+	* Awtsmoos.com hydrates terminal truth and repeats settlement acknowledgment.
+	*/
 function handleTunnelResponse(context, client, data = {}) {
 	State.ensureStores(context);
 	State.cleanup(context);
 	const id = String(data.id || "");
 	const record = context.pendingTunnelRequests.get(id);
-	if (!record) return quarantine(context, "unsolicited_response", data, null);
+	if (!record) return handleDuplicate(context, client, data, id);
 	if (!client || client.registrationKey !== record.registrationKey) {
-		return quarantine(
-			context,
-			"foreign_registration_response",
-			data,
-			record.expected
-		);
+		return quarantine(context, "foreign_registration_response", data, record.expected);
 	}
 	const validation = Validation.validateTunnelResponse(record.expected, data);
 	if (!validation.ok) {
@@ -37,21 +31,57 @@ function handleTunnelResponse(context, client, data = {}) {
 			validation
 		);
 	}
-	void Lifecycle.finishPending(context, id, record, data);
+	void Promise.resolve(Lifecycle.finishPending(context, id, record, data))
+		.then(() => acknowledge(client, data, id))
+		.catch(error => State.quarantine(context, {
+			reason: "response_settlement_failed",
+			data,
+			expected: record.expected,
+			validation: { error: error.message }
+		}));
 	return true;
 }
 
-function quarantine(context, reason, data, expected, validation = null) {
-	State.quarantine(context, {
-		reason,
+function handleDuplicate(context, client, data, id) {
+	const expected = { registrationKey: client?.registrationKey || "" };
+	void State.hydrate(context, id, expected).then(record => {
+		if (record && ["completed", "failed"].includes(record.state)) {
+			acknowledge(client, data, id);
+			return;
+		}
+		quarantine(context, "unsolicited_response", data, expected);
+	}).catch(error => State.quarantine(context, {
+		reason: "duplicate_response_hydration_failed",
 		data,
 		expected,
-		validation
-	});
+		validation: { error: error.message }
+	}));
+	return true;
+}
+
+function acknowledge(client, data, id) {
+	const transportReceiptId = String(data.transportReceiptId || id);
+	try {
+		client.send({
+			type: "TUNNEL_RESPONSE_ACK",
+			id,
+			transportReceiptId,
+			settledAt: new Date().toISOString()
+		});
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+function quarantine(context, reason, data, expected, validation = null) {
+	State.quarantine(context, { reason, data, expected, validation });
 	return false;
 }
 
 module.exports = {
+	acknowledge,
+	handleDuplicate,
 	handleTunnelResponse,
 	quarantine
 };

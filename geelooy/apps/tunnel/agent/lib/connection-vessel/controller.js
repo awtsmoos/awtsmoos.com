@@ -1,0 +1,120 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+const path = require("node:path");
+const { fork } = require("node:child_process");
+const Mailbox = require("./mailbox.js");
+const Protocol = require("./protocol.js");
+const Proxy = require("./proxy.js");
+const State = require("./controller-state.js");
+
+/**
+	* @file Supervises the independent network process and mirrors bounded state.
+	* @description The Awtsmoos restarts accidental death, never displaced ownership.
+	*/
+function createController(options = {}) {
+	const mailbox = Mailbox.createMailbox(options.loadConfig());
+	let child = null;
+	let restartTimer = null;
+	let restartCount = 0;
+	let stopping = false;
+	const proxy = Proxy.createProxy({ mailbox, notify });
+
+	function connect() {
+		stopping = false;
+		options.state.activeWs = proxy;
+		startChild();
+		return proxy;
+	}
+
+	function startChild() {
+		if (child?.connected) return child;
+		child = (options.forkChild || fork)(options.childPath || path.join(__dirname, "child.js"), [], {
+			env: {
+				...process.env,
+				AWTSMOOS_CONNECTION_OWNER_PID: String(process.pid),
+				AWTSMOOS_CONNECTION_VESSEL: "1",
+				AWTSMOOS_AGENT_VERSION: options.agentVersion || ""
+			},
+			stdio: ["ignore", "inherit", "inherit", "ipc"]
+		});
+		child.on("message", handleMessage);
+		child.on("exit", handleExit);
+		child.on("error", error => log("warn", `connection child error: ${error.message}`));
+		mirror({ childPid: child.pid, running: true });
+		return child;
+	}
+
+	function handleMessage(message) {
+		if (!Protocol.valid(message)) return;
+		if (message.type === Protocol.TYPES.READY) {
+			restartCount = 0;
+			notify(Protocol.message(Protocol.TYPES.PARENT_READY));
+			return;
+		}
+		if (message.type === Protocol.TYPES.REQUEST) {
+			options.enqueueRequest(proxy, message.envelope);
+			return;
+		}
+		if (message.type === Protocol.TYPES.STATE) {
+			mirror(message.state);
+			return;
+		}
+		if (message.type === Protocol.TYPES.TERMINAL) {
+			terminal(message);
+			return;
+		}
+		if (message.type === Protocol.TYPES.LOG) {
+			log(message.level || "info", message.message || "connection child event");
+		}
+	}
+
+	function terminal(message) {
+		stopping = true;
+		mirror({ connected: false, reason: message.reason, running: false, terminal: true });
+		setImmediate(() => (options.exitProcess || process.exit)(Number(message.exitCode || 0)));
+	}
+
+	function mirror(next = {}) {
+		return State.mirror(options, proxy, next);
+	}
+
+	function notify(message) {
+		if (!child?.connected) return false;
+		try { return child.send(message); }
+		catch { return false; }
+	}
+
+	function handleExit(code, signal) {
+		child = null;
+		mirror({ connected: false, exitCode: code, running: false, signal });
+		if (stopping) return;
+		restartCount += 1;
+		const delay = Math.min(30000, 250 * 2 ** Math.min(restartCount, 7));
+		restartTimer = setTimeout(startChild, delay);
+		restartTimer.unref?.();
+	}
+
+	function stop() {
+		stopping = true;
+		if (restartTimer) clearTimeout(restartTimer);
+		restartTimer = null;
+		notify(Protocol.message(Protocol.TYPES.STOP));
+		child?.kill?.("SIGTERM");
+		child = null;
+		mirror({ connected: false, running: false });
+	}
+
+	function log(level, message) {
+		try { options.log?.(level, message); } catch {}
+	}
+
+	return {
+		connect,
+		proxy,
+		status: () => State.status(options, mailbox, restartCount),
+		stop
+	};
+}
+
+module.exports = { createController };

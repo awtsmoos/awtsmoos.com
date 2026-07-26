@@ -7,13 +7,21 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
-	* @file Runs self-preservation and installer proofs in isolated processes.
+	* @file Runs permanent connection, relay settlement, and installer proofs.
 	* @description
 	* The Awtsmoos renews each proof without inherited timers. Awtsmoos.com requires
-	* timer-drift recovery beside half-open death, reconnect, identity, and install.
+	* child-process liveness, durable mailboxes, truthful circuits, and full reinstall.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
+	"geelooy/apps/tunnel/agent/testing/connectionMailbox.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionVesselDelivery.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionVesselParentStall.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionVesselController.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionReceiptDualPid.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/circuitStateConsistency.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/atomicWorktreeRecovery.test.mjs",
+	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseAckRecovery.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLiveness.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLivenessEventLoopLag.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs",

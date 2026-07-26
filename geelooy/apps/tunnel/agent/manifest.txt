@@ -1,5 +1,5 @@
 B"H
-1.0.391
+1.0.398
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -765,6 +765,18 @@ lib/config-defaults.js
 lib/config-normalizers.js
 lib/config-value-normalizers.js
 lib/config.js
+lib/connection-vessel/child-delivery.js
+lib/connection-vessel/child-foundation.js
+lib/connection-vessel/child-runtime.js
+lib/connection-vessel/child.js
+lib/connection-vessel/controller-state.js
+lib/connection-vessel/controller.js
+lib/connection-vessel/mailbox-io.js
+lib/connection-vessel/mailbox-paths.js
+lib/connection-vessel/mailbox-store.js
+lib/connection-vessel/mailbox.js
+lib/connection-vessel/protocol.js
+lib/connection-vessel/proxy.js
 lib/deviceIdentity/command.js
 lib/deviceIdentity/environment.js
 lib/deviceIdentity/forget.js
@@ -814,7 +826,10 @@ lib/runtime/async-task-process.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
 lib/runtime/circuit-breaker.js
+lib/runtime/circuit-liveness.js
+lib/runtime/circuit-policy.js
 lib/runtime/connection-receipt-async.js
+lib/runtime/connection-receipt-value.js
 lib/runtime/connection-receipt.js
 lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js

@@ -3,13 +3,25 @@
 // Blessed is He
 
 /**
-	* @file Names non-negotiable transport, singleton, and connection vessels.
+	* @file Names non-negotiable transport, mailbox, receipt, and process vessels.
 	* @description
-	* The Awtsmoos renews socket, timing policy, process lease, and reconnect as one
-	* chain. Awtsmoos.com refuses a release that can forget timer-drift protection.
+	* The Awtsmoos keeps socket breath, durable testimony, and supervised ownership
+	* as one release covenant. Awtsmoos.com rejects any bundle missing one link.
 	*/
 module.exports = Object.freeze([
 	"main.js",
+	"lib/connection-vessel/child-delivery.js",
+	"lib/connection-vessel/child-foundation.js",
+	"lib/connection-vessel/child-runtime.js",
+	"lib/connection-vessel/child.js",
+	"lib/connection-vessel/controller-state.js",
+	"lib/connection-vessel/controller.js",
+	"lib/connection-vessel/mailbox-io.js",
+	"lib/connection-vessel/mailbox-paths.js",
+	"lib/connection-vessel/mailbox-store.js",
+	"lib/connection-vessel/mailbox.js",
+	"lib/connection-vessel/protocol.js",
+	"lib/connection-vessel/proxy.js",
 	"lib/ws.js",
 	"lib/ws/client.js",
 	"lib/ws/clientLifecycle.js",
@@ -20,10 +32,17 @@ module.exports = Object.freeze([
 	"lib/ws/socketFactory.js",
 	"lib/ws/transportLiveness.js",
 	"lib/ws/transportLivenessSettings.js",
+	"lib/runtime/circuit-breaker.js",
+	"lib/runtime/circuit-liveness.js",
+	"lib/runtime/circuit-policy.js",
+	"lib/runtime/connection-receipt-async.js",
+	"lib/runtime/connection-receipt-value.js",
 	"lib/runtime/connection-receipt.js",
 	"lib/runtime/main-components-foundation.js",
+	"lib/runtime/main-components.js",
 	"lib/runtime/main-connection-acknowledgement.js",
 	"lib/runtime/main-connection-activity.js",
+	"lib/runtime/main-connection-messages.js",
 	"lib/runtime/main-connection-open.js",
 	"lib/runtime/main-connection-socket.js",
 	"lib/runtime/main-connection-terminal.js",

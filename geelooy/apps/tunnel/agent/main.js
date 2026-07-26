@@ -13,12 +13,11 @@ const D = require("./lib/runtime/main-dependencies.js");
 const { createMainComponents } = require("./lib/runtime/main-components.js");
 
 /**
- * @file Starts one leased tunnel agent and drains fair request lanes.
- * @description
- * The Awtsmoos renews process, connection, lane, and worker without duplication.
- * Awtsmoos.com acquires the install-root lease before heavy imports, then starts
- * metrics and sockets only for the one body permitted to embody this tunnel ID.
- */
+	* @file Starts one leased agent while an independent child keeps network breath.
+	* @description
+	* The Awtsmoos renews workload and connection as separate vessels. Awtsmoos.com
+	* executes admitted durable work even while its response socket is reconnecting.
+	*/
 let components;
 
 function nextLane() {
@@ -36,16 +35,14 @@ function drainQueue() {
 	const item = components.queue.takeNext();
 	if (!item) return;
 	components.queue.clearQueueKeepalive(item);
-	if (item.ws?.opened) {
+	if (item.ws?.opened || typeof item.ws?.durableSend === "function") {
 		components.runRequest(
 			item.lane,
 			item.ws,
 			item.data,
 			item.enqueuedAt,
 			item.requesterKey
-		).catch(error => {
-			components.log("warn", `runRequest failed: ${error.message}`);
-		});
+		).catch(error => components.log("warn", `runRequest failed: ${error.message}`));
 	} else {
 		components.queue.release(item.lane, item.requesterKey);
 	}
@@ -64,6 +61,7 @@ const processRuntime = MainProcess.createProcessRuntime({
 	snapshot: components.runtime.snapshot,
 	lagMonitor: components.runtime.lagMonitor,
 	stopWorkers: signal => {
+		components.connection.stop();
 		components.workers.stopAll(signal);
 		D.FsExecutor.shutdown();
 	},

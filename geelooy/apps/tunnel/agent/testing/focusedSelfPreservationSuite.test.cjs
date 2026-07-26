@@ -7,13 +7,20 @@ const path = require("node:path");
 const IsolatedRunner = require("./helpers/isolatedTestRunner.cjs");
 
 /**
-	* @file Runs transport, ownership, update, recovery, root, and installer proofs.
+	* @file Runs permanent connection, ownership, recovery, root, and installer proofs.
 	* @description
-	* The Awtsmoos renews each proof in isolation. Awtsmoos.com binds the historical
-	* event-loop stall regression into the same gate as release and process health.
+	* The Awtsmoos renews every proof in isolation. Awtsmoos.com binds child-process
+	* liveness, durable mailboxes, settlement, and installer closure into one gate.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
+	"connectionMailbox.test.cjs",
+	"connectionVesselDelivery.test.cjs",
+	"connectionVesselParentStall.test.cjs",
+	"connectionVesselController.test.cjs",
+	"connectionReceiptDualPid.test.cjs",
+	"circuitStateConsistency.test.cjs",
+	"atomicWorktreeRecovery.test.mjs",
 	"transportLiveness.test.cjs",
 	"transportLivenessEventLoopLag.test.cjs",
 	"reconnectPolicy.test.cjs",
