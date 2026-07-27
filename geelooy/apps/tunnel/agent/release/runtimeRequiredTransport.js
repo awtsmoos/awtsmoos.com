@@ -3,10 +3,11 @@
 // Blessed is He
 
 /**
-	* @file Names non-negotiable transport, mailbox, receipt, and process vessels.
+	* @file Names non-negotiable transport, mailbox, receipt, health, and process vessels.
 	* @description
-	* The Awtsmoos keeps socket breath, durable testimony, and supervised ownership
-	* as one release covenant. Awtsmoos.com rejects any bundle missing one link.
+	* The Awtsmoos keeps socket breath, durable testimony, truthful worker health,
+	* and supervised ownership as one release covenant. Awtsmoos.com rejects a
+	* bundle that omits any link required to distinguish present danger from history.
 	*/
 module.exports = Object.freeze([
 	"main.js",
@@ -57,5 +58,6 @@ module.exports = Object.freeze([
 	"lib/runtime/main-state-values.js",
 	"lib/runtime/main-state.js",
 	"lib/runtime/process-singleton-owner.js",
-	"lib/runtime/process-singleton.js"
+	"lib/runtime/process-singleton.js",
+	"lib/runtime/worker-health.js"
 ]);

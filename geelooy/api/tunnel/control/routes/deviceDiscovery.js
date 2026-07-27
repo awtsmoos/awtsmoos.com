@@ -7,14 +7,12 @@ const { deviceWarnings, liveDevices } = require("./fsVessel/liveDevices.js");
 const { virtualOsDevice } = require("./fsVessel/virtualNames.js");
 
 /**
- * @file Builds one canonical account-authorized device discovery response.
- * @description
- * The Awtsmoos renews the many vessels from one source, yet Awtsmoos.com reveals
- * each account only to itself and its explicit grants. All discovery endpoints
- * consume this same state so no diagnostic route can bypass the central boundary.
- */
-
-/** Builds the current authorized device state for one verified identity. */
+	* @file Builds one authoritative account device view with bounded route history.
+	* @description
+	* The Awtsmoos reveals current vessels without presenting dead reinstall shadows
+	* as peers. Awtsmoos.com preserves historical route IDs separately for audit and
+	* exact-ID resolution while recommendations and warnings describe current truth.
+	*/
 function state($i, identity) {
 	const authorized = inventory($i, identity.accountId);
 	const virtualDevice = virtualOsDevice(true);
@@ -27,6 +25,9 @@ function state($i, identity) {
 			userId: identity.userId
 		},
 		nativeDevices: authorized.nativeDevices,
+		historicalNativeDevices: authorized.historicalNativeDevices,
+		historySummary: authorized.historySummary,
+		allNativeDevices: authorized.allNativeDevices,
 		browserDevices: authorized.browserDevices,
 		virtualDevice,
 		devices: [...authorized.devices, virtualDevice],
@@ -39,34 +40,29 @@ function state($i, identity) {
 	};
 }
 
-/** Resolves one authorized device by immutable ID or unambiguous display name. */
 function find(currentState, reference) {
 	return resolveInventoryDevice(
-		[...currentState.browserDevices, ...currentState.nativeDevices],
+		[...currentState.browserDevices, ...currentState.allNativeDevices],
 		reference
 	);
 }
 
-/** Chooses a single live authorized device or the hosted fallback. */
 function recommend(currentState) {
-	if (currentState.liveBrowser.length === 1) {
-		return currentState.liveBrowser[0];
-	}
-	if (currentState.liveNative.length === 1) {
-		return currentState.liveNative[0];
-	}
+	if (currentState.liveBrowser.length === 1) return currentState.liveBrowser[0];
+	if (currentState.liveNative.length === 1) return currentState.liveNative[0];
 	if (!currentState.liveBrowser.length && !currentState.liveNative.length) {
 		return currentState.virtualDevice;
 	}
 	return null;
 }
 
-/** Returns the common disclosure-safe response body. */
 function responseBase(currentState) {
 	return {
 		BH: "B\"H",
 		identity: currentState.identity,
 		nativeDevices: currentState.nativeDevices,
+		historicalNativeDevices: currentState.historicalNativeDevices,
+		historySummary: currentState.historySummary,
 		browserDevices: currentState.browserDevices,
 		virtualDevice: currentState.virtualDevice,
 		devices: currentState.devices,
@@ -74,9 +70,4 @@ function responseBase(currentState) {
 	};
 }
 
-module.exports = {
-	find,
-	recommend,
-	responseBase,
-	state
-};
+module.exports = { find, recommend, responseBase, state };

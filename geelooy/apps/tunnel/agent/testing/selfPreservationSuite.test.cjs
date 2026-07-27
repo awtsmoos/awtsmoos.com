@@ -7,10 +7,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
-	* @file Runs permanent connection, relay settlement, and installer proofs.
+	* @file Runs permanent transport, discovery, health, settlement, and installer proofs.
 	* @description
 	* The Awtsmoos renews each proof without inherited timers. Awtsmoos.com requires
-	* child-process liveness, durable mailboxes, truthful circuits, and full reinstall.
+	* child liveness, durable acceptance, authoritative discovery, truthful worker
+	* health, relay settlement, and complete reinstall in one release gate.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
@@ -20,7 +21,10 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/connectionVesselController.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionReceiptDualPid.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/circuitStateConsistency.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/workerHealthProjection.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/atomicWorktreeRecovery.test.mjs",
+	"geelooy/api/tunnel/control/routes/fsVessel/test/nativeInventoryView.test.cjs",
+	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.default-clean.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseAckRecovery.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLiveness.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLivenessEventLoopLag.test.cjs",
