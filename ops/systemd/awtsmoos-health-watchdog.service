@@ -1,0 +1,9 @@
+# B"H
+[Unit]
+Description=Awtsmoos HTTP event-loop health probe
+After=awtsmoos.service
+OnFailure=awtsmoos-recover.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl --fail --silent --show-error --max-time 10 http://127.0.0.1:8080/
