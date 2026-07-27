@@ -21,7 +21,7 @@ Blessed is He
 - [x] Pass 23-test full release self-preservation.
 - [x] Pass 14-test relay, discovery, response, and package gate.
 - [x] Pass final manifest, syntax, tabs, line-limit, and diff audit.
-- [ ] Commit and push the isolated follow-up branch.
-- [ ] Confirm remote tip and clean isolated worktree.
+- [x] Commit and push implementation as `ea36df15a083ca33a6e4d5122faf5c7a24de7888`.
+- [x] Confirm remote tip and clean isolated worktree.
 
-Deployment and live reinstall remain deliberately separate from this source-only repair.
+Completion gate: closed. Deployment and live reinstall remain deliberately separate from this source-only repair.
