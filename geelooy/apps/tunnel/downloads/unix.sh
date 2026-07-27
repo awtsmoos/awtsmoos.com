@@ -95,13 +95,50 @@ helpers=(
 
 total="${#helpers[@]}"
 index=0
+parallel_downloads="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-8}"
+case "$parallel_downloads" in
+	''|*[!0-9]*) parallel_downloads=8 ;;
+esac
+[ "$parallel_downloads" -ge 1 ] 2>/dev/null || parallel_downloads=1
+[ "$parallel_downloads" -le 16 ] 2>/dev/null || parallel_downloads=16
+batch_pids=()
+batch_helpers=()
+
+wait_for_download_batch() {
+	local failed=0
+	local position=0
+	local pid
+	for pid in "${batch_pids[@]}"; do
+		if ! wait "$pid"; then
+			printf '[Awtsmoos][download][failed] Could not fetch %s.\n' \
+				"${batch_helpers[$position]}" >&2
+			failed=1
+		fi
+		position=$(( position + 1 ))
+	done
+	batch_pids=()
+	batch_helpers=()
+	[ "$failed" -eq 0 ]
+}
+
 for helper in "${helpers[@]}"; do
 	index=$(( index + 1 ))
-	percent=$(( 4 + index * 14 / total ))
-	bootstrap_progress "$percent" "Downloading reinstall components ($index/$total)"
-	curl -fsSL --retry 3 --retry-delay 1 \
-		"$origin/apps/tunnel/downloads/$helper" -o "$runtime_root/$helper"
-	chmod +x "$runtime_root/$helper"
+	(
+		temporary="$runtime_root/.$helper.part"
+		rm -f "$temporary"
+		curl -fsSL --retry 3 --retry-delay 1 --connect-timeout 10 \
+			"$origin/apps/tunnel/downloads/$helper" -o "$temporary"
+		chmod +x "$temporary"
+		mv -f "$temporary" "$runtime_root/$helper"
+	) &
+	batch_pids+=("$!")
+	batch_helpers+=("$helper")
+	if [ "${#batch_pids[@]}" -ge "$parallel_downloads" ] || [ "$index" -eq "$total" ]; then
+		wait_for_download_batch
+		percent=$(( 4 + index * 14 / total ))
+		bootstrap_progress "$percent" \
+			"Downloaded verified reinstall components ($index/$total)"
+	fi
 done
 
 bootstrap_progress 18 'Verified reinstall components ready'
