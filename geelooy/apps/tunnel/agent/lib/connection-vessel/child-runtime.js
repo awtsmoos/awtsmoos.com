@@ -75,6 +75,8 @@ function createRuntime() {
 			generation: state.generation,
 			lastRegisteredAt: state.lastRegisteredAt,
 			mailbox: foundation.mailbox.snapshot(),
+			lastFailure: state.lastFailure || null,
+			recentFailures: state.recentFailures || [],
 			reconnectAttempt: state.reconnectAttempt,
 			registered: state.registrationConfirmed === true,
 			running: !terminal,

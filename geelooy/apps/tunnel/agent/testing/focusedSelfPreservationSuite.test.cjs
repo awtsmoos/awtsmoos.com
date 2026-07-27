@@ -7,20 +7,22 @@ const path = require("node:path");
 const IsolatedRunner = require("./helpers/isolatedTestRunner.cjs");
 
 /**
-	* @file Runs permanent connection, health, ownership, recovery, and installer proofs.
+	* @file Runs permanent connection, maintenance, diagnostics, ownership, and installer proofs.
 	* @description
-	* The Awtsmoos renews every proof in isolation. Awtsmoos.com binds child-process
-	* liveness, durable mailboxes, current worker health, and installer closure into
-	* one mandatory focused gate.
+	* The Awtsmoos renews every proof in isolation. Awtsmoos.com binds child liveness,
+	* bounded mailboxes, classified failures, current health, and installer closure.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
 	"connectionMailbox.test.cjs",
+	"connectionMailboxMaintenance.test.cjs",
 	"connectionVesselDelivery.test.cjs",
 	"connectionVesselParentStall.test.cjs",
 	"connectionVesselController.test.cjs",
 	"connectionReceiptDualPid.test.cjs",
 	"circuitStateConsistency.test.cjs",
+	"transportFailureClassification.test.cjs",
+	"windowsTransactionalInstallerContract.test.cjs",
 	"workerHealthProjection.test.cjs",
 	"atomicWorktreeRecovery.test.mjs",
 	"transportLiveness.test.cjs",

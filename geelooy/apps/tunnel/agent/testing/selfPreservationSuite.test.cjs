@@ -7,22 +7,25 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
-	* @file Runs permanent transport, discovery, health, settlement, and installer proofs.
+	* @file Runs transport, retention, mailbox, diagnostics, settlement, and installer proofs.
 	* @description
-	* The Awtsmoos renews each proof without inherited timers. Awtsmoos.com requires
-	* child liveness, durable acceptance, authoritative discovery, truthful worker
-	* health, relay settlement, and complete reinstall in one release gate.
+	* The Awtsmoos requires durable acceptance, guarded cleanup, classified failure,
+	* authoritative discovery, truthful health, and transactional reinstall together.
 	*/
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const tests = [
 	"geelooy/apps/tunnel/agent/testing/connectionMailbox.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionMailboxMaintenance.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselDelivery.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselParentStall.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselController.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionReceiptDualPid.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/circuitStateConsistency.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/transportFailureClassification.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/windowsTransactionalInstallerContract.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/workerHealthProjection.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/atomicWorktreeRecovery.test.mjs",
+	"geelooy/api/tunnel/control/core/test/tunnelBindingRetention.test.cjs",
 	"geelooy/api/tunnel/control/routes/fsVessel/test/nativeInventoryView.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.default-clean.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseAckRecovery.test.cjs",

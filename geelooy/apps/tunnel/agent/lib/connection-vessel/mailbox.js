@@ -2,14 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+const Health = require("./mailbox-health.js");
 const Protocol = require("./protocol.js");
 const Store = require("./mailbox-store.js");
 
 /**
-	* @file Gives inbound requests and outbound responses one durable acknowledgment law.
+	* @file Gives transport testimony durable settlement and guarded maintenance.
 	* @description
-	* The Awtsmoos keeps accepted work until the relay acknowledges its answer.
-	* Awtsmoos.com may restart either process without forgetting the canonical deed.
+	* The Awtsmoos keeps accepted work until relay acknowledgment. Awtsmoos.com
+	* reveals health, permits evidence export, and quarantines only corrupt files.
 	*/
 function createMailbox(config = {}, options = {}) {
 	const store = Store.createStore(config, options);
@@ -22,10 +23,7 @@ function createMailbox(config = {}, options = {}) {
 
 	function putOutbox(envelope) {
 		const id = Protocol.requestId(envelope);
-		const value = {
-			...envelope,
-			transportReceiptId: envelope.transportReceiptId || id
-		};
+		const value = { ...envelope, transportReceiptId: envelope.transportReceiptId || id };
 		store.put("outbox", id, value);
 		return value;
 	}
@@ -46,14 +44,50 @@ function createMailbox(config = {}, options = {}) {
 	}
 
 	function snapshot() {
+		const inboxState = store.snapshot("inbox");
+		const outboxState = store.snapshot("outbox");
 		return {
-			inbox: store.snapshot("inbox"),
+			health: Health.overall(inboxState, outboxState),
+			inbox: inboxState,
 			limits: store.limits,
-			outbox: store.snapshot("outbox")
+			outbox: outboxState
 		};
 	}
 
-	return { acknowledge, inbox, outbox, putInbox, putOutbox, snapshot };
+	function evidence(includePayloads = false) {
+		return {
+			snapshot: snapshot(),
+			inbox: records("inbox", includePayloads),
+			outbox: records("outbox", includePayloads)
+		};
+	}
+
+	function records(lane, includePayloads) {
+		return store.list(lane).map(entry => ({
+			id: entry.id,
+			updatedAt: entry.updatedAt,
+			bytes: entry.bytes,
+			...(includePayloads ? { value: entry.value } : {})
+		}));
+	}
+
+	function quarantineInvalid() {
+		return {
+			inbox: store.quarantineInvalid("inbox"),
+			outbox: store.quarantineInvalid("outbox")
+		};
+	}
+
+	return {
+		acknowledge,
+		evidence,
+		inbox,
+		outbox,
+		putInbox,
+		putOutbox,
+		quarantineInvalid,
+		snapshot
+	};
 }
 
 module.exports = { createMailbox };

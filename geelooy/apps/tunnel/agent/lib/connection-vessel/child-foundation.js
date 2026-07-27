@@ -81,6 +81,8 @@ function createState(config) {
 		registrationFailureReason: "",
 		registrationRejected: false,
 		replacementRequested: false,
+		lastFailure: null,
+		recentFailures: [],
 		tunnelId: "",
 		tunnelName: config.tunnelName,
 		wasEverConnected: false

@@ -1,5 +1,5 @@
 B"H
-1.0.400
+1.0.405
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -771,6 +771,7 @@ lib/connection-vessel/child-runtime.js
 lib/connection-vessel/child.js
 lib/connection-vessel/controller-state.js
 lib/connection-vessel/controller.js
+lib/connection-vessel/mailbox-health.js
 lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-store.js
@@ -1005,6 +1006,8 @@ lib/ws/frameCodec.js
 lib/ws/frameStream.js
 lib/ws/handshake.js
 lib/ws/socketFactory.js
+lib/ws/transportFailure.js
+lib/ws/transportFailureHistory.js
 lib/ws/transportLiveness.js
 lib/ws/transportLivenessSettings.js
 next-runtime/command/activeRegistry.js
@@ -1081,6 +1084,7 @@ release/runtimeWorkerPaths.js
 release/sourcePaths.js
 scripts/auto-manifest.cjs
 scripts/cleanup-state.cjs
+scripts/connection-mailbox.cjs
 scripts/connection-status.cjs
 scripts/device-identity.cjs
 scripts/install-probe.cjs
