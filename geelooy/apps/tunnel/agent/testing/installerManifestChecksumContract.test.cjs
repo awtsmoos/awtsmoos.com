@@ -27,8 +27,13 @@ const packageStage = read("unix-package-stage.sh");
 const installCore = read("unix-install-core.sh");
 const windows = [
 	"windows.ps1",
+	"windows-progress.ps1",
 	"windows-package.ps1",
 	"windows-bundle.ps1",
+	"windows-health.ps1",
+	"windows-config.ps1",
+	"windows-transaction.ps1",
+	"windows-success.ps1",
 	"windows-core.ps1"
 ].map(read).join("\n");
 
@@ -44,8 +49,8 @@ assert.match(packageStage, /cp -p "\$RELEASE_MANIFEST_PATH"/);
 assert.match(installCore, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-release-metadata\.sh"/);
 assert.match(installCore, /stage_release_candidate/);
 assert.match(installCore, /activate_release_candidate/);
-assert.match(windows, /\$manifestHash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
-assert.match(windows, /Write-Utf8NoBom \$manifestCopyPath \(\$lines -join "`n"\)/);
+assert.match(windows, /Hash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
+assert.match(windows, /Write-Utf8NoBom \(Join-Path \$Root 'installed-manifest\.txt'\) \$Manifest\.Text/);
 assert.match(windows, /Install-AwtsmoosBundles/);
 
 const newlineBytes = Buffer.from('B"H\n1.2.3\nmain.js\nlib/ws.js\n', "utf8");
