@@ -60,9 +60,10 @@ function printDiagnostics() {
 }
 
 function pushWithRetry() {
+  const pushArguments = resolvePushArguments();
   for (let attempt = 1; attempt <= PUSH_RETRIES; attempt++) {
     console.log(`B"H git push attempt ${attempt}/${PUSH_RETRIES}`);
-    const status = run('git', ['push', '--progress'], { allowFailure: true });
+    const status = run('git', pushArguments, { allowFailure: true });
     if (status === 0) return;
     if (attempt < PUSH_RETRIES) {
       console.log('B"H push failed; running cleanup/diagnostics before retry.');
@@ -71,6 +72,29 @@ function pushWithRetry() {
     }
   }
   process.exit(1);
+}
+
+function resolvePushArguments() {
+  const upstream = capture(
+    'git',
+    ['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}'],
+    { allowFailure: true }
+  );
+  if (upstream) {
+    const separator = upstream.indexOf('/');
+    if (separator > 0 && separator < upstream.length - 1) {
+      const remote = upstream.slice(0, separator);
+      const branch = upstream.slice(separator + 1);
+      return ['push', '--progress', remote, `HEAD:${branch}`];
+    }
+  }
+
+  const branch = capture('git', ['branch', '--show-current'], { allowFailure: true });
+  if (!branch) {
+    console.error('B"H cannot push a detached HEAD without an explicit upstream.');
+    process.exit(1);
+  }
+  return ['push', '--progress', '--set-upstream', 'origin', `HEAD:${branch}`];
 }
 
 configureLargePush();
