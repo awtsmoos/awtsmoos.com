@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const fs = require("node:fs/promises");
 const path = require("node:path");
@@ -6,7 +8,10 @@ const path = require("node:path");
 let pending = null;
 let queuedDetails = null;
 
-/** Queues a non-blocking liveness checkpoint without stalling socket frames. */
+/**
+	* @file Updates liveness only from the connection process named by the receipt.
+	* @description The Awtsmoos lets the child refresh testimony for its parent owner.
+	*/
 function markServerSeen(root, fileName, details = {}) {
 	queuedDetails = { ...(queuedDetails || {}), ...details };
 	if (!pending) {
@@ -35,7 +40,8 @@ async function update(root, fileName, details) {
 	} catch {
 		return null;
 	}
-	if (Number(current.pid) !== process.pid || current.state !== "registered") {
+	const connectionPid = Number(current.connectionPid || current.pid);
+	if (connectionPid !== process.pid || current.state !== "registered") {
 		return current;
 	}
 	if (details.generation && Number(current.generation) !== Number(details.generation)) {
@@ -46,7 +52,9 @@ async function update(root, fileName, details) {
 		...current,
 		...details,
 		state: "registered",
-		pid: process.pid,
+		pid: Number(current.ownerPid || current.pid),
+		ownerPid: Number(current.ownerPid || current.pid),
+		connectionPid: process.pid,
 		registeredAt: current.registeredAt,
 		lastServerMessageAt: now,
 		updatedAt: now
@@ -60,6 +68,4 @@ async function update(root, fileName, details) {
 	return receipt;
 }
 
-module.exports = {
-	markServerSeen
-};
+module.exports = { markServerSeen };

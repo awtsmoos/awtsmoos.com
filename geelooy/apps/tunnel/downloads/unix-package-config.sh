@@ -3,15 +3,15 @@
 # Boruch Hashem
 # Blessed is He
 
-# Identity is preserved while an explicit root always wins and a discovered Git root
-# narrows only an existing ancestor workspace. Unrelated owner choices remain intact.
+# The Awtsmoos keeps identity, consent, browser vessels, and approved credentials
+# while replacing every runtime garment. Awtsmoos.com chooses the present caller
+# root and carries no mission or orchestration residue from yesterday.
 create_candidate_config() {
 	local candidate="$1"
 	local existing="$ROOT/config.json"
 	local destination="$candidate/config.json"
 	node - "$existing" "$destination" <<'NODE'
 const fs = require("node:fs");
-const os = require("node:os");
 const path = require("node:path");
 const [source, destination] = process.argv.slice(2);
 
@@ -24,43 +24,58 @@ function readExisting() {
 	}
 }
 
-function discoveredRoot(configuredRoot) {
-	const discovered = process.env.AWTSMOOS_DISCOVERED_PROJECT_ROOT;
-	if (!discovered) return "";
-	if (!configuredRoot) return discovered;
-	const relative = path.relative(path.resolve(configuredRoot), path.resolve(discovered));
-	return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative))
-		? discovered
-		: "";
+function selectProjectRoot() {
+	const selected = process.env.AWTSMOOS_PROJECT_ROOT || process.env.AWTSMOOS_INSTALL_CWD;
+	if (!selected || !path.isAbsolute(selected)) {
+		throw new Error("absolute_project_root_required");
+	}
+	return selected;
+}
+
+function approvedCredentials(aiAgents = {}) {
+	const value = {};
+	if (aiAgents.providerKeys) value.providerKeys = aiAgents.providerKeys;
+	if (aiAgents.providerKeyFiles) value.providerKeyFiles = aiAgents.providerKeyFiles;
+	return Object.keys(value).length ? value : undefined;
+}
+
+function durableState(config) {
+	const keys = [
+		"allowCommands", "allowSecrets", "allowWrite", "allowedOrigins",
+		"chrome", "command", "deviceName", "enableLocalHttpProxy",
+		"localApi", "tools", "verifyAccountPassword"
+	];
+	const value = Object.fromEntries(keys
+		.filter(key => config[key] !== undefined)
+		.map(key => [key, config[key]]));
+	const credentials = approvedCredentials(config.aiAgents);
+	if (credentials) value.aiAgents = credentials;
+	return value;
 }
 
 const config = readExisting();
 const random = Math.floor(Math.random() * 90000) + 10000;
-const requestedRoot = process.env.AWTSMOOS_PROJECT_ROOT ||
-	discoveredRoot(config.root) || config.root || path.join(os.homedir(), "AwtsmoosWorkspace");
-const projectRoot = path.resolve(requestedRoot);
-if (!config.root && !process.env.AWTSMOOS_DISCOVERED_PROJECT_ROOT) {
-	fs.mkdirSync(projectRoot, { recursive: true });
-}
 const value = {
+	...durableState(config),
 	relay: process.env.AWTSMOOS_RELAY || config.relay || "wss://awtsmoos.com",
 	tunnelName: process.env.AWTSMOOS_TUNNEL_NAME || config.tunnelName ||
 		`awt-${process.env.USER || "user"}-${random}`,
 	local: process.env.AWTSMOOS_LOCAL || config.local || "http://localhost:3000",
-	...config,
-	root: projectRoot
+	root: selectProjectRoot()
 };
-if (!config.localApi) {
+if (!value.localApi) {
 	value.localApi = {
 		enabled: true,
 		host: "127.0.0.1",
 		port: Number(process.env.AWTSMOOS_LOCAL_API_PORT || 3977)
 	};
 }
-if (config.allowWrite === undefined) value.allowWrite = true;
-if (config.allowSecrets === undefined) value.allowSecrets = false;
-if (config.enableLocalHttpProxy === undefined) value.enableLocalHttpProxy = true;
-fs.writeFileSync(destination, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600 });
+if (value.allowWrite === undefined) value.allowWrite = true;
+if (value.allowSecrets === undefined) value.allowSecrets = false;
+if (value.enableLocalHttpProxy === undefined) value.enableLocalHttpProxy = true;
+const temporary = `${destination}.tmp-${process.pid}`;
+fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600 });
+fs.renameSync(temporary, destination);
 NODE
 }
 

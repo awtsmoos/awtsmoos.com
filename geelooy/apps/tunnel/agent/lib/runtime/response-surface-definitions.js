@@ -6,12 +6,14 @@ const DEBUG_MODES = new Set(["debug", "full", "audit", "raw", "standard"]);
 const CORRELATION_KEYS = [
 	"type", "id", "tunnelName", "requestedTunnelName", "controlRequestId",
 	"clientRequestId", "agentSessionId", "logicalAgentId", "agentName",
-	"projectRoot", "workspaceId", "nonce", "conversationId", "conversationName",
-	"missionId", "roomId", "leaseId", "parentActionId", "traceId", "spanId",
-	"causalParentId", "correlationId", "actionId", "vessel", "routeReason",
-	"requestAction", "actualAction", "actionMismatch", "requestedAction",
-	"requestedActionRaw", "jobId", "workerId", "receiptId", "taskId",
-	"stream", "cwd", "command", "path", "paths"
+	"projectRoot", "scopeRoot", "workspaceId", "nonce", "conversationId",
+	"conversationName", "missionId", "roomId", "leaseId", "parentActionId",
+	"traceId", "spanId", "causalParentId", "correlationId", "actionId",
+	"vessel", "routeReason", "requestAction", "requestedAction",
+	"executionAction", "actualAction", "servedByAction", "adapterAction",
+	"canonicalAction", "actionPromoted", "actionMismatch", "jobId",
+	"workerId", "receiptId", "taskId", "stream", "cwd", "command",
+	"path", "paths"
 ];
 const ESSENTIAL_KEYS = [
 	"content", "content64", "offsetChars", "returnedChars", "totalChars",

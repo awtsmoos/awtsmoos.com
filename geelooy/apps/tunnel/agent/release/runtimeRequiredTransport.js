@@ -3,14 +3,26 @@
 // Blessed is He
 
 /**
- * @file Names non-negotiable transport, singleton, and connection runtime vessels.
- * @description
- * The Awtsmoos renews process lease, socket, frame, handshake, receipt, and reconnect
- * as one chain. Awtsmoos.com refuses a release that omits any link capable of
- * preventing duplicates, detecting silence, proving identity, or healing generations.
- */
+	* @file Names non-negotiable transport, mailbox, diagnostics, health, and process vessels.
+	* @description
+	* The Awtsmoos keeps socket breath, durable testimony, classified failure history,
+	* truthful worker health, and supervised ownership as one release covenant.
+	*/
 module.exports = Object.freeze([
 	"main.js",
+	"lib/connection-vessel/child-delivery.js",
+	"lib/connection-vessel/child-foundation.js",
+	"lib/connection-vessel/child-runtime.js",
+	"lib/connection-vessel/child.js",
+	"lib/connection-vessel/controller-state.js",
+	"lib/connection-vessel/controller.js",
+	"lib/connection-vessel/mailbox-health.js",
+	"lib/connection-vessel/mailbox-io.js",
+	"lib/connection-vessel/mailbox-paths.js",
+	"lib/connection-vessel/mailbox-store.js",
+	"lib/connection-vessel/mailbox.js",
+	"lib/connection-vessel/protocol.js",
+	"lib/connection-vessel/proxy.js",
 	"lib/ws.js",
 	"lib/ws/client.js",
 	"lib/ws/clientLifecycle.js",
@@ -19,11 +31,21 @@ module.exports = Object.freeze([
 	"lib/ws/frameStream.js",
 	"lib/ws/handshake.js",
 	"lib/ws/socketFactory.js",
+	"lib/ws/transportFailure.js",
+	"lib/ws/transportFailureHistory.js",
 	"lib/ws/transportLiveness.js",
+	"lib/ws/transportLivenessSettings.js",
+	"lib/runtime/circuit-breaker.js",
+	"lib/runtime/circuit-liveness.js",
+	"lib/runtime/circuit-policy.js",
+	"lib/runtime/connection-receipt-async.js",
+	"lib/runtime/connection-receipt-value.js",
 	"lib/runtime/connection-receipt.js",
 	"lib/runtime/main-components-foundation.js",
+	"lib/runtime/main-components.js",
 	"lib/runtime/main-connection-acknowledgement.js",
 	"lib/runtime/main-connection-activity.js",
+	"lib/runtime/main-connection-messages.js",
 	"lib/runtime/main-connection-open.js",
 	"lib/runtime/main-connection-socket.js",
 	"lib/runtime/main-connection-terminal.js",
@@ -38,5 +60,6 @@ module.exports = Object.freeze([
 	"lib/runtime/main-state-values.js",
 	"lib/runtime/main-state.js",
 	"lib/runtime/process-singleton-owner.js",
-	"lib/runtime/process-singleton.js"
+	"lib/runtime/process-singleton.js",
+	"lib/runtime/worker-health.js"
 ]);

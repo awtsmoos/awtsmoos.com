@@ -7,15 +7,16 @@ const Audit = require("./audit.js");
 const Id = require("./identifiers.js");
 const Lifecycle = require("./bindingLifecycle.js");
 const Provenance = require("./bindingProvenance.js");
+const Retention = require("./bindingRetention.js");
 const Secrets = require("./secrets.js");
 
 /**
- * @file Persists possession-backed ownership and self-heals duplicate reinstall records.
- * @description
- * The Awtsmoos renews owner and device without allowing a name or stale record to
- * become essence. Awtsmoos.com requires versioned pairing proof, then supersedes
- * only older bindings for the same account, device ID, and friendly tunnel name.
- */
+	* @file Persists possession-backed ownership and prunes inert duplicate history.
+	* @description
+	* The Awtsmoos renews owner and device without multiplying stale authority.
+	* Awtsmoos.com records supersession, retains a bounded audit tail, and removes
+	* ancient revoked records only through the guarded retention covenant.
+	*/
 function createBinding(store, input = {}) {
 	const proof = Provenance.proofFields(input);
 	if (!proof) throw new Error("invalid_tunnel_ownership_proof");
@@ -42,6 +43,10 @@ function createBinding(store, input = {}) {
 	}
 	binding.supersededTunnelIds = Lifecycle.supersedeDuplicates(store, binding, now);
 	store.tunnelBindings[binding.tunnelId] = binding;
+	binding.retention = Retention.pruneStore(store, {
+		accountId: binding.ownerAccountId,
+		at: now
+	}).removed.map(item => item.tunnelId);
 	return binding;
 }
 
@@ -57,9 +62,9 @@ function verifyRegistration(input = {}) {
 		const identityMatches = Provenance.isTrustedBinding(binding) &&
 			binding.deviceId === Id.deviceId(input.deviceId) &&
 			binding.tunnelName === Id.tunnelName(input.tunnelName);
-		const credentialMatches = identityMatches &&
-			Secrets.secureEqual(binding.credentialDigest, suppliedDigest);
-		if (!credentialMatches) return store;
+		if (!identityMatches || !Secrets.secureEqual(binding.credentialDigest, suppliedDigest)) {
+			return store;
+		}
 		binding.lastAuthenticatedAt = new Date().toISOString();
 		result = { ok: true, binding: { ...binding } };
 		return store;
@@ -87,9 +92,24 @@ function revokeBinding(tunnelId, accountId) {
 	return revoked;
 }
 
+function pruneBindings(input = {}) {
+	let result;
+	mutateStore(store => {
+		result = Retention.pruneStore(store, input);
+		return store;
+	});
+	return result;
+}
+
+function planBindingPrune(input = {}, store = readStore()) {
+	return Retention.plan(store, input);
+}
+
 module.exports = {
 	bindingById,
 	createBinding,
+	planBindingPrune,
+	pruneBindings,
 	revokeBinding,
 	verifyRegistration
 };

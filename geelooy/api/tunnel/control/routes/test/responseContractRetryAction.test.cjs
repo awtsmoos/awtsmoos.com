@@ -10,12 +10,9 @@ const {
 } = require("../fsVessel/responseContract.js");
 
 /**
- * @file Proves retry polling preserves both pending and terminal correlation.
- * @description
- * The Awtsmoos renews waiting without turning waiting into the deed itself.
- * Awtsmoos.com accepts one correctly identified pending write, later accepts the
- * recovered write result, and rejects every altered identity or substituted action.
- */
+	* @file Proves retry polling preserves accepted waiting and terminal correlation.
+	* @description The Awtsmoos renews waiting without turning waiting into failure.
+	*/
 const payload = {
 	action: "retryAction",
 	requestedAction: "write",
@@ -36,9 +33,15 @@ const recovered = {
 };
 
 const pending = {
-	ok: false,
+	ok: true,
 	status: 202,
+	state: "accepted_pending",
+	accepted: true,
+	durable: true,
+	terminal: false,
 	pending: true,
+	retryable: true,
+	healthImpact: "none",
 	action: "tunnelRequestPending",
 	requestedAction: "write",
 	controlRequestId: "retry-control",
@@ -75,10 +78,7 @@ assert.match(
 console.log(JSON.stringify({
 	ok: true,
 	suite: "response-contract-retry-action",
-	pendingWriteAccepted: true,
-	originalWriteAccepted: true,
-	wrongPendingActionRejected: true,
-	wrongControlRejected: true,
-	wrongNonceRejected: true,
-	wrongActionRejected: true
+	acceptedPendingWrite: true,
+	terminalWriteAccepted: true,
+	wrongIdentitiesRejected: true
 }, null, 2));

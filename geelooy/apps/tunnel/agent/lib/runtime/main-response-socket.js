@@ -5,73 +5,62 @@
 const DEFAULT_PENDING_LIMIT = 100;
 
 /**
- * B"H
- *
- * Work may finish after the doorway that admitted it has closed. The Awtsmoos
- * renews result and connection; Awtsmoos.com stores only compacted testimony,
- * then releases it through the current registered generation without duplication.
- */
+	* @file Sends through a durable proxy or preserves legacy in-process fallback.
+	* @description
+	* The Awtsmoos seals an answer before transport. Awtsmoos.com never discards an
+	* unacknowledged response merely because the admitting socket or parent restarted.
+	*/
 function sendOrQueue(dependencies, originalSocket, envelope) {
+	if (typeof originalSocket?.durableSend === "function") {
+		return originalSocket.durableSend(compactEnvelope(dependencies, envelope));
+	}
 	const socket = selectResponseSocket(dependencies, originalSocket);
 	if (socket && dependencies.Send.safeSend(socket, envelope)) {
-		return {
-			queued: false,
-			sent: true
-		};
+		return { queued: false, sent: true };
 	}
 	const queue = pendingQueue(dependencies);
 	const limit = pendingLimit(dependencies);
-	const compact = compactEnvelope(dependencies, envelope);
 	if (queue.length >= limit) {
-		queue.shift();
-		dependencies.log?.(
-			"warn",
-			`Pending response queue exceeded ${limit}; oldest response was discarded.`
-		);
+		const error = new Error(`pending_response_queue_full:${limit}`);
+		error.code = "PENDING_RESPONSE_QUEUE_FULL";
+		throw error;
 	}
-	queue.push(compact);
-	return {
-		queued: true,
-		sent: false
-	};
+	queue.push(compactEnvelope(dependencies, envelope));
+	return { queued: true, sent: false };
 }
 
 function flush(dependencies, socket = dependencies.state.activeWs) {
-	if (!isRegisteredSocket(dependencies, socket)) {
-		return 0;
+	if (dependencies.TransportMailbox) {
+		if (!isRegisteredSocket(dependencies, socket)) return 0;
+		let sent = 0;
+		for (const envelope of dependencies.TransportMailbox.outbox()) {
+			if (!dependencies.Send.safeSend(socket, envelope)) break;
+			sent += 1;
+		}
+		return sent;
 	}
+	if (!isRegisteredSocket(dependencies, socket)) return 0;
 	const queue = pendingQueue(dependencies);
 	let sent = 0;
-	while (queue.length) {
-		const envelope = queue[0];
-		if (!dependencies.Send.safeSend(socket, envelope)) {
-			break;
-		}
+	while (queue.length && dependencies.Send.safeSend(socket, queue[0])) {
 		queue.shift();
 		sent += 1;
-	}
-	if (sent) {
-		dependencies.log?.("info", `B\"H flushed ${sent} pending tunnel responses.`);
 	}
 	return sent;
 }
 
 function compactEnvelope(dependencies, envelope) {
-	if (typeof dependencies.Send.compact === "function") {
-		return dependencies.Send.compact(envelope);
-	}
-	return envelope;
+	return typeof dependencies.Send.compact === "function"
+		? dependencies.Send.compact(envelope)
+		: envelope;
 }
 
 function selectResponseSocket(dependencies, originalSocket) {
 	const active = dependencies.state.activeWs;
-	if (!isRegisteredSocket(dependencies, active)) {
-		return null;
-	}
-	if (originalSocket === active && isOpen(originalSocket)) {
-		return originalSocket;
-	}
-	return active;
+	if (!isRegisteredSocket(dependencies, active)) return null;
+	return originalSocket === active && isOpen(originalSocket)
+		? originalSocket
+		: active;
 }
 
 function isRegisteredSocket(dependencies, socket) {
@@ -81,9 +70,7 @@ function isRegisteredSocket(dependencies, socket) {
 }
 
 function isOpen(socket) {
-	return Boolean(socket) &&
-		socket.opened === true &&
-		socket.closed !== true;
+	return Boolean(socket) && socket.opened === true && socket.closed !== true;
 }
 
 function pendingQueue(dependencies) {

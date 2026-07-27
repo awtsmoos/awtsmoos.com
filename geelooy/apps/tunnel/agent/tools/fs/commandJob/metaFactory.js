@@ -10,17 +10,28 @@ const LaunchLease = require("./launchLease.js");
 const Paths = require("./paths.js");
 
 /**
- * @file Creates queued command metadata and separates admission from execution.
- * @description
- * The Awtsmoos remembers the queue promise without spending the child's allotted
- * life. Awtsmoos.com rebases process time only when a scheduler lane opens.
- */
+	* @file Creates queued command metadata with immutable request scope.
+	* @description
+	* The Awtsmoos stores root, cwd, caller action, and execution vessel before a
+	* worker breathes. Awtsmoos.com can continue without mutable configuration.
+	*/
 function createMeta(args = {}) {
+	const payload = args.payload || {};
 	const queuedAt = new Date().toISOString();
 	const deadlineAt = LaunchLease.deadline(queuedAt, args.timeoutMs);
-	const correlation = Correlation.extract(args.payload || {});
-	const worker = Protocol.commandWorker({
+	const correlation = Correlation.extract(payload);
+	const requestAction = payload.requestAction || payload.action || "commandStart";
+	const projectRoot = payload.projectRoot || payload.scopeRoot || args.config.root;
+	const identity = {
 		...correlation,
+		projectRoot,
+		cwd: args.cwd,
+		requestAction,
+		executionAction: "commandStart",
+		actualAction: "commandStart"
+	};
+	const worker = Protocol.commandWorker({
+		...identity,
 		workerId: args.workerId,
 		jobId: args.jobId,
 		state: "queued",
@@ -30,22 +41,18 @@ function createMeta(args = {}) {
 	});
 	const receipt = Receipts.created({
 		...args.ids,
-		...correlation,
-		action: "commandStart",
-		requestAction: args.payload.requestAction ||
-			args.payload.action ||
-			"commandStart",
-		actualAction: "commandStart"
+		...identity,
+		action: "commandStart"
 	});
-
 	return {
-		schemaVersion: 2,
+		schemaVersion: 3,
 		revision: 0,
 		jobId: args.jobId,
 		workerId: args.workerId,
 		receiptId: args.receiptId,
 		command: args.command,
 		cwd: args.cwd,
+		projectRoot,
 		shell: args.shell,
 		timeoutMs: args.timeoutMs,
 		queuedAt,
@@ -59,16 +66,8 @@ function createMeta(args = {}) {
 		processIdentity: null,
 		cleanup: null,
 		correlation,
-		worker: {
-			...worker,
-			deadlineAt,
-			leaseExpiresAt: deadlineAt
-		},
-		receipt: {
-			...receipt,
-			state: "queued",
-			updatedAt: queuedAt
-		},
+		worker: { ...worker, deadlineAt, leaseExpiresAt: deadlineAt },
+		receipt: { ...receipt, state: "queued", updatedAt: queuedAt },
 		storage: {
 			backend: "device-file",
 			outsideProject: true,

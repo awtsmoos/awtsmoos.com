@@ -4,19 +4,16 @@
 
 const { createQueueRuntime } = require("./main-queue.js");
 const { createRequestRunner } = require("./main-run-request.js");
-const { createRegistrationRuntime } = require("./main-registration.js");
-const { createConnectionRuntime } = require("./main-connection.js");
 const { createStartupRuntime } = require("./main-startup.js");
 const { createMainFoundation } = require("./main-components-foundation.js");
 const Startup = require("./main-components-startup.js");
 
 /**
- * @file Composes queue, request, registration, connection, and startup explicitly.
- * @description
- * The Awtsmoos renews every dependency at the final boundary. Awtsmoos.com keeps
- * startup workspace proof in a separately tested vessel so registration can never
- * succeed while project-root readiness silently disappears from composition.
- */
+	* @file Composes workload execution around an independently supervised connection.
+	* @description
+	* The Awtsmoos keeps network breath outside the busy agent body. Awtsmoos.com
+	* gives queue and dispatch a durable proxy while the child process owns the socket.
+	*/
 function createMainComponents(D, callbacks) {
 	const foundation = createMainFoundation(D);
 	const queue = createQueueRuntime({
@@ -49,28 +46,12 @@ function createMainComponents(D, callbacks) {
 		stats: foundation.runtime.stats,
 		release: callbacks.release
 	});
-	const registration = createRegistrationRuntime({
-		nativeRegistrationPacket: D.nativeRegistrationPacket,
-		DeviceIdentity: D.DeviceIdentity,
-		AGENT_VERSION: D.AGENT_VERSION,
-		workers: foundation.workers,
-		Priority: D.Priority,
-		Limits: D.Limits,
-		Send: D.Send
-	});
-	const connection = createConnectionRuntime({
-		state: foundation.runtime.state,
+	const connection = D.ConnectionVessel.createController({
+		agentVersion: D.AGENT_VERSION,
+		enqueueRequest: queue.enqueueRequest,
 		loadConfig: foundation.loadConfig,
 		log: foundation.log,
-		agentVersion: D.AGENT_VERSION,
-		TinyWebSocket: D.TinyWebSocket,
-		registerReady: registration.registerReady,
-		Control: D.Control,
-		Replacement: D.Replacement,
-		Receipt: D.ConnectionReceipt,
-		Send: D.Send,
-		stats: foundation.runtime.stats,
-		enqueueRequest: queue.enqueueRequest
+		state: foundation.runtime.state
 	});
 	const startupDependencies = Startup.validateStartupDependencies(
 		Startup.createStartupDependencies(D, foundation, connection)
@@ -84,6 +65,4 @@ function createMainComponents(D, callbacks) {
 	};
 }
 
-module.exports = {
-	createMainComponents
-};
+module.exports = { createMainComponents };
