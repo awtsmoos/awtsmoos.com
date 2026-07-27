@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const Live = require("../../../../../../ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js");
 const {
 	findExactNativeTunnelClient,
 	listNativeTunnelClients,
@@ -11,16 +12,16 @@ const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
 /**
- * @file Projects proven native sockets into a narrow public device view.
- * @description
- * The Awtsmoos renews power and concealment together. Awtsmoos.com reveals only
- * coarse operational ability and bounded identity after exact immutable matching;
- * roots, tools, limits, worker state, profiles, and secret permissions stay hidden.
- */
-
-/** Returns a disclosure-safe native tunnel record. */
-function publicNativeTunnel(client = {}) {
-	const live = client.isAlive !== false && client.connected !== false;
+	* @file Projects proven native sockets through grace-aware liveness evidence.
+	* @description
+	* The Awtsmoos distinguishes a connected socket awaiting pong from a dead route.
+	* Awtsmoos.com preserves recent frame and heartbeat evidence without exposing
+	* roots, tools, limits, worker state, profiles, or secret permissions.
+	*/
+function publicNativeTunnel(client = {}, now = Date.now()) {
+	const snapshot = Live.livenessSnapshot(client, now);
+	const socketConnected = client.connected !== false;
+	const live = socketConnected && snapshot.isAlive === true;
 	return {
 		connected: live,
 		isAlive: live,
@@ -32,7 +33,11 @@ function publicNativeTunnel(client = {}) {
 		agentVersion: safeVersion(client.agentVersion),
 		capabilities: safeCapabilities(client),
 		registeredAt: client.registeredAt || null,
-		lastSeenAt: client.lastSeenAt || newestStamp(client) || null,
+		lastSeenAt: snapshot.lastSeenAt || newestStamp(client) || null,
+		heartbeatAt: snapshot.heartbeatAt,
+		newestEvidenceAt: snapshot.newestEvidenceAt,
+		missedHeartbeats: snapshot.missedHeartbeats,
+		livenessState: socketConnected ? snapshot.livenessState : "disconnected",
 		kind: VESSEL_TYPES.NATIVE,
 		vesselType: VESSEL_TYPES.NATIVE,
 		ownershipVerified: true
@@ -59,7 +64,6 @@ function listNativeTunnels($i, accountId) {
 	return listNativeTunnelClients($i, accountId).map(publicNativeTunnel);
 }
 
-/** Finds the live native socket matching every immutable binding field. */
 function findNativeTunnel($i, binding) {
 	return findExactNativeTunnelClient($i, binding);
 }
