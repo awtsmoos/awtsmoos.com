@@ -18,8 +18,9 @@ const lagging = {
 	registeredAt: now - 4 * 60 * 60 * 1000
 };
 assert.equal(Live.shouldTerminate(lagging, now, limits), false);
-assert.equal(Live.livenessSnapshot(lagging, now, limits).isAlive, true);
+assert.equal(Live.livenessSnapshot(lagging, now, limits).isAlive, false);
 assert.equal(Live.livenessSnapshot(lagging, now, limits).rawIsAlive, false);
+assert.equal(Live.livenessSnapshot(lagging, now, limits).evidenceFresh, true);
 assert.equal(
 	Live.livenessSnapshot(lagging, now, limits).livenessState,
 	"waiting_for_pong_or_frame"
@@ -44,6 +45,6 @@ assert.equal(
 console.log(JSON.stringify({
 	ok: true,
 	suite: "client-liveness",
-	observedStallStillRoutable: true,
+	observedStallReportedButNotRoutable: true,
 	trulyStaleTerminates: true
 }, null, 2));

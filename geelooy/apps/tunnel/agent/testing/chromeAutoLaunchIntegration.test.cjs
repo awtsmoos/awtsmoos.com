@@ -184,6 +184,10 @@ async function run() {
 			retryDelay: 100
 		});
 		await fs.rm(installRoot, { recursive: true, force: true });
+		await fs.rm(`${installRoot}-recovery`, {
+			recursive: true,
+			force: true
+		});
 	}
 }
 

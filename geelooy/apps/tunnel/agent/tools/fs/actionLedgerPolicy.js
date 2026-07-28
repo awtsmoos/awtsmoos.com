@@ -1,6 +1,7 @@
 // B"H
 const SKIP = new Set([
   'agentSelfTest','agentVersionSkewCheck','payloadEcho','actionSchemaTrace','awtsmoosMyDevice','tunnelLivenessTimeline',
+  'actionHistoryGet','actionHistoryList','actionHistorySearch',
   'command','commandRun','shellCommand','commandStart','commandStatus','commandWait','commandJobOutputPage','commandOutputPage','commandPoll','commandJobStatus',
   'list','tree','stat','read','readLines','readManyLines','readBytes','read64','md','findFiles','fileHashes',
   'write','writeIfHash','bulkWrite','bulkWriteIfHashes','ensureFile','touch','mkdirp',

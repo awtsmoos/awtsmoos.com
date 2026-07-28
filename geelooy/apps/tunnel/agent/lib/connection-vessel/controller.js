@@ -84,9 +84,6 @@ function createController(options = {}) {
 
 	function notify(message) {
 		if (!child?.connected) return false;
-		if (message.type === Protocol.TYPES.FLUSH) {
-			publishStats();
-		}
 		try { return child.send(message); }
 		catch { return false; }
 	}
@@ -98,7 +95,7 @@ function createController(options = {}) {
 		try {
 			const sent = child.send(Protocol.message(Protocol.TYPES.STATS, {
 				stats: {
-					...options.stats({ workers: true }),
+					...options.stats({ workers: false }),
 					parentPulseAt: now
 				}
 			}));

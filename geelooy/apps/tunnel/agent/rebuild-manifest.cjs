@@ -38,6 +38,44 @@ function writeManifest(options = {}) {
 	return { ...manifest, output };
 }
 
+/** Rebuilds the inventory while guaranteeing exactly one strict patch renewal. */
+function writeNextManifest(options = {}) {
+	const output = path.resolve(options.file || OUT);
+	const current = strictCurrentVersion(output);
+	return writeManifest({
+		...options,
+		file: output,
+		version: nextPatch(current)
+	});
+}
+
+function strictCurrentVersion(file = OUT) {
+	if (!fs.existsSync(file)) return "1.0.0";
+	const version = cleanLines(fs.readFileSync(file, "utf8"))[0] || "";
+	if (!/^\d+\.\d+\.\d+$/.test(version)) {
+		throw new Error(`Invalid manifest version: ${version || "(missing)"}`);
+	}
+	return version;
+}
+
+function parseArguments(argumentsList = []) {
+	const options = {};
+	for (let index = 0; index < argumentsList.length; index += 1) {
+		const argument = argumentsList[index];
+		const equals = argument.indexOf("=");
+		const flag = equals < 0 ? argument : argument.slice(0, equals);
+		const inline = equals < 0 ? "" : argument.slice(equals + 1);
+		if (!["--file", "--repo-root"].includes(flag)) {
+			throw new Error(`Unknown argument: ${argument}`);
+		}
+		const value = inline || argumentsList[index + 1];
+		if (!value) throw new Error(`Missing value for ${flag}`);
+		if (!inline) index += 1;
+		options[flag === "--file" ? "file" : "repoRoot"] = value;
+	}
+	return options;
+}
+
 function cleanLines(text) {
 	return String(text || "").split(/\r?\n/).map(line => line.trim())
 		.filter(line => line && line !== 'B"H' && line !== '# B"H');
@@ -63,13 +101,18 @@ function externalFiles(repoRoot) {
 }
 
 if (require.main === module) {
-	const result = writeManifest();
-	console.log(JSON.stringify({
-		ok: true,
-		version: result.version,
-		files: result.files.length,
-		output: result.output
-	}, null, 2));
+	try {
+		const result = writeNextManifest(parseArguments(process.argv.slice(2)));
+		console.log(JSON.stringify({
+			ok: true,
+			version: result.version,
+			files: result.files.length,
+			output: result.output
+		}, null, 2));
+	} catch (error) {
+		console.error(error.stack || error.message);
+		process.exitCode = 1;
+	}
 }
 
 module.exports = {
@@ -80,8 +123,11 @@ module.exports = {
 	cleanLines,
 	externalFiles,
 	nextPatch,
+	parseArguments,
 	readCurrent,
 	render,
 	slash: SourcePaths.slash,
-	writeManifest
+	strictCurrentVersion,
+	writeManifest,
+	writeNextManifest
 };

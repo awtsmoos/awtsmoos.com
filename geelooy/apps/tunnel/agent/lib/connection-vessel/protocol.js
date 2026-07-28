@@ -9,6 +9,7 @@ const TYPES = Object.freeze({
 	PARENT_READY: "connection.parent-ready",
 	READY: "connection.ready",
 	REQUEST: "connection.request",
+	SEND: "connection.send",
 	STATE: "connection.state",
 	STATS: "connection.stats",
 	STOP: "connection.stop",

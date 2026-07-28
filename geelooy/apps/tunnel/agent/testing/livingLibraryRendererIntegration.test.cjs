@@ -125,6 +125,12 @@ async function run() {
 			maxRetries: 10,
 			retryDelay: 100
 		});
+		await fs.rm(`${installRoot}-recovery`, {
+			recursive: true,
+			force: true,
+			maxRetries: 10,
+			retryDelay: 100
+		});
 	}
 }
 

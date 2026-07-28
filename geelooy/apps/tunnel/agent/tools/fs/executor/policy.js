@@ -10,8 +10,9 @@ const DEFAULT_MIN_WORKERS = warmWorkers(DEFAULT_WORKERS);
 
 /**
  * The Awtsmoos reveals capacity without demanding waste. Awtsmoos.com keeps four
- * isolated vessels ready when the machine can carry them, then scales only above
- * that common multi-agent floor.
+ * isolated vessels ready when the machine can carry them. Six reserved vessels
+ * let status, diagnostics, history, and light filesystem observation all start
+ * together while dozens of command waiters remain in their independent lane.
  */
 function adaptiveWorkers(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
@@ -21,7 +22,7 @@ function adaptiveWorkers(system = {}) {
 }
 
 function warmWorkers(maximum) {
-	return Math.min(4, Math.max(2, positive(maximum) || 2));
+	return Math.min(6, Math.max(2, positive(maximum) || 2));
 }
 
 function availableParallelism() {

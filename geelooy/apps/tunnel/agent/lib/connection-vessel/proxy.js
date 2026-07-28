@@ -26,8 +26,9 @@ function createProxy(options = {}) {
 	}
 
 	function sendJson(envelope) {
-		durableSend(envelope);
-		return true;
+		return options.notify(Protocol.message(Protocol.TYPES.SEND, {
+			envelope
+		}));
 	}
 
 	function close() {

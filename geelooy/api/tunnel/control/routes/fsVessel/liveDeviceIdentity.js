@@ -41,7 +41,9 @@ function isRecoveringNative(device = {}) {
 }
 
 function isLiveDevice(device = {}) {
-	return Boolean(device) && (device.isAlive !== false || isRecoveringNative(device));
+	return Boolean(device) &&
+		device.isAlive === true &&
+		device.connected !== false;
 }
 
 function deviceKey(device = {}) {

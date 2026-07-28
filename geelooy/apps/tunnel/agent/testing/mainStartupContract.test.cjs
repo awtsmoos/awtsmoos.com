@@ -58,6 +58,12 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 			load() { return { ok: true, deviceId: "dev_test" }; },
 			publicStatus() { return { ok: true, deviceId: "dev_test" }; }
 		},
+		FsExecutor: {
+			warm() {
+				calls.filesystemExecutorWarming = true;
+				return { minimumWorkers: 6, ready: 0 };
+			}
+		},
 		connection: { connect() { calls.connected = true; return { opened: true }; } },
 		openHostedControl(received) { calls.opened = received; return true; },
 		shouldOpenControl: () => true
@@ -69,6 +75,7 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 	assert.equal(result.localApiStarted, true);
 	assert.equal(result.bootResumeEnabled, true);
 	assert.equal(result.updateScheduled, true);
+	assert.equal(result.filesystemExecutor.minimumWorkers, 6);
 	assert.equal(result.socketStarted, true);
 	assert.equal(result.openedControl, true);
 	assert.deepEqual(calls.rootProbe, { received: config, installRoot: "/install" });
@@ -80,6 +87,7 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 	assert.equal(calls.localApi.configLoader(), config);
 	assert.equal(calls.update.config, config);
 	assert.equal(calls.connected, true);
+	assert.equal(calls.filesystemExecutorWarming, true);
 	assert.equal(calls.opened, config);
 	console.log(JSON.stringify({
 		ok: true,

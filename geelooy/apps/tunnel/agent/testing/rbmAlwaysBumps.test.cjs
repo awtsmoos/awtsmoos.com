@@ -10,8 +10,11 @@ const { spawnSync } = require("node:child_process");
 
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const packageFile = path.join(repositoryRoot, "package.json");
-const bumpScript = path.join(repositoryRoot, "scripts/tunnel/bumpManifest.cjs");
-const Bump = require(bumpScript);
+const rebuildScript = path.join(
+	repositoryRoot,
+	"geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+);
+const Manifest = require(rebuildScript);
 
 /**
  * @file Proves `npm run rbm` cannot be prevented from bumping the patch version.
@@ -31,20 +34,22 @@ function seedManifest(version) {
 
 try {
 	const packageData = JSON.parse(fs.readFileSync(packageFile, "utf8"));
-	assert.equal(packageData.scripts.rbm, "node scripts/tunnel/bumpManifest.cjs");
+	assert.equal(
+		packageData.scripts.rbm,
+		"node geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+	);
 
 	process.env.AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE = "99.99.99";
 	seedManifest("4.5.6");
 
-	const first = Bump.bumpManifest({
+	const first = Manifest.writeNextManifest({
 		file: manifestFile,
 		repoRoot: repositoryRoot
 	});
-	assert.equal(first.previousVersion, "4.5.6");
 	assert.equal(first.version, "4.5.7");
-	assert.equal(Bump.readCurrentVersion(manifestFile), "4.5.7");
+	assert.equal(Manifest.strictCurrentVersion(manifestFile), "4.5.7");
 
-	const second = Bump.bumpManifest({
+	const second = Manifest.writeNextManifest({
 		file: manifestFile,
 		repoRoot: repositoryRoot
 	});
@@ -52,7 +57,7 @@ try {
 
 	seedManifest("7.8.9");
 	const cliRun = spawnSync(process.execPath, [
-		bumpScript,
+		rebuildScript,
 		"--file",
 		manifestFile,
 		"--repo-root",
@@ -65,12 +70,12 @@ try {
 		}
 	});
 	assert.equal(cliRun.status, 0, cliRun.stdout + cliRun.stderr);
-	assert.equal(Bump.readCurrentVersion(manifestFile), "7.8.10");
+	assert.equal(Manifest.strictCurrentVersion(manifestFile), "7.8.10");
 
 	const malformed = 'B"H\nnot-a-version\nmain.js\n';
 	fs.writeFileSync(manifestFile, malformed, "utf8");
 	assert.throws(() => {
-		Bump.bumpManifest({ file: manifestFile, repoRoot: repositoryRoot });
+		Manifest.writeNextManifest({ file: manifestFile, repoRoot: repositoryRoot });
 	}, /Invalid manifest version/);
 	assert.equal(fs.readFileSync(manifestFile, "utf8"), malformed);
 

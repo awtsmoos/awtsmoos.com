@@ -36,9 +36,29 @@ function conflict(identity = {}, expected = {}) {
 	};
 }
 
+function originalPayload(payload = {}, descriptor = Identity.describe(payload)) {
+	const nested = Identity.decodeRetryCarrier(payload);
+	if (!nested || typeof nested !== "object") return null;
+	const requestedAction = String(
+		descriptor?.requestedAction ||
+		nested.requestedAction ||
+		nested.requestAction ||
+		""
+	);
+	if (!requestedAction) return null;
+	return {
+		...nested,
+		action: requestedAction,
+		requestAction: requestedAction,
+		requestedAction,
+		controlRequestId: descriptor?.controlRequestId || nested.controlRequestId
+	};
+}
+
 module.exports = {
 	actionMatches,
 	conflict,
 	describe: Identity.describe,
-	invalid
+	invalid,
+	originalPayload
 };

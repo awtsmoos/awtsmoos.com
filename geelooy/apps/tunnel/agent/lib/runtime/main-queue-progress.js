@@ -54,7 +54,7 @@ function createQueueProgress(dependencies) {
 			longLivedConnection: true,
 			keepAliveMs: dependencies.Limits.KEEPALIVE_MS,
 			message: 'B"H: request is alive and isolated behind its lane.',
-			queueStats: dependencies.stats(),
+			queueStats: dependencies.stats({ workers: false }),
 			...extra
 		});
 	}

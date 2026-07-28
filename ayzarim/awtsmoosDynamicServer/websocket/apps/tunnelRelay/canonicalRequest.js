@@ -26,7 +26,7 @@ async function run(options = {}) {
 			return Canonical.conflict(active.expected, expected);
 		}
 		return retry
-			? Canonical.pending({ expected: active.expected }, 0)
+			? await observeActive(options, active)
 			: await active.promise;
 	}
 	const operation = execute(options);
@@ -43,18 +43,53 @@ async function run(options = {}) {
 	}
 }
 
+/**
+ * Give an already-settling canonical operation one event-loop turn to publish its
+ * durable result. A retry must remain fast when the producer is genuinely still
+ * running, but it must not report a false pending state merely because the first
+ * caller's finally block has not removed the in-memory start marker yet.
+ */
+async function observeActive(options, active) {
+	const settled = await Promise.race([
+		Promise.resolve(active.promise).then(
+			() => true,
+			() => true
+		),
+		new Promise(resolve => setTimeout(resolve, 25, false))
+	]);
+	if (!settled) return Canonical.pending({ expected: active.expected }, 0);
+	await Promise.resolve();
+	return await execute(options);
+}
+
 async function execute(options) {
 	const { context, id, expected, retry, waitMs, producer } = options;
 	const pending = context.pendingTunnelRequests.get(id);
 	if (pending) return reusePending(pending, expected, retry, waitMs);
 	const durable = await State.hydrate(context, id, expected);
-	if (durable) return Canonical.fromRecord(durable, expected, waitMs, retry);
+	if (durable) {
+		if (canRecoverUnaccepted(durable, retry, options)) {
+			return await producer();
+		}
+		return Canonical.fromRecord(durable, expected, waitMs, retry);
+	}
 	if (retry) return Canonical.unknown(expected);
 	const claim = await State.claim(context, id, expected);
 	if (!claim.created) {
 		return Canonical.fromRecord(claim.record, expected, waitMs, null);
 	}
 	return await producer();
+}
+
+function canRecoverUnaccepted(record, retry, options = {}) {
+	return Boolean(
+		retry &&
+		record?.state === "pending" &&
+		!record.acceptedAt &&
+		options?.recoverableOriginal === true &&
+		options?.context?.tunnels?.get?.(record.expected?.registrationKey) &&
+		options?.producer
+	);
 }
 
 function reusePending(record, expected, retry, waitMs) {
@@ -75,7 +110,9 @@ function matches(stored, incoming, retry) {
 
 module.exports = {
 	execute,
+	canRecoverUnaccepted,
 	matches,
+	observeActive,
 	reusePending,
 	run
 };

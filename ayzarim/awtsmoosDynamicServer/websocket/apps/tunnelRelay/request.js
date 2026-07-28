@@ -8,6 +8,7 @@ const Id = require(
 const Canonical = require("./canonicalRequest.js");
 const Normalizers = require("./normalizers.js");
 const ProgressHandler = require("./progressHandler.js");
+const RequestAckHandler = require("./requestAckHandler.js");
 const RequestDispatch = require("./requestDispatch.js");
 const RequestPlan = require("./requestPlan.js");
 const RequestReuse = require("./requestReuse.js");
@@ -60,6 +61,7 @@ async function sendTunnelRequest(
 		expected,
 		retry,
 		waitMs,
+		recoverableOriginal: plan.recoverableOriginal === true,
 		producer: () => tunnel
 			? RequestDispatch.dispatch({
 				context,
@@ -84,6 +86,7 @@ async function sendTunnelRequest(
 }
 
 function observationPlan(payload, retry) {
+	const original = RetryRequest.originalPayload(payload, retry);
 	return {
 		transportId: retry.controlRequestId,
 		expectationId: retry.controlRequestId,
@@ -92,7 +95,8 @@ function observationPlan(payload, retry) {
 			action: retry.requestedAction,
 			controlRequestId: retry.controlRequestId
 		},
-		tunnelPayload: payload
+		tunnelPayload: original || payload,
+		recoverableOriginal: Boolean(original)
 	};
 }
 
@@ -105,6 +109,7 @@ function invalidIdentity() {
 
 module.exports = {
 	handleTunnelProgress: ProgressHandler.handleTunnelProgress,
+	handleTunnelRequestAck: RequestAckHandler.handleTunnelRequestAck,
 	handleTunnelResponse: ResponseHandler.handleTunnelResponse,
 	observationPlan,
 	sendTunnelRequest

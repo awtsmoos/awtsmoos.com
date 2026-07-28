@@ -100,12 +100,45 @@ function createPool(options = {}) {
 		return stats();
 	}
 
+	function warmReady(options = {}) {
+		const minimum = Math.max(
+			1,
+			Math.min(policy.WORKERS, Number(options.minimum || policy.MIN_WORKERS))
+		);
+		const timeoutMs = Math.max(
+			250,
+			Math.min(30000, Number(options.timeoutMs || policy.READY_TIMEOUT_MS))
+		);
+		ensureWorkers(minimum);
+		return new Promise(resolve => {
+			const startedAt = Date.now();
+			function inspect() {
+				const current = stats();
+				if (current.ready >= minimum) {
+					resolve({ ...current, warmReady: true, waitedMs: Date.now() - startedAt });
+					return;
+				}
+				if (Date.now() - startedAt >= timeoutMs || state.stopped) {
+					resolve({
+						...current,
+						warmReady: false,
+						waitedMs: Date.now() - startedAt
+					});
+					return;
+				}
+				setTimeout(inspect, 20);
+			}
+			inspect();
+		});
+	}
+
 	return {
 		execute,
 		shutdown: () => Lifecycle.shutdown(state),
 		state,
 		stats,
-		warm
+		warm,
+		warmReady
 	};
 }
 

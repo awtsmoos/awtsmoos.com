@@ -120,6 +120,7 @@ function createRuntime() {
 		snapshot,
 		start,
 		stop,
+		transmit: delivery.transmit,
 		updateParentStats
 	};
 }

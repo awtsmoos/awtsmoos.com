@@ -46,6 +46,8 @@ function createRecord(context, id, expected, totalTimeoutMs) {
 		waiters: new Set(),
 		totalTimeoutMs,
 		expiryTimer: null,
+		acceptanceTimer: null,
+		consumerTimer: null,
 		finalizationPromise: null,
 		finalData: null,
 		mismatchCount: 0,

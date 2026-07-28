@@ -28,8 +28,8 @@ function createStartupRuntime(dependencies) {
 			reason: "startup_after_local_api"
 		});
 		await ensureDeviceIdentity(dependencies, config);
+		const filesystemExecutor = dependencies.FsExecutor?.warm?.() || null;
 		const socket = dependencies.connection.connect();
-		dependencies.FsExecutor?.warm?.();
 		const commandReconciliation = projectRootHealth.ok
 			? await Helpers.reconcileCommands(dependencies, config)
 			: Helpers.skipped("project_root_unavailable");
@@ -55,6 +55,7 @@ function createStartupRuntime(dependencies) {
 			bootResumeEnabled: Boolean(boot),
 			updateScheduled: update !== false,
 			deviceIdentity: dependencies.DeviceIdentity.publicStatus(config),
+			filesystemExecutor,
 			socketStarted: Boolean(socket),
 			openedControl
 		};

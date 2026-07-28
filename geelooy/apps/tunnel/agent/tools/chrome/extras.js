@@ -23,7 +23,7 @@ async function ready(payload = {}) {
     const launched = await chromeActions.chromeLaunch({
       ...payload,
       port,
-      url:payload.url || "about:blank",
+      url:"about:blank",
       headless:payload.headless !== false,
       persist:payload.persistChrome === true,
       startupWaitMs:payload.startupWaitMs || 1200,

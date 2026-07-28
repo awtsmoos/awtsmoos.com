@@ -27,6 +27,11 @@ function warm() {
 	return pool().warm();
 }
 
+/** Resolves only when the normal reserved executor floor can consume requests. */
+function warmReady(options) {
+	return pool().warmReady(options);
+}
+
 /** Stops children for tests and graceful process shutdown. */
 function shutdown() {
 	if (!sharedPool) return;
@@ -39,5 +44,6 @@ module.exports = {
 	pool,
 	stats,
 	shutdown,
-	warm
+	warm,
+	warmReady
 };

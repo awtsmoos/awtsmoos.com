@@ -43,12 +43,14 @@ const controller = Controller.createController({
 		root: sandbox,
 		tunnelName: "awt-controller-test"
 	}),
-	stats: () => ({
+	stats: options => ({
 		workers: {
-			activeTotal: 1,
-			active: {
-				worker_one: { jobId: "job_one" }
-			}
+			current: { active: 1 },
+			...(options.workers === false ? {} : {
+				active: {
+					worker_one: { jobId: "job_one" }
+				}
+			})
 		}
 	}),
 	state
@@ -58,7 +60,8 @@ const child = children[0];
 child.emit("message", Protocol.message(Protocol.TYPES.READY));
 assert.equal(child.messages[0].type, Protocol.TYPES.PARENT_READY);
 assert.equal(child.messages[1].type, Protocol.TYPES.STATS);
-assert.equal(child.messages[1].stats.workers.active.worker_one.jobId, "job_one");
+assert.equal(child.messages[1].stats.workers.current.active, 1);
+assert.equal(child.messages[1].stats.workers.active, undefined);
 child.emit("message", Protocol.message(Protocol.TYPES.REQUEST, {
 	envelope: { id: "request-one" }
 }));

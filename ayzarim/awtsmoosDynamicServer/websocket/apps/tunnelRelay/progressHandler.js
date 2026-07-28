@@ -31,6 +31,10 @@ function handleTunnelProgress(context, client, data = {}) {
 		);
 	}
 	record.lastProgressAt = Date.now();
+	clearTimeout(record.acceptanceTimer);
+	clearTimeout(record.consumerTimer);
+	record.acceptanceTimer = null;
+	record.consumerTimer = null;
 	Activity.transition(context, record, "action.progress", {
 		state: progressState(data),
 		severity: "info",

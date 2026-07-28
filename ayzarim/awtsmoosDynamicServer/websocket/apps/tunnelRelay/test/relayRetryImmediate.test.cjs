@@ -3,6 +3,7 @@
 const assert = require("node:assert/strict");
 const Canonical = require("../canonicalRequest.js");
 const Normalizers = require("../normalizers.js");
+const Retry = require("../retryRequest.js");
 
 const expected = {
 	id: "req_retry_immediate",
@@ -61,12 +62,52 @@ const retry = {
 
 	assert.equal(Normalizers.safeRelayWaitMs(undefined), 3500);
 	assert.equal(Normalizers.safeRelayWaitMs(5000), 4000);
+	const recoveryContext = {
+		tunnels: new Map([[expected.registrationKey, { send() {} }]])
+	};
+	assert.equal(Canonical.canRecoverUnaccepted({
+		state: "pending",
+		expected
+	}, retry, {
+		context: recoveryContext,
+		recoverableOriginal: true,
+		producer() {}
+	}), true);
+	assert.equal(Canonical.canRecoverUnaccepted({
+		state: "pending",
+		expected,
+		acceptedAt: new Date().toISOString()
+	}, retry, {
+		context: recoveryContext,
+		recoverableOriginal: true,
+		producer() {}
+	}), false);
+	assert.equal(Canonical.canRecoverUnaccepted({
+		state: "pending",
+		expected
+	}, retry, {
+		context: recoveryContext,
+		recoverableOriginal: false,
+		producer() {}
+	}), false);
+	const original = Retry.originalPayload({
+		action: "retryAction",
+		params: {
+			controlRequestId: expected.controlRequestId,
+			requestedAction: "commandWait",
+			jobId: expected.jobId
+		}
+	}, retry);
+	assert.equal(original.action, "commandWait");
+	assert.equal(original.controlRequestId, expected.controlRequestId);
 
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "relay-retry-immediate",
 		activeRetryWaitMs: active.waitedMs,
 		pendingRetryWaitMs: pending.waitedMs,
+		unacceptedRestartRecovery: true,
+		acceptedRestartNeverRedispatches: true,
 		defaultRelayWaitMs: Normalizers.safeRelayWaitMs(undefined),
 		maxRelayWaitMs: Normalizers.safeRelayWaitMs(5000)
 	}));

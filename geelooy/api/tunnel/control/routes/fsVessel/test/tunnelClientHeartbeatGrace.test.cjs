@@ -48,8 +48,14 @@ const waiting = Client.publicNativeTunnel(waitingClient, now + 1000);
 assert.equal(waitingClient.isAlive, false);
 assert.equal(waiting.connected, true);
 assert.equal(waiting.isAlive, true);
-assert.equal(waiting.livenessState, "waiting_for_pong_or_frame");
+assert.equal(waiting.livenessState, "probing");
 assert.equal(Devices.canRouteDevice(waiting, { action: "commandStart" }), true);
+Live.markHeartbeatSent(waitingClient, now + 20000);
+const missed = Client.publicNativeTunnel(waitingClient, now + 21000);
+assert.equal(missed.connected, false);
+assert.equal(missed.isAlive, false);
+assert.equal(missed.livenessState, "waiting_for_pong_or_frame");
+assert.equal(Devices.canRouteDevice(missed, { action: "tunnelDoctor" }), false);
 
 const stale = Client.publicNativeTunnel(native({
 	isAlive: false,
@@ -71,7 +77,8 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "tunnel-client-heartbeat-grace",
 	activeRoutable: true,
-	pingWaitRoutable: true,
+	firstPingProbeRoutable: true,
+	missedPongRejected: true,
 	staleRejected: true,
 	disconnectedRejected: true
 }, null, 2));

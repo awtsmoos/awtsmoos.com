@@ -22,6 +22,10 @@ process.on("message", message => {
 		runtime.flush(message.id);
 		return;
 	}
+	if (message.type === Protocol.TYPES.SEND) {
+		runtime.transmit(message.envelope);
+		return;
+	}
 	if (message.type === Protocol.TYPES.STATS) {
 		runtime.updateParentStats(message.stats);
 		return;

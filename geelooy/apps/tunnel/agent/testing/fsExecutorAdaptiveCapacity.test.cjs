@@ -27,7 +27,7 @@ assert.equal(Policy.adaptiveWorkers({
 }), 2);
 assert.equal(Policy.warmWorkers(2), 2);
 assert.equal(Policy.warmWorkers(4), 4);
-assert.equal(Policy.warmWorkers(8), 4);
+assert.equal(Policy.warmWorkers(8), 6);
 
 const resolved = Policy.resolve({ WORKERS: 4, MIN_WORKERS: 9 });
 assert.equal(resolved.WORKERS, 4);

@@ -19,6 +19,8 @@ async function finish(context, id, record, data, options = {}) {
 	if (context.pendingTunnelRequests.get(id) !== record) return false;
 	if (record.finalizationPromise) return await record.finalizationPromise;
 	clearTimeout(record.expiryTimer);
+	clearTimeout(record.acceptanceTimer);
+	clearTimeout(record.consumerTimer);
 	record.finalizationPromise = settle(context, id, record, data, options);
 	return await record.finalizationPromise;
 }

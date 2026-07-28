@@ -44,7 +44,7 @@ function responseEnvelope(data = {}, payload = {}, result, enqueuedAt, stats) {
 		actionPromoted: promoted,
 		actionMismatch: promoted && !Aliases.allowed(requestAction, executionAction),
 		queuedMs: Math.max(0, Date.now() - enqueuedAt),
-		queueStats: stats()
+		queueStats: stats({ workers: false })
 	}, payload, safe);
 }
 

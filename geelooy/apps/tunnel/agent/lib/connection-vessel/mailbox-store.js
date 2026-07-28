@@ -18,6 +18,7 @@ const DEFAULT_MAX_BYTES = 64 * 1024 * 1024;
 	* backpressure, exposes capacity, and quarantines corrupt finite files safely.
 	*/
 function createStore(config = {}, options = {}) {
+	Paths.migrateLegacy(config);
 	const limits = {
 		maxBytes: bounded(options.maxBytes, DEFAULT_MAX_BYTES),
 		maxCount: bounded(options.maxCount, DEFAULT_MAX_COUNT)
@@ -27,7 +28,8 @@ function createStore(config = {}, options = {}) {
 	function put(lane, id, value) {
 		const identifier = required(id);
 		const target = Paths.file(config, lane, identifier);
-		const body = `${JSON.stringify({ id: identifier, updatedAt: new Date().toISOString(), value }, null, 2)}\n`;
+		const updatedAt = new Date().toISOString();
+		const body = `${JSON.stringify({ id: identifier, updatedAt, value }, null, 2)}\n`;
 		const existing = IO.sizeOf(target);
 		const existed = existing > 0;
 		let current = usage(lane);
@@ -44,11 +46,17 @@ function createStore(config = {}, options = {}) {
 			throw fullError(lane, "bytes", current);
 		}
 		IO.atomicWrite(target, body);
+		const bytes = Buffer.byteLength(body);
+		const entries = current.entries.filter(entry => entry.file !== target);
+		entries.push({ bytes, file: target, updatedAt });
+		entries.sort((left, right) =>
+			String(left.updatedAt || "").localeCompare(String(right.updatedAt || ""))
+		);
 		usageCache.set(lane, {
 			count: current.count + (existed ? 0 : 1),
-			bytes: current.bytes - existing + Buffer.byteLength(body),
-			entries: current.entries,
-			scannedAt: current.scannedAt
+			bytes: current.bytes - existing + bytes,
+			entries,
+			scannedAt: Date.now()
 		});
 		return { id: identifier, lane, path: target };
 	}
@@ -63,7 +71,9 @@ function createStore(config = {}, options = {}) {
 				usageCache.set(lane, {
 					...current,
 					count: Math.max(0, current.count - 1),
-					bytes: Math.max(0, current.bytes - existing)
+					bytes: Math.max(0, current.bytes - existing),
+					entries: current.entries.filter(entry => entry.file !== target),
+					scannedAt: Date.now()
 				});
 			}
 			return true;
@@ -85,7 +95,7 @@ function createStore(config = {}, options = {}) {
 	}
 
 	function snapshot(lane) {
-		return Health.lane(usage(lane, true).entries, limits, lane);
+		return Health.lane(usage(lane).entries, limits, lane);
 	}
 
 	function usage(lane, refresh = false) {
@@ -97,10 +107,11 @@ function createStore(config = {}, options = {}) {
 				const stat = fs.lstatSync(file);
 				return {
 					bytes: stat.isFile() && !stat.isSymbolicLink() ? stat.size : 0,
+					file,
 					updatedAt: stat.mtime.toISOString()
 				};
 			} catch {
-				return { bytes: 0, updatedAt: null };
+				return { bytes: 0, file, updatedAt: null };
 			}
 		}).sort((left, right) =>
 			String(left.updatedAt || "").localeCompare(String(right.updatedAt || ""))

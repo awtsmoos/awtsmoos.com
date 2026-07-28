@@ -59,18 +59,50 @@ async function rememberExpired(context, id, data, expected = {}) {
 	return await rememberTerminal(context, id, data, expected, "expired");
 }
 
+async function rememberAccepted(context, id, expected = {}, details = {}) {
+	const key = durableKey(id, expected);
+	return await mutate(context, key, async () => {
+		const current = await Store.read(context, key) || Record.pending(key, id, expected);
+		if (current.state !== "pending") return current;
+		const committed = await Store.replace(
+			context,
+			key,
+			Record.accepted(current, details)
+		);
+		Memory.remember(context, key, committed);
+		return committed;
+	});
+}
+
 async function rememberTerminal(context, id, data, expected, state) {
 	const key = durableKey(id, expected);
-	const current = await Store.read(context, key) || Record.pending(key, id, expected);
-	const next = state === "expired"
-		? Record.expired(current, data)
-		: state === "failed"
-			? Record.failed(current, data)
-			: Record.completed(current, data);
-	const committed = await Store.replace(context, key, next);
-	Memory.remember(context, key, committed);
-	Garbage.schedule(context);
-	return committed;
+	return await mutate(context, key, async () => {
+		const current = await Store.read(context, key) || Record.pending(key, id, expected);
+		const next = state === "expired"
+			? Record.expired(current, data)
+			: state === "failed"
+				? Record.failed(current, data)
+				: Record.completed(current, data);
+		const committed = await Store.replace(context, key, next);
+		Memory.remember(context, key, committed);
+		Garbage.schedule(context);
+		return committed;
+	});
+}
+
+function mutate(context, key, operation) {
+	Memory.ensureStores(context);
+	const previous = context.tunnelDurableMutations.get(key) || Promise.resolve();
+	const current = previous
+		.catch(() => {})
+		.then(operation)
+		.finally(() => {
+			if (context.tunnelDurableMutations.get(key) === current) {
+				context.tunnelDurableMutations.delete(key);
+			}
+		});
+	context.tunnelDurableMutations.set(key, current);
+	return current;
 }
 
 function observed(context, id, expected = {}) {
@@ -93,8 +125,10 @@ module.exports = {
 	ensureStores: Memory.ensureStores,
 	expired,
 	hydrate,
+	mutate,
 	observed,
 	quarantine: Memory.quarantine,
+	rememberAccepted,
 	rememberCompleted,
 	rememberExpired,
 	rememberTerminal,

@@ -96,8 +96,12 @@ const Support = require("./helpers/isolatedRelay/testSupport.cjs");
 		assert.ok(cancelElapsedMs < 7000, `cancel took ${cancelElapsedMs}ms`);
 
 		await Promise.all(waitIds.map(id => response(relay, id, 7000)));
+		const droppedSequence = connection.sequence;
 		connection.destroy();
-		await Support.waitUntil(() => relay.registrations.length >= 2, 12000);
+		await Support.waitUntil(
+			() => relay.latest()?.sequence > droppedSequence,
+			12000
+		);
 		const reconnected = relay.latest();
 		const postDrop = await action(reconnected, relay, "post-drop-stat", {
 			action: "stat",
@@ -118,6 +122,18 @@ const Support = require("./helpers/isolatedRelay/testSupport.cjs");
 			postDisconnectActionPassed: true
 		}, null, 2));
 	} catch (error) {
+		error.message += `\nrelay messages:\n${JSON.stringify(
+			relay.messages.map(entry => ({
+				type: entry.message?.type,
+				id: entry.message?.id,
+				action: entry.message?.action,
+				phase: entry.message?.phase,
+				ok: entry.message?.ok,
+				error: entry.message?.error
+			})),
+			null,
+			2
+		)}`;
 		error.message += `\nchild stdout:\n${childLog.stdout}\nchild stderr:\n${childLog.stderr}`;
 		throw error;
 	} finally {

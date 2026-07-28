@@ -4,6 +4,11 @@ const { handleFsAction } = require("./actions.js");
 const Executor = require("./executor/index.js");
 
 const SOCKET_ACTIONS = new Set(["configSet", "rootSelect"]);
+const LIVE_HISTORY_ACTIONS = new Set([
+	"actionHistoryGet",
+	"actionHistoryList",
+	"actionHistorySearch"
+]);
 
 /**
  * Keeps blocking filesystem and mission work outside the relay event loop.
@@ -17,10 +22,21 @@ async function handleFs(payload = {}, webSocket) {
 	if (SOCKET_ACTIONS.has(String(payload.action || ""))) {
 		return handleFsAction(payload, webSocket);
 	}
+	if (
+		LIVE_HISTORY_ACTIONS.has(String(payload.action || "")) &&
+		payload.full !== true &&
+		payload.compact !== false &&
+		!["full", "debug", "audit", "raw"].includes(
+			String(payload.responseMode || payload.mode || "").toLowerCase()
+		)
+	) {
+		return handleFsAction(payload, webSocket);
+	}
 	return Executor.execute(payload);
 }
 
 module.exports = {
+	LIVE_HISTORY_ACTIONS,
 	SOCKET_ACTIONS,
 	handleFs
 };

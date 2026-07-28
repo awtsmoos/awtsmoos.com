@@ -142,6 +142,10 @@ async function run() {
 		await fs.rm(root, { recursive: true, force: true });
 		await fs.rm(profile, { recursive: true, force: true });
 		await fs.rm(installRoot, { recursive: true, force: true });
+		await fs.rm(`${installRoot}-recovery`, {
+			recursive: true,
+			force: true
+		});
 	}
 }
 

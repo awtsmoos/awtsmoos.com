@@ -68,7 +68,7 @@ function pendingRows(config, limit = 1000) {
   try { names = fs.readdirSync(pendingDir(config)).filter(name => name.endsWith('.json')).sort(); }
   catch { return []; }
   const rows = [];
-  for (const name of names.slice(0, Math.max(0, limit))) {
+  for (const name of names.slice(-Math.max(0, limit))) {
     const file = path.join(pendingDir(config), name);
     try {
       const row = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -107,7 +107,10 @@ function save(config, entry, output) {
     return true;
   });
 }
-async function list(config, limit = 50) { return awdbList(config).slice(-limit).reverse(); }
+async function list(config, limit = 50) {
+  const boundedLimit = Math.max(1, Math.min(1000, Number(limit) || 50));
+  return awdbList(config, boundedLimit).slice(-boundedLimit).reverse();
+}
 async function get(config, actionId) {
   try {
     const deferred = JSON.parse(fs.readFileSync(pendingPath(config, actionId), 'utf8'));
@@ -121,16 +124,20 @@ async function get(config, actionId) {
     null
   );
 }
-function awdbList(config) {
-  const stored = withFallback(
-    () => withDb(config, 'actions', db => C.values(C.ensure(actionRoot(db), 'byId')).map(x => x.entry).filter(Boolean), {
-      readOnly:true,
-      processLockMode:'shared'
-    }),
+function awdbList(config, limit = 1000) {
+  const file = historyPath(config);
+  const stored = fs.existsSync(file) ? withFallback(
+    () => {
+      assertUnlocked(config);
+      return withDb(config, 'actions', db => C.values(C.ensure(actionRoot(db), 'byId')).map(x => x.entry).filter(Boolean), {
+        readOnly:true,
+        processLockMode:'shared'
+      });
+    },
     []
-  );
+  ) : [];
   const merged = new Map(stored.map(entry => [entry.actionId, entry]));
-  for (const item of pendingRows(config)) merged.set(item.row.entry.actionId, item.row.entry);
+  for (const item of pendingRows(config, limit)) merged.set(item.row.entry.actionId, item.row.entry);
   return [...merged.values()].sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
 }
 async function legacyList(config) { return awdbList(config); }

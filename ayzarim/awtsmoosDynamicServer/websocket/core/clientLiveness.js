@@ -6,6 +6,7 @@
  */
 const DEFAULTS = {
   maxMissedHeartbeats: Number(process.env.AWTSMOOS_WS_MAX_MISSED_HEARTBEATS || 6),
+  probeGraceMs: Number(process.env.AWTSMOOS_WS_PROBE_GRACE_MS || 10000),
   staleMs: Number(process.env.AWTSMOOS_WS_STALE_MS || 5 * 60 * 1000)
 };
 
@@ -50,6 +51,7 @@ function shouldTerminate(client, now = Date.now(), limits = DEFAULTS) {
 
 function stateFor(client = {}, now = Date.now(), limits = DEFAULTS) {
   if (client.isAlive !== false) return "active";
+  if (probeIsFresh(client, now, limits)) return "probing";
   if (evidenceIsFresh(client, now, limits)) return "waiting_for_pong_or_frame";
   if (Number(client.missedHeartbeats || 0) >= limits.maxMissedHeartbeats) return "stale_terminate_ready";
   return "degraded_or_recovering";
@@ -58,9 +60,12 @@ function stateFor(client = {}, now = Date.now(), limits = DEFAULTS) {
 function livenessSnapshot(client = {}, now = Date.now(), limits = DEFAULTS) {
   const fresh = freshestStamp(client);
   const rawIsAlive = client.isAlive === false ? false : client.isAlive;
+  const probing = probeIsFresh(client, now, limits);
   return {
-    isAlive: rawIsAlive !== false || recent(fresh, limits.staleMs, now),
+    isAlive: rawIsAlive !== false || probing,
     rawIsAlive,
+    evidenceFresh: recent(fresh, limits.staleMs, now),
+    probing,
     lastSeenAt: stamp(client.lastSeenAt) || null,
     heartbeatAt: stamp(client.heartbeatAt) || null,
     registeredAt: stamp(client.registeredAt) || null,
@@ -70,4 +75,19 @@ function livenessSnapshot(client = {}, now = Date.now(), limits = DEFAULTS) {
   };
 }
 
-module.exports = { DEFAULTS, freshestStamp, livenessSnapshot, markHeartbeatSent, markSeen, recent, shouldTerminate };
+function probeIsFresh(client = {}, now = Date.now(), limits = DEFAULTS) {
+  return client.awaitingPong === true &&
+    Number(client.missedHeartbeats || 0) === 0 &&
+    recent(client.heartbeatPingAt, limits.probeGraceMs, now);
+}
+
+module.exports = {
+  DEFAULTS,
+  freshestStamp,
+  livenessSnapshot,
+  markHeartbeatSent,
+  markSeen,
+  probeIsFresh,
+  recent,
+  shouldTerminate
+};

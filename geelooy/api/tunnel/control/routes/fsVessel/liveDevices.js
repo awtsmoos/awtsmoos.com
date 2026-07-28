@@ -24,8 +24,7 @@ function isControlRouteAction(payload = {}) {
 }
 
 function canRouteDevice(device = {}, payload = {}) {
-	return Identity.isLiveDevice(device) ||
-		(Identity.isRecoveringNative(device) && isControlRouteAction(payload));
+	return Identity.isLiveDevice(device);
 }
 
 function liveDevices(devices = []) {

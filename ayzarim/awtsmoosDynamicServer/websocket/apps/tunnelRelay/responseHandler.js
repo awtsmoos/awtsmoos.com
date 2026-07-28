@@ -45,17 +45,45 @@ function handleTunnelResponse(context, client, data = {}) {
 function handleDuplicate(context, client, data, id) {
 	const expected = { registrationKey: client?.registrationKey || "" };
 	void State.hydrate(context, id, expected).then(record => {
-		if (record && ["completed", "failed"].includes(record.state)) {
+		if (record && ["completed", "failed", "expired"].includes(record.state)) {
 			acknowledge(client, data, id);
 			return;
 		}
+		if (record?.state === "pending") {
+			return settleRecoveredPending(context, client, data, id, record);
+		}
 		quarantine(context, "unsolicited_response", data, expected);
+		if (!record) acknowledge(client, data, id);
 	}).catch(error => State.quarantine(context, {
 		reason: "duplicate_response_hydration_failed",
 		data,
 		expected,
 		validation: { error: error.message }
 	}));
+	return true;
+}
+
+async function settleRecoveredPending(context, client, data, id, record) {
+	if (!client || client.registrationKey !== record.expected?.registrationKey) {
+		return quarantine(
+			context,
+			"foreign_registration_recovered_response",
+			data,
+			record.expected
+		);
+	}
+	const validation = Validation.validateTunnelResponse(record.expected, data);
+	if (!validation.ok) {
+		return quarantine(
+			context,
+			"recovered_response_correlation_mismatch",
+			data,
+			record.expected,
+			validation
+		);
+	}
+	await State.rememberCompleted(context, id, data, record.expected);
+	acknowledge(client, data, id);
 	return true;
 }
 
@@ -83,5 +111,6 @@ module.exports = {
 	acknowledge,
 	handleDuplicate,
 	handleTunnelResponse,
-	quarantine
+	quarantine,
+	settleRecoveredPending
 };

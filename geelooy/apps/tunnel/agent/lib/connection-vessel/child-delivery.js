@@ -12,9 +12,20 @@ const Protocol = require("./protocol.js");
 	*/
 function createDelivery(options = {}) {
 	let parentReady = false;
+	let inboxReplayScheduled = false;
+	let outboxReplayScheduled = false;
+	const replayBatchSize = bounded(options.replayBatchSize, 8);
+	const schedule = options.schedule || setImmediate;
 
-	function enqueueRequest(_ws, envelope) {
+	function enqueueRequest(ws, envelope) {
 		options.mailbox.putInbox(envelope);
+		transmit({
+			type: "TUNNEL_REQUEST_ACK",
+			id: Protocol.requestId(envelope),
+			transportReceiptId: Protocol.requestId(envelope),
+			acceptedAt: new Date().toISOString(),
+			durable: true
+		}, ws);
 		if (parentReady) deliver(envelope);
 	}
 
@@ -25,9 +36,12 @@ function createDelivery(options = {}) {
 	}
 
 	function redeliver() {
-		if (!parentReady) return 0;
+		if (!parentReady || inboxReplayScheduled) return 0;
 		const entries = options.mailbox.inbox();
-		for (const envelope of entries) deliver(envelope);
+		inboxReplayScheduled = true;
+		drain(entries, deliver, () => {
+			inboxReplayScheduled = false;
+		});
 		return entries.length;
 	}
 
@@ -42,20 +56,54 @@ function createDelivery(options = {}) {
 			const envelope = options.mailbox.outboxOne(id);
 			return envelope && options.Send.safeSend(ws, envelope) ? 1 : 0;
 		}
-		let sent = 0;
-		for (const envelope of options.mailbox.outbox()) {
-			if (!options.Send.safeSend(ws, envelope)) break;
-			sent += 1;
+		if (outboxReplayScheduled) return 0;
+		const entries = options.mailbox.outbox();
+		outboxReplayScheduled = true;
+		drain(entries, envelope => options.Send.safeSend(ws, envelope), () => {
+			outboxReplayScheduled = false;
+		});
+		return entries.length;
+	}
+
+	function transmit(envelope, socket = options.state.activeWs) {
+		if (!options.state.registrationConfirmed || !socket?.opened) return false;
+		return options.Send.safeSend(socket, envelope);
+	}
+
+	function drain(entries, effect, complete) {
+		let index = 0;
+		function next() {
+			const end = Math.min(entries.length, index + replayBatchSize);
+			while (index < end) {
+				if (effect(entries[index]) === false) {
+					complete();
+					return;
+				}
+				index += 1;
+			}
+			if (index < entries.length) {
+				schedule(next);
+				return;
+			}
+			complete();
 		}
-		return sent;
+		next();
 	}
 
 	return {
 		enqueueRequest,
 		flush,
 		parentDidBecomeReady,
-		redeliver
+		redeliver,
+		transmit
 	};
+}
+
+function bounded(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number)
+		? Math.max(1, Math.min(64, Math.floor(number)))
+		: fallback;
 }
 
 module.exports = { createDelivery };

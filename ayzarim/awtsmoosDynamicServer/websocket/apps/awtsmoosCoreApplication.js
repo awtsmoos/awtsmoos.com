@@ -8,6 +8,7 @@ const { handleLivePreview } = require("./livePreview.js");
 const {
 	handleTunnelProgress,
 	handleTunnelRegister,
+	handleTunnelRequestAck,
 	handleTunnelResponse
 } = require("./tunnelRelay.js");
 
@@ -16,6 +17,7 @@ const LEGACY_TYPES = Object.freeze([
 	"LOGIN",
 	"TUNNEL_PROGRESS",
 	"TUNNEL_REGISTER",
+	"TUNNEL_REQUEST_ACK",
 	"TUNNEL_RESPONSE"
 ]);
 
@@ -48,6 +50,10 @@ function createAwtsmoosCoreApplication() {
 			}
 			if (data.type === "TUNNEL_PROGRESS" && data.id) {
 				handleTunnelProgress(server, client, data);
+				return;
+			}
+			if (data.type === "TUNNEL_REQUEST_ACK" && data.id) {
+				handleTunnelRequestAck(server, client, data);
 				return;
 			}
 			if (data.type === "TUNNEL_RESPONSE" && data.id) {

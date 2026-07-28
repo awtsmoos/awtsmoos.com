@@ -21,6 +21,7 @@ function ensureStores(context) {
 	context.expiredTunnelRequests ||= new Map();
 	context.durableTunnelRequests ||= new Map();
 	context.tunnelHydrations ||= new Map();
+	context.tunnelDurableMutations ||= new Map();
 	context.tunnelResponseQuarantine ||= [];
 	return context;
 }

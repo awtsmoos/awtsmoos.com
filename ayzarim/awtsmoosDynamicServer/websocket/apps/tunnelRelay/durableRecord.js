@@ -47,6 +47,19 @@ function expired(record, data) {
 	return terminal(record, "expired", data);
 }
 
+function accepted(record, details = {}) {
+	return {
+		...record,
+		version: VERSION,
+		state: "pending",
+		acceptedAt: details.acceptedAt || new Date().toISOString(),
+		acceptedRegistrationGeneration: Number(
+			details.registrationGeneration || 0
+		),
+		updatedAt: new Date().toISOString()
+	};
+}
+
 function valid(record, key = "") {
 	return Boolean(
 		record &&
@@ -65,6 +78,7 @@ function terminalState(record = {}) {
 
 module.exports = {
 	VERSION,
+	accepted,
 	completed,
 	expired,
 	failed,

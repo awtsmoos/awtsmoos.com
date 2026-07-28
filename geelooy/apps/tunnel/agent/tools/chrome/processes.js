@@ -3,11 +3,17 @@
 // Blessed is He
 
 const childProcess = require("node:child_process");
+const fs = require("node:fs");
 const net = require("node:net");
+const path = require("node:path");
 const { promisify } = require("node:util");
+const ProfileState = require("./profileState.js");
 
 const execFile = promisify(childProcess.execFile);
 const LAUNCHES = new Map();
+const REGISTRY_SCHEMA_VERSION = 1;
+
+loadRegistry();
 
 function register(info = {}) {
 	const port = Number(info.port);
@@ -20,6 +26,7 @@ function register(info = {}) {
 		registeredAt: new Date().toISOString()
 	};
 	LAUNCHES.set(port, record);
+	saveRegistry();
 	return record;
 }
 
@@ -52,9 +59,10 @@ async function stopOwned(payload = {}) {
 			port: Number.isInteger(port) ? port : null
 		};
 	}
+	const related = await relatedProcessIds(record);
 	const pids = [...new Set([
-		record.pid,
-		...await relatedProcessIds(record)
+		...(process.platform === "win32" ? [record.pid] : []),
+		...related
 	])].filter(pid => Number.isInteger(pid) && pid > 1 && pid !== process.pid);
 	await terminate(pids, false);
 	let stopped = await waitForClosed(record.port, bounded(payload.timeoutMs, 4000));
@@ -74,7 +82,10 @@ async function stopOwned(payload = {}) {
 		);
 	}
 	stopped = stopped && remainingPids.length === 0;
-	if (stopped) LAUNCHES.delete(record.port);
+	if (stopped) {
+		LAUNCHES.delete(record.port);
+		saveRegistry();
+	}
 	return {
 		ok: stopped,
 		action: "chromeStop",
@@ -106,14 +117,100 @@ async function relatedProcessIds(record) {
 			encoding: "utf8",
 			maxBuffer: 4 * 1024 * 1024
 		});
-		return String(stdout).split(/\r?\n/).map(line => {
+		const candidates = String(stdout).split(/\r?\n/).map(line => {
 			const match = line.match(/^\s*(\d+)\s+(.+)$/);
 			return match && match[2].includes(record.userDataDir)
-				? Number(match[1])
+				? { pid:Number(match[1]), command:match[2] }
 				: null;
-		}).filter(Number.isInteger);
+		}).filter(Boolean);
+		const inspected = await Promise.all(candidates.map(async candidate => {
+			const executable = await executableName(candidate.pid);
+			return isChromeProcessCommand(
+				candidate.command,
+				record.userDataDir,
+				executable
+			) ? candidate.pid : null;
+		}));
+		return inspected.filter(Number.isInteger);
 	} catch {
 		return [];
+	}
+}
+
+async function executableName(pid) {
+	try {
+		const { stdout } = await execFile(
+			"ps",
+			["-p", String(pid), "-o", "comm="],
+			{ encoding:"utf8", maxBuffer:64 * 1024 }
+		);
+		return String(stdout || "").trim();
+	} catch {
+		return "";
+	}
+}
+
+function isChromeProcessCommand(command, userDataDir, executable = "") {
+	const text = String(command || "");
+	const profile = String(userDataDir || "");
+	if (!profile || !text.includes(profile)) return false;
+	return isChromeExecutable(executable);
+}
+
+function isChromeExecutable(value) {
+	const executable = path.basename(String(value || "").trim());
+	return /^(?:Google Chrome(?: Helper(?: \([^)]+\))?)?|Chromium(?: Helper)?|chrome|chrome_crashpad_handler|chromium|chromium-browser|google-chrome(?:-stable)?|Brave Browser(?: Helper)?|brave-browser|Microsoft Edge(?: Helper)?|microsoft-edge|msedge)$/i.test(
+		executable
+	);
+}
+
+function registryPath() {
+	return path.join(
+		ProfileState.recoveryRoot(),
+		"state",
+		"chrome-launches.json"
+	);
+}
+
+function loadRegistry() {
+	try {
+		const parsed = JSON.parse(fs.readFileSync(registryPath(), "utf8"));
+		if (parsed.schemaVersion !== REGISTRY_SCHEMA_VERSION) return;
+		for (const record of parsed.launches || []) {
+			const port = Number(record.port);
+			const pid = Number(record.pid);
+			if (
+				Number.isInteger(port)
+				&& port > 0
+				&& Number.isInteger(pid)
+				&& pid > 1
+			) {
+				LAUNCHES.set(port, {
+					port,
+					pid,
+					userDataDir: String(record.userDataDir || ""),
+					registeredAt: String(record.registeredAt || "")
+				});
+			}
+		}
+	} catch {
+		// A first run or interrupted obsolete registry is treated as empty.
+	}
+}
+
+function saveRegistry() {
+	const target = registryPath();
+	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
+	try {
+		fs.mkdirSync(path.dirname(target), { recursive:true, mode:0o700 });
+		fs.writeFileSync(temporary, JSON.stringify({
+			schemaVersion: REGISTRY_SCHEMA_VERSION,
+			updatedAt: new Date().toISOString(),
+			launches: snapshot()
+		}, null, 2), { mode:0o600 });
+		fs.renameSync(temporary, target);
+	} catch {
+		try { fs.unlinkSync(temporary); } catch {}
 	}
 }
 
@@ -162,7 +259,12 @@ function bounded(value, fallback) {
 
 module.exports = {
 	freeTcpPort,
+	isChromeExecutable,
+	isChromeProcessCommand,
+	registryPath,
 	register,
+	relatedProcessIds,
+	saveRegistry,
 	snapshot,
 	stopOwned,
 	waitForClosed,

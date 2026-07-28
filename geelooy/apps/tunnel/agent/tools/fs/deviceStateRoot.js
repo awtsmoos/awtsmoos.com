@@ -41,6 +41,7 @@ function baseRoot(config = {}) {
 }
 
 function root(config = {}) {
+	if (config.deviceStateRoot) return path.resolve(config.deviceStateRoot);
 	return path.join(baseRoot(config), deviceKey(config));
 }
 

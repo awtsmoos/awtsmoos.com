@@ -6,6 +6,8 @@ const { publishConnection } = require("../tunnelActivity/publisher.js");
 const { sendJson } = require("../wsUtilities.js");
 const { ensureServerState } = require("../../platform/ServerState.js");
 const Authority = require("./registrationAuthority.js");
+const RequestAck = require("./requestAckHandler.js");
+const RequestDispatch = require("./requestDispatch.js");
 const Security = require("./securityBridge.js");
 const Transfer = require("./registrationTransfer.js");
 
@@ -61,6 +63,8 @@ function handleTunnelRegister(server, client, data = {}) {
 	state.tunnelRegistrations.set(registrationKey, descriptor);
 	state.clients.add(client);
 	sendAcknowledgement(client, identity, descriptor, replaced);
+	RequestDispatch.recoverPending(state, client);
+	RequestAck.monitorAccepted(state, client);
 	publishRegistration(server, client, descriptor, replaced);
 	return true;
 }
