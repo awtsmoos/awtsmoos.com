@@ -13,26 +13,54 @@ document.nodes.set("targetVesselSelect", new FakeNode("select"));
 const { renderDeviceNice } = await import("../index.js");
 const got = {
   ok: true,
-  nativeDevices: [{ tunnelName: "native-one", vesselType: "native-tunnel", root: "/repo", allowWrite: true, agentVersion: "1" }],
-  browserDevices: [{ tunnelName: "browser-one", vesselType: "browser-tab", allowWrite: true }],
+  nativeDevices: [{
+    tunnelId: "native-id",
+    tunnelName: "native-one",
+    deviceId: "native-device",
+    vesselType: "native-tunnel",
+    ownershipVerified: true,
+    pairingProofVersion: 1,
+    access: "owned",
+    permissions: ["tunnel.read", "tunnel.write"],
+    connected: true,
+    isAlive: true,
+    agentVersion: "1"
+  }],
+  browserDevices: [{
+    tunnelId: "browser-id",
+    tunnelName: "browser-one",
+    deviceId: "browser-device",
+    vesselType: "browser-tab",
+    ownershipVerified: true,
+    access: "owned",
+    connected: true,
+    isAlive: true
+  }],
   virtualDevice: { tunnelName: "awtsmoos-virtual-os", vesselType: "virtual-os", allowWrite: true },
-  recommended: { tunnelName: "browser-one", vesselType: "browser-tab", allowWrite: true, agentVersion: "tab-1" }
+  recommended: { tunnelId: "browser-id", tunnelName: "browser-one" }
 };
 renderDeviceNice(got, null, () => "");
 
-assert.strictEqual(document.getElementById("connectionText").textContent, "Connected");
+assert.strictEqual(document.getElementById("connectionText").textContent, "Verified connection");
 assert.strictEqual(document.getElementById("miniAgent").textContent, "browser-one");
 assert.strictEqual(document.getElementById("selectedTargetVessel").textContent, "browser-one");
 const summary = document.getElementById("deviceSummary");
 assert(summary.children.length >= 7);
-const allText = summary.children.flatMap(card => card.children.map(x => x.textContent)).join("\n");
+const allText = collectText(summary).join("\n");
 assert(allText.includes("Native tunnels: 1"));
-assert(allText.includes("Browser tabs: 1"));
+assert(allText.includes("Browser sessions: 1"));
 assert(allText.includes("Virtual OS: available"));
 assert(allText.includes("Target vessel"));
-assert(allText.includes("Active tunnel/vessel table"));
+assert(allText.includes("Verified vessel table"));
 
 renderDeviceNice({ ok: true, virtualDevice: { tunnelName: "awtsmoos-virtual-os", vesselType: "virtual-os" }, recommended: { tunnelName: "awtsmoos-virtual-os", vesselType: "virtual-os" } }, null, () => "");
 assert.strictEqual(document.getElementById("connectionText").textContent, "Virtual OS");
 assert.strictEqual(document.getElementById("miniAgent").textContent, "awtsmoos-virtual-os");
 console.log("BHY renderDeviceNice my-device tests passed");
+
+function collectText(node) {
+  return [
+    node.textContent,
+    ...(node.children || []).flatMap(collectText)
+  ].filter(Boolean);
+}

@@ -50,6 +50,7 @@ function createController(options = {}) {
 		if (message.type === Protocol.TYPES.READY) {
 			restartCount = 0;
 			notify(Protocol.message(Protocol.TYPES.PARENT_READY));
+			publishStats();
 			return;
 		}
 		if (message.type === Protocol.TYPES.REQUEST) {
@@ -81,8 +82,22 @@ function createController(options = {}) {
 
 	function notify(message) {
 		if (!child?.connected) return false;
+		if (message.type === Protocol.TYPES.FLUSH) {
+			publishStats();
+		}
 		try { return child.send(message); }
 		catch { return false; }
+	}
+
+	function publishStats() {
+		if (!child?.connected || typeof options.stats !== "function") return false;
+		try {
+			return child.send(Protocol.message(Protocol.TYPES.STATS, {
+				stats: options.stats({ workers: true })
+			}));
+		} catch {
+			return false;
+		}
 	}
 
 	function handleExit(code, signal) {
@@ -111,6 +126,7 @@ function createController(options = {}) {
 
 	return {
 		connect,
+		publishStats,
 		proxy,
 		status: () => State.status(options, mailbox, restartCount),
 		stop

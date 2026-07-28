@@ -29,7 +29,7 @@ async function waitForNewRegistration(relay, processRecord, previousCount) {
 	]);
 }
 
-async function waitForTerminal(relay, jobId) {
+async function waitForReconciled(relay, jobId) {
 	const deadline = Date.now() + 20000;
 	let sequence = 0;
 	while (Date.now() < deadline) {
@@ -38,7 +38,7 @@ async function waitForTerminal(relay, jobId) {
 			action: 'commandStatus',
 			jobId
 		});
-		if (status.done) return status;
+		if (status.done || status.status === 'detached_running') return status;
 		await sleep(100);
 	}
 	throw new Error('restarted_agent_did_not_reconcile_job');
@@ -75,5 +75,5 @@ module.exports = {
 	waitForCount,
 	waitForNewRegistration,
 	waitForReady,
-	waitForTerminal
+	waitForReconciled
 };

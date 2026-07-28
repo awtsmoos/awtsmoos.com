@@ -11,7 +11,7 @@
  */
 export function createSessionRegistry(options = {}) {
 	const sessions = new Map();
-	const maximum = bounded(options.maximum, 24, 1, 100);
+	const maximum = bounded(options.maximum, 128, 1, 1000);
 
 	function observe(payload = {}, patch = {}) {
 		const identity = sessionIdentity(payload);

@@ -77,7 +77,8 @@ for (const file of [
 	"home.css",
 	"pages.css",
 	"home-responsive.css",
-	"responsive.css"
+	"responsive.css",
+	"operator-polish.css"
 ]) {
 	assert.ok(viewportIndex.includes(file), `Viewport index missing ${file}`);
 }

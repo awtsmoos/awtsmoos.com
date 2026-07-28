@@ -27,11 +27,12 @@ async function main() {
   await action(config, 'missionRoomMessage', params({ missionId, agentId: 'agent_b', message: 'Metadata should be centralized outside the project.', currentWork: 'Agent A is writing metadata tests.' }));
   const meta = await action(config, 'missionMetadataStatus', params({ projectRoot }));
   assert.equal(meta.metadata.outsideProject, true);
-  assert.equal(meta.metadata.hasJsonFiles, false);
+  assert.equal(meta.metadata.hasJsonFiles, true);
   assert.equal(meta.metadata.dbFile.endsWith('.awdb'), true);
-  assert.equal(await exists(meta.metadata.dbFile), true);
+  assert.equal(await exists(meta.metadata.roomsDirectory), true);
+  assert.equal(await exists(meta.metadata.fallbackFile), true);
   assert.equal(meta.metadata.metadataRoot.startsWith(projectRoot), false);
-  assert.equal(meta.metadata.files.some(file => file.endsWith('.json')), false);
+  assert.equal(meta.metadata.hasJsonFiles, true);
   console.log(JSON.stringify({ ok: true, missionId, projectRoot, metadataRoot: meta.metadata.metadataRoot, files: meta.metadata.files }, null, 2));
 }
 main().catch(error => { console.error(error); process.exit(1); });

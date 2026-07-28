@@ -52,7 +52,11 @@ function runInstaller(command, args, options) {
 			clearTimeout(timer);
 			try {
 				assert.equal(code, 0, `${stdout}${stderr}`);
-				assert.equal(stdout.includes("AWTSMOOS_SKIP_START set"), true);
+				assert.match(
+					stdout,
+					/runtime start (?:was )?skipped/i,
+					"installer must explicitly acknowledge the requested skip-start mode"
+				);
 				resolve(stdout);
 			} catch (error) {
 				reject(error);

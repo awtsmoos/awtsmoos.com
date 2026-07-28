@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { Tabs } from "../tabs/index.js";
+import { resolveBrowserHost } from "./browser-host.js";
 import { BrowserRuntime } from "./runtime/BrowserRuntime.js";
 import { CODE_BROWSER_WELCOME_URL } from "./runtime/address.js";
 
@@ -37,9 +38,10 @@ export const BrowserManager = {
 	},
 
 	render(tab, container) {
+		const host = resolveBrowserHost(container);
 		const runtime = new BrowserRuntime({
 			id: tab.id,
-			container,
+			container: host,
 			state: tab.browserState || tab.item.browserState || {},
 			tab,
 			save: () => import("../app.js").then(module => module.App.saveSessionDebounced())
@@ -51,3 +53,4 @@ export const BrowserManager = {
 };
 
 export { BrowserRuntime };
+export { resolveBrowserHost };

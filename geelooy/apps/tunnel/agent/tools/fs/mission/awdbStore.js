@@ -2,16 +2,23 @@
 // Boruch Hashem
 // Blessed is He
 
+const fileSystem = require('fs');
 const { withDb, dbFile } = require('../awdb/open.js');
 const Collections = require('../awdb/collections.js');
 
 /**
  * B"H
- * AwtsmoosDB is the primary mission-memory vessel. Failure becomes a receipt,
- * not a crash that darkens unrelated Awtsmoos.com tunnel capabilities.
+ * AwtsmoosDB remains an explicit or legacy mission-memory vessel. The atomic
+ * per-mission store is the scalable default; the monolithic database can still
+ * be selected deliberately and old databases remain readable for migration.
  */
 function enabled() {
-	return process.env.AWTSMOOS_MISSION_AWDB !== '0';
+	return process.env.AWTSMOOS_MISSION_AWDB === '1';
+}
+
+function readable(config) {
+	return process.env.AWTSMOOS_MISSION_AWDB !== '0' &&
+		fileSystem.existsSync(dbFile(config, 'missions'));
 }
 
 function failure(config, mission, error) {
@@ -66,7 +73,7 @@ function save(config, mission) {
 }
 
 function load(config, id) {
-	if (!enabled() || !id) {
+	if ((!enabled() && !readable(config)) || !id) {
 		return null;
 	}
 
@@ -82,7 +89,7 @@ function load(config, id) {
 }
 
 function all(config) {
-	if (!enabled()) {
+	if (!enabled() && !readable(config)) {
 		return [];
 	}
 
@@ -100,6 +107,8 @@ function all(config) {
 function status(config) {
 	return {
 		enabled: enabled(),
+		legacyReadable: readable(config),
+		mode: enabled() ? 'explicit-primary' : 'legacy-read-only',
 		backend: 'awtsmoosdb',
 		file: dbFile(config, 'missions')
 	};
@@ -110,6 +119,7 @@ module.exports = {
 	enabled,
 	failure,
 	load,
+	readable,
 	save,
 	status
 };

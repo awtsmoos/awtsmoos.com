@@ -43,7 +43,17 @@ async function run(options, currentProcess) {
 	assert.equal(await Group.alive(started.processIdentity.processGroupId), true);
 	const restarted = AgentProcess.start(options);
 	await Wait.waitForNewRegistration(options.relay, restarted, registrationCount);
-	const terminal = await Wait.waitForTerminal(options.relay, started.jobId);
+	const recovered = await Wait.waitForReconciled(options.relay, started.jobId);
+	assert.equal(recovered.status, 'detached_running', JSON.stringify(recovered));
+	assert.equal(
+		recovered.processIdentity.birthToken,
+		started.processIdentity.birthToken
+	);
+	const terminal = await Requests.sendRequest(options.relay, 'crash-cancel', {
+		kind: 'command',
+		action: 'commandCancel',
+		jobId: started.jobId
+	});
 	assert.equal(terminal.status, 'cancelled', JSON.stringify(terminal));
 	assert.equal(terminal.cleanup.state, 'cleaned');
 	assert.equal(
@@ -56,6 +66,7 @@ async function run(options, currentProcess) {
 		report: {
 			jobId: started.jobId,
 			processGroupId: started.processIdentity.processGroupId,
+			recoveredStatus: recovered.status,
 			status: terminal.status,
 			cleanup: terminal.cleanup.state
 		}

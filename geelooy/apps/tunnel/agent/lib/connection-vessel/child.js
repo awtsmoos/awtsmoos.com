@@ -22,6 +22,10 @@ process.on("message", message => {
 		runtime.flush();
 		return;
 	}
+	if (message.type === Protocol.TYPES.STATS) {
+		runtime.updateParentStats(message.stats);
+		return;
+	}
 	if (message.type === Protocol.TYPES.STOP) {
 		runtime.stop();
 		process.exit(0);

@@ -43,12 +43,22 @@ const controller = Controller.createController({
 		root: sandbox,
 		tunnelName: "awt-controller-test"
 	}),
+	stats: () => ({
+		workers: {
+			activeTotal: 1,
+			active: {
+				worker_one: { jobId: "job_one" }
+			}
+		}
+	}),
 	state
 });
 controller.connect();
 const child = children[0];
 child.emit("message", Protocol.message(Protocol.TYPES.READY));
 assert.equal(child.messages[0].type, Protocol.TYPES.PARENT_READY);
+assert.equal(child.messages[1].type, Protocol.TYPES.STATS);
+assert.equal(child.messages[1].stats.workers.active.worker_one.jobId, "job_one");
 child.emit("message", Protocol.message(Protocol.TYPES.REQUEST, {
 	envelope: { id: "request-one" }
 }));
@@ -66,6 +76,7 @@ setImmediate(() => {
 		ok: true,
 		suite: "connection-vessel-controller",
 		requestForwarded: true,
+		statsForwarded: true,
 		terminalOwnerExit: true,
 		noTerminalRestart: true
 	}, null, 2));

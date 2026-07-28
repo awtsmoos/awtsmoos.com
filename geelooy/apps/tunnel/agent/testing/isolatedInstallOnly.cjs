@@ -57,7 +57,7 @@ async function main() {
 			suite: "isolated-install-only",
 			version,
 			fileCount: files.length,
-			skippedStart: output.includes("AWTSMOOS_SKIP_START set")
+			skippedStart: /runtime start (?:was )?skipped/i.test(output)
 		}, null, 2));
 	} finally {
 		await server.close();

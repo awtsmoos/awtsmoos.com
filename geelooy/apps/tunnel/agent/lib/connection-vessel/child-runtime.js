@@ -19,6 +19,7 @@ function createRuntime() {
 	let stateTimer = null;
 	let wasRegistered = false;
 	let terminal = false;
+	let parentStats = {};
 
 	function send(message) {
 		try { process.send?.(message); return true; }
@@ -26,7 +27,15 @@ function createRuntime() {
 	}
 
 	function stats() {
-		return { connection: snapshot() };
+		return {
+			...parentStats,
+			connection: snapshot()
+		};
+	}
+
+	function updateParentStats(next = {}) {
+		parentStats = next && typeof next === "object" ? next : {};
+		return stats();
 	}
 
 	function exitProcess(code) {
@@ -100,7 +109,8 @@ function createRuntime() {
 		redeliver: delivery.redeliver,
 		snapshot,
 		start,
-		stop
+		stop,
+		updateParentStats
 	};
 }
 

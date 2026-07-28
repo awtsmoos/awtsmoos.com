@@ -10,6 +10,7 @@ const TYPES = Object.freeze({
 	READY: "connection.ready",
 	REQUEST: "connection.request",
 	STATE: "connection.state",
+	STATS: "connection.stats",
 	STOP: "connection.stop",
 	TERMINAL: "connection.terminal"
 });

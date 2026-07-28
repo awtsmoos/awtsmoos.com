@@ -42,21 +42,34 @@ const config = {
 	root,
 	metadataRoot: path.join(root, '.meta')
 };
-const start = await action(config, 'missionStart', {
-	goal: 'awdb primary mission'
-});
-const get = await action(config, 'missionGet', {
-	missionId: start.missionId
-});
-const primaryFile = AwdbStore.status(config).file;
-const fallbackFile = path.join(
-	root,
-	`.awtsmoos/missions/${start.missionId}/mission.json`
-);
+const previous = process.env.AWTSMOOS_MISSION_AWDB;
+process.env.AWTSMOOS_MISSION_AWDB = '1';
+let start;
+let primaryFile;
 
-assert.equal(get.mission.id, start.missionId);
-assert.equal(fileSystem.existsSync(primaryFile), true);
-assert.equal(fileSystem.existsSync(fallbackFile), false);
+try {
+	start = await action(config, 'missionStart', {
+		goal: 'awdb primary mission'
+	});
+	const get = await action(config, 'missionGet', {
+		missionId: start.missionId
+	});
+	primaryFile = AwdbStore.status(config).file;
+	const fallbackFile = path.join(
+		root,
+		`.awtsmoos/missions/${start.missionId}/mission.json`
+	);
+
+	assert.equal(get.mission.id, start.missionId);
+	assert.equal(fileSystem.existsSync(primaryFile), true);
+	assert.equal(fileSystem.existsSync(fallbackFile), false);
+} finally {
+	if (previous === undefined) {
+		delete process.env.AWTSMOOS_MISSION_AWDB;
+	} else {
+		process.env.AWTSMOOS_MISSION_AWDB = previous;
+	}
+}
 
 console.log(JSON.stringify({
 	ok: true,

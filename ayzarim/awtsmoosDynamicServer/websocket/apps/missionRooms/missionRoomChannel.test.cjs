@@ -31,13 +31,14 @@ const {
 		historyLimit: 20
 	};
 	const server = {
-		sendTunnelRequest: async (_name, payload) => (
-			tunnelResult(payload.action, phase)
-		)
+		sendTunnelRequest: async (...args) => {
+			const payload = args.findLast(value => value?.action);
+			return tunnelResult(payload.action, phase);
+		}
 	};
 
 	ticket.initialSnapshot = await readMissionRoomSnapshot(
-		server.sendTunnelRequest,
+		payload => server.sendTunnelRequest("", payload),
 		ticket
 	);
 	const client = {

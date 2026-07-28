@@ -6,10 +6,28 @@ global.localStorage = { getItem(key) { return memory.get(key) || null; }, setIte
 
 const mod = await import("../selector.js");
 const got = {
-  browserDevices: [{ tunnelName: "browser-one", vesselType: "browser-tab" }],
-  nativeDevices: [{ tunnelName: "native-one", vesselType: "native-tunnel", root: "/repo" }],
+  browserDevices: [{
+    tunnelId: "browser-id",
+    tunnelName: "browser-one",
+    deviceId: "browser-device",
+    vesselType: "browser-tab",
+    ownershipVerified: true,
+    access: "owned",
+    connected: true
+  }],
+  nativeDevices: [{
+    tunnelId: "native-id",
+    tunnelName: "native-one",
+    deviceId: "native-device",
+    vesselType: "native-tunnel",
+    ownershipVerified: true,
+    pairingProofVersion: 1,
+    access: "owned",
+    permissions: ["tunnel.read"],
+    connected: true
+  }],
   virtualDevice: { tunnelName: "awtsmoos-virtual-os", vesselType: "virtual-os" },
-  recommended: { tunnelName: "native-one", vesselType: "native-tunnel" }
+  recommended: { tunnelId: "native-id", tunnelName: "native-one" }
 };
 
 const vessels = mod.collectVessels(got);

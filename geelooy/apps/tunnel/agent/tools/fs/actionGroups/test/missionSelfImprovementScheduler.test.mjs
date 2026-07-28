@@ -32,8 +32,8 @@ async function main() {
   assert.equal(blocked.scheduler.reason, 'blocked_interrupt');
   assert.equal(blocked.scheduler.mustCallNext.action, 'missionRoomRecoverInterrupt');
   const metaStatus = await action(config, 'missionMetadataStatus', params({ metadataRoot: meta }));
-  assert.equal(metaStatus.metadata.hasJsonFiles, false);
-  assert(metaStatus.metadata.files.some(f => f.endsWith('.awdb')));
+  assert.equal(metaStatus.metadata.hasJsonFiles, true);
+  assert(metaStatus.metadata.files.some(f => f.endsWith('.jsonl')));
   console.log(JSON.stringify({ ok: true, missionId, schedulerRuns: status.scheduler.count, firstReason: run.scheduler.reason, blocked: blocked.scheduler.reason }, null, 2));
 }
 main().catch(e => { console.error(e); process.exit(1); });

@@ -28,8 +28,8 @@ async function main() {
   assert.equal(handoff.handoff.activeClaims.length, 1);
   assert.equal(handoff.handoff.finalAnswerAllowed, false);
   const status = await action(config, 'missionMetadataStatus', params({ metadataRoot: meta }));
-  assert.equal(status.metadata.hasJsonFiles, false);
-  assert(status.metadata.files.some(f => f.endsWith('.awdb')));
+  assert.equal(status.metadata.hasJsonFiles, true);
+  assert(status.metadata.files.some(f => f.endsWith('.jsonl')));
   console.log(JSON.stringify({ ok: true, missionId, meta, replayCount: replay.replay.count }, null, 2));
 }
 main().catch(e => { console.error(e); process.exit(1); });

@@ -9,6 +9,7 @@ import { BrowserCommandAdapter } from "./BrowserCommandAdapter.js";
 import { preserveIdentity } from "./correlation.js";
 import { CodeTunnelSessions } from "./session-registry.js";
 import { CodeTunnelActions } from "./action-ledger.js";
+import { emitCodeTunnelRequestUpdate } from "./request-update.js";
 import {
 	ALL_BROWSER_TUNNEL_ACTIONS,
 	BROWSER_PREVIEW_ACTIONS,
@@ -43,6 +44,7 @@ export async function handleBrowserTunnelRequest(payload = {}) {
 	CodeTunnelSessions.observe(payload, {
 		activeDelta: 1
 	});
+	emitCodeTunnelRequestUpdate("started", sequence);
 	let result;
 	try {
 		result = await dispatch(payload);
@@ -59,7 +61,7 @@ export async function handleBrowserTunnelRequest(payload = {}) {
 		lastResult: correlated.ok === false ? "failed" : "completed",
 		lastError: correlated.error || ""
 	});
-	emitUpdate();
+	emitCodeTunnelRequestUpdate("finished", sequence);
 	return correlated;
 }
 
@@ -93,10 +95,4 @@ export async function dispatchFs(payload = {}) {
 		};
 	}
 	return BrowserTunnelFS[action](payload);
-}
-
-function emitUpdate() {
-	globalThis.dispatchEvent?.(
-		new CustomEvent("awtsmoos:code-tunnel-update")
-	);
 }

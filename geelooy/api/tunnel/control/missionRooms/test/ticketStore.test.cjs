@@ -27,6 +27,8 @@ const dependencies = {
 };
 const claims = {
 	origin: "https://awtsmoos.com",
+	accountId: "account-one",
+	sessionId: "session-one",
 	tunnelName: "native-one",
 	missionId: "mission-one",
 	protocolVersion: 1

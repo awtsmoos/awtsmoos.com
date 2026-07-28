@@ -22,8 +22,10 @@ const Utils = require('../../mission/coreUtils.js');
 async function verifyFallback(root) {
 	const openModule = require(openPath);
 	const originalWithDb = openModule.withDb;
+	const previousMode = process.env.AWTSMOOS_MISSION_AWDB;
 
 	try {
+		process.env.AWTSMOOS_MISSION_AWDB = '1';
 		openModule.withDb = missingModule;
 		delete require.cache[storePath];
 		delete require.cache[storagePath];
@@ -56,6 +58,11 @@ async function verifyFallback(root) {
 		openModule.withDb = originalWithDb;
 		delete require.cache[storePath];
 		delete require.cache[storagePath];
+		if (previousMode === undefined) {
+			delete process.env.AWTSMOOS_MISSION_AWDB;
+		} else {
+			process.env.AWTSMOOS_MISSION_AWDB = previousMode;
+		}
 	}
 }
 

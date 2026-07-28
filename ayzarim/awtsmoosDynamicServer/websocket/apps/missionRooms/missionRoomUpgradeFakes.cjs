@@ -3,6 +3,11 @@
 //Blessed is He
 
 const { EventEmitter } = require("events");
+const {
+	provenBinding
+} = require(
+	"../../../../../geelooy/api/tunnel/control/core/test/provenanceFixture.cjs"
+);
 
 /**
  * B"H
@@ -15,12 +20,19 @@ const { EventEmitter } = require("events");
 /** Creates the protected mission-room ticket record used by upgrade tests. */
 function ticketRecord() {
 	return {
+		accountId: "account-one",
 		userId: "user-one",
+		sessionId: "session-one",
 		identityKind: "session",
+		ownerAccountId: "account-one",
+		tunnelId: "tun_one",
 		tunnelName: "native-one",
 		missionId: "mission-one",
+		roomId: "mission-one",
 		origin: "https://awtsmoos.com",
 		protocolVersion: 1,
+		permissionVersion: 4,
+		revocationVersion: 2,
 		lastSequence: 0,
 		pollMs: 30000,
 		historyLimit: 20,
@@ -35,6 +47,34 @@ function ticketRecord() {
 			actionHistory: [],
 			roomOs: { metrics: {}, recentActions: [] }
 		}
+	};
+}
+
+/** Creates the current authenticated account bound to the protected ticket. */
+function identityRecord() {
+	return {
+		accountId: "account-one",
+		userId: "user-one",
+		sessionId: "session-one"
+	};
+}
+
+/** Creates current possession-backed authorization for the protected tunnel. */
+function authorizationStore() {
+	return {
+		tunnelBindings: {
+			tun_one: provenBinding({
+				tunnelId: "tun_one",
+				tunnelName: "native-one",
+				deviceId: "device-one",
+				ownerAccountId: "account-one",
+				permissionVersion: 4,
+				revocationVersion: 2
+			})
+		},
+		tunnelGrants: {},
+		tunnelPairings: {},
+		tunnelAudit: []
 	};
 }
 
@@ -86,8 +126,10 @@ function flushUpgrade() {
 }
 
 module.exports = {
+	authorizationStore,
 	FakeSocket,
 	flushUpgrade,
+	identityRecord,
 	ticketRecord,
 	upgradeRequest
 };

@@ -51,7 +51,8 @@ function createMainComponents(D, callbacks) {
 		enqueueRequest: queue.enqueueRequest,
 		loadConfig: foundation.loadConfig,
 		log: foundation.log,
-		state: foundation.runtime.state
+		state: foundation.runtime.state,
+		stats: foundation.runtime.stats
 	});
 	const startupDependencies = Startup.validateStartupDependencies(
 		Startup.createStartupDependencies(D, foundation, connection)

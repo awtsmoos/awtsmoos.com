@@ -29,7 +29,7 @@ export function createNavigation() {
 	});
 	const toggle = navigationToggle(navigation);
 	navigation.append(homeButton(navigation), toggle, grid);
-	document.addEventListener("awt:pane-change", () => closeNavigation(navigation));
+	document.addEventListener?.("awt:pane-change", () => closeNavigation(navigation));
 	return navigation;
 }
 

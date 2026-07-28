@@ -28,10 +28,11 @@ test("real server exposes one account-scoped map through both public names", () 
 			allowWrite: true,
 			root: "/tmp/awtsmoos"
 		});
-		const key = Context.key("real-server-account", "awt-real-server");
 
 		assert.equal(handleTunnelRegister(server, client, packet), true);
 		assert.equal(server.tunnelClients, server.tunnels);
+		const key = client.registrationKey;
+		assert.match(key, /^19:real-server-account:tun_/);
 		assert.equal(server.tunnels.get(key), client);
 		assert.equal(server.tunnelRegistrations.get(key).root, "/tmp/awtsmoos");
 		assert.equal(client.accountId, "real-server-account");

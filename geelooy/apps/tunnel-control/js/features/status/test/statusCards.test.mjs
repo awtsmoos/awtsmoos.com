@@ -25,7 +25,7 @@ global.document = {
 
 const cards = await import("../summaryCards.js");
 const identity = cards.renderIdentityNice({ ok: true, identity: { userId: "test-user", kind: "oauth" } });
-assert.strictEqual(identity.children[0].textContent, "Logged in as: test-user");
+assert(collectText(identity).includes("Logged in as test-user"));
 assert.strictEqual(document.getElementById("miniLogin").textContent, "test-user");
 
 const family = cards.vesselFamiliesCard({
@@ -34,14 +34,21 @@ const family = cards.vesselFamiliesCard({
   virtualDevice: { tunnelName: "awtsmoos-virtual-os", vesselType: "virtual-os" },
   recommended: { tunnelName: "browser-one" }
 });
-const text = family.children.map(x => x.textContent).join("\n");
+const text = collectText(family).join("\n");
 assert(text.includes("Native tunnels: 1"));
-assert(text.includes("Browser tabs: 1"));
+assert(text.includes("Browser sessions: 1"));
 assert(text.includes("Virtual OS: available"));
 assert(text.includes("Recommended: browser-one"));
 
 const list = cards.deviceListCard("Browser-tab tunnels", [{ tunnelName: "browser-one", vesselType: "browser-tab" }]);
-assert.strictEqual(list.children[0].textContent, "Browser-tab tunnels");
-assert(list.children.map(x => x.textContent).join(" ").includes("browser-one"));
+assert(collectText(list).includes("Browser-tab tunnels"));
+assert(collectText(list).join(" ").includes("browser-one"));
 
 console.log("BHY tunnel-control status card tests passed");
+
+function collectText(node) {
+  return [
+    node.textContent,
+    ...(node.children || []).flatMap(collectText)
+  ].filter(Boolean);
+}

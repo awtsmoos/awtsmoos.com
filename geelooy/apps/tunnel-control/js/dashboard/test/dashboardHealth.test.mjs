@@ -50,16 +50,29 @@ const nodes = walkNodes(dashboard);
 const text = nodes.map(function readText(node) {
 	return node.textContent;
 }).join(" " );
-assert(text.includes("Keep the agents working"));
-assert(text.includes("Every observed runtime vessel"));
-assert(text.includes("Runtime fabric"));
-assert(text.includes("Human steering"));
-assert(text.includes("native-one"));
-assert(text.includes("write · commands"));
-assert(nodes.some(function hasWorkerCount(node) {
-	return node.attrs?.id === "awtDeckWorkerCount";
+for (const destination of [
+	"Mission control",
+	"Live commands",
+	"Project explorer",
+	"Browser control",
+	"AI agents",
+	"Runtime mesh"
+]) {
+	assert(text.includes(destination), `launcher includes ${destination}`);
+}
+assert(nodes.some(function hasDashboard(node) {
+	return node.attrs?.id === "awtDashboard";
 }));
-assert(nodes.some(function hasLiveRegion(node) {
-	return node.attrs?.["aria-live"] === "polite";
+assert(nodes.some(function hasApplicationNavigation(node) {
+	return node.attrs?.["aria-label"] === "Application navigation";
 }));
-console.log("BHY dashboard structured-runtime tests passed");
+assert(nodes.some(function hasLauncherNavigation(node) {
+	return node.attrs?.["aria-label"] === "Open an application";
+}));
+assert(nodes.filter(function isNavigationDestination(node) {
+	return Boolean(node.attrs?.["data-awt-navigate"]);
+}).length >= 16);
+assert(nodes.some(function opensMissionControl(node) {
+	return node.attrs?.["data-awt-navigate"] === "missionRooms";
+}));
+console.log("BHY dashboard launcher and health tests passed");
