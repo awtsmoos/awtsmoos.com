@@ -18,6 +18,11 @@ const timer = fs.readFileSync(
 
 assert.match(deploy, /git -C "\$repo" archive "\$full_commit"/);
 assert.match(deploy, /diff --no-renames --name-only/);
+assert.match(deploy, /AWTSMOOS_PRODUCTION_ALLOW_LEGACY_PREDECESSOR/);
+assert.match(deploy, /migrating audited legacy predecessor through a clean Git archive/);
+assert.match(deploy, /mkdir "\$stage"/);
+assert.match(deploy, /node --check "\$previous\/index\.js"/);
+assert.match(deploy, /\[ ! -L "\$previous\/users" \]/);
 assert.match(deploy, /ln -sfn "\$previous" "\$current"/);
 assert.match(deploy, /systemctl enable --now awtsmoos-health-watchdog\.timer/);
 assert.match(entry, /git -C "\$repo" fetch --prune origin main/);

@@ -5,9 +5,8 @@
 /**
  * @module RagResponseCache
  * @description
- * The Awtsmoos remembers only fully public JSON responses in bounded process
- * memory. Awtsmoos.com never caches database proxies, never persists cache bytes,
- * and never reuses comment-bearing answers whose source can change independently.
+ * The Awtsmoos remembers bounded public JSON. Static metadata comments are keyed
+ * explicitly, while mutable database-comment responses remain uncached.
  */
 
 const crypto = require('crypto');
@@ -23,6 +22,7 @@ function eligible(options = {}) {
 
 function cacheKey(options, shard, storage) {
 	const payload = {
+		includeMetadataComments: options.includeMetadataComments !== false,
 		limit: Number(options.limit || 10),
 		query: String(options.query || '').trim(),
 		requireIndexed: options.requireIndexed === true,

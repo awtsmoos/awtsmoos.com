@@ -5,21 +5,37 @@
 /**
  * @module LibrarySearchHydration
  * @description
- * Comment storage remains sealed unless a caller explicitly requests comment
- * enrichment. Plain source search therefore pays no comment-database import,
- * ranking, or hydration cost, while failures still preserve readable hits.
+ * Static translated metadata is attached without database I/O. Explicit comment
+ * requests hydrate only unresolved hits, preserving bounded memory behavior.
  */
 
 const { timed } = require('./timer.js');
+const {
+	attachMetadataComments
+} = require('./metadataCommentHits.js');
 
 async function hydrateSearch(options) {
+	const metadata = attachMetadataComments(
+		options.hits,
+		options.includeMetadataComments !== false
+	);
 	if (!options.includeComments) {
-		return {
-			hydrated: options.hits,
-			commentHits: []
-		};
+		return rankedResult(options, metadata.hydrated);
 	}
-	const hydrated = await hydrateSafely(options);
+	const unresolved = options.hits.filter((_, index) => !metadata.satisfied.has(index));
+	const databaseHits = unresolved.length
+		? await hydrateSafely({ ...options, hits: unresolved })
+		: [];
+	let databaseIndex = 0;
+	const hydrated = metadata.hydrated.map((hit, index) => {
+		return metadata.satisfied.has(index)
+			? hit
+			: databaseHits[databaseIndex++];
+	});
+	return rankedResult(options, hydrated);
+}
+
+async function rankedResult(options, hydrated) {
 	const commentHits = await rankCommentsSafely({
 		...options,
 		hits: hydrated

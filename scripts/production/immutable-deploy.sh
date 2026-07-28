@@ -14,6 +14,8 @@ current="$releases/current"
 previous="$(readlink -f "$current")"
 previous_name="$(basename "$previous")"
 previous_commit="${previous_name#awtsmoos-}"
+allowed_legacy="${AWTSMOOS_PRODUCTION_ALLOW_LEGACY_PREDECESSOR:-}"
+legacy_predecessor=0
 stage="$target.stage-$$"
 next_link="$releases/current.next-$$"
 user_link=""
@@ -25,22 +27,38 @@ cleanup() {
 trap cleanup EXIT
 
 if ! git -C "$repo" cat-file -e "$previous_commit^{commit}" 2>/dev/null; then
-	printf 'B"H immutable deploy refused unknown predecessor: %s\n' "$previous" >&2
-	exit 1
+	if [ "$allowed_legacy" != "$previous_name" ] \
+		|| [[ ! "$previous_name" =~ ^awtsmoos-hotfix-[A-Za-z0-9._-]+-[0-9a-f]{20,40}$ ]] \
+		|| [ ! -f "$previous/index.js" ] \
+		|| [ ! -L "$previous/users" ]; then
+		printf 'B"H immutable deploy refused unknown predecessor: %s\n' "$previous" >&2
+		printf 'B"H set AWTSMOOS_PRODUCTION_ALLOW_LEGACY_PREDECESSOR to its exact basename only after auditing it.\n' >&2
+		exit 1
+	fi
+	node --check "$previous/index.js"
+	legacy_predecessor=1
+	printf 'B"H migrating audited legacy predecessor through a clean Git archive: %s\n' \
+		"$previous_name"
 fi
 
 if [ ! -d "$target" ]; then
-	cp -a --reflink=auto "$previous" "$stage"
-	if [ -L "$stage/users" ]; then
-		user_link="$(readlink "$stage/users")"
-		rm "$stage/users"
+	if [ -L "$previous/users" ]; then
+		user_link="$(readlink "$previous/users")"
 	fi
-	while IFS= read -r deleted_path; do
-		[ -n "$deleted_path" ] && rm -rf "$stage/$deleted_path"
-	done < <(
-		git -C "$repo" diff --no-renames --name-only \
-			--diff-filter=D "$previous_commit" "$full_commit"
-	)
+	if [ "$legacy_predecessor" -eq 1 ]; then
+		mkdir "$stage"
+	else
+		cp -a --reflink=auto "$previous" "$stage"
+		if [ -L "$stage/users" ]; then
+			rm "$stage/users"
+		fi
+		while IFS= read -r deleted_path; do
+			[ -n "$deleted_path" ] && rm -rf "$stage/$deleted_path"
+		done < <(
+			git -C "$repo" diff --no-renames --name-only \
+				--diff-filter=D "$previous_commit" "$full_commit"
+		)
+	fi
 	git -C "$repo" archive "$full_commit" | tar -x -C "$stage"
 	if [ -n "$user_link" ]; then
 		rm -rf "$stage/users"
@@ -88,5 +106,5 @@ fi
 
 systemctl enable --now awtsmoos-health-watchdog.timer >/dev/null
 printf 'B"H immutable deployment complete\n'
-printf 'commit=%s\nrelease=%s\nprevious=%s\n' \
-	"$full_commit" "$target" "$previous"
+printf 'commit=%s\nrelease=%s\nprevious=%s\nlegacyMigration=%s\n' \
+	"$full_commit" "$target" "$previous" "$legacy_predecessor"
