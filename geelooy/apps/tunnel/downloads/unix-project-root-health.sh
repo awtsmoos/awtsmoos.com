@@ -12,8 +12,9 @@ project_root_receipt_path() {
 project_root_ready() {
 	local pid="$1"
 	local max_age_ms="${2:-600000}"
+	local expected_activation_id="${3:-${AWTSMOOS_ACTIVATION_ID:-}}"
 	node - "$ROOT/config.json" "$(project_root_receipt_path)" "$ROOT/install-state.txt" \
-		"$pid" "$max_age_ms" "${AWTSMOOS_ACTIVATION_ID:-}" <<'NODE'
+		"$pid" "$max_age_ms" "$expected_activation_id" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
 const [configFile, receiptFile, versionFile, expectedPid, maxAge, activationId] = process.argv.slice(2);

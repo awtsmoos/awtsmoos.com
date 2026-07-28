@@ -59,16 +59,60 @@ NODE
 		' >/dev/null
 }
 
+service_supervision_stable() {
+	local pid="$1"
+	local required_samples="${2:-8}"
+	local timeout_seconds="${3:-10}"
+	local maximum_samples=$(( timeout_seconds * 4 ))
+	local sample=0
+	local stable=0
+	local expected_supervisor=""
+	local supervisor=""
+	while [ "$sample" -lt "$maximum_samples" ]; do
+		supervisor="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
+		if [ "$(cat "$ROOT/agent.pid" 2>/dev/null || true)" = "$pid" ] &&
+			service_supervision_ready "$pid"; then
+			if [ -n "$supervisor" ] && [ "$supervisor" = "$expected_supervisor" ]; then
+				stable=$(( stable + 1 ))
+			else
+				expected_supervisor="$supervisor"
+				stable=1
+			fi
+			[ "$stable" -ge "$required_samples" ] && return 0
+		else
+			stable=0
+			expected_supervisor=""
+		fi
+		sleep 0.25
+		sample=$(( sample + 1 ))
+	done
+	return 1
+}
+
 verified_agent_pid() {
 	local timeout_seconds="${AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS:-20}"
+	local required_samples="${AWTSMOOS_FINAL_STABILITY_SAMPLES:-4}"
 	local maximum_samples=$(( timeout_seconds * 4 ))
 	local sample=0
 	local pid=""
+	local stable_pid=""
+	local stable=0
 	while [ "$sample" -lt "$maximum_samples" ]; do
 		pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 		if final_readiness_sample "$pid"; then
-			printf '%s\n' "$pid"
-			return 0
+			if [ "$pid" = "$stable_pid" ]; then
+				stable=$(( stable + 1 ))
+			else
+				stable_pid="$pid"
+				stable=1
+			fi
+			if [ "$stable" -ge "$required_samples" ]; then
+				printf '%s\n' "$pid"
+				return 0
+			fi
+		else
+			stable=0
+			stable_pid=""
 		fi
 		sleep 0.25
 		sample=$(( sample + 1 ))

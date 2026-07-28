@@ -32,7 +32,8 @@ NODE
 
 workspace_status_label() {
 	local agent_pid="$1"
-	if project_root_ready "$agent_pid" 600000; then
+	local activation_id="$(connection_receipt_value activationId)"
+	if project_root_ready "$agent_pid" 600000 "$activation_id"; then
 		printf '%s\n' 'available'
 	else
 		printf '%s\n' 'unavailable (optional; tunnel remains healthy)'

@@ -24,7 +24,7 @@ try {
 	const transient = runCase("transient");
 	assert.equal(transient.status, 0, transient.stderr);
 	assert.equal(transient.stdout.trim(), "4242");
-	assert.equal(Number(fs.readFileSync(counterPath(), "utf8")), 3);
+	assert.equal(Number(fs.readFileSync(counterPath(), "utf8")), 4);
 
 	fs.rmSync(counterPath(), { force: true });
 	const permanent = runCase("permanent");
@@ -34,7 +34,8 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-final-readiness-retry",
-		transientAttempts: 3,
+		transientAttempts: 4,
+		consecutiveStableSamples: 2,
 		permanentFailureRejected: true
 	}, null, 2));
 } finally {
@@ -49,7 +50,8 @@ function runCase(mode) {
 			ROOT: root,
 			AWTS_TEST_MODE: mode,
 			AWTS_TEST_COUNTER: counterPath(),
-			AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS: "1"
+			AWTSMOOS_FINAL_READINESS_TIMEOUT_SECONDS: "1",
+			AWTSMOOS_FINAL_STABILITY_SAMPLES: "2"
 		}
 	});
 }

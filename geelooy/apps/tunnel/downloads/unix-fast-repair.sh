@@ -11,8 +11,9 @@ current_runtime_is_stably_healthy() {
 	[ -n "$pid" ] &&
 		runtime_pid_matches "$pid" &&
 		runtime_registered "$pid" "$receipt_max_age_ms" &&
-		service_supervision_ready "$pid" &&
-		local_runtime_action_ready
+		local_runtime_action_ready &&
+		service_supervision_stable "$pid" \
+			"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-8}" 10
 }
 
 # The Awtsmoos renews the already-current runtime without redownloading its bundle.
