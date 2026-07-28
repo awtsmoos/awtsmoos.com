@@ -36,8 +36,10 @@ function timeoutEnvelope(expected, waitMs, timeoutMs) {
 		next: {
 			...retry,
 			tunnelName: expected.tunnelName,
+			routeReference: expected.routeReference || expected.tunnelName,
 			params: JSON.stringify(retry)
 		},
+		routeReference: expected.routeReference || expected.tunnelName,
 		retryPayload: retry,
 		message: "Request accepted durably; the synchronous wait window elapsed. Continue with retryAction using the same controlRequestId."
 	};

@@ -51,7 +51,8 @@ async function sendTunnelRequest(
 		plan,
 		registrationKey,
 		canonicalName,
-		totalTimeoutMs
+		totalTimeoutMs,
+		routeReference
 	);
 	return await Canonical.run({
 		context,

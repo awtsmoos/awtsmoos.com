@@ -22,9 +22,11 @@ load_release_metadata() {
 	rm -rf "$RELEASE_METADATA_ROOT"
 	mkdir -p "$RELEASE_METADATA_ROOT"
 	install_progress 22 "Checking published tunnel release"
-	curl -fsSL --retry 3 --retry-delay 1 \
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"
-	curl -fsSL --retry 3 --retry-delay 1 \
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
 		"$origin/apps/tunnel/agent/manifest.txt" -o "$RELEASE_MANIFEST_PATH"
 	IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES MANIFEST_SHA \
 		< <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH")
@@ -58,6 +60,7 @@ installed_release_matches_metadata() {
 	[ -f "$ROOT/main.js" ] || return 1
 	[ "$(cat "$ROOT/install-state.txt" 2>/dev/null || true)" = "$CANDIDATE_VERSION" ] || return 1
 	[ "$(cat "$ROOT/install-manifest.sha256" 2>/dev/null | awk '{print $1}')" = "$MANIFEST_SHA" ] || return 1
+	[ "$(cat "$ROOT/install-bundle.sha256" 2>/dev/null | awk '{print $1}')" = "$BUNDLE_SHA" ] || return 1
 	installed_manifest_matches_release || return 1
 	installed_runtime_seal_valid || return 1
 	runtime_probe_compatible "$ROOT"

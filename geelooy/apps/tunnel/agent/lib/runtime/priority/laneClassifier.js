@@ -7,6 +7,7 @@ const Work = require("./workSets.js");
 
 const LANES = Object.freeze({
 	P0: "p0_control",
+	P0_WAIT: "p0_wait",
 	P1: "p1_fs_light",
 	P2: "p2_chrome_light",
 	P3: "p3_heavy",
@@ -14,6 +15,7 @@ const LANES = Object.freeze({
 });
 const LANE_ORDER = Object.freeze([
 	LANES.P0,
+	LANES.P0_WAIT,
 	LANES.P1,
 	LANES.P2,
 	LANES.P3,
@@ -45,7 +47,7 @@ function laneForAction(action = "", kind = "") {
 		return LANES.P0;
 	}
 	if (Work.WAIT_ACTIONS.has(normalized)) {
-		return LANES.P0;
+		return LANES.P0_WAIT;
 	}
 	if (Control.DIAGNOSTIC_ACTIONS.has(normalized)) {
 		return LANES.P0;

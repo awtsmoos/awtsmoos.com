@@ -21,9 +21,10 @@ function sendOrQueue(dependencies, originalSocket, envelope) {
 	const queue = pendingQueue(dependencies);
 	const limit = pendingLimit(dependencies);
 	if (queue.length >= limit) {
-		const error = new Error(`pending_response_queue_full:${limit}`);
-		error.code = "PENDING_RESPONSE_QUEUE_FULL";
-		throw error;
+		const dropped = queue.shift();
+		dependencies.log?.("warn",
+			`pending response fallback rotated at ${limit}; retry registry retains ${dropped?.id || "unknown"}`
+		);
 	}
 	queue.push(compactEnvelope(dependencies, envelope));
 	return { queued: true, sent: false };

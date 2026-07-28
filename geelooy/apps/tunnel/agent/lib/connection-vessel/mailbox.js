@@ -43,6 +43,10 @@ function createMailbox(config = {}, options = {}) {
 		return store.list("outbox").map(entry => entry.value);
 	}
 
+	function outboxOne(id) {
+		return store.get("outbox", id)?.value || null;
+	}
+
 	function snapshot() {
 		const inboxState = store.snapshot("inbox");
 		const outboxState = store.snapshot("outbox");
@@ -83,6 +87,7 @@ function createMailbox(config = {}, options = {}) {
 		evidence,
 		inbox,
 		outbox,
+		outboxOne,
 		putInbox,
 		putOutbox,
 		quarantineInvalid,

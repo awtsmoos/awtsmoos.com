@@ -1,5 +1,5 @@
 B"H
-1.0.409
+1.0.412
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -776,6 +776,7 @@ lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox.js
+lib/connection-vessel/parent-watchdog.js
 lib/connection-vessel/protocol.js
 lib/connection-vessel/proxy.js
 lib/deviceIdentity/command.js

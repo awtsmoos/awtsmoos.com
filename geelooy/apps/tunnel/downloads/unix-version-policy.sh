@@ -36,12 +36,18 @@ local_manifest_sha() {
 	awk 'NR == 1 { print $1 }' "$ROOT/install-manifest.sha256" 2>/dev/null || true
 }
 
+local_bundle_sha() {
+	awk 'NR == 1 { print $1 }' "$ROOT/install-bundle.sha256" 2>/dev/null || true
+}
+
 local_release_metadata_complete() {
 	local version="$(local_installed_version)"
 	local manifest_sha="$(local_manifest_sha)"
+	local bundle_sha="$(local_bundle_sha)"
 	[ -f "$ROOT/main.js" ] || return 1
 	[[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || return 1
 	[[ "$manifest_sha" =~ ^[a-fA-F0-9]{64}$ ]] || return 1
+	[[ "$bundle_sha" =~ ^[a-fA-F0-9]{64}$ ]] || return 1
 	[ -f "$ROOT/installed-manifest.txt" ] || return 1
 	[ "$(sha256_file "$ROOT/installed-manifest.txt")" = "$manifest_sha" ] || return 1
 	installed_runtime_seal_valid || return 1
@@ -62,8 +68,9 @@ apply_installed_version_policy() {
 		"installed=$installed published=$CANDIDATE_VERSION root=$ROOT"
 	CANDIDATE_VERSION="$installed"
 	MANIFEST_SHA="$(local_manifest_sha)"
+	BUNDLE_SHA="$(local_bundle_sha)"
 	PRESERVE_NEWER_RELEASE=1
-	export CANDIDATE_VERSION MANIFEST_SHA PUBLISHED_VERSION PRESERVE_NEWER_RELEASE
+	export CANDIDATE_VERSION MANIFEST_SHA BUNDLE_SHA PUBLISHED_VERSION PRESERVE_NEWER_RELEASE
 	install_event "version-policy" "passed" \
 		"Preserved a newer verified local runtime." \
 		"installed=$installed published=$PUBLISHED_VERSION"

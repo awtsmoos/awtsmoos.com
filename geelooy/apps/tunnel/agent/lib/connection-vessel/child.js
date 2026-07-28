@@ -19,7 +19,7 @@ process.on("message", message => {
 		return;
 	}
 	if (message.type === Protocol.TYPES.FLUSH) {
-		runtime.flush();
+		runtime.flush(message.id);
 		return;
 	}
 	if (message.type === Protocol.TYPES.STATS) {

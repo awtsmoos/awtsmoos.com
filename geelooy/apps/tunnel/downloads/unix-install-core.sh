@@ -40,6 +40,7 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-version-policy.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-control.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-resume.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-stage.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-archive-list.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-retention.sh"
@@ -93,9 +94,19 @@ migrate_dynamic_state
 load_release_metadata
 apply_installed_version_policy
 if version_policy_blocks_replacement; then
+	if repair_matching_release; then
+		install_progress 97 "Current verified release repaired without redownload"
+		complete_install_experience "$(activation_phase)"
+		exit 0
+	fi
 	install_fail "version-policy" \
-		"Published release is older than the installed runtime; replacement was blocked." \
-		"installed=$INSTALLED_VERSION published=$CANDIDATE_VERSION"
+		"Published release is older and the newer installed runtime could not be repaired." \
+		"installed=$INSTALLED_VERSION published=$PUBLISHED_VERSION"
+fi
+if repair_matching_release; then
+	install_progress 97 "Current verified release repaired without redownload"
+	complete_install_experience "$(activation_phase)"
+	exit 0
 fi
 install_progress 30 "Preparing full transactional replacement"
 stage_release_candidate

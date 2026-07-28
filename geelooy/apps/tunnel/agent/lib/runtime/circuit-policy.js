@@ -21,7 +21,7 @@ function levelForLag(lagMs = 0, limits = {}) {
 }
 
 function reasonFor(lane, level, queued, limits = {}) {
-	if (lane === "p0_control") return "";
+	if (lane === "p0_control" || lane === "p0_wait") return "";
 	if (lane === "p4_bulk" && queued >= limits.p4QueueLimit) {
 		return "p4_backpressure";
 	}

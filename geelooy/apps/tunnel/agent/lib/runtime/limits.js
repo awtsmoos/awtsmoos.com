@@ -11,6 +11,12 @@ const STRICT_ORDERING = process.env.AWTSMOOS_STRICT_ORDERING === "1";
 
 const LANE_LIMITS = Object.freeze({
 	p0_control: Time.boundedNumber(process.env.AWTSMOOS_P0_INFLIGHT, 8, 1, 64),
+	p0_wait: Time.boundedNumber(
+		process.env.AWTSMOOS_P0_WAIT_INFLIGHT,
+		Math.min(128, Math.max(32, CPU_COUNT * 4)),
+		1,
+		256
+	),
 	p1_fs_light: Time.boundedNumber(
 		process.env.AWTSMOOS_P1_INFLIGHT,
 		Math.min(32, Math.max(4, CPU_COUNT * 2)),
@@ -36,6 +42,12 @@ const LANE_LIMITS = Object.freeze({
  */
 const REQUESTER_LANE_LIMITS = Object.freeze({
 	p0_control: requesterLimit("AWTSMOOS_P0_PER_REQUESTER", LANE_LIMITS.p0_control),
+	p0_wait: Time.boundedNumber(
+		process.env.AWTSMOOS_P0_WAIT_PER_REQUESTER,
+		Math.min(8, LANE_LIMITS.p0_wait),
+		1,
+		LANE_LIMITS.p0_wait
+	),
 	p1_fs_light: requesterLimit("AWTSMOOS_P1_PER_REQUESTER", LANE_LIMITS.p1_fs_light),
 	p2_chrome_light: requesterLimit("AWTSMOOS_P2_PER_REQUESTER", LANE_LIMITS.p2_chrome_light),
 	p3_heavy: requesterLimit("AWTSMOOS_P3_PER_REQUESTER", LANE_LIMITS.p3_heavy),
@@ -47,6 +59,7 @@ const MAX_INFLIGHT = STRICT_ORDERING
 	: optionalLimit(process.env.AWTSMOOS_MAX_INFLIGHT);
 const MAX_QUEUE = optionalLimit(process.env.AWTSMOOS_MAX_QUEUE);
 const CONTROL_QUEUE_LIMIT = optionalLimit(process.env.AWTSMOOS_P0_QUEUE);
+const WAIT_QUEUE_LIMIT = optionalLimit(process.env.AWTSMOOS_P0_WAIT_QUEUE);
 
 function requesterLimit(environmentName, laneLimit) {
 	const fallback = laneLimit > 1 ? laneLimit - 1 : 1;
@@ -95,6 +108,7 @@ module.exports = {
 	MAX_INFLIGHT,
 	MAX_QUEUE,
 	CONTROL_QUEUE_LIMIT,
+	WAIT_QUEUE_LIMIT,
 	LANE_LIMITS,
 	REQUESTER_LANE_LIMITS,
 	LANE_TIMEOUT_MS: Time.LANE_TIMEOUT_MS,

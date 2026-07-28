@@ -35,9 +35,13 @@ function createDelivery(options = {}) {
 		return options.send(Protocol.message(Protocol.TYPES.REQUEST, { envelope }));
 	}
 
-	function flush() {
+	function flush(id = "") {
 		const ws = options.state.activeWs;
 		if (!options.state.registrationConfirmed || !ws?.opened) return 0;
+		if (id && typeof options.mailbox.outboxOne === "function") {
+			const envelope = options.mailbox.outboxOne(id);
+			return envelope && options.Send.safeSend(ws, envelope) ? 1 : 0;
+		}
 		let sent = 0;
 		for (const envelope of options.mailbox.outbox()) {
 			if (!options.Send.safeSend(ws, envelope)) break;

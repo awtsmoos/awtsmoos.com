@@ -22,7 +22,9 @@ stage_release_candidate() {
 	assert_free_space "$BUNDLE_BYTES"
 	install_progress 38 "Downloading verified runtime bundle"
 	bundle_full_url="$(release_bundle_url)"
-	curl -fsSL --retry 3 --retry-delay 1 "$bundle_full_url" -o "$bundle_path"
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
+		"$bundle_full_url" -o "$bundle_path"
 	actual_bundle_sha="$(sha256_file "$bundle_path")"
 	[ "$actual_bundle_sha" = "$BUNDLE_SHA" ] || install_fail \
 		"verify" "Downloaded bundle checksum mismatch." \
@@ -33,6 +35,7 @@ stage_release_candidate() {
 	cp -p "$RELEASE_MANIFEST_PATH" "$CANDIDATE_ROOT/installed-manifest.txt"
 	printf '%s\n' "$CANDIDATE_VERSION" > "$CANDIDATE_ROOT/install-state.txt"
 	printf '%s\n' "$MANIFEST_SHA" > "$CANDIDATE_ROOT/install-manifest.sha256"
+	printf '%s\n' "$BUNDLE_SHA" > "$CANDIDATE_ROOT/install-bundle.sha256"
 	create_candidate_config "$CANDIDATE_ROOT"
 	copy_candidate_identity "$CANDIDATE_ROOT"
 	write_supervisor_to "$CANDIDATE_ROOT"

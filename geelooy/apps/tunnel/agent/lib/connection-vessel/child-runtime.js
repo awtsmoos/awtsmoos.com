@@ -5,6 +5,7 @@
 const Protocol = require("./protocol.js");
 const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
+const ParentWatchdog = require("./parent-watchdog.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
@@ -20,6 +21,9 @@ function createRuntime() {
 	let wasRegistered = false;
 	let terminal = false;
 	let parentStats = {};
+	const parentWatchdog = ParentWatchdog.create({
+		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID
+	});
 
 	function send(message) {
 		try { process.send?.(message); return true; }
@@ -35,6 +39,7 @@ function createRuntime() {
 
 	function updateParentStats(next = {}) {
 		parentStats = next && typeof next === "object" ? next : {};
+		parentWatchdog.pulse(parentStats);
 		return stats();
 	}
 
@@ -73,6 +78,10 @@ function createRuntime() {
 		const registered = foundation.state.registrationConfirmed === true;
 		if (registered && !wasRegistered) delivery.flush();
 		wasRegistered = registered;
+		parentWatchdog.inspect(
+			{ registered },
+			foundation.mailbox.snapshot()
+		);
 		send(Protocol.message(Protocol.TYPES.STATE, { state: snapshot() }));
 	}
 
@@ -84,6 +93,7 @@ function createRuntime() {
 			generation: state.generation,
 			lastRegisteredAt: state.lastRegisteredAt,
 			mailbox: foundation.mailbox.snapshot(),
+			parent: parentWatchdog.snapshot(),
 			lastFailure: state.lastFailure || null,
 			recentFailures: state.recentFailures || [],
 			reconnectAttempt: state.reconnectAttempt,

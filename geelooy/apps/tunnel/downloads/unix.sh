@@ -95,9 +95,9 @@ helpers=(
 
 total="${#helpers[@]}"
 index=0
-parallel_downloads="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-8}"
+parallel_downloads="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16}"
 case "$parallel_downloads" in
-	''|*[!0-9]*) parallel_downloads=8 ;;
+	''|*[!0-9]*) parallel_downloads=16 ;;
 esac
 [ "$parallel_downloads" -ge 1 ] 2>/dev/null || parallel_downloads=1
 [ "$parallel_downloads" -le 16 ] 2>/dev/null || parallel_downloads=16
@@ -126,7 +126,8 @@ for helper in "${helpers[@]}"; do
 	(
 		temporary="$runtime_root/.$helper.part"
 		rm -f "$temporary"
-		curl -fsSL --retry 3 --retry-delay 1 --connect-timeout 10 \
+		curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+			--speed-time 30 --speed-limit 1024 \
 			"$origin/apps/tunnel/downloads/$helper" -o "$temporary"
 		chmod +x "$temporary"
 		mv -f "$temporary" "$runtime_root/$helper"

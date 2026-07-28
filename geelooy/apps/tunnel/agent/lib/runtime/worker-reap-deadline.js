@@ -43,6 +43,15 @@ function expiration(record = {}, options = {}) {
 	}
 
 	if (Number.isFinite(heartbeatAt) && now - heartbeatAt > staleMs) {
+		if (options.reapStaleHeartbeat !== true) {
+			return {
+				expired: false,
+				degraded: true,
+				reason: "worker_heartbeat_stale_unverified",
+				status: record.state || "running",
+				ageMs: now - heartbeatAt
+			};
+		}
 		return {
 			expired: true,
 			reason: "worker_heartbeat_stale",

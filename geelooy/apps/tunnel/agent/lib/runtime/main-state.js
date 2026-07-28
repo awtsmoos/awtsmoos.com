@@ -45,6 +45,7 @@ function createRuntimeState(dependencies) {
 			maxInflight: dependencies.Limits.MAX_INFLIGHT,
 			maxQueue: dependencies.Limits.MAX_QUEUE,
 			controlQueueLimit: dependencies.Limits.CONTROL_QUEUE_LIMIT,
+			waitQueueLimit: dependencies.Limits.WAIT_QUEUE_LIMIT,
 			lanes,
 			eventLoopLag: state.eventLoopLag,
 			circuit: dependencies.Circuit.snapshot(circuitInput),

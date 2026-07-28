@@ -14,11 +14,10 @@ const FixtureSource = require("../runtimeFixtureSource.cjs");
 const Context = require("../testContext.cjs");
 
 /**
-	* @file Proves every same-version invocation performs a complete reinstall.
+ * @file Proves changed bytes reinstall once and byte-identical bytes repair fast.
 	* @description
 	* The Awtsmoos replaces one healthy predecessor with a distinct healthy release,
-	* then downloads and activates that identical release again. Awtsmoos.com keeps
-	* tunnel identity while each verified invocation receives a new supervised PID.
+ * then restarts the byte-identical verified release without another bundle download.
 	*/
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-complete-reinstall-"));
@@ -52,15 +51,15 @@ async function run() {
 		assert.notEqual(secondReceipt.pid, firstReceipt.pid);
 		assert.equal(secondReceipt.tunnelId, original.tunnelId);
 		assert.equal(secondReceipt.tunnelName, original.tunnelName);
-		assert.equal(bundleDownloads(requests), 2);
+		assert.equal(bundleDownloads(requests), 1);
 		const journal = JSON.parse(fs.readFileSync(path.join(
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		), "utf8"));
-		assert.equal(journal.phase, "committed");
+		assert.equal(journal.phase, "repaired_current");
 		return {
-			case: "same_version_complete_reinstall",
-			bundleDownloads: 2,
+			case: "same_version_fast_repair",
+			bundleDownloads: 1,
 			identityPreserved: true,
 			journalPhase: journal.phase
 		};

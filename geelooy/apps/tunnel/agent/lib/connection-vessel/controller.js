@@ -18,6 +18,7 @@ function createController(options = {}) {
 	let restartTimer = null;
 	let restartCount = 0;
 	let stopping = false;
+	let lastStatsSentAt = 0;
 	const proxy = Proxy.createProxy({ mailbox, notify });
 
 	function connect() {
@@ -50,7 +51,7 @@ function createController(options = {}) {
 		if (message.type === Protocol.TYPES.READY) {
 			restartCount = 0;
 			notify(Protocol.message(Protocol.TYPES.PARENT_READY));
-			publishStats();
+			publishStats(true);
 			return;
 		}
 		if (message.type === Protocol.TYPES.REQUEST) {
@@ -59,6 +60,7 @@ function createController(options = {}) {
 		}
 		if (message.type === Protocol.TYPES.STATE) {
 			mirror(message.state);
+			publishStats();
 			return;
 		}
 		if (message.type === Protocol.TYPES.TERMINAL) {
@@ -89,12 +91,19 @@ function createController(options = {}) {
 		catch { return false; }
 	}
 
-	function publishStats() {
+	function publishStats(force = false) {
 		if (!child?.connected || typeof options.stats !== "function") return false;
+		const now = Date.now();
+		if (!force && now - lastStatsSentAt < 1000) return false;
 		try {
-			return child.send(Protocol.message(Protocol.TYPES.STATS, {
-				stats: options.stats({ workers: true })
+			const sent = child.send(Protocol.message(Protocol.TYPES.STATS, {
+				stats: {
+					...options.stats({ workers: true }),
+					parentPulseAt: now
+				}
 			}));
+			if (sent) lastStatsSentAt = now;
+			return sent;
 		} catch {
 			return false;
 		}

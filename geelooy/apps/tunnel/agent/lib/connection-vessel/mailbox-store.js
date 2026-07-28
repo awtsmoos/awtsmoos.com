@@ -22,26 +22,50 @@ function createStore(config = {}, options = {}) {
 		maxBytes: bounded(options.maxBytes, DEFAULT_MAX_BYTES),
 		maxCount: bounded(options.maxCount, DEFAULT_MAX_COUNT)
 	};
+	const usageCache = new Map();
 
 	function put(lane, id, value) {
 		const identifier = required(id);
 		const target = Paths.file(config, lane, identifier);
 		const body = `${JSON.stringify({ id: identifier, updatedAt: new Date().toISOString(), value }, null, 2)}\n`;
-		const current = snapshot(lane);
 		const existing = IO.sizeOf(target);
-		if (!fs.existsSync(target) && current.count >= limits.maxCount) {
+		const existed = existing > 0;
+		let current = usage(lane);
+		if (!existed && current.count >= limits.maxCount) {
+			current = usage(lane, true);
+		}
+		if (!existed && current.count >= limits.maxCount) {
 			throw fullError(lane, "count", current);
+		}
+		if (current.bytes - existing + Buffer.byteLength(body) > limits.maxBytes) {
+			current = usage(lane, true);
 		}
 		if (current.bytes - existing + Buffer.byteLength(body) > limits.maxBytes) {
 			throw fullError(lane, "bytes", current);
 		}
 		IO.atomicWrite(target, body);
+		usageCache.set(lane, {
+			count: current.count + (existed ? 0 : 1),
+			bytes: current.bytes - existing + Buffer.byteLength(body),
+			entries: current.entries,
+			scannedAt: current.scannedAt
+		});
 		return { id: identifier, lane, path: target };
 	}
 
 	function remove(lane, id) {
+		const target = Paths.file(config, lane, required(id));
+		const existing = IO.sizeOf(target);
 		try {
-			fs.unlinkSync(Paths.file(config, lane, required(id)));
+			fs.unlinkSync(target);
+			const current = usageCache.get(lane);
+			if (current) {
+				usageCache.set(lane, {
+					...current,
+					count: Math.max(0, current.count - 1),
+					bytes: Math.max(0, current.bytes - existing)
+				});
+			}
 			return true;
 		} catch (error) {
 			if (error.code === "ENOENT") return false;
@@ -56,8 +80,39 @@ function createStore(config = {}, options = {}) {
 			.sort((left, right) => String(left.updatedAt).localeCompare(String(right.updatedAt)));
 	}
 
+	function get(lane, id) {
+		return IO.read(Paths.file(config, lane, required(id)));
+	}
+
 	function snapshot(lane) {
-		return Health.lane(list(lane), limits, lane);
+		return Health.lane(usage(lane, true).entries, limits, lane);
+	}
+
+	function usage(lane, refresh = false) {
+		const cached = usageCache.get(lane);
+		if (!refresh && cached) return cached;
+		const laneFiles = files(lane);
+		const entries = laneFiles.map(file => {
+			try {
+				const stat = fs.lstatSync(file);
+				return {
+					bytes: stat.isFile() && !stat.isSymbolicLink() ? stat.size : 0,
+					updatedAt: stat.mtime.toISOString()
+				};
+			} catch {
+				return { bytes: 0, updatedAt: null };
+			}
+		}).sort((left, right) =>
+			String(left.updatedAt || "").localeCompare(String(right.updatedAt || ""))
+		);
+		const next = {
+			count: entries.length,
+			bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0),
+			entries,
+			scannedAt: Date.now()
+		};
+		usageCache.set(lane, next);
+		return next;
 	}
 
 	function quarantineInvalid(lane) {
@@ -85,7 +140,7 @@ function createStore(config = {}, options = {}) {
 		}
 	}
 
-	return { limits, list, put, quarantineInvalid, remove, snapshot };
+	return { get, limits, list, put, quarantineInvalid, remove, snapshot, usage };
 }
 
 function bounded(value, fallback) {

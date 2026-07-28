@@ -14,6 +14,14 @@ repair_matching_release() {
 	install_event "fast-repair" "started" \
 		"Current release bytes match selected metadata; reconciling one process tree." \
 		"version=$CANDIDATE_VERSION root=$ROOT"
+	if skip_start_requested; then
+		FAST_REPAIR_COMPLETED=1
+		write_activation_journal "verified_current_start_skipped" "$ROOT" "$ROOT"
+		install_event "fast-repair" "passed" \
+			"Current release bytes verified; process restart skipped by request." \
+			"version=$CANDIDATE_VERSION root=$ROOT"
+		return 0
+	fi
 	stop_existing_runtime
 	write_supervisor
 	persist_node_runtime "$ROOT"

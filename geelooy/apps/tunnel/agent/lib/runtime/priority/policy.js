@@ -56,6 +56,7 @@ function canStartLane(lanes = {}, lane = "", limits = {}) {
 	}
 	if (
 		lane !== Classifier.LANES.P0 &&
+		lane !== Classifier.LANES.P0_WAIT &&
 		inflightCount(lanes) >= Number(limits.MAX_INFLIGHT || 1)
 	) {
 		return false;
@@ -67,6 +68,10 @@ function canQueue(lanes = {}, lane = "", limits = {}) {
 	if (lane === Classifier.LANES.P0) {
 		return (lanes[lane]?.queue.length || 0) <
 			Number(limits.CONTROL_QUEUE_LIMIT || 256);
+	}
+	if (lane === Classifier.LANES.P0_WAIT) {
+		return (lanes[lane]?.queue.length || 0) <
+			Number(limits.WAIT_QUEUE_LIMIT || 4096);
 	}
 	return queuedCount(lanes) < Number(limits.MAX_QUEUE || 0);
 }
