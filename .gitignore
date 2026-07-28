@@ -2,67 +2,90 @@
 # Boruch Hashem
 # Blessed is He
 #
-# The Awtsmoos creates every repository boundary anew. Local tunnel vessels
-# remain concealed, while the intentional Geelooy browser application stays
-# visible so Awtsmoos.com can receive every module its public entry points use.
+# The Awtsmoos renews each boundary without carrying yesterday's shadows.
+# Awtsmoos.com keeps source and explicitly named runtime assets in Git while
+# plans, proofs, logs, caches, archives, and machine state remain outside.
 
-# Awtsmoos tunnel generated artifacts: never commit local tunnel state.
+# Local Awtsmoos tunnel state.
 .awtsmoos/
 .Awtsmoos/
-[aA][wW][tT][sS][mM][oO][oO][sS]/
+.awtsmoos-*/
+.Awtsmoos-*/
 **/.awtsmoos/
+**/.Awtsmoos/
 **/.awtsmoos-audit/
 **/.awtsmoos-agent-thoughts/
-**/.Awtsmoos/
-**/.reports/
 **/[aA][wW][tT][sS][mM][oO][oO][sS]/
-.awtsmoos-tmp/
-.Awtsmoos-tmp/
 *.awtsmoos.log
 .awtsmoos.local.json
 .awtsmoos.config.local.json
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
 
-# The public Geelooy social application intentionally uses this namespace.
-# Reveal the parent, seal every child again, then open only the browser subtree.
+# Intentional public Awtsmoos source trees.
 !geelooy/scripts/awtsmoos/
 geelooy/scripts/awtsmoos/*
 !geelooy/scripts/awtsmoos/social/
 !geelooy/scripts/awtsmoos/social/**
-
-# The live Mitzvah World runtime is intentionally named Awtsmoos.
-# Keep this one revealed directory tracked even though generic local
-# tunnel folders named Awtsmoos stay ignored everywhere else.
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
 
-# AI planning / generated thought archives: all spellings and nesting.
-ai_thoughts/
-AI_THOUGHTS/
-ai-thoughts/
-AI-THOUGHTS/
-[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
-[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
-**/ai_thoughts/
-**/AI_THOUGHTS/
-**/ai-thoughts/
-**/AI-THOUGHTS/
-**/[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
-**/[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
+# Planning and generated thought archives.
 .ai-thoughts/
+ai_thoughts/
+ai-thoughts/
+AI_THOUGHTS/
+AI-THOUGHTS/
 **/.ai-thoughts/
+**/ai_thoughts/
+**/ai-thoughts/
+**/AI_THOUGHTS/
+**/AI-THOUGHTS/
 geelooy/ai/thoughts/
 meluket_*_probe.json
 meluket_*_surface.txt
 meluket_*_search.txt
 meluket_*_locator.txt
 
-# Runtime mutable app data.
-geelooy/.data/
-.data/
+# Generated proof, inspection, and recovery material.
+.awtsmoos-artifacts/
+inspection-shared-world/
+traces/
+**/.reports/
+**/reports/
+**/screenshots/
+**/visual-proof/
+**/lastChrome*.json
+**/lastNodeDom*.json
+**/fullGameplay*.json
+**/*evidence*.json
+**/*evidence*.txt
+**/*evidence*.html
 
-# Generated AwtsDB/search shard artifacts.
+# Mutable runtime state, caches, logs, and temporary output.
+.data/
+geelooy/.data/
+.logs/
+**/.logs/
+**/.cache/
+**/.parcel-cache/
+**/.vite/
+**/.nyc_output/
+**/coverage/
+**/node_modules/
+**/runtime-cache/
+**/execution-plans/*.json
+**/tmp/
+**/temp/
+command-output/
+*.log
+*.out
+*.err
+*.out.log
+*.err.log
+npm-start.log
+
+# Database and generated shard artifacts.
 searchPacked/
 *.bin
 *.awtsbin
@@ -71,74 +94,57 @@ searchPacked/
 *.awtsdb.tmp
 *.awtsidx
 
-# Logs and runtime spill files.
-.logs/
-*.log
-*.out.log
-*.err.log
-npm-start.log
-command-output/
+# Build products, archives, maps, and packages.
+**/*.dSYM/
+**/dist/*.exe
+**/dist/*.apk
+*.apk
+*.map
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bak
+*.swp
+*.tmp
+!geelooy/ai/relay/install/awtsmoos-server-extension.zip
 
-# Generated test/proof artifacts that should not slow git add.
-geelooy/games/mitzvahWorld/tests/headless/visual-proof/*.png
-geelooy/games/mitzvahWorld/tests/chrome/lastChromeVisualAudit.png
-geelooy/games/mitzvahWorld/tests/headless/long-run/*.json
-geelooy/games/mitzvahWorld/tests/headless/lastNodeDomLivingWorldGameplaySimulation.json
-geelooy/games/mitzvahWorld/tests/chrome/lastChromeGameplayReport.json
+# Images and media are denied unless an intentional runtime root opens them.
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.tif
+*.tiff
+*.svg
+*.ico
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.glb
+*.pdf
+!favicon.ico
+!geelooy/favicon.ico
+!geelooy/games/seven-mitzvos/favicon.svg
+!geelooy/games/mitzvahWorld/assets/**
+!geelooy/games/mitzvahWorld/movies/**
+!geelooy/games/mitzvahWorld/references/**
+!geelooy/apps/animator/tools/**
+!geelooy/apps/code/assets/**
+!geelooy/scripts/awtsmoos/MerkavaExecutor/**
+!geelooy/scripts/tricks/extensions/**
 
-# OS/editor noise.
+# Operating-system and editor noise.
 .DS_Store
 Thumbs.db
-
-# Heavy generated browser/game/build proof artifacts.
-**/tests/headless/visual-proof/*.png
-**/tests/chrome/*.png
-**/tests/headless/long-run/*.json
-**/lastChrome*.json
-**/lastNodeDom*.json
-**/fullGameplay*.json
-**/visual-proof/manifest.json
-**/reports/*.json
-**/dist/*.exe
-**/*.dSYM/
-**/.parcel-cache/
-**/.vite/
-**/coverage/
-**/.nyc_output/
-
-# Generated runtime/compiler caches.
-**/runtime-cache/
-**/runtime-cache/**
-**/execution-plans/*.json
-**/.cache/
-**/tmp/
-**/temp/
-
-# B"H Awtsmoos generated artifacts
-.awtsmoos/
-.awtsmoos/actions/
-.awtsmoos/actions/results/
-.awtsmoos/previews/
-.awtsmoos/tmp/
-.Awtsmoos/
-.Awtsmoos/actions/
-.Awtsmoos/actions/results/
-.Awtsmoos/previews/
-.Awtsmoos/tmp/
-**/.awtsmoos/
-**/.Awtsmoos/
-.awtsmoos-tmp/
-.Awtsmoos-tmp/
-*.awtsmoos.log
-.awtsmoos.local.json
-.Awtsmoos.local.json
-**/runtime-cache/
-**/execution-plans/*.json
-**/tests/headless/visual-proof/*.png
-**/tests/chrome/*.png
-**/tests/chrome/*.json
-**/reports/*.json
-**/dist/*.exe
-**/.cache/
-**/tmp/
-**/temp/

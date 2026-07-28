@@ -1,5 +1,5 @@
 B"H
-1.0.431
+1.0.432
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -246,8 +246,6 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/flat_core/setter.j
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/flat_core/splicer.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/flat.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/index.js
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/index.js.before-readonly-writer-1781547019505.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/index.js.before-readonly-writer-1781547021300.bak
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/map_ops/deleter.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/map_ops/indexer.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/liveHandle/writer/map_ops/setEngine.js
@@ -374,8 +372,6 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/constants.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/allocationLeases.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/bitmap.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/chesed.js
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/chesed.js.before-readonly-1781546886151.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/chesed.js.before-readonly-1781546887961.bak
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/cursorState.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/defaultReuseOptions.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListPersistence.js
@@ -445,8 +441,6 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/logic/evaluator.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/metrics/tracker.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager/firmament.js
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager/firmament.js.before-readonly-1781546886145.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager/firmament.js.before-readonly-1781546887949.bak
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager/readOnlyPager.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/pager/writablePager.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/processLock.js
@@ -541,10 +535,6 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/human/headwear/yarmulke/blueprint.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/human/headwear/yarmulke/manifestation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.html
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js.before-readonly-1781546886147.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js.before-readonly-1781546887959.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js.before-readonly-root-1781547019503.bak
-ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js.before-readonly-root-1781547021297.bak
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/package.json
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/README.md
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/render/overlays/main.js
@@ -1093,6 +1083,8 @@ recovery/stateStore.js
 recovery/stateTransitions.js
 recovery/tierCatalog.js
 recovery/versionCatalog.js
+release/manifestArguments.js
+release/manifestDocument.js
 release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimePaths.js
