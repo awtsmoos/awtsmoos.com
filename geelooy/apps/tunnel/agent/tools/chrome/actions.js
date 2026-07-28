@@ -49,23 +49,49 @@ async function chromeLaunch(p = {}) {
  const url = urlOf(p, "about:blank");
  const args = chromeLaunchArgs({ port, userDataDir, headless, url });
  const persist = param(p, "persist", true) !== false;
+ const launchAttempts = Math.max(1, Math.min(3, Number(param(p, "launchAttempts", 2)) || 2));
  fs.mkdirSync(userDataDir, { recursive:true });
- const proc = childProcess.spawn(chromePath, args, { detached:true, stdio:"ignore" });
- proc.on("error", e => addChromeLog("process", "error", e.message, { stack:e.stack }));
- proc.unref();
- ChromeProcesses.register({ pid:proc.pid, port, userDataDir });
- addChromeLog("process", "info", "Chrome launch requested.", { pid:proc.pid, port, headless, url, persist });
  if (persist) saveConfigPatch({ chrome:{ enabled:true, path:chromePath, chromePath, port, userDataDir, headless }, tools:{ chrome:true } });
- await wait(Math.min(Number(param(p, "startupWaitMs", 250)), 1000));
- try {
-  await waitForChromePage(port, { ...p, url, timeoutMs:timeoutOf(p, 15000) });
- } catch (error) {
-  if (param(p, "cleanupOnFailure", true) !== false) {
-   await ChromeProcesses.stopOwned({ port, pid:proc.pid, force:true }).catch(() => {});
+ let lastError = null;
+ for (let attempt = 1; attempt <= launchAttempts; attempt++) {
+  const proc = childProcess.spawn(chromePath, args, { detached:true, stdio:"ignore" });
+  proc.on("error", error => addChromeLog("process", "error", error.message, {
+   stack:error.stack,
+   attempt,
+   launchAttempts
+  }));
+  proc.unref();
+  ChromeProcesses.register({ pid:proc.pid, port, userDataDir });
+  addChromeLog("process", "info", "Chrome launch requested.", {
+   pid:proc.pid,
+   port,
+   headless,
+   url,
+   persist,
+   attempt,
+   launchAttempts
+  });
+  await wait(Math.min(Number(param(p, "startupWaitMs", 250)), 1000));
+  try {
+   await waitForChromePage(port, { ...p, url, timeoutMs:timeoutOf(p, 15000) });
+   return { ok:true, action:"chromeLaunch", chromePath, port, pid:proc.pid, userDataDir, headless, persist, argsCount:args.length, url, launchAttempt:attempt, launchAttempts, logs:readCompactLogs(p) };
+  } catch (error) {
+   lastError = error;
+   if (param(p, "cleanupOnFailure", true) !== false) {
+    await ChromeProcesses.stopOwned({ port, pid:proc.pid, force:true }).catch(() => {});
+   }
+   addChromeLog("process", "warning", "Chrome launch did not become ready.", {
+    pid:proc.pid,
+    port,
+    attempt,
+    launchAttempts,
+    error:error.message
+   });
+   if (attempt < launchAttempts) await wait(250);
   }
-  throw error;
  }
- return { ok:true, action:"chromeLaunch", chromePath, port, pid:proc.pid, userDataDir, headless, persist, argsCount:args.length, url, logs:readCompactLogs(p) };
+ lastError.launchAttempts = launchAttempts;
+ throw lastError;
 }
 async function chromeStop(p = {}) {
  cdp.closeCurrent("Chrome stop requested.");

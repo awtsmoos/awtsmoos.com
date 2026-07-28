@@ -3,9 +3,9 @@ const crypto = require('crypto');
 const Store = require('./actionLedgerStore.js');
 const Policy = require('./actionLedgerPolicy.js');
 const { redact } = require('./actionLedgerRedact.js');
-const RETRIES = 2;
-const BASE_DELAY_MS = 15;
-const LEDGER_DEADLINE_MS = 220;
+const RETRIES = 4;
+const BASE_DELAY_MS = 8;
+const LEDGER_DEADLINE_MS = 250;
 function id(prefix = 'act') { return `${prefix}_${Date.now().toString(36)}_${crypto.randomBytes(4).toString('hex')}`; }
 async function ensure() { return true; }
 /** B"H — Ledger is evidence, never a foreground hostage. */
@@ -13,17 +13,19 @@ async function record(config, input, output, meta = {}) {
   if (Policy.shouldSkip?.(input.action) || Policy.SKIP.has(input.action)) return output;
   const actionId = output.actionId || id('act');
   const entry = { actionId, inputRef:`awdb://${actionId}:input`, outputRef:`awdb://${actionId}:output`, parentActionId:input.parentActionId || null, action:input.action, input:redact(input), ok:output?.ok !== false, createdAt:new Date().toISOString(), ...meta };
-  const saved = await deadline(retryLedger(() => Store.save(config, entry, redact(output))), LEDGER_DEADLINE_MS, 'ledger_deadline');
+  const saved = await deadline(retryLedger(() => Store.savePending(config, entry, redact(output))), LEDGER_DEADLINE_MS, 'ledger_deadline');
   if (!saved.ok) return { ...output, actionId, replayable:false, ledgerWarning:saved.warning };
-  garbageLater(config);
   return { ...output, actionId, inputRef:entry.inputRef, outputRef:entry.outputRef, replayable:true };
 }
-function garbageLater(config) { setTimeout(() => Store.garbageCollect(config).catch(() => null), 1).unref?.(); }
 async function retryLedger(fn) {
   let last = null;
   for (let attempt = 0; attempt <= RETRIES; attempt++) {
     try { return { ok:true, value:await fn() }; }
-    catch (error) { last = error; if (!isBusy(error) || attempt === RETRIES) break; await sleep(BASE_DELAY_MS * (attempt + 1)); }
+    catch (error) {
+      last = error;
+      if (!isBusy(error) || attempt === RETRIES) break;
+      await sleep(BASE_DELAY_MS * (attempt + 1) + Math.floor(Math.random() * BASE_DELAY_MS));
+    }
   }
   return { ok:false, warning:{ ok:false, skipped:true, reason:'ledger_busy_or_failed', error:last?.message || String(last || 'unknown') } };
 }
