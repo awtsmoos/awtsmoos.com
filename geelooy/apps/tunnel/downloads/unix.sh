@@ -4,6 +4,8 @@
 # Blessed is He
 
 set -Eeuo pipefail
+export LC_ALL=C
+export LANG=C
 
 origin="${AWTSMOOS_INSTALL_ORIGIN:-https://awtsmoos.com}"
 origin="${origin%/}"
