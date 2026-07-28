@@ -13,6 +13,7 @@ activate_fresh() {
 	if [ -e "$ROOT" ]; then
 		displaced="${ROOT}.incomplete-${stamp}-$$"
 		mv "$ROOT" "$displaced"
+		migrate_runtime_device_state "$displaced"
 	fi
 	write_activation_journal "fresh_prepared" "$CANDIDATE_ROOT" "$displaced"
 	mv "$CANDIDATE_ROOT" "$ROOT"
@@ -56,6 +57,7 @@ activate_update() {
 	write_activation_journal "archive_checked" "$rollback" "$CANDIDATE_ROOT"
 	stop_existing_runtime
 	mv "$ROOT" "$rollback"
+	migrate_runtime_device_state "$rollback"
 	write_activation_journal "predecessor_displaced" "$rollback" "$CANDIDATE_ROOT"
 	mv "$CANDIDATE_ROOT" "$ROOT"
 	CANDIDATE_ROOT=""

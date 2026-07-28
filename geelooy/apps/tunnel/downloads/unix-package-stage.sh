@@ -38,6 +38,7 @@ stage_release_candidate() {
 	printf '%s\n' "$BUNDLE_SHA" > "$CANDIDATE_ROOT/install-bundle.sha256"
 	create_candidate_config "$CANDIDATE_ROOT"
 	copy_candidate_identity "$CANDIDATE_ROOT"
+	attach_durable_device_state "$CANDIDATE_ROOT"
 	write_supervisor_to "$CANDIDATE_ROOT"
 
 	install_progress 58 "Probing extracted startup dependencies"

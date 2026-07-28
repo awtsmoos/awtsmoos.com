@@ -37,6 +37,31 @@ try {
 		"utf8"
 	));
 	assert.equal(receipt.state, "completed");
+	const job = path.join(root, "device-state", "device-a", ".Awtsmoos", "command-jobs", "job-a", "meta.json");
+	fs.mkdirSync(path.dirname(job), { recursive: true });
+	fs.writeFileSync(job, JSON.stringify({ jobId: "job-a", status: "running" }));
+	runStoppedRuntimeMigration();
+	const durableJob = path.join(
+		recovery,
+		"state",
+		"device-state",
+		"device-a",
+		".Awtsmoos",
+		"command-jobs",
+		"job-a",
+		"meta.json"
+	);
+	assert.equal(JSON.parse(fs.readFileSync(durableJob, "utf8")).status, "running");
+	assert.equal(fs.lstatSync(path.join(root, "device-state")).isSymbolicLink(), true);
+	assert.equal(
+		fs.realpathSync(path.join(root, "device-state")),
+		fs.realpathSync(path.join(recovery, "state", "device-state"))
+	);
+	const deviceReceipt = JSON.parse(fs.readFileSync(
+		path.join(recovery, "state", "device-state-migration.json"),
+		"utf8"
+	));
+	assert.equal(deviceReceipt.state, "completed");
 
 	fs.mkdirSync(path.join(root, "chrome-profile"), { recursive: true });
 	fs.writeFileSync(path.join(root, "chrome-profile", "second.txt"), "second");
@@ -54,6 +79,8 @@ try {
 		ok: true,
 		suite: "unix-state-migration",
 		identityBackedUp: true,
+		durableJobsPreserved: true,
+		durableStateLinked: true,
 		legacyMoved: true,
 		configUpdated: true,
 		populatedDestinationProtected: true
@@ -83,6 +110,19 @@ install_event(){ :; }
 source "$DOWNLOADS/unix-device-identity-state.sh"
 source "$DOWNLOADS/unix-state-migration.sh"
 migrate_dynamic_state
+`, "--", root, recovery, downloads], { encoding: "utf8" });
+	assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+}
+
+function runStoppedRuntimeMigration() {
+	const result = spawnSync("bash", ["-c", `set -Eeuo pipefail
+ROOT="$1"
+RECOVERY_ROOT="$2"
+DOWNLOADS="$3"
+install_event(){ :; }
+install_fail(){ printf '%s\\n' "$*" >&2; return 1; }
+source "$DOWNLOADS/unix-state-migration.sh"
+migrate_runtime_device_state "$ROOT"
 `, "--", root, recovery, downloads], { encoding: "utf8" });
 	assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 }

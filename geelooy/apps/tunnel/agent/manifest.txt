@@ -1,5 +1,5 @@
 B"H
-1.0.418
+1.0.419
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs

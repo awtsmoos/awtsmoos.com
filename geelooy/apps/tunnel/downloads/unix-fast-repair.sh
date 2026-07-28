@@ -23,6 +23,7 @@ repair_matching_release() {
 		return 0
 	fi
 	stop_existing_runtime
+	migrate_runtime_device_state "$ROOT"
 	write_supervisor
 	persist_node_runtime "$ROOT"
 	clear_runtime_coordination_state

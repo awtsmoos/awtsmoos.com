@@ -54,6 +54,7 @@ const tests = [
 	"oneCommandProcessReconciliation.test.cjs",
 	"productionCurrentRootProcessSurvival.test.cjs",
 	"plannedRestartHandoff.test.cjs",
+	"unixStateMigration.test.cjs",
 	"mainComponentsStartupDependencies.test.cjs",
 	"mainStartupContract.test.cjs",
 	"projectRootHealthLifecycle.test.cjs",
