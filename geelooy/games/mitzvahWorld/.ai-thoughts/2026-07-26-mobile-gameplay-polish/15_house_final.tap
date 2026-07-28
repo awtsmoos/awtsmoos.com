@@ -1,0 +1,38 @@
+(node:17294) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr owns finite bounds, winding, and role-specific side policy (134.119924ms)
+✔ brick-cottage owns finite bounds, winding, and role-specific side policy (193.104404ms)
+(node:17298) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr remains eligible through a multi-elevation orbit (547.837503ms)
+✔ beis-ohr has stable draw state while entering and leaving (71.00692ms)
+✔ beis-ohr repairs a late blanket side mutation by role (64.417467ms)
+✔ brick-cottage remains eligible through a multi-elevation orbit (65.353493ms)
+✔ brick-cottage has stable draw state while entering and leaving (29.77036ms)
+✔ brick-cottage repairs a late blanket side mutation by role (11.949844ms)
+(node:17299) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house population preserves interaction and collision lifecycle (544.148886ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2294.274283
+test_exit=0
+src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs=34
+src/test/world/MinimalMeadowHouseOrbitFixture.mjs=50
+src/test/world/minimalMeadowHouseGeometryContract.test.mjs=60
+src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs=102
+src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs=115
+src/ui/MinimalMeadowQuestParchment.js=113
+oversized_exit=0
+diff_exit=0

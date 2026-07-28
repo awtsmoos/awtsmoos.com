@@ -42,8 +42,10 @@ function isPublicExternalImport(source) {
 
 /**
  * B"H
- * Resolves one compactable local chamber, never escaping the public root and
- * never crossing into public vendor heavens that must stay external.
+ * Resolves one compactable local chamber with browser URL semantics. Browsers
+ * clamp excessive `..` traversal at the public `/` root; the filesystem must
+ * mirror that rule rather than escape the configured directory or leave a
+ * relative import stranded inside generated compact output.
  *
  * @param {object} options Resolution options.
  * @param {string} options.fromFile Absolute importing file path.
@@ -53,14 +55,28 @@ function isPublicExternalImport(source) {
  */
 function resolveLocalImport({ fromFile, source, rootDir }) {
   if (!isLocalImport(source)) return null;
+  const root = path.resolve(rootDir);
+  const importingDirectory = path.dirname(path.resolve(fromFile));
+  const importerRelative = path.relative(root, importingDirectory);
+  if (escapesRoot(importerRelative)) return null;
+
   const cleaned = cleanImportSource(source);
-  const base = isPublicRootImport(cleaned) ? rootDir : path.dirname(fromFile);
-  const inner = isPublicRootImport(cleaned) ? cleaned.slice(1) : cleaned;
-  const raw = path.resolve(base, inner);
+  const publicBase = isPublicRootImport(cleaned)
+    ? "/"
+    : `/${slash(importerRelative)}/`;
+  const publicPath = path.posix.resolve(publicBase, cleaned);
+  const raw = path.resolve(root, publicPath.slice(1));
   const resolved = path.extname(raw) ? raw : `${raw}.js`;
-  const relative = path.relative(rootDir, resolved);
-  if (relative.startsWith("..") || path.isAbsolute(relative)) return null;
-  return resolved;
+  const relative = path.relative(root, resolved);
+  return escapesRoot(relative) ? null : resolved;
+}
+
+function escapesRoot(relative) {
+  return relative.startsWith("..") || path.isAbsolute(relative);
+}
+
+function slash(value) {
+  return String(value || "").split(path.sep).join("/");
 }
 
 /** @param {string} source @returns {string} */

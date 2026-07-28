@@ -1,0 +1,106 @@
+transport_lines=84
+path_rules_lines=110
+(node:28128) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDoorTransform.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H front door center remains aligned after house rotation (1.39706ms)
+✔ B"H perpendicular interior door uses its own local yaw (0.950203ms)
+(node:28129) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H every living enemy profile retaliates when struck (3.32204ms)
+✔ B"H zero damage does not create false retaliation (0.496228ms)
+(node:28130) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H room floors remain solid while the stair aperture yields (50.111569ms)
+✔ B"H every stair tread supports a monotonic descent from the upper story (1.271148ms)
+✔ B"H room floor receipt outranks terrain beneath the house (0.607162ms)
+(node:28131) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFirebaseTextures.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H meadow roles use grass, dirt-grass, soil, and cobblestone filenames (1.949026ms)
+✖ B"H grass density is enlarged while road keeps detailed measured repeats (58.465843ms)
+(node:28132) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialAssetPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ verified local and Awtsmoos production vessels are accepted unchanged (1.646053ms)
+✔ remote lookalikes and invalid material routes are rejected (23.608392ms)
+(node:28133) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H uploaded texture catalog stores filenames only (18.242763ms)
+✔ B"H one transport origin encodes full-resolution and tree filenames (0.459888ms)
+(node:28134) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/NpcChossid.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interaction decision uses the profile radius and planar player distance (1.413802ms)
+✔ far dialogue emits a prompt but no talk or quest progress (1.217996ms)
+✔ near dialogue emits talk, quest progress, and the canonical offer (0.375808ms)
+(node:28135) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ nearest target is studied first and interacted with second (3.09992ms)
+✔ camera-like pointer drags never advance study or interaction (0.440111ms)
+✔ incompatible population contracts keep pointer ownership disabled (30.712198ms)
+✔ legacy actors preserve first target and second dialogue (1.718123ms)
+(node:28136) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitTopStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H responsive HUD uses safe areas and dynamic viewport bounds (1.35031ms)
+✔ B"H portrait target stacks beneath player instead of sharing one row (0.590158ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 20
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1165.3946
+
+✖ failing tests:
+
+test at src/test/app/minimalMeadowRemoteTerrainMaterial.test.mjs:54:1
+✖ B"H grass density is enlarged while road keeps detailed measured repeats (58.465843ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(road.material.mapRepeat[0] > 1)
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowRemoteTerrainMaterial.test.mjs:78:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at src/test/assets/productionMaterialUrlPolicy.test.mjs:27:1
+✖ verified local and Awtsmoos production vessels are accepted unchanged (1.646053ms)
+  Error: Production material verified requires an approved owned origin: file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/local/full-resolution-weathered-fieldstone-rock-1-5381a6b7.png?source=%2Ffull-resolution%2Fweathered+fieldstone+Rock+1.png
+      at assertApprovedAbsolute (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js:72:8)
+      at assertLocalMaterialPath (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js:46:3)
+      at assertProductionMaterialUrl (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js:27:2)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/productionMaterialUrlPolicy.test.mjs:35:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+test_exit=1

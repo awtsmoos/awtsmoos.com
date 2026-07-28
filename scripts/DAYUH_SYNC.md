@@ -1,94 +1,119 @@
 <!-- B"H -->
-# Dayuh Chadash remote synchronization
+# Dayuh Chadash synchronization
 
-This system uses the repository's custom Keter SSH client. It does not invoke
-OpenSSH, `scp`, or remote `rsync`. The SSH password remains in the operating
-system credential store used by `npm run bh`.
+This is the canonical quick reference for the implemented custom-SSH database
+synchronizer. The detailed runbooks live in `docs/operations/`.
 
-## Defaults
+## Production topology
 
-- Local database: `~/Documents/awtsmoos/dayuhChadash`
-- Remote database: `/root/dayuhChadash`
-- Host: `awtsmoos.com`
-- User: `root`
-- Local state: `~/Documents/awtsmoos/.dayuh-sync/awtsmoos.com`
-- Remote state: `/root/dayuhChadash.awtsmoos-sync`
-
-Every path can be overridden with `--local-root`, `--remote-root`,
-`--state-root`, `--host`, `--user`, or `--port`.
-
-## Initial seed
-
-Create a consistent local snapshot first, then run:
-
-```bash
-node scripts/dayuh-seed.mjs seed \
-	--local-root /path/to/immutable/dayuhChadash \
-	--remote-root /root/dayuhChadash
+```text
+Repository:   /Users/awtsmoos/work/awtsmoos.com
+Local DB:     /Users/awtsmoos/Documents/awtsmoos/dayuhChadash
+Remote DB:    /mnt/HC_Volume_102267213/dayuhChadash
+State:        /Users/awtsmoos/Documents/awtsmoos/.dayuh-sync/awtsmoos.com
+Remote repo:  /mnt/HC_Volume_102267213/git/awtsmoos.com
+Service:      awtsmoos.service
+SSH:          root@awtsmoos.com:22
 ```
 
-The seed is a compressed tar stream sent through one flow-controlled custom SSH
-exec channel. The remote host verifies SHA-256, extracts into an incoming
-folder, and atomically swaps it into place. A previous target is retained until
-the new extraction is installed successfully.
+Always pass the production remote path explicitly. The code default is
+`/root/dayuhChadash`, which is not the current production database.
 
-## Changed-only push
+## Safety rules
 
-```bash
-node scripts/dayuh-sync.mjs push --delete
-```
+- Use `scripts/dayuh-sync.mjs` and `scripts/dayuh-seed.mjs` as the canonical tools.
+- They use the repository Keter SSH/SFTP client, not OpenSSH, `scp`, or remote `rsync`.
+- The password comes from `safeSshPasswordStore.mjs`; never print or copy it.
+- Run `status` and a dry run before every write.
+- Do not use `--delete` unless the owner approved the exact removal list.
+- Production may contain valid server-only runtime records, including email data.
+- Database sync and Git/code deployment are separate operations.
 
-Only files whose SHA-256 differs are streamed. `--delete` removes remote files
-that no longer exist locally. Each file is written to a temporary name, size
-checked, and atomically renamed.
-
-## Pull remote changes
+## Shell variables
 
 ```bash
-node scripts/dayuh-sync.mjs pull --delete
+cd /Users/awtsmoos/work/awtsmoos.com
+LOCAL_DB=/Users/awtsmoos/Documents/awtsmoos/dayuhChadash
+REMOTE_DB=/mnt/HC_Volume_102267213/dayuhChadash
+STATE=/Users/awtsmoos/Documents/awtsmoos/.dayuh-sync/awtsmoos.com
 ```
 
-Only changed remote files are downloaded. Every downloaded file is SHA-256
-verified before the operation completes.
+## Inspect credentials without exposing them
+
+```bash
+npm run bh:ssh:info
+```
+
+Set the password only when the store is empty:
+
+```bash
+npm run bh:ssh:set-password
+```
+
+## Status and dry runs
+
+```bash
+node scripts/dayuh-sync.mjs status \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
+
+node scripts/dayuh-sync.mjs push --dry-run \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
+
+node scripts/dayuh-sync.mjs pull --dry-run \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
+```
+
+## Local to remote
+
+```bash
+node scripts/dayuh-sync.mjs push \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
+```
+
+This uploads changed or missing local files. It does not remove remote-only files
+unless `--delete` is explicitly supplied.
+
+## Remote to local
+
+```bash
+node scripts/dayuh-sync.mjs pull \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
+```
+
+This downloads changed or missing remote files. It does not remove local-only
+files unless `--delete` is explicitly supplied.
 
 ## Bidirectional sync
 
-```bash
-node scripts/dayuh-sync.mjs sync
-```
-
-The sync compares local and remote manifests against the last common base.
-One-sided changes move in the appropriate direction. If both sides changed the
-same path, the remote copy is preserved under `.dayuh-conflicts` locally and
-sync stops instead of overwriting either version.
-
-## Inspection and dry runs
+Use only after a successful push or pull has established `base.json`:
 
 ```bash
-node scripts/dayuh-sync.mjs status
-node scripts/dayuh-sync.mjs push --dry-run --delete
-node scripts/dayuh-sync.mjs pull --dry-run --delete
-node scripts/dayuh-sync.mjs sync --dry-run
+node scripts/dayuh-sync.mjs sync \
+	--local-root "$LOCAL_DB" --remote-root "$REMOTE_DB" --state-root "$STATE"
 ```
 
-## Locks and interrupted operations
+One-sided changes move toward the unchanged side. Two-sided changes are saved
+under `.dayuh-conflicts` locally and the operation stops.
 
-The remote state directory contains a lock while a sync is active. A verified
-stale lock can be cleared by rerunning with `--force`. Seed staging names are:
+## Initial or disaster-recovery seed
 
-- `/root/dayuhChadash.awtsmoos-sync/seed.tar.gz.part`
-- `/root/dayuhChadash.incoming-seed`
-- `/root/dayuhChadash.previous-seed`
+Seed only from an immutable, verified snapshot:
 
-Never remove `/root/dayuhChadash` during recovery. The seed swap and rollback
-logic owns that path.
+```bash
+node scripts/dayuh-seed.mjs seed \
+	--local-root /path/to/snapshot/dayuhChadash \
+	--remote-root "$REMOTE_DB" --state-root "$STATE"
+```
 
-## Verification
+The seed streams a compressed archive through custom SSH, verifies SHA-256,
+extracts to an incoming directory, and atomically swaps the target with rollback.
 
-A production deployment is complete only when:
+## Required completion gates
 
-1. The seed reports `seed-complete`.
-2. A changed-only push reports zero remaining uploads after verification.
-3. Local and remote manifest file counts match.
-4. No `.part`, `.incoming-seed`, or `.previous-seed` artifact remains.
-5. The local production API remains healthy.
+1. A second `status` reports zero `push.upload` entries.
+2. `push.removeRemote` is empty unless removals were explicitly approved.
+3. `npm run bh:ssh -- --command "systemctl is-active awtsmoos.service"` reports active.
+4. Public API smoke tests pass.
+5. No seed or `.part` staging artifact remains.
+
+See `docs/operations/README.md` for agent checklists, recovery, and Git guidance.

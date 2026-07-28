@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every source, identity, discussion, and luminous path in the living Awtsmoos.com civilization.
+The Awtsmoos renews every identity and source inside one edge-to-edge river on Awtsmoos.com.
 -->
 <!doctype html>
 <html lang="en">
@@ -10,10 +10,10 @@ The Awtsmoos renews every source, identity, discussion, and luminous path in the
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="description" content="Geelooy is a living social knowledge civilization where every post keeps identity, source, provenance, and discussion.">
 	<meta name="theme-color" content="#020611">
-	<title>Geelooy — Living sources, visible paths</title>
+	<title>Geelooy — Home</title>
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=interface-dark-011">
-	<link rel="stylesheet" href="/style/geelooy-app/home/composer/index.css?v=cosmic-feed-001">
-	<link rel="stylesheet" href="/style/social/home/index.css?v=cosmic-feed-001">
+	<link rel="stylesheet" href="/style/geelooy-app/home/composer/index.css?v=social-home-001">
+	<link rel="stylesheet" href="/style/social/home/index.css?v=social-home-001">
 	<link rel="modulepreload" href="/scripts/awtsmoos/social/shell/boot.js">
 	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/dashboard/boot.js">
 	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/visuals/boot.js">
@@ -25,30 +25,30 @@ The Awtsmoos renews every source, identity, discussion, and luminous path in the
 	data-home-reduced-motion-safe
 	data-geelooy-route="home"
 >
-	<canvas
-		class="awtsmoos-cosmic-canvas"
-		data-awtsmoos-cosmic-scene
-		aria-hidden="true"
-	></canvas>
+	<canvas class="awtsmoos-cosmic-canvas" data-awtsmoos-cosmic-scene aria-hidden="true"></canvas>
 	<a class="home-skip-link" href="#home-live-region">Skip to the living feed</a>
-	<main
-		class="home-dashboard-page cosmic-home-main geelooy-content-region"
-		aria-labelledby="home-title"
-	>
-		<header class="cosmic-feed-intro">
-			<p class="cosmic-feed-kicker">Living knowledge network</p>
-			<h1 id="home-title">Every source remembers where it came from.</h1>
-			<p>
-				Teachings, questions, sound, and provenance unfold through real
-				identities and real Geelooy data.
-			</p>
+	<main class="home-dashboard-page cosmic-home-main geelooy-content-region" aria-labelledby="home-title">
+		<header class="home-stream-header">
+			<div>
+				<p class="home-stream-kicker">Your living network</p>
+				<h1 id="home-title">Home</h1>
+			</div>
+			<a class="home-stream-search" href="/mawgawl/sefarim/" aria-label="Search Torah sources">⌕</a>
 		</header>
-		<nav class="cosmic-quick-paths" aria-label="Common tasks">
-			<a href="/social-composer/">Compose</a>
-			<a href="/heichelos/ikar">Enter Ikar</a>
-			<a href="/heichelos">Explore Heichelos</a>
+		<nav class="home-stream-tabs" aria-label="Home destinations">
+			<a class="is-active" href="/" aria-current="page">All</a>
+			<a href="/mawgawl/sefarim/">Torah</a>
+			<a href="/heichelos">Communities</a>
 			<a href="/email">Messages</a>
+			<a href="/games">Games</a>
 		</nav>
+		<section class="home-circle-rail" aria-label="Quick circles">
+			<a href="/profile/"><span aria-hidden="true">◎</span><strong>Your profile</strong><small>Identity</small></a>
+			<a href="/mawgawl/sefarim/"><span aria-hidden="true">א</span><strong>Torah</strong><small>Sources</small></a>
+			<a href="/heichelos"><span aria-hidden="true">⌂</span><strong>Heichelos</strong><small>Communities</small></a>
+			<a href="/email"><span aria-hidden="true">✉</span><strong>Messages</strong><small>Conversations</small></a>
+			<a href="/games"><span aria-hidden="true">🎮</span><strong>Games</strong><small>Play</small></a>
+		</section>
 		<section
 			id="home-live-region"
 			class="home-feed-section"
@@ -56,30 +56,17 @@ The Awtsmoos renews every source, identity, discussion, and luminous path in the
 			data-home-feed-section
 			data-object-inspector
 		>
-			<header class="home-section-heading cosmic-feed-heading">
+			<header class="home-section-heading">
 				<div>
-					<p class="cosmic-feed-kicker">The living feed</p>
-					<h2 id="home-feed-title">Sources unfolding now</h2>
+					<p class="home-stream-kicker">The living feed</p>
+					<h2 id="home-feed-title">All posts</h2>
 				</div>
-				<a class="civilization-button" href="/social-hub/">Open the full graph</a>
+				<a href="/profile/">Manage posts</a>
 			</header>
 			<nav class="home-feed-tabs" aria-label="Feed views">
-				<button
-					type="button"
-					class="active"
-					data-feed-mode="forYou"
-					aria-pressed="true"
-				>For You</button>
-				<button
-					type="button"
-					data-feed-mode="following"
-					aria-pressed="false"
-				>Following</button>
-				<button
-					type="button"
-					data-feed-mode="recent"
-					aria-pressed="false"
-				>Recent</button>
+				<button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For you</button>
+				<button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
+				<button type="button" data-feed-mode="recent" aria-pressed="false">Recent</button>
 			</nav>
 			<div class="civilization-state" data-home-empty-state hidden>
 				<strong>The feed is quiet.</strong>
@@ -89,13 +76,7 @@ The Awtsmoos renews every source, identity, discussion, and luminous path in the
 				<strong>The feed could not open.</strong>
 				<p>Retry the route or continue through Heichel discovery.</p>
 			</div>
-			<section
-				id="home-feed"
-				class="home-feed-list g-feed-list"
-				data-home-feed
-				aria-live="polite"
-				aria-busy="true"
-			>
+			<section id="home-feed" class="home-feed-list g-feed-list" data-home-feed aria-live="polite" aria-busy="true">
 				<article class="home-post-card geelooy-feed-card loading-state">
 					<h3>Opening the living feed…</h3>
 					<p class="geelooy-feed-summary">Connecting to real Geelooy posts and communities.</p>
@@ -104,8 +85,8 @@ The Awtsmoos renews every source, identity, discussion, and luminous path in the
 		</section>
 	</main>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=interface-dark-011"></script>
-	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=cosmic-feed-001"></script>
-	<script type="module" src="/scripts/awtsmoos/social/home/visuals/boot.js?v=cosmic-feed-001"></script>
-	<script src="/register.js?v=cosmic-feed-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=social-home-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/home/visuals/boot.js?v=social-home-001"></script>
+	<script src="/register.js?v=social-home-001"></script>
 </body>
 </html>

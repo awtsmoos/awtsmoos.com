@@ -4,47 +4,48 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Boots single-player core by default and imports multiplayer only when requested.
- * The Awtsmoos opens one playable gate before network and distant systems;
- * Awtsmoos.com keeps compact GLB, action bar, casting, and shared travel behind explicit doors.
+ * @description Boots the requested creative doorway or the compact living meadow.
+ * The Awtsmoos opens one truthful gate before network and distant systems; Awtsmoos.com
+ * preserves the meadow for ordinary journeys while cinema receives its explicit luminous room.
  */
 
-import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
+import {
+	createMinimalMeadowRuntime
+} from '../app/createMinimalMeadowRuntime.js?rev=20260728-full-wave-1';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
+import { openMinimalCreativeRoute } from './MinimalSharedCreativeRoute.js';
 import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
-
-const HOST_IDS = Object.freeze({
-	actionHost: 'actions',
-	canvas: 'AwtsmoosCanvas',
-	combatFxHost: 'combatFx',
-	dialogueHost: 'npcDialogue',
-	gameRailHost: 'gameRail',
-	hud: 'hud',
-	inventoryHost: 'inventory',
-	joystickHost: 'joy',
-	jumpHost: 'jump',
-	menuHost: 'meadowMenu',
-	mobileShell: 'mobileControls',
-	npcHost: 'npcTarget',
-	playerHudShell: 'playerHudShell',
-	targetHost: 'combatTarget'
-});
+import {
+	inferMinimalMeadowRealtimeUrl,
+	resolveMinimalMeadowHosts,
+	showMinimalMeadowBootFailure
+} from './MinimalSharedMeadowPageSupport.js';
 
 /**
- * Boots the visible local game and observes optional feature readiness without awaiting it.
+ * Boots the explicitly requested movie editor or the visible game runtime.
+ *
  * @param {Document} documentValue Active document.
  * @param {Window|object} environment Browser-like environment.
- * @returns {Promise<object>} Core runtime diagnostics.
+ * @returns {Promise<object>} Movie API or core runtime diagnostics.
  */
 export async function bootMinimalSharedMeadow(
 	documentValue = document,
 	environment = globalThis
 ) {
-	const loading = new MeadowLoadingScreen(documentValue, environment);
-	const hosts = resolveHosts(documentValue);
-	const parameters = new URLSearchParams(environment.location?.search || '');
-	const sessionMode = parameters.get('session') || 'singleplayer';
+	const hosts = resolveMinimalMeadowHosts(documentValue);
+	const search = environment.location?.search || '';
+	let loading = null;
+
 	try {
+		const creativeRoute = await openMinimalCreativeRoute(hosts, search);
+		if (creativeRoute?.handled) {
+			environment.AwtsmoosMitzvahWorld = creativeRoute.value;
+			documentValue.documentElement.dataset.awtsmoosSession = 'movie';
+			return creativeRoute.value;
+		}
+		loading = new MeadowLoadingScreen(documentValue, environment);
+		const parameters = new URLSearchParams(search);
+		const sessionMode = parameters.get('session') || 'singleplayer';
 		const diagnostics = sessionMode === 'multiplayer'
 			? await createSharedRuntime(hosts, parameters, environment, loading)
 			: await createSingleRuntime(hosts, environment, loading);
@@ -59,8 +60,8 @@ export async function bootMinimalSharedMeadow(
 		documentValue.documentElement.dataset.awtsmoosSession = sessionMode;
 		return diagnostics;
 	} catch (error) {
-		loading.fail(error);
-		showFailure(hosts.hud, documentValue, error);
+		loading?.fail(error);
+		showMinimalMeadowBootFailure(hosts.hud, documentValue, error);
 		throw error;
 	}
 }
@@ -83,40 +84,16 @@ async function createSharedRuntime(hosts, parameters, environment, loading) {
 		onProgress: update => loading.world(update),
 		runtimeFactory: createMinimalMeadowRuntime,
 		startLoop: true,
-		url: parameters.get('realtimeUrl') || inferRealtimeUrl(environment.location),
+		url: parameters.get('realtimeUrl')
+			|| inferMinimalMeadowRealtimeUrl(environment.location),
 		worldId: parameters.get('worldId') || 'main-village'
 	});
 }
 
-function resolveHosts(documentValue) {
-	const hosts = {};
-	for (const [name, id] of Object.entries(HOST_IDS)) {
-		const element = documentValue.getElementById(id);
-		if (!element) {
-			throw new Error(`Missing meadow host: #${id}`);
-		}
-		hosts[name] = element;
-	}
-	return hosts;
-}
-
-function inferRealtimeUrl(locationValue) {
-	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) {
-		return null;
-	}
-	const scheme = locationValue.protocol === 'https:' ? 'wss:' : 'ws:';
-	return `${scheme}//${locationValue.host}`;
-}
-
-function showFailure(hud, documentValue, error) {
-	const message = error?.message || String(error);
-	documentValue.documentElement.dataset.awtsmoosGameplay = 'false';
-	hud.textContent = `B"H meadow startup failed: ${message}`;
-	hud.dataset.bootFailure = error?.stack || message;
-	console.error(error);
-}
-
-if (typeof document !== 'undefined') {
+if (
+	typeof document !== 'undefined'
+	&& globalThis.AwtsmoosDisableAutoBoot !== true
+) {
 	globalThis.AwtsmoosMitzvahWorldBoot = bootMinimalSharedMeadow().catch(error => {
 		console.error('[MitzvahWorld] compact boot failed.', error);
 		throw error;

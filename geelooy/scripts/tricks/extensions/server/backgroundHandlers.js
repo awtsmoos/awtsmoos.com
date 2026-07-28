@@ -2,12 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
-const DIRECT_RELAY = "http://127.0.0.1:38488";
-
 /**
- * The Awtsmoos carries generic streams and explicit direct relay actions. Through
- * Awtsmoos.com the extension can inspect strict request-only capability, request
- * a named fallback chat, or reset state without exposing relay secrets or stacks.
+ * The Awtsmoos carries extension streams and explicit localhost relay actions.
+ * Awtsmoos.com receives fast, bounded failures; prompts remain inside the visitor
+ * browser and no handler constructs its own relay, token, cookie, or proof path.
  */
 function registerAwtsmoosBackgroundHandlers(portManager) {
 	portManager.on("fetch", async (message, port) => {
@@ -33,32 +31,34 @@ function registerAwtsmoosBackgroundHandlers(portManager) {
 	});
 
 	registerStreamHandlers(portManager);
-	portManager.on("direct-capability", async (message, port) => {
-		return relayAction({
-			path: "/direct-capability",
-			method: "GET",
-			message,
-			port,
-			portManager
+	bindRelay(portManager, "direct-capability", message => {
+		return globalThis.AwtsmoosDirectRelayClient.capability({
+			refresh: Boolean(message.payload?.refresh)
 		});
 	});
-	portManager.on("direct-chat", async (message, port) => {
-		return relayAction({
-			path: "/direct-chat",
-			method: "POST",
-			message,
-			port,
-			portManager
-		});
+	bindRelay(portManager, "direct-chat", message => {
+		return globalThis.AwtsmoosDirectRelayClient.chat(message.payload || {});
 	});
-	portManager.on("direct-reset", async (message, port) => {
-		return relayAction({
-			path: "/direct-reset",
-			method: "POST",
-			message,
-			port,
-			portManager
-		});
+	bindRelay(portManager, "direct-reset", message => {
+		return globalThis.AwtsmoosDirectRelayClient.reset(message.payload?.conversationKey);
+	});
+}
+
+function bindRelay(portManager, action, invoke) {
+	portManager.on(action, async (message, port) => {
+		try {
+			portManager.reply(port, { result: await invoke(message), id: message.id });
+		} catch (error) {
+			portManager.reply(port, {
+				error: error?.code || "direct_request_failed",
+				result: {
+					ok: false,
+					error: error?.code || "direct_request_failed",
+					safeHint: error?.safeHint || "The local relay request failed."
+				},
+				id: message.id
+			});
+		}
 	});
 }
 
@@ -67,14 +67,8 @@ function registerStreamHandlers(portManager) {
 		"fetch-body": message => message.bodyAction === "read"
 			? globalThis.__awtsmoosStreamLedger.read(message.id)
 			: globalThis.__awtsmoosStreamLedger.body(message.id, message.bodyAction),
-		"resume-stream": message => globalThis.__awtsmoosStreamLedger.resume(
-			message.id,
-			message.cursor
-		),
-		"ack-stream": message => globalThis.__awtsmoosStreamLedger.ack(
-			message.id,
-			message.cursor
-		),
+		"resume-stream": message => globalThis.__awtsmoosStreamLedger.resume(message.id, message.cursor),
+		"ack-stream": message => globalThis.__awtsmoosStreamLedger.ack(message.id, message.cursor),
 		"stream-stats": message => globalThis.__awtsmoosStreamLedger.stats(message.id),
 		"cancel-stream": message => globalThis.__awtsmoosStreamLedger.cancel(
 			message.id,
@@ -83,32 +77,12 @@ function registerStreamHandlers(portManager) {
 	};
 	for (const [name, action] of Object.entries(actions)) {
 		portManager.on(name, async (message, port) => {
-			return streamAction(message, port, () => action(message), portManager);
+			try {
+				portManager.reply(port, { result: await action(message), id: message.id });
+			} catch {
+				portManager.reply(port, { error: "extension_stream_failed", id: message.id });
+			}
 		});
-	}
-}
-
-async function relayAction({ path, method, message, port, portManager }) {
-	try {
-		const options = { method, headers: { "Content-Type": "application/json" } };
-		if (method !== "GET") options.body = JSON.stringify(message.payload || {});
-		const response = await fetch(`${DIRECT_RELAY}${path}`, options);
-		const result = await response.json();
-		portManager.reply(port, response.ok ? { result, id: message.id } : {
-			error: result.error || "direct_request_failed",
-			result,
-			id: message.id
-		});
-	} catch {
-		portManager.reply(port, { error: "direct_relay_unavailable", id: message.id });
-	}
-}
-
-async function streamAction(message, port, action, portManager) {
-	try {
-		portManager.reply(port, { result: await action(), id: message.id });
-	} catch {
-		portManager.reply(port, { error: "extension_stream_failed", id: message.id });
 	}
 }
 

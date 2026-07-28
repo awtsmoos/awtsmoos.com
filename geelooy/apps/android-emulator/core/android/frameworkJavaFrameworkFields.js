@@ -8,6 +8,11 @@ import {
 	initializeAndroidBuildStaticField
 } from "./frameworkAndroidBuildFields.js";
 import {
+	ANDROID_TRACE,
+	ANDROID_TRACE_FIELDS,
+	initializeAndroidTraceStaticField
+} from "./frameworkAndroidTraceFields.js";
+import {
 	ANDROID_WINDOW_INSETS,
 	createConsumedWindowInsets
 } from "./frameworkAndroidWindowInsetsValues.js";
@@ -32,6 +37,7 @@ const WINDOW_INSETS_CONSUMED = Object.freeze({
 });
 const FRAMEWORK_FIELDS = new Map([
 	[ANDROID_BUILD, ANDROID_BUILD_FIELDS],
+	[ANDROID_TRACE, ANDROID_TRACE_FIELDS],
 	...JAVA_PRIMITIVE_TYPE_FIELD_GROUPS,
 	[SUN_MISC_UNSAFE, SUN_MISC_UNSAFE_FIELDS],
 	[ANDROID_WINDOW_INSETS, Object.freeze([WINDOW_INSETS_CONSUMED])]
@@ -49,6 +55,8 @@ export function frameworkDeclaredFields(descriptor) {
 export function initializeFrameworkStaticField(runtime, metadata) {
 	const build = initializeAndroidBuildStaticField(runtime, metadata);
 	if (build.supported) return build;
+	const trace = initializeAndroidTraceStaticField(metadata);
+	if (trace.supported) return trace;
 	const primitive = initializeJavaPrimitiveTypeStaticField(metadata);
 	if (primitive.supported) return primitive;
 	const unsafe = initializeJavaUnsafeStaticField(runtime, metadata);

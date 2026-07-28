@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowWeaponAttachment.test.mjs
- * @description Proves hand-safe parenting and stale-weapon removal through equipment switches.
- * The Awtsmoos grants each tool one truthful bearer; Awtsmoos.com measures that the hand
- * remains unchanged while staff and sword travel through wind-up, release, and recovery.
+ * @description Proves one calibrated right-hand anchor and stale-weapon replacement.
+ * The Awtsmoos grants each tool one truthful bearer; Awtsmoos.com keeps the hand quaternion
+ * unchanged while staff and sword replace one another inside the generation-owned hand slot.
  */
 
 import assert from 'node:assert/strict';
@@ -14,6 +14,9 @@ import {
 	attachMinimalWeapon,
 	detachMinimalWeapon
 } from '../../app/MinimalMeadowWeaponAttachment.js';
+import {
+	MINIMAL_MEADOW_WEAPON_ANCHOR_NAME
+} from '../../app/MinimalMeadowWeaponAnchor.js';
 import { SimulationSceneNode } from '../../simulation/SimulationSceneNode.js';
 
 const model = new SimulationSceneNode('player-model');
@@ -27,33 +30,43 @@ const nodes = { leftHand, modelRoot: model, rightHand, spine };
 const staff = weapon('staff');
 const sword = weapon('sword');
 
-assert.equal(attachMinimalWeapon(staff, nodes, true), true);
-assert.equal(staff.parent, rightHand);
+assert.equal(attachMinimalWeapon(staff, nodes, true, { generation: 1 }), true);
+assert.equal(staff.parent.name, MINIMAL_MEADOW_WEAPON_ANCHOR_NAME);
+assert.equal(staff.parent.parent, rightHand);
+assert.equal(staff.userData.attachment, 'hand-drawn');
+assert.equal(staff.userData.attachmentGeneration, 1);
+assert.equal(staff.userData.handBound, true);
 assert.deepEqual(rightHand.quaternion.toJSON(), handBefore);
-assert.equal(staff.userData.attachment, 'right-hand');
 
-assert.equal(attachMinimalWeapon(sword, nodes, true), true);
-assert.equal(sword.parent, rightHand);
+assert.equal(attachMinimalWeapon(sword, nodes, true, { generation: 1 }), true);
+assert.equal(sword.parent.name, MINIMAL_MEADOW_WEAPON_ANCHOR_NAME);
+assert.equal(sword.parent.parent, rightHand);
 assert.equal(staff.parent, null);
 assert.equal(staff.visible, false);
 assert.deepEqual(rightHand.quaternion.toJSON(), handBefore);
 
-assert.equal(attachMinimalWeapon(sword, nodes, false), true);
-assert.equal(sword.parent, spine);
-assert.equal(sword.userData.attachment, 'upper-back');
+assert.equal(attachMinimalWeapon(sword, nodes, false, { generation: 1 }), true);
+assert.equal(sword.parent.name, MINIMAL_MEADOW_WEAPON_ANCHOR_NAME);
+assert.equal(sword.parent.parent, rightHand);
+assert.equal(sword.userData.attachment, 'hand-sheathed');
 assert.deepEqual(rightHand.quaternion.toJSON(), handBefore);
 
-assert.equal(attachMinimalWeapon(staff, nodes, true, 'left'), true);
-assert.equal(staff.parent, leftHand);
+assert.equal(countAnchors(model), 1);
+detachMinimalWeapon(sword);
 assert.equal(sword.parent, null);
 assert.equal(sword.visible, false);
-detachMinimalWeapon(staff);
-assert.equal(staff.parent, null);
-assert.equal(staff.visible, false);
 console.log('MINIMAL_MEADOW_WEAPON_ATTACHMENT_TEST_OK=1');
 
 function weapon(kind) {
 	const node = new SimulationSceneNode(`${kind}-weapon`);
 	node.userData.weaponKind = kind;
 	return node;
+}
+
+function countAnchors(root) {
+	let count = 0;
+	root.traverse(node => {
+		if (node.name === MINIMAL_MEADOW_WEAPON_ANCHOR_NAME) count += 1;
+	});
+	return count;
 }

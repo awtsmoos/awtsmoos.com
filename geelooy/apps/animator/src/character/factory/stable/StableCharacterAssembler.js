@@ -11,13 +11,14 @@ import { StablePoseOverrides } from './StablePoseOverrides.js';
 import { StableReferenceMetrics } from './StableReferenceMetrics.js';
 import { StableRigMetrics } from './StableRigMetrics.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
+import { StableSitcomMorphology } from './StableSitcomMorphology.js';
 import { StableViewProfile } from './StableViewProfile.js';
 import { StableWholeBodyPose } from './StableWholeBodyPose.js';
 
 /**
- * The Awtsmoos joins identity, skeleton, authored controls, performance, and
- * paint in one production graph. Awtsmoos.com keeps preview and exporter on the
- * same geometry while every transform and pose remains editable and serializable.
+ * Morphology now shapes the skeleton before garments and limbs consume its bones.
+ * The Awtsmoos joins identity and motion; Awtsmoos.com keeps one editable graph
+ * authoritative across timeline, persistence, preview, and production export.
  */
 export class StableCharacterAssembler {
 	static assemble(data) {
@@ -26,20 +27,19 @@ export class StableCharacterAssembler {
 		}
 		const sage = data.archetype === 'sage'
 			|| data.style === 'illustrated_sage';
-		const baseMetrics = sage
-			? StableRigMetrics.sage()
-			: StableRigMetrics.human();
+		const baseMetrics = sage ? StableRigMetrics.sage() : StableRigMetrics.human();
 		const metrics = StableReferenceMetrics.apply(data, baseMetrics);
+		const prepared = StableSitcomMorphology.prepare(data, metrics);
 		const colors = sage
-			? StablePalette.sage(data)
-			: StablePalette.human(data);
-		const view = StableViewProfile.get(data);
-		const time = S.num(data._renderTime, 0);
-		const generatedPose = StableWholeBodyPose.get(data, view, time);
-		const pose = StablePoseOverrides.apply(generatedPose, data.rigPose);
-		const skeleton = SkeletonFactory.create(data, metrics, view, pose);
+			? StablePalette.sage(prepared)
+			: StablePalette.human(prepared);
+		const view = StableViewProfile.get(prepared);
+		const time = S.num(prepared._renderTime, 0);
+		const generatedPose = StableWholeBodyPose.get(prepared, view, time);
+		const pose = StablePoseOverrides.apply(generatedPose, prepared.rigPose);
+		const skeleton = SkeletonFactory.create(prepared, metrics, view, pose);
 		return this.characterGraph({
-			...data,
+			...prepared,
 			_stableView: view,
 			_stablePose: pose,
 			_skeleton: skeleton
@@ -49,11 +49,7 @@ export class StableCharacterAssembler {
 	static characterGraph(data, colors, metrics, sage) {
 		const prefix = sage ? 'sage' : 'human';
 		const poseBody = data._stablePose.body || {};
-		const breath = S.clamp(
-			poseBody.torsoBreathScale || 1,
-			0.96,
-			1.05
-		);
+		const breath = S.clamp(poseBody.torsoBreathScale || 1, 0.96, 1.05);
 		return G.group(
 			`stable_character_${data.id || 'soul'}`,
 			StableCharacterTransform.position(data, sage),
@@ -64,13 +60,7 @@ export class StableCharacterAssembler {
 					y: S.clamp(poseBody.bob || 0, -13, 8),
 					scaleY: breath,
 					rotation: (poseBody.torsoLean || 0) * 0.006
-				}, StableCharacterLayers.build(
-					data,
-					colors,
-					metrics,
-					sage,
-					prefix
-				))
+				}, StableCharacterLayers.build(data, colors, metrics, sage, prefix))
 			],
 			{ opacity: StableCharacterTransform.opacity(data) }
 		);

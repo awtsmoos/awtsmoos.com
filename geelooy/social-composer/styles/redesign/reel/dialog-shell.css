@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Reel modal becomes a focused cinematic workspace with a restrained header,
+ * clear content region, and a scroll-locked document behind its top-layer vessel.
+ */
+
+html:has(.reel-maker-dialog[open]),
+body:has(.reel-maker-dialog[open]) {
+	overflow: hidden;
+}
+
+.reel-maker-dialog {
+	inline-size: 100%;
+	max-inline-size: none;
+	block-size: 100%;
+	max-block-size: none;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--reel-text);
+	overflow: visible;
+}
+
+.reel-maker-dialog::backdrop {
+	background:
+		radial-gradient(circle at 50% 32%, rgba(185, 120, 239, .12), transparent 36%),
+		rgba(2, 4, 8, .8);
+	backdrop-filter: blur(9px) saturate(.8);
+}
+
+.reel-maker-surface {
+	position: fixed;
+	inset: 50% auto auto 50%;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	inline-size: min(72rem, calc(100vw - 2rem));
+	block-size: min(54rem, calc(100dvh - 2rem));
+	border: 1px solid var(--reel-border-strong);
+	border-radius: var(--reel-radius-xl);
+	background:
+		linear-gradient(145deg, rgba(185, 120, 239, .035), transparent 30%),
+		var(--reel-surface-0);
+	box-shadow: var(--reel-shadow-dialog);
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+}
+
+.reel-maker-surface > header {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	min-block-size: 4.15rem;
+	padding: .6rem .75rem;
+	border-block-end: 1px solid var(--reel-border);
+	background: linear-gradient(180deg, #111720, var(--reel-surface-1));
+}
+
+.reel-maker-surface > header > div {
+	min-inline-size: 0;
+}
+
+.reel-maker-surface > header small {
+	color: var(--reel-violet);
+	font-size: .62rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.reel-maker-surface > header strong {
+	display: block;
+	margin-block-start: .08rem;
+	overflow: hidden;
+	color: var(--reel-text);
+	font-size: .94rem;
+	letter-spacing: -.01em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.reel-maker-surface > header button {
+	min-inline-size: 2.55rem;
+	min-block-size: 2.55rem;
+	padding: .45rem .68rem;
+	border: 1px solid var(--reel-border);
+	border-radius: var(--reel-radius-sm);
+	background: var(--reel-surface-2);
+	color: var(--reel-text-soft);
+	font: inherit;
+	font-size: .72rem;
+	font-weight: 780;
+	cursor: pointer;
+	transition: border-color var(--reel-transition), background var(--reel-transition);
+}
+
+.reel-maker-surface > header [data-reel-close] {
+	font-size: 1rem;
+}
+
+.reel-maker-surface > section {
+	min-block-size: 0;
+	overflow: hidden;
+}
+
+@media (hover: hover) {
+	.reel-maker-surface > header button:hover {
+		border-color: var(--reel-border-strong);
+		background: var(--reel-surface-3);
+	}
+}

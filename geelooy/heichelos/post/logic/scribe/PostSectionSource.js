@@ -4,10 +4,10 @@
 /**
  * @module PostSectionSource
  * @description
- * The Awtsmoos reveals one Torah stream through many vessels: the current API
- * places canonical verses on `post.sections`, while older scrolls place them
- * inside `post.dayuh.sections`. This boundary hears both forms and preserves
- * every punctuation-born segment as a stable subsection for Awtsmoos.com.
+ * The Awtsmoos reveals one Torah stream through many vessels. Modern posts
+ * place verse objects on `post.sections`; older Mishnah scrolls place arrays of
+ * punctuation phrases inside `post.dayuh.sections`. This boundary preserves
+ * both revelations without flattening either form on Awtsmoos.com.
  */
 
 function asOrderedArray(value) {
@@ -20,12 +20,12 @@ function meaningfulText(value) {
 	return String(value ?? "").trim().length > 0;
 }
 
-function normalizeSegment(segment, index) {
+function normalizeSegment(segment, segmentIndex, sectionIndex) {
 	if (typeof segment === "string") {
 		return {
-			id: `segment_${index}`,
+			id: `segment_${sectionIndex}_${segmentIndex}`,
 			content: segment,
-			order: index
+			order: segmentIndex
 		};
 	}
 	if (!segment || typeof segment !== "object") return null;
@@ -33,33 +33,43 @@ function normalizeSegment(segment, index) {
 	if (!meaningfulText(content)) return null;
 	return {
 		...segment,
+		id: segment.id || `segment_${sectionIndex}_${segmentIndex}`,
 		content,
-		order: Number.isFinite(segment.order) ? segment.order : index
+		order: Number.isFinite(segment.order) ? segment.order : segmentIndex
 	};
 }
 
-function sourceSegments(section) {
+function sectionBase(section) {
+	if (Array.isArray(section)) return {};
+	if (typeof section === "string") return { content: section };
+	if (section && typeof section === "object") return { ...section };
+	return {};
+}
+
+function sourceSegments(section, base) {
+	if (Array.isArray(section)) return section;
 	const candidates = [
-		section?.segments,
-		section?.subSections,
-		section?.subsections,
-		section?.paragraphs
+		base.segments,
+		base.subSections,
+		base.subsections,
+		base.paragraphs
 	];
 	return candidates.find(Array.isArray) || [];
 }
 
-function normalizeSection(section, index) {
-	const base = typeof section === "string" ? { content: section } : { ...(section || {}) };
-	const segments = sourceSegments(base)
-		.map(normalizeSegment)
+function normalizeSection(section, sectionIndex) {
+	const base = sectionBase(section);
+	const segments = sourceSegments(section, base)
+		.map((segment, segmentIndex) => normalizeSegment(segment, segmentIndex, sectionIndex))
 		.filter(Boolean)
 		.sort((left, right) => left.order - right.order);
+	const fallbackId = `verse_${sectionIndex}`;
 	return {
 		...base,
-		id: base.id || base.sectionId || `verse_${index}`,
-		sectionId: base.sectionId || base.id || `verse_${index}`,
-		verseSection: base.verseSection ?? index,
-		order: Number.isFinite(base.order) ? base.order : index,
+		id: base.id || base.sectionId || fallbackId,
+		sectionId: base.sectionId || base.id || fallbackId,
+		verseSection: base.verseSection ?? sectionIndex,
+		order: Number.isFinite(base.order) ? base.order : sectionIndex,
 		subSections: segments.length ? segments : base.subSections
 	};
 }

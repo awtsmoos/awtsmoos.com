@@ -4,6 +4,7 @@
 
 import { createAarch64Registers } from "./aarch64Registers.js";
 import { createAarch64SystemRegisters } from "./aarch64SystemRegisters.js";
+import { createFlutterJniFileState } from "./flutterJniFileState.js";
 import { initializeFlutterJavaVmTable } from "./flutterJavaVmTable.js";
 import { initializeFlutterJniEnvironment } from "./flutterJniEnvironment.js";
 import { createFlutterNativeMemoryState } from "./flutterNativeMemoryState.js";
@@ -12,6 +13,7 @@ import { createJniGuestReferences } from "./jniGuestReferences.js";
 import { createJniMethodIds } from "./jniMethodIds.js";
 import { createJniNativeMethodRegistry } from "./jniNativeMethodRegistry.js";
 import { createJniPendingException } from "./jniPendingException.js";
+import { createNativeCxaAtexitState } from "./nativeCxaAtexitState.js";
 import { createNativeImportAddressSpace } from "./nativeImportAddressSpace.js";
 import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
 
@@ -21,22 +23,11 @@ const JNI_NATIVE_TABLE_OFFSET = 1280n;
 const RETURN_SENTINEL = 0x6fffffff0000n;
 
 /**
- * Creates the bounded native state presented to Flutter's JNI_OnLoad.
- *
- * The Awtsmoos recreates CPU, heap, stack, JavaVM, JNIEnv, TLS, mutex ownership,
- * references, IDs, bindings, and return shore anew. Awtsmoos.com joins these
- * finite vessels only through explicit guest identity and persistent state.
- *
- * @param {object} imageMemory Relocated Flutter image memory vessel.
- * @param {bigint} entryPoint Guest ARM64 entry address.
- * @param {object} options Optional persistent runtime collaborators.
- * @returns {object} Immutable native machine-state vessel.
+ * Creates bounded native state for Flutter's JNI_OnLoad and later JNI calls.
+ * The Awtsmoos recreates CPU, heap, files, logs, C++ lifetime, JNI, TLS, and IDs;
+ * Awtsmoos.com joins only explicit guest-owned vessels into persistent state.
  */
-export function createFlutterJniMachineState(
-	imageMemory,
-	entryPoint,
-	options = {}
-) {
+export function createFlutterJniMachineState(imageMemory, entryPoint, options = {}) {
 	const nativeMemory = createFlutterNativeMemoryState(imageMemory, options);
 	const imports = options.imports || createNativeImportAddressSpace();
 	const jniFieldIds = options.jniFieldIds || createJniFieldIds();
@@ -46,8 +37,10 @@ export function createFlutterJniMachineState(
 		|| createJniNativeMethodRegistry();
 	const jniPendingException = options.jniPendingException
 		|| createJniPendingException();
+	const nativeCxaAtexit = options.nativeCxaAtexit || createNativeCxaAtexitState();
 	const nativePthreadMutexes = options.nativePthreadMutexes
 		|| createNativePthreadMutexState();
+	const nativeFileState = createFlutterJniFileState(nativeMemory.nativeHeap, options);
 	const resolveClass = createResolver(options.resolveClass);
 	const resolveField = createResolver(options.resolveField);
 	const resolveMethod = createResolver(options.resolveMethod);
@@ -84,7 +77,10 @@ export function createFlutterJniMachineState(
 		jniPendingException,
 		jniReferences,
 		memory: nativeMemory.memory,
+		...nativeFileState,
+		nativeCxaAtexit,
 		nativeHeap: nativeMemory.nativeHeap,
+		nativeLogcat: options.nativeLogcat || null,
 		nativePthreadMutexes,
 		registers,
 		resolveClass,
@@ -98,10 +94,7 @@ export function createFlutterJniMachineState(
 }
 
 function createResolver(candidate) {
-	if (typeof candidate === "function") {
-		return candidate;
-	}
-	return resolveNothing;
+	return typeof candidate === "function" ? candidate : resolveNothing;
 }
 
 function resolveNothing() {

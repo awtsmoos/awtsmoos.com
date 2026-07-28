@@ -1,0 +1,93 @@
+(node:36818) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/BotanicalAssetSources.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ flower aliases preserve color identity while sharing one local model (4.805542ms)
+✖ botanical model policy never selects remote or fake half-model tiers (0.523449ms)
+{
+  "ok": true,
+  "species": 123,
+  "archetypes": 15,
+  "waterResults": [
+    "iris",
+    "forget-me-not",
+    "marsh-marigold",
+    "water-avens",
+    "creeping-jenny",
+    "hosta",
+    "hosta-flower",
+    "creeping-mazus"
+  ]
+}
+✔ src/test/botany/botanicalCatalog.test.mjs (5993.224394ms)
+{
+  "ok": true,
+  "species": 123,
+  "qualities": [
+    "low",
+    "medium",
+    "high",
+    "cinematic"
+  ],
+  "totalTrianglesByQuality": {
+    "low": 7350,
+    "medium": 9486,
+    "high": 15014,
+    "cinematic": 20840
+  },
+  "cluster": {
+    "instances": 12,
+    "parts": 3,
+    "vertices": 984,
+    "triangles": 1032
+  }
+}
+✔ src/test/botany/botanicalGeometry.test.mjs (6493.907445ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6747.204031
+
+✖ failing tests:
+
+test at src/test/assets/botanicalAssetSources.test.mjs:23:1
+✖ flower aliases preserve color identity while sharing one local model (4.805542ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /\/assets\/models\/reference-world\/Flower_4_Clump\.glb$/. Input:
+  
+  '/assets/materials/local/world/awtsmoos-nature/chai-forest/models/flower_blue.glb'
+  
+      at assertLocalFlowerUrl (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/LocalMaterialTestSupport.mjs:53:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/botanicalAssetSources.test.mjs:25:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/assets/materials/local/world/awtsmoos-nature/chai-forest/models/flower_blue.glb',
+    expected: /\/assets\/models\/reference-world\/Flower_4_Clump\.glb$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at src/test/assets/botanicalAssetSources.test.mjs:35:1
+✖ botanical model policy never selects remote or fake half-model tiers (0.523449ms)
+  TypeError: Invalid URL
+      at new URL (node:internal/url:840:25)
+      at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/botanicalAssetSources.test.mjs:38:39
+      at Array.map (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/botanicalAssetSources.test.mjs:38:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    code: 'ERR_INVALID_URL',
+    input: './assets/materials/local/world/awtsmoos-nature/chai-forest/models/flower_blue.glb'
+  }

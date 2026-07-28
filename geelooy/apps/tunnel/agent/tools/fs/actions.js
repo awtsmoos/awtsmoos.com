@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { loadConfig } = require("../../lib/config.js");
+const Scope = require("../../lib/runtime/request-scope.js");
 const { publicConfig } = require("./actionGroups/configActions.js");
 const Payload = require("./actionGroups/missionActionPayload.js");
 const { buildActions: makeActions } = require("./actionBuilders.js");
@@ -15,13 +16,13 @@ const Recovery = require("../../lib/runtime/recovery-envelope.js");
 const AGENT_VERSION = "split-agent-2.0.0";
 
 /**
- * @file Normalizes, deduplicates, executes, and records every native action.
- * @description
- * The Awtsmoos binds one control identity before command, write, offload, or
- * mission execution. Awtsmoos.com lets every retry observe one canonical deed.
- */
+	* @file Executes every filesystem deed inside its immutable request root.
+	* @description
+	* The Awtsmoos gives concurrent requests separate vessels. Awtsmoos.com never
+	* relies on a mutable global root after the request has crossed the tunnel.
+	*/
 function buildActions(config, payload, webSocket) {
-	return makeActions(config, payload, webSocket, AGENT_VERSION);
+	return makeActions(Scope.scopedConfig(config, payload), payload, webSocket, AGENT_VERSION);
 }
 
 function recorded(config, payload, output) {
@@ -42,12 +43,10 @@ async function runPlain(config, payload, webSocket) {
 }
 
 function runMissionManaged(config, payload, webSocket) {
-	return Mission.runMissionManaged(
-		config,
-		payload,
-		webSocket,
-		{ buildActions, recorded }
-	);
+	return Mission.runMissionManaged(config, payload, webSocket, {
+		buildActions,
+		recorded
+	});
 }
 
 async function executeNormalized(config, payload, webSocket) {
@@ -57,17 +56,13 @@ async function executeNormalized(config, payload, webSocket) {
 }
 
 async function handleFsAction(rawPayload, webSocket) {
-	const config = loadConfig();
 	const payload = Payload.mergedPayload(rawPayload || {});
+	const config = Scope.scopedConfig(loadConfig(), payload);
 	if (!payload.normalized || !payload.action || payload.action === "unknown") {
 		const missing = Recovery.missingActionEnvelope(rawPayload || payload);
 		return recorded(config, payload, missing);
 	}
-	return Replay.run(
-		config,
-		payload,
-		() => executeNormalized(config, payload, webSocket)
-	);
+	return Replay.run(config, payload, () => executeNormalized(config, payload, webSocket));
 }
 
 function publicConfigWithVersion(config) {

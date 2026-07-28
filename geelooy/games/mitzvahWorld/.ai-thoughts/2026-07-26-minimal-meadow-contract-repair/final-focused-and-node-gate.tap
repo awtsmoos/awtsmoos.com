@@ -1,0 +1,117 @@
+src/launcher/MinimalSharedMeadowPage.js_logical_lines=91
+src/launcher/MinimalSharedMeadowPageSupport.js_logical_lines=56
+src/app/MinimalMeadowConcurrentMountPlan.js_logical_lines=27
+src/app/MinimalMeadowRichWorldMounts.js_logical_lines=71
+src/app/MinimalMeadowRichWorldMountSupport.js_logical_lines=64
+src/app/MinimalMeadowQuestMount.js_logical_lines=52
+src/app/MinimalMeadowHousePopulation.js_logical_lines=118
+src/test/app/minimalMeadowConcurrentMountPlan.test.mjs_logical_lines=60
+(node:33034) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ texture streaming starts only after two scheduled frame boundaries (1.327444ms)
+✔ legacy or injected streams need no gameplay gate (55.719892ms)
+(node:33035) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowConcurrentMountPlan.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H every mount factory starts before the first promise resolves (108.199063ms)
+✔ B"H an empty mount plan settles as an empty receipt (0.411845ms)
+(node:33036) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ camera-relative joystick signs match the screen in every cardinal direction (2.72936ms)
+✔ camera-relative diagonals remain normalized and preserve both signs (131.398458ms)
+✔ selected Run changes actual speed and action for keyboard and joystick (2.685238ms)
+(node:33043) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H fallback readiness preserves Canvas2D backend identity (22.17324ms)
+✔ B"H rich hydration keeps WebGL backend and records rich stage (1.299115ms)
+✔ B"H hydration failure degrades stage without corrupting backend (0.571355ms)
+(node:33044) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ progressive renderer creates WebGL and clears an empty scene (5.591271ms)
+✔ startup publishes playability without eagerly entering rich renderer (32.339478ms)
+(node:33045) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRenderer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H missing WebGL produces a structured Canvas2D fallback receipt (131.165633ms)
+✔ B"H direct progressive construction exposes a coded context error (23.238142ms)
+✔ B"H unrelated renderer failures receive a construction code (0.31841ms)
+✔ B"H explicit context errors preserve normalized unique attempts (0.553884ms)
+(node:33046) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeStateMarker.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H runtime start clears every stale renderer field (2.569221ms)
+✔ B"H playable fallback publishes stable renderer evidence (1.013816ms)
+✔ B"H rich renderer clears stale fallback evidence (0.520669ms)
+(node:33049) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ pixel-derived repeats remain exact fractions instead of rounded tile counts (3.243124ms)
+✔ unknown dimensions stay explicit and preserve the authored fallback (1.038353ms)
+✔ world-tile repeats no longer round away partial source coverage (0.463973ms)
+(node:33053) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (10.113936ms)
+✔ complete terrain stack retains six distinct source garments (0.991418ms)
+✔ visible maps and source provenance obey local production policy (1.811914ms)
+✔ medium terrain carries normalized ecological weights and five slots (3.618269ms)
+(node:33054) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all six local terrain images exist and contain real bytes (39.679055ms)
+✔ high terrain recipe exposes six distinct same-origin maps and sources (19.110343ms)
+✔ terrain binds a real meadow base and earth mix at construction (3.508082ms)
+(node:33063) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H road contract imports with six active layers (1.994ms)
+✔ B"H yellow brick remains verified compatibility provenance (6.802934ms)
+(node:33067) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMobileIntegration.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H automatic integration settles a rejected boot without rethrowing (2.517084ms)
+(node:33070) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMobileIntegration.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H zero-black materials become readable without changing existing colors (5.190904ms)
+✔ B"H integration adds the real sword once and settles ready (9.301459ms)
+(node:33071) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H package-facing terrain builder preserves the complete meadow contract (42.374394ms)
+✔ B"H historic numeric creator remains available for established callers (5.012018ms)
+(node:33072) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageFurnitureDefinitions.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ general furniture delegates all market pieces to MARKET01 (8.67529ms)
+✔ the canonical builder remains the only market visual source (33.674162ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3220.960617
+focused_test_exit=0
+node_world_exit=0
+diff_check_exit=0

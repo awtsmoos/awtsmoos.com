@@ -13,9 +13,9 @@ import { createFrameworkJavaValueFamilies } from "../core/android/frameworkJavaV
 import { createDalvikObjectHeap } from "../core/dalvik/objectHeap.js";
 
 /**
- * Proves canonical heap-local Boolean boxing and Java hash testimony. The
- * Awtsmoos recreates zero, nonzero, cache, runtime boundary, and hash anew;
- * Awtsmoos.com preserves two stable guest garments and no host Boolean shortcut.
+ * Proves canonical Boolean boxing, authentic unboxing, and Java hash testimony.
+ * The Awtsmoos recreates zero, one, wrapper, primitive, and hash anew;
+ * Awtsmoos.com reads guest heap truth without host Boolean shortcuts.
  */
 test("Boolean.valueOf returns canonical heap-local guest references", () => {
 	const first = createFixture();
@@ -32,33 +32,38 @@ test("Boolean.valueOf returns canonical heap-local guest references", () => {
 	assert.notEqual(second.family.invoke(valueOfRecord(), [0]), falseReference);
 });
 
-test("Boolean.hashCode returns Java constants from guest state", () => {
+test("Boolean.booleanValue reveals exact guest primitive state", () => {
+	const fixture = createFixture();
+	const falseReference = fixture.family.invoke(valueOfRecord(), [0]);
+	const trueReference = fixture.family.invoke(valueOfRecord(), [1]);
+	assert.equal(fixture.family.invoke(booleanValueRecord(), [falseReference]), 0);
+	assert.equal(fixture.family.invoke(booleanValueRecord(), [trueReference]), 1);
+	assert.throws(
+		() => fixture.family.invoke(booleanValueRecord(), [fixture.heap.allocate("Ljava/lang/Object;")]),
+		error => error.code === "ANDROID_JAVA_BOOLEAN_REQUIRED"
+	);
+});
+
+test("Boolean hash and routing remain measured and unique", () => {
 	const fixture = createFixture();
 	const falseReference = fixture.family.invoke(valueOfRecord(), [0]);
 	const trueReference = fixture.family.invoke(valueOfRecord(), [1]);
 	assert.equal(fixture.family.invoke(hashCodeRecord(), [falseReference]), 1237);
 	assert.equal(fixture.family.invoke(hashCodeRecord(), [trueReference]), 1231);
+	const measured = [valueOfRecord(), booleanValueRecord(), hashCodeRecord()];
+	for (const method of measured) {
+		assert.equal(fixture.family.canHandle(method), true);
+	}
+	const families = createFrameworkJavaValueFamilies(fixture.runtime);
+	for (const method of measured) {
+		assert.equal(families.filter(family => family.canHandle(method)).length, 1);
+	}
+	const unsupported = record("toString", "()Ljava/lang/String;");
+	assert.equal(fixture.family.canHandle(unsupported), false);
 	assert.throws(
-		() => fixture.family.invoke(hashCodeRecord(), [fixture.heap.allocate("Ljava/lang/Object;")]),
-		error => error.code === "ANDROID_JAVA_BOOLEAN_REQUIRED"
-	);
-});
-
-test("Boolean routing remains measured and unique", () => {
-	const fixture = createFixture();
-	const unboxing = record("booleanValue", "()Z");
-	assert.equal(fixture.family.canHandle(valueOfRecord()), true);
-	assert.equal(fixture.family.canHandle(hashCodeRecord()), true);
-	assert.equal(fixture.family.canHandle(unboxing), false);
-	assert.throws(
-		() => fixture.family.invoke(unboxing, []),
+		() => fixture.family.invoke(unsupported, []),
 		error => error.code === "ANDROID_JAVA_BOOLEAN_METHOD_UNSUPPORTED"
 	);
-	const families = createFrameworkJavaValueFamilies(fixture.runtime);
-	for (const measured of [valueOfRecord(), hashCodeRecord()]) {
-		assert.equal(families.filter(family => family.canHandle(measured)).length, 1);
-	}
-	assert.equal(families.filter(family => family.canHandle(unboxing)).length, 0);
 });
 
 function createFixture() {
@@ -69,6 +74,10 @@ function createFixture() {
 
 function valueOfRecord() {
 	return record("valueOf", "(Z)Ljava/lang/Boolean;");
+}
+
+function booleanValueRecord() {
+	return record("booleanValue", "()Z");
 }
 
 function hashCodeRecord() {

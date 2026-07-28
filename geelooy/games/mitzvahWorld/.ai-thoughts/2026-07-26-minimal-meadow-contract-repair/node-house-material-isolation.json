@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "durationMs": 156,
+  "roles": [
+    "brick",
+    "brickLight",
+    "floor",
+    "mezuzah",
+    "roof",
+    "wood",
+    "records"
+  ],
+  "records": 6
+}

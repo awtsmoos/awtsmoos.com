@@ -1,0 +1,80 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Phone timeline controls wrap deliberately, labels remain readable, and trim
+ * handles preserve touch geometry without consuming excessive lane width.
+ */
+
+@media (max-width: 52rem) {
+	.nle-timeline-toolbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: .38rem;
+		min-block-size: auto;
+		padding: .38rem .5rem;
+	}
+
+	.nle-edit-actions {
+		grid-column: 1 / -1;
+		order: 2;
+		padding-block-start: .05rem;
+	}
+
+	.nle-edit-actions button {
+		min-block-size: 2.2rem;
+	}
+
+	.nle-time-readout {
+		justify-self: start;
+	}
+
+	.nle-zoom-control {
+		inline-size: min(46vw, 12rem);
+	}
+
+	.nle-track {
+		grid-template-columns: var(--nle-track-label-width) var(--nle-timeline-width);
+		min-block-size: 3.45rem;
+	}
+
+	.nle-ruler {
+		margin-inline-start: var(--nle-track-label-width);
+	}
+
+	.nle-track-label {
+		grid-template-columns: 1.7rem minmax(0, 1fr);
+		padding-inline: .35rem;
+	}
+
+	.nle-track-label > span {
+		inline-size: 1.7rem;
+		block-size: 1.7rem;
+	}
+
+	.nle-track-label strong {
+		font-size: .61rem;
+	}
+
+	.nle-track-lane {
+		min-block-size: 3.45rem;
+	}
+
+	.nle-timeline-clip {
+		inset-block: .32rem;
+		grid-template-columns: .78rem minmax(0, 1fr) .78rem;
+	}
+
+	.nle-playhead {
+		inset-inline-start: var(--nle-track-label-width);
+	}
+}
+
+@media (max-height: 42rem) and (max-width: 52rem) {
+	.nle-studio {
+		grid-template-rows: auto auto minmax(8rem, 1fr) minmax(12rem, 46vh) auto;
+	}
+
+	.nle-transport {
+		padding-block: .35rem;
+	}
+}

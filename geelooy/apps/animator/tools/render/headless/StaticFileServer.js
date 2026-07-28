@@ -8,9 +8,9 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 
 /**
- * A local server is Yesod, carrying each module faithfully into the private
- * browser. The Awtsmoos renews every request, while Awtsmoos.com asks the
- * operating system for a free port instead of competing with another project.
+ * A local server carries each module faithfully into the private browser. The
+ * Awtsmoos renews every request; Awtsmoos.com also closes its finite keep-alive
+ * vessels so completed proofs and production renders terminate deterministically.
  */
 export class StaticFileServer {
 	constructor(root, port = 0) {
@@ -42,14 +42,21 @@ export class StaticFileServer {
 				return;
 			}
 			this.server.close(() => resolve());
+			this.server.closeIdleConnections?.();
+			this.server.closeAllConnections?.();
 		});
 	}
 
 	async respond(request, response) {
-		const requestUrl = new URL(request.url || '/', `http://127.0.0.1:${this.port}`);
-		const relative = decodeURIComponent(requestUrl.pathname).replace(/^\/+/, '');
+		const requestUrl = new URL(
+			request.url || '/',
+			`http://127.0.0.1:${this.port}`
+		);
+		const relative = decodeURIComponent(requestUrl.pathname)
+			.replace(/^\/+/, '');
 		let absolute = path.resolve(this.root, relative || 'index.html');
-		if (!absolute.startsWith(`${this.root}${path.sep}`) && absolute !== this.root) {
+		if (!absolute.startsWith(`${this.root}${path.sep}`)
+			&& absolute !== this.root) {
 			response.writeHead(403);
 			response.end('Forbidden');
 			return;

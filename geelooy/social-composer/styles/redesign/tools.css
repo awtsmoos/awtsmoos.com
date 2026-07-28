@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Common creative acts, metrics, helper notes, and technical receipts remain
+ * compact around the writing surface while preserving their real controller paths.
+ */
+
+.composer-social-tools {
+	display: flex;
+	gap: .4rem;
+	overflow-x: auto;
+	padding: .12rem 0 .3rem;
+	scrollbar-width: none;
+}
+
+.composer-social-tools::-webkit-scrollbar {
+	display: none;
+}
+
+.composer-social-tools button {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+	gap: .38rem;
+	min-block-size: 2.55rem;
+	padding: .48rem .72rem;
+	border-radius: 999px;
+	font-size: .72rem;
+}
+
+.composer-social-tools button > span {
+	color: var(--composer-cyan);
+	font-size: .95rem;
+}
+
+.composer-social-tools button[data-composer-tool="torah"] > span,
+.composer-social-tools button[data-composer-tool="audience"] > span {
+	color: var(--composer-amber);
+}
+
+.composer-civilization-document #composerMetricsText {
+	padding: .28rem .5rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .02);
+	color: var(--composer-text-muted);
+	font-size: .62rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.composer-civilization-document :is(.inlineCreation, .creationGrid, .placementComposer, .questionFields) {
+	padding: .7rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .018);
+}
+
+.composer-civilization-document .publication-support-note,
+.composer-civilization-document #destinationMode,
+.composer-civilization-document #titleHelp {
+	margin: 0;
+	color: var(--composer-text-faint);
+	font-size: .64rem;
+	line-height: 1.5;
+}
+
+.composer-civilization-document :is(pre, code) {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.composer-civilization-document :is(.advancedIds, .publicationPanel details, .contentPanel > .majorPanelBody > details) {
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .012);
+}
+
+.composer-civilization-document :is(.advancedIds, .publicationPanel details, .contentPanel > .majorPanelBody > details) > summary {
+	padding: .65rem .72rem;
+	color: var(--composer-text-soft);
+	font-size: .7rem;
+	font-weight: 760;
+	cursor: pointer;
+}
+
+.composer-civilization-document :is(.advancedIds, .publicationPanel details, .contentPanel > .majorPanelBody > details)[open] > summary {
+	border-block-end: 1px solid var(--composer-border-soft);
+}

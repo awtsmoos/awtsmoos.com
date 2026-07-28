@@ -1,0 +1,891 @@
+(node:1471) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapWorldFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ bootstrap foundation composes one truthful open flat world (5.775914ms)
+✖ critical foundation source excludes authored terrain and world finalizer imports (6.788783ms)
+(node:1472) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H action icons are pictographic while Hebrew remains present (3.864211ms)
+✔ B"H combat pressure is slower, smaller, and spatially separated (0.334772ms)
+✔ B"H selected enemy brightens and receives visible markers (15.322307ms)
+✔ B"H Shlichus menu follows canonical active mission progress (0.635148ms)
+✔ B"H stairs expose discrete tread heights and no hidden ramp (2.486341ms)
+✔ B"H sky shader contains intense disc, halo, clouds, and warm horizon (0.202043ms)
+(node:1473) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (1.628577ms)
+✖ B"H equipped staff attaches to visible model-root anchor and repairs (30.710232ms)
+(node:1474) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHebrewProjectile.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ melee persists across aggro and applies exactly one impact per strike (20.209614ms)
+✖ caster retreats, launches one Hebrew projectile, and recovers (6.915638ms)
+✔ impact and expired support effects return their visual vessels to pools (15.811509ms)
+(node:1475) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ profile spawn anchors home before the group receives final placement (9.869682ms)
+✔ role and cadence remain stable for one complete engagement (1.140188ms)
+✔ brief sight loss persists but sustained loss resets the session (0.496214ms)
+✔ different identities receive broad naturally staggered delays (0.202829ms)
+(node:1476) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H combat approach moves an actor that has no move method (2.38589ms)
+(node:1477) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every house expands its recorded legacy footprint by at least forty (2.272397ms)
+✔ expanded footprints retain a broad non-overlapping world corridor (0.257807ms)
+✔ assembly uses measured dimensions rather than parent scaling (0.675636ms)
+(node:1478) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every expanded footprint and entry approach avoids occupied terrain (72.396045ms)
+(node:1479) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measured foundation creates accessible steps and a level platform (2.145889ms)
+✔ two-story plan aligns normal doors, broad hall, and usable stairs (3.095072ms)
+(node:1480) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ B"H fallback readiness preserves Canvas2D backend identity (13.43932ms)
+✔ B"H rich hydration keeps WebGL backend and records rich stage (13.065035ms)
+✔ B"H hydration failure degrades stage without corrupting backend (5.275477ms)
+(node:1481) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H exact terrain frequency derives from source pixels and world size (1.33593ms)
+✔ B"H readiness stays settling until renderer and features resolve (3.400161ms)
+✔ B"H staff begins in right hand and aims at selected target (1.150071ms)
+(node:1482) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/WorldStairSummary.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stair summary preserves layout, collision, and dimension aggregates (2.26415ms)
+✔ empty stair input returns zero dimensions without infinities (4.007967ms)
+(node:1483) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quest offer can be declined and later accepted (2.783278ms)
+✔ sequential objectives progress only on matching events (3.311563ms)
+✔ pinning is bounded and abandon resets progress (32.125069ms)
+✔ custom catalogs remain valid store vessels (4.586319ms)
+(node:1485) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ one key edge emits one bounded fallback melee request (5.415595ms)
+✔ level, Gevurah, equipment, and recovery resolve once per strike (0.919009ms)
+✔ a rejected strike publishes the remaining cooldown without world polling (0.49759ms)
+(node:1486) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonMelee.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ melee damages one nearby unarmored actor and emits evidence (4.40856ms)
+✔ enemy armor mitigates physical damage without producing zero hits (0.605192ms)
+✔ melee rejects a distant actor without mutation (0.332383ms)
+(node:1487) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ attack timeline exposes anticipation, one active window, recovery, and completion (1.495729ms)
+✔ archetypes select distinct readable attacks (0.216716ms)
+✔ damage events are normalized and immutable (0.328666ms)
+✔ ward resolves perfect, partial, and ordinary incoming damage (0.434444ms)
+✔ focus runtime enforces canonical learning, ownership, cost, cooldown, and regeneration (3.312275ms)
+✔ ability rules preserve respectful named mechanics (0.257718ms)
+✔ terrain policy rejects sanctuaries and allows the canonical bridge (6.732622ms)
+✔ distance cadence preserves urgent updates and releases accumulated time (0.452146ms)
+✔ friendly danger motion flees from the threat and returns to calm (25.647898ms)
+(node:1500) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ hostile payload becomes the existing defeat objective event (100.061419ms)
+✔ shade defeat advances the active Words of Light objective (2.903162ms)
+(node:1515) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/EnemyProgressionCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ enemy defeat awards scaled XP once and new spawn receipts reward again (5.272242ms)
+✔ profile state publishes the canonical level XP maximum (0.681684ms)
+(node:1521) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStatePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ defeat and village sanctuary outrank every combat intention (1.302408ms)
+✔ awareness becomes warning before attack or pursuit (0.342558ms)
+✔ canonical urgent cadence covers immediate combat states (1.4177ms)
+(node:1524) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTargetContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ target contract exposes progression truth without mutating the actor (1.659844ms)
+(node:1525) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTerritoryPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ safe wilderness movement is allowed (3.103407ms)
+✔ leash, sanctuary, and steep slope are rejected with reasons (0.411184ms)
+✔ an intruder beyond its leash may retreat out of sanctuary (0.231158ms)
+✔ return movement must make measurable progress toward home (0.172416ms)
+(node:1526) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyWanderPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ enemy paths remain deterministic and inside territory (9.345065ms)
+✔ enemy path counts are clamped (0.265815ms)
+(node:1527) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ missing materials preserve aliases and structured degradation (2.593958ms)
+✔ successful images receive stable canonical same-origin texture metadata (0.741781ms)
+✔ loader exceptions become degradation rather than boot failure (0.767587ms)
+(node:1528) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (45.949456ms)
+✔ batch loot and purchases publish exactly once (3.36953ms)
+✔ corpse selection opens loot before any deliberate transfer (17.524584ms)
+✖ tefillin jacket and visible weapon persist through casting and hydration (18.941085ms)
+(node:1529) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ XP, quest defeat events, and distinct enemy credit remain intact (5.432235ms)
+(node:1530) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ river crossing Shlichus advances only through its ordered world events (10.788292ms)
+✔ river crossing Shlichus carries a durable reward and bridge state effect (7.084155ms)
+(node:1531) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/PlayerCombatDefense.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ shadow attack passes through alert, anticipation, active, and recovery (25.137662ms)
+✔ a shadow inside the Shul sanctuary returns without attacking (13.910618ms)
+✔ canonical Torah passage disperses and respawns a selected shade (5.977876ms)
+(node:1532) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ completed Shlichus restores and grants its reward exactly once (52.597019ms)
+(node:1533) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ river reward inventory persists once while its world effect restores (103.091759ms)
+(node:1534) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ accepted impact spends focus and records canonical cooldown once (7.548521ms)
+✔ rejected impact leaves focus and cooldown untouched (0.489516ms)
+✔ action timeline receives the structured synchronous world rejection (0.398917ms)
+✔ targetless support transaction spends focus without hostile world dispatch (0.348559ms)
+(node:1535) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (4.90474ms)
+✔ complete terrain stack retains six distinct source garments (0.539705ms)
+✔ visible maps and source provenance obey local production policy (0.993983ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (3.988145ms)
+(node:1536) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all six local terrain images exist and contain real bytes (2.660013ms)
+✔ high terrain recipe exposes six distinct same-origin maps and sources (3.563387ms)
+✔ terrain binds a real meadow base and earth mix at construction (2.802553ms)
+(node:1537) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ terrain recipe has sixteen named local production layers (9.574703ms)
+✔ base grass and named meadow variants retain distinct witnesses (4.607085ms)
+(node:1538) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainMesh.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ textured terrain preserves source color and soil mixing (4.881243ms)
+✖ unhydrated construction remains white and points at packaged local ground (4.694094ms)
+(node:1539) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageHouseBubbleSystem.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house bubbles are deterministic, batched, and fully textured (26.584864ms)
+✔ quality levels reduce decorated houses without changing batch architecture (27.583958ms)
+(node:1540) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHouses.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ expanded houses remain broadly separated throughout the settlement (2.587316ms)
+(node:1541) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MainMenuLaunchTask.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ launch task forwards progress and resolves the selected handler (2.269575ms)
+✔ browser paint gate uses one timer and never requestAnimationFrame (0.380147ms)
+✔ paint task remains absent in a non-browser test runtime (0.185735ms)
+✔ launch task rejects a stalled handler at its finite deadline (2.660084ms)
+(node:1542) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldGameplayPresentation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ page threshold requests one stylesheet and one JavaScript entry (13.625225ms)
+✔ boot opens only the small launcher through a finite frame gate (7.473054ms)
+✔ gameplay styles remain outside the HTML threshold (0.317182ms)
+✖ runtime opens staged startup and keeps heavy systems explicitly deferred (3.803625ms)
+✔ staged runtime imports foundation before bootstrap core assembly (3.796545ms)
+✔ foundation paints WebGL, loads essential control, then creates bootstrap world (1.135242ms)
+✔ bootstrap world contains visible valley without authored terrain imports (1.770273ms)
+✔ multiplayer connection begins after local runtime resolves (5.072445ms)
+(node:1543) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ combat activation is suspended while Bag modal state is open (3.826925ms)
+(node:1545) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/WorldCollisionOctree.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ terrain sampling, topology, collision, and normals yield cooperatively (93.11093ms)
+✔ world collision insertion yields and returns a queryable octree (19.529609ms)
+(node:1548) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/DeferredTerrainEnrichment.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ text collision precedes text, forest input, forest collision, and forest visuals (82.102178ms)
+✔ destroy before text module resolution prevents all installation (3.088528ms)
+✔ destroy after completion removes visuals, collision, and obstacle additions (0.564638ms)
+(node:1562) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStatePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ health, sanctuary, and territory override combat intent (2.833905ms)
+✔ spawn and warning finish before the canonical attack timeline begins (0.685702ms)
+✔ stagger and cooldown resolve into bounded pursuit (0.486408ms)
+✔ urgent states include every immediate semantic combat phase (0.420205ms)
+(node:1567) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr collision bounds match every visible solid (150.631045ms)
+✔ beis-ohr exposes separated terrain, foundation, and floor tops (58.610164ms)
+✔ brick-cottage collision bounds match every visible solid (39.546696ms)
+✔ brick-cottage exposes separated terrain, foundation, and floor tops (9.252537ms)
+(node:1568) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr owns finite bounds, winding, and role-specific side policy (107.823842ms)
+✔ brick-cottage owns finite bounds, winding, and role-specific side policy (26.278743ms)
+(node:1584) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr remains eligible through a multi-elevation orbit (357.796949ms)
+✔ beis-ohr has stable draw state while entering and leaving (101.916909ms)
+✔ beis-ohr repairs a late blanket side mutation (28.506838ms)
+✔ brick-cottage remains eligible through a multi-elevation orbit (66.838337ms)
+✔ brick-cottage has stable draw state while entering and leaving (42.718113ms)
+✔ brick-cottage repairs a late blanket side mutation (11.62346ms)
+(node:1585) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house population preserves interaction and collision lifecycle (172.877918ms)
+(node:1586) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+BOUNDARY_CONTINUITY {"averageDelta":0.0000032867410729502733,"boundaryWorld":16,"epsilon":0.001,"maximumDelta":0.0003762962078250551,"sampleCount":1710}
+MACRO_CONTINUITY {"averageDelta":0.020322410100121042,"boundaryWorld":24,"epsilon":24,"maximumDelta":0.3112414181663099,"sampleCount":144}
+✔ large world grid remains finite and normalized (277.923397ms)
+✔ former tile boundaries are continuous rather than stepped (262.00448ms)
+✔ adjacent macro cells vary without checkerboard steps (16.963262ms)
+✔ road center, shoulder, and meadow remain coherent (857.153178ms)
+(node:1587) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H package-facing terrain builder preserves the complete meadow contract (109.172535ms)
+✔ B"H historic numeric creator remains available for established callers (14.030969ms)
+(node:1588) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (1.405719ms)
+✖ mobile and desktop profiles preserve broad six-source coverage (72.208756ms)
+✔ terrain and road presets use six broad rotated sources (3.878658ms)
+✔ package mounts a visible road while terrain owns collision (70.624087ms)
+(node:1618) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldUvDensity.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+UV_EVIDENCE {"finite":true,"origin":[110,110],"pingPongRange":[0,0.5833334922790527],"repeatRange":[0,3.4375,0,4.583333492279053],"tileWorld":[64,48],"vertexCount":3,"wrap":"mirror-pingpong-repeat"}
+✔ ping-pong repetition is continuous and reverses direction (102.57582ms)
+✔ world UV coordinates stay finite across a large domain (242.584946ms)
+✔ generated terrain UV attributes remain finite (2.875902ms)
+(node:1635) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ B"H mobile terrain uses broad full-source coverage (14.641918ms)
+✔ B"H six ecological sources retain strong nonuniform identities (1.791149ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.720529ms)
+✔ B"H visible road mounts without becoming collision authority (0.872216ms)
+(node:1640) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/PlayerCombatDefense.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Torah light uses canonical damage and enforces world range (61.565346ms)
+✔ one player hurt window prevents simultaneous shadow damage (2.35932ms)
+✔ village sanctuary cancels hostile impact at the damage boundary (0.918762ms)
+✔ defeat clears selection and respawn restores canonical combat state (3.317078ms)
+ℹ tests 154
+ℹ suites 0
+ℹ pass 141
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8030.721475
+
+✖ failing tests:
+
+test at experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:41:1
+✖ bootstrap foundation composes one truthful open flat world (5.775914ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'visible-bootstrap'
+  - 'bootstrap-dormant'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:58:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'visible-bootstrap',
+    expected: 'bootstrap-dormant',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:61:1
+✖ critical foundation source excludes authored terrain and world finalizer imports (6.788783ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /BootstrapWorldFoundation\.js\?v=20260722-stream-15/. Input:
+  
+  '// B"H\n' +
+    '// Boruch Hashem\n' +
+    '// Blessed is He\n' +
+    '\n' +
+    '/**\n' +
+    ' * @file EretzWorldFoundation.js\n' +
+    ' * @description Opens WebGL, essential control, and the visible bootstrap valley in bounded waves.\n' +
+    ' * The Awtsmoos reveals movement before authored districts; Awtsmoos.com keeps CSG, water,\n' +
+    ' * textures, forests, houses, and village systems beyond the first responsive threshold.\n' +
+    ' */\n' +
+    '\n' +
+    "import { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260723-stream-20';\n" +
+    "import { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';\n" +
+    'import {\n' +
+    '\tnextLaunchFrame,\n' +
+    '\tnextLaunchTask,\n' +
+    '\treportLaunchProgress,\n' +
+    '\tthrowIfLaunchAborted\n' +
+    "} from './RuntimeLaunchProgress.js';\n" +
+    '\n' +
+    'export async function createEretzWorldFoundation(hosts, options = {}) {\n' +
+    '\tconst qualityProfile = options.qualityProfile;\n' +
+    '\tif (!qualityProfile) {\n' +
+    "\t\tthrow new Error('Eretz foundation requires a quality profile.');\n" +
+    '\t}\n' +
+    '\tconst environment = options.environment || globalThis;\n' +
+    "\toptions.boot?.begin('webgl-context');\n" +
+    "\treportLaunchProgress(options, 'Opening visible WebGL…', 0.12);\n" +
+    '\tconst services = createEretzFoundationServices(\n' +
+    '\t\thosts,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\tenvironment\n' +
+    '\t);\n' +
+    '\tconst webGlBootFrame = paintEretzWebGlBootFrame(\n' +
+    '\t\tservices,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\tenvironment\n' +
+    '\t);\n' +
+    '\tawait nextLaunchFrame(environment);\n' +
+    '\tthrowIfLaunchAborted(options.signal);\n' +
+    "\toptions.boot?.begin('essential-assets');\n" +
+    "\treportLaunchProgress(options, 'Creating local control…', 0.24);\n" +
+    '\tconst { loadEretzEssentialAssets } = await import(\n' +
+    "\t\t'./EretzEssentialAssetLoader.js?v=20260723-stream-20'\n" +
+    '\t);\n' +
+    '\tconst loaded = await loadEretzEssentialAssets({\n' +
+    '\t\t...options,\n' +
+    '\t\tboot: options.boot,\n' +
+    '\t\tenvironment,\n' +
+    '\t\tquality: qualityProfile.quality\n' +
+    '\t});\n' +
+    '\tawait nextLaunchTask(environment);\n' +
+    '\tthrowIfLaunchAborted(options.signal);\n' +
+    "\toptions.boot?.begin('bootstrap-visible-world');\n" +
+    "\treportLaunchProgress(options, 'Opening the visible golden valley…', 0.72);\n" +
+    '\tconst { createBootstrapWorldFoundation } = await import(\n' +
+    "\t\t'./BootstrapWorldFoundation.js?v=20260723-stream-20'\n" +
+    '\t);\n' +
+    '\tconst world = createBootstrapWorldFoundation(services);\n' +
+    '\toptions.boot?.progress?.(\n' +
+    "\t\t'bootstrap-visible-world',\n" +
+    '\t\t1,\n' +
+    '\t\t1,\n' +
+    "\t\t'Visible valley and movement ready; authored districts remain deferred.',\n" +
+    "\t\t'ready'\n" +
+    '\t);\n' +
+    '\treturn {\n' +
+    '\t\t...hosts,\n' +
+    '\t\t...loaded,\n' +
+    '\t\t...services,\n' +
+    '\t\t...world,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\twebGlBootFrame\n' +
+    '\t};\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:74:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `// B"H\n// Boruch Hashem\n// Blessed is He\n\n/**\n * @file EretzWorldFoundation.js\n * @description Opens WebGL, essential control, and the visible bootstrap valley in bounded waves.\n * The Awtsmoos reveals movement before authored districts; Awtsmoos.com keeps CSG, water,\n * textures, forests, houses, and village systems beyond the first responsive threshold.\n */\n\nimport { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260723-stream-20';\nimport { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';\nimport {\n\tnextLaunchFrame,\n\tnextLaunchTask,\n\treportLaunchProgress,\n\tthrowIfLaunchAborted\n} from './RuntimeLaunchProgress.js';\n\nexport async function createEretzWorldFoundation(hosts, options = {}) {\n\tconst qualityProfile = options.qualityProfile;\n\tif (!qualityProfile) {\n\t\tthrow new Error('Eretz foundation requires a quality profile.');\n\t}\n\tconst environment = options.environment || globalThis;\n\toptions.boot?.begin('webgl-context');\n\treportLaunchProgress(options, 'Opening visible WebGL…', 0.12);\n\tconst services = createEretzFoundationServices(\n\t\thosts,\n\t\tqualityProfile,\n\t\tenvironment\n\t);\n\tconst webGlBootFrame = paintEretzWebGlBootFrame(\n\t\tservices,\n\t\tqualityProfile,\n\t\tenvironment\n\t);\n\tawait nextLaunchFrame(environment);\n\tthrowIfLaunchAborted(options.signal);\n\toptions.boot?.begin('essential-assets');\n\treportLaunchProgress(options, 'Creating local control…', 0.24);\n\tconst { loadEretzEssentialAssets } = await import(\n\t\t'./EretzEssentialAssetLoader.js?v=20260723-stream-20'\n\t);\n\tconst loaded = await loadEretzEssentialAssets({\n\t\t...options,\n\t\tboot: options.boot,\n\t\tenvironment,\n\t\tquality: qualityProfile.quality\n\t});\n\tawait nextLaunchTask(environment);\n\tthrowIfLaunchAborted(options.signal);\n\toptions.boot?.begin('bootstrap-visible-world');\n\treportLaunchProgress(options, 'Opening the visible golden valley…', 0.72);\n\tconst { createBootstrapWorldFoundation } = await import(\n\t\t'./BootstrapWorldFoundation.js?v=20260723-stream-20'\n\t);\n\tconst world = createBootstrapWorldFoundation(services);\n\toptions.boot?.progress?.(\n\t\t'bootstrap-visible-world',\n\t\t1,\n\t\t1,\n\t\t'Visible valley and movement ready; authored districts remain deferred.',\n\t\t'ready'\n\t);\n\treturn {\n\t\t...hosts,\n\t\t...loaded,\n\t\t...services,\n\t\t...world,\n\t\tqualityProfile,\n\t\twebGlBootFrame\n\t};\n}\n`,
+    expected: /BootstrapWorldFoundation\.js\?v=20260722-stream-15/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs:48:1
+✖ B"H equipped staff attaches to visible model-root anchor and repairs (30.710232ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Awtsmoos_equipped_weapon_hand_anchor'
+  - 'Awtsmoos_visible_equipped_weapon_anchor'
+              ^
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs:58:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Awtsmoos_equipped_weapon_hand_anchor',
+    expected: 'Awtsmoos_visible_equipped_weapon_anchor',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/minimalMeadowEnemyCombatBehavior.test.mjs:24:1
+✖ melee persists across aggro and applies exactly one impact per strike (20.209614ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  100 !== 89
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowEnemyCombatBehavior.test.mjs:28:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 100,
+    expected: 89,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/minimalMeadowEnemyCombatBehavior.test.mjs:38:1
+✖ caster retreats, launches one Hebrew projectile, and recovers (6.915638ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowEnemyCombatBehavior.test.mjs:45:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/minimalMeadowReadinessRendererIdentity.test.mjs:26:1
+✖ B"H fallback readiness preserves Canvas2D backend identity (13.43932ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ready'
+  - 'core-playable'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowReadinessRendererIdentity.test.mjs:43:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ready',
+    expected: 'core-playable',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:85:1
+✖ tefillin jacket and visible weapon persist through casting and hydration (18.941085ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Awtsmoos_equipped_weapon_hand_anchor'
+  - 'Awtsmoos_visible_equipped_weapon_anchor'
+              ^
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:93:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Awtsmoos_equipped_weapon_hand_anchor',
+    expected: 'Awtsmoos_visible_equipped_weapon_anchor',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/geometry/mountainTerrainStackSources.test.mjs:21:1
+✖ terrain recipe has sixteen named local production layers (9.574703ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 16
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/mountainTerrainStackSources.test.mjs:23:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 16,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/geometry/terrainMaterialVisibility.test.mjs:31:1
+✖ unhydrated construction remains white and points at packaged local ground (4.694094ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/terrainMaterialVisibility.test.mjs:38:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:20:1
+✖ page threshold requests one stylesheet and one JavaScript entry (13.625225ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  15 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 15,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:43:1
+✖ runtime opens staged startup and keeps heavy systems explicitly deferred (3.803625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /authoredTerrain:\s*'deferred'/. Input:
+  
+  '// B"H\n' +
+    '// Boruch Hashem\n' +
+    '// Blessed is He\n' +
+    '\n' +
+    '/**\n' +
+    ' * @file createEretzRuntime.js\n' +
+    ' * @description Publishes visible playability before streaming tiny districts in idle slices.\n' +
+    ' * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;\n' +
+    ' * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.\n' +
+    ' */\n' +
+    '\n' +
+    'import {\n' +
+    '\tmarkRendererHydration,\n' +
+    '\tmarkRuntimeFailed,\n' +
+    '\tmarkRuntimePlayable,\n' +
+    '\tmarkRuntimeStarting\n' +
+    "} from './RuntimeStateMarker.js';\n" +
+    '\n' +
+    'export {\n' +
+    '\tstartGameplayTextureStreaming\n' +
+    "} from './GameplayTextureStreamingGate.js';\n" +
+    '\n' +
+    "const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260723-stream-21';\n" +
+    "const TRACKER_URL = './BootPhaseTracker.js?v=20260722-boot-text-01';\n" +
+    '\n' +
+    'export async function createEretzRuntime(hosts, options = {}) {\n' +
+    '\tconst environment = options.environment || globalThis;\n' +
+    '\tmarkRuntimeStarting(environment.document);\n' +
+    '\tconst { BootPhaseTracker } = await import(TRACKER_URL);\n' +
+    '\tconst boot = new BootPhaseTracker(undefined, environment);\n' +
+    '\tglobalThis.AwtsmoosBootTracker = boot;\n' +
+    '\n' +
+    '\ttry {\n' +
+    "\t\tboot.begin('staged-webgl-runtime');\n" +
+    '\t\tconst { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);\n' +
+    '\t\tconst core = await createStagedEretzRuntime(hosts, options, boot);\n' +
+    '\t\tboot.complete();\n' +
+    '\t\tpublishRuntime(core.diagnostics, environment);\n' +
+    "\t\tmarkRendererHydration('deferred', environment.document);\n" +
+    '\t\tcore.diagnostics.rendererHydrationPromise = Promise.resolve(null);\n' +
+    '\t\tcore.diagnostics.enrichmentPromise = streamDistricts(\n' +
+    '\t\t\tcore.diagnostics.runtime,\n' +
+    '\t\t\tenvironment\n' +
+    '\t\t);\n' +
+    '\t\tcore.diagnostics.deferredSystems = Object.freeze({\n' +
+    "\t\t\tauthoredTerrain: 'district-streaming-required',\n" +
+    "\t\t\tinventoryAndRpg: 'deferred',\n" +
+    "\t\t\trichActors: 'deferred',\n" +
+    "\t\t\trichRenderer: 'deferred',\n" +
+    "\t\t\tworldDiagnostics: 'deferred'\n" +
+    '\t\t});\n' +
+    '\t\treturn core.diagnostics;\n' +
+    '\t} catch (error) {\n' +
+    '\t\tboot.fail(error);\n' +
+    '\t\texposeBootFailure(error, hosts, environment);\n' +
+    '\t\tthrow error;\n' +
+    '\t} finally {\n' +
+    '\t\tif (globalThis.AwtsmoosBootTracker === boot) {\n' +
+    '\t\t\tglobalThis.AwtsmoosBootTracker = null;\n' +
+    '\t\t}\n' +
+    '\t}\n' +
+    '}\n' +
+    '\n' +
+    'async function streamDistricts(runtime, environment) {\n' +
+    '\ttry {\n' +
+    '\t\tconst { streamBootstrapDistricts } = await import(\n' +
+    "\t\t\t'./BootstrapDistrictStreamer.js?v=20260723-visible-03'\n" +
+    '\t\t);\n' +
+    '\t\treturn streamBootstrapDistricts(runtime, environment);\n' +
+    '\t} catch (error) {\n' +
+    '\t\truntime.districtStreaming = {\n' +
+    '\t\t\tcompleted: 0,\n' +
+    '\t\t\tloaded: [],\n' +
+    '\t\t\tmeshes: 0,\n' +
+    "\t\t\tstatus: 'degraded',\n" +
+    '\t\t\ttotal: 3\n' +
+    '\t\t};\n' +
+    "\t\tconsole.warn('[MitzvahWorld] Lightweight district streaming degraded.', error);\n" +
+    '\t\treturn runtime.districtStreaming;\n' +
+    '\t}\n' +
+    '}\n' +
+    '\n' +
+    'function publishRuntime(diagnostics, environment) {\n' +
+    '\tenvironment.AwtsmoosBootError = null;\n' +
+    '\tenvironment.AwtsmoosDiagnostics = diagnostics;\n' +
+    '\tmarkRuntimePlayable(diagnostics, environment.document);\n' +
+    '}\n' +
+    '\n' +
+    'function exposeBootFailure(error, hosts, environment) {\n' +
+    '\tconst failure = {\n' +
+    '\t\tat: new Date().toISOString(),\n' +
+    '\t\tmessage: error?.message || String(error),\n' +
+    "\t\tname: error?.name || 'Error',\n" +
+    "\t\tstack: error?.stack || ''\n" +
+    '\t};\n' +
+    '\tenvironment.AwtsmoosBootError = failure;\n' +
+    '\tmarkRuntimeFailed(error, environment.document);\n' +
+    '\n' +
+    '\tif (hosts?.hud) {\n' +
+    "\t\thosts.hud.style.removeProperty('display');\n" +
+    '\t\thosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;\n' +
+    '\t}\n' +
+    '\n' +
+    `\tconsole.error('B"H Mitzvah World initialization failed.', error);\n` +
+    '}\n' +
+    '\n' +
+    'export default createEretzRuntime;\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:50:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '// B"H\n// Boruch Hashem\n// Blessed is He\n\n/**\n * @file createEretzRuntime.js\n * @description Publishes visible playability before streaming tiny districts in idle slices.\n * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;\n * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.\n */\n\nimport {\n\tmarkRendererHydration,\n\tmarkRuntimeFailed,\n\tmarkRuntimePlayable,\n\tmarkRuntimeStarting\n} from \'./RuntimeStateMarker.js\';\n\nexport {\n\tstartGameplayTextureStreaming\n} from \'./GameplayTextureStreamingGate.js\';\n\nconst STAGED_RUNTIME_URL = \'./EretzStagedRuntime.js?v=20260723-stream-21\';\nconst TRACKER_URL = \'./BootPhaseTracker.js?v=20260722-boot-text-01\';\n\nexport async function createEretzRuntime(hosts, options = {}) {\n\tconst environment = options.environment || globalThis;\n\tmarkRuntimeStarting(environment.document);\n\tconst { BootPhaseTracker } = await import(TRACKER_URL);\n\tconst boot = new BootPhaseTracker(undefined, environment);\n\tglobalThis.AwtsmoosBootTracker = boot;\n\n\ttry {\n\t\tboot.begin(\'staged-webgl-runtime\');\n\t\tconst { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);\n\t\tconst core = await createStagedEretzRuntime(hosts, options, boot);\n\t\tboot.complete();\n\t\tpublishRuntime(core.diagnostics, environment);\n\t\tmarkRendererHydration(\'deferred\', environment.document);\n\t\tcore.diagnostics.rendererHydrationPromise = Promise.resolve(null);\n\t\tcore.diagnostics.enrichmentPromise = streamDistricts(\n\t\t\tcore.diagnostics.runtime,\n\t\t\tenvironment\n\t\t);\n\t\tcore.diagnostics.deferredSystems = Object.freeze({\n\t\t\tauthoredTerrain: \'district-streaming-required\',\n\t\t\tinventoryAndRpg: \'deferred\',\n\t\t\trichActors: \'deferred\',\n\t\t\trichRenderer: \'deferred\',\n\t\t\tworldDiagnostics: \'deferred\'\n\t\t});\n\t\treturn core.diagnostics;\n\t} catch (error) {\n\t\tboot.fail(error);\n\t\texposeBootFailure(error, hosts, environment);\n\t\tthrow error;\n\t} finally {\n\t\tif (globalThis.AwtsmoosBootTracker === boot) {\n\t\t\tglobalThis.AwtsmoosBootTracker = null;\n\t\t}\n\t}\n}\n\nasync function streamDistricts(runtime, environment) {\n\ttry {\n\t\tconst { streamBootstrapDistricts } = await import(\n\t\t\t\'./BootstrapDistrictStreamer.js?v=20260723-visible-03\'\n\t\t);\n\t\treturn streamBootstrapDistricts(runtime, environment);\n\t} catch (error) {\n\t\truntime.districtStreaming = {\n\t\t\tcompleted: 0,\n\t\t\tloaded: [],\n\t\t\tmeshes: 0,\n\t\t\tstatus: \'degraded\',\n\t\t\ttotal: 3\n\t\t};\n\t\tconsole.warn(\'[MitzvahWorld] Lightweight district streaming degraded.\', error);\n\t\treturn runtime.districtStreaming;\n\t}\n}\n\nfunction publishRuntime(diagnostics, environment) {\n\tenvironment.AwtsmoosBootError = null;\n\tenvironment.AwtsmoosDiagnostics = diagnostics;\n\tmarkRuntimePlayable(diagnostics, environment.document);\n}\n\nfunction exposeBootFailure(error, hosts, environment) {\n\tconst failure = {\n\t\tat: new Date().toISOString(),\n\t\tmessage: error?.message || String(error),\n\t\tname: error?.name || \'Error\',\n\t\tstack: error?.stack || \'\'\n\t};\n\tenvironment.AwtsmoosBootError = failure;\n\tmarkRuntimeFailed(error, environment.document);\n\n\tif (hosts?.hud) {\n\t\thosts.hud.style.removeProperty(\'display\');\n\t\thosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;\n\t}\n\n\tconsole.error(\'B"H Mitzvah World initialization failed.\', error);\n}\n\nexport default createEretzRuntime;\n',
+    expected: /authoredTerrain:\s*'deferred'/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:57:1
+✖ mobile and desktop profiles preserve broad six-source coverage (72.208756ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(density.profile.grass <= 16)
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:69:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs:26:1
+✖ B"H mobile terrain uses broad full-source coverage (14.641918ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   detail: 64,
+  +   grass: 72,
+  -   detail: 10,
+  -   grass: 12,
+      mobile: true,
+  +   road: 80
+  -   road: 14
+    }
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs:29:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { detail: 64, grass: 72, mobile: true, road: 80 },
+    expected: { detail: 10, grass: 12, mobile: true, road: 14 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+app_exit=1
+(node:1668) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shader.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ default fragment shader contains six terrain samplers and seven mixes (5.901021ms)
+✔ a smaller shader contains only its measured layer capacity (0.545033ms)
+✔ ecological zone weights travel from vertex input to fragment shader (0.410418ms)
+✔ only explicit layered terrain enters material mode five (0.91152ms)
+(node:1669) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ material signatures distinguish every renderer-visible sidedness contract (6.217791ms)
+✔ pre-hydration signatures preserve distinct native-density policies (1.029878ms)
+✔ hydrated source dimensions become part of the effective repeat signature (1.128249ms)
+(node:1670) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local and world spheres are cached and transformed (20.590564ms)
+✔ camera collection preserves front meshes and rejects side and distant meshes (31.71098ms)
+✔ explicit mountains remain visible and missing bounds fail open (0.729462ms)
+✔ one reusable camera context preserves exact culling decisions (1.18977ms)
+✔ invisible subtrees do not receive frame matrices or draw entries (0.804242ms)
+(node:1671) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H frustumCulled false bypasses custom distance and frustum rejection (6.989974ms)
+(node:1673) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-material-state.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H render material snapshot includes backface culling identity (4.938159ms)
+(node:1674) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ eight fragment units preserve five layers after reserved maps (3.574486ms)
+✔ sixteen fragment units reach the bounded six-layer target (0.549449ms)
+✔ combined texture limits reduce capacity independently (0.358754ms)
+(node:1675) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-water-material-mode.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ explicit water variants map to stable GPU codes (2.208713ms)
+✔ semantic fallback distinguishes impact, sheet, and ordinary material (4.367896ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 875.965953
+renderer_exit=0

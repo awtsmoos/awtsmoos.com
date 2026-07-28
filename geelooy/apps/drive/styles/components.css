@@ -1,0 +1,137 @@
+/* B"H — The Awtsmoos gives status, files, and uploads distinct visible voices. */
+.usage-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+	gap: var(--space-2);
+}
+
+.usage-grid > * {
+	padding: var(--space-3);
+	border-radius: var(--radius-medium);
+	background: var(--surface-soft);
+}
+
+.site-url-label {
+	margin-bottom: var(--space-3);
+}
+
+.site-url-label input {
+	font-family: var(--mono);
+}
+
+.badge {
+	padding: 0.35rem 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: 0.75rem;
+	font-weight: 900;
+}
+
+.badge[data-state="live"] {
+	border-color: var(--accent);
+	background: rgba(52, 211, 153, 0.14);
+	color: var(--accent);
+}
+
+.badge[data-state="draft"] {
+	border-color: rgba(251, 191, 36, 0.5);
+	color: var(--warning);
+}
+
+.drop-zone {
+	display: grid;
+	place-items: center;
+	gap: var(--space-2);
+	min-height: 10rem;
+	padding: var(--space-4);
+	border: 1px dashed rgba(110, 231, 183, 0.55);
+	border-radius: var(--radius-medium);
+	background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), transparent);
+	color: var(--muted);
+	text-align: center;
+}
+
+.drop-zone strong {
+	color: var(--text);
+	font-size: 1.2rem;
+}
+
+progress {
+	width: min(100%, 28rem);
+	height: 0.7rem;
+	accent-color: var(--accent-strong);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9rem;
+}
+
+th,
+td {
+	padding: 0.85rem 0.9rem;
+	border-bottom: 1px solid var(--line);
+	text-align: left;
+	white-space: nowrap;
+}
+
+th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: #10251f;
+	color: var(--accent);
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+tbody tr:hover {
+	background: var(--surface-soft);
+}
+
+.notice-stack {
+	position: fixed;
+	right: var(--space-3);
+	bottom: var(--space-3);
+	z-index: 20;
+	display: grid;
+	gap: var(--space-2);
+	max-width: min(28rem, calc(100% - 2rem));
+}
+
+.status,
+.error {
+	margin: 0;
+	padding: 0.8rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: #10251f;
+	box-shadow: var(--shadow);
+}
+
+.error {
+	border-color: rgba(251, 113, 133, 0.58);
+	color: #fecdd3;
+}
+
+dialog {
+	width: min(32rem, calc(100% - 2rem));
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: var(--bg-elevated);
+	color: var(--text);
+	box-shadow: var(--shadow);
+}
+
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.72);
+	backdrop-filter: blur(5px);
+}
+
+dialog form {
+	display: grid;
+	gap: var(--space-3);
+}

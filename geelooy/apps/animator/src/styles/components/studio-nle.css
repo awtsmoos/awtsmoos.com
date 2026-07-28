@@ -1,13 +1,22 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The timeline is the river of created moments. The Awtsmoos renews each clip,
- * and Awtsmoos.com gives editors a broad, legible temporal landscape.
+ * The Awtsmoos renews temporal structure; Awtsmoos.com aligns the toolbar,
+ * ruler, track headers, lanes, and inspector without drifting edited time.
  */
-
 .aw-professional-studio .app-timeline {
-	border-radius: 12px 12px 0 0;
-	background: #060812;
+	border-radius: var(--aw-radius-md) var(--aw-radius-md) 0 0;
+	background: var(--aw-panel-inset);
+}
+
+.aw-professional-studio .app-timeline > :not(#aw-nle-mount) {
+	display: none !important;
+}
+
+.aw-professional-studio #aw-nle-mount {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
 }
 
 .aw-professional-studio .aw-nle-shell {
@@ -15,30 +24,34 @@
 	inset: auto;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
+	width: 100%;
 	height: 100%;
 	max-height: none;
 	border: 0;
 	border-radius: 0;
-	background: linear-gradient(180deg, #111526, #060812);
+	background: var(--aw-panel-inset);
 	box-shadow: none;
 }
 
+.aw-professional-studio .aw-nle-mode-compact,
+.aw-professional-studio .aw-nle-mode-expanded {
+	height: 100% !important;
+}
+
 .aw-professional-studio .aw-nle-toolbar {
-	min-height: 42px;
-	padding: 6px 10px;
-	border-bottom: 1px solid rgba(151, 171, 225, 0.16);
-	background: rgba(15, 19, 34, 0.98);
+	min-height: 44px;
+	padding: 7px 10px;
 }
 
 .aw-professional-studio .aw-nle-editor-body {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) clamp(190px, 18vw, 280px);
+	grid-template-columns: minmax(0, 1fr) clamp(200px, 18vw, 280px);
 	min-height: 0;
 }
 
 .aw-professional-studio .aw-nle-timeline-grid {
 	display: grid;
-	grid-template-columns: 150px minmax(0, 1fr);
+	grid-template-columns: 152px minmax(0, 1fr);
 	min-width: 0;
 	min-height: 0;
 	overflow: hidden;
@@ -48,56 +61,47 @@
 .aw-professional-studio .aw-nle-clips {
 	min-height: 0;
 	overflow: auto;
+	scrollbar-color: var(--aw-control-active) transparent;
+	scrollbar-width: thin;
 }
 
 .aw-professional-studio .aw-nle-tracks {
-	border-right: 1px solid rgba(151, 171, 225, 0.16);
-	background: #0c1020;
+	border-right: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel);
 }
 
-.aw-professional-studio .aw-nle-track-name,
-.aw-professional-studio .aw-nle-lane {
-	min-height: 34px;
-	border-bottom: 1px solid rgba(151, 171, 225, 0.1);
-}
-
-.aw-professional-studio .aw-nle-track-name {
-	display: flex;
-	align-items: center;
-	padding: 0 9px;
-	color: #aeb9d2;
-	font-size: 10px;
-	text-transform: uppercase;
-}
-
-.aw-professional-studio .aw-nle-lane {
+.aw-professional-studio .aw-nle-track-ruler,
+.aw-professional-studio .aw-nle-ruler {
 	position: relative;
-	background-image:
-		linear-gradient(90deg, rgba(158, 176, 223, 0.07) 1px, transparent 1px),
-		linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent);
-	background-size: 72px 100%, 100% 100%;
+	height: 25px;
+	border-bottom: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel-raised);
 }
 
-.aw-professional-studio .aw-nle-clip {
-	border-color: rgba(186, 202, 255, 0.24);
-	border-radius: 5px;
-	box-shadow: 0 5px 14px rgba(0, 0, 0, 0.24);
+.aw-professional-studio .aw-nle-track-ruler {
+	padding: 7px 9px 0;
+	color: var(--aw-muted);
+	font-size: 9px;
+	letter-spacing: 0.08em;
 }
 
-.aw-professional-studio .aw-nle-playhead {
-	width: 2px;
-	background: #ff4668;
-	box-shadow: 0 0 9px rgba(255, 70, 104, 0.72);
+.aw-professional-studio .aw-nle-ruler {
+	min-width: 100%;
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-ruler-mark {
+	position: absolute;
+	top: 5px;
+	padding-left: 5px;
+	border-left: 1px solid var(--aw-line-strong);
+	color: var(--aw-muted);
+	font: 9px var(--aw-mono);
 }
 
 .aw-professional-studio .aw-nle-inspector {
 	min-width: 0;
 	overflow: auto;
-	border-left: 1px solid rgba(151, 171, 225, 0.16);
-	background: #0a0d18;
-}
-
-.aw-professional-studio .aw-nle-field {
-	border-color: rgba(151, 171, 225, 0.17);
-	background: rgba(47, 57, 89, 0.24);
+	border-left: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel);
 }

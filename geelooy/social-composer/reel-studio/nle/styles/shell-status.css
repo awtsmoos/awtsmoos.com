@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Render progress, diagnostics, and status become a calm production receipt.
+ */
+
+.nle-statusbar {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(6rem, 17rem) auto;
+	align-items: center;
+	gap: .8rem;
+	min-block-size: 2.15rem;
+	padding: .32rem .75rem calc(.32rem + env(safe-area-inset-bottom));
+	border-block-start: 1px solid var(--nle-border);
+	background: #090d13;
+	color: var(--nle-text-muted);
+	font-size: .66rem;
+}
+
+.nle-statusbar > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nle-statusbar progress {
+	inline-size: 100%;
+	block-size: .34rem;
+	border: 0;
+	border-radius: 999px;
+	background: var(--nle-surface-3);
+	accent-color: var(--nle-violet);
+	overflow: hidden;
+}
+
+.nle-statusbar progress::-webkit-progress-bar {
+	background: var(--nle-surface-3);
+}
+
+.nle-statusbar progress::-webkit-progress-value {
+	border-radius: 999px;
+	background: linear-gradient(90deg, var(--nle-violet-strong), var(--nle-violet));
+}
+
+.nle-statusbar [data-nle-diagnostics] {
+	padding: .2rem .45rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .025);
+	color: var(--nle-text-soft);
+	font-weight: 720;
+}
+
+.nle-statusbar [data-error] {
+	color: var(--nle-danger);
+}

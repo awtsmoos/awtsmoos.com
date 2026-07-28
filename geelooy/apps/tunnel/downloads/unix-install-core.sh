@@ -48,11 +48,10 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-state.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-fresh.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
-source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"
 
-# One lock now encloses discovery, activation, and the last readiness testimony.
-# The Awtsmoos permits no second installer to enter between ninety-seven and one
-# hundred percent, when the living tunnel is most vulnerable to a false eclipse.
+# The Awtsmoos does not confuse matching old bytes with a new revelation.
+# Every invocation stages the published, checksum-verified Awtsmoos.com release,
+# while the lock keeps identity migration and activation within one guarded breath.
 cleanup_install() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
@@ -79,32 +78,30 @@ NODE
 }
 
 trap cleanup_install EXIT
-install_progress 20 "Preparing one-command repair"
+install_progress 20 "Preparing complete verified reinstall"
 acquire_install_lock
 persist_node_runtime "$ROOT"
 resume_interrupted_install
 rotate_runtime_logs
 prune_displaced_runtimes
 install_event "bootstrap" "started" \
-	"Beginning identity-preserving one-command tunnel repair." "$ROOT"
+	"Beginning identity-preserving complete tunnel reinstall." "$ROOT"
 cleanup_disposable_state "$(pwd)"
 
-install_progress 21 "Preserving identity and browser state"
+install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
 load_release_metadata
 apply_installed_version_policy
-if ! repair_matching_release; then
-	if version_policy_blocks_replacement; then
-		install_fail "version-policy" \
-			"The newer local runtime could not be repaired; downgrade remained blocked." \
-			"installed=$CANDIDATE_VERSION published=$PUBLISHED_VERSION"
-	fi
-	install_progress 30 "Preparing full transactional replacement"
-	stage_release_candidate
-	install_progress 68 "Release verified; preparing activation"
-	activate_release_candidate
+if version_policy_blocks_replacement; then
+	install_fail "version-policy" \
+		"Published release is older than the installed runtime; replacement was blocked." \
+		"installed=$INSTALLED_VERSION published=$CANDIDATE_VERSION"
 fi
-install_progress 97 "Registration, root, and guardian verified; finalizing"
+install_progress 30 "Preparing full transactional replacement"
+stage_release_candidate
+install_progress 68 "Release verified; preparing activation"
+activate_release_candidate
+install_progress 97 "Registration and guardian verified; finalizing"
 
 if [ -f "$ROOT/config.json" ]; then
 	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"

@@ -1,0 +1,63 @@
+119 experiments/Awtsmoos/src/ui/InventoryModalStyles.js
+93 experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitTopStyles.js
+95 experiments/Awtsmoos/src/ui/MinimalMeadowUiRepairStyles.js
+(node:63806) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse pointer contract is wider and samples the fallen body (45.118943ms)
+✔ B"H off-center body tap finds corpse while preserving living precision (4.066177ms)
+✔ B"H looted corpse cannot be selected again (0.387615ms)
+(node:63807) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H five unique defeats grant one reward and one completion chapter (11.683431ms)
+✔ B"H menu prioritizes dedicated ready mission over unrelated adventure (132.454692ms)
+(node:63808) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H road vertices sit above terrain while collision offset remains zero (12.710344ms)
+✔ B"H loaded water sources replace mounted fallback and keep four motions (4.100025ms)
+(node:63809) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H uploaded tree image preserves authored alpha and object identity (1.653719ms)
+✔ B"H contract keeps legacy chroma key narrow and authored alpha primary (1.453177ms)
+(node:63810) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag markup preserves close and omits unused detail space until selection (1.910008ms)
+✔ selected details render truthfully inside a bounded mobile section (183.989824ms)
+✔ modal and HUD CSS preserve safe areas without globally shrinking text (0.735766ms)
+(node:63815) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H damage receipt renders exact number, letters, and action label (8.687539ms)
+✔ B"H world projection clamps feedback inside mobile margins (2.025141ms)
+(node:63824) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitTopStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H responsive HUD uses safe areas and dynamic viewport bounds (4.063451ms)
+✔ B"H portrait target stacks beneath player instead of sharing one row (14.45078ms)
+(node:63825) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitBottomStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H portrait target and cast lanes are viewport-clamped (3.37892ms)
+✔ B"H Bag owns a fixed plane with scrollable body and tappable controls (30.024736ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4315.347676
+test_exit=0
+diff_exit=0

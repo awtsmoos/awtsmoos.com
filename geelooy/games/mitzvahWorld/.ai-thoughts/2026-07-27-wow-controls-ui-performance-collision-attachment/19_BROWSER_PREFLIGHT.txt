@@ -1,0 +1,7 @@
+.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/WowControlsBrowserAssertions.mjs=42
+.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/WowControlsBrowserRuntime.mjs=116
+.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/WowControlsBrowserUi.mjs=75
+.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/WowControlsBrowserInput.mjs=109
+.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/wow-controls-browser-probe.mjs=65
+syntax_exit=0
+oversized_exit=0

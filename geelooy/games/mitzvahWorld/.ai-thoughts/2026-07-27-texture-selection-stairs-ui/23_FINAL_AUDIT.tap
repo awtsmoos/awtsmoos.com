@@ -1,0 +1,145 @@
+lines:src/assets/RemoteTextureTransport.js=84
+lines:src/assets/RemoteTextureGroundNames.js=48
+lines:src/assets/RemoteTextureArchitectureNames.js=46
+lines:src/assets/RemoteTextureCraftNames.js=37
+lines:src/assets/RemoteTextureTreeNames.js=46
+lines:src/assets/RemoteTextureCatalog.js=55
+lines:src/assets/PublicMaterialOrigin.js=40
+lines:src/assets/PublicMaterialResolver.js=73
+lines:src/assets/LocalMaterialPathRules.js=119
+lines:src/assets/WorldMaterialPresets.js=88
+lines:src/world/terrain/LocalTerrainTextureCatalog.js=47
+lines:src/world/trees/TreeSemanticMaterialCatalog.js=99
+lines:src/app/MinimalMeadowFirebaseTextures.js=53
+lines:src/app/MinimalMeadowTerrainSources.js=62
+lines:src/app/MinimalMeadowTerrainMaterialDensity.js=90
+lines:src/app/MinimalMeadowRoadRibbon.js=94
+lines:src/ui/WorldTargetPointerSession.js=67
+lines:src/ui/WorldTargetSelectionState.js=48
+lines:src/ui/WorldTargetLegacyPopulation.js=79
+lines:src/ui/WorldTargetPopulationAdapterSupport.js=39
+lines:src/ui/WorldTargetPopulationAdapter.js=113
+lines:src/ui/WorldTargetCoordinatorSupport.js=45
+lines:src/ui/WorldTargetCoordinator.js=118
+lines:src/world/npc/FriendlyNpcPopulation.js=112
+lines:src/app/MinimalMeadowEnemyPopulationTargeting.js=43
+lines:src/app/MinimalMeadowEnemyPopulationDiagnostics.js=32
+lines:src/app/MinimalMeadowEnemyPopulation.js=109
+lines:src/app/MinimalMeadowEnemyLifecycle.js=83
+lines:src/app/MinimalMeadowHouseStairAperture.js=50
+lines:src/app/MinimalMeadowHouseFloorSupport.js=62
+lines:src/app/MinimalMeadowDoorTransform.js=38
+lines:src/app/MinimalMeadowHouseDoor.js=114
+lines:src/app/MinimalMeadowHouseMaintenance.js=56
+lines:src/ui/MobileHudCompositionPortraitTopStyles.js=83
+lines:src/ui/MinimalMeadowUiRepairStyles.js=86
+lines:src/test/assets/remoteTextureCatalog.test.mjs=55
+lines:src/test/geometry/TerrainLayerRecipe.test.mjs=110
+remote_host_file_count=1
+(node:54900) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (20.489482ms)
+✔ B"H equipped staff belongs to the right hand and repairs (91.752671ms)
+(node:54901) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDoorTransform.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H front door center remains aligned after house rotation (5.411602ms)
+✔ B"H perpendicular interior door uses its own local yaw (0.391209ms)
+(node:54902) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H every living enemy profile retaliates when struck (4.847658ms)
+✔ B"H zero damage does not create false retaliation (0.497322ms)
+(node:54906) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H room floors remain solid while the stair aperture yields (7.291335ms)
+✔ B"H every stair tread supports a monotonic descent from the upper story (2.38444ms)
+✔ B"H room floor receipt outranks terrain beneath the house (0.823843ms)
+(node:54915) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFirebaseTextures.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H meadow roles use grass, dirt-grass, soil, and cobblestone filenames (1.233221ms)
+✔ B"H grass is enlarged and road repeats one full tile across with many along (63.937762ms)
+(node:54919) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialAssetPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ verified local and Awtsmoos production vessels are accepted unchanged (3.899732ms)
+✔ remote lookalikes and invalid material routes are rejected (1.217928ms)
+(node:54920) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H uploaded texture catalog stores filenames only (2.243465ms)
+✔ B"H one transport origin encodes both uploaded texture families (0.666994ms)
+(node:54923) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/NpcChossid.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interaction decision uses the profile radius and planar player distance (1.220962ms)
+✔ far dialogue emits a prompt but no talk or quest progress (1.224196ms)
+✔ near dialogue emits talk, quest progress, and the canonical offer (0.387067ms)
+(node:54924) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ nearest target is studied first and interacted with second (2.520083ms)
+✔ camera-like pointer drags never advance study or interaction (0.415679ms)
+✔ incompatible population contracts keep pointer ownership disabled (0.407204ms)
+✔ legacy actors preserve first target and second dialogue (10.575475ms)
+(node:54925) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (5.296525ms)
+✔ complete terrain stack retains six distinct source garments (1.214218ms)
+✔ visible maps use the approved uploaded terrain transport (0.979477ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (2.292037ms)
+(node:54926) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ forest uses a natural fallback and idle-keys canonical RGB leaves for a MASK (42.560613ms)
+(node:54927) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all six uploaded terrain images use approved filename transport (1.832461ms)
+✔ high terrain recipe exposes six distinct approved maps and source roles (5.281203ms)
+✔ terrain binds a real meadow base and earth mix at construction (2.304864ms)
+(node:54928) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/TreeSemanticMaterialCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every required core bark and living leaf uses an approved uploaded URL (2.327884ms)
+✔ leaf materials never activate a procedural blob fallback (0.730979ms)
+(node:54929) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitTopStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H responsive HUD uses safe areas and dynamic viewport bounds (1.804249ms)
+✔ B"H portrait target stacks beneath player instead of sharing one row (0.440598ms)
+(node:54930) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house population preserves interaction and collision lifecycle (63.600219ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2385.858481
+struct_exit=0
+test_exit=0
+diff_exit=0
+final_exit=0

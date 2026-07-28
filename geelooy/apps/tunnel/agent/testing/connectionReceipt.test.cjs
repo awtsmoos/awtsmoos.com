@@ -8,11 +8,11 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
- * @file Verifies durable route, activation, runtime, and reconnect testimony.
- * @description
- * The Awtsmoos renews every route witness while Awtsmoos.com rejects receipts
- * borrowed from another activation, runtime, process, or account-bound tunnel.
- */
+	* @file Verifies parent ownership, child liveness, route, activation, and runtime.
+	* @description
+	* The Awtsmoos keeps supervised process identity distinct from connection breath.
+	* Awtsmoos.com rejects receipts borrowed from another owner or immutable tunnel.
+	*/
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-connection-receipt-"));
 process.env.AWTSMOOS_INSTALL_ROOT = root;
 process.env.AWTSMOOS_ACTIVATION_ID = "activation-test";
@@ -32,8 +32,10 @@ try {
 		serverTime: "server-time",
 		lastServerMessageAt: new Date().toISOString()
 	}, root);
-	assert.equal(written.schemaVersion, 4);
+	assert.equal(written.schemaVersion, 5);
 	assert.equal(written.pid, process.pid);
+	assert.equal(written.ownerPid, process.pid);
+	assert.equal(written.connectionPid, process.pid);
 	assert.equal(written.tunnelId, "tun_test_identity");
 	assert.equal(written.activationId, "activation-test");
 	assert.equal(written.runtimeVersion, "runtime-test");
@@ -48,6 +50,7 @@ try {
 		runtimeVersion: "runtime-test",
 		maxAgeMs: 10000
 	}), true);
+	assert.equal(Receipt.ownedByCurrentConnection(written), true);
 	assert.equal(Receipt.matches(Receipt.read(root), {
 		pid: process.pid,
 		tunnelId: "tun_other_identity"
@@ -77,7 +80,9 @@ try {
 		pid: process.pid,
 		tunnelName: "legacy"
 	});
-	assert.equal(old.schemaVersion, 4);
+	assert.equal(old.schemaVersion, 5);
+	assert.equal(old.ownerPid, process.pid);
+	assert.equal(old.connectionPid, process.pid);
 	assert.equal(old.reconnectAttempt, 0);
 	assert.equal(old.tunnelId, "");
 	assert.equal(old.activationId, "");
@@ -90,10 +95,10 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "connection-receipt",
+		parentOwnerBound: true,
+		connectionProcessBound: true,
 		authoritativeTunnelId: true,
-		activationBound: true,
-		runtimeBound: true,
-		reconnectTestimony: true
+		activationAndRuntimeBound: true
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });

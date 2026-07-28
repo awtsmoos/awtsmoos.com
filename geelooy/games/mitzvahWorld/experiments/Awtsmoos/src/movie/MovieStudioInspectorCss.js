@@ -4,110 +4,105 @@
 
 /**
  * @file MovieStudioInspectorCss.js
- * @description Defines toolbar, transform, JSON, and status styling for the NLE inspector.
- * The Awtsmoos renews every editing decision beyond fields; Awtsmoos.com gives each
- * numeric channel, action, and project document a readable and touch-safe vessel.
+ * @description Styles the contextual inspector as a readable, scroll-safe editing vessel.
+ * The Awtsmoos hides infinite depth inside each finite form; Awtsmoos.com lets details
+ * unfold by section, without burying the creator beneath a storm.
  */
 
 export function movieStudioInspectorCss() {
 	return `
-		.movie-inspector {
+		.movie-studio-inspector {
+			min-width: 0;
 			min-height: 0;
-			display: grid;
-			grid-template-rows: auto auto minmax(80px, auto) minmax(80px, 1fr) auto;
-			gap: 9px;
-			padding: 12px;
-			border: 1px solid #315b67;
-			border-radius: 16px;
-			background: #09151bf2;
 			overflow: auto;
-			backdrop-filter: blur(14px);
+			border-left: 1px solid var(--movie-border);
+			background: var(--movie-panel);
 		}
-		.movie-inspector h2,
-		.movie-inspector p {
-			margin: 0;
-		}
-		.movie-inspector h2 {
-			color: #fff0ad;
-			font-size: 18px;
-		}
-		.movie-inspector p {
-			color: #8dc7ce;
-		}
-		.movie-toolbar,
-		.movie-timeline-toolbar {
+		.movie-studio-inspector-header {
+			position: sticky;
+			top: 0;
+			z-index: 3;
 			display: flex;
-			gap: 7px;
 			align-items: center;
-			flex-wrap: wrap;
+			gap: var(--movie-space-2);
+			padding: var(--movie-space-3) var(--movie-space-4);
+			border-bottom: 1px solid var(--movie-border);
+			background: rgb(17 25 37 / 0.96);
+			backdrop-filter: blur(12px);
 		}
-		.movie-toolbar button,
-		.movie-timeline-toolbar button,
-		.movie-transform-inspector button {
-			min-width: 44px;
-			min-height: 44px;
-			border: 1px solid #4b8694;
-			border-radius: 10px;
-			background: #12323d;
-			color: #fff;
-			font: 700 12px system-ui;
-			cursor: pointer;
+		.movie-studio-inspector-header h2 {
+			margin: 0 auto 0 0;
+			font-size: 15px;
 		}
-		.movie-toolbar button[data-render] {
-			background: #725416;
-			color: #fff1be;
+		.movie-studio-section {
+			padding: var(--movie-space-4);
+			border-bottom: 1px solid var(--movie-border);
 		}
-		.movie-toolbar button:disabled {
-			opacity: 0.45;
+		.movie-studio-section h3 {
+			margin: 0 0 var(--movie-space-3);
+			color: var(--movie-text);
+			font-size: 13px;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
 		}
-		.movie-transform-inspector {
-			padding: 10px;
-			border: 1px solid #274651;
-			border-radius: 12px;
-			background: #050d11;
-			overflow: auto;
+		.movie-studio-field {
+			display: grid;
+			gap: var(--movie-space-1);
+			margin-block: var(--movie-space-3);
 		}
-		.movie-transform-grid {
+		.movie-studio-field > span {
+			color: var(--movie-text-muted);
+			font-size: 12px;
+		}
+		.movie-studio-field input,
+		.movie-studio-field select,
+		.movie-studio-field textarea {
+			width: 100%;
+			min-height: var(--movie-control-height);
+			padding: var(--movie-space-2) var(--movie-space-3);
+		}
+		.movie-studio-field textarea,
+		.movie-studio-json {
+			min-height: 180px;
+			resize: vertical;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+			font-size: 12px;
+			line-height: 1.55;
+		}
+		.movie-studio-actions {
 			display: grid;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 7px;
-			margin: 8px 0;
+			gap: var(--movie-space-2);
 		}
-		.movie-transform-grid label {
+		.movie-studio-actions button {
+			padding-inline: var(--movie-space-3);
+		}
+		.movie-studio-actions .movie-primary-action {
+			border-color: var(--movie-accent);
+			background: var(--movie-accent);
+			color: var(--movie-accent-ink);
+			font-weight: 700;
+		}
+		.movie-studio-project-summary {
 			display: grid;
-			gap: 3px;
-			color: #a7d3d6;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--movie-space-2);
+		}
+		.movie-studio-summary-item {
+			padding: var(--movie-space-3);
+			border: 1px solid var(--movie-border);
+			border-radius: var(--movie-radius);
+			background: var(--movie-bg);
+		}
+		.movie-studio-summary-item span {
+			display: block;
+			color: var(--movie-text-muted);
 			font-size: 11px;
 		}
-		.movie-transform-grid input,
-		.movie-transform-grid select,
-		.movie-json {
-			box-sizing: border-box;
-			width: 100%;
-			border: 1px solid #31515a;
-			border-radius: 8px;
-			background: #02070a;
-			color: #d6fff7;
-			padding: 8px;
-		}
-		.movie-json-disclosure {
-			min-height: 0;
-			overflow: auto;
-		}
-		.movie-json-disclosure summary {
-			padding: 7px 0;
-			color: #9cd4dc;
-			cursor: pointer;
-		}
-		.movie-json {
-			min-height: 150px;
-			resize: vertical;
-			font: 11px/1.45 ui-monospace, monospace;
-			user-select: text;
-		}
-		.movie-status {
-			min-height: 20px;
-			color: #9fffe7;
+		.movie-studio-summary-item strong {
+			display: block;
+			margin-top: var(--movie-space-1);
+			overflow-wrap: anywhere;
 		}
 	`;
 }

@@ -13,7 +13,7 @@ import { ChromeDebugPort } from './ChromeDebugPort.js';
 /**
  * A private Chrome session is a sealed chamber for cinematic actualization.
  * The Awtsmoos renews its process, profile, and protocol while Awtsmoos.com
- * protects the user's ordinary browser tabs from the render's heavy labor.
+ * closes the CDP covenant before ending the finite browser process.
  */
 export class ChromeSession {
 	constructor(port = 9333) {
@@ -98,7 +98,7 @@ export class ChromeSession {
 	}
 
 	async stop() {
-		this.client?.close();
+		await this.client?.close();
 		await this.stopProcess();
 		if (this.profile) {
 			await rm(this.profile, { recursive: true, force: true });

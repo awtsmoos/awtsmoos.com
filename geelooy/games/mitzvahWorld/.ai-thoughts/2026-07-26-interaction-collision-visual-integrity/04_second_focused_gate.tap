@@ -1,0 +1,61 @@
+lines:experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapter.js=108
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulation.js=110
+lines:experiments/Awtsmoos/src/app/MinimalMeadowCombatSupport.js=69
+lines:experiments/light-three-gltf/tiny-render-material-state.js=85
+lines:experiments/light-three-gltf/tiny-terrain-fragment-functions.js=96
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js=94
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js=50
+lines:experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js=83
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometry.js=78
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js=74
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseStairRamp.js=71
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseStairs.js=78
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js=46
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js=85
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js=112
+lines:experiments/Awtsmoos/src/app/BootstrapMovementController.js=117
+lines:experiments/Awtsmoos/src/app/BootstrapMovementControllerSupport.js=42
+lines:experiments/Awtsmoos/src/test/app/interactionCollisionVisualIntegrityFixture.mjs=65
+lines:experiments/Awtsmoos/src/test/app/interactionCollisionVisualIntegrity.test.mjs=102
+lines:experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs=70
+lines:experiments/light-three-gltf/test/tiny-render-material-sidedness-state.test.mjs=36
+syntax_exit=0
+oversized_exit=0
+(node:20677) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H terrain profile favors broad full-source coverage (3.29666ms)
+✔ B"H vegetation cell stays level while wind remains reactive (3.383424ms)
+✔ B"H bark is depth-writing and cannot expose reversed branch faces (126.532195ms)
+✔ B"H stairs own a continuous invisible walkable ramp (1.043232ms)
+✔ B"H every house surface uses deterministic two-sided visibility (1.03685ms)
+(node:20678) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (2.890204ms)
+✔ B"H equipped staff attaches to visible model-root anchor and repairs (125.913997ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1363.549426
+app_test_exit=0
+(node:20734) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-material-state.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H render material snapshot includes backface culling identity (6.007142ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 278.099506
+renderer_test_exit=0

@@ -1,0 +1,49 @@
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js=162
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainDensityLayers.js=141
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js=93
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainPackage.js=116
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainRoadMount.js=33
+lines:experiments/Awtsmoos/src/world/TerrainMesh.js=93
+lines:experiments/Awtsmoos/src/test/app/minimalMeadowEnemyNavigationRuntime.test.mjs=62
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs=89
+lines:experiments/light-three-gltf/tiny-render-culling.js=114
+lines:experiments/light-three-gltf/tiny-render-culling-metadata.js=86
+lines:experiments/light-three-gltf/test/tiny-render-frustum-opt-out.test.mjs=40
+syntax_exit=0
+oversized_exit=1
+(node:46462) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H combat approach moves an actor that has no move method (16.541314ms)
+(node:46463) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mobile terrain keeps enough source pixels for crisp ground detail (2.168867ms)
+✔ B"H six ecological sources retain strong nonuniform identities (2.448349ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.614726ms)
+✔ B"H visible road mounts without becoming collision authority (0.998736ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 630.247172
+app_test_exit=0
+(node:46474) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H frustumCulled false bypasses custom distance and frustum rejection (8.265953ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 391.35576
+renderer_test_exit=0

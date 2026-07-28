@@ -1,0 +1,73 @@
+(node:93804) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse state exposes and removes only the chosen stack (2.220667ms)
+✔ B"H opening corpse loot transfers nothing and publishes the actor (0.50316ms)
+✔ B"H Take leaves corpse visible while Loot All completes remaining treasure (25.667073ms)
+(node:93805) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisualMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bootstrap and rich material records preserve local demon readability (4.645122ms)
+✔ UV data is bound and procedural texture allocation is bounded outside frame updates (5007.913127ms)
+(node:93806) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H only thin exterior walls receive mobile camera-safe reverse faces (1.703396ms)
+✔ B"H released controls retain the last meaningful travel facing (0.271551ms)
+✔ B"H Bag exposes every authoritative slot and starts with both tefillin (0.357559ms)
+✔ B"H demon surface remains dark-themed but visibly textured (0.528161ms)
+✔ B"H Shlichus offers a five-shadow story and tracks faces with percentage (1.159585ms)
+✔ B"H teaching placement persists side or book-only mode (0.454946ms)
+(node:93807) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (16.471921ms)
+✔ batch loot and purchases publish exactly once (1.907964ms)
+✔ corpse selection opens loot before any deliberate transfer (4.17593ms)
+✔ tefillin jacket and visible weapon persist through casting and hydration (290.353951ms)
+(node:93808) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ procedural colors are finite, varied, and anatomically readable (5247.303495ms)
+✔ rich material preserves texture, vertex color, and readable tint (5.907681ms)
+✔ shared geometry uploads procedural color once for bootstrap (0.601852ms)
+✔ bootstrap shader multiplies profile tint by vertex color (0.303389ms)
+(node:93820) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ materials share images while actor feedback remains independent (5.442992ms)
+✔ controlled families bound cache growth and preserve variation (0.825879ms)
+✔ extreme colors normalize into a dark daylight-readable range (0.338375ms)
+✔ continuous demon keeps one render surface and one root bone (5397.551065ms)
+(node:93858) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ six live demons receive six readable measured surface profiles (4833.862504ms)
+(node:93875) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr collision bounds match every visible solid (156.206526ms)
+✔ beis-ohr exposes separated terrain, foundation, and floor tops (32.535231ms)
+✔ brick-cottage collision bounds match every visible solid (12.689833ms)
+✔ brick-cottage exposes separated terrain, foundation, and floor tops (4.853479ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10276.997698
+focused_exit=0
+oversized=src/ui/MinimalMeadowQuestParchment.js:125
+syntax_exit=0
+oversized_exit=1
+diff_exit=0

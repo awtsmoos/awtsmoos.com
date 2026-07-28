@@ -1,0 +1,62 @@
+experiments/Awtsmoos/src/movie/MovieMaterialDirector.js:56:	material.needsUpdate = true;
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:26:			material.needsUpdate = true;
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:39:		material.mapOffset = [
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:47:		material.normalOffset = [
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:61:	material.mixImage = sources.detail;
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:63:	material.normalDetailImage = sources.normalB;
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:64:	material.textureLayers = [
+experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js:77:	material.needsUpdate = true;
+experiments/Awtsmoos/src/app/MinimalMeadowRoadRibbon.js:42:		textureLayers: layers,
+experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js:78:		mixImage: sources.detail,
+experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js:82:		normalDetailImage: sources.normalB,
+experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js:87:		textureLayers: waterLayers(sources),
+experiments/Awtsmoos/src/app/MinimalMeadowMaterialReadability.js:64:	material.needsUpdate = true;
+experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js:38:		mixImage: sources.path,
+experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js:49:	material.textureLayers = minimalMeadowLayerDefinitions(sources)
+experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js:64:		layerReports: Object.freeze(material.textureLayers.map(layerReport)),
+experiments/Awtsmoos/src/test/app/minimalMeadowRemoteTerrainMaterial.test.mjs:75:		road.material.textureLayers.map(layer => layer.role),
+experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:64:		assert.equal(material.textureLayers.length, 6);
+experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:65:		assert.equal(material.textureLayers[3].role, 'road-shoulder');
+experiments/Awtsmoos/src/test/geometry/LayeredMaterialHydrator.test.mjs:47:			callback({ material: { textureLayers: layers } });
+experiments/Awtsmoos/src/test/geometry/terrainMaterialVisibility.test.mjs:24:	assert.equal(mesh.material.mixImage, dirt);
+experiments/Awtsmoos/src/test/geometry/localTerrainTextureBoot.test.mjs:60:	assert.equal(material.mixImage, dirtImage);
+experiments/Awtsmoos/src/test/geometry/localTerrainTextureBoot.test.mjs:64:	assert.equal(material.textureLayers.length, 6);
+experiments/Awtsmoos/src/test/geometry/mountainLayeredRenderContract.test.mjs:24:	assert.equal(mesh.material.textureLayers.length, 6);
+experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipe.test.mjs:99:	assert.equal(mesh.material.textureLayers.length, 5);
+experiments/Awtsmoos/src/test/geometry/roadMaterialContractMigration.test.mjs:23:	const activeRoles = fields.textureLayers.map((layer) => {
+experiments/Awtsmoos/src/test/geometry/roadMaterialContractMigration.test.mjs:27:	assert.equal(fields.textureLayers.length, 6);
+experiments/Awtsmoos/src/test/geometry/mountainRealismContract.test.mjs:51:		assert.ok(definition.textureLayers.length >= 6);
+experiments/Awtsmoos/src/test/geometry/mountainRealismContract.test.mjs:52:		assert.ok(definition.textureLayers.every(layer => isSameOriginMaterialUrl(layer.url)));
+experiments/Awtsmoos/src/test/performance/textureStateContinuity.test.mjs:25:	const mixImage = image(32, 32);
+experiments/Awtsmoos/src/test/performance/textureStateContinuity.test.mjs:29:		mixImage,
+experiments/Awtsmoos/src/test/performance/textureStateContinuity.test.mjs:38:		mixImage,
+experiments/Awtsmoos/src/test/assets/sceneMaterialHydration.test.mjs:81:	const mixed = { mapImage: completeImage(), mixImage: null, mixTextureUrl: urls[2], textureUrl: 'data:image/png;base64,AA==' };
+experiments/Awtsmoos/src/test/assets/sceneMaterialHydration.test.mjs:82:	const layered = { textureLayers: [{ image: null, role: 'mud', url: urls[3] }] };
+experiments/Awtsmoos/src/test/assets/sceneMaterialHydration.test.mjs:111:	assert.notEqual(mixed.mixImage, null);
+experiments/Awtsmoos/src/test/assets/sceneMaterialHydration.test.mjs:112:	assert.notEqual(layered.textureLayers[0].image, null);
+experiments/Awtsmoos/src/test/assets/sceneMaterialResidency.test.mjs:86:		textureLayers: urls.map((url, index) => ({ role: `grass-${index}`, url }))
+experiments/Awtsmoos/src/world/materials/MaterialStackBinding.js:23:		textureLayers: page.layers.map(layer => ({
+experiments/Awtsmoos/src/world/materials/MaterialStackBinding.js:42:		mixImage: cachedTextureImage(secondaryLayer.url),
+experiments/Awtsmoos/src/world/village/VillageWaterfallSystem.js:101:	definition.mixImage = cachedTextureImage(options.mixTextureUrl);
+experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js:38:		activeMaterialLayers: definitions[0]?.textureLayers?.length || 0,
+experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js:41:		layeredMaterials: definitions.every(item => item.textureLayers?.length > 0),
+experiments/Awtsmoos/src/world/village/VillageWaterBodies.js:95:		mixImage: cachedTextureImage(options.mixTextureUrl),
+experiments/Awtsmoos/src/world/Box3D.js:72:			layerCount: material.textureLayers?.length || 0,
+experiments/Awtsmoos/src/world/Box3D.js:101:		Boolean(definition.textureLayers?.length)
+experiments/Awtsmoos/src/world/road/RoadMaterialContract.js:75:		activeLayers: fields.textureLayers.length,
+experiments/Awtsmoos/src/world/road/RoadMaterialContract.js:79:		fullResolution: fields.textureLayers.every((layer) => {
+experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js:22:	const mixImage = definition.mixImage
+experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js:42:		mixImage,
+experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js:45:		mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
+experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js:57:	if (!Array.isArray(definition.textureLayers) || !definition.textureLayers.length) return {};
+experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js:60:		textureLayers: definition.textureLayers.map(layer => ({
+experiments/Awtsmoos/src/world/terrain/TerrainMaterialFactory.js:37:		mixImage: dirtImage,
+experiments/Awtsmoos/src/world/terrain/TerrainMaterialFactory.js:43:		textureLayers: recipe.layers.map(hydratableLayer),
+experiments/Awtsmoos/src/world/TerrainMesh.js:57:		layerCount: material.textureLayers.length,
+experiments/Awtsmoos/src/diagnostics/VillageMaterialDiagnostics.js:70:	const mixReady = usableMaterialImage(material.mixImage);
+experiments/Awtsmoos/src/assets/SceneMaterialPriority.js:41:	for (const [index, layer] of (material.textureLayers || []).entries()) {
+experiments/Awtsmoos/src/assets/LayeredMaterialHydrator.js:28:	const layers = object.material?.textureLayers;
+experiments/Awtsmoos/src/assets/PublicMaterialCache.js:194:		boundField: 'mixImagesBound',
+experiments/Awtsmoos/src/assets/PublicMaterialCache.js:196:		imageKey: 'mixImage',
+experiments/Awtsmoos/src/assets/PublicMaterialCache.js:202:	for (const layer of material.textureLayers || []) {
+experiments/Awtsmoos/src/assets/PublicMaterialCache.js:286:		mixImagesBound: 0,

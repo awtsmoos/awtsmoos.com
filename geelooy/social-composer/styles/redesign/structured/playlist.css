@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Playlist and series selection read as publication structure: one chosen receipt,
+ * optional hierarchy, and quiet creation actions around it.
+ */
+
+.composer-civilization-document .composer-playlist-selector {
+	display: grid;
+	gap: .6rem;
+	padding: .65rem;
+	border: 1px solid rgba(242, 201, 109, .2);
+	border-radius: var(--composer-radius-md);
+	background: linear-gradient(145deg, var(--composer-amber-soft), rgba(255, 255, 255, .012));
+}
+
+.composer-civilization-document .playlist-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .6rem;
+}
+
+.composer-civilization-document .playlist-heading :is(h3, strong, p) {
+	margin: 0;
+}
+
+.composer-civilization-document .playlist-heading strong,
+.composer-civilization-document .playlist-heading h3 {
+	color: var(--composer-text-soft);
+	font-size: .75rem;
+}
+
+.composer-civilization-document .playlist-choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .38rem;
+}
+
+.composer-civilization-document .playlist-choices :is(button, label) {
+	min-block-size: var(--composer-control-sm);
+	padding: .4rem .58rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: 999px;
+	background: var(--composer-surface-2);
+	color: var(--composer-text-muted);
+	font-size: .62rem;
+}
+
+.composer-civilization-document .playlist-choices :is(button, label)[aria-current],
+.composer-civilization-document .playlist-choices label:has(:checked) {
+	border-color: rgba(242, 201, 109, .4);
+	background: var(--composer-amber-soft);
+	color: #ecdcae;
+}
+
+.composer-civilization-document .playlist-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+.composer-civilization-document .playlist-actions button {
+	min-block-size: var(--composer-control-sm);
+	padding-inline: .58rem;
+	font-size: .62rem;
+}

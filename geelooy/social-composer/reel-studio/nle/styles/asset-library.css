@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Every asset row exposes type, title, metadata, and insertion as a compact,
+ * scan-friendly editing object.
+ */
+
+.nle-asset-list {
+	display: grid;
+	gap: .48rem;
+}
+
+.nle-asset-card {
+	display: grid;
+	grid-template-columns: 2.8rem minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .58rem;
+	padding: .48rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: var(--nle-radius-md);
+	background: linear-gradient(145deg, var(--nle-surface-2), #10161e);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .02);
+	transition: border-color var(--nle-transition), transform var(--nle-transition), background var(--nle-transition);
+}
+
+.nle-asset-card[aria-current] {
+	border-color: rgba(185, 120, 239, .56);
+	background: linear-gradient(145deg, var(--nle-violet-soft), var(--nle-surface-2));
+}
+
+.nle-asset-thumbnail {
+	display: grid;
+	inline-size: 2.8rem;
+	block-size: 2.8rem;
+	place-items: center;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-sm);
+	background: linear-gradient(145deg, #251431, #513065);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+	color: #f0d7ff;
+	font-size: 1.08rem;
+}
+
+.nle-asset-audio .nle-asset-thumbnail,
+.nle-asset-tone .nle-asset-thumbnail {
+	background: linear-gradient(145deg, #18301d, #31573a);
+	color: #c9edc8;
+}
+
+.nle-asset-image .nle-asset-thumbnail,
+.nle-asset-video .nle-asset-thumbnail {
+	background: linear-gradient(145deg, #12303a, #24596a);
+	color: #c4eef6;
+}
+
+.nle-asset-title .nle-asset-thumbnail {
+	background: linear-gradient(145deg, #3d2615, #72502a);
+	color: #f5d8af;
+}
+
+.nle-asset-copy {
+	display: grid;
+	min-inline-size: 0;
+	gap: .12rem;
+}
+
+.nle-asset-copy strong,
+.nle-asset-copy small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nle-asset-copy strong {
+	color: var(--nle-text-soft);
+	font-size: .7rem;
+}
+
+.nle-asset-copy small {
+	color: var(--nle-text-faint);
+	font-size: .58rem;
+}
+
+.nle-asset-card button {
+	min-block-size: var(--nle-control-sm);
+	padding-inline: .5rem;
+	border-color: rgba(185, 120, 239, .28);
+	background: var(--nle-violet-soft);
+	color: #e6caf5;
+	font-size: .59rem;
+}
+
+@media (hover: hover) {
+	.nle-asset-card:hover {
+		border-color: var(--nle-border);
+		background: var(--nle-surface-3);
+		transform: translateY(-1px);
+	}
+}

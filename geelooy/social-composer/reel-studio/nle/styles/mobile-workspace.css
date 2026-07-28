@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * One upper pane appears at a time while every pane owns its scrolling and the
+ * persistent timeline remains outside the switching surface.
+ */
+
+@media (max-width: 52rem) {
+	.nle-workspace {
+		position: relative;
+		display: block;
+		min-block-size: 0;
+		min-inline-size: 0;
+		background: var(--nle-surface-0);
+		overflow: hidden;
+	}
+
+	.nle-workspace > [data-nle-panel] {
+		position: absolute;
+		inset: 0;
+		display: none;
+		inline-size: 100%;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+		border: 0;
+		overflow: hidden;
+	}
+
+	.nle-studio:not([data-mobile-panel]) [data-nle-panel="preview"],
+	.nle-studio[data-mobile-panel="preview"] [data-nle-panel="preview"],
+	.nle-studio[data-mobile-panel="assets"] [data-nle-panel="assets"],
+	.nle-studio[data-mobile-panel="inspector"] [data-nle-panel="inspector"] {
+		display: grid;
+	}
+
+	.nle-studio[data-mobile-panel="assets"] [data-nle-panel="assets"],
+	.nle-studio[data-mobile-panel="inspector"] [data-nle-panel="inspector"] {
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.nle-preview-panel,
+	.nle-canvas-stage {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+		overflow: hidden;
+	}
+
+	.nle-canvas-stage {
+		padding: .65rem;
+	}
+
+	.nle-canvas-stage::after {
+		inset: .45rem;
+	}
+
+	.nle-canvas-stage canvas {
+		inline-size: calc(100% - 1.3rem);
+		block-size: auto;
+		max-inline-size: calc(100% - 1.3rem);
+		max-block-size: 100%;
+		box-shadow: 0 .9rem 2.2rem rgba(0, 0, 0, .45), 0 0 0 .28rem rgba(0, 0, 0, .22);
+		object-fit: contain;
+	}
+
+	.nle-preview-badge {
+		inset-block-start: .7rem;
+		inset-inline-end: .7rem;
+	}
+
+	.nle-assets-panel > div,
+	.nle-inspector-panel > div {
+		padding: .75rem;
+	}
+}
+
+@media (max-width: 25rem) {
+	.nle-generator-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.nle-asset-card {
+		grid-template-columns: 2.65rem minmax(0, 1fr);
+	}
+
+	.nle-asset-card button {
+		grid-column: 1 / -1;
+		inline-size: 100%;
+	}
+}

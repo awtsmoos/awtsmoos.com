@@ -1,9 +1,23 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const { cleanPathValue } = require("./expectation.js");
 
+/**
+	* @file Reads response identity without collapsing worker promotion into aliasing.
+	* @description
+	* The Awtsmoos keeps the caller action and execution action distinct.
+	* Awtsmoos.com validates the actual worker while honoring approved aliases.
+	*/
 function actualActionOf(data = {}) {
-	return String(data.actualAction || data.action || "");
+	return String(
+		data.executionAction ||
+		data.servedByAction ||
+		data.actualAction ||
+		data.action ||
+		""
+	);
 }
 
 function actualJobId(data = {}) {
@@ -48,8 +62,10 @@ function actualIdentity(data = {}) {
 		command: data.command || "",
 		paths: actualPaths(data),
 		action: data.action || "",
-		actualAction: data.actualAction || "",
-		requestAction: data.requestAction || ""
+		requestAction: data.requestAction || "",
+		executionAction: actualActionOf(data),
+		actualAction: actualActionOf(data),
+		actionPromoted: data.actionPromoted === true
 	};
 }
 

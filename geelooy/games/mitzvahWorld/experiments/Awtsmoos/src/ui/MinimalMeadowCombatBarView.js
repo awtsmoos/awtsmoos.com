@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCombatBarView.js
- * @description Builds action slots, cooldown labels, target key, status, and cast meter.
- * The Awtsmoos gives every deed a bounded visible vessel;
- * Awtsmoos.com keeps key, icon, cooldown, charge, launch, and consequence readable together.
+ * @description Builds pictographic action slots, cooldowns, target control, status, and cast meter.
+ * The Awtsmoos gives symbol, letter, key, and timing their proper visible vessels;
+ * Awtsmoos.com makes each deed instantly recognizable while Hebrew remains spoken and accessible.
  */
 
 import { minimalMeadowCombatActionList } from '../app/MinimalMeadowCombatActions.js';
@@ -25,10 +25,12 @@ export function createMinimalMeadowCombatBarView(host) {
 	const targetButton = element(documentValue, 'button');
 	targetButton.type = 'button';
 	targetButton.dataset.targetCycle = 'true';
-	targetButton.innerHTML = '<b>◎</b><small>Tab</small>';
+	targetButton.setAttribute('aria-label', 'Cycle combat target');
+	targetButton.innerHTML = '<b aria-hidden="true">🎯</b><small>Tab</small>';
 	const collapseButton = element(documentValue, 'button');
 	collapseButton.type = 'button';
 	collapseButton.dataset.collapse = 'true';
+	collapseButton.setAttribute('aria-label', 'Collapse combat actions');
 	collapseButton.textContent = '−';
 	const status = element(documentValue, 'output');
 	status.textContent = 'Combat loading…';
@@ -69,9 +71,14 @@ function createActionButton(documentValue, action) {
 	const button = element(documentValue, 'button');
 	button.type = 'button';
 	button.dataset.actionId = action.id;
-	button.title = `${action.label} · ${action.castTime}s cast · ${action.cooldown}s cooldown`;
+	button.title = `${action.label} · ${action.letters} · ${action.castTime}s cast · ${action.cooldown}s cooldown`;
+	button.setAttribute(
+		'aria-label',
+		`${action.label}, ${action.letters}, key ${action.keyLabel}`
+	);
 	button.innerHTML = [
-		`<b>${action.icon}</b>`,
+		`<b aria-hidden="true">${action.icon}</b>`,
+		`<span class="Awtsmoos-action-letters">${action.letters}</span>`,
 		`<small>${action.keyLabel}</small>`,
 		'<em data-cooldown-value></em>'
 	].join('');
@@ -94,9 +101,7 @@ function createCastMeter(documentValue) {
 
 function finiteRemaining(payload, progress) {
 	const supplied = Number(payload.remaining);
-	if (Number.isFinite(supplied)) {
-		return Math.max(0, supplied);
-	}
+	if (Number.isFinite(supplied)) return Math.max(0, supplied);
 	const duration = Math.max(0, Number(payload.duration) || 0);
 	return Math.max(0, duration * (1 - progress));
 }
@@ -107,8 +112,6 @@ function clampUnit(value) {
 
 function element(documentValue, tagName, className = '') {
 	const node = documentValue.createElement(tagName);
-	if (className) {
-		node.className = className;
-	}
+	if (className) node.className = className;
 	return node;
 }

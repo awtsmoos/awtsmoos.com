@@ -2,13 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const FailureHistory = require("../ws/transportFailureHistory.js");
+
 /**
- * @file Creates bounded runtime state and public connection testimony.
- * @description
- * The Awtsmoos renews mutable state without hiding it inside orchestration.
- * Awtsmoos.com keeps route identity, reconnect pressure, and lane state explicit
- * so tests can prove every generation begins clean and every snapshot stays safe.
- */
+	* @file Creates bounded runtime state and public classified connection testimony.
+	* @description
+	* The Awtsmoos renews mutable route state while preserving the causes of endings.
+	* Awtsmoos.com exposes generation, mailbox, and bounded failure history safely.
+	*/
 function createState(dependencies, lagMonitor) {
 	return {
 		activeWs: null,
@@ -26,6 +27,9 @@ function createState(dependencies, lagMonitor) {
 		tunnelName: "",
 		lastRegisteredAt: 0,
 		lastSuccessfulActionAt: 0,
+		lastFailure: null,
+		recentFailures: [],
+		connectionVessel: null,
 		lanes: dependencies.Priority.makeLaneState(),
 		scheduler: dependencies.Priority.createSchedulerState(),
 		eventLoopLag: lagMonitor.snapshot()
@@ -33,6 +37,8 @@ function createState(dependencies, lagMonitor) {
 }
 
 function connectionSnapshot(state) {
+	const child = state.connectionVessel || {};
+	const recentFailures = child.recentFailures || state.recentFailures || [];
 	return {
 		generation: state.generation,
 		tunnelId: state.tunnelId || "",
@@ -40,7 +46,12 @@ function connectionSnapshot(state) {
 		registered: state.registrationConfirmed === true,
 		reconnectAttempt: state.reconnectAttempt,
 		lastRegisteredAt: state.lastRegisteredAt || null,
-		replacementRequested: state.replacementRequested === true
+		replacementRequested: state.replacementRequested === true,
+		childPid: child.childPid || null,
+		mailbox: child.mailbox || null,
+		lastFailure: child.lastFailure || state.lastFailure || null,
+		recentFailures,
+		failureSummary: FailureHistory.summary(recentFailures)
 	};
 }
 
@@ -53,8 +64,4 @@ function memorySnapshotState(state, inflight, queued) {
 	};
 }
 
-module.exports = {
-	connectionSnapshot,
-	createState,
-	memorySnapshotState
-};
+module.exports = { connectionSnapshot, createState, memorySnapshotState };

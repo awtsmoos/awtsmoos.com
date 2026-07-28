@@ -19,8 +19,13 @@ export class StageTimingLedger {
 		try {
 			return await task();
 		} finally {
-			this.durations[name] = this.now() - started;
+			this.record(name, this.now() - started);
 		}
+	}
+
+	record(name, durationMs) {
+		this.durations[name] = Math.max(0, Number(durationMs) || 0);
+		return this.durations[name];
 	}
 
 	snapshot() {

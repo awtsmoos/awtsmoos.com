@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Catalog actions gather by cinematic responsibility beneath one exact parity receipt.
+ */
+
+.nle-ai-actions-view {
+	display: none;
+	gap: .8rem;
+	padding: 1rem;
+}
+
+.nle-ai-studio[data-ai-panel="actions"] .nle-ai-actions-view {
+	display: grid;
+}
+
+.nle-ai-actions-view > header {
+	display: grid;
+	gap: .18rem;
+	padding: .75rem;
+	border: 1px solid rgba(89, 189, 210, .22);
+	border-radius: var(--nle-radius-md);
+	background: linear-gradient(145deg, var(--nle-cyan-soft), rgba(255, 255, 255, .012));
+}
+
+.nle-ai-actions-view > header :is(strong, p) {
+	margin: 0;
+}
+
+.nle-ai-actions-view > header small {
+	color: var(--nle-cyan);
+	font-size: .6rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.nle-ai-actions-view > header strong {
+	font-size: .9rem;
+}
+
+.nle-ai-actions-view > header p {
+	color: var(--nle-text-muted);
+	font-size: .65rem;
+}
+
+.nle-ai-actions-view > div {
+	display: grid;
+	gap: .8rem;
+}
+
+.nle-action-group {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .55rem;
+}
+
+.nle-action-group h3 {
+	grid-column: 1 / -1;
+	margin: .25rem 0 0;
+	padding-block-end: .35rem;
+	border-block-end: 1px solid var(--nle-border-soft);
+	color: var(--nle-text-soft);
+	font-size: .7rem;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}

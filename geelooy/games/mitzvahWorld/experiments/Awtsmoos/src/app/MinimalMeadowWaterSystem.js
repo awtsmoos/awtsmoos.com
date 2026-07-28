@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWaterSystem.js
- * @description Mounts immediate idempotent beds, banks, river, and lake before optional hydration.
- * The Awtsmoos carries visible current before finite networks answer; Awtsmoos.com preserves one
- * scene group, allocation-free flow, aligned elevations, continuity evidence, and honest cleanup.
+ * @description Mounts immediate water, hydrates mounted materials, and advances four-layer flow.
+ * The Awtsmoos carries current before and after finite loading; Awtsmoos.com keeps one scene group,
+ * real uploaded color, real normals, in-place hydration, allocation-free motion, and honest evidence.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -15,6 +15,10 @@ import { minimalMeadowWaterElevationEvidence } from './MinimalMeadowRiverBanksDi
 import { MINIMAL_MEADOW_RIVER_SEGMENTS } from './MinimalMeadowRiverPath.js';
 import { createMinimalMeadowWaterDefinitions } from './MinimalMeadowWaterDefinitions.js';
 import {
+	animateMinimalMeadowWaterMaterials,
+	hydrateMinimalMeadowWaterMaterials
+} from './MinimalMeadowWaterMaterialHydration.js';
+import {
 	createMinimalMeadowWaterFallbackSources,
 	loadMinimalMeadowWaterSources
 } from './MinimalMeadowWaterSources.js';
@@ -22,10 +26,10 @@ import { minimalMeadowMeshMetrics } from './MinimalMeadowWorldPopulationDiagnost
 
 export class MinimalMeadowWaterSystem {
 	static async create(runtime) {
-		if (runtime.water?.group) {
-			return runtime.water;
-		}
-		const sources = createMinimalMeadowWaterFallbackSources(runtime.environment || globalThis);
+		if (runtime.water?.group) return runtime.water;
+		const sources = createMinimalMeadowWaterFallbackSources(
+			runtime.environment || globalThis
+		);
 		const system = new MinimalMeadowWaterSystem(runtime, sources);
 		if (runtime.environment?.disablePublicAssets !== true) {
 			system.beginPublicHydration();
@@ -44,34 +48,35 @@ export class MinimalMeadowWaterSystem {
 			return mesh;
 		});
 		this.clock = 0;
+		this.hydratedMeshes = 0;
 		this.hydrationState = 'procedural-visible';
 		this.errors = [];
 	}
 
 	beginPublicHydration() {
-		this.hydrationState = 'loading-local-water-pack';
-		this.hydrationPromise = loadMinimalMeadowWaterSources(this.runtime.environment || globalThis)
-			.then(sources => {
-				this.sources = sources;
-				this.hydrationState = sources.localNormalsReady
-					? 'local-water-pack-available' : 'procedural-visible';
-				return sources;
-			})
-			.catch(error => {
-				this.errors.push(error.message);
-				this.hydrationState = 'procedural-visible';
-				return this.sources;
-			});
+		this.hydrationState = 'loading-water-material-pack';
+		this.hydrationPromise = loadMinimalMeadowWaterSources(
+			this.runtime.environment || globalThis
+		).then(sources => {
+			this.sources = sources;
+			this.hydratedMeshes = hydrateMinimalMeadowWaterMaterials(
+				this.meshes,
+				sources
+			);
+			this.hydrationState = sources.hostedColorReady
+				? 'textured-water-ready' : 'procedural-visible';
+			return sources;
+		}).catch(error => {
+			this.errors.push(error.message);
+			this.hydrationState = 'procedural-visible';
+			return this.sources;
+		});
+		return this.hydrationPromise;
 	}
 
 	update(deltaSeconds) {
-		this.clock += deltaSeconds;
-		for (let index = 0; index < this.meshes.length; index += 1) {
-			const policy = this.meshes[index].material?.texturePolicy;
-			if (policy?.waterPhysical) {
-				policy.time = this.clock;
-			}
-		}
+		this.clock += Math.max(0, Number(deltaSeconds) || 0);
+		animateMinimalMeadowWaterMaterials(this.meshes, this.clock);
 	}
 
 	diagnostics() {
@@ -80,9 +85,12 @@ export class MinimalMeadowWaterSystem {
 			activeNormalSources: this.sources.activeNormalSources,
 			bankMeshes: 2,
 			bedMeshes: 2,
+			colorMode: this.sources.colorMode,
 			drawCalls: this.meshes.length,
 			elevations: minimalMeadowWaterElevationEvidence(),
 			errors: [...this.errors],
+			hostedColorReady: this.sources.hostedColorReady,
+			hydratedMeshes: this.hydratedMeshes,
 			hydrationState: this.hydrationState,
 			materials: metrics.materials,
 			mounted: this.group.parent === this.runtime.scene,
@@ -97,8 +105,6 @@ export class MinimalMeadowWaterSystem {
 
 	destroy() {
 		this.group.parent?.remove(this.group);
-		if (this.runtime.water === this) {
-			this.runtime.water = null;
-		}
+		if (this.runtime.water === this) this.runtime.water = null;
 	}
 }

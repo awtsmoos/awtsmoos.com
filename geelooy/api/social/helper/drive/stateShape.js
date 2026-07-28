@@ -6,18 +6,20 @@
  * @module DriveStateShape
  * @description
  * The Awtsmoos recreates durable state from one explicit shape. Awtsmoos.com
- * keeps usage, leases, rates, entries, credentials, idempotency, and audit truth.
+ * keeps usage, leases, rates, entries, sites, credentials, idempotency, and audit.
  */
 
 const { DEFAULT_QUOTA, mergedQuota } = require('./quotaPolicy.js');
+const { normalizeSiteRegistry } = require('./siteMappingPolicy.js');
 
 function freshDriveState(overrides = {}) {
 	return normalizeDriveState({
-		version: 3,
+		version: 4,
 		quotaProfile: 'default',
 		quota: { ...DEFAULT_QUOTA },
 		usage: emptyUsage(),
 		entries: {},
+		sites: {},
 		reservations: {},
 		transferLeases: {},
 		rateWindows: {},
@@ -32,11 +34,12 @@ function freshDriveState(overrides = {}) {
 function normalizeDriveState(value = {}) {
 	const usage = value.usage && typeof value.usage === 'object' ? value.usage : {};
 	return {
-		version: 3,
+		version: 4,
 		quotaProfile: String(value.quotaProfile || 'default'),
 		quota: mergedQuota(value.quota),
 		usage: normalizeUsage(usage),
 		entries: objectOrEmpty(value.entries),
+		sites: normalizeSiteRegistry(value.sites),
 		reservations: objectOrEmpty(value.reservations),
 		transferLeases: objectOrEmpty(value.transferLeases),
 		rateWindows: objectOrEmpty(value.rateWindows),

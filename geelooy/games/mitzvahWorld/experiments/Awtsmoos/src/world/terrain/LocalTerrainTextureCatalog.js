@@ -4,38 +4,44 @@
 
 /**
  * @file LocalTerrainTextureCatalog.js
- * @description Names six high-resolution terrain images served beside the game itself.
- * The Awtsmoos reveals earth without a quota gate; Awtsmoos.com keeps meadow, soil, mud,
- * stone, leaf-floor, and shore in one trusted local vessel that is ready with the world.
+ * @description Preserves six ecological role names while storing uploaded identity as filenames.
+ * The Awtsmoos renews old earth without scattering its distant root; Awtsmoos.com keeps every
+ * hyphenated shader role aligned with the recipe while one transport boundary alone knows the road.
  */
 
-const ROOT = './assets/materials/local/terrain/';
+import {
+	remoteFullResolutionTextureUrl
+} from '../../assets/RemoteTextureCatalog.js';
 
-export const LOCAL_TERRAIN_TEXTURES = Object.freeze({
-	forestLeafFloor: `${ROOT}forest-leaf-floor.png`,
-	meadowWetGrass: `${ROOT}meadow-wet-grass.png`,
-	mountainStone: `${ROOT}mountain-stone.png`,
-	shoreSand: `${ROOT}shore-sand.png`,
-	streamBankMud: `${ROOT}stream-bank-mud.png`,
-	wornEarth: `${ROOT}worn-earth.jpg`
+export const TERRAIN_TEXTURE_FILENAMES = Object.freeze({
+	'forest-leaf-floor': 'forest floor covered with leaves.png',
+	'meadow-wet-grass': 'dirt grass 6.png',
+	'mountain-stone': 'weathered fieldstone Rock 1.png',
+	'shore-sand': 'sand 1.png',
+	'stream-bank-mud': 'mud.png',
+	'worn-earth': 'dirt 2.png'
 });
 
-const URL_BY_ROLE = Object.freeze({
-	'forest-leaf-floor': LOCAL_TERRAIN_TEXTURES.forestLeafFloor,
-	'meadow-source-grass': LOCAL_TERRAIN_TEXTURES.meadowWetGrass,
-	'meadow-wet-grass': LOCAL_TERRAIN_TEXTURES.meadowWetGrass,
-	'mountain-stone': LOCAL_TERRAIN_TEXTURES.mountainStone,
-	'shore-sand': LOCAL_TERRAIN_TEXTURES.shoreSand,
-	'stream-bank-mud': LOCAL_TERRAIN_TEXTURES.streamBankMud,
-	'worn-earth': LOCAL_TERRAIN_TEXTURES.wornEarth
-});
+export const LOCAL_TERRAIN_TEXTURES = Object.freeze(
+	Object.fromEntries(Object.entries(TERRAIN_TEXTURE_FILENAMES).map(
+		([role, filename]) => [role, remoteFullResolutionTextureUrl(filename)]
+	))
+);
 
 export function localTerrainTextureUrl(role) {
-	const url = URL_BY_ROLE[role];
-	if (!url) throw new Error(`Missing local terrain texture role: ${role}`);
+	const url = LOCAL_TERRAIN_TEXTURES[role];
+	if (!url) throw new Error(`Unknown terrain texture role: ${role}`);
 	return url;
 }
 
 export function localTerrainTextureUrls() {
 	return Object.freeze([...new Set(Object.values(LOCAL_TERRAIN_TEXTURES))]);
+}
+
+export function localTerrainTextureEvidence() {
+	return Object.freeze({
+		filenames: TERRAIN_TEXTURE_FILENAMES,
+		policy: 'filename-only-catalog-single-remote-transport',
+		roles: Object.keys(TERRAIN_TEXTURE_FILENAMES)
+	});
 }

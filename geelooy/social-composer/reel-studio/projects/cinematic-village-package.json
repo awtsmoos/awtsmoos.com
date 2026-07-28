@@ -1,0 +1,3858 @@
+{
+	"artifacts": {
+		"assets": [
+			{
+				"id": "cinematic-village-world",
+				"kind": "cinematic-world",
+				"label": "Living cinematic village",
+				"particleGraphIds": [
+					"particles-fireflies",
+					"particles-mist"
+				],
+				"seed": 613,
+				"shaderGraphId": "shader-village-dawn",
+				"world": {
+					"character": {
+						"bodyMaterial": "material-coat",
+						"hatMaterial": "material-coat",
+						"id": "hero-chossid",
+						"path": [
+							{
+								"t": 0,
+								"x": -38,
+								"z": 26
+							},
+							{
+								"t": 0.28,
+								"x": -18,
+								"z": 12
+							},
+							{
+								"t": 0.5,
+								"x": -4,
+								"z": 2
+							},
+							{
+								"t": 0.72,
+								"x": 10,
+								"z": -9
+							},
+							{
+								"t": 1,
+								"x": 23,
+								"z": -18
+							}
+						]
+					},
+					"houses": [
+						{
+							"depth": 7,
+							"height": 6,
+							"id": "house-1",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 9,
+							"windowMaterial": "material-window",
+							"x": -24,
+							"z": -14
+						},
+						{
+							"depth": 8,
+							"height": 7,
+							"id": "house-2",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 10,
+							"windowMaterial": "material-window",
+							"x": -11,
+							"z": -19
+						},
+						{
+							"depth": 9,
+							"height": 6,
+							"id": "house-3",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 11,
+							"windowMaterial": "material-window",
+							"x": 5,
+							"z": -20
+						},
+						{
+							"depth": 7,
+							"height": 7,
+							"id": "house-4",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 12,
+							"windowMaterial": "material-window",
+							"x": 20,
+							"z": -14
+						},
+						{
+							"depth": 8,
+							"height": 6,
+							"id": "house-5",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 9,
+							"windowMaterial": "material-window",
+							"x": -28,
+							"z": 2
+						},
+						{
+							"depth": 9,
+							"height": 7,
+							"id": "house-6",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 10,
+							"windowMaterial": "material-window",
+							"x": -14,
+							"z": 5
+						},
+						{
+							"depth": 7,
+							"height": 6,
+							"id": "house-7",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 11,
+							"windowMaterial": "material-window",
+							"x": 13,
+							"z": 4
+						},
+						{
+							"depth": 8,
+							"height": 7,
+							"id": "house-8",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 12,
+							"windowMaterial": "material-window",
+							"x": 28,
+							"z": 0
+						},
+						{
+							"depth": 9,
+							"height": 6,
+							"id": "house-9",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 9,
+							"windowMaterial": "material-window",
+							"x": -20,
+							"z": 20
+						},
+						{
+							"depth": 7,
+							"height": 7,
+							"id": "house-10",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 10,
+							"windowMaterial": "material-window",
+							"x": 0,
+							"z": 22
+						},
+						{
+							"depth": 8,
+							"height": 6,
+							"id": "house-11",
+							"roofHeight": 3,
+							"roofMaterial": "material-roof",
+							"wallMaterial": "material-plaster",
+							"width": 11,
+							"windowMaterial": "material-window",
+							"x": 21,
+							"z": 18
+						}
+					],
+					"lamps": [
+						{
+							"id": "lamp-1",
+							"x": -24,
+							"z": 1
+						},
+						{
+							"id": "lamp-2",
+							"x": -8,
+							"z": -2
+						},
+						{
+							"id": "lamp-3",
+							"x": 8,
+							"z": -5
+						},
+						{
+							"id": "lamp-4",
+							"x": 24,
+							"z": -8
+						}
+					],
+					"paths": [
+						{
+							"from": [
+								-42,
+								28
+							],
+							"id": "main-stone-road",
+							"material": "material-wet-stone",
+							"to": [
+								35,
+								-26
+							],
+							"width": 6
+						},
+						{
+							"from": [
+								-28,
+								2
+							],
+							"id": "market-lane",
+							"material": "material-wet-stone",
+							"to": [
+								28,
+								0
+							],
+							"width": 4
+						},
+						{
+							"from": [
+								0,
+								22
+							],
+							"id": "house-path",
+							"material": "material-wet-stone",
+							"to": [
+								4,
+								-20
+							],
+							"width": 3
+						}
+					],
+					"trees": [
+						{
+							"id": "tree-613-1",
+							"leafMaterial": "material-leaves",
+							"scale": 1.460345186793711,
+							"trunkMaterial": "material-wood",
+							"x": 7.449233608544605,
+							"z": 32.13798742925045
+						},
+						{
+							"id": "tree-613-2",
+							"leafMaterial": "material-leaves",
+							"scale": 1.6987300208886154,
+							"trunkMaterial": "material-wood",
+							"x": 10.726257571231223,
+							"z": 19.812612096060892
+						},
+						{
+							"id": "tree-613-3",
+							"leafMaterial": "material-leaves",
+							"scale": 1.0275641851883848,
+							"trunkMaterial": "material-wood",
+							"x": -22.58783446378789,
+							"z": 25.210583974094938
+						},
+						{
+							"id": "tree-613-4",
+							"leafMaterial": "material-leaves",
+							"scale": 1.5740732429228954,
+							"trunkMaterial": "material-wood",
+							"x": 16.978000068900254,
+							"z": -25.323713955306836
+						},
+						{
+							"id": "tree-613-5",
+							"leafMaterial": "material-leaves",
+							"scale": 0.9109366447955836,
+							"trunkMaterial": "material-wood",
+							"x": -38.65652516648098,
+							"z": -23.346942113972183
+						},
+						{
+							"id": "tree-613-6",
+							"leafMaterial": "material-leaves",
+							"scale": 0.7830817536610993,
+							"trunkMaterial": "material-wood",
+							"x": -13.785758858386174,
+							"z": -21.73113029097065
+						},
+						{
+							"id": "tree-613-7",
+							"leafMaterial": "material-leaves",
+							"scale": 1.5394978814067144,
+							"trunkMaterial": "material-wood",
+							"x": 26.779526702393085,
+							"z": -29.874587240335277
+						},
+						{
+							"id": "tree-613-8",
+							"leafMaterial": "material-leaves",
+							"scale": 1.5341604436973284,
+							"trunkMaterial": "material-wood",
+							"x": 24.413548100079307,
+							"z": -33.8738822886756
+						},
+						{
+							"id": "tree-613-9",
+							"leafMaterial": "material-leaves",
+							"scale": 1.8542870723671512,
+							"trunkMaterial": "material-wood",
+							"x": 15.546045533696557,
+							"z": -36.96973946570277
+						},
+						{
+							"id": "tree-613-10",
+							"leafMaterial": "material-leaves",
+							"scale": 1.5404897127576986,
+							"trunkMaterial": "material-wood",
+							"x": 10.98217661996767,
+							"z": 21.33239932076331
+						},
+						{
+							"id": "tree-613-11",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7768209392379504,
+							"trunkMaterial": "material-wood",
+							"x": -30.366738839592706,
+							"z": -26.13663401695563
+						},
+						{
+							"id": "tree-613-12",
+							"leafMaterial": "material-leaves",
+							"scale": 1.3641857946000528,
+							"trunkMaterial": "material-wood",
+							"x": -41.909383258239714,
+							"z": 9.432715131923029
+						},
+						{
+							"id": "tree-613-13",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7596625198348192,
+							"trunkMaterial": "material-wood",
+							"x": -21.524043426914094,
+							"z": -10.05789108811111
+						},
+						{
+							"id": "tree-613-14",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8176868643524358,
+							"trunkMaterial": "material-wood",
+							"x": 19.514613641385868,
+							"z": 33.57149492131802
+						},
+						{
+							"id": "tree-613-15",
+							"leafMaterial": "material-leaves",
+							"scale": 1.9359486078115877,
+							"trunkMaterial": "material-wood",
+							"x": 22.021970919405106,
+							"z": -47.762744393083736
+						},
+						{
+							"id": "tree-613-16",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2896177859889577,
+							"trunkMaterial": "material-wood",
+							"x": -25.8661852271428,
+							"z": 2.6353462714652114
+						},
+						{
+							"id": "tree-613-17",
+							"leafMaterial": "material-leaves",
+							"scale": 1.4098370188425178,
+							"trunkMaterial": "material-wood",
+							"x": -21.97152132465834,
+							"z": -13.133102506646324
+						},
+						{
+							"id": "tree-613-18",
+							"leafMaterial": "material-leaves",
+							"scale": 1.737823303315781,
+							"trunkMaterial": "material-wood",
+							"x": -27.275977272414572,
+							"z": 24.81629708131419
+						},
+						{
+							"id": "tree-613-19",
+							"leafMaterial": "material-leaves",
+							"scale": 1.3139355555402288,
+							"trunkMaterial": "material-wood",
+							"x": -32.691750230362054,
+							"z": 12.7751483267999
+						},
+						{
+							"id": "tree-613-20",
+							"leafMaterial": "material-leaves",
+							"scale": 1.346343977091601,
+							"trunkMaterial": "material-wood",
+							"x": -28.956808541815683,
+							"z": 1.7255383372521553
+						},
+						{
+							"id": "tree-613-21",
+							"leafMaterial": "material-leaves",
+							"scale": 1.1413798203662737,
+							"trunkMaterial": "material-wood",
+							"x": 7.085983005180382,
+							"z": -35.91616653120229
+						},
+						{
+							"id": "tree-613-22",
+							"leafMaterial": "material-leaves",
+							"scale": 1.9262571816681884,
+							"trunkMaterial": "material-wood",
+							"x": -28.698962810598715,
+							"z": -3.324598545374287
+						},
+						{
+							"id": "tree-613-23",
+							"leafMaterial": "material-leaves",
+							"scale": 1.25850045971456,
+							"trunkMaterial": "material-wood",
+							"x": 37.68837935118943,
+							"z": 13.237014400466052
+						},
+						{
+							"id": "tree-613-24",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7254473092383704,
+							"trunkMaterial": "material-wood",
+							"x": -33.61173733692552,
+							"z": -7.787369283824597
+						},
+						{
+							"id": "tree-613-25",
+							"leafMaterial": "material-leaves",
+							"scale": 1.4199355987308082,
+							"trunkMaterial": "material-wood",
+							"x": -6.9210457380405215,
+							"z": -52.92100314050263
+						},
+						{
+							"id": "tree-613-26",
+							"leafMaterial": "material-leaves",
+							"scale": 1.3098846138396767,
+							"trunkMaterial": "material-wood",
+							"x": 12.673825589273862,
+							"z": -44.35535472407612
+						},
+						{
+							"id": "tree-613-27",
+							"leafMaterial": "material-leaves",
+							"scale": 1.123614775625174,
+							"trunkMaterial": "material-wood",
+							"x": -0.19108325942629587,
+							"z": 33.10442465328237
+						},
+						{
+							"id": "tree-613-28",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7715824645747489,
+							"trunkMaterial": "material-wood",
+							"x": 5.249535637875497,
+							"z": 13.728126715253246
+						},
+						{
+							"id": "tree-613-29",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2080159135774011,
+							"trunkMaterial": "material-wood",
+							"x": -4.607137395084473,
+							"z": 27.95065881437297
+						},
+						{
+							"id": "tree-613-30",
+							"leafMaterial": "material-leaves",
+							"scale": 1.5589982101417261,
+							"trunkMaterial": "material-wood",
+							"x": 29.16748832758289,
+							"z": -0.1552950995645137
+						},
+						{
+							"id": "tree-613-31",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7146634032193107,
+							"trunkMaterial": "material-wood",
+							"x": 12.873907086708392,
+							"z": 23.740247232310388
+						},
+						{
+							"id": "tree-613-32",
+							"leafMaterial": "material-leaves",
+							"scale": 1.8452962878072867,
+							"trunkMaterial": "material-wood",
+							"x": -26.63178625245795,
+							"z": -23.067996879127712
+						},
+						{
+							"id": "tree-613-33",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8260602546884911,
+							"trunkMaterial": "material-wood",
+							"x": -24.103781811101992,
+							"z": -37.42255791090498
+						},
+						{
+							"id": "tree-613-34",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2871201814588857,
+							"trunkMaterial": "material-wood",
+							"x": 12.454469417180059,
+							"z": 26.164310943617807
+						},
+						{
+							"id": "tree-613-35",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8307263023336418,
+							"trunkMaterial": "material-wood",
+							"x": 18.95023005758779,
+							"z": 15.101443473809006
+						},
+						{
+							"id": "tree-613-36",
+							"leafMaterial": "material-leaves",
+							"scale": 1.724255472474033,
+							"trunkMaterial": "material-wood",
+							"x": 18.02240058279215,
+							"z": -27.313304777561072
+						},
+						{
+							"id": "tree-613-37",
+							"leafMaterial": "material-leaves",
+							"scale": 1.223866557329893,
+							"trunkMaterial": "material-wood",
+							"x": -26.382709447689457,
+							"z": -18.655863827794143
+						},
+						{
+							"id": "tree-613-38",
+							"leafMaterial": "material-leaves",
+							"scale": 0.7689520416848609,
+							"trunkMaterial": "material-wood",
+							"x": 14.91971454284406,
+							"z": 9.197060866467563
+						},
+						{
+							"id": "tree-613-39",
+							"leafMaterial": "material-leaves",
+							"scale": 1.813683038832096,
+							"trunkMaterial": "material-wood",
+							"x": -1.0405288138100046,
+							"z": 28.68586561187977
+						},
+						{
+							"id": "tree-613-40",
+							"leafMaterial": "material-leaves",
+							"scale": 1.8783065040945075,
+							"trunkMaterial": "material-wood",
+							"x": 20.350190125923373,
+							"z": -29.472883898446078
+						},
+						{
+							"id": "tree-613-41",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7950502035411773,
+							"trunkMaterial": "material-wood",
+							"x": 31.798102213518895,
+							"z": -2.0249870722079297
+						},
+						{
+							"id": "tree-613-42",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2402068020426669,
+							"trunkMaterial": "material-wood",
+							"x": -20.241405892044373,
+							"z": -36.459769369367294
+						},
+						{
+							"id": "tree-613-43",
+							"leafMaterial": "material-leaves",
+							"scale": 1.8032273513206747,
+							"trunkMaterial": "material-wood",
+							"x": 16.328604174985298,
+							"z": -49.676202247909266
+						},
+						{
+							"id": "tree-613-44",
+							"leafMaterial": "material-leaves",
+							"scale": 1.0126414796803147,
+							"trunkMaterial": "material-wood",
+							"x": -40.38077597578769,
+							"z": 4.860717340164063
+						},
+						{
+							"id": "tree-613-45",
+							"leafMaterial": "material-leaves",
+							"scale": 1.1261867877678013,
+							"trunkMaterial": "material-wood",
+							"x": 14.948812036735667,
+							"z": 29.577760712058428
+						},
+						{
+							"id": "tree-613-46",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2108865561705897,
+							"trunkMaterial": "material-wood",
+							"x": -25.076084985290088,
+							"z": -32.8426411639449
+						},
+						{
+							"id": "tree-613-47",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8597840002024896,
+							"trunkMaterial": "material-wood",
+							"x": -18.991168613830844,
+							"z": -15.830116624146719
+						},
+						{
+							"id": "tree-613-48",
+							"leafMaterial": "material-leaves",
+							"scale": 1.7933435720125999,
+							"trunkMaterial": "material-wood",
+							"x": 31.723142249965292,
+							"z": -29.05064712237405
+						},
+						{
+							"id": "tree-613-49",
+							"leafMaterial": "material-leaves",
+							"scale": 1.9416728176707692,
+							"trunkMaterial": "material-wood",
+							"x": -39.392075726739904,
+							"z": -1.24513513368161
+						},
+						{
+							"id": "tree-613-50",
+							"leafMaterial": "material-leaves",
+							"scale": 1.0721529219910735,
+							"trunkMaterial": "material-wood",
+							"x": 34.70358448939377,
+							"z": 1.2761417903088343
+						},
+						{
+							"id": "tree-613-51",
+							"leafMaterial": "material-leaves",
+							"scale": 1.3852945690741763,
+							"trunkMaterial": "material-wood",
+							"x": 35.99154420273069,
+							"z": -14.383636933872692
+						},
+						{
+							"id": "tree-613-52",
+							"leafMaterial": "material-leaves",
+							"scale": 1.528843675152166,
+							"trunkMaterial": "material-wood",
+							"x": 7.044215172242261,
+							"z": -50.34518888079032
+						},
+						{
+							"id": "tree-613-53",
+							"leafMaterial": "material-leaves",
+							"scale": 1.1135465154336999,
+							"trunkMaterial": "material-wood",
+							"x": 6.8092480782131775,
+							"z": -26.959680047025866
+						},
+						{
+							"id": "tree-613-54",
+							"leafMaterial": "material-leaves",
+							"scale": 1.181313377970946,
+							"trunkMaterial": "material-wood",
+							"x": 36.760178760161736,
+							"z": 8.858094246675833
+						},
+						{
+							"id": "tree-613-55",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8082481570600066,
+							"trunkMaterial": "material-wood",
+							"x": -23.94362279181574,
+							"z": -30.31640837021615
+						},
+						{
+							"id": "tree-613-56",
+							"leafMaterial": "material-leaves",
+							"scale": 0.861398142381222,
+							"trunkMaterial": "material-wood",
+							"x": -30.132574273011755,
+							"z": 10.727066258308103
+						},
+						{
+							"id": "tree-613-57",
+							"leafMaterial": "material-leaves",
+							"scale": 1.932556016407034,
+							"trunkMaterial": "material-wood",
+							"x": -36.633031120295584,
+							"z": 15.866390057570342
+						},
+						{
+							"id": "tree-613-58",
+							"leafMaterial": "material-leaves",
+							"scale": 1.1165043665911072,
+							"trunkMaterial": "material-wood",
+							"x": -19.35032203098242,
+							"z": 5.704917429734351
+						},
+						{
+							"id": "tree-613-59",
+							"leafMaterial": "material-leaves",
+							"scale": 1.9424668990066494,
+							"trunkMaterial": "material-wood",
+							"x": -17.78659605971795,
+							"z": 1.7623500385726665
+						},
+						{
+							"id": "tree-613-60",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2884572042763467,
+							"trunkMaterial": "material-wood",
+							"x": -11.55687808110734,
+							"z": 22.15168374152962
+						},
+						{
+							"id": "tree-613-61",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8207534504515934,
+							"trunkMaterial": "material-wood",
+							"x": -28.150973801059266,
+							"z": 23.212154700032475
+						},
+						{
+							"id": "tree-613-62",
+							"leafMaterial": "material-leaves",
+							"scale": 0.9479181187605719,
+							"trunkMaterial": "material-wood",
+							"x": 38.70828688824379,
+							"z": -6.391023657131803
+						},
+						{
+							"id": "tree-613-63",
+							"leafMaterial": "material-leaves",
+							"scale": 0.8778484440234025,
+							"trunkMaterial": "material-wood",
+							"x": -36.83393148204719,
+							"z": -18.96620347967744
+						},
+						{
+							"id": "tree-613-64",
+							"leafMaterial": "material-leaves",
+							"scale": 1.2261342772166244,
+							"trunkMaterial": "material-wood",
+							"x": -27.64211197438792,
+							"z": -8.967687189250801
+						}
+					]
+				}
+			},
+			{
+				"animation": "rise",
+				"background": "rgba(4, 8, 15, .32)",
+				"color": "#fff7df",
+				"fontSize": 86,
+				"id": "title-village-opening",
+				"kind": "title",
+				"label": "Opening title",
+				"subtext": "A MitzvahWorld Film",
+				"text": "THE VILLAGE AWAKENS"
+			},
+			{
+				"animation": "rise",
+				"background": "rgba(3, 5, 8, .55)",
+				"color": "#ffe9ad",
+				"fontSize": 58,
+				"id": "title-village-closing",
+				"kind": "title",
+				"label": "Closing title",
+				"subtext": "B\"H",
+				"text": "ONE STEP CAN AWAKEN A WORLD"
+			},
+			{
+				"fadeIn": 1.2,
+				"fadeOut": 1.8,
+				"frequency": 110,
+				"id": "tone-village-score",
+				"kind": "tone",
+				"label": "Village score bed",
+				"volume": 0.038,
+				"waveform": "sine"
+			}
+		],
+		"materialGraphs": [
+			{
+				"edges": [
+					{
+						"from": "material-wet-stone-color",
+						"input": "base",
+						"to": "material-wet-stone-output"
+					}
+				],
+				"id": "material-wet-stone",
+				"label": "Wet stone",
+				"nodes": [
+					{
+						"id": "material-wet-stone-color",
+						"type": "color",
+						"value": "#45566a"
+					},
+					{
+						"id": "material-wet-stone-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.42
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-plaster-color",
+						"input": "base",
+						"to": "material-plaster-output"
+					}
+				],
+				"id": "material-plaster",
+				"label": "Warm plaster",
+				"nodes": [
+					{
+						"id": "material-plaster-color",
+						"type": "color",
+						"value": "#c7aa7c"
+					},
+					{
+						"id": "material-plaster-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.78
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-roof-color",
+						"input": "base",
+						"to": "material-roof-output"
+					}
+				],
+				"id": "material-roof",
+				"label": "Clay roof",
+				"nodes": [
+					{
+						"id": "material-roof-color",
+						"type": "color",
+						"value": "#5a2e21"
+					},
+					{
+						"id": "material-roof-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.68
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-wood-color",
+						"input": "base",
+						"to": "material-wood-output"
+					}
+				],
+				"id": "material-wood",
+				"label": "Old wood",
+				"nodes": [
+					{
+						"id": "material-wood-color",
+						"type": "color",
+						"value": "#5d3d24"
+					},
+					{
+						"id": "material-wood-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.74
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-leaves-color",
+						"input": "base",
+						"to": "material-leaves-output"
+					}
+				],
+				"id": "material-leaves",
+				"label": "Deep leaves",
+				"nodes": [
+					{
+						"id": "material-leaves-color",
+						"type": "color",
+						"value": "#244d34"
+					},
+					{
+						"id": "material-leaves-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.88
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-coat-color",
+						"input": "base",
+						"to": "material-coat-output"
+					}
+				],
+				"id": "material-coat",
+				"label": "Wool coat",
+				"nodes": [
+					{
+						"id": "material-coat-color",
+						"type": "color",
+						"value": "#141820"
+					},
+					{
+						"id": "material-coat-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.91
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-window-color",
+						"input": "base",
+						"to": "material-window-output"
+					}
+				],
+				"id": "material-window",
+				"label": "Window light",
+				"nodes": [
+					{
+						"id": "material-window-color",
+						"type": "color",
+						"value": "#f3c96d"
+					},
+					{
+						"id": "material-window-output",
+						"type": "output",
+						"value": {
+							"emissive": "#f3ad4d",
+							"roughness": 0.2
+						}
+					}
+				]
+			}
+		],
+		"nodeGraphs": [
+			{
+				"edges": [],
+				"id": "shader-village-dawn",
+				"kind": "shader",
+				"label": "Village dawn",
+				"nodes": [
+					{
+						"id": "shader-village-dawn-output",
+						"type": "output",
+						"value": {
+							"exposure": 1.08,
+							"fogColor": "#6c7d8f",
+							"fogDensity": 0.018,
+							"skyBottom": "#e0a761",
+							"skyTop": "#12263f",
+							"sunColor": "#ffd88a",
+							"vignette": 0.24,
+							"wind": 0.16,
+							"seed": 613
+						}
+					}
+				]
+			},
+			{
+				"edges": [],
+				"id": "particles-fireflies",
+				"kind": "particle",
+				"label": "Golden fireflies",
+				"nodes": [
+					{
+						"id": "particles-fireflies-output",
+						"type": "output",
+						"value": {
+							"colors": [
+								"#ffd978",
+								"#fff2b0"
+							],
+							"count": 260,
+							"mode": "fireflies",
+							"seed": 630,
+							"size": 5,
+							"speed": 0.55
+						}
+					}
+				]
+			},
+			{
+				"edges": [],
+				"id": "particles-mist",
+				"kind": "particle",
+				"label": "Ground mist",
+				"nodes": [
+					{
+						"id": "particles-mist-output",
+						"type": "output",
+						"value": {
+							"colors": [
+								"#d6e4e8",
+								"#91aab5"
+							],
+							"count": 420,
+							"mode": "mist",
+							"seed": 642,
+							"size": 7,
+							"speed": 0.55
+						}
+					}
+				]
+			}
+		]
+	},
+	"format": "awtsmoos.movie-package.v1",
+	"project": {
+		"ai": {
+			"contract": "awtsmoos.ai-movie.v1",
+			"creativeBrief": {
+				"assetRequests": [
+					"Consistent lead character reference.",
+					"Old stone and plaster village references.",
+					"Trees, wet paths, warm windows, and dawn atmosphere.",
+					"Footsteps, wind, birds, distant market, and restrained score stems."
+				],
+				"cameraLanguage": "Aerial reveal, slow dolly, side track, forest orbit, and final crane reveal.",
+				"continuity": [
+					"Preserve the same character and wardrobe.",
+					"Keep screen direction toward the radiant home.",
+					"Maintain damp ground and dawn light.",
+					"Keep house and tree geography stable."
+				],
+				"environment": "A lived old-world village with eleven houses, sixty-four trees, stone paths, lamps, mist, and warm windows.",
+				"lighting": "Cool dawn sky, soft fog, low golden sun, warm motivated windows, and restrained vignette.",
+				"logline": "A chossid walks through an awakening village and discovers that one faithful step can bring an entire world toward light.",
+				"negativeConstraints": [
+					"No floating buildings.",
+					"No changing wardrobe.",
+					"No impossible shadows.",
+					"No unreadable generated signs."
+				],
+				"sound": "Wind, birds, damp footsteps, distant market life, and a restrained rising score.",
+				"subject": "One dignified walking chossid moving through a coherent village toward a radiant home.",
+				"visualLanguage": "Cinematic procedural WebGL world with realistic composition goals, tactile materials, atmospheric depth, and editable node graphs."
+			}
+		},
+		"cameraRigs": [],
+		"characters": [
+			{
+				"id": "player",
+				"label": "Lead chossid",
+				"modelRequest": "Consistent modest cinematic character reference"
+			}
+		],
+		"duration": 24,
+		"fps": 24,
+		"graphs": [
+			{
+				"edges": [],
+				"id": "shader-village-dawn",
+				"kind": "shader",
+				"label": "Village dawn",
+				"nodes": [
+					{
+						"id": "shader-village-dawn-output",
+						"type": "output",
+						"value": {
+							"exposure": 1.08,
+							"fogColor": "#6c7d8f",
+							"fogDensity": 0.018,
+							"skyBottom": "#e0a761",
+							"skyTop": "#12263f",
+							"sunColor": "#ffd88a",
+							"vignette": 0.24,
+							"wind": 0.16,
+							"seed": 613
+						}
+					}
+				]
+			},
+			{
+				"edges": [],
+				"id": "particles-fireflies",
+				"kind": "particle",
+				"label": "Golden fireflies",
+				"nodes": [
+					{
+						"id": "particles-fireflies-output",
+						"type": "output",
+						"value": {
+							"colors": [
+								"#ffd978",
+								"#fff2b0"
+							],
+							"count": 260,
+							"mode": "fireflies",
+							"seed": 630,
+							"size": 5,
+							"speed": 0.55
+						}
+					}
+				]
+			},
+			{
+				"edges": [],
+				"id": "particles-mist",
+				"kind": "particle",
+				"label": "Ground mist",
+				"nodes": [
+					{
+						"id": "particles-mist-output",
+						"type": "output",
+						"value": {
+							"colors": [
+								"#d6e4e8",
+								"#91aab5"
+							],
+							"count": 420,
+							"mode": "mist",
+							"seed": 642,
+							"size": 7,
+							"speed": 0.55
+						}
+					}
+				]
+			}
+		],
+		"materialGraphs": [
+			{
+				"edges": [
+					{
+						"from": "material-wet-stone-color",
+						"input": "base",
+						"to": "material-wet-stone-output"
+					}
+				],
+				"id": "material-wet-stone",
+				"label": "Wet stone",
+				"nodes": [
+					{
+						"id": "material-wet-stone-color",
+						"type": "color",
+						"value": "#45566a"
+					},
+					{
+						"id": "material-wet-stone-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.42
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-plaster-color",
+						"input": "base",
+						"to": "material-plaster-output"
+					}
+				],
+				"id": "material-plaster",
+				"label": "Warm plaster",
+				"nodes": [
+					{
+						"id": "material-plaster-color",
+						"type": "color",
+						"value": "#c7aa7c"
+					},
+					{
+						"id": "material-plaster-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.78
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-roof-color",
+						"input": "base",
+						"to": "material-roof-output"
+					}
+				],
+				"id": "material-roof",
+				"label": "Clay roof",
+				"nodes": [
+					{
+						"id": "material-roof-color",
+						"type": "color",
+						"value": "#5a2e21"
+					},
+					{
+						"id": "material-roof-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.68
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-wood-color",
+						"input": "base",
+						"to": "material-wood-output"
+					}
+				],
+				"id": "material-wood",
+				"label": "Old wood",
+				"nodes": [
+					{
+						"id": "material-wood-color",
+						"type": "color",
+						"value": "#5d3d24"
+					},
+					{
+						"id": "material-wood-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.74
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-leaves-color",
+						"input": "base",
+						"to": "material-leaves-output"
+					}
+				],
+				"id": "material-leaves",
+				"label": "Deep leaves",
+				"nodes": [
+					{
+						"id": "material-leaves-color",
+						"type": "color",
+						"value": "#244d34"
+					},
+					{
+						"id": "material-leaves-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.88
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-coat-color",
+						"input": "base",
+						"to": "material-coat-output"
+					}
+				],
+				"id": "material-coat",
+				"label": "Wool coat",
+				"nodes": [
+					{
+						"id": "material-coat-color",
+						"type": "color",
+						"value": "#141820"
+					},
+					{
+						"id": "material-coat-output",
+						"type": "output",
+						"value": {
+							"emissive": null,
+							"roughness": 0.91
+						}
+					}
+				]
+			},
+			{
+				"edges": [
+					{
+						"from": "material-window-color",
+						"input": "base",
+						"to": "material-window-output"
+					}
+				],
+				"id": "material-window",
+				"label": "Window light",
+				"nodes": [
+					{
+						"id": "material-window-color",
+						"type": "color",
+						"value": "#f3c96d"
+					},
+					{
+						"id": "material-window-output",
+						"type": "output",
+						"value": {
+							"emissive": "#f3ad4d",
+							"roughness": 0.2
+						}
+					}
+				]
+			}
+		],
+		"nle": {
+			"assets": [
+				{
+					"id": "cinematic-village-world",
+					"kind": "cinematic-world",
+					"label": "Living cinematic village",
+					"particleGraphIds": [
+						"particles-fireflies",
+						"particles-mist"
+					],
+					"seed": 613,
+					"shaderGraphId": "shader-village-dawn",
+					"world": {
+						"character": {
+							"bodyMaterial": "material-coat",
+							"hatMaterial": "material-coat",
+							"id": "hero-chossid",
+							"path": [
+								{
+									"t": 0,
+									"x": -38,
+									"z": 26
+								},
+								{
+									"t": 0.28,
+									"x": -18,
+									"z": 12
+								},
+								{
+									"t": 0.5,
+									"x": -4,
+									"z": 2
+								},
+								{
+									"t": 0.72,
+									"x": 10,
+									"z": -9
+								},
+								{
+									"t": 1,
+									"x": 23,
+									"z": -18
+								}
+							]
+						},
+						"houses": [
+							{
+								"depth": 7,
+								"height": 6,
+								"id": "house-1",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 9,
+								"windowMaterial": "material-window",
+								"x": -24,
+								"z": -14
+							},
+							{
+								"depth": 8,
+								"height": 7,
+								"id": "house-2",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 10,
+								"windowMaterial": "material-window",
+								"x": -11,
+								"z": -19
+							},
+							{
+								"depth": 9,
+								"height": 6,
+								"id": "house-3",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 11,
+								"windowMaterial": "material-window",
+								"x": 5,
+								"z": -20
+							},
+							{
+								"depth": 7,
+								"height": 7,
+								"id": "house-4",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 12,
+								"windowMaterial": "material-window",
+								"x": 20,
+								"z": -14
+							},
+							{
+								"depth": 8,
+								"height": 6,
+								"id": "house-5",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 9,
+								"windowMaterial": "material-window",
+								"x": -28,
+								"z": 2
+							},
+							{
+								"depth": 9,
+								"height": 7,
+								"id": "house-6",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 10,
+								"windowMaterial": "material-window",
+								"x": -14,
+								"z": 5
+							},
+							{
+								"depth": 7,
+								"height": 6,
+								"id": "house-7",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 11,
+								"windowMaterial": "material-window",
+								"x": 13,
+								"z": 4
+							},
+							{
+								"depth": 8,
+								"height": 7,
+								"id": "house-8",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 12,
+								"windowMaterial": "material-window",
+								"x": 28,
+								"z": 0
+							},
+							{
+								"depth": 9,
+								"height": 6,
+								"id": "house-9",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 9,
+								"windowMaterial": "material-window",
+								"x": -20,
+								"z": 20
+							},
+							{
+								"depth": 7,
+								"height": 7,
+								"id": "house-10",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 10,
+								"windowMaterial": "material-window",
+								"x": 0,
+								"z": 22
+							},
+							{
+								"depth": 8,
+								"height": 6,
+								"id": "house-11",
+								"roofHeight": 3,
+								"roofMaterial": "material-roof",
+								"wallMaterial": "material-plaster",
+								"width": 11,
+								"windowMaterial": "material-window",
+								"x": 21,
+								"z": 18
+							}
+						],
+						"lamps": [
+							{
+								"id": "lamp-1",
+								"x": -24,
+								"z": 1
+							},
+							{
+								"id": "lamp-2",
+								"x": -8,
+								"z": -2
+							},
+							{
+								"id": "lamp-3",
+								"x": 8,
+								"z": -5
+							},
+							{
+								"id": "lamp-4",
+								"x": 24,
+								"z": -8
+							}
+						],
+						"paths": [
+							{
+								"from": [
+									-42,
+									28
+								],
+								"id": "main-stone-road",
+								"material": "material-wet-stone",
+								"to": [
+									35,
+									-26
+								],
+								"width": 6
+							},
+							{
+								"from": [
+									-28,
+									2
+								],
+								"id": "market-lane",
+								"material": "material-wet-stone",
+								"to": [
+									28,
+									0
+								],
+								"width": 4
+							},
+							{
+								"from": [
+									0,
+									22
+								],
+								"id": "house-path",
+								"material": "material-wet-stone",
+								"to": [
+									4,
+									-20
+								],
+								"width": 3
+							}
+						],
+						"trees": [
+							{
+								"id": "tree-613-1",
+								"leafMaterial": "material-leaves",
+								"scale": 1.460345186793711,
+								"trunkMaterial": "material-wood",
+								"x": 7.449233608544605,
+								"z": 32.13798742925045
+							},
+							{
+								"id": "tree-613-2",
+								"leafMaterial": "material-leaves",
+								"scale": 1.6987300208886154,
+								"trunkMaterial": "material-wood",
+								"x": 10.726257571231223,
+								"z": 19.812612096060892
+							},
+							{
+								"id": "tree-613-3",
+								"leafMaterial": "material-leaves",
+								"scale": 1.0275641851883848,
+								"trunkMaterial": "material-wood",
+								"x": -22.58783446378789,
+								"z": 25.210583974094938
+							},
+							{
+								"id": "tree-613-4",
+								"leafMaterial": "material-leaves",
+								"scale": 1.5740732429228954,
+								"trunkMaterial": "material-wood",
+								"x": 16.978000068900254,
+								"z": -25.323713955306836
+							},
+							{
+								"id": "tree-613-5",
+								"leafMaterial": "material-leaves",
+								"scale": 0.9109366447955836,
+								"trunkMaterial": "material-wood",
+								"x": -38.65652516648098,
+								"z": -23.346942113972183
+							},
+							{
+								"id": "tree-613-6",
+								"leafMaterial": "material-leaves",
+								"scale": 0.7830817536610993,
+								"trunkMaterial": "material-wood",
+								"x": -13.785758858386174,
+								"z": -21.73113029097065
+							},
+							{
+								"id": "tree-613-7",
+								"leafMaterial": "material-leaves",
+								"scale": 1.5394978814067144,
+								"trunkMaterial": "material-wood",
+								"x": 26.779526702393085,
+								"z": -29.874587240335277
+							},
+							{
+								"id": "tree-613-8",
+								"leafMaterial": "material-leaves",
+								"scale": 1.5341604436973284,
+								"trunkMaterial": "material-wood",
+								"x": 24.413548100079307,
+								"z": -33.8738822886756
+							},
+							{
+								"id": "tree-613-9",
+								"leafMaterial": "material-leaves",
+								"scale": 1.8542870723671512,
+								"trunkMaterial": "material-wood",
+								"x": 15.546045533696557,
+								"z": -36.96973946570277
+							},
+							{
+								"id": "tree-613-10",
+								"leafMaterial": "material-leaves",
+								"scale": 1.5404897127576986,
+								"trunkMaterial": "material-wood",
+								"x": 10.98217661996767,
+								"z": 21.33239932076331
+							},
+							{
+								"id": "tree-613-11",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7768209392379504,
+								"trunkMaterial": "material-wood",
+								"x": -30.366738839592706,
+								"z": -26.13663401695563
+							},
+							{
+								"id": "tree-613-12",
+								"leafMaterial": "material-leaves",
+								"scale": 1.3641857946000528,
+								"trunkMaterial": "material-wood",
+								"x": -41.909383258239714,
+								"z": 9.432715131923029
+							},
+							{
+								"id": "tree-613-13",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7596625198348192,
+								"trunkMaterial": "material-wood",
+								"x": -21.524043426914094,
+								"z": -10.05789108811111
+							},
+							{
+								"id": "tree-613-14",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8176868643524358,
+								"trunkMaterial": "material-wood",
+								"x": 19.514613641385868,
+								"z": 33.57149492131802
+							},
+							{
+								"id": "tree-613-15",
+								"leafMaterial": "material-leaves",
+								"scale": 1.9359486078115877,
+								"trunkMaterial": "material-wood",
+								"x": 22.021970919405106,
+								"z": -47.762744393083736
+							},
+							{
+								"id": "tree-613-16",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2896177859889577,
+								"trunkMaterial": "material-wood",
+								"x": -25.8661852271428,
+								"z": 2.6353462714652114
+							},
+							{
+								"id": "tree-613-17",
+								"leafMaterial": "material-leaves",
+								"scale": 1.4098370188425178,
+								"trunkMaterial": "material-wood",
+								"x": -21.97152132465834,
+								"z": -13.133102506646324
+							},
+							{
+								"id": "tree-613-18",
+								"leafMaterial": "material-leaves",
+								"scale": 1.737823303315781,
+								"trunkMaterial": "material-wood",
+								"x": -27.275977272414572,
+								"z": 24.81629708131419
+							},
+							{
+								"id": "tree-613-19",
+								"leafMaterial": "material-leaves",
+								"scale": 1.3139355555402288,
+								"trunkMaterial": "material-wood",
+								"x": -32.691750230362054,
+								"z": 12.7751483267999
+							},
+							{
+								"id": "tree-613-20",
+								"leafMaterial": "material-leaves",
+								"scale": 1.346343977091601,
+								"trunkMaterial": "material-wood",
+								"x": -28.956808541815683,
+								"z": 1.7255383372521553
+							},
+							{
+								"id": "tree-613-21",
+								"leafMaterial": "material-leaves",
+								"scale": 1.1413798203662737,
+								"trunkMaterial": "material-wood",
+								"x": 7.085983005180382,
+								"z": -35.91616653120229
+							},
+							{
+								"id": "tree-613-22",
+								"leafMaterial": "material-leaves",
+								"scale": 1.9262571816681884,
+								"trunkMaterial": "material-wood",
+								"x": -28.698962810598715,
+								"z": -3.324598545374287
+							},
+							{
+								"id": "tree-613-23",
+								"leafMaterial": "material-leaves",
+								"scale": 1.25850045971456,
+								"trunkMaterial": "material-wood",
+								"x": 37.68837935118943,
+								"z": 13.237014400466052
+							},
+							{
+								"id": "tree-613-24",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7254473092383704,
+								"trunkMaterial": "material-wood",
+								"x": -33.61173733692552,
+								"z": -7.787369283824597
+							},
+							{
+								"id": "tree-613-25",
+								"leafMaterial": "material-leaves",
+								"scale": 1.4199355987308082,
+								"trunkMaterial": "material-wood",
+								"x": -6.9210457380405215,
+								"z": -52.92100314050263
+							},
+							{
+								"id": "tree-613-26",
+								"leafMaterial": "material-leaves",
+								"scale": 1.3098846138396767,
+								"trunkMaterial": "material-wood",
+								"x": 12.673825589273862,
+								"z": -44.35535472407612
+							},
+							{
+								"id": "tree-613-27",
+								"leafMaterial": "material-leaves",
+								"scale": 1.123614775625174,
+								"trunkMaterial": "material-wood",
+								"x": -0.19108325942629587,
+								"z": 33.10442465328237
+							},
+							{
+								"id": "tree-613-28",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7715824645747489,
+								"trunkMaterial": "material-wood",
+								"x": 5.249535637875497,
+								"z": 13.728126715253246
+							},
+							{
+								"id": "tree-613-29",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2080159135774011,
+								"trunkMaterial": "material-wood",
+								"x": -4.607137395084473,
+								"z": 27.95065881437297
+							},
+							{
+								"id": "tree-613-30",
+								"leafMaterial": "material-leaves",
+								"scale": 1.5589982101417261,
+								"trunkMaterial": "material-wood",
+								"x": 29.16748832758289,
+								"z": -0.1552950995645137
+							},
+							{
+								"id": "tree-613-31",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7146634032193107,
+								"trunkMaterial": "material-wood",
+								"x": 12.873907086708392,
+								"z": 23.740247232310388
+							},
+							{
+								"id": "tree-613-32",
+								"leafMaterial": "material-leaves",
+								"scale": 1.8452962878072867,
+								"trunkMaterial": "material-wood",
+								"x": -26.63178625245795,
+								"z": -23.067996879127712
+							},
+							{
+								"id": "tree-613-33",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8260602546884911,
+								"trunkMaterial": "material-wood",
+								"x": -24.103781811101992,
+								"z": -37.42255791090498
+							},
+							{
+								"id": "tree-613-34",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2871201814588857,
+								"trunkMaterial": "material-wood",
+								"x": 12.454469417180059,
+								"z": 26.164310943617807
+							},
+							{
+								"id": "tree-613-35",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8307263023336418,
+								"trunkMaterial": "material-wood",
+								"x": 18.95023005758779,
+								"z": 15.101443473809006
+							},
+							{
+								"id": "tree-613-36",
+								"leafMaterial": "material-leaves",
+								"scale": 1.724255472474033,
+								"trunkMaterial": "material-wood",
+								"x": 18.02240058279215,
+								"z": -27.313304777561072
+							},
+							{
+								"id": "tree-613-37",
+								"leafMaterial": "material-leaves",
+								"scale": 1.223866557329893,
+								"trunkMaterial": "material-wood",
+								"x": -26.382709447689457,
+								"z": -18.655863827794143
+							},
+							{
+								"id": "tree-613-38",
+								"leafMaterial": "material-leaves",
+								"scale": 0.7689520416848609,
+								"trunkMaterial": "material-wood",
+								"x": 14.91971454284406,
+								"z": 9.197060866467563
+							},
+							{
+								"id": "tree-613-39",
+								"leafMaterial": "material-leaves",
+								"scale": 1.813683038832096,
+								"trunkMaterial": "material-wood",
+								"x": -1.0405288138100046,
+								"z": 28.68586561187977
+							},
+							{
+								"id": "tree-613-40",
+								"leafMaterial": "material-leaves",
+								"scale": 1.8783065040945075,
+								"trunkMaterial": "material-wood",
+								"x": 20.350190125923373,
+								"z": -29.472883898446078
+							},
+							{
+								"id": "tree-613-41",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7950502035411773,
+								"trunkMaterial": "material-wood",
+								"x": 31.798102213518895,
+								"z": -2.0249870722079297
+							},
+							{
+								"id": "tree-613-42",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2402068020426669,
+								"trunkMaterial": "material-wood",
+								"x": -20.241405892044373,
+								"z": -36.459769369367294
+							},
+							{
+								"id": "tree-613-43",
+								"leafMaterial": "material-leaves",
+								"scale": 1.8032273513206747,
+								"trunkMaterial": "material-wood",
+								"x": 16.328604174985298,
+								"z": -49.676202247909266
+							},
+							{
+								"id": "tree-613-44",
+								"leafMaterial": "material-leaves",
+								"scale": 1.0126414796803147,
+								"trunkMaterial": "material-wood",
+								"x": -40.38077597578769,
+								"z": 4.860717340164063
+							},
+							{
+								"id": "tree-613-45",
+								"leafMaterial": "material-leaves",
+								"scale": 1.1261867877678013,
+								"trunkMaterial": "material-wood",
+								"x": 14.948812036735667,
+								"z": 29.577760712058428
+							},
+							{
+								"id": "tree-613-46",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2108865561705897,
+								"trunkMaterial": "material-wood",
+								"x": -25.076084985290088,
+								"z": -32.8426411639449
+							},
+							{
+								"id": "tree-613-47",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8597840002024896,
+								"trunkMaterial": "material-wood",
+								"x": -18.991168613830844,
+								"z": -15.830116624146719
+							},
+							{
+								"id": "tree-613-48",
+								"leafMaterial": "material-leaves",
+								"scale": 1.7933435720125999,
+								"trunkMaterial": "material-wood",
+								"x": 31.723142249965292,
+								"z": -29.05064712237405
+							},
+							{
+								"id": "tree-613-49",
+								"leafMaterial": "material-leaves",
+								"scale": 1.9416728176707692,
+								"trunkMaterial": "material-wood",
+								"x": -39.392075726739904,
+								"z": -1.24513513368161
+							},
+							{
+								"id": "tree-613-50",
+								"leafMaterial": "material-leaves",
+								"scale": 1.0721529219910735,
+								"trunkMaterial": "material-wood",
+								"x": 34.70358448939377,
+								"z": 1.2761417903088343
+							},
+							{
+								"id": "tree-613-51",
+								"leafMaterial": "material-leaves",
+								"scale": 1.3852945690741763,
+								"trunkMaterial": "material-wood",
+								"x": 35.99154420273069,
+								"z": -14.383636933872692
+							},
+							{
+								"id": "tree-613-52",
+								"leafMaterial": "material-leaves",
+								"scale": 1.528843675152166,
+								"trunkMaterial": "material-wood",
+								"x": 7.044215172242261,
+								"z": -50.34518888079032
+							},
+							{
+								"id": "tree-613-53",
+								"leafMaterial": "material-leaves",
+								"scale": 1.1135465154336999,
+								"trunkMaterial": "material-wood",
+								"x": 6.8092480782131775,
+								"z": -26.959680047025866
+							},
+							{
+								"id": "tree-613-54",
+								"leafMaterial": "material-leaves",
+								"scale": 1.181313377970946,
+								"trunkMaterial": "material-wood",
+								"x": 36.760178760161736,
+								"z": 8.858094246675833
+							},
+							{
+								"id": "tree-613-55",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8082481570600066,
+								"trunkMaterial": "material-wood",
+								"x": -23.94362279181574,
+								"z": -30.31640837021615
+							},
+							{
+								"id": "tree-613-56",
+								"leafMaterial": "material-leaves",
+								"scale": 0.861398142381222,
+								"trunkMaterial": "material-wood",
+								"x": -30.132574273011755,
+								"z": 10.727066258308103
+							},
+							{
+								"id": "tree-613-57",
+								"leafMaterial": "material-leaves",
+								"scale": 1.932556016407034,
+								"trunkMaterial": "material-wood",
+								"x": -36.633031120295584,
+								"z": 15.866390057570342
+							},
+							{
+								"id": "tree-613-58",
+								"leafMaterial": "material-leaves",
+								"scale": 1.1165043665911072,
+								"trunkMaterial": "material-wood",
+								"x": -19.35032203098242,
+								"z": 5.704917429734351
+							},
+							{
+								"id": "tree-613-59",
+								"leafMaterial": "material-leaves",
+								"scale": 1.9424668990066494,
+								"trunkMaterial": "material-wood",
+								"x": -17.78659605971795,
+								"z": 1.7623500385726665
+							},
+							{
+								"id": "tree-613-60",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2884572042763467,
+								"trunkMaterial": "material-wood",
+								"x": -11.55687808110734,
+								"z": 22.15168374152962
+							},
+							{
+								"id": "tree-613-61",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8207534504515934,
+								"trunkMaterial": "material-wood",
+								"x": -28.150973801059266,
+								"z": 23.212154700032475
+							},
+							{
+								"id": "tree-613-62",
+								"leafMaterial": "material-leaves",
+								"scale": 0.9479181187605719,
+								"trunkMaterial": "material-wood",
+								"x": 38.70828688824379,
+								"z": -6.391023657131803
+							},
+							{
+								"id": "tree-613-63",
+								"leafMaterial": "material-leaves",
+								"scale": 0.8778484440234025,
+								"trunkMaterial": "material-wood",
+								"x": -36.83393148204719,
+								"z": -18.96620347967744
+							},
+							{
+								"id": "tree-613-64",
+								"leafMaterial": "material-leaves",
+								"scale": 1.2261342772166244,
+								"trunkMaterial": "material-wood",
+								"x": -27.64211197438792,
+								"z": -8.967687189250801
+							}
+						]
+					}
+				},
+				{
+					"animation": "rise",
+					"background": "rgba(4, 8, 15, .32)",
+					"color": "#fff7df",
+					"fontSize": 86,
+					"id": "title-village-opening",
+					"kind": "title",
+					"label": "Opening title",
+					"subtext": "A MitzvahWorld Film",
+					"text": "THE VILLAGE AWAKENS"
+				},
+				{
+					"animation": "rise",
+					"background": "rgba(3, 5, 8, .55)",
+					"color": "#ffe9ad",
+					"fontSize": 58,
+					"id": "title-village-closing",
+					"kind": "title",
+					"label": "Closing title",
+					"subtext": "B\"H",
+					"text": "ONE STEP CAN AWAKEN A WORLD"
+				},
+				{
+					"fadeIn": 1.2,
+					"fadeOut": 1.8,
+					"frequency": 110,
+					"id": "tone-village-score",
+					"kind": "tone",
+					"label": "Village score bed",
+					"volume": 0.038,
+					"waveform": "sine"
+				}
+			],
+			"version": 3
+		},
+		"render": {
+			"fileName": "the-village-awakens.webm",
+			"videoBitsPerSecond": 8000000
+		},
+		"resolution": {
+			"height": 1080,
+			"width": 1920
+		},
+		"seed": 613,
+		"sequences": [],
+		"title": "The Village Awakens — Cinematic World",
+		"tracks": [
+			{
+				"clips": [
+					{
+						"assetId": "tone-village-score",
+						"duration": 24,
+						"id": "village-score",
+						"label": "Village score",
+						"start": 0
+					}
+				],
+				"id": "nle-audio",
+				"type": "nle-audio"
+			},
+			{
+				"clips": [
+					{
+						"assetId": "title-village-opening",
+						"duration": 3.5,
+						"id": "village-opening-title",
+						"label": "Opening title",
+						"start": 0.5
+					},
+					{
+						"assetId": "title-village-closing",
+						"duration": 4,
+						"id": "village-closing-title",
+						"label": "Closing title",
+						"start": 20
+					}
+				],
+				"id": "nle-overlay",
+				"type": "nle-overlay"
+			},
+			{
+				"clips": [
+					{
+						"assetId": "cinematic-village-world",
+						"duration": 24,
+						"id": "village-world-clip",
+						"label": "Living village world",
+						"start": 0
+					}
+				],
+				"id": "nle-visual",
+				"type": "nle-visual"
+			},
+			{
+				"clips": [
+					{
+						"duration": 6,
+						"easing": "linear",
+						"id": "village-awakens",
+						"start": 0,
+						"grade": "#324a68",
+						"label": "Village awakens",
+						"transition": "fade"
+					},
+					{
+						"duration": 7,
+						"easing": "linear",
+						"id": "road-through-houses",
+						"start": 6,
+						"grade": "#8b6a48",
+						"label": "Road through houses",
+						"transition": "crossfade"
+					},
+					{
+						"duration": 6,
+						"easing": "linear",
+						"id": "forest-edge",
+						"start": 13,
+						"grade": "#39533d",
+						"label": "Forest edge",
+						"transition": "crossfade"
+					},
+					{
+						"duration": 5,
+						"easing": "linear",
+						"id": "radiant-home",
+						"start": 19,
+						"grade": "#c28a43",
+						"label": "Radiant home",
+						"transition": "crossfade"
+					}
+				],
+				"id": "scene",
+				"type": "scene"
+			},
+			{
+				"clips": [
+					{
+						"duration": 8,
+						"easing": "smootherstep",
+						"id": "hero-enters-village",
+						"start": 0,
+						"action": "move",
+						"animation": "walk",
+						"from": {
+							"x": -38,
+							"z": 26
+						},
+						"to": {
+							"x": -12,
+							"z": 8
+						}
+					},
+					{
+						"duration": 7,
+						"easing": "easeInOutCubic",
+						"id": "hero-crosses-market",
+						"start": 8,
+						"action": "move",
+						"animation": "walk",
+						"from": {
+							"x": -12,
+							"z": 8
+						},
+						"to": {
+							"x": 6,
+							"z": -5
+						}
+					},
+					{
+						"duration": 2,
+						"easing": "linear",
+						"id": "hero-pauses",
+						"start": 15,
+						"action": "pose",
+						"animation": "idle",
+						"at": {
+							"x": 6,
+							"z": -5
+						}
+					},
+					{
+						"duration": 7,
+						"easing": "smootherstep",
+						"id": "hero-reaches-home",
+						"start": 17,
+						"action": "move",
+						"animation": "walk",
+						"from": {
+							"x": 6,
+							"z": -5
+						},
+						"to": {
+							"x": 23,
+							"z": -18
+						}
+					}
+				],
+				"id": "hero-performance",
+				"target": "player",
+				"type": "actor"
+			},
+			{
+				"clips": [
+					{
+						"duration": 4,
+						"easing": "linear",
+						"id": "aerial-village",
+						"start": 0,
+						"anchor": {
+							"x": -15,
+							"y": 0,
+							"z": 8
+						},
+						"rig": "aerialPullback",
+						"shot": "Aerial village reveal"
+					},
+					{
+						"duration": 5,
+						"easing": "linear",
+						"id": "road-dolly",
+						"start": 4,
+						"anchor": {
+							"x": -24,
+							"y": 0,
+							"z": 16
+						},
+						"rig": "dollyIn",
+						"targetActor": "player"
+					},
+					{
+						"duration": 4,
+						"easing": "linear",
+						"id": "market-side-track",
+						"start": 9,
+						"anchor": {
+							"x": -4,
+							"y": 0,
+							"z": 2
+						},
+						"rig": "sideTrack",
+						"targetActor": "player"
+					},
+					{
+						"duration": 5,
+						"easing": "linear",
+						"id": "forest-orbit",
+						"start": 13,
+						"anchor": {
+							"x": 8,
+							"y": 0,
+							"z": -8
+						},
+						"rig": "orbitLeft",
+						"targetActor": "player"
+					},
+					{
+						"duration": 6,
+						"easing": "linear",
+						"id": "home-crane",
+						"start": 18,
+						"anchor": {
+							"x": 22,
+							"y": 0,
+							"z": -18
+						},
+						"rig": "craneReveal",
+						"targetActor": "player"
+					}
+				],
+				"id": "camera-cuts",
+				"type": "camera"
+			},
+			{
+				"clips": [
+					{
+						"duration": 3,
+						"easing": "linear",
+						"id": "narrator-village",
+						"start": 5,
+						"speaker": "Narrator",
+						"text": "The road remembers every footstep that carried light home."
+					},
+					{
+						"duration": 3.4,
+						"easing": "linear",
+						"id": "hero-village-line",
+						"start": 19.2,
+						"speaker": "Chossid",
+						"text": "A whole village can awaken from one faithful step."
+					}
+				],
+				"id": "dialogue",
+				"type": "dialogue"
+			},
+			{
+				"clips": [
+					{
+						"duration": 8,
+						"easing": "linear",
+						"id": "dawn-air",
+						"start": 0,
+						"frequency": 82,
+						"kind": "score",
+						"volume": 0.025
+					},
+					{
+						"duration": 9,
+						"easing": "linear",
+						"id": "market-warmth",
+						"start": 7,
+						"frequency": 123,
+						"kind": "score",
+						"volume": 0.035
+					},
+					{
+						"duration": 7,
+						"easing": "linear",
+						"id": "home-reveal-tone",
+						"start": 17,
+						"frequency": 174,
+						"kind": "score",
+						"volume": 0.05
+					}
+				],
+				"id": "audio",
+				"type": "audio"
+			}
+		],
+		"version": 1,
+		"viewMode": "legacy"
+	},
+	"renderPlan": {
+		"duration": 24,
+		"fileName": "the-village-awakens.webm",
+		"fps": 24,
+		"resolution": {
+			"height": 1080,
+			"width": 1920
+		}
+	},
+	"request": {
+		"constraints": {
+			"completeEnvelopeRequired": true,
+			"preserveStableIds": true,
+			"providerMustDeclareMissingAssets": true,
+			"returnFormat": "awtsmoos.movie-package.v1"
+		},
+		"currentProject": {
+			"ai": {
+				"contract": "awtsmoos.ai-movie.v1",
+				"creativeBrief": {
+					"assetRequests": [
+						"Consistent lead character reference.",
+						"Old stone and plaster village references.",
+						"Trees, wet paths, warm windows, and dawn atmosphere.",
+						"Footsteps, wind, birds, distant market, and restrained score stems."
+					],
+					"cameraLanguage": "Aerial reveal, slow dolly, side track, forest orbit, and final crane reveal.",
+					"continuity": [
+						"Preserve the same character and wardrobe.",
+						"Keep screen direction toward the radiant home.",
+						"Maintain damp ground and dawn light.",
+						"Keep house and tree geography stable."
+					],
+					"environment": "A lived old-world village with eleven houses, sixty-four trees, stone paths, lamps, mist, and warm windows.",
+					"lighting": "Cool dawn sky, soft fog, low golden sun, warm motivated windows, and restrained vignette.",
+					"logline": "A chossid walks through an awakening village and discovers that one faithful step can bring an entire world toward light.",
+					"negativeConstraints": [
+						"No floating buildings.",
+						"No changing wardrobe.",
+						"No impossible shadows.",
+						"No unreadable generated signs."
+					],
+					"sound": "Wind, birds, damp footsteps, distant market life, and a restrained rising score.",
+					"subject": "One dignified walking chossid moving through a coherent village toward a radiant home.",
+					"visualLanguage": "Cinematic procedural WebGL world with realistic composition goals, tactile materials, atmospheric depth, and editable node graphs."
+				}
+			},
+			"cameraRigs": [],
+			"characters": [
+				{
+					"id": "player",
+					"label": "Lead chossid",
+					"modelRequest": "Consistent modest cinematic character reference"
+				}
+			],
+			"duration": 24,
+			"fps": 24,
+			"graphs": [
+				{
+					"edges": [],
+					"id": "shader-village-dawn",
+					"kind": "shader",
+					"label": "Village dawn",
+					"nodes": [
+						{
+							"id": "shader-village-dawn-output",
+							"type": "output",
+							"value": {
+								"exposure": 1.08,
+								"fogColor": "#6c7d8f",
+								"fogDensity": 0.018,
+								"skyBottom": "#e0a761",
+								"skyTop": "#12263f",
+								"sunColor": "#ffd88a",
+								"vignette": 0.24,
+								"wind": 0.16,
+								"seed": 613
+							}
+						}
+					]
+				},
+				{
+					"edges": [],
+					"id": "particles-fireflies",
+					"kind": "particle",
+					"label": "Golden fireflies",
+					"nodes": [
+						{
+							"id": "particles-fireflies-output",
+							"type": "output",
+							"value": {
+								"colors": [
+									"#ffd978",
+									"#fff2b0"
+								],
+								"count": 260,
+								"mode": "fireflies",
+								"seed": 630,
+								"size": 5,
+								"speed": 0.55
+							}
+						}
+					]
+				},
+				{
+					"edges": [],
+					"id": "particles-mist",
+					"kind": "particle",
+					"label": "Ground mist",
+					"nodes": [
+						{
+							"id": "particles-mist-output",
+							"type": "output",
+							"value": {
+								"colors": [
+									"#d6e4e8",
+									"#91aab5"
+								],
+								"count": 420,
+								"mode": "mist",
+								"seed": 642,
+								"size": 7,
+								"speed": 0.55
+							}
+						}
+					]
+				}
+			],
+			"materialGraphs": [
+				{
+					"edges": [
+						{
+							"from": "material-wet-stone-color",
+							"input": "base",
+							"to": "material-wet-stone-output"
+						}
+					],
+					"id": "material-wet-stone",
+					"label": "Wet stone",
+					"nodes": [
+						{
+							"id": "material-wet-stone-color",
+							"type": "color",
+							"value": "#45566a"
+						},
+						{
+							"id": "material-wet-stone-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.42
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-plaster-color",
+							"input": "base",
+							"to": "material-plaster-output"
+						}
+					],
+					"id": "material-plaster",
+					"label": "Warm plaster",
+					"nodes": [
+						{
+							"id": "material-plaster-color",
+							"type": "color",
+							"value": "#c7aa7c"
+						},
+						{
+							"id": "material-plaster-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.78
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-roof-color",
+							"input": "base",
+							"to": "material-roof-output"
+						}
+					],
+					"id": "material-roof",
+					"label": "Clay roof",
+					"nodes": [
+						{
+							"id": "material-roof-color",
+							"type": "color",
+							"value": "#5a2e21"
+						},
+						{
+							"id": "material-roof-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.68
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-wood-color",
+							"input": "base",
+							"to": "material-wood-output"
+						}
+					],
+					"id": "material-wood",
+					"label": "Old wood",
+					"nodes": [
+						{
+							"id": "material-wood-color",
+							"type": "color",
+							"value": "#5d3d24"
+						},
+						{
+							"id": "material-wood-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.74
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-leaves-color",
+							"input": "base",
+							"to": "material-leaves-output"
+						}
+					],
+					"id": "material-leaves",
+					"label": "Deep leaves",
+					"nodes": [
+						{
+							"id": "material-leaves-color",
+							"type": "color",
+							"value": "#244d34"
+						},
+						{
+							"id": "material-leaves-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.88
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-coat-color",
+							"input": "base",
+							"to": "material-coat-output"
+						}
+					],
+					"id": "material-coat",
+					"label": "Wool coat",
+					"nodes": [
+						{
+							"id": "material-coat-color",
+							"type": "color",
+							"value": "#141820"
+						},
+						{
+							"id": "material-coat-output",
+							"type": "output",
+							"value": {
+								"emissive": null,
+								"roughness": 0.91
+							}
+						}
+					]
+				},
+				{
+					"edges": [
+						{
+							"from": "material-window-color",
+							"input": "base",
+							"to": "material-window-output"
+						}
+					],
+					"id": "material-window",
+					"label": "Window light",
+					"nodes": [
+						{
+							"id": "material-window-color",
+							"type": "color",
+							"value": "#f3c96d"
+						},
+						{
+							"id": "material-window-output",
+							"type": "output",
+							"value": {
+								"emissive": "#f3ad4d",
+								"roughness": 0.2
+							}
+						}
+					]
+				}
+			],
+			"nle": {
+				"assets": [
+					{
+						"id": "cinematic-village-world",
+						"kind": "cinematic-world",
+						"label": "Living cinematic village",
+						"particleGraphIds": [
+							"particles-fireflies",
+							"particles-mist"
+						],
+						"seed": 613,
+						"shaderGraphId": "shader-village-dawn",
+						"world": {
+							"character": {
+								"bodyMaterial": "material-coat",
+								"hatMaterial": "material-coat",
+								"id": "hero-chossid",
+								"path": [
+									{
+										"t": 0,
+										"x": -38,
+										"z": 26
+									},
+									{
+										"t": 0.28,
+										"x": -18,
+										"z": 12
+									},
+									{
+										"t": 0.5,
+										"x": -4,
+										"z": 2
+									},
+									{
+										"t": 0.72,
+										"x": 10,
+										"z": -9
+									},
+									{
+										"t": 1,
+										"x": 23,
+										"z": -18
+									}
+								]
+							},
+							"houses": [
+								{
+									"depth": 7,
+									"height": 6,
+									"id": "house-1",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 9,
+									"windowMaterial": "material-window",
+									"x": -24,
+									"z": -14
+								},
+								{
+									"depth": 8,
+									"height": 7,
+									"id": "house-2",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 10,
+									"windowMaterial": "material-window",
+									"x": -11,
+									"z": -19
+								},
+								{
+									"depth": 9,
+									"height": 6,
+									"id": "house-3",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 11,
+									"windowMaterial": "material-window",
+									"x": 5,
+									"z": -20
+								},
+								{
+									"depth": 7,
+									"height": 7,
+									"id": "house-4",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 12,
+									"windowMaterial": "material-window",
+									"x": 20,
+									"z": -14
+								},
+								{
+									"depth": 8,
+									"height": 6,
+									"id": "house-5",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 9,
+									"windowMaterial": "material-window",
+									"x": -28,
+									"z": 2
+								},
+								{
+									"depth": 9,
+									"height": 7,
+									"id": "house-6",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 10,
+									"windowMaterial": "material-window",
+									"x": -14,
+									"z": 5
+								},
+								{
+									"depth": 7,
+									"height": 6,
+									"id": "house-7",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 11,
+									"windowMaterial": "material-window",
+									"x": 13,
+									"z": 4
+								},
+								{
+									"depth": 8,
+									"height": 7,
+									"id": "house-8",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 12,
+									"windowMaterial": "material-window",
+									"x": 28,
+									"z": 0
+								},
+								{
+									"depth": 9,
+									"height": 6,
+									"id": "house-9",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 9,
+									"windowMaterial": "material-window",
+									"x": -20,
+									"z": 20
+								},
+								{
+									"depth": 7,
+									"height": 7,
+									"id": "house-10",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 10,
+									"windowMaterial": "material-window",
+									"x": 0,
+									"z": 22
+								},
+								{
+									"depth": 8,
+									"height": 6,
+									"id": "house-11",
+									"roofHeight": 3,
+									"roofMaterial": "material-roof",
+									"wallMaterial": "material-plaster",
+									"width": 11,
+									"windowMaterial": "material-window",
+									"x": 21,
+									"z": 18
+								}
+							],
+							"lamps": [
+								{
+									"id": "lamp-1",
+									"x": -24,
+									"z": 1
+								},
+								{
+									"id": "lamp-2",
+									"x": -8,
+									"z": -2
+								},
+								{
+									"id": "lamp-3",
+									"x": 8,
+									"z": -5
+								},
+								{
+									"id": "lamp-4",
+									"x": 24,
+									"z": -8
+								}
+							],
+							"paths": [
+								{
+									"from": [
+										-42,
+										28
+									],
+									"id": "main-stone-road",
+									"material": "material-wet-stone",
+									"to": [
+										35,
+										-26
+									],
+									"width": 6
+								},
+								{
+									"from": [
+										-28,
+										2
+									],
+									"id": "market-lane",
+									"material": "material-wet-stone",
+									"to": [
+										28,
+										0
+									],
+									"width": 4
+								},
+								{
+									"from": [
+										0,
+										22
+									],
+									"id": "house-path",
+									"material": "material-wet-stone",
+									"to": [
+										4,
+										-20
+									],
+									"width": 3
+								}
+							],
+							"trees": [
+								{
+									"id": "tree-613-1",
+									"leafMaterial": "material-leaves",
+									"scale": 1.460345186793711,
+									"trunkMaterial": "material-wood",
+									"x": 7.449233608544605,
+									"z": 32.13798742925045
+								},
+								{
+									"id": "tree-613-2",
+									"leafMaterial": "material-leaves",
+									"scale": 1.6987300208886154,
+									"trunkMaterial": "material-wood",
+									"x": 10.726257571231223,
+									"z": 19.812612096060892
+								},
+								{
+									"id": "tree-613-3",
+									"leafMaterial": "material-leaves",
+									"scale": 1.0275641851883848,
+									"trunkMaterial": "material-wood",
+									"x": -22.58783446378789,
+									"z": 25.210583974094938
+								},
+								{
+									"id": "tree-613-4",
+									"leafMaterial": "material-leaves",
+									"scale": 1.5740732429228954,
+									"trunkMaterial": "material-wood",
+									"x": 16.978000068900254,
+									"z": -25.323713955306836
+								},
+								{
+									"id": "tree-613-5",
+									"leafMaterial": "material-leaves",
+									"scale": 0.9109366447955836,
+									"trunkMaterial": "material-wood",
+									"x": -38.65652516648098,
+									"z": -23.346942113972183
+								},
+								{
+									"id": "tree-613-6",
+									"leafMaterial": "material-leaves",
+									"scale": 0.7830817536610993,
+									"trunkMaterial": "material-wood",
+									"x": -13.785758858386174,
+									"z": -21.73113029097065
+								},
+								{
+									"id": "tree-613-7",
+									"leafMaterial": "material-leaves",
+									"scale": 1.5394978814067144,
+									"trunkMaterial": "material-wood",
+									"x": 26.779526702393085,
+									"z": -29.874587240335277
+								},
+								{
+									"id": "tree-613-8",
+									"leafMaterial": "material-leaves",
+									"scale": 1.5341604436973284,
+									"trunkMaterial": "material-wood",
+									"x": 24.413548100079307,
+									"z": -33.8738822886756
+								},
+								{
+									"id": "tree-613-9",
+									"leafMaterial": "material-leaves",
+									"scale": 1.8542870723671512,
+									"trunkMaterial": "material-wood",
+									"x": 15.546045533696557,
+									"z": -36.96973946570277
+								},
+								{
+									"id": "tree-613-10",
+									"leafMaterial": "material-leaves",
+									"scale": 1.5404897127576986,
+									"trunkMaterial": "material-wood",
+									"x": 10.98217661996767,
+									"z": 21.33239932076331
+								},
+								{
+									"id": "tree-613-11",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7768209392379504,
+									"trunkMaterial": "material-wood",
+									"x": -30.366738839592706,
+									"z": -26.13663401695563
+								},
+								{
+									"id": "tree-613-12",
+									"leafMaterial": "material-leaves",
+									"scale": 1.3641857946000528,
+									"trunkMaterial": "material-wood",
+									"x": -41.909383258239714,
+									"z": 9.432715131923029
+								},
+								{
+									"id": "tree-613-13",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7596625198348192,
+									"trunkMaterial": "material-wood",
+									"x": -21.524043426914094,
+									"z": -10.05789108811111
+								},
+								{
+									"id": "tree-613-14",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8176868643524358,
+									"trunkMaterial": "material-wood",
+									"x": 19.514613641385868,
+									"z": 33.57149492131802
+								},
+								{
+									"id": "tree-613-15",
+									"leafMaterial": "material-leaves",
+									"scale": 1.9359486078115877,
+									"trunkMaterial": "material-wood",
+									"x": 22.021970919405106,
+									"z": -47.762744393083736
+								},
+								{
+									"id": "tree-613-16",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2896177859889577,
+									"trunkMaterial": "material-wood",
+									"x": -25.8661852271428,
+									"z": 2.6353462714652114
+								},
+								{
+									"id": "tree-613-17",
+									"leafMaterial": "material-leaves",
+									"scale": 1.4098370188425178,
+									"trunkMaterial": "material-wood",
+									"x": -21.97152132465834,
+									"z": -13.133102506646324
+								},
+								{
+									"id": "tree-613-18",
+									"leafMaterial": "material-leaves",
+									"scale": 1.737823303315781,
+									"trunkMaterial": "material-wood",
+									"x": -27.275977272414572,
+									"z": 24.81629708131419
+								},
+								{
+									"id": "tree-613-19",
+									"leafMaterial": "material-leaves",
+									"scale": 1.3139355555402288,
+									"trunkMaterial": "material-wood",
+									"x": -32.691750230362054,
+									"z": 12.7751483267999
+								},
+								{
+									"id": "tree-613-20",
+									"leafMaterial": "material-leaves",
+									"scale": 1.346343977091601,
+									"trunkMaterial": "material-wood",
+									"x": -28.956808541815683,
+									"z": 1.7255383372521553
+								},
+								{
+									"id": "tree-613-21",
+									"leafMaterial": "material-leaves",
+									"scale": 1.1413798203662737,
+									"trunkMaterial": "material-wood",
+									"x": 7.085983005180382,
+									"z": -35.91616653120229
+								},
+								{
+									"id": "tree-613-22",
+									"leafMaterial": "material-leaves",
+									"scale": 1.9262571816681884,
+									"trunkMaterial": "material-wood",
+									"x": -28.698962810598715,
+									"z": -3.324598545374287
+								},
+								{
+									"id": "tree-613-23",
+									"leafMaterial": "material-leaves",
+									"scale": 1.25850045971456,
+									"trunkMaterial": "material-wood",
+									"x": 37.68837935118943,
+									"z": 13.237014400466052
+								},
+								{
+									"id": "tree-613-24",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7254473092383704,
+									"trunkMaterial": "material-wood",
+									"x": -33.61173733692552,
+									"z": -7.787369283824597
+								},
+								{
+									"id": "tree-613-25",
+									"leafMaterial": "material-leaves",
+									"scale": 1.4199355987308082,
+									"trunkMaterial": "material-wood",
+									"x": -6.9210457380405215,
+									"z": -52.92100314050263
+								},
+								{
+									"id": "tree-613-26",
+									"leafMaterial": "material-leaves",
+									"scale": 1.3098846138396767,
+									"trunkMaterial": "material-wood",
+									"x": 12.673825589273862,
+									"z": -44.35535472407612
+								},
+								{
+									"id": "tree-613-27",
+									"leafMaterial": "material-leaves",
+									"scale": 1.123614775625174,
+									"trunkMaterial": "material-wood",
+									"x": -0.19108325942629587,
+									"z": 33.10442465328237
+								},
+								{
+									"id": "tree-613-28",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7715824645747489,
+									"trunkMaterial": "material-wood",
+									"x": 5.249535637875497,
+									"z": 13.728126715253246
+								},
+								{
+									"id": "tree-613-29",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2080159135774011,
+									"trunkMaterial": "material-wood",
+									"x": -4.607137395084473,
+									"z": 27.95065881437297
+								},
+								{
+									"id": "tree-613-30",
+									"leafMaterial": "material-leaves",
+									"scale": 1.5589982101417261,
+									"trunkMaterial": "material-wood",
+									"x": 29.16748832758289,
+									"z": -0.1552950995645137
+								},
+								{
+									"id": "tree-613-31",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7146634032193107,
+									"trunkMaterial": "material-wood",
+									"x": 12.873907086708392,
+									"z": 23.740247232310388
+								},
+								{
+									"id": "tree-613-32",
+									"leafMaterial": "material-leaves",
+									"scale": 1.8452962878072867,
+									"trunkMaterial": "material-wood",
+									"x": -26.63178625245795,
+									"z": -23.067996879127712
+								},
+								{
+									"id": "tree-613-33",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8260602546884911,
+									"trunkMaterial": "material-wood",
+									"x": -24.103781811101992,
+									"z": -37.42255791090498
+								},
+								{
+									"id": "tree-613-34",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2871201814588857,
+									"trunkMaterial": "material-wood",
+									"x": 12.454469417180059,
+									"z": 26.164310943617807
+								},
+								{
+									"id": "tree-613-35",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8307263023336418,
+									"trunkMaterial": "material-wood",
+									"x": 18.95023005758779,
+									"z": 15.101443473809006
+								},
+								{
+									"id": "tree-613-36",
+									"leafMaterial": "material-leaves",
+									"scale": 1.724255472474033,
+									"trunkMaterial": "material-wood",
+									"x": 18.02240058279215,
+									"z": -27.313304777561072
+								},
+								{
+									"id": "tree-613-37",
+									"leafMaterial": "material-leaves",
+									"scale": 1.223866557329893,
+									"trunkMaterial": "material-wood",
+									"x": -26.382709447689457,
+									"z": -18.655863827794143
+								},
+								{
+									"id": "tree-613-38",
+									"leafMaterial": "material-leaves",
+									"scale": 0.7689520416848609,
+									"trunkMaterial": "material-wood",
+									"x": 14.91971454284406,
+									"z": 9.197060866467563
+								},
+								{
+									"id": "tree-613-39",
+									"leafMaterial": "material-leaves",
+									"scale": 1.813683038832096,
+									"trunkMaterial": "material-wood",
+									"x": -1.0405288138100046,
+									"z": 28.68586561187977
+								},
+								{
+									"id": "tree-613-40",
+									"leafMaterial": "material-leaves",
+									"scale": 1.8783065040945075,
+									"trunkMaterial": "material-wood",
+									"x": 20.350190125923373,
+									"z": -29.472883898446078
+								},
+								{
+									"id": "tree-613-41",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7950502035411773,
+									"trunkMaterial": "material-wood",
+									"x": 31.798102213518895,
+									"z": -2.0249870722079297
+								},
+								{
+									"id": "tree-613-42",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2402068020426669,
+									"trunkMaterial": "material-wood",
+									"x": -20.241405892044373,
+									"z": -36.459769369367294
+								},
+								{
+									"id": "tree-613-43",
+									"leafMaterial": "material-leaves",
+									"scale": 1.8032273513206747,
+									"trunkMaterial": "material-wood",
+									"x": 16.328604174985298,
+									"z": -49.676202247909266
+								},
+								{
+									"id": "tree-613-44",
+									"leafMaterial": "material-leaves",
+									"scale": 1.0126414796803147,
+									"trunkMaterial": "material-wood",
+									"x": -40.38077597578769,
+									"z": 4.860717340164063
+								},
+								{
+									"id": "tree-613-45",
+									"leafMaterial": "material-leaves",
+									"scale": 1.1261867877678013,
+									"trunkMaterial": "material-wood",
+									"x": 14.948812036735667,
+									"z": 29.577760712058428
+								},
+								{
+									"id": "tree-613-46",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2108865561705897,
+									"trunkMaterial": "material-wood",
+									"x": -25.076084985290088,
+									"z": -32.8426411639449
+								},
+								{
+									"id": "tree-613-47",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8597840002024896,
+									"trunkMaterial": "material-wood",
+									"x": -18.991168613830844,
+									"z": -15.830116624146719
+								},
+								{
+									"id": "tree-613-48",
+									"leafMaterial": "material-leaves",
+									"scale": 1.7933435720125999,
+									"trunkMaterial": "material-wood",
+									"x": 31.723142249965292,
+									"z": -29.05064712237405
+								},
+								{
+									"id": "tree-613-49",
+									"leafMaterial": "material-leaves",
+									"scale": 1.9416728176707692,
+									"trunkMaterial": "material-wood",
+									"x": -39.392075726739904,
+									"z": -1.24513513368161
+								},
+								{
+									"id": "tree-613-50",
+									"leafMaterial": "material-leaves",
+									"scale": 1.0721529219910735,
+									"trunkMaterial": "material-wood",
+									"x": 34.70358448939377,
+									"z": 1.2761417903088343
+								},
+								{
+									"id": "tree-613-51",
+									"leafMaterial": "material-leaves",
+									"scale": 1.3852945690741763,
+									"trunkMaterial": "material-wood",
+									"x": 35.99154420273069,
+									"z": -14.383636933872692
+								},
+								{
+									"id": "tree-613-52",
+									"leafMaterial": "material-leaves",
+									"scale": 1.528843675152166,
+									"trunkMaterial": "material-wood",
+									"x": 7.044215172242261,
+									"z": -50.34518888079032
+								},
+								{
+									"id": "tree-613-53",
+									"leafMaterial": "material-leaves",
+									"scale": 1.1135465154336999,
+									"trunkMaterial": "material-wood",
+									"x": 6.8092480782131775,
+									"z": -26.959680047025866
+								},
+								{
+									"id": "tree-613-54",
+									"leafMaterial": "material-leaves",
+									"scale": 1.181313377970946,
+									"trunkMaterial": "material-wood",
+									"x": 36.760178760161736,
+									"z": 8.858094246675833
+								},
+								{
+									"id": "tree-613-55",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8082481570600066,
+									"trunkMaterial": "material-wood",
+									"x": -23.94362279181574,
+									"z": -30.31640837021615
+								},
+								{
+									"id": "tree-613-56",
+									"leafMaterial": "material-leaves",
+									"scale": 0.861398142381222,
+									"trunkMaterial": "material-wood",
+									"x": -30.132574273011755,
+									"z": 10.727066258308103
+								},
+								{
+									"id": "tree-613-57",
+									"leafMaterial": "material-leaves",
+									"scale": 1.932556016407034,
+									"trunkMaterial": "material-wood",
+									"x": -36.633031120295584,
+									"z": 15.866390057570342
+								},
+								{
+									"id": "tree-613-58",
+									"leafMaterial": "material-leaves",
+									"scale": 1.1165043665911072,
+									"trunkMaterial": "material-wood",
+									"x": -19.35032203098242,
+									"z": 5.704917429734351
+								},
+								{
+									"id": "tree-613-59",
+									"leafMaterial": "material-leaves",
+									"scale": 1.9424668990066494,
+									"trunkMaterial": "material-wood",
+									"x": -17.78659605971795,
+									"z": 1.7623500385726665
+								},
+								{
+									"id": "tree-613-60",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2884572042763467,
+									"trunkMaterial": "material-wood",
+									"x": -11.55687808110734,
+									"z": 22.15168374152962
+								},
+								{
+									"id": "tree-613-61",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8207534504515934,
+									"trunkMaterial": "material-wood",
+									"x": -28.150973801059266,
+									"z": 23.212154700032475
+								},
+								{
+									"id": "tree-613-62",
+									"leafMaterial": "material-leaves",
+									"scale": 0.9479181187605719,
+									"trunkMaterial": "material-wood",
+									"x": 38.70828688824379,
+									"z": -6.391023657131803
+								},
+								{
+									"id": "tree-613-63",
+									"leafMaterial": "material-leaves",
+									"scale": 0.8778484440234025,
+									"trunkMaterial": "material-wood",
+									"x": -36.83393148204719,
+									"z": -18.96620347967744
+								},
+								{
+									"id": "tree-613-64",
+									"leafMaterial": "material-leaves",
+									"scale": 1.2261342772166244,
+									"trunkMaterial": "material-wood",
+									"x": -27.64211197438792,
+									"z": -8.967687189250801
+								}
+							]
+						}
+					},
+					{
+						"animation": "rise",
+						"background": "rgba(4, 8, 15, .32)",
+						"color": "#fff7df",
+						"fontSize": 86,
+						"id": "title-village-opening",
+						"kind": "title",
+						"label": "Opening title",
+						"subtext": "A MitzvahWorld Film",
+						"text": "THE VILLAGE AWAKENS"
+					},
+					{
+						"animation": "rise",
+						"background": "rgba(3, 5, 8, .55)",
+						"color": "#ffe9ad",
+						"fontSize": 58,
+						"id": "title-village-closing",
+						"kind": "title",
+						"label": "Closing title",
+						"subtext": "B\"H",
+						"text": "ONE STEP CAN AWAKEN A WORLD"
+					},
+					{
+						"fadeIn": 1.2,
+						"fadeOut": 1.8,
+						"frequency": 110,
+						"id": "tone-village-score",
+						"kind": "tone",
+						"label": "Village score bed",
+						"volume": 0.038,
+						"waveform": "sine"
+					}
+				],
+				"version": 3
+			},
+			"render": {
+				"fileName": "the-village-awakens.webm",
+				"videoBitsPerSecond": 8000000
+			},
+			"resolution": {
+				"height": 1080,
+				"width": 1920
+			},
+			"seed": 613,
+			"sequences": [],
+			"title": "The Village Awakens — Cinematic World",
+			"tracks": [
+				{
+					"clips": [
+						{
+							"assetId": "tone-village-score",
+							"duration": 24,
+							"id": "village-score",
+							"label": "Village score",
+							"start": 0
+						}
+					],
+					"id": "nle-audio",
+					"type": "nle-audio"
+				},
+				{
+					"clips": [
+						{
+							"assetId": "title-village-opening",
+							"duration": 3.5,
+							"id": "village-opening-title",
+							"label": "Opening title",
+							"start": 0.5
+						},
+						{
+							"assetId": "title-village-closing",
+							"duration": 4,
+							"id": "village-closing-title",
+							"label": "Closing title",
+							"start": 20
+						}
+					],
+					"id": "nle-overlay",
+					"type": "nle-overlay"
+				},
+				{
+					"clips": [
+						{
+							"assetId": "cinematic-village-world",
+							"duration": 24,
+							"id": "village-world-clip",
+							"label": "Living village world",
+							"start": 0
+						}
+					],
+					"id": "nle-visual",
+					"type": "nle-visual"
+				},
+				{
+					"clips": [
+						{
+							"duration": 6,
+							"easing": "linear",
+							"id": "village-awakens",
+							"start": 0,
+							"grade": "#324a68",
+							"label": "Village awakens",
+							"transition": "fade"
+						},
+						{
+							"duration": 7,
+							"easing": "linear",
+							"id": "road-through-houses",
+							"start": 6,
+							"grade": "#8b6a48",
+							"label": "Road through houses",
+							"transition": "crossfade"
+						},
+						{
+							"duration": 6,
+							"easing": "linear",
+							"id": "forest-edge",
+							"start": 13,
+							"grade": "#39533d",
+							"label": "Forest edge",
+							"transition": "crossfade"
+						},
+						{
+							"duration": 5,
+							"easing": "linear",
+							"id": "radiant-home",
+							"start": 19,
+							"grade": "#c28a43",
+							"label": "Radiant home",
+							"transition": "crossfade"
+						}
+					],
+					"id": "scene",
+					"type": "scene"
+				},
+				{
+					"clips": [
+						{
+							"duration": 8,
+							"easing": "smootherstep",
+							"id": "hero-enters-village",
+							"start": 0,
+							"action": "move",
+							"animation": "walk",
+							"from": {
+								"x": -38,
+								"z": 26
+							},
+							"to": {
+								"x": -12,
+								"z": 8
+							}
+						},
+						{
+							"duration": 7,
+							"easing": "easeInOutCubic",
+							"id": "hero-crosses-market",
+							"start": 8,
+							"action": "move",
+							"animation": "walk",
+							"from": {
+								"x": -12,
+								"z": 8
+							},
+							"to": {
+								"x": 6,
+								"z": -5
+							}
+						},
+						{
+							"duration": 2,
+							"easing": "linear",
+							"id": "hero-pauses",
+							"start": 15,
+							"action": "pose",
+							"animation": "idle",
+							"at": {
+								"x": 6,
+								"z": -5
+							}
+						},
+						{
+							"duration": 7,
+							"easing": "smootherstep",
+							"id": "hero-reaches-home",
+							"start": 17,
+							"action": "move",
+							"animation": "walk",
+							"from": {
+								"x": 6,
+								"z": -5
+							},
+							"to": {
+								"x": 23,
+								"z": -18
+							}
+						}
+					],
+					"id": "hero-performance",
+					"target": "player",
+					"type": "actor"
+				},
+				{
+					"clips": [
+						{
+							"duration": 4,
+							"easing": "linear",
+							"id": "aerial-village",
+							"start": 0,
+							"anchor": {
+								"x": -15,
+								"y": 0,
+								"z": 8
+							},
+							"rig": "aerialPullback",
+							"shot": "Aerial village reveal"
+						},
+						{
+							"duration": 5,
+							"easing": "linear",
+							"id": "road-dolly",
+							"start": 4,
+							"anchor": {
+								"x": -24,
+								"y": 0,
+								"z": 16
+							},
+							"rig": "dollyIn",
+							"targetActor": "player"
+						},
+						{
+							"duration": 4,
+							"easing": "linear",
+							"id": "market-side-track",
+							"start": 9,
+							"anchor": {
+								"x": -4,
+								"y": 0,
+								"z": 2
+							},
+							"rig": "sideTrack",
+							"targetActor": "player"
+						},
+						{
+							"duration": 5,
+							"easing": "linear",
+							"id": "forest-orbit",
+							"start": 13,
+							"anchor": {
+								"x": 8,
+								"y": 0,
+								"z": -8
+							},
+							"rig": "orbitLeft",
+							"targetActor": "player"
+						},
+						{
+							"duration": 6,
+							"easing": "linear",
+							"id": "home-crane",
+							"start": 18,
+							"anchor": {
+								"x": 22,
+								"y": 0,
+								"z": -18
+							},
+							"rig": "craneReveal",
+							"targetActor": "player"
+						}
+					],
+					"id": "camera-cuts",
+					"type": "camera"
+				},
+				{
+					"clips": [
+						{
+							"duration": 3,
+							"easing": "linear",
+							"id": "narrator-village",
+							"start": 5,
+							"speaker": "Narrator",
+							"text": "The road remembers every footstep that carried light home."
+						},
+						{
+							"duration": 3.4,
+							"easing": "linear",
+							"id": "hero-village-line",
+							"start": 19.2,
+							"speaker": "Chossid",
+							"text": "A whole village can awaken from one faithful step."
+						}
+					],
+					"id": "dialogue",
+					"type": "dialogue"
+				},
+				{
+					"clips": [
+						{
+							"duration": 8,
+							"easing": "linear",
+							"id": "dawn-air",
+							"start": 0,
+							"frequency": 82,
+							"kind": "score",
+							"volume": 0.025
+						},
+						{
+							"duration": 9,
+							"easing": "linear",
+							"id": "market-warmth",
+							"start": 7,
+							"frequency": 123,
+							"kind": "score",
+							"volume": 0.035
+						},
+						{
+							"duration": 7,
+							"easing": "linear",
+							"id": "home-reveal-tone",
+							"start": 17,
+							"frequency": 174,
+							"kind": "score",
+							"volume": 0.05
+						}
+					],
+					"id": "audio",
+					"type": "audio"
+				}
+			],
+			"version": 1,
+			"viewMode": "legacy"
+		},
+		"duration": 24,
+		"format": "awtsmoos.movie-request.v1",
+		"prompt": "Polish this village journey while preserving every stable ID and continuity rule.",
+		"quality": "cinematic",
+		"schemaUrls": {
+			"movie": "/social-composer/reel-studio/api/ai-movie-schema-v1.json",
+			"package": "/social-composer/reel-studio/api/movie-package-schema-v1.json"
+		},
+		"version": 1
+	},
+	"validation": {
+		"cameraRigCount": 5,
+		"materialGraphCount": 7,
+		"missingAssets": [],
+		"renderReady": true,
+		"sequenceCount": 0,
+		"trackCount": 8,
+		"valid": true
+	},
+	"version": 1
+}

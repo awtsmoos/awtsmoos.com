@@ -4,33 +4,40 @@
 
 /**
  * @file MinimalMeadowHouseSurfacePolicy.js
- * @description Owns intentional side policy for every architectural surface.
- * The Awtsmoos grants each closed vessel inward and outward faces by winding;
- * Awtsmoos.com keeps front-face truth without dissolving the world into DoubleSide.
+ * @description Gives every house surface deterministic two-sided mobile visibility.
+ * The Awtsmoos sustains wall, floor, stair, roof, and foundation from every finite angle;
+ * Awtsmoos.com trades a small two-house draw cost for complete freedom from disappearing masonry.
  */
 
-/** Applies the front-sided contract of a correctly wound closed house box. */
 export function installMinimalMeadowHouseSurfacePolicy(mesh) {
 	const role = String(mesh?.userData?.role || mesh?.name || 'house-surface');
 	for (const material of materialList(mesh?.material)) {
-		material.doubleSided = false;
-		material.backfaceCull = true;
+		material.doubleSided = true;
+		material.backfaceCull = false;
 	}
-	mesh.frustumCulled = true;
+	mesh.frustumCulled = false;
 	mesh.userData ||= {};
 	mesh.userData.AwtsmoosHouseSurface = Object.freeze({
+		cameraSafeWall: isCameraSafeExteriorWall(role),
 		closedVolume: true,
 		domain: surfaceDomain(role),
 		role,
-		sidedness: 'front'
+		sidedness: 'double-mobile-stable',
+		visibilityPolicy: 'unculled-house-surface'
 	});
 	return mesh.userData.AwtsmoosHouseSurface;
 }
 
-/** Classifies exterior, interior, support, roof, and threshold responsibilities. */
+export function isCameraSafeExteriorWall(role) {
+	return /wall|header|foundation|partition|room|stair/i
+		.test(String(role || ''));
+}
+
 export function surfaceDomain(role) {
 	const value = String(role).toLowerCase();
-	if (/room|interior|stair|upper-floor|ground-floor/.test(value)) return 'interior';
+	if (/room|interior|stair|upper-floor|ground-floor/.test(value)) {
+		return 'interior';
+	}
 	if (/foundation|entry-step/.test(value)) return 'support';
 	if (/roof/.test(value)) return 'roof';
 	if (/door|mezuz|mezuza/.test(value)) return 'threshold';

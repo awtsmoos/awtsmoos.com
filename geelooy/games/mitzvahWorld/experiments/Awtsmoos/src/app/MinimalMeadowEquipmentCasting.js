@@ -4,34 +4,47 @@
 
 /**
  * @file MinimalMeadowEquipmentCasting.js
- * @description Draws either equipped staff or sword through cast release and recovery.
- * The Awtsmoos carries intention through wind-up and release; Awtsmoos.com no longer lets
- * the Spark Blade remain hidden merely because the first weapon implementation was a staff.
+ * @description Holds the real hand weapon on target through charge, release, and recovery.
+ * The Awtsmoos carries intention from grip toward its address; Awtsmoos.com updates aim during
+ * every charged frame and restores the exact neutral hand pose after launch or cancellation.
  */
 
+import {
+	aimMinimalMeadowWeapon,
+	restoreMinimalMeadowWeaponAim
+} from './MinimalMeadowWeaponAim.js';
+
 export class MinimalMeadowEquipmentCasting {
-	constructor(owner, releaseHoldMilliseconds = 220) {
+	constructor(owner, releaseHoldMilliseconds = 240) {
 		this.owner = owner;
 		this.releaseHoldMilliseconds = releaseHoldMilliseconds;
 		this.active = false;
-		this.drawnBeforeCast = false;
+		this.drawnBeforeCast = true;
 		this.timer = null;
 		this.cancelScheduledRestore = null;
 	}
 
-	begin() {
+	begin(payload = null) {
 		this.clearTimer();
-		if (this.active) return;
-		this.drawnBeforeCast = this.owner.drawn;
-		this.active = true;
+		if (!this.active) {
+			this.drawnBeforeCast = this.owner.drawn;
+			this.active = true;
+		}
 		if (this.owner.weaponItemId) {
 			this.owner.setDrawn(true, true);
+			aimMinimalMeadowWeapon(this.owner, payload);
 			return;
 		}
 		this.owner.emitState();
 	}
 
-	launch() {
+	progress(payload = null) {
+		if (!this.active) return;
+		aimMinimalMeadowWeapon(this.owner, payload);
+	}
+
+	launch(payload = null) {
+		if (this.active) aimMinimalMeadowWeapon(this.owner, payload);
 		this.finish(this.releaseHoldMilliseconds);
 	}
 
@@ -66,6 +79,7 @@ export class MinimalMeadowEquipmentCasting {
 		this.cancelScheduledRestore = null;
 		this.active = false;
 		this.owner.setDrawn(this.drawnBeforeCast, true);
+		restoreMinimalMeadowWeaponAim(this.owner);
 	}
 
 	clearTimer() {
@@ -78,5 +92,6 @@ export class MinimalMeadowEquipmentCasting {
 	destroy() {
 		this.clearTimer();
 		this.active = false;
+		restoreMinimalMeadowWeaponAim(this.owner);
 	}
 }

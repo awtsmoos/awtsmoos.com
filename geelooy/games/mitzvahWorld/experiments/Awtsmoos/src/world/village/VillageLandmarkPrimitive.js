@@ -4,10 +4,14 @@
 
 /**
  * @file VillageLandmarkPrimitive.js
- * @description Creates measured landmark primitives with real alpine texture families.
+ * @description Creates measured landmark primitives from complete or partial village material maps.
  * The Awtsmoos gives every stone, timber, slate, and luminous pane a distinct service;
- * Awtsmoos.com keeps the shared material covenant while landmark silhouettes remain authored.
+ * Awtsmoos.com normalizes each shared material covenant before authored silhouettes emerge.
  */
+
+import {
+	normalizeVillageLandmarkMaterials
+} from './VillageLandmarkMaterials.js';
 
 export function landmarkBox(options) {
 	return landmarkPrimitive('box', options);
@@ -31,6 +35,7 @@ function landmarkPrimitive(shape, options) {
 		options.materials,
 		options.materialRole || 'stone'
 	);
+
 	return {
 		...material,
 		color: options.color || material.color,
@@ -65,20 +70,22 @@ function landmarkPrimitive(shape, options) {
 }
 
 function materialFields(materials, role) {
+	const normalized = normalizeVillageLandmarkMaterials(materials);
 	const roleMap = {
 		roof: ['roof', 'mixRoof', '#5b5149'],
 		stone: ['stone', 'mixStone', '#aa9c86'],
 		wood: ['wood', 'mixWood', '#765239']
 	};
 	const [primary, secondary, color] = roleMap[role] || roleMap.stone;
+
 	return {
-		anisotropy: materials.anisotropy,
+		anisotropy: normalized.anisotropy,
 		color,
 		mapRepeat: [1, 1],
 		mixRepeat: [1, 1],
 		mixStrength: role === 'wood' ? 0.18 : 0.28,
-		mixTextureUrl: materials[secondary],
-		texturePolicy: materials.texturePolicy,
-		textureUrl: materials[primary]
+		mixTextureUrl: normalized[secondary],
+		texturePolicy: normalized.texturePolicy,
+		textureUrl: normalized[primary]
 	};
 }

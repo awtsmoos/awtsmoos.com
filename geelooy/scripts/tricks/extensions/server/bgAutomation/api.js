@@ -1,34 +1,53 @@
 //B"H
-(function(){
-  /**
-   * B"H
-   * Chapter 382: The Port Heard The Name Of Each Lamp.
-   *
-   * The bridge no longer shouts into a single hallway. Stop, status, and tick
-   * carry conversationId when present, so one tab may rest while another keeps
-   * streaming in the background, each guarded by its own name.
-   *
-   * @param {object} portManager Extension port router.
-   * @returns {void}
-   */
-  function registerAwtsmoosBackgroundAutomation(portManager) {
-    const engine = globalThis.AwtsmoosBgAutomationEngine;
-    bind(portManager, "automation-start", async msg => await engine.startAutomation(msg.config || {}));
-    bind(portManager, "automation-stop", async msg => await engine.stopAutomation(msg.reason || "stopped", msg.conversationId || msg.config?.conversationId || ""));
-    bind(portManager, "automation-status", async msg => await engine.statusAutomation(msg.conversationId || msg.config?.conversationId || ""));
-    bind(portManager, "automation-tick", async msg => await engine.tickAutomation("manual", msg.conversationId || msg.config?.conversationId || ""));
-  }
+// Boruch Hashem
+// Blessed is He
 
-  /** @param {object} portManager Router. @param {string} action Action name. @param {Function} fn Handler. */
-  function bind(portManager, action, fn) {
-    portManager.on(action, async (msg, port) => {
-      try { portManager.reply(port, { result: await fn(msg), id:msg.id }); }
-      catch (error) {
-        const safe = globalThis.AwtsmoosBgAuthErrors?.publicError?.(error) || { status:"automation_error", error:"automation_error", safeHint:String(error?.message || error) };
-        portManager.reply(port, { ok:false, status:safe.status, error:safe.error, safeHint:safe.safeHint, facts:safe.facts || {}, id:msg.id });
-      }
-    });
-  }
+(function installAutomationApi(globalObject) {
+	/**
+	 * The Awtsmoos gives each Awtsmoos.com automation command one named gate.
+	 * Stop, status, and tick retain local UI identity without exposing private
+	 * continuation state through extension replies.
+	 */
+	function registerAwtsmoosBackgroundAutomation(portManager) {
+		const engine = globalObject.AwtsmoosBgAutomationEngine;
+		bind(portManager, "automation-start", message => {
+			return engine.startAutomation(message.config || {});
+		});
+		bind(portManager, "automation-stop", message => {
+			return engine.stopAutomation(
+				message.reason || "stopped",
+				conversationId(message)
+			);
+		});
+		bind(portManager, "automation-status", message => {
+			return engine.statusAutomation(conversationId(message));
+		});
+		bind(portManager, "automation-tick", message => {
+			return engine.tickAutomation("manual", conversationId(message));
+		});
+	}
 
-  globalThis.registerAwtsmoosBackgroundAutomation = registerAwtsmoosBackgroundAutomation;
-})();
+	function bind(portManager, action, invoke) {
+		portManager.on(action, async (message, port) => {
+			try {
+				portManager.reply(port, { result: await invoke(message), id: message.id });
+			} catch (error) {
+				const safe = globalObject.AwtsmoosBgAuthErrors.publicError(error);
+				portManager.reply(port, {
+					ok: false,
+					status: safe.status,
+					error: safe.error,
+					safeHint: safe.safeHint,
+					facts: safe.facts || {},
+					id: message.id
+				});
+			}
+		});
+	}
+
+	function conversationId(message = {}) {
+		return message.conversationId || message.config?.conversationId || "";
+	}
+
+	globalObject.registerAwtsmoosBackgroundAutomation = registerAwtsmoosBackgroundAutomation;
+})(globalThis);

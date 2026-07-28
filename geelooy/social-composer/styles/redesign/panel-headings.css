@@ -1,0 +1,93 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Every major panel declares its role through one calm summary row and a semantic
+ * accent rail rather than unrelated background colors.
+ */
+
+.composer-civilization-document .majorPanel::before {
+	position: absolute;
+	z-index: 2;
+	inset-block: .75rem;
+	inset-inline-start: 0;
+	inline-size: 2px;
+	border-radius: 999px;
+	background: var(--composer-text-faint);
+	content: '';
+}
+
+.composer-civilization-document :is(.identityPanel, .destinationPanel)::before {
+	background: var(--composer-cyan);
+}
+
+.composer-civilization-document .contentPanel::before {
+	background: var(--composer-violet);
+}
+
+.composer-civilization-document .publicationPanel::before {
+	background: var(--composer-amber);
+}
+
+.composer-civilization-document .majorPanel > summary {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-block-size: 3.4rem;
+	padding: .65rem .85rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+.composer-civilization-document .majorPanel > summary::-webkit-details-marker {
+	display: none;
+}
+
+.composer-civilization-document .majorPanel > summary::after {
+	color: var(--composer-text-faint);
+	font-size: 1rem;
+	content: '›';
+	transform: rotate(90deg);
+	transition: transform var(--composer-transition), color var(--composer-transition);
+}
+
+.composer-civilization-document .majorPanel:not([open]) > summary::after {
+	transform: rotate(0);
+}
+
+.composer-civilization-document .majorPanel[open] > summary {
+	border-block-end: 1px solid var(--composer-border-soft);
+	background: rgba(255, 255, 255, .018);
+}
+
+.composer-civilization-document .majorPanel > summary > span {
+	display: grid;
+	min-inline-size: 0;
+	gap: .12rem;
+}
+
+.composer-civilization-document .majorPanel > summary strong {
+	overflow: hidden;
+	color: var(--composer-text-soft);
+	font-size: .84rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.composer-civilization-document .civilization-kicker {
+	color: var(--composer-violet);
+	font-size: .6rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.composer-civilization-document :is(.identityPanel, .destinationPanel) .civilization-kicker {
+	color: var(--composer-cyan);
+}
+
+.composer-civilization-document .publicationPanel .civilization-kicker {
+	color: var(--composer-amber);
+}

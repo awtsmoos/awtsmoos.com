@@ -2,92 +2,47 @@
 // Boruch Hashem
 // Blessed is He
 
+import { CarrierControlGate } from "./CarrierControlGate.mjs";
+import { CarrierInputController } from "./CarrierInputController.mjs";
+import { CarrierNodeFinder } from "./CarrierNodeFinder.mjs";
+
+const COMPOSER_SELECTORS = [
+	"div#prompt-textarea[contenteditable='true']",
+	"textarea#mobile-composer-prompt",
+	"textarea[aria-label='Chat with ChatGPT']",
+	"[contenteditable='true'][role='textbox']"
+];
+
 /**
- * The carrier is not the user's message; it is a bounded knock that lets the
- * normal ChatGPT page create one fresh authorized envelope. The Awtsmoos reveals
- * the visible controls, while awtsmoos.com clears, types, and clicks only here.
+ * The carrier is a bounded normal-enforcement knock, never the user's message.
+ * The Awtsmoos lets Awtsmoos.com prepare one recognized editor state, click one
+ * enabled control, intercept its POST, and suppress it before network delivery.
  */
 export class CarrierPromptInteractor {
-	constructor(cdpClient) {
-		this.cdpClient = cdpClient;
-		this.composerSelectors = [
-			"div#prompt-textarea[contenteditable='true']",
-			"textarea#mobile-composer-prompt",
-			"textarea[aria-label='Chat with ChatGPT']",
-			"[contenteditable='true'][role='textbox']"
-		];
-		this.sendSelectors = [
-			"button[data-testid='send-button']",
-			"button[aria-label='Send prompt']",
-			"button[aria-label='Send message']"
-		];
+	constructor(cdpClient, {
+		nodeFinder = new CarrierNodeFinder(cdpClient),
+		inputController = new CarrierInputController(cdpClient),
+		controlGate = new CarrierControlGate(cdpClient)
+	} = {}) {
+		this.nodeFinder = nodeFinder;
+		this.inputController = inputController;
+		this.controlGate = controlGate;
 	}
 
 	async submit(prompt, attempt = 1) {
-		const focused = await this.prepareComposer();
-		if (!focused) {
-			throw new Error("The carrier composer was not visible or focusable.");
+		const composer = await this.nodeFinder.findFirst(COMPOSER_SELECTORS);
+		if (!composer) {
+			throw new Error("The carrier composer was not visible.");
 		}
-
-		const carrier = `${prompt} Attempt ${attempt}.`;
-		await this.cdpClient.send("Input.insertText", { text: carrier });
-		await new Promise((resolve) => setTimeout(resolve, 350));
-		const text = await this.readComposerText();
-		if (!text.includes(carrier)) {
-			throw new Error("The carrier text did not enter the visible composer.");
+		await this.inputController.focusAndReplace(
+			composer,
+			`${prompt} Attempt ${attempt}`
+		);
+		const state = await this.controlGate.waitUntilReady();
+		const send = await this.nodeFinder.findFirst([state.sendSelector]);
+		if (!send) {
+			throw new Error("The enabled carrier send control disappeared.");
 		}
-
-		if (!await this.clickSendButton()) {
-			await this.dispatchEnter();
-		}
-	}
-
-	async prepareComposer() {
-		return this.evaluate(`(() => {
-			const selectors = ${JSON.stringify(this.composerSelectors)};
-			const visible = element => Boolean(element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length));
-			const composer = selectors.map(selector => document.querySelector(selector)).find(visible);
-			if (!composer) return false;
-			composer.focus();
-			if ('value' in composer) {
-				composer.value = '';
-				composer.dispatchEvent(new Event('input', { bubbles: true }));
-			} else {
-				document.execCommand('selectAll', false, null);
-				document.execCommand('delete', false, null);
-			}
-			return document.activeElement === composer;
-		})()`);
-	}
-
-	async clickSendButton() {
-		return this.evaluate(`(() => {
-			const selectors = ${JSON.stringify(this.sendSelectors)};
-			const visible = element => Boolean(element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length));
-			const button = selectors.map(selector => document.querySelector(selector)).find(element => visible(element) && !element.disabled);
-			if (!button) return false;
-			button.click();
-			return true;
-		})()`);
-	}
-
-	async readComposerText() {
-		return this.evaluate(`(() => {
-			const selectors = ${JSON.stringify(this.composerSelectors)};
-			const visible = element => Boolean(element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length));
-			const composer = selectors.map(selector => document.querySelector(selector)).find(visible);
-			return (composer?.value ?? composer?.innerText ?? '').trim();
-		})()`);
-	}
-
-	async dispatchEnter() {
-		const key = { key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 };
-		await this.cdpClient.send("Input.dispatchKeyEvent", { type: "keyDown", ...key });
-		await this.cdpClient.send("Input.dispatchKeyEvent", { type: "keyUp", ...key });
-	}
-
-	async evaluate(expression) {
-		const result = await this.cdpClient.send("Runtime.evaluate", { expression, returnByValue: true });
-		return result.result.value;
+		await this.inputController.clickNode(send);
 	}
 }

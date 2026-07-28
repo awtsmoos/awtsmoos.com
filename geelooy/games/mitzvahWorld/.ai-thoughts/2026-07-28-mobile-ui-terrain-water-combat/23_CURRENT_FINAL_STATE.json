@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "port": 9263,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "state": {
+    "bodyChildren": 18,
+    "enemies": 9,
+    "featurePhase": "loading-combat-and-model",
+    "houses": 0,
+    "htmlLength": 28684,
+    "readyState": "complete",
+    "readiness": "degraded-ready",
+    "rendererStage": "rich-ready",
+    "resources": 250,
+    "runtimePresent": true,
+    "runtimeState": "playable",
+    "scripts": 3,
+    "title": "B\"H Mitzvah World — Restored River Valley",
+    "url": "http://localhost:8080/games/mitzvahWorld/"
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

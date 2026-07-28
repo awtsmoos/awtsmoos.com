@@ -1,0 +1,67 @@
+{
+  "colorMode": "uploaded-shallow-river-color",
+  "hostedColorReady": 2,
+  "hydratedMeshes": 6,
+  "materials": [
+    {
+      "colorMode": "uploaded-shallow-river-color",
+      "mapSource": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+      "mixSource": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png",
+      "normalDetailSource": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png",
+      "normalSource": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png",
+      "roles": [
+        "water-color",
+        "seamless-water-detail",
+        "current-normal",
+        "micro-ripple-normal"
+      ],
+      "variant": "river"
+    },
+    {
+      "colorMode": "uploaded-shallow-river-color",
+      "mapSource": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+      "mixSource": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png",
+      "normalDetailSource": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png",
+      "normalSource": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png",
+      "roles": [
+        "water-color",
+        "seamless-water-detail",
+        "current-normal",
+        "micro-ripple-normal"
+      ],
+      "variant": "lake"
+    }
+  ],
+  "normalMode": "real-dual-normal-pack",
+  "records": [
+    {
+      "ok": true,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/bluestone%201.png",
+      "source": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/bluestone%201.png"
+    },
+    {
+      "ok": true,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+      "source": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png"
+    },
+    {
+      "ok": true,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png",
+      "source": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png"
+    },
+    {
+      "ok": true,
+      "publicUrl": "/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png",
+      "source": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png"
+    },
+    {
+      "ok": true,
+      "publicUrl": "/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png",
+      "source": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png"
+    }
+  ],
+  "timeoutPolicy": {
+    "localMilliseconds": 9000,
+    "remoteWaterMilliseconds": 45000
+  }
+}

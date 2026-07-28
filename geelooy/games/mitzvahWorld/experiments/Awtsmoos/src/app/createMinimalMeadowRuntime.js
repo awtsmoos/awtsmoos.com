@@ -4,9 +4,9 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Reveals movement and rendering first, then loads real GLB, action bar, and combat.
- * The Awtsmoos creates the playable valley before every optional garment;
- * Awtsmoos.com keeps one compact feature doorway for casting, creatures, equipment, and richness.
+ * @description Reveals movement and rendering first, then loads the current compact feature graph.
+ * The Awtsmoos creates the playable valley before every optional garment; Awtsmoos.com keeps
+ * one explicitly versioned doorway for casting, creatures, equipment, regions, safety, and richness.
  */
 
 import { Group, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -30,6 +30,8 @@ import {
 import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js';
 import { createMinimalMeadowTerrainPackage } from './MinimalMeadowTerrainPackage.js';
 import { markRuntimePlayable, markRuntimeStarting } from './RuntimeStateMarker.js';
+
+const FEATURE_REVISION = '20260728-full-wave-1';
 
 /**
  * Creates and exposes the playable core before the compact feature bundle resolves.
@@ -86,7 +88,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 
 function loadFeatures(runtime, environment) {
 	runtime.featureStatus = { phase: 'loading-compact-entry' };
-	return import('./MinimalMeadowFeatureBundle.js')
+	return import(`./MinimalMeadowFeatureBundle.js?compact=true&rev=${FEATURE_REVISION}`)
 		.then(module => module.installMinimalMeadowFeatures(runtime, environment))
 		.catch(error => {
 			runtime.featureStatus = {

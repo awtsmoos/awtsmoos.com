@@ -1,0 +1,11 @@
+{
+  "importMs": 328.5033339999999,
+  "buildMs": 11106.616361,
+  "totalMs": 11435.119695,
+  "visualVertices": 14641,
+  "visualTriangles": 28800,
+  "collisionTriangles": 2,
+  "collisionSteps": 1,
+  "steps": 120,
+  "size": 360
+}

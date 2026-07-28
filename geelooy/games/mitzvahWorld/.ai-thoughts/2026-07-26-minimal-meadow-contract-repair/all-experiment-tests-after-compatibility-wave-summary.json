@@ -1,0 +1,389 @@
+{
+  "failureCount": 87,
+  "failures": [
+    {
+      "line": 8,
+      "text": "✖ multiplayer launcher helper attaches its live controller and reports peers (5.004402ms)"
+    },
+    {
+      "line": 167,
+      "text": "✖ bootstrap foundation composes one truthful open flat world (25.727179ms)"
+    },
+    {
+      "line": 168,
+      "text": "✖ critical foundation source excludes authored terrain and world finalizer imports (35.281082ms)"
+    },
+    {
+      "line": 173,
+      "text": "✖ visible valley uses eight bounded meshes and one shared geometry (20.948495ms)"
+    },
+    {
+      "line": 408,
+      "text": "✖ terrain remains visible and opaque before source images hydrate (2317.16074ms)"
+    },
+    {
+      "line": 466,
+      "text": "✖ flower aliases preserve color identity while sharing one local model (3.503706ms)"
+    },
+    {
+      "line": 467,
+      "text": "✖ botanical model policy never selects remote or fake half-model tiers (0.494219ms)"
+    },
+    {
+      "line": 515,
+      "text": "✖ verified local and Awtsmoos production vessels are accepted unchanged (1.289691ms)"
+    },
+    {
+      "line": 914,
+      "text": "✖ forest materials remain verified production sources (6.055092ms)"
+    },
+    {
+      "line": 977,
+      "text": "✖ equipment and clothing contribute to derived statistics (3.741849ms)"
+    },
+    {
+      "line": 1182,
+      "text": "✖ gameplay profiles preserve full visual density while cinematic expands the horizon (16.457925ms)"
+    },
+    {
+      "line": 1203,
+      "text": "✖ sixteen logical layers remain immutable and priority ordered (42.523242ms)"
+    },
+    {
+      "line": 1204,
+      "text": "✖ ten-layer pages preserve every logical layer without overlap (0.356309ms)"
+    },
+    {
+      "line": 1205,
+      "text": "✖ diagnostics report active and logical capacity honestly (0.316437ms)"
+    },
+    {
+      "line": 1212,
+      "text": "✖ roads and mountains preserve ten roles with ten valid full sources (6.810768ms)"
+    },
+    {
+      "line": 1263,
+      "text": "✖ src/test/geometry/VillageCottageScalePolicy.test.mjs (345.488658ms)"
+    },
+    {
+      "line": 1376,
+      "text": "✖ src/test/geometry/expandedVillageComposition.test.mjs (2504.996687ms)"
+    },
+    {
+      "line": 1381,
+      "text": "✖ forest preserves deterministic placement, batching, and measured collision (37.248642ms)"
+    },
+    {
+      "line": 1387,
+      "text": "✖ forest uses a natural fallback and idle-keys canonical RGB leaves for a MASK (5.161949ms)"
+    },
+    {
+      "line": 1459,
+      "text": "✖ terrain recipe has sixteen named local production layers (5.327292ms)"
+    },
+    {
+      "line": 1569,
+      "text": "✖ reference golden-hour world stays deterministic and quality bounded (1760.441313ms)"
+    },
+    {
+      "line": 1570,
+      "text": "✖ high tier keeps named architecture, terrain life, forest, snow, and bridge (227.674703ms)"
+    },
+    {
+      "line": 1593,
+      "text": "✖ unhydrated construction remains white and points at packaged local ground (59.316103ms)"
+    },
+    {
+      "line": 1598,
+      "text": "✖ every required core bark and living leaf type has a high-resolution public URL (10.772991ms)"
+    },
+    {
+      "line": 1832,
+      "text": "✖ village detail grows deterministically without duplicate definitions (2352.394243ms)"
+    },
+    {
+      "line": 1859,
+      "text": "✖ src/test/geometry/villageDestinationSigns.test.mjs (907.187944ms)"
+    },
+    {
+      "line": 1984,
+      "text": "✖ page threshold requests one stylesheet and one JavaScript entry (169.456611ms)"
+    },
+    {
+      "line": 1987,
+      "text": "✖ runtime opens staged startup and keeps heavy systems explicitly deferred (8.667753ms)"
+    },
+    {
+      "line": 2616,
+      "text": "✖ resource sampler counts unique vessels and marks unavailable evidence honestly (22.584027ms)"
+    },
+    {
+      "line": 2665,
+      "text": "✖ cooperative terrain is identical and yields throughout canonical sampling (224.286322ms)"
+    },
+    {
+      "line": 2717,
+      "text": "✖ all dynamic human systems bind the canonical chossid GLB (1.390815ms)"
+    },
+    {
+      "line": 3109,
+      "text": "✖ movement starts before the one post-movement orchestration gate (25.280231ms)"
+    },
+    {
+      "line": 3110,
+      "text": "✖ optional-world streaming is the sole botanical runtime owner (34.627807ms)"
+    },
+    {
+      "line": 3111,
+      "text": "✖ the botanical gate alone releases deferred world models (18.863046ms)"
+    },
+    {
+      "line": 3213,
+      "text": "✖ B\"H production launcher uses native ESM and a fresh revision (28.394231ms)"
+    },
+    {
+      "line": 3214,
+      "text": "✖ B\"H native facade is served as an explicit-binding module contract (0.490529ms)"
+    },
+    {
+      "line": 3248,
+      "text": "✖ package renders one terrain authority and no elevated road child (119.534711ms)"
+    },
+    {
+      "line": 3262,
+      "text": "✖ B\"H facade owns explicit local bindings instead of a bare re-export (50.216769ms)"
+    },
+    {
+      "line": 3263,
+      "text": "✖ B\"H facade graph excludes the procedural root index (1.457435ms)"
+    },
+    {
+      "line": 3307,
+      "text": "✖ mobile CSS protects safe areas and collapses secondary rail actions (2.921502ms)"
+    },
+    {
+      "line": 3308,
+      "text": "✖ near-black hydrated materials become readable without losing maps (7.007045ms)"
+    },
+    {
+      "line": 3309,
+      "text": "✖ garment aliases and model-root weapon fallback stay synchronized (4.176756ms)"
+    },
+    {
+      "line": 3311,
+      "text": "✖ starter ownership includes both staff and real procedural sword (31.531454ms)"
+    },
+    {
+      "line": 3386,
+      "text": "✖ failing tests:"
+    },
+    {
+      "line": 3389,
+      "text": "✖ multiplayer launcher helper attaches its live controller and reports peers (5.004402ms)"
+    },
+    {
+      "line": 3409,
+      "text": "✖ bootstrap foundation composes one truthful open flat world (25.727179ms)"
+    },
+    {
+      "line": 3431,
+      "text": "✖ critical foundation source excludes authored terrain and world finalizer imports (35.281082ms)"
+    },
+    {
+      "line": 3522,
+      "text": "✖ visible valley uses eight bounded meshes and one shared geometry (20.948495ms)"
+    },
+    {
+      "line": 3542,
+      "text": "✖ terrain remains visible and opaque before source images hydrate (2317.16074ms)"
+    },
+    {
+      "line": 3566,
+      "text": "✖ flower aliases preserve color identity while sharing one local model (3.503706ms)"
+    },
+    {
+      "line": 3587,
+      "text": "✖ botanical model policy never selects remote or fake half-model tiers (0.494219ms)"
+    },
+    {
+      "line": 3604,
+      "text": "✖ verified local and Awtsmoos production vessels are accepted unchanged (1.289691ms)"
+    },
+    {
+      "line": 3617,
+      "text": "✖ forest materials remain verified production sources (6.055092ms)"
+    },
+    {
+      "line": 3636,
+      "text": "✖ equipment and clothing contribute to derived statistics (3.741849ms)"
+    },
+    {
+      "line": 3658,
+      "text": "✖ gameplay profiles preserve full visual density while cinematic expands the horizon (16.457925ms)"
+    },
+    {
+      "line": 3680,
+      "text": "✖ sixteen logical layers remain immutable and priority ordered (42.523242ms)"
+    },
+    {
+      "line": 3694,
+      "text": "✖ ten-layer pages preserve every logical layer without overlap (0.356309ms)"
+    },
+    {
+      "line": 3708,
+      "text": "✖ diagnostics report active and logical capacity honestly (0.316437ms)"
+    },
+    {
+      "line": 3722,
+      "text": "✖ roads and mountains preserve ten roles with ten valid full sources (6.810768ms)"
+    },
+    {
+      "line": 3745,
+      "text": "✖ src/test/geometry/VillageCottageScalePolicy.test.mjs (345.488658ms)"
+    },
+    {
+      "line": 3749,
+      "text": "✖ src/test/geometry/expandedVillageComposition.test.mjs (2504.996687ms)"
+    },
+    {
+      "line": 3753,
+      "text": "✖ forest preserves deterministic placement, batching, and measured collision (37.248642ms)"
+    },
+    {
+      "line": 3773,
+      "text": "✖ forest uses a natural fallback and idle-keys canonical RGB leaves for a MASK (5.161949ms)"
+    },
+    {
+      "line": 3783,
+      "text": "✖ terrain recipe has sixteen named local production layers (5.327292ms)"
+    },
+    {
+      "line": 3803,
+      "text": "✖ reference golden-hour world stays deterministic and quality bounded (1760.441313ms)"
+    },
+    {
+      "line": 3824,
+      "text": "✖ high tier keeps named architecture, terrain life, forest, snow, and bridge (227.674703ms)"
+    },
+    {
+      "line": 3846,
+      "text": "✖ unhydrated construction remains white and points at packaged local ground (59.316103ms)"
+    },
+    {
+      "line": 3870,
+      "text": "✖ every required core bark and living leaf type has a high-resolution public URL (10.772991ms)"
+    },
+    {
+      "line": 3890,
+      "text": "✖ village detail grows deterministically without duplicate definitions (2352.394243ms)"
+    },
+    {
+      "line": 3913,
+      "text": "✖ src/test/geometry/villageDestinationSigns.test.mjs (907.187944ms)"
+    },
+    {
+      "line": 3917,
+      "text": "✖ page threshold requests one stylesheet and one JavaScript entry (169.456611ms)"
+    },
+    {
+      "line": 3934,
+      "text": "✖ runtime opens staged startup and keeps heavy systems explicitly deferred (8.667753ms)"
+    },
+    {
+      "line": 4057,
+      "text": "✖ resource sampler counts unique vessels and marks unavailable evidence honestly (22.584027ms)"
+    },
+    {
+      "line": 4079,
+      "text": "✖ cooperative terrain is identical and yields throughout canonical sampling (224.286322ms)"
+    },
+    {
+      "line": 4097,
+      "text": "✖ all dynamic human systems bind the canonical chossid GLB (1.390815ms)"
+    },
+    {
+      "line": 4121,
+      "text": "✖ movement starts before the one post-movement orchestration gate (25.280231ms)"
+    },
+    {
+      "line": 4135,
+      "text": "✖ optional-world streaming is the sole botanical runtime owner (34.627807ms)"
+    },
+    {
+      "line": 4152,
+      "text": "✖ the botanical gate alone releases deferred world models (18.863046ms)"
+    },
+    {
+      "line": 4166,
+      "text": "✖ B\"H production launcher uses native ESM and a fresh revision (28.394231ms)"
+    },
+    {
+      "line": 4181,
+      "text": "✖ B\"H native facade is served as an explicit-binding module contract (0.490529ms)"
+    },
+    {
+      "line": 4198,
+      "text": "✖ package renders one terrain authority and no elevated road child (119.534711ms)"
+    },
+    {
+      "line": 4324,
+      "text": "✖ B\"H facade owns explicit local bindings instead of a bare re-export (50.216769ms)"
+    },
+    {
+      "line": 4342,
+      "text": "✖ B\"H facade graph excludes the procedural root index (1.457435ms)"
+    },
+    {
+      "line": 4363,
+      "text": "✖ mobile CSS protects safe areas and collapses secondary rail actions (2.921502ms)"
+    },
+    {
+      "line": 4454,
+      "text": "✖ near-black hydrated materials become readable without losing maps (7.007045ms)"
+    },
+    {
+      "line": 4476,
+      "text": "✖ garment aliases and model-root weapon fallback stay synchronized (4.176756ms)"
+    },
+    {
+      "line": 4498,
+      "text": "✖ starter ownership includes both staff and real procedural sword (31.531454ms)"
+    }
+  ],
+  "syntaxFailureCount": 2,
+  "syntaxFailures": [
+    {
+      "context": [
+        "test at src/test/assets/botanicalAssetSources.test.mjs:35:1",
+        "✖ botanical model policy never selects remote or fake half-model tiers (0.494219ms)",
+        "TypeError: Invalid URL",
+        "at new URL (node:internal/url:840:25)",
+        "at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/assets/botanicalAssetSources.test.mjs:38:39",
+        "at Array.map (<anonymous>)"
+      ],
+      "line": 3588,
+      "text": "TypeError: Invalid URL"
+    },
+    {
+      "context": [
+        "test at src/test/geometry/forestMaterialContract.test.mjs:25:1",
+        "✖ forest uses a natural fallback and idle-keys canonical RGB leaves for a MASK (5.161949ms)",
+        "TypeError: Cannot read properties of undefined (reading 'material')",
+        "at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/forestMaterialContract.test.mjs:31:49)",
+        "at Test.runInAsyncScope (node:async_hooks:227:14)",
+        "at Test.run (node:internal/test_runner/test:1306:25)"
+      ],
+      "line": 3774,
+      "text": "TypeError: Cannot read properties of undefined (reading 'material')"
+    }
+  ],
+  "totals": {
+    "tests": 935,
+    "suites": 0,
+    "pass": 891,
+    "fail": 43,
+    "cancelled": 0,
+    "skipped": 1,
+    "todo": 0
+  }
+}

@@ -4,31 +4,38 @@
 
 /**
  * @file MinimalMeadowEnemyCombatDecision.js
- * @description Converts explicit balance policy into ranges, durations, and slotted attacks.
- * The Awtsmoos joins Gevurah with Chesed; Awtsmoos.com keeps six demons alive and earnest
- * while only appointed attackers may cross the telegraph boundary at one time.
+ * @description Converts mercy policy and enemy archetype into ranges, durations, and slotted attacks.
+ * The Awtsmoos joins Gevurah with Chesed; Awtsmoos.com lets each enemy type hold a readable
+ * distance while only appointed attackers may cross the telegraph boundary at one time.
  */
 
-import { MINIMAL_MEADOW_COMBAT_BALANCE as POLICY } from './MinimalMeadowCombatBalancePolicy.js';
+import {
+	minimalEnemyArchetypePolicy
+} from './MinimalMeadowEnemyArchetypePolicy.js';
+import {
+	MINIMAL_MEADOW_COMBAT_BALANCE as POLICY
+} from './MinimalMeadowCombatBalancePolicy.js';
 import { minimalEnemyPackAlerted } from './MinimalMeadowEnemySteering.js';
 
 export const MINIMAL_ENEMY_LOSS_TIMEOUT = POLICY.lossTimeout;
 
 export function minimalEnemyCombatRanges(combat) {
-	const aggro = minimalEnemyPackAlerted(combat.actor)
+	const behavior = minimalEnemyArchetypePolicy(combat.actor.profile);
+	const baseAggro = minimalEnemyPackAlerted(combat.actor)
 		? POLICY.ranges.alertedAggro
 		: POLICY.ranges.aggro;
+	const aggro = baseAggro * behavior.aggroScale;
 	const suppliedLeash = Number(combat.actor.profile.leashRange) || 38;
 	return Object.freeze({
 		aggro,
-		casterMaximum: POLICY.ranges.casterMaximum,
-		casterMinimum: POLICY.ranges.casterMinimum,
+		casterMaximum: POLICY.ranges.casterMaximum * behavior.casterRangeScale,
+		casterMinimum: POLICY.ranges.casterMinimum * behavior.casterRangeScale,
 		leash: Math.max(
 			aggro + POLICY.ranges.leashPadding,
 			suppliedLeash
 		),
-		meleeMaximum: POLICY.ranges.meleeMaximum,
-		meleeMinimum: POLICY.ranges.meleeMinimum
+		meleeMaximum: POLICY.ranges.meleeMaximum * behavior.meleeRangeScale,
+		meleeMinimum: POLICY.ranges.meleeMinimum * behavior.meleeRangeScale
 	});
 }
 

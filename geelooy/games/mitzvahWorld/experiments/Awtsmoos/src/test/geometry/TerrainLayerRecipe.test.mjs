@@ -4,28 +4,34 @@
 
 /**
  * @file TerrainLayerRecipe.test.mjs
- * @description Proves sixteen logical sources and six packaged first-view terrain maps.
- * The Awtsmoos gives one valley many garments; Awtsmoos.com serves the visible six locally
- * while preserving the complete authored public stack for semantic material provenance.
+ * @description Proves six ecological sources and approved uploaded terrain transport.
+ * The Awtsmoos gives each broad garment a truthful filename; Awtsmoos.com lets tests derive the
+ * distant road from one transport covenant while meadow, soil, mud, stone, leaf-floor, and shore shine.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { remoteFullResolutionTextureUrl } from '../../assets/RemoteTextureCatalog.js';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
-import { MOUNTAIN_VILLAGE_FAMILIES } from '../../world/materials/MountainVillageMaterialSources.js';
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
 import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
+import {
+	completeTerrainImage,
+	minimalTerrainRecipeData,
+	sumTerrainWeights,
+	TERRAIN_HIGH_ROLES,
+	TERRAIN_SOURCE_ROLES
+} from './TerrainLayerRecipeFixture.mjs';
 
-const HIGH_ROLES = [
-	'meadow-wet-grass',
-	'worn-earth',
-	'stream-bank-mud',
-	'mountain-stone',
-	'forest-leaf-floor',
-	'shore-sand'
-];
+const TERRAIN_TRANSPORT_SAMPLE = new URL(
+	remoteFullResolutionTextureUrl('grass 1.png')
+);
+const TERRAIN_TRANSPORT_FOLDER = TERRAIN_TRANSPORT_SAMPLE.pathname.slice(
+	0,
+	TERRAIN_TRANSPORT_SAMPLE.pathname.lastIndexOf('/') + 1
+);
 
-test('quality recipes preserve sixteen logical sources and bounded active roles', () => {
+test('quality recipes preserve six ecological sources and bounded active roles', () => {
 	const low = terrainLayerRecipe('low');
 	const medium = terrainLayerRecipe('medium');
 	const high = terrainLayerRecipe('high');
@@ -34,28 +40,33 @@ test('quality recipes preserve sixteen logical sources and bounded active roles'
 	assert.equal(medium.layers.length, 5);
 	assert.equal(high.layers.length, 6);
 	assert.equal(cinematic.layers.length, 6);
-	assert.equal(cinematic.logicalLayerCount, 16);
-	assert.deepEqual(high.layers.map(layer => layer.role), HIGH_ROLES);
-	assert.deepEqual(cinematic.layers.map(layer => layer.role), HIGH_ROLES);
+	assert.equal(cinematic.logicalLayerCount, 6);
+	assert.deepEqual(high.layers.map(layer => layer.role), TERRAIN_HIGH_ROLES);
+	assert.deepEqual(high.layers.map(layer => layer.sourceRole), TERRAIN_SOURCE_ROLES);
+	assert.deepEqual(cinematic.layers.map(layer => layer.role), TERRAIN_HIGH_ROLES);
 	assert.match(high.shader, /six-stage-material-stack/);
 });
 
-test('logical terrain family retains eight grass maps and three transitions', () => {
-	assert.equal(MOUNTAIN_VILLAGE_FAMILIES.grass.length, 8);
-	assert.equal(new Set(MOUNTAIN_VILLAGE_FAMILIES.grass).size, 8);
-	assert.equal(MOUNTAIN_VILLAGE_FAMILIES.grassTransitions.length, 3);
+test('complete terrain stack retains six distinct source garments', () => {
 	const recipe = terrainLayerRecipe('high');
-	assert.equal(new Set(recipe.stack.layers.map(layer => layer.url)).size, 16);
+	assert.equal(recipe.stack.layers.length, 6);
+	assert.equal(new Set(recipe.stack.layers.map(layer => layer.url)).size, 6);
 	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
 });
 
-test('visible maps are trusted local assets with public provenance', () => {
+test('visible maps use the approved uploaded terrain transport', () => {
 	const recipe = terrainLayerRecipe('cinematic');
-	assert.match(recipe.baseUrl, /assets\/materials\/local\/terrain\/meadow-wet-grass\.png$/);
-	assert.match(recipe.dirtUrl, /assets\/materials\/local\/terrain\/worn-earth\.jpg$/);
+	assert.match(recipe.baseUrl, /full-resolution\/dirt%20grass%206\.png$/);
+	assert.match(recipe.dirtUrl, /full-resolution\/dirt%202\.png$/);
 	for (const layer of recipe.layers) {
+		const parsed = new URL(layer.url);
+		assert.equal(parsed.origin, TERRAIN_TRANSPORT_SAMPLE.origin);
+		assert.equal(parsed.pathname.startsWith(TERRAIN_TRANSPORT_FOLDER), true);
 		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
-		assert.match(layer.publicUrl, /^https:\/\//);
+		assert.equal(
+			assertProductionMaterialUrl(layer.publicUrl, layer.sourceRole),
+			layer.publicUrl
+		);
 		assert.equal(layer.zones.length, 4);
 		assert.equal(layer.slope.length, 2);
 	}
@@ -65,31 +76,35 @@ test('visible maps are trusted local assets with public provenance', () => {
 	}
 });
 
-test('medium terrain carries four zones and five ecological slots', () => {
-	const image = completeImage('./assets/materials/local/terrain/meadow-wet-grass.png');
-	const mesh = createTerrainMesh(terrainData(), image, image, image.src, 'medium');
-	const zones = Array.from(mesh.geometry.attributes.zone.array);
+test('medium terrain carries normalized mixed ecological weights and five slots', () => {
+	const image = completeTerrainImage(
+		remoteFullResolutionTextureUrl('dirt grass 6.png')
+	);
+	const mesh = createTerrainMesh(
+		minimalTerrainRecipeData(),
+		image,
+		image,
+		image.src,
+		'medium'
+	);
+	const firstWeights = Array.from(
+		mesh.geometry.attributes.zone.array.slice(0, 4)
+	);
 	assert.equal(mesh.geometry.attributes.zone.itemSize, 4);
-	assert.deepEqual(zones.slice(0, 3), [1, 0, 0]);
-	assert.ok(Math.abs(zones[3] - 0.45) < 0.00001);
+	assert.ok(firstWeights.every(Number.isFinite));
+	assert.ok(Math.abs(sumTerrainWeights(firstWeights) - 1) < 0.00001);
+	assert.ok(Math.abs(firstWeights[0] - 0.8) < 0.00001);
+	assert.ok(Math.abs(firstWeights[2] - 0.14) < 0.00001);
+	assert.ok(Math.abs(firstWeights[3] - 0.06) < 0.00001);
 	assert.equal(mesh.material.textureLayers.length, 5);
-	assert.equal(mesh.material.materialStack.logicalLayerCount, 16);
-	assert.equal(mesh.material.texturePolicy.shader, 'terrain-layered-six-stage-material-stack');
+	assert.equal(mesh.material.materialStack.logicalLayerCount, 6);
+	assert.equal(
+		mesh.material.texturePolicy.shader,
+		'terrain-layered-six-stage-material-stack'
+	);
 	assert.equal(mesh.userData.AwtsmoosTerrainValley.layerCount, 5);
+	assert.equal(
+		mesh.userData.AwtsmoosTerrainValley.ecologicalWeightPolicy,
+		'strong-six-source-mobile-blend'
+	);
 });
-
-function completeImage(src) {
-	return { complete: true, naturalHeight: 1024, naturalWidth: 1024, src };
-}
-
-function terrainData() {
-	return {
-		AwtsmoosTerrainValley: { zones: 4 },
-		indices: [0, 1, 2],
-		normals: [0, 1, 0, 0, 1, 0, 0, 1, 0],
-		size: 12,
-		uvs: [0, 0, 1, 0, 0, 1],
-		vertices: [{ x: 0, y: 0, z: 0 }, { x: 1, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }],
-		zones: ['village-plaza', 'lake-basin', 'stream-channel']
-	};
-}

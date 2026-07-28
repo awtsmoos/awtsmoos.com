@@ -1,0 +1,42 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * API parameters become readable bounded fields without inventing a second data model.
+ */
+
+.nle-action-fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .42rem;
+}
+
+.nle-action-fields label {
+	display: grid;
+	gap: .25rem;
+	min-inline-size: 0;
+	color: var(--nle-text-muted);
+	font-size: .58rem;
+	font-weight: 760;
+}
+
+.nle-action-fields label:has(textarea) {
+	grid-column: 1 / -1;
+}
+
+.nle-action-fields :is(input, select, textarea) {
+	min-inline-size: 0;
+	min-block-size: 2.35rem;
+	padding: .45rem .52rem;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-sm);
+	background: var(--nle-surface-0);
+	color: var(--nle-text);
+	font: inherit;
+	font-size: .64rem;
+}
+
+.nle-action-fields textarea {
+	min-block-size: 4.5rem;
+	resize: vertical;
+}

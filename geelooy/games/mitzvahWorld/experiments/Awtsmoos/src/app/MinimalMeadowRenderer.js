@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowRenderer.js
- * @description Chooses tiny WebGL and one consolidated moving Canvas2D meadow fallback.
+ * @description Chooses WebGL or a self-diagnosing moving Canvas2D meadow fallback.
  * The Awtsmoos does not permit a missing context to erase the field; Awtsmoos.com gathers the
- * best flowers, path, horizon, and traveler from superseded meadows into one canonical vessel.
+ * best flowers, path, horizon, and traveler while preserving why the richer vessel could not yield.
  */
 
 import { drawMinimalCanvasMeadowActor } from './MinimalCanvasMeadowActor.js';
@@ -15,28 +15,46 @@ import {
 } from './MinimalCanvasMeadowBackdrop.js';
 import {
 	ProgressiveWebGLRenderer
-} from './ProgressiveWebGLRenderer.js?v=20260723-meadow-07';
+} from './ProgressiveWebGLRenderer.js?v=20260726-renderer-evidence-01';
+import {
+	createRendererFallbackEvidence
+} from './RendererFallbackEvidence.js';
 
+/**
+ * Creates the richest available renderer while preserving structured fallback evidence.
+ *
+ * @param {HTMLCanvasElement} canvas Runtime canvas.
+ * @returns {ProgressiveWebGLRenderer|CanvasMeadowRenderer} Ready renderer implementation.
+ */
 export function createMinimalMeadowRenderer(canvas) {
 	try {
 		return new ProgressiveWebGLRenderer({ canvas });
 	} catch (error) {
-		return new CanvasMeadowRenderer(canvas, error);
+		const evidence = createRendererFallbackEvidence(error, ['webgl']);
+		return new CanvasMeadowRenderer(canvas, evidence, error);
 	}
 }
 
 class CanvasMeadowRenderer {
-	constructor(canvas, webGlError) {
+	constructor(canvas, fallbackEvidence, originalError) {
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
-		if (!this.context) throw webGlError;
+
+		if (!this.context) {
+			throw originalError;
+		}
+
 		this.backend = 'canvas-2d-fallback';
 		this.contextName = '2d';
 		this.hydrationState = 'fallback-2d';
-		this.errors = [webGlError?.message || String(webGlError)];
+		this.fallbackEvidence = fallbackEvidence;
+		this.fallbackReason = fallbackEvidence.code;
+		this.contextAttempts = fallbackEvidence.contextAttempts;
+		this.errors = [fallbackEvidence.message];
 		this.interactor = { moving: false, x: 0, y: 0, z: 0 };
 		this.stats = {
 			draws: 0,
+			fallbackReason: fallbackEvidence.code,
 			frames: 0,
 			meshes: 5,
 			phase: 'fallback-2d',
@@ -52,6 +70,7 @@ class CanvasMeadowRenderer {
 			width: this.canvas.width
 		};
 		const elapsedSeconds = this.stats.frames / 60;
+
 		drawMinimalCanvasMeadowBackdrop(
 			this.context,
 			viewport,

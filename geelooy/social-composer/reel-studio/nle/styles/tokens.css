@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives one measured visual language to every finite NLE surface;
+ * Awtsmoos.com records color, spacing, depth, motion, and editorial meaning.
+ */
+
+:root {
+	--nle-bg: #07090d;
+	--nle-surface-0: #090c12;
+	--nle-surface-1: #0e131b;
+	--nle-surface-2: #131a24;
+	--nle-surface-3: #192230;
+	--nle-surface-raised: #1f2937;
+	--nle-border-soft: rgba(214, 225, 238, .08);
+	--nle-border: rgba(214, 225, 238, .14);
+	--nle-border-strong: rgba(214, 225, 238, .24);
+	--nle-text: #f1f5f9;
+	--nle-text-soft: #c4ced9;
+	--nle-text-muted: #8795a6;
+	--nle-text-faint: #637083;
+	--nle-violet: #b978ef;
+	--nle-violet-strong: #8d4bc3;
+	--nle-violet-soft: rgba(185, 120, 239, .16);
+	--nle-amber: #f2c96d;
+	--nle-amber-strong: #d9a83c;
+	--nle-amber-soft: rgba(242, 201, 109, .15);
+	--nle-cyan: #59bdd2;
+	--nle-cyan-soft: rgba(89, 189, 210, .17);
+	--nle-green: #78bd76;
+	--nle-green-soft: rgba(120, 189, 118, .17);
+	--nle-ochre: #d59a4e;
+	--nle-ochre-soft: rgba(213, 154, 78, .17);
+	--nle-danger: #ff8e8e;
+	--nle-danger-soft: rgba(255, 142, 142, .14);
+	--nle-focus: #e5b8ff;
+	--nle-radius-xs: .38rem;
+	--nle-radius-sm: .58rem;
+	--nle-radius-md: .78rem;
+	--nle-radius-lg: 1rem;
+	--nle-radius-xl: 1.3rem;
+	--nle-control-sm: 2.25rem;
+	--nle-control: 2.65rem;
+	--nle-control-lg: 3rem;
+	--nle-space-1: .3rem;
+	--nle-space-2: .5rem;
+	--nle-space-3: .75rem;
+	--nle-space-4: 1rem;
+	--nle-space-5: 1.35rem;
+	--nle-shadow-soft: 0 .5rem 1.4rem rgba(0, 0, 0, .22);
+	--nle-shadow-raised: 0 1rem 2.5rem rgba(0, 0, 0, .38);
+	--nle-shadow-canvas: 0 1.6rem 4rem rgba(0, 0, 0, .56);
+	--nle-transition: 150ms ease;
+	--nle-track-label-width: 10rem;
+	--nle-scrollbar: #3a4657;
+	--nle-scrollbar-track: #0a0e15;
+}

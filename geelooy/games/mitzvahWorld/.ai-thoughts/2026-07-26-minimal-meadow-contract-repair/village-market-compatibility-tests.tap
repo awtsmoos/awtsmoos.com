@@ -1,0 +1,44 @@
+src/world/village/VillageLandmarkMaterials.js_logical_lines=57
+src/world/village/VillageMarketOptions.js_logical_lines=94
+src/world/village/VillageMarketBuilder.js_logical_lines=112
+src/world/village/VillageLandmarkPrimitive.js_logical_lines=92
+(node:31994) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageFurnitureDefinitions.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ general furniture delegates all market pieces to MARKET01 (33.836578ms)
+✖ the canonical builder remains the only market visual source (35.861935ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 646.786796
+
+✖ failing tests:
+
+test at src/test/world/villageMarketOwnership.test.mjs:37:1
+✖ the canonical builder remains the only market visual source (35.861935ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(ids.some(id => id === 'Awtsmoos_market_hall_floor'))
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/villageMarketOwnership.test.mjs:47:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+test_exit=1
+diff_check_exit=0

@@ -1,0 +1,56 @@
+logical_lines=42
+(node:38559) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/BotanicalAssetSources.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ flower aliases preserve color identity while sharing one local model (1.681732ms)
+✔ botanical model policy never selects remote or fake half-model tiers (0.622557ms)
+{
+  "ok": true,
+  "species": 123,
+  "archetypes": 15,
+  "waterResults": [
+    "iris",
+    "forget-me-not",
+    "marsh-marigold",
+    "water-avens",
+    "creeping-jenny",
+    "hosta",
+    "hosta-flower",
+    "creeping-mazus"
+  ]
+}
+✔ src/test/botany/botanicalCatalog.test.mjs (1124.298434ms)
+{
+  "ok": true,
+  "species": 123,
+  "qualities": [
+    "low",
+    "medium",
+    "high",
+    "cinematic"
+  ],
+  "totalTrianglesByQuality": {
+    "low": 7350,
+    "medium": 9486,
+    "high": 15014,
+    "cinematic": 20840
+  },
+  "cluster": {
+    "instances": 12,
+    "parts": 3,
+    "vertices": 984,
+    "triangles": 1032
+  }
+}
+✔ src/test/botany/botanicalGeometry.test.mjs (1207.77807ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1240.869314
+test_exit=0
+diff_check_exit=0

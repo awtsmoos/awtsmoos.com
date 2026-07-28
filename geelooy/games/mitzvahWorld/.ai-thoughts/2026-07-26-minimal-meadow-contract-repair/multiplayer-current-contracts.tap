@@ -1,0 +1,61 @@
+(node:43919) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridge.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local authority receives exact runtime x/y/z/facing/moving state (6.881042ms)
+✔ websocket authority retains normalized input commands (1.078913ms)
+✖ multiplayer launcher helper attaches its live controller and reports peers (36.892537ms)
+(node:43920) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the canonical local, NPC, and remote actor asset is packaged chossid.glb (2.728589ms)
+✔ near keeps the complete body while mid and distant use one proxy vessel (3.916778ms)
+✔ selection and Shlichus focus restore the exact animated body immediately (1.072809ms)
+(node:43921) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[MitzvahWorld] Multiplayer offline; continuing locally. TypeError: Cannot read properties of null (reading 'playerId')
+    at AuthoritativeMultiplayerBridge.start (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridge.js?v=20260722-stream-02:35:31)
+    at MultiplayerEretzRuntime.start (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSession.js:65:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/network/multiplayerEntryNonBlocking.test.mjs:30:2)
+    at async Test.run (node:internal/test_runner/test:1313:7)
+    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+✔ playable diagnostics return while multiplayer connection remains pending (462.659991ms)
+(node:43929) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerTransportIdentity.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ transport identity reuses the canonical local-tab selector (2.715734ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1288.648986
+
+✖ failing tests:
+
+test at src/test/AuthoritativeMultiplayerBridge.test.mjs:77:1
+✖ multiplayer launcher helper attaches its live controller and reports peers (36.892537ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'idle'
+  - 'connected'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/AuthoritativeMultiplayerBridge.test.mjs:97:9)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'idle',
+    expected: 'connected',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

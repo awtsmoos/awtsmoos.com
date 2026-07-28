@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCameraRig.js
- * @description Restores the historical orbit, drag, pinch, wheel, and pointer-lock camera.
- * The Awtsmoos renews traveler and witness together; Awtsmoos.com follows keyboard turning
- * while still allowing the hand to orbit freely around hills and the living Chossid.
+ * @description Bridges WoW-style mouse chords into camera orbit, player facing, and forward intent.
+ * The Awtsmoos distinguishes observer and traveler without separating them; Awtsmoos.com lets
+ * left drag move only sight, right drag bind sight to facing, and both buttons walk that direction.
  */
 
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
@@ -27,6 +27,29 @@ export class MinimalMeadowCameraRig {
 		this.orbit.yaw += turnDelta;
 	}
 
+	synchronizeFacing(state) {
+		if (!this.mouseState().rightDown) return false;
+		state.facing = this.orbit.yaw;
+		state.travelFacing = this.orbit.yaw;
+		return true;
+	}
+
+	mouseMovementAxis() {
+		return {
+			forward: this.mouseState().moveForward ? 1 : 0,
+			strafe: 0,
+			turn: 0
+		};
+	}
+
+	locksPlayerFacing() {
+		return this.mouseState().rightDown;
+	}
+
+	mouseState() {
+		return this.orbit.gestures?.mouseState?.() || EMPTY_MOUSE_STATE;
+	}
+
 	update(camera, state, octree, deltaSeconds = 1 / 60) {
 		const target = {
 			x: state.x,
@@ -41,8 +64,21 @@ export class MinimalMeadowCameraRig {
 		return {
 			distance: this.orbit.currentDistance,
 			mode: this.orbit.mode,
+			mouse: this.mouseState(),
 			pitch: this.orbit.pitch,
 			yaw: this.orbit.yaw
 		};
 	}
+
+	destroy() {
+		this.orbit.gestures?.destroy?.();
+	}
 }
+
+const EMPTY_MOUSE_STATE = Object.freeze({
+	buttons: 0,
+	leftDown: false,
+	mode: 'none',
+	moveForward: false,
+	rightDown: false
+});

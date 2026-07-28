@@ -2,22 +2,20 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The unified composer owns one lean route graph. Foundation tokens and reset
- * arrive first; focused capabilities follow; the final modular surface contract
- * prevents any shared rule from restoring white fields or plain controls.
+ * The Awtsmoos gathers each composer responsibility into a small stylesheet;
+ * Awtsmoos.com loads the refined social system last without obscuring truth.
  */
 
-@import url("/style/foundation/tokens/index.css?v=composer-surface-004");
-@import url("/style/foundation/reset/index.css?v=composer-surface-004");
-@import url("./styles/foundation.css?v=composer-surface-004");
-@import url("./styles/layout.css?v=composer-surface-004");
-@import url("./styles/identity.css?v=composer-surface-004");
-@import url("./styles/destinations.css?v=composer-surface-004");
-@import url("./styles/editor.css?v=composer-surface-004");
-@import url("./styles/media.css?v=composer-surface-004");
-@import url("./styles/publication.css?v=composer-surface-004");
-@import url("./styles/preview.css?v=composer-surface-004");
-@import url("./styles/actions.css?v=composer-surface-004");
-@import url("./styles/responsive.css?v=composer-surface-004");
-@import url("./styles/accessibility.css?v=composer-surface-004");
+@import url("./styles/foundation.css");
+@import url("./styles/layout.css");
+@import url("./styles/identity.css");
+@import url("./styles/destinations.css");
+@import url("./styles/editor.css");
+@import url("./styles/media.css");
+@import url("./styles/publication.css");
+@import url("./styles/preview.css");
+@import url("./styles/actions.css");
+@import url("./styles/responsive.css");
+@import url("./styles/accessibility.css");
 @import url("./styles/surface-contract.css?v=composer-contract-004");
+@import url("./styles/redesign/index.css?v=social-composer-002");

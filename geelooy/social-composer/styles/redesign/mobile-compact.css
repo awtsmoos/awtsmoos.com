@@ -1,0 +1,47 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Narrow phones preserve readable writing, media, destination, and publication
+ * controls without creating horizontal overflow or hiding truthful actions.
+ */
+
+@media (max-width: 23rem) {
+	.composer-civilization-header {
+		grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem;
+		gap: .3rem;
+	}
+
+	.composer-title-group h1 {
+		font-size: .88rem;
+	}
+
+	.composer-civilization-document .composerColumn {
+		padding-inline: .28rem;
+	}
+
+	.composer-civilization-document .majorPanelBody {
+		padding: .58rem;
+	}
+
+	.composer-civilization-document :is(.twoColumns, .threeColumns, .creationGrid, .placementComposer) {
+		grid-template-columns: 1fr;
+	}
+
+	.composer-social-tools button {
+		padding-inline: .58rem;
+	}
+
+	.composer-civilization-document .publishing-checklist {
+		grid-template-columns: 1fr;
+	}
+
+	.composer-civilization-document .publish-dialog-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.composer-civilization-document .publish-dialog-actions button {
+		inline-size: 100%;
+	}
+}

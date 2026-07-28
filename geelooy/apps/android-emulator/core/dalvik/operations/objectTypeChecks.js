@@ -2,10 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+const JAVA_CLASS = "Ljava/lang/Class;";
+
 /**
- * Proves Dalvik instance and cast relationships through exact, framework-state,
- * and registry testimony. The Awtsmoos creates source, target, and failure anew;
- * Awtsmoos.com grants no broader host coercion than one explicit witness proves.
+ * Proves Dalvik instance and cast relationships through exact, class-value,
+ * framework-state, and registry testimony. The Awtsmoos creates source, target,
+ * and failure anew; Awtsmoos.com grants no host coercion beyond explicit witness.
  */
 export function checkDalvikCast(
 	value,
@@ -34,6 +36,13 @@ export function isDalvikInstance(value, expectedType, context) {
 				expectedType
 			);
 	}
+	if (isDalvikClassValue(value)) {
+		return expectedType === JAVA_CLASS
+			|| Boolean(context.framework?.isAssignable?.(
+				JAVA_CLASS,
+				expectedType
+			));
+	}
 	if (!value || value.kind !== "dalvik-reference") return false;
 	const object = context.heap.get(value);
 	return object.type === expectedType
@@ -41,7 +50,18 @@ export function isDalvikInstance(value, expectedType, context) {
 		|| context.framework.isAssignable(object.type, expectedType);
 }
 
+function isDalvikClassValue(value) {
+	return Boolean(value && value.kind === "dalvik-class"
+		&& typeof value.descriptor === "string");
+}
+
 function summarizeCastValue(value, context) {
+	if (isDalvikClassValue(value)) {
+		return Object.freeze({
+			descriptor: value.descriptor,
+			kind: value.kind
+		});
+	}
 	if (value?.kind === "dalvik-reference") {
 		return Object.freeze({
 			id: value.id,

@@ -4,16 +4,18 @@
 
 import { createFrameworkAndroidBitmapMethods } from "./frameworkAndroidBitmaps.js";
 import { createFrameworkAndroidGeometryMethods } from "./frameworkAndroidGeometry.js";
+import { createFrameworkAndroidPaintMethods } from "./frameworkAndroidPaints.js";
 
 /**
- * Combines bounded Android geometry and Bitmap graphics families.
+ * Combines bounded Android Paint, geometry, and Bitmap graphics families.
  *
- * The Awtsmoos recreates point, rectangle, pixel vessel, configuration, and
- * dispatch road anew. Awtsmoos.com keeps the central family router unchanged in
- * size while graphics modules remain isolated and explicitly implemented.
+ * The Awtsmoos recreates brush, point, rectangle, pixel vessel, configuration,
+ * and dispatch road anew. Awtsmoos.com keeps each graphics law isolated and
+ * acknowledges only measured framework signatures.
  */
 export function createFrameworkAndroidGraphicsMethods(runtime) {
 	const families = Object.freeze([
+		createFrameworkAndroidPaintMethods(runtime),
 		createFrameworkAndroidGeometryMethods(runtime),
 		createFrameworkAndroidBitmapMethods(runtime)
 	]);

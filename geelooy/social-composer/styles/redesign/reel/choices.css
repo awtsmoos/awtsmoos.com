@@ -1,0 +1,116 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Upload and MitzvahWorld creation become equal, unmistakable doors with type-led
+ * icon medallions and restrained supporting copy.
+ */
+
+.reel-choice-screen {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-content: center;
+	gap: 1rem;
+	min-block-size: 100%;
+	padding: clamp(1rem, 3vw, 2.25rem);
+	background:
+		radial-gradient(circle at 30% 30%, rgba(89, 189, 210, .07), transparent 28%),
+		radial-gradient(circle at 72% 65%, rgba(185, 120, 239, .08), transparent 30%),
+		var(--reel-surface-0);
+}
+
+.reel-choice-card {
+	position: relative;
+	display: grid;
+	grid-template-columns: 3.6rem minmax(0, 1fr);
+	align-content: center;
+	align-items: center;
+	gap: .25rem .9rem;
+	min-block-size: 14.5rem;
+	padding: 1.25rem;
+	border: 1px solid var(--reel-border);
+	border-radius: var(--reel-radius-lg);
+	background: linear-gradient(145deg, var(--reel-surface-2), #101721);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .025), var(--reel-shadow-card);
+	color: var(--reel-text);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+	overflow: hidden;
+	transition: border-color var(--reel-transition), transform var(--reel-transition), background var(--reel-transition);
+}
+
+.reel-choice-card::after {
+	position: absolute;
+	inset: auto -10% -42% 35%;
+	block-size: 70%;
+	border-radius: 50%;
+	background: rgba(185, 120, 239, .09);
+	filter: blur(18px);
+	content: '';
+	pointer-events: none;
+}
+
+.reel-choice-card > span {
+	position: relative;
+	z-index: 1;
+	grid-row: 1 / 4;
+	display: grid;
+	inline-size: 3.6rem;
+	block-size: 3.6rem;
+	place-items: center;
+	border: 1px solid rgba(89, 189, 210, .28);
+	border-radius: var(--reel-radius-md);
+	background: var(--reel-cyan-soft);
+	color: #c8f0f7;
+	font-size: 1.25rem;
+}
+
+.reel-world-choice > span {
+	border-color: rgba(185, 120, 239, .3);
+	background: var(--reel-violet-soft);
+	color: #eccfff;
+}
+
+.reel-choice-card strong,
+.reel-choice-card p,
+.reel-choice-card small {
+	position: relative;
+	z-index: 1;
+	grid-column: 2;
+}
+
+.reel-choice-card strong {
+	font-size: 1.02rem;
+	letter-spacing: -.015em;
+}
+
+.reel-choice-card p {
+	margin: .15rem 0 0;
+	color: var(--reel-text-muted);
+	font-size: .76rem;
+	line-height: 1.55;
+}
+
+.reel-choice-card small {
+	margin-block-start: .25rem;
+	color: var(--reel-text-soft);
+	font-size: .64rem;
+	font-weight: 720;
+}
+
+.reel-choice-card input {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+@media (hover: hover) {
+	.reel-choice-card:hover {
+		border-color: rgba(185, 120, 239, .42);
+		background: linear-gradient(145deg, var(--reel-surface-3), #131b26);
+		transform: translateY(-2px);
+	}
+}

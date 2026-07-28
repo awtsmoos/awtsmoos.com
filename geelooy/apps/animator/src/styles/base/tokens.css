@@ -1,15 +1,45 @@
-/* B"H - Shared design tokens. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews one finite studio grammar; Awtsmoos.com lets every panel,
+ * timeline, focus ring, warning, and touch target share an accessible vocabulary.
+ */
 :root {
-  --aw-bg: #05060b;
-  --aw-panel: rgba(10, 14, 24, 0.94);
-  --aw-panel-2: rgba(22, 27, 43, 0.92);
-  --aw-line: rgba(255, 255, 255, 0.13);
-  --aw-line-strong: rgba(255, 255, 255, 0.24);
-  --aw-text: #f7f8ff;
-  --aw-muted: rgba(247, 248, 255, 0.68);
-  --aw-hot: rgba(111, 143, 255, 0.62);
-  --aw-radius: 18px;
-  --aw-shadow: 0 18px 54px rgba(0, 0, 0, 0.46);
-  --aw-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --aw-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+	--aw-bg: #07090f;
+	--aw-workspace: #0b0e16;
+	--aw-panel: #101520;
+	--aw-panel-raised: #171d2a;
+	--aw-panel-inset: #0c1019;
+	--aw-control: #202839;
+	--aw-control-hover: #2a354a;
+	--aw-control-active: #344461;
+	--aw-line: rgba(221, 229, 246, 0.12);
+	--aw-line-strong: rgba(221, 229, 246, 0.24);
+	--aw-line-focus: #8eb4ff;
+	--aw-text: #f1f4fa;
+	--aw-text-soft: #c8d0df;
+	--aw-muted: #8d98aa;
+	--aw-selection: #709dff;
+	--aw-selection-soft: rgba(112, 157, 255, 0.2);
+	--aw-playhead: #ff5878;
+	--aw-success: #64d5a1;
+	--aw-warning: #f0bd65;
+	--aw-danger: #ff8093;
+	--aw-space-1: 4px;
+	--aw-space-2: 8px;
+	--aw-space-3: 12px;
+	--aw-space-4: 16px;
+	--aw-space-5: 24px;
+	--aw-radius-sm: 6px;
+	--aw-radius-md: 10px;
+	--aw-radius-lg: 16px;
+	--aw-radius: var(--aw-radius-lg);
+	--aw-control-height: 34px;
+	--aw-touch-height: 44px;
+	--aw-shadow: 0 18px 54px rgba(0, 0, 0, 0.46);
+	--aw-focus: 0 0 0 2px var(--aw-bg), 0 0 0 4px var(--aw-line-focus);
+	--aw-fast: 100ms;
+	--aw-normal: 180ms;
+	--aw-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--aw-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }

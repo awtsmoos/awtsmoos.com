@@ -4,21 +4,39 @@
 
 /**
  * @file GameplayTextureStreamingGate.js
- * @description Starts optional material hydration only after visible gameplay frames.
- * The Awtsmoos gives form before garment; Awtsmoos.com keeps this gate tiny so importing
- * the runtime doorway never drags the complete enrichment graph into the first request wave.
+ * @description Defers startable material enrichment until two playable frame boundaries pass.
+ * The Awtsmoos reveals control before ornament and grants each frame its appointed breath;
+ * Awtsmoos.com keeps legacy receipts untouched while living streams begin beyond first sight's depth.
  */
 
-export function startGameplayTextureStreaming(assets, scheduleFrame = frameScheduler) {
-	const stream = assets?.publicMaterialStreaming;
-	if (typeof stream?.start !== 'function') return false;
-	scheduleFrame(() => scheduleFrame(() => stream.start()));
+/**
+ * Starts a modern material stream only after two injected frame handoffs.
+ *
+ * @param {object} assets Runtime asset receipt.
+ * @param {Function} requestFrame Frame scheduler compatible with requestAnimationFrame.
+ * @returns {boolean} Whether a startable stream was accepted and scheduled.
+ */
+export function startGameplayTextureStreaming(
+	assets,
+	requestFrame = globalThis.requestAnimationFrame?.bind(globalThis)
+) {
+	const streaming = assets?.publicMaterialStreaming;
+
+	if (typeof streaming?.start !== 'function') {
+		return false;
+	}
+
+	if (typeof requestFrame !== 'function') {
+		streaming.start();
+		return true;
+	}
+
+	requestFrame(() => {
+		requestFrame(() => {
+			streaming.start();
+		});
+	});
 	return true;
 }
 
-function frameScheduler(callback) {
-	if (typeof requestAnimationFrame === 'function') {
-		return requestAnimationFrame(callback);
-	}
-	return setTimeout(callback, 0);
-}
+export default startGameplayTextureStreaming;

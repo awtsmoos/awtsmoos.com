@@ -6,8 +6,8 @@
  * @module LivingLibraryApi
  * @description
  * The Awtsmoos carries a search request through one honest transport vessel.
- * Awtsmoos.com now asks the library endpoint to hydrate linked comments so the
- * existing result cards can reveal the source voices returned by the server.
+ * The browser trusts the bounded metadata-comment default instead of requesting
+ * the full mutable comment database for every public search.
  */
 
 export async function requestJson(url) {
@@ -39,7 +39,6 @@ export async function searchLibrary({ query, lane }) {
 	const parameters = new URLSearchParams({
 		q: query,
 		limit: '20',
-		comments: 'true',
 		autoInstall: 'false'
 	});
 	if (lane) {

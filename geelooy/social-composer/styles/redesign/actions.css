@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Publishing remains the only dominant action while saving, previewing, clearing,
+ * creating, and cancelling retain distinct but subordinate evidence.
+ */
+
+.composer-civilization-document button,
+.composer-civilization-document .civilization-button {
+	min-block-size: var(--composer-control);
+	padding: .5rem .72rem;
+	border: 1px solid var(--composer-border);
+	border-radius: var(--composer-radius-sm);
+	background: var(--composer-surface-2);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .025);
+	color: var(--composer-text-soft);
+	font: inherit;
+	font-size: .72rem;
+	font-weight: 790;
+	line-height: 1;
+	text-decoration: none;
+	cursor: pointer;
+	transition: border-color var(--composer-transition), background var(--composer-transition), color var(--composer-transition), transform var(--composer-transition);
+}
+
+.composer-civilization-document button:active,
+.composer-civilization-document .civilization-button:active {
+	transform: translateY(1px);
+}
+
+.composer-civilization-document :is(.primaryAction, .publishButton, [data-publish-confirm]) {
+	border-color: rgba(242, 201, 109, .68);
+	background: linear-gradient(180deg, #f7da8b, var(--composer-amber));
+	box-shadow: 0 .35rem .9rem rgba(217, 168, 60, .16);
+	color: #211706;
+}
+
+.composer-civilization-document :is(#clearDraftButton, [data-section-remove], [data-subsection-remove], [data-media-remove]) {
+	border-color: rgba(255, 146, 146, .2);
+	background: var(--composer-danger-soft);
+	color: #ffc1c1;
+}
+
+.composer-civilization-document .sectionHeading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.composer-civilization-document .sectionHeading > :is(p, h3) {
+	margin: 0;
+}
+
+.composer-civilization-document .actionBar {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .45rem;
+	padding: .65rem;
+	border: 1px solid var(--composer-border);
+	border-radius: var(--composer-radius-lg);
+	background: linear-gradient(180deg, var(--composer-surface-2), var(--composer-surface-1));
+	box-shadow: var(--composer-shadow-soft);
+}
+
+.composer-civilization-document .actionBar .publishButton {
+	grid-column: 1 / -1;
+	grid-row: 1;
+	min-block-size: var(--composer-control-lg);
+	font-size: .86rem;
+}
+
+.composer-civilization-document .statusMessage {
+	padding: .7rem .8rem;
+	border: 1px solid var(--composer-border);
+	border-radius: var(--composer-radius-md);
+	background: var(--composer-surface-2);
+	color: var(--composer-text-soft);
+}
+
+.composer-civilization-document dialog {
+	max-inline-size: min(32rem, calc(100vw - 2rem));
+	padding: 1rem;
+	border: 1px solid var(--composer-border-strong);
+	border-radius: var(--composer-radius-lg);
+	background: var(--composer-surface-1);
+	box-shadow: var(--composer-shadow-raised);
+	color: var(--composer-text);
+}
+
+.composer-civilization-document dialog::backdrop {
+	background: rgba(3, 5, 9, .78);
+	backdrop-filter: blur(7px);
+}
+
+.composer-civilization-document .publish-dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: .55rem;
+	margin-block-start: 1rem;
+}

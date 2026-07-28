@@ -1,72 +1,29 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @module ComposerAssembly
  * @description
- * Focused services are assembled without hiding their contracts inside startup.
- * The Awtsmoos gives their unity; Awtsmoos.com keeps identity, destination, rich
- * editing, media, preview, drafts, and publication independently inspectable.
+ * Focused services assemble without hiding their contracts inside startup. The
+ * Awtsmoos gives unity while Awtsmoos.com keeps identity, playlists, editing,
+ * reels, preview, drafts, and publication independently inspectable.
  */
+
 import { SocialComposerApi } from './api/SocialComposerApi.js';
 import { createController } from './ControllerAssembly.js';
-import { DestinationCreation } from './destination/DestinationCreation.js';
-import { DestinationPanel } from './destination/DestinationPanel.js';
-import { SecondaryPlacementPanel } from './destination/SecondaryPlacementPanel.js';
-import { BlockEditor } from './editor/BlockEditor.js';
-import { SectionEditor } from './editor/SectionEditor.js';
-import { SubsectionEditor } from './editor/SubsectionEditor.js';
+import { createDestinationAssembly } from './DestinationAssembly.js';
+import { createEditorAssembly } from './EditorAssembly.js';
 import { AliasMemory } from './identity/AliasMemory.js';
 import { AliasPanel } from './identity/AliasPanel.js';
-import { AttachmentStore } from './media/AttachmentStore.js';
-import { MediaPanel } from './media/MediaPanel.js';
-import { MediaUploader } from './media/MediaUploader.js';
+import { createReelAssembly } from './ReelAssembly.js';
 import { PostPreview } from './render/PostPreview.js';
 import { ComposerState } from './state/ComposerState.js';
 import { LocalDraftRepository } from './state/LocalDraftRepository.js';
-import { ComposerActions } from './ui/ComposerActions.js';
 import { ComposerWorkflow } from './ui/ComposerWorkflow.js';
 import { StatusView } from './ui/StatusView.js';
-function editorAssembly(state, status) {
-	const attachments = new AttachmentStore(state);
-	const uploader = new MediaUploader(attachments);
-	const actions = new ComposerActions(state, attachments, uploader, status);
-	const mediaPanel = new MediaPanel(actions.mediaActions());
-	const blockEditor = new BlockEditor(actions.block);
-	const subsectionEditor = new SubsectionEditor(blockEditor, mediaPanel, actions);
-	return {
-		actions,
-		mediaPanel,
-		blockEditor,
-		sectionEditor: new SectionEditor(
-			blockEditor,
-			mediaPanel,
-			subsectionEditor,
-			actions
-		)
-	};
-}
-function destinationAssembly({ state, api, status }) {
-	const secondaryPanel = new SecondaryPlacementPanel({ root: document, state });
-	let panel;
-	const creation = new DestinationCreation({
-		root: document,
-		state,
-		api,
-		status,
-		onCreated: detail => panel.open(detail)
-	});
-	panel = new DestinationPanel({
-		root: document,
-		state,
-		api,
-		status,
-		creation,
-		secondaryPanel
-	});
-	return panel;
-}
-function workflowAssembly({ state, localDrafts, api, status, context }) {
+
+function createWorkflow({ state, localDrafts, api, status, context }) {
 	return new ComposerWorkflow({
 		state,
 		localDrafts,
@@ -78,13 +35,15 @@ function workflowAssembly({ state, localDrafts, api, status, context }) {
 		}
 	});
 }
+
 export function createComposer(context) {
 	const state = new ComposerState(context);
 	const localDrafts = new LocalDraftRepository();
 	const api = new SocialComposerApi();
 	const status = new StatusView(document.getElementById('statusMessage'));
-	const editor = editorAssembly(state, status);
-	const destinationPanel = destinationAssembly({ state, api, status });
+	const editor = createEditorAssembly(state, status);
+	const destinationPanel = createDestinationAssembly({ state, api, status });
+	const reel = createReelAssembly({ editor, status });
 	const aliasPanel = new AliasPanel({
 		root: document,
 		state,
@@ -97,7 +56,7 @@ export function createComposer(context) {
 		document.getElementById('postPreview'),
 		document.getElementById('payloadInspector')
 	);
-	const workflow = workflowAssembly({ state, localDrafts, api, status, context });
+	const workflow = createWorkflow({ state, localDrafts, api, status, context });
 	const controller = createController({
 		state,
 		localDrafts,
@@ -109,10 +68,16 @@ export function createComposer(context) {
 		preview,
 		editor
 	});
-	return { state, controller, workflow, destinationPanel, aliasPanel };
+	return {
+		aliasPanel,
+		controller,
+		destinationPanel,
+		reel,
+		state,
+		workflow
+	};
 }
+
 export {
-	editorAssembly,
-	destinationAssembly,
-	workflowAssembly
+	createWorkflow
 };

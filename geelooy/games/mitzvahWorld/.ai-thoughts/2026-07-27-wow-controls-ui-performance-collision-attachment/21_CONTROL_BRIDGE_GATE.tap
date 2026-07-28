@@ -1,0 +1,32 @@
+lines:experiments/Awtsmoos/src/camera/CameraGestureRuntime.js=113
+lines:experiments/Awtsmoos/src/camera/CameraGestureController.js=82
+lines:experiments/Awtsmoos/src/app/BootstrapMovementController.js=126
+oversized:experiments/Awtsmoos/src/app/BootstrapMovementController.js:126
+(node:76503) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H HUD writes are paint-bound and cadence-limited (40.394616ms)
+(node:76504) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H timer fallback preserves the pending animation frame (72.37611ms)
+(node:76505) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mouse chords distinguish camera-only, player-bound, and forward modes (8.643444ms)
+✔ B"H right drag synchronizes facing while left drag does not (3.230875ms)
+✔ B"H A and D strafe and every focus loss clears movement (171.303132ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2467.39482
+syntax_exit=0
+oversized_exit=1
+test_exit=0

@@ -1,0 +1,26 @@
+(node:8248) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H only thin exterior walls receive mobile camera-safe reverse faces (3.341964ms)
+✔ B"H released controls retain the last meaningful travel facing (0.450433ms)
+✔ B"H Bag exposes every authoritative slot and starts with both tefillin (55.193696ms)
+✔ B"H demon surface remains dark-themed but visibly textured (13.524802ms)
+✔ B"H Shlichus offers a five-shadow story and tracks faces with percentage (13.344649ms)
+✔ B"H teaching placement persists side or book-only mode (2.94311ms)
+(node:8249) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ materials share images while actor feedback remains independent (69.739491ms)
+✔ controlled families bound cache growth and preserve variation (1.072557ms)
+✔ extreme colors normalize into a bounded daylight-readable range (1.722382ms)
+✔ continuous demon keeps one render surface and one root bone (14403.874417ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15250.03931

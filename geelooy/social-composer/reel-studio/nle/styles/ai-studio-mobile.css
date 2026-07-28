@@ -1,0 +1,93 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Phones receive the complete AI contract as a safe-area-aware full-screen chamber
+ * with independently scrolling brief or JSON and reachable authoring actions.
+ */
+
+@media (max-width: 52rem) {
+	.nle-ai-dialog {
+		position: fixed;
+		inset: 0;
+		inline-size: 100vw;
+		block-size: 100dvh;
+		margin: 0;
+	}
+
+	.nle-ai-studio {
+		inset: 0;
+		inline-size: 100vw;
+		block-size: 100dvh;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		transform: none;
+	}
+
+	.nle-ai-header {
+		padding: calc(.7rem + env(safe-area-inset-top)) .7rem .65rem;
+	}
+
+	.nle-ai-header h2 {
+		font-size: .94rem;
+	}
+
+	.nle-ai-header p {
+		display: none;
+	}
+
+	.nle-ai-tabs {
+		padding-inline: .55rem;
+	}
+
+	.nle-ai-tabs button {
+		flex: 1;
+	}
+
+	.nle-ai-brief,
+	.nle-ai-json {
+		padding: .65rem;
+	}
+
+	.nle-ai-brief-grid,
+	.nle-ai-lists {
+		grid-template-columns: 1fr;
+	}
+
+	.nle-ai-json textarea {
+		min-block-size: 55vh;
+	}
+
+	.nle-ai-actions {
+		grid-template-columns: 1fr;
+		gap: .45rem;
+		padding: .55rem .55rem calc(.55rem + env(safe-area-inset-bottom));
+	}
+
+	.nle-ai-actions > div {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.nle-ai-actions button {
+		min-inline-size: 0;
+		padding-inline: .3rem;
+	}
+
+	.nle-ai-actions .nle-ai-apply {
+		grid-column: 1 / -1;
+		grid-row: 1;
+		min-block-size: 2.7rem;
+	}
+}
+
+@media (max-width: 23rem) {
+	.nle-ai-actions > div {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.nle-ai-actions .nle-ai-apply {
+		grid-column: 1 / -1;
+	}
+}

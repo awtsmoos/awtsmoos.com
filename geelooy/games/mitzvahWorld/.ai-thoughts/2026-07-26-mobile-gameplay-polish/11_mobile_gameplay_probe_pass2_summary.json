@@ -1,0 +1,130 @@
+{
+  "error": {
+    "message": "The expression evaluated to a falsy value:\n\n  assert.ok(value.core.demons.every((demon) => {\n",
+    "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(value.core.demons.every((demon) => {\n\n    at assertMobileGameplayReceipt (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-mobile-gameplay-polish/MobileGameplayProbeAssertions.mjs:28:9)\n    at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-mobile-gameplay-polish/mobile-gameplay-probe.mjs:64:2"
+  },
+  "featurePhase": "ready",
+  "demons": [
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.4146479632163267,
+      "mapped": true,
+      "name": "Tzel Chai"
+    },
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.3399936113558538,
+      "mapped": true,
+      "name": "Esh Katan"
+    },
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.42,
+      "mapped": true,
+      "name": "Ruach Afelah"
+    },
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.34422736659991426,
+      "mapped": true,
+      "name": "Shomer Hoshech"
+    },
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.3984135742823972,
+      "mapped": true,
+      "name": "Ketem Layla"
+    },
+    {
+      "emissiveStrength": 0.06,
+      "luminance": 0.42000000000000004,
+      "mapped": true,
+      "name": "Ayin Raash"
+    }
+  ],
+  "facing": {
+    "moving": 1.5707963267948966,
+    "released": 1.5707963267948966,
+    "retained": true
+  },
+  "shlichusOffer": {
+    "acceptButton": true,
+    "story": "\n\t\t\n\t\t\t×\n\t\t\t\n\t\t\t\tב״ה · Royal Shlichus\n\t\t\t\tChapter I · The Road That Forgot the Sun\n\t\t\t\tFive Shadows Before Sunset\n\t\t\t\tFrom Reb Mendel the Watchman · Keeper of the Eastern Road\n\t\t\t\n\t\t\t\n\t\t\t\tThe evening wind carries no birdsong. Beyond the last stone house, five shapes move where the light should be. Reb Mendel lowers his lantern and speaks quietly: “A road is not saved by fear leaving it. It is saved when someone brings light back.”\n\t\t\t\tThe dangerEach demon carries a different stain of night. Only distinct defeats count toward the Shlichus.\n\t\t\t\tWhy this mattersClear the path so children, merchants, and guests may cross the meadow safely before darkness closes around the village.\n\t\t\t\tCounsel for the roadDo not chase every shadow at once. Keep the road behind you, watch their signs, and let each strike serve protection rather than anger.\n\t\t\t\n\t\t\t\n\t\t\n\t\t\t👹👺🌑🔥👁️\n\t\t\t\n\t\t\t0% complete · Defeat five distinct shadow demons: 0/5\n\t\t\n\t\t\tPromised reward175 XP · 125 perutas\n\t\t\t\n\t\t\t\tTeaching placement\n\t\t\t\t🧭 Show beside world\n\t\t\t\n\t\t\tNot yet — keep the lanternAccept the Shlichus ✨\n\t\t",
+    "visible": true
+  },
+  "shlichusProgress": {
+    "faces": 5,
+    "status": {
+      "definition": {
+        "description": "Five shadows have crossed the meadow road, frightening travelers and pressing darkness against the village homes. Reb Mendel asks you to carry courage into the field, defeat five distinct demons, and return before sunset.",
+        "faces": [
+          "👹",
+          "👺",
+          "🌑",
+          "🔥",
+          "👁️"
+        ],
+        "giver": {
+          "id": "reb-mendel",
+          "name": "Reb Mendel the Watchman",
+          "title": "Keeper of the Eastern Road"
+        },
+        "id": "three-shadows-before-sunset",
+        "name": "Five Shadows Before Sunset",
+        "objective": {
+          "count": 5,
+          "description": "Defeat five distinct shadow demons",
+          "event": "enemy:defeated"
+        },
+        "reward": {
+          "perutas": 125,
+          "xp": 175
+        },
+        "story": {
+          "chapter": "Chapter I · The Road That Forgot the Sun",
+          "counsel": "Do not chase every shadow at once. Keep the road behind you, watch their signs, and let each strike serve protection rather than anger.",
+          "danger": "Each demon carries a different stain of night. Only distinct defeats count toward the Shlichus.",
+          "opening": "The evening wind carries no birdsong. Beyond the last stone house, five shapes move where the light should be. Reb Mendel lowers his lantern and speaks quietly: “A road is not saved by fear leaving it. It is saved when someone brings light back.”",
+          "purpose": "Clear the path so children, merchants, and guests may cross the meadow safely before darkness closes around the village."
+        },
+        "thanks": "The road breathes again, and five marks of darkness have yielded. Take these perutas and this experience; may every strength you gained remain a servant of light."
+      },
+      "progress": 1,
+      "remaining": 4,
+      "status": "active"
+    },
+    "text": "\n\t\t\n\t\t\t📜 Five Shadows Before Sunset\n\t\t\t1 of 5 demons slain\n\t\t\n\t\t\n\t\t\n\t\t\t👹👺🌑🔥👁️\n\t\t\t\n\t\t\t20% complete · Defeat five distinct shadow demons: 1/5\n\t\t\n\t\tKeep guidance in book",
+    "visible": true
+  },
+  "teaching": {
+    "parchmentHasCounsel": true,
+    "parchmentVisible": true,
+    "trackerHidden": true
+  },
+  "lootOpen": {
+    "actorId": "esh-katan",
+    "lootAll": true,
+    "rows": 2,
+    "takeButtons": 2,
+    "visible": true
+  },
+  "lootCompletion": {
+    "afterAll": {
+      "looted": true,
+      "remaining": 0,
+      "visible": false
+    },
+    "afterTake": {
+      "looted": false,
+      "remaining": 1,
+      "visible": true
+    },
+    "modalClosed": true
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

@@ -3,56 +3,66 @@
 // Blessed is He
 
 /**
- * Miriam's olive cloth descends through a balanced inward stance to two planted
- * flats beneath a weighted charcoal skirt. The Awtsmoos renews every hidden joint;
- * Awtsmoos.com preserves pocket, garment, knee, ankle, and floor as editable vessels.
+ * Miriam's narrow olive cloth settles into a weighted skirt while uninterrupted
+ * sleeves carry a relaxed hand and pocket gesture. The Awtsmoos renews each
+ * hidden joint; Awtsmoos.com preserves every finite anchor as editable rig geometry.
  */
 export class CalmReferenceBodyGeometry {
 	static create() {
 		return {
 			torso: {
 				garmentKind: 'olive_overshirt',
-				shoulderExtra: 0,
-				shoulderDrop: 7,
-				shoulderArch: 11,
-				shoulderRound: 8,
-				chestHalf: 34,
-				chestDrop: 20,
-				ribRound: 9,
-				waistCenterX: -13,
-				hipCenterX: -13,
-				waistHalf: 32,
-				hipHalf: 34,
-				sideRound: 10,
-				belly: 0,
-				hemY: -78,
-				hemRound: 8,
-				hemLift: 1
+				shoulderExtra: -3, shoulderDrop: 9,
+				shoulderArch: 10, shoulderRound: 11,
+				chestHalf: 31, chestDrop: 20, ribRound: 10,
+				waistCenterX: -4, hipCenterX: -4,
+				waistHalf: 29, hipHalf: 31,
+				sideRound: 11, belly: 0,
+				hemY: -80, hemRound: 9, hemLift: 1.5
 			},
-			shoulders: { centerX: -18, halfWidthOffset: 2.5, leftYOffset: -2, rightYOffset: -1 },
-			pelvis: { centerX: -13, topHalf: 33, bottomHalf: 31, bottomY: -66 },
-			skirt: { centerX: -13, topHalf: 32, bottomHalf: 43, hemY: -4, sway: 0.4, leftHemDrop: 1.5, rightHemLift: 0.5 },
+			shoulders: {
+				centerX: -7, halfWidthOffset: -1,
+				leftYOffset: -1, rightYOffset: 0
+			},
+			pelvis: {
+				centerX: -4, topHalf: 30,
+				bottomHalf: 29, bottomY: -68
+			},
+			skirt: {
+				centerX: -4, topHalf: 29,
+				bottomHalf: 43, hemY: -2,
+				sway: 0.42, leftHemDrop: 1.8, rightHemLift: 0.8
+			},
 			legs: {
-				centerOffsetX: -1.435, hipOffset: 13.5,
-				leftKneeOffset: 3.102, rightKneeOffset: 3.102, kneeDrop: 6.377,
-				leftAnkleOffset: 12.475, rightAnkleOffset: 11.98, ankleLift: 9.229,
-				leftFootOffset: 24.288, rightFootOffset: 12.437, footDrop: 7.174,
-				shoeScaleX: 0.63, shoeScaleY: 0.52,
-				footwear: { kind: 'flat', toeLength: 0.34, vampHeight: 0.48, soleDepth: 1.4, heelHeight: 0.05, openingDepth: 0.46 }
+				centerOffsetX: -1, hipOffset: 13.5,
+				leftKneeOffset: 3.1, rightKneeOffset: 3.1, kneeDrop: 6.4,
+				leftAnkleOffset: 12.5, rightAnkleOffset: 12, ankleLift: 9.2,
+				leftFootOffset: 22.8, rightFootOffset: 12.4, footDrop: 7.2,
+				shoeScaleX: 0.58, shoeScaleY: 0.48,
+				footwear: {
+					kind: 'flat', toeLength: 0.32, vampHeight: 0.44,
+					soleDepth: 1.25, heelHeight: 0.04, openingDepth: 0.44
+				}
 			},
 			details: {
-				shirtPanelHalf: 17, lapelHalf: 7, buttons: false, pockets: true,
-				foldOffsets: [-9, 8], foldOpacity: 0.035, foldWidth: 0.52
+				shirtPanelHalf: 16, lapelHalf: 6.5,
+				buttons: false, pockets: true,
+				foldOffsets: [-8, 7],
+				foldOpacity: 0.025, foldWidth: 0.46
 			},
 			pocket: {
-				centerX: 22, drop: 4.7, halfWidth: 9, height: 12, entryOffsetX: 1,
-				entryOffsetY: -1.5, handDepth: 0.2, mouthCurve: 1.7, bodyRound: 3.2
+				centerX: 18, drop: 3.5,
+				halfWidth: 7.5, height: 11,
+				entryOffsetX: 0, entryOffsetY: -1.2,
+				handDepth: 0.64, mouthCurve: 1.6, bodyRound: 3.4
 			},
 			gesture: {
-				mode: 'right_hand_in_pocket', leftElbowOut: -1, leftElbowDown: 38,
-				leftWristOut: 6.9, leftWristDown: 82.5, leftHandScale: 1.03,
-				shoulderDrop: 11, elbowOut: 9, elbowDown: 36, forearmBend: 7,
-				pocketX: 22, pocketDrop: 4.7
+				mode: 'right_hand_in_pocket',
+				leftElbowOut: -10, leftElbowDown: 33,
+				leftWristOut: 1, leftWristDown: 74,
+				leftHandScale: 1.04, shoulderDrop: 7,
+				elbowOut: 9, elbowDown: 31, forearmBend: 4,
+				pocketX: 18, pocketDrop: 3.5
 			}
 		};
 	}

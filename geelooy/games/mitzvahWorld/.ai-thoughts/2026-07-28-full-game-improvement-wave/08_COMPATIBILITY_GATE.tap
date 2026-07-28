@@ -1,0 +1,243 @@
+(node:50565) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ player runtime attaches a visible marker to the local model (10.505907ms)
+✔ W moves forward and visible yaw follows A/D state (3.83286ms)
+✔ bootstrap loop establishes camera and renders immediately (18.272256ms)
+✔ staged runtime imports bootstrap core and no legacy core assembly (53.666796ms)
+(node:50566) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H action icons are pictographic while Hebrew remains present (3.086058ms)
+✔ B"H combat pressure is slower, smaller, and spatially separated (0.76653ms)
+✔ B"H selected enemy brightens and receives visible markers (49.773323ms)
+✔ B"H Shlichus menu follows canonical active mission progress (14.041429ms)
+✔ B"H stairs expose discrete tread heights and no hidden ramp (3.217461ms)
+✔ B"H sky shader contains intense disc, halo, clouds, and warm horizon (0.615914ms)
+(node:50567) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Baal Otiyot is a safe tall cantor with readable ranged pressure (3.494657ms)
+(node:50576) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Ratz Layla is a safe lean skirmisher with wide light pressure (2.987877ms)
+(node:50577) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Even Koved is a safe broad warden with deliberate melee pressure (2.6815ms)
+(node:50578) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeCadence.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "ok": true,
+  "defaultIntervals": {
+    "chunks": 100,
+    "combatHud": 50,
+    "diagnostics": 500,
+    "houseVisibility": 125,
+    "hud": 125,
+    "lod": 100,
+    "materialHydration": 1000,
+    "minimap": 125,
+    "multiplayer": 100,
+    "performance": 500,
+    "villageLifeLogs": 2500
+  },
+  "customIntervals": {
+    "chunks": 100,
+    "combatHud": 50,
+    "diagnostics": 500,
+    "houseVisibility": 125,
+    "hud": 125,
+    "lod": 25,
+    "materialHydration": 1000,
+    "minimap": 125,
+    "multiplayer": 100,
+    "performance": 500,
+    "villageLifeLogs": 2500
+  }
+}
+✔ src/test/app/lodRuntimeCadence.test.mjs (390.674332ms)
+(node:50582) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse state exposes and removes only the chosen stack (25.822401ms)
+✔ B"H opening corpse loot transfers nothing and publishes the actor (0.874121ms)
+✔ B"H Take leaves corpse visible while Loot All completes remaining treasure (7.167527ms)
+(node:50583) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHebrewProjectile.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ melee telegraphs before one reduced impact and long recovery (10.749983ms)
+✔ caster retreats, launches one Hebrew projectile, and recovers (8.890704ms)
+✔ impact and expired support effects return their visual vessels to pools (45.032441ms)
+(node:50584) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ profile spawn anchors home before the group receives final placement (66.787497ms)
+✔ role and cadence remain stable for one complete engagement (0.985873ms)
+✔ brief sight loss persists but sustained loss resets the session (1.183574ms)
+✔ different identities receive broad naturally staggered delays (3.517638ms)
+(node:50588) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H combat approach moves an actor that has no move method (4.473084ms)
+(node:50591) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse pointer contract is wider and samples the fallen body (2.484562ms)
+✔ B"H off-center body tap finds corpse while preserving living precision (31.09322ms)
+✔ B"H looted corpse cannot be selected again (0.49324ms)
+(node:50598) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H every living enemy profile retaliates when struck (47.111198ms)
+✔ B"H zero damage does not create false retaliation (0.605954ms)
+(node:50601) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ B"H five unique defeats grant one reward and one completion chapter (97.284542ms)
+✔ B"H menu prioritizes dedicated ready mission over unrelated adventure (2.715351ms)
+(node:50602) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H menu follows dedicated Three Shadows progress when adventures are empty (3.264411ms)
+✔ B"H exterior entry and interior staircase use level discrete rises (17.025764ms)
+(node:50603) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ assembled progression awards exactly-once enemy XP through the shared bus (60.297873ms)
+(node:50604) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (51.205781ms)
+✔ batch loot and purchases publish exactly once (4.597809ms)
+✔ corpse selection opens loot before any deliberate transfer (61.914369ms)
+✔ tefillin jacket and right-hand weapon persist through casting and hydration (271.147691ms)
+(node:50605) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ nearest target is studied first and interacted with second (20.485253ms)
+✔ camera-like pointer drags never advance study or interaction (4.072074ms)
+✔ incompatible population contracts keep pointer ownership disabled (0.926871ms)
+✔ legacy actors preserve first target and second dialogue (57.499911ms)
+(node:50609) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalanceCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+BALANCE_RESULT {"durationSeconds":2.45,"enemiesDefeated":1,"enemyCount":1,"incomingDamage":6,"incomingDps":2.45,"maxActiveMelee":1,"maxActiveRanged":0,"playerHealth":94,"playerWon":true}
+BALANCE_RESULT {"durationSeconds":7.35,"enemiesDefeated":3,"enemyCount":3,"incomingDamage":6,"incomingDps":0.82,"maxActiveMelee":1,"maxActiveRanged":1,"playerHealth":94,"playerWon":true}
+BALANCE_RESULT {"durationSeconds":14.7,"enemiesDefeated":6,"enemyCount":6,"incomingDamage":18,"incomingDps":1.22,"maxActiveMelee":1,"maxActiveRanged":1,"playerHealth":82,"playerWon":true}
+✔ 1 demon encounter remains challenging and winnable (10.292766ms)
+✔ 3 demon encounter remains challenging and winnable (2.753683ms)
+✔ 6 demon encounter remains challenging and winnable (3.048522ms)
+(node:50610) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag markup preserves close and omits unused detail space until selection (157.969057ms)
+✔ selected details render truthfully inside a bounded mobile section (0.897893ms)
+✔ modal and HUD CSS preserve safe areas without globally shrinking text (0.818932ms)
+(node:50621) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowTargetFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ mobile targets begin compact and reset to compact when selection changes (17.899522ms)
+✔ desktop target details remain expanded by default (5.138895ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 50
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5514.723372
+
+✖ failing tests:
+
+test at src/test/app/minimalMeadowQuestCompletion.test.mjs:38:1
+✖ B"H five unique defeats grant one reward and one completion chapter (97.284542ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Reward received/. Input:
+  
+  '\n' +
+    '\t\t<article class="Awtsmoos-quest-parchment" data-completion-chapter="true" role="dialog" aria-modal="true" aria-labelledby="Awtsmoos-quest-title">\n' +
+    '\t\t\t<header class="quest-story-header">\n' +
+    '\t\t\t\t<p class="Awtsmoos-quest-seal">✨ Shlichus fulfilled ✨</p>\n' +
+    '\t\t\t\t<small>The road receives its light</small>\n' +
+    '\t\t\t\t<h2 id="Awtsmoos-quest-title">Five Shadows Before Sunset</h2>\n' +
+    '\t\t\t</header>\n' +
+    '\t\t\t<section class="quest-story-scroll">\n' +
+    '\t\t\t\t<p class="quest-opening">The road breathes again, and five marks of darkness have yielded. Take these perutas and this experience; may every strength you gained remain a servant of light.</p>\n' +
+    '\t\t\t\t<div class="quest-story-section"><h3>What changed</h3><p>Children, merchants, and guests may cross the meadow road again. Five places where fear stood now remember courage.</p></div>\n' +
+    '\t\t\t\t<div class="quest-story-section"><h3>Your next step</h3><p>Carry the reward, speak with the village, or continue exploring. This completed Shlichus remains in the book as testimony.</p></div>\n' +
+    '\t\t\t</section>\n' +
+    '\t\t\t\n' +
+    '\t\t<div class="quest-progress" data-context="dialog">\n' +
+    '\t\t\t<div class="quest-face-row"><span data-state="defeated" aria-label="Shadow 1: defeated">👹</span><span data-state="defeated" aria-label="Shadow 2: defeated">👺</span><span data-state="defeated" aria-label="Shadow 3: defeated">🌑</span><span data-state="defeated" aria-label="Shadow 4: defeated">🔥</span><span data-state="defeated" aria-label="Shadow 5: defeated">👁️</span></div>\n' +
+    '\t\t\t<div class="quest-progress-line"><i style="width:100%"></i></div>\n' +
+    '\t\t\t<small>100% complete · Defeat five distinct shadow demons: 5/5</small>\n' +
+    '\t\t</div>\n' +
+    '\t\t\t\n' +
+    '\t\t<section class="Awtsmoos-optional-objectives" data-context="completion">\n' +
+    '\t\t\t<header><strong>Optional excellence</strong><small>These never block completion.</small></header>\n' +
+    '\t\t\t\n' +
+    '\t\t<article data-complete="true">\n' +
+    '\t\t\t<span>✨</span>\n' +
+    '\t\t\t<div><b>Return without being defeated</b><small>Honor: Unbroken Lantern</small></div>\n' +
+    '\t\t\t<strong>✓</strong>\n' +
+    '\t\t</article>\n' +
+    '\t\t<article data-complete="false">\n' +
+    '\t\t\t<span>○</span>\n' +
+    '\t\t\t<div><b>Answer two optional teachings correctly</b><small>+35 XP</small></div>\n' +
+    '\t\t\t<strong>0/2</strong>\n' +
+    '\t\t</article>\n' +
+    '\t\t<article data-complete="false">\n' +
+    '\t\t\t<span>○</span>\n' +
+    '\t\t\t<div><b>Deliberately loot three distinct defeated enemies</b><small>+25 perutas</small></div>\n' +
+    '\t\t\t<strong>0/3</strong>\n' +
+    '\t\t</article>\n' +
+    '\t\t</section>\n' +
+    '\t\t\t\n' +
+    '\t\t<section class="Awtsmoos-quest-honors">\n' +
+    '\t\t\t<strong>Excellence remembered</strong>\n' +
+    '\t\t\t<span>🏅 Unbroken Lantern</span>\n' +
+    '\t\t\t\n' +
+    '\t\t\t\n' +
+    '\t\t</section>\n' +
+    '\t\t\t<div class="quest-reward-seal"><span>Total reward received</span><b>175 XP · 125 perutas</b></div>\n' +
+    '\t\t\t<div class="quest-reward-seal"><span>Current growth</span><b>Level 2 · 40/182 XP toward the next level</b></div>\n' +
+    '\t\t\t<div class="Awtsmoos-quest-actions"><button type="button" class="quest-choice accept" data-continue>Continue with the light</button></div>\n' +
+    '\t\t</article>'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowQuestCompletion.test.mjs:57:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\n\t\t<article class="Awtsmoos-quest-parchment" data-completion-chapter="true" role="dialog" aria-modal="true" aria-labelledby="Awtsmoos-quest-title">\n\t\t\t<header class="quest-story-header">\n\t\t\t\t<p class="Awtsmoos-quest-seal">✨ Shlichus fulfilled ✨</p>\n\t\t\t\t<small>The road receives its light</small>\n\t\t\t\t<h2 id="Awtsmoos-quest-title">Five Shadows Before Sunset</h2>\n\t\t\t</header>\n\t\t\t<section class="quest-story-scroll">\n\t\t\t\t<p class="quest-opening">The road breathes again, and five marks of darkness have yielded. Take these perutas and this experience; may every strength you gained remain a servant of light.</p>\n\t\t\t\t<div class="quest-story-section"><h3>What changed</h3><p>Children, merchants, and guests may cross the meadow road again. Five places where fear stood now remember courage.</p></div>\n\t\t\t\t<div class="quest-story-section"><h3>Your next step</h3><p>Carry the reward, speak with the village, or continue exploring. This completed Shlichus remains in the book as testimony.</p></div>\n\t\t\t</section>\n\t\t\t\n\t\t<div class="quest-progress" data-context="dialog">\n\t\t\t<div class="quest-face-row"><span data-state="defeated" aria-label="Shadow 1: defeated">👹</span><span data-state="defeated" aria-label="Shadow 2: defeated">👺</span><span data-state="defeated" aria-label="Shadow 3: defeated">🌑</span><span data-state="defeated" aria-label="Shadow 4: defeated">🔥</span><span data-state="defeated" aria-label="Shadow 5: defeated">👁️</span></div>\n\t\t\t<div class="quest-progress-line"><i style="width:100%"></i></div>\n\t\t\t<small>100% complete · Defeat five distinct shadow demons: 5/5</small>\n\t\t</div>\n\t\t\t\n\t\t<section class="Awtsmoos-optional-objectives" data-context="completion">\n\t\t\t<header><strong>Optional excellence</strong><small>These never block completion.</small></header>\n\t\t\t\n\t\t<article data-complete="true">\n\t\t\t<span>✨</span>\n\t\t\t<div><b>Return without being defeated</b><small>Honor: Unbroken Lantern</small></div>\n\t\t\t<strong>✓</strong>\n\t\t</article>\n\t\t<article data-complete="false">\n\t\t\t<span>○</span>\n\t\t\t<div><b>Answer two optional teachings correctly</b><small>+35 XP</small></div>\n\t\t\t<strong>0/2</strong>\n\t\t</article>\n\t\t<article data-complete="false">\n\t\t\t<span>○</span>\n\t\t\t<div><b>Deliberately loot three distinct defeated enemies</b><small>+25 perutas</small></div>\n\t\t\t<strong>0/3</strong>\n\t\t</article>\n\t\t</section>\n\t\t\t\n\t\t<section class="Awtsmoos-quest-honors">\n\t\t\t<strong>Excellence remembered</strong>\n\t\t\t<span>🏅 Unbroken Lantern</span>\n\t\t\t\n\t\t\t\n\t\t</section>\n\t\t\t<div class="quest-reward-seal"><span>Total reward received</span><b>175 XP · 125 perutas</b></div>\n\t\t\t<div class="quest-reward-seal"><span>Current growth</span><b>Level 2 · 40/182 XP toward the next level</b></div>\n\t\t\t<div class="Awtsmoos-quest-actions"><button type="button" class="quest-choice accept" data-continue>Continue with the light</button></div>\n\t\t</article>',
+    expected: /Reward received/,
+    operator: 'match',
+    diff: 'simple'
+  }
+test_exit=1
+diff_exit=0

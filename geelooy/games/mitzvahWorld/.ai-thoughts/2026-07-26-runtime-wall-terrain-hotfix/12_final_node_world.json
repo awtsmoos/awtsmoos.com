@@ -1,0 +1,928 @@
+{
+  "frames": 0,
+  "mode": "node-browser-simulation",
+  "ok": false,
+  "error": {
+    "message": "deferred features timed out after 20000ms",
+    "name": "Error",
+    "stack": "Error: deferred features timed out after 20000ms\n    at Timeout.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-minimal-meadow-contract-repair/node-whole-game-simulation.mjs:92:11)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  },
+  "canonicalPlayer": {
+    "error": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+    "source": "./assets/models/player/chossid.glb",
+    "status": "fallback-visible"
+  },
+  "combatInstalled": true,
+  "dataset": {
+    "awtsmoosGameplay": "true",
+    "awtsmoosRendererHydration": "fallback-2d",
+    "awtsmoosRenderer": "canvas-2d-fallback",
+    "awtsmoosRendererContextAttempts": "webgl",
+    "awtsmoosRendererFallback": "webgl-unavailable",
+    "awtsmoosRendererFallbackMessage": "WebGL is not available.",
+    "awtsmoosRendererFallbackRecoverable": "true",
+    "awtsmoosRendererStage": "fallback-ready",
+    "awtsmoosRuntimeState": "playable",
+    "awtsmoosRuntimeError": "",
+    "awtsmoosReadiness": "core-playable",
+    "awtsmoosFeatures": "loading",
+    "awtsmoosMenuReady": "true",
+    "awtsmoosSession": "singleplayer",
+    "awtsmoosUi": "ready"
+  },
+  "enemiesInstalled": true,
+  "featureStatus": {
+    "combat": "loading",
+    "friendlyNpcs": "waiting",
+    "model": "loading",
+    "phase": "loading-combat-and-model",
+    "richWorld": "waiting",
+    "startedAt": 7666.749966
+  },
+  "mountStatus": {
+    "clothingMerchant": "failed",
+    "houses": "loading-materials",
+    "phase": "loading",
+    "quest": "failed",
+    "trees": "ready",
+    "vegetation": "ready",
+    "water": "failed"
+  },
+  "richWorld": {
+    "failures": {
+      "water": "Cannot read properties of undefined (reading 'data')",
+      "clothingMerchant": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+      "quest": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb"
+    },
+    "friendly": false,
+    "houses": false,
+    "promiseCreated": true,
+    "tailor": false,
+    "trees": true,
+    "vegetation": true,
+    "water": false
+  },
+  "renderer": {
+    "backend": "canvas-2d-fallback",
+    "fallbackReason": "webgl-unavailable",
+    "hydration": "fallback-2d"
+  },
+  "terrain": {
+    "colliderTriangles": 10368,
+    "grid": "72x72",
+    "heightMaximum": 8.2422,
+    "heightMinimum": -2.9328,
+    "lakeVertices": 134,
+    "riverVertices": 309,
+    "roadMaskMaximum": 1,
+    "roadSystem": "continuous-cubic-bezier-zone-weight",
+    "sampling": "high-density-river-valley-meadow",
+    "size": 220,
+    "vertexCount": 5329,
+    "roadSurface": {
+      "collisionAligned": true,
+      "diagnosticFinite": true,
+      "elevatedDuplicateRendered": false,
+      "renderAuthority": "terrain-zone-y",
+      "signedDistanceAuthority": "MinimalMeadowBezierPath",
+      "surfaceOffset": 0
+    },
+    "textureSources": {
+      "cobbleRecord": {
+        "attempts": [
+          {
+            "contentType": "",
+            "error": null,
+            "method": "direct-image-url",
+            "ok": true,
+            "stage": "decoded",
+            "status": 0
+          }
+        ],
+        "contentType": "",
+        "durationMs": 7,
+        "error": null,
+        "height": 1024,
+        "image": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/cobblestone.png"
+        },
+        "method": "direct-image-url",
+        "ok": true,
+        "stage": "decoded",
+        "status": 200,
+        "url": "./assets/materials/local/world/full-resolution/cobblestone.png",
+        "width": 1024
+      },
+      "images": {
+        "dirtGrassOne": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%201.png"
+        },
+        "dirtGrassThree": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%203.png"
+        },
+        "grassOne": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%201.png"
+        },
+        "grassFour": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%204.png"
+        },
+        "grassFive": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%205.png"
+        },
+        "grassSeven": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%207.png"
+        },
+        "grassEight": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%208.png"
+        },
+        "marshGrass": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/marsh%20grass.png"
+        },
+        "pathCenter": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%202.png"
+        },
+        "soilDark": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%202.png"
+        },
+        "soilLight": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%201.png"
+        },
+        "tilledSoil": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/tilled%20soil.png"
+        },
+        "cobblestone": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/cobblestone.png"
+        }
+      },
+      "records": [
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 8,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%201.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/dirt%20grass%201.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 7,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%203.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/dirt%20grass%203.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/grass%201.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/grass%201.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/grass%204.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/grass%204.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 7,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/grass%205.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/grass%205.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 7,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/grass%207.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/grass%207.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/grass%208.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/grass%208.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/marsh%20grass.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/marsh%20grass.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 2,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%202.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/dirt%20grass%202.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/dirt%202.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/dirt%202.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/dirt%201.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/dirt%201.png",
+          "width": 1024
+        },
+        {
+          "attempts": [
+            {
+              "contentType": "",
+              "error": null,
+              "method": "direct-image-url",
+              "ok": true,
+              "stage": "decoded",
+              "status": 0
+            }
+          ],
+          "contentType": "",
+          "durationMs": 1,
+          "error": null,
+          "height": 1024,
+          "image": {
+            "naturalHeight": 1024,
+            "naturalWidth": 1024,
+            "crossOrigin": "anonymous",
+            "decoding": "async",
+            "onload": null,
+            "onerror": null,
+            "_src": "./assets/materials/local/world/full-resolution/tilled%20soil.png"
+          },
+          "method": "direct-image-url",
+          "ok": true,
+          "stage": "decoded",
+          "status": 200,
+          "url": "./assets/materials/local/world/full-resolution/tilled%20soil.png",
+          "width": 1024
+        }
+      ],
+      "roles": {
+        "dry": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%205.png"
+        },
+        "lush": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%201.png"
+        },
+        "main": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%208.png"
+        },
+        "marsh": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/marsh%20grass.png"
+        },
+        "mud": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%202.png"
+        },
+        "path": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/cobblestone.png"
+        },
+        "pathEdge": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%20grass%203.png"
+        },
+        "secondary": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/grass%204.png"
+        },
+        "soil": {
+          "naturalHeight": 1024,
+          "naturalWidth": 1024,
+          "crossOrigin": "anonymous",
+          "decoding": "async",
+          "onload": null,
+          "onerror": null,
+          "_src": "./assets/materials/local/world/full-resolution/dirt%201.png"
+        }
+      }
+    },
+    "textureSurface": {
+      "anisotropy": 12,
+      "grassSourceCount": 9,
+      "layerReports": [
+        {
+          "role": "lush-grass",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 0.78,
+          "wetness": 0.2,
+          "zones": [
+            0.94,
+            0,
+            0.12,
+            0
+          ]
+        },
+        {
+          "role": "meadow-grass",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 0.68,
+          "wetness": 0.06,
+          "zones": [
+            0.82,
+            0,
+            0.18,
+            0.08
+          ]
+        },
+        {
+          "role": "open-soil",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 0.66,
+          "wetness": -0.08,
+          "zones": [
+            0.34,
+            0.08,
+            0.62,
+            0.2
+          ]
+        },
+        {
+          "role": "road-shoulder",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 1,
+          "wetness": -0.04,
+          "zones": [
+            0.2,
+            1,
+            0.12,
+            0
+          ]
+        },
+        {
+          "role": "moss-and-wet-grass",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 0.82,
+          "wetness": 0.42,
+          "zones": [
+            0.2,
+            0,
+            0.92,
+            0
+          ]
+        },
+        {
+          "role": "dry-ground",
+          "sourceWorldUnits": {
+            "macro": [
+              35.94771241830065,
+              35.94771241830065
+            ],
+            "micro": [
+              7.544581618655692,
+              7.544581618655692
+            ],
+            "tileWorld": [
+              12.222222222222221,
+              12.222222222222221
+            ]
+          },
+          "strength": 0.7,
+          "wetness": -0.2,
+          "zones": [
+            0.76,
+            0,
+            0.14,
+            0.22
+          ]
+        }
+      ],
+      "mobile": false,
+      "profile": {
+        "detail": 72,
+        "grass": 84,
+        "mobile": false,
+        "road": 96
+      },
+      "repeat": [
+        21,
+        21
+      ],
+      "sourceSize": {
+        "h": 1024,
+        "w": 1024
+      },
+      "sourceWorldUnits": {
+        "macro": [
+          30.812324929971986,
+          30.812324929971986
+        ],
+        "micro": [
+          6.466784244562022,
+          6.466784244562022
+        ],
+        "tileWorld": [
+          10.476190476190476,
+          10.476190476190476
+        ]
+      },
+      "sources": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+      ],
+      "tileWorld": [
+        10.476190476190476,
+        10.476190476190476
+      ],
+      "uvInfo": {
+        "finite": true,
+        "origin": [
+          110,
+          110
+        ],
+        "pingPongRange": [
+          0,
+          1
+        ],
+        "repeatRange": [
+          0,
+          21,
+          0,
+          21
+        ],
+        "tileWorld": [
+          10.476190476190476,
+          10.476190476190476
+        ],
+        "vertexCount": 5329,
+        "wrap": "mirror-pingpong-repeat"
+      }
+    },
+    "visualMode": "crisp-six-source-meadow-with-visible-bezier-road"
+  },
+  "disposed": true
+}

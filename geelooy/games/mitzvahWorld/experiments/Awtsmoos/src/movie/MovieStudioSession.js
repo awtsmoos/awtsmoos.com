@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioSession.js
- * @description Owns project compilation, timeline edits, transform edits, and preview state.
+ * @description Owns canonical project installation, preview state, timeline edits, and capture.
  * The Awtsmoos renews every cut beyond editor state; Awtsmoos.com recompiles one source
- * document so JSON, timeline, transform inspector, preview, and final capture cannot drift.
+ * so JSON, project facts, preview, transforms, timeline, and final capture cannot drift.
  */
 
 import { MovieDirector } from './MovieDirector.js';
@@ -44,8 +44,7 @@ export class MovieStudioSession {
 		this.director = new MovieDirector(this.runtime, this.project);
 		this.recorder = new MovieRecorder(this.director);
 		this.view.preview.replaceChildren(this.director.overlay.canvas);
-		this.view.title.textContent = this.project.title;
-		this.view.json.value = JSON.stringify(this.project, null, 2);
+		this.view.setProject(this.project);
 		this.timeline = new MovieTimelineView(
 			this.project,
 			this.view.timeline,
@@ -61,17 +60,17 @@ export class MovieStudioSession {
 	}
 
 	onTimelineChange(value) {
-		this.view.json.value = JSON.stringify(this.project, null, 2);
+		this.view.setProject(this.project);
 		if (!value.transient) {
 			this.installProject(this.project, { preserveTime: true });
 		}
 	}
 
 	seek(time) {
-		this.time = Math.max(
-			0,
-			Math.min(this.project.duration, Number(time) || 0)
-		);
+		this.time = Math.max(0, Math.min(
+			this.project.duration,
+			Number(time) || 0
+		));
 		const frame = this.director.seek(this.time);
 		this.timeline?.setTime(frame.time);
 		this.view.status.textContent = `${frame.time.toFixed(2)} / ${

@@ -1,0 +1,31 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos carries the compact composer to the phone edges without losing
+ * safe breathing room, clear actions, or the full Awtsmoos.com route beyond it.
+ */
+
+@media (max-width: 43.75rem) {
+	.geelooy-home-composer {
+		margin-inline: -.65rem;
+		border-inline: 0;
+		border-radius: 0;
+	}
+
+	.home-compose-form {
+		padding: .85rem .8rem;
+	}
+}
+
+@media (max-width: 23rem) {
+	.home-compose-title {
+		grid-column: 1 / -1;
+	}
+
+	.home-compose-post {
+		grid-column: 1 / -1;
+		grid-row: 3;
+		inline-size: 100%;
+	}
+}

@@ -1,0 +1,57 @@
+(node:6464) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H only thin exterior walls receive mobile camera-safe reverse faces (3.09234ms)
+✔ B"H released controls retain the last meaningful travel facing (0.47896ms)
+✔ B"H Bag exposes every authoritative slot and starts with both tefillin (4.664135ms)
+✔ B"H demon surface remains dark-themed but visibly textured (0.830543ms)
+✔ B"H Shlichus offers a five-shadow story and tracks faces with percentage (3.871156ms)
+✔ B"H teaching placement persists side or book-only mode (0.783555ms)
+(node:6466) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ materials share images while actor feedback remains independent (23.597694ms)
+✔ controlled families bound cache growth and preserve variation (7.731418ms)
+✖ extreme colors normalize into a dark daylight-readable range (3.179062ms)
+✔ continuous demon keeps one render surface and one root bone (5949.631385ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6658.890396
+
+✖ failing tests:
+
+test at src/test/world/minimalMeadowDemonMaterial.test.mjs:61:1
+✖ extreme colors normalize into a dark daylight-readable range (3.179062ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      0.54,
+      0.34,
+  +   0.66,
+  -   0.68,
+      1
+    ]
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowDemonMaterial.test.mjs:64:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 0.54, 0.34, 0.66, 1 ],
+    expected: [ 0.54, 0.34, 0.68, 1 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

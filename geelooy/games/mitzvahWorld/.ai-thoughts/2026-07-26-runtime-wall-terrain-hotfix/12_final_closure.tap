@@ -1,0 +1,97 @@
+(node:71812) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H combat approach moves an actor that has no move method (60.440001ms)
+(node:71813) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (72.697563ms)
+✔ complete terrain stack retains six distinct source garments (2.293221ms)
+✔ visible maps and source provenance obey local production policy (1.834963ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (68.502748ms)
+(node:71814) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr owns finite bounds, winding, and role-specific side policy (448.52242ms)
+✔ brick-cottage owns finite bounds, winding, and role-specific side policy (56.284782ms)
+(node:71842) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr remains eligible through a multi-elevation orbit (748.532445ms)
+✔ beis-ohr has stable draw state while entering and leaving (335.498313ms)
+✔ beis-ohr repairs a late blanket side mutation by role (214.198414ms)
+✔ brick-cottage remains eligible through a multi-elevation orbit (370.317315ms)
+✔ brick-cottage has stable draw state while entering and leaving (163.838573ms)
+✔ brick-cottage repairs a late blanket side mutation by role (88.418886ms)
+(node:71855) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house population preserves interaction and collision lifecycle (713.788739ms)
+(node:71864) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (3.118667ms)
+✔ mobile and desktop profiles keep six crisp readable layers (5.167722ms)
+✔ terrain and road presets use six broad rotated sources (5.419211ms)
+✔ package mounts a visible road while terrain owns collision (320.432344ms)
+(node:71885) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mobile terrain keeps enough source pixels for crisp ground detail (2.211618ms)
+✔ B"H six ecological sources retain strong nonuniform identities (2.314662ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.627451ms)
+✔ B"H visible road mounts without becoming collision authority (3.717485ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5914.415373
+app_test_exit=0
+(node:71932) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H frustumCulled false bypasses custom distance and frustum rejection (119.275884ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 969.156401
+renderer_test_exit=0
+node_world_exit=1
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js=90
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigationCollision.js=63
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyLineOfSight.js=46
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainDensityLayers.js=88
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainEcology.js=74
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js=93
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainPackage.js=116
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainRoadMount.js=33
+lines:experiments/Awtsmoos/src/world/TerrainMesh.js=93
+lines:experiments/Awtsmoos/src/test/app/minimalMeadowEnemyNavigationRuntime.test.mjs=62
+lines:experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipe.test.mjs=104
+lines:experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipeFixture.mjs=57
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs=116
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs=89
+lines:experiments/light-three-gltf/tiny-render-culling.js=114
+lines:experiments/light-three-gltf/tiny-render-culling-metadata.js=86
+lines:experiments/light-three-gltf/test/tiny-render-frustum-opt-out.test.mjs=40
+lines:.ai-thoughts/2026-07-26-runtime-wall-terrain-hotfix/HotfixBrowserScenarios.mjs=107
+lines:.ai-thoughts/2026-07-26-runtime-wall-terrain-hotfix/HotfixBrowserRoadFocus.mjs=38
+lines:.ai-thoughts/2026-07-26-runtime-wall-terrain-hotfix/hotfix-browser-probe.mjs=115
+syntax_exit=0
+oversized_exit=0
+diff_exit=0

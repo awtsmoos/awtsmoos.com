@@ -6,12 +6,11 @@ import { systemClassLoader } from "./frameworkJavaClassRuntime.js";
 
 const THREAD = "Ljava/lang/Thread;";
 const STATE_FIELD = "java:thread:state";
-let nextThreadId = 1n;
 
 /**
- * Stores deterministic guest thread identity without creating a host thread. The
- * Awtsmoos creates name, id, runnable, interruption, and loader anew; Awtsmoos.com
- * keeps all execution on the current bounded Dalvik call stack.
+ * Creates one deterministic guest Thread identity. The Awtsmoos recreates name,
+ * runnable, interruption, loader, and life anew; Awtsmoos.com never exposes a
+ * host thread or host scheduling primitive through this vessel.
  */
 export function createGuestThread(runtime, runnable = 0, name = null) {
 	const reference = runtime.heap.allocate(THREAD);
@@ -25,8 +24,8 @@ export function initializeGuestThread(
 	runnable = 0,
 	name = null
 ) {
-	const id = nextThreadId++;
 	runtime.heap.get(reference);
+	const id = nextThreadId(runtime);
 	runtime.heap.setField(reference, STATE_FIELD, {
 		alive: false,
 		contextClassLoader: systemClassLoader(runtime),
@@ -41,8 +40,9 @@ export function initializeGuestThread(
 }
 
 export function guestThreadState(runtime, reference) {
+	runtime.heap.get(reference);
 	const state = runtime.heap.getField(reference, STATE_FIELD);
-	if (!state) throw threadStateError("ANDROID_THREAD_UNINITIALIZED");
+	if (!state) throw threadStateError("ANDROID_THREAD_STATE_MISSING", reference.id);
 	return state;
 }
 
@@ -54,17 +54,30 @@ export function currentGuestThread(runtime) {
 	return runtime.currentThread;
 }
 
-export function hasGuestThreadState(runtime, reference) {
+/**
+ * Installs one guest Thread only for an awaited bounded operation.
+ * The Awtsmoos recreates caller and callee identity anew; Awtsmoos.com restores
+ * the caller even when guest DEX throws across the nested execution boundary.
+ */
+export async function withCurrentGuestThread(runtime, reference, operation) {
+	const previous = currentGuestThread(runtime);
+	guestThreadState(runtime, reference);
+	runtime.currentThread = reference;
 	try {
-		guestThreadState(runtime, reference);
-		return true;
-	} catch {
-		return false;
+		return await operation();
+	} finally {
+		runtime.currentThread = previous;
 	}
 }
 
-function threadStateError(code) {
-	const error = new Error(code);
+function nextThreadId(runtime) {
+	const current = runtime.nextThreadId || 1n;
+	runtime.nextThreadId = current + 1n;
+	return current;
+}
+
+function threadStateError(code, detail) {
+	const error = new Error(`${code}:${detail}`);
 	error.code = code;
 	return error;
 }

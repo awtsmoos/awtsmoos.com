@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the social river one readable center on wide screens and
+ * one generous edge-to-edge vessel on phones throughout Awtsmoos.com.
+ */
+
+body.geelooy-home-document {
+	margin: 0;
+	min-inline-size: 0;
+}
+
+.geelooy-home-document .home-dashboard-page {
+	inline-size: min(100%, 48rem);
+	margin-inline: auto;
+	padding: 1rem 1rem 7rem;
+}
+
+.home-stream-header,
+.home-section-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.home-stream-header {
+	padding: .9rem .25rem .35rem;
+}
+
+.home-stream-header h1,
+.home-section-heading h2 {
+	margin: 0;
+	color: #f7f3e8;
+	font-size: clamp(1.65rem, 4vw, 2.25rem);
+	line-height: 1.05;
+}
+
+.home-stream-kicker {
+	margin: 0 0 .25rem;
+	color: #94a8be;
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.home-stream-search {
+	display: grid;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	place-items: center;
+	border: 1px solid rgba(139, 226, 237, .28);
+	border-radius: 50%;
+	background: #111b29;
+	color: #8be2ed;
+	font-size: 1.35rem;
+	text-decoration: none;
+}
+
+.home-feed-section {
+	display: grid;
+	gap: .8rem;
+	min-inline-size: 0;
+}
+
+.home-section-heading {
+	padding: 1.15rem .25rem .15rem;
+}
+
+.home-section-heading > a {
+	color: #8be2ed;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.home-feed-list {
+	display: grid;
+	gap: 1rem;
+	min-inline-size: 0;
+}

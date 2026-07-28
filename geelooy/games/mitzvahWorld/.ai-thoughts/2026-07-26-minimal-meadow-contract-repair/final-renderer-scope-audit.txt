@@ -1,0 +1,58 @@
+--- BRANCH ---
+main
+--- HEAD ---
+1d3d5eb56811
+--- LINE COUNTS ---
+     104 src/app/MinimalMeadowTerrainData.js
+      79 src/app/MinimalMeadowTerrainDataSupport.js
+     110 src/app/MinimalMeadowTerrainPackage.js
+      65 src/app/MinimalMeadowTerrainPackageEvidence.js
+     114 src/world/terrain/TerrainLayerRecipe.js
+      41 src/test/world/minimalMeadowTerrainDataContract.test.mjs
+     119 src/test/geometry/TerrainLayerRecipe.test.mjs
+      76 src/test/geometry/localTerrainTextureBoot.test.mjs
+      73 src/app/RendererFallbackEvidence.js
+      57 src/app/RendererRuntimeEvidence.js
+      69 src/app/ProgressiveWebGLState.js
+     109 src/app/MinimalMeadowRenderer.js
+     120 src/app/ProgressiveWebGLRenderer.js
+     107 src/app/RuntimeStateMarker.js
+     111 src/launcher/MinimalMeadowReadiness.js
+      76 src/test/app/rendererFallbackEvidence.test.mjs
+     110 src/test/app/runtimeStateRendererEvidence.test.mjs
+      89 src/test/app/minimalMeadowReadinessRendererIdentity.test.mjs
+      94 src/test/app/RendererReadinessTestHarness.mjs
+    1723 total
+--- SCOPED STATUS ---
+ M src/app/MinimalMeadowRenderer.js
+ M src/app/MinimalMeadowTerrainData.js
+ M src/app/MinimalMeadowTerrainPackage.js
+ M src/app/ProgressiveWebGLRenderer.js
+ M src/app/RuntimeStateMarker.js
+ M src/launcher/MinimalMeadowReadiness.js
+ M src/test/geometry/TerrainLayerRecipe.test.mjs
+ M src/test/geometry/localTerrainTextureBoot.test.mjs
+ M src/world/terrain/TerrainLayerRecipe.js
+?? src/app/MinimalMeadowTerrainDataSupport.js
+?? src/app/MinimalMeadowTerrainPackageEvidence.js
+?? src/app/ProgressiveWebGLState.js
+?? src/app/RendererFallbackEvidence.js
+?? src/app/RendererRuntimeEvidence.js
+?? src/test/app/RendererReadinessTestHarness.mjs
+?? src/test/app/minimalMeadowReadinessRendererIdentity.test.mjs
+?? src/test/app/rendererFallbackEvidence.test.mjs
+?? src/test/app/runtimeStateRendererEvidence.test.mjs
+?? src/test/world/minimalMeadowTerrainDataContract.test.mjs
+--- DIFF CHECK ---
+diff_check_exit=0
+--- DIFF STAT ---
+ .../Awtsmoos/src/app/MinimalMeadowRenderer.js      |  33 +++++--
+ .../Awtsmoos/src/app/MinimalMeadowTerrainData.js   | 102 ++++++++++++++-------
+ .../src/app/MinimalMeadowTerrainPackage.js         |  98 ++++++++++----------
+ .../Awtsmoos/src/app/ProgressiveWebGLRenderer.js   |  63 +++++++------
+ .../Awtsmoos/src/app/RuntimeStateMarker.js         |  75 ++++++++++++---
+ .../src/launcher/MinimalMeadowReadiness.js         |  50 +++++++---
+ .../src/test/geometry/TerrainLayerRecipe.test.mjs  |  66 ++++++++-----
+ .../test/geometry/localTerrainTextureBoot.test.mjs |  18 +++-
+ .../src/world/terrain/TerrainLayerRecipe.js        |  84 ++++++++++++-----
+ 9 files changed, 404 insertions(+), 185 deletions(-)

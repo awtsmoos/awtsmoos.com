@@ -1,0 +1,20 @@
+{
+  "runs": [
+    {
+      "steps": 60,
+      "milliseconds": 1249.0588659999999,
+      "vertices": 3721,
+      "triangles": 7200,
+      "cellWidth": 6
+    },
+    {
+      "steps": 120,
+      "milliseconds": 2485.107412,
+      "vertices": 14641,
+      "triangles": 28800,
+      "cellWidth": 3
+    }
+  ],
+  "triangleReductionPercent": 75,
+  "timeReductionPercent": 49.73823425222636
+}

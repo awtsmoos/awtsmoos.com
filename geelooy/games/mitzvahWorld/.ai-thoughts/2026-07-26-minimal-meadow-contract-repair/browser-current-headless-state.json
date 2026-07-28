@@ -1,0 +1,3437 @@
+{
+  "dataset": {
+    "awtsmoosGameplay": "true",
+    "awtsmoosRendererHydration": "fallback-2d",
+    "awtsmoosRenderer": "canvas-2d-fallback",
+    "awtsmoosRendererContextAttempts": "webgl",
+    "awtsmoosRendererFallback": "webgl-unavailable",
+    "awtsmoosRendererFallbackMessage": "WebGL is not available.",
+    "awtsmoosRendererFallbackRecoverable": "true",
+    "awtsmoosRendererStage": "fallback-ready",
+    "awtsmoosRuntimeState": "playable",
+    "awtsmoosRuntimeError": "",
+    "awtsmoosReadiness": "core-playable",
+    "awtsmoosFeatures": "combat-ready",
+    "awtsmoosMenuReady": "true",
+    "awtsmoosSession": "singleplayer",
+    "awtsmoosUi": "ready",
+    "awtsmoosMobileIntegration": "ready"
+  },
+  "featureStatus": {
+    "combat": "ready",
+    "friendlyNpcs": "ready",
+    "model": "ready",
+    "phase": "ready",
+    "richWorld": "ready",
+    "startedAt": 23800.199999999255,
+    "durationMs": 60601,
+    "receipt": {
+      "combat": {
+        "status": "ready",
+        "value": {
+          "combat": {
+            "casting": null,
+            "cooldowns": {
+              "hebrew-fire": 0,
+              "letter-light": 0,
+              "staff-strike": 0
+            },
+            "effects": 0,
+            "progress": 0,
+            "projectiles": 0
+          },
+          "enemies": {
+            "active": 6,
+            "corpses": 0,
+            "independentSkeletons": 6,
+            "lootable": 0,
+            "proceduralCore": {
+              "anatomyNodes": 19,
+              "artifactType": "asiyah-creature-artifacts",
+              "bones": 19,
+              "closedSurface": true,
+              "continuousSkinnedMesh": true,
+              "material": {
+                "baseColor": [
+                  0.44639999999999996,
+                  0.279,
+                  0.589,
+                  1
+                ],
+                "baseColorLuminance": 0.33697124,
+                "bootstrapRenderer": {
+                  "formula": "uColor * vColor",
+                  "vertexColors": true
+                },
+                "emissive": {
+                  "bodyGlow": false,
+                  "model": "albedo-gated-eye-and-rune-accent",
+                  "strength": 0.06
+                },
+                "family": "violet-ash",
+                "mapBound": true,
+                "mapHasRealData": true,
+                "mapRepeat": [
+                  3.2,
+                  2.55
+                ],
+                "metallicFactor": 0.035,
+                "pattern": "ash-runes",
+                "richRenderer": {
+                  "formula": "uColor * vColor * texel",
+                  "mapProperty": "mapImage",
+                  "mapReady": true,
+                  "roughnessConsumed": false
+                },
+                "roughnessFactor": 0.78,
+                "textureLuminance": {
+                  "averageColor": [
+                    0.45909926470588996,
+                    0.34380553002450037,
+                    0.5470549938725442
+                  ],
+                  "averageLuminance": 0.3829915893075926,
+                  "maximumColor": [
+                    0.6901960784313725,
+                    0.5490196078431373,
+                    0.7607843137254902
+                  ],
+                  "maximumLuminance": 0.5943231372549019,
+                  "measurement": "pixel-sampled",
+                  "minimumColor": [
+                    0.28627450980392155,
+                    0.2196078431372549,
+                    0.34509803921568627
+                  ],
+                  "minimumLuminance": 0.24284156862745096,
+                  "pattern": "ash-runes",
+                  "pixelSamples": 4096
+                }
+              },
+              "meshCount": 1,
+              "readability": {
+                "anatomy": {
+                  "legs": {
+                    "average": 0.05242417874897153,
+                    "count": 10522,
+                    "maximum": 0.08037542713806532,
+                    "minimum": 0.03500018749202888
+                  },
+                  "torso": {
+                    "average": 0.0774883019775561,
+                    "count": 8699,
+                    "maximum": 0.11196083116570654,
+                    "minimum": 0.04971158493500516
+                  },
+                  "arms": {
+                    "average": 0.059851005797030385,
+                    "count": 7205,
+                    "maximum": 0.09418409578507761,
+                    "minimum": 0.04112022783115963
+                  },
+                  "horns": {
+                    "average": 0.09724486967059393,
+                    "count": 2288,
+                    "maximum": 0.15189415509365567,
+                    "minimum": 0.07116204304925826
+                  },
+                  "claws": {
+                    "average": 0.09020588116695068,
+                    "count": 3503,
+                    "maximum": 0.1518293146420432,
+                    "minimum": 0.06927380757799037
+                  },
+                  "face": {
+                    "average": 0.0618464971378474,
+                    "count": 1778,
+                    "maximum": 0.09721599895521096,
+                    "minimum": 0.054722943590716396
+                  },
+                  "eyes": {
+                    "average": 0.031546014141763216,
+                    "count": 583,
+                    "maximum": 0.04724860971799919,
+                    "minimum": 0.030030214521070506
+                  }
+                },
+                "averageVisibleLuminance": 0.06720302811489803,
+                "baseColorLuminance": 0.33697124,
+                "bootstrapMinimumLuminance": 0.12874482836242854,
+                "lightPreset": {
+                  "ambient": [
+                    0.382,
+                    0.436,
+                    0.4892
+                  ],
+                  "exposure": 1.18,
+                  "roughnessResponse": "recorded-but-not-consumed-by-current-rich-shader",
+                  "sunColor": [
+                    1.18,
+                    0.9894,
+                    0.6724
+                  ],
+                  "sunDirection": [
+                    -0.4989558738515663,
+                    0.3477571241995765,
+                    -0.7937934356729464
+                  ]
+                },
+                "minimumVisibleLuminance": 0.015495846410027164,
+                "textureLuminance": {
+                  "averageColor": [
+                    0.45909926470588996,
+                    0.34380553002450037,
+                    0.5470549938725442
+                  ],
+                  "averageLuminance": 0.3829915893075926,
+                  "maximumColor": [
+                    0.6901960784313725,
+                    0.5490196078431373,
+                    0.7607843137254902
+                  ],
+                  "maximumLuminance": 0.5943231372549019,
+                  "measurement": "pixel-sampled",
+                  "minimumColor": [
+                    0.28627450980392155,
+                    0.2196078431372549,
+                    0.34509803921568627
+                  ],
+                  "minimumLuminance": 0.24284156862745096,
+                  "pattern": "ash-runes",
+                  "pixelSamples": 4096
+                },
+                "vertexColorMultiplication": {
+                  "average": 0.6560490344199208,
+                  "maximum": 0.925592,
+                  "minimum": 0.330281
+                }
+              },
+              "surfaceContract": {
+                "closedSurface": true,
+                "jointCount": 19,
+                "maximumInfluences": 4,
+                "primarySurfaceCount": 1,
+                "semanticPartCount": 6,
+                "semanticPartsAreMetadata": true,
+                "skinWeightCount": 34578,
+                "topology": "continuous-indexed-triangle-surface",
+                "version": "1.0.0",
+                "vertexCount": 34578
+              },
+              "triangles": 11526,
+              "vertices": 34578
+            },
+            "selectedId": null,
+            "total": 6
+          },
+          "sky": {
+            "cameraCentered": true,
+            "clouds": "three-octave-directional-procedural-noise",
+            "lensFlare": "shader-sun-disc-inner-halo-outer-bloom",
+            "quality": "high",
+            "realSunDirection": true,
+            "style": "realistic-daylight-atmospheric-scattering",
+            "technique": "single-full-sphere-procedural-fragment-shader",
+            "visibleGeometryArtifacts": false
+          },
+          "targeting": {
+            "contracts": [
+              {
+                "actors": 6,
+                "contract": "modern",
+                "order": 0
+              }
+            ],
+            "dragThreshold": 6,
+            "enabled": true,
+            "listenerCount": 4,
+            "pointerActive": false,
+            "populations": 1
+          }
+        }
+      },
+      "durationMs": 60601,
+      "friendlyNpcs": {
+        "status": "ready",
+        "value": {
+          "count": 1,
+          "markerVisible": true,
+          "npcId": "reb-mendel",
+          "visual": {
+            "actions": {
+              "activeActionId": null,
+              "cancelReason": null,
+              "elapsed": 0,
+              "phase": "idle",
+              "progress": 0,
+              "releaseCount": 0,
+              "weight": 0,
+              "actor": {
+                "actorId": "reb-mendel",
+                "ambiguities": {},
+                "bindQuaternionCount": 20,
+                "boundBones": 20,
+                "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                "roles": [
+                  "hips",
+                  "spine",
+                  "spine1",
+                  "spine2",
+                  "neck",
+                  "head",
+                  "leftShoulder",
+                  "leftArm",
+                  "leftForeArm",
+                  "leftHand",
+                  "rightShoulder",
+                  "rightArm",
+                  "rightForeArm",
+                  "rightHand",
+                  "leftUpLeg",
+                  "leftLeg",
+                  "leftFoot",
+                  "rightUpLeg",
+                  "rightLeg",
+                  "rightFoot"
+                ]
+              },
+              "composition": {
+                "baseBones": 0,
+                "applied": 0,
+                "filtered": 0
+              },
+              "lastResult": null,
+              "sequence": 0
+            },
+            "animations": [
+              "Armature.001|mixamo.com|Layer0",
+              "Armature.001|mixamo.com|Layer0.001",
+              "dance hip hop_Armature",
+              "dance silly_Armature",
+              "falling_Armature",
+              "hands-out",
+              "jump_Armature",
+              "neutral_Armature",
+              "punch",
+              "run_Armature",
+              "stab",
+              "stand 2_Armature",
+              "stand_Armature",
+              "walk_Armature"
+            ],
+            "equipment": {
+              "appearance": {
+                "body-shoes": {
+                  "itemId": "walking-boots",
+                  "colorId": "black",
+                  "fabricId": "leather",
+                  "materials": 1
+                },
+                "body-pants": {
+                  "itemId": "black-trousers",
+                  "colorId": "black",
+                  "fabricId": "plain",
+                  "materials": 1
+                },
+                "body-shirt": {
+                  "itemId": "base-shirt",
+                  "colorId": "white",
+                  "fabricId": "linen",
+                  "materials": 1
+                },
+                "jacket": {
+                  "itemId": "black-coat",
+                  "colorId": "black",
+                  "fabricId": "plain",
+                  "materials": 4
+                },
+                "glasses": {
+                  "itemId": "scholar-glasses",
+                  "colorId": "black",
+                  "fabricId": "plain",
+                  "materials": 7
+                },
+                "top-hat": {
+                  "itemId": "shabbos-top-hat",
+                  "colorId": "black",
+                  "fabricId": "plain",
+                  "materials": 1
+                },
+                "yarmulka": {
+                  "itemId": "wool-kippah",
+                  "colorId": "black",
+                  "fabricId": "wool",
+                  "materials": 1
+                },
+                "outer-shirt": {
+                  "itemId": "white-outer-shirt",
+                  "colorId": "white",
+                  "fabricId": "linen",
+                  "materials": 2
+                }
+              },
+              "casting": false,
+              "drawn": false,
+              "garments": {
+                "active": [
+                  "body-shoes",
+                  "body-pants",
+                  "body-shirt",
+                  "jacket",
+                  "glasses",
+                  "top-hat",
+                  "yarmulka",
+                  "outer-shirt"
+                ],
+                "discovered": {
+                  "body-pants": {
+                    "materials": [
+                      "pants"
+                    ],
+                    "meshes": 1,
+                    "roots": 0
+                  },
+                  "body-shirt": {
+                    "materials": [
+                      "shirt"
+                    ],
+                    "meshes": 1,
+                    "roots": 0
+                  },
+                  "body-shoes": {
+                    "materials": [
+                      "shoes"
+                    ],
+                    "meshes": 1,
+                    "roots": 0
+                  },
+                  "jacket": {
+                    "materials": [
+                      "jacket",
+                      "jacket"
+                    ],
+                    "meshes": 2,
+                    "roots": 1
+                  },
+                  "jacket-tefillin": {
+                    "materials": [
+                      "jacket",
+                      "jacket"
+                    ],
+                    "meshes": 2,
+                    "roots": 1
+                  },
+                  "outer-shirt": {
+                    "materials": [
+                      "outer-shirt",
+                      "outer-shirt"
+                    ],
+                    "meshes": 2,
+                    "roots": 1
+                  },
+                  "tefillin-arm": {
+                    "materials": [
+                      "teffilinStrap",
+                      "teffilinBayis",
+                      "teffilinBayis"
+                    ],
+                    "meshes": 3,
+                    "roots": 2
+                  },
+                  "glasses": {
+                    "materials": [
+                      "glasses-frame",
+                      "glasses-frame",
+                      "glasses-frame",
+                      "glasses-frame",
+                      "glasses-glass",
+                      "glasses-frame",
+                      "glasses-glass"
+                    ],
+                    "meshes": 7,
+                    "roots": 1
+                  },
+                  "tefillin-head": {
+                    "materials": [
+                      "teffilinStrap",
+                      "material_default",
+                      "teffilinBayis",
+                      "teffilinBayis",
+                      "teffilinBayis",
+                      "teffilinBayis",
+                      "teffilinBayis",
+                      "teffilinStrap",
+                      "teffilinBayis",
+                      "teffilinStrap",
+                      "material_default",
+                      "teffilinStrap",
+                      "material_default",
+                      "jacket.001",
+                      "teffilinShin"
+                    ],
+                    "meshes": 15,
+                    "roots": 2
+                  },
+                  "top-hat": {
+                    "materials": [
+                      "tophat"
+                    ],
+                    "meshes": 1,
+                    "roots": 1
+                  },
+                  "yarmulka": {
+                    "materials": [
+                      "yamulka"
+                    ],
+                    "meshes": 1,
+                    "roots": 1
+                  }
+                },
+                "tefillinJacket": false
+              },
+              "handBone": "mixamorig:RightHand",
+              "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+              "spineBone": "mixamorig:Spine2",
+              "weaponAttachment": "upper-back",
+              "weaponItemId": "wooden-staff"
+            },
+            "id": "reb-mendel",
+            "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+            "source": "./assets/models/player/chossid.glb",
+            "marker": "Awtsmoos_npc_marker_reb-mendel",
+            "primitiveActorMeshes": 0,
+            "questActorSource": "./assets/models/player/chossid.glb"
+          }
+        }
+      },
+      "model": {
+        "status": "ready",
+        "value": {
+          "animations": 14,
+          "materials": {
+            "materials": 63,
+            "meshes": 63,
+            "preservedMaps": 0,
+            "vertexColorsPreserved": 0
+          },
+          "meshes": 63,
+          "source": "./assets/models/player/chossid.glb",
+          "status": "ready"
+        }
+      },
+      "ready": true,
+      "richWorld": {
+        "status": "ready",
+        "value": {
+          "failures": {},
+          "friendly": {
+            "count": 1,
+            "markerVisible": true,
+            "npcId": "reb-mendel",
+            "visual": {
+              "actions": {
+                "activeActionId": null,
+                "cancelReason": null,
+                "elapsed": 0,
+                "phase": "idle",
+                "progress": 0,
+                "releaseCount": 0,
+                "weight": 0,
+                "actor": {
+                  "actorId": "reb-mendel",
+                  "ambiguities": {},
+                  "bindQuaternionCount": 20,
+                  "boundBones": 20,
+                  "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                  "roles": [
+                    "hips",
+                    "spine",
+                    "spine1",
+                    "spine2",
+                    "neck",
+                    "head",
+                    "leftShoulder",
+                    "leftArm",
+                    "leftForeArm",
+                    "leftHand",
+                    "rightShoulder",
+                    "rightArm",
+                    "rightForeArm",
+                    "rightHand",
+                    "leftUpLeg",
+                    "leftLeg",
+                    "leftFoot",
+                    "rightUpLeg",
+                    "rightLeg",
+                    "rightFoot"
+                  ]
+                },
+                "composition": {
+                  "baseBones": 0,
+                  "applied": 0,
+                  "filtered": 0
+                },
+                "lastResult": null,
+                "sequence": 0
+              },
+              "animations": [
+                "Armature.001|mixamo.com|Layer0",
+                "Armature.001|mixamo.com|Layer0.001",
+                "dance hip hop_Armature",
+                "dance silly_Armature",
+                "falling_Armature",
+                "hands-out",
+                "jump_Armature",
+                "neutral_Armature",
+                "punch",
+                "run_Armature",
+                "stab",
+                "stand 2_Armature",
+                "stand_Armature",
+                "walk_Armature"
+              ],
+              "equipment": {
+                "appearance": {
+                  "body-shoes": {
+                    "itemId": "walking-boots",
+                    "colorId": "black",
+                    "fabricId": "leather",
+                    "materials": 1
+                  },
+                  "body-pants": {
+                    "itemId": "black-trousers",
+                    "colorId": "black",
+                    "fabricId": "plain",
+                    "materials": 1
+                  },
+                  "body-shirt": {
+                    "itemId": "base-shirt",
+                    "colorId": "white",
+                    "fabricId": "linen",
+                    "materials": 1
+                  },
+                  "jacket": {
+                    "itemId": "black-coat",
+                    "colorId": "black",
+                    "fabricId": "plain",
+                    "materials": 4
+                  },
+                  "glasses": {
+                    "itemId": "scholar-glasses",
+                    "colorId": "black",
+                    "fabricId": "plain",
+                    "materials": 7
+                  },
+                  "top-hat": {
+                    "itemId": "shabbos-top-hat",
+                    "colorId": "black",
+                    "fabricId": "plain",
+                    "materials": 1
+                  },
+                  "yarmulka": {
+                    "itemId": "wool-kippah",
+                    "colorId": "black",
+                    "fabricId": "wool",
+                    "materials": 1
+                  },
+                  "outer-shirt": {
+                    "itemId": "white-outer-shirt",
+                    "colorId": "white",
+                    "fabricId": "linen",
+                    "materials": 2
+                  }
+                },
+                "casting": false,
+                "drawn": false,
+                "garments": {
+                  "active": [
+                    "body-shoes",
+                    "body-pants",
+                    "body-shirt",
+                    "jacket",
+                    "glasses",
+                    "top-hat",
+                    "yarmulka",
+                    "outer-shirt"
+                  ],
+                  "discovered": {
+                    "body-pants": {
+                      "materials": [
+                        "pants"
+                      ],
+                      "meshes": 1,
+                      "roots": 0
+                    },
+                    "body-shirt": {
+                      "materials": [
+                        "shirt"
+                      ],
+                      "meshes": 1,
+                      "roots": 0
+                    },
+                    "body-shoes": {
+                      "materials": [
+                        "shoes"
+                      ],
+                      "meshes": 1,
+                      "roots": 0
+                    },
+                    "jacket": {
+                      "materials": [
+                        "jacket",
+                        "jacket"
+                      ],
+                      "meshes": 2,
+                      "roots": 1
+                    },
+                    "jacket-tefillin": {
+                      "materials": [
+                        "jacket",
+                        "jacket"
+                      ],
+                      "meshes": 2,
+                      "roots": 1
+                    },
+                    "outer-shirt": {
+                      "materials": [
+                        "outer-shirt",
+                        "outer-shirt"
+                      ],
+                      "meshes": 2,
+                      "roots": 1
+                    },
+                    "tefillin-arm": {
+                      "materials": [
+                        "teffilinStrap",
+                        "teffilinBayis",
+                        "teffilinBayis"
+                      ],
+                      "meshes": 3,
+                      "roots": 2
+                    },
+                    "glasses": {
+                      "materials": [
+                        "glasses-frame",
+                        "glasses-frame",
+                        "glasses-frame",
+                        "glasses-frame",
+                        "glasses-glass",
+                        "glasses-frame",
+                        "glasses-glass"
+                      ],
+                      "meshes": 7,
+                      "roots": 1
+                    },
+                    "tefillin-head": {
+                      "materials": [
+                        "teffilinStrap",
+                        "material_default",
+                        "teffilinBayis",
+                        "teffilinBayis",
+                        "teffilinBayis",
+                        "teffilinBayis",
+                        "teffilinBayis",
+                        "teffilinStrap",
+                        "teffilinBayis",
+                        "teffilinStrap",
+                        "material_default",
+                        "teffilinStrap",
+                        "material_default",
+                        "jacket.001",
+                        "teffilinShin"
+                      ],
+                      "meshes": 15,
+                      "roots": 2
+                    },
+                    "top-hat": {
+                      "materials": [
+                        "tophat"
+                      ],
+                      "meshes": 1,
+                      "roots": 1
+                    },
+                    "yarmulka": {
+                      "materials": [
+                        "yamulka"
+                      ],
+                      "meshes": 1,
+                      "roots": 1
+                    }
+                  },
+                  "tefillinJacket": false
+                },
+                "handBone": "mixamorig:RightHand",
+                "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                "spineBone": "mixamorig:Spine2",
+                "weaponAttachment": "upper-back",
+                "weaponItemId": "wooden-staff"
+              },
+              "id": "reb-mendel",
+              "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+              "source": "./assets/models/player/chossid.glb",
+              "marker": "Awtsmoos_npc_marker_reb-mendel",
+              "primitiveActorMeshes": 0,
+              "questActorSource": "./assets/models/player/chossid.glb"
+            }
+          },
+          "houses": {
+            "doors": 20,
+            "geometry": {
+              "boundedMeshes": 177,
+              "invalidMatrices": 0,
+              "meshCount": 177,
+              "retainedDefinitions": 177,
+              "sidedMeshes": 177
+            },
+            "houses": 2,
+            "materialsReady": 6,
+            "mezuzahs": 20,
+            "rooms": 21,
+            "stairs": 1
+          },
+          "mounts": {
+            "houses": {
+              "diagnostics": {
+                "doors": 20,
+                "geometry": {
+                  "boundedMeshes": 177,
+                  "invalidMatrices": 0,
+                  "meshCount": 177,
+                  "retainedDefinitions": 177,
+                  "sidedMeshes": 177
+                },
+                "houses": 2,
+                "materialsReady": 6,
+                "mezuzahs": 20,
+                "rooms": 21,
+                "stairs": 1
+              },
+              "name": "houses",
+              "status": "ready"
+            },
+            "quest": {
+              "diagnostics": {
+                "count": 1,
+                "markerVisible": true,
+                "npcId": "reb-mendel",
+                "visual": {
+                  "actions": {
+                    "activeActionId": null,
+                    "cancelReason": null,
+                    "elapsed": 0,
+                    "phase": "idle",
+                    "progress": 0,
+                    "releaseCount": 0,
+                    "weight": 0,
+                    "actor": {
+                      "actorId": "reb-mendel",
+                      "ambiguities": {},
+                      "bindQuaternionCount": 20,
+                      "boundBones": 20,
+                      "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                      "roles": [
+                        "hips",
+                        "spine",
+                        "spine1",
+                        "spine2",
+                        "neck",
+                        "head",
+                        "leftShoulder",
+                        "leftArm",
+                        "leftForeArm",
+                        "leftHand",
+                        "rightShoulder",
+                        "rightArm",
+                        "rightForeArm",
+                        "rightHand",
+                        "leftUpLeg",
+                        "leftLeg",
+                        "leftFoot",
+                        "rightUpLeg",
+                        "rightLeg",
+                        "rightFoot"
+                      ]
+                    },
+                    "composition": {
+                      "baseBones": 0,
+                      "applied": 0,
+                      "filtered": 0
+                    },
+                    "lastResult": null,
+                    "sequence": 0
+                  },
+                  "animations": [
+                    "Armature.001|mixamo.com|Layer0",
+                    "Armature.001|mixamo.com|Layer0.001",
+                    "dance hip hop_Armature",
+                    "dance silly_Armature",
+                    "falling_Armature",
+                    "hands-out",
+                    "jump_Armature",
+                    "neutral_Armature",
+                    "punch",
+                    "run_Armature",
+                    "stab",
+                    "stand 2_Armature",
+                    "stand_Armature",
+                    "walk_Armature"
+                  ],
+                  "equipment": {
+                    "appearance": {
+                      "body-shoes": {
+                        "itemId": "walking-boots",
+                        "colorId": "black",
+                        "fabricId": "leather",
+                        "materials": 1
+                      },
+                      "body-pants": {
+                        "itemId": "black-trousers",
+                        "colorId": "black",
+                        "fabricId": "plain",
+                        "materials": 1
+                      },
+                      "body-shirt": {
+                        "itemId": "base-shirt",
+                        "colorId": "white",
+                        "fabricId": "linen",
+                        "materials": 1
+                      },
+                      "jacket": {
+                        "itemId": "black-coat",
+                        "colorId": "black",
+                        "fabricId": "plain",
+                        "materials": 4
+                      },
+                      "glasses": {
+                        "itemId": "scholar-glasses",
+                        "colorId": "black",
+                        "fabricId": "plain",
+                        "materials": 7
+                      },
+                      "top-hat": {
+                        "itemId": "shabbos-top-hat",
+                        "colorId": "black",
+                        "fabricId": "plain",
+                        "materials": 1
+                      },
+                      "yarmulka": {
+                        "itemId": "wool-kippah",
+                        "colorId": "black",
+                        "fabricId": "wool",
+                        "materials": 1
+                      },
+                      "outer-shirt": {
+                        "itemId": "white-outer-shirt",
+                        "colorId": "white",
+                        "fabricId": "linen",
+                        "materials": 2
+                      }
+                    },
+                    "casting": false,
+                    "drawn": false,
+                    "garments": {
+                      "active": [
+                        "body-shoes",
+                        "body-pants",
+                        "body-shirt",
+                        "jacket",
+                        "glasses",
+                        "top-hat",
+                        "yarmulka",
+                        "outer-shirt"
+                      ],
+                      "discovered": {
+                        "body-pants": {
+                          "materials": [
+                            "pants"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "body-shirt": {
+                          "materials": [
+                            "shirt"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "body-shoes": {
+                          "materials": [
+                            "shoes"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "jacket": {
+                          "materials": [
+                            "jacket",
+                            "jacket"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "jacket-tefillin": {
+                          "materials": [
+                            "jacket",
+                            "jacket"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "outer-shirt": {
+                          "materials": [
+                            "outer-shirt",
+                            "outer-shirt"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "tefillin-arm": {
+                          "materials": [
+                            "teffilinStrap",
+                            "teffilinBayis",
+                            "teffilinBayis"
+                          ],
+                          "meshes": 3,
+                          "roots": 2
+                        },
+                        "glasses": {
+                          "materials": [
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-glass",
+                            "glasses-frame",
+                            "glasses-glass"
+                          ],
+                          "meshes": 7,
+                          "roots": 1
+                        },
+                        "tefillin-head": {
+                          "materials": [
+                            "teffilinStrap",
+                            "material_default",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinStrap",
+                            "teffilinBayis",
+                            "teffilinStrap",
+                            "material_default",
+                            "teffilinStrap",
+                            "material_default",
+                            "jacket.001",
+                            "teffilinShin"
+                          ],
+                          "meshes": 15,
+                          "roots": 2
+                        },
+                        "top-hat": {
+                          "materials": [
+                            "tophat"
+                          ],
+                          "meshes": 1,
+                          "roots": 1
+                        },
+                        "yarmulka": {
+                          "materials": [
+                            "yamulka"
+                          ],
+                          "meshes": 1,
+                          "roots": 1
+                        }
+                      },
+                      "tefillinJacket": false
+                    },
+                    "handBone": "mixamorig:RightHand",
+                    "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                    "spineBone": "mixamorig:Spine2",
+                    "weaponAttachment": "upper-back",
+                    "weaponItemId": "wooden-staff"
+                  },
+                  "id": "reb-mendel",
+                  "model": "Awtsmoos_quest_chossid_glb_reb-mendel",
+                  "source": "./assets/models/player/chossid.glb",
+                  "marker": "Awtsmoos_npc_marker_reb-mendel",
+                  "primitiveActorMeshes": 0,
+                  "questActorSource": "./assets/models/player/chossid.glb"
+                }
+              },
+              "status": "ready"
+            },
+            "tailor": {
+              "diagnostics": {
+                "actor": {
+                  "actions": {
+                    "activeActionId": null,
+                    "cancelReason": null,
+                    "elapsed": 0,
+                    "phase": "idle",
+                    "progress": 0,
+                    "releaseCount": 0,
+                    "weight": 0,
+                    "actor": {
+                      "actorId": "reb-shlomo-tailor",
+                      "ambiguities": {},
+                      "bindQuaternionCount": 20,
+                      "boundBones": 20,
+                      "model": "Awtsmoos_friendly_chossid_reb-shlomo-tailor",
+                      "roles": [
+                        "hips",
+                        "spine",
+                        "spine1",
+                        "spine2",
+                        "neck",
+                        "head",
+                        "leftShoulder",
+                        "leftArm",
+                        "leftForeArm",
+                        "leftHand",
+                        "rightShoulder",
+                        "rightArm",
+                        "rightForeArm",
+                        "rightHand",
+                        "leftUpLeg",
+                        "leftLeg",
+                        "leftFoot",
+                        "rightUpLeg",
+                        "rightLeg",
+                        "rightFoot"
+                      ]
+                    },
+                    "composition": {
+                      "baseBones": 0,
+                      "applied": 0,
+                      "filtered": 0
+                    },
+                    "lastResult": null,
+                    "sequence": 0
+                  },
+                  "animations": [
+                    "Armature.001|mixamo.com|Layer0",
+                    "Armature.001|mixamo.com|Layer0.001",
+                    "dance hip hop_Armature",
+                    "dance silly_Armature",
+                    "falling_Armature",
+                    "hands-out",
+                    "jump_Armature",
+                    "neutral_Armature",
+                    "punch",
+                    "run_Armature",
+                    "stab",
+                    "stand 2_Armature",
+                    "stand_Armature",
+                    "walk_Armature"
+                  ],
+                  "equipment": {
+                    "appearance": {
+                      "body-shoes": {
+                        "itemId": "walking-boots",
+                        "colorId": "black",
+                        "fabricId": "leather",
+                        "materials": 1
+                      },
+                      "body-pants": {
+                        "itemId": "black-trousers",
+                        "colorId": "black",
+                        "fabricId": "plain",
+                        "materials": 1
+                      },
+                      "body-shirt": {
+                        "itemId": "base-shirt",
+                        "colorId": "white",
+                        "fabricId": "linen",
+                        "materials": 1
+                      },
+                      "jacket": {
+                        "itemId": "brown-kapote",
+                        "colorId": "brown",
+                        "fabricId": "wool",
+                        "materials": 4
+                      },
+                      "glasses": {
+                        "itemId": "blue-scholar-glasses",
+                        "colorId": "blue",
+                        "fabricId": "plain",
+                        "materials": 7
+                      },
+                      "top-hat": {
+                        "itemId": "velvet-top-hat",
+                        "colorId": "black",
+                        "fabricId": "velvet",
+                        "materials": 1
+                      },
+                      "yarmulka": {
+                        "itemId": "wool-kippah",
+                        "colorId": "black",
+                        "fabricId": "wool",
+                        "materials": 1
+                      },
+                      "outer-shirt": {
+                        "itemId": "linen-outer-shirt",
+                        "colorId": "white",
+                        "fabricId": "linen",
+                        "materials": 2
+                      }
+                    },
+                    "casting": false,
+                    "drawn": false,
+                    "garments": {
+                      "active": [
+                        "body-shoes",
+                        "body-pants",
+                        "body-shirt",
+                        "jacket",
+                        "glasses",
+                        "top-hat",
+                        "yarmulka",
+                        "outer-shirt"
+                      ],
+                      "discovered": {
+                        "body-pants": {
+                          "materials": [
+                            "pants"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "body-shirt": {
+                          "materials": [
+                            "shirt"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "body-shoes": {
+                          "materials": [
+                            "shoes"
+                          ],
+                          "meshes": 1,
+                          "roots": 0
+                        },
+                        "jacket": {
+                          "materials": [
+                            "jacket",
+                            "jacket"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "jacket-tefillin": {
+                          "materials": [
+                            "jacket",
+                            "jacket"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "outer-shirt": {
+                          "materials": [
+                            "outer-shirt",
+                            "outer-shirt"
+                          ],
+                          "meshes": 2,
+                          "roots": 1
+                        },
+                        "tefillin-arm": {
+                          "materials": [
+                            "teffilinStrap",
+                            "teffilinBayis",
+                            "teffilinBayis"
+                          ],
+                          "meshes": 3,
+                          "roots": 2
+                        },
+                        "glasses": {
+                          "materials": [
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-frame",
+                            "glasses-glass",
+                            "glasses-frame",
+                            "glasses-glass"
+                          ],
+                          "meshes": 7,
+                          "roots": 1
+                        },
+                        "tefillin-head": {
+                          "materials": [
+                            "teffilinStrap",
+                            "material_default",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinBayis",
+                            "teffilinStrap",
+                            "teffilinBayis",
+                            "teffilinStrap",
+                            "material_default",
+                            "teffilinStrap",
+                            "material_default",
+                            "jacket.001",
+                            "teffilinShin"
+                          ],
+                          "meshes": 15,
+                          "roots": 2
+                        },
+                        "top-hat": {
+                          "materials": [
+                            "tophat"
+                          ],
+                          "meshes": 1,
+                          "roots": 1
+                        },
+                        "yarmulka": {
+                          "materials": [
+                            "yamulka"
+                          ],
+                          "meshes": 1,
+                          "roots": 1
+                        }
+                      },
+                      "tefillinJacket": false
+                    },
+                    "handBone": "mixamorig:RightHand",
+                    "model": "Awtsmoos_friendly_chossid_reb-shlomo-tailor",
+                    "spineBone": "mixamorig:Spine2",
+                    "weaponAttachment": "upper-back",
+                    "weaponItemId": "wooden-staff"
+                  },
+                  "id": "reb-shlomo-tailor",
+                  "model": "Awtsmoos_friendly_chossid_reb-shlomo-tailor",
+                  "source": "./assets/models/player/chossid.glb"
+                },
+                "count": 1,
+                "id": "reb-shlomo-tailor",
+                "panel": {
+                  "open": false,
+                  "perutas": 120,
+                  "stock": 10
+                },
+                "sharedInventory": true,
+                "stock": 10
+              },
+              "name": "clothingMerchant",
+              "status": "ready"
+            },
+            "trees": {
+              "diagnostics": {
+                "bounds": {
+                  "maxX": 105.7945930666841,
+                  "maxY": 19.091510001324693,
+                  "maxZ": 55.482447820774034,
+                  "minX": -103.08254387017108,
+                  "minY": 2.0963,
+                  "minZ": -12.657196480022133,
+                  "finite": true
+                },
+                "drawCalls": 64,
+                "errors": [],
+                "groves": 7,
+                "hydrationState": "loading-public-textures",
+                "materials": 6,
+                "mobileProfile": false,
+                "mounted": true,
+                "quadrants": {
+                  "northeast": 10,
+                  "northwest": 16,
+                  "southeast": 3,
+                  "southwest": 3
+                },
+                "sceneObjects": 97,
+                "sharedGeometries": 6,
+                "trees": 32,
+                "triangles": 318570,
+                "updateAllocations": 0
+              },
+              "name": "trees",
+              "status": "ready"
+            },
+            "vegetation": {
+              "diagnostics": {
+                "batchMode": "baked-instance-cell-batches",
+                "bounds": {
+                  "maxX": 105.5,
+                  "maxY": 21.531100000000002,
+                  "maxZ": 84.30866111054723,
+                  "minX": -105.5,
+                  "minY": -0.4891,
+                  "minZ": -98.50653218571097,
+                  "finite": true
+                },
+                "cells": 42,
+                "clumps": 499,
+                "drawCalls": 84,
+                "materials": 5,
+                "mobileProfile": false,
+                "mounted": true,
+                "quadrants": {
+                  "northeast": 16,
+                  "northwest": 22,
+                  "southeast": 1,
+                  "southwest": 3
+                },
+                "sceneObjects": 127,
+                "triangles": 37924,
+                "updateAllocations": 0,
+                "zones": {
+                  "grass-meadow": 14,
+                  "dry-meadow": 5,
+                  "river-bank": 17,
+                  "moist-meadow": 6
+                }
+              },
+              "name": "vegetation",
+              "status": "ready"
+            },
+            "water": {
+              "diagnostics": {
+                "activeNormalSources": 2,
+                "bankMeshes": 2,
+                "bedMeshes": 2,
+                "drawCalls": 6,
+                "elevations": {
+                  "aligned": true,
+                  "continuity": {
+                    "connected": true,
+                    "destination": {
+                      "waterY": -0.72,
+                      "width": 10.4,
+                      "x": 58,
+                      "z": 54
+                    },
+                    "maximumGap": 2.23606797749979,
+                    "segments": 80,
+                    "source": {
+                      "waterY": 2.18,
+                      "width": 3.3,
+                      "x": -84,
+                      "z": 78
+                    }
+                  },
+                  "minimumBankRise": 0.07999999999999985,
+                  "minimumDepth": 1.7349666666666668,
+                  "samples": 25
+                },
+                "errors": [],
+                "hydrationState": "loading-local-water-pack",
+                "materials": 6,
+                "mounted": true,
+                "normalMode": "procedural-fallback",
+                "riverSegments": 80,
+                "sceneObjects": 7,
+                "triangles": 4144,
+                "updateAllocations": 0,
+                "waterMeshes": 2
+              },
+              "name": "water",
+              "status": "ready"
+            },
+            "targeting": {
+              "contracts": [
+                {
+                  "actors": 0,
+                  "contract": "modern",
+                  "order": 0
+                },
+                {
+                  "actors": 0,
+                  "contract": "modern",
+                  "order": 1
+                },
+                {
+                  "actors": 6,
+                  "contract": "modern",
+                  "order": 2
+                },
+                {
+                  "actors": 0,
+                  "contract": "modern",
+                  "order": 3
+                }
+              ],
+              "dragThreshold": 6,
+              "enabled": true,
+              "listenerCount": 4,
+              "pointerActive": false,
+              "populations": 4
+            }
+          },
+          "quest": {
+            "definition": {
+              "description": "Six shadows trouble the road and the homes beyond it. Defeat any three distinct demons, then return to Reb Mendel for your reward.",
+              "giver": {
+                "id": "reb-mendel",
+                "name": "Reb Mendel the Watchman"
+              },
+              "id": "three-shadows-before-sunset",
+              "name": "Three Shadows Before Sunset",
+              "objective": {
+                "count": 3,
+                "description": "Defeat distinct shadow demons",
+                "event": "enemy:defeated"
+              },
+              "reward": {
+                "perutas": 75,
+                "xp": 100
+              },
+              "thanks": "The road breathes easier. Take these perutas, and may your strength serve only light."
+            },
+            "progress": 0,
+            "remaining": 3,
+            "status": "available"
+          },
+          "targeting": {
+            "contracts": [
+              {
+                "actors": 0,
+                "contract": "modern",
+                "order": 0
+              },
+              {
+                "actors": 0,
+                "contract": "modern",
+                "order": 1
+              },
+              {
+                "actors": 6,
+                "contract": "modern",
+                "order": 2
+              },
+              {
+                "actors": 0,
+                "contract": "modern",
+                "order": 3
+              }
+            ],
+            "dragThreshold": 6,
+            "enabled": true,
+            "listenerCount": 4,
+            "pointerActive": false,
+            "populations": 4
+          },
+          "trees": {
+            "bounds": {
+              "maxX": 105.7945930666841,
+              "maxY": 19.091510001324693,
+              "maxZ": 55.482447820774034,
+              "minX": -103.08254387017108,
+              "minY": 2.0963,
+              "minZ": -12.657196480022133,
+              "finite": true
+            },
+            "drawCalls": 64,
+            "errors": [],
+            "groves": 7,
+            "hydrationState": "loading-public-textures",
+            "materials": 6,
+            "mobileProfile": false,
+            "mounted": true,
+            "quadrants": {
+              "northeast": 10,
+              "northwest": 16,
+              "southeast": 3,
+              "southwest": 3
+            },
+            "sceneObjects": 97,
+            "sharedGeometries": 6,
+            "trees": 32,
+            "triangles": 318570,
+            "updateAllocations": 0
+          },
+          "vegetation": {
+            "batchMode": "baked-instance-cell-batches",
+            "bounds": {
+              "maxX": 105.5,
+              "maxY": 21.531100000000002,
+              "maxZ": 84.30866111054723,
+              "minX": -105.5,
+              "minY": -0.4891,
+              "minZ": -98.50653218571097,
+              "finite": true
+            },
+            "cells": 42,
+            "clumps": 499,
+            "drawCalls": 84,
+            "materials": 5,
+            "mobileProfile": false,
+            "mounted": true,
+            "quadrants": {
+              "northeast": 16,
+              "northwest": 22,
+              "southeast": 1,
+              "southwest": 3
+            },
+            "sceneObjects": 127,
+            "triangles": 37924,
+            "updateAllocations": 0,
+            "zones": {
+              "grass-meadow": 14,
+              "dry-meadow": 5,
+              "river-bank": 17,
+              "moist-meadow": 6
+            }
+          },
+          "water": {
+            "activeNormalSources": 2,
+            "bankMeshes": 2,
+            "bedMeshes": 2,
+            "drawCalls": 6,
+            "elevations": {
+              "aligned": true,
+              "continuity": {
+                "connected": true,
+                "destination": {
+                  "waterY": -0.72,
+                  "width": 10.4,
+                  "x": 58,
+                  "z": 54
+                },
+                "maximumGap": 2.23606797749979,
+                "segments": 80,
+                "source": {
+                  "waterY": 2.18,
+                  "width": 3.3,
+                  "x": -84,
+                  "z": 78
+                }
+              },
+              "minimumBankRise": 0.07999999999999985,
+              "minimumDepth": 1.7349666666666668,
+              "samples": 25
+            },
+            "errors": [],
+            "hydrationState": "loading-local-water-pack",
+            "materials": 6,
+            "mounted": true,
+            "normalMode": "procedural-fallback",
+            "riverSegments": 80,
+            "sceneObjects": 7,
+            "triangles": 4144,
+            "updateAllocations": 0,
+            "waterMeshes": 2
+          }
+        }
+      },
+      "visualStability": {
+        "demons": {
+          "mappedMaterials": 6,
+          "meshes": 6,
+          "readable": true
+        },
+        "equipment": {
+          "drawn": false,
+          "synchronized": true,
+          "weaponItemId": "wooden-staff",
+          "weaponParts": 6
+        },
+        "houses": {
+          "materials": 177,
+          "meshes": 177,
+          "stable": true
+        },
+        "ready": true,
+        "terrain": {
+          "roadSources": 3,
+          "roadVisible": true,
+          "terrainVisible": true,
+          "uvProjection": null
+        }
+      }
+    },
+    "visualStability": {
+      "demons": {
+        "mappedMaterials": 6,
+        "meshes": 6,
+        "readable": true
+      },
+      "equipment": {
+        "drawn": false,
+        "synchronized": true,
+        "weaponItemId": "wooden-staff",
+        "weaponParts": 6
+      },
+      "houses": {
+        "materials": 177,
+        "meshes": 177,
+        "stable": true
+      },
+      "ready": true,
+      "terrain": {
+        "roadSources": 3,
+        "roadVisible": true,
+        "terrainVisible": true,
+        "uvProjection": null
+      }
+    }
+  },
+  "mountStatus": {
+    "clothingMerchant": "ready",
+    "houses": "ready",
+    "phase": "settled",
+    "quest": "ready",
+    "trees": "ready",
+    "vegetation": "ready",
+    "water": "ready"
+  },
+  "richWorldFailures": null,
+  "resources": [
+    {
+      "duration": 42,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-menu-shell.css?v=20260724-meadow-21",
+      "responseEnd": 148,
+      "transferSize": 2209
+    },
+    {
+      "duration": 42,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-loading.css?v=20260724-meadow-21",
+      "responseEnd": 148,
+      "transferSize": 2371
+    },
+    {
+      "duration": 46,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-inventory.css?v=20260724-meadow-21",
+      "responseEnd": 152,
+      "transferSize": 3141
+    },
+    {
+      "duration": 64,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-status.css?v=20260724-meadow-21",
+      "responseEnd": 170,
+      "transferSize": 4175
+    },
+    {
+      "duration": 56,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-panels.css?v=20260724-meadow-21",
+      "responseEnd": 163,
+      "transferSize": 2222
+    },
+    {
+      "duration": 57,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-responsive.css?v=20260724-meadow-21",
+      "responseEnd": 163,
+      "transferSize": 3844
+    },
+    {
+      "duration": 80,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-meadow-menu.css?v=20260724-meadow-21",
+      "responseEnd": 187,
+      "transferSize": 1729
+    },
+    {
+      "duration": 81,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-meadow-hud.css?v=20260724-meadow-21",
+      "responseEnd": 187,
+      "transferSize": 1231
+    },
+    {
+      "duration": 84,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-combat.css?v=20260724-meadow-21",
+      "responseEnd": 190,
+      "transferSize": 4996
+    },
+    {
+      "duration": 102,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-game-rail.css?v=20260724-meadow-21",
+      "responseEnd": 208,
+      "transferSize": 2472
+    },
+    {
+      "duration": 97,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-mobile.css?v=20260724-meadow-21",
+      "responseEnd": 204,
+      "transferSize": 1988
+    },
+    {
+      "duration": 101,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-glyphs.css?v=20260724-meadow-21",
+      "responseEnd": 208,
+      "transferSize": 2049
+    },
+    {
+      "duration": 111,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-houses.css?v=20260724-meadow-21",
+      "responseEnd": 218,
+      "transferSize": 960
+    },
+    {
+      "duration": 128,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-quest.css?v=20260724-meadow-21",
+      "responseEnd": 235,
+      "transferSize": 3625
+    },
+    {
+      "duration": 130,
+      "initiatorType": "link",
+      "name": "http://localhost:8080/games/mitzvahWorld/styles/mitzvah-world-mobile-integration.css?v=20260724-mobile-integration-1",
+      "responseEnd": 237,
+      "transferSize": 4043
+    },
+    {
+      "duration": 139,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js?rev=20260724-native-esm-3",
+      "responseEnd": 246,
+      "transferSize": 4418
+    },
+    {
+      "duration": 144,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMobileIntegration.js?rev=20260724-native-esm-3",
+      "responseEnd": 251,
+      "transferSize": 3187
+    },
+    {
+      "duration": 12,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js",
+      "responseEnd": 267,
+      "transferSize": 4703
+    },
+    {
+      "duration": 7,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MeadowLoadingScreen.js",
+      "responseEnd": 263,
+      "transferSize": 3510
+    },
+    {
+      "duration": 12,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js",
+      "responseEnd": 269,
+      "transferSize": 3917
+    },
+    {
+      "duration": 19,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerMaterialHydrator.js",
+      "responseEnd": 276,
+      "transferSize": 3878
+    },
+    {
+      "duration": 10,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js",
+      "responseEnd": 283,
+      "transferSize": 1365
+    },
+    {
+      "duration": 9,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystick.js",
+      "responseEnd": 284,
+      "transferSize": 3236
+    },
+    {
+      "duration": 12,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapControlsHud.js",
+      "responseEnd": 287,
+      "transferSize": 1822
+    },
+    {
+      "duration": 26,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapPlayerRuntime.js",
+      "responseEnd": 301,
+      "transferSize": 2625
+    },
+    {
+      "duration": 27,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js",
+      "responseEnd": 302,
+      "transferSize": 1418
+    },
+    {
+      "duration": 27,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCollision.js",
+      "responseEnd": 302,
+      "transferSize": 1565
+    },
+    {
+      "duration": 192,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowInput.js",
+      "responseEnd": 467,
+      "transferSize": 3367
+    },
+    {
+      "duration": 199,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoop.js",
+      "responseEnd": 475,
+      "transferSize": 3648
+    },
+    {
+      "duration": 199,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRenderer.js",
+      "responseEnd": 476,
+      "transferSize": 3090
+    },
+    {
+      "duration": 218,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRuntimeSupport.js",
+      "responseEnd": 495,
+      "transferSize": 3108
+    },
+    {
+      "duration": 225,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRuntimeState.js",
+      "responseEnd": 502,
+      "transferSize": 2359
+    },
+    {
+      "duration": 225,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainPackage.js",
+      "responseEnd": 503,
+      "transferSize": 3621
+    },
+    {
+      "duration": 241,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeStateMarker.js",
+      "responseEnd": 518,
+      "transferSize": 3141
+    },
+    {
+      "duration": 247,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js",
+      "responseEnd": 527,
+      "transferSize": 2120
+    },
+    {
+      "duration": 241,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js",
+      "responseEnd": 535,
+      "transferSize": 3275
+    },
+    {
+      "duration": 245,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-mesh-object.js",
+      "responseEnd": 538,
+      "transferSize": 985
+    },
+    {
+      "duration": 245,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-geometry.js",
+      "responseEnd": 539,
+      "transferSize": 1792
+    },
+    {
+      "duration": 252,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-camera.js",
+      "responseEnd": 550,
+      "transferSize": 871
+    },
+    {
+      "duration": 252,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-vector.js",
+      "responseEnd": 551,
+      "transferSize": 1710
+    },
+    {
+      "duration": 123,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisiblePlayer.js",
+      "responseEnd": 551,
+      "transferSize": 1685
+    },
+    {
+      "duration": 164,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraOrbitController.js",
+      "responseEnd": 592,
+      "transferSize": 3752
+    },
+    {
+      "duration": 164,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/math/Aabb.js",
+      "responseEnd": 592,
+      "transferSize": 2176
+    },
+    {
+      "duration": 164,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/AwtsmoosCollisionMover.js",
+      "responseEnd": 592,
+      "transferSize": 3619
+    },
+    {
+      "duration": 192,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/AwtsmoosOctree.js",
+      "responseEnd": 624,
+      "transferSize": 3746
+    },
+    {
+      "duration": 144,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementController.js",
+      "responseEnd": 624,
+      "transferSize": 3649
+    },
+    {
+      "duration": 169,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationState.js",
+      "responseEnd": 650,
+      "transferSize": 4751
+    },
+    {
+      "duration": 158,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalCanvasMeadowActor.js",
+      "responseEnd": 641,
+      "transferSize": 1469
+    },
+    {
+      "duration": 164,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalCanvasMeadowBackdrop.js",
+      "responseEnd": 647,
+      "transferSize": 3283
+    },
+    {
+      "duration": 178,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js?v=20260726-renderer-evidence-01",
+      "responseEnd": 661,
+      "transferSize": 3386
+    },
+    {
+      "duration": 178,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/RendererFallbackEvidence.js",
+      "responseEnd": 661,
+      "transferSize": 2596
+    },
+    {
+      "duration": 158,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js",
+      "responseEnd": 663,
+      "transferSize": 2044
+    },
+    {
+      "duration": 275,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalanceCoordinator.js",
+      "responseEnd": 780,
+      "transferSize": 3240
+    },
+    {
+      "duration": 283,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatController.js",
+      "responseEnd": 788,
+      "transferSize": 4133
+    },
+    {
+      "duration": 277,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatState.js",
+      "responseEnd": 782,
+      "transferSize": 1248
+    },
+    {
+      "duration": 286,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js",
+      "responseEnd": 791,
+      "transferSize": 1589
+    },
+    {
+      "duration": 288,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainMesh.js",
+      "responseEnd": 793,
+      "transferSize": 2708
+    },
+    {
+      "duration": 329,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js",
+      "responseEnd": 835,
+      "transferSize": 3493
+    },
+    {
+      "duration": 334,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainMaterialDensity.js",
+      "responseEnd": 839,
+      "transferSize": 2431
+    },
+    {
+      "duration": 339,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainPackageEvidence.js",
+      "responseEnd": 845,
+      "transferSize": 2327
+    },
+    {
+      "duration": 386,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadRibbon.js",
+      "responseEnd": 892,
+      "transferSize": 3251
+    },
+    {
+      "duration": 380,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainSources.js",
+      "responseEnd": 887,
+      "transferSize": 3155
+    },
+    {
+      "duration": 392,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldUvDensity.js",
+      "responseEnd": 898,
+      "transferSize": 3536
+    },
+    {
+      "duration": 373,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-math.js",
+      "responseEnd": 914,
+      "transferSize": 979
+    },
+    {
+      "duration": 380,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-cache.js",
+      "responseEnd": 921,
+      "transferSize": 6329
+    },
+    {
+      "duration": 357,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js",
+      "responseEnd": 916,
+      "transferSize": 1472
+    },
+    {
+      "duration": 400,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisualMaterial.js",
+      "responseEnd": 958,
+      "transferSize": 1820
+    },
+    {
+      "duration": 402,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipCache.js",
+      "responseEnd": 1000,
+      "transferSize": 4023
+    },
+    {
+      "duration": 396,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureController.js",
+      "responseEnd": 995,
+      "transferSize": 3423
+    },
+    {
+      "duration": 415,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js",
+      "responseEnd": 1013,
+      "transferSize": 3339
+    },
+    {
+      "duration": 437,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/LegacyOrbitCameraPose.js",
+      "responseEnd": 1035,
+      "transferSize": 2326
+    },
+    {
+      "duration": 447,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraProfileSystem.js",
+      "responseEnd": 1045,
+      "transferSize": 2347
+    },
+    {
+      "duration": 448,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js",
+      "responseEnd": 1053,
+      "transferSize": 2062
+    },
+    {
+      "duration": 463,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/CapsuleCollisionQuery.js",
+      "responseEnd": 1068,
+      "transferSize": 1630
+    },
+    {
+      "duration": 455,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/math/Ray.js",
+      "responseEnd": 1082,
+      "transferSize": 983
+    },
+    {
+      "duration": 459,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/OctreeRaycast.js",
+      "responseEnd": 1085,
+      "transferSize": 2528
+    },
+    {
+      "duration": 461,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowControlMath.js",
+      "responseEnd": 1094,
+      "transferSize": 3337
+    },
+    {
+      "duration": 473,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMovementRuntime.js",
+      "responseEnd": 1105,
+      "transferSize": 3545
+    },
+    {
+      "duration": 460,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js",
+      "responseEnd": 1113,
+      "transferSize": 782
+    },
+    {
+      "duration": 477,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionSystem.js",
+      "responseEnd": 1130,
+      "transferSize": 1777
+    },
+    {
+      "duration": 477,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationComposition.js",
+      "responseEnd": 1130,
+      "transferSize": 3146
+    },
+    {
+      "duration": 493,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationClipPolicy.js",
+      "responseEnd": 1146,
+      "transferSize": 2577
+    },
+    {
+      "duration": 508,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatAnimationController.js",
+      "responseEnd": 1161,
+      "transferSize": 3830
+    },
+    {
+      "duration": 501,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerBonePose.js",
+      "responseEnd": 1155,
+      "transferSize": 2322
+    },
+    {
+      "duration": 505,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js?v=20260723-meadow-07",
+      "responseEnd": 1168,
+      "transferSize": 3635
+    },
+    {
+      "duration": 571,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLDefaults.js",
+      "responseEnd": 1234,
+      "transferSize": 1075
+    },
+    {
+      "duration": 571,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLState.js",
+      "responseEnd": 1235,
+      "transferSize": 2318
+    },
+    {
+      "duration": 454,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalancePolicy.js",
+      "responseEnd": 1235,
+      "transferSize": 1608
+    },
+    {
+      "duration": 457,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatAnimation.js",
+      "responseEnd": 1247,
+      "transferSize": 1750
+    },
+    {
+      "duration": 458,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatLocks.js",
+      "responseEnd": 1248,
+      "transferSize": 2917
+    },
+    {
+      "duration": 458,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatPolicy.js",
+      "responseEnd": 1248,
+      "transferSize": 932
+    },
+    {
+      "duration": 476,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerDefeatRecovery.js",
+      "responseEnd": 1266,
+      "transferSize": 2226
+    },
+    {
+      "duration": 471,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/terrain/TerrainMaterialFactory.js",
+      "responseEnd": 1266,
+      "transferSize": 3131
+    },
+    {
+      "duration": 449,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/math/Geometry3D.js",
+      "responseEnd": 1285,
+      "transferSize": 3852
+    },
+    {
+      "duration": 448,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometryIndices.js",
+      "responseEnd": 1285,
+      "transferSize": 2174
+    },
+    {
+      "duration": 448,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometryNormals.js",
+      "responseEnd": 1285,
+      "transferSize": 2099
+    },
+    {
+      "duration": 599,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js?v=20260723-meadow-11",
+      "responseEnd": 1436,
+      "transferSize": 4545
+    },
+    {
+      "duration": 557,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainDataSupport.js",
+      "responseEnd": 1394,
+      "transferSize": 2559
+    },
+    {
+      "duration": 605,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js?v=20260724-meadow-21",
+      "responseEnd": 1442,
+      "transferSize": 3624
+    },
+    {
+      "duration": 634,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainDensityLayers.js",
+      "responseEnd": 1475,
+      "transferSize": 3104
+    },
+    {
+      "duration": 589,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCache.js",
+      "responseEnd": 1479,
+      "transferSize": 11444
+    },
+    {
+      "duration": 589,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureCatalog.js",
+      "responseEnd": 1479,
+      "transferSize": 1478
+    },
+    {
+      "duration": 639,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFirebaseTextures.js?v=20260724-meadow-13",
+      "responseEnd": 1529,
+      "transferSize": 1782
+    },
+    {
+      "duration": 647,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTextureBatchLoader.js?v=20260724-meadow-14",
+      "responseEnd": 1538,
+      "transferSize": 1952
+    },
+    {
+      "duration": 643,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js",
+      "responseEnd": 1538,
+      "transferSize": 1079
+    },
+    {
+      "duration": 703,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js",
+      "responseEnd": 1597,
+      "transferSize": 4290
+    },
+    {
+      "duration": 703,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js",
+      "responseEnd": 1598,
+      "transferSize": 4545
+    },
+    {
+      "duration": 657,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadGeometry.js",
+      "responseEnd": 1552,
+      "transferSize": 3532
+    },
+    {
+      "duration": 744,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-matrix-core.js",
+      "responseEnd": 1659,
+      "transferSize": 3767
+    },
+    {
+      "duration": 746,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-math.js",
+      "responseEnd": 1662,
+      "transferSize": 2197
+    },
+    {
+      "duration": 752,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-camera-math.js",
+      "responseEnd": 1668,
+      "transferSize": 2346
+    },
+    {
+      "duration": 789,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-interpolation-math.js",
+      "responseEnd": 1705,
+      "transferSize": 1616
+    },
+    {
+      "duration": 751,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js",
+      "responseEnd": 1712,
+      "transferSize": 3686
+    },
+    {
+      "duration": 770,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMetrics.js",
+      "responseEnd": 1732,
+      "transferSize": 3970
+    },
+    {
+      "duration": 741,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureMath.js",
+      "responseEnd": 1741,
+      "transferSize": 2409
+    },
+    {
+      "duration": 749,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraLegacyZoom.js",
+      "responseEnd": 1748,
+      "transferSize": 2103
+    },
+    {
+      "duration": 749,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraPointerCapture.js",
+      "responseEnd": 1748,
+      "transferSize": 1066
+    },
+    {
+      "duration": 751,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipSystem.js",
+      "responseEnd": 1757,
+      "transferSize": 1735
+    },
+    {
+      "duration": 692,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/CapsuleTriangle.js",
+      "responseEnd": 1768,
+      "transferSize": 2057
+    },
+    {
+      "duration": 674,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/math/RayAabb.js",
+      "responseEnd": 1763,
+      "transferSize": 2067
+    },
+    {
+      "duration": 662,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowJumpState.js",
+      "responseEnd": 1771,
+      "transferSize": 2007
+    },
+    {
+      "duration": 661,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js",
+      "responseEnd": 1783,
+      "transferSize": 2423
+    },
+    {
+      "duration": 663,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js",
+      "responseEnd": 1785,
+      "transferSize": 3810
+    },
+    {
+      "duration": 652,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/BuiltInPlayerActions.js",
+      "responseEnd": 1787,
+      "transferSize": 1002
+    },
+    {
+      "duration": 663,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionActor.js",
+      "responseEnd": 1798,
+      "transferSize": 2921
+    },
+    {
+      "duration": 663,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionMessageBridge.js",
+      "responseEnd": 1798,
+      "transferSize": 2970
+    },
+    {
+      "duration": 664,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntime.js",
+      "responseEnd": 1799,
+      "transferSize": 3359
+    },
+    {
+      "duration": 763,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseLibrary.js",
+      "responseEnd": 1927,
+      "transferSize": 3109
+    },
+    {
+      "duration": 763,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseMath.js",
+      "responseEnd": 1926,
+      "transferSize": 2782
+    },
+    {
+      "duration": 790,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatAnimationEvents.js",
+      "responseEnd": 1953,
+      "transferSize": 1811
+    },
+    {
+      "duration": 807,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatAnimationTimeline.js",
+      "responseEnd": 1970,
+      "transferSize": 2258
+    },
+    {
+      "duration": 810,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorBinding.js",
+      "responseEnd": 1979,
+      "transferSize": 1802
+    },
+    {
+      "duration": 810,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorProgram.js",
+      "responseEnd": 1979,
+      "transferSize": 2011
+    },
+    {
+      "duration": 826,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js",
+      "responseEnd": 1996,
+      "transferSize": 3142
+    },
+    {
+      "duration": 738,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackRecipe.js",
+      "responseEnd": 2005,
+      "transferSize": 2654
+    },
+    {
+      "duration": 745,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/terrain/TerrainLayerRecipe.js",
+      "responseEnd": 2012,
+      "transferSize": 3527
+    },
+    {
+      "duration": 743,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/collision/TriangleCollider.js",
+      "responseEnd": 2031,
+      "transferSize": 2077
+    },
+    {
+      "duration": 599,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js?v=20260723-meadow-10",
+      "responseEnd": 2042,
+      "transferSize": 4545
+    },
+    {
+      "duration": 595,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js?v=20260724-meadow-21",
+      "responseEnd": 2038,
+      "transferSize": 3446
+    },
+    {
+      "duration": 644,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RuntimeMaterialManifest.js",
+      "responseEnd": 2130,
+      "transferSize": 4665
+    },
+    {
+      "duration": 561,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageLoader.js",
+      "responseEnd": 2048,
+      "transferSize": 3376
+    },
+    {
+      "duration": 650,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js",
+      "responseEnd": 2137,
+      "transferSize": 2704
+    },
+    {
+      "duration": 646,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialOrigin.js",
+      "responseEnd": 2151,
+      "transferSize": 1954
+    },
+    {
+      "duration": 658,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialResolver.js",
+      "responseEnd": 2162,
+      "transferSize": 3084
+    },
+    {
+      "duration": 659,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureFamilies.js",
+      "responseEnd": 2163,
+      "transferSize": 780
+    },
+    {
+      "duration": 660,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/WorldMaterialPresets.js",
+      "responseEnd": 2166,
+      "transferSize": 2679
+    },
+    {
+      "duration": 644,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureExactRepeat.js",
+      "responseEnd": 2184,
+      "transferSize": 1589
+    },
+    {
+      "duration": 644,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureImageMetrics.js",
+      "responseEnd": 2184,
+      "transferSize": 998
+    },
+    {
+      "duration": 653,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureMaterialFields.js",
+      "responseEnd": 2193,
+      "transferSize": 1823
+    },
+    {
+      "duration": 667,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityPlan.js",
+      "responseEnd": 2207,
+      "transferSize": 2212
+    },
+    {
+      "duration": 670,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js",
+      "responseEnd": 2210,
+      "transferSize": 842
+    },
+    {
+      "duration": 620,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js",
+      "responseEnd": 2223,
+      "transferSize": 2081
+    },
+    {
+      "duration": 635,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryFactory.js",
+      "responseEnd": 2238,
+      "transferSize": 1861
+    },
+    {
+      "duration": 626,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js",
+      "responseEnd": 2230,
+      "transferSize": 1833
+    },
+    {
+      "duration": 527,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureTexture.js",
+      "responseEnd": 2245,
+      "transferSize": 2544
+    },
+    {
+      "duration": 544,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMaterialRecord.js",
+      "responseEnd": 2263,
+      "transferSize": 1726
+    },
+    {
+      "duration": 545,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityProfile.js",
+      "responseEnd": 2263,
+      "transferSize": 2649
+    },
+    {
+      "duration": 530,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceRegions.js",
+      "responseEnd": 2266,
+      "transferSize": 2548
+    },
+    {
+      "duration": 537,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityLighting.js",
+      "responseEnd": 2273,
+      "transferSize": 2085
+    },
+    {
+      "duration": 498,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js",
+      "responseEnd": 2282,
+      "transferSize": 4050
+    },
+    {
+      "duration": 492,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js",
+      "responseEnd": 2278,
+      "transferSize": 2727
+    },
+    {
+      "duration": 498,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js",
+      "responseEnd": 2285,
+      "transferSize": 3545
+    },
+    {
+      "duration": 499,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRegistry.js",
+      "responseEnd": 2287,
+      "transferSize": 1817
+    },
+    {
+      "duration": 504,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/staff/StaffCastAction.js",
+      "responseEnd": 2292,
+      "transferSize": 2298
+    },
+    {
+      "duration": 508,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/sword/SwordCastAction.js",
+      "responseEnd": 2297,
+      "transferSize": 2229
+    },
+    {
+      "duration": 501,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBoneResolver.js",
+      "responseEnd": 2300,
+      "transferSize": 2002
+    },
+    {
+      "duration": 555,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionConstants.js",
+      "responseEnd": 2356,
+      "transferSize": 1350
+    },
+    {
+      "duration": 588,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskRuntime.js",
+      "responseEnd": 2388,
+      "transferSize": 2025
+    },
+    {
+      "duration": 587,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskLifecycle.js",
+      "responseEnd": 2389,
+      "transferSize": 1491
+    },
+    {
+      "duration": 604,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionPoseSampler.js",
+      "responseEnd": 2406,
+      "transferSize": 1818
+    },
+    {
+      "duration": 606,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeCommands.js",
+      "responseEnd": 2408,
+      "transferSize": 2217
+    },
+    {
+      "duration": 609,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js",
+      "responseEnd": 2411,
+      "transferSize": 2940
+    },
+    {
+      "duration": 441,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorShader.js",
+      "responseEnd": 2430,
+      "transferSize": 1082
+    },
+    {
+      "duration": 423,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialPresets.js",
+      "responseEnd": 2437,
+      "transferSize": 919
+    },
+    {
+      "duration": 410,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/terrain/LocalTerrainTextureCatalog.js",
+      "responseEnd": 2424,
+      "transferSize": 1760
+    },
+    {
+      "duration": 398,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageDecode.js",
+      "responseEnd": 2447,
+      "transferSize": 3275
+    },
+    {
+      "duration": 420,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetch.js",
+      "responseEnd": 2469,
+      "transferSize": 2526
+    },
+    {
+      "duration": 312,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/DetailTextureFamilies.js",
+      "responseEnd": 2477,
+      "transferSize": 1919
+    },
+    {
+      "duration": 335,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/SurfaceTextureFamilies.js",
+      "responseEnd": 2500,
+      "transferSize": 2947
+    },
+    {
+      "duration": 314,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityMath.js",
+      "responseEnd": 2500,
+      "transferSize": 2580
+    },
+    {
+      "duration": 279,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js",
+      "responseEnd": 2505,
+      "transferSize": 3787
+    },
+    {
+      "duration": 278,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralBridge.js",
+      "responseEnd": 2518,
+      "transferSize": 1414
+    },
+    {
+      "duration": 278,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveBoxGeometry.js",
+      "responseEnd": 2518,
+      "transferSize": 2679
+    },
+    {
+      "duration": 287,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveDiamondGeometry.js",
+      "responseEnd": 2527,
+      "transferSize": 1225
+    },
+    {
+      "duration": 293,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DoorwayFrameGeometry.js",
+      "responseEnd": 2533,
+      "transferSize": 3066
+    },
+    {
+      "duration": 288,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureTexturePainter.js",
+      "responseEnd": 2534,
+      "transferSize": 2966
+    },
+    {
+      "duration": 282,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonField.js?v=20260724-meadow-13",
+      "responseEnd": 2551,
+      "transferSize": 4460
+    },
+    {
+      "duration": 263,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js",
+      "responseEnd": 2549,
+      "transferSize": 1664
+    },
+    {
+      "duration": 261,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionDefinitionValidator.js",
+      "responseEnd": 2550,
+      "transferSize": 3367
+    },
+    {
+      "duration": 181,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMask.js",
+      "responseEnd": 2574,
+      "transferSize": 2893
+    },
+    {
+      "duration": 135,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/RoadMaterialStackPreset.js",
+      "responseEnd": 2574,
+      "transferSize": 2389
+    },
+    {
+      "duration": 135,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js",
+      "responseEnd": 2573,
+      "transferSize": 2595
+    },
+    {
+      "duration": 170,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/StructureMaterialStackPreset.js",
+      "responseEnd": 2609,
+      "transferSize": 3306
+    },
+    {
+      "duration": 160,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageBitmapDecode.js",
+      "responseEnd": 2614,
+      "transferSize": 1885
+    },
+    {
+      "duration": 110,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js",
+      "responseEnd": 2629,
+      "transferSize": 4192
+    },
+    {
+      "duration": 106,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralTransformRules.js",
+      "responseEnd": 2625,
+      "transferSize": 2115
+    },
+    {
+      "duration": 107,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTransform.js",
+      "responseEnd": 2628,
+      "transferSize": 1606
+    },
+    {
+      "duration": 107,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceEvidence.js",
+      "responseEnd": 2643,
+      "transferSize": 2746
+    },
+    {
+      "duration": 72,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialPresetLayer.js",
+      "responseEnd": 2650,
+      "transferSize": 1302
+    },
+    {
+      "duration": 72,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageTerrainSources.js",
+      "responseEnd": 2650,
+      "transferSize": 2723
+    },
+    {
+      "duration": 73,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialSources.js",
+      "responseEnd": 2661,
+      "transferSize": 2083
+    },
+    {
+      "duration": 79,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js",
+      "responseEnd": 2667,
+      "transferSize": 2643
+    },
+    {
+      "duration": 40,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/index.js",
+      "responseEnd": 2671,
+      "transferSize": 1185
+    },
+    {
+      "duration": 48,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometry.js",
+      "responseEnd": 2679,
+      "transferSize": 2394
+    },
+    {
+      "duration": 41,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackLayer.js",
+      "responseEnd": 2692,
+      "transferSize": 2172
+    },
+    {
+      "duration": 63,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/assets/HighestResolutionSurfaceCatalog.js",
+      "responseEnd": 2717,
+      "transferSize": 2142
+    },
+    {
+      "duration": 32,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/math/rng.js",
+      "responseEnd": 2718,
+      "transferSize": 995
+    },
+    {
+      "duration": 49,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives.js",
+      "responseEnd": 2735,
+      "transferSize": 615
+    },
+    {
+      "duration": 59,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog.js",
+      "responseEnd": 2745,
+      "transferSize": 545
+    },
+    {
+      "duration": 64,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/repair.js",
+      "responseEnd": 2750,
+      "transferSize": 1211
+    },
+    {
+      "duration": 70,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/transform.js",
+      "responseEnd": 2756,
+      "transferSize": 2978
+    },
+    {
+      "duration": 81,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/triangles.js",
+      "responseEnd": 2767,
+      "transferSize": 2194
+    },
+    {
+      "duration": 82,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/summary.js",
+      "responseEnd": 2768,
+      "transferSize": 1579
+    },
+    {
+      "duration": 90,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/validate.js",
+      "responseEnd": 2776,
+      "transferSize": 1452
+    },
+    {
+      "duration": 98,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/catalog.js",
+      "responseEnd": 2784,
+      "transferSize": 2553
+    },
+    {
+      "duration": 99,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/palettes.js",
+      "responseEnd": 2785,
+      "transferSize": 1548
+    },
+    {
+      "duration": 107,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/world/building.js",
+      "responseEnd": 2793,
+      "transferSize": 1484
+    },
+    {
+      "duration": 110,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/world/chunk.js",
+      "responseEnd": 2797,
+      "transferSize": 1279
+    },
+    {
+      "duration": 113,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/debug/probe.js",
+      "responseEnd": 2800,
+      "transferSize": 831
+    },
+    {
+      "duration": 146,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural-core/src/core/geometry/csg/index.js",
+      "responseEnd": 2833,
+      "transferSize": 339
+    },
+    {
+      "duration": 144,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometryCache.js",
+      "responseEnd": 2831,
+      "transferSize": 3077
+    },
+    {
+      "duration": 154,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js",
+      "responseEnd": 2841,
+      "transferSize": 3259
+    },
+    {
+      "duration": 123,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives/core.js",
+      "responseEnd": 2866,
+      "transferSize": 870
+    },
+    {
+      "duration": 123,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives/box.js",
+      "responseEnd": 2866,
+      "transferSize": 1062
+    },
+    {
+      "duration": 139,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives/flat.js",
+      "responseEnd": 2882,
+      "transferSize": 1690
+    },
+    {
+      "duration": 160,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives/round.js",
+      "responseEnd": 2903,
+      "transferSize": 1857
+    },
+    {
+      "duration": 161,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/primitives/star.js",
+      "responseEnd": 2905,
+      "transferSize": 939
+    },
+    {
+      "duration": 183,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog/registry.js",
+      "responseEnd": 2930,
+      "transferSize": 1385
+    },
+    {
+      "duration": 191,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog/glyphs.js",
+      "responseEnd": 2938,
+      "transferSize": 709
+    },
+    {
+      "duration": 195,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog/nature.js",
+      "responseEnd": 2942,
+      "transferSize": 1299
+    },
+    {
+      "duration": 213,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog/structures.js",
+      "responseEnd": 2960,
+      "transferSize": 1233
+    },
+    {
+      "duration": 200,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/math/vec3.js",
+      "responseEnd": 2971,
+      "transferSize": 926
+    },
+    {
+      "duration": 188,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/architecture/civic.js",
+      "responseEnd": 2974,
+      "transferSize": 3427
+    },
+    {
+      "duration": 214,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/architecture/residential.js",
+      "responseEnd": 3001,
+      "transferSize": 2899
+    },
+    {
+      "duration": 219,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/botany/flowers.js",
+      "responseEnd": 3006,
+      "transferSize": 4058
+    },
+    {
+      "duration": 243,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/botany/foliage.js",
+      "responseEnd": 3030,
+      "transferSize": 4065
+    },
+    {
+      "duration": 243,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/botany/trees.js",
+      "responseEnd": 3031,
+      "transferSize": 5155
+    },
+    {
+      "duration": 240,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/nature.js",
+      "responseEnd": 3027,
+      "transferSize": 2438
+    },
+    {
+      "duration": 255,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/street.js",
+      "responseEnd": 3042,
+      "transferSize": 2983
+    },
+    {
+      "duration": 258,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/vehicles/road.js",
+      "responseEnd": 3046,
+      "transferSize": 2892
+    },
+    {
+      "duration": 211,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural-core/src/core/geometry/csg/csg.js",
+      "responseEnd": 3051,
+      "transferSize": 3475
+    },
+    {
+      "duration": 223,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayUvProjection.js",
+      "responseEnd": 3073,
+      "transferSize": 1465
+    },
+    {
+      "duration": 133,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/mesh/catalog/helpers.js",
+      "responseEnd": 3073,
+      "transferSize": 782
+    },
+    {
+      "duration": 107,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/assembly.js",
+      "responseEnd": 3088,
+      "transferSize": 2773
+    },
+    {
+      "duration": 138,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/architecture/helpers.js",
+      "responseEnd": 3120,
+      "transferSize": 2254
+    },
+    {
+      "duration": 116,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/signs.js",
+      "responseEnd": 3121,
+      "transferSize": 2466
+    },
+    {
+      "duration": 113,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/botany/components.js",
+      "responseEnd": 3121,
+      "transferSize": 2719
+    },
+    {
+      "duration": 94,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural/src/models/vehicles/helpers.js",
+      "responseEnd": 3141,
+      "transferSize": 2830
+    },
+    {
+      "duration": 89,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural-core/src/core/geometry/csg/bsp/tree.js",
+      "responseEnd": 3141,
+      "transferSize": 1209
+    },
+    {
+      "duration": 89,
+      "initiatorType": "script",
+      "name": "http://localhost:8080/libs/awtsmoos-procedural-core/src/core/geometry/csg/utils/meshUtils.js",
+      "responseEnd": 3142,
+      "transferSize": 3800
+    }
+  ],
+  "runtimePresent": true,
+  "session": "singleplayer"
+}

@@ -3,40 +3,34 @@
 // Blessed is He
 
 /**
- * Ari's broad cheeks carry generous eyes, strong brows, and small human ears inside
- * one welcoming skull. The Awtsmoos renews every glance; Awtsmoos.com keeps joy,
- * blink, gaze, speech, and asymmetry editable through preview and export.
+ * Ari personalizes a broad reusable face with warm asymmetry and open attention.
+ * The Awtsmoos renews his identity; Awtsmoos.com keeps its finite differences
+ * editable through gaze, blink, phoneme, persistence, preview, and export.
  */
 export class CheerfulReferenceFaceIdentity {
 	static create() {
 		return {
+			faceProfile: 'friendlyBroad',
 			faceStyle: {
-				widthScale: 1.03, heightScale: 0.98,
-				foreheadScale: 0.82, templeScale: 0.92,
-				cheekScale: 1.12, leftCheekScale: 1.15, rightCheekScale: 1.09,
-				cheekYScale: 0.22, leftCheekYScale: 0.21, rightCheekYScale: 0.23,
-				jawScale: 0.94, leftJawScale: 0.97, rightJawScale: 0.91, jawYScale: 0.73,
-				chinScale: 0.62, leftChinScale: 0.65, rightChinScale: 0.59,
-				topShoulder: 0.7, foreheadTension: 0.96, templeOut: 1.01,
-				cheekOut: 1.06, cheekExit: 0.99, cheekDrop: 1.15,
-				jawOut: 1.03, jawApproach: 0.86, jawExit: 0.9,
-				chinRound: 1.18, chinLift: 0.12,
-				earXScale: 0.97, earYScale: 0, earRX: 5.4, earRY: 8.6,
-				earLineWidth: 1.2, earInnerLineWidth: 0.78,
-				shellScaleX: 1.03, shellScaleY: 1.3,
-				shellOffsetX: -4, shellOffsetY: 8,
-				featureOffsetX: 3.8, featureOffsetY: 27.3, lineWidth: 1.75
+				leftCheekScale: 1.05, rightCheekScale: 0.99,
+				leftJawScale: 0.75, rightJawScale: 0.69,
+				leftChinScale: 0.29, rightChinScale: 0.25,
+				earXScale: 0.94, earYScale: -0.01,
+				earRX: 5.3, earRY: 8.3,
+				earLineWidth: 1.05, earInnerLineWidth: 0.68,
+				shellScaleX: 1, shellScaleY: 1.02,
+				shellOffsetX: -1, shellOffsetY: 6, lineWidth: 1.35
 			},
 			browStyle: {
-				width: 22.5, thickness: 4.1, arch: 4.5, verticalOffset: 5,
-				leftArch: 4.8, rightArch: 4.2
+				width: 18, thickness: 3, arch: 4.5, verticalOffset: 0,
+				leftArch: 4.9, rightArch: 4
 			},
-			noseStyle: { sizeScale: 1.02, verticalOffset: 0.5, lineWidth: 1.05 },
+			noseStyle: { sizeScale: 1.02, verticalOffset: -1, lineWidth: 0.95 },
 			eyeStyle: {
-				radiusX: 14.4, radiusY: 14, spacingScale: 0.92, separationRatio: 0.87,
-				pupilScale: 0.42, pupilVertical: 0.08, gazeBiasX: 0.03,
-				outlineWidth: 1.15, lidWidth: 0.95, verticalOffset: 0,
-				leftVerticalOffset: -0.2, rightVerticalOffset: 0.2,
+				radiusX: 10.2, radiusY: 10.7, spacingScale: 1.07,
+				separationRatio: 0.84, pupilScale: 0.3, pupilVertical: 0.05,
+				gazeBiasX: 0.03, outlineWidth: 1.02, lidWidth: 0.78,
+				leftVerticalOffset: -0.5, rightVerticalOffset: 0.4,
 				leftWidthScale: 1.02, rightWidthScale: 0.98
 			}
 		};

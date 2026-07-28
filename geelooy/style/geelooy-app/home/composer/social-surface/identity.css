@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos places identity before expression, so every Awtsmoos.com post
+ * begins with a truthful alias and a clear doorway into the complete composer.
+ */
+
+.geelooy-home-composer {
+	margin-block: .85rem;
+	border-color: rgba(255, 255, 255, .1);
+	background: #0b121d;
+}
+
+.home-compose-primary {
+	grid-template-columns: 48px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .65rem;
+}
+
+.home-compose-avatar {
+	grid-column: 1;
+	grid-row: 1;
+	inline-size: 48px;
+	block-size: 48px;
+	border-radius: 50%;
+}
+
+.home-compose-identity {
+	grid-column: 2;
+	grid-row: 1;
+	min-inline-size: 0;
+}
+
+.home-compose-identity small {
+	display: block;
+	margin-block-start: .18rem;
+	color: #7f91a5;
+	font-size: .72rem;
+}
+
+.home-compose-alias > span,
+.home-compose-title > span {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+.home-compose-alias input {
+	min-block-size: 1.6rem;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #edf5fc;
+	font-weight: 850;
+}
+
+.home-compose-full-link {
+	display: grid;
+	grid-column: 3;
+	grid-row: 1;
+	inline-size: 2.6rem;
+	block-size: 2.6rem;
+	place-items: center;
+	border-radius: 50%;
+	background: #152131;
+	color: #c6d4e2;
+	font-weight: 900;
+	text-decoration: none;
+}

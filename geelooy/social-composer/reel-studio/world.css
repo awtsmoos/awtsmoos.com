@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The optional full world owns a separate canvas vessel so its heavy runtime
+ * never blocks or deforms the responsive social NLE.
+ */
+
+html,
+body {
+	inline-size: 100%;
+	block-size: 100%;
+	margin: 0;
+	overflow: hidden;
+	background: #03070c;
+	color: #edf5fc;
+	font-family: Inter, system-ui, sans-serif;
+}
+
+#AwtsmoosCanvas {
+	position: fixed;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+#menuBoot {
+	position: fixed;
+	z-index: 20;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	gap: .5rem;
+	background: radial-gradient(circle, #25113d, #03070c 60%);
+	text-align: center;
+}
+
+#menuBoot span {
+	color: #9babc0;
+}
+
+#hud,
+#npcTarget,
+#npcDialogue,
+#joy,
+#jump,
+#actions,
+#inventory {
+	position: fixed;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	opacity: 0;
+}

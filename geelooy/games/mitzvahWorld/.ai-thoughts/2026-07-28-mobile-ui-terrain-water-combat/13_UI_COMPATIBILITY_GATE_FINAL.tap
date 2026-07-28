@@ -1,0 +1,244 @@
+inventory_style_lines=119
+(node:62161) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse pointer contract is wider and samples the fallen body (2.314529ms)
+✔ B"H off-center body tap finds corpse while preserving living precision (59.315237ms)
+✔ B"H looted corpse cannot be selected again (0.487426ms)
+(node:62162) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H five unique defeats grant one reward and one completion chapter (9.665375ms)
+✔ B"H menu prioritizes dedicated ready mission over unrelated adventure (4.045711ms)
+(node:62163) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H road vertices sit above terrain while collision offset remains zero (83.10319ms)
+✔ B"H loaded water sources replace mounted fallback and keep four motions (2.788029ms)
+(node:62171) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H uploaded tree image preserves authored alpha and object identity (54.478384ms)
+✔ B"H contract keeps legacy chroma key narrow and authored alpha primary (4.965108ms)
+(node:62172) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag markup preserves close and omits unused detail space until selection (4.556422ms)
+✔ selected details render truthfully inside a bounded mobile section (1.789298ms)
+✔ modal and HUD CSS preserve safe areas without globally shrinking text (0.375209ms)
+(node:62173) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H damage receipt renders exact number, letters, and action label (12.254506ms)
+✔ B"H world projection clamps feedback inside mobile margins (0.66335ms)
+(node:62174) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitTopStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ B"H responsive HUD uses safe areas and dynamic viewport bounds (3.385014ms)
+✖ B"H portrait target stacks beneath player instead of sharing one row (2.329416ms)
+(node:62175) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionPortraitBottomStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H portrait target and cast lanes are viewport-clamped (2.787382ms)
+✔ B"H Bag owns a fixed plane with scrollable body and tappable controls (1.155098ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 16
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3079.034209
+
+✖ failing tests:
+
+test at src/test/ui/minimalMeadowUiRepair.test.mjs:19:1
+✖ B"H responsive HUD uses safe areas and dynamic viewport bounds (3.385014ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /env\(safe-area-inset-top\)/. Input:
+  
+  '\n' +
+    ':root {\n' +
+    '\t--Awtsmoos-safe-top: max(8px, env(safe-area-inset-top, 0px));\n' +
+    '\t--Awtsmoos-safe-right: max(8px, env(safe-area-inset-right, 0px));\n' +
+    '\t--Awtsmoos-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));\n' +
+    '\t--Awtsmoos-safe-left: max(8px, env(safe-area-inset-left, 0px));\n' +
+    '}\n' +
+    '.Awtsmoos-gameplay *,\n' +
+    '.Awtsmoos-meadow-menu *,\n' +
+    '.Awtsmoos-inventory-panel * {\n' +
+    '\tbox-sizing: border-box;\n' +
+    '}\n' +
+    '.Awtsmoos-sheet,\n' +
+    '.Awtsmoos-quest-log,\n' +
+    '.Awtsmoos-torah-library {\n' +
+    '\tmax-width: calc(100vw - var(--Awtsmoos-safe-left) - var(--Awtsmoos-safe-right)) !important;\n' +
+    '\tmax-height: calc(100dvh - var(--Awtsmoos-safe-top) - var(--Awtsmoos-safe-bottom)) !important;\n' +
+    '}\n' +
+    '.Awtsmoos-meadow-menu {\n' +
+    '\tposition: fixed;\n' +
+    '\tinset: 0;\n' +
+    '\tz-index: 930;\n' +
+    '\tpointer-events: none;\n' +
+    '}\n' +
+    '.Awtsmoos-meadow-menu[data-open="true"] {\n' +
+    '\tbackground: rgba(0, 0, 0, .58);\n' +
+    '\tpointer-events: auto;\n' +
+    '}\n' +
+    '.Awtsmoos-meadow-menu > section {\n' +
+    '\tposition: absolute;\n' +
+    '\ttop: 50%;\n' +
+    '\tleft: 50%;\n' +
+    '\twidth: min(680px, calc(100vw - 24px));\n' +
+    '\tmax-height: min(82dvh, 760px);\n' +
+    '\toverflow: auto;\n' +
+    '\ttransform: translate(-50%, -50%);\n' +
+    '}\n' +
+    '.Awtsmoos-inventory-panel[data-open="true"] {\n' +
+    '\tmax-width: none !important;\n' +
+    '\tmax-height: none !important;\n' +
+    '}\n' +
+    '@media (max-width: 820px), (pointer: coarse) {\n' +
+    '\t.Awtsmoos-meadow-menu > section {\n' +
+    '\t\tinset: auto var(--Awtsmoos-safe-right) var(--Awtsmoos-safe-bottom) var(--Awtsmoos-safe-left);\n' +
+    '\t\twidth: auto;\n' +
+    '\t\tmax-height: min(78dvh, 720px);\n' +
+    '\t\tborder-radius: 18px;\n' +
+    '\t\ttransform: none;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-cast-meter,\n' +
+    '\tbody .Mitzvah-castbar {\n' +
+    '\t\tbox-sizing: border-box !important;\n' +
+    '\t\tmax-width: calc(100vw - 104px) !important;\n' +
+    '\t}\n' +
+    '}\n' +
+    '@media (orientation: landscape) and (max-height: 520px) {\n' +
+    '\tbody .Awtsmoos-status-dock {\n' +
+    '\t\twidth: clamp(180px, 25vw, 260px) !important;\n' +
+    '\t\tmax-height: 74px !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-target-frame {\n' +
+    '\t\tinset: var(--Awtsmoos-safe-top) var(--Awtsmoos-safe-right) auto auto !important;\n' +
+    '\t\twidth: clamp(180px, 27vw, 310px) !important;\n' +
+    '\t\tmax-height: 76px !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-quest-tracker {\n' +
+    '\t\tinset: calc(var(--Awtsmoos-safe-top) + 82px) auto auto var(--Awtsmoos-safe-left) !important;\n' +
+    '\t\twidth: clamp(210px, 31vw, 340px) !important;\n' +
+    '\t\tmax-height: 92px !important;\n' +
+    '\t}\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ui/minimalMeadowUiRepair.test.mjs:20:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\n:root {\n\t--Awtsmoos-safe-top: max(8px, env(safe-area-inset-top, 0px));\n\t--Awtsmoos-safe-right: max(8px, env(safe-area-inset-right, 0px));\n\t--Awtsmoos-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));\n\t--Awtsmoos-safe-left: max(8px, env(safe-area-inset-left, 0px));\n}\n.Awtsmoos-gameplay *,\n.Awtsmoos-meadow-menu *,\n.Awtsmoos-inventory-panel * {\n\tbox-sizing: border-box;\n}\n.Awtsmoos-sheet,\n.Awtsmoos-quest-log,\n.Awtsmoos-torah-library {\n\tmax-width: calc(100vw - var(--Awtsmoos-safe-left) - var(--Awtsmoos-safe-right)) !important;\n\tmax-height: calc(100dvh - var(--Awtsmoos-safe-top) - var(--Awtsmoos-safe-bottom)) !important;\n}\n.Awtsmoos-meadow-menu {\n\tposition: fixed;\n\tinset: 0;\n\tz-index: 930;\n\tpointer-events: none;\n}\n.Awtsmoos-meadow-menu[data-open="true"] {\n\tbackground: rgba(0, 0, 0, .58);\n\tpointer-events: auto;\n}\n.Awtsmoos-meadow-menu > section {\n\tposition: absolute;\n\ttop: 50%;\n\tleft: 50%;\n\twidth: min(680px, calc(100vw - 24px));\n\tmax-height: min(82dvh, 760px);\n\toverflow: auto;\n\ttransform: translate(-50%, -50%);\n}\n.Awtsmoos-inventory-panel[data-open="true"] {\n\tmax-width: none !important;\n\tmax-height: none !important;\n}\n@media (max-width: 820px), (pointer: coarse) {\n\t.Awtsmoos-meadow-menu > section {\n\t\tinset: auto var(--Awtsmoos-safe-right) var(--Awtsmoos-safe-bottom) var(--Awtsmoos-safe-left);\n\t\twidth: auto;\n\t\tmax-height: min(78dvh, 720px);\n\t\tborder-radius: 18px;\n\t\ttransform: none;\n\t}\n\tbody .Awtsmoos-cast-meter,\n\tbody .Mitzvah-castbar {\n\t\tbox-sizing: border-box !important;\n\t\tmax-width: calc(100vw - 104px) !important;\n\t}\n}\n@media (orientation: landscape) and (max-height: 520px) {\n\tbody .Awtsmoos-status-dock {\n\t\twidth: clamp(180px, 25vw, 260px) !important;\n\t\tmax-height: 74px !important;\n\t}\n\tbody .Awtsmoos-target-frame {\n\t\tinset: var(--Awtsmoos-safe-top) var(--Awtsmoos-safe-right) auto auto !important;\n\t\twidth: clamp(180px, 27vw, 310px) !important;\n\t\tmax-height: 76px !important;\n\t}\n\tbody .Awtsmoos-quest-tracker {\n\t\tinset: calc(var(--Awtsmoos-safe-top) + 82px) auto auto var(--Awtsmoos-safe-left) !important;\n\t\twidth: clamp(210px, 31vw, 340px) !important;\n\t\tmax-height: 92px !important;\n\t}\n}\n',
+    expected: /env\(safe-area-inset-top\)/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at src/test/ui/minimalMeadowUiRepair.test.mjs:30:1
+✖ B"H portrait target stacks beneath player instead of sharing one row (2.329416ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /\.Awtsmoos-status-dock[\s\S]*top:\s*calc\([^;]+\+ 8px\)/. Input:
+  
+  '\n' +
+    '\t:root {\n' +
+    '\t\t--Awtsmoos-hud-safe-top: max(8px, env(safe-area-inset-top, 0px));\n' +
+    '\t\t--Awtsmoos-hud-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));\n' +
+    '\t\t--Awtsmoos-hud-side: max(10px, env(safe-area-inset-left, 0px));\n' +
+    '\t\t--Awtsmoos-hud-rail-reserve: 82px;\n' +
+    '\t\t--Awtsmoos-hud-card-width: min(360px, calc(100vw - 104px));\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-status-dock {\n' +
+    '\t\tposition: fixed !important;\n' +
+    '\t\tinset: var(--Awtsmoos-hud-safe-top) auto auto var(--Awtsmoos-hud-side) !important;\n' +
+    '\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n' +
+    '\t\tmax-width: calc(100vw - var(--Awtsmoos-hud-side) - 10px) !important;\n' +
+    '\t\tmax-height: 132px !important;\n' +
+    '\t\tmargin: 0 !important;\n' +
+    '\t\toverflow: hidden !important;\n' +
+    '\t\ttransform: none !important;\n' +
+    '\t\tz-index: 824 !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-target-frame {\n' +
+    '\t\tposition: fixed !important;\n' +
+    '\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 142px) auto auto var(--Awtsmoos-hud-side) !important;\n' +
+    '\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n' +
+    '\t\tmin-width: 0 !important;\n' +
+    '\t\tmax-width: calc(100vw - var(--Awtsmoos-hud-side) - var(--Awtsmoos-hud-rail-reserve)) !important;\n' +
+    '\t\tmax-height: 96px !important;\n' +
+    '\t\tmargin: 0 !important;\n' +
+    '\t\toverflow: hidden !important;\n' +
+    '\t\ttransform: none !important;\n' +
+    '\t\tz-index: 823 !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-target-frame > *,\n' +
+    '\tbody .Awtsmoos-target-frame section {\n' +
+    '\t\twidth: 100% !important;\n' +
+    '\t\tmin-width: 0 !important;\n' +
+    '\t\tmax-width: 100% !important;\n' +
+    '\t\tmax-height: 96px !important;\n' +
+    '\t\toverflow: hidden !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-target-frame .Awtsmoos-target-details {\n' +
+    '\t\tdisplay: none !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-status-ribbon {\n' +
+    '\t\tposition: fixed !important;\n' +
+    '\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 238px) auto auto var(--Awtsmoos-hud-side) !important;\n' +
+    '\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n' +
+    '\t\tmax-height: 36px !important;\n' +
+    '\t\toverflow: hidden !important;\n' +
+    '\t\tz-index: 822 !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-quest-tracker {\n' +
+    '\t\tposition: fixed !important;\n' +
+    '\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 282px) var(--Awtsmoos-hud-rail-reserve) auto var(--Awtsmoos-hud-side) !important;\n' +
+    '\t\twidth: auto !important;\n' +
+    '\t\tmax-height: 102px !important;\n' +
+    '\t\toverflow: auto !important;\n' +
+    '\t\toverscroll-behavior: contain;\n' +
+    '\t\tz-index: 818 !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-quest-tracker .Awtsmoos-tracked-quest:nth-of-type(n + 2) {\n' +
+    '\t\tdisplay: none !important;\n' +
+    '\t}\n' +
+    '\tbody .Awtsmoos-house-notice {\n' +
+    '\t\tposition: fixed !important;\n' +
+    '\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 392px) var(--Awtsmoos-hud-rail-reserve) auto var(--Awtsmoos-hud-side) !important;\n' +
+    '\t\twidth: auto !important;\n' +
+    '\t\tmax-height: 92px !important;\n' +
+    '\t\toverflow: hidden !important;\n' +
+    '\t\tz-index: 824 !important;\n' +
+    '\t}\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ui/minimalMeadowUiRepair.test.mjs:31:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\n\t:root {\n\t\t--Awtsmoos-hud-safe-top: max(8px, env(safe-area-inset-top, 0px));\n\t\t--Awtsmoos-hud-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));\n\t\t--Awtsmoos-hud-side: max(10px, env(safe-area-inset-left, 0px));\n\t\t--Awtsmoos-hud-rail-reserve: 82px;\n\t\t--Awtsmoos-hud-card-width: min(360px, calc(100vw - 104px));\n\t}\n\tbody .Awtsmoos-status-dock {\n\t\tposition: fixed !important;\n\t\tinset: var(--Awtsmoos-hud-safe-top) auto auto var(--Awtsmoos-hud-side) !important;\n\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n\t\tmax-width: calc(100vw - var(--Awtsmoos-hud-side) - 10px) !important;\n\t\tmax-height: 132px !important;\n\t\tmargin: 0 !important;\n\t\toverflow: hidden !important;\n\t\ttransform: none !important;\n\t\tz-index: 824 !important;\n\t}\n\tbody .Awtsmoos-target-frame {\n\t\tposition: fixed !important;\n\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 142px) auto auto var(--Awtsmoos-hud-side) !important;\n\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n\t\tmin-width: 0 !important;\n\t\tmax-width: calc(100vw - var(--Awtsmoos-hud-side) - var(--Awtsmoos-hud-rail-reserve)) !important;\n\t\tmax-height: 96px !important;\n\t\tmargin: 0 !important;\n\t\toverflow: hidden !important;\n\t\ttransform: none !important;\n\t\tz-index: 823 !important;\n\t}\n\tbody .Awtsmoos-target-frame > *,\n\tbody .Awtsmoos-target-frame section {\n\t\twidth: 100% !important;\n\t\tmin-width: 0 !important;\n\t\tmax-width: 100% !important;\n\t\tmax-height: 96px !important;\n\t\toverflow: hidden !important;\n\t}\n\tbody .Awtsmoos-target-frame .Awtsmoos-target-details {\n\t\tdisplay: none !important;\n\t}\n\tbody .Awtsmoos-status-ribbon {\n\t\tposition: fixed !important;\n\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 238px) auto auto var(--Awtsmoos-hud-side) !important;\n\t\twidth: var(--Awtsmoos-hud-card-width) !important;\n\t\tmax-height: 36px !important;\n\t\toverflow: hidden !important;\n\t\tz-index: 822 !important;\n\t}\n\tbody .Awtsmoos-quest-tracker {\n\t\tposition: fixed !important;\n\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 282px) var(--Awtsmoos-hud-rail-reserve) auto var(--Awtsmoos-hud-side) !important;\n\t\twidth: auto !important;\n\t\tmax-height: 102px !important;\n\t\toverflow: auto !important;\n\t\toverscroll-behavior: contain;\n\t\tz-index: 818 !important;\n\t}\n\tbody .Awtsmoos-quest-tracker .Awtsmoos-tracked-quest:nth-of-type(n + 2) {\n\t\tdisplay: none !important;\n\t}\n\tbody .Awtsmoos-house-notice {\n\t\tposition: fixed !important;\n\t\tinset: calc(var(--Awtsmoos-hud-safe-top) + 392px) var(--Awtsmoos-hud-rail-reserve) auto var(--Awtsmoos-hud-side) !important;\n\t\twidth: auto !important;\n\t\tmax-height: 92px !important;\n\t\toverflow: hidden !important;\n\t\tz-index: 824 !important;\n\t}\n',
+    expected: /\.Awtsmoos-status-dock[\s\S]*top:\s*calc\([^;]+\+ 8px\)/,
+    operator: 'match',
+    diff: 'simple'
+  }
+test_exit=1
+diff_exit=0

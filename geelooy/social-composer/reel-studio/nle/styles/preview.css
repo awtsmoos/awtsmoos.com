@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The preview becomes a cinema stage: quiet surroundings, a deliberate matte,
+ * and one luminous canvas where the movie—not the interface—holds attention.
+ */
+
+.nle-preview-panel {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	min-inline-size: 0;
+	min-block-size: 0;
+	background:
+		radial-gradient(circle at 50% 34%, rgba(185, 120, 239, .11), transparent 36%),
+		var(--nle-surface-0);
+}
+
+.nle-canvas-stage {
+	position: relative;
+	display: grid;
+	min-block-size: 0;
+	padding: clamp(.75rem, 2vw, 1.5rem);
+	place-items: center;
+	overflow: hidden;
+}
+
+.nle-canvas-stage::before {
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+	background-position: center;
+	background-size: 24px 24px;
+	content: '';
+	mask-image: radial-gradient(circle, #000 15%, transparent 76%);
+	pointer-events: none;
+}
+
+.nle-canvas-stage::after {
+	position: absolute;
+	inset: clamp(.65rem, 1.8vw, 1.25rem);
+	border: 1px solid rgba(255, 255, 255, .035);
+	border-radius: var(--nle-radius-lg);
+	content: '';
+	pointer-events: none;
+}
+
+.nle-canvas-stage canvas {
+	position: relative;
+	z-index: 1;
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	inline-size: auto;
+	block-size: auto;
+	aspect-ratio: var(--nle-canvas-aspect, 16 / 9);
+	border: 1px solid rgba(255, 255, 255, .2);
+	border-radius: .28rem;
+	background: #030407;
+	box-shadow: var(--nle-shadow-canvas), 0 0 0 .55rem rgba(0, 0, 0, .24);
+}
+
+.nle-preview-badge {
+	position: absolute;
+	z-index: 2;
+	inset-block-start: 1rem;
+	inset-inline-end: 1rem;
+	padding: .3rem .52rem;
+	border: 1px solid var(--nle-border);
+	border-radius: 999px;
+	background: rgba(7, 10, 15, .74);
+	color: var(--nle-text-muted);
+	font-size: .59rem;
+	font-weight: 800;
+	letter-spacing: .03em;
+	backdrop-filter: blur(10px);
+}
+
+.nle-loading,
+.nle-fatal {
+	display: grid;
+	block-size: 100dvh;
+	place-content: center;
+	gap: .5rem;
+	padding: 1.25rem;
+	background:
+		radial-gradient(circle at 50% 40%, rgba(185, 120, 239, .2), transparent 32%),
+		var(--nle-bg);
+	color: var(--nle-text);
+	text-align: center;
+}
+
+.nle-loading span,
+.nle-fatal p {
+	color: var(--nle-text-muted);
+}

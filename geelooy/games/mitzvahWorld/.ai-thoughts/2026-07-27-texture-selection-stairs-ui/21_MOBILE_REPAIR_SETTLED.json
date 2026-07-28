@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "port": 9258,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "readiness": {
+    "featurePhase": "ready",
+    "features": "combat-ready",
+    "readiness": "ready",
+    "renderer": "webgl",
+    "rendererStage": "rich-ready",
+    "runtimeState": "playable"
+  },
+  "runtime": {
+    "enemies": 9,
+    "houseSurfaces": {
+      "houses": 2,
+      "invalidAfter": 0,
+      "invalidBefore": 0,
+      "recovered": true,
+      "total": 182
+    },
+    "houses": 2,
+    "remoteMaterials": [
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%204.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%202.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%208.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%203.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/marsh%20grass.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%205.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cobblestone.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/wooden%20oak%20planks%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/redwood%20bark.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/oak%20leaf.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%207.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/stone%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20brick%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/white%20brick%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20brick%202.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tree%20bark%201.png",
+      "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/gold%202.png"
+    ],
+    "targeting": {
+      "combatAfterSecond": true,
+      "enemies": 9,
+      "firstAction": "study",
+      "secondAction": "interact",
+      "selectedAfterFirst": true
+    },
+    "ui": {
+      "repair": "safe-viewport-v2",
+      "status": {
+        "bottom": 118.96875,
+        "height": 112.96875,
+        "inside": true,
+        "left": 6,
+        "right": 246.796875,
+        "top": 6,
+        "visible": true,
+        "width": 240.796875
+      },
+      "statusTargetOverlap": 0,
+      "target": {
+        "bottom": 169,
+        "height": 19,
+        "inside": true,
+        "left": 8,
+        "right": 248.796875,
+        "top": 150,
+        "visible": true,
+        "width": 240.796875
+      }
+    }
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

@@ -1,0 +1,71 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Verse, subsection, block, comment, and creation controls remain visible but
+ * subordinate to the words they organize.
+ */
+
+.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .35rem;
+}
+
+.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) button {
+	min-block-size: var(--composer-control-sm);
+	padding: .42rem .58rem;
+	font-size: .63rem;
+}
+
+.composer-civilization-document .structured-comments-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	min-block-size: var(--composer-control-sm);
+	padding: .38rem .55rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-sm);
+	background: rgba(255, 255, 255, .018);
+	color: var(--composer-text-muted);
+	font-size: .62rem;
+}
+
+.composer-civilization-document :is(.add-verse-button, .add-subsection-button, .add-verse-button-primary) {
+	border-color: rgba(185, 120, 239, .3);
+	background: var(--composer-violet-soft);
+	color: #ebd2f8;
+}
+
+.composer-civilization-document .add-verse-button-primary {
+	inline-size: 100%;
+	min-block-size: 2.85rem;
+	font-size: .74rem;
+}
+
+.composer-civilization-document .blockHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+	padding-block-end: .45rem;
+	border-block-end: 1px solid var(--composer-border-soft);
+}
+
+.composer-civilization-document .blockHeader strong {
+	color: var(--composer-text-soft);
+	font-size: .68rem;
+}
+
+.composer-civilization-document .markToolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .28rem;
+}
+
+.composer-civilization-document .markToolbar button {
+	min-block-size: 2.1rem;
+	padding-inline: .5rem;
+	font-size: .61rem;
+}

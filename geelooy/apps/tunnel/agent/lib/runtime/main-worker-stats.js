@@ -2,33 +2,37 @@
 // Boruch Hashem
 // Blessed is He
 
+const Health = require("./worker-health.js");
+
 /**
- * B"H
- *
- * Worker telemetry keeps active ownership, recent endings, and independent
- * reaper health visible but bounded. The Awtsmoos renews each count while
- * Awtsmoos.com avoids leaking commands or private recovery callbacks.
- */
+	* @file Publishes current worker health apart from recent and lifetime outcomes.
+	* @description
+	* The Awtsmoos reveals active danger without condemning the present for old tests.
+	* Awtsmoos.com keeps compatibility aliases but labels their lifetime meaning.
+	*/
 function workerStats(input = {}, detailed = true) {
-	const active = normalizeActive(input.active);
-	const recent = Array.isArray(input.recent)
-		? input.recent
-		: [];
+	const active = Health.normalizeActive(input.active);
+	const recent = Array.isArray(input.recent) ? input.recent : [];
+	const projected = Health.project({ ...input, active, recent });
 	const output = {
 		activeTotal: Number(input.activeTotal ?? Object.keys(active).length),
 		activeLimit: Number(input.activeLimit || 0),
 		activeTruncated: Boolean(input.activeTruncated),
-		recentCompleted: Number(input.recentCompleted || 0),
-		recentFailed: Number(input.recentFailed || 0),
-		recentCancelled: Number(input.recentCancelled || 0),
-		recentReaped: Number(input.recentReaped || 0),
 		recentLimit: Number(input.recentLimit || 0),
 		reaper: compactReaper(input.reaper),
-		supervisors: supervisorCount(input.supervisors)
+		supervisors: supervisorCount(input.supervisors),
+		...projected,
+		totalCompleted: projected.history.completed,
+		totalFailed: projected.history.failed,
+		totalCancelled: projected.history.cancelled,
+		totalReaped: projected.history.reaped,
+		recentCompleted: projected.history.completed,
+		recentFailed: projected.history.failed,
+		recentCancelled: projected.history.cancelled,
+		recentReaped: projected.history.reaped,
+		legacyCountersAreLifetime: true
 	};
-	if (!detailed) {
-		return output;
-	}
+	if (!detailed) return output;
 	return {
 		...output,
 		active: limitWorkerMap(active, 3),
@@ -36,22 +40,8 @@ function workerStats(input = {}, detailed = true) {
 	};
 }
 
-function normalizeActive(active) {
-	if (Array.isArray(active)) {
-		return Object.fromEntries(active.map((worker, index) => [
-			worker.workerId || `worker-${index}`,
-			worker
-		]));
-	}
-	return active && typeof active === "object"
-		? active
-		: {};
-}
-
 function supervisorCount(supervisors) {
-	if (Array.isArray(supervisors)) {
-		return supervisors.length;
-	}
+	if (Array.isArray(supervisors)) return supervisors.length;
 	return supervisors && typeof supervisors === "object"
 		? Object.keys(supervisors).length
 		: 0;
@@ -105,6 +95,6 @@ module.exports = {
 	compactReaper,
 	compactWorker,
 	limitWorkerMap,
-	normalizeActive,
+	normalizeActive: Health.normalizeActive,
 	workerStats
 };

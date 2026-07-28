@@ -1,32 +1,73 @@
 //B"H
-const fs=require("fs"),path=require("path");
-const {ROOT,assert,test}=require("./assert.cjs");
-const {renderControlPage}=require("../../relay/split-browser/controlPage.cjs");
+// Boruch Hashem
+// Blessed is He
 
-/** B"H: installer, background owner, and no-debug control login guard. */
-async function run(){return test("relay-install-and-no-debug-control",async()=>{
-  const sh=read("relay/install/install-awtsmoos-chatgpt-relay.sh");
-  const ps1=read("relay/install/install-awtsmoos-chatgpt-relay.ps1");
-  const panel=read("js/automation/panelMarkup.js");
-  const bridge=read("js/automation/backgroundBridge.js");
-  const automation=read("relay/split-browser/automation.cjs");
-  const html=renderControlPage({port:38488,targetOrigin:"https://chatgpt.com"});
-  const files=fs.readdirSync(path.join(ROOT,"relay/split-browser")).filter(n=>/\.(cjs|js)$/.test(n)&&!n.startsWith(".smoke"));
-  const missingSh=files.filter(n=>!sh.includes(n));
-  const missingPs1=files.filter(n=>!ps1.includes(n));
-  assert(missingSh.length===0,"Unix installer must download every split-browser module",{missingSh});
-  assert(missingPs1.length===0,"PowerShell installer must download every split-browser module",{missingPs1});
-  assert(/pkg install -y nodejs/.test(sh),"Unix installer must support Termux pkg fallback");
-  assert(/nohup node index\.js/.test(sh)&&/relay\.pid/.test(sh)&&/health_ok/.test(sh),"Unix installer must detach and wait for health");
-  assert(/Start-Process[\s\S]*cmd\.exe/.test(ps1)&&/relay\.pid/.test(ps1)&&/Test-RelayHealth/.test(ps1),"PowerShell installer must detach and wait for health");
-  assert(/does not require debug Chrome/.test(sh+ps1),"installers must mention no-debug control login");
-  assert(/Open ChatGPT through Node — no debug Chrome needed/.test(html),"control page must put no-debug login first");
-  assert(html.indexOf("/chatgpt")<html.indexOf("Optional debug Chrome"),"proxy login must appear before optional debug controls");
-  assert(/debug Chrome optional|Debug Chrome is optional/i.test(html),"control page must label debug Chrome optional");
-  assert(/data-auto="backgroundOwned"/.test(panel),"automation UI must expose background owner switch");
-  assert(/settings\.backgroundOwned === true/.test(bridge),"bridge must honor backgroundOwned flag");
-  assert(/chatgptModePayload/.test(automation)&&/hasModePayload/.test(automation),"relay automation must carry ChatGPT mode payload");
-  return {files:files.length,installersDownloadAll:true,noDebugControl:true,backgroundSwitch:true,modePayload:true};
-});}
-function read(file){return fs.readFileSync(path.join(ROOT,file),"utf8");}
-module.exports={run};
+const fs = require("fs");
+const path = require("path");
+const { ROOT, assert, test } = require("./assert.cjs");
+const { renderControlPage } = require("../../relay/split-browser/controlPage.cjs");
+
+/**
+ * One manifest must equal the complete runtime tree consumed by both installers.
+ * The Awtsmoos lets Awtsmoos.com add modules without duplicating two brittle lists,
+ * while restart, fast readiness, control login, and modern automation stay proved.
+ */
+function run() {
+	return test("relay-install-complete-runtime-and-control", async () => {
+		const shell = read("relay/install/install-awtsmoos-chatgpt-relay.sh");
+		const powershell = read("relay/install/install-awtsmoos-chatgpt-relay.ps1");
+		const installers = shell + powershell;
+		const manifest = manifestFiles();
+		const runtimeFiles = [
+			...sourceFiles(path.join(ROOT, "relay/split-browser")),
+			...sourceFiles(path.join(ROOT, "relay/direct"))
+		].sort();
+		const control = renderControlPage({ port: 38488, targetOrigin: "https://chatgpt.com" });
+		const automation = [
+			read("relay/split-browser/automation.cjs"),
+			read("relay/split-browser/automationRequest.cjs"),
+			read("relay/split-browser/automationState.cjs")
+		].join("\n");
+		assert(manifest.length === new Set(manifest).size, "runtime manifest must not duplicate entries", manifest);
+		assert(JSON.stringify(manifest) === JSON.stringify(runtimeFiles), "runtime manifest must exactly match the source tree", { manifest, runtimeFiles });
+		assert((installers.match(/runtime-files\.txt/g) || []).length >= 2, "both installers must consume the shared manifest");
+		assert(/pkg install -y nodejs/.test(shell), "Unix installer must preserve Termux support");
+		assert(/direct-health/.test(installers), "installers must use fast direct-health readiness");
+		assert(/stop_existing_relay[\s\S]*start_relay/.test(shell), "Unix reinstall must restart the relay");
+		assert(/Stop-ExistingRelay[\s\S]*Start-Relay/.test(powershell), "Windows reinstall must restart the relay");
+		assert(/Open ChatGPT through Node — no debug Chrome needed/.test(control), "control login must remain primary");
+		assert(/BH_DIRECT_/.test(automation) && /page-authorized-fallback/.test(automation), "automation must use opaque modern direct continuation");
+		assert(!/Authorization|backend-api\/conversation|requireAccessToken/.test(automation), "automation must not restore bearer or old backend sends");
+		return { runtimeFiles: runtimeFiles.length, directHealth: true, restart: true };
+	});
+}
+
+function manifestFiles() {
+	return read("relay/runtime-files.txt")
+		.split(/\r?\n/)
+		.map(line => line.trim())
+		.filter(line => line && !line.startsWith("#"))
+		.sort();
+}
+
+function sourceFiles(root) {
+	const files = [];
+	for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+		const absolute = path.join(root, entry.name);
+		if (entry.isDirectory()) {
+			files.push(...sourceFiles(absolute));
+			continue;
+		}
+		if (!/\.(?:cjs|mjs|js)$/.test(entry.name) || entry.name.startsWith(".smoke")) {
+			continue;
+		}
+		files.push(path.relative(path.join(ROOT, "relay"), absolute).replaceAll(path.sep, "/"));
+	}
+	return files;
+}
+
+function read(file) {
+	return fs.readFileSync(path.join(ROOT, file), "utf8");
+}
+
+module.exports = { run };

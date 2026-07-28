@@ -4,27 +4,38 @@
 
 /**
  * @file ProgressiveWebGLRenderer.js
- * @description Draws a visible colored valley immediately and defers the rich shader renderer.
- * The Awtsmoos reveals sky, earth, traveler, and golden ridge before every luminous garment;
- * Awtsmoos.com preserves the renderer contract through one tiny shader and shared cube buffer.
+ * @description Draws immediate bootstrap color and later hydrates the rich WebGL renderer.
+ * The Awtsmoos reveals sky and traveler before every garment has entered the frame;
+ * Awtsmoos.com keeps one renderer contract while state flows through each luminous name.
  */
-
 import { BootstrapColorRenderer } from './BootstrapColorRenderer.js?v=20260723-meadow-07';
 import {
 	createProgressiveEnvironment,
 	createProgressiveStats
 } from './ProgressiveWebGLDefaults.js';
-
+import {
+	setProgressiveRendererEnvironment,
+	setProgressiveRendererInteractor,
+	setProgressiveRendererSize
+} from './ProgressiveWebGLState.js';
+import { createWebGlUnavailableError } from './RendererFallbackEvidence.js';
 export class ProgressiveWebGLRenderer {
 	constructor({ alpha = true, antialias = false, canvas } = {}) {
-		if (!canvas) throw new Error('ProgressiveWebGLRenderer requires a canvas.');
+		if (!canvas) {
+			throw new Error('ProgressiveWebGLRenderer requires a canvas.');
+		}
+
 		this.canvas = canvas;
 		this.gl = canvas.getContext('webgl', {
 			alpha,
 			antialias,
 			premultipliedAlpha: true
 		});
-		if (!this.gl) throw new Error('WebGL is not available.');
+
+		if (!this.gl) {
+			throw createWebGlUnavailableError(['webgl']);
+		}
+
 		this.backend = 'webgl';
 		this.contextName = 'webgl';
 		this.clearColor = [0.36, 0.56, 0.72, 1];
@@ -42,7 +53,10 @@ export class ProgressiveWebGLRenderer {
 		this.hydrationError = null;
 		this.errors = [];
 		this.bootstrapStats = createProgressiveStats();
-		this.bootstrapRenderer = new BootstrapColorRenderer(this.gl, this.bootstrapStats);
+		this.bootstrapRenderer = new BootstrapColorRenderer(
+			this.gl,
+			this.bootstrapStats
+		);
 	}
 
 	get stats() {
@@ -58,12 +72,7 @@ export class ProgressiveWebGLRenderer {
 	}
 
 	setSize(width, height) {
-		const pixelWidth = Math.max(1, Math.floor(width));
-		const pixelHeight = Math.max(1, Math.floor(height));
-		if (this.delegate) return this.delegate.setSize(pixelWidth, pixelHeight);
-		this.canvas.width = pixelWidth;
-		this.canvas.height = pixelHeight;
-		this.gl.viewport(0, 0, pixelWidth, pixelHeight);
+		setProgressiveRendererSize(this, width, height);
 	}
 
 	setClearColor(red, green, blue, alpha = 1) {
@@ -72,33 +81,32 @@ export class ProgressiveWebGLRenderer {
 	}
 
 	setEnvironment(values = {}) {
-		for (const [key, value] of Object.entries(values)) {
-			this.environment[key] = Array.isArray(value) ? [...value] : value;
-		}
-		this.delegate?.setEnvironment(values);
+		setProgressiveRendererEnvironment(this, values);
 	}
 
 	setInteractor(position, timeSeconds = performance.now() / 1000) {
-		this.interactor = {
-			x: position?.x || 0,
-			y: position?.renderY ?? position?.y ?? 0,
-			z: position?.z || 0
-		};
-		this.timeSeconds = timeSeconds;
-		this.delegate?.setInteractor(position, timeSeconds);
+		setProgressiveRendererInteractor(this, position, timeSeconds);
 	}
 
 	render(scene, camera) {
-		if (this.delegate) return this.delegate.render(scene, camera);
+		if (this.delegate) {
+			return this.delegate.render(scene, camera);
+		}
+
 		return this.bootstrapRenderer.render(scene, camera, this.clearColor);
 	}
 
 	hydrate(options = {}) {
-		if (this.hydrationPromise) return this.hydrationPromise;
+		if (this.hydrationPromise) {
+			return this.hydrationPromise;
+		}
+
 		this.hydrationState = 'loading';
 		this.hydrationPromise = import(
 			'./ProgressiveWebGLRendererHydration.js?v=20260722-renderer-02'
-		).then(module => module.hydrateProgressiveWebGLRenderer(this, options));
+		).then((module) => {
+			return module.hydrateProgressiveWebGLRenderer(this, options);
+		});
 		return this.hydrationPromise;
 	}
 

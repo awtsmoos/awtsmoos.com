@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos removes wasteful phone margins while preserving deliberate
+ * breathing room, safe areas, and truthful touch targets across Awtsmoos.com.
+ */
+
+@media (max-width: 43.75rem) {
+	body.geelooy-home-document.geelooy-app-shell {
+		inline-size: 100%;
+		padding-inline: 0;
+	}
+
+	.geelooy-home-document .home-dashboard-page {
+		inline-size: 100%;
+		margin-inline: 0;
+		padding: .35rem .65rem calc(6.4rem + env(safe-area-inset-bottom));
+	}
+
+	.home-stream-header {
+		padding-inline: .15rem;
+	}
+
+	.geelooy-home-document .home-stream-tabs,
+	.geelooy-home-document .home-circle-rail {
+		inline-size: calc(100% + 1.3rem);
+		margin-inline: -.65rem;
+		padding-inline: .65rem;
+	}
+
+	.home-section-heading {
+		padding-inline: .15rem;
+	}
+
+	.geelooy-home-document .home-dashboard-page > .geelooy-home-composer {
+		inline-size: calc(100% + 1.3rem);
+		margin-inline: -.65rem;
+	}
+
+	.geelooy-home-document .home-feed-section > .home-feed-list {
+		inline-size: calc(100% + 1.3rem);
+		margin-inline: -.65rem;
+		padding-inline: 0;
+		gap: .65rem;
+	}
+
+	.geelooy-home-document .home-feed-list > article,
+	.geelooy-home-document .home-feed-list .cosmic-post-card,
+	.geelooy-home-document .home-feed-list .geelooy-feed-card,
+	.geelooy-home-document .home-feed-list .home-post-card {
+		inline-size: 100%;
+		margin-inline: 0;
+		border-inline: 0;
+		border-radius: 0;
+		box-shadow: 0 .4rem 1rem rgba(0, 0, 0, .2);
+	}
+
+	.home-feed-list :is(
+		.cosmic-post-header,
+		.cosmic-post-content,
+		.cosmic-post-actions,
+		.geelooy-feed-header,
+		.geelooy-feed-content,
+		.geelooy-feed-actions
+	) {
+		padding-inline: .85rem;
+	}
+
+	.home-feed-tabs {
+		padding-inline: .15rem;
+	}
+}
+
+@media (max-width: 22rem) {
+	.geelooy-home-document .home-dashboard-page {
+		padding-inline: .45rem;
+	}
+
+	.geelooy-home-document .home-stream-tabs,
+	.geelooy-home-document .home-circle-rail,
+	.geelooy-home-document .home-dashboard-page > .geelooy-home-composer,
+	.geelooy-home-document .home-feed-section > .home-feed-list {
+		inline-size: calc(100% + .9rem);
+		margin-inline: -.45rem;
+	}
+
+	.geelooy-home-document .home-stream-tabs,
+	.geelooy-home-document .home-circle-rail {
+		padding-inline: .45rem;
+	}
+}

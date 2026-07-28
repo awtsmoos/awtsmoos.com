@@ -6,8 +6,7 @@
  * @module SocialLibrarySearch
  * @description
  * One bounded query proves canonical storage, resolves one shard, chooses one
- * explicit strategy, optionally enriches comments, and returns provenance.
- * Vector helpers remain sealed until a caller explicitly invokes them.
+ * explicit strategy, enriches static metadata safely, and returns provenance.
  */
 
 const { resolveShard } = require('./shards.js');
@@ -55,6 +54,7 @@ async function ragSearch(options = {}) {
 		query,
 		limit: options.limit || 10,
 		includeComments: options.includeComments === true,
+		includeMetadataComments: options.includeMetadataComments !== false,
 		maxRows: options.maxCommentRows || 12,
 		timings
 	});

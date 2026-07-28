@@ -7,9 +7,9 @@ import { LineArtStyle } from '../../style/LineArtStyle.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Each crossed sleeve carries authored weight without becoming a rigid bar. The
- * Awtsmoos gathers broad cloth around hidden joints, while Awtsmoos.com preserves
- * shoulder, elbow, wrist, overlap, and canonical nodes as living geometry.
+ * Each crossed sleeve carries authored cloth weight without becoming a rigid bar.
+ * The Awtsmoos rounds hidden joints, while Awtsmoos.com preserves canonical
+ * shoulder, elbow, wrist, cuff, and overlap nodes as living editable geometry.
  */
 export class StableCrossedSleeve2D {
 	static build(data, colors, id, anchors, upper) {
@@ -25,12 +25,8 @@ export class StableCrossedSleeve2D {
 	static upperMass(colors, id, anchors) {
 		const profile = anchors.sleeve;
 		return this.segment(
-			`${id}_upper`,
-			anchors.shoulder,
-			anchors.elbow,
-			profile.shoulderHalf,
-			profile.elbowHalf,
-			0,
+			`${id}_upper`, anchors.shoulder, anchors.elbow,
+			profile.shoulderHalf, profile.elbowHalf, 0,
 			{ fill: colors.jacket, stroke: 'rgba(0,0,0,0)', lineWidth: 0 }
 		);
 	}
@@ -58,8 +54,7 @@ export class StableCrossedSleeve2D {
 			? LineArtStyle.exterior(data, colors.jacket)
 			: LineArtStyle.medium(data, colors.jacket);
 		return this.segment(
-			`${id}_fore`,
-			anchors.elbow, anchors.wrist,
+			`${id}_fore`, anchors.elbow, anchors.wrist,
 			profile.forearmHalf, profile.wristHalf, profile.bendY, style
 		);
 	}
@@ -68,15 +63,24 @@ export class StableCrossedSleeve2D {
 		const normal = this.normal(start, end);
 		const leftStart = this.offset(start, normal, startHalf);
 		const leftEnd = this.offset(end, normal, endHalf);
-		const rightStart = this.offset(start, normal, -startHalf);
-		const rightEnd = this.offset(end, normal, -endHalf);
-		const middle = { x: (start.x + end.x) * 0.5, y: (start.y + end.y) * 0.5 + bendY };
+		const rightStart = this.offset(start, normal, -startHalf * 0.94);
+		const rightEnd = this.offset(end, normal, -endHalf * 0.92);
+		const dx = end.x - start.x;
+		const dy = end.y - start.y;
+		const curve = (point, distance, progress, lift) => ({
+			x: point.x + dx * progress + normal.x * distance,
+			y: point.y + dy * progress + normal.y * distance + lift
+		});
+		const leftOne = curve(start, startHalf + 1.4, 0.32, bendY * 0.72);
+		const leftTwo = curve(start, endHalf + 1, 0.72, bendY);
+		const rightTwo = curve(start, -endHalf * 0.9, 0.7, bendY * 0.8);
+		const rightOne = curve(start, -startHalf * 0.88, 0.3, bendY * 0.48);
 		return G.path(id, [
 			{ type: 'move', ...leftStart },
-			{ type: 'quad', cx: middle.x + normal.x * 2, cy: middle.y + normal.y * 2, ...leftEnd },
-			{ type: 'quad', cx: end.x, cy: end.y + 2, ...rightEnd },
-			{ type: 'quad', cx: middle.x - normal.x * 2, cy: middle.y - normal.y * 2, ...rightStart },
-			{ type: 'quad', cx: start.x, cy: start.y - 2, ...leftStart },
+			{ type: 'bezier', c1x: leftOne.x, c1y: leftOne.y, c2x: leftTwo.x, c2y: leftTwo.y, ...leftEnd },
+			{ type: 'quad', cx: end.x + normal.x * 0.5, cy: end.y + 2.2, ...rightEnd },
+			{ type: 'bezier', c1x: rightTwo.x, c1y: rightTwo.y, c2x: rightOne.x, c2y: rightOne.y, ...rightStart },
+			{ type: 'quad', cx: start.x - normal.x * 0.4, cy: start.y - 2, ...leftStart },
 			{ type: 'close' }
 		], { ...style, lineJoin: 'round', lineCap: 'round' });
 	}

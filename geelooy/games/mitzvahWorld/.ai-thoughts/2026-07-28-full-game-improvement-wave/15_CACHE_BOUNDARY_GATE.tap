@@ -1,0 +1,215 @@
+lines:experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js=92
+lines:experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js=109
+lines:experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js=93
+revision_file_count=4
+(node:59205) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ player runtime attaches a visible marker to the local model (6.304251ms)
+✔ W moves forward and visible yaw follows A/D state (3.858454ms)
+✔ bootstrap loop establishes camera and renders immediately (90.28182ms)
+✔ staged runtime imports bootstrap core and no legacy core assembly (30.714684ms)
+(node:59206) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ assembled progression awards exactly-once enemy XP through the shared bus (70.257155ms)
+(node:59207) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldGameplayPresentation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ page threshold requests one stylesheet and one JavaScript entry (36.960993ms)
+✔ boot opens only the small launcher through a finite frame gate (16.471933ms)
+✔ gameplay styles remain outside the HTML threshold (0.419572ms)
+✖ runtime opens staged startup and keeps heavy systems explicitly deferred (10.185166ms)
+✔ staged runtime imports foundation before bootstrap core assembly (3.934077ms)
+✔ foundation paints WebGL, loads essential control, then creates bootstrap world (3.022315ms)
+✔ bootstrap world contains visible valley without authored terrain imports (7.655231ms)
+✔ multiplayer connection begins after local runtime resolves (77.674669ms)
+✖ B"H production launcher uses native ESM and a fresh revision (2.345755ms)
+✖ B"H native facade is served as an explicit-binding module contract (0.29888ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 11
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1242.214211
+
+✖ failing tests:
+
+test at src/test/launcher/mainMenuStreamingBoundary.test.mjs:20:1
+✖ page threshold requests one stylesheet and one JavaScript entry (36.960993ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  15 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:22:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 15,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/test/launcher/mainMenuStreamingBoundary.test.mjs:43:1
+✖ runtime opens staged startup and keeps heavy systems explicitly deferred (10.185166ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /authoredTerrain:\s*'deferred'/. Input:
+  
+  '// B"H\n' +
+    '// Boruch Hashem\n' +
+    '// Blessed is He\n' +
+    '\n' +
+    '/**\n' +
+    ' * @file createEretzRuntime.js\n' +
+    ' * @description Publishes visible playability before streaming tiny districts in idle slices.\n' +
+    ' * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;\n' +
+    ' * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.\n' +
+    ' */\n' +
+    '\n' +
+    'import {\n' +
+    '\tmarkRendererHydration,\n' +
+    '\tmarkRuntimeFailed,\n' +
+    '\tmarkRuntimePlayable,\n' +
+    '\tmarkRuntimeStarting\n' +
+    "} from './RuntimeStateMarker.js';\n" +
+    '\n' +
+    'export {\n' +
+    '\tstartGameplayTextureStreaming\n' +
+    "} from './GameplayTextureStreamingGate.js';\n" +
+    '\n' +
+    "const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260723-stream-21';\n" +
+    "const TRACKER_URL = './BootPhaseTracker.js?v=20260722-boot-text-01';\n" +
+    '\n' +
+    'export async function createEretzRuntime(hosts, options = {}) {\n' +
+    '\tconst environment = options.environment || globalThis;\n' +
+    '\tmarkRuntimeStarting(environment.document);\n' +
+    '\tconst { BootPhaseTracker } = await import(TRACKER_URL);\n' +
+    '\tconst boot = new BootPhaseTracker(undefined, environment);\n' +
+    '\tglobalThis.AwtsmoosBootTracker = boot;\n' +
+    '\n' +
+    '\ttry {\n' +
+    "\t\tboot.begin('staged-webgl-runtime');\n" +
+    '\t\tconst { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);\n' +
+    '\t\tconst core = await createStagedEretzRuntime(hosts, options, boot);\n' +
+    '\t\tboot.complete();\n' +
+    '\t\tpublishRuntime(core.diagnostics, environment);\n' +
+    "\t\tmarkRendererHydration('deferred', environment.document);\n" +
+    '\t\tcore.diagnostics.rendererHydrationPromise = Promise.resolve(null);\n' +
+    '\t\tcore.diagnostics.enrichmentPromise = streamDistricts(\n' +
+    '\t\t\tcore.diagnostics.runtime,\n' +
+    '\t\t\tenvironment\n' +
+    '\t\t);\n' +
+    '\t\tcore.diagnostics.deferredSystems = Object.freeze({\n' +
+    "\t\t\tauthoredTerrain: 'district-streaming-required',\n" +
+    "\t\t\tinventoryAndRpg: 'deferred',\n" +
+    "\t\t\trichActors: 'deferred',\n" +
+    "\t\t\trichRenderer: 'deferred',\n" +
+    "\t\t\tworldDiagnostics: 'deferred'\n" +
+    '\t\t});\n' +
+    '\t\treturn core.diagnostics;\n' +
+    '\t} catch (error) {\n' +
+    '\t\tboot.fail(error);\n' +
+    '\t\texposeBootFailure(error, hosts, environment);\n' +
+    '\t\tthrow error;\n' +
+    '\t} finally {\n' +
+    '\t\tif (globalThis.AwtsmoosBootTracker === boot) {\n' +
+    '\t\t\tglobalThis.AwtsmoosBootTracker = null;\n' +
+    '\t\t}\n' +
+    '\t}\n' +
+    '}\n' +
+    '\n' +
+    'async function streamDistricts(runtime, environment) {\n' +
+    '\ttry {\n' +
+    '\t\tconst { streamBootstrapDistricts } = await import(\n' +
+    "\t\t\t'./BootstrapDistrictStreamer.js?v=20260723-visible-03'\n" +
+    '\t\t);\n' +
+    '\t\treturn streamBootstrapDistricts(runtime, environment);\n' +
+    '\t} catch (error) {\n' +
+    '\t\truntime.districtStreaming = {\n' +
+    '\t\t\tcompleted: 0,\n' +
+    '\t\t\tloaded: [],\n' +
+    '\t\t\tmeshes: 0,\n' +
+    "\t\t\tstatus: 'degraded',\n" +
+    '\t\t\ttotal: 3\n' +
+    '\t\t};\n' +
+    "\t\tconsole.warn('[MitzvahWorld] Lightweight district streaming degraded.', error);\n" +
+    '\t\treturn runtime.districtStreaming;\n' +
+    '\t}\n' +
+    '}\n' +
+    '\n' +
+    'function publishRuntime(diagnostics, environment) {\n' +
+    '\tenvironment.AwtsmoosBootError = null;\n' +
+    '\tenvironment.AwtsmoosDiagnostics = diagnostics;\n' +
+    '\tmarkRuntimePlayable(diagnostics, environment.document);\n' +
+    '}\n' +
+    '\n' +
+    'function exposeBootFailure(error, hosts, environment) {\n' +
+    '\tconst failure = {\n' +
+    '\t\tat: new Date().toISOString(),\n' +
+    '\t\tmessage: error?.message || String(error),\n' +
+    "\t\tname: error?.name || 'Error',\n" +
+    "\t\tstack: error?.stack || ''\n" +
+    '\t};\n' +
+    '\tenvironment.AwtsmoosBootError = failure;\n' +
+    '\tmarkRuntimeFailed(error, environment.document);\n' +
+    '\n' +
+    '\tif (hosts?.hud) {\n' +
+    "\t\thosts.hud.style.removeProperty('display');\n" +
+    '\t\thosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;\n' +
+    '\t}\n' +
+    '\n' +
+    `\tconsole.error('B"H Mitzvah World initialization failed.', error);\n` +
+    '}\n' +
+    '\n' +
+    'export default createEretzRuntime;\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mainMenuStreamingBoundary.test.mjs:50:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '// B"H\n// Boruch Hashem\n// Blessed is He\n\n/**\n * @file createEretzRuntime.js\n * @description Publishes visible playability before streaming tiny districts in idle slices.\n * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;\n * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.\n */\n\nimport {\n\tmarkRendererHydration,\n\tmarkRuntimeFailed,\n\tmarkRuntimePlayable,\n\tmarkRuntimeStarting\n} from \'./RuntimeStateMarker.js\';\n\nexport {\n\tstartGameplayTextureStreaming\n} from \'./GameplayTextureStreamingGate.js\';\n\nconst STAGED_RUNTIME_URL = \'./EretzStagedRuntime.js?v=20260723-stream-21\';\nconst TRACKER_URL = \'./BootPhaseTracker.js?v=20260722-boot-text-01\';\n\nexport async function createEretzRuntime(hosts, options = {}) {\n\tconst environment = options.environment || globalThis;\n\tmarkRuntimeStarting(environment.document);\n\tconst { BootPhaseTracker } = await import(TRACKER_URL);\n\tconst boot = new BootPhaseTracker(undefined, environment);\n\tglobalThis.AwtsmoosBootTracker = boot;\n\n\ttry {\n\t\tboot.begin(\'staged-webgl-runtime\');\n\t\tconst { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);\n\t\tconst core = await createStagedEretzRuntime(hosts, options, boot);\n\t\tboot.complete();\n\t\tpublishRuntime(core.diagnostics, environment);\n\t\tmarkRendererHydration(\'deferred\', environment.document);\n\t\tcore.diagnostics.rendererHydrationPromise = Promise.resolve(null);\n\t\tcore.diagnostics.enrichmentPromise = streamDistricts(\n\t\t\tcore.diagnostics.runtime,\n\t\t\tenvironment\n\t\t);\n\t\tcore.diagnostics.deferredSystems = Object.freeze({\n\t\t\tauthoredTerrain: \'district-streaming-required\',\n\t\t\tinventoryAndRpg: \'deferred\',\n\t\t\trichActors: \'deferred\',\n\t\t\trichRenderer: \'deferred\',\n\t\t\tworldDiagnostics: \'deferred\'\n\t\t});\n\t\treturn core.diagnostics;\n\t} catch (error) {\n\t\tboot.fail(error);\n\t\texposeBootFailure(error, hosts, environment);\n\t\tthrow error;\n\t} finally {\n\t\tif (globalThis.AwtsmoosBootTracker === boot) {\n\t\t\tglobalThis.AwtsmoosBootTracker = null;\n\t\t}\n\t}\n}\n\nasync function streamDistricts(runtime, environment) {\n\ttry {\n\t\tconst { streamBootstrapDistricts } = await import(\n\t\t\t\'./BootstrapDistrictStreamer.js?v=20260723-visible-03\'\n\t\t);\n\t\treturn streamBootstrapDistricts(runtime, environment);\n\t} catch (error) {\n\t\truntime.districtStreaming = {\n\t\t\tcompleted: 0,\n\t\t\tloaded: [],\n\t\t\tmeshes: 0,\n\t\t\tstatus: \'degraded\',\n\t\t\ttotal: 3\n\t\t};\n\t\tconsole.warn(\'[MitzvahWorld] Lightweight district streaming degraded.\', error);\n\t\treturn runtime.districtStreaming;\n\t}\n}\n\nfunction publishRuntime(diagnostics, environment) {\n\tenvironment.AwtsmoosBootError = null;\n\tenvironment.AwtsmoosDiagnostics = diagnostics;\n\tmarkRuntimePlayable(diagnostics, environment.document);\n}\n\nfunction exposeBootFailure(error, hosts, environment) {\n\tconst failure = {\n\t\tat: new Date().toISOString(),\n\t\tmessage: error?.message || String(error),\n\t\tname: error?.name || \'Error\',\n\t\tstack: error?.stack || \'\'\n\t};\n\tenvironment.AwtsmoosBootError = failure;\n\tmarkRuntimeFailed(error, environment.document);\n\n\tif (hosts?.hud) {\n\t\thosts.hud.style.removeProperty(\'display\');\n\t\thosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;\n\t}\n\n\tconsole.error(\'B"H Mitzvah World initialization failed.\', error);\n}\n\nexport default createEretzRuntime;\n',
+    expected: /authoredTerrain:\s*'deferred'/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at src/test/world/minimalMeadowNativeBootContract.test.mjs:18:1
+✖ B"H production launcher uses native ESM and a fresh revision (2.345755ms)
+  Error: ENOENT: no such file or directory, open 'geelooy/games/mitzvahWorld/index.html'
+      at Object.readFileSync (node:fs:441:20)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowNativeBootContract.test.mjs:19:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'geelooy/games/mitzvahWorld/index.html'
+  }
+
+test at src/test/world/minimalMeadowNativeBootContract.test.mjs:29:1
+✖ B"H native facade is served as an explicit-binding module contract (0.29888ms)
+  Error: ENOENT: no such file or directory, open 'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
+      at Object.readFileSync (node:fs:441:20)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowNativeBootContract.test.mjs:30:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
+  }
+test_exit=1
+diff_exit=0

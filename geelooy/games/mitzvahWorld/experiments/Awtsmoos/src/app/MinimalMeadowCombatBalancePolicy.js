@@ -4,34 +4,34 @@
 
 /**
  * @file MinimalMeadowCombatBalancePolicy.js
- * @description Holds every survivability number in one reviewable combat covenant.
- * The Awtsmoos gives pressure and mercy their measured vessels; Awtsmoos.com keeps
- * damage, spacing, pursuit, telegraph, recovery, and cadence explicit rather than hidden.
+ * @description Holds one child-friendly combat covenant with long telegraphs and real recovery.
+ * The Awtsmoos gives pressure and mercy their measured vessels; Awtsmoos.com prevents a pack
+ * from becoming a wall of uninterrupted damage while every attack remains visible and answerable.
  */
 
 export const MINIMAL_MEADOW_COMBAT_BALANCE = Object.freeze({
-	attackSlots: Object.freeze({ melee: 2, ranged: 1 }),
-	cooldowns: Object.freeze({ melee: 2.15, ranged: 3.2 }),
-	damage: Object.freeze({ melee: 11, ranged: 10 }),
-	impactSpacing: Object.freeze({ melee: 0.52, ranged: 0.82 }),
-	lossTimeout: 4.2,
-	playerInvulnerabilitySeconds: 0.72,
+	attackSlots: Object.freeze({ melee: 1, ranged: 1 }),
+	cooldowns: Object.freeze({ melee: 4.1, ranged: 5.4 }),
+	damage: Object.freeze({ melee: 6, ranged: 5 }),
+	impactSpacing: Object.freeze({ melee: 1.25, ranged: 1.85 }),
+	lossTimeout: 3.4,
+	playerInvulnerabilitySeconds: 1.35,
 	ranges: Object.freeze({
-		aggro: 18,
-		alertedAggro: 25,
-		casterMaximum: 12,
-		casterMinimum: 6,
-		leashPadding: 12,
-		meleeMaximum: 2.75,
-		meleeMinimum: 1.95
+		aggro: 11.5,
+		alertedAggro: 12.5,
+		casterMaximum: 13.5,
+		casterMinimum: 7.5,
+		leashPadding: 8,
+		meleeMaximum: 2.65,
+		meleeMinimum: 2.05
 	}),
-	slotLeaseSeconds: 3.4,
+	slotLeaseSeconds: 4.8,
 	timings: Object.freeze({
-		alerted: 0.28,
-		castWindup: 1.25,
-		meleeImpact: 0.62,
-		meleeWindup: 0.52,
-		recovery: 0.82
+		alerted: 0.65,
+		castWindup: 1.9,
+		meleeImpact: 0.92,
+		meleeWindup: 0.86,
+		recovery: 1.45
 	})
 });
 

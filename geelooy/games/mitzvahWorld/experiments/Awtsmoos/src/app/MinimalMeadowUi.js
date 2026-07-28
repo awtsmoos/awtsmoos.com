@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowUi.js
- * @description Mounts the game UI while preserving one authoritative movement-mode event path.
- * The Awtsmoos joins visible controls to truthful runtime state; Awtsmoos.com keeps Bag, rail,
- * combat, equipment, notices, and touch surfaces separate while their events remain coordinated.
+ * @description Mounts truthful controls, damage, regions, threats, diagnostics, equipment, and menus.
+ * The Awtsmoos joins visible controls to living runtime state; Awtsmoos.com keeps Bag, target,
+ * damage, place, danger, diagnostics, and touch surfaces distinct beneath one coordinated lifecycle.
  */
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
@@ -14,6 +14,8 @@ import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { InventoryPanel } from '../ui/InventoryPanel.js';
 import { MinimalMeadowCombatBar } from '../ui/MinimalMeadowCombatBar.js';
 import { MinimalMeadowCombatGlyphs } from '../ui/MinimalMeadowCombatGlyphs.js';
+import { MinimalMeadowCoordinatedUi } from '../ui/MinimalMeadowCoordinatedUi.js';
+import { MinimalMeadowDamageFeedback } from '../ui/MinimalMeadowDamageFeedback.js';
 import { MinimalMeadowGameRail } from '../ui/MinimalMeadowGameRail.js';
 import { gameRailOptions } from '../ui/MinimalMeadowGameRailModeRuntime.js';
 import {
@@ -46,6 +48,8 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 	);
 	const targetFrame = new MinimalMeadowTargetFrame(hosts.targetHost, bus);
 	const glyphs = new MinimalMeadowCombatGlyphs(hosts.combatFxHost, bus, environment);
+	const damageFeedback = new MinimalMeadowDamageFeedback(runtime, documentValue, environment);
+	const coordinatedUi = new MinimalMeadowCoordinatedUi(runtime, documentValue, environment);
 	const notice = new MinimalMeadowHouseNotice(bus, documentValue, environment);
 	const menu = new MinimalMeadowMenu(hosts.menuHost, bus, runtime);
 	const playerRetract = new MinimalMeadowRetractable(hosts.playerHudShell);
@@ -63,12 +67,15 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 		if (signature !== previousProfile) npcHud.updatePlayer(profile);
 		previousProfile = signature;
 		menu.refresh();
+		coordinatedUi.refresh();
 	};
 	const destroyables = [
 		combatBar,
 		gameRail,
 		targetFrame,
 		glyphs,
+		damageFeedback,
+		coordinatedUi,
 		notice,
 		menu,
 		playerRetract,
@@ -76,6 +83,7 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 	];
 	const diagnosticContext = {
 		combatBar,
+		damageFeedback,
 		gameRail,
 		inventory,
 		npcHud,
@@ -84,7 +92,11 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 	};
 	runtime.ui = {
 		diagnostics() {
-			return minimalMeadowUiDiagnostics(diagnosticContext);
+			return {
+				...minimalMeadowUiDiagnostics(diagnosticContext),
+				coordinated: coordinatedUi.diagnostics(),
+				damageFeedback: damageFeedback.diagnostics()
+			};
 		},
 		dispose() {
 			for (const unsubscribe of unsubscribers) unsubscribe();

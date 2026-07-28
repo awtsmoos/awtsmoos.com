@@ -1,0 +1,27 @@
+native_boot_test_lines=58
+(node:60500) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ player runtime attaches a visible marker to the local model (92.979988ms)
+✔ W moves forward and visible yaw follows A/D state (6.089558ms)
+✔ bootstrap loop establishes camera and renders immediately (132.110492ms)
+✔ staged runtime imports bootstrap core and no legacy core assembly (45.636917ms)
+(node:60501) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ assembled progression awards exactly-once enemy XP through the shared bus (15.57623ms)
+✔ B"H production launcher and mobile integration use the current native revision (99.485676ms)
+✔ B"H launcher, runtime, and feature bundle share one fresh dependency boundary (0.834896ms)
+✔ B"H native facade is served as an explicit-binding module contract (1.751301ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1844.220692
+test_exit=0
+diff_exit=0

@@ -1,0 +1,142 @@
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseEntrySupport.js=107
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js=100
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js=92
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js=124
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseStairSupport.js=84
+lines:experiments/Awtsmoos/src/ui/MinimalMeadowMenuShlichus.js=105
+lines:experiments/Awtsmoos/src/test/app/shlichusEntrySupport.test.mjs=108
+lines:.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserRuntime.mjs=96
+lines:.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserStairs.mjs=112
+lines:.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserAssertions.mjs=112
+lines:.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserSun.mjs=35
+lines:.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/native-quality-browser-probe.mjs=80
+lines:.ai-thoughts/2026-07-26-minimal-meadow-contract-repair/NodeSimulationRuntimeEvidence.mjs=61
+syntax_exit=0
+oversized_exit=1
+(node:45388) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H action icons are pictographic while Hebrew remains present (2.171487ms)
+✔ B"H combat pressure is slower, smaller, and spatially separated (1.638106ms)
+✔ B"H selected enemy brightens and receives visible markers (148.100733ms)
+✔ B"H Shlichus menu follows canonical active mission progress (1.214609ms)
+✔ B"H stairs expose discrete tread heights and no hidden ramp (50.540163ms)
+✔ B"H sky shader contains intense disc, halo, clouds, and warm horizon (0.327164ms)
+(node:45389) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (3.517209ms)
+✔ B"H equipped staff belongs to the right hand and repairs (187.036057ms)
+(node:45390) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHebrewProjectile.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ melee telegraphs before one reduced impact and long recovery (50.826357ms)
+✔ caster retreats, launches one Hebrew projectile, and recovers (5.156746ms)
+✔ impact and expired support effects return their visual vessels to pools (145.763744ms)
+(node:45406) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ profile spawn anchors home before the group receives final placement (5.767071ms)
+✔ role and cadence remain stable for one complete engagement (0.993838ms)
+✔ brief sight loss persists but sustained loss resets the session (0.985367ms)
+✔ different identities receive broad naturally staggered delays (0.376053ms)
+(node:45407) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measured foundation creates accessible steps and a level platform (60.44266ms)
+✔ two-story plan aligns normal doors, broad hall, and usable stairs (6.362758ms)
+(node:45408) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H fallback readiness preserves Canvas2D backend identity (42.529231ms)
+✔ B"H rich hydration keeps WebGL backend and records rich stage (25.387508ms)
+✔ B"H hydration failure degrades only after final settlement (7.015351ms)
+(node:45421) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H exact terrain frequency derives from source pixels and world size (2.345522ms)
+✔ B"H readiness stays settling until renderer and features resolve (2.201365ms)
+✔ B"H staff begins in right hand and aims at selected target (46.432581ms)
+(node:45425) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H menu follows dedicated Three Shadows progress when adventures are empty (27.579278ms)
+✔ B"H exterior entry and interior staircase use level discrete rises (5.288389ms)
+(node:45426) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quest offer can be declined and later accepted (5.562491ms)
+✔ sequential objectives progress only on matching events (37.027122ms)
+✔ pinning is bounded and abandon resets progress (11.756985ms)
+✔ custom catalogs remain valid store vessels (0.715428ms)
+(node:45435) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (33.585431ms)
+✔ batch loot and purchases publish exactly once (3.943227ms)
+✔ corpse selection opens loot before any deliberate transfer (64.38079ms)
+✔ tefillin jacket and right-hand weapon persist through casting and hydration (320.558162ms)
+(node:45436) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseBounds.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house bounds remain independent of visibility state (2.252991ms)
+✔ closed exterior view hides and suspends only tagged interiors (6.187767ms)
+✔ opening the door or entering resumes interior runtime handles (5.779219ms)
+(node:45437) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr owns finite bounds, winding, and role-specific side policy (250.06701ms)
+✔ brick-cottage owns finite bounds, winding, and role-specific side policy (10.821928ms)
+(node:45440) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr remains eligible through a multi-elevation orbit (479.682546ms)
+✔ beis-ohr has stable draw state while entering and leaving (182.795798ms)
+✔ beis-ohr repairs a late blanket side mutation (84.695405ms)
+✔ brick-cottage remains eligible through a multi-elevation orbit (160.592952ms)
+✔ brick-cottage has stable draw state while entering and leaving (93.81084ms)
+✔ brick-cottage repairs a late blanket side mutation (18.583005ms)
+(node:45450) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house population preserves interaction and collision lifecycle (461.593045ms)
+(node:45451) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (2.753265ms)
+✔ mobile and desktop derive exact native frequency from source pixels (6.832349ms)
+✔ terrain and road presets use six broad rotated sources (5.585445ms)
+✔ package mounts a visible road while terrain owns collision (105.558711ms)
+(node:45470) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mobile terrain preserves full native source quality (3.629673ms)
+✔ B"H six ecological sources retain strong nonuniform identities (0.926213ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (1.122276ms)
+✔ B"H visible road mounts without becoming collision authority (1.081147ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5842.025575
+test_exit=0
+diff_exit=0

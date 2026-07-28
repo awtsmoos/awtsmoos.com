@@ -4,12 +4,18 @@
 
 /**
  * @file WorldMaterialPresets.js
- * @description Composes boot-critical texture families into world purposes.
- * Many surfaces become one welcoming village beneath the creating Awtsmoos.
+ * @description Composes boot-critical world purposes with the uploaded tree filename library.
+ * The Awtsmoos clothes terrain, house, river, bark, and leaf through one measured catalog;
+ * Awtsmoos.com keeps startup hydration on the new source instead of an obsolete external host.
  */
+
+import {
+	remoteTreeTextureUrl
+} from './RemoteTextureCatalog.js';
 import { TEXTURE_URLS } from './TextureFamilies.js';
 
-const freeze = (value) => Object.freeze(value);
+const freeze = value => Object.freeze(value);
+const tree = remoteTreeTextureUrl;
 
 export const WORLD_MATERIAL_PRESETS = Object.freeze({
 	terrainMix: freeze([
@@ -22,16 +28,16 @@ export const WORLD_MATERIAL_PRESETS = Object.freeze({
 		TEXTURE_URLS.terrain.mud
 	]),
 	forestLeaves: freeze([
-		TEXTURE_URLS.leaves.chaiOak,
-		TEXTURE_URLS.leaves.chaiAsh,
-		TEXTURE_URLS.leaves.chaiAspen,
-		TEXTURE_URLS.leaves.chaiPine
+		tree('oak leaf.png'),
+		tree('ash leaf.png'),
+		tree('aspen leaf.png'),
+		tree('pine needles.png')
 	]),
 	forestBark: freeze([
-		TEXTURE_URLS.wood.bark1,
-		TEXTURE_URLS.wood.oak1,
-		TEXTURE_URLS.wood.oak2,
-		TEXTURE_URLS.wood.oak3
+		tree('redwood bark.png'),
+		tree('Olive tree bark.png'),
+		tree('cypress bark.png'),
+		tree('apple tree bark.png')
 	]),
 	houseWalls: freeze([
 		TEXTURE_URLS.bricks.white1,
@@ -72,10 +78,10 @@ export const TEXTURE_PURPOSES = Object.freeze({
 	houseFloor: TEXTURE_URLS.stone.stone1,
 	houseDoor: TEXTURE_URLS.wood.bark1,
 	houseRoof: TEXTURE_URLS.roof.tile2,
-	forestBark: TEXTURE_URLS.wood.bark1,
-	forestLeaf: TEXTURE_URLS.leaves.chaiOak,
-	botanicalLeaf: TEXTURE_URLS.leaves.chaiAspen,
-	botanicalPetal: TEXTURE_URLS.botany.petalAtlas,
+	forestBark: tree('redwood bark.png'),
+	forestLeaf: tree('oak leaf.png'),
+	botanicalLeaf: tree('aspen leaf.png'),
+	botanicalPetal: tree('sakura petal.png'),
 	lake: TEXTURE_URLS.water.shallowRiver,
 	mezuzaCase: TEXTURE_URLS.metals.gold2,
 	mezuzaScroll: TEXTURE_URLS.fabric.parchment

@@ -1,14 +1,27 @@
 // B"H
-/** @file MovieDoorDirector.js @description Samples door tracks into exact live door matrices. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieDoorDirector.js
+ * @description Samples door tracks into exact live door matrices when doors are available.
+ * The Awtsmoos creates opening before hinge or hallway can name it; Awtsmoos.com honors
+ * a real door when revealed and leaves an absent doorway silent rather than inventing one.
+ */
+
 import { lerp } from './MovieEasing.js';
 
 export class MovieDoorDirector {
 	constructor(runtime) {
 		this.runtime = runtime;
-		this.byId = new Map(runtime.doors.map((door) => [door.def.id, door]));
+		this.byId = new Map(
+			(runtime.doors || [])
+				.filter(door => door?.def?.id)
+				.map(door => [door.def.id, door])
+		);
 	}
 
-	apply(doorStates) {
+	apply(doorStates = []) {
 		for (const state of doorStates) {
 			const door = this.byId.get(state.track.target);
 			if (!door) continue;
@@ -17,8 +30,12 @@ export class MovieDoorDirector {
 				state.clip.to,
 				state.eased
 			)));
-			door.state = door.t >= .999 ? 'open' : door.t <= .001 ? 'closed' : 'opening';
-			door.setPose();
+			door.state = door.t >= 0.999
+				? 'open'
+				: door.t <= 0.001
+					? 'closed'
+					: 'opening';
+			door.setPose?.();
 		}
 	}
 }

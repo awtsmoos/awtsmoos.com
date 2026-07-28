@@ -4,18 +4,19 @@
 
 /**
  * @file ForestGeometry.js
- * @description Batches procedural-core trees by semantic bark and leaf material type.
- * The Awtsmoos reveals one forest without erasing species; Awtsmoos.com merges geometry only
- * where bark or leaf identity truly matches and preserves collision-transform compatibility.
+ * @description Batches semantic trees while preserving stable bark and fallback leaf vessels at dawn.
+ * The Awtsmoos reveals one forest without erasing species; Awtsmoos.com keeps empty beginnings
+ * visible through measured oak garments, then yields to every true bark and leaf identity within.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createForestFallbackLeafMaterial } from './ForestFallbackMaterial.js';
+import { createForestMesh } from './ForestGeometryBuffer.js';
 import {
-	appendTreeGeometry,
-	createForestMesh,
-	emptyForestBuilder,
-	rgba
-} from './ForestGeometryBuffer.js';
+	appendForestRecord,
+	createForestGeometryStats,
+	seedStableForestGroups
+} from './ForestGeometrySupport.js';
 import {
 	createTreeBarkMaterial,
 	createTreeLeafMaterial
@@ -26,40 +27,31 @@ export { transformTreePoint } from './ForestGeometryBuffer.js';
 export function createMergedForestGeometry(records) {
 	const barkGroups = new Map();
 	const leafGroups = new Map();
+
 	for (const record of records) {
-		appendRecord(barkGroups, record, 'branches');
-		if (record.tree.leaves.indices.length) appendRecord(leafGroups, record, 'leaves');
+		appendForestRecord(barkGroups, record, 'branches');
+
+		if (record.tree.leaves.indices.length) {
+			appendForestRecord(leafGroups, record, 'leaves');
+		}
 	}
+
+	seedStableForestGroups(barkGroups, leafGroups);
 	const group = new Group();
 	group.name = 'Awtsmoos_semantic_core_generated_forest';
 	appendMeshes(group, barkGroups, 'bark');
 	appendMeshes(group, leafGroups, 'leaves');
-	return { group, stats: forestStats(barkGroups, leafGroups) };
-}
-
-function appendRecord(groups, record, layer) {
-	const geometry = record.tree[layer];
-	const type = geometry.material?.type || (layer === 'branches' ? 'bark_oak' : 'leaf_oak');
-	if (!groups.has(type)) {
-		groups.set(type, {
-			builder: emptyForestBuilder(),
-			material: geometry.material || {},
-			type
-		});
-	}
-	appendTreeGeometry(
-		groups.get(type).builder,
-		geometry,
-		record,
-		rgba(geometry.material?.tint)
-	);
+	return {
+		group,
+		stats: createForestGeometryStats(barkGroups, leafGroups)
+	};
 }
 
 function appendMeshes(group, groups, layer) {
 	for (const record of groups.values()) {
 		const material = layer === 'bark'
 			? createTreeBarkMaterial(record.type, record.material)
-			: createTreeLeafMaterial(record.type, record.material);
+			: leafMaterial(record);
 		group.add(createForestMesh(
 			`Awtsmoos_forest_${layer}_${record.type}`,
 			record.builder,
@@ -68,31 +60,10 @@ function appendMeshes(group, groups, layer) {
 	}
 }
 
-function forestStats(barkGroups, leafGroups) {
-	const bark = [...barkGroups.values()];
-	const leaves = [...leafGroups.values()];
-	return {
-		alphaCutout: true,
-		barkMaterialTypes: bark.map(item => item.type),
-		branchVertices: vertexCount(bark),
-		depthWritingLeaves: true,
-		drawCalls: bark.length + leaves.length,
-		leafMaterialTypes: leaves.map(item => item.type),
-		leafVertices: vertexCount(leaves),
-		proceduralLeafFallback: false,
-		publicFirebaseMaterials: true,
-		realisticSpeciesMaterials: true,
-		transparentLeaves: false,
-		triangles: triangleCount([...bark, ...leaves])
-	};
-}
-
-function vertexCount(groups) {
-	return groups.reduce((sum, item) => sum + item.builder.positions.length / 3, 0);
-}
-
-function triangleCount(groups) {
-	return groups.reduce((sum, item) => sum + item.builder.indices.length / 3, 0);
+function leafMaterial(record) {
+	return record.fallbackLeaf
+		? createForestFallbackLeafMaterial(record.type, record.material)
+		: createTreeLeafMaterial(record.type, record.material);
 }
 
 export default createMergedForestGeometry;

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowFeatureReceipts.js
- * @description Converts settled feature work into finite readiness receipts.
+ * @description Converts settled feature work into finite readiness and failure evidence.
  * The Awtsmoos creates success and limitation without confusion; Awtsmoos.com preserves
- * model, combat, fellowship, and rich-world status without an undefined clock vessel.
+ * model, combat, fellowship, rich-world status, and the exact stack that explains any failure.
  */
 
 export function createMinimalFeatureReceipt(startedAt, environment, results) {
@@ -20,7 +20,7 @@ export function createMinimalFeatureReceipt(startedAt, environment, results) {
 		friendlyNpcs,
 		model,
 		ready: [combat, friendlyNpcs, model, richWorld]
-			.every(receipt => receipt.status === 'ready'),
+			.every((receipt) => receipt.status === 'ready'),
 		richWorld,
 		visualStability: results.visualStability || null
 	};
@@ -60,8 +60,10 @@ function resultReceipt(result) {
 			value: result.value || null
 		};
 	}
+	const reason = result?.reason;
 	return {
-		error: result?.reason?.message || String(result?.reason || 'Unknown feature failure.'),
+		error: reason?.message || String(reason || 'Unknown feature failure.'),
+		stack: reason?.stack || null,
 		status: 'failed'
 	};
 }

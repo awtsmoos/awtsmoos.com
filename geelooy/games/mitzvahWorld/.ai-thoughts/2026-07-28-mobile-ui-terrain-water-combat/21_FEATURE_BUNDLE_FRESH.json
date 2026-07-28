@@ -1,0 +1,7 @@
+{
+  "exports": [
+    "default",
+    "installMinimalMeadowFeatures"
+  ],
+  "ok": true
+}

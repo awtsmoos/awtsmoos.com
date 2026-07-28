@@ -1,32 +1,40 @@
 //B"H
-const fs = require("fs");
-const path = require("path");
+// Boruch Hashem
+// Blessed is He
+
+const fs = require("node:fs");
+const path = require("node:path");
 const { ROOT, assert, test } = require("./assert.cjs");
 
-async function run() {
-  return test("extension-bfcache-port-recovery", async () => {
-    const ext = path.join(ROOT, "../scripts/tricks/extensions/server");
-    const manifest = JSON.parse(fs.readFileSync(path.join(ext, "manifest.json"), "utf8"));
-    const content = fs.readFileSync(path.join(ext, "awtsmoosContent.js"), "utf8");
-    const background = fs.readFileSync(path.join(ext, "background.js"), "utf8");
-    const engine = fs.readFileSync(path.join(ext, "bgAutomation/engine.js"), "utf8");
-    const delegate = fs.readFileSync(path.join(ext, "bgAutomation/pageDelegate.js"), "utf8");
-
-    const permissions = manifest.permissions || [];
-    assert(new Set(permissions).size === permissions.length, "manifest permissions must not contain duplicates", { permissions });
-    assert(/chrome\.runtime\?\.lastError/.test(content), "content port disconnect must read runtime.lastError to prevent unchecked BFCache errors");
-    assert(/chrome\.runtime\?\.lastError/.test(background), "background port disconnect must read runtime.lastError to prevent unchecked BFCache errors");
-    assert(/pagehide/.test(content) && /event\.persisted/.test(content), "content bridge must handle BFCache pagehide");
-    assert(/pageshow/.test(content) && /server-restoring-bfcache/.test(content), "content bridge must reconnect on BFCache pageshow");
-    assert(/visibilitychange/.test(content), "content bridge must reconnect when visible again");
-    assert(/disconnectQuietly/.test(content), "content bridge must disconnect before BFCache freezes the message channel");
-    assert(/server-port-last-error/.test(content), "content bridge must report consumed port lastError");
-    assert(/chrome\.alarms\.create/.test(engine) && /chrome\.storage\.local/.test(fs.readFileSync(path.join(ext, "bgAutomation/storage.js"), "utf8")), "background automation must live in service worker storage/alarms, not page UI");
-    assert(/Object\.values\(manager\?\.ports/.test(delegate), "UI broadcast must be best-effort over currently attached ports only");
-    assert(!/automation-stream[\s\S]*automation-stream[\s\S]*automation-stream/.test(fs.readFileSync(path.join(ext, "jected.js"), "utf8")), "jected bridge must not duplicate automation-stream dispatch blocks");
-
-    return { permissions: permissions.length, bfcache: true, lastErrorConsumed: true, backgroundIndependent: true };
-  });
+/**
+ * BFCache restore and service-worker disconnects must rejoin the same Awtsmoos.com
+ * bridge without duplicate listeners. The Awtsmoos keeps reconnect ownership in
+ * the content bridge and stale-port cleanup inside the port manager where it lives.
+ */
+function run() {
+	return test("extension-bfcache-port-recovery-source", async () => {
+		const extension = path.join(ROOT, "../scripts/tricks/extensions/server");
+		const content = fs.readFileSync(path.join(extension, "awtsmoosContent.js"), "utf8");
+		const manager = fs.readFileSync(path.join(extension, "portManager.js"), "utf8");
+		const background = fs.readFileSync(path.join(extension, "background.js"), "utf8");
+		assert(
+			/bridgeKey\s*=\s*"__awtsmoosServerPortManager"/.test(content)
+				&& /globalThis\[bridgeKey\]/.test(content),
+			"content bridge must retain one per-page singleton"
+		);
+		assert(/pageshow/.test(content) && /persisted/.test(content), "BFCache restore must reconnect the bridge");
+		assert(/port\.onDisconnect\.addListener/.test(content), "content bridge must reconnect after worker disconnect");
+		assert(/delete this\.ports\[name\]/.test(manager), "port manager must remove disconnected ports");
+		assert(/port\.onDisconnect\.addListener/.test(manager), "port manager must own disconnect cleanup");
+		assert(/const portManager = globalThis\.__awtsmoosPortManager \|\| new ChromePortManager/.test(background), "worker generations must reuse one manager instance");
+		assert(!/webNavigation|tabs\.onUpdated|scripting\.executeScript/.test(background), "background must not reinject the manifest content script");
+		return {
+			singleton: true,
+			bfcacheReconnect: true,
+			disconnectCleanup: true,
+			manualInjection: false
+		};
+	});
 }
 
 module.exports = { run };

@@ -3,15 +3,14 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos does not mistake one passing instant for durable completion.
-# Awtsmoos.com waits through brief receipt and guardian transitions, yet every
-# accepted sample binds process, relay, project root, and service to one PID.
+# The Awtsmoos binds completion to the living tunnel and its guardian, while an
+# optional workspace remains a diagnostic vessel. Awtsmoos.com never rolls back
+# healthy release code because a user moved, renamed, or deleted project files.
 final_readiness_sample() {
 	local pid="$1"
 	[ -n "$pid" ] || return 1
 	runtime_pid_matches "$pid" &&
 		runtime_registered "$pid" 600000 &&
-		project_root_ready "$pid" 600000 &&
 		service_supervision_ready "$pid"
 }
 
@@ -34,8 +33,8 @@ verified_agent_pid() {
 
 final_readiness_failure_detail() {
 	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	printf '%s %s %s' \
+	printf '%s %s workspace_optional=%s' \
 		"$(runtime_health_summary "$pid")" \
-		"$(project_root_health_summary "$pid")" \
-		"$(service_health_summary)"
+		"$(service_health_summary)" \
+		"$(project_root_health_summary "$pid")"
 }

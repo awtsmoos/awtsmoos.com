@@ -1,0 +1,107 @@
+lines:experiments/Awtsmoos/src/camera/CameraMouseChordState.js=68
+lines:experiments/Awtsmoos/src/camera/CameraGestureController.js=116
+lines:experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js=48
+lines:experiments/Awtsmoos/src/app/MinimalMeadowInput.js=101
+lines:experiments/Awtsmoos/src/app/BootstrapMovementController.js=117
+lines:experiments/Awtsmoos/src/app/MinimalMeadowFrameScheduler.js=72
+lines:experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js=47
+lines:experiments/Awtsmoos/src/app/MinimalMeadowLoop.js=44
+lines:experiments/Awtsmoos/src/ui/MinimalMeadowUiRepairStyles.js=83
+lines:experiments/Awtsmoos/src/ui/MobileHudCompositionController.js=54
+lines:experiments/Awtsmoos/src/ui/MinimalMeadowMenu.js=97
+lines:experiments/Awtsmoos/src/ui/GameplayUiController.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js=60
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js=44
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js=46
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js=62
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js=100
+lines:experiments/Awtsmoos/src/app/MinimalMeadowGroundSupport.js=40
+lines:experiments/Awtsmoos/src/app/MinimalMeadowJumpState.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowMovementRuntime.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js=115
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js=71
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js=79
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js=106
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js=47
+lines:experiments/Awtsmoos/src/test/app/wowDesktopControlContract.test.mjs=74
+lines:experiments/Awtsmoos/src/test/app/minimalMeadowFrameCadence.test.mjs=35
+lines:experiments/Awtsmoos/src/test/app/minimalMeadowHouseFloorSupport.test.mjs=46
+lines:experiments/Awtsmoos/src/test/app/minimalMeadowAttachmentRegistry.test.mjs=68
+lines:experiments/Awtsmoos/src/test/ui/minimalMeadowUiRepair.test.mjs=25
+missing_exit=0
+syntax_exit=0
+oversized_exit=0
+(node:66587) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H registry cleans duplicates and rebinds one weapon to each model generation (4.333933ms)
+(node:66588) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H HUD writes are paint-bound and cadence-limited (16.251808ms)
+(node:66589) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H lower and upper story floors catch normal, crossed, and underground positions (192.055798ms)
+✔ B"H story-floor receipt wins over terrain below the house (2.963694ms)
+(node:66592) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mouse chords distinguish camera-only, player-bound, and forward modes (2.701949ms)
+✖ B"H right drag synchronizes facing while left drag does not (6.986683ms)
+✖ B"H A and D strafe and every focus loss clears movement (4.62552ms)
+(node:66593) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowUiRepairStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H responsive HUD contract uses safe areas and dynamic viewport bounds (2.607651ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2523.071506
+
+✖ failing tests:
+
+test at src/test/app/wowDesktopControlContract.test.mjs:33:1
+✖ B"H right drag synchronizes facing while left drag does not (6.986683ms)
+  TypeError: rig.synchronizeFacing is not a function
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/wowDesktopControlContract.test.mjs:38:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+
+test at src/test/app/wowDesktopControlContract.test.mjs:47:1
+✖ B"H A and D strafe and every focus loss clears movement (4.62552ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== -1
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/wowDesktopControlContract.test.mjs:51:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: -1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+test_exit=1
+diff_exit=0

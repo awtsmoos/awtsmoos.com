@@ -11,9 +11,9 @@ import { FallbackConversationService } from "./FallbackConversationService.mjs";
 import { RequestOnlyCapabilityService } from "./RequestOnlyCapabilityService.mjs";
 
 /**
- * The Awtsmoos separates strict request light from the named carrier fallback.
- * Awtsmoos.com defaults raw relay calls to strict mode and permits only bounded
- * model controls plus one validated conversation mode to cross into Chrome.
+ * Strict request light and explicit page-authorized fallback remain separate paths.
+ * The Awtsmoos lets Awtsmoos.com share one bounded browser lifecycle while signals,
+ * progress, and timeouts flow inward without admitting arbitrary request expansion.
  */
 export class DirectService {
 	constructor({
@@ -45,20 +45,23 @@ export class DirectService {
 			clientFactory: makeClient
 		});
 	}
-
-	async send({
-		prompt,
-		conversationKey,
-		mode = "strict-request-only",
-		model = null,
-		thinkingEffort = null,
-		conversationMode = null
-	} = {}) {
+	async send(options = {}) {
+		const {
+			prompt,
+			conversationKey,
+			mode = "strict-request-only",
+			model = null,
+			thinkingEffort = null,
+			conversationMode = null,
+			signal = null,
+			onProgress = null,
+			timeoutMs = null
+		} = options;
 		this.validatePrompt(prompt);
-		const normalizedConversationMode = this.conversationModePolicy.normalize(
-			conversationMode
-		);
-		if (mode === "strict-request-only") throw await this.enforcementError();
+		const normalizedMode = this.conversationModePolicy.normalize(conversationMode);
+		if (mode === "strict-request-only") {
+			throw await this.enforcementError();
+		}
 		if (mode !== "page-authorized-fallback") {
 			throw new TypeError(`Unsupported direct mode: ${mode}.`);
 		}
@@ -67,10 +70,12 @@ export class DirectService {
 			conversationKey,
 			model,
 			thinkingEffort,
-			conversationMode: normalizedConversationMode
+			conversationMode: normalizedMode,
+			signal,
+			onProgress,
+			timeoutMs
 		});
 	}
-
 	async enforcementError() {
 		const error = new Error(
 			"Strict request-only chat stopped before normal enforcement finalization."
@@ -79,17 +84,17 @@ export class DirectService {
 		error.capability = await this.capability();
 		return error;
 	}
-
-	async capability() {
+	capability() {
 		return this.capabilityService.inspect();
 	}
-
 	reset(conversationKey) {
 		return conversationKey
 			? { deleted: this.store.delete(conversationKey) }
 			: { deleted: this.store.clear() };
 	}
-
+	close() {
+		return this.fallbackService.close();
+	}
 	status() {
 		return {
 			ok: true,
@@ -102,7 +107,6 @@ export class DirectService {
 			...this.store.status()
 		};
 	}
-
 	validatePrompt(prompt) {
 		if (typeof prompt !== "string" || prompt.trim() === "") {
 			throw new TypeError("prompt must be a non-empty string.");

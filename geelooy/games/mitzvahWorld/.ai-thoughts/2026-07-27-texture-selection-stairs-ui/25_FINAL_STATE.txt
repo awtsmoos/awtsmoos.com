@@ -1,0 +1,30 @@
+--- PRIVATE CHROME CLEANUP ---
+matches_before=48076 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --headless=new --remote-debugging-port=9258 --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --no-first-run --no-default-browser-check --disable-background-networking --window-size=430,932 http://localhost:8080/games/mitzvahWorld/
+48110 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/150.0.7871.125/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=gpu-process --headless=new --noerrdialogs --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --gpu-preferences=UAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAAOAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAABgAAAAAAAAAGAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --shared-files --field-trial-handle=1718379636,r,4950177953075591671,17318804134532095324,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=1935764596,r,18084199817525327779,9418863696735211712,4 --trace-process-track-uuid=3190708988185955192 --seatbelt-client=24
+48111 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/150.0.7871.125/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=network --noerrdialogs --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --shared-files --field-trial-handle=1718379636,r,4950177953075591671,17318804134532095324,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=1935764596,r,18084199817525327779,9418863696735211712,4 --trace-process-track-uuid=3190708989122997041 --seatbelt-client=24
+48112 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/150.0.7871.125/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --noerrdialogs --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --shared-files --field-trial-handle=1718379636,r,4950177953075591671,17318804134532095324,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=1935764596,r,18084199817525327779,9418863696735211712,4 --trace-process-track-uuid=3190708990060038890 --seatbelt-client=36
+51229 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/150.0.7871.125/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --noerrdialogs --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --remote-debugging-port=9258 --lang=en-US --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=60 --time-ticks-at-unix-epoch=-1785184200810483 --launch-time-ticks=3824007160 --shared-files --field-trial-handle=1718379636,r,4950177953075591671,17318804134532095324,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=1935764596,r,18084199817525327779,9418863696735211712,4 --trace-process-track-uuid=3190709042534382434 --seatbelt-client=106
+51663 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/150.0.7871.125/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --noerrdialogs --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/chrome-mobile-repair-profile --remote-debugging-port=9258 --lang=en-US --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=61 --time-ticks-at-unix-epoch=-1785184200810483 --launch-time-ticks=3873496994 --shared-files --field-trial-handle=1718379636,r,4950177953075591671,17318804134532095324,262144 --disable-features=PaintHolding --variations-seed-version --pseudonymization-salt-handle=1935764596,r,18084199817525327779,9418863696735211712,4 --trace-process-track-uuid=3190709043471424283 --seatbelt-client=141
+matches_after=none
+profile_state=absent
+--- SERVER ---
+HTTP/1.1 200 OK
+COMMAND   PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    51418 awtsmoos   12u  IPv6 0x60467de99b2c5c2f      0t0  TCP *:8080 (LISTEN)
+--- EVIDENCE ---
+final_audit_exit=0
+mobile_settled_exit=0
+texture_availability_exit=0
+remote_host_file_count=1
+
+--- SCREENSHOT ---
+screenshot_bytes=613344
+/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-texture-selection-stairs-ui/21_MOBILE_REPAIR_SETTLED.png
+  pixelWidth: 430
+  pixelHeight: 932
+--- REPOSITORY ---
+branch=main
+head=df1237e5a486
+diff_exit=0
+source_status_count=223
+

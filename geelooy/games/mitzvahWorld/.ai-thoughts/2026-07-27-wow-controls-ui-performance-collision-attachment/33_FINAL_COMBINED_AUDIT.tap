@@ -1,0 +1,353 @@
+lines:experiments/Awtsmoos/src/camera/CameraMouseChordState.js=68
+lines:experiments/Awtsmoos/src/camera/CameraGestureRuntime.js=113
+lines:experiments/Awtsmoos/src/camera/CameraGestureController.js=82
+lines:experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js=84
+lines:experiments/Awtsmoos/src/app/MinimalMeadowInput.js=115
+lines:experiments/Awtsmoos/src/app/BootstrapMovementController.js=119
+lines:experiments/Awtsmoos/src/app/MinimalMeadowFrameScheduler.js=78
+lines:experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js=47
+lines:experiments/Awtsmoos/src/app/MinimalMeadowLoop.js=44
+lines:experiments/Awtsmoos/src/ui/MinimalMeadowUiRepairStyles.js=83
+lines:experiments/Awtsmoos/src/ui/MobileHudCompositionController.js=54
+lines:experiments/Awtsmoos/src/ui/MinimalMeadowMenu.js=97
+lines:experiments/Awtsmoos/src/ui/GameplayUiController.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js=60
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js=44
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js=46
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js=62
+lines:experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js=100
+lines:experiments/Awtsmoos/src/app/MinimalMeadowGroundSupport.js=40
+lines:experiments/Awtsmoos/src/app/MinimalMeadowJumpState.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowMovementRuntime.js=69
+lines:experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistrySupport.js=25
+lines:experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js=118
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js=71
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js=79
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js=106
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js=47
+lines:experiments/Awtsmoos/src/launcher/MinimalMeadowReadinessSettlement.js=83
+lines:experiments/Awtsmoos/src/app/MinimalMeadowConcurrentMountPlan.js=62
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainCollisionData.js=60
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js=114
+syntax_exit=0
+oversized_exit=0
+(node:81222) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzActorAssetLoader.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ first-frame actor assets never invoke the canonical GLB loader (71.549571ms)
+✔ canonical actor hydration remains lazy even when explicitly enabled (19.027935ms)
+(node:81225) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ animation frame wins and cancels its fallback timer (6.014363ms)
+✔ timer advances exactly once when animation frames are withheld (93.113221ms)
+(node:81226) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraOrbitController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ camera controller defaults to third-person orbit (9.260356ms)
+✔ camera modes alternate in both directions (1.01964ms)
+✔ visible presentation describes current and next viewpoints (1.769147ms)
+✔ event bus delivers the camera toggle intention (6.277828ms)
+(node:81227) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLodFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "ok": true,
+  "received": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 7
+    },
+    "tierName": "high",
+    "yaw": 0
+  }
+}
+✔ experiments/Awtsmoos/src/test/app/eretzLodFrame.test.mjs (1062.897586ms)
+(node:81228) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ zero yaw looks forward along positive Z from the player eye (5.981175ms)
+✔ quarter-turn yaw looks along positive X (0.905469ms)
+✔ positive orbit-compatible pitch looks downward (0.456675ms)
+✔ point helpers resolve deterministic yaw and pitch (0.815884ms)
+(node:81232) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzMovementInput.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ W moves forward along camera yaw (247.092794ms)
+✔ D strafes right in first-person mode (0.882887ms)
+✔ arrow look rotates the camera before movement (0.901218ms)
+(node:81233) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (103.885418ms)
+✔ B"H equipped staff belongs to the right hand and repairs (90.375344ms)
+(node:81237) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H registry cleans duplicates and rebinds one weapon to each model generation (19.985121ms)
+(node:81238) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H HUD writes are paint-bound and cadence-limited (12.535689ms)
+(node:81241) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H timer fallback preserves the pending animation frame (34.329716ms)
+(node:81242) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every house expands its recorded legacy footprint by at least forty (147.328906ms)
+✔ expanded footprints retain a broad non-overlapping world corridor (1.042416ms)
+✔ assembly uses measured dimensions rather than parent scaling (2.674658ms)
+(node:81246) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every expanded footprint and entry approach avoids occupied terrain (836.216729ms)
+(node:81247) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H lower and upper story floors catch normal, crossed, and underground positions (18.881285ms)
+✔ B"H story-floor receipt wins over terrain below the house (1.073427ms)
+(node:81251) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measured foundation creates accessible steps and a level platform (108.714961ms)
+✔ two-story plan aligns normal doors, broad hall, and usable stairs (38.927341ms)
+(node:81254) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ camera-relative joystick signs match the screen in every cardinal direction (11.236484ms)
+✔ camera-relative diagonals remain normalized and preserve both signs (0.542973ms)
+✔ selected Run changes actual speed and action for keyboard and joystick (391.230082ms)
+(node:81256) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+MINIMAL_MEADOW_WEAPON_ATTACHMENT_TEST_OK=1
+✔ experiments/Awtsmoos/src/test/app/minimalMeadowWeaponAttachment.test.mjs (1780.432803ms)
+(node:81257) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mouse chords distinguish camera-only, player-bound, and forward modes (8.539508ms)
+✔ B"H right drag synchronizes facing while left drag does not (0.534355ms)
+✔ B"H A and D strafe and every focus loss clears movement (4.136862ms)
+(node:81261) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipCache.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ two reuse frames avoid duplicate raycasts while eye follows target motion (135.399354ms)
+✔ collision revision invalidates an otherwise identical pose (2.708791ms)
+✔ large camera motion refreshes before the reuse bound (3.110182ms)
+(node:81262) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarDragController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ ability drags assign, move, and remove slots (9.679674ms)
+✔ layout lock rejects a drop without losing the drag payload (1.791493ms)
+(node:81266) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarInputController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ routes primary, Shift-row, and gamepad activations to visible slots (13.428495ms)
+✔ touch inspection follows document release and suppresses one click (4.256716ms)
+✔ document movement cancels a pending long press beyond tolerance (6.11863ms)
+(node:81267) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarLongPressController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ long press inspects, ends, and suppresses exactly one click (21.949978ms)
+✔ movement beyond tolerance cancels inspection (0.757497ms)
+✔ mouse, secondary pointers, and destroyed timers remain dormant (0.831672ms)
+(node:81270) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ one key edge emits one bounded fallback melee request (371.989434ms)
+✔ level, Gevurah, equipment, and recovery resolve once per strike (1.526267ms)
+✔ a rejected strike publishes the remaining cooldown without world polling (0.974458ms)
+(node:81271) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ missing materials preserve aliases and structured degradation (267.99382ms)
+✔ successful images receive stable canonical same-origin texture metadata (101.078446ms)
+✔ loader exceptions become degradation rather than boot failure (33.320483ms)
+(node:81272) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (23.119532ms)
+✔ batch loot and purchases publish exactly once (4.312693ms)
+✔ corpse selection opens loot before any deliberate transfer (204.348022ms)
+✔ tefillin jacket and right-hand weapon persist through casting and hydration (359.117722ms)
+(node:81276) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/GarmentCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+INVENTORY_GARMENT_AUTHORITY_TEST_OK=1
+✔ experiments/Awtsmoos/src/test/gameplay/inventoryGarmentAuthority.test.mjs (2267.692474ms)
+(node:81280) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/NpcHudMarkup.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ player card renders canonical XP maximum and armor (3.671032ms)
+✔ hostile target card renders level, health, and armor (0.881791ms)
+(node:81283) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/StatusEffectHud.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ countdown traversal is bounded by cadence (4.639297ms)
+✔ unchanged visible seconds perform no DOM mutation (171.562496ms)
+✔ hidden effect rows remain completely dormant (8.248647ms)
+(node:81284) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ accepted impact spends focus and records canonical cooldown once (146.229759ms)
+✔ rejected impact leaves focus and cooldown untouched (2.924581ms)
+✔ action timeline receives the structured synchronous world rejection (1.833759ms)
+✔ targetless support transaction spends focus without hostile world dispatch (1.072516ms)
+(node:81285) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/FrameBudgetGovernor.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ critical pressure preserves the selected tier (3.113729ms)
+✔ stable evidence remains stable without changing quality (8.262689ms)
+(node:81289) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/FrameBudgetWindow.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bounded ring keeps the newest samples without Array.shift work (155.820474ms)
+✔ percentile lows expose slow tail frames (2.435893ms)
+✔ invalid intervals do not enter the evidence window (4.916489ms)
+(node:81290) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-policy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fixed functional-house surfaces are certified for conservative batching (3.792219ms)
+✔ doors, dynamic definitions, reactive grass, and transparency remain excluded (1.361583ms)
+✔ batch statistics expose singleton and mergeable family opportunity (3.344745ms)
+(node:81294) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeFrameCostSample.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ frame cost sample preserves exact nested animation and CPU intervals (6.285923ms)
+(node:81295) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ combat activation is suspended while Bag modal state is open (96.091601ms)
+(node:81296) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag markup preserves close and omits unused detail space until selection (8.58573ms)
+✔ selected details render truthfully inside a bounded mobile section (1.195407ms)
+✔ modal and HUD CSS preserve safe areas without globally shrinking text (0.617576ms)
+(node:81299) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag activation captures every outside branch exactly once (15.390024ms)
+✔ outside pointer and keyboard input is blocked while Bag controls remain active (7.72689ms)
+✔ close restores inherited HUD, accessibility, scroll, and focus once (1.208123ms)
+(node:81300) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 390 by 844 controlled HUD combinations never intersect (49.385763ms)
+✔ landscape mobile composition remains inside the safe viewport (12.441927ms)
+✔ desktop layout remains a passthrough instead of receiving mobile rectangles (0.51528ms)
+✔ cast and action rectangles remain independently readable (0.332669ms)
+(node:81301) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionMeasurements.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measurement records every visible zoned rectangle and excludes hidden surfaces (202.541071ms)
+✔ intersection evidence names both live surfaces (1.125615ms)
+(node:81305) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowTargetFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ mobile targets begin compact and reset to compact when selection changes (10.052274ms)
+✔ desktop target details remain expanded by default (0.82102ms)
+(node:81309) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionTransientQueue.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ transient messages queue in order and remain bounded to three (109.501671ms)
+✔ owner-controlled hide clears the transient stack (0.640931ms)
+(node:81310) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/HudLayoutRegistry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry covers every major always-visible HUD surface (4.320498ms)
+✔ secondary surfaces begin folded while core status remains visible (7.105255ms)
+✔ registry records are immutable (4.866044ms)
+(node:81313) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowGameRail.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every rail control owns twenty pointer sequences and one click action each (7.011316ms)
+(node:81314) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseBounds.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house bounds remain independent of visibility state (31.932753ms)
+✔ closed exterior view hides and suspends only tagged interiors (13.357791ms)
+✔ opening the door or entering resumes interior runtime handles (76.513307ms)
+(node:81315) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H package-facing terrain builder preserves the complete meadow contract (362.194531ms)
+✔ B"H historic numeric creator remains available for established callers (111.793135ms)
+(node:81316) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (10.320723ms)
+✔ mobile and desktop derive exact native frequency from source pixels (7.882949ms)
+✔ terrain and road presets use six broad rotated sources (6.10086ms)
+✔ package mounts a visible road while terrain owns collision (368.641759ms)
+(node:81320) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mobile terrain preserves full native source quality (8.850955ms)
+✔ B"H six ecological sources retain strong nonuniform identities (0.949914ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.70587ms)
+✔ B"H visible road mounts without becoming collision authority (2.584632ms)
+(node:81321) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H expanded meadow preserves full visuals with bounded collision (11719.653906ms)
+ℹ tests 111
+ℹ suites 0
+ℹ pass 111
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46362.361239
+test_files=47
+test_exit=0
+diff_exit=0

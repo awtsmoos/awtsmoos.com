@@ -1,92 +1,90 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @class SectionEditor
  * @description
- * Ordered verses receive titles, stable IDs, rich blocks, media, comments, and
- * one layer of subsections. Awtsmoos.com can host discussion at the precise place
- * of meaning while each verse remains a clear vessel beneath the Awtsmoos.
+ * Every verse becomes one collapsible chamber containing its own words, media,
+ * comments, and nested subsections. The Awtsmoos preserves ordered unity while
+ * Awtsmoos.com keeps every manual addition visible and independently editable.
  */
+
+import {
+	actionButton,
+	sectionControls,
+	sectionSummary
+} from './SectionControls.js';
 
 export class SectionEditor {
 	constructor(blockEditor, mediaPanel, subsectionEditor, actions) {
-		this.blockEditor = blockEditor;
-		this.mediaPanel = mediaPanel;
-		this.subsectionEditor = subsectionEditor;
-		this.actions = actions;
+		Object.assign(this, { blockEditor, mediaPanel, subsectionEditor, actions });
 	}
 
 	render(container, sections) {
 		container.textContent = '';
+		container.classList.add('structured-verse-list');
 		sections.forEach((section, index) => {
-			container.append(this.card(section, index, sections.length));
+			container.append(this.sectionCard(section, index, sections.length));
 		});
-		const add = document.createElement('button');
-		add.type = 'button';
-		add.id = 'addSectionButton';
-		add.className = 'primaryAction';
-		add.textContent = '+ Add verse or section';
-		add.addEventListener('click', () => this.actions.addSection());
-		container.append(add);
+		container.append(actionButton(
+			'+ Add verse',
+			'Add a verse',
+			() => this.actions.addSection(),
+			false,
+			'add-verse-button'
+		));
 	}
 
-	card(section, index, count) {
-		const article = document.createElement('article');
-		article.className = 'sectionEditor';
-		article.dataset.sectionId = section.id;
-		article.append(this.header(section, index, count));
-		const coordinate = document.createElement('p');
-		coordinate.className = 'coordinate';
-		coordinate.textContent = `Verse discussion coordinate: ${section.id}`;
-		const blocks = document.createElement('div');
-		const scope = { kind: 'section', sectionId: section.id };
-		this.blockEditor.render(blocks, section.blocks, scope);
-		const media = document.createElement('div');
-		this.mediaPanel.render(media, section.attachments || [], scope);
+	sectionCard(section, index, count) {
+		const details = document.createElement('details');
+		details.className = 'sectionEditor structured-verse-card';
+		details.dataset.sectionId = section.id;
+		details.open = true;
+		const titleText = document.createElement('span');
+		titleText.textContent = section.title || 'Untitled verse';
+		details.append(sectionSummary(index, section, titleText));
+		const body = document.createElement('div');
+		body.className = 'structured-verse-body';
+		body.append(sectionControls({
+			section,
+			index,
+			count,
+			titleText,
+			actions: this.actions
+		}));
+		body.append(this.blocks(section), this.media(section));
 		const subsections = document.createElement('div');
 		subsections.className = 'subsectionList';
 		this.subsectionEditor.render(subsections, section);
-		article.append(coordinate, blocks, media, subsections);
-		return article;
+		body.append(subsections, actionButton(
+			'+ Add subsection',
+			'Add a subsection',
+			() => this.actions.addSubsection(section.id),
+			false,
+			'add-subsection-button'
+		));
+		details.append(body);
+		return details;
 	}
 
-	header(section, index, count) {
-		const header = document.createElement('div');
-		header.className = 'sectionHeader';
-		const title = document.createElement('input');
-		title.value = section.title;
-		title.placeholder = 'Verse or section title';
-		title.setAttribute('aria-label', 'Verse title');
-		title.addEventListener('input', () => {
-			this.actions.setSectionTitle(section.id, title.value);
+	blocks(section) {
+		const blocks = document.createElement('div');
+		blocks.className = 'structured-blocks';
+		this.blockEditor.render(blocks, section.blocks, {
+			kind: 'section',
+			sectionId: section.id
 		});
-		const comments = document.createElement('label');
-		comments.className = 'toggleLabel';
-		const checkbox = document.createElement('input');
-		checkbox.type = 'checkbox';
-		checkbox.checked = section.commentsEnabled !== false;
-		checkbox.addEventListener('change', () => {
-			this.actions.setSectionComments(section.id, checkbox.checked);
-		});
-		comments.append(checkbox, document.createTextNode(' Verse comments'));
-		header.append(
-			title,
-			comments,
-			this.button('↑', () => this.actions.moveSection(section.id, -1), index === 0),
-			this.button('↓', () => this.actions.moveSection(section.id, 1), index === count - 1),
-			this.button('Remove', () => this.actions.removeSection(section.id))
-		);
-		return header;
+		return blocks;
 	}
 
-	button(text, action, disabled = false) {
-		const button = document.createElement('button');
-		button.type = 'button';
-		button.textContent = text;
-		button.disabled = disabled;
-		button.addEventListener('click', action);
-		return button;
+	media(section) {
+		const media = document.createElement('section');
+		media.className = 'structured-scope-media';
+		this.mediaPanel.render(media, section.attachments || [], {
+			kind: 'section',
+			sectionId: section.id
+		});
+		return media;
 	}
 }

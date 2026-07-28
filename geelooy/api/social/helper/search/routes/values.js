@@ -4,11 +4,9 @@
 
 /**
  * @module SearchRouteValues
- * @chapter A Public Question Walks The Bounded Text Road
  * @description
- * Reads immutable request values and gives ordinary library search the streamed
- * text strategy. Strict RAG overrides remain vector-only and indexed-only, so
- * no caller can turn a public query into an unbounded corpus materialization.
+ * Reads immutable search values. Static translated metadata may appear by
+ * default, while database comment hydration remains an explicit, bounded choice.
  */
 
 const {
@@ -42,6 +40,15 @@ function boolValue(value, fallback = false) {
 	);
 }
 
+function commentOptions(values = {}) {
+	const explicitlySet = values.comments != null;
+	const enabled = boolValue(values.comments, false);
+	return {
+		includeComments: enabled,
+		includeMetadataComments: !explicitlySet || enabled
+	};
+}
+
 function libraryOptions(context, overrides = {}) {
 	const values = data(context);
 	return {
@@ -49,7 +56,7 @@ function libraryOptions(context, overrides = {}) {
 		lane: values.shard || values.lane || values.corpus,
 		query: values.q || values.query || values.text,
 		limit: intValue(values.limit, 20, 50),
-		includeComments: boolValue(values.comments, false),
+		...commentOptions(values),
 		maxCommentRows: intValue(values.maxCommentRows, 12, 50),
 		autoInstall: boolValue(values.autoInstall, false),
 		strategy: values.strategy || 'text',
@@ -68,6 +75,7 @@ function strictRagOptions(context) {
 
 module.exports = {
 	boolValue,
+	commentOptions,
 	data,
 	intValue,
 	libraryOptions,

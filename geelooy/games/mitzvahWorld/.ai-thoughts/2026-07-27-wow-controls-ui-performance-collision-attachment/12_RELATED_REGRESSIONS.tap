@@ -1,0 +1,863 @@
+(node:68983) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzActorAssetLoader.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ first-frame actor assets never invoke the canonical GLB loader (187.938822ms)
+✔ canonical actor hydration remains lazy even when explicitly enabled (23.971443ms)
+(node:68984) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ animation frame wins and cancels its fallback timer (6.614869ms)
+✔ timer advances exactly once when animation frames are withheld (0.701677ms)
+(node:68985) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraOrbitController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ camera controller defaults to third-person orbit (5.918854ms)
+✔ camera modes alternate in both directions (1.004381ms)
+✔ visible presentation describes current and next viewpoints (0.888922ms)
+✔ event bus delivers the camera toggle intention (12.836565ms)
+(node:68991) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLodFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "ok": true,
+  "received": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 7
+    },
+    "tierName": "high",
+    "yaw": 0
+  }
+}
+✔ experiments/Awtsmoos/src/test/app/eretzLodFrame.test.mjs (1488.852201ms)
+(node:68992) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ zero yaw looks forward along positive Z from the player eye (181.281576ms)
+✔ quarter-turn yaw looks along positive X (0.536828ms)
+✔ positive orbit-compatible pitch looks downward (0.339675ms)
+✔ point helpers resolve deterministic yaw and pitch (0.548849ms)
+(node:68996) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzMovementInput.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ W moves forward along camera yaw (364.559616ms)
+✔ D strafes right in first-person mode (0.682756ms)
+✔ arrow look rotates the camera before movement (2.513417ms)
+(node:68997) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (16.460296ms)
+✖ B"H equipped staff belongs to the right hand and repairs (512.836063ms)
+(node:69000) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H registry cleans duplicates and rebinds one weapon to each model generation (235.379067ms)
+(node:69001) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoopCadence.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H HUD writes are paint-bound and cadence-limited (356.121469ms)
+(node:69028) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every house expands its recorded legacy footprint by at least forty (8.342838ms)
+✔ expanded footprints retain a broad non-overlapping world corridor (4.857265ms)
+✔ assembly uses measured dimensions rather than parent scaling (200.962825ms)
+(node:69029) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every expanded footprint and entry approach avoids occupied terrain (1218.680578ms)
+(node:69032) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H lower and upper story floors catch normal, crossed, and underground positions (6.303911ms)
+✔ B"H story-floor receipt wins over terrain below the house (105.455714ms)
+(node:69036) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measured foundation creates accessible steps and a level platform (12.576017ms)
+✔ two-story plan aligns normal doors, broad hall, and usable stairs (272.032454ms)
+(node:69037) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ camera-relative joystick signs match the screen in every cardinal direction (3.70156ms)
+✔ camera-relative diagonals remain normalized and preserve both signs (2.685492ms)
+✔ selected Run changes actual speed and action for keyboard and joystick (9.287004ms)
+(node:69041) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
++ actual - expected
+... Skipped lines
+
++ <ref *1> Group {
++   _sceneGraphRevision: 0,
++   _visible: true,
+- <ref *2> SimulationSceneNode {
+    children: [
++     SimulationSceneNode {
++       _localTransformSnapshot: null,
++       _worldLocalRevision: -1,
++       _worldParentMatrix: null,
++       _worldParentRevision: -1,
++       children: [],
++       isBone: false,
++       name: 'staff-weapon',
++       parent: [Circular *1],
++       position: SimulationVector3 {
++         x: 0,
++         y: -0.2,
++         z: 0
++       },
++       quaternion: SimulationQuaternion {
++         w: 1,
++         x: 0,
++         y: 0,
++         z: 0
++       },
++       scale: SimulationVector3 {
++         x: 0.56,
++         y: 0.56,
++         z: 0.56
++       },
++       userData: {
++         AwtsmoosEquipmentSlot: 'hand',
++         attachment: 'hand-drawn',
++         attachmentGeneration: 0,
++         attachmentParent: 'Awtsmoos_equipped_weapon_hand_anchor',
++         handBound: true,
++         weaponKind: 'staff'
++       },
++       visible: true
++     }
++   ],
++   isBone: false,
++   isGroup: true,
++   matrix: null,
++   matrixWorld: Float32Array(16) [
++     1,
++     0,
++     0,
++     0,
++     0,
++     1,
++     0,
++     0,
++     0,
++     0,
++     1,
++     0,
++     0,
++     0,
++     0,
++     1
++   ],
++   name: 'Awtsmoos_equipped_weapon_hand_anchor',
++   parent: <ref *2> SimulationSceneNode {
++     children: [
++       [Circular *1]
++     ],
++     isBone: false,
++     name: 'mixamorig:RightHand',
++     parent: <ref *3> SimulationSceneNode {
++       _sceneGraphRevision: 1,
+-     <ref *1> Group {
+-       _sceneGraphRevision: 0,
+-       _visible: true,
+        children: [
++         [Circular *2],
+          SimulationSceneNode {
+-           _localTransformSnapshot: null,
+-           _worldLocalRevision: -1,
+-           _worldParentMatrix: null,
+-           _worldParentRevision: -1,
+            children: [],
+            isBone: false,
++           name: 'mixamorig:LeftHand',
++           parent: [Circular *3],
+-           name: 'staff-weapon',
+-           parent: [Circular *1],
+            position: SimulationVector3 {
+              x: 0,
++             y: 0,
+-             y: -0.2,
+              z: 0
+            },
+            quaternion: SimulationQuaternion {
+              w: 1,
+              x: 0,
+...
+            scale: SimulationVector3 {
++             x: 1,
++             y: 1,
++             z: 1
+-             x: 0.56,
+-             y: 0.56,
+-             z: 0.56
+            },
++           userData: {},
++           visible: true
++         },
++         SimulationSceneNode {
++           children: [],
++           isBone: false,
++           name: 'mixamorig:Spine2',
++           parent: [Circular *3],
++           position: SimulationVector3 {
++             x: 0,
++             y: 0,
++             z: 0
+-           userData: {
+-             AwtsmoosEquipmentSlot: 'hand',
+-             attachment: 'hand-drawn',
+-             attachmentGeneration: 0,
+-             attachmentParent: 'Awtsmoos_equipped_weapon_hand_anchor',
+-             handBound: true,
+-             weaponKind: 'staff'
+            },
++           quaternion: SimulationQuaternion {
++             w: 1,
++             x: 0,
++             y: 0,
++             z: 0
++           },
++           scale: SimulationVector3 {
++             x: 1,
++             y: 1,
++             z: 1
++           },
++           userData: {},
+            visible: true
+          }
+        ],
+        isBone: false,
++       name: 'player-model',
++       parent: null,
++       position: SimulationVector3 {
+-       isGroup: true,
+-       matrix: null,
+-       matrixWorld: Float32Array(16) [
+-         1,
+-         0,
+-         0,
+-         0,
+-         0,
+-         1,
+-         0,
+-         0,
+-         0,
+-         0,
+-         1,
+-         0,
+-         0,
+-         0,
+-         0,
+-         1
+-       ],
+-       name: 'Awtsmoos_equipped_weapon_hand_anchor',
+-       parent: [Circular *2],
+-       position: Vector3 {
+          x: 0,
+          y: 0,
+          z: 0
+        },
++       quaternion: SimulationQuaternion {
++         w: 1,
+-       quaternion: Quaternion {
+-         w: 0.9998000066665778,
+          x: 0,
+          y: 0,
++         z: 0
+-         z: 0.01999866669333308
+        },
++       scale: SimulationVector3 {
+-       scale: Vector3 {
+          x: 1,
+          y: 1,
+          z: 1
+        },
++       userData: {},
++       visible: true
+-       userData: {
+-         AwtsmoosWeaponAnchor: {
+-           attachmentDomain: 'hand',
+-           drawn: true,
+-           fallback: false,
+-           generation: 0,
+-           parent: 'mixamorig:RightHand'
+-         }
+-       }
+      },
+-   ],
+-   isBone: false,
+-   name: 'mixamorig:RightHand',
+-   parent: <ref *3> SimulationSceneNode {
+-     _sceneGraphRevision: 1,
+-     children: [
+-       [Circular *2],
+-       SimulationSceneNode {
+-         children: [],
+-         isBone: false,
+-         name: 'mixamorig:LeftHand',
+-         parent: [Circular *3],
+-         position: SimulationVector3 {
+-           x: 0,
+-           y: 0,
+-           z: 0
+-         },
+-         quaternion: SimulationQuaternion {
+-           w: 1,
+-           x: 0,
+-           y: 0,
+-           z: 0
+-         },
+-         scale: SimulationVector3 {
+-           x: 1,
+-           y: 1,
+-           z: 1
+-         },
+-         userData: {},
+-         visible: true
+-       },
+-       SimulationSceneNode {
+-         children: [],
+-         isBone: false,
+-         name: 'mixamorig:Spine2',
+-         parent: [Circular *3],
+-         position: SimulationVector3 {
+-           x: 0,
+-           y: 0,
+-           z: 0
+-         },
+-         quaternion: SimulationQuaternion {
+-           w: 1,
+-           x: 0,
+-           y: 0,
+-           z: 0
+-         },
+-         scale: SimulationVector3 {
+-           x: 1,
+-           y: 1,
+-           z: 1
+-         },
+-         userData: {},
+-         visible: true
+-       }
+-     ],
+-     isBone: false,
+-     name: 'player-model',
+-     parent: null,
+      position: SimulationVector3 {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      quaternion: SimulationQuaternion {
++       w: 0.9,
++       x: 0.1,
++       y: 0.2,
++       z: 0.3
+-       w: 1,
+-       x: 0,
+-       y: 0,
+-       z: 0
+      },
+      scale: SimulationVector3 {
+        x: 1,
+        y: 1,
+        z: 1
+...
+    },
++   position: Vector3 {
+-   position: SimulationVector3 {
+      x: 0,
+      y: 0,
+      z: 0
+    },
++   quaternion: Quaternion {
++     w: 0.9998000066665778,
++     x: 0,
++     y: 0,
++     z: 0.01999866669333308
+-   quaternion: SimulationQuaternion {
+-     w: 0.9,
+-     x: 0.1,
+-     y: 0.2,
+-     z: 0.3
+    },
++   scale: Vector3 {
+-   scale: SimulationVector3 {
+      x: 1,
+      y: 1,
+      z: 1
+    },
++   userData: {
++     AwtsmoosWeaponAnchor: {
++       attachmentDomain: 'hand',
++       drawn: true,
++       fallback: false,
++       generation: 0,
++       parent: 'mixamorig:RightHand'
++     }
++   }
+-   userData: {},
+-   visible: true
+  }
+
+    at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowWeaponAttachment.test.mjs:31:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: <ref *1> Group {
+    children: [
+      SimulationSceneNode {
+        children: [],
+        isBone: false,
+        name: 'staff-weapon',
+        parent: [Circular *1],
+        position: SimulationVector3 { x: 0, y: -0.2, z: 0 },
+        quaternion: SimulationQuaternion { x: 0, y: 0, z: 0, w: 1 },
+        scale: SimulationVector3 { x: 0.56, y: 0.56, z: 0.56 },
+        userData: {
+          weaponKind: 'staff',
+          AwtsmoosEquipmentSlot: 'hand',
+          attachment: 'hand-drawn',
+          attachmentGeneration: 0,
+          attachmentParent: 'Awtsmoos_equipped_weapon_hand_anchor',
+          handBound: true
+        },
+        visible: true,
+        _localTransformSnapshot: null,
+        _worldParentMatrix: null,
+        _worldParentRevision: -1,
+        _worldLocalRevision: -1
+      }
+    ],
+    parent: <ref *2> SimulationSceneNode {
+      children: [ [Circular *1] ],
+      isBone: false,
+      name: 'mixamorig:RightHand',
+      parent: <ref *3> SimulationSceneNode {
+        children: [
+          [Circular *2],
+          SimulationSceneNode {
+            children: [],
+            isBone: false,
+            name: 'mixamorig:LeftHand',
+            parent: [Circular *3],
+            position: [SimulationVector3],
+            quaternion: [SimulationQuaternion],
+            scale: [SimulationVector3],
+            userData: {},
+            visible: true
+          },
+          SimulationSceneNode {
+            children: [],
+            isBone: false,
+            name: 'mixamorig:Spine2',
+            parent: [Circular *3],
+            position: [SimulationVector3],
+            quaternion: [SimulationQuaternion],
+            scale: [SimulationVector3],
+            userData: {},
+            visible: true
+          }
+        ],
+        isBone: false,
+        name: 'player-model',
+        parent: null,
+        position: SimulationVector3 { x: 0, y: 0, z: 0 },
+        quaternion: SimulationQuaternion { x: 0, y: 0, z: 0, w: 1 },
+        scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+        userData: {},
+        visible: true,
+        _sceneGraphRevision: 1
+      },
+      position: SimulationVector3 { x: 0, y: 0, z: 0 },
+      quaternion: SimulationQuaternion { x: 0.1, y: 0.2, z: 0.3, w: 0.9 },
+      scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+      userData: {},
+      visible: true
+    },
+    position: Vector3 { x: 0, y: 0, z: 0 },
+    quaternion: Quaternion {
+      x: 0,
+      y: 0,
+      z: 0.01999866669333308,
+      w: 0.9998000066665778
+    },
+    scale: Vector3 { x: 1, y: 1, z: 1 },
+    matrix: null,
+    matrixWorld: Float32Array(16) [
+      1, 0, 0, 0, 0, 1,
+      0, 0, 0, 0, 1, 0,
+      0, 0, 0, 1
+    ],
+    name: 'Awtsmoos_equipped_weapon_hand_anchor',
+    _visible: true,
+    _sceneGraphRevision: 0,
+    userData: {
+      AwtsmoosWeaponAnchor: {
+        attachmentDomain: 'hand',
+        drawn: true,
+        fallback: false,
+        generation: 0,
+        parent: 'mixamorig:RightHand'
+      }
+    },
+    isBone: false,
+    isGroup: true
+  },
+  expected: <ref *2> SimulationSceneNode {
+    children: [
+      <ref *1> Group {
+        children: [
+          SimulationSceneNode {
+            children: [],
+            isBone: false,
+            name: 'staff-weapon',
+            parent: [Circular *1],
+            position: [SimulationVector3],
+            quaternion: [SimulationQuaternion],
+            scale: [SimulationVector3],
+            userData: [Object],
+            visible: true,
+            _localTransformSnapshot: null,
+            _worldParentMatrix: null,
+            _worldParentRevision: -1,
+            _worldLocalRevision: -1
+          }
+        ],
+        parent: [Circular *2],
+        position: Vector3 { x: 0, y: 0, z: 0 },
+        quaternion: Quaternion {
+          x: 0,
+          y: 0,
+          z: 0.01999866669333308,
+          w: 0.9998000066665778
+        },
+        scale: Vector3 { x: 1, y: 1, z: 1 },
+        matrix: null,
+        matrixWorld: Float32Array(16) [
+          1, 0, 0, 0, 0, 1,
+          0, 0, 0, 0, 1, 0,
+          0, 0, 0, 1
+        ],
+        name: 'Awtsmoos_equipped_weapon_hand_anchor',
+        _visible: true,
+        _sceneGraphRevision: 0,
+        userData: {
+          AwtsmoosWeaponAnchor: {
+            attachmentDomain: 'hand',
+            drawn: true,
+            fallback: false,
+            generation: 0,
+            parent: 'mixamorig:RightHand'
+          }
+        },
+        isBone: false,
+        isGroup: true
+      }
+    ],
+    isBone: false,
+    name: 'mixamorig:RightHand',
+    parent: <ref *3> SimulationSceneNode {
+      children: [
+        [Circular *2],
+        SimulationSceneNode {
+          children: [],
+          isBone: false,
+          name: 'mixamorig:LeftHand',
+          parent: [Circular *3],
+          position: SimulationVector3 { x: 0, y: 0, z: 0 },
+          quaternion: SimulationQuaternion { x: 0, y: 0, z: 0, w: 1 },
+          scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+          userData: {},
+          visible: true
+        },
+        SimulationSceneNode {
+          children: [],
+          isBone: false,
+          name: 'mixamorig:Spine2',
+          parent: [Circular *3],
+          position: SimulationVector3 { x: 0, y: 0, z: 0 },
+          quaternion: SimulationQuaternion { x: 0, y: 0, z: 0, w: 1 },
+          scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+          userData: {},
+          visible: true
+        }
+      ],
+      isBone: false,
+      name: 'player-model',
+      parent: null,
+      position: SimulationVector3 { x: 0, y: 0, z: 0 },
+      quaternion: SimulationQuaternion { x: 0, y: 0, z: 0, w: 1 },
+      scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+      userData: {},
+      visible: true,
+      _sceneGraphRevision: 1
+    },
+    position: SimulationVector3 { x: 0, y: 0, z: 0 },
+    quaternion: SimulationQuaternion { x: 0.1, y: 0.2, z: 0.3, w: 0.9 },
+    scale: SimulationVector3 { x: 1, y: 1, z: 1 },
+    userData: {},
+    visible: true
+  },
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.17.0
+✖ experiments/Awtsmoos/src/test/app/minimalMeadowWeaponAttachment.test.mjs (2645.237975ms)
+(node:69056) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCameraRig.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mouse chords distinguish camera-only, player-bound, and forward modes (48.421403ms)
+✔ B"H right drag synchronizes facing while left drag does not (0.582351ms)
+✔ B"H A and D strafe and every focus loss clears movement (35.87338ms)
+(node:69068) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipCache.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ two reuse frames avoid duplicate raycasts while eye follows target motion (36.655816ms)
+✔ collision revision invalidates an otherwise identical pose (3.436062ms)
+✔ large camera motion refreshes before the reuse bound (9.978971ms)
+(node:69069) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/actionbar/ActionBarDragController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ ability drags assign, move, and remove slots (30.987073ms)
+✔ layout lock rejects a drop without losing the drag payload (1.035371ms)
+(node:69073) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarInputController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ routes primary, Shift-row, and gamepad activations to visible slots (21.707316ms)
+✔ touch inspection follows document release and suppresses one click (9.155109ms)
+✔ document movement cancels a pending long press beyond tolerance (4.660395ms)
+(node:69074) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/ActionBarLongPressController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ long press inspects, ends, and suppresses exactly one click (245.007393ms)
+✔ movement beyond tolerance cancels inspection (1.611599ms)
+✔ mouse, secondary pointers, and destroyed timers remain dormant (0.793469ms)
+(node:69078) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ one key edge emits one bounded fallback melee request (24.070811ms)
+✔ level, Gevurah, equipment, and recovery resolve once per strike (0.964506ms)
+✔ a rejected strike publishes the remaining cooldown without world polling (2.190807ms)
+(node:69080) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ missing materials preserve aliases and structured degradation (8.845952ms)
+✔ successful images receive stable canonical same-origin texture metadata (7.973351ms)
+✔ loader exceptions become degradation rather than boot failure (34.363214ms)
+(node:69082) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (15.188067ms)
+✔ batch loot and purchases publish exactly once (8.36739ms)
+✔ corpse selection opens loot before any deliberate transfer (252.226451ms)
+✔ tefillin jacket and right-hand weapon persist through casting and hydration (479.533173ms)
+(node:69083) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/GarmentCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+INVENTORY_GARMENT_AUTHORITY_TEST_OK=1
+✔ experiments/Awtsmoos/src/test/gameplay/inventoryGarmentAuthority.test.mjs (2496.389387ms)
+(node:69087) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ catalog keys and public item ids are identical (7.568306ms)
+✔ buying and equipping an axe enables woodcutting (146.43405ms)
+✖ equipment and clothing contribute to derived statistics (13.647511ms)
+✔ Torah passages require learning, focus, and cooldown (188.086606ms)
+(node:69088) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/NpcHudMarkup.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ player card renders canonical XP maximum and armor (7.912498ms)
+✔ hostile target card renders level, health, and armor (0.740935ms)
+(node:69094) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/StatusEffectHud.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ countdown traversal is bounded by cadence (4.536487ms)
+✔ unchanged visible seconds perform no DOM mutation (0.648364ms)
+✔ hidden effect rows remain completely dormant (152.920656ms)
+(node:69095) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ accepted impact spends focus and records canonical cooldown once (288.509973ms)
+✔ rejected impact leaves focus and cooldown untouched (3.648349ms)
+✔ action timeline receives the structured synchronous world rejection (236.229858ms)
+✔ targetless support transaction spends focus without hostile world dispatch (4.613231ms)
+(node:69096) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/FrameBudgetGovernor.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ critical pressure preserves the selected tier (7.040789ms)
+✔ stable evidence remains stable without changing quality (5.639277ms)
+(node:69100) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/FrameBudgetWindow.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bounded ring keeps the newest samples without Array.shift work (262.180069ms)
+✔ percentile lows expose slow tail frames (2.339009ms)
+✔ invalid intervals do not enter the evidence window (4.932018ms)
+(node:69101) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-policy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fixed functional-house surfaces are certified for conservative batching (18.618734ms)
+✔ doors, dynamic definitions, reactive grass, and transparency remain excluded (3.632953ms)
+✔ batch statistics expose singleton and mergeable family opportunity (0.673293ms)
+(node:69105) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/performance/RuntimeFrameCostSample.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ frame cost sample preserves exact nested animation and CPU intervals (7.757049ms)
+(node:69108) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ combat activation is suspended while Bag modal state is open (292.922115ms)
+(node:69109) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag markup preserves close and omits unused detail space until selection (3.169947ms)
+✔ selected details render truthfully inside a bounded mobile section (12.48673ms)
+✔ modal and HUD CSS preserve safe areas without globally shrinking text (1.411195ms)
+(node:69110) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Bag activation captures every outside branch exactly once (107.999722ms)
+✔ outside pointer and keyboard input is blocked while Bag controls remain active (4.74277ms)
+✔ close restores inherited HUD, accessibility, scroll, and focus once (4.970492ms)
+(node:69114) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 390 by 844 controlled HUD combinations never intersect (336.707782ms)
+✔ landscape mobile composition remains inside the safe viewport (91.591299ms)
+✔ desktop layout remains a passthrough instead of receiving mobile rectangles (9.279867ms)
+✔ cast and action rectangles remain independently readable (4.914012ms)
+(node:69115) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionMeasurements.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measurement records every visible zoned rectangle and excludes hidden surfaces (24.158335ms)
+✔ intersection evidence names both live surfaces (1.299381ms)
+(node:69119) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowTargetFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ mobile targets begin compact and reset to compact when selection changes (145.034489ms)
+✔ desktop target details remain expanded by default (19.129981ms)
+(node:69120) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionTransientQueue.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ transient messages queue in order and remain bounded to three (6.775886ms)
+✔ owner-controlled hide clears the transient stack (0.873316ms)
+(node:69123) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/HudLayoutRegistry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry covers every major always-visible HUD surface (45.448332ms)
+✔ secondary surfaces begin folded while core status remains visible (0.853044ms)
+✔ registry records are immutable (0.388426ms)
+(node:69124) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowGameRail.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every rail control owns twenty pointer sequences and one click action each (27.211834ms)
+(node:69128) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/visibility/HouseBounds.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house bounds remain independent of visibility state (11.645718ms)
+✔ closed exterior view hides and suspends only tagged interiors (65.291649ms)
+✔ opening the door or entering resumes interior runtime handles (4.35981ms)
+ℹ tests 103
+ℹ suites 0
+ℹ pass 100
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49712.727439
+
+✖ failing tests:
+
+test at experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs:50:1
+✖ B"H equipped staff belongs to the right hand and repairs (512.836063ms)
+  TypeError: Cannot read properties of null (reading 'name')
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs:66:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+
+test at experiments/Awtsmoos/src/test/app/minimalMeadowWeaponAttachment.test.mjs:1:1
+✖ experiments/Awtsmoos/src/test/app/minimalMeadowWeaponAttachment.test.mjs (2645.237975ms)
+  'test failed'
+
+test at experiments/Awtsmoos/src/test/gameplay/inventoryTorahTools.test.mjs:58:1
+✖ equipment and clothing contribute to derived statistics (13.647511ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  24 !== 8
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/inventoryTorahTools.test.mjs:62:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 24,
+    expected: 8,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+test_files=42
+test_exit=1

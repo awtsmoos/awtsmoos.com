@@ -1,0 +1,109 @@
+(node:88421) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H corpse state exposes and removes only the chosen stack (2.287971ms)
+✔ B"H opening corpse loot transfers nothing and publishes the actor (0.498696ms)
+✔ B"H Take leaves corpse visible while Loot All completes remaining treasure (5.04971ms)
+(node:88422) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisualMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bootstrap and rich material records preserve local demon readability (6.804978ms)
+✔ UV data is bound and procedural texture allocation is bounded outside frame updates (4977.381728ms)
+(node:88423) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H only thin exterior walls receive mobile camera-safe reverse faces (1.691275ms)
+✔ B"H released controls retain the last meaningful travel facing (0.296727ms)
+✔ B"H Bag exposes every authoritative slot and starts with both tefillin (0.355551ms)
+✖ B"H demon surface remains dark-themed but visibly textured (7.871844ms)
+✔ B"H Shlichus offers a five-shadow story and tracks faces with percentage (0.91995ms)
+✔ B"H teaching placement persists side or book-only mode (0.402716ms)
+(node:88424) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicate, overflow, and one aggregate Bag card (36.476052ms)
+✔ batch loot and purchases publish exactly once (1.921118ms)
+✔ corpse selection opens loot before any deliberate transfer (2.917741ms)
+✖ tefillin jacket and visible weapon follow casting and hydrated bones (302.844402ms)
+(node:88425) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ procedural colors are finite, varied, and anatomically readable (5727.353909ms)
+✔ rich material preserves texture, vertex color, and readable tint (3.046684ms)
+✔ shared geometry uploads procedural color once for bootstrap (3.295076ms)
+✔ bootstrap shader multiplies profile tint by vertex color (0.623591ms)
+(node:88442) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ materials share images while actor feedback remains independent (3.651196ms)
+✔ controlled families bound cache growth and preserve variation (1.392249ms)
+✔ extreme colors normalize into a dark daylight-readable range (0.466067ms)
+✔ continuous demon keeps one render surface and one root bone (5269.306725ms)
+(node:88475) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ six live demons receive six readable measured surface profiles (5988.251732ms)
+(node:88492) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr collision bounds match every visible solid (85.587949ms)
+✔ beis-ohr exposes separated terrain, foundation, and floor tops (20.154947ms)
+✔ brick-cottage collision bounds match every visible solid (13.058969ms)
+✔ brick-cottage exposes separated terrain, foundation, and floor tops (9.05913ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 26
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11403.423794
+
+✖ failing tests:
+
+test at src/test/app/mobileGameplayPolishCore.test.mjs:74:1
+✖ B"H demon surface remains dark-themed but visibly textured (7.871844ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(relativeLuminance(tint) >= 0.34)
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/mobileGameplayPolishCore.test.mjs:76:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at src/test/gameplay/inventoryEquipmentLoot.test.mjs:79:1
+✖ tefillin jacket and visible weapon follow casting and hydrated bones (302.844402ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:93:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

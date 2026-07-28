@@ -1,0 +1,426 @@
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchment.js ---
+1ff2a7cfe 2026-07-24 B_H automatic update
+01d7912dd 2026-07-23 B_H automatic update
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js ---
+01d7912dd 2026-07-23 B_H automatic update
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js ---
+495cbdc80 2026-07-24 B_H automatic update
+95e273f54 2026-07-23 B_H automatic update
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainRoadMount.js ---
+
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatWorldEffects.js ---
+1ff2a7cfe 2026-07-24 B_H automatic update
+01d7912dd 2026-07-23 B_H automatic update
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActor.js ---
+1ff2a7cfe 2026-07-24 B_H automatic update
+01d7912dd 2026-07-23 B_H automatic update
+--- geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js ---
+495cbdc80 2026-07-24 B_H automatic update
+--- QUEST HISTORY JULY 24 ---
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowQuestState.js
+ * @description Tracks offer, acceptance, three unique defeats, readiness, reward, and completion.
+ * The Awtsmoos renews every act beyond counting; Awtsmoos.com nevertheless records finite
+ * mission truth once, rejects duplicate kills, grants canonical inventory, and publishes progress.
+ */
+
+import { rewardMinimalCombatPlayer } from './MinimalMeadowCombatSupport.js?v=20260723-meadow-11';
+import { MINIMAL_MEADOW_DEMON_QUEST } from './MinimalMeadowQuestDefinition.js?v=20260724-meadow-17';
+
+export class MinimalMeadowQuestState {
+	constructor(runtime) {
+		this.runtime = runtime;
+		this.definition = MINIMAL_MEADOW_DEMON_QUEST;
+		this.status = 'available';
+		this.defeatedIds = new Set();
+		this.listeners = new Set();
+		this.unsubscribe = runtime.bus.on('enemy:defeated', event => this.recordDefeat(event));
+	}
+
+	offer() {
+		this.runtime.bus.emit('quest:offer', this.snapshot());
+		return this.snapshot();
+	}
+
+	accept() {
+		if (this.status !== 'available') return this.snapshot();
+		this.status = 'active';
+		this.publish('quest:accepted');
+		return this.snapshot();
+	}
+
+	decline() {
+		this.runtime.bus.emit('quest:declined', this.snapshot());
+		return this.snapshot();
+	}
+
+	recordDefeat(event = {}) {
+		if (this.status !== 'active') return;
+		const enemyId = event.id || event.targetId;
+		if (!enemyId || this.defeatedIds.has(enemyId)) return;
+		this.defeatedIds.add(enemyId);
+		if (this.defeatedIds.size >= this.definition.objective.count) this.status = 'ready';
+		this.publish('quest:progress');
+	}
+
+	complete() {
+		if (this.status !== 'ready') return { accepted: false, ...this.snapshot() };
+		this.status = 'completed';
+		this.runtime.inventory.add('perutas', this.definition.reward.perutas);
+		rewardMinimalCombatPlayer(this.runtime, this.definition.reward.xp);
+		this.publish('quest:completed');
+		return { accepted: true, ...this.snapshot() };
+	}
+
+	onChange(listener) {
+		this.listeners.add(listener);
+		listener(this.snapshot());
+		return () => this.listeners.delete(listener);
+	}
+
+	snapshot() {
+		return {
+			definition: this.definition,
+			progress: Math.min(this.definition.objective.count, this.defeatedIds.size),
+			remaining: Math.max(0, this.definition.objective.count - this.defeatedIds.size),
+			status: this.status
+		};
+	}
+
+	publish(eventName) {
+		const snapshot = this.snapshot();
+		for (const listener of this.listeners) listener(snapshot);
+		this.runtime.bus.emit(eventName, snapshot);
+	}
+
+	destroy() {
+		this.unsubscribe();
+		this.listeners.clear();
+	}
+}
+--- QUEST UI HISTORY JULY 24 ---
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowQuestParchment.js
+ * @description Renders one modal parchment only while explicitly open and one compact tracker.
+ * The Awtsmoos gives shlichus dignity without stealing the unopened world; Awtsmoos.com binds
+ * hidden state, ARIA, pointer ownership, offer, choice, progress, reward, and cleanup to one truth.
+ */
+
+export class MinimalMeadowQuestParchment {
+	constructor(quest, bus, documentValue) {
+		this.quest = quest;
+		this.bus = bus;
+		this.documentValue = documentValue;
+		this.opened = false;
+		this.root = documentValue.createElement('div');
+		this.root.className = 'Awtsmoos-quest-parchment-backdrop';
+		this.root.dataset.open = 'false';
+		this.root.hidden = true;
+		this.root.setAttribute('aria-hidden', 'true');
+		this.tracker = documentValue.createElement('aside');
+		this.tracker.className = 'Awtsmoos-quest-mini-tracker';
+		this.tracker.hidden = true;
+		documentValue.body.append(this.root, this.tracker);
+		this.onClick = event => this.click(event);
+		this.root.addEventListener('click', this.onClick);
+		this.unsubscribeOffer = bus.on('quest:offer', snapshot => this.open(snapshot));
+		this.unsubscribeState = quest.onChange(snapshot => this.refresh(snapshot));
+	}
+
+	open(snapshot = this.quest.snapshot()) {
+		this.opened = true;
+		this.root.dataset.open = 'true';
+		this.root.hidden = false;
+		this.root.setAttribute('aria-hidden', 'false');
+		this.render(snapshot);
+	}
+
+	close() {
+		this.opened = false;
+		this.root.dataset.open = 'false';
+		this.root.hidden = true;
+		this.root.setAttribute('aria-hidden', 'true');
+	}
+
+	refresh(snapshot) {
+		this.renderTracker(snapshot);
+		if (this.opened) this.render(snapshot);
+	}
+
+	render(snapshot) {
+		const definition = snapshot.definition;
+		this.root.innerHTML = `
+			<article class="Awtsmoos-quest-parchment" role="dialog" aria-modal="true">
+				<button type="button" data-close aria-label="Close parchment">×</button>
+				<p class="Awtsmoos-quest-seal">ב״ה · Shlichus</p>
+				<h2>${escapeHtml(definition.name)}</h2>
+				<p class="Awtsmoos-quest-giver">${escapeHtml(definition.giver.name)}</p>
+				<p>${escapeHtml(bodyText(snapshot))}</p>
+				<div class="Awtsmoos-quest-objective">${escapeHtml(objectiveText(snapshot))}</div>
+				<p class="Awtsmoos-quest-reward">Reward: ${definition.reward.xp} XP · ${definition.reward.perutas} perutas</p>
+				<div class="Awtsmoos-quest-actions">${actionsMarkup(snapshot.status)}</div>
+			</article>`;
+	}
+
+	renderTracker(snapshot) {
+		const visible = snapshot.status === 'active' || snapshot.status === 'ready';
+		this.tracker.hidden = !visible;
+		if (!visible) return;
+		this.tracker.dataset.ready = String(snapshot.status === 'ready');
+		this.tracker.innerHTML = `<b>📜 ${escapeHtml(snapshot.definition.name)}</b><span>${escapeHtml(objectiveText(snapshot))}</span>`;
+	}
+
+	click(event) {
+		if (event.target === this.root || event.target.closest('[data-close]')) return this.close();
+		if (event.target.closest('[data-accept]')) return void this.quest.accept();
+		if (event.target.closest('[data-decline]')) {
+			this.quest.decline();
+			return this.close();
+		}
+		if (event.target.closest('[data-complete]')) this.quest.complete();
+	}
+
+	destroy() {
+		this.unsubscribeOffer();
+		this.unsubscribeState();
+		this.root.removeEventListener('click', this.onClick);
+		this.root.remove();
+		this.tracker.remove();
+	}
+}
+
+function bodyText(snapshot) {
+	if (snapshot.status === 'completed') return snapshot.definition.thanks;
+	if (snapshot.status === 'ready') return 'You have done what was asked. Return the count and receive the promised reward.';
+	if (snapshot.status === 'active') return 'The shadows still wander. Keep your footing, and return after three distinct demons have fallen.';
+	return snapshot.definition.description;
+}
+
+function objectiveText(snapshot) {
+	const objective = snapshot.definition.objective;
+	if (snapshot.status === 'ready') return `${objective.description}: complete — return to Reb Mendel`;
+	if (snapshot.status === 'completed') return `${objective.description}: ${objective.count}/${objective.count}`;
+	return `${objective.description}: ${snapshot.progress}/${objective.count}`;
+}
+
+function actionsMarkup(status) {
+	if (status === 'available') return '<button type="button" data-decline>Not now</button><button type="button" data-accept>Accept shlichus</button>';
+	if (status === 'ready') return '<button type="button" data-close>Wait</button><button type="button" data-complete>Receive reward</button>';
+	return '<button type="button" data-close>Close parchment</button>';
+}
+
+function escapeHtml(value) {
+	return String(value).replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+}
+--- WATER HISTORY JULY 24 ---
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWaterDefinitions.js
+ * @description Composes two beds, two banks, and two dual-normal surfaces into one hydrology.
+ * The Awtsmoos conceals depth beneath changing light and reveals shore beside it; Awtsmoos.com
+ * keeps current, stone, soil transition, opacity, provenance, and collision ownership explicit.
+ */
+
+import { waterShaderRecipe } from '../world/proceduralApi/WaterShaderRecipe.js';
+import {
+	createMinimalMeadowLakeShoreGeometry,
+	createMinimalMeadowRiverBanksGeometry
+} from './MinimalMeadowRiverBanksGeometry.js';
+import {
+	createMinimalMeadowLakeBedGeometry,
+	createMinimalMeadowLakeGeometry,
+	createMinimalMeadowRiverBedGeometry,
+	createMinimalMeadowRiverGeometry
+} from './MinimalMeadowWaterGeometry.js';
+
+export function createMinimalMeadowWaterDefinitions(sources) {
+	return [
+		bed('river', createMinimalMeadowRiverBedGeometry(), sources),
+		bed('lake', createMinimalMeadowLakeBedGeometry(), sources),
+		bank('river-banks', createMinimalMeadowRiverBanksGeometry(), sources),
+		bank('lake-shore', createMinimalMeadowLakeShoreGeometry(), sources),
+		water('river', createMinimalMeadowRiverGeometry(), sources, '#3b91a0', 0.76, [24, 2.8]),
+		water('lake', createMinimalMeadowLakeGeometry(), sources, '#397f96', 0.8, [7, 6])
+	];
+}
+
+function bed(variant, geometry, sources) {
+	return {
+		color: variant === 'river' ? '#43534b' : '#3e504a',
+		doubleSided: true,
+		...geometry,
+		id: `Awtsmoos_minimal_meadow_${variant}_bed`,
+		mapImage: sources.bed,
+		mapRepeat: variant === 'river' ? [20, 3.2] : [8, 8],
+		noEdge: true,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: { role: `${variant}-bed`, shader: 'terrain-transition' },
+		transparent: false,
+		userData: { family: 'minimal-meadow-water', part: `${variant}-bed` }
+	};
+}
+
+function bank(variant, geometry, sources) {
+	return {
+		color: variant === 'river-banks' ? '#756a4d' : '#806f4f',
+		doubleSided: true,
+		...geometry,
+		id: `Awtsmoos_minimal_meadow_${variant}`,
+		mapImage: sources.bed,
+		mapRepeat: [14, 2.4],
+		noEdge: true,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: { role: variant, shader: 'readable-shore-transition' },
+		transparent: false,
+		userData: { family: 'minimal-meadow-water', part: variant }
+	};
+}
+
+function water(variant, geometry, sources, color, opacity, repeat) {
+	return {
+		alphaMode: 'BLEND',
+		color,
+		doubleSided: true,
+		...geometry,
+		id: `Awtsmoos_minimal_meadow_${variant}_dual_normal_water`,
+		mapImage: sources.normalA,
+		mapRepeat: repeat,
+		mixImage: sources.normalB,
+		mixRepeat: repeat,
+		mixStrength: variant === 'river' ? 0.48 : 0.34,
+		noEdge: true,
+		opacity,
+		shape: 'manual',
+		solid: false,
+		texturePolicy: waterPolicy(variant, sources),
+		transparent: true,
+		userData: { family: 'minimal-meadow-water', waterVariant: variant }
+	};
+}
+
+function waterPolicy(variant, sources) {
+	return {
+		animated: true,
+		flowLayers: 2,
+		normalMode: sources.normalMode,
+		normalSources: [...sources.provenance],
+		realMaterialRequired: true,
+		shader: 'physical-dual-normal-flowing-water',
+		textureDriven: true,
+		waterPhysical: waterShaderRecipe(variant === 'river' ? 'stream' : 'lake'),
+		waterVariant: variant
+	};
+}
+--- COMBAT EFFECTS HISTORY JULY 24 ---
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowCombatWorldEffects.js
+ * @description Owns glyph projectile travel, restrained effects, real damage, reward, and release.
+ * The Awtsmoos carries charged intention through measured space into consequence; Awtsmoos.com
+ * keeps readable letters, target health, impact evidence, XP, scene removal, and pooling synchronized.
+ */
+
+import {
+	createHebrewProjectile,
+	releaseHebrewProjectile,
+	updateHebrewProjectile
+} from './MinimalMeadowHebrewProjectile.js';
+import {
+	createImpactExplosion,
+	createProjectileTrail,
+	releaseParticleEffect,
+	updateParticleEffect
+} from './MinimalMeadowParticleEffects.js';
+
+export function launchCombatProjectile(combat, cast) {
+	const origin = {
+		x: combat.runtime.state.x,
+		y: (combat.runtime.state.renderY ?? combat.runtime.state.y ?? 0) + 1.35,
+		z: combat.runtime.state.z
+	};
+	const projectile = createHebrewProjectile(origin, cast.target, cast.action);
+	projectile.actionId = cast.actionId;
+	combat.projectiles.push(projectile);
+	combat.runtime.scene.add(projectile.group);
+	combat.runtime.bus.emit('combat:cast-launch', payload(cast));
+	combat.runtime.bus.emit('combat:projectile', payload(cast));
+}
+
+export function updateCombatWorldEffects(combat, deltaSeconds) {
+	for (const projectile of [...combat.projectiles]) {
+		updateProjectile(combat, projectile, deltaSeconds);
+	}
+	for (const effect of [...combat.effects]) {
+		updateEffect(combat, effect, deltaSeconds);
+	}
+}
+
+function updateProjectile(combat, projectile, deltaSeconds) {
+	if (!projectile.target.alive || projectile.elapsed > 8) {
+		removeProjectile(combat, projectile);
+		return;
+	}
+	const state = updateHebrewProjectile(projectile, deltaSeconds);
+	if (state.emitTrail) {
+		addEffect(combat, createProjectileTrail(state.position, projectile.action.color));
+	}
+	if (!state.impact) {
+		return;
+	}
+	addEffect(combat, createImpactExplosion(state.position, projectile.action.color));
+	const result = projectile.target.applyDamage(projectile.action.damage);
+	combat.runtime.bus.emit('combat:impact', {
+		...result,
+		actionId: projectile.actionId,
+		letters: projectile.action.letters,
+		position: state.position
+	});
+	if (result.defeated) {
+		combat.reward(projectile.target.profile.xpReward);
+	}
+	removeProjectile(combat, projectile);
+}
+
+function updateEffect(combat, effect, deltaSeconds) {
+	if (!updateParticleEffect(effect, deltaSeconds)) {
+		return;
+	}
+	combat.effects = combat.effects.filter(candidate => candidate !== effect);
+	releaseParticleEffect(effect);
+}
+
+function addEffect(combat, effect) {
+	combat.effects.push(effect);
+	combat.runtime.scene.add(effect.group);
+}
+
+function removeProjectile(combat, projectile) {
+	combat.projectiles = combat.projectiles.filter(candidate => candidate !== projectile);
+	releaseHebrewProjectile(projectile);
+}
+
+function payload(cast) {
+	return {
+		actionId: cast.actionId,
+		duration: cast.action.castTime,
+		label: cast.action.label,
+		letters: cast.action.letters,
+		target: cast.target.payload()
+	};
+}

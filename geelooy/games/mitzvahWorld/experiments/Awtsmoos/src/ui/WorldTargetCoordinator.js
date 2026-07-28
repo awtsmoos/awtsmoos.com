@@ -4,76 +4,51 @@
 
 /**
  * @file WorldTargetCoordinator.js
- * @description Distinguishes a world click from a camera drag across compatible populations.
- * The Awtsmoos separates a finite point of choice from a journey across the valley;
- * Awtsmoos.com waits for movement evidence before selecting, clearing, or stopping propagation.
+ * @description Gives first click to study, second click to interaction, and drags to the camera.
+ * The Awtsmoos separates knowing from speaking while holding both within one indivisible choice;
+ * Awtsmoos.com lets friendly discussion, hostile confirmation, and corpse loot begin only in order.
  */
 
 import { createWorldTargetPopulationAdapters } from './WorldTargetPopulationAdapter.js';
-
-const DRAG_THRESHOLD = 6;
+import { canOwnWorldTargetPointer, compareWorldTargetCandidates, createWorldTargetHandlers, resolveWorldTargetPopulations, stopWorldTargetPointerEvent } from './WorldTargetCoordinatorSupport.js';
+import { WorldTargetPointerSession } from './WorldTargetPointerSession.js';
+import { WorldTargetSelectionState } from './WorldTargetSelectionState.js';
 
 export class WorldTargetCoordinator {
 	constructor(options = {}) {
 		this.canvas = options.canvas;
-		this.adapters = createWorldTargetPopulationAdapters(resolvePopulations(options));
+		this.adapters = createWorldTargetPopulationAdapters(
+			resolveWorldTargetPopulations(options)
+		);
 		this.populations = this.adapters.map(adapter => adapter.population);
-		this.enabled = canOwnPointer(this.canvas, this.adapters);
-		this.pointer = null;
-		this.handlers = {
-			pointercancel: event => this.cancelPointer(event),
-			pointerdown: event => this.beginPointer(event),
-			pointermove: event => this.movePointer(event),
-			pointerup: event => this.finishPointer(event)
-		};
+		this.enabled = canOwnWorldTargetPointer(this.canvas, this.adapters);
+		this.pointer = new WorldTargetPointerSession();
+		this.selection = new WorldTargetSelectionState();
+		this.handlers = createWorldTargetHandlers(this);
 		this.onPointerDown = this.handlers.pointerdown;
-		if (this.enabled) {
-			for (const [name, handler] of Object.entries(this.handlers)) {
-				this.canvas.addEventListener(name, handler);
-			}
+		if (this.enabled) this.bind();
+	}
+
+	bind() {
+		for (const [name, handler] of Object.entries(this.handlers)) {
+			this.canvas.addEventListener(name, handler);
 		}
 	}
 
 	beginPointer(event) {
-		if (this.pointer || event.button > 0) {
-			return;
-		}
-		this.pointer = {
-			dragging: false,
-			id: event.pointerId,
-			startX: event.clientX,
-			startY: event.clientY
-		};
+		return this.pointer.begin(event);
 	}
 
 	movePointer(event) {
-		if (!this.pointer || event.pointerId !== this.pointer.id) {
-			return;
-		}
-		const distance = Math.hypot(
-			event.clientX - this.pointer.startX,
-			event.clientY - this.pointer.startY
-		);
-		if (distance >= DRAG_THRESHOLD) {
-			this.pointer.dragging = true;
-		}
+		return this.pointer.move(event);
 	}
 
 	finishPointer(event) {
-		if (!this.pointer || event.pointerId !== this.pointer.id) {
-			return;
-		}
-		const shouldSelect = !this.pointer.dragging;
-		this.pointer = null;
-		if (shouldSelect) {
-			this.selectFromPointer(event);
-		}
+		if (this.pointer.finish(event)) this.selectFromPointer(event);
 	}
 
 	cancelPointer(event) {
-		if (this.pointer && event.pointerId === this.pointer.id) {
-			this.pointer = null;
-		}
+		this.pointer.cancel(event);
 	}
 
 	onPointer(event) {
@@ -81,21 +56,20 @@ export class WorldTargetCoordinator {
 	}
 
 	selectFromPointer(event) {
-		if (!this.enabled) {
-			return false;
-		}
+		if (!this.enabled) return false;
 		const candidate = this.nearestCandidate(event);
 		if (!candidate) {
 			this.clearAll();
 			return false;
 		}
-		stopPointerEvent(event);
-		for (const adapter of this.adapters) {
-			if (adapter !== candidate.adapter) {
-				adapter.clearAll();
-			}
+		stopWorldTargetPointerEvent(event);
+		this.clearOtherAdapters(candidate.adapter);
+		const action = this.selection.actionFor(candidate);
+		if (action === 'interact') {
+			candidate.adapter.interactCandidate(candidate);
+		} else {
+			candidate.adapter.selectCandidate(candidate);
 		}
-		candidate.adapter.activateCandidate(candidate);
 		return true;
 	}
 
@@ -103,7 +77,13 @@ export class WorldTargetCoordinator {
 		return this.adapters
 			.map(adapter => adapter.candidateFromPointer(event))
 			.filter(Boolean)
-			.sort(compareCandidates)[0] || null;
+			.sort(compareWorldTargetCandidates)[0] || null;
+	}
+
+	clearOtherAdapters(exception) {
+		for (const adapter of this.adapters) {
+			if (adapter !== exception) adapter.clearAll();
+		}
 	}
 
 	entries() {
@@ -111,54 +91,28 @@ export class WorldTargetCoordinator {
 	}
 
 	clearAll(exception = null) {
-		for (const adapter of this.adapters) {
-			adapter.clearAll(exception);
-		}
+		for (const adapter of this.adapters) adapter.clearAll(exception);
+		this.selection.clear();
 	}
 
 	diagnostics() {
 		return {
 			contracts: this.adapters.map(adapter => adapter.diagnostics()),
-			dragThreshold: DRAG_THRESHOLD,
 			enabled: this.enabled,
 			listenerCount: this.enabled ? Object.keys(this.handlers).length : 0,
-			pointerActive: Boolean(this.pointer),
-			populations: this.populations.length
+			pointer: this.pointer.diagnostics(),
+			populations: this.populations.length,
+			selection: this.selection.diagnostics()
 		};
 	}
 
 	destroy() {
-		if (!this.enabled) {
-			return;
+		if (this.enabled) {
+			for (const [name, handler] of Object.entries(this.handlers)) {
+				this.canvas.removeEventListener(name, handler);
+			}
 		}
-		for (const [name, handler] of Object.entries(this.handlers)) {
-			this.canvas.removeEventListener(name, handler);
-		}
-		this.pointer = null;
+		this.pointer.cancel();
+		this.selection.clear();
 	}
-}
-
-function resolvePopulations(options) {
-	const supplied = Array.isArray(options.populations) ? options.populations : [];
-	const compatibility = [options.friendlyNpcs, options.hostileNpcs];
-	return [...new Set([...supplied, ...compatibility].filter(Boolean))];
-}
-
-function canOwnPointer(canvas, adapters) {
-	return typeof canvas?.addEventListener === 'function'
-		&& adapters.length > 0
-		&& adapters.every(adapter => adapter.compatible);
-}
-
-function compareCandidates(first, second) {
-	if (first.distance !== second.distance) {
-		return first.distance - second.distance;
-	}
-	return first.adapter.order - second.adapter.order;
-}
-
-function stopPointerEvent(event) {
-	event.preventDefault?.();
-	event.stopPropagation?.();
-	event.stopImmediatePropagation?.();
 }

@@ -4,26 +4,39 @@
 
 /**
  * @file WorldTargetCoordinatorTestDoubles.mjs
- * @description Supplies focused modern and legacy target populations for one canonical suite.
- * The Awtsmoos reveals one law through many finite examples; Awtsmoos.com keeps test vessels
- * separate from production ownership while both historical contracts remain measurable.
+ * @description Supplies stable modern and legacy subjects for the two-click targeting contract.
+ * The Awtsmoos reveals one actor beneath changing pointer wrappers; Awtsmoos.com keeps study,
+ * interaction, clearing, dialogue, and listener ownership measurable without production scenery.
  */
 
 export function fakeModernPopulation(distance) {
+	const actor = { id: `actor-${distance}`, selected: false };
 	return {
-		activations: 0,
+		actor,
 		clears: 0,
-		activateCandidate() {
-			this.activations += 1;
+		interactions: 0,
+		selections: 0,
+		activateCandidate(candidate) {
+			return this.interactCandidate(candidate);
 		},
 		candidateFromPointer() {
-			return {
-				distance,
-				population: this
-			};
+			return { actor, distance, population: this };
+		},
+		candidateSelected(candidate) {
+			return candidate?.actor?.selected === true;
 		},
 		clearAll() {
 			this.clears += 1;
+			actor.selected = false;
+		},
+		interactCandidate(candidate) {
+			this.interactions += 1;
+			return candidate?.actor || null;
+		},
+		selectCandidate(candidate) {
+			this.selections += 1;
+			candidate.actor.selected = true;
+			return candidate.actor;
 		}
 	};
 }

@@ -1,0 +1,47 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The social Reel surface preserves visible focus, motion preference, coarse
+ * pointer geometry, and forced-color operability.
+ */
+
+:is(.composer-reel-card, .reel-maker-dialog) :is(button, input, a):focus-visible {
+	outline: 2px solid var(--reel-focus);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgba(185, 120, 239, .16);
+}
+
+:is(.composer-reel-card, .reel-maker-dialog) :is(button, input, a):disabled {
+	cursor: not-allowed;
+	opacity: .5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.composer-reel-card *,
+	.reel-maker-dialog *,
+	.composer-reel-card *::before,
+	.reel-maker-dialog *::before,
+	.composer-reel-card *::after,
+	.reel-maker-dialog *::after {
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
+@media (pointer: coarse) {
+	:is(.composer-reel-card, .reel-maker-dialog) :is(button, a, label) {
+		min-block-size: 2.75rem;
+	}
+}
+
+@media (forced-colors: active) {
+	.composer-reel-card,
+	.reel-maker-surface,
+	.reel-choice-card,
+	.reel-studio-screen > footer {
+		border: 1px solid CanvasText;
+		forced-color-adjust: auto;
+	}
+}

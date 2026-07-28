@@ -1,0 +1,3392 @@
+(node:22396) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapWorldFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ bootstrap foundation composes one truthful open flat world (63.049358ms)
+✖ critical foundation source excludes authored terrain and world finalizer imports (31.507229ms)
+(node:22397) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ horses share immutable resources and keep independent smooth ground transforms (40.239939ms)
+✔ horse and road contracts require verified full sources without fallback (4.836962ms)
+(node:22398) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (3.320529ms)
+✔ B"H equipped staff attaches to visible model-root anchor and repairs (163.266986ms)
+(node:22426) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHebrewProjectile.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ melee persists across aggro and applies exactly one impact per strike (60.203003ms)
+✔ caster retreats, launches one Hebrew projectile, and recovers (6.6358ms)
+✔ impact and expired support effects return their visual vessels to pools (81.567026ms)
+(node:22431) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ profile spawn anchors home before the group receives final placement (56.32652ms)
+✔ role and cadence remain stable for one complete engagement (2.287977ms)
+✔ brief sight loss persists but sustained loss resets the session (1.797946ms)
+✔ different identities receive broad naturally staggered delays (0.441029ms)
+(node:22442) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H combat approach moves an actor that has no move method (8.559229ms)
+(node:22448) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every house expands its recorded legacy footprint by at least forty (4.71174ms)
+✔ expanded footprints retain a broad non-overlapping world corridor (0.277136ms)
+✔ assembly uses measured dimensions rather than parent scaling (1.102258ms)
+(node:22450) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every expanded footprint and entry approach avoids occupied terrain (351.822256ms)
+(node:22464) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ measured foundation creates accessible steps and a level platform (3.915396ms)
+✖ two-story plan aligns normal doors, broad hall, and usable stairs (8.291134ms)
+(node:22465) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/WorldStairSummary.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stair summary preserves layout, collision, and dimension aggregates (3.45579ms)
+✔ empty stair input returns zero dimensions without infinities (0.389278ms)
+(node:22476) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/PlayerMeleeController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ one key edge emits one bounded fallback melee request (89.089409ms)
+✔ level, Gevurah, equipment, and recovery resolve once per strike (1.003607ms)
+✔ a rejected strike publishes the remaining cooldown without world polling (0.920964ms)
+(node:22483) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/ShadowDemonMelee.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ melee damages one nearby unarmored actor and emits evidence (12.731933ms)
+✔ enemy armor mitigates physical damage without producing zero hits (0.470391ms)
+✔ melee rejects a distant actor without mutation (0.8466ms)
+(node:22489) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ attack timeline exposes anticipation, one active window, recovery, and completion (23.643402ms)
+✔ archetypes select distinct readable attacks (0.354692ms)
+✔ damage events are normalized and immutable (0.503408ms)
+✔ ward resolves perfect, partial, and ordinary incoming damage (0.769867ms)
+✔ focus runtime enforces canonical learning, ownership, cost, cooldown, and regeneration (55.182116ms)
+✔ ability rules preserve respectful named mechanics (14.582993ms)
+✔ terrain policy rejects sanctuaries and allows the canonical bridge (0.989527ms)
+✔ distance cadence preserves urgent updates and releases accumulated time (0.719265ms)
+✔ friendly danger motion flees from the threat and returns to calm (1.45782ms)
+(node:22496) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ hostile payload becomes the existing defeat objective event (3.288929ms)
+✔ shade defeat advances the active Words of Light objective (5.35928ms)
+(node:22515) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/EnemyProgressionCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ enemy defeat awards scaled XP once and new spawn receipts reward again (21.962755ms)
+✔ profile state publishes the canonical level XP maximum (0.851185ms)
+(node:22517) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStatePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ defeat and village sanctuary outrank every combat intention (24.823762ms)
+✔ awareness becomes warning before attack or pursuit (0.665435ms)
+✔ canonical urgent cadence covers immediate combat states (5.643478ms)
+(node:22523) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTargetContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ target contract exposes progression truth without mutating the actor (2.602126ms)
+(node:22533) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyTerritoryPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ safe wilderness movement is allowed (3.60524ms)
+✔ leash, sanctuary, and steep slope are rejected with reasons (0.71634ms)
+✔ an intruder beyond its leash may retreat out of sanctuary (0.77342ms)
+✔ return movement must make measurable progress toward home (0.418037ms)
+(node:22535) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyWanderPath.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ enemy paths remain deterministic and inside territory (46.341831ms)
+✔ enemy path counts are clamped (0.510578ms)
+(node:22541) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ missing materials preserve aliases and structured degradation (5.107979ms)
+✔ successful images receive stable canonical same-origin texture metadata (103.041094ms)
+✔ loader exceptions become degradation rather than boot failure (1.968837ms)
+(node:22563) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ restoration preserves duplicates, overflow, and one aggregate Bag card (19.700188ms)
+✔ batch loot and purchases publish exactly once (3.290351ms)
+✔ corpse selection opens loot before any deliberate transfer (3.254478ms)
+✖ tefillin jacket and visible weapon persist through casting and hydration (1015.12053ms)
+(node:22566) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatSupport.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ XP, quest defeat events, and distinct enemy credit remain intact (5.433251ms)
+(node:22570) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/PlayerCombatDefense.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ shadow attack passes through alert, anticipation, active, and recovery (18.775278ms)
+✔ a shadow inside the Shul sanctuary returns without attacking (91.5135ms)
+✔ canonical Torah passage disperses and respawns a selected shade (6.415028ms)
+(node:22588) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/TorahCombatController.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ accepted impact spends focus and records canonical cooldown once (10.987244ms)
+✔ rejected impact leaves focus and cooldown untouched (10.145571ms)
+✔ action timeline receives the structured synchronous world rejection (13.440849ms)
+✔ targetless support transaction spends focus without hostile world dispatch (0.89177ms)
+(node:22604) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ nearest compatible population owns the pointer action (26.589292ms)
+✔ camera-like pointer drags do not select a target (0.685316ms)
+✔ incompatible population contracts keep the listener disabled (0.583069ms)
+✔ actor-array populations share one listener and preserve selection (1.626305ms)
+✔ a second click opens dialogue for an already selected actor (5.827072ms)
+(node:22610) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (31.966974ms)
+✔ complete terrain stack retains six distinct source garments (1.266769ms)
+✔ visible maps and source provenance obey local production policy (4.150429ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (5.554596ms)
+(node:22619) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceNetwork.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ dense surface network keeps eleven canonical routes and bounded spacing (2.136371ms)
+✔ every road sample stays above support terrain and every edge stays safe (3.932092ms)
+✔ shared world coordinates resolve to exactly one road elevation (1.723198ms)
+✔ surface routes and evidence are immutable and deterministic (0.493553ms)
+(node:22629) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all six local terrain images exist and contain real bytes (9.674362ms)
+✔ high terrain recipe exposes six distinct same-origin maps and sources (4.863807ms)
+✔ terrain binds a real meadow base and earth mix at construction (4.491387ms)
+(node:22639) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ terrain recipe has sixteen named local production layers (4.99812ms)
+✔ base grass and named meadow variants retain distinct witnesses (1.624972ms)
+(node:22649) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/road/RoadJunctionGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ junction top caps wind upward and bottom caps wind downward (51.84798ms)
+(node:22658) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H road contract imports with six active layers (2.854403ms)
+✔ B"H yellow brick remains verified compatibility provenance (1.584393ms)
+(node:22664) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/road/RoadStripGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ ribbon tops use solved elevations and bottoms reach support terrain (12.71618ms)
+✔ legacy routes without solved heights still follow the supplied sampler (1.313197ms)
+(node:22670) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/ProceduralForestSystem.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ redundant game tree generators are deleted (2.482849ms)
+✔ forest reports procedural-core as its generator authority (2515.833716ms)
+(node:22682) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainMesh.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ textured terrain preserves source color and soil mixing (11.585676ms)
+✖ unhydrated construction remains white and points at packaged local ground (5.484755ms)
+(node:22698) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/TreeSemanticMaterialCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ every required core bark and living leaf type has a high-resolution public URL (9.754641ms)
+✔ leaf materials never activate a procedural blob fallback (9.944299ms)
+(node:22710) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageHouseBubbleSystem.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ house bubbles are deterministic, batched, and fully textured (127.779275ms)
+✔ quality levels reduce decorated houses without changing batch architecture (13.95999ms)
+(node:22717) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHouses.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ expanded houses remain broadly separated throughout the settlement (9.760287ms)
+(node:22730) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ combat activation is suspended while Bag modal state is open (17.07602ms)
+(node:22731) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowTargetFrame.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ mobile targets begin compact and reset to compact when selection changes (65.94631ms)
+✔ desktop target details remain expanded by default (0.588911ms)
+(node:22745) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/WorldCollisionOctree.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ terrain sampling, topology, collision, and normals yield cooperatively (98.680642ms)
+✔ world collision insertion yields and returns a queryable octree (67.096669ms)
+(node:22752) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/DeferredTerrainEnrichment.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ text collision precedes text, forest input, forest collision, and forest visuals (17.178261ms)
+✔ destroy before text module resolution prevents all installation (4.284696ms)
+✔ destroy after completion removes visuals, collision, and obstacle additions (1.652819ms)
+(node:22769) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/EnemyStatePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ health, sanctuary, and territory override combat intent (100.649457ms)
+✔ spawn and warning finish before the canonical attack timeline begins (2.936937ms)
+✔ stagger and cooldown resolve into bounded pursuit (0.557664ms)
+✔ urgent states include every immediate semantic combat phase (1.936055ms)
+(node:22771) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ beis-ohr collision bounds match every visible solid (280.108733ms)
+✔ beis-ohr exposes separated terrain, foundation, and floor tops (93.522591ms)
+✔ brick-cottage collision bounds match every visible solid (84.634642ms)
+✔ brick-cottage exposes separated terrain, foundation, and floor tops (48.339589ms)
+(node:22793) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ beis-ohr owns finite bounds, winding, and role-specific side policy (331.159971ms)
+✖ brick-cottage owns finite bounds, winding, and role-specific side policy (41.820194ms)
+(node:22819) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ beis-ohr remains eligible through a multi-elevation orbit (280.852791ms)
+✖ beis-ohr has stable draw state while entering and leaving (165.041291ms)
+✖ beis-ohr repairs a late blanket side mutation by role (80.989052ms)
+✔ brick-cottage remains eligible through a multi-elevation orbit (289.664784ms)
+✔ brick-cottage has stable draw state while entering and leaving (152.590289ms)
+✖ brick-cottage repairs a late blanket side mutation by role (31.842245ms)
+(node:22831) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ house population preserves interaction and collision lifecycle (628.852389ms)
+(node:22883) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadGeometry.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ROAD_EVIDENCE {"crossSections":129,"longitudinalTextureWorld":8,"maximumCenterStep":1.4332423820502642,"maximumUv":16.15070915222168,"surfaceOffset":0,"vertexCount":903}
+✔ road geometry is finite, continuous, and terrain aligned (169.197148ms)
+✔ road center, shoulder, and meadow weights sum to one (31.551867ms)
+✔ road UVs repeat physically while centerline steps stay continuous (115.450657ms)
+(node:22884) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+BOUNDARY_CONTINUITY {"averageDelta":0.0000032867410729502733,"boundaryWorld":16,"epsilon":0.001,"maximumDelta":0.0003762962078250551,"sampleCount":1710}
+MACRO_CONTINUITY {"averageDelta":0.020322410100121042,"boundaryWorld":24,"epsilon":24,"maximumDelta":0.3112414181663099,"sampleCount":144}
+✔ large world grid remains finite and normalized (452.67736ms)
+✔ former tile boundaries are continuous rather than stepped (719.069526ms)
+✔ adjacent macro cells vary without checkerboard steps (41.536336ms)
+✔ road center, shoulder, and meadow remain coherent (904.696602ms)
+(node:22908) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H package-facing terrain builder preserves the complete meadow contract (147.909736ms)
+✔ B"H historic numeric creator remains available for established callers (27.787158ms)
+(node:22918) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (15.244172ms)
+✖ mobile and desktop profiles keep six crisp readable layers (47.158551ms)
+✔ terrain and road presets use six broad rotated sources (4.755795ms)
+✔ package mounts a visible road while terrain owns collision (67.770257ms)
+(node:22929) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldUvDensity.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+UV_EVIDENCE {"finite":true,"origin":[110,110],"pingPongRange":[0,0.5833334922790527],"repeatRange":[0,3.4375,0,4.583333492279053],"tileWorld":[64,48],"vertexCount":3,"wrap":"mirror-pingpong-repeat"}
+✔ ping-pong repetition is continuous and reverses direction (7.487518ms)
+✔ world UV coordinates stay finite across a large domain (204.590542ms)
+✔ generated terrain UV attributes remain finite (2.007038ms)
+(node:22944) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ B"H mobile terrain keeps enough source pixels for crisp ground detail (79.695195ms)
+✔ B"H six ecological sources retain strong nonuniform identities (2.577724ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.572108ms)
+✔ B"H visible road mounts without becoming collision authority (1.169965ms)
+(node:22951) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H facade exposes the real canonical procedural tree API (275.040199ms)
+✖ B"H facade owns explicit local bindings instead of a bare re-export (0.745295ms)
+✖ B"H facade graph excludes the procedural root index (21.137595ms)
+(node:22961) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeMaterialSources.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ procedural canvases keep both tree layers visible when public records fail (9.400282ms)
+✔ public bark binds immediately while a pending leaf conversion retains botanical alpha (0.739599ms)
+(node:22978) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/PlayerCombatDefense.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Torah light uses canonical damage and enforces world range (3.465078ms)
+✔ one player hurt window prevents simultaneous shadow damage (1.53692ms)
+✔ village sanctuary cancels hostile impact at the damage boundary (0.423822ms)
+✔ defeat clears selection and respawn restores canonical combat state (2.150561ms)
+ℹ tests 152
+ℹ suites 0
+ℹ pass 134
+ℹ fail 18
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19576.019485
+
+✖ failing tests:
+
+test at experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:41:1
+✖ bootstrap foundation composes one truthful open flat world (63.049358ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'visible-bootstrap'
+  - 'bootstrap-dormant'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:58:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'visible-bootstrap',
+    expected: 'bootstrap-dormant',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:61:1
+✖ critical foundation source excludes authored terrain and world finalizer imports (31.507229ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /BootstrapWorldFoundation\.js\?v=20260722-stream-15/. Input:
+  
+  '// B"H\n' +
+    '// Boruch Hashem\n' +
+    '// Blessed is He\n' +
+    '\n' +
+    '/**\n' +
+    ' * @file EretzWorldFoundation.js\n' +
+    ' * @description Opens WebGL, essential control, and the visible bootstrap valley in bounded waves.\n' +
+    ' * The Awtsmoos reveals movement before authored districts; Awtsmoos.com keeps CSG, water,\n' +
+    ' * textures, forests, houses, and village systems beyond the first responsive threshold.\n' +
+    ' */\n' +
+    '\n' +
+    "import { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260723-stream-20';\n" +
+    "import { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';\n" +
+    'import {\n' +
+    '\tnextLaunchFrame,\n' +
+    '\tnextLaunchTask,\n' +
+    '\treportLaunchProgress,\n' +
+    '\tthrowIfLaunchAborted\n' +
+    "} from './RuntimeLaunchProgress.js';\n" +
+    '\n' +
+    'export async function createEretzWorldFoundation(hosts, options = {}) {\n' +
+    '\tconst qualityProfile = options.qualityProfile;\n' +
+    '\tif (!qualityProfile) {\n' +
+    "\t\tthrow new Error('Eretz foundation requires a quality profile.');\n" +
+    '\t}\n' +
+    '\tconst environment = options.environment || globalThis;\n' +
+    "\toptions.boot?.begin('webgl-context');\n" +
+    "\treportLaunchProgress(options, 'Opening visible WebGL…', 0.12);\n" +
+    '\tconst services = createEretzFoundationServices(\n' +
+    '\t\thosts,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\tenvironment\n' +
+    '\t);\n' +
+    '\tconst webGlBootFrame = paintEretzWebGlBootFrame(\n' +
+    '\t\tservices,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\tenvironment\n' +
+    '\t);\n' +
+    '\tawait nextLaunchFrame(environment);\n' +
+    '\tthrowIfLaunchAborted(options.signal);\n' +
+    "\toptions.boot?.begin('essential-assets');\n" +
+    "\treportLaunchProgress(options, 'Creating local control…', 0.24);\n" +
+    '\tconst { loadEretzEssentialAssets } = await import(\n' +
+    "\t\t'./EretzEssentialAssetLoader.js?v=20260723-stream-20'\n" +
+    '\t);\n' +
+    '\tconst loaded = await loadEretzEssentialAssets({\n' +
+    '\t\t...options,\n' +
+    '\t\tboot: options.boot,\n' +
+    '\t\tenvironment,\n' +
+    '\t\tquality: qualityProfile.quality\n' +
+    '\t});\n' +
+    '\tawait nextLaunchTask(environment);\n' +
+    '\tthrowIfLaunchAborted(options.signal);\n' +
+    "\toptions.boot?.begin('bootstrap-visible-world');\n" +
+    "\treportLaunchProgress(options, 'Opening the visible golden valley…', 0.72);\n" +
+    '\tconst { createBootstrapWorldFoundation } = await import(\n' +
+    "\t\t'./BootstrapWorldFoundation.js?v=20260723-stream-20'\n" +
+    '\t);\n' +
+    '\tconst world = createBootstrapWorldFoundation(services);\n' +
+    '\toptions.boot?.progress?.(\n' +
+    "\t\t'bootstrap-visible-world',\n" +
+    '\t\t1,\n' +
+    '\t\t1,\n' +
+    "\t\t'Visible valley and movement ready; authored districts remain deferred.',\n" +
+    "\t\t'ready'\n" +
+    '\t);\n' +
+    '\treturn {\n' +
+    '\t\t...hosts,\n' +
+    '\t\t...loaded,\n' +
+    '\t\t...services,\n' +
+    '\t\t...world,\n' +
+    '\t\tqualityProfile,\n' +
+    '\t\twebGlBootFrame\n' +
+    '\t};\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapTerrainBoundary.test.mjs:74:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `// B"H\n// Boruch Hashem\n// Blessed is He\n\n/**\n * @file EretzWorldFoundation.js\n * @description Opens WebGL, essential control, and the visible bootstrap valley in bounded waves.\n * The Awtsmoos reveals movement before authored districts; Awtsmoos.com keeps CSG, water,\n * textures, forests, houses, and village systems beyond the first responsive threshold.\n */\n\nimport { createEretzFoundationServices } from './EretzFoundationServices.js?v=20260723-stream-20';\nimport { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';\nimport {\n\tnextLaunchFrame,\n\tnextLaunchTask,\n\treportLaunchProgress,\n\tthrowIfLaunchAborted\n} from './RuntimeLaunchProgress.js';\n\nexport async function createEretzWorldFoundation(hosts, options = {}) {\n\tconst qualityProfile = options.qualityProfile;\n\tif (!qualityProfile) {\n\t\tthrow new Error('Eretz foundation requires a quality profile.');\n\t}\n\tconst environment = options.environment || globalThis;\n\toptions.boot?.begin('webgl-context');\n\treportLaunchProgress(options, 'Opening visible WebGL…', 0.12);\n\tconst services = createEretzFoundationServices(\n\t\thosts,\n\t\tqualityProfile,\n\t\tenvironment\n\t);\n\tconst webGlBootFrame = paintEretzWebGlBootFrame(\n\t\tservices,\n\t\tqualityProfile,\n\t\tenvironment\n\t);\n\tawait nextLaunchFrame(environment);\n\tthrowIfLaunchAborted(options.signal);\n\toptions.boot?.begin('essential-assets');\n\treportLaunchProgress(options, 'Creating local control…', 0.24);\n\tconst { loadEretzEssentialAssets } = await import(\n\t\t'./EretzEssentialAssetLoader.js?v=20260723-stream-20'\n\t);\n\tconst loaded = await loadEretzEssentialAssets({\n\t\t...options,\n\t\tboot: options.boot,\n\t\tenvironment,\n\t\tquality: qualityProfile.quality\n\t});\n\tawait nextLaunchTask(environment);\n\tthrowIfLaunchAborted(options.signal);\n\toptions.boot?.begin('bootstrap-visible-world');\n\treportLaunchProgress(options, 'Opening the visible golden valley…', 0.72);\n\tconst { createBootstrapWorldFoundation } = await import(\n\t\t'./BootstrapWorldFoundation.js?v=20260723-stream-20'\n\t);\n\tconst world = createBootstrapWorldFoundation(services);\n\toptions.boot?.progress?.(\n\t\t'bootstrap-visible-world',\n\t\t1,\n\t\t1,\n\t\t'Visible valley and movement ready; authored districts remain deferred.',\n\t\t'ready'\n\t);\n\treturn {\n\t\t...hosts,\n\t\t...loaded,\n\t\t...services,\n\t\t...world,\n\t\tqualityProfile,\n\t\twebGlBootFrame\n\t};\n}\n`,
+    expected: /BootstrapWorldFoundation\.js\?v=20260722-stream-15/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/app/minimalMeadowHouseTraversal.test.mjs:32:1
+✖ two-story plan aligns normal doors, broad hall, and usable stairs (8.291134ms)
+  TypeError: Cannot read properties of undefined (reading 'x')
+      at hasPositiveSize (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowHouseTraversal.test.mjs:48:25)
+      at Array.every (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowHouseTraversal.test.mjs:44:68)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+
+test at experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:78:1
+✖ tefillin jacket and visible weapon persist through casting and hydration (1015.12053ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+    <ref *2> Group {
+      _localTransformSnapshot: null,
+      _sceneGraphRevision: 0,
+      _visible: true,
+      _worldLocalRevision: -1,
+      _worldParentMatrix: null,
+      _worldParentRevision: -1,
+  +   children: [
+  +     <ref *1> Group {
+  +       _localTransformSnapshot: null,
+  +       _sceneGraphRevision: 3,
+  +       _visible: true,
+  +       _worldLocalRevision: -1,
+  +       _worldParentMatrix: null,
+  +       _worldParentRevision: -1,
+  +       children: [
+  +         Mesh {
+  +           _base: {
+  +             matrix: null,
+  +             position: Vector3 {
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             quaternion: Quaternion {
+  +               w: 1,
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             scale: Vector3 {
+  +               x: 1,
+  +               y: 1,
+  +               z: 1
+  +             }
+  +           },
+  +           _localTransformSnapshot: null,
+  +           _sceneGraphRevision: 0,
+  +           _visible: true,
+  +           _worldLocalRevision: -1,
+  +           _worldParentMatrix: null,
+  +           _worldParentRevision: -1,
+  +           children: [],
+  +           frustumCulled: false,
+  +           geometry: BufferGeometry {
+  +             attributes: {
+  +               normal: BufferAttribute {
+  +                 array: Float32Array(72) [
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               position: BufferAttribute {
+  +                 array: Float32Array(72) [
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   1.024999976158142,
+  +                   -0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   -0.07500000298023224,
+  +                   0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224,
+  +                   -0.07500000298023224,
+  +                   -1.125,
+  +                   0.07500000298023224
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               uv: BufferAttribute {
+  +                 array: Float32Array(48) [
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   2.1500000953674316,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 2,
+  +                 normalized: false
+  +               }
+  +             },
+  +             index: BufferAttribute {
+  +               array: Uint16Array(36) [
+  +                 0,
+  +                 1,
+  +                 2,
+  +                 0,
+  +                 2,
+  +                 3,
+  +                 4,
+  +                 5,
+  +                 6,
+  +                 4,
+  +                 6,
+  +                 7,
+  +                 8,
+  +                 9,
+  +                 10,
+  +                 8,
+  +                 10,
+  +                 11,
+  +                 12,
+  +                 13,
+  +                 14,
+  +                 12,
+  +                 14,
+  +                 15,
+  +                 16,
+  +                 17,
+  +                 18,
+  +                 16,
+  +                 18,
+  +                 19,
+  +                 20,
+  +                 21,
+  +                 22,
+  +                 20,
+  +                 22,
+  +                 23
+  +               ],
+  +               componentType: null,
+  +               count: 36,
+  +               itemSize: 1,
+  +               normalized: false
+  +             },
+  +             mode: 4,
+  +             userData: {}
+  +           },
+  +           isBone: false,
+  +           isMesh: true,
+  +           isSkinnedMesh: false,
+  +           material: MeshStandardMaterial {
+  +             alphaCutoff: 0.5,
+  +             alphaMode: 'OPAQUE',
+  +             anisotropy: 3,
+  +             backfaceCull: undefined,
+  +             color: [
+  +               0.5450980392156862,
+  +               0.35294117647058826,
+  +               0.16862745098039217,
+  +               1
+  +             ],
+  +             doubleSided: false,
+  +             emissiveStrength: 1.8,
+  +             mapImage: null,
+  +             mapRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixImage: null,
+  +             mixRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixStrength: 0,
+  +             mixTextureUrl: null,
+  +             name: 'staff-shaft',
+  +             normalTextureUrl: null,
+  +             opacity: 1,
+  +             texturePolicy: {
+  +               fallbackApplied: true,
+  +               fullResolution: true,
+  +               nativeTexelDensity: true,
+  +               originalPixelsOnly: true,
+  +               publicFirebase: false,
+  +               realMapImage: false,
+  +               resampleSource: false,
+  +               sameOrigin: true,
+  +               texelsPerWorld: 96,
+  +               uvUnitsPerWorld: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             transparent: false
+  +           },
+  +           matrix: null,
+  +           matrixWorld: Float32Array(16) [
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1
+  +           ],
+  +           name: 'staff-shaft',
+  +           nodeIndex: null,
+  +           parent: [Circular *1],
+  +           position: Vector3 {
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           primitiveMode: 4,
+  +           quaternion: Quaternion {
+  +             w: 1,
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           scale: Vector3 {
+  +             x: 1,
+  +             y: 1,
+  +             z: 1
+  +           },
+  +           skeleton: null,
+  +           skinIndex: null,
+  +           userData: {
+  +             AwtsmoosLayeredMaterial: {
+  +               layerCount: 0,
+  +               shader: 'standard',
+  +               zoneAttribute: false
+  +             },
+  +             AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  +             AwtsmoosTextureDensity: {
+  +               bakedWorldUv: true,
+  +               measuredUnits: [
+  +                 1,
+  +                 1
+  +               ],
+  +               native: true,
+  +               originalPixelsOnly: true,
+  +               textureBasis: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             bootstrapVisual: true,
+  +             procedural: false,
+  +             weaponPart: 'staff-shaft'
+  +           }
+  +         },
+  +         Mesh {
+  +           _base: {
+  +             matrix: null,
+  +             position: Vector3 {
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             quaternion: Quaternion {
+  +               w: 1,
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             scale: Vector3 {
+  +               x: 1,
+  +               y: 1,
+  +               z: 1
+  +             }
+  +           },
+  +           _localTransformSnapshot: null,
+  +           _sceneGraphRevision: 0,
+  +           _visible: true,
+  +           _worldLocalRevision: -1,
+  +           _worldParentMatrix: null,
+  +           _worldParentRevision: -1,
+  +           children: [],
+  +           frustumCulled: false,
+  +           geometry: BufferGeometry {
+  +             attributes: {
+  +               normal: BufferAttribute {
+  +                 array: Float32Array(72) [
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0,
+  +                   0,
+  +                   -1,
+  +                   0
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               position: BufferAttribute {
+  +                 array: Float32Array(72) [
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   1.0950000286102295,
+  +                   -0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   -0.07500000298023224,
+  +                   0.4699999988079071,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224,
+  +                   -0.07000000029802322,
+  +                   0.9449999928474426,
+  +                   0.07500000298023224
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               uv: BufferAttribute {
+  +                 array: Float32Array(48) [
+  +                   0,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0,
+  +                   0.5400000214576721,
+  +                   0.15000000596046448,
+  +                   0,
+  +                   0.15000000596046448
+  +                 ],
+  +                 componentType: null,
+  +                 count: 24,
+  +                 itemSize: 2,
+  +                 normalized: false
+  +               }
+  +             },
+  +             index: BufferAttribute {
+  +               array: Uint16Array(36) [
+  +                 0,
+  +                 1,
+  +                 2,
+  +                 0,
+  +                 2,
+  +                 3,
+  +                 4,
+  +                 5,
+  +                 6,
+  +                 4,
+  +                 6,
+  +                 7,
+  +                 8,
+  +                 9,
+  +                 10,
+  +                 8,
+  +                 10,
+  +                 11,
+  +                 12,
+  +                 13,
+  +                 14,
+  +                 12,
+  +                 14,
+  +                 15,
+  +                 16,
+  +                 17,
+  +                 18,
+  +                 16,
+  +                 18,
+  +                 19,
+  +                 20,
+  +                 21,
+  +                 22,
+  +                 20,
+  +                 22,
+  +                 23
+  +               ],
+  +               componentType: null,
+  +               count: 36,
+  +               itemSize: 1,
+  +               normalized: false
+  +             },
+  +             mode: 4,
+  +             userData: {}
+  +           },
+  +           isBone: false,
+  +           isMesh: true,
+  +           isSkinnedMesh: false,
+  +           material: MeshStandardMaterial {
+  +             alphaCutoff: 0.5,
+  +             alphaMode: 'OPAQUE',
+  +             anisotropy: 3,
+  +             backfaceCull: undefined,
+  +             color: [
+  +               0.6039215686274509,
+  +               0.38823529411764707,
+  +               0.18823529411764706,
+  +               1
+  +             ],
+  +             doubleSided: false,
+  +             emissiveStrength: 1.8,
+  +             mapImage: null,
+  +             mapRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixImage: null,
+  +             mixRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixStrength: 0,
+  +             mixTextureUrl: null,
+  +             name: 'staff-crook',
+  +             normalTextureUrl: null,
+  +             opacity: 1,
+  +             texturePolicy: {
+  +               fallbackApplied: true,
+  +               fullResolution: true,
+  +               nativeTexelDensity: true,
+  +               originalPixelsOnly: true,
+  +               publicFirebase: false,
+  +               realMapImage: false,
+  +               resampleSource: false,
+  +               sameOrigin: true,
+  +               texelsPerWorld: 96,
+  +               uvUnitsPerWorld: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             transparent: false
+  +           },
+  +           matrix: null,
+  +           matrixWorld: Float32Array(16) [
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1
+  +           ],
+  +           name: 'staff-crook',
+  +           nodeIndex: null,
+  +           parent: [Circular *1],
+  +           position: Vector3 {
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           primitiveMode: 4,
+  +           quaternion: Quaternion {
+  +             w: 1,
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           scale: Vector3 {
+  +             x: 1,
+  +             y: 1,
+  +             z: 1
+  +           },
+  +           skeleton: null,
+  +           skinIndex: null,
+  +           userData: {
+  +             AwtsmoosLayeredMaterial: {
+  +               layerCount: 0,
+  +               shader: 'standard',
+  +               zoneAttribute: false
+  +             },
+  +             AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  +             AwtsmoosTextureDensity: {
+  +               bakedWorldUv: true,
+  +               measuredUnits: [
+  +                 1,
+  +                 1.0000000000000007
+  +               ],
+  +               native: true,
+  +               originalPixelsOnly: true,
+  +               textureBasis: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             bootstrapVisual: true,
+  +             procedural: false,
+  +             weaponPart: 'staff-crook'
+  +           }
+  +         },
+  +         Mesh {
+  +           _base: {
+  +             matrix: null,
+  +             position: Vector3 {
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             quaternion: Quaternion {
+  +               w: 1,
+  +               x: 0,
+  +               y: 0,
+  +               z: 0
+  +             },
+  +             scale: Vector3 {
+  +               x: 1,
+  +               y: 1,
+  +               z: 1
+  +             }
+  +           },
+  +           _localTransformSnapshot: null,
+  +           _sceneGraphRevision: 0,
+  +           _visible: true,
+  +           _worldLocalRevision: -1,
+  +           _worldParentMatrix: null,
+  +           _worldParentRevision: -1,
+  +           children: [],
+  +           frustumCulled: false,
+  +           geometry: BufferGeometry {
+  +             attributes: {
+  +               normal: BufferAttribute {
+  +                 array: Float32Array(18) [
+  +                   -9.614813259348922e-17,
+  +                   1,
+  +                   -4.807406629674461e-17,
+  +                   1,
+  +                   -1.9229626518697845e-16,
+  +                   0,
+  +                   -1.4422219558151138e-16,
+  +                   -2.403703480273353e-16,
+  +                   1,
+  +                   -1,
+  +                   -2.8844439116302277e-16,
+  +                   0,
+  +                   -1.4422219558151138e-16,
+  +                   -2.403703480273353e-16,
+  +                   -1,
+  +                   -1.9229626518697845e-16,
+  +                   -1,
+  +                   0
+  +                 ],
+  +                 componentType: null,
+  +                 count: 6,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               position: BufferAttribute {
+  +                 array: Float32Array(18) [
+  +                   0.44999998807907104,
+  +                   1.1299999952316284,
+  +                   0,
+  +                   0.5600000023841858,
+  +                   1.0199999809265137,
+  +                   0,
+  +                   0.44999998807907104,
+  +                   1.0199999809265137,
+  +                   0.10999999940395355,
+  +                   0.3400000035762787,
+  +                   1.0199999809265137,
+  +                   0,
+  +                   0.44999998807907104,
+  +                   1.0199999809265137,
+  +                   -0.10999999940395355,
+  +                   0.44999998807907104,
+  +                   0.9100000262260437,
+  +                   0
+  +                 ],
+  +                 componentType: null,
+  +                 count: 6,
+  +                 itemSize: 3,
+  +                 normalized: false
+  +               },
+  +               uv: BufferAttribute {
+  +                 array: Float32Array(12) [
+  +                   0.15556348860263824,
+  +                   0,
+  +                   0,
+  +                   0.15556348860263824,
+  +                   0.15556348860263824,
+  +                   0.15556348860263824,
+  +                   0,
+  +                   0.15556348860263824,
+  +                   0.15556348860263824,
+  +                   0.15556348860263824,
+  +                   0.15556348860263824,
+  +                   0
+  +                 ],
+  +                 componentType: null,
+  +                 count: 6,
+  +                 itemSize: 2,
+  +                 normalized: false
+  +               }
+  +             },
+  +             index: BufferAttribute {
+  +               array: Uint16Array(24) [
+  +                 0,
+  +                 2,
+  +                 1,
+  +                 0,
+  +                 3,
+  +                 2,
+  +                 0,
+  +                 4,
+  +                 3,
+  +                 0,
+  +                 1,
+  +                 4,
+  +                 5,
+  +                 1,
+  +                 2,
+  +                 5,
+  +                 2,
+  +                 3,
+  +                 5,
+  +                 3,
+  +                 4,
+  +                 5,
+  +                 4,
+  +                 1
+  +               ],
+  +               componentType: null,
+  +               count: 24,
+  +               itemSize: 1,
+  +               normalized: false
+  +             },
+  +             mode: 4,
+  +             userData: {}
+  +           },
+  +           isBone: false,
+  +           isMesh: true,
+  +           isSkinnedMesh: false,
+  +           material: MeshStandardMaterial {
+  +             alphaCutoff: 0.5,
+  +             alphaMode: 'OPAQUE',
+  +             anisotropy: 3,
+  +             backfaceCull: undefined,
+  +             color: [
+  +               1,
+  +               0.8862745098039215,
+  +               0.35294117647058826,
+  +               1
+  +             ],
+  +             doubleSided: false,
+  +             emissiveStrength: 1.8,
+  +             mapImage: null,
+  +             mapRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixImage: null,
+  +             mixRepeat: [
+  +               1,
+  +               1
+  +             ],
+  +             mixStrength: 0,
+  +             mixTextureUrl: null,
+  +             name: 'staff-gem',
+  +             normalTextureUrl: null,
+  +             opacity: 1,
+  +             texturePolicy: {
+  +               fallbackApplied: true,
+  +               fullResolution: true,
+  +               nativeTexelDensity: true,
+  +               originalPixelsOnly: true,
+  +               publicFirebase: false,
+  +               realMapImage: false,
+  +               resampleSource: false,
+  +               sameOrigin: true,
+  +               texelsPerWorld: 96,
+  +               uvUnitsPerWorld: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             transparent: false
+  +           },
+  +           matrix: null,
+  +           matrixWorld: Float32Array(16) [
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1,
+  +             0,
+  +             0,
+  +             0,
+  +             0,
+  +             1
+  +           ],
+  +           name: 'staff-gem',
+  +           nodeIndex: null,
+  +           parent: [Circular *1],
+  +           position: Vector3 {
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           primitiveMode: 4,
+  +           quaternion: Quaternion {
+  +             w: 1,
+  +             x: 0,
+  +             y: 0,
+  +             z: 0
+  +           },
+  +           scale: Vector3 {
+  +             x: 1,
+  +             y: 1,
+  +             z: 1
+  +           },
+  +           skeleton: null,
+  +           skinIndex: null,
+  +           userData: {
+  +             AwtsmoosLayeredMaterial: {
+  +               layerCount: 0,
+  +               shader: 'standard',
+  +               zoneAttribute: false
+  +             },
+  +             AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  +             AwtsmoosTextureDensity: {
+  +               bakedWorldUv: true,
+  +               measuredUnits: [
+  +                 0.723177389849878,
+  +                 1.6392020836597232
+  +               ],
+  +               native: true,
+  +               originalPixelsOnly: true,
+  +               textureBasis: [
+  +                 1,
+  +                 1
+  +               ]
+  +             },
+  +             AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  +             bootstrapVisual: true,
+  +             procedural: false,
+  +             weaponPart: 'staff-gem'
+  +           }
+  +         }
+  +       ],
+  +       isBone: false,
+  +       isGroup: true,
+  +       matrix: null,
+  +       matrixWorld: Float32Array(16) [
+  +         1,
+  +         0,
+  +         0,
+  +         0,
+  +         0,
+  +         1,
+  +         0,
+  +         0,
+  +         0,
+  +         0,
+  +         1,
+  +         0,
+  +         0,
+  +         0,
+  +         0,
+  +         1
+  +       ],
+  +       name: 'Awtsmoos_procedural_wooden-staff',
+  +       parent: [Circular *2],
+  +       position: Vector3 {
+  +         x: 0,
+  +         y: -0.38,
+  +         z: 0
+  +       },
+  +       quaternion: Quaternion {
+  +         w: 0.9998000066665778,
+  +         x: 0,
+  +         y: 0,
+  +         z: 0.01999866669333308
+  +       },
+  +       scale: Vector3 {
+  +         x: 0.82,
+  +         y: 0.82,
+  +         z: 0.82
+  +       },
+  +       userData: {
+  +         attachment: 'visible-model-anchor-drawn',
+  +         attachmentParent: 'Awtsmoos_visible_equipped_weapon_anchor',
+  +         itemId: 'wooden-staff',
+  +         proceduralWeapon: true,
+  +         weaponKind: 'staff'
+  +       }
+  +     }
+  +   ],
+  -   children: [],
+      isBone: false,
+      isGroup: true,
+      matrix: null,
+      matrixWorld: Float32Array(16) [
+        1,
+  ...
+      ],
+  +   name: 'Awtsmoos_visible_equipped_weapon_anchor',
+  +   parent: <ref *3> Group {
+  -   name: 'mixamorig:RightHand',
+  -   parent: <ref *1> Group {
+        _sceneGraphRevision: 9,
+        _visible: true,
+        children: [
+          Group {
+            _localTransformSnapshot: null,
+  ...
+            name: 'jacket',
+  +         parent: [Circular *3],
+  -         parent: [Circular *1],
+            position: Vector3 {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+  ...
+            name: 'jacket-tefillin',
+  +         parent: [Circular *3],
+  -         parent: [Circular *1],
+            position: Vector3 {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+  ...
+          },
+  -       [Circular *2],
+          Group {
+            _localTransformSnapshot: null,
+            _sceneGraphRevision: 0,
+            _visible: true,
+            _worldLocalRevision: -1,
+  ...
+            ],
+  +         name: 'mixamorig:RightHand',
+  +         parent: [Circular *3],
+  -         name: 'mixamorig:Spine2',
+  -         parent: [Circular *1],
+            position: Vector3 {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+  ...
+            ],
+  +         name: 'mixamorig:Spine2',
+  +         parent: [Circular *3],
+  -         name: 'outer-shirt',
+  -         parent: [Circular *1],
+            position: Vector3 {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+  ...
+            ],
+  +         name: 'outer-shirt',
+  +         parent: [Circular *3],
+  -         name: 'top-hat',
+  -         parent: [Circular *1],
+            position: Vector3 {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+  ...
+          },
+  +       Group {
+  -       <ref *4> Group {
+            _localTransformSnapshot: null,
+            _sceneGraphRevision: 0,
+            _visible: true,
+            _worldLocalRevision: -1,
+            _worldParentMatrix: null,
+            _worldParentRevision: -1,
+  +         children: [],
+  -         children: [
+  -           <ref *3> Group {
+  -             _localTransformSnapshot: null,
+  -             _sceneGraphRevision: 3,
+  -             _visible: true,
+  -             _worldLocalRevision: -1,
+  -             _worldParentMatrix: null,
+  -             _worldParentRevision: -1,
+  -             children: [
+  -               Mesh {
+  -                 _base: {
+  -                   matrix: null,
+  -                   position: Vector3 {
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   quaternion: Quaternion {
+  -                     w: 1,
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   scale: Vector3 {
+  -                     x: 1,
+  -                     y: 1,
+  -                     z: 1
+  -                   }
+  -                 },
+  -                 _localTransformSnapshot: null,
+  -                 _sceneGraphRevision: 0,
+  -                 _visible: true,
+  -                 _worldLocalRevision: -1,
+  -                 _worldParentMatrix: null,
+  -                 _worldParentRevision: -1,
+  -                 children: [],
+  -                 frustumCulled: false,
+  -                 geometry: BufferGeometry {
+  -                   attributes: {
+  -                     normal: BufferAttribute {
+  -                       array: Float32Array(72) [
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     position: BufferAttribute {
+  -                       array: Float32Array(72) [
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         1.024999976158142,
+  -                         -0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         -0.07500000298023224,
+  -                         0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224,
+  -                         -0.07500000298023224,
+  -                         -1.125,
+  -                         0.07500000298023224
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     uv: BufferAttribute {
+  -                       array: Float32Array(48) [
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         2.1500000953674316,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 2,
+  -                       normalized: false
+  -                     }
+  -                   },
+  -                   index: BufferAttribute {
+  -                     array: Uint16Array(36) [
+  -                       0,
+  -                       1,
+  -                       2,
+  -                       0,
+  -                       2,
+  -                       3,
+  -                       4,
+  -                       5,
+  -                       6,
+  -                       4,
+  -                       6,
+  -                       7,
+  -                       8,
+  -                       9,
+  -                       10,
+  -                       8,
+  -                       10,
+  -                       11,
+  -                       12,
+  -                       13,
+  -                       14,
+  -                       12,
+  -                       14,
+  -                       15,
+  -                       16,
+  -                       17,
+  -                       18,
+  -                       16,
+  -                       18,
+  -                       19,
+  -                       20,
+  -                       21,
+  -                       22,
+  -                       20,
+  -                       22,
+  -                       23
+  -                     ],
+  -                     componentType: null,
+  -                     count: 36,
+  -                     itemSize: 1,
+  -                     normalized: false
+  -                   },
+  -                   mode: 4,
+  -                   userData: {}
+  -                 },
+  -                 isBone: false,
+  -                 isMesh: true,
+  -                 isSkinnedMesh: false,
+  -                 material: MeshStandardMaterial {
+  -                   alphaCutoff: 0.5,
+  -                   alphaMode: 'OPAQUE',
+  -                   anisotropy: 3,
+  -                   backfaceCull: undefined,
+  -                   color: [
+  -                     0.5450980392156862,
+  -                     0.35294117647058826,
+  -                     0.16862745098039217,
+  -                     1
+  -                   ],
+  -                   doubleSided: false,
+  -                   emissiveStrength: 1.8,
+  -                   mapImage: null,
+  -                   mapRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixImage: null,
+  -                   mixRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixStrength: 0,
+  -                   mixTextureUrl: null,
+  -                   name: 'staff-shaft',
+  -                   normalTextureUrl: null,
+  -                   opacity: 1,
+  -                   texturePolicy: {
+  -                     fallbackApplied: true,
+  -                     fullResolution: true,
+  -                     nativeTexelDensity: true,
+  -                     originalPixelsOnly: true,
+  -                     publicFirebase: false,
+  -                     realMapImage: false,
+  -                     resampleSource: false,
+  -                     sameOrigin: true,
+  -                     texelsPerWorld: 96,
+  -                     uvUnitsPerWorld: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   transparent: false
+  -                 },
+  -                 matrix: null,
+  -                 matrixWorld: Float32Array(16) [
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1
+  -                 ],
+  -                 name: 'staff-shaft',
+  -                 nodeIndex: null,
+  -                 parent: [Circular *3],
+  -                 position: Vector3 {
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 primitiveMode: 4,
+  -                 quaternion: Quaternion {
+  -                   w: 1,
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 scale: Vector3 {
+  -                   x: 1,
+  -                   y: 1,
+  -                   z: 1
+  -                 },
+  -                 skeleton: null,
+  -                 skinIndex: null,
+  -                 userData: {
+  -                   AwtsmoosLayeredMaterial: {
+  -                     layerCount: 0,
+  -                     shader: 'standard',
+  -                     zoneAttribute: false
+  -                   },
+  -                   AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  -                   AwtsmoosTextureDensity: {
+  -                     bakedWorldUv: true,
+  -                     measuredUnits: [
+  -                       1,
+  -                       1
+  -                     ],
+  -                     native: true,
+  -                     originalPixelsOnly: true,
+  -                     textureBasis: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   bootstrapVisual: true,
+  -                   procedural: false,
+  -                   weaponPart: 'staff-shaft'
+  -                 }
+  -               },
+  -               Mesh {
+  -                 _base: {
+  -                   matrix: null,
+  -                   position: Vector3 {
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   quaternion: Quaternion {
+  -                     w: 1,
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   scale: Vector3 {
+  -                     x: 1,
+  -                     y: 1,
+  -                     z: 1
+  -                   }
+  -                 },
+  -                 _localTransformSnapshot: null,
+  -                 _sceneGraphRevision: 0,
+  -                 _visible: true,
+  -                 _worldLocalRevision: -1,
+  -                 _worldParentMatrix: null,
+  -                 _worldParentRevision: -1,
+  -                 children: [],
+  -                 frustumCulled: false,
+  -                 geometry: BufferGeometry {
+  -                   attributes: {
+  -                     normal: BufferAttribute {
+  -                       array: Float32Array(72) [
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0,
+  -                         0,
+  -                         -1,
+  -                         0
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     position: BufferAttribute {
+  -                       array: Float32Array(72) [
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         1.0950000286102295,
+  -                         -0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         -0.07500000298023224,
+  -                         0.4699999988079071,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224,
+  -                         -0.07000000029802322,
+  -                         0.9449999928474426,
+  -                         0.07500000298023224
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     uv: BufferAttribute {
+  -                       array: Float32Array(48) [
+  -                         0,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0,
+  -                         0.5400000214576721,
+  -                         0.15000000596046448,
+  -                         0,
+  -                         0.15000000596046448
+  -                       ],
+  -                       componentType: null,
+  -                       count: 24,
+  -                       itemSize: 2,
+  -                       normalized: false
+  -                     }
+  -                   },
+  -                   index: BufferAttribute {
+  -                     array: Uint16Array(36) [
+  -                       0,
+  -                       1,
+  -                       2,
+  -                       0,
+  -                       2,
+  -                       3,
+  -                       4,
+  -                       5,
+  -                       6,
+  -                       4,
+  -                       6,
+  -                       7,
+  -                       8,
+  -                       9,
+  -                       10,
+  -                       8,
+  -                       10,
+  -                       11,
+  -                       12,
+  -                       13,
+  -                       14,
+  -                       12,
+  -                       14,
+  -                       15,
+  -                       16,
+  -                       17,
+  -                       18,
+  -                       16,
+  -                       18,
+  -                       19,
+  -                       20,
+  -                       21,
+  -                       22,
+  -                       20,
+  -                       22,
+  -                       23
+  -                     ],
+  -                     componentType: null,
+  -                     count: 36,
+  -                     itemSize: 1,
+  -                     normalized: false
+  -                   },
+  -                   mode: 4,
+  -                   userData: {}
+  -                 },
+  -                 isBone: false,
+  -                 isMesh: true,
+  -                 isSkinnedMesh: false,
+  -                 material: MeshStandardMaterial {
+  -                   alphaCutoff: 0.5,
+  -                   alphaMode: 'OPAQUE',
+  -                   anisotropy: 3,
+  -                   backfaceCull: undefined,
+  -                   color: [
+  -                     0.6039215686274509,
+  -                     0.38823529411764707,
+  -                     0.18823529411764706,
+  -                     1
+  -                   ],
+  -                   doubleSided: false,
+  -                   emissiveStrength: 1.8,
+  -                   mapImage: null,
+  -                   mapRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixImage: null,
+  -                   mixRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixStrength: 0,
+  -                   mixTextureUrl: null,
+  -                   name: 'staff-crook',
+  -                   normalTextureUrl: null,
+  -                   opacity: 1,
+  -                   texturePolicy: {
+  -                     fallbackApplied: true,
+  -                     fullResolution: true,
+  -                     nativeTexelDensity: true,
+  -                     originalPixelsOnly: true,
+  -                     publicFirebase: false,
+  -                     realMapImage: false,
+  -                     resampleSource: false,
+  -                     sameOrigin: true,
+  -                     texelsPerWorld: 96,
+  -                     uvUnitsPerWorld: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   transparent: false
+  -                 },
+  -                 matrix: null,
+  -                 matrixWorld: Float32Array(16) [
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1
+  -                 ],
+  -                 name: 'staff-crook',
+  -                 nodeIndex: null,
+  -                 parent: [Circular *3],
+  -                 position: Vector3 {
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 primitiveMode: 4,
+  -                 quaternion: Quaternion {
+  -                   w: 1,
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 scale: Vector3 {
+  -                   x: 1,
+  -                   y: 1,
+  -                   z: 1
+  -                 },
+  -                 skeleton: null,
+  -                 skinIndex: null,
+  -                 userData: {
+  -                   AwtsmoosLayeredMaterial: {
+  -                     layerCount: 0,
+  -                     shader: 'standard',
+  -                     zoneAttribute: false
+  -                   },
+  -                   AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  -                   AwtsmoosTextureDensity: {
+  -                     bakedWorldUv: true,
+  -                     measuredUnits: [
+  -                       1,
+  -                       1.0000000000000007
+  -                     ],
+  -                     native: true,
+  -                     originalPixelsOnly: true,
+  -                     textureBasis: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   bootstrapVisual: true,
+  -                   procedural: false,
+  -                   weaponPart: 'staff-crook'
+  -                 }
+  -               },
+  -               Mesh {
+  -                 _base: {
+  -                   matrix: null,
+  -                   position: Vector3 {
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   quaternion: Quaternion {
+  -                     w: 1,
+  -                     x: 0,
+  -                     y: 0,
+  -                     z: 0
+  -                   },
+  -                   scale: Vector3 {
+  -                     x: 1,
+  -                     y: 1,
+  -                     z: 1
+  -                   }
+  -                 },
+  -                 _localTransformSnapshot: null,
+  -                 _sceneGraphRevision: 0,
+  -                 _visible: true,
+  -                 _worldLocalRevision: -1,
+  -                 _worldParentMatrix: null,
+  -                 _worldParentRevision: -1,
+  -                 children: [],
+  -                 frustumCulled: false,
+  -                 geometry: BufferGeometry {
+  -                   attributes: {
+  -                     normal: BufferAttribute {
+  -                       array: Float32Array(18) [
+  -                         -9.614813259348922e-17,
+  -                         1,
+  -                         -4.807406629674461e-17,
+  -                         1,
+  -                         -1.9229626518697845e-16,
+  -                         0,
+  -                         -1.4422219558151138e-16,
+  -                         -2.403703480273353e-16,
+  -                         1,
+  -                         -1,
+  -                         -2.8844439116302277e-16,
+  -                         0,
+  -                         -1.4422219558151138e-16,
+  -                         -2.403703480273353e-16,
+  -                         -1,
+  -                         -1.9229626518697845e-16,
+  -                         -1,
+  -                         0
+  -                       ],
+  -                       componentType: null,
+  -                       count: 6,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     position: BufferAttribute {
+  -                       array: Float32Array(18) [
+  -                         0.44999998807907104,
+  -                         1.1299999952316284,
+  -                         0,
+  -                         0.5600000023841858,
+  -                         1.0199999809265137,
+  -                         0,
+  -                         0.44999998807907104,
+  -                         1.0199999809265137,
+  -                         0.10999999940395355,
+  -                         0.3400000035762787,
+  -                         1.0199999809265137,
+  -                         0,
+  -                         0.44999998807907104,
+  -                         1.0199999809265137,
+  -                         -0.10999999940395355,
+  -                         0.44999998807907104,
+  -                         0.9100000262260437,
+  -                         0
+  -                       ],
+  -                       componentType: null,
+  -                       count: 6,
+  -                       itemSize: 3,
+  -                       normalized: false
+  -                     },
+  -                     uv: BufferAttribute {
+  -                       array: Float32Array(12) [
+  -                         0.15556348860263824,
+  -                         0,
+  -                         0,
+  -                         0.15556348860263824,
+  -                         0.15556348860263824,
+  -                         0.15556348860263824,
+  -                         0,
+  -                         0.15556348860263824,
+  -                         0.15556348860263824,
+  -                         0.15556348860263824,
+  -                         0.15556348860263824,
+  -                         0
+  -                       ],
+  -                       componentType: null,
+  -                       count: 6,
+  -                       itemSize: 2,
+  -                       normalized: false
+  -                     }
+  -                   },
+  -                   index: BufferAttribute {
+  -                     array: Uint16Array(24) [
+  -                       0,
+  -                       2,
+  -                       1,
+  -                       0,
+  -                       3,
+  -                       2,
+  -                       0,
+  -                       4,
+  -                       3,
+  -                       0,
+  -                       1,
+  -                       4,
+  -                       5,
+  -                       1,
+  -                       2,
+  -                       5,
+  -                       2,
+  -                       3,
+  -                       5,
+  -                       3,
+  -                       4,
+  -                       5,
+  -                       4,
+  -                       1
+  -                     ],
+  -                     componentType: null,
+  -                     count: 24,
+  -                     itemSize: 1,
+  -                     normalized: false
+  -                   },
+  -                   mode: 4,
+  -                   userData: {}
+  -                 },
+  -                 isBone: false,
+  -                 isMesh: true,
+  -                 isSkinnedMesh: false,
+  -                 material: MeshStandardMaterial {
+  -                   alphaCutoff: 0.5,
+  -                   alphaMode: 'OPAQUE',
+  -                   anisotropy: 3,
+  -                   backfaceCull: undefined,
+  -                   color: [
+  -                     1,
+  -                     0.8862745098039215,
+  -                     0.35294117647058826,
+  -                     1
+  -                   ],
+  -                   doubleSided: false,
+  -                   emissiveStrength: 1.8,
+  -                   mapImage: null,
+  -                   mapRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixImage: null,
+  -                   mixRepeat: [
+  -                     1,
+  -                     1
+  -                   ],
+  -                   mixStrength: 0,
+  -                   mixTextureUrl: null,
+  -                   name: 'staff-gem',
+  -                   normalTextureUrl: null,
+  -                   opacity: 1,
+  -                   texturePolicy: {
+  -                     fallbackApplied: true,
+  -                     fullResolution: true,
+  -                     nativeTexelDensity: true,
+  -                     originalPixelsOnly: true,
+  -                     publicFirebase: false,
+  -                     realMapImage: false,
+  -                     resampleSource: false,
+  -                     sameOrigin: true,
+  -                     texelsPerWorld: 96,
+  -                     uvUnitsPerWorld: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   textureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   transparent: false
+  -                 },
+  -                 matrix: null,
+  -                 matrixWorld: Float32Array(16) [
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   0,
+  -                   1
+  -                 ],
+  -                 name: 'staff-gem',
+  -                 nodeIndex: null,
+  -                 parent: [Circular *3],
+  -                 position: Vector3 {
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 primitiveMode: 4,
+  -                 quaternion: Quaternion {
+  -                   w: 1,
+  -                   x: 0,
+  -                   y: 0,
+  -                   z: 0
+  -                 },
+  -                 scale: Vector3 {
+  -                   x: 1,
+  -                   y: 1,
+  -                   z: 1
+  -                 },
+  -                 skeleton: null,
+  -                 skinIndex: null,
+  -                 userData: {
+  -                   AwtsmoosLayeredMaterial: {
+  -                     layerCount: 0,
+  -                     shader: 'standard',
+  -                     zoneAttribute: false
+  -                   },
+  -                   AwtsmoosMaterialEnforcement: 'url-only-not-yet-loaded',
+  -                   AwtsmoosTextureDensity: {
+  -                     bakedWorldUv: true,
+  -                     measuredUnits: [
+  -                       0.723177389849878,
+  -                       1.6392020836597232
+  -                     ],
+  -                     native: true,
+  -                     originalPixelsOnly: true,
+  -                     textureBasis: [
+  -                       1,
+  -                       1
+  -                     ]
+  -                   },
+  -                   AwtsmoosTextureUrl: './assets/materials/local/world/full-resolution/wooden%20oak%20planks%201.png',
+  -                   bootstrapVisual: true,
+  -                   procedural: false,
+  -                   weaponPart: 'staff-gem'
+  -                 }
+  -               }
+  -             ],
+  -             isBone: false,
+  -             isGroup: true,
+  -             matrix: null,
+  -             matrixWorld: Float32Array(16) [
+  -               1,
+  -               0,
+  -               0,
+  -               0,
+  -               0,
+  -               1,
+  -               0,
+  -               0,
+  -               0,
+  -               0,
+  -               1,
+  -               0,
+  -               0,
+  -               0,
+  -               0,
+  -               1
+  -             ],
+  -             name: 'Awtsmoos_procedural_wooden-staff',
+  -             parent: [Circular *4],
+  -             position: Vector3 {
+  -               x: 0,
+  -               y: -0.38,
+  -               z: 0
+  -             },
+  -             quaternion: Quaternion {
+  -               w: 0.9998000066665778,
+  -               x: 0,
+  -               y: 0,
+  -               z: 0.01999866669333308
+  -             },
+  -             scale: Vector3 {
+  -               x: 0.82,
+  -               y: 0.82,
+  -               z: 0.82
+  -             },
+  -             userData: {
+  -               attachment: 'visible-model-anchor-drawn',
+  -               attachmentParent: 'Awtsmoos_visible_equipped_weapon_anchor',
+  -               itemId: 'wooden-staff',
+  -               proceduralWeapon: true,
+  -               weaponKind: 'staff'
+  -             }
+  -           }
+  -         ],
+            isBone: false,
+            isGroup: true,
+            matrix: null,
+            matrixWorld: Float32Array(16) [
+              1,
+  ...
+            ],
+  +         name: 'top-hat',
+  +         parent: [Circular *3],
+  -         name: 'Awtsmoos_visible_equipped_weapon_anchor',
+  -         parent: [Circular *1],
+            position: Vector3 {
+  +           x: 0,
+  +           y: 0,
+  +           z: 0
+  -           x: 0.68,
+  -           y: 1.08,
+  -           z: 0.22
+            },
+            quaternion: Quaternion {
+  +           w: 1,
+  -           w: 0.9992001066609779,
+              x: 0,
+              y: 0,
+  +           z: 0
+  -           z: 0.03998933418663416
+            },
+            scale: Vector3 {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+  +         userData: {}
+  -         userData: {
+  -           AwtsmoosWeaponAnchor: {
+  -             drawn: true,
+  -             modelRoot: 'fallback',
+  -             visibleFallback: true
+  -           }
+  -         }
+          },
+  +       [Circular *2]
+        ],
+        isBone: false,
+        isGroup: true,
+        matrix: null,
+        matrixWorld: Float32Array(16) [
+  ...
+      position: Vector3 {
+  +     x: 0.68,
+  +     y: 1.08,
+  +     z: 0.22
+  -     x: 0,
+  -     y: 0,
+  -     z: 0
+      },
+      quaternion: Quaternion {
+  +     w: 0.9992001066609779,
+  -     w: 1,
+        x: 0,
+        y: 0,
+  +     z: 0.03998933418663416
+  -     z: 0
+      },
+      scale: Vector3 {
+        x: 1,
+        y: 1,
+        z: 1
+      },
+  +   userData: {
+  +     AwtsmoosWeaponAnchor: {
+  +       drawn: true,
+  +       modelRoot: 'fallback',
+  +       visibleFallback: true
+  +     }
+  +   }
+  -   userData: {}
+    }
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:86:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: {
+      children: [ [Object] ],
+      parent: { children: [Array], parent: null, position: [Object], quaternion: [Object], scale: [Object], matrix: null, matrixWorld: [Float32Array], name: 'fallback', _visible: true, _sceneGraphRevision: 9, userData: {}, isBone: false, isGroup: true },
+      position: { x: 0.68, y: 1.08, z: 0.22 },
+      quaternion: { x: 0, y: 0, z: 0.03998933418663416, w: 0.9992001066609779 },
+      scale: { x: 1, y: 1, z: 1 },
+      matrix: null,
+      matrixWorld: Float32Array(16) [
+        1, 0, 0, 0, 0, 1,
+        0, 0, 0, 0, 1, 0,
+        0, 0, 0, 1
+      ],
+      name: 'Awtsmoos_visible_equipped_weapon_anchor',
+      _visible: true,
+      _sceneGraphRevision: 0,
+      userData: { AwtsmoosWeaponAnchor: [Object] },
+      isBone: false,
+      isGroup: true,
+      _localTransformSnapshot: null,
+      _worldParentMatrix: null,
+      _worldParentRevision: -1,
+      _worldLocalRevision: -1
+    },
+    expected: {
+      children: [],
+      parent: { children: [Array], parent: null, position: [Object], quaternion: [Object], scale: [Object], matrix: null, matrixWorld: [Float32Array], name: 'fallback', _visible: true, _sceneGraphRevision: 9, userData: {}, isBone: false, isGroup: true },
+      position: { x: 0, y: 0, z: 0 },
+      quaternion: { x: 0, y: 0, z: 0, w: 1 },
+      scale: { x: 1, y: 1, z: 1 },
+      matrix: null,
+      matrixWorld: Float32Array(16) [
+        1, 0, 0, 0, 0, 1,
+        0, 0, 0, 0, 1, 0,
+        0, 0, 0, 1
+      ],
+      name: 'mixamorig:RightHand',
+      _visible: true,
+      _sceneGraphRevision: 0,
+      userData: {},
+      isBone: false,
+      isGroup: true,
+      _localTransformSnapshot: null,
+      _worldParentMatrix: null,
+      _worldParentRevision: -1,
+      _worldLocalRevision: -1
+    },
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/geometry/mountainTerrainStackSources.test.mjs:21:1
+✖ terrain recipe has sixteen named local production layers (4.99812ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 16
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/mountainTerrainStackSources.test.mjs:23:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 16,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/geometry/terrainMaterialVisibility.test.mjs:31:1
+✖ unhydrated construction remains white and points at packaged local ground (5.484755ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/terrainMaterialVisibility.test.mjs:38:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/geometry/treeSemanticMaterials.test.mjs:19:1
+✖ every required core bark and living leaf type has a high-resolution public URL (9.754641ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^https:\/\/awtsmoos-docs-base\.web\.app\//. Input:
+  
+  './assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/treeSemanticMaterials.test.mjs:22:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: './assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg',
+    expected: /^https:\/\/awtsmoos-docs-base\.web\.app\//,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs:30:2
+✖ beis-ohr owns finite bounds, winding, and role-specific side policy (331.159971ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'double-mobile-stable'
+  - 'double-camera-safe-wall'
+            ^
+  
+      at assertMinimalMeadowHouseSurface (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs:24:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs:51:4)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'double-mobile-stable',
+    expected: 'double-camera-safe-wall',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs:30:2
+✖ brick-cottage owns finite bounds, winding, and role-specific side policy (41.820194ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'double-mobile-stable'
+  - 'double-camera-safe-wall'
+            ^
+  
+      at assertMinimalMeadowHouseSurface (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs:24:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseGeometryContract.test.mjs:51:4)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'double-mobile-stable',
+    expected: 'double-camera-safe-wall',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:33:2
+✖ beis-ohr remains eligible through a multi-elevation orbit (280.852791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  83 !== 84
+  
+      at assertMinimalMeadowHouseDrawn (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseOrbitFixture.mjs:26:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:54:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 83,
+    expected: 84,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:59:2
+✖ beis-ohr has stable draw state while entering and leaving (165.041291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:78:12
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:77:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:86:2
+✖ beis-ohr repairs a late blanket side mutation by role (80.989052ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'double-mobile-stable'
+  - 'double-camera-safe-wall'
+            ^
+  
+      at assertMinimalMeadowHouseSurface (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs:24:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:98:4)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'double-mobile-stable',
+    expected: 'double-camera-safe-wall',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:86:2
+✖ brick-cottage repairs a late blanket side mutation by role (31.842245ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'double-mobile-stable'
+  - 'double-camera-safe-wall'
+            ^
+  
+      at assertMinimalMeadowHouseSurface (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs:24:9)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHouseOrbitVisibility.test.mjs:98:4)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'double-mobile-stable',
+    expected: 'double-camera-safe-wall',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:20:1
+✖ house population preserves interaction and collision lifecycle (628.852389ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'double-mobile-stable'
+  - 'double-camera-safe-wall'
+            ^
+  
+      at assertMinimalMeadowHouseSurface (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/MinimalMeadowHouseSurfaceAssertions.mjs:24:9)
+      at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:104:3
+      at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:113:22
+      at Mesh.traverse (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js:69:3)
+      at Group.traverse (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js:70:44)
+      at Group.traverse (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js:70:44)
+      at forEachMesh (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:112:7)
+      at assertHouseContract (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:102:2)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowHousePopulationCompatibility.test.mjs:29:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'double-mobile-stable',
+    expected: 'double-camera-safe-wall',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:57:1
+✖ mobile and desktop profiles keep six crisp readable layers (47.158551ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(density.profile.grass >= 64)
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs:69:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs:26:1
+✖ B"H mobile terrain keeps enough source pixels for crisp ground detail (79.695195ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(mobile.detail >= 56)
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs:29:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:41:1
+✖ B"H facade owns explicit local bindings instead of a bare re-export (0.745295ms)
+  Error: ENOENT: no such file or directory, open '/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
+      at Object.readFileSync (node:fs:441:20)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:42:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js'
+  }
+
+test at experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:49:1
+✖ B"H facade graph excludes the procedural root index (21.137595ms)
+  AssertionError [ERR_ASSERTION]: missing import /Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js
+      at walk (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:63:10)
+      at traceGraph (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:74:2)
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowTreeCoreFacade.test.mjs:50:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+app_exit=1
+(node:22998) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shader.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ default fragment shader contains six terrain samplers and seven mixes (2.609544ms)
+✔ a smaller shader contains only its measured layer capacity (0.587509ms)
+✔ ecological zone weights travel from vertex input to fragment shader (0.456362ms)
+✔ only explicit layered terrain enters material mode five (0.966693ms)
+(node:22999) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ material signatures distinguish every renderer-visible sidedness contract (65.855327ms)
+✔ pre-hydration signatures preserve distinct native-density policies (1.744298ms)
+✔ hydrated source dimensions become part of the effective repeat signature (1.778334ms)
+(node:23000) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local and world spheres are cached and transformed (44.748036ms)
+✔ camera collection preserves front meshes and rejects side and distant meshes (16.302209ms)
+✔ explicit mountains remain visible and missing bounds fail open (8.666846ms)
+✔ one reusable camera context preserves exact culling decisions (1.457475ms)
+✔ invisible subtrees do not receive frame matrices or draw entries (0.896439ms)
+(node:23033) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H frustumCulled false bypasses custom distance and frustum rejection (126.094607ms)
+(node:23036) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-render-material-state.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H render material snapshot includes backface culling identity (37.583843ms)
+(node:23040) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ eight fragment units preserve five layers after reserved maps (3.879029ms)
+✔ sixteen fragment units reach the bounded six-layer target (0.37923ms)
+✔ combined texture limits reduce capacity independently (0.29787ms)
+(node:23062) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-water-material-mode.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ explicit water variants map to stable GPU codes (2.154616ms)
+✔ semantic fallback distinguishes impact, sheet, and ordinary material (14.266045ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2513.913648
+renderer_exit=0

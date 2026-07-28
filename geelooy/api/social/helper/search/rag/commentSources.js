@@ -1,13 +1,13 @@
-// B\"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module RagCommentSources
  * @description
- * Interactive RAG reads one exact derived alias shard, then one exact object from
- * the running database family, then the current rich tree. No search request
- * opens or caches a second global or historical comments database.
+ * Interactive RAG first opens one reviewed document sidecar, then one exact
+ * alias shard, bridge, or rich tree. The Awtsmoos reveals the narrowest vessel,
+ * and Awtsmoos.com never scans a global historical comments database.
  */
 
 const {
@@ -20,22 +20,41 @@ const {
 } = require('./richCommentRows.js');
 const { bridgeCommentRows } = require('./bridgeCommentRows.js');
 const { shardCommentRows } = require('./shardCommentRows.js');
+const {
+	sichosKodeshCommentRows
+} = require('./sichosKodeshCommentRows.js');
 
 async function findCommentsForPostAlias(context = {}) {
-	if (!hasAliasCoordinates(context)) return [];
+	if (!hasAliasCoordinates(context)) {
+		return [];
+	}
+	const sidecarRows = sichosKodeshCommentRows(context);
+	if (sidecarRows.length) {
+		return sidecarRows;
+	}
 	const shardRows = shardCommentRows(context);
-	if (shardRows.length) return shardRows;
-	const bridgeRows = await brideCommentRows(context);
-	if (bridgeRows.length) return bridgeRows;
+	if (shardRows.length) {
+		return shardRows;
+	}
+	const bridgeRows = await bridgeCommentRows(context);
+	if (bridgeRows.length) {
+		return bridgeRows;
+	}
 	return richRowsForPost(context);
 }
 
 async function findAliasesForPost(context = {}) {
-	if (!hasPostCoordinates(context)) return [];
+	if (!hasPostCoordinates(context)) {
+		return [];
+	}
 	const authoritative = await authoritativeAliases(context);
-	if (authoritative.length) return authoritative;
+	if (authoritative.length) {
+		return authoritative;
+	}
 	const rows = await richRowsForPost({ ...context, aliasId: '' });
-	if (rows.length) return uniqueAliases(rows);
+	if (rows.length) {
+		return uniqueAliases(rows);
+	}
 	return uniqueAliases(await legacyRows({ ...context, aliasId: '' }));
 }
 
@@ -52,7 +71,9 @@ async function findCommentById(context = {}) {
 		};
 	}
 	const rich = await directRichComment(context, context.commentId);
-	if (rich) return { success: rich, source: 'commentTree' };
+	if (rich) {
+		return { success: rich, source: 'commentTree' };
+	}
 	return missingComment();
 }
 
@@ -65,7 +86,9 @@ function hasAliasCoordinates(context = {}) {
 }
 
 function present(value) {
-	return value !== undefined && value !== null && String(value).trim() !== '';
+	return value !== undefined
+		&& value !== null
+		&& String(value).trim() !== '';
 }
 
 function uniqueAliases(rows) {
@@ -76,7 +99,7 @@ function missingComment() {
 	return {
 		error: {
 			code: 'COMMENT_NOT_FOUND',
-			message: 'Comment not found in the exact shard, family bridge, or current tree.'
+			message: 'Comment not found in the document sidecar, exact shard, family bridge, or current tree.'
 		}
 	};
 }

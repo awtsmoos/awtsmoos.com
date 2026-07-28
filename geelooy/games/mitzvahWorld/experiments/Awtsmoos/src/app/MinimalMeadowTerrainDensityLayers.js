@@ -4,66 +4,71 @@
 
 /**
  * @file MinimalMeadowTerrainDensityLayers.js
- * @description Shapes six independent terrain sources into measured ecological shader garments.
- * The Awtsmoos turns every source without severing it from the field; Awtsmoos.com lets broad
- * macro breath and readable micro grass meet through mirrored coordinates and continuous masks.
+ * @description Converts ecological sources into exact native-frequency shader layer records.
+ * The Awtsmoos clothes every source at its truthful scale; Awtsmoos.com carries real pixels,
+ * world frequency, slope, height, and ecological authorship without arbitrary reference ratios.
  */
 
-import { textureDensityPlan } from '../assets/TextureRepeat.js';
+import {
+	minimalMeadowNativeFrequency
+} from './MinimalMeadowTerrainNativeFrequency.js';
 
-const SHADER_UV_UNITS = Object.freeze([0.035, 0.035]);
-const MACRO_SCALE = 0.34;
-const MICRO_SCALE = 1.62;
+export {
+	minimalMeadowLayerDefinitions
+} from './MinimalMeadowTerrainEcology.js';
 
-export function minimalMeadowLayerDefinitions(sources) {
-	return [
-		definition('lush-grass', sources.lush, 0.22, 0.56, 0.18, [1, 0, 0.08, 0]),
-		definition('meadow-grass', sources.secondary, -0.71, 0.43, 0.04, [0.84, 0, 0.12, 0.04]),
-		definition('open-soil', sources.soil, 1.17, 0.34, -0.08, [0.3, 0, 0.58, 0.12]),
-		definition('road-shoulder', sources.pathEdge, -1.31, 0.82, -0.04, [0.16, 1, 0.08, 0]),
-		definition('moss-and-wet-grass', sources.marsh, 0.83, 0.48, 0.34, [0.24, 0, 0.76, 0]),
-		definition('dry-ground', sources.dry, 1.92, 0.4, -0.2, [0.72, 0, 0.16, 0.12])
-	];
-}
+const MACRO_SCALE = 0.28;
+const MICRO_SCALE = 1.68;
 
-export function minimalMeadowDensityPlan(image, size, mobile, texelsPerWorld) {
-	return textureDensityPlan({
+export function minimalMeadowDensityPlan(
+	image,
+	size,
+	mobile,
+	texelsPerWorld
+) {
+	return minimalMeadowNativeFrequency(
 		image,
-		maximumAnisotropy: mobile ? 4 : 12,
-		mobile,
+		size,
 		texelsPerWorld,
-		worldDepth: size,
-		worldWidth: size
-	});
+		mobile
+	);
 }
 
-export function minimalMeadowDensityLayer(definitionValue, context) {
+export function minimalMeadowDensityLayer(definition, context) {
 	const plan = minimalMeadowDensityPlan(
-		definitionValue.image,
+		definition.image,
 		context.size,
 		context.mobile,
 		context.texelsPerWorld
 	);
 	return {
-		...definitionValue,
+		...definition,
 		density: plan,
 		height: [-20, 40],
-		repeat: minimalMeadowRepeatRatio(context.reference, plan),
-		slope: definitionValue.role === 'open-soil' ? [0.08, 0.88] : [0, 0.76],
-		texturePolicy: minimalMeadowDensityPolicy(plan, context.texelsPerWorld, definitionValue.role)
+		repeat: [...plan.frequency],
+		slope: definition.role === 'open-soil'
+			? [0.05, 0.92]
+			: [0, 0.82],
+		texturePolicy: minimalMeadowDensityPolicy(
+			plan,
+			context.texelsPerWorld,
+			definition.role
+		)
 	};
 }
 
 export function minimalMeadowDensityPolicy(plan, texelsPerWorld, role) {
 	return {
 		densityPlan: plan,
+		exactFractionalRepeat: true,
 		fullResolution: true,
 		nativeTexelDensity: true,
-		projection: 'world-stochastic-mirror',
+		projection: 'world-native-frequency-mirror',
+		repeatAcrossWorld: [...plan.repeat],
 		role,
 		shaderWrap: 'mirror-pingpong-repeat',
 		texelsPerWorld,
-		uvUnitsPerWorld: SHADER_UV_UNITS
+		uvUnitsPerWorld: [...plan.frequency]
 	};
 }
 
@@ -76,13 +81,6 @@ export function minimalMeadowSourceWorldUnits(plan) {
 	});
 }
 
-export function minimalMeadowRepeatRatio(reference, candidate) {
-	return [
-		reference.tileWorld[0] / candidate.tileWorld[0],
-		reference.tileWorld[1] / candidate.tileWorld[1]
-	];
-}
-
-function definition(role, image, angle, strength, wetness, zones) {
-	return { angle, image, role, strength, wetness, zones };
+export function minimalMeadowRepeatRatio(_reference, candidate) {
+	return [...candidate.frequency];
 }

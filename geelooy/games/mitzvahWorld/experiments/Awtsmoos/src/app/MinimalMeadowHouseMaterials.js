@@ -4,12 +4,15 @@
 
 /**
  * @file MinimalMeadowHouseMaterials.js
- * @description Loads house pixels with an explicit closed-volume side contract.
- * The Awtsmoos clothes each measured face without confusing garment and geometry;
- * Awtsmoos.com keeps every role independently owned, front-sided, and backface-culled.
+ * @description Loads house pixels while leaving architectural sidedness to each measured mesh role.
+ * The Awtsmoos clothes wall, roof, threshold, and floor without confusing their geometry;
+ * Awtsmoos.com keeps shared materials neutral so the surface policy may protect only thin walls.
  */
 
-import { cachedTextureImage, loadPublicMaterialUrl } from '../assets/PublicMaterialCache.js';
+import {
+	cachedTextureImage,
+	loadPublicMaterialUrl
+} from '../assets/PublicMaterialCache.js';
 import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../assets/TextureCatalog.js';
 
 const SOURCES = Object.freeze({
@@ -31,9 +34,9 @@ const COLORS = Object.freeze({
 });
 
 export async function loadMinimalMeadowHouseMaterials() {
-	const records = await Promise.all(Object.values(SOURCES).map(url => (
-		loadPublicMaterialUrl(url, 24000)
-	)));
+	const records = await Promise.all(Object.values(SOURCES).map((url) => {
+		return loadPublicMaterialUrl(url, 24000);
+	}));
 	const materials = {};
 	for (const [role, url] of Object.entries(SOURCES)) {
 		materials[role] = houseMaterial(role, cachedTextureImage(url), url);
@@ -50,6 +53,7 @@ export function houseMaterial(role, image = null, url = null) {
 		houseMaterialRole: role,
 		mapImage: image,
 		mapRepeat: role === 'floor' ? [4, 4] : [3, 2],
+		sidePolicy: 'mesh-role-owned',
 		textureUrl: url
 	});
 }

@@ -38,18 +38,13 @@ export class CheerfulReferenceProfile {
 	static measurements() {
 		return {
 			body: {
-				headWidth: 0.255,
-				headHeight: 0.27,
-				shoulderWidth: 0.345,
-				hipWidth: 0.205,
-				armWidth: 0.052,
-				legWidth: 0.052,
-				waistY: 0.57,
-				hipY: 0.675
+				headWidth: 0.255, headHeight: 0.27, shoulderWidth: 0.345,
+				hipWidth: 0.205, armWidth: 0.052, legWidth: 0.052,
+				waistY: 0.57, hipY: 0.675
 			},
 			style: {
-				outerLineWidth: 0.0086,
-				innerLineWidth: 0.0039,
+				outerLineWidth: 0.0072,
+				innerLineWidth: 0.0032,
 				shadowWidth: 0.3
 			}
 		};
@@ -68,19 +63,28 @@ export class CheerfulReferenceProfile {
 		return {
 			body: { torsoLean: -2, headNod: -1 },
 			arms: {
-				left: { shoulderLift: 2, elbowX: 34, elbowY: 33, handX: 35, handY: 19, handPose: 'open' },
-				right: { shoulderLift: -2, elbowX: 20, elbowY: 37, handX: -24, handY: -9, handPose: 'hold' }
+				left: {
+					shoulderLift: 2, elbowX: 34, elbowY: 33,
+					handX: 35, handY: 19, handPose: 'open'
+				},
+				right: {
+					shoulderLift: -2, elbowX: 20, elbowY: 37,
+					handX: -24, handY: -9, handPose: 'hold'
+				}
 			}
 		};
 	}
 
 	static colors() {
 		return {
-			jacket: '#2c4a6b', jacketDark: '#233b56', jacketLight: '#526d87',
-			shirt: '#fbfaf7', innerShirt: '#fbfaf7', collar: '#fbfaf7',
-			pants: '#303034', skin: '#f6c99c', skinDark: '#d99064',
-			hair: '#714a28', hairDark: '#3c2514', beard: '#704725',
-			beardDark: '#402716', hat: '#202124'
+			line: '#2b2929', eye: '#242225', eyeLight: '#fffdf8',
+			mouth: '#6f2d32', tooth: '#fffaf0', blush: 'rgba(236,112,108,0.25)',
+			jacket: '#355677', jacketDark: '#2b4662', jacketLight: '#617b94',
+			shirt: '#fbfaf5', innerShirt: '#fbfaf5', collar: '#fbfaf5',
+			pants: '#343438', pantsDark: '#26262a', shoe: '#242326',
+			skin: '#f5c79b', skinDark: '#d88f65', skinLight: '#ffd8b4',
+			hair: '#76502d', hairDark: '#4a2f1b', beard: '#704a2a',
+			beardDark: '#4b301c', hat: '#28282c'
 		};
 	}
 }

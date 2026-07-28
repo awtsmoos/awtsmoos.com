@@ -2,18 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableFaceLandmarkLayout } from './face/StableFaceLandmarkLayout.js';
 import { StableBeardMouthGeometry } from './StableBeardMouthGeometry.js';
-import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 
 /**
- * Beard mass follows the authored skull while its opening follows the real mouth.
- * The Awtsmoos joins concealment and revelation, while Awtsmoos.com preserves
- * every cheek, taper, chin, view, and phoneme as editable production geometry.
+ * Cheek roots, jaw taper, and speech clearance share one normalized geometry.
+ * The Awtsmoos joins concealment with voice; Awtsmoos.com keeps every beard
+ * identity coherent through view, phoneme, persistence, preview, and export.
  */
 export class StableBeardGeometry {
 	static resolve(data = {}, metrics = {}, view = {}, mood = {}) {
 		const authored = data.beardGeometry || {};
-		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
+		const layout = StableFaceLandmarkLayout.resolve(data, metrics, view);
+		const shell = layout.shell;
 		const mouth = StableBeardMouthGeometry.resolve(
 			data,
 			metrics,
@@ -23,11 +24,13 @@ export class StableBeardGeometry {
 		);
 		const length = Number(data.beardLength || 0.72)
 			* Number(authored.lengthScale || 1);
-		const centerX = Number(authored.centerX || 0);
-		const topY = metrics.headY + Number(authored.topOffset ?? 6);
-		const bottomY = metrics.headY + 50 + 28 * length;
+		const centerX = layout.beard.centerX + Number(authored.centerX || 0);
+		const topY = layout.beard.rootY + Number(authored.topOffset || 0);
+		const extension = 0.04 + length * 0.16
+			- Number(authored.bottomLiftRatio || 0);
+		const bottomY = shell.bottomY + shell.radiusY * extension;
 		const width = shell.radiusX * Number(authored.cheekScale || 0.68);
-
+		const chinWidth = Number(authored.chinWidth || shell.radiusX * 0.5);
 		return {
 			...mouth,
 			massStyle: authored.massStyle || 'segmented',
@@ -43,11 +46,16 @@ export class StableBeardGeometry {
 			width,
 			leftWidth: width * Number(authored.leftCheekScale || 1),
 			rightWidth: width * Number(authored.rightCheekScale || 1),
-			chinWidth: Number(authored.chinWidth || 18),
-			bottomHalf: Number(authored.chinWidth || 18),
+			chinWidth,
+			bottomHalf: chinWidth,
 			taper: Number(authored.taper || 0.72),
 			bottomRoundness: Number(authored.bottomRoundness || 0.85),
 			topInset: Number(authored.topInset ?? 0.72),
+			rootInsetScale: Number(authored.rootInsetScale || 1),
+			sideWidthScale: Number(authored.sideWidthScale || 0.86),
+			innerWidthScale: Number(authored.innerWidthScale || 1.05),
+			innerShoulderOffset: Number(authored.innerShoulderOffset || -1),
+			innerBottomOffset: Number(authored.innerBottomOffset || 2.5),
 			bridgeY: Math.min(
 				mouth.openingTopY - Number(authored.bridgeGap ?? 0.8),
 				topY + Number(authored.bridgeDrop ?? 17)

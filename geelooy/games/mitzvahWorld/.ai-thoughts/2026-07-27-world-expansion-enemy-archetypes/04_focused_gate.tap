@@ -1,0 +1,51 @@
+lines:experiments/Awtsmoos/src/app/MinimalMeadowWorldBounds.js=43
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js=73
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfileFactory.js=71
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js=30
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainData.js=94
+lines:experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js=92
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyRolePolicy.js=42
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDecision.js=66
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyProjectile.js=70
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackExecution.js=120
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemySteering.js=78
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js=93
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyActor.js=123
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyState.js=62
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDiagnostics.js=37
+lines:experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulation.js=121
+lines:experiments/Awtsmoos/src/test/app/enemyWardenArchetype.test.mjs=51
+lines:experiments/Awtsmoos/src/test/app/enemySkirmisherArchetype.test.mjs=52
+lines:experiments/Awtsmoos/src/test/app/enemyCantorArchetype.test.mjs=52
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowWorldExpansion.test.mjs=64
+syntax_exit=0
+oversized_exit=1
+(node:20559) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Baal Otiyot is a safe tall cantor with readable ranged pressure (20.44927ms)
+(node:20560) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Ratz Layla is a safe lean skirmisher with wide light pressure (32.43892ms)
+(node:20562) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H Even Koved is a safe broad warden with deliberate melee pressure (7.176924ms)
+(node:20568) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H expanded meadow preserves three-unit cells and nine safe identities (2987.161453ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4028.829747
+test_exit=0

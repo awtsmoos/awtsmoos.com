@@ -1,0 +1,70 @@
+lines:src/test/app/minimalMeadowRegionRuntime.test.mjs=52
+lines:src/test/app/minimalMeadowAdaptiveQuality.test.mjs=84
+lines:src/test/app/minimalMeadowSafeRegionCombat.test.mjs=85
+lines:src/test/app/minimalMeadowQuestOptionalObjectives.test.mjs=102
+lines:src/test/ui/minimalMeadowThreatDiagnostics.test.mjs=90
+lines:src/test/ui/minimalMeadowLootRarity.test.mjs=70
+(node:49266) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAdaptiveQuality.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H sustained pressure degrades and sustained headroom restores quality (28.815854ms)
+✔ B"H engaged actors remain full-rate while far idle actors conserve elapsed time (3.056637ms)
+(node:49267) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H optional excellence grants one bonus receipt and renders everywhere (32.603754ms)
+✔ B"H player defeat removes only the honor and never blocks base completion (1.034618ms)
+(node:49270) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H village center is safe and distant grass falls back to open meadow (5.034325ms)
+✔ B"H runtime emits only real transitions and remembers discoveries (24.540647ms)
+(node:49271) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombat.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombat.js:17
+	minimalMeadowEnemyCombatRanges
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './MinimalMeadowEnemyCombatDecision.js' does not provide an export named 'minimalMeadowEnemyCombatRanges'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:327:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:431:5)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.17.0
+✖ src/test/app/minimalMeadowSafeRegionCombat.test.mjs (1195.91813ms)
+(node:49272) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H canonical catalog items derive stable rarity families (3.141295ms)
+✔ B"H corpse receipt uses canonical rarity and total stack value (0.563621ms)
+✔ B"H corpse markup preserves manual Take and Loot All with rarity evidence (1.148222ms)
+(node:49273) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowRuntimeDiagnosticsStyles.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H threat receipts distinguish windup, avoidance, safety, and blocked damage (11.53673ms)
+✔ B"H diagnostics snapshot reads live region, quality, actors, quest, renderer, water, and combat (9.376732ms)
+✔ B"H transient overlays ignore pointers and diagnostics remain hidden by default (0.775283ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1825.431471
+
+✖ failing tests:
+
+test at src/test/app/minimalMeadowSafeRegionCombat.test.mjs:1:1
+✖ src/test/app/minimalMeadowSafeRegionCombat.test.mjs (1195.91813ms)
+  'test failed'
+test_exit=1
+diff_exit=0

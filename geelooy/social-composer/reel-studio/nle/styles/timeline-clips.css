@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Touch-safe clips reveal selection, track family, move body, and trim handles.
+ */
+
+.nle-timeline-clip {
+	position: absolute;
+	inset-block: .35rem;
+	display: grid;
+	grid-template-columns: .55rem minmax(0, 1fr) .55rem;
+	align-items: center;
+	min-inline-size: 1rem;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: .45rem;
+	background: linear-gradient(135deg, #3b1c56, #78409c);
+	box-shadow: 0 .25rem .6rem rgba(0, 0, 0, .24);
+	color: #fff;
+	touch-action: none;
+	cursor: grab;
+	overflow: hidden;
+}
+
+.nle-track-nle-visual .nle-timeline-clip,
+.nle-track-scene .nle-timeline-clip {
+	background: linear-gradient(135deg, #194d64, #2b8aa0);
+}
+
+.nle-track-nle-audio .nle-timeline-clip,
+.nle-track-audio .nle-timeline-clip {
+	background: linear-gradient(135deg, #315c34, #5f9c59);
+}
+
+.nle-track-dialogue .nle-timeline-clip,
+.nle-track-nle-overlay .nle-timeline-clip {
+	background: linear-gradient(135deg, #70451d, #c48634);
+}
+
+.nle-timeline-clip[aria-current] {
+	border-color: #f8dd8f;
+	box-shadow: 0 0 0 2px rgba(248, 221, 143, .24);
+}
+
+.nle-clip-copy {
+	overflow: hidden;
+	font-size: .58rem;
+	font-weight: 850;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nle-trim-handle {
+	align-self: stretch;
+	background: rgba(255, 255, 255, .13);
+	cursor: ew-resize;
+}
+
+.nle-playhead {
+	position: absolute;
+	z-index: 5;
+	inset-block: 0;
+	inset-inline-start: 10rem;
+	inline-size: 2px;
+	background: #f5cf72;
+	box-shadow: 0 0 .45rem rgba(245, 207, 114, .7);
+	pointer-events: none;
+}

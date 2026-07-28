@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the parent Reel invitation and dialog the same visual DNA
+ * as the full NLE while preserving their own social-composer scope.
+ */
+
+:root {
+	--reel-bg: #07090d;
+	--reel-surface-0: #090c12;
+	--reel-surface-1: #0e131b;
+	--reel-surface-2: #141b25;
+	--reel-surface-3: #1b2532;
+	--reel-border-soft: rgba(214, 225, 238, .08);
+	--reel-border: rgba(214, 225, 238, .14);
+	--reel-border-strong: rgba(214, 225, 238, .24);
+	--reel-text: #f1f5f9;
+	--reel-text-soft: #c4ced9;
+	--reel-text-muted: #8795a6;
+	--reel-violet: #b978ef;
+	--reel-violet-strong: #8d4bc3;
+	--reel-violet-soft: rgba(185, 120, 239, .16);
+	--reel-amber: #f2c96d;
+	--reel-amber-soft: rgba(242, 201, 109, .15);
+	--reel-cyan: #59bdd2;
+	--reel-cyan-soft: rgba(89, 189, 210, .16);
+	--reel-focus: #e5b8ff;
+	--reel-danger: #ff9696;
+	--reel-radius-sm: .62rem;
+	--reel-radius-md: .82rem;
+	--reel-radius-lg: 1.05rem;
+	--reel-radius-xl: 1.35rem;
+	--reel-control: 2.7rem;
+	--reel-shadow-card: 0 .8rem 2rem rgba(0, 0, 0, .22);
+	--reel-shadow-dialog: 0 2rem 6rem rgba(0, 0, 0, .62);
+	--reel-transition: 160ms ease;
+}

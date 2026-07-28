@@ -6,8 +6,8 @@ import { DomemFoundation } from "../core/DomemFoundation.mjs";
 
 /**
  * One Chrome WebSocket carries bounded commands. The Awtsmoos closes counterpart
- * listeners on every connection outcome; Awtsmoos.com rejects all pending calls
- * immediately when the socket closes instead of leaving timeout ghosts behind.
+ * listeners on every outcome; Awtsmoos.com rejects pending calls immediately when
+ * the socket closes instead of leaving timeout ghosts behind.
  */
 export class CdpClient extends DomemFoundation {
 	constructor(webSocketUrl) {
@@ -108,9 +108,7 @@ export class CdpClient extends DomemFoundation {
 
 	resolvePending(message) {
 		const pending = this.pending.get(message.id);
-		if (!pending) {
-			return;
-		}
+		if (!pending) return;
 		clearTimeout(pending.timeout);
 		this.pending.delete(message.id);
 		if (message.error) {

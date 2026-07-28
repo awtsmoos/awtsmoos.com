@@ -4,44 +4,99 @@
 
 /**
  * @file MovieStudioResponsiveCss.js
- * @description Adapts the NLE workspace and inspector to narrow touch-first screens.
- * The Awtsmoos renews one editing intention through every glass vessel; Awtsmoos.com
- * preserves preview, controls, safe areas, and transform access without horizontal loss.
+ * @description Gives desktop, tablet, and mobile distinct editor compositions.
+ * The Awtsmoos pours one creative purpose into every changing screen; Awtsmoos.com
+ * keeps preview, transport, timeline, and inspector reachable, deliberate, and clean.
  */
 
 export function movieStudioResponsiveCss() {
 	return `
-		@media (max-width: 850px) {
+		@media (min-width: 981px) {
+			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-studio-workspace {
+				grid-template-columns: minmax(0, 1fr);
+			}
+			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-studio-inspector {
+				display: none;
+			}
+		}
+		@media (max-width: 980px) {
 			.Awtsmoos-movie-studio {
-				grid-template-rows: minmax(0, 1fr) minmax(210px, 34vh);
+				--movie-timeline-height: clamp(260px, 38vh, 390px);
 			}
-			.movie-workspace {
-				grid-template-columns: 1fr;
-				padding: 6px;
+			.movie-studio-workspace {
+				grid-template-columns: minmax(0, 1fr);
 			}
-			.movie-inspector {
+			.movie-studio-inspector {
 				position: absolute;
-				left: max(6px, env(safe-area-inset-left));
-				right: max(6px, env(safe-area-inset-right));
-				bottom: calc(34vh + max(6px, env(safe-area-inset-bottom)));
-				z-index: 14;
-				max-height: 46vh;
-				grid-template-rows: auto auto minmax(80px, 1fr) auto auto;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 8;
+				width: min(390px, calc(100vw - 32px));
+				border: 1px solid var(--movie-border-strong);
+				border-radius: 0 0 0 var(--movie-radius-lg);
+				box-shadow: var(--movie-shadow);
+				transform: translateX(calc(100% + 24px));
+				visibility: hidden;
+				transition: transform 160ms ease, visibility 160ms ease;
 			}
-			.movie-transform-grid {
-				grid-template-columns: repeat(3, minmax(0, 1fr));
+			.Awtsmoos-movie-studio.is-inspector-open .movie-studio-inspector {
+				transform: translateX(0);
+				visibility: visible;
 			}
-			.movie-json {
-				min-height: 110px;
+		}
+		@media (max-width: 640px) {
+			.Awtsmoos-movie-studio {
+				--movie-header-height: 54px;
+				--movie-timeline-height: clamp(300px, 43vh, 410px);
+				--movie-track-header-width: 108px;
+				font-size: 13px;
 			}
-			.movie-track {
-				grid-template-columns: 106px 1fr;
+			.movie-studio-bar {
+				padding-inline: var(--movie-space-3);
 			}
-			.movie-ruler {
-				margin-left: 106px;
+			.movie-studio-bar .movie-secondary-label {
+				display: none;
 			}
-			.movie-playhead {
-				margin-left: -24px;
+			.movie-studio-preview-shell {
+				padding: var(--movie-space-2);
+			}
+			.movie-studio-preview {
+				width: 100%;
+				max-height: 100%;
+				border-radius: var(--movie-radius);
+			}
+			.movie-studio-transport {
+				justify-content: stretch;
+				gap: var(--movie-space-1);
+				padding-inline: var(--movie-space-2);
+			}
+			.movie-studio-transport button {
+				flex: 1 1 0;
+				min-width: 0;
+				min-height: var(--movie-touch-height);
+				padding-inline: var(--movie-space-2);
+			}
+			.movie-studio-status {
+				padding-inline: var(--movie-space-2);
+				font-size: 12px;
+			}
+			.movie-studio-inspector {
+				top: auto;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: auto;
+				max-height: min(72vh, 620px);
+				border-radius: var(--movie-radius-lg) var(--movie-radius-lg) 0 0;
+				transform: translateY(calc(100% + 24px));
+			}
+			.Awtsmoos-movie-studio.is-inspector-open .movie-studio-inspector {
+				transform: translateY(0);
+			}
+			.movie-studio-actions,
+			.movie-studio-project-summary {
+				grid-template-columns: 1fr;
 			}
 		}
 	`;

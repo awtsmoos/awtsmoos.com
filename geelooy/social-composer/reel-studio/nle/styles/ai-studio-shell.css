@@ -1,0 +1,119 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The AI contract enters a focused cinematic shell without covering its own
+ * machine truth or confusing it with a remote media generator.
+ */
+
+.nle-ai-action {
+	border-color: rgba(89, 189, 210, .38) !important;
+	background: var(--nle-cyan-soft) !important;
+	color: #c9edf4 !important;
+}
+
+.nle-ai-dialog {
+	inline-size: 100%;
+	max-inline-size: none;
+	block-size: 100%;
+	max-block-size: none;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--nle-text);
+	overflow: visible;
+}
+
+.nle-ai-dialog::backdrop {
+	background: rgba(2, 4, 8, .84);
+	backdrop-filter: blur(10px) saturate(.8);
+}
+
+.nle-ai-studio {
+	position: fixed;
+	inset: 50% auto auto 50%;
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr) auto;
+	inline-size: min(70rem, calc(100vw - 2rem));
+	block-size: min(52rem, calc(100dvh - 2rem));
+	border: 1px solid var(--nle-border-strong);
+	border-radius: var(--nle-radius-xl);
+	background:
+		radial-gradient(circle at 72% 0%, rgba(89, 189, 210, .08), transparent 22rem),
+		var(--nle-surface-0);
+	box-shadow: var(--nle-shadow-raised);
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+}
+
+.nle-ai-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: start;
+	gap: 1rem;
+	padding: 1rem 1.1rem .85rem;
+	border-block-end: 1px solid var(--nle-border);
+	background: linear-gradient(180deg, #111924, var(--nle-surface-1));
+}
+
+.nle-ai-header :is(h2, p) {
+	margin: 0;
+}
+
+.nle-ai-header small {
+	color: var(--nle-cyan);
+	font-size: .61rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.nle-ai-header h2 {
+	margin-block-start: .12rem;
+	font-size: 1.08rem;
+}
+
+.nle-ai-header p {
+	margin-block-start: .28rem;
+	color: var(--nle-text-muted);
+	font-size: .69rem;
+}
+
+.nle-ai-header button {
+	inline-size: 2.55rem;
+	block-size: 2.55rem;
+	padding: 0;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-sm);
+	background: var(--nle-surface-2);
+	color: var(--nle-text-soft);
+	font-size: 1.05rem;
+	cursor: pointer;
+}
+
+.nle-ai-tabs {
+	display: flex;
+	gap: .35rem;
+	padding: .48rem .7rem;
+	border-block-end: 1px solid var(--nle-border-soft);
+	background: var(--nle-surface-1);
+}
+
+.nle-ai-tabs button {
+	min-block-size: 2.35rem;
+	padding: .45rem .7rem;
+	border: 1px solid transparent;
+	border-radius: var(--nle-radius-sm);
+	background: transparent;
+	color: var(--nle-text-muted);
+	font: inherit;
+	font-size: .68rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.nle-ai-tabs button[aria-current] {
+	border-color: rgba(89, 189, 210, .35);
+	background: var(--nle-cyan-soft);
+	color: #d7f3f8;
+}

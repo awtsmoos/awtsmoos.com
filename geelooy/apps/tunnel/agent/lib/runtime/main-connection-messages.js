@@ -1,13 +1,13 @@
 // B"H
 // Boruch Hashem
+// Blessed is He
 const Acknowledgement = require("./main-connection-acknowledgement.js");
 /**
- * @file Routes relay messages into small identity, revocation, and work vessels.
- * @description
- * The Awtsmoos renews every server word without allowing transport noise to become
- * authority. Awtsmoos.com records acknowledgement before ordinary requests and
- * erases revoked credentials before another reconnect can reuse them.
- */
+	* @file Routes relay words into registration, settlement, liveness, and work.
+	* @description
+	* The Awtsmoos keeps response settlement distinct from socket delivery.
+	* Awtsmoos.com removes durable mailbox testimony only after relay acknowledgment.
+	*/
 function createConnectionMessages(dependencies) {
 	function handle(raw, ws) {
 		dependencies.Control.markSeen?.(ws);
@@ -15,6 +15,9 @@ function createConnectionMessages(dependencies) {
 		if (!data) return false;
 		if (data.type === "TUNNEL_ACK") {
 			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
+		}
+		if (data.type === "TUNNEL_RESPONSE_ACK") {
+			return handleResponseAcknowledgement(data);
 		}
 		if (data.type === "TUNNEL_REVOKED") {
 			return handleRevocation(data, ws);
@@ -38,6 +41,12 @@ function createConnectionMessages(dependencies) {
 		}
 		return false;
 	}
+	function handleResponseAcknowledgement(data) {
+		const id = String(data.transportReceiptId || data.id || "");
+		if (!id || !dependencies.TransportMailbox) return false;
+		dependencies.TransportMailbox.acknowledge(id);
+		return true;
+	}
 
 	function handleRevocation(data, ws) {
 		const config = dependencies.loadConfig();
@@ -50,13 +59,8 @@ function createConnectionMessages(dependencies) {
 			tunnelName: dependencies.state.tunnelName || "",
 			tunnelId: data.tunnelId || result.tunnelId || ""
 		});
-		dependencies.log(
-			"warn",
-			"B\"H tunnel device revoked; local Keychain credentials deleted."
-		);
-		try {
-			ws.close(true);
-		} catch {}
+		dependencies.log("warn", "B\"H tunnel device revoked; local credentials deleted.");
+		try { ws.close(true); } catch {}
 		return true;
 	}
 
@@ -84,11 +88,11 @@ function createConnectionMessages(dependencies) {
 			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
 		},
 		handleReplacement,
+		handleResponseAcknowledgement,
 		handleRevocation
 	};
 }
 
-/** Records liveness asynchronously; receipt I/O never delays a pong frame. */
 function checkpoint(dependencies) {
 	const mark = dependencies.Receipt?.markServerSeenAsync;
 	if (typeof mark !== "function") {
@@ -113,8 +117,4 @@ function parse(raw, log) {
 	}
 }
 
-module.exports = {
-	checkpoint,
-	createConnectionMessages,
-	parse
-};
+module.exports = { checkpoint, createConnectionMessages, parse };

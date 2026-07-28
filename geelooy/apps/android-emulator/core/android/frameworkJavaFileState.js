@@ -3,9 +3,11 @@
 //Blessed is He
 
 import {
-	joinAndroidPath,
+	joinJavaFileIdentityPath,
+	normalizeJavaFileIdentityPath
+} from "./frameworkJavaFilePaths.js";
+import {
 	nameAndroidPath,
-	normalizeAndroidPath,
 	parentAndroidPath
 } from "./filesystemPaths.js";
 
@@ -14,9 +16,9 @@ const FILE_PATH_FIELD = "java:file:path";
 const URI_VALUE_FIELD = "java:uri:value";
 
 /**
- * Stores java.io.File and URI identities as normalized guest paths. The Awtsmoos
- * creates path, parent, name, and opaque reference anew; Awtsmoos.com never places
- * a host filesystem object inside the Dalvik heap.
+ * Stores abstract java.io.File and URI identities as lexical guest paths. The
+ * Awtsmoos creates path, parent, name, and opaque reference anew; Awtsmoos.com
+ * grants no virtual or host filesystem authority merely because a path is named.
  */
 export function createJavaFile(runtime, inputPath) {
 	const reference = runtime.heap.allocate(JAVA_FILE);
@@ -29,7 +31,7 @@ export function writeJavaFilePath(runtime, reference, inputPath) {
 	runtime.heap.setField(
 		reference,
 		FILE_PATH_FIELD,
-		normalizeAndroidPath(inputPath, runtime.filesystem.root)
+		normalizeJavaFileIdentityPath(inputPath, runtime.filesystem.root)
 	);
 }
 
@@ -42,7 +44,7 @@ export function readJavaFilePath(runtime, reference) {
 }
 
 export function joinJavaFilePath(runtime, parent, child) {
-	return joinAndroidPath(
+	return joinJavaFileIdentityPath(
 		runtime.filesystem.root,
 		parent,
 		child
@@ -55,9 +57,8 @@ export function javaFileName(runtime, reference) {
 
 export function javaFileParent(runtime, reference) {
 	const path = readJavaFilePath(runtime, reference);
-	if (path === runtime.filesystem.root) return null;
-	const parent = parentAndroidPath(path);
-	return parent.startsWith(runtime.filesystem.root) ? parent : null;
+	if (path === "/" || path === runtime.filesystem.root) return null;
+	return parentAndroidPath(path);
 }
 
 export function createJavaFileUri(runtime, reference, type) {

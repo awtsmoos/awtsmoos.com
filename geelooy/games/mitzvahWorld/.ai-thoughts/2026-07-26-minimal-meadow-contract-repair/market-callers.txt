@@ -1,0 +1,6 @@
+src/test/world/villageMarketOwnership.test.mjs:15:import { createMarketDefinitions } from '../../world/village/VillageMarketBuilder.js';
+src/test/world/villageMarketOwnership.test.mjs:38:	const definitions = createMarketDefinitions(
+src/world/village/CanonicalLandmarkDefinitions.js:15:import { createMarketDefinitions } from './VillageMarketBuilder.js';
+src/world/village/CanonicalLandmarkDefinitions.js:25:		MARKET01: createMarketDefinitions,
+src/world/village/VillageMarketBuilder.js:6: * @file VillageMarketBuilder.js
+src/world/village/VillageMarketBuilder.js:17:export function createMarketDefinitions(options) {

@@ -1,0 +1,17 @@
+[ {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9262/devtools/page/A0A6B6AC61CDA7C45F0A86DD23094097",
+   "id": "A0A6B6AC61CDA7C45F0A86DD23094097",
+   "title": "B&quot;H Mitzvah World — Restored River Valley",
+   "type": "page",
+   "url": "http://localhost:8080/games/mitzvahWorld/",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9262/devtools/page/A0A6B6AC61CDA7C45F0A86DD23094097"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/worker_app.html?ws=127.0.0.1:9262/devtools/page/A540FAAB98A018B726C4A1E4B1EE54F7",
+   "id": "A540FAAB98A018B726C4A1E4B1EE54F7",
+   "title": "Service Worker chrome-extension://fignfifoniblkonapihmkfakmlgkbkcf/service_worker.js",
+   "type": "service_worker",
+   "url": "chrome-extension://fignfifoniblkonapihmkfakmlgkbkcf/service_worker.js",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9262/devtools/page/A540FAAB98A018B726C4A1E4B1EE54F7"
+} ]

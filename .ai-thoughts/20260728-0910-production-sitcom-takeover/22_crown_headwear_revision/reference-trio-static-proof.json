@@ -1,0 +1,179 @@
+{
+  "capturedAt": "2026-07-28T10:00:24.813Z",
+  "canvas": {
+    "width": 1536,
+    "height": 864
+  },
+  "characterIds": [
+    "cheerful-orthodox-speaker",
+    "skeptical-orthodox-observer",
+    "calm-orthodox-woman"
+  ],
+  "cropPlan": [
+    {
+      "id": "cheerful-orthodox-speaker",
+      "slug": "ari",
+      "fullBody": {
+        "x": 72,
+        "y": 25,
+        "width": 529,
+        "height": 819
+      },
+      "head": {
+        "x": 265,
+        "y": 35,
+        "width": 260,
+        "height": 330
+      }
+    },
+    {
+      "id": "skeptical-orthodox-observer",
+      "slug": "dovid",
+      "fullBody": {
+        "x": 606,
+        "y": 40,
+        "width": 327,
+        "height": 804
+      },
+      "head": {
+        "x": 675,
+        "y": 45,
+        "width": 265,
+        "height": 325
+      }
+    },
+    {
+      "id": "calm-orthodox-woman",
+      "slug": "miriam",
+      "fullBody": {
+        "x": 1028,
+        "y": 73,
+        "width": 311,
+        "height": 770
+      },
+      "head": {
+        "x": 1065,
+        "y": 80,
+        "width": 265,
+        "height": 285
+      }
+    }
+  ],
+  "frozenFrame": {
+    "frozen": true,
+    "realTime": 0,
+    "directorTime": 0,
+    "width": 1536,
+    "height": 864
+  },
+  "individualBoxes": {
+    "cheerful-orthodox-speaker": {
+      "x": 0.08072916666666667,
+      "y": 0.1111111111111111,
+      "width": 0.2864583333333333,
+      "height": 0.8472222222222222,
+      "occupancy": 0.08797501929012345
+    },
+    "skeptical-orthodox-observer": {
+      "x": 0.4166666666666667,
+      "y": 0.1527777777777778,
+      "width": 0.16927083333333334,
+      "height": 0.8055555555555556,
+      "occupancy": 0.08280285493827161
+    },
+    "calm-orthodox-woman": {
+      "x": 0.6979166666666666,
+      "y": 0.19907407407407407,
+      "width": 0.140625,
+      "height": 0.7592592592592593,
+      "occupancy": 0.07262731481481481
+    }
+  },
+  "artifacts": {
+    "trio": {
+      "fileName": "reference-trio.png",
+      "bytes": 267925,
+      "sha256": "4a828d96fe3bfb8b58949823254de7d6d4736ab7bec879a3b54485602d5abc7e"
+    },
+    "crops": [
+      {
+        "id": "cheerful-orthodox-speaker",
+        "kind": "fullBody",
+        "rect": {
+          "x": 72,
+          "y": 25,
+          "width": 529,
+          "height": 819
+        },
+        "fileName": "ari-full-body.png",
+        "bytes": 105124,
+        "sha256": "1c9c0122f5b96c192896d2d15f5ac9d77c33d190531e9d0aef6e6050fec59564"
+      },
+      {
+        "id": "cheerful-orthodox-speaker",
+        "kind": "head",
+        "rect": {
+          "x": 265,
+          "y": 35,
+          "width": 260,
+          "height": 330
+        },
+        "fileName": "ari-head.png",
+        "bytes": 44443,
+        "sha256": "5e0cd8cddb127242cb19d7ef07b648945442e30788ce7da8a78ef0ced0bb122f"
+      },
+      {
+        "id": "skeptical-orthodox-observer",
+        "kind": "fullBody",
+        "rect": {
+          "x": 606,
+          "y": 40,
+          "width": 327,
+          "height": 804
+        },
+        "fileName": "dovid-full-body.png",
+        "bytes": 80910,
+        "sha256": "80862a3515682a371b000197ab4eeaf31a3b4c563545a3e07ae07c83b28733bd"
+      },
+      {
+        "id": "skeptical-orthodox-observer",
+        "kind": "head",
+        "rect": {
+          "x": 675,
+          "y": 45,
+          "width": 265,
+          "height": 325
+        },
+        "fileName": "dovid-head.png",
+        "bytes": 34104,
+        "sha256": "8ad52bd3fabfed6cd43c5aed87e5bbb78d9557171fd0eec46a6d2672125204b2"
+      },
+      {
+        "id": "calm-orthodox-woman",
+        "kind": "fullBody",
+        "rect": {
+          "x": 1028,
+          "y": 73,
+          "width": 311,
+          "height": 770
+        },
+        "fileName": "miriam-full-body.png",
+        "bytes": 69420,
+        "sha256": "1bc4d2946e4641024d883ead743025bb8998044fecbf48daf14bf5bdfea27555"
+      },
+      {
+        "id": "calm-orthodox-woman",
+        "kind": "head",
+        "rect": {
+          "x": 1065,
+          "y": 80,
+          "width": 265,
+          "height": 285
+        },
+        "fileName": "miriam-head.png",
+        "bytes": 24402,
+        "sha256": "4bdf6b7b9c26d38686ab3f64f2f2555dab7e1077a4b7d356214592a032faaecb"
+      }
+    ]
+  }
+}

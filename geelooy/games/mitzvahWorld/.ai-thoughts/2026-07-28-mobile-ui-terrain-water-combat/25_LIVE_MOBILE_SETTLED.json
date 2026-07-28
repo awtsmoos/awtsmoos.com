@@ -1,0 +1,146 @@
+{
+  "ok": true,
+  "port": 9263,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "readiness": {
+    "featurePhase": "ready",
+    "readiness": "degraded-ready",
+    "rendererStage": "rich-ready",
+    "runtimeState": "playable"
+  },
+  "repair": {
+    "damage": {
+      "inside": true,
+      "label": "אש · Flame of Aleph",
+      "number": "−23"
+    },
+    "layout": {
+      "cast": {
+        "bottom": 847,
+        "height": 68,
+        "inside": true,
+        "left": 52,
+        "right": 378,
+        "top": 779,
+        "visible": true,
+        "width": 326
+      },
+      "status": {
+        "bottom": 103.96875,
+        "height": 97.96875,
+        "inside": true,
+        "left": 6,
+        "right": 416,
+        "top": 6,
+        "visible": true,
+        "width": 410
+      },
+      "target": {
+        "bottom": 107,
+        "height": 19,
+        "inside": true,
+        "left": 30.1015625,
+        "right": 399.8984375,
+        "top": 88,
+        "visible": true,
+        "width": 369.796875
+      }
+    },
+    "quest": {
+      "completion": true,
+      "containsReward": true,
+      "status": "completed"
+    },
+    "road": {
+      "layers": [
+        "cobblestone-center",
+        "dirt-grass-shoulder",
+        "open-dirt-transition"
+      ],
+      "surfaceLift": 0.06,
+      "visible": true
+    },
+    "trees": {
+      "authoredMaterials": 22,
+      "preserved": true
+    },
+    "water": {
+      "diagnostics": {
+        "activeNormalSources": 2,
+        "bankMeshes": 2,
+        "bedMeshes": 2,
+        "colorMode": "procedural-visible-current",
+        "drawCalls": 6,
+        "elevations": {
+          "aligned": true,
+          "continuity": {
+            "connected": true,
+            "destination": {
+              "waterY": -0.72,
+              "width": 10.4,
+              "x": 58,
+              "z": 54
+            },
+            "maximumGap": 2.23606797749979,
+            "segments": 80,
+            "source": {
+              "waterY": 2.18,
+              "width": 3.3,
+              "x": -84,
+              "z": 78
+            }
+          },
+          "minimumBankRise": 0.07999999999999985,
+          "minimumDepth": 1.7349666666666668,
+          "samples": 25
+        },
+        "errors": [],
+        "hostedColorReady": 0,
+        "hydratedMeshes": 6,
+        "hydrationState": "procedural-visible",
+        "materials": 6,
+        "mounted": true,
+        "normalMode": "real-dual-normal-pack",
+        "riverSegments": 80,
+        "sceneObjects": 7,
+        "triangles": 4144,
+        "updateAllocations": 0,
+        "waterMeshes": 2
+      },
+      "meshes": 2,
+      "sources": [
+        {
+          "detail": true,
+          "map": true,
+          "mix": true,
+          "normal": true
+        },
+        {
+          "detail": true,
+          "map": true,
+          "mix": true,
+          "normal": true
+        }
+      ]
+    }
+  },
+  "bag": {
+    "bodyClientHeight": 726,
+    "bodyScrollHeight": 1158,
+    "contextOpen": true,
+    "inside": true,
+    "itemSelected": true,
+    "open": true,
+    "scrollAfter": 91,
+    "scrollBefore": 0,
+    "scrollable": true,
+    "touchAction": "pan-y",
+    "closed": true
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

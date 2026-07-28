@@ -1,0 +1,27 @@
+aim_lines=83
+(node:877) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H action icons are pictographic while Hebrew remains present (1.414172ms)
+✔ B"H combat pressure is slower, smaller, and spatially separated (0.330535ms)
+✔ B"H selected enemy brightens and receives visible markers (5.749776ms)
+✔ B"H Shlichus menu follows canonical active mission progress (0.586745ms)
+✔ B"H stairs expose discrete tread heights and no hidden ramp (1.328075ms)
+✔ B"H sky shader contains intense disc, halo, clouds, and warm horizon (0.391149ms)
+(node:878) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H exact terrain frequency derives from source pixels and world size (2.029397ms)
+✔ B"H readiness stays settling until renderer and features resolve (1.251524ms)
+✔ B"H staff begins in right hand and aims at selected target (7.99289ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 623.573676
+test_exit=0

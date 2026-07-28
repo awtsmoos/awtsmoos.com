@@ -1,0 +1,182 @@
+{
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "scrollHeight": 5477
+    },
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1425,
+      "height": 80,
+      "bottom": 80,
+      "visible": true
+    },
+    "layout": {
+      "x": 57,
+      "y": 80,
+      "width": 1312,
+      "height": 5397,
+      "bottom": 5477,
+      "visible": true
+    },
+    "content": {
+      "x": 81,
+      "y": 1466,
+      "width": 784,
+      "height": 3063,
+      "bottom": 4529,
+      "visible": true
+    },
+    "identity": {
+      "x": 81,
+      "y": 116,
+      "width": 784,
+      "height": 480,
+      "bottom": 596,
+      "visible": true
+    },
+    "destination": {
+      "x": 81,
+      "y": 634,
+      "width": 784,
+      "height": 793,
+      "bottom": 1427,
+      "visible": true
+    },
+    "publication": {
+      "x": 81,
+      "y": 4568,
+      "width": 784,
+      "height": 640,
+      "bottom": 5208,
+      "visible": true
+    },
+    "preview": {
+      "x": 881,
+      "y": 104,
+      "width": 464,
+      "height": 5349,
+      "bottom": 5453,
+      "visible": true
+    },
+    "actions": {
+      "x": 81,
+      "y": 869,
+      "width": 784,
+      "height": 123,
+      "bottom": 992,
+      "visible": true
+    },
+    "section": {
+      "x": 155,
+      "y": 3249,
+      "width": 634,
+      "height": 1155,
+      "bottom": 4404,
+      "visible": true
+    },
+    "mobileIdentity": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "visible": false
+    },
+    "exceptions": []
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "scrollHeight": 5825
+    },
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 375,
+      "height": 68,
+      "bottom": 68,
+      "visible": true
+    },
+    "layout": {
+      "x": 0,
+      "y": 68,
+      "width": 375,
+      "height": 5757,
+      "bottom": 5825,
+      "visible": true
+    },
+    "content": {
+      "x": 18,
+      "y": 78,
+      "width": 340,
+      "height": 5379,
+      "bottom": 5457,
+      "visible": true
+    },
+    "identity": {
+      "x": 18,
+      "y": 5472,
+      "width": 340,
+      "height": 78,
+      "bottom": 5549,
+      "visible": true
+    },
+    "destination": {
+      "x": 18,
+      "y": 5564,
+      "width": 340,
+      "height": 78,
+      "bottom": 5641,
+      "visible": true
+    },
+    "publication": {
+      "x": 18,
+      "y": 5656,
+      "width": 340,
+      "height": 78,
+      "bottom": 5733,
+      "visible": true
+    },
+    "preview": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "visible": false
+    },
+    "actions": {
+      "x": 0,
+      "y": 728,
+      "width": 375,
+      "height": 116,
+      "bottom": 844,
+      "visible": true
+    },
+    "section": {
+      "x": 82,
+      "y": 2253,
+      "width": 211,
+      "height": 1530,
+      "bottom": 3783,
+      "visible": true
+    },
+    "mobileIdentity": {
+      "x": 55,
+      "y": 172,
+      "width": 264,
+      "height": 59,
+      "bottom": 231,
+      "visible": true
+    },
+    "exceptions": []
+  }
+}

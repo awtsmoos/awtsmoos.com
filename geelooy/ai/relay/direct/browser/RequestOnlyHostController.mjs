@@ -7,13 +7,18 @@ import { CdpClient } from "./CdpClient.mjs";
 import { PageStateInspector } from "./PageStateInspector.mjs";
 
 /**
- * A non-composer settings route owns transient headers and its topic socket. The
- * Awtsmoos leaves existing ChatGPT tabs untouched; Awtsmoos.com closes this single
- * owned host after strict capability truth has been measured.
+ * A non-composer settings route owns transient application headers for official
+ * same-origin requests. The Awtsmoos lets Awtsmoos.com avoid composer controls,
+ * socket shims, message reads, and unrelated user tabs during capability truth.
  */
 export class RequestOnlyHostController extends AuthenticatedSocketController {
-	constructor({ port = 9226, route = "/settings", replaceChatGptTabs = false } = {}) {
-		super({ port, replaceChatGptTabs });
+	constructor({
+		port = 9226,
+		route = "/settings",
+		replaceChatGptTabs = false,
+		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+	} = {}) {
+		super({ port, replaceChatGptTabs, sleep });
 		this.route = route;
 	}
 
@@ -38,15 +43,11 @@ export class RequestOnlyHostController extends AuthenticatedSocketController {
 			});
 			await cdpClient.send("Network.enable");
 			await cdpClient.send("Page.enable");
-			await cdpClient.send("Page.addScriptToEvaluateOnNewDocument", {
-				source: this.buildSocketCaptureScript()
-			});
 			await cdpClient.send("Page.navigate", {
 				url: new URL(this.route, "https://chatgpt.com").href
 			});
 			const inspector = new PageStateInspector(cdpClient);
 			const pageState = await this.waitForHost({
-				cdpClient,
 				inspector,
 				timeoutMs,
 				readHeaders: () => applicationHeaders
@@ -67,20 +68,16 @@ export class RequestOnlyHostController extends AuthenticatedSocketController {
 		}
 	}
 
-	async waitForHost({ cdpClient, inspector, timeoutMs, readHeaders }) {
+	async waitForHost({ inspector, timeoutMs, readHeaders }) {
 		const deadline = Date.now() + timeoutMs;
 		while (Date.now() < deadline) {
 			const pageState = await inspector.inspect();
-			const socket = await cdpClient.send("Runtime.evaluate", {
-				expression: "window.__awtsmoosDirectSocket?.readyState === WebSocket.OPEN",
-				returnByValue: true
-			});
-			if (pageState.authenticated && socket.result.value === true && readHeaders()) {
+			if (pageState.authenticated && readHeaders()) {
 				return pageState;
 			}
-			await new Promise(resolve => setTimeout(resolve, 250));
+			await this.sleep(250);
 		}
-		throw new Error("Request-only host did not expose authentication, headers, and socket.");
+		throw new Error("Request-only host did not expose authentication and headers.");
 	}
 
 	selectHeaders(headers) {

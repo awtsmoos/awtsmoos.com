@@ -1,95 +1,86 @@
 // B"H
-const assert = require('node:assert/strict');
-const relay = require('../../../../../ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js');
+// Boruch Hashem
+// Blessed is He
 
-function context() {
-	const sent = [];
-	return {
-		sent,
-		tunnels: new Map([['awt-test', { send: message => sent.push(message) }]]),
-		pendingTunnelRequests: new Map(),
-		clients: new Set()
-	};
-}
+const assert = require("node:assert/strict");
+const Harness = require("./helpers/tunnelCorrelation/harness.cjs");
 
-function response(id, fields = {}) {
-	return { id, type: 'TUNNEL_RESPONSE', ...fields };
-}
-
-async function mismatchThenCorrect(ctx, payload, wrong, expectedFlag) {
-	const waiting = relay.sendTunnelRequest(ctx, 'awt-test', payload, 5000);
-	const [id, pending] = [...ctx.pendingTunnelRequests.entries()][0];
-	assert.ok(id);
-	assert.equal(relay.handleTunnelResponse(ctx, response(id, wrong)), false);
+/**
+	* @file Stresses quarantine and bounded reverse-order completion.
+	* @description The Awtsmoos preserves fresh canonical deeds through five-wide waves.
+	*/
+async function mismatchThenCorrect(payload, wrong, expectedFlag) {
+	const ctx = Harness.context();
+	const waiting = Harness.send(ctx, payload);
+	const [[id, pending]] = await Harness.waitForPending(ctx);
+	assert.equal(Harness.deliver(ctx, id, wrong), false);
 	assert.equal(ctx.pendingTunnelRequests.has(id), true);
 	assert.equal(ctx.tunnelResponseQuarantine.length, 1);
-	assert.equal(ctx.tunnelResponseQuarantine[0].response[expectedFlag], true);
-	const exact = {
-		action: pending.expected.requestedAction,
-		tunnelName: pending.expected.tunnelName,
-		controlRequestId: pending.expected.controlRequestId,
-		logicalAgentId: pending.expected.logicalAgentId,
-		nonce: pending.expected.nonce
-	};
-	assert.equal(relay.handleTunnelResponse(ctx, response(id, exact)), true);
-	const result = await waiting;
-	assert.equal(result.action, pending.expected.requestedAction);
+	assert.equal(
+		ctx.tunnelResponseQuarantine[0].validation.response[expectedFlag],
+		true
+	);
+	assert.equal(Harness.deliver(ctx, id, Harness.exactResponse(pending)), true);
+	assert.equal((await waiting).action, pending.expected.requestedAction);
 	assert.equal(ctx.pendingTunnelRequests.size, 0);
-	return result;
 }
 
-async function reverseOrder(count) {
-	const ctx = context();
-	const promises = [];
-	for (let index = 0; index < count; index += 1) {
-		promises.push(relay.sendTunnelRequest(ctx, 'awt-test', {
-			action: index % 2 ? 'write' : 'readBytes',
-			controlRequestId: `ctl_${index}`,
-			logicalAgentId: `agent_${index}`,
-			nonce: `nonce_${index}`
-		}, 5000));
+async function reverseOrder(total) {
+	const ctx = Harness.context();
+	let completed = 0;
+	while (completed < total) {
+		const width = Math.min(5, total - completed);
+		const promises = [];
+		for (let index = 0; index < width; index += 1) {
+			const sequence = completed + index;
+			const identity = `${total}_${completed}_${sequence}`;
+			promises.push(Harness.send(ctx, {
+				action: sequence % 2 ? "write" : "readBytes",
+				controlRequestId: `ctl_${identity}`,
+				logicalAgentId: `agent_${identity}`,
+				nonce: `nonce_${identity}`
+			}));
+		}
+		const entries = await Harness.waitForPending(ctx, width);
+		for (const [id, pending] of entries.reverse()) {
+			assert.equal(Harness.deliver(ctx, id, Harness.exactResponse(pending)), true);
+		}
+		assert.equal((await Promise.all(promises)).length, width);
+		assert.equal(ctx.pendingTunnelRequests.size, 0);
+		completed += width;
 	}
-	const entries = [...ctx.pendingTunnelRequests.entries()];
-	assert.equal(entries.length, count);
-	for (const [id, pending] of entries.reverse()) {
-		relay.handleTunnelResponse(ctx, response(id, {
-			action: pending.expected.requestedAction,
-			tunnelName: pending.expected.tunnelName,
-			controlRequestId: pending.expected.controlRequestId,
-			logicalAgentId: pending.expected.logicalAgentId,
-			nonce: pending.expected.nonce
-		}));
-	}
-	const results = await Promise.all(promises);
-	assert.equal(results.length, count);
-	assert.equal(ctx.pendingTunnelRequests.size, 0);
-	return count;
+	return completed;
 }
 
 (async () => {
-	await mismatchThenCorrect(context(), {
-		action: 'readBytes',
-		controlRequestId: 'ctl_action',
-		nonce: 'nonce_action'
+	await mismatchThenCorrect({
+		action: "readBytes",
+		controlRequestId: "ctl_action_unique",
+		nonce: "nonce_action_unique"
 	}, {
-		action: 'write',
-		tunnelName: 'awt-test',
-		controlRequestId: 'ctl_action',
-		nonce: 'nonce_action'
-	}, 'actionMismatch');
-	await mismatchThenCorrect(context(), {
-		action: 'readBytes',
-		controlRequestId: 'ctl_nonce',
-		nonce: 'nonce_expected'
+		action: "write",
+		tunnelName: Harness.ROUTE,
+		controlRequestId: "ctl_action_unique",
+		nonce: "nonce_action_unique"
+	}, "actionMismatch");
+	await mismatchThenCorrect({
+		action: "readBytes",
+		controlRequestId: "ctl_nonce_unique",
+		nonce: "nonce_expected_unique"
 	}, {
-		action: 'readBytes',
-		tunnelName: 'awt-test',
-		controlRequestId: 'ctl_nonce',
-		nonce: 'nonce_wrong'
-	}, 'nonceMismatch');
+		action: "readBytes",
+		tunnelName: Harness.ROUTE,
+		controlRequestId: "ctl_nonce_unique",
+		nonce: "nonce_wrong_unique"
+	}, "nonceMismatch");
 	const stress = [];
 	for (const count of [5, 10, 25, 50]) stress.push(await reverseOrder(count));
-	console.log(JSON.stringify({ ok: true, suite: 'tunnel-correlation-quarantine', stress }, null, 2));
+	console.log(JSON.stringify({
+		ok: true,
+		suite: "tunnel-correlation-quarantine",
+		waveWidth: 5,
+		stress
+	}, null, 2));
 })().catch(error => {
 	console.error(error);
 	process.exit(1);

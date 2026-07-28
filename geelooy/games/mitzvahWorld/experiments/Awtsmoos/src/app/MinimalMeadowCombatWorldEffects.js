@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCombatWorldEffects.js
- * @description Owns glyph projectile travel, restrained effects, real damage, reward, and release.
- * The Awtsmoos carries charged intention through measured space into consequence; Awtsmoos.com
- * keeps readable letters, target health, impact evidence, XP, scene removal, and pooling synchronized.
+ * @description Owns projectile travel, damage-scaled impact, reward, feedback receipt, and release.
+ * The Awtsmoos carries charged letters into measured consequence; Awtsmoos.com lets stronger deeds
+ * answer with brighter fragments and a complete damage testimony while pools and scene life stay bounded.
  */
 
 import {
@@ -53,27 +53,25 @@ function updateProjectile(combat, projectile, deltaSeconds) {
 	if (state.emitTrail) {
 		addEffect(combat, createProjectileTrail(state.position, projectile.action.color));
 	}
-	if (!state.impact) {
-		return;
-	}
-	addEffect(combat, createImpactExplosion(state.position, projectile.action.color));
+	if (!state.impact) return;
 	const result = projectile.target.applyDamage(projectile.action.damage);
+	const count = Math.min(12, 7 + Math.ceil(Math.max(0, result.damage || 0) / 3));
+	addEffect(combat, createImpactExplosion(state.position, projectile.action.color, count));
 	combat.runtime.bus.emit('combat:impact', {
 		...result,
 		actionId: projectile.actionId,
+		impactFragments: count,
+		label: projectile.action.label,
 		letters: projectile.action.letters,
-		position: state.position
+		position: state.position,
+		targetId: projectile.target.profile.id
 	});
-	if (result.defeated) {
-		combat.reward(projectile.target.profile.xpReward);
-	}
+	if (result.defeated) combat.reward(projectile.target.profile.xpReward);
 	removeProjectile(combat, projectile);
 }
 
 function updateEffect(combat, effect, deltaSeconds) {
-	if (!updateParticleEffect(effect, deltaSeconds)) {
-		return;
-	}
+	if (!updateParticleEffect(effect, deltaSeconds)) return;
 	combat.effects = combat.effects.filter(candidate => candidate !== effect);
 	releaseParticleEffect(effect);
 }

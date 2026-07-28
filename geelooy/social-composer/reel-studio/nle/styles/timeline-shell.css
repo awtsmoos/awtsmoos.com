@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Timeline toolbar, ruler, scrolling, and time receipts form the persistent NLE base.
+ */
+
+.nle-timeline-panel {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-block-size: 0;
+	border-block-start: 1px solid #202938;
+	background: #080d14;
+	overflow: hidden;
+}
+
+.nle-timeline-toolbar {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(10rem, 1fr);
+	align-items: center;
+	gap: .65rem;
+	padding: .45rem .65rem;
+	border-block-end: 1px solid #202938;
+	background: #0d141f;
+}
+
+.nle-edit-actions {
+	display: flex;
+	gap: .35rem;
+	overflow-x: auto;
+}
+
+.nle-time-readout {
+	display: flex;
+	align-items: baseline;
+	gap: .3rem;
+	color: #8595a8;
+	font-variant-numeric: tabular-nums;
+	font-size: .65rem;
+}
+
+.nle-time-readout strong {
+	color: #e9f0f6;
+	font-size: .78rem;
+}
+
+.nle-zoom-control {
+	display: grid;
+	grid-template-columns: auto minmax(5rem, 1fr);
+	align-items: center;
+	gap: .45rem;
+	color: #8190a3;
+	font-size: .62rem;
+}
+
+.nle-zoom-control input {
+	inline-size: 100%;
+	accent-color: #c575f1;
+}
+
+.nle-timeline-scroll {
+	position: relative;
+	min-block-size: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-color: #344159 #0b111a;
+}
+
+[data-nle-timeline] {
+	position: relative;
+	inline-size: max-content;
+	min-inline-size: 100%;
+	padding-block-end: .5rem;
+}
+
+.nle-ruler {
+	position: relative;
+	block-size: 1.55rem;
+	margin-inline-start: 10rem;
+	border-block-end: 1px solid #252e3c;
+	background: #0b111a;
+	cursor: crosshair;
+}
+
+.nle-ruler span {
+	position: absolute;
+	inset-block-start: .32rem;
+	padding-inline-start: .25rem;
+	border-inline-start: 1px solid #364154;
+	color: #718094;
+	font-size: .55rem;
+}

@@ -3,61 +3,61 @@
 // Blessed is He
 
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
-import { StableReferenceFaceGeometry } from './StableReferenceFaceGeometry.js';
+import { StableFaceLandmarkLayout } from './StableFaceLandmarkLayout.js';
 
 /**
- * The Awtsmoos gives each ear a small human vessel instead of a dark ornament.
- * Awtsmoos.com binds skin, inner curve, and character-specific line hierarchy to
- * the same living head through every pose, save, reload, and export.
+ * Soft ears join the cheek contour as anatomy instead of attached ornaments.
+ * The Awtsmoos exceeds inner and outer form; Awtsmoos.com keeps both finite
+ * curves character-specific, editable, serializable, and production-rendered.
  */
 export class StableReferenceEars2D {
 	static build(kind, data, colors, metrics, view) {
-		const geometry = StableReferenceFaceGeometry.resolve(data, metrics, view);
+		const layout = StableFaceLandmarkLayout.resolve(data, metrics, view);
 		const style = data.faceStyle || {};
-		return [-1, 1].flatMap(side => this.ear(
-			kind,
-			side,
-			geometry,
-			colors,
-			style
-		));
+		return [-1, 1].flatMap(side => this.ear(kind, side, layout, colors, style));
 	}
 
-	static ear(kind, side, geometry, colors, style) {
-		const x = geometry.centerX + side * geometry.earX;
-		const y = geometry.earY;
+	static ear(kind, side, layout, colors, style) {
+		const shell = layout.shell;
+		const turn = viewTurn(side, shell);
+		const x = shell.centerX + side * shell.earX + turn;
+		const y = shell.earY;
 		return [
 			G.ellipse(
 				`${kind}_reference_ear_${side}`,
 				x,
 				y,
-				geometry.earRX,
-				geometry.earRY,
+				shell.earRX,
+				shell.earRY,
 				side * 0.08,
 				{
 					fill: colors.skin,
 					stroke: colors.line,
-					lineWidth: Number(style.earLineWidth || 1.8)
+					lineWidth: Number(style.earLineWidth || 1.5)
 				}
 			),
 			G.path(`${kind}_reference_ear_inner_${side}`, [
 				{
 					type: 'move',
-					x: x - side * geometry.earRX * 0.18,
-					y: y - geometry.earRY * 0.4
+					x: x - side * shell.earRX * 0.2,
+					y: y - shell.earRY * 0.42
 				},
 				{
 					type: 'quad',
-					cx: x + side * geometry.earRX * 0.38,
+					cx: x + side * shell.earRX * 0.42,
 					cy: y,
-					x: x - side * geometry.earRX * 0.08,
-					y: y + geometry.earRY * 0.38
+					x: x - side * shell.earRX * 0.08,
+					y: y + shell.earRY * 0.38
 				}
 			], {
 				stroke: colors.skinDark,
-				lineWidth: Number(style.earInnerLineWidth || 1.2),
+				lineWidth: Number(style.earInnerLineWidth || 1),
 				lineCap: 'round'
 			})
 		];
 	}
+}
+
+function viewTurn(side, shell) {
+	return shell.turn * (side === shell.direction ? 0.35 : -0.15);
 }

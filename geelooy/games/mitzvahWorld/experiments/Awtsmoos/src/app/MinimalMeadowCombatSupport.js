@@ -4,18 +4,24 @@
 
 /**
  * @file MinimalMeadowCombatSupport.js
- * @description Provides facing, range, progression, and cast receipts for charged combat.
+ * @description Provides facing, range, progression, and prototype-safe cast receipts.
  * The Awtsmoos measures direction and reward before visible consequence; Awtsmoos.com keeps
- * state arithmetic separate from activation, charging, projectile, collision, and UI events.
+ * actor identity intact while defensive receipts prevent pointer wrappers from crashing combat.
  */
 
-export function faceMinimalCombatTarget(runtime, target) {
+export function faceMinimalCombatTarget(runtime, candidate) {
+	const target = unwrapCombatTarget(candidate);
 	const dx = target.group.position.x - runtime.state.x;
 	const dz = target.group.position.z - runtime.state.z;
 	const facing = Math.atan2(dx, dz);
 	runtime.state.facing = facing;
 	runtime.state.travelFacing = facing;
-	runtime.model.quaternion.set(0, Math.sin(facing / 2), 0, Math.cos(facing / 2));
+	runtime.model.quaternion.set(
+		0,
+		Math.sin(facing / 2),
+		0,
+		Math.cos(facing / 2)
+	);
 	return facing;
 }
 
@@ -38,6 +44,7 @@ export function minimalCombatDistance(first, second) {
 
 export function minimalCombatCastPayload(cast) {
 	if (!cast) return {};
+	const target = unwrapCombatTarget(cast.target);
 	return {
 		actionId: cast.actionId,
 		duration: cast.action.castTime,
@@ -45,6 +52,18 @@ export function minimalCombatCastPayload(cast) {
 		letters: cast.action.letters,
 		progress: cast.progress,
 		remaining: Math.max(0, cast.action.castTime - cast.elapsed),
-		target: cast.target.payload()
+		target: target?.payload?.() || fallbackCombatTargetPayload(target)
+	};
+}
+
+export function unwrapCombatTarget(candidate) {
+	return candidate?.subject || candidate?.actor || candidate || null;
+}
+
+function fallbackCombatTargetPayload(target) {
+	return {
+		alive: Boolean(target?.alive),
+		id: target?.profile?.id || target?.id || null,
+		name: target?.profile?.name || target?.name || 'Unknown target'
 	};
 }

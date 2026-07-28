@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Preview becomes a calm reading sheet where title, summary, questions, verses,
+ * media, and discussion coordinates resemble the post rather than a debug panel.
+ */
+
+.composer-civilization-document .previewSticky {
+	padding: .8rem;
+}
+
+.composer-civilization-document .previewHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .7rem;
+	padding-block-end: .65rem;
+	border-block-end: 1px solid var(--composer-border-soft);
+}
+
+.composer-civilization-document .previewHeader :is(h2, h3, p) {
+	margin: 0;
+}
+
+.composer-civilization-document .previewHeader h2,
+.composer-civilization-document .previewHeader h3 {
+	color: var(--composer-text);
+	font-size: .86rem;
+}
+
+.composer-civilization-document .previewStats {
+	display: inline-flex;
+	gap: .38rem;
+	padding: .28rem .48rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: 999px;
+	color: var(--composer-text-muted);
+	font-size: .58rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.composer-civilization-document .previewPost {
+	display: grid;
+	gap: .8rem;
+	padding-block-start: .8rem;
+}
+
+.composer-civilization-document .previewSummary {
+	padding: .7rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .018);
+	color: var(--composer-text-muted);
+	font-size: .72rem;
+	line-height: 1.6;
+}
+
+.composer-civilization-document .questionPolicy {
+	padding: .55rem .65rem;
+	border-inline-start: 2px solid var(--composer-amber);
+	background: var(--composer-amber-soft);
+	color: #e8d8ab;
+	font-size: .64rem;
+}
+
+.composer-civilization-document :is(.previewSection, .previewSubsection) {
+	display: grid;
+	gap: .55rem;
+	padding: .7rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: var(--composer-surface-2);
+}
+
+.composer-civilization-document .previewSubsection {
+	margin-inline-start: .65rem;
+	background: rgba(255, 255, 255, .015);
+}
+
+.composer-civilization-document :is(.previewSection, .previewSubsection) :is(h3, h4, p) {
+	margin: 0;
+}
+
+.composer-civilization-document .previewMedia {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+	gap: .45rem;
+}
+
+.composer-civilization-document .discussionCoordinate {
+	color: var(--composer-text-faint);
+	font-size: .58rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.composer-civilization-document .previewFocused {
+	border-color: rgba(185, 120, 239, .48);
+	box-shadow: 0 0 0 2px var(--composer-violet-soft);
+}

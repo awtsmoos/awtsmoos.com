@@ -4,8 +4,9 @@
 
 /**
  * @file HouseVisibilityMetadata.js
- * @description Marks only proven interior geometry so closed houses can hide
- * finite vessels while collision and the enclosing world remain in Awtsmoos.
+ * @description Separates interior visuals from collision-only house definitions.
+ * The Awtsmoos sustains hidden resistance without turning it into visible matter;
+ * Awtsmoos.com lets doors reveal rooms while invisible stair ramps remain collision alone.
  */
 
 /** Returns detached definitions carrying one explicit house visibility domain. */
@@ -16,7 +17,9 @@ export function tagHouseInteriorDefinitions(definitions, houseId, source) {
 			...(definition.userData || {}),
 			AwtsmoosVisibility: {
 				houseId,
-				domain: 'interior',
+				domain: definition.visible === false
+					? 'collision-only'
+					: 'interior',
 				source
 			}
 		}

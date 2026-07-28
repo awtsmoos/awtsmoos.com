@@ -3,8 +3,9 @@
 // Blessed is He
 
 /**
- * The toolbar is a crown of deliberate actions above created time. The Awtsmoos
- * renews each command while disabled states honestly reveal what can be changed.
+ * The toolbar gathers playback, history, clips, zoom, snap, and durable export.
+ * The Awtsmoos renews each command; Awtsmoos.com makes availability, selection,
+ * temporal scale, and disabled states explicit on desktop and touch surfaces.
  */
 export class NLEToolbar {
 	static render(state) {
@@ -14,7 +15,7 @@ export class NLEToolbar {
 			tag: 'div',
 			attrs: { className: 'aw-nle-toolbar' },
 			children: [
-				this.button('▶ Play', 'togglePlay'),
+				this.button('▶ Play', 'togglePlay', 'aw-nle-play'),
 				this.button('↶ Undo', 'undoEdit', '', !history.canUndo),
 				this.button('↷ Redo', 'redoEdit', '', !history.canRedo),
 				this.button('✂ Split', 'splitClip', '', !selected),
@@ -23,6 +24,13 @@ export class NLEToolbar {
 				this.button('+ Action', 'addActionClip'),
 				this.button('+ Dialogue', 'addDialogueClip'),
 				this.button('+ Camera', 'addCameraClip'),
+				this.zoomButton('−', -0.2, 'Zoom out'),
+				this.zoomButton('+', 0.2, 'Zoom in'),
+				this.button(
+					`Snap ${Number(state.snap || 0) ? `${state.snap}ms` : 'off'}`,
+					'toggleSnap',
+					Number(state.snap || 0) ? 'is-active' : ''
+				),
 				this.packageButton(state),
 				this.button(
 					state.mode === 'expanded' ? 'Hide' : 'Timeline',
@@ -37,6 +45,13 @@ export class NLEToolbar {
 				}
 			].filter(Boolean)
 		};
+	}
+
+	static zoomButton(text, delta, title) {
+		const button = this.button(text, 'zoomTimeline', 'aw-nle-zoom');
+		button.attrs.title = title;
+		button.dataset = { zoomDelta: delta };
+		return button;
 	}
 
 	static packageButton(state) {
@@ -57,9 +72,7 @@ export class NLEToolbar {
 
 	static packageStatus(state) {
 		const status = state.projectPackageStatus || 'idle';
-		if (status === 'idle') {
-			return null;
-		}
+		if (status === 'idle') return null;
 		const messages = {
 			building: 'Hashing durable voice and video…',
 			ready: `${state.projectPackageFileCount || 0} files • ${state.projectPackageMode || 'saved'}`,

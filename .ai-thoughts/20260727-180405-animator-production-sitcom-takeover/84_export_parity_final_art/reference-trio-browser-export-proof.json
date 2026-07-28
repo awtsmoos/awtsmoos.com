@@ -1,0 +1,66 @@
+{
+  "ok": true,
+  "browserState": {
+    "state": "complete",
+    "durationMs": 6000,
+    "percent": 100,
+    "completedFrames": 144,
+    "statusMessage": "Muxing playable MP4 file...",
+    "totalFrames": 144,
+    "previewBytes": 258893,
+    "bytes": 2513032,
+    "type": "video/mp4",
+    "fileName": "reference-trio-browser-proof.mp4",
+    "durationSeconds": 6,
+    "frameCount": 144,
+    "voiceClipCount": 0,
+    "capabilities": {
+      "worker": true,
+      "offscreenCanvas": true,
+      "videoEncoder": true,
+      "audioEncoder": true,
+      "offlineAudio": true,
+      "audioDecode": true,
+      "h264": true,
+      "aac": true,
+      "ok": true
+    },
+    "codecPath": "Production ImageBitmap / Piano MediaBunnyBase VideoSampleSource + AAC"
+  },
+  "outputFile": "/Users/awtsmoos/work/awtsmoos.com/.ai-thoughts/20260727-180405-animator-production-sitcom-takeover/84_export_parity_final_art/reference-trio-browser-proof.mp4",
+  "bytes": 2513032,
+  "sha256": "a095d4bc66d6228ed422e4af5811d18a7b7f514972ffbcbd576f2585e1619590",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1536,
+        "height": 864,
+        "r_frame_rate": "24/1",
+        "nb_frames": "144"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "nb_frames": "285"
+      }
+    ],
+    "format": {
+      "duration": "6.080000",
+      "size": "2513032"
+    }
+  },
+  "exceptions": [],
+  "severeLogs": [],
+  "preview": {
+    "fileName": "reference-trio-preview-frame-000.png",
+    "bytes": 258893,
+    "sha256": "f599cf8fbf8bd02b276aea4dda0f02e54311f4057d679448cac8f6e403a48e55"
+  }
+}

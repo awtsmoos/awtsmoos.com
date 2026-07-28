@@ -1,0 +1,14 @@
+{
+  "documentScripts": [
+    "",
+    "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js?rev=20260724-native-esm-3",
+    "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMobileIntegration.js?rev=20260724-native-esm-3"
+  ],
+  "resources": [
+    "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js?rev=20260724-native-esm-3",
+    "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js",
+    "http://localhost:8080/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPageSupport.js"
+  ],
+  "revisionResources": [],
+  "url": "http://localhost:8080/games/mitzvahWorld/"
+}

@@ -4,40 +4,42 @@
 
 /**
  * @file tiny-terrain-fragment-functions.js
- * @description Blends macro and micro ground detail with exact continuous road influence.
- * The Awtsmoos reveals one earth through grass, soil, edge, and path without carpet tiling;
- * Awtsmoos.com uses ecological zones, distance, slope, height, and multiple sampling scales.
+ * @description Samples exact source-pixel world frequency with restrained macro variation.
+ * The Awtsmoos reveals each pixel at its measured size; Awtsmoos.com removes the fixed valley
+ * multiplier so every source repeats only as world span, source dimensions, and quality require.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
 
-export const terrainFragmentFunctions = terrainFunctionsForLayerCount(TERRAIN_LAYER_TARGET);
+export const terrainFragmentFunctions = terrainFunctionsForLayerCount(
+	TERRAIN_LAYER_TARGET
+);
 
 export function terrainFunctionsForLayerCount(layerCount) {
 	const count = normalizedCount(layerCount);
-	const lineBreak = String.fromCharCode(10);
-	const layerMixes = Array.from({ length: count }, (_, index) => layerMix(index))
-		.join(lineBreak);
+	const layerMixes = Array.from(
+		{ length: count },
+		(_, index) => layerMix(index)
+	).join(String.fromCharCode(10));
 	return `
-vec2 terrainUv(vec2 repeatValue,float angle,float scale){
-	vec2 world=vWorld.xz*0.035*scale;
+vec2 terrainUv(vec2 frequency,float angle,float scale){
+	vec2 world=vWorld.xz*frequency*scale;
 	float cosine=cos(angle);
 	float sine=sin(angle);
-	return mirrorRepeat(mat2(cosine,-sine,sine,cosine)*world*repeatValue);
+	return mirrorRepeat(mat2(cosine,-sine,sine,cosine)*world);
 }
-vec4 terrainSample(sampler2D source,vec2 repeatValue,float angle){
+vec4 terrainSample(sampler2D source,vec2 frequency,float angle){
 	float cameraDistance=distance(uCameraPosition,vWorld);
-	vec4 macro=texture2D(source,terrainUv(repeatValue,angle,0.34));
-	vec4 detail=texture2D(source,terrainUv(repeatValue,angle+0.071,1.62));
-	float detailWeight=0.32+(1.0-smoothstep(22.0,150.0,cameraDistance))*0.46;
-	return mix(macro,detail,detailWeight);
+	vec4 native=texture2D(source,terrainUv(frequency,angle,1.0));
+	vec4 detail=texture2D(source,terrainUv(frequency,angle+0.41,1.67)+vec2(0.173,0.419));
+	float detailWeight=(1.0-smoothstep(14.0,82.0,cameraDistance))*0.12;
+	return mix(native,detail,detailWeight);
 }
 float terrainMacro(float seed){
 	vec2 world=vWorld.xz;
-	float broad=valueNoise(world*0.0065+vec2(seed,seed*1.731));
-	float medium=valueNoise(world*0.021+vec2(seed*2.17,seed*0.613));
-	float fine=valueNoise(world*0.073+vec2(seed*0.47,seed*3.11));
-	return broad*0.52+medium*0.33+fine*0.15;
+	float broad=valueNoise(world*0.0038+vec2(seed,seed*1.731));
+	float medium=valueNoise(world*0.011+vec2(seed*2.17,seed*0.613));
+	return broad*0.72+medium*0.28;
 }
 float terrainBand(float value,vec2 rangeValue){
 	float width=max(0.025,(rangeValue.y-rangeValue.x)*0.18);
@@ -50,7 +52,7 @@ float terrainLayerMask(vec4 zones,vec2 slopeRange,vec2 heightRange,float strengt
 	float zoneWeight=clamp(dot(vZone,zones),0.0,1.0);
 	float patch=smoothstep(0.18,0.82,terrainMacro(seed));
 	float distanceFade=1.0-smoothstep(110.0,360.0,distance(uCameraPosition,vWorld));
-	float macro=mix(0.28+patch*0.34,0.18+patch*0.82,distanceFade);
+	float macro=mix(0.38+patch*0.20,0.28+patch*0.60,distanceFade);
 	float wetContribution=clamp(vZone.z,0.0,1.0)*wetness*0.22;
 	return clamp(zoneWeight*terrainBand(slope,slopeRange)*terrainBand(vWorld.y,heightRange)*macro*strength+wetContribution,0.0,1.0);
 }
@@ -64,7 +66,7 @@ vec4 layeredTerrainTexel(vec3 surfaceNormal){
 		result=mix(result,path,roadCore*uMixStrength);
 	}
 ${layerMixes}
-	float colorVariation=0.90+terrainMacro(19.7)*0.18;
+	float colorVariation=0.95+terrainMacro(19.7)*0.10;
 	result.rgb*=colorVariation;
 	return result;
 }
@@ -86,5 +88,8 @@ function layerMix(index) {
 }
 
 function normalizedCount(value) {
-	return Math.max(0, Math.min(TERRAIN_LAYER_TARGET, Math.floor(Number(value) || 0)));
+	return Math.max(
+		0,
+		Math.min(TERRAIN_LAYER_TARGET, Math.floor(Number(value) || 0))
+	);
 }

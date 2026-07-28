@@ -1,0 +1,95 @@
+
+DevTools listening on ws://127.0.0.1:9258/devtools/browser/8c51c2cc-18fc-4664-ad1d-ae88bbabe8c8
+[48110:155127:0727/142707.422359:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142707.423101:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142707.423284:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142707.424009:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142707.424151:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142707.424276:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142707.424850:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142707.424984:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142707.425195:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142707.795820:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142707.795934:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142707.796038:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+Trying to load the allocator multiple times. This is *not* supported.
+[48110:155127:0727/142710.243630:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142710.243845:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142710.244263:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142710.395173:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142710.395765:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142710.396142:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142710.517878:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142710.518010:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142710.519692:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142710.670826:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142710.670948:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142710.671386:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142710.848388:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142710.848498:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142710.848630:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48076:155072:0727/142710.972282:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[48110:155127:0727/142711.001571:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142711.001729:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142711.001836:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155127:0727/142711.147131:ERROR:ui/gl/egl_util.cc:92] EGL Driver message (Error) eglQueryDeviceAttribEXT: Bad attribute.
+[48110:155127:0727/142711.147247:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[48110:155233:0727/142711.147357:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[48298:156268:0727/142726.273477:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake-all --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[48298:156268:0727/142726.273915:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 3445, parent pid: 48076
+[48298:156268:0727/142726.278132:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48298:156268:0727/142726.278182:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48298:156268:0727/142726.278327:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[48300:156272:0727/142726.290925:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[48300:156272:0727/142726.291291:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 3445, parent pid: 1
+[48300:156272:0727/142726.294982:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48300:156272:0727/142726.295031:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48300:156272:0727/142726.295220:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[48298:156268:0727/142726.296343:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[48298:156268:0727/142726.298218:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[48298:156268:0727/142726.298353:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[48298:156268:0727/142726.298505:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/awtsmoos/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[48298:156268:0727/142726.298590:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[48298:156280:0727/142726.299238:VERBOSE1:chrome/updater/app/app_wakeall.cc:58] Launching `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake`
+[48301:156284:0727/142726.311953:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[48301:156284:0727/142726.312333:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 3445, parent pid: 48298
+[48301:156284:0727/142726.315780:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48301:156284:0727/142726.315828:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48301:156284:0727/142726.315973:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[48303:156288:0727/142726.334502:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[48303:156288:0727/142726.334982:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 3445, parent pid: 1
+[48303:156288:0727/142726.339027:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48303:156288:0727/142726.339070:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 18887761920B (17.591GiB) / 250790436864B (233.567GiB)
+[48303:156288:0727/142726.339216:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[48301:156284:0727/142726.340217:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[48301:156284:0727/142726.342018:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[48301:156284:0727/142726.342163:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[48301:156284:0727/142726.342336:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/awtsmoos/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[48301:156284:0727/142726.342426:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[48301:156284:0727/142726.342905:VERBOSE1:chrome/updater/ipc/update_service_internal_proxy_mojo.cc:61] Run
+[48076:155072:0727/142736.033049:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[48301:156284:0727/142745.329253:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[48301:156284:0727/142745.332292:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[48301:156284:0727/142745.332372:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake) returned 0.
+[48298:156280:0727/142745.349794:VERBOSE1:chrome/updater/app/app_wakeall.cc:68] `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake` exited 0
+[48298:156280:0727/142745.349927:VERBOSE1:chrome/updater/app/app_wakeall.cc:58] Launching `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/149.0.7814.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake`
+[48298:156280:0727/142745.350191:VERBOSE1:chrome/updater/app/app_wakeall.cc:64] `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/149.0.7814.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake` process invalid: Operation timed out (60)
+[48298:156268:0727/142745.350325:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[48298:156268:0727/142745.350805:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[48298:156268:0727/142745.350833:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake-all) returned 0.
+[48303:156288:0727/142755.406967:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[48303:156288:0727/142755.407006:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[48300:156272:0727/142755.449885:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[48300:156272:0727/142755.449967:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[48076:155072:0727/142828.143544:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+Trying to load the allocator multiple times. This is *not* supported.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1785187807.106717  162049 environment.cc:558] Selected adapter: Intel(R) Iris(TM) Graphics 6000, arch=gen-8, vendor=intel, backend=Metal, adapterType=Integrated GPU
+I0000 00:00:1785187807.119267  162067 environment.cc:558] Selected adapter: Intel(R) Iris(TM) Graphics 6000, arch=gen-8, vendor=intel, backend=Metal, adapterType=Integrated GPU
+[49555:162067:0727/143007.119650:ERROR:services/on_device_model/ml/chrome_ml.cc:94] Terminating On-Device Model Service: Failed creation: Failed to create device:
+Invalid feature required: Requested feature FeatureName::TimestampQuery is not supported.
+    at CreateDeviceInternal (../../third_party/dawn/src/dawn/native/Adapter.cpp:306)
+
+[48076:154942:0727/143007.120660:ERROR:services/on_device_model/public/cpp/service_client.cc:37] Unexpected on_device_model service disconnect; reason: 0, description: 
+[48076:155072:0727/143007.910917:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT

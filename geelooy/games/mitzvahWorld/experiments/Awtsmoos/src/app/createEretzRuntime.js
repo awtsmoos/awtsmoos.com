@@ -16,6 +16,10 @@ import {
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
+export {
+	startGameplayTextureStreaming
+} from './GameplayTextureStreamingGate.js';
+
 const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260723-stream-21';
 const TRACKER_URL = './BootPhaseTracker.js?v=20260722-boot-text-01';
 
@@ -25,6 +29,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 	const { BootPhaseTracker } = await import(TRACKER_URL);
 	const boot = new BootPhaseTracker(undefined, environment);
 	globalThis.AwtsmoosBootTracker = boot;
+
 	try {
 		boot.begin('staged-webgl-runtime');
 		const { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);
@@ -90,10 +95,12 @@ function exposeBootFailure(error, hosts, environment) {
 	};
 	environment.AwtsmoosBootError = failure;
 	markRuntimeFailed(error, environment.document);
+
 	if (hosts?.hud) {
 		hosts.hud.style.removeProperty('display');
 		hosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;
 	}
+
 	console.error('B"H Mitzvah World initialization failed.', error);
 }
 

@@ -15,7 +15,7 @@ const ACCESSIBLE = "java:reflect:field:accessible";
  * exposes no host reflection object and preserves canonical Dalvik signatures.
  */
 export function createDeclaredJavaField(runtime, descriptor, name) {
-	const metadata = declaredFieldMetadata(runtime, descriptor).find(field => {
+	const metadata = declaredJavaFieldMetadata(runtime, descriptor).find(field => {
 		return field.name === String(name);
 	});
 	if (!metadata) {
@@ -24,12 +24,12 @@ export function createDeclaredJavaField(runtime, descriptor, name) {
 			`${descriptor}->${name}`
 		);
 	}
-	return createFieldHandle(runtime, metadata);
+	return createJavaReflectFieldHandle(runtime, metadata);
 }
 
 export function createDeclaredJavaFields(runtime, descriptor) {
-	const fields = declaredFieldMetadata(runtime, descriptor).map(metadata => {
-		return createFieldHandle(runtime, metadata);
+	const fields = declaredJavaFieldMetadata(runtime, descriptor).map(metadata => {
+		return createJavaReflectFieldHandle(runtime, metadata);
 	});
 	const array = runtime.heap.allocateArray(FIELD_ARRAY, fields.length);
 	fields.forEach((field, index) => runtime.heap.arraySet(array, index, field));
@@ -61,7 +61,7 @@ export function isJavaReflectFieldAccessible(runtime, reference) {
 	return runtime.heap.getField(reference, ACCESSIBLE) ? 1 : 0;
 }
 
-function declaredFieldMetadata(runtime, descriptor) {
+export function declaredJavaFieldMetadata(runtime, descriptor) {
 	const definition = runtime.registry?.classDefinition(descriptor);
 	if (!definition) {
 		const framework = frameworkDeclaredFields(descriptor);
@@ -78,6 +78,13 @@ function declaredFieldMetadata(runtime, descriptor) {
 	];
 }
 
+export function createJavaReflectFieldHandle(runtime, metadata) {
+	return runtime.heap.allocate(JAVA_REFLECT_FIELD, {
+		[ACCESSIBLE]: false,
+		[METADATA]: metadata
+	});
+}
+
 function fieldMetadata(encoded, staticField) {
 	const member = encoded.member;
 	return Object.freeze({
@@ -87,13 +94,6 @@ function fieldMetadata(encoded, staticField) {
 		signature: `${member.classType}->${member.name}:${member.type}`,
 		staticField,
 		type: member.type
-	});
-}
-
-function createFieldHandle(runtime, metadata) {
-	return runtime.heap.allocate(JAVA_REFLECT_FIELD, {
-		[ACCESSIBLE]: false,
-		[METADATA]: metadata
 	});
 }
 

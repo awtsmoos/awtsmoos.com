@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCombatActions.js
- * @description Defines the real keyboard, icon, cast, cooldown, range, damage, and projectile rules.
- * The Awtsmoos measures each fictional deed through a named vessel;
- * Awtsmoos.com gives one shared truth to the hotbar, cast coordinator, projectile, and diagnostics.
+ * @description Defines graphic actions while Hebrew remains in names, casting, and particles.
+ * The Awtsmoos lets symbol and letter serve without confusion; Awtsmoos.com gives children
+ * immediate pictograms while preserving Hebrew speech in every charged fictional deed.
  */
 
 export const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
@@ -15,7 +15,7 @@ export const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
 		color: [1, 0.18, 0.03, 1],
 		cooldown: 2.5,
 		damage: 28,
-		icon: 'אש',
+		icon: '🔥',
 		keyCode: 'Digit1',
 		keyLabel: '1',
 		label: 'Hebrew Fire',
@@ -28,7 +28,7 @@ export const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
 		color: [1, 0.83, 0.22, 1],
 		cooldown: 1.85,
 		damage: 18,
-		icon: 'אור',
+		icon: '☀️',
 		keyCode: 'Digit2',
 		keyLabel: '2',
 		label: 'Letter Light',
@@ -41,7 +41,7 @@ export const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
 		color: [0.42, 0.83, 1, 1],
 		cooldown: 1.2,
 		damage: 12,
-		icon: '⚔',
+		icon: '🪄',
 		keyCode: 'Digit3',
 		keyLabel: '3',
 		label: 'Staff Strike',

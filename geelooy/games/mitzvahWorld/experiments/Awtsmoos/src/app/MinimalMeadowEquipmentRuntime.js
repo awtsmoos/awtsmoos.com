@@ -4,15 +4,23 @@
 
 /**
  * @file MinimalMeadowEquipmentRuntime.js
- * @description Synchronizes model-derived garments, appearance, weapons, hydration, and casting.
- * The Awtsmoos renews wearer, hue, weave, staff, sword, hand, and back in one relation;
- * Awtsmoos.com applies wardrobe changes on publication, never by allocating inside each frame.
+ * @description Synchronizes garments and one generation-owned hand attachment across hydration.
+ * The Awtsmoos renews wearer, weave, tefillin, staff, sword, and anchor in one relation;
+ * Awtsmoos.com validates attachment periodically rather than rebuilding it on every frame.
  */
 
+import { MinimalMeadowAttachmentRegistry } from './MinimalMeadowAttachmentRegistry.js';
 import { MinimalMeadowEquipmentCasting } from './MinimalMeadowEquipmentCasting.js';
 import { applyMinimalGarmentAppearance } from './MinimalMeadowGarmentAppearance.js';
-import { applyMinimalGarmentVisibility, resolveMinimalEquipmentNodes } from './MinimalMeadowEquipmentNodes.js';
-import { attachMinimalWeapon, detachMinimalWeapon } from './MinimalMeadowWeaponAttachment.js';
+import {
+	applyMinimalGarmentVisibility,
+	resolveMinimalEquipmentNodes
+} from './MinimalMeadowEquipmentNodes.js';
+import {
+	installMinimalMeadowEquipmentListeners,
+	minimalMeadowEquipmentDiagnostics,
+	minimalMeadowEquippedWeaponItemId
+} from './MinimalMeadowEquipmentRuntimeState.js';
 import { createMinimalMeadowWeapon } from './MinimalMeadowWeaponFactory.js';
 
 export class MinimalMeadowEquipmentRuntime {
@@ -22,33 +30,30 @@ export class MinimalMeadowEquipmentRuntime {
 		this.bus = runtime.bus;
 		this.model = null;
 		this.nodes = null;
-		this.drawn = false;
+		this.drawn = true;
 		this.weapon = null;
 		this.weaponItemId = null;
 		this.garments = {};
 		this.appearance = {};
+		this.attachments = new MinimalMeadowAttachmentRegistry();
 		this.casting = new MinimalMeadowEquipmentCasting(this);
-		this.unsubscribers = this.installListeners();
-	}
-
-	installListeners() {
-		return [
-			this.inventory.onChange(() => this.synchronize()),
-			this.bus.on('equipment:draw', () => this.setDrawn(true)),
-			this.bus.on('equipment:sheath', () => this.setDrawn(false)),
-			this.bus.on('equipment:toggle-draw', () => this.setDrawn(!this.drawn)),
-			this.bus.on('combat:cast-start', () => this.casting.begin()),
-			this.bus.on('combat:cast-launch', () => this.casting.launch()),
-			this.bus.on('combat:cast-cancel', () => this.casting.cancel())
-		];
+		this.unsubscribers = installMinimalMeadowEquipmentListeners(this);
 	}
 
 	bindModel(model) {
-		if (!model) return;
-		detachMinimalWeapon(this.weapon);
+		if (!model) return false;
 		this.model = model;
 		this.nodes = resolveMinimalEquipmentNodes(model);
+		this.attachments.bindModel(this.nodes, this.drawn);
 		this.synchronize();
+		return true;
+	}
+
+	update() {
+		if (this.runtime.model && this.runtime.model !== this.model) {
+			return this.bindModel(this.runtime.model);
+		}
+		return this.attachments.tick(this.model, this.drawn, this.casting.active);
 	}
 
 	setDrawn(drawn, force = false) {
@@ -60,20 +65,25 @@ export class MinimalMeadowEquipmentRuntime {
 
 	synchronize() {
 		const state = this.inventory.snapshot();
-		const itemId = equippedWeaponItemId(state.equipment.hand);
+		const itemId = minimalMeadowEquippedWeaponItemId(state.equipment.hand);
 		if (itemId !== this.weaponItemId) this.replaceWeapon(itemId);
 		if (this.nodes) {
 			this.garments = applyMinimalGarmentVisibility(this.nodes, state.equipment);
-			this.appearance = applyMinimalGarmentAppearance(this.nodes.wardrobe, state.equipment, state.appearance);
-			if (this.weapon) attachMinimalWeapon(this.weapon, this.nodes, this.drawn);
+			this.appearance = applyMinimalGarmentAppearance(
+				this.nodes.wardrobe,
+				state.equipment,
+				state.appearance
+			);
+			this.attachments.setWeapon(this.weapon, this.drawn);
 		}
 		this.emitState();
 	}
 
 	replaceWeapon(itemId) {
-		detachMinimalWeapon(this.weapon);
+		this.attachments.detach();
 		this.weapon = itemId ? createMinimalMeadowWeapon(itemId) : null;
 		this.weaponItemId = itemId;
+		this.attachments.setWeapon(this.weapon, this.drawn);
 	}
 
 	equipped(slot) {
@@ -85,26 +95,12 @@ export class MinimalMeadowEquipmentRuntime {
 	}
 
 	diagnostics() {
-		return {
-			appearance: { ...this.appearance },
-			casting: this.casting.active,
-			drawn: this.drawn,
-			garments: structuredClone(this.garments),
-			handBone: this.nodes?.rightHand?.name || this.nodes?.leftHand?.name || null,
-			model: this.model?.name || null,
-			spineBone: this.nodes?.spine?.name || null,
-			weaponAttachment: this.weapon?.userData?.attachment || 'none',
-			weaponItemId: this.weaponItemId
-		};
+		return minimalMeadowEquipmentDiagnostics(this);
 	}
 
 	destroy() {
 		this.casting.destroy();
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
-		detachMinimalWeapon(this.weapon);
+		this.attachments.destroy();
 	}
-}
-
-function equippedWeaponItemId(itemId) {
-	return ['wooden-staff', 'spark-blade'].includes(itemId) ? itemId : null;
 }

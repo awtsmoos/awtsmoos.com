@@ -6,18 +6,18 @@ import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 import { StableReferenceBeardLayer2D } from '../StableReferenceBeardLayer2D.js';
 import { StableShapeKit as S } from '../StableShapeKit.js';
 import { EyeRenderer } from './EyeRenderer.js';
+import { StableFaceLandmarkLayout } from './StableFaceLandmarkLayout.js';
 import { MouthRenderer } from './MouthRenderer.js';
 import { NoseRenderer } from './NoseRenderer.js';
 import { StableBrowRenderer } from './StableBrowRenderer.js';
 
 /**
- * Beard becomes the soft ground beneath eyes, brows, nose, cheeks, and speech.
- * The Awtsmoos renews concealment beneath revelation, while Awtsmoos.com keeps
- * every acting feature editable, phoneme-driven, serializable, and deterministic.
+ * All acting features now inhabit one skull without a compensating puppet offset.
+ * The Awtsmoos joins revelation and concealment; Awtsmoos.com keeps beard,
+ * eyes, cheeks, and speech editable in the authoritative production graph.
  */
 export class StableFaceFeatureGroup {
 	static build(kind, data, colors, metrics, view, mood, blink, legacyBeard) {
-		const style = data.faceStyle || {};
 		const authoredBeard = StableReferenceBeardLayer2D.build(
 			data,
 			colors,
@@ -25,12 +25,7 @@ export class StableFaceFeatureGroup {
 			view,
 			mood
 		);
-		return S.group(`${kind}_facial_features`, {
-			x: Number(style.featureOffsetX || 0),
-			y: Number(style.featureOffsetY || 0),
-			scaleX: Number(style.featureScaleX || 1),
-			scaleY: Number(style.featureScaleY || 1)
-		}, [
+		return S.group(`${kind}_facial_features`, null, [
 			authoredBeard,
 			legacyBeard && !authoredBeard
 				? this.legacyBeard(kind, colors, metrics)
@@ -38,24 +33,23 @@ export class StableFaceFeatureGroup {
 			...EyeRenderer.build(kind, colors, metrics, view, mood, blink, data),
 			...StableBrowRenderer.build(kind, data, colors, metrics, view, mood),
 			NoseRenderer.build(kind, colors, metrics, view, data),
-			this.cheeks(kind, data, colors, metrics, mood),
+			this.cheeks(kind, data, colors, metrics, view, mood),
 			MouthRenderer.build(kind, data, colors, metrics, view, mood)
 		]);
 	}
 
-	static cheeks(kind, data, colors, metrics, mood = {}) {
-		const lift = Math.max(0.05, Number(mood.cheekLift || 0));
+	static cheeks(kind, data, colors, metrics, view, mood = {}) {
+		const layout = StableFaceLandmarkLayout.resolve(data, metrics, view);
 		const style = data.faceStyle || {};
-		const alpha = Math.min(
-			0.35,
-			0.06 + lift * 0.24 + Number(mood.blush || 0) * 0.2
-		);
+		const lift = Math.max(0.05, Number(mood.cheekLift || 0));
+		const alpha = Math.min(0.35, 0.06 + lift * 0.24
+			+ Number(mood.blush || 0) * 0.2);
 		return S.group(`${kind}_cheeks`, null, [-1, 1].map(side => G.ellipse(
 			`${kind}_cheek_${side}`,
-			side * Number(style.cheekX || 19),
-			metrics.headY + Number(style.cheekY || 11) - lift * 2,
-			Number(style.cheekRX || 6) + lift * 2,
-			Number(style.cheekRY || 4) + lift,
+			layout.shell.centerX + side * layout.cheeks.spread,
+			layout.cheeks.y - lift * 2,
+			Number(style.cheekRX || layout.shell.radiusX * 0.18) + lift * 2,
+			Number(style.cheekRY || layout.shell.radiusY * 0.1) + lift,
 			0,
 			{
 				fill: colors.blush || `rgba(255,120,120,${alpha})`,
@@ -73,7 +67,7 @@ export class StableFaceFeatureGroup {
 			27,
 			30,
 			0,
-			{ fill: colors.beard, stroke: colors.line, lineWidth: 3 }
+			{ fill: colors.beard, stroke: colors.line, lineWidth: 2 }
 		);
 	}
 }

@@ -4,54 +4,88 @@ Blessed is He
 
 # Geelooy Direct ChatGPT Relay
 
-The Awtsmoos recreates every browser route, request vessel, Sentinel decision, WebSocket frame, and answer. This relay now distinguishes strict request-only capability from the older page-authorized carrier fallback instead of silently mixing them.
+The relay separates two explicit transports:
 
-## Result
+- `strict-request-only` — capability truth and refusal when browser enforcement is required.
+- `page-authorized-fallback` — the minimum normal-browser carrier needed to obtain fresh enforcement values, followed by request-driven chat and GET polling.
 
-A normal authenticated Chrome tab on a non-home ChatGPT route is a useful request host.
+It never fabricates, derives, logs, stores, or replays proof, Turnstile, session-observer, conduit, account, session, or upstream conversation values.
 
-The following routes were tested:
+## Request-only capability
 
-- `/settings`
-- `/settings/general`
-- `/settings/data-controls`
-- a deliberate nonexistent route
-- a fake share route
+The strict capability path uses an authenticated `/settings` tab. It does not focus, type into, click, or submit the composer. It does not install a WebSocket shim.
 
-In normal Chrome they remained authenticated, avoided Cloudflare, and opened the page-owned ChatGPT topic socket.
+Official probes run sequentially:
 
-Changing the route did not make headless Chrome acceptable to ChatGPT. Headless `/settings`, the deliberate 404, and the fake-share route still returned Cloudflare or 403 responses. This project does not bypass that challenge.
+1. Observe ordinary application headers in transient memory.
+2. POST `/backend-api/f/conversation/prepare`.
+3. Wait two seconds.
+4. POST `/backend-api/sentinel/chat-requirements/prepare`.
+5. Wait two seconds.
+6. Load the public Sentinel SDK and invoke its public methods.
+7. Cache the redacted capability result for 60 seconds.
 
-## Strict request-only capability
+The request-only surface provides:
 
-The strict pipeline now performs all of these steps without focusing, typing into, clicking, or submitting the composer:
+- authenticated application headers;
+- conversation preparation;
+- conduit state;
+- Sentinel preparation metadata;
+- public Sentinel SDK readiness;
+- authenticated conversation-route GET completion.
 
-1. Open an authenticated `/settings` host tab.
-2. Observe the current application's ordinary client headers in memory.
-3. Open and retain the page-owned ChatGPT topic socket.
-4. Build the ordinary conversation-prepare body from public defaults, runtime timezone, and a fresh parent identifier.
-5. POST `/backend-api/f/conversation/prepare` through same-origin page fetch.
-6. Receive a fresh conduit token in transient memory.
-7. POST `/backend-api/sentinel/chat-requirements/prepare` through requests.
-8. Load and invoke only the public Sentinel SDK methods `init`, `token`, and `timing`.
-9. Stop before chat-requirements finalization when the server requires normal enforcement.
+The live environment currently requires:
 
-The live server response currently requires:
+- Turnstile;
+- proof of work;
+- session-observer enforcement.
 
-- Turnstile
-- proof of work
-- session observer enforcement
+The public `sessionObserverToken` method exists but did not return a usable token in the tested flow.
 
-No proof algorithm, Turnstile solver, challenge bypass, or enforcement-token fabrication is implemented.
+## Proven browser-challenge boundary
 
-## Public relay routes
+Suppressed normal-page traces established the exact boundary:
+
+1. The page calls Sentinel prepare.
+2. Cloudflare's normal challenge runtime performs its verification.
+3. The page calls Sentinel finalize, `/req`, and `/ping`.
+4. The proof and Turnstile values used by the conversation request exactly match the values sent by the normal page to Sentinel `/ping`.
+5. Those values do not match prepare, finalize, or `/req` response tokens.
+
+Therefore active enforcement cannot currently be completed with ordinary requests alone. This project does not implement challenge solvers, proof derivation, token fabrication, or anti-abuse bypasses.
+
+## Minimum fallback
+
+When `page-authorized-fallback` is selected explicitly:
+
+1. Open one owned authenticated tab.
+2. Activate only that owned target.
+3. Click the visible composer once to obtain normal user activation.
+4. Insert a harmless transient carrier—not the user's prompt.
+5. Wait until ChatGPT reports an enabled Send control.
+6. Intercept the carrier conversation POST and abort it before delivery.
+7. Reuse the fresh normal-page enforcement envelope for exactly one same-origin conversation POST containing the real prompt.
+8. Poll the authenticated conversation route with GET requests until completion.
+9. Close or safely reuse the bounded owned host.
+
+The user's actual prompt never enters the composer. The carrier request is suppressed. Only the real request is delivered.
+
+Live verification proved:
+
+- suppressed carrier conversation-count delta: `0`;
+- one real diagnostic conversation created successfully;
+- exact expected answer matched;
+- answer completion used authenticated GET polling;
+- no topic WebSocket was required for completion.
+
+## Relay routes
 
 - `GET /direct-health`
 - `GET /direct-capability`
 - `POST /direct-chat`
 - `POST /direct-reset`
 
-The raw `/direct-chat` API defaults to:
+`POST /direct-chat` defaults to:
 
 ```json
 {
@@ -59,19 +93,9 @@ The raw `/direct-chat` API defaults to:
 }
 ```
 
-When normal enforcement is required, it returns HTTP 409 with:
+When active enforcement is required, strict mode returns HTTP 409 with `direct_enforcement_required`. It does not construct the carrier path or send a conversation POST.
 
-```json
-{
-	"error": "direct_enforcement_required"
-}
-```
-
-It does not construct the carrier client or send a conversation POST.
-
-## Explicit fallback
-
-Actual chat can still use the previously validated carrier-assisted path, but it must now be named:
+Explicit fallback:
 
 ```json
 {
@@ -80,79 +104,40 @@ Actual chat can still use the previously validated carrier-assisted path, but it
 }
 ```
 
-Only that explicit mode may touch the composer to obtain a fresh page-authorized envelope. The carrier request is suppressed; the real prompt still travels by request and its answer returns through the page-owned topic socket.
+## Commands
 
-`AwtsmoosGPTify` presently defaults its user-facing chat method to the explicit fallback mode for compatibility. The raw relay API remains strict by default.
+Manual authentication:
 
-## Extension surface
-
-The geelooy extension page bridge exposes:
-
-```js
-await awtsmoosFetch.directCapability();
-
-await awtsmoosFetch.directChat({
-	prompt,
-	conversationKey,
-	mode: "strict-request-only"
-});
-
-await awtsmoosFetch.directChat({
-	prompt,
-	conversationKey,
-	mode: "page-authorized-fallback"
-});
+```bash
+npm run ai:login
 ```
 
-The extension route itself is request/message based:
+Live request-only capability report, with no composer and no conversation POST:
 
-1. Page bridge message.
-2. Extension background request.
-3. Local relay HTTP request.
-4. Strict request-only capability service or explicitly selected fallback.
+```bash
+npm run ai:request-capability
+```
 
-The exact local HTTP boundary used by the extension was tested live on a temporary relay port:
+Login plus strict stress verification:
 
-- `GET /direct-capability` returned HTTP 200.
-- strict `POST /direct-chat` returned HTTP 409.
-- both responses reported `conversationPostSent: false` for the strict capability path.
+```bash
+npm run ai:login-stress
+```
 
-The unpacked extension did not activate in the tested Chrome profile despite the `--load-extension` flag: no extension service-worker target appeared and no page bridge was installed. Therefore the source, package closure, and exact HTTP boundary are verified, but a live call from `window.awtsmoosFetch.directCapability()` was not observed in that profile.
-
-## Start the relay
+Start the relay directly:
 
 ```bash
 AWTSMOOS_SPLIT_BROWSER_PORT=38488 \
-AWTSMOOS_CHROME_DEBUG_PORT=9226 \
-AWTSMOOS_DIRECT_INTERVAL_MS=7000 \
+AWTSMOOS_CHROME_DEBUG_PORT=9223 \
+AWTSMOOS_DIRECT_INTERVAL_MS=10000 \
 node geelooy/ai/relay/split-browser/index.js
 ```
 
-## Verification
+## Safety and pacing
 
-Static and package tests:
-
-```bash
-node --test \
-	geelooy/ai/tests/directRelayService.test.mjs \
-	geelooy/ai/tests/directTransportSource.test.cjs \
-	geelooy/ai/tests/extensionZipPackage.test.cjs
-```
-
-Live production capability:
-
-```bash
-AWTSMOOS_CHROME_DEBUG_PORT=9226 \
-node geelooy/ai/tests/liveRequestOnlyCapability.mjs
-```
-
-Important reports:
-
-- `geelooy/ai/thoughts/live-request-only-capability.json`
-- `debugging/chatgpt-endpoint-recovery-2026-07-22/evidence/reports/nonmain-route-request-probe-9226.json`
-- `debugging/chatgpt-endpoint-recovery-2026-07-22/evidence/reports/nonmain-route-request-probe-headless-9333.json`
-- `debugging/chatgpt-endpoint-recovery-2026-07-22/evidence/reports/request-only-prepare-live.json`
-- `debugging/chatgpt-endpoint-recovery-2026-07-22/evidence/reports/request-only-sentinel-capability.json`
-- `debugging/chatgpt-endpoint-recovery-2026-07-22/evidence/reports/geelooy-extension-http-boundary-summary-final.json`
-
-No report retains bearer tokens, conduit values, Sentinel prepare tokens, proof values, Turnstile values, socket verification URLs, account identifiers, or upstream conversation identifiers.
+- Capability probes are sequential with two-second gaps.
+- Capability results are cached for 60 seconds.
+- Real stress requests use a global minimum ten-second start gap.
+- Carrier POSTs are always intercepted and suppressed.
+- No report includes token values, cookie values, authorization values, account identifiers, session identifiers, upstream conversation identifiers, prompts, or answers.
+- Every direct-relay source file is limited to 120 lines.

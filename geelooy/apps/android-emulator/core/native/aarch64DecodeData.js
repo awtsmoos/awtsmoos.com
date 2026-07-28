@@ -6,21 +6,29 @@ import { decodeAarch64Arithmetic } from "./aarch64DecodeArithmetic.js";
 import { decodeAarch64Bitfield } from "./aarch64DecodeBitfield.js";
 import { decodeAarch64ConditionalCompare } from "./aarch64DecodeConditionalCompare.js";
 import { decodeAarch64ConditionalSelect } from "./aarch64DecodeConditionalSelect.js";
+import { decodeAarch64Division } from "./aarch64DecodeDivision.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
+import { decodeAarch64GeneralSimdMove } from "./aarch64DecodeGeneralSimdMove.js";
 import { decodeAarch64LogicalImmediate } from "./aarch64DecodeLogicalImmediate.js";
+import { decodeAarch64Multiply } from "./aarch64DecodeMultiply.js";
+import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
  * Decodes scalar, SIMD, arithmetic, conditional, and logical data families.
  * The Awtsmoos recreates each measured transformation anew; Awtsmoos.com routes
- * conditional comparison before selection while preserving every older family.
+ * exact vector-lane appointments before scalar moves and numeric conversions.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeAarch64FloatToInteger(normalized)
+	return decodeAarch64SimdGeneralInsert(normalized)
+		|| decodeAarch64GeneralSimdMove(normalized)
+		|| decodeAarch64FloatToInteger(normalized)
 		|| decodeAarch64SimdModifiedImmediate(normalized)
 		|| decodeAarch64Bitfield(normalized)
+		|| decodeAarch64Multiply(normalized)
+		|| decodeAarch64Division(normalized)
 		|| decodeAarch64Arithmetic(normalized)
 		|| decodeAarch64ConditionalCompare(normalized)
 		|| decodeAarch64ConditionalSelect(normalized)

@@ -4,14 +4,19 @@
 
 /**
  * @file MinimalMeadowEnemyActor.js
- * @description Makes one profile-driven skinned demon live, fight, fall, persist, and become lootable.
+ * @description Makes one profile-driven enemy live, fight, fall, persist, and expose chosen loot.
  * The Awtsmoos grants darkness no independent throne; Awtsmoos.com keeps one continuous body
- * through patrol, pack pursuit, attack, recoil, corpse pose, selection, and one-time inventory loot.
+ * while archetype proportions distinguish broad warden, lean skirmisher, and tall cantor.
  */
 
-import { animateMinimalShadowCreature } from './MinimalMeadowCreatureAnimation.js';
 import { createMinimalShadowCreatureMesh } from './MinimalMeadowCreatureMesh.js';
 import { MinimalMeadowEnemyCombat } from './MinimalMeadowEnemyCombat.js';
+import {
+	updateMinimalMeadowEnemyActor
+} from './MinimalMeadowEnemyActorMotion.js';
+import {
+	createMinimalMeadowEnemyActorState
+} from './MinimalMeadowEnemyActorState.js';
 import {
 	clearMinimalEnemy,
 	damageMinimalEnemy,
@@ -20,6 +25,10 @@ import {
 	minimalEnemyPointerHit,
 	targetMinimalEnemy
 } from './MinimalMeadowEnemyLifecycle.js';
+import {
+	lootAllMinimalEnemyCorpse,
+	takeMinimalEnemyCorpseItem
+} from './MinimalMeadowEnemyLoot.js';
 import {
 	minimalShadowEnemyProfile,
 	minimalShadowWaypoints
@@ -32,132 +41,69 @@ import {
 
 export class MinimalMeadowEnemyActor {
 	constructor(options) {
-		Object.assign(this, initialState(options));
 		this.profile = minimalShadowEnemyProfile(options.compiled, options.profile);
+		Object.assign(this, createMinimalMeadowEnemyActorState(options, this.profile));
 		this.group = createMinimalShadowCreatureMesh(options.compiled, this.profile);
 		this.waypoints = minimalShadowWaypoints(this.profile);
 		this.health = this.profile.maxHealth;
 		this.combat = new MinimalMeadowEnemyCombat(this, this.runtime);
-		this.group.scale.set(
-			this.profile.visualScale,
-			this.profile.visualScale,
-			this.profile.visualScale
-		);
+		applyEnemyBodyScale(this.group, this.profile);
 		this.group.position.set(
 			this.profile.x,
 			this.ground(this.profile.x, this.profile.z),
 			this.profile.z
 		);
 	}
-
 	update(deltaSeconds) {
-		if (!this.alive) {
-			this.updateCorpse(deltaSeconds);
-			return;
-		}
-		if (!this.combat.update(deltaSeconds)) {
-			this.wander(deltaSeconds);
-		}
-		this.group.position.y = this.ground(
-			this.group.position.x,
-			this.group.position.z
-		);
-		animateMinimalShadowCreature(this, deltaSeconds);
+		updateMinimalMeadowEnemyActor(this, deltaSeconds);
 	}
-
-	wander(deltaSeconds) {
-		const target = this.waypoints[this.waypointIndex];
-		const deltaX = target.x - this.group.position.x;
-		const deltaZ = target.z - this.group.position.z;
-		const distance = Math.hypot(deltaX, deltaZ);
-		this.moving = distance >= 0.65;
-		this.action = this.moving ? 'walk' : 'idle';
-		if (!this.moving) {
-			this.waypointIndex = (this.waypointIndex + 1) % this.waypoints.length;
-			return;
-		}
-		this.move(deltaX, deltaZ, distance, deltaSeconds);
-	}
-
-	updateCorpse(deltaSeconds) {
-		this.deathTime += deltaSeconds;
-		this.action = this.deathTime < 1.2 ? 'death' : 'corpse';
-		animateMinimalShadowCreature(this, deltaSeconds);
-		this.group.position.y = this.ground(
-			this.group.position.x,
-			this.group.position.z
-		);
-	}
-
-	move(deltaX, deltaZ, distance, deltaSeconds) {
-		if (distance <= 0.0001) {
-			return;
-		}
-		const step = Math.min(distance, this.profile.speed * deltaSeconds);
-		this.group.position.x += deltaX / distance * step;
-		this.group.position.z += deltaZ / distance * step;
-		const yaw = Math.atan2(deltaX, deltaZ);
-		this.group.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
-	}
-
 	hitPointer(event) {
 		return minimalEnemyPointerHit(this, event);
 	}
-
 	target() {
 		return targetMinimalEnemy(this);
 	}
-
 	interact() {
 		return interactWithMinimalEnemy(this);
 	}
-
 	clear(silent = false) {
 		clearMinimalEnemy(this, silent);
 	}
-
 	applyDamage(amount) {
 		return damageMinimalEnemy(this, amount);
 	}
-
 	defeat() {
 		defeatMinimalEnemy(this);
 	}
-
+	lootPreview() {
+		return this.lootState.snapshot();
+	}
+	takeLootItem(itemId) {
+		return takeMinimalEnemyCorpseItem(this, itemId);
+	}
+	takeAllLoot() {
+		return lootAllMinimalEnemyCorpse(this);
+	}
 	payload() {
 		return minimalEnemyPayload(this);
 	}
-
 	targetHint() {
 		return this.targetHints()[1];
 	}
-
 	targetHints() {
 		return minimalEnemyTargetHints(this);
 	}
-
 	ground(x, z) {
 		return minimalEnemyGround(this, x, z);
 	}
 }
 
-function initialState(options) {
-	return {
-		action: 'idle',
-		actionProgress: 0,
-		alive: true,
-		bus: options.bus,
-		camera: options.camera,
-		canvas: options.canvas,
-		deathTime: 0,
-		hitTime: 0,
-		looted: false,
-		moving: false,
-		pack: options.pack,
-		runtime: options.runtime,
-		selected: false,
-		terrain: options.terrain,
-		visualClock: 0,
-		waypointIndex: 0
-	};
+function applyEnemyBodyScale(group, profile) {
+	const body = profile.bodyScale || [1, 1, 1];
+	const visual = Number(profile.visualScale) || 1;
+	group.scale.set(
+		visual * body[0],
+		visual * body[1],
+		visual * body[2]
+	);
 }

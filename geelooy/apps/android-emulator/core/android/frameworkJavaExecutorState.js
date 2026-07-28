@@ -2,44 +2,49 @@
 //Boruch Hashem
 //Blessed is He
 
-const STATE_FIELD = "java:executor:state";
-const THREAD_POOL = "Ljava/util/concurrent/ThreadPoolExecutor;";
-const THREAD_FACTORY = "Ljava/util/concurrent/ThreadFactory;";
+import { JAVA_THREAD_POOL_EXECUTOR } from "./frameworkJavaExecutorTypes.js";
+
+const EXECUTOR_STATE = "java:executor:state";
+const THREAD_FACTORY_STATE = "java:thread-factory:state";
 
 /**
- * Stores deterministic guest executor identity and shutdown state. The Awtsmoos
- * creates pool, factory, task count, and rejection boundary anew; Awtsmoos.com
- * allocates no host worker, timer, queue, or thread through this vessel.
+ * Stores deterministic guest executor state without opening host concurrency. The
+ * Awtsmoos recreates pool type, factory, task count, and shutdown anew; Awtsmoos.com
+ * preserves the concrete Java vessel while every task remains guest-measured.
  */
-export function createGuestExecutor(runtime, factory = 0) {
-	const reference = runtime.heap.allocate(THREAD_POOL);
+export function createGuestExecutor(
+	runtime,
+	executorType = JAVA_THREAD_POOL_EXECUTOR,
+	factory = 0
+) {
+	const reference = runtime.heap.allocate(executorType);
 	initializeGuestExecutor(runtime, reference, factory);
 	return reference;
 }
 
 export function initializeGuestExecutor(runtime, reference, factory = 0) {
 	runtime.heap.get(reference);
-	runtime.heap.setField(reference, STATE_FIELD, {
+	runtime.heap.setField(reference, EXECUTOR_STATE, Object.seal({
 		factory,
 		shutdown: false,
-		taskCount: 0
-	});
+		tasks: 0
+	}));
 }
 
 export function guestExecutorState(runtime, reference) {
-	const state = runtime.heap.getField(reference, STATE_FIELD);
-	if (!state) throw executorStateError("ANDROID_EXECUTOR_UNINITIALIZED");
+	const state = runtime.heap.getField(reference, EXECUTOR_STATE);
+	if (!state) throw executorStateError("ANDROID_EXECUTOR_STATE_REQUIRED", reference);
 	return state;
 }
 
 export function assertGuestExecutorOpen(runtime, reference) {
 	if (guestExecutorState(runtime, reference).shutdown) {
-		throw executorStateError("ANDROID_EXECUTOR_REJECTED");
+		throw executorStateError("ANDROID_EXECUTOR_SHUTDOWN", reference);
 	}
 }
 
 export function countGuestExecutorTask(runtime, reference) {
-	guestExecutorState(runtime, reference).taskCount += 1;
+	guestExecutorState(runtime, reference).tasks += 1;
 }
 
 export function shutdownGuestExecutor(runtime, reference) {
@@ -47,22 +52,32 @@ export function shutdownGuestExecutor(runtime, reference) {
 }
 
 export function createDefaultThreadFactory(runtime) {
-	return runtime.heap.allocate(THREAD_FACTORY, {
-		"java:thread-factory:default": true
-	});
+	const reference = runtime.heap.allocate("Ljava/util/concurrent/Executors$DefaultThreadFactory;");
+	runtime.heap.setField(reference, THREAD_FACTORY_STATE, Object.seal({ next: 1 }));
+	return reference;
 }
 
-export function factoryFromExecutorArguments(runtime, record, args) {
-	if (!record.method.descriptor.includes("ThreadFactory;")) return 0;
+export function defaultThreadName(runtime, reference) {
+	const state = runtime.heap.getField(reference, THREAD_FACTORY_STATE);
+	if (!state) throw executorStateError("ANDROID_THREAD_FACTORY_STATE_REQUIRED", reference);
+	const name = `pool-1-thread-${state.next}`;
+	state.next += 1;
+	return name;
+}
+
+export function factoryFromExecutorArguments(runtime, args) {
 	for (let index = args.length - 1; index >= 0; index -= 1) {
 		const value = args[index];
-		if (value?.id) return value;
+		if (value && typeof value === "object" && Number.isInteger(value.id)) {
+			runtime.heap.get(value);
+			return value;
+		}
 	}
-	return 0;
+	return createDefaultThreadFactory(runtime);
 }
 
-function executorStateError(code) {
-	const error = new Error(code);
+function executorStateError(code, detail) {
+	const error = new Error(`${code}:${JSON.stringify(detail)}`);
 	error.code = code;
 	return error;
 }

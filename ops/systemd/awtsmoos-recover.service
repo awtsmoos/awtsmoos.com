@@ -1,0 +1,7 @@
+# B"H
+[Unit]
+Description=Restart Awtsmoos after a failed HTTP health probe
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart awtsmoos.service

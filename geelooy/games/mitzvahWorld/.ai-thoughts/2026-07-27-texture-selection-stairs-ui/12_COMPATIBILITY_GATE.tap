@@ -1,0 +1,145 @@
+lines:experiments/Awtsmoos/src/ui/WorldTargetPopulationAdapter.js=113
+lines:experiments/Awtsmoos/src/world/terrain/LocalTerrainTextureCatalog.js=48
+lines:experiments/Awtsmoos/src/world/trees/TreeSemanticMaterialCatalog.js=99
+lines:experiments/Awtsmoos/src/assets/WorldMaterialPresets.js=88
+(node:41839) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H modern pointer selection preserves actor methods through combat (3.16104ms)
+✔ B"H equipped staff belongs to the right hand and repairs (120.500115ms)
+(node:41840) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H uploaded texture catalog stores filenames only (36.138079ms)
+✔ B"H one transport origin encodes full-resolution and tree filenames (0.776ms)
+(node:41841) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldTargetCoordinator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ nearest target is studied first and interacted with second (31.891313ms)
+✔ camera-like pointer drags never advance study or interaction (4.87112ms)
+✔ incompatible population contracts keep pointer ownership disabled (0.702031ms)
+✔ legacy actors preserve first target and second dialogue (1.262849ms)
+(node:41845) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (21.804209ms)
+✔ complete terrain stack retains six distinct source garments (1.228708ms)
+✖ visible maps and source provenance obey local production policy (14.307907ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (16.011204ms)
+(node:41846) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ forest uses a natural fallback and idle-keys canonical RGB leaves for a MASK (50.042667ms)
+(node:41852) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ all six local terrain images exist and contain real bytes (5.356016ms)
+✖ high terrain recipe exposes six distinct same-origin maps and sources (41.941338ms)
+✔ terrain binds a real meadow base and earth mix at construction (2.167044ms)
+(node:41853) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/TreeSemanticMaterialCatalog.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ every required core bark and living leaf type has a high-resolution public URL (9.13998ms)
+✔ leaf materials never activate a procedural blob fallback (0.992404ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 14
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1467.919325
+
+✖ failing tests:
+
+test at src/test/geometry/TerrainLayerRecipe.test.mjs:48:1
+✖ visible maps and source provenance obey local production policy (14.307907ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /assets\/materials\/local\/terrain\/meadow-wet-grass\.png$/. Input:
+  
+  'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%206.png'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipe.test.mjs:50:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%206.png',
+    expected: /assets\/materials\/local\/terrain\/meadow-wet-grass\.png$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at src/test/geometry/localTerrainTextureBoot.test.mjs:25:1
+✖ all six local terrain images exist and contain real bytes (5.356016ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  7 !== 6
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/localTerrainTextureBoot.test.mjs:28:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 7,
+    expected: 6,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/test/geometry/localTerrainTextureBoot.test.mjs:38:1
+✖ high terrain recipe exposes six distinct same-origin maps and sources (41.941338ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(recipe.layers.every((layer) => {
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/localTerrainTextureBoot.test.mjs:43:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at src/test/geometry/treeSemanticMaterials.test.mjs:19:1
+✖ every required core bark and living leaf type has a high-resolution public URL (9.13998ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^https:\/\/awtsmoos-docs-base\.web\.app\//. Input:
+  
+  'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tree%20bark%201.png'
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/treeSemanticMaterials.test.mjs:22:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.start (node:internal/test_runner/test:1177:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tree%20bark%201.png',
+    expected: /^https:\/\/awtsmoos-docs-base\.web\.app\//,
+    operator: 'match',
+    diff: 'simple'
+  }
+test_exit=1

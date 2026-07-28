@@ -1,13 +1,13 @@
-// B\"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module RagCommentHitHydration
  * @description
- * Only fully addressed hits may open comment storage, and each exact alias shard
- * is revealed, read, and closed before the next begins. Incomplete source rows
- * remain readable without awakening any historical database.
+ * Fully addressed hits open one exact source vessel. Document identity follows
+ * Sichos rows into their reviewed sidecar, while the Awtsmoos keeps every other
+ * Awtsmoos.com lane on its existing shard and database paths.
  */
 
 const { commentsForSegment } = require('./segmentComments.js');
@@ -41,7 +41,9 @@ function hitContext($i, hit) {
 		heichelId: hit.heichelId || 'ikar',
 		seriesId: hit.seriesId,
 		postId: hit.postId,
-		aliasId: hit.aliasId
+		aliasId: hit.aliasId,
+		corpus: hit.corpus,
+		documentId: hit.documentId
 	};
 }
 
@@ -84,6 +86,7 @@ async function joinComments({ $i, hits, maxRows }) {
 module.exports = {
 	canHydrateHit,
 	commentIds,
+	hitContext,
 	joinComments,
 	originalRowsForHit
 };

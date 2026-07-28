@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Focus, motion preference, contrast, touch geometry, selection, and scrolling
+ * remain explicit across every truthful composer vessel.
+ */
+
+.composer-civilization-document :is(button, input, textarea, select, a):focus-visible {
+	outline: 2px solid var(--composer-focus);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgba(185, 120, 239, .15);
+}
+
+.composer-civilization-document :is(button, input, textarea, select, a):disabled {
+	cursor: not-allowed;
+	opacity: .5;
+}
+
+.composer-civilization-document ::selection {
+	background: rgba(185, 120, 239, .34);
+	color: #fff;
+}
+
+.composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea) {
+	scrollbar-color: var(--composer-scrollbar) var(--composer-scrollbar-track);
+	scrollbar-width: thin;
+}
+
+.composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea)::-webkit-scrollbar {
+	inline-size: .65rem;
+	block-size: .65rem;
+}
+
+.composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea)::-webkit-scrollbar-thumb {
+	border: 2px solid var(--composer-scrollbar-track);
+	border-radius: 999px;
+	background: var(--composer-scrollbar);
+}
+
+@media (hover: hover) {
+	.composer-civilization-document button:hover,
+	.composer-civilization-document .civilization-button:hover {
+		border-color: var(--composer-border-strong);
+		background-color: var(--composer-raised);
+		color: var(--composer-text);
+	}
+}
+
+@media (pointer: coarse) {
+	.composer-civilization-document :is(button, input, textarea, select, a, summary, label) {
+		min-block-size: 2.75rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.composer-civilization-document *,
+	.composer-civilization-document *::before,
+	.composer-civilization-document *::after {
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.composer-civilization-document :is(.majorPanel, .previewSticky, .sectionEditor, .mediaCard, dialog) {
+		border: 1px solid CanvasText;
+		forced-color-adjust: auto;
+	}
+}

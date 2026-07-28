@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Mobile verses keep chapter identity, touch-safe controls, contained media, and
+ * readable nested structure without recreating the former four-thousand-pixel wall.
+ */
+
+@media (max-width: 42.5rem) {
+	.composer-civilization-document .structured-verses-panel {
+		gap: .5rem;
+		padding: .55rem;
+		border-radius: var(--composer-radius-md);
+	}
+
+	.composer-civilization-document .structured-verse-list,
+	.composer-civilization-document .subsectionList {
+		gap: .5rem;
+	}
+
+	.composer-civilization-document :is(.structured-verse-summary, .structured-subsection-summary) {
+		min-block-size: 2.8rem;
+		padding: .48rem .55rem;
+	}
+
+	.composer-civilization-document :is(.structured-verse-body, .structured-subsection-body) {
+		gap: .55rem;
+		padding: .56rem;
+	}
+
+	.composer-civilization-document .structured-subsection-card {
+		margin-inline-start: .3rem;
+	}
+
+	.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) button {
+		min-inline-size: 0;
+		padding-inline: .3rem;
+	}
+
+	.composer-civilization-document .structured-comments-toggle {
+		grid-column: 1 / -1;
+	}
+
+	.composer-civilization-document .scoped-media-panel,
+	.composer-civilization-document .mediaGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.composer-civilization-document .mediaCard {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.composer-civilization-document .playlist-heading {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 23rem) {
+	.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.composer-civilization-document .structured-subsection-card {
+		margin-inline-start: 0;
+	}
+}

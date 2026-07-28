@@ -1,0 +1,39 @@
+lines:experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipe.test.mjs=104
+lines:experiments/Awtsmoos/src/test/geometry/TerrainLayerRecipeFixture.mjs=57
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowTerrainMaterialProfiles.test.mjs=116
+lines:experiments/Awtsmoos/src/test/world/minimalMeadowTerrainVisualQuality.test.mjs=89
+(node:58074) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ quality recipes preserve six ecological sources and bounded active roles (227.072239ms)
+✔ complete terrain stack retains six distinct source garments (2.131453ms)
+✔ visible maps and source provenance obey local production policy (2.17412ms)
+✔ medium terrain carries normalized mixed ecological weights and five slots (6.243737ms)
+(node:58075) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainComposites.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ independent sources replace canvas mosaics (1.976074ms)
+✔ mobile and desktop profiles keep six crisp readable layers (5.409811ms)
+✔ terrain and road presets use six broad rotated sources (178.689357ms)
+✔ package mounts a visible road while terrain owns collision (80.309423ms)
+(node:58076) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H mobile terrain keeps enough source pixels for crisp ground detail (83.364249ms)
+✔ B"H six ecological sources retain strong nonuniform identities (18.104897ms)
+✔ B"H terrain zone weights distinguish road, wetness, dryness, and rock (0.644018ms)
+✔ B"H visible road mounts without becoming collision authority (1.009691ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1516.783758
+syntax_exit=0
+oversized_exit=0
+test_exit=0

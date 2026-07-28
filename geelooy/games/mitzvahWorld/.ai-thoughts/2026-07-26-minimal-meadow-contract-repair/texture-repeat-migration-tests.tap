@@ -1,0 +1,44 @@
+src/assets/TextureRepeat.js_logical_lines=31
+src/assets/TextureRepeatPolicy.js_logical_lines=18
+src/assets/TextureImageMetrics.js_logical_lines=25
+src/assets/TextureDensityMath.js_logical_lines=85
+src/assets/TextureDensityPlan.js_logical_lines=67
+src/assets/TextureExactRepeat.js_logical_lines=55
+src/assets/TextureMaterialFields.js_logical_lines=55
+(node:23893) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ pixel-derived repeats remain exact fractions instead of rounded tile counts (2.116107ms)
+✔ unknown dimensions stay explicit and preserve the authored fallback (29.940495ms)
+✔ world-tile repeats no longer round away partial source coverage (0.53176ms)
+(node:23894) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all six local terrain images exist and contain real bytes (1.745034ms)
+✔ high terrain recipe exposes six distinct same-origin maps and sources (62.973076ms)
+✔ terrain binds a real meadow base and earth mix at construction (2.233819ms)
+(node:23895) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-native-texture-density.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ box faces bake one UV unit per world unit before source repetition (21.88412ms)
+✔ authored manual UVs become a measured shared world basis (1.996285ms)
+✔ sign cards remain whole unless explicitly declared physical (2.320685ms)
+(node:23896) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H road contract imports with six active layers (1.574792ms)
+✔ B"H yellow brick remains verified compatibility provenance (0.874339ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 616.953975
+test_exit=0
+diff_check_exit=0

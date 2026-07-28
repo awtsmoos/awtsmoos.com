@@ -14,6 +14,9 @@ const zlib = require('zlib');
 const CODEC = 'deflate-raw-v1';
 const MINIMUM_BYTES = 256;
 const MINIMUM_SAVINGS = 32;
+const DEFAULT_MAX_DECOMPRESSED_BYTES = 256 * 1024 * 1024;
+const DEFAULT_CACHE_BYTES = 256 * 1024 * 1024;
+const decodedCaches = new WeakMap();
 
 function toBuffer(value) {
 	if (Buffer.isBuffer(value)) return value;
@@ -29,6 +32,68 @@ function plain(value) {
 
 function metadataOf(blob) {
 	return plain(blob && blob.meta) || {};
+}
+
+function positiveLimit(value, fallback) {
+	const parsed = Number(value);
+	return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function decompressionLimits(db) {
+	return {
+		maxOutputBytes: positiveLimit(
+			db.options?.virtualFsMaxDecompressedBytes,
+			DEFAULT_MAX_DECOMPRESSED_BYTES
+		),
+		maxCacheBytes: positiveLimit(
+			db.options?.virtualFsDecompressionCacheBytes,
+			DEFAULT_CACHE_BYTES
+		)
+	};
+}
+
+function cacheFor(db) {
+	let cache = decodedCaches.get(db);
+	if (!cache) {
+		cache = { bytes: 0, entries: new Map() };
+		decodedCaches.set(db, cache);
+	}
+	return cache;
+}
+
+function cacheKey(blob, metadata, expected) {
+	return [
+		String(blob.id || ''),
+		Number(blob.offset || 0),
+		Number(blob.length || 0),
+		String(metadata.fs3Codec || ''),
+		expected
+	].join(':');
+}
+
+function cachedDecodedBody(db, key) {
+	const cache = cacheFor(db);
+	const output = cache.entries.get(key);
+	if (!output) return null;
+	cache.entries.delete(key);
+	cache.entries.set(key, output);
+	return output;
+}
+
+function rememberDecodedBody(db, key, output, maxCacheBytes) {
+	if (output.length > maxCacheBytes) return;
+	const cache = cacheFor(db);
+	const previous = cache.entries.get(key);
+	if (previous) cache.bytes -= previous.length;
+	cache.entries.delete(key);
+	cache.entries.set(key, output);
+	cache.bytes += output.length;
+	while (cache.bytes > maxCacheBytes && cache.entries.size > 1) {
+		const oldestKey = cache.entries.keys().next().value;
+		const oldest = cache.entries.get(oldestKey);
+		cache.entries.delete(oldestKey);
+		cache.bytes -= oldest.length;
+	}
 }
 
 function encodeBody(db, buffer) {
@@ -75,14 +140,36 @@ function decodedBody(db, inode) {
 		error.code = 'AWTSMOOS_FS3_UNSUPPORTED_CODEC';
 		throw error;
 	}
+	const expected = Number(metadata.originalBytes ?? inode.size);
+	const { maxOutputBytes, maxCacheBytes } = decompressionLimits(db);
+	if (!Number.isSafeInteger(expected) || expected < 0 || expected > maxOutputBytes) {
+		const error = new Error(`B"H FS3 decompressed length refused: ${expected}`);
+		error.code = 'AWTSMOOS_FS3_DECOMPRESSION_LIMIT';
+		throw error;
+	}
+	const key = cacheKey(blob, metadata, expected);
+	const cached = cachedDecodedBody(db, key);
+	if (cached) return cached;
 	const compressed = db.blob.read(blob, 0, Number(blob.length || 0));
-	const output = zlib.inflateRawSync(compressed);
-	const expected = Number(metadata.originalBytes ?? inode.size ?? output.length);
+	let output;
+	try {
+		output = zlib.inflateRawSync(compressed, {
+			maxOutputLength: Math.max(1, expected)
+		});
+	} catch (cause) {
+		const error = new Error(`B"H FS3 decompression failed within ${expected} bytes`);
+		error.code = cause?.code === 'ERR_BUFFER_TOO_LARGE'
+			? 'AWTSMOOS_FS3_DECOMPRESSION_LIMIT'
+			: 'AWTSMOOS_FS3_DECOMPRESSION_FAILED';
+		error.cause = cause;
+		throw error;
+	}
 	if (output.length !== expected) {
 		const error = new Error(`B"H FS3 length mismatch: ${output.length} !== ${expected}`);
 		error.code = 'AWTSMOOS_FS3_DECOMPRESSION_LENGTH_MISMATCH';
 		throw error;
 	}
+	rememberDecodedBody(db, key, output, maxCacheBytes);
 	return output;
 }
 
@@ -112,6 +199,7 @@ function replaceDataRecord(db, inode, value, meta = {}) {
 module.exports = {
 	CODEC,
 	decodedBody,
+	decompressionLimits,
 	encodeBody,
 	freeDataRecord,
 	makeDataRecord,

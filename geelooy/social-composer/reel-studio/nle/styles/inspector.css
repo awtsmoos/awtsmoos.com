@@ -1,0 +1,91 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Project and clip properties become a measured inspector with legible labels,
+ * calm field groups, and exact document receipts.
+ */
+
+.nle-inspector-panel > div {
+	display: grid;
+	align-content: start;
+	gap: .8rem;
+	padding: .85rem;
+}
+
+.nle-field-pair {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .58rem;
+}
+
+.nle-inspector-panel :is(input, select):hover {
+	border-color: var(--nle-border-strong);
+	background: #0b1017;
+}
+
+.nle-inspector-panel select {
+	appearance: none;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--nle-text-muted) 50%),
+		linear-gradient(135deg, var(--nle-text-muted) 50%, transparent 50%);
+	background-position:
+		calc(100% - .85rem) 50%,
+		calc(100% - .55rem) 50%;
+	background-repeat: no-repeat;
+	background-size: .3rem .3rem;
+	padding-inline-end: 1.6rem;
+}
+
+.nle-inspector-note {
+	padding: .75rem;
+	border: 1px solid rgba(185, 120, 239, .23);
+	border-radius: var(--nle-radius-md);
+	background: linear-gradient(145deg, var(--nle-violet-soft), rgba(255, 255, 255, .015));
+}
+
+.nle-inspector-note strong {
+	color: #e1c2f2;
+	font-size: .7rem;
+}
+
+.nle-inspector-note p {
+	margin: .34rem 0 0;
+	color: var(--nle-text-muted);
+	font-size: .64rem;
+	line-height: 1.55;
+}
+
+.nle-clip-receipt {
+	display: grid;
+	gap: .4rem;
+	margin: 0;
+}
+
+.nle-clip-receipt div {
+	display: grid;
+	grid-template-columns: 4.2rem minmax(0, 1fr);
+	gap: .5rem;
+	padding: .48rem .58rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: var(--nle-radius-sm);
+	background: rgba(255, 255, 255, .022);
+}
+
+.nle-clip-receipt dt,
+.nle-clip-receipt dd {
+	margin: 0;
+	overflow: hidden;
+	font-size: .61rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nle-clip-receipt dt {
+	color: var(--nle-text-faint);
+	font-weight: 700;
+}
+
+.nle-clip-receipt dd {
+	color: var(--nle-text-soft);
+}

@@ -1,0 +1,26 @@
+experiments/Awtsmoos/src/ui/MinimalMeadowGameRail.js:13:import { installMobileRegressionStyles } from './MobileRegressionStyles.js';
+experiments/Awtsmoos/src/ui/MinimalMeadowGameRail.js:26:		installMobileRegressionStyles(host.ownerDocument || globalThis.document);
+experiments/Awtsmoos/src/ui/MobileHudCompositionController.js:6: * @file MobileHudCompositionController.js
+experiments/Awtsmoos/src/ui/MobileHudCompositionController.js:16:export class MobileHudCompositionController {
+experiments/Awtsmoos/src/ui/HudMinimizeController.js:13:import { MobileHudCompositionController } from './MobileHudCompositionController.js';
+experiments/Awtsmoos/src/ui/HudMinimizeController.js:27:		this.composition = new MobileHudCompositionController(documentValue);
+experiments/Awtsmoos/src/ui/MobileRegressionStyles.js:14:export function installMobileRegressionStyles(documentValue = globalThis.document) {
+experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js:13:	resolveMinimalMeadowWeaponAnchor
+experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js:26:	const anchor = resolveMinimalMeadowWeaponAnchor(nodes, drawn);
+experiments/Awtsmoos/src/app/MinimalMeadowUi.js:38:	equipment.bindModel(runtime.model);
+experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js:42:	bindModel(model) {
+experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js:51:			this.bindModel(this.runtime.model);
+experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js:39:	equipment.bindModel(model);
+experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js:54:	const input = new MinimalMeadowInput(environment, hosts.jumpHost, joystick);
+experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js:71:	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
+experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js:20:export function resolveMinimalMeadowWeaponAnchor(nodes, drawn = true) {
+experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js:76:		'foundation-platform',
+experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js:85:		{ role: 'level-foundation-platform', walkable: true }
+experiments/Awtsmoos/src/test/app/interactionSelectionEquipmentIntegrity.test.mjs:59:	equipment.bindModel(player.model);
+experiments/Awtsmoos/src/test/world/minimalMeadowHouseCollisionDepth.test.mjs:39:		const platform = fixture.definitions.find(definition => definition.id.endsWith('foundation-platform'));
+experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:90:	runtime.bindModel(first.model);
+experiments/Awtsmoos/src/test/gameplay/inventoryEquipmentLoot.test.mjs:103:	runtime.bindModel(hydrated.model);
+experiments/Awtsmoos/src/playerActions/PlayerActionActor.js:24:		this.bindModel(options.model);
+experiments/Awtsmoos/src/playerActions/PlayerActionActor.js:27:	bindModel(model) {
+experiments/Awtsmoos/src/simulation/SimulationFriendlyActors.js:49:	equipment.bindModel(gltf.scene);
+experiments/Awtsmoos/src/simulation/SimulationRuntimeFactory.js:45:	runtime.equipment.bindModel(runtime.model);

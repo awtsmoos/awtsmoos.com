@@ -1,0 +1,56 @@
+lines:experiments/Awtsmoos/src/app/MinimalMeadowMovementSupport.js=65
+lines:experiments/Awtsmoos/src/app/MinimalMeadowMovementRuntime.js=89
+lines:experiments/Awtsmoos/src/test/app/nativeTerrainReadinessHand.test.mjs=116
+lines:experiments/Awtsmoos/src/test/app/combatQuestStairsSky.test.mjs=117
+syntax_exit=0
+oversized_exit=0
+(node:98296) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H action icons are pictographic while Hebrew remains present (2.133516ms)
+✔ B"H combat pressure is slower, smaller, and spatially separated (0.346765ms)
+✔ B"H selected enemy brightens and receives visible markers (5.774827ms)
+✔ B"H Shlichus menu follows canonical active mission progress (0.641393ms)
+✔ B"H stairs expose discrete tread heights and no hidden ramp (1.036803ms)
+✔ B"H sky shader contains intense disc, halo, clouds, and warm horizon (0.198694ms)
+(node:98297) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H exact terrain frequency derives from source pixels and world size (1.311321ms)
+✔ B"H readiness stays settling until renderer and features resolve (1.432751ms)
+✖ B"H staff begins in right hand and aims at selected target (2.124061ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 535.528268
+
+✖ failing tests:
+
+test at src/test/app/nativeTerrainReadinessHand.test.mjs:68:1
+✖ B"H staff begins in right hand and aims at selected target (2.124061ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/nativeTerrainReadinessHand.test.mjs:89:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+test_exit=1

@@ -4,60 +4,110 @@
 
 /**
  * @file RoadMaterialContract.js
- * @description Binds ten cobble, stone, brick, earth, moss, grass, mud, and dust road layers.
- * The Awtsmoos renews every traveled stone and softened seam; Awtsmoos.com keeps one continuous
- * collision network while capable hardware reveals all ten full-source road garments together.
+ * @description Binds six active road garments while preserving canonical yellow-brick provenance.
+ * The Awtsmoos renews fieldstone, earth, moss, and softened grass along the traveler's way;
+ * Awtsmoos.com keeps historic yellow brick as verified evidence without forcing a retired layer to stay.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { REPEAT_HOOKS } from '../../assets/TextureRepeat.js';
 import { bindMaterialStack } from '../materials/MaterialStackBinding.js';
+import {
+	MOUNTAIN_VILLAGE_SOURCES
+} from '../materials/MountainVillageMaterialSources.js';
 import { villageRoadStack } from '../materials/MountainVillageMaterialPresets.js';
 
+const ROAD_ACTIVE_CAPACITY = 6;
+const ROAD_PRIMARY_ROLE = 'road-fieldstone-center';
 const ROAD_STACK = villageRoadStack();
-const YELLOW_BRICK_LAYER = ROAD_STACK.layers.find(layer => layer.role === 'road-yellow-brick');
-export const ROAD_YELLOW_BRICK_URL = YELLOW_BRICK_LAYER.url;
+const ROAD_PRIMARY_LAYER = requiredRoadLayer(ROAD_PRIMARY_ROLE);
 
+export const ROAD_YELLOW_BRICK_URL = MOUNTAIN_VILLAGE_SOURCES.yellowBrick;
+
+/**
+ * Builds the active six-layer road material while retaining historic source evidence.
+ *
+ * @param {object|null} texture Optional decoded primary road image.
+ * @returns {object} Road material fields and six-layer stack binding.
+ */
 export function roadMaterialFields(texture = null) {
-	const primary = ROAD_STACK.layers[0];
 	const fields = {
 		anisotropy: 8,
-		mapImage: validImage(texture) ? texture : cachedTextureImage(primary.url),
-		mapRepeat: primary.repeat,
+		mapImage: validImage(texture)
+			? texture
+			: cachedTextureImage(ROAD_PRIMARY_LAYER.url),
+		mapRepeat: ROAD_PRIMARY_LAYER.repeat,
 		texturePolicy: {
+			activeCapacity: ROAD_ACTIVE_CAPACITY,
 			fallbackApplied: false,
 			fullResolution: true,
 			projection: 'world-planar-continuous-network',
 			repeatMode: 'mirror-pingpong',
 			role: 'road.mountainVillageCobble',
-			tileWorld: REPEAT_HOOKS.roadTileWorld
+			shader: 'road-layered-six-stage-material-stack',
+			tileWorld: REPEAT_HOOKS.roadTileWorld,
+			yellowBrickCompatibilityUrl: ROAD_YELLOW_BRICK_URL
 		},
-		textureUrl: primary.url
+		textureUrl: ROAD_PRIMARY_LAYER.url
 	};
-	return bindMaterialStack(fields, ROAD_STACK, 10);
+	const bound = bindMaterialStack(fields, ROAD_STACK, ROAD_ACTIVE_CAPACITY);
+
+	return {
+		...bound,
+		texturePolicy: {
+			...bound.texturePolicy,
+			shader: fields.texturePolicy.shader
+		}
+	};
 }
 
+/**
+ * Summarizes active road layers and the retained yellow-brick compatibility source.
+ *
+ * @param {object|null} texture Optional decoded primary road image.
+ * @returns {object} Stable road material evidence.
+ */
 export function roadMaterialEvidence(texture = null) {
 	const fields = roadMaterialFields(texture);
 	const image = fields.mapImage;
+
 	return {
 		activeLayers: fields.textureLayers.length,
 		anisotropy: fields.anisotropy,
 		decoded: Boolean(image),
 		fallbackApplied: fields.texturePolicy.fallbackApplied,
-		fullResolution: fields.textureLayers.every(layer => {
+		fullResolution: fields.textureLayers.every((layer) => {
 			return !/half-resolution|quarter-resolution|chai-forest-half/.test(layer.url);
 		}),
 		height: image?.naturalHeight || 0,
 		logicalLayers: fields.materialStack.logicalLayerCount,
 		role: fields.texturePolicy.role,
 		url: fields.textureUrl,
-		width: image?.naturalWidth || 0
+		width: image?.naturalWidth || 0,
+		yellowBrickCompatibilityUrl: ROAD_YELLOW_BRICK_URL
 	};
 }
 
+function requiredRoadLayer(role) {
+	const found = ROAD_STACK.layers.find((layer) => {
+		return layer.role === role;
+	});
+
+	if (!found) {
+		throw new Error(`Missing active road material role: ${role}`);
+	}
+
+	return found;
+}
+
 function validImage(image) {
-	if (!image) return false;
-	if (image.naturalWidth === undefined) return true;
+	if (!image) {
+		return false;
+	}
+
+	if (image.naturalWidth === undefined) {
+		return true;
+	}
+
 	return image.naturalWidth > 0 && image.naturalHeight > 0;
 }

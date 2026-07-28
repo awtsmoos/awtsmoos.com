@@ -1,0 +1,17 @@
+--- CHROME CLEANUP ---
+pid=59665
+command=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --headless=new --remote-debugging-port=9246 --user-data-dir=/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-runtime-wall-terrain-hotfix/chrome-hotfix-profile --no-first-run --no-default-browser-check --disable-background-networking --window-size=390,844 http://localhost:8080/games/mitzvahWorld/
+remaining=none
+profile=absent
+--- SCREENSHOT ---
+screenshot_bytes=3701320
+/Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-runtime-wall-terrain-hotfix/10_live_road_and_terrain.png
+  pixelWidth: 1170
+  pixelHeight: 2532
+--- REPOSITORY ---
+branch=main
+head=1d3d5eb56811
+diff_exit=0
+status_count=warning: could not open directory 'geelooy/games/mitzvahWorld/geelooy/games/': No such file or directory
+0
+

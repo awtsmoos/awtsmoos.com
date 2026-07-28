@@ -3,50 +3,53 @@
 // Blessed is He
 
 /**
- * Miriam's dark wrap cups a generous rounded skull, reveals a swept fringe, and
- * joins a quiet rear bun. The Awtsmoos renews every cloth fold; Awtsmoos.com keeps
- * her complete head silhouette editable, keyframeable, and production-rendered.
+ * Miriam's high part releases one broad crescent and one restrained temple tuck.
+ * The Awtsmoos renews softness without concealment; Awtsmoos.com keeps fringe,
+ * wrap, bun, persistence, preview, and export joined in one reusable identity.
  */
 export class CalmReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				partX: 0.34,
-				fringeLeftReach: 0.82,
-				fringeRightReach: 0.32,
-				fringeTipX: 0.34,
-				fringeCrownDepth: 0.76,
-				fringeSideDepth: 0.44,
-				fringeTipDepth: 0.48,
-				fringeLineWidth: 1
+				partOffset: 0.2,
+				partDepth: 0.64,
+				sweepReach: 0.78,
+				sweepTopDepth: 0.56,
+				sweepBottomDepth: 0.43,
+				sweepInnerReach: 0.03,
+				sweepInnerDepth: 0.48,
+				sideReach: 0.5,
+				sideTopDepth: 0.55,
+				sideBottomDepth: 0.42,
+				sideInnerReach: 0.31,
+				sideInnerDepth: 0.48,
+				fringeLineWidth: 0.82,
+				fringePartLineWidth: 0.5
 			},
 			headwear: {
 				type: 'head_wrap',
-				size: 1,
-				shellWidth: 1.02,
-				widthScale: 1.05,
-				heightScale: 1.05,
-				baselineScale: 0.68,
-				crownHeight: 0.66,
-				apexShift: -0.04,
-				frontSlope: 4.2,
-				verticalOffset: 0,
-				bandCurve: 2.8,
-				rearWidth: 1.12,
-				rearDepth: 0.82,
+				shellWidth: 0.95,
+				baselineScale: 0.66,
+				crownHeight: 0.45,
+				apexShift: -0.02,
+				frontSlope: 2.2,
+				verticalOffset: -1,
+				bandCurve: 1.4,
+				rearWidth: 1,
+				rearDepth: 0.4,
 				bun: true,
-				bunX: 0.96,
-				bunY: 1.62,
-				bunWidth: 0.43,
-				bunHeight: 0.56,
-				lineWidth: 1.05,
-				highlightOpacity: 0.014
+				bunX: 1.02,
+				bunY: 1.04,
+				bunWidth: 0.36,
+				bunHeight: 0.46,
+				lineWidth: 0.88,
+				highlightOpacity: 0.012
 			},
 			headTransform: {
-				x: -15.2,
-				y: 11.2,
-				scaleX: 1.18,
-				scaleY: 1.1
+				x: -2,
+				y: 6,
+				scaleX: 1.06,
+				scaleY: 1.04
 			}
 		};
 	}

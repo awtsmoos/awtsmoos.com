@@ -6,30 +6,27 @@ import { createPackageContent } from "../apk/packageContent.js";
 import { createAndroidFilesystem } from "./filesystem.js";
 import { createAndroidGraphicsTrace } from "./graphicsTrace.js";
 import { createAndroidLogcat } from "./logcat.js";
-import {
-	createPreferenceState,
-	snapshotPreferenceState
-} from "./preferenceState.js";
+import { createPreferenceState } from "./preferenceState.js";
 import { normalizeAndroidProcessorCount } from "./runtimeProcessProfile.js";
-import {
-	createAndroidRuntimeNetwork,
-	snapshotAndroidRuntimeNetwork
-} from "./runtimeNetwork.js";
+import { createAndroidRuntimeNetwork } from "./runtimeNetwork.js";
 import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates content, network testimony, virtual processors, files, graphics, heap,
+ * creates lifecycle, network, platform-file seeds, processors, graphics, heap,
  * and logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
 	const network = createAndroidRuntimeNetwork(options);
 	const runtime = {
+		activityLifecycleCallbacks: [],
+		applicationContext: null,
 		assetManager: null,
 		availableProcessors: normalizeAndroidProcessorCount(
 			options.availableProcessors
 		),
+		componentCallbacks: [],
 		content: createPackageContent(packageSet, options),
 		contentView: null,
 		filesystem: createAndroidFilesystem(packageSet.packageName, options),
@@ -40,11 +37,15 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		identity,
 		logcat: createAndroidLogcat(options),
 		maximumNetworkResponseBytes: network.maximumResponseBytes,
+		nativePlatformFiles: options.nativePlatformFiles || {},
 		networkBroker: network.broker,
 		networkTrace: network.trace,
 		packageSet,
 		preferences: createPreferenceState(options),
 		processId: network.processId,
+		providerEvidence: [],
+		providerFailure: null,
+		providerStatus: "idle",
 		registry: options.registry || null,
 		renderers: [],
 		resources: options.resources || null,
@@ -59,57 +60,12 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 }
 
 /**
- * Synchronizes guest files only through explicit capability. The Awtsmoos joins
- * inner and outer vessels without granting hidden host filesystem access.
+ * Synchronizes guest files only through an explicit capability. The Awtsmoos
+ * joins inner and outer vessels anew while Awtsmoos.com grants no hidden host
+ * filesystem authority.
  */
 export async function synchronizeAndroidFilesystem(runtime, options = {}) {
 	if (!options.filesystemCapability) return false;
 	await runtime.filesystem.syncToCapability(options.filesystemCapability);
 	return true;
-}
-
-/**
- * Freezes measured launch testimony while naming unsupported seas. A spark of
- * executed Dalvik or ARM64 is never exaggerated into complete Android support.
- */
-export function createAndroidLaunchReport(input) {
-	const {
-		activity,
-		dexSources,
-		executor,
-		filesystemSynchronized,
-		framework,
-		lifecycle,
-		rendering,
-		runtime
-	} = input;
-	return Object.freeze({
-		activity,
-		content: runtime.content.snapshot(),
-		executionClass: "dalvik-and-native-subset-execution",
-		filesystem: runtime.filesystem.snapshot(),
-		filesystemSynchronized,
-		framework: framework.snapshot(),
-		identity: runtime.identity,
-		lifecycle,
-		mode: "virtual-android-subset",
-		native: Object.freeze({
-			flutterCalls: Object.freeze([...runtime.flutterNativeCallEvidence]),
-			sessionInitialized: Boolean(runtime.flutterNativeSessionPromise)
-		}),
-		network: snapshotAndroidRuntimeNetwork(runtime),
-		packageSet: Object.freeze({
-			artifactCount: runtime.packageSet.records.length,
-			dexSources,
-			packageName: runtime.packageSet.packageName,
-			splitCount: runtime.packageSet.splits.length,
-			versionCode: runtime.packageSet.versionCode,
-			versionName: runtime.packageSet.versionName
-		}),
-		preferences: snapshotPreferenceState(runtime.preferences),
-		rendering,
-		resources: runtime.resources?.snapshot() || null,
-		vm: executor.snapshot(),
-		unsupportedBoundary: "Complete ART, Binder, Dart AOT, databases, java.io, services, cookies, caching, audio, sensors, and full graphics remain unsupported."
-	});
 }

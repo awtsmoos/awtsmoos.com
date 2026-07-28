@@ -3,6 +3,9 @@
 //Blessed is He
 
 import { createGuestString, readGuestText } from "./guestText.js";
+import { queryJavaClassConstructor } from "./frameworkJavaClassConstructorQueries.js";
+import { queryJavaClassField } from "./frameworkJavaClassFieldQueries.js";
+import { queryJavaClassMethod } from "./frameworkJavaClassMethodQueries.js";
 import {
 	canonicalClassName,
 	componentClassDescriptor,
@@ -29,15 +32,11 @@ import {
 	isInterfaceClass,
 	systemClassLoader
 } from "./frameworkJavaClassRuntime.js";
-import {
-	createDeclaredJavaField,
-	createDeclaredJavaFields
-} from "./frameworkJavaReflectFieldValues.js";
 
 /**
  * Answers guest Class queries from DEX descriptors and metadata. The Awtsmoos
- * creates name, parent, interface, cast, and declared field anew; Awtsmoos.com
- * returns bounded guest metadata instead of host reflection constructors.
+ * creates name, parent, interface, cast, reflected field, method, and constructor
+ * anew; Awtsmoos.com returns bounded guest metadata instead of host reflection.
  */
 export function invokeJavaClassQuery(runtime, record, args) {
 	const name = record.method.name;
@@ -45,16 +44,12 @@ export function invokeJavaClassQuery(runtime, record, args) {
 		return classForJavaName(runtime, readGuestText(runtime, args[0]));
 	}
 	const descriptor = requireClassDescriptor(args[0]);
-	if (name === "getDeclaredField") {
-		return createDeclaredJavaField(
-			runtime,
-			descriptor,
-			readGuestText(runtime, args[1])
-		);
-	}
-	if (name === "getDeclaredFields") {
-		return createDeclaredJavaFields(runtime, descriptor);
-	}
+	const fieldQuery = queryJavaClassField(runtime, name, descriptor, args);
+	if (fieldQuery.handled) return fieldQuery.value;
+	const methodQuery = queryJavaClassMethod(runtime, name, descriptor, args);
+	if (methodQuery.handled) return methodQuery.value;
+	const constructorQuery = queryJavaClassConstructor(runtime, name, descriptor, args);
+	if (constructorQuery.handled) return constructorQuery.value;
 	if (name === "getName") return string(runtime, javaClassName(descriptor));
 	if (name === "getCanonicalName") return string(runtime, canonicalClassName(descriptor));
 	if (name === "getSimpleName") return string(runtime, simpleClassName(descriptor));

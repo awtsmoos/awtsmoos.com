@@ -1,13 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file PublicMaterialOrigin.js
- * @description Resolves every playable material through the game's local same-origin pack.
- * The Awtsmoos clothes stone, timber, bark, roof, and river through nearby finite vessels;
- * Awtsmoos.com keeps canonical paths truthful without awakening an external archive at runtime.
+ * @description Keeps packaged assets local while routing uploaded texture folders through one origin.
+ * The Awtsmoos gives near and distant garments their appointed way; Awtsmoos.com preserves local
+ * catalogs and models while full-resolution earth and tree filenames travel through one remote gate.
  */
+
+import {
+	isRemoteTexturePath,
+	remoteTexturePathUrl
+} from './RemoteTextureTransport.js';
 
 const LOCAL_RUNTIME_ROOT = './assets/materials/local/world/';
 
@@ -18,28 +23,18 @@ export const PUBLIC_ASSET_INVENTORY_URL = publicMaterialUrl('catalog/asset-inven
 export const PUBLIC_ASSET_ALIASES_URL = publicMaterialUrl('catalog/asset-aliases.json');
 export const PUBLIC_ASSET_SUMMARY_URL = publicMaterialUrl('catalog/materials-summary.json');
 
-/**
- * Returns one same-origin runtime URL while preserving canonical path segments.
- *
- * @param {string} relativePath - Material path beneath the local runtime root.
- * @returns {string} Encoded browser-relative material URL.
- */
 export function publicMaterialUrl(relativePath) {
-	const cleanPath = String(relativePath || '')
-		.replace(/^\/+/, '')
-		.replace(/\\/g, '/');
+	const cleanPath = normalizeMaterialPath(relativePath);
+	if (isRemoteTexturePath(cleanPath)) {
+		return remoteTexturePathUrl(cleanPath);
+	}
 	return `${LOCAL_RUNTIME_ROOT}${encodePath(cleanPath)}`;
 }
 
-/**
- * Encodes path segments without concealing their directory boundaries.
- *
- * @param {string} path - Slash-delimited local asset path.
- * @returns {string} Segment-safe encoded path.
- */
+function normalizeMaterialPath(path) {
+	return String(path || '').replace(/^\/+/, '').replace(/\\/g, '/');
+}
+
 function encodePath(path) {
-	return path
-		.split('/')
-		.map(encodeURIComponent)
-		.join('/');
+	return path.split('/').map(encodeURIComponent).join('/');
 }
