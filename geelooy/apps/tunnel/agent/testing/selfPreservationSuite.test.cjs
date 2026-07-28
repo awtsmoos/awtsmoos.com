@@ -41,6 +41,8 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/productionCurrentRootProcessSurvival.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/plannedRestartHandoff.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainStartupContract.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/waitLaneNeverBlocksControl.test.cjs",

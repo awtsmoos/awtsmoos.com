@@ -52,6 +52,8 @@ const tests = [
 	"oneCommandNodeRuntime.test.cjs",
 	"oneCommandInstallLock.test.cjs",
 	"oneCommandProcessReconciliation.test.cjs",
+	"productionCurrentRootProcessSurvival.test.cjs",
+	"plannedRestartHandoff.test.cjs",
 	"mainComponentsStartupDependencies.test.cjs",
 	"mainStartupContract.test.cjs",
 	"projectRootHealthLifecycle.test.cjs",
