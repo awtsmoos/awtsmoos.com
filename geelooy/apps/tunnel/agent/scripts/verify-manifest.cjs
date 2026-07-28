@@ -19,9 +19,24 @@ const SourcePaths = require("../release/sourcePaths.js");
  * and recovery cannot inherit from the same durable source.
  */
 function verify(options = {}) {
-	const manifestPath = path.resolve(
-		options.manifestPath || path.join(__dirname, "..", "manifest.txt")
+	const runtimeRoot = path.resolve(
+		options.runtimeRoot || path.join(__dirname, "..")
 	);
+	const manifestPath = path.resolve(
+		options.manifestPath || Probe.preferredManifest(runtimeRoot)
+	);
+	const sourceLayout = options.sourceLayout ??
+		path.basename(manifestPath) !== "installed-manifest.txt";
+	if (!sourceLayout) {
+		const probe = Probe.probeRuntime(runtimeRoot, {
+			manifestPath,
+			sourceLayout: false,
+			timeoutMs: Policy.resolveProbeTimeout(options.timeoutMs)
+		});
+		return probe.ok
+			? freshResult(probe.version, probe.files, probe)
+			: failedResult(probe.version || "", probe);
+	}
 	const currentText = fs.readFileSync(manifestPath, "utf8");
 	const lines = Builder.cleanLines(currentText);
 	const version = lines[0];
@@ -36,7 +51,7 @@ function verify(options = {}) {
 	}
 
 	Catalog.assertManifestCoverage(expected.files, roots);
-	const probe = Probe.probeRuntime(path.join(__dirname, ".."), {
+	const probe = Probe.probeRuntime(runtimeRoot, {
 		manifestPath,
 		roots,
 		sourceLayout: true,

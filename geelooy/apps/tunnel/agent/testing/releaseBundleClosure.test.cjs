@@ -33,6 +33,17 @@ try {
 	assert.equal(probe.status, 0, `${probe.stdout}\n${probe.stderr}`);
 	const receipt = JSON.parse(probe.stdout);
 	assert.equal(receipt.ok, true);
+	const verifier = spawnSync(process.execPath, [
+		path.join(installRoot, "scripts/verify-manifest.cjs")
+	], {
+		encoding: "utf8",
+		timeout: 30000
+	});
+	assert.equal(verifier.status, 0, `${verifier.stdout}\n${verifier.stderr}`);
+	const verification = JSON.parse(verifier.stdout);
+	assert.equal(verification.ok, true);
+	assert.equal(verification.message, "manifest_fresh");
+	assert.equal(verification.version, bundle.version);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "release-bundle-closure",
@@ -40,7 +51,8 @@ try {
 		files: bundle.files,
 		bytes: bundle.bytes,
 		sha256: bundle.sha256,
-		probe: receipt.stdout
+		probe: receipt.stdout,
+		installedVerifier: verification.message
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
