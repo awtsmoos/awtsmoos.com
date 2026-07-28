@@ -40,6 +40,7 @@ async function run() {
 		assert.equal(result.browser.selectorFound, true);
 		assert.equal(result.browser.errorCount, 0);
 		assert.equal(await ChromeProcesses.waitForClosed(result.browser.port, 3000), true);
+		await new Promise(resolve => setTimeout(resolve, 500));
 		await assert.rejects(fs.stat(result.sandbox), { code: "ENOENT" });
 		await assert.rejects(fetch(result.server.url));
 

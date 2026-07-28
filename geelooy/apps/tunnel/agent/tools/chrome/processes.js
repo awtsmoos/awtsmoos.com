@@ -64,6 +64,16 @@ async function stopOwned(payload = {}) {
 		await terminate(pids, true);
 		stopped = await waitForClosed(record.port, bounded(payload.forceTimeoutMs, 3000));
 	}
+	let remainingPids = await relatedProcessIds(record);
+	if (remainingPids.length && payload.force !== false) {
+		forced = true;
+		await terminate(remainingPids, true);
+		remainingPids = await waitForProcessFamilyClosed(
+			record,
+			bounded(payload.forceTimeoutMs, 3000)
+		);
+	}
+	stopped = stopped && remainingPids.length === 0;
 	if (stopped) LAUNCHES.delete(record.port);
 	return {
 		ok: stopped,
@@ -72,10 +82,21 @@ async function stopOwned(payload = {}) {
 		port: record.port,
 		pid: record.pid,
 		pids,
+		remainingPids,
 		stopped,
 		forced,
 		error: stopped ? undefined : "chrome_port_still_listening"
 	};
+}
+
+async function waitForProcessFamilyClosed(record, timeoutMs) {
+	const startedAt = Date.now();
+	let pids = await relatedProcessIds(record);
+	while (pids.length && Date.now() - startedAt < timeoutMs) {
+		await new Promise(resolve => setTimeout(resolve, 100));
+		pids = await relatedProcessIds(record);
+	}
+	return pids;
 }
 
 async function relatedProcessIds(record) {
@@ -144,5 +165,6 @@ module.exports = {
 	register,
 	snapshot,
 	stopOwned,
-	waitForClosed
+	waitForClosed,
+	waitForProcessFamilyClosed
 };
