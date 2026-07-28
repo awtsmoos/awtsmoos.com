@@ -1,0 +1,31 @@
+./ai_thoughts/2026-07-23T0211Z_minimal-shared-meadow-loader/07_BROWSER_VERIFICATION_RAW.json:22:      "awtsmoosRendererHydration": "idle",
+./ai_thoughts/2026-07-22-real-loading-stall/run-runtime-cdp-smoke.cjs:76:		renderer: document.documentElement.dataset.awtsmoosRenderer || null,
+./ai_thoughts/2026-07-23-0011-playable-smooth-world/run-stage11-startup-diagnostic.cjs:85:			rendererHydration: document.documentElement.dataset.awtsmoosRendererHydration || null,
+./experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js:40:		documentValue.documentElement.dataset.awtsmoosRenderer = 'bootstrap';
+./experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js:45:			documentValue.documentElement.dataset.awtsmoosRenderer = delegate
+./experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js:53:			documentValue.documentElement.dataset.awtsmoosRenderer = 'bootstrap-degraded';
+./experiments/Awtsmoos/src/app/RuntimeStateMarker.js:31:	root.dataset.awtsmoosRendererHydration = 'idle';
+./experiments/Awtsmoos/src/app/RuntimeStateMarker.js:55:	root.dataset.awtsmoosRendererHydration = renderer?.hydrationState || 'ready';
+./experiments/Awtsmoos/src/app/RuntimeStateMarker.js:75:		root.dataset.awtsmoosRendererHydration = String(state || 'unknown');
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:23:	root.dataset.awtsmoosRenderer = '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:24:	root.dataset.awtsmoosRendererContextAttempts = '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:25:	root.dataset.awtsmoosRendererFallback = '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:26:	root.dataset.awtsmoosRendererFallbackMessage = '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:27:	root.dataset.awtsmoosRendererFallbackRecoverable = '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:47:	root.dataset.awtsmoosRenderer = renderer?.backend
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:50:	root.dataset.awtsmoosRendererContextAttempts = contextAttempts.join(',');
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:51:	root.dataset.awtsmoosRendererFallback = fallback?.code || '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:52:	root.dataset.awtsmoosRendererFallbackMessage = fallback?.message || '';
+./experiments/Awtsmoos/src/app/RendererRuntimeEvidence.js:53:	root.dataset.awtsmoosRendererFallbackRecoverable = fallback
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:29:	assert.equal(dataset.awtsmoosRenderer, 'canvas-2d-fallback');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:30:	assert.equal(dataset.awtsmoosRendererHydration, 'fallback-2d');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:31:	assert.equal(dataset.awtsmoosRendererFallback, 'webgl-unavailable');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:32:	assert.equal(dataset.awtsmoosRendererFallbackMessage, 'WebGL is not available.');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:33:	assert.equal(dataset.awtsmoosRendererFallbackRecoverable, 'true');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:34:	assert.equal(dataset.awtsmoosRendererContextAttempts, 'webgl');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:54:	assert.equal(dataset.awtsmoosRenderer, 'webgl');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:55:	assert.equal(dataset.awtsmoosRendererHydration, 'ready');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:56:	assert.equal(dataset.awtsmoosRendererFallback, '');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:57:	assert.equal(dataset.awtsmoosRendererFallbackMessage, '');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:58:	assert.equal(dataset.awtsmoosRendererFallbackRecoverable, '');
+./experiments/Awtsmoos/src/test/app/runtimeStateRendererEvidence.test.mjs:59:	assert.equal(dataset.awtsmoosRendererContextAttempts, 'webgl');

@@ -1,76 +1,89 @@
 //B"H
-(function(){
-  const KEY = "BH_awtsmoos_background_automation_v2";
-  const LEGACY_KEY = "BH_awtsmoos_background_automation_v1";
-  const DEFAULTS = { enabled:false, maxTurns:3, delayMs:1000, prompt:"continue", stopOnError:true };
+// Boruch Hashem
+// Blessed is He
 
-  /**
-   * B"H
-   * Chapter 380: Many Lamps, One Palace, No Flame Devoured Its Brother.
-   *
-   * Each ChatGPT tab receives its own vessel, keyed by conversationId. The
-   * Awtsmoos breathes through all vessels at once: one storage scroll, many
-   * living runs, no tab erasing another tab's automation crown.
-   *
-   * @param {string|string[]} keys Chrome storage keys to read.
-   * @returns {Promise<object>} Raw storage result.
-   */
-  function getStorage(keys) { return new Promise(resolve => chrome.storage.local.get(keys, resolve)); }
+(function installAutomationStorage(globalObject) {
+	const KEY = "BH_awtsmoos_background_automation_v3";
+	const LEGACY_KEYS = ["BH_awtsmoos_background_automation_v2", "BH_awtsmoos_background_automation_v1"];
+	const codec = globalObject.AwtsmoosBgAutomationStorageCodec;
+	let mutationQueue = Promise.resolve();
 
-  /** @param {object} value Complete storage patch. @returns {Promise<void>} */
-  function setStorage(value) { return new Promise(resolve => chrome.storage.local.set(value, resolve)); }
+	/**
+	 * The Awtsmoos guards many Awtsmoos.com runs inside one serialized vault.
+	 * Concurrent turns cannot overwrite a neighboring conversation's state.
+	 */
+	function getStorage(keys) {
+		return new Promise(resolve => chrome.storage.local.get(keys, resolve));
+	}
 
-  async function loadVault() {
-    const data = await getStorage([KEY, LEGACY_KEY]);
-    const vault = data?.[KEY] || migrateLegacy(data?.[LEGACY_KEY]);
-    return { activeConversationId:vault.activeConversationId || "", runs:safeRuns(vault.runs) };
-  }
+	function setStorage(value) {
+		return new Promise(resolve => chrome.storage.local.set(value, resolve));
+	}
 
-  async function saveVault(vault) {
-    const clean = { activeConversationId:vault.activeConversationId || "", runs:safeRuns(vault.runs) };
-    await setStorage({ [KEY]:clean });
-    return clean;
-  }
+	async function loadVault() {
+		const data = await getStorage([KEY, ...LEGACY_KEYS]);
+		const source = data?.[KEY] || codec.migrateLegacy(data?.[LEGACY_KEYS[0]] || data?.[LEGACY_KEYS[1]]);
+		return {
+			activeConversationId: String(source.activeConversationId || ""),
+			runs: codec.safeRuns(source.runs)
+		};
+	}
 
-  async function loadAutomationState(conversationId = "") {
-    const vault = await loadVault();
-    const id = conversationId || vault.activeConversationId || latestRunId(vault.runs);
-    return normalizeRun(vault.runs[id] || { conversationId:id });
-  }
+	async function loadAutomationState(conversationId = "") {
+		const vault = await loadVault();
+		const id = conversationId || vault.activeConversationId || codec.latestRunId(vault.runs);
+		return codec.normalizeRun(vault.runs[id] || { conversationId: id });
+	}
 
-  async function loadAllAutomationStates() {
-    const vault = await loadVault();
-    return Object.values(vault.runs).map(normalizeRun);
-  }
+	async function loadAllAutomationStates() {
+		const vault = await loadVault();
+		return Object.values(vault.runs).map(codec.normalizeRun);
+	}
 
-  async function saveAutomationState(patch = {}, conversationId = "") {
-    const vault = await loadVault();
-    const id = conversationId || patch.conversationId || vault.activeConversationId || latestRunId(vault.runs) || `BH_AUTO_${Date.now()}`;
-    const current = normalizeRun(vault.runs[id] || { conversationId:id });
-    const next = normalizeRun({ ...current, ...patch, conversationId:id, settings:{ ...current.settings, ...(patch.settings || {}) }, updatedAt:Date.now() });
-    vault.runs[id] = next;
-    vault.activeConversationId = id;
-    await saveVault(vault);
-    return next;
-  }
+	function saveAutomationState(patch = {}, conversationId = "") {
+		return mutateVault(vault => {
+			const id = conversationId || patch.conversationId || vault.activeConversationId
+				|| codec.latestRunId(vault.runs) || `BH_AUTO_${Date.now()}`;
+			const current = codec.normalizeRun(vault.runs[id] || { conversationId: id });
+			const next = codec.normalizeRun({
+				...current, ...patch, conversationId: id,
+				settings: { ...current.settings, ...(patch.settings || {}) },
+				updatedAt: Date.now()
+			});
+			vault.runs[id] = next;
+			vault.activeConversationId = id;
+			return next;
+		});
+	}
 
-  async function removeAutomationState(conversationId = "") {
-    const vault = await loadVault();
-    const id = conversationId || vault.activeConversationId;
-    if (id) delete vault.runs[id];
-    if (vault.activeConversationId === id) vault.activeConversationId = latestRunId(vault.runs);
-    await saveVault(vault);
-    return { ok:true, conversationId:id, remaining:Object.keys(vault.runs).length };
-  }
+	function removeAutomationState(conversationId = "") {
+		return mutateVault(vault => {
+			const id = conversationId || vault.activeConversationId;
+			if (id) {
+				delete vault.runs[id];
+			}
+			if (vault.activeConversationId === id) {
+				vault.activeConversationId = codec.latestRunId(vault.runs);
+			}
+			return { ok: true, conversationId: id, remaining: Object.keys(vault.runs).length };
+		});
+	}
 
-  function publicAutomationState(state = {}) { const { token, ...safe } = normalizeRun(state); return safe; }
-  function publicAutomationList(states = []) { return states.map(publicAutomationState); }
-  function safeRuns(runs = {}) { return Object.fromEntries(Object.entries(runs || {}).filter(([, run]) => run && typeof run === "object")); }
-  function latestRunId(runs = {}) { return Object.values(runs).sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0))[0]?.conversationId || ""; }
-  function migrateLegacy(raw = {}) { return raw?.conversationId ? { activeConversationId:raw.conversationId, runs:{ [raw.conversationId]:raw } } : { activeConversationId:"", runs:{} }; }
-  function normalizeRun(raw = {}) {
-    return { ...DEFAULTS, ...raw, settings:{ ...DEFAULTS, ...(raw.settings || {}) }, turns:Number(raw.turns || 0), pendingTurn:Number(raw.pendingTurn || 0), updatedAt:Number(raw.updatedAt || 0), conversationId:String(raw.conversationId || "") };
-  }
+	function mutateVault(operation) {
+		const transaction = mutationQueue.then(async () => {
+			const vault = await loadVault();
+			const result = operation(vault);
+			await setStorage({ [KEY]: { activeConversationId: vault.activeConversationId, runs: codec.safeRuns(vault.runs) } });
+			return result;
+		});
+		mutationQueue = transaction.catch(() => undefined);
+		return transaction;
+	}
 
-  globalThis.AwtsmoosBgAutomationStorage = { KEY, DEFAULTS, loadAutomationState, loadAllAutomationStates, saveAutomationState, removeAutomationState, publicAutomationState, publicAutomationList };
-})();
+	globalObject.AwtsmoosBgAutomationStorage = {
+		KEY, DEFAULTS: codec.DEFAULTS, loadAutomationState, loadAllAutomationStates,
+		saveAutomationState, removeAutomationState,
+		publicAutomationState: codec.publicAutomationState,
+		publicAutomationList: codec.publicAutomationList
+	};
+})(globalThis);

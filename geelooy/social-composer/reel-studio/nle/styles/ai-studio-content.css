@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Creative intention, catalog actions, and complete JSON remain independently
+ * readable and safely switchable inside the same finite movie workspace.
+ */
+
+.nle-ai-body {
+	min-block-size: 0;
+	overflow: auto;
+}
+
+.nle-ai-brief,
+.nle-ai-json {
+	display: none;
+	gap: .8rem;
+	padding: 1rem;
+}
+
+.nle-ai-studio[data-ai-panel="brief"] .nle-ai-brief,
+.nle-ai-studio[data-ai-panel="json"] .nle-ai-json {
+	display: grid;
+}
+
+.nle-ai-brief small,
+.nle-ai-json label > span {
+	color: var(--nle-cyan);
+	font-size: .61rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.nle-ai-hero,
+.nle-ai-brief-grid section,
+.nle-ai-lists section {
+	padding: .75rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: var(--nle-radius-md);
+	background: rgba(255, 255, 255, .018);
+}
+
+.nle-ai-hero strong {
+	display: block;
+	margin-block: .25rem;
+	font-size: .96rem;
+	line-height: 1.45;
+}
+
+.nle-ai-brief :is(p, ul) {
+	margin: .28rem 0 0;
+	color: var(--nle-text-muted);
+	font-size: .68rem;
+	line-height: 1.55;
+}
+
+.nle-ai-brief-grid,
+.nle-ai-lists {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .65rem;
+}
+
+.nle-ai-lists {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.nle-ai-json label {
+	display: grid;
+	gap: .42rem;
+	min-block-size: 0;
+}
+
+.nle-ai-json textarea {
+	inline-size: 100%;
+	min-block-size: 26rem;
+	padding: .8rem;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-md);
+	background: #070a0f;
+	color: #dce8ee;
+	font: .68rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	resize: vertical;
+	tab-size: 2;
+}
+
+.nle-ai-json p {
+	margin: 0;
+	color: var(--nle-text-faint);
+	font-size: .63rem;
+}

@@ -4,23 +4,19 @@
 
 /**
  * @file WorldTargetPopulationAdapter.js
- * @description Unifies modern candidate populations with older actor-array populations.
- * The Awtsmoos renews every creature beneath one indivisible choice; Awtsmoos.com lets new
- * distance-aware vessels and older actor vessels meet one coordinator without two owners.
+ * @description Unifies study, legacy activation, selection truth, and interaction across populations.
+ * The Awtsmoos joins many finite populations beneath one choice; Awtsmoos.com keeps old direct
+ * callers alive while pointer ownership still grants first sight to study and second sight to action.
  */
 
-import {
-	activateLegacyCandidate,
-	clearLegacyPopulation,
-	legacyCandidateFromPointer,
-	legacyPopulationEntries
-} from './WorldTargetLegacyPopulation.js';
+import { clearLegacyPopulation, interactLegacyCandidate, legacyCandidateFromPointer, legacyCandidateSelected, legacyPopulationEntries, selectLegacyCandidate } from './WorldTargetLegacyPopulation.js';
+import { detectWorldTargetPopulationContract, normalizeModernWorldTargetCandidate } from './WorldTargetPopulationAdapterSupport.js';
 
 export class WorldTargetPopulationAdapter {
 	constructor(population, order) {
 		this.population = population;
 		this.order = order;
-		this.contract = detectContract(population);
+		this.contract = detectWorldTargetPopulationContract(population);
 	}
 
 	get compatible() {
@@ -29,8 +25,11 @@ export class WorldTargetPopulationAdapter {
 
 	candidateFromPointer(event) {
 		if (this.contract === 'modern') {
-			return this.normalizeModernCandidate(
-				this.population.candidateFromPointer(event)
+			return normalizeModernWorldTargetCandidate(
+				this.population.candidateFromPointer(event),
+				this,
+				this.population,
+				this.order
 			);
 		}
 		if (this.contract === 'actors') {
@@ -44,16 +43,46 @@ export class WorldTargetPopulationAdapter {
 		return null;
 	}
 
-	activateCandidate(candidate) {
+	selectCandidate(candidate) {
 		if (this.contract === 'modern') {
-			this.population.activateCandidate(candidate);
-			return;
+			const subject = candidate?.subject || candidate;
+			return this.population.selectCandidate?.(subject)
+				?? this.population.activateCandidate(subject);
 		}
-		activateLegacyCandidate(
+		return selectLegacyCandidate(
 			this.population,
 			candidate,
 			exception => this.clearAll(exception)
 		);
+	}
+
+	interactCandidate(candidate) {
+		if (this.contract === 'modern') {
+			const subject = candidate?.subject || candidate;
+			return this.population.interactCandidate?.(subject)
+				?? this.population.activateCandidate(subject);
+		}
+		return interactLegacyCandidate(this.population, candidate);
+	}
+
+	activateCandidate(candidate) {
+		const subject = candidate?.subject || candidate;
+		if (this.contract === 'modern') {
+			return this.population.activateCandidate(subject);
+		}
+		return interactLegacyCandidate(this.population, candidate);
+	}
+
+	candidateSelected(candidate) {
+		if (this.contract === 'actors') {
+			return legacyCandidateSelected(this.population, candidate);
+		}
+		const subject = candidate?.subject || candidate;
+		if (typeof this.population.candidateSelected === 'function') {
+			return this.population.candidateSelected(subject);
+		}
+		const actor = subject?.actor || subject;
+		return actor?.selected === true || this.population.selected === actor;
 	}
 
 	clearAll(exception = null) {
@@ -75,34 +104,10 @@ export class WorldTargetPopulationAdapter {
 			order: this.order
 		};
 	}
-
-	normalizeModernCandidate(candidate) {
-		if (!candidate) return null;
-		return {
-			...candidate,
-			adapter: this,
-			distance: normalizedDistance(candidate.distance, this.order),
-			population: candidate.population || this.population
-		};
-	}
 }
 
 export function createWorldTargetPopulationAdapters(populations) {
-	return populations.map((population, order) => (
-		new WorldTargetPopulationAdapter(population, order)
-	));
-}
-
-function detectContract(population) {
-	if (!population) return 'invalid';
-	const modern = typeof population.candidateFromPointer === 'function'
-		&& typeof population.activateCandidate === 'function'
-		&& typeof population.clearAll === 'function';
-	if (modern) return 'modern';
-	if (Array.isArray(population.actors)) return 'actors';
-	return 'invalid';
-}
-
-function normalizedDistance(distance, order) {
-	return Number.isFinite(distance) ? distance : order * 1_000_000;
+	return populations.map((population, order) => {
+		return new WorldTargetPopulationAdapter(population, order);
+	});
 }

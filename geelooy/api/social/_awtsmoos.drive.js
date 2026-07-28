@@ -5,9 +5,9 @@
 /**
  * @module SocialDriveRoutes
  * @description
- * The Awtsmoos unifies management, hosting, credentials, guarded quotas,
+ * The Awtsmoos unifies management, sites, credentials, guarded quotas,
  * reconciliation, bounded streaming, and service provisioning. Awtsmoos.com
- * exposes one canonical drive truth through measured and guarded doors.
+ * exposes one canonical Drive truth through measured and guarded doors.
  */
 
 const actionRoutes = require('./helper/drive/routes/actionRoutes.js');
@@ -17,6 +17,7 @@ const managerRoutes = require('./helper/drive/routes/managerRoutes.js');
 const publicRoutes = require('./helper/drive/routes/publicRoutes.js');
 const quotaRoutes = require('./helper/drive/routes/quotaRoutes.js');
 const reconciliationRoutes = require('./helper/drive/routes/reconciliationRoutes.js');
+const siteRoutes = require('./helper/drive/routes/siteRoutes.js');
 const streamingRoutes = require('./helper/drive/routes/streamingRoutes.js');
 const serviceProvisioningRoutes = require(
 	'./helper/drive/routes/serviceProvisioningRoutes.js'
@@ -27,6 +28,7 @@ module.exports = vessel => ({
 	...publicRoutes(vessel),
 	...streamingRoutes(vessel),
 	...entryRoutes(vessel),
+	...siteRoutes(vessel),
 	...actionRoutes(vessel),
 	...credentialRoutes(vessel),
 	...quotaRoutes(vessel),

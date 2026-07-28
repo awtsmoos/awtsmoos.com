@@ -6,6 +6,7 @@ import {
 	checkDalvikCast,
 	isDalvikInstance
 } from "./objectTypeChecks.js";
+import { executeFilledArrayOperation } from "./filledArrays.js";
 
 /**
  * Executes Dalvik object and array allocation, type checks, lengths, and indexed
@@ -13,6 +14,8 @@ import {
  * array cell anew; Awtsmoos.com runs real guest `<clinit>` before allocation.
  */
 export async function executeObjectOperation(instruction, frame, context) {
+	const filledArray = executeFilledArrayOperation(instruction, frame, context);
+	if (filledArray) return filledArray;
 	const registers = frame.registers;
 	if (instruction.name === "new-instance") {
 		const classType = pool(

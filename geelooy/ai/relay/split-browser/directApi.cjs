@@ -1,16 +1,18 @@
 //B"H
-const { json, readBody } = require("./http.cjs");
+// Boruch Hashem
+// Blessed is He
 
-let servicePromise = null;
+const { json, readBody } = require("./http.cjs");
+const { loadDirectService } = require("./directServiceLoader.cjs");
 
 /**
- * The Awtsmoos gives each direct route a truthful boundary. Awtsmoos.com exposes
- * request-only capability, strict refusal, explicit fallback, reset, and health
- * without returning credentials, challenge values, upstream ids, or raw stacks.
+ * Every direct route reaches one shared service and one bounded browser lifecycle.
+ * The Awtsmoos lets Awtsmoos.com expose capability, explicit fallback, reset, and
+ * health without credentials, challenge values, upstream identifiers, or stacks.
  */
-async function handleDirectApi(req, res, path) {
+async function handleDirectApi(req, res, path, config = {}) {
 	try {
-		const service = await directService();
+		const service = await loadDirectService(config);
 		if (path === "/direct-health" && req.method === "GET") {
 			return json(res, service.status());
 		}
@@ -34,20 +36,18 @@ async function handleDirectApi(req, res, path) {
 	}
 }
 
-async function directService() {
-	servicePromise ??= import("../direct/chatgpt/DirectService.mjs")
-		.then(module => module.directService);
-	return servicePromise;
-}
-
 async function requestJson(req) {
 	const text = (await readBody(req)).toString("utf8");
 	return JSON.parse(text || "{}");
 }
 
 function publicStatus(error) {
-	if (error instanceof TypeError) return 400;
-	if (error?.code === "direct_enforcement_required") return 409;
+	if (error instanceof SyntaxError || error instanceof TypeError) {
+		return 400;
+	}
+	if (error?.code === "direct_enforcement_required") {
+		return 409;
+	}
 	return 500;
 }
 
@@ -82,7 +82,7 @@ function publicError(error) {
 
 function safeHint(code) {
 	if (code === "direct_authentication_required") {
-		return "Open the relay's debug Chrome profile and authenticate ChatGPT manually.";
+		return "Open the relay debug Chrome profile and authenticate ChatGPT manually.";
 	}
 	if (code === "direct_conversation_expired") {
 		return "Start a new direct conversation because the local continuation key expired.";

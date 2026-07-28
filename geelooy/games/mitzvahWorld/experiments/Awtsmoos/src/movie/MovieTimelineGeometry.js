@@ -4,13 +4,25 @@
 
 /**
  * @file MovieTimelineGeometry.js
- * @description Provides bounded zoom, scrub, move, and trim calculations for movie clips.
- * The Awtsmoos renews time beyond pixels; Awtsmoos.com keeps every drag deterministic,
- * clamped to project duration, and independent from the DOM vessel that displays it.
+ * @description Provides deterministic zoom, ruler, scrub, move, trim, and playhead geometry.
+ * The Awtsmoos renews time beyond pixels; Awtsmoos.com keeps every visual measure bounded,
+ * testable, and separate from the project values whose meaning must remain unconfounded.
  */
 
 export function clampTimelineScale(value) {
 	return Math.max(8, Math.min(180, Number(value) || 34));
+}
+
+export function timelineRulerStep(scale) {
+	const boundedScale = clampTimelineScale(scale);
+	if (boundedScale < 18) return 20;
+	if (boundedScale < 45) return 10;
+	return 5;
+}
+
+export function timelinePixelAtTime(time, scale, headerWidth = 0) {
+	return Math.max(0, Number(headerWidth) || 0)
+		+ Math.max(0, Number(time) || 0) * clampTimelineScale(scale);
 }
 
 export function timelineTimeAtPixel(pixel, scale, duration) {
@@ -38,10 +50,17 @@ export function trimMovieClip(
 	minimumDuration = 0.05
 ) {
 	const start = Number(clip.start || 0);
-	const duration = Math.max(minimumDuration, Number(clip.duration || minimumDuration));
+	const duration = Math.max(
+		minimumDuration,
+		Number(clip.duration || minimumDuration)
+	);
 	const end = start + duration;
 	if (edge === 'start') {
-		const nextStart = clamp(start + deltaSeconds, 0, end - minimumDuration);
+		const nextStart = clamp(
+			start + deltaSeconds,
+			0,
+			end - minimumDuration
+		);
 		return {
 			...clip,
 			duration: round(end - nextStart),

@@ -17,6 +17,7 @@ export * from "./exports/recipes.js";
 export * from "./exports/realism.js";
 export * from "./core/animalMesh/index.js";
 export * from "./core/proceduralObject/index.js";
+export * from "./core/universalApi/index.js";
 
 /**
  * Additive API-driven creature kernel export. Existing animalMesh and root

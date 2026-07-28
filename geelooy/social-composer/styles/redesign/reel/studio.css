@@ -1,0 +1,112 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The embedded NLE receives a browserless viewport, while status, progress, and
+ * render actions remain a precise social-composer attachment footer.
+ */
+
+.reel-studio-screen {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	min-block-size: 100%;
+	background: var(--reel-bg);
+}
+
+.reel-studio-host {
+	position: relative;
+	min-block-size: 0;
+	margin: .7rem .7rem 0;
+	border: 1px solid var(--reel-border);
+	border-radius: var(--reel-radius-md) var(--reel-radius-md) 0 0;
+	background: #05070a;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .025);
+	overflow: hidden;
+}
+
+.reel-studio-host::before {
+	position: absolute;
+	z-index: 2;
+	inset-block-start: .45rem;
+	inset-inline-start: .55rem;
+	inline-size: .42rem;
+	block-size: .42rem;
+	border-radius: 50%;
+	background: #ff8f8f;
+	box-shadow: .75rem 0 #f2c96d, 1.5rem 0 #78bd76;
+	content: '';
+	pointer-events: none;
+}
+
+.reel-studio-frame {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	border: 0;
+	background: var(--reel-bg);
+}
+
+.reel-studio-screen > footer {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(7rem, 15rem) auto auto;
+	align-items: center;
+	gap: .65rem;
+	padding: .6rem .7rem;
+	border: 1px solid var(--reel-border);
+	border-block-start: 0;
+	border-radius: 0 0 var(--reel-radius-md) var(--reel-radius-md);
+	background: linear-gradient(180deg, var(--reel-surface-2), var(--reel-surface-1));
+}
+
+.reel-studio-screen > footer p {
+	margin: 0;
+	overflow: hidden;
+	color: var(--reel-text-muted);
+	font-size: .68rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.reel-studio-screen > footer [data-error] {
+	color: var(--reel-danger);
+}
+
+.reel-studio-screen progress {
+	inline-size: 100%;
+	block-size: .36rem;
+	border: 0;
+	border-radius: 999px;
+	background: var(--reel-surface-3);
+	accent-color: var(--reel-violet);
+	overflow: hidden;
+}
+
+.reel-studio-screen progress::-webkit-progress-bar {
+	background: var(--reel-surface-3);
+}
+
+.reel-studio-screen progress::-webkit-progress-value {
+	background: linear-gradient(90deg, var(--reel-violet-strong), var(--reel-violet));
+}
+
+.reel-studio-screen > footer :is(button, a) {
+	display: inline-grid;
+	min-block-size: var(--reel-control);
+	padding: .5rem .72rem;
+	place-items: center;
+	border: 1px solid var(--reel-border);
+	border-radius: var(--reel-radius-sm);
+	background: var(--reel-surface-3);
+	color: var(--reel-text-soft);
+	font: inherit;
+	font-size: .68rem;
+	font-weight: 800;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.reel-studio-screen > footer [data-reel-render] {
+	border-color: rgba(242, 201, 109, .7);
+	background: linear-gradient(180deg, #f7da8b, var(--reel-amber));
+	color: #211706;
+}

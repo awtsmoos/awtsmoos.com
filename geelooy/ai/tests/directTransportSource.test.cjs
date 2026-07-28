@@ -41,9 +41,13 @@ test("split relay exposes capability and safe enforcement refusal", () => {
 });
 
 test("request-only capability uses settings host and public Sentinel SDK", () => {
-	const capability = read(
+	const service = read(
 		"geelooy/ai/relay/direct/chatgpt/RequestOnlyCapabilityService.mjs"
 	);
+	const descriptor = read(
+		"geelooy/ai/relay/direct/chatgpt/RequestOnlyCapabilityDescriptor.mjs"
+	);
+	const capability = `${service}\n${descriptor}`;
 	const host = read(
 		"geelooy/ai/relay/direct/browser/RequestOnlyHostController.mjs"
 	);
@@ -52,10 +56,12 @@ test("request-only capability uses settings host and public Sentinel SDK", () =>
 	);
 
 	assert.match(host, /route = "\/settings"/);
-	assert.match(capability, /conversationPostSent: false/);
-	assert.match(capability, /enforcementRequired/);
+	assert.match(descriptor, /conversationPostSent: false/);
+	assert.match(descriptor, /socketRequired: false/);
+	assert.match(descriptor, /enforcementRequired/);
 	assert.match(sdk, /SentinelSDK\.token/);
 	assert.doesNotMatch(capability, /CarrierPromptInteractor|FetchEnvelopeInterceptor/);
+	assert.doesNotMatch(host, /Page\.addScriptToEvaluateOnNewDocument|WebSocket/);
 });
 
 test("extension exposes direct capability and explicit chat payloads", () => {

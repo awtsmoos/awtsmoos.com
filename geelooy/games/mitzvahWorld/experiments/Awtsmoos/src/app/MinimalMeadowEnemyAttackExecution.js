@@ -4,12 +4,17 @@
 
 /**
  * @file MinimalMeadowEnemyAttackExecution.js
- * @description Commits one policy-sized melee impact or one cadenced Hebrew projectile.
- * The Awtsmoos separates intention from consequence; Awtsmoos.com makes each strike
- * range-gated, slot-owned, telegraphed, singular, and followed by policy-owned recovery.
+ * @description Commits one mercy-bounded melee impact or archetype-readable Hebrew projectile.
+ * The Awtsmoos separates intention from consequence; Awtsmoos.com lets enemy types vary only
+ * beneath global damage, cadence, slot, telegraph, range, and recovery limits.
  */
 
-import { MINIMAL_MEADOW_COMBAT_BALANCE as POLICY } from './MinimalMeadowCombatBalancePolicy.js';
+import {
+	minimalEnemyArchetypePolicy
+} from './MinimalMeadowEnemyArchetypePolicy.js';
+import {
+	MINIMAL_MEADOW_COMBAT_BALANCE as POLICY
+} from './MinimalMeadowCombatBalancePolicy.js';
 import { addEnemyEffect } from './MinimalMeadowEnemyCombatEffects.js';
 import { applyMinimalEnemyDamage } from './MinimalMeadowEnemyDamage.js';
 import { createEnemyHebrewProjectile } from './MinimalMeadowEnemyProjectile.js';
@@ -31,11 +36,16 @@ export function executeEnemyMeleeImpact(combat) {
 	if (combat.struck) return false;
 	combat.struck = true;
 	const perception = minimalEnemyPerception(combat);
-	if (perception.distance > 2.9) return emitMiss(combat, 'impact-out-of-range');
+	const ranges = archetypeRanges(combat);
+	if (perception.distance > ranges.meleeImpact) {
+		return emitMiss(combat, 'impact-out-of-range');
+	}
 	combat.attackCount += 1;
 	const position = playerImpactPosition(combat.runtime);
 	addEnemyEffect(combat, createImpactExplosion(position, RED, 12));
-	const receipt = applyMinimalEnemyDamage(combat.runtime, POLICY.damage.melee, {
+	const damage = archetypeDamage(combat, 'melee');
+	const receipt = applyMinimalEnemyDamage(combat.runtime, damage, {
+		archetype: combat.actor.profile.archetype,
 		enemyId: combat.actor.profile.id,
 		letters: 'מכה',
 		mode: 'melee'
@@ -52,13 +62,15 @@ export function launchEnemyRangedAttack(combat) {
 	if (combat.launched) return false;
 	combat.launched = true;
 	const projectile = createEnemyHebrewProjectile(combat.actor, combat.runtime);
-	projectile.damage = POLICY.damage.ranged;
+	projectile.damage = archetypeDamage(combat, 'ranged');
 	combat.projectiles.push(projectile);
 	combat.runtime.scene.add(projectile.group);
 	combat.runtime.bus.emit('enemy:projectile', {
+		archetype: combat.actor.profile.archetype,
 		enemyId: combat.actor.profile.id,
-		letters: 'דין',
-		role: combat.session.role
+		letters: combat.actor.profile.attackLetters,
+		role: combat.session.role,
+		speed: projectile.action.speed
 	});
 	combat.attackCount += 1;
 	finishEnemyAttack(combat, null, 'cast-released');
@@ -67,16 +79,28 @@ export function launchEnemyRangedAttack(combat) {
 
 export function finishEnemyAttack(combat, _legacyCooldown, reason = 'attack-recovered') {
 	const mode = combat.session.role === 'caster' ? 'ranged' : 'melee';
+	const behavior = minimalEnemyArchetypePolicy(combat.actor.profile);
 	combat.releaseAttackSlot?.();
 	combat.action = null;
 	combat.actionTime = 0;
-	combat.cooldown = POLICY.cooldowns[mode] + combat.session.openingDelay * 0.35;
+	combat.cooldown = POLICY.cooldowns[mode] * behavior.cooldownScale
+		+ combat.session.openingDelay * 0.35;
 	combat.struck = false;
 	combat.launched = false;
 	combat.actor.action = 'idle';
 	combat.actor.actionProgress = 0;
 	combat.actor.moving = false;
 	combat.session.transition('recovery', reason);
+}
+
+function archetypeDamage(combat, mode) {
+	const behavior = minimalEnemyArchetypePolicy(combat.actor.profile);
+	return Math.max(1, Math.round(POLICY.damage[mode] * behavior.damageScale));
+}
+
+function archetypeRanges(combat) {
+	const behavior = minimalEnemyArchetypePolicy(combat.actor.profile);
+	return { meleeImpact: 2.9 * behavior.meleeRangeScale };
 }
 
 function emitMiss(combat, reason) {

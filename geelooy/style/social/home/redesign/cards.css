@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets every real post occupy the width its story deserves, while
+ * Awtsmoos.com keeps author, media, source, and discussion inside one clear card.
+ */
+
+.home-feed-list > article,
+.home-feed-list .cosmic-post-card,
+.home-feed-list .geelooy-feed-card,
+.home-feed-list .home-post-card {
+	inline-size: 100%;
+	max-inline-size: none;
+	margin: 0;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 1rem;
+	background: #0b121d;
+	box-shadow: 0 .9rem 2rem rgba(0, 0, 0, .24);
+	overflow: clip;
+}
+
+.home-feed-list :is(img, video, iframe) {
+	max-inline-size: 100%;
+}
+
+.home-feed-list :is(
+	.cosmic-post-media,
+	.cosmic-media-frame,
+	.geelooy-feed-media,
+	.post-media,
+	figure
+) {
+	inline-size: 100%;
+	max-inline-size: none;
+	margin-inline: 0;
+}
+
+.home-feed-list :is(
+	.cosmic-post-media img,
+	.cosmic-media-frame img,
+	.geelooy-feed-media img,
+	.post-media img,
+	figure img,
+	video
+) {
+	display: block;
+	inline-size: 100%;
+	block-size: auto;
+	object-fit: cover;
+}
+
+.home-feed-list :is(
+	.cosmic-post-header,
+	.cosmic-post-content,
+	.cosmic-post-actions,
+	.geelooy-feed-header,
+	.geelooy-feed-content,
+	.geelooy-feed-actions
+) {
+	min-inline-size: 0;
+}
+
+.home-feed-list :is(.cosmic-post-actions, .geelooy-feed-actions) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+.home-feed-list :is(.cosmic-action, .geelooy-feed-action, button, a) {
+	min-block-size: 2.55rem;
+}

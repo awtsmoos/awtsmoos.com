@@ -1,0 +1,28 @@
+82 src/ui/MobileHudCompositionPortraitTopStyles.js
+71 src/ui/MobileHudCompositionPortraitBottomStyles.js
+95 src/ui/MinimalMeadowUiRepairStyles.js
+120 src/ui/InventoryModalStyles.js
+104 src/app/MinimalMeadowQuestState.js
+45 src/ui/MinimalMeadowQuestParchmentActions.js
+101 src/ui/MinimalMeadowQuestPresentation.js
+104 src/ui/MinimalMeadowQuestParchment.js
+111 src/ui/MinimalMeadowMenuShlichus.js
+92 src/app/MinimalMeadowRoadGeometry.js
+36 src/app/MinimalMeadowTerrainRoadMount.js
+40 src/app/MinimalMeadowProceduralRiverBed.js
+83 src/app/MinimalMeadowWaterSources.js
+116 src/app/MinimalMeadowWaterDefinitions.js
+82 src/app/MinimalMeadowWaterMaterialHydration.js
+110 src/app/MinimalMeadowWaterSystem.js
+90 src/world/trees/ForestLeafLegacyChromaKey.js
+78 src/world/trees/ForestLeafTexture.js
+75 src/app/MinimalMeadowTreeGeometrySupport.js
+73 src/ui/MinimalMeadowDamageFeedbackStyles.js
+75 src/ui/MinimalMeadowScreenProjection.js
+84 src/ui/MinimalMeadowDamageFeedback.js
+97 src/app/MinimalMeadowCombatWorldEffects.js
+54 src/app/MinimalMeadowEnemyPointerPolicy.js
+82 src/app/MinimalMeadowEnemyLifecycle.js
+112 src/app/MinimalMeadowUi.js
+remote_host_file_count=1
+struct_exit=0

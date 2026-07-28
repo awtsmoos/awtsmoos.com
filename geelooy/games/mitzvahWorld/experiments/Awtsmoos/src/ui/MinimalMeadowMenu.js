@@ -4,17 +4,17 @@
 
 /**
  * @file MinimalMeadowMenu.js
- * @description Restores small menu, quest, Torah, profile, and meadow-map panels.
- * The Awtsmoos holds many journeys inside one quiet chamber; Awtsmoos.com reuses a single
- * modal vessel so secondary information never buries the living meadow beneath permanent UI.
+ * @description Renders compact live panels only when their content actually changes.
+ * The Awtsmoos holds many journeys inside one quiet chamber; Awtsmoos.com keeps current controls,
+ * Shlichus, Torah, profile, and map readable without repeated innerHTML churn.
  */
 
+import { minimalMeadowShlichusMenuContent, subscribeMinimalMeadowShlichus } from './MinimalMeadowMenuShlichus.js';
+import { installMinimalMeadowUiRepairStyles } from './MinimalMeadowUiRepairStyles.js';
+
 const PANEL_EVENTS = Object.freeze({
-	'map:toggle': 'map',
-	'menu:toggle': 'menu',
-	'profile:toggle': 'profile',
-	'questlog:toggle': 'quests',
-	'torah:toggle': 'torah'
+	'map:toggle': 'map', 'menu:toggle': 'menu', 'profile:toggle': 'profile',
+	'questlog:toggle': 'quests', 'torah:toggle': 'torah'
 });
 
 export class MinimalMeadowMenu {
@@ -23,12 +23,15 @@ export class MinimalMeadowMenu {
 		this.bus = bus;
 		this.runtime = runtime;
 		this.mode = null;
+		this.lastTitle = '';
+		this.lastBody = '';
 		this.unsubscribers = [];
 		this.onClick = event => this.handleClick(event);
 		this.build();
 	}
 
 	build() {
+		installMinimalMeadowUiRepairStyles(this.host.ownerDocument);
 		this.host.classList.add('Awtsmoos-meadow-menu');
 		this.host.dataset.open = 'false';
 		this.host.innerHTML = '<section><header><b data-title></b><button type="button" data-close>×</button></header><div data-body></div></section>';
@@ -36,23 +39,28 @@ export class MinimalMeadowMenu {
 		for (const [eventName, mode] of Object.entries(PANEL_EVENTS)) {
 			this.unsubscribers.push(this.bus.on(eventName, () => this.toggle(mode)));
 		}
+		this.unsubscribers.push(subscribeMinimalMeadowShlichus(this.runtime, () => this.refresh()));
 	}
 
 	toggle(mode) {
-		if (this.mode === mode && this.host.dataset.open === 'true') {
-			this.close();
-			return;
-		}
+		if (this.mode === mode && this.host.dataset.open === 'true') return this.close();
 		this.mode = mode;
 		this.host.dataset.open = 'true';
-		this.refresh();
+		this.refresh(true);
 	}
 
-	refresh() {
-		if (!this.mode || this.host.dataset.open !== 'true') return;
+	refresh(force = false) {
+		if (!this.mode || this.host.dataset.open !== 'true') return false;
 		const content = panelContent(this.mode, this.runtime);
-		this.host.querySelector('[data-title]').textContent = content.title;
-		this.host.querySelector('[data-body]').innerHTML = content.body;
+		if (force || content.title !== this.lastTitle) {
+			this.host.querySelector('[data-title]').textContent = content.title;
+			this.lastTitle = content.title;
+		}
+		if (force || content.body !== this.lastBody) {
+			this.host.querySelector('[data-body]').innerHTML = content.body;
+			this.lastBody = content.body;
+		}
+		return true;
 	}
 
 	handleClick(event) {
@@ -63,10 +71,7 @@ export class MinimalMeadowMenu {
 		}
 	}
 
-	close() {
-		this.host.dataset.open = 'false';
-	}
-
+	close() { this.host.dataset.open = 'false'; }
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.host.removeEventListener('click', this.onClick);
@@ -74,13 +79,13 @@ export class MinimalMeadowMenu {
 }
 
 function panelContent(mode, runtime) {
+	if (mode === 'quests') return minimalMeadowShlichusMenuContent(runtime);
 	const state = runtime.state;
 	const profiles = {
-		map: ['Rolling Meadow', `<p>Drag to orbit · wheel or pinch to zoom · double-click for pointer lock.</p><p>Position: ${state.x.toFixed(1)}, ${state.z.toFixed(1)} · ground ${state.groundY.toFixed(1)}</p>`],
-		menu: ['Mitzvah World', '<p>W/↑ forward · S/↓ reverse · A/D or ←/→ turn · Q/E strafe · Shift or R run · Space jump.</p><button type="button" data-open-bag>Open bag</button>'],
+		map: ['Rolling Meadow', `<p>Left-drag orbits camera · right-drag turns camera and player · hold both mouse buttons to move.</p><p>Position: ${state.x.toFixed(1)}, ${state.z.toFixed(1)} · ground ${state.groundY.toFixed(1)}</p>`],
+		menu: ['Mitzvah World', '<p>W/S move · A/D or Q/E strafe · arrows turn · right mouse steers · both mouse buttons move · Shift runs · Space jumps.</p><button type="button" data-open-bag>Open bag</button>'],
 		profile: ['Your Chossid', profileMarkup(runtime)],
-		quests: ['Shlichus', '<h3>✨ Sparks at the East Gate</h3><p>Explore the rolling meadow and prepare the path for the village beyond.</p>'],
-		torah: ['Sefarim', '<h3>📖 Daily learning</h3><p>Modeh Ani · Shema · Tehillim · Tanya. More passages return as the world expands.</p>']
+		torah: ['Sefarim', '<h3>📖 Daily learning</h3><p>Modeh Ani · Shema · Tehillim · Tanya.</p>']
 	};
 	const [title, body] = profiles[mode] || profiles.menu;
 	return { body, title };

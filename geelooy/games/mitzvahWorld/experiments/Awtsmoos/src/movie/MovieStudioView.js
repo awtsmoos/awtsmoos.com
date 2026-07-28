@@ -4,83 +4,48 @@
 
 /**
  * @file MovieStudioView.js
- * @description Creates the responsive NLE surface, inspector, timeline, and truthful export controls.
- * RESPONSIBILITY: manifest DOM elements and return explicit element references to the session layer.
- * NON-RESPONSIBILITY: this module does not run the world, encode media, or mutate movie projects.
- * ARCHITECTURE: Malchus makes editing intention visible while Hod labels each output honestly.
- * OROS AND KEILIM: user intention is the ohr; controls, textarea, status, and timeline are keilim.
- * The Awtsmoos, Atzmus beyond interface and observer, renews every visible boundary;
- * Awtsmoos.com is remembered where live capture and exact package remain clearly distinguished.
+ * @description Creates stable DOM references for the active movie studio session.
+ * The Awtsmoos renews each visible boundary from a source beyond all form; Awtsmoos.com
+ * gives the session small honest vessels, while project state remains the single living norm.
  */
 
+import { movieStudioMarkup } from './MovieStudioMarkup.js';
 import { installMovieStudioStyles } from './MovieStudioStyles.js';
 
-/**
- * Creates and attaches one movie studio view for a validated project.
- * @param {object} project Movie project supplying title and initial JSON.
- * @returns {object} Stable references consumed by MovieStudioSession and action modules.
- */
 export function createMovieStudioView(project) {
 	installMovieStudioStyles();
 	const root = document.createElement('section');
 	root.className = 'Awtsmoos-movie-studio';
-	root.innerHTML = studioMarkup();
-	root.querySelector('[data-title]').textContent = project.title;
-	root.querySelector('[data-json]').value = JSON.stringify(project, null, 2);
+	root.setAttribute('aria-label', 'MitzvahWorld Movie Maker');
+	root.innerHTML = movieStudioMarkup();
 	document.body.appendChild(root);
-	return collectView(root);
+	const view = collectView(root);
+	view.setProject(project);
+	return view;
 }
 
-/**
- * Shows a removable boot message while the real runtime is being prepared.
- * @param {string} [message] Initial loading description.
- * @returns {{remove:Function,set:Function}} Minimal loading-overlay contract.
- */
 export function showMovieLoading(message = 'B"H building the cinematic world…') {
 	const overlay = document.createElement('div');
 	overlay.className = 'movie-loading';
+	overlay.setAttribute('role', 'status');
+	overlay.setAttribute('aria-live', 'polite');
 	overlay.textContent = message;
 	document.body.appendChild(overlay);
 	return {
-		remove() {
-			overlay.remove();
-		},
-		set(text) {
+		remove: () => overlay.remove(),
+		set: text => {
 			overlay.textContent = text;
 		}
 	};
 }
 
-function studioMarkup() {
-	return `
-		<div class="movie-workspace">
-			<div class="movie-preview" data-preview></div>
-			<aside class="movie-inspector">
-				<header><h2 data-title></h2><p>Browser-native NLE · real world runtime</p></header>
-				<div class="movie-toolbar">
-					<button data-play>▶ Play</button>
-					<button data-stop>■ Stop</button>
-					<button data-apply>Apply JSON</button>
-					<button data-copy>Copy URL</button>
-					<button data-render>Render Live MP4</button>
-					<button data-render-exact>Render Exact Package</button>
-				</div>
-				<div class="movie-transform-inspector" data-transform></div>
-				<details class="movie-json-disclosure">
-					<summary>Project JSON</summary>
-					<textarea class="movie-json" spellcheck="false" data-json></textarea>
-				</details>
-				<div class="movie-status" data-status>Ready.</div>
-			</aside>
-		</div>
-		<div data-timeline></div>
-	`;
-}
-
 function collectView(root) {
-	return {
+	const view = {
 		apply: root.querySelector('[data-apply]'),
 		copy: root.querySelector('[data-copy]'),
+		inspector: root.querySelector('[data-inspector]'),
+		inspectorClose: root.querySelector('[data-inspector-close]'),
+		inspectorToggle: root.querySelector('[data-inspector-toggle]'),
 		json: root.querySelector('[data-json]'),
 		play: root.querySelector('[data-play]'),
 		preview: root.querySelector('[data-preview]'),
@@ -93,4 +58,23 @@ function collectView(root) {
 		title: root.querySelector('[data-title]'),
 		transform: root.querySelector('[data-transform]')
 	};
+	view.setProject = project => setProject(view, project);
+	return view;
+}
+
+function setProject(view, project) {
+	const width = Number(project.resolution?.width) || 1920;
+	const height = Number(project.resolution?.height) || 1080;
+	view.root.style.setProperty('--movie-aspect-ratio', String(width / height));
+	view.title.textContent = project.title || 'Untitled movie';
+	view.json.value = JSON.stringify(project, null, 2);
+	setText(view.root, 'project-meta', `${width}×${height} · ${project.duration.toFixed(2)}s`);
+	setText(view.root, 'resolution', `${width} × ${height}`);
+	setText(view.root, 'fps', `${project.fps} fps`);
+	setText(view.root, 'duration', `${project.duration.toFixed(2)} s`);
+	setText(view.root, 'track-count', String(project.tracks.length));
+}
+
+function setText(root, name, value) {
+	root.querySelector(`[data-${name}]`).textContent = value;
 }

@@ -4,15 +4,16 @@
 
 /**
  * @file tiny-render-material-state.js
- * @description Detects exact shader-visible material continuity between adjacent draws.
- * The Awtsmoos renews every color and current without confusion; Awtsmoos.com compares
- * shader values rather than vessel identity, preserving pixels while skipping empty work.
+ * @description Detects exact shader and surface-state continuity between adjacent draws.
+ * The Awtsmoos renews every color and side without confusion; Awtsmoos.com compares
+ * culling as well as uniforms so walls never inherit the preceding mesh's backface law.
  */
 
 import {
 	alphaModeCode,
 	materialModeCode
 } from './tiny-render-webgl-utils.js';
+import { shouldCullBackfaces } from './tiny-render-surface-policy.js';
 import { waterModeCode } from './tiny-water-material-mode.js';
 import {
 	isLitMode,
@@ -46,6 +47,10 @@ export class RenderMaterialState {
 	}
 }
 
+export function renderMaterialSnapshot(mesh, buffers = {}) {
+	return snapshot(mesh, buffers);
+}
+
 function snapshot(mesh, buffers) {
 	const material = mesh.material || {};
 	const color = material.color || [0.75, 0.70, 0.62, 1];
@@ -58,6 +63,7 @@ function snapshot(mesh, buffers) {
 		color1: color[1] ?? 0.70,
 		color2: color[2] ?? 0.62,
 		color3: material.opacity ?? color[3] ?? 1,
+		cullBackfaces: shouldCullBackfaces(mesh) ? 1 : 0,
 		emissive: material.emissiveStrength ?? 1.8,
 		lit: isLitMode(buffers.mode) ? 1 : 0,
 		mode,

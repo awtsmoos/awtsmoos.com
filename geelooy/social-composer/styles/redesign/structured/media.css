@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Scoped media remains visibly attached to its verse, with type-led previews,
+ * compact captions, and one explicit removal path.
+ */
+
+.composer-civilization-document .structured-scope-media {
+	display: grid;
+	gap: .5rem;
+	padding: .62rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .015);
+}
+
+.composer-civilization-document .scoped-media-picker {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .38rem;
+}
+
+.composer-civilization-document .scoped-media-picker button {
+	min-block-size: var(--composer-control-sm);
+	padding-inline: .58rem;
+	font-size: .63rem;
+}
+
+.composer-civilization-document .scoped-media-panel,
+.composer-civilization-document .mediaGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: .5rem;
+}
+
+.composer-civilization-document .mediaCard {
+	display: grid;
+	align-content: start;
+	gap: .45rem;
+	min-inline-size: 0;
+	padding: .5rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: linear-gradient(145deg, var(--composer-surface-2), #10161e);
+}
+
+.composer-civilization-document .mediaCard :is(img, video) {
+	inline-size: 100%;
+	aspect-ratio: 16 / 10;
+	border-radius: var(--composer-radius-sm);
+	background: #05070a;
+	object-fit: cover;
+}
+
+.composer-civilization-document .mediaCard audio {
+	inline-size: 100%;
+}
+
+.composer-civilization-document .mediaCard :is(input, textarea) {
+	min-block-size: 2.55rem;
+	font-size: .65rem;
+}
+
+.composer-civilization-document .mediaCard textarea {
+	min-block-size: 3.7rem;
+}
+
+.composer-civilization-document .mediaDrop {
+	display: grid;
+	min-block-size: 5.5rem;
+	place-items: center;
+	padding: .7rem;
+	border: 1px dashed var(--composer-border);
+	border-radius: var(--composer-radius-md);
+	background: rgba(89, 189, 210, .025);
+	color: var(--composer-text-faint);
+	font-size: .65rem;
+	text-align: center;
+}
+
+.composer-civilization-document .mediaDrop.dragging {
+	border-color: var(--composer-cyan);
+	background: var(--composer-cyan-soft);
+	color: #c9edf4;
+}

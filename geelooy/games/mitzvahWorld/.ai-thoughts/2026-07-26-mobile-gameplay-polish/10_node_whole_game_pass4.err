@@ -1,0 +1,13 @@
+(node:99328) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos.com/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[MitzvahWorld] canonical Chossid hydration failed; fallback remains visible. Error: HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb
+    at fetchAssetBuffer (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js:18:9)
+    at async createTemplate (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js:84:16)
+    at async loadSharedGltfTemplate (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js:38:19)
+    at async loadIsolatedGltf (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js:54:19)
+    at async hydrateMinimalMeadowPlayer (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerHydration.js:21:16)
+    at async hydratePlayer (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js:50:17)
+    at async Promise.allSettled (index 0)
+    at async Module.installMinimalMeadowFeatures (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js:30:26)

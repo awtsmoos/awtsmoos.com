@@ -1,0 +1,80 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Focus, motion preference, contrast, selection, and coarse-pointer truth remain
+ * visible in every Awtsmoos.com editing vessel.
+ */
+
+.nle-studio :is(button, input, select, a):focus-visible {
+	outline: 2px solid var(--nle-focus);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgba(185, 120, 239, .16);
+}
+
+.nle-studio :is(button, input, select, a):disabled {
+	cursor: not-allowed;
+	opacity: .5;
+}
+
+.nle-studio ::selection {
+	background: rgba(185, 120, 239, .34);
+	color: #fff;
+}
+
+.nle-panel,
+.nle-timeline-scroll,
+.nle-top-actions,
+.nle-edit-actions {
+	scrollbar-color: var(--nle-scrollbar) var(--nle-scrollbar-track);
+	scrollbar-width: thin;
+}
+
+.nle-panel::-webkit-scrollbar,
+.nle-timeline-scroll::-webkit-scrollbar,
+.nle-top-actions::-webkit-scrollbar,
+.nle-edit-actions::-webkit-scrollbar {
+	inline-size: .65rem;
+	block-size: .65rem;
+}
+
+.nle-panel::-webkit-scrollbar-thumb,
+.nle-timeline-scroll::-webkit-scrollbar-thumb,
+.nle-top-actions::-webkit-scrollbar-thumb,
+.nle-edit-actions::-webkit-scrollbar-thumb {
+	border: 2px solid var(--nle-scrollbar-track);
+	border-radius: 999px;
+	background: var(--nle-scrollbar);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.nle-studio *,
+	.nle-studio *::before,
+	.nle-studio *::after {
+		scroll-behavior: auto !important;
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
+@media (pointer: coarse) {
+	.nle-studio :is(button, input, select, a) {
+		min-block-size: 2.75rem;
+	}
+}
+
+@media (forced-colors: active) {
+	.nle-studio,
+	.nle-panel,
+	.nle-preview-panel,
+	.nle-timeline-panel {
+		forced-color-adjust: auto;
+	}
+
+	.nle-timeline-clip,
+	.nle-asset-card,
+	.nle-generator-grid button {
+		border: 1px solid CanvasText;
+	}
+}

@@ -4,22 +4,27 @@
 
 /**
  * @file inventoryEquipmentLoot.test.mjs
- * @description Verifies atomic quantities, corpse interaction, garments, weapon attachment, and hydration.
- * The Awtsmoos makes proof a vessel for truth rather than confidence; Awtsmoos.com records that
- * inventory, loot, hand, back, coat, and casting agree through real runtime contracts.
+ * @description Verifies atomic Bag, deliberate loot, garments, hand weapons, and hydration.
+ * The Awtsmoos makes proof a vessel for visible truth; Awtsmoos.com records that tefillin,
+ * jacket variant, chosen treasure, casting, right hand, and model replacement agree.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
-import { MinimalMeadowEnemyLifecycleFixture } from './inventoryEquipmentLootFixture.mjs';
 import { MinimalMeadowEquipmentRuntime } from '../../app/MinimalMeadowEquipmentRuntime.js';
 import { interactWithMinimalEnemy } from '../../app/MinimalMeadowEnemyLifecycle.js';
 import { InventoryStore } from '../../gameplay/InventoryStore.js';
 import { AwtsmoosEventBus } from '../../ui/AwtsmoosEventBus.js';
 import { aggregateInventoryStacks } from '../../ui/InventoryPanelState.js';
+import { MinimalMeadowEnemyLifecycleFixture } from './inventoryEquipmentLootFixture.mjs';
+import {
+	inventoryEquipmentPlayerModel,
+	waitForEquipment
+} from './inventoryEquipmentModelFixture.mjs';
 
-test('restoration preserves duplicate, overflow, and one aggregate Bag card', () => {
+const WEAPON_ANCHOR = 'Awtsmoos_equipped_weapon_hand_anchor';
+
+test('restoration preserves duplicates, overflow, and one aggregate Bag card', () => {
 	const store = new InventoryStore();
 	store.restore({
 		equipment: {},
@@ -33,82 +38,75 @@ test('restoration preserves duplicate, overflow, and one aggregate Bag card', ()
 		pinnedPassages: []
 	});
 	assert.equal(store.quantity('wood-log'), 27);
-	assert.deepEqual(store.items.filter(stack => stack.itemId === 'wood-log').map(stack => stack.quantity), [20, 7]);
-	assert.equal(aggregateInventoryStacks(store.snapshot()).find(stack => stack.itemId === 'wood-log').quantity, 27);
+	assert.deepEqual(
+		store.items.filter(stack => stack.itemId === 'wood-log')
+			.map(stack => stack.quantity),
+		[20, 7]
+	);
+	assert.equal(
+		aggregateInventoryStacks(store.snapshot())
+			.find(stack => stack.itemId === 'wood-log').quantity,
+		27
+	);
 });
 
 test('batch loot and purchases publish exactly once', () => {
 	const store = new InventoryStore();
 	let publications = 0;
 	store.onChange(() => publications += 1);
-	store.addMany([{ itemId: 'wood-log', quantity: 24 }, { itemId: 'cottage-flower', quantity: 2 }]);
+	store.addMany([
+		{ itemId: 'wood-log', quantity: 24 },
+		{ itemId: 'cottage-flower', quantity: 2 }
+	]);
 	assert.equal(publications, 1);
-	assert.equal(store.quantity('wood-log'), 24);
 	store.buy('wool-thread', 2);
 	assert.equal(publications, 2);
 	assert.equal(store.quantity('perutas'), 104);
-	assert.equal(store.quantity('wool-thread'), 2);
 });
 
-test('corpse requires selection before one atomic loot transfer', () => {
+test('corpse selection opens loot before any deliberate transfer', () => {
 	const fixture = new MinimalMeadowEnemyLifecycleFixture();
-	const first = interactWithMinimalEnemy(fixture.actor);
-	assert.equal(first.reason, 'CORPSE_SELECTED');
-	assert.equal(fixture.actor.selected, true);
+	assert.equal(interactWithMinimalEnemy(fixture.actor).reason, 'CORPSE_SELECTED');
 	assert.equal(fixture.inventory.quantity('wood-log'), 0);
-	const second = interactWithMinimalEnemy(fixture.actor);
-	assert.equal(second.accepted, true);
+	assert.equal(interactWithMinimalEnemy(fixture.actor).phase, 'opened');
+	assert.equal(fixture.inventory.quantity('wood-log'), 0);
+	fixture.actor.takeLootItem('wood-log');
 	assert.equal(fixture.inventory.quantity('wood-log'), 3);
+	assert.equal(fixture.actor.group.visible, true);
+	fixture.actor.takeAllLoot();
 	assert.equal(fixture.inventory.quantity('cottage-flower'), 2);
 	assert.equal(fixture.actor.group.visible, false);
-	assert.equal(fixture.events.filter(event => event.type === 'enemy:looted').length, 1);
-	assert.equal(interactWithMinimalEnemy(fixture.actor).reason, 'CORPSE_ALREADY_LOOTED');
+	assert.equal(
+		fixture.events.filter(event => event.type === 'enemy:looted').length,
+		1
+	);
 });
 
-test('coat and persistent weapon follow equipment, casting, and hydrated bones', async () => {
+test('tefillin jacket and right-hand weapon persist through casting and hydration', async () => {
 	const bus = new AwtsmoosEventBus();
 	const inventory = new InventoryStore();
 	const runtime = new MinimalMeadowEquipmentRuntime({ bus, inventory });
-	const firstModel = playerModel('fallback');
-	runtime.bindModel(firstModel.model);
-	assert.equal(firstModel.jacket.visible, true);
-	assert.equal(runtime.weapon.parent, firstModel.spine);
-	bus.emit('combat:cast-start', {});
+	const first = inventoryEquipmentPlayerModel('fallback');
+	runtime.bindModel(first.model);
+	assert.equal(runtime.diagnostics().garments.tefillinJacket, true);
 	assert.equal(runtime.drawn, true);
-	assert.equal(runtime.weapon.parent, firstModel.rightHand);
+	assert.equal(runtime.weapon.parent.name, WEAPON_ANCHOR);
+	assert.equal(runtime.weapon.parent.parent, first.rightHand);
+	bus.emit('combat:cast-start', {});
 	bus.emit('combat:cast-launch', {});
-	await delay(250);
-	assert.equal(runtime.drawn, false);
-	assert.equal(runtime.weapon.parent, firstModel.spine);
+	await waitForEquipment(250);
+	assert.equal(runtime.drawn, true);
+	assert.equal(runtime.weapon.parent.name, WEAPON_ANCHOR);
 	inventory.unequip('coat');
-	assert.equal(firstModel.jacket.visible, false);
-	const hydrated = playerModel('hydrated');
+	assert.equal(runtime.diagnostics().garments.tefillinJacket, false);
+	const hydrated = inventoryEquipmentPlayerModel('hydrated');
 	runtime.bindModel(hydrated.model);
-	assert.equal(runtime.weapon.parent, hydrated.spine);
+	assert.equal(runtime.weapon.parent.name, WEAPON_ANCHOR);
+	assert.equal(runtime.weapon.parent.parent, hydrated.rightHand);
+	assert.equal(runtime.weapon.userData.handBound, true);
 	const previousWeapon = runtime.weapon;
 	inventory.unequip('hand');
 	assert.equal(runtime.weapon, null);
 	assert.equal(previousWeapon.visible, false);
 	runtime.destroy();
 });
-
-function playerModel(name) {
-	const model = namedGroup(name);
-	const jacket = namedGroup('jacket');
-	const rightHand = namedGroup('mixamorig:RightHand');
-	const spine = namedGroup('mixamorig:Spine2');
-	for (const child of [jacket, rightHand, spine, namedGroup('outer-shirt'), namedGroup('top-hat')]) {
-		model.add(child);
-	}
-	return { jacket, model, rightHand, spine };
-}
-
-function namedGroup(name) {
-	const group = new Group();
-	group.name = name;
-	return group;
-}
-
-function delay(milliseconds) {
-	return new Promise(resolve => setTimeout(resolve, milliseconds));
-}

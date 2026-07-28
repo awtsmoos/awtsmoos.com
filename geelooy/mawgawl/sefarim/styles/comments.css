@@ -1,12 +1,18 @@
 /* B"H
- * The Awtsmoos opens linked commentary as readable continuation, never as hidden black-on-black geometry.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos opens linked commentary as readable continuation and marks
+ * imported Awtsmoos.com source text honestly, never as a false doorway.
  */
+
 .commentMenu {
 	background: #070d16;
 	border: 1px solid rgba(151, 178, 205, .12);
 	border-radius: .72rem;
 	overflow: hidden;
 }
+
 .commentMenu summary {
 	align-items: center;
 	background: #101a27;
@@ -19,28 +25,35 @@
 	min-height: 3rem;
 	padding: .72rem .82rem;
 }
+
 .commentMenu summary::marker {
 	color: #62d4e8;
 }
+
 .commentMenu summary:focus-visible {
 	box-shadow: inset 0 0 0 2px #55d0e7;
 	outline: 0;
 }
+
 .commentMenu .closeLabel {
 	color: #7ee0f0;
 	display: none;
 }
+
 .commentMenu[open] .openLabel {
 	display: none;
 }
+
 .commentMenu[open] .closeLabel {
 	display: inline;
 }
+
 .commentList {
 	background: rgba(151, 178, 205, .1);
 	display: grid;
 	gap: 1px;
 }
+
 .rangeComment {
 	align-items: start;
 	background: #090f19;
@@ -52,22 +65,41 @@
 	padding: .8rem;
 	text-decoration: none;
 }
-.rangeComment:is(:hover, :focus-visible) {
+
+.rangeComment:not(.rangeCommentStatic):is(:hover, :focus-visible) {
 	background: #111c29;
 	outline: 0;
 }
+
+.rangeCommentStatic {
+	border-inline-start: 3px solid rgba(110, 216, 234, .48);
+	cursor: default;
+}
+
 .commentCoord {
 	color: #6ed8ea;
 	font-weight: 850;
 	white-space: nowrap;
 }
+
 .commentText {
 	line-height: 1.6;
 	overflow-wrap: anywhere;
 }
-.commentArrow {
+
+.commentArrow,
+.commentSourceType {
 	color: #6ed8ea;
 }
+
+.commentSourceType {
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
 .rangePreview :where(sup, sub),
 .commentText :where(sup, sub) {
 	color: #8ce3f1;

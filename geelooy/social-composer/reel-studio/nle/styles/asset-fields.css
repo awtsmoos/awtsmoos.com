@@ -1,0 +1,39 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Generated title fields and inspector controls share one measured input language.
+ */
+
+.nle-custom-title {
+	display: grid;
+	gap: .55rem;
+	margin-block: .8rem;
+	padding: .7rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: var(--nle-radius-md);
+	background: rgba(255, 255, 255, .02);
+}
+
+.nle-custom-title label,
+.nle-inspector-panel label {
+	display: grid;
+	gap: .28rem;
+	color: var(--nle-text-muted);
+	font-size: .63rem;
+	font-weight: 760;
+}
+
+.nle-custom-title input,
+.nle-inspector-panel input,
+.nle-inspector-panel select {
+	min-inline-size: 0;
+	min-block-size: var(--nle-control);
+	padding: .52rem .62rem;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-sm);
+	background: var(--nle-surface-0);
+	color: var(--nle-text);
+	font: inherit;
+	transition: border-color var(--nle-transition), background var(--nle-transition);
+}

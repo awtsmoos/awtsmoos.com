@@ -1,0 +1,690 @@
+{
+  "ok": false,
+  "port": 9252,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "readiness": {
+    "durationMs": 39770,
+    "final": {
+      "features": "combat-ready",
+      "loadingProgress": 0,
+      "readiness": "ready",
+      "renderer": "webgl",
+      "rendererStage": "rich-ready",
+      "runtimeState": "playable",
+      "featurePhase": "ready"
+    },
+    "observations": [
+      {
+        "features": "",
+        "loadingProgress": 0,
+        "readiness": "booting",
+        "renderer": "",
+        "rendererStage": "",
+        "runtimeState": "",
+        "featurePhase": "loading"
+      },
+      {
+        "features": "",
+        "loadingProgress": 0,
+        "readiness": "booting",
+        "renderer": "",
+        "rendererStage": "",
+        "runtimeState": "starting",
+        "featurePhase": "loading"
+      },
+      {
+        "features": "loading",
+        "loadingProgress": 0,
+        "readiness": "settling",
+        "renderer": "webgl",
+        "rendererStage": "hydrating",
+        "runtimeState": "playable",
+        "featurePhase": "loading-compact-entry"
+      },
+      {
+        "features": "loading",
+        "loadingProgress": 0,
+        "readiness": "settling",
+        "renderer": "webgl",
+        "rendererStage": "rich-ready",
+        "runtimeState": "playable",
+        "featurePhase": "loading-compact-entry"
+      },
+      {
+        "features": "loading",
+        "loadingProgress": 0,
+        "readiness": "settling",
+        "renderer": "webgl",
+        "rendererStage": "rich-ready",
+        "runtimeState": "playable",
+        "featurePhase": "loading-combat-and-model"
+      },
+      {
+        "features": "combat-ready",
+        "loadingProgress": 0,
+        "readiness": "settling",
+        "renderer": "webgl",
+        "rendererStage": "rich-ready",
+        "runtimeState": "playable",
+        "featurePhase": "ready"
+      },
+      {
+        "features": "combat-ready",
+        "loadingProgress": 0,
+        "readiness": "ready",
+        "renderer": "webgl",
+        "rendererStage": "rich-ready",
+        "runtimeState": "playable",
+        "featurePhase": "ready"
+      }
+    ]
+  },
+  "world": {
+    "actors": [
+      {
+        "archetype": "balanced",
+        "biome": "village-edge",
+        "id": "tzel-chai",
+        "position": [
+          27.50934588481233,
+          6.696400000000001,
+          15.245327057593835
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.8066666666666666,
+          0.8066666666666666,
+          0.8066666666666666
+        ]
+      },
+      {
+        "archetype": "ranged",
+        "biome": "eastern-road",
+        "id": "esh-katan",
+        "position": [
+          51.65469030334986,
+          8.0029,
+          5.17265484832507
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.7911111111111111,
+          0.7911111111111111,
+          0.7911111111111111
+        ]
+      },
+      {
+        "archetype": "ranged",
+        "biome": "river-rise",
+        "id": "ruach-afelah",
+        "position": [
+          69.56524758424972,
+          6.710800000000001,
+          33.21737620787514
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.8155555555555555,
+          0.8155555555555555,
+          0.8155555555555555
+        ]
+      },
+      {
+        "archetype": "melee",
+        "biome": "northern-hill",
+        "id": "shomer-hoshech",
+        "position": [
+          37.207476707849864,
+          -1.2818,
+          61.39626164607507
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.8466666666666667,
+          0.8466666666666667,
+          0.8466666666666667
+        ]
+      },
+      {
+        "archetype": "flanker",
+        "biome": "wet-meadow",
+        "id": "ketem-layla",
+        "position": [
+          -2.3229490168751608,
+          -0.6509,
+          61.16147450843759
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.7999999999999999,
+          0.7999999999999999,
+          0.7999999999999999
+        ]
+      },
+      {
+        "archetype": "balanced",
+        "biome": "western-slope",
+        "id": "ayin-raash",
+        "position": [
+          -40.65835921350019,
+          6.0234000000000005,
+          33.329179606750095
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.8311111111111111,
+          0.8311111111111111,
+          0.8311111111111111
+        ]
+      },
+      {
+        "archetype": "warden",
+        "biome": "outer-stone-rim",
+        "id": "even-koved",
+        "position": [
+          -130.92668737080044,
+          4.5672,
+          85.46334368540022
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          1.2032,
+          0.9964,
+          1.2032
+        ]
+      },
+      {
+        "archetype": "skirmisher",
+        "biome": "outer-dry-meadow",
+        "id": "ratz-layla",
+        "position": [
+          121.84475608143728,
+          8.6042,
+          -94.92237804071864
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.5576,
+          0.7888000000000001,
+          0.5576
+        ]
+      },
+      {
+        "archetype": "cantor",
+        "biome": "outer-letter-ridge",
+        "id": "baal-otiyot",
+        "position": [
+          109.17393568818756,
+          8.2341,
+          107.41303215590622
+        ],
+        "role": null,
+        "safe": true,
+        "scale": [
+          0.7544,
+          1.066,
+          0.7544
+        ]
+      }
+    ],
+    "diagnostics": {
+      "all": [
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "balanced",
+          "armor": 4,
+          "attackable": true,
+          "biome": "village-edge",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 96,
+          "id": "tzel-chai",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 96,
+          "name": "Tzel Chai",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "balanced",
+          "xpReward": 74,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 13
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 27.50934588481233,
+            "y": 6.696400000000001,
+            "z": 15.245327057593835
+          },
+          "profileId": "tzel-chai",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "ranged",
+          "armor": 4,
+          "attackable": true,
+          "biome": "eastern-road",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 82,
+          "id": "esh-katan",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 82,
+          "name": "Esh Katan",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "ranged",
+          "xpReward": 69,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 12
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 51.65469030334986,
+            "y": 8.0029,
+            "z": 5.17265484832507
+          },
+          "profileId": "esh-katan",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "ranged",
+          "armor": 4,
+          "attackable": true,
+          "biome": "river-rise",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 104,
+          "id": "ruach-afelah",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 104,
+          "name": "Ruach Afelah",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "ranged",
+          "xpReward": 77,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 13
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 69.56524758424972,
+            "y": 6.710800000000001,
+            "z": 33.21737620787514
+          },
+          "profileId": "ruach-afelah",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "melee",
+          "armor": 6,
+          "attackable": true,
+          "biome": "northern-hill",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 132,
+          "id": "shomer-hoshech",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 132,
+          "name": "Shomer Hoshech",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "melee",
+          "xpReward": 86,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 15
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 37.207476707849864,
+            "y": -1.2818,
+            "z": 61.39626164607507
+          },
+          "profileId": "shomer-hoshech",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "flanker",
+          "armor": 4,
+          "attackable": true,
+          "biome": "wet-meadow",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 90,
+          "id": "ketem-layla",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 90,
+          "name": "Ketem Layla",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "flanker",
+          "xpReward": 72,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 13
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": -2.3229490168751608,
+            "y": -0.6509,
+            "z": 61.16147450843759
+          },
+          "profileId": "ketem-layla",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "balanced",
+          "armor": 4,
+          "attackable": true,
+          "biome": "western-slope",
+          "bodyScale": [
+            1,
+            1,
+            1
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 118,
+          "id": "ayin-raash",
+          "level": 2,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 118,
+          "name": "Ayin Raash",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "balanced",
+          "xpReward": 81,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 14
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": -40.65835921350019,
+            "y": 6.0234000000000005,
+            "z": 33.329179606750095
+          },
+          "profileId": "ayin-raash",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "warden",
+          "armor": 9,
+          "attackable": true,
+          "biome": "outer-stone-rim",
+          "bodyScale": [
+            1.28,
+            1.06,
+            1.28
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 176,
+          "id": "even-koved",
+          "level": 3,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 176,
+          "name": "Even Koved",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "melee",
+          "xpReward": 88,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 17
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": -130.92668737080044,
+            "y": 4.5672,
+            "z": 85.46334368540022
+          },
+          "profileId": "even-koved",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "skirmisher",
+          "armor": 2,
+          "attackable": true,
+          "biome": "outer-dry-meadow",
+          "bodyScale": [
+            0.82,
+            1.16,
+            0.82
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 72,
+          "id": "ratz-layla",
+          "level": 3,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 72,
+          "name": "Ratz Layla",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "flanker",
+          "xpReward": 68,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 12
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 121.84475608143728,
+            "y": 8.6042,
+            "z": -94.92237804071864
+          },
+          "profileId": "ratz-layla",
+          "surface": null,
+          "visible": true
+        },
+        {
+          "action": "walk",
+          "alive": true,
+          "archetype": "cantor",
+          "armor": 3,
+          "attackable": true,
+          "biome": "outer-letter-ridge",
+          "bodyScale": [
+            0.92,
+            1.3,
+            0.92
+          ],
+          "corpse": false,
+          "face": "👹",
+          "health": 110,
+          "id": "baal-otiyot",
+          "level": 3,
+          "lootable": false,
+          "looted": false,
+          "maxHealth": 110,
+          "name": "Baal Otiyot",
+          "selected": false,
+          "state": "walk",
+          "targetable": true,
+          "temperament": "ranged",
+          "xpReward": 78,
+          "lootRemaining": [
+            {
+              "itemId": "perutas",
+              "quantity": 14
+            },
+            {
+              "itemId": "prepared-hide",
+              "quantity": 1
+            }
+          ],
+          "position": {
+            "x": 109.17393568818756,
+            "y": 8.2341,
+            "z": 107.41303215590622
+          },
+          "profileId": "baal-otiyot",
+          "surface": null,
+          "visible": true
+        }
+      ],
+      "alive": 9,
+      "archetypes": {
+        "balanced": 2,
+        "ranged": 2,
+        "melee": 1,
+        "flanker": 1,
+        "warden": 1,
+        "skirmisher": 1,
+        "cantor": 1
+      },
+      "corpses": 0,
+      "count": 9,
+      "looted": 0,
+      "lootWindowsAvailable": 0,
+      "selected": null
+    },
+    "terrain": {
+      "repeat": [
+        110.41533546325878,
+        110.41533546325878
+      ],
+      "worldSize": 360
+    },
+    "world": {
+      "cellWidth": 3,
+      "halfSize": 180,
+      "safeEncounterRadius": 162,
+      "safeInset": 18,
+      "size": 360,
+      "steps": 120
+    }
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": [
+      "net::ERR_ABORTED"
+    ]
+  },
+  "error": {
+    "message": "Expected values to be strictly equal:\n\nnull !== 'melee'\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nnull !== 'melee'\n\n    at assertExpandedWorld (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-world-expansion-enemy-archetypes/ExpandedWorldAssertions.mjs:30:10)\n    at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-world-expansion-enemy-archetypes/live-expanded-world-probe.mjs:44:2"
+  }
+}

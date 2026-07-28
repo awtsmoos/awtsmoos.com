@@ -4,24 +4,40 @@
 
 /**
  * @file MinimalMeadowHousePopulation.js
- * @description Owns houses while renewing their local geometry visibility contract.
- * The Awtsmoos joins door, wall, bounds, selection, and collision without confusion;
- * Awtsmoos.com repairs each rebuilt threshold and never disables renderer culling globally.
+ * @description Owns houses, exact floor supports, doors, geometry, and bounded maintenance.
+ * The Awtsmoos joins meadow, threshold, room, and tread without confusion; Awtsmoos.com exposes
+ * one cached support authority while static house proofs no longer repeat every frame.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createMinimalMeadowHouseAssembly } from './MinimalMeadowHouseAssembly.js';
+import { enforceMinimalMeadowCollisionOnlyVisibility } from './MinimalMeadowHouseCollisionVisibility.js';
 import { installMinimalMeadowHouseGeometryContract } from './MinimalMeadowHouseGeometryContract.js';
+import {
+	createMinimalMeadowHouseMaintenanceState, minimalMeadowHouseMaintenanceDiagnostics,
+	updateMinimalMeadowHouseMaintenance
+} from './MinimalMeadowHouseMaintenance.js';
 import { loadMinimalMeadowHouseMaterials } from './MinimalMeadowHouseMaterials.js';
+import {
+	destroyMinimalMeadowHousePopulation, markMinimalMeadowHouseMount,
+	touchMinimalMeadowHouseMezuzah
+} from './MinimalMeadowHousePopulationLifecycle.js';
 import { minimalMeadowHousePopulationDiagnostics } from './MinimalMeadowHousePopulationDiagnostics.js';
 import { minimalMeadowHouseDefinitions } from './MinimalMeadowHousePopulationDefinitions.js';
 import { MINIMAL_MEADOW_HOUSE_PROFILES } from './MinimalMeadowHouseProfiles.js';
 import { nearestMinimalMeadowHouseCandidate } from './MinimalMeadowHousePopulationQueries.js';
+import {
+	minimalMeadowHouseSupportHeight, minimalMeadowHouseSupportReceipt
+} from './MinimalMeadowHouseSupportResolver.js';
 
 export class MinimalMeadowHousePopulation {
 	static async create(runtime) {
+		markMinimalMeadowHouseMount(runtime, 'loading-materials');
 		const materials = await loadMinimalMeadowHouseMaterials();
-		return new MinimalMeadowHousePopulation(runtime, materials);
+		markMinimalMeadowHouseMount(runtime, 'assembling');
+		const population = new MinimalMeadowHousePopulation(runtime, materials);
+		markMinimalMeadowHouseMount(runtime, 'assembled');
+		return population;
 	}
 
 	constructor(runtime, materials) {
@@ -31,69 +47,54 @@ export class MinimalMeadowHousePopulation {
 		this.canvas = runtime.hosts.canvas;
 		this.group = new Group();
 		this.group.name = 'Awtsmoos_minimal_meadow_houses';
-		this.houses = MINIMAL_MEADOW_HOUSE_PROFILES.map(profile => (
-			createMinimalMeadowHouseAssembly(profile, materials, runtime)
-		));
+		this.houses = MINIMAL_MEADOW_HOUSE_PROFILES.map(profile => {
+			return createMinimalMeadowHouseAssembly(profile, materials, runtime);
+		});
+		this.groundSupports = this.houses.flatMap(house => house.groundSupports || []);
+		this.stairSupports = this.houses.map(house => house.stairSupport).filter(Boolean);
 		for (const house of this.houses) this.group.add(house.group);
 		this.geometryDiagnostics = this.refreshGeometryContract();
+		this.maintenance = createMinimalMeadowHouseMaintenanceState();
 		this.pendingPostMountRefresh = true;
 	}
 
 	update(deltaSeconds) {
-		for (const house of this.houses) {
-			for (const door of house.doors) door.update(deltaSeconds);
-		}
-		if (this.pendingPostMountRefresh) {
-			this.geometryDiagnostics = this.refreshGeometryContract();
-			this.pendingPostMountRefresh = false;
-			return;
-		}
-		for (const house of this.houses) {
-			for (const door of house.doors) {
-				installMinimalMeadowHouseGeometryContract(door.group, [door.definition()]);
-			}
-		}
+		updateMinimalMeadowHouseMaintenance(this, deltaSeconds);
 	}
+
+	supportReceiptAt(x, z, currentY, previousY = currentY) {
+		return minimalMeadowHouseSupportReceipt(
+			this.groundSupports, x, z, currentY, previousY
+		);
+	}
+
+	supportHeightAt(x, z, currentY, previousY = currentY) {
+		return minimalMeadowHouseSupportHeight(
+			this.groundSupports, x, z, currentY, previousY
+		);
+	}
+
+	stairHeightAt(x, z, currentY) { return this.supportHeightAt(x, z, currentY); }
 
 	refreshGeometryContract() {
-		return installMinimalMeadowHouseGeometryContract(
-			this.group,
-			minimalMeadowHouseDefinitions(this.houses)
+		const diagnostics = installMinimalMeadowHouseGeometryContract(
+			this.group, minimalMeadowHouseDefinitions(this.houses)
 		);
+		enforceMinimalMeadowCollisionOnlyVisibility(this.group);
+		return diagnostics;
 	}
 
-	candidateFromPointer(event) {
-		return nearestMinimalMeadowHouseCandidate(this, event);
-	}
-
+	candidateFromPointer(event) { return nearestMinimalMeadowHouseCandidate(this, event); }
 	activateCandidate(candidate) {
-		if (candidate.type === 'door') {
-			candidate.subject.toggle();
-			return;
-		}
-		this.touchMezuzah(candidate.subject);
+		if (candidate.type === 'door') return candidate.subject.toggle();
+		touchMinimalMeadowHouseMezuzah(this, candidate.subject);
 	}
-
-	touchMezuzah(mezuzah) {
-		this.runtime.bus.emit(
-			'mezuzah:touched',
-			mezuzah.definition.userData.AwtsmoosMezuza
-		);
-	}
-
 	clearAll() {}
-
 	diagnostics() {
-		return minimalMeadowHousePopulationDiagnostics(this);
+		return {
+			...minimalMeadowHousePopulationDiagnostics(this),
+			maintenance: minimalMeadowHouseMaintenanceDiagnostics(this)
+		};
 	}
-
-	destroy() {
-		for (const house of this.houses) {
-			for (const collider of house.staticColliders) {
-				this.runtime.mainOctree.remove(collider);
-			}
-			for (const door of house.doors) door.destroy();
-		}
-		this.group.parent?.remove(this.group);
-	}
+	destroy() { destroyMinimalMeadowHousePopulation(this); }
 }

@@ -5,7 +5,7 @@
 /**
  * CDP is a quiet messenger between intention and browser manifestation. The
  * Awtsmoos renews every command and response, while Awtsmoos.com keeps each
- * pending promise identified so no cinematic instruction is mistaken.
+ * pending promise and closing handshake finite and explicitly identified.
  */
 export class CdpClient {
 	constructor(url) {
@@ -68,7 +68,18 @@ export class CdpClient {
 		this.pending.clear();
 	}
 
-	close() {
-		this.socket?.close();
+	async close() {
+		const socket = this.socket;
+		if (!socket || socket.readyState === WebSocket.CLOSED) return;
+		const closed = new Promise((resolve) => {
+			socket.addEventListener('close', resolve, { once: true });
+		});
+		socket.close(1000, 'Proof complete');
+		await Promise.race([closed, this.delay(1000)]);
+		this.socket = null;
+	}
+
+	delay(milliseconds) {
+		return new Promise((resolve) => setTimeout(resolve, milliseconds));
 	}
 }

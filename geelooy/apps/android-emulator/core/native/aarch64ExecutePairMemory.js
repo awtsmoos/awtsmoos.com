@@ -6,24 +6,18 @@ import {
 	readAarch64Integer,
 	writeAarch64Integer
 } from "./aarch64MemoryInteger.js";
+import { recordAarch64PairMemoryEvidence } from "./aarch64PairMemoryEvidence.js";
+import {
+	readAarch64VectorBits,
+	writeAarch64VectorBits
+} from "./aarch64VectorMemoryBits.js";
 
 /**
- * Executes one AArch64 register-pair memory instruction.
- *
- * The Awtsmoos recreates paired values, displaced address, and writeback road
- * anew. Awtsmoos.com keeps pre-index, signed-offset, and post-index distinct so
- * stack frames return through the exact guest link register that entered them.
- *
- * @param {object} instruction Decoded pair-memory instruction.
- * @param {object} registers Mutable guest register vessel.
- * @param {object} memory Composite guest memory vessel.
- * @returns {boolean} Whether the instruction was supported and executed.
+ * Executes one general or SIMD/FP AArch64 register-pair transfer.
+ * The Awtsmoos recreates address, writeback, paired bytes, and testimony anew;
+ * Awtsmoos.com records only completed architectural crossings.
  */
-export function executeAarch64PairMemory(
-	instruction,
-	registers,
-	memory
-) {
+export function executeAarch64PairMemory(instruction, registers, memory) {
 	if (instruction.family !== "load-store-register-pair"
 		|| instruction.supported === false) {
 		return false;
@@ -36,39 +30,76 @@ export function executeAarch64PairMemory(
 	if (instruction.mode === "pre-index") {
 		writeBase(registers, instruction.base, address);
 	}
-	const secondAddress = address + BigInt(instruction.width / 8);
-	const store = instruction.store ?? instruction.mnemonic === "stp";
-	if (store) {
-		writeAarch64Integer(
-			memory,
-			address,
-			registers.read(instruction.firstRegister, instruction.width, "zero"),
-			instruction.width
-		);
-		writeAarch64Integer(
-			memory,
-			secondAddress,
-			registers.read(instruction.secondRegister, instruction.width, "zero"),
-			instruction.width
-		);
-	} else {
-		registers.write(
-			instruction.firstRegister,
-			readAarch64Integer(memory, address, instruction.width),
-			instruction.width,
-			"zero"
-		);
-		registers.write(
-			instruction.secondRegister,
-			readAarch64Integer(memory, secondAddress, instruction.width),
-			instruction.width,
-			"zero"
-		);
-	}
+	const values = transferPair(instruction, registers, memory, address);
+	recordAarch64PairMemoryEvidence(
+		registers,
+		instruction,
+		address,
+		values
+	);
 	if (instruction.mode === "post-index") {
 		writeBase(registers, instruction.base, base + displacement);
 	}
 	return true;
+}
+
+function transferPair(instruction, registers, memory, address) {
+	const secondAddress = address + BigInt(instruction.width / 8);
+	return instruction.registerClass === "vector"
+		? transferVector(instruction, registers, memory, address, secondAddress)
+		: transferGeneral(instruction, registers, memory, address, secondAddress);
+}
+
+function transferGeneral(instruction, registers, memory, first, second) {
+	if (isStoreInstruction(instruction)) {
+		const values = readGeneralPair(registers, instruction);
+		writeAarch64Integer(memory, first, values[0], instruction.width);
+		writeAarch64Integer(memory, second, values[1], instruction.width);
+		return values;
+	}
+	const values = [
+		readAarch64Integer(memory, first, instruction.width),
+		readAarch64Integer(memory, second, instruction.width)
+	];
+	registers.write(instruction.firstRegister, values[0], instruction.width, "zero");
+	registers.write(instruction.secondRegister, values[1], instruction.width, "zero");
+	return values;
+}
+
+function transferVector(instruction, registers, memory, first, second) {
+	if (isStoreInstruction(instruction)) {
+		const values = readVectorPair(registers, instruction);
+		writeAarch64VectorBits(memory, first, values[0], instruction.width);
+		writeAarch64VectorBits(memory, second, values[1], instruction.width);
+		return values;
+	}
+	const values = [
+		readAarch64VectorBits(memory, first, instruction.width),
+		readAarch64VectorBits(memory, second, instruction.width)
+	];
+	registers.writeVector(instruction.firstRegister, values[0], instruction.width);
+	registers.writeVector(instruction.secondRegister, values[1], instruction.width);
+	return values;
+}
+
+function readGeneralPair(registers, instruction) {
+	return [
+		registers.read(instruction.firstRegister, instruction.width, "zero"),
+		registers.read(instruction.secondRegister, instruction.width, "zero")
+	];
+}
+
+function readVectorPair(registers, instruction) {
+	return [
+		registers.readVector(instruction.firstRegister, instruction.width),
+		registers.readVector(instruction.secondRegister, instruction.width)
+	];
+}
+
+function isStoreInstruction(instruction) {
+	return typeof instruction.store === "boolean"
+		? instruction.store
+		: instruction.mnemonic === "stp";
 }
 
 function writeBase(registers, baseRegister, value) {

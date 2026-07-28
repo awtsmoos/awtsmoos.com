@@ -1,0 +1,35 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Phone directors receive one action card per row, readable parameters, and a
+ * full-width deed button without losing safe-area access to the contract footer.
+ */
+
+@media (max-width: 52rem) {
+	.nle-ai-actions-view {
+		padding: .65rem;
+	}
+
+	.nle-action-group {
+		grid-template-columns: 1fr;
+	}
+
+	.nle-action-fields {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.nle-action-card > button {
+		min-block-size: 2.75rem;
+	}
+}
+
+@media (max-width: 23rem) {
+	.nle-action-fields {
+		grid-template-columns: 1fr;
+	}
+
+	.nle-action-fields label:has(textarea) {
+		grid-column: auto;
+	}
+}

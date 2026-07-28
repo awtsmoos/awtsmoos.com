@@ -1,14 +1,13 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * On a small screen the Awtsmoos is no less present. Awtsmoos.com therefore
- * reveals one full editing vessel at a time without deleting any capability.
+ * On a small screen the Awtsmoos remains complete. Awtsmoos.com reveals one
+ * safe-area-aware editing vessel at a time with reliable touch-scale controls.
  */
-
 @media (max-width: 780px) {
 	.aw-professional-studio .app-shell {
 		grid-template-columns: 1fr;
-		grid-template-rows: minmax(0, 1fr) minmax(190px, 34vh);
+		grid-template-rows: minmax(0, 1fr);
 	}
 
 	.aw-professional-studio .app-stage {
@@ -16,32 +15,53 @@
 		grid-row: 1;
 	}
 
+	.aw-professional-studio .stage-canvas,
+	.aw-professional-studio #character-canvas {
+		top: 35%;
+	}
+
 	.aw-professional-studio .app-timeline {
 		grid-column: 1;
-		grid-row: 2;
-		border-radius: 12px 12px 0 0;
+		grid-row: 1;
+		border-radius: var(--aw-radius-md) var(--aw-radius-md) 0 0;
 	}
 
 	.aw-professional-studio .app-sidebar-left,
 	.aw-professional-studio .app-sidebar-right {
 		position: fixed;
-		inset: 58px 8px calc(34vh + 8px);
+		inset:
+			calc(env(safe-area-inset-top, 0px) + 92px)
+			max(8px, env(safe-area-inset-right, 0px))
+			calc(var(--aw-dock-height, 74px) + env(safe-area-inset-bottom, 0px) + 12px)
+			max(8px, env(safe-area-inset-left, 0px));
 		z-index: 45;
 		display: none;
-		border-radius: 14px;
-		box-shadow: 0 22px 70px rgba(0, 0, 0, 0.64);
+		border: 1px solid var(--aw-line-strong);
+		border-radius: var(--aw-radius-lg);
+		box-shadow: var(--aw-shadow);
 	}
 
 	.aw-professional-studio[data-mobile-panel='editor'] .app-sidebar-left,
 	.aw-professional-studio[data-mobile-panel='props'] .app-sidebar-right {
 		display: flex;
+		opacity: 1;
+		pointer-events: auto;
+		transform: none;
 	}
 
 	.aw-professional-studio[data-mobile-panel='time'] .app-timeline {
 		position: fixed;
-		inset: 58px 8px 8px;
+		inset:
+			calc(env(safe-area-inset-top, 0px) + 92px)
+			max(8px, env(safe-area-inset-right, 0px))
+			calc(var(--aw-dock-height, 74px) + env(safe-area-inset-bottom, 0px) + 12px)
+			max(8px, env(safe-area-inset-left, 0px));
 		z-index: 44;
+		display: flex;
 		height: auto;
+		opacity: 1;
+		pointer-events: auto;
+		transform: none;
 	}
 
 	.aw-professional-studio .left-resizer,
@@ -51,7 +71,7 @@
 	}
 
 	#aw-studio-toolbar-mount {
-		top: 6px;
+		top: calc(env(safe-area-inset-top, 0px) + 6px);
 		width: calc(100% - 12px);
 	}
 
@@ -59,71 +79,16 @@
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 5px 8px;
 		padding: 7px;
-		border-radius: 10px;
+		border-radius: var(--aw-radius-md);
 	}
 
 	.aw-studio-project-title small,
-	.aw-studio-timecode small {
+	.aw-studio-timecode small,
+	.aw-studio-export-status {
 		display: none;
 	}
 
 	.aw-studio-timecode {
 		font-size: 11px;
-	}
-
-	.aw-studio-toolbar-actions {
-		grid-column: 1 / -1;
-		justify-content: stretch;
-	}
-
-	.aw-studio-toolbar-actions button {
-		min-height: 34px;
-		flex: 1;
-		padding: 4px 6px;
-		font-size: 9px;
-	}
-
-	.aw-studio-export-button {
-		flex: 2 !important;
-	}
-
-	.aw-studio-export-status {
-		display: none;
-	}
-
-	.aw-professional-studio .aw-nle-editor-body {
-		grid-template-columns: 1fr;
-	}
-
-	.aw-professional-studio .aw-nle-timeline-grid {
-		grid-template-columns: 92px minmax(0, 1fr);
-	}
-
-	.aw-professional-studio .aw-nle-inspector {
-		display: none;
-	}
-
-	.aw-professional-studio .aw-nle-track-name {
-		padding: 0 5px;
-		font-size: 8px;
-	}
-
-	.aw-studio-asset-grid,
-	.aw-studio-transform-grid {
-		grid-template-columns: 1fr 1fr;
-	}
-}
-
-@media (max-width: 430px) {
-	.aw-studio-project-title strong {
-		font-size: 10px;
-	}
-
-	.aw-studio-toolbar-actions button {
-		font-size: 8px;
-	}
-
-	.aw-studio-asset-grid {
-		grid-template-columns: 1fr;
 	}
 }

@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+import { FacePose } from '../../performance/face/FacePose.js';
 import { ReferenceCharacterIds } from './specification/ReferenceCharacterIds.js';
 import { ReferenceMeasurementDefaults } from './specification/ReferenceMeasurementDefaults.js';
 import { ReferencePartHierarchy } from './specification/ReferencePartHierarchy.js';
@@ -19,21 +20,22 @@ const RIG_BONES = [
 ];
 
 /**
- * The Awtsmoos is beyond every measured limb, yet Awtsmoos.com gives each
- * original character one document shared by renderer, rig, timeline, undo,
- * save, reload, dialogue, lip sync, and final export.
+ * Identity enters the document neutral yet ready for every living expression.
+ * The Awtsmoos renews rig and face each instant; Awtsmoos.com preserves anatomy,
+ * tracks, manual overrides, save, reload, preview, and export without frozen mood.
  */
 export class ReferenceCharacterBase {
 	static create(specification = {}) {
 		const source = this.clone(specification);
 		const character = {
-			documentVersion: 'awtsmoos.character.document.v2',
+			documentVersion: 'awtsmoos.character.document.v3',
 			archetype: 'human',
 			style: 'reference_sitcom',
 			lineStyle: 'softCartoon',
 			view: 'front',
 			action: 'idle',
 			locomotion: 'idle',
+			emotion: 'neutral',
 			speech: 'none',
 			mouthOpen: 0,
 			visible: true,
@@ -42,6 +44,8 @@ export class ReferenceCharacterBase {
 			position: this.position(source.position),
 			measurements: ReferenceMeasurementDefaults.create(source.measurements),
 			rigPose: ReferenceRigPoseDefaults.create(source.rigPose),
+			facePose: FacePose.make(source.facePose),
+			manualFacePose: source.manualFacePose || null,
 			renderPerformance: ReferencePerformanceDefaults.create(source.renderPerformance),
 			partHierarchy: ReferencePartHierarchy.definitions(),
 			editableParts: ReferencePartHierarchy.editableIds(),
@@ -76,7 +80,7 @@ export class ReferenceCharacterBase {
 
 	static timeline(character) {
 		return {
-			version: 'awtsmoos.reference.timeline.v2',
+			version: 'awtsmoos.reference.timeline.v3',
 			tracks: ReferenceTimelineTracks.create(character)
 		};
 	}

@@ -4,9 +4,9 @@
 
 /**
  * @file movieTimelineGeometry.test.mjs
- * @description Proves timeline zoom, scrub, movement, and edge-trimming boundaries.
+ * @description Proves timeline zoom, ruler, scrub, playhead, movement, and trim boundaries.
  * The Awtsmoos renews cinematic time beyond pixels; Awtsmoos.com verifies that every
- * pointer movement remains finite, reversible, and bounded by the project covenant.
+ * visible measure stays finite, reversible, and bounded by the canonical project covenant.
  */
 
 import assert from 'node:assert/strict';
@@ -14,6 +14,8 @@ import test from 'node:test';
 import {
 	clampTimelineScale,
 	moveMovieClip,
+	timelinePixelAtTime,
+	timelineRulerStep,
 	timelineTimeAtPixel,
 	trimMovieClip
 } from '../../movie/MovieTimelineGeometry.js';
@@ -28,6 +30,17 @@ test('timeline scale remains inside readable bounds', () => {
 	assert.equal(clampTimelineScale(1), 8);
 	assert.equal(clampTimelineScale(34), 34);
 	assert.equal(clampTimelineScale(999), 180);
+});
+
+test('ruler density adapts without changing project time', () => {
+	assert.equal(timelineRulerStep(8), 20);
+	assert.equal(timelineRulerStep(34), 10);
+	assert.equal(timelineRulerStep(90), 5);
+});
+
+test('playhead pixels include the measured track header', () => {
+	assert.equal(timelinePixelAtTime(10, 34, 130), 470);
+	assert.equal(timelinePixelAtTime(-5, 34, 130), 130);
 });
 
 test('scrubbing converts pixels to clamped project time', () => {

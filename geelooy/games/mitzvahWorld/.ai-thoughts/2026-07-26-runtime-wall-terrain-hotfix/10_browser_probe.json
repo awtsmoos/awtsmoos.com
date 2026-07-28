@@ -1,0 +1,186 @@
+{
+  "ok": true,
+  "port": 9246,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "world": {
+    "dataset": {
+      "awtsmoosGameplay": "true",
+      "awtsmoosRendererHydration": "ready",
+      "awtsmoosRenderer": "webgl",
+      "awtsmoosRendererContextAttempts": "webgl",
+      "awtsmoosRendererFallback": "",
+      "awtsmoosRendererFallbackMessage": "",
+      "awtsmoosRendererFallbackRecoverable": "",
+      "awtsmoosRendererStage": "rich-ready",
+      "awtsmoosRuntimeState": "playable",
+      "awtsmoosRuntimeError": "",
+      "awtsmoosReadiness": "core-playable",
+      "awtsmoosFeatures": "combat-ready",
+      "awtsmoosMenuReady": "true",
+      "awtsmoosSession": "singleplayer",
+      "awtsmoosUi": "ready",
+      "awtsmoosMobileIntegration": "ready"
+    },
+    "protectedWalls": [
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-header"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-back-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-front-header"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-back-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allAnglesVisible": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      }
+    ],
+    "road": {
+      "frustumCulled": false,
+      "mounted": true,
+      "policy": {
+        "alignedToTerrainHeight": true,
+        "crossSections": 129,
+        "finite": true,
+        "longitudinalTextureWorld": 8,
+        "surfaceOffset": 0,
+        "weightsPerVertex": 3,
+        "density": {
+          "anisotropy": 12,
+          "effectivePixelsPerWorld": [
+            20.592105263157897,
+            38.759908517436855
+          ],
+          "effectiveSource": {
+            "w": 313,
+            "h": 313
+          },
+          "mobile": false,
+          "repeat": [
+            1,
+            16
+          ],
+          "source": {
+            "h": 313,
+            "w": 313
+          },
+          "sourceUtilization": [
+            1,
+            0.877195052839314
+          ],
+          "targetPixelsPerWorld": 34,
+          "tileWorld": [
+            15.2,
+            8.075354457020744
+          ]
+        },
+        "length": 129.2056713123319,
+        "sourceCount": 3,
+        "width": 15.2,
+        "collisionAuthority": "terrain-height-sampler",
+        "mounted": true,
+        "visualOnly": true,
+        "visibilityPolicy": "always-visible-road-ribbon"
+      },
+      "visible": true
+    },
+    "terrain": {
+      "detailDensity": 84,
+      "layerCount": 6,
+      "roles": [
+        "lush-grass",
+        "meadow-grass",
+        "open-soil",
+        "road-shoulder",
+        "moss-and-wet-grass",
+        "dry-ground"
+      ],
+      "roadDensity": 96,
+      "strengths": [
+        0.78,
+        0.68,
+        0.66,
+        1,
+        0.82,
+        0.7
+      ]
+    }
+  },
+  "enemyApproach": {
+    "after": {
+      "action": "idle",
+      "moving": false,
+      "x": 25.63697842357367,
+      "z": 17.319052454879955
+    },
+    "before": {
+      "action": "walk",
+      "x": 21.361895090240083,
+      "z": 17.319052454879955
+    },
+    "distanceMoved": 4.275083333333587,
+    "runtimeError": ""
+  },
+  "roadFocus": {
+    "point": {
+      "x": 3.5,
+      "y": 0,
+      "z": 4.75
+    },
+    "visible": true
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

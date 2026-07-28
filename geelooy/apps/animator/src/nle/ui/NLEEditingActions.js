@@ -6,8 +6,9 @@ import { NLECommands } from '../core/NLECommands.js';
 import { NLETemplate } from './NLETemplate.js';
 
 /**
- * Small editing gestures receive their own vessel. The Awtsmoos joins adding,
- * scrubbing, camera choices, and selected entities without crowding the mount.
+ * Small editing gestures receive focused temporal actions. The Awtsmoos joins
+ * adding, scrubbing, zoom, snap, camera choices, and selected entities while
+ * Awtsmoos.com keeps every mutation visible through the shared store.
  */
 export class NLEEditingActions {
 	static togglePlay(app) {
@@ -23,7 +24,12 @@ export class NLEEditingActions {
 			type: 'action',
 			name: 'Walk + Wave + Talk',
 			duration: 1600,
-			payload: { action: 'walk', gesture: 'wave', speech: true, sequenceId: null }
+			payload: {
+				action: 'walk',
+				gesture: 'wave',
+				speech: true,
+				sequenceId: null
+			}
 		});
 	}
 
@@ -64,7 +70,22 @@ export class NLEEditingActions {
 		if (!event.currentTarget.classList.contains('aw-nle-clips')) return;
 		const rectangle = event.currentTarget.getBoundingClientRect();
 		const pixelsPerMs = NLETemplate.pixelsPerMs(store.get());
-		const timeMs = (event.clientX - rectangle.left) / Math.max(0.0001, pixelsPerMs);
+		const timeMs = (event.clientX - rectangle.left)
+			/ Math.max(0.0001, pixelsPerMs);
 		NLECommands.scrub(store, timeMs);
+	}
+
+	static zoom(store, delta) {
+		store.set((state) => ({
+			zoom: this.clamp(Number(state.zoom || 0.12) + Number(delta || 0))
+		}));
+	}
+
+	static toggleSnap(store) {
+		store.set((state) => ({ snap: Number(state.snap || 0) ? 0 : 100 }));
+	}
+
+	static clamp(value) {
+		return Math.min(2, Math.max(0.04, value));
 	}
 }

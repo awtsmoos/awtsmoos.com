@@ -1,0 +1,11 @@
+{
+  "frames": 0,
+  "mode": "node-browser-simulation",
+  "ok": false,
+  "error": {
+    "message": "launcher boot timed out after 15000ms",
+    "name": "Error",
+    "stack": "Error: launcher boot timed out after 15000ms\n    at Timeout.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-minimal-meadow-contract-repair/node-whole-game-simulation.mjs:92:11)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  },
+  "disposed": false
+}

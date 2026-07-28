@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWaterDefinitions.js
- * @description Composes two beds, two banks, and two dual-normal surfaces into one hydrology.
+ * @description Composes beds, banks, uploaded color/detail, and two real moving normal sources.
  * The Awtsmoos conceals depth beneath changing light and reveals shore beside it; Awtsmoos.com
- * keeps current, stone, soil transition, opacity, provenance, and collision ownership explicit.
+ * keeps visible water color, seamless detail, physical normals, opacity, and collision ownership clear.
  */
 
 import { waterShaderRecipe } from '../world/proceduralApi/WaterShaderRecipe.js';
@@ -27,14 +27,14 @@ export function createMinimalMeadowWaterDefinitions(sources) {
 		bed('lake', createMinimalMeadowLakeBedGeometry(), sources),
 		bank('river-banks', createMinimalMeadowRiverBanksGeometry(), sources),
 		bank('lake-shore', createMinimalMeadowLakeShoreGeometry(), sources),
-		water('river', createMinimalMeadowRiverGeometry(), sources, '#3b91a0', 0.76, [24, 2.8]),
-		water('lake', createMinimalMeadowLakeGeometry(), sources, '#397f96', 0.8, [7, 6])
+		water('river', createMinimalMeadowRiverGeometry(), sources, 0.82, [20, 3]),
+		water('lake', createMinimalMeadowLakeGeometry(), sources, 0.86, [7, 6])
 	];
 }
 
 function bed(variant, geometry, sources) {
 	return {
-		color: variant === 'river' ? '#43534b' : '#3e504a',
+		color: '#ffffff',
 		doubleSided: true,
 		...geometry,
 		id: `Awtsmoos_minimal_meadow_${variant}_bed`,
@@ -43,7 +43,7 @@ function bed(variant, geometry, sources) {
 		noEdge: true,
 		shape: 'manual',
 		solid: false,
-		texturePolicy: { role: `${variant}-bed`, shader: 'terrain-transition' },
+		texturePolicy: { role: `${variant}-bed`, shader: 'stone-silt-depth' },
 		transparent: false,
 		userData: { family: 'minimal-meadow-water', part: `${variant}-bed` }
 	};
@@ -51,7 +51,7 @@ function bed(variant, geometry, sources) {
 
 function bank(variant, geometry, sources) {
 	return {
-		color: variant === 'river-banks' ? '#756a4d' : '#806f4f',
+		color: '#e8d8b5',
 		doubleSided: true,
 		...geometry,
 		id: `Awtsmoos_minimal_meadow_${variant}`,
@@ -66,36 +66,49 @@ function bank(variant, geometry, sources) {
 	};
 }
 
-function water(variant, geometry, sources, color, opacity, repeat) {
+function water(variant, geometry, sources, opacity, repeat) {
 	return {
 		alphaMode: 'BLEND',
-		color,
+		color: '#d9f7ff',
 		doubleSided: true,
 		...geometry,
-		id: `Awtsmoos_minimal_meadow_${variant}_dual_normal_water`,
-		mapImage: sources.normalA,
+		id: `Awtsmoos_minimal_meadow_${variant}_textured_normal_water`,
+		mapImage: sources.color,
 		mapRepeat: repeat,
-		mixImage: sources.normalB,
+		mixImage: sources.detail,
 		mixRepeat: repeat,
-		mixStrength: variant === 'river' ? 0.48 : 0.34,
+		mixStrength: variant === 'river' ? 0.42 : 0.3,
 		noEdge: true,
+		normalDetailImage: sources.normalB,
+		normalImage: sources.normalA,
 		opacity,
 		shape: 'manual',
 		solid: false,
+		textureLayers: waterLayers(sources),
 		texturePolicy: waterPolicy(variant, sources),
 		transparent: true,
 		userData: { family: 'minimal-meadow-water', waterVariant: variant }
 	};
 }
 
+function waterLayers(sources) {
+	return [
+		{ image: sources.color, role: 'water-color', strength: 1 },
+		{ image: sources.detail, role: 'seamless-water-detail', strength: 0.42 },
+		{ image: sources.normalA, role: 'current-normal', strength: 1 },
+		{ image: sources.normalB, role: 'micro-ripple-normal', strength: 0.72 }
+	];
+}
+
 function waterPolicy(variant, sources) {
 	return {
 		animated: true,
-		flowLayers: 2,
+		colorMode: sources.colorMode,
+		flowLayers: 4,
 		normalMode: sources.normalMode,
 		normalSources: [...sources.provenance],
 		realMaterialRequired: true,
-		shader: 'physical-dual-normal-flowing-water',
+		shader: 'textured-dual-normal-flowing-water',
 		textureDriven: true,
 		waterPhysical: waterShaderRecipe(variant === 'river' ? 'stream' : 'lake'),
 		waterVariant: variant

@@ -7,9 +7,9 @@ import { LineArtStyle } from '../../style/LineArtStyle.js';
 import { StableTorsoContourPath } from './StableTorsoContourPath.js';
 
 /**
- * Shoulder, ribcage, waist, hip, and hem become one uninterrupted garment breath.
- * The Awtsmoos joins hidden rig bones to a generous visible silhouette, while
- * Awtsmoos.com preserves canonical garment identities through preview and export.
+ * Neckline, shoulder, armhole, ribs, waist, pelvis, and hem share one cloth flow.
+ * The Awtsmoos joins hidden bones to visible form; Awtsmoos.com preserves each
+ * finite garment identity through editing, persistence, preview, and export.
  */
 export class StableAuthoredTorsoMass2D {
 	static build(data, colors, metrics, geometry) {
@@ -28,35 +28,49 @@ export class StableAuthoredTorsoMass2D {
 		const hipX = this.number(torso.hipCenterX, skeleton.hips.x);
 		const leftShoulderY = skeleton.leftShoulder.y;
 		const rightShoulderY = skeleton.rightShoulder.y;
+		const shoulderFloor = Math.max(leftShoulderY, rightShoulderY);
 		const waistY = metrics.waistY + Number(torso.waistDrop || 0);
-		const shoulderFloorY = Math.max(leftShoulderY, rightShoulderY);
+		const armholeDrop = this.number(torso.armholeDrop, 18);
+		const neckHalf = Math.max(
+			7,
+			Math.min(12, Number(geometry.details?.collarSpread || 17) * 0.52)
+		);
 		return {
 			garmentKind: torso.garmentKind || 'jacket',
-			chestX, waistX, hipX, waistY,
+			chestX,
+			waistX,
+			hipX,
+			waistY,
 			leftShoulder: skeleton.leftShoulder.x - torso.shoulderExtra,
 			rightShoulder: skeleton.rightShoulder.x + torso.shoulderExtra,
-			leftShoulderY, rightShoulderY,
+			leftShoulderY,
+			rightShoulderY,
 			leftChest: chestX - torso.chestHalf,
 			rightChest: chestX + torso.chestHalf,
-			chestSideY: Math.min(waistY - 12, shoulderFloorY + torso.chestDrop),
+			chestSideY: Math.min(waistY - 14, shoulderFloor + armholeDrop + 8),
+			armholeY: shoulderFloor + armholeDrop,
 			leftWaist: waistX - torso.waistHalf,
 			rightWaist: waistX + torso.waistHalf,
 			leftHip: hipX - torso.hipHalf,
 			rightHip: hipX + torso.hipHalf,
-			sideRound: Number(torso.sideRound || 12),
-			ribRound: Number(torso.ribRound || 10),
+			sideRound: Number(torso.sideRound || 5),
+			ribRound: Number(torso.ribRound || 4),
 			belly: Number(torso.belly || 0),
 			hemLift: Number(torso.hemLift || 0),
 			hemY: torso.hemY,
 			hemRound: torso.hemRound,
-			shoulderRound: Math.min(Number(torso.shoulderRound || 8), 14),
-			neckHalf: Math.max(8, Math.min(14, Number(geometry.details?.collarSpread || 17) * 0.58)),
-			necklineY: Math.min(leftShoulderY, rightShoulderY) - Number(torso.shoulderArch || 8),
-			necklineDrop: Math.max(4, Math.min(9, Number(torso.shoulderArch || 8) * 0.72))
+			shoulderRound: Math.min(Number(torso.shoulderRound || 9), 12),
+			neckHalf,
+			necklineY: Math.min(leftShoulderY, rightShoulderY)
+				- Number(torso.shoulderArch || 8),
+			necklineDrop: Math.max(
+				3,
+				Math.min(7, Number(torso.shoulderArch || 8) * 0.58)
+			)
 		};
 	}
 
 	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

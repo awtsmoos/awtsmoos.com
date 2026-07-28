@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Every verse becomes a readable chapter card; nested subsections remain clearly
+ * attached without multiplying heavy surfaces or unnecessary vertical space.
+ */
+
+.composer-civilization-document .structured-verses-panel,
+.composer-civilization-document .structured-verse-list,
+.composer-civilization-document .subsectionList {
+	display: grid;
+	gap: .6rem;
+}
+
+.composer-civilization-document .structured-verses-panel {
+	padding: .7rem;
+	border: 1px solid rgba(185, 120, 239, .2);
+	border-radius: var(--composer-radius-lg);
+	background: rgba(185, 120, 239, .025);
+}
+
+.composer-civilization-document :is(.structured-verse-card, .structured-subsection-card) {
+	position: relative;
+	border: 1px solid var(--composer-border);
+	border-radius: var(--composer-radius-md);
+	background: linear-gradient(145deg, var(--composer-surface-2), #10161e);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .02);
+	overflow: hidden;
+}
+
+.composer-civilization-document .structured-verse-card::before {
+	position: absolute;
+	inset-block: .65rem;
+	inset-inline-start: 0;
+	inline-size: 2px;
+	border-radius: 999px;
+	background: var(--composer-violet);
+	content: '';
+}
+
+.composer-civilization-document :is(.structured-verse-summary, .structured-subsection-summary) {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .6rem;
+	min-block-size: 3rem;
+	padding: .52rem .65rem;
+	border-block-end: 1px solid var(--composer-border-soft);
+	background: rgba(255, 255, 255, .018);
+	list-style: none;
+	cursor: pointer;
+}
+
+.composer-civilization-document :is(.structured-verse-summary, .structured-subsection-summary)::-webkit-details-marker {
+	display: none;
+}
+
+.composer-civilization-document :is(.structured-verse-summary, .structured-subsection-summary) :is(strong, span) {
+	overflow: hidden;
+	color: var(--composer-text-soft);
+	font-size: .72rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.composer-civilization-document :is(.structured-verse-body, .structured-subsection-body) {
+	display: grid;
+	gap: .65rem;
+	padding: .68rem;
+}
+
+.composer-civilization-document .structured-subsection-card {
+	margin-inline-start: .65rem;
+	border-color: var(--composer-border-soft);
+	background: rgba(255, 255, 255, .012);
+}
+
+.composer-civilization-document .subsectionCoordinate {
+	padding: .3rem .48rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: 999px;
+	color: var(--composer-text-faint);
+	font-size: .57rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.composer-civilization-document .structured-blocks {
+	display: grid;
+	gap: .5rem;
+}
+
+.composer-civilization-document .blockEditor {
+	display: grid;
+	gap: .55rem;
+	padding: .62rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-sm);
+	background: var(--composer-surface-0);
+}

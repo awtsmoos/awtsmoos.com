@@ -14,10 +14,8 @@ const JNI_VERSION_1_4 = 0x00010004n;
 
 /**
  * Creates one lazy persistent libflutter ARM64 session for an Android runtime.
- *
- * The Awtsmoos recreates packaged image, relocation, JavaVM, JNIEnv, native heap,
- * registered methods, and JNI_OnLoad shore anew. Awtsmoos.com shares one Promise
- * so concurrent Java calls never initialize or relocate the engine twice.
+ * The Awtsmoos recreates image, JNI, guest files, logs, heap, and return shore;
+ * Awtsmoos.com shares one Promise so concurrent calls initialize only once.
  */
 export function getFrameworkFlutterNativeSession(runtime) {
 	if (!runtime.flutterNativeSessionPromise) {
@@ -43,6 +41,9 @@ async function createFrameworkFlutterNativeSession(runtime) {
 	if (!entry) throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_MISSING");
 	const state = createFlutterJniMachineState(library.memory, entry.value, {
 		imports,
+		nativeLogcat: runtime.logcat,
+		packageFilesystem: runtime.filesystem,
+		platformFiles: runtime.nativePlatformFiles,
 		resolveClass: resolver.resolveClass,
 		resolveField: resolver.resolveField,
 		resolveMethod: resolver.resolveMethod
@@ -78,7 +79,8 @@ async function createFrameworkFlutterNativeSession(runtime) {
 				jniFieldIds: state.jniFieldIds.snapshot().length,
 				jniMethodIds: state.jniMethodIds.snapshot().length,
 				jniNativeMethods: state.jniNativeMethods.snapshot().length,
-				jniReferences: state.jniReferences.snapshot().length
+				jniReferences: state.jniReferences.snapshot().length,
+				nativeFileStreams: state.nativeFileStreams.snapshot().length
 			});
 		},
 		state

@@ -5,9 +5,9 @@
 import { SkepticalReferenceBodyGeometry } from './SkepticalReferenceBodyGeometry.js';
 
 /**
- * Dovid's softened brick shirt, warm skin, brown beard, and charcoal stance hold
- * skepticism without hostility. The Awtsmoos renews every hue, while
- * Awtsmoos.com preserves editable production color.
+ * Dovid's muted burgundy, warm skin, brown beard, and charcoal stance carry
+ * skepticism without hostility. The Awtsmoos renews every hue; Awtsmoos.com
+ * preserves the character-specific palette as editable production data.
  */
 export class SkepticalReferenceProfile {
 	static character() {
@@ -38,18 +38,13 @@ export class SkepticalReferenceProfile {
 	static measurements() {
 		return {
 			body: {
-				headWidth: 0.238,
-				headHeight: 0.255,
-				shoulderWidth: 0.298,
-				hipWidth: 0.19,
-				armWidth: 0.048,
-				legWidth: 0.05,
-				waistY: 0.585,
-				hipY: 0.688
+				headWidth: 0.238, headHeight: 0.255, shoulderWidth: 0.298,
+				hipWidth: 0.19, armWidth: 0.048, legWidth: 0.05,
+				waistY: 0.585, hipY: 0.688
 			},
 			style: {
-				outerLineWidth: 0.0085,
-				innerLineWidth: 0.0038,
+				outerLineWidth: 0.0071,
+				innerLineWidth: 0.0031,
 				shadowWidth: 0.27
 			}
 		};
@@ -68,19 +63,28 @@ export class SkepticalReferenceProfile {
 		return {
 			body: { torsoLean: 1, headTilt: 1.5 },
 			arms: {
-				left: { shoulderLift: -3, elbowX: 25, elbowY: 36, handX: 23, handY: 4, handPose: 'rest' },
-				right: { shoulderLift: -4, elbowX: -26, elbowY: 38, handX: -20, handY: 3, handPose: 'rest' }
+				left: {
+					shoulderLift: -3, elbowX: 25, elbowY: 36,
+					handX: 23, handY: 4, handPose: 'rest'
+				},
+				right: {
+					shoulderLift: -4, elbowX: -26, elbowY: 38,
+					handX: -20, handY: 3, handPose: 'rest'
+				}
 			}
 		};
 	}
 
 	static colors() {
 		return {
-			shirt: '#944438', shirtDark: '#73342c', shirtLight: '#ae6254',
-			jacket: '#944438', jacketDark: '#73342c', jacketLight: '#ae6254',
-			pants: '#303136', skin: '#f3c092', skinDark: '#d4875b',
-			hair: '#50331a', hairDark: '#2e1c0f', beard: '#50331a',
-			beardDark: '#2e1c0f', hat: '#202124'
+			line: '#2b2929', eye: '#242225', eyeLight: '#fffdf8',
+			mouth: '#6c3032', tooth: '#fff9ee', blush: 'rgba(232,108,105,0.23)',
+			shirt: '#8b493f', shirtDark: '#703a33', shirtLight: '#a15d52',
+			jacket: '#8b493f', jacketDark: '#703a33', jacketLight: '#a15d52',
+			pants: '#34353a', pantsDark: '#26272b', shoe: '#242326',
+			skin: '#f3bf92', skinDark: '#d48960', skinLight: '#ffd5ae',
+			hair: '#573a20', hairDark: '#382414', beard: '#573a20',
+			beardDark: '#382414', hat: '#28282c'
 		};
 	}
 }

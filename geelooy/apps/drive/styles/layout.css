@@ -1,0 +1,117 @@
+/* B"H — The Awtsmoos arranges browser, workshop, and public world in one map. */
+.site-header,
+.app-shell {
+	width: min(calc(100% - 2rem), var(--content));
+	margin-inline: auto;
+}
+
+.site-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(19rem, 0.65fr);
+	gap: var(--space-5);
+	align-items: end;
+	padding: clamp(2rem, 7vw, 6rem) 0 var(--space-5);
+}
+
+.brand-block > p:last-child {
+	max-width: 52ch;
+	margin: 0;
+	color: var(--muted);
+	font-size: 1.05rem;
+}
+
+.app-shell {
+	display: grid;
+	gap: var(--space-4);
+	padding-bottom: 7rem;
+}
+
+.overview-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+	gap: var(--space-4);
+}
+
+.panel,
+.connection-card {
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: var(--surface);
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(20px);
+}
+
+.panel {
+	padding: clamp(1rem, 2.5vw, 2rem);
+}
+
+.connection-card {
+	display: grid;
+	gap: var(--space-3);
+	padding: var(--space-4);
+}
+
+.panel-heading {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--space-4);
+}
+
+.kicker,
+.eyebrow {
+	width: 100%;
+	margin-bottom: var(--space-1);
+	color: var(--accent);
+	font-size: 0.75rem;
+	font-weight: 900;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.filter-grid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(8rem, 1fr));
+	gap: var(--space-3);
+	align-items: end;
+}
+
+.filter-grid > :first-child,
+.filter-grid > :nth-child(2) {
+	grid-column: span 2;
+}
+
+.upload-settings,
+.action-bar,
+.button-row,
+.pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	align-items: end;
+}
+
+.upload-settings {
+	margin-top: var(--space-4);
+}
+
+.upload-settings label {
+	min-width: 12rem;
+}
+
+.action-bar {
+	margin-block: var(--space-3);
+}
+
+.table-scroll {
+	overflow: auto;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+}
+
+.pagination {
+	justify-content: center;
+	margin-top: var(--space-3);
+}

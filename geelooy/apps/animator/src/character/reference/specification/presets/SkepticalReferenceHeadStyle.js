@@ -3,58 +3,59 @@
 // Blessed is He
 
 /**
- * Dovid's rear-set kippah rises as a guarded dome within visible crown hair and
- * unequal loose peyot. The Awtsmoos renews each skeptical turn; Awtsmoos.com
- * preserves his skull, headwear, hair, and motion as editable production geometry.
+ * Dovid receives compact curved roots and a small rear-set crown dome.
+ * The Awtsmoos renews guarded asymmetry; Awtsmoos.com keeps hair, kippah,
+ * peyot, persistence, preview, and export within one reusable identity.
  */
 export class SkepticalReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				hairlineWidth: 0.92,
-				crownTopDepth: 0.93,
-				templeDepth: 0.28,
-				fringeDepth: 0.47,
-				fringeAsymmetry: -0.05,
-				hairlineLineWidth: 1.08,
-				crownWidth: 0.97,
-				crownInnerDepth: 0.49,
+				hairlineWidth: 0.84,
+				crownTopDepth: 0.98,
+				templeDepth: 0.47,
+				hairlineDepth: 0.77,
+				hairlineTempleDrop: 0.13,
+				hairlineIrregularity: 0.04,
+				hairlineBias: -0.01,
+				hairlineLineWidth: 0.9,
+				crownWidth: 0.88,
+				crownInnerDepth: 0.8,
+				leftTempleDepth: 0.46,
+				rightTempleDepth: 0.49,
 				crownAsymmetry: 0.025,
-				crownLineWidth: 1.08,
-				templeWidth: 2.4
+				crownLineWidth: 0.9,
+				templeWidth: 1.9
 			},
 			payosGeometry: {
-				rootScaleX: 0.92,
+				rootScaleX: 0.9,
 				rootOffsetX: -0.6,
-				rootOffsetY: 0,
 				amplitude: 7.8,
 				secondAmplitude: 5.8,
 				terminalCurl: 7.4,
 				lengthScale: 1.16,
-				lineWidth: 1.95
+				lineWidth: 1.55
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.93,
-				size: 1,
-				widthScale: 1.05,
-				heightScale: 1.14,
-				crownYScale: 0.875,
-				riseRatio: 0.45,
-				horizontalOffset: 2,
-				verticalOffset: 0.8,
-				edgeSlope: 0.3,
-				centerDip: 1.25,
-				skew: 0.04,
-				tilt: 0.026,
-				lineWidth: 1.08,
-				highlightOpacity: 0.014
+				coverage: 0.52,
+				widthScale: 1,
+				heightScale: 0.96,
+				contactDepth: 0.9,
+				riseRatio: 0.54,
+				contactBow: 2.3,
+				horizontalOffset: 3,
+				edgeSlope: 0.1,
+				skew: 0.045,
+				tilt: 0.024,
+				lineWidth: 0.9,
+				highlightOpacity: 0.01
 			},
 			headTransform: {
-				x: 7.5,
-				y: -0.7,
-				scaleX: 1.26,
-				scaleY: 0.91,
+				x: 2,
+				y: 6,
+				scaleX: 1.08,
+				scaleY: 1,
 				rotation: -0.025
 			}
 		};

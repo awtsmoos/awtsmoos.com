@@ -4,46 +4,52 @@
 
 /**
  * @file localTerrainTextureBoot.test.mjs
- * @description Proves packaged high-resolution ground maps bind before terrain construction.
+ * @description Proves six approved uploaded terrain maps bind before terrain construction.
  * The Awtsmoos joins earth and garment in one boot moment; Awtsmoos.com refuses a blank valley
- * by requiring meadow, soil, mud, stone, leaf-floor, and shore to exist beside the application.
+ * by requiring meadow, soil, mud, stone, leaf-floor, and shore through one trusted remote origin.
  */
 
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createTerrainMaterial } from '../../world/terrain/TerrainMaterialFactory.js';
 import {
+	localTerrainTextureEvidence,
 	localTerrainTextureUrls
 } from '../../world/terrain/LocalTerrainTextureCatalog.js';
 import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
 
-const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
+const REMOTE_ROOT = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/full-resolution\//;
 
-test('all six local terrain images exist and contain real bytes', () => {
+test('all six uploaded terrain images use approved filename transport', () => {
 	const urls = localTerrainTextureUrls();
+	const evidence = localTerrainTextureEvidence();
 	assert.equal(urls.length, 6);
+	assert.equal(evidence.roles.length, 6);
+	assert.equal(new Set(Object.values(evidence.filenames)).size, 6);
 	for (const url of urls) {
-		assert.equal(assertProductionMaterialUrl(url, 'local terrain'), url);
-		const path = `${GAME_ROOT}${url.replace(/^\.\//, '')}`;
-		assert.equal(fs.existsSync(path), true, path);
-		assert.ok(fs.statSync(path).size > 10000, path);
+		assert.match(url, REMOTE_ROOT);
+		assert.equal(assertProductionMaterialUrl(url, 'uploaded terrain'), url);
+	}
+	for (const filename of Object.values(evidence.filenames)) {
+		assert.equal(filename.includes('://'), false);
+		assert.equal(filename.includes('%20'), false);
 	}
 });
 
-test('high terrain recipe exposes six distinct same-origin maps', () => {
+test('high terrain recipe exposes six distinct approved maps and source roles', () => {
 	const recipe = terrainLayerRecipe('high');
 	assert.equal(recipe.layers.length, 6);
 	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
-	assert.ok(recipe.layers.every(layer => layer.url.startsWith('./assets/materials/local/terrain/')));
-	assert.ok(recipe.layers.every(layer => /^https:\/\//.test(layer.publicUrl)));
+	assert.ok(recipe.layers.every(layer => REMOTE_ROOT.test(layer.url)));
+	assert.ok(recipe.layers.every(layer => {
+		return assertProductionMaterialUrl(layer.publicUrl, layer.sourceRole) === layer.publicUrl;
+	}));
 });
 
 test('terrain binds a real meadow base and earth mix at construction', () => {
-	const grassImage = image('./assets/materials/local/terrain/meadow-wet-grass.png');
-	const dirtImage = image('./assets/materials/local/terrain/worn-earth.jpg');
+	const grassImage = image('dirt grass 6.png');
+	const dirtImage = image('dirt 2.png');
 	const material = createTerrainMaterial({
 		dirtImage,
 		grassImage,
@@ -61,8 +67,8 @@ test('terrain binds a real meadow base and earth mix at construction', () => {
 function image(src) {
 	return {
 		complete: true,
-		naturalHeight: 2048,
-		naturalWidth: 2048,
+		naturalHeight: 4096,
+		naturalWidth: 4096,
 		src
 	};
 }

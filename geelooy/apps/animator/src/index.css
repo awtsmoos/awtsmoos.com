@@ -21,7 +21,10 @@
 @import './styles/components/revelation-modal.css';
 @import './styles/components/workspace.css';
 @import './styles/components/studio-workspace.css';
+@import './styles/components/studio-toolbar.css';
 @import './styles/components/studio-panels.css';
 @import './styles/components/studio-nle.css';
+@import './styles/components/studio-nle-clips.css';
 @import './styles/mobile/responsive.css';
 @import './styles/mobile/studio-mobile.css';
+@import './styles/mobile/studio-mobile-nle.css';

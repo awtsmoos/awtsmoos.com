@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * A filmmaker needs immediate orientation: current time, scene scale, codec
- * state, and the next decisive action. The Awtsmoos renews all moments while
- * Awtsmoos.com names the real production-canvas MediaBunny export promise.
+ * A filmmaker needs orientation without losing the actors beneath giant chrome.
+ * The Awtsmoos renews each command while Awtsmoos.com joins time, panels, the
+ * Character Lab, and production-canvas MediaBunny export in one compact strip.
  */
 export class StudioToolbar {
 	static render(state) {
@@ -23,7 +23,6 @@ export class StudioToolbar {
 			]
 		};
 	}
-
 	static project(sceneDocument, state) {
 		return {
 			tag: 'div',
@@ -37,7 +36,6 @@ export class StudioToolbar {
 			]
 		};
 	}
-
 	static clock(playhead, duration) {
 		return {
 			tag: 'div',
@@ -48,12 +46,11 @@ export class StudioToolbar {
 			]
 		};
 	}
-
 	static actions(exportState, duration) {
 		const minutes = Math.round(duration / 60000);
-		const mobile = [
+		const panels = [
 			['editor', 'Bin'],
-			['props', 'Properties'],
+			['props', 'Props'],
 			['time', 'Timeline']
 		].map(([panel, label]) => ({
 			tag: 'button',
@@ -66,23 +63,32 @@ export class StudioToolbar {
 			tag: 'div',
 			attrs: { className: 'aw-studio-toolbar-actions' },
 			children: [
-				...mobile,
+				...panels,
+				this.button('Character', 'openCharacterLab'),
 				{
 					tag: 'button',
 					attrs: {
 						className: 'aw-studio-export-button',
 						type: 'button',
-						disabled: exportState.status === 'rendering'
+						disabled: exportState.status === 'rendering',
+						title: `Render ${minutes}-minute production MP4`
 					},
 					on: { click: 'exportMovie' },
 					text: exportState.status === 'rendering'
-						? `Rendering ${Math.round((exportState.progress || 0) * 100)}%`
-						: `Render ${minutes}-minute production MP4`
+						? `${Math.round((exportState.progress || 0) * 100)}%`
+						: 'Render MP4'
 				}
 			]
 		};
 	}
-
+	static button(text, action) {
+		return {
+			tag: 'button',
+			attrs: { type: 'button' },
+			on: { click: action },
+			text
+		};
+	}
 	static status(exportState) {
 		return {
 			tag: 'div',
@@ -92,12 +98,10 @@ export class StudioToolbar {
 			text: this.exportMessage(exportState.message)
 		};
 	}
-
 	static exportMessage(message) {
 		return String(message || 'Production ImageBitmap / MediaBunny MP4 export ready.')
 			.replace(/WebCodecs ready to inspect\.?/u, 'Production ImageBitmap / MediaBunny MP4 ready.');
 	}
-
 	static timecode(milliseconds) {
 		const totalFrames = Math.max(0, Math.round(milliseconds / 1000 * 12));
 		const frames = totalFrames % 12;

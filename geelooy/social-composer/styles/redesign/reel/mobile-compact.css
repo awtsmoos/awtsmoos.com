@@ -1,0 +1,27 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Narrow phones preserve meaningful choice copy and full-width render actions.
+ */
+
+@media (max-width: 23rem) {
+	.reel-choice-card {
+		grid-template-columns: 2.7rem minmax(0, 1fr);
+		min-block-size: 8.8rem;
+		padding: .75rem;
+	}
+
+	.reel-choice-card > span {
+		inline-size: 2.7rem;
+		block-size: 2.7rem;
+	}
+
+	.reel-studio-screen > footer {
+		grid-template-columns: 1fr;
+	}
+
+	.reel-studio-screen > footer :is(a, button) {
+		inline-size: 100%;
+	}
+}

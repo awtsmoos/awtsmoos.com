@@ -1,53 +1,57 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 import { AABBSystem } from '../../../engine/camera/systems/AABBSystem.js';
 import { FrustumSystem } from '../../../engine/camera/systems/FrustumSystem.js';
 import { ShotSystem } from '../../../engine/camera/systems/ShotSystem.js';
 
 /**
- * @file CinematicBrain.js
- * @description
- * ═══════════════════════════════════════════════════════════════
- * CHAPTER: THE UNIFIED VISION
- * ═══════════════════════════════════════════════════════════════
+ * The camera must compose for the movie frame, not the editor window around it.
+ * The Awtsmoos renews perception while Awtsmoos.com keeps preview and export
+ * on one declared frustum without surrendering responsive legacy canvases.
  */
 export class CinematicBrain {
-  /**
-   * @function evaluate
-   * @description Computes camera X, Y, and Zoom for the current frame.
-   */
-  static evaluate(shotType, targets, state, canvasWidth = 1920) {
-    const characters = state.get('characters') || {};
-    
-    // 1. Gather all manifest targets
-    let targetArray = [];
-    if (Array.isArray(targets)) {
-      targetArray = targets.map(id => characters[id]).filter(Boolean);
-    } else if (targets && characters[targets]) {
-      targetArray = [characters[targets]];
-    }
+	static evaluate(shotType, targets, state, canvasWidth = 1920) {
+		const characters = state.get('characters') || {};
+		const targetArray = this.targets(targets, characters);
+		if (targetArray.length === 0) {
+			return { x: 0, y: -100, zoom: 1 };
+		}
+		const bounds = AABBSystem.getBounds(targetArray);
+		const targetY = ShotSystem.getFocalY(bounds, shotType);
+		const viewport = this.viewport(canvasWidth);
+		const baseShotZoom = ShotSystem.getBaseZoom(shotType);
+		const zoom = FrustumSystem.calculateZoom(
+			bounds,
+			viewport.width,
+			viewport.height,
+			baseShotZoom
+		);
+		return { x: bounds.centerX, y: targetY, zoom };
+	}
 
-    if (targetArray.length === 0) return { x: 0, y: -100, zoom: 1.0 };
+	static targets(targets, characters) {
+		if (Array.isArray(targets)) {
+			return targets.map((id) => characters[id]).filter(Boolean);
+		}
+		return targets && characters[targets] ? [characters[targets]] : [];
+	}
 
-    // 2. Resolve the Camp (AABB)
-    const bounds = AABBSystem.getBounds(targetArray);
-
-    // 3. Resolve the Composition (Focal Y)
-    const targetY = ShotSystem.getFocalY(bounds, shotType);
-    
-    // 4. Resolve the Perception (Zoom Fit)
-    // B"H - We must use the REAL canvas height, not a hardcoded one!
-    const canvas = document.getElementById('character-canvas');
-    const realHeight = canvas ? canvas.clientHeight : 1080;
-    const realWidth = canvas ? canvas.clientWidth : 1920;
-
-    const baseShotZoom = ShotSystem.getBaseZoom(shotType);
-    const finalZoom = FrustumSystem.calculateZoom(bounds, realWidth, realHeight, baseShotZoom);
-
-    return {
-      x: bounds.centerX,
-      y: targetY,
-      zoom: finalZoom
-    };
-  }
+	static viewport(fallbackWidth) {
+		const canvas = document.getElementById('character-canvas');
+		const productionWidth = Number(
+			canvas?.dataset.awtsmoosProductionWidth || 0
+		);
+		const productionHeight = Number(
+			canvas?.dataset.awtsmoosProductionHeight || 0
+		);
+		if (productionWidth > 0 && productionHeight > 0) {
+			return { width: productionWidth, height: productionHeight };
+		}
+		return {
+			width: canvas?.clientWidth || fallbackWidth || 1920,
+			height: canvas?.clientHeight || 1080
+		};
+	}
 }

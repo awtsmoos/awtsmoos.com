@@ -15,12 +15,16 @@ export class LineArtStyle {
 
 	static exterior(data, fill) {
 		const style = this.forCharacter(data);
-		return this.closed(fill, style.stroke, style.exterior);
+		return this.closed(fill, data.colors?.line || style.stroke, style.exterior);
 	}
 
 	static medium(data, fill, stroke = null) {
 		const style = this.forCharacter(data);
-		return this.closed(fill, stroke || style.stroke, style.medium);
+		return this.closed(
+			fill,
+			stroke || data.colors?.line || style.stroke,
+			style.medium
+		);
 	}
 
 	static seam(data, stroke = null) {
@@ -36,7 +40,11 @@ export class LineArtStyle {
 	static far(data, fill) {
 		const style = this.forCharacter(data);
 		return {
-			...this.closed(fill, style.stroke, style.far),
+			...this.closed(
+				fill,
+				data.colors?.line || style.stroke,
+				style.far
+			),
 			globalAlpha: style.alphaFar
 		};
 	}
@@ -71,33 +79,33 @@ export class LineArtStyle {
 
 const STYLE_MAP = Object.freeze({
 	referenceSitcom: Object.freeze({
-		exterior: 2.15,
-		medium: 1.3,
-		seam: 0.76,
-		interior: 0.5,
-		far: 0.44,
-		alphaFar: 0.44,
-		stroke: '#1b1c1e',
-		softStroke: 'rgba(27,28,30,0.3)'
+		exterior: 1.72,
+		medium: 1.02,
+		seam: 0.56,
+		interior: 0.36,
+		far: 0.34,
+		alphaFar: 0.38,
+		stroke: '#2b292c',
+		softStroke: 'rgba(43,41,44,0.24)'
 	}),
 	softCartoon: Object.freeze({
-		exterior: 2.55,
-		medium: 1.72,
-		seam: 1.08,
-		interior: 0.76,
-		far: 0.68,
-		alphaFar: 0.52,
-		stroke: '#1a1b1d',
-		softStroke: 'rgba(26,27,29,0.38)'
+		exterior: 2.3,
+		medium: 1.5,
+		seam: 0.92,
+		interior: 0.62,
+		far: 0.56,
+		alphaFar: 0.48,
+		stroke: '#242326',
+		softStroke: 'rgba(36,35,38,0.34)'
 	}),
 	boldCartoon: Object.freeze({
-		exterior: 3.35,
-		medium: 2.25,
-		seam: 1.48,
-		interior: 1.02,
-		far: 0.9,
-		alphaFar: 0.62,
-		stroke: '#111214',
-		softStroke: 'rgba(17,18,20,0.46)'
+		exterior: 3.1,
+		medium: 2.05,
+		seam: 1.3,
+		interior: 0.9,
+		far: 0.78,
+		alphaFar: 0.58,
+		stroke: '#171619',
+		softStroke: 'rgba(23,22,25,0.42)'
 	})
 });

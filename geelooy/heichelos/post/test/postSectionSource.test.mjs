@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file postSectionSource.test.mjs
- * @description Proves current Meluket API verses and punctuation segments reach
- * the scribe without mutating the original Awtsmoos.com response vessel.
+ * @description Proves modern Meluket objects and legacy Mishnah verse arrays
+ * reach the scribe without mutating their original Awtsmoos.com API vessels.
  */
 
 import assert from "node:assert/strict";
@@ -20,7 +20,6 @@ async function loadSectionSource() {
 const { prepareStructuredPost, resolvePostSections } = await loadSectionSource();
 const canonicalPost = {
 	id: "meluket-example",
-	content: "First phrase.\n\nSecond phrase,",
 	sections: [{
 		id: "verse_1",
 		verseSection: 1,
@@ -31,25 +30,34 @@ const canonicalPost = {
 		]
 	}]
 };
+const canonical = resolvePostSections(canonicalPost);
+assert.equal(canonical.length, 1);
+assert.equal(canonical[0].subSections.length, 2);
+assert.equal(canonical[0].subSections[1].content, "Second phrase,");
+assert.equal(canonical[0].subSections[0].id, "segment_1_0");
 
-const resolved = resolvePostSections(canonicalPost);
-assert.equal(resolved.length, 1);
-assert.equal(resolved[0].subSections.length, 2);
-assert.equal(resolved[0].subSections[1].content, "Second phrase,");
-
-const prepared = prepareStructuredPost(canonicalPost);
-assert.ok(prepared);
-assert.notEqual(prepared, canonicalPost);
-assert.notEqual(prepared.dayuh.sections, canonicalPost.sections);
-assert.equal(prepared.dayuh.sections[0].subSections[0].id, "segment_1_0");
-assert.equal(canonicalPost.dayuh, undefined);
-assert.equal(canonicalPost.sections[0].subSections, undefined);
-
-const legacy = prepareStructuredPost({
+const legacyPost = {
+	id: "mishnah-example",
 	dayuh: {
-		sections: [{ content: "Legacy light", paragraphs: ["One", "Two"] }]
+		sections: [
+			["First Mishnah phrase.", "Second Mishnah phrase,"],
+			["Third Mishnah phrase."]
+		]
 	}
-});
+};
+const legacy = prepareStructuredPost(legacyPost);
+assert.equal(legacy.dayuh.sections.length, 2);
 assert.equal(legacy.dayuh.sections[0].subSections.length, 2);
+assert.equal(legacy.dayuh.sections[1].subSections.length, 1);
+assert.equal(legacy.dayuh.sections[0].subSections[1].content, "Second Mishnah phrase,");
+assert.equal(legacy.dayuh.sections[0].subSections[1].id, "segment_0_1");
+assert.equal(legacy.dayuh.sections[1].subSections[0].id, "segment_1_0");
+assert.deepEqual(legacyPost.dayuh.sections[0], ["First Mishnah phrase.", "Second Mishnah phrase,"]);
+
+const paragraphPost = prepareStructuredPost({
+	dayuh: { sections: [{ content: "Legacy light", paragraphs: ["One", "Two"] }] }
+});
+assert.equal(paragraphPost.dayuh.sections[0].subSections.length, 2);
 assert.equal(prepareStructuredPost({ content: "Only plain text" }), null);
+assert.equal(canonicalPost.sections[0].subSections, undefined);
 console.log('B"H postSectionSource.test passed');

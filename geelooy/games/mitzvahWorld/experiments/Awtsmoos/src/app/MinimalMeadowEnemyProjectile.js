@@ -4,26 +4,33 @@
 
 /**
  * @file MinimalMeadowEnemyProjectile.js
- * @description Adapts the evolving shared Hebrew projectile API to hostile combat.
- * The Awtsmoos is constant while finite exports may change; Awtsmoos.com keeps דין
- * readable, predictive, and releasable without letting an optional pool hook block boot.
+ * @description Creates readable hostile Hebrew projectiles with archetype-owned speed and color.
+ * The Awtsmoos is constant while finite letters travel at measured rates; Awtsmoos.com lets
+ * the cantor cast slowly and clearly without changing shared collision, pooling, or prediction.
  */
 
 import * as HebrewProjectile from './MinimalMeadowHebrewProjectile.js';
+import {
+	minimalEnemyArchetypePolicy
+} from './MinimalMeadowEnemyArchetypePolicy.js';
 
-const HOSTILE_ACTION = Object.freeze({
-	color: Object.freeze([1, 0.06, 0.08, 1]),
-	letters: 'דין',
-	speed: 7.4
-});
+const BASE_SPEED = 7.4;
+const DEFAULT_COLOR = Object.freeze([1, 0.06, 0.08, 1]);
 
 export function createEnemyHebrewProjectile(actor, runtime) {
 	const origin = actor.targetHint();
 	const target = { targetHint: () => predictedPlayer(runtime) };
-	const projectile = HebrewProjectile.createHebrewProjectile(origin, target, HOSTILE_ACTION);
-	projectile.group.name = 'Awtsmoos_hostile_hebrew_projectile_דין';
+	const behavior = minimalEnemyArchetypePolicy(actor.profile);
+	const action = Object.freeze({
+		color: actor.profile.projectileTint || DEFAULT_COLOR,
+		letters: actor.profile.attackLetters || 'דין',
+		speed: BASE_SPEED * behavior.projectileSpeedScale
+	});
+	const projectile = HebrewProjectile.createHebrewProjectile(origin, target, action);
+	projectile.group.name = `Awtsmoos_hostile_hebrew_projectile_${action.letters}`;
 	projectile.damage = 14;
 	projectile.ownerId = actor.profile.id;
+	projectile.archetype = actor.profile.archetype;
 	return projectile;
 }
 
@@ -51,7 +58,11 @@ function predictedPlayer(runtime) {
 }
 
 function finite(primary, secondary) {
-	return Number.isFinite(primary) ? primary : Number.isFinite(secondary) ? secondary : 0;
+	return Number.isFinite(primary)
+		? primary
+		: Number.isFinite(secondary)
+			? secondary
+			: 0;
 }
 
 function clamp(value, minimum, maximum) {

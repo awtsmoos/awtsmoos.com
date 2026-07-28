@@ -6,9 +6,9 @@ import { CheerfulReferenceFaceIdentity } from './CheerfulReferenceFaceIdentity.j
 import { CheerfulReferenceHeadStyle } from './CheerfulReferenceHeadStyle.js';
 
 /**
- * Chesed joins Ari's round face, cheek-grown beard, and generous living laugh.
- * The Awtsmoos renews each finite control, while Awtsmoos.com preserves one
- * editable, keyframeable, serializable production identity.
+ * Ari's cheek-following beard opens around a broad readable laugh. The Awtsmoos
+ * joins finite hair and voice; Awtsmoos.com preserves one editable, keyframeable
+ * identity through every expression, phoneme, save, preview, and export.
  */
 export class CheerfulReferenceAppearance {
 	static create() {
@@ -16,51 +16,28 @@ export class CheerfulReferenceAppearance {
 			...CheerfulReferenceFaceIdentity.create(),
 			...CheerfulReferenceHeadStyle.create(),
 			mouthStyle: {
-				widthScale: 1.44,
-				heightScale: 1.38,
-				openScale: 1.08,
-				jawScale: 1.08,
-				cavityWidthScale: 0.98,
-				cavityHeightScale: 1,
-				smileBias: 0.72,
-				minimumOpen: 0.74,
-				minimumJaw: 0.7,
-				minimumTeeth: 0.86,
-				minimumTongue: 0.42,
-				lineWidth: 1.42,
-				horizontalOffset: -3,
-				verticalOffset: 13
+				widthScale: 1.62, heightScale: 1.34,
+				openScale: 1.16, jawScale: 1.12,
+				cavityWidthScale: 1.12, cavityHeightScale: 1.08,
+				smileBias: 0.82, minimumOpen: 1, minimumJaw: 0.86,
+				minimumTeeth: 0.9, minimumTongue: 0.48,
+				lineWidth: 1.18, horizontalOffset: -1, verticalOffset: 1
 			},
 			beardGeometry: {
-				massStyle: 'continuous',
-				cheekScale: 0.7,
-				leftCheekScale: 1.04,
-				rightCheekScale: 0.96,
-				topOffset: 17,
-				topInset: 0.72,
-				sideRatio: 0.47,
-				bridgeDrop: 19,
-				bridgeGap: 0.4,
-				bridgeValley: 2.2,
-				openingWidthScale: 0.88,
-				openingPaddingX: 1.4,
-				openingPaddingTop: 1.8,
-				openingPaddingBottom: 2.4,
-				openingRoundness: 0.86,
-				moustacheScale: 0.72,
-				moustacheLift: 1.5,
-				moustacheWidth: 3,
-				moustacheArch: 2.2,
-				moustacheDrop: 1.2,
-				moustacheGap: 0.8,
-				moustacheAsymmetry: 0.25,
-				lengthScale: 0.72,
-				chinWidth: 22,
-				chinOffsetX: -1.4,
-				taper: 0.78,
-				bottomRoundness: 1.2,
-				lineWidth: 1.35,
-				strandOpacity: 0.035
+				massStyle: 'continuous', cheekScale: 0.62,
+				leftCheekScale: 1.05, rightCheekScale: 0.95,
+				topOffset: 6, topInset: 0.7, sideRatio: 0.45,
+				bridgeDrop: 15, bridgeGap: 0.7, bridgeValley: 2.3,
+				openingWidthScale: 0.82, openingPaddingX: 1,
+				openingPaddingTop: 1.3, openingPaddingBottom: 1.6,
+				openingRoundness: 0.9, moustacheScale: 0.72,
+				moustacheLift: 1.2, moustacheWidth: 2.2,
+				moustacheArch: 2.2, moustacheDrop: 1,
+				moustacheGap: 1, moustacheAsymmetry: 0.28,
+				lengthScale: 0.5, chinWidth: 20,
+				chinOffsetX: -1, taper: 0.74,
+				bottomRoundness: 1.55, lineWidth: 1.12,
+				strandOpacity: 0.03
 			}
 		};
 	}

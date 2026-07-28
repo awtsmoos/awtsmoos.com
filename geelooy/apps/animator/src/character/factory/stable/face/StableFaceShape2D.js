@@ -3,24 +3,11 @@
 // Blessed is He
 
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
+import { StableHeadShellGeometry } from '../StableHeadShellGeometry.js';
 import { StableOrganicHead2D } from '../StableOrganicHead2D.js';
 
-const HORIZONTAL_COORDINATES = [
-	'x',
-	'cx',
-	'c1x',
-	'c2x',
-	'cp1x',
-	'cp2x'
-];
-const VERTICAL_COORDINATES = [
-	'y',
-	'cy',
-	'c1y',
-	'c2y',
-	'cp1y',
-	'cp2y'
-];
+const HORIZONTAL_COORDINATES = ['x', 'cx', 'c1x', 'c2x', 'cp1x', 'cp2x'];
+const VERTICAL_COORDINATES = ['y', 'cy', 'c1y', 'c2y', 'cp1y', 'cp2y'];
 
 /**
  * The skull shell surrounds a face without tearing its curves apart. The
@@ -29,7 +16,7 @@ const VERTICAL_COORDINATES = [
  */
 export class StableFaceShape2D {
 	static build(kind, data, colors, metrics, view) {
-		const style = data.faceStyle || {};
+		const style = StableHeadShellGeometry.style(data);
 		const points = StableOrganicHead2D.points(
 			metrics.headRX,
 			metrics.headRY,
@@ -58,20 +45,18 @@ export class StableFaceShape2D {
 		const transformed = { ...point };
 		for (const key of HORIZONTAL_COORDINATES) {
 			if (Number.isFinite(point[key])) {
-				transformed[key] = transform.offsetX
-					+ point[key] * transform.scaleX;
+				transformed[key] = transform.offsetX + point[key] * transform.scaleX;
 			}
 		}
 		for (const key of VERTICAL_COORDINATES) {
 			if (Number.isFinite(point[key])) {
-				transformed[key] = transform.offsetY
-					+ point[key] * transform.scaleY;
+				transformed[key] = transform.offsetY + point[key] * transform.scaleY;
 			}
 		}
 		return transformed;
 	}
 
 	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

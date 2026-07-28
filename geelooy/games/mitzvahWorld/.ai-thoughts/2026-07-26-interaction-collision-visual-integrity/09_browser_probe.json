@@ -1,0 +1,1566 @@
+{
+  "ok": false,
+  "port": 9247,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "featurePhase": "ready",
+  "visuals": {
+    "bark": [
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      },
+      {
+        "backfaceCull": false,
+        "depthWrite": true,
+        "doubleSided": true,
+        "frustumCulled": false
+      }
+    ],
+    "dataset": {
+      "awtsmoosGameplay": "true",
+      "awtsmoosRendererHydration": "ready",
+      "awtsmoosRenderer": "webgl",
+      "awtsmoosRendererContextAttempts": "webgl",
+      "awtsmoosRendererFallback": "",
+      "awtsmoosRendererFallbackMessage": "",
+      "awtsmoosRendererFallbackRecoverable": "",
+      "awtsmoosRendererStage": "rich-ready",
+      "awtsmoosRuntimeState": "playable",
+      "awtsmoosRuntimeError": "",
+      "awtsmoosReadiness": "core-playable",
+      "awtsmoosFeatures": "combat-ready",
+      "awtsmoosMenuReady": "true",
+      "awtsmoosSession": "singleplayer",
+      "awtsmoosUi": "ready",
+      "awtsmoosMobileIntegration": "ready"
+    },
+    "houseSurfaces": [
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "level-foundation-platform"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-front-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-back-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-left-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-right-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "level-interior-floor"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-back-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "upper-floor-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "upper-floor-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "upper-floor-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "upper-floor-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "weather-roof"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "continuous-walkable-stair-ramp"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "solid-interior-stair"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "upper-stair-landing"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-front-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-front-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-west-3-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-1-east-3-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-west-3-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "beis-ohr-story-2-east-3-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "level-foundation-platform"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-front-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-back-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-left-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "foundation-right-skirt"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "human-entry-step"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "level-interior-floor"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-front-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-back-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "exterior-side-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "weather-roof"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "room-door-header"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "longitudinal-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "transverse-room-wall"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-front-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-1-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-2-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-3-door-panel"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-front-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-west-3-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-1-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-2-door-mezuzah"
+      },
+      {
+        "allDoubleSided": true,
+        "allNoBackfaceCull": true,
+        "frustumCulled": false,
+        "role": "brick-cottage-story-1-east-3-door-mezuzah"
+      }
+    ],
+    "terrain": {
+      "layerCount": 6,
+      "policy": {
+        "densityPlan": {
+          "anisotropy": 12,
+          "effectivePixelsPerWorld": [
+            18.495454545454546,
+            18.495454545454546
+          ],
+          "effectiveSource": {
+            "w": 313,
+            "h": 313
+          },
+          "mobile": false,
+          "repeat": [
+            13,
+            13
+          ],
+          "source": {
+            "h": 313,
+            "w": 313
+          },
+          "sourceUtilization": [
+            0.8650774145981813,
+            0.8650774145981813
+          ],
+          "targetPixelsPerWorld": 16,
+          "tileWorld": [
+            16.923076923076923,
+            16.923076923076923
+          ]
+        },
+        "fullResolution": true,
+        "nativeTexelDensity": true,
+        "projection": "world-stochastic-mirror",
+        "role": "terrain-base",
+        "shaderWrap": "mirror-pingpong-repeat",
+        "texelsPerWorld": 16,
+        "uvUnitsPerWorld": [
+          0.035,
+          0.035
+        ],
+        "fullSourceCoverage": true,
+        "minimumWorldCoverage": 180,
+        "repetitionPolicy": "broad-source-with-restrained-detail"
+      }
+    },
+    "vegetation": [
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "childrenRooted": true,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "weapon": {
+      "anchor": "Awtsmoos_visible_equipped_weapon_anchor",
+      "anchorDistance": 1.2950675658049662,
+      "anchorOwner": true,
+      "meshCount": 3,
+      "meshesVisible": true,
+      "visible": true
+    }
+  },
+  "interaction": {
+    "buttonAction": "letter-light",
+    "buttonClicked": true,
+    "cast": {
+      "casting": "letter-light",
+      "cooldowns": {
+        "hebrew-fire": 0,
+        "letter-light": 0,
+        "staff-strike": 0
+      },
+      "effects": 0,
+      "progress": 0.07572727272727371,
+      "projectiles": 0
+    },
+    "methods": {
+      "clear": "function",
+      "payload": "function",
+      "target": "function"
+    },
+    "selectedId": "tzel-chai",
+    "selectedIsActor": true,
+    "runtimeError": ""
+  },
+  "error": {
+    "message": "Uncaught (in promise) TypeError: ramp.getWorldPosition is not a function",
+    "stack": "Error: Uncaught (in promise) TypeError: ramp.getWorldPosition is not a function\n    at evaluateMobile (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-mobile-gameplay-polish/MobileCdpClient.mjs:61:9)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-interaction-collision-visual-integrity/integrity-browser-probe.mjs:53:19"
+  }
+}

@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Canonical Heichel and series selection become one legible destination receipt,
+ * while secondary placement and inline creation remain visibly subordinate.
+ */
+
+.composer-civilization-document .destinationWorkspace {
+	gap: .7rem;
+}
+
+.composer-civilization-document .destinationResults,
+.composer-civilization-document .seriesBrowser {
+	display: grid;
+	gap: .42rem;
+}
+
+.composer-civilization-document :is(.heichelChoice, .seriesChoice) {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .5rem;
+	padding: .5rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-sm);
+	background: var(--composer-surface-2);
+}
+
+.composer-civilization-document :is(.heichelChoice, .seriesChoice):has(:checked),
+.composer-civilization-document :is(.heichelChoice, .seriesChoice)[aria-current] {
+	border-color: rgba(89, 189, 210, .48);
+	background: var(--composer-cyan-soft);
+}
+
+.composer-civilization-document :is(.heichelOpenButton, .seriesSelectButton) {
+	justify-content: flex-start;
+	text-align: start;
+}
+
+.composer-civilization-document .destinationSummary {
+	min-block-size: 5rem;
+	margin: 0;
+	padding: .72rem;
+	border: 1px solid rgba(89, 189, 210, .25);
+	border-radius: var(--composer-radius-md);
+	background: linear-gradient(145deg, var(--composer-cyan-soft), rgba(255, 255, 255, .012));
+	color: var(--composer-text-soft);
+	font-size: .64rem;
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+.composer-civilization-document .secondaryPlacementCard {
+	display: grid;
+	gap: .55rem;
+	padding: .68rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .018);
+}
+
+.composer-civilization-document .destinationPanel h3 {
+	margin: .25rem 0 0;
+	color: var(--composer-text-soft);
+	font-size: .75rem;
+}
+
+.composer-civilization-document .destinationPanel .emptyState {
+	padding: .7rem;
+	border: 1px dashed var(--composer-border);
+	border-radius: var(--composer-radius-sm);
+	color: var(--composer-text-faint);
+	font-size: .66rem;
+	text-align: center;
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file FriendlyNpcPopulation.js
- * @description Owns canonical friendly actors, one shared clock, and allocation-light targeting.
- * The Awtsmoos renews every neighbor beneath one sun; Awtsmoos.com lets each Chossid keep
- * his mission, road, and hour while one coordinator resolves the nearest intentional touch.
+ * @description Owns friendly actors, shared time, first-click study, and second-click discussion.
+ * The Awtsmoos renews every neighbor beneath one sun; Awtsmoos.com lets first sight reveal the
+ * Chossid and second sight open his words, mission, question, or peaceful dispute without confusion.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -49,13 +49,30 @@ export class FriendlyNpcPopulation {
 		return nearest;
 	}
 
-	activateCandidate(candidate) {
-		const actor = candidate.actor;
+	selectCandidate(candidate) {
+		const actor = candidate?.actor || candidate;
+		if (!actor) return false;
 		for (const current of this.actors) {
 			if (current !== actor) current.clear();
 		}
-		if (actor.selected) actor.dialogue();
-		else actor.target();
+		return actor.target();
+	}
+
+	interactCandidate(candidate) {
+		const actor = candidate?.actor || candidate;
+		if (!actor) return false;
+		if (!actor.selected) this.selectCandidate(actor);
+		return actor.dialogue();
+	}
+
+	candidateSelected(candidate) {
+		return Boolean(candidate?.actor?.selected || candidate?.selected);
+	}
+
+	activateCandidate(candidate) {
+		return this.candidateSelected(candidate)
+			? this.interactCandidate(candidate)
+			: this.selectCandidate(candidate);
 	}
 
 	update(deltaTime, playerState) {

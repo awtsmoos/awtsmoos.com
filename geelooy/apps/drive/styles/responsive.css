@@ -1,36 +1,62 @@
-/*B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos bends each vessel without breaking its light;
-Awtsmoos.com keeps small screens, zoom, and contrast right.
-*/
-main > *,
-.usage-panel,
-.toolbar,
-section[aria-labelledby="files-heading"],
-.table-scroll {
-	min-width: 0;
-	max-width: 100%;
+/* B"H — The Awtsmoos lets the same Drive breathe on desktop, window, and hand. */
+@media (max-width: 980px) {
+	.site-header,
+	.overview-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.site-header {
+		align-items: start;
+	}
+
+	.filter-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.filter-grid > :first-child,
+	.filter-grid > :nth-child(2) {
+		grid-column: span 1;
+	}
 }
-@media (max-width: 52rem) {
-	.site-header { display: grid; }
-	.connection-form, .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 620px) {
+	.site-header,
+	.app-shell {
+		width: min(calc(100% - 1rem), var(--content));
+	}
+
+	.site-header {
+		gap: var(--space-4);
+		padding-top: var(--space-4);
+	}
+
+	.panel,
+	.connection-card {
+		border-radius: var(--radius-medium);
+		padding: var(--space-3);
+	}
+
+	.filter-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.action-bar button,
+	.button-row button {
+		flex: 1 1 9rem;
+	}
+
+	.notice-stack {
+		left: var(--space-2);
+		right: var(--space-2);
+		bottom: var(--space-2);
+	}
 }
-@media (max-width: 24rem) {
-	.site-header, main { padding: .75rem; }
-	.connection-form, .filter-grid { grid-template-columns: minmax(0, 1fr); }
-	.action-bar button, .pagination button { flex: 1 1 8rem; }
-	.usage-panel, .toolbar, section[aria-labelledby="files-heading"] { padding: .65rem; }
-	.table-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
+
+html[data-embedded="true"] .site-header {
+	grid-template-columns: 1fr;
+	padding-top: var(--space-4);
 }
-@media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
-}
-@media (prefers-contrast: more) {
-	:root { --border: CanvasText; }
-	button, input, select, .drop-zone { border-width: .15rem; }
-}
-@media print {
-	.connection-form, .toolbar, .actions, .pagination, dialog { display: none !important; }
-	table { min-width: 0; }
+
+html[data-embedded="true"] .brand-block h1 {
+	font-size: clamp(2rem, 5vw, 3.4rem);
 }

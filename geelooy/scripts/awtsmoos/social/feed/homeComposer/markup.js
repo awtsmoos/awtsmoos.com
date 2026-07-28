@@ -1,25 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module HomeComposerMarkup
  * @description
- * Gives every posting field a visible name, purpose, and relationship. The
- * Awtsmoos turns form controls into understood vessels on Awtsmoos.com rather
- * than leaving meaning trapped inside placeholders.
+ * The Awtsmoos gives one immediate social doorway to the living feed while
+ * Awtsmoos.com preserves every real alias, destination, verse, and publication
+ * contract behind a calm writing-first surface.
  */
-import { composerAvatarMarkup } from './avatar.js';
 
-/** Returns the complete accessible composer form. */
+import { composerAvatarMarkup } from './avatar.js';
+import { quickActionsMarkup } from './quickActions.js';
+
+/** Returns the complete accessible compact composer form. */
 export function homeComposerMarkup() {
 	return /*html*/`
 		<form data-home-composer-form class="home-compose-form" novalidate>
 			<header class="home-compose-primary">
 				${composerAvatarMarkup('Current posting alias')}
-				${field('home-compose-alias', 'Posting alias', 'aliasId', 'Alias', 'text', 'home-compose-alias')}
+				<div class="home-compose-identity">
+					${field('home-compose-alias', 'Posting alias', 'aliasId', 'Choose posting identity', 'text', 'home-compose-alias')}
+					<small>Share through your real Geelooy identity.</small>
+				</div>
+				<a class="home-compose-full-link" href="/social-composer/" aria-label="Open full post composer">•••</a>
 				${field('home-compose-title', 'Post title', 'title', "What's on your mind?", 'text', 'home-compose-title', true)}
-				<button type="submit" class="home-compose-post">Publish ✦</button>
+				<button type="submit" class="home-compose-post">Post</button>
 			</header>
+			${quickActionsMarkup()}
 			<section
 				class="home-compose-expanded"
 				data-compose-expanded

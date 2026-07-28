@@ -1,19 +1,21 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file ForestLeafTexture.js
- * @description Builds the green fallback and prepares opaque-source Chai leaves for MASK rendering.
- * The licensed Chai PNGs are RGB images on a witnessed #486c55 studio-green field. A one-time,
- * idle-sliced connected chroma key converts only edge-reachable background to alpha, avoiding
- * square foliage cards, protecting similar interior leaf greens, and preventing frame-time spikes.
+ * @description Preserves authored species alpha and delegates only opaque legacy cards to chroma key.
+ * The Awtsmoos reveals each uploaded leaf through its own colors and transparent edge; Awtsmoos.com
+ * refuses to repaint living species as vegetables while retaining a narrow bridge for old Chai cards.
  */
 
-const CHAI_LEAF_BACKGROUND = Object.freeze([72, 108, 85]);
-const TRANSPARENT_KEY_RADIUS = 8;
-const FEATHER_KEY_RADIUS = 42;
-const KEY_PIXELS_PER_IDLE_SLICE = 16384;
+import {
+	legacyForestLeafChromaKeyContract,
+	prepareLegacyForestLeafTexture
+} from './ForestLeafLegacyChromaKey.js';
 
 let cachedTexture = null;
-const preparedPublicTextures = new WeakMap();
+const AUTHORED_TREE_PATH = '/awtsmoos-nature/ilanos/trees/';
 
 export function createForestLeafTexture() {
 	if (cachedTexture || typeof document === 'undefined') return cachedTexture;
@@ -47,201 +49,30 @@ export function createForestLeafTexture() {
 	return cachedTexture;
 }
 
-/**
- * Starts or observes one idle-sliced conversion of a CORS-enabled public Chai leaf image.
- * Null means preparation is pending or unavailable, so callers retain the natural-green
- * fallback and never expose the original opaque square. A later hydration cadence receives
- * the completed canvas from this WeakMap without repeating any pixel work.
- */
 export function createForestLeafPublicTexture(image) {
-	if (!image || (typeof image !== 'object' && typeof image !== 'function')) return null;
-	const existing = preparedPublicTextures.get(image);
-	if (existing) return existing.ready ? existing.canvas : null;
-	if (typeof document === 'undefined') return null;
-	const width = Math.floor(image.naturalWidth || image.width || 0);
-	const height = Math.floor(image.naturalHeight || image.height || 0);
-	if (!width || !height || image.complete === false) return null;
-	const record = {
-		canvas: null,
-		context: null,
-		failed: false,
-		floodHead: 0,
-		floodQueue: null,
-		floodTail: 0,
-		height,
-		image,
-		keyState: null,
-		offset: 0,
-		pixels: null,
-		ready: false,
-		width
-	};
-	preparedPublicTextures.set(image, record);
-	scheduleLeafWork(() => initializePublicLeafTexture(record));
-	return null;
+	if (authoredTreeImage(image)) {
+		image.dataset ||= {};
+		image.dataset.awtsmoosTransform = 'authored-alpha-preserved';
+		image.dataset.colorFamily = 'species-authored';
+		return image;
+	}
+	return prepareLegacyForestLeafTexture(image);
 }
 
 export function forestLeafPublicTextureContract() {
 	return Object.freeze({
-		backgroundRgb: CHAI_LEAF_BACKGROUND,
-		connectedBackgroundOnly: true,
-		featherKeyRadius: FEATHER_KEY_RADIUS,
-		pixelsPerIdleSlice: KEY_PIXELS_PER_IDLE_SLICE,
-		preparation: 'idle-sliced-retain-fallback-until-ready',
-		transparentKeyRadius: TRANSPARENT_KEY_RADIUS,
-		transform: 'chai-leaf-background-to-alpha-mask'
+		...legacyForestLeafChromaKeyContract(),
+		authoredAlphaPreserved: true,
+		authoredPath: AUTHORED_TREE_PATH,
+		legacyTransformOnly: true
 	});
 }
 
-function initializePublicLeafTexture(record) {
-	if (record.failed || record.ready) return;
-	try {
-		const canvas = document.createElement('canvas');
-		canvas.width = record.width;
-		canvas.height = record.height;
-		const context = canvas.getContext('2d', { willReadFrequently: true });
-		if (!context) {
-			record.failed = true;
-			return;
-		}
-		context.drawImage(record.image, 0, 0, record.width, record.height);
-		record.canvas = canvas;
-		record.context = context;
-		record.pixels = context.getImageData(0, 0, record.width, record.height);
-		record.keyState = new Uint8Array(record.width * record.height);
-		classifyLeafPixelsSlice(record);
-	} catch {
-		record.failed = true;
-	}
-}
-
-function classifyLeafPixelsSlice(record) {
-	if (record.failed || record.ready || !record.pixels) return;
-	const data = record.pixels.data;
-	const pixelCount = record.width * record.height;
-	const end = Math.min(pixelCount, record.offset + KEY_PIXELS_PER_IDLE_SLICE);
-	const featherDistanceSquared = FEATHER_KEY_RADIUS * FEATHER_KEY_RADIUS;
-	for (let index = record.offset; index < end; index += 1) {
-		const offset = index * 4;
-		const red = data[offset] - CHAI_LEAF_BACKGROUND[0];
-		const green = data[offset + 1] - CHAI_LEAF_BACKGROUND[1];
-		const blue = data[offset + 2] - CHAI_LEAF_BACKGROUND[2];
-		if (red * red + green * green + blue * blue <= featherDistanceSquared) {
-			record.keyState[index] = 1;
-		}
-	}
-	record.offset = end;
-	if (end < pixelCount) {
-		scheduleLeafWork(() => classifyLeafPixelsSlice(record));
-		return;
-	}
-	seedConnectedBackground(record);
-	scheduleLeafWork(() => floodConnectedBackgroundSlice(record));
-}
-
-function seedConnectedBackground(record) {
-	const pixelCount = record.width * record.height;
-	record.floodQueue = new Int32Array(pixelCount);
-	for (let x = 0; x < record.width; x += 1) {
-		enqueueBackgroundPixel(record, x);
-		enqueueBackgroundPixel(record, (record.height - 1) * record.width + x);
-	}
-	for (let y = 1; y < record.height - 1; y += 1) {
-		enqueueBackgroundPixel(record, y * record.width);
-		enqueueBackgroundPixel(record, y * record.width + record.width - 1);
-	}
-}
-
-function floodConnectedBackgroundSlice(record) {
-	if (record.failed || record.ready || !record.floodQueue) return;
-	const pixelCount = record.width * record.height;
-	const end = Math.min(
-		record.floodTail,
-		record.floodHead + KEY_PIXELS_PER_IDLE_SLICE
-	);
-	while (record.floodHead < end) {
-		const index = record.floodQueue[record.floodHead++];
-		const x = index % record.width;
-		if (x > 0) enqueueBackgroundPixel(record, index - 1);
-		if (x + 1 < record.width) enqueueBackgroundPixel(record, index + 1);
-		if (index >= record.width) enqueueBackgroundPixel(record, index - record.width);
-		if (index < pixelCount - record.width) enqueueBackgroundPixel(record, index + record.width);
-	}
-	if (record.floodHead < record.floodTail) {
-		scheduleLeafWork(() => floodConnectedBackgroundSlice(record));
-		return;
-	}
-	record.offset = 0;
-	scheduleLeafWork(() => applyLeafAlphaSlice(record));
-}
-
-function enqueueBackgroundPixel(record, index) {
-	if (record.keyState[index] !== 1) return;
-	record.keyState[index] = 2;
-	record.floodQueue[record.floodTail++] = index;
-}
-
-function applyLeafAlphaSlice(record) {
-	if (record.failed || record.ready || !record.pixels) return;
-	const data = record.pixels.data;
-	const pixelCount = record.width * record.height;
-	const end = Math.min(pixelCount, record.offset + KEY_PIXELS_PER_IDLE_SLICE);
-	const transparentDistanceSquared = TRANSPARENT_KEY_RADIUS * TRANSPARENT_KEY_RADIUS;
-	for (let index = record.offset; index < end; index += 1) {
-		if (record.keyState[index] !== 2) continue;
-		const offset = index * 4;
-		const red = data[offset] - CHAI_LEAF_BACKGROUND[0];
-		const green = data[offset + 1] - CHAI_LEAF_BACKGROUND[1];
-		const blue = data[offset + 2] - CHAI_LEAF_BACKGROUND[2];
-		const distanceSquared = red * red + green * green + blue * blue;
-		if (distanceSquared <= transparentDistanceSquared) {
-			data[offset + 3] = 0;
-			continue;
-		}
-		const distance = Math.sqrt(distanceSquared);
-		const alphaScale = (distance - TRANSPARENT_KEY_RADIUS)
-			/ (FEATHER_KEY_RADIUS - TRANSPARENT_KEY_RADIUS);
-		data[offset + 3] = Math.min(data[offset + 3], Math.round(alphaScale * 255));
-	}
-	record.offset = end;
-	if (end < pixelCount) {
-		scheduleLeafWork(() => applyLeafAlphaSlice(record));
-		return;
-	}
-	finishPublicLeafTexture(record);
-}
-
-function finishPublicLeafTexture(record) {
-	try {
-		record.context.putImageData(record.pixels, 0, 0);
-		const publicUrl = record.image.dataset?.publicUrl
-			|| record.image.dataset?.url
-			|| record.image.currentSrc
-			|| record.image.src
-			|| '';
-		record.canvas.dataset.url = publicUrl;
-		record.canvas.dataset.publicUrl = publicUrl;
-		record.canvas.dataset.loadedFromPublicUrl = publicUrl ? 'true' : 'false';
-		record.canvas.dataset.awtsmoosTransform = 'chai-leaf-background-to-alpha-mask';
-		record.canvas.dataset.colorFamily = 'natural-green-public';
-		record.canvas.dataset.sourceBackground = 'rgb(72,108,85)';
-		record.context = null;
-		record.floodQueue = null;
-		record.image = null;
-		record.keyState = null;
-		record.pixels = null;
-		record.ready = true;
-	} catch {
-		record.failed = true;
-	}
-}
-
-function scheduleLeafWork(callback) {
-	if (typeof requestIdleCallback === 'function') {
-		requestIdleCallback(callback, { timeout: 250 });
-		return;
-	}
-	setTimeout(callback, 0);
+function authoredTreeImage(image) {
+	if (!image) return false;
+	const source = image.dataset?.publicUrl || image.dataset?.url
+		|| image.currentSrc || image.src || '';
+	return String(source).includes(AUTHORED_TREE_PATH);
 }
 
 export default createForestLeafTexture;

@@ -1,0 +1,30 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps the remaining paragraphs one clear action away, so
+ * Awtsmoos.com reveals abundance without turning the first source into a wall.
+ */
+
+.commentRevealButton {
+	align-items: center;
+	background: linear-gradient(135deg, #112031, #0a121e);
+	border: 0;
+	border-block-start: 1px solid rgba(110, 216, 234, .2);
+	color: #8ce3f1;
+	cursor: pointer;
+	display: flex;
+	font: inherit;
+	font-weight: 850;
+	justify-content: center;
+	min-height: 3.2rem;
+	padding: .8rem 1rem;
+	width: 100%;
+}
+
+.commentRevealButton:is(:hover, :focus-visible) {
+	background: #15283a;
+	box-shadow: inset 0 0 0 2px #55d0e7;
+	color: #eafcff;
+	outline: 0;
+}

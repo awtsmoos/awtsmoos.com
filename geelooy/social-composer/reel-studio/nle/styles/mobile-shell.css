@@ -1,0 +1,117 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The phone shell reduces chrome, preserves safe areas, and signals horizontal
+ * action overflow without hiding the project title or render command.
+ */
+
+@media (max-width: 52rem) {
+	:root {
+		--nle-track-label-width: 7.25rem;
+	}
+
+	.nle-studio {
+		grid-template-rows: auto auto minmax(10rem, 1fr) minmax(15rem, 44vh) auto;
+		min-block-size: 31rem;
+	}
+
+	.nle-topbar {
+		grid-template-columns: auto minmax(0, 1fr);
+		grid-template-rows: auto auto;
+		gap: .38rem .5rem;
+		min-block-size: auto;
+		padding: .42rem .5rem;
+	}
+
+	.nle-brand {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.nle-brand > span {
+		inline-size: 2.2rem;
+		block-size: 2.2rem;
+	}
+
+	.nle-brand div {
+		display: none;
+	}
+
+	.nle-title-field {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+
+	.nle-title-field span {
+		display: none;
+	}
+
+	.nle-title-field input {
+		min-block-size: 2.35rem;
+		padding-block: .4rem;
+	}
+
+	.nle-top-actions {
+		position: relative;
+		grid-column: 2;
+		grid-row: 1;
+		max-inline-size: 100%;
+		padding-inline-end: .2rem;
+		overflow-x: auto;
+		justify-content: flex-start;
+		mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+	}
+
+	.nle-top-actions button {
+		flex: 0 0 auto;
+		min-block-size: 2.2rem;
+		padding-inline: .52rem;
+		font-size: .63rem;
+	}
+
+	.nle-mobile-tabs {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: .28rem;
+		padding: .34rem .5rem;
+		border-block-end: 1px solid var(--nle-border);
+		background: var(--nle-surface-0);
+	}
+
+	.nle-mobile-tabs button {
+		min-block-size: 2.35rem;
+		border: 1px solid transparent;
+		border-radius: var(--nle-radius-sm);
+		background: transparent;
+		color: var(--nle-text-muted);
+		font: inherit;
+		font-size: .68rem;
+		font-weight: 800;
+	}
+
+	.nle-mobile-tabs button[aria-current] {
+		border-color: rgba(185, 120, 239, .38);
+		background: var(--nle-violet-soft);
+		color: #efd9fb;
+	}
+
+	.nle-statusbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding-inline: .55rem;
+	}
+
+	.nle-statusbar progress {
+		display: none;
+	}
+}
+
+@media (max-width: 23rem) {
+	.nle-top-actions {
+		max-inline-size: 78vw;
+	}
+
+	.nle-top-actions button:not(.nle-render-action):not([data-nle-world]) {
+		padding-inline: .42rem;
+	}
+}

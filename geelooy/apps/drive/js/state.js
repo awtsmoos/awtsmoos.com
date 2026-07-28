@@ -3,19 +3,24 @@
 // Blessed is He
 
 /**
- * The Awtsmoos holds browser state as a temporary vessel, never a secret store;
- * Awtsmoos.com forgets credentials on refresh and reveals canonical paths once more.
+ * The Awtsmoos holds transient browser state without becoming a secret store;
+ * Awtsmoos.com forgets credentials on refresh and renews each path once more.
  */
 
 export const driveState = {
 	aliasId: '',
 	credential: '',
-	credentialType: 'drive',
+	credentialType: 'session',
 	currentPath: '',
 	entries: [],
 	nextCursor: null,
 	page: 1,
 	cursorHistory: [null],
+	site: null,
+	upload: {
+		visibility: 'private',
+		cachePolicy: 'mutable'
+	},
 	filters: {
 		search: '',
 		type: '',
@@ -29,7 +34,9 @@ export const driveState = {
 export function connectState({ aliasId, credential, credentialType }) {
 	driveState.aliasId = String(aliasId || '').trim();
 	driveState.credential = String(credential || '').trim();
-	driveState.credentialType = credentialType === 'user' ? 'user' : 'drive';
+	driveState.credentialType = ['drive', 'user'].includes(credentialType)
+		? credentialType
+		: 'session';
 	resetPagination();
 }
 
@@ -41,6 +48,17 @@ export function updateFilters(filters) {
 export function setEntries(result) {
 	driveState.entries = Array.from(result.entries || []);
 	driveState.nextCursor = result.nextCursor || null;
+}
+
+export function setSite(site) {
+	driveState.site = site || null;
+}
+
+export function setUploadOptions(values) {
+	driveState.upload = {
+		visibility: values.visibility === 'public' ? 'public' : 'private',
+		cachePolicy: values.cachePolicy === 'immutable' ? 'immutable' : 'mutable'
+	};
 }
 
 export function nextPage() {

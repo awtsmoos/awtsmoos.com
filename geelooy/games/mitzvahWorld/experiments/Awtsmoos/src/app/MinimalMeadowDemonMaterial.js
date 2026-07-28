@@ -4,23 +4,36 @@
 
 /**
  * @file MinimalMeadowDemonMaterial.js
- * @description Binds measured profile maps to a dark readable material for bootstrap and rich paths.
- * The Awtsmoos is one light through many shadowed vessels; Awtsmoos.com keeps every body dark,
- * while eyes and markings receive only a small albedo-gated accent instead of a body-wide glow.
+ * @description Binds patterned demon skin to a dark but measured mobile-readable material.
+ * The Awtsmoos grants shadow no independent darkness; Awtsmoos.com keeps texture,
+ * markings, silhouette, and profile distinction visible without turning demons into lamps.
  */
 
 import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
 import { minimalShadowHideTexture } from './MinimalMeadowCreatureTexture.js';
-import { createDemonSurfaceDiagnostics } from './MinimalMeadowDemonReadabilityMaterialRecord.js';
-import { minimalDemonReadabilityProfile } from './MinimalMeadowDemonReadabilityProfile.js';
-import { relativeLuminance } from './MinimalMeadowDemonReadabilityMetrics.js';
+import {
+	createDemonSurfaceDiagnostics
+} from './MinimalMeadowDemonReadabilityMaterialRecord.js';
+import {
+	minimalDemonReadabilityProfile
+} from './MinimalMeadowDemonReadabilityProfile.js';
+import {
+	DEFAULT_MINIMAL_DEMON_TINT,
+	minimalDemonEmissiveColor,
+	normalizeMinimalDemonTint
+} from './MinimalMeadowDemonTintPolicy.js';
 
-const DEFAULT_TINT = Object.freeze([0.54, 0.34, 0.68, 1]);
-const EMISSIVE_STRENGTH = 0.06;
+export const MINIMAL_DEMON_EMISSIVE_STRENGTH = 0.06;
 
-export function createMinimalDemonMaterial(profile = {}, documentValue = globalThis.document) {
+export function createMinimalDemonMaterial(
+	profile = {},
+	documentValue = globalThis.document
+) {
 	const readability = minimalDemonReadabilityProfile(profile);
-	const color = normalizeMinimalDemonTint(profile.tint || readability.tint, readability.tint);
+	const color = normalizeMinimalDemonTint(
+		profile.tint || readability.tint,
+		readability.tint
+	);
 	const mapImage = minimalShadowHideTexture(profile, documentValue);
 	const material = new MeshStandardMaterial({
 		color,
@@ -32,13 +45,13 @@ export function createMinimalDemonMaterial(profile = {}, documentValue = globalT
 		readability,
 		color,
 		mapImage,
-		EMISSIVE_STRENGTH
+		MINIMAL_DEMON_EMISSIVE_STRENGTH
 	);
 	Object.assign(material, {
 		anisotropy: 6,
 		baseColorFactor: [...color],
-		emissiveColor: [1, 0.16, 0.045],
-		emissiveStrength: EMISSIVE_STRENGTH,
+		emissiveColor: minimalDemonEmissiveColor(color),
+		emissiveStrength: MINIMAL_DEMON_EMISSIVE_STRENGTH,
 		map: mapImage,
 		mapImage,
 		mapRepeat: [3.2, 2.55],
@@ -59,19 +72,8 @@ export function createMinimalDemonMaterial(profile = {}, documentValue = globalT
 	return material;
 }
 
-export function normalizeMinimalDemonTint(suppliedTint = DEFAULT_TINT, fallback = DEFAULT_TINT) {
-	const source = colorArray(suppliedTint, fallback);
-	const sourceLuminance = relativeLuminance(source);
-	if (sourceLuminance < 0.04) return [...DEFAULT_TINT];
-	const targetLuminance = clamp(sourceLuminance * 0.62, 0.28, 0.42);
-	const scale = targetLuminance / sourceLuminance;
-	return [
-		clamp(source[0] * scale, 0.14, 0.66),
-		clamp(source[1] * scale, 0.14, 0.66),
-		clamp(source[2] * scale, 0.14, 0.66),
-		clamp(source[3], 0.72, 1)
-	];
-}
+export { normalizeMinimalDemonTint } from './MinimalMeadowDemonTintPolicy.js';
+export { DEFAULT_MINIMAL_DEMON_TINT };
 
 function texturePolicy(readability) {
 	return Object.freeze({
@@ -82,19 +84,4 @@ function texturePolicy(readability) {
 		shader: 'canonical-continuous-skinned-demon',
 		surfaceFamily: readability.name
 	});
-}
-
-function colorArray(value, fallback) {
-	if (!Array.isArray(value) && !ArrayBuffer.isView(value)) return [...fallback];
-	return [
-		clamp(Number(value[0]), 0, 1),
-		clamp(Number(value[1]), 0, 1),
-		clamp(Number(value[2]), 0, 1),
-		clamp(Number(value[3] ?? 1), 0, 1)
-	];
-}
-
-function clamp(value, minimum, maximum) {
-	if (!Number.isFinite(value)) return minimum;
-	return Math.min(maximum, Math.max(minimum, value));
 }

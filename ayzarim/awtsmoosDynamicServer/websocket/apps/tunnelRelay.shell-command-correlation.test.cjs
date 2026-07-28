@@ -30,6 +30,7 @@ async function main() {
 		payload,
 		5000
 	);
+	await waitFor(() => test.sent.length === 1);
 	assert.equal(test.sent.length, 1);
 
 	const receipt = ResponseStart.start("job-shell", {
@@ -81,6 +82,16 @@ async function main() {
 		servedBy: "commandStart",
 		queuedIdentityComplete: true
 	}));
+}
+
+async function waitFor(predicate, timeoutMs = 5000) {
+	const deadline = Date.now() + timeoutMs;
+	while (!predicate()) {
+		if (Date.now() >= deadline) {
+			throw new Error("Timed out waiting for durable relay dispatch.");
+		}
+		await new Promise(resolve => setTimeout(resolve, 5));
+	}
 }
 
 main().catch(error => {

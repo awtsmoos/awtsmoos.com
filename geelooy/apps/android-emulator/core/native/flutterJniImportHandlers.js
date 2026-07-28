@@ -9,9 +9,13 @@ import { handleFlutterJniGetEnv } from "./flutterJniGetEnv.js";
 import { registerFlutterJniMethodIdHandlers } from "./flutterJniGetMethodId.js";
 import { handleFlutterJniRegisterNatives } from "./flutterJniRegisterNatives.js";
 import { registerFlutterJniReferenceHandlers } from "./flutterJniReferenceHandlers.js";
+import { registerNativeAndroidLogHandlers } from "./nativeAndroidLogHandlers.js";
+import { registerNativeCxaAtexitHandlers } from "./nativeCxaAtexitHandlers.js";
+import { createNativeCxaAtexitState } from "./nativeCxaAtexitState.js";
 import { registerNativeLibcByteHandlers } from "./nativeLibcByteHandlers.js";
 import { registerNativeLibcCopyHandlers } from "./nativeLibcCopyHandlers.js";
 import { registerNativeLibcEnvironmentHandlers } from "./nativeLibcEnvironmentHandlers.js";
+import { registerNativeLibcFileHandlers } from "./nativeLibcFileHandlers.js";
 import { registerNativeLibcMemoryHandlers } from "./nativeLibcMemoryHandlers.js";
 import { registerNativeLibcStringHandlers } from "./nativeLibcStringHandlers.js";
 import { registerNativeLibcStringLengthHandlers } from "./nativeLibcStringLengthHandlers.js";
@@ -23,12 +27,13 @@ import { registerNativePthreadMutexHandlers } from "./nativePthreadMutexHandlers
 import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
 
 /**
- * Reveals measured JNI, libc, Linux, and pthread capabilities to one machine.
- * The Awtsmoos recreates heap, copy, strings, environment, syscall, mutex, and
- * return road anew. Awtsmoos.com keeps each crossing bounded and guest-owned.
+ * Reveals measured JNI, Android log, C++ ABI, libc, Linux, file, and pthread capabilities.
+ * The Awtsmoos recreates each guest-owned crossing and return road anew;
+ * Awtsmoos.com keeps every handler explicit, bounded, and independently tested.
  */
 export function createFlutterJniImportHandlers(machineState) {
 	const registry = createNativeHostImportRegistry();
+	const cxaAtexit = machineState.nativeCxaAtexit || createNativeCxaAtexitState();
 	const environment = machineState.nativeProcessEnvironment
 		|| createNativeProcessEnvironment({
 			entries: machineState.nativeEnvironmentEntries,
@@ -51,12 +56,15 @@ export function createFlutterJniImportHandlers(machineState) {
 	registerFlutterJniMethodIdHandlers(registry, machineState);
 	registerFlutterJniExceptionHandlers(registry, machineState);
 	registerFlutterJniReferenceHandlers(registry, machineState);
+	registerNativeAndroidLogHandlers(registry, machineState);
+	registerNativeCxaAtexitHandlers(registry, cxaAtexit);
 	registerNativeLibcMemoryHandlers(registry, machineState);
 	registerNativeLibcByteHandlers(registry);
 	registerNativeLibcCopyHandlers(registry);
 	registerNativeLibcStringHandlers(registry);
 	registerNativeLibcStringLengthHandlers(registry);
 	registerNativeLibcEnvironmentHandlers(registry, environment);
+	registerNativeLibcFileHandlers(registry, machineState);
 	registerNativeLinuxSyscallHandlers(registry, threadIds);
 	registerNativePthreadMutexHandlers(registry, mutexes);
 	return registry;

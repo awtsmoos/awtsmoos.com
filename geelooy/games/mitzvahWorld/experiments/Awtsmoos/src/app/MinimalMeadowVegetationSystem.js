@@ -4,33 +4,39 @@
 
 /**
  * @file MinimalMeadowVegetationSystem.js
- * @description Owns allocation-free reactive vegetation cells across dry, moist, and riverbank zones.
- * The Awtsmoos lets the meadow answer each footstep without birthing garbage each frame;
- * Awtsmoos.com preserves one idempotent mount, shared ecological proof, and finite mobile bounds.
+ * @description Keeps terrain-sampled vegetation rooted while publishing reactive wind evidence.
+ * The Awtsmoos lets blade and blossom answer each footstep without leaving their ground;
+ * Awtsmoos.com keeps every cell level and moves only shader-visible wind strength.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createMinimalMeadowVegetationCells } from './MinimalMeadowVegetationCells.js';
-import { createMinimalMeadowVegetationCell } from './MinimalMeadowVegetationDistributionCellFactory.js';
-import { minimalMeadowVegetationDiagnostics } from './MinimalMeadowWorldPopulationDiagnostics.js';
+import {
+	createMinimalMeadowVegetationCell
+} from './MinimalMeadowVegetationDistributionCellFactory.js';
+import {
+	minimalMeadowVegetationDiagnostics
+} from './MinimalMeadowWorldPopulationDiagnostics.js';
 
 export class MinimalMeadowVegetationSystem {
 	constructor(runtime) {
-		if (runtime.vegetation?.group) {
-			return runtime.vegetation;
-		}
+		if (runtime.vegetation?.group) return runtime.vegetation;
 		this.runtime = runtime;
 		this.group = new Group();
 		this.group.name = 'Awtsmoos_seeded_ecological_vegetation';
 		this.clock = 0;
 		this.mobile = mobileProfile(runtime);
-		this.specifications = createMinimalMeadowVegetationCells(runtime.terrain, { mobile: this.mobile });
+		this.specifications = createMinimalMeadowVegetationCells(
+			runtime.terrain,
+			{ mobile: this.mobile }
+		);
 		this.cells = this.specifications.map(specification => {
-			return createMinimalMeadowVegetationCell(specification, runtime.terrain);
+			return createMinimalMeadowVegetationCell(
+				specification,
+				runtime.terrain
+			);
 		});
-		for (const cell of this.cells) {
-			this.group.add(cell.group);
-		}
+		for (const cell of this.cells) this.group.add(cell.group);
 	}
 
 	update(deltaSeconds) {
@@ -46,20 +52,18 @@ export class MinimalMeadowVegetationSystem {
 		const dz = cell.z - player.z;
 		const distance = Math.hypot(dx, dz);
 		const reaction = Math.max(0, 1 - distance / 7.5);
-		if (player.moving && Number.isFinite(player.travelFacing)) {
-			cell.directionX = -Math.sin(player.travelFacing);
-			cell.directionZ = -Math.cos(player.travelFacing);
-		} else if (distance > 0.001) {
-			cell.directionX = dx / distance;
-			cell.directionZ = dz / distance;
-		} else {
-			cell.directionX = 0;
-			cell.directionZ = 0;
-		}
-		cell.group.quaternion.z = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025
-			+ cell.directionX * reaction * 0.18;
-		cell.group.quaternion.x = cell.directionZ * reaction * 0.12;
+		const ambient = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025;
+		cell.group.quaternion.set(0, 0, 0, 1);
 		cell.reaction = reaction;
+		for (const child of cell.group.children) {
+			child.userData ||= {};
+			child.userData.AwtsmoosYardGrass = {
+				interactionRadius: 2.4,
+				reactsToPlayer: true,
+				rooted: true,
+				windStrength: 0.045 + Math.abs(ambient) + reaction * 0.08
+			};
+		}
 	}
 
 	diagnostics() {
@@ -68,9 +72,7 @@ export class MinimalMeadowVegetationSystem {
 
 	destroy() {
 		this.group.parent?.remove(this.group);
-		if (this.runtime.vegetation === this) {
-			this.runtime.vegetation = null;
-		}
+		if (this.runtime.vegetation === this) this.runtime.vegetation = null;
 	}
 }
 

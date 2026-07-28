@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "featurePhase": "ready",
+  "renderer": "webgl",
+  "stage": "rich-ready",
+  "features": "combat-ready",
+  "equipmentSlots": 14,
+  "tefillinHead": "tefillin-shel-rosh",
+  "tefillinArm": "tefillin-shel-yad",
+  "weapon": {
+    "drawn": true,
+    "visible": true,
+    "attachment": "right-hand"
+  },
+  "safeWalls": 12,
+  "demonMinimumLuminance": 0.34499924955216593,
+  "demonsMapped": true,
+  "facingRetained": true,
+  "shlichus": {
+    "acceptButton": true,
+    "faces": 5,
+    "text": "\n\t\t\n\t\t\t📜 Five Shadows Before Sunset\n\t\t\t1 of 5 demons slain\n\t\t\n\t\t\n\t\t\n\t\t\t👹👺🌑🔥👁️\n\t\t\t\n\t\t\t20% complete · Defeat five distinct shadow demons: 1/5\n\t\t\n\t\tKeep guidance in book",
+    "trackerHiddenInBookMode": true,
+    "counselInBook": true
+  },
+  "loot": {
+    "rows": 2,
+    "afterTake": {
+      "looted": false,
+      "remaining": 1,
+      "visible": true
+    },
+    "afterAll": {
+      "looted": true,
+      "remaining": 0,
+      "visible": false
+    },
+    "modalClosed": true
+  },
+  "browserErrors": {
+    "consoleErrors": 0,
+    "exceptions": 0,
+    "httpErrors": 0,
+    "requestFailures": 0
+  }
+}

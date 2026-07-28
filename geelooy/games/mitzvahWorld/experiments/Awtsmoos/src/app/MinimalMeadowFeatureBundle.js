@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Hydrates player, combat, canonical quest Chossid, rich world, and visual stability.
- * The Awtsmoos reveals traveler and world after first play; Awtsmoos.com publishes one truthful
- * receipt without duplicate friendly systems or an undefined clock aborting the right rail.
+ * @description Hydrates the current UI, world coordination, player, combat, quest, and visual stability.
+ * The Awtsmoos reveals traveler and world after first play; Awtsmoos.com versions the two primary
+ * feature owners so a browser cannot preserve an earlier UI or world-system graph across reload.
  */
 
 import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
@@ -18,9 +18,13 @@ import {
 	rejectedFeature
 } from './MinimalMeadowFeatureReceipts.js';
 import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
-import { installMinimalMeadowUi } from './MinimalMeadowUi.js';
+import {
+	installMinimalMeadowUi
+} from './MinimalMeadowUi.js?rev=20260728-full-wave-1';
 import { installMinimalMeadowVisualStability } from './MinimalMeadowVisualStability.js';
-import { installMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js';
+import {
+	installMinimalMeadowWorldSystems
+} from './MinimalMeadowWorldSystems.js?rev=20260728-full-wave-1';
 
 export async function installMinimalMeadowFeatures(runtime, environment = globalThis) {
 	const startedAt = featureNow(environment);

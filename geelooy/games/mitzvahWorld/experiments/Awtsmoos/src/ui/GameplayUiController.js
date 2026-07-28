@@ -4,20 +4,22 @@
 
 /**
  * @file GameplayUiController.js
- * @description Binds canonical gameplay state to panels, including the selected clothing tailor.
- * The Awtsmoos gathers coin, quest, sefer, strike, garment, and earned ascent as one;
- * Awtsmoos.com sends Reb Shlomo's target event into a distinct real shop panel.
+ * @description Binds canonical gameplay panels beneath one safe responsive viewport contract.
+ * The Awtsmoos gathers coin, quest, sefer, strike, garment, and ascent as one; Awtsmoos.com
+ * prevents their finite panels from fighting for the same pixels or rebuilding without cause.
  */
 
 import { assembleGameplayPanels } from './GameplayPanelAssembly.js';
 import { assembleGameplayRuntime } from './GameplayRuntimeAssembly.js';
 import { installGameplayUiStyles } from './GameplayUiStyles.js';
+import { installMinimalMeadowUiRepairStyles } from './MinimalMeadowUiRepairStyles.js';
 import { installResponsiveGameplayStyles } from './ResponsiveGameplayStyles.js';
 
 export class GameplayUiController {
 	constructor(bus, options = {}) {
 		installGameplayUiStyles();
 		installResponsiveGameplayStyles();
+		installMinimalMeadowUiRepairStyles(options.document || globalThis.document);
 		this.bus = bus;
 		Object.assign(this, assembleGameplayRuntime(bus, options));
 		this.panels = assembleGameplayPanels(this, options);
@@ -44,8 +46,8 @@ export class GameplayUiController {
 		return {
 			actionBar: this.actionBar.snapshot(), adventures: this.adventures.snapshot(),
 			combat: this.combat.snapshot(), inventory: this.inventory.snapshot(), melee: this.melee.snapshot(),
-			panels: this.panels.snapshot(), profile: this.profile.snapshot(), progression: this.progression.snapshot(),
-			shlichusPersistence: this.shlichus.snapshot()
+			panels: this.panels.snapshot(), profile: this.profile.snapshot(),
+			progression: this.progression.snapshot(), shlichusPersistence: this.shlichus.snapshot()
 		};
 	}
 
@@ -62,10 +64,6 @@ export class GameplayUiController {
 }
 
 const PANEL_EVENTS = Object.freeze({
-	'map:toggle': 'map',
-	'profile:toggle': 'profile',
-	'questlog:toggle': 'quests',
-	'tailor:toggle': 'tailor',
-	'torah:toggle': 'torah',
-	'vendor:toggle': 'vendor'
+	'map:toggle': 'map', 'profile:toggle': 'profile', 'questlog:toggle': 'quests',
+	'tailor:toggle': 'tailor', 'torah:toggle': 'torah', 'vendor:toggle': 'vendor'
 });

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyDamage.js
- * @description Applies policy-sized armor damage through invulnerability and singular defeat truth.
- * The Awtsmoos gives every trial an exact boundary; Awtsmoos.com clamps health, rejects overlap,
- * and delegates zero health to one authoritative lifecycle instead of emitting repeated defeat.
+ * @description Applies bounded armor damage while honoring safe regions, invulnerability, and defeat.
+ * The Awtsmoos gives every trial an exact boundary; Awtsmoos.com rejects hostile consequence inside
+ * a guarded village before attack accounting, then clamps all accepted health beneath one lifecycle.
  */
 
 import { minimalEnemyBalancedDamage } from './MinimalMeadowCombatBalancePolicy.js';
@@ -15,6 +15,9 @@ export function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 	const stats = runtime.playerStats;
 	stats.maxHealth = finiteOr(stats.maxHealth, 100);
 	stats.armor = finiteOr(stats.armor, 3);
+	if (runtime.regions?.isSafe?.()) {
+		return emitBlocked(runtime, stats, details, 'safe-region');
+	}
 	if (runtime.playerDefeat?.isDefeated?.() || stats.health <= 0) {
 		return blockedReceipt(stats, details, 'player-defeated');
 	}
@@ -25,13 +28,12 @@ export function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 		mode === 'melee'
 	) ?? true;
 	if (!accepted) {
-		const receipt = blockedReceipt(
+		return emitBlocked(
+			runtime,
 			stats,
 			details,
 			'invulnerability-or-attack-spacing'
 		);
-		runtime.bus.emit('player:damage-blocked', receipt);
-		return receipt;
 	}
 	const rawDamage = minimalEnemyBalancedDamage(mode, amount);
 	const damage = Math.max(1, Math.round(rawDamage - stats.armor * 0.45));
@@ -50,6 +52,12 @@ export function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 	runtime.bus.emit('enemy:attack', receipt);
 	runtime.bus.emit('profile:state', { ...stats });
 	if (stats.health === 0) runtime.playerDefeat?.defeat?.(receipt);
+	return receipt;
+}
+
+function emitBlocked(runtime, stats, details, reason) {
+	const receipt = blockedReceipt(stats, details, reason);
+	runtime.bus.emit('player:damage-blocked', receipt);
 	return receipt;
 }
 

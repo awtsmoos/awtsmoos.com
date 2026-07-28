@@ -1,0 +1,52 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Schema, starter, current project, clipboard, download, and validated apply stay
+ * visible as one honest exchange gate between humans, AI, and the living NLE.
+ */
+
+.nle-ai-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	padding: .65rem .75rem;
+	border-block-start: 1px solid var(--nle-border);
+	background: var(--nle-surface-1);
+}
+
+.nle-ai-actions > span {
+	color: var(--nle-text-muted);
+	font-size: .64rem;
+}
+
+.nle-ai-actions > span[data-error] {
+	color: var(--nle-danger);
+}
+
+.nle-ai-actions > div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: .35rem;
+}
+
+.nle-ai-actions button {
+	min-block-size: var(--nle-control-sm);
+	padding: .42rem .58rem;
+	border: 1px solid var(--nle-border);
+	border-radius: var(--nle-radius-sm);
+	background: var(--nle-surface-2);
+	color: var(--nle-text-soft);
+	font: inherit;
+	font-size: .62rem;
+	font-weight: 780;
+	cursor: pointer;
+}
+
+.nle-ai-actions .nle-ai-apply {
+	border-color: rgba(242, 201, 109, .62);
+	background: linear-gradient(180deg, #f6d886, var(--nle-amber));
+	color: #211706;
+}

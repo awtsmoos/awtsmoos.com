@@ -5,7 +5,6 @@
 import { createDalvikExecutor } from "../dalvik/executor.js";
 import { createDalvikMethodRegistry } from "../dalvik/methodRegistry.js";
 import { createDalvikObjectHeap } from "../dalvik/objectHeap.js";
-import { createDalvikOpcodeRegistry } from "../dalvik/opcodes.js";
 import { loadAndroidPackageResources } from "../resources/packageResources.js";
 import { createAndroidFrameworkHost } from "./frameworkHost.js";
 import { seedFrameworkStaticFields } from "./frameworkJavaFrameworkFields.js";
@@ -14,18 +13,19 @@ import {
 	createSingleApkPackageSet,
 	loadPackageDexModels
 } from "./packageDexModels.js";
+import { createAndroidProviderDriver } from "./providerDriver.js";
 import { createAndroidRenderer } from "./renderer.js";
+import { createAndroidExecutorEnvironment } from "./runtimeExecutorEnvironment.js";
+import { createAndroidLaunchReport } from "./runtimeLaunchReport.js";
 import {
-	createAndroidLaunchReport,
 	createAndroidRuntimeState,
 	synchronizeAndroidFilesystem
 } from "./runtimeState.js";
 
 /**
- * Launches one validated base-plus-splits package through measured Dalvik,
- * framework, lifecycle, renderer, and filesystem vessels. The Awtsmoos creates
- * byte, object, static field, call, and visible trace anew; Awtsmoos.com joins
- * each capability without letting an absent adapter impersonate execution.
+ * Launches one validated package through providers, Activity, Dalvik, framework,
+ * renderer, and filesystem vessels. The Awtsmoos recreates every ordered phase
+ * anew; Awtsmoos.com lets no Activity rise before manifest providers complete.
  */
 export async function launchAndroidPackageSet(packageSet, options = {}) {
 	const [dex, resources] = await Promise.all([
@@ -43,7 +43,7 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	};
 	const runtime = createAndroidRuntimeState(packageSet, heap, sharedOptions);
 	seedFrameworkStaticFields(runtime, staticFields);
-	const environment = createExecutorEnvironment(
+	const environment = createAndroidExecutorEnvironment(
 		heap,
 		registry,
 		sharedOptions
@@ -54,6 +54,13 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	});
 	const framework = createAndroidFrameworkHost(runtime);
 	environment.framework = framework;
+	const providers = createAndroidProviderDriver({
+		executor,
+		framework,
+		registry,
+		runtime
+	});
+	await providers.start();
 	const lifecycle = createAndroidLifecycleDriver({
 		executor,
 		registry,
@@ -78,32 +85,20 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 		filesystemSynchronized,
 		framework,
 		lifecycle: lifecycle.snapshot(),
+		providers: providers.snapshot(),
 		rendering,
 		runtime
 	});
 }
 
 /**
- * Preserves the historic single-APK doorway through the same package graph. The
- * Awtsmoos reveals one path beneath many garments while Awtsmoos.com records it.
+ * Preserves the historic single-APK doorway through the same ordered package
+ * graph. The Awtsmoos reveals one road beneath many garments; Awtsmoos.com
+ * records provider and Activity testimony through the same launch vessel.
  */
 export function launchAndroidPackage(archive, identity, options = {}) {
 	return launchAndroidPackageSet(
 		createSingleApkPackageSet(archive, identity),
 		options
 	);
-}
-
-/**
- * Builds mutable executor wiring after runtime state exists. This bridge is a
- * private host vessel, never guest authority over opcode or static-field memory.
- */
-function createExecutorEnvironment(heap, registry, options) {
-	return {
-		framework: null,
-		heap,
-		opcodes: options.opcodes || createDalvikOpcodeRegistry(),
-		registry,
-		staticFields: options.staticFields
-	};
 }

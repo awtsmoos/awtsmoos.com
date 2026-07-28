@@ -12,8 +12,8 @@ import { StudioExportActions } from './export/StudioExportActions.js';
 
 /**
  * Tiferes harmonizes many vessels without erasing their differences. This
- * controller joins bin, hierarchy, properties, transforms, AI JSON, NLE, and
- * the active long-form WebCodecs movie renewed by the Awtsmoos on Awtsmoos.com.
+ * controller joins bin, Character Lab, NLE, and a locked production canvas as
+ * one Awtsmoos-renewed movie workspace on Awtsmoos.com.
  */
 export class StudioWorkspaceController {
 	constructor(app, nle) {
@@ -27,6 +27,7 @@ export class StudioWorkspaceController {
 	install() {
 		const sceneDocument = StudioSceneDocument.fromMoviePlan(this.nle.moviePlan);
 		Commands.initialize(this.store, sceneDocument);
+		this.lockProductionCanvas(sceneDocument);
 		this.store.set({ mode: window.innerWidth <= 780 ? 'compact' : 'expanded' });
 		this.mounts = {
 			left: this.ensureMount(document.querySelector('#left-sidebar'), 'aw-studio-left'),
@@ -39,6 +40,12 @@ export class StudioWorkspaceController {
 		this.app.studio = this;
 		document.body.classList.add('aw-professional-studio');
 		return this;
+	}
+
+	lockProductionCanvas(document) {
+		const width = Number(document.settings?.width || 1536);
+		const height = Number(document.settings?.height || 864);
+		this.app.ctx?.lockProduction?.(width, height);
 	}
 
 	render(state) {
@@ -72,8 +79,14 @@ export class StudioWorkspaceController {
 			toggleVisible: () => Commands.toggle(this.store, 'visible'),
 			toggleLocked: () => Commands.toggle(this.store, 'locked'),
 			exportMovie: () => StudioExportActions.renderMovie(this.store),
+			openCharacterLab: () => this.openCharacterLab(),
 			openMobilePanel: (event) => this.openMobilePanel(event.currentTarget.dataset.mobilePanel)
 		};
+	}
+
+	openCharacterLab() {
+		const lab = document.querySelector('#character-customizer');
+		if (lab) lab.dataset.open = 'true';
 	}
 
 	openMobilePanel(panel) {
@@ -95,6 +108,7 @@ export class StudioWorkspaceController {
 	destroy() {
 		this.unsubscribe?.();
 		Object.values(this.mounts || {}).forEach((mount) => mount.remove());
+		this.app.ctx?.unlockProduction?.();
 		document.body.classList.remove('aw-professional-studio');
 	}
 }

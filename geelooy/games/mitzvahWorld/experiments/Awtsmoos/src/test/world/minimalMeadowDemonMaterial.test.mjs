@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
-	* @file minimalMeadowDemonMaterial.test.mjs
-	* @description Proves readable demon materials share texture resources without shared mutation.
-	* The Awtsmoos shines through dark violet, ember, and stone; Awtsmoos.com verifies one
-	* render surface, one living skeleton, bounded caches, bootstrap color, and rich texture truth.
-	*/
+ * @file minimalMeadowDemonMaterial.test.mjs
+ * @description Proves readable demon materials share texture resources without shared mutation.
+ * The Awtsmoos shines through dark violet, ember, and stone; Awtsmoos.com verifies one
+ * render surface, one living skeleton, bounded caches, measured color, and rich texture truth.
+ */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -58,10 +58,10 @@ test('controlled families bound cache growth and preserve variation', () => {
 	assert.deepEqual(diagnostics.sourceSize, [256, 256]);
 });
 
-test('extreme colors normalize into a dark daylight-readable range', () => {
+test('extreme colors normalize into a bounded daylight-readable range', () => {
 	const black = normalizeMinimalDemonTint([0, 0, 0, 1]);
 	const white = normalizeMinimalDemonTint([1, 1, 1, 1]);
-	assert.deepEqual(black, [0.54, 0.34, 0.68, 1]);
+	assert.deepEqual(black, [0.54, 0.34, 0.66, 1]);
 	assert.ok(white.slice(0, 3).every((channel) => channel >= 0.14));
 	assert.ok(white.slice(0, 3).every((channel) => channel <= 0.66));
 });

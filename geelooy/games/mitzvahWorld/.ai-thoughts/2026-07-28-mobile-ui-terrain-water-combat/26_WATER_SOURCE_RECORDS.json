@@ -1,0 +1,109 @@
+{
+  "diagnostics": {
+    "activeNormalSources": 2,
+    "bankMeshes": 2,
+    "bedMeshes": 2,
+    "colorMode": "procedural-visible-current",
+    "drawCalls": 6,
+    "elevations": {
+      "aligned": true,
+      "continuity": {
+        "connected": true,
+        "destination": {
+          "waterY": -0.72,
+          "width": 10.4,
+          "x": 58,
+          "z": 54
+        },
+        "maximumGap": 2.23606797749979,
+        "segments": 80,
+        "source": {
+          "waterY": 2.18,
+          "width": 3.3,
+          "x": -84,
+          "z": 78
+        }
+      },
+      "minimumBankRise": 0.07999999999999985,
+      "minimumDepth": 1.7349666666666668,
+      "samples": 25
+    },
+    "errors": [],
+    "hostedColorReady": 0,
+    "hydratedMeshes": 6,
+    "hydrationState": "procedural-visible",
+    "materials": 6,
+    "mounted": true,
+    "normalMode": "real-dual-normal-pack",
+    "riverSegments": 80,
+    "sceneObjects": 7,
+    "triangles": 4144,
+    "updateAllocations": 0,
+    "waterMeshes": 2
+  },
+  "materials": [
+    {
+      "colorMode": "procedural-visible-current",
+      "mapSource": "",
+      "mixSource": "",
+      "normalMode": "real-dual-normal-pack",
+      "variant": "river"
+    },
+    {
+      "colorMode": "procedural-visible-current",
+      "mapSource": "",
+      "mixSource": "",
+      "normalMode": "real-dual-normal-pack",
+      "variant": "lake"
+    }
+  ],
+  "records": [
+    {
+      "error": "",
+      "ok": true,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/bluestone%201.png",
+      "status": 200,
+      "resolvedUrl": "",
+      "source": ""
+    },
+    {
+      "error": "timeout",
+      "ok": false,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+      "status": "",
+      "resolvedUrl": "",
+      "source": ""
+    },
+    {
+      "error": "timeout",
+      "ok": false,
+      "publicUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png",
+      "status": "",
+      "resolvedUrl": "",
+      "source": ""
+    },
+    {
+      "error": "",
+      "ok": true,
+      "publicUrl": "/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png",
+      "status": 200,
+      "resolvedUrl": "",
+      "source": "http://localhost:8080/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png"
+    },
+    {
+      "error": "",
+      "ok": true,
+      "publicUrl": "/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png",
+      "status": 200,
+      "resolvedUrl": "",
+      "source": ""
+    }
+  ],
+  "urls": {
+    "bed": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/bluestone%201.png",
+    "color": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png",
+    "detail": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png",
+    "normalA": "/games/mitzvahWorld/.awtsmoos-external-assets/water/river-current-normal.png",
+    "normalB": "/games/mitzvahWorld/.awtsmoos-external-assets/water/micro-ripple-normal.png"
+  }
+}

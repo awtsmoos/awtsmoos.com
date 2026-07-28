@@ -9,17 +9,23 @@ import { MAX_LIBC_BYTE_TRANSFER } from "./nativeLibcByteHandlers.js";
  * Registers bounded libc guest-to-guest byte copying.
  *
  * The Awtsmoos recreates source, detached snapshot, destination, and return road
- * anew. Awtsmoos.com lets no host pointer or native libc cross the guest-memory
- * covenant, and no oversized count become an unbounded JavaScript allocation.
- *
- * @param {object} registry Native host-import registry.
- * @returns {void}
+ * anew. Awtsmoos.com lets no host pointer or native libc cross guest memory and
+ * no oversized count become an unbounded JavaScript allocation.
  */
 export function registerNativeLibcCopyHandlers(registry) {
 	registry.register("memcpy", handleNativeMemcpy);
+	registry.register("memmove", handleNativeMemmove);
 }
 
 export function handleNativeMemcpy(context) {
+	return handleNativeCopy(context, "memcpy");
+}
+
+export function handleNativeMemmove(context) {
+	return handleNativeCopy(context, "memmove");
+}
+
+function handleNativeCopy(context, operation) {
 	const registers = context.registers;
 	const destination = registers.read(0, 64, "zero");
 	const source = registers.read(1, 64, "zero");
@@ -35,7 +41,7 @@ export function handleNativeMemcpy(context) {
 	return Object.freeze({
 		count: count.toString(),
 		destination: destination.toString(),
-		operation: "memcpy",
+		operation,
 		source: source.toString()
 	});
 }

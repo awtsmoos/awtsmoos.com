@@ -1,0 +1,48 @@
+{
+  "consoleErrors": [],
+  "exceptions": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "pageState": {
+    "bodyText": "−\n🎩\nChossid\nLevel 1 · Health 100/100 · Armor 3\n⭐ XP 0/100\n1\nאש\n1\nאור\n2\n⚔\n3\n◎\nTab\nCombat ready · choose a demon\n−\n🚶\n›\n🎒\n🌟\n🗺️\n📜\n📚\n🎮\n👁️\n☰\nW/S move · A/D turn · Q/E strafe · arrows · Shift/R run · Space jump | Tab target · 1/2/3 attack · right rail menus · touch joystick | standing · no target · ready",
+    "canvasCount": 1,
+    "dataset": {
+      "awtsmoosGameplay": "true",
+      "awtsmoosRendererHydration": "fallback-2d",
+      "awtsmoosRenderer": "bootstrap",
+      "awtsmoosRendererContextAttempts": "webgl",
+      "awtsmoosRendererFallback": "webgl-unavailable",
+      "awtsmoosRendererFallbackMessage": "WebGL is not available.",
+      "awtsmoosRendererFallbackRecoverable": "true",
+      "awtsmoosRuntimeState": "playable",
+      "awtsmoosRuntimeError": "",
+      "awtsmoosReadiness": "core-playable",
+      "awtsmoosFeatures": "combat-ready",
+      "awtsmoosMenuReady": "true",
+      "awtsmoosSession": "singleplayer",
+      "awtsmoosUi": "ready",
+      "awtsmoosMobileIntegration": "ready"
+    },
+    "href": "http://localhost:8080/games/mitzvahWorld/",
+    "readyState": "complete",
+    "renderer": {
+      "backend": "canvas-2d-fallback",
+      "contextName": "2d",
+      "errors": [
+        "WebGL is not available."
+      ],
+      "hydrationError": null,
+      "hydrationState": "fallback-2d",
+      "stats": {
+        "draws": 6,
+        "fallbackReason": "webgl-unavailable",
+        "frames": 234,
+        "meshes": 5,
+        "phase": "fallback-2d",
+        "triangles": 0
+      }
+    },
+    "title": "B\"H Mitzvah World — Restored River Valley"
+  },
+  "screenshotPath": ".ai-thoughts/2026-07-26-minimal-meadow-contract-repair/browser-fallback-evidence-live.png"
+}

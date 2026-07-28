@@ -6,101 +6,91 @@ import {
 	invokeAndroidLog,
 	isAndroidLogRecord
 } from "./frameworkAndroidLog.js";
-import { readJavaText } from "./frameworkJavaStringValue.js";
+import { invokeAndroidTraceQuery } from "./frameworkAndroidTraceMethods.js";
+import { createGuestString, readGuestText } from "./guestText.js";
 
-const TRACE = "Landroid/os/Trace;";
-const MAXIMUM_SECTIONS = 256;
-const MAXIMUM_ASYNC_SECTIONS = 1024;
+const ANDROID_TRACE = "Landroid/os/Trace;";
 
 /**
- * Models Android trace and logging as bounded guest-process bookkeeping.
- * The Awtsmoos creates section, cookie, priority, and log testimony anew while
- * Awtsmoos.com opens no host profiler, system trace, or operating-system log.
+ * Implements bounded Android Trace and delegates Android Log to its tested road.
+ * The Awtsmoos recreates tag, section, cookie, query, and log testimony anew;
+ * Awtsmoos.com opens no host profiler, process log, or hidden host capability.
  */
 export function createFrameworkAndroidTraceMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return record.method.classType === TRACE
+			return record.method.classType === ANDROID_TRACE
 				|| isAndroidLogRecord(record);
 		},
 		invoke(record, args) {
 			if (isAndroidLogRecord(record)) {
 				return invokeAndroidLog(runtime, record, args);
 			}
+			const query = invokeAndroidTraceQuery(runtime, record, args);
+			if (query.handled) return query.value;
 			const name = record.method.name;
-			if (name === "isEnabled") return 1;
 			if (name === "beginSection") {
-				return beginSection(runtime, readJavaText(runtime, args[0]));
+				return beginSection(runtime, readGuestText(runtime, args[0]));
 			}
 			if (name === "endSection") return endSection(runtime);
 			if (name === "beginAsyncSection") {
-				return beginAsync(
-					runtime,
-					readJavaText(runtime, args[0]),
-					args[1]
-				);
+				return beginAsync(runtime, args);
 			}
-			if (name === "endAsyncSection") {
-				return endAsync(
-					runtime,
-					readJavaText(runtime, args[0]),
-					args[1]
-				);
-			}
-			throw traceError(
-				"ANDROID_TRACE_METHOD_UNSUPPORTED",
-				record.signature
-			);
+			if (name === "endAsyncSection") return endAsync(runtime, args);
+			throw traceError("ANDROID_TRACE_METHOD_UNSUPPORTED", record.signature);
 		}
 	});
 }
 
-function traceState(runtime) {
-	if (!runtime.traceState) {
-		runtime.traceState = {
-			asyncSections: new Map(),
-			sections: []
-		};
-	}
-	return runtime.traceState;
-}
-
-function beginSection(runtime, label) {
+function beginSection(runtime, name) {
 	const state = traceState(runtime);
-	if (state.sections.length >= MAXIMUM_SECTIONS) {
-		throw traceError("ANDROID_TRACE_SECTION_LIMIT", MAXIMUM_SECTIONS);
-	}
-	state.sections.push(String(label));
+	state.sections.push(String(name));
+	state.events.push(Object.freeze({ kind: "begin", name: String(name) }));
 }
 
 function endSection(runtime) {
 	const state = traceState(runtime);
-	if (!state.sections.length) return;
-	state.sections.pop();
+	const name = state.sections.pop() || null;
+	state.events.push(Object.freeze({ kind: "end", name }));
 }
 
-function beginAsync(runtime, label, cookie) {
+function beginAsync(runtime, args) {
 	const state = traceState(runtime);
-	const key = asyncKey(label, cookie);
-	if (!state.asyncSections.has(key)
-		&& state.asyncSections.size >= MAXIMUM_ASYNC_SECTIONS) {
-		throw traceError(
-			"ANDROID_TRACE_ASYNC_LIMIT",
-			MAXIMUM_ASYNC_SECTIONS
-		);
-	}
-	state.asyncSections.set(key, {
-		cookie: Number(cookie),
-		label: String(label)
+	const name = readGuestText(runtime, args[0]);
+	const cookie = Number(args[1]) | 0;
+	state.async.set(`${name}:${cookie}`, Object.freeze({ cookie, name }));
+	state.events.push(Object.freeze({ cookie, kind: "async-begin", name }));
+}
+
+function endAsync(runtime, args) {
+	const state = traceState(runtime);
+	const name = readGuestText(runtime, args[0]);
+	const cookie = Number(args[1]) | 0;
+	state.async.delete(`${name}:${cookie}`);
+	state.events.push(Object.freeze({ cookie, kind: "async-end", name }));
+}
+
+function traceState(runtime) {
+	if (runtime.androidTraceState) return runtime.androidTraceState;
+	runtime.androidTraceState = {
+		async: new Map(),
+		events: [],
+		sections: []
+	};
+	return runtime.androidTraceState;
+}
+
+export function snapshotAndroidTrace(runtime) {
+	const state = traceState(runtime);
+	return Object.freeze({
+		activeAsync: Object.freeze([...state.async.values()]),
+		activeSections: Object.freeze([...state.sections]),
+		events: Object.freeze([...state.events])
 	});
 }
 
-function endAsync(runtime, label, cookie) {
-	traceState(runtime).asyncSections.delete(asyncKey(label, cookie));
-}
-
-function asyncKey(label, cookie) {
-	return `${String(label)}:${Number(cookie)}`;
+export function createTraceSectionName(runtime, value) {
+	return createGuestString(runtime, value);
 }
 
 function traceError(code, detail) {

@@ -4,14 +4,21 @@
 
 /**
  * @file InventoryItemDefinition.js
- * @description Creates immutable inventory definitions with legacy and spiritual attributes.
- * The Awtsmoos renews name, icon, price, slot, model, and consequence together;
+ * @description Creates immutable inventory definitions with rarity, legacy, and spiritual attributes.
+ * The Awtsmoos renews name, icon, value, rarity, slot, model, and consequence together;
  * Awtsmoos.com prevents one panel from inventing facts another runtime cannot enforce.
  */
 
+import { inventoryRarity } from './InventoryRarity.js';
 import { spiritualStats } from './SpiritualStats.js';
 
 export function inventoryItem(options) {
+	const spiritual = spiritualStats(options.spiritual);
+	const stats = Object.freeze({
+		damage: Number(options.stats?.damage) || 0,
+		defense: Number(options.stats?.defense) || 0,
+		focus: Number(options.stats?.focus) || 0
+	});
 	return Object.freeze({
 		actions: Object.freeze([...(options.actions || ['inspect'])]),
 		appearance: freezeAppearance(options.appearance),
@@ -23,15 +30,12 @@ export function inventoryItem(options) {
 		modelId: options.modelId || null,
 		name: options.name,
 		price: Number.isFinite(options.price) ? options.price : null,
+		rarity: inventoryRarity({ ...options, spiritual, stats }),
 		required: options.required === true,
 		slot: options.slot || null,
-		spiritual: spiritualStats(options.spiritual),
+		spiritual,
 		stackLimit: Math.max(1, Number(options.stackLimit) || 1),
-		stats: Object.freeze({
-			damage: Number(options.stats?.damage) || 0,
-			defense: Number(options.stats?.defense) || 0,
-			focus: Number(options.stats?.focus) || 0
-		})
+		stats
 	});
 }
 

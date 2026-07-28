@@ -1,0 +1,51 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Each callable deed becomes one visible card with intention, parameters, and result gate.
+ */
+
+.nle-action-card {
+	display: grid;
+	align-content: start;
+	gap: .55rem;
+	padding: .65rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: var(--nle-radius-md);
+	background: linear-gradient(145deg, var(--nle-surface-2), #10161e);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .02);
+}
+
+.nle-action-card[data-busy] {
+	border-color: rgba(242, 201, 109, .42);
+	box-shadow: 0 0 0 2px var(--nle-amber-soft);
+}
+
+.nle-action-copy {
+	display: grid;
+	gap: .2rem;
+}
+
+.nle-action-copy strong {
+	color: var(--nle-text-soft);
+	font-size: .73rem;
+}
+
+.nle-action-copy p {
+	margin: 0;
+	color: var(--nle-text-faint);
+	font-size: .59rem;
+	line-height: 1.45;
+}
+
+.nle-action-card > button {
+	min-block-size: 2.45rem;
+	border: 1px solid rgba(185, 120, 239, .3);
+	border-radius: var(--nle-radius-sm);
+	background: var(--nle-violet-soft);
+	color: #ead2f8;
+	font: inherit;
+	font-size: .64rem;
+	font-weight: 800;
+	cursor: pointer;
+}

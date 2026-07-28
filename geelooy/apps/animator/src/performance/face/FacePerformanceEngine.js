@@ -7,12 +7,13 @@ import { CheekPerformance } from './CheekPerformance.js';
 import { EmotionBlend } from './EmotionBlend.js';
 import { ExpressionPersonality } from './ExpressionPersonality.js';
 import { EyePerformance } from './EyePerformance.js';
+import { FacePose } from './FacePose.js';
 import { MouthPerformance } from './MouthPerformance.js';
 
 /**
- * The face is one revelation, not disconnected sliders. The Awtsmoos joins
- * emotion, coarticulated speech, gaze, brows, and cheeks, while Awtsmoos.com
- * preserves one editable performance pose across preview and export.
+ * The face is one actor, not disconnected sliders. The Awtsmoos joins regional
+ * emotion, coarticulated speech, attention, and manual direction; Awtsmoos.com
+ * preserves the resulting editable pose across preview, persistence, and export.
  */
 export class FacePerformanceEngine {
 	static compose(input = {}) {
@@ -27,23 +28,21 @@ export class FacePerformanceEngine {
 			input.moment,
 			input.momentAmount ?? 0.42
 		);
-		const mouth = speaking
-			? MouthPerformance.fromSpeech({
-				id: input.id,
-				speech,
-				progress: input.progress,
-				time: input.time,
-				duration: input.duration,
-				energy,
-				audioEnvelope: input.audioEnvelope,
-				emotion: input.emotion,
-				silentMode: input.silentMode,
-				speechStyle: input.speechStyle || input.delivery,
-				lipSyncCues: input.lipSyncCues,
-				phonemeCues: input.phonemeCues,
-				manual: input.manualMouth || input.facePose?.mouth
-			})
-			: {};
+		const mouth = speaking ? MouthPerformance.fromSpeech({
+			id: input.id,
+			speech,
+			progress: input.progress,
+			time: input.time,
+			duration: input.duration,
+			energy,
+			audioEnvelope: input.audioEnvelope,
+			emotion: input.emotion,
+			silentMode: input.silentMode,
+			speechStyle: input.speechStyle || input.delivery,
+			lipSyncCues: input.lipSyncCues,
+			phonemeCues: input.phonemeCues,
+			manual: input.manualMouth
+		}) : {};
 		const brows = speaking
 			? BrowPerformance.fromSpeech(input.progress ?? 0, energy)
 			: {};
@@ -52,18 +51,29 @@ export class FacePerformanceEngine {
 			dart: input.dart,
 			attention: input.attention
 		});
-		const smile = Number(base.mouth?.smile || 0)
-			+ Number(mouth.smile || 0);
-
-		return {
+		const composed = {
 			...base,
-			brows: { ...base.brows, ...brows },
+			brows: this.add(base.brows, brows),
 			eyes: { ...base.eyes, ...eyes },
 			mouth: { ...base.mouth, ...mouth },
 			cheeks: {
 				...base.cheeks,
-				...CheekPerformance.fromSmile(smile)
+				...CheekPerformance.fromSmile(
+					mouth.smile ?? base.mouth?.smile
+				)
 			}
 		};
+		return FacePose.overlay(
+			composed,
+			input.facePose || input.manualFace || {}
+		);
+	}
+
+	static add(base = {}, motion = {}) {
+		const result = { ...base };
+		for (const [key, value] of Object.entries(motion)) {
+			result[key] = Number(base[key] || 0) + Number(value || 0);
+		}
+		return result;
 	}
 }

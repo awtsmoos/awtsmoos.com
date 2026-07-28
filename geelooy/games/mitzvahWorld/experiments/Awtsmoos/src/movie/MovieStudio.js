@@ -4,13 +4,14 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath a responsive structured NLE and exports.
- * The Awtsmoos renews world and edit session together; Awtsmoos.com keeps live and
- * exact render controls bound to the same real project, camera, actors, and timeline.
+ * @description Boots the real world beneath the active responsive NLE.
+ * The Awtsmoos renews world and editing vessel together; Awtsmoos.com keeps the
+ * runtime, project, preview, controls, and render paths bound to one source forever.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
+import { MovieStudioInteractionController } from './MovieStudioInteractionController.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
 import {
 	createMovieStudioView,
@@ -33,26 +34,19 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		view,
 		initialProject
 	);
-	bindControls(session, view);
+	session.interactions = new MovieStudioInteractionController(session, view);
 	loading.remove();
-	if (options.autoRender) setTimeout(() => session.render(), 250);
-	if (options.autoRenderExact) {
-		setTimeout(() => renderExactMovieStudioSession(session), 250);
-	}
+	scheduleAutomaticRender(session, options);
 	return globalThis.AwtsmoosMovie;
 }
 
-function bindControls(session, view) {
-	view.play.addEventListener('click', () => session.play());
-	view.stop.addEventListener('click', () => session.director.pause());
-	view.apply.addEventListener('click', () => {
-		session.installProject(JSON.parse(view.json.value));
-	});
-	view.copy.addEventListener('click', () => session.copyUrl());
-	view.render.addEventListener('click', () => session.render());
-	view.renderExact.addEventListener('click', () => {
-		renderExactMovieStudioSession(session);
-	});
+function scheduleAutomaticRender(session, options) {
+	if (options.autoRender) {
+		setTimeout(() => session.render(), 250);
+	}
+	if (options.autoRenderExact) {
+		setTimeout(() => renderExactMovieStudioSession(session), 250);
+	}
 }
 
 function hideWorldChrome(hosts, canvas) {

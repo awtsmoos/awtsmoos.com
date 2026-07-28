@@ -2,33 +2,42 @@
 // Boruch Hashem
 // Blessed is He
 
+import { DebugPortResolver } from "../browser/DebugPortResolver.mjs";
 import { RequestOnlyHostController } from "../browser/RequestOnlyHostController.mjs";
 import { TimedSingleFlightCache } from "../core/TimedSingleFlightCache.mjs";
 import { StageTimingLedger } from "../core/StageTimingLedger.mjs";
+import { RequestOnlyCapabilityDescriptor } from "./RequestOnlyCapabilityDescriptor.mjs";
 import { RequestOnlyPrepareClient } from "./RequestOnlyPrepareClient.mjs";
+import { RequestOnlyProbeSequence } from "./RequestOnlyProbeSequence.mjs";
 import { RequestOnlySentinelPrepareClient } from "./RequestOnlySentinelPrepareClient.mjs";
 import { RequestOnlySentinelSdkClient } from "./RequestOnlySentinelSdkClient.mjs";
 
 /**
- * Strict capability is safe truth, briefly cached after one owned host inspection.
- * The Awtsmoos runs independent probes together; Awtsmoos.com never caches conduit,
- * Sentinel, challenge, socket-verification, session, or upstream identity values.
+ * Strict capability is safe truth, cached after one paced owned-host inspection.
+ * The Awtsmoos lets official requests rise sequentially; Awtsmoos.com never caches
+ * conduit, Sentinel, challenge, session, account, or upstream identity values.
  */
 export class RequestOnlyCapabilityService {
 	constructor({
-		portResolver,
+		preferredPort,
+		portResolver = new DebugPortResolver({ preferredPort }),
 		hostFactory,
 		prepareFactory,
 		sentinelPrepareFactory,
 		sentinelSdkFactory,
-		cache = new TimedSingleFlightCache({ ttlMs: 15000 })
+		probeSequence = new RequestOnlyProbeSequence(),
+		descriptor = new RequestOnlyCapabilityDescriptor(),
+		cache = new TimedSingleFlightCache({ ttlMs: 60000 })
 	} = {}) {
 		this.portResolver = portResolver;
 		this.hostFactory = hostFactory ?? (port => new RequestOnlyHostController({ port }).open());
 		this.prepareFactory = prepareFactory ?? (cdp => new RequestOnlyPrepareClient(cdp));
 		this.sentinelPrepareFactory = sentinelPrepareFactory
 			?? (cdp => new RequestOnlySentinelPrepareClient(cdp));
-		this.sentinelSdkFactory = sentinelSdkFactory ?? (cdp => new RequestOnlySentinelSdkClient(cdp));
+		this.sentinelSdkFactory = sentinelSdkFactory
+			?? (cdp => new RequestOnlySentinelSdkClient(cdp));
+		this.probeSequence = probeSequence;
+		this.descriptor = descriptor;
 		this.cache = cache;
 	}
 
@@ -49,71 +58,23 @@ export class RequestOnlyCapabilityService {
 			return this.portResolver.resolve();
 		});
 		const host = await ledger.measure("hostOpenMs", () => this.hostFactory(port));
-		let descriptor = null;
+		let result = null;
 		try {
-			const applicationHeaders = host.applicationHeaders;
-			const probes = await ledger.measure("capabilityProbesWallMs", () => Promise.all([
-				ledger.measure("conversationPrepareMs", () => {
-					return this.prepareFactory(host.cdpClient).prepare({ applicationHeaders });
-				}),
-				ledger.measure("sentinelPrepareMs", () => {
-					return this.sentinelPrepareFactory(host.cdpClient).prepare({ applicationHeaders });
-				}),
-				ledger.measure("sentinelSdkMs", () => {
-					return this.sentinelSdkFactory(host.cdpClient).createToken();
-				})
-			]));
-			descriptor = this.describe({
-				port,
-				host,
-				conversationPrepare: probes[0],
-				sentinelPrepare: probes[1],
-				sentinelSdk: probes[2]
+			const probes = await ledger.measure("capabilityProbesWallMs", () => {
+				return this.probeSequence.run({
+					host,
+					ledger,
+					prepareFactory: this.prepareFactory,
+					sentinelPrepareFactory: this.sentinelPrepareFactory,
+					sentinelSdkFactory: this.sentinelSdkFactory
+				});
 			});
-			return descriptor;
+			result = this.descriptor.describe({ port, host, ...probes });
+			return result;
 		} finally {
 			await ledger.measure("cleanupMs", () => host.close());
-			if (descriptor) {
-				descriptor.timings = ledger.snapshot();
-			}
+			if (result) result.timings = ledger.snapshot();
 		}
-	}
-
-	describe({ port, host, conversationPrepare, sentinelPrepare, sentinelSdk }) {
-		const enforcementRequired = sentinelPrepare.turnstileRequired
-			|| sentinelPrepare.proofOfWorkRequired
-			|| sentinelPrepare.sessionObserverRequired;
-		return {
-			ok: true,
-			mode: "strict-request-only",
-			debugPort: port,
-			hostRoute: host.pageState.url,
-			authenticated: host.pageState.authenticated,
-			topicSocketOpen: true,
-			composerTouched: false,
-			conversationPostSent: false,
-			conversationPrepare: {
-				ready: conversationPrepare.status === 200,
-				hasConduitToken: true
-			},
-			sentinelPrepare: {
-				ready: sentinelPrepare.status === 200,
-				turnstileRequired: sentinelPrepare.turnstileRequired,
-				proofOfWorkRequired: sentinelPrepare.proofOfWorkRequired,
-				sessionObserverRequired: sentinelPrepare.sessionObserverRequired,
-				forceLogin: sentinelPrepare.forceLogin
-			},
-			sentinelSdk: {
-				ready: typeof sentinelSdk.token === "string",
-				hasInit: sentinelSdk.hasInit,
-				hasToken: sentinelSdk.hasToken,
-				hasTiming: sentinelSdk.hasTiming
-			},
-			enforcementRequired,
-			strictChatReady: !enforcementRequired,
-			fallbackRequired: enforcementRequired,
-			fallbackMode: "page-authorized-fallback"
-		};
 	}
 
 	invalidate() {

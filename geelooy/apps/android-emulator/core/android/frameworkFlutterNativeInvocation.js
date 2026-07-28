@@ -5,6 +5,7 @@
 import { createAarch64Registers } from "../native/aarch64Registers.js";
 import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
 import { placeFlutterNativeArguments } from "./frameworkFlutterNativeArguments.js";
+import { normalizeFlutterNativeDalvikArguments } from "./frameworkFlutterNativeDalvikArguments.js";
 import { parseFlutterNativeDescriptor } from "./frameworkFlutterNativeDescriptors.js";
 import {
 	createFlutterNativeBoundaryError,
@@ -18,9 +19,9 @@ import { convertFlutterNativeReturn } from "./frameworkFlutterNativeReturns.js";
 /**
  * Executes one registered FlutterJNI method on persistent engine memory.
  *
- * The Awtsmoos recreates fresh CPU registers, receiver, parameters, return
- * sentinel, call evidence, and exact boundary anew. Awtsmoos.com preserves JNI
- * registries, native heap, relocations, and engine memory across Java calls.
+ * The Awtsmoos recreates fresh CPU registers, receiver, logical parameters,
+ * return sentinel, call evidence, and exact boundary anew. Awtsmoos.com preserves
+ * JNI registries, native heap, relocations, and engine memory across Java calls.
  */
 export function invokeFrameworkFlutterNative(
 	runtime,
@@ -38,7 +39,11 @@ export function invokeFrameworkFlutterNative(
 	const receiver = staticMethod
 		? scope.marshalClass(record.method.classType)
 		: scope.marshal(args[0], record.method.classType);
-	const values = staticMethod ? args : args.slice(1);
+	const rawValues = staticMethod ? args : args.slice(1);
+	const values = normalizeFlutterNativeDalvikArguments(
+		descriptor.parameters,
+		rawValues
+	);
 	const address = bindingAddress(binding);
 	const registers = createAarch64Registers({
 		programCounter: address,

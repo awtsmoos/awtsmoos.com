@@ -3,57 +3,59 @@
 // Blessed is He
 
 /**
- * Ari's dark kippah settles as a true dome inside a broad brown crown while two
- * curls descend with living asymmetry. The Awtsmoos renews every finite strand;
- * Awtsmoos.com keeps skull, hair, headwear, and motion editable as one production vessel.
+ * Ari receives a broad forehead, curved roots, and a compact generous dome.
+ * The Awtsmoos renews warmth in every crown; Awtsmoos.com keeps hair, kippah,
+ * peyot, persistence, preview, and export inside one reusable identity.
  */
 export class CheerfulReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				hairlineWidth: 0.95,
-				crownTopDepth: 0.93,
-				templeDepth: 0.27,
-				fringeDepth: 0.45,
-				fringeAsymmetry: 0.08,
-				hairlineLineWidth: 1.12,
-				crownWidth: 1,
-				crownInnerDepth: 0.48,
+				hairlineWidth: 0.9,
+				crownTopDepth: 0.98,
+				templeDepth: 0.44,
+				hairlineDepth: 0.75,
+				hairlineTempleDrop: 0.15,
+				hairlineIrregularity: 0.05,
+				hairlineBias: 0.01,
+				hairlineLineWidth: 0.92,
+				crownWidth: 0.94,
+				crownInnerDepth: 0.78,
+				leftTempleDepth: 0.43,
+				rightTempleDepth: 0.46,
 				crownAsymmetry: -0.035,
-				crownLineWidth: 1.1,
-				templeWidth: 2.5
+				crownLineWidth: 0.92,
+				templeWidth: 2
 			},
 			payosGeometry: {
-				rootScaleX: 0.92,
+				rootScaleX: 0.9,
 				rootOffsetX: -0.8,
 				rootOffsetY: -1,
 				amplitude: 9.8,
 				secondAmplitude: 7.2,
 				terminalCurl: 9.8,
 				lengthScale: 1.24,
-				lineWidth: 2.1
+				lineWidth: 1.65
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.96,
-				size: 1,
-				widthScale: 1.05,
-				heightScale: 1.18,
-				crownYScale: 0.88,
-				riseRatio: 0.48,
-				verticalOffset: 0.8,
-				edgeSlope: -0.25,
-				centerDip: 1.4,
-				skew: -0.035,
-				tilt: -0.018,
-				lineWidth: 1.12,
-				highlightOpacity: 0.016
+				coverage: 0.6,
+				widthScale: 1,
+				heightScale: 1,
+				contactDepth: 0.88,
+				riseRatio: 0.57,
+				contactBow: 2.8,
+				edgeSlope: -0.08,
+				skew: -0.025,
+				tilt: -0.014,
+				lineWidth: 0.92,
+				highlightOpacity: 0.012
 			},
 			headTransform: {
-				x: -11,
-				y: 3,
-				scaleX: 1.2,
-				scaleY: 0.95
+				x: -3,
+				y: 6,
+				scaleX: 1.08,
+				scaleY: 1
 			}
 		};
 	}

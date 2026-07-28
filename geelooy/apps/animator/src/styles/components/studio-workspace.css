@@ -2,18 +2,20 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos renews the studio shell; Awtsmoos.com gives each editor vessel
- * enough space to remain clear on a wide production display.
+ * stable scale, quiet hierarchy, and reliable production space.
  */
-
 .aw-professional-studio .app-shell {
-	grid-template-columns: clamp(260px, 23vw, 360px) 6px minmax(0, 1fr) 6px clamp(260px, 22vw, 340px);
+	grid-template-columns: clamp(250px, 21vw, 340px) 6px minmax(0, 1fr) 6px clamp(250px, 20vw, 330px);
 	grid-template-rows: minmax(0, 1fr) 6px clamp(220px, 31vh, 360px);
+	background: var(--aw-workspace);
 }
 
 .aw-professional-studio .app-sidebar-left,
 .aw-professional-studio .app-sidebar-right {
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
+	background: var(--aw-panel);
 }
 
 .aw-professional-studio .app-sidebar-left > .editor-mount,
@@ -34,101 +36,25 @@
 	flex-direction: column;
 	height: 100%;
 	min-height: 0;
-	color: #edf4ff;
-	background:
-		radial-gradient(circle at 20% 0%, rgba(81, 126, 255, 0.12), transparent 34%),
-		linear-gradient(180deg, rgba(17, 21, 38, 0.97), rgba(7, 9, 18, 0.98));
+	color: var(--aw-text);
+	background: var(--aw-panel);
 }
 
 .aw-studio-scroll {
 	min-height: 0;
 	flex: 1;
 	overflow: auto;
-	padding: 12px;
+	padding: var(--aw-space-3);
+	scrollbar-color: var(--aw-control-active) transparent;
 	scrollbar-width: thin;
 }
 
 #aw-studio-toolbar-mount {
 	position: absolute;
-	top: 12px;
+	top: var(--aw-space-3);
 	left: 50%;
 	z-index: 30;
-	width: min(760px, calc(100% - 32px));
+	width: min(780px, calc(100% - 32px));
 	transform: translateX(-50%);
 	pointer-events: auto;
-}
-
-.aw-studio-toolbar {
-	display: grid;
-	grid-template-columns: minmax(140px, 1fr) auto minmax(220px, 1fr);
-	gap: 8px 14px;
-	align-items: center;
-	padding: 10px 12px;
-	border: 1px solid rgba(164, 188, 255, 0.22);
-	border-radius: 14px;
-	background: rgba(5, 8, 17, 0.88);
-	box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
-	backdrop-filter: blur(18px);
-}
-
-.aw-studio-project-title {
-	display: grid;
-	min-width: 0;
-}
-
-.aw-studio-project-title strong,
-.aw-studio-project-title small {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.aw-studio-project-title small,
-.aw-studio-timecode small {
-	color: #8f9bb7;
-	font-size: 10px;
-}
-
-.aw-studio-timecode {
-	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-	font-size: 15px;
-	font-variant-numeric: tabular-nums;
-}
-
-.aw-studio-toolbar-actions {
-	display: flex;
-	justify-content: flex-end;
-	gap: 6px;
-}
-
-.aw-studio-toolbar button,
-.aw-studio-panel button {
-	border: 1px solid rgba(148, 169, 226, 0.2);
-	border-radius: 8px;
-	color: #eaf0ff;
-	background: rgba(66, 79, 118, 0.3);
-	cursor: pointer;
-}
-
-.aw-studio-export-button,
-.aw-studio-primary {
-	background: linear-gradient(135deg, #5067ff, #8a4dff) !important;
-}
-
-.aw-studio-export-status {
-	grid-column: 1 / -1;
-	overflow: hidden;
-	color: #9aa8c5;
-	font-size: 10px;
-	text-align: center;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.aw-studio-export-status.status-complete {
-	color: #8ef0bf;
-}
-
-.aw-studio-export-status.status-error {
-	color: #ff9aab;
 }

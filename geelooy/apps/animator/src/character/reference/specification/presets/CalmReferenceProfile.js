@@ -5,9 +5,9 @@
 import { CalmReferenceBodyGeometry } from './CalmReferenceBodyGeometry.js';
 
 /**
- * Miriam's softened olive, charcoal dress, warm skin, rose lips, and muted gold
- * hold quiet attention. The Awtsmoos renews every hue, while Awtsmoos.com keeps
- * her palette editable and production-bound.
+ * Miriam's muted olive, charcoal dress, warm skin, rose lips, and quiet gold hold
+ * attentive calm. The Awtsmoos renews every hue; Awtsmoos.com keeps her palette
+ * editable, serializable, and bound to the production renderer.
  */
 export class CalmReferenceProfile {
 	static character() {
@@ -35,18 +35,13 @@ export class CalmReferenceProfile {
 	static measurements() {
 		return {
 			body: {
-				headWidth: 0.23,
-				headHeight: 0.245,
-				shoulderWidth: 0.25,
-				hipWidth: 0.19,
-				armWidth: 0.042,
-				legWidth: 0.04,
-				waistY: 0.595,
-				hipY: 0.696
+				headWidth: 0.23, headHeight: 0.245, shoulderWidth: 0.25,
+				hipWidth: 0.19, armWidth: 0.042, legWidth: 0.04,
+				waistY: 0.595, hipY: 0.696
 			},
 			style: {
-				outerLineWidth: 0.0082,
-				innerLineWidth: 0.0036,
+				outerLineWidth: 0.0069,
+				innerLineWidth: 0.0029,
 				shadowWidth: 0.235
 			}
 		};
@@ -65,18 +60,28 @@ export class CalmReferenceProfile {
 		return {
 			body: { torsoLean: -0.5, headTilt: -1 },
 			arms: {
-				left: { shoulderLift: -2, elbowX: 6, elbowY: 43, handX: 1, handY: 42, handPose: 'rest' },
-				right: { shoulderLift: -4, elbowX: 13, elbowY: 31, handX: 10, handY: 7, handPose: 'pocket' }
+				left: {
+					shoulderLift: -2, elbowX: 6, elbowY: 43,
+					handX: 1, handY: 42, handPose: 'rest'
+				},
+				right: {
+					shoulderLift: -4, elbowX: 13, elbowY: 31,
+					handX: 10, handY: 7, handPose: 'pocket'
+				}
 			}
 		};
 	}
 
 	static colors() {
 		return {
-			jacket: '#667349', jacketDark: '#4d593b', jacketLight: '#7d8961',
-			shirt: '#29292c', innerShirt: '#29292c', skirt: '#2d2d31', pants: '#2d2d31',
-			skin: '#f3c092', skinDark: '#d4885c', hair: '#402c1d', hairDark: '#281b13',
-			hat: '#2a2b2e', lip: '#a96069', earring: '#cba53b'
+			line: '#2c2a2d', eye: '#242225', eyeLight: '#fffdf8',
+			mouth: '#71363d', tooth: '#fff9ef', blush: 'rgba(235,111,111,0.25)',
+			jacket: '#68764f', jacketDark: '#53603f', jacketLight: '#82906a',
+			shirt: '#303035', innerShirt: '#303035', skirt: '#343439',
+			pants: '#343439', pantsDark: '#27272b', shoe: '#252427',
+			skin: '#f2be91', skinDark: '#d68a60', skinLight: '#ffd5ae',
+			hair: '#493326', hairDark: '#302119', hat: '#2d2d31',
+			lip: '#ad6772', earring: '#c9a64c'
 		};
 	}
 }

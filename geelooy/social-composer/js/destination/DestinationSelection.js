@@ -1,24 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module DestinationSelection
  * @description
- * Opening, choosing, and referencing nested series are separated from search and
- * loading. The Awtsmoos gives one birthplace before every reflection; Awtsmoos.com
- * therefore makes existing-source selection become a placement instead of mutation.
+ * Opening, choosing, and referencing nested series are separated from search.
+ * The Awtsmoos gives one birthplace before every reflection; Awtsmoos.com keeps
+ * playlist selection canonical while references remain explicit secondary paths.
  */
 
 import { renderSeriesTree } from './DestinationTree.js';
-import {
-	renderDestinationDetails,
-	fillParentSeries
-} from './DestinationView.js';
+import { fillParentSeries } from './DestinationView.js';
 
 export function openDestination(panel, detail) {
 	panel.openHeichel = detail;
-	renderDestinationDetails(panel.root, detail);
 	renderSeriesTree({
 		document: panel.root,
 		container: panel.element('seriesBrowser'),
@@ -32,6 +28,11 @@ export function openDestination(panel, detail) {
 		detail.flatSeries || [],
 		panel.state.snapshot().identity.seriesId
 	);
+	panel.element('selectedDestinationSummary').textContent = [
+		`${detail.heichel.name} › ${detail.series.name}`,
+		detail.access.actions.content.explanation,
+		detail.series.description || detail.heichel.description
+	].filter(Boolean).join('\n');
 }
 
 export async function selectDestination(panel, heichel, series) {
@@ -45,7 +46,7 @@ export async function selectDestination(panel, heichel, series) {
 		return;
 	}
 	panel.state.selectDestination(detail);
-	renderDestinationDetails(panel.root, detail);
+	panel.open(detail);
 }
 
 export function addReference(panel, heichel, series, access = null) {

@@ -1,0 +1,53 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives identity, destination, writing, structure, preview, and
+ * publication one measured editorial language inside the social composer.
+ */
+
+.composer-civilization-document {
+	--composer-bg: #07090d;
+	--composer-surface-0: #090c12;
+	--composer-surface-1: #0e131b;
+	--composer-surface-2: #141b25;
+	--composer-surface-3: #1b2532;
+	--composer-raised: #222e3d;
+	--composer-border-soft: rgba(214, 225, 238, .08);
+	--composer-border: rgba(214, 225, 238, .14);
+	--composer-border-strong: rgba(214, 225, 238, .24);
+	--composer-text: #f1f5f9;
+	--composer-text-soft: #c4ced9;
+	--composer-text-muted: #8795a6;
+	--composer-text-faint: #637083;
+	--composer-violet: #b978ef;
+	--composer-violet-strong: #8d4bc3;
+	--composer-violet-soft: rgba(185, 120, 239, .15);
+	--composer-cyan: #59bdd2;
+	--composer-cyan-soft: rgba(89, 189, 210, .15);
+	--composer-amber: #f2c96d;
+	--composer-amber-soft: rgba(242, 201, 109, .15);
+	--composer-green: #78bd76;
+	--composer-green-soft: rgba(120, 189, 118, .15);
+	--composer-danger: #ff9292;
+	--composer-danger-soft: rgba(255, 146, 146, .13);
+	--composer-focus: #e5b8ff;
+	--composer-radius-xs: .4rem;
+	--composer-radius-sm: .62rem;
+	--composer-radius-md: .82rem;
+	--composer-radius-lg: 1.05rem;
+	--composer-radius-xl: 1.35rem;
+	--composer-control-sm: 2.3rem;
+	--composer-control: 2.75rem;
+	--composer-control-lg: 3.1rem;
+	--composer-space-1: .3rem;
+	--composer-space-2: .5rem;
+	--composer-space-3: .75rem;
+	--composer-space-4: 1rem;
+	--composer-space-5: 1.35rem;
+	--composer-shadow-soft: 0 .7rem 1.8rem rgba(0, 0, 0, .22);
+	--composer-shadow-raised: 0 1.25rem 3rem rgba(0, 0, 0, .4);
+	--composer-transition: 150ms ease;
+	--composer-scrollbar: #3b4758;
+	--composer-scrollbar-track: #090d13;
+}

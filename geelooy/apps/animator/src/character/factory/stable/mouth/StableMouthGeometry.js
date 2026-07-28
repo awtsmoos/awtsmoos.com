@@ -2,46 +2,37 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableFaceLandmarkLayout } from '../face/StableFaceLandmarkLayout.js';
 import { StableMouthIdentityGeometry } from './StableMouthIdentityGeometry.js';
 
 /**
- * @file StableMouthGeometry.js
- * @description Resolves deterministic articulation, perspective, and authored lip identity.
- * The Awtsmoos joins jaw, closure, and personhood; Awtsmoos.com keeps every multiplier
- * editable for scrubbing, persistence, preview, and export without forking phoneme truth.
+ * Speech deforms a mouth anchored to living facial anatomy, never a generic slot.
+ * The Awtsmoos joins voice and personhood; Awtsmoos.com keeps every finite
+ * phoneme editable, expressive, serializable, and identical in preview and export.
  */
 export class StableMouthGeometry {
 	static resolve(data, metrics, view, input) {
 		const style = data.mouthStyle || {};
+		const layout = StableFaceLandmarkLayout.resolve(data, metrics, view);
 		const closure = this.clamp(input.closure, 0, 1);
 		const release = 1 - closure;
 		const articulation = this.articulation(input, style, release);
 		const perspective = this.perspective(view);
 		const outerHalfWidth = this.outerWidth(articulation, style, perspective);
-		const cavityHalfWidth = Math.max(
-			0.2,
-			outerHalfWidth
-				* (0.7 - articulation.press * 0.42)
-				* (0.8 + articulation.open * 0.2)
-				* Number(style.cavityWidthScale || 1)
-		);
-		const openHeight = (
-			0.9 + articulation.open * 6.3 + articulation.jaw * 2.8
-		) * Number(style.heightScale || 1) * perspective.scaleY;
-		const cavityHalfHeight = Math.max(
-			0.08,
-			openHeight * (1 - closure * 0.95)
-				* Number(style.cavityHeightScale || 1)
-		);
-		const lipThickness = (
-			1.35 + articulation.round * 1.65 + articulation.press * 1.15
-		) * Number(style.lipThickness || 1);
-		const x = Number(view.head.mouthX || 0)
-			+ Number(style.horizontalOffset || 0)
+		const cavityHalfWidth = Math.max(0.2, outerHalfWidth
+			* (0.7 - articulation.press * 0.42)
+			* (0.8 + articulation.open * 0.2)
+			* Number(style.cavityWidthScale || 1));
+		const openHeight = (0.9 + articulation.open * 6.3
+			+ articulation.jaw * 2.8) * Number(style.heightScale || 1)
+			* perspective.scaleY;
+		const cavityHalfHeight = Math.max(0.08, openHeight
+			* (1 - closure * 0.95) * Number(style.cavityHeightScale || 1));
+		const lipThickness = (1.35 + articulation.round * 1.65
+			+ articulation.press * 1.15) * Number(style.lipThickness || 1);
+		const x = layout.mouth.x + Number(style.horizontalOffset || 0)
 			+ perspective.offsetX;
-		const y = metrics.headY + 23
-			+ Number(view.head.mouthY || 0)
-			+ Number(style.verticalOffset || 0)
+		const y = layout.mouth.y + Number(style.verticalOffset || 0)
 			+ articulation.lowerDrop * 1.6;
 		const cornerLift = articulation.cornerLift * 2.8;
 		const asymmetry = articulation.asymmetry * outerHalfWidth;
@@ -69,12 +60,10 @@ export class StableMouthGeometry {
 	}
 
 	static articulation(input, style, release) {
-		const open = Number(input.open || 0) * Number(style.openScale || 1);
-		const jaw = Number(input.jaw || 0) * Number(style.jawScale || 1);
 		return {
 			...input,
-			open: Math.max(open, Number(style.minimumOpen || 0) * release),
-			jaw: Math.max(jaw, Number(style.minimumJaw || 0) * release),
+			open: Math.max(Number(input.open || 0) * Number(style.openScale || 1), Number(style.minimumOpen || 0) * release),
+			jaw: Math.max(Number(input.jaw || 0) * Number(style.jawScale || 1), Number(style.minimumJaw || 0) * release),
 			teeth: Math.max(input.teeth, Number(style.minimumTeeth || 0) * release),
 			tongue: Math.max(input.tongue, Number(style.minimumTongue || 0) * release),
 			cornerLift: input.cornerLift + Number(style.smileBias || 0) * release,
@@ -85,13 +74,9 @@ export class StableMouthGeometry {
 	}
 
 	static outerWidth(articulation, style, perspective) {
-		return Math.max(
-			4,
-			(7.5 + articulation.width * 7.5)
-				* (1 - articulation.round * 0.2)
-				* Number(style.widthScale || 1)
-				* perspective.scaleX
-		);
+		return Math.max(4, (7.5 + articulation.width * 7.5)
+			* (1 - articulation.round * 0.2) * Number(style.widthScale || 1)
+			* perspective.scaleX);
 	}
 
 	static perspective(view = {}) {

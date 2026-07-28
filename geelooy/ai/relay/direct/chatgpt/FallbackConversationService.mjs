@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * The named fallback owns stateful chat execution and nothing else. The Awtsmoos
- * lets Awtsmoos.com keep strict request-only capability separate from the carrier
- * path, while upstream ids remain sealed behind opaque local conversation keys.
+ * The named fallback owns stateful chat execution and one bounded relay client.
+ * The Awtsmoos lets Awtsmoos.com continue through an opaque key while a healthy
+ * Chrome host may be reused; port changes close the former owned lifecycle first.
  */
 export class FallbackConversationService {
 	constructor({ store, portResolver, clientFactory }) {
@@ -13,6 +13,8 @@ export class FallbackConversationService {
 		this.portResolver = portResolver;
 		this.clientFactory = clientFactory;
 		this.lastResolvedPort = null;
+		this.clientPort = null;
+		this.client = null;
 	}
 
 	async send({
@@ -20,7 +22,10 @@ export class FallbackConversationService {
 		conversationKey,
 		model = null,
 		thinkingEffort = null,
-		conversationMode = null
+		conversationMode = null,
+		signal = null,
+		onProgress = null,
+		timeoutMs = null
 	}) {
 		const previousState = conversationKey
 			? this.store.get(conversationKey)
@@ -30,13 +35,37 @@ export class FallbackConversationService {
 		}
 		const port = await this.portResolver.resolve();
 		this.lastResolvedPort = port;
-		const result = await this.clientFactory(port).send({
+		const client = await this.clientForPort(port);
+		const result = await client.send({
 			prompt,
 			state: previousState,
 			model,
 			thinkingEffort,
-			conversationMode
+			conversationMode,
+			signal,
+			onProgress,
+			timeoutMs
 		});
+		this.assertContinuation(previousState, result);
+		const localKey = this.store.set(conversationKey, result.state);
+		return this.publicResult({
+			result,
+			localKey,
+			created: !conversationKey
+		});
+	}
+
+	async clientForPort(port) {
+		if (this.client && this.clientPort === port) {
+			return this.client;
+		}
+		await this.close();
+		this.client = this.clientFactory(port);
+		this.clientPort = port;
+		return this.client;
+	}
+
+	assertContinuation(previousState, result) {
 		const sameConversation = previousState
 			? result.state.conversationId === previousState.conversationId
 			: true;
@@ -46,26 +75,43 @@ export class FallbackConversationService {
 		if (result.navigatedToConversation) {
 			throw new Error("The controller navigated to the direct conversation unexpectedly.");
 		}
-		const localKey = this.store.set(conversationKey, result.state);
+		result.sameConversation = sameConversation;
+	}
+
+	publicResult({ result, localKey, created }) {
 		return {
 			ok: true,
 			mode: "page-authorized-fallback",
 			answer: result.answer,
 			conversationKey: localKey,
-			created: !conversationKey,
+			created,
 			status: result.status,
 			done: result.done,
 			frames: result.frames,
 			items: result.items,
 			subscriptionAttempts: result.subscriptionAttempts,
+			completionSource: result.completionSource,
 			requestLatencyMs: result.requestLatencyMs,
 			pacing: result.pacing,
-			sameConversation,
-			navigatedToConversation: false
+			hostReuseSource: result.hostReuseSource,
+			sameConversation: result.sameConversation,
+			navigatedToConversation: false,
+			timings: result.timings
 		};
 	}
 
+	async close() {
+		const client = this.client;
+		this.client = null;
+		this.clientPort = null;
+		await client?.close?.();
+	}
+
 	status() {
-		return { lastResolvedPort: this.lastResolvedPort };
+		return {
+			lastResolvedPort: this.lastResolvedPort,
+			clientActive: Boolean(this.client),
+			client: this.client?.status?.() ?? null
+		};
 	}
 }

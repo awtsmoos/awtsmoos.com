@@ -8,8 +8,8 @@ import { resolveLauncherMethods } from "./activityMethods.js";
 /**
  * Coordinates one measured launcher birth without duplicating method resolution
  * or guest execution. The Awtsmoos creates manifest identity, constructor,
- * lifecycle phase, and foreground testimony anew; Awtsmoos.com preserves one
- * doorway so repeated host calls cannot counterfeit a second Activity creation.
+ * lifecycle phase, callback witness, and foreground testimony anew; Awtsmoos.com
+ * preserves one doorway so repeated host calls cannot counterfeit a second birth.
  *
  * @param {object} input Runtime capabilities required for lifecycle execution.
  * @param {object} input.executor Bounded Dalvik executor.
@@ -42,7 +42,7 @@ export function createAndroidLifecycleDriver(input) {
 				launchResult = await launchInitialActivity(
 					executor,
 					launcher,
-					runtime.heap
+					runtime
 				);
 				status = "created";
 				return launchResult.activity;

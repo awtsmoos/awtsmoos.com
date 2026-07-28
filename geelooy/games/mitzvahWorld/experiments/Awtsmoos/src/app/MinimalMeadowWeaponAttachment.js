@@ -4,45 +4,51 @@
 
 /**
  * @file MinimalMeadowWeaponAttachment.js
- * @description Keeps exactly one persistent weapon attached to the intended hand or back.
- * The Awtsmoos grants every tool a truthful bearer; Awtsmoos.com reparents only the weapon,
- * never the hand, and removes an older vessel before equipment revelation changes.
+ * @description Keeps one generation-owned weapon in one hand slot with calibrated visible pose.
+ * The Awtsmoos grants each tool one truthful bearer; Awtsmoos.com removes competing hand-slot
+ * objects, preserves hydration generation, and keeps staff or sword visible without per-frame churn.
  */
+
+import {
+	resolveMinimalMeadowWeaponAnchor
+} from './MinimalMeadowWeaponAnchor.js';
+import {
+	applyMinimalMeadowPose,
+	minimalMeadowWeaponPose
+} from './MinimalMeadowWeaponPose.js';
 
 const ACTIVE_WEAPON_BY_OWNER = new WeakMap();
 const OWNER_BY_WEAPON = new WeakMap();
-const TRANSFORMS = Object.freeze({
-	staff: Object.freeze({
-		drawn: transform([0.02, -0.42, -0.05], [0.7, 0.7, 0.7], 0.08),
-		sheathed: transform([0.4, 1.05, -0.18], [0.7, 0.7, 0.7], 0.24)
-	}),
-	sword: Object.freeze({
-		drawn: transform([0.04, -0.12, -0.04], [0.58, 0.58, 0.58], -0.32),
-		sheathed: transform([-0.33, 1.02, -0.2], [0.58, 0.58, 0.58], -0.78)
-	})
-});
+const HAND_SLOT = 'hand';
 
-export function attachMinimalWeapon(weapon, nodes, drawn, side = 'right') {
+export function attachMinimalWeapon(weapon, nodes, drawn, options = {}) {
 	if (!weapon) return false;
-	const parent = drawn ? handNode(nodes, side) : backNode(nodes);
-	if (!parent) {
+	const owner = nodes?.modelRoot;
+	const generation = Number(options.generation) || 0;
+	const anchor = resolveMinimalMeadowWeaponAnchor(nodes, drawn, generation);
+	if (!owner || !anchor) {
 		detachMinimalWeapon(weapon);
 		return false;
 	}
-	const owner = nodes?.modelRoot || parent;
 	const previous = ACTIVE_WEAPON_BY_OWNER.get(owner);
-	if (previous && previous !== weapon) {
-		detachMinimalWeapon(previous);
-	}
+	if (previous && previous !== weapon) detachMinimalWeapon(previous);
+	removeCompetingHandObjects(anchor, weapon);
+	const domain = anchor.userData.AwtsmoosWeaponAnchor.attachmentDomain;
 	const kind = weapon.userData.weaponKind === 'sword' ? 'sword' : 'staff';
-	const value = TRANSFORMS[kind][drawn ? 'drawn' : 'sheathed'];
-	if (weapon.parent !== parent) parent.add(weapon);
-	weapon.position.set(...value.position);
-	weapon.scale.set(...value.scale);
-	weapon.quaternion.set(...value.quaternion);
+	if (weapon.parent !== anchor) anchor.add(weapon);
+	applyMinimalMeadowPose(weapon, minimalMeadowWeaponPose(domain, kind, drawn));
 	weapon.visible = true;
-	weapon.userData.attachment = drawn ? `${side}-hand` : 'upper-back';
-	weapon.userData.attachmentParent = parent.name || 'model-root';
+	weapon.traverse?.(node => {
+		if (node.isMesh || node.isSkinnedMesh) {
+			node.visible = true;
+			node.frustumCulled = false;
+		}
+	});
+	weapon.userData.AwtsmoosEquipmentSlot = HAND_SLOT;
+	weapon.userData.attachment = `${domain}-${drawn ? 'drawn' : 'sheathed'}`;
+	weapon.userData.attachmentGeneration = generation;
+	weapon.userData.attachmentParent = anchor.name;
+	weapon.userData.handBound = domain === 'hand';
 	ACTIVE_WEAPON_BY_OWNER.set(owner, weapon);
 	OWNER_BY_WEAPON.set(weapon, owner);
 	return true;
@@ -58,22 +64,16 @@ export function detachMinimalWeapon(weapon) {
 	weapon.parent?.remove?.(weapon);
 	weapon.visible = false;
 	weapon.userData.attachment = 'detached';
+	weapon.userData.attachmentGeneration = null;
 	weapon.userData.attachmentParent = null;
+	weapon.userData.handBound = false;
 }
 
-function handNode(nodes, side) {
-	if (side === 'left') return nodes?.leftHand || nodes?.rightHand || nodes?.modelRoot;
-	return nodes?.rightHand || nodes?.leftHand || nodes?.modelRoot;
-}
-
-function backNode(nodes) {
-	return nodes?.spine || nodes?.modelRoot;
-}
-
-function transform(position, scale, angle) {
-	return Object.freeze({
-		position: Object.freeze(position),
-		quaternion: Object.freeze([0, 0, Math.sin(angle / 2), Math.cos(angle / 2)]),
-		scale: Object.freeze(scale)
-	});
+function removeCompetingHandObjects(anchor, weapon) {
+	for (const child of [...(anchor.children || [])]) {
+		if (child === weapon || child.userData?.AwtsmoosEquipmentSlot !== HAND_SLOT) continue;
+		anchor.remove?.(child);
+		child.visible = false;
+		child.userData.attachment = 'replaced';
+	}
 }

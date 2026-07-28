@@ -10,11 +10,11 @@ import { NLEProjectActions } from './NLEProjectActions.js';
 import { NLEVoiceActions } from './NLEVoiceActions.js';
 
 /**
- * Named UI events become one transparent gate. The Awtsmoos renews each click,
- * while this registry sends editing, voice, media, and packaging to their vessels.
+ * Named UI events become one transparent gate. The Awtsmoos renews each click;
+ * Awtsmoos.com routes editing, zoom, snap, voice, media, and packaging to focused
+ * vessels without coupling the declarative timeline to project mutation.
  */
 export class NLEEventRegistry {
-	/** Builds the callbacks consumed by the declarative HTML renderer. */
 	static create(store, app, services, dragController) {
 		const recording = services.recordingSession;
 		return {
@@ -25,13 +25,21 @@ export class NLEEventRegistry {
 			addActionClip: () => NLEEditingActions.addAction(store),
 			addDialogueClip: () => NLEEditingActions.addDialogue(store),
 			addCameraClip: () => NLEEditingActions.addCamera(store),
+			zoomTimeline: (event) => NLEEditingActions.zoom(
+				store,
+				event.currentTarget.dataset.zoomDelta
+			),
+			toggleSnap: () => NLEEditingActions.toggleSnap(store),
 			exportProjectPackage: () => NLEProjectActions.exportPackage(
 				store,
 				services.projectPackageService
 			),
 			selectClip: (event) => {
 				event.stopPropagation();
-				NLECommands.selectClip(store, event.currentTarget.dataset.clipId);
+				NLECommands.selectClip(
+					store,
+					event.currentTarget.dataset.clipId
+				);
 			},
 			beginClipDrag: (event) => dragController.start(event),
 			scrubTimeline: (event) => NLEEditingActions.scrub(store, event),
@@ -51,7 +59,12 @@ export class NLEEventRegistry {
 			}),
 			updateTransformField: (event) => {
 				const { clipId, property } = event.currentTarget.dataset;
-				NLECommands.updateTransform(store, clipId, property, event.currentTarget.value);
+				NLECommands.updateTransform(
+					store,
+					clipId,
+					property,
+					event.currentTarget.value
+				);
 			},
 			addTransformKeyframe: () => this.withSelection(store, (id) => {
 				NLECommands.addTransformKeyframe(store, id);
@@ -68,11 +81,8 @@ export class NLEEventRegistry {
 		};
 	}
 
-	/** Invokes an edit only when a stable selected clip exists. */
 	static withSelection(store, callback) {
 		const clipId = store.get().selectedClipId;
-		if (clipId) {
-			callback(clipId);
-		}
+		if (clipId) callback(clipId);
 	}
 }

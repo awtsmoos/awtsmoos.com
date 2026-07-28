@@ -4,13 +4,13 @@
 
 /**
  * The Awtsmoos lets one browser speak through the canonical Drive API alone;
- * Awtsmoos.com adds measured credentials without recreating service or throne.
+ * Awtsmoos.com uses session identity by default and never persists a credential.
  */
 
 import { driveState, currentCursor } from './state.js';
 import { encodeDrivePath } from './path.js';
 
-const API_ROOT = '/api/social';
+export const API_ROOT = '/api/social';
 
 export async function listEntries() {
 	const query = new URLSearchParams({
@@ -25,18 +25,19 @@ export async function listEntries() {
 	});
 	const cursor = currentCursor();
 	if (cursor) query.set('cursor', cursor);
-	return request(`/drive/${encodeURIComponent(driveState.aliasId)}/entries?${query}`);
+	return request(`/drive/${aliasSegment()}/entries?${query}`);
 }
 
 export function getUsage() {
-	return request(`/drive/${encodeURIComponent(driveState.aliasId)}/usage`);
+	return request(`/drive/${aliasSegment()}/usage`);
+}
+
+export function getSiteStatus() {
+	return request(`/drive/${aliasSegment()}/site`);
 }
 
 export function createEntry(values) {
-	return request(`/drive/${encodeURIComponent(driveState.aliasId)}/entries`, {
-		method: 'POST',
-		body: values
-	});
+	return request(`/drive/${aliasSegment()}/entries`, { method: 'POST', body: values });
 }
 
 export function updateEntry(path, values) {
@@ -44,17 +45,21 @@ export function updateEntry(path, values) {
 }
 
 export function performAction(action, values) {
-	return request(`/drive/${encodeURIComponent(driveState.aliasId)}/actions/${action}`, {
+	return request(`/drive/${aliasSegment()}/actions/${action}`, {
 		method: 'POST',
 		body: values
 	});
 }
 
 export function publicUrl(path) {
-	return `${location.origin}${API_ROOT}/drive/public/${encodeURIComponent(driveState.aliasId)}/${encodeDrivePath(path)}`;
+	return `${location.origin}${API_ROOT}/drive/public/${aliasSegment()}/${encodeDrivePath(path)}`;
 }
 
-async function request(route, options = {}) {
+export function siteUrl() {
+	return `${location.origin}/sites/${aliasSegment()}/`;
+}
+
+export async function request(route, options = {}) {
 	assertConnected();
 	const headers = authenticationHeaders();
 	let body;
@@ -67,7 +72,8 @@ async function request(route, options = {}) {
 		method: options.method || 'GET',
 		headers,
 		body,
-		cache: 'no-store'
+		cache: 'no-store',
+		credentials: 'same-origin'
 	});
 	const text = await response.text();
 	const value = text ? safeJson(text) : {};
@@ -75,24 +81,30 @@ async function request(route, options = {}) {
 	return value;
 }
 
-function entryUrl(path) {
-	return `/drive/${encodeURIComponent(driveState.aliasId)}/entry/${encodeDrivePath(path)}`;
-}
-
-function authenticationHeaders() {
+export function authenticationHeaders() {
 	const headers = new Headers();
 	if (driveState.credentialType === 'user') {
 		headers.set('x-awtsmoos-api-key', driveState.credential);
-	} else {
+	}
+	if (driveState.credentialType === 'drive') {
 		headers.set('authorization', `Bearer ${driveState.credential}`);
 	}
 	return headers;
 }
 
-function assertConnected() {
-	if (!driveState.aliasId || !driveState.credential) {
-		throw new Error('Connect with an alias and credential first.');
+export function assertConnected() {
+	if (!driveState.aliasId) throw new Error('Enter an alias ID first.');
+	if (driveState.credentialType !== 'session' && !driveState.credential) {
+		throw new Error('Enter the selected credential or use the current session.');
 	}
+}
+
+function aliasSegment() {
+	return encodeURIComponent(driveState.aliasId);
+}
+
+function entryUrl(path) {
+	return `/drive/${aliasSegment()}/entry/${encodeDrivePath(path)}`;
 }
 
 function safeJson(text) {

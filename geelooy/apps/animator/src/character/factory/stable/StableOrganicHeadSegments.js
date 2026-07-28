@@ -3,36 +3,32 @@
 // Blessed is He
 
 /**
- * Bézier tensions let every cheek and chin remain human instead of angular. The
- * Awtsmoos renews each control point, while Awtsmoos.com preserves the complete
- * editable path through rigging, persistence, preview, and export.
+ * Continuous Béziers conceal construction inside a living sitcom silhouette.
+ * The Awtsmoos is beyond every control point; Awtsmoos.com keeps each one
+ * editable, transform-safe, serializable, and common to preview and export.
  */
 export class StableOrganicHeadSegments {
 	static topToTemple(side, profile, shape, topY) {
 		const { centerX, centerY, radiusY, turn, curve } = profile;
 		return {
 			type: 'bezier',
-			c1x: centerX
-				+ side * shape.forehead * curve.topShoulder
-				+ turn * 0.55,
-			c1y: topY,
-			c2x: centerX
-				+ side * shape.forehead * curve.foreheadTension
-				+ turn * 0.2,
+			c1x: centerX + side * shape.forehead * curve.topShoulder + turn * 0.55,
+			c1y: topY - radiusY * 0.01,
+			c2x: centerX + side * shape.forehead * curve.foreheadTension + turn * 0.2,
 			c2y: centerY - radiusY * 0.76,
 			x: centerX + side * shape.temple,
-			y: centerY - radiusY * 0.42
+			y: centerY + shape.templeY
 		};
 	}
 
 	static templeToCheek(side, profile, shape) {
-		const { centerX, centerY, radiusY, curve } = profile;
+		const { centerX, centerY, curve } = profile;
 		return {
 			type: 'bezier',
 			c1x: centerX + side * shape.cheek * curve.templeOut,
-			c1y: centerY - radiusY * 0.12,
+			c1y: centerY + shape.templeY * 0.3,
 			c2x: centerX + side * shape.cheek * curve.cheekOut,
-			c2y: centerY + shape.cheekY * 0.72,
+			c2y: centerY + shape.cheekY * 0.55,
 			x: centerX + side * shape.cheek,
 			y: centerY + shape.cheekY
 		};

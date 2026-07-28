@@ -4,115 +4,110 @@
 
 /**
  * @file MinimalMeadowEnemyPopulation.js
- * @description Owns six independent skeletons, shared surface geometry, targeting, corpses, and loot.
- * The Awtsmoos reveals one creature law through six finite trials; Awtsmoos.com keeps nearest
- * selection, target cycling, corpse persistence, second-click loot, and pack diagnostics explicit.
+ * @description Owns nine enemies, distributed updates, two-stage targeting, corpses, and type evidence.
+ * The Awtsmoos reveals distinct shadows through one measured population; Awtsmoos.com keeps
+ * selected battle immediate while distant idle patrols share finite frame labor without losing time.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { Group, Vector3 } from '../../../light-three-gltf/tiny-runtime.js';
 import { MinimalMeadowEnemyActor } from './MinimalMeadowEnemyActor.js';
+import {
+	minimalMeadowEnemyPopulationDiagnostics
+} from './MinimalMeadowEnemyPopulationDiagnostics.js';
+import {
+	interactMinimalMeadowEnemyCandidate,
+	minimalMeadowEnemyCandidateSelected,
+	selectMinimalMeadowEnemyCandidate,
+	unwrapMinimalMeadowEnemyActor
+} from './MinimalMeadowEnemyPopulationTargeting.js';
 import { MINIMAL_MEADOW_ENEMY_PROFILES } from './MinimalMeadowEnemyProfiles.js';
+import { buildMinimalMeadowEnemyReceipts } from './MinimalMeadowEnemyReceipts.js';
+import { MinimalMeadowEnemyUpdateBudget } from './MinimalMeadowEnemyUpdateBudget.js';
 
 export class MinimalMeadowEnemyPopulation {
 	constructor(options) {
-		this.camera = options.camera;
+		this.options = options;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_six_continuous_skinned_demons';
-		this.selected = null;
-		this.cycleIndex = -1;
+		this.group.name = 'Awtsmoos_minimal_meadow_enemy_population';
 		this.actors = MINIMAL_MEADOW_ENEMY_PROFILES.map(profile => {
-			return new MinimalMeadowEnemyActor({
-				...options,
-				pack: this,
-				profile
-			});
-		});
-		for (const actor of this.actors) {
+			const actor = new MinimalMeadowEnemyActor({ ...options, profile });
 			this.group.add(actor.group);
-		}
+			return actor;
+		});
+		for (const actor of this.actors) actor.pack = this;
+		this.selected = null;
+		this.updateBudget = new MinimalMeadowEnemyUpdateBudget(this);
+		this.lastReceipts = buildMinimalMeadowEnemyReceipts(this.actors);
 	}
 
 	update(deltaSeconds) {
-		for (const actor of this.actors) {
-			actor.update(deltaSeconds);
-		}
-		if (this.selected?.looted) {
-			this.selected = null;
-		}
+		this.updateBudget.update(deltaSeconds);
+		this.lastReceipts = buildMinimalMeadowEnemyReceipts(this.actors);
 	}
 
 	candidateFromPointer(event) {
-		const candidates = this.actors
-			.filter(actor => actor.hitPointer(event))
-			.map(actor => this.pointerCandidate(actor));
-		return candidates.sort(compareDistance)[0] || null;
+		return this.actors
+			.filter(actor => !actor.looted && actor.hitPointer(event))
+			.sort((first, second) => this.cameraDistance(first) - this.cameraDistance(second))[0]
+			|| null;
 	}
 
-	pointerCandidate(actor) {
-		const hint = actor.targetHint();
-		const camera = this.camera.position;
-		return {
-			actor,
-			distance: Math.hypot(
-				hint.x - camera.x,
-				hint.y - camera.y,
-				hint.z - camera.z
-			),
-			population: this
-		};
+	selectCandidate(candidate) {
+		return selectMinimalMeadowEnemyCandidate(this, candidate);
+	}
+
+	interactCandidate(candidate) {
+		return interactMinimalMeadowEnemyCandidate(this, candidate);
+	}
+
+	candidateSelected(candidate) {
+		return minimalMeadowEnemyCandidateSelected(this, candidate);
 	}
 
 	activateCandidate(candidate) {
-		const actor = candidate.actor;
-		if (!actor.alive && this.selected === actor && actor.selected) {
-			actor.interact();
-			this.selected = null;
-			return;
-		}
-		this.selectActor(actor);
-	}
-
-	selectActor(actor) {
-		if (!actor || actor.looted) {
-			return false;
-		}
-		if (this.selected && this.selected !== actor) {
-			this.selected.clear(true);
-		}
-		this.selected = actor;
-		return actor.target();
+		return this.candidateSelected(candidate)
+			? this.interactCandidate(candidate)
+			: this.selectCandidate(candidate);
 	}
 
 	cycleTarget() {
-		const living = this.actors.filter(actor => actor.alive);
-		if (!living.length) {
+		const targets = this.allTargets();
+		if (!targets.length) {
+			this.clearAll();
 			return false;
 		}
-		this.cycleIndex = (this.cycleIndex + 1) % living.length;
-		return this.selectActor(living[this.cycleIndex]);
+		const currentIndex = targets.indexOf(this.selected);
+		return this.selectActor(targets[(currentIndex + 1) % targets.length]);
+	}
+
+	selectActor(candidate) {
+		return selectMinimalMeadowEnemyCandidate(this, candidate);
 	}
 
 	clearAll() {
-		this.selected?.clear();
+		if (!this.selected) return;
+		this.selected.clear?.();
 		this.selected = null;
 	}
 
+	cameraDistance(actor) {
+		const camera = this.options.camera;
+		if (!camera?.getWorldPosition) return 0;
+		const cameraPosition = camera.getWorldPosition(new Vector3());
+		const actorPosition = actor.group.getWorldPosition(new Vector3());
+		return cameraPosition.distanceToSquared(actorPosition);
+	}
+
+	allTargets() {
+		return this.actors.filter(actor => actor.alive && !actor.looted);
+	}
+
 	diagnostics() {
-		const first = this.actors[0];
 		return {
-			active: this.actors.filter(actor => actor.alive).length,
-			corpses: this.actors.filter(actor => !actor.alive).length,
-			independentSkeletons: new Set(
-				this.actors.map(actor => actor.group.userData.rig.mesh.skeleton)
-			).size,
-			lootable: this.actors.filter(actor => !actor.alive && !actor.looted).length,
-			proceduralCore: first?.group.userData.proceduralCore || null,
-			selectedId: this.selected?.profile.id || null,
-			total: this.actors.length
+			...minimalMeadowEnemyPopulationDiagnostics(this),
+			updateBudget: this.updateBudget.diagnostics()
 		};
 	}
 }
 
-function compareDistance(first, second) {
-	return first.distance - second.distance;
-}
+export const unwrapEnemyActor = unwrapMinimalMeadowEnemyActor;

@@ -4,12 +4,17 @@
 
 /**
  * @file inventoryEquipmentLootFixture.mjs
- * @description Supplies a focused corpse vessel using the real InventoryStore and event contract.
- * The Awtsmoos contains test and world without confusion; Awtsmoos.com keeps this fixture small,
- * explicit, and free of fake gameplay shortcuts while production lifecycle performs every transition.
+ * @description Supplies a deliberate corpse vessel using real loot state, inventory, and events.
+ * The Awtsmoos contains test and world without confusion; Awtsmoos.com keeps selection,
+ * opening, individual taking, Loot All, and authoritative Bag mutation under production law.
  */
 
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { MinimalMeadowCorpseLootState } from '../../app/MinimalMeadowCorpseLootState.js';
+import {
+	lootAllMinimalEnemyCorpse,
+	takeMinimalEnemyCorpseItem
+} from '../../app/MinimalMeadowEnemyLoot.js';
 import { InventoryStore } from '../../gameplay/InventoryStore.js';
 
 export class MinimalMeadowEnemyLifecycleFixture {
@@ -20,6 +25,14 @@ export class MinimalMeadowEnemyLifecycleFixture {
 	}
 
 	createActor() {
+		const profile = {
+			id: 'test-corpse',
+			name: 'Test Shadow',
+			loot: [
+				{ itemId: 'wood-log', quantity: 3 },
+				{ itemId: 'cottage-flower', quantity: 2 }
+			]
+		};
 		const actor = {
 			alive: false,
 			bus: {
@@ -27,24 +40,21 @@ export class MinimalMeadowEnemyLifecycleFixture {
 			},
 			group: new Group(),
 			looted: false,
-			profile: {
-				id: 'test-corpse',
-				loot: [
-					{ itemId: 'wood-log', quantity: 3 },
-					{ itemId: 'cottage-flower', quantity: 2 }
-				]
-			},
+			lootState: new MinimalMeadowCorpseLootState(profile.loot),
+			profile,
 			runtime: { inventory: this.inventory },
 			selected: false
 		};
 		actor.payload = () => ({
-			alive: actor.alive,
+			alive: false,
 			corpse: true,
-			id: actor.profile.id,
+			id: profile.id,
 			lootable: !actor.looted,
 			looted: actor.looted,
 			selected: actor.selected
 		});
+		actor.takeLootItem = (itemId) => takeMinimalEnemyCorpseItem(actor, itemId);
+		actor.takeAllLoot = () => lootAllMinimalEnemyCorpse(actor);
 		return actor;
 	}
 }

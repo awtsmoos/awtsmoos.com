@@ -4,39 +4,60 @@
 
 /**
  * @file MinimalMeadowEnemySteering.js
- * @description Builds separated approach, retreat, and orbit vectors for persistent encounters.
- * The Awtsmoos lets many finite pursuers remain distinct; Awtsmoos.com prevents stacking
- * while melee pressure and caster spacing remain stable instead of turning into flight.
+ * @description Builds separated approach, retreat, and archetype-shaped orbit vectors.
+ * The Awtsmoos lets many finite pursuers remain distinct; Awtsmoos.com gives wardens narrow
+ * turns, skirmishers wide circles, and cantors measured distance without restoring pack aggro.
  */
 
+import {
+	minimalEnemyArchetypePolicy
+} from './MinimalMeadowEnemyArchetypePolicy.js';
 import { minimalEnemyOrbitDirection } from './MinimalMeadowEnemyRolePolicy.js';
+
+const SEPARATION_RADIUS = 8;
+const SEPARATION_FORCE = 5.4;
 
 export function minimalEnemyApproachVector(actor, runtime) {
 	return combined(actor, runtime, 1, 0);
 }
 
 export function minimalEnemyRetreatVector(actor, runtime) {
-	return combined(actor, runtime, -1, 0.35 * minimalEnemyOrbitDirection(actor.profile));
+	return combined(
+		actor,
+		runtime,
+		-1,
+		0.42 * minimalEnemyOrbitDirection(actor.profile)
+	);
 }
 
 export function minimalEnemyOrbitVector(actor, runtime) {
-	return combined(actor, runtime, 0.08, minimalEnemyOrbitDirection(actor.profile));
+	return combined(
+		actor,
+		runtime,
+		0.04,
+		1.15 * minimalEnemyOrbitDirection(actor.profile)
+	);
 }
 
-export function minimalEnemyPackAlerted(actor) {
-	return Boolean(actor.pack?.actors.some((ally) => (
-		ally !== actor && ally.alive && ally.combat?.session?.active
-	)));
+export function minimalEnemyPackAlerted() {
+	return false;
 }
 
 function combined(actor, runtime, forwardWeight, sideWeight) {
+	const behavior = minimalEnemyArchetypePolicy(actor.profile);
 	const dx = runtime.state.x - actor.group.position.x;
 	const dz = runtime.state.z - actor.group.position.z;
 	const length = Math.max(0.0001, Math.hypot(dx, dz));
 	const separation = packSeparation(actor);
+	const orbit = sideWeight * behavior.orbitScale;
+	const separate = SEPARATION_FORCE * Math.max(0.82, behavior.orbitScale);
 	return {
-		x: dx * forwardWeight + dz / length * sideWeight * 4 + separation.x * 2.6,
-		z: dz * forwardWeight - dx / length * sideWeight * 4 + separation.z * 2.6
+		x: dx * forwardWeight
+			+ dz / length * orbit * 4
+			+ separation.x * separate,
+		z: dz * forwardWeight
+			- dx / length * orbit * 4
+			+ separation.z * separate
 	};
 }
 
@@ -48,8 +69,8 @@ function packSeparation(actor) {
 		const dx = actor.group.position.x - ally.group.position.x;
 		const dz = actor.group.position.z - ally.group.position.z;
 		const distance = Math.hypot(dx, dz);
-		if (distance <= 0.001 || distance > 3.4) continue;
-		const force = (3.4 - distance) / 3.4;
+		if (distance <= 0.001 || distance > SEPARATION_RADIUS) continue;
+		const force = (SEPARATION_RADIUS - distance) / SEPARATION_RADIUS;
 		x += dx / distance * force;
 		z += dz / distance * force;
 	}

@@ -3,14 +3,18 @@
 // Blessed is He
 
 /**
- * The Awtsmoos gives desktop and phone the same meadow through different measured vessels;
- * Awtsmoos.com preserves native sources while readable density replaces tiny checkerboard noise.
+ * @file minimalMeadowTerrainMaterialProfiles.test.mjs
+ * @description Proves exact native-pixel frequency, six ecological sources, and one visible road.
+ * The Awtsmoos gives desktop and phone one meadow through measured vessels; Awtsmoos.com
+ * prevents blur, arbitrary stretching, hidden passage, and duplicate collision authority.
  */
 
-import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { createMinimalMeadowTerrainComposites } from '../../app/MinimalMeadowTerrainComposites.js';
+import test from 'node:test';
+import {
+	createMinimalMeadowTerrainComposites
+} from '../../app/MinimalMeadowTerrainComposites.js';
 import {
 	configureMinimalTerrainDensity,
 	minimalMeadowTerrainDensityProfile
@@ -25,6 +29,7 @@ const sourceImage = role => Object.freeze({
 	role,
 	width: 2048
 });
+
 const images = Object.freeze({
 	cobblestone: sourceImage('cobblestone'),
 	dirtGrassOne: sourceImage('dirt-grass-one'),
@@ -49,28 +54,30 @@ test('independent sources replace canvas mosaics', () => {
 	assert.ok(composites.evidence.independentSourceCount >= 6);
 });
 
-test('mobile and desktop profiles keep six readable layers', () => {
+test('mobile and desktop derive exact native frequency from source pixels', () => {
 	const sources = createMinimalMeadowTerrainComposites(images, null);
 	for (const mobile of [false, true]) {
 		const material = {};
 		const density = configureMinimalTerrainDensity(material, sources, 220, mobile);
+		const expectedGrass = mobile ? 72 : 96;
+		const expectedRepeat = 220 * expectedGrass / 2048;
 		assert.equal(material.textureLayers.length, 6);
 		assert.equal(material.textureLayers[3].role, 'road-shoulder');
-		assert.ok(density.profile.grass < 64);
-		assert.ok(density.profile.detail < 64);
-		assert.ok(density.sourceWorldUnits.macro[0] > density.sourceWorldUnits.micro[0]);
-		assert.ok(density.layerReports.every(report => report.sourceWorldUnits.tileWorld.every(Number.isFinite)));
-		assert.equal(material.texturePolicy.shaderWrap, 'mirror-pingpong-repeat');
-		console.log(`DENSITY_${mobile ? 'MOBILE' : 'DESKTOP'}`, JSON.stringify({
-			profile: density.profile,
-			sourceWorldUnits: density.sourceWorldUnits
+		assert.equal(density.profile.grass, expectedGrass);
+		assert.equal(material.texturePolicy.nativeTexelDensity, true);
+		assert.equal(material.texturePolicy.exactFractionalRepeat, true);
+		assert.equal(material.texturePolicy.repetitionPolicy, 'exact-native-pixel-frequency');
+		assert.ok(Math.abs(material.texturePolicy.repeatAcrossWorld[0] - expectedRepeat) < 0.00001);
+		assert.ok(density.layerReports.every(report => {
+			return report.sourceWorldUnits.tileWorld.every(Number.isFinite)
+				&& report.texelsPerWorld === density.profile.detail;
 		}));
 	}
 	assert.deepEqual(minimalMeadowTerrainDensityProfile(true), {
-		detail: 20,
-		grass: 22,
+		detail: 64,
+		grass: 72,
 		mobile: true,
-		road: 24
+		road: 80
 	});
 });
 
@@ -82,12 +89,17 @@ test('terrain and road presets use six broad rotated sources', () => {
 	}
 });
 
-test('package renders one terrain authority and no elevated road child', async () => {
+test('package mounts a visible road while terrain owns collision', async () => {
 	const packageUrl = new URL('../../app/MinimalMeadowTerrainPackage.js', import.meta.url);
-	const source = await readFile(packageUrl, 'utf8');
-	assert.match(source, /group\.add\(mesh\);/);
-	assert.doesNotMatch(source, /group\.add\(mesh,\s*road\)/);
-	assert.match(source, /visible:\s*false/);
-	assert.match(source, /elevatedDuplicateRendered:\s*false/);
-	assert.match(source, /surfaceOffset:\s*0/);
+	const mountUrl = new URL('../../app/MinimalMeadowTerrainRoadMount.js', import.meta.url);
+	const [packageSource, mountSource] = await Promise.all([
+		readFile(packageUrl, 'utf8'),
+		readFile(mountUrl, 'utf8')
+	]);
+	assert.match(packageSource, /visible:\s*true/);
+	assert.match(packageSource, /mountMinimalMeadowTerrainRoad\(group, road\)/);
+	assert.match(packageSource, /visible-bezier-road/);
+	assert.match(mountSource, /visualOnly:\s*true/);
+	assert.match(mountSource, /terrain-height-sampler/);
+	assert.match(mountSource, /frustumCulled\s*=\s*false/);
 });

@@ -4,28 +4,35 @@
 
 /**
  * @file MinimalMeadowEnemyLifecycle.js
- * @description Owns living target, persistent corpse selection, defeat, and deliberate second-step loot.
- * The Awtsmoos returns battle to stillness without erasing the truth of what remains;
- * Awtsmoos.com separates selecting a corpse from taking its loot so touch and drag cannot steal by accident.
+ * @description Owns precise living selection, forgiving corpse taps, retaliation, defeat, and loot.
+ * The Awtsmoos grants darkness no independent throne; Awtsmoos.com keeps living combat exact while
+ * the whole fallen body becomes one deliberate doorway to study and treasure rather than a tiny point.
  */
 
-import { npcPointerHits } from '../world/npc/NpcPointerRay.js';
-import { lootMinimalEnemyCorpse } from './MinimalMeadowEnemyLoot.js';
+import {
+	minimalMeadowEnemyPointerHit
+} from './MinimalMeadowEnemyPointerPolicy.js';
+import { openMinimalEnemyCorpseLoot } from './MinimalMeadowEnemyLoot.js';
+import {
+	clearMinimalMeadowEnemyVisual,
+	selectMinimalMeadowEnemyVisual
+} from './MinimalMeadowEnemySelectionVisual.js';
 
 export function minimalEnemyPointerHit(actor, event) {
-	if (actor.looted) return false;
-	return actor.targetHints().some(hint => npcPointerHits(event, actor.camera, actor.canvas, hint));
+	return minimalMeadowEnemyPointerHit(actor, event);
 }
 
 export function targetMinimalEnemy(actor) {
 	if (actor.looted) return false;
 	actor.selected = true;
+	selectMinimalMeadowEnemyVisual(actor);
 	actor.bus.emit('npc:target', actor.payload());
 	return true;
 }
 
 export function clearMinimalEnemy(actor, silent = false) {
 	actor.selected = false;
+	clearMinimalMeadowEnemyVisual(actor);
 	if (!silent) actor.bus.emit('npc:clear', actor.payload());
 }
 
@@ -35,6 +42,9 @@ export function damageMinimalEnemy(actor, amount) {
 	actor.health = Math.max(0, actor.health - damage);
 	actor.hitTime = 0.46;
 	actor.action = 'hit';
+	if (damage > 0 && actor.health > 0) {
+		actor.combat?.engage?.('struck-by-player');
+	}
 	if (actor.health === 0) defeatMinimalEnemy(actor);
 	const result = { ...actor.payload(), damage, defeated: !actor.alive };
 	actor.bus.emit('enemy:damaged', result);
@@ -46,15 +56,20 @@ export function defeatMinimalEnemy(actor) {
 	if (!actor.alive) return;
 	actor.alive = false;
 	actor.moving = false;
-	actor.selected = false;
 	actor.action = 'death';
 	actor.deathTime = 0;
+	if (actor.selected) selectMinimalMeadowEnemyVisual(actor);
 	actor.bus.emit('enemy:defeated', actor.payload());
 }
 
 export function interactWithMinimalEnemy(actor) {
-	if (actor.alive) return targetMinimalEnemy(actor);
-	if (actor.looted) return { accepted: false, reason: 'CORPSE_ALREADY_LOOTED' };
+	if (actor.alive) {
+		actor.combat?.engage?.('confirmed-target');
+		return targetMinimalEnemy(actor);
+	}
+	if (actor.looted) {
+		return { accepted: false, reason: 'CORPSE_ALREADY_LOOTED' };
+	}
 	if (!actor.selected) {
 		targetMinimalEnemy(actor);
 		return {
@@ -63,5 +78,5 @@ export function interactWithMinimalEnemy(actor) {
 			target: actor.payload()
 		};
 	}
-	return lootMinimalEnemyCorpse(actor);
+	return openMinimalEnemyCorpseLoot(actor);
 }

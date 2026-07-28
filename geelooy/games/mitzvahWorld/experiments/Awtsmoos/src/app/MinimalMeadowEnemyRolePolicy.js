@@ -4,25 +4,30 @@
 
 /**
  * @file MinimalMeadowEnemyRolePolicy.js
- * @description Chooses one stable combat role and broad deterministic cadence from identity.
- * The Awtsmoos is unchanged while roles differ; Awtsmoos.com lets each encounter reveal
- * melee pressure or Hebrew casting without frame-random choice or synchronized pack attacks.
+ * @description Chooses stable combat roles and deterministic cadence from identity and archetype.
+ * The Awtsmoos is unchanged while roles differ; Awtsmoos.com lets wardens, skirmishers,
+ * cantors, and familiar demons retain one readable purpose for an entire engagement.
  */
 
-/** Returns the role retained for one complete engagement. */
+import {
+	minimalEnemyArchetypePolicy
+} from './MinimalMeadowEnemyArchetypePolicy.js';
+
 export function selectMinimalEnemyRole(profile = {}) {
+	const archetypeRole = minimalEnemyArchetypePolicy(profile).role;
+	if (archetypeRole) return archetypeRole;
 	if (profile.temperament === 'ranged') return 'caster';
 	if (profile.temperament === 'melee') return 'melee';
-	return stableHash(profile.id || profile.name || 'enemy') % 2 ? 'caster' : 'melee';
+	return stableHash(profile.id || profile.name || 'enemy') % 2
+		? 'caster'
+		: 'melee';
 }
 
-/** Returns a deterministic opening delay from one thousand cadence buckets. */
 export function minimalEnemyDecisionOffset(profile = {}) {
 	const fraction = stableHash(profile.id || profile.name || 'enemy') % 1000 / 999;
 	return Number((0.12 + fraction * 0.54).toFixed(4));
 }
 
-/** Returns a deterministic orbit direction for repositioning. */
 export function minimalEnemyOrbitDirection(profile = {}) {
 	return stableHash(profile.id || profile.name || 'enemy') % 2 ? 1 : -1;
 }

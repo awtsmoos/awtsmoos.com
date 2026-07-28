@@ -1,54 +1,54 @@
 //B"H
-const fs = require("fs");
-const path = require("path");
+// Boruch Hashem
+// Blessed is He
+
+const fs = require("node:fs");
+const path = require("node:path");
 const { ROOT, assert, test } = require("./assert.cjs");
+const {
+	ARTIFACT_PATH,
+	PUBLIC_URL,
+	SOURCE_PATH,
+	buildArchive,
+	collectFiles
+} = require("../../scripts/buildServerExtensionZip.cjs");
 
 /**
- * The extension list now lives with static prompt assets. The Awtsmoos joins
- * that list to every service-worker and page-helper dependency so Awtsmoos.com
- * cannot publish an incomplete ZIP after the bridge is split into small files.
+ * The Awtsmoos gathers every Awtsmoos.com extension source into one exact archive.
+ * No duplicated legacy list may drift from the canonical directory or omit a new
+ * background dependency while still pretending that the package is complete.
  */
-async function run() {
-	return test("extension-zip-packaging-includes-all-bridge-deps", async () => {
-		const extRoot = path.join(ROOT, "../scripts/tricks/extensions/server");
-		const assets = fs.readFileSync(path.join(ROOT, "promptAssets.js"), "utf8");
-		const background = fs.readFileSync(path.join(extRoot, "background.js"), "utf8");
-		const jected = fs.readFileSync(path.join(extRoot, "jected.js"), "utf8");
-		const listBlock = assets.match(/EXTENSION_FILE_NAMES\s*=\s*\[([\s\S]*?)\];/)?.[1] || "";
-		const listed = [...listBlock.matchAll(/"([^"]+\.(?:js|json))"/g)].map(match => match[1]);
+function run() {
+	return test("extension-package-exact-source-closure", async () => {
+		const sourceDirectory = path.resolve(ROOT, "..", "..", SOURCE_PATH);
+		const sourceFiles = collectFiles(sourceDirectory).sort();
+		const result = buildArchive();
+		const artifact = path.resolve(ROOT, "..", "..", ARTIFACT_PATH);
+		const signature = fs.readFileSync(artifact).subarray(0, 4);
 		const required = [
 			"manifest.json",
 			"background.js",
-			"awtsmoosContent.js",
-			...importScriptsDeps(background),
-			...pageHelperDeps(jected)
+			"directRelayClient.js",
+			"directRelayPayload.js",
+			"bgAutomation/streamCompatibility.js",
+			"bgAutomation/engineScheduler.js",
+			"bgAutomation/engineLifecycle.js",
+			"bgAutomation/engineTurnRunner.js"
 		];
-		const missing = [...new Set(required)].filter(file => !listed.includes(file));
-		const absent = listed.filter(file => !fs.existsSync(path.join(extRoot, file)));
-
-		assert(missing.length === 0, "extension ZIP list is missing runtime dependencies", {
-			missing,
-			listed,
-			required
+		assert(PUBLIC_URL === "https://awtsmoos.com/ai/relay/install/awtsmoos-server-extension.zip", "public ZIP URL must remain canonical", PUBLIC_URL);
+		assert(JSON.stringify(result.files) === JSON.stringify(sourceFiles), "ZIP entries must exactly match current extension source", {
+			archive: result.files,
+			source: sourceFiles
 		});
-		assert(absent.length === 0, "extension ZIP list references absent files", { absent });
-		assert(listed.includes("streamLedger.js") && listed.includes("jectedBridge.js"),
-			"ZIP must include stream ledger and split page bridge");
-		return { listed: listed.length, required: required.length };
+		assert(required.every(file => result.files.includes(file)), "ZIP must contain every live modular dependency", required.filter(file => !result.files.includes(file)));
+		assert([...signature].join(",") === "80,75,3,4", "artifact must retain a ZIP signature", [...signature]);
+		assert(result.bytes > 1024, "extension ZIP must not be empty", result.bytes);
+		return {
+			files: result.files.length,
+			bytes: result.bytes,
+			publicUrl: PUBLIC_URL
+		};
 	});
-}
-
-function importScriptsDeps(text) {
-	const deps = [];
-	for (const call of text.matchAll(/importScripts\(([^)]+)\)/g)) {
-		for (const item of call[1].matchAll(/"([^"]+)"/g)) deps.push(item[1]);
-	}
-	return deps;
-}
-
-function pageHelperDeps(text) {
-	return [...text.matchAll(/replace\([^)]*,\s*"([^"]+\.js)"\)/g)]
-		.map(match => match[1]);
 }
 
 module.exports = { run };

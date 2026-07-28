@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "port": 9258,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "state": {
+    "enemies": 0,
+    "featurePhase": "",
+    "houses": 0,
+    "readiness": "",
+    "remoteResources": 0,
+    "rendererStage": "",
+    "richWorldMountStatus": null,
+    "runtimePresent": false,
+    "targetingPresent": false
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

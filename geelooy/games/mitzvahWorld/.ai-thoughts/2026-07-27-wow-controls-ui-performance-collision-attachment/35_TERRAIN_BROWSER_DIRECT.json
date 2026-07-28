@@ -1,0 +1,23 @@
+{
+  "value": {
+    "readiness": "degraded-ready",
+    "rendererStage": "rich-ready",
+    "featurePhase": "ready",
+    "runtimePresent": true,
+    "terrain": {
+      "size": 360,
+      "steps": null,
+      "visualTriangles": 28800,
+      "collisionSteps": 60,
+      "collisionCellWidth": 6,
+      "colliderTriangles": 7200,
+      "colliderCount": 7200
+    }
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

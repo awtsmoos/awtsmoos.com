@@ -1,0 +1,352 @@
+{
+  "nleDesktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1440,
+      "scrollHeight": 1000
+    },
+    "studio": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 1000,
+      "background": "rgb(7, 11, 18)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 71,
+      "background": "rgb(12, 18, 28)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248) rgb(234, 241, 248) rgb(32, 41, 56)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "assets": {
+      "x": 0,
+      "y": 71,
+      "width": 304,
+      "height": 535,
+      "background": "rgb(11, 17, 27)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248) rgb(32, 41, 56) rgb(234, 241, 248) rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "preview": {
+      "x": 304,
+      "y": 71,
+      "width": 816,
+      "height": 535,
+      "background": "rgb(5, 8, 13)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "inspector": {
+      "x": 1120,
+      "y": 71,
+      "width": 320,
+      "height": 535,
+      "background": "rgb(11, 17, 27)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248) rgb(234, 241, 248) rgb(234, 241, 248) rgb(32, 41, 56)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "timeline": {
+      "x": 0,
+      "y": 606,
+      "width": 1440,
+      "height": 360,
+      "background": "rgb(8, 13, 20)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(32, 41, 56) rgb(234, 241, 248) rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "canvas": {
+      "x": 326,
+      "y": 93,
+      "width": 771,
+      "height": 434,
+      "background": "rgb(3, 7, 12)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgba(255, 255, 255, 0.12)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "assetCard": {
+      "x": 13,
+      "y": 479,
+      "width": 262,
+      "height": 60,
+      "background": "rgb(14, 22, 33)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(35, 45, 59)",
+      "fontSize": "16px",
+      "radius": "11.2px"
+    },
+    "clip": {
+      "x": 405,
+      "y": 746,
+      "width": 61,
+      "height": 40,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgba(255, 255, 255, 0.18)",
+      "fontSize": "16px",
+      "radius": "7.2px"
+    },
+    "tabs": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "status": {
+      "x": 0,
+      "y": 966,
+      "width": 1440,
+      "height": 34,
+      "background": "rgb(10, 16, 24)",
+      "color": "rgb(143, 160, 179)",
+      "border": "rgb(32, 41, 56) rgb(143, 160, 179) rgb(143, 160, 179)",
+      "fontSize": "10.88px",
+      "radius": "0px"
+    }
+  },
+  "nleMobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "scrollHeight": 844
+    },
+    "studio": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "background": "rgb(7, 11, 18)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "topbar": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 127,
+      "background": "rgb(12, 18, 28)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248) rgb(234, 241, 248) rgb(32, 41, 56)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "assets": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "background": "rgb(11, 17, 27)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "preview": {
+      "x": 0,
+      "y": 181,
+      "width": 390,
+      "height": 255,
+      "background": "rgb(5, 8, 13)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "inspector": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "background": "rgb(11, 17, 27)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "timeline": {
+      "x": 0,
+      "y": 436,
+      "width": 390,
+      "height": 371,
+      "background": "rgb(8, 13, 20)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(32, 41, 56) rgb(234, 241, 248) rgb(234, 241, 248)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "canvas": {
+      "x": 8,
+      "y": 189,
+      "width": 374,
+      "height": 210,
+      "background": "rgb(3, 7, 12)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgba(255, 255, 255, 0.12)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "assetCard": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "background": "rgb(14, 22, 33)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(35, 45, 59)",
+      "fontSize": "16px",
+      "radius": "11.2px"
+    },
+    "clip": {
+      "x": 365,
+      "y": 605,
+      "width": 61,
+      "height": 46,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "border": "rgba(255, 255, 255, 0.18)",
+      "fontSize": "16px",
+      "radius": "7.2px"
+    },
+    "tabs": {
+      "x": 0,
+      "y": 127,
+      "width": 390,
+      "height": 54,
+      "background": "rgb(11, 17, 26)",
+      "color": "rgb(234, 241, 248)",
+      "border": "rgb(234, 241, 248) rgb(234, 241, 248) rgb(32, 41, 56)",
+      "fontSize": "16px",
+      "radius": "0px"
+    },
+    "status": {
+      "x": 0,
+      "y": 807,
+      "width": 390,
+      "height": 37,
+      "background": "rgb(10, 16, 24)",
+      "color": "rgb(143, 160, 179)",
+      "border": "rgb(32, 41, 56) rgb(143, 160, 179) rgb(143, 160, 179)",
+      "fontSize": "10.88px",
+      "radius": "0px"
+    }
+  },
+  "reelDesktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1425,
+      "scrollHeight": 4008
+    },
+    "dialog": {
+      "x": 137,
+      "y": 68,
+      "width": 1152,
+      "height": 864,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(238, 245, 251)",
+      "border": "rgb(238, 245, 251)",
+      "radius": "0px"
+    },
+    "surface": {
+      "x": 137,
+      "y": 68,
+      "width": 1152,
+      "height": 864,
+      "background": "rgb(9, 15, 24)",
+      "color": "rgb(238, 245, 251)",
+      "border": "rgba(255, 255, 255, 0.12)",
+      "radius": "20px"
+    },
+    "header": null,
+    "choices": [
+      {
+        "x": 202,
+        "y": 471,
+        "width": 503,
+        "height": 240,
+        "background": "rgb(17, 26, 39)"
+      },
+      {
+        "x": 721,
+        "y": 471,
+        "width": 503,
+        "height": 240,
+        "background": "rgba(28, 52, 88, 0.72)"
+      }
+    ],
+    "footer": null
+  },
+  "reelMobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 375,
+      "scrollHeight": 2546
+    },
+    "dialog": {
+      "x": 0,
+      "y": 0,
+      "width": 375,
+      "height": 844,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(238, 245, 251)",
+      "border": "rgb(238, 245, 251)",
+      "radius": "0px"
+    },
+    "surface": {
+      "x": 0,
+      "y": 0,
+      "width": 375,
+      "height": 844,
+      "background": "rgb(9, 15, 24)",
+      "color": "rgb(238, 245, 251)",
+      "border": "rgb(238, 245, 251)",
+      "radius": "0px"
+    },
+    "header": null,
+    "choices": [
+      {
+        "x": 13,
+        "y": 330,
+        "width": 349,
+        "height": 181,
+        "background": "rgb(17, 26, 39)"
+      },
+      {
+        "x": 13,
+        "y": 522,
+        "width": 349,
+        "height": 170,
+        "background": "rgba(28, 52, 88, 0.72)"
+      }
+    ],
+    "footer": null
+  }
+}

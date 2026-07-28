@@ -1,0 +1,201 @@
+{
+  "consoleErrors": [],
+  "exceptions": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "pageState": {
+    "bodyText": "−\n🎩\nChossid\nLevel 1 · Health 100/100 · Armor 3\n⭐ XP 0/100\n1\nאש\n1\nאור\n2\n⚔\n3\n◎\nTab\nCombat ready · choose a demon\n−\n🚶\n›\n🎒\n🌟\n🗺️\n📜\n📚\n🎮\n👁️\n☰\nW/S move · A/D turn · Q/E strafe · arrows · Shift/R run · Space jump | Tab target · 1/2/3 attack · right rail menus · touch joystick | standing · no target · ready",
+    "canvasCount": 1,
+    "dataset": {
+      "awtsmoosGameplay": "true",
+      "awtsmoosRendererHydration": "ready",
+      "awtsmoosRenderer": "webgl",
+      "awtsmoosRendererContextAttempts": "webgl",
+      "awtsmoosRendererFallback": "",
+      "awtsmoosRendererFallbackMessage": "",
+      "awtsmoosRendererFallbackRecoverable": "",
+      "awtsmoosRendererStage": "rich-ready",
+      "awtsmoosRuntimeState": "playable",
+      "awtsmoosRuntimeError": "",
+      "awtsmoosReadiness": "core-playable",
+      "awtsmoosFeatures": "combat-ready",
+      "awtsmoosMenuReady": "true",
+      "awtsmoosSession": "singleplayer",
+      "awtsmoosUi": "ready",
+      "awtsmoosMobileIntegration": "ready"
+    },
+    "href": "http://localhost:8080/games/mitzvahWorld/",
+    "readyState": "complete",
+    "renderer": {
+      "backend": "webgl",
+      "contextName": "webgl",
+      "errors": [],
+      "hydrationError": null,
+      "hydrationState": "ready",
+      "stats": {
+        "culledBackfaceMeshes": 4,
+        "culledMeshes": {
+          "distance": 0,
+          "frustum": 0,
+          "invisibleSubtrees": 0
+        },
+        "draws": 4,
+        "errors": [],
+        "floatTexture": true,
+        "frameUniformUploads": 1,
+        "grassInteractor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "hiddenHelpers": {
+          "line": 0,
+          "point": 0,
+          "other": 0
+        },
+        "jointMode": "uniform",
+        "jointsUploaded": 0,
+        "matrixNodes": {
+          "reusedNodes": 3,
+          "skippedSubtrees": 0,
+          "updatedNodes": 5
+        },
+        "maxUniformJoints": 96,
+        "maxVertexTextures": 16,
+        "maxVertexUniformVectors": 1024,
+        "opaqueMeshes": 4,
+        "perMeshSkinUpdate": true,
+        "programSwitches": 1,
+        "reactiveGrassMeshes": 0,
+        "renderOrder": {
+          "geometryGroups": 4,
+          "meshCount": 4,
+          "stateGroups": 4
+        },
+        "rigidMeshes": 4,
+        "sharedSkinPaletteCache": true,
+        "staticBatch": {
+          "batchMeshes": 0,
+          "batchedSourceMeshes": 0,
+          "batchedTriangles": 0,
+          "candidateGroups": 0,
+          "candidateMeshes": 0,
+          "families": {},
+          "mergeableGroups": 0,
+          "potentialSavedDraws": 0,
+          "savedDraws": 0,
+          "singletonGroups": 0,
+          "cacheBuilds": 0,
+          "sequenceReuses": 0,
+          "sequence": {
+            "captures": 1,
+            "checks": 0,
+            "hits": 0,
+            "misses": 0,
+            "length": 0
+          }
+        },
+        "skinGpuUploadReuses": 0,
+        "skinGpuUploads": 0,
+        "skinPaletteRecomputes": 0,
+        "skinPaletteReuses": 0,
+        "skinTextureUploads": 0,
+        "skinUniformUploads": 0,
+        "skinnedMeshes": 0,
+        "transparentMeshes": 0,
+        "triangles": 10404,
+        "bufferStateSkips": 0,
+        "bufferStateUploads": 0,
+        "manualAttributeBindings": 0,
+        "vertexArrays": {
+          "binds": 2,
+          "creations": 2,
+          "fallbackSkips": 15,
+          "fallbackUploads": 6,
+          "failures": 0,
+          "invalidations": 2,
+          "skips": 2,
+          "supported": true
+        },
+        "materialStateSkips": 0,
+        "materialStateUploads": 4,
+        "textureStateUploads": 2,
+        "textureStateSkips": 2,
+        "texturedMeshes": 1,
+        "textureUrl": "http://localhost:8080/games/mitzvahWorld/assets/materials/local/world/full-resolution/grass%208.png",
+        "textureSize": "313x313",
+        "textureRepeat": [
+          1,
+          1
+        ],
+        "textureAnisotropy": 12,
+        "texturePolicy": {
+          "densityPlan": {
+            "anisotropy": 12,
+            "effectivePixelsPerWorld": [
+              34.14545454545455,
+              34.14545454545455
+            ],
+            "effectiveSource": {
+              "w": 313,
+              "h": 313
+            },
+            "mobile": false,
+            "repeat": [
+              24,
+              24
+            ],
+            "source": {
+              "h": 313,
+              "w": 313
+            },
+            "sourceUtilization": [
+              0.8785942492012779,
+              0.8785942492012779
+            ],
+            "targetPixelsPerWorld": 30,
+            "tileWorld": [
+              9.166666666666666,
+              9.166666666666666
+            ]
+          },
+          "fullResolution": true,
+          "nativeTexelDensity": true,
+          "projection": "world-stochastic-mirror",
+          "role": "terrain-base",
+          "shaderWrap": "mirror-pingpong-repeat",
+          "texelsPerWorld": 30,
+          "uvUnitsPerWorld": [
+            0.035,
+            0.035
+          ]
+        },
+        "mixedTerrain": true,
+        "mixTextureUrl": "./assets/materials/local/terrain/worn-earth.jpg",
+        "mixTextureSize": "313x313",
+        "mixRepeat": [
+          1.1666666666666667,
+          1.1666666666666667
+        ],
+        "mixStrength": 0.96,
+        "mixPatchScale": 0.012,
+        "mixMapRepeatMatches": false,
+        "mixShaderFunction": "mix()-world-space-patches",
+        "terrainLayerCapacity": 6,
+        "terrainLayerLogicalCount": 6,
+        "terrainLayerTextures": 6,
+        "glStateCache": {
+          "enabled": false,
+          "calls": 0,
+          "skips": 0,
+          "skipRatio": 0,
+          "invalidations": 0,
+          "vertexArrayInvalidations": 0,
+          "methods": {}
+        }
+      }
+    },
+    "title": "B\"H Mitzvah World — Restored River Valley"
+  },
+  "screenshotPath": ".ai-thoughts/2026-07-26-minimal-meadow-contract-repair/final-webgl-convergence.png"
+}

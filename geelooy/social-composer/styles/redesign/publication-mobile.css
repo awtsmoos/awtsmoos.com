@@ -1,0 +1,47 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Publication remains fixed above the phone safe area with one unmistakable
+ * amber gate and four compact secondary actions beneath it.
+ */
+
+@media (max-width: 42.5rem) {
+	.composer-civilization-document .actionBar {
+		position: fixed;
+		z-index: 95;
+		inset-inline: 0;
+		bottom: 0;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: .32rem;
+		inline-size: auto;
+		margin: 0;
+		padding: .48rem .55rem calc(.48rem + env(safe-area-inset-bottom));
+		border-inline: 0;
+		border-block-end: 0;
+		border-radius: var(--composer-radius-lg) var(--composer-radius-lg) 0 0;
+		background: rgba(12, 17, 24, .96);
+		box-shadow: 0 -.8rem 2rem rgba(0, 0, 0, .35);
+		backdrop-filter: blur(14px);
+	}
+
+	.composer-civilization-document .actionBar button {
+		min-inline-size: 0;
+		min-block-size: 2.45rem;
+		padding-inline: .28rem;
+		font-size: .64rem;
+	}
+
+	.composer-civilization-document .actionBar .publishButton {
+		grid-column: 1 / -1;
+		grid-row: 1;
+		min-block-size: 2.95rem;
+		font-size: .84rem;
+	}
+}
+
+@media (max-width: 23rem) {
+	.composer-civilization-document .actionBar {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

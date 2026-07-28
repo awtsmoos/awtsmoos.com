@@ -1,0 +1,64 @@
+{
+  "ok": true,
+  "port": 9255,
+  "route": "http://localhost:8080/games/mitzvahWorld/",
+  "left": {
+    "alignment": 0.98,
+    "facingDelta": 0,
+    "yawDelta": 0.98
+  },
+  "right": {
+    "alignment": 0,
+    "facingDelta": 1.9600000000000002,
+    "yawDelta": 0.98
+  },
+  "both": {
+    "distance": 0.8400000000000002
+  },
+  "keys": {
+    "aDown": -1,
+    "aUp": 0,
+    "afterBlur": 0,
+    "dDown": 1
+  },
+  "attachment": {
+    "anchorCount": 1,
+    "handBound": true,
+    "parentIsRightHand": true,
+    "visible": true
+  },
+  "floor": {
+    "expected": 8.9269,
+    "grounded": true,
+    "renderY": 8.9269,
+    "source": "story-floor"
+  },
+  "ui": {
+    "menuInside": true,
+    "repair": "safe-viewport-v1",
+    "visible": [
+      {
+        "className": "Awtsmoos-status-dock",
+        "inside": true
+      },
+      {
+        "className": "Awtsmoos-game-rail-host",
+        "inside": true
+      },
+      {
+        "className": "Awtsmoos-combat-host",
+        "inside": true
+      }
+    ]
+  },
+  "cadence": {
+    "bootstrapDelta": 3,
+    "uiDelta": 4
+  },
+  "browserEvidence": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "httpErrors": [],
+    "requestFailures": []
+  }
+}

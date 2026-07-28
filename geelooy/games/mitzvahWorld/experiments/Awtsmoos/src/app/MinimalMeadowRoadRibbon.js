@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowRoadRibbon.js
- * @description Wraps continuous Bézier road data in an optional, normally hidden diagnostic mesh.
- * The Awtsmoos reveals a road without laying a second world above the first; Awtsmoos.com keeps
- * center, soft shoulder, and grass transition available for proof while terrain remains authority.
+ * @description Renders measured cobblestone with one full cross-road tile and blended shoulders.
+ * The Awtsmoos reveals one road through stone, soil, and returning green; Awtsmoos.com keeps
+ * the Bézier path aligned while no narrow road crops less than one complete cobblestone garment.
  */
 
 import { Mesh } from '../../../light-three-gltf/tiny-runtime.js';
@@ -27,32 +27,35 @@ export function createMinimalMeadowRoadRibbon(input, heightAtValue, optionsValue
 		image: config.image,
 		maximumAnisotropy: config.options.mobile ? 4 : 12,
 		mobile: config.options.mobile,
-		texelsPerWorld: config.options.mobile ? 24 : 34,
+		texelsPerWorld: config.options.mobile ? 54 : 72,
 		worldDepth: MINIMAL_MEADOW_ROAD_LENGTH,
 		worldWidth: data.width
 	});
+	const repeat = completeRoadRepeat(density.repeat);
 	const layers = roadLayers(config.image, config.options);
 	const material = createPrimitiveMaterial({
 		anisotropy: density.anisotropy,
-		color: '#c5ad82',
-		id: 'Awtsmoos_continuous_bezier_road_diagnostic',
+		color: '#ffffff',
+		id: 'Awtsmoos_continuous_cobblestone_bezier_road',
 		mapImage: config.image,
-		mapRepeat: [1, 1],
+		mapRepeat: repeat,
 		textureLayers: layers,
 		texturePolicy: {
 			densityPlan: density,
 			projection: 'bezier-distance-mirror',
+			repeat,
 			roadAuthority: 'MinimalMeadowBezierPath'
 		}
-	}, [1, 1]);
+	}, repeat);
 	const mesh = new Mesh(createMinimalMeadowRoadGeometry(data), material);
-	mesh.name = 'Awtsmoos_continuous_bezier_road_diagnostic';
+	mesh.name = 'Awtsmoos_continuous_cobblestone_bezier_road';
 	mesh.frustumCulled = false;
 	mesh.visible = config.options.visible ?? true;
 	mesh.userData.AwtsmoosRoad = {
 		...data.evidence,
 		density,
 		length: MINIMAL_MEADOW_ROAD_LENGTH,
+		repeat,
 		sourceCount: layers.length,
 		width: data.width
 	};
@@ -71,11 +74,18 @@ function normalizeInput(input, heightAt, options) {
 	return { heightAt, image: input, options };
 }
 
+function completeRoadRepeat(repeat) {
+	return Object.freeze([
+		Math.max(1, Number(repeat?.[0]) || 1),
+		Math.max(1, Number(repeat?.[1]) || 1)
+	]);
+}
+
 function roadLayers(image, options) {
 	return [
-		roadLayer('stone-dirt-center', image, 0.18, 0.82, [0, 1, 0, 0]),
-		roadLayer('soft-soil-shoulder', options.shoulderImage, -0.62, 0.58, [0.2, 0.8, 0, 0]),
-		roadLayer('grass-transition', options.soilImage, 1.04, 0.32, [0.62, 0.38, 0, 0])
+		roadLayer('cobblestone-center', image, 0.18, 1, [0, 1, 0, 0]),
+		roadLayer('dirt-grass-shoulder', options.shoulderImage, -0.62, 0.62, [0.2, 0.8, 0, 0]),
+		roadLayer('open-dirt-transition', options.soilImage, 1.04, 0.38, [0.62, 0.38, 0, 0])
 	].filter(layer => layer.image);
 }
 

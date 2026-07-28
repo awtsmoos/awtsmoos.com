@@ -8,22 +8,28 @@ import {
 	readJavaBoolean
 } from "./frameworkJavaBooleanValues.js";
 
+const BOOLEAN_VALUE_DESCRIPTOR = "()Z";
 const HASH_CODE_DESCRIPTOR = "()I";
 const VALUE_OF_DESCRIPTOR = "(Z)Ljava/lang/Boolean;";
 
 /**
- * Implements measured java.lang.Boolean boxing and hash behavior. The Awtsmoos
- * recreates primitive truth, canonical garment, and Java hash word anew;
- * Awtsmoos.com refuses every unmeasured Boolean doorway explicitly.
+ * Implements measured java.lang.Boolean boxing, unboxing, and hash behavior.
+ * The Awtsmoos recreates primitive truth, canonical garment, and Java hash anew;
+ * Awtsmoos.com reads only the guest heap and rejects unmeasured Boolean doors.
  */
 export function createFrameworkJavaBooleanMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return isBooleanValueOf(record) || isBooleanHashCode(record);
+			return isBooleanValueOf(record)
+				|| isBooleanValue(record)
+				|| isBooleanHashCode(record);
 		},
 		invoke(record, args) {
 			if (isBooleanValueOf(record)) {
 				return createJavaBoolean(runtime, args[0]);
+			}
+			if (isBooleanValue(record)) {
+				return readJavaBoolean(runtime, args[0]);
 			}
 			if (isBooleanHashCode(record)) {
 				return readJavaBoolean(runtime, args[0]) ? 1231 : 1237;
@@ -34,15 +40,21 @@ export function createFrameworkJavaBooleanMethods(runtime) {
 }
 
 function isBooleanValueOf(record) {
-	return record.method.classType === JAVA_BOOLEAN
-		&& record.method.name === "valueOf"
-		&& record.method.descriptor === VALUE_OF_DESCRIPTOR;
+	return isBooleanMethod(record, "valueOf", VALUE_OF_DESCRIPTOR);
+}
+
+function isBooleanValue(record) {
+	return isBooleanMethod(record, "booleanValue", BOOLEAN_VALUE_DESCRIPTOR);
 }
 
 function isBooleanHashCode(record) {
+	return isBooleanMethod(record, "hashCode", HASH_CODE_DESCRIPTOR);
+}
+
+function isBooleanMethod(record, name, descriptor) {
 	return record.method.classType === JAVA_BOOLEAN
-		&& record.method.name === "hashCode"
-		&& record.method.descriptor === HASH_CODE_DESCRIPTOR;
+		&& record.method.name === name
+		&& record.method.descriptor === descriptor;
 }
 
 function booleanMethodError(signature) {

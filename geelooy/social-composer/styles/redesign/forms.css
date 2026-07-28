@@ -1,0 +1,107 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * One control language binds alias, destination, writing, structure, and
+ * publication without making the living post resemble an administration form.
+ */
+
+.composer-civilization-document .majorPanelBody {
+	display: grid;
+	gap: .8rem;
+	padding: .85rem;
+}
+
+.composer-civilization-document label {
+	display: grid;
+	gap: .3rem;
+	color: var(--composer-text-muted);
+	font-size: .67rem;
+	font-weight: 760;
+}
+
+.composer-civilization-document :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: var(--composer-control);
+	padding: .55rem .68rem;
+	border: 1px solid var(--composer-border);
+	border-radius: var(--composer-radius-sm);
+	background: var(--composer-surface-0);
+	color: var(--composer-text);
+	font: inherit;
+	transition: border-color var(--composer-transition), background var(--composer-transition);
+}
+
+.composer-civilization-document :is(input, textarea)::placeholder {
+	color: var(--composer-text-faint);
+}
+
+.composer-civilization-document textarea {
+	min-block-size: 5rem;
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.composer-civilization-document select {
+	appearance: none;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--composer-text-muted) 50%),
+		linear-gradient(135deg, var(--composer-text-muted) 50%, transparent 50%);
+	background-position: calc(100% - .9rem) 50%, calc(100% - .6rem) 50%;
+	background-repeat: no-repeat;
+	background-size: .3rem .3rem;
+	padding-inline-end: 1.7rem;
+}
+
+.composer-civilization-document :is(input, textarea, select):hover {
+	border-color: var(--composer-border-strong);
+	background-color: #0b1017;
+}
+
+.composer-civilization-document input[type="checkbox"],
+.composer-civilization-document input[type="radio"] {
+	inline-size: 1rem;
+	block-size: 1rem;
+	margin: 0;
+	accent-color: var(--composer-violet);
+}
+
+.composer-civilization-document label:has(> input[type="checkbox"]),
+.composer-civilization-document label:has(> input[type="radio"]) {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	min-block-size: var(--composer-control-sm);
+	color: var(--composer-text-soft);
+}
+
+.composer-civilization-document :is(.twoColumns, .threeColumns, .creationGrid, .placementComposer) {
+	gap: .65rem;
+}
+
+.composer-civilization-document .notice,
+.composer-civilization-document .answerContext,
+.composer-civilization-document .questionFields {
+	padding: .72rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: var(--composer-radius-md);
+	background: rgba(255, 255, 255, .02);
+	color: var(--composer-text-muted);
+}
+
+.composer-civilization-document .notice {
+	border-color: rgba(255, 146, 146, .24);
+	background: var(--composer-danger-soft);
+	color: #ffc3c3;
+}
+
+.composer-civilization-document #title {
+	min-block-size: 3.35rem;
+	font-size: 1.12rem;
+	font-weight: 800;
+}
+
+.composer-civilization-document #summary {
+	min-block-size: 5rem;
+}

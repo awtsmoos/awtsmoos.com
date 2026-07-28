@@ -1,0 +1,14 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers verse controls, chapters, media, playlists, and mobile
+ * geometry in one deliberate structured-composer cascade.
+ */
+
+@import url("./controls.css?v=structured-composer-003");
+@import url("./sections.css?v=structured-composer-003");
+@import url("./media.css?v=structured-composer-003");
+@import url("./playlist.css?v=structured-composer-003");
+@import url("./mobile.css?v=structured-composer-003");
+@import url("./playlist-sheet.css?v=structured-composer-003");

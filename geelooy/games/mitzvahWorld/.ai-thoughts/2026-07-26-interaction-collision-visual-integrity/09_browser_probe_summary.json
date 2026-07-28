@@ -1,0 +1,90 @@
+{
+  "error": {
+    "message": "Uncaught (in promise) TypeError: ramp.getWorldPosition is not a function",
+    "stack": "Error: Uncaught (in promise) TypeError: ramp.getWorldPosition is not a function\n    at evaluateMobile (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-mobile-gameplay-polish/MobileCdpClient.mjs:61:9)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-interaction-collision-visual-integrity/integrity-browser-probe.mjs:53:19"
+  },
+  "featurePhase": "ready",
+  "weapon": {
+    "anchor": "Awtsmoos_visible_equipped_weapon_anchor",
+    "anchorDistance": 1.2950675658049662,
+    "anchorOwner": true,
+    "meshCount": 3,
+    "meshesVisible": true,
+    "visible": true
+  },
+  "houseCount": 178,
+  "houseBad": [],
+  "vegetationCount": 28,
+  "vegetationBad": [],
+  "barkCount": 22,
+  "terrain": {
+    "layerCount": 6,
+    "policy": {
+      "densityPlan": {
+        "anisotropy": 12,
+        "effectivePixelsPerWorld": [
+          18.495454545454546,
+          18.495454545454546
+        ],
+        "effectiveSource": {
+          "w": 313,
+          "h": 313
+        },
+        "mobile": false,
+        "repeat": [
+          13,
+          13
+        ],
+        "source": {
+          "h": 313,
+          "w": 313
+        },
+        "sourceUtilization": [
+          0.8650774145981813,
+          0.8650774145981813
+        ],
+        "targetPixelsPerWorld": 16,
+        "tileWorld": [
+          16.923076923076923,
+          16.923076923076923
+        ]
+      },
+      "fullResolution": true,
+      "nativeTexelDensity": true,
+      "projection": "world-stochastic-mirror",
+      "role": "terrain-base",
+      "shaderWrap": "mirror-pingpong-repeat",
+      "texelsPerWorld": 16,
+      "uvUnitsPerWorld": [
+        0.035,
+        0.035
+      ],
+      "fullSourceCoverage": true,
+      "minimumWorldCoverage": 180,
+      "repetitionPolicy": "broad-source-with-restrained-detail"
+    }
+  },
+  "interaction": {
+    "buttonAction": "letter-light",
+    "buttonClicked": true,
+    "cast": {
+      "casting": "letter-light",
+      "cooldowns": {
+        "hebrew-fire": 0,
+        "letter-light": 0,
+        "staff-strike": 0
+      },
+      "effects": 0,
+      "progress": 0.07572727272727371,
+      "projectiles": 0
+    },
+    "methods": {
+      "clear": "function",
+      "payload": "function",
+      "target": "function"
+    },
+    "selectedId": "tzel-chai",
+    "selectedIsActor": true,
+    "runtimeError": ""
+  }
+}

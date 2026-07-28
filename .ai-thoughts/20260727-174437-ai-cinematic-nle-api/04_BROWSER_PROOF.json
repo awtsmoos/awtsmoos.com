@@ -1,0 +1,140 @@
+{
+  "desktop": {
+    "initial": {
+      "title": "One Quiet Light — Cinematic AI Starter",
+      "duration": 18,
+      "tracks": 8,
+      "assets": 8,
+      "scenes": 3,
+      "cameras": 5,
+      "aiSchema": "awtsmoos.ai-movie.v1",
+      "schemaTitle": "Awtsmoos AI Movie Envelope v1",
+      "exportedSchema": "awtsmoos.ai-movie.v1",
+      "exportedTitle": "One Quiet Light — Cinematic AI Starter",
+      "canvas": {
+        "width": 1920,
+        "height": 1080,
+        "variance": 115
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "scrollHeight": 1000
+      },
+      "timelineVisible": true
+    },
+    "brief": {
+      "open": true,
+      "panel": "brief",
+      "logline": "At blue hour, a young chossid crosses a rain-dark street, enters a radiant doorway, and discovers that one quiet mitzvah can illuminate an entire world.",
+      "continuity": 4,
+      "assets": 4,
+      "geometry": {
+        "x": 160,
+        "y": 84,
+        "width": 1120,
+        "height": 832,
+        "right": 1280,
+        "bottom": 916
+      }
+    },
+    "applied": {
+      "before": "One Quiet Light — Cinematic AI Starter",
+      "after": "AI Revised Cinematic Scene",
+      "undone": "One Quiet Light — Cinematic AI Starter",
+      "canRedo": true,
+      "jsonSchema": "awtsmoos.ai-movie.v1",
+      "jsonTracks": 8
+    },
+    "restored": {
+      "title": "One Quiet Light — Cinematic AI Starter",
+      "schema": "awtsmoos.ai-movie.v1",
+      "ready": true,
+      "renderType": "function"
+    },
+    "dialogFinal": {
+      "x": 160,
+      "y": 84,
+      "width": 1120,
+      "height": 832,
+      "right": 1280,
+      "bottom": 916,
+      "clientWidth": 1440,
+      "viewportHeight": 1000,
+      "jsonVisible": true
+    },
+    "exceptions": [],
+    "errors": []
+  },
+  "mobile": {
+    "initial": {
+      "title": "One Quiet Light — Cinematic AI Starter",
+      "duration": 18,
+      "tracks": 8,
+      "assets": 8,
+      "scenes": 3,
+      "cameras": 5,
+      "aiSchema": "awtsmoos.ai-movie.v1",
+      "schemaTitle": "Awtsmoos AI Movie Envelope v1",
+      "exportedSchema": "awtsmoos.ai-movie.v1",
+      "exportedTitle": "One Quiet Light — Cinematic AI Starter",
+      "canvas": {
+        "width": 1920,
+        "height": 1080,
+        "variance": 115
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "scrollHeight": 844
+      },
+      "timelineVisible": true
+    },
+    "brief": {
+      "open": true,
+      "panel": "brief",
+      "logline": "At blue hour, a young chossid crosses a rain-dark street, enters a radiant doorway, and discovers that one quiet mitzvah can illuminate an entire world.",
+      "continuity": 4,
+      "assets": 4,
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "right": 390,
+        "bottom": 844
+      }
+    },
+    "applied": {
+      "before": "One Quiet Light — Cinematic AI Starter",
+      "after": "AI Revised Cinematic Scene",
+      "undone": "One Quiet Light — Cinematic AI Starter",
+      "canRedo": true,
+      "jsonSchema": "awtsmoos.ai-movie.v1",
+      "jsonTracks": 8
+    },
+    "restored": {
+      "title": "One Quiet Light — Cinematic AI Starter",
+      "schema": "awtsmoos.ai-movie.v1",
+      "ready": true,
+      "renderType": "function"
+    },
+    "dialogFinal": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "right": 390,
+      "bottom": 844,
+      "clientWidth": 390,
+      "viewportHeight": 844,
+      "jsonVisible": true
+    },
+    "exceptions": [],
+    "errors": []
+  }
+}

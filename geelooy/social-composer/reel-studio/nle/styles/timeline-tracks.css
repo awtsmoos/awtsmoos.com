@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Sticky track labels preserve scene, actor, camera, dialogue, and generated identity.
+ */
+
+.nle-track {
+	display: grid;
+	grid-template-columns: 10rem var(--nle-timeline-width);
+	min-block-size: 3.2rem;
+	border-block-end: 1px solid #171f2a;
+}
+
+.nle-track-label {
+	position: sticky;
+	z-index: 6;
+	inset-inline-start: 0;
+	display: grid;
+	grid-template-columns: 1.9rem minmax(0, 1fr);
+	grid-template-rows: 1fr 1fr;
+	align-items: center;
+	gap: 0 .45rem;
+	padding: .35rem .5rem;
+	border: 0;
+	border-inline-end: 1px solid #242e3d;
+	border-radius: 0;
+	background: #0d141e;
+	text-align: start;
+}
+
+.nle-track-label > span {
+	grid-row: 1 / 3;
+	display: grid;
+	inline-size: 1.9rem;
+	block-size: 1.9rem;
+	place-items: center;
+	border-radius: .45rem;
+	background: #1a2432;
+	color: #a9bbca;
+}
+
+.nle-track-label strong,
+.nle-track-label small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nle-track-label strong {
+	align-self: end;
+	font-size: .66rem;
+}
+
+.nle-track-label small {
+	align-self: start;
+	color: #68778a;
+	font-size: .53rem;
+}
+
+.nle-track-lane {
+	position: relative;
+	min-block-size: 3.2rem;
+	background-image: linear-gradient(90deg, rgba(255, 255, 255, .028) 1px, transparent 1px);
+	background-size: 34px 100%;
+	cursor: crosshair;
+}

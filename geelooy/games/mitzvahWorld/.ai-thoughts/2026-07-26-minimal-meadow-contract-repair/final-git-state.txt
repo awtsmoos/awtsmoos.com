@@ -1,0 +1,22 @@
+--- BRANCH ---
+main
+--- HEAD ---
+1d3d5eb56811
+--- SCOPED STATUS ---
+ M src/app/MinimalMeadowTerrainData.js
+ M src/app/MinimalMeadowTerrainPackage.js
+ M src/test/geometry/TerrainLayerRecipe.test.mjs
+ M src/test/geometry/localTerrainTextureBoot.test.mjs
+ M src/world/terrain/TerrainLayerRecipe.js
+?? src/app/MinimalMeadowTerrainDataSupport.js
+?? src/app/MinimalMeadowTerrainPackageEvidence.js
+?? src/test/world/minimalMeadowTerrainDataContract.test.mjs
+--- DIFF CHECK ---
+diff_check_exit=0
+--- DIFF STAT ---
+ .../Awtsmoos/src/app/MinimalMeadowTerrainData.js   | 102 ++++++++++++++-------
+ .../src/app/MinimalMeadowTerrainPackage.js         |  98 ++++++++++----------
+ .../src/test/geometry/TerrainLayerRecipe.test.mjs  |  66 ++++++++-----
+ .../test/geometry/localTerrainTextureBoot.test.mjs |  18 +++-
+ .../src/world/terrain/TerrainLayerRecipe.js        |  84 ++++++++++++-----
+ 5 files changed, 239 insertions(+), 129 deletions(-)

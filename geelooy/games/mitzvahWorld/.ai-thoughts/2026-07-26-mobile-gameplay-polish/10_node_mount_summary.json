@@ -1,0 +1,665 @@
+{
+  "featureStatus": {
+    "combat": "ready",
+    "friendlyNpcs": "failed",
+    "model": "fallback-visible",
+    "phase": "degraded",
+    "richWorld": "ready",
+    "startedAt": 823.81715,
+    "durationMs": 4370,
+    "receipt": {
+      "combat": {
+        "status": "ready",
+        "value": {
+          "combat": {
+            "casting": null,
+            "cooldowns": {
+              "hebrew-fire": 0,
+              "letter-light": 0,
+              "staff-strike": 0
+            },
+            "effects": 0,
+            "progress": 0,
+            "projectiles": 0
+          },
+          "enemies": {
+            "all": [
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 4,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 96,
+                "id": "tzel-chai",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 96,
+                "name": "Tzel Chai",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "balanced",
+                "xpReward": 74,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 13
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": 20,
+                  "y": 5.603300000000001,
+                  "z": 18
+                },
+                "profileId": "tzel-chai",
+                "surface": null,
+                "visible": true
+              },
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 4,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 82,
+                "id": "esh-katan",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 82,
+                "name": "Esh Katan",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "ranged",
+                "xpReward": 69,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 12
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": 32,
+                  "y": 7.1137999999999995,
+                  "z": 14
+                },
+                "profileId": "esh-katan",
+                "surface": null,
+                "visible": true
+              },
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 4,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 104,
+                "id": "ruach-afelah",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 104,
+                "name": "Ruach Afelah",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "ranged",
+                "xpReward": 77,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 13
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": 38,
+                  "y": 8.1074,
+                  "z": 28
+                },
+                "profileId": "ruach-afelah",
+                "surface": null,
+                "visible": true
+              },
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 6,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 132,
+                "id": "shomer-hoshech",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 132,
+                "name": "Shomer Hoshech",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "melee",
+                "xpReward": 86,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 15
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": 18,
+                  "y": 6.525600000000001,
+                  "z": 34
+                },
+                "profileId": "shomer-hoshech",
+                "surface": null,
+                "visible": true
+              },
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 4,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 90,
+                "id": "ketem-layla",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 90,
+                "name": "Ketem Layla",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "flanker",
+                "xpReward": 72,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 13
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": -4,
+                  "y": 4.2252,
+                  "z": 31
+                },
+                "profileId": "ketem-layla",
+                "surface": null,
+                "visible": true
+              },
+              {
+                "action": "idle",
+                "alive": true,
+                "armor": 4,
+                "attackable": true,
+                "corpse": false,
+                "face": "👹",
+                "health": 118,
+                "id": "ayin-raash",
+                "level": 2,
+                "lootable": false,
+                "looted": false,
+                "maxHealth": 118,
+                "name": "Ayin Raash",
+                "selected": false,
+                "state": "idle",
+                "targetable": true,
+                "temperament": "balanced",
+                "xpReward": 81,
+                "lootRemaining": [
+                  {
+                    "itemId": "perutas",
+                    "quantity": 14
+                  },
+                  {
+                    "itemId": "prepared-hide",
+                    "quantity": 1
+                  }
+                ],
+                "position": {
+                  "x": -18,
+                  "y": 3.727,
+                  "z": 24
+                },
+                "profileId": "ayin-raash",
+                "surface": null,
+                "visible": true
+              }
+            ],
+            "alive": 6,
+            "corpses": 0,
+            "count": 6,
+            "looted": 0,
+            "lootWindowsAvailable": 0,
+            "selected": null
+          },
+          "lootPanel": true,
+          "sky": {
+            "cameraCentered": true,
+            "clouds": "three-octave-directional-procedural-noise",
+            "lensFlare": "shader-sun-disc-inner-halo-outer-bloom",
+            "quality": "high",
+            "realSunDirection": true,
+            "style": "realistic-daylight-atmospheric-scattering",
+            "technique": "single-full-sphere-procedural-fragment-shader",
+            "visibleGeometryArtifacts": false
+          },
+          "targeting": {
+            "contracts": [
+              {
+                "actors": 6,
+                "contract": "modern",
+                "order": 0
+              }
+            ],
+            "dragThreshold": 6,
+            "enabled": true,
+            "listenerCount": 4,
+            "pointerActive": false,
+            "populations": 1
+          }
+        }
+      },
+      "durationMs": 4370,
+      "friendlyNpcs": {
+        "error": "Canonical quest Chossid did not mount.",
+        "stack": "Error: Canonical quest Chossid did not mount.\n    at rejectedFeature (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureReceipts.js:35:46)\n    at settleFriendly (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js:57:10)\n    at Module.installMinimalMeadowFeatures (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js:35:23)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:472:9)",
+        "status": "failed"
+      },
+      "model": {
+        "status": "fallback-visible",
+        "value": null
+      },
+      "ready": false,
+      "richWorld": {
+        "status": "ready",
+        "value": {
+          "failures": {
+            "water": "Cannot read properties of undefined (reading 'data')",
+            "clothingMerchant": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+            "quest": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb"
+          },
+          "friendly": null,
+          "houses": {
+            "doors": 20,
+            "geometry": {
+              "boundedMeshes": 177,
+              "invalidMatrices": 0,
+              "meshCount": 177,
+              "retainedDefinitions": 177,
+              "sidedMeshes": 177
+            },
+            "houses": 2,
+            "materialsReady": 6,
+            "mezuzahs": 20,
+            "rooms": 21,
+            "stairs": 1
+          },
+          "mounts": {
+            "houses": {
+              "diagnostics": {
+                "doors": 20,
+                "geometry": {
+                  "boundedMeshes": 177,
+                  "invalidMatrices": 0,
+                  "meshCount": 177,
+                  "retainedDefinitions": 177,
+                  "sidedMeshes": 177
+                },
+                "houses": 2,
+                "materialsReady": 6,
+                "mezuzahs": 20,
+                "rooms": 21,
+                "stairs": 1
+              },
+              "name": "houses",
+              "status": "ready"
+            },
+            "quest": {
+              "error": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+              "name": "quest",
+              "status": "failed"
+            },
+            "tailor": {
+              "error": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+              "name": "clothingMerchant",
+              "status": "failed"
+            },
+            "trees": {
+              "diagnostics": {
+                "bounds": {
+                  "maxX": 105.7945930666841,
+                  "maxY": 19.091510001324693,
+                  "maxZ": 55.482447820774034,
+                  "minX": -103.08254387017108,
+                  "minY": 2.0963,
+                  "minZ": -12.657196480022133,
+                  "finite": true
+                },
+                "drawCalls": 64,
+                "errors": [],
+                "groves": 7,
+                "hydrationState": "loading-public-textures",
+                "materials": 6,
+                "mobileProfile": false,
+                "mounted": true,
+                "quadrants": {
+                  "northeast": 10,
+                  "northwest": 16,
+                  "southeast": 3,
+                  "southwest": 3
+                },
+                "sceneObjects": 97,
+                "sharedGeometries": 6,
+                "trees": 32,
+                "triangles": 318570,
+                "updateAllocations": 0
+              },
+              "name": "trees",
+              "status": "ready"
+            },
+            "vegetation": {
+              "diagnostics": {
+                "batchMode": "baked-instance-cell-batches",
+                "bounds": {
+                  "maxX": 105.5,
+                  "maxY": 21.531100000000002,
+                  "maxZ": 84.30866111054723,
+                  "minX": -105.5,
+                  "minY": -0.4891,
+                  "minZ": -98.50653218571097,
+                  "finite": true
+                },
+                "cells": 42,
+                "clumps": 499,
+                "drawCalls": 84,
+                "materials": 5,
+                "mobileProfile": false,
+                "mounted": true,
+                "quadrants": {
+                  "northeast": 16,
+                  "northwest": 22,
+                  "southeast": 1,
+                  "southwest": 3
+                },
+                "sceneObjects": 127,
+                "triangles": 37924,
+                "updateAllocations": 0,
+                "zones": {
+                  "grass-meadow": 14,
+                  "dry-meadow": 5,
+                  "river-bank": 17,
+                  "moist-meadow": 6
+                }
+              },
+              "name": "vegetation",
+              "status": "ready"
+            },
+            "water": {
+              "error": "Cannot read properties of undefined (reading 'data')",
+              "name": "water",
+              "status": "failed"
+            },
+            "targeting": {
+              "contracts": [
+                {
+                  "actors": 6,
+                  "contract": "modern",
+                  "order": 0
+                },
+                {
+                  "actors": 0,
+                  "contract": "modern",
+                  "order": 1
+                }
+              ],
+              "dragThreshold": 6,
+              "enabled": true,
+              "listenerCount": 4,
+              "pointerActive": false,
+              "populations": 2
+            }
+          },
+          "quest": {
+            "definition": {
+              "description": "Five shadows have crossed the meadow road, frightening travelers and pressing darkness against the village homes. Reb Mendel asks you to carry courage into the field, defeat five distinct demons, and return before sunset.",
+              "faces": [
+                "👹",
+                "👺",
+                "🌑",
+                "🔥",
+                "👁️"
+              ],
+              "giver": {
+                "id": "reb-mendel",
+                "name": "Reb Mendel the Watchman",
+                "title": "Keeper of the Eastern Road"
+              },
+              "id": "three-shadows-before-sunset",
+              "name": "Five Shadows Before Sunset",
+              "objective": {
+                "count": 5,
+                "description": "Defeat five distinct shadow demons",
+                "event": "enemy:defeated"
+              },
+              "reward": {
+                "perutas": 125,
+                "xp": 175
+              },
+              "story": {
+                "chapter": "Chapter I · The Road That Forgot the Sun",
+                "counsel": "Do not chase every shadow at once. Keep the road behind you, watch their signs, and let each strike serve protection rather than anger.",
+                "danger": "Each demon carries a different stain of night. Only distinct defeats count toward the Shlichus.",
+                "opening": "The evening wind carries no birdsong. Beyond the last stone house, five shapes move where the light should be. Reb Mendel lowers his lantern and speaks quietly: “A road is not saved by fear leaving it. It is saved when someone brings light back.”",
+                "purpose": "Clear the path so children, merchants, and guests may cross the meadow safely before darkness closes around the village."
+              },
+              "thanks": "The road breathes again, and five marks of darkness have yielded. Take these perutas and this experience; may every strength you gained remain a servant of light."
+            },
+            "progress": 0,
+            "remaining": 5,
+            "status": "available"
+          },
+          "targeting": {
+            "contracts": [
+              {
+                "actors": 6,
+                "contract": "modern",
+                "order": 0
+              },
+              {
+                "actors": 0,
+                "contract": "modern",
+                "order": 1
+              }
+            ],
+            "dragThreshold": 6,
+            "enabled": true,
+            "listenerCount": 4,
+            "pointerActive": false,
+            "populations": 2
+          },
+          "trees": {
+            "bounds": {
+              "maxX": 105.7945930666841,
+              "maxY": 19.091510001324693,
+              "maxZ": 55.482447820774034,
+              "minX": -103.08254387017108,
+              "minY": 2.0963,
+              "minZ": -12.657196480022133,
+              "finite": true
+            },
+            "drawCalls": 64,
+            "errors": [],
+            "groves": 7,
+            "hydrationState": "loading-public-textures",
+            "materials": 6,
+            "mobileProfile": false,
+            "mounted": true,
+            "quadrants": {
+              "northeast": 10,
+              "northwest": 16,
+              "southeast": 3,
+              "southwest": 3
+            },
+            "sceneObjects": 97,
+            "sharedGeometries": 6,
+            "trees": 32,
+            "triangles": 318570,
+            "updateAllocations": 0
+          },
+          "vegetation": {
+            "batchMode": "baked-instance-cell-batches",
+            "bounds": {
+              "maxX": 105.5,
+              "maxY": 21.531100000000002,
+              "maxZ": 84.30866111054723,
+              "minX": -105.5,
+              "minY": -0.4891,
+              "minZ": -98.50653218571097,
+              "finite": true
+            },
+            "cells": 42,
+            "clumps": 499,
+            "drawCalls": 84,
+            "materials": 5,
+            "mobileProfile": false,
+            "mounted": true,
+            "quadrants": {
+              "northeast": 16,
+              "northwest": 22,
+              "southeast": 1,
+              "southwest": 3
+            },
+            "sceneObjects": 127,
+            "triangles": 37924,
+            "updateAllocations": 0,
+            "zones": {
+              "grass-meadow": 14,
+              "dry-meadow": 5,
+              "river-bank": 17,
+              "moist-meadow": 6
+            }
+          },
+          "water": null
+        }
+      },
+      "visualStability": {
+        "demons": {
+          "mappedMaterials": 6,
+          "meshes": 6,
+          "readable": true
+        },
+        "equipment": {
+          "drawn": true,
+          "synchronized": true,
+          "weaponItemId": "wooden-staff",
+          "weaponParts": 6
+        },
+        "houses": {
+          "materials": 177,
+          "meshes": 177,
+          "stable": true
+        },
+        "ready": true,
+        "terrain": {
+          "roadSources": 3,
+          "roadVisible": true,
+          "terrainVisible": true,
+          "uvProjection": null
+        }
+      }
+    },
+    "visualStability": {
+      "demons": {
+        "mappedMaterials": 6,
+        "meshes": 6,
+        "readable": true
+      },
+      "equipment": {
+        "drawn": true,
+        "synchronized": true,
+        "weaponItemId": "wooden-staff",
+        "weaponParts": 6
+      },
+      "houses": {
+        "materials": 177,
+        "meshes": 177,
+        "stable": true
+      },
+      "ready": true,
+      "terrain": {
+        "roadSources": 3,
+        "roadVisible": true,
+        "terrainVisible": true,
+        "uvProjection": null
+      }
+    }
+  },
+  "mountStatus": {
+    "clothingMerchant": "failed",
+    "houses": "ready",
+    "phase": "settled",
+    "quest": "failed",
+    "trees": "ready",
+    "vegetation": "ready",
+    "water": "failed"
+  },
+  "richWorld": {
+    "failures": {
+      "water": "Cannot read properties of undefined (reading 'data')",
+      "clothingMerchant": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb",
+      "quest": "HTTP 404 for http://localhost:8080/games/mitzvahWorld/assets/models/player/chossid.glb"
+    },
+    "friendly": false,
+    "houses": true,
+    "promiseCreated": true,
+    "tailor": false,
+    "trees": true,
+    "vegetation": true,
+    "water": false
+  },
+  "dataset": {
+    "awtsmoosGameplay": "true",
+    "awtsmoosRendererHydration": "fallback-2d",
+    "awtsmoosRenderer": "canvas-2d-fallback",
+    "awtsmoosRendererContextAttempts": "webgl",
+    "awtsmoosRendererFallback": "webgl-unavailable",
+    "awtsmoosRendererFallbackMessage": "WebGL is not available.",
+    "awtsmoosRendererFallbackRecoverable": "true",
+    "awtsmoosRendererStage": "fallback-ready",
+    "awtsmoosRuntimeState": "playable",
+    "awtsmoosRuntimeError": "",
+    "awtsmoosReadiness": "core-playable",
+    "awtsmoosFeatures": "degraded",
+    "awtsmoosMenuReady": "true",
+    "awtsmoosSession": "singleplayer",
+    "awtsmoosUi": "ready"
+  }
+}

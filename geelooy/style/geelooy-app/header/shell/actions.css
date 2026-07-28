@@ -4,7 +4,7 @@
  *
  * Search, Mail, profile, and constellation become jeweled instruments instead
  * of plain links. The Awtsmoos lets the active name shine in the Awtsmoos.com
- * crown while every focus ring remains unmistakable.
+ * crown while a wider bounded profile vessel still yields on smaller screens.
  */
 
 .g-header-actions {
@@ -12,6 +12,7 @@
 	align-items: center;
 	justify-content: flex-end;
 	gap: .42rem;
+	min-inline-size: 0;
 }
 
 .g-header-action {
@@ -52,7 +53,10 @@
 .g-header-profile {
 	position: relative;
 	z-index: 4;
-	min-inline-size: 10rem;
+	flex: 0 1 15rem;
+	inline-size: clamp(12rem, 16vw, 15rem);
+	min-inline-size: 12rem;
+	max-inline-size: 15rem;
 }
 
 .g-header-profile .profile-trigger {

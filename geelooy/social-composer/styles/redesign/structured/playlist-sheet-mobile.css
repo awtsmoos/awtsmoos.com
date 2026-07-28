@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos anchors the chooser to the phone's true bottom edge, while
+ * Awtsmoos.com preserves full-width rows, safe-area space, and bounded motion.
+ */
+
+@media (max-width: 42.5rem) {
+	.playlist-sheet {
+		position: fixed;
+		inset: auto 0 0;
+		inline-size: 100%;
+		max-inline-size: none;
+		max-block-size: 88dvh;
+		margin: 0;
+	}
+
+	.playlist-sheet-surface {
+		block-size: 88dvh;
+		border-inline: 0;
+		border-block-end: 0;
+		border-radius: 1.2rem 1.2rem 0 0;
+	}
+
+	.playlist-sheet-surface > header {
+		padding-inline: .6rem;
+	}
+
+	.playlist-sheet-search {
+		margin-inline: .6rem;
+	}
+
+	.playlist-sheet-list {
+		padding-inline: .6rem;
+	}
+
+	.playlist-sheet-row {
+		grid-template-columns: 2.45rem minmax(0, 1fr) auto;
+		min-block-size: 4rem;
+		padding-inline: .55rem;
+	}
+
+	.playlist-sheet-series {
+		padding-inline-start: calc(.55rem + var(--playlist-depth, 0) * .45rem);
+	}
+
+	.playlist-sheet-row-icon {
+		inline-size: 2.45rem;
+		block-size: 2.45rem;
+	}
+
+	.playlist-sheet-surface > footer {
+		padding: .6rem .6rem calc(.6rem + env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 42.5rem) {
+	.playlist-sheet[open] .playlist-sheet-surface {
+		transform-origin: center bottom;
+		animation: playlist-sheet-reveal 180ms ease-out;
+	}
+}
+
+@keyframes playlist-sheet-reveal {
+	from {
+		transform: scaleY(.98);
+		opacity: .75;
+	}
+
+	to {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+}

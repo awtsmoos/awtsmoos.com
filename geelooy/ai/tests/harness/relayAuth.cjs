@@ -1,112 +1,94 @@
 //B"H
+// Boruch Hashem
+// Blessed is He
+
 const http = require("http");
 const { assert, test } = require("./assert.cjs");
-const { startServer } = require("../../relay/split-browser/server.cjs");
+const {
+	createDirectService,
+	startRelay,
+	waitForStatus,
+	postJson,
+	getJson,
+	closeServer
+} = require("./relayTestSupport.cjs");
 
 /**
- * B"H — Auth stress harness for the Node relay.
- * It proves cold health/control/session safety, no-token to token transition,
- * redaction, cursor resume, and failed-auth automation stop behavior.
+ * Session status may be cached only as a redacted verdict, never as token material.
+ * The Awtsmoos lets Awtsmoos.com refresh explicitly and fail automation safely,
+ * with zero committed turns and no prompt, token, or transport-key disclosure.
  */
 async function run() {
-  const results = [];
-  results.push(await sessionTransitionTest());
-  results.push(await failedAuthAutomationTest());
-  return {
-    ok: results.every(item => item.ok),
-    name: "node-relay-auth-session-stress",
-    ms: results.reduce((sum, item) => sum + item.ms, 0),
-    facts: Object.fromEntries(results.map(item => [item.name, item.facts]))
-  };
+	const results = [
+		await sessionCacheTest(),
+		await failedDirectAutomationTest()
+	];
+	return {
+		ok: results.every(result => result.ok),
+		name: "node-relay-redacted-session-and-failure",
+		ms: results.reduce((total, result) => total + result.ms, 0),
+		facts: Object.fromEntries(results.map(result => [result.name, result.facts])),
+		error: results.find(result => !result.ok)?.error
+	};
 }
 
-function sessionTransitionTest() {
-  return test("relay-auth-cold-health-control-session-transition", async () => {
-    let upstream;
-    let relay;
-    const secret = "raw-token-never-print-1234567890";
-    const seenAuth = [];
-    const state = { token:false };
-    try {
-      upstream = http.createServer((req, res) => {
-        const url = new URL(req.url, "http://mock.chatgpt");
-        if (url.pathname === "/api/auth/session") return json(res, state.token ? { accessToken:secret, user:{ id:"u1", email:"x@example.test" } } : { user:null });
-        if (url.pathname === "/backend-api/conversation/auth-check") {
-          seenAuth.push(String(req.headers.authorization || ""));
-          return json(res, makeConversation());
-        }
-        return json(res, { ok:true });
-      });
-      await listen(upstream, 39931);
-      relay = startServer({ port:39932, host:"127.0.0.1", targetOrigin:"http://127.0.0.1:39931", allowedOrigins:["http://127.0.0.1:39931"], verbose:false });
-      await onceListening(relay);
-      const base = "http://127.0.0.1:39932";
-      const health = await getJson(base + "/health");
-      const control = await (await fetch(base + "/control")).text();
-      const cold = await getJson(base + "/session-status");
-      state.token = true;
-      const warm = await getJson(base + "/session-status");
-      const auto = await postJson(base + "/automation-start", { conversationId:"auth-check", settings:{ maxTurns:1, delayMs:10, prompt:"auth" } });
-      await sleep(120);
-      const final = await getJson(base + "/automation-status?conversationId=auth-check");
-      const events0 = await getJson(base + "/automation-events?conversationId=auth-check&after=0");
-      const eventsResume = await getJson(base + `/automation-events?conversationId=auth-check&after=${Math.max(0, events0.cursor - 1)}`);
-      const serialized = JSON.stringify({ health, cold, warm, auto, final, events0, eventsResume, control });
-      assert(health.ok && health.session.status === "not_logged_in", "cold relay health must be OK and session safe", health);
-      assert(/status-badge|session-status|Check session/i.test(control), "control page must expose compact status UI", control.slice(0, 300));
-      assert(cold.ok && cold.status === "not_logged_in" && !cold.auth.hasToken, "session endpoint reports not logged in without crashing", cold);
-      assert(warm.ok && warm.status === "logged_in" && warm.auth.hasToken && warm.auth.tokenSummary.redacted !== secret, "session endpoint returns only redacted token summary", warm);
-      assert(seenAuth.some(value => value === `Bearer ${secret}`), "backend request must receive bearer token", seenAuth);
-      assert(!serialized.includes(secret), "raw token must never appear in relay UI/status/event JSON");
-      assert(events0.events.length >= 2 && eventsResume.events.length >= 1, "automation-events must support cursor resume", { cursor:events0.cursor, resumed:eventsResume.events.length });
-      return { cold:cold.status, warm:warm.status, cursor:events0.cursor, resumed:eventsResume.events.length, final:final.status };
-    } finally {
-      try { relay?.close(); } catch {}
-      try { upstream?.close(); } catch {}
-    }
-  });
+function sessionCacheTest() {
+	return test("relay-session-verdict-cache", async () => {
+		const secret = "RAW_TOKEN_MUST_NEVER_ESCAPE";
+		const state = { authenticated: false, calls: 0 };
+		const upstream = http.createServer((request, response) => {
+			state.calls += 1;
+			response.setHeader("content-type", "application/json");
+			response.end(JSON.stringify(state.authenticated
+				? { accessToken: secret, user: { id: "u1", email: "x@example.test" } }
+				: { user: null }));
+		});
+		await new Promise(resolve => upstream.listen(0, "127.0.0.1", resolve));
+		const targetOrigin = `http://127.0.0.1:${upstream.address().port}`;
+		const directService = createDirectService();
+		const { server, base } = await startRelay({ directService, targetOrigin });
+		try {
+			const cold = await getJson(`${base}/session-status`);
+			state.authenticated = true;
+			const cached = await getJson(`${base}/session-status`);
+			const refreshed = await getJson(`${base}/session-status?refresh=1`);
+			const serialized = JSON.stringify({ cold, cached, refreshed });
+			assert(cold.status === "not_logged_in", "cold verdict must be logged out", cold);
+			assert(cached.status === "not_logged_in" && state.calls === 2, "cached call must avoid an extra fetch before explicit refresh", { cached, calls: state.calls });
+			assert(refreshed.status === "logged_in" && refreshed.auth.tokenSummary === null, "refresh must expose only redacted login state", refreshed);
+			assert(!serialized.includes(secret), "session JSON must never expose token material", serialized);
+			return { calls: state.calls, cold: cold.status, refreshed: refreshed.status };
+		} finally {
+			await closeServer(server);
+			await new Promise(resolve => upstream.close(resolve));
+		}
+	});
 }
 
-function failedAuthAutomationTest() {
-  return test("relay-auth-failure-stops-no-fake-commit", async () => {
-    let upstream;
-    let relay;
-    try {
-      upstream = http.createServer((req, res) => {
-        const url = new URL(req.url, "http://mock.chatgpt");
-        if (url.pathname === "/api/auth/session") return json(res, { user:null });
-        return json(res, { error:"must_not_reach_backend" }, 500);
-      });
-      await listen(upstream, 39933);
-      relay = startServer({ port:39934, host:"127.0.0.1", targetOrigin:"http://127.0.0.1:39933", allowedOrigins:["http://127.0.0.1:39933"], verbose:false });
-      await onceListening(relay);
-      const base = "http://127.0.0.1:39934";
-      await postJson(base + "/automation-start", { conversationId:"missing-token", settings:{ maxTurns:2, delayMs:10, prompt:"auth fail" } });
-      let final = null;
-      for (let i = 0; i < 30; i++) {
-        final = await getJson(base + "/automation-status?conversationId=missing-token");
-        if (final.status === "error") break;
-        await sleep(30);
-      }
-      const events = await getJson(base + "/automation-events?conversationId=missing-token&after=0");
-      assert(final.ok === false && final.status === "error" && final.turns === 0, "failed auth stops automation without committed turns", final);
-      assert(final.error === "token_absent" && /access token|login/i.test(final.safeHint), "failed auth exposes structured safe status", final);
-      assert(!events.events.some(event => event.type === "verified"), "missing token must not fake a verified turn", events);
-      return { status:final.status, turns:final.turns, error:final.error, events:events.events.length };
-    } finally {
-      try { relay?.close(); } catch {}
-      try { upstream?.close(); } catch {}
-    }
-  });
+function failedDirectAutomationTest() {
+	return test("relay-direct-failure-no-fake-commit", async () => {
+		const failure = new Error("Open the authenticated ChatGPT host.");
+		failure.code = "direct_authentication_required";
+		failure.safeHint = failure.message;
+		const directService = createDirectService({ failure });
+		const { server, base } = await startRelay({ directService });
+		try {
+			await postJson(`${base}/automation-start`, {
+				conversationId: "failed-ui-run",
+				settings: { maxTurns: 2, delayMinMs: 1, prompt: "PRIVATE_FAILURE_PROMPT" }
+			});
+			const final = await waitForStatus(base, "failed-ui-run", ["error"]);
+			const events = await getJson(`${base}/automation-events?conversationId=failed-ui-run&after=0`);
+			const serialized = JSON.stringify({ final, events });
+			assert(final.status === "error" && final.turns === 0, "failed direct send must commit zero turns", final);
+			assert(final.error === "direct_authentication_required", "safe structured error must survive", final);
+			assert(!events.events.some(event => event.type === "committed"), "failure must not fake a commit", events);
+			assert(!serialized.includes("PRIVATE_FAILURE_PROMPT"), "failure reports must omit prompts", serialized);
+			return { status: final.status, turns: final.turns, sends: directService.sends.length };
+		} finally {
+			await closeServer(server);
+		}
+	});
 }
 
-function makeConversation() {
-  return { id:"auth-check", current_node:"assistant-0", mapping:{ "assistant-0":{ id:"assistant-0", parent:null, message:{ id:"assistant-0", author:{ role:"assistant" }, status:"finished_successfully", content:{ content_type:"text", parts:["ready"] } } } } };
-}
-function json(res, value, status = 200) { res.writeHead(status, { "content-type":"application/json" }); res.end(JSON.stringify(value)); }
-async function getJson(url) { return await (await fetch(url, { cache:"no-store" })).json(); }
-async function postJson(url, body) { return await (await fetch(url, { method:"POST", headers:{ "content-type":"application/json" }, body:JSON.stringify(body) })).json(); }
-function listen(server, port) { return new Promise(resolve => server.listen(port, "127.0.0.1", resolve)); }
-function onceListening(server) { return server.listening ? Promise.resolve() : new Promise(resolve => server.on("listening", resolve)); }
-function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 module.exports = { run };
