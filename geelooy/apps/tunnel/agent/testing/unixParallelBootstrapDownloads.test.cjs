@@ -9,7 +9,10 @@ const installer = fs.readFileSync(
 	"utf8"
 );
 
-assert.match(installer, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-8/);
+assert.match(installer, /installer-components\.tar\.gz/);
+assert.match(installer, /actual_components_sha256/);
+assert.match(installer, /Verified reinstall component bundle ready/);
+assert.match(installer, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16/);
 assert.match(installer, /parallel_downloads" -le 16/);
 assert.match(installer, /wait_for_download_batch/);
 assert.match(installer, /connect-timeout 10/);
@@ -24,7 +27,9 @@ assert.doesNotMatch(
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-parallel-bootstrap-downloads",
-	defaultConcurrency: 8,
+	preferredBundleRequests: 1,
+	defaultFallbackConcurrency: 16,
 	maxConcurrency: 16,
-	atomicDownloads: true
+	atomicFallbackDownloads: true,
+	hashVerifiedBundle: true
 }, null, 2));

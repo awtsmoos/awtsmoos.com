@@ -9,9 +9,12 @@
  * Awtsmoos.com keeps compact GLB, action bar, casting, and shared travel behind explicit doors.
  */
 
-import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
+import {
+	createMitzvahWorldModeLoaders,
+	hasMovieRequest
+} from './MitzvahWorldModeLoaders.js';
 
 const HOST_IDS = Object.freeze({
 	actionHost: 'actions',
@@ -34,20 +37,43 @@ const HOST_IDS = Object.freeze({
  * Boots the visible local game and observes optional feature readiness without awaiting it.
  * @param {Document} documentValue Active document.
  * @param {Window|object} environment Browser-like environment.
+ * @param {object} dependencies Optional test/runtime dependency overrides.
  * @returns {Promise<object>} Core runtime diagnostics.
  */
 export async function bootMinimalSharedMeadow(
 	documentValue = document,
-	environment = globalThis
+	environment = globalThis,
+	dependencies = {}
 ) {
-	const loading = new MeadowLoadingScreen(documentValue, environment);
 	const hosts = resolveHosts(documentValue);
 	const parameters = new URLSearchParams(environment.location?.search || '');
+	if (hasMovieRequest(parameters)) {
+		return bootMovieRuntime(
+			hosts,
+			parameters,
+			documentValue,
+			environment,
+			dependencies
+		);
+	}
+
+	const loading = new MeadowLoadingScreen(documentValue, environment);
 	const sessionMode = parameters.get('session') || 'singleplayer';
 	try {
 		const diagnostics = sessionMode === 'multiplayer'
-			? await createSharedRuntime(hosts, parameters, environment, loading)
-			: await createSingleRuntime(hosts, environment, loading);
+			? await createSharedRuntime(
+				hosts,
+				parameters,
+				environment,
+				loading,
+				dependencies
+			)
+			: await createSingleRuntime(
+				hosts,
+				environment,
+				loading,
+				dependencies
+			);
 		environment.AwtsmoosMitzvahWorld = diagnostics;
 		await awaitMinimalMeadowReadiness(
 			diagnostics,
@@ -65,15 +91,46 @@ export async function bootMinimalSharedMeadow(
 	}
 }
 
-function createSingleRuntime(hosts, environment, loading) {
-	return createMinimalMeadowRuntime(hosts, {
+async function bootMovieRuntime(
+	hosts,
+	parameters,
+	documentValue,
+	environment,
+	dependencies
+) {
+	try {
+		const loaders = dependencies.modeLoaders
+			|| createMitzvahWorldModeLoaders(environment);
+		const diagnostics = await loaders.movie(hosts, {
+			search: environment.location?.search || parameters.toString()
+		});
+		environment.AwtsmoosMitzvahWorld = diagnostics;
+		documentValue.documentElement.dataset.awtsmoosGameplay = 'true';
+		documentValue.documentElement.dataset.awtsmoosSession = 'movie';
+		return diagnostics;
+	} catch (error) {
+		showFailure(hosts.hud, documentValue, error);
+		throw error;
+	}
+}
+
+async function createSingleRuntime(hosts, environment, loading, dependencies) {
+	const runtimeFactory = await minimalRuntimeFactory(dependencies);
+	return runtimeFactory(hosts, {
 		environment,
 		onProgress: update => loading.world(update),
 		startLoop: true
 	});
 }
 
-async function createSharedRuntime(hosts, parameters, environment, loading) {
+async function createSharedRuntime(
+	hosts,
+	parameters,
+	environment,
+	loading,
+	dependencies
+) {
+	const runtimeFactory = await minimalRuntimeFactory(dependencies);
 	const module = await import('../network/MultiplayerEretzBootstrap.js?compact=true');
 	return module.createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,
@@ -81,11 +138,19 @@ async function createSharedRuntime(hosts, parameters, environment, loading) {
 		environment,
 		location: environment.location,
 		onProgress: update => loading.world(update),
-		runtimeFactory: createMinimalMeadowRuntime,
+		runtimeFactory,
 		startLoop: true,
 		url: parameters.get('realtimeUrl') || inferRealtimeUrl(environment.location),
 		worldId: parameters.get('worldId') || 'main-village'
 	});
+}
+
+async function minimalRuntimeFactory(dependencies) {
+	if (typeof dependencies.createMinimalMeadowRuntime === 'function') {
+		return dependencies.createMinimalMeadowRuntime;
+	}
+	const module = await import('../app/createMinimalMeadowRuntime.js');
+	return module.createMinimalMeadowRuntime;
 }
 
 function resolveHosts(documentValue) {

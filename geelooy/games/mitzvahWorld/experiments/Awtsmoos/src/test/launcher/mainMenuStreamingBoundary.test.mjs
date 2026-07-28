@@ -17,11 +17,13 @@ import { GAMEPLAY_STYLESHEETS } from '../../launcher/MitzvahWorldGameplayPresent
 const GAME_ROOT_URL = new URL('../../../../../', import.meta.url);
 const source = relativePath => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
 
-test('page threshold requests one stylesheet and one JavaScript entry', async () => {
+test('native meadow page requests split styles and two explicit entries', async () => {
 	const html = await source('index.html');
-	assert.equal((html.match(/<link\s+rel="stylesheet"/g) || []).length, 1);
-	assert.equal((html.match(/<script\s+type="module"/g) || []).length, 1);
+	assert.equal((html.match(/<link\s+rel="stylesheet"/g) || []).length, 15);
+	assert.equal((html.match(/<script\s+type="module"/g) || []).length, 2);
 	assert.match(html, /mitzvah-world-menu-shell\.css/);
+	assert.match(html, /MinimalSharedMeadowPage\.js/);
+	assert.match(html, /MinimalMeadowMobileIntegration\.js/);
 	assert.doesNotMatch(html, /modulepreload|preload/);
 });
 
@@ -47,7 +49,7 @@ test('runtime opens staged startup and keeps heavy systems explicitly deferred',
 	assert.match(runtime, /STAGED_RUNTIME_URL/);
 	assert.match(runtime, /import\(STAGED_RUNTIME_URL\)/);
 	assert.match(runtime, /deferredSystems/);
-	assert.match(runtime, /authoredTerrain:\s*'deferred'/);
+	assert.match(runtime, /authoredTerrain:\s*'district-streaming-required'/);
 	assert.match(runtime, /richRenderer:\s*'deferred'/);
 	assert.doesNotMatch(runtime, /playable-runtime|PLAYABLE_BUNDLE_URL/);
 	assert.doesNotMatch(runtime, /EretzDeferredRuntimeEnrichment|scheduleRendererHydration/);

@@ -98,6 +98,10 @@ helpers=(
 
 total="${#helpers[@]}"
 index=0
+installer_components_sha256="__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"
+installer_components_url="${AWTSMOOS_INSTALL_COMPONENTS_URL:-$origin/api/tunnel/install/installer-components.tar.gz}"
+installer_components_archive="$runtime_root/installer-components.tar.gz"
+installer_components_ready=0
 parallel_downloads="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16}"
 case "$parallel_downloads" in
 	''|*[!0-9]*) parallel_downloads=16 ;;
@@ -124,26 +128,63 @@ wait_for_download_batch() {
 	[ "$failed" -eq 0 ]
 }
 
-for helper in "${helpers[@]}"; do
-	index=$(( index + 1 ))
-	(
-		temporary="$runtime_root/.$helper.part"
-		rm -f "$temporary"
-		curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
-			--speed-time 30 --speed-limit 1024 \
-			"$origin/apps/tunnel/downloads/$helper" -o "$temporary"
-		chmod +x "$temporary"
-		mv -f "$temporary" "$runtime_root/$helper"
-	) &
-	batch_pids+=("$!")
-	batch_helpers+=("$helper")
-	if [ "${#batch_pids[@]}" -ge "$parallel_downloads" ] || [ "$index" -eq "$total" ]; then
-		wait_for_download_batch
-		percent=$(( 4 + index * 14 / total ))
-		bootstrap_progress "$percent" \
-			"Downloaded verified reinstall components ($index/$total)"
+if [[ "$installer_components_sha256" =~ ^[0-9a-f]{64}$ ]]; then
+	bootstrap_progress 7 'Downloading verified installer component bundle'
+	if curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
+		"$installer_components_url" -o "$installer_components_archive"; then
+		actual_components_sha256="$("$AWTSMOOS_NODE_BIN" -e '
+const fs = require("node:fs");
+const crypto = require("node:crypto");
+const file = process.argv[1];
+process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex"));
+' "$installer_components_archive")"
+		if [ "$actual_components_sha256" = "$installer_components_sha256" ] \
+			&& tar -xzf "$installer_components_archive" -C "$runtime_root"; then
+			installer_components_ready=1
+			for helper in "${helpers[@]}"; do
+				if [ ! -f "$runtime_root/$helper" ]; then
+					installer_components_ready=0
+					break
+				fi
+				chmod +x "$runtime_root/$helper"
+			done
+		fi
 	fi
-done
+fi
+
+if [ "$installer_components_ready" -eq 1 ]; then
+	index="$total"
+	bootstrap_progress 18 \
+		"Verified reinstall component bundle ready ($total files, one request)"
+else
+	rm -f "$installer_components_archive"
+	for helper in "${helpers[@]}"; do
+		rm -f "$runtime_root/$helper"
+	done
+	bootstrap_progress 7 'Using compatible component download fallback'
+	for helper in "${helpers[@]}"; do
+		index=$(( index + 1 ))
+		(
+			temporary="$runtime_root/.$helper.part"
+			rm -f "$temporary"
+			curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+				--speed-time 30 --speed-limit 1024 \
+				"$origin/apps/tunnel/downloads/$helper" -o "$temporary"
+			chmod +x "$temporary"
+			mv -f "$temporary" "$runtime_root/$helper"
+		) &
+		batch_pids+=("$!")
+		batch_helpers+=("$helper")
+		if [ "${#batch_pids[@]}" -ge "$parallel_downloads" ] \
+			|| [ "$index" -eq "$total" ]; then
+			wait_for_download_batch
+			percent=$(( 7 + index * 11 / total ))
+			bootstrap_progress "$percent" \
+				"Downloaded reinstall components ($index/$total)"
+		fi
+	done
+fi
 
 bootstrap_progress 18 'Verified reinstall components ready'
 export AWTSMOOS_INSTALL_ORIGIN="$origin"

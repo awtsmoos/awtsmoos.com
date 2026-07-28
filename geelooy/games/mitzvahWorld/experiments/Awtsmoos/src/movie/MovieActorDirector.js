@@ -6,9 +6,22 @@
 import { lerpPoint } from './MovieEasing.js';
 import { movieFloorAt } from './MovieFloorResolver.js';
 
+export function movieNpcCapability(runtime) {
+	const npc = runtime?.npc;
+	if (!npc || typeof npc !== 'object') return null;
+	if (!Number.isFinite(Number(npc.x)) || !Number.isFinite(Number(npc.z))) {
+		return null;
+	}
+	if (typeof npc.model?.position?.set !== 'function') return null;
+	if (typeof npc.model?.quaternion?.set !== 'function') return null;
+	return npc;
+}
+
 function animationName(runtime, target, requested) {
-	const player = target === 'player' ? runtime.player : runtime.npc.player;
-	const names = player.names || [];
+	const player = target === 'player'
+		? runtime.player
+		: movieNpcCapability(runtime)?.player;
+	const names = player?.names || [];
 	const clips = runtime.clips || {};
 	if (target === 'player' && clips[requested]) return clips[requested];
 	const expressions = {
@@ -33,7 +46,9 @@ function facingFor(runtime, target, state, point) {
 		return Math.atan2(runtime.state.x - point.x, runtime.state.z - point.z);
 	}
 	if (clip.face === 'npc') {
-		return Math.atan2(runtime.npc.x - point.x, runtime.npc.z - point.z);
+		const npc = movieNpcCapability(runtime);
+		if (npc) return Math.atan2(npc.x - point.x, npc.z - point.z);
+		return Number(runtime.state?.facing || 0);
 	}
 	if (clip.from && clip.to) {
 		return Math.atan2(clip.to.x - clip.from.x, clip.to.z - clip.from.z);
@@ -45,8 +60,11 @@ export class MovieActorDirector {
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.currentAnimations = new Map();
-		const npcFloor = movieFloorAt(runtime, runtime.npc.x, runtime.npc.z).y;
-		this.npcFootOffset = runtime.npc.model.position.y - npcFloor;
+		const npc = movieNpcCapability(runtime);
+		const npcFloor = npc ? movieFloorAt(runtime, npc.x, npc.z).y : 0;
+		this.npcFootOffset = npc
+			? Number(npc.model.position.y || 0) - npcFloor
+			: 0;
 	}
 
 	apply(actorStates, deltaTime) {
@@ -54,10 +72,10 @@ export class MovieActorDirector {
 			if (state.track.target === 'player') this.applyPlayer(state);
 			if (state.track.target === 'npc') this.applyNpc(state);
 		}
-		this.runtime.player.update(deltaTime);
-		this.runtime.npc.player.update(deltaTime);
-		this.runtime.model.updateWorldMatrix();
-		this.runtime.npc.model.updateWorldMatrix();
+		this.runtime.player?.update?.(deltaTime);
+		movieNpcCapability(this.runtime)?.player?.update?.(deltaTime);
+		this.runtime.model?.updateWorldMatrix?.();
+		movieNpcCapability(this.runtime)?.model?.updateWorldMatrix?.();
 	}
 
 	applyPlayer(state) {
@@ -84,19 +102,26 @@ export class MovieActorDirector {
 
 	applyNpc(state) {
 		const { runtime } = this;
+		const npc = movieNpcCapability(runtime);
+		if (!npc) return false;
 		const point = desiredPoint(state);
 		const floor = movieFloorAt(runtime, point.x, point.z);
 		const y = floor.y + this.npcFootOffset;
-		runtime.npc.x = point.x;
-		runtime.npc.z = point.z;
-		runtime.npc.model.position.set(point.x, y, point.z);
+		npc.x = point.x;
+		npc.z = point.z;
+		npc.model.position.set(point.x, y, point.z);
 		const facing = facingFor(runtime, 'npc', state, point);
-		runtime.npc.model.quaternion.set(0, Math.sin(facing / 2), 0, Math.cos(facing / 2));
-		this.play('npc', runtime.npc.player, animationName(runtime, 'npc', state.clip.animation));
+		npc.model.quaternion.set(0, Math.sin(facing / 2), 0, Math.cos(facing / 2));
+		this.play('npc', npc.player, animationName(runtime, 'npc', state.clip.animation));
+		return true;
 	}
 
 	play(key, player, name) {
-		if (!name || this.currentAnimations.get(key) === name) return;
+		if (
+			!name
+			|| typeof player?.play !== 'function'
+			|| this.currentAnimations.get(key) === name
+		) return;
 		player.play(name);
 		this.currentAnimations.set(key, name);
 	}

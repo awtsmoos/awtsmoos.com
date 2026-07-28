@@ -35,6 +35,19 @@ async function run() {
 			assert.equal(fs.existsSync(path.join(`${installRoot}-recovery`, relative)), true);
 		}
 		assert.equal(fs.existsSync(path.join(installRoot, "agent.pid")), false);
+		assert.equal(
+			server.requestCount(
+				"/api/tunnel/install/installer-components.tar.gz"
+			),
+			1
+		);
+		assert.equal(
+			[...server.requestCounts.keys()].filter(requestPath =>
+				requestPath.startsWith("/apps/tunnel/downloads/unix-install-")
+			).length,
+			0,
+			"verified bundle path should avoid individual helper requests"
+		);
 		Context.assertProbePasses(installRoot);
 		return {
 			case: "fresh_http_curl_pipe_bash_install",
@@ -42,6 +55,8 @@ async function run() {
 				path.join(installRoot, "install-state.txt"),
 				"utf8"
 			).trim(),
+			installerComponentRequests: 1,
+			individualHelperRequests: 0,
 			consolePhases: Context.phaseLines(result.stdout)
 		};
 	} finally {

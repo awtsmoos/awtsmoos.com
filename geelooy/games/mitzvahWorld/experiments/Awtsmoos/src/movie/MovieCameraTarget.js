@@ -24,11 +24,17 @@ export function moviePlayerEye(runtime) {
 }
 
 export function movieCameraEndpointTarget(runtime, endpoint = {}) {
-	if (endpoint.targetActor === 'npc') {
+	const npc = runtime?.npc;
+	if (
+		endpoint.targetActor === 'npc'
+		&& Number.isFinite(Number(npc?.x))
+		&& Number.isFinite(Number(npc?.z))
+		&& Number.isFinite(Number(npc?.model?.position?.y))
+	) {
 		return {
-			x: runtime.npc.x,
-			y: runtime.npc.model.position.y + 1.7,
-			z: runtime.npc.z
+			x: Number(npc.x),
+			y: Number(npc.model.position.y) + 1.7,
+			z: Number(npc.z)
 		};
 	}
 	if (endpoint.targetActor === 'player') {

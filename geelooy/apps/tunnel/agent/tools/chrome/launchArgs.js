@@ -27,7 +27,11 @@ function chromeLaunchArgs(input = {}) {
 	if (input.headless) {
 		args.push(
 			"--headless=new",
-			"--disable-gpu",
+			"--use-gl=angle",
+			"--use-angle=swiftshader",
+			"--enable-unsafe-swiftshader",
+			"--enable-webgl",
+			"--ignore-gpu-blocklist",
 			"--window-size=1440,1000"
 		);
 		if (process.platform !== "win32") args.push("--no-sandbox");

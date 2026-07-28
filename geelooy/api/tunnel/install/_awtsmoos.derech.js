@@ -5,6 +5,9 @@
 const { sendText } = require("./tools/respond.js");
 const { readTunnelDownload } = require("./tools/sourceFile.js");
 const { buildAgentBundle } = require("./tools/zipBundle.js");
+const {
+	buildInstallerComponents
+} = require("./tools/installerComponents.js");
 const Descriptor = require("./tools/bundleDescriptor.js");
 
 /**
@@ -20,17 +23,45 @@ module.exports = {
 		await scriptRoute($i, "windows", "windows.ps1");
 		await scriptRoute($i, "linux", "unix.sh");
 		await scriptRoute($i, "unix", "unix.sh");
+		await $i.use(
+			"installer-components.tar.gz",
+			async () => publishInstallerComponents($i)
+		);
 		await $i.use("bundle-manifest", async () => publishDescriptor($i));
 		await $i.use("agent.zip", async () => publishAgentZip($i));
 	}
 };
 
 async function scriptRoute($i, routeName, fileName) {
+	let text = clean(readTunnelDownload(fileName));
+	if (fileName === "unix.sh") {
+		text = text.replace(
+			"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
+			buildInstallerComponents().sha256
+		);
+	}
 	await $i.use(routeName, async () => sendText(
 		$i,
-		clean(readTunnelDownload(fileName)),
+		text,
 		"text/plain; charset=utf-8"
 	));
+}
+
+function publishInstallerComponents($i) {
+	const bundle = buildInstallerComponents();
+	$i.response.statusCode = 200;
+	$i.response.setHeader("Content-Type", "application/gzip");
+	$i.response.setHeader(
+		"Content-Disposition",
+		"attachment; filename=\"awtsmoos-installer-components.tar.gz\""
+	);
+	$i.response.setHeader("X-Awtsmoos-SHA256", bundle.sha256);
+	$i.response.setHeader("X-Awtsmoos-Files", String(bundle.files));
+	$i.response.setHeader("Content-Length", String(bundle.bytes));
+	return {
+		mimeType: "application/gzip",
+		response: bundle.buffer
+	};
 }
 
 function publishDescriptor($i) {

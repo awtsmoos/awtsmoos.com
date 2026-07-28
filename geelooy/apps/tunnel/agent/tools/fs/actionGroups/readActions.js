@@ -1,7 +1,7 @@
 // B"H
 const path = require("path");
 const { safePath } = require("../pathGuard.js");
-const { listDirDetailed } = require("../listing.js");
+const { listDirPage } = require("../listing.js");
 const { treeText } = require("../tree.js");
 const { readText, readBytesBase64, readTextFromBytes } = require("../readWrite.js");
 const { readBulk } = require("../bulkRead.js");
@@ -34,7 +34,10 @@ function buildReadActions(ctx) {
 	const search = async () => grep(config, payload);
 	return {
 		async stat() { return isAwdb(p) ? { ...base(config, action, p), type:"awdb-output-ref" } : statPath(config, payload); },
-		async list() { const detailedItems = await listDirDetailed(config, p); return { ...base(config, action, p), items:detailedItems.map(x => x.isDirectory ? `${x.name}/` : x.name), detailedItems }; },
+		async list() {
+			const page = await listDirPage(config, p, payload);
+			return { ...base(config, action, p), ...page };
+		},
 		async tree() { return { ...base(config, action, p), treeText:await treeText(config, p, payload.depth, payload.limit) }; },
 		async read() { return { ...base(config, action, p), ...(isAwdb(p) ? readOutputText(config.root, p, maxChars, offsetChars) : await readText(config, p, maxChars, offsetChars)) }; },
 		async readLines() { return readLines(config, payload); }, async readManyLines() { return readManyLines(config, payload); },

@@ -4,6 +4,9 @@
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
+const InstallerComponents = require(
+	"../../../../../../api/tunnel/install/tools/installerComponents.js"
+);
 const Sources = require("../../../../../../api/tunnel/install/tools/zipSources.js");
 const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js");
 
@@ -19,6 +22,8 @@ class ReleaseServer {
 		})).filter(Boolean);
 		this.bundle = Writer.buildZip(this.entries);
 		this.bundleSha256 = Sources.hash(this.bundle);
+		this.installerComponents = InstallerComponents.buildInstallerComponents();
+		this.requestCounts = new Map();
 		this.sockets = new Set();
 		this.server = http.createServer((request, response) => this.respond(request, response));
 		this.server.on("connection", socket => this.trackSocket(socket));
@@ -48,8 +53,30 @@ class ReleaseServer {
 
 	respond(request, response) {
 		const requestPath = new URL(request.url, "http://localhost").pathname;
+		this.requestCounts.set(
+			requestPath,
+			(this.requestCounts.get(requestPath) || 0) + 1
+		);
 		if (requestPath === "/api/tunnel/install/unix") {
-			return this.download(response, "unix.sh");
+			const bootstrap = fs.readFileSync(
+				path.join(this.downloadsRoot, "unix.sh"),
+				"utf8"
+			).replace(
+				"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
+				this.installerComponents.sha256
+			);
+			return this.send(response, 200, bootstrap, "text/plain");
+		}
+		if (
+			requestPath
+			=== "/api/tunnel/install/installer-components.tar.gz"
+		) {
+			return this.send(
+				response,
+				200,
+				this.installerComponents.buffer,
+				"application/gzip"
+			);
 		}
 		if (requestPath === "/apps/tunnel/agent/manifest.txt") {
 			return this.send(response, 200, this.sourceManifest(), "text/plain");
@@ -94,6 +121,10 @@ class ReleaseServer {
 			this.repositoryRoot,
 			"geelooy/apps/tunnel/agent/manifest.txt"
 		));
+	}
+
+	requestCount(requestPath) {
+		return this.requestCounts.get(requestPath) || 0;
 	}
 
 	send(response, status, body, contentType) {
