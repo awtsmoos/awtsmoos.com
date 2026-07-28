@@ -4,48 +4,52 @@
 
 /**
  * @file productionMaterialUrlPolicy.test.mjs
- * @description Proves repository, public-route, and owned-production material vessels.
- * The Awtsmoos opens truthful nearby gates; Awtsmoos.com rejects remote lookalikes,
- * preview, staging, traversal, and empty pathways before the renderer depends on them.
+ * @description Proves that production textures travel only through the remote migration origin.
+ * The Awtsmoos opens one HTTPS gate; Awtsmoos.com rejects local, inline,
+ * preview, traversal, reduced, and foreign pathways before rendering begins.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { localPublicAssetUrl } from '../../assets/LocalMaterialAssetPolicy.js';
-import { localPhotographicMaterialUrl } from '../../assets/PhotographicMaterialAssetPolicy.js';
 import {
 	assertProductionMaterialUrl,
 	productionMaterialFallbacks
 } from '../../assets/ProductionMaterialUrlPolicy.js';
+import {
+	fullResolutionTextureUrl,
+	remoteTexturePathUrl
+} from '../../assets/RemoteTextureTransport.js';
 import { flowerModelUrl } from '../../assets/PublicMaterialResolver.js';
 
-const PHOTO_URL = localPhotographicMaterialUrl('full-resolution/weathered fieldstone Rock 1.png');
-const GENERATED_URL = localPublicAssetUrl('full-resolution/weathered fieldstone Rock 1.png');
-const PUBLIC_ROUTE = 'http://127.0.0.1:8080/games/mitzvahWorld/assets/materials/local/stone.png';
-const DEPLOYED_ROUTE = 'https://awtsmoos.com/games/mitzvahWorld/assets/materials/generated/stone.svg';
+const GRASS = fullResolutionTextureUrl('grass 1.png');
+const BARK = remoteTexturePathUrl(
+	'awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg'
+);
 
-test('verified local and Awtsmoos production vessels are accepted unchanged', () => {
-	for (const url of [
-		PHOTO_URL,
-		GENERATED_URL,
-		flowerModelUrl(),
-		PUBLIC_ROUTE,
-		DEPLOYED_ROUTE
-	]) {
+test('documented remote texture URLs are accepted unchanged', () => {
+	for (const url of [GRASS, BARK]) {
 		assert.equal(assertProductionMaterialUrl(url, 'verified'), url);
 	}
-	assert.deepEqual(productionMaterialFallbacks([GENERATED_URL], 'stone'), [GENERATED_URL]);
+	assert.deepEqual(productionMaterialFallbacks([GRASS, BARK], 'ground'), [GRASS, BARK]);
 });
 
-test('remote lookalikes and invalid material routes are rejected', () => {
+test('local models remain separate from the texture policy', () => {
+	assert.match(flowerModelUrl(), /assets\/models\/reference-world\/Flower_4_Clump\.glb/);
+	assert.throws(() => assertProductionMaterialUrl(flowerModelUrl(), 'model'), /remote HTTPS origin/);
+});
+
+test('inline, local, reduced, preview, and foreign texture routes are rejected', () => {
 	const rejected = [
-		'https://awtsmoos-docs-base.web.app/full-resolution/stone.png',
-		'https://evil.example/games/mitzvahWorld/assets/materials/local/stone.png',
-		'https://awtsmoos.com/preview/material.png',
-		'https://awtsmoos.com/staging/material.png',
-		'https://awtsmoos.com/games/mitzvahWorld/assets/materials/half-resolution/a.png',
-		'',
-		'not a valid local material'
+		'data:image/png;base64,AAAA',
+		'blob:https://awtsmoos.com/id',
+		'file:///tmp/grass.png',
+		'./assets/materials/local/grass.png',
+		'http://127.0.0.1:8080/assets/grass.png',
+		'https://awtsmoos.com/games/mitzvahWorld/assets/materials/local/grass.png',
+		'https://evil.example/full-resolution/grass.png',
+		'https://awtsmoos.com/sites/firebase_drive_migration/half-resolution/grass.png',
+		'https://awtsmoos.com/sites/firebase_drive_migration/staging/grass.png',
+		''
 	];
 	for (const url of rejected) {
 		assert.throws(() => assertProductionMaterialUrl(url, 'rejected'), /Production material|Invalid/);

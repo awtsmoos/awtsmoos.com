@@ -4,27 +4,22 @@
 
 /**
  * @file PhotographicMaterialAssetPolicy.js
- * @description Maps canonical material identities to local photographic assets.
- * The Awtsmoos renews every stone, leaf, timber, and river surface from one truth;
- * Awtsmoos.com keeps the original identity visible while the bytes live nearby.
+ * @description Maps declared photographic identities to verified remote texture URLs.
+ * The Awtsmoos preserves each canonical name while copied bytes depart;
+ * Awtsmoos.com streams the original garment and lets browser caches remember its light.
  */
 
 import { LOCAL_MATERIAL_SOURCE_PATHS } from './LocalMaterialSourcePaths.js';
+import {
+	REMOTE_TEXTURE_ROOT,
+	remoteTexturePathUrl
+} from './RemoteTextureTransport.js';
 
-const PHOTOGRAPHIC_ROOT = new URL(
-	'../../../../assets/materials/local/',
-	import.meta.url
-);
 const DECLARED_PATHS = new Set(LOCAL_MATERIAL_SOURCE_PATHS);
 
-export const LOCAL_PHOTOGRAPHIC_MATERIAL_ORIGIN = PHOTOGRAPHIC_ROOT.href.replace(/\/$/, '');
+export const LOCAL_PHOTOGRAPHIC_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
 
-/**
- * Returns the declared canonical identity behind a source or reduced-resolution alias.
- *
- * @param {string} relativePath Requested material identity.
- * @returns {string|null} Declared canonical identity, or null when unknown.
- */
+/** Returns the declared canonical identity behind a source or legacy quality alias. */
 export function canonicalPhotographicMaterialPath(relativePath) {
 	const normalizedPath = normalizePhotographicMaterialPath(relativePath);
 	if (DECLARED_PATHS.has(normalizedPath)) return normalizedPath;
@@ -42,34 +37,25 @@ export function isLocalPhotographicMaterial(relativePath) {
 	}
 }
 
+/** Retains the former deterministic filename for audits, never runtime loading. */
 export function photographicMaterialFilename(relativePath) {
-	const normalizedPath = normalizePhotographicMaterialPath(relativePath);
-	const canonicalPath = canonicalPhotographicMaterialPath(normalizedPath) || normalizedPath;
-	const extension = canonicalExtension(canonicalPath);
-	const stem = canonicalPath
-		.replace(/\.[a-z0-9]+$/i, '')
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, '-')
-		.replace(/^-|-$/g, '')
-		.slice(0, 72) || 'material';
-	return `${stem}-${shortHash(canonicalPath)}${extension}`;
+	const canonicalPath = canonicalPhotographicMaterialPath(relativePath) ||
+		normalizePhotographicMaterialPath(relativePath);
+	return canonicalPath.split('/').at(-1);
 }
 
+/** Resolves one declared material to the single remote migration origin. */
 export function localPhotographicMaterialUrl(relativePath) {
 	const canonicalPath = canonicalPhotographicMaterialPath(relativePath);
 	if (!canonicalPath) {
-		throw new Error(`Undeclared local photographic material: ${relativePath}`);
+		throw new Error(`Undeclared photographic material: ${relativePath}`);
 	}
-	const localUrl = new URL(photographicMaterialFilename(canonicalPath), PHOTOGRAPHIC_ROOT);
-	localUrl.searchParams.set('source', `/${canonicalPath}`);
-	return localUrl.href;
+	return remoteTexturePathUrl(canonicalPath);
 }
 
 export function normalizePhotographicMaterialPath(relativePath) {
-	const value = String(relativePath || '')
-		.replace(/^\/+/, '')
-		.replace(/\\/g, '/');
-	if (!value || value.split('/').includes('..')) {
+	const value = String(relativePath || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+	if (!value || value.split('/').some(segment => segment === '..' || segment === '.')) {
 		throw new Error(`Invalid photographic material path: ${relativePath}`);
 	}
 	return value;
@@ -84,17 +70,4 @@ function canonicalCandidates(relativePath) {
 		candidates.push(relativePath.replace('chai-forest-half/', 'chai-forest/'));
 	}
 	return candidates;
-}
-
-function canonicalExtension(canonicalPath) {
-	return canonicalPath.match(/\.[a-z0-9]+$/i)?.[0].toLowerCase() || '.png';
-}
-
-function shortHash(value) {
-	let hash = 2166136261;
-	for (const character of value) {
-		hash ^= character.charCodeAt(0);
-		hash = Math.imul(hash, 16777619);
-	}
-	return (hash >>> 0).toString(16).padStart(8, '0');
 }

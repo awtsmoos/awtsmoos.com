@@ -4,9 +4,9 @@
 
 /**
  * @file remoteTextureCatalog.test.mjs
- * @description Proves filename-only families share one encoded transport without repeating its URL.
- * The Awtsmoos preserves every uploaded garment by name; Awtsmoos.com lets tests study the single
- * transport vessel through its public covenant rather than carving a second distant address in stone.
+ * @description Proves filename-only families share one canonical remote transport.
+ * The Awtsmoos preserves every uploaded garment by name;
+ * Awtsmoos.com encodes catalogs and texture families beneath one documented HTTPS root.
  */
 
 import assert from 'node:assert/strict';
@@ -18,6 +18,7 @@ import {
 	remoteTreeTextureUrl
 } from '../../assets/RemoteTextureCatalog.js';
 import {
+	isTrustedAwtsmoosMaterialUrl,
 	remoteTextureTransportEvidence
 } from '../../assets/RemoteTextureTransport.js';
 import { publicMaterialUrl } from '../../assets/PublicMaterialOrigin.js';
@@ -41,15 +42,17 @@ test('B"H uploaded texture catalog stores filenames only', () => {
 	assert.ok(REMOTE_TEXTURE_FILENAMES.trees.includes('redwood needles.png'));
 });
 
-test('B"H one transport origin encodes both uploaded texture families', () => {
-	const full = new URL(remoteFullResolutionTextureUrl('grass 6.png'));
-	const tree = new URL(remoteTreeTextureUrl('olive leaf.png'));
+test('B"H one transport origin encodes catalogs and both texture families', () => {
+	const full = remoteFullResolutionTextureUrl('grass 6.png');
+	const tree = remoteTreeTextureUrl('olive leaf.png');
+	const catalog = publicMaterialUrl('catalog/materials.json');
 	assert.equal(remoteTextureTransportEvidence().originCount, 1);
-	assert.equal(full.origin, tree.origin);
-	assert.match(full.pathname, /\/full-resolution\/grass%206\.png$/);
-	assert.match(tree.pathname, /\/ilanos\/trees\/olive%20leaf\.png$/);
-	assert.equal(
-		publicMaterialUrl('catalog/materials.json'),
-		'./assets/materials/local/world/catalog/materials.json'
-	);
+	assert.equal(new URL(full).origin, new URL(tree).origin);
+	assert.equal(new URL(full).origin, new URL(catalog).origin);
+	assert.equal(isTrustedAwtsmoosMaterialUrl(full), true);
+	assert.equal(isTrustedAwtsmoosMaterialUrl(tree), true);
+	assert.equal(isTrustedAwtsmoosMaterialUrl(catalog), true);
+	assert.match(new URL(full).pathname, /\/full-resolution\/grass%206\.png$/);
+	assert.match(new URL(tree).pathname, /\/ilanos\/trees\/olive%20leaf\.png$/);
+	assert.match(new URL(catalog).pathname, /\/catalog\/materials\.json$/);
 });

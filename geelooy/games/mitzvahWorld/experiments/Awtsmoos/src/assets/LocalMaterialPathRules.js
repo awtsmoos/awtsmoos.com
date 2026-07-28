@@ -4,33 +4,14 @@
 
 /**
  * @file LocalMaterialPathRules.js
- * @description Validates repository, local-route, deployed, and one trusted remote texture vessel.
- * The Awtsmoos guards every garment from foreign roads while Awtsmoos.com opens one measured gate;
- * file tests, localhost, deployed assets, and approved uploads may flow while traversal remains barred.
+ * @description Preserves the legacy validator name while enforcing remote-only textures.
+ * The Awtsmoos turns an old local gate toward one distant spring;
+ * Awtsmoos.com admits only trusted HTTPS migration URLs and rejects every inline vessel.
  */
 
 import {
 	isTrustedAwtsmoosMaterialUrl
 } from './RemoteTextureTransport.js';
-
-const PARSE_BASE = new URL('https://same-origin.invalid/');
-const ABSOLUTE_SCHEME = /^[a-z][a-z0-9+.-]*:/i;
-const LOCAL_PREFIXES = Object.freeze([
-	'/assets/materials/local/',
-	'/assets/materials/generated/',
-	'/games/mitzvahworld/assets/materials/local/',
-	'/games/mitzvahworld/assets/materials/generated/',
-	'/geelooy/games/mitzvahworld/assets/materials/local/',
-	'/geelooy/games/mitzvahworld/assets/materials/generated/'
-]);
-const REPOSITORY_PATH_MARKERS = Object.freeze([
-	'/geelooy/games/mitzvahworld/assets/materials/local/',
-	'/geelooy/games/mitzvahworld/assets/materials/generated/'
-]);
-const LOCAL_FILES = Object.freeze([
-	'/geelooy/games/mitzvahworld/assets/models/reference-world/flower_4_clump.glb'
-]);
-const DEVELOPMENT_HOSTS = Object.freeze(['127.0.0.1', 'localhost']);
 
 export const FORBIDDEN_MATERIAL_SEGMENTS = Object.freeze([
 	'half-resolution',
@@ -39,19 +20,19 @@ export const FORBIDDEN_MATERIAL_SEGMENTS = Object.freeze([
 	'staging'
 ]);
 
-export function assertLocalMaterialPath(url, role) {
-	const rawUrl = normalizeUrl(url, role);
-	const parsed = parseUrl(rawUrl, role);
-	const rawPath = decodePath(parsed.pathname, url, role);
-	assertNoTraversal(rawPath, url, role);
-	const pathname = rawPath.toLowerCase();
-	assertNoForbiddenSegment(pathname, url, role);
-	if (isAbsoluteUrl(rawUrl)) {
-		assertApprovedAbsolute(rawUrl, parsed, pathname, role);
-		return;
+/** Validates one production texture URL against the remote-only covenant. */
+export function assertLocalMaterialPath(url, role = 'runtime material') {
+	const value = normalizeUrl(url, role);
+	const parsed = parseUrl(value, role);
+	assertNoForbiddenSegment(parsed, value, role);
+	if (!isTrustedAwtsmoosMaterialUrl(value)) {
+		throw new Error(`Production material ${role} requires the trusted remote HTTPS origin: ${value}`);
 	}
-	assertApprovedLocalPath(pathname, url, role);
+	return value;
 }
+
+/** Clear alias for new callers that no longer speak in local-path terms. */
+export const assertRemoteMaterialUrl = assertLocalMaterialPath;
 
 function normalizeUrl(url, role) {
 	if (typeof url !== 'string' || url.trim() === '') {
@@ -60,60 +41,18 @@ function normalizeUrl(url, role) {
 	return url.trim();
 }
 
-function isAbsoluteUrl(url) {
-	return url.startsWith('//') || ABSOLUTE_SCHEME.test(url);
-}
-
-function assertApprovedAbsolute(rawUrl, parsed, pathname, role) {
-	if (rawUrl.startsWith('//')) {
-		throw new Error(`Production material ${role} cannot use protocol-relative hosts: ${rawUrl}`);
-	}
-	if (parsed.protocol === 'file:' && approvedRepositoryPath(pathname)) return;
-	if (isTrustedAwtsmoosMaterialUrl(rawUrl)) return;
-	if (DEVELOPMENT_HOSTS.includes(parsed.hostname.toLowerCase())) {
-		assertApprovedLocalPath(pathname, rawUrl, role);
-		return;
-	}
-	throw new Error(`Production material ${role} requires an approved owned origin: ${rawUrl}`);
-}
-
 function parseUrl(url, role) {
 	try {
-		return new URL(url, PARSE_BASE);
+		return new URL(url);
 	} catch (error) {
 		throw new Error(`Invalid production material URL for ${role}: ${url}`, { cause: error });
 	}
 }
 
-function decodePath(path, url, role) {
-	try {
-		return decodeURIComponent(path).replace(/\\/g, '/');
-	} catch {
-		throw new Error(`Invalid encoded production material URL for ${role}: ${url}`);
-	}
-}
-
-function assertNoTraversal(path, url, role) {
-	if (path.split('/').filter(Boolean).includes('..')) {
-		throw new Error(`Production material ${role} cannot traverse directories: ${url}`);
-	}
-}
-
-function assertNoForbiddenSegment(pathname, url, role) {
-	const segments = pathname.split('/').filter(Boolean);
+function assertNoForbiddenSegment(parsed, url, role) {
+	const segments = decodeURIComponent(parsed.pathname).toLowerCase().split('/').filter(Boolean);
 	const forbidden = FORBIDDEN_MATERIAL_SEGMENTS.find(segment => segments.includes(segment));
 	if (forbidden) {
 		throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
 	}
-}
-
-function assertApprovedLocalPath(pathname, url, role) {
-	const approvedPrefix = LOCAL_PREFIXES.some(prefix => pathname.startsWith(prefix));
-	if (!approvedPrefix && !LOCAL_FILES.includes(pathname)) {
-		throw new Error(`Production material ${role} requires an approved local asset: ${url}`);
-	}
-}
-
-function approvedRepositoryPath(pathname) {
-	return REPOSITORY_PATH_MARKERS.some(marker => pathname.includes(marker));
 }

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-<defs>
-	<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="4" seed="571"/><feColorMatrix type="saturate" values=".3"/><feBlend mode="multiply" in2="SourceGraphic"/></filter>
-	<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c757f"/><stop offset=".5" stop-color="#323841"/><stop offset="1" stop-color="#1e242b"/></linearGradient>
-</defs>
-<rect width="256" height="256" fill="#323841"/>
-<rect width="256" height="256" filter="url(#grain)" opacity=".52"/>
-<g fill="none" stroke="#1e242b" stroke-width="5" opacity=".7"><path d="M-32 0Q0 34 32 0Q64 34 96 0Q128 34 160 0Q192 34 224 0Q256 34 288 0"/><path d="M-32 31Q0 65 32 31Q64 65 96 31Q128 65 160 31Q192 65 224 31Q256 65 288 31"/><path d="M-32 62Q0 96 32 62Q64 96 96 62Q128 96 160 62Q192 96 224 62Q256 96 288 62"/><path d="M-32 93Q0 127 32 93Q64 127 96 93Q128 127 160 93Q192 127 224 93Q256 127 288 93"/><path d="M-32 124Q0 158 32 124Q64 158 96 124Q128 158 160 124Q192 158 224 124Q256 158 288 124"/><path d="M-32 155Q0 189 32 155Q64 189 96 155Q128 189 160 155Q192 189 224 155Q256 189 288 155"/><path d="M-32 186Q0 220 32 186Q64 220 96 186Q128 220 160 186Q192 220 224 186Q256 220 288 186"/><path d="M-32 217Q0 251 32 217Q64 251 96 217Q128 251 160 217Q192 251 224 217Q256 251 288 217"/><path d="M-32 248Q0 282 32 248Q64 282 96 248Q128 282 160 248Q192 282 224 248Q256 282 288 248"/></g>
-</svg>

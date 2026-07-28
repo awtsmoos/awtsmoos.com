@@ -4,9 +4,9 @@
 
 /**
  * @file publicMaterialCatalog.test.mjs
- * @description Proves arbitrary catalog records search and resolve by quality.
- * The Awtsmoos preserves a canonical source beyond flattened local filenames;
- * Awtsmoos.com reads that witness instead of mistaking a transport path for identity.
+ * @description Proves arbitrary catalog records search and resolve through remote transport.
+ * The Awtsmoos preserves canonical identity beyond quality variants;
+ * Awtsmoos.com sends both chosen and canonical paths beneath one trusted HTTPS root.
  */
 
 import assert from 'node:assert/strict';
@@ -18,7 +18,9 @@ import {
 	searchPublicMaterials
 } from '../../assets/PublicMaterialCatalog.js';
 import { resolveMaterialRecord } from '../../assets/PublicMaterialResolver.js';
-import { canonicalSourcePath } from './LocalMaterialTestSupport.mjs';
+import {
+	isTrustedAwtsmoosMaterialUrl
+} from '../../assets/RemoteTextureTransport.js';
 
 const records = [
 	record('full-resolution/oak leaf spring.png', 'full', ['botanical', 'leaf']),
@@ -43,7 +45,16 @@ assert.equal((await loadPublicMaterialCatalog(fetchFunction)).records.length, 4)
 assert.equal((await searchPublicMaterials('fieldstone', { fetchFunction })).length, 1);
 const resolved = await resolvePublicMaterial('oak leaf spring', 'medium', { fetchFunction });
 assert.equal(resolved.resolvedPath, 'half-resolution/oak leaf spring.png');
-assert.equal(canonicalSourcePath(resolved.resolvedUrl), '/full-resolution/oak leaf spring.png');
+assert.equal(isTrustedAwtsmoosMaterialUrl(resolved.resolvedUrl), true);
+assert.equal(isTrustedAwtsmoosMaterialUrl(resolved.transportUrl), true);
+assert.equal(
+	decodeURIComponent(new URL(resolved.resolvedUrl).pathname).endsWith('/full-resolution/oak leaf spring.png'),
+	true
+);
+assert.equal(
+	decodeURIComponent(new URL(resolved.transportUrl).pathname).endsWith('/half-resolution/oak leaf spring.png'),
+	true
+);
 
 console.log(JSON.stringify({ ok: true, records: records.length, resolved: resolved.resolvedPath }, null, 2));
 
@@ -52,7 +63,7 @@ function record(path, resolution, tags, alphaCapable = false) {
 		id: path.replace(/[^a-z0-9]+/gi, '-').toLowerCase(),
 		name: path.split('/').at(-1),
 		path,
-		url: `https://awtsmoos-docs-base.web.app/${path}`,
+		url: `https://awtsmoos.com/sites/firebase_drive_migration/${path}`,
 		extension: 'png',
 		bytes: 1024,
 		kind: 'image',

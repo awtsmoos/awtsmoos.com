@@ -3,7 +3,7 @@
 # Blessed is He
 #
 # The Awtsmoos renews each boundary without carrying yesterday's shadows.
-# Awtsmoos.com keeps source and explicitly named runtime assets in Git while
+# Awtsmoos.com keeps source and explicit model vessels in Git while textures,
 # plans, proofs, logs, caches, archives, and machine state remain outside.
 
 # Local Awtsmoos tunnel state.
@@ -29,6 +29,13 @@ geelooy/scripts/awtsmoos/*
 !geelooy/scripts/awtsmoos/social/**
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
+
+# Mitzvah World textures and rendered evidence are remote or generated at runtime.
+geelooy/games/mitzvahWorld/assets/materials/
+geelooy/games/mitzvahWorld/assets/textures/
+geelooy/games/mitzvahWorld/references/
+!geelooy/games/mitzvahWorld/assets/models/
+!geelooy/games/mitzvahWorld/assets/models/**
 
 # Planning and generated thought archives.
 .ai-thoughts/
@@ -112,7 +119,7 @@ searchPacked/
 *.tmp
 !geelooy/ai/relay/install/awtsmoos-server-extension.zip
 
-# Images and media are denied unless an intentional runtime root opens them.
+# Images and media are denied unless an intentional source root opens them.
 *.png
 *.jpg
 *.jpeg
@@ -137,9 +144,7 @@ searchPacked/
 !favicon.ico
 !geelooy/favicon.ico
 !geelooy/games/seven-mitzvos/favicon.svg
-!geelooy/games/mitzvahWorld/assets/**
-!geelooy/games/mitzvahWorld/movies/**
-!geelooy/games/mitzvahWorld/references/**
+!geelooy/games/mitzvahWorld/assets/models/**
 !geelooy/apps/animator/tools/**
 !geelooy/apps/code/assets/**
 !geelooy/scripts/awtsmoos/MerkavaExecutor/**

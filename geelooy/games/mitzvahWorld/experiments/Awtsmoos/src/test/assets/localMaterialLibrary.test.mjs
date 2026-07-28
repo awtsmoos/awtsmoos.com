@@ -4,60 +4,46 @@
 
 /**
  * @file localMaterialLibrary.test.mjs
- * @description Proves every declared material owns one deterministic valid local SVG.
- * The Awtsmoos gathers seventy-one visual garments without dependence on a vanished host;
- * Awtsmoos.com verifies unique names, source witnesses, XML vessels, and local existence.
+ * @description Proves every declared texture identity resolves to one trusted remote URL.
+ * The Awtsmoos preserves seventy-one names without keeping seventy-one copied files;
+ * Awtsmoos.com streams each garment while browser caches remember its finite light.
  */
 
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
 import {
 	localMaterialFilename,
 	localPublicAssetUrl
 } from '../../assets/LocalMaterialAssetPolicy.js';
 import { LOCAL_MATERIAL_SOURCE_PATHS } from '../../assets/LocalMaterialSourcePaths.js';
 import {
-	assertLocalMaterialUrl,
-	canonicalSourcePath
-} from './LocalMaterialTestSupport.mjs';
+	isTrustedAwtsmoosMaterialUrl,
+	REMOTE_TEXTURE_ROOT
+} from '../../assets/RemoteTextureTransport.js';
 
-test('all seventy-one declared material identities resolve to unique local SVGs', () => {
+test('all seventy-one material identities resolve to unique remote URLs', () => {
 	assert.equal(LOCAL_MATERIAL_SOURCE_PATHS.length, 71);
 	assert.equal(new Set(LOCAL_MATERIAL_SOURCE_PATHS).size, 71);
+	const urls = LOCAL_MATERIAL_SOURCE_PATHS.map(localPublicAssetUrl);
+	assert.equal(new Set(urls).size, urls.length);
+	for (const [index, sourcePath] of LOCAL_MATERIAL_SOURCE_PATHS.entries()) {
+		const url = urls[index];
+		assert.ok(url.startsWith(REMOTE_TEXTURE_ROOT), sourcePath);
+		assert.equal(isTrustedAwtsmoosMaterialUrl(url), true, sourcePath);
+		assert.equal(decodeURIComponent(new URL(url).pathname).endsWith(sourcePath), true);
+	}
+});
+
+test('legacy deterministic filenames remain audit-only and stable', () => {
 	const filenames = LOCAL_MATERIAL_SOURCE_PATHS.map(localMaterialFilename);
 	assert.equal(new Set(filenames).size, filenames.length);
-	for (const sourcePath of LOCAL_MATERIAL_SOURCE_PATHS) {
-		const url = localPublicAssetUrl(sourcePath);
-		assertLocalMaterialUrl(assert, url, `/${sourcePath}`);
-		assert.equal(canonicalSourcePath(url), `/${sourcePath}`);
+	for (const filename of filenames) {
+		assert.match(filename, /-[a-f0-9]{8}\.svg$/);
 	}
 });
 
-test('generated material files contain complete SVG documents', () => {
-	for (const sourcePath of LOCAL_MATERIAL_SOURCE_PATHS) {
-		const parsed = new URL(localPublicAssetUrl(sourcePath));
-		parsed.search = '';
-		const content = fs.readFileSync(fileURLToPath(parsed), 'utf8');
-		assert.match(content, /^<svg xmlns=/);
-		assert.match(content, /viewBox="0 0 256 256"/);
-		assert.match(content, /<\/svg>\s*$/);
-		assert.doesNotMatch(content, /awtsmoos-docs-base/);
+test('invalid and traversal identities are rejected before URL creation', () => {
+	for (const value of ['', '../outside.png', './inside.png']) {
+		assert.throws(() => localPublicAssetUrl(value), /Invalid material source path|Unsafe remote texture path/);
 	}
 });
-
-test('organic alpha sources remain transparent while tiled surfaces stay grounded', () => {
-	const leaf = generatedContent('full-resolution/leaf 1.png');
-	const petal = generatedContent('processed/botany/petal-soft.svg');
-	const stone = generatedContent('full-resolution/stone 1.png');
-	assert.match(leaf, /fill="none"/);
-	assert.match(petal, /fill="none"/);
-	assert.doesNotMatch(stone, /<rect width="256" height="256" fill="none"/);
-});
-
-function generatedContent(sourcePath) {
-	const parsed = new URL(localPublicAssetUrl(sourcePath));
-	parsed.search = '';
-	return fs.readFileSync(fileURLToPath(parsed), 'utf8');
-}

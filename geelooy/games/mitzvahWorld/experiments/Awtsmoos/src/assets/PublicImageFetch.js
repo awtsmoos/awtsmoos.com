@@ -4,38 +4,38 @@
 
 /**
  * @file PublicImageFetch.js
- * @description Fetches one canonical image as a typed blob with explicit network evidence.
- * The Awtsmoos gives every remote byte a truthful doorway; Awtsmoos.com distinguishes HTTP,
- * content type, timeout, abort, and network failure before finite pixels enter the renderer.
+ * @description Fetches one canonical remote image through durable browser caching.
+ * The Awtsmoos gives every distant byte a truthful doorway;
+ * Awtsmoos.com reuses cached light while naming HTTP, type, timeout, and network failure.
  */
 
+import {
+	cachedImageResponse,
+	isImageResponse
+} from './PublicImageResponseCache.js';
+
 export async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
-	const fetchFunction = Object.hasOwn(dependencies, 'fetchFunction')
-		? dependencies.fetchFunction
-		: globalThis.fetch;
-	if (typeof fetchFunction !== 'function') {
-		return failed('fetch-unavailable', 'fetch', { status: 0 });
-	}
 	const Controller = Object.hasOwn(dependencies, 'AbortControllerClass')
 		? dependencies.AbortControllerClass
 		: globalThis.AbortController;
 	const controller = Controller ? new Controller() : null;
 	const timer = setTimeout(() => controller?.abort(), timeoutMs);
 	try {
-		const response = await fetchFunction(url, {
-			cache: 'force-cache',
-			credentials: 'omit',
-			mode: 'cors',
+		const result = await cachedImageResponse(url, {
+			cacheName: dependencies.cacheName,
+			cacheStorage: dependencies.cacheStorage,
+			fetchFunction: dependencies.fetchFunction,
 			signal: controller?.signal
 		});
-		const contentType = response.headers?.get?.('content-type') || '';
-		if (!response.ok) {
-			return failed(`http-${response.status}`, 'http', {
+		const response = result.response;
+		const contentType = response?.headers?.get?.('content-type') || '';
+		if (!response?.ok) {
+			return failed(`http-${response?.status || 0}`, 'http', {
 				contentType,
-				status: response.status
+				status: response?.status || 0
 			});
 		}
-		if (!contentType.toLowerCase().startsWith('image/')) {
+		if (!isImageResponse(response)) {
 			return failed('non-image-content-type', 'content-type', {
 				contentType,
 				status: response.status
@@ -52,7 +52,7 @@ export async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies 
 			blob,
 			contentType,
 			error: null,
-			method: 'fetch-blob',
+			method: result.source,
 			ok: true,
 			stage: 'fetched',
 			status: response.status
@@ -72,7 +72,7 @@ function failed(error, stage, evidence = {}) {
 		blob: null,
 		contentType: evidence.contentType || '',
 		error,
-		method: 'fetch-blob',
+		method: 'remote-cache-fetch',
 		ok: false,
 		stage,
 		status: evidence.status || 0

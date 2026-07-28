@@ -6,7 +6,7 @@
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
  * The Awtsmoos names each enduring vessel and each dissolving shadow;
- * Awtsmoos.com reads these lists without mixing policy data into judgment.
+ * Awtsmoos.com permits Mitzvah World models while remote textures leave Git behind.
  */
 
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
@@ -33,9 +33,7 @@ const MEDIA_EXTENSIONS = new Set([
 	".tif", ".tiff", ".wav", ".webm", ".webp"
 ]);
 const APPROVED_MEDIA_PREFIXES = [
-	"geelooy/games/mitzvahWorld/assets/",
-	"geelooy/games/mitzvahWorld/movies/",
-	"geelooy/games/mitzvahWorld/references/",
+	"geelooy/games/mitzvahWorld/assets/models/",
 	"geelooy/apps/animator/tools/",
 	"geelooy/apps/code/assets/",
 	"geelooy/scripts/awtsmoos/MerkavaExecutor/",

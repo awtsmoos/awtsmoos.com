@@ -4,9 +4,9 @@
 
 /**
  * @file publicMaterialResolverAliases.test.mjs
- * @description Protects canonical aliases while proving their generated local byte vessels.
- * The Awtsmoos preserves material meaning when a finite doorway disappears; Awtsmoos.com
- * verifies every alias keeps its source identity and hydrates without the dead public host.
+ * @description Protects canonical recovery aliases while proving remote transport.
+ * The Awtsmoos preserves material meaning when one finite name failed;
+ * Awtsmoos.com sends the recovered canonical path through the trusted migration root.
  */
 
 import assert from 'node:assert/strict';
@@ -17,11 +17,10 @@ import {
 	publicMaterialAliases
 } from '../../assets/PublicMaterialResolver.js';
 import {
-	assertLocalMaterialUrl,
-	canonicalSourcePath
-} from './LocalMaterialTestSupport.mjs';
+	isTrustedAwtsmoosMaterialUrl
+} from '../../assets/RemoteTextureTransport.js';
 
-test('redirects logged source failures to verified canonical identities', () => {
+test('logged source failures redirect to documented canonical remote identities', () => {
 	assert.equal(
 		fullMaterialPath('grass 6'),
 		'awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
@@ -32,18 +31,19 @@ test('redirects logged source failures to verified canonical identities', () => 
 	);
 	assert.equal(fullMaterialPath('oak wood 2'), 'full-resolution/oak wood 3.png');
 	assert.equal(fullMaterialPath('stone floor'), 'full-resolution/stone floor 2.png');
-	assertLocalMaterialUrl(
-		assert,
-		fullMaterialUrl('stone floor'),
-		'/full-resolution/stone floor 2.png'
-	);
+	const stoneFloor = fullMaterialUrl('stone floor');
+	assert.equal(isTrustedAwtsmoosMaterialUrl(stoneFloor), true);
+	assert.match(stoneFloor, /full-resolution\/stone%20floor%202\.png$/);
 });
 
-test('unproven names keep exact canonical paths inside local URLs', () => {
+test('unaliased names retain exact canonical paths inside remote URLs', () => {
 	assert.equal(fullMaterialPath('stone 1'), 'full-resolution/stone 1.png');
 	const stoneUrl = fullMaterialUrl('stone 1');
-	assertLocalMaterialUrl(assert, stoneUrl, '/full-resolution/stone 1.png');
-	assert.equal(canonicalSourcePath(stoneUrl), '/full-resolution/stone 1.png');
+	assert.equal(isTrustedAwtsmoosMaterialUrl(stoneUrl), true);
+	assert.equal(
+		decodeURIComponent(new URL(stoneUrl).pathname).endsWith('/full-resolution/stone 1.png'),
+		true
+	);
 	assert.deepEqual(Object.keys(publicMaterialAliases()).sort(), [
 		'grass 6',
 		'mud',

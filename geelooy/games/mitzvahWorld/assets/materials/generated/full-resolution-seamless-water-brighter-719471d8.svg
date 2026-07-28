@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-<defs>
-	<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="4" seed="669"/><feColorMatrix type="saturate" values=".3"/><feBlend mode="multiply" in2="SourceGraphic"/></filter>
-	<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#91c7c9"/><stop offset=".5" stop-color="#3e7480"/><stop offset="1" stop-color="#163e4a"/></linearGradient>
-</defs>
-<rect width="256" height="256" fill="#3e7480"/>
-<rect width="256" height="256" filter="url(#grain)" opacity=".52"/>
-<rect width="256" height="256" fill="url(#shine)" opacity=".7"/><g fill="none" stroke="#91c7c9" stroke-width="4" opacity=".5"><path d="M-20 0Q16 -13 52 0T124 0T196 0T276 0"/><path d="M-20 23Q16 10 52 23T124 23T196 23T276 23"/><path d="M-20 46Q16 33 52 46T124 46T196 46T276 46"/><path d="M-20 69Q16 56 52 69T124 69T196 69T276 69"/><path d="M-20 92Q16 79 52 92T124 92T196 92T276 92"/><path d="M-20 115Q16 102 52 115T124 115T196 115T276 115"/><path d="M-20 138Q16 125 52 138T124 138T196 138T276 138"/><path d="M-20 161Q16 148 52 161T124 161T196 161T276 161"/><path d="M-20 184Q16 171 52 184T124 184T196 184T276 184"/><path d="M-20 207Q16 194 52 207T124 207T196 207T276 207"/><path d="M-20 230Q16 217 52 230T124 230T196 230T276 230"/><path d="M-20 253Q16 240 52 253T124 253T196 253T276 253"/></g>
-</svg>

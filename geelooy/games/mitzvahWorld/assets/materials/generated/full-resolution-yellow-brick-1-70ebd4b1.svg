@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-<defs>
-	<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="4" seed="815"/><feColorMatrix type="saturate" values=".3"/><feBlend mode="multiply" in2="SourceGraphic"/></filter>
-	<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8b5a0"/><stop offset=".5" stop-color="#987c65"/><stop offset="1" stop-color="#5a473e"/></linearGradient>
-</defs>
-<rect width="256" height="256" fill="#987c65"/>
-<rect width="256" height="256" filter="url(#grain)" opacity=".52"/>
-<g fill="none" stroke="#5a473e" stroke-width="5" opacity=".68"><path d="M0 0H256 0 0V32 M64 0V32 M128 0V32 M192 0V32"/><path d="M0 32H256 32 32V64 M96 32V64 M160 32V64 M224 32V64"/><path d="M0 64H256 0 64V96 M64 64V96 M128 64V96 M192 64V96"/><path d="M0 96H256 32 96V128 M96 96V128 M160 96V128 M224 96V128"/><path d="M0 128H256 0 128V160 M64 128V160 M128 128V160 M192 128V160"/><path d="M0 160H256 32 160V192 M96 160V192 M160 160V192 M224 160V192"/><path d="M0 192H256 0 192V224 M64 192V224 M128 192V224 M192 192V224"/><path d="M0 224H256 32 224V256 M96 224V256 M160 224V256 M224 224V256"/><path d="M0 256H256 0 256V288 M64 256V288 M128 256V288 M192 256V288"/></g>
-</svg>

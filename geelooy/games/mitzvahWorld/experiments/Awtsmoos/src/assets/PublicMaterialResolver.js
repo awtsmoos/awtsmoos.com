@@ -4,31 +4,29 @@
 
 /**
  * @file PublicMaterialResolver.js
- * @description Separates canonical material identity from quality-selected transport bytes.
- * The Awtsmoos preserves one source while lighter vessels may carry its finite image;
- * Awtsmoos.com keeps provenance and transport distinct so neither quality nor truth becomes dim.
+ * @description Resolves texture identities remotely while preserving one verified model exception.
+ * The Awtsmoos streams every painted garment from Awtsmoos.com afar;
+ * the flower GLB stays local only because its proposed remote vessel returned 404.
  */
 
+import { LOCAL_FLOWER_MODEL_URL } from './LocalMaterialAssetPolicy.js';
 import { publicMaterialUrl } from './PublicMaterialOrigin.js';
 
 const HALF_QUALITY = new Set(['low', 'medium', 'half']);
 const FULL_SOURCE_ALIASES = Object.freeze({
-	'grass 6': 'full-resolution/grass 6.png',
-	'mud': 'full-resolution/mud.png',
+	'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+	'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
 	'oak wood 2': 'full-resolution/oak wood 3.png',
 	'stone floor': 'full-resolution/stone floor 2.png'
 });
-const FLOWER_MODEL_PATH = 'models/reference-world/Flower_4_Clump.glb';
 
 export function resolveMaterialRecord(record, quality = 'high') {
-	if (!record?.path) {
-		throw new Error('A catalog material record is required.');
-	}
+	if (!record?.path) throw new Error('A catalog material record is required.');
 	const variants = record.variants || {};
 	const preferHalf = HALF_QUALITY.has(String(quality).toLowerCase());
 	const canonicalPath = variants.full || record.path;
 	const resolvedPath = preferHalf
-		? variants.half || variants.source || variants.full || record.path
+		? variants.half || variants.source || canonicalPath
 		: variants.full || variants.source || variants.half || record.path;
 	return {
 		...record,
@@ -53,7 +51,7 @@ export function exactMaterialUrl(relativePath) {
 }
 
 export function flowerModelUrl() {
-	return publicMaterialUrl(FLOWER_MODEL_PATH);
+	return LOCAL_FLOWER_MODEL_URL;
 }
 
 export function fullMaterialPath(name, extension = 'png') {

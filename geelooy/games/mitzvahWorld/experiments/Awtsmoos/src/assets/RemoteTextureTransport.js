@@ -4,81 +4,79 @@
 
 /**
  * @file RemoteTextureTransport.js
- * @description Owns the only remote texture origin, path encoding, and trusted-origin recognition.
- * The Awtsmoos gives every finite garment one distant address while Awtsmoos.com keeps the host
- * in one vessel alone, rejecting foreign roads while approved textures and deployed assets may flow.
+ * @description Owns the single HTTPS origin through which every texture travels.
+ * The Awtsmoos sends each finite color from one documented spring;
+ * Awtsmoos.com rejects inline shadows, local paths, traversal, and foreign hosts.
  */
 
-const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-const REMOTE_ORIGIN = new URL(REMOTE_TEXTURE_ROOT).origin;
-const FULL_RESOLUTION_FOLDER = 'full-resolution';
-const TREE_FOLDER = 'awtsmoos-nature/ilanos/trees';
-const DEPLOYED_MATERIAL_PREFIXES = Object.freeze([
-	'/games/mitzvahworld/assets/materials/local/',
-	'/games/mitzvahworld/assets/materials/generated/'
-]);
+export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
+const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
+const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
 
-export function fullResolutionTextureUrl(filename) {
-	return remoteTexturePathUrl(`${FULL_RESOLUTION_FOLDER}/${cleanFilename(filename)}`);
-}
-
-export function treeTextureUrl(filename) {
-	return remoteTexturePathUrl(`${TREE_FOLDER}/${cleanFilename(filename)}`);
-}
-
-export function isRemoteTexturePath(path) {
-	const clean = cleanPath(path);
-	return clean.startsWith(`${FULL_RESOLUTION_FOLDER}/`)
-		|| clean.startsWith(`${TREE_FOLDER}/`);
-}
-
-export function isTrustedAwtsmoosMaterialUrl(value) {
-	const parsed = parseAbsoluteUrl(value);
-	if (!parsed || parsed.origin !== REMOTE_ORIGIN) return false;
-	const pathname = decodePath(parsed.pathname).toLowerCase();
-	if (pathname.startsWith('/sites/firebase_drive_migration/')) {
-		const relative = pathname.replace('/sites/firebase_drive_migration/', '');
-		return isRemoteTexturePath(relative);
-	}
-	return DEPLOYED_MATERIAL_PREFIXES.some(prefix => pathname.startsWith(prefix));
-}
-
+/** Builds one encoded remote URL from a canonical migration path. */
 export function remoteTexturePathUrl(path) {
-	return `${REMOTE_TEXTURE_ROOT}${encodePath(cleanPath(path))}`;
+	const clean = cleanRemotePath(path);
+	return `${REMOTE_TEXTURE_ROOT}${encodePath(clean)}`;
 }
 
+/** Builds a full-resolution texture URL. */
+export function fullResolutionTextureUrl(filename) {
+	return remoteTexturePathUrl(`full-resolution/${cleanRemotePath(filename)}`);
+}
+
+/** Builds a documented tree-texture URL. */
+export function treeTextureUrl(filename) {
+	return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
+}
+
+/** Reports whether a value is a safe canonical path beneath the migration root. */
+export function isRemoteTexturePath(path) {
+	try {
+		cleanRemotePath(path);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+/** Accepts only HTTPS URLs beneath the one documented remote migration root. */
+export function isTrustedAwtsmoosMaterialUrl(value) {
+	try {
+		const parsed = new URL(String(value || ''));
+		if (parsed.protocol !== 'https:' || parsed.origin !== REMOTE_ROOT_URL.origin) {
+			return false;
+		}
+		if (!parsed.pathname.startsWith(REMOTE_ROOT_PATH)) return false;
+		const relative = decodeURIComponent(parsed.pathname.slice(REMOTE_ROOT_PATH.length));
+		return isRemoteTexturePath(relative);
+	} catch {
+		return false;
+	}
+}
+
+/** Returns auditable transport policy evidence. */
 export function remoteTextureTransportEvidence() {
 	return Object.freeze({
-		folders: Object.freeze([FULL_RESOLUTION_FOLDER, TREE_FOLDER]),
+		cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
+		origin: REMOTE_ROOT_URL.origin,
 		originCount: 1,
-		policy: 'filename-catalog-single-trusted-remote-origin'
+		policy: 'remote-https-only-no-inline-or-local-textures',
+		root: REMOTE_TEXTURE_ROOT
 	});
 }
 
-function cleanFilename(filename) {
-	return String(filename || '').replace(/^\/+/, '').replace(/\\/g, '/');
-}
-
-function cleanPath(path) {
-	return String(path || '').replace(/^\/+/, '').replace(/\\/g, '/');
-}
-
-function decodePath(path) {
-	try {
-		return decodeURIComponent(path).replace(/\\/g, '/');
-	} catch {
-		return '';
+function cleanRemotePath(path) {
+	const clean = String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+	if (!clean || FORBIDDEN_SCHEMES.test(clean) || clean.includes('?') || clean.includes('#')) {
+		throw new Error(`Invalid remote texture path: ${path}`);
 	}
+	if (clean.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
+		throw new Error(`Unsafe remote texture path: ${path}`);
+	}
+	return clean;
 }
 
 function encodePath(path) {
 	return path.split('/').map(encodeURIComponent).join('/');
-}
-
-function parseAbsoluteUrl(value) {
-	try {
-		return new URL(String(value || ''));
-	} catch {
-		return null;
-	}
 }

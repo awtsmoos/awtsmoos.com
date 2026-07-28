@@ -4,29 +4,25 @@
 
 /**
  * @file LocalMaterialAssetPolicy.js
- * @description Resolves canonical source identities into same-origin generated assets.
- * The Awtsmoos preserves the name of every finite garment while Awtsmoos.com replaces
- * a vanished public doorway with deterministic local light that cannot fail by CORS.
+ * @description Preserves legacy API names while routing every image to remote truth.
+ * The Awtsmoos keeps old callers unbroken as copied pixels depart;
+ * Awtsmoos.com reserves local bytes only for models lacking a verified remote home.
  */
 
-const GENERATED_ROOT = new URL(
-	'../../../../assets/materials/generated/',
-	import.meta.url
-);
+import {
+	REMOTE_TEXTURE_ROOT,
+	remoteTexturePathUrl
+} from './RemoteTextureTransport.js';
+
 const FLOWER_MODEL = new URL(
 	'../../../../assets/models/reference-world/Flower_4_Clump.glb',
 	import.meta.url
 );
 
-export const LOCAL_MATERIAL_ORIGIN = GENERATED_ROOT.href.replace(/\/$/, '');
+export const LOCAL_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
 export const LOCAL_FLOWER_MODEL_URL = FLOWER_MODEL.href;
 
-/**
- * Returns the stable generated filename for one canonical material source path.
- *
- * @param {string} relativePath Original semantic source identity.
- * @returns {string} Collision-resistant SVG filename.
- */
+/** Retains the historic deterministic name for migration diagnostics only. */
 export function localMaterialFilename(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
 	const stem = canonicalPath
@@ -38,37 +34,21 @@ export function localMaterialFilename(relativePath) {
 	return `${stem}-${shortHash(canonicalPath)}.svg`;
 }
 
-/**
- * Resolves bytes locally while retaining the canonical source path as URL evidence.
- *
- * @param {string} relativePath Canonical public source path.
- * @returns {string} Local URL with a non-routing semantic source witness.
- */
+/** Resolves images remotely and preserves the one currently local GLB exception. */
 export function localPublicAssetUrl(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
-	const localUrl = /\.glb$/i.test(canonicalPath)
-		? LOCAL_FLOWER_MODEL_URL
-		: new URL(localMaterialFilename(canonicalPath), GENERATED_ROOT).href;
-	return `${localUrl}?source=/${encodedCanonicalPath(canonicalPath)}`;
+	if (/\.glb$/i.test(canonicalPath)) return LOCAL_FLOWER_MODEL_URL;
+	return remoteTexturePathUrl(canonicalPath);
 }
 
 export function normalizeLocalMaterialSourcePath(relativePath) {
 	return normalizePath(relativePath);
 }
 
-function encodedCanonicalPath(canonicalPath) {
-	return canonicalPath
-		.split('/')
-		.map(encodeURIComponent)
-		.join('/');
-}
-
 function normalizePath(relativePath) {
-	const value = String(relativePath || '')
-		.replace(/^\/+/, '')
-		.replace(/\\/g, '/');
-	if (!value || value.split('/').includes('..')) {
-		throw new Error(`Invalid local material source path: ${relativePath}`);
+	const value = String(relativePath || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+	if (!value || value.split('/').some(segment => segment === '..' || segment === '.')) {
+		throw new Error(`Invalid material source path: ${relativePath}`);
 	}
 	return value;
 }
