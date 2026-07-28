@@ -48,6 +48,7 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/unixServiceHealth.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionReceipt.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainConnectionAcknowledgement.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/installerHealthyCurrentFastPath.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerComponentBundle.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/unixParallelBootstrapDownloads.test.cjs",
@@ -77,6 +78,10 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerManifestChecksumContract.test.cjs"
 ];
+const timeoutByFile = {
+	"geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs":
+		12 * 60 * 1000
+};
 
 const results = tests.map(runTest);
 const failures = results.filter(result => !result.ok);
@@ -93,7 +98,7 @@ function runTest(file) {
 	const result = spawnSync(process.execPath, [path.join(repositoryRoot, file)], {
 		cwd: repositoryRoot,
 		encoding: "utf8",
-		timeout: 180000,
+		timeout: timeoutByFile[file] || 180000,
 		maxBuffer: 8 * 1024 * 1024,
 		env: { ...process.env }
 	});

@@ -10,6 +10,10 @@ const bootstrap = fs.readFileSync(path.join(root, "unix.sh"), "utf8");
 
 assert.match(core, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-fast-repair\.sh"/);
 assert.match(core, /if repair_matching_release; then[\s\S]*complete_install_experience/);
+assert.match(
+	fs.readFileSync(path.join(root, "unix-fast-repair.sh"), "utf8"),
+	/current_runtime_is_stably_healthy[\s\S]*local_runtime_action_ready/
+);
 assert.ok(
 	core.indexOf("if repair_matching_release; then") <
 	core.indexOf("stage_release_candidate"),

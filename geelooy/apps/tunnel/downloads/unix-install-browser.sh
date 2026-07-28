@@ -5,10 +5,19 @@
 
 # The Awtsmoos opens the control chamber only after a real registered connection.
 # Awtsmoos.com waits for the desktop opener to accept the URL, then reports truth.
+force_control_open() {
+	case "${AWTSMOOS_OPEN_CONTROL:-}" in
+		1|true|TRUE|yes|YES|on|ON) return 0 ;;
+	esac
+	return 1
+}
+
 skip_control_open() {
+	force_control_open && return 1
 	case "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" in
 		1|true|TRUE|yes|YES|on|ON) return 0 ;;
 	esac
+	[ "${FAST_REPAIR_COMPLETED:-0}" = "1" ] && return 0
 	return 1
 }
 
@@ -77,10 +86,10 @@ open_tunnel_control() {
 	local url="${1:-$(installer_control_url)}"
 	if skip_control_open; then
 		install_event "control" "skipped" \
-			"Automatic Tunnel Control opening was disabled." "$url"
+			"Existing Tunnel Control session is preserved; no duplicate tab opened." "$url"
 		return 0
 	fi
-	if control_was_recently_opened; then
+	if ! force_control_open && control_was_recently_opened; then
 		install_event "control" "skipped" \
 			"Tunnel Control is already open from this pairing/install transaction." "$url"
 		return 0

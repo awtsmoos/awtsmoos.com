@@ -19,6 +19,7 @@ const focusedTests = [
 	"mainConnectionAcknowledgement.test.cjs",
 	"sessionActionPolicyParity.test.cjs",
 	"stableRouteIdentity.test.mjs",
+	"installerHealthyCurrentFastPath.test.cjs",
 	"installerExperience.test.cjs"
 ];
 const regressionTests = [

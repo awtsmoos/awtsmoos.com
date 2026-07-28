@@ -2,7 +2,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { spawnSync } = require('child_process');
+const Manifest = require('../rebuild-manifest.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const MANIFEST = path.join(ROOT, 'manifest.txt');
@@ -25,14 +25,12 @@ function sourceFor(file) {
  */
 const before = fs.readFileSync(MANIFEST, 'utf8');
 const expectedVersion = versionFrom(before);
-const run = spawnSync(process.execPath, [path.join(ROOT, 'rebuild-manifest.cjs')], {
-  cwd: REPO_ROOT,
-  encoding: 'utf8',
-  env: { ...process.env, AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE: expectedVersion }
+const generated = Manifest.buildManifest({
+  repoRoot: REPO_ROOT,
+  version: expectedVersion
 });
-assert.strictEqual(run.status, 0, run.stdout + run.stderr);
-
-const after = fs.readFileSync(MANIFEST, 'utf8');
+const after = generated.text;
+assert.strictEqual(after, before, 'checked-in manifest is the deterministic current inventory');
 const lines = after.split(/\r?\n/).map(x => x.trim()).filter(x => x && x !== 'B"H' && x !== '# B"H');
 assert.strictEqual(lines[0], expectedVersion);
 assert.strictEqual(lines[1], 'main.js');
@@ -43,4 +41,4 @@ assert(files.includes('tools/fs/continuation/lease.js'), 'manifest includes cont
 assert(files.includes('tools/fs/actionBuilders.js'), 'manifest includes split action builder');
 assert.strictEqual(files.filter(x => /^testing\//.test(x) || /(^|\/)testing\//.test(x) || /\.test\./.test(x)).length, 0);
 for (const file of files) assert(fs.existsSync(sourceFor(file)), 'manifest source exists: ' + file);
-console.log(JSON.stringify({ ok: true, suite: 'manifest-generation-smoke', files: files.length, changed: before !== after }, null, 2));
+console.log(JSON.stringify({ ok: true, suite: 'manifest-generation-smoke', files: files.length, changed: false }, null, 2));

@@ -64,6 +64,7 @@ const tests = [
 	"recoveryIdentityRestore.test.cjs",
 	"recoveryRetentionIntegrity.test.cjs",
 	"installerIdentityPreservation.test.cjs",
+	"installerHealthyCurrentFastPath.test.cjs",
 	"installerExperience.test.cjs",
 	"installerComponentBundle.test.cjs",
 	"unixParallelBootstrapDownloads.test.cjs",

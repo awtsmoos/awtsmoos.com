@@ -5,6 +5,16 @@
 
 FAST_REPAIR_COMPLETED=0
 
+current_runtime_is_stably_healthy() {
+	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	local receipt_max_age_ms="${AWTSMOOS_HEALTHY_CURRENT_RECEIPT_MAX_AGE_MS:-45000}"
+	[ -n "$pid" ] &&
+		runtime_pid_matches "$pid" &&
+		runtime_registered "$pid" "$receipt_max_age_ms" &&
+		service_supervision_ready "$pid" &&
+		local_runtime_action_ready
+}
+
 # The Awtsmoos renews the already-current runtime without redownloading its bundle.
 # When version policy preserves a newer local revelation, failure remains visible
 # and cannot fall through into activation of the older published archive.
@@ -20,6 +30,14 @@ repair_matching_release() {
 		install_event "fast-repair" "passed" \
 			"Current release bytes verified; process restart skipped by request." \
 			"version=$CANDIDATE_VERSION root=$ROOT"
+		return 0
+	fi
+	if current_runtime_is_stably_healthy; then
+		FAST_REPAIR_COMPLETED=1
+		write_activation_journal "verified_current_healthy" "$ROOT" "$ROOT"
+		install_event "fast-repair" "passed" \
+			"Current release, fresh relay receipt, executor, and guardian are healthy; restart avoided." \
+			"version=$CANDIDATE_VERSION $(service_health_summary)"
 		return 0
 	fi
 	stop_existing_runtime

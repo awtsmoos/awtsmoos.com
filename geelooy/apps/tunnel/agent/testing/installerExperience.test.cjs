@@ -49,6 +49,24 @@ try {
 	assert.match(skipped.stdout, /runtime start was skipped/i);
 	assert.equal(fs.existsSync(harness.openedPath), false);
 
+	const repaired = complete({
+		AWTS_TEST_REGISTERED: "1",
+		FAST_REPAIR_COMPLETED: "1"
+	});
+	assert.equal(fs.existsSync(harness.openedPath), false);
+	assert.match(repaired.stdout, /VERIFIED, GUARDED, AND CONNECTED/);
+
+	const forcedRepair = complete({
+		AWTS_TEST_REGISTERED: "1",
+		FAST_REPAIR_COMPLETED: "1",
+		AWTSMOOS_OPEN_CONTROL: "1",
+		AWTS_TEST_RECENT_CONTROL: "1"
+	});
+	assert.equal(
+		fs.readFileSync(harness.waitForOpened(), "utf8").trim(),
+		"https://awtsmoos.com/apps/tunnel-control/"
+	);
+
 	const missingWorkspace = complete({
 		AWTS_TEST_REGISTERED: "1",
 		AWTS_TEST_ROOT_READY: "0",
@@ -78,7 +96,9 @@ try {
 		registrationGatesCompletion: true,
 		workspaceIsOptional: true,
 		guardianGatesCompletion: true,
-		authoritativeTunnelIdShown: true
+		authoritativeTunnelIdShown: true,
+		routineRepairDoesNotOpenBrowser: true,
+		explicitBrowserOpenStillWorks: true
 	}, null, 2));
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });
