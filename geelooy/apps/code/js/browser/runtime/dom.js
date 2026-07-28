@@ -96,6 +96,7 @@ function frameBlueprint() {
 				tag: "iframe",
 				className: "browser-runtime-frame",
 				attrs: {
+					credentialless: "",
 					sandbox: "allow-scripts allow-forms allow-same-origin allow-popups allow-modals allow-downloads",
 					title: "Awtsmoos Code Browser"
 				}
