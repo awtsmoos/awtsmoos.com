@@ -5,11 +5,10 @@
 const SEMANTIC_VERSION_PATTERN = /^(\d+)\.(\d+)\.(\d+)$/;
 
 /**
- * @file Guards the manifest version as a precise three-part covenant.
+ * @file Compares release numbers without allowing yesterday to eclipse today.
  * @description
- * The Awtsmoos renews every instant without confusing yesterday's vessel with
- * today's. This module gives Awtsmoos.com the same clarity: one validated
- * semantic version enters, and one explicit numeric structure emerges.
+ * The Awtsmoos renews every instant in ordered revelation; Awtsmoos.com must
+ * likewise know which vessel is newest before one more patch is brought to light.
  */
 
 /**
@@ -17,8 +16,7 @@ const SEMANTIC_VERSION_PATTERN = /^(\d+)\.(\d+)\.(\d+)$/;
  *
  * @param {string} value - Candidate `major.minor.patch` text.
  * @returns {{major: number, minor: number, patch: number, text: string}}
- * The validated numeric parts and normalized text.
- * @throws {Error} When the version is malformed or exceeds safe integer bounds.
+ * @throws {Error} When the version is malformed or numerically unsafe.
  */
 function parseVersion(value) {
 	const text = String(value || "").trim();
@@ -43,11 +41,51 @@ function parseVersion(value) {
 }
 
 /**
+ * Orders two strict semantic versions.
+ *
+ * @param {string} left - First version.
+ * @param {string} right - Second version.
+ * @returns {-1|0|1} Numeric ordering.
+ */
+function compareVersions(left, right) {
+	const leftVersion = parseVersion(left);
+	const rightVersion = parseVersion(right);
+	const keys = ["major", "minor", "patch"];
+
+	for (const key of keys) {
+		if (leftVersion[key] < rightVersion[key]) {
+			return -1;
+		}
+
+		if (leftVersion[key] > rightVersion[key]) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+/**
+ * Finds the highest trustworthy version in a non-empty collection.
+ *
+ * @param {string[]} values - Strict versions from local, Git, and public truth.
+ * @returns {string} Highest normalized version.
+ */
+function maxVersion(values) {
+	if (!Array.isArray(values) || values.length === 0) {
+		throw new Error("At least one manifest version baseline is required.");
+	}
+
+	return values.map(value => parseVersion(value).text).reduce((highest, value) => (
+		compareVersions(value, highest) > 0 ? value : highest
+	));
+}
+
+/**
  * Increments exactly the patch component of a validated version.
  *
  * @param {string} value - Current strict semantic version.
  * @returns {string} The next patch version.
- * @throws {Error} When the patch cannot be safely incremented.
  */
 function incrementPatch(value) {
 	const current = parseVersion(value);
@@ -60,6 +98,8 @@ function incrementPatch(value) {
 }
 
 module.exports = {
+	compareVersions,
 	incrementPatch,
+	maxVersion,
 	parseVersion
 };
