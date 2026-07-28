@@ -5,6 +5,7 @@
 const crypto = require("node:crypto");
 const fsp = require("node:fs/promises");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
+const { parsePlainList, firstPayloadValue } = require("./plainPayload.js");
 
 /**
  * B"H
@@ -14,19 +15,36 @@ const { safePath, assertNotSecret } = require("./pathGuard.js");
  * guarded atomic replacement so each responsibility remains small and testable.
  */
 async function fileHashes(config, payload = {}) {
-	const paths = Array.isArray(payload.paths) && payload.paths.length
-		? payload.paths
-		: [payload.path || payload.p || "."];
-	const maxFiles = Math.max(1, Math.min(Number(payload.maxFiles || 50), 200));
+	const paths = parsePlainList(firstPayloadValue(
+		payload,
+		["paths", "files", "path", "p"]
+	));
+	if (!paths.length) paths.push(".");
+	const cursor = Math.max(0, Math.floor(Number(payload.cursor || 0)));
+	const requestedPageSize = Number(payload.pageSize || payload.maxFiles || 200);
+	const pageSize = Math.max(1, Math.min(
+		Number.isFinite(requestedPageSize) ? Math.floor(requestedPageSize) : 200,
+		1000
+	));
+	const page = paths.slice(cursor, cursor + pageSize);
 	const results = {};
-	for (const relativePath of paths.slice(0, maxFiles)) {
+	for (const relativePath of page) {
 		results[relativePath] = await hashOne(config, relativePath);
 	}
+	const nextCursor = cursor + page.length;
+	const partial = nextCursor < paths.length;
 	return {
 		ok: Object.values(results).every(result => result.ok),
 		action: "fileHashes",
 		count: Object.keys(results).length,
-		partial: paths.length > maxFiles,
+		requestedCount: paths.length,
+		cursor,
+		pageSize,
+		partial,
+		nextCursor: partial ? nextCursor : null,
+		nextPayload: partial
+			? { action: "fileHashes", paths, cursor: nextCursor, pageSize }
+			: null,
 		results
 	};
 }

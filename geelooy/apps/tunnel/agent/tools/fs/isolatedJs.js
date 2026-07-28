@@ -3,10 +3,11 @@ const fsp = require("fs/promises");
 const path = require("path");
 const os = require("os");
 const { spawn } = require("child_process");
-const { ROOT } = require("../../lib/config.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 
-const SANDBOX_ROOT = path.join(ROOT, "sandboxes");
+function sandboxRoot(config = {}) {
+  return path.join(path.resolve(config.root || process.cwd()), ".Awtsmoos", "sandboxes");
+}
 
 function id(prefix = "iso-js") {
   return prefix + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
@@ -59,7 +60,7 @@ function safeEntryName(payload = {}) {
 
 async function isolatedJsTest(config, payload = {}) {
   const sandboxId = payload.sandboxId || id();
-  const sandbox = path.join(SANDBOX_ROOT, sandboxId);
+  const sandbox = path.join(sandboxRoot(config), sandboxId);
   const files = Array.isArray(payload.files) ? payload.files : [];
   const maxFiles = Math.max(1, Math.min(Number(payload.maxFiles || 50), 200));
   const maxChars = Math.max(1000, Math.min(Number(payload.maxChars || 20000), 100000));
@@ -102,11 +103,11 @@ async function isolatedNodeCheck(config, payload = {}) {
   return isolatedJsTest(config, { ...payload, checkOnly: true });
 }
 
-async function isolatedCleanup(payload = {}) {
+async function isolatedCleanup(config, payload = {}) {
   if (!payload.sandboxId) return { ok: false, action: "isolatedCleanup", error: "missing_sandboxId" };
-  const target = path.join(SANDBOX_ROOT, payload.sandboxId);
+  const target = path.join(sandboxRoot(config), payload.sandboxId);
   await fsp.rm(target, { recursive: true, force: true });
   return { ok: true, action: "isolatedCleanup", sandboxId: payload.sandboxId, removed: true };
 }
 
-module.exports = { isolatedJsTest, isolatedNodeCheck, isolatedCleanup, SANDBOX_ROOT };
+module.exports = { isolatedJsTest, isolatedNodeCheck, isolatedCleanup, sandboxRoot };

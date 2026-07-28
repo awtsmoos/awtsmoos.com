@@ -71,7 +71,7 @@ function captureLogEntry(params) {
 }
 
 function captureNetworkFailure(params) {
-  const safe = { kind: "loadingFailed", requestId: params.requestId, errorText: params.errorText, blockedReason: params.blockedReason, type: params.type };
+  const safe = { kind: "loadingFailed", requestId: params.requestId, errorText: params.errorText, blockedReason: params.blockedReason, type: params.type, timestamp: params.timestamp };
   writeNetwork(safe);
   return addChromeLog("network.loadingFailed", "error", params.errorText || "Network loading failed", safe);
 }

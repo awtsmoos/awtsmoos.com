@@ -20,7 +20,13 @@ function spawnAsyncTask(options = {}) {
   timer.unref?.();
   child.stdout?.on('data', chunk => { task.stdout += chunk.toString(); trim(task, 'stdout', options.maxOutput || 200000); });
   child.stderr?.on('data', chunk => { task.stderr += chunk.toString(); trim(task, 'stderr', options.maxOutput || 200000); });
-  child.on('exit', (code, signal) => { clearTimeout(timer); task.status = 'completed'; task.exitCode = code; task.signal = signal; task.finishedAt = Date.now(); });
+  child.on('exit', (code, signal) => {
+    clearTimeout(timer);
+    task.status = code === 0 && !signal ? 'completed' : 'failed';
+    task.exitCode = code;
+    task.signal = signal;
+    task.finishedAt = Date.now();
+  });
   child.on('error', err => { clearTimeout(timer); task.status = 'error'; task.error = err.message; task.finishedAt = Date.now(); });
   return { task, child, cancel:reason => killTask(task, child, reason || 'cancelled') };
 }

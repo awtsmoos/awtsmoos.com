@@ -7,6 +7,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { fork } = require("node:child_process");
+const { once } = require("node:events");
 
 /**
 	* @file Proves child liveness advances while the parent event loop is blocked.
@@ -25,9 +26,20 @@ const child = fork(
 main().catch(error => {
 	console.error(error);
 	process.exitCode = 1;
-}).finally(() => {
+}).finally(async () => {
 	child.kill("SIGTERM");
-	fs.rmSync(sandbox, { recursive: true, force: true });
+	if (child.exitCode === null && child.signalCode === null) {
+		await Promise.race([
+			once(child, "exit"),
+			new Promise(resolve => setTimeout(resolve, 2000))
+		]);
+	}
+	fs.rmSync(sandbox, {
+		recursive: true,
+		force: true,
+		maxRetries: 10,
+		retryDelay: 100
+	});
 });
 
 async function main() {

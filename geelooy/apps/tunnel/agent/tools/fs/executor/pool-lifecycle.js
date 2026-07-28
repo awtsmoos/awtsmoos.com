@@ -29,13 +29,25 @@ function schedule(state, policy) {
 }
 
 /** Retires excess children without treating planned exits as failures. */
-function trim(state, target) {
+function trim(state, target, force = false) {
 	touch(state);
 	while (state.workers.length > target) {
-		const worker = state.workers.pop();
+		const index = findRetirementCandidate(state, force);
+		if (index < 0) break;
+		const [worker] = state.workers.splice(index, 1);
 		worker.retiring = true;
 		Capacity.stop(worker);
 	}
+}
+
+function findRetirementCandidate(state, force) {
+	for (let index = state.workers.length - 1; index >= 0; index -= 1) {
+		const worker = state.workers[index];
+		if (worker.busy) continue;
+		if (!force && State.workerOwnsState(state, worker)) continue;
+		return index;
+	}
+	return -1;
 }
 
 /** Closes the pool permanently and rejects work that never began. */
@@ -44,7 +56,7 @@ function shutdown(state) {
 	touch(state);
 	clearTimeout(state.spawnTimer);
 	state.spawnTimer = null;
-	trim(state, 0);
+	trim(state, 0, true);
 	for (const job of state.queue.splice(0)) {
 		job.reject(State.failure("FS_EXECUTOR_STOPPED", "fs_executor_stopped"));
 	}
@@ -54,5 +66,6 @@ module.exports = {
 	schedule,
 	shutdown,
 	touch,
-	trim
+	trim,
+	findRetirementCandidate
 };

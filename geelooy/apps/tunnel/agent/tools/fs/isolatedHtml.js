@@ -2,12 +2,18 @@
 const fsp = require("fs/promises");
 const path = require("path");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
-const { SANDBOX_ROOT } = require("./isolatedJs.js");
+const { sandboxRoot } = require("./isolatedJs.js");
 const { staticServerStart, staticServerStop, staticServerLogs } = require("./staticServers.js");
 const { handleChrome } = require("../chrome/index.js");
+const ChromeCdp = require("../chrome/cdp.js");
+const ChromeProcesses = require("../chrome/processes.js");
 
 function makeId() {
   return "iso-html-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
+}
+
+function sandboxPath(config, sandboxId) {
+  return path.join(sandboxRoot(config), sandboxId);
 }
 
 async function copyOne(config, sandbox, rel) {
@@ -29,10 +35,14 @@ async function copyOne(config, sandbox, rel) {
  */
 async function isolatedHtmlTest(config, payload = {}) {
   const sandboxId = payload.sandboxId || makeId();
-  const sandbox = path.join(SANDBOX_ROOT, sandboxId);
+  const sandbox = sandboxPath(config, sandboxId);
   const files = Array.isArray(payload.files) ? payload.files : [];
   const copied = [];
   let server = null;
+  let browser = null;
+  const suppliedChromePort = payload.chromePort || payload.debugPort || payload.portChrome;
+  const chromePort = suppliedChromePort || await ChromeProcesses.freeTcpPort();
+  const browserProfile = payload.userDataDir || path.join(sandbox, ".chrome-profile");
 
   await fsp.mkdir(sandbox, { recursive: true });
 
@@ -59,9 +69,15 @@ async function isolatedHtmlTest(config, payload = {}) {
 
     const urlPath = String(payload.urlPath || "").replace(/^\//, "");
     const url = payload.url || server.url + urlPath;
-    const browser = await handleChrome({
+    browser = await handleChrome({
       action: "chromeTestUrl",
       url,
+      port: chromePort,
+      chromePath: payload.chromePath,
+      userDataDir: browserProfile,
+      autoLaunch: payload.autoLaunchChrome !== false,
+      headless: payload.headless !== false,
+      persistChrome: false,
       selector: payload.selector || "",
       timeoutMs: payload.timeoutMs || 30000,
       snapshot: payload.snapshot !== false,
@@ -82,13 +98,33 @@ async function isolatedHtmlTest(config, payload = {}) {
       serverLogs
     };
   } finally {
+    ChromeCdp.closeCurrent("isolated HTML test completed");
+    if (!suppliedChromePort || browser?.autoLaunched) {
+      const stoppedBrowser = await handleChrome({
+        action: "chromeStop",
+        port: chromePort,
+        pid: browser?.launchPid,
+        force: true
+      });
+      if (stoppedBrowser.ok === false) {
+        throw new Error(`isolated_browser_cleanup_failed:${stoppedBrowser.error || chromePort}`);
+      }
+    }
     if (server && payload.keepServer !== true) {
-      await staticServerStop({ serverId: server.serverId }).catch(() => {});
+      const stoppedServer = await staticServerStop({ serverId: server.serverId });
+      if (stoppedServer.ok === false) {
+        throw new Error(`isolated_server_cleanup_failed:${stoppedServer.error || server.serverId}`);
+      }
     }
     if (payload.keepSandbox !== true) {
-      await fsp.rm(sandbox, { recursive: true, force: true }).catch(() => {});
+      await fsp.rm(sandbox, {
+        recursive: true,
+        force: true,
+        maxRetries: 10,
+        retryDelay: 100
+      });
     }
   }
 }
 
-module.exports = { isolatedHtmlTest };
+module.exports = { isolatedHtmlTest, sandboxPath };

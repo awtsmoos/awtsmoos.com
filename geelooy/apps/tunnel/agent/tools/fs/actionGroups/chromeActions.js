@@ -7,6 +7,7 @@ function buildChromeActions(ctx) {
   const route = action => wantsVirtualChrome(payload) ? virtualChrome(action, payload) : chrome[action](payload);
   return {
     async chromeFind() { return await route("chromeFind"); }, async chromeLaunch() { return await route("chromeLaunch"); },
+    async chromeStop() { return wantsVirtualChrome(payload) ? { ok:true, action:"chromeStop", engine:"node-dom", alreadyStopped:true } : await chrome.chromeStop(payload); },
     async chromeStatus() { return await route("chromeStatus"); }, async chromeTargets() { return await route("chromeTargets"); },
     async chromeTargetSelector() { return await route("chromeTargetSelector"); }, async chromeNewPage() { return await route("chromeNewPage"); },
     async chromeClosePage() { return await route("chromeClosePage"); }, async chromeCloseTabs() { return wantsVirtualChrome(payload) ? { ok:true, action:"chromeCloseTabs", engine:"node-dom", closedCount:0 } : await chrome.chromeCloseTabs(payload); },

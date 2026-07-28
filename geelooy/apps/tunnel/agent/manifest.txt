@@ -1,5 +1,5 @@
 B"H
-1.0.419
+1.0.420
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -1171,6 +1171,7 @@ tools/chrome/index.js
 tools/chrome/launchArgs.js
 tools/chrome/leaseActions.js
 tools/chrome/logs.js
+tools/chrome/processes.js
 tools/chrome/profileState.js
 tools/chrome/scopePolicy.js
 tools/chrome/session.js
@@ -1235,6 +1236,7 @@ tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
 tools/fs/actionGroups/nodeDomActions.js
 tools/fs/actionGroups/osSurfaceActions.js
+tools/fs/actionGroups/portActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js

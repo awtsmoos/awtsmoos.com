@@ -1,5 +1,6 @@
 // B"H
 const http = require("http");
+const net = require("net");
 const fs = require("fs");
 const fsp = require("fs/promises");
 const path = require("path");
@@ -64,10 +65,12 @@ async function staticServerStart(config, payload = {}) {
   assertNotSecret(config, dir);
   if (!(await fsp.stat(dir)).isDirectory()) return { ok: false, action: "staticServerStart", error: "not_directory" };
 
-  const port = Number(payload.port || 5180);
+  const port = payload.port === undefined || payload.port === null
+    ? 5180
+    : Number(payload.port);
   const host = payload.host === "0.0.0.0" ? "0.0.0.0" : "127.0.0.1";
-  const id = payload.serverId || serverId(port, dir);
-  if (SERVERS.has(id)) return { ok: true, action: "staticServerStart", alreadyRunning: true, ...SERVERS.get(id).public };
+  let id = payload.serverId || (port ? serverId(port, dir) : "");
+  if (id && SERVERS.has(id)) return { ok: true, action: "staticServerStart", alreadyRunning: true, ...SERVERS.get(id).public };
 
   const index = payload.index || "index.html";
   const maxBytes = Math.max(1, Math.min(Number(payload.maxBytes || 2 * 1024 * 1024), 50 * 1024 * 1024));
@@ -108,6 +111,23 @@ async function staticServerStart(config, payload = {}) {
   await new Promise((resolve, reject) => server.once("error", reject).listen(port, host, resolve));
 
   const actualPort = server.address().port;
+  id = id || serverId(actualPort, dir);
+  const readiness = await waitForListening(
+    host === "0.0.0.0" ? "127.0.0.1" : host,
+    actualPort,
+    payload.readinessTimeoutMs || 5000
+  );
+  if (!readiness.ok) {
+    await new Promise(resolve => server.close(resolve)).catch(() => {});
+    return {
+      ok: false,
+      action: "staticServerStart",
+      error: "server_not_listening",
+      host,
+      port: actualPort,
+      readiness
+    };
+  }
 
   const public = {
     serverId: id,
@@ -118,7 +138,9 @@ async function staticServerStart(config, payload = {}) {
     host,
     index,
     spaFallback,
-    startedAt: Date.now()
+    startedAt: Date.now(),
+    listening: true,
+    readiness
   };
 
   info.server = server;
@@ -126,6 +148,29 @@ async function staticServerStart(config, payload = {}) {
   SERVERS.set(id, info);
 
   return { ok: true, action: "staticServerStart", ...public };
+}
+
+async function waitForListening(host, port, timeoutMs = 5000) {
+  const startedAt = Date.now();
+  const limit = Math.max(250, Math.min(Number(timeoutMs || 5000), 30000));
+  while (Date.now() - startedAt < limit) {
+    const connected = await new Promise(resolve => {
+      const socket = net.createConnection({ host, port });
+      const finish = ok => {
+        socket.removeAllListeners();
+        socket.destroy();
+        resolve(ok);
+      };
+      socket.setTimeout(500, () => finish(false));
+      socket.once("connect", () => finish(true));
+      socket.once("error", () => finish(false));
+    });
+    if (connected) {
+      return { ok: true, host, port, waitedMs: Date.now() - startedAt };
+    }
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+  return { ok: false, host, port, waitedMs: Date.now() - startedAt, timeoutMs: limit };
 }
 
 async function staticServerList() {
@@ -144,9 +189,33 @@ async function staticServerStop(payload = {}) {
   if (!id) return { ok: false, action: "staticServerStop", error: "missing_serverId" };
   const info = SERVERS.get(id);
   if (!info) return { ok: true, action: "staticServerStop", serverId: id, alreadyStopped: true };
-  await new Promise(resolve => info.server.close(resolve));
+  const timeoutMs = Math.max(250, Math.min(Number(payload.timeoutMs || 2000), 10000));
+  info.server.closeIdleConnections?.();
+  const graceful = await new Promise(resolve => {
+    let settled = false;
+    const finish = value => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(value);
+    };
+    const timer = setTimeout(() => finish(false), timeoutMs);
+    timer.unref?.();
+    info.server.close(() => finish(true));
+  });
+  if (!graceful) {
+    info.server.closeAllConnections?.();
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
   SERVERS.delete(id);
-  return { ok: true, action: "staticServerStop", serverId: id, stopped: true };
+  return {
+    ok: true,
+    action: "staticServerStop",
+    serverId: id,
+    stopped: true,
+    graceful,
+    forcedConnectionsClosed: !graceful
+  };
 }
 
-module.exports = { staticServerStart, staticServerList, staticServerStop, staticServerLogs };
+module.exports = { staticServerStart, staticServerList, staticServerStop, staticServerLogs, waitForListening };

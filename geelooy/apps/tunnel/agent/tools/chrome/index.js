@@ -19,6 +19,7 @@ const READ_ONLY_ACTIONS = new Set([
 const ACTIONS = Object.freeze({
 	chromeFind: chromeActions.chromeFind,
 	chromeLaunch: chromeActions.chromeLaunch,
+	chromeStop: chromeActions.chromeStop,
 	chromeStatus: chromeActions.chromeStatus,
 	chromeTargets: chromeActions.chromeTargets,
 	chromeTargetSelector: leaseActions.chromeTargetAcquire,

@@ -32,8 +32,12 @@ function createPool(options = {}) {
 		ensureWorkers();
 		for (const worker of state.workers) {
 			if (worker.busy || !worker.ready) continue;
-			const index = State.eligibleIndex(state, policy.MAX_PER_REQUESTER);
-			if (index < 0) break;
+			const index = State.eligibleIndex(
+				state,
+				policy.MAX_PER_REQUESTER,
+				worker
+			);
+			if (index < 0) continue;
 			Jobs.assign(state, worker, state.queue.splice(index, 1)[0], policy, expire);
 		}
 		Lifecycle.schedule(state, policy);
@@ -46,6 +50,7 @@ function createPool(options = {}) {
 			return;
 		}
 		if (!worker.job || message?.id !== worker.job.id) return;
+		if (message.ok) State.trackOwners(state, worker, worker.job.payload, message.result);
 		const job = Jobs.release(state, worker);
 		if (message.ok) job.resolve(message.result);
 		else job.reject(State.failure(message.code, message.error, message.stack));

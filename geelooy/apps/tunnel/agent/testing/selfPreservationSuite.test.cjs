@@ -51,6 +51,14 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/productionRetryIngress.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/commandLifecycleCompat.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/asyncTaskTerminalResult.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/asyncTaskFailureResult.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/fsExecutorAsyncAffinity.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/fsExecutorServerAffinity.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/reportedSurfaceRegression.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/chromeAutoLaunchIntegration.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/isolatedHtmlIntegration.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/staticServerReadiness.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/portActions.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerManifestChecksumContract.test.cjs"
 ];

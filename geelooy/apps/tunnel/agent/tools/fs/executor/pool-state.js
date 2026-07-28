@@ -15,6 +15,8 @@ function create() {
 		scaleTimer: null,
 		spawnTimer: null,
 		stopped: false,
+		resourceOwners: new Map(),
+		taskOwners: new Map(),
 		workers: []
 	};
 }
@@ -29,10 +31,69 @@ function createJob(payload, resolve, reject) {
 	};
 }
 
-function eligibleIndex(state, maximum) {
+function eligibleIndex(state, maximum, worker = null) {
 	return state.queue.findIndex(job => {
-		return Number(state.active.get(job.requester) || 0) < maximum;
+		if (Number(state.active.get(job.requester) || 0) >= maximum) return false;
+		const owner = ownerForPayload(state, job.payload);
+		return !owner || !worker || owner === worker;
 	});
+}
+
+function asyncTaskId(payload = {}) {
+	if (!/^asyncTask(?:Status|Wait|OutputPage|Cancel)$/i.test(String(payload.action || ""))) {
+		return "";
+	}
+	return String(payload.taskId || payload.id || "");
+}
+
+function resourceId(payload = {}) {
+	if (!/^staticServer(?:Stop|Logs)$/i.test(String(payload.action || ""))) return "";
+	return String(payload.serverId || "");
+}
+
+function ownerForPayload(state, payload = {}) {
+	const taskId = asyncTaskId(payload);
+	if (taskId) return state.taskOwners.get(taskId) || null;
+	const id = resourceId(payload);
+	return id ? state.resourceOwners.get(id) || null : null;
+}
+
+function trackOwners(state, worker, payload = {}, result = {}) {
+	const taskId = String(result.taskId || "");
+	if (taskId) state.taskOwners.set(taskId, worker);
+	if (
+		String(result.action || payload.action || "") === "staticServerStart"
+		&& result.ok !== false
+		&& result.serverId
+	) {
+		state.resourceOwners.set(String(result.serverId), worker);
+	}
+	if (
+		String(payload.action || "") === "staticServerStop"
+		&& result.ok !== false
+		&& (result.stopped || result.alreadyStopped)
+	) {
+		state.resourceOwners.delete(String(payload.serverId || ""));
+	}
+}
+
+function removeWorkerOwners(state, worker) {
+	for (const [taskId, owner] of state.taskOwners) {
+		if (owner === worker) state.taskOwners.delete(taskId);
+	}
+	for (const [resourceId, owner] of state.resourceOwners) {
+		if (owner === worker) state.resourceOwners.delete(resourceId);
+	}
+}
+
+function workerOwnsState(state, worker) {
+	for (const owner of state.taskOwners.values()) {
+		if (owner === worker) return true;
+	}
+	for (const owner of state.resourceOwners.values()) {
+		if (owner === worker) return true;
+	}
+	return false;
 }
 
 function increment(active, key) {
@@ -63,7 +124,9 @@ function stats(state, policy) {
 		minimumWorkers: policy.MIN_WORKERS,
 		queued: state.queue.length,
 		ready: state.workers.filter(worker => worker.ready).length,
+		resourceAffinities: state.resourceOwners.size,
 		starting: state.workers.filter(worker => !worker.ready).length,
+		taskAffinities: state.taskOwners.size,
 		workerLimit: policy.WORKERS,
 		workers: state.workers.length
 	};
@@ -76,5 +139,11 @@ module.exports = {
 	eligibleIndex,
 	failure,
 	increment,
-	stats
+	asyncTaskId,
+	ownerForPayload,
+	removeWorkerOwners,
+	resourceId,
+	stats,
+	trackOwners,
+	workerOwnsState
 };

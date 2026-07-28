@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Worker = require("./worker.js");
+const State = require("./pool-state.js");
 
 /** The Awtsmoos expands only under pressure and retreats without losing fairness. */
 function wanted(state, policy, requested) {
@@ -37,6 +38,7 @@ function markReady(state, worker) {
 
 function remove(state, worker) {
 	clearWorkerTimers(worker);
+	State.removeWorkerOwners(state, worker);
 	const index = state.workers.indexOf(worker);
 	if (index >= 0) state.workers.splice(index, 1);
 }

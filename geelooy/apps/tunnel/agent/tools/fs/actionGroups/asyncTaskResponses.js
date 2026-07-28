@@ -14,9 +14,14 @@ const Policy = require("./asyncTaskPolicy.js");
 function receipt(taskId, task = {}, status, action = "asyncTaskStatus") {
 	const processIdentity = task.processIdentity || null;
 	const done = status !== "running";
+	const succeeded = !done || (
+		status === "completed" &&
+		Number(task.exitCode ?? 0) === 0 &&
+		!task.signal
+	);
 
 	return {
-		ok: true,
+		ok: succeeded,
 		action,
 		taskId,
 		status,
@@ -31,6 +36,7 @@ function receipt(taskId, task = {}, status, action = "asyncTaskStatus") {
 		finishedAt: task.finishedAt || null,
 		exitCode: task.exitCode,
 		signal: task.signal,
+		error: succeeded ? null : task.error || terminalError(task, status),
 		statusPayload: { action: "asyncTaskStatus", taskId },
 		waitPayload: {
 			action: "asyncTaskWait",
@@ -97,15 +103,33 @@ function missing(action, taskId) {
 function terminalResult(task = {}) {
 	if (task.status === "running") return null;
 	const text = String(task.stdout || "").trim();
-	if (!text) return null;
+	if (!text) return failureResult(task);
 	try {
 		const parsed = JSON.parse(text);
 		return parsed?.childAction && Object.hasOwn(parsed, "result")
 			? parsed.result
 			: parsed;
 	} catch {
-		return null;
+		return failureResult(task, "async_task_output_not_json");
 	}
+}
+
+function terminalError(task = {}, status = task.status) {
+	if (task.error) return String(task.error);
+	if (task.signal) return `async_task_signal:${task.signal}`;
+	if (Number(task.exitCode ?? 0) !== 0) return `async_task_exit_${task.exitCode}`;
+	return status === "cancelled" ? "async_task_cancelled" : `async_task_${status || "failed"}`;
+}
+
+function failureResult(task = {}, error = terminalError(task)) {
+	return {
+		ok: false,
+		error,
+		status: task.status,
+		exitCode: task.exitCode,
+		signal: task.signal,
+		stderr: String(task.stderr || "").slice(-12000)
+	};
 }
 
 module.exports = {
@@ -114,5 +138,7 @@ module.exports = {
 	pagePayload,
 	receipt,
 	sequence,
-	terminalResult
+	terminalResult,
+	terminalError,
+	failureResult
 };

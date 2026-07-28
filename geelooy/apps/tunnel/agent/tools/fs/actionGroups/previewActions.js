@@ -1,12 +1,14 @@
 // B"H
 const D = require('../preview/deps.js');
+const http = require('node:http');
+const https = require('node:https');
 function createPayload(payload, kind, extra = {}) { return D.Payload.createPayload(payload, kind, extra); }
 function previewUrl(payload, preview) { return D.Url.previewUrl(payload, preview); }
 function simple(action, payload, kind, extra = {}) {
   const preview = createPayload(payload, kind, extra), url = previewUrl(payload, preview);
   return exposed(action, { ok:true, action, preview, url, viewUrl:url });
 }
-async function localServer(payload) {
+async function localServer(payload, action = 'previewExposeLocalServer') {
   const explicit = explicitServer(payload);
   const detected = explicit ? [] : await D.Detect.detect(payload);
   const chosen = explicit || choose(payload, detected);
@@ -14,11 +16,43 @@ async function localServer(payload) {
   const preview = D.Policy.apply(createPayload(payload, 'proxy', { url:localUrl, port:chosen?.port || payload.port || null, path:payload.proxyPath || '/', detectedServers:detected }), payload);
   const publicCreateUrl = localUrl ? previewUrl(payload, preview) : '';
   const publicProxyUrl = localUrl ? D.Url.proxyUrl(payload, localUrl) : '';
-  return exposed('previewExposeLocalServer', {
-    ok:!!localUrl && D.Policy.localServerAllowed(payload), action:'previewExposeLocalServer', preview, detectedServers:detected,
+  const allowed = !!localUrl && D.Policy.localServerAllowed(payload);
+  const sourceProbe = allowed
+    ? await probeUrl(localUrl, payload.previewProbeTimeoutMs)
+    : { ok:false, error:'local_server_preview_not_allowed' };
+  return exposed(action, {
+    ok:allowed && sourceProbe.ok, action, preview, detectedServers:detected, sourceUrl:localUrl, sourceProbe,
     selectedServer:chosen || (localUrl ? { url:localUrl, port:payload.port || null, manual:true } : null), url:publicCreateUrl, viewUrl:publicCreateUrl,
     proxyUrl:publicProxyUrl, rawUrl:publicProxyUrl, agentGuidance:{ purpose:'preview-local-server', plainEnglish:D.Guidance.text(chosen || (localUrl ? { url:localUrl, port:payload.port, title:'' } : null), detected), canSteer:true },
     nextSuggestedAction:D.Guidance.payload(chosen || (localUrl ? { url:localUrl, port:payload.port } : null))
+  });
+}
+function probeUrl(url, timeoutMs = 2500) {
+  return new Promise(resolve => {
+    let parsed;
+    try { parsed = new URL(url); }
+    catch (error) { return resolve({ ok:false, error:'invalid_source_url', message:error.message }); }
+    const transport = parsed.protocol === 'https:' ? https : http;
+    const startedAt = Date.now();
+    const request = transport.request(parsed, { method:'GET' }, response => {
+      response.resume();
+      response.once('end', () => resolve({
+        ok:true,
+        status:response.statusCode,
+        url:String(parsed),
+        waitedMs:Date.now() - startedAt
+      }));
+    });
+    request.setTimeout(Math.max(250, Math.min(Number(timeoutMs || 2500), 10000)), () => {
+      request.destroy(new Error('preview_source_timeout'));
+    });
+    request.once('error', error => resolve({
+      ok:false,
+      error:error.message,
+      url:String(parsed),
+      waitedMs:Date.now() - startedAt
+    }));
+    request.end();
   });
 }
 function exposed(action, out = {}) {
@@ -38,8 +72,8 @@ function buildPreviewActions(ctx) { const { payload } = ctx; return {
   async previewSettingsSet(){return {ok:true,action:'previewSettingsSet',url:`${D.Url.baseUrl(payload)}/preview/settings/set`,settings:{ aiLocalServerPreview:true, privateLocalServerPreview:true, ...(payload.settings||payload.content||{}) }};},
   async previewList(){return {ok:true,action:'previewList',url:`${D.Url.baseUrl(payload)}/preview/list`};}, async previewRevoke(){return {ok:true,action:'previewRevoke',url:`${D.Url.baseUrl(payload)}/preview/revoke?previewId=${encodeURIComponent(payload.previewId||payload.id||'')}`};},
   async previewCreate(){return simple('previewCreate',payload,payload.kind||'file');}, async previewFile(){return simple('previewFile',payload,'file');}, async previewFolder(){return simple('previewFolder',payload,'folder');},
-  async previewPage(){return simple('previewPage',payload,'page',{html:payload.html||payload.content||'',css:payload.css||'',data:payload.data||null});}, async previewCollection(){return simple('previewCollection',payload,'collection',{items:payload.items||payload.files||[]});},
+  async previewPage(){return payload.url ? localServer(payload,'previewPage') : simple('previewPage',payload,'page',{html:payload.html||payload.content||'',css:payload.css||'',data:payload.data||null});}, async previewCollection(){return simple('previewCollection',payload,'collection',{items:payload.items||payload.files||[]});},
   async previewLiveCommand(){return simple('previewLiveCommand',payload,'live',{commandId:payload.commandId||payload.actionId||''});}, async previewActionResult(){return simple('previewActionResult',payload,'action',{actionId:payload.actionId||payload.id||''});}, async previewExposeLocalServer(){return localServer(payload);}
 };}
 /** B"H — Local servers become public Awtsmoos preview/proxy URLs without hiding the URL in compact envelopes. */
-module.exports = { buildPreviewActions, createPayload, previewUrl, localServer, explicitServer, exposed };
+module.exports = { buildPreviewActions, createPayload, previewUrl, localServer, explicitServer, exposed, probeUrl };
