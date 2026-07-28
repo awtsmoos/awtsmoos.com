@@ -1,5 +1,0 @@
-{
-  "ok": true,
-  "suite": "continuation-loop",
-  "steps": 2
-}

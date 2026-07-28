@@ -26,6 +26,20 @@ const RetryControl = require('../lib/runtime/main-retry-control.js');
 	};
 	assert.equal(control.handleIngress(ws, data, payload), false);
 	assert.equal(Registry.snapshot().records, 1);
+	const directRetry = {
+		action: 'retryAction',
+		controlRequestId: 'control-original',
+		requestedAction: 'read'
+	};
+	assert.equal(control.handleIngress(ws, { id: 'retry-direct' }, directRetry), true);
+	assert.equal(sent.at(-1).status, 202);
+	const tokenRetry = {
+		action: 'retryAction',
+		resumeToken: 'control-original',
+		requestedAction: 'read'
+	};
+	assert.equal(control.handleIngress(ws, { id: 'retry-token' }, tokenRetry), true);
+	assert.equal(sent.at(-1).status, 202);
 	const pendingRetry = {
 		action: 'retryAction',
 		params: JSON.stringify({

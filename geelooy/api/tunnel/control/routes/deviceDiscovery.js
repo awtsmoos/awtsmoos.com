@@ -51,9 +51,17 @@ function recommend(currentState) {
 	if (currentState.liveBrowser.length === 1) return currentState.liveBrowser[0];
 	if (currentState.liveNative.length === 1) return currentState.liveNative[0];
 	if (!currentState.liveBrowser.length && !currentState.liveNative.length) {
+		const currentNative = currentState.nativeDevices.filter(notSynthetic);
+		if (currentNative.length === 1) return currentNative[0];
+	}
+	if (!currentState.liveBrowser.length && !currentState.liveNative.length) {
 		return currentState.virtualDevice;
 	}
 	return null;
+}
+
+function notSynthetic(device = {}) {
+	return device.synthetic !== true && device.kind !== "virtual-os";
 }
 
 function responseBase(currentState) {
@@ -70,4 +78,4 @@ function responseBase(currentState) {
 	};
 }
 
-module.exports = { find, recommend, responseBase, state };
+module.exports = { find, notSynthetic, recommend, responseBase, state };

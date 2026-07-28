@@ -1,8 +1,0 @@
-CLIENT_TEST_EXIT=0
-SERVER_TEST_EXIT=0
-=== OVER 120 ===
-     136 geelooy/games/sefira-clash/js/data/expedition/bossesLower.js
-     146 geelooy/games/sefira-clash/js/coop/CoopRenderer.js
-     191 geelooy/games/sefira-clash/css/coop.css
-     125 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopRoom.js
-     123 ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/expedition-profile-sync.test.cjs

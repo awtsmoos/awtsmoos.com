@@ -1,8 +1,0 @@
-{
-  "ok": true,
-  "suite": "unix-service-health",
-  "portableGuardianVerified": true,
-  "rootSpecificLaunchdVerified": true,
-  "duplicateProcessesRejected": true,
-  "legacyGlobalLabelRejected": true
-}

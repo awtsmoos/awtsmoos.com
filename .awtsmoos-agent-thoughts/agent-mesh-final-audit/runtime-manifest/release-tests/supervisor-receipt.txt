@@ -1,8 +1,0 @@
-{
-  "ok": true,
-  "suite": "supervisor-receipt-stability",
-  "pid": 74373,
-  "matcher": "expectedPid=74373 receiptPid=74373 state=registered expectedName=awt-transaction-rollback-test receiptName=awt-transaction-rollback-test tunnelId=tun_transaction_fixture expectedActivation=activation-20260723T215906Z-63900 receiptActivation=activation-20260723T215906Z-63900 expectedVersion=1.0.100 receiptVersion=1.0.100 ageMs=431 maximumAgeMs=90000",
-  "stableBeyondWindow": true,
-  "supervisorConfirmed": true
-}

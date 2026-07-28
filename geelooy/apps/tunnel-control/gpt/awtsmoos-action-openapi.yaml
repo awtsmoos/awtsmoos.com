@@ -913,10 +913,22 @@ paths:
         - { name: targetVessel, in: query, schema: { type: string } }
         - { name: vessel, in: query, schema: { type: string } }
         - { name: fallback, in: query, schema: { type: string } }
+        - { name: routeReference, in: query, schema: { type: string } }
         - { name: treeId, in: query, schema: { type: string } }
         - { name: outputId, in: query, schema: { type: string } }
         - { name: jobId, in: query, schema: { type: string } }
+        - { name: taskId, in: query, schema: { type: string } }
+        - { name: actionId, in: query, schema: { type: string } }
+        - { name: processKey, in: query, schema: { type: string } }
+        - { name: receiptId, in: query, schema: { type: string } }
+        - { name: workerId, in: query, schema: { type: string } }
         - { name: stream, in: query, schema: { type: string } }
+        - { name: controlRequestId, in: query, schema: { type: string } }
+        - { name: originalControlRequestId, in: query, schema: { type: string } }
+        - { name: clientRequestId, in: query, schema: { type: string } }
+        - { name: requestedAction, in: query, schema: { type: string } }
+        - { name: requestAction, in: query, schema: { type: string } }
+        - { name: resumeToken, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
         - { name: continuationPrompt64, in: query, schema: { type: string } }
         - { name: multipleChoiceAnswer, in: query, schema: { type: string } }
@@ -944,14 +956,17 @@ paths:
         - { name: profile, in: query, schema: { type: string } }
         - { name: reason, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
+        - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
         - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: pageChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: maxBytes, in: query, schema: { type: integer, default: 24000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
+        - { name: waitTimeoutMs, in: query, schema: { type: integer, default: 25000 } }
         - { name: budgetPerutas, in: query, schema: { type: integer, default: 0 } }
         - { name: ttlSeconds, in: query, schema: { type: integer, default: 3600 } }
         - { name: page, in: query, schema: { type: integer, default: 1 } }
@@ -976,6 +991,7 @@ paths:
         - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
         - { name: asyncCommand, in: query, schema: { type: boolean, default: false } }
         - { name: background, in: query, schema: { type: boolean, default: false } }
+        - { name: inlineOutput, in: query, schema: { type: boolean, default: true } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }

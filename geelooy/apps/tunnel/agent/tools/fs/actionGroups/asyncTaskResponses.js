@@ -94,4 +94,25 @@ function missing(action, taskId) {
 	return { ok: false, action, error: "task_not_found", taskId };
 }
 
-module.exports = { missing, outputPage, pagePayload, receipt, sequence };
+function terminalResult(task = {}) {
+	if (task.status === "running") return null;
+	const text = String(task.stdout || "").trim();
+	if (!text) return null;
+	try {
+		const parsed = JSON.parse(text);
+		return parsed?.childAction && Object.hasOwn(parsed, "result")
+			? parsed.result
+			: parsed;
+	} catch {
+		return null;
+	}
+}
+
+module.exports = {
+	missing,
+	outputPage,
+	pagePayload,
+	receipt,
+	sequence,
+	terminalResult
+};

@@ -25,6 +25,8 @@ const { startCommandJob, commandStatus, commandWait, commandJobOutputPage } = re
   assert.equal(waited.ok, true);
   assert.equal(waited.action, "commandWait");
   assert.equal(waited.status, "completed");
+  assert.match(waited.stdout.content, /lifecycle/);
+  assert.equal(waited.stdout.hasNextPage, false);
 
   const status = await commandStatus(config, { jobId: started.jobId });
   assert.equal(status.ok, true);

@@ -31,6 +31,8 @@ const tests = [
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.default-clean.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseAckRecovery.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/relayRetryImmediate.test.cjs",
+	"geelooy/api/tunnel/control/routes/test/deviceDiscoveryOfflineNative.test.cjs",
+	"geelooy/api/tunnel/control/routes/test/openApiKeyContinuationParams.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLiveness.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLivenessEventLoopLag.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs",
@@ -43,6 +45,9 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/mainStartupContract.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/waitLaneNeverBlocksControl.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mixedActionRelayStall.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/productionRetryIngress.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/commandLifecycleCompat.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/asyncTaskTerminalResult.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerManifestChecksumContract.test.cjs"
 ];

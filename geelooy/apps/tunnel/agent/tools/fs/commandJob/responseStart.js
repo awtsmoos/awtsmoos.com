@@ -46,7 +46,7 @@ function start(jobId, args = {}) {
 		trust: Language.startTrust(),
 		evidence: Language.startEvidence(),
 		statusPayload: actionPayload("commandStatus", jobId),
-		waitPayload: actionPayload("commandWait", jobId),
+		waitPayload: { ...actionPayload("commandWait", jobId), inlineOutput: true },
 		stdoutPagePayload: pagePayload(jobId, "stdout"),
 		stderrPagePayload: pagePayload(jobId, "stderr"),
 		responseProtocol: "response-v8-compact-trust"

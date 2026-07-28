@@ -1,6 +1,0 @@
-
-> audit:modules
-> node tools/module-smoke-audit.mjs
-
-{"vs":{"frame":10,"fighters":3,"map":"beit-midrash-bouncer"},"adventure":{"frame":10,"gate":60,"fighters":4,"collectibles":20}}
-EXIT_CODE=0

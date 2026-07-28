@@ -46,6 +46,7 @@ function retryIdentity(payload = {}, data = {}) {
 			nested.originalControlRequestId ||
 			nested.controlRequestId ||
 			data.originalControlRequestId ||
+			payload.resumeToken ||
 			payload.controlRequestId ||
 			data.controlRequestId
 		),

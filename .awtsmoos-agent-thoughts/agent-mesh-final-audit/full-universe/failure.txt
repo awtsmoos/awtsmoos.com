@@ -1,9 +1,0 @@
-file=ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomChannel.test.cjs
-code=1
-signal=
-error=
---- stdout ---
-
---- stderr ---
-AssertionError [ERR_ASSERTION]: 2 == 1
-    at /Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomChannel.test.cjs:73:9

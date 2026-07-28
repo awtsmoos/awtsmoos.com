@@ -54,10 +54,11 @@ async function waitDone(config, payload, jobId, status, startedAt) {
 	const maxChars = Context.Policy.boundedPageChars(
 		payload.maxChars || Context.Policy.DEFAULT_PAGE_CHARS
 	);
-	const stdout = payload.inlineOutput === true
+	const inlineOutput = payload.inlineOutput !== false;
+	const stdout = inlineOutput
 		? await output(config, jobId, "stdout", maxChars)
 		: null;
-	const stderr = payload.inlineOutput === true
+	const stderr = inlineOutput
 		? await output(config, jobId, "stderr", maxChars)
 		: null;
 
@@ -92,7 +93,7 @@ function waitStillRunning(payload, jobId, status, startedAt, intervalMs) {
 			jobId,
 			waitTimeoutMs: Context.Policy.commandWaitCapMs(),
 			pollIntervalMs: intervalMs,
-			inlineOutput: false
+			inlineOutput: payload.inlineOutput !== false
 		}
 	});
 }

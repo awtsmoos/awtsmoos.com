@@ -1,6 +1,0 @@
-
-> audit:syntax
-> node tools/source-syntax-audit.mjs
-
-{"filesParsed":926,"failures":0}
-EXIT_CODE=0

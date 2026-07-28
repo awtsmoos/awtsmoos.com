@@ -1,5 +1,0 @@
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/downloads/unix-process-control.sh
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/downloads/unix-process-runtime.sh
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/downloads/unix-service-identity.sh
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/downloads/unix-service-manager.sh
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/geelooy/apps/tunnel/downloads/unix-supervisor-install.sh

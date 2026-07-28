@@ -100,6 +100,7 @@ async function wait(payload = {}) {
 	return {
 		...response,
 		waitedMs: Date.now() - startedAt,
+		result: response.done ? Responses.terminalResult(runner.task) : null,
 		stdout: response.done ? Responses.outputPage(taskId, runner.task, { stream: "stdout", ...payload }) : null,
 		stderr: response.done ? Responses.outputPage(taskId, runner.task, { stream: "stderr", ...payload }) : null
 	};

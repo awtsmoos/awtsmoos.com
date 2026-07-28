@@ -1,1 +1,0 @@
-debug envelope keeps full mission surface when requested

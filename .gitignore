@@ -11,7 +11,10 @@
 .Awtsmoos/
 [aA][wW][tT][sS][mM][oO][oO][sS]/
 **/.awtsmoos/
+**/.awtsmoos-audit/
+**/.awtsmoos-agent-thoughts/
 **/.Awtsmoos/
+**/.reports/
 **/[aA][wW][tT][sS][mM][oO][oO][sS]/
 .awtsmoos-tmp/
 .Awtsmoos-tmp/
@@ -47,6 +50,13 @@ AI-THOUGHTS/
 **/AI-THOUGHTS/
 **/[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
 **/[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
+.ai-thoughts/
+**/.ai-thoughts/
+geelooy/ai/thoughts/
+meluket_*_probe.json
+meluket_*_surface.txt
+meluket_*_search.txt
+meluket_*_locator.txt
 
 # Runtime mutable app data.
 geelooy/.data/

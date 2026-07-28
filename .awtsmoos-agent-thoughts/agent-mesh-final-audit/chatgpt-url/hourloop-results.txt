@@ -1,6 +1,0 @@
-{"ok":true,"suite":"phase10","promptCount":6,"queued":7}
-{"ok":true,"suite":"hourLoop phase A","promptChars":1145,"packetBytes":941}
-{"ok":true,"suite":"hourLoop phase B","queue":1,"receipts":1}
-{"ok":true,"suite":"hourLoop phase C","phase":"submitted","receipts":2}
-{"ok":true,"suite":"hourLoop registry","queued":1,"buttons":5}
-{"ok":true,"suite":"hourLoop custom url parse"}

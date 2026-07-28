@@ -1,6 +1,0 @@
-[Error: ENOTEMPTY: directory not empty, rmdir '/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/awts-reconnect-result-gmjXnc/.Awtsmoos/command-jobs'] {
-  errno: -66,
-  code: 'ENOTEMPTY',
-  syscall: 'rmdir',
-  path: '/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/awts-reconnect-result-gmjXnc/.Awtsmoos/command-jobs'
-}

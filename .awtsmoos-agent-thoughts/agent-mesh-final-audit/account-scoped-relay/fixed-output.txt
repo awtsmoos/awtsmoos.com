@@ -1,1 +1,0 @@
-{"ok":true,"suite":"account-scoped-relay-end-to-end","registrationKey":"4:asdf:tun_TzeTAfI1NL3FzqusyYS7_B5D","routeReference":"tun_TzeTAfI1NL3FzqusyYS7_B5D"}

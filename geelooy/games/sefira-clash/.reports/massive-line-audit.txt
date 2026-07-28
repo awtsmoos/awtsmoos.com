@@ -1,5 +1,0 @@
-CHECKED 94
-176 geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensLower.js
-176 geelooy/games/sefira-clash/js/data/openworld/OpenWorldCitizensUpper.js
-128 geelooy/games/sefira-clash/js/openworld/OpenWorldCivicService.js
-VIOLATIONS 3

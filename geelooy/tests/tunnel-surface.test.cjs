@@ -1,30 +1,31 @@
 // B"H
 const assert = require("assert");
-const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const Manifest = require("../apps/tunnel/agent/rebuild-manifest.cjs");
+const SourcePaths = require("../apps/tunnel/agent/release/sourcePaths.js");
 
 const root = path.resolve(__dirname, "..");
-
-function sha256(file) {
-  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-}
 
 function nodeCheck(file) {
   const run = spawnSync(process.execPath, ["--check", file], { cwd: root, encoding: "utf8" });
   assert.equal(run.status, 0, run.stderr || run.stdout);
 }
 
-const manifestPath = path.join(root, "apps/tunnel/agent/manifest.json");
-const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-assert.equal(manifest.entry, "main.js");
-assert.ok(manifest.files.length > 20);
-for (const item of manifest.files) {
-  const full = path.join(root, "apps/tunnel/agent", item.path);
-  assert.ok(fs.existsSync(full), "Missing manifest file " + item.path);
-  assert.equal(fs.statSync(full).size, item.bytes, "Size mismatch " + item.path);
-  assert.equal(sha256(full), item.sha256, "Hash mismatch " + item.path);
+const manifestPath = path.join(root, "apps/tunnel/agent/manifest.txt");
+const [version, entry, ...files] = Manifest.cleanLines(
+  fs.readFileSync(manifestPath, "utf8")
+);
+assert.match(version, /^\d+\.\d+\.\d+$/);
+assert.equal(entry, "main.js");
+assert.ok(files.length > 20);
+const roots = SourcePaths.resolveRoots(path.resolve(root, ".."));
+for (const file of [entry, ...files]) {
+  const full = SourcePaths.sourcePathFor(file, roots);
+  assert.ok(full, "Unsafe manifest file " + file);
+  assert.ok(fs.existsSync(full), "Missing manifest file " + file);
+  assert.ok(fs.statSync(full).isFile(), "Manifest entry is not a file " + file);
 }
 
 const { actions } = require("../api/tunnel/control/docs/actions.js");
@@ -44,4 +45,4 @@ for (const action of actions) assert.ok(yaml.includes(`              - ${action}
   "api/tunnel/control/routes/osFs.js"
 ].forEach(nodeCheck);
 
-console.log(JSON.stringify({ ok: true, manifestFiles: manifest.files.length, actions: actions.length }, null, 2));
+console.log(JSON.stringify({ ok: true, version, manifestFiles: files.length + 1, actions: actions.length }, null, 2));

@@ -1,5 +1,0 @@
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradeClaims.js
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradeResponse.js
-/Users/awtsmoos/awtsmoos-agent-mesh-20260724T011700Z/ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js

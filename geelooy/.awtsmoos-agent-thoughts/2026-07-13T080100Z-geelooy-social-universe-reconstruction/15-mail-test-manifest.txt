@@ -1,2 +1,0 @@
-geelooy/email/test/mailMobileShellContract.test.mjs
-geelooy/email/test/mailSharedShellContract.test.mjs

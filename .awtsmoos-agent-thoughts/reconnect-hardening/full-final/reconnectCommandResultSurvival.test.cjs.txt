@@ -1,6 +1,0 @@
-{
-  "ok": true,
-  "suite": "reconnect-command-result-survival",
-  "generation": 2,
-  "jobId": "cmdjob_reconnect_result_survival"
-}

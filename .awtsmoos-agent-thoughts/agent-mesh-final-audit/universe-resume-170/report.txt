@@ -1,8 +1,0 @@
-B"H
-remaining=215
-0	0s	geelooy/apps/tunnel/agent/testing/envelopeCompactsMissionByDefault.test.cjs
-0	0s	geelooy/apps/tunnel/agent/testing/envelopeDebugKeepsMissionBloat.test.cjs
-0	0s	geelooy/apps/tunnel/agent/testing/eventLoopLagCircuitBreaker.test.cjs
-0	1s	geelooy/apps/tunnel/agent/testing/eventLoopLagWindow.test.cjs
-0	1s	geelooy/apps/tunnel/agent/testing/fallbackVesselReceipt.test.cjs
-1	118s	geelooy/apps/tunnel/agent/testing/focusedSelfPreservationSuite.test.cjs

@@ -19,6 +19,7 @@ function describe(payload = {}) {
 			payload.originalControlRequestId ||
 			nested.originalControlRequestId ||
 			nested.controlRequestId ||
+			payload.resumeToken ||
 			payload.controlRequestId
 		),
 		requestedAction: clean(

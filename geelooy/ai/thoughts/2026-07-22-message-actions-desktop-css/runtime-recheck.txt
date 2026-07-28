@@ -1,3 +1,0 @@
-=== CURL ===
-=== PROCESS ===
-  PID  PPID COMMAND

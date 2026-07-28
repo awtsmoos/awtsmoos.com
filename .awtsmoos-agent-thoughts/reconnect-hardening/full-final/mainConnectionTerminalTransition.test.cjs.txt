@@ -1,7 +1,0 @@
-{
-  "ok": true,
-  "suite": "main-connection-terminal-transition",
-  "errorReconnects": 1,
-  "timeoutReconnects": 1,
-  "duplicateSignalsIgnored": true
-}
