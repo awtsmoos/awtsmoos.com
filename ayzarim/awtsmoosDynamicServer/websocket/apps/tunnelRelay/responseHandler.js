@@ -23,10 +23,12 @@ function handleTunnelResponse(context, client, data = {}) {
 	}
 	const validation = Validation.validateTunnelResponse(record.expected, data);
 	if (!validation.ok) {
-		return quarantine(
+		return quarantineSettledTransport(
 			context,
+			client,
 			"correlation_mismatch",
 			data,
+			id,
 			record.expected,
 			validation
 		);
@@ -74,10 +76,12 @@ async function settleRecoveredPending(context, client, data, id, record) {
 	}
 	const validation = Validation.validateTunnelResponse(record.expected, data);
 	if (!validation.ok) {
-		return quarantine(
+		return quarantineSettledTransport(
 			context,
+			client,
 			"recovered_response_correlation_mismatch",
 			data,
+			id,
 			record.expected,
 			validation
 		);
@@ -107,10 +111,25 @@ function quarantine(context, reason, data, expected, validation = null) {
 	return false;
 }
 
+function quarantineSettledTransport(
+	context,
+	client,
+	reason,
+	data,
+	id,
+	expected,
+	validation = null
+) {
+	quarantine(context, reason, data, expected, validation);
+	acknowledge(client, data, id);
+	return false;
+}
+
 module.exports = {
 	acknowledge,
 	handleDuplicate,
 	handleTunnelResponse,
 	quarantine,
+	quarantineSettledTransport,
 	settleRecoveredPending
 };

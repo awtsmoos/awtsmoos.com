@@ -17,6 +17,7 @@ const handlerPath = path.join(directory, "responseHandler.js");
 const quarantine = [];
 let hydrated = { state: "completed" };
 let recoveredPending = 0;
+let responseValid = true;
 
 require.cache[statePath] = {
 	id: statePath,
@@ -45,7 +46,11 @@ require.cache[validationPath] = {
 	id: validationPath,
 	filename: validationPath,
 	loaded: true,
-	exports: { validateTunnelResponse: () => ({ ok: true }) }
+	exports: {
+		validateTunnelResponse: () => responseValid
+			? { ok: true }
+			: { ok: false, response: { nonceMismatch: true } }
+	}
 };
 delete require.cache[handlerPath];
 const Handler = require(handlerPath);
@@ -87,13 +92,26 @@ setImmediate(() => {
 			transportReceiptId: "recovered-receipt"
 		}), true);
 		setImmediate(() => {
-			assert.equal(sent.length, 3);
-			assert.equal(sent[2].transportReceiptId, "recovered-receipt");
-			assert.equal(recoveredPending, 1);
+		assert.equal(sent.length, 3);
+		assert.equal(sent[2].transportReceiptId, "recovered-receipt");
+		assert.equal(recoveredPending, 1);
+			responseValid = false;
+			context.pendingTunnelRequests.set("mismatched-response", {
+				expected: { registrationKey: client.registrationKey },
+				registrationKey: client.registrationKey
+			});
+			assert.equal(Handler.handleTunnelResponse(context, client, {
+				id: "mismatched-response",
+				transportReceiptId: "mismatched-receipt"
+			}), false);
+			assert.equal(sent.length, 4);
+			assert.equal(sent[3].transportReceiptId, "mismatched-receipt");
+			assert.equal(quarantine.at(-1).reason, "correlation_mismatch");
 			console.log(JSON.stringify({
 				ok: true,
 				suite: "response-ack-recovery",
 				duplicateSettledResponseReacknowledged: true,
+				authenticatedMismatchQuarantinedAndAcknowledged: true,
 				authenticatedOrphanSettledAfterQuarantine: true,
 				pendingRecordRecoveredAfterServerRestart: true
 			}, null, 2));
