@@ -1,10 +1,16 @@
 // B"H
 const fs = require("fs");
 const path = require("path");
+const { ROOT } = require("../../lib/config.js");
 
 const MAX_LOGS = 2000;
 const entries = [];
-const NETWORK_LOG = path.join(process.cwd(), ".awtsmoos-tmp", "chatgpt-browser-network.jsonl");
+const NETWORK_LOG = path.join(
+  ROOT,
+  "state",
+  "browser-logs",
+  `chrome-network-${process.pid}.jsonl`
+);
 
 /**
  * B"H
@@ -73,7 +79,16 @@ function captureLogEntry(params) {
 function captureNetworkFailure(params) {
   const safe = { kind: "loadingFailed", requestId: params.requestId, errorText: params.errorText, blockedReason: params.blockedReason, type: params.type, timestamp: params.timestamp };
   writeNetwork(safe);
-  return addChromeLog("network.loadingFailed", "error", params.errorText || "Network loading failed", safe);
+  // Chrome emits ERR_ABORTED when a deliberate navigation replaces the page
+  // that was still loading. It is evidence of cancellation, not an application
+  // or transport failure, and must not poison another action's error verdict.
+  const cancelled = params.canceled === true || String(params.errorText || "").toUpperCase() === "NET::ERR_ABORTED";
+  return addChromeLog(
+    "network.loadingFailed",
+    cancelled ? "warning" : "error",
+    params.errorText || "Network loading failed",
+    { ...safe, cancelled }
+  );
 }
 
 function captureNetworkRequest(params) {

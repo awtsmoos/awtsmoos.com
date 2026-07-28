@@ -76,7 +76,16 @@ async function handleChrome(payload = {}) {
 	};
 	return READ_ONLY_ACTIONS.has(action)
 		? execute()
-		: ActionQueue.run(execute, { timeoutMs: payload.timeoutMs });
+		: ActionQueue.run(execute, { timeoutMs: actionQueueTimeout(payload) });
 }
 
-module.exports = { ACTIONS, READ_ONLY_ACTIONS, handleChrome };
+function actionQueueTimeout(payload = {}) {
+	const explicit = Number(payload.actionTimeoutMs || payload.queueTimeoutMs);
+	if (Number.isFinite(explicit) && explicit > 0) return explicit;
+	const operation = Number(payload.timeoutMs);
+	return Number.isFinite(operation) && operation > 0
+		? operation + 10000
+		: undefined;
+}
+
+module.exports = { ACTIONS, READ_ONLY_ACTIONS, actionQueueTimeout, handleChrome };

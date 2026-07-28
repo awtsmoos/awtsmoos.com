@@ -2,6 +2,7 @@
 
 const assert = require("assert");
 const Queue = require("../tools/chrome/actionQueue.js");
+const { actionQueueTimeout } = require("../tools/chrome/index.js");
 const Scope = require("../tools/chrome/scopePolicy.js");
 
 function sleep(milliseconds) {
@@ -24,6 +25,8 @@ function sleep(milliseconds) {
 	assert.equal(Queue.snapshot().active, 0);
 	assert.equal(Queue.snapshot().queued, 0);
 	assert.equal(Queue.snapshot().completed, 120);
+	assert.equal(actionQueueTimeout({ timeoutMs: 20000 }), 30000);
+	assert.equal(actionQueueTimeout({ timeoutMs: 20000, queueTimeoutMs: 45000 }), 45000);
 	assert.equal(Scope.hasScope({ agentSessionId: "agent-session" }), true);
 	assert.equal(Scope.hasScope({}), false);
 	assert.equal(Scope.scopeRequiredEnvelope("chromeTargetAcquire", {}).error, "missing_browser_scope");
