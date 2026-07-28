@@ -10,7 +10,7 @@ sha256_file() {
 	local file_path="$1"
 
 	if command -v shasum >/dev/null 2>&1; then
-		shasum -a 256 "$file_path" | awk '{print $1}'
+		LC_ALL=C LANG=C shasum -a 256 "$file_path" | awk '{print $1}'
 	else
 		sha256sum "$file_path" | awk '{print $1}'
 	fi

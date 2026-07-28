@@ -57,7 +57,8 @@ command -v curl >/dev/null 2>&1 || {
 	printf '[Awtsmoos][bootstrap][failed] curl was not found.\n' >&2
 	exit 1
 }
-curl -fsSL --retry 3 --retry-delay 1 \
+curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+	--speed-time 30 --speed-limit 1024 \
 	"$origin/apps/tunnel/downloads/unix-node-runtime.sh" \
 	-o "$runtime_root/unix-node-runtime.sh"
 chmod +x "$runtime_root/unix-node-runtime.sh"

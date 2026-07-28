@@ -28,7 +28,7 @@ NODE
 
 recovery_sha256_file() {
 	if command -v shasum >/dev/null 2>&1; then
-		shasum -a 256 "$1" | awk '{print $1}'
+		LC_ALL=C LANG=C shasum -a 256 "$1" | awk '{print $1}'
 	else
 		sha256sum "$1" | awk '{print $1}'
 	fi
