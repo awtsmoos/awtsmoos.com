@@ -46,7 +46,7 @@
 		"test:platform-ops": "node geelooy/api/social/helper/test/platformOps.test.js",
 		"test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
 		"bh": "node scripts/ship.mjs && node scripts/bh.mjs",
-		"rbm": "node scripts/tunnel/bumpManifest.cjs",
+    "rbm": "node geelooy/apps/tunnel/agent/rebuild-manifest.cjs",
 		"tunnel:identity": "node geelooy/apps/tunnel/agent/scripts/device-identity.cjs status",
 		"tunnel:logout": "node geelooy/apps/tunnel/agent/scripts/device-identity.cjs forget",
 		"ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs",
