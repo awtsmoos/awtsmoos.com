@@ -20,7 +20,7 @@ function fromRecord(record, incoming, waitMs = 0, retry = null) {
 	if (["completed", "failed", "expired"].includes(record.state)) {
 		return record.data;
 	}
-	return pending(record, waitMs);
+	return pending(record, waitMs, true);
 }
 
 function matches(stored = {}, incoming = {}, retry = null) {
@@ -29,12 +29,12 @@ function matches(stored = {}, incoming = {}, retry = null) {
 		(!retry.requestedAction || retry.requestedAction === stored.requestedAction);
 }
 
-function pending(record, waitMs = 0) {
+function pending(record, waitMs = 0, recoveredAfterRestart = false) {
 	const expected = record.expected || {};
 	return {
 		...Envelopes.timeoutEnvelope(expected, waitMs, expected.timeoutMs),
 		error: "canonical_request_pending",
-		recoveredAfterRestart: true,
+		recoveredAfterRestart,
 		message: "The canonical request is reserved and will not dispatch again."
 	};
 }

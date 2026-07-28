@@ -50,7 +50,7 @@ const stalled = Watchdog.create({
 	setTimer: () => ({ unref() {} })
 });
 stalled.pulse({
-	lanes: { p0_control: { inflight: 8, queued: 4 } },
+	lanes: { p0_control: { inflight: 1, queued: 0 } },
 	lastSuccessfulActionAt: 1
 });
 clock += 11000;
@@ -65,5 +65,5 @@ console.log(JSON.stringify({
 	suite: "connection-parent-watchdog",
 	requiresLiveRegistrationAndOldBacklog: true,
 	freshPulsePreventsRepair: true,
-	liveHeartbeatWithStuckControlQueueRepairs: true
+	liveHeartbeatWithSingleStuckControlActionRepairs: true
 }));

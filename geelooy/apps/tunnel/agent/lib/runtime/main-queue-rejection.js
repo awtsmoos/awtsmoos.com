@@ -27,7 +27,9 @@ function createQueueRejection(dependencies) {
 			? "agent_control_queue_full"
 			: lane === dependencies.Priority.LANES.P0_WAIT
 				? "agent_wait_queue_full"
-				: "agent_queue_full";
+				: lane === dependencies.Priority.LANES.P0_OBSERVE
+					? "agent_observe_queue_full"
+					: "agent_queue_full";
 		const result = {
 			ok: false,
 			status: 429,

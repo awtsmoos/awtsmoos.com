@@ -12,6 +12,7 @@
 
 const {
 	FOUR_MINUTES_MS,
+	MAX_SAFE_RELAY_WAIT_MS,
 	ONE_DAY_MS,
 	SAFE_RELAY_WAIT_MS
 } = require("./constants.js");
@@ -36,7 +37,7 @@ function safeRelayWaitMs(value) {
 	if (!Number.isFinite(number)) {
 		return SAFE_RELAY_WAIT_MS;
 	}
-	return Math.max(100, Math.min(Math.floor(number), 5000));
+	return Math.max(100, Math.min(Math.floor(number), MAX_SAFE_RELAY_WAIT_MS));
 }
 
 /** Trims an identifier without silently converting invalid characters. */

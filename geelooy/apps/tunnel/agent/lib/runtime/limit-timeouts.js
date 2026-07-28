@@ -23,6 +23,7 @@ function boundedNumber(value, fallback, min, max) {
 const LANE_TIMEOUT_MS = Object.freeze({
 	p0_control: boundedNumber(process.env.AWTSMOOS_P0_TIMEOUT_MS, 5 * MINUTE, 5 * SECOND, DAY),
 	p0_wait: boundedNumber(process.env.AWTSMOOS_P0_WAIT_TIMEOUT_MS, 2 * MINUTE, 5 * SECOND, DAY),
+	p0_observe: boundedNumber(process.env.AWTSMOOS_P0_OBSERVE_TIMEOUT_MS, 2 * MINUTE, 5 * SECOND, DAY),
 	p1_fs_light: boundedNumber(process.env.AWTSMOOS_P1_TIMEOUT_MS, 30 * MINUTE, 5 * SECOND, DAY),
 	p2_chrome_light: boundedNumber(process.env.AWTSMOOS_P2_TIMEOUT_MS, 30 * MINUTE, 5 * SECOND, DAY),
 	p3_heavy: boundedNumber(process.env.AWTSMOOS_P3_TIMEOUT_MS, 4 * HOUR, 5 * SECOND, 7 * DAY),

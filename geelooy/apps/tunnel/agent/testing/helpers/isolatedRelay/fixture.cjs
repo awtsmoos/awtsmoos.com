@@ -43,7 +43,12 @@ function createFixture(relayUrl, options = {}) {
 		deviceId,
 		spawnAgent: () => spawnAgent(installRoot, temporaryRoot),
 		readReceipt: () => readJson(path.join(installRoot, "connection-state.json")),
-		cleanup: () => fs.rmSync(temporaryRoot, { recursive: true, force: true })
+		cleanup: () => fs.rmSync(temporaryRoot, {
+			recursive: true,
+			force: true,
+			maxRetries: 8,
+			retryDelay: 50
+		})
 	};
 }
 

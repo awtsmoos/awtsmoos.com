@@ -22,9 +22,12 @@ async function run(options = {}) {
 	const key = State.durableKey(id, expected);
 	const active = context.tunnelRequestStarts.get(key);
 	if (active) {
-		return matches(active.expected, expected, retry)
-			? await active.promise
-			: Canonical.conflict(active.expected, expected);
+		if (!matches(active.expected, expected, retry)) {
+			return Canonical.conflict(active.expected, expected);
+		}
+		return retry
+			? Canonical.pending({ expected: active.expected }, 0)
+			: await active.promise;
 	}
 	const operation = execute(options);
 	context.tunnelRequestStarts.set(key, {
@@ -55,9 +58,12 @@ async function execute(options) {
 }
 
 function reusePending(record, expected, retry, waitMs) {
-	return matches(record.expected, expected, retry)
-		? Lifecycle.attachWaiter(record, waitMs)
-		: Promise.resolve(Canonical.conflict(record.expected, expected));
+	if (!matches(record.expected, expected, retry)) {
+		return Promise.resolve(Canonical.conflict(record.expected, expected));
+	}
+	return retry
+		? Promise.resolve(Canonical.pending(record, 0))
+		: Lifecycle.attachWaiter(record, waitMs);
 }
 
 function matches(stored, incoming, retry) {

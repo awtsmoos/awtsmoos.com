@@ -18,6 +18,7 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/connectionMailboxMaintenance.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselDelivery.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselParentStall.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/connectionParentWatchdog.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionVesselController.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/connectionReceiptDualPid.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/circuitStateConsistency.test.cjs",
@@ -29,6 +30,7 @@ const tests = [
 	"geelooy/api/tunnel/control/routes/fsVessel/test/nativeInventoryView.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.default-clean.test.cjs",
 	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseAckRecovery.test.cjs",
+	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/relayRetryImmediate.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLiveness.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transportLivenessEventLoopLag.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/reconnectPolicy.test.cjs",
@@ -39,6 +41,8 @@ const tests = [
 	"geelooy/apps/tunnel/agent/testing/installerExperience.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainConnectionContract.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/mainStartupContract.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/waitLaneNeverBlocksControl.test.cjs",
+	"geelooy/apps/tunnel/agent/testing/mixedActionRelayStall.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/transactionalUnixInstaller.test.cjs",
 	"geelooy/apps/tunnel/agent/testing/installerManifestChecksumContract.test.cjs"
 ];

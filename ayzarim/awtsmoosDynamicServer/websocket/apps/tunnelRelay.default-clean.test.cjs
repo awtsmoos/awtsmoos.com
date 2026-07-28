@@ -12,8 +12,8 @@ const Contract = require("../../../../geelooy/api/tunnel/control/routes/fsVessel
 	*/
 const clean = Relay.cleanRelayPayload({ action: "list" });
 assert.equal(clean.autoPreview, false);
-assert.equal(clean.relayWaitMs, 5000);
-assert.equal(clean.httpSafeWaitMs, 5000);
+assert.equal(clean.relayWaitMs, 3500);
+assert.equal(clean.httpSafeWaitMs, 3500);
 const explicit = Relay.cleanRelayPayload({
 	action: "list",
 	autoPreview: true,

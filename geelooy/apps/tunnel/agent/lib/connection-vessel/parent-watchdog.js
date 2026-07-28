@@ -44,6 +44,7 @@ function create(options = {}) {
 	let lastPulseAt = Number(options.startedAt || now());
 	let lastControlProgressAt = lastPulseAt;
 	let controlSignature = "";
+	let controlInflight = 0;
 	let controlQueued = 0;
 	let repairs = 0;
 	let repairing = false;
@@ -57,13 +58,14 @@ function create(options = {}) {
 			Number(lane.queued || 0),
 			Number(stats.lastSuccessfulActionAt || 0)
 		].join(":");
+		controlInflight = Number(lane.inflight || 0);
 		controlQueued = Number(lane.queued || 0);
 		if (signature !== controlSignature) {
 			controlSignature = signature;
 			lastControlProgressAt = at;
 			repairing = false;
 		}
-		if (controlQueued === 0) repairing = false;
+		if (controlInflight + controlQueued === 0) repairing = false;
 		return snapshot();
 	}
 
@@ -72,7 +74,8 @@ function create(options = {}) {
 		const parentAgeMs = Math.max(0, at - lastPulseAt);
 		const inbox = mailbox.inbox || {};
 		const backlogAgeMs = Number(inbox.oldestAgeMs || 0);
-		const controlStalled = controlQueued > 0 &&
+		const controlBacklog = controlInflight + controlQueued;
+		const controlStalled = controlBacklog > 0 &&
 			at - lastControlProgressAt > controlStallMs;
 		const shouldRepair = parentPid > 1 &&
 			connection.registered === true &&
@@ -84,6 +87,7 @@ function create(options = {}) {
 			...snapshot(),
 			backlogAgeMs,
 			controlStalled,
+			controlBacklog,
 			shouldRepair
 		};
 	}
@@ -112,7 +116,9 @@ function create(options = {}) {
 			parentStaleMs,
 			backlogStaleMs,
 			controlStallMs,
+			controlInflight,
 			controlQueued,
+			controlBacklog: controlInflight + controlQueued,
 			lastControlProgressAt,
 			repairing,
 			repairs

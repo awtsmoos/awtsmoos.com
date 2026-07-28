@@ -22,6 +22,7 @@ function createRegistrationRuntime(dependencies) {
 				requesterLaneLimits: dependencies.Limits.REQUESTER_LANE_LIMITS,
 				controlQueueLimit: dependencies.Limits.CONTROL_QUEUE_LIMIT,
 				waitQueueLimit: dependencies.Limits.WAIT_QUEUE_LIMIT,
+				observeQueueLimit: dependencies.Limits.OBSERVE_QUEUE_LIMIT,
 				maxQueue: dependencies.Limits.MAX_QUEUE,
 				longLivedConnections: dependencies.Limits.LONG_LIVED_CONNECTIONS,
 				keepAliveMs: dependencies.Limits.KEEPALIVE_MS,
