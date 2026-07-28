@@ -12,12 +12,31 @@ force_control_open() {
 	return 1
 }
 
+control_is_paired() {
+	[ -f "${ROOT:-}/device-binding.json" ] || return 1
+	node - "${ROOT}/device-binding.json" <<'NODE'
+const fs = require("node:fs");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	process.exit(
+		value.deviceId &&
+		value.tunnelId &&
+		value.pairedAt &&
+		!value.pairingId ? 0 : 1
+	);
+} catch {
+	process.exit(1);
+}
+NODE
+}
+
 skip_control_open() {
 	force_control_open && return 1
 	case "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" in
 		1|true|TRUE|yes|YES|on|ON) return 0 ;;
 	esac
 	[ "${FAST_REPAIR_COMPLETED:-0}" = "1" ] && return 0
+	control_is_paired && return 0
 	return 1
 }
 

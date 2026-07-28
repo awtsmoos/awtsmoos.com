@@ -23,6 +23,7 @@ function createHarness(repositoryRoot, sandbox) {
 		invocation += 1;
 		prepareFixture();
 		prepareRecentControl(environment);
+		preparePairedControl(environment);
 		const progressFile = path.join(sandbox, `${mode}-${invocation}.progress`);
 		return spawnSync("bash", ["-c", Script.buildScript(downloads, sandbox, mode)], {
 			encoding: "utf8",
@@ -73,6 +74,19 @@ function createHarness(repositoryRoot, sandbox) {
 		fs.writeFileSync(
 			path.join(sandbox, "root", "device-binding.json"),
 			JSON.stringify({ lastControlOpenedAt: new Date().toISOString() })
+		);
+	}
+
+	function preparePairedControl(environment) {
+		if (environment.AWTS_TEST_PAIRED_CONTROL !== "1") return;
+		fs.writeFileSync(
+			path.join(sandbox, "root", "device-binding.json"),
+			JSON.stringify({
+				deviceId: "dev_experience_test",
+				tunnelId: "tun_experience_test",
+				pairedAt: new Date().toISOString(),
+				pairingId: null
+			})
 		);
 	}
 

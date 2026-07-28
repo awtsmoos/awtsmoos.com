@@ -56,6 +56,13 @@ try {
 	assert.equal(fs.existsSync(harness.openedPath), false);
 	assert.match(repaired.stdout, /VERIFIED, GUARDED, AND CONNECTED/);
 
+	const pairedUpgrade = complete({
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_PAIRED_CONTROL: "1"
+	});
+	assert.equal(fs.existsSync(harness.openedPath), false);
+	assert.match(pairedUpgrade.stdout, /VERIFIED, GUARDED, AND CONNECTED/);
+
 	const forcedRepair = complete({
 		AWTS_TEST_REGISTERED: "1",
 		FAST_REPAIR_COMPLETED: "1",
@@ -98,6 +105,7 @@ try {
 		guardianGatesCompletion: true,
 		authoritativeTunnelIdShown: true,
 		routineRepairDoesNotOpenBrowser: true,
+		pairedUpgradeDoesNotOpenBrowser: true,
 		explicitBrowserOpenStillWorks: true
 	}, null, 2));
 } finally {
