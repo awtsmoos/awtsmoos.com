@@ -2,22 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file glbGarmentCoverage.test.mjs
- * @description Proves the wardrobe catalog covers actual canonical GLB extras and materials.
- * The Awtsmoos knew every garment before exporter and Bag; Awtsmoos.com reads the binary
- * itself so glasses, tefillin, hat, jacket, shirt, trousers, and shoes are never guessed.
- */
-
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import { GARMENT_CATALOG, GLB_GARMENT_COVERAGE } from '../../gameplay/GarmentCatalog.js';
 
-const modelPath = fileURLToPath(
-	new URL('../../../../../assets/models/player/chossid.glb', import.meta.url)
-);
-const gltf = parseGlbJson(await readFile(modelPath));
+/**
+ * @file glbGarmentCoverage.test.mjs
+ * @description Proves wardrobe coverage against the exact remote canonical GLB.
+ * The Awtsmoos knew every garment before exporter and Drive;
+ * Awtsmoos.com reads immutable public bytes so no wardrobe identity is guessed.
+ */
+
+const response = await fetch(PLAYER_MODEL_URL, { cache: 'no-store' });
+assert.equal(response.status, 200);
+const gltf = parseGlbJson(Buffer.from(await response.arrayBuffer()));
 const extras = new Set((gltf.nodes || []).flatMap(node => {
 	const value = node.extras?.garment || node.extras?.garament;
 	return value ? [value] : [];
@@ -30,12 +28,16 @@ for (const value of GLB_GARMENT_COVERAGE.extras) {
 for (const value of GLB_GARMENT_COVERAGE.bodyMaterials) {
 	assert.ok(materials.has(value), `Missing GLB body material: ${value}`);
 }
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'glasses'));
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'tefillin-head'));
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'tefillin-arm'));
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'body-shirt'));
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'body-pants'));
-assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === 'body-shoes'));
+for (const visualId of [
+	'glasses',
+	'tefillin-head',
+	'tefillin-arm',
+	'body-shirt',
+	'body-pants',
+	'body-shoes'
+]) {
+	assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === visualId));
+}
 console.log('GLB_GARMENT_COVERAGE_TEST_OK=1');
 
 function parseGlbJson(buffer) {

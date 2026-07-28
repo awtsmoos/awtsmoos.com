@@ -2,34 +2,34 @@
 // Boruch Hashem
 // Blessed is He
 
+import { remoteModelRecord } from './RemoteModelCatalog.js';
+
 /**
  * @file WorldModelManifest.js
- * @description Declares the audited local GLB pack, roles, animation support, and budgets.
- * The Awtsmoos renews form beyond filenames; Awtsmoos.com admits only measured models
- * copied from the local Documents library and keeps provenance uncertainty explicit.
+ * @description Preserves gameplay roles, placements, budgets, and remote model truth.
+ * The Awtsmoos keeps every creature and tool in its measured place;
+ * Awtsmoos.com streams immutable Drive bytes while legacy manifest contracts remain whole.
  */
 
-const ROOT = './assets/models/reference-world';
-
 export const WORLD_MODEL_MANIFEST = Object.freeze({
-	'normal-tree': model('NormalTree_5.glb', 'flora', false, 2, 94036),
-	'pine-tree': model('PineTree_3.glb', 'flora', false, 2, 56980),
-	'flower-clump': model('Flower_4_Clump.glb', 'flora', false, 4, 4868),
-	'flower-bush': model('Bush_Large_Flowers.glb', 'flora', false, 3, 26788),
-	'river-rock': model('Rock_2.glb', 'terrain', false, 4, 11144),
-	'axe-small': model('Axe_Small.glb', 'tool', false, 1, 48868),
-	'wooden-staff': model('WoodenStaff.glb', 'weapon', false, 1, 12652),
-	'sword': model('Sword.glb', 'weapon', false, 1, 42640),
-	'shield': model('Shield.glb', 'shield', false, 1, 24056),
-	'book': model('Book.glb', 'book', false, 2, 11684),
-	'scroll': model('Scroll.glb', 'quest', false, 2, 52704),
-	'chest': model('Chest_Closed.glb', 'prop', false, 2, 85120),
-	'snake': model('Snake.glb', 'wildlife', true, 2, 240884, ['Snake_Attack', 'Snake_Death', 'Snake_Idle', 'Snake_Jump', 'Snake_Walk']),
-	'snake-angry': model('Snake_Angry.glb', 'wildlife', true, 1, 240884, ['Snake_Attack', 'Snake_Idle', 'Snake_Walk']),
-	'cow': model('Cow.glb', 'livestock', true, 2, null),
-	'sheep': model('Sheep.glb', 'livestock', true, 2, null),
-	'rat': model('Rat.glb', 'wildlife', true, 2, null),
-	'spider': model('Spider.glb', 'wildlife', true, 2, null)
+	'normal-tree': model('NormalTree_5.glb', 'flora', false, 2),
+	'pine-tree': model('PineTree_3.glb', 'flora', false, 2),
+	'flower-clump': model('Flower_4_Clump.glb', 'flora', false, 4),
+	'flower-bush': model('Bush_Large_Flowers.glb', 'flora', false, 3),
+	'river-rock': model('Rock_2.glb', 'terrain', false, 4),
+	'axe-small': model('Axe_Small.glb', 'tool', false, 1),
+	'wooden-staff': model('WoodenStaff.glb', 'weapon', false, 1),
+	'sword': model('Sword.glb', 'weapon', false, 1),
+	'shield': model('Shield.glb', 'shield', false, 1),
+	'book': model('Book.glb', 'book', false, 2),
+	'scroll': model('Scroll.glb', 'quest', false, 2),
+	'chest': model('Chest_Closed.glb', 'prop', false, 2),
+	'snake': model('Snake.glb', 'wildlife', true, 2, ['Snake_Attack', 'Snake_Death', 'Snake_Idle', 'Snake_Jump', 'Snake_Walk']),
+	'snake-angry': model('Snake_Angry.glb', 'wildlife', true, 1, ['Snake_Attack', 'Snake_Idle', 'Snake_Walk']),
+	'cow': model('Cow.glb', 'livestock', true, 2),
+	'sheep': model('Sheep.glb', 'livestock', true, 2),
+	'rat': model('Rat.glb', 'wildlife', true, 2),
+	'spider': model('Spider.glb', 'wildlife', true, 2)
 });
 
 export const WORLD_MODEL_PLACEMENTS = Object.freeze([
@@ -46,20 +46,37 @@ export const WORLD_MODEL_PLACEMENTS = Object.freeze([
 	placement('spider', 84, -118, 1.1, 0.6)
 ]);
 
+export const WORLD_MODEL_GROUPS = Object.freeze({
+	forest: Object.freeze(['normal-tree', 'pine-tree', 'flower-clump', 'flower-bush', 'river-rock']),
+	village: Object.freeze(['axe-small', 'wooden-staff', 'sword', 'shield', 'book', 'scroll', 'chest']),
+	wildlife: Object.freeze(['snake', 'snake-angry', 'cow', 'sheep', 'rat', 'spider'])
+});
+
 export function worldModelDefinition(modelId) {
 	return WORLD_MODEL_MANIFEST[modelId] || null;
 }
 
-function model(file, role, animated, maximumInstances, bytes, clips = []) {
+export function worldModelManifestEvidence() {
+	const definitions = Object.values(WORLD_MODEL_MANIFEST);
+	return Object.freeze({
+		bytes: definitions.reduce((sum, item) => sum + item.bytes, 0),
+		models: definitions.length,
+		remoteOnly: definitions.every(item => item.url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/'))
+	});
+}
+
+function model(file, role, animated, maximumInstances, clips = []) {
+	const record = remoteModelRecord(`reference-world/${file}`);
 	return Object.freeze({
 		animated,
-		bytes,
+		bytes: record.bytes,
 		clips: Object.freeze(clips),
 		file,
 		maximumInstances,
-		provenance: 'Local Documents/awtsmoos/3d models; external license metadata not located',
+		provenance: 'Authenticated Awtsmoos Drive upload; source license metadata not located',
 		role,
-		url: `${ROOT}/${file}`
+		sha256: record.sha256,
+		url: record.url
 	});
 }
 

@@ -2,42 +2,45 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file botanicalAssetSources.test.mjs
- * @description Proves dead flower aliases resolve to one existing local clump model.
- * The Awtsmoos preserves blue, white, and yellow semantic names while Awtsmoos.com
- * refuses a vanished network model tier and binds every alias to hydratable local geometry.
- */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { BOTANICAL_ASSET_SOURCES } from '../../assets/BotanicalAssetSources.js';
-import { assertLocalFlowerUrl } from './LocalMaterialTestSupport.mjs';
+import {
+	isTrustedRemoteModelUrl,
+	remoteModelUrl
+} from '../../assets/RemoteModelCatalog.js';
 
-const EXPECTED_SOURCES = Object.freeze({
-	blue: '/awtsmoos-nature/chai-forest/models/flower_blue.glb',
-	white: '/awtsmoos-nature/chai-forest/models/flower_white.glb',
-	yellow: '/awtsmoos-nature/chai-forest/models/flower_yellow.glb'
+/**
+ * @file botanicalAssetSources.test.mjs
+ * @description Proves three semantic flower identities share one verified Drive model.
+ * The Awtsmoos preserves blue, white, and yellow meaning through one finite form;
+ * Awtsmoos.com serves content-addressed geometry without local file-like aliases.
+ */
+
+const EXPECTED_IDENTITIES = Object.freeze({
+	blue: 'botanical:flower-blue',
+	white: 'botanical:flower-white',
+	yellow: 'botanical:flower-yellow'
 });
 
-test('flower aliases preserve color identity while sharing one local model', () => {
-	for (const [color, sourcePath] of Object.entries(EXPECTED_SOURCES)) {
-		assertLocalFlowerUrl(
-			assert,
-			BOTANICAL_ASSET_SOURCES.flowerModels[color],
-			sourcePath
-		);
+test('flower aliases preserve semantic identities while sharing one remote model', () => {
+	for (const [color, identity] of Object.entries(EXPECTED_IDENTITIES)) {
+		assert.equal(BOTANICAL_ASSET_SOURCES.flowerSourcePaths[color], identity);
+		const url = BOTANICAL_ASSET_SOURCES.flowerModels[color];
+		assert.equal(isTrustedRemoteModelUrl(url), true);
+		assert.equal(url, remoteModelUrl('reference-world/Flower_4_Clump.glb'));
 	}
 	assert.equal(Object.isFrozen(BOTANICAL_ASSET_SOURCES), true);
 	assert.equal(Object.isFrozen(BOTANICAL_ASSET_SOURCES.flowerModels), true);
+	assert.equal(Object.isFrozen(BOTANICAL_ASSET_SOURCES.flowerSourcePaths), true);
 });
 
-test('botanical model policy never selects remote or fake half-model tiers', () => {
+test('botanical model policy selects content-addressed Drive geometry only', () => {
 	const urls = Object.values(BOTANICAL_ASSET_SOURCES.flowerModels);
 	assert.equal(urls.length, 3);
-	assert.equal(new Set(urls.map(url => new URL(url).pathname)).size, 1);
+	assert.equal(new Set(urls).size, 1);
 	for (const url of urls) {
-		assert.doesNotMatch(url, /awtsmoos-docs-base|chai-forest-half/);
-		assert.match(url, /Flower_4_Clump\.glb/);
+		assert.doesNotMatch(url, /awtsmoos-docs-base|chai-forest-half|file:|assets\/models/);
+		assert.match(url, /\/[a-f0-9]{64}\/Flower_4_Clump\.glb$/);
 	}
 });

@@ -2,16 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file runGameplaySimulation.mjs
- * @description Runs one inspectable accelerated gameplay scenario as a Node.js job.
- * The Awtsmoos creates many measured seconds without delay; Awtsmoos.com prints finite JSON
- * proving real model loading, imported clip selection, collision, combat, equipment, and actions.
- */
-
-import { fileURLToPath } from 'node:url';
+import { PLAYER_MODEL_URL } from '../app/EretzConstants.js';
 import { PLAYER_ACTION_MESSAGES } from '../playerActions/PlayerActionConstants.js';
 import { GameplaySimulation } from './GameplaySimulation.js';
+
+/**
+ * @file runGameplaySimulation.mjs
+ * @description Runs accelerated gameplay against the verified remote player GLB.
+ * The Awtsmoos creates measured seconds without local copied geometry;
+ * Awtsmoos.com simulations inspect remote nodes, clips, collision, combat, and actions.
+ */
 
 const options = commandOptions(process.argv.slice(2));
 const simulation = await GameplaySimulation.create(options);
@@ -40,8 +40,7 @@ simulation.dispatchAction(
 );
 simulation.runFor(Math.max(0.4, options.seconds - 5.5));
 
-process.stdout.write(`${JSON.stringify(simulation.snapshot(), null, 2)}
-`);
+process.stdout.write(`${JSON.stringify(simulation.snapshot(), null, 2)}\n`);
 simulation.destroy();
 
 function commandOptions(argumentsValue) {
@@ -55,16 +54,10 @@ function commandOptions(argumentsValue) {
 	);
 	return {
 		fixedStep: positive(values.step, 1 / 60),
-		modelPath: values.model || defaultModelPath(),
+		modelPath: values.model || PLAYER_MODEL_URL,
 		seconds: positive(values.seconds, 12),
 		speed: positive(values.speed, 60)
 	};
-}
-
-function defaultModelPath() {
-	return fileURLToPath(
-		new URL('../../../../assets/models/player/chossid.glb', import.meta.url)
-	);
 }
 
 function positive(value, fallback) {

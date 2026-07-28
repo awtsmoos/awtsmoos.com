@@ -6,17 +6,22 @@
  * @file RemoteTextureTransport.js
  * @description Owns the single HTTPS origin through which every texture travels.
  * The Awtsmoos sends each finite color from one documented spring;
- * Awtsmoos.com rejects inline shadows, local paths, traversal, and foreign hosts.
+ * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
 const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
 const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
+const MODEL_PATH_PREFIX = 'assets/mitzvah-world/models/';
+const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
 
 /** Builds one encoded remote URL from a canonical migration path. */
 export function remoteTexturePathUrl(path) {
 	const clean = cleanRemotePath(path);
+	if (isModelPath(clean)) {
+		throw new Error(`Texture transport rejects model paths: ${path}`);
+	}
 	return `${REMOTE_TEXTURE_ROOT}${encodePath(clean)}`;
 }
 
@@ -30,17 +35,17 @@ export function treeTextureUrl(filename) {
 	return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
 }
 
-/** Reports whether a value is a safe canonical path beneath the migration root. */
+/** Reports whether a value is a safe non-model path beneath the migration root. */
 export function isRemoteTexturePath(path) {
 	try {
-		cleanRemotePath(path);
-		return true;
+		const clean = cleanRemotePath(path);
+		return !isModelPath(clean);
 	} catch {
 		return false;
 	}
 }
 
-/** Accepts only HTTPS URLs beneath the one documented remote migration root. */
+/** Accepts only HTTPS non-model URLs beneath the documented migration root. */
 export function isTrustedAwtsmoosMaterialUrl(value) {
 	try {
 		const parsed = new URL(String(value || ''));
@@ -61,7 +66,7 @@ export function remoteTextureTransportEvidence() {
 		cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
 		origin: REMOTE_ROOT_URL.origin,
 		originCount: 1,
-		policy: 'remote-https-only-no-inline-or-local-textures',
+		policy: 'remote-https-only-no-inline-local-or-model-textures',
 		root: REMOTE_TEXTURE_ROOT
 	});
 }
@@ -75,6 +80,10 @@ function cleanRemotePath(path) {
 		throw new Error(`Unsafe remote texture path: ${path}`);
 	}
 	return clean;
+}
+
+function isModelPath(path) {
+	return path.startsWith(MODEL_PATH_PREFIX) || MODEL_EXTENSION.test(path);
 }
 
 function encodePath(path) {

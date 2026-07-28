@@ -1,18 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { PLAYER_MODEL_URL } from './EretzConstants.js';
+import { normalizeMinimalModelMaterials } from './MinimalMeadowMaterialReadability.js';
 
 /**
  * @file MinimalMeadowPlayerHydration.js
- * @description Replaces the fallback only after one readable canonical Chossid is ready.
- * The Awtsmoos clothes the traveler without losing the first visible garment;
- * Awtsmoos.com preserves texture identity while daylight reveals face, coat, limbs, and tools.
+ * @description Replaces the fallback after the remote canonical Chossid is ready.
+ * The Awtsmoos clothes the traveler through immutable Drive truth;
+ * Awtsmoos.com keeps the fallback visible until cached remote geometry can appear.
  */
-
-import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
-import { normalizeMinimalModelMaterials } from './MinimalMeadowMaterialReadability.js';
-
-const PLAYER_MODEL_URL = './assets/models/player/chossid.glb';
 
 export async function hydrateMinimalMeadowPlayer(runtime, environment = globalThis) {
 	announce(environment, { phase: 'starting', progress: 0 });
@@ -23,9 +22,7 @@ export async function hydrateMinimalMeadowPlayer(runtime, environment = globalTh
 			'minimal-meadow-player-canonical',
 			{ onProgress: detail => announce(environment, detail) }
 		);
-		if (runtime.destroyed) {
-			return null;
-		}
+		if (runtime.destroyed) return null;
 		const model = prepareCanonicalModel(gltf.scene, runtime.state);
 		const materialReceipt = normalizeMinimalModelMaterials(model);
 		const meshCount = markBootstrapMeshes(model);
@@ -79,9 +76,7 @@ function prepareCanonicalModel(model, state) {
 function markBootstrapMeshes(model) {
 	let meshes = 0;
 	model.traverse?.(object => {
-		if (!object.isMesh && !object.isSkinnedMesh) {
-			return;
-		}
+		if (!object.isMesh && !object.isSkinnedMesh) return;
 		object.userData ||= {};
 		object.userData.bootstrapVisual = true;
 		meshes += 1;
@@ -91,9 +86,7 @@ function markBootstrapMeshes(model) {
 
 function announce(environment, detail) {
 	const EventClass = environment.CustomEvent;
-	if (!EventClass || !environment.dispatchEvent) {
-		return;
-	}
+	if (!EventClass || !environment.dispatchEvent) return;
 	environment.dispatchEvent(
 		new EventClass('awtsmoos:model-progress', { detail })
 	);

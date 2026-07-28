@@ -4,43 +4,79 @@
 
 /**
  * @file remoteTexturePolicy.mjs
- * @description Classifies production string literals that would reintroduce local media.
- * The Awtsmoos keeps every texture on one remote road;
- * Awtsmoos.com rejects inline bytes, local files, movie renders, and copied images.
+ * @description Classifies production strings that would reintroduce local runtime media.
+ * The Awtsmoos keeps textures, models, movies, and sound on one remote Drive road;
+ * Awtsmoos.com rejects inline bytes, local files, copied paths, and foreign origins.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-const IMAGE_EXTENSION = /\.(?:bmp|gif|jpe?g|png|svg|tiff?|webp)(?:[?#].*)?$/i;
-const VIDEO_EXTENSION = /\.(?:avi|m4v|mkv|mov|mp4|webm)(?:[?#].*)?$/i;
-const INLINE_SCHEME = /^(?:blob:|data:image|file:)/i;
-const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|textures)|movies|references)\//i;
+export const REMOTE_ASSET_ROOT = REMOTE_TEXTURE_ROOT;
+const MEDIA_EXTENSION = /\.(?:avi|bmp|flac|gif|glb|gltf|jpe?g|m4a|mkv|mov|mp3|mp4|pdf|png|svg|tiff?|wav|webm|webp)(?:[?#].*)?$/i;
+const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|models|textures)|movies|references)\//i;
 
-/** Returns an explanation when one string violates remote-only texture policy. */
+/** Returns an explanation when one string violates remote-only asset policy. */
 export function textureViolation(value) {
 	const text = String(value || '').trim();
 	if (!text) return null;
-	if (INLINE_SCHEME.test(text)) return 'inline-or-local-scheme';
-	if (LOCAL_MEDIA_PATH.test(text) && (IMAGE_EXTENSION.test(text) || VIDEO_EXTENSION.test(text))) {
+	if (isInlineAssetUrl(text)) return 'inline-or-local-scheme';
+	if (LOCAL_MEDIA_PATH.test(text) && MEDIA_EXTENSION.test(text)) {
 		return 'repository-media-path';
 	}
-	if ((IMAGE_EXTENSION.test(text) || VIDEO_EXTENSION.test(text)) && looksLikePath(text)) {
-		if (!text.startsWith(REMOTE_TEXTURE_ROOT)) return 'non-canonical-media-url';
+	if (MEDIA_EXTENSION.test(text) && looksLikePath(text)) {
+		if (!text.startsWith(REMOTE_ASSET_ROOT)) return 'non-canonical-media-url';
 	}
-	if (/^https?:\/\//i.test(text) && (IMAGE_EXTENSION.test(text) || VIDEO_EXTENSION.test(text))) {
-		if (!text.startsWith(REMOTE_TEXTURE_ROOT)) return 'untrusted-media-origin';
+	if (/^https?:\/\//i.test(text) && MEDIA_EXTENSION.test(text)) {
+		if (!text.startsWith(REMOTE_ASSET_ROOT)) return 'untrusted-media-origin';
 	}
 	return null;
 }
 
-/** Extracts ordinary quoted literals without executing the source. */
+export const assetViolation = textureViolation;
+
+/** Extracts quoted literals in linear time without executing source code. */
 export function stringLiterals(source) {
+	const text = String(source || '');
 	const values = [];
-	const pattern = /(['"`])((?:\\.|(?!\1)[\s\S])*?)\1/g;
-	let match;
-	while ((match = pattern.exec(String(source || '')))) {
-		values.push(match[2].replace(/\\(['"`\\])/g, '$1'));
+	for (let index = 0; index < text.length; index += 1) {
+		const quote = text[index];
+		if (quote !== "'" && quote !== '"' && quote !== '`') continue;
+		const value = readLiteral(text, index, quote);
+		if (!value.closed) continue;
+		values.push(value.text);
+		index = value.end;
 	}
 	return values;
+}
+
+function readLiteral(source, start, quote) {
+	let text = '';
+	for (let index = start + 1; index < source.length; index += 1) {
+		const character = source[index];
+		if (character === '\\') {
+			const next = source[index + 1];
+			if (next === undefined) return { closed: false, end: index, text };
+			text += unescapeCharacter(next);
+			index += 1;
+			continue;
+		}
+		if (character === quote) return { closed: true, end: index, text };
+		text += character;
+	}
+	return { closed: false, end: source.length, text };
+}
+
+function unescapeCharacter(value) {
+	if (value === 'n') return '\n';
+	if (value === 'r') return '\r';
+	if (value === 't') return '\t';
+	return value;
+}
+
+function isInlineAssetUrl(value) {
+	if (/^data:/i.test(value)) return value.length > 'data:'.length;
+	if (/^blob:/i.test(value)) return value.length > 'blob:'.length;
+	if (/^file:/i.test(value)) return value.length > 'file:'.length;
+	return false;
 }
 
 function looksLikePath(value) {

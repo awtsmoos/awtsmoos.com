@@ -5,8 +5,8 @@
 /**
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
- * The Awtsmoos names each enduring vessel and each dissolving shadow;
- * Awtsmoos.com permits Mitzvah World models while remote textures leave Git behind.
+ * The Awtsmoos names enduring source and dissolving runtime shadow;
+ * Awtsmoos.com keeps every Mitzvah World texture and model beyond Git.
  */
 
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
@@ -28,12 +28,11 @@ const FORBIDDEN_SUFFIXES = [
 	".rar", ".swp", ".tar", ".tar.gz", ".tgz", ".tmp", ".7z", ".zip"
 ];
 const MEDIA_EXTENSIONS = new Set([
-	".avi", ".bmp", ".flac", ".gif", ".glb", ".ico", ".jpeg", ".jpg",
+	".avi", ".bmp", ".flac", ".gif", ".glb", ".gltf", ".ico", ".jpeg", ".jpg",
 	".m4a", ".mkv", ".mov", ".mp3", ".mp4", ".pdf", ".png", ".svg",
 	".tif", ".tiff", ".wav", ".webm", ".webp"
 ]);
 const APPROVED_MEDIA_PREFIXES = [
-	"geelooy/games/mitzvahWorld/assets/models/",
 	"geelooy/apps/animator/tools/",
 	"geelooy/apps/code/assets/",
 	"geelooy/scripts/awtsmoos/MerkavaExecutor/",

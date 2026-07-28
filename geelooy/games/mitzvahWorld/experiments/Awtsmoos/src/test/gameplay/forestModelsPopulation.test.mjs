@@ -2,24 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file forestModelsPopulation.test.mjs
- * @description Proves forest, quest population, production maps, and model-pack bounds.
- * The Awtsmoos renews visible abundance through measured material and instance vessels;
- * Awtsmoos.com accepts verified local or public sources while keeping every actor budget explicit.
- */
-
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import test from 'node:test';
 import { FOREST_MATERIALS } from '../../assets/ForestMaterialCatalog.js';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
+import { isTrustedRemoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import {
 	WORLD_MODEL_MANIFEST,
 	WORLD_MODEL_PLACEMENTS
 } from '../../assets/WorldModelManifest.js';
 import { createForestEdgeDefinitions } from '../../world/forest/ForestEdgeSystem.js';
 import { createVillageNpcPopulationDefinitions } from '../../world/village/VillageNpcPopulationSystem.js';
+
+/**
+ * @file forestModelsPopulation.test.mjs
+ * @description Proves measured forest abundance through remote textures and Drive GLBs.
+ * The Awtsmoos renews visible form through bounded instance vessels;
+ * Awtsmoos.com rejects copied runtime media while preserving every gameplay budget.
+ */
 
 function sampler() {
 	return {
@@ -45,14 +45,14 @@ test('high forest edge is deterministic, layered, and batched', () => {
 	assert.ok(first.some(item => item.userData?.part === 'fallen-wood'));
 });
 
-test('forest materials remain verified production sources', () => {
+test('forest materials remain verified remote production sources', () => {
 	for (const [role, url] of Object.entries(FOREST_MATERIALS)) {
 		assert.equal(assertProductionMaterialUrl(url, role), url);
-		assert.ok(url.startsWith('https://') || url.startsWith('file://'), url);
+		assert.ok(url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/'), url);
 	}
 });
 
-test('village definitions forbid primitive people in favor of runtime chossid.glb actors', () => {
+test('village definitions forbid primitive people in favor of remote Chossid actors', () => {
 	const population = createVillageNpcPopulationDefinitions(sampler(), 'high');
 	assert.equal(population.stats.people, 0);
 	assert.equal(population.stats.realtimeAnimations, 'provided-by-FriendlyNpcPopulation');
@@ -60,14 +60,14 @@ test('village definitions forbid primitive people in favor of runtime chossid.gl
 	assert.equal(population.length, 0);
 });
 
-test('curated model pack is bounded and every copied file exists', () => {
+test('curated Drive model pack is bounded and content-addressed', () => {
 	assert.equal(WORLD_MODEL_PLACEMENTS.length, 11);
 	assert.ok(Object.keys(WORLD_MODEL_MANIFEST).length <= 20);
 	for (const [modelId, definition] of Object.entries(WORLD_MODEL_MANIFEST)) {
 		assert.ok(definition.maximumInstances <= 4, modelId);
-		assert.match(definition.provenance, /license metadata not located/);
-		const path = new URL(`../../../../../${definition.url.replace('./', '')}`, import.meta.url);
-		assert.equal(fs.existsSync(path), true, `${modelId}: ${path.pathname}`);
+		assert.match(definition.provenance, /Authenticated Awtsmoos Drive upload/);
+		assert.equal(isTrustedRemoteModelUrl(definition.url), true, modelId);
+		assert.match(definition.url, /\/[a-f0-9]{64}\/[A-Za-z0-9_.-]+\.glb$/);
 	}
 	assert.equal(WORLD_MODEL_MANIFEST.snake.animated, true);
 	assert.ok(WORLD_MODEL_MANIFEST.snake.clips.includes('Snake_Attack'));

@@ -2,27 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file LocalMaterialAssetPolicy.js
- * @description Preserves legacy API names while routing every image to remote truth.
- * The Awtsmoos keeps old callers unbroken as copied pixels depart;
- * Awtsmoos.com reserves local bytes only for models lacking a verified remote home.
- */
-
 import {
 	REMOTE_TEXTURE_ROOT,
 	remoteTexturePathUrl
 } from './RemoteTextureTransport.js';
+import { remoteModelUrl } from './RemoteModelCatalog.js';
 
-const FLOWER_MODEL = new URL(
-	'../../../../assets/models/reference-world/Flower_4_Clump.glb',
-	import.meta.url
-);
+/**
+ * @file LocalMaterialAssetPolicy.js
+ * @description Preserves legacy API names while routing every runtime asset remotely.
+ * The Awtsmoos lets old callers keep their names as local bytes disappear;
+ * Awtsmoos.com serves textures and models through verified immutable Drive paths.
+ */
 
 export const LOCAL_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
-export const LOCAL_FLOWER_MODEL_URL = FLOWER_MODEL.href;
+export const LOCAL_FLOWER_MODEL_URL = remoteModelUrl(
+	'reference-world/Flower_4_Clump.glb'
+);
 
-/** Retains the historic deterministic name for migration diagnostics only. */
 export function localMaterialFilename(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
 	const stem = canonicalPath
@@ -34,15 +31,24 @@ export function localMaterialFilename(relativePath) {
 	return `${stem}-${shortHash(canonicalPath)}.svg`;
 }
 
-/** Resolves images remotely and preserves the one currently local GLB exception. */
 export function localPublicAssetUrl(relativePath) {
 	const canonicalPath = normalizePath(relativePath);
-	if (/\.glb$/i.test(canonicalPath)) return LOCAL_FLOWER_MODEL_URL;
+	if (/\.glb$/i.test(canonicalPath)) {
+		return remoteModelUrl(modelIdentity(canonicalPath));
+	}
 	return remoteTexturePathUrl(canonicalPath);
 }
 
 export function normalizeLocalMaterialSourcePath(relativePath) {
 	return normalizePath(relativePath);
+}
+
+function modelIdentity(path) {
+	if (path.endsWith('Flower_4_Clump.glb')) {
+		return 'reference-world/Flower_4_Clump.glb';
+	}
+	if (path.endsWith('chossid.glb')) return 'player/chossid.glb';
+	throw new Error(`Unknown remote model source path: ${path}`);
 }
 
 function normalizePath(relativePath) {

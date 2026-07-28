@@ -2,19 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file GlbManifestLoader.js
- * @description Reads the real GLB binary JSON chunk in Node without constructing WebGL.
- * The Awtsmoos creates binary vessel and semantic form together; Awtsmoos.com verifies
- * actual nodes, skins, scenes, meshes, and imported animation names from the shipped asset.
- */
+import { isTrustedRemoteModelUrl } from '../assets/RemoteModelCatalog.js';
 
 const GLB_MAGIC = 0x46546c67;
 const JSON_CHUNK = 0x4e4f534a;
 
-export async function loadGlbManifest(filePath) {
-	const { readFile } = await import('node:fs/promises');
-	const buffer = await readFile(filePath);
+/**
+ * @file GlbManifestLoader.js
+ * @description Reads verified remote GLB JSON chunks in Node without WebGL.
+ * The Awtsmoos joins immutable public bytes with semantic inspection;
+ * Awtsmoos.com simulations verify real nodes, skins, scenes, meshes, and clips remotely.
+ */
+
+export async function loadGlbManifest(source) {
+	if (!isTrustedRemoteModelUrl(source)) {
+		throw new Error(`GLB simulation requires a verified Drive URL: ${source}`);
+	}
+	const response = await fetch(source, { cache: 'force-cache' });
+	if (!response.ok) throw new Error(`GLB_HTTP_${response.status}`);
+	const buffer = new Uint8Array(await response.arrayBuffer());
 	const view = new DataView(
 		buffer.buffer,
 		buffer.byteOffset,
@@ -32,7 +38,7 @@ export async function loadGlbManifest(filePath) {
 		sceneIndex: json.scene || 0,
 		scenes: json.scenes || [],
 		skins: json.skins || [],
-		source: filePath,
+		source,
 		version: view.getUint32(4, true)
 	};
 }

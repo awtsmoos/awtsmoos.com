@@ -2,15 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file playerAnimationCompositionSimulation.test.mjs
- * @description Runs real-model idle, walk, run, jump, fall, landing, staff, and sword timelines.
- * The Awtsmoos creates air and earth in one living story; Awtsmoos.com verifies that imported
- * legs keep moving beneath upper-body deeds and every equipped tool remains in its intended hand.
- */
-
 import assert from 'node:assert/strict';
-import { fileURLToPath } from 'node:url';
+import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import { PLAYER_ACTION_MESSAGES } from '../../playerActions/PlayerActionConstants.js';
 import { GameplaySimulation } from '../../simulation/GameplaySimulation.js';
 import {
@@ -20,8 +13,18 @@ import {
 	semanticBones
 } from './playerAnimationSimulationHarness.mjs';
 
-const modelPath = fileURLToPath(new URL('../../../../../assets/models/player/chossid.glb', import.meta.url));
-const simulation = await GameplaySimulation.create({ fixedStep: 1 / 60, modelPath, speed: 240 });
+/**
+ * @file playerAnimationCompositionSimulation.test.mjs
+ * @description Runs full movement and casting timelines against the remote Chossid GLB.
+ * The Awtsmoos joins air, earth, garment, and deed in one living story;
+ * Awtsmoos.com verifies remote imported legs beneath independent upper-body actions.
+ */
+
+const simulation = await GameplaySimulation.create({
+	fixedStep: 1 / 60,
+	modelPath: PLAYER_MODEL_URL,
+	speed: 240
+});
 const bones = semanticBones(simulation.runtime.model);
 const lowerRoles = ['hips', 'leftLeg', 'rightLeg'];
 assert.ok(Object.values(bones).every(Boolean));
@@ -84,7 +87,10 @@ async function runCast(itemId, messageType, moving, running) {
 		const frame = sampleComposedFrame(simulation, 1 / 60, bones, lowerRoles);
 		assert.equal(frame.stateName, expectedBase);
 		assertBonesEqual(bones, frame.importedPose);
-		assert.equal(simulation.runtime.equipment.weapon.parent, simulation.runtime.equipment.nodes.rightHand);
+		assert.equal(
+			simulation.runtime.equipment.weapon.parent,
+			simulation.runtime.equipment.nodes.rightHand
+		);
 	}
 	runRecovery(simulation, messageType, bones, lowerRoles);
 }

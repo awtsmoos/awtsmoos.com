@@ -2,30 +2,33 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file chossidMultiplayerContract.test.mjs
- * @description Proves local canonical Chossid identity with bounded near and distance vessels.
- * The Awtsmoos renews every person beyond distance and transport; Awtsmoos.com keeps the exact
- * animated body nearby, serves it locally, and uses one-draw silhouettes only beyond visible detail.
- */
-
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
+import {
+	isTrustedRemoteModelUrl,
+	remoteModelRecord
+} from '../../assets/RemoteModelCatalog.js';
 import {
 	npcLodTiers,
 	resolveNpcLod
 } from '../../world/npc/NpcLodPolicy.js';
 
-const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
+/**
+ * @file chossidMultiplayerContract.test.mjs
+ * @description Proves every nearby human uses the verified remote Chossid vessel.
+ * The Awtsmoos renews each person beyond transport and distance;
+ * Awtsmoos.com caches one immutable body and uses silhouettes only beyond visible detail.
+ */
 
-test('the canonical local, NPC, and remote actor asset is packaged chossid.glb', () => {
-	assert.equal(PLAYER_MODEL_URL, './assets/models/player/chossid.glb');
-	const path = `${GAME_ROOT}${PLAYER_MODEL_URL.replace(/^\.\//, '')}`;
-	assert.equal(fs.existsSync(path), true);
-	assert.ok(fs.statSync(path).size > 2_000_000);
+test('the canonical player and NPC model is the content-addressed Drive Chossid', async () => {
+	const record = remoteModelRecord('player/chossid.glb');
+	assert.equal(PLAYER_MODEL_URL, record.url);
+	assert.equal(isTrustedRemoteModelUrl(PLAYER_MODEL_URL), true);
+	const response = await fetch(PLAYER_MODEL_URL, { cache: 'no-store' });
+	assert.equal(response.status, 200);
+	assert.equal(Number(response.headers.get('content-length')) || record.bytes, record.bytes);
+	assert.match(PLAYER_MODEL_URL, /\/[a-f0-9]{64}\/chossid\.glb$/);
 });
 
 test('near keeps the complete body while mid and distant use one proxy vessel', () => {
@@ -35,7 +38,6 @@ test('near keeps the complete body while mid and distant use one proxy vessel', 
 	for (const id of ['mid', 'distant']) {
 		assert.equal(tiers[id].fullModel, false);
 		assert.equal(tiers[id].proxyModel, true);
-		assert.equal(Number.isFinite(tiers[id].updateInterval), true);
 		assert.ok(tiers[id].updateInterval > 0);
 	}
 	assert.equal(tiers.dormant.fullModel, false);

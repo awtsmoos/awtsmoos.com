@@ -2,23 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file gameplaySimulation.test.mjs
- * @description Exercises the real GLB manifest and gameplay laws without DOM or WebGL.
- * The Awtsmoos creates many measured seconds in one present; Awtsmoos.com inspects
- * movement, jumping, collision, combat, equipment recovery, NPC identity, and accelerated time.
- */
-
 import assert from 'node:assert/strict';
-import { fileURLToPath } from 'node:url';
+import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import { GameplaySimulation } from '../../simulation/GameplaySimulation.js';
 
-const modelPath = fileURLToPath(
-	new URL('../../../../../assets/models/player/chossid.glb', import.meta.url)
-);
+/**
+ * @file gameplaySimulation.test.mjs
+ * @description Exercises the real remote GLB manifest and gameplay laws without WebGL.
+ * The Awtsmoos creates measured seconds in one present;
+ * Awtsmoos.com inspects movement, collision, combat, equipment, and remote model truth.
+ */
+
 const simulation = await GameplaySimulation.create({
 	fixedStep: 1 / 60,
-	modelPath,
+	modelPath: PLAYER_MODEL_URL,
 	speed: 240
 });
 
@@ -59,10 +56,7 @@ assert.ok(collision.contacts > 0);
 assert.ok(collisionPosition.z < 3.5);
 
 simulation.equip('spark-blade');
-assert.equal(
-	simulation.snapshot().equipment.weaponItemId,
-	'spark-blade'
-);
+assert.equal(simulation.snapshot().equipment.weaponItemId, 'spark-blade');
 let swordReleaseCount = 0;
 const stopReleaseListener = simulation.runtime.bus.on(
 	'player.action.sword.release',
@@ -88,7 +82,7 @@ simulation.destroy();
 console.log('GAMEPLAY_SIMULATION_TEST_OK=1');
 
 function assertRealModel(snapshot) {
-	assert.match(snapshot.model.source, /chossid\.glb$/);
+	assert.equal(snapshot.model.source, PLAYER_MODEL_URL);
 	assert.ok(snapshot.model.nodes > 0);
 	assert.ok(snapshot.model.bones > 0);
 	assert.ok(snapshot.model.meshCount > 0);
@@ -99,10 +93,7 @@ function assertRealModel(snapshot) {
 
 function assertFriendlyActors(actors) {
 	assert.equal(actors.length, 2);
-	assert.equal(
-		actors[0].gltf.manifest.source,
-		actors[1].gltf.manifest.source
-	);
+	assert.equal(actors[0].gltf.manifest.source, actors[1].gltf.manifest.source);
 	assert.notEqual(actors[0].gltf.scene, actors[1].gltf.scene);
 	assert.notEqual(actors[0].gltf.nodes[0], actors[1].gltf.nodes[0]);
 }

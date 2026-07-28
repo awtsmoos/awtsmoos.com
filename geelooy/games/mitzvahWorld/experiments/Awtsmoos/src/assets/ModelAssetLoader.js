@@ -2,33 +2,28 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file ModelAssetLoader.js
- * @description Fetches each canonical GLB template once and creates isolated animated instances.
- * The Awtsmoos gives one finite garment many independent motions without repeating its bytes;
- * Awtsmoos.com measures the stream, caches the parsed source, and forgets only failed promises.
- */
-
 import { loadTinyGltf } from '../../../light-three-gltf/tiny-gltf-loader.js';
 import { instantiateTinyGltf } from '../../../light-three-gltf/tiny-gltf-instance.js';
 import { fetchAssetBuffer } from './ProgressiveAssetFetch.js';
+import { isTrustedRemoteModelUrl } from './RemoteModelCatalog.js';
 
 const templatePromises = new Map();
 let templateLoads = 0;
 let instancesCreated = 0;
 
 /**
- * Loads or reuses one parsed GLB template by canonical absolute URL.
- * @param {string} url Model URL.
- * @param {object} options Progress callback options.
- * @returns {Promise<object>} Shared parsed GLTF template.
+ * @file ModelAssetLoader.js
+ * @description Fetches each verified Drive GLB once and creates isolated instances.
+ * The Awtsmoos gives one immutable remote garment many independent motions;
+ * Awtsmoos.com caches bytes and parsed templates while failed promises dissolve.
  */
+
 export async function loadSharedGltfTemplate(url, options = {}) {
-	const resourceUrl = absoluteUrl(url);
+	const resourceUrl = trustedModelUrl(url);
 	const wasCached = templatePromises.has(resourceUrl);
 	if (!wasCached) {
 		templateLoads += 1;
-		const promise = createTemplate(resourceUrl, options.onProgress)
+		const promise = createTemplate(resourceUrl, options)
 			.catch(error => {
 				templatePromises.delete(resourceUrl);
 				throw error;
@@ -36,21 +31,12 @@ export async function loadSharedGltfTemplate(url, options = {}) {
 		templatePromises.set(resourceUrl, promise);
 	}
 	const template = await templatePromises.get(resourceUrl);
-	if (wasCached) {
-		options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
-	}
+	if (wasCached) options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
 	return template;
 }
 
-/**
- * Creates one independently animated model instance from the cached template.
- * @param {string} url Model URL.
- * @param {string} label Instance identity.
- * @param {object} options Material resolver and progress options.
- * @returns {Promise<object>} Isolated GLTF instance.
- */
 export async function loadIsolatedGltf(url, label, options = {}) {
-	const resourceUrl = absoluteUrl(url);
+	const resourceUrl = trustedModelUrl(url);
 	const template = await loadSharedGltfTemplate(resourceUrl, options);
 	const gltf = instantiateTinyGltf(template, {
 		label,
@@ -59,7 +45,7 @@ export async function loadIsolatedGltf(url, label, options = {}) {
 	instancesCreated += 1;
 	gltf.scene.userData.isolatedModelLoad = {
 		instanceLabel: label,
-		originalUrl: url,
+		originalUrl: resourceUrl,
 		sharedNetworkResource: resourceUrl,
 		sharedTemplate: true
 	};
@@ -80,9 +66,10 @@ export function clearSharedGltfAssetCache() {
 	instancesCreated = 0;
 }
 
-async function createTemplate(resourceUrl, onProgress) {
-	const asset = await fetchAssetBuffer(resourceUrl, onProgress);
-	onProgress?.({
+async function createTemplate(resourceUrl, options) {
+	const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
+	options.onProgress?.({
+		cacheSource: asset.cacheSource,
 		loaded: asset.buffer.byteLength,
 		phase: 'parsing',
 		progress: 1,
@@ -94,7 +81,9 @@ async function createTemplate(resourceUrl, onProgress) {
 	try {
 		const template = await loadTinyGltf(objectUrl);
 		template.scene.userData.originalSourceUrl = resourceUrl;
-		onProgress?.({
+		template.scene.userData.remoteModelCacheSource = asset.cacheSource;
+		options.onProgress?.({
+			cacheSource: asset.cacheSource,
 			loaded: asset.buffer.byteLength,
 			phase: 'ready',
 			progress: 1,
@@ -106,9 +95,10 @@ async function createTemplate(resourceUrl, onProgress) {
 	}
 }
 
-function absoluteUrl(url) {
-	const base = globalThis.location?.href || 'http://localhost/';
-	const resolved = new URL(url, base);
-	resolved.hash = '';
-	return resolved.href;
+function trustedModelUrl(url) {
+	const value = String(url || '').trim();
+	if (!isTrustedRemoteModelUrl(value)) {
+		throw new Error(`Model loading requires a verified Awtsmoos Drive URL: ${value}`);
+	}
+	return value;
 }

@@ -2,54 +2,47 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file remoteOnlyTexturePolicy.test.mjs
- * @description Proves both literal classification and the complete production-source covenant.
- * The Awtsmoos keeps model geometry separate from painted garments;
- * Awtsmoos.com accepts canonical remote pixels and rejects local, inline, and foreign paths.
- */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { remoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import {
-	REMOTE_TEXTURE_ROOT,
+	REMOTE_ASSET_ROOT,
 	stringLiterals,
 	textureViolation
 } from '../../../../../../../../scripts/mitzvah-world/remoteTexturePolicy.mjs';
-import {
-	scanRemoteOnlyTextures
-} from '../../../../../../../../scripts/mitzvah-world/checkRemoteOnlyTextures.mjs';
 
-test('canonical remote texture literals are accepted', () => {
-	assert.equal(textureViolation(`${REMOTE_TEXTURE_ROOT}full-resolution/grass%201.png`), null);
+/**
+ * @file remoteOnlyTexturePolicy.test.mjs
+ * @description Proves textures and models share one remote-only literal covenant.
+ * The Awtsmoos permits procedural names but no copied runtime media;
+ * the full source scanner remains a separate required repository gate.
+ */
+
+test('canonical remote texture and model literals are accepted', () => {
+	assert.equal(textureViolation(`${REMOTE_ASSET_ROOT}full-resolution/grass%201.png`), null);
+	assert.equal(textureViolation(remoteModelUrl('player/chossid.glb')), null);
 	assert.equal(textureViolation('colors-only-procedural-material'), null);
 });
 
-test('local, inline, movie, reference, and foreign media are rejected', () => {
+test('local, inline, movie, model, reference, and foreign media are rejected', () => {
 	const rejected = [
 		'data:image/png;base64,AAAA',
 		'blob:https://awtsmoos.com/id',
 		'file:///tmp/grass.png',
 		'./assets/materials/local/grass.png',
+		'./assets/models/player/chossid.glb',
 		'./assets/textures/brick-wall.svg',
 		'./movies/render.mp4',
 		'./references/village.png',
-		'https://evil.example/grass.png'
+		'https://evil.example/grass.png',
+		'https://evil.example/chossid.glb'
 	];
 	for (const value of rejected) assert.ok(textureViolation(value), value);
 });
 
-test('local GLB model exception is not classified as a texture violation', () => {
-	assert.equal(textureViolation('./assets/models/reference-world/Flower_4_Clump.glb'), null);
-});
-
 test('quoted source literals are extracted without execution', () => {
 	assert.deepEqual(
-		stringLiterals("const a = './assets/materials/a.png'; const b = `remote`;"),
-		['./assets/materials/a.png', 'remote']
+		stringLiterals("const a = './assets/models/player/chossid.glb'; const b = `remote`;"),
+		['./assets/models/player/chossid.glb', 'remote']
 	);
-});
-
-test('the complete production source tree contains no local or inline texture literals', async () => {
-	assert.deepEqual(await scanRemoteOnlyTextures(), []);
 });

@@ -2,14 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file PublicMaterialResolver.js
- * @description Resolves texture identities remotely while preserving one verified model exception.
- * The Awtsmoos streams every painted garment from Awtsmoos.com afar;
- * the flower GLB stays local only because its proposed remote vessel returned 404.
- */
-
-import { LOCAL_FLOWER_MODEL_URL } from './LocalMaterialAssetPolicy.js';
+import { remoteModelUrl } from './RemoteModelCatalog.js';
 import { publicMaterialUrl } from './PublicMaterialOrigin.js';
 
 const HALF_QUALITY = new Set(['low', 'medium', 'half']);
@@ -19,6 +12,13 @@ const FULL_SOURCE_ALIASES = Object.freeze({
 	'oak wood 2': 'full-resolution/oak wood 3.png',
 	'stone floor': 'full-resolution/stone floor 2.png'
 });
+
+/**
+ * @file PublicMaterialResolver.js
+ * @description Resolves textures and the flower model through verified Drive origins.
+ * The Awtsmoos preserves semantic aliases without local copied bytes;
+ * Awtsmoos.com serves every visual vessel through immutable remote identities.
+ */
 
 export function resolveMaterialRecord(record, quality = 'high') {
 	if (!record?.path) throw new Error('A catalog material record is required.');
@@ -51,7 +51,7 @@ export function exactMaterialUrl(relativePath) {
 }
 
 export function flowerModelUrl() {
-	return LOCAL_FLOWER_MODEL_URL;
+	return remoteModelUrl('reference-world/Flower_4_Clump.glb');
 }
 
 export function fullMaterialPath(name, extension = 'png') {
