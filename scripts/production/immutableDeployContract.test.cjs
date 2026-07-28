@@ -23,6 +23,8 @@ assert.match(deploy, /migrating audited legacy predecessor through a clean Git a
 assert.match(deploy, /mkdir "\$stage"/);
 assert.match(deploy, /node --check "\$previous\/index\.js"/);
 assert.match(deploy, /\[ ! -L "\$previous\/users" \]/);
+assert.match(deploy, /AWTSMOOS_PRODUCTION_DATA_DIR/);
+assert.match(deploy, /ln -s "\$persistent_data" "\$stage\/geelooy\/\.data"/);
 assert.match(deploy, /ln -sfn "\$previous" "\$current"/);
 assert.match(deploy, /systemctl enable --now awtsmoos-health-watchdog\.timer/);
 assert.match(entry, /git -C "\$repo" fetch --prune origin main/);
@@ -37,6 +39,7 @@ console.log(JSON.stringify({
 	dirtyCheckoutIndependent: true,
 	atomicReleaseSwitch: true,
 	healthRollback: true,
+	durableCredentialStore: true,
 	eventLoopWatchdog: true,
 	boundedHeaders: true
 }, null, 2));

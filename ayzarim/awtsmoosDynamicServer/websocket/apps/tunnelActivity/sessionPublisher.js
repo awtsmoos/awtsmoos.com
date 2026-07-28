@@ -35,6 +35,8 @@ function publishAuthenticated(server, client, identity = {}) {
 
 /** Publishes one activity-stream departure for sibling account subscribers. */
 function publishClosed(server, client, identity = {}) {
+	identity = identity && typeof identity === "object" ? identity : {};
+	if (!identity.accountId && !identity.userId) return null;
 	return publishActivity(server, {
 		accountId: identity.accountId,
 		userId: identity.userId,

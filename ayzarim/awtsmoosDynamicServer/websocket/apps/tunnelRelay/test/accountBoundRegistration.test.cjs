@@ -62,6 +62,18 @@ function main() {
 			"invalid_device_credential"
 		);
 
+		const missingBinding = Fixture.socket("missing-binding");
+		assert.doesNotThrow(() => {
+			assert.equal(handleTunnelRegister(server, missingBinding, {
+				...Context.nativePacket(alice),
+				tunnelId: "tun_missing_binding"
+			}), false);
+		});
+		assert.equal(
+			Fixture.lastMessage(missingBinding).error,
+			"invalid_device_credential"
+		);
+
 		const crossedBinding = Fixture.socket("crossed-binding");
 		assert.equal(handleTunnelRegister(server, crossedBinding, {
 			...Context.nativePacket(alice),

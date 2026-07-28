@@ -68,3 +68,10 @@ test("application derives subscription account from trusted identity", () => {
 	assert.equal(response.payload.accountId, "account-a");
 	application.disconnect({ server, client });
 });
+
+test("disconnect without an authenticated identity is a harmless no-op", () => {
+	const application = createTunnelActivityApplication();
+	assert.doesNotThrow(() => {
+		application.disconnect({ server: {}, client: {}, identity: null });
+	});
+});

@@ -5,6 +5,7 @@ set -Eeuo pipefail
 
 repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
 releases="${AWTSMOOS_PRODUCTION_RELEASES:-/mnt/HC_Volume_102267213/releases}"
+persistent_data="${AWTSMOOS_PRODUCTION_DATA_DIR:-$repo/geelooy/.data}"
 service="${AWTSMOOS_PRODUCTION_SERVICE:-awtsmoos.service}"
 health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
 requested_commit="${1:-origin/main}"
@@ -64,6 +65,10 @@ if [ ! -d "$target" ]; then
 		rm -rf "$stage/users"
 		ln -s "$user_link" "$stage/users"
 	fi
+	mkdir -p "$persistent_data"
+	chmod 0700 "$persistent_data"
+	rm -rf "$stage/geelooy/.data"
+	ln -s "$persistent_data" "$stage/geelooy/.data"
 	node --check "$stage/index.js"
 	if [ -f "$stage/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/virtual_fs_random_read_cache_test.js" ]; then
 		node "$stage/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/virtual_fs_random_read_cache_test.js"

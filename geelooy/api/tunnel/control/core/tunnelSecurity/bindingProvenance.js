@@ -16,6 +16,7 @@ const PAIRING_PROOF_VERSION = 1;
 
 /** Creates canonical proof fields for a newly approved pairing. */
 function proofFields(input = {}) {
+	input = input && typeof input === "object" ? input : {};
 	const pairingId = Id.normalizeIdentifier(input.pairingId);
 	const ownershipVerifiedAt = validInstant(input.ownershipVerifiedAt);
 	const pairingProofVersion = Number(input.pairingProofVersion || 0);
